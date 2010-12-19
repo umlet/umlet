@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><umlet_diagram><element><type>com.umlet.element.custom.EER_Entity</type><coordinates><x>280</x><y>300</y><w>100</w><h>90</h></coordinates><panel_attributes>department
+--
+_prid_
+name
+address
+bg=black</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.custom.EER_Entity</type><coordinates><x>190</x><y>190</y><w>100</w><h>50</h></coordinates><panel_attributes>##employee
+department
+bg=orange</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.custom.EER_Entity</type><coordinates><x>370</x><y>190</y><w>100</w><h>50</h></coordinates><panel_attributes>##member
+department
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>360</x><y>220</y><w>80</w><h>110</h></coordinates><panel_attributes>lt=&lt;EER</panel_attributes><additional_attributes>20;90;60;90;60;20</additional_attributes></element><element><type>com.umlet.element.custom.EER_Entity</type><coordinates><x>370</x><y>90</y><w>130</w><h>90</h></coordinates><panel_attributes>member
+--
+id
+contribution
+date
+bg=green</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.custom.EER_Entity</type><coordinates><x>190</x><y>90</y><w>100</w><h>90</h></coordinates><panel_attributes>employee
+--
+id
+responsibility
+salary
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.custom.EER_Entity</type><coordinates><x>290</x><y>10</y><w>100</w><h>70</h></coordinates><panel_attributes>person
+--
+first name
+family name
+bg=gray</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>0</x><y>270</y><w>190</w><h>40</h></coordinates><panel_attributes>lt=&lt;EER&gt;</panel_attributes><additional_attributes>20;20;170;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>0</x><y>220</y><w>190</w><h>40</h></coordinates><panel_attributes>lt=&lt;EER</panel_attributes><additional_attributes>170;20;20;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>0</x><y>170</y><w>190</w><h>40</h></coordinates><panel_attributes>lt=EER&gt;</panel_attributes><additional_attributes>170;20;20;20</additional_attributes></element><element><type>com.umlet.element.custom.EER_Entity</type><coordinates><x>10</x><y>10</y><w>100</w><h>50</h></coordinates><panel_attributes>entity
+--
+attribute
+</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.custom.EER_Entity</type><coordinates><x>10</x><y>70</y><w>100</w><h>30</h></coordinates><panel_attributes>entity</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.custom.EER_Entity</type><coordinates><x>10</x><y>110</y><w>100</w><h>30</h></coordinates><panel_attributes>##weak entity
+</panel_attributes><additional_attributes></additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>450</x><y>80</y><w>90</w><h>150</h></coordinates><panel_attributes>lt=EER&gt;</panel_attributes><additional_attributes>20;130;70;130;70;20;50;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>270</x><y>90</y><w>60</w><h>140</h></coordinates><panel_attributes>lt=EER&gt;</panel_attributes><additional_attributes>20;120;40;120;40;20;20;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>220</x><y>220</y><w>80</w><h>110</h></coordinates><panel_attributes>lt=&lt;EER</panel_attributes><additional_attributes>60;90;20;90;20;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>220</x><y>0</y><w>90</w><h>110</h></coordinates><panel_attributes>lt=EER</panel_attributes><additional_attributes>20;90;20;20;70;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>370</x><y>0</y><w>90</w><h>110</h></coordinates><panel_attributes>lt=EER</panel_attributes><additional_attributes>70;90;70;20;20;20</additional_attributes></element>
+<element><type>com.umlet.element.custom.EER_Rel_Diamond</type><coordinates><x>45</x><y>320</y><w>100</w><h>50</h></coordinates><panel_attributes>relation</panel_attributes><additional_attributes></additional_attributes></element>
+</umlet_diagram>
