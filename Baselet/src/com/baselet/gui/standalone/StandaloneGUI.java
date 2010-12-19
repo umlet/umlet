@@ -336,8 +336,7 @@ public class StandaloneGUI extends BaseGUI {
 
 		diagramspanel = new JPanel();
 		this.palettepanel = new JPanel(new CardLayout());
-		new FileDrop(diagramspanel, new FileDropListener()); // enable drag&drop from desktop into diagrampanel
-		
+
 		rightSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, palettepanel, this.propertyTextPane.getPanel());
 		rightSplit.setDividerSize(2);
 		rightSplit.setDividerLocation(Constants.right_split_position);

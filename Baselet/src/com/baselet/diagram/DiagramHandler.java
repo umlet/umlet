@@ -180,8 +180,7 @@ public class DiagramHandler {
 
 	public String getName() {
 		String name = this.fileHandler.getFileName();
-		if (name.contains(".")) name = name.substring(0, name.lastIndexOf("."));
-		return name;
+		return name.substring(0, name.lastIndexOf("."));
 	}
 
 	public String getFullPathName() {
