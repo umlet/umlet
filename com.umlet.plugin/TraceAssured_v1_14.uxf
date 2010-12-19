@@ -1,0 +1,2431 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><umlet_diagram><help_text>// Uncomment the following line to change the fontsize:
+// fontsize=14
+
+// Welcome to UMLet!
+//
+// Double-click on UML elements to add them to the diagram.
+// Edit element properties by modifying the text in this panel.
+// Edit the files in the 'palettes' directory to create your own element palettes.
+// Hold down Ctrl to select multiple elements.
+// Press Del to delete elements.
+// Press Ctrl-c to copy an element, and to store the whole UML diagram to the system clipboard.
+// Select "Custom elements &gt; New..." to create new element types.
+//
+// This text will be stored with each diagram;  use it for notes.</help_text><zoom_level>10</zoom_level><element><type>com.umlet.element.base.Class</type><coordinates><x>1190</x><y>9700</y><w>220</w><h>380</h></coordinates><panel_attributes>&lt;&lt;Perl Module&gt;&gt;
+Package::Start.pm
+--
+_{enforce clean code}_
+-use strict; [Declare Variables
+ with the 'my' keyword]
+-use warnings; [set warnings on]
+--
+_{sub handler}_
+-$user_agent (user interfaces) :  
+--IEMobile 7.7
+--IEMobile 6.8
+--Windows CE
+--Tablet
+--Nokia-N810
+--Desktop
+--
+_{Responsibilities}_
+-- If User Interface is 
+   desktop the use frames
+-- If User Interface is
+   Mobile then input only
+--
+_{Returns}_
+Apache response :: OK
+fg=black
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1380</x><y>9710</y><w>100</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>80;20;50;20;50;120;20;120</additional_attributes></element><element><type>com.umlet.element.base.Note</type><coordinates><x>1470</x><y>9700</y><w>180</w><h>110</h></coordinates><panel_attributes>Protocol connection
+handler for Apache
+returns toolbar and 
+input for mobile interfaces 
+and full options for desktop
+interface.
+bg=blue
+fg=white</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1330</x><y>9780</y><w>240</w><h>210</h></coordinates><panel_attributes>lt=-
+Produces&gt;</panel_attributes><additional_attributes>70;130;120;130;120;90;160;90</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1440</x><y>9250</y><w>480</w><h>650</h></coordinates><panel_attributes>lt=-
+Or&gt;</panel_attributes><additional_attributes>20;630;20;580;370;580;370;20;100;20;100;30</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1500</x><y>9840</y><w>210</w><h>220</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Start
+{Mobile}
+--
+_{Frames}_
+-toolbar_frame
+-input_frame
+fg=black
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1470</x><y>9280</y><w>210</w><h>250</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Start
+{Desktop}
+--
+{Frames}
+--logo_frame
+--toolbar_frame
+-tabs_frame
+-tracking_frame
+-routeing_frame
+-design_frame
+-tracing_frame
+-search_results_frame
+-reports_frame
+-input_frame
+
+fg=black
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1570</x><y>9500</y><w>410</w><h>640</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+includes</panel_attributes><additional_attributes>20;20;20;40;290;40;290;600;180;600;180;620</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1540</x><y>10000</y><w>240</w><h>210</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+includes</panel_attributes><additional_attributes>60;60;60;110;180;110;180;130</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1500</x><y>10130</y><w>450</w><h>1540</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::HTTP.js
+--
+{Function HTTP}
+-set variables
+--site_name
+--user_agent
+--end_point
+--timeout (=300)
+--
+{Function HTTP.prototype.set_sitename}
+-Sets namespace for
+--sitename
+--endpoint
+--
+--
+{Function HTTP.prototype.newRequest}
+-- Create and return a new XMLHttpRequest object.
+-- Try list of factory functions until we find one
+   that returns a non-null value
+--Store factory for later use.
+--
+{Throw Exception}
+XMLHttpRequest not supported
+--If we get here, none of the factory candidates succeeded,
+  so throw an exception now and for all future calls.
+--
+--
+{Function HTTP.getResponse}
+--Check the content type returned by the server
+-Case : 
+--text/xml[XML Document]
+--text/json[JavaScript Object Notation]
+--text/javascript[JavaScript-Obsolete]
+--application/javascript[JavaScript]
+--
+--
+--application/x-javascript[JavaScript registered MIME type]
+----Parse the JavaScript code or JSON-encode values to
+     JavaScript Value
+----If response is greater than 10000 then
+     return results in chunks 
+--{Throw Exception}
+--Return error,response length &amp; response
+--
+--
+--default[treat response as plain text]
+--
+--
+{Function HTTP.prototype.post}
+--
+_Parameters_
+--url
+--values
+--callback_function
+--callback_object
+--errorHandler
+--
+--set the request to asynchronous
+--encode the url
+--send the request to the server
+--
+--
+{Function HTTP.prototype.sync_post}
+--
+_Parameters_
+--url
+--values
+--callback_function
+--callback_object
+--errorHandler
+--timeout_period
+--
+--handles timeout requests
+--
+--
+{Function HTTP.prototype.sync_get}
+--Handles get requests in the same manner as post request function
+--except handles request as synchronous
+--
+--
+{Function HTTP.prototype.encodeFormData}
+--Encode the property name/value pairs of an object 
+  as if they were from an HTML form
+--Concatenate name/value pairs seperated by '&amp;'
+--
+--
+{Function HTTP.prototype.getHeaders}
+--Builds the header portion of the url
+--
+--
+{Function HTTP.prototype.parseHeaders}
+--Parses the headers from an XMLHttpRequest Object and returns
+  the header names and values as names and values of a new object
+--Break the headers into lines and store in javascript objects
+--
+--
+{Function HTTP.prototype.getLastModified}
+--returns last_modified headers
+--
+--
+{Function HTTP.prototype.load_script}
+--
+_Parameters_
+--script_name
+--target_doc
+--callback
+--
+--returns nothing for user_agent IEMobile 7
+--else calls script specified in script_name
+--
+--
+{Function HTTP.prototype.load_resource}
+--
+_Parameters_
+--resource
+--type
+--
+--calls get_resource_url
+--calls sync_get
+--
+--
+
+fg=black
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2050</x><y>9730</y><w>370</w><h>520</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::scanner_login.html
+--
+{Script Tag}
+--sets CSS dependant on mobile user_agent
+--
+{Function body_onload}
+set variables for user and password
+--
+--
+{Function signon()}
+--declare and assign global variables
+  username and password
+--calls function sync_post passing the following values
+----http.endpoint
+----current sitename
+----transaction : signon
+----action : view
+----username
+----password
+----handle_signon
+----null
+----null
+--
+{Exception}
+--Please enter password
+--Please enter username
+--
+--
+{Function handle_signon}
+--handles signon failed
+                url timed out
+                site not hosted at current url
+                username and password invalid
+--sets global variable for signon role
+--reloads scanner_login.html
+--
+
+
+
+fg=black
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1560</x><y>9590</y><w>550</w><h>360</h></coordinates><panel_attributes>lt=-
+Calls&gt;
+</panel_attributes><additional_attributes>20;340;160;340;160;110;530;110;530;130</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1890</x><y>10170</y><w>260</w><h>210</h></coordinates><panel_attributes>lt=-
+invokes&gt;</panel_attributes><additional_attributes>150;70;120;70;120;110;240;110;240;130</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2050</x><y>10300</y><w>370</w><h>190</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Scanner_toolbar.html
+--
+{Function body_onload}
+--sets the input frame to Scanner_Main_Menu_1.html
+--includes Singles_Frame_Application.js
+--gets site details
+fg=black
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2360</x><y>9820</y><w>250</w><h>550</h></coordinates><panel_attributes>lt=-
+Invokes&gt;</panel_attributes><additional_attributes>30;540;100;540;100;80;240;80;240;130</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2510</x><y>9960</y><w>270</w><h>230</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Scanner_Main_Menu_1.html
+--
+--retrieves relevant css for mobile device
+--
+{Function body_onload()}
+--calls render()
+--
+{Function Render()}
+--creates buttons : 
+  Transfer
+  Movement
+  Content
+  Logout/Previous
+  Next
+--
+fg=black
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1930</x><y>10130</y><w>680</w><h>850</h></coordinates><panel_attributes>lt=-
+&lt;Calls and passes signoff</panel_attributes><additional_attributes>590;20;560;20;560;410;500;410;500;840;20;840</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2850</x><y>9670</y><w>320</w><h>190</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Scanner_Main_Menu_2.html
+--
+{Function Render()}
+--creates buttons : 
+  Action
+  Pack
+  Unpack
+  Previous
+  Next
+
+fg=black
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2530</x><y>9670</y><w>360</w><h>510</h></coordinates><panel_attributes>lt=-&gt;&gt;&gt;&gt;&gt;
+Calls&gt;</panel_attributes><additional_attributes>20;500;280;500;280;20;320;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2830</x><y>9870</y><w>360</w><h>260</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Scanner_Transfer.html
+--
+{Function update()}
+--Calls sync_post
+--passes action : insert
+               from_container
+               to_container
+               effective_date
+--if location is not null then transaction = movement
+                              else transaction = transfer
+--if material is not null then transaction = content
+--
+{Buttons}
+--Accept
+--Main Menu
+
+bg=green
+fg=black</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2950</x><y>10240</y><w>300</w><h>270</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Scanner_Movement.html
+--
+{Function update()}
+--Calls sync_post
+--passes action : insert
+               container
+               location
+               transaction : movement
+--Calls update_cb
+--
+{Buttons}
+--Accept
+--Main Menu
+--
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2570</x><y>10100</y><w>390</w><h>170</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls&gt;</panel_attributes><additional_attributes>20;20;230;20;230;160;380;160</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2560</x><y>9860</y><w>320</w><h>250</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls&gt;</panel_attributes><additional_attributes>20;240;240;240;240;20;270;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2550</x><y>10300</y><w>350</w><h>490</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Single_Frame_Application
+--
+{Function Application.prototype.get}
+--Returns Screen Painter Store Name
+--
+{Function Application.prototype.put}
+--Sets Screen Painter Store Name
+--
+{Function Application.prototype.stop_being_busy}
+--sets hourglass to off
+--
+{Function Application.prototype.start_being_busy}
+--sets hourglass on
+--
+{Function Application.prototype.create_screen_painter}
+--Invokes Screen_Painter.create passes
+        screen_name
+        target_name
+        src
+        use_window
+
+
+
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2280</x><y>10290</y><w>280</w><h>150</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Invokes</panel_attributes><additional_attributes>20;80;270;80</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2630</x><y>9780</y><w>240</w><h>210</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Calls</panel_attributes><additional_attributes>20;180;20;140;140;140;140;20;230;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2630</x><y>10110</y><w>260</w><h>240</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+&lt;Calls</panel_attributes><additional_attributes>20;80;20;170;250;170;250;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2870</x><y>9900</y><w>440</w><h>200</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Invokes&gt;</panel_attributes><additional_attributes>90;20;350;20;350;190;20;190</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>3380</x><y>10080</y><w>390</w><h>180</h></coordinates><panel_attributes>&lt;&lt;Common Functions&gt;&gt;
+Package::Common Functions within various HTML objects
+--
+{These functions documented here are common to 
+ all the referring objects and are documented seperately
+ to avoid duplication}
+--
+--retrieves relevant stylesheet for mobile device
+--
+{Function update_cb()}
+-- Accepts response_array
+    if response_array is not null returns "Update Failed"
+bg=blue
+fg=white</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3220</x><y>9960</y><w>240</w><h>300</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Includes
+</panel_attributes><additional_attributes>20;290;130;290;130;80;230;80;230;110</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3160</x><y>9870</y><w>330</w><h>230</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Includes</panel_attributes><additional_attributes>20;20;110;20;110;160;320;160;320;210</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2660</x><y>9920</y><w>300</w><h>300</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+&lt;Calls</panel_attributes><additional_attributes>20;40;20;20;160;20;160;230;290;230;290;190;250;190</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2410</x><y>9910</y><w>900</w><h>550</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Calls</panel_attributes><additional_attributes>190;50;190;20;80;20;80;320;890;320;890;540;610;540</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2990</x><y>10270</y><w>370</w><h>170</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Calls</panel_attributes><additional_attributes>90;20;290;20;290;160;20;160</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>3400</x><y>10280</y><w>290</w><h>230</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Scanner_Content.html
+--
+{Function update()}
+--Calls sync_post
+--passes action : insert
+               container
+               material
+               transaction : content
+--Calls update_cb
+--
+{Buttons}
+--Accept
+--Main Menu
+--
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3670</x><y>9960</y><w>210</w><h>340</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Includes</panel_attributes><additional_attributes>20;330;120;330;120;80;70;80;70;110</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2610</x><y>9630</y><w>900</w><h>960</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Calls</panel_attributes><additional_attributes>20;330;20;20;740;20;740;880;740;900;890;900;890;860;870;860</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3440</x><y>10310</y><w>350</w><h>170</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;160;270;160;270;20;90;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>3410</x><y>9690</y><w>210</w><h>250</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Scanner_Action.html
+--
+{Function update()}
+--Calls sync_post
+--passes action : insert
+               container
+               location
+               transaction : action
+               event
+               effective_date
+--Calls update_cb
+--
+{Buttons}
+--Accept
+--Main Menu
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2880</x><y>9640</y><w>540</w><h>150</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;110;350;110;350;60;530;60</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3410</x><y>9900</y><w>190</w><h>180</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Includes</panel_attributes><additional_attributes>100;170;100;120;100;50;100;30</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3130</x><y>9580</y><w>320</w><h>360</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Calls</panel_attributes><additional_attributes>20;80;20;50;180;50;180;340;300;340</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3450</x><y>9720</y><w>270</w><h>200</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;190;190;190;190;20;90;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>3700</x><y>9580</y><w>210</w><h>250</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Scanner_Pack.html
+--
+{Function update()}
+--Calls sync_post
+--passes action : insert
+               container
+               location
+               transaction : pack
+               from_container
+               to_container
+--Calls update_cb
+--
+{Buttons}
+--Accept
+--Main Menu
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3100</x><y>9550</y><w>630</w><h>280</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Calls</panel_attributes><additional_attributes>20;110;20;50;580;50;580;260;600;260</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3740</x><y>9610</y><w>270</w><h>200</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;190;190;190;190;20;90;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3530</x><y>9810</y><w>250</w><h>280</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Includes</panel_attributes><additional_attributes>20;270;20;220;130;220;130;70;240;70;240;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2880</x><y>9490</y><w>920</w><h>290</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Calls</panel_attributes><additional_attributes>900;80;900;50;390;50;390;270;20;270</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>3410</x><y>9280</y><w>250</w><h>260</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Scanner_Unpack.html
+--
+{Function update()}
+--Calls sync_post
+--passes action : insert
+               container
+               location
+               transaction : unpack
+               container
+               effective_date
+--Calls update_cb
+--
+{Buttons}
+--Accept
+--Main Menu
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3640</x><y>9290</y><w>370</w><h>800</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Includes</panel_attributes><additional_attributes>20;20;80;20;80;230;320;230;320;720;80;720;80;790</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3450</x><y>9310</y><w>280</w><h>200</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;190;240;190;240;20;90;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3040</x><y>9460</y><w>370</w><h>210</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Calls</panel_attributes><additional_attributes>50;200;50;50;360;50</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2890</x><y>9290</y><w>530</w><h>510</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;500;310;500;310;190;490;190;490;20;520;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2870</x><y>8830</y><w>280</w><h>210</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Scanner_Main_Menu_3.html
+--
+--retrieves relevant css for mobile device
+--
+{Function body_onload()}
+--calls render()
+--
+{Function Render()}
+--creates buttons : 
+  Repack
+  Receive
+  Dispatch
+  Previous
+--
+fg=black
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2820</x><y>9000</y><w>280</w><h>690</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>260;670;260;60;20;60;20;20;70;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>3430</x><y>8580</y><w>250</w><h>280</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Scanner_Repack.html
+--
+{Function update()}
+--Calls sync_post
+--passes action : insert
+               container
+               location
+               transaction : repack
+               from_container
+               to_container
+               effective_date
+--Calls update_cb
+--
+{Buttons}
+--Accept
+--Main Menu
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2910</x><y>8580</y><w>540</w><h>410</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;390;260;390;260;240;500;240;500;20;520;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>3430</x><y>8920</y><w>250</w><h>310</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Scanner_Receive.html
+--
+{Function update()}
+--Calls sync_post
+--passes transaction : receive
+               action : insert
+               trade_site
+               container
+               effective_date
+   if  location is not null then pass
+       transaction : movement
+   if material is not null then pass
+       transaction : content
+--Calls update_cb
+--
+{Buttons}
+--Accept
+--Main Menu
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2980</x><y>8730</y><w>470</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Calls</panel_attributes><additional_attributes>20;90;20;40;410;40;410;100;450;100</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3030</x><y>8700</y><w>420</w><h>520</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Calls</panel_attributes><additional_attributes>20;120;20;40;320;40;320;500;400;500</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2910</x><y>8880</y><w>540</w><h>120</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+  
+  
+
+
+
+Calls</panel_attributes><additional_attributes>20;100;300;100;300;40;470;40;520;40</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>3760</x><y>8640</y><w>250</w><h>350</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Scanner_Dispatch.html
+--
+{Function body_onload()}
+--Calls sync_post
+--passes transaction : trade_site
+               action : list
+               select : yes
+--returns data to html screen
+--
+{Function update()}
+--Calls sync_post
+--passes action : list
+               container
+               location
+               transaction : trade site
+               select : yes
+--Calls update_cb
+--
+{Buttons}
+--Accept
+--Main Menu
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3470</x><y>8950</y><w>270</w><h>260</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;240;240;240;240;20;90;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3470</x><y>8610</y><w>270</w><h>230</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;210;240;210;240;20;90;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3800</x><y>8780</y><w>270</w><h>190</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;170;240;170;240;20;80;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3060</x><y>8780</y><w>720</w><h>210</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Calls</panel_attributes><additional_attributes>20;50;20;20;150;20;150;100;670;100;670;190;700;190</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2920</x><y>8570</y><w>960</w><h>460</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;440;320;440;320;340;820;340;820;20;940;20;940;70</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>3850</x><y>9240</y><w>300</w><h>240</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Scanner_Date.js
+--
+{Function db_to_date(db_date)}
+--checks to see that db_date is a valid date
+--if its not a valid date it returns current date
+--if its a valid date it returns the same day but 
+  previous month
+--returns date
+--
+{Function date_to_db(date)}
+--formats the date correctly for input 
+  into the database
+--returns date
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3570</x><y>8490</y><w>570</w><h>760</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Includes</panel_attributes><additional_attributes>20;80;20;40;520;40;520;450;520;740</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3590</x><y>8500</y><w>630</w><h>1610</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Includes</panel_attributes><additional_attributes>20;70;20;40;580;40;580;1590;180;1590</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>3750</x><y>8110</y><w>390</w><h>290</h></coordinates><panel_attributes>&lt;&lt;Common Functions&gt;&gt;
+Package::Common Functions within various HTML objects
+--
+{These functions documented here are common to 
+ all the referring objects and are documented seperately
+ to avoid duplication}
+--
+--retrieves relevant stylesheet for mobile device
+--
+{Function trade_site_update_cb(response_array))}
+--for IEMobile7.7 interfaces it has to delete the current
+   data 1 element at a time
+--for everything else it deletes the data in 1 statement
+--Returns the data from the select data request
+   to the html page
+--
+{Function update_cb(response_array))}
+-- Accepts response_array
+    if response_array is not null returns "Update Failed"
+bg=blue
+fg=white</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3830</x><y>8380</y><w>100</w><h>280</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Includes</panel_attributes><additional_attributes>50;260;50;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>3660</x><y>8250</y><w>680</w><h>880</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Includes</panel_attributes><additional_attributes>20;860;630;860;630;20;480;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1470</x><y>8900</y><w>220</w><h>210</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Tabs.html
+--
+includes stylesheet.css
+--
+{Links}
+--Tracking_Tab
+--Routeing_Tab
+--Design_Tab
+--Tracing_Tab
+--Search_Results_Tab
+--Reports_Tab
+--Input_Tab
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1530</x><y>8900</y><w>300</w><h>520</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;500;190;500;190;20;160;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1470</x><y>8760</y><w>230</w><h>70</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Logo.html
+--
+Includes image company_logo.gif
+
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1540</x><y>8590</y><w>340</w><h>780</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;760;230;760;230;110;60;110;60;160</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1640</x><y>8350</y><w>380</w><h>340</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Login.html
+--
+{Function signon()}
+--checks if the page is single frame interface
+--If its 2 frames it references username and password
+  from input_frame else if its 1 frames it references them
+  from toolbar_frame
+--calls sync_post 
+   passes transaction : Signon
+               action : view
+               username
+               password
+               invokes handle_signon
+--
+{Function handle_signon(response_array)}
+--if the response_array is empty 
+  returns "Username and Password invalid"
+--if the signon was successfull it points
+  the toolbar_frame to Toolbar.html
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1550</x><y>8210</y><w>610</w><h>1180</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;1160;500;1160;500;110;300;110;300;130</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1640</x><y>7370</y><w>380</w><h>950</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Toolbar.html
+--
+{Loads Scripts}
+--Date_Selector.js
+--SP_Menu.js
+--Stylesheet.js
+--Screen_Painter.js
+--if the main screen is divided into 2 frames it loads
+  Single_Frame_Application.js
+  else it loads
+  Application.js
+--
+{Tabs}
+--Design
+--Routeing
+--Tracking
+--Tracing
+--Search Results
+--Reports
+--Input
+--
+{Function body_onload()}
+--If the main screen is divided into 2 frames it invokes
+  app.get_site_details()
+  Screen_Painter.create('Single Frame Input', 'input');
+--sets the hourglass icon to busy
+--if the role is a super userit removes the 
+  design tab and routeing tab
+--gets the site_setup_list
+--invokes the Date_Selector() function and returns the
+  from_date_input and
+  to_date_input
+--sets focus to search_input
+--stops the hourglass icon
+--
+{Function do_Search()}
+--Calls sr_sp.actions and returns search results 
+  based on the specified search parameters
+--
+{Function do_advanced_search()}
+--Calls sr_sp.actions and returns the advanced_search
+  screen
+--
+{Function do_trace()}
+--Calls isp.actions() and builds screen_list_form
+--
+{Function body_onunload()}
+--Calls screen_painter and closes current screen
+--
+{Function logoff()}
+--Calls sync_post
+   passes transaction : signoff
+               action : view
+               username
+               password
+--Calls signoff_cb()
+--
+{Function signoff_cb}
+--Checks if the sign off was
+   Failed
+   Timed out
+   or Successful
+
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1540</x><y>7310</y><w>150</w><h>1070</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Calls</panel_attributes><additional_attributes>130;50;130;40;40;40;40;1050;90;1050</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>1350</x><y>5810</y><w>350</w><h>1390</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Date_Selector.js
+--
+{function Date_Selector()}
+--Accepts
+         document
+         date_element
+         date_element_id
+         value
+         mode
+--Creates the calender popup and sets the default 
+   selected date to current date
+--
+{Function Date_Selector.prototype.add_element()}
+--Checks the selected date is a valid date
+--Calls Date_Selectobj.db_to_format to convert the
+  date to a viewable format
+--
+{Function Date_Selector.db_to_format()}
+--Accepts
+        db_value
+        mode
+--if mode is datetime formats the date to datetime
+   else formats as date
+--
+{Function Date_Selector.prototype.format}
+--Also formats date as datetime or date depending on
+  mode
+--
+{Function Date_Selector.prototype.create_content()}
+--Creates all the HTML tables, buttons, layout and
+  style scripts for the date calender popup
+--
+{Function Date_Selector.prototype.initialise_day()}
+--Sets the current date as default
+--
+{Function Date_Selector.prototype.day_clicked()}
+--Handles the onclick event when a date is selected
+  and highlights selected date
+--
+{Function Date_Selector.prototype.DMY_string()}
+--Returns the date in DD-MON-YYYY format
+--
+{Function Date_Selector.prototype.HMS_string()}
+--Returns the hours minutes and seconds
+{Function Date_Selector.prototype.DMY_HMS_string()}
+--Concatenates the DMY_String with the HMS_sting
+--
+{Function Date_Selector.prototype.highlight_day()}
+--Highlights the selected day with a blue background
+  and white font colour
+--
+{Function Date_Selector.prototype.accepted()}
+--if the accept button is pressed this hides the calendar
+--returns selected date
+--
+{Function Date_Selector.prototype.cancelled()}
+--hides the calendar
+--
+{Function Date_Selector.prototype.reset()}
+--If the reset button is clicked changes the selected 
+   day back to the default day
+--
+{Function Date_Selector.prototype.set_time()}
+--Accepts
+        Hours 
+        Minutes
+        Seconds
+--Returns them in acceptable database format
+--
+{Function Date_Selector.date_to_db()}
+--Accepts
+       date
+       mode
+--if mode is datetime 
+  then it returns the date and time in acceptable
+  database formate
+--if mode is date then only returns date in database
+  format
+--
+{Function  Date_Selector.db_to_date()}
+--Accepts
+       db_date
+       mode
+--Returns database formatted date in javascript
+   formate
+--
+{Function Date_Selector.prototype.set_and_show()}
+--Accepts
+       date_element
+       mode
+       evt
+--Draws and shows the calendar popup
+--
+{Function Date_Selector.prototype.now()}
+--Sets  the selected_date object to today
+--
+
+
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>900</x><y>6850</y><w>400</w><h>350</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::SP_Menu.js
+--
+{Function SP_Menu()}
+--Accepts
+      screen_painter
+      document
+--creates the relevant menu frame and hides it
+--populates the menu items within the menu frame
+--
+{Function SP_Menu.prototype.show()}
+--Accepts
+       evt
+--Populates the menu detail
+--Makes the menu visible
+--
+{Function SP_Menu.prototype.position_popup()}
+--Accepts
+       evt
+--Sets the current menu's position on the screen
+--
+{Function SP_Menu.prototype.hide()}
+--Hides the current menu
+--
+
+
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>890</x><y>6470</y><w>400</w><h>280</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Stylesheet.js
+--
+{Function Stylesheet()}
+--Accepts
+       document
+       menu
+--creates the html element to include the relevant
+  stylesheet for the current page
+--
+{Function Stylesheet.prototype.get_rules()}
+--Returns the css rules for the current page
+--
+{Function Stylesheet.prototype.get_rule()}
+--Accepts
+       s
+--Checks the validity of the rules retrieved from the get_rules()
+  function
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>0</x><y>0</y><w>420</w><h>4380</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Screen_Painter.js
+--
+{Function Screen_Painter.get_screen_painter()}
+--Accepts
+        target_name
+--returns the screen painter for the current page
+--
+{Function Screen_Painter.create()}
+--Accepts
+       screen_name
+       target_name
+       src
+       use_window
+       enable_owner_canvas
+--Loads the menu for the target page
+--Creates the page and page elements for the target_page
+--
+{Function Screen_Painter.Actions_cb()}
+--Accepts
+       evt
+--Enables the indicator_img element
+--
+{Function Screen_Painter()}
+--Accepts
+       screen_name
+       target_type
+       target_name
+       target
+--Initialises the element arrays for the screen painter
+--
+{Function Screen_Painter.prototype.set_target()}
+--Accepts 
+       target
+--Sets the target frame for the screen painter
+--
+{Functions Screen_Painter.prototype.fetch_screen()}
+--Accepts 
+       callback
+       screen_name
+       no_cache
+--Calls sync_post
+      passes 
+          transaction : Screen
+          action : blank
+          screen : screen_name parameter
+--
+{Function Screen_Painter.set_screen_cb()}
+--Accepts
+       screen_array
+       obj
+--Fetches the next objects for the next array element
+   in the screen array
+--
+{Function Screen_Painter.prototype.fetch_screen_details()}
+--Accepts
+       call_back
+       screen_name
+--calls sync_post
+     passes : transaction : screen_detail
+                   action : list
+                   screen : screen_name
+--Stores returned values in an array
+--
+{Function Screen_Painter.set_screen_details_cb()}
+--Accepts 
+       screen_details_array
+       obj
+--Call back function which assigns the screen_details_array
+   passed back by the sync_post function to a local obj array
+--
+{Function Screen_Painter.prototype.check_row_for_headers()}
+--Accepts 
+       row
+       no_of_cols
+--parses table of data and returns the rows that contain 
+  headers
+--
+{Function  Screen_Painter.prototype.process_grid_details()}
+--process the entire table of data marking which
+  rows are headers and which are detail
+--
+{Function Screen_Painter.prototype.show_grid_details()}
+--Raises alerts for each row of the table showing which
+   are header rows and which are detail rows.
+--This function is used for testing purposes
+--
+{Function Screen_Painter.prototype.paint()}
+--Populates the table data into the current screen
+--
+{Function Screen_Painter.prototype.add_stylesheet()}
+--Adds the relevant stylesheet to the current screen
+--
+{Function Screen_Painter.prototype.render()}
+--Renders the HTML elements for the page on the current
+  screen
+--
+{Function Screen_Painter.prototype.size_window_to_content()}
+--Resizes the current window to the size of the data shown
+--
+{Function Screen_Painter.prototype.paint_row()}
+--Accepts 
+       table_no
+       row_no
+       results
+--Creates the HTML elements for the rows of data
+--
+{Function Screen_Painter.prototype.paint_detail()}
+--Accepts 
+       detail
+       results
+--Adds the detail and results to the following objects
+       header
+       label
+       text
+       hyperlink
+       text_field
+       select
+       text_Area
+--
+{Functions Screen_Painter.prototype.header()}
+--Accepts
+       detail
+--Create individual table cells and populates them with
+   relevant header data
+--Assigns the relevant style to the cell
+--
+{Function Screen_Painter.prototype.label()}
+--Accepts
+       detail
+--Create individual table cells and populates them with
+   relevant label
+--Assigns the relevant style to the cell
+--
+{Function Screen_Painter.prototype.text()}
+--Accepts
+       detail
+       results
+--Create individual table cells and populates them with
+   relevant text data
+--Assigns the relevant style to the cell
+--
+{Function Screen_Painter.prototype.fill_text()}
+--Accepts
+       detail
+       value
+--Checks if detail.valid_values='HTML'
+   then populates existing table cells with default values
+--
+{Function Screen_Painter.prototype.reset_text()}
+--Clears existing table cells
+--
+{Function Screen_Painter.prototype.hyperlink()}
+--Accepts
+       detail
+       results
+--Creates hyperlinks
+--assigns relavent css to hyperlink
+--builds path for hyperlink reference
+--
+{Function Screen_Painter.prototype.fill_hyperlink()}
+--Accepts
+       detail
+       new_value
+--populates existing hyperlinks with hyperlink reference
+--
+{Function Screen_Painter.prototype.reset_hyperlink()}
+--Accepts
+       detail
+--Clears hyperlink
+--
+{Function Screen_Painter.prototype.datetime_is_valid()}
+--Accepts
+       field
+       mode
+--validates date field and returns value if the data entered is 
+   a valid date
+--
+{Function Screen_Painter.prototype.field_is_valid()}
+--Accepts
+       field
+--Validates the field object and checks the input is correct
+--Vaildates the following object types
+      text_field
+      file_field
+      text_area
+      radio button
+      select dropdown
+      checkbox
+--
+{Function Screen_Painter.prototype.text_field()}
+--Accepts
+       details
+       results
+--Creates input fields either text or password
+--Sets relevant field permissions (readonly or normal input)
+--Sets css class for stylesheet
+--Sets correct tab index
+--
+{Function Screen_Painter.prototype.fill_text_field()}
+--Accepts 
+       detail
+       value
+--if passed value is null it puts a default value in the text field
+  else it puts the passed value in
+--
+{Function Screen_Painter.prototype.reset_text_field()}
+--Resets the text field to default values
+--
+{Function Screen_Painter.prototype.file_field()}
+--Accepts 
+      detail
+--Creates frame used to upload files
+--
+{Function Screen_Painter.prototype.select()}
+--Accepts
+      detail
+      results
+--Creates select drop down items
+--sets their relevant stylesheets
+--
+{Function Screen_Painter.prototype.fill_select()}
+--Accepts
+       detail
+       new_value
+--Populates drop down list and selects default value
+--
+{Function Screen_Painter.prototype.text_area()}
+--Accepts
+       details
+       results
+--Creates text area HTML elements
+--Sets relevant stylesheet
+--Sets relevant permissions
+--
+{Function Screen_Painter.prototype.reset_text_area()}
+--Resets the text_area element to the default value
+--
+{Function Screen_Painter.prototype.radio()}
+--Accepts
+       detail
+       results
+--Creates radio item HTML element
+--Sets Relevant permissions
+--Sets relevant stylesheet
+--
+{Function Screen_Painter.prototype.fill_radio()}
+--Accepts
+       detail
+       new_value
+--Fills the radio select item with relevant data
+--Sets default selected item
+--
+{Function Screen_Painter.prototype.reset_radio()}
+--Accepts
+       detail
+--Resets the radio select to the default value
+--
+{Function Screen_Painter.prototype.checkbox()}
+--Accepts
+       detail
+       results
+--Creates checkbox HTML elements
+--Sets relevant permissions
+--Sets relevant stylesheet
+--
+{Function Screen_Painter.prototype.fill_checkbox()}
+--Accepts
+      detail
+      new_value
+--Fills the checkbox with the relevant options
+--Sets the default value to checked
+--
+{Function Screen_Painter.prototype.reset_checkbox()}
+--Accepts
+       detail
+--Resets the current checked value to the default value
+--
+{Function Screen_Painter.prototype.button()}
+--Accepts
+       detail
+--Creates the HTML Button element
+--Sets the relevant stylesheet
+--Sets the relevant tab index
+--
+{Function Screen_Painter.prototype.date()}
+--Accepts
+      detail
+      results
+--Formats the date correctly
+--Sets Font size to 15
+--Sets justification to left
+--
+
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>70</x><y>4350</y><w>1810</w><h>3030</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Includes</panel_attributes><additional_attributes>20;20;1790;3010</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1590</x><y>7030</y><w>420</w><h>410</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Includes</panel_attributes><additional_attributes>70;170;70;210;210;210;210;300;210;340</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1270</x><y>7180</y><w>450</w><h>210</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Includes</panel_attributes><additional_attributes>20;20;20;160;430;160;430;190</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1250</x><y>6470</y><w>510</w><h>920</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+Includes</panel_attributes><additional_attributes>30;20;50;20;50;820;490;820;490;900</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2090</x><y>7300</y><w>290</w><h>450</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Design_Canvas.html
+--
+{Loads Scripts}
+--Geometry.js
+--SVG.js
+--Canvas.js
+--Design_Canvas_Control.js
+--Design_Canvas_Location_Control.js
+--Design_Canvas_Container_Control.js
+--Design_Canvas_Transfer_Control.js
+--Design_Canvas_Movement_Control.js
+--Design_Canvas_Site_Control.js
+--Design_Canvas_Draw_Control.js
+--Design_Canvas_Text_Control.js
+--Design_Canvas_Input_Control.js
+--Design_Canvas_Output_Control.js
+--Canvas_Sidebar.js
+--Canvas_Menu.js
+--Design_Canvas_Color_Chooser.js
+--Design_Canvas_Associations.js
+--Design_Canvas_Input_Outputs.js
+--Design_Canvas.js
+--
+{Checks if Adobe SVG Control is installed}
+--if it is it creates an svg_canvas_object
+  which references Canvas.svg
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1680</x><y>7050</y><w>570</w><h>540</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;530;360;530;360;210;530;210;530;240</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2600</x><y>7700</y><w>210</w><h>120</h></coordinates><panel_attributes>&lt;&lt;SVG&gt;&gt;
+Package::Canvas.svg
+--
+--Creates an empty svg tag
+--Sets name to svg_canvas
+--Sets width = 1200
+--Sets height = 600
+bg=green
+
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2270</x><y>7510</y><w>440</w><h>410</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;210;150;210;310;210;330;210</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2310</x><y>6880</y><w>350</w><h>220</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Geometry.js
+--
+--If the containing window is not an embedded frame
+      Return window.innerWidth
+                  window.innerHeight
+                  window.pageXOffset
+                  window.pageYOffset
+--else
+     Return document.documentElement.clientWidth;
+                 document.documentElement.clientHeight;
+                 document.documentElement.scrollLeft;
+                 document.documentElement.scrollTop;
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2080</x><y>6840</y><w>430</w><h>540</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>100;530;320;530;320;280;210;280;210;20;400;20;400;40</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2700</x><y>6880</y><w>320</w><h>220</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::SVG.js
+--
+{Function SVG.makeCanvas()}
+--Accepts
+       id
+       pixelwidth
+       pixelheight
+       userwidth
+       userheight
+--Creates an SVG Element
+   sets width &amp; height
+   sets a viewbox with userwidth and userheight
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2130</x><y>6840</y><w>770</w><h>550</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;540;330;540;330;280;550;280;550;20;740;20;740;40</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2700</x><y>1580</y><w>370</w><h>5200</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Canvas.js
+--
+--Creates a canvas object with default parameters for height
+   width and various other parameters
+--
+{Function info()}
+--Accepts
+       str
+       index
+--Replaces current canvas info text with str parameter
+--
+{Function svg_and_canvas_setup()}
+--Calls
+       setup_svg_document
+       create_main_canvas
+       create_control_canvas
+       create_work_canvas
+       draw_control_canvas
+       draw_work_canvas
+--Resizes window
+--
+{Function setup_svg_document()}
+--Creates new SVG blank object
+--
+{Function create_main_canvas()}
+--Creates new Canvas control object
+   Sets canvas control width and height
+   Sets canvas viewpoint width and height
+--
+{Function create_work_canvas()}
+--Creates new Canvas controlobject
+   Sets canvas control width and height
+   Sets canvas viewpoint width and height
+--
+{Function draw_control_canvas()}
+--Creates a new SVG canvas object
+--sets viewbox x
+           viewbox y
+           viewbox width
+           viewbox height
+--sets attributes fill : white
+                           stroke : white
+--appends button_panel
+--sets style attributes
+--sets control attribute for scroll up and down   
+--if canvas_mode = Designer
+      call create_designer_buttons
+  else
+      call create_display_buttons
+--calls reset_control_canvas
+--
+{Function draw_work_canvas()}
+--Creates an SVG rectangle element
+--Sets canvas background colour
+--Sets canvas info_text
+--Creates 44 SVG text elements
+   sets x=200
+           y=60+increment of 1 for every element
+           font_family = vernada
+           font_size = 10
+           creates node text
+--calls canvas_defs
+--creates marker red
+--
+{Function window_resize()}
+--Accepts
+       evt
+--Resizes main_canvas
+                control_canvas
+                work_canvas
+--Resets above canvases
+--
+{Function zoom_out_canvas()}
+--decreases work canvas values for viewbox 
+            x
+            y
+            width
+            height
+--resets work_canvas
+--
+{Function zoom_in_canvas()}
+--increases work canvas values for viewbox 
+            x
+            y
+            width
+            height
+--resets work_canvas
+--
+{Function up_canvas()}
+--resets work canvas values for 
+   viewbox y = y-height/10
+                 if x &lt; -32768
+                    x = -32768
+--resets work canvas
+--
+{Function down_canvas()}
+--resets work canvas values for 
+   viewbox y =y+height/10
+                 if y + height &gt; 32768
+                    y = 32768-height
+--resets work canvas
+--
+{Function left_canvas()}
+--resets work canvas values for 
+   viewbox x =x-height/10
+                 if x &lt; -32768
+                    x = -32768
+--resets work canvas
+--
+{Function right_canvas()}
+--resets work canvas values for 
+   viewbox x =x+width/10
+                 if x+width &gt; 32768
+                    x = 32768-width
+--resets work canvas
+--
+{Function center_canvas()}
+--if canvas.bbox_is_current = false
+   display list first
+   if mode = designer or item_type is not in 
+     transfer or movement then
+     increment the x and y attributes of bbox
+--resets box to current
+--diagram_width = max value of x -
+                               max value of y
+--canvas pixels per unit x = viewport_width / diagram_width
+                                      y = viewport_height / diagram_height
+--reset_work_canvas
+--
+{Function start_control_up()}
+--sets control timer interval
+--
+{Function stop_control_timer()}
+--stops control timer
+--
+{Function control_up()}
+--decrements view box y by 10
+--
+{Function start_control_down()}
+--sets control timer interval to 10
+--
+{Function control_down()}
+--increments view box y by 10
+--
+{Function reset_control_canvas()}
+--Resets control canvas width and height atrributes
+--
+{Function reset_work_canvas()}
+--Resets workl canvas width and height atrributes
+--
+{Function x_window_to_world()}
+--Accepts
+       x_window
+--Returns (work_canvas viewbox x 
+              + x_window/ viewport height
+               * viewbox height
+--
+{Function y_window_to_world()}
+--Accepts
+       y_window
+--Returns (work_canvas viewbox y 
+              + y_window/ viewport height
+               * viewbox height
+--
+{Function add_item_to_display_list()}
+--Accepts
+       type
+       id
+       element
+       item_params
+       thick_element
+--if type = location
+  sets location parameters
+    name
+    desc
+--else if type = container
+   sets parameters
+     location name
+                  desc
+     container type name
+                             permanent
+                             moveable
+       creates svg element circle
+--else if type = site
+  sets parameters
+    default supplier site
+    default customer site
+    creates svg element circle
+-- else if type = transfer
+    sets parameters 
+      transfer_from
+      transfer_to
+      from_output
+      to_input
+-- else if type = movement
+    sets parameters
+       movement_from
+       movement_to
+       from_output
+       to_input
+--
+{Function delete_location()}
+-- deletes specified location
+--
+{Function delete_container()}
+-- deletes specified container
+--
+{Function delete_transfer()}
+-- deletes specified transfer
+--
+{Function delete_movement()}
+--deletes specified movement
+--
+{Function delete_site()}
+--deletes specified site
+--
+{Function delete_line()}
+--deletes specified line
+--
+{Function delete_text()}
+--deletes specified text
+--
+{Function highlight_container()}
+--Accepts 
+      container
+      type
+--If its a transfer it highlights the transfer fields
+   else it highlights the movements fields
+--
+{Function highlight_site()}
+--Accepts
+       site
+       type
+--If its a transfer it highlights the transfer fields
+   else it highlights the movements fields
+--
+{Function highlight_transfer()}
+--Accepts
+       transfer
+       hightlight
+--highlights transfer elements
+--
+{Function highlight_movement()}
+--Accepts
+       Movement
+       highlight
+--Highlights movements
+--
+{Function remove_item_from_display_list()}
+--Accepts
+      Type
+      Id
+--Deletes item from display
+   dependant on the value passed as type
+       Location
+       Container
+       Transfer
+       Movement
+       Site
+       Line
+       Text
+--
+{Function print_canvas()}
+--prints current canvas
+   print function is invoked differently if mode = Designer
+--
+{Function save_canvas()}
+--If site_name or canvas_name is null
+   then pops up a message
+   "Canvas site_name and canvas_name not set"
+   Ok or Cancel
+--Raises another message
+  "Do you want to save the current canvas?"
+-- if no then return else continue
+-- Sets hourglass to busy
+--Go through the display list creating a JS array
+   that consists of all the display list items
+--Calls Sync_post
+        passes
+           transaction:canvas
+           action:update
+           canvas : canvas_name
+           geometry : list of items on canvas
+--Sets hourglass back to idle
+--
+{Function CANVAS.load_canvas()}
+--Accepts
+       is_interactive
+--if is_interactive is true then
+  raises message do you wish to overwrite current
+  canvas yes or no?
+--sets hourglass to busy
+--Clears existing trace
+--Fetches new canvas
+  Calls sync_post
+            passes transaction : canvas
+                        action : view
+                        canvas : canvas_name
+--
+{Function clear_canvas()}
+--delete canvas locations
+                          containers
+                          transfers
+                          transfers_to
+                          transfers_from
+                          movements
+                          movements_to
+                          movements_from
+                          lines
+                          texts
+                          location_associations
+                          container_associations
+                          container_type_associations
+--clears all other canvas variables
+--
+{Function fill_canvas()}
+--Accepts
+       display_item_array
+--Creates style sheet for canvas
+--Creates Move &amp; Transfer elements
+--Adds Tracing Tab and tracing canvas
+--
+{Function canvas_defs()}
+--Creates SVG:defs Element
+--
+{Function canvas_defs()}
+--Creates SVG:marker element
+--Creates SVG:path element
+--
+{Function create_gradient()}
+--Accepts 
+       colour
+--Creates SVG:linear:gradient element
+--Creates SVG:stop element
+--
+{Function get_grid_size()}
+--Returns the grid size for the current canvas
+--
+{Function adjust_points_str()}
+--Accepts
+       points_str
+       count
+--Adjusts the end point of x and y
+--Adjusts the next point of x an y
+
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2150</x><y>6760</y><w>1150</w><h>650</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;640;340;640;340;390;940;390;940;70;740;70;740;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>3120</x><y>5910</y><w>400</w><h>870</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Design_Canvas_Control.js
+--
+{Function Canvas_Control()}
+--Accepts
+       evt
+       evt_id
+--Handles the events for the various canvas elements
+   and canvas states
+--
+{Function redraw_current_line()}
+--Accepts
+       evt
+--Deletes the current line
+--Redraws it from start point to end point
+--
+{Function draw_target()}
+--Accepts
+       type
+--draws current target
+--
+{Function resize_target()}
+--Accepts
+       evt
+--Resizes current target based on evt object passed
+--
+{Function move_target()}
+--Accepts
+       evt
+       first_move
+--Moves the current target position to new position
+   based on evt object
+{Function setup_down_state()}
+--Accepts
+       evt
+--Handles mouse down event
+--
+{Function abandon_current_drawing()}
+--Deletes all the current lines and objects on the canvas
+--
+{Function set_down_state()}
+--Accepts
+       evt
+       previous_state
+--Stores the current state as previous state
+   and invokes the setup_down_state function
+--
+{Function point_in_target()}
+--Accepts
+      x
+      y
+      target
+--Returns current target side
+--
+{Function update_bbox()}
+--Accepts
+       target
+--updates the min and max values for x,y,width and height
+--
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2250</x><y>6760</y><w>1100</w><h>670</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;660;270;660;270;420;880;420;880;70;1070;70;1070;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2630</x><y>7190</y><w>320</w><h>270</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Design_Canvas_Location_Control.js
+--
+{Function location_control()}
+--Accepts
+       evt
+       evt_id
+--Handles all the mouse events for the location object
+  and its various states 
+       Move
+       Resize
+       Onclick 
+       OnMouseMove
+       OnMouseUp
+       OnMouseDown
+--Stores Previous State
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2310</x><y>7110</y><w>480</w><h>410</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;330;270;330;270;100;320;100</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>3590</x><y>5910</y><w>370</w><h>270</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Design_Canvas_Container_Control.js
+--
+{Function container_control()}
+--Accepts
+       evt
+       evt_id
+--Handles all the mouse events for the location object
+  and its various states 
+       Move
+       Resize
+       Onclick 
+       OnMouseMove
+       OnMouseUp
+       OnMouseDown
+--Stores Previous State
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2320</x><y>6160</y><w>1390</w><h>1320</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;1290;280;1290;280;1310;660;1310;660;1070;850;1070;850;700;1230;700;1230;50;1360;50;1360;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>3590</x><y>6240</y><w>370</w><h>270</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Design_Canvas_Transfer_Control.js
+--
+{Function transfer_control()}
+--Accepts
+       evt
+       evt_id
+--Handles all the mouse events for the transfer object
+  and its various states 
+       Move
+       Resize
+       Onclick 
+       OnMouseMove
+       OnMouseUp
+       OnMouseDown
+--Stores Previous State
+     
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>4000</x><y>6240</y><w>380</w><h>270</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Design_Canvas_Site_Control.js
+--
+{Function site_control()}
+--Accepts
+       evt
+       evt_id
+--Handles all the mouse events for the movement object
+  and its various states 
+       Move
+       Resize
+       Onclick 
+       OnMouseMove
+       OnMouseUp
+       OnMouseDown
+--Stores Previous State
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>4000</x><y>5910</y><w>380</w><h>270</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Design_Canvas_Movement_Control.js
+--
+{Function movement_control()}
+--Accepts
+       evt
+       evt_id
+--Handles all the mouse events for the movement object
+  and its various states 
+       Move
+       Resize
+       Onclick 
+       OnMouseMove
+       OnMouseUp
+       OnMouseDown
+--Stores Previous State
+bg=green
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>4460</x><y>5910</y><w>380</w><h>270</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Design_Canvas_Draw_Control.js
+--
+{Function draw_control()}
+--Accepts
+       evt
+       evt_id
+--Handles all the mouse events for the draw object
+  and its various states 
+       Move
+       Resize
+       Onclick 
+       OnMouseMove
+       OnMouseUp
+       OnMouseDown
+--Stores Previous State
+bg=green
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>4460</x><y>6240</y><w>380</w><h>310</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Design_Canvas_Text_Control.js
+--
+{Function draw_control()}
+--Accepts
+       evt
+       evt_id
+--Handles all the mouse events for the draw object
+  and its various states 
+       Move
+       Resize
+       Onclick 
+       OnMouseMove
+       OnMouseUp
+       OnMouseDown
+--Stores Previous State
+{Function adjust_bbox_for_text()}
+--updates the min and max values for x,y,width and height
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>4930</x><y>5440</y><w>380</w><h>740</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Design_Canvas_Input_Control.js
+--
+{Function input_control()}
+--Accepts
+       evt
+       evt_id
+--Handles all the mouse events for the input object
+  and its various states 
+       Move
+       Resize
+       Onclick 
+       OnMouseMove
+       OnMouseUp
+       OnMouseDown
+--Stores Previous State
+{Function move_input()}
+--Accepts
+       evt
+--Retrieves the movement and sites parent ids
+--calls move_inputs_transfers_and_movements
+--
+{Function move_input_absolute()}
+--Accepts
+       x
+       y
+       input_details
+--Retrieves the movement and sites parent ids
+--calls move_inputs_transfers_and_movements
+--
+{Function move_input_relative()}
+--Accepts
+       dx
+       dy
+       input_details
+--calls move_inputs_transfers_and_movements
+--
+{Function move_inputs_transfers_and_movements()}
+--Accepts
+       x
+       y
+       input_details
+--Transfers
+   Adjusts the new input according to the passes values
+--Movements
+   Adjusts the new input according to the passes values
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>5410</x><y>5440</y><w>380</w><h>740</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Design_Canvas_Output_Control.js
+--
+{Function Output_control()}
+--Accepts
+       evt
+       evt_id
+--Handles all the mouse events for the Output object
+  and its various states 
+       Move
+       Resize
+       Onclick 
+       OnMouseMove
+       OnMouseUp
+       OnMouseDown
+--Stores Previous State
+{Function move_output()}
+--Accepts
+       evt
+--Retrieves the movement and sites parent ids
+--calls move_inputs_transfers_and_movements
+--
+{Function move_output_absolute()}
+--Accepts
+       x
+       y
+       input_details
+--Retrieves the movement and sites parent ids
+--calls move_inputs_transfers_and_movements
+--
+{Function move_output_relative()}
+--Accepts
+       dx
+       dy
+       output_details
+--calls move_outputs_transfers_and_movements
+--
+{Function move_outputs_transfers_and_movements()}
+--Accepts
+       x
+       y
+       output_details
+--Transfers
+   Adjusts the new output according to the passes values
+--Movements
+   Adjusts the new output according to the passes values
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2310</x><y>6490</y><w>1530</w><h>1000</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;980;260;980;260;990;690;990;690;760;900;760;900;400;1270;400;1270;50;1500;50;1500;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2320</x><y>5910</y><w>1700</w><h>1590</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;1580;280;1580;710;1580;710;1370;980;1370;980;1020;1660;1020;1660;20;1680;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2280</x><y>6490</y><w>1860</w><h>1020</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;1010;770;1010;770;810;1040;810;1040;460;1730;460;1730;40;1830;40;1830;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2290</x><y>5910</y><w>2190</w><h>1620</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;1610;780;1610;780;1410;1050;1410;1050;1060;1740;1060;1740;640;2130;640;2130;20;2170;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2290</x><y>6240</y><w>2190</w><h>1310</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;1300;800;1300;800;1100;1070;1100;1070;750;1760;750;1760;330;2150;330;2150;20;2170;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2290</x><y>6160</y><w>2750</w><h>1410</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;1400;820;1400;820;1200;1090;1200;1090;850;1780;850;1780;430;2590;430;2590;60;2720;60;2720;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2300</x><y>6160</y><w>3260</w><h>1420</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;1410;830;1410;830;1220;1100;1220;1100;870;1790;870;1790;450;2600;450;2600;80;3230;80;3230;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>5850</x><y>5750</y><w>380</w><h>3900</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Canvas_Sidebar.js
+--
+{Function create_designer_buttons()}
+--Creates buttons for
+       site
+       location
+       container
+       transfer
+       movement
+       draw
+       text
+       print
+       save
+    using create_button function
+    on the designer canvas
+--
+{Function create_display_buttons()}
+--Creates buttons for
+       print
+    using create_button function
+    on the designer canvas
+--
+{Function create_button()}
+--Accepts
+       str
+       image
+       x
+       y
+       width
+       height
+       callback
+--Creates a SVG:image element
+   with the passed attributes
+--
+{Function navigation_buttons()}
+--Accepts
+       y
+--Creates the following buttons
+        up
+        down
+        left
+        right
+        zoom in
+        zoom out
+        center
+--
+{Function location_onclick()}
+--Accepts
+       evt
+--Calls canvas_control
+     passes   evt
+                   location_button_event
+--
+{Function container_onclick()}
+--Accepts
+       evt
+--Calls canvas_control
+     passes   evt
+                   container_button_event
+--
+{Function save_onclick()}
+--Accepts
+       evt
+--Calls canvas_control
+     passes   evt
+                   save_button_event
+--
+{Function zoom_in_onclick()}
+--Accepts
+       evt
+--Calls canvas_control
+     passes   evt
+                   zoom_in_button_event
+--
+{Function zoom_out_onclick()}
+--Accepts
+       evt
+--Calls canvas_control
+     passes   evt
+                   zoom_out_button_event
+--
+{Function center_onclick()}
+--Accepts
+       evt
+--Calls canvas_control
+     passes   evt
+                   center_button_event
+--
+{Function move_up_onmousedown()}
+--Accepts
+       evt
+--Calls canvas_control
+     passes   evt
+                   move_up_onmousedown_event
+--
+{Function move_up_onmouseup()}
+--Accepts
+       evt
+--Calls canvas_control
+     passes   evt
+                   move_up_onmouseup_event
+--
+{Function move_left_onmousedown()}
+--Accepts
+       evt
+--Calls canvas_control
+     passes   evt
+                   move_left_mousedown_event
+--
+{Function move_left_onmouseup()}
+--Accepts
+       evt
+--Calls canvas_control
+     passes   evt
+                   move_left_mouseup_event
+--
+{Function move_right_onmousedown()}
+--Accepts
+       evt
+--Calls canvas_control
+     passes   evt
+                   move_right_mousedown_event
+--
+{Function move_right_onmouseup()}
+--Accepts
+       evt
+--Calls canvas_control
+     passes   evt
+                   move_right_mouseup_event
+--
+{Function move_down_onmousedown()}
+--Accepts
+       evt
+--Calls canvas_control
+     passes   evt
+                   move_down_mousedown_event
+--
+{Function move_down_onmouseup()}
+--Accepts
+       evt
+--Calls canvas_control
+     passes   evt
+                   move_down_mouseup_event
+--
+{Function menu_control1()}
+--Accepts
+       evt
+       evt_id
+--Calls switch_button function and passes evt_id 
+    of one of the following 
+       location_button_event
+       container_button_event
+       transfer_button_event
+       movement_button_event
+       site_button_event
+       draw_button_event
+       text_button_event
+--Calls print_canvas Function for
+        print_button_event
+--Calls save_canvas Function for
+        save_button_event
+--Calls zoom_in_canvas Function for
+        zoom_in_button_event
+--Calls zoom_out_canvas Function for
+        zoom_out_button_event
+--Calls center_canvas Function for
+        center_button_event
+--
+{Function menu_control2()}
+--Accepts
+       evt
+       evt_id
+--For evt_id
+       move_up_mousedown_event
+           calls setinterval passes up_canvas
+       move_left_mousedown_event
+           calls setinterval passes left_canvas
+       move_right_mousedown_event
+           calls setinterval passes right_canvas
+       move_down_mousedown_event
+           calls setinterval passes down_canvas
+--
+{Function menu_control3()}
+--Accepts
+       evt
+       evt_id
+--Calls clearInterval
+--
+{Function menu_control4()}
+--Accepts
+       evt
+       evt_id
+--For evt_id
+       zoom_in_button_event
+           calls zoom_in_canvas
+       zoom_out_button_event
+           calls zoom_out_canvas
+       center_button_event
+           calls center_canvas
+       print_button_event
+           calls print_canvas
+--
+{Function switch_button()}
+--Accepts
+       evt_id
+--For state values
+     default_state
+         calls set_button 
+             passes evt_id and non_event
+     location_state
+         calls set_button 
+             passes evt_id and location_button_event
+     container_state
+         calls set_button 
+             passes evt_id and container_button_event
+     transfer_state
+         calls set_button 
+             passes evt_id and transfer_button_event
+     movement_state
+         calls set_button 
+             passes evt_id and movement_button_event
+     site_state
+         calls set_button 
+             passes evt_id and site_button_event
+     text_state
+         calls set_button 
+             passes evt_id and text_button_event
+--
+{Function set_button()}
+--Accepts
+       evt_id
+       previous_button
+--For evt_id of
+     location_button_event
+         sets canvas_state = location_state
+     container_button_event
+         sets canvas_state = container_state
+     transfer_button_event
+         sets canvas_state = transfer_state
+     movement_button_event
+         sets canvas_state = movement_state
+     site_button_event
+         sets canvas_state = site_state
+     draw_button_event
+         sets canvas_state = draw_state
+     text_button_event
+         sets canvas_state = text_state
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2200</x><y>5750</y><w>3670</w><h>1850</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;1840;950;1840;950;1650;1220;1650;1220;1300;1910;1300;1910;880;2720;880;2720;510;3610;510;3620;20;3650;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>5410</x><y>6280</y><w>380</w><h>620</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Canvas_Menu.js
+--
+{Function Canvas_Menu()}
+--Accepts
+       name
+       canvas
+       width
+       start_date
+       menuitem_defs
+--Creats SVG menu object
+--Sets style
+--Sets width and height
+--
+{Function Canvas_Menu.prototype.menu_click ()}
+--Accepts
+       evt
+--Calls evt.stopPropagation function
+--
+{Function Canvas_Menu.prototype.menuitem_click()}
+--Accepts
+      evt
+--If canvas_type is in 'Routeing' or 'Tracing'
+    calls obj.canvas.control function
+   else
+    calls canvas_control function
+--
+{Function Canvas_Menu.prototype.menuitem_over()}
+--Sets the colour for the menu item when the mouse
+   cursor moves over it
+--
+{Function Canvas_Menu.prototype.menuitem_out()}
+--Sets the colour for the menu item when the mouse
+   cursor moves away from it
+--
+{Function Canvas_Menu.prototype.control()}
+--Accepts
+      evt
+      evt_id
+--Removes menu item from the menu
+--Sets the canvas state to previous canvas state
+
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2190</x><y>6260</y><w>3240</w><h>1360</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;1350;980;1350;980;1160;1250;1160;1250;810;1940;810;1940;390;2750;390;2750;20;3170;20;3170;40;3220;40</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>5410</x><y>6930</y><w>380</w><h>1380</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Design_Canvas_Colour_Chooser.js
+--
+--Initialises named_colours array and sets
+   predefined colours for it
+--
+{Function Color_Chooser()}
+--Accepts
+       canvas
+       start_state
+--Sets current canvas and start_state to
+   passed values
+--Creates SVG elements
+      rect
+      line
+      text
+--Sets onlick events for the above to call function
+   color_chooser_bg_click
+--Sets width height and various style attributes
+--
+{Function Color_Chooser.prototype.show()}
+--Accepts
+       evt
+       item
+       child_id
+       child_type
+--Retrieves view port width and height
+--sets various style and width and height attributes
+--Shows colour chooser
+--
+{Function color_chooser_click()}
+--Accepts 
+       evt
+--Calls obj.canvas.control if canvas_type
+   is Routeing or Tracing and passes 
+      obj.canvas.color_chooser_click_event
+      evt
+   else
+   Calls canvas_control and passes
+      evt
+      color_chooser_click_event
+--
+{Function color_chooser_close_click()}
+--Accepts
+       evt
+--Calls obj.canvas.control if canvas_type
+   is Routeing or Tracing and passes 
+      obj.canvas.color_chooser_close_event
+      evt
+   else
+   Calls canvas_control and passes
+      evt
+      color_chooser_close_event
+--
+{Function Color_Chooser.prototype.control()}
+--Accepts
+       evt
+       evt_id
+--For evt_id of 
+       color_chooser_click_event
+          Sets style attributes
+          creates a marker
+          sets canvas_state to previous state
+       color_chooser_close_event
+          sets canvas_state to previous state  
+--
+{Function color_chooser_control()}
+--Accepts
+       evt
+       evt_id
+--For evt_id of
+    color_chooser_click_event
+       calls set_colour passes evt
+    color_chooser_close_event
+       resets the colour of the menu item
+--
+{Function set_color()}
+--Accepts
+       evt
+--Sets the background colour for the following elements 
+     location
+     container
+     transfer
+     movement
+     site
+     line
+     text
+
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2300</x><y>6280</y><w>3130</w><h>1350</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;1340;890;1340;890;1160;1160;1160;1160;810;1850;810;1850;390;2660;390;2660;20;3050;20;3050;670;3110;670</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>5390</x><y>8350</y><w>430</w><h>2120</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Design_Canvas_Associations.js
+--
+{Function Canvas()}
+--Empty Function
+--
+{Function Canvas.prototype.associate_location()}
+--Accepts
+       location_name
+       location_desc
+--Sets up canvas associations for location with types
+        Location
+        Container
+--
+{Function Canvas.prototype.disassociate_location()}
+--Disassociate types location and container from location
+--
+{Function Canvas.prototype.associate_container_type()}
+--Accepts
+       container_type_name
+       container_type_permanent
+       container_type_moveable
+--Sets up canvas associations for location with types
+        Location
+        Container
+-- 
+{Function Canvas.prototype.disassociate_container_type()}
+--Disassociate types location and container from 
+     container type
+--
+{Function Canvas.prototype.associate_container()}
+--Accepts
+       container_name
+       container_desc
+--Associates the canvas with a container
+--
+{Function Canvas.prototype.disassociate_container()}
+--Accepts
+       container_name
+--disassociates container
+--
+{Function Canvas.prototype.container_is_associated()}
+--Accepts
+       container_name
+--Returns true if container associations exist
+--
+{Function Canvas.prototype.associate_site()}
+--Accepts
+       site_name
+--Associates canvas with site_name
+--
+{Function Canvas.prototype.disassociate_site()}
+--Accepts
+       site_name
+--disassociates site_name from canvas
+--
+{Function Canvas.prototype.site_is_associated()}
+--Accepts
+       site_name
+--Checks to see if a site is associated with the current canvas
+--
+{Function Canvas.prototype.has_associated_containers()}
+--Accepts
+       item
+       window
+--Checks whether or not there are containers associated
+   with the specified location
+--
+{Function Canvas.prototype.location_list_to_select_value()}
+--Accepts
+       location_list
+--Returns list of locations
+--
+{Function Canvas.prototype.remove_location_association()}
+--Accepts 
+       location
+       window
+--Removes the containers associated with the specified
+   locations
+--
+{Function Canvas.prototype.add_location_association()}
+--Accepts
+       location
+       location_select
+       window
+--Adds location associations to containers that already
+   have containers associated to them
+--
+{Function Canvas.prototype.container_type_list_to_select_value()}
+--Accepts 
+       ct_list
+--Creats lists of container types and returns list
+--
+{Function Canvas.prototype.remove_container_type_association()}
+--Accept 
+      ct
+      window
+--Removes current container type association
+--
+{Function Canvas.prototype.add_container_type_association()}
+--Accept
+       ct
+       ct_select
+       window
+--Returns the selected container type from the container list
+--
+{Function Canvas.prototype.container_list_to_select_value()}
+--Accepts
+       c_list
+--Creats lists of container and returns list
+---
+{Function Canvas.prototype.remove_container_association()}
+--Accepts
+      index
+--Removes current container association
+--
+{Function Canvas.prototype.add_container_association()}
+--Returns the selected container from the container list
+--
+{Function Canvas.prototype.site_list_to_select_value()}
+--Accept
+      current_site_name
+      site_name
+      sites
+--Creates and returns list of sites
+--
+{Function Canvas.prototype.remove_site_association()}
+--Accepts
+       Index
+--Removes site from list of sites
+--
+{Function Canvas.prototype.add_site_association()}
+--Accepts
+       index
+--Adds site to list of sites
+--
+{Function Canvas.prototype.set_default_sites()}
+--Accepts
+       site
+       def_sup
+       def_cust
+--Sets default supplier site
+                       customer_site
+                       
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>4910</x><y>6920</y><w>390</w><h>640</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Design_Canvas_Input_Outputs.js
+--
+{Function create_input()}
+--Accepts
+       evt
+       type
+--Draws input elements
+--
+{Function create_output()}
+--Accepts
+      evt
+      type
+--Draws output elements
+--
+{Function delete_input()}
+--Accept
+      item
+      input_id
+--Deletes input elements
+--
+{Function delete_output()}
+--Accept
+      item
+      output_id
+--Removes output elements
+--
+{Function highlight_input()}
+--Accepts
+      item
+      input_id
+      type
+      local_highlight
+--Highlights transfer_to and movement_to input elements
+--
+{Function highlight_output()}
+--Accepts
+       item
+       output_id
+       type
+       local_highlight
+--Highlights transfer_to and movement_to output elements
+--
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2290</x><y>6300</y><w>3120</w><h>2090</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;1340;920;1340;920;1160;1190;1160;1190;810;1880;810;1880;390;2690;390;2690;20;3040;20;3040;2060;3100;2060</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2290</x><y>6690</y><w>2770</w><h>980</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;970;940;970;940;790;1210;790;1210;440;1900;440;1900;20;2740;20;2740;80;2740;230</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>4910</x><y>7600</y><w>390</w><h>260</h></coordinates><panel_attributes>&lt;&lt;JavaScript&gt;&gt;
+Package::Design_Canvas.js
+--
+{Function setup()}
+--Checks if SVG viewer is installed
+--sets canvas mode = designer
+          canvas type = design
+--calls svg_and_canvas_setup
+          setup_work_canvas_for_design
+          CANVAS.load_canvas(false)
+--
+{Function setup_work_canvas_for_design()}
+--Creates menu items
+--Calls colour chooser and canvas control
+--
+{Function design_contextmenu()}
+--Creates context menu items
+
+
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>2310</x><y>6710</y><w>2620</w><h>980</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;970;940;970;940;790;1210;790;1210;440;1900;440;1900;20;2510;20;2510;910;2600;910</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2090</x><y>7790</y><w>290</w><h>210</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Routeing_canvas.html
+--
+--Calls setup() function
+--
+{Loads Scripts}
+--Geometry.js
+--SVG.js
+--Canvas_Menu.js
+--Design_Color_Chooser.js
+--Map.js
+--
+{Function setup()}
+--Creates new routing map object
+
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1690</x><y>7490</y><w>590</w><h>410</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;120;380;120;380;310;400;310</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>2090</x><y>8020</y><w>290</w><h>230</h></coordinates><panel_attributes>&lt;&lt;HTML&gt;&gt;
+Package::Tracking.html
+--
+--Calls setup() function
+--
+{Loads Scripts}
+--Geometry.js
+--SVG.js
+--Canvas .js
+--Tracing_Canvas_Control.js
+--Canvas_Sdebar.js
+--Tracing_Canvas.js
+--
+{Function setup()}
+--Creates new routing map object
+
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>1690</x><y>7610</y><w>580</w><h>450</h></coordinates><panel_attributes>lt=&gt;&gt;&gt;&gt;&gt;-
+Calls</panel_attributes><additional_attributes>20;20;370;20;370;420;400;420</additional_attributes></element></umlet_diagram>
