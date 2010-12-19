@@ -1,0 +1,1087 @@
+2010-11-07 11:30:06,839 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 1 != 0"
+2010-11-07 11:30:06,839 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 1 != 0"
+2010-11-07 11:30:06,843 |      4 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 11:30:06,843 |      4 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 11:30:06,844 |      5 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 11:30:06,844 |      5 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 11:30:06,845 |      6 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 11:30:06,845 |      6 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 11:30:06,846 |      7 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 11:30:06,847 |      8 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 11:30:06,848 |      9 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 11:30:06,850 |     11 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 11:30:06,854 |     15 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 11:30:06,854 |     15 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 11:30:06,855 |     16 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 11:30:06,855 |     16 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 11:30:06,856 |     17 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-07 11:30:06,857 |     18 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-07 12:59:25,591 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 12:59:25,591 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 12:59:30,137 |   4546 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 12:59:30,137 |   4546 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 12:59:30,148 |   4557 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,148 |   4557 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,148 |   4557 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 12:59:30,148 |   4557 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 12:59:30,153 |   4562 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,153 |   4562 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,158 |   4567 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,158 |   4567 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,158 |   4567 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 12:59:30,163 |   4572 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 12:59:30,168 |   4577 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,168 |   4577 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,173 |   4582 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-07 12:59:30,173 |   4582 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-07 12:59:30,264 |   4673 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,264 |   4673 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 12:59:30,264 |   4673 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,264 |   4673 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,269 |   4678 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 12:59:30,274 |   4683 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,274 |   4683 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-07 12:59:30,344 |   4753 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 12:59:30,344 |   4753 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,344 |   4753 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 12:59:30,349 |   4758 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,349 |   4758 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,349 |   4758 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 12:59:30,349 |   4758 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 12:59:30,354 |   4763 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 12:59:30,359 |   4768 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-07 12:59:30,364 |   4773 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-07 13:00:04,825 |  39234 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:00:04,825 |  39234 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:12,907 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 13:57:12,909 |      2 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 13:57:12,916 |      9 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:12,918 |     11 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:12,927 |     20 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 13:57:12,927 |     20 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 13:57:12,930 |     23 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:12,931 |     24 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:12,933 |     26 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:12,934 |     27 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:12,940 |     33 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 13:57:12,949 |     42 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 13:57:13,109 |    202 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 13:57:13,110 |    203 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 13:57:13,111 |    204 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:13,112 |    205 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:13,117 |    210 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 13:57:13,118 |    211 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 13:57:13,120 |    213 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:13,121 |    214 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:13,122 |    215 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:13,124 |    217 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:13,127 |    220 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 13:57:13,129 |    222 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 13:57:13,210 |    303 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:13,210 |    303 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:13,212 |    305 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 13:57:13,212 |    305 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 15:06:18,758 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 15:06:18,758 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 15:06:18,763 |      5 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 15:06:18,763 |      5 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 15:06:18,765 |      7 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 1 != 0"
+2010-11-07 15:06:18,765 |      7 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 1 != 0"
+2010-11-07 15:06:18,767 |      9 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 15:06:18,767 |      9 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 15:06:18,769 |     11 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 15:06:18,769 |     11 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 15:06:18,773 |     15 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 15:06:18,773 |     15 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 15:06:18,774 |     16 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 15:06:18,774 |     16 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 15:06:18,776 |     18 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 15:06:18,776 |     18 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 15:06:18,777 |     19 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 15:06:18,778 |     20 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 15:06:18,779 |     21 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 15:06:18,779 |     21 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 15:06:18,782 |     24 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 5 != 4"
+2010-11-07 15:06:18,782 |     24 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 5 != 4"
+2010-11-07 15:06:18,818 |     60 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 15:06:18,819 |     61 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 15:06:18,822 |     64 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 15:06:18,823 |     65 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 15:06:18,823 |     65 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 15:06:18,824 |     66 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 15:06:18,888 |    130 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 1"
+2010-11-07 15:06:18,888 |    130 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 1"
+2010-11-07 16:38:16,464 |      1 | ERROR | com.baselet.diagram.io.DiagramFileHandler - ""
+java.io.FileNotFoundException: Activity.uxf (Das System kann die angegebene Datei nicht finden)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(Unknown Source)
+	at com.baselet.diagram.io.DiagramFileHandler.doOpen(DiagramFileHandler.java:286)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:57)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:45)
+	at com.baselet.plugin.editor.Editor.init(Editor.java:128)
+	at org.eclipse.ui.internal.EditorManager.createSite(EditorManager.java:798)
+	at org.eclipse.ui.internal.EditorReference.createPartHelper(EditorReference.java:647)
+	at org.eclipse.ui.internal.EditorReference.createPart(EditorReference.java:465)
+	at org.eclipse.ui.internal.WorkbenchPartReference.getPart(WorkbenchPartReference.java:595)
+	at org.eclipse.ui.internal.EditorAreaHelper.setVisibleEditor(EditorAreaHelper.java:271)
+	at org.eclipse.ui.internal.EditorManager.setVisibleEditor(EditorManager.java:1429)
+	at org.eclipse.ui.internal.EditorManager$5.runWithException(EditorManager.java:942)
+	at org.eclipse.ui.internal.StartupThreading$StartupRunnable.run(StartupThreading.java:31)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:134)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4041)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3660)
+	at org.eclipse.ui.application.WorkbenchAdvisor.openWindows(WorkbenchAdvisor.java:803)
+	at org.eclipse.ui.internal.Workbench$31.runWithException(Workbench.java:1566)
+	at org.eclipse.ui.internal.StartupThreading$StartupRunnable.run(StartupThreading.java:31)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:134)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4041)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3660)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2537)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2427)
+	at org.eclipse.ui.internal.Workbench$7.run(Workbench.java:670)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:663)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:115)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:369)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:619)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:574)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1407)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1383)
+2010-11-07 16:38:24,165 |   7702 | ERROR | com.baselet.diagram.io.DiagramFileHandler - ""
+java.io.FileNotFoundException: Activity.uxf (Das System kann die angegebene Datei nicht finden)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(Unknown Source)
+	at com.baselet.diagram.io.DiagramFileHandler.doOpen(DiagramFileHandler.java:286)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:57)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:45)
+	at com.baselet.plugin.editor.Editor.init(Editor.java:128)
+	at org.eclipse.ui.internal.EditorManager.createSite(EditorManager.java:798)
+	at org.eclipse.ui.internal.EditorReference.createPartHelper(EditorReference.java:647)
+	at org.eclipse.ui.internal.EditorReference.createPart(EditorReference.java:465)
+	at org.eclipse.ui.internal.WorkbenchPartReference.getPart(WorkbenchPartReference.java:595)
+	at org.eclipse.ui.internal.EditorReference.getEditor(EditorReference.java:289)
+	at org.eclipse.ui.internal.WorkbenchPage.busyOpenEditorBatched(WorkbenchPage.java:2863)
+	at org.eclipse.ui.internal.WorkbenchPage.busyOpenEditor(WorkbenchPage.java:2768)
+	at org.eclipse.ui.internal.WorkbenchPage.access$11(WorkbenchPage.java:2760)
+	at org.eclipse.ui.internal.WorkbenchPage$10.run(WorkbenchPage.java:2711)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:70)
+	at org.eclipse.ui.internal.WorkbenchPage.openEditor(WorkbenchPage.java:2707)
+	at org.eclipse.ui.internal.WorkbenchPage.openEditor(WorkbenchPage.java:2691)
+	at org.eclipse.ui.internal.WorkbenchPage.openEditor(WorkbenchPage.java:2674)
+	at org.eclipse.ui.ide.IDE.openEditorOnFileStore(IDE.java:1155)
+	at com.baselet.gui.base.MenuEclipse$1.run(MenuEclipse.java:138)
+	at org.eclipse.jface.action.Action.runWithEvent(Action.java:498)
+	at org.eclipse.jface.action.ActionContributionItem.handleWidgetSelection(ActionContributionItem.java:584)
+	at org.eclipse.jface.action.ActionContributionItem.access$2(ActionContributionItem.java:501)
+	at org.eclipse.jface.action.ActionContributionItem$5.handleEvent(ActionContributionItem.java:411)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1053)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4066)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3657)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2629)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2593)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2427)
+	at org.eclipse.ui.internal.Workbench$7.run(Workbench.java:670)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:663)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:115)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:369)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:619)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:574)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1407)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1383)
+2010-11-07 16:38:41,633 |  25170 | ERROR | com.baselet.diagram.io.DiagramFileHandler - ""
+java.io.FileNotFoundException: Activity.uxf (Das System kann die angegebene Datei nicht finden)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(Unknown Source)
+	at com.baselet.diagram.io.DiagramFileHandler.doOpen(DiagramFileHandler.java:286)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:57)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:45)
+	at com.baselet.plugin.editor.Editor.init(Editor.java:128)
+	at org.eclipse.ui.internal.EditorManager.createSite(EditorManager.java:798)
+	at org.eclipse.ui.internal.EditorReference.createPartHelper(EditorReference.java:647)
+	at org.eclipse.ui.internal.EditorReference.createPart(EditorReference.java:465)
+	at org.eclipse.ui.internal.WorkbenchPartReference.getPart(WorkbenchPartReference.java:595)
+	at org.eclipse.ui.internal.EditorReference.getEditor(EditorReference.java:289)
+	at org.eclipse.ui.internal.WorkbenchPage.busyOpenEditorBatched(WorkbenchPage.java:2863)
+	at org.eclipse.ui.internal.WorkbenchPage.busyOpenEditor(WorkbenchPage.java:2768)
+	at org.eclipse.ui.internal.WorkbenchPage.access$11(WorkbenchPage.java:2760)
+	at org.eclipse.ui.internal.WorkbenchPage$10.run(WorkbenchPage.java:2711)
+	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:70)
+	at org.eclipse.ui.internal.WorkbenchPage.openEditor(WorkbenchPage.java:2707)
+	at org.eclipse.ui.internal.WorkbenchPage.openEditor(WorkbenchPage.java:2691)
+	at org.eclipse.ui.internal.WorkbenchPage.openEditor(WorkbenchPage.java:2674)
+	at org.eclipse.ui.ide.IDE.openEditorOnFileStore(IDE.java:1155)
+	at com.baselet.gui.base.MenuEclipse$1.run(MenuEclipse.java:138)
+	at org.eclipse.jface.action.Action.runWithEvent(Action.java:498)
+	at org.eclipse.jface.action.ActionContributionItem.handleWidgetSelection(ActionContributionItem.java:584)
+	at org.eclipse.jface.action.ActionContributionItem.access$2(ActionContributionItem.java:501)
+	at org.eclipse.jface.action.ActionContributionItem$5.handleEvent(ActionContributionItem.java:411)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1053)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4066)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3657)
+	at org.eclipse.ui.internal.Workbench.runEventLoop(Workbench.java:2629)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2593)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2427)
+	at org.eclipse.ui.internal.Workbench$7.run(Workbench.java:670)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:663)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:115)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:369)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:619)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:574)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1407)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1383)
+2010-11-07 16:40:40,403 |      4 | ERROR | com.baselet.diagram.io.DiagramFileHandler - ""
+java.io.FileNotFoundException: Activity.uxf (Das System kann die angegebene Datei nicht finden)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(Unknown Source)
+	at com.baselet.diagram.io.DiagramFileHandler.doOpen(DiagramFileHandler.java:286)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:57)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:45)
+	at com.baselet.plugin.editor.Editor.init(Editor.java:130)
+	at org.eclipse.ui.internal.EditorManager.createSite(EditorManager.java:798)
+	at org.eclipse.ui.internal.EditorReference.createPartHelper(EditorReference.java:647)
+	at org.eclipse.ui.internal.EditorReference.createPart(EditorReference.java:465)
+	at org.eclipse.ui.internal.WorkbenchPartReference.getPart(WorkbenchPartReference.java:595)
+	at org.eclipse.ui.internal.EditorAreaHelper.setVisibleEditor(EditorAreaHelper.java:271)
+	at org.eclipse.ui.internal.EditorManager.setVisibleEditor(EditorManager.java:1429)
+	at org.eclipse.ui.internal.EditorManager$5.runWithException(EditorManager.java:942)
+	at org.eclipse.ui.internal.StartupThreading$StartupRunnable.run(StartupThreading.java:31)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:134)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4041)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3660)
+	at org.eclipse.ui.application.WorkbenchAdvisor.openWindows(WorkbenchAdvisor.java:803)
+	at org.eclipse.ui.internal.Workbench$31.runWithException(Workbench.java:1566)
+	at org.eclipse.ui.internal.StartupThreading$StartupRunnable.run(StartupThreading.java:31)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:134)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4041)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3660)
+	at org.eclipse.ui.internal.Workbench.runUI(Workbench.java:2537)
+	at org.eclipse.ui.internal.Workbench.access$4(Workbench.java:2427)
+	at org.eclipse.ui.internal.Workbench$7.run(Workbench.java:670)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:663)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:115)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:369)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:179)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:619)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:574)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1407)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1383)
+2010-11-07 18:18:26,936 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:26,941 |      5 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:26,953 |     17 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:18:26,954 |     18 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:18:26,955 |     19 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:26,955 |     19 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:26,957 |     21 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:26,957 |     21 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:26,959 |     23 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:18:26,959 |     23 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:18:26,964 |     28 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:26,964 |     28 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:26,966 |     30 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-07 18:18:26,966 |     30 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-07 18:18:27,113 |    177 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:18:27,113 |    177 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:18:27,114 |    178 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:27,115 |    179 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:27,117 |    181 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:27,118 |    182 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:27,118 |    182 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:18:27,119 |    183 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:18:27,125 |    189 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-07 18:18:27,125 |    189 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-07 18:18:27,168 |    232 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:18:27,168 |    232 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:18:27,169 |    233 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:27,169 |    233 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:27,172 |    236 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:27,172 |    236 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:18:27,173 |    237 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:18:27,173 |    237 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:18:27,179 |    243 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-07 18:18:27,179 |    243 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-07 18:22:07,258 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:07,258 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:07,281 |     23 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:07,281 |     23 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:07,284 |     26 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:07,284 |     26 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:07,288 |     30 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:07,289 |     31 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:07,292 |     34 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:07,292 |     34 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:07,302 |     44 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:07,303 |     45 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:07,306 |     48 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-07 18:22:07,307 |     49 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-07 18:22:07,587 |    329 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:07,587 |    329 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:07,595 |    337 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:07,595 |    337 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:07,597 |    339 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:07,597 |    339 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:08,031 |    773 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 1"
+2010-11-07 18:22:08,031 |    773 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 1"
+2010-11-07 18:22:08,043 |    785 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:08,044 |    786 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:08,045 |    787 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:08,046 |    788 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:08,135 |    877 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:08,137 |    879 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:08,137 |    879 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:08,139 |    881 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:08,140 |    882 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:08,146 |    888 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:08,148 |    890 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:08,152 |    894 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:08,153 |    895 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:08,154 |    896 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-07 18:22:08,159 |    901 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-07 18:22:08,161 |    903 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-13 01:29:04,846 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-13 01:29:04,846 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-13 01:29:04,862 |     16 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-13 01:29:04,862 |     16 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-13 01:29:04,862 |     16 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-13 01:29:04,862 |     16 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-13 01:29:05,222 |    376 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-13 01:29:05,222 |    376 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-13 01:29:05,222 |    376 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 1 != 0"
+2010-11-13 01:29:05,222 |    376 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-13 01:29:05,222 |    376 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-13 01:29:05,222 |    376 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 1 != 0"
+2010-11-13 01:29:05,237 |    391 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-13 01:29:05,237 |    391 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-13 01:29:05,237 |    391 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-13 01:29:05,253 |    407 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-13 01:29:05,253 |    407 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-13 01:29:05,253 |    407 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-13 01:29:05,253 |    407 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-13 01:29:05,253 |    407 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-13 01:29:05,253 |    407 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-13 01:29:05,253 |    407 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-13 01:29:05,253 |    407 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-13 01:29:05,253 |    407 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 5 != 4"
+2010-11-13 01:29:05,253 |    407 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-15 12:15:22,817 |      0 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"
+2010-11-15 12:15:27,463 |   4646 | ERROR | com.baselet.control.Main       - "Initialization or uncaught outer Exception"
+java.lang.NullPointerException
+	at java.util.regex.Matcher.appendReplacement(Matcher.java:699)
+	at jsyntaxpane.util.Configuration.getString(Configuration.java:114)
+	at jsyntaxpane.util.Configuration.getPropertyList(Configuration.java:170)
+	at jsyntaxpane.DefaultSyntaxKit.addPopupMenu(DefaultSyntaxKit.java:216)
+	at jsyntaxpane.DefaultSyntaxKit.install(DefaultSyntaxKit.java:339)
+	at javax.swing.JEditorPane.setEditorKit(JEditorPane.java:1095)
+	at javax.swing.JEditorPane.setContentType(JEditorPane.java:1019)
+	at com.baselet.gui.base.OwnSyntaxPane.initJSyntaxPane(OwnSyntaxPane.java:113)
+	at com.baselet.gui.base.BaseGUI.createPropertyTextPane(BaseGUI.java:84)
+	at com.baselet.gui.standalone.StandaloneGUI.init(StandaloneGUI.java:183)
+	at com.baselet.gui.base.BaseGUI.initGUI(BaseGUI.java:62)
+	at com.baselet.control.Main.init(Main.java:117)
+	at com.baselet.control.Main.main(Main.java:104)
+2010-11-15 12:17:01,461 |      0 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"
+2010-11-15 12:17:46,339 |      0 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"
+2010-11-15 12:20:18,306 |      0 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"
+2010-11-15 12:20:33,056 |      1 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"
+2010-11-15 12:21:24,086 |      0 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"
+2010-11-15 12:22:25,401 |      0 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"
+2010-11-15 12:22:55,994 |      0 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"
+2010-11-15 12:27:58,493 |      0 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"
+2010-11-15 12:32:38,903 |      0 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"
+2010-11-15 12:33:30,405 |      0 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"
+2010-11-15 12:33:48,145 |      0 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"
+2010-11-15 12:33:48,817 |    672 | ERROR | com.baselet.control.Main       - "Initialization or uncaught outer Exception"
+java.lang.NullPointerException
+	at java.util.regex.Matcher.appendReplacement(Matcher.java:699)
+	at jsyntaxpane.util.Configuration.getString(Configuration.java:114)
+	at jsyntaxpane.util.Configuration.getPropertyList(Configuration.java:170)
+	at jsyntaxpane.DefaultSyntaxKit.addPopupMenu(DefaultSyntaxKit.java:216)
+	at jsyntaxpane.DefaultSyntaxKit.install(DefaultSyntaxKit.java:339)
+	at javax.swing.JEditorPane.setEditorKit(JEditorPane.java:1095)
+	at javax.swing.JEditorPane.setContentType(JEditorPane.java:1019)
+	at com.baselet.gui.base.BaseGUI.createPropertyTextPane(BaseGUI.java:92)
+	at com.baselet.gui.standalone.StandaloneGUI.init(StandaloneGUI.java:194)
+	at com.baselet.gui.base.BaseGUI.initGUI(BaseGUI.java:67)
+	at com.baselet.control.Main.init(Main.java:115)
+	at com.baselet.control.Main.main(Main.java:102)
+2010-11-15 20:33:01,723 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,723 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,723 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-15 20:33:01,723 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-15 20:33:01,818 |     95 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-15 20:33:01,818 |     95 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-15 20:33:01,818 |     95 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,818 |     95 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,818 |     95 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-15 20:33:01,818 |     95 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-15 20:33:01,818 |     95 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,818 |     95 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,818 |     95 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,818 |     95 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,818 |     95 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-15 20:33:01,818 |     95 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-15 20:33:01,818 |     95 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,818 |     95 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,834 |    111 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-15 20:33:01,834 |    111 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-15 20:33:01,865 |    142 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 1"
+2010-11-15 20:33:01,865 |    142 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 1"
+2010-11-15 20:33:01,865 |    142 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,865 |    142 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-15 20:33:01,865 |    142 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,865 |    142 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-15 20:33:01,865 |    142 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,865 |    142 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,865 |    142 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,865 |    142 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,865 |    142 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-15 20:33:01,865 |    142 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-15 20:33:01,865 |    142 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,865 |    142 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-15 20:33:01,865 |    142 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-15 20:33:01,880 |    157 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-20 18:22:30,497 |      1 | ERROR | com.baselet.diagram.io.DiagramFileHandler - ""
+java.lang.NullPointerException
+	at com.baselet.diagram.DiagramHandler.setHelpText(DiagramHandler.java:217)
+	at com.baselet.diagram.io.XMLContentHandler.endElement(XMLContentHandler.java:69)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.endElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanEndElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at com.baselet.diagram.io.DiagramFileHandler.doOpen(DiagramFileHandler.java:288)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:57)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:45)
+	at com.baselet.control.Main.doConvert(Main.java:191)
+	at com.baselet.control.Main.main(Main.java:98)
+2010-11-20 18:30:24,397 |      2 | ERROR | com.baselet.control.Main       - "Initialization or uncaught outer Exception"
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(Unknown Source)
+	at com.baselet.control.Main.doConvert(Main.java:192)
+	at com.baselet.control.Main.main(Main.java:98)
+2010-11-20 18:35:27,461 |      1 | ERROR | com.baselet.control.Main       - "Initialization or uncaught outer Exception"
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(Unknown Source)
+	at com.baselet.control.Main.doConvert(Main.java:192)
+	at com.baselet.control.Main.main(Main.java:98)
+2010-11-20 18:38:46,433 |      1 | ERROR | com.baselet.control.Main       - "Initialization or uncaught outer Exception"
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(Unknown Source)
+	at com.baselet.control.Main.doConvert(Main.java:192)
+	at com.baselet.control.Main.main(Main.java:98)
+2010-11-20 19:05:06,359 |      0 | ERROR | com.baselet.gui.base.MailPanel - ""
+javax.mail.MessagingException: IOException while sending message;
+  nested exception is:
+	java.io.FileNotFoundException: C:\Users\Diablo\AppData\Local\Temp\diagram_20101120_070449.pdf (Das System kann die angegebene Datei nicht finden)
+	at com.sun.mail.smtp.SMTPTransport.sendMessage(SMTPTransport.java:779)
+	at javax.mail.Transport.send0(Transport.java:191)
+	at javax.mail.Transport.send(Transport.java:120)
+	at com.baselet.gui.base.MailPanel.sendMail(MailPanel.java:345)
+	at com.baselet.gui.base.MailPanel.access$0(MailPanel.java:209)
+	at com.baselet.gui.base.MailPanel$SendActionListener.actionPerformed(MailPanel.java:485)
+	at javax.swing.AbstractButton.fireActionPerformed(Unknown Source)
+	at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.setPressed(Unknown Source)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(Unknown Source)
+	at java.awt.Component.processMouseEvent(Unknown Source)
+	at javax.swing.JComponent.processMouseEvent(Unknown Source)
+	at java.awt.Component.processEvent(Unknown Source)
+	at java.awt.Container.processEvent(Unknown Source)
+	at java.awt.Component.dispatchEventImpl(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.processMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.dispatchEvent(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Window.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.run(Unknown Source)
+Caused by: java.io.FileNotFoundException: C:\Users\Diablo\AppData\Local\Temp\diagram_20101120_070449.pdf (Das System kann die angegebene Datei nicht finden)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(Unknown Source)
+	at javax.activation.FileDataSource.getInputStream(Unknown Source)
+	at javax.activation.DataHandler.writeTo(Unknown Source)
+	at javax.mail.internet.MimeBodyPart.writeTo(MimeBodyPart.java:1381)
+	at javax.mail.internet.MimeBodyPart.writeTo(MimeBodyPart.java:852)
+	at javax.mail.internet.MimeMultipart.writeTo(MimeMultipart.java:452)
+	at com.sun.mail.handlers.multipart_mixed.writeTo(multipart_mixed.java:98)
+	at javax.activation.ObjectDataContentHandler.writeTo(Unknown Source)
+	at javax.activation.DataHandler.writeTo(Unknown Source)
+	at javax.mail.internet.MimeBodyPart.writeTo(MimeBodyPart.java:1381)
+	at javax.mail.internet.MimeMessage.writeTo(MimeMessage.java:1742)
+	at com.sun.mail.smtp.SMTPTransport.sendMessage(SMTPTransport.java:737)
+	... 30 more
+2010-11-20 19:06:51,732 |      1 | ERROR | com.baselet.gui.base.MailPanel - ""
+javax.mail.MessagingException: IOException while sending message;
+  nested exception is:
+	java.io.FileNotFoundException: C:\Users\Diablo\AppData\Local\Temp\diagram_20101120_070606.pdf (Das System kann die angegebene Datei nicht finden)
+	at com.sun.mail.smtp.SMTPTransport.sendMessage(SMTPTransport.java:779)
+	at javax.mail.Transport.send0(Transport.java:191)
+	at javax.mail.Transport.send(Transport.java:120)
+	at com.baselet.gui.base.MailPanel.sendMail(MailPanel.java:345)
+	at com.baselet.gui.base.MailPanel.access$0(MailPanel.java:209)
+	at com.baselet.gui.base.MailPanel$SendActionListener.actionPerformed(MailPanel.java:485)
+	at javax.swing.AbstractButton.fireActionPerformed(Unknown Source)
+	at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.setPressed(Unknown Source)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(Unknown Source)
+	at java.awt.Component.processMouseEvent(Unknown Source)
+	at javax.swing.JComponent.processMouseEvent(Unknown Source)
+	at java.awt.Component.processEvent(Unknown Source)
+	at java.awt.Container.processEvent(Unknown Source)
+	at java.awt.Component.dispatchEventImpl(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.processMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.dispatchEvent(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Window.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.run(Unknown Source)
+Caused by: java.io.FileNotFoundException: C:\Users\Diablo\AppData\Local\Temp\diagram_20101120_070606.pdf (Das System kann die angegebene Datei nicht finden)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(Unknown Source)
+	at javax.activation.FileDataSource.getInputStream(Unknown Source)
+	at javax.activation.DataHandler.writeTo(Unknown Source)
+	at javax.mail.internet.MimeBodyPart.writeTo(MimeBodyPart.java:1381)
+	at javax.mail.internet.MimeBodyPart.writeTo(MimeBodyPart.java:852)
+	at javax.mail.internet.MimeMultipart.writeTo(MimeMultipart.java:452)
+	at com.sun.mail.handlers.multipart_mixed.writeTo(multipart_mixed.java:98)
+	at javax.activation.ObjectDataContentHandler.writeTo(Unknown Source)
+	at javax.activation.DataHandler.writeTo(Unknown Source)
+	at javax.mail.internet.MimeBodyPart.writeTo(MimeBodyPart.java:1381)
+	at javax.mail.internet.MimeMessage.writeTo(MimeMessage.java:1742)
+	at com.sun.mail.smtp.SMTPTransport.sendMessage(SMTPTransport.java:737)
+	... 30 more
+2010-11-20 19:08:24,228 |      1 | ERROR | com.baselet.gui.base.MailPanel - ""
+javax.mail.MessagingException: IOException while sending message;
+  nested exception is:
+	java.io.FileNotFoundException: C:\Users\Diablo\AppData\Local\Temp\diagram_20101120_070739.pdf (Das System kann die angegebene Datei nicht finden)
+	at com.sun.mail.smtp.SMTPTransport.sendMessage(SMTPTransport.java:779)
+	at javax.mail.Transport.send0(Transport.java:191)
+	at javax.mail.Transport.send(Transport.java:120)
+	at com.baselet.gui.base.MailPanel.sendMail(MailPanel.java:345)
+	at com.baselet.gui.base.MailPanel.access$0(MailPanel.java:209)
+	at com.baselet.gui.base.MailPanel$SendActionListener.actionPerformed(MailPanel.java:485)
+	at javax.swing.AbstractButton.fireActionPerformed(Unknown Source)
+	at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.setPressed(Unknown Source)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(Unknown Source)
+	at java.awt.Component.processMouseEvent(Unknown Source)
+	at javax.swing.JComponent.processMouseEvent(Unknown Source)
+	at java.awt.Component.processEvent(Unknown Source)
+	at java.awt.Container.processEvent(Unknown Source)
+	at java.awt.Component.dispatchEventImpl(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.processMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.dispatchEvent(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Window.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.run(Unknown Source)
+Caused by: java.io.FileNotFoundException: C:\Users\Diablo\AppData\Local\Temp\diagram_20101120_070739.pdf (Das System kann die angegebene Datei nicht finden)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(Unknown Source)
+	at javax.activation.FileDataSource.getInputStream(Unknown Source)
+	at javax.activation.DataHandler.writeTo(Unknown Source)
+	at javax.mail.internet.MimeBodyPart.writeTo(MimeBodyPart.java:1381)
+	at javax.mail.internet.MimeBodyPart.writeTo(MimeBodyPart.java:852)
+	at javax.mail.internet.MimeMultipart.writeTo(MimeMultipart.java:452)
+	at com.sun.mail.handlers.multipart_mixed.writeTo(multipart_mixed.java:98)
+	at javax.activation.ObjectDataContentHandler.writeTo(Unknown Source)
+	at javax.activation.DataHandler.writeTo(Unknown Source)
+	at javax.mail.internet.MimeBodyPart.writeTo(MimeBodyPart.java:1381)
+	at javax.mail.internet.MimeMessage.writeTo(MimeMessage.java:1742)
+	at com.sun.mail.smtp.SMTPTransport.sendMessage(SMTPTransport.java:737)
+	... 30 more
+2010-11-20 19:08:39,116 |  14889 | ERROR | com.baselet.gui.base.MailPanel - ""
+javax.mail.MessagingException: IOException while sending message;
+  nested exception is:
+	java.io.FileNotFoundException: C:\Users\Diablo\AppData\Local\Temp\diagram_20101120_070828.pdf (Das System kann die angegebene Datei nicht finden)
+	at com.sun.mail.smtp.SMTPTransport.sendMessage(SMTPTransport.java:779)
+	at javax.mail.Transport.send0(Transport.java:191)
+	at javax.mail.Transport.send(Transport.java:120)
+	at com.baselet.gui.base.MailPanel.sendMail(MailPanel.java:345)
+	at com.baselet.gui.base.MailPanel.access$0(MailPanel.java:209)
+	at com.baselet.gui.base.MailPanel$SendActionListener.actionPerformed(MailPanel.java:485)
+	at javax.swing.AbstractButton.fireActionPerformed(Unknown Source)
+	at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.setPressed(Unknown Source)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(Unknown Source)
+	at java.awt.Component.processMouseEvent(Unknown Source)
+	at javax.swing.JComponent.processMouseEvent(Unknown Source)
+	at java.awt.Component.processEvent(Unknown Source)
+	at java.awt.Container.processEvent(Unknown Source)
+	at java.awt.Component.dispatchEventImpl(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.processMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.dispatchEvent(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Window.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.run(Unknown Source)
+Caused by: java.io.FileNotFoundException: C:\Users\Diablo\AppData\Local\Temp\diagram_20101120_070828.pdf (Das System kann die angegebene Datei nicht finden)
+	at java.io.FileInputStream.open(Native Method)
+	at java.io.FileInputStream.<init>(Unknown Source)
+	at javax.activation.FileDataSource.getInputStream(Unknown Source)
+	at javax.activation.DataHandler.writeTo(Unknown Source)
+	at javax.mail.internet.MimeBodyPart.writeTo(MimeBodyPart.java:1381)
+	at javax.mail.internet.MimeBodyPart.writeTo(MimeBodyPart.java:852)
+	at javax.mail.internet.MimeMultipart.writeTo(MimeMultipart.java:452)
+	at com.sun.mail.handlers.multipart_mixed.writeTo(multipart_mixed.java:98)
+	at javax.activation.ObjectDataContentHandler.writeTo(Unknown Source)
+	at javax.activation.DataHandler.writeTo(Unknown Source)
+	at javax.mail.internet.MimeBodyPart.writeTo(MimeBodyPart.java:1381)
+	at javax.mail.internet.MimeMessage.writeTo(MimeMessage.java:1742)
+	at com.sun.mail.smtp.SMTPTransport.sendMessage(SMTPTransport.java:737)
+	... 30 more
+2010-11-20 22:29:49,923 |      1 | ERROR | com.baselet.diagram.io.DiagramFileHandler - ""
+java.lang.NullPointerException
+	at java.io.FileInputStream.<init>(Unknown Source)
+	at com.baselet.diagram.io.DiagramFileHandler.doOpen(DiagramFileHandler.java:287)
+	at com.baselet.diagram.DiagramHandler.reload(DiagramHandler.java:156)
+	at com.baselet.gui.base.OptionPanel.actionPerformed(OptionPanel.java:159)
+	at javax.swing.AbstractButton.fireActionPerformed(Unknown Source)
+	at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source)
+	at javax.swing.DefaultButtonModel.setPressed(Unknown Source)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(Unknown Source)
+	at java.awt.Component.processMouseEvent(Unknown Source)
+	at javax.swing.JComponent.processMouseEvent(Unknown Source)
+	at java.awt.Component.processEvent(Unknown Source)
+	at java.awt.Container.processEvent(Unknown Source)
+	at java.awt.Component.dispatchEventImpl(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.processMouseEvent(Unknown Source)
+	at java.awt.LightweightDispatcher.dispatchEvent(Unknown Source)
+	at java.awt.Container.dispatchEventImpl(Unknown Source)
+	at java.awt.Window.dispatchEventImpl(Unknown Source)
+	at java.awt.Component.dispatchEvent(Unknown Source)
+	at java.awt.EventQueue.dispatchEvent(Unknown Source)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source)
+	at java.awt.EventDispatchThread.run(Unknown Source)
+2010-11-21 11:14:45,667 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 1"
+2010-11-21 11:14:45,667 |      0 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 1"
+2010-11-21 11:14:45,690 |     23 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 1 != 0"
+2010-11-21 11:14:45,690 |     23 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 1 != 0"
+2010-11-21 11:14:45,694 |     27 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:45,695 |     28 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:45,697 |     30 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:45,698 |     31 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:45,704 |     37 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:45,705 |     38 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:45,705 |     38 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:45,706 |     39 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:45,708 |     41 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:45,709 |     42 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:45,711 |     44 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:45,712 |     45 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:45,714 |     47 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:45,714 |     47 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,709 |   9042 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,709 |   9042 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,712 |   9045 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,712 |   9045 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,720 |   9053 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,721 |   9054 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,722 |   9055 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,723 |   9056 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,725 |   9058 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,725 |   9058 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,729 |   9062 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,729 |   9062 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,731 |   9064 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,732 |   9065 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,738 |   9071 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,739 |   9072 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,740 |   9073 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,741 |   9074 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,743 |   9076 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-21 11:14:54,743 |   9076 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-21 11:14:54,841 |   9174 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,841 |   9174 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,843 |   9176 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,843 |   9176 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,849 |   9182 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,849 |   9182 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,851 |   9184 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,851 |   9184 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,852 |   9185 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,853 |   9186 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,856 |   9189 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,857 |   9190 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,858 |   9191 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,858 |   9191 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,863 |   9196 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,863 |   9196 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,866 |   9199 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,866 |   9199 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,867 |   9200 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-21 11:14:54,867 |   9200 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-21 11:14:54,903 |   9236 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,903 |   9236 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,904 |   9237 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,905 |   9238 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,910 |   9243 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,910 |   9243 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,912 |   9245 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,913 |   9246 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,914 |   9247 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,914 |   9247 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,918 |   9251 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,918 |   9251 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,919 |   9252 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,920 |   9253 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,924 |   9257 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,924 |   9257 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:14:54,926 |   9259 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,927 |   9260 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:14:54,928 |   9261 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-21 11:14:54,928 |   9261 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-21 11:15:02,643 |  16976 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:02,644 |  16977 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:02,653 |  16986 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:02,653 |  16986 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:02,738 |  17071 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 1 != 0"
+2010-11-21 11:15:02,740 |  17073 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:02,743 |  17076 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,528 |  55861 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,529 |  55862 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,532 |  55865 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 1"
+2010-11-21 11:15:41,533 |  55866 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 1"
+2010-11-21 11:15:41,534 |  55867 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,534 |  55867 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,536 |  55869 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,536 |  55869 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,538 |  55871 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,539 |  55872 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,543 |  55876 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,544 |  55877 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,544 |  55877 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,544 |  55877 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,546 |  55879 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-21 11:15:41,546 |  55879 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-21 11:15:41,548 |  55881 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,549 |  55882 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,551 |  55884 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,551 |  55884 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,633 |  55966 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 1"
+2010-11-21 11:15:41,633 |  55966 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 1"
+2010-11-21 11:15:41,635 |  55968 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,635 |  55968 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,635 |  55968 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,635 |  55968 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,636 |  55969 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,636 |  55969 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,637 |  55970 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,637 |  55970 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,638 |  55971 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,638 |  55971 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,640 |  55973 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,640 |  55973 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,641 |  55974 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,642 |  55975 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,642 |  55975 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-21 11:15:41,642 |  55975 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-21 11:15:41,645 |  55978 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,645 |  55978 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,646 |  55979 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,646 |  55979 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,650 |  55983 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 6 != 5"
+2010-11-21 11:15:41,650 |  55983 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 6 != 5"
+2010-11-21 11:15:41,678 |  56011 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,678 |  56011 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,679 |  56012 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,679 |  56012 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,680 |  56013 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,681 |  56014 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,681 |  56014 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,682 |  56015 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 1"
+2010-11-21 11:15:41,683 |  56016 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 4 != 3"
+2010-11-21 11:15:41,685 |  56018 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,686 |  56019 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 3 != 2"
+2010-11-21 11:15:41,689 |  56022 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 2 != 1"
+2010-11-21 11:15:41,689 |  56022 | ERROR | com.baselet.element.GridElement - "Plot contains wrong coordinates: 6 != 5"
+2010-11-21 12:02:33,178 |      1 | ERROR | com.baselet.diagram.io.DiagramFileHandler - ""
+java.lang.NullPointerException
+	at com.baselet.diagram.FontHandler.cutAtMinMax(FontHandler.java:41)
+	at com.baselet.diagram.FontHandler.setDiagramDefaultFontSize(FontHandler.java:37)
+	at com.baselet.diagram.io.XmlInputHandler.endElement(XmlInputHandler.java:72)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.endElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanEndElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at com.baselet.diagram.io.DiagramFileHandler.doOpen(DiagramFileHandler.java:289)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:57)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:45)
+	at com.baselet.diagram.PaletteHandler.<init>(PaletteHandler.java:15)
+	at com.baselet.control.Main.getPalettes(Main.java:369)
+	at com.baselet.control.Main.getPaletteNames(Main.java:386)
+	at com.baselet.gui.standalone.StandaloneGUI.init(StandaloneGUI.java:203)
+	at com.baselet.gui.base.BaseGUI.initGUI(BaseGUI.java:66)
+	at com.baselet.control.Main.init(Main.java:117)
+	at com.baselet.control.Main.main(Main.java:104)
+2010-11-21 12:02:33,186 |      9 | ERROR | com.baselet.diagram.io.DiagramFileHandler - ""
+java.lang.NullPointerException
+	at com.baselet.diagram.FontHandler.cutAtMinMax(FontHandler.java:41)
+	at com.baselet.diagram.FontHandler.setDiagramDefaultFontSize(FontHandler.java:37)
+	at com.baselet.diagram.io.XmlInputHandler.endElement(XmlInputHandler.java:72)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.endElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanEndElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at com.baselet.diagram.io.DiagramFileHandler.doOpen(DiagramFileHandler.java:289)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:57)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:45)
+	at com.baselet.diagram.PaletteHandler.<init>(PaletteHandler.java:15)
+	at com.baselet.control.Main.getPalettes(Main.java:369)
+	at com.baselet.control.Main.getPaletteNames(Main.java:386)
+	at com.baselet.gui.standalone.StandaloneGUI.init(StandaloneGUI.java:203)
+	at com.baselet.gui.base.BaseGUI.initGUI(BaseGUI.java:66)
+	at com.baselet.control.Main.init(Main.java:117)
+	at com.baselet.control.Main.main(Main.java:104)
+2010-11-21 12:02:33,192 |     15 | ERROR | com.baselet.diagram.io.DiagramFileHandler - ""
+java.lang.NullPointerException
+	at com.baselet.diagram.FontHandler.cutAtMinMax(FontHandler.java:41)
+	at com.baselet.diagram.FontHandler.setDiagramDefaultFontSize(FontHandler.java:37)
+	at com.baselet.diagram.io.XmlInputHandler.endElement(XmlInputHandler.java:72)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.endElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanEndElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at com.baselet.diagram.io.DiagramFileHandler.doOpen(DiagramFileHandler.java:289)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:57)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:45)
+	at com.baselet.diagram.PaletteHandler.<init>(PaletteHandler.java:15)
+	at com.baselet.control.Main.getPalettes(Main.java:369)
+	at com.baselet.control.Main.getPaletteNames(Main.java:386)
+	at com.baselet.gui.standalone.StandaloneGUI.init(StandaloneGUI.java:203)
+	at com.baselet.gui.base.BaseGUI.initGUI(BaseGUI.java:66)
+	at com.baselet.control.Main.init(Main.java:117)
+	at com.baselet.control.Main.main(Main.java:104)
+2010-11-21 12:02:33,198 |     21 | ERROR | com.baselet.diagram.io.DiagramFileHandler - ""
+java.lang.NullPointerException
+	at com.baselet.diagram.FontHandler.cutAtMinMax(FontHandler.java:41)
+	at com.baselet.diagram.FontHandler.setDiagramDefaultFontSize(FontHandler.java:37)
+	at com.baselet.diagram.io.XmlInputHandler.endElement(XmlInputHandler.java:72)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.endElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanEndElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at com.baselet.diagram.io.DiagramFileHandler.doOpen(DiagramFileHandler.java:289)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:57)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:45)
+	at com.baselet.diagram.PaletteHandler.<init>(PaletteHandler.java:15)
+	at com.baselet.control.Main.getPalettes(Main.java:369)
+	at com.baselet.control.Main.getPaletteNames(Main.java:386)
+	at com.baselet.gui.standalone.StandaloneGUI.init(StandaloneGUI.java:203)
+	at com.baselet.gui.base.BaseGUI.initGUI(BaseGUI.java:66)
+	at com.baselet.control.Main.init(Main.java:117)
+	at com.baselet.control.Main.main(Main.java:104)
+2010-11-21 12:02:33,205 |     28 | ERROR | com.baselet.diagram.io.DiagramFileHandler - ""
+java.lang.NullPointerException
+	at com.baselet.diagram.FontHandler.cutAtMinMax(FontHandler.java:41)
+	at com.baselet.diagram.FontHandler.setDiagramDefaultFontSize(FontHandler.java:37)
+	at com.baselet.diagram.io.XmlInputHandler.endElement(XmlInputHandler.java:72)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.endElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanEndElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at com.baselet.diagram.io.DiagramFileHandler.doOpen(DiagramFileHandler.java:289)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:57)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:45)
+	at com.baselet.diagram.PaletteHandler.<init>(PaletteHandler.java:15)
+	at com.baselet.control.Main.getPalettes(Main.java:369)
+	at com.baselet.control.Main.getPaletteNames(Main.java:386)
+	at com.baselet.gui.standalone.StandaloneGUI.init(StandaloneGUI.java:203)
+	at com.baselet.gui.base.BaseGUI.initGUI(BaseGUI.java:66)
+	at com.baselet.control.Main.init(Main.java:117)
+	at com.baselet.control.Main.main(Main.java:104)
+2010-11-21 12:02:33,212 |     35 | ERROR | com.baselet.diagram.io.DiagramFileHandler - ""
+java.lang.NullPointerException
+	at com.baselet.diagram.FontHandler.cutAtMinMax(FontHandler.java:41)
+	at com.baselet.diagram.FontHandler.setDiagramDefaultFontSize(FontHandler.java:37)
+	at com.baselet.diagram.io.XmlInputHandler.endElement(XmlInputHandler.java:72)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.endElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanEndElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at com.baselet.diagram.io.DiagramFileHandler.doOpen(DiagramFileHandler.java:289)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:57)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:45)
+	at com.baselet.diagram.PaletteHandler.<init>(PaletteHandler.java:15)
+	at com.baselet.control.Main.getPalettes(Main.java:369)
+	at com.baselet.control.Main.getPaletteNames(Main.java:386)
+	at com.baselet.gui.standalone.StandaloneGUI.init(StandaloneGUI.java:203)
+	at com.baselet.gui.base.BaseGUI.initGUI(BaseGUI.java:66)
+	at com.baselet.control.Main.init(Main.java:117)
+	at com.baselet.control.Main.main(Main.java:104)
+2010-11-21 12:02:33,219 |     42 | ERROR | com.baselet.diagram.io.DiagramFileHandler - ""
+java.lang.NullPointerException
+	at com.baselet.diagram.FontHandler.cutAtMinMax(FontHandler.java:41)
+	at com.baselet.diagram.FontHandler.setDiagramDefaultFontSize(FontHandler.java:37)
+	at com.baselet.diagram.io.XmlInputHandler.endElement(XmlInputHandler.java:72)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.endElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanEndElement(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl$FragmentContentDriver.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentScannerImpl.next(Unknown Source)
+	at com.sun.org.apache.xerces.internal.impl.XMLDocumentFragmentScannerImpl.scanDocument(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XML11Configuration.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.XMLParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.parsers.AbstractSAXParser.parse(Unknown Source)
+	at com.sun.org.apache.xerces.internal.jaxp.SAXParserImpl$JAXPSAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at javax.xml.parsers.SAXParser.parse(Unknown Source)
+	at com.baselet.diagram.io.DiagramFileHandler.doOpen(DiagramFileHandler.java:289)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:57)
+	at com.baselet.diagram.DiagramHandler.<init>(DiagramHandler.java:45)
+	at com.baselet.diagram.PaletteHandler.<init>(PaletteHandler.java:15)
+	at com.baselet.control.Main.getPalettes(Main.java:369)
+	at com.baselet.control.Main.getPaletteNames(Main.java:386)
+	at com.baselet.gui.standalone.StandaloneGUI.init(StandaloneGUI.java:203)
+	at com.baselet.gui.base.BaseGUI.initGUI(BaseGUI.java:66)
+	at com.baselet.control.Main.init(Main.java:117)
+	at com.baselet.control.Main.main(Main.java:104)
+2010-11-22 20:43:59,900 |      0 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"
+2010-11-22 20:45:29,390 |      0 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"
+2010-11-22 20:47:05,037 |      0 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"
+2010-11-22 20:49:25,676 |      0 | ERROR | com.baselet.gui.base.BaseGUI   - "[The Microsoft Windows Look and Feel - com.sun.java.swing.plaf.windows.WindowsLookAndFeel] not supported on this platform"

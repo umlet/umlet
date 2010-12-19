@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.1
+Created-By: 14.0-b16 (Sun Microsystems Inc.)
+Bundle-ManifestVersion: 2
+Bundle-Name: UMLet
+Bundle-SymbolicName: com.umlet.plugin;singleton:=true
+Bundle-Version: 10.3
+Bundle-Activator: com.umlet.plugin.UmletPlugin
+Bundle-Vendor: www.umlet.com
+Require-Bundle: org.eclipse.ui,org.eclipse.ui.ide,org.eclipse.core.res
+ ources,org.eclipse.core.runtime
+Bundle-ClassPath: ., lib/batik-awt-util.jar, lib/batik-dom.jar, lib/ba
+ tik-ext.jar, lib/batik-svggen.jar, lib/batik-util.jar, lib/batik-xml.
+ jar, lib/epsgraphics.jar, lib/iText.jar, lib/log4j-1.2.15.jar, lib/ma
+ ilapi.jar, lib/org.eclipse.jdt.core_3.5.1.v_972_R35x.jar, lib/smtp.ja
+ r
+Main-Class: com.umlet.control.Umlet
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Eclipse-LazyStart: true
+Class-Path: lib/batik-awt-util.jar lib/batik-dom.jar lib/batik-ext.jar
+  lib/batik-svggen.jar lib/batik-util.jar lib/batik-xml.jar lib/epsgra
+ phics.jar lib/iText.jar lib/log4j-1.2.15.jar lib/mailapi.jar lib/org.
+ eclipse.jdt.core_3.5.1.v_972_R35x.jar lib/smtp.jar
+

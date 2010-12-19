@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="${project.name}" default="start" basedir=".">
+
+	<!-- Import variable definitions -->
+	<property file="build.properties" />
+	<property name="dir.export" location="export" />
+	<property name="dir.lib" location="lib" />
+
+	<path id="project.class.path.build">
+		<pathelement location="src" />
+		<fileset dir="${dir.lib}" includes="**/*.jar"/>
+		<fileset dir="${eclipse.home}/plugins">
+			<include name="*.jar" />
+		</fileset>
+
+	</path>
+
+	<path id="project.class.path.run">
+		<pathelement location="bin" />
+		<fileset dir="${dir.lib}" includes="**/*.jar"/>
+	</path>
+
+	<!-- Compile Java Source Code -->
+	<target name="javac">
+		<mkdir dir="${output..}" />
+		<javac srcdir="${source..}" destdir="${output..}">
+			<classpath refid="project.class.path.build" />
+			<compilerarg value="-Xlint" />
+		</javac>
+	</target>
+
+	<target name="start" depends="javac" description="starts umlet">
+		<java classname="com.umlet.control.Umlet" fork="true" classpathref="project.class.path.run" />
+	</target>
+
+	<target name="clean" description="Cleans this project">
+		<delete dir="${output..}" failonerror="false" />
+	</target>
+
+
+
+</project>

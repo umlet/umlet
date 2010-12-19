@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><umlet_diagram><element><type>com.umlet.element.base.Package</type><coordinates><x>180</x><y>150</y><w>100</w><h>70</h></coordinates><panel_attributes>--
+Name
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Package</type><coordinates><x>180</x><y>10</y><w>100</w><h>70</h></coordinates><panel_attributes>--
+Name
+bg=blue</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.custom.PackageAggregationHierarchy</type><coordinates><x>180</x><y>240</y><w>160</w><h>230</h></coordinates><panel_attributes>root
+name
+name
+&gt;name
+name
+&lt;name
+&gt;name</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Package</type><coordinates><x>10</x><y>90</y><w>100</w><h>70</h></coordinates><panel_attributes>--
+Name</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>210</x><y>60</y><w>40</w><h>130</h></coordinates><panel_attributes>lt=&lt;(+)-
+</panel_attributes><additional_attributes>20;20;20;110</additional_attributes></element><element><type>com.umlet.element.base.Package</type><coordinates><x>10</x><y>170</y><w>100</w><h>70</h></coordinates><panel_attributes>Name
+--
+left:Text
+Text</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>0</x><y>436</y><w>170</w><h>54</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;merge&gt;&gt;</panel_attributes><additional_attributes>150;34;20;34</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>0</x><y>396</y><w>170</w><h>54</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;import&gt;&gt;</panel_attributes><additional_attributes>150;34;20;34</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>0</x><y>356</y><w>170</w><h>54</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;access&gt;&gt;</panel_attributes><additional_attributes>150;34;20;34</additional_attributes></element><element><type>com.umlet.element.base.Package</type><coordinates><x>10</x><y>10</y><w>100</w><h>70</h></coordinates><panel_attributes>Name</panel_attributes><additional_attributes/></element><group><element><type>com.umlet.element.base.Package</type><coordinates><x>10</x><y>250</y><w>150</w><h>110</h></coordinates><panel_attributes/><additional_attributes/></element><element><type>com.umlet.element.base.Package</type><coordinates><x>40</x><y>280</y><w>100</w><h>70</h></coordinates><panel_attributes/><additional_attributes/></element></group></umlet_diagram>

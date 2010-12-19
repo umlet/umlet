@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><umlet_diagram><element><type>com.umlet.element.base.UseCase</type><coordinates><x>10</x><y>10</y><w>110</w><h>40</h></coordinates><panel_attributes>red
+bg=red</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.UseCase</type><coordinates><x>150</x><y>10</y><w>110</w><h>40</h></coordinates><panel_attributes>green
+bg=green</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.UseCase</type><coordinates><x>10</x><y>60</y><w>110</w><h>40</h></coordinates><panel_attributes>blue
+bg=blue</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.UseCase</type><coordinates><x>150</x><y>60</y><w>110</w><h>40</h></coordinates><panel_attributes>yellow
+bg=yellow</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.UseCase</type><coordinates><x>10</x><y>110</y><w>110</w><h>40</h></coordinates><panel_attributes>white
+bg=white</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.UseCase</type><coordinates><x>150</x><y>110</y><w>110</w><h>40</h></coordinates><panel_attributes>black
+bg=black
+fg=white</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.UseCase</type><coordinates><x>10</x><y>160</y><w>110</w><h>40</h></coordinates><panel_attributes>gray
+bg=gray</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.UseCase</type><coordinates><x>150</x><y>160</y><w>110</w><h>40</h></coordinates><panel_attributes>orange
+bg=orange</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.UseCase</type><coordinates><x>10</x><y>210</y><w>110</w><h>40</h></coordinates><panel_attributes>magenta
+bg=magenta</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.UseCase</type><coordinates><x>150</x><y>210</y><w>110</w><h>40</h></coordinates><panel_attributes>pink
+bg=pink</panel_attributes><additional_attributes/></element></umlet_diagram>

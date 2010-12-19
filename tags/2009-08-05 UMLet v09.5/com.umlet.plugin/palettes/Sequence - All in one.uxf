@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><umlet_diagram><element><type>com.umlet.element.base.SequenceDiagram</type><coordinates><x>10</x><y>10</y><w>390</w><h>330</h></coordinates>
+<panel_attributes>_alpha:A~id1_|_beta:B~id2_|_gamma:G~id3_
+id1->>id2:id1,id2
+id2-/>id1:async Msg.
+id3->>>id1:id1,id3
+id1.>id3:id1,id3:async return Msg
+id1->id1:id1:self
+iframe{:interaction frame
+id2->id3:id1,id3:async Msg.
+iframe}</panel_attributes><additional_attributes></additional_attributes></element></umlet_diagram>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-awt-util.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-dom.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-ext.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-svggen.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-util.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-xml.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/epsgraphics.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/iText.jar"/>
+	<classpathentry kind="lib" path="lib/mailapi.jar"/>
+	<classpathentry kind="lib" path="lib/smtp.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.jdt.core_3.5.1.v_972_R35x.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.15.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
