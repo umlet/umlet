@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="${project.name}" default="start" basedir=".">
+
+	<!-- UMLet Version and date -->
+	<property name="release.version" value="10.4" />
+	<property name="release.month" value="February" />
+	<property name="release.year" value="2010" />
+
+	<!-- Import variable definitions -->
+	<property file="build.properties" />
+	<property name="dir.executables" location="umlet_exe" />
+	<property name="dir.export" location="export" />
+	<property name="dir.export.standalone" location="${dir.export}/standalone" />
+	<property name="dir.export.plugin" location="${dir.export}/plugins" />
+	<property name="dir.lib" location="lib" />
+
+	<!-- Classpaths -->
+	<path id="project.classpath.build">
+		<pathelement location="src" />
+		<fileset dir="${eclipse.home}/plugins">
+			<include name="*.jar" />
+		</fileset>
+		<path refid="project.classpath.lib" />
+	</path>
+
+	<path id="project.classpath.run">
+		<pathelement location="bin" />
+		<path refid="project.classpath.lib" />
+	</path>
+
+	<path id="project.classpath.lib">
+		<fileset dir="${dir.lib}" includes="**/*.jar"/>
+	</path>
+
+	<!-- Compile the project -->
+	<target name="javac">
+		<mkdir dir="${output..}" />
+		<javac srcdir="${source..}" destdir="${output..}" nowarn="true">
+			<classpath refid="project.classpath.build" />
+			<compilerarg value="-Xlint" />
+		</javac>
+	</target>
+
+	<!-- Update MANIFEST.MF and includes new version and libs -->
+	<target name="update_manifest" depends="javac">
+		<pathconvert property="manifest.classpath.prop.comma" pathsep=", ">
+			<path refid="project.classpath.lib" />
+			<chainedmapper>
+				<flattenmapper/>
+				<globmapper from="*" to="lib/*"/>
+			</chainedmapper>
+		</pathconvert>
+		<pathconvert property="manifest.classpath.prop" pathsep=" ">
+			<path refid="project.classpath.lib" />
+			<chainedmapper>
+				<flattenmapper/>
+				<globmapper from="*" to="lib/*"/>
+			</chainedmapper>
+		</pathconvert>
+		<manifest file="META-INF/MANIFEST.MF" mode="update">
+			<attribute name="Bundle-Version" value="${release.version}"/>
+			<attribute name="Class-Path" value="${manifest.classpath.prop}"/>
+			<attribute name="Bundle-ClassPath" value="., ${manifest.classpath.prop.comma}"/>
+		</manifest>
+
+		<!-- After a possibly changed MANIFEST.MF we must refresh the workspace (we refresh 3 possible names of the project) -->
+		<eclipse.refreshLocal resource="${project.name}" depth="infinite"/>
+		<eclipse.refreshLocal resource="${project.name2}" depth="infinite"/>
+		<eclipse.refreshLocal resource="${project.name3}" depth="infinite"/>
+	</target>
+
+	<!-- Set variables in about.html: version, month and year -->
+	<target name="update_html">
+		<replace file="${dir.export.standalone}/html/${html_file}">
+			<replacefilter token="@version@" value="${release.version}"/>
+			<replacefilter token="@month@" value="${release.month}"/>
+			<replacefilter token="@year@" value="${release.year}"/>
+		</replace>
+	</target>
+
+	<!-- Start umlet -->
+	<target name="start" depends="update_manifest" description="starts umlet">
+		<java classname="com.umlet.control.Umlet" fork="true" classpathref="project.classpath.run" />
+	</target>
+
+	<!-- Export the standalone client of umlet -->
+	<target name="export_standalone" depends="update_manifest" description="exports the project as standalone program">
+
+		<delete dir="${dir.export.standalone}" failonerror="false" />
+		<mkdir dir="${dir.export.standalone}" />
+		
+		<delete>
+			<fileset dir="${dir.export}" includes="umlet_*" />
+		</delete>
+
+		<jar destfile="${dir.export.standalone}/umlet.jar" manifest="META-INF/MANIFEST.MF" basedir="${output..}" includes="com/umlet/**/*.class" />
+		<copy todir="${dir.export.standalone}/custom_elements">
+			<fileset dir="custom_elements" excludes="tmp/**" />
+		</copy>
+		<copy todir="${dir.export.standalone}/html">
+			<fileset dir="html" />
+		</copy>
+		<copy todir="${dir.export.standalone}/icons">
+			<fileset dir="icons" />
+		</copy>
+		<copy todir="${dir.export.standalone}/lib">
+			<fileset dir="lib" />
+		</copy>
+		<copy todir="${dir.export.standalone}/palettes">
+			<fileset dir="palettes" />
+		</copy>
+		
+		<copy todir="${dir.export.standalone}" file="${dir.executables}/UMLet.exe" />
+		<copy todir="${dir.export.standalone}" file="${dir.executables}/umlet.sh" />
+		<copy todir="${dir.export.standalone}/src/umlet_exe">
+			<fileset dir="${dir.executables}/umlet_exe" />
+		</copy>
+
+		<copy todir="${dir.export.standalone}/src/src">
+			<fileset dir="src" />
+		</copy>
+		<copy todir="${dir.export.standalone}/src/META-INF">
+			<fileset dir="META-INF" />
+		</copy>
+		<copy todir="${dir.export.standalone}/src" file=".classpath" />
+		<copy todir="${dir.export.standalone}/src" file=".project" />
+		<copy todir="${dir.export.standalone}/src" file="build.properties" />
+		<copy todir="${dir.export.standalone}/src" file="log4j.properties" />
+		<copy todir="${dir.export.standalone}/src" file="plugin.xml" />
+		<copy todir="${dir.export.standalone}/src" file="LICENCE.txt" />
+		<copy todir="${dir.export.standalone}/src" file="README.txt" />
+		<copy todir="${dir.export.standalone}/src" file="umlet.xml" />
+
+		<!-- update about.html and startup.html -->
+		<antcall target="update_html">
+			<param name="html_file" value="aboutumlet.html"/>
+		</antcall>
+		<antcall target="update_html">
+			<param name="html_file" value="startuphelp.html"/>
+		</antcall>
+
+		<!-- move the files into a subfolder UMLet, zip them and delete the temp dir -->
+		<move todir="${dir.export.standalone}/UMLet">
+			<fileset dir="${dir.export.standalone}" />
+		</move>
+		<zip destfile="${dir.export}/umlet_${release.version}.zip" basedir="${dir.export.standalone}"/>
+		<delete dir="${dir.export.standalone}"/>
+
+		<!-- Replace the format "versionnr.subnr" with "versionnr_subnr" -->
+		<move todir="${dir.export}">
+			<fileset dir="${dir.export}" includes="umlet_${release.version}.zip" />
+			<chainedmapper>
+				<regexpmapper from="(.*)\.(.*)\.zip" to="\1_\2.zip"/>
+			</chainedmapper>
+		</move>
+	</target>
+
+	<!-- Export the eclipse plugin of umlet -->
+	<target name="export_plugin" depends="update_manifest" description="exports the project as eclipse plugin">
+		<delete dir="${dir.export.plugin}" failonerror="false" />
+		<mkdir dir="${dir.export.plugin}" />
+		<pde.exportPlugins destination="${dir.export}" exportSource="false" exportType="directory" plugins="com.umlet.plugin" useJARFormat="true"/>
+		<echo message="Please wait until asynchronous plugin export is finished (watch the percentage at the bottom right corner of eclipse)"/>
+	</target>
+
+	<!-- Export the standalone client and the eclipse plugin of umlet -->
+	<target name="export_project" description="exports the project as eclipse plugin and as standalone program">
+		<antcall target="export_standalone" />
+		<antcall target="export_plugin" />
+	</target>
+
+	<!-- Clean the project -->
+	<target name="clean" description="Cleans this project">
+		<delete dir="${output..}" failonerror="false" />
+	</target>
+
+</project>
