@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-anim.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-awt-util.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-bridge.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-css.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-dom.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-ext.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-gvt.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-parser.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-script.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-svg-dom.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-svggen.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-transcoder.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-util.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-xml.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/epsgraphics.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/pdf-transcoder.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/tools.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry exported="true" kind="lib" path="lib/xml-apis-ext.jar" sourcepath="com.umlet.pluginsrc.zip"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
