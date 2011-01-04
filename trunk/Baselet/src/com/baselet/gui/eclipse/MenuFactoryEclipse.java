@@ -1,7 +1,6 @@
 package com.baselet.gui.eclipse;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +21,7 @@ import org.eclipse.ui.ide.IDE;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.Selector;
-import com.baselet.gui.base.BaseGUI;
 import com.baselet.gui.base.MenuFactory;
 import com.baselet.plugin.editor.Contributor;
 
