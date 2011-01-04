@@ -54,7 +54,7 @@ public abstract class CustomElement extends GridElement {
 	}
 
 	protected float zoom;
-	// We need a seperate main behaviour for 10% and 20% zoom. Otherwise manual resized entities would have the following bugs:
+	// We need a seperate program behaviour for 10% and 20% zoom. Otherwise manual resized entities would have the following bugs:
 	// 10%: entity grow without end, 20%: relations don't stick on the right or bottom end of entity
 	private boolean bugfix;
 
@@ -63,7 +63,6 @@ public abstract class CustomElement extends GridElement {
 	protected int width, height;
 	protected Composite[] composites;
 	private String code;
-	private boolean allowResize;
 
 	private Vector<StyleShape> shapes;
 	private Vector<Text> texts;
@@ -79,11 +78,8 @@ public abstract class CustomElement extends GridElement {
 	int oldFontSize;
 
 	public CustomElement() {
-
-		this.allowResize = true;
 		this.shapes = new Vector<StyleShape>();
 		this.texts = new Vector<Text>();
-//		 this.is_centered = false;
 	}
 
 	public abstract void paint();
@@ -164,6 +160,11 @@ public abstract class CustomElement extends GridElement {
 		width = Math.round(temp / zoom); // use Math.round cause (int) would round down from 239.99998 to 240
 		temp = this.getHeight();
 		height = Math.round(temp / zoom);
+
+		// secure this thread before executing the code!
+		String key = "R" + Math.random();
+		CustomElementSecurityManager.addThread(Thread.currentThread(), key);
+		
 		// Set width and height on grid (used for manually resized custom elements mainly
 		width = onGrid(width);
 		height = onGrid(height);
@@ -171,6 +172,7 @@ public abstract class CustomElement extends GridElement {
 		paint(); // calls the paint method of the specific custom element
 		width = onGrid(width);
 		height = onGrid(height);
+		CustomElementSecurityManager.remThread(Thread.currentThread(), key);
 
 		// After the custom code we zoom the width and height back
 		width *= zoom;
@@ -190,12 +192,6 @@ public abstract class CustomElement extends GridElement {
 		CustomElement e = (CustomElement) super.CloneFromMe();
 		e.code = this.code;
 		return e;
-	}
-
-	@Override
-	public final int getPossibleResizeDirections() {
-		if (this.allowResize) return Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
-		return 0;
 	}
 
 	private final Dimension zoomedTextsize(String text) {
@@ -230,16 +226,6 @@ public abstract class CustomElement extends GridElement {
 		this.texts.add(new Text(text, (int) (x * zoom), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM, fixedFontSize));
 	}
 
-//	@CustomFunction(param_defaults = "")
-//	protected final int textHeight() {
-//		return (int) ((int) this.getHandler().getFontHandler().getFontSize(false) + this.getHandler().getFontHandler().getDistanceBetweenTexts(false));
-//	}
-//
-//	@CustomFunction(param_defaults = "text")
-//	protected final int textWidth(String text) {
-//		return getHandler().getFontHandler().getTextWidth(text, false) + (int) getHandler().getFontHandler().getDistanceBetweenTexts(false);
-//	}
-
 	@CustomFunction(param_defaults = "value")
 	protected final int onGrid(int value) {
 		return onGrid(value, false);
@@ -255,11 +241,16 @@ public abstract class CustomElement extends GridElement {
 		if (bugfix) value--;
 		return value;
 	}
+	
+	@CustomFunction(param_defaults = "value1,value2")
+	protected final int min(int value1, int value2) {
+		return Math.min(value1, value2);
+	}
 
-//	@CustomFunction(param_defaults = "allow")
-//	protected final void allowResize(boolean allow) {
-//		this.allowResize = allow;
-//	}
+	@CustomFunction(param_defaults = "value1,value2")
+	protected final int max(int value1, int value2) {
+		return Math.max(value1, value2);
+	}
 
 	@CustomFunction(param_defaults = "minWidth, minHeight, horizontalSpacing")
 	protected final void setAutoresize(int minWidth, int minHeight, int horizontalSpacing) {

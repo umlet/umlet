@@ -3,10 +3,7 @@ package com.baselet.plugin.editor;
 import java.util.List;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IContributionItem;
-import org.eclipse.jface.action.IContributionManagerOverrides;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -15,12 +12,9 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.EditorActionBarContributor;
 
-import sun.util.logging.resources.logging;
-
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Constants.RuntimeType;
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.gui.base.MenuFactory;
 import com.baselet.gui.eclipse.EclipseGUI;

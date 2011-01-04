@@ -47,7 +47,8 @@ public abstract class GridElement extends JComponent {
 	protected float alphaFactor;
 
 	public GridElement() {
-		this.setSize(100, 100); // LME: initial size
+		this.allowResize = true;
+		this.setSize(100, 100);
 		this.setVisible(true);
 		this.enabled = true;
 		this.autoresizeandmanualresizeenabled = false;
@@ -230,7 +231,7 @@ public abstract class GridElement extends JComponent {
 				fgColorBase = Utils.getColor(fgColorString);
 			}
 		}
-		
+
 		alphaFactor = Constants.ALPHA_MIDDLE_TRANSPARENCY;
 		if (bgColorString.equals("") || bgColorString.equals("default")) alphaFactor = Constants.ALPHA_FULL_TRANSPARENCY;
 
@@ -261,14 +262,15 @@ public abstract class GridElement extends JComponent {
 		int ret = 0;
 		if ((x <= 5) && (x >= 0)) ret = Constants.RESIZE_LEFT;
 		else if ((x <= this.getWidth()) && (x >= this.getWidth() - 5)) ret = Constants.RESIZE_RIGHT;
-	
+
 		if ((y <= 5) && (y >= 0)) ret = ret | Constants.RESIZE_TOP;
 		else if ((y <= this.getHeight()) && (y >= this.getHeight() - 5)) ret = ret | Constants.RESIZE_BOTTOM;
 		return ret;
 	}
 
 	public int getPossibleResizeDirections() {
-		return Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
+		if (this.allowResize) return Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
+		return 0;
 	}
 
 	public void changeSize(int diffx, int diffy) {
@@ -375,9 +377,9 @@ public abstract class GridElement extends JComponent {
 	public final void paint(Graphics g) {
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D) g;
-	
+
 		if (this.isSelected && Constants.show_stickingpolygon && !this.isPartOfGroup()) this.drawStickingPolygon(g2);
-	
+
 		// Zoom per transformation for certain elements. unused!
 		// if (this instanceof SequenceDiagram) {
 		// AffineTransform t = g2.getTransform();
@@ -385,14 +387,14 @@ public abstract class GridElement extends JComponent {
 		// t.scale(scale, scale);
 		// g2.setTransform(t);
 		// }
-	
+
 		this.paintEntity(g2);
 	}
 
 	public abstract void paintEntity(Graphics g);
 
 	private boolean allowResize;
-	
+
 	protected final void allowResize(boolean allow) {
 		this.allowResize = allow;
 	}
@@ -411,11 +413,11 @@ public abstract class GridElement extends JComponent {
 			this.setSize(width, height);
 		}
 	}
-	
+
 	protected final int textHeight() {
 		return (int) ((int) this.getHandler().getFontHandler().getFontSize(false) + this.getHandler().getFontHandler().getDistanceBetweenTexts(false));
 	}
-	
+
 	protected final int textWidth(String text) {
 		return getHandler().getFontHandler().getTextSize(text, false).width + (int) getHandler().getFontHandler().getDistanceBetweenTexts(false);
 	}

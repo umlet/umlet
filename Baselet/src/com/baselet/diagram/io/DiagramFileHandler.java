@@ -40,6 +40,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.umlet.custom.CustomElement;
+import com.umlet.custom.CustomElementSecurityManager;
 
 public class DiagramFileHandler {
 
@@ -331,11 +332,13 @@ public class DiagramFileHandler {
 	}
 
 	public void doExportAs(String extension, File file) throws IOException {
+		CustomElementSecurityManager.addThreadPrivileges(Thread.currentThread(), fileName);
 		try {
 			Gen.createAndOutputToFile(extension, file, this.handler);
 		} catch (Exception e) {
 			throw new IOException(e.getMessage());
 		}
+		CustomElementSecurityManager.remThreadPrivileges(Thread.currentThread());
 	}
 
 	private void save(boolean removeHandlerChanged) throws UnsupportedEncodingException, FileNotFoundException {
