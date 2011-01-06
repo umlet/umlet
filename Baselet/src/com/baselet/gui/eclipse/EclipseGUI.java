@@ -223,7 +223,10 @@ public class EclipseGUI extends BaseGUI {
 			OwnSyntaxPane propertyTextPane = editor.getPropertyPane();
 			if (!propertyTextPane.getText().equals(text)) {
 				propertyTextPane.setText(text);
-				propertyTextPane.checkPanelForSpecialChars();
+
+				//AB: Can be removed because of jsyntaxpane implementation
+				//propertyTextPane.checkPanelForSpecialChars();
+				
 				// Reset the vertical and horizontal scrollbar position to the upper left corner
 				propertyTextPane.setCaretPosition(0);
 			}

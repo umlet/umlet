@@ -6,11 +6,11 @@ import java.awt.Font;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextPane;
 
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -26,7 +26,7 @@ public class CustomElementPanel extends JPanel {
 	private JSplitPane custompanelsplitright;
 	private JLabel savelabel;
 	private CustomElementHandler customhandler;
-	private JTextPane customcodepane;
+	private JEditorPane customcodepane;
 
 	public CustomElementPanel(CustomElementHandler customhandler) {
 		this.customhandler = customhandler;
@@ -124,7 +124,7 @@ public class CustomElementPanel extends JPanel {
 		return this.custompanelsplitright;
 	}
 
-	public JTextPane getTextPane() {
+	public JEditorPane getTextPane() {
 		return customcodepane;
 	}
 }

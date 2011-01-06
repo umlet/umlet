@@ -13,14 +13,14 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.ErrorOccurred;
 import com.baselet.element.GridElement;
-import com.baselet.gui.base.CustomCodeTextPane;
+import com.baselet.gui.base.CustomCodeSyntaxPane;
 import com.baselet.gui.base.CustomElementPanel;
 
 
 public class CustomElementHandler {
 
 	private Timer timer;
-	private CustomCodeTextPane codepane;
+	private CustomCodeSyntaxPane codepane;
 	private CustomPreviewHandler preview;
 	private GridElement editedEntity;
 	private GridElement originalElement;
@@ -34,7 +34,7 @@ public class CustomElementHandler {
 	private String old_text;
 
 	public CustomElementHandler() {
-		this.codepane = new CustomCodeTextPane(null);
+		this.codepane = new CustomCodeSyntaxPane(null);
 		this.errorhandler = new ErrorHandler(this.codepane);
 		this.helphandler = new HelpHandler(this.codepane, this);
 		this.codepane.addMouseMotionListener(this.errorhandler);
@@ -46,6 +46,8 @@ public class CustomElementHandler {
 		this.old_text = null;
 		this.panel = new CustomElementPanel(this);
 
+		this.codepane.initJSyntaxPane();
+		
 		//TODO CUSTOM ELMENTS REFACTORING
 //		StyledDocument doc = codepane.getStyledDocument();
 //		Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
@@ -135,7 +137,7 @@ public class CustomElementHandler {
 		return this.preview;
 	}
 
-	public CustomCodeTextPane getCodePane() {
+	public CustomCodeSyntaxPane getCodePane() {
 		return this.codepane;
 	}
 
