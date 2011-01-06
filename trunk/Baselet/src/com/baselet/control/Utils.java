@@ -195,7 +195,8 @@ public abstract class Utils {
 			try {
 				returnColor = Color.decode(colorString);
 			} catch (NumberFormatException e) {
-				log.error("Invalid color:" + colorString);
+				//only print for debugging because message would be printed, when typing the color
+				log.debug("Invalid color:" + colorString);
 			}
 		}
 		return returnColor;

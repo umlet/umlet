@@ -1,4 +1,4 @@
-package com.plotlet.gui;
+package com.umlet.gui;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -13,26 +13,26 @@ import com.baselet.control.Utils;
 import com.plotlet.parser.PlotConstants;
 
 @SuppressWarnings("serial")
-public class PlotletSyntaxKit extends DefaultSyntaxKit {
+public class UmletSyntaxKit extends DefaultSyntaxKit {
 	
 	protected final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private static final HashMap<String,Pattern> regExMap = new HashMap<String,Pattern>();
-	static {	
+	static {
 		// The regex are matched anywhere in the whole text (not only at the beginning of a line)
 		// If more than 1 RegEx match, the longest has the priority (eg: "plot" overrules "plo")
-		//regExMap.put("KEYWORD", Pattern.compile(PlotConstants.PLOT));
+		regExMap.put("KEYWORD", Pattern.compile(PlotConstants.PLOT));
 		//		regExMap.put("KEYWORD2", Pattern.compile(PlotConstants.REGEX_COLOR_BASE));
 		regExMap.put("COMMENT", Pattern.compile(PlotConstants.REGEX_COMMENT));
 		regExMap.put("TYPE", Pattern.compile(PlotConstants.REGEX_VALUE_ASSIGNMENT));
 	}
 
-	public PlotletSyntaxKit() {
+	public UmletSyntaxKit() {
 		super(new SimpleRegexLexer(regExMap));
 	}
 	
 	public static String createAutocompletionList(String listSep) {
-		String outString = "plot" + listSep + "data" + listSep + "data=" + /*"<dataset_name>" +*/ listSep;
+		String outString = "fg=" + listSep + "bg=" + listSep;
 
 			String fieldName = "", fieldContent = "", keyName = "", keyContent = "", keyType = "";
 			try {

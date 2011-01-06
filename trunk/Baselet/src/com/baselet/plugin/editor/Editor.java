@@ -19,11 +19,11 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
@@ -241,7 +241,7 @@ public class Editor extends EditorPart {
 		return this.propertyTextPane;
 	}
 
-	public JTextPane getCustomPane() {
+	public JEditorPane getCustomPane() {
 		return custompanel.getTextPane();
 	}
 

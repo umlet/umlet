@@ -83,7 +83,7 @@ public abstract class BaseGUI extends JPanel {
 		propertyTextPanel.add(propertyLabel);
 		propertyTextPanel.add(propertyTextScrollPane);
 
-		if (Program.PROGRAM_NAME == ProgramName.PLOTLET) propertyTextPane.initJSyntaxPane();
+		propertyTextPane.initJSyntaxPane();
 
 		return propertyTextPane;
 	}

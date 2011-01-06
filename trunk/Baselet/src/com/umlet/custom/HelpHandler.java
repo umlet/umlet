@@ -14,12 +14,12 @@ import javax.swing.Action;
 import javax.swing.ActionMap;
 
 import com.baselet.control.Constants;
-import com.baselet.gui.base.CustomCodeTextPane;
+import com.baselet.gui.base.CustomCodeSyntaxPane;
 import com.baselet.gui.base.JMultiLineToolTip;
 
 
 public class HelpHandler implements KeyListener {
-	private CustomCodeTextPane codepane;
+	private CustomCodeSyntaxPane codepane;
 	private ArrayList<FunctionDesc> functions;
 	private ArrayList<VariableDesc> variables;
 	private ArrayList<String> defaultdescriptors; // descriptors that are displayed in empty lines
@@ -88,7 +88,7 @@ public class HelpHandler implements KeyListener {
 		}
 	}
 
-	public HelpHandler(CustomCodeTextPane codepane, CustomElementHandler handler) {
+	public HelpHandler(CustomCodeSyntaxPane codepane, CustomElementHandler handler) {
 		this.codepane = codepane;
 		this.functions = new ArrayList<FunctionDesc>();
 		this.variables = new ArrayList<VariableDesc>();

@@ -5,15 +5,15 @@ import java.awt.event.MouseMotionListener;
 import java.util.HashMap;
 
 import com.baselet.control.Constants;
-import com.baselet.gui.base.CustomCodeTextPane;
+import com.baselet.gui.base.CustomCodeSyntaxPane;
 
 
 public class ErrorHandler implements MouseMotionListener {
 
-	private CustomCodeTextPane codepane;
+	private CustomCodeSyntaxPane codepane;
 	private HashMap<Integer, String> errors;
 
-	public ErrorHandler(CustomCodeTextPane codepane) {
+	public ErrorHandler(CustomCodeSyntaxPane codepane) {
 		this.codepane = codepane;
 		this.errors = new HashMap<Integer, String>();
 	}

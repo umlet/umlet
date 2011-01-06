@@ -49,7 +49,8 @@ public class PropertyPanelListener implements KeyListener, FocusListener {
 			handler.getController().executeCommand(new HelpPanelChanged(s));
 		}
 
-		this.pane.checkPanelForSpecialChars();
+		//AB: Can be removed because of jsyntaxpane implementation
+		//this.pane.checkPanelForSpecialChars();
 
 		// Scrollbars must be updated cause some entities can grow out of screen border by typing text inside (eg: autoresize custom elements)
 		if (handler != null) handler.getDrawPanel().updatePanelAndScrollbars();

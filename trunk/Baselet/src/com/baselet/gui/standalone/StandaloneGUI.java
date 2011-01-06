@@ -644,7 +644,10 @@ public class StandaloneGUI extends BaseGUI {
 	public void setPropertyPanelText(String text) {
 		if (this.propertyTextPane != null) { // needed because of convert function
 			this.propertyTextPane.setText(text);
-			this.propertyTextPane.checkPanelForSpecialChars();
+			
+			//AB: Can be removed because of jsyntaxpane implementation
+			//this.propertyTextPane.checkPanelForSpecialChars();
+			
 			// Reset the vertical and horizontal scrollbar position to the upper left corner
 			this.propertyTextPane.setCaretPosition(0);
 		}
