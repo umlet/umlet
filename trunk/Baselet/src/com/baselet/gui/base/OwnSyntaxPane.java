@@ -61,6 +61,8 @@ public class OwnSyntaxPane extends JEditorPane {
 		DefaultSyntaxKit.initKit();
 		
 		if (Program.PROGRAM_NAME == ProgramName.PLOTLET) {
+			log.info("Register PlotletSyntaxKit");
+			
 			try {
 				// IMPORTANT: The config-key "Action.combo-completion.Items" only accepts a semikolon-separated string because we have changed the method:
 				//            jsyntaxpane/actions/ComboCompletionAction.java#setItems(). Otherwise it would only accept a real list
@@ -71,6 +73,8 @@ public class OwnSyntaxPane extends JEditorPane {
 			}
 			DefaultSyntaxKit.registerContentType("text/propertypanel", PlotletSyntaxKit.class.getCanonicalName());
 		} else {
+			log.info("Register UmletSyntaxKit");
+			
 			//removes the line numbering			
 			Configuration conf = DefaultSyntaxKit.getConfig(DefaultSyntaxKit.class);
 			conf.remove("Components");
