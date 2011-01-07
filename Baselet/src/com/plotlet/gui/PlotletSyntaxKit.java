@@ -21,7 +21,7 @@ public class PlotletSyntaxKit extends DefaultSyntaxKit {
 	static {	
 		// The regex are matched anywhere in the whole text (not only at the beginning of a line)
 		// If more than 1 RegEx match, the longest has the priority (eg: "plot" overrules "plo")
-		//regExMap.put("KEYWORD", Pattern.compile(PlotConstants.PLOT));
+		regExMap.put("KEYWORD", Pattern.compile(PlotConstants.PLOT));
 		//		regExMap.put("KEYWORD2", Pattern.compile(PlotConstants.REGEX_COLOR_BASE));
 		regExMap.put("COMMENT", Pattern.compile(PlotConstants.REGEX_COMMENT));
 		regExMap.put("TYPE", Pattern.compile(PlotConstants.REGEX_VALUE_ASSIGNMENT));
