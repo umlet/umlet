@@ -3,10 +3,12 @@ package com.umlet.element;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.util.Vector;
 
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
+import com.baselet.diagram.StickingPolygon;
 import com.baselet.element.GridElement;
 
 
@@ -78,24 +80,24 @@ public class UseCase extends GridElement {
 		g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
 	}
 
-	// @Override
-	// public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-	// StickingPolygon p = new StickingPolygon();
-	//
-	// //First point is the top left then the points are added clockwise
-	// p.addPoint(new Point(x + width / 4, y));
-	// p.addPoint(new Point(x + width * 3 / 4, y));
-	//			
-	// p.addPoint(new Point(x + width, y + height / 4));
-	// p.addPoint(new Point(x + width, y + height * 3 / 4));
-	//			
-	// p.addPoint(new Point(x + width * 3 / 4, y + height));
-	// p.addPoint(new Point(x + width / 4, y + height));
-	//			
-	// p.addPoint(new Point(x, y + height * 3 / 4));
-	// p.addPoint(new Point(x, y + height / 4), true);
-	//			
-	// return p;
-	// }
+	 @Override
+	 public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
+	 StickingPolygon p = new StickingPolygon();
+	
+	 //First point is the top left then the points are added clockwise
+	 p.addPoint(new Point(x + width / 4, y));
+	 p.addPoint(new Point(x + width * 3 / 4, y));
+				
+	 p.addPoint(new Point(x + width, y + height / 4));
+	 p.addPoint(new Point(x + width, y + height * 3 / 4));
+				
+	 p.addPoint(new Point(x + width * 3 / 4, y + height));
+	 p.addPoint(new Point(x + width / 4, y + height));
+				
+	 p.addPoint(new Point(x, y + height * 3 / 4));
+	 p.addPoint(new Point(x, y + height / 4), true);
+				
+	 return p;
+	 }
 
 }
