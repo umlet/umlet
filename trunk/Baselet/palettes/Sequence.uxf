@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="11.0">
+<diagram program="umlet" version="0.8">
   <help_text>// Uncomment the following line to change the fontsize:
 // fontsize=14
 
@@ -286,7 +286,7 @@ syncMsg
       <w>128</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;-
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 </panel_attributes>
     <additional_attributes>24;24;112;24</additional_attributes>
   </element>
