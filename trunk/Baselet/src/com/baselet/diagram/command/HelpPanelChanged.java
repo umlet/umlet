@@ -32,6 +32,17 @@ public class HelpPanelChanged extends Command {
 		return null;
 	}
 
+	public static String getFontfamily(String text) {
+		if (text == null) return null;
+		Pattern p = Pattern.compile("(\\s)*fontfamily\\=(\\w+)(\\s)*");
+		Vector<String> txt = Utils.decomposeStrings(text, "\n");
+		for (String t : txt) {
+			Matcher m = p.matcher(t);
+			if (m.matches()) return m.group(2);
+		}
+		return null;
+	}
+
 	@Override
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
@@ -39,7 +50,10 @@ public class HelpPanelChanged extends Command {
 		handler.setHelpText(changed_to);
 		Integer fontsize = getFontsize(changed_to);
 		if (fontsize != null) handler.getFontHandler().setDiagramDefaultFontSize(fontsize);
-		else handler.getFontHandler().resetFontSize();
+		else handler.getFontHandler().resetDiagramDefaultFontSize();
+		String fontfamily = getFontfamily(changed_to);
+		if (fontfamily != null) handler.getFontHandler().setDiagramDefaultFontFamily(fontfamily);
+		else handler.getFontHandler().resetDiagramDefaultFontFamily();
 		handler.getDrawPanel().repaint();
 	}
 

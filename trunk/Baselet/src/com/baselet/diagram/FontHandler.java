@@ -25,6 +25,8 @@ public class FontHandler {
 	private Integer fontSize;
 	private Integer diagramDefaultSize = null; // if "fontsize=..." is uncommented this variable is set
 
+	private String diagramDefaultFontFamily = null;
+
 	public FontHandler(DiagramHandler handler) {
 		this.handler = handler;
 	}
@@ -33,17 +35,32 @@ public class FontHandler {
 		this.fontSize = fontsize;
 	}
 
-	public void setDiagramDefaultFontSize(Integer diagramDefaultSize) {
-		this.diagramDefaultSize = cutAtMinMax(diagramDefaultSize);
+	public void setDiagramDefaultFontFamily(String fontfamily) {
+		if (Constants.fontFamilyList.contains(fontfamily)) this.diagramDefaultFontFamily = fontfamily;
 	}
 
-	private Integer cutAtMinMax(Integer diagramDefaultSize) {
-		if (diagramDefaultSize == null) return null;
-		else return Math.max(Math.min(diagramDefaultSize, Constants.FONT_MAX), Constants.FONT_MIN);
+	public void resetDiagramDefaultFontFamily() {
+		diagramDefaultFontFamily = null;
+	}
+
+	private String getDiagramDefaultFontFamily() {
+		String returnFontFamily;
+		if (diagramDefaultFontFamily != null) returnFontFamily = diagramDefaultFontFamily;
+		else returnFontFamily = Constants.defaultFontFamily;
+
+		return returnFontFamily;
+	}
+
+	public void setDiagramDefaultFontSize(Integer diagramDefaultSize) {
+		if (Constants.fontSizeList.contains(diagramDefaultSize)) this.diagramDefaultSize = diagramDefaultSize;
 	}
 
 	public void resetFontSize() {
 		fontSize = null;
+	}
+
+	public void resetDiagramDefaultFontSize() {
+		diagramDefaultSize = null;
 	}
 
 	public float getFontSize() {
@@ -67,7 +84,7 @@ public class FontHandler {
 	}
 
 	public Font getFont(boolean applyZoom) {
-		return new Font(Constants.FONT, Font.PLAIN, (int) getFontSize(applyZoom));
+		return new Font(getDiagramDefaultFontFamily(), Font.PLAIN, (int) getFontSize(applyZoom));
 	}
 
 	public float getDistanceBetweenTexts() {

@@ -444,9 +444,9 @@ public class MailPanel extends JPanel {
 
 	private void setAllFonts() {
 
-		Font font = new Font(Constants.FONT, Font.PLAIN, 12);
-		Font fontBold = new Font(Constants.FONT, Font.BOLD, 12);
-		Font fontSmallItalic = new Font(Constants.FONT, Font.ITALIC, 10);
+		Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+		Font fontBold = new Font(Font.SANS_SERIF, Font.BOLD, 12);
+		Font fontSmallItalic = new Font(Font.SANS_SERIF, Font.ITALIC, 10);
 
 		lb_smtp.setFont(fontBold);
 		tf_smtp.setFont(font);
