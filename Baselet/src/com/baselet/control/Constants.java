@@ -3,14 +3,18 @@ package com.baselet.control;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.font.FontRenderContext;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 public abstract class Constants {
 
@@ -129,8 +133,9 @@ public abstract class Constants {
 
 	static {
 		DEFAULT_HELPTEXT =
-			"// Uncomment the following line to change the fontsize:" + NEWLINE +
+			"// Uncomment the following line to change the fontsize and font:" + NEWLINE +
 			"// fontsize=14" + NEWLINE +
+			"// fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced" + NEWLINE +
 			"" + NEWLINE +
 			"" + NEWLINE +
 			"//////////////////////////////////////////////////////////////////////////////////////////////" + NEWLINE +
@@ -187,16 +192,7 @@ public abstract class Constants {
 	public static final float ALPHA_FULL_TRANSPARENCY = 0.0f;
 
 	/**** EXPORT FORMATS ****/
-	public static final ArrayList<String> exportFormatList = new ArrayList<String>();
-	static {
-		exportFormatList.add("bmp");
-		exportFormatList.add("eps");
-		exportFormatList.add("gif");
-		exportFormatList.add("jpg");
-		exportFormatList.add("pdf");
-		exportFormatList.add("png");
-		exportFormatList.add("svg");
-	}
+	public static final List<String> exportFormatList = Arrays.asList(new String[] {"bmp", "eps", "gif", "jpg", "pdf", "png", "svg"});
 
 	/**** ZOOM VALUES ****/
 	public static final ArrayList<String> zoomValueList = new ArrayList<String>();
@@ -239,16 +235,33 @@ public abstract class Constants {
 	public static final String DELIMITER_ADDITIONAL_ATTRIBUTES = ";";
 
 	public static final int PASTE_DISPLACEMENT_GRIDS = 2;
-	public static final String FONT = "SansSerif";
 	public static final int MIN_MAIL_SPLIT_POSITION = 100;
 	public static final Color GRID_COLOR = new Color(235, 235, 235);
+
 	public static final Integer FONT_MIN = 9;
 	public static final Integer FONT_MAX = 20;
+	public static final List<Integer> fontSizeList = new ArrayList<Integer>();
+	static {
+		for (int i = FONT_MIN; i <= FONT_MAX; i++) {
+			fontSizeList.add(i);
+		}
+	}
 
+	public static final List<String> fontFamilyList = Arrays.asList(new String[] {Font.SANS_SERIF, Font.SERIF, Font.MONOSPACED});
+	
+	public static final List<LookAndFeelInfo> lookAndFeels = Arrays.asList(UIManager.getInstalledLookAndFeels());
+	static {
+		// The Eclipse Plugin doesn't work with GTKLookAndFeel, therefore we remove it from the choosable options
+		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) {
+			lookAndFeels.remove("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+		}
+	}
+	
 	public static final FontRenderContext FRC = new FontRenderContext(null, true, true);
 
 	/**** VALUES LOADED FROM CONFIG ****/
 	public static int defaultFontsize = (Program.PROGRAM_NAME == ProgramName.UMLET ? 14 : 10);
+	public static String defaultFontFamily = Font.SANS_SERIF;
 	public static boolean start_maximized = false;
 	public static boolean show_stickingpolygon = true;
 	public static boolean show_grid = false;

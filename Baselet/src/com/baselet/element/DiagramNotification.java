@@ -50,7 +50,7 @@ public class DiagramNotification extends JComponent {
 		// g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 		g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 
-		Font font = new Font(Constants.FONT, Font.BOLD, 10);
+		Font font = new Font(Font.SANS_SERIF, Font.BOLD, 10);
 		g2.setFont(font);
 		adaptDimensions();
 		TextLayout tl = new TextLayout(message, font, Constants.FRC);
