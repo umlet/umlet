@@ -21,6 +21,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
+import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 
@@ -65,8 +66,10 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.add(this.show_stickingpolygon);
 		this.add(new JLabel("Show grid"));
 		this.add(this.show_grid);
-		this.add(new JLabel("Select " + Program.PROGRAM_NAME + " style"));
-		this.add(this.ui_manager);
+		if (Program.RUNTIME_TYPE == RuntimeType.STANDALONE) {
+			this.add(new JLabel("Select " + Program.PROGRAM_NAME + " style"));
+			this.add(this.ui_manager);
+		}
 		this.add(new JLabel("Select default fontsize"));
 		this.add(this.default_fontsize);
 		this.add(new JLabel("Select default fontfamily"));
@@ -156,7 +159,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 					d.getFontHandler().resetFontSize();
 				}
 			}
-			
+
 			String newfamily = (String) this.default_fontfamily.getSelectedItem();
 			if (Constants.defaultFontFamily != newfamily) Constants.defaultFontFamily = newfamily;
 
