@@ -68,10 +68,10 @@ public abstract class BaseGUI extends JPanel {
 		propertyTextPane = new OwnSyntaxPane(propertyTextPanel);
 
 		// add listener to propertyTextPane
-		PropertyPanelListener pListener = new PropertyPanelListener(propertyTextPane);
+		PropertyPanelListener pListener = new PropertyPanelListener(/*propertyTextPane*/);
 		propertyTextPane.addKeyListener(pListener);
 		propertyTextPane.addFocusListener(pListener);
-
+		
 		propertyTextPanel.setLayout(new BoxLayout(propertyTextPanel, BoxLayout.Y_AXIS));
 		JScrollPane propertyTextScrollPane = new JScrollPane(propertyTextPane);
 		propertyTextScrollPane.setBorder(null);
@@ -84,7 +84,7 @@ public abstract class BaseGUI extends JPanel {
 		propertyTextPanel.add(propertyTextScrollPane);
 
 		propertyTextPane.initJSyntaxPane();
-
+		
 		return propertyTextPane;
 	}
 

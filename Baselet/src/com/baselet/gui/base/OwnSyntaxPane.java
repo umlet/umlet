@@ -2,7 +2,6 @@ package com.baselet.gui.base;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.util.ArrayList;
 
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
@@ -13,7 +12,6 @@ import jsyntaxpane.util.Configuration;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Utils;
@@ -25,15 +23,9 @@ import com.umlet.gui.UmletSyntaxKit;
 public class OwnSyntaxPane extends JEditorPane {
 
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
-
-	private ArrayList<String> specialcommands;
 	private JPanel panel;
 
 	public OwnSyntaxPane(JPanel panel) {
-		specialcommands = new ArrayList<String>();
-		specialcommands.add("bg=");
-		specialcommands.add("fg=");
-		specialcommands.add(Constants.AUTORESIZE);
 		this.panel = panel;
 		this.setBackground(Color.WHITE);
 		
@@ -59,6 +51,11 @@ public class OwnSyntaxPane extends JEditorPane {
 
 	public void initJSyntaxPane() {
 		DefaultSyntaxKit.initKit();
+		Configuration conf = DefaultSyntaxKit.getConfig(DefaultSyntaxKit.class);
+		
+		//remove built-in undo/redo
+		conf.remove("Action.undo");
+		conf.remove("Action.redo");
 		
 		if (Program.PROGRAM_NAME == ProgramName.PLOTLET) {
 			log.info("Register PlotletSyntaxKit");
@@ -76,7 +73,6 @@ public class OwnSyntaxPane extends JEditorPane {
 			log.info("Register UmletSyntaxKit");
 			
 			//removes the line numbering			
-			Configuration conf = DefaultSyntaxKit.getConfig(DefaultSyntaxKit.class);
 			conf.remove("Components");
 			
 			DefaultSyntaxKit.registerContentType("text/propertypanel", UmletSyntaxKit.class.getCanonicalName());

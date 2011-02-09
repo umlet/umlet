@@ -6,12 +6,6 @@ import javax.swing.JToolTip;
 import jsyntaxpane.DefaultSyntaxKit;
 import jsyntaxpane.util.Configuration;
 
-import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.ProgramName;
-import com.plotlet.gui.PlotletSyntaxKit;
-import com.umlet.gui.UmletSyntaxKit;
-
-
 @SuppressWarnings("serial")
 public class CustomCodeSyntaxPane extends OwnSyntaxPane {
 
