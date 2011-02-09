@@ -130,7 +130,6 @@ public class MenuFactory {
 					main.getGUI().closeWindow();
 				}
 				else if (menuItem.equals(UNDO) && (actualHandler != null) && (actualSelector != null)) {
-					actualSelector.deselectAll();
 					actualHandler.getController().undo();
 					if (gui instanceof StandaloneGUI) ((StandaloneGUI) gui).updateGrayedOutMenuItems(actualHandler);
 				}
