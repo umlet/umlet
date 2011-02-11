@@ -53,6 +53,8 @@ public class EntityListener extends UniversalListener {
 	private Rectangle lassoToleranceRectangle;
 	private final int lassoTolerance = 2;
 
+	private Point mousePressedPoint;
+
 	protected EntityListener(DiagramHandler handler) {
 		super(handler);
 	}
@@ -74,7 +76,7 @@ public class EntityListener extends UniversalListener {
 
 		if (IS_DRAGGING_DIAGRAM) dragDiagram();
 		if (IS_DRAGGING) dragEntity(e);
-		if (IS_RESIZING) resizeEntity(e);
+		if (IS_RESIZING) resizeEntity(e, me.isShiftDown());
 	}
 
 	@Override
@@ -136,6 +138,7 @@ public class EntityListener extends UniversalListener {
 	public void mousePressed(MouseEvent me) {
 		super.mousePressed(me);
 		GridElement e = (GridElement) me.getComponent();
+		mousePressedPoint = getOffset(me);
 
 		if (!handler.getDrawPanel().equals(Main.getInstance().getPalettePanel())) Main.getInstance().getPalettePanel().getSelector().deselectAllWithoutUpdatePropertyPanel();
 
@@ -158,7 +161,7 @@ public class EntityListener extends UniversalListener {
 	private void pressedLeftButton(MouseEvent me) {
 		GridElement e = (GridElement) me.getComponent();
 
-		// Ctrl + Mouseclick initializes the lasso (
+		// Ctrl + Mouseclick initializes the lasso
 		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) initializeLasso(me);
 
 		int ra = e.getResizeArea(me.getX(), me.getY());
@@ -221,10 +224,10 @@ public class EntityListener extends UniversalListener {
 	}
 
 	private void initializeLasso(MouseEvent me) {
-		lassoToleranceRectangle = new Rectangle((int) getOffset(me).getX() - lassoTolerance, (int) getOffset(me).getY() - lassoTolerance, lassoTolerance * 2, lassoTolerance * 2);
+		lassoToleranceRectangle = new Rectangle(mousePressedPoint.x - lassoTolerance, mousePressedPoint.y - lassoTolerance, lassoTolerance * 2, lassoTolerance * 2);
 		LASSO_ACTIVE = true;
 		SelectorFrame selframe = selector.getSelectorFrame();
-		selframe.setLocation((int) getOffset(me).getX(), (int) getOffset(me).getY());
+		selframe.setLocation(mousePressedPoint);
 		selframe.setSize(1, 1);
 		Main.getInstance().getDiagramHandler().getDrawPanel().add(selframe, 0);
 		Main.getInstance().getGUI().setCursor(Constants.DEFAULT_CURSOR);
@@ -309,12 +312,24 @@ public class EntityListener extends UniversalListener {
 		ALL_MOVE_COMMANDS = tmpVector;
 	}
 
-	private void resizeEntity(GridElement e) {
+	private void resizeEntity(GridElement e, boolean isShiftDown) {
 		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
 		int delta_x = 0;
 		int delta_y = 0;
-		Point newp = this.getNewCoordinate();
-		Point oldp = this.getOldCoordinate();
+		final Point newp = this.getNewCoordinate();
+		final Point oldp = this.getOldCoordinate();
+
+		// If Shift is pressed, both axis are resized proportional
+		if (isShiftDown) {
+			if (e.getWidth() > e.getHeight()) {
+				float proportion = (float) newp.x / mousePressedPoint.x;
+				newp.setLocation(newp.x, mousePressedPoint.y*proportion);
+			}
+			else {
+				float proportion = (float) newp.y / mousePressedPoint.y;
+				newp.setLocation(mousePressedPoint.x*proportion, newp.y);
+			}
+		}
 
 		if ((RESIZE_DIRECTION & Constants.RESIZE_RIGHT) > 0) {
 			delta_x = (e.getX() + e.getWidth()) % gridSize;
