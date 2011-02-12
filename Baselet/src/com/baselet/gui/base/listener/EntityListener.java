@@ -54,6 +54,7 @@ public class EntityListener extends UniversalListener {
 	private final int lassoTolerance = 2;
 
 	private Point mousePressedPoint;
+	private int resizeDirection;
 
 	protected EntityListener(DiagramHandler handler) {
 		super(handler);
@@ -76,7 +77,7 @@ public class EntityListener extends UniversalListener {
 
 		if (IS_DRAGGING_DIAGRAM) dragDiagram();
 		if (IS_DRAGGING) dragEntity(e);
-		if (IS_RESIZING) resizeEntity(e, me.isShiftDown());
+		if (IS_RESIZING) resizeEntity(e, me);
 	}
 
 	@Override
@@ -94,13 +95,13 @@ public class EntityListener extends UniversalListener {
 			e.setLocation(me.getX() - 100, me.getY() - 20);
 		}
 		GridElement e = (GridElement) me.getComponent();
-		int ra = e.getResizeArea(me.getX(), me.getY());
-		ra = ra & e.getPossibleResizeDirections(); // LME
-		if (ra == 0) Main.getInstance().getGUI().setCursor(Constants.HAND_CURSOR);
-		if ((ra == 1) | (ra == 4)) Main.getInstance().getGUI().setCursor(Constants.TB_CURSOR);
-		if ((ra == 2) | (ra == 8)) Main.getInstance().getGUI().setCursor(Constants.LR_CURSOR);
-		if ((ra == 3) | (ra == 12)) Main.getInstance().getGUI().setCursor(Constants.NE_CURSOR);
-		if ((ra == 6) | (ra == 9)) Main.getInstance().getGUI().setCursor(Constants.NW_CURSOR);
+		resizeDirection = e.getResizeArea(me.getX(), me.getY());
+		resizeDirection = resizeDirection & e.getPossibleResizeDirections(); // LME
+		if (resizeDirection == 0) Main.getInstance().getGUI().setCursor(Constants.HAND_CURSOR);
+		if ((resizeDirection == Constants.RESIZE_TOP) | (resizeDirection == Constants.RESIZE_BOTTOM)) Main.getInstance().getGUI().setCursor(Constants.TB_CURSOR);
+		if ((resizeDirection == Constants.RESIZE_RIGHT) | (resizeDirection == Constants.RESIZE_LEFT)) Main.getInstance().getGUI().setCursor(Constants.LR_CURSOR);
+		if ((resizeDirection == Constants.RESIZE_TOP_RIGHT) | (resizeDirection == Constants.RESIZE_BOTTOM_LEFT)) Main.getInstance().getGUI().setCursor(Constants.NE_CURSOR);
+		if ((resizeDirection == Constants.RESIZE_BOTTOM_RIGHT) | (resizeDirection == Constants.RESIZE_TOP_LEFT)) Main.getInstance().getGUI().setCursor(Constants.NW_CURSOR);
 	}
 
 	private void dragDiagram() {
@@ -312,15 +313,16 @@ public class EntityListener extends UniversalListener {
 		ALL_MOVE_COMMANDS = tmpVector;
 	}
 
-	private void resizeEntity(GridElement e, boolean isShiftDown) {
+	private void resizeEntity(GridElement e, MouseEvent me) {
 		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
 		int delta_x = 0;
 		int delta_y = 0;
 		final Point newp = this.getNewCoordinate();
 		final Point oldp = this.getOldCoordinate();
 
-		// If Shift is pressed, both axis are resized proportional
-		if (isShiftDown) {
+		// If Shift is pressed and the resize direction is any diagonal direction, both axis are resized proportional
+		if (me.isShiftDown() && (resizeDirection == Constants.RESIZE_TOP_LEFT || resizeDirection == Constants.RESIZE_TOP_RIGHT ||
+				resizeDirection == Constants.RESIZE_BOTTOM_LEFT || resizeDirection == Constants.RESIZE_BOTTOM_RIGHT)) {
 			if (e.getWidth() > e.getHeight()) {
 				float proportion = (float) newp.x / mousePressedPoint.x;
 				newp.setLocation(newp.x, mousePressedPoint.y*proportion);

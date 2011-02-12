@@ -215,6 +215,10 @@ public abstract class Constants {
 	public enum AlignHorizontal {LEFT, CENTER, RIGHT};
 	public enum AlignVertical {TOP, CENTER, BOTTOM};
 	public static final int RESIZE_TOP = 1, RESIZE_RIGHT = 2, RESIZE_BOTTOM = 4, RESIZE_LEFT = 8;
+	public static final int RESIZE_TOP_LEFT = RESIZE_TOP + RESIZE_LEFT;
+	public static final int RESIZE_TOP_RIGHT = RESIZE_TOP + RESIZE_RIGHT;
+	public static final int RESIZE_BOTTOM_LEFT = RESIZE_BOTTOM + RESIZE_LEFT;
+	public static final int RESIZE_BOTTOM_RIGHT = RESIZE_BOTTOM + RESIZE_RIGHT;
 
 	public static final String NOAUTORESIZE = "autoresize=false";
 	public static final String AUTORESIZE = "autoresize=";
