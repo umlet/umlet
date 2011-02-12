@@ -2,7 +2,9 @@ package com.baselet.diagram;
 
 import java.util.Vector;
 
+import com.baselet.control.Main;
 import com.baselet.diagram.command.Command;
+import com.baselet.gui.standalone.StandaloneGUI;
 
 
 public class Controller {
@@ -40,6 +42,10 @@ public class Controller {
 		}
 		_cursor = commands.size() - 1;
 		this.handler.setChanged(true);
+
+		//update undo/redo menu entries
+		if (Main.getInstance().getGUI() instanceof StandaloneGUI) ((StandaloneGUI) Main.getInstance().getGUI()).updateGrayedOutMenuItems(this.handler);
+		
 		commandCount++;
 	}
 
