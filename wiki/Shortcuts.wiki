@@ -3,7 +3,7 @@ This is a list of all important shortcuts which are used in UMLet.
 
 = Definitions =
 ||Element || Element in the diagram or palette ||
-||Palette || Palette (right side) with samle diagrams which can be dragged to the left side||
+||Palette || Palette (right side) with samle diagrams which can be copied to use them in the diagram||
 ||Diagram || Diagram (left side) which is main working area for the user||
 ||Palette Empty Space || Area of palette with no Elements||
 ||Diagram Empty Space || Area of diagram with no Elements||
@@ -18,8 +18,10 @@ _*Important note for Mac users:* Every instance of the "Ctrl" button should be r
 || Hold left mousebutton + move mouse || Element(s) selected || Move selected Element(s) around on the grid|| 
 || Hold left mousebutton + move mouse into diagram || Palette Element(s) selected || Add selected Element(s) to the diagram|| 
 || Hold left mousebutton + move mouse || Empty Space selected || Move whole diagram/palette|| 
-|| Right Click || Mouse over Element(s) || Open Element specific context menu (most content from Edit-Menu)|| 
-|| Right Click || Mouse over Diagram || Open Diagram specific context menu (most content from File-Menu)|| 
+|| Double click left mousebutton || Mouse over Palette Element|| Copy Element into Diagram|| 
+|| Double click left mousebutton || Mouse over Diagram Element|| Copy element slightly displaced from original position|| 
+|| Click right mousebutton || Mouse over Element(s) || Open Element specific context menu (most content from Edit-Menu)|| 
+|| Click right mousebutton || Mouse over Diagram || Open Diagram specific context menu (most content from File-Menu)|| 
 || Hold Shift + move mouse || Mouse over Element corner || Activate proportional resizing to maintain ratio between height and width of Element|| 
 || Hold Ctrl + move mouse || Mouse over diagram or palette || Activate lasso selection of multiple elements (every element which is surrounded by the lasso is selected)|| 
 || Hold Shift + click || Mouse over not selected Element || Add Element to selection|| 
