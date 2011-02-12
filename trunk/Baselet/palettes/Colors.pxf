@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="plotlet" version="0.1">
-  <help_text>// Uncomment the following line to change the fontsize:
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="plotlet" version="0.81">
+  <help_text>// Uncomment the following line to change the fontsize and font:
 // fontsize=14
+// fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////
