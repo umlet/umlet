@@ -15,7 +15,10 @@ public class PropertyPanelListener implements KeyListener, FocusListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) { // Esc leaves the property panel
+		/**
+		 * Esc: Leaves the Property Panel
+		 */
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			Main.getInstance().getGUI().requestFocus();
 		} else if (!e.isActionKey() && !isUndoRedo(e)) {
 			updateGridElement();
