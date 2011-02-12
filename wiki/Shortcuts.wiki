@@ -8,9 +8,10 @@ This is a list of all important shortcuts which are used in UMLet.
 ||Palette Empty Space || Area of palette with no Elements||
 ||Diagram Empty Space || Area of diagram with no Elements||
 
-_*Important note for Mac users:* Every instance of the "Ctrl" button should be replaced by the "Command" button_
+
 
 = Shortcuts =
+
 || *Shortcut* || *Prerequisites* || *Action* ||
 || Enter || Element or any Empty Space selected || Enter Properties Panel of selected element or Diagram/Palette|| 
 || Escape || Property Panel selected || Leave Properties Panel and focus related element or diagram/palette|| 
@@ -31,4 +32,6 @@ _*Important note for Mac users:* Every instance of the "Ctrl" button should be r
 || Mousewheel up/down || Mouse over scrollbar || Move scrollbar up/down|| 
 || Mousewheel up/down || Mouse over Properties Panel || Move property panel up/down|| 
 
-_*Note:* There are many other *Ctrl+"key"* shortcuts for quick access to important menu entries. These shortcuts are shown if you open any menu and therefore are not mentioned here._
+There are many other *Ctrl+"key"* shortcuts for quick access to important menu entries. These shortcuts are shown if you open any menu and therefore are not mentioned here._
+
+_*Important note for Mac users:* Every instance of the "Ctrl" button should be replaced by the "Command" button_
