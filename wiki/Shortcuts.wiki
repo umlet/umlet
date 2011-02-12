@@ -14,7 +14,7 @@ This is a list of all important shortcuts which are used in UMLet.
 
 || *Shortcut* || *Prerequisites* || *Action* ||
 || Enter || Element or any Empty Space selected || Enter Properties Panel of selected element or Diagram/Palette|| 
-|| Escape || Property Panel selected || Leave Properties Panel and focus related element or diagram/palette|| 
+|| Escape || Properties Panel selected || Leave Properties Panel and focus related element or diagram/palette|| 
 || Arrow buttons || Element(s) selected || Move selected Element(s) by one grid-space _(eg: 10px on 100% zoom, 5px on 50% zoom)_|| 
 || Hold left mousebutton + move mouse || Element(s) selected || Move selected Element(s) around on the grid|| 
 || Hold left mousebutton + move mouse into diagram || Palette Element(s) selected || Add selected Element(s) to the diagram|| 
