@@ -1,34 +1,32 @@
+#labels Phase-Support
 This is a list of all important shortcuts which are used in UMLet.
 
 = Definitions =
-||GridElement || every element on the grid ||
-||Palette || The Palette (right side) with samle diagrams which can be dragged to the left side||
-||Diagram || The Diagram (left side) which is the main working area for the user||
-||Palette EmptySpace || The empty space of the palette with no GridElements||
-||Diagram EmptySpace || The empty space of the diagram with no GridElements||
+||Element || Element in the diagram or palette ||
+||Palette || Palette (right side) with samle diagrams which can be dragged to the left side||
+||Diagram || Diagram (left side) which is main working area for the user||
+||Palette Empty Space || Area of palette with no Elements||
+||Diagram Empty Space || Area of diagram with no Elements||
 
-_*Important note for Mac users:* Every instance of the "Ctrl" button should be replaced by the "Command" for Mac users_
+_*Important note for Mac users:* Every instance of the "Ctrl" button should be replaced by the "Command" button_
 
 = Shortcuts =
-|| *Button* || *Actual Selection* || *Action* ||
-|| Enter || GridElement or any EmptySpace selected || Goes into the Properties Panel of the selected element or of the Diagram/Palette|| 
-|| Escape || In Property Panel || Focus the element of the selected property panel or the diagram/palette if it was the PropertyPanel of the EmptySpace|| 
-|| Arrow buttons || GridElement(s) selected || Moves the selected GridElement(s) by one grid-space (which equals 10px on 100% zoom)|| 
-|| Hold Left Mausbutton + move mouse || GridElement(s) selected || Moves the selected GridElement(s) around on the grid|| 
-|| Hold Left Mausbutton + move mouse into diagram || GridElement(s) on palette selected || Add the selected GridElement(s) to the diagram|| 
-|| Hold Left Mausbutton + move mouse || DrawPanel selected || Moves the whole diagram around on the grid|| 
-|| Right Click || Mouse over GridElement(s) || Moves the whole diagram around on the grid|| 
-|| Right Click || Mouse over diagram || Context menu for diagram specific File-Menu-Operations|| 
-|| Right Click || Mouse over diagram || Context menu for diagram specific File-Menu-Operations|| 
-|| Hold Shift + move mouse || Resizing GridElement || Activates proportional resizing to maintain the ratio between the height and width of the GridElement|| 
-|| Hold Shift + move mouse || Resizing GridElement || Activates proportional resizing to maintain the ratio between the height and width of the GridElement|| 
-|| Hold Crtl + move mouse || Mouse over diagram or palette || Activates lasso selection of multiple elements (every element which is surrounded by the lasso is selected)|| 
-|| Hold Shift + click || Mouse over not selected Grid Element || Adds the GridElement to the selection|| 
-|| Hold Shift + click || Mouse over selected Grid Element || Removes the GridElement from the selection|| 
-|| Hold Ctrl + mousewheel up/down || Mouse over diagram or palette || Diagram zooms 10% in/out|| 
-|| Hold Ctrl + +/- || Select diagram or palette || Diagram zooms 10% in/out|| 
-|| mousewheel up/down || Mouse over any combobox (selectbox) || Selects the next/previous entry of the box|| 
-|| mousewheel up/down || Mouse over scrollbar || Moves the scrollbar up/down|| 
-|| mousewheel up/down || Mouse over property panel || Moves the property panel up/down|| 
+|| *Shortcut* || *Prerequisites* || *Action* ||
+|| Enter || Element or any Empty Space selected || Enter Properties Panel of selected element or Diagram/Palette|| 
+|| Escape || Property Panel selected || Leave Properties Panel and focus related element or diagram/palette|| 
+|| Arrow buttons || Element(s) selected || Move selected Element(s) by one grid-space _(eg: 10px on 100% zoom, 5px on 50% zoom)_|| 
+|| Hold left mousebutton + move mouse || Element(s) selected || Move selected Element(s) around on the grid|| 
+|| Hold left mousebutton + move mouse into diagram || Palette Element(s) selected || Add selected Element(s) to the diagram|| 
+|| Hold left mousebutton + move mouse || Empty Space selected || Move whole diagram/palette|| 
+|| Right Click || Mouse over Element(s) || Open Element specific context menu (most content from Edit-Menu)|| 
+|| Right Click || Mouse over Diagram || Open Diagram specific context menu (most content from File-Menu)|| 
+|| Hold Shift + move mouse || Mouse over Element corner || Activate proportional resizing to maintain ratio between height and width of Element|| 
+|| Hold Ctrl + move mouse || Mouse over diagram or palette || Activate lasso selection of multiple elements (every element which is surrounded by the lasso is selected)|| 
+|| Hold Shift + click || Mouse over not selected Element || Add Element to selection|| 
+|| Hold Shift + click || Mouse over selected Element || Remove Element from selection||
+|| Hold Ctrl + mousewheel up/down (or +/- keys) || Mouse over diagram or palette || Zoom diagram 10% in/out|| 
+|| Mousewheel up/down || Mouse over combobox (selectbox) || Select next/previous entry of combobox|| 
+|| Mousewheel up/down || Mouse over scrollbar || Move scrollbar up/down|| 
+|| Mousewheel up/down || Mouse over Properties Panel || Move property panel up/down|| 
 
-There are many other "Ctrl+<key>" shortcuts to quickly access certain menu entries. These shortcuts are shown if you open any menu and therefore are not mentioned here.
+_*Note:* There are many other *Ctrl+"key"* shortcuts for quick access to important menu entries. These shortcuts are shown if you open any menu and therefore are not mentioned here._
