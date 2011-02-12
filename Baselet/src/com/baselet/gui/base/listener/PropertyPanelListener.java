@@ -10,6 +10,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.ChangeState;
 import com.baselet.diagram.command.HelpPanelChanged;
 import com.baselet.element.GridElement;
+import com.baselet.gui.standalone.StandaloneGUI;
 
 public class PropertyPanelListener implements KeyListener, FocusListener {
 
