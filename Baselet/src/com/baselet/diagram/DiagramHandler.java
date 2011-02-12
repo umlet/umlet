@@ -55,7 +55,6 @@ public class DiagramHandler {
 		this.fileHandler = DiagramFileHandler.createInstance(this, diagram);
 		if (!nolistener) this.setListener(new DiagramListener(this));
 		if (diagram != null) this.fileHandler.doOpen();
-		if (this.helptext == null) this.helptext = Constants.DEFAULT_HELPTEXT;
 
 		boolean extendedPopupMenu = false;
 		if (Main.getInstance().getGUI() instanceof StandaloneGUI) {
@@ -214,7 +213,8 @@ public class DiagramHandler {
 	}
 
 	public String getHelpText() {
-		return this.helptext;
+		if (this.helptext == null) return Constants.DEFAULT_HELPTEXT;
+		else return this.helptext;
 	}
 
 	public boolean isChanged() {

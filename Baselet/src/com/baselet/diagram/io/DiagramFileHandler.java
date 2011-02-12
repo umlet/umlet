@@ -32,6 +32,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
 import com.baselet.control.Path;
@@ -246,9 +247,12 @@ public class DiagramFileHandler {
 			doc.appendChild(root);
 
 			// save helptext
-			Element help = doc.createElement("help_text");
-			help.appendChild(doc.createTextNode(this.handler.getHelpText()));
-			root.appendChild(help);
+			String helptext = this.handler.getHelpText();
+			if (!helptext.equals(Constants.DEFAULT_HELPTEXT)) {
+				Element help = doc.createElement("help_text");
+				help.appendChild(doc.createTextNode(helptext));
+				root.appendChild(help);
+			}
 
 			// save zoom
 			Element zoom = doc.createElement("zoom_level");

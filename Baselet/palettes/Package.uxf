@@ -1,35 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="11">
-  <help_text>// Uncomment the following line to change the fontsize and font:
-// fontsize=14
-// fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-// Welcome to UMLet!
-//
-// Double-click on UML elements to add them to the diagram, or to copy them
-// Edit elements by modifying the text in this panel
-// Hold Ctrl to select multiple elements
-// Use Ctrl+Mouse to select via lasso
-//
-// Use ± or Ctrl+mouse wheel to zoom
-// Drag a whole relation at its central square icon
-//
-// Press Ctrl+C to copy the whole diagram to the system clipboard (then just paste it to, eg, Word)
-// Edit the files in the "palettes" directory to create your own element palettes
-//
-// Select "Custom Elements &gt; New..." to create new element types
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// This text will be stored with each diagram;  use it for notes.</help_text>
+<diagram program="umlet" version="11.0">
   <zoom_level>8</zoom_level>
   <element>
     <type>com.umlet.element.Package</type>
     <coordinates>
       <x>152</x>
-      <y>120</y>
+      <y>128</y>
       <w>80</w>
       <h>56</h>
     </coordinates>
@@ -42,7 +18,7 @@ bg=green</panel_attributes>
     <type>com.umlet.element.Package</type>
     <coordinates>
       <x>152</x>
-      <y>8</y>
+      <y>16</y>
       <w>80</w>
       <h>56</h>
     </coordinates>
@@ -55,7 +31,7 @@ bg=blue</panel_attributes>
     <type>com.umlet.element.custom.PackageAggregationHierarchy</type>
     <coordinates>
       <x>152</x>
-      <y>192</y>
+      <y>200</y>
       <w>136</w>
       <h>184</h>
     </coordinates>
@@ -72,7 +48,7 @@ root
     <type>com.umlet.element.Package</type>
     <coordinates>
       <x>16</x>
-      <y>72</y>
+      <y>80</y>
       <w>80</w>
       <h>56</h>
     </coordinates>
@@ -84,7 +60,7 @@ Name</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>168</x>
-      <y>40</y>
+      <y>48</y>
       <w>40</w>
       <h>112</h>
     </coordinates>
@@ -96,7 +72,7 @@ Name</panel_attributes>
     <type>com.umlet.element.Package</type>
     <coordinates>
       <x>16</x>
-      <y>136</y>
+      <y>144</y>
       <w>80</w>
       <h>56</h>
     </coordinates>
@@ -110,7 +86,7 @@ Text</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>0</x>
-      <y>328</y>
+      <y>336</y>
       <w>144</w>
       <h>56</h>
     </coordinates>
@@ -122,7 +98,7 @@ Text</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>0</x>
-      <y>304</y>
+      <y>312</y>
       <w>144</w>
       <h>56</h>
     </coordinates>
@@ -134,7 +110,7 @@ Text</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>0</x>
-      <y>280</y>
+      <y>288</y>
       <w>144</w>
       <h>56</h>
     </coordinates>
@@ -146,7 +122,7 @@ Text</panel_attributes>
     <type>com.umlet.element.Package</type>
     <coordinates>
       <x>16</x>
-      <y>8</y>
+      <y>16</y>
       <w>80</w>
       <h>56</h>
     </coordinates>
@@ -158,7 +134,7 @@ Text</panel_attributes>
       <type>com.umlet.element.Package</type>
       <coordinates>
         <x>16</x>
-        <y>200</y>
+        <y>208</y>
         <w>120</w>
         <h>88</h>
       </coordinates>
@@ -169,7 +145,7 @@ Text</panel_attributes>
       <type>com.umlet.element.Package</type>
       <coordinates>
         <x>40</x>
-        <y>224</y>
+        <y>232</y>
         <w>80</w>
         <h>56</h>
       </coordinates>
