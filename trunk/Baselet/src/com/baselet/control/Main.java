@@ -106,8 +106,8 @@ public class Main {
 			else { // no arguments specified
 				alreadyRunningChecker(true); // start checker
 				main.init(new StandaloneGUI(main));
+				main.setInitFinished(true);
 				main.doNew();
-				initFinished = true;
 			}
 		} catch (Exception e) {
 			log.error("Initialization or uncaught outer Exception", e);
