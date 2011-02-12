@@ -30,7 +30,7 @@ This is a list of all important shortcuts which are used in UMLet.
 || Hold Ctrl + mousewheel up/down (or +/- keys) || Mouse over diagram or palette || Zoom diagram 10% in/out|| 
 || Mousewheel up/down || Mouse over combobox (selectbox) || Select next/previous entry of combobox|| 
 || Mousewheel up/down || Mouse over scrollbar || Move scrollbar up/down|| 
-|| Mousewheel up/down || Mouse over Properties Panel || Move property panel up/down|| 
+|| Mousewheel up/down || Mouse over Properties Panel || Move property panel content up/down|| 
 
 There are many other *Ctrl+"key"* shortcuts for quick access to important menu entries. These shortcuts are shown if you open any menu and therefore are not mentioned here._
 
