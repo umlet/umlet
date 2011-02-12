@@ -42,16 +42,16 @@ public class PropertyPanelListener implements KeyListener, FocusListener {
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
 		String s = Main.getInstance().getPropertyString();
 		DiagramHandler handler = Main.getInstance().getDiagramHandler();
+	
 		if (gridElement != null) {
 			//only create command if changes were made
 			if (!s.equals(gridElement.getPanelAttributes())) {
 				int newCaretPos = Main.getInstance().getGUI().getPropertyPane().getCaretPosition();
 				int oldCaretPos = newCaretPos - (s.length()-gridElement.getPanelAttributes().length());				
-				
 				gridElement.getHandler().getController().executeCommand(new ChangeState(gridElement, gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
 			}
 		}
-		else if (handler != null) { // help panel has been edited
+		else if (handler != null && !s.equals(handler.getHelpText())) { // help panel has been edited
 			handler.getController().executeCommand(new HelpPanelChanged(s));
 		}
 
