@@ -573,12 +573,11 @@ public class StandaloneGUI extends BaseGUI {
 			editSelectAll.setEnabled(false);
 		}
 		else if (handler instanceof CustomPreviewHandler) {
-			editMenu.setEnabled(false); // do not enable delete / cut commands
+			setCustomElementEditMenuEnabled(false);
 		}
 		else {
 			editMenu.setEnabled(true); // must be set to enabled explicitely because it could be deactivated from CustomPreview
-			editCopy.setEnabled(true);
-			editSelectAll.setEnabled(true);
+			setCustomElementEditMenuEnabled(true);
 		}
 
 		if ((handler == null) || !handler.getController().isUndoable()) editUndo.setEnabled(false);
@@ -590,6 +589,17 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public void enableSearch(boolean enable) {
 		this.searchField.requestFocus();
+	}
+	
+	private void setCustomElementEditMenuEnabled(boolean enabled)
+	{
+		editGroup.setEnabled(enabled);
+		editUngroup.setEnabled(enabled);
+		editDelete.setEnabled(enabled);
+		editCut.setEnabled(enabled);
+		editPaste.setEnabled(enabled);
+		editCopy.setEnabled(enabled);
+		editSelectAll.setEnabled(enabled);		
 	}
 
 	private void setDiagramsEnabled(boolean enable) {
