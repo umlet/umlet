@@ -10,11 +10,11 @@ import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 
 
-public class Ungroup extends Command {
+public class UnGroup extends Command {
 	Group _group;
 	Vector<GridElement> members;
 
-	public Ungroup(Group group) {
+	public UnGroup(Group group) {
 		_group = group;
 		members = new Vector<GridElement>();
 		members.addAll(_group.getMembers());

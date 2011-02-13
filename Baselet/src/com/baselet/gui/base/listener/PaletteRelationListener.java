@@ -8,7 +8,7 @@ import java.util.Vector;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.command.InsertLinePoint;
+import com.baselet.diagram.command.AddLinePoint;
 import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.RemoveLinePoint;
@@ -143,7 +143,7 @@ public class PaletteRelationListener extends PaletteEntityListener {
 					IS_DRAGGING_LINEPOINT = true;
 					LINEPOINT = ins;
 					this.controller.executeCommand(
-							new InsertLinePoint(r, ins, me.getX(), me.getY()));
+							new AddLinePoint(r, ins, me.getX(), me.getY()));
 					return;
 				}
 			}

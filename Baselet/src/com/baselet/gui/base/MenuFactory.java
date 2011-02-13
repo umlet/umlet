@@ -17,14 +17,14 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.Selector;
-import com.baselet.diagram.command.AddGroup;
+import com.baselet.diagram.command.CreateGroup;
 import com.baselet.diagram.command.Align;
 import com.baselet.diagram.command.ChangeColor;
 import com.baselet.diagram.command.Copy;
 import com.baselet.diagram.command.Cut;
 import com.baselet.diagram.command.Paste;
 import com.baselet.diagram.command.RemoveElement;
-import com.baselet.diagram.command.Ungroup;
+import com.baselet.diagram.command.UnGroup;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.baselet.gui.standalone.StandaloneGUI;
@@ -145,12 +145,12 @@ public class MenuFactory {
 					actualSelector.selectAll();
 				}
 				else if (menuItem.equals(GROUP) && (actualHandler != null)) {
-					Main.getInstance().getDiagramHandler().getController().executeCommand(new AddGroup());
+					Main.getInstance().getDiagramHandler().getController().executeCommand(new CreateGroup());
 				}
 				else if (menuItem.equals(UNGROUP) && (actualHandler != null) && (actualSelector != null)) {
 					Vector<GridElement> gridElements = actualSelector.getSelectedEntities();
 					for (GridElement gridElement : gridElements) {
-						if (gridElement instanceof Group) actualHandler.getController().executeCommand(new Ungroup((Group) gridElement));
+						if (gridElement instanceof Group) actualHandler.getController().executeCommand(new UnGroup((Group) gridElement));
 					}
 				}
 				else if (menuItem.equals(CUT) && (actualHandler != null)) {
