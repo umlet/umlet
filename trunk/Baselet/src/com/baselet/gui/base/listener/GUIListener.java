@@ -6,12 +6,12 @@ import java.util.Vector;
 
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.StickingPolygon;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.element.GridElement;
+import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
 

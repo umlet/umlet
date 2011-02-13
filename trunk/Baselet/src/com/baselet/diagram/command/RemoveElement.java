@@ -79,7 +79,7 @@ public class RemoveElement extends Command {
 		offsetY = offsetY * handler.getGridSize() / Constants.DEFAULTGRIDSIZE;
 
 		for (GridElement e : this._entities) {
-			(new AddEntity(e,
+			(new AddElement(e,
 					handler.realignToGrid(e.getX() + offsetX),
 					handler.realignToGrid(e.getY() + offsetY), _zoom)).execute(handler);
 		}

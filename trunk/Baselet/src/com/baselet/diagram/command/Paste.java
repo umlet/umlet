@@ -66,7 +66,7 @@ public class Paste extends Command {
 		offsetY = offsetY * handler.getGridSize() / Constants.DEFAULTGRIDSIZE;
 
 		for (GridElement e : this.entities) {
-			(new AddEntity(e,
+			(new AddElement(e,
 					handler.realignToGrid(e.getX() + offsetX),
 					handler.realignToGrid(e.getY() + offsetY), false)).execute(handler);
 		}

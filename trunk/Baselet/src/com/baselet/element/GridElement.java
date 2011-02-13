@@ -21,7 +21,6 @@ import com.baselet.control.Constants.LineType;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.StickingPolygon;
 import com.umlet.element.Relation;
 
 public abstract class GridElement extends JComponent {

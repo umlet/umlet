@@ -12,8 +12,7 @@ import java.util.Vector;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
 import com.baselet.diagram.Selector;
-import com.baselet.diagram.StickingPolygon;
-import com.baselet.diagram.command.AddEntity;
+import com.baselet.diagram.command.AddElement;
 
 
 @SuppressWarnings("serial")
@@ -39,7 +38,7 @@ public class Group extends GridElement {
 
 		adjustSize(false);
 		s.singleSelect(this);
-		(new AddEntity(this, this.getLocation().x, this.getLocation().y)).execute(this.getHandler());
+		(new AddElement(this, this.getLocation().x, this.getLocation().y)).execute(this.getHandler());
 	}
 
 	public void ungroup() {

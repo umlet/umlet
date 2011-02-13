@@ -11,7 +11,7 @@ import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 
-public class AddEntity extends Command {
+public class AddElement extends Command {
 
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 	
@@ -35,11 +35,11 @@ public class AddEntity extends Command {
 		else return _y;
 	}
 
-	public AddEntity(GridElement e, int x, int y) {
+	public AddElement(GridElement e, int x, int y) {
 		this(e, x, y, true);
 	}
 
-	public AddEntity(GridElement e, int x, int y, boolean zoom) {
+	public AddElement(GridElement e, int x, int y, boolean zoom) {
 		_entity = e;
 		_zoom = zoom;
 		if (_zoom) {

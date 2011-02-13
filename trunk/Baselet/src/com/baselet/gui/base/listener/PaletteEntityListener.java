@@ -11,7 +11,7 @@ import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
-import com.baselet.diagram.command.AddEntity;
+import com.baselet.diagram.command.AddElement;
 import com.baselet.diagram.command.Command;
 import com.baselet.element.GridElement;
 
@@ -163,7 +163,7 @@ public class PaletteEntityListener extends EntityListener {
 		Point viewp = currentDiagram.getScrollPane().getViewport().getViewPosition();
 		int upperLeftX = (int) (viewp.getX() - viewp.getX() % oldZoomDiagram);
 		int upperLeftY = (int) (viewp.getY() - viewp.getY() % oldZoomDiagram);
-		cmd = new AddEntity(e,
+		cmd = new AddElement(e,
 				handler.realignToGrid(((upperLeftX / oldZoomDiagram) + Constants.PASTE_DISPLACEMENT_GRIDS) * Constants.DEFAULTGRIDSIZE),
 				handler.realignToGrid(((upperLeftY / oldZoomDiagram) + Constants.PASTE_DISPLACEMENT_GRIDS) * Constants.DEFAULTGRIDSIZE));
 		currentDiagram.getHandler().getController().executeCommand(cmd);

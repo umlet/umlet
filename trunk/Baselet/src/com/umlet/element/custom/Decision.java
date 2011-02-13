@@ -6,8 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
 
-import com.baselet.diagram.StickingPolygon;
 import com.baselet.element.GridElement;
+import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")
