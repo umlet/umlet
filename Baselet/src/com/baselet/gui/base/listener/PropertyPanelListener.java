@@ -39,7 +39,7 @@ public class PropertyPanelListener implements KeyListener, FocusListener {
 	@Override public void keyTyped(KeyEvent ke) {}
 	@Override public void keyPressed(KeyEvent e) {}
 	
-	private void updateGridElement() {
+	protected void updateGridElement() {
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
 		String s = Main.getInstance().getPropertyString();
 		DiagramHandler handler = Main.getInstance().getDiagramHandler();
