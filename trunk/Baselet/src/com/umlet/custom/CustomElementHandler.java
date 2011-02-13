@@ -48,6 +48,9 @@ public class CustomElementHandler {
 
 		this.codepane.initJSyntaxPane();
 		
+		//for undo/redo 
+		this.codepane.initCodePanelListener();
+		
 		//TODO CUSTOM ELMENTS REFACTORING
 //		StyledDocument doc = codepane.getStyledDocument();
 //		Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
