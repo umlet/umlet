@@ -6,7 +6,7 @@ import java.util.Vector;
 import com.baselet.diagram.DiagramHandler;
 import com.umlet.element.Relation;
 
-public class InsertLinePoint extends Command {
+public class AddLinePoint extends Command {
 
 	private Relation _relation;
 	private int _where;
@@ -30,7 +30,7 @@ public class InsertLinePoint extends Command {
 		return _y * _relation.getHandler().getGridSize();
 	}
 
-	public InsertLinePoint(Relation r, int i, int x, int y) {
+	public AddLinePoint(Relation r, int i, int x, int y) {
 		_relation = r;
 		_where = i;
 		_x = x / _relation.getHandler().getGridSize();

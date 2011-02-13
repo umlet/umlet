@@ -9,11 +9,11 @@ import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 
 
-public class AddGroup extends Command {
+public class CreateGroup extends Command {
 	private Group _group;
 	private Vector<GridElement> _entities;
 
-	public AddGroup() {
+	public CreateGroup() {
 		_group = new Group();
 	}
 
