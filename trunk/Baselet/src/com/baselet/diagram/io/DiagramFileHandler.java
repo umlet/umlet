@@ -290,7 +290,7 @@ public class DiagramFileHandler {
 			try {
 				SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 				FileInputStream input = new FileInputStream(this.file);
-				XmlInputHandler xmlhandler = new XmlInputHandler(this.handler);
+				InputHandler xmlhandler = new InputHandler(this.handler);
 				parser.parse(input, xmlhandler);
 			} catch (SAXException e) {
 				log.error("Error parsing the inputstream.", e);
@@ -338,7 +338,7 @@ public class DiagramFileHandler {
 	public void doExportAs(String extension, File file) throws IOException {
 		CustomElementSecurityManager.addThreadPrivileges(Thread.currentThread(), fileName);
 		try {
-			Gen.createAndOutputToFile(extension, file, this.handler);
+			OutputHandler.createAndOutputToFile(extension, file, this.handler);
 		} catch (Exception e) {
 			throw new IOException(e.getMessage());
 		}

@@ -50,7 +50,7 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
-import com.baselet.diagram.io.Gen;
+import com.baselet.diagram.io.OutputHandler;
 import com.baselet.gui.base.CustomElementPanel;
 import com.baselet.gui.base.MailPanel;
 import com.baselet.gui.base.OwnSyntaxPane;
@@ -364,7 +364,7 @@ public class Editor extends EditorPart {
 			ByteArrayOutputStream outdata = new ByteArrayOutputStream();
 
 			try {
-				Gen.createToStream(format.toLowerCase(), outdata, this.handler);
+				OutputHandler.createToStream(format.toLowerCase(), outdata, this.handler);
 			} catch (Exception e) {
 				log.error(null, e);
 			}

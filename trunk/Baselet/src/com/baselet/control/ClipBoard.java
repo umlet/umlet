@@ -9,7 +9,7 @@ import java.util.Vector;
 
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.io.Gen;
+import com.baselet.diagram.io.OutputHandler;
 import com.baselet.element.GridElement;
 
 /** Copies and Pastes images to the system clipboard. Requires Java 2, v1.4. */
@@ -65,7 +65,7 @@ public class ClipBoard implements Transferable {
 	@Override
 	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
 		if (!isDataFlavorSupported(flavor)) throw new UnsupportedFlavorException(flavor);
-		return Gen.createImageForClipboard(copiedfrom, entities);
+		return OutputHandler.createImageForClipboard(copiedfrom, entities);
 	}
 
 }
