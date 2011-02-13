@@ -127,6 +127,10 @@ public class CustomElementHandler {
 		this.stop();
 		this.preview.closePreview();
 		this.preview.getDrawPanel().getSelector().deselectAll();
+
+		//clear controller before editing new custom element
+		Main.getInstance().getDiagramHandler().getController().clear();
+		
 		DrawPanel dia = Main.getInstance().getGUI().getCurrentDiagram();
 		if (dia != null) dia.getSelector().updateSelectorInformation();
 		else Main.getInstance().setPropertyPanelToGridElement(null);

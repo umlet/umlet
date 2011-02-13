@@ -84,5 +84,12 @@ public class Controller {
 	public long getCommandCount() {
 		return this.commandCount;
 	}
+	
+	public void clear()
+	{
+		commands = new Vector<Command>();
+		_cursor = -1;
+		this.commandCount = 0;		
+	}
 
 }
