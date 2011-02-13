@@ -19,7 +19,7 @@ import com.umlet.custom.CustomElementCompiler;
  * Describes what should happen with parsed elements from the input file
  * eg: set DiagramHandler variables, create GridElements etc.
  */
-public class XmlInputHandler extends DefaultHandler {
+public class InputHandler extends DefaultHandler {
 	private DrawPanel _p = null;
 	private GridElement e = null;
 	private String elementtext;
@@ -39,7 +39,7 @@ public class XmlInputHandler extends DefaultHandler {
 	// to be backward compatible - add list of old elements that were removed so that they are ignored when loading old files
 	private List<String> ignoreElements;
 
-	public XmlInputHandler(DiagramHandler handler) {
+	public InputHandler(DiagramHandler handler) {
 		this.handler = handler;
 		_p = handler.getDrawPanel();
 		ignoreElements = new ArrayList<String>();

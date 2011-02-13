@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -27,11 +29,42 @@ import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.PdfWriter;
 
-public class GenImpl {
 
-	private GenImpl() {} // private constructor to avoid instantiation
+public class OutputHandler {
 
-	protected static void exportToOutputStream(String extension, OutputStream ostream, DiagramHandler handler, Vector<GridElement> entities) throws IOException {
+	private OutputHandler() {} // private constructor to avoid instantiation
+
+	public static void createAndOutputToFile(String extension, File file, DiagramHandler handler) throws Exception {
+		OutputStream ostream = new FileOutputStream(file);
+		createToStream(extension, ostream, handler);
+	}
+
+	public static void createToStream(String extension, OutputStream ostream, DiagramHandler handler) throws Exception {
+
+		int oldZoom = handler.getGridSize();
+		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
+
+		Vector<GridElement> entities = handler.getDrawPanel().getSelector().getSelectedEntities();
+		if (entities.isEmpty()) entities = handler.getDrawPanel().getAllEntities();
+		OutputHandler.exportToOutputStream(extension, ostream, handler, entities);
+
+		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
+	}
+
+	public static BufferedImage createImageForClipboard(DiagramHandler handler, Vector<GridElement> entities) {
+
+		int oldZoom = handler.getGridSize();
+		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
+
+		if (entities.isEmpty()) entities = handler.getDrawPanel().getAllEntities();
+		BufferedImage returnImg = OutputHandler.getImageFromDiagram(handler, entities);
+
+		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
+
+		return returnImg;
+	}
+	
+	private static void exportToOutputStream(String extension, OutputStream ostream, DiagramHandler handler, Vector<GridElement> entities) throws IOException {
 		if (extension.equals("eps")) exportEps(ostream, handler, entities);
 		else if (extension.equals("pdf")) exportPdf(ostream, handler, entities);
 		else if (extension.equals("svg")) exportSvg(ostream, handler, entities);
@@ -92,7 +125,7 @@ public class GenImpl {
 		ostream.close();
 	}
 
-	protected static BufferedImage getImageFromDiagram(DiagramHandler handler, Vector<GridElement> entities) {
+	private static BufferedImage getImageFromDiagram(DiagramHandler handler, Vector<GridElement> entities) {
 
 		Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.PRINTPADDING, entities);
 		BufferedImage im = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_RGB);
