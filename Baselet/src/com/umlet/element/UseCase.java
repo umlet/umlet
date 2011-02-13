@@ -8,8 +8,8 @@ import java.util.Vector;
 
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
-import com.baselet.diagram.StickingPolygon;
 import com.baselet.element.GridElement;
+import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")

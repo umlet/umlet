@@ -17,14 +17,14 @@ import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.SelectorFrame;
-import com.baselet.diagram.StickingPolygon;
-import com.baselet.diagram.command.AddEntity;
+import com.baselet.diagram.command.AddElement;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.Resize;
 import com.baselet.element.GridElement;
+import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
 
@@ -189,7 +189,7 @@ public class EntityListener extends UniversalListener {
 		EntityListener eListener = handler.getEntityListener(e);
 		Command cmd;
 		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
-		cmd = new AddEntity(e, me.getX() + gridSize * 2, me.getY() + gridSize * 2);
+		cmd = new AddElement(e, me.getX() + gridSize * 2, me.getY() + gridSize * 2);
 		// this.IS_FIRST_DRAGGING_OVER=true;
 		this.controller.executeCommand(cmd);
 		this.selector.singleSelect(e);

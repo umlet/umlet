@@ -10,7 +10,7 @@ import java.util.Vector;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Utils;
-import com.baselet.diagram.StickingPolygon;
+import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")

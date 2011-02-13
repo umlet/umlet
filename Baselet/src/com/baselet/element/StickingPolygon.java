@@ -1,5 +1,5 @@
 
-package com.baselet.diagram;
+package com.baselet.element;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Vector;
 
 import com.baselet.control.Main;
+import com.baselet.diagram.DrawPanel;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
 
