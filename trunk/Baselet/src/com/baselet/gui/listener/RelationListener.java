@@ -15,7 +15,7 @@ import com.baselet.diagram.command.RemoveLinePoint;
 import com.umlet.element.Relation;
 
 
-public class RelationListener extends EntityListener {
+public class RelationListener extends GridElementListener {
 
 	private static HashMap<DiagramHandler, RelationListener> listener = new HashMap<DiagramHandler, RelationListener>();
 

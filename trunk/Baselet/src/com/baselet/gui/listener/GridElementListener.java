@@ -28,13 +28,13 @@ import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
 
-public class EntityListener extends UniversalListener {
+public class GridElementListener extends UniversalListener {
 
-	private static HashMap<DiagramHandler, EntityListener> entitylistener = new HashMap<DiagramHandler, EntityListener>();
+	private static HashMap<DiagramHandler, GridElementListener> entitylistener = new HashMap<DiagramHandler, GridElementListener>();
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
-	public static EntityListener getInstance(DiagramHandler handler) {
-		if (!entitylistener.containsKey(handler)) entitylistener.put(handler, new EntityListener(handler));
+	public static GridElementListener getInstance(DiagramHandler handler) {
+		if (!entitylistener.containsKey(handler)) entitylistener.put(handler, new GridElementListener(handler));
 		return entitylistener.get(handler);
 	}
 
@@ -56,7 +56,7 @@ public class EntityListener extends UniversalListener {
 	private Point mousePressedPoint;
 	private int resizeDirection;
 
-	protected EntityListener(DiagramHandler handler) {
+	protected GridElementListener(DiagramHandler handler) {
 		super(handler);
 	}
 
@@ -186,7 +186,7 @@ public class EntityListener extends UniversalListener {
 
 	public void mouseDoubleClicked(GridElement me) {
 		GridElement e = me.CloneFromMe();
-		EntityListener eListener = handler.getEntityListener(e);
+		GridElementListener eListener = handler.getEntityListener(e);
 		Command cmd;
 		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
 		cmd = new AddElement(e, me.getX() + gridSize * 2, me.getY() + gridSize * 2);

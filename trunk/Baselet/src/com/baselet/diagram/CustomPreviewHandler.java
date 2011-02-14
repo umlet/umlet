@@ -3,7 +3,7 @@ package com.baselet.diagram;
 import com.baselet.element.GridElement;
 import com.baselet.gui.listener.CustomPreviewEntityListener;
 import com.baselet.gui.listener.CustomPreviewListener;
-import com.baselet.gui.listener.EntityListener;
+import com.baselet.gui.listener.GridElementListener;
 
 public class CustomPreviewHandler extends DiagramHandler {
 	public CustomPreviewHandler() {
@@ -12,7 +12,7 @@ public class CustomPreviewHandler extends DiagramHandler {
 	}
 
 	@Override
-	public EntityListener getEntityListener(GridElement e) {
+	public GridElementListener getEntityListener(GridElement e) {
 		return CustomPreviewEntityListener.getInstance(this);
 	}
 
