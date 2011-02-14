@@ -6,8 +6,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.baselet.control.Main;
+import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.ChangeState;
+import com.baselet.diagram.command.CustomCodePropertyChanged;
 import com.baselet.diagram.command.HelpPanelChanged;
 import com.baselet.element.GridElement;
 import com.baselet.gui.standalone.StandaloneGUI;
@@ -48,8 +50,15 @@ public class PropertyPanelListener implements KeyListener, FocusListener {
 			//only create command if changes were made
 			if (!s.equals(gridElement.getPanelAttributes())) {
 				int newCaretPos = Main.getInstance().getGUI().getPropertyPane().getCaretPosition();
-				int oldCaretPos = newCaretPos - (s.length()-gridElement.getPanelAttributes().length());				
-				gridElement.getHandler().getController().executeCommand(new ChangeState(gridElement, gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
+				int oldCaretPos = newCaretPos - (s.length()-gridElement.getPanelAttributes().length());		
+				
+				if (gridElement.getHandler() instanceof CustomPreviewHandler) {
+					gridElement.getHandler().getController().executeCommand(new CustomCodePropertyChanged(gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
+				} else {
+					gridElement.getHandler().getController().executeCommand(new ChangeState(gridElement, gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
+				}
+				
+				
 			}
 		}
 		else if (handler != null && !s.equals(handler.getHelpText())) { // help panel has been edited
