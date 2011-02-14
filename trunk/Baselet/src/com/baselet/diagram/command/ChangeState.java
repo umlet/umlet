@@ -55,6 +55,8 @@ public class ChangeState extends Command {
 			if (pane.getText().length() >= _newCaret) {
 				pane.setCaretPosition(_newCaret);
 			}
+			
+			pane.repaint();
 		}		
 	}
 
@@ -73,6 +75,8 @@ public class ChangeState extends Command {
 			if (pane.getText().length() >= _oldCaret) {
 				pane.setCaretPosition(_oldCaret);
 			}
+			
+			pane.repaint();
 		}
 	}
 	

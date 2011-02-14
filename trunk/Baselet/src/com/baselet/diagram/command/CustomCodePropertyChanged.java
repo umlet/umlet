@@ -1,6 +1,7 @@
 package com.baselet.diagram.command;
 
 import com.baselet.control.Main;
+import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.baselet.gui.base.OwnSyntaxPane;
@@ -40,10 +41,8 @@ public class CustomCodePropertyChanged extends Command {
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
 
-		//tbd. somehow check if custom element is edited...
-		
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
-		if (gridElement != null) {
+		if (gridElement != null && gridElement.getHandler() instanceof CustomPreviewHandler) {
 			gridElement.setPanelAttributes(_newState);
 			
 			OwnSyntaxPane pane = Main.getInstance().getGUI().getPropertyPane();
@@ -63,7 +62,7 @@ public class CustomCodePropertyChanged extends Command {
 		//super.undo(handler);
 	
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
-		if (gridElement != null) {
+		if (gridElement != null  && gridElement.getHandler() instanceof CustomPreviewHandler) {
 			gridElement.setPanelAttributes(_oldState);
 			
 			OwnSyntaxPane pane = Main.getInstance().getGUI().getPropertyPane();
