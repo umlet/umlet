@@ -3,7 +3,7 @@ package com.baselet.diagram.command;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
-import com.baselet.gui.base.OwnSyntaxPane;
+import com.baselet.gui.OwnSyntaxPane;
 
 public class ChangeState extends Command {
 	private GridElement _entity;

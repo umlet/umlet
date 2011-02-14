@@ -5,7 +5,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.HashMap;
 
 import com.baselet.control.Constants;
-import com.baselet.gui.base.CustomCodeSyntaxPane;
+import com.umlet.gui.CustomCodeSyntaxPane;
 
 
 public class ErrorHandler implements MouseMotionListener {

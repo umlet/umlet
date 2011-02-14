@@ -33,7 +33,7 @@ import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.GridElement;
-import com.baselet.gui.base.BaseGUI;
+import com.baselet.gui.BaseGUI;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.custom.CustomElementSecurityManager;
 

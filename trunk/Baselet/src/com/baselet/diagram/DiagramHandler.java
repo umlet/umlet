@@ -18,11 +18,11 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
-import com.baselet.gui.base.BaseGUI;
-import com.baselet.gui.base.DiagramPopupMenu;
-import com.baselet.gui.base.listener.DiagramListener;
-import com.baselet.gui.base.listener.EntityListener;
-import com.baselet.gui.base.listener.RelationListener;
+import com.baselet.gui.BaseGUI;
+import com.baselet.gui.DiagramPopupMenu;
+import com.baselet.gui.listener.DiagramListener;
+import com.baselet.gui.listener.EntityListener;
+import com.baselet.gui.listener.RelationListener;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.element.Relation;
 

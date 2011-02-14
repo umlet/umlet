@@ -50,17 +50,17 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.diagram.io.DiagramFileHandler;
-import com.baselet.gui.base.BaseGUI;
-import com.baselet.gui.base.CustomElementPanel;
-import com.baselet.gui.base.MailPanel;
-import com.baselet.gui.base.MenuFactory;
-import com.baselet.gui.base.MenuFactorySwing;
-import com.baselet.gui.base.OwnSyntaxPane;
-import com.baselet.gui.base.TabComponent;
-import com.baselet.gui.base.listener.DividerListener;
-import com.baselet.gui.base.listener.GUIListener;
-import com.baselet.gui.base.listener.PaletteComboBoxListener;
+import com.baselet.gui.BaseGUI;
+import com.baselet.gui.MailPanel;
+import com.baselet.gui.MenuFactory;
+import com.baselet.gui.MenuFactorySwing;
+import com.baselet.gui.OwnSyntaxPane;
+import com.baselet.gui.TabComponent;
+import com.baselet.gui.listener.DividerListener;
+import com.baselet.gui.listener.GUIListener;
+import com.baselet.gui.listener.PaletteComboBoxListener;
 import com.umlet.custom.CustomElementHandler;
+import com.umlet.gui.CustomElementPanel;
 
 @SuppressWarnings("serial")
 public class StandaloneGUI extends BaseGUI {

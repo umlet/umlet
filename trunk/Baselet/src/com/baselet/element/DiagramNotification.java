@@ -18,7 +18,7 @@ import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.gui.base.NotificationRemoveTask;
+import com.baselet.gui.NotificationRemoveTask;
 
 public class DiagramNotification extends JComponent {
 

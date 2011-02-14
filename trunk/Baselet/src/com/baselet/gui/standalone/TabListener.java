@@ -7,7 +7,7 @@ import javax.swing.JTabbedPane;
 
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.gui.base.BaseGUI;
+import com.baselet.gui.BaseGUI;
 
 
 public class TabListener implements MouseListener {

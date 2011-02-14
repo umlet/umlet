@@ -29,8 +29,8 @@ import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Utils;
 import com.baselet.element.DiagramNotification;
 import com.baselet.element.GridElement;
-import com.baselet.gui.base.StartUpHelpText;
-import com.baselet.gui.base.listener.ScrollbarListener;
+import com.baselet.gui.StartUpHelpText;
+import com.baselet.gui.listener.ScrollbarListener;
 import com.umlet.element.Relation;
 
 @SuppressWarnings("serial")

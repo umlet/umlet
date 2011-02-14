@@ -16,7 +16,7 @@ import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Main;
-import com.baselet.gui.base.MenuFactory;
+import com.baselet.gui.MenuFactory;
 import com.baselet.gui.eclipse.EclipseGUI;
 import com.baselet.gui.eclipse.EclipseGUI.Pane;
 import com.baselet.gui.eclipse.MenuFactoryEclipse;
