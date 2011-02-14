@@ -10,7 +10,7 @@ import java.io.FileWriter;
 import java.util.Arrays;
 
 import com.baselet.control.Constants.Program;
-import com.baselet.gui.base.BaseGUI;
+import com.baselet.gui.BaseGUI;
 
 
 public class Config {

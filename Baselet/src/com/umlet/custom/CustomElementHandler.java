@@ -13,8 +13,8 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.ErrorOccurred;
 import com.baselet.element.GridElement;
-import com.baselet.gui.base.CustomCodeSyntaxPane;
-import com.baselet.gui.base.CustomElementPanel;
+import com.umlet.gui.CustomCodeSyntaxPane;
+import com.umlet.gui.CustomElementPanel;
 
 
 public class CustomElementHandler {

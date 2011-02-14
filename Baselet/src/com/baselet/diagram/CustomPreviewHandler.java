@@ -1,9 +1,9 @@
 package com.baselet.diagram;
 
 import com.baselet.element.GridElement;
-import com.baselet.gui.base.listener.CustomPreviewEntityListener;
-import com.baselet.gui.base.listener.CustomPreviewListener;
-import com.baselet.gui.base.listener.EntityListener;
+import com.baselet.gui.listener.CustomPreviewEntityListener;
+import com.baselet.gui.listener.CustomPreviewListener;
+import com.baselet.gui.listener.EntityListener;
 
 public class CustomPreviewHandler extends DiagramHandler {
 	public CustomPreviewHandler() {

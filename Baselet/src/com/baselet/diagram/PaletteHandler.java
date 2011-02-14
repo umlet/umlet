@@ -3,9 +3,9 @@ package com.baselet.diagram;
 import java.io.File;
 
 import com.baselet.element.GridElement;
-import com.baselet.gui.base.listener.EntityListener;
-import com.baselet.gui.base.listener.PaletteEntityListener;
-import com.baselet.gui.base.listener.PaletteRelationListener;
+import com.baselet.gui.listener.EntityListener;
+import com.baselet.gui.listener.PaletteEntityListener;
+import com.baselet.gui.listener.PaletteRelationListener;
 import com.umlet.element.Relation;
 
 

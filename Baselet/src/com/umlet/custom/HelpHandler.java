@@ -14,8 +14,8 @@ import javax.swing.Action;
 import javax.swing.ActionMap;
 
 import com.baselet.control.Constants;
-import com.baselet.gui.base.CustomCodeSyntaxPane;
-import com.baselet.gui.base.JMultiLineToolTip;
+import com.baselet.gui.JMultiLineToolTip;
+import com.umlet.gui.CustomCodeSyntaxPane;
 
 
 public class HelpHandler implements KeyListener {

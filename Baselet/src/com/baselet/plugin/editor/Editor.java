@@ -51,17 +51,17 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.diagram.io.OutputHandler;
-import com.baselet.gui.base.CustomElementPanel;
-import com.baselet.gui.base.MailPanel;
-import com.baselet.gui.base.OwnSyntaxPane;
-import com.baselet.gui.base.listener.DividerListener;
-import com.baselet.gui.base.listener.GUIListener;
-import com.baselet.gui.base.listener.PaletteComboBoxListener;
+import com.baselet.gui.MailPanel;
+import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.eclipse.CustomCodePaneFocusListener;
 import com.baselet.gui.eclipse.TextPaneFocusListener;
+import com.baselet.gui.listener.DividerListener;
+import com.baselet.gui.listener.GUIListener;
+import com.baselet.gui.listener.PaletteComboBoxListener;
 import com.baselet.gui.standalone.SearchListener;
 import com.baselet.plugin.MainPlugin;
 import com.umlet.custom.CustomElementHandler;
+import com.umlet.gui.CustomElementPanel;
 
 public class Editor extends EditorPart {
 

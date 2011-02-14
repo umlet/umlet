@@ -22,7 +22,7 @@ import org.eclipse.ui.ide.IDE;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.gui.base.MenuFactory;
+import com.baselet.gui.MenuFactory;
 import com.baselet.plugin.editor.Contributor;
 
 public class MenuFactoryEclipse extends MenuFactory {
