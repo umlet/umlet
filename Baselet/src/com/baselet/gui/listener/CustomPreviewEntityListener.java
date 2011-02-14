@@ -6,7 +6,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 
 
-public class CustomPreviewEntityListener extends EntityListener {
+public class CustomPreviewEntityListener extends GridElementListener {
 
 	private static HashMap<DiagramHandler, CustomPreviewEntityListener> entitylistener = new HashMap<DiagramHandler, CustomPreviewEntityListener>();
 

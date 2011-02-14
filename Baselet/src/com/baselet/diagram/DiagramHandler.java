@@ -21,7 +21,7 @@ import com.baselet.element.Group;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.DiagramPopupMenu;
 import com.baselet.gui.listener.DiagramListener;
-import com.baselet.gui.listener.EntityListener;
+import com.baselet.gui.listener.GridElementListener;
 import com.baselet.gui.listener.RelationListener;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.element.Relation;
@@ -188,9 +188,9 @@ public class DiagramHandler {
 	}
 
 	// function to be able to controll the entitylistener + diagramlistener from the handler
-	public EntityListener getEntityListener(GridElement e) {
+	public GridElementListener getEntityListener(GridElement e) {
 		if (e instanceof Relation) return RelationListener.getInstance(this);
-		return EntityListener.getInstance(this);
+		return GridElementListener.getInstance(this);
 	}
 
 	public boolean askSaveIfDirty() {

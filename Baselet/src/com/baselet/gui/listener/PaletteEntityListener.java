@@ -15,7 +15,7 @@ import com.baselet.diagram.command.AddElement;
 import com.baselet.diagram.command.Command;
 import com.baselet.element.GridElement;
 
-public class PaletteEntityListener extends EntityListener {
+public class PaletteEntityListener extends GridElementListener {
 
 	Map<GridElement, Point> previousDraggingLocation;
 
