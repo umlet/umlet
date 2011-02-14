@@ -208,7 +208,7 @@ public class EclipseGUI extends BaseGUI {
 	@Override 
 	public OwnSyntaxPane getPropertyPane()
 	{
-		return this.propertyTextPane;		
+		return this.editor.getPropertyPane();
 	}
 	
 	@Override
