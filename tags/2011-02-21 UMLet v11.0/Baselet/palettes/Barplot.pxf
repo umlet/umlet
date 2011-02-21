@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="plotlet" version="0.81">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.plotlet.element.PlotGrid</type>
+    <coordinates>
+      <x>10</x>
+      <y>0</y>
+      <w>660</w>
+      <h>460</h>
+    </coordinates>
+    <panel_attributes>data
+a	b	c
+-5	5.5	18.3
+3	1.2	-4
+
+data
+a	b	c
+30	50	120
+
+grid.width=2
+type=bar
+
+plot
+
+plot tilt=true
+
+plot
+
+plot data=#1 tilt=true</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.plotlet.element.PlotGrid</type>
+    <coordinates>
+      <x>10</x>
+      <y>470</y>
+      <w>660</w>
+      <h>460</h>
+    </coordinates>
+    <panel_attributes>data
+a	b	c
+-16	5.5	18.3
+
+data
+a	b	c
+30	50	120
+
+grid.width=2
+type=bar
+value.min=-16
+value.max=120
+
+plot
+
+plot tilt=true
+
+plot
+
+plot data=#1 tilt=true</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

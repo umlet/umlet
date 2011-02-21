@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+   <extension point="org.eclipse.ui.newWizards">
+      <wizard
+            name="@project.name.uc@ diagram"
+            id="@project.path.prefix@.@project.name.lc@.plugin.wizards.NewWizard"
+            icon="img/@project.name.lc@_eclipse.gif"
+            category="@project.path.prefix@.@project.name.shared@.plugin"
+            class="@project.path.prefix@.@project.name.shared@.plugin.wizard.NewWizard"
+       />
+   </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            name="@project.name.uc@ Editor"
+            id="@project.path.prefix@.@project.name.lc@.plugin.Editor"
+            icon="img/@project.name.lc@_eclipse.gif"
+            class="@project.path.prefix@.@project.name.shared@.plugin.editor.Editor"
+            contributorClass="@project.path.prefix@.@project.name.shared@.plugin.editor.Contributor"
+            extensions="@project.file.extension@"
+            default="false"
+      />
+   </extension>
+</plugin>
