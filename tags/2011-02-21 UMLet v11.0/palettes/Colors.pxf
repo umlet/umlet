@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="plotlet" version="0.81">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.plotlet.element.PlotGrid</type>
+    <coordinates>
+      <x>10</x>
+      <y>10</y>
+      <w>660</w>
+      <h>580</h>
+    </coordinates>
+    <panel_attributes>data
+a	b	c	d	e	f	g	h
+-3	2	5	10	7	6	3	2
+
+grid.width=2
+
+plot data=#1
+
+colors=#3c7a00,#50,red
+
+plot data=#1
+
+colors=black,blue,cyan,dark_gray,green
+
+plot data=#1
+
+colors=gray,light_gray,magenta,orange,pink,red,white,yellow
+
+plot data=#1</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
