@@ -28,7 +28,7 @@ import com.baselet.plugin.editor.Contributor;
 public class MenuFactoryEclipse extends MenuFactory {
 
 	private final static Logger log = Logger.getLogger(MenuFactoryEclipse.class);	
-	
+
 	private static MenuFactoryEclipse instance = null;
 	public static MenuFactoryEclipse getInstance() {
 		if (instance == null) instance = new MenuFactoryEclipse();
@@ -37,25 +37,20 @@ public class MenuFactoryEclipse extends MenuFactory {
 
 	@Override
 	protected void doAction(final String menuItem, final Object param) {
-		//AB: Note that we cannot put the whole method into a thread because of the super call at the end.
 		log.info("doAction " + menuItem);	
 		DiagramHandler actualHandler = Main.getInstance().getDiagramHandler();
+		// Edit Palette cannot be put in a separate invokeLater thread, or otherwise getActivePage() will be null!
 		if (menuItem.equals(EDIT_CURRENT_PALETTE)) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					String paletteName = Main.getInstance().getPalette().getFileHandler().getFullPathName();
-					IFileStore fileStore = EFS.getLocalFileSystem().getStore(new File(paletteName).toURI());
-					if (!fileStore.fetchInfo().isDirectory() && fileStore.fetchInfo().exists()) {
-						IWorkbenchPage page= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-						try {
-							IDE.openEditorOnFileStore(page, fileStore);
-						} catch (PartInitException e) {
-							log.error("Cannot open palette file", e);
-						}
-					}
+			String paletteName = Main.getInstance().getPalette().getFileHandler().getFullPathName();
+			IFileStore fileStore = EFS.getLocalFileSystem().getStore(new File(paletteName).toURI());
+			if (!fileStore.fetchInfo().isDirectory() && fileStore.fetchInfo().exists()) {
+				IWorkbenchPage page= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				try {
+					IDE.openEditorOnFileStore(page, fileStore);
+				} catch (PartInitException e) {
+					log.error("Cannot open palette file", e);
 				}
-			});	
+			}
 		}
 		else if (menuItem.equals(SEARCH)) {
 			SwingUtilities.invokeLater(new Runnable() {
@@ -165,11 +160,11 @@ public class MenuFactoryEclipse extends MenuFactory {
 
 	public List<IAction> createExportAsActions() {
 		List<IAction> actions = new ArrayList<IAction>();
-		
+
 		for (final String format : Constants.exportFormatList) {
 			actions.add(createAction(format.toUpperCase() + "...", EXPORT_AS, format));
 		}	
-		
+
 		return actions;
 	}
 
