@@ -27,21 +27,6 @@ public class EER_Rel_Diamond extends com.baselet.element.GridElement {
 		g2.setColor(fgColor);
 		
 
-		// It's getting interesting here:
-		// First, the strings you type in the element editor are read and
-		// split into lines. Then, by default, they are printed out on the
-		// element, aligned to the left. Change this to modify this default
-		// text printing and to react to special strings (like the "--" string
-		// in the UML class elements which draw a line).
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
-		int yPos = this.getHeight() / 2 - (((int) this.getHandler().getFontHandler().getDistanceBetweenTexts() + (int) this.getHandler().getFontHandler().getFontSize()) * tmp.size()) / 2;
-		for (int i = 0; i < tmp.size(); i++) {
-			String s = tmp.elementAt(i);
-			yPos += (int) this.getHandler().getFontHandler().getFontSize();
-			this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, true);
-			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
-		}
-
 		// Finally, change other graphical attributes using
 		// drawLine, getWidth, getHeight..
 
@@ -57,7 +42,23 @@ public class EER_Rel_Diamond extends com.baselet.element.GridElement {
 		g2.fillPolygon(poly); // fill the background
 		g2.setComposite(composites[0]); // reset composite settings
 		if (isSelected) g2.setColor(fgColor);
-		else g2.setColor(fgColorBase);
+		else g2.setColor(fgColorBase);
+
+		// It's getting interesting here:
+		// First, the strings you type in the element editor are read and
+		// split into lines. Then, by default, they are printed out on the
+		// element, aligned to the left. Change this to modify this default
+		// text printing and to react to special strings (like the "--" string
+		// in the UML class elements which draw a line).
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		int yPos = this.getHeight() / 2 - (((int) this.getHandler().getFontHandler().getDistanceBetweenTexts() + (int) this.getHandler().getFontHandler().getFontSize()) * tmp.size()) / 2;
+		for (int i = 0; i < tmp.size(); i++) {
+			String s = tmp.elementAt(i);
+			yPos += (int) this.getHandler().getFontHandler().getFontSize();
+			this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, true);
+			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
+		}
+		
 
 		// Draw the elements outline
 		g2.drawPolygon(poly);
