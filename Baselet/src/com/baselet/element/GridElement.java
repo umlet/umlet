@@ -224,10 +224,13 @@ public abstract class GridElement extends JComponent {
 			if (line.indexOf("bg=") >= 0) {
 				bgColorString = line.substring("bg=".length());
 				bgColor = Utils.getColor(bgColorString);
+				if (bgColor == null) bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
 			}
 			else if (line.indexOf("fg=") >= 0) {
 				fgColorString = line.substring("fg=".length());
 				fgColorBase = Utils.getColor(fgColorString);
+				if (fgColorBase == null) fgColorBase = Constants.DEFAULT_FOREGROUND_COLOR;
+				if (!isSelected) fgColor = fgColorBase;
 			}
 		}
 
