@@ -98,7 +98,7 @@ public abstract class CustomElement extends GridElement {
 		g2.setComposite(this.composites[1]);
 
 		for (StyleShape s : this.shapes) {
-			specialBgColor = ((s.getBgColor() != bgColor) || (s.getAlpha() != Constants.ALPHA_NO_TRANSPARENCY));
+			specialBgColor = ((s.getBgColor() != bgColor));
 			if (specialBgColor) {
 				g2.setColor(s.getBgColor());
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, s.getAlpha()));
@@ -118,7 +118,10 @@ public abstract class CustomElement extends GridElement {
 			specialFgColor = (s.getFgColor() != Constants.DEFAULT_FOREGROUND_COLOR);
 
 			if (specialLine) g2.setStroke(Utils.getStroke(s.getLineType(), s.getLineThickness()));
-			if (specialFgColor) g2.setColor(s.getFgColor());
+			if (specialFgColor) {
+				if (isSelected) g2.setColor(Constants.DEFAULT_SELECTED_COLOR);
+				else g2.setColor(s.getFgColor());
+			}
 			this.g2.draw(s.getShape());
 			if (specialLine) g2.setStroke(Utils.getStroke(LineType.SOLID, Constants.DEFAULT_LINE_THICKNESS));
 			if (specialFgColor) g2.setColor(fgColor);
@@ -151,9 +154,9 @@ public abstract class CustomElement extends GridElement {
 		else bugfix = false;
 
 		this.g2 = (Graphics2D) g;
+		composites = this.colorize(g2);
 		g2.setFont(this.getHandler().getFontHandler().getFont());
 		g2.setColor(fgColor);
-		composites = this.colorize(g2);
 
 		// width and height must be zoomed back to 100% before any custom code is applied
 		temp = this.getWidth();
@@ -373,17 +376,14 @@ public abstract class CustomElement extends GridElement {
 		tmpFgColor = Utils.getColor(fgColorString);
 		if (tmpFgColor == null) {
 			if (fgColorString.equals("fg")) tmpFgColor = fgColor;
-			else tmpFgColor = Constants.DEFAULT_FOREGROUND_COLOR;
 		}
 	}
 
 	@CustomFunction(param_defaults = "backgroundColor")
 	protected final void setBackgroundColor(String bgColorString) {
 		tmpBgColor = Utils.getColor(bgColorString);
-		System.out.println(tmpBgColor);
 		if (tmpBgColor == null) {
 			if (bgColorString.equals("bg")) tmpBgColor = bgColor;
-			else tmpBgColor = Constants.DEFAULT_BACKGROUND_COLOR;
 		}
 //		 Transparency is 0% if none or 50% if anything else
 		if (bgColorString.equals("none")) tmpAlpha = Constants.ALPHA_FULL_TRANSPARENCY;
@@ -394,7 +394,8 @@ public abstract class CustomElement extends GridElement {
 	protected final void resetAll() {
 		tmpLineThickness = Constants.DEFAULT_LINE_THICKNESS;
 		tmpLineType = LineType.SOLID;
-		tmpFgColor = Constants.DEFAULT_FOREGROUND_COLOR;
-		tmpBgColor = Constants.DEFAULT_BACKGROUND_COLOR;
+		tmpFgColor = fgColor;
+		tmpBgColor = bgColor;
+		tmpAlpha = alphaFactor;
 	}
 }
