@@ -356,8 +356,11 @@ public abstract class CustomElement extends GridElement {
 	 */
 
 	@CustomFunction(param_defaults = "lineType")
-	protected final void setLineType(LineType lineType) {
-		this.tmpLineType = lineType;
+	protected final void setLineType(int lineType) {
+		if (lineType == 0) this.tmpLineType = LineType.SOLID;
+		else if (lineType == 1) this.tmpLineType = LineType.DASHED;
+		else if (lineType == 2) this.tmpLineType = LineType.DOTTED;
+		else this.tmpLineType = LineType.SOLID;
 	}
 
 	@CustomFunction(param_defaults = "lineThickness")
@@ -365,7 +368,7 @@ public abstract class CustomElement extends GridElement {
 		this.tmpLineThickness = lineThickness;
 	}
 
-	@CustomFunction(param_defaults = "foreground color")
+	@CustomFunction(param_defaults = "foregroundColor")
 	protected final void setForegroundColor(String fgColorString) {
 		tmpFgColor = Utils.getColor(fgColorString);
 		if (tmpFgColor == null) {
@@ -374,16 +377,17 @@ public abstract class CustomElement extends GridElement {
 		}
 	}
 
-	@CustomFunction(param_defaults = "background color")
+	@CustomFunction(param_defaults = "backgroundColor")
 	protected final void setBackgroundColor(String bgColorString) {
 		tmpBgColor = Utils.getColor(bgColorString);
+		System.out.println(tmpBgColor);
 		if (tmpBgColor == null) {
 			if (bgColorString.equals("bg")) tmpBgColor = bgColor;
 			else tmpBgColor = Constants.DEFAULT_BACKGROUND_COLOR;
 		}
 //		 Transparency is 0% if none or 50% if anything else
-		if (bgColorString.equals("none")) tmpAlpha = Constants.ALPHA_MIDDLE_TRANSPARENCY;
-		else tmpAlpha = Constants.ALPHA_NO_TRANSPARENCY;
+		if (bgColorString.equals("none")) tmpAlpha = Constants.ALPHA_FULL_TRANSPARENCY;
+		else tmpAlpha = Constants.ALPHA_MIDDLE_TRANSPARENCY;
 	}
 
 	@CustomFunction(param_defaults = "")
