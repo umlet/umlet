@@ -56,7 +56,6 @@ public class Main {
 	private DiagramHandler currentDiagramHandler;
 	private DiagramHandler currentInfoDiagramHandler;
 	private ClassLoader classLoader;
-	private static boolean initFinished = false;
 
 	private List<String> recentFiles = new ArrayList<String>();
 
@@ -119,7 +118,6 @@ public class Main {
 		Config.loadConfig(); // only load config after gui is set (because of homepath)
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE); // Tooltips should not hide after some time
 		gui.initGUI(); // show gui
-		Main.getInstance().setInitFinished(true);
 	}
 
 	public void initOverallSettings() {
@@ -271,15 +269,22 @@ public class Main {
 		editedGridElement = e;
 	}
 
-	public void setPropertyPanelToGridElement(GridElement e) {
-		if (initFinished()) {
-			editedGridElement = e;
-			if (e != null) this.gui.setPropertyPanelText(e.getPanelAttributes());
-			else {			
-				DiagramHandler handler = this.getDiagramHandler();
-				if (handler == null) this.gui.setPropertyPanelText("");
-				else this.gui.setPropertyPanelText(handler.getHelpText());
+	public void setPropertyPanelToGridElement(final GridElement e) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				setPropertyPanelToGridElementHelper(e);
 			}
+		});
+	}
+
+	private void setPropertyPanelToGridElementHelper(GridElement e) {
+		editedGridElement = e;
+		if (e != null) this.gui.setPropertyPanelText(e.getPanelAttributes());
+		else {			
+			DiagramHandler handler = this.getDiagramHandler();
+			if (handler == null) this.gui.setPropertyPanelText("");
+			else this.gui.setPropertyPanelText(handler.getHelpText());
 		}
 	}
 
@@ -464,11 +469,4 @@ public class Main {
 		return recentFiles;
 	}
 
-	public void setInitFinished(boolean initFinished) {	
-		Main.initFinished = initFinished;
-	}
-
-	public boolean initFinished() {
-		return initFinished;
-	}
 }
