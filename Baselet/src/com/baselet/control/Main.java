@@ -19,6 +19,7 @@ import java.util.jar.Manifest;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.filechooser.FileSystemView;
 
@@ -69,7 +70,7 @@ public class Main {
 	public static void main(String args[]) {
 
 		System.setSecurityManager(new CustomElementSecurityManager());
-		
+
 		Main main = Main.getInstance();
 		main.initOverallSettings();
 		tmp_file = Program.PROGRAM_NAME.toLowerCase() + ".tmp";
@@ -307,6 +308,15 @@ public class Main {
 	}
 
 	public void doNew() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				doNewHelper();
+			}
+		});
+	}
+
+	private void doNewHelper() {
 		if (lastTabIsEmpty()) return; // If the last tab is empty do nothing (it's already new)
 		DiagramHandler diagram = new DiagramHandler(null);
 		this.diagrams.add(diagram);
@@ -319,7 +329,16 @@ public class Main {
 		if (fn != null) this.doOpen(fn);
 	}
 
-	public void doOpen(String filename) {
+	public void doOpen(final String filename) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				doOpenHelper(filename);
+			}
+		});
+	}
+
+	private void doOpenHelper(String filename) {
 		if (lastTabIsEmpty()) (diagrams.get(diagrams.size() - 1)).doClose(); // If the last tab is empty close it (the opened diagram replaces the new one)
 		File file = new File(filename);
 		if (!file.exists()) return;
@@ -444,7 +463,7 @@ public class Main {
 	public List<String> getRecentFiles() {
 		return recentFiles;
 	}
-	
+
 	public void setInitFinished(boolean initFinished) {	
 		Main.initFinished = initFinished;
 	}
