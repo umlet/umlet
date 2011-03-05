@@ -87,7 +87,7 @@ public class Main {
 					else if (args[i].startsWith("-filename=")) filename = args[i].substring(10);
 					else if (args[i].startsWith("-output=")) output = args[i].substring(8);
 				}
-
+				// Program started by double-click on diagram file
 				if ((action == null) && (format == null) && (filename != null)) {
 					if (!alreadyRunningChecker(false) || !sendFileNameToRunningApplication(filename)) {
 						main.init(new StandaloneGUI(main));
@@ -106,7 +106,6 @@ public class Main {
 			else { // no arguments specified
 				alreadyRunningChecker(true); // start checker
 				main.init(new StandaloneGUI(main));
-				main.setInitFinished(true);
 				main.doNew();
 			}
 		} catch (Exception e) {
@@ -119,6 +118,7 @@ public class Main {
 		Config.loadConfig(); // only load config after gui is set (because of homepath)
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE); // Tooltips should not hide after some time
 		gui.initGUI(); // show gui
+		Main.getInstance().setInitFinished(true);
 	}
 
 	public void initOverallSettings() {
