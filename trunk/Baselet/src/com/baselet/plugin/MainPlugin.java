@@ -50,7 +50,6 @@ public class MainPlugin extends AbstractUIPlugin {
 			Main.getInstance().initOverallSettings();
 			gui = new EclipseGUI(Main.getInstance());
 			Main.getInstance().init(gui);
-			Main.getInstance().setInitFinished(true);
 		} catch (Exception e) {
 			log.error("Initialization or uncaught outer Exception", e);
 		}
