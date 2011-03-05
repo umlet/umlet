@@ -146,7 +146,7 @@ public abstract class Constants {
 			"// Hold " + SystemInfo.META_KEY + " to select multiple elements" + NEWLINE +
 			"// Use " + SystemInfo.META_KEY + "+mouse to select via lasso" + NEWLINE +
 			"//" + NEWLINE +
-			"// Use ï¿½ or " + SystemInfo.META_KEY + "+mouse wheel to zoom" + NEWLINE +
+			"// Use ± or " + SystemInfo.META_KEY + "+mouse wheel to zoom" + NEWLINE +
 			"// Drag a whole relation at its central square icon" + NEWLINE +
 			"//" + NEWLINE +
 			"// Press " + SystemInfo.META_KEY + "+C to copy the whole diagram to the system clipboard (then just paste it to, eg, Word)" + NEWLINE +
