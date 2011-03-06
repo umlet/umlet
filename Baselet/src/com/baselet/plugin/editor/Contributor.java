@@ -114,7 +114,7 @@ public class Contributor extends EditorActionBarContributor {
 		IMenuManager menu = new MenuManager(Program.PROGRAM_NAME.toString());
 		IMenuManager custom = new MenuManager(MenuFactory.CUSTOM_ELEMENTS);
 		IMenuManager help = new MenuManager(MenuFactory.HELP);
-		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
+		manager.appendToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
 
 		custom.add(customnew = menuFactory.createNewCustomElement());
 		custom.add(menuFactory.createNewCustomElementFromTemplate(this));
