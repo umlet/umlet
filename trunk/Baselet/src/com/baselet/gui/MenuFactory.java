@@ -17,10 +17,10 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.Selector;
-import com.baselet.diagram.command.CreateGroup;
 import com.baselet.diagram.command.Align;
 import com.baselet.diagram.command.ChangeColor;
 import com.baselet.diagram.command.Copy;
+import com.baselet.diagram.command.CreateGroup;
 import com.baselet.diagram.command.Cut;
 import com.baselet.diagram.command.Paste;
 import com.baselet.diagram.command.RemoveElement;
@@ -201,7 +201,7 @@ public class MenuFactory {
 				}
 				else if (menuItem.equals(RATE_PROGRAM)) {
 					if (Program.PROGRAM_NAME == ProgramName.UMLET) BrowserLauncher.openURL("http://marketplace.eclipse.org/content/umlet-uml-tool-fast-uml-diagrams");
-					else if (Program.PROGRAM_NAME == ProgramName.PLOTLET) BrowserLauncher.openURL("http://marketplace.eclipse.org/content/plotlet-free-tool-fast-plots");
+					else if (Program.PROGRAM_NAME == ProgramName.PLOTLET) BrowserLauncher.openURL("http://marketplace.eclipse.org/content/plotlet");
 				}
 				else if (menuItem.equals(ABOUT_PROGRAM)) {
 					AboutPanel.getInstance().setVisible();
