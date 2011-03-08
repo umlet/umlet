@@ -676,6 +676,7 @@ public class StandaloneGUI extends BaseGUI {
 		dialog.setVisible(true);
 	}
 
+	@Override
 	public void setValueOfZoomDisplay(int i) {
 		// This method should just set the value without ActionEvent therefore we remove the listener temporarily
 		if (zoomComboBox != null) {

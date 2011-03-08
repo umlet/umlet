@@ -3,7 +3,9 @@ package com.baselet.plugin.editor;
 import java.util.List;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -30,7 +32,7 @@ public class Contributor extends EditorActionBarContributor {
 	}
 
 	private MenuFactoryEclipse menuFactory = MenuFactoryEclipse.getInstance();
-	
+
 	private IAction customnew;
 	private IAction customedit;
 	private IAction undoActionGlobal;
@@ -52,9 +54,11 @@ public class Contributor extends EditorActionBarContributor {
 	private IAction selectAllActionCustomPanel;
 
 	private List<IAction> exportAsActionList;
-	
+
 	private boolean customPanelEnabled;
 	private boolean custom_element_selected;
+
+	private IMenuManager zoomMenu;
 
 	public Contributor() {
 		this.customPanelEnabled = false;
@@ -77,7 +81,7 @@ public class Contributor extends EditorActionBarContributor {
 
 		customedit = menuFactory.createEditSelected();
 		customedit.setEnabled(false);
-		
+
 		undoActionGlobal = menuFactory.createUndo();
 		redoActionGlobal = menuFactory.createRedo();
 		printActionGlobal = menuFactory.createPrint();
@@ -106,7 +110,7 @@ public class Contributor extends EditorActionBarContributor {
 
 		MainPlugin.getGUI().setContributor(this);
 	}
-	
+
 	@Override
 	public void contributeToMenu(IMenuManager manager) {
 		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) (MainPlugin.getGUI()).setContributor(this);
@@ -129,15 +133,16 @@ public class Contributor extends EditorActionBarContributor {
 		help.add(new Separator());
 		help.add(menuFactory.createAboutProgram());
 
-		menu.add(menuFactory.createZoom());
-		
+		zoomMenu = menuFactory.createZoom();
+		menu.add(zoomMenu);
+
 		exportAsActionList = menuFactory.createExportAsActions();
 		IMenuManager export = new MenuManager("Export as");
 		for (IAction action: exportAsActionList) {
 			export.add(action);
 		}
 		menu.add(export);
-		
+
 		menu.add(menuFactory.createEditCurrentPalette());
 		if (Program.PROGRAM_NAME == ProgramName.UMLET) menu.add(custom);
 		menu.add(menuFactory.createMailTo());
@@ -152,7 +157,7 @@ public class Contributor extends EditorActionBarContributor {
 			action.setEnabled(enabled);
 		}
 	}
-	
+
 	public void setPaste(boolean value) {
 		this.pasteActionDiagram.setEnabled(value);
 	}
@@ -176,7 +181,7 @@ public class Contributor extends EditorActionBarContributor {
 	public boolean isCustomPanelEnabled() {
 		return customPanelEnabled;
 	}
-	
+
 	public void setCustomPanelEnabled(boolean enable) {
 		this.customPanelEnabled = enable;
 		this.customedit.setEnabled(!enable && this.custom_element_selected);
@@ -218,5 +223,14 @@ public class Contributor extends EditorActionBarContributor {
 		}
 
 		org.eclipse.swt.widgets.Display.getDefault().asyncExec(new UpdateActionBars(this.getActionBars()));
+	}
+
+	public void updateZoomMenuRadioButton(int newGridSize) {
+		for (IContributionItem item : zoomMenu.getItems()) {
+			IAction action = ((ActionContributionItem) item).getAction();
+			int actionGridSize = Integer.parseInt(action.getText().substring(0, action.getText().length() - 2));
+			if (actionGridSize == newGridSize) action.setChecked(true);
+			else action.setChecked(false);
+		}
 	}
 }

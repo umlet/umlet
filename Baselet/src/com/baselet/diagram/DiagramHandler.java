@@ -57,8 +57,8 @@ public class DiagramHandler {
 		if (diagram != null) this.fileHandler.doOpen();
 
 		boolean extendedPopupMenu = false;
+		Main.getInstance().getGUI().setValueOfZoomDisplay(getGridSize());
 		if (Main.getInstance().getGUI() instanceof StandaloneGUI) {
-			((StandaloneGUI) Main.getInstance().getGUI()).setValueOfZoomDisplay(getGridSize());
 			extendedPopupMenu = true; // AB: use extended popup menu on standalone gui only
 		}
 
@@ -379,11 +379,8 @@ public class DiagramHandler {
 			// Set the isChanged variable to allow saving in EclipsePlugin and to reflect the changes made by zooming
 			setChanged(true);
 
-			// If this is the standalone client the zoom valie on the upper panel must also be set
 			BaseGUI gui = Main.getInstance().getGUI();
-			if ((gui != null) && (gui instanceof StandaloneGUI)) {
-				((StandaloneGUI) Main.getInstance().getGUI()).setValueOfZoomDisplay(factor);
-			}
+			if (gui != null) gui.setValueOfZoomDisplay(factor);
 
 			float zoomFactor = Main.getInstance().getDiagramHandler().getZoomFactor() * 100;
 			String zoomtext;

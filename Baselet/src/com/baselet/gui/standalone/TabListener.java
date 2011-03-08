@@ -40,11 +40,8 @@ public class TabListener implements MouseListener {
 		this.pane.setSelectedComponent(handler.getDrawPanel().getScrollPane());
 		this.handler.getDrawPanel().getSelector().updateSelectorInformation();
 
-		// If this is the standalone client we must also set the zoom value on the upper panel
 		BaseGUI gui = Main.getInstance().getGUI();
-		if ((gui != null) && (gui instanceof StandaloneGUI)) {
-			((StandaloneGUI) Main.getInstance().getGUI()).setValueOfZoomDisplay(handler.getGridSize());
-		}
+		if (gui != null) gui.setValueOfZoomDisplay(handler.getGridSize());
 	}
 
 	@Override
