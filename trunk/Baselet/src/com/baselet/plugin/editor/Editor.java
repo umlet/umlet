@@ -116,7 +116,7 @@ public class Editor extends EditorPart {
 			monitor.done();
 		}
 		log.debug("doSave complete");
-		
+
 	}
 
 	@Override
@@ -128,9 +128,9 @@ public class Editor extends EditorPart {
 		this.setSite(site);
 		this.setInput(input);
 		this.setPartName(input.getName());
-		
+
 		File inputFile = null;
-	
+
 		if (input instanceof IFileEditorInput) { // Files opened from workspace
 			inputFile = ((IFileEditorInput) input).getFile().getLocation().toFile();
 		}
@@ -138,21 +138,21 @@ public class Editor extends EditorPart {
 			inputFile = new File(((org.eclipse.ui.ide.FileStoreEditorInput) input).getURI());
 		}
 		else throw new PartInitException("Editor input not supported.");
-		
+
 		final File file = inputFile; 
 
 		//AB: The eclipse plugin might hang sometimes if this section is not placed into an event queue, since swing or swt is not thread safe!
 		//AB: Problem is...using invokeLater might lead to other NullPointerExceptions :P -> use invokeAndWait and hope this works	
 		try {
 			SwingUtilities.invokeAndWait(
-				new Runnable() {
-					@Override
-					public void run() {
-						log.debug("Create new DiagramHandler");
-						handler = new DiagramHandler(file);
-						log.debug("DiagramHandler created...");
-					}
-				});
+					new Runnable() {
+						@Override
+						public void run() {
+							log.debug("Create new DiagramHandler");
+							handler = new DiagramHandler(file);
+							log.debug("DiagramHandler created...");
+						}
+					});
 		} catch (InterruptedException e) {
 			log.error("Create DiagramHandler interrupted");
 		} catch (InvocationTargetException e) {
@@ -188,28 +188,29 @@ public class Editor extends EditorPart {
 		currenteditor = this;
 		MainPlugin.getGUI().setCurrentEditor(this);
 		log.debug("setCurrentEditor complete");
-		
+
 		//AB: The eclipse plugin might hang sometimes if this section is not placed into an event queue, since swing or swt is not thread safe!	
 		SwingUtilities.invokeLater(
-			new Runnable() {
-				@Override
-				public void run() {
-					log.debug("setFocus thread");
-					Main.getInstance().setCurrentDiagramHandler(handler);			
-					if (handler != null) handler.getDrawPanel().getSelector().updateSelectorInformation();					
-					
-					//when switching to another editor frame, check if palettePanel got lost
-					if (palettePanel.getComponentCount()==0) {
-						for (String palname : Main.getInstance().getPaletteNames(palettes)) {
-							DrawPanel panel = palettes.get(palname + "." + Program.EXTENSION).getDrawPanel();
-							palettePanel.add(panel.getScrollPane(), palname);
+				new Runnable() {
+					@Override
+					public void run() {
+						log.debug("setFocus thread");
+						Main.getInstance().setCurrentDiagramHandler(handler);			
+						if (handler != null) handler.getDrawPanel().getSelector().updateSelectorInformation();					
+
+						//when switching to another editor frame, check if palettePanel got lost
+						if (palettePanel.getComponentCount()==0) {
+							for (String palname : Main.getInstance().getPaletteNames(palettes)) {
+								DrawPanel panel = palettes.get(palname + "." + Program.EXTENSION).getDrawPanel();
+								palettePanel.add(panel.getScrollPane(), palname);
+							}
 						}
-					}
-					
-					selectPalette(getSelectedPaletteName());
-					log.debug("editor.setFocus thread complete");
-				}		
-			});
+
+						selectPalette(getSelectedPaletteName());
+						log.debug("editor.setFocus thread complete");
+					}		
+				});
+		Main.getInstance().getGUI().setValueOfZoomDisplay(handler.getGridSize());
 		log.debug("editor.setFocus complete");
 	}
 
@@ -224,13 +225,13 @@ public class Editor extends EditorPart {
 		//AB: The eclipse plugin might hang sometimes if this section is not placed into an event queue, since swing or swt is not thread safe!
 		final Editor editor = this;
 		SwingUtilities.invokeLater(
-			new Runnable() {
-				@Override
-				public void run() {		
-					if (mailpanel.isVisible()) mailpanel.closePanel();
-					MainPlugin.getGUI().editorRemoved(editor);
-				}
-			});
+				new Runnable() {
+					@Override
+					public void run() {		
+						if (mailpanel.isVisible()) mailpanel.closePanel();
+						MainPlugin.getGUI().editorRemoved(editor);
+					}
+				});
 	}
 
 	public void setCursor(Cursor cursor) {
@@ -283,7 +284,7 @@ public class Editor extends EditorPart {
 			palettePanel.add(panel.getScrollPane(), palname);
 			paletteList.addItem(palname);
 		}
-		
+
 		rightSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, palettePanel, propertyTextPane.getPanel());
 		rightSplit.setDividerSize(2);
 		rightSplit.setDividerLocation(Main.getInstance().getGUI().getRightSplitPosition());
@@ -443,12 +444,12 @@ public class Editor extends EditorPart {
 
 	public void repaint() {
 		SwingUtilities.invokeLater(
-			new Runnable() {
-				@Override
-				public void run() {
-					embedded_panel.repaint();
-				}
-			});
+				new Runnable() {
+					@Override
+					public void run() {
+						embedded_panel.repaint();
+					}
+				});
 	}
 
 	public void enableSearch(boolean enable) {

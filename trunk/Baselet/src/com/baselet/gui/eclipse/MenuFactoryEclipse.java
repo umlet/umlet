@@ -171,7 +171,7 @@ public class MenuFactoryEclipse extends MenuFactory {
 	public IMenuManager createZoom() {
 		final IMenuManager zoom = new MenuManager(ZOOM);
 		for (String z : Constants.zoomValueList) {
-			zoom.add(createAction(z, ZOOM, Integer.parseInt(z.substring(0, z.length() - 2))));
+			zoom.add(createAction(z, ZOOM, Integer.parseInt(z.substring(0, z.length() - 2)),  IAction.AS_RADIO_BUTTON));
 		}
 		return zoom;
 	}
@@ -200,7 +200,11 @@ public class MenuFactoryEclipse extends MenuFactory {
 	}
 
 	private Action createAction(final String menuName, final String actionName, final Object param) {
-		return new Action(menuName) {
+		return createAction(menuName, actionName, param,  IAction.AS_UNSPECIFIED);
+	}
+
+	private Action createAction(final String menuName, final String actionName, final Object param, int style) {
+		return new Action(menuName, style) {
 			@Override
 			public void run() {
 				doAction(actionName, param);

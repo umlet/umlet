@@ -8,7 +8,6 @@ import java.awt.event.MouseWheelListener;
 import javax.swing.JComboBox;
 
 import com.baselet.control.Main;
-import com.baselet.gui.standalone.StandaloneGUI;
 
 
 public class PaletteComboBoxListener implements ActionListener, MouseWheelListener {
@@ -37,10 +36,9 @@ public class PaletteComboBoxListener implements ActionListener, MouseWheelListen
 	}
 
 	private void setZoom() {
-		// after setting the palette the zoomvalue of the new palette must be set at the zoombox on top of the StandaloneGUI
-		if ((Main.getInstance().getGUI() instanceof StandaloneGUI) && (Main.getInstance().getPalette() != null)) {
+		if ((Main.getInstance().getPalette() != null)) {
 			int factor = Main.getInstance().getPalette().getGridSize();
-			((StandaloneGUI) Main.getInstance().getGUI()).setValueOfZoomDisplay(factor);
+			Main.getInstance().getGUI().setValueOfZoomDisplay(factor);
 		}
 	}
 

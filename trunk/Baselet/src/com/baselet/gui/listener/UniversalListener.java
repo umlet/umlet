@@ -12,7 +12,6 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.Selector;
 import com.baselet.diagram.SelectorFrame;
-import com.baselet.gui.standalone.StandaloneGUI;
 
 
 public abstract class UniversalListener extends ComponentAdapter implements MouseListener, MouseMotionListener {
@@ -51,10 +50,9 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 		// everytime a mouse is pressed within a listener the gui gets the current diagram!
 		Main.getInstance().setCurrentDiagramHandler(this.handler);
 
-		// every click on any diagram or entity sets the actual zoom value of the diagram in the zoombox on top of the StandaloneGUI
-		if ((Main.getInstance().getGUI() instanceof StandaloneGUI) && (Main.getInstance().getDiagramHandler() != null)) {
+		if ((Main.getInstance().getDiagramHandler() != null)) {
 			int factor = Main.getInstance().getDiagramHandler().getGridSize();
-			((StandaloneGUI) Main.getInstance().getGUI()).setValueOfZoomDisplay(factor);
+			Main.getInstance().getGUI().setValueOfZoomDisplay(factor);
 		}
 	}
 

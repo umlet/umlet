@@ -212,4 +212,5 @@ public abstract class BaseGUI extends JPanel {
 
 	public abstract void openDialog(String title, JComponent component);
 
+	public abstract void setValueOfZoomDisplay(int i);
 }

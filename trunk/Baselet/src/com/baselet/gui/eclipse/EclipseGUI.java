@@ -316,4 +316,9 @@ public class EclipseGUI extends BaseGUI {
 		return this.contributor;
 	}
 
+	@Override
+	public void setValueOfZoomDisplay(int i) {
+		if (contributor != null) contributor.updateZoomMenuRadioButton(i);
+	}
+
 }
