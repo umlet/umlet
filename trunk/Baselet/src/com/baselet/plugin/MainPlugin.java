@@ -8,6 +8,8 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com.baselet.control.Constants.Program;
+import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.gui.eclipse.EclipseGUI;
@@ -35,6 +37,7 @@ public class MainPlugin extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public MainPlugin() {
+		Program.RUNTIME_TYPE = RuntimeType.ECLIPSE_PLUGIN;
 		plugin = this;
 	}
 
