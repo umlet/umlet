@@ -3,11 +3,11 @@ package com.umlet.gui;
 import javax.swing.JPanel;
 import javax.swing.JToolTip;
 
-import com.baselet.gui.JMultiLineToolTip;
-import com.baselet.gui.OwnSyntaxPane;
-
 import jsyntaxpane.DefaultSyntaxKit;
 import jsyntaxpane.util.Configuration;
+
+import com.baselet.gui.JMultiLineToolTip;
+import com.baselet.gui.OwnSyntaxPane;
 
 @SuppressWarnings("serial")
 public class CustomCodeSyntaxPane extends OwnSyntaxPane {
