@@ -73,19 +73,14 @@ public abstract class Constants {
 	/**** PROGRAM, PLATTFORM AND JAVA SPECIFIC SETTINGS ****/
 	public static class Program {
 
-		public static RuntimeType RUNTIME_TYPE;
+		// Basically the RUNTIME_TYPE is STANDALONE until it gets overwritten after program startup
+		public static RuntimeType RUNTIME_TYPE = RuntimeType.STANDALONE;
 		public static ProgramName PROGRAM_NAME;
 		public static String CONFIG_NAME;
 		public static String EXTENSION;
 		public static String WEBSITE;
 		public static Double VERSION;
 		public static String[] GRID_ELEMENT_PACKAGES = new String[] {"com.umlet.element", "com.umlet.element.custom", "com.plotlet.element", "com.baselet.element"};
-
-		static {
-			// The key "eclipse.p2.profile" is only existent if eclipse is starting the programm
-			if (java.lang.System.getProperties().containsKey("eclipse.p2.profile")) RUNTIME_TYPE = RuntimeType.ECLIPSE_PLUGIN;
-			else RUNTIME_TYPE = RuntimeType.STANDALONE;
-		}
 
 		public static void init(ProgramName name, String version) {
 			PROGRAM_NAME = name;
@@ -146,7 +141,7 @@ public abstract class Constants {
 			"// Hold " + SystemInfo.META_KEY + " to select multiple elements" + NEWLINE +
 			"// Use " + SystemInfo.META_KEY + "+mouse to select via lasso" + NEWLINE +
 			"//" + NEWLINE +
-			"// Use ± or " + SystemInfo.META_KEY + "+mouse wheel to zoom" + NEWLINE +
+			"// Use +/- or " + SystemInfo.META_KEY + "+mouse wheel to zoom" + NEWLINE +
 			"// Drag a whole relation at its central square icon" + NEWLINE +
 			"//" + NEWLINE +
 			"// Press " + SystemInfo.META_KEY + "+C to copy the whole diagram to the system clipboard (then just paste it to, eg, Word)" + NEWLINE +
