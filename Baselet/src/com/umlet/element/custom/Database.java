@@ -33,7 +33,7 @@ public class Database extends com.baselet.element.GridElement {
 		// Change this to modify this default text printing and to react
 		// to special strings
 		// (like the "--" string in the UML class elements which draw a line).
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = inset + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		boolean CENTER = true;
 		for (int i = 0; i < tmp.size(); i++) {

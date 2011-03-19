@@ -25,7 +25,7 @@ public class SynchBar extends GridElement {
 		int yPos = 0;
 		yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);

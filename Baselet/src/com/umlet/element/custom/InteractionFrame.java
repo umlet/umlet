@@ -34,7 +34,7 @@ public class InteractionFrame extends GridElement {
 		else g2.setColor(fgColorBase);
 		g2.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 
 		int textWidth = 0;
 		// A.Mueller start

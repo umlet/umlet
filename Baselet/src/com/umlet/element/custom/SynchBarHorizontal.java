@@ -30,7 +30,7 @@ public class SynchBarHorizontal extends GridElement {
 		
 
 		textWidth = 0; // reset
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = this.getHeight() / 2 - tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 		boolean ADAPT_SIZE_X = false;
 		int textHeight = tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts()));

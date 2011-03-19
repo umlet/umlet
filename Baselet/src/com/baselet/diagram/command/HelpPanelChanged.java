@@ -24,7 +24,7 @@ public class HelpPanelChanged extends Command {
 	public static Integer getFontsize(String text) {
 		if (text == null) return null;
 		Pattern p = Pattern.compile("(\\s)*fontsize\\=([0-9]+)(\\s)*");
-		Vector<String> txt = Utils.decomposeStrings(text, "\n");
+		Vector<String> txt = Utils.decomposeStrings(text);
 		for (String t : txt) {
 			Matcher m = p.matcher(t);
 			if (m.matches()) return Integer.parseInt(m.group(2));
@@ -35,7 +35,7 @@ public class HelpPanelChanged extends Command {
 	public static String getFontfamily(String text) {
 		if (text == null) return null;
 		Pattern p = Pattern.compile("(\\s)*fontfamily\\=(\\w+)(\\s)*");
-		Vector<String> txt = Utils.decomposeStrings(text, "\n");
+		Vector<String> txt = Utils.decomposeStrings(text);
 		for (String t : txt) {
 			Matcher m = p.matcher(t);
 			if (m.matches()) return m.group(2);

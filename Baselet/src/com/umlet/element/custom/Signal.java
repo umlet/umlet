@@ -19,7 +19,7 @@ public class Signal extends GridElement {
 		g2.setColor(Color.red);
 		
 
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = 0;
 		yPos = this.getHeight() / 2 - (tmp.size() - 1) * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 

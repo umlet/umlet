@@ -18,7 +18,6 @@ import java.util.Vector;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
-import com.baselet.diagram.FontHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.relation.Arrow;
@@ -165,7 +164,7 @@ public class Relation extends GridElement {
 
 		panelAttributes = state;
 
-		Vector<String> tmp = Utils.decomposeStrings(state, "\n");
+		Vector<String> tmp = Utils.decomposeStrings(state);
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
@@ -1559,18 +1558,8 @@ public class Relation extends GridElement {
 			}
 			else if (r instanceof Role) {
 				Role role = (Role) r;
-				// A.Mueller start
-				boolean underline = false;
-				boolean bold = false;
-				boolean italic = false;
 				String str = role.getString();
-
-				String checkedString = FontHandler.checkStringForValidFormatsAndRemoveTheirLabels(str);
-				if (checkedString.charAt(0) == '1') underline = true;
-				if (checkedString.charAt(1) == '1') bold = true;
-				if (checkedString.charAt(2) == '1') italic = true;
-				str = checkedString.substring(3);
-
+				
 				int position = 0;
 				int y = 4 * (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				while (position != -1) {
@@ -1578,18 +1567,12 @@ public class Relation extends GridElement {
 
 					if (position != -1) {
 						String s = str.substring(0, position);
-						if (underline) s = FontHandler.FormatLabels.UNDERLINE + s + FontHandler.FormatLabels.UNDERLINE;
-						if (bold) s = FontHandler.FormatLabels.BOLD + s + FontHandler.FormatLabels.BOLD;
-						if (italic) s = FontHandler.FormatLabels.ITALIC + s + FontHandler.FormatLabels.ITALIC;
 						this.getHandler().getFontHandler().writeText(g2, s, (int) r.getX(), (int) r.getY() + y, false);
 
 						y = y + (int) this.getHandler().getFontHandler().getFontSize();
 						str = str.substring(position + 2, str.length());
 					}
 					else {
-						if (bold) str = FontHandler.FormatLabels.BOLD + str + FontHandler.FormatLabels.BOLD;
-						if (italic) str = FontHandler.FormatLabels.ITALIC + str + FontHandler.FormatLabels.ITALIC;
-						if (underline) str = FontHandler.FormatLabels.UNDERLINE + str + FontHandler.FormatLabels.UNDERLINE;
 						this.getHandler().getFontHandler().writeText(g2, str, (int) r.getX(), (int) r.getY() + y, false);
 
 					}

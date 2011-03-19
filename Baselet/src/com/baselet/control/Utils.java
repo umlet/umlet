@@ -44,71 +44,66 @@ public abstract class Utils {
 		return ret;
 	}
 
-	public static Vector<String> decomposeStringsWithEmptyLines(String s, String delimiter) {
-		return Utils.decomposeStringsWFilter(s, delimiter, true, false);
+	public static Vector<String> decomposeStringsIncludingEmptyStrings(String s, String delimiter) {
+		return decomposeStringsWFilter(s, delimiter, false, false);
+	}
+	
+	public static Vector<String> decomposeStringsWithEmptyLines(String s) {
+		return Utils.decomposeStringsWFilter(s, Constants.NEWLINE, true, false);
 	}
 
-	public static Vector<String> decomposeStringsWithComments(String s, String delimiter) {
-		return Utils.decomposeStringsWFilter(s, delimiter, false, true);
+	public static Vector<String> decomposeStringsWithComments(String s) {
+		return Utils.decomposeStringsWFilter(s, Constants.NEWLINE, false, true);
 	}
 
 	public static Vector<String> decomposeStrings(String s, String delimiter) {
 		return Utils.decomposeStringsWFilter(s, delimiter, true, true);
 	}
-
+	
 	public static Vector<String> decomposeStrings(String s) {
 		return decomposeStrings(s, Constants.NEWLINE);
 	}
 
-	static Vector<String> decomposeStringsWFilter(String s, String delimiter, boolean filterComments, boolean filterNewLines) {
-		s = s.replaceAll("\r\n", delimiter); // compatibility to windows \r\n
-		Vector<String> ret = new Vector<String>();
-		for (;;) {
-			int index = s.indexOf(delimiter);
-			if (index < 0) {
-				if (filterComments) {
-					s = Utils.filterComment(s);
-					if (s.startsWith("bg=") || s.startsWith("fg=") ||
-							s.startsWith(Constants.AUTORESIZE)) s = ""; // filter color-setting strings
-
-				}
-				if (!s.equals("") || !filterNewLines) {
-					ret.add(s);
-				}
-				return ret;
-			}
-			String tmp = s.substring(0, index);
-			if (filterComments) {
-				tmp = Utils.filterComment(tmp);
-				if (tmp.startsWith("bg=") || tmp.startsWith("fg=") ||
-						s.startsWith(Constants.AUTORESIZE)) tmp = ""; // filter color-setting strings
-			}
-
-			if (!tmp.equals("") || !filterNewLines) ret.add(tmp);
-			s = s.substring(index + delimiter.length(), s.length());
+	private static Vector<String> decomposeStringsWFilter(String fullString, String delimiter, boolean filterComments, boolean filterNewLines) {
+		Vector<String> returnVector = new Vector<String>();
+		String compatibleFullString = fullString.replaceAll("\r\n", delimiter); // compatibility to windows \r\n
+		
+		for (String line : compatibleFullString.split("\\" + delimiter)) {
+			if (filterComments && (line.matches("((//)|(fg=)|(bg=)|(autoresize=)).*"))) continue;
+			else if (filterNewLines && line.isEmpty()) continue;
+			else returnVector.add(line);
 		}
+		
+		return returnVector;
 	}
+	
+	private static String splitString(String st, int width) {
+	    StringBuffer buf = new StringBuffer(st);
+	    int lastspace = -1;
+	    int linestart = 0;
+	    int i = 0;
 
-	public static String filterComment(String s) {
-
-		int pos = s.indexOf("//");
-		char c;
-		while (pos >= 0) {
-			if (pos == 0) return "";
-			c = s.charAt(pos - 1);
-			if (s.length() > pos + 2) {
-				if ((s.charAt(pos + 2) != '/') && (c != '/') && (c != ':')) return s.substring(0, pos);
-			}
-			else if ((c != '/') && (c != ':')) return s.substring(0, pos);
-
-			pos = s.indexOf("//", pos + 1);
-		}
-		return s;
-	}
-
-	public static Vector<String> decomposeStringsIncludingEmptyStrings(String s, String delimiter) {
-		return decomposeStringsWFilter(s, delimiter, false, false);
-	}
+	    while (i < buf.length()) {
+	       if ( buf.charAt(i) == ' ' ) lastspace = i;
+	       if ( buf.charAt(i) == '\n' ) {
+	          lastspace = -1;
+	          linestart = i+1;
+	          }
+	       if (i > linestart + width - 1 ) {
+	          if (lastspace != -1) {
+	             buf.setCharAt(lastspace,'\n');
+	             linestart = lastspace+1;
+	             lastspace = -1;
+	             }
+	          else {
+	             buf.insert(i,'\n');
+	             linestart = i+1;
+	             }
+	          }
+	        i++;
+	       }
+	    return buf.toString();
+	 }
 
 	public static String composeStrings(Vector<String> v, String delimiter) {
 		String ret = null;

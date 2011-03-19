@@ -37,7 +37,7 @@ public class SendSignal extends GridElement {
 		else g2.setColor(fgColorBase);
 		g2.drawPolygon(poly);
 
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = this.getHeight() / 2 - tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 
 		for (int i = 0; i < tmp.size(); i++) {

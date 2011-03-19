@@ -64,7 +64,7 @@ public class SeqSelfMessage extends GridElement {
 		g2.drawLine(this.getWidth() - 1, this.getHeight() - size_3d - 1, this.getWidth() - size_3d - 1, this.getHeight() - 1);
 		g2.drawLine(this.getWidth() - size_3d - 1, size_3d, this.getWidth() - 1, 0);
 
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		yPos = yPos + size_3d;
 		for (int i = 0; i < tmp.size(); i++) {

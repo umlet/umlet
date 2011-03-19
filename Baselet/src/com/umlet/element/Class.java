@@ -33,8 +33,8 @@ public class Class extends GridElement {
 	}
 
 	private Vector<String> getStringVector() {
-		if (this.isInnerClass()) return Utils.decomposeStrings(_panelString, "\n"); // A.Mueller
-		Vector<String> ret = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		if (this.isInnerClass()) return Utils.decomposeStrings(_panelString); // A.Mueller
+		Vector<String> ret = Utils.decomposeStrings(this.getPanelAttributes());
 		return ret;
 	}
 

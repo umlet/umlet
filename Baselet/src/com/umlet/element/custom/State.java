@@ -32,7 +32,7 @@ public class State extends GridElement {
 
 		g2.drawRoundRect(0, 0, this.getWidth() - 1, this.getHeight() - 1, (int) (30 * zoom), (int) (30 * zoom));
 
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = 0;
 		// A.Mueller start
 		if (tmp.contains("--") || tmp.contains("-.")) yPos = 2 * (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
