@@ -21,7 +21,7 @@ public class InitialFinalState extends GridElement {
 		g2.setColor(Color.red);
 		
 
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 
 		boolean initialState = false;
 		for (int i = 0; i < tmp.size(); i++) {

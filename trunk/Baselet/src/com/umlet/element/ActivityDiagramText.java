@@ -175,7 +175,7 @@ public class ActivityDiagramText extends com.baselet.element.GridElement {
 	public void paintEntity(Graphics g) {
 		this.init((Graphics2D) g);
 
-		Vector<String> lines = Utils.decomposeStringsWithEmptyLines(this.getPanelAttributes(), "\n");
+		Vector<String> lines = Utils.decomposeStringsWithEmptyLines(this.getPanelAttributes());
 		lines = this.preparse(lines);
 
 		if (lines.size() == 0) return;

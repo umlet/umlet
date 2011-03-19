@@ -196,7 +196,7 @@ public class SequenceDiagram extends com.baselet.element.GridElement {
 
 		levelNum = 1;
 
-		Vector<String> lines = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> lines = Utils.decomposeStrings(this.getPanelAttributes());
 
 		if (lines.size() == 0) return;
 		if (lines.elementAt(0).startsWith("title:")) {

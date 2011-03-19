@@ -31,7 +31,7 @@ public class Systemborder extends com.baselet.element.GridElement {
 		else g2.setColor(fgColorBase);
 		g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		boolean center = false;
 		boolean downleft = false;

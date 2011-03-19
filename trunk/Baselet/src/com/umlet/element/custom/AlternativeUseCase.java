@@ -36,7 +36,7 @@ public class AlternativeUseCase extends com.baselet.element.GridElement {
 
 		boolean center = false;
 
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);

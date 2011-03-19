@@ -56,7 +56,7 @@ public class TimeSignal extends GridElement {
 
 		g2.drawPolygon(poly);
 
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = 0;
 		yPos += 4 * this.getHandler().getGridSize();
 		yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();

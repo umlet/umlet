@@ -32,7 +32,7 @@ public class SynchBarVertical extends GridElement {
 		int yPos = 0;
 		textHeight = 0; // reset
 
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		textHeight = tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts()));
 		boolean ADAPT_SIZE = false;
 

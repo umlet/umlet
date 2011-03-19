@@ -3,8 +3,9 @@ package com.baselet.diagram;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
-import java.awt.geom.Rectangle2D;
+import java.text.AttributedString;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
@@ -124,42 +125,34 @@ public class FontHandler {
 		else return (int) this.getTextSize(s, applyZoom).getHeight();
 	}
 
-	public Font makeFontPlain(Font f) {
-		return new Font(f.getName(), Font.PLAIN, f.getSize());
+	public void writeText(Graphics2D g2, String s, int x, int y, boolean center) {
+		if (center) this.writeText(g2, s, x, y, AlignHorizontal.CENTER, AlignVertical.BOTTOM);
+		else this.writeText(g2, s, x, y, AlignHorizontal.LEFT, AlignVertical.BOTTOM);
 	}
 
-	public Font makeFontBold(Font f) {
-		return new Font(f.getName(), Font.BOLD, f.getSize());
+	public void writeText(Graphics2D g2, String s, int x, int y, AlignHorizontal align, AlignVertical valign) {
+		for (String line : s.split("\n")) {
+			this.write(g2, line, x, y, align, valign);
+			y += g2.getFontMetrics().getHeight();
+		}
 	}
 
-	public Font makeFontItalic(Font f) {
-		return new Font(f.getName(), Font.ITALIC, f.getSize());
-	}
-
-	public Font makeFontBoldItalic(Font f) {
-		return new Font(f.getName(), Font.BOLD | Font.ITALIC, f.getSize());
-	}
-
-	public void write(Graphics2D g2, String s, int x, int y, AlignHorizontal align, AlignVertical valign) {
-		if (s == null) return;
-
-		boolean underline = false;
-		boolean bold = false;
-		boolean italic = false;
-
-		String checkedString = checkStringForValidFormatsAndRemoveTheirLabels(s);
-		if (checkedString.charAt(0) == '1') underline = true;
-		if (checkedString.charAt(1) == '1') bold = true;
-		if (checkedString.charAt(2) == '1') italic = true;
-		s = checkedString.substring(3);
-
-		if (bold && italic) g2.setFont(makeFontBoldItalic(g2.getFont()));
-		else if (bold) g2.setFont(makeFontBold(g2.getFont()));
-		else if (italic) g2.setFont(makeFontItalic(g2.getFont()));
-		else g2.setFont(makeFontPlain(g2.getFont()));
+	private static boolean underline;
+	private static boolean bold;
+	private static boolean italic;
+	public void write(Graphics2D g2, String stringWithFormatLabels, int x, int y, AlignHorizontal align, AlignVertical valign) {
+		String s = setFormatAndRemoveLabels(stringWithFormatLabels);
+		if (s == null || s.isEmpty()) return;
 
 		s = s.replaceAll("<<", "\u00AB");
 		s = s.replaceAll(">>", "\u00BB");
+
+		AttributedString as = new AttributedString(s);
+
+		as.addAttribute(TextAttribute.SIZE, getFontSize());
+		if (bold) as.addAttribute(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+		if (italic) as.addAttribute(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
+		if (underline) as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON, 0, s.length());
 
 		if (align == AlignHorizontal.CENTER) x = x - getTextWidth(s) / 2;
 		else if (align == AlignHorizontal.RIGHT) x = x - getTextWidth(s);
@@ -167,97 +160,34 @@ public class FontHandler {
 		if (valign == AlignVertical.CENTER) y = y + getTextHeight(s) / 2;
 		else if (valign == AlignVertical.TOP) y = y + getTextHeight(s);
 
-		g2.drawString(s, x, y);
-		if (underline) {
-			TextLayout l = new TextLayout(s, g2.getFont(), Constants.FRC);
-			Rectangle2D r2d = l.getBounds();
-			if (bold) {
-				g2.drawLine(x, y + (int) getDistanceBetweenTexts() / 2, x + (int) r2d.getWidth(), y + (int) getDistanceBetweenTexts() / 2);
-			}
-			else {
-				g2.drawLine(x, y + (int) getDistanceBetweenTexts() / 2, x + (int) r2d.getWidth(), y + (int) getDistanceBetweenTexts() / 2);
-			}
-		}
-		if (italic || bold) makeFontPlain(g2.getFont());
+		g2.drawString(as.getIterator(), x, y);
 	}
 
-	/**
-	 * Checks the String for formats and returns the String without the valid format labels and with a starting
-	 * sequence of numbers which describe the valid format labels
-	 * The first number shows if the text is underlined, the second bold, the third italic
-	 */
-	public static String checkStringForValidFormatsAndRemoveTheirLabels(String s) {
-		boolean underline = false;
-		boolean bold = false;
-		boolean italic = false;
+	private static String setFormatAndRemoveLabels(String s) {
+		underline = false;
+		bold = false;
+		italic = false;
 
-		/*
-		 * NOT USED NOW
-		 * int spaceBefore = 0;
-		 * int spaceAfter = 0;
-		 * //Before scanning for text format we remove spaces
-		 * while (s.startsWith(" ")) {
-		 * spaceBefore++;
-		 * s = s.substring(1);
-		 * }
-		 * while (s.endsWith(" ")) {
-		 * spaceAfter++;
-		 * s = s.substring(0, s.length()-1);
-		 * }
-		 */
+		if (s == null || s.isEmpty()) return s;
 
 		// As long as any text format applies the loop continues (any format type is only allowed once)
 		while (true) {
-			if (!underline && s.startsWith(FontHandler.FormatLabels.UNDERLINE) && s.endsWith(FontHandler.FormatLabels.UNDERLINE) && (s.length() > 2)) {
+			if (!underline && s.startsWith(FormatLabels.UNDERLINE) && s.endsWith(FormatLabels.UNDERLINE) && (s.length() > 2)) {
 				underline = true;
 				s = s.substring(1, s.length() - 1);
-				continue;
 			}
-			if (!bold && s.startsWith(FontHandler.FormatLabels.BOLD) && s.endsWith(FontHandler.FormatLabels.BOLD) && (s.length() > 2)) {
+			else if (!bold && s.startsWith(FormatLabels.BOLD) && s.endsWith(FormatLabels.BOLD) && (s.length() > 2)) {
 				bold = true;
 				s = s.substring(1, s.length() - 1);
-				continue;
 			}
-			if (!italic && s.startsWith(FontHandler.FormatLabels.ITALIC) && s.endsWith(FontHandler.FormatLabels.ITALIC) && (s.length() > 2)) {
+			else if (!italic && s.startsWith(FormatLabels.ITALIC) && s.endsWith(FormatLabels.ITALIC) && (s.length() > 2)) {
 				italic = true;
 				s = s.substring(1, s.length() - 1);
-				continue;
 			}
-			break;
+			else break;
 		}
 
-		/*
-		 * NOT USED NOW
-		 * //After scanning we add the spaces again to the string
-		 * for (int i = 0; i < spaceBefore; spaceBefore--) {
-		 * spaceBefore--;
-		 * s = " " + s;
-		 * }
-		 * for (int i = 0; i < spaceAfter; spaceAfter--) {
-		 * spaceAfter--;
-		 * s = s + " ";
-		 * }
-		 */
-
-		// The returning String starts with a number sequence to show which labels applies.
-		// Warning: The first added digit is the last of the sequence after adding all digits, so we must add the last at first and the first at last
-		if (italic) s = "1" + s;
-		else s = "0" + s;
-		if (bold) s = "1" + s;
-		else s = "0" + s;
-		if (underline) s = "1" + s;
-		else s = "0" + s;
-
 		return s;
-	}
-
-	public void writeText(Graphics2D g2, String s, int x, int y, boolean center) {
-		if (center) this.writeText(g2, s, x, y, AlignHorizontal.CENTER, AlignVertical.BOTTOM);
-		else this.writeText(g2, s, x, y, AlignHorizontal.LEFT, AlignVertical.BOTTOM);
-	}
-
-	public void writeText(Graphics2D g2, String s, int x, int y, AlignHorizontal align, AlignVertical valign) {
-		this.write(g2, s, x, y, align, valign);
 	}
 
 }

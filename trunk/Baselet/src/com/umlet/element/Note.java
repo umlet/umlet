@@ -18,7 +18,7 @@ public class Note extends GridElement {
 	}
 
 	private Vector<String> getStringVector() {
-		return Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		return Utils.decomposeStrings(this.getPanelAttributes());
 	}
 
 	@Override

@@ -31,7 +31,7 @@ public class Artefact extends GridElement {
 		else g2.setColor(fgColorBase);
 		g2.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = (int) (10 * zoom);
 		int startY = (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 

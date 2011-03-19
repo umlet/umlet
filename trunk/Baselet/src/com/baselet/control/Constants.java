@@ -123,6 +123,7 @@ public abstract class Constants {
 
 	/**** NEWLINE CHARACTER AND DEFAULT HELP- AND MAILTEXT ****/
 	public static final String NEWLINE = "\n";
+	public static final String COMMENT = "//";
 	public static String DEFAULT_HELPTEXT;
 	public static String DEFAULT_MAILTEXT;
 

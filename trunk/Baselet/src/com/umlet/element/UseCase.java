@@ -20,7 +20,7 @@ public class UseCase extends GridElement {
 	}
 
 	private Vector<String> getStringVector() {
-		Vector<String> ret = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> ret = Utils.decomposeStrings(this.getPanelAttributes());
 		return ret;
 	}
 

@@ -28,7 +28,7 @@ public class PackageAggregationHierarchy extends com.baselet.element.GridElement
 		
 
 		// extract property strings
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 
 		// draw bounding box
 		g2.setComposite(composites[1]);

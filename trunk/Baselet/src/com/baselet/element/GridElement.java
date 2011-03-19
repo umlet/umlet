@@ -99,7 +99,7 @@ public abstract class GridElement extends JComponent {
 	}
 
 	private boolean isManResized() {
-		Vector<String> lines = Utils.decomposeStringsWithComments(this.getPanelAttributes(), Constants.NEWLINE);
+		Vector<String> lines = Utils.decomposeStringsWithComments(this.getPanelAttributes());
 		for (String line : lines) {
 			if (line.startsWith(Constants.NOAUTORESIZE)) return true;
 		}
@@ -156,7 +156,7 @@ public abstract class GridElement extends JComponent {
 	}
 
 	public Vector<String> getPanelAttributesAsVector() {
-		return Utils.decomposeStrings(panelAttributes, "\n");
+		return Utils.decomposeStrings(panelAttributes);
 	}
 
 	public void setPanelAttributes(String panelAttributes) {
@@ -202,7 +202,7 @@ public abstract class GridElement extends JComponent {
 
 	public void setColor(String colorString, boolean isForegroundColor) {
 		String new_state = "";
-		Vector<String> textlines = Utils.decomposeStringsWithComments(this.getPanelAttributes(), "\n");
+		Vector<String> textlines = Utils.decomposeStringsWithComments(this.getPanelAttributes());
 		String prefix = (isForegroundColor ? "fg=" : "bg=");
 		for (int i = 0; i < textlines.size(); i++) {
 			if (!textlines.get(i).startsWith(prefix)) new_state += textlines.get(i) + "\n";
@@ -218,7 +218,7 @@ public abstract class GridElement extends JComponent {
 		fgColorString = "";
 		bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
 		fgColorBase = Constants.DEFAULT_FOREGROUND_COLOR;
-		Vector<String> v = Utils.decomposeStringsWithComments(panelAttributes, Constants.NEWLINE);
+		Vector<String> v = Utils.decomposeStringsWithComments(panelAttributes);
 		for (int i = 0; i < v.size(); i++) {
 			String line = v.get(i);
 			if (line.indexOf("bg=") >= 0) {

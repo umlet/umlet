@@ -16,7 +16,7 @@ public class EER_Entity extends GridElement {
 	boolean hasAttributes = false;
 
 	private Vector<String> getStringVector() {
-		Vector<String> ret = Utils.decomposeStrings(this.getPanelAttributes(), "\n");
+		Vector<String> ret = Utils.decomposeStrings(this.getPanelAttributes());
 		return ret;
 	}
 
