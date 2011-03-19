@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.font.TextLayout;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,7 +13,6 @@ import javax.swing.JComponent;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
@@ -30,11 +28,8 @@ public class DiagramNotification extends JComponent {
 	public DiagramNotification(DiagramHandler handler, String message) {
 		this.handler = handler;
 		this.message = message;
-		Timer timer = new Timer();
 		TimerTask removeTask = new NotificationRemoveTask(this, Main.getInstance().getGUI().getCurrentDiagram());
-		timer.schedule(
-				removeTask,
-				3000);
+		new Timer().schedule(removeTask, 3000);
 		this.setSize(100, 20);
 		this.adaptDimensions();
 	}
@@ -47,28 +42,22 @@ public class DiagramNotification extends JComponent {
 		Composite old = g2.getComposite(); // Store non-transparent composite
 
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f)); // 40% transparency
-		// g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 		g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 
-		Font font = new Font(Font.SANS_SERIF, Font.BOLD, 10);
+		Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
 		g2.setFont(font);
 		adaptDimensions();
-		TextLayout tl = new TextLayout(message, font, Constants.FRC);
 
 		log.debug("zoomFactor=" + handler.getZoomFactor());
-		log.debug("bounds.width=" + tl.getBounds().getWidth());
 		log.debug("width=" + getWidth());
-		// int textX = (int)((getWidth() / 2 - tl.getBounds().getWidth() / 2));
 		int textX = 5;
-		int textY = (int) (getHeight() / 2 + tl.getBounds().getHeight() / 2);
+		int textY = (getHeight() / 2 + 3);
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f)); // 70% transparency
-		handler.getFontHandler().writeText(g2, message, textX, textY, false);
+		g2.drawString(message, textX, textY);
 
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.05f)); // 5% transparency
 		g2.setColor(java.awt.Color.blue);
-		// g2.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 		g2.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
-		// Reset old transparency factor and font
 		g2.setComposite(old);
 		g2.setFont(handler.getFontHandler().getFont());
 	}
