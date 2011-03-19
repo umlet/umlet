@@ -3,7 +3,6 @@ package com.umlet.element;
 import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -1415,6 +1414,8 @@ public class Relation extends GridElement {
 					int arrowThreeSize = (int) (6 * zoom);
 					int arrowThreeLength = (int) (12 * zoom);
 
+					int oldFontSize = (int) getHandler().getFontHandler().getFontSize(false);
+
 					// if (beginCSDArrow.equals("compStart")) {
 					if (beginArrow.startsWith("compStart")) {
 
@@ -1429,7 +1430,7 @@ public class Relation extends GridElement {
 						g2.fillRect(px1.x - s / 2, px1.y - s / 2, s, s);
 						g2.setColor(fgColor);
 						g2.drawRect(px1.x - s / 2, px1.y - s / 2, s, s);
-						g2.setFont(new Font("SansSerif", Font.PLAIN, (int) (10 * zoom)));
+						getHandler().getFontHandler().setFontSize(10);
 						if (csdStartText.equals(">")) {
 							int[] tmpX = { px1.x - arrowOneSize, px1.x + arrowOneSize, px1.x - arrowOneSize };
 							int[] tmpY = { px1.y - arrowOneSize, px1.y, px1.y + arrowOneSize };
@@ -1458,7 +1459,7 @@ public class Relation extends GridElement {
 						}
 						else {
 							if (!csdStartText.equals("")) {
-								this.getHandler().getFontHandler().writeText(g2, csdStartText, px1.x + (int) (3 * zoom), px1.y + (int) (6 * zoom), true);
+								this.getHandler().getFontHandler().writeText(g2, csdStartText, px1.x, px1.y + (int) (6 * zoom), true);
 							}
 						}
 
@@ -1492,7 +1493,7 @@ public class Relation extends GridElement {
 						g2.fillRect(px1.x - s / 2, px1.y - s / 2, s, s);
 						g2.setColor(fgColor);
 						g2.drawRect(px1.x - s / 2, px1.y - s / 2, s, s);
-						g2.setFont(new Font("SansSerif", Font.PLAIN, (int) (10 * zoom)));
+						getHandler().getFontHandler().setFontSize(10);
 						if (csdEndText.equals(">")) {
 							int[] tmpX = { px1.x - arrowOneSize, px1.x + arrowOneSize, px1.x - arrowOneSize };
 							int[] tmpY = { px1.y - arrowOneSize, px1.y, px1.y + arrowOneSize };
@@ -1521,7 +1522,7 @@ public class Relation extends GridElement {
 						}
 						else {
 							if (!csdEndText.equals("")) {
-								this.getHandler().getFontHandler().writeText(g2, csdEndText, px1.x + (int) (3 * zoom), px1.y + (int) (6 * zoom), true);
+								this.getHandler().getFontHandler().writeText(g2, csdEndText, px1.x, px1.y + (int) (6 * zoom), true);
 							}
 						}
 
@@ -1541,7 +1542,7 @@ public class Relation extends GridElement {
 
 					}
 
-					g2.setFont(this.getHandler().getFontHandler().getFont()); // reset font
+					getHandler().getFontHandler().setFontSize(oldFontSize);
 
 				}
 				// G.Mueller End
