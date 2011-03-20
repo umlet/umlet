@@ -150,6 +150,7 @@ public class FontHandler {
 		AttributedString as = new AttributedString(s);
 
 		as.addAttribute(TextAttribute.SIZE, getFontSize());
+		as.addAttribute(TextAttribute.FAMILY, getDiagramDefaultFontFamily());
 		if (bold) as.addAttribute(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
 		if (italic) as.addAttribute(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
 		if (underline) as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON, 0, s.length());

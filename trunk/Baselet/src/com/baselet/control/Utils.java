@@ -5,20 +5,23 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants.LineType;
+import com.baselet.diagram.FontHandler;
 
 
 public abstract class Utils {
 
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
-	
+
 	private Utils() {} // private constructor to avoid instantiation
 
 	/**
@@ -47,7 +50,7 @@ public abstract class Utils {
 	public static Vector<String> decomposeStringsIncludingEmptyStrings(String s, String delimiter) {
 		return decomposeStringsWFilter(s, delimiter, false, false);
 	}
-	
+
 	public static Vector<String> decomposeStringsWithEmptyLines(String s) {
 		return Utils.decomposeStringsWFilter(s, Constants.NEWLINE, true, false);
 	}
@@ -59,7 +62,7 @@ public abstract class Utils {
 	public static Vector<String> decomposeStrings(String s, String delimiter) {
 		return Utils.decomposeStringsWFilter(s, delimiter, true, true);
 	}
-	
+
 	public static Vector<String> decomposeStrings(String s) {
 		return decomposeStrings(s, Constants.NEWLINE);
 	}
@@ -67,43 +70,44 @@ public abstract class Utils {
 	private static Vector<String> decomposeStringsWFilter(String fullString, String delimiter, boolean filterComments, boolean filterNewLines) {
 		Vector<String> returnVector = new Vector<String>();
 		String compatibleFullString = fullString.replaceAll("\r\n", delimiter); // compatibility to windows \r\n
-		
+
 		for (String line : compatibleFullString.split("\\" + delimiter)) {
 			if (filterComments && (line.matches("((//)|(fg=)|(bg=)|(autoresize=)).*"))) continue;
 			else if (filterNewLines && line.isEmpty()) continue;
 			else returnVector.add(line);
 		}
-		
+
 		return returnVector;
 	}
-	
-	private static String splitString(String st, int width) {
-	    StringBuffer buf = new StringBuffer(st);
-	    int lastspace = -1;
-	    int linestart = 0;
-	    int i = 0;
 
-	    while (i < buf.length()) {
-	       if ( buf.charAt(i) == ' ' ) lastspace = i;
-	       if ( buf.charAt(i) == '\n' ) {
-	          lastspace = -1;
-	          linestart = i+1;
-	          }
-	       if (i > linestart + width - 1 ) {
-	          if (lastspace != -1) {
-	             buf.setCharAt(lastspace,'\n');
-	             linestart = lastspace+1;
-	             lastspace = -1;
-	             }
-	          else {
-	             buf.insert(i,'\n');
-	             linestart = i+1;
-	             }
-	          }
-	        i++;
-	       }
-	    return buf.toString();
-	 }
+	public static List<String> splitString(String st, int width) {
+		StringBuilder buf = new StringBuilder(st);
+		int lastEmptyChar = -1; // is -1 if there was no ' ' in this line
+		int firstCharInLine = 0;
+		FontHandler fontHandler = Main.getInstance().getDiagramHandler().getFontHandler();
+
+		for (int i = 0; i < st.length(); i++) {
+			if (buf.charAt(i) == ' ') {
+				lastEmptyChar = i;
+			}
+			else if (buf.charAt(i) == '\n') {
+				lastEmptyChar = -1;
+				firstCharInLine = i + 1;
+			}
+			if ((fontHandler.getTextWidth(st.substring(firstCharInLine, i)) + 15) > width) {
+				if (lastEmptyChar != -1) {
+					buf.setCharAt(lastEmptyChar, '\n');
+					firstCharInLine = lastEmptyChar + 1;
+					lastEmptyChar = -1;
+				}
+				else {
+					buf.insert(i, '\n');
+					firstCharInLine = i+1;
+				}
+			}
+		}
+		return Arrays.asList(buf.toString().split("\\n"));
+	}
 
 	public static String composeStrings(Vector<String> v, String delimiter) {
 		String ret = null;
@@ -219,7 +223,7 @@ public abstract class Utils {
 		}
 		return returnArray;
 	}
-	
+
 	public static Double[] createDoubleArrayFromTo(Double min, Double max) {
 		return createDoubleArrayFromTo(min, max, 1D);
 	}
@@ -227,32 +231,13 @@ public abstract class Utils {
 	public static Color darkenColor(String inColor, int factor) {
 		return darkenColor(getColor(inColor), factor);
 	}
-	
+
 	public static Color darkenColor(Color inColor, int factor) {
 		int r = Math.max(0, inColor.getRed() - factor);
 		int g = Math.max(0, inColor.getGreen() - factor);
 		int b = Math.max(0, inColor.getBlue() - factor);
-		
+
 		return new Color(r,g,b);
 	}
 
-//	/**
-//	 * Converts a String[] into a int[]. If something goes wrong (eg: a NumberFormatException gets thrown) null is returned
-//	 * @param stringArray String[] to convert
-//	 * @return int[] or null if error
-//	 */
-//	public static int[] convertStringToIntArray(String[] stringArray) {
-//		if (stringArray == null) return null;
-//		else {
-//			int[] intArray = new int[stringArray.length];
-//			try {
-//				for (int i = 0; i < stringArray.length; i++) {
-//					intArray[i] = Integer.parseInt(stringArray[i]);
-//				}
-//			} catch (NumberFormatException e) {
-//				return null;
-//			}
-//			return intArray;
-//		}
-//	}
 }

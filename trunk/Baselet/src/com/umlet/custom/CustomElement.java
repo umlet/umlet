@@ -15,6 +15,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
@@ -74,8 +76,9 @@ public abstract class CustomElement extends GridElement {
 	private Color tmpBgColor;
 	private float tmpAlpha;
 
-	boolean specialLine, specialFgColor, specialBgColor;
-	int oldFontSize;
+	private boolean specialLine, specialFgColor, specialBgColor;
+	private int oldFontSize;
+	private boolean wordWrap = true;
 
 	public CustomElement() {
 		this.shapes = new Vector<StyleShape>();
@@ -130,14 +133,14 @@ public abstract class CustomElement extends GridElement {
 		for (Text t : this.texts) {
 			if (t.fixedSize != null) {
 				oldFontSize = (int) getHandler().getFontHandler().getFontSize();
-				getHandler().getFontHandler().setFontSize(t.fixedSize);
-				g2.setFont(this.getHandler().getFontHandler().getFont(false));
+				getHandler().getFontHandler().setFontSize((int) (t.fixedSize * zoom));
+//				g2.setFont(this.getHandler().getFontHandler().getFont(false));
 				t.y += textHeight();
 			}
 			this.getHandler().getFontHandler().writeText(this.g2, t.text, t.x, t.y, t.align, t.valign);
 			if (t.fixedSize != null) {
 				getHandler().getFontHandler().setFontSize(oldFontSize);
-				g2.setFont(this.getHandler().getFontHandler().getFont());
+//				g2.setFont(this.getHandler().getFontHandler().getFont());
 			}
 		}
 
@@ -205,28 +208,58 @@ public abstract class CustomElement extends GridElement {
 	}
 
 	@CustomFunction(param_defaults = "text,x,y")
-	protected final void print(String text, int x, int y) {
-		this.texts.add(new Text(text, (int) (x * zoom), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
+	protected final int print(String text, int x, int inY) {
+		int y = inY;
+		List<String> list = wordWrap ? Utils.splitString(text, width) : Arrays.asList(new String[] {text});
+		for (String s : list) {
+			this.texts.add(new Text(s, (int) (x * zoom), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
+			y += textHeight() * zoom;
+		}
+		return y - inY;
 	}
 
 	@CustomFunction(param_defaults = "text,y")
-	protected final void printLeft(String text, int y) {
-		this.texts.add(new Text(text, (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
+	protected final int printLeft(String text, int inY) {
+		int y = inY;
+		List<String> list = wordWrap ? Utils.splitString(text, width) : Arrays.asList(new String[] {text});
+		for (String s : list) {
+			this.texts.add(new Text(s, (int) (((int) this.getHandler().getFontHandler().getDistanceBetweenTexts()) * zoom), (int) (((int) (y * zoom)) * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
+			y += textHeight() * zoom;
+		}
+		return y - inY;
 	}
 
 	@CustomFunction(param_defaults = "text,y")
-	protected final void printRight(String text, int y) {
-		this.texts.add(new Text(text, (int) (width * zoom) - this.zoomedTextsize(text).width, (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
+	protected final int printRight(String text, int inY) {
+		int y = inY;
+		List<String> list = wordWrap ? Utils.splitString(text, width) : Arrays.asList(new String[] {text});
+		for (String s : list) {
+			this.texts.add(new Text(s, (int) (((int) (width * zoom) - this.zoomedTextsize(s).width) * zoom), (int) (((int) (y * zoom)) * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
+			y += textHeight() * zoom;
+		}
+		return y - inY;
 	}
 
 	@CustomFunction(param_defaults = "text,y")
-	protected final void printCenter(String text, int y) {
-		this.texts.add(new Text(text, (onGrid((int) (width * zoom)) - this.zoomedTextsize(text).width) / 2, (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
+	protected final int printCenter(String text, int inY) {
+		int y = inY;
+		List<String> list = wordWrap ? Utils.splitString(text, width) : Arrays.asList(new String[] {text});
+		for (String s : list) {
+			this.texts.add(new Text(s, (int) ((onGrid((int) (width * zoom)) - this.zoomedTextsize(s).width) / 2 * zoom), (int) (((int) (y * zoom)) * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
+			y += textHeight() * zoom;
+		}
+		return y - inY;
 	}
 
 	@CustomFunction(param_defaults = "text,x,y,fixedFontSize")
-	protected final void printFixedSize(String text, int x, int y, int fixedFontSize) {
-		this.texts.add(new Text(text, (int) (x * zoom), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM, fixedFontSize));
+	protected final int printFixedSize(String text, int x, int inY, int fixedFontSize) {
+		int y = inY;
+		List<String> list = wordWrap ? Utils.splitString(text, width) : Arrays.asList(new String[] {text});
+		for (String s : list) {
+		this.texts.add(new Text(s, (int) (x * zoom), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM, fixedFontSize));
+		y += textHeight() * zoom;
+		}
+		return y - inY;
 	}
 
 	@CustomFunction(param_defaults = "value")
@@ -274,6 +307,16 @@ public abstract class CustomElement extends GridElement {
 	@CustomFunction(param_defaults = "")
 	public final boolean isManualResized() {
 		return super.isManualResized();
+	}
+
+	@CustomFunction(param_defaults = "wordWrap")
+	public final void setWordWrap(boolean wordWrap) {
+		this.wordWrap = wordWrap;
+	}
+
+	@CustomFunction(param_defaults = "")
+	public final boolean isWordWrap() {
+		return wordWrap;
 	}
 
 	@CustomFunction(param_defaults = "x, y, width, height, start, extent")
