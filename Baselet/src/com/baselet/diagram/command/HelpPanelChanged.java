@@ -23,22 +23,28 @@ public class HelpPanelChanged extends Command {
 
 	public static Integer getFontsize(String text) {
 		if (text == null) return null;
-		Pattern p = Pattern.compile("(\\s)*fontsize\\=([0-9]+)(\\s)*");
+		Pattern p = Pattern.compile("fontsize=([0-9]+)( .*)?");
 		Vector<String> txt = Utils.decomposeStrings(text);
 		for (String t : txt) {
 			Matcher m = p.matcher(t);
-			if (m.matches()) return Integer.parseInt(m.group(2));
+			if (m.matches()) {
+				if (t.contains("//")) t = t.split("//")[0];
+				return Integer.parseInt(m.group(1));
+			}
 		}
 		return null;
 	}
 
 	public static String getFontfamily(String text) {
 		if (text == null) return null;
-		Pattern p = Pattern.compile("(\\s)*fontfamily\\=(\\w+)(\\s)*");
+		Pattern p = Pattern.compile("fontfamily\\=(\\w+).*");
 		Vector<String> txt = Utils.decomposeStrings(text);
 		for (String t : txt) {
 			Matcher m = p.matcher(t);
-			if (m.matches()) return m.group(2);
+			if (m.matches()) {
+				if (t.contains("//")) t = t.split("//")[0];
+				return m.group(1);
+			}
 		}
 		return null;
 	}
