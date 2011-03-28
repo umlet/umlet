@@ -77,7 +77,7 @@ public abstract class CustomElement extends GridElement {
 
 	private boolean specialLine, specialFgColor, specialBgColor;
 	private int oldFontSize;
-	private boolean wordWrap = true;
+	private boolean wordWrap = false;
 
 	public CustomElement() {
 		this.shapes = new Vector<StyleShape>();
