@@ -32,7 +32,7 @@ public class FileClassLoader extends ClassLoader {
 	}
 
 	private byte[] loadClassData(String className) throws IOException {
-		File f = new File(Path.customElements() + "tmp/" + className + ".class");
+		File f = new File(Path.temp() + className + ".class");
 		byte buff[] = new byte[(int) f.length()];
 		FileInputStream fis = new FileInputStream(f);
 		DataInputStream dis = new DataInputStream(fis);

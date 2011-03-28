@@ -280,7 +280,7 @@
 	<!-- Umlet specific Standalone exportfunctionality -->
 	<target name="helper_export_standalone_umlet" if="umlet_active">
 		<copy todir="${dir.export.standalone}/custom_elements">
-			<fileset dir="custom_elements" excludes="tmp/**" />
+			<fileset dir="custom_elements" />
 		</copy>
 	</target>
 
