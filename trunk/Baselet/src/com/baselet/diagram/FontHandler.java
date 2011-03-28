@@ -131,8 +131,12 @@ public class FontHandler {
 	}
 
 	public void writeText(Graphics2D g2, String s, int x, int y, AlignHorizontal align, AlignVertical valign) {
+		writeText(g2, s, x, y, align, valign, true);
+	}
+
+	public void writeText(Graphics2D g2, String s, int x, int y, AlignHorizontal align, AlignVertical valign, boolean applyZoom) {
 		for (String line : s.split("\n")) {
-			this.write(g2, line, x, y, align, valign);
+			this.write(g2, line, x, y, align, valign, applyZoom);
 			y += g2.getFontMetrics().getHeight();
 		}
 	}
@@ -140,7 +144,7 @@ public class FontHandler {
 	private static boolean underline;
 	private static boolean bold;
 	private static boolean italic;
-	public void write(Graphics2D g2, String stringWithFormatLabels, int x, int y, AlignHorizontal align, AlignVertical valign) {
+	private void write(Graphics2D g2, String stringWithFormatLabels, int x, int y, AlignHorizontal align, AlignVertical valign, boolean applyZoom) {
 		String s = setFormatAndRemoveLabels(stringWithFormatLabels);
 		if (s == null || s.isEmpty()) return;
 
@@ -149,17 +153,17 @@ public class FontHandler {
 
 		AttributedString as = new AttributedString(s);
 
-		as.addAttribute(TextAttribute.SIZE, getFontSize());
+		as.addAttribute(TextAttribute.SIZE, getFontSize(applyZoom));
 		as.addAttribute(TextAttribute.FAMILY, getDiagramDefaultFontFamily());
 		if (bold) as.addAttribute(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
 		if (italic) as.addAttribute(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
 		if (underline) as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON, 0, s.length());
 
-		if (align == AlignHorizontal.CENTER) x = x - getTextWidth(s) / 2;
-		else if (align == AlignHorizontal.RIGHT) x = x - getTextWidth(s);
+		if (align == AlignHorizontal.CENTER) x = x - getTextWidth(s, applyZoom) / 2;
+		else if (align == AlignHorizontal.RIGHT) x = x - getTextWidth(s, applyZoom);
 
-		if (valign == AlignVertical.CENTER) y = y + getTextHeight(s) / 2;
-		else if (valign == AlignVertical.TOP) y = y + getTextHeight(s);
+		if (valign == AlignVertical.CENTER) y = y + getTextHeight(s, applyZoom) / 2;
+		else if (valign == AlignVertical.TOP) y = y + getTextHeight(s, applyZoom);
 
 		g2.drawString(as.getIterator(), x, y);
 	}
