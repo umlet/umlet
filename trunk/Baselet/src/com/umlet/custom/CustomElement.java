@@ -3,7 +3,6 @@ package com.umlet.custom;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
@@ -200,20 +199,13 @@ public abstract class CustomElement extends GridElement {
 		return e;
 	}
 
-	private final Dimension zoomedTextsize(String text) {
-		Dimension d = this.getHandler().getFontHandler().getTextSize(text);
-		d.height = (int) (this.getHandler().getFontHandler().getDistanceBetweenTexts() + this.getHandler().getFontHandler().getFontSize());
-		d.width += this.getHandler().getFontHandler().getDistanceBetweenTexts();
-		return d;
-	}
-
 	@CustomFunction(param_defaults = "text,x,y")
 	protected final int print(String text, int x, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? Utils.splitString(text, width) : Arrays.asList(new String[] {text});
+		List<String> list = wordWrap ? Utils.splitString(text, (int) (width * zoom)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
 			this.texts.add(new Text(s, (int) (x * zoom), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
-			y += textHeight() * zoom;
+			y += textHeight();
 		}
 		return y - inY;
 	}
@@ -221,10 +213,10 @@ public abstract class CustomElement extends GridElement {
 	@CustomFunction(param_defaults = "text,y")
 	protected final int printLeft(String text, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? Utils.splitString(text, width) : Arrays.asList(new String[] {text});
+		List<String> list = wordWrap ? Utils.splitString(text, (int) (width * zoom)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-			this.texts.add(new Text(s, (int) (((int) this.getHandler().getFontHandler().getDistanceBetweenTexts()) * zoom), (int) (((int) (y * zoom)) * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
-			y += textHeight() * zoom;
+			this.texts.add(new Text(s, ((int) this.getHandler().getFontHandler().getDistanceBetweenTexts()), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
+			y += textHeight();
 		}
 		return y - inY;
 	}
@@ -232,21 +224,22 @@ public abstract class CustomElement extends GridElement {
 	@CustomFunction(param_defaults = "text,y")
 	protected final int printRight(String text, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? Utils.splitString(text, width) : Arrays.asList(new String[] {text});
+		List<String> list = wordWrap ? Utils.splitString(text, (int) (width * zoom)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-			this.texts.add(new Text(s, (int) (((int) (width * zoom) - this.zoomedTextsize(s).width) * zoom), (int) (((int) (y * zoom)) * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
-			y += textHeight() * zoom;
+			System.out.println("<" + s + ">");
+			this.texts.add(new Text(s, (int) ((width * zoom - this.textWidth(s, true))), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
+			y += textHeight();
 		}
 		return y - inY;
 	}
-
+	
 	@CustomFunction(param_defaults = "text,y")
 	protected final int printCenter(String text, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? Utils.splitString(text, width) : Arrays.asList(new String[] {text});
+		List<String> list = wordWrap ? Utils.splitString(text, (int) (width * zoom)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-			this.texts.add(new Text(s, (int) ((onGrid((int) (width * zoom)) - this.zoomedTextsize(s).width) / 2 * zoom), (int) (((int) (y * zoom)) * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
-			y += textHeight() * zoom;
+			this.texts.add(new Text(s, (int) (((onGrid(width) * zoom - this.textWidth(s, true)) / 2)), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
+			y += textHeight();
 		}
 		return y - inY;
 	}
@@ -256,8 +249,8 @@ public abstract class CustomElement extends GridElement {
 		int y = inY;
 		List<String> list = wordWrap ? Utils.splitString(text, width) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-		this.texts.add(new Text(s, (int) (x * zoom), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM, fixedFontSize));
-		y += textHeight() * zoom;
+		this.texts.add(new Text(s, x, y, AlignHorizontal.LEFT, AlignVertical.BOTTOM, fixedFontSize));
+		y += textHeight();
 		}
 		return y - inY;
 	}
@@ -296,7 +289,7 @@ public abstract class CustomElement extends GridElement {
 			// calculates the width and height of the component
 			for (String textline : Utils.decomposeStrings(this.getPanelAttributes())) {
 				height = height + textHeight();
-				width = Math.max(textWidth(textline) + 10 + horizontalSpacing, width);
+				width = Math.max(textWidth(textline, false) + 10 + horizontalSpacing, width);
 			}
 			if (height < minHeight) height = minHeight;
 			if (width < minWidth) width = minWidth;
