@@ -130,16 +130,14 @@ public abstract class CustomElement extends GridElement {
 		}
 
 		for (Text t : this.texts) {
+			boolean applyZoom = true;
 			if (t.fixedSize != null) {
-				oldFontSize = (int) getHandler().getFontHandler().getFontSize();
-				getHandler().getFontHandler().setFontSize((int) (t.fixedSize * zoom));
-//				g2.setFont(this.getHandler().getFontHandler().getFont(false));
-				t.y += textHeight();
+				getHandler().getFontHandler().setFontSize(t.fixedSize);
+				applyZoom = false;
 			}
-			this.getHandler().getFontHandler().writeText(this.g2, t.text, t.x, t.y, t.align, t.valign);
+			this.getHandler().getFontHandler().writeText(this.g2, t.text, t.x, t.y, t.align, t.valign, applyZoom);
 			if (t.fixedSize != null) {
-				getHandler().getFontHandler().setFontSize(oldFontSize);
-//				g2.setFont(this.getHandler().getFontHandler().getFont());
+				getHandler().getFontHandler().resetFontSize();
 			}
 		}
 
