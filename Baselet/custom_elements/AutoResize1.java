@@ -5,10 +5,9 @@ import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 
 @SuppressWarnings("serial")
-public class CustomElementImpl extends com.umlet.custom.CustomElement {
+public class <!CLASSNAME!> extends com.umlet.custom.CustomElement {
 
-	public CustomElementImpl()
-	{
+	public CustomElementImpl() {
 		
 	}
 	
@@ -17,20 +16,18 @@ public class CustomElementImpl extends com.umlet.custom.CustomElement {
 		Vector<String> textlines = Utils.decomposeStrings(this.getPanelAttributes());
 	
 		/****CUSTOM_CODE START****/
-//This is a self resizing custom element
-
-//Disable manual resizing and enable autoresizing
+//This is a tutorial for a self resizing component 
+//In addition you are able to resize at manually
+//As soon as it is resized manually a new text is
+//added to the property panel
 allowResize(false);
 setAutoresize(30,40,10);
 
-//Draw the circle and the line
 drawCircle(width/2,15,10);
 
-//Print out the text
-int y=30;
+int y=45;
 for(String textline : textlines) {
-	y = y + textHeight();
-	printCenter(textline,y);
+	y += printCenter(textline,y);
 }
 		/****CUSTOM_CODE END****/
 	}

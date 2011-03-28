@@ -16,9 +16,14 @@ public class <!CLASSNAME!> extends com.umlet.custom.CustomElement {
 		Vector<String> textlines = Utils.decomposeStrings(this.getPanelAttributes());
 	
 		/****CUSTOM_CODE START****/
+//This is an element with activated wordwrap
+//If a line would exceed the elements border, instead
+//the exceeding part is written into the next line
+
 int y=textHeight();
 
-drawRectangleRound(0,0,width,height,20,20);
+drawRectangle(0,0,width,height);
+setWordWrap(true);
 
 for(String textline : textlines) {
 	y += printCenter(textline,y);

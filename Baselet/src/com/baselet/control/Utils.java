@@ -16,7 +16,6 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants.LineType;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.FontHandler;
 
 
 public abstract class Utils {
@@ -81,34 +80,33 @@ public abstract class Utils {
 		return returnVector;
 	}
 
-	public static List<String> splitString(String st, int width) {
-		StringBuilder buf = new StringBuilder(st);
+	public static List<String> splitString(String text, int width) {
+		DiagramHandler handler = Main.getInstance().getDiagramHandler();
+		StringBuilder stringBuilder = new StringBuilder(text);
 		int lastEmptyChar = -1; // is -1 if there was no ' ' in this line
 		int firstCharInLine = 0;
-		DiagramHandler diagramHandler = Main.getInstance().getDiagramHandler();
-		FontHandler fontHandler = diagramHandler.getFontHandler();
 
-		for (int i = 0; i < st.length(); i++) {
-			if (buf.charAt(i) == ' ') {
+		for (int i = 0; i < text.length(); i++) {
+			if (stringBuilder.charAt(i) == ' ') {
 				lastEmptyChar = i;
 			}
-			else if (buf.charAt(i) == '\n') {
+			else if (stringBuilder.charAt(i) == '\n') {
 				lastEmptyChar = -1;
 				firstCharInLine = i + 1;
 			}
-			if ((fontHandler.getTextWidth(st.substring(firstCharInLine, i)) + 15 * diagramHandler.getZoomFactor()) > width) {
+			if ((handler.getFontHandler().getTextWidth(text.substring(firstCharInLine, i)) + 15 * handler.getZoomFactor()) > width) {
 				if (lastEmptyChar != -1) {
-					buf.setCharAt(lastEmptyChar, '\n');
+					stringBuilder.setCharAt(lastEmptyChar, '\n');
 					firstCharInLine = lastEmptyChar + 1;
 					lastEmptyChar = -1;
 				}
 				else {
-					buf.insert(i, '\n');
+					stringBuilder.insert(i, '\n');
 					firstCharInLine = i+1;
 				}
 			}
 		}
-		return Arrays.asList(buf.toString().split("\\n"));
+		return Arrays.asList(stringBuilder.toString().split("\\n"));
 	}
 
 	public static String composeStrings(Vector<String> v, String delimiter) {

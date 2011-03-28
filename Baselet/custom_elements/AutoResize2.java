@@ -23,7 +23,6 @@ public class <!CLASSNAME!> extends com.umlet.custom.CustomElement {
 setAutoresize(20,20,10);
 
 int y=textHeight();
-//draws the text
 
 boolean center = true;
 for(int i = 0; i < textlines.size(); i++) {
@@ -35,13 +34,11 @@ for(int i = 0; i < textlines.size(); i++) {
 		y += textHeight()*0.3;
 	}
 	else {
-		if (center) printCenter(textline,y); 
-		else printLeft(textline,y);
-		y += textHeight();
+		if (center) y += printCenter(textline,y); 
+		else y += printLeft(textline,y);
 	}
 }
 
-//draws the outer Rectangle
 drawRectangle(0,0,onGrid(width),onGrid(height));
 		/****CUSTOM_CODE END****/
 	}

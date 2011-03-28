@@ -7,8 +7,7 @@ import com.baselet.control.Utils;
 @SuppressWarnings("serial")
 public class <!CLASSNAME!> extends com.umlet.custom.CustomElement {
 
-	public CustomElementImpl()
-	{
+	public CustomElementImpl() {
 		
 	}
 	
@@ -17,13 +16,12 @@ public class <!CLASSNAME!> extends com.umlet.custom.CustomElement {
 		Vector<String> textlines = Utils.decomposeStrings(this.getPanelAttributes());
 	
 		/****CUSTOM_CODE START****/
-//Modify the code below to
-//define the element's behavior.
+//Modify the code below to define the element's behavior.
 //
 //Example:  Change the line
-//  y = y + textHeight();
+//  y += printCenter(textline,y);
 //to
-//  y = y + 2 * textHeight();
+//  y += 2*printCenter(textline,y);
 //and observe the element preview.
 
 int y=textHeight();
@@ -31,8 +29,7 @@ int y=textHeight();
 drawRectangle(0,0,width,height);
 
 for(String textline : textlines) {
-	printCenter(textline,y);
-	y = y + textHeight();
+	y += printCenter(textline,y);
 }
 		/****CUSTOM_CODE END****/
 	}
