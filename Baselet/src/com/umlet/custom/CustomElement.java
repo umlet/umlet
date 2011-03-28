@@ -226,7 +226,6 @@ public abstract class CustomElement extends GridElement {
 		int y = inY;
 		List<String> list = wordWrap ? Utils.splitString(text, (int) (width * zoom)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-			System.out.println("<" + s + ">");
 			this.texts.add(new Text(s, (int) ((width * zoom - this.textWidth(s, true))), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
 			y += textHeight();
 		}
