@@ -15,6 +15,7 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants.LineType;
+import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler;
 
 
@@ -84,7 +85,8 @@ public abstract class Utils {
 		StringBuilder buf = new StringBuilder(st);
 		int lastEmptyChar = -1; // is -1 if there was no ' ' in this line
 		int firstCharInLine = 0;
-		FontHandler fontHandler = Main.getInstance().getDiagramHandler().getFontHandler();
+		DiagramHandler diagramHandler = Main.getInstance().getDiagramHandler();
+		FontHandler fontHandler = diagramHandler.getFontHandler();
 
 		for (int i = 0; i < st.length(); i++) {
 			if (buf.charAt(i) == ' ') {
@@ -94,7 +96,7 @@ public abstract class Utils {
 				lastEmptyChar = -1;
 				firstCharInLine = i + 1;
 			}
-			if ((fontHandler.getTextWidth(st.substring(firstCharInLine, i)) + 15) > width) {
+			if ((fontHandler.getTextWidth(st.substring(firstCharInLine, i)) + 15 * diagramHandler.getZoomFactor()) > width) {
 				if (lastEmptyChar != -1) {
 					buf.setCharAt(lastEmptyChar, '\n');
 					firstCharInLine = lastEmptyChar + 1;

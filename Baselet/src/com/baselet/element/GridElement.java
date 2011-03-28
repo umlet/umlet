@@ -408,7 +408,7 @@ public abstract class GridElement extends JComponent {
 			// calculates the width and height of the component
 			for (String textline : Utils.decomposeStrings(this.getPanelAttributes())) {
 				height = height + textHeight();
-				width = Math.max(textWidth(textline) + 10, width);
+				width = Math.max(textWidth(textline, false) + 10, width);
 			}
 			if (height < minHeight) height = minHeight;
 			if (width < minWidth) width = minWidth;
@@ -420,7 +420,7 @@ public abstract class GridElement extends JComponent {
 		return (int) ((int) this.getHandler().getFontHandler().getFontSize(false) + this.getHandler().getFontHandler().getDistanceBetweenTexts(false));
 	}
 
-	protected final int textWidth(String text) {
-		return getHandler().getFontHandler().getTextSize(text, false).width + (int) getHandler().getFontHandler().getDistanceBetweenTexts(false);
+	protected final int textWidth(String text, boolean applyZoom) {
+		return getHandler().getFontHandler().getTextSize(text, applyZoom).width + (int) getHandler().getFontHandler().getDistanceBetweenTexts(applyZoom);
 	}
 }
