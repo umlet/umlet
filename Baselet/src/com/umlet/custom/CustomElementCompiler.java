@@ -61,10 +61,12 @@ public class CustomElementCompiler {
 		}
 		else global_error = true;
 
-		this.classname = "CustomElementImpl";
-		File tmpDir = new File(Path.customElements() + "tmp/");
+		this.classname = Constants.CUSTOM_ELEMENT_CLASSNAME;
+		File tmpDir = new File(Path.temp());
 		tmpDir.mkdir();
-		this.sourcefile = new File(Path.customElements() + "tmp/" + this.classname + ".java");
+		this.sourcefile = new File(Path.temp() + this.classname + ".java");
+		sourcefile.deleteOnExit();
+		new File(Path.temp() + this.classname + ".class").deleteOnExit();
 	}
 
 	// compiles the element and returns the new entity if successful

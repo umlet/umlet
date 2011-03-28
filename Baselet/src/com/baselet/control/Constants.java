@@ -199,6 +199,7 @@ public abstract class Constants {
 	}
 
 	/**** OTHER CONSTANTS ****/
+	public static final String CUSTOM_ELEMENT_CLASSNAME = "CustomElementImpl";
 	public static final int DEFAULTGRIDSIZE = 10;
 	public static final int PRINTPADDING = 20;
 	public static final int INTERFACE_LINE_LENGTH = 40;
