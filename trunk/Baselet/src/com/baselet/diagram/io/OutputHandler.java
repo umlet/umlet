@@ -23,6 +23,7 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Element;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.lowagie.text.Document;
@@ -130,6 +131,7 @@ public class OutputHandler {
 		Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.PRINTPADDING, entities);
 		BufferedImage im = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D graphics2d = im.createGraphics();
+		graphics2d.setRenderingHints(Utils.getUxRenderingQualityHigh(true));
 
 		// tanslate needed for clipping
 		graphics2d.translate(-bounds.x, -bounds.y);
