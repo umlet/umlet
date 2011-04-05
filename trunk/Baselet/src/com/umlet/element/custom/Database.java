@@ -1,5 +1,6 @@
 package com.umlet.element.custom;
 
+import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
@@ -20,6 +21,7 @@ public class Database extends com.baselet.element.GridElement {
 		// quality, etc. You should not have to change this.
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setFont(this.getHandler().getFontHandler().getFont());
+		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
 
