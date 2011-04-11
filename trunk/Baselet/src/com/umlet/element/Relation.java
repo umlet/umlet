@@ -803,7 +803,7 @@ public class Relation extends GridElement {
 		g2.setFont(this.getHandler().getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
-		 // Just to set anti-aliasing, even if no text
+		// Just to set anti-aliasing, even if no text
 		// operations occur
 
 		// g2.setColor(Color.MAGENTA);
@@ -875,7 +875,7 @@ public class Relation extends GridElement {
 
 					broadestText = Math.max(broadestText, this.getHandler().getFontHandler()
 							.getTextWidth(beginRole.substring(position,
-							positionNew)));
+									positionNew)));
 					if (beginRole.lastIndexOf("\\\\") + 2 != beginRole.length()) broadestText = Math.max(broadestText, this.getHandler().getFontHandler().getTextWidth(beginRole.substring(beginRole.lastIndexOf("\\\\") + 2, beginRole.length())));
 					lineBreaks++;
 				}
@@ -913,7 +913,7 @@ public class Relation extends GridElement {
 					broadestText = Math.max(broadestText, this.getHandler().getFontHandler().getTextWidth(endRole.substring(position, positionNew)));
 					if (endRole.lastIndexOf("\\\\") + 2 != endRole.length()) broadestText = Math.max(broadestText,
 							this.getHandler().getFontHandler().getTextWidth(endRole.substring(endRole.lastIndexOf("\\\\") + 2,
-							endRole.length())));
+									endRole.length())));
 					lineBreaks++;
 				}
 
@@ -1331,7 +1331,7 @@ public class Relation extends GridElement {
 				else if (arrow.getString().equals("provide")) {
 					int width = arrow.getCrossEndB().x - arrow.getCrossEndA().x;
 					int height = arrow.getCrossEndB().y
-							- arrow.getCrossEndA().y;
+					- arrow.getCrossEndA().y;
 					g2.drawArc((int) arrow.getX() + arrow.getCrossEndA().x, (int) arrow.getY() + arrow.getCrossEndA().y, width, height, arrow.getArcStart(), arrow.getArcEnd());
 					// A.Mueller End
 					// G.Mueller Start
@@ -1414,10 +1414,9 @@ public class Relation extends GridElement {
 					int arrowThreeSize = (int) (6 * zoom);
 					int arrowThreeLength = (int) (12 * zoom);
 
-					int oldFontSize = (int) getHandler().getFontHandler().getFontSize(false);
-
 					// if (beginCSDArrow.equals("compStart")) {
 					if (beginArrow.startsWith("compStart")) {
+						getHandler().getFontHandler().setFontSize(10);
 
 						s = boxSize;
 
@@ -1430,7 +1429,6 @@ public class Relation extends GridElement {
 						g2.fillRect(px1.x - s / 2, px1.y - s / 2, s, s);
 						g2.setColor(fgColor);
 						g2.drawRect(px1.x - s / 2, px1.y - s / 2, s, s);
-						getHandler().getFontHandler().setFontSize(10);
 						if (csdStartText.equals(">")) {
 							int[] tmpX = { px1.x - arrowOneSize, px1.x + arrowOneSize, px1.x - arrowOneSize };
 							int[] tmpY = { px1.y - arrowOneSize, px1.y, px1.y + arrowOneSize };
@@ -1477,9 +1475,12 @@ public class Relation extends GridElement {
 							g2.setTransform(at);
 						}
 
+						getHandler().getFontHandler().resetFontSize();
 					}
+
 					// if (endCSDArrow.equals("compEnd")) {
 					if (endArrow.startsWith("compEnd")) {
+						getHandler().getFontHandler().setFontSize(10);
 
 						s = boxSize;
 
@@ -1493,7 +1494,6 @@ public class Relation extends GridElement {
 						g2.fillRect(px1.x - s / 2, px1.y - s / 2, s, s);
 						g2.setColor(fgColor);
 						g2.drawRect(px1.x - s / 2, px1.y - s / 2, s, s);
-						getHandler().getFontHandler().setFontSize(10);
 						if (csdEndText.equals(">")) {
 							int[] tmpX = { px1.x - arrowOneSize, px1.x + arrowOneSize, px1.x - arrowOneSize };
 							int[] tmpY = { px1.y - arrowOneSize, px1.y, px1.y + arrowOneSize };
@@ -1540,9 +1540,8 @@ public class Relation extends GridElement {
 							g2.setTransform(at);
 						}
 
+						getHandler().getFontHandler().resetFontSize();
 					}
-
-					getHandler().getFontHandler().setFontSize(oldFontSize);
 
 				}
 				// G.Mueller End
@@ -1560,7 +1559,7 @@ public class Relation extends GridElement {
 			else if (r instanceof Role) {
 				Role role = (Role) r;
 				String str = role.getString();
-				
+
 				int position = 0;
 				int y = 4 * (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				while (position != -1) {
