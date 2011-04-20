@@ -4,6 +4,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using System.IO;
 
 namespace Umlet
 {
@@ -24,10 +25,7 @@ namespace Umlet
 
             try
             {
-                if (!searchAndSetRegKey(proc))
-                {
-                    proc.StartInfo.FileName = "javaw.exe";
-                }
+                setPathToJavaw(proc);
 
                 proc.StartInfo.CreateNoWindow = true;
                 proc.StartInfo.WorkingDirectory = Application.StartupPath;
@@ -40,7 +38,7 @@ namespace Umlet
             }
         }
 
-        private static Boolean searchAndSetRegKey(Process proc)
+        private static void setPathToJavaw(Process proc)
         {
             try
             {
@@ -50,14 +48,19 @@ namespace Umlet
                 {
                     String javawReg = regkey.GetValue("").ToString();
                     String javawPath = javawReg.Substring(1, javawReg.IndexOf("javaw.exe") + 8);
-                    proc.StartInfo.FileName = javawPath;
-                    return true; // If everything works fine until here, the registry method will be used
+
+                    if (File.Exists(javawPath))
+                    {
+                        proc.StartInfo.FileName = javawPath; // If the installation dir of java can be found and it exists, it will be used
+                        return;
+                    }
                 }
             }
             catch (Exception)
             {
             }
-            return false;
+            // If any of the previous steps to locate the path from the registry fails, the environment variable will be used
+            proc.StartInfo.FileName = "javaw.exe";
         }
     }
 }
