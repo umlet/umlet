@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="${project.name.uc}" default="start" basedir=".">
+
+	<!-- Release version property - MUST BE SET MANUALLY (afterwards run enable_*let to update the manifest file) -->
+	<property name="release.version" value="11.3" />
+
+	<!-- Imported and calculated properties -->
+	<tstamp>
+		<format property="release.month" pattern="MMMM" locale="en,UK"/>
+	</tstamp>
+	<tstamp>
+		<format property="release.year" pattern="yyyy" locale="en,UK"/>
+	</tstamp>
+	<property file="build.properties" />
+	<property name="dir.executables" location="exe/${project.name.uc}" />
+	<property name="dir.export" location="export" />
+	<property name="dir.export.standalone" location="${dir.export}/standalone" />
+	<property name="dir.export.plugin" location="${dir.export}/plugins" />
+	<property name="dir.lib" location="lib" />
+
+	<!-- Classpaths -->
+	<path id="project.classpath.build">
+		<pathelement location="src" />
+		<fileset dir="${eclipse.home}/plugins">
+			<include name="*.jar" />
+		</fileset>
+		<path refid="project.classpath.lib" />
+	</path>
+
+	<path id="project.classpath.run">
+		<pathelement location="bin" />
+		<path refid="project.classpath.lib" />
+	</path>
+
+	<path id="project.classpath.lib">
+		<fileset dir="${dir.lib}" includes="baselet_*.jar, ${project.name.lc}_*.jar"/>
+	</path>
+
+	<!-- Compile the project -->
+	<target name="javac">
+		<mkdir dir="${project.path.output}" />
+		<javac srcdir="${project.path.source}" destdir="${project.path.output}" nowarn="true">
+			<classpath refid="project.classpath.build" />
+			<compilerarg value="-Xlint" />
+		</javac>
+	</target>
+
+	<!-- Update MANIFEST.MF and includes new version and libs -->
+	<target name="update_manifest">
+		<pathconvert property="manifest.classpath.prop.comma" pathsep=", ">
+			<path refid="project.classpath.lib" />
+			<chainedmapper>
+				<flattenmapper/>
+				<globmapper from="*" to="lib/*"/>
+			</chainedmapper>
+		</pathconvert>
+		<pathconvert property="manifest.classpath.prop" pathsep=" ">
+			<path refid="project.classpath.lib" />
+			<chainedmapper>
+				<flattenmapper/>
+				<globmapper from="*" to="lib/*"/>
+			</chainedmapper>
+		</pathconvert>
+		<manifest file="META-INF/MANIFEST.MF" mode="update">
+			<attribute name="Bundle-Name" value="${project.name.uc}"/>
+			<attribute name="Bundle-SymbolicName" value="${project.path.prefix}.${project.name.lc}.plugin;singleton:=true"/>
+			<attribute name="Bundle-Version" value="${release.version}"/>
+			<!-- <attribute name="Bundle-Activator" value="${project.path.prefix}.${project.name.shared}.plugin.${project.name.uc}Plugin"/> -->
+			<attribute name="Bundle-Vendor" value="http://www.${project.name.lc}.com"/>
+			<attribute name="Bundle-ClassPath" value="., ${manifest.classpath.prop.comma}"/>
+			<!-- <attribute name="Main-Class" value="${project.path.prefix}.${project.name.lc}.${project.name.uc}"/> -->
+			<attribute name="Class-Path" value="${manifest.classpath.prop}"/>
+		</manifest>
+
+		<!-- After a possibly changed MANIFEST.MF we must refresh the workspace -->
+		<eclipse.refreshLocal resource="${project.eclipse}" depth="infinite"/>
+	</target>
+
+	<target name="update_generics">
+		<antcall target="parse_file">
+			<param name="file" value="plugin.xml"/>
+			<!-- enable_xxxlet sets parameters which must be passed through because of the immutable properties -->
+			<param name="project.name.uc" value="${project.name.uc}"/>
+			<param name="project.name.lc" value="${project.name.lc}"/>
+			<param name="project.file.extension" value="${project.file.extension}"/>
+		</antcall>
+		<antcall target="parse_file">
+			<param name="file" value="html/about.html"/>
+			<!-- enable_xxxlet sets parameters which must be passed through because of the immutable properties -->
+			<param name="project.name.uc" value="${project.name.uc}"/>
+			<param name="project.name.lc" value="${project.name.lc}"/>
+		</antcall>
+		<antcall target="parse_file">
+			<param name="file" value="html/startuphelp.html"/>
+			<!-- enable_xxxlet sets parameters which must be passed through because of the immutable properties -->
+			<param name="project.name.uc" value="${project.name.uc}"/>
+			<param name="project.name.lc" value="${project.name.lc}"/>
+			<param name="project.website.marketplace" value="${project.website.marketplace}"/>
+
+		</antcall>
+	</target>
+
+	<!-- Set variables in about.html: version, month and year -->
+	<target name="parse_file">
+		<delete file="${file}" failonerror="false" />
+		<copy tofile="${file}" file="${file}.generic" />
+		<replace file="${file}">
+			<replacefilter token="@project.name.uc@" value="${project.name.uc}"/>
+			<replacefilter token="@project.name.lc@" value="${project.name.lc}"/>
+			<replacefilter token="@project.path.prefix@" value="${project.path.prefix}"/>
+			<replacefilter token="@project.name.shared@" value="${project.name.shared}"/>
+			<replacefilter token="@project.file.extension@" value="${project.file.extension}"/>
+			<replacefilter token="@project.website.home@" value="http://www.${project.name.lc}.com"/>
+			<replacefilter token="@project.website.marketplace@" value="${project.website.marketplace}"/>
+			<replacefilter token="@project.email@" value="info@${project.name.lc}.com"/>
+			<replacefilter token="@release.version@" value="${release.version}"/>
+			<replacefilter token="@release.month@" value="${release.month}"/>
+			<replacefilter token="@release.year@" value="${release.year}"/>
+		</replace>
+	</target>
+
+	<!-- Set project specific variables to Umlet -->
+	<target name="enable_umlet" description="sets umlet as the active project" >
+		<eclipse.refreshLocal resource="${project.eclipse}" depth="infinite"/>
+		<propertyfile file="build.properties">
+			<entry key="project.name.uc" value="Umlet"/>
+			<entry key="project.name.lc" value="umlet"/>
+			<entry key="project.file.extension" value="uxf"/>
+			<entry key="project.website.marketplace" value="http://marketplace.eclipse.org/content/umlet-uml-tool-fast-uml-diagrams"/>
+			<entry key="bin.includes" value=".,META-INF/,plugin.xml,html/,img/,palettes/,lib/baselet_*.jar,lib/umlet_*.jar,custom_elements/"/>
+		</propertyfile>
+		<!-- Properties are immutable, therefore the new name must passed through as parameter -->
+		<antcall target="update_manifest">
+			<param name="project.name.uc" value="Umlet"/>
+			<param name="project.name.lc" value="umlet"/>
+			<param name="project.file.extension" value="uxf"/>
+		</antcall>
+		<antcall target="update_generics">
+			<param name="project.name.uc" value="Umlet"/>
+			<param name="project.name.lc" value="umlet"/>
+			<param name="project.file.extension" value="uxf"/>
+			<param name="project.website.marketplace" value="http://marketplace.eclipse.org/content/umlet-uml-tool-fast-uml-diagrams"/>
+		</antcall>
+		<eclipse.refreshLocal resource="${project.eclipse}" depth="infinite"/>
+	</target>
+
+	<!-- Set project specific variables to Plotlet -->
+	<target name="enable_plotlet" description="sets plotlet as the active project">
+		<eclipse.refreshLocal resource="${project.eclipse}" depth="infinite"/>
+		<propertyfile file="build.properties">
+			<entry key="project.name.uc" value="Plotlet"/>
+			<entry key="project.name.lc" value="plotlet"/>
+			<entry key="project.file.extension" value="pxf"/>
+			<entry key="project.website.marketplace" value="http://marketplace.eclipse.org/content/plotlet-free-tool-fast-plots"/>
+			<entry key="bin.includes" value=".,META-INF/,plugin.xml,html/,img/,palettes/,lib/baselet_*.jar,lib/plotlet_*.jar"/>
+		</propertyfile>
+		<!-- Properties are immutable, therefore the new name must be passed through as parameter -->
+		<antcall target="update_manifest">
+			<param name="project.name.uc" value="Plotlet"/>
+			<param name="project.name.lc" value="plotlet"/>
+			<param name="project.file.extension" value="pxf"/>
+		</antcall>
+		<antcall target="update_generics">
+			<param name="project.name.uc" value="Plotlet"/>
+			<param name="project.name.lc" value="plotlet"/>
+			<param name="project.file.extension" value="pxf"/>
+			<param name="project.website.marketplace" value="http://marketplace.eclipse.org/content/plotlet-free-tool-fast-plots"/>
+		</antcall>
+		<eclipse.refreshLocal resource="${project.eclipse}" depth="infinite"/>
+	</target>
+
+	<!-- Start program -->
+	<target name="start" depends="javac" description="starts the enabled project">
+		<java classname="${project.path.prefix}.${project.name.shared}.control.Main" fork="true" classpathref="project.classpath.run" />
+	</target>
+
+	<!-- Exportiert das Standalone Programm -->
+	<target name="export_standalone" depends="javac" description="exports project as standalone program">
+
+		<!-- Delete old directory and create new one -->
+		<delete dir="${dir.export.standalone}" failonerror="false" />
+		<mkdir dir="${dir.export.standalone}" />
+		<delete>
+			<fileset dir="${dir.export}" includes="${project.name.lc}_*" />
+		</delete>
+
+		<!-- Do projectspecific export stuff -->
+		<condition property="umlet_active">
+			<equals arg1="${project.name.uc}" arg2="Umlet"/>
+		</condition>
+		<condition property="plotlet_active">
+			<equals arg1="${project.name.uc}" arg2="Plotlet"/>
+		</condition>
+		<antcall target="helper_export_standalone_umlet" />
+		<antcall target="helper_export_standalone_plotlet" />
+
+		<!-- Create jar-file -->
+		<jar destfile="${dir.export.standalone}/${project.name.lc}.jar" manifest="META-INF/MANIFEST.MF" basedir="${project.path.output}"
+			includes="**/*.class" excludes="**/*Test.class, **/*TestSuite.class" >
+			<!-- includes="${project.path.prefix}/${project.name.shared}/**/*.class, ${project.path.prefix}/${project.name.lc}/**/*.class" excludes="**/*Test.class, **/*TestSuite.class" /> -->
+			<!-- <zipfileset dir=".lib" prefix="lib" includes="**/*.jar"/> -->
+		</jar>
+
+		<!-- Copy everything into the standalone export directory -->
+		<copy todir="${dir.export.standalone}" file="${dir.executables}/${project.name.uc}.exe" />
+		<copy todir="${dir.export.standalone}" file="${dir.executables}/${project.name.lc}.sh" />
+
+		<copy todir="${dir.export.standalone}/html">
+			<fileset dir="html" excludes="*.generic"/>
+		</copy>
+
+		<copy todir="${dir.export.standalone}/img">
+			<fileset dir="img" includes="ok.gif, ${project.name.lc}_eclipse.gif, ${project.name.lc}_logo.png" />
+		</copy>
+
+		<copy todir="${dir.export.standalone}/lib">
+			<fileset dir="lib" includes="baselet_*.jar, ${project.name.lc}_*.jar" />
+		</copy>
+
+		<copy todir="${dir.export.standalone}/palettes">
+			<fileset dir="palettes" includes="**/*.${project.file.extension}" />
+		</copy>
+
+		<!-- Export of eclipse project -->
+		<!-- WARNING: As long as the Eclipse Baselet project is shipped with every binary version of the program, -->
+		<!-- the missing libs of plotlet/umlet must be copied into the lib folder too-->
+		<copy todir="${dir.export.standalone}/lib">
+			<fileset dir="lib"/>
+		</copy>
+		<copy todir="${dir.export.standalone}/sourcefiles/custom_elements">
+			<fileset dir="custom_elements" />
+		</copy>
+		<copy todir="${dir.export.standalone}/sourcefiles/exe">
+			<fileset dir="exe" />
+		</copy>
+		<copy todir="${dir.export.standalone}/sourcefiles/html">
+			<fileset dir="html" />
+		</copy>
+		<copy todir="${dir.export.standalone}/sourcefiles/img">
+			<fileset dir="img" />
+		</copy>
+		<copy todir="${dir.export.standalone}/sourcefiles/META-INF">
+			<fileset dir="META-INF" />
+		</copy>
+		<copy todir="${dir.export.standalone}/sourcefiles/palettes">
+			<fileset dir="palettes" />
+		</copy>
+		<copy todir="${dir.export.standalone}/sourcefiles/src">
+			<fileset dir="src" />
+		</copy>
+		<copy todir="${dir.export.standalone}/sourcefiles/test">
+			<fileset dir="test" />
+		</copy>
+		<copy todir="${dir.export.standalone}/sourcefiles" file=".classpath" />
+		<copy todir="${dir.export.standalone}/sourcefiles" file=".project" />
+		<copy todir="${dir.export.standalone}/sourcefiles" file="ant.xml" />
+		<copy todir="${dir.export.standalone}/sourcefiles" file="build.properties" />
+		<copy todir="${dir.export.standalone}/sourcefiles" file="LICENCE.txt" />
+		<copy todir="${dir.export.standalone}/sourcefiles" file="log4j.properties" />
+		<copy todir="${dir.export.standalone}/sourcefiles" file="plugin.xml" />
+		<copy todir="${dir.export.standalone}/sourcefiles" file="plugin.xml.generic" />
+		<copy todir="${dir.export.standalone}/sourcefiles" file="README.txt" />
+
+		<!-- Move the files into a subfolder ${project.name.uc}, zip them and delete the temp dir -->
+		<move todir="${dir.export.standalone}/${project.name.uc}">
+			<fileset dir="${dir.export.standalone}" />
+		</move>
+		<zip destfile="${dir.export}/${project.name.lc}_${release.version}.zip" basedir="${dir.export.standalone}"/>
+		<delete dir="${dir.export.standalone}"/>
+
+		<!-- Replace the format "versionnr.subnr" with "versionnr_subnr" -->
+		<move todir="${dir.export}">
+			<fileset dir="${dir.export}" includes="${project.name.lc}_${release.version}.zip" />
+			<chainedmapper>
+				<regexpmapper from="(.*)\.(.*)\.zip" to="\1_\2.zip"/>
+			</chainedmapper>
+		</move>
+	</target>
+
+	<!-- Umlet specific Standalone exportfunctionality -->
+	<target name="helper_export_standalone_umlet" if="umlet_active">
+		<copy todir="${dir.export.standalone}/custom_elements">
+			<fileset dir="custom_elements" />
+		</copy>
+	</target>
+
+	<!-- Plotlet specific Standalone exportfunctionality -->
+	<target name="helper_export_standalone_plotlet" if="plotlet_active">
+	</target>
+
+	<!-- Export the eclipse plugin -->
+	<target name="export_plugin" depends="javac" description="exports the project as eclipse plugin">
+
+		<!-- Delete old directory and create new one -->
+		<delete file="${dir.export.plugin}/${project.path.prefix}.${project.name.lc}.plugin" failonerror="false" />
+		<mkdir dir="${dir.export.plugin}" />
+
+		<pde.exportPlugins destination="${dir.export}" exportSource="false" exportType="directory" plugins="${project.path.prefix}.${project.name.lc}.plugin" useJARFormat="true"/>
+		<echo message="Please wait until asynchronous plugin export is finished (watch the percentage at the bottom right corner of eclipse)"/>
+	</target>
+
+	<!-- Export the standalone client and the eclipse plugin -->
+	<target name="export_standalone+plugin" description="exports the project as eclipse plugin and as standalone program">
+		<antcall target="export_standalone" />
+		<antcall target="export_plugin" />
+	</target>
+
+	<!-- Clean the project -->
+	<target name="clean" description="Cleans this project">
+		<delete dir="${project.path.output}" failonerror="false" />
+		<delete dir="export" failonerror="false" />
+	</target>
+
+</project>
