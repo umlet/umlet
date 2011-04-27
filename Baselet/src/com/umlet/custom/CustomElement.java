@@ -397,8 +397,8 @@ public abstract class CustomElement extends GridElement {
 		else if (lineType == 1) this.tmpLineType = LineType.DASHED;
 		else if (lineType == 2) this.tmpLineType = LineType.DOTTED;
 		else if (lineType == 3) this.tmpLineType = LineType.DOUBLE;
-		else if (lineType == 4) this.tmpLineType = LineType.DOUBLE_DOTTED;
-		else if (lineType == 5) this.tmpLineType = LineType.DOUBLE_DASHED;
+		else if (lineType == 4) this.tmpLineType = LineType.DOUBLE_DASHED;
+		else if (lineType == 5) this.tmpLineType = LineType.DOUBLE_DOTTED;
 		else this.tmpLineType = LineType.SOLID;
 	}
 

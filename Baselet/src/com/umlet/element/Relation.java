@@ -976,8 +976,8 @@ public class Relation extends GridElement {
 		else if (lineType.equals("-")) g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
 		else if (lineType.equals(".")) g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
 		else if (lineType.equals("=")) g2.setStroke(Utils.getStroke(LineType.DOUBLE, 1));
-		else if (lineType.equals(":")) g2.setStroke(Utils.getStroke(LineType.DOUBLE_DOTTED, 1));
-		else if (lineType.equals("::")) g2.setStroke(Utils.getStroke(LineType.DOUBLE_DASHED, 1));
+		else if (lineType.equals(":")) g2.setStroke(Utils.getStroke(LineType.DOUBLE_DASHED, 1));
+		else if (lineType.equals("::")) g2.setStroke(Utils.getStroke(LineType.DOUBLE_DOTTED, 1));
 
 		for (int i = 0; i < getLinePoints().size() - 1; i++) {
 

@@ -204,7 +204,7 @@ public abstract class Constants {
 	public static final int PRINTPADDING = 20;
 	public static final int INTERFACE_LINE_LENGTH = 40;
 
-	public enum LineType {SOLID, DASHED, DOTTED, DOUBLE, DOUBLE_DOTTED, DOUBLE_DASHED};
+	public enum LineType {SOLID, DASHED, DOTTED, DOUBLE, DOUBLE_DASHED, DOUBLE_DOTTED};
 	public static final int DEFAULT_LINE_THICKNESS = 1;
 
 	public static final int CUSTOM_ELEMENT_COMPILE_INTERVAL = 500;
