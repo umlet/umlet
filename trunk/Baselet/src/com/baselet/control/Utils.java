@@ -146,18 +146,18 @@ public abstract class Utils {
 				break;
 			case DOUBLE:
 				stroke = new CompositeStroke(
-						new BasicStroke(lineThickness+4, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER),
-						new BasicStroke(lineThickness, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
-				break;
-			case DOUBLE_DOTTED:
-				float dash3[] = { 1.0f, 2.0f };
-				stroke = new CompositeStroke(new BasicStroke(lineThickness+3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash3, 0.0f),
-						new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash3, 0.0f));
+						new BasicStroke(lineThickness+4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER),
+						new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
 				break;
 			case DOUBLE_DASHED:
 				float dash4[] = { 8.0f, 5.0f };
 				stroke = new CompositeStroke(new BasicStroke(lineThickness+4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash4, 0.0f),
 						new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash4, 0.0f));
+				break;
+			case DOUBLE_DOTTED:
+				float dash3[] = { 1.0f, 2.0f };
+				stroke = new CompositeStroke(new BasicStroke(lineThickness+3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash3, 0.0f),
+						new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash3, 0.0f));
 				break;
 		}
 		return stroke;
