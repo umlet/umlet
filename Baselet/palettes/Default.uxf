@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="11.0">
+<diagram program="umlet" version="11.2">
   <zoom_level>8</zoom_level>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -38,7 +38,7 @@
     <type>com.umlet.element.Note</type>
     <coordinates>
       <x>208</x>
-      <y>288</y>
+      <y>336</y>
       <w>112</w>
       <h>56</h>
     </coordinates>
@@ -64,7 +64,7 @@ teaches to&gt;</panel_attributes>
     <type>com.umlet.element.Package</type>
     <coordinates>
       <x>208</x>
-      <y>416</y>
+      <y>464</y>
       <w>112</w>
       <h>56</h>
     </coordinates>
@@ -128,7 +128,7 @@ r1=Role</panel_attributes>
     <type>com.umlet.element.Package</type>
     <coordinates>
       <x>208</x>
-      <y>352</y>
+      <y>400</y>
       <w>112</w>
       <h>56</h>
     </coordinates>
@@ -392,5 +392,27 @@ element to
 place text 
 anywhere.</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>184</x>
+      <y>280</y>
+      <w>160</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt==</panel_attributes>
+    <additional_attributes>24;24;144;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>184</x>
+      <y>296</y>
+      <w>168</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>lt=::</panel_attributes>
+    <additional_attributes>24;24;152;24</additional_attributes>
   </element>
 </diagram>
