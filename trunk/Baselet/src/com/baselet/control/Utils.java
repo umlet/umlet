@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
@@ -16,6 +17,7 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants.LineType;
 import com.baselet.diagram.DiagramHandler;
+import com.umlet.element.relation.CompositeStroke;
 
 
 public abstract class Utils {
@@ -125,11 +127,11 @@ public abstract class Utils {
 		return ret;
 	}
 
-	public static BasicStroke getStroke(LineType lineType, int lineThickness) {
+	public static Stroke getStroke(LineType lineType, int lineThickness) {
 		// If the lineThickness is not supported, the default type is used
 		if (lineThickness < 0) lineThickness = Constants.DEFAULT_LINE_THICKNESS;
 
-		BasicStroke stroke = null;
+		Stroke stroke = null;
 		switch (lineType) {
 			case SOLID:
 				stroke = new BasicStroke(lineThickness);
@@ -141,6 +143,21 @@ public abstract class Utils {
 			case DOTTED:
 				float dash2[] = { 1.0f, 2.0f };
 				stroke = new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash2, 0.0f);
+				break;
+			case DOUBLE:
+				stroke = new CompositeStroke(
+						new BasicStroke(lineThickness+4, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER),
+						new BasicStroke(lineThickness, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER));
+				break;
+			case DOUBLE_DOTTED:
+				float dash3[] = { 1.0f, 2.0f };
+				stroke = new CompositeStroke(new BasicStroke(lineThickness+3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash3, 0.0f),
+						new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash3, 0.0f));
+				break;
+			case DOUBLE_DASHED:
+				float dash4[] = { 8.0f, 5.0f };
+				stroke = new CompositeStroke(new BasicStroke(lineThickness+4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash4, 0.0f),
+						new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash4, 0.0f));
 				break;
 		}
 		return stroke;
