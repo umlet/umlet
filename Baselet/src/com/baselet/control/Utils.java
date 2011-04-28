@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants.LineType;
 import com.baselet.diagram.DiagramHandler;
-import com.umlet.element.relation.CompositeStroke;
+import com.umlet.element.relation.DoubleStroke;
 
 
 public abstract class Utils {
@@ -132,36 +132,12 @@ public abstract class Utils {
 		if (lineThickness < 0) lineThickness = Constants.DEFAULT_LINE_THICKNESS;
 
 		Stroke stroke = null;
-		switch (lineType) {
-			case SOLID:
-				stroke = new BasicStroke(lineThickness);
-				break;
-			case DASHED:
-				float dash1[] = { 8.0f, 5.0f };
-				stroke = new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash1, 0.0f);
-				break;
-			case DOTTED:
-				float dash2[] = { 1.0f, 2.0f };
-				stroke = new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash2, 0.0f);
-				break;
-			case DOUBLE:
-				stroke = new CompositeStroke(
-						new BasicStroke(lineThickness + 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER),
-						new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-				break;
-			case DOUBLE_DASHED:
-				float dash4[] = { 8.0f, 5.0f };
-				stroke = new CompositeStroke(
-						new BasicStroke(lineThickness + 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash4, 0.0f),
-						new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash4, 0.0f));
-				break;
-			case DOUBLE_DOTTED:
-				float dash3[] = { 1.0f, 2.0f };
-				stroke = new CompositeStroke(
-						new BasicStroke(lineThickness + 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash3, 0.0f),
-						new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash3, 0.0f));
-				break;
-		}
+		if (lineType == LineType.SOLID) stroke = new BasicStroke(lineThickness);
+		else if (lineType == LineType.DASHED) stroke = new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 8.0f, 5.0f }, 0.0f);
+		else if (lineType == LineType.DOTTED) stroke = new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 1.0f, 2.0f }, 0.0f);
+		else if (lineType == LineType.DOUBLE) stroke = new DoubleStroke(lineThickness, 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, null, 0.0f);
+		else if (lineType == LineType.DOUBLE_DASHED) stroke = new DoubleStroke(lineThickness, 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 8.0f, 5.0f }, 0.0f);
+		else if (lineType == LineType.DOUBLE_DOTTED) stroke = new DoubleStroke(lineThickness, 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 1.0f, 2.0f }, 0.0f);
 		return stroke;
 	}
 
