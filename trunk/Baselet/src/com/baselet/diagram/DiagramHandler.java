@@ -57,9 +57,10 @@ public class DiagramHandler {
 		if (diagram != null) this.fileHandler.doOpen();
 
 		boolean extendedPopupMenu = false;
-		Main.getInstance().getGUI().setValueOfZoomDisplay(getGridSize());
-		if (Main.getInstance().getGUI() instanceof StandaloneGUI) {
-			extendedPopupMenu = true; // AB: use extended popup menu on standalone gui only
+		BaseGUI gui = Main.getInstance().getGUI();
+		if (gui != null) {
+			gui.setValueOfZoomDisplay(getGridSize());
+			if (gui instanceof StandaloneGUI) extendedPopupMenu = true; // AB: use extended popup menu on standalone gui only
 		}
 
 		if (!(this instanceof PaletteHandler)) drawpanel.setComponentPopupMenu(new DiagramPopupMenu(this, extendedPopupMenu));
