@@ -81,7 +81,7 @@ fg=red</panel_attributes>
     <coordinates>
       <x>176</x>
       <y>152</y>
-      <w>168</w>
+      <w>172</w>
       <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;.&gt;
@@ -240,14 +240,14 @@ Operation2</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>72</x>
+      <x>64</x>
       <y>336</y>
-      <w>110</w>
+      <w>126</w>
       <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>40;56;72;24</additional_attributes>
+    <additional_attributes>48;56;80;24</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -279,14 +279,14 @@ id: Long="36548"
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>32</x>
+      <x>24</x>
       <y>176</y>
-      <w>124</w>
+      <w>140</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;instanceOf&gt;&gt;</panel_attributes>
-    <additional_attributes>64;24;64;64</additional_attributes>
+    <additional_attributes>72;24;72;64</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
@@ -359,14 +359,14 @@ Responsibilities
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>8</x>
+      <x>0</x>
       <y>312</y>
-      <w>106</w>
+      <w>122</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;include&gt;&gt;</panel_attributes>
-    <additional_attributes>56;24;56;64</additional_attributes>
+    <additional_attributes>64;24;64;64</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -409,10 +409,10 @@ anywhere.</panel_attributes>
     <coordinates>
       <x>184</x>
       <y>296</y>
-      <w>168</w>
+      <w>160</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=:</panel_attributes>
-    <additional_attributes>24;24;152;24</additional_attributes>
+    <additional_attributes>24;24;144;24</additional_attributes>
   </element>
 </diagram>
