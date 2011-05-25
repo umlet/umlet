@@ -11,7 +11,6 @@ import com.baselet.control.Main;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
-import com.baselet.element.ErrorOccurred;
 import com.baselet.element.GridElement;
 import com.umlet.gui.CustomCodeSyntaxPane;
 import com.umlet.gui.CustomElementPanel;
@@ -73,10 +72,9 @@ public class CustomElementHandler {
 		this.preview.closePreview();
 		this.originalElement = null;
 		this.editedEntity = CustomElementCompiler.getInstance().genEntityFromTemplate(template, this.errorhandler);
-		if (this.editedEntity != null) this.codepane.setText(((CustomElement) this.editedEntity).getCode());
+		if (editedEntity instanceof CustomElement) this.codepane.setText(((CustomElement) this.editedEntity).getCode());
 		else {
 			this.codepane.setText("");
-			this.editedEntity = new ErrorOccurred();
 		}
 		this.editedEntity.setPanelAttributes("// Modify the text below and" +
 				Constants.NEWLINE +
@@ -108,8 +106,7 @@ public class CustomElementHandler {
 	public void saveEntity() {
 		GridElement e = CustomElementCompiler.getInstance().genEntity(this.codepane.getText(), errorhandler);
 		this.editedEntity = e;
-		if (e == null) e = new ErrorOccurred();
-		else this.updatePreview(e); // update preview panel to set the entities bounds...
+		this.updatePreview(e); // update preview panel to set the entities bounds...
 		this.updateElement(e);
 		this.setChanged(false);
 	}
@@ -186,7 +183,7 @@ public class CustomElementHandler {
 				this.setChanged(true);
 				this.errorhandler.clearErrors();
 				this.old_text = txt;
-				CustomElement e = CustomElementCompiler.getInstance().genEntity(txt, errorhandler);
+				GridElement e = CustomElementCompiler.getInstance().genEntity(txt, errorhandler);
 				if (e != null) {
 					this.editedEntity = e;
 					this.panel.setCustomElementSaveable(true);

@@ -36,7 +36,6 @@ import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.GridElement;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.standalone.StandaloneGUI;
-import com.umlet.custom.CustomElementSecurityManager;
 
 public class Main {
 
@@ -68,7 +67,7 @@ public class Main {
 
 	public static void main(String args[]) {
 
-		System.setSecurityManager(new CustomElementSecurityManager());
+//		System.setSecurityManager(new CustomElementSecurityManager());
 
 		Main main = Main.getInstance();
 		main.initOverallSettings();

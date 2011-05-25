@@ -266,6 +266,7 @@ public abstract class Constants {
 	public static boolean start_maximized = false;
 	public static boolean show_stickingpolygon = true;
 	public static boolean show_grid = false;
+	public static boolean enable_custom_elements = false;
 	public static int main_split_position = 600;
 	public static int right_split_position = 400;
 	public static int mail_split_position = 250;

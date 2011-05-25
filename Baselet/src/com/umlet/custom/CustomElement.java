@@ -76,7 +76,6 @@ public abstract class CustomElement extends GridElement {
 	private float tmpAlpha;
 
 	private boolean specialLine, specialFgColor, specialBgColor;
-	private int oldFontSize;
 	private boolean wordWrap = false;
 
 	public CustomElement() {
@@ -149,14 +148,14 @@ public abstract class CustomElement extends GridElement {
 	@Override
 	public final void paintEntity(Graphics g) {
 
-		zoom = getHandler().getZoomFactor();
-		if (zoom < 0.25) bugfix = true;
-		else bugfix = false;
-
 		this.g2 = (Graphics2D) g;
 		composites = this.colorize(g2);
 		g2.setFont(this.getHandler().getFontHandler().getFont());
 		g2.setColor(fgColor);
+
+		zoom = getHandler().getZoomFactor();
+		if (zoom < 0.25) bugfix = true;
+		else bugfix = false;
 
 		// width and height must be zoomed back to 100% before any custom code is applied
 		temp = this.getWidth();
@@ -164,19 +163,21 @@ public abstract class CustomElement extends GridElement {
 		temp = this.getHeight();
 		height = Math.round(temp / zoom);
 
-		// secure this thread before executing the code!
-		String key = "R" + Math.random();
-		CustomElementSecurityManager.addThread(Thread.currentThread(), key);
-		
 		// Set width and height on grid (used for manually resized custom elements mainly
 		width = onGrid(width);
 		height = onGrid(height);
+		
+		// secure this thread before executing the code!
+//		String key = "R" + Math.random();
+//		CustomElementSecurityManager.addThread(Thread.currentThread(), key);
+		
 		resetAll(); // Reset all tempstyle variables before painting
 		paint(); // calls the paint method of the specific custom element
+//		CustomElementSecurityManager.remThread(Thread.currentThread(), key);
+
 		width = onGrid(width);
 		height = onGrid(height);
-		CustomElementSecurityManager.remThread(Thread.currentThread(), key);
-
+		
 		// After the custom code we zoom the width and height back
 		width *= zoom;
 		height *= zoom;

@@ -20,6 +20,7 @@ public class Config {
 	private static final String DEFAULT_FONTFAMILY = "default_fontfamily = ";
 	private static final String SHOW_STICKINGPOLYGON = "show_stickingpolygon = ";
 	private static final String SHOW_GRID = "show_grid = ";
+	private static final String ENABLE_CUSTOM_ELEMENTS = "enable_custom_elements = ";
 	private static final String UI_MANAGER = "ui_manager = ";
 	private static final String MAIN_SPLIT_POSITION = "main_split_position = ";
 	private static final String RIGHT_SPLIT_POSITION = "right_split_position = ";
@@ -61,6 +62,9 @@ public class Config {
 						}
 						else if (line.startsWith(SHOW_GRID)) {
 							Constants.show_grid = Boolean.parseBoolean(line.substring(SHOW_GRID.length()));
+						}
+						else if (line.startsWith(ENABLE_CUSTOM_ELEMENTS)) {
+							Constants.enable_custom_elements = Boolean.parseBoolean(line.substring(ENABLE_CUSTOM_ELEMENTS.length()));
 						}
 						else if (line.startsWith(UI_MANAGER)) {
 							Constants.ui_manager = line.substring(UI_MANAGER.length());
@@ -152,6 +156,7 @@ public class Config {
 				writer.write(DEFAULT_FONTFAMILY + Constants.defaultFontFamily + "\n");
 				writer.write(SHOW_STICKINGPOLYGON + Constants.show_stickingpolygon + "\n");
 				writer.write(SHOW_GRID + Constants.show_grid + "\n");
+				writer.write(ENABLE_CUSTOM_ELEMENTS + Constants.enable_custom_elements + "\n");
 				writer.write(UI_MANAGER + Constants.ui_manager + "\n");
 				BaseGUI gui = Main.getInstance().getGUI();
 				writer.write(MAIN_SPLIT_POSITION + gui.getMainSplitPosition() + "\n");
