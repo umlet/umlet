@@ -84,7 +84,7 @@ public class OutputHandler {
 
 	private static void exportPdf(OutputStream ostream, DiagramHandler handler, Vector<GridElement> entities) throws IOException {
 		try {
-			Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.PRINTPADDING, entities);
+			Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
 			com.lowagie.text.Rectangle drawSpace = new com.lowagie.text.Rectangle((float) bounds.getWidth(), (float) bounds.getHeight());
 
 			com.lowagie.text.Document document = new Document(drawSpace);
@@ -106,7 +106,7 @@ public class OutputHandler {
 	}
 
 	private static void exportSvg(OutputStream ostream, DiagramHandler handler, Vector<GridElement> entities) throws IOException {
-		Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.PRINTPADDING, entities);
+		Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
 		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
 		org.w3c.dom.Document document = domImpl.createDocument(null, "svg", null);
 		
@@ -128,7 +128,7 @@ public class OutputHandler {
 
 	private static BufferedImage getImageFromDiagram(DiagramHandler handler, Vector<GridElement> entities) {
 
-		Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.PRINTPADDING, entities);
+		Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
 		BufferedImage im = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D graphics2d = im.createGraphics();
 		graphics2d.setRenderingHints(Utils.getUxRenderingQualityHigh(true));

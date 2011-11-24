@@ -201,7 +201,6 @@ public abstract class Constants {
 	/**** OTHER CONSTANTS ****/
 	public static final String CUSTOM_ELEMENT_CLASSNAME = "CustomElementImpl";
 	public static final int DEFAULTGRIDSIZE = 10;
-	public static final int PRINTPADDING = 20;
 	public static final int INTERFACE_LINE_LENGTH = 40;
 
 	public enum LineType {SOLID, DASHED, DOTTED, DOUBLE, DOUBLE_DASHED, DOUBLE_DOTTED};
@@ -273,6 +272,7 @@ public abstract class Constants {
 	public static Dimension program_size = new Dimension(960, 750);
 	public static Point program_location = new Point(5, 5);
 	public static String ui_manager;
+	public static int printPadding = 20;
 
 	static {
 		// The default MacOS theme looks ugly, therefore we set metal

@@ -167,7 +167,7 @@ public class DrawPanel extends JPanel implements Printable {
 			Graphics2D g2d = (Graphics2D) g;
 			RepaintManager currentManager = RepaintManager.currentManager(this);
 			currentManager.setDoubleBufferingEnabled(false);
-			Rectangle bounds = this.getContentBounds(Constants.PRINTPADDING, getAllEntities());
+			Rectangle bounds = this.getContentBounds(Constants.printPadding, getAllEntities());
 			g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 			AffineTransform t = g2d.getTransform();
 			double scale = Math.min(pageFormat.getImageableWidth() / bounds.width,
