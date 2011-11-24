@@ -22,6 +22,7 @@ public class Config {
 	private static final String SHOW_GRID = "show_grid = ";
 	private static final String ENABLE_CUSTOM_ELEMENTS = "enable_custom_elements = ";
 	private static final String UI_MANAGER = "ui_manager = ";
+	private static final String PRINT_PADDING = "print_padding = ";
 	private static final String MAIN_SPLIT_POSITION = "main_split_position = ";
 	private static final String RIGHT_SPLIT_POSITION = "right_split_position = ";
 	private static final String START_MAXIMIZED = "start_maximized = ";
@@ -68,6 +69,9 @@ public class Config {
 						}
 						else if (line.startsWith(UI_MANAGER)) {
 							Constants.ui_manager = line.substring(UI_MANAGER.length());
+						}
+						else if (line.startsWith(PRINT_PADDING)) {
+							Constants.printPadding = Integer.valueOf(line.substring(PRINT_PADDING.length()));
 						}
 						else if (line.startsWith(MAIN_SPLIT_POSITION)) {
 							Constants.main_split_position = Integer.parseInt(line.substring(MAIN_SPLIT_POSITION.length()));
@@ -158,6 +162,7 @@ public class Config {
 				writer.write(SHOW_GRID + Constants.show_grid + "\n");
 				writer.write(ENABLE_CUSTOM_ELEMENTS + Constants.enable_custom_elements + "\n");
 				writer.write(UI_MANAGER + Constants.ui_manager + "\n");
+				writer.write(PRINT_PADDING + Constants.printPadding + "\n");
 				BaseGUI gui = Main.getInstance().getGUI();
 				writer.write(MAIN_SPLIT_POSITION + gui.getMainSplitPosition() + "\n");
 				writer.write(RIGHT_SPLIT_POSITION + gui.getRightSplitPosition() + "\n");
