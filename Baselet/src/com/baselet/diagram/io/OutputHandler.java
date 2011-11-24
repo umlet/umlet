@@ -75,9 +75,9 @@ public class OutputHandler {
 
 	private static void exportEps(OutputStream ostream, DiagramHandler handler, Vector<GridElement> entities) {
 		PrintWriter bw = new PrintWriter(ostream);
-		EpsGraphics2D grapics2d = new EpsGraphics2D();
-		handler.getDrawPanel().paintEntitiesIntoGraphics2D(grapics2d, entities);
-		bw.print(grapics2d.toString());
+		EpsGraphics2D graphics2d = new EpsGraphics2D();
+		handler.getDrawPanel().paintEntitiesIntoGraphics2D(graphics2d, entities);
+		bw.print(graphics2d.toString());
 		bw.flush();
 		bw.close();
 	}
