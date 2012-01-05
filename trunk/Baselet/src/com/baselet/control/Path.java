@@ -74,15 +74,17 @@ public class Path {
 	 * ECLIPSE JAR: <eclipsepath>/<pluginname>.jar
 	 */
 	public static String executable() {
-		String path;
-		try {
-			// We convert to an URI to avoid HTML problems with special characters like space,ä,ö,ü,...
-			path = Main.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-		} catch (URISyntaxException e) {
-			// If the conversion fails, we don't convert to an URI but we have to manually replace those special characters later
-			// WARNING: Only space will be replaced here, other special characters like ä,ö,ü,... won't (add them if needed)
-			path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath().replace("%20", " ");
+		String path = null;
+		URL codeSourceUrl = Main.class.getProtectionDomain().getCodeSource().getLocation();
+		try { //Convert URL to URI to avoid HTML problems with special characters like space,ä,ö,ü,...
+			path = codeSourceUrl.toURI().getPath();
+		} catch (URISyntaxException e) {/*path stays null*/}
+
+		if (path == null) { // URI2URL Conversion failed, because URI.getPath() returned null OR because of an URISyntaxException
+			// In this case use the URL and replace special characters manually (for now only space)
+			path = codeSourceUrl.getPath().replace("%20", " ");
 		}
+
 		return path;
 	}
 
