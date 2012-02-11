@@ -163,7 +163,8 @@ public class Main {
 			Program.init(programName, versionString);
 
 		} catch (Exception e) {
-			log.error(null, e);
+//			log.error(null, e);
+			e.printStackTrace(); // Logger is not initialized here
 		}
 	}
 
