@@ -141,58 +141,19 @@ public class FontHandler {
 		}
 	}
 
-	private static boolean underline;
-	private static boolean bold;
-	private static boolean italic;
 	private void write(Graphics2D g2, String stringWithFormatLabels, int x, int y, AlignHorizontal align, AlignVertical valign, boolean applyZoom) {
-		String s = setFormatAndRemoveLabels(stringWithFormatLabels);
-		if (s == null || s.isEmpty()) return;
+		if (stringWithFormatLabels == null || stringWithFormatLabels.isEmpty()) return;
+		float fontSize = getFontSize(applyZoom);
+		FormattedFont formattedFont = new FormattedFont(stringWithFormatLabels, fontSize, getDiagramDefaultFontFamily());
 
-		s = s.replaceAll("<<", "\u00AB");
-		s = s.replaceAll(">>", "\u00BB");
-
-		AttributedString as = new AttributedString(s);
-
-		as.addAttribute(TextAttribute.SIZE, getFontSize(applyZoom));
-		as.addAttribute(TextAttribute.FAMILY, getDiagramDefaultFontFamily());
-		if (bold) as.addAttribute(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
-		if (italic) as.addAttribute(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
-		if (underline) as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON, 0, s.length());
-
+		String s = formattedFont.getString();
 		if (align == AlignHorizontal.CENTER) x = x - getTextWidth(s, applyZoom) / 2;
 		else if (align == AlignHorizontal.RIGHT) x = x - getTextWidth(s, applyZoom);
 
 		if (valign == AlignVertical.CENTER) y = y + getTextHeight(s, applyZoom) / 2;
 		else if (valign == AlignVertical.TOP) y = y + getTextHeight(s, applyZoom);
 
-		g2.drawString(as.getIterator(), x, y);
-	}
-
-	private static String setFormatAndRemoveLabels(String s) {
-		underline = false;
-		bold = false;
-		italic = false;
-
-		if (s == null || s.isEmpty()) return s;
-
-		// As long as any text format applies the loop continues (any format type is only allowed once)
-		while (true) {
-			if (!underline && s.startsWith(FormatLabels.UNDERLINE) && s.endsWith(FormatLabels.UNDERLINE) && (s.length() > 2)) {
-				underline = true;
-				s = s.substring(1, s.length() - 1);
-			}
-			else if (!bold && s.startsWith(FormatLabels.BOLD) && s.endsWith(FormatLabels.BOLD) && (s.length() > 2)) {
-				bold = true;
-				s = s.substring(1, s.length() - 1);
-			}
-			else if (!italic && s.startsWith(FormatLabels.ITALIC) && s.endsWith(FormatLabels.ITALIC) && (s.length() > 2)) {
-				italic = true;
-				s = s.substring(1, s.length() - 1);
-			}
-			else break;
-		}
-
-		return s;
+		g2.drawString(formattedFont.getAttributedCharacterIterator(), x, y);
 	}
 
 }
