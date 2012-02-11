@@ -11,6 +11,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.AddLinePoint;
 import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveLinePoint;
+import com.baselet.diagram.command.RemoveElement;
 import com.baselet.diagram.command.RemoveLinePoint;
 import com.umlet.element.Relation;
 
@@ -37,6 +38,7 @@ public class PaletteRelationListener extends PaletteEntityListener {
 		super.mousePressed(me);
 		if (me.getButton() == MouseEvent.BUTTON1) {
 			this.IS_DRAGGING = false;
+			this.IS_RESIZING = false;
 			Relation rel = (Relation) me.getComponent();
 
 			int where = rel.getLinePoint(new Point(me.getX(), me.getY()));
@@ -62,9 +64,17 @@ public class PaletteRelationListener extends PaletteEntityListener {
 		super.mouseReleased(me);
 		if (IS_DRAGGING_LINEPOINT & (LINEPOINT >= 0)) {
 			Relation rel = (Relation) me.getComponent();
-			if (rel.isOnLine(LINEPOINT) && (rel.isPartOfGroup() == false)) { // L.Trescher
-				this.controller.executeCommand(
-						new RemoveLinePoint(rel, LINEPOINT));
+			if (rel.isPartOfGroup() == false) {
+				if (rel.allPointsOnSamePos()) {
+					// If mousebutton is released and all points of a relation are on the same position,
+					// the command which moved all points to the same position gets undone and the relation gets removed instead
+					this.controller.undo();
+					this.controller.executeCommand(new RemoveElement(rel));
+				}
+				else if (rel.isOnLine(LINEPOINT)) {
+					this.controller.executeCommand(
+							new RemoveLinePoint(rel, LINEPOINT));
+				}
 			}
 		}
 		IS_DRAGGING_LINEPOINT = false;

@@ -737,10 +737,6 @@ public class Relation extends GridElement {
 		return _points;
 	}
 
-	public void setLinePoints(Vector<Point> v) {
-		_points = v;
-	}
-
 	@Override
 	public GridElement CloneFromMe() {
 		Relation c = new Relation();
@@ -1853,6 +1849,22 @@ public class Relation extends GridElement {
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
 		return null;
+	}
+
+	public boolean allPointsOnSamePos() {
+		Point first = null;
+		for (Point p : this.getLinePoints()) {
+			if (first == null) {
+				first = p;
+			}
+			else {
+				if (first.x != p.x || first.y != p.y) {
+					System.out.println(first + " // " + p);
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 }
