@@ -11,6 +11,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.AddLinePoint;
 import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveLinePoint;
+import com.baselet.diagram.command.RemoveElement;
 import com.baselet.diagram.command.RemoveLinePoint;
 import com.umlet.element.Relation;
 
@@ -63,9 +64,17 @@ public class RelationListener extends GridElementListener {
 		super.mouseReleased(me);
 		if (IS_DRAGGING_LINEPOINT & (LINEPOINT >= 0)) {
 			Relation rel = (Relation) me.getComponent();
-			if (rel.isOnLine(LINEPOINT) && (rel.isPartOfGroup() == false)) { // L.Trescher
-				this.controller.executeCommand(
-						new RemoveLinePoint(rel, LINEPOINT));
+			if (rel.isPartOfGroup() == false) {
+				if (rel.allPointsOnSamePos()) {
+					// If mousebutton is released and all points of a relation are on the same position,
+					// the command which moved all points to the same position gets undone and the relation gets removed instead
+					this.controller.undo();
+					this.controller.executeCommand(new RemoveElement(rel));
+				}
+				else if (rel.isOnLine(LINEPOINT)) {
+					this.controller.executeCommand(
+							new RemoveLinePoint(rel, LINEPOINT));
+				}
 			}
 		}
 		IS_DRAGGING_LINEPOINT = false;
@@ -95,7 +104,7 @@ public class RelationListener extends GridElementListener {
 		if (this.IS_DRAGGING_DIAGRAM) return;
 
 		Relation r = (Relation) me.getComponent();
-		int MAIN_UNIT = Main.getInstance().getDiagramHandler().getGridSize();
+		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
 
 		// delta
 		int delta_x = 0;
@@ -103,8 +112,8 @@ public class RelationListener extends GridElementListener {
 		if (IS_DRAGGING_LINEPOINT) {
 			Vector<Point> tmp = r.getLinePoints();
 			Point p = tmp.elementAt(LINEPOINT);
-			delta_x = (r.getX() + p.x) % MAIN_UNIT;
-			delta_y = (r.getY() + p.y) % MAIN_UNIT;
+			delta_x = (r.getX() + p.x) % gridSize;
+			delta_y = (r.getY() + p.y) % gridSize;
 		}
 
 		Point newp = this.getNewCoordinate();
