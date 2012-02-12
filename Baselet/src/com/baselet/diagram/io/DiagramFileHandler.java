@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -90,17 +91,21 @@ public class DiagramFileHandler {
 	private String fileName;
 	private DiagramHandler handler;
 	private File file;
-	private HashMap<String, FileFilter> filters;
-	private HashMap<FileFilter, String> fileextensions;
+	private HashMap<String, FileFilter> filters = new HashMap<String, FileFilter>();
+	private HashMap<FileFilter, String> fileextensions = new HashMap<FileFilter, String>();
 
-	private FileFilter filterxml = new OwnFileFilter(Program.EXTENSION, Program.PROGRAM_NAME + " diagram format");
-	private FileFilter filterbmp = new OwnFileFilter("bmp", "BMP");
-	private FileFilter filtereps = new OwnFileFilter("eps", "EPS");
-	private FileFilter filtergif = new OwnFileFilter("gif", "GIF");
-	private FileFilter filterjpg = new OwnFileFilter("jpg", "JPG");
-	private FileFilter filterpdf = new OwnFileFilter("pdf", "PDF");
-	private FileFilter filterpng = new OwnFileFilter("png", "PNG");
-	private FileFilter filtersvg = new OwnFileFilter("svg", "SVG");
+	private OwnFileFilter filterxml = new OwnFileFilter(Program.EXTENSION, Program.PROGRAM_NAME + " diagram format");
+	private OwnFileFilter filterbmp = new OwnFileFilter("bmp", "BMP");
+	private OwnFileFilter filtereps = new OwnFileFilter("eps", "EPS");
+	private OwnFileFilter filtergif = new OwnFileFilter("gif", "GIF");
+	private OwnFileFilter filterjpg = new OwnFileFilter("jpg", "JPG");
+	private OwnFileFilter filterpdf = new OwnFileFilter("pdf", "PDF");
+	private OwnFileFilter filterpng = new OwnFileFilter("png", "PNG");
+	private OwnFileFilter filtersvg = new OwnFileFilter("svg", "SVG");
+
+	private OwnFileFilter[] saveFileFilter = new OwnFileFilter[] { filterxml };
+	private OwnFileFilter[] exportFileFilter = new OwnFileFilter[] { filterbmp, filtereps, filtergif, filterjpg, filterpdf, filterpng, filtersvg };
+	private List<OwnFileFilter> allFileFilters = new ArrayList<OwnFileFilter>();
 
 	protected DiagramFileHandler(DiagramHandler diagramHandler, File file) {
 		this.handler = diagramHandler;
@@ -108,37 +113,12 @@ public class DiagramFileHandler {
 		else this.fileName = "new." + Program.EXTENSION;
 		this.file = file;
 
-		this.filters = new HashMap<String, FileFilter>();
-		this.filters.put(Program.EXTENSION, filterxml);
-		this.filters.put("bmp", filterbmp);
-		this.filters.put("eps", filtereps);
-		this.filters.put("gif", filtergif);
-		this.filters.put("jpg", filterjpg);
-		this.filters.put("pdf", filterpdf);
-		this.filters.put("png", filterpng);
-		this.filters.put("svg", filtersvg);
-
-		this.fileextensions = new HashMap<FileFilter, String>();
-		this.fileextensions.put(filterxml, Program.EXTENSION);
-		this.fileextensions.put(filterbmp, "bmp");
-		this.fileextensions.put(filtereps, "eps");
-		this.fileextensions.put(filtergif, "gif");
-		this.fileextensions.put(filterjpg, "jpg");
-		this.fileextensions.put(filterpdf, "pdf");
-		this.fileextensions.put(filterpng, "png");
-		this.fileextensions.put(filtersvg, "svg");
-
-		// UNCOMMENTED BECAUSE WE DONT NEED ALL IMAGE FORMATS AND WE WANT TO SORT THEM ALPHABETICALLY
-		/*
-		 * for(String format : ImageIO.getWriterFileSuffixes()) {
-		 * FileFilter filter = new OwnFileFilter(format, format.toUpperCase() + " Image");
-		 * //We don't want to add "jpeg" which is redundant with "jpg" and "wbmp" because it doesn't work
-		 * if (format.toUpperCase().equals("JPEG") || format.toUpperCase().equals("WBMP")) continue;
-		 * this.fileChooser.addChoosableFileFilter(filter);
-		 * this.filters.put(format, filter);
-		 * this.fileextensions.put(filter, format);
-		 * }
-		 */
+		allFileFilters.addAll(Arrays.asList(saveFileFilter));
+		allFileFilters.addAll(Arrays.asList(exportFileFilter));
+		for (OwnFileFilter filter : allFileFilters) {
+			this.filters.put(filter.getFormat(), filter);
+			this.fileextensions.put(filter, filter.getFormat());
+		}
 	}
 
 	public String getFileName() {
@@ -268,10 +248,8 @@ public class DiagramFileHandler {
 
 			TransformerFactory transFactory = TransformerFactory.newInstance();
 			Transformer transformer = transFactory.newTransformer();
-			transformer.setOutputProperty(OutputKeys.INDENT,"yes");
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-
-
 
 			transformer.transform(source, result);
 
@@ -335,13 +313,13 @@ public class DiagramFileHandler {
 	}
 
 	public void doExportAs(String extension, File file) throws IOException {
-//		CustomElementSecurityManager.addThreadPrivileges(Thread.currentThread(), fileName);
+		// CustomElementSecurityManager.addThreadPrivileges(Thread.currentThread(), fileName);
 		try {
 			OutputHandler.createAndOutputToFile(extension, file, this.handler);
 		} catch (Exception e) {
 			throw new IOException(e.getMessage());
 		}
-//		CustomElementSecurityManager.remThreadPrivileges(Thread.currentThread());
+		// CustomElementSecurityManager.remThreadPrivileges(Thread.currentThread());
 	}
 
 	private void save(boolean removeHandlerChanged) throws UnsupportedEncodingException, FileNotFoundException {
@@ -353,7 +331,7 @@ public class DiagramFileHandler {
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(saveToFile), "UTF-8"));
 		out.print(tmp);
 		out.close();
-		if(removeHandlerChanged) handler.setChanged(false);
+		if (removeHandlerChanged) handler.setChanged(false);
 	}
 
 	private String chooseFileName(boolean ownXmlFormat, FileFilter filefilter) {
@@ -367,16 +345,25 @@ public class DiagramFileHandler {
 
 		int returnVal = saveFileChooser.showSaveDialog(Main.getInstance().getGUI());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-
-			File selectedFileWithExt = new File(saveFileChooser.getSelectedFile().getName() + "." + fileextensions.get(saveFileChooser.getFileFilter()));
-			// We must check for the file with and without extension (saving without adding the extension automatically adds the selected extension)
-			if (saveFileChooser.getSelectedFile().exists() || selectedFileWithExt.exists()) {
+			File selectedFileWithExt = getFileWithExtension();
+			if (selectedFileWithExt.exists()) {
 				int overwriteQuestionResult = JOptionPane.showConfirmDialog(Main.getInstance().getGUI(), "File already exists! Overwrite?", "Overwrite File", JOptionPane.YES_NO_OPTION);
 				if (overwriteQuestionResult == JOptionPane.NO_OPTION) return chooseFileName(ownXmlFormat, filefilter);
 			}
-			fileName = saveFileChooser.getSelectedFile().getAbsolutePath();
+			fileName = selectedFileWithExt.getAbsolutePath();
 		}
 		return fileName;
+	}
+
+	/**
+	 * If the filename of the filechooser has no extension, the extension from the filefilter is added to the name
+	 */
+	private File getFileWithExtension() {
+		String extension = "." + fileextensions.get(saveFileChooser.getFileFilter());
+		String filename = saveFileChooser.getSelectedFile().getName();
+		if (!filename.endsWith(extension)) filename += extension;
+		File selectedFileWithExt = new File(filename);
+		return selectedFileWithExt;
 	}
 
 	/**
@@ -419,6 +406,10 @@ public class DiagramFileHandler {
 		@Override
 		public String getDescription() {
 			return this.description + " (*." + this.format + ")";
+		}
+
+		public String getFormat() {
+			return format;
 		}
 	}
 
