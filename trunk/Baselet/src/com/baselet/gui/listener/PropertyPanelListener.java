@@ -16,7 +16,7 @@ import com.baselet.element.GridElement;
 public class PropertyPanelListener implements KeyListener, FocusListener {
 
 	@Override
-	public void keyReleased(KeyEvent e) {
+	public void keyTyped(KeyEvent e) {
 		/**
 		 * Esc: Leaves the Property Panel
 		 */
@@ -37,7 +37,7 @@ public class PropertyPanelListener implements KeyListener, FocusListener {
 	}
 
 	@Override public void focusLost(FocusEvent e) {}
-	@Override public void keyTyped(KeyEvent ke) {}
+	@Override public void keyReleased(KeyEvent ke) {}
 	@Override public void keyPressed(KeyEvent e) {}
 	
 	protected void updateGridElement() {
