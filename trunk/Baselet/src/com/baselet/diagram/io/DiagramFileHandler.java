@@ -360,7 +360,7 @@ public class DiagramFileHandler {
 	 */
 	private File getFileWithExtension() {
 		String extension = "." + fileextensions.get(saveFileChooser.getFileFilter());
-		String filename = saveFileChooser.getSelectedFile().getName();
+		String filename = saveFileChooser.getSelectedFile().getAbsolutePath();
 		if (!filename.endsWith(extension)) filename += extension;
 		File selectedFileWithExt = new File(filename);
 		return selectedFileWithExt;
