@@ -2,10 +2,11 @@ package com.baselet.diagram;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
-import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
-import java.text.AttributedString;
+import java.io.File;
+import java.io.IOException;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
@@ -144,7 +145,7 @@ public class FontHandler {
 	private void write(Graphics2D g2, String stringWithFormatLabels, int x, int y, AlignHorizontal align, AlignVertical valign, boolean applyZoom) {
 		if (stringWithFormatLabels == null || stringWithFormatLabels.isEmpty()) return;
 		float fontSize = getFontSize(applyZoom);
-		FormattedFont formattedFont = new FormattedFont(stringWithFormatLabels, fontSize, getDiagramDefaultFontFamily());
+		FormattedFont formattedFont = new FormattedFont(stringWithFormatLabels, fontSize, getFont(applyZoom));
 
 		String s = formattedFont.getString();
 		if (align == AlignHorizontal.CENTER) x = x - getTextWidth(s, applyZoom) / 2;

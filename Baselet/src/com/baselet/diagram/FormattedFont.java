@@ -1,5 +1,6 @@
 package com.baselet.diagram;
 
+import java.awt.Font;
 import java.awt.font.TextAttribute;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
@@ -15,7 +16,7 @@ public class FormattedFont {
 	private String string;
 	private AttributedString atrString;
 	
-	public FormattedFont(String text, float fontSize, String fontFamily) {
+	public FormattedFont(String text, float fontSize, Font font) {
 		string = setFormatAndRemoveLabels(text);
 
 		string = string.replaceAll("<<", "\u00AB");
@@ -23,8 +24,8 @@ public class FormattedFont {
 
 		atrString = new AttributedString(string);
 
+		atrString.addAttribute(TextAttribute.FONT, font);
 		atrString.addAttribute(TextAttribute.SIZE, fontSize);
-		atrString.addAttribute(TextAttribute.FAMILY, fontFamily);
 		atrString.addAttribute(TextAttribute.WEIGHT, bold);
 		atrString.addAttribute(TextAttribute.POSTURE, italic);
 		atrString.addAttribute(TextAttribute.UNDERLINE, underline, 0, string.length());
