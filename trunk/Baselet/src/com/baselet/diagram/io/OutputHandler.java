@@ -2,7 +2,9 @@ package com.baselet.diagram.io;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -26,9 +28,11 @@ import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.DefaultFontMapper;
+import com.itextpdf.text.pdf.DefaultFontMapper.BaseFontParameters;
+import com.itextpdf.text.pdf.FontMapper;
 
 
 public class OutputHandler {
@@ -64,7 +68,7 @@ public class OutputHandler {
 
 		return returnImg;
 	}
-	
+
 	private static void exportToOutputStream(String extension, OutputStream ostream, DiagramHandler handler, Vector<GridElement> entities) throws IOException {
 		if (extension.equals("eps")) exportEps(ostream, handler, entities);
 		else if (extension.equals("pdf")) exportPdf(ostream, handler, entities);
@@ -85,13 +89,30 @@ public class OutputHandler {
 	private static void exportPdf(OutputStream ostream, DiagramHandler handler, Vector<GridElement> entities) throws IOException {
 		try {
 			Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
-			com.lowagie.text.Rectangle drawSpace = new com.lowagie.text.Rectangle((float) bounds.getWidth(), (float) bounds.getHeight());
+			com.itextpdf.text.Rectangle drawSpace = new com.itextpdf.text.Rectangle((float) bounds.getWidth(), (float) bounds.getHeight());
 
-			com.lowagie.text.Document document = new Document(drawSpace);
-			PdfWriter writer = PdfWriter.getInstance(document, ostream);
+			com.itextpdf.text.Document document = new com.itextpdf.text.Document(drawSpace);
+			com.itextpdf.text.pdf.PdfWriter writer = com.itextpdf.text.pdf.PdfWriter.getInstance(document, ostream);
 
 			document.open();
-			Graphics2D graphics2d = writer.getDirectContent().createGraphics(drawSpace.getWidth(), drawSpace.getHeight());
+
+			FontMapper mapper = new FontMapper() {
+				@Override
+				public BaseFont awtToPdf(Font font) {
+					try {
+						return BaseFont.createFont(Constants.pdfExportFont, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+					} catch (Exception e) {/*is handled later by returning null*/}
+					return null;
+				}
+				@Override
+				public Font pdfToAwt(BaseFont font, int size) {
+					return null;
+				}
+			};
+			
+			if (mapper.awtToPdf(null) == null) mapper = new DefaultFontMapper();
+
+			Graphics2D graphics2d = writer.getDirectContent().createGraphics(drawSpace.getWidth(), drawSpace.getHeight(), mapper);
 
 			// We shift the diagram to the upper left corner, so we shift it by (minX,minY) of the contextBounds
 			Dimension trans = new Dimension((int) bounds.getMinX(), (int) bounds.getMinY());
@@ -100,7 +121,7 @@ public class OutputHandler {
 			handler.getDrawPanel().paintEntitiesIntoGraphics2D(graphics2d, entities);
 			graphics2d.dispose();
 			document.close();
-		} catch (DocumentException e) {
+		} catch (com.itextpdf.text.DocumentException e) {
 			throw new IOException(e.getMessage());
 		}
 	}
@@ -109,11 +130,11 @@ public class OutputHandler {
 		Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
 		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
 		org.w3c.dom.Document document = domImpl.createDocument(null, "svg", null);
-		
+
 		SVGGraphics2D graphics2d = new SVGGraphics2D(document);
 		graphics2d.setSVGCanvasSize(bounds.getSize());
 		handler.getDrawPanel().paintEntitiesIntoGraphics2D(graphics2d, entities);
-		
+
 		Element root = graphics2d.getRoot();
 		root.setAttributeNS(null, "viewBox", String.format("%d %d %d %d", bounds.x, bounds.y, bounds.width, bounds.height));
 		Writer out = new OutputStreamWriter(ostream, "UTF-8"); // Stream out SVG to the standard output using UTF-8 character to byte encoding

@@ -273,6 +273,7 @@ public abstract class Constants {
 	public static Point program_location = new Point(5, 5);
 	public static String ui_manager;
 	public static int printPadding = 20;
+	public static String pdfExportFont = ""; //eg in Windows: "pdf_export_font = c:/windows/fonts/msgothic.ttc,1"
 
 	static {
 		// The default MacOS theme looks ugly, therefore we set metal

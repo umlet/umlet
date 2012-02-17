@@ -23,6 +23,7 @@ public class Config {
 	private static final String ENABLE_CUSTOM_ELEMENTS = "enable_custom_elements = ";
 	private static final String UI_MANAGER = "ui_manager = ";
 	private static final String PRINT_PADDING = "print_padding = ";
+	private static final String PDF_EXPORT_FONT = "pdf_export_font = ";
 	private static final String MAIN_SPLIT_POSITION = "main_split_position = ";
 	private static final String RIGHT_SPLIT_POSITION = "right_split_position = ";
 	private static final String START_MAXIMIZED = "start_maximized = ";
@@ -72,6 +73,9 @@ public class Config {
 						}
 						else if (line.startsWith(PRINT_PADDING)) {
 							Constants.printPadding = Integer.valueOf(line.substring(PRINT_PADDING.length()));
+						}
+						else if (line.startsWith(PDF_EXPORT_FONT)) {
+							Constants.pdfExportFont = line.substring(PDF_EXPORT_FONT.length());
 						}
 						else if (line.startsWith(MAIN_SPLIT_POSITION)) {
 							Constants.main_split_position = Integer.parseInt(line.substring(MAIN_SPLIT_POSITION.length()));
@@ -163,6 +167,7 @@ public class Config {
 				writer.write(ENABLE_CUSTOM_ELEMENTS + Constants.enable_custom_elements + "\n");
 				writer.write(UI_MANAGER + Constants.ui_manager + "\n");
 				writer.write(PRINT_PADDING + Constants.printPadding + "\n");
+				writer.write(PDF_EXPORT_FONT + Constants.pdfExportFont + "\n");
 				BaseGUI gui = Main.getInstance().getGUI();
 				writer.write(MAIN_SPLIT_POSITION + gui.getMainSplitPosition() + "\n");
 				writer.write(RIGHT_SPLIT_POSITION + gui.getRightSplitPosition() + "\n");
