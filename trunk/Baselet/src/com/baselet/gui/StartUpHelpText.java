@@ -85,7 +85,8 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 
 	private void showHTML(JEditorPane edit) {
 		try {
-			replaceSystemspecificMetakey();
+			String text = getStartuptextWithReplacedSystemspecificMetakeys();
+			edit.setText(text);
 			edit.setPage(new URL("file:///" + getStartUpFileName()));
 			edit.addHyperlinkListener(new HyperLinkActiveListener());
 			edit.setEditable(false);
@@ -98,7 +99,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		}
 	}
 
-	private void replaceSystemspecificMetakey() throws FileNotFoundException, IOException {
+	private String getStartuptextWithReplacedSystemspecificMetakeys() throws FileNotFoundException, IOException {
 		String text = "";
 		File f = new File(getStartUpFileName());
 		Scanner sc = new Scanner(f);
@@ -108,10 +109,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 			else if (SystemInfo.META_KEY == Metakey.CMD) line = line.replace(Metakey.CTRL.toString(), Metakey.CMD.toString());
 			text += line + "\n";
 		}
-		f.createNewFile();
-		FileWriter w = new FileWriter(f);
-		w.write(text);
-		w.close();
+		return text;
 	}
 
 	@Override
