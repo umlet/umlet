@@ -24,7 +24,7 @@ public class FormattedFont {
 
 		atrString = new AttributedString(string);
 
-		atrString.addAttribute(TextAttribute.FONT, font);
+		atrString.addAttribute(TextAttribute.FAMILY, font.getFamily());
 		atrString.addAttribute(TextAttribute.SIZE, fontSize);
 		atrString.addAttribute(TextAttribute.WEIGHT, bold);
 		atrString.addAttribute(TextAttribute.POSTURE, italic);
