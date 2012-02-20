@@ -64,7 +64,7 @@ public class OwnSyntaxPane extends JEditorPane {
 				// IMPORTANT: The config-key "Action.combo-completion.Items" only accepts a semikolon-separated string because we have changed the method:
 				//            jsyntaxpane/actions/ComboCompletionAction.java#setItems(). Otherwise it would only accept a real list
 				String autocompletionList = PlotletSyntaxKit.createAutocompletionList(";");
-				DefaultSyntaxKit.getConfig(PlotletSyntaxKit.class).put("Action.combo-completion.ItemsAsString", autocompletionList);
+				DefaultSyntaxKit.getConfig(PlotletSyntaxKit.class).put("Action.combo-completion.Items", autocompletionList);
 			} catch (Exception e) {
 				log.error("Error at creating the autocompletion");
 			}
