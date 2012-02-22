@@ -264,7 +264,10 @@ public class StandaloneGUI extends BaseGUI {
 		JMenu helpMenu = new JMenu(MenuFactory.HELP);
 		helpMenu.setMnemonic(KeyEvent.VK_H);
 		helpMenu.add(menuFactory.createOnlineHelp());
-		if (Program.PROGRAM_NAME == ProgramName.UMLET) helpMenu.add(menuFactory.createOnlineSampleDiagrams());
+		if (Program.PROGRAM_NAME == ProgramName.UMLET) {
+			helpMenu.add(menuFactory.createOnlineSampleDiagrams());
+			helpMenu.add(menuFactory.createVideoTutorials());
+		}
 		helpMenu.addSeparator();
 		helpMenu.add(menuFactory.createProgramHomepage());
 		helpMenu.add(menuFactory.createRateProgram());

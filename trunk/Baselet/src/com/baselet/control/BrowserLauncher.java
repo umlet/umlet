@@ -1,8 +1,14 @@
 package com.baselet.control;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
+import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
@@ -12,7 +18,7 @@ import com.baselet.control.Constants.SystemInfo;
 public class BrowserLauncher {
 
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
-		
+
 	public static void openURL(String url) {
 
 		try {
@@ -44,5 +50,14 @@ public class BrowserLauncher {
 		} catch (Exception e) {
 			log.error("Error at opening the URL.", e);
 		}
+	}
+
+	public static String readURL(String url) throws MalformedURLException, IOException {
+		String content = "";
+		Scanner sc = new Scanner(new URL(url).openStream());
+		while (sc.hasNextLine()) {
+			content += sc.nextLine() + "\n";
+		}
+		return content;
 	}
 }

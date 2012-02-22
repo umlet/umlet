@@ -90,6 +90,10 @@ public class MenuFactoryEclipse extends MenuFactory {
 		return createAction(ONLINE_SAMPLE_DIAGRAMS, null);
 	}
 
+	public Action createVideoTutorial() {
+		return createAction(VIDEO_TUTORIAL, null);
+	}
+
 	public Action createProgramHomepage() {
 		return createAction(PROGRAM_HOMEPAGE, null);
 	}
