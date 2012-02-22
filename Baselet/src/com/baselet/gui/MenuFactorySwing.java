@@ -148,6 +148,10 @@ public class MenuFactorySwing extends MenuFactory {
 		return createJMenuItem(false, ONLINE_SAMPLE_DIAGRAMS, null);
 	}
 
+	public JMenuItem createVideoTutorials() {
+		return createJMenuItem(false, VIDEO_TUTORIAL, null);
+	}
+
 	public JMenuItem createProgramHomepage() {
 		return createJMenuItem(false, PROGRAM_HOMEPAGE, null);
 	}

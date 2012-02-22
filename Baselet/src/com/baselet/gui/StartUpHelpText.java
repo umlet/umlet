@@ -1,6 +1,7 @@
 package com.baselet.gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -21,7 +23,11 @@ import javax.swing.JEditorPane;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.BrowserLauncher;
+import com.baselet.control.Constants;
 import com.baselet.control.Constants.Metakey;
+import com.baselet.control.Constants.Program;
+import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Main;
 import com.baselet.control.Path;
@@ -30,14 +36,15 @@ import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
 import com.baselet.gui.listener.HyperLinkActiveListener;
 
-@SuppressWarnings("serial")
 public class StartUpHelpText extends JEditorPane implements ContainerListener, ComponentListener {
+
+	private static final long serialVersionUID = 1L;
 
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private DrawPanel panel;
 	private boolean visible;
-	
+
 	public StartUpHelpText(DrawPanel panel) {
 		super();
 		this.panel = panel;
@@ -66,7 +73,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 			this.setInvisible();
 		}
 	}
-	
+
 	private void setVisible() {
 		if (panel != null) {
 			this.setVisible(true);
@@ -85,9 +92,8 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 
 	private void showHTML(JEditorPane edit) {
 		try {
-			String text = getStartuptextWithReplacedSystemspecificMetakeys();
-			edit.setText(text);
-			edit.setPage(new URL("file:///" + getStartUpFileName()));
+			String tempFileName = getPathOfTempFileWithText();
+			edit.setPage(new URL("file:///" + tempFileName));
 			edit.addHyperlinkListener(new HyperLinkActiveListener());
 			edit.setEditable(false);
 			edit.setBackground(Color.WHITE);
@@ -99,10 +105,56 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		}
 	}
 
-	private String getStartuptextWithReplacedSystemspecificMetakeys() throws FileNotFoundException, IOException {
+	private String getPathOfTempFileWithText() throws FileNotFoundException, IOException {
+		String textToShow = null;
+		if (Constants.checkForUpdates) textToShow = getNewVersionTextWithStartupHtmlFormat();
+		if (textToShow == null) textToShow = getDefaultTextWithReplacedSystemspecificMetakeys();
+		if (textToShow == null) textToShow = "";
+
+		File tempFile = File.createTempFile(Program.PROGRAM_NAME + "_startupfile", ".html");
+		FileWriter w = new FileWriter(tempFile);
+		w.write(textToShow);
+		w.close();
+		return tempFile.getAbsolutePath();
+	}
+
+	private String getNewVersionTextWithStartupHtmlFormat() throws FileNotFoundException {
+		String textFromURL = getNewVersionTextFromURL();
+		if (textFromURL == null) return null;
+
+		String returnText = "";
+		Scanner sc = new Scanner(new File(getStartUpFileName()));
+		while(sc.hasNextLine()) {
+			String line = sc.nextLine();
+			if (line.contains("<body>")) break;
+			returnText += line + "\n";
+		}
+		returnText += textFromURL + "</body></html>";
+		return returnText;
+	}
+
+	private String getNewVersionTextFromURL() {
+		try {
+			String versionText = BrowserLauncher.readURL(Program.WEBSITE + "/current_umlet_version_changes.txt");
+			String[] splitString = versionText.split("\n");
+			String actualVersion = splitString[0];
+			if (Program.VERSION >= Double.valueOf(actualVersion)) return null; // no newer version found
+
+			String returnText = "<p><b>A new version of " + Program.PROGRAM_NAME + " (" + actualVersion + ") is available at <a href=\"" + Program.WEBSITE + "\">" + Program.WEBSITE.substring("http://".length()) + "</a></b></p>";
+			//Every line after the first one describes a feature of the new version and will be listed
+			for (int i = 1; i < splitString.length; i++) {
+				returnText += "<p>" + splitString[i] + "</p>";
+			}
+			return returnText;
+		} catch (Exception e) {
+			log.error("Error at checking for new " + Program.PROGRAM_NAME + " version", e);
+			return null;
+		}
+	}
+
+	private String getDefaultTextWithReplacedSystemspecificMetakeys() throws FileNotFoundException {
 		String text = "";
-		File f = new File(getStartUpFileName());
-		Scanner sc = new Scanner(f);
+		Scanner sc = new Scanner(new File(getStartUpFileName()));
 		while(sc.hasNextLine()) {
 			String line = sc.nextLine();
 			if (SystemInfo.META_KEY == Metakey.CTRL) line = line.replace(Metakey.CMD.toString(), Metakey.CTRL.toString());
@@ -127,11 +179,12 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		Dimension size = this.panel.getSize();
 		Dimension labelSize = this.getPreferredSize();
 		this.setSize(labelSize);
-		this.setLocation(size.width / 2 - (labelSize.width / 2),
-				Math.max(25, size.height / 2 - labelSize.height));
+		int minDistanceFromTop = 25;
+		int labelSizeToSubtract = Math.max(150, labelSize.height); // the upper border of the startup panel is at least 200px over the middle of the screen (necessary to have a good position for small update info windows)
+		this.setLocation(size.width / 2 - (labelSize.width / 2), Math.max(minDistanceFromTop, size.height / 2 - labelSizeToSubtract));
 	}
-	
-	
+
+
 
 	@Override
 	public void paint(Graphics g) {
