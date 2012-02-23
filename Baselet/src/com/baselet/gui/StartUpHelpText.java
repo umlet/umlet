@@ -1,7 +1,6 @@
 package com.baselet.gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -27,7 +26,6 @@ import com.baselet.control.BrowserLauncher;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Metakey;
 import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Main;
 import com.baselet.control.Path;
@@ -45,6 +43,9 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 	private DrawPanel panel;
 	private boolean visible;
 
+	private static String filename;
+	private static Thread updateChecker;
+
 	public StartUpHelpText(DrawPanel panel) {
 		super();
 		this.panel = panel;
@@ -56,8 +57,19 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		panel.addContainerListener(this);
 		panel.addComponentListener(this);
 		this.addMouseListener(new DelegatingMouseListener());
-		showHTML(this);
-		setVisible();
+
+		if (Constants.checkForUpdates && updateChecker == null) {
+			updateChecker = new Thread(new Updater());
+			updateChecker.start();
+		}
+		try {
+			if (filename == null) {
+				filename = createTempFileWithText(getDefaultTextWithReplacedSystemspecificMetakeys());
+			}
+			showHTML();
+		} catch (Exception e) {
+			log.error(null, e);
+		}
 	}
 
 	// Must be overwritten to hide the helptext if a the custom elements panel is toggled without elements on the drawpanel
@@ -65,91 +77,34 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 	public void setEnabled(boolean en) {
 		super.setEnabled(en);
 		if (en && this.visible) {
-			if (this.panel.getAllEntities().size() == 0) this.setVisible();
+			if (this.panel.getAllEntities().size() == 0) this.setVisible(true);
 			else this.visible = false;
 		}
 		else {
 			this.visible = this.isVisible();
-			this.setInvisible();
+			this.setVisible(false);
 		}
 	}
 
-	private void setVisible() {
-		if (panel != null) {
-			this.setVisible(true);
-			this.panel.repaint();
-		}
-	}
-
-	private void setInvisible() {
-		this.setVisible(false);
-		if (this.panel != null) this.panel.repaint();
-	}
-
-	private String getStartUpFileName() {
+	private static String getStartUpFileName() {
 		return Path.homeProgram() + "html/startuphelp.html";
 	}
 
-	private void showHTML(JEditorPane edit) {
-		try {
-			String tempFileName = getPathOfTempFileWithText();
-			edit.setPage(new URL("file:///" + tempFileName));
-			edit.addHyperlinkListener(new HyperLinkActiveListener());
-			edit.setEditable(false);
-			edit.setBackground(Color.WHITE);
-			edit.setSelectionColor(edit.getBackground());
-			edit.setSelectedTextColor(edit.getForeground());
-
-		} catch (Exception e) {
-			log.error(null, e);
-		}
+	private void showHTML() throws Exception {
+		this.setPage(new URL("file:///" + filename));
+		this.addHyperlinkListener(new HyperLinkActiveListener());
+		this.setEditable(false);
+		this.setBackground(Color.WHITE);
+		this.setSelectionColor(this.getBackground());
+		this.setSelectedTextColor(this.getForeground());
 	}
 
-	private String getPathOfTempFileWithText() throws FileNotFoundException, IOException {
-		String textToShow = null;
-		if (Constants.checkForUpdates) textToShow = getNewVersionTextWithStartupHtmlFormat();
-		if (textToShow == null) textToShow = getDefaultTextWithReplacedSystemspecificMetakeys();
-		if (textToShow == null) textToShow = "";
-
+	private static String createTempFileWithText(String textToWriteIntoFile) throws FileNotFoundException, IOException {
 		File tempFile = File.createTempFile(Program.PROGRAM_NAME + "_startupfile", ".html");
 		FileWriter w = new FileWriter(tempFile);
-		w.write(textToShow);
+		w.write(textToWriteIntoFile);
 		w.close();
 		return tempFile.getAbsolutePath();
-	}
-
-	private String getNewVersionTextWithStartupHtmlFormat() throws FileNotFoundException {
-		String textFromURL = getNewVersionTextFromURL();
-		if (textFromURL == null) return null;
-
-		String returnText = "";
-		Scanner sc = new Scanner(new File(getStartUpFileName()));
-		while(sc.hasNextLine()) {
-			String line = sc.nextLine();
-			if (line.contains("<body>")) break;
-			returnText += line + "\n";
-		}
-		returnText += textFromURL + "</body></html>";
-		return returnText;
-	}
-
-	private String getNewVersionTextFromURL() {
-		try {
-			String versionText = BrowserLauncher.readURL(Program.WEBSITE + "/current_umlet_version_changes.txt");
-			String[] splitString = versionText.split("\n");
-			String actualVersion = splitString[0];
-			if (Program.VERSION >= Double.valueOf(actualVersion)) return null; // no newer version found
-
-			String returnText = "<p><b>A new version of " + Program.PROGRAM_NAME + " (" + actualVersion + ") is available at <a href=\"" + Program.WEBSITE + "\">" + Program.WEBSITE.substring("http://".length()) + "</a></b></p>";
-			//Every line after the first one describes a feature of the new version and will be listed
-			for (int i = 1; i < splitString.length; i++) {
-				returnText += "<p>" + splitString[i] + "</p>";
-			}
-			return returnText;
-		} catch (Exception e) {
-			log.error("Error at checking for new " + Program.PROGRAM_NAME + " version", e);
-			return null;
-		}
 	}
 
 	private String getDefaultTextWithReplacedSystemspecificMetakeys() throws FileNotFoundException {
@@ -166,12 +121,12 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 
 	@Override
 	public void componentAdded(ContainerEvent e) {
-		if (!this.equals(e.getChild()) && (e.getChild() instanceof GridElement)) this.setInvisible();
+		if (!this.equals(e.getChild()) && (e.getChild() instanceof GridElement)) this.setVisible(false);
 	}
 
 	@Override
 	public void componentRemoved(ContainerEvent e) {
-		if ((e.getContainer().getComponentCount() <= 1) && !this.equals(e.getChild())) this.setVisible();
+		if ((e.getContainer().getComponentCount() <= 1) && !this.equals(e.getChild())) this.setVisible(true);
 	}
 
 	@Override
@@ -232,6 +187,47 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			panel.getHandler().getListener().mouseReleased(e);
+		}
+	}
+
+	private class Updater implements Runnable {
+		@Override
+		public void run() {
+			try {
+				//TODO: If the thread needs too much time, the update message is only shown if a new panel is opened
+				filename = createTempFileWithText(getNewVersionTextWithStartupHtmlFormat(getStartUpFileName()));
+			} catch (Exception e) {
+				log.error("Error at checking for new " + Program.PROGRAM_NAME + " version", e);
+			}
+		}
+
+		private String getNewVersionTextWithStartupHtmlFormat(String startupFileName) throws MalformedURLException, IOException {
+			String textFromURL = getNewVersionTextFromURL();
+			if (textFromURL == null) return null;
+
+			String returnText = "";
+			Scanner sc = new Scanner(new File(startupFileName));
+			while(sc.hasNextLine()) {
+				String line = sc.nextLine();
+				if (line.contains("<body>")) break;
+				returnText += line + "\n";
+			}
+			returnText += textFromURL + "</body></html>";
+			return returnText;
+		}
+
+		private String getNewVersionTextFromURL() throws MalformedURLException, IOException {
+			String versionText = BrowserLauncher.readURL(Program.WEBSITE + "/current_umlet_version_changes.txt");
+			String[] splitString = versionText.split("\n");
+			String actualVersion = splitString[0];
+			if (Program.VERSION >= Double.valueOf(actualVersion)) return null; // no newer version found
+
+			String returnText = "<p><b>A new version of " + Program.PROGRAM_NAME + " (" + actualVersion + ") is available at <a href=\"" + Program.WEBSITE + "\">" + Program.WEBSITE.substring("http://".length()) + "</a></b></p>";
+			//Every line after the first one describes a feature of the new version and will be listed
+			for (int i = 1; i < splitString.length; i++) {
+				returnText += "<p>" + splitString[i] + "</p>";
+			}
+			return returnText;
 		}
 	}
 }
