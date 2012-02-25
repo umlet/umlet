@@ -190,12 +190,15 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		}
 	}
 
+	//TODO: If the thread takes too much time, the update message is only shown if a new panel is opened
 	private class Updater implements Runnable {
 		@Override
 		public void run() {
 			try {
-				//TODO: If the thread needs too much time, the update message is only shown if a new panel is opened
-				filename = createTempFileWithText(getNewVersionTextWithStartupHtmlFormat(getStartUpFileName()));
+				String newVersionText = getNewVersionTextWithStartupHtmlFormat(getStartUpFileName());
+				if (newVersionText != null) { // The text is != null if a new version exists
+					filename = createTempFileWithText(newVersionText);
+				}
 			} catch (Exception e) {
 				log.error("Error at checking for new " + Program.PROGRAM_NAME + " version", e);
 			}
@@ -218,6 +221,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 
 		private String getNewVersionTextFromURL() throws MalformedURLException, IOException {
 			String versionText = BrowserLauncher.readURL(Program.WEBSITE + "/current_umlet_version_changes.txt");
+			versionText = versionText.replace("<", "&lt;").replace(">", "&gt;").replace("&", "&amp;").replace("\"", "&quot;"); //escape html characters for safety
 			String[] splitString = versionText.split("\n");
 			String actualVersion = splitString[0];
 			if (Program.VERSION >= Double.valueOf(actualVersion)) return null; // no newer version found
