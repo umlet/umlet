@@ -26,6 +26,7 @@ import org.w3c.dom.Element;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Utils;
+import com.baselet.control.Constants.Program;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.itextpdf.text.DocumentException;
@@ -77,13 +78,13 @@ public class OutputHandler {
 		else throw new IllegalArgumentException(extension + " is an invalid format");
 	}
 
-	private static void exportEps(OutputStream ostream, DiagramHandler handler, Vector<GridElement> entities) {
-		PrintWriter bw = new PrintWriter(ostream);
-		EpsGraphics2D graphics2d = new EpsGraphics2D();
+	private static void exportEps(OutputStream ostream, DiagramHandler handler, Vector<GridElement> entities) throws IOException {
+		Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
+		EpsGraphics2D graphics2d = new EpsGraphics2D(Program.PROGRAM_NAME + " Diagram", ostream, 0, 0, bounds.width, bounds.height);
+		setGraphicsBorders(bounds, graphics2d);
 		handler.getDrawPanel().paintEntitiesIntoGraphics2D(graphics2d, entities);
-		bw.print(graphics2d.toString());
-		bw.flush();
-		bw.close();
+		graphics2d.flush();
+		graphics2d.close();
 	}
 
 	private static void exportPdf(OutputStream ostream, DiagramHandler handler, Vector<GridElement> entities) throws IOException {
@@ -154,15 +155,17 @@ public class OutputHandler {
 		Graphics2D graphics2d = im.createGraphics();
 		graphics2d.setRenderingHints(Utils.getUxRenderingQualityHigh(true));
 
-		// tanslate needed for clipping
+		setGraphicsBorders(bounds, graphics2d);
+		handler.getDrawPanel().paintEntitiesIntoGraphics2D(graphics2d, entities);
+
+		return im;
+	}
+
+	private static void setGraphicsBorders(Rectangle bounds, Graphics2D graphics2d) {
 		graphics2d.translate(-bounds.x, -bounds.y);
 		graphics2d.clipRect(bounds.x, bounds.y, bounds.width, bounds.height);
 		graphics2d.setColor(Color.white);
 		graphics2d.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
-
-		handler.getDrawPanel().paintEntitiesIntoGraphics2D(graphics2d, entities);
-
-		return im;
 	}
 
 	private static boolean isImageExtension(String ext) {
