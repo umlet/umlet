@@ -90,7 +90,6 @@ public class StandaloneGUI extends BaseGUI {
 	private JMenuItem customMenu;
 	private JMenu customTemplate;
 	private JMenuItem customEdit;
-	private JMenuItem customTutorial;
 	private JTextField searchField;
 	private OwnSyntaxPane propertyTextPane;
 	private ZoomListener zoomListener;
@@ -255,7 +254,7 @@ public class StandaloneGUI extends BaseGUI {
 			menu_custom.add(customTemplate = menuFactory.createNewCustomElementFromTemplate());
 			menu_custom.add(customEdit = menuFactory.createEditSelected());
 			menu_custom.addSeparator();
-			menu_custom.add(customTutorial = menuFactory.createCustomElementTutorial());
+			menu_custom.add(menuFactory.createCustomElementTutorial());
 			menu.add(menu_custom);
 			customEdit.setEnabled(false);
 		}
