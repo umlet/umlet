@@ -31,6 +31,8 @@ import com.baselet.element.DiagramNotification;
 import com.baselet.element.GridElement;
 import com.baselet.gui.StartUpHelpText;
 import com.baselet.gui.listener.ScrollbarListener;
+import com.baselet.gui.standalone.FileDrop;
+import com.baselet.gui.standalone.FileDropListener;
 import com.umlet.element.Relation;
 
 @SuppressWarnings("serial")
@@ -51,7 +53,11 @@ public class DrawPanel extends JPanel implements Printable {
 		this.setLayout(null);
 		this.setBackground(Color.white);
 		// If this is not a palette, create a StartupHelpText
-		if (!(handler instanceof PaletteHandler)) this.add(new StartUpHelpText(this));
+		if (!(handler instanceof PaletteHandler)) {
+			StartUpHelpText startupHelpText = new StartUpHelpText(this);
+			new FileDrop(startupHelpText, new FileDropListener());
+			this.add(startupHelpText);
+		}
 		this.selector = new Selector(this);
 		this.notifications = new ArrayList<DiagramNotification>();
 		JScrollPane p = new JScrollPane() {
