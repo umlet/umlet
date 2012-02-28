@@ -135,6 +135,7 @@ public class Interface extends GridElement {
 		p.addPoint(new Point(rechts, oben));
 		p.addPoint(new Point(rechts, unten));
 		p.addPoint(new Point(links, unten));
+		p.addPoint(new Point(links, oben));
 		return p;
 	}
 
