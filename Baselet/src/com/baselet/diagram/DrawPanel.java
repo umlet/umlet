@@ -150,18 +150,14 @@ public class DrawPanel extends JPanel implements Printable {
 	}
 
 	public void paintEntitiesIntoGraphics2D(Graphics2D g2d, Vector<GridElement> entitiesToPaint) {
-		boolean entityWasSelected = false;
 		for (GridElement entity : entitiesToPaint) {
-			if (entity.isSelected()) entityWasSelected = true;
+			boolean entityWasSelected = entity.isSelected();
 			int x = entity.getX();
 			int y = entity.getY();
 			g2d.translate(x, y);
 			if (entityWasSelected) entity.onDeselected(); // If entity was selected deselect it before painting
 			entity.paint(g2d);
-			if (entityWasSelected) { // and select it afterwards. Also reset boolean variable to false
-				entity.onSelected();
-				entityWasSelected = false;
-			}
+			if (entityWasSelected) entity.onSelected(); // and select it afterwards.
 			g2d.translate(-x, -y);
 		}
 	}
