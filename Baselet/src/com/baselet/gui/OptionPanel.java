@@ -21,7 +21,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;

@@ -15,6 +15,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
@@ -822,7 +823,7 @@ public class Relation extends GridElement {
 		endShapes.add(new NoShape());
 
 		if ((beginQualifier != null) && (beginQualifier.length() > 0)) {
-			TextLayout tl = new TextLayout(beginQualifier, this.getHandler().getFontHandler().getFont(), Constants.FRC);
+			TextLayout tl = new TextLayout(beginQualifier, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 			Qualifier q = new Qualifier(beginQualifier, 0, 0, (int) tl.getBounds().getWidth()
 					+ (int) this.getHandler().getFontHandler().getFontSize() * 2, (int) tl.getBounds().getHeight()
 					+ (int) this.getHandler().getFontHandler().getFontSize() / 2);
@@ -830,7 +831,7 @@ public class Relation extends GridElement {
 		}
 		if ((endQualifier != null) && (endQualifier.length() > 0)) {
 			TextLayout tl = new TextLayout(endQualifier, this.getHandler().getFontHandler().getFont(),
-					Constants.FRC);
+					g2.getFontRenderContext());
 			Qualifier q = new Qualifier(endQualifier, 0, 0, (int) tl.getBounds().getWidth()
 					+ (int) this.getHandler().getFontHandler().getFontSize() * 2, (int) tl.getBounds().getHeight()
 					+ (int) this.getHandler().getFontHandler().getFontSize() / 2);
@@ -847,7 +848,7 @@ public class Relation extends GridElement {
 		if ((beginMultiplicity != null) && (beginMultiplicity.length() > 0)) {
 			EmptyShape e = new EmptyShape((int) this.getHandler().getFontHandler().getFontSize());
 			startShapes.add(e);
-			TextLayout tl = new TextLayout(beginMultiplicity, this.getHandler().getFontHandler().getFont(), Constants.FRC);
+			TextLayout tl = new TextLayout(beginMultiplicity, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 			Multiplicity m = new Multiplicity(beginMultiplicity, 0, 0, (int) tl.getBounds().getWidth(),
 					(int) tl.getBounds().getHeight());
 			startShapes.add(m);
@@ -855,7 +856,7 @@ public class Relation extends GridElement {
 		if ((endMultiplicity != null) && (endMultiplicity.length() > 0)) {
 			EmptyShape e = new EmptyShape((int) this.getHandler().getFontHandler().getFontSize());
 			endShapes.add(e);
-			TextLayout tl = new TextLayout(endMultiplicity, this.getHandler().getFontHandler().getFont(), Constants.FRC);
+			TextLayout tl = new TextLayout(endMultiplicity, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 			Multiplicity m = new Multiplicity(endMultiplicity, 0, 0, (int) tl.getBounds().getWidth(),
 					(int) tl.getBounds().getHeight());
 			endShapes.add(m);
@@ -940,7 +941,7 @@ public class Relation extends GridElement {
 
 			EmptyShape e = new EmptyShape((int) this.getHandler().getFontHandler().getFontSize());
 			startShapes.add(e);
-			TextLayout tl = new TextLayout(beginPort, this.getHandler().getFontHandler().getFont(), Constants.FRC);
+			TextLayout tl = new TextLayout(beginPort, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 			Port p = new Port(beginPort, 0, 0, (int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
 
 			startShapes.add(p);
@@ -949,7 +950,7 @@ public class Relation extends GridElement {
 		if ((endPort != null) && (endPort.length() > 0)) {
 			EmptyShape e = new EmptyShape((int) this.getHandler().getFontHandler().getFontSize());
 			endShapes.add(e);
-			TextLayout tl = new TextLayout(endPort, this.getHandler().getFontHandler().getFont(), Constants.FRC);
+			TextLayout tl = new TextLayout(endPort, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 			Port p = new Port(endPort, 0, 0, (int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
 			endShapes.add(p);
 		}
@@ -1207,8 +1208,8 @@ public class Relation extends GridElement {
 				// end
 				g.drawRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
 				this.getHandler().getFontHandler().writeText(g2, q.getString(), (int) r.getX()
-						+ (int) this.getHandler().getFontHandler().getFontSize(), (int) r.getY()
-						+ (int) this.getHandler().getFontHandler().getFontSize(), false);
+				+ (int) this.getHandler().getFontHandler().getFontSize(), (int) r.getY()
+				+ (int) this.getHandler().getFontHandler().getFontSize(), AlignHorizontal.LEFT);
 
 			}
 			else if (r instanceof Arrow) {
@@ -1462,7 +1463,7 @@ public class Relation extends GridElement {
 						}
 						else {
 							if (!csdStartText.equals("")) {
-								this.getHandler().getFontHandler().writeText(g2, csdStartText, px1.x, px1.y + (int) (6 * zoom), true);
+								this.getHandler().getFontHandler().writeText(g2, csdStartText, px1.x, px1.y + (int) (6 * zoom), AlignHorizontal.CENTER);
 							}
 						}
 
@@ -1527,7 +1528,7 @@ public class Relation extends GridElement {
 						}
 						else {
 							if (!csdEndText.equals("")) {
-								this.getHandler().getFontHandler().writeText(g2, csdEndText, px1.x, px1.y + (int) (6 * zoom), true);
+								this.getHandler().getFontHandler().writeText(g2, csdEndText, px1.x, px1.y + (int) (6 * zoom), AlignHorizontal.CENTER);
 							}
 						}
 
@@ -1557,7 +1558,7 @@ public class Relation extends GridElement {
 				// g.drawRect((int)r.getX(), (int)r.getY(), (int)r.getWidth(),
 				// (int)r.getHeight());
 				this.getHandler().getFontHandler().writeText(g2, m.getString(), (int) r.getX(), (int) r.getY()
-						+ (int) this.getHandler().getFontHandler().getFontSize() + 2 * (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), false); // B. Buckl
+				+ (int) this.getHandler().getFontHandler().getFontSize() + 2 * (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT); // B. Buckl
 				// added
 				// +2*this.getHandler().getDistTextToText()
 			}
@@ -1572,13 +1573,13 @@ public class Relation extends GridElement {
 
 					if (position != -1) {
 						String s = str.substring(0, position);
-						this.getHandler().getFontHandler().writeText(g2, s, (int) r.getX(), (int) r.getY() + y, false);
+						this.getHandler().getFontHandler().writeText(g2, s, (int) r.getX(), (int) r.getY() + y, AlignHorizontal.LEFT);
 
 						y = y + (int) this.getHandler().getFontHandler().getFontSize();
 						str = str.substring(position + 2, str.length());
 					}
 					else {
-						this.getHandler().getFontHandler().writeText(g2, str, (int) r.getX(), (int) r.getY() + y, false);
+						this.getHandler().getFontHandler().writeText(g2, str, (int) r.getX(), (int) r.getY() + y, AlignHorizontal.LEFT);
 
 					}
 
@@ -1598,9 +1599,7 @@ public class Relation extends GridElement {
 			else if (r instanceof Port) {
 				Port p = (Port) r;
 
-				this.getHandler().getFontHandler().writeText(g2, p.getString(),
-						(int) (r.getX()),
-						(int) (r.getY()), false);
+				this.getHandler().getFontHandler().writeText(g2, p.getString(), (int) (r.getX()), (int) (r.getY()), AlignHorizontal.LEFT);
 
 			}
 			// G.Mueller end
@@ -1681,7 +1680,7 @@ public class Relation extends GridElement {
 					}
 					// A.Mueller end...
 
-					this.getHandler().getFontHandler().writeText(g2, s, xPos, yPos, true);
+					this.getHandler().getFontHandler().writeText(g2, s, xPos, yPos, AlignHorizontal.CENTER);
 					yPos += (int) this.getHandler().getFontHandler().getFontSize();
 					yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				}

@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Vector;
 
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
@@ -67,13 +68,13 @@ public class UseCase extends GridElement {
 				yPos = yPos1;
 			}
 			else if (found) {
-				this.getHandler().getFontHandler().writeText(g2, s, a, yPos + 5, true);
+				this.getHandler().getFontHandler().writeText(g2, s, a, yPos + 5, AlignHorizontal.CENTER);
 				yPos += 5 * this.getHandler().getFontHandler().getDistanceBetweenTexts();
 
 			}
 			else {
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, true);
+				this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, AlignHorizontal.CENTER);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 		}

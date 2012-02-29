@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.util.Vector;
 
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
 
@@ -98,10 +99,10 @@ public class EER_Entity extends GridElement {
 						drawInnerRect = true;
 						s1 = s1.substring(2);
 					}
-					this.getHandler().getFontHandler().writeText(g2, s1, this.getWidth() / 2, yPos, true);
+					this.getHandler().getFontHandler().writeText(g2, s1, this.getWidth() / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
-					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize(), yPos, false);
+					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize(), yPos, AlignHorizontal.LEFT);
 				}
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				if (CENTER) ySave = yPos;

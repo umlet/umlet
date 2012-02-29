@@ -9,6 +9,7 @@ import java.awt.Polygon;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.element.StickingPolygon;
 
@@ -121,7 +122,7 @@ public class Taxonomy_of_Actors extends com.baselet.element.GridElement {
 		g2.drawLine((int) (head / 2 + xPos + 0.5), (int) (yPos + head * 3 - distance + 0.5), (int) (head + xPos + 0.5), (int) (yPos + head * 4 - distance + 0.5));
 		g2.drawLine((int) (head / 2 + xPos), (int) (yPos + head * 3 - distance + 0.5), (int) (xPos + 0.5), (int) (yPos + head * 4 - distance + 0.5));
 		// this.getHandler().getFontHandler().writeText(g2, name, xPos, yPos + (int) (4.5*head), false);
-		this.getHandler().getFontHandler().writeText(g2, name, (int) (xPos + head * 1.5 + this.getHandler().getFontHandler().getDistanceBetweenTexts() + 0.5), (int) (2 * head + yPos + 0.5), false);
+		this.getHandler().getFontHandler().writeText(g2, name, (int) (xPos + head * 1.5 + this.getHandler().getFontHandler().getDistanceBetweenTexts() + 0.5), (int) (2 * head + yPos + 0.5), AlignHorizontal.LEFT);
 	}
 
 	private void drawDockAnchor(Graphics2D g2, Point nextDock) {

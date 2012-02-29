@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
 
@@ -44,7 +45,7 @@ public class Component extends GridElement {
 				startY = (int) this.getHandler().getFontHandler().getFontSize();
 				s = s.substring(1, s.length());
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, (int) (10 * zoom), startY + yPos, false);
+				this.getHandler().getFontHandler().writeText(g2, s, (int) (10 * zoom), startY + yPos, AlignHorizontal.LEFT);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				normal = true;
 			}
@@ -54,7 +55,7 @@ public class Component extends GridElement {
 					s = s.substring(1, s.length());
 				}
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, startY + yPos, true);
+				this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, startY + yPos, AlignHorizontal.CENTER);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 		}

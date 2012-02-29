@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.font.LineMetrics;
 import java.awt.geom.Rectangle2D;
 
-import com.baselet.control.Constants;
 import com.baselet.element.GridElement;
 
 
@@ -23,8 +22,8 @@ public class HistoryState extends GridElement {
 
 		g2.fillOval(0, 0, this.getWidth(), this.getHeight());
 		// Measure the font and the message
-		Rectangle2D bounds = this.getHandler().getFontHandler().getFont().getStringBounds("H", Constants.FRC);
-		LineMetrics metrics = this.getHandler().getFontHandler().getFont().getLineMetrics("H", Constants.FRC);
+		Rectangle2D bounds = this.getHandler().getFontHandler().getFont().getStringBounds("H", g2.getFontRenderContext());
+		LineMetrics metrics = this.getHandler().getFontHandler().getFont().getLineMetrics("H", g2.getFontRenderContext());
 		float width = (float) bounds.getWidth(); // The width of our text
 		float lineheight = metrics.getHeight(); // Total line height
 		float ascent = metrics.getAscent(); // Top of text to baseline

@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
 
@@ -24,7 +25,7 @@ public class ActiveClass extends GridElement {
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 			yPos += (int) this.getHandler().getFontHandler().getFontSize();
-			this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, true);
+			this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, AlignHorizontal.CENTER);
 			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		}
 

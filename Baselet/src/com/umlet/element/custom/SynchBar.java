@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Vector;
 
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
 
@@ -30,7 +31,7 @@ public class SynchBar extends GridElement {
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 			yPos += (int) this.getHandler().getFontHandler().getFontSize();
-			this.getHandler().getFontHandler().writeText(g2, s, 0, yPos, true);
+			this.getHandler().getFontHandler().writeText(g2, s, 0, yPos, AlignHorizontal.CENTER);
 			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		}
 
