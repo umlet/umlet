@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 
 
@@ -46,11 +47,11 @@ public class AlternativeUseCase extends com.baselet.element.GridElement {
 				center = true;
 			}
 			else if (center == true) {
-				this.getHandler().getFontHandler().writeText(g2, s, (getWidth() - 1) / 2, yPos, true);
+				this.getHandler().getFontHandler().writeText(g2, s, (getWidth() - 1) / 2, yPos, AlignHorizontal.CENTER);
 				center = false;
 			}
 			else {
-				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, false);
+				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 		}

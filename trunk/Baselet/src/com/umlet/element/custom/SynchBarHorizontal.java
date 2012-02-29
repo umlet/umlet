@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.diagram.command.Resize;
 import com.baselet.element.GridElement;
@@ -38,7 +39,7 @@ public class SynchBarHorizontal extends GridElement {
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 
-			TextLayout l = new TextLayout(s, this.getHandler().getFontHandler().getFont(), Constants.FRC);
+			TextLayout l = new TextLayout(s, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 			Rectangle2D r2d = l.getBounds();
 			textWidth = ((int) r2d.getWidth() > textWidth) ? ((int) r2d.getWidth()) : (textWidth);
 
@@ -47,7 +48,7 @@ public class SynchBarHorizontal extends GridElement {
 				break;
 			}
 			yPos += (int) this.getHandler().getFontHandler().getFontSize();
-			this.getHandler().getFontHandler().writeText(g2, s, 0, yPos, false);
+			this.getHandler().getFontHandler().writeText(g2, s, 0, yPos, AlignHorizontal.LEFT);
 			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		}
 

@@ -8,7 +8,7 @@ import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
-import com.baselet.control.Constants;
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.diagram.command.Resize;
 import com.baselet.element.GridElement;
@@ -49,7 +49,7 @@ public class Actor extends GridElement {
 			}
 			else {
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				TextLayout l = new TextLayout(s, this.getHandler().getFontHandler().getFont(), Constants.FRC);
+				TextLayout l = new TextLayout(s, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 				Rectangle2D r2d = l.getBounds();
 				int width = (int) r2d.getWidth();
 				int xPos = this.getWidth() / 2 - width / 2;
@@ -57,7 +57,7 @@ public class Actor extends GridElement {
 					ADAPT_SIZE = true;
 					break;
 				}
-				this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, true);
+				this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, AlignHorizontal.CENTER);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 		}

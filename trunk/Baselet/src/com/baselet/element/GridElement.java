@@ -17,6 +17,7 @@ import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
@@ -326,7 +327,7 @@ public abstract class GridElement extends JComponent {
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setFont(this.getHandler().getFontHandler().getFont());
 			g2.setColor(Color.red);
-			this.getHandler().getFontHandler().writeText(g2, "in progress...", this.getWidth() / 2 - 40, this.getHeight() / 2 + (int) this.getHandler().getFontHandler().getFontSize() / 2, false);
+			this.getHandler().getFontHandler().writeText(g2, "in progress...", this.getWidth() / 2 - 40, this.getHeight() / 2 + (int) this.getHandler().getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
 		}
 		else {
 			repaint();

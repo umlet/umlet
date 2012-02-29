@@ -8,6 +8,7 @@ import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.util.Vector;
 
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
@@ -160,7 +161,7 @@ public class Class extends GridElement {
 
 					// draw border lines of template box
 					g2.drawRect(getWidth() - _templateWidth, 0, _templateWidth - 1, _templateHeight); // template box
-					this.getHandler().getFontHandler().writeText(g2, template[1], getWidth() - _templateWidth + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), false);
+					this.getHandler().getFontHandler().writeText(g2, template[1], getWidth() - _templateWidth + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
 					g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
 
 					// draw border lines of class
@@ -230,11 +231,11 @@ public class Class extends GridElement {
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
 				if (CENTER) {
 					// A.Mueller
-					if (_isTemplate) this.getHandler().getFontHandler().writeText(g2, s, (this.getWidth() - this.getWidth() / 10) / 2, yPos, true);
-					else this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, true);
+					if (_isTemplate) this.getHandler().getFontHandler().writeText(g2, s, (this.getWidth() - this.getWidth() / 10) / 2, yPos, AlignHorizontal.CENTER);
+					else this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
-					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, false);
+					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
 				}
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}

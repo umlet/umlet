@@ -9,6 +9,7 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.util.Vector;
 
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
@@ -75,9 +76,9 @@ public class Node extends GridElement {
 			yPos += (int) this.getHandler().getFontHandler().getFontSize();
 			if (s.startsWith("center:")) {
 				s = s.substring(7);
-				this.getHandler().getFontHandler().writeText(g2, s, (this.getWidth() - size_3d - 1) / 2, yPos, true);
-			}
-			else this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, false);
+				this.getHandler().getFontHandler().writeText(g2, s, (this.getWidth() - size_3d - 1) / 2, yPos, AlignHorizontal.CENTER);
+			} else
+				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
 
 			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		}

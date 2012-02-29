@@ -17,6 +17,7 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
@@ -202,7 +203,7 @@ public class SequenceDiagram extends com.baselet.element.GridElement {
 		if (lines.elementAt(0).startsWith("title:")) {
 			String title = lines.elementAt(0).substring("title:".length());
 			if ((title != null) && (title.length() > 0)) {
-				this.getHandler().getFontHandler().writeText(g2, title, (int) (5 * zoom), (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), false);
+				this.getHandler().getFontHandler().writeText(g2, title, (int) (5 * zoom), (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
 				int titlewidth = this.getHandler().getFontHandler().getTextWidth(title);
 				int ty = (int) (8 * zoom) + (int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts());
 				g2.drawLine(0, ty, titlewidth + (int) (10 * zoom), ty);

@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.util.Vector;
 
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
@@ -43,7 +44,7 @@ public class SendSignal extends GridElement {
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 			yPos += (int) this.getHandler().getFontHandler().getFontSize();
-			this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, true);
+			this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, AlignHorizontal.CENTER);
 			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		}
 		// g2.drawLine(0,0,this.getWidth()-this.getHandler().getFontHandler().getFontsize(),0);

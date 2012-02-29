@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.lang.reflect.Constructor;
 
+import com.baselet.control.Constants.AlignHorizontal;
+
 @SuppressWarnings("serial")
 public class ErrorOccurred extends GridElement {
 
@@ -28,7 +30,7 @@ public class ErrorOccurred extends GridElement {
 		g2.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 		g2.setColor(Color.red);
 		g2.setFont(this.getHandler().getFontHandler().getFont());
-		this.getHandler().getFontHandler().writeText(g2, errorMessage, this.getWidth() / 2, this.getHeight() / 2 - (int) (10 * zoom), true);
+		this.getHandler().getFontHandler().writeText(g2, errorMessage, this.getWidth() / 2, this.getHeight() / 2 - (int) (10 * zoom), AlignHorizontal.CENTER);
 		g2.setColor(fgColor);
 	}
 

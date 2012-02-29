@@ -9,6 +9,7 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.activity.AEnd;
@@ -387,7 +388,7 @@ public class ActivityDiagramText extends com.baselet.element.GridElement {
 			height += (int) (25 * zoom);
 
 			if ((title != null) && (title.length() > 0)) {
-				this.getHandler().getFontHandler().writeText(this.graphics, title, (int) (10 * zoom), (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), false);
+				this.getHandler().getFontHandler().writeText(this.graphics, title, (int) (10 * zoom), (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
 				int titlewidth = this.getHandler().getFontHandler().getTextWidth(title);
 				int ty = (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() + (int) (8 * zoom);
 				this.graphics.drawLine(0, ty, titlewidth + (int) (10 * zoom), ty);

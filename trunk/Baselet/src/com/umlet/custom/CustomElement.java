@@ -20,7 +20,6 @@ import java.util.Vector;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
-import com.baselet.control.Constants.AlignVertical;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
@@ -33,23 +32,20 @@ public abstract class CustomElement extends GridElement {
 		private String text;
 		private int x, y;
 		private AlignHorizontal align;
-		private AlignVertical valign;
 		private Integer fixedSize;
 
-		private Text(String text, int x, int y, AlignHorizontal align, AlignVertical valign) {
+		private Text(String text, int x, int y, AlignHorizontal align) {
 			this.text = text;
 			this.x = x;
 			this.y = y;
 			this.align = align;
-			this.valign = valign;
 		}
 
-		private Text(String text, int x, int y, AlignHorizontal align, AlignVertical valign, Integer fixedSize) {
+		private Text(String text, int x, int y, AlignHorizontal align, Integer fixedSize) {
 			this.text = text;
 			this.x = x;
 			this.y = y;
 			this.align = align;
-			this.valign = valign;
 			this.fixedSize = fixedSize; // some texts should not be zoomed
 		}
 	}
@@ -134,7 +130,7 @@ public abstract class CustomElement extends GridElement {
 				getHandler().getFontHandler().setFontSize(t.fixedSize);
 				applyZoom = false;
 			}
-			this.getHandler().getFontHandler().writeText(this.g2, t.text, t.x, t.y, t.align, t.valign, applyZoom);
+			this.getHandler().getFontHandler().writeText(this.g2, t.text, t.x, t.y, t.align, applyZoom);
 			if (t.fixedSize != null) {
 				getHandler().getFontHandler().resetFontSize();
 			}
@@ -203,7 +199,7 @@ public abstract class CustomElement extends GridElement {
 		int y = inY;
 		List<String> list = wordWrap ? Utils.splitString(text, (int) (width * zoom)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-			this.texts.add(new Text(s, (int) (x * zoom), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
+			this.texts.add(new Text(s, (int) (x * zoom), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
 		}
 		return y - inY;
@@ -214,7 +210,7 @@ public abstract class CustomElement extends GridElement {
 		int y = inY;
 		List<String> list = wordWrap ? Utils.splitString(text, (int) (width * zoom)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-			this.texts.add(new Text(s, ((int) this.getHandler().getFontHandler().getDistanceBetweenTexts()), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
+			this.texts.add(new Text(s, ((int) this.getHandler().getFontHandler().getDistanceBetweenTexts()), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
 		}
 		return y - inY;
@@ -225,7 +221,7 @@ public abstract class CustomElement extends GridElement {
 		int y = inY;
 		List<String> list = wordWrap ? Utils.splitString(text, (int) (width * zoom)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-			this.texts.add(new Text(s, (int) ((width * zoom - this.textWidth(s, true))), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
+			this.texts.add(new Text(s, (int) ((width * zoom - this.textWidth(s, true))), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
 		}
 		return y - inY;
@@ -236,7 +232,7 @@ public abstract class CustomElement extends GridElement {
 		int y = inY;
 		List<String> list = wordWrap ? Utils.splitString(text, (int) (width * zoom)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-			this.texts.add(new Text(s, (int) (((onGrid(width) * zoom - this.textWidth(s, true)) / 2)), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
+			this.texts.add(new Text(s, (int) (((onGrid(width) * zoom - this.textWidth(s, true)) / 2)), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
 		}
 		return y - inY;
@@ -247,7 +243,7 @@ public abstract class CustomElement extends GridElement {
 		int y = inY;
 		List<String> list = wordWrap ? Utils.splitString(text, width) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-		this.texts.add(new Text(s, x, y, AlignHorizontal.LEFT, AlignVertical.BOTTOM, fixedFontSize));
+		this.texts.add(new Text(s, x, y, AlignHorizontal.LEFT, fixedFontSize));
 		y += textHeight();
 		}
 		return y - inY;

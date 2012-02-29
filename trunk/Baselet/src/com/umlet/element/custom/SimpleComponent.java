@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 
 
@@ -40,7 +41,7 @@ public class SimpleComponent extends com.baselet.element.GridElement {
 			String s = tmp.elementAt(i);
 
 			yPos += (int) this.getHandler().getFontHandler().getFontSize();
-			this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() * 3, yPos, false);
+			this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() * 3, yPos, AlignHorizontal.LEFT);
 			// offset into box
 			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		}

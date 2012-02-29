@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
@@ -60,9 +61,9 @@ public class InteractionFrame extends GridElement {
 			}
 			else {
 				yPos += this.getHandler().getFontHandler().getFontSize();
-				if (center) this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, (int) yPos, true);
-				else this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, (int) yPos,
-						false);
+				if (center) this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, (int) yPos, AlignHorizontal.CENTER);
+				else
+					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, (int) yPos, AlignHorizontal.LEFT);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 		}

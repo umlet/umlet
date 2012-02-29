@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 
 
@@ -60,20 +61,20 @@ public class Systemborder extends com.baselet.element.GridElement {
 			}
 			if (center) {
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, (getWidth() - 1) / 2, yPos, true);
+				this.getHandler().getFontHandler().writeText(g2, s, (getWidth() - 1) / 2, yPos, AlignHorizontal.CENTER);
 				yPos += 2 * this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 			else if (downleft) {
-				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, false);
+				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
 			}
 			else if (upcenter) {
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, (getWidth() - 1) / 2, yPos, true);
+				this.getHandler().getFontHandler().writeText(g2, s, (getWidth() - 1) / 2, yPos, AlignHorizontal.CENTER);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, false);
+				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 		}

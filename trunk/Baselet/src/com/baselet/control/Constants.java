@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
-import java.awt.font.FontRenderContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -257,8 +256,6 @@ public abstract class Constants {
 		}
 	}
 	
-	public static final FontRenderContext FRC = new FontRenderContext(null, true, true);
-
 	/**** VALUES LOADED FROM CONFIG ****/
 	public static int defaultFontsize = (Program.PROGRAM_NAME == ProgramName.UMLET ? 14 : 10);
 	public static String defaultFontFamily = Font.SANS_SERIF;

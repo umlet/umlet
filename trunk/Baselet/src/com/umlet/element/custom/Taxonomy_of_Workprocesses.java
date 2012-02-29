@@ -9,6 +9,7 @@ import java.awt.Polygon;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.element.StickingPolygon;
 
@@ -103,7 +104,7 @@ public class Taxonomy_of_Workprocesses extends com.baselet.element.GridElement {
 		float ovalWidth = 10 * this.getHandler().getFontHandler().getFontSize();
 
 		g2.drawOval((int) (xPos + 0.5), (int) (yPos + 0.5), (int) (ovalWidth + 0.5), (int) (ovalHeight + 0.5));
-		this.getHandler().getFontHandler().writeText(g2, name, (int) (xPos + ovalWidth / 2 + 0.5), (int) (yPos + 5 * zoom + ovalHeight / 2 + 0.5), true);
+		this.getHandler().getFontHandler().writeText(g2, name, (int) (xPos + ovalWidth / 2 + 0.5), (int) (yPos + 5 * zoom + ovalHeight / 2 + 0.5), AlignHorizontal.CENTER);
 	}
 
 	private void drawDock(Graphics2D g2, Point nextDock, float xPos, float yPos) {

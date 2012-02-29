@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,7 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Vector;
 
@@ -25,14 +23,12 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Element;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Utils;
 import com.baselet.control.Constants.Program;
+import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.DefaultFontMapper;
-import com.itextpdf.text.pdf.DefaultFontMapper.BaseFontParameters;
 import com.itextpdf.text.pdf.FontMapper;
 
 

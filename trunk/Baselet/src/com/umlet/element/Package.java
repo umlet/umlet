@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.geom.Area;
 import java.util.Vector;
 
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
@@ -98,7 +99,7 @@ public class Package extends GridElement {
 				yPos = (lines + 1) * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s.substring(5), (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, false);
+				this.getHandler().getFontHandler().writeText(g2, s.substring(5), (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				normal = true;
 			}
@@ -107,21 +108,21 @@ public class Package extends GridElement {
 				lines++;
 				maxUpperBox = Math.max(maxUpperBox, this.getHandler().getFontHandler().getTextWidth(s) + (int) this.getHandler().getFontHandler().getFontSize());
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, false);
+				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 
 			}
 			else if (normal) {
 
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, false);
+				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 
 			}
 			else if (!normal) {
 
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, true);
+				this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, AlignHorizontal.CENTER);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 
 			}
