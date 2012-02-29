@@ -24,7 +24,7 @@ public class FontHandler {
 	private Integer diagramDefaultSize = null; // if "fontsize=..." is uncommented this variable is set
 
 	private String diagramDefaultFontFamily = null;
-	private FontRenderContext fontrenderContext;
+	private FontRenderContext fontrenderContext = new FontRenderContext(null, true, true);
 
 	public FontHandler(DiagramHandler handler) {
 		this.handler = handler;
