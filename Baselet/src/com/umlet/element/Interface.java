@@ -60,7 +60,7 @@ public class Interface extends GridElement {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
-				g2.drawLine(this.getWidth() / 2 - (int) this.getHandler().getFontHandler().getFontSize() * 4, yPos, this.getWidth() / 2 + (int) this.getHandler().getFontHandler().getFontSize() * 4, yPos);
+				g2.drawLine(0, yPos, this.getWidth(), yPos);
 				yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
