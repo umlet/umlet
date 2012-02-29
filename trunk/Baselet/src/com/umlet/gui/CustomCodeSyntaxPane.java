@@ -1,5 +1,7 @@
 package com.umlet.gui;
 
+import java.awt.Font;
+
 import javax.swing.JPanel;
 import javax.swing.JToolTip;
 
@@ -37,7 +39,9 @@ public class CustomCodeSyntaxPane extends OwnSyntaxPane {
 		Configuration conf = DefaultSyntaxKit.getConfig(DefaultSyntaxKit.class);
 		conf.remove("Components");
 		
+		Font font = this.getFont();
 		this.setContentType("text/java");
+		this.setFont(font); //dont let jsyntaxpane overwrite the default font
 		this.validate();
 	}
 	

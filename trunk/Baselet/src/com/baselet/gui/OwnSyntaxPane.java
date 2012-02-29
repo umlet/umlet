@@ -2,6 +2,7 @@ package com.baselet.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
@@ -77,8 +78,10 @@ public class OwnSyntaxPane extends JEditorPane {
 			
 			DefaultSyntaxKit.registerContentType("text/propertypanel", UmletSyntaxKit.class.getCanonicalName());
 		}	
-		
+
+		Font font = this.getFont();
 		this.setContentType("text/propertypanel");
+		this.setFont(font); //dont let jsyntaxpane overwrite the default font
 		this.validate();
 	}
 }
