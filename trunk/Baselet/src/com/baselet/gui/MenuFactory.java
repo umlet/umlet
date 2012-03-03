@@ -101,7 +101,7 @@ public class MenuFactory {
 					main.doNew();
 				}
 				else if (menuItem.equals(OPEN)) {
-					main.doOpen();
+					main.doOpenFromFileChooser();
 				}
 				else if (menuItem.equals(RECENT_FILES)) {
 					main.doOpen((String) param);

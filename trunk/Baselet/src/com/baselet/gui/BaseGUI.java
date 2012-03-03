@@ -208,8 +208,6 @@ public abstract class BaseGUI extends JPanel {
 
 	public abstract void setPropertyPanelText(String text);
 
-	public abstract String chooseFileName();
-
 	public abstract void openDialog(String title, JComponent component);
 
 	public abstract void setValueOfZoomDisplay(int i);

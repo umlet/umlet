@@ -49,7 +49,7 @@ import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
-import com.baselet.diagram.io.DiagramFileHandler;
+import com.baselet.diagram.io.OpenFileChooser;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.MailPanel;
 import com.baselet.gui.MenuFactory;
@@ -660,16 +660,6 @@ public class StandaloneGUI extends BaseGUI {
 			// Reset the vertical and horizontal scrollbar position to the upper left corner
 			this.propertyTextPane.setCaretPosition(0);
 		}
-	}
-
-	@Override
-	public String chooseFileName() {
-		String fileName = null;
-		int returnVal = DiagramFileHandler.getOpenFileChooser().showOpenDialog(this);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			fileName = DiagramFileHandler.getOpenFileChooser().getSelectedFile().getAbsolutePath();
-		}
-		return fileName;
 	}
 
 	@Override

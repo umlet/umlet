@@ -33,6 +33,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.diagram.io.DiagramFileHandler;
+import com.baselet.diagram.io.OpenFileChooser;
 import com.baselet.element.GridElement;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.standalone.StandaloneGUI;
@@ -329,9 +330,11 @@ public class Main {
 		if (this.diagrams.size() == 1) this.setPropertyPanelToGridElement(null);
 	}
 
-	public void doOpen() {
-		String fn = DiagramFileHandler.chooseFileName();
-		if (fn != null) this.doOpen(fn);
+	public void doOpenFromFileChooser() {
+		List<String> files = OpenFileChooser.getFilesToOpen();
+		for (String file : files) {
+			this.doOpen(file);
+		}
 	}
 
 	public void doOpen(final String filename) {
