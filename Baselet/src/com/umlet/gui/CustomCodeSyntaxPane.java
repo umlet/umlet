@@ -1,7 +1,5 @@
 package com.umlet.gui;
 
-import java.awt.Font;
-
 import javax.swing.JPanel;
 import javax.swing.JToolTip;
 

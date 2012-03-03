@@ -6,8 +6,6 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.util.Hashtable;
 
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.text.JTextComponent;
 
@@ -19,8 +17,6 @@ import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
-import com.baselet.diagram.io.DiagramFileHandler;
-import com.baselet.diagram.io.OpenFileChooser;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.plugin.editor.Contributor;

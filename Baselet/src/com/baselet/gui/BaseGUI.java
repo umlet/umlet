@@ -6,7 +6,6 @@ import java.awt.Component;
 import java.awt.Font;
 
 import javax.swing.BoxLayout;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;

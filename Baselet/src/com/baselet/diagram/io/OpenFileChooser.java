@@ -1,16 +1,13 @@
 package com.baselet.diagram.io;
 
-import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 import com.baselet.control.Constants.Program;
-import com.baselet.control.Main;
 
 public class OpenFileChooser {
 
