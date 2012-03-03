@@ -51,6 +51,14 @@ public class OwnSyntaxPane extends JEditorPane {
 		return this.panel;
 	}
 
+	@Override
+	public void setText(String text) {
+		if (!getText().equals(text)) {
+			super.setText(text);
+			setCaretPosition(0);
+		}
+	}
+
 	public void initJSyntaxPane() {
 		DefaultSyntaxKit.initKit();
 		Configuration conf = DefaultSyntaxKit.getConfig(DefaultSyntaxKit.class);

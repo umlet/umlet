@@ -40,7 +40,7 @@ public class PropertyPanelListener implements KeyListener, FocusListener {
 
 	protected void updateGridElement() {
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
-		String s = Main.getInstance().getPropertyString();
+		String s = Main.getInstance().getGUI().getPropertyPane().getText();
 		DiagramHandler handler = Main.getInstance().getDiagramHandler();
 
 		if (gridElement != null) {

@@ -113,15 +113,11 @@ public class Selector {
 
 	private void updateGUIInformation() {
 		Main.getInstance().getGUI().elementsSelected(selectedEntities.size());
-		if ((selectedEntities.size() == 1) && (selectedEntities.get(0) instanceof Group)) {
-			Main.getInstance().getGUI().setUngroupEnabled(true);
-		}
-		else {
-			Main.getInstance().getGUI().setUngroupEnabled(false);
-		}
+		boolean ungroupEnabled = (selectedEntities.size() == 1) && (selectedEntities.get(0) instanceof Group);
+		Main.getInstance().getGUI().setUngroupEnabled(ungroupEnabled);
 
-		if ((selectedEntities.size() == 1) && (selectedEntities.get(0) instanceof CustomElement)) Main.getInstance().getGUI().setCustomElementSelected(true);
-		else Main.getInstance().getGUI().setCustomElementSelected(false);
+		boolean customElementSelected = (selectedEntities.size() == 1) && (selectedEntities.get(0) instanceof CustomElement);
+		Main.getInstance().getGUI().setCustomElementSelected(customElementSelected);
 	}
 
 	// updates the GUI with the current selector information (that includes the propertypanel
