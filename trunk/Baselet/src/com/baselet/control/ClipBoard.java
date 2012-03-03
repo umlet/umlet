@@ -45,7 +45,7 @@ public class ClipBoard implements Transferable {
 		// AB: clipboard zooms entities to 100%
 		// NOTE has to be done here because it doesn't fit with cut/copy and GenPic.getImageFromDiagram otherwise)
 		DiagramHandler.zoomEntities(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, this.entities);
-		Main.getInstance().getGUI().setPaste(true);
+		Main.getInstance().getGUI().enablePasteMenuEntry();
 	}
 
 	public Vector<GridElement> paste() {

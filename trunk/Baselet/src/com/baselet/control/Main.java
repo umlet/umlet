@@ -36,6 +36,7 @@ import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.diagram.io.OpenFileChooser;
 import com.baselet.element.GridElement;
 import com.baselet.gui.BaseGUI;
+import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.standalone.StandaloneGUI;
 
 public class Main {
@@ -199,6 +200,7 @@ public class Main {
 
 		try {
 			if (format != null) handler.getFileHandler().doExportAs(format, new File(outputfilename));
+			printToConsole("Conversion finished");
 		} catch (Exception e) {
 			printUsage();
 		}
@@ -281,11 +283,12 @@ public class Main {
 
 	private void setPropertyPanelToGridElementHelper(GridElement e) {
 		editedGridElement = e;
-		if (e != null) this.gui.setPropertyPanelText(e.getPanelAttributes());
+		OwnSyntaxPane propertyPane = gui.getPropertyPane();
+		if (e != null) propertyPane.setText(e.getPanelAttributes());
 		else {			
 			DiagramHandler handler = this.getDiagramHandler();
-			if (handler == null) this.gui.setPropertyPanelText("");
-			else this.gui.setPropertyPanelText(handler.getHelpText());
+			if (handler == null) propertyPane.setText("");
+			else propertyPane.setText(handler.getHelpText());
 		}
 	}
 
@@ -371,17 +374,6 @@ public class Main {
 		return false;
 	}
 
-	// ask for save for all diagrams (if main is closed)
-	public boolean askSaveIfDirty() {
-		boolean ok = true;
-		for (DiagramHandler d : this.getDiagrams()) {
-			if (!d.askSaveIfDirty()) ok = false;
-		}
-
-		if (!this.getGUI().getCurrentCustomHandler().closeEntity()) ok = false;
-		return ok;
-	}
-
 	// called by UI when main is closed
 	public void closeProgram() {
 		Config.saveConfig();
@@ -447,10 +439,6 @@ public class Main {
 
 	public GridElement getEditedGridElement() {
 		return editedGridElement;
-	}
-
-	public String getPropertyString() {
-		return this.gui.getPropertyPanelText();
 	}
 
 	public PaletteHandler getPalette() {

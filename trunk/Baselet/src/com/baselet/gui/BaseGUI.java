@@ -184,7 +184,7 @@ public abstract class BaseGUI extends JPanel {
 
 	public abstract DrawPanel getCurrentDiagram();
 
-	public abstract void setPaste(boolean value);
+	public abstract void enablePasteMenuEntry();
 
 	public abstract void setUngroupEnabled(boolean enabled);
 
@@ -203,12 +203,6 @@ public abstract class BaseGUI extends JPanel {
 	public abstract JFrame getTopContainer();
 
 	public abstract OwnSyntaxPane getPropertyPane();
-
-	public abstract String getPropertyPanelText();
-
-	public abstract void setPropertyPanelText(String text);
-
-	public abstract void openDialog(String title, JComponent component);
 
 	public abstract void setValueOfZoomDisplay(int i);
 }

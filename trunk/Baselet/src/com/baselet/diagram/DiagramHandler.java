@@ -210,7 +210,7 @@ public class DiagramHandler {
 	public void setHelpText(String helptext) {
 		this.helptext = helptext;
 		BaseGUI gui = Main.getInstance().getGUI();
-		if (gui != null && !this.helptext.equals(gui.getPropertyPanelText())) gui.setPropertyPanelText(this.helptext);
+		if (gui != null) gui.getPropertyPane().setText(this.helptext);
 	}
 
 	public String getHelpText() {

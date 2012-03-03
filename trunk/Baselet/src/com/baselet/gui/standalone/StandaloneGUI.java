@@ -18,15 +18,11 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -49,7 +45,6 @@ import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
-import com.baselet.diagram.io.OpenFileChooser;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.MailPanel;
 import com.baselet.gui.MenuFactory;
@@ -68,7 +63,7 @@ public class StandaloneGUI extends BaseGUI {
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private MenuFactorySwing menuFactory;
-	private JComboBox zoomComboBox;
+	private JComboBox<String> zoomComboBox;
 	private JFrame window;
 	private JSplitPane customSplit;
 	private JSplitPane rightSplit;
@@ -95,7 +90,7 @@ public class StandaloneGUI extends BaseGUI {
 	private ZoomListener zoomListener;
 	private JPanel rightPanel;
 	private JPanel paletteControlsPanel;
-	private JComboBox paletteList;
+	private JComboBox<String> paletteList;
 
 	protected String selected_palette;
 
@@ -114,18 +109,6 @@ public class StandaloneGUI extends BaseGUI {
 		custom_panel_visible = false;
 		mail_panel_visible = false;
 		selected_palette = "";
-	}
-
-	private void onDiagramOpened() {
-		DrawPanel p = this.getCurrentDiagram();
-		if (p != null) Main.getInstance().setCurrentDiagramHandler(p.getHandler());
-		else Main.getInstance().setCurrentDiagramHandler(null);
-	}
-
-	private void onDiagramClosed() {
-		DrawPanel p = this.getCurrentDiagram();
-		if (p != null) Main.getInstance().setCurrentDiagramHandler(p.getHandler());
-		else Main.getInstance().setCurrentDiagramHandler(null);
 	}
 
 	@Override
@@ -153,11 +136,21 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public void closeWindow() {
 		mailPanel.closePanel(); // We must close the mailpanel to save the input date
-		if (Main.getInstance().askSaveIfDirty()) {
+		if (this.askSaveForAllDirtyDiagrams()) {
 			this.main.closeProgram();
 			this.window.dispose();
 			System.exit(0);
 		}
+	}
+
+	private boolean askSaveForAllDirtyDiagrams() {
+		boolean ok = true;
+		for (DiagramHandler d : Main.getInstance().getDiagrams()) {
+			if (!d.askSaveIfDirty()) ok = false;
+		}
+
+		if (!getCurrentCustomHandler().closeEntity()) ok = false;
+		return ok;
 	}
 
 	@Override
@@ -191,7 +184,7 @@ public class StandaloneGUI extends BaseGUI {
 
 		/***************************************/
 
-		paletteList = new JComboBox();
+		paletteList = new JComboBox<String>();
 		paletteList.setMaximumRowCount(15);
 
 		/*********** CREATE MENU *****************/
@@ -298,7 +291,7 @@ public class StandaloneGUI extends BaseGUI {
 		zoomPanel.setOpaque(false);
 		zoomPanel.setLayout(new BoxLayout(zoomPanel, BoxLayout.X_AXIS));
 		JLabel zoomLabel = new JLabel("Zoom:   ");
-		zoomComboBox = new JComboBox();
+		zoomComboBox = new JComboBox<String>();
 		zoomComboBox.setPreferredSize(new Dimension(80, 24));
 		zoomComboBox.setMinimumSize(zoomComboBox.getPreferredSize());
 		zoomComboBox.setMaximumSize(zoomComboBox.getPreferredSize());
@@ -308,7 +301,7 @@ public class StandaloneGUI extends BaseGUI {
 		zoomComboBox.setToolTipText("Use ± or Ctrl+mouse wheel to zoom");
 
 		String[] zoomValues = Constants.zoomValueList.toArray(new String[Constants.zoomValueList.size()]);
-		zoomComboBox.setModel(new DefaultComboBoxModel(zoomValues));
+		zoomComboBox.setModel(new DefaultComboBoxModel<String>(zoomValues));
 		zoomComboBox.setSelectedIndex(9);
 
 		zoomPanel.add(zoomLabel);
@@ -436,7 +429,9 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public void close(DiagramHandler diagram) {
 		diagramtabs.remove(diagram.getDrawPanel().getScrollPane());
-		this.onDiagramClosed();
+		DrawPanel p = this.getCurrentDiagram();
+		if (p != null) Main.getInstance().setCurrentDiagramHandler(p.getHandler());
+		else Main.getInstance().setCurrentDiagramHandler(null);
 	}
 
 	@Override
@@ -445,7 +440,9 @@ public class StandaloneGUI extends BaseGUI {
 		diagramtabs.setTabComponentAt(diagramtabs.getTabCount() - 1, new TabComponent(diagramtabs, diagram));
 		diagramtabs.setSelectedComponent(diagram.getDrawPanel().getScrollPane());
 		diagram.getDrawPanel().getSelector().updateSelectorInformation();
-		this.onDiagramOpened();
+		DrawPanel p = this.getCurrentDiagram();
+		if (p != null) Main.getInstance().setCurrentDiagramHandler(p.getHandler());
+		else Main.getInstance().setCurrentDiagramHandler(null);
 	}
 
 	@Override
@@ -473,8 +470,8 @@ public class StandaloneGUI extends BaseGUI {
 	}
 
 	@Override
-	public void setPaste(boolean value) {
-		editPaste.setEnabled(value);
+	public void enablePasteMenuEntry() {
+		editPaste.setEnabled(true);
 	}
 
 	@Override
@@ -644,28 +641,6 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public OwnSyntaxPane getPropertyPane() {
 		return this.propertyTextPane;
-	}
-
-	@Override
-	public String getPropertyPanelText() {
-		if (this.propertyTextPane != null) return this.propertyTextPane.getText();
-		else return "";
-	}
-
-	@Override
-	public void setPropertyPanelText(String text) {
-		if (this.propertyTextPane != null) { // needed because of convert function
-			this.propertyTextPane.setText(text);
-
-			// Reset the vertical and horizontal scrollbar position to the upper left corner
-			this.propertyTextPane.setCaretPosition(0);
-		}
-	}
-
-	@Override
-	public void openDialog(String title, JComponent component) {
-		JDialog dialog = (new JOptionPane(component, JOptionPane.PLAIN_MESSAGE)).createDialog(title);
-		dialog.setVisible(true);
 	}
 
 	@Override

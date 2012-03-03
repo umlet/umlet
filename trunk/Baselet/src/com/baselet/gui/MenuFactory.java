@@ -208,7 +208,7 @@ public class MenuFactory {
 					else if (Program.PROGRAM_NAME == ProgramName.PLOTLET) BrowserLauncher.openURL("http://marketplace.eclipse.org/content/plotlet");
 				}
 				else if (menuItem.equals(ABOUT_PROGRAM)) {
-					AboutPanel.getInstance().setVisible();
+					AboutDialog.show();
 				}
 				else if (menuItem.equals(SET_FOREGROUND_COLOR) && (actualHandler != null)) {
 					actualHandler.getController().executeCommand(new ChangeColor((String) param, true));
