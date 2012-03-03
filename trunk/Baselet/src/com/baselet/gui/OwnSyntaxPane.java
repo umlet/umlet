@@ -2,7 +2,6 @@ package com.baselet.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
@@ -13,9 +12,9 @@ import jsyntaxpane.util.Configuration;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.ProgramName;
-import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.plotlet.gui.PlotletSyntaxKit;
 import com.umlet.gui.UmletSyntaxKit;
