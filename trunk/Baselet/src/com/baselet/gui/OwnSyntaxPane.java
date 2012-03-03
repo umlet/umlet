@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.ProgramName;
+import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.plotlet.gui.PlotletSyntaxKit;
 import com.umlet.gui.UmletSyntaxKit;
@@ -79,9 +80,8 @@ public class OwnSyntaxPane extends JEditorPane {
 			DefaultSyntaxKit.registerContentType("text/propertypanel", UmletSyntaxKit.class.getCanonicalName());
 		}	
 
-		Font font = this.getFont();
 		this.setContentType("text/propertypanel");
-		this.setFont(font); //dont let jsyntaxpane overwrite the default font
+		this.setFont(Constants.PANEL_FONT); //Set font to make sure UTF-8 characters work
 		this.validate();
 	}
 }

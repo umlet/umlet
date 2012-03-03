@@ -255,6 +255,9 @@ public abstract class Constants {
 			lookAndFeels.remove("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
 		}
 	}
+
+	// Default panel font is MONOSPACED to make sure that bold text has the same width as non-bold text (eg: for syntax highlighting)
+	public static Font PANEL_FONT = new Font(Font.MONOSPACED, Font.PLAIN, 11);
 	
 	/**** VALUES LOADED FROM CONFIG ****/
 	public static int defaultFontsize = (Program.PROGRAM_NAME == ProgramName.UMLET ? 14 : 10);
@@ -294,7 +297,7 @@ public abstract class Constants {
 	public static String mail_bcc = "";
 	public static boolean mail_xml = true;
 	public static boolean mail_gif = true;
-	public static boolean mail_pdf = false;
+	public static boolean mail_pdf = false;;
 
 	/**** ERROR MESSAGES ****/
 
