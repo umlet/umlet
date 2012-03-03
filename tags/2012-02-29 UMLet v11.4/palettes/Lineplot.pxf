@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="plotlet" version="0.81">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.plotlet.element.PlotGrid</type>
+    <coordinates>
+      <x>10</x>
+      <y>0</y>
+      <w>660</w>
+      <h>460</h>
+    </coordinates>
+    <panel_attributes>data
+	a	b	c
+x	-16	5.5	18.3
+y	3	5	1
+z	5	9	-3
+
+data
+a	b	c
+30	50	120
+20	10	30
+
+grid.width=2
+type=line
+
+plot data=#1
+plot data=#1 data.invert=true
+
+plot tilt=true
+
+plot colors=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.plotlet.element.PlotGrid</type>
+    <coordinates>
+      <x>10</x>
+      <y>470</y>
+      <w>660</w>
+      <h>460</h>
+    </coordinates>
+    <panel_attributes>data
+a	b	c
+-16	5.5	18.3
+
+data
+a	b	c
+30	50	120
+
+grid.width=2
+type=line
+value.min=-16
+value.max=120
+
+plot
+
+plot tilt=true
+
+plot colors=blue
+
+plot data=#1 tilt=true</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<style type="text/css">
+			body {
+				background-color: white;
+				text-align: center;
+				font-family: sans-serif, arial;
+				font-size: 14;
+				font-weight: normal;
+			}
+			p {
+				padding-bottom: 5px;
+			}
+			.bold {
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<p><a href="@project.website.home@">@project.name.uc@</a> @release.version@ -- check for <a href="@project.website.home@/changes.htm">new versions</a> -- read the <a href="@project.website.home@/faq.htm">FAQ</a></p>
+		<p>Double-click on a element to add it to the diagram (or use drag&drop)</p>
+		<p>Lasso with Ctrl+Mouse -- zoom with Ctrl+MouseWheel</p>
+		<br/>
+		<p>Advanced: "Custom Elements > New..." lets you create entirely new element types</p>
+		<br/>
+		<p>If you like @project.name.uc@, please "star" it at <a href="@project.website.marketplace@">Eclipse Marketplace</a>.  Thanks!</p>
+	</body>
+</html>
