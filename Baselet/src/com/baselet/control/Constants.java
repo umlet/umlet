@@ -198,6 +198,7 @@ public abstract class Constants {
 	}
 
 	/**** OTHER CONSTANTS ****/
+
 	public static final String CUSTOM_ELEMENT_CLASSNAME = "CustomElementImpl";
 	public static final int DEFAULTGRIDSIZE = 10;
 	public static final int INTERFACE_LINE_LENGTH = 40;
@@ -255,6 +256,9 @@ public abstract class Constants {
 			lookAndFeels.remove("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
 		}
 	}
+	
+	public static final int RECENT_FILES_LIST_LENGTH = 10;
+	public static final RecentlyUsedFilesList recentlyUsedFilesList = new RecentlyUsedFilesList();
 
 	// Default panel font is MONOSPACED to make sure that bold text has the same width as non-bold text (eg: for syntax highlighting)
 	public static Font PANEL_FONT = new Font(Font.MONOSPACED, Font.PLAIN, 11);

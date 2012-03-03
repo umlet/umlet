@@ -38,7 +38,7 @@ public class MenuFactorySwing extends MenuFactory {
 			@Override public void menuCanceled(MenuEvent e) {}
 			@Override public void menuSelected(MenuEvent e) {
 				recentFiles.removeAll();
-				for (final String file : Main.getInstance().getRecentFiles()) {
+				for (String file : Constants.recentlyUsedFilesList) {
 					recentFiles.add(createJMenuItem(false, file, RECENT_FILES, file));
 				}
 			}

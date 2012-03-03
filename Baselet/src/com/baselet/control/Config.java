@@ -105,7 +105,7 @@ public class Config {
 							Constants.program_location = new Point(x, y);
 						}
 						else if (line.startsWith(RECENT_FILES)) {
-							Main.getInstance().getRecentFiles().addAll(Arrays.asList(line.substring(RECENT_FILES.length()).split("\\|")));
+							Constants.recentlyUsedFilesList.addAll(Arrays.asList(line.substring(RECENT_FILES.length()).split("\\|")));
 						}
 
 						/** MAIL **/
@@ -189,9 +189,9 @@ public class Config {
 						writer.write(PROGRAM_LOCATION + gui.getTopContainer().getLocation().x + "," + gui.getTopContainer().getLocation().y + "\n");
 					}
 				}
-				if (!Main.getInstance().getRecentFiles().isEmpty()) {
-					String recentFileString =RECENT_FILES;
-					for (String recentFile : Main.getInstance().getRecentFiles()) {
+				if (!Constants.recentlyUsedFilesList.isEmpty()) {
+					String recentFileString = RECENT_FILES;
+					for (String recentFile : Constants.recentlyUsedFilesList) {
 						recentFileString += recentFile + "|";
 					}
 					writer.write(recentFileString.substring(0,recentFileString.length()-1) + "\n");
