@@ -47,30 +47,10 @@ public class DiagramFileHandler {
 
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
-	private static JFileChooser openFileChooser;
 	private static JFileChooser saveFileChooser;
 
 	public static DiagramFileHandler createInstance(DiagramHandler diagramHandler, File file) {
 		return new DiagramFileHandler(diagramHandler, file);
-	}
-
-	public static JFileChooser getOpenFileChooser() {
-		if (openFileChooser == null) {
-			openFileChooser = new JFileChooser(System.getProperty("user.dir"));
-			openFileChooser.setFileFilter(new FileFilter() {
-				@Override
-				public boolean accept(File f) {
-					return (f.getName().endsWith("." + Program.EXTENSION) || f.isDirectory());
-				}
-
-				@Override
-				public String getDescription() {
-					return Program.PROGRAM_NAME + " diagram format (*." + Program.EXTENSION + ")";
-				}
-			});
-			openFileChooser.setAcceptAllFileFilterUsed(false);
-		}
-		return openFileChooser;
 	}
 
 	private JFileChooser reloadSaveFileChooser() {
@@ -82,10 +62,6 @@ public class DiagramFileHandler {
 		// The input field should show the diagram name as preset
 		saveFileChooser.setSelectedFile(new File(Main.getInstance().getDiagramHandler().getName()));
 		return saveFileChooser;
-	}
-
-	public static String chooseFileName() {
-		return Main.getInstance().getGUI().chooseFileName();
 	}
 
 	private String fileName;

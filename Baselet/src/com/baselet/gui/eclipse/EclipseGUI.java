@@ -20,6 +20,7 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.io.DiagramFileHandler;
+import com.baselet.diagram.io.OpenFileChooser;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.plugin.editor.Contributor;
@@ -272,18 +273,6 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public void requestFocus() {
 		if (this.editor != null) this.editor.requestFocus();
-	}
-
-	@Override
-	public String chooseFileName() {
-		String fileName = null;
-		if (this.editor != null) {
-			int returnVal = DiagramFileHandler.getOpenFileChooser().showOpenDialog(this.editor.getPanel());
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				fileName = DiagramFileHandler.getOpenFileChooser().getSelectedFile().getAbsolutePath();
-			}
-		}
-		return fileName;
 	}
 
 	@Override
