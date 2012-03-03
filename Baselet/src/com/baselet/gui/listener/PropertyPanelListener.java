@@ -5,6 +5,8 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.SwingUtilities;
+
 import com.baselet.control.Main;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
@@ -15,20 +17,16 @@ import com.baselet.element.GridElement;
 
 public class PropertyPanelListener implements KeyListener, FocusListener {
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		/**
-		 * Esc: Leaves the Property Panel
-		 */
-		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+	@Override public void keyTyped(KeyEvent e) {
+		if (e.getKeyChar() == '\u001b') { // ESC Key: Leaves the Property Panel
 			Main.getInstance().getGUI().requestFocus();
-		} else if (!e.isActionKey() && !isUndoRedo(e)) {
-			updateGridElement();
+		} else if (!e.isActionKey()) {
+			final Runnable beeper = new Runnable() {
+				@Override
+				public void run() {updateGridElement();}
+			};
+			SwingUtilities.invokeLater(beeper);
 		}
-	}
-	
-	private boolean isUndoRedo(KeyEvent e) {
-		return (e.isControlDown() && (e.getKeyCode() == KeyEvent.VK_Z || e.getKeyCode() == KeyEvent.VK_Y));
 	}
 
 	@Override
@@ -36,28 +34,26 @@ public class PropertyPanelListener implements KeyListener, FocusListener {
 		updateGridElement(); // Workaround which is needed to make selection of a autocompletion element via mouse work
 	}
 
+	@Override public void keyReleased(KeyEvent e) {}
 	@Override public void focusLost(FocusEvent e) {}
-	@Override public void keyTyped(KeyEvent ke) {}
 	@Override public void keyPressed(KeyEvent e) {}
-	
+
 	protected void updateGridElement() {
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
 		String s = Main.getInstance().getPropertyString();
 		DiagramHandler handler = Main.getInstance().getDiagramHandler();
-	
+
 		if (gridElement != null) {
 			//only create command if changes were made
 			if (!s.equals(gridElement.getPanelAttributes())) {
 				int newCaretPos = Main.getInstance().getGUI().getPropertyPane().getCaretPosition();
 				int oldCaretPos = newCaretPos - (s.length()-gridElement.getPanelAttributes().length());		
-				
+
 				if (gridElement.getHandler() instanceof CustomPreviewHandler) {
 					gridElement.getHandler().getController().executeCommand(new CustomCodePropertyChanged(gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
 				} else {
 					gridElement.getHandler().getController().executeCommand(new ChangeState(gridElement, gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
 				}
-				
-				
 			}
 		}
 		else if (handler != null && !s.equals(handler.getHelpText())) { // help panel has been edited
