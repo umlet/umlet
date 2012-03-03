@@ -32,7 +32,6 @@ import com.baselet.control.Constants.RuntimeType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
-import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.diagram.io.OpenFileChooser;
 import com.baselet.element.GridElement;
 import com.baselet.gui.BaseGUI;
@@ -57,8 +56,6 @@ public class Main {
 	private DiagramHandler currentDiagramHandler;
 	private DiagramHandler currentInfoDiagramHandler;
 	private ClassLoader classLoader;
-
-	private List<String> recentFiles = new ArrayList<String>();
 
 	public static Main getInstance() {
 		if (instance == null) {
@@ -357,10 +354,7 @@ public class Main {
 		this.diagrams.add(diagram);
 		this.gui.open(diagram);
 		if (this.diagrams.size() == 1) this.setPropertyPanelToGridElement(null);
-		if (recentFiles.contains(filename)) recentFiles.remove(filename);
-		recentFiles.add(0, filename);
-		int maxRecentFiles = 10;
-		if (recentFiles.size() > maxRecentFiles) recentFiles.remove(maxRecentFiles);
+		Constants.recentlyUsedFilesList.add(filename);
 	}
 
 	/**
@@ -454,10 +448,6 @@ public class Main {
 	// returns the current diagramhandler the user works with - may be a diagramhandler of a palette too
 	public DiagramHandler getDiagramHandler() {
 		return this.currentDiagramHandler;
-	}
-
-	public List<String> getRecentFiles() {
-		return recentFiles;
 	}
 
 }

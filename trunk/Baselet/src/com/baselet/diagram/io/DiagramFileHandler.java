@@ -268,7 +268,7 @@ public class DiagramFileHandler {
 		if (extension.equals(Program.EXTENSION)) {
 			this.file = fileToSave;
 			this.setFileName(this.file.getName());
-			save(true);
+			save();
 		}
 		else doExportAs(extension, fileToSave);
 	}
@@ -277,7 +277,7 @@ public class DiagramFileHandler {
 		File tempFile = new File(Path.temp() + filename + "." + fileextension);
 		tempFile.deleteOnExit();
 
-		if (fileextension.equals(Program.EXTENSION)) save(tempFile, false);
+		if (fileextension.equals(Program.EXTENSION)) save(tempFile, true);
 		else doExportAs(fileextension, tempFile);
 
 		return tempFile;
@@ -285,7 +285,7 @@ public class DiagramFileHandler {
 
 	public void doSave() throws IOException {
 		if ((file == null) || !file.exists()) doSaveAs(Program.EXTENSION);
-		else save(true);
+		else save();
 	}
 
 	public void doExportAs(String extension, File file) throws IOException {
@@ -298,16 +298,19 @@ public class DiagramFileHandler {
 		// CustomElementSecurityManager.remThreadPrivileges(Thread.currentThread());
 	}
 
-	private void save(boolean removeHandlerChanged) throws UnsupportedEncodingException, FileNotFoundException {
-		save(file, removeHandlerChanged); // If save is called without a parameter it uses the class variable "file"
+	private void save() throws UnsupportedEncodingException, FileNotFoundException {
+		save(file, false); // If save is called without a parameter it uses the class variable "file"
 	}
 
-	private void save(File saveToFile, boolean removeHandlerChanged) throws UnsupportedEncodingException, FileNotFoundException {
+	private void save(File saveToFile, boolean tempFile) throws UnsupportedEncodingException, FileNotFoundException {
 		String tmp = this.createStringToBeSaved();
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(saveToFile), "UTF-8"));
 		out.print(tmp);
 		out.close();
-		if (removeHandlerChanged) handler.setChanged(false);
+		if (!tempFile) {
+			handler.setChanged(false);
+			Constants.recentlyUsedFilesList.add(saveToFile.getAbsolutePath());
+		}
 	}
 
 	private String chooseFileName(boolean ownXmlFormat, FileFilter filefilter) {
