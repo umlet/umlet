@@ -1,12 +1,15 @@
 package com.baselet.diagram.io;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.baselet.control.Main;
+import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.command.HelpPanelChanged;
@@ -14,12 +17,17 @@ import com.baselet.element.ErrorOccurred;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.umlet.custom.CustomElementCompiler;
+import com.umlet.element.experimental.ElementInitializer;
+import com.umlet.element.experimental.NewGridElement;
 
 /**
  * Describes what should happen with parsed elements from the input file
  * eg: set DiagramHandler variables, create GridElements etc.
  */
 public class InputHandler extends DefaultHandler {
+	
+	protected final static Logger log = Logger.getLogger(Utils.getClassName());
+	
 	private DrawPanel _p = null;
 	private GridElement e = null;
 	private String elementtext;
@@ -38,6 +46,8 @@ public class InputHandler extends DefaultHandler {
 
 	// to be backward compatible - add list of old elements that were removed so that they are ignored when loading old files
 	private List<String> ignoreElements;
+
+	private String id; // Experimental elements have an id instead of an entityname
 
 	public InputHandler(DiagramHandler handler) {
 		this.handler = handler;
@@ -82,7 +92,16 @@ public class InputHandler extends DefaultHandler {
 			}
 		}
 		else if (elementname.equals("element")) {
-			if (!this.ignoreElements.contains(this.entityname)) { // load classes
+			if (this.id != null) {
+				try {
+					NewGridElement e = ElementInitializer.getInstance().getGridElementFromId(this.id);
+					e.init(new Rectangle(x, y, w, h), this.panel_attributes, this.additional_attributes, this.handler);
+					_p.add(e.getComponent());
+				} catch (Exception e) {
+					log.error("Cannot instantiate element with id: " + this.id, e);
+				}
+			}
+			else if (!this.ignoreElements.contains(this.entityname)) { // load classes
 				try {
 					if (this.code == null) e =  Main.getInstance().getGridElementFromPath(this.entityname);
 					else e = CustomElementCompiler.getInstance().genEntity(this.code);
@@ -100,6 +119,9 @@ public class InputHandler extends DefaultHandler {
 		}
 		else if (elementname.equals("type")) {
 			this.entityname = elementtext;
+		}
+		else if (elementname.equals("id")) { // new elements have an id
+			this.id = elementtext;
 		}
 		else if (elementname.equals("x")) {
 			Integer i = new Integer(elementtext);
