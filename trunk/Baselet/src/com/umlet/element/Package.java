@@ -9,12 +9,12 @@ import java.util.Vector;
 
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")
-public class Package extends GridElement {
+public class Package extends OldGridElement {
 
 	Area lastKnown = new Area();
 

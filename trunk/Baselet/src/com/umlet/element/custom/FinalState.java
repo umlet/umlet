@@ -3,14 +3,14 @@ package com.umlet.element.custom;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 
 
 /**
  * @author Ludwig
  */
 @SuppressWarnings("serial")
-public class FinalState extends GridElement {
+public class FinalState extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 

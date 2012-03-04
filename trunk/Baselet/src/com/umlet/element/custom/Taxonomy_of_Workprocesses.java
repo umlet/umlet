@@ -11,11 +11,12 @@ import java.util.Vector;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
+import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")
-public class Taxonomy_of_Workprocesses extends com.baselet.element.GridElement {
+public class Taxonomy_of_Workprocesses extends OldGridElement {
 
 	@Override
 	public void paintEntity(Graphics g) {

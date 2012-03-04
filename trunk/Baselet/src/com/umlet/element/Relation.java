@@ -19,6 +19,7 @@ import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.relation.Arrow;
 import com.umlet.element.relation.EmptyShape;
@@ -30,7 +31,7 @@ import com.umlet.element.relation.Role;
 
 
 @SuppressWarnings("serial")
-public class Relation extends GridElement {
+public class Relation extends OldGridElement {
 
 	String beginQualifier;
 	String endQualifier;

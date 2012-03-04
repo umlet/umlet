@@ -156,7 +156,7 @@ public class DrawPanel extends JPanel implements Printable {
 			int y = entity.getY();
 			g2d.translate(x, y);
 			if (entityWasSelected) entity.onDeselected(); // If entity was selected deselect it before painting
-			entity.paint(g2d);
+			entity.getComponent().paint(g2d);
 			if (entityWasSelected) entity.onSelected(); // and select it afterwards.
 			g2d.translate(-x, -y);
 		}
@@ -518,5 +518,13 @@ public class DrawPanel extends JPanel implements Printable {
 	public void zoomOrigin(int oldGridSize, int newGridSize) {
 		log.debug("Zoom origin to: " + origin);
 		origin.setLocation((origin.x * newGridSize) / oldGridSize, (origin.y * newGridSize) / oldGridSize);
+	}
+
+	public void removeElement(GridElement gridElement) {
+		remove(gridElement.getComponent());
+	}
+
+	public void addElement(GridElement gridElement) {
+		add(gridElement.getComponent());
 	}
 }

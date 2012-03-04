@@ -6,12 +6,12 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
 
-import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")
-public class Decision extends GridElement {
+public class Decision extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;

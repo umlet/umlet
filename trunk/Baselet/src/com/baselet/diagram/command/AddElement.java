@@ -55,7 +55,7 @@ public class AddElement extends Command {
 
 	private void addentity(GridElement e, DrawPanel panel, int x, int y) {
 		e.setHandler(panel.getHandler());
-		panel.add(e);
+		panel.addElement(e);
 		if (e instanceof Group) {
 			Group g = (Group) e;
 			for (GridElement ent : g.getMembers())
@@ -100,7 +100,7 @@ public class AddElement extends Command {
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
 		if (_zoom) DiagramHandler.zoomEntity(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, _entity);
-		handler.getDrawPanel().remove(_entity);
+		handler.getDrawPanel().removeElement(_entity);
 		(new RemoveElement(_entity, false)).execute(handler); // zoom must be false otherwise groups don't work correctly
 		handler.getDrawPanel().repaint();
 		handler.getDrawPanel().updatePanelAndScrollbars();

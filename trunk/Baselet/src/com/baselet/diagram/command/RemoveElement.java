@@ -56,7 +56,7 @@ public class RemoveElement extends Command {
 
 		DrawPanel p = handler.getDrawPanel();
 		for (GridElement e : this._entities)
-			handler.getDrawPanel().remove(e);
+			handler.getDrawPanel().removeElement(e);
 
 		origin = handler.getDrawPanel().getOriginAtDefaultZoom();
 		if (_zoom) DiagramHandler.zoomEntities(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, _entities);

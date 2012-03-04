@@ -11,12 +11,12 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.diagram.command.Resize;
-import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")
-public class SynchBarHorizontal extends GridElement {
+public class SynchBarHorizontal extends OldGridElement {
 	private static int textWidth = 0;
 
 	@Override

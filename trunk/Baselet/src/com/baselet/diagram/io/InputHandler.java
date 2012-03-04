@@ -87,7 +87,7 @@ public class InputHandler extends DefaultHandler {
 		else if (elementname.equals("group")) {
 			if (this.currentGroup != null) {
 				this.currentGroup.adjustSize(false);
-				_p.add(this.currentGroup);
+				_p.addElement(this.currentGroup);
 				this.currentGroup = this.currentGroup.getGroup();
 			}
 		}
@@ -114,7 +114,7 @@ public class InputHandler extends DefaultHandler {
 				e.setHandler(this.handler);
 
 				if (this.currentGroup != null) this.currentGroup.addMember(e);
-				_p.add(e);
+				_p.addElement(e);
 			}
 		}
 		else if (elementname.equals("type")) {

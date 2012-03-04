@@ -50,8 +50,6 @@ public abstract class NewGridElement {
 		this.panel_attributes = panel_attributes;
 		this.additional_attributes = additional_attributes;
 		this.handler = handler;
-		
-		
 	}
 
 	public Component getComponent() {

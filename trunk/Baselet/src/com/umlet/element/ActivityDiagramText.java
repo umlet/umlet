@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
+import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.activity.AEnd;
 import com.umlet.element.activity.Activity;
@@ -36,7 +37,7 @@ import com.umlet.element.activity.Sync;
 
 
 @SuppressWarnings("serial")
-public class ActivityDiagramText extends com.baselet.element.GridElement {
+public class ActivityDiagramText extends OldGridElement {
 
 	private ArrayList<Row> rows;
 	private ArrayList<Container> containers;

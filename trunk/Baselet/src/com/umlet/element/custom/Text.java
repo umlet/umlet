@@ -6,10 +6,11 @@ import java.util.Vector;
 
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
+import com.baselet.element.OldGridElement;
 
 
 @SuppressWarnings("serial")
-public class Text extends com.baselet.element.GridElement {
+public class Text extends OldGridElement {
 
 	@Override
 	public void paintEntity(Graphics g) {

@@ -16,7 +16,7 @@ import com.baselet.diagram.command.AddElement;
 
 
 @SuppressWarnings("serial")
-public class Group extends GridElement {
+public class Group extends OldGridElement {
 	private Vector<GridElement> entities;
 
 	// after adding all elements to a group the function adjustSize has to be called!
@@ -48,7 +48,7 @@ public class Group extends GridElement {
 			e.addMouseMotionListener(this.getHandler().getEntityListener(e));
 		}
 
-		this.getHandler().getDrawPanel().remove(this);
+		this.getHandler().getDrawPanel().removeElement(this);
 		this.getHandler().getDrawPanel().repaint();
 	}
 
@@ -156,10 +156,5 @@ public class Group extends GridElement {
 		super.changeLocation(diffx, diffy);
 		for (GridElement e : this.entities)
 			e.changeLocation(diffx, diffy);
-	}
-
-	@Override
-	public int getPossibleResizeDirections() { // LME: deny resizing of groups
-		return 0;
 	}
 }

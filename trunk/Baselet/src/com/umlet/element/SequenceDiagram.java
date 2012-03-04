@@ -22,6 +22,7 @@ import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler;
+import com.baselet.element.OldGridElement;
 
 
 // An interaction represents a synchronous/asynchronous message
@@ -138,7 +139,7 @@ class InteractionManagement {
 }
 
 @SuppressWarnings("serial")
-public class SequenceDiagram extends com.baselet.element.GridElement {
+public class SequenceDiagram extends OldGridElement {
 
 	public int controlFlowBoxWidth = 20;
 

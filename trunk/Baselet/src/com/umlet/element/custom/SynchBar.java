@@ -8,11 +8,11 @@ import java.util.Vector;
 
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 
 
 @SuppressWarnings("serial")
-public class SynchBar extends GridElement {
+public class SynchBar extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 

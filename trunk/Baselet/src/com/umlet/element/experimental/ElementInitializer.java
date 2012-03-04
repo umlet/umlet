@@ -20,10 +20,11 @@ public class ElementInitializer {
 
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 	
-	private ClassLoader classLoader;
 	private List<Class<?>> classList;
 	
 	private static ElementInitializer instance;
+	
+	private static String pathToClasses = "com" + File.separator + "umlet" + File.separator + "element" + File.separator + "experimental";
 
 	public static ElementInitializer getInstance() {
 		if (instance == null) {
@@ -32,8 +33,6 @@ public class ElementInitializer {
 		return instance;
 	}
 	
-	
-
 	public NewGridElement getGridElementFromId(String id) throws Exception {
 		for (Class<?> classEntry: classList) {
 			if (classEntry.getAnnotation(Id.class).value().equals(id)) {
@@ -45,7 +44,6 @@ public class ElementInitializer {
 
 	public ElementInitializer() {
 		super();
-		classLoader = Thread.currentThread().getContextClassLoader(); // use classloader of current thread (not systemclassloader - important for eclipse)
 		try {
 			classList = buildClassList();
 		} catch (Exception e) {
@@ -55,26 +53,36 @@ public class ElementInitializer {
 
 
 
-	public List<Class<?>> buildClassList() throws IOException, ClassNotFoundException, URISyntaxException {
-		String[] possiblePackages = new String[] {"com" + File.separator + "umlet" + File.separator + "element" + File.separator + "experimental"};
-	    List<Class<?>> classes = new ArrayList<Class<?>>();
-		for (String possPackage : possiblePackages) {
-			Enumeration<URL> classUrlList = classLoader.getResources(possPackage);
-			while (classUrlList.hasMoreElements()) {
-				URL resource = classUrlList.nextElement();
-				Path path = Paths.get(resource.toURI());
-			      DirectoryStream<Path> txtFiles = Files.newDirectoryStream(path, "*.class"); 
-			        for (Path textFile : txtFiles) {
-			        	String className = textFile.toString();
-			        	String relativeClassName = className.substring(className.indexOf(possPackage));
-			        	String correctedClassName = relativeClassName.substring(0, relativeClassName.length() - ".class".length());
-			        	Class<?> classObj = Class.forName(correctedClassName.replace(File.separator, "."));
-						Id idAnnotation = classObj.getAnnotation(Id.class);
-						if (idAnnotation != null) classes.add(classObj);
-			        }
+	public List<Class<?>> buildClassList() throws IOException, ClassNotFoundException {
+		List<Class<?>> classes = new ArrayList<Class<?>>();
+			List<String> classStringList = getNewGridElementList();
+			for (String classString : classStringList) {
+				String className = classString.toString();
+				String relativeClassName = className.substring(className.indexOf(pathToClasses));
+				String correctedClassName = relativeClassName.substring(0, relativeClassName.length() - ".class".length());
+				Class<?> classObj = Class.forName(correctedClassName.replace(File.separator, "."));
+				Id idAnnotation = classObj.getAnnotation(Id.class);
+				if (idAnnotation != null) classes.add(classObj);
+			}
+		return classes;
+	}
+	
+	private List<String> getNewGridElementList() throws IOException {
+		List<String> fileList = new ArrayList<>();
+		String homePath = com.baselet.control.Path.homeProgram();
+		addAll(fileList, Paths.get(homePath));
+		return fileList;
+	}
+
+	private void addAll(List<String> fileList, Path path) throws IOException {
+		DirectoryStream<Path> subPathes = Files.newDirectoryStream(path); 
+		for (Path subPath : subPathes) {
+			if (Files.isDirectory(subPath)) addAll(fileList, subPath);
+			else {
+				String pathAsString = subPath.toString();
+				if (pathAsString.endsWith(".class") && pathAsString.contains(pathToClasses)) fileList.add(subPath.toString());
 			}
 		}
-		return classes;
 	}
 
 }

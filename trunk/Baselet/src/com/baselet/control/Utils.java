@@ -200,6 +200,10 @@ public abstract class Utils {
 		return Thread.currentThread().getStackTrace()[2].getClassName();
 		//		return new RuntimeException().getStackTrace()[1].getClassName(); //ALSO POSSIBLE
 	}
+	
+	public static Class<? extends StackTraceElement> getClassObject() {
+		return Thread.currentThread().getStackTrace()[2].getClass();
+	}
 
 	/**
 	 * eg: createDoubleArrayFromTo(5, 6, 0.1) = [5, 5.1, 5.2, ..., 5.9, 6] <br/>
