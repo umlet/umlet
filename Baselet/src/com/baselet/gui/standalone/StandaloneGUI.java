@@ -63,7 +63,7 @@ public class StandaloneGUI extends BaseGUI {
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private MenuFactorySwing menuFactory;
-	private JComboBox<String> zoomComboBox;
+	private JComboBox zoomComboBox;
 	private JFrame window;
 	private JSplitPane customSplit;
 	private JSplitPane rightSplit;
@@ -90,7 +90,7 @@ public class StandaloneGUI extends BaseGUI {
 	private ZoomListener zoomListener;
 	private JPanel rightPanel;
 	private JPanel paletteControlsPanel;
-	private JComboBox<String> paletteList;
+	private JComboBox paletteList;
 
 	protected String selected_palette;
 
@@ -184,7 +184,7 @@ public class StandaloneGUI extends BaseGUI {
 
 		/***************************************/
 
-		paletteList = new JComboBox<String>();
+		paletteList = new JComboBox();
 		paletteList.setMaximumRowCount(15);
 
 		/*********** CREATE MENU *****************/
@@ -291,7 +291,7 @@ public class StandaloneGUI extends BaseGUI {
 		zoomPanel.setOpaque(false);
 		zoomPanel.setLayout(new BoxLayout(zoomPanel, BoxLayout.X_AXIS));
 		JLabel zoomLabel = new JLabel("Zoom:   ");
-		zoomComboBox = new JComboBox<String>();
+		zoomComboBox = new JComboBox();
 		zoomComboBox.setPreferredSize(new Dimension(80, 24));
 		zoomComboBox.setMinimumSize(zoomComboBox.getPreferredSize());
 		zoomComboBox.setMaximumSize(zoomComboBox.getPreferredSize());
@@ -301,7 +301,7 @@ public class StandaloneGUI extends BaseGUI {
 		zoomComboBox.setToolTipText("Use ± or Ctrl+mouse wheel to zoom");
 
 		String[] zoomValues = Constants.zoomValueList.toArray(new String[Constants.zoomValueList.size()]);
-		zoomComboBox.setModel(new DefaultComboBoxModel<String>(zoomValues));
+		zoomComboBox.setModel(new DefaultComboBoxModel(zoomValues));
 		zoomComboBox.setSelectedIndex(9);
 
 		zoomPanel.add(zoomLabel);

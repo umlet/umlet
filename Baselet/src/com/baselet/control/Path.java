@@ -1,9 +1,18 @@
 package com.baselet.control;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream.GetField;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.jar.Manifest;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.FileLocator;
@@ -11,6 +20,7 @@ import org.eclipse.core.runtime.FileLocator;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.plugin.MainPlugin;
+import com.umlet.element.experimental.Id;
 
 public class Path {
 
@@ -85,7 +95,60 @@ public class Path {
 			path = codeSourceUrl.getPath().replace("%20", " ");
 		}
 
+		if (path.startsWith("/")) path = path.substring(1);
 		return path;
+	}
+
+	public static List<Class<?>> getAllClassesInPackage(String filterString) throws IOException, ClassNotFoundException {
+		List<Class<?>> list = new ArrayList<Class<?>>();
+		String path = Path.executable();
+		if (!Path.executable().endsWith(".jar")) list = getNewGridElementList(path, filterString);
+		else {
+			Enumeration<JarEntry> jarEntries = new JarFile(Path.executable()).entries();
+			while(jarEntries.hasMoreElements()) {
+				JarEntry jarEntry = jarEntries.nextElement();
+				add(list, jarEntry.getName(), filterString);
+			}
+		}
+		return list;
+	}
+
+
+	private static List<Class<?>> getNewGridElementList(String path, String filterString) throws ClassNotFoundException {
+		List<File> fileList = new ArrayList<File>();
+		getFiles(new File(path), fileList);
+		List<Class<?>> returnList = new ArrayList<Class<?>>();
+		for (File file : fileList) {
+			add(returnList, file.getAbsolutePath(), filterString);
+		}
+		return returnList;
+	}
+
+	private static void add(List<Class<?>> fileList, String className, String filterString) throws ClassNotFoundException {
+		if (className.endsWith(".class")) {
+			className = className.toString().replace("/", ".").replace("\\", ".");
+			if (className.contains(filterString)) {
+				className = className.substring(className.indexOf(filterString));
+				className = className.substring(0, className.length() - ".class".length());
+				fileList.add(Class.forName(className));
+			}
+		}
+	}
+
+	private static void getFiles(File folder, List<File> list) {
+		folder.setReadOnly();
+		File[] files = folder.listFiles();
+		for(File file : files) {
+			list.add(file);
+			if(file.isDirectory()) getFiles(file, list);
+		}
+	}
+
+	public static Manifest manifest() throws FileNotFoundException, IOException {
+		Manifest manifest;
+		if (Path.executable().endsWith(".jar")) manifest = new JarFile(Path.executable()).getManifest();
+		else manifest = new Manifest(new FileInputStream(Path.homeProgram() + "META-INF" + File.separator + "MANIFEST.MF"));
+		return manifest;
 	}
 
 }
