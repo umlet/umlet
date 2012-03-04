@@ -4,11 +4,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
-import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 
 
 @SuppressWarnings("serial")
-public class RegionEndState extends GridElement {
+public class RegionEndState extends OldGridElement {
 
 	@Override
 	public void paintEntity(Graphics g) {

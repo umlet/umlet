@@ -23,10 +23,11 @@ import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 
 
 @SuppressWarnings("serial")
-public abstract class CustomElement extends GridElement {
+public abstract class CustomElement extends OldGridElement {
 
 	private class Text {
 		private String text;

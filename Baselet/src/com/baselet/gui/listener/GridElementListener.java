@@ -131,8 +131,8 @@ public class GridElementListener extends UniversalListener {
 
 		selector.setDominantEntity(me);
 
-		JPopupMenu contextMenu = Main.getInstance().getGUI().getContextMenu(me);
-		if (contextMenu != null) contextMenu.show(me, x, y);
+		JPopupMenu contextMenu = Main.getInstance().getGUI().getContextMenu(me.getComponent());
+		if (contextMenu != null) contextMenu.show(me.getComponent(), x, y);
 	}
 
 	@Override

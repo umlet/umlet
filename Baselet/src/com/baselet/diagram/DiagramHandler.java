@@ -285,8 +285,8 @@ public class DiagramHandler {
 			// Entities in groups are not part of the selectedEntities vector. therefore they must be zoomed explicitely
 			if (entity instanceof Group) zoomEntities(fromFactor, toFactor, ((Group) entity).getMembers());
 
-			int newX = (entity.getX() * toFactor) / fromFactor;
-			int newY = (entity.getY() * toFactor) / fromFactor;
+			int newX = (entity.getLocation().x * toFactor) / fromFactor;
+			int newY = (entity.getLocation().y * toFactor) / fromFactor;
 			int newW = (entity.getWidth() * toFactor) / fromFactor;
 			int newH = (entity.getHeight() * toFactor) / fromFactor;
 			entity.setLocation(realignTo(newX, toFactor), realignTo(newY, toFactor));

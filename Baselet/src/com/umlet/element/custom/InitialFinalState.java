@@ -6,11 +6,11 @@ import java.awt.Graphics2D;
 import java.util.Vector;
 
 import com.baselet.control.Utils;
-import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 
 
 @SuppressWarnings("serial")
-public class InitialFinalState extends GridElement {
+public class InitialFinalState extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 

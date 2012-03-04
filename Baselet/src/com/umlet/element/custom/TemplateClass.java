@@ -7,11 +7,11 @@ import java.util.Vector;
 
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 
 
 @SuppressWarnings("serial")
-public class TemplateClass extends GridElement {
+public class TemplateClass extends OldGridElement {
 
 	public TemplateClass() {
 		super();

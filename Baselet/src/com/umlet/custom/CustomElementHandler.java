@@ -152,11 +152,11 @@ public class CustomElementHandler {
 				e.setBounds(entities.get(0).getBounds());
 				e.setPanelAttributes(entities.get(0).getPanelAttributes());
 				if (this.preview.getDrawPanel().getSelector().getSelectedEntities().size() > 0) this.preview.getDrawPanel().getSelector().singleSelectWithoutUpdatePropertyPanel(e);
-				this.preview.getDrawPanel().remove(entities.get(0));
+				this.preview.getDrawPanel().removeElement(entities.get(0));
 			}
 
 			e.setHandler(this.preview);
-			this.preview.getDrawPanel().add(e);
+			this.preview.getDrawPanel().addElement(e);
 			e.repaint();
 		}
 	}
@@ -227,7 +227,7 @@ public class CustomElementHandler {
 			this.addElementToDiagram(element, current, true, bounds, element.getPanelAttributes());
 		}
 		else { // replace edited element (and ONLY edited element)
-			this.originalElement.getHandler().getDrawPanel().remove(this.originalElement);
+			this.originalElement.getHandler().getDrawPanel().removeElement(this.originalElement);
 			this.addElementToDiagram(element, this.originalElement.getHandler(), true,
 					this.originalElement.getBounds(), this.originalElement.getPanelAttributes());
 		}
@@ -245,7 +245,7 @@ public class CustomElementHandler {
 		e2.setHandler(d);
 		e2.setPanelAttributes(state);
 		e2.setBounds(bounds);
-		d.getDrawPanel().add(e2);
+		d.getDrawPanel().addElement(e2);
 		if (setchanged) d.setChanged(true);
 
 		// And zoom back to the oldGridsize after execution

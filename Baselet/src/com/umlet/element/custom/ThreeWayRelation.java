@@ -10,11 +10,12 @@ import java.util.Vector;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
+import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")
-public class ThreeWayRelation extends com.baselet.element.GridElement {
+public class ThreeWayRelation extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;

@@ -10,10 +10,11 @@ import java.util.Vector;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
+import com.baselet.element.OldGridElement;
 
 
 @SuppressWarnings("serial")
-public class EER_Rel_Diamond extends com.baselet.element.GridElement {
+public class EER_Rel_Diamond extends OldGridElement {
 
 	// Change this method if you want to edit the graphical
 	// representation of your custom element.

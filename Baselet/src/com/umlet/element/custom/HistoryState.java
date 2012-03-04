@@ -6,11 +6,11 @@ import java.awt.Graphics2D;
 import java.awt.font.LineMetrics;
 import java.awt.geom.Rectangle2D;
 
-import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 
 
 @SuppressWarnings("serial")
-public class HistoryState extends GridElement {
+public class HistoryState extends OldGridElement {
 
 	@Override
 	public void paintEntity(Graphics g) {

@@ -8,11 +8,11 @@ import java.util.Vector;
 
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 
 
 @SuppressWarnings("serial")
-public class EER_Entity extends GridElement {
+public class EER_Entity extends OldGridElement {
 	int ySave = 0;
 	boolean hasAttributes = false;
 

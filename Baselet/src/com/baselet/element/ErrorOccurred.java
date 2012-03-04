@@ -8,7 +8,7 @@ import java.lang.reflect.Constructor;
 import com.baselet.control.Constants.AlignHorizontal;
 
 @SuppressWarnings("serial")
-public class ErrorOccurred extends GridElement {
+public class ErrorOccurred extends OldGridElement {
 
 	private String errorMessage;
 

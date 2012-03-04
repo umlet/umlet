@@ -5,11 +5,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import com.baselet.control.Constants;
-import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 
 
 @SuppressWarnings("serial")
-public class SeqObjectActive extends GridElement {
+public class SeqObjectActive extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;

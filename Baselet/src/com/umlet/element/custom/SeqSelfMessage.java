@@ -11,12 +11,12 @@ import java.util.Vector;
 
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")
-public class SeqSelfMessage extends GridElement {
+public class SeqSelfMessage extends OldGridElement {
 
 	public SeqSelfMessage() {
 		super();

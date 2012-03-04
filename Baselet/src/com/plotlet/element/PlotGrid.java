@@ -8,7 +8,7 @@ import java.util.List;
 import com.baselet.control.Constants;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.objects.PlotGridDrawConfig;
-import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 import com.baselet.shared.Matrix;
 import com.plotlet.element.plotgrid.AbstractPlot;
 import com.plotlet.element.plotgrid.BarPlot;
@@ -23,7 +23,7 @@ import com.plotlet.parser.PlotState;
 
 
 
-public class PlotGrid extends GridElement {
+public class PlotGrid extends OldGridElement {
 	private Matrix<List<AbstractPlot>> matrix;
 
 	private static final long serialVersionUID = 1L;

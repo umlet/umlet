@@ -12,12 +12,12 @@ import java.util.Vector;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.diagram.command.Resize;
-import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")
-public class TimeSignal extends GridElement {
+public class TimeSignal extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 

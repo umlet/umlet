@@ -4,8 +4,10 @@ package com.umlet.element.custom;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import com.baselet.element.OldGridElement;
+
 @SuppressWarnings("serial")
-public class Socket extends com.baselet.element.GridElement {
+public class Socket extends OldGridElement {
 
 	@Override
 	public void paintEntity(Graphics g) {
