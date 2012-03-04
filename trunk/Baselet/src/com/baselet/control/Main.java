@@ -151,11 +151,7 @@ public class Main {
 
 	private void readManifestInfo() {
 		try {
-			Manifest manifest;
-			if (Path.executable().endsWith(".jar")) manifest = new JarFile(Path.executable()).getManifest();
-			else manifest = new Manifest(new FileInputStream(Path.homeProgram() + "META-INF" + File.separator + "MANIFEST.MF"));
-
-			Attributes attributes = manifest.getMainAttributes();
+			Attributes attributes = Path.manifest().getMainAttributes();
 			String versionString = attributes.getValue("Bundle-Version");
 			String progNameString = attributes.getValue("Bundle-Name");
 			ProgramName programName = progNameString.equals("Umlet") ? ProgramName.UMLET : ProgramName.PLOTLET;

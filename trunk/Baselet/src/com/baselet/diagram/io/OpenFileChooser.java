@@ -34,7 +34,7 @@ public class OpenFileChooser {
 	}
 	
 	public static List<String> getFilesToOpen() {
-		List<String> fileNames = new ArrayList<>();
+		List<String> fileNames = new ArrayList<String>();
 		int returnVal = getInstance().showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			for (File file : getInstance().getSelectedFiles()) {
