@@ -50,7 +50,7 @@ public class Cut extends Command {
 		int offsetY = origin.y - handler.getDrawPanel().getOriginAtDefaultZoom().y;
 
 		for (GridElement e : this.entities) {
-			(new AddElement(e, handler.realignToGrid(true, e.getX() + offsetX), handler.realignToGrid(true, e.getY() + offsetY))).execute(handler);
+			(new AddElement(e, handler.realignToGrid(true, e.getLocation().x + offsetX), handler.realignToGrid(true, e.getLocation().y + offsetY))).execute(handler);
 		}
 		handler.getDrawPanel().repaint();
 

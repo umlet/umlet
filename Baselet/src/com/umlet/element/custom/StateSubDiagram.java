@@ -13,8 +13,8 @@ public class StateSubDiagram extends State {
 
 		float zoom = getHandler().getZoomFactor();
 		Graphics2D g2 = (Graphics2D) g;
-		int w = getWidth();
-		int h = getHeight();
+		int w = getSize().width;
+		int h = getSize().height;
 
 		// draw substate sign
 		g2.drawRoundRect(w - (int) (65 * zoom), h - (int) (16 * zoom), (int) (20 * zoom), (int) (10 * zoom), (int) (8 * zoom), (int) (8 * zoom));

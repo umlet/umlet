@@ -67,7 +67,7 @@ public class InputHandler extends DefaultHandler {
 		}
 		if (qName.equals("group")) {
 			Group g = new Group();
-			g.setHandler(this.handler);
+			g.setHandlerAndInitListeners(this.handler);
 			if (currentGroup != null) currentGroup.addMember(g);
 			currentGroup = g;
 		}
@@ -96,7 +96,7 @@ public class InputHandler extends DefaultHandler {
 				try {
 					NewGridElement e = ElementInitializer.getInstance().getGridElementFromId(this.id);
 					e.init(new Rectangle(x, y, w, h), this.panel_attributes, this.additional_attributes, this.handler);
-					_p.add(e.getComponent());
+					_p.add(e);
 				} catch (Exception e) {
 					log.error("Cannot instantiate element with id: " + this.id, e);
 				}
@@ -111,7 +111,7 @@ public class InputHandler extends DefaultHandler {
 				e.setBounds(x, y, w, h);
 				e.setPanelAttributes(this.panel_attributes);
 				e.setAdditionalAttributes(this.additional_attributes);
-				e.setHandler(this.handler);
+				e.setHandlerAndInitListeners(this.handler);
 
 				if (this.currentGroup != null) this.currentGroup.addMember(e);
 				_p.addElement(e);

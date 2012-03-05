@@ -27,7 +27,7 @@ public class BaseDrawHandler {
 	private Graphics2D g2;
 	private Style style;
 
-	private Color bgColor ;
+	private Color bgColor;
 	private Color fgColor;
 
 	private int width;

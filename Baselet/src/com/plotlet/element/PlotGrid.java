@@ -51,7 +51,7 @@ public class PlotGrid extends OldGridElement {
 			draw.setForegroundColor("red");
 			draw.setBackgroundColor("white");
 			draw.setBackgroundAlpha(Constants.ALPHA_NO_TRANSPARENCY);
-			draw.drawRectangle(0, 0, getWidth()-1, getHeight()-1);
+			draw.drawRectangle(0, 0, getSize().width-1, getSize().height-1);
 			draw.printCenter(e.getMessage(), getRealHeight()/2);
 		}
 	}

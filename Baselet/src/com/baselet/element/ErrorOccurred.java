@@ -27,10 +27,10 @@ public class ErrorOccurred extends OldGridElement {
 		float zoom = getHandler().getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
+		g2.drawRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
 		g2.setColor(Color.red);
 		g2.setFont(this.getHandler().getFontHandler().getFont());
-		this.getHandler().getFontHandler().writeText(g2, errorMessage, this.getWidth() / 2, this.getHeight() / 2 - (int) (10 * zoom), AlignHorizontal.CENTER);
+		this.getHandler().getFontHandler().writeText(g2, errorMessage, this.getSize().width / 2, this.getSize().height / 2 - (int) (10 * zoom), AlignHorizontal.CENTER);
 		g2.setColor(fgColor);
 	}
 
@@ -41,7 +41,7 @@ public class ErrorOccurred extends OldGridElement {
 			GridElement ge = c.newInstance(new Object[]{errorMessage});
 			ge.setPanelAttributes(this.getPanelAttributes()); // copy states
 			ge.setBounds(this.getBounds());
-			ge.setHandler(this.getHandler());
+			ge.setHandlerAndInitListeners(this.getHandler());
 			return ge;
 		} catch (Exception e) {
 			log.error("Error at calling CloneFromMe() on entity", e);

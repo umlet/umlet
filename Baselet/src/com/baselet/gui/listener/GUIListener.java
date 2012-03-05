@@ -76,7 +76,7 @@ public class GUIListener implements KeyListener {
 						GridElement tmpEntity = entitiesToBeMoved.elementAt(i);
 						if (tmpEntity instanceof Relation) continue;
 						StickingPolygon stick = null;
-						if (tmpEntity.isStickingBorderActive()) stick = tmpEntity.generateStickingBorder(tmpEntity.getX(), tmpEntity.getY(), tmpEntity.getWidth(), tmpEntity.getHeight());
+						if (tmpEntity.isStickingBorderActive()) stick = tmpEntity.generateStickingBorder(tmpEntity.getLocation().x, tmpEntity.getLocation().y, tmpEntity.getSize().width, tmpEntity.getSize().height);
 						else tmpEntity.setStickingBorderActive(true);
 						if (stick != null) {
 							Vector<RelationLinePoint> affectedRelationPoints = stick.getStickingRelationLinePoints(handler.getDrawPanel());

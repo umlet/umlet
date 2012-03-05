@@ -22,7 +22,7 @@ public class Signal extends OldGridElement {
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = 0;
-		yPos = this.getHeight() / 2 - (tmp.size() - 1) * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
+		yPos = this.getSize().height / 2 - (tmp.size() - 1) * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 
 		int signalType = 0;
 
@@ -33,36 +33,36 @@ public class Signal extends OldGridElement {
 			else if (s.equals("x")) signalType = 3; // time signal
 			else { // draw string
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, AlignHorizontal.CENTER);
+				this.getHandler().getFontHandler().writeText(g2, s, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 		}
 
 		if (signalType == 1) { // send signal
-			g2.drawLine(0, 0, this.getWidth() - (int) this.getHandler().getFontHandler().getFontSize(), 0);
-			g2.drawLine(this.getWidth() - (int) this.getHandler().getFontHandler().getFontSize(), this.getHeight() - 1, 0, this.getHeight() - 1);
-			g2.drawLine(this.getWidth() - (int) this.getHandler().getFontHandler().getFontSize(), 0, this.getWidth() - 1, this.getHeight() / 2);
-			g2.drawLine(this.getWidth(), this.getHeight() / 2, this.getWidth() - (int) this.getHandler().getFontHandler().getFontSize(), this.getHeight());
-			g2.drawLine(0, this.getHeight() - 1, 0, 0);
+			g2.drawLine(0, 0, this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), 0);
+			g2.drawLine(this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), this.getSize().height - 1, 0, this.getSize().height - 1);
+			g2.drawLine(this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), 0, this.getSize().width - 1, this.getSize().height / 2);
+			g2.drawLine(this.getSize().width, this.getSize().height / 2, this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), this.getSize().height);
+			g2.drawLine(0, this.getSize().height - 1, 0, 0);
 		}
 		else if (signalType == 2) { // accept signal
-			g2.drawLine(0, 0, this.getWidth(), 0);
-			g2.drawLine(this.getWidth() - 1, this.getHeight() - 1, 0, this.getHeight() - 1);
-			g2.drawLine(0, 0, (int) this.getHandler().getFontHandler().getFontSize() - 2, this.getHeight() / 2);
-			g2.drawLine((int) this.getHandler().getFontHandler().getFontSize() - 2, this.getHeight() / 2, 0, this.getHeight());
-			g2.drawLine(this.getWidth() - 1, this.getHeight() - 1, this.getWidth() - 1, 0);
+			g2.drawLine(0, 0, this.getSize().width, 0);
+			g2.drawLine(this.getSize().width - 1, this.getSize().height - 1, 0, this.getSize().height - 1);
+			g2.drawLine(0, 0, (int) this.getHandler().getFontHandler().getFontSize() - 2, this.getSize().height / 2);
+			g2.drawLine((int) this.getHandler().getFontHandler().getFontSize() - 2, this.getSize().height / 2, 0, this.getSize().height);
+			g2.drawLine(this.getSize().width - 1, this.getSize().height - 1, this.getSize().width - 1, 0);
 		}
 		else if (signalType == 3) { // time signal
-			g2.drawLine(0, 0, this.getWidth(), 0);
-			g2.drawLine(this.getWidth() - 1, this.getHeight() - 1, 0, this.getHeight() - 1);
-			g2.drawLine(0, 0, this.getWidth() - 1, this.getHeight() - 1);
-			g2.drawLine(this.getWidth() - 1, 0, 0, this.getHeight() - 1);
+			g2.drawLine(0, 0, this.getSize().width, 0);
+			g2.drawLine(this.getSize().width - 1, this.getSize().height - 1, 0, this.getSize().height - 1);
+			g2.drawLine(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+			g2.drawLine(this.getSize().width - 1, 0, 0, this.getSize().height - 1);
 		}
 		else { // NO signal specified
-			g2.drawLine(0, 0, this.getWidth(), 0);
-			g2.drawLine(this.getWidth() - 1, this.getHeight() - 1, 0, this.getHeight() - 1);
-			g2.drawLine(this.getWidth() - 1, 0, this.getWidth() - 1, this.getHeight() - 1);
-			g2.drawLine(0, this.getHeight() - 1, 0, 0);
+			g2.drawLine(0, 0, this.getSize().width, 0);
+			g2.drawLine(this.getSize().width - 1, this.getSize().height - 1, 0, this.getSize().height - 1);
+			g2.drawLine(this.getSize().width - 1, 0, this.getSize().width - 1, this.getSize().height - 1);
+			g2.drawLine(0, this.getSize().height - 1, 0, 0);
 		}
 
 	}
@@ -70,16 +70,16 @@ public class Signal extends OldGridElement {
 	public int doesCoordinateAppearToBeConnectedToMe(Point p) {
 		int ret = 0;
 
-		int tmpX = p.x - this.getX();
-		int tmpY = p.y - this.getY();
+		int tmpX = p.x - this.getLocation().x;
+		int tmpY = p.y - this.getLocation().y;
 
-		if ((tmpX > -4) && (tmpX < this.getWidth() + 4)) {
+		if ((tmpX > -4) && (tmpX < this.getSize().width + 4)) {
 			if ((tmpY > -4) && (tmpY < 4)) ret += 1;
-			if ((tmpY > this.getHeight() - 4) && (tmpY < this.getHeight() + 4)) ret += 4;
+			if ((tmpY > this.getSize().height - 4) && (tmpY < this.getSize().height + 4)) ret += 4;
 		}
-		if ((tmpY > -4) && (tmpY < this.getHeight() + 4)) {
+		if ((tmpY > -4) && (tmpY < this.getSize().height + 4)) {
 			if ((tmpX > -4) && (tmpX < 12)) ret += 8;
-			if ((tmpX > this.getWidth() - 4) && (tmpX < this.getWidth() + 4)) ret += 2;
+			if ((tmpX > this.getSize().width - 4) && (tmpX < this.getSize().width + 4)) ret += 2;
 		}
 		return ret;
 	}

@@ -27,10 +27,10 @@ public class UseCase extends OldGridElement {
 
 	@Override
 	public void paintEntity(Graphics g) {
-		int a = Math.max(1, (getWidth() - 1) / 2);
-		int b = (getHeight() - 1) / 2;
+		int a = Math.max(1, (getSize().width - 1) / 2);
+		int b = (getSize().height - 1) / 2;
 		boolean found = false;
-		int x = ((getWidth() - 1) / 9 * 4);
+		int x = ((getSize().width - 1) / 9 * 4);
 		int y = (int) Math.round((Math.sqrt(((a * a * b * b) - (b * b * x * x)) / (a * a))));
 		int yPos = 0;
 		int yPos1 = b;
@@ -59,7 +59,7 @@ public class UseCase extends OldGridElement {
 			found = true;
 		}
 		else {
-			yPos = this.getHeight() / 2 - tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
+			yPos = this.getSize().height / 2 - tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 		}
 
 		for (int i = 0; i < tmp.size(); i++) {
@@ -74,7 +74,7 @@ public class UseCase extends OldGridElement {
 			}
 			else {
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, AlignHorizontal.CENTER);
+				this.getHandler().getFontHandler().writeText(g2, s, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 		}

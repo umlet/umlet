@@ -54,12 +54,12 @@ public class AddElement extends Command {
 	}
 
 	private void addentity(GridElement e, DrawPanel panel, int x, int y) {
-		e.setHandler(panel.getHandler());
+		e.setHandlerAndInitListeners(panel.getHandler());
 		panel.addElement(e);
 		if (e instanceof Group) {
 			Group g = (Group) e;
 			for (GridElement ent : g.getMembers())
-				addentity(ent, panel, ent.getX() - g.getX() + x, ent.getY() - g.getY() + y);
+				addentity(ent, panel, ent.getLocation().x - g.getLocation().x + x, ent.getLocation().y - g.getLocation().y + y);
 			g.removeMemberListeners(); // remove listeners from submembers of this group
 			if (_zoom) g.adjustSize(false); // Adjust cause problems if _zoom == false because the wrong zoomlevel would be assumed
 		}

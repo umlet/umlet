@@ -155,7 +155,7 @@ public class CustomElementHandler {
 				this.preview.getDrawPanel().removeElement(entities.get(0));
 			}
 
-			e.setHandler(this.preview);
+			e.setHandlerAndInitListeners(this.preview);
 			this.preview.getDrawPanel().addElement(e);
 			e.repaint();
 		}
@@ -220,10 +220,10 @@ public class CustomElementHandler {
 			// set location for element
 			int x = 10, y = 10;
 			for (GridElement e : ents) {
-				if (e.getY() + e.getHeight() + 10 > y) y = e.getY() + e.getHeight() + 10;
+				if (e.getLocation().y + e.getSize().height + 10 > y) y = e.getLocation().y + e.getSize().height + 10;
 			}
 
-			Rectangle bounds = new Rectangle(x, y, element.getWidth(), element.getHeight());
+			Rectangle bounds = new Rectangle(x, y, element.getSize().width, element.getSize().height);
 			this.addElementToDiagram(element, current, true, bounds, element.getPanelAttributes());
 		}
 		else { // replace edited element (and ONLY edited element)
@@ -242,7 +242,7 @@ public class CustomElementHandler {
 		// d.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false);
 
 		GridElement e2 = e.CloneFromMe();
-		e2.setHandler(d);
+		e2.setHandlerAndInitListeners(d);
 		e2.setPanelAttributes(state);
 		e2.setBounds(bounds);
 		d.getDrawPanel().addElement(e2);

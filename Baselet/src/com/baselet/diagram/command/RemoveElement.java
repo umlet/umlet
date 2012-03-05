@@ -80,8 +80,8 @@ public class RemoveElement extends Command {
 
 		for (GridElement e : this._entities) {
 			(new AddElement(e,
-					handler.realignToGrid(e.getX() + offsetX),
-					handler.realignToGrid(e.getY() + offsetY), _zoom)).execute(handler);
+					handler.realignToGrid(e.getLocation().x + offsetX),
+					handler.realignToGrid(e.getLocation().y + offsetY), _zoom)).execute(handler);
 		}
 
 		handler.getDrawPanel().updatePanelAndScrollbars();
