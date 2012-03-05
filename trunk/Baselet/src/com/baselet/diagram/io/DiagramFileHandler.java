@@ -126,7 +126,6 @@ public class DiagramFileHandler {
 				else { // insert normal entity element
 					java.lang.Class<? extends GridElement> c = e.getClass();
 					String sElType = c.getName();
-					int[] coor = e.getCoordinates();
 					String sElPanelAttributes = e.getPanelAttributes();
 					String sElAdditionalAttributes = e.getAdditionalAttributes();
 
@@ -141,19 +140,19 @@ public class DiagramFileHandler {
 					el.appendChild(elCoor);
 
 					Element elX = doc.createElement("x");
-					elX.appendChild(doc.createTextNode("" + coor[0]));
+					elX.appendChild(doc.createTextNode("" + e.getLocation().x));
 					elCoor.appendChild(elX);
 
 					Element elY = doc.createElement("y");
-					elY.appendChild(doc.createTextNode("" + coor[1]));
+					elY.appendChild(doc.createTextNode("" + e.getLocation().y));
 					elCoor.appendChild(elY);
 
 					Element elW = doc.createElement("w");
-					elW.appendChild(doc.createTextNode("" + coor[2]));
+					elW.appendChild(doc.createTextNode("" + e.getSize().width));
 					elCoor.appendChild(elW);
 
 					Element elH = doc.createElement("h");
-					elH.appendChild(doc.createTextNode("" + coor[3]));
+					elH.appendChild(doc.createTextNode("" + e.getSize().height));
 					elCoor.appendChild(elH);
 
 					Element elPA = doc.createElement("panel_attributes");

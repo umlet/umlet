@@ -44,13 +44,13 @@ public class Database extends OldGridElement {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
 				CENTER = false;
-				g2.drawLine(0, yPos, this.getWidth(), yPos);
+				g2.drawLine(0, yPos, this.getSize().width, yPos);
 				yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
 				if (CENTER) {
-					this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, AlignHorizontal.CENTER);
+					this.getHandler().getFontHandler().writeText(g2, s, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
 					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
@@ -61,10 +61,10 @@ public class Database extends OldGridElement {
 
 		// Finally, change other graphical attributes using
 		// drawLine, getWidth, getHeight..
-		g2.drawLine(0, this.getHeight() - 1 - inset / 2, 0, inset / 2);
-		g2.drawOval(0, 0, this.getWidth(), inset);
-		g2.drawArc(0, this.getHeight() - 1 - inset, this.getWidth(), (int) this.getHandler().getFontHandler().getFontSize(), 180, 180);
-		g2.drawLine(this.getWidth() - 1, inset / 2, this.getWidth() - 1, this.getHeight() - 1 - inset / 2);
+		g2.drawLine(0, this.getSize().height - 1 - inset / 2, 0, inset / 2);
+		g2.drawOval(0, 0, this.getSize().width, inset);
+		g2.drawArc(0, this.getSize().height - 1 - inset, this.getSize().width, (int) this.getHandler().getFontHandler().getFontSize(), 180, 180);
+		g2.drawLine(this.getSize().width - 1, inset / 2, this.getSize().width - 1, this.getSize().height - 1 - inset / 2);
 	}
 
 	// Change this method if you want to set the resize-attributes of

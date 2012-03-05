@@ -113,8 +113,8 @@ public class PaletteRelationListener extends PaletteEntityListener {
 		if (IS_DRAGGING_LINEPOINT) {
 			Vector<Point> tmp = r.getLinePoints();
 			Point p = tmp.elementAt(LINEPOINT);
-			delta_x = (r.getX() + p.x) % gridSize;
-			delta_y = (r.getY() + p.y) % gridSize;
+			delta_x = (r.getLocation().x + p.x) % gridSize;
+			delta_y = (r.getLocation().y + p.y) % gridSize;
 		}
 
 		Point newp = this.getNewCoordinate();
@@ -130,7 +130,7 @@ public class PaletteRelationListener extends PaletteEntityListener {
 		}
 		else if (IS_DRAGGING_LINE) {
 			this.controller.executeCommand(new Move(r, diffx, diffy));
-			if (r.getLocationOnScreen().x + r.getWidth() <= handler.getDrawPanel().getLocationOnScreen().x) {
+			if (r.getLocationOnScreen().x + r.getSize().width <= handler.getDrawPanel().getLocationOnScreen().x) {
 				IS_DRAGGING_LINE = false;
 				IS_DRAGGING_LINEPOINT = false;
 			}

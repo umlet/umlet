@@ -16,6 +16,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.RepaintManager;
@@ -141,10 +142,10 @@ public class DrawPanel extends JPanel implements Printable {
 
 		for (int i = 0; i < entities.size(); i++) {
 			GridElement e = entities.elementAt(i);
-			minx = Math.min(minx, e.getX() - borderSpace);
-			miny = Math.min(miny, e.getY() - borderSpace);
-			maxx = Math.max(maxx, e.getX() + e.getWidth() + borderSpace);
-			maxy = Math.max(maxy, e.getY() + e.getHeight() + borderSpace);
+			minx = Math.min(minx, e.getLocation().x - borderSpace);
+			miny = Math.min(miny, e.getLocation().y - borderSpace);
+			maxx = Math.max(maxx, e.getLocation().x + e.getSize().width + borderSpace);
+			maxy = Math.max(maxy, e.getLocation().y + e.getSize().height + borderSpace);
 		}
 		return new Rectangle(minx, miny, maxx - minx, maxy - miny);
 	}
@@ -152,11 +153,11 @@ public class DrawPanel extends JPanel implements Printable {
 	public void paintEntitiesIntoGraphics2D(Graphics2D g2d, Vector<GridElement> entitiesToPaint) {
 		for (GridElement entity : entitiesToPaint) {
 			boolean entityWasSelected = entity.isSelected();
-			int x = entity.getX();
-			int y = entity.getY();
+			int x = entity.getLocation().x;
+			int y = entity.getLocation().y;
 			g2d.translate(x, y);
 			if (entityWasSelected) entity.onDeselected(); // If entity was selected deselect it before painting
-			entity.getComponent().paint(g2d);
+			entity.paint(g2d);
 			if (entityWasSelected) entity.onSelected(); // and select it afterwards.
 			g2d.translate(-x, -y);
 		}
@@ -521,10 +522,10 @@ public class DrawPanel extends JPanel implements Printable {
 	}
 
 	public void removeElement(GridElement gridElement) {
-		remove(gridElement.getComponent());
+		remove((JComponent) gridElement);
 	}
 
 	public void addElement(GridElement gridElement) {
-		add(gridElement.getComponent());
+		add((JComponent) gridElement);
 	}
 }

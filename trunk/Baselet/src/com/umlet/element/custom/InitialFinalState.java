@@ -30,12 +30,12 @@ public class InitialFinalState extends OldGridElement {
 		}
 
 		if (!initialState) {
-			g2.drawOval(0, 0, this.getWidth() - 1, this.getHeight() - 1);
+			g2.drawOval(0, 0, this.getSize().width - 1, this.getSize().height - 1);
 
-			g2.fillOval((int) (4 * zoom), (int) (4 * zoom), this.getWidth() - (int) (8 * zoom), this.getHeight() - (int) (8 * zoom));
+			g2.fillOval((int) (4 * zoom), (int) (4 * zoom), this.getSize().width - (int) (8 * zoom), this.getSize().height - (int) (8 * zoom));
 		}
 		else {
-			g2.fillOval(0, 0, this.getWidth(), this.getHeight());
+			g2.fillOval(0, 0, this.getSize().width, this.getSize().height);
 		}
 	}
 }

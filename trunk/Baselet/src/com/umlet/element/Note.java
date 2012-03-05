@@ -36,14 +36,14 @@ public class Note extends OldGridElement {
 
 		Polygon poly = new Polygon();
 		poly.addPoint(0, 0);
-		poly.addPoint(this.getWidth() - (int) this.getHandler().getFontHandler().getFontSize(), 0);
-		poly.addPoint(this.getWidth() - (int) this.getHandler().getFontHandler().getFontSize(), 0);
-		poly.addPoint(this.getWidth() - 1, (int) this.getHandler().getFontHandler().getFontSize());
-		poly.addPoint(this.getWidth() - 1, (int) this.getHandler().getFontHandler().getFontSize());
-		poly.addPoint(this.getWidth() - 1, this.getHeight() - 1);
-		poly.addPoint(this.getWidth() - 1, this.getHeight() - 1);
-		poly.addPoint(0, this.getHeight() - 1);
-		poly.addPoint(0, this.getHeight() - 1);
+		poly.addPoint(this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), 0);
+		poly.addPoint(this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), 0);
+		poly.addPoint(this.getSize().width - 1, (int) this.getHandler().getFontHandler().getFontSize());
+		poly.addPoint(this.getSize().width - 1, (int) this.getHandler().getFontHandler().getFontSize());
+		poly.addPoint(this.getSize().width - 1, this.getSize().height - 1);
+		poly.addPoint(this.getSize().width - 1, this.getSize().height - 1);
+		poly.addPoint(0, this.getSize().height - 1);
+		poly.addPoint(0, this.getSize().height - 1);
 		poly.addPoint(0, 0);
 		// p.addPoint(this.getWidth()-Constants.getFontsize(),0); p.addPoint(this.getWidth()-Constants.getFontsize(), Constants.getFontsize());
 		// p.addPoint(this.getWidth()-Constants.getFontsize(),Constants.getFontsize()); p.addPoint(this.getWidth()-1, Constants.getFontsize());
@@ -62,12 +62,12 @@ public class Note extends OldGridElement {
 			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		}
 
-		g2.drawLine(0, 0, this.getWidth() - (int) this.getHandler().getFontHandler().getFontSize(), 0);
-		g2.drawLine(this.getWidth() - (int) this.getHandler().getFontHandler().getFontSize(), 0, this.getWidth() - 1, (int) this.getHandler().getFontHandler().getFontSize());
-		g2.drawLine(this.getWidth() - 1, (int) this.getHandler().getFontHandler().getFontSize(), this.getWidth() - 1, this.getHeight() - 1);
-		g2.drawLine(this.getWidth() - 1, this.getHeight() - 1, 0, this.getHeight() - 1);
-		g2.drawLine(0, this.getHeight() - 1, 0, 0);
-		g2.drawLine(this.getWidth() - (int) this.getHandler().getFontHandler().getFontSize(), 0, this.getWidth() - (int) this.getHandler().getFontHandler().getFontSize(), (int) this.getHandler().getFontHandler().getFontSize());
-		g2.drawLine(this.getWidth() - (int) this.getHandler().getFontHandler().getFontSize(), (int) this.getHandler().getFontHandler().getFontSize(), this.getWidth() - 1, (int) this.getHandler().getFontHandler().getFontSize());
+		g2.drawLine(0, 0, this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), 0);
+		g2.drawLine(this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), 0, this.getSize().width - 1, (int) this.getHandler().getFontHandler().getFontSize());
+		g2.drawLine(this.getSize().width - 1, (int) this.getHandler().getFontHandler().getFontSize(), this.getSize().width - 1, this.getSize().height - 1);
+		g2.drawLine(this.getSize().width - 1, this.getSize().height - 1, 0, this.getSize().height - 1);
+		g2.drawLine(0, this.getSize().height - 1, 0, 0);
+		g2.drawLine(this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), 0, this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), (int) this.getHandler().getFontHandler().getFontSize());
+		g2.drawLine(this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), (int) this.getHandler().getFontHandler().getFontSize(), this.getSize().width - 1, (int) this.getHandler().getFontHandler().getFontSize());
 	}
 }

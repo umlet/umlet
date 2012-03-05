@@ -636,7 +636,7 @@ public class Relation extends OldGridElement {
 		// Assume that the rect contains all relation points
 		for (Point p : getLinePoints()) {
 			// We must add the displacement from the top left corner of the drawpanel to the point coordinates
-			Point realPoint = new Point((int) (p.getX() + this.getX()), (int) (p.getY() + this.getY()));
+			Point realPoint = new Point((int) (p.getX() + this.getLocation().x), (int) (p.getY() + this.getLocation().y));
 			// If only one point is not in the selection rectangle, the method returns false
 			if (!rect1.contains(realPoint)) return false;
 		}
@@ -748,7 +748,7 @@ public class Relation extends OldGridElement {
 
 		c.setVisible(true);
 		c.setBounds(this.getBounds());
-		c.setHandler(this.getHandler());
+		c.setHandlerAndInitListeners(this.getHandler());
 
 		return c;
 	}
@@ -1768,7 +1768,7 @@ public class Relation extends OldGridElement {
 		maxy += (maxy % gridSize);
 
 		if ((maxx != 0) || (maxy != 0)) {
-			this.changeSize(maxx - getWidth(), maxy - getHeight());
+			this.changeSize(maxx - getSize().width, maxy - getSize().height);
 		}
 		if ((minx != 0) | (miny != 0)) {
 			this.changeLocation(minx, miny);
@@ -1795,15 +1795,15 @@ public class Relation extends OldGridElement {
 
 	public Point getAbsoluteCoorStart() {
 		Point ret = new Point();
-		ret.x = this.getX() + this.getStartPoint().x;
-		ret.y = this.getY() + this.getStartPoint().y;
+		ret.x = this.getLocation().x + this.getStartPoint().x;
+		ret.y = this.getLocation().y + this.getStartPoint().y;
 		return ret;
 	}
 
 	public Point getAbsoluteCoorEnd() {
 		Point ret = new Point();
-		ret.x = this.getX() + this.getEndPoint().x;
-		ret.y = this.getY() + this.getEndPoint().y;
+		ret.x = this.getLocation().x + this.getEndPoint().x;
+		ret.y = this.getLocation().y + this.getEndPoint().y;
 		return ret;
 	}
 

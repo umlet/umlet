@@ -1,7 +1,7 @@
 package com.baselet.element;
 
-import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseListener;
@@ -15,13 +15,9 @@ public interface GridElement {
 
 	String getPanelAttributes();
 
-	int getX(); // replace with getLocation().x
-
-	int getY(); // replace with getLocation().y
-
 	Rectangle getVisibleRect();
 
-	boolean contains(Point other_p);
+	boolean contains(Point p);
 
 	boolean isSelected();
 
@@ -29,21 +25,17 @@ public interface GridElement {
 
 	void setBounds(Rectangle bounds);
 
-	void setHandler(DiagramHandler handler);
+	void setHandlerAndInitListeners(DiagramHandler handler);
 
 	void setGroup(Group object);
 
-	void addMouseListener(MouseListener entityListener);
+	void addMouseListener(MouseListener mouseListener);
 
-	void addMouseMotionListener(MouseMotionListener entityListener);
+	void addMouseMotionListener(MouseMotionListener mouseMotionListener);
 
-	void removeMouseMotionListener(MouseMotionListener entityListener);
+	void removeMouseMotionListener(MouseMotionListener mouseMotionListener);
 
-	void removeMouseListener(MouseListener entityListener);
-
-	int getWidth();
-
-	int getHeight();
+	void removeMouseListener(MouseListener mouseListener);
 
 	GridElement CloneFromMe();
 
@@ -55,29 +47,23 @@ public interface GridElement {
 
 	Group getGroup();
 
-	int[] getCoordinates();
-
 	String getAdditionalAttributes();
 
 	void setBounds(int x, int y, int w, int h);
 
 	void setAdditionalAttributes(String additional_attributes);
 
-	Component getComponent();
+	void setLocation(int x, int y);
 
-	void setLocation(int realignTo, int realignTo2);
-
-	void setSize(int realignTo, int realignTo2);
+	void setSize(int width, int height);
 
 	boolean isPartOfGroup();
-
-	boolean isInRange(Point upperLeft, Dimension size);
 
 	int getResizeArea(int x, int y);
 
 	int getPossibleResizeDirections();
 
-	void setStickingBorderActive(boolean b);
+	void setStickingBorderActive(boolean stickingBordersActive);
 
 	boolean isStickingBorderActive();
 
@@ -95,8 +81,14 @@ public interface GridElement {
 
 	String getFGColorString();
 
-	void changeSize(int i, int j);
+	void changeSize(int diffx, int diffy);
 
 	void setColor(String colorString, boolean isForegroundColor);
+
+	Dimension getSize();
+
+	boolean isInRange(Point upperLeft, Dimension size);
+
+	void paint(Graphics g);
 	
 }

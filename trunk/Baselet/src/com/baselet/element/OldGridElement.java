@@ -48,7 +48,6 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	protected float alphaFactor;
 
 	public OldGridElement() {
-		this.allowResize = true;
 		this.setSize(100, 100);
 		this.setVisible(true);
 		this.enabled = true;
@@ -56,11 +55,13 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		this.stickingBorderActive = true;
 	}
 
+	@Override
 	public DiagramHandler getHandler() {
 		return handler;
 	}
 
-	public void setHandler(DiagramHandler handler) {
+	@Override
+	public void setHandlerAndInitListeners(DiagramHandler handler) {
 		if (this.getHandler() != null) {
 			this.removeMouseListener(this.getHandler().getEntityListener(this));
 			this.removeMouseMotionListener(this.getHandler().getEntityListener(this));
@@ -87,10 +88,12 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		}
 	}
 
+	@Override
 	public boolean isStickingBorderActive() {
 		return stickingBorderActive;
 	}
 
+	@Override
 	public void setStickingBorderActive(boolean stickingBordersActive) {
 		this.stickingBorderActive = stickingBordersActive;
 	}
@@ -112,6 +115,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		return autoresizeandmanualresizeenabled;
 	}
 
+	@Override
 	public void setManualResized() {
 		if (autoresizeandmanualresizeenabled) {
 			if (!this.isManResized()) {
@@ -121,6 +125,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		}
 	}
 
+	@Override
 	public Group getGroup() {
 		return this.group;
 	}
@@ -130,52 +135,44 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		this.group = group;
 	}
 
+	@Override
 	public boolean isPartOfGroup() {
 		if (this.group != null) return true;
 		return false;
 	}
 
-	// returns true if the entity is part of group g
-	// or if g = null and the entity is in no group
-	// false otherwise
-	public boolean isPartOfGroup(Group g) {
-		if (g == null) {
-			if (this.group == null) return true;
-			else return false;
-		}
-		else if (g.equals(this.group)) return true;
-		else return false;
-	}
-
 	// Some GridElements need additionalAttributes to be displayed correctly (eg: Relations need exact positions for edges)
+	@Override
 	public String getAdditionalAttributes() {
 		return "";
 	}
 
+	@Override
 	public void setAdditionalAttributes(String s) { }
 
+	@Override
 	public String getPanelAttributes() {
 		return panelAttributes;
 	}
 
-	public Vector<String> getPanelAttributesAsVector() {
-		return Utils.decomposeStrings(panelAttributes);
-	}
-
+	@Override
 	public void setPanelAttributes(String panelAttributes) {
 		this.panelAttributes = panelAttributes;
 	}
 
+	@Override
 	public boolean isSelected() {
 		return isSelected;
 	}
 
+	@Override
 	public void onSelected() {
 		isSelected = true;
 		fgColor = Constants.DEFAULT_SELECTED_COLOR;
 		this.repaint();
 	}
 
+	@Override
 	public void onDeselected() {
 		isSelected = false;
 		fgColor = fgColorBase;
@@ -187,6 +184,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		return fgColor;
 	}
 
+	@Override
 	public String getFGColorString() {
 		return fgColorString;
 	}
@@ -199,10 +197,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		return bgColorString;
 	}
 
-	public float getAlphaFactor() {
-		return alphaFactor;
-	}
-
+	@Override
 	public void setColor(String colorString, boolean isForegroundColor) {
 		String new_state = "";
 		Vector<String> textlines = Utils.decomposeStringsWithComments(this.getPanelAttributes());
@@ -247,43 +242,37 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	}
 
 	public int getRealWidth() {
-		return getWidth() / handler.getGridSize() * Constants.DEFAULTGRIDSIZE;
+		return getSize().width / handler.getGridSize() * Constants.DEFAULTGRIDSIZE;
 	}
 
 	public int getRealHeight() {
-		return getHeight() / handler.getGridSize() * Constants.DEFAULTGRIDSIZE;
+		return getSize().height / handler.getGridSize() * Constants.DEFAULTGRIDSIZE;
 	}
 
-	public int[] getCoordinates() {
-		int[] ret = new int[4];
-		ret[0] = getX();
-		ret[1] = getY();
-		ret[2] = getWidth();
-		ret[3] = getHeight();
-		return ret;
-	}
-
+	@Override
 	public int getResizeArea(int x, int y) {
 		int ret = 0;
 		if ((x <= 5) && (x >= 0)) ret = Constants.RESIZE_LEFT;
-		else if ((x <= this.getWidth()) && (x >= this.getWidth() - 5)) ret = Constants.RESIZE_RIGHT;
+		else if ((x <= this.getSize().width) && (x >= this.getSize().width - 5)) ret = Constants.RESIZE_RIGHT;
 
 		if ((y <= 5) && (y >= 0)) ret = ret | Constants.RESIZE_TOP;
-		else if ((y <= this.getHeight()) && (y >= this.getHeight() - 5)) ret = ret | Constants.RESIZE_BOTTOM;
+		else if ((y <= this.getSize().height) && (y >= this.getSize().height - 5)) ret = ret | Constants.RESIZE_BOTTOM;
 		return ret;
 	}
 
+	@Override
 	public int getPossibleResizeDirections() {
-		if (this.allowResize) return Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
-		return 0;
+		return Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
 	}
 
+	@Override
 	public void changeSize(int diffx, int diffy) {
-		this.setSize(this.getWidth() + diffx, this.getHeight() + diffy);
+		this.setSize(this.getSize().width + diffx, this.getSize().height + diffy);
 	}
 
+	@Override
 	public void changeLocation(int diffx, int diffy) {
-		this.setLocation(this.getX() + diffx, this.getY() + diffy);
+		this.setLocation(this.getLocation().x + diffx, this.getLocation().y + diffy);
 	}
 
 	@Override
@@ -295,7 +284,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		for (GridElement other : entities) {
 			if (other instanceof Relation) { // a relation is always on top
 				// move point to coordinate system of other entity
-				Point other_p = new Point(p.x + this.getX() - other.getX(), p.y + this.getY() - other.getY());
+				Point other_p = new Point(p.x + this.getLocation().x - other.getLocation().x, p.y + this.getLocation().y - other.getLocation().y);
 				if (other.contains(other_p)) return false;
 			}
 
@@ -303,8 +292,8 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 			else if (!this.getVisibleRect().equals(other.getVisibleRect())) {
 				Rectangle other_bounds = other.getVisibleRect();
 				// move bounds to coordinate system of this component
-				other_bounds.x += other.getX() - this.getX();
-				other_bounds.y += other.getY() - this.getY();
+				other_bounds.x += other.getLocation().x - this.getLocation().x;
+				other_bounds.y += other.getLocation().y - this.getLocation().y;
 				if (other_bounds.contains(p)) { // the selected element has to be in front except if the other element is totally contained!
 					if (bounds.contains(other_bounds) || (other.isSelected() && !other_bounds.contains(bounds))) return false;
 				}
@@ -314,13 +303,9 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	}
 
 	@Override
-	public boolean contains(int x, int y) {
-		return this.contains(new Point(x, y));
-	}
-
 	public boolean isInRange(Point upperLeft, Dimension size) {
 		Rectangle2D rect1 = new Rectangle2D.Double(upperLeft.getX(), upperLeft.getY(), size.getWidth(), size.getHeight());
-		Rectangle2D rect2 = new Rectangle2D.Double(getX(), getY(), getWidth(), getHeight());
+		Rectangle2D rect2 = new Rectangle2D.Double(getLocation().x, getLocation().y, getSize().width, getSize().height);
 		return (rect1.contains(rect2));
 	}
 
@@ -329,20 +314,21 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setFont(this.getHandler().getFontHandler().getFont());
 			g2.setColor(Color.red);
-			this.getHandler().getFontHandler().writeText(g2, "in progress...", this.getWidth() / 2 - 40, this.getHeight() / 2 + (int) this.getHandler().getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
+			this.getHandler().getFontHandler().writeText(g2, "in progress...", this.getSize().width / 2 - 40, this.getSize().height / 2 + (int) this.getHandler().getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
 		}
 		else {
 			repaint();
 		}
 	}
 
+	@Override
 	public GridElement CloneFromMe() {
 		try {
 			java.lang.Class<? extends GridElement> cx = this.getClass(); // get class of dynamic object
 			GridElement c = cx.newInstance();
 			c.setPanelAttributes(this.getPanelAttributes()); // copy states
 			c.setBounds(this.getBounds());
-			c.setHandler(this.getHandler());
+			c.setHandlerAndInitListeners(this.getHandler());
 			return c;
 		} catch (Exception e) {
 			log.error("Error at calling CloneFromMe() on entity", e);
@@ -353,6 +339,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	/**
 	 * Define and return the polygon on which relations stick on
 	 */
+	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
 		StickingPolygon p = new StickingPolygon();
 		p.addPoint(new Point(x, y));
@@ -365,8 +352,8 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	public final void drawStickingPolygon(Graphics2D g2) {
 		StickingPolygon poly;
 		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
-		if (Utils.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getWidth() - 1, this.getHeight() - 1);
-		else poly = this.generateStickingBorder(0, 0, this.getWidth() - 1, this.getHeight() - 1);
+		if (Utils.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getSize().width - 1, this.getSize().height - 1);
+		else poly = this.generateStickingBorder(0, 0, this.getSize().width - 1, this.getSize().height - 1);
 		if (poly != null) {
 			Color c = g2.getColor();
 			Stroke s = g2.getStroke();
@@ -398,37 +385,11 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 
 	public abstract void paintEntity(Graphics g);
 
-	private boolean allowResize;
-
-	protected final void allowResize(boolean allow) {
-		this.allowResize = allow;
-	}
-
-	protected final void setAutoresize(int minWidth, int minHeight) {
-		if (!isManualResized()) {
-			int height = minHeight; // minimal height
-			int width = minWidth; // minimal width
-			// calculates the width and height of the component
-			for (String textline : Utils.decomposeStrings(this.getPanelAttributes())) {
-				height = height + textHeight();
-				width = Math.max(textWidth(textline, false) + 10, width);
-			}
-			if (height < minHeight) height = minHeight;
-			if (width < minWidth) width = minWidth;
-			this.setSize(width, height);
-		}
-	}
-
 	protected final int textHeight() {
 		return (int) ((int) this.getHandler().getFontHandler().getFontSize(false) + this.getHandler().getFontHandler().getDistanceBetweenTexts(false));
 	}
 
 	protected final int textWidth(String text, boolean applyZoom) {
 		return getHandler().getFontHandler().getTextSize(text, applyZoom).width + (int) getHandler().getFontHandler().getDistanceBetweenTexts(applyZoom);
-	}
-
-	@Override
-	public Component getComponent() {
-		return this;
 	}
 }

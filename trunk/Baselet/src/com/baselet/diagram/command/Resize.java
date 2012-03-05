@@ -61,12 +61,12 @@ public class Resize extends Command {
 		this.diffw = (diffw - diffx) / entity.getHandler().getGridSize();
 		this.diffh = (diffh - diffy) / entity.getHandler().getGridSize();
 
-		StickingPolygon from = this.entity.generateStickingBorder(this.entity.getX(), this.entity.getY(),
-				this.entity.getWidth(), this.entity.getHeight());
+		StickingPolygon from = this.entity.generateStickingBorder(this.entity.getLocation().x, this.entity.getLocation().y,
+				this.entity.getSize().width, this.entity.getSize().height);
 
 		// AB: FIXED: Use this.diffw/this.diffh instead of diffw/diffh as calculation base
-		StickingPolygon to = this.entity.generateStickingBorder(this.entity.getX() + diffx, this.entity.getY() + diffy,
-				this.entity.getWidth() + getDiffw(), this.entity.getHeight() + this.getDiffh());
+		StickingPolygon to = this.entity.generateStickingBorder(this.entity.getLocation().x + diffx, this.entity.getLocation().y + diffy,
+				this.entity.getSize().width + getDiffw(), this.entity.getSize().height + this.getDiffh());
 
 		if (first != null) {
 			this.id = first.id;
@@ -84,7 +84,7 @@ public class Resize extends Command {
 			r = lp.getRelation();
 			p = r.getLinePoints().get(lp.getLinePointId());
 
-			diff = from.getLine(lp.getStickingLineId()).diffToLine(to.getLine(lp.getStickingLineId()), p.x + r.getX(), p.y + r.getY());
+			diff = from.getLine(lp.getStickingLineId()).diffToLine(to.getLine(lp.getStickingLineId()), p.x + r.getLocation().x, p.y + r.getLocation().y);
 
 			DiagramHandler handler = Main.getInstance().getDiagramHandler();
 			this.move_commands.add(new MoveLinePoint(lp.getRelation(), lp.getLinePointId(), handler.realignToGrid(diff.x), handler.realignToGrid(diff.y)));
