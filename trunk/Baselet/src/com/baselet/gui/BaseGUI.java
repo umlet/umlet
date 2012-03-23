@@ -29,6 +29,8 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.baselet.element.OldGridElement;
+import com.baselet.element.GridComponent;
 import com.baselet.gui.listener.PropertyPanelListener;
 import com.umlet.custom.CustomElement;
 import com.umlet.custom.CustomElementHandler;
@@ -105,7 +107,7 @@ public abstract class BaseGUI extends JPanel {
 		MenuFactorySwing menuFactory = MenuFactorySwing.getInstance();
 
 		GridElement entity = null;
-		if (comp instanceof GridElement) entity = (GridElement) comp;
+		if (comp instanceof GridComponent) entity = ((OldGridElement) comp).getGridElement();
 		else return null;
 
 		JPopupMenu contextMenu = new JPopupMenu();

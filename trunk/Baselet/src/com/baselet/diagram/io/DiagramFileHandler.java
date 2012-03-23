@@ -41,6 +41,8 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.baselet.element.OldGridElement;
+import com.baselet.element.GridComponent;
 import com.umlet.custom.CustomElement;
 
 public class DiagramFileHandler {
@@ -184,7 +186,7 @@ public class DiagramFileHandler {
 		Component[] components = this.handler.getDrawPanel().getComponents();
 		List<GridElement> entities = new ArrayList<GridElement>();
 		for (int i = 0; i < components.length; i++) {
-			if (components[i] instanceof GridElement) entities.add((GridElement) components[i]);
+			if (components[i] instanceof GridComponent) entities.add(((OldGridElement) components[i]).getGridElement());
 		}
 
 		DocumentBuilder db = null;
