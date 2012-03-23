@@ -7,6 +7,8 @@ import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
+import javax.swing.JComponent;
+
 import com.baselet.diagram.DiagramHandler;
 
 public interface GridElement {
@@ -49,7 +51,7 @@ public interface GridElement {
 
 	String getAdditionalAttributes();
 
-	void setBounds(int x, int y, int w, int h);
+	void setBounds(int x, int y, int width, int height);
 
 	void setAdditionalAttributes(String additional_attributes);
 
@@ -90,5 +92,7 @@ public interface GridElement {
 	boolean isInRange(Point upperLeft, Dimension size);
 
 	void paint(Graphics g);
+	
+	JComponent getComponent();
 	
 }
