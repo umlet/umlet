@@ -107,7 +107,7 @@ public abstract class BaseGUI extends JPanel {
 		MenuFactorySwing menuFactory = MenuFactorySwing.getInstance();
 
 		GridElement entity = null;
-		if (comp instanceof GridComponent) entity = ((OldGridElement) comp).getGridElement();
+		if (comp instanceof GridComponent) entity = ((GridComponent) comp).getGridElement();
 		else return null;
 
 		JPopupMenu contextMenu = new JPopupMenu();
