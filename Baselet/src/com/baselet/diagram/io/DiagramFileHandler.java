@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -183,12 +184,6 @@ public class DiagramFileHandler {
 	}
 
 	protected String createStringToBeSaved() {
-		Component[] components = this.handler.getDrawPanel().getComponents();
-		List<GridElement> entities = new ArrayList<GridElement>();
-		for (int i = 0; i < components.length; i++) {
-			if (components[i] instanceof GridComponent) entities.add(((OldGridElement) components[i]).getGridElement());
-		}
-
 		DocumentBuilder db = null;
 		String returnString = null;
 
@@ -216,6 +211,7 @@ public class DiagramFileHandler {
 			root.appendChild(zoom);
 
 			// save elements (group = null = rootlayer)
+			Vector<GridElement> entities = this.handler.getDrawPanel().getAllEntities();
 			this.createXMLOutputDoc(doc, entities, root, null);
 
 			// output the stuff...
