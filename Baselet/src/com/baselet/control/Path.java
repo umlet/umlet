@@ -103,7 +103,6 @@ public class Path {
 			path = codeSourceUrl.getPath().replace("%20", " ");
 		}
 
-		if (path.startsWith("/")) path = path.substring(1);
 		return path;
 	}
 
