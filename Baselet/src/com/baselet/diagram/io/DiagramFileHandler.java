@@ -1,6 +1,5 @@
 package com.baselet.diagram.io;
 
-import java.awt.Component;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -42,8 +41,6 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
-import com.baselet.element.OldGridElement;
-import com.baselet.element.GridComponent;
 import com.umlet.custom.CustomElement;
 
 public class DiagramFileHandler {
@@ -52,24 +49,10 @@ public class DiagramFileHandler {
 
 	private static JFileChooser saveFileChooser;
 
-	public static DiagramFileHandler createInstance(DiagramHandler diagramHandler, File file) {
-		return new DiagramFileHandler(diagramHandler, file);
-	}
-
-	private JFileChooser reloadSaveFileChooser() {
-		// Set the initial target location for the fileChooser
-		if (this.file != null) saveFileChooser = new JFileChooser(this.file);
-		else saveFileChooser = new JFileChooser(System.getProperty("user.dir"));
-
-		saveFileChooser.setAcceptAllFileFilterUsed(false); // We don't want "all files" as a choice
-		// The input field should show the diagram name as preset
-		saveFileChooser.setSelectedFile(new File(Main.getInstance().getDiagramHandler().getName()));
-		return saveFileChooser;
-	}
-
 	private String fileName;
 	private DiagramHandler handler;
 	private File file;
+	private File exportFile;
 	private HashMap<String, FileFilter> filters = new HashMap<String, FileFilter>();
 	private HashMap<FileFilter, String> fileextensions = new HashMap<FileFilter, String>();
 
@@ -91,6 +74,7 @@ public class DiagramFileHandler {
 		if (file != null) this.fileName = file.getName();
 		else this.fileName = "new." + Program.EXTENSION;
 		this.file = file;
+		this.exportFile = file;
 
 		allFileFilters.addAll(Arrays.asList(saveFileFilter));
 		allFileFilters.addAll(Arrays.asList(exportFileFilter));
@@ -98,6 +82,24 @@ public class DiagramFileHandler {
 			this.filters.put(filter.getFormat(), filter);
 			this.fileextensions.put(filter, filter.getFormat());
 		}
+	}
+	
+	public static DiagramFileHandler createInstance(DiagramHandler diagramHandler, File file) {
+		return new DiagramFileHandler(diagramHandler, file);
+	}
+
+	private JFileChooser reloadSaveFileChooser(boolean ownXmlFormat) {
+		// Set the initial target location for the fileChooser
+		if (this.file != null) {
+			if (ownXmlFormat == true) saveFileChooser = new JFileChooser(this.file);
+			else saveFileChooser = new JFileChooser(this.exportFile);
+		}
+		else saveFileChooser = new JFileChooser(System.getProperty("user.dir"));
+
+		saveFileChooser.setAcceptAllFileFilterUsed(false); // We don't want "all files" as a choice
+		// The input field should show the diagram name as preset
+		saveFileChooser.setSelectedFile(new File(Main.getInstance().getDiagramHandler().getName()));
+		return saveFileChooser;
 	}
 
 	public String getFileName() {
@@ -266,8 +268,10 @@ public class DiagramFileHandler {
 			this.file = fileToSave;
 			this.setFileName(this.file.getName());
 			save();
+		} else {
+			this.exportFile = fileToSave;
+			doExportAs(extension, fileToSave);
 		}
-		else doExportAs(extension, fileToSave);
 	}
 
 	public File doSaveTempDiagram(String filename, String fileextension) throws IOException {
@@ -314,7 +318,7 @@ public class DiagramFileHandler {
 		String fileName = null;
 
 		// filechooser must be recreated to avoid a bug where getSelectedFile() was null (if a file is saved more than one time by doubleclicking on an existing file)
-		reloadSaveFileChooser();
+		reloadSaveFileChooser(ownXmlFormat);
 
 		setAvailableFileFilters(ownXmlFormat);
 		saveFileChooser.setFileFilter(filefilter);
