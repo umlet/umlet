@@ -4,10 +4,8 @@ package com.umlet.element.custom;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import com.baselet.element.OldGridElement;
-
 @SuppressWarnings("serial")
-public class Socket extends OldGridElement {
+public class Socket extends com.baselet.element.GridElement {
 
 	@Override
 	public void paintEntity(Graphics g) {
@@ -21,7 +19,7 @@ public class Socket extends OldGridElement {
 
 		int fnt = (int) this.getHandler().getFontHandler().getFontSize() + ((int) this.getHandler().getFontHandler().getFontSize() / 2);
 		this.setSize(fnt + 2, fnt + 2);
-		int h = this.getSize().height;
+		int h = this.getHeight();
 
 		g2.drawArc(0, 0, h - 1, h - 1, 90, 180);
 		g2.drawOval((int) (4 * zoom), (int) (4 * zoom), h - (int) (9 * zoom), h - (int) (9 * zoom));

@@ -101,7 +101,7 @@ public class MenuFactory {
 					main.doNew();
 				}
 				else if (menuItem.equals(OPEN)) {
-					main.doOpenFromFileChooser();
+					main.doOpen();
 				}
 				else if (menuItem.equals(RECENT_FILES)) {
 					main.doOpen((String) param);
@@ -208,7 +208,7 @@ public class MenuFactory {
 					else if (Program.PROGRAM_NAME == ProgramName.PLOTLET) BrowserLauncher.openURL("http://marketplace.eclipse.org/content/plotlet");
 				}
 				else if (menuItem.equals(ABOUT_PROGRAM)) {
-					AboutDialog.show();
+					AboutPanel.getInstance().setVisible();
 				}
 				else if (menuItem.equals(SET_FOREGROUND_COLOR) && (actualHandler != null)) {
 					actualHandler.getController().executeCommand(new ChangeColor((String) param, true));

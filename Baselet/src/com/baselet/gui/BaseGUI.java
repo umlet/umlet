@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Font;
 
 import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -29,8 +30,6 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
-import com.baselet.element.OldGridElement;
-import com.baselet.element.GridComponent;
 import com.baselet.gui.listener.PropertyPanelListener;
 import com.umlet.custom.CustomElement;
 import com.umlet.custom.CustomElementHandler;
@@ -107,7 +106,7 @@ public abstract class BaseGUI extends JPanel {
 		MenuFactorySwing menuFactory = MenuFactorySwing.getInstance();
 
 		GridElement entity = null;
-		if (comp instanceof GridComponent) entity = ((GridComponent) comp).getGridElement();
+		if (comp instanceof GridElement) entity = (GridElement) comp;
 		else return null;
 
 		JPopupMenu contextMenu = new JPopupMenu();
@@ -185,7 +184,7 @@ public abstract class BaseGUI extends JPanel {
 
 	public abstract DrawPanel getCurrentDiagram();
 
-	public abstract void enablePasteMenuEntry();
+	public abstract void setPaste(boolean value);
 
 	public abstract void setUngroupEnabled(boolean enabled);
 
@@ -204,6 +203,14 @@ public abstract class BaseGUI extends JPanel {
 	public abstract JFrame getTopContainer();
 
 	public abstract OwnSyntaxPane getPropertyPane();
+
+	public abstract String getPropertyPanelText();
+
+	public abstract void setPropertyPanelText(String text);
+
+	public abstract String chooseFileName();
+
+	public abstract void openDialog(String title, JComponent component);
 
 	public abstract void setValueOfZoomDisplay(int i);
 }

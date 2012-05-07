@@ -8,15 +8,14 @@ import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.diagram.command.Resize;
-import com.baselet.element.OldGridElement;
+import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")
-public class SynchBarHorizontal extends OldGridElement {
+public class SynchBarHorizontal extends GridElement {
 	private static int textWidth = 0;
 
 	@Override
@@ -32,23 +31,23 @@ public class SynchBarHorizontal extends OldGridElement {
 
 		textWidth = 0; // reset
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		int yPos = this.getSize().height / 2 - tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
+		int yPos = this.getHeight() / 2 - tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 		boolean ADAPT_SIZE_X = false;
 		int textHeight = tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts()));
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 
-			TextLayout l = new TextLayout(s, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
+			TextLayout l = new TextLayout(s, this.getHandler().getFontHandler().getFont(), Constants.FRC);
 			Rectangle2D r2d = l.getBounds();
 			textWidth = ((int) r2d.getWidth() > textWidth) ? ((int) r2d.getWidth()) : (textWidth);
 
-			if ((this.getSize().width - textWidth) < 0) {
+			if ((this.getWidth() - textWidth) < 0) {
 				ADAPT_SIZE_X = true;
 				break;
 			}
 			yPos += (int) this.getHandler().getFontHandler().getFontSize();
-			this.getHandler().getFontHandler().writeText(g2, s, 0, yPos, AlignHorizontal.LEFT);
+			this.getHandler().getFontHandler().writeText(g2, s, 0, yPos, false);
 			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		}
 
@@ -58,12 +57,12 @@ public class SynchBarHorizontal extends OldGridElement {
 			return;
 		}
 
-		if (textHeight > this.getSize().height) {
+		if (textHeight > this.getHeight()) {
 			(new Resize(this, 0, 0, 0, 20)).execute(this.getHandler());
 			return;
 		}
 
-		g2.fillRect(textWidth + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), getSize().height / 2 - (int) (3 * zoom), this.getSize().width - textWidth - (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() * 2, (int) (5 * zoom));
+		g2.fillRect(textWidth + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), getHeight() / 2 - (int) (3 * zoom), this.getWidth() - textWidth - (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() * 2, (int) (5 * zoom));
 	}
 
 	/*

@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<site>
-   <description name="Umlet and Plotlet Update Site">
-      Umlet and Plotlet Update Site
-   </description>
-   <feature url="features/UMLet_11.4.0.jar" id="UMLet" version="11.4"/>
-</site>

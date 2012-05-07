@@ -12,7 +12,6 @@ import jsyntaxpane.util.Configuration;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Utils;
@@ -50,14 +49,6 @@ public class OwnSyntaxPane extends JEditorPane {
 		return this.panel;
 	}
 
-	@Override
-	public void setText(String text) {
-		if (!getText().equals(text)) {
-			super.setText(text);
-			setCaretPosition(0);
-		}
-	}
-
 	public void initJSyntaxPane() {
 		DefaultSyntaxKit.initKit();
 		Configuration conf = DefaultSyntaxKit.getConfig(DefaultSyntaxKit.class);
@@ -86,9 +77,8 @@ public class OwnSyntaxPane extends JEditorPane {
 			
 			DefaultSyntaxKit.registerContentType("text/propertypanel", UmletSyntaxKit.class.getCanonicalName());
 		}	
-
+		
 		this.setContentType("text/propertypanel");
-		this.setFont(Constants.PANEL_FONT); //Set font to make sure UTF-8 characters work
 		this.validate();
 	}
 }

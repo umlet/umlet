@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import com.baselet.control.Main;
 import com.baselet.diagram.command.Command;
-import com.baselet.diagram.command.Copy;
 import com.baselet.gui.standalone.StandaloneGUI;
 
 
@@ -42,14 +41,11 @@ public class Controller {
 			}
 		}
 		_cursor = commands.size() - 1;
-
-		if (newCommand.isChangingDiagram()) {
-			this.handler.setChanged(true);
-		}
+		this.handler.setChanged(true);
 
 		//update undo/redo menu entries
 		if (Main.getInstance().getGUI() instanceof StandaloneGUI) ((StandaloneGUI) Main.getInstance().getGUI()).updateGrayedOutMenuItems(this.handler);
-
+		
 		commandCount++;
 	}
 
@@ -88,7 +84,7 @@ public class Controller {
 	public long getCommandCount() {
 		return this.commandCount;
 	}
-
+	
 	public void clear()
 	{
 		commands = new Vector<Command>();

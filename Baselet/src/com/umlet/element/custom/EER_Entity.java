@@ -6,13 +6,12 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.util.Vector;
 
-import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.element.OldGridElement;
+import com.baselet.element.GridElement;
 
 
 @SuppressWarnings("serial")
-public class EER_Entity extends OldGridElement {
+public class EER_Entity extends GridElement {
 	int ySave = 0;
 	boolean hasAttributes = false;
 
@@ -53,17 +52,17 @@ public class EER_Entity extends OldGridElement {
 			}
 		}
 		poly.addPoint(0, 0);
-		poly.addPoint(this.getSize().width - 1, 0);
+		poly.addPoint(this.getWidth() - 1, 0);
 		if (CENTER) {
 			hasAttributes = false; // see getStickingBorder()
-			ySave = this.getSize().height;
-			poly.addPoint(this.getSize().width - 1, this.getSize().height - 1);
-			poly.addPoint(0, this.getSize().height - 1);
+			ySave = this.getHeight();
+			poly.addPoint(this.getWidth() - 1, this.getHeight() - 1);
+			poly.addPoint(0, this.getHeight() - 1);
 		}
 		else {
 			hasAttributes = true; // see getStickingBorder()
 			g.drawLine((int) (10 * zoom), ySave, (int) (10 * zoom), yPos + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() - (int) this.getHandler().getFontHandler().getDistanceBetweenTexts());
-			poly.addPoint(this.getSize().width - 1, ySave);
+			poly.addPoint(this.getWidth() - 1, ySave);
 			poly.addPoint(0, ySave);
 		}
 
@@ -76,8 +75,8 @@ public class EER_Entity extends OldGridElement {
 		g2.drawPolygon(poly);
 
 		if (drawInnerRect) {
-			if (CENTER) g.drawRect((int) (3 * zoom), (int) (3 * zoom), this.getSize().width - (int) (7 * zoom), this.getSize().height - (int) (7 * zoom));
-			else g.drawRect((int) (3 * zoom), (int) (3 * zoom), this.getSize().width - (int) (7 * zoom), ySave - (int) (6 * zoom));
+			if (CENTER) g.drawRect((int) (3 * zoom), (int) (3 * zoom), this.getWidth() - (int) (7 * zoom), this.getHeight() - (int) (7 * zoom));
+			else g.drawRect((int) (3 * zoom), (int) (3 * zoom), this.getWidth() - (int) (7 * zoom), ySave - (int) (6 * zoom));
 		}
 
 		// #### draw text
@@ -99,10 +98,10 @@ public class EER_Entity extends OldGridElement {
 						drawInnerRect = true;
 						s1 = s1.substring(2);
 					}
-					this.getHandler().getFontHandler().writeText(g2, s1, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
+					this.getHandler().getFontHandler().writeText(g2, s1, this.getWidth() / 2, yPos, true);
 				}
 				else {
-					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize(), yPos, AlignHorizontal.LEFT);
+					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize(), yPos, false);
 				}
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				if (CENTER) ySave = yPos;

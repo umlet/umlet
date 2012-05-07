@@ -8,15 +8,15 @@ import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
-import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.baselet.diagram.command.Resize;
-import com.baselet.element.OldGridElement;
+import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")
-public class Interface extends OldGridElement {
+public class Interface extends GridElement {
 	public Interface() {
 		super();
 	}
@@ -60,20 +60,20 @@ public class Interface extends OldGridElement {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
-				g2.drawLine(0, yPos, this.getSize().width, yPos);
+				g2.drawLine(this.getWidth() / 2 - (int) this.getHandler().getFontHandler().getFontSize() * 4, yPos, this.getWidth() / 2 + (int) this.getHandler().getFontHandler().getFontSize() * 4, yPos);
 				yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				TextLayout l = new TextLayout(s, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
+				TextLayout l = new TextLayout(s, this.getHandler().getFontHandler().getFont(), Constants.FRC);
 				Rectangle2D r2d = l.getBounds();
 				int width = (int) r2d.getWidth();
-				int xPos = this.getSize().width / 2 - width / 2;
+				int xPos = this.getWidth() / 2 - width / 2;
 				if (xPos < 0) {
 					ADAPT_SIZE = true;
 					break;
 				}
-				this.getHandler().getFontHandler().writeText(g2, s, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
+				this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, true);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 		}
@@ -83,19 +83,19 @@ public class Interface extends OldGridElement {
 			(new Resize(this, 0, 0, this.getHandler().getGridSize(), 0)).execute(this.getHandler());
 			return;
 		}
-		if (yPos > this.getSize().height) {
+		if (yPos > this.getHeight()) {
 			(new Resize(this, 0, 0, 0, 20)).execute(this.getHandler());
 			return;
 		}
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g.fillOval(this.getSize().width / 2 - (int) (10 * zoom), 0, (int) (20 * zoom), (int) (20 * zoom));
+		g.fillOval(this.getWidth() / 2 - (int) (10 * zoom), 0, (int) (20 * zoom), (int) (20 * zoom));
 		g2.setComposite(composites[0]);
 		if (isSelected) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
 
-		g.drawOval(this.getSize().width / 2 - (int) (10 * zoom), 0, (int) (20 * zoom), (int) (20 * zoom));
+		g.drawOval(this.getWidth() / 2 - (int) (10 * zoom), 0, (int) (20 * zoom), (int) (20 * zoom));
 		/*
 		 * if (_selected) {
 		 * g.drawOval(this.getWidth()/2-Constants.getFontsize()+1, 1, 2*Constants.getFontsize()-2, 2*Constants.getFontsize()-2);
@@ -135,7 +135,6 @@ public class Interface extends OldGridElement {
 		p.addPoint(new Point(rechts, oben));
 		p.addPoint(new Point(rechts, unten));
 		p.addPoint(new Point(links, unten));
-		p.addPoint(new Point(links, oben));
 		return p;
 	}
 

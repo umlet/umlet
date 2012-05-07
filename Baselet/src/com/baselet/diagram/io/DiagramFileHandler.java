@@ -1,5 +1,6 @@
 package com.baselet.diagram.io;
 
+import java.awt.Component;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -47,12 +47,50 @@ public class DiagramFileHandler {
 
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
+	private static JFileChooser openFileChooser;
 	private static JFileChooser saveFileChooser;
+
+	public static DiagramFileHandler createInstance(DiagramHandler diagramHandler, File file) {
+		return new DiagramFileHandler(diagramHandler, file);
+	}
+
+	public static JFileChooser getOpenFileChooser() {
+		if (openFileChooser == null) {
+			openFileChooser = new JFileChooser(System.getProperty("user.dir"));
+			openFileChooser.setFileFilter(new FileFilter() {
+				@Override
+				public boolean accept(File f) {
+					return (f.getName().endsWith("." + Program.EXTENSION) || f.isDirectory());
+				}
+
+				@Override
+				public String getDescription() {
+					return Program.PROGRAM_NAME + " diagram format (*." + Program.EXTENSION + ")";
+				}
+			});
+			openFileChooser.setAcceptAllFileFilterUsed(false);
+		}
+		return openFileChooser;
+	}
+
+	private JFileChooser reloadSaveFileChooser() {
+		// Set the initial target location for the fileChooser
+		if (this.file != null) saveFileChooser = new JFileChooser(this.file);
+		else saveFileChooser = new JFileChooser(System.getProperty("user.dir"));
+
+		saveFileChooser.setAcceptAllFileFilterUsed(false); // We don't want "all files" as a choice
+		// The input field should show the diagram name as preset
+		saveFileChooser.setSelectedFile(new File(Main.getInstance().getDiagramHandler().getName()));
+		return saveFileChooser;
+	}
+
+	public static String chooseFileName() {
+		return Main.getInstance().getGUI().chooseFileName();
+	}
 
 	private String fileName;
 	private DiagramHandler handler;
 	private File file;
-	private File exportFile;
 	private HashMap<String, FileFilter> filters = new HashMap<String, FileFilter>();
 	private HashMap<FileFilter, String> fileextensions = new HashMap<FileFilter, String>();
 
@@ -74,7 +112,6 @@ public class DiagramFileHandler {
 		if (file != null) this.fileName = file.getName();
 		else this.fileName = "new." + Program.EXTENSION;
 		this.file = file;
-		this.exportFile = file;
 
 		allFileFilters.addAll(Arrays.asList(saveFileFilter));
 		allFileFilters.addAll(Arrays.asList(exportFileFilter));
@@ -82,24 +119,6 @@ public class DiagramFileHandler {
 			this.filters.put(filter.getFormat(), filter);
 			this.fileextensions.put(filter, filter.getFormat());
 		}
-	}
-	
-	public static DiagramFileHandler createInstance(DiagramHandler diagramHandler, File file) {
-		return new DiagramFileHandler(diagramHandler, file);
-	}
-
-	private JFileChooser reloadSaveFileChooser(boolean ownXmlFormat) {
-		// Set the initial target location for the fileChooser
-		if (this.file != null) {
-			if (ownXmlFormat == true) saveFileChooser = new JFileChooser(this.file);
-			else saveFileChooser = new JFileChooser(this.exportFile);
-		}
-		else saveFileChooser = new JFileChooser(System.getProperty("user.dir"));
-
-		saveFileChooser.setAcceptAllFileFilterUsed(false); // We don't want "all files" as a choice
-		// The input field should show the diagram name as preset
-		saveFileChooser.setSelectedFile(new File(Main.getInstance().getDiagramHandler().getName()));
-		return saveFileChooser;
 	}
 
 	public String getFileName() {
@@ -131,6 +150,7 @@ public class DiagramFileHandler {
 				else { // insert normal entity element
 					java.lang.Class<? extends GridElement> c = e.getClass();
 					String sElType = c.getName();
+					int[] coor = e.getCoordinates();
 					String sElPanelAttributes = e.getPanelAttributes();
 					String sElAdditionalAttributes = e.getAdditionalAttributes();
 
@@ -145,19 +165,19 @@ public class DiagramFileHandler {
 					el.appendChild(elCoor);
 
 					Element elX = doc.createElement("x");
-					elX.appendChild(doc.createTextNode("" + e.getLocation().x));
+					elX.appendChild(doc.createTextNode("" + coor[0]));
 					elCoor.appendChild(elX);
 
 					Element elY = doc.createElement("y");
-					elY.appendChild(doc.createTextNode("" + e.getLocation().y));
+					elY.appendChild(doc.createTextNode("" + coor[1]));
 					elCoor.appendChild(elY);
 
 					Element elW = doc.createElement("w");
-					elW.appendChild(doc.createTextNode("" + e.getSize().width));
+					elW.appendChild(doc.createTextNode("" + coor[2]));
 					elCoor.appendChild(elW);
 
 					Element elH = doc.createElement("h");
-					elH.appendChild(doc.createTextNode("" + e.getSize().height));
+					elH.appendChild(doc.createTextNode("" + coor[3]));
 					elCoor.appendChild(elH);
 
 					Element elPA = doc.createElement("panel_attributes");
@@ -186,6 +206,12 @@ public class DiagramFileHandler {
 	}
 
 	protected String createStringToBeSaved() {
+		Component[] components = this.handler.getDrawPanel().getComponents();
+		List<GridElement> entities = new ArrayList<GridElement>();
+		for (int i = 0; i < components.length; i++) {
+			if (components[i] instanceof GridElement) entities.add((GridElement) components[i]);
+		}
+
 		DocumentBuilder db = null;
 		String returnString = null;
 
@@ -213,7 +239,6 @@ public class DiagramFileHandler {
 			root.appendChild(zoom);
 
 			// save elements (group = null = rootlayer)
-			Vector<GridElement> entities = this.handler.getDrawPanel().getAllEntities();
 			this.createXMLOutputDoc(doc, entities, root, null);
 
 			// output the stuff...
@@ -267,18 +292,16 @@ public class DiagramFileHandler {
 		if (extension.equals(Program.EXTENSION)) {
 			this.file = fileToSave;
 			this.setFileName(this.file.getName());
-			save();
-		} else {
-			this.exportFile = fileToSave;
-			doExportAs(extension, fileToSave);
+			save(true);
 		}
+		else doExportAs(extension, fileToSave);
 	}
 
 	public File doSaveTempDiagram(String filename, String fileextension) throws IOException {
 		File tempFile = new File(Path.temp() + filename + "." + fileextension);
 		tempFile.deleteOnExit();
 
-		if (fileextension.equals(Program.EXTENSION)) save(tempFile, true);
+		if (fileextension.equals(Program.EXTENSION)) save(tempFile, false);
 		else doExportAs(fileextension, tempFile);
 
 		return tempFile;
@@ -286,7 +309,7 @@ public class DiagramFileHandler {
 
 	public void doSave() throws IOException {
 		if ((file == null) || !file.exists()) doSaveAs(Program.EXTENSION);
-		else save();
+		else save(true);
 	}
 
 	public void doExportAs(String extension, File file) throws IOException {
@@ -299,26 +322,23 @@ public class DiagramFileHandler {
 		// CustomElementSecurityManager.remThreadPrivileges(Thread.currentThread());
 	}
 
-	private void save() throws UnsupportedEncodingException, FileNotFoundException {
-		save(file, false); // If save is called without a parameter it uses the class variable "file"
+	private void save(boolean removeHandlerChanged) throws UnsupportedEncodingException, FileNotFoundException {
+		save(file, removeHandlerChanged); // If save is called without a parameter it uses the class variable "file"
 	}
 
-	private void save(File saveToFile, boolean tempFile) throws UnsupportedEncodingException, FileNotFoundException {
+	private void save(File saveToFile, boolean removeHandlerChanged) throws UnsupportedEncodingException, FileNotFoundException {
 		String tmp = this.createStringToBeSaved();
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(saveToFile), "UTF-8"));
 		out.print(tmp);
 		out.close();
-		if (!tempFile) {
-			handler.setChanged(false);
-			Constants.recentlyUsedFilesList.add(saveToFile.getAbsolutePath());
-		}
+		if (removeHandlerChanged) handler.setChanged(false);
 	}
 
 	private String chooseFileName(boolean ownXmlFormat, FileFilter filefilter) {
 		String fileName = null;
 
 		// filechooser must be recreated to avoid a bug where getSelectedFile() was null (if a file is saved more than one time by doubleclicking on an existing file)
-		reloadSaveFileChooser(ownXmlFormat);
+		reloadSaveFileChooser();
 
 		setAvailableFileFilters(ownXmlFormat);
 		saveFileChooser.setFileFilter(filefilter);

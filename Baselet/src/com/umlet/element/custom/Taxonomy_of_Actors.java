@@ -9,14 +9,12 @@ import java.awt.Polygon;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")
-public class Taxonomy_of_Actors extends OldGridElement {
+public class Taxonomy_of_Actors extends com.baselet.element.GridElement {
 
 	@Override
 	public void paintEntity(Graphics g) {
@@ -31,11 +29,11 @@ public class Taxonomy_of_Actors extends OldGridElement {
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		g2.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 		g2.setComposite(composites[0]);
 		if (isSelected) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
-		g2.drawRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		g2.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 
@@ -123,7 +121,7 @@ public class Taxonomy_of_Actors extends OldGridElement {
 		g2.drawLine((int) (head / 2 + xPos + 0.5), (int) (yPos + head * 3 - distance + 0.5), (int) (head + xPos + 0.5), (int) (yPos + head * 4 - distance + 0.5));
 		g2.drawLine((int) (head / 2 + xPos), (int) (yPos + head * 3 - distance + 0.5), (int) (xPos + 0.5), (int) (yPos + head * 4 - distance + 0.5));
 		// this.getHandler().getFontHandler().writeText(g2, name, xPos, yPos + (int) (4.5*head), false);
-		this.getHandler().getFontHandler().writeText(g2, name, (int) (xPos + head * 1.5 + this.getHandler().getFontHandler().getDistanceBetweenTexts() + 0.5), (int) (2 * head + yPos + 0.5), AlignHorizontal.LEFT);
+		this.getHandler().getFontHandler().writeText(g2, name, (int) (xPos + head * 1.5 + this.getHandler().getFontHandler().getDistanceBetweenTexts() + 0.5), (int) (2 * head + yPos + 0.5), false);
 	}
 
 	private void drawDockAnchor(Graphics2D g2, Point nextDock) {

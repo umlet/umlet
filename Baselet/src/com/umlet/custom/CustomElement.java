@@ -20,33 +20,36 @@ import java.util.Vector;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.Constants.AlignVertical;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
-import com.baselet.element.OldGridElement;
 
 
 @SuppressWarnings("serial")
-public abstract class CustomElement extends OldGridElement {
+public abstract class CustomElement extends GridElement {
 
 	private class Text {
 		private String text;
 		private int x, y;
 		private AlignHorizontal align;
+		private AlignVertical valign;
 		private Integer fixedSize;
 
-		private Text(String text, int x, int y, AlignHorizontal align) {
+		private Text(String text, int x, int y, AlignHorizontal align, AlignVertical valign) {
 			this.text = text;
 			this.x = x;
 			this.y = y;
 			this.align = align;
+			this.valign = valign;
 		}
 
-		private Text(String text, int x, int y, AlignHorizontal align, Integer fixedSize) {
+		private Text(String text, int x, int y, AlignHorizontal align, AlignVertical valign, Integer fixedSize) {
 			this.text = text;
 			this.x = x;
 			this.y = y;
 			this.align = align;
+			this.valign = valign;
 			this.fixedSize = fixedSize; // some texts should not be zoomed
 		}
 	}
@@ -131,7 +134,7 @@ public abstract class CustomElement extends OldGridElement {
 				getHandler().getFontHandler().setFontSize(t.fixedSize);
 				applyZoom = false;
 			}
-			this.getHandler().getFontHandler().writeText(this.g2, t.text, t.x, t.y, t.align, applyZoom);
+			this.getHandler().getFontHandler().writeText(this.g2, t.text, t.x, t.y, t.align, t.valign, applyZoom);
 			if (t.fixedSize != null) {
 				getHandler().getFontHandler().resetFontSize();
 			}
@@ -155,9 +158,9 @@ public abstract class CustomElement extends OldGridElement {
 		else bugfix = false;
 
 		// width and height must be zoomed back to 100% before any custom code is applied
-		temp = this.getSize().width;
+		temp = this.getWidth();
 		width = Math.round(temp / zoom); // use Math.round cause (int) would round down from 239.99998 to 240
-		temp = this.getSize().height;
+		temp = this.getHeight();
 		height = Math.round(temp / zoom);
 
 		// Set width and height on grid (used for manually resized custom elements mainly
@@ -200,7 +203,7 @@ public abstract class CustomElement extends OldGridElement {
 		int y = inY;
 		List<String> list = wordWrap ? Utils.splitString(text, (int) (width * zoom)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-			this.texts.add(new Text(s, (int) (x * zoom), (int) (y * zoom), AlignHorizontal.LEFT));
+			this.texts.add(new Text(s, (int) (x * zoom), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
 			y += textHeight();
 		}
 		return y - inY;
@@ -211,7 +214,7 @@ public abstract class CustomElement extends OldGridElement {
 		int y = inY;
 		List<String> list = wordWrap ? Utils.splitString(text, (int) (width * zoom)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-			this.texts.add(new Text(s, ((int) this.getHandler().getFontHandler().getDistanceBetweenTexts()), (int) (y * zoom), AlignHorizontal.LEFT));
+			this.texts.add(new Text(s, ((int) this.getHandler().getFontHandler().getDistanceBetweenTexts()), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
 			y += textHeight();
 		}
 		return y - inY;
@@ -222,7 +225,7 @@ public abstract class CustomElement extends OldGridElement {
 		int y = inY;
 		List<String> list = wordWrap ? Utils.splitString(text, (int) (width * zoom)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-			this.texts.add(new Text(s, (int) ((width * zoom - this.textWidth(s, true))), (int) (y * zoom), AlignHorizontal.LEFT));
+			this.texts.add(new Text(s, (int) ((width * zoom - this.textWidth(s, true))), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
 			y += textHeight();
 		}
 		return y - inY;
@@ -233,7 +236,7 @@ public abstract class CustomElement extends OldGridElement {
 		int y = inY;
 		List<String> list = wordWrap ? Utils.splitString(text, (int) (width * zoom)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-			this.texts.add(new Text(s, (int) (((onGrid(width) * zoom - this.textWidth(s, true)) / 2)), (int) (y * zoom), AlignHorizontal.LEFT));
+			this.texts.add(new Text(s, (int) (((onGrid(width) * zoom - this.textWidth(s, true)) / 2)), (int) (y * zoom), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
 			y += textHeight();
 		}
 		return y - inY;
@@ -244,7 +247,7 @@ public abstract class CustomElement extends OldGridElement {
 		int y = inY;
 		List<String> list = wordWrap ? Utils.splitString(text, width) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-		this.texts.add(new Text(s, x, y, AlignHorizontal.LEFT, fixedFontSize));
+		this.texts.add(new Text(s, x, y, AlignHorizontal.LEFT, AlignVertical.BOTTOM, fixedFontSize));
 		y += textHeight();
 		}
 		return y - inY;

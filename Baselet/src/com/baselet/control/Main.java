@@ -32,10 +32,9 @@ import com.baselet.control.Constants.RuntimeType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
-import com.baselet.diagram.io.OpenFileChooser;
+import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.GridElement;
 import com.baselet.gui.BaseGUI;
-import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.standalone.StandaloneGUI;
 
 public class Main {
@@ -56,6 +55,8 @@ public class Main {
 	private DiagramHandler currentDiagramHandler;
 	private DiagramHandler currentInfoDiagramHandler;
 	private ClassLoader classLoader;
+
+	private List<String> recentFiles = new ArrayList<String>();
 
 	public static Main getInstance() {
 		if (instance == null) {
@@ -151,7 +152,11 @@ public class Main {
 
 	private void readManifestInfo() {
 		try {
-			Attributes attributes = Path.manifest().getMainAttributes();
+			Manifest manifest;
+			if (Path.executable().endsWith(".jar")) manifest = new JarFile(Path.executable()).getManifest();
+			else manifest = new Manifest(new FileInputStream(Path.homeProgram() + "META-INF" + File.separator + "MANIFEST.MF"));
+
+			Attributes attributes = manifest.getMainAttributes();
 			String versionString = attributes.getValue("Bundle-Version");
 			String progNameString = attributes.getValue("Bundle-Name");
 			ProgramName programName = progNameString.equals("Umlet") ? ProgramName.UMLET : ProgramName.PLOTLET;
@@ -193,7 +198,6 @@ public class Main {
 
 		try {
 			if (format != null) handler.getFileHandler().doExportAs(format, new File(outputfilename));
-			printToConsole("Conversion finished");
 		} catch (Exception e) {
 			printUsage();
 		}
@@ -276,12 +280,11 @@ public class Main {
 
 	private void setPropertyPanelToGridElementHelper(GridElement e) {
 		editedGridElement = e;
-		OwnSyntaxPane propertyPane = gui.getPropertyPane();
-		if (e != null) propertyPane.setText(e.getPanelAttributes());
+		if (e != null) this.gui.setPropertyPanelText(e.getPanelAttributes());
 		else {			
 			DiagramHandler handler = this.getDiagramHandler();
-			if (handler == null) propertyPane.setText("");
-			else propertyPane.setText(handler.getHelpText());
+			if (handler == null) this.gui.setPropertyPanelText("");
+			else this.gui.setPropertyPanelText(handler.getHelpText());
 		}
 	}
 
@@ -326,11 +329,9 @@ public class Main {
 		if (this.diagrams.size() == 1) this.setPropertyPanelToGridElement(null);
 	}
 
-	public void doOpenFromFileChooser() {
-		List<String> files = OpenFileChooser.getFilesToOpen();
-		for (String file : files) {
-			this.doOpen(file);
-		}
+	public void doOpen() {
+		String fn = DiagramFileHandler.chooseFileName();
+		if (fn != null) this.doOpen(fn);
 	}
 
 	public void doOpen(final String filename) {
@@ -350,7 +351,10 @@ public class Main {
 		this.diagrams.add(diagram);
 		this.gui.open(diagram);
 		if (this.diagrams.size() == 1) this.setPropertyPanelToGridElement(null);
-		Constants.recentlyUsedFilesList.add(filename);
+		if (recentFiles.contains(filename)) recentFiles.remove(filename);
+		recentFiles.add(0, filename);
+		int maxRecentFiles = 10;
+		if (recentFiles.size() > maxRecentFiles) recentFiles.remove(maxRecentFiles);
 	}
 
 	/**
@@ -362,6 +366,17 @@ public class Main {
 			if (lastDiagram.getController().isEmpty() && lastDiagram.getDrawPanel().getAllEntities().isEmpty()) { return true; }
 		}
 		return false;
+	}
+
+	// ask for save for all diagrams (if main is closed)
+	public boolean askSaveIfDirty() {
+		boolean ok = true;
+		for (DiagramHandler d : this.getDiagrams()) {
+			if (!d.askSaveIfDirty()) ok = false;
+		}
+
+		if (!this.getGUI().getCurrentCustomHandler().closeEntity()) ok = false;
+		return ok;
 	}
 
 	// called by UI when main is closed
@@ -431,6 +446,10 @@ public class Main {
 		return editedGridElement;
 	}
 
+	public String getPropertyString() {
+		return this.gui.getPropertyPanelText();
+	}
+
 	public PaletteHandler getPalette() {
 		String name = this.gui.getSelectedPalette();
 		if (name != null) return this.getPalettes().get(name);
@@ -444,6 +463,10 @@ public class Main {
 	// returns the current diagramhandler the user works with - may be a diagramhandler of a palette too
 	public DiagramHandler getDiagramHandler() {
 		return this.currentDiagramHandler;
+	}
+
+	public List<String> getRecentFiles() {
+		return recentFiles;
 	}
 
 }

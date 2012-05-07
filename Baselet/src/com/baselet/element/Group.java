@@ -16,7 +16,7 @@ import com.baselet.diagram.command.AddElement;
 
 
 @SuppressWarnings("serial")
-public class Group extends OldGridElement {
+public class Group extends GridElement {
 	private Vector<GridElement> entities;
 
 	// after adding all elements to a group the function adjustSize has to be called!
@@ -48,7 +48,7 @@ public class Group extends OldGridElement {
 			e.addMouseMotionListener(this.getHandler().getEntityListener(e));
 		}
 
-		this.getHandler().getDrawPanel().removeElement(this);
+		this.getHandler().getDrawPanel().remove(this);
 		this.getHandler().getDrawPanel().repaint();
 	}
 
@@ -88,13 +88,13 @@ public class Group extends OldGridElement {
 			float alphaFactorStrong = 0.8f;
 			AlphaComposite alphaStrong = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaFactorStrong);
 			g2.setComposite(alphaStrong);
-			g2.drawRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+			g2.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 
 			// Create a strong transparency for the group background
 			float alphaFactorLight = 0.05f;
 			AlphaComposite alphaLight = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaFactorLight);
 			g2.setComposite(alphaLight);
-			g2.fillRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+			g2.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 
 			g2.setComposite(old);
 			g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
@@ -125,10 +125,10 @@ public class Group extends OldGridElement {
 		int maxY = 0;
 		for (GridElement e : entities) {
 			if (recursive && (e instanceof Group)) ((Group) e).adjustSize(true);
-			maxX = Math.max(e.getLocation().x + e.getSize().width, maxX);
-			maxY = Math.max(e.getLocation().y + e.getSize().height, maxY);
-			minX = Math.min(e.getLocation().x, minX);
-			minY = Math.min(e.getLocation().y, minY);
+			maxX = Math.max(e.getX() + e.getWidth(), maxX);
+			maxY = Math.max(e.getY() + e.getHeight(), maxY);
+			minX = Math.min(e.getX(), minX);
+			minY = Math.min(e.getY(), minY);
 		}
 		this.setLocation(minX, minY);
 		this.setSize((maxX - minX), (maxY - minY));
@@ -147,7 +147,7 @@ public class Group extends OldGridElement {
 			temp.addMember(clone);
 		}
 		temp.adjustSize(false);
-		temp.setHandlerAndInitListeners(this.getHandler());
+		temp.setHandler(this.getHandler());
 		return temp;
 	}
 
@@ -156,5 +156,10 @@ public class Group extends OldGridElement {
 		super.changeLocation(diffx, diffy);
 		for (GridElement e : this.entities)
 			e.changeLocation(diffx, diffy);
+	}
+
+	@Override
+	public int getPossibleResizeDirections() { // LME: deny resizing of groups
+		return 0;
 	}
 }

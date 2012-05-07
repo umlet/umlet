@@ -152,11 +152,11 @@ public class CustomElementHandler {
 				e.setBounds(entities.get(0).getBounds());
 				e.setPanelAttributes(entities.get(0).getPanelAttributes());
 				if (this.preview.getDrawPanel().getSelector().getSelectedEntities().size() > 0) this.preview.getDrawPanel().getSelector().singleSelectWithoutUpdatePropertyPanel(e);
-				this.preview.getDrawPanel().removeElement(entities.get(0));
+				this.preview.getDrawPanel().remove(entities.get(0));
 			}
 
-			e.setHandlerAndInitListeners(this.preview);
-			this.preview.getDrawPanel().addElement(e);
+			e.setHandler(this.preview);
+			this.preview.getDrawPanel().add(e);
 			e.repaint();
 		}
 	}
@@ -220,14 +220,14 @@ public class CustomElementHandler {
 			// set location for element
 			int x = 10, y = 10;
 			for (GridElement e : ents) {
-				if (e.getLocation().y + e.getSize().height + 10 > y) y = e.getLocation().y + e.getSize().height + 10;
+				if (e.getY() + e.getHeight() + 10 > y) y = e.getY() + e.getHeight() + 10;
 			}
 
-			Rectangle bounds = new Rectangle(x, y, element.getSize().width, element.getSize().height);
+			Rectangle bounds = new Rectangle(x, y, element.getWidth(), element.getHeight());
 			this.addElementToDiagram(element, current, true, bounds, element.getPanelAttributes());
 		}
 		else { // replace edited element (and ONLY edited element)
-			this.originalElement.getHandler().getDrawPanel().removeElement(this.originalElement);
+			this.originalElement.getHandler().getDrawPanel().remove(this.originalElement);
 			this.addElementToDiagram(element, this.originalElement.getHandler(), true,
 					this.originalElement.getBounds(), this.originalElement.getPanelAttributes());
 		}
@@ -242,10 +242,10 @@ public class CustomElementHandler {
 		// d.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false);
 
 		GridElement e2 = e.CloneFromMe();
-		e2.setHandlerAndInitListeners(d);
+		e2.setHandler(d);
 		e2.setPanelAttributes(state);
 		e2.setBounds(bounds);
-		d.getDrawPanel().addElement(e2);
+		d.getDrawPanel().add(e2);
 		if (setchanged) d.setChanged(true);
 
 		// And zoom back to the oldGridsize after execution

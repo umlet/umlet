@@ -33,10 +33,4 @@ public class Copy extends Command {
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
 	}
-
-	@Override
-	public boolean isChangingDiagram() {
-		return false;
-	}
-	
 }

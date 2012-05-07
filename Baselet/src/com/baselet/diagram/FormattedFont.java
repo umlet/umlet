@@ -1,9 +1,7 @@
 package com.baselet.diagram;
 
 import java.awt.Font;
-import java.awt.font.FontRenderContext;
 import java.awt.font.TextAttribute;
-import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 
@@ -18,9 +16,7 @@ public class FormattedFont {
 	private String string;
 	private AttributedString atrString;
 	
-	private TextLayout textLayout;
-	
-	public FormattedFont(String text, float fontSize, Font font, FontRenderContext fontRenderContext) {
+	public FormattedFont(String text, float fontSize, Font font) {
 		string = setFormatAndRemoveLabels(text);
 
 		string = string.replaceAll("<<", "\u00AB");
@@ -33,8 +29,6 @@ public class FormattedFont {
 		atrString.addAttribute(TextAttribute.WEIGHT, bold);
 		atrString.addAttribute(TextAttribute.POSTURE, italic);
 		atrString.addAttribute(TextAttribute.UNDERLINE, underline, 0, string.length());
-
-		textLayout = new TextLayout(getAttributedCharacterIterator(), fontRenderContext);
 	}
 	
 	public String getString() {
@@ -70,13 +64,5 @@ public class FormattedFont {
 		}
 
 		return s;
-	}
-
-	public double getWidth() {
-		return textLayout.getBounds().getWidth();
-	}
-
-	public double getHeight() {
-		return textLayout.getBounds().getHeight();
 	}
 }

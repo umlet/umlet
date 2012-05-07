@@ -2,12 +2,15 @@ package com.baselet.diagram;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics2D;
-import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
+import java.io.File;
+import java.io.IOException;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.Constants.AlignVertical;
 
 
 public class FontHandler {
@@ -19,12 +22,12 @@ public class FontHandler {
 		public static final String ITALIC = "/";
 	}
 
+
 	private DiagramHandler handler;
 	private Integer fontSize;
 	private Integer diagramDefaultSize = null; // if "fontsize=..." is uncommented this variable is set
 
 	private String diagramDefaultFontFamily = null;
-	private FontRenderContext fontrenderContext = new FontRenderContext(null, true, true);
 
 	public FontHandler(DiagramHandler handler) {
 		this.handler = handler;
@@ -101,7 +104,7 @@ public class FontHandler {
 	public Dimension getTextSize(String s, boolean applyZoom) {
 		if (s == null) return null;
 		if (s.length() == 0) return new Dimension(0, 0);
-		TextLayout tl = new TextLayout(s, getFont(applyZoom), fontrenderContext);
+		TextLayout tl = new TextLayout(s, getFont(applyZoom), Constants.FRC);
 		return new Dimension((int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
 	}
 
@@ -114,25 +117,42 @@ public class FontHandler {
 		return (int) this.getTextSize(s, applyZoom).getWidth();
 	}
 
-	public void writeText(Graphics2D g2, String s, int x, int y, AlignHorizontal align) {
-		writeText(g2, s, x, y, align, true);
+	public int getTextHeight(String s) {
+		return getTextHeight(s, true);
 	}
 
-	public void writeText(Graphics2D g2, String s, int x, int y, AlignHorizontal align, boolean applyZoom) {
+	public int getTextHeight(String s, boolean applyZoom) {
+		if (s == null) return 0;
+		else return (int) this.getTextSize(s, applyZoom).getHeight();
+	}
+
+	public void writeText(Graphics2D g2, String s, int x, int y, boolean center) {
+		if (center) this.writeText(g2, s, x, y, AlignHorizontal.CENTER, AlignVertical.BOTTOM);
+		else this.writeText(g2, s, x, y, AlignHorizontal.LEFT, AlignVertical.BOTTOM);
+	}
+
+	public void writeText(Graphics2D g2, String s, int x, int y, AlignHorizontal align, AlignVertical valign) {
+		writeText(g2, s, x, y, align, valign, true);
+	}
+
+	public void writeText(Graphics2D g2, String s, int x, int y, AlignHorizontal align, AlignVertical valign, boolean applyZoom) {
 		for (String line : s.split("\n")) {
-			this.write(g2, line, x, y, align, applyZoom);
+			this.write(g2, line, x, y, align, valign, applyZoom);
 			y += g2.getFontMetrics().getHeight();
 		}
 	}
 
-	private void write(Graphics2D g2, String stringWithFormatLabels, int x, int y, AlignHorizontal align, boolean applyZoom) {
+	private void write(Graphics2D g2, String stringWithFormatLabels, int x, int y, AlignHorizontal align, AlignVertical valign, boolean applyZoom) {
 		if (stringWithFormatLabels == null || stringWithFormatLabels.isEmpty()) return;
 		float fontSize = getFontSize(applyZoom);
-		FormattedFont formattedFont = new FormattedFont(stringWithFormatLabels, fontSize, getFont(applyZoom), g2.getFontRenderContext());
-		this.fontrenderContext = g2.getFontRenderContext(); //TODO workaround to make sure getTextSize works without a graphics object
-		
-		if (align == AlignHorizontal.CENTER) x = (int) (x - formattedFont.getWidth() / 2);
-		else if (align == AlignHorizontal.RIGHT) x = (int) (x - formattedFont.getWidth());
+		FormattedFont formattedFont = new FormattedFont(stringWithFormatLabels, fontSize, getFont(applyZoom));
+
+		String s = formattedFont.getString();
+		if (align == AlignHorizontal.CENTER) x = x - getTextWidth(s, applyZoom) / 2;
+		else if (align == AlignHorizontal.RIGHT) x = x - getTextWidth(s, applyZoom);
+
+		if (valign == AlignVertical.CENTER) y = y + getTextHeight(s, applyZoom) / 2;
+		else if (valign == AlignVertical.TOP) y = y + getTextHeight(s, applyZoom);
 
 		g2.drawString(formattedFont.getAttributedCharacterIterator(), x, y);
 	}

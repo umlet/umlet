@@ -6,13 +6,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
-import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.element.OldGridElement;
 
 
 @SuppressWarnings("serial")
-public class AlternativeUseCase extends OldGridElement {
+public class AlternativeUseCase extends com.baselet.element.GridElement {
 
 	// Change this method if you want to edit the graphical
 	// representation of your custom element.
@@ -29,12 +27,12 @@ public class AlternativeUseCase extends OldGridElement {
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillRect(0, 0, getSize().width - 1, getSize().height - 1);
+		g2.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
 		g2.setComposite(composites[0]);
 		if (isSelected) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
 
-		g2.drawRect(0, 0, getSize().width - 1, getSize().height - 1);
+		g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 
 		boolean center = false;
 
@@ -48,16 +46,16 @@ public class AlternativeUseCase extends OldGridElement {
 				center = true;
 			}
 			else if (center == true) {
-				this.getHandler().getFontHandler().writeText(g2, s, (getSize().width - 1) / 2, yPos, AlignHorizontal.CENTER);
+				this.getHandler().getFontHandler().writeText(g2, s, (getWidth() - 1) / 2, yPos, true);
 				center = false;
 			}
 			else {
-				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, false);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 		}
 
-		g2.drawLine(0, (int) (30 * zoom), getSize().width - 1, (int) (30 * zoom));
-		g2.drawOval(getSize().width - (int) (59 * zoom), (int) (3 * zoom), (int) (55 * zoom), (int) (20 * zoom));
+		g2.drawLine(0, (int) (30 * zoom), getWidth() - 1, (int) (30 * zoom));
+		g2.drawOval(getWidth() - (int) (59 * zoom), (int) (3 * zoom), (int) (55 * zoom), (int) (20 * zoom));
 	}
 }

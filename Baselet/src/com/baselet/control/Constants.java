@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
+import java.awt.font.FontRenderContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -198,7 +199,6 @@ public abstract class Constants {
 	}
 
 	/**** OTHER CONSTANTS ****/
-
 	public static final String CUSTOM_ELEMENT_CLASSNAME = "CustomElementImpl";
 	public static final int DEFAULTGRIDSIZE = 10;
 	public static final int INTERFACE_LINE_LENGTH = 40;
@@ -257,12 +257,8 @@ public abstract class Constants {
 		}
 	}
 	
-	public static final int RECENT_FILES_LIST_LENGTH = 10;
-	public static final RecentlyUsedFilesList recentlyUsedFilesList = new RecentlyUsedFilesList();
+	public static final FontRenderContext FRC = new FontRenderContext(null, true, true);
 
-	// Default panel font is MONOSPACED to make sure that bold text has the same width as non-bold text (eg: for syntax highlighting)
-	public static Font PANEL_FONT = new Font(Font.MONOSPACED, Font.PLAIN, 11);
-	
 	/**** VALUES LOADED FROM CONFIG ****/
 	public static int defaultFontsize = (Program.PROGRAM_NAME == ProgramName.UMLET ? 14 : 10);
 	public static String defaultFontFamily = Font.SANS_SERIF;
@@ -278,7 +274,6 @@ public abstract class Constants {
 	public static String ui_manager;
 	public static int printPadding = 20;
 	public static boolean checkForUpdates = true;
-	public static String openFileHome = System.getProperty("user.dir");
 	public static String pdfExportFont = ""; //eg in Windows: "pdf_export_font = c:/windows/fonts/msgothic.ttc,1"
 
 	static {
@@ -302,7 +297,7 @@ public abstract class Constants {
 	public static String mail_bcc = "";
 	public static boolean mail_xml = true;
 	public static boolean mail_gif = true;
-	public static boolean mail_pdf = false;;
+	public static boolean mail_pdf = false;
 
 	/**** ERROR MESSAGES ****/
 
