@@ -96,7 +96,7 @@ public class InputHandler extends DefaultHandler {
 				try {
 					NewGridElement e = ElementInitializer.getInstance().getGridElementFromId(this.id);
 					e.init(new Rectangle(x, y, w, h), this.panel_attributes, this.additional_attributes, this.handler);
-					_p.addElement(e);
+					_p.add(e);
 				} catch (Exception e) {
 					log.error("Cannot instantiate element with id: " + this.id, e);
 				}

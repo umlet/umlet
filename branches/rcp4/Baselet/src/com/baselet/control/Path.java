@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream.GetField;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,10 +16,11 @@ import java.util.jar.Manifest;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.FileLocator;
 
+import umletplugin.Activator;
+
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.plugin.MainPlugin;
-import com.umlet.element.experimental.Id;
 
 public class Path {
 
@@ -30,15 +30,7 @@ public class Path {
 	private static String homeProgramDir;
 
 	public static String config() {
-		return userHome() + File.separator + Program.CONFIG_NAME;
-	}
-
-	private static String userHome() {
-		String homeDir = System.getProperty("user.home");
-		if (!homeDir.endsWith(File.separator)) homeDir += File.separator;
-		File homeDirFile = new File(homeDir + Program.PROGRAM_NAME);
-		if (!homeDirFile.exists()) homeDirFile.mkdir();
-		return homeDirFile.getAbsolutePath();
+		return Path.homeProgram() + Program.CONFIG_NAME;
 	}
 
 	public static String customElements() {
@@ -65,7 +57,7 @@ public class Path {
 			if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) {
 				String path = null;
 				try {
-					URL homeURL = MainPlugin.getURL();
+					URL homeURL = Activator.getURL();
 					path = FileLocator.toFileURL(homeURL).toString().substring(new String("file:/").length());
 					if (File.separator.equals("/")) path = "/" + path;
 				} catch (IOException e) {
@@ -103,6 +95,7 @@ public class Path {
 			path = codeSourceUrl.getPath().replace("%20", " ");
 		}
 
+		if (path.startsWith("/")) path = path.substring(1);
 		return path;
 	}
 

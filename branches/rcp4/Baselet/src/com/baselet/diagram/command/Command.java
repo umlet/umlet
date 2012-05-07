@@ -25,8 +25,4 @@ public abstract class Command {
 	public Command mergeTo(Command c) {
 		return null;
 	}
-
-	public boolean isChangingDiagram() {
-		return true;
-	}
 }

@@ -5,7 +5,6 @@ import java.net.URL;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import com.baselet.control.Constants.Program;
@@ -27,12 +26,6 @@ public class MainPlugin extends AbstractUIPlugin {
 	// The shared instance
 	private static MainPlugin plugin;
 
-	private static EclipseGUI gui;
-
-	public static EclipseGUI getGUI() {
-		return gui;
-	}
-
 	/**
 	 * The constructor
 	 */
@@ -51,8 +44,7 @@ public class MainPlugin extends AbstractUIPlugin {
 		
 		try {
 			Main.getInstance().initOverallSettings();
-			gui = new EclipseGUI(Main.getInstance());
-			Main.getInstance().init(gui);
+			Main.getInstance().init(new EclipseGUI(Main.getInstance()));
 		} catch (Exception e) {
 			log.error("Initialization or uncaught outer Exception", e);
 		}
