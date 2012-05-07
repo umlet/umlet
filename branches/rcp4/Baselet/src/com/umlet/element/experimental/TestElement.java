@@ -9,4 +9,5 @@ public class TestElement extends NewGridElement {
 	protected void paintElement() {
 		drawer.drawRectangle(10, 10, 30, 30);
 	}
+
 }

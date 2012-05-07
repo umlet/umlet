@@ -43,7 +43,7 @@ public class Controller {
 		}
 		_cursor = commands.size() - 1;
 
-		if (!(newCommand instanceof Copy)) {
+		if (newCommand.isChangingDiagram()) {
 			this.handler.setChanged(true);
 		}
 

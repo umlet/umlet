@@ -278,6 +278,7 @@ public abstract class Constants {
 	public static String ui_manager;
 	public static int printPadding = 20;
 	public static boolean checkForUpdates = true;
+	public static String openFileHome = System.getProperty("user.dir");
 	public static String pdfExportFont = ""; //eg in Windows: "pdf_export_font = c:/windows/fonts/msgothic.ttc,1"
 
 	static {
