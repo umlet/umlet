@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+   <extension point="org.eclipse.ui.newWizards">
+      <wizard
+            name="Umlet diagram"
+            id="com.umlet.plugin.wizards.NewWizard"
+            icon="img/umlet_eclipse.gif"
+            category="com.baselet.plugin"
+            class="com.baselet.plugin.wizard.NewWizard"
+       />
+   </extension>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            name="Umlet Editor"
+            id="com.umlet.plugin.Editor"
+            icon="img/umlet_eclipse.gif"
+            class="com.baselet.plugin.editor.Editor"
+            contributorClass="com.baselet.plugin.editor.Contributor"
+            extensions="uxf"
+            default="false"
+      />
+   </extension>
+</plugin>
