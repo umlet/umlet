@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
@@ -21,11 +19,10 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
-import com.baselet.element.GridComponent;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
 
-public abstract class NewGridElement implements GridElement {
+public abstract class NewGridElement extends JComponent implements GridElement {
 
 	protected final static Logger log = Logger.getLogger(Utils.getClassName());
 	
@@ -48,22 +45,13 @@ public abstract class NewGridElement implements GridElement {
 	protected String panelAttributes = "";
 	protected String panelAttributesAdditional = "";
 	
-	private GridComponent component = new GridComponent() {
-		private static final long serialVersionUID = 1L;
 
-		@Override
-		public void paint(Graphics g) {
-			drawer = new BaseDrawHandler(g, handler, fgColor, bgColor, component.getSize(), isSelected);
-			paintElement();
-		}
-
-		@Override
-		public GridElement getGridElement() {
-			return NewGridElement.this;
-		}
-		
-	};
-
+	@Override
+	public void paint(Graphics g) {
+		drawer = new BaseDrawHandler(g, handler, fgColor, bgColor, this.getSize(), isSelected);
+		paintElement();
+	}
+	
 	protected abstract void paintElement();
 
 	public void init(Rectangle bounds, String panelAttributes, String panelAttributesAdditional, DiagramHandler handler) {
@@ -88,6 +76,11 @@ public abstract class NewGridElement implements GridElement {
 		this.addMouseListener(this.getHandler().getEntityListener(this));
 		this.addMouseMotionListener(this.getHandler().getEntityListener(this));
 	}
+	
+	
+
+	
+	
 	
 	@Override
 	public boolean contains(Point p) {
@@ -136,7 +129,7 @@ public abstract class NewGridElement implements GridElement {
 		}
 
 	@Override
-	public void setGroup(Group group) {
+	public void setGroup(Group object) {
 		this.group = group;
 		}
 
@@ -280,84 +273,4 @@ public abstract class NewGridElement implements GridElement {
 		this.repaint();
 	}
 
-
-	@Override
-	public Rectangle getVisibleRect() {
-		return component.getVisibleRect();
-	}
-
-	@Override
-	public void setBounds(Rectangle bounds) {
-		component.setBounds(bounds);
-	}
-
-	@Override
-	public void addMouseListener(MouseListener mouseListener) {
-		component.addMouseListener(mouseListener);
-	}
-
-	@Override
-	public void addMouseMotionListener(MouseMotionListener mouseMotionListener) {
-		component.addMouseMotionListener(mouseMotionListener);
-	}
-
-	@Override
-	public void removeMouseMotionListener(MouseMotionListener mouseMotionListener) {
-		component.removeMouseMotionListener(mouseMotionListener);
-	}
-
-	@Override
-	public void removeMouseListener(MouseListener mouseListener) {
-		component.removeMouseListener(mouseListener);
-	}
-
-	@Override
-	public void setBounds(int x, int y, int width, int height) {
-		component.setBounds(x, y, width, height);
-	}
-
-	@Override
-	public void setLocation(int x, int y) {
-		component.setLocation(x, y);
-	}
-
-	@Override
-	public void setSize(int width, int height) {
-		component.setSize(width, height);
-	}
-
-	@Override
-	public Point getLocation() {
-		return component.getLocation();
-	}
-
-	@Override
-	public Point getLocationOnScreen() {
-		return component.getLocationOnScreen();
-	}
-
-	@Override
-	public Rectangle getBounds() {
-		return component.getBounds();
-	}
-
-	@Override
-	public void repaint() {
-		component.repaint();
-	}
-
-	@Override
-	public Dimension getSize() {
-		return component.getSize();
-	}
-
-	@Override
-	public void paint(Graphics g) {
-		component.paint(g);
-	}
-
-	@Override
-	public JComponent getComponent() {
-		return component;
-	}
 }

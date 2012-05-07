@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.jar.Attributes;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -386,10 +384,10 @@ public class Main {
 
 	public List<File> scanForPalettes() {
 		// scan palettes directory...
-		FileSystemView fileSystemView = FileSystemView.getFileSystemView();
-		File[] paletteFiles = fileSystemView.getFiles(new File(Path.homeProgram() + "palettes/"), false);
+//		FileSystemView fileSystemView = FileSystemView.getFileSystemView();
+		File paletteDir = new File(Path.homeProgram() + "palettes/");
 		List<File> palettes = new ArrayList<File>();
-		for (File palette : paletteFiles) {
+		for (File palette : paletteDir.listFiles()) {
 			if (palette.getName().endsWith("." + Program.EXTENSION)) palettes.add(palette);
 		}
 		return palettes;

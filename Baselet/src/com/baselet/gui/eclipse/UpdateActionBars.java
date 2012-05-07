@@ -1,6 +1,5 @@
 package com.baselet.gui.eclipse;
 
-import org.eclipse.ui.IActionBars;
 
 public class UpdateActionBars implements Runnable {
 

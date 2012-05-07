@@ -1,10 +1,12 @@
 package com.baselet.plugin.editor;
 
+import umletplugin.IEditor;
+
 public class UpdateDiagramNameAction implements Runnable {
 
-	private Editor editor;
+	private IEditor editor;
 
-	public UpdateDiagramNameAction(Editor editor) {
+	public UpdateDiagramNameAction(IEditor editor) {
 		this.editor = editor;
 	}
 

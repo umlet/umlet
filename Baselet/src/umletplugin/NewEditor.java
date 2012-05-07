@@ -1,4 +1,4 @@
-package com.baselet.plugin.editor;
+package umletplugin;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -9,12 +9,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Panel;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Hashtable;
 
+import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -27,16 +25,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
-
-import umletplugin.IEditor;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
@@ -45,7 +35,6 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
-import com.baselet.diagram.io.OutputHandler;
 import com.baselet.gui.MailPanel;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.eclipse.CustomCodePaneFocusListener;
@@ -55,10 +44,12 @@ import com.baselet.gui.listener.DividerListener;
 import com.baselet.gui.listener.GUIListener;
 import com.baselet.gui.listener.PaletteComboBoxListener;
 import com.baselet.gui.standalone.SearchListener;
+import com.baselet.plugin.editor.DirtyAction;
+import com.baselet.plugin.editor.UpdateDiagramNameAction;
 import com.umlet.custom.CustomElementHandler;
 import com.umlet.gui.CustomElementPanel;
 
-public class Editor extends EditorPart implements IEditor {
+public class NewEditor implements IEditor {
 
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
@@ -82,14 +73,32 @@ public class Editor extends EditorPart implements IEditor {
 	private JSplitPane mailSplit;
 	private boolean mail_panel_visible;
 
-	private static Editor currenteditor;
+	private static NewEditor currenteditor;
 
-	public static Editor getCurrent() {
+	public static NewEditor getCurrent() {
 		return currenteditor;
 	}
 
-	public Editor() {
+
+	@Inject
+	public NewEditor(Composite parent) {
 		log.info("Create new Editor()");
+		Main.getInstance().doNew();
+		
+		try {
+			SwingUtilities.invokeAndWait(
+					new Runnable() {
+						@Override
+						public void run() {
+							log.debug("Create new DiagramHandler");
+							handler = new DiagramHandler(null);
+							log.debug("DiagramHandler created...");
+						}
+					});
+		} catch (Exception e) {
+			log.error("Create DiagramHandler interrupted");
+		}
+		
 		//we have to set this to false since multiple instances of Editor are created
 		this.customhandler = new CustomElementHandler();
 		this.custompanel = this.customhandler.getPanel();
@@ -98,74 +107,71 @@ public class Editor extends EditorPart implements IEditor {
 		this.propertyTextPane = Main.getInstance().getGUI().createPropertyTextPane();
 		this.propertyTextPane.addFocusListener(new TextPaneFocusListener());
 		this.palettes = Main.getInstance().getPalettes();
+		createPartControl(parent);
 	}
 
-	@Override
-	public void doSave(IProgressMonitor monitor) {
-		//AB: This should also be made thread safe but the return value makes it difficulty. maybe this works anyway.
-		log.info("Call editor.doSave()");
-		if (handler.doSave()) {
-			log.debug("fireCleanProperty");
-			fireCleanProperty();
-			log.debug("monitor.done");
-			monitor.done();
-		}
-		log.debug("doSave complete");
+	//	@Override
+	//	public void doSave(IProgressMonitor monitor) {
+	//		//AB: This should also be made thread safe but the return value makes it difficulty. maybe this works anyway.
+	//		log.info("Call editor.doSave()");
+	//		if (handler.doSave()) {
+	//			log.debug("fireCleanProperty");
+	//			fireCleanProperty();
+	//			log.debug("monitor.done");
+	//			monitor.done();
+	//		}
+	//		log.debug("doSave complete");
+	//
+	//	}
 
-	}
+	//	@Override
+	//	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+	//		log.info("Call editor.init()");
+	//		this.setSite(site);
+	//		this.setInput(input);
+	//		this.setPartName(input.getName());
+	//
+	//		File inputFile = null;
+	//
+	//		if (input instanceof IFileEditorInput) { // Files opened from workspace
+	//			inputFile = ((IFileEditorInput) input).getFile().getLocation().toFile();
+	//		}
+	//		else if (input instanceof org.eclipse.ui.ide.FileStoreEditorInput) { // Files from outside of the workspace (eg: edit current palette)
+	//			inputFile = new File(((org.eclipse.ui.ide.FileStoreEditorInput) input).getURI());
+	//		}
+	//		else throw new PartInitException("Editor input not supported.");
+	//
+	//		final File file = inputFile; 
+	//
+	//		//AB: The eclipse plugin might hang sometimes if this section is not placed into an event queue, since swing or swt is not thread safe!
+	//		//AB: Problem is...using invokeLater might lead to other NullPointerExceptions :P -> use invokeAndWait and hope this works	
+	//		try {
+	//			SwingUtilities.invokeAndWait(
+	//					new Runnable() {
+	//						@Override
+	//						public void run() {
+	//							log.debug("Create new DiagramHandler");
+	//							handler = new DiagramHandler(file);
+	//							log.debug("DiagramHandler created...");
+	//						}
+	//					});
+	//		} catch (InterruptedException e) {
+	//			log.error("Create DiagramHandler interrupted");
+	//		} catch (InvocationTargetException e) {
+	//			log.error("Create DiagramHandler invocation exception");
+	//		}
+	//	}
 
-	@Override
-	public void doSaveAs() {}
-
-	@Override
-	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
-		log.info("Call editor.init()");
-		this.setSite(site);
-		this.setInput(input);
-		this.setPartName(input.getName());
-
-		File inputFile = null;
-
-		if (input instanceof IFileEditorInput) { // Files opened from workspace
-			inputFile = ((IFileEditorInput) input).getFile().getLocation().toFile();
-		}
-		else if (input instanceof org.eclipse.ui.ide.FileStoreEditorInput) { // Files from outside of the workspace (eg: edit current palette)
-			inputFile = new File(((org.eclipse.ui.ide.FileStoreEditorInput) input).getURI());
-		}
-		else throw new PartInitException("Editor input not supported.");
-
-		final File file = inputFile; 
-
-		//AB: The eclipse plugin might hang sometimes if this section is not placed into an event queue, since swing or swt is not thread safe!
-		//AB: Problem is...using invokeLater might lead to other NullPointerExceptions :P -> use invokeAndWait and hope this works	
-		try {
-			SwingUtilities.invokeAndWait(
-					new Runnable() {
-						@Override
-						public void run() {
-							log.debug("Create new DiagramHandler");
-							handler = new DiagramHandler(file);
-							log.debug("DiagramHandler created...");
-						}
-					});
-		} catch (InterruptedException e) {
-			log.error("Create DiagramHandler interrupted");
-		} catch (InvocationTargetException e) {
-			log.error("Create DiagramHandler invocation exception");
-		}
-	}
-
-	@Override
+	@Deprecated
 	public boolean isDirty() {
 		return this.handler.isChanged();
 	}
 
-	@Override
+	@Deprecated
 	public boolean isSaveAsAllowed() {
 		return false;
 	}
 
-	@Override
 	public void createPartControl(Composite parent) {
 		log.info("Call editor.createPartControl()");
 		Composite goodSWTComposite = new Composite(parent, SWT.EMBEDDED); // we need the embedded attribute set
@@ -177,7 +183,7 @@ public class Editor extends EditorPart implements IEditor {
 		frame.add(embedded_panel);
 	}
 
-	@Override
+	@Deprecated
 	public void setFocus() {
 		log.info("Call editor.setFocus()");
 		currenteditor = this;
@@ -213,12 +219,12 @@ public class Editor extends EditorPart implements IEditor {
 		return this.handler.getDrawPanel();
 	}
 
-	@Override
+	@Deprecated
 	public void dispose() {
-		super.dispose();
+		//		super.dispose();
 		log.info("Call editor.dispose()");
 		//AB: The eclipse plugin might hang sometimes if this section is not placed into an event queue, since swing or swt is not thread safe!
-		final Editor editor = this;
+		final NewEditor editor = this;
 		SwingUtilities.invokeLater(
 				new Runnable() {
 					@Override
@@ -253,18 +259,18 @@ public class Editor extends EditorPart implements IEditor {
 		org.eclipse.swt.widgets.Display.getDefault().asyncExec(new UpdateDiagramNameAction(this));
 	}
 
-	protected void fireDiagramNameChanged() {
-		this.firePropertyChange(PROP_TITLE);
+	public void fireDiagramNameChanged() {
+		//		this.firePropertyChange(PROP_TITLE);
 	}
 
 	// Adds the star right to the tab to show that there are some changes which have not been stored
-	protected void fireDirtyProperty() {
-		this.firePropertyChange(IEditorPart.PROP_DIRTY);
+	public void fireDirtyProperty() {
+		//		this.firePropertyChange(IEditorPart.PROP_DIRTY);
 	}
 
 	// Removes the star right to the tab to show that the changes have yet been stored
 	protected void fireCleanProperty() {
-		this.firePropertyChange(IEditorPart.PROP_INPUT);
+		//		this.firePropertyChange(IEditorPart.PROP_INPUT);
 	}
 
 	private JPanel createEditor() {
@@ -354,33 +360,33 @@ public class Editor extends EditorPart implements IEditor {
 		return this.customhandler;
 	}
 
-	public void exportToFormat(String format) {
-		try {
-			this.setFocus();
-			ByteArrayOutputStream outdata = new ByteArrayOutputStream();
-
-			try {
-				OutputHandler.createToStream(format.toLowerCase(), outdata, this.handler);
-			} catch (Exception e) {
-				log.error(null, e);
-			}
-
-			IFile selFile = (IFile) ((FileEditorInput) getEditorInput()).getStorage();
-			IContainer targetFolder = selFile.getParent();
-
-			IPath newFilePath = targetFolder.getFullPath().append("/" + selFile.getName().substring(0, selFile.getName().length() - 4) + "." + format.toLowerCase());
-			// [UB]: changed WorkspacePlugin to ResourcesPlugin for eclipse3.0 compatibility
-			IFile newFile = ResourcesPlugin.getWorkspace().getRoot().getFile(newFilePath);
-			if (!newFile.exists()) {
-				newFile.create(new ByteArrayInputStream(outdata.toByteArray()), false, null);
-			}
-			else {
-				newFile.setContents(new ByteArrayInputStream(outdata.toByteArray()), false, true, null);
-			}
-		} catch (CoreException e) {
-			throw new RuntimeException(e.getMessage());
-		}
-	}
+	//	public void exportToFormat(String format) {
+	//		try {
+	//			this.setFocus();
+	//			ByteArrayOutputStream outdata = new ByteArrayOutputStream();
+	//
+	//			try {
+	//				OutputHandler.createToStream(format.toLowerCase(), outdata, this.handler);
+	//			} catch (Exception e) {
+	//				log.error(null, e);
+	//			}
+	//
+	//			IFile selFile = (IFile) ((FileEditorInput) getEditorInput()).getStorage();
+	//			IContainer targetFolder = selFile.getParent();
+	//
+	//			IPath newFilePath = targetFolder.getFullPath().append("/" + selFile.getName().substring(0, selFile.getName().length() - 4) + "." + format.toLowerCase());
+	//			// [UB]: changed WorkspacePlugin to ResourcesPlugin for eclipse3.0 compatibility
+	//			IFile newFile = ResourcesPlugin.getWorkspace().getRoot().getFile(newFilePath);
+	//			if (!newFile.exists()) {
+	//				newFile.create(new ByteArrayInputStream(outdata.toByteArray()), false, null);
+	//			}
+	//			else {
+	//				newFile.setContents(new ByteArrayInputStream(outdata.toByteArray()), false, true, null);
+	//			}
+	//		} catch (CoreException e) {
+	//			throw new RuntimeException(e.getMessage());
+	//		}
+	//	}
 
 	public void setCustomPanelEnabled(boolean enable) {
 		if (this.custompanel.isVisible() != enable) {

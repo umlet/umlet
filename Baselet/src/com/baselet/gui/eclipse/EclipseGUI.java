@@ -11,6 +11,8 @@ import javax.swing.text.JTextComponent;
 
 import org.apache.log4j.Logger;
 
+import umletplugin.IEditor;
+
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
@@ -33,15 +35,15 @@ public class EclipseGUI extends BaseGUI {
 
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
-	private Editor editor;
-	private Hashtable<DiagramHandler, Editor> diagrams;
+	private IEditor editor;
+	private Hashtable<DiagramHandler, IEditor> diagrams;
 	private Contributor contributor;
 
 	private int mainSplitPosition, rightSplitPosition, mailSplitPosition;
 
 	public EclipseGUI(Main main) {
 		super(main);
-		this.diagrams = new Hashtable<DiagramHandler, Editor>();
+		this.diagrams = new Hashtable<DiagramHandler, IEditor>();
 	}
 
 	@Override
@@ -165,13 +167,13 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public void updateDiagramName(DiagramHandler diagram, String name) {
-		Editor editor = this.diagrams.get(diagram);
+		IEditor editor = this.diagrams.get(diagram);
 		if (editor != null) editor.dirtyChanged();
 	}
 
 	@Override
 	public void setDiagramChanged(DiagramHandler diagram, boolean changed) {
-		Editor editor = this.diagrams.get(diagram);
+		IEditor editor = this.diagrams.get(diagram);
 		if ((editor != null) && changed) editor.dirtyChanged();
 	}
 
@@ -185,12 +187,12 @@ public class EclipseGUI extends BaseGUI {
 		if (this.editor != null) this.editor.setCursor(cursor);
 	}
 
-	public void setCurrentEditor(Editor editor) {
+	public void setCurrentEditor(IEditor editor) {
 		if (!this.diagrams.containsKey(editor.getDiagram())) this.diagrams.put(editor.getDiagram().getHandler(), editor);
 		this.editor = editor;
 	}
 
-	public void editorRemoved(Editor editor) {
+	public void editorRemoved(IEditor editor) {
 		// Before removing the editor, we have to store the actual splitpositions
 		// to variables so that a new editor has the same splitpositions
 		mainSplitPosition = editor.getMainSplitLocation();

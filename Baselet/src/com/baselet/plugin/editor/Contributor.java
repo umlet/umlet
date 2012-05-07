@@ -9,10 +9,6 @@ import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.part.EditorActionBarContributor;
 
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.ProgramName;
@@ -23,7 +19,6 @@ import com.baselet.gui.eclipse.EclipseGUI;
 import com.baselet.gui.eclipse.EclipseGUI.Pane;
 import com.baselet.gui.eclipse.MenuFactoryEclipse;
 import com.baselet.gui.eclipse.UpdateActionBars;
-import com.baselet.plugin.MainPlugin;
 
 public class Contributor extends EditorActionBarContributor {
 
@@ -108,12 +103,12 @@ public class Contributor extends EditorActionBarContributor {
 
 		setGlobalActionHandlers(Pane.DIAGRAM);
 
-		MainPlugin.getGUI().setContributor(this);
+		((EclipseGUI) Main.getInstance().getGUI()).setContributor(this);
 	}
 
 	@Override
 	public void contributeToMenu(IMenuManager manager) {
-		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) (MainPlugin.getGUI()).setContributor(this);
+		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) ((EclipseGUI) Main.getInstance().getGUI()).setContributor(this);
 
 		IMenuManager menu = new MenuManager(Program.PROGRAM_NAME.toString());
 		IMenuManager custom = new MenuManager(MenuFactory.CUSTOM_ELEMENTS);

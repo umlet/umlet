@@ -32,7 +32,6 @@ import com.baselet.control.Path;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
-import com.baselet.element.GridComponent;
 import com.baselet.gui.listener.HyperLinkActiveListener;
 
 public class StartUpHelpText extends JEditorPane implements ContainerListener, ComponentListener {
@@ -122,7 +121,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 
 	@Override
 	public void componentAdded(ContainerEvent e) {
-		if (!this.equals(e.getChild()) && (e.getChild() instanceof GridComponent)) this.setVisible(false);
+		if (!this.equals(e.getChild()) && (e.getChild() instanceof GridElement)) this.setVisible(false);
 	}
 
 	@Override
