@@ -38,7 +38,7 @@ public class MenuFactorySwing extends MenuFactory {
 			@Override public void menuCanceled(MenuEvent e) {}
 			@Override public void menuSelected(MenuEvent e) {
 				recentFiles.removeAll();
-				for (String file : Constants.recentlyUsedFilesList) {
+				for (final String file : Main.getInstance().getRecentFiles()) {
 					recentFiles.add(createJMenuItem(false, file, RECENT_FILES, file));
 				}
 			}
@@ -146,10 +146,6 @@ public class MenuFactorySwing extends MenuFactory {
 
 	public JMenuItem createOnlineSampleDiagrams() {
 		return createJMenuItem(false, ONLINE_SAMPLE_DIAGRAMS, null);
-	}
-
-	public JMenuItem createVideoTutorials() {
-		return createJMenuItem(false, VIDEO_TUTORIAL, null);
 	}
 
 	public JMenuItem createProgramHomepage() {

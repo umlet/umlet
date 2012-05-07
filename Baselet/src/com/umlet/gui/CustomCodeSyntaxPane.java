@@ -6,7 +6,6 @@ import javax.swing.JToolTip;
 import jsyntaxpane.DefaultSyntaxKit;
 import jsyntaxpane.util.Configuration;
 
-import com.baselet.control.Constants;
 import com.baselet.gui.JMultiLineToolTip;
 import com.baselet.gui.OwnSyntaxPane;
 
@@ -39,7 +38,6 @@ public class CustomCodeSyntaxPane extends OwnSyntaxPane {
 		conf.remove("Components");
 		
 		this.setContentType("text/java");
-		this.setFont(Constants.PANEL_FONT); //Set font to make sure UTF-8 characters work
 		this.validate();
 	}
 	

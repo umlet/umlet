@@ -39,8 +39,6 @@ public class OptionPanel extends JPanel implements ActionListener {
 	private JFrame optionframe;
 	private JCheckBox show_stickingpolygon;
 	private JCheckBox show_grid;
-	private JCheckBox enable_custom_elements;
-	private JCheckBox checkForUpdates;
 	private JComboBox ui_manager;
 	private JComboBox default_fontsize;
 	private JComboBox default_fontfamily;
@@ -53,8 +51,6 @@ public class OptionPanel extends JPanel implements ActionListener {
 
 		this.show_stickingpolygon = new JCheckBox();
 		this.show_grid = new JCheckBox();
-		this.enable_custom_elements = new JCheckBox();
-		this.checkForUpdates = new JCheckBox();
 		uis_technicalNameVector = new Vector<String>();
 		Vector<String> uis_humanReadableNameVector = new Vector<String>();
 		LookAndFeelInfo[] lookAndFeelInfoArray = Constants.lookAndFeels.toArray(new LookAndFeelInfo[Constants.lookAndFeels.size()]);
@@ -70,10 +66,6 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.add(this.show_stickingpolygon);
 		this.add(new JLabel("Show grid"));
 		this.add(this.show_grid);
-		this.add(new JLabel("Enable Custom Elements"));
-		this.add(this.enable_custom_elements);
-		this.add(new JLabel("Check for " + Program.PROGRAM_NAME + " updates"));
-		this.add(this.checkForUpdates);
 		if (Program.RUNTIME_TYPE == RuntimeType.STANDALONE) {
 			this.add(new JLabel("Select " + Program.PROGRAM_NAME + " style"));
 			this.add(this.ui_manager);
@@ -116,8 +108,6 @@ public class OptionPanel extends JPanel implements ActionListener {
 	public void showOptionPanel() {
 		this.show_stickingpolygon.setSelected(Constants.show_stickingpolygon);
 		this.show_grid.setSelected(Constants.show_grid);
-		this.enable_custom_elements.setSelected(Constants.enable_custom_elements);
-		this.checkForUpdates.setSelected(Constants.checkForUpdates);
 		this.ui_manager.setSelectedIndex(uis_technicalNameVector.indexOf(Constants.ui_manager));
 		this.default_fontsize.setSelectedItem(Constants.defaultFontsize);
 		this.default_fontfamily.setSelectedItem(Constants.defaultFontFamily);
@@ -142,8 +132,6 @@ public class OptionPanel extends JPanel implements ActionListener {
 		if (ae.getActionCommand().equals("Ok")) {
 			Constants.show_stickingpolygon = this.show_stickingpolygon.isSelected();
 			Constants.show_grid = this.show_grid.isSelected();
-			Constants.enable_custom_elements = this.enable_custom_elements.isSelected();
-			Constants.checkForUpdates = this.checkForUpdates.isSelected();
 			String newui = this.uis_technicalNameVector.get(this.ui_manager.getSelectedIndex());
 			if (!Constants.ui_manager.equals(newui) && (newui != null)) {
 				Constants.ui_manager = newui;

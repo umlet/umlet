@@ -24,7 +24,7 @@ public class Paste extends Command {
 			this.entities = new Vector<GridElement>();
 			for (GridElement e : ClipBoard.getInstance().paste()) {
 				GridElement clone = e.CloneFromMe();
-				clone.setHandlerAndInitListeners(handler);
+				clone.setHandler(handler);
 				this.entities.add(clone);
 			}
 		}
@@ -47,8 +47,8 @@ public class Paste extends Command {
 		int minY = Integer.MAX_VALUE;
 
 		for (GridElement e : this.entities) {
-			minX = Math.min(e.getLocation().x, minX);
-			minY = Math.min(e.getLocation().y, minY);
+			minX = Math.min(e.getX(), minX);
+			minY = Math.min(e.getY(), minY);
 		}
 
 		for (GridElement e : this.entities) {
@@ -67,8 +67,8 @@ public class Paste extends Command {
 
 		for (GridElement e : this.entities) {
 			(new AddElement(e,
-					handler.realignToGrid(e.getLocation().x + offsetX),
-					handler.realignToGrid(e.getLocation().y + offsetY), false)).execute(handler);
+					handler.realignToGrid(e.getX() + offsetX),
+					handler.realignToGrid(e.getY() + offsetY), false)).execute(handler);
 		}
 
 		handler.getDrawPanel().getSelector().deselectAll();

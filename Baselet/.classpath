@@ -11,12 +11,12 @@
 	<classpathentry kind="lib" path="lib/baselet_batik-svggen.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_batik-util.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_batik-xml.jar"/>
-	<classpathentry kind="lib" path="lib/baselet_itextpdf-5.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/baselet_iText.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_jlibeps.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_mailapi.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_smtp.jar"/>
 	<classpathentry kind="lib" path="lib/umlet_org.eclipse.jdt.core_3.5.1.v_972_R35x.jar"/>
-	<classpathentry kind="lib" path="lib/baselet_jsyntaxpane_r096_r151_customized.jar"/>
+	<classpathentry kind="lib" path="lib/baselet_jsyntaxpane-0.9.5-b29_customized.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

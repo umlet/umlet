@@ -24,8 +24,6 @@ import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.Resize;
 import com.baselet.element.GridElement;
-import com.baselet.element.OldGridElement;
-import com.baselet.element.GridComponent;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
@@ -67,7 +65,7 @@ public class GridElementListener extends UniversalListener {
 		super.mouseDragged(me);
 		log.debug("Entity dragged");
 
-		GridElement e = ((GridComponent) me.getComponent()).getGridElement();
+		GridElement e = (GridElement) me.getComponent();
 
 		// Lasso selection is only activated if mouse is moved more than lasso_tolerance to avoid accidential activation instead of selecting the entity
 		if (LASSO_ACTIVE && (lassoToleranceRectangle != null) && !lassoToleranceRectangle.contains(new Point(getOffset(me).x, getOffset(me).y))) {
@@ -93,10 +91,10 @@ public class GridElementListener extends UniversalListener {
 		log.debug("Entity moved");
 		if (this.IS_DRAGGED_FROM_PALETTE) {
 			log.debug("mouseMoved with dragged");
-			GridElement e = ((GridComponent) me.getComponent()).getGridElement();
+			GridElement e = (GridElement) me.getComponent();
 			e.setLocation(me.getX() - 100, me.getY() - 20);
 		}
-		GridElement e = ((GridComponent) me.getComponent()).getGridElement();
+		GridElement e = (GridElement) me.getComponent();
 		resizeDirection = e.getResizeArea(me.getX(), me.getY());
 		resizeDirection = resizeDirection & e.getPossibleResizeDirections(); // LME
 		if (resizeDirection == 0) Main.getInstance().getGUI().setCursor(Constants.HAND_CURSOR);
@@ -133,14 +131,14 @@ public class GridElementListener extends UniversalListener {
 
 		selector.setDominantEntity(me);
 
-		JPopupMenu contextMenu = Main.getInstance().getGUI().getContextMenu(me.getComponent());
-		if (contextMenu != null) contextMenu.show(me.getComponent(), x, y);
+		JPopupMenu contextMenu = Main.getInstance().getGUI().getContextMenu(me);
+		if (contextMenu != null) contextMenu.show(me, x, y);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent me) {
 		super.mousePressed(me);
-		GridElement e = ((GridComponent) me.getComponent()).getGridElement();
+		GridElement e = (GridElement) me.getComponent();
 		mousePressedPoint = getOffset(me);
 
 		if (!handler.getDrawPanel().equals(Main.getInstance().getPalettePanel())) Main.getInstance().getPalettePanel().getSelector().deselectAllWithoutUpdatePropertyPanel();
@@ -162,7 +160,7 @@ public class GridElementListener extends UniversalListener {
 	}
 
 	private void pressedLeftButton(MouseEvent me) {
-		GridElement e = ((GridComponent) me.getComponent()).getGridElement();
+		GridElement e = (GridElement) me.getComponent();
 
 		// Ctrl + Mouseclick initializes the lasso
 		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) initializeLasso(me);
@@ -191,7 +189,7 @@ public class GridElementListener extends UniversalListener {
 		GridElementListener eListener = handler.getEntityListener(e);
 		Command cmd;
 		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
-		cmd = new AddElement(e, me.getLocation().x + gridSize * 2, me.getLocation().y + gridSize * 2);
+		cmd = new AddElement(e, me.getX() + gridSize * 2, me.getY() + gridSize * 2);
 		// this.IS_FIRST_DRAGGING_OVER=true;
 		this.controller.executeCommand(cmd);
 		this.selector.singleSelect(e);
@@ -205,7 +203,7 @@ public class GridElementListener extends UniversalListener {
 		// log.debug("Entity mouse released");
 		if (this.IS_DRAGGED_FROM_PALETTE) this.IS_DRAGGED_FROM_PALETTE = false;
 
-		GridElement e = ((GridComponent) me.getComponent()).getGridElement();
+		GridElement e = (GridElement) me.getComponent();
 		e.setStickingBorderActive(true);
 
 		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) {
@@ -239,7 +237,7 @@ public class GridElementListener extends UniversalListener {
 	private void dragLasso(MouseEvent me, GridElement e) {
 		selector.setSelectorFrameActive(true);
 
-		selector.getSelectorFrame().setDisplacement(e.getLocation().x, e.getLocation().y);
+		selector.getSelectorFrame().setDisplacement(e.getX(), e.getY());
 		selector.getSelectorFrame().resizeTo(me.getX(), me.getY()); // Subtract difference between entityx/entityy and the position of the mouse cursor
 
 		selector.deselectAll(); // If lasso is active the clicked and therefore automatically selected entity gets unselected
@@ -278,7 +276,7 @@ public class GridElementListener extends UniversalListener {
 			moveCommands.add(new Move(e, diffx, diffy));
 			if (e instanceof Relation) continue;
 			StickingPolygon stick = null;
-			if (e.isStickingBorderActive()) stick = e.generateStickingBorder(e.getLocation().x, e.getLocation().y, e.getSize().width, e.getSize().height);
+			if (e.isStickingBorderActive()) stick = e.generateStickingBorder(e.getX(), e.getY(), e.getWidth(), e.getHeight());
 			if (stick != null) {
 				Vector<RelationLinePoint> affectedRelationPoints = stick.getStickingRelationLinePoints(this.diagram);
 				for (int j = 0; j < affectedRelationPoints.size(); j++) {
@@ -325,7 +323,7 @@ public class GridElementListener extends UniversalListener {
 		// If Shift is pressed and the resize direction is any diagonal direction, both axis are resized proportional
 		if (me.isShiftDown() && (resizeDirection == Constants.RESIZE_TOP_LEFT || resizeDirection == Constants.RESIZE_TOP_RIGHT ||
 				resizeDirection == Constants.RESIZE_BOTTOM_LEFT || resizeDirection == Constants.RESIZE_BOTTOM_RIGHT)) {
-			if (e.getSize().width > e.getSize().height) {
+			if (e.getWidth() > e.getHeight()) {
 				float proportion = (float) newp.x / mousePressedPoint.x;
 				newp.setLocation(newp.x, mousePressedPoint.y*proportion);
 			}
@@ -336,10 +334,10 @@ public class GridElementListener extends UniversalListener {
 		}
 
 		if ((RESIZE_DIRECTION & Constants.RESIZE_RIGHT) > 0) {
-			delta_x = (e.getLocation().x + e.getSize().width) % gridSize;
+			delta_x = (e.getX() + e.getWidth()) % gridSize;
 		}
 		if ((RESIZE_DIRECTION & Constants.RESIZE_BOTTOM) > 0) {
-			delta_y = (e.getLocation().y + e.getSize().height) % gridSize;
+			delta_y = (e.getY() + e.getHeight()) % gridSize;
 		}
 
 		int diffx = newp.x - oldp.x - delta_x;
@@ -355,11 +353,11 @@ public class GridElementListener extends UniversalListener {
 
 		if ((RESIZE_DIRECTION & Constants.RESIZE_LEFT) > 0) {
 			// AB: get diffx; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffx = newp.x - e.getLocation().x + gridSize;
+			diffx = newp.x - e.getX() + gridSize;
 
 			// AB: only shrink to minimum size
-			if (e.getSize().width - diffx < minSize) {
-				diffx = e.getSize().width - minSize;
+			if (e.getWidth() - diffx < minSize) {
+				diffx = e.getWidth() - minSize;
 			}
 
 			if (RESIZE_DIRECTION == Constants.RESIZE_LEFT) {
@@ -369,11 +367,11 @@ public class GridElementListener extends UniversalListener {
 
 		if ((RESIZE_DIRECTION & Constants.RESIZE_RIGHT) > 0) {
 			// AB: get diffx; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffx = newp.x - (e.getLocation().x + e.getSize().width) + gridSize;
+			diffx = newp.x - (e.getX() + e.getWidth()) + gridSize;
 
 			// AB: only shrink to minimum size
-			if (e.getSize().width + diffx < minSize) {
-				diffx = minSize - e.getSize().width;
+			if (e.getWidth() + diffx < minSize) {
+				diffx = minSize - e.getWidth();
 			}
 
 			if (RESIZE_DIRECTION == Constants.RESIZE_RIGHT) {
@@ -386,11 +384,11 @@ public class GridElementListener extends UniversalListener {
 
 		if ((RESIZE_DIRECTION & Constants.RESIZE_TOP) > 0) {
 			// AB: get diffy; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffy = newp.y - e.getLocation().y + gridSize;
+			diffy = newp.y - e.getY() + gridSize;
 
 			// AB: only shrink to minimum size
-			if (e.getSize().height - diffy < minSize) {
-				diffy = e.getSize().height - minSize;
+			if (e.getHeight() - diffy < minSize) {
+				diffy = e.getHeight() - minSize;
 			}
 
 			if (RESIZE_DIRECTION == Constants.RESIZE_TOP) {
@@ -400,11 +398,11 @@ public class GridElementListener extends UniversalListener {
 
 		if ((RESIZE_DIRECTION & Constants.RESIZE_BOTTOM) > 0) {
 			// AB: get diffy; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffy = newp.y - (e.getLocation().y + e.getSize().height) + gridSize;
+			diffy = newp.y - (e.getY() + e.getHeight()) + gridSize;
 
 			// AB: only shrink to minimum size
-			if (e.getSize().height + diffy < minSize) {
-				diffy = minSize - e.getSize().height;
+			if (e.getHeight() + diffy < minSize) {
+				diffy = minSize - e.getHeight();
 			}
 
 			if (RESIZE_DIRECTION == Constants.RESIZE_BOTTOM) {

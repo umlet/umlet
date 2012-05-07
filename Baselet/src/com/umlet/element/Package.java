@@ -7,14 +7,13 @@ import java.awt.Point;
 import java.awt.geom.Area;
 import java.util.Vector;
 
-import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.element.OldGridElement;
+import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")
-public class Package extends OldGridElement {
+public class Package extends GridElement {
 
 	Area lastKnown = new Area();
 
@@ -44,7 +43,7 @@ public class Package extends OldGridElement {
 		// G. Mueller start
 		boolean normal = false;
 		// int maxUpperBox=5*this.getHandler().getFontHandler().getFontsize();
-		int maxUpperBox = (int) (this.getSize().width * 0.4); // I think this looks better
+		int maxUpperBox = (int) (this.getWidth() * 0.4); // I think this looks better
 		int lines = 0;
 
 		int yPosBorder = yPos;
@@ -57,15 +56,15 @@ public class Package extends OldGridElement {
 				g2.setComposite(composites[1]);
 				g2.setColor(bgColor);
 				g2.fillRect(0, 0, maxUpperBox, yPosBorder);
-				g2.fillRect(0, yPosBorder, this.getSize().width - 1, this.getSize().height - yPosBorder - 1);
+				g2.fillRect(0, yPosBorder, this.getWidth() - 1, this.getHeight() - yPosBorder - 1);
 				g2.setComposite(composites[0]);
 				if (isSelected) g2.setColor(fgColor);
 				else g2.setColor(fgColorBase);
 
 				g2.drawRect(0, 0, maxUpperBox, yPosBorder);
-				g2.drawRect(0, yPosBorder, this.getSize().width - 1, this.getSize().height - yPosBorder - 1);
+				g2.drawRect(0, yPosBorder, this.getWidth() - 1, this.getHeight() - yPosBorder - 1);
 				// yPos to write the String centered
-				yPosBorder = (int) this.getHandler().getFontHandler().getFontSize() / 2 + yPosBorder / 2 + this.getSize().height / 2 - (tmp.size() - lines) * ((int) (this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
+				yPosBorder = (int) this.getHandler().getFontHandler().getFontSize() / 2 + yPosBorder / 2 + this.getHeight() / 2 - (tmp.size() - lines) * ((int) (this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 			}
 			else if (!normal && (i > 1) && (tmp.elementAt(i - 1).equals("--") && tmp.elementAt(i).startsWith("left:"))) {
 				yPosBorder = (lines + 1) * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2 + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() + (int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts());
@@ -92,14 +91,14 @@ public class Package extends OldGridElement {
 				// g2.drawRect(0,0,maxUpperBox,yPos);
 				// g2.drawRect(0,yPos,this.getWidth()-1,this.getHeight()-yPos-1);
 				// yPos to write the String centered
-				yPos = (int) this.getHandler().getFontHandler().getFontSize() / 2 + yPos / 2 + this.getSize().height / 2 - (tmp.size() - lines) * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
+				yPos = (int) this.getHandler().getFontHandler().getFontSize() / 2 + yPos / 2 + this.getHeight() / 2 - (tmp.size() - lines) * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 			}
 			else if (!normal && (i > 1) && (tmp.elementAt(i - 1).equals("--") && tmp.elementAt(i).startsWith("left:"))) {
 				// writes the string normal
 				yPos = (lines + 1) * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s.substring(5), (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+				this.getHandler().getFontHandler().writeText(g2, s.substring(5), (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, false);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				normal = true;
 			}
@@ -108,21 +107,21 @@ public class Package extends OldGridElement {
 				lines++;
 				maxUpperBox = Math.max(maxUpperBox, this.getHandler().getFontHandler().getTextWidth(s) + (int) this.getHandler().getFontHandler().getFontSize());
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, false);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 
 			}
 			else if (normal) {
 
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, false);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 
 			}
 			else if (!normal) {
 
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
+				this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, true);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 
 			}

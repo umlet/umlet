@@ -41,34 +41,34 @@ public class Align extends Command {
 		// AB: determine fix points first item (the "dominantly selected" item)
 		GridElement entity = dominantEntity;
 
-		int left = entity.getLocation().x;
-		int right = left + entity.getSize().width;
-		int top = entity.getLocation().y;
-		int bottom = top + entity.getSize().height;
+		int left = entity.getX();
+		int right = left + entity.getWidth();
+		int top = entity.getY();
+		int bottom = top + entity.getHeight();
 
 		DrawPanel p = handler.getDrawPanel();
 		for (GridElement e : this.entities) {
-			int x = e.getLocation().x;
-			int y = e.getLocation().y;
+			int x = e.getX();
+			int y = e.getY();
 
 			switch (edge) {
 				case LEFT:
 					x = left;
 					break;
 				case RIGHT:
-					x = right - e.getSize().width;
+					x = right - e.getWidth();
 					break;
 				case TOP:
 					y = top;
 					break;
 				case BOTTOM:
-					y = bottom - e.getSize().height;
+					y = bottom - e.getHeight();
 					break;
 			}
 
 			// AB: update group members position if group has been adjusted
 			if (e instanceof Group) {
-				Point diff = new Point(x - e.getLocation().x, y - e.getLocation().y);
+				Point diff = new Point(x - e.getX(), y - e.getY());
 				moveGroupMembers((Group) e, diff, handler);
 			}
 
@@ -102,7 +102,7 @@ public class Align extends Command {
 			Point orgLocation = orgLocations.get(entity);
 
 			if (entity instanceof Group) {
-				Point diff = new Point(orgLocation.x - entity.getLocation().x + offsetX, orgLocation.y - entity.getLocation().y + offsetY);
+				Point diff = new Point(orgLocation.x - entity.getX() + offsetX, orgLocation.y - entity.getY() + offsetY);
 				moveGroupMembers((Group) entity, diff, handler);
 			}
 

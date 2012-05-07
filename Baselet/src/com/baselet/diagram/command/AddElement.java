@@ -54,12 +54,12 @@ public class AddElement extends Command {
 	}
 
 	private void addentity(GridElement e, DrawPanel panel, int x, int y) {
-		e.setHandlerAndInitListeners(panel.getHandler());
-		panel.addElement(e);
+		e.setHandler(panel.getHandler());
+		panel.add(e);
 		if (e instanceof Group) {
 			Group g = (Group) e;
 			for (GridElement ent : g.getMembers())
-				addentity(ent, panel, ent.getLocation().x - g.getLocation().x + x, ent.getLocation().y - g.getLocation().y + y);
+				addentity(ent, panel, ent.getX() - g.getX() + x, ent.getY() - g.getY() + y);
 			g.removeMemberListeners(); // remove listeners from submembers of this group
 			if (_zoom) g.adjustSize(false); // Adjust cause problems if _zoom == false because the wrong zoomlevel would be assumed
 		}
@@ -100,7 +100,7 @@ public class AddElement extends Command {
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
 		if (_zoom) DiagramHandler.zoomEntity(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, _entity);
-		handler.getDrawPanel().removeElement(_entity);
+		handler.getDrawPanel().remove(_entity);
 		(new RemoveElement(_entity, false)).execute(handler); // zoom must be false otherwise groups don't work correctly
 		handler.getDrawPanel().repaint();
 		handler.getDrawPanel().updatePanelAndScrollbars();

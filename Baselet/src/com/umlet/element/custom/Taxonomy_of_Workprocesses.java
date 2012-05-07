@@ -9,14 +9,12 @@ import java.awt.Polygon;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")
-public class Taxonomy_of_Workprocesses extends OldGridElement {
+public class Taxonomy_of_Workprocesses extends com.baselet.element.GridElement {
 
 	@Override
 	public void paintEntity(Graphics g) {
@@ -31,11 +29,11 @@ public class Taxonomy_of_Workprocesses extends OldGridElement {
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		g2.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 		g2.setComposite(composites[0]);
 		if (isSelected) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
-		g2.drawRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		g2.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 
@@ -105,7 +103,7 @@ public class Taxonomy_of_Workprocesses extends OldGridElement {
 		float ovalWidth = 10 * this.getHandler().getFontHandler().getFontSize();
 
 		g2.drawOval((int) (xPos + 0.5), (int) (yPos + 0.5), (int) (ovalWidth + 0.5), (int) (ovalHeight + 0.5));
-		this.getHandler().getFontHandler().writeText(g2, name, (int) (xPos + ovalWidth / 2 + 0.5), (int) (yPos + 5 * zoom + ovalHeight / 2 + 0.5), AlignHorizontal.CENTER);
+		this.getHandler().getFontHandler().writeText(g2, name, (int) (xPos + ovalWidth / 2 + 0.5), (int) (yPos + 5 * zoom + ovalHeight / 2 + 0.5), true);
 	}
 
 	private void drawDock(Graphics2D g2, Point nextDock, float xPos, float yPos) {

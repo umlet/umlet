@@ -126,10 +126,7 @@ public class Contributor extends EditorActionBarContributor {
 		custom.add(menuFactory.createCustomElementsTutorial());
 
 		help.add(menuFactory.createOnlineHelp());
-		if (Program.PROGRAM_NAME == ProgramName.UMLET) {
-			help.add(menuFactory.createOnlineSampleDiagrams());
-			help.add(menuFactory.createVideoTutorial());
-		}
+		if (Program.PROGRAM_NAME == ProgramName.UMLET) help.add(menuFactory.createOnlineSampleDiagrams());
 		help.add(new Separator());
 		help.add(menuFactory.createProgramHomepage());
 		help.add(menuFactory.createRateProgram());

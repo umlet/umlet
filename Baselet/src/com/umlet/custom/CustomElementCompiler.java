@@ -18,8 +18,6 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Path;
 import com.baselet.control.Utils;
-import com.baselet.element.ErrorOccurred;
-import com.baselet.element.GridElement;
 
 public class CustomElementCompiler {
 
@@ -173,9 +171,8 @@ public class CustomElementCompiler {
 		}
 	}
 
-	public GridElement genEntity(String code, ErrorHandler errorhandler) {
-		if (!Constants.enable_custom_elements) return new ErrorOccurred("Custom Elements are disabled\nEnable them in the Options\nOnly open Custom Elements\nfrom trusted sources!");
-		if (this.global_error) return new ErrorOccurred();
+	public CustomElement genEntity(String code, ErrorHandler errorhandler) {
+		if (this.global_error) return null;
 
 		if (code == null) code = this.parseCodeFromTemplate(this.template);
 
@@ -186,14 +183,14 @@ public class CustomElementCompiler {
 		}
 		else if (errorhandler != null) this.handleErrors(code, errorhandler);
 
-		return new ErrorOccurred();
+		return null;
 	}
 
-	public GridElement genEntity(String code) {
+	public CustomElement genEntity(String code) {
 		return this.genEntity(code, null);
 	}
 
-	public GridElement genEntityFromTemplate(String templatename, ErrorHandler errorhandler) {
+	public CustomElement genEntityFromTemplate(String templatename, ErrorHandler errorhandler) {
 		String template = this.loadJavaSource(new File(Path.customElements() + templatename + ".java"));
 		if (!"".equals(template)) return this.genEntity(this.parseCodeFromTemplate(template), errorhandler);
 

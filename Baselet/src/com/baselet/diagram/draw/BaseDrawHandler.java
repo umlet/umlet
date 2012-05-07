@@ -17,6 +17,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.Constants.AlignVertical;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 
@@ -27,7 +28,7 @@ public class BaseDrawHandler {
 	private Graphics2D g2;
 	private Style style;
 
-	private Color bgColor;
+	private Color bgColor ;
 	private Color fgColor;
 
 	private int width;
@@ -80,7 +81,7 @@ public class BaseDrawHandler {
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getFgAlpha()));
 		handler.getFontHandler().setFontSize(style.getFontSize());
 		g2.setFont(handler.getFontHandler().getFont());
-		handler.getFontHandler().writeText(this.g2, t.getText(), t.getX(), t.getY(), t.getHorizontalAlignment());
+		handler.getFontHandler().writeText(this.g2, t.getText(), t.getX(), t.getY(), t.getHorizontalAlignment(), t.getVerticalAlignment());
 		handler.getFontHandler().resetFontSize();
 	}
 
@@ -89,22 +90,22 @@ public class BaseDrawHandler {
 	 */
 
 	public final void print(String text, int x, int y) {
-		drawText(new Text(text, (int) (x * getZoom()), (int) (y * getZoom()), AlignHorizontal.LEFT));
+		drawText(new Text(text, (int) (x * getZoom()), (int) (y * getZoom()), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
 	}
 
 	public final void print(String text, int x, int y, AlignHorizontal align) {
-		drawText(new Text(text, (int) (x * getZoom()), (int) (y * getZoom()), align));
+		drawText(new Text(text, (int) (x * getZoom()), (int) (y * getZoom()), align, AlignVertical.BOTTOM));
 	}
 
 	public final void printLeft(String text, int y) {
-		drawText(new Text(text, (int) handler.getFontHandler().getDistanceBetweenTexts(), (int) (y * getZoom()), AlignHorizontal.LEFT));
+		drawText(new Text(text, (int) handler.getFontHandler().getDistanceBetweenTexts(), (int) (y * getZoom()), AlignHorizontal.LEFT, AlignVertical.BOTTOM));
 	}
 
 	public final void printRight(String text, int y) {
-		drawText(new Text(text, (int) (width - handler.getFontHandler().getDistanceBetweenTexts()), (int) (y * getZoom()) + 20, AlignHorizontal.RIGHT));
+		drawText(new Text(text, (int) (width - handler.getFontHandler().getDistanceBetweenTexts()), (int) (y * getZoom()) + 20, AlignHorizontal.RIGHT, AlignVertical.BOTTOM));
 	}
 
-	public final void printCenter(String text, int y) { drawText(new Text(text, width / 2, (int) (y * getZoom()), AlignHorizontal.CENTER));
+	public final void printCenter(String text, int y) { drawText(new Text(text, width / 2, (int) (y * getZoom()), AlignHorizontal.CENTER, AlignVertical.BOTTOM));
 	}
 
 	public final int textHeight() {

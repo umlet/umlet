@@ -22,12 +22,11 @@ log4j
 Licence:  Apache License 2.0
 Used for: Logging
 
-Jsyntaxpane:
+JSyntaxpane:
 Licence:  Apache License 2.0
 Used for: Editor and Text Panes
 Changes:  META-INF/services/jsyntaxpane/defaultsyntaxkit/config.properties -> adapted default settings
-          jsyntaxpane/actions/ComboCompletionAction.java setItems method changed to the following code "public void setItems(String items) {this.items =  Arrays.asList(items.split(";"));}" to allow a semikolon-separated list as items argument for combocompletion
-		  jsyntaxpane/DefaultSyntaxKit.java: Remove (or comment out the lines 662 and 663 which start with "LOG.log(Level.INF..."
+          jsyntaxpane/actions/ComboCompletionAction.java setItems method changed to the following code "public void setItems(String items) {this.items = Arrays.asList(items.split(";"));}" to allow a semikolon-separated list as items argument for combocompletion
 
 --------------------------------------------
 UMLET

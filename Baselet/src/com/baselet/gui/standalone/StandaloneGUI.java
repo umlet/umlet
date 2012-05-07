@@ -18,11 +18,15 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -45,6 +49,7 @@ import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
+import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.MailPanel;
 import com.baselet.gui.MenuFactory;
@@ -85,6 +90,7 @@ public class StandaloneGUI extends BaseGUI {
 	private JMenuItem customMenu;
 	private JMenu customTemplate;
 	private JMenuItem customEdit;
+	private JMenuItem customTutorial;
 	private JTextField searchField;
 	private OwnSyntaxPane propertyTextPane;
 	private ZoomListener zoomListener;
@@ -109,6 +115,18 @@ public class StandaloneGUI extends BaseGUI {
 		custom_panel_visible = false;
 		mail_panel_visible = false;
 		selected_palette = "";
+	}
+
+	private void onDiagramOpened() {
+		DrawPanel p = this.getCurrentDiagram();
+		if (p != null) Main.getInstance().setCurrentDiagramHandler(p.getHandler());
+		else Main.getInstance().setCurrentDiagramHandler(null);
+	}
+
+	private void onDiagramClosed() {
+		DrawPanel p = this.getCurrentDiagram();
+		if (p != null) Main.getInstance().setCurrentDiagramHandler(p.getHandler());
+		else Main.getInstance().setCurrentDiagramHandler(null);
 	}
 
 	@Override
@@ -136,21 +154,11 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public void closeWindow() {
 		mailPanel.closePanel(); // We must close the mailpanel to save the input date
-		if (this.askSaveForAllDirtyDiagrams()) {
+		if (Main.getInstance().askSaveIfDirty()) {
 			this.main.closeProgram();
 			this.window.dispose();
 			System.exit(0);
 		}
-	}
-
-	private boolean askSaveForAllDirtyDiagrams() {
-		boolean ok = true;
-		for (DiagramHandler d : Main.getInstance().getDiagrams()) {
-			if (!d.askSaveIfDirty()) ok = false;
-		}
-
-		if (!getCurrentCustomHandler().closeEntity()) ok = false;
-		return ok;
 	}
 
 	@Override
@@ -247,7 +255,7 @@ public class StandaloneGUI extends BaseGUI {
 			menu_custom.add(customTemplate = menuFactory.createNewCustomElementFromTemplate());
 			menu_custom.add(customEdit = menuFactory.createEditSelected());
 			menu_custom.addSeparator();
-			menu_custom.add(menuFactory.createCustomElementTutorial());
+			menu_custom.add(customTutorial = menuFactory.createCustomElementTutorial());
 			menu.add(menu_custom);
 			customEdit.setEnabled(false);
 		}
@@ -256,10 +264,7 @@ public class StandaloneGUI extends BaseGUI {
 		JMenu helpMenu = new JMenu(MenuFactory.HELP);
 		helpMenu.setMnemonic(KeyEvent.VK_H);
 		helpMenu.add(menuFactory.createOnlineHelp());
-		if (Program.PROGRAM_NAME == ProgramName.UMLET) {
-			helpMenu.add(menuFactory.createOnlineSampleDiagrams());
-			helpMenu.add(menuFactory.createVideoTutorials());
-		}
+		if (Program.PROGRAM_NAME == ProgramName.UMLET) helpMenu.add(menuFactory.createOnlineSampleDiagrams());
 		helpMenu.addSeparator();
 		helpMenu.add(menuFactory.createProgramHomepage());
 		helpMenu.add(menuFactory.createRateProgram());
@@ -429,9 +434,7 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public void close(DiagramHandler diagram) {
 		diagramtabs.remove(diagram.getDrawPanel().getScrollPane());
-		DrawPanel p = this.getCurrentDiagram();
-		if (p != null) Main.getInstance().setCurrentDiagramHandler(p.getHandler());
-		else Main.getInstance().setCurrentDiagramHandler(null);
+		this.onDiagramClosed();
 	}
 
 	@Override
@@ -440,9 +443,7 @@ public class StandaloneGUI extends BaseGUI {
 		diagramtabs.setTabComponentAt(diagramtabs.getTabCount() - 1, new TabComponent(diagramtabs, diagram));
 		diagramtabs.setSelectedComponent(diagram.getDrawPanel().getScrollPane());
 		diagram.getDrawPanel().getSelector().updateSelectorInformation();
-		DrawPanel p = this.getCurrentDiagram();
-		if (p != null) Main.getInstance().setCurrentDiagramHandler(p.getHandler());
-		else Main.getInstance().setCurrentDiagramHandler(null);
+		this.onDiagramOpened();
 	}
 
 	@Override
@@ -470,8 +471,8 @@ public class StandaloneGUI extends BaseGUI {
 	}
 
 	@Override
-	public void enablePasteMenuEntry() {
-		editPaste.setEnabled(true);
+	public void setPaste(boolean value) {
+		editPaste.setEnabled(value);
 	}
 
 	@Override
@@ -641,6 +642,38 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public OwnSyntaxPane getPropertyPane() {
 		return this.propertyTextPane;
+	}
+
+	@Override
+	public String getPropertyPanelText() {
+		if (this.propertyTextPane != null) return this.propertyTextPane.getText();
+		else return "";
+	}
+
+	@Override
+	public void setPropertyPanelText(String text) {
+		if (this.propertyTextPane != null) { // needed because of convert function
+			this.propertyTextPane.setText(text);
+
+			// Reset the vertical and horizontal scrollbar position to the upper left corner
+			this.propertyTextPane.setCaretPosition(0);
+		}
+	}
+
+	@Override
+	public String chooseFileName() {
+		String fileName = null;
+		int returnVal = DiagramFileHandler.getOpenFileChooser().showOpenDialog(this);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			fileName = DiagramFileHandler.getOpenFileChooser().getSelectedFile().getAbsolutePath();
+		}
+		return fileName;
+	}
+
+	@Override
+	public void openDialog(String title, JComponent component) {
+		JDialog dialog = (new JOptionPane(component, JOptionPane.PLAIN_MESSAGE)).createDialog(title);
+		dialog.setVisible(true);
 	}
 
 	@Override

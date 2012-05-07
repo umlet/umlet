@@ -4,7 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.RenderingHints;
-import java.awt.Stroke;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
@@ -17,7 +16,6 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants.LineType;
 import com.baselet.diagram.DiagramHandler;
-import com.umlet.element.relation.DoubleStroke;
 
 
 public abstract class Utils {
@@ -127,17 +125,24 @@ public abstract class Utils {
 		return ret;
 	}
 
-	public static Stroke getStroke(LineType lineType, int lineThickness) {
+	public static BasicStroke getStroke(LineType lineType, int lineThickness) {
 		// If the lineThickness is not supported, the default type is used
 		if (lineThickness < 0) lineThickness = Constants.DEFAULT_LINE_THICKNESS;
 
-		Stroke stroke = null;
-		if (lineType == LineType.SOLID) stroke = new BasicStroke(lineThickness);
-		else if (lineType == LineType.DASHED) stroke = new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 8.0f, 5.0f }, 0.0f);
-		else if (lineType == LineType.DOTTED) stroke = new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 1.0f, 2.0f }, 0.0f);
-		else if (lineType == LineType.DOUBLE) stroke = new DoubleStroke(lineThickness, 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, null, 0.0f);
-		else if (lineType == LineType.DOUBLE_DASHED) stroke = new DoubleStroke(lineThickness, 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 8.0f, 5.0f }, 0.0f);
-		else if (lineType == LineType.DOUBLE_DOTTED) stroke = new DoubleStroke(lineThickness, 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 1.0f, 2.0f }, 0.0f);
+		BasicStroke stroke = null;
+		switch (lineType) {
+			case SOLID:
+				stroke = new BasicStroke(lineThickness);
+				break;
+			case DASHED:
+				float dash1[] = { 8.0f, 5.0f };
+				stroke = new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash1, 0.0f);
+				break;
+			case DOTTED:
+				float dash2[] = { 1.0f, 2.0f };
+				stroke = new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, dash2, 0.0f);
+				break;
+		}
 		return stroke;
 	}
 
@@ -199,10 +204,6 @@ public abstract class Utils {
 	public static String getClassName() {
 		return Thread.currentThread().getStackTrace()[2].getClassName();
 		//		return new RuntimeException().getStackTrace()[1].getClassName(); //ALSO POSSIBLE
-	}
-	
-	public static Class<? extends StackTraceElement> getClassObject() {
-		return Thread.currentThread().getStackTrace()[2].getClass();
 	}
 
 	/**

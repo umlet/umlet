@@ -72,7 +72,6 @@ public class MenuFactory {
 	public static final String HELP = "Help";
 	protected static final String ONLINE_HELP = "Online Help...";
 	protected static final String ONLINE_SAMPLE_DIAGRAMS = "Online Sample Diagrams...";
-	protected static final String VIDEO_TUTORIAL = "Video Tutorial: Basic Use and Custom Elements";
 	protected static final String PROGRAM_HOMEPAGE = Program.PROGRAM_NAME + " Homepage...";
 	protected static final String RATE_PROGRAM = "Rate " + Program.PROGRAM_NAME + " at Eclipse Marketplace...";
 	protected static final String ABOUT_PROGRAM = "About " + Program.PROGRAM_NAME;
@@ -101,7 +100,7 @@ public class MenuFactory {
 					main.doNew();
 				}
 				else if (menuItem.equals(OPEN)) {
-					main.doOpenFromFileChooser();
+					main.doOpen();
 				}
 				else if (menuItem.equals(RECENT_FILES)) {
 					main.doOpen((String) param);
@@ -197,9 +196,6 @@ public class MenuFactory {
 					if (Program.PROGRAM_NAME == ProgramName.UMLET) BrowserLauncher.openURL("http://www.itmeyer.at/umlet/uml2/");
 					else if (Program.PROGRAM_NAME == ProgramName.PLOTLET) BrowserLauncher.openURL("http://www.itmeyer.at/umlet/uml2/");
 				}
-				else if (menuItem.equals(VIDEO_TUTORIAL)) {
-					BrowserLauncher.openURL("http://www.youtube.com/watch?v=3UHZedDtr28");
-				}
 				else if (menuItem.equals(PROGRAM_HOMEPAGE)) {
 					BrowserLauncher.openURL(Program.WEBSITE);
 				}
@@ -208,7 +204,7 @@ public class MenuFactory {
 					else if (Program.PROGRAM_NAME == ProgramName.PLOTLET) BrowserLauncher.openURL("http://marketplace.eclipse.org/content/plotlet");
 				}
 				else if (menuItem.equals(ABOUT_PROGRAM)) {
-					AboutDialog.show();
+					AboutPanel.getInstance().setVisible();
 				}
 				else if (menuItem.equals(SET_FOREGROUND_COLOR) && (actualHandler != null)) {
 					actualHandler.getController().executeCommand(new ChangeColor((String) param, true));

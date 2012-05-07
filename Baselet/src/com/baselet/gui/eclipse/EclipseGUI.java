@@ -6,6 +6,8 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.util.Hashtable;
 
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.text.JTextComponent;
 
@@ -17,6 +19,7 @@ import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
+import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.plugin.editor.Contributor;
@@ -65,8 +68,8 @@ public class EclipseGUI extends BaseGUI {
 	}
 
 	@Override
-	public void enablePasteMenuEntry() {
-		if (this.contributor != null) this.contributor.setPaste(true);
+	public void setPaste(boolean value) {
+		if (this.contributor != null) this.contributor.setPaste(value);
 	}
 
 	@Override
@@ -203,11 +206,33 @@ public class EclipseGUI extends BaseGUI {
 	}
 
 	@Override 
-	public OwnSyntaxPane getPropertyPane() {
-		if (editor != null) return editor.getPropertyPane();
-		else return null;
+	public OwnSyntaxPane getPropertyPane()
+	{
+		return this.editor.getPropertyPane();
 	}
 	
+	@Override
+	public String getPropertyPanelText() {
+		if (this.editor != null) return this.editor.getPropertyPane().getText();
+		return "";
+	}
+
+	@Override
+	public void setPropertyPanelText(String text) {
+		if (this.editor != null) {
+			OwnSyntaxPane propertyTextPane = editor.getPropertyPane();
+			if (!propertyTextPane.getText().equals(text)) {
+				propertyTextPane.setText(text);
+
+				//AB: Can be removed because of jsyntaxpane implementation
+				//propertyTextPane.checkPanelForSpecialChars();
+				
+				// Reset the vertical and horizontal scrollbar position to the upper left corner
+				propertyTextPane.setCaretPosition(0);
+			}
+		}
+	}
+
 	public void panelDoAction(Pane pane, ActionName actionName) {
 
 		JTextComponent textpane = null;
@@ -247,6 +272,25 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public void requestFocus() {
 		if (this.editor != null) this.editor.requestFocus();
+	}
+
+	@Override
+	public String chooseFileName() {
+		String fileName = null;
+		if (this.editor != null) {
+			int returnVal = DiagramFileHandler.getOpenFileChooser().showOpenDialog(this.editor.getPanel());
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				fileName = DiagramFileHandler.getOpenFileChooser().getSelectedFile().getAbsolutePath();
+			}
+		}
+		return fileName;
+	}
+
+	@Override
+	public void openDialog(String title, JComponent component) {
+		if (this.editor != null) {
+			javax.swing.SwingUtilities.invokeLater(new ShowDialog(title, component));
+		}
 	}
 
 	@Override

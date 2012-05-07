@@ -161,8 +161,7 @@ public class Parser {
 			// Arguments are handled as any other key->value assignment but are only valid for this plot
 			for (int i = 1; i < args.length; i++) {
 				String[] split = args[i].split("=");
-				if (split.length == 1) split = new String[] {split[0], ""};
-				localCopyOfValuesCache.put(split[0], new KeyValue(split[0], split[1], lineNr));
+				if (split.length == 2) localCopyOfValuesCache.put(split[0], new KeyValue(split[0], split[1], lineNr));
 			}
 		}
 		// If no dataset is specified the data-value is set to auto

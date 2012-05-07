@@ -12,7 +12,6 @@ import jsyntaxpane.util.Configuration;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Utils;
@@ -50,14 +49,6 @@ public class OwnSyntaxPane extends JEditorPane {
 		return this.panel;
 	}
 
-	@Override
-	public void setText(String text) {
-		if (!getText().equals(text)) {
-			super.setText(text);
-			setCaretPosition(0);
-		}
-	}
-
 	public void initJSyntaxPane() {
 		DefaultSyntaxKit.initKit();
 		Configuration conf = DefaultSyntaxKit.getConfig(DefaultSyntaxKit.class);
@@ -73,7 +64,7 @@ public class OwnSyntaxPane extends JEditorPane {
 				// IMPORTANT: The config-key "Action.combo-completion.Items" only accepts a semikolon-separated string because we have changed the method:
 				//            jsyntaxpane/actions/ComboCompletionAction.java#setItems(). Otherwise it would only accept a real list
 				String autocompletionList = PlotletSyntaxKit.createAutocompletionList(";");
-				DefaultSyntaxKit.getConfig(PlotletSyntaxKit.class).put("Action.combo-completion.Items", autocompletionList);
+				DefaultSyntaxKit.getConfig(PlotletSyntaxKit.class).put("Action.combo-completion.ItemsAsString", autocompletionList);
 			} catch (Exception e) {
 				log.error("Error at creating the autocompletion");
 			}
@@ -86,9 +77,8 @@ public class OwnSyntaxPane extends JEditorPane {
 			
 			DefaultSyntaxKit.registerContentType("text/propertypanel", UmletSyntaxKit.class.getCanonicalName());
 		}	
-
+		
 		this.setContentType("text/propertypanel");
-		this.setFont(Constants.PANEL_FONT); //Set font to make sure UTF-8 characters work
 		this.validate();
 	}
 }

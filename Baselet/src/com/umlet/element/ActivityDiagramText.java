@@ -9,9 +9,7 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.activity.AEnd;
 import com.umlet.element.activity.Activity;
@@ -37,7 +35,7 @@ import com.umlet.element.activity.Sync;
 
 
 @SuppressWarnings("serial")
-public class ActivityDiagramText extends OldGridElement {
+public class ActivityDiagramText extends com.baselet.element.GridElement {
 
 	private ArrayList<Row> rows;
 	private ArrayList<Container> containers;
@@ -389,7 +387,7 @@ public class ActivityDiagramText extends OldGridElement {
 			height += (int) (25 * zoom);
 
 			if ((title != null) && (title.length() > 0)) {
-				this.getHandler().getFontHandler().writeText(this.graphics, title, (int) (10 * zoom), (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
+				this.getHandler().getFontHandler().writeText(this.graphics, title, (int) (10 * zoom), (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), false);
 				int titlewidth = this.getHandler().getFontHandler().getTextWidth(title);
 				int ty = (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() + (int) (8 * zoom);
 				this.graphics.drawLine(0, ty, titlewidth + (int) (10 * zoom), ty);
@@ -413,7 +411,7 @@ public class ActivityDiagramText extends OldGridElement {
 
 		// draw diagram
 		this.setSize(width, height);
-		this.graphics.drawRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		this.graphics.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 		this.root_container.paint();
 
 		// draw goto elements

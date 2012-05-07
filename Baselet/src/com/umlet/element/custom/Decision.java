@@ -6,12 +6,12 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
 
-import com.baselet.element.OldGridElement;
+import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")
-public class Decision extends OldGridElement {
+public class Decision extends GridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
@@ -21,10 +21,10 @@ public class Decision extends OldGridElement {
 		
 
 		Polygon poly = new Polygon();
-		poly.addPoint(this.getSize().width / 2, 0);
-		poly.addPoint(this.getSize().width, this.getSize().height / 2);
-		poly.addPoint(this.getSize().width / 2, this.getSize().height);
-		poly.addPoint(0, this.getSize().height / 2);
+		poly.addPoint(this.getWidth() / 2, 0);
+		poly.addPoint(this.getWidth(), this.getHeight() / 2);
+		poly.addPoint(this.getWidth() / 2, this.getHeight());
+		poly.addPoint(0, this.getHeight() / 2);
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);

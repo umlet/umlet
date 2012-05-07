@@ -5,13 +5,12 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.Vector;
 
-import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.element.OldGridElement;
+import com.baselet.element.GridElement;
 
 
 @SuppressWarnings("serial")
-public class TemplateClass extends OldGridElement {
+public class TemplateClass extends GridElement {
 
 	public TemplateClass() {
 		super();
@@ -39,16 +38,16 @@ public class TemplateClass extends OldGridElement {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
 				CENTER = false;
-				g2.drawLine(0, yPos, this.getSize().width, yPos);
+				g2.drawLine(0, yPos, this.getWidth(), yPos);
 				yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
 				if (CENTER) {
-					this.getHandler().getFontHandler().writeText(g2, s, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
+					this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, yPos, true);
 				}
 				else {
-					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, false);
 				}
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}

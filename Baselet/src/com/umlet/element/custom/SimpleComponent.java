@@ -7,13 +7,11 @@ import java.awt.Graphics2D;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.element.OldGridElement;
 
 
 @SuppressWarnings("serial")
-public class SimpleComponent extends OldGridElement {
+public class SimpleComponent extends com.baselet.element.GridElement {
 
 	// Change this method if you want to edit the graphical
 	// representation of your custom element.
@@ -42,7 +40,7 @@ public class SimpleComponent extends OldGridElement {
 			String s = tmp.elementAt(i);
 
 			yPos += (int) this.getHandler().getFontHandler().getFontSize();
-			this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() * 3, yPos, AlignHorizontal.LEFT);
+			this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() * 3, yPos, false);
 			// offset into box
 			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		}
@@ -52,17 +50,17 @@ public class SimpleComponent extends OldGridElement {
 
 		int fnt = (int) this.getHandler().getFontHandler().getFontSize();
 
-		g2.drawLine((int) this.getHandler().getFontHandler().getFontSize(), 0, this.getSize().width - 1, 0);
+		g2.drawLine((int) this.getHandler().getFontHandler().getFontSize(), 0, this.getWidth() - 1, 0);
 		// top
-		g2.drawLine((int) this.getHandler().getFontHandler().getFontSize(), getSize().height - 1, getSize().width - 1, getSize().height - 1); // bottom
+		g2.drawLine((int) this.getHandler().getFontHandler().getFontSize(), getHeight() - 1, getWidth() - 1, getHeight() - 1); // bottom
 
 		// left side
 		g2.drawLine((int) this.getHandler().getFontHandler().getFontSize(), 0, (int) this.getHandler().getFontHandler().getFontSize(), fnt); // top
 		g2.drawLine(fnt, fnt * 2, fnt, fnt * 3); // middle
-		g2.drawLine(fnt, fnt * 4, fnt, getSize().height - 1);
+		g2.drawLine(fnt, fnt * 4, fnt, getHeight() - 1);
 		// bottom
 
-		g2.drawLine(getSize().width - 1, 0, getSize().width - 1, getSize().height - 1); // right side
+		g2.drawLine(getWidth() - 1, 0, getWidth() - 1, getHeight() - 1); // right side
 
 		g2.drawLine(0, fnt, fnt * 2, fnt); // top box top line
 		g2.drawLine(0, fnt * 2, fnt * 2, fnt * 2); // top box bottom line

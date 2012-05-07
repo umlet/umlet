@@ -8,14 +8,12 @@ import java.awt.Point;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 
 
 @SuppressWarnings("serial")
-public class PackageAggregationHierarchy extends OldGridElement {
+public class PackageAggregationHierarchy extends com.baselet.element.GridElement {
 
 	@Override
 	public void paintEntity(Graphics g) {
@@ -35,11 +33,11 @@ public class PackageAggregationHierarchy extends OldGridElement {
 		// draw bounding box
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		g2.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 		g2.setComposite(composites[0]);
 		if (isSelected) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
-		g2.drawRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		g2.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 
 		// init coordinates;
 		int level = 0;
@@ -130,7 +128,7 @@ public class PackageAggregationHierarchy extends OldGridElement {
 		g2.drawRect((int) (xPos + 0.5), (int) (yPos + 0.5), (int) (packageWidth / 3 + 0.5), (int) (packageHeight / 4 + 0.5));
 		g2.drawRect((int) (xPos + 0.5), (int) (packageHeight / 4 + 0.5) + (int) (yPos + 0.5), (int) (packageWidth + 0.5), (int) (packageHeight + 0.5));
 
-		this.getHandler().getFontHandler().writeText(g2, name, (int) (xPos + packageWidth + this.getHandler().getFontHandler().getDistanceBetweenTexts() + 0.5), (int) (packageHeight + yPos + 0.5), AlignHorizontal.LEFT);
+		this.getHandler().getFontHandler().writeText(g2, name, (int) (xPos + packageWidth + this.getHandler().getFontHandler().getDistanceBetweenTexts() + 0.5), (int) (packageHeight + yPos + 0.5), false);
 	}
 
 	// calculates the hierarchy level according to tab count in the string

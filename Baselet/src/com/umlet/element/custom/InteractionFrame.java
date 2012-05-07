@@ -5,14 +5,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
-import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
-import com.baselet.element.OldGridElement;
+import com.baselet.element.GridElement;
 
 
 @SuppressWarnings("serial")
-public class InteractionFrame extends OldGridElement {
+public class InteractionFrame extends GridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
@@ -29,11 +28,11 @@ public class InteractionFrame extends OldGridElement {
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		g2.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 		g2.setComposite(composites[0]);
 		if (isSelected) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
-		g2.drawRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		g2.drawRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 
@@ -55,15 +54,15 @@ public class InteractionFrame extends OldGridElement {
 			else if (s.equals("-.")) {
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
-				g2.drawLine(0, (int) yPos, this.getSize().width, (int) yPos);
+				g2.drawLine(0, (int) yPos, this.getWidth(), (int) yPos);
 				g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
 				yPos += this.getHandler().getFontHandler().getFontSize();
-				if (center) this.getHandler().getFontHandler().writeText(g2, s, this.getSize().width / 2, (int) yPos, AlignHorizontal.CENTER);
-				else
-					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, (int) yPos, AlignHorizontal.LEFT);
+				if (center) this.getHandler().getFontHandler().writeText(g2, s, this.getWidth() / 2, (int) yPos, true);
+				else this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, (int) yPos,
+						false);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 		}

@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
+import java.awt.font.FontRenderContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -198,12 +199,12 @@ public abstract class Constants {
 	}
 
 	/**** OTHER CONSTANTS ****/
-
 	public static final String CUSTOM_ELEMENT_CLASSNAME = "CustomElementImpl";
 	public static final int DEFAULTGRIDSIZE = 10;
+	public static final int PRINTPADDING = 20;
 	public static final int INTERFACE_LINE_LENGTH = 40;
 
-	public enum LineType {SOLID, DASHED, DOTTED, DOUBLE, DOUBLE_DASHED, DOUBLE_DOTTED};
+	public enum LineType {SOLID, DASHED, DOTTED};
 	public static final int DEFAULT_LINE_THICKNESS = 1;
 
 	public static final int CUSTOM_ELEMENT_COMPILE_INTERVAL = 500;
@@ -257,29 +258,20 @@ public abstract class Constants {
 		}
 	}
 	
-	public static final int RECENT_FILES_LIST_LENGTH = 10;
-	public static final RecentlyUsedFilesList recentlyUsedFilesList = new RecentlyUsedFilesList();
+	public static final FontRenderContext FRC = new FontRenderContext(null, true, true);
 
-	// Default panel font is MONOSPACED to make sure that bold text has the same width as non-bold text (eg: for syntax highlighting)
-	public static Font PANEL_FONT = new Font(Font.MONOSPACED, Font.PLAIN, 11);
-	
 	/**** VALUES LOADED FROM CONFIG ****/
 	public static int defaultFontsize = (Program.PROGRAM_NAME == ProgramName.UMLET ? 14 : 10);
 	public static String defaultFontFamily = Font.SANS_SERIF;
 	public static boolean start_maximized = false;
 	public static boolean show_stickingpolygon = true;
 	public static boolean show_grid = false;
-	public static boolean enable_custom_elements = true;
 	public static int main_split_position = 600;
 	public static int right_split_position = 400;
 	public static int mail_split_position = 250;
 	public static Dimension program_size = new Dimension(960, 750);
 	public static Point program_location = new Point(5, 5);
 	public static String ui_manager;
-	public static int printPadding = 20;
-	public static boolean checkForUpdates = true;
-	public static String openFileHome = System.getProperty("user.dir");
-	public static String pdfExportFont = ""; //eg in Windows: "pdf_export_font = c:/windows/fonts/msgothic.ttc,1"
 
 	static {
 		// The default MacOS theme looks ugly, therefore we set metal
@@ -302,7 +294,7 @@ public abstract class Constants {
 	public static String mail_bcc = "";
 	public static boolean mail_xml = true;
 	public static boolean mail_gif = true;
-	public static boolean mail_pdf = false;;
+	public static boolean mail_pdf = false;
 
 	/**** ERROR MESSAGES ****/
 

@@ -29,11 +29,8 @@ import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Utils;
 import com.baselet.element.DiagramNotification;
 import com.baselet.element.GridElement;
-import com.baselet.element.GridComponent;
 import com.baselet.gui.StartUpHelpText;
 import com.baselet.gui.listener.ScrollbarListener;
-import com.baselet.gui.standalone.FileDrop;
-import com.baselet.gui.standalone.FileDropListener;
 import com.umlet.element.Relation;
 
 @SuppressWarnings("serial")
@@ -54,11 +51,7 @@ public class DrawPanel extends JPanel implements Printable {
 		this.setLayout(null);
 		this.setBackground(Color.white);
 		// If this is not a palette, create a StartupHelpText
-		if (!(handler instanceof PaletteHandler)) {
-			StartUpHelpText startupHelpText = new StartUpHelpText(this);
-			new FileDrop(startupHelpText, new FileDropListener());
-			this.add(startupHelpText);
-		}
+		if (!(handler instanceof PaletteHandler)) this.add(new StartUpHelpText(this));
 		this.selector = new Selector(this);
 		this.notifications = new ArrayList<DiagramNotification>();
 		JScrollPane p = new JScrollPane() {
@@ -142,23 +135,27 @@ public class DrawPanel extends JPanel implements Printable {
 
 		for (int i = 0; i < entities.size(); i++) {
 			GridElement e = entities.elementAt(i);
-			minx = Math.min(minx, e.getLocation().x - borderSpace);
-			miny = Math.min(miny, e.getLocation().y - borderSpace);
-			maxx = Math.max(maxx, e.getLocation().x + e.getSize().width + borderSpace);
-			maxy = Math.max(maxy, e.getLocation().y + e.getSize().height + borderSpace);
+			minx = Math.min(minx, e.getX() - borderSpace);
+			miny = Math.min(miny, e.getY() - borderSpace);
+			maxx = Math.max(maxx, e.getX() + e.getWidth() + borderSpace);
+			maxy = Math.max(maxy, e.getY() + e.getHeight() + borderSpace);
 		}
 		return new Rectangle(minx, miny, maxx - minx, maxy - miny);
 	}
 
 	public void paintEntitiesIntoGraphics2D(Graphics2D g2d, Vector<GridElement> entitiesToPaint) {
+		boolean entityWasSelected = false;
 		for (GridElement entity : entitiesToPaint) {
-			boolean entityWasSelected = entity.isSelected();
-			int x = entity.getLocation().x;
-			int y = entity.getLocation().y;
+			if (entity.isSelected()) entityWasSelected = true;
+			int x = entity.getX();
+			int y = entity.getY();
 			g2d.translate(x, y);
 			if (entityWasSelected) entity.onDeselected(); // If entity was selected deselect it before painting
 			entity.paint(g2d);
-			if (entityWasSelected) entity.onSelected(); // and select it afterwards.
+			if (entityWasSelected) { // and select it afterwards. Also reset boolean variable to false
+				entity.onSelected();
+				entityWasSelected = false;
+			}
 			g2d.translate(-x, -y);
 		}
 	}
@@ -170,7 +167,7 @@ public class DrawPanel extends JPanel implements Printable {
 			Graphics2D g2d = (Graphics2D) g;
 			RepaintManager currentManager = RepaintManager.currentManager(this);
 			currentManager.setDoubleBufferingEnabled(false);
-			Rectangle bounds = this.getContentBounds(Constants.printPadding, getAllEntities());
+			Rectangle bounds = this.getContentBounds(Constants.PRINTPADDING, getAllEntities());
 			g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 			AffineTransform t = g2d.getTransform();
 			double scale = Math.min(pageFormat.getImageableWidth() / bounds.width,
@@ -191,7 +188,7 @@ public class DrawPanel extends JPanel implements Printable {
 		Vector<GridElement> v = new Vector<GridElement>();
 		for (int i = 0; i < this.getComponentCount(); i++) {
 			Component c = this.getComponent(i);
-			if (c instanceof GridComponent) v.add(((GridComponent) c).getGridElement());
+			if (c instanceof GridElement) v.add((GridElement) c);
 		}
 		return v;
 	}
@@ -322,10 +319,8 @@ public class DrawPanel extends JPanel implements Printable {
 
 		for (int i = 0; i < this.getComponents().length; i++) {
 			Component c = this.getComponent(i);
-			if (c instanceof GridComponent) { // We remove whitespace only for entities
-				GridElement ge = ((GridComponent) c).getGridElement();
-				ge.setLocation(handler.realignToGrid(false, ge.getLocation().x - newX), handler.realignToGrid(false, ge.getLocation().y - newY));
-			}
+			if (c instanceof GridElement) // We remove whitespace only for entities
+			c.setLocation(handler.realignToGrid(false, c.getX() - newX), handler.realignToGrid(false, c.getY() - newY));
 		}
 
 		changeViewPosition(-newX, -newY);
@@ -521,13 +516,5 @@ public class DrawPanel extends JPanel implements Printable {
 	public void zoomOrigin(int oldGridSize, int newGridSize) {
 		log.debug("Zoom origin to: " + origin);
 		origin.setLocation((origin.x * newGridSize) / oldGridSize, (origin.y * newGridSize) / oldGridSize);
-	}
-
-	public void removeElement(GridElement gridElement) {
-		remove(gridElement.getComponent());
-	}
-
-	public void addElement(GridElement gridElement) {
-		add(gridElement.getComponent());
 	}
 }
