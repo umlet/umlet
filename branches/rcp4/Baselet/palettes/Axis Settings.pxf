@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="plotlet" version="0.81">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.plotlet.element.PlotGrid</type>
+    <coordinates>
+      <x>20</x>
+      <y>470</y>
+      <w>660</w>
+      <h>460</h>
+    </coordinates>
+    <panel_attributes>data
+a	b	c
+-5	7	13
+
+grid.width=2
+axis.desc.show=axis,line,marker,text
+axis.value.show=axis,line,marker,text
+
+plot type=line
+plot type=bar
+plot type=pie
+plot type=scatter
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.plotlet.element.PlotGrid</type>
+    <coordinates>
+      <x>20</x>
+      <y>0</y>
+      <w>660</w>
+      <h>460</h>
+    </coordinates>
+    <panel_attributes>data
+a	b	c
+-5	7	13
+
+type=line
+axis.desc.show=
+axis.value.show=
+axis.value.list=relevant
+plot
+axis.desc.show=axis
+plot
+axis.value.show=axis
+plot
+axis.desc.show=axis,line
+plot
+axis.value.show=axis,line
+plot
+axis.desc.show=axis,line,marker
+plot
+axis.value.show=axis,line,marker
+plot
+axis.desc.show=axis,line,marker,text
+plot
+axis.value.show=axis,line,marker,text
+plot
+
+axis.value.list=
+plot
+axis.value.list=-8,-1,3.5,17
+plot
+axis.value.list=-8,-1,3.5,17,relevant
+plot</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

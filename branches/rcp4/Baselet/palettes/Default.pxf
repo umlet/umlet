@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="plotlet" version="0.81">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.plotlet.element.PlotGrid</type>
+    <coordinates>
+      <x>10</x>
+      <y>480</y>
+      <w>660</w>
+      <h>460</h>
+    </coordinates>
+    <panel_attributes>data
+a	b	c	d
+1	3	1	6
+
+data
+a	b	c
+2	-4	4
+
+// variables which are on the same line as "plot" are only set for this plot
+plot type=pie colors=blue,yellow,black,red
+
+// A variable which is on it's own line is valid for every following plot
+type=line
+colors=blue
+plot
+plot
+
+plot type=scatter
+plot type=scatter
+
+// auto resets the variable to it's default value (in this case "bar")
+type=auto
+colors=auto
+plot
+
+// to use the highest/lowest value of all datasets, set value.min/max to all
+value.min=all
+value.max=all
+plot
+plot
+plot</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.plotlet.element.PlotGrid</type>
+    <coordinates>
+      <x>10</x>
+      <y>0</y>
+      <w>660</w>
+      <h>460</h>
+    </coordinates>
+    <panel_attributes>// Comments start with // and are ignored by the program
+
+//Shortcuts: Ctrl+F     ... Quickfind
+//           Ctrl+Space ... Autocompletion
+
+// A dataset can be introduced by "data"
+data
+a	b	c
+1	0	0
+
+// A dataset can have a name (eg: "set_positive") for later references
+data set_positive
+a	b	c
+0	1	0
+
+// Anything which is not "plot" or a "key=value" assignment is also guessed as a dataset
+a	b	c
+0	0	1
+
+// A vertical dataset is automatically interpreted in the right way
+a	1
+b	2
+c	3
+d	4
+
+// A dataset is also valid if there is no title row
+data set_noname
+1	3	1	3
+
+// Usually "plot" is cycling through all datasets
+plot
+
+plot
+
+plot
+
+plot
+
+plot
+
+// It is also possible to reference a dataset by it's number or it's name (if declared)
+
+plot data=#2
+
+plot data=#1
+
+plot data=set_positive
+
+plot data=set_noname
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

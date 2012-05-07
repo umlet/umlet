@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.0">
+  <zoom_level>8</zoom_level>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>152</x>
+      <y>128</y>
+      <w>80</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>--
+Name
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>152</x>
+      <y>16</y>
+      <w>80</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>--
+Name
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.PackageAggregationHierarchy</type>
+    <coordinates>
+      <x>152</x>
+      <y>200</y>
+      <w>136</w>
+      <h>184</h>
+    </coordinates>
+    <panel_attributes>root
+	name
+	name
+		name
+		name
+root
+	name</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>16</x>
+      <y>80</y>
+      <w>80</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>--
+Name</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>168</x>
+      <y>48</y>
+      <w>40</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;(+)-
+</panel_attributes>
+    <additional_attributes>24;24;24;96</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>16</x>
+      <y>144</y>
+      <w>80</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>Name
+--
+left:Text
+Text</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>0</x>
+      <y>336</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;merge&gt;&gt;</panel_attributes>
+    <additional_attributes>128;40;24;40</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>0</x>
+      <y>312</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;import&gt;&gt;</panel_attributes>
+    <additional_attributes>128;40;24;40</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>0</x>
+      <y>288</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+&lt;&lt;access&gt;&gt;</panel_attributes>
+    <additional_attributes>128;40;24;40</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>16</x>
+      <y>16</y>
+      <w>80</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>Name</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <group>
+    <element>
+      <type>com.umlet.element.Package</type>
+      <coordinates>
+        <x>16</x>
+        <y>208</y>
+        <w>120</w>
+        <h>88</h>
+      </coordinates>
+      <panel_attributes/>
+      <additional_attributes/>
+    </element>
+    <element>
+      <type>com.umlet.element.Package</type>
+      <coordinates>
+        <x>40</x>
+        <y>232</y>
+        <w>80</w>
+        <h>56</h>
+      </coordinates>
+      <panel_attributes/>
+      <additional_attributes/>
+    </element>
+  </group>
+</diagram>
