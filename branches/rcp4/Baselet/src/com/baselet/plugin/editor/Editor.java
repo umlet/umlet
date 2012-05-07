@@ -35,6 +35,13 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.EditorPart;
+import org.eclipse.ui.part.FileEditorInput;
 
 import umletplugin.IEditor;
 
@@ -253,12 +260,12 @@ public class Editor extends EditorPart implements IEditor {
 		org.eclipse.swt.widgets.Display.getDefault().asyncExec(new UpdateDiagramNameAction(this));
 	}
 
-	protected void fireDiagramNameChanged() {
+	public void fireDiagramNameChanged() {
 		this.firePropertyChange(PROP_TITLE);
 	}
 
 	// Adds the star right to the tab to show that there are some changes which have not been stored
-	protected void fireDirtyProperty() {
+	public void fireDirtyProperty() {
 		this.firePropertyChange(IEditorPart.PROP_DIRTY);
 	}
 
