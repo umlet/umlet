@@ -24,7 +24,7 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.umlet.element.Relation;
 
-public abstract class OldGridElement extends JComponent implements GridElement {
+public abstract class OldGridElement extends GridComponent implements GridElement {
 
 	private static final long serialVersionUID = 1L;
 
@@ -390,5 +390,15 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 
 	protected final int textWidth(String text, boolean applyZoom) {
 		return getHandler().getFontHandler().getTextSize(text, applyZoom).width + (int) getHandler().getFontHandler().getDistanceBetweenTexts(applyZoom);
+	}
+
+	@Override
+	public JComponent getComponent() {
+		return this;
+	}
+
+	@Override
+	public GridElement getGridElement() {
+		return this;
 	}
 }

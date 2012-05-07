@@ -30,7 +30,15 @@ public class Path {
 	private static String homeProgramDir;
 
 	public static String config() {
-		return Path.homeProgram() + Program.CONFIG_NAME;
+		return userHome() + File.separator + Program.CONFIG_NAME;
+	}
+
+	private static String userHome() {
+		String homeDir = System.getProperty("user.home");
+		if (!homeDir.endsWith(File.separator)) homeDir += File.separator;
+		File homeDirFile = new File(homeDir + Program.PROGRAM_NAME);
+		if (!homeDirFile.exists()) homeDirFile.mkdir();
+		return homeDirFile.getAbsolutePath();
 	}
 
 	public static String customElements() {
@@ -95,7 +103,6 @@ public class Path {
 			path = codeSourceUrl.getPath().replace("%20", " ");
 		}
 
-		if (path.startsWith("/")) path = path.substring(1);
 		return path;
 	}
 

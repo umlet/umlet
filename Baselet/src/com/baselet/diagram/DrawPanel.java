@@ -16,7 +16,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.RepaintManager;
@@ -30,6 +29,7 @@ import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Utils;
 import com.baselet.element.DiagramNotification;
 import com.baselet.element.GridElement;
+import com.baselet.element.GridComponent;
 import com.baselet.gui.StartUpHelpText;
 import com.baselet.gui.listener.ScrollbarListener;
 import com.baselet.gui.standalone.FileDrop;
@@ -191,7 +191,7 @@ public class DrawPanel extends JPanel implements Printable {
 		Vector<GridElement> v = new Vector<GridElement>();
 		for (int i = 0; i < this.getComponentCount(); i++) {
 			Component c = this.getComponent(i);
-			if (c instanceof GridElement) v.add((GridElement) c);
+			if (c instanceof GridComponent) v.add(((GridComponent) c).getGridElement());
 		}
 		return v;
 	}
@@ -322,8 +322,10 @@ public class DrawPanel extends JPanel implements Printable {
 
 		for (int i = 0; i < this.getComponents().length; i++) {
 			Component c = this.getComponent(i);
-			if (c instanceof GridElement) // We remove whitespace only for entities
-			c.setLocation(handler.realignToGrid(false, c.getX() - newX), handler.realignToGrid(false, c.getY() - newY));
+			if (c instanceof GridComponent) { // We remove whitespace only for entities
+				GridElement ge = ((GridComponent) c).getGridElement();
+				ge.setLocation(handler.realignToGrid(false, ge.getLocation().x - newX), handler.realignToGrid(false, ge.getLocation().y - newY));
+			}
 		}
 
 		changeViewPosition(-newX, -newY);
@@ -522,10 +524,10 @@ public class DrawPanel extends JPanel implements Printable {
 	}
 
 	public void removeElement(GridElement gridElement) {
-		remove((JComponent) gridElement);
+		remove(gridElement.getComponent());
 	}
 
 	public void addElement(GridElement gridElement) {
-		add((JComponent) gridElement);
+		add(gridElement.getComponent());
 	}
 }
