@@ -3,16 +3,20 @@
   <children xsi:type="basic:TrimmedWindow" xmi:id="_7y2853IUEeG_iqR3jIlPJw" label="UmletPlugin" width="500" height="400">
     <children xsi:type="advanced:PerspectiveStack" xmi:id="_7y3j5HIUEeG_iqR3jIlPJw">
       <children xsi:type="advanced:Perspective" xmi:id="_7y3j5XIUEeG_iqR3jIlPJw">
-        <children xsi:type="basic:PartSashContainer" xmi:id="_7y3j5nIUEeG_iqR3jIlPJw">
-          <children xsi:type="basic:PartStack" xmi:id="_7y3j53IUEeG_iqR3jIlPJw">
-            <children xsi:type="basic:Part" xmi:id="_lZpCoHIVEeG_iqR3jIlPJw" contributionURI="bundleclass://UmletPlugin/umletplugin.NewEditor"/>
+        <children xsi:type="basic:PartSashContainer" xmi:id="_7y3j5nIUEeG_iqR3jIlPJw" horizontal="true">
+          <children xsi:type="basic:PartStack" xmi:id="_7y3j53IUEeG_iqR3jIlPJw" elementId="umletplugin.newPartStack" containerData="" accessibilityPhrase="" selectedElement="_lZpCoHIVEeG_iqR3jIlPJw">
+            <children xsi:type="basic:Part" xmi:id="_lZpCoHIVEeG_iqR3jIlPJw" elementId="" contributionURI="bundleclass://UmletPlugin/umletplugin.NewEditor" label="new"/>
+          </children>
+          <children xsi:type="basic:PartSashContainer" xmi:id="_rRJGwJrAEeGvY-mIk-zbCw">
+            <children xsi:type="basic:Part" xmi:id="_r1ABwJrAEeGvY-mIk-zbCw" contributionURI="bundleclass://UmletPlugin/umletplugin.PalettesView" label="Palettes"/>
+            <children xsi:type="basic:Part" xmi:id="_sMD24JrAEeGvY-mIk-zbCw" contributionURI="bundleclass://UmletPlugin/umletplugin.PropertiesView" label="Properties"/>
           </children>
         </children>
       </children>
     </children>
     <mainMenu xmi:id="_7y286HIUEeG_iqR3jIlPJw" elementId="menu:org.eclipse.ui.main.menu">
       <children xsi:type="menu:Menu" xmi:id="_7y286XIUEeG_iqR3jIlPJw" label="File">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_53N2AJoVEeGoOL_FTK7BJQ" label="New"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_53N2AJoVEeGoOL_FTK7BJQ" label="New" command="_RNOVEJrEEeGvY-mIk-zbCw"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_7y286nIUEeG_iqR3jIlPJw" label="Open" iconURI="platform:/plugin/UmletPlugin/icons/sample.gif" command="_7y283nIUEeG_iqR3jIlPJw"/>
         <children xsi:type="menu:Menu" xmi:id="_8OAHMJoVEeGoOL_FTK7BJQ" label="Recent Files"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_7y3j4HIUEeG_iqR3jIlPJw" label="Save" iconURI="platform:/plugin/UmletPlugin/icons/save_edit.gif" command="_7y284XIUEeG_iqR3jIlPJw"/>
@@ -70,6 +74,7 @@
   <handlers xmi:id="_7y2833IUEeG_iqR3jIlPJw" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.OpenHandler" command="_7y283nIUEeG_iqR3jIlPJw"/>
   <handlers xmi:id="_7y284nIUEeG_iqR3jIlPJw" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.SaveHandler" command="_7y284XIUEeG_iqR3jIlPJw"/>
   <handlers xmi:id="_7y285XIUEeG_iqR3jIlPJw" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.AboutHandler" command="_7y285HIUEeG_iqR3jIlPJw"/>
+  <handlers xmi:id="_Hx0fsJrGEeGvY-mIk-zbCw" elementId="UmletPlugin.newCommand.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.NewHandler" command="_RNOVEJrEEeGvY-mIk-zbCw"/>
   <bindingTables xmi:id="_7y283HIUEeG_iqR3jIlPJw" bindingContext="_7y280XIUEeG_iqR3jIlPJw">
     <bindings xmi:id="_7y283XIUEeG_iqR3jIlPJw" keySequence="M1+Q" command="_7y282nIUEeG_iqR3jIlPJw"/>
     <bindings xmi:id="_7y284HIUEeG_iqR3jIlPJw" keySequence="M1+O" command="_7y283nIUEeG_iqR3jIlPJw"/>
@@ -84,6 +89,7 @@
   <commands xmi:id="_7y283nIUEeG_iqR3jIlPJw" elementId="UmletPlugin.openCommand" commandName="Open"/>
   <commands xmi:id="_7y284XIUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.file.save" commandName="Save"/>
   <commands xmi:id="_7y285HIUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.help.aboutAction" commandName="About"/>
+  <commands xmi:id="_RNOVEJrEEeGvY-mIk-zbCw" elementId="UmletPlugin.newCommand" commandName="New"/>
   <addons xmi:id="_7y281HIUEeG_iqR3jIlPJw" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_7y281XIUEeG_iqR3jIlPJw" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_7y281nIUEeG_iqR3jIlPJw" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>
