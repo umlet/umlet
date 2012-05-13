@@ -298,8 +298,8 @@ public class Editor extends EditorPart implements IEditor {
 		paletteList.setAlignmentX(Component.CENTER_ALIGNMENT);
 		rightSplit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		PaletteComboBoxListener pl = new PaletteComboBoxListener();
-		paletteList.addActionListener(pl);
-		paletteList.addMouseWheelListener(pl);
+//		paletteList.addActionListener(pl);
+//		paletteList.addMouseWheelListener(pl);
 		rightPanel.add(paletteList);
 		rightPanel.add(rightSplit);
 
