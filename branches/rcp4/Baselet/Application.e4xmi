@@ -9,7 +9,7 @@
           </children>
           <children xsi:type="basic:PartSashContainer" xmi:id="_rRJGwJrAEeGvY-mIk-zbCw">
             <children xsi:type="basic:Part" xmi:id="_r1ABwJrAEeGvY-mIk-zbCw" contributionURI="bundleclass://UmletPlugin/umletplugin.PalettesView" label="Palettes"/>
-            <children xsi:type="basic:Part" xmi:id="_sMD24JrAEeGvY-mIk-zbCw" contributionURI="bundleclass://UmletPlugin/umletplugin.PropertiesView" label="Properties"/>
+            <children xsi:type="basic:Part" xmi:id="_sMD24JrAEeGvY-mIk-zbCw" elementId="umletplugin.PropertiesPart" contributionURI="bundleclass://UmletPlugin/umletplugin.PropertiesView" label="Properties"/>
           </children>
         </children>
       </children>
