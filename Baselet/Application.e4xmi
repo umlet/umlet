@@ -53,12 +53,12 @@
         <children xsi:type="menu:HandledMenuItem" xmi:id="_3PxyUJoYEeGoOL_FTK7BJQ" label="Custom Elements Tutorial..."/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_7y3j4nIUEeG_iqR3jIlPJw" label="Help">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_Qst8MJoYEeGoOL_FTK7BJQ" label="Online Help..."/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_SdFtoJoYEeGoOL_FTK7BJQ" label="Online Sample Diagrams..."/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_Ut2PUJoYEeGoOL_FTK7BJQ" label="Video Tutorial: Basic Use and Custom Elements"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_Qst8MJoYEeGoOL_FTK7BJQ" label="Online Help..." command="_WlsEwJ3IEeGuFIqOW1MjYg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_SdFtoJoYEeGoOL_FTK7BJQ" label="Online Sample Diagrams..." command="_bURTwJ3IEeGuFIqOW1MjYg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_Ut2PUJoYEeGoOL_FTK7BJQ" label="Video Tutorial: Basic Use and Custom Elements" command="_vKNmoJ3MEeGuFIqOW1MjYg"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_ZicmwJoYEeGoOL_FTK7BJQ"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_bMlNUJoYEeGoOL_FTK7BJQ" label="UMLet Homepage..."/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_bcOy4JoYEeGoOL_FTK7BJQ" label="Rate UMLet at Eclipse Marketplace..."/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_bMlNUJoYEeGoOL_FTK7BJQ" label="UMLet Homepage..." command="_wsUSkJ3MEeGuFIqOW1MjYg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_bcOy4JoYEeGoOL_FTK7BJQ" label="Rate UMLet at Eclipse Marketplace..." command="_xob8kJ3MEeGuFIqOW1MjYg"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_ihMDYJoYEeGoOL_FTK7BJQ"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_7y3j43IUEeG_iqR3jIlPJw" label="About UMLet" command="_7y285HIUEeG_iqR3jIlPJw"/>
       </children>
@@ -73,8 +73,13 @@
   <handlers xmi:id="_7y2823IUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.file.exit.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.ExitHandler" command="_7y282nIUEeG_iqR3jIlPJw"/>
   <handlers xmi:id="_7y2833IUEeG_iqR3jIlPJw" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.OpenHandler" command="_7y283nIUEeG_iqR3jIlPJw"/>
   <handlers xmi:id="_7y284nIUEeG_iqR3jIlPJw" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.SaveHandler" command="_7y284XIUEeG_iqR3jIlPJw"/>
-  <handlers xmi:id="_7y285XIUEeG_iqR3jIlPJw" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.AboutHandler" command="_7y285HIUEeG_iqR3jIlPJw"/>
+  <handlers xmi:id="_7y285XIUEeG_iqR3jIlPJw" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.AboutHandler" command="_7y285HIUEeG_iqR3jIlPJw"/>
   <handlers xmi:id="_Hx0fsJrGEeGvY-mIk-zbCw" elementId="UmletPlugin.newCommand.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.NewHandler" command="_RNOVEJrEEeGvY-mIk-zbCw"/>
+  <handlers xmi:id="_iBhO4J3IEeGuFIqOW1MjYg" elementId="umletplugin.onlineHelp.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.OnlineHelpHandler" command="_WlsEwJ3IEeGuFIqOW1MjYg"/>
+  <handlers xmi:id="_cWDkEJ3MEeGuFIqOW1MjYg" elementId="umletplugin.onlineSampleDiagrams.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.OnlineSampleDiagramsHandler" command="_bURTwJ3IEeGuFIqOW1MjYg"/>
+  <handlers xmi:id="_8H2hwJ3MEeGuFIqOW1MjYg" elementId="umletplugin.videoTutorials.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.VideoTutorialsHandler" command="_vKNmoJ3MEeGuFIqOW1MjYg"/>
+  <handlers xmi:id="_GaTB8J3NEeGuFIqOW1MjYg" elementId="umletplugin.umletHomepage.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.UmletHomepageHandler" command="_wsUSkJ3MEeGuFIqOW1MjYg"/>
+  <handlers xmi:id="_I9mFIJ3NEeGuFIqOW1MjYg" elementId="umletplugin.rateUmlet.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.RateUmletHandler" command="_xob8kJ3MEeGuFIqOW1MjYg"/>
   <bindingTables xmi:id="_7y283HIUEeG_iqR3jIlPJw" bindingContext="_7y280XIUEeG_iqR3jIlPJw">
     <bindings xmi:id="_7y283XIUEeG_iqR3jIlPJw" keySequence="M1+Q" command="_7y282nIUEeG_iqR3jIlPJw"/>
     <bindings xmi:id="_7y284HIUEeG_iqR3jIlPJw" keySequence="M1+O" command="_7y283nIUEeG_iqR3jIlPJw"/>
@@ -86,10 +91,15 @@
     <children xmi:id="_7y2803IUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
   </rootContext>
   <commands xmi:id="_7y282nIUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.file.exit" commandName="Exit"/>
-  <commands xmi:id="_7y283nIUEeG_iqR3jIlPJw" elementId="UmletPlugin.openCommand" commandName="Open"/>
+  <commands xmi:id="_7y283nIUEeG_iqR3jIlPJw" elementId="umletPlugin.openCommand" commandName="Open"/>
   <commands xmi:id="_7y284XIUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.file.save" commandName="Save"/>
   <commands xmi:id="_7y285HIUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.help.aboutAction" commandName="About"/>
   <commands xmi:id="_RNOVEJrEEeGvY-mIk-zbCw" elementId="UmletPlugin.newCommand" commandName="New"/>
+  <commands xmi:id="_WlsEwJ3IEeGuFIqOW1MjYg" elementId="umletplugin.onlineHelp" commandName="Online Help"/>
+  <commands xmi:id="_bURTwJ3IEeGuFIqOW1MjYg" elementId="umletplugin.onlineSampleDiagrams" commandName="Online Sample Diagrams"/>
+  <commands xmi:id="_vKNmoJ3MEeGuFIqOW1MjYg" elementId="umletplugin.videoTutorials" commandName="Video Tutorials"/>
+  <commands xmi:id="_wsUSkJ3MEeGuFIqOW1MjYg" elementId="umletplugin.umletHomepage" commandName="UMLet Homepage"/>
+  <commands xmi:id="_xob8kJ3MEeGuFIqOW1MjYg" elementId="umletplugin.rateUmlet" commandName="Rate UMLet"/>
   <addons xmi:id="_7y281HIUEeG_iqR3jIlPJw" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_7y281XIUEeG_iqR3jIlPJw" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_7y281nIUEeG_iqR3jIlPJw" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

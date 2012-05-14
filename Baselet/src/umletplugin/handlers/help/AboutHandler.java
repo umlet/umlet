@@ -8,7 +8,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
-package umletplugin.handlers;
+package umletplugin.handlers.help;
 
 import javax.inject.Named;
 
