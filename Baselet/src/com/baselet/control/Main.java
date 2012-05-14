@@ -152,7 +152,7 @@ public class Main {
 			Attributes attributes = Path.manifest().getMainAttributes();
 			String versionString = attributes.getValue("Bundle-Version");
 			String progNameString = attributes.getValue("Bundle-Name");
-			ProgramName programName = progNameString.equals("Umlet") ? ProgramName.UMLET : ProgramName.PLOTLET;
+			ProgramName programName = progNameString.equals("UmletPlugin") ? ProgramName.UMLET : ProgramName.PLOTLET;
 			Program.init(programName, versionString);
 
 		} catch (Exception e) {
@@ -267,7 +267,7 @@ public class Main {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				setPropertyPanelToGridElementHelper(e);
+				//setPropertyPanelToGridElementHelper(e);
 			}
 		});
 	}

@@ -86,29 +86,29 @@ public class NewEditor implements IEditor {
 		log.info("Create new Editor()");
 		Main.getInstance().doNew();
 		
-		try {
-			SwingUtilities.invokeAndWait(
-					new Runnable() {
-						@Override
-						public void run() {
-							log.debug("Create new DiagramHandler");
-							handler = new DiagramHandler(null);
-							log.debug("DiagramHandler created...");
-						}
-					});
-		} catch (Exception e) {
-			log.error("Create DiagramHandler interrupted");
-		}
-		
-		//we have to set this to false since multiple instances of Editor are created
-		this.customhandler = new CustomElementHandler();
-		this.custompanel = this.customhandler.getPanel();
-		this.custompanel.getTextPane().addFocusListener(new CustomCodePaneFocusListener());
-		this.mailpanel = Main.getInstance().getGUI().createMailPanel();
-		this.propertyTextPane = Main.getInstance().getGUI().createPropertyTextPane();
-		this.propertyTextPane.addFocusListener(new TextPaneFocusListener());
-		this.palettes = Main.getInstance().getPalettes();
-		createPartControl(parent);
+//		try {
+//			SwingUtilities.invokeAndWait(
+//					new Runnable() {
+//						@Override
+//						public void run() {
+//							log.debug("Create new DiagramHandler");
+//							handler = new DiagramHandler(null);
+//							log.debug("DiagramHandler created...");
+//						}
+//					});
+//		} catch (Exception e) {
+//			log.error("Create DiagramHandler interrupted");
+//		}
+//		
+//		//we have to set this to false since multiple instances of Editor are created
+//		this.customhandler = new CustomElementHandler();
+//		this.custompanel = this.customhandler.getPanel();
+//		this.custompanel.getTextPane().addFocusListener(new CustomCodePaneFocusListener());
+//		this.mailpanel = Main.getInstance().getGUI().createMailPanel();
+//		this.propertyTextPane = Main.getInstance().getGUI().createPropertyTextPane();
+//		this.propertyTextPane.addFocusListener(new TextPaneFocusListener());
+//		this.palettes = Main.getInstance().getPalettes();
+//		createPartControl(parent);
 	}
 
 	//	@Override
@@ -184,7 +184,7 @@ public class NewEditor implements IEditor {
 		frame.add(embedded_panel);
 	}
 
-	@Deprecated
+	//@Deprecated
 	public void setFocus() {
 		log.info("Call editor.setFocus()");
 		currenteditor = this;
