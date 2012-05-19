@@ -275,6 +275,11 @@ public abstract class OldGridElement extends GridComponent implements GridElemen
 		this.setLocation(this.getLocation().x + diffx, this.getLocation().y + diffy);
 	}
 
+
+	/**
+	 * Must be overwritten because Swing uses this method to tell if 2 elements are overlapping
+	 * It's also used to determine which element gets selected if there are overlapping elements (the smallest one)
+	 */
 	@Override
 	public boolean contains(Point p) {
 		Rectangle bounds = this.getVisibleRect();
@@ -302,6 +307,10 @@ public abstract class OldGridElement extends GridComponent implements GridElemen
 		return true;
 	}
 
+	/**
+	 * Must be overwritten because Swing uses this method to tell if 2 elements are overlapping
+	 * It's also used to determine which element gets selected if there are overlapping elements (the smallest one)
+	 */
 	@Override
 	public boolean contains(int x, int y) {
 		return this.contains(new Point(x, y));
