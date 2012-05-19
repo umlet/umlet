@@ -303,6 +303,11 @@ public abstract class OldGridElement extends GridComponent implements GridElemen
 	}
 
 	@Override
+	public boolean contains(int x, int y) {
+		return this.contains(new Point(x, y));
+	}
+
+	@Override
 	public boolean isInRange(Point upperLeft, Dimension size) {
 		Rectangle2D rect1 = new Rectangle2D.Double(upperLeft.getX(), upperLeft.getY(), size.getWidth(), size.getHeight());
 		Rectangle2D rect2 = new Rectangle2D.Double(getLocation().x, getLocation().y, getSize().width, getSize().height);
