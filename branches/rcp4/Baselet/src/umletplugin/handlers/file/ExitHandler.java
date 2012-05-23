@@ -8,7 +8,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
-package umletplugin.handlers;
+package umletplugin.handlers.file;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -21,14 +21,18 @@ import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
+import com.baselet.gui.MenuFactory;
+import com.baselet.gui.eclipse.MenuFactoryEclipse;
+
 public class ExitHandler {
 	@Execute
 	public void execute(IWorkbench workbench, IEclipseContext context,
 			@Named(IServiceConstants.ACTIVE_SHELL) Shell shell)
 			throws InvocationTargetException, InterruptedException {
-		if (MessageDialog.openConfirm(shell, "Confirmation",
-				"Do you want to exit?")) {
-			workbench.close();
-		}
+//		if (MessageDialog.openConfirm(shell, "Confirmation",
+//				"Do you want to exit?")) {
+//			workbench.close();
+//		}
+		workbench.close();
 	}
 }

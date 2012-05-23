@@ -36,46 +36,46 @@ public class MenuFactory {
 
 	//FILE
 	public static final String FILE = "File";
-	protected static final String NEW = "New";
-	protected static final String OPEN = "Open...";
+	public static final String NEW = "New";
+	public static final String OPEN = "Open...";
 	protected static final String RECENT_FILES = "Recent files";
-	protected static final String SAVE = "Save";
-	protected static final String SAVE_AS = "Save as...";
+	public static final String SAVE = "Save";
+	public static final String SAVE_AS = "Save as...";
 	protected static final String EXPORT_AS = "Export as...";
-	protected static final String MAIL_TO = "Mail to...";
-	protected static final String EDIT_CURRENT_PALETTE = "Edit Current Palette";
-	protected static final String OPTIONS = "Options...";
-	protected static final String PRINT = "Print...";
-	protected static final String EXIT = "Exit";
+	public static final String MAIL_TO = "Mail to...";
+	public static final String EDIT_CURRENT_PALETTE = "Edit Current Palette";
+	public static final String OPTIONS = "Options...";
+	public static final String PRINT = "Print...";
+	public static final String EXIT = "Exit";
 
 	//EDIT
 	public static final String EDIT = "Edit";
-	protected static final String UNDO = "Undo";
-	protected static final String REDO = "Redo";
-	protected static final String DELETE = "Delete";
-	protected static final String SELECT_ALL = "Select All";
-	protected static final String GROUP = "Group";
-	protected static final String UNGROUP = "Ungroup";
-	protected static final String CUT = "Cut";
-	protected static final String COPY = "Copy";
-	protected static final String PASTE = "Paste";
+	public static final String UNDO = "Undo";
+	public static final String REDO = "Redo";
+	public static final String DELETE = "Delete";
+	public static final String SELECT_ALL = "Select All";
+	public static final String GROUP = "Group";
+	public static final String UNGROUP = "Ungroup";
+	public static final String CUT = "Cut";
+	public static final String COPY = "Copy";
+	public static final String PASTE = "Paste";
 
 	//CUSTOM ELEMENTS
 	public static final String CUSTOM_ELEMENTS = "Custom Elements";
-	protected static final String NEW_CE = "New...";
-	protected static final String NEW_FROM_TEMPLATE = "New from Template";
-	protected static final String EDIT_SELECTED = "Edit Selected...";
-	protected static final String CUSTOM_ELEMENTS_TUTORIAL = "Custom Elements Tutorial...";
+	public static final String NEW_CE = "New...";
+	public static final String NEW_FROM_TEMPLATE = "New from Template";
+	public static final String EDIT_SELECTED = "Edit Selected...";
+	public static final String CUSTOM_ELEMENTS_TUTORIAL = "Custom Elements Tutorial...";
 	protected static final String CUSTOM_ELEMENTS_TUTORIAL_URL = "http://www.umlet.com/ce/ce.htm";
 
 	// HELP
 	public static final String HELP = "Help";
-	protected static final String ONLINE_HELP = "Online Help...";
-	protected static final String ONLINE_SAMPLE_DIAGRAMS = "Online Sample Diagrams...";
-	protected static final String VIDEO_TUTORIAL = "Video Tutorial: Basic Use and Custom Elements";
-	protected static final String PROGRAM_HOMEPAGE = Program.PROGRAM_NAME + " Homepage...";
-	protected static final String RATE_PROGRAM = "Rate " + Program.PROGRAM_NAME + " at Eclipse Marketplace...";
-	protected static final String ABOUT_PROGRAM = "About " + Program.PROGRAM_NAME;
+	public static final String ONLINE_HELP = "Online Help...";
+	public static final String ONLINE_SAMPLE_DIAGRAMS = "Online Sample Diagrams...";
+	public static final String VIDEO_TUTORIAL = "Video Tutorial: Basic Use and Custom Elements";
+	public static final String PROGRAM_HOMEPAGE = Program.PROGRAM_NAME + " Homepage...";
+	public static final String RATE_PROGRAM = "Rate " + Program.PROGRAM_NAME + " at Eclipse Marketplace...";
+	public static final String ABOUT_PROGRAM = "About " + Program.PROGRAM_NAME;
 
 	// CONTEXT ON ELEMENT
 	protected static final String SET_FOREGROUND_COLOR = "Set foreground color";
@@ -86,7 +86,7 @@ public class MenuFactory {
 	protected static final String SEARCH = "Search";
 	protected static final String ZOOM = "Zoom to";
 
-	protected void doAction(final String menuItem, final Object param) {
+	public void doAction(final String menuItem, final Object param) {
 		//AB: Hopefully this will resolve threading issues and work for eclipse AND standalone
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override

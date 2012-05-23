@@ -76,37 +76,37 @@ public class Contributor extends EditorActionBarContributor {
 
 	@Override
 	public void init(IActionBars actionBars) {
-		super.init(actionBars);
-
-		customedit = menuFactory.createEditSelected();
-		customedit.setEnabled(false);
-
-		undoActionGlobal = menuFactory.createUndo();
-		redoActionGlobal = menuFactory.createRedo();
-		printActionGlobal = menuFactory.createPrint();
-
-		cutActionDiagram = menuFactory.createCut();
-		cutActionDiagram.setEnabled(false);
-		pasteActionDiagram = menuFactory.createPaste();
-		pasteActionDiagram.setEnabled(false);
-		deleteActionDiagram = menuFactory.createDelete();
-		deleteActionDiagram.setEnabled(false);
-		searchActionDiagram = menuFactory.createSearch();
-		copyActionDiagram = menuFactory.createCopy();
-		selectallActionDiagram = menuFactory.createSelectAll();
-
-		copyActionCustomPanel = createPanelAction(Pane.CUSTOMCODE, ActionName.COPY);
-		cutActionCustomPanel = createPanelAction(Pane.CUSTOMCODE, ActionName.CUT);
-		pasteActionCustomPanel = createPanelAction(Pane.CUSTOMCODE, ActionName.PASTE);
-		selectAllActionCustomPanel = createPanelAction(Pane.CUSTOMCODE, ActionName.SELECTALL);
-
-		copyActionPropPanel = createPanelAction(Pane.PROPERTY, ActionName.COPY);
-		cutActionPropPanel = createPanelAction(Pane.PROPERTY, ActionName.CUT);
-		pasteActionPropPanel = createPanelAction(Pane.PROPERTY, ActionName.PASTE);
-		selectAllActionPropPanel = createPanelAction(Pane.PROPERTY, ActionName.SELECTALL);
-
-		setGlobalActionHandlers(Pane.DIAGRAM);
-
+//		super.init(actionBars);
+//
+//		customedit = menuFactory.createEditSelected();
+//		customedit.setEnabled(false);
+//
+//		undoActionGlobal = menuFactory.createUndo();
+//		redoActionGlobal = menuFactory.createRedo();
+//		printActionGlobal = menuFactory.createPrint();
+//
+//		cutActionDiagram = menuFactory.createCut();
+//		cutActionDiagram.setEnabled(false);
+//		pasteActionDiagram = menuFactory.createPaste();
+//		pasteActionDiagram.setEnabled(false);
+//		deleteActionDiagram = menuFactory.createDelete();
+//		deleteActionDiagram.setEnabled(false);
+//		searchActionDiagram = menuFactory.createSearch();
+//		copyActionDiagram = menuFactory.createCopy();
+//		selectallActionDiagram = menuFactory.createSelectAll();
+//
+//		copyActionCustomPanel = createPanelAction(Pane.CUSTOMCODE, ActionName.COPY);
+//		cutActionCustomPanel = createPanelAction(Pane.CUSTOMCODE, ActionName.CUT);
+//		pasteActionCustomPanel = createPanelAction(Pane.CUSTOMCODE, ActionName.PASTE);
+//		selectAllActionCustomPanel = createPanelAction(Pane.CUSTOMCODE, ActionName.SELECTALL);
+//
+//		copyActionPropPanel = createPanelAction(Pane.PROPERTY, ActionName.COPY);
+//		cutActionPropPanel = createPanelAction(Pane.PROPERTY, ActionName.CUT);
+//		pasteActionPropPanel = createPanelAction(Pane.PROPERTY, ActionName.PASTE);
+//		selectAllActionPropPanel = createPanelAction(Pane.PROPERTY, ActionName.SELECTALL);
+//
+//		setGlobalActionHandlers(Pane.DIAGRAM);
+//
 		((EclipseGUI) Main.getInstance().getGUI()).setContributor(this);
 	}
 
@@ -114,50 +114,50 @@ public class Contributor extends EditorActionBarContributor {
 	public void contributeToMenu(IMenuManager manager) {
 		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) ((EclipseGUI) Main.getInstance().getGUI()).setContributor(this);
 
-		IMenuManager menu = new MenuManager(Program.PROGRAM_NAME.toString());
-		IMenuManager custom = new MenuManager(MenuFactory.CUSTOM_ELEMENTS);
-		IMenuManager help = new MenuManager(MenuFactory.HELP);
-		manager.appendToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
-
-		custom.add(customnew = menuFactory.createNewCustomElement());
-		custom.add(menuFactory.createNewCustomElementFromTemplate(this));
-		custom.add(new Separator());
-		custom.add(menuFactory.createCustomElementsTutorial());
-
-		help.add(menuFactory.createOnlineHelp());
-		if (Program.PROGRAM_NAME == ProgramName.UMLET) {
-			help.add(menuFactory.createOnlineSampleDiagrams());
-			help.add(menuFactory.createVideoTutorial());
-		}
-		help.add(new Separator());
-		help.add(menuFactory.createProgramHomepage());
-		help.add(menuFactory.createRateProgram());
-		help.add(new Separator());
-		help.add(menuFactory.createAboutProgram());
-
-		zoomMenu = menuFactory.createZoom();
-		menu.add(zoomMenu);
-
-		exportAsActionList = menuFactory.createExportAsActions();
-		IMenuManager export = new MenuManager("Export as");
-		for (IAction action: exportAsActionList) {
-			export.add(action);
-		}
-		menu.add(export);
-
-		menu.add(menuFactory.createEditCurrentPalette());
-		if (Program.PROGRAM_NAME == ProgramName.UMLET) menu.add(custom);
-		menu.add(menuFactory.createMailTo());
-		menu.add(new Separator());
-		menu.add(help);
-		menu.add(menuFactory.createOptions());
+//		IMenuManager menu = new MenuManager(Program.PROGRAM_NAME.toString());
+//		IMenuManager custom = new MenuManager(MenuFactory.CUSTOM_ELEMENTS);
+//		IMenuManager help = new MenuManager(MenuFactory.HELP);
+//		manager.appendToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
+//
+//		custom.add(customnew = menuFactory.createNewCustomElement());
+//		custom.add(menuFactory.createNewCustomElementFromTemplate(this));
+//		custom.add(new Separator());
+//		custom.add(menuFactory.createCustomElementsTutorial());
+//
+//		help.add(menuFactory.createOnlineHelp());
+//		if (Program.PROGRAM_NAME == ProgramName.UMLET) {
+//			help.add(menuFactory.createOnlineSampleDiagrams());
+//			help.add(menuFactory.createVideoTutorial());
+//		}
+//		help.add(new Separator());
+//		help.add(menuFactory.createProgramHomepage());
+//		help.add(menuFactory.createRateProgram());
+//		help.add(new Separator());
+//		help.add(menuFactory.createAboutProgram());
+//
+//		zoomMenu = menuFactory.createZoom();
+//		menu.add(zoomMenu);
+//
+//		exportAsActionList = menuFactory.createExportAsActions();
+//		IMenuManager export = new MenuManager("Export as");
+//		for (IAction action: exportAsActionList) {
+//			export.add(action);
+//		}
+//		menu.add(export);
+//
+//		menu.add(menuFactory.createEditCurrentPalette());
+//		if (Program.PROGRAM_NAME == ProgramName.UMLET) menu.add(custom);
+//		menu.add(menuFactory.createMailTo());
+//		menu.add(new Separator());
+//		menu.add(help);
+//		menu.add(menuFactory.createOptions());
 	}
 
 	public void setExportAsEnabled(boolean enabled) {
 		//AB: We cannot disable the MenuManager, so we have to disable every entry in the export menu :P
-		for (IAction action: exportAsActionList) {
-			action.setEnabled(enabled);
-		}
+//		for (IAction action: exportAsActionList) {
+//			action.setEnabled(enabled);
+//		}
 	}
 
 	public void setPaste(boolean value) {
@@ -165,19 +165,19 @@ public class Contributor extends EditorActionBarContributor {
 	}
 
 	public void setCustomElementSelected(boolean selected) {
-		this.custom_element_selected = selected;
-		this.customedit.setEnabled(selected && !this.customPanelEnabled);
+//		this.custom_element_selected = selected;
+//		this.customedit.setEnabled(selected && !this.customPanelEnabled);
 	}
 
 	public void setElementsSelected(int count) {
-		if (count > 0) {
-			this.cutActionDiagram.setEnabled(true);
-			this.deleteActionDiagram.setEnabled(true);
-		}
-		else {
-			this.deleteActionDiagram.setEnabled(false);
-			this.cutActionDiagram.setEnabled(false);
-		}
+//		if (count > 0) {
+//			this.cutActionDiagram.setEnabled(true);
+//			this.deleteActionDiagram.setEnabled(true);
+//		}
+//		else {
+//			this.deleteActionDiagram.setEnabled(false);
+//			this.cutActionDiagram.setEnabled(false);
+//		}
 	}
 
 	public boolean isCustomPanelEnabled() {
@@ -228,11 +228,11 @@ public class Contributor extends EditorActionBarContributor {
 	}
 
 	public void updateZoomMenuRadioButton(int newGridSize) {
-		for (IContributionItem item : zoomMenu.getItems()) {
-			IAction action = ((ActionContributionItem) item).getAction();
-			int actionGridSize = Integer.parseInt(action.getText().substring(0, action.getText().length() - 2));
-			if (actionGridSize == newGridSize) action.setChecked(true);
-			else action.setChecked(false);
-		}
+//		for (IContributionItem item : zoomMenu.getItems()) {
+//			IAction action = ((ActionContributionItem) item).getAction();
+//			int actionGridSize = Integer.parseInt(action.getText().substring(0, action.getText().length() - 2));
+//			if (actionGridSize == newGridSize) action.setChecked(true);
+//			else action.setChecked(false);
+//		}
 	}
 }

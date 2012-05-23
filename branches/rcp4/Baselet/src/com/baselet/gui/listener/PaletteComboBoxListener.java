@@ -1,57 +1,45 @@
 package com.baselet.gui.listener;
 
-import org.apache.log4j.Logger;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseWheelListener;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.widgets.Combo;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+
+import javax.swing.JComboBox;
 
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 
-public class PaletteComboBoxListener implements SelectionListener, MouseWheelListener {
 
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+public class PaletteComboBoxListener implements ActionListener, MouseWheelListener {
 
 	@Override
-	public void mouseScrolled(MouseEvent e) {
-		log.debug("Event: mouseScrolled");
-		
-		if (e.getSource() instanceof Combo) {
-			Combo comboBox = ((Combo) e.getSource());
-			int newIndex = comboBox.getSelectionIndex(); 
-			if (comboBox.getItem(newIndex) != null) {
-				String newSelectedItem = comboBox.getItem(newIndex).toString();
-				//Main.getInstance().getGUI().selectPalette(newSelectedItem);
-				setZoom();
-			}
-		}
-	}
-
-	@Override
-	public void widgetSelected(SelectionEvent e) {
-		log.debug("Event: widgetSelected");
-		
-		if (e.getSource() instanceof Combo) {
-			int index = ((Combo)e.getSource()).getSelectionIndex();
-			String paletteName = ((Combo) e.getSource()).getItem(index);
-			//Main.getInstance().getGUI().selectPalette(paletteName);
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() instanceof JComboBox) {
+			String paletteName = ((JComboBox) e.getSource()).getSelectedItem().toString();
+			Main.getInstance().getGUI().selectPalette(paletteName);
 			setZoom();
 		}
 	}
 
 	@Override
-	public void widgetDefaultSelected(SelectionEvent e) {
-		log.debug("Event: widgetDefaultSelected");
-		// TODO Auto-generated method stub	
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		if (e.getSource() instanceof JComboBox) {
+			JComboBox comboBox = ((JComboBox) e.getSource());
+			int newIndex = comboBox.getSelectedIndex() + e.getWheelRotation(); // wheelrotation is -1 (up) or +1 (down)
+			if (comboBox.getItemAt(newIndex) != null) {
+				String newSelectedItem = comboBox.getItemAt(newIndex).toString();
+				Main.getInstance().getGUI().selectPalette(newSelectedItem);
+				comboBox.setSelectedIndex(newIndex);
+				setZoom();
+			}
+		}
 	}
-	
-	
+
 	private void setZoom() {
 		if ((Main.getInstance().getPalette() != null)) {
 			int factor = Main.getInstance().getPalette().getGridSize();
 			Main.getInstance().getGUI().setValueOfZoomDisplay(factor);
 		}
 	}
+
 }
