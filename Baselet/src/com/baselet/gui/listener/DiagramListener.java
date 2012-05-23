@@ -50,7 +50,7 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 	@Override
 	public void mouseMoved(MouseEvent me) {
 		super.mouseMoved(me);
-		log.debug("DiagramLister move");
+		//log.debug("DiagramLister move");
 		// for (Entity e : this.diagram.getSelector().getSelectedEntities()) {
 		// EntityListener listener = handler.getEntityListener(e);
 		// if(listener.IS_DRAGGED_FROM_PALETTE){

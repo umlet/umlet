@@ -9,6 +9,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Panel;
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Hashtable;
 
 import javax.inject.Inject;
@@ -25,12 +27,17 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
-import org.eclipse.e4.ui.internal.workbench.E4Workbench;
+import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.e4.ui.model.application.commands.MBindingContext;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
+import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
@@ -45,6 +52,7 @@ import com.baselet.gui.listener.DividerListener;
 import com.baselet.gui.listener.GUIListener;
 import com.baselet.gui.listener.PaletteComboBoxListener;
 import com.baselet.gui.standalone.SearchListener;
+import com.baselet.plugin.editor.Contributor;
 import com.baselet.plugin.editor.DirtyAction;
 import com.baselet.plugin.editor.UpdateDiagramNameAction;
 import com.umlet.custom.CustomElementHandler;
@@ -82,33 +90,36 @@ public class NewEditor implements IEditor {
 
 
 	@Inject
-	public NewEditor(Composite parent) {
+	public NewEditor(Composite parent, @Optional @Named("file") final File file) {
 		log.info("Create new Editor()");
-		Main.getInstance().doNew();
 		
-//		try {
-//			SwingUtilities.invokeAndWait(
-//					new Runnable() {
-//						@Override
-//						public void run() {
-//							log.debug("Create new DiagramHandler");
-//							handler = new DiagramHandler(null);
-//							log.debug("DiagramHandler created...");
-//						}
-//					});
-//		} catch (Exception e) {
-//			log.error("Create DiagramHandler interrupted");
-//		}
-//		
-//		//we have to set this to false since multiple instances of Editor are created
-//		this.customhandler = new CustomElementHandler();
-//		this.custompanel = this.customhandler.getPanel();
-//		this.custompanel.getTextPane().addFocusListener(new CustomCodePaneFocusListener());
-//		this.mailpanel = Main.getInstance().getGUI().createMailPanel();
-//		this.propertyTextPane = Main.getInstance().getGUI().createPropertyTextPane();
-//		this.propertyTextPane.addFocusListener(new TextPaneFocusListener());
-//		this.palettes = Main.getInstance().getPalettes();
-//		createPartControl(parent);
+		try {
+			SwingUtilities.invokeAndWait(
+					new Runnable() {
+						@Override
+						public void run() {
+							log.debug("Create new DiagramHandler");
+							handler = new DiagramHandler(file);
+							log.debug("DiagramHandler created...");
+						}
+					});
+		} catch (Exception e) {
+			log.error("Create DiagramHandler interrupted");
+		}
+		
+		//we have to set this to false since multiple instances of Editor are created
+		this.customhandler = new CustomElementHandler();
+		this.custompanel = this.customhandler.getPanel();
+		this.custompanel.getTextPane().addFocusListener(new CustomCodePaneFocusListener());
+		this.mailpanel = Main.getInstance().getGUI().createMailPanel();
+		this.propertyTextPane = Main.getInstance().getGUI().createPropertyTextPane();
+		this.propertyTextPane.addFocusListener(new TextPaneFocusListener());
+		this.palettes = Main.getInstance().getPalettes();
+		createPartControl(parent);
+	}
+	
+	public void setHandler(DiagramHandler handler) {
+		this.handler = handler;
 	}
 
 	//	@Override
@@ -179,17 +190,22 @@ public class NewEditor implements IEditor {
 		Frame frame = org.eclipse.swt.awt.SWT_AWT.new_Frame(goodSWTComposite);
 		embedded_panel = new Panel();
 		embedded_panel.setLayout(new BorderLayout());
-		//embedded_panel.add(createEditor());
+		embedded_panel.add(createEditor());
 		embedded_panel.addKeyListener(new GUIListener());
 		frame.add(embedded_panel);
 	}
 
 	//@Deprecated
+	@Focus
 	public void setFocus() {
 		log.info("Call editor.setFocus()");
 		currenteditor = this;
 		((EclipseGUI) Main.getInstance().getGUI()).setCurrentEditor(this);
 		log.debug("setCurrentEditor complete");
+		
+		// EB: TODO additions to avoid exceptions
+		Contributor contributor = new Contributor();
+		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) ((EclipseGUI) Main.getInstance().getGUI()).setContributor(contributor);
 
 		//AB: The eclipse plugin might hang sometimes if this section is not placed into an event queue, since swing or swt is not thread safe!	
 		SwingUtilities.invokeLater(
@@ -274,84 +290,84 @@ public class NewEditor implements IEditor {
 		//		this.firePropertyChange(IEditorPart.PROP_INPUT);
 	}
 
-//	private JPanel createEditor() {
-//		JPanel editor = new JPanel();
-//		editor.setLayout(new BorderLayout());
-//
-//		palettePanel = new JPanel(new CardLayout());
-//		paletteList = new JComboBox();
-//		paletteList.setMaximumRowCount(15);
-//		for (String palname : Main.getInstance().getPaletteNames(palettes)) {
-//			DrawPanel panel = palettes.get(palname + "." + Program.EXTENSION).getDrawPanel();
-//			palettePanel.add(panel.getScrollPane(), palname);
-//			paletteList.addItem(palname);
-//		}
-//
-//		rightSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, palettePanel, propertyTextPane.getPanel());
-//		rightSplit.setDividerSize(2);
-//		rightSplit.setDividerLocation(Main.getInstance().getGUI().getRightSplitPosition());
-//		rightSplit.setResizeWeight(1);
-//		rightSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
-//
-//		rightPanel = new JPanel();
-//		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-//		paletteList.setAlignmentX(Component.CENTER_ALIGNMENT);
-//		rightSplit.setAlignmentX(Component.CENTER_ALIGNMENT);
-//		PaletteComboBoxListener pl = new PaletteComboBoxListener();
-//		paletteList.addActionListener(pl);
-//		paletteList.addMouseWheelListener(pl);
-//		rightPanel.add(paletteList);
-//		rightPanel.add(rightSplit);
-//
-//		selectPalette(this.getSelectedPaletteName());
-//
-//		this.searchPanel = new JPanel();
-//		this.searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
-//		JLabel searchlabel = new JLabel("Search:");
-//		searchlabel.setFont(new Font("SansSerif", Font.BOLD, 11));
-//		this.searchfield = new JTextField();
-//		SearchListener listener = new SearchListener();
-//		this.searchfield.addMouseMotionListener(listener);
-//		this.searchfield.addKeyListener(listener);
-//		this.searchfield.addFocusListener(new TextPaneFocusListener());
-//		this.searchfield.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.darkGray));
-//		this.searchPanel.add(Box.createRigidArea(new Dimension(10, 20)));
-//		this.searchPanel.add(searchlabel);
-//		this.searchPanel.add(Box.createRigidArea(new Dimension(10, 20)));
-//		this.searchPanel.add(this.searchfield);
-//		this.searchSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, searchPanel, handler.getDrawPanel().getScrollPane());
-//		this.searchSplit.setDividerSize(0);
-//		this.searchSplit.setResizeWeight(1);
-//		this.searchSplit.setEnabled(false);
-//		this.searchSplit.setBorder(null);
-//		this.searchPanel.setVisible(false);
-//
-//		mainSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, searchSplit, rightPanel);
-//		mainSplit.setDividerSize(2);
-//		mainSplit.setDividerLocation(Main.getInstance().getGUI().getMainSplitPosition());
-//		mainSplit.setResizeWeight(1);
-//		mainSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
-//
-//		customSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, mainSplit, custompanel);
-//		customSplit.setDividerSize(0);
-//		customSplit.setResizeWeight(1);
-//		customSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
-//		custompanel.setVisible(false);
-//
-//		mailSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, mailpanel, customSplit);
-//		mailSplit.setDividerSize(0);
-//		mailSplit.setDividerLocation(Constants.mail_split_position);
-//		mailSplit.setResizeWeight(0);
-//		mailSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
-//		mailpanel.setVisible(false);
-//
-//		// Adding the DividerListener which refreshes Scrollbars here is enough for all dividers
-//		palettePanel.addComponentListener(new DividerListener());
-//
-//		editor.add(mailSplit);
-//
-//		return editor;
-//	}
+	private JPanel createEditor() {
+		JPanel editor = new JPanel();
+		editor.setLayout(new BorderLayout());
+
+		palettePanel = new JPanel(new CardLayout());
+		paletteList = new JComboBox();
+		paletteList.setMaximumRowCount(15);
+		for (String palname : Main.getInstance().getPaletteNames(palettes)) {
+			DrawPanel panel = palettes.get(palname + "." + Program.EXTENSION).getDrawPanel();
+			palettePanel.add(panel.getScrollPane(), palname);
+			paletteList.addItem(palname);
+		}
+
+		rightSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, palettePanel, propertyTextPane.getPanel());
+		rightSplit.setDividerSize(2);
+		rightSplit.setDividerLocation(Main.getInstance().getGUI().getRightSplitPosition());
+		rightSplit.setResizeWeight(1);
+		rightSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
+
+		rightPanel = new JPanel();
+		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+		paletteList.setAlignmentX(Component.CENTER_ALIGNMENT);
+		rightSplit.setAlignmentX(Component.CENTER_ALIGNMENT);
+		PaletteComboBoxListener pl = new PaletteComboBoxListener();
+		paletteList.addActionListener(pl);
+		paletteList.addMouseWheelListener(pl);
+		rightPanel.add(paletteList);
+		rightPanel.add(rightSplit);
+
+		selectPalette(this.getSelectedPaletteName());
+
+		this.searchPanel = new JPanel();
+		this.searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
+		JLabel searchlabel = new JLabel("Search:");
+		searchlabel.setFont(new Font("SansSerif", Font.BOLD, 11));
+		this.searchfield = new JTextField();
+		SearchListener listener = new SearchListener();
+		this.searchfield.addMouseMotionListener(listener);
+		this.searchfield.addKeyListener(listener);
+		this.searchfield.addFocusListener(new TextPaneFocusListener());
+		this.searchfield.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.darkGray));
+		this.searchPanel.add(Box.createRigidArea(new Dimension(10, 20)));
+		this.searchPanel.add(searchlabel);
+		this.searchPanel.add(Box.createRigidArea(new Dimension(10, 20)));
+		this.searchPanel.add(this.searchfield);
+		this.searchSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, searchPanel, handler.getDrawPanel().getScrollPane());
+		this.searchSplit.setDividerSize(0);
+		this.searchSplit.setResizeWeight(1);
+		this.searchSplit.setEnabled(false);
+		this.searchSplit.setBorder(null);
+		this.searchPanel.setVisible(false);
+
+		mainSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, searchSplit, rightPanel);
+		mainSplit.setDividerSize(2);
+		mainSplit.setDividerLocation(Main.getInstance().getGUI().getMainSplitPosition());
+		mainSplit.setResizeWeight(1);
+		mainSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
+
+		customSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, mainSplit, custompanel);
+		customSplit.setDividerSize(0);
+		customSplit.setResizeWeight(1);
+		customSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
+		custompanel.setVisible(false);
+
+		mailSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, mailpanel, customSplit);
+		mailSplit.setDividerSize(0);
+		mailSplit.setDividerLocation(Constants.mail_split_position);
+		mailSplit.setResizeWeight(0);
+		mailSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
+		mailpanel.setVisible(false);
+
+		// Adding the DividerListener which refreshes Scrollbars here is enough for all dividers
+		palettePanel.addComponentListener(new DividerListener());
+
+		editor.add(mailSplit);
+
+		return editor;
+	}
 
 	public Panel getPanel() {
 		return this.embedded_panel;

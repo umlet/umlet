@@ -197,8 +197,8 @@ public class StandaloneGUI extends BaseGUI {
 			this.paletteList.addItem(palette);
 		}
 		PaletteComboBoxListener pl = new PaletteComboBoxListener();
-//		this.paletteList.addActionListener(pl);
-//		this.paletteList.addMouseWheelListener(pl);
+		this.paletteList.addActionListener(pl);
+		this.paletteList.addMouseWheelListener(pl);
 
 		JMenu fileMenu = new JMenu(MenuFactory.FILE);
 		fileMenu.setMnemonic(KeyEvent.VK_F);

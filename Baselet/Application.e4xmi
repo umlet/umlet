@@ -3,62 +3,58 @@
   <children xsi:type="basic:TrimmedWindow" xmi:id="_7y2853IUEeG_iqR3jIlPJw" label="UmletPlugin" width="500" height="400">
     <children xsi:type="advanced:PerspectiveStack" xmi:id="_7y3j5HIUEeG_iqR3jIlPJw">
       <children xsi:type="advanced:Perspective" xmi:id="_7y3j5XIUEeG_iqR3jIlPJw">
-        <children xsi:type="basic:PartSashContainer" xmi:id="_7y3j5nIUEeG_iqR3jIlPJw" horizontal="true">
-          <children xsi:type="basic:PartStack" xmi:id="_7y3j53IUEeG_iqR3jIlPJw" elementId="umletplugin.newPartStack" containerData="" accessibilityPhrase="" selectedElement="_lZpCoHIVEeG_iqR3jIlPJw">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_7y3j5nIUEeG_iqR3jIlPJw">
+          <children xsi:type="basic:PartStack" xmi:id="_7y3j53IUEeG_iqR3jIlPJw" elementId="umletplugin.newpartstack">
             <children xsi:type="basic:Part" xmi:id="_lZpCoHIVEeG_iqR3jIlPJw" elementId="" contributionURI="bundleclass://UmletPlugin/umletplugin.NewEditor" label="new"/>
-          </children>
-          <children xsi:type="basic:PartSashContainer" xmi:id="_rRJGwJrAEeGvY-mIk-zbCw">
-            <children xsi:type="basic:Part" xmi:id="_r1ABwJrAEeGvY-mIk-zbCw" contributionURI="bundleclass://UmletPlugin/umletplugin.PalettesView" label="Palettes"/>
-            <children xsi:type="basic:Part" xmi:id="_sMD24JrAEeGvY-mIk-zbCw" elementId="umletplugin.PropertiesPart" contributionURI="bundleclass://UmletPlugin/umletplugin.PropertiesView" label="Properties"/>
           </children>
         </children>
       </children>
     </children>
     <mainMenu xmi:id="_7y286HIUEeG_iqR3jIlPJw" elementId="menu:org.eclipse.ui.main.menu">
       <children xsi:type="menu:Menu" xmi:id="_7y286XIUEeG_iqR3jIlPJw" label="File">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_53N2AJoVEeGoOL_FTK7BJQ" label="New" command="_RNOVEJrEEeGvY-mIk-zbCw"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_53N2AJoVEeGoOL_FTK7BJQ" label="New" command="_g0seIKAzEeGKLpoChUziZg"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_7y286nIUEeG_iqR3jIlPJw" label="Open" iconURI="platform:/plugin/UmletPlugin/icons/sample.gif" command="_7y283nIUEeG_iqR3jIlPJw"/>
         <children xsi:type="menu:Menu" xmi:id="_8OAHMJoVEeGoOL_FTK7BJQ" label="Recent Files"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_7y3j4HIUEeG_iqR3jIlPJw" label="Save" iconURI="platform:/plugin/UmletPlugin/icons/save_edit.gif" command="_7y284XIUEeG_iqR3jIlPJw"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_DfrlEJoWEeGoOL_FTK7BJQ" label="Save as..."/>
-        <children xsi:type="menu:Menu" xmi:id="_FdRTIJoWEeGoOL_FTK7BJQ" label="Export as..."/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_HQqjYJoWEeGoOL_FTK7BJQ" label="Mail to..."/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_DfrlEJoWEeGoOL_FTK7BJQ" label="Save as..." command="_LndM4KBKEeG3-Knj7_jq2A"/>
+        <children xsi:type="menu:Menu" xmi:id="_FdRTIJoWEeGoOL_FTK7BJQ" elementId="umletplugin.exportas.menu" label="Export as..."/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_HQqjYJoWEeGoOL_FTK7BJQ" label="Mail to..." command="_eu70EKBKEeG3-Knj7_jq2A"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_JSi7kJoWEeGoOL_FTK7BJQ"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_KCdVkJoWEeGoOL_FTK7BJQ" label="Edit Current Palette"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_KCdVkJoWEeGoOL_FTK7BJQ" label="Edit Current Palette" command="_3SCaUKGmEeGnpapRK-B0xQ"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_NoMGIJoWEeGoOL_FTK7BJQ"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_OAQn4JoWEeGoOL_FTK7BJQ" label="Options..."/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_OAQn4JoWEeGoOL_FTK7BJQ" label="Options..." command="_EDN4AKBNEeG3-Knj7_jq2A"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_Q8E4wJoWEeGoOL_FTK7BJQ"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_RghpoJoWEeGoOL_FTK7BJQ" label="Print..."/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_RghpoJoWEeGoOL_FTK7BJQ" label="Print..." command="_5SpAIKGmEeGnpapRK-B0xQ"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_S98C0JoWEeGoOL_FTK7BJQ"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_7y3j4XIUEeG_iqR3jIlPJw" label="Exit" command="_7y282nIUEeG_iqR3jIlPJw"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_KaxdAJoYEeGoOL_FTK7BJQ" label="Edit">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_liAJAJoYEeGoOL_FTK7BJQ" label="Undo"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_mT11oJoYEeGoOL_FTK7BJQ" label="Redo"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_mhX7UJoYEeGoOL_FTK7BJQ" label="Delete"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_liAJAJoYEeGoOL_FTK7BJQ" label="Undo" command="_zdJBIKBNEeG3-Knj7_jq2A"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_mT11oJoYEeGoOL_FTK7BJQ" label="Redo" command="_DbUVEKBOEeG3-Knj7_jq2A"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_mhX7UJoYEeGoOL_FTK7BJQ" label="Delete" command="_S7_NoKBOEeG3-Knj7_jq2A"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_uqZQ4JoYEeGoOL_FTK7BJQ"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_mvhFAJoYEeGoOL_FTK7BJQ" label="Select All"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_m8YcUJoYEeGoOL_FTK7BJQ" label="Group"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_nKaRQJoYEeGoOL_FTK7BJQ" label="Ungroup"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_mvhFAJoYEeGoOL_FTK7BJQ" label="Select All" command="_ItMJ8KGkEeGnpapRK-B0xQ"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_m8YcUJoYEeGoOL_FTK7BJQ" label="Group" command="_LKYlIKGkEeGnpapRK-B0xQ"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_nKaRQJoYEeGoOL_FTK7BJQ" label="Ungroup" command="_NCpuUKGkEeGnpapRK-B0xQ"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_u8UuYJoYEeGoOL_FTK7BJQ"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_nX8-AJoYEeGoOL_FTK7BJQ" label="Cut"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_noBaUJoYEeGoOL_FTK7BJQ" label="Copy"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_n1sp8JoYEeGoOL_FTK7BJQ" label="Paste"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_nX8-AJoYEeGoOL_FTK7BJQ" label="Cut" command="_UqBIUKGkEeGnpapRK-B0xQ"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_noBaUJoYEeGoOL_FTK7BJQ" label="Copy" command="_VoimEKGkEeGnpapRK-B0xQ"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_n1sp8JoYEeGoOL_FTK7BJQ" label="Paste" command="_WvWdIKGkEeGnpapRK-B0xQ"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_NFYCEJoYEeGoOL_FTK7BJQ" label="Custom Elements">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_yPo5QJoYEeGoOL_FTK7BJQ" label="New..."/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_yPo5QJoYEeGoOL_FTK7BJQ" label="New..." command="_8VVKgKGlEeGnpapRK-B0xQ"/>
         <children xsi:type="menu:Menu" xmi:id="_yl6EMJoYEeGoOL_FTK7BJQ" label="New from Template"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_1QDWQJoYEeGoOL_FTK7BJQ" label="Edit Selected..."/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_1QDWQJoYEeGoOL_FTK7BJQ" label="Edit Selected..." command="__Gx-cKGlEeGnpapRK-B0xQ"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_29OCsJoYEeGoOL_FTK7BJQ"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_3PxyUJoYEeGoOL_FTK7BJQ" label="Custom Elements Tutorial..."/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_3PxyUJoYEeGoOL_FTK7BJQ" label="Custom Elements Tutorial..." command="_3c6DAKGlEeGnpapRK-B0xQ"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_7y3j4nIUEeG_iqR3jIlPJw" label="Help">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_Qst8MJoYEeGoOL_FTK7BJQ" label="Online Help..." command="_WlsEwJ3IEeGuFIqOW1MjYg"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_SdFtoJoYEeGoOL_FTK7BJQ" label="Online Sample Diagrams..." command="_bURTwJ3IEeGuFIqOW1MjYg"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_Ut2PUJoYEeGoOL_FTK7BJQ" label="Video Tutorial: Basic Use and Custom Elements" command="_vKNmoJ3MEeGuFIqOW1MjYg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_Qst8MJoYEeGoOL_FTK7BJQ" label="Online Help..." command="_or7t4KA4EeGKLpoChUziZg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_SdFtoJoYEeGoOL_FTK7BJQ" label="Online Sample Diagrams..." command="_G953kKA5EeGKLpoChUziZg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_Ut2PUJoYEeGoOL_FTK7BJQ" label="Video Tutorial: Basic Use and Custom Elements" command="_LOY1UKA5EeGKLpoChUziZg"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_ZicmwJoYEeGoOL_FTK7BJQ"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_bMlNUJoYEeGoOL_FTK7BJQ" label="UMLet Homepage..." command="_wsUSkJ3MEeGuFIqOW1MjYg"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_bcOy4JoYEeGoOL_FTK7BJQ" label="Rate UMLet at Eclipse Marketplace..." command="_xob8kJ3MEeGuFIqOW1MjYg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_bMlNUJoYEeGoOL_FTK7BJQ" label="UMLet Homepage..." command="_NDvNYKA5EeGKLpoChUziZg"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_bcOy4JoYEeGoOL_FTK7BJQ" label="Rate UMLet at Eclipse Marketplace..." command="_PEWaQKA5EeGKLpoChUziZg"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_ihMDYJoYEeGoOL_FTK7BJQ"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_7y3j43IUEeG_iqR3jIlPJw" label="About UMLet" command="_7y285HIUEeG_iqR3jIlPJw"/>
       </children>
@@ -67,39 +63,75 @@
       <children xsi:type="menu:ToolBar" xmi:id="_7y3j6XIUEeG_iqR3jIlPJw" elementId="toolbar:org.eclipse.ui.main.toolbar">
         <children xsi:type="menu:HandledToolItem" xmi:id="_7y3j6nIUEeG_iqR3jIlPJw" iconURI="platform:/plugin/UmletPlugin/icons/sample.gif" command="_7y283nIUEeG_iqR3jIlPJw"/>
         <children xsi:type="menu:HandledToolItem" xmi:id="_7y3j63IUEeG_iqR3jIlPJw" iconURI="platform:/plugin/UmletPlugin/icons/save_edit.gif" command="_7y284XIUEeG_iqR3jIlPJw"/>
+        <children xsi:type="menu:ToolControl" xmi:id="_mOwT8KGwEeGnpapRK-B0xQ" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.extra.SearchHandler"/>
+        <children xsi:type="menu:ToolControl" xmi:id="_mz9SwKGwEeGnpapRK-B0xQ" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.extra.ZoomHandler"/>
       </children>
     </trimBars>
   </children>
-  <handlers xmi:id="_7y2823IUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.file.exit.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.ExitHandler" command="_7y282nIUEeG_iqR3jIlPJw"/>
-  <handlers xmi:id="_7y2833IUEeG_iqR3jIlPJw" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.OpenHandler" command="_7y283nIUEeG_iqR3jIlPJw"/>
-  <handlers xmi:id="_7y284nIUEeG_iqR3jIlPJw" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.SaveHandler" command="_7y284XIUEeG_iqR3jIlPJw"/>
+  <handlers xmi:id="_7y2823IUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.file.exit.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.ExitHandler" command="_7y282nIUEeG_iqR3jIlPJw"/>
+  <handlers xmi:id="_7y2833IUEeG_iqR3jIlPJw" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.OpenHandler" command="_7y283nIUEeG_iqR3jIlPJw"/>
+  <handlers xmi:id="_7y284nIUEeG_iqR3jIlPJw" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.SaveHandler" command="_7y284XIUEeG_iqR3jIlPJw"/>
   <handlers xmi:id="_7y285XIUEeG_iqR3jIlPJw" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.AboutHandler" command="_7y285HIUEeG_iqR3jIlPJw"/>
-  <handlers xmi:id="_Hx0fsJrGEeGvY-mIk-zbCw" elementId="UmletPlugin.newCommand.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.NewHandler" command="_RNOVEJrEEeGvY-mIk-zbCw"/>
-  <handlers xmi:id="_iBhO4J3IEeGuFIqOW1MjYg" elementId="umletplugin.onlineHelp.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.OnlineHelpHandler" command="_WlsEwJ3IEeGuFIqOW1MjYg"/>
-  <handlers xmi:id="_cWDkEJ3MEeGuFIqOW1MjYg" elementId="umletplugin.onlineSampleDiagrams.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.OnlineSampleDiagramsHandler" command="_bURTwJ3IEeGuFIqOW1MjYg"/>
-  <handlers xmi:id="_8H2hwJ3MEeGuFIqOW1MjYg" elementId="umletplugin.videoTutorials.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.VideoTutorialsHandler" command="_vKNmoJ3MEeGuFIqOW1MjYg"/>
-  <handlers xmi:id="_GaTB8J3NEeGuFIqOW1MjYg" elementId="umletplugin.umletHomepage.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.UmletHomepageHandler" command="_wsUSkJ3MEeGuFIqOW1MjYg"/>
-  <handlers xmi:id="_I9mFIJ3NEeGuFIqOW1MjYg" elementId="umletplugin.rateUmlet.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.RateUmletHandler" command="_xob8kJ3MEeGuFIqOW1MjYg"/>
+  <handlers xmi:id="_lp0aAKAzEeGKLpoChUziZg" elementId="umletplugin.new.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.NewHandler" command="_g0seIKAzEeGKLpoChUziZg"/>
+  <handlers xmi:id="_rldfwKA4EeGKLpoChUziZg" elementId="umletplugin.onlinehelp.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.OnlineHelpHandler" command="_or7t4KA4EeGKLpoChUziZg"/>
+  <handlers xmi:id="_R0p-sKA5EeGKLpoChUziZg" elementId="umletplugin.samplediagrams.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.SampleDiagramsHandler" command="_G953kKA5EeGKLpoChUziZg"/>
+  <handlers xmi:id="_WYZPoKA5EeGKLpoChUziZg" elementId="umletplugin.videotutorial.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.VideoTutorialHandler" command="_LOY1UKA5EeGKLpoChUziZg"/>
+  <handlers xmi:id="_Z0CQEKA5EeGKLpoChUziZg" elementId="umletplugin.homepage.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.HomepageHandler" command="_NDvNYKA5EeGKLpoChUziZg"/>
+  <handlers xmi:id="_drhfAKA5EeGKLpoChUziZg" elementId="umletplugin.rateumlet.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.RateUmletHandler" command="_PEWaQKA5EeGKLpoChUziZg"/>
+  <handlers xmi:id="_24V5gKBJEeG3-Knj7_jq2A" elementId="umletplugin.save.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.SaveHandler" command="_1XtNMKBJEeG3-Knj7_jq2A"/>
+  <handlers xmi:id="_NMmlwKBKEeG3-Knj7_jq2A" elementId="umletplugin.saveas.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.SaveAsHandler" command="_LndM4KBKEeG3-Knj7_jq2A"/>
+  <handlers xmi:id="_gEbnYKBKEeG3-Knj7_jq2A" elementId="umletplugin.mailto.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.MailToHandler" command="_eu70EKBKEeG3-Knj7_jq2A"/>
+  <handlers xmi:id="_F0hdkKBNEeG3-Knj7_jq2A" elementId="umletplugin.options.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.OptionsHandler" command="_EDN4AKBNEeG3-Knj7_jq2A"/>
+  <handlers xmi:id="_3g9b4KBNEeG3-Knj7_jq2A" elementId="umletplugin.undo.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.edit.UndoHandler" command="_zdJBIKBNEeG3-Knj7_jq2A"/>
+  <handlers xmi:id="_E7OBkKBOEeG3-Knj7_jq2A" elementId="umletplugin.redo.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.edit.RedoHandler" command="_DbUVEKBOEeG3-Knj7_jq2A"/>
+  <handlers xmi:id="_UXwoEKBOEeG3-Knj7_jq2A" elementId="umletplugin.delete.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.edit.DeleteHandler" command="_S7_NoKBOEeG3-Knj7_jq2A"/>
+  <handlers xmi:id="_Oq7TsKGkEeGnpapRK-B0xQ" elementId="umletplugin.selectall.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.edit.SelectAllHandler" command="_ItMJ8KGkEeGnpapRK-B0xQ"/>
+  <handlers xmi:id="_REyHAKGkEeGnpapRK-B0xQ" elementId="umletplugin.group.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.edit.GroupHandler" command="_LKYlIKGkEeGnpapRK-B0xQ"/>
+  <handlers xmi:id="_SnvHgKGkEeGnpapRK-B0xQ" elementId="umletplugin.ungroup.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.edit.UngroupHandler" command="_NCpuUKGkEeGnpapRK-B0xQ"/>
+  <handlers xmi:id="_YKp9gKGkEeGnpapRK-B0xQ" elementId="umletplugin.cut.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.edit.CutHandler" command="_UqBIUKGkEeGnpapRK-B0xQ"/>
+  <handlers xmi:id="_ah3FcKGkEeGnpapRK-B0xQ" elementId="umletplugin.copy.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.edit.CopyHandler" command="_VoimEKGkEeGnpapRK-B0xQ"/>
+  <handlers xmi:id="_b-eNYKGkEeGnpapRK-B0xQ" elementId="umletplugin.paste.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.edit.PasteHandler" command="_WvWdIKGkEeGnpapRK-B0xQ"/>
+  <handlers xmi:id="_Dg1H4KGmEeGnpapRK-B0xQ" elementId="umletplugin.customtutorial.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.custom.CustomTutorialHandler" command="_3c6DAKGlEeGnpapRK-B0xQ"/>
+  <handlers xmi:id="_FVmRIKGmEeGnpapRK-B0xQ" elementId="umletplugin.newcustom.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.custom.NewCustomHandler" command="_8VVKgKGlEeGnpapRK-B0xQ"/>
+  <handlers xmi:id="_HREfUKGmEeGnpapRK-B0xQ" elementId="umletplugin.editcustom.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.custom.EditCustomHandler" command="__Gx-cKGlEeGnpapRK-B0xQ"/>
+  <handlers xmi:id="_7npIoKGmEeGnpapRK-B0xQ" elementId="umletplugin.editpalette.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.EditPaletteHandler" command="_3SCaUKGmEeGnpapRK-B0xQ"/>
+  <handlers xmi:id="_9JQFUKGmEeGnpapRK-B0xQ" elementId="umletplugin.print.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.PrintHandler" command="_5SpAIKGmEeGnpapRK-B0xQ"/>
   <bindingTables xmi:id="_7y283HIUEeG_iqR3jIlPJw" bindingContext="_7y280XIUEeG_iqR3jIlPJw">
-    <bindings xmi:id="_7y283XIUEeG_iqR3jIlPJw" keySequence="M1+Q" command="_7y282nIUEeG_iqR3jIlPJw"/>
-    <bindings xmi:id="_7y284HIUEeG_iqR3jIlPJw" keySequence="M1+O" command="_7y283nIUEeG_iqR3jIlPJw"/>
-    <bindings xmi:id="_7y2843IUEeG_iqR3jIlPJw" keySequence="M1+S" command="_7y284XIUEeG_iqR3jIlPJw"/>
-    <bindings xmi:id="_7y285nIUEeG_iqR3jIlPJw" keySequence="M1+A" command="_7y285HIUEeG_iqR3jIlPJw"/>
+    <bindings xmi:id="_UkGREKGlEeGnpapRK-B0xQ" keySequence="M1+G" command="_LKYlIKGkEeGnpapRK-B0xQ"/>
+    <bindings xmi:id="_VgtqUKGlEeGnpapRK-B0xQ" keySequence="M1+U" command="_NCpuUKGkEeGnpapRK-B0xQ"/>
   </bindingTables>
   <rootContext xmi:id="_7y280XIUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
     <children xmi:id="_7y280nIUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
     <children xmi:id="_7y2803IUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
   </rootContext>
   <commands xmi:id="_7y282nIUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.file.exit" commandName="Exit"/>
-  <commands xmi:id="_7y283nIUEeG_iqR3jIlPJw" elementId="umletPlugin.openCommand" commandName="Open"/>
+  <commands xmi:id="_7y283nIUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.file.open" commandName="Open"/>
   <commands xmi:id="_7y284XIUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.file.save" commandName="Save"/>
   <commands xmi:id="_7y285HIUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.help.aboutAction" commandName="About"/>
-  <commands xmi:id="_RNOVEJrEEeGvY-mIk-zbCw" elementId="UmletPlugin.newCommand" commandName="New"/>
-  <commands xmi:id="_WlsEwJ3IEeGuFIqOW1MjYg" elementId="umletplugin.onlineHelp" commandName="Online Help"/>
-  <commands xmi:id="_bURTwJ3IEeGuFIqOW1MjYg" elementId="umletplugin.onlineSampleDiagrams" commandName="Online Sample Diagrams"/>
-  <commands xmi:id="_vKNmoJ3MEeGuFIqOW1MjYg" elementId="umletplugin.videoTutorials" commandName="Video Tutorials"/>
-  <commands xmi:id="_wsUSkJ3MEeGuFIqOW1MjYg" elementId="umletplugin.umletHomepage" commandName="UMLet Homepage"/>
-  <commands xmi:id="_xob8kJ3MEeGuFIqOW1MjYg" elementId="umletplugin.rateUmlet" commandName="Rate UMLet"/>
+  <commands xmi:id="_g0seIKAzEeGKLpoChUziZg" elementId="org.eclipse.ui.file.new" commandName="New"/>
+  <commands xmi:id="_or7t4KA4EeGKLpoChUziZg" elementId="umletplugin.onlinehelp" commandName="Online Help"/>
+  <commands xmi:id="_G953kKA5EeGKLpoChUziZg" elementId="umletplugin.samplediagrams" commandName="Online Sample Diagrams"/>
+  <commands xmi:id="_LOY1UKA5EeGKLpoChUziZg" elementId="umletplugin.videotutorial" commandName="Video Tutorial"/>
+  <commands xmi:id="_NDvNYKA5EeGKLpoChUziZg" elementId="umletplugin.homepage" commandName="Homepage"/>
+  <commands xmi:id="_PEWaQKA5EeGKLpoChUziZg" elementId="umletplugin.rateumlet" commandName="Rate UMLet"/>
+  <commands xmi:id="_1XtNMKBJEeG3-Knj7_jq2A" elementId="umletplugin.save" commandName="Save"/>
+  <commands xmi:id="_LndM4KBKEeG3-Knj7_jq2A" elementId="umletplugin.saveas" commandName="Save as"/>
+  <commands xmi:id="_eu70EKBKEeG3-Knj7_jq2A" elementId="umletplugin.mailto" commandName="Mail to"/>
+  <commands xmi:id="_EDN4AKBNEeG3-Knj7_jq2A" elementId="umletplugin.options" commandName="Options"/>
+  <commands xmi:id="_zdJBIKBNEeG3-Knj7_jq2A" elementId="org.eclipse.ui.edit.undo" commandName="Undo"/>
+  <commands xmi:id="_DbUVEKBOEeG3-Knj7_jq2A" elementId="org.eclipse.ui.edit.redo" commandName="Redo"/>
+  <commands xmi:id="_S7_NoKBOEeG3-Knj7_jq2A" elementId="org.eclipse.ui.edit.delete" commandName="Delete"/>
+  <commands xmi:id="_ItMJ8KGkEeGnpapRK-B0xQ" elementId="org.eclipse.ui.edit.selectAll" commandName="Select All"/>
+  <commands xmi:id="_LKYlIKGkEeGnpapRK-B0xQ" elementId="umletplugin.group" commandName="Group"/>
+  <commands xmi:id="_NCpuUKGkEeGnpapRK-B0xQ" elementId="umletplugin.ungroup" commandName="Ungroup"/>
+  <commands xmi:id="_UqBIUKGkEeGnpapRK-B0xQ" elementId="org.eclipse.ui.edit.cut" commandName="Cut"/>
+  <commands xmi:id="_VoimEKGkEeGnpapRK-B0xQ" elementId="org.eclipse.ui.edit.copy" commandName="Copy"/>
+  <commands xmi:id="_WvWdIKGkEeGnpapRK-B0xQ" elementId="org.eclipse.ui.edit.paste" commandName="Paste"/>
+  <commands xmi:id="_3c6DAKGlEeGnpapRK-B0xQ" elementId="umletplugin.customtutorial" commandName="Custom Elements Tutorial"/>
+  <commands xmi:id="_8VVKgKGlEeGnpapRK-B0xQ" elementId="umletplugin.newcustom" commandName="New Custom"/>
+  <commands xmi:id="__Gx-cKGlEeGnpapRK-B0xQ" elementId="umletplugin.editcustom" commandName="Edit Selected Custom"/>
+  <commands xmi:id="_3SCaUKGmEeGnpapRK-B0xQ" elementId="umletplugin.editpalette" commandName="Edit Palette"/>
+  <commands xmi:id="_5SpAIKGmEeGnpapRK-B0xQ" elementId="umletplugin.print" commandName="Print"/>
   <addons xmi:id="_7y281HIUEeG_iqR3jIlPJw" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_7y281XIUEeG_iqR3jIlPJw" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_7y281nIUEeG_iqR3jIlPJw" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

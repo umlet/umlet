@@ -36,7 +36,7 @@ public class MenuFactoryEclipse extends MenuFactory {
 	}
 
 	@Override
-	protected void doAction(final String menuItem, final Object param) {
+	public void doAction(final String menuItem, final Object param) {
 		log.info("doAction " + menuItem);	
 		DiagramHandler actualHandler = Main.getInstance().getDiagramHandler();
 		// Edit Palette cannot be put in a separate invokeLater thread, or otherwise getActivePage() will be null!

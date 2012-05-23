@@ -267,7 +267,7 @@ public class Main {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				//setPropertyPanelToGridElementHelper(e);
+				setPropertyPanelToGridElementHelper(e);
 			}
 		});
 	}
@@ -276,6 +276,8 @@ public class Main {
 		editedGridElement = e;
 		OwnSyntaxPane propertyPane = gui.getPropertyPane();
 		if (e != null) propertyPane.setText(e.getPanelAttributes());
+		// TODO fix the reason - next line prevents exception at startup
+		if (propertyPane == null) return;
 		else {			
 			DiagramHandler handler = this.getDiagramHandler();
 			if (handler == null) propertyPane.setText("");

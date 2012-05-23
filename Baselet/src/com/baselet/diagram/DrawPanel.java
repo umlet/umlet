@@ -504,7 +504,7 @@ public class DrawPanel extends JPanel implements Printable {
 	 * This method is mainly used by updatePanelAndScrollBars() to keep track of the panels size changes.
 	 */
 	public void moveOrigin(int dx, int dy) {
-		log.debug("Move origin to: " + origin);
+		//log.debug("Move origin to: " + origin);
 		this.origin.translate(handler.realignToGrid(false, dx), handler.realignToGrid(false, dy));
 	}
 
