@@ -78,7 +78,7 @@ public abstract class Constants {
 		public static String CONFIG_NAME;
 		public static String EXTENSION;
 		public static String WEBSITE;
-		public static Double VERSION;
+		public static String VERSION;
 		public static String[] GRID_ELEMENT_PACKAGES = new String[] {"com.umlet.element", "com.umlet.element.custom", "com.plotlet.element", "com.baselet.element"};
 
 		public static void init(ProgramName name, String version) {
@@ -91,7 +91,7 @@ public abstract class Constants {
 			if (Program.PROGRAM_NAME == ProgramName.UMLET) EXTENSION = "uxf";
 			else EXTENSION = "pxf";
 			
-			VERSION = Double.valueOf(version);
+			VERSION = version;
 		}
 	
 
