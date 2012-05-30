@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.1
+Created-By: 14.0-b16 (Sun Microsystems Inc.)
+Bundle-ManifestVersion: 2
+Bundle-Name: Umlet
+Bundle-SymbolicName: com.umlet.plugin;singleton:=true
+Bundle-Version: 11.5.1
+Bundle-Activator: com.baselet.plugin.MainPlugin
+Bundle-Vendor: http://www.umlet.com
+Require-Bundle: org.eclipse.ui,org.eclipse.ui.ide,org.eclipse.core.res
+ ources,org.eclipse.core.runtime
+Bundle-ClassPath: ., lib/baselet_batik-awt-util.jar, lib/baselet_batik
+ -dom.jar, lib/baselet_batik-ext.jar, lib/baselet_batik-svggen.jar, li
+ b/baselet_batik-util.jar, lib/baselet_batik-xml.jar, lib/baselet_itex
+ tpdf-5.1.3.jar, lib/baselet_jlibeps.jar, lib/baselet_jsyntaxpane_r096
+ _r151_customized.jar, lib/baselet_log4j-1.2.15.jar, lib/baselet_maila
+ pi.jar, lib/baselet_smtp.jar, lib/umlet_org.eclipse.jdt.core_3.5.1.v_
+ 972_R35x.jar
+Main-Class: com.baselet.control.Main
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Eclipse-LazyStart: true
+Import-Package: org.eclipse.core.filesystem
+Class-Path: lib/baselet_batik-awt-util.jar lib/baselet_batik-dom.jar l
+ ib/baselet_batik-ext.jar lib/baselet_batik-svggen.jar lib/baselet_bat
+ ik-util.jar lib/baselet_batik-xml.jar lib/baselet_itextpdf-5.1.3.jar 
+ lib/baselet_jlibeps.jar lib/baselet_jsyntaxpane_r096_r151_customized.
+ jar lib/baselet_log4j-1.2.15.jar lib/baselet_mailapi.jar lib/baselet_
+ smtp.jar lib/umlet_org.eclipse.jdt.core_3.5.1.v_972_R35x.jar
+
