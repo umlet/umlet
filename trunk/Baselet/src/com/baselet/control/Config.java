@@ -118,7 +118,7 @@ public class Config {
 			
 			Properties props = new Properties();
 
-			props.setProperty(PROGRAM_VERSION, Program.VERSION.toString());
+			props.setProperty(PROGRAM_VERSION, Program.VERSION);
 			props.setProperty(DEFAULT_FONTSIZE, Integer.toString(Constants.defaultFontsize));
 			props.setProperty(DEFAULT_FONTFAMILY, Constants.defaultFontFamily);
 			props.setProperty(SHOW_STICKINGPOLYGON, Boolean.toString(Constants.show_stickingpolygon));
