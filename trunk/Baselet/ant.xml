@@ -2,7 +2,7 @@
 <project name="${project.name.uc}" default="start" basedir=".">
 
 	<!-- Release version property - MUST BE SET MANUALLY (afterwards run enable_*let to update the manifest file) -->
-	<property name="release.version" value="11.5" />
+	<property name="release.version" value="11.5.1" />
 
 	<!-- Imported and calculated properties -->
 	<tstamp>
@@ -268,13 +268,6 @@
 		<zip destfile="${dir.export}/${project.name.lc}_${release.version}.zip" basedir="${dir.export.standalone}"/>
 		<delete dir="${dir.export.standalone}"/>
 
-		<!-- Replace the format "versionnr.subnr" with "versionnr_subnr" -->
-		<move todir="${dir.export}">
-			<fileset dir="${dir.export}" includes="${project.name.lc}_${release.version}.zip" />
-			<chainedmapper>
-				<regexpmapper from="(.*)\.(.*)\.zip" to="\1_\2.zip"/>
-			</chainedmapper>
-		</move>
 	</target>
 
 	<!-- Umlet specific Standalone exportfunctionality -->
