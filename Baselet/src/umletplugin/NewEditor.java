@@ -98,9 +98,9 @@ public class NewEditor implements IEditor {
 					new Runnable() {
 						@Override
 						public void run() {
-							log.debug("Create new DiagramHandler");
+							//log.debug("Create new DiagramHandler");
 							handler = new DiagramHandler(file);
-							log.debug("DiagramHandler created...");
+							//log.debug("DiagramHandler created...");
 						}
 					});
 		} catch (Exception e) {
@@ -185,7 +185,7 @@ public class NewEditor implements IEditor {
 	}
 
 	public void createPartControl(Composite parent) {
-		log.info("Call editor.createPartControl()");
+		//log.info("Call editor.createPartControl()");
 		Composite goodSWTComposite = new Composite(parent, SWT.EMBEDDED); // we need the embedded attribute set
 		Frame frame = org.eclipse.swt.awt.SWT_AWT.new_Frame(goodSWTComposite);
 		embedded_panel = new Panel();
@@ -198,10 +198,10 @@ public class NewEditor implements IEditor {
 	//@Deprecated
 	@Focus
 	public void setFocus() {
-		log.info("Call editor.setFocus()");
+		//log.info("Call editor.setFocus()");
 		currenteditor = this;
 		((EclipseGUI) Main.getInstance().getGUI()).setCurrentEditor(this);
-		log.debug("setCurrentEditor complete");
+		//log.debug("setCurrentEditor complete");
 		
 		// EB: TODO additions to avoid exceptions
 		Contributor contributor = new Contributor();
@@ -212,7 +212,7 @@ public class NewEditor implements IEditor {
 				new Runnable() {
 					@Override
 					public void run() {
-						log.debug("setFocus thread");
+						//log.debug("setFocus thread");
 						Main.getInstance().setCurrentDiagramHandler(handler);			
 						if (handler != null) handler.getDrawPanel().getSelector().updateSelectorInformation();					
 
@@ -225,11 +225,11 @@ public class NewEditor implements IEditor {
 						}
 
 						selectPalette(getSelectedPaletteName());
-						log.debug("editor.setFocus thread complete");
+						//log.debug("editor.setFocus thread complete");
 					}		
 				});
 		Main.getInstance().getGUI().setValueOfZoomDisplay(handler.getGridSize());
-		log.debug("editor.setFocus complete");
+		//log.debug("editor.setFocus complete");
 	}
 
 	public DrawPanel getDiagram() {
