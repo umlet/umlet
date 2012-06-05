@@ -41,7 +41,7 @@ public class MenuFactory {
 	protected static final String RECENT_FILES = "Recent files";
 	public static final String SAVE = "Save";
 	public static final String SAVE_AS = "Save as...";
-	protected static final String EXPORT_AS = "Export as...";
+	public static final String EXPORT_AS = "Export as...";
 	public static final String MAIL_TO = "Mail to...";
 	public static final String EDIT_CURRENT_PALETTE = "Edit Current Palette";
 	public static final String OPTIONS = "Options...";

@@ -248,13 +248,13 @@ public class Main {
 	}
 
 	public void setCurrentInfoDiagramHandler(DiagramHandler handler) {
-		log.debug("trying to setCurrentInfoDiagram");
-		log.debug("this.currentdiagram::");
-		log.debug(this.currentInfoDiagramHandler);
-		log.debug("handler::");
-		log.debug(handler);
+//		log.debug("trying to setCurrentInfoDiagram");
+//		log.debug("this.currentdiagram::");
+//		log.debug(this.currentInfoDiagramHandler);
+//		log.debug("handler::");
+//		log.debug(handler);
 		if ((!(handler instanceof PaletteHandler)) && (handler != null)) {
-			log.debug("SETTING currentInfoDiagram");
+			//log.debug("SETTING currentInfoDiagram");
 			this.currentInfoDiagramHandler = handler;
 		}
 	}

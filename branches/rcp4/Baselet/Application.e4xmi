@@ -11,10 +11,10 @@
       </children>
     </children>
     <mainMenu xmi:id="_7y286HIUEeG_iqR3jIlPJw" elementId="menu:org.eclipse.ui.main.menu">
-      <children xsi:type="menu:Menu" xmi:id="_7y286XIUEeG_iqR3jIlPJw" label="File">
+      <children xsi:type="menu:Menu" xmi:id="_7y286XIUEeG_iqR3jIlPJw" elementId="umletplugin.file.menu" label="File">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_53N2AJoVEeGoOL_FTK7BJQ" label="New" command="_g0seIKAzEeGKLpoChUziZg"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_7y286nIUEeG_iqR3jIlPJw" label="Open" iconURI="platform:/plugin/UmletPlugin/icons/sample.gif" command="_7y283nIUEeG_iqR3jIlPJw"/>
-        <children xsi:type="menu:Menu" xmi:id="_8OAHMJoVEeGoOL_FTK7BJQ" label="Recent Files"/>
+        <children xsi:type="menu:Menu" xmi:id="_8OAHMJoVEeGoOL_FTK7BJQ" elementId="umletplugin.recentfiles.menu" label="Recent Files"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_7y3j4HIUEeG_iqR3jIlPJw" label="Save" iconURI="platform:/plugin/UmletPlugin/icons/save_edit.gif" command="_7y284XIUEeG_iqR3jIlPJw"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_DfrlEJoWEeGoOL_FTK7BJQ" label="Save as..." command="_LndM4KBKEeG3-Knj7_jq2A"/>
         <children xsi:type="menu:Menu" xmi:id="_FdRTIJoWEeGoOL_FTK7BJQ" elementId="umletplugin.exportas.menu" label="Export as..."/>
@@ -43,7 +43,7 @@
       </children>
       <children xsi:type="menu:Menu" xmi:id="_NFYCEJoYEeGoOL_FTK7BJQ" label="Custom Elements">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_yPo5QJoYEeGoOL_FTK7BJQ" label="New..." command="_8VVKgKGlEeGnpapRK-B0xQ"/>
-        <children xsi:type="menu:Menu" xmi:id="_yl6EMJoYEeGoOL_FTK7BJQ" label="New from Template"/>
+        <children xsi:type="menu:Menu" xmi:id="_yl6EMJoYEeGoOL_FTK7BJQ" elementId="umletplugin.newfromtemplate.menu" label="New from Template"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_1QDWQJoYEeGoOL_FTK7BJQ" label="Edit Selected..." command="__Gx-cKGlEeGnpapRK-B0xQ"/>
         <children xsi:type="menu:MenuSeparator" xmi:id="_29OCsJoYEeGoOL_FTK7BJQ"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_3PxyUJoYEeGoOL_FTK7BJQ" label="Custom Elements Tutorial..." command="_3c6DAKGlEeGnpapRK-B0xQ"/>
@@ -78,7 +78,6 @@
   <handlers xmi:id="_WYZPoKA5EeGKLpoChUziZg" elementId="umletplugin.videotutorial.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.VideoTutorialHandler" command="_LOY1UKA5EeGKLpoChUziZg"/>
   <handlers xmi:id="_Z0CQEKA5EeGKLpoChUziZg" elementId="umletplugin.homepage.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.HomepageHandler" command="_NDvNYKA5EeGKLpoChUziZg"/>
   <handlers xmi:id="_drhfAKA5EeGKLpoChUziZg" elementId="umletplugin.rateumlet.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.help.RateUmletHandler" command="_PEWaQKA5EeGKLpoChUziZg"/>
-  <handlers xmi:id="_24V5gKBJEeG3-Knj7_jq2A" elementId="umletplugin.save.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.SaveHandler" command="_1XtNMKBJEeG3-Knj7_jq2A"/>
   <handlers xmi:id="_NMmlwKBKEeG3-Knj7_jq2A" elementId="umletplugin.saveas.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.SaveAsHandler" command="_LndM4KBKEeG3-Knj7_jq2A"/>
   <handlers xmi:id="_gEbnYKBKEeG3-Knj7_jq2A" elementId="umletplugin.mailto.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.MailToHandler" command="_eu70EKBKEeG3-Knj7_jq2A"/>
   <handlers xmi:id="_F0hdkKBNEeG3-Knj7_jq2A" elementId="umletplugin.options.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.OptionsHandler" command="_EDN4AKBNEeG3-Knj7_jq2A"/>
@@ -96,9 +95,18 @@
   <handlers xmi:id="_HREfUKGmEeGnpapRK-B0xQ" elementId="umletplugin.editcustom.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.custom.EditCustomHandler" command="__Gx-cKGlEeGnpapRK-B0xQ"/>
   <handlers xmi:id="_7npIoKGmEeGnpapRK-B0xQ" elementId="umletplugin.editpalette.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.EditPaletteHandler" command="_3SCaUKGmEeGnpapRK-B0xQ"/>
   <handlers xmi:id="_9JQFUKGmEeGnpapRK-B0xQ" elementId="umletplugin.print.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.file.PrintHandler" command="_5SpAIKGmEeGnpapRK-B0xQ"/>
+  <handlers xmi:id="_sOzBIKp_EeGNHc_8W8DwyA" elementId="umletplugin.exportas.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.dynamic.ExportAsMenuHandler" command="_u2QLkKp_EeGNHc_8W8DwyA"/>
+  <handlers xmi:id="_yuSZkK2fEeGtyOusTM1WeQ" elementId="umletplugin.recentfiles.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.dynamic.RecentFilesMenuHandler" command="_u86ZsK2fEeGtyOusTM1WeQ"/>
+  <handlers xmi:id="_wxSSoK2lEeGmrJZQv9fS1g" elementId="umletplugin.newfromtemplate.handler" contributionURI="bundleclass://UmletPlugin/umletplugin.handlers.dynamic.NewFromTemplateMenuHandler" command="_tm1v4K2lEeGmrJZQv9fS1g"/>
   <bindingTables xmi:id="_7y283HIUEeG_iqR3jIlPJw" bindingContext="_7y280XIUEeG_iqR3jIlPJw">
     <bindings xmi:id="_UkGREKGlEeGnpapRK-B0xQ" keySequence="M1+G" command="_LKYlIKGkEeGnpapRK-B0xQ"/>
     <bindings xmi:id="_VgtqUKGlEeGnpapRK-B0xQ" keySequence="M1+U" command="_NCpuUKGkEeGnpapRK-B0xQ"/>
+    <bindings xmi:id="_ZDvUsK2kEeGmrJZQv9fS1g" keySequence="M1+N" command="_g0seIKAzEeGKLpoChUziZg"/>
+    <bindings xmi:id="_akZ2MK2kEeGmrJZQv9fS1g" keySequence="M1+O" command="_7y283nIUEeG_iqR3jIlPJw"/>
+    <bindings xmi:id="_eDlS0K2kEeGmrJZQv9fS1g" keySequence="M1+M" command="_eu70EKBKEeG3-Knj7_jq2A"/>
+    <bindings xmi:id="_fMLSkK2kEeGmrJZQv9fS1g" keySequence="M1+P" command="_5SpAIKGmEeGnpapRK-B0xQ"/>
+    <bindings xmi:id="_iAM5YK2kEeGmrJZQv9fS1g" keySequence="Delete" command="_S7_NoKBOEeG3-Knj7_jq2A"/>
+    <bindings xmi:id="_5nDO4K2kEeGmrJZQv9fS1g" keySequence="M1+S" command="_7y284XIUEeG_iqR3jIlPJw"/>
   </bindingTables>
   <rootContext xmi:id="_7y280XIUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
     <children xmi:id="_7y280nIUEeG_iqR3jIlPJw" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
@@ -114,7 +122,6 @@
   <commands xmi:id="_LOY1UKA5EeGKLpoChUziZg" elementId="umletplugin.videotutorial" commandName="Video Tutorial"/>
   <commands xmi:id="_NDvNYKA5EeGKLpoChUziZg" elementId="umletplugin.homepage" commandName="Homepage"/>
   <commands xmi:id="_PEWaQKA5EeGKLpoChUziZg" elementId="umletplugin.rateumlet" commandName="Rate UMLet"/>
-  <commands xmi:id="_1XtNMKBJEeG3-Knj7_jq2A" elementId="umletplugin.save" commandName="Save"/>
   <commands xmi:id="_LndM4KBKEeG3-Knj7_jq2A" elementId="umletplugin.saveas" commandName="Save as"/>
   <commands xmi:id="_eu70EKBKEeG3-Knj7_jq2A" elementId="umletplugin.mailto" commandName="Mail to"/>
   <commands xmi:id="_EDN4AKBNEeG3-Knj7_jq2A" elementId="umletplugin.options" commandName="Options"/>
@@ -132,6 +139,9 @@
   <commands xmi:id="__Gx-cKGlEeGnpapRK-B0xQ" elementId="umletplugin.editcustom" commandName="Edit Selected Custom"/>
   <commands xmi:id="_3SCaUKGmEeGnpapRK-B0xQ" elementId="umletplugin.editpalette" commandName="Edit Palette"/>
   <commands xmi:id="_5SpAIKGmEeGnpapRK-B0xQ" elementId="umletplugin.print" commandName="Print"/>
+  <commands xmi:id="_u2QLkKp_EeGNHc_8W8DwyA" elementId="umletplugin.exportas" commandName="Export as"/>
+  <commands xmi:id="_u86ZsK2fEeGtyOusTM1WeQ" elementId="umletplugin.recentfiles" commandName="Recent Files"/>
+  <commands xmi:id="_tm1v4K2lEeGmrJZQv9fS1g" elementId="umletplugin.newfromtemplate" commandName="New from Template"/>
   <addons xmi:id="_7y281HIUEeG_iqR3jIlPJw" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_7y281XIUEeG_iqR3jIlPJw" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_7y281nIUEeG_iqR3jIlPJw" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>
