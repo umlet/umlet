@@ -119,10 +119,6 @@ public abstract class NewGridElement implements GridElement {
 		return true;
 	}
 
-	/**
-	 * NOT RE-EVALUATED METHODS
-	 */
-
 	@Override
 	public String getPanelAttributes() {
 		return panelAttributes;
