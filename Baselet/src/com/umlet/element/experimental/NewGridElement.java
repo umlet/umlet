@@ -1,8 +1,11 @@
 package com.umlet.element.experimental;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseListener;
@@ -28,32 +31,32 @@ import com.umlet.element.Relation;
 public abstract class NewGridElement implements GridElement {
 
 	protected final static Logger log = Logger.getLogger(Utils.getClassName());
-	
+
 	private boolean stickingBorderActive;
-	
-	private boolean allowResize;
-	
+
+	private boolean allowResize = true;
+
 	protected BaseDrawHandler drawer;
 	private DiagramHandler handler;
 
-	protected Color fgColorBase = Color.black;
-	protected Color fgColor = fgColorBase;
-	private String fgColorString = "";
-	protected Color bgColor = Color.white;
 	protected boolean isSelected = false;
 
 	private Group group = null;
 	private boolean autoresizeandmanualresizeenabled;
-	
+
 	protected String panelAttributes = "";
 	protected String panelAttributesAdditional = "";
-	
+
+	private String fgColorString;
+	private String bgColorString;
+
 	private GridComponent component = new GridComponent() {
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void paint(Graphics g) {
-			drawer = new BaseDrawHandler(g, handler, fgColor, bgColor, component.getSize(), isSelected);
+			drawer = new BaseDrawHandler(g, handler, Constants.DEFAULT_FOREGROUND_COLOR, Constants.DEFAULT_BACKGROUND_COLOR, component.getSize(), isSelected);
+			colorize();
 			paintElement();
 		}
 
@@ -61,7 +64,7 @@ public abstract class NewGridElement implements GridElement {
 		public GridElement getGridElement() {
 			return NewGridElement.this;
 		}
-		
+
 	};
 
 	protected abstract void paintElement();
@@ -88,7 +91,7 @@ public abstract class NewGridElement implements GridElement {
 		this.addMouseListener(this.getHandler().getEntityListener(this));
 		this.addMouseMotionListener(this.getHandler().getEntityListener(this));
 	}
-	
+
 	@Override
 	public boolean contains(Point p) {
 		Rectangle bounds = this.getVisibleRect();
@@ -128,17 +131,17 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public boolean isSelected() {
 		return isSelected;
-		}
+	}
 
 	@Override
 	public void setPanelAttributes(String panelAttributes) {
 		this.panelAttributes = panelAttributes;
-		}
+	}
 
 	@Override
 	public void setGroup(Group group) {
 		this.group = group;
-		}
+	}
 
 	@Override
 	public GridElement CloneFromMe() {
@@ -158,32 +161,74 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void changeLocation(int diffx, int diffy) {
 		this.setLocation(this.getLocation().x + diffx, this.getLocation().y + diffy);
-		}
+	}
 
 	@Override
 	public void onDeselected() {
 		isSelected = false;
-		fgColor = fgColorBase;
-		this.setStickingBorderActive(true);
 		this.repaint();
 	}
 
 	@Override
 	public void onSelected() {
 		isSelected = true;
-		fgColor = Constants.DEFAULT_SELECTED_COLOR;
 		this.repaint();
+	}
+
+	private void colorize() {
+		Color bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
+		float bgAlpha = Constants.ALPHA_FULL_TRANSPARENCY;
+		Color fgColor = Constants.DEFAULT_FOREGROUND_COLOR;
+		for (String line : Utils.decomposeStringsWithComments(panelAttributes)) {
+			if (line.startsWith("bg=")) {
+				bgColorString = line.substring("bg=".length());
+				bgColor = Utils.getColor(bgColorString);
+				if (bgColor == null) bgColor = Constants.DEFAULT_BACKGROUND_COLOR; // if value is unknown, default background color is used (at 100% transparency)
+				else bgAlpha = Constants.ALPHA_MIDDLE_TRANSPARENCY; // otherwise set 50% transparency to make sure the background color is visible
+			}
+			else if (line.startsWith("fg=")) {
+				fgColorString = line.substring("fg=".length());
+				fgColor = Utils.getColor(fgColorString);
+				if (fgColor == null) fgColor = Constants.DEFAULT_FOREGROUND_COLOR; // if value is unknown, default foreground color is used
+			}
+		}
+
+		drawer.setBackground(bgColor, bgAlpha);
+		drawer.setForegroundColor(fgColor);
+	}
+
+	@Override
+	public void updateProperty(String key, String newValue) {
+		String newState = "";
+		for (String line : Utils.decomposeStringsWithComments(this.getPanelAttributes())) {
+			if (!line.startsWith(key)) newState += line + "\n";
+		}
+		newState = newState.substring(0, newState.length()-1); //remove last linebreak
+		if (newValue != null) newState += "\n" + key + "=" + newValue; // null will not be added as a value
+		this.setPanelAttributes(newState);
+		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
+		this.repaint();
+	}
+
+	@Override
+	public String getFGColorString() {
+		return fgColorString;
+	}
+
+	@Override
+	public String getBGColorString() {
+		return bgColorString;
 	}
 
 	@Override
 	public Group getGroup() {
 		return this.group;
-		}
+	}
 
 	@Override
 	public String getAdditionalAttributes() {
 		return "";
-		}
+	}
 
 	@Override
 	public void setAdditionalAttributes(String additional_attributes) { }
@@ -226,7 +271,7 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public boolean isStickingBorderActive() {
 		return stickingBorderActive;
-		}
+	}
 
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
@@ -257,29 +302,9 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public String getFGColorString() {
-		return fgColorString;
-		}
-
-	@Override
 	public void changeSize(int diffx, int diffy) {
 		this.setSize(this.getSize().width + diffx, this.getSize().height + diffy);
-		}
-
-	@Override
-	public void setColor(String colorString, boolean isForegroundColor) {
-		String new_state = "";
-		Vector<String> textlines = Utils.decomposeStringsWithComments(this.getPanelAttributes());
-		String prefix = (isForegroundColor ? "fg=" : "bg=");
-		for (int i = 0; i < textlines.size(); i++) {
-			if (!textlines.get(i).startsWith(prefix)) new_state += textlines.get(i) + "\n";
-		}
-		if (!colorString.equals("default")) new_state += prefix + colorString;
-		this.setPanelAttributes(new_state);
-		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
-		this.repaint();
 	}
-
 
 	@Override
 	public Rectangle getVisibleRect() {
@@ -355,7 +380,7 @@ public abstract class NewGridElement implements GridElement {
 	public void paint(Graphics g) {
 		component.paint(g);
 	}
-	
+
 	@Override
 	public Dimension getRealSize() {
 		return new Dimension(getSize().width / handler.getGridSize() * Constants.DEFAULTGRIDSIZE, getSize().height / handler.getGridSize() * Constants.DEFAULTGRIDSIZE);
