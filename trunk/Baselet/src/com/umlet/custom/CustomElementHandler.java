@@ -1,9 +1,9 @@
 package com.umlet.custom;
 
 import java.awt.Rectangle;
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.Vector;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
@@ -147,12 +147,13 @@ public class CustomElementHandler {
 
 	private void updatePreview(GridElement e) {
 		if (e != null) {
-			Vector<GridElement> entities = this.preview.getDrawPanel().getAllEntities();
-			if (entities.size() > 0) {
-				e.setBounds(entities.get(0).getBounds());
-				e.setPanelAttributes(entities.get(0).getPanelAttributes());
+			Iterator<GridElement> iter = this.preview.getDrawPanel().getAllEntities().iterator();
+			if (iter.hasNext()) {
+				GridElement element = iter.next();
+				e.setBounds(element.getBounds());
+				e.setPanelAttributes(element.getPanelAttributes());
 				if (this.preview.getDrawPanel().getSelector().getSelectedEntities().size() > 0) this.preview.getDrawPanel().getSelector().singleSelectWithoutUpdatePropertyPanel(e);
-				this.preview.getDrawPanel().removeElement(entities.get(0));
+				this.preview.getDrawPanel().removeElement(element);
 			}
 
 			e.setHandlerAndInitListeners(this.preview);
@@ -216,10 +217,9 @@ public class CustomElementHandler {
 			}
 			else current = c.getHandler();
 
-			Vector<GridElement> ents = current.getDrawPanel().getAllEntities();
 			// set location for element
 			int x = 10, y = 10;
-			for (GridElement e : ents) {
+			for (GridElement e : current.getDrawPanel().getAllEntities()) {
 				if (e.getLocation().y + e.getSize().height + 10 > y) y = e.getLocation().y + e.getSize().height + 10;
 			}
 

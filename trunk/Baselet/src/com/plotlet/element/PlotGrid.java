@@ -1,6 +1,5 @@
 package com.plotlet.element;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;

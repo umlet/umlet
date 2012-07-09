@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.jar.Attributes;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;

@@ -11,9 +11,9 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -116,7 +116,7 @@ public class DiagramFileHandler {
 		Main.getInstance().getGUI().updateDiagramName(this.handler, this.handler.getName());
 	}
 
-	private void createXMLOutputDoc(Document doc, List<GridElement> entities, Element current, Group group) {
+	private void createXMLOutputDoc(Document doc, Collection<GridElement> entities, Element current, Group group) {
 		// list of elements that are not inserted yet (to increase performance)
 		List<GridElement> toBeCheckedAgain = new ArrayList<GridElement>();
 		List<Group> insert_groups = new ArrayList<Group>();
@@ -213,8 +213,7 @@ public class DiagramFileHandler {
 			root.appendChild(zoom);
 
 			// save elements (group = null = rootlayer)
-			Vector<GridElement> entities = this.handler.getDrawPanel().getAllEntities();
-			this.createXMLOutputDoc(doc, entities, root, null);
+			this.createXMLOutputDoc(doc, handler.getDrawPanel().getAllEntities(), root, null);
 
 			// output the stuff...
 			DOMSource source = new DOMSource(doc);

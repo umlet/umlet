@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.ObjectInputStream.GetField;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import org.eclipse.core.runtime.FileLocator;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.plugin.MainPlugin;
-import com.umlet.element.experimental.Id;
 
 public class Path {
 

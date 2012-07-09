@@ -1859,7 +1859,7 @@ public class Relation extends OldGridElement {
 			}
 			else {
 				if (first.x != p.x || first.y != p.y) {
-					System.out.println(first + " // " + p);
+//					System.out.println(first + " // " + p);
 					return false;
 				}
 			}

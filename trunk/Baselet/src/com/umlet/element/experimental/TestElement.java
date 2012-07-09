@@ -1,6 +1,5 @@
 package com.umlet.element.experimental;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 
 
