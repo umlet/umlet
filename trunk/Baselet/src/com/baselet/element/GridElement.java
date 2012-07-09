@@ -89,6 +89,8 @@ public interface GridElement {
 
 	Dimension getSize();
 
+	Dimension getRealSize();
+
 	boolean isInRange(Point upperLeft, Dimension size);
 
 	void paint(Graphics g);

@@ -19,9 +19,9 @@ import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.element.GridComponent;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
-import com.baselet.element.GridComponent;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
 
@@ -354,6 +354,11 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void paint(Graphics g) {
 		component.paint(g);
+	}
+	
+	@Override
+	public Dimension getRealSize() {
+		return new Dimension(getSize().width / handler.getGridSize() * Constants.DEFAULTGRIDSIZE, getSize().height / handler.getGridSize() * Constants.DEFAULTGRIDSIZE);
 	}
 
 	@Override
