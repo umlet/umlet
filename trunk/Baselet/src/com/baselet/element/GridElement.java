@@ -19,8 +19,6 @@ public interface GridElement {
 
 	Rectangle getVisibleRect();
 
-	boolean contains(Point p);
-
 	boolean isSelected();
 
 	void setPanelAttributes(String panelAttributes);

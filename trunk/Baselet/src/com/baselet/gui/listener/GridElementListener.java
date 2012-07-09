@@ -127,14 +127,14 @@ public class GridElementListener extends UniversalListener {
 		this.controller.executeCommand(new Macro(moveCommands));
 	}
 
-	private void showContextMenu(GridElement me, int x, int y) {
+	private void showContextMenu(GridElement ge, int x, int y) {
 
-		if (!this.selector.getSelectedEntities().contains(me)) this.selector.singleSelect(me);
+		if (!this.selector.getSelectedEntities().contains(ge)) this.selector.singleSelect(ge);
 
-		selector.setDominantEntity(me);
+		selector.setDominantEntity(ge);
 
-		JPopupMenu contextMenu = Main.getInstance().getGUI().getContextMenu(me.getComponent());
-		if (contextMenu != null) contextMenu.show(me.getComponent(), x, y);
+		JPopupMenu contextMenu = Main.getInstance().getGUI().getContextMenu(ge);
+		if (contextMenu != null) contextMenu.show(ge.getComponent(), x, y);
 	}
 
 	@Override
