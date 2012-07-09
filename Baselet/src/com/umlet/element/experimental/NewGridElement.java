@@ -61,6 +61,38 @@ public abstract class NewGridElement implements GridElement {
 		}
 
 		@Override
+		public boolean contains(Point p) {
+			Rectangle bounds = this.getVisibleRect();
+			if (!bounds.contains(p)) return false;
+
+			Vector<GridElement> entities = handler.getDrawPanel().getAllEntitiesNotInGroup();
+			for (GridElement other : entities) {
+				if (other instanceof Relation) { // a relation is always on top
+					// move point to coordinate system of other entity
+					Point other_p = new Point(p.x + this.getLocation().x - other.getLocation().x, p.y + this.getLocation().y - other.getLocation().y);
+					if (other.getComponent().contains(other_p)) return false;
+				}
+
+				// If the this visibleRect is equal to the other VisibleRect, true will be returned. Otherwise we need to check further
+				else if (!this.getVisibleRect().equals(other.getVisibleRect())) {
+					Rectangle other_bounds = other.getVisibleRect();
+					// move bounds to coordinate system of this component
+					other_bounds.x += other.getLocation().x - this.getLocation().x;
+					other_bounds.y += other.getLocation().y - this.getLocation().y;
+					if (other_bounds.contains(p)) { // the selected element has to be in front except if the other element is totally contained!
+						if (bounds.contains(other_bounds) || (other.isSelected() && !other_bounds.contains(bounds))) return false;
+					}
+				}
+			}
+			return true;
+		}
+		
+		@Override
+		public boolean contains(int x, int y) {
+			return this.contains(new Point(x, y));
+		}
+
+		@Override
 		public GridElement getGridElement() {
 			return NewGridElement.this;
 		}
@@ -90,33 +122,6 @@ public abstract class NewGridElement implements GridElement {
 		this.handler = handler;
 		this.addMouseListener(this.getHandler().getEntityListener(this));
 		this.addMouseMotionListener(this.getHandler().getEntityListener(this));
-	}
-
-	@Override
-	public boolean contains(Point p) {
-		Rectangle bounds = this.getVisibleRect();
-		if (!bounds.contains(p)) return false;
-
-		Vector<GridElement> entities = this.getHandler().getDrawPanel().getAllEntitiesNotInGroup();
-		for (GridElement other : entities) {
-			if (other instanceof Relation) { // a relation is always on top
-				// move point to coordinate system of other entity
-				Point other_p = new Point(p.x + this.getLocation().x - other.getLocation().x, p.y + this.getLocation().y - other.getLocation().y);
-				if (other.contains(other_p)) return false;
-			}
-
-			// If the this visibleRect is equal to the other VisibleRect, true will be returned. Otherwise we need to check further
-			else if (!this.getVisibleRect().equals(other.getVisibleRect())) {
-				Rectangle other_bounds = other.getVisibleRect();
-				// move bounds to coordinate system of this component
-				other_bounds.x += other.getLocation().x - this.getLocation().x;
-				other_bounds.y += other.getLocation().y - this.getLocation().y;
-				if (other_bounds.contains(p)) { // the selected element has to be in front except if the other element is totally contained!
-					if (bounds.contains(other_bounds) || (other.isSelected() && !other_bounds.contains(bounds))) return false;
-				}
-			}
-		}
-		return true;
 	}
 
 	@Override
@@ -386,4 +391,6 @@ public abstract class NewGridElement implements GridElement {
 	public JComponent getComponent() {
 		return component;
 	}
+	
+	
 }

@@ -28,8 +28,8 @@ import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Utils;
 import com.baselet.element.DiagramNotification;
-import com.baselet.element.GridElement;
 import com.baselet.element.GridComponent;
+import com.baselet.element.GridElement;
 import com.baselet.gui.StartUpHelpText;
 import com.baselet.gui.listener.ScrollbarListener;
 import com.baselet.gui.standalone.FileDrop;
@@ -45,7 +45,9 @@ public class DrawPanel extends JPanel implements Printable {
 	private JScrollPane _scr;
 	private Selector selector;
 	private DiagramHandler handler;
-	private List<DiagramNotification> notifications;
+	private List<DiagramNotification> notifications = new ArrayList<DiagramNotification>();
+
+	private Vector<GridElement> gridElements = new Vector<GridElement>();
 
 	public DrawPanel(DiagramHandler handler) {
 		this.handler = handler;
@@ -60,7 +62,6 @@ public class DrawPanel extends JPanel implements Printable {
 			this.add(startupHelpText);
 		}
 		this.selector = new Selector(this);
-		this.notifications = new ArrayList<DiagramNotification>();
 		JScrollPane p = new JScrollPane() {
 			@Override
 			public void setEnabled(boolean en) {
@@ -188,12 +189,7 @@ public class DrawPanel extends JPanel implements Printable {
 	}
 
 	public Vector<GridElement> getAllEntities() {
-		Vector<GridElement> v = new Vector<GridElement>();
-		for (int i = 0; i < this.getComponentCount(); i++) {
-			Component c = this.getComponent(i);
-			if (c instanceof GridComponent) v.add(((GridComponent) c).getGridElement());
-		}
-		return v;
+		return gridElements;
 	}
 
 	public Vector<GridElement> getAllEntitiesNotInGroup() {
@@ -320,12 +316,8 @@ public class DrawPanel extends JPanel implements Printable {
 
 		moveOrigin(newX, newY);
 
-		for (int i = 0; i < this.getComponents().length; i++) {
-			Component c = this.getComponent(i);
-			if (c instanceof GridComponent) { // We remove whitespace only for entities
-				GridElement ge = ((GridComponent) c).getGridElement();
-				ge.setLocation(handler.realignToGrid(false, ge.getLocation().x - newX), handler.realignToGrid(false, ge.getLocation().y - newY));
-			}
+		for (GridElement ge : gridElements) {
+			ge.setLocation(handler.realignToGrid(false, ge.getLocation().x - newX), handler.realignToGrid(false, ge.getLocation().y - newY));
 		}
 
 		changeViewPosition(-newX, -newY);
@@ -524,10 +516,12 @@ public class DrawPanel extends JPanel implements Printable {
 	}
 
 	public void removeElement(GridElement gridElement) {
+		gridElements.remove(gridElement);
 		remove(gridElement.getComponent());
 	}
 
 	public void addElement(GridElement gridElement) {
+		gridElements.add(gridElement);
 		add(gridElement.getComponent());
 	}
 }

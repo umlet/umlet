@@ -287,7 +287,7 @@ public abstract class OldGridElement extends GridComponent implements GridElemen
 			if (other instanceof Relation) { // a relation is always on top
 				// move point to coordinate system of other entity
 				Point other_p = new Point(p.x + this.getLocation().x - other.getLocation().x, p.y + this.getLocation().y - other.getLocation().y);
-				if (other.contains(other_p)) return false;
+				if (other.getComponent().contains(other_p)) return false;
 			}
 
 			// If the this visibleRect is equal to the other VisibleRect, true will be returned. Otherwise we need to check further
