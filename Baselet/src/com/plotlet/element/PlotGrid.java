@@ -52,7 +52,7 @@ public class PlotGrid extends OldGridElement {
 			draw.setBackgroundColor("white");
 			draw.setBackgroundAlpha(Constants.ALPHA_NO_TRANSPARENCY);
 			draw.drawRectangle(0, 0, getSize().width-1, getSize().height-1);
-			draw.printCenter(e.getMessage(), getRealHeight()/2);
+			draw.printCenter(e.getMessage(), getRealSize().height/2);
 		}
 	}
 
@@ -201,9 +201,6 @@ public class PlotGrid extends OldGridElement {
 		else return new BarPlot(g,plotDrawConfig, plotState, xPos, yPos);
 	}
 
-	private Dimension getRealSize() {
-		return new Dimension(getRealWidth(), getRealHeight());
-	}
 	public void drawPlots() {
 		for (int row = 0; row < matrix.rows(); row++) {
 			for (int col = 0; col < matrix.row(row).size(); col++) {

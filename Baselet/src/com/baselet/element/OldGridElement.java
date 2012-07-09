@@ -241,14 +241,11 @@ public abstract class OldGridElement extends GridComponent implements GridElemen
 		return composites;
 	}
 
-	public int getRealWidth() {
-		return getSize().width / handler.getGridSize() * Constants.DEFAULTGRIDSIZE;
+	@Override
+	public Dimension getRealSize() {
+		return new Dimension(getSize().width / handler.getGridSize() * Constants.DEFAULTGRIDSIZE, getSize().height / handler.getGridSize() * Constants.DEFAULTGRIDSIZE);
 	}
-
-	public int getRealHeight() {
-		return getSize().height / handler.getGridSize() * Constants.DEFAULTGRIDSIZE;
-	}
-
+	
 	@Override
 	public int getResizeArea(int x, int y) {
 		int ret = 0;
