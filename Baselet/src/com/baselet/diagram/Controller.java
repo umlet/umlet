@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import com.baselet.control.Main;
 import com.baselet.diagram.command.Command;
-import com.baselet.diagram.command.Copy;
 import com.baselet.gui.standalone.StandaloneGUI;
 
 

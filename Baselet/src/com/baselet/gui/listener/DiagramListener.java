@@ -88,10 +88,8 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 		int diffx = newp.x - oldp.x;
 		int diffy = newp.y - oldp.y;
 
-		Vector<GridElement> v = this.diagram.getAllEntities();
 		Vector<Command> moveCommands = new Vector<Command>();
-		for (int i = 0; i < v.size(); i++) {
-			GridElement e = v.elementAt(i);
+		for (GridElement e : diagram.getAllEntities()) {
 			if (e.isPartOfGroup()) continue;
 			moveCommands.add(new Move(e, diffx, diffy));
 		}

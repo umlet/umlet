@@ -11,6 +11,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,7 +30,6 @@ import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Utils;
 import com.baselet.element.DiagramNotification;
-import com.baselet.element.GridComponent;
 import com.baselet.element.GridElement;
 import com.baselet.gui.StartUpHelpText;
 import com.baselet.gui.listener.ScrollbarListener;
@@ -47,7 +48,7 @@ public class DrawPanel extends JPanel implements Printable {
 	private DiagramHandler handler;
 	private List<DiagramNotification> notifications = new ArrayList<DiagramNotification>();
 
-	private Vector<GridElement> gridElements = new Vector<GridElement>();
+	private HashMap<Component, GridElement> componentToGridElementMap = new HashMap<Component, GridElement>();
 
 	public DrawPanel(DiagramHandler handler) {
 		this.handler = handler;
@@ -133,7 +134,7 @@ public class DrawPanel extends JPanel implements Printable {
 	 *            the entities which should be included
 	 * @return Rectangle which contains all entities with border space
 	 */
-	public Rectangle getContentBounds(int borderSpace, Vector<GridElement> entities) {
+	public Rectangle getContentBounds(int borderSpace, Collection<GridElement> entities) {
 		if (entities.size() == 0) return new Rectangle(0, 0, 0, 0);
 		
 		int minx = Integer.MAX_VALUE;
@@ -141,8 +142,7 @@ public class DrawPanel extends JPanel implements Printable {
 		int maxx = 0;
 		int maxy = 0;
 
-		for (int i = 0; i < entities.size(); i++) {
-			GridElement e = entities.elementAt(i);
+		for (GridElement e : entities) {
 			minx = Math.min(minx, e.getLocation().x - borderSpace);
 			miny = Math.min(miny, e.getLocation().y - borderSpace);
 			maxx = Math.max(maxx, e.getLocation().x + e.getSize().width + borderSpace);
@@ -151,8 +151,8 @@ public class DrawPanel extends JPanel implements Printable {
 		return new Rectangle(minx, miny, maxx - minx, maxy - miny);
 	}
 
-	public void paintEntitiesIntoGraphics2D(Graphics2D g2d, Vector<GridElement> entitiesToPaint) {
-		for (GridElement entity : entitiesToPaint) {
+	public void paintEntitiesIntoGraphics2D(Graphics2D g2d, Collection<GridElement> entities) {
+		for (GridElement entity : entities) {
 			boolean entityWasSelected = entity.isSelected();
 			int x = entity.getLocation().x;
 			int y = entity.getLocation().y;
@@ -188,8 +188,8 @@ public class DrawPanel extends JPanel implements Printable {
 		}
 	}
 
-	public Vector<GridElement> getAllEntities() {
-		return gridElements;
+	public Collection<GridElement> getAllEntities() {
+		return componentToGridElementMap.values();
 	}
 
 	public Vector<GridElement> getAllEntitiesNotInGroup() {
@@ -316,7 +316,7 @@ public class DrawPanel extends JPanel implements Printable {
 
 		moveOrigin(newX, newY);
 
-		for (GridElement ge : gridElements) {
+		for (GridElement ge : getAllEntities()) {
 			ge.setLocation(handler.realignToGrid(false, ge.getLocation().x - newX), handler.realignToGrid(false, ge.getLocation().y - newY));
 		}
 
@@ -516,12 +516,16 @@ public class DrawPanel extends JPanel implements Printable {
 	}
 
 	public void removeElement(GridElement gridElement) {
-		gridElements.remove(gridElement);
+		componentToGridElementMap.remove(gridElement.getComponent());
 		remove(gridElement.getComponent());
 	}
 
 	public void addElement(GridElement gridElement) {
-		gridElements.add(gridElement);
+		componentToGridElementMap.put(gridElement.getComponent(), gridElement);
 		add(gridElement.getComponent());
+	}
+
+	public GridElement getElementToComponent(Component component) {
+		return componentToGridElementMap.get(component);
 	}
 }

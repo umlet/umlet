@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.Vector;
+import java.util.Collection;
 
 import javax.imageio.ImageIO;
 
@@ -46,14 +46,14 @@ public class OutputHandler {
 		int oldZoom = handler.getGridSize();
 		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
 
-		Vector<GridElement> entities = handler.getDrawPanel().getSelector().getSelectedEntities();
+		Collection<GridElement> entities = handler.getDrawPanel().getSelector().getSelectedEntities();
 		if (entities.isEmpty()) entities = handler.getDrawPanel().getAllEntities();
 		OutputHandler.exportToOutputStream(extension, ostream, handler, entities);
 
 		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
 	}
 
-	public static BufferedImage createImageForClipboard(DiagramHandler handler, Vector<GridElement> entities) {
+	public static BufferedImage createImageForClipboard(DiagramHandler handler, Collection<GridElement> entities) {
 
 		int oldZoom = handler.getGridSize();
 		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
@@ -66,7 +66,7 @@ public class OutputHandler {
 		return returnImg;
 	}
 
-	private static void exportToOutputStream(String extension, OutputStream ostream, DiagramHandler handler, Vector<GridElement> entities) throws IOException {
+	private static void exportToOutputStream(String extension, OutputStream ostream, DiagramHandler handler, Collection<GridElement> entities) throws IOException {
 		if (extension.equals("eps")) exportEps(ostream, handler, entities);
 		else if (extension.equals("pdf")) exportPdf(ostream, handler, entities);
 		else if (extension.equals("svg")) exportSvg(ostream, handler, entities);
@@ -74,7 +74,7 @@ public class OutputHandler {
 		else throw new IllegalArgumentException(extension + " is an invalid format");
 	}
 
-	private static void exportEps(OutputStream ostream, DiagramHandler handler, Vector<GridElement> entities) throws IOException {
+	private static void exportEps(OutputStream ostream, DiagramHandler handler, Collection<GridElement> entities) throws IOException {
 		Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
 		EpsGraphics2D graphics2d = new EpsGraphics2D(Program.PROGRAM_NAME + " Diagram", ostream, 0, 0, bounds.width, bounds.height);
 		setGraphicsBorders(bounds, graphics2d);
@@ -83,7 +83,7 @@ public class OutputHandler {
 		graphics2d.close();
 	}
 
-	private static void exportPdf(OutputStream ostream, DiagramHandler handler, Vector<GridElement> entities) throws IOException {
+	private static void exportPdf(OutputStream ostream, DiagramHandler handler, Collection<GridElement> entities) throws IOException {
 		try {
 			Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
 			com.itextpdf.text.Rectangle drawSpace = new com.itextpdf.text.Rectangle((float) bounds.getWidth(), (float) bounds.getHeight());
@@ -123,7 +123,7 @@ public class OutputHandler {
 		}
 	}
 
-	private static void exportSvg(OutputStream ostream, DiagramHandler handler, Vector<GridElement> entities) throws IOException {
+	private static void exportSvg(OutputStream ostream, DiagramHandler handler, Collection<GridElement> entities) throws IOException {
 		Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
 		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
 		org.w3c.dom.Document document = domImpl.createDocument(null, "svg", null);
@@ -138,13 +138,13 @@ public class OutputHandler {
 		graphics2d.stream(root, out, false, false);
 	}
 
-	private static void exportImg(String imgType, OutputStream ostream, DiagramHandler handler, Vector<GridElement> entities) throws IOException {
+	private static void exportImg(String imgType, OutputStream ostream, DiagramHandler handler, Collection<GridElement> entities) throws IOException {
 		ImageIO.write(getImageFromDiagram(handler, entities), imgType, ostream);
 		ostream.flush();
 		ostream.close();
 	}
 
-	private static BufferedImage getImageFromDiagram(DiagramHandler handler, Vector<GridElement> entities) {
+	private static BufferedImage getImageFromDiagram(DiagramHandler handler, Collection<GridElement> entities) {
 
 		Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
 		BufferedImage im = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_RGB);

@@ -2,7 +2,6 @@ package com.baselet.element;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -25,7 +24,7 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.umlet.element.Relation;
 
-public abstract class OldGridElement extends GridComponent implements GridElement {
+public abstract class OldGridElement extends JComponent implements GridElement {
 
 	private static final long serialVersionUID = 1L;
 
@@ -406,11 +405,6 @@ public abstract class OldGridElement extends GridComponent implements GridElemen
 
 	@Override
 	public JComponent getComponent() {
-		return this;
-	}
-
-	@Override
-	public GridElement getGridElement() {
 		return this;
 	}
 }

@@ -14,7 +14,6 @@ import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.command.AddElement;
 import com.baselet.diagram.command.Command;
 import com.baselet.element.GridElement;
-import com.baselet.element.GridComponent;
 
 public class PaletteEntityListener extends GridElementListener {
 
@@ -52,7 +51,7 @@ public class PaletteEntityListener extends GridElementListener {
 	@Override
 	public void mouseDragged(MouseEvent me) {
 		super.mouseDragged(me);
-		GridElement entity = ((GridComponent) me.getComponent()).getGridElement();
+		GridElement entity = handler.getDrawPanel().getElementToComponent(me.getComponent());
 
 		if (IS_DRAGGED_FROM_PALETTE) {
 			moveDraggedEntities();
@@ -86,7 +85,7 @@ public class PaletteEntityListener extends GridElementListener {
 	}
 
 	private void insertDraggedEntities(MouseEvent me) {
-		GridElement entity = ((GridComponent) me.getComponent()).getGridElement();
+		GridElement entity = handler.getDrawPanel().getElementToComponent(me.getComponent());
 		DrawPanel currentDiagram = Main.getInstance().getGUI().getCurrentDiagram();
 		Vector<GridElement> selectedEntities = handler.getDrawPanel().getSelector().getSelectedEntities();
 

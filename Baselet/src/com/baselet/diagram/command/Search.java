@@ -3,7 +3,6 @@ package com.baselet.diagram.command;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,11 +29,9 @@ public class Search extends Command {
 		Selector s = handler.getDrawPanel().getSelector();
 		s.deselectAll();
 		DrawPanel d = handler.getDrawPanel();
-		Vector<GridElement> entities = d.getAllEntities();
 		pattern = Pattern.compile(regex);
 		Matcher m;
-		for (int i = 0; i < entities.size(); i++) {
-			GridElement e = entities.get(i);
+		for (GridElement e : d.getAllEntities()) {
 			m = pattern.matcher(e.getPanelAttributes().toLowerCase());
 			if (m.find()) {
 				while (e.isPartOfGroup())

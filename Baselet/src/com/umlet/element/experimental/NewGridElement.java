@@ -1,11 +1,8 @@
 package com.umlet.element.experimental;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseListener;
@@ -22,7 +19,6 @@ import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.element.GridComponent;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.baselet.element.StickingPolygon;
@@ -50,7 +46,7 @@ public abstract class NewGridElement implements GridElement {
 	private String fgColorString;
 	private String bgColorString;
 
-	private GridComponent component = new GridComponent() {
+	private JComponent component = new JComponent() {
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -90,11 +86,6 @@ public abstract class NewGridElement implements GridElement {
 		@Override
 		public boolean contains(int x, int y) {
 			return this.contains(new Point(x, y));
-		}
-
-		@Override
-		public GridElement getGridElement() {
-			return NewGridElement.this;
 		}
 
 	};

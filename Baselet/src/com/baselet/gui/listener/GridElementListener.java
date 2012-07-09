@@ -24,8 +24,6 @@ import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.Resize;
 import com.baselet.element.GridElement;
-import com.baselet.element.OldGridElement;
-import com.baselet.element.GridComponent;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
@@ -67,7 +65,7 @@ public class GridElementListener extends UniversalListener {
 		super.mouseDragged(me);
 		log.debug("Entity dragged");
 
-		GridElement e = ((GridComponent) me.getComponent()).getGridElement();
+		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
 
 		// Lasso selection is only activated if mouse is moved more than lasso_tolerance to avoid accidential activation instead of selecting the entity
 		if (LASSO_ACTIVE && (lassoToleranceRectangle != null) && !lassoToleranceRectangle.contains(new Point(getOffset(me).x, getOffset(me).y))) {
@@ -91,12 +89,11 @@ public class GridElementListener extends UniversalListener {
 	public void mouseMoved(MouseEvent me) {
 		super.mouseMoved(me);
 		log.debug("Entity moved");
+		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
 		if (this.IS_DRAGGED_FROM_PALETTE) {
 			log.debug("mouseMoved with dragged");
-			GridElement e = ((GridComponent) me.getComponent()).getGridElement();
 			e.setLocation(me.getX() - 100, me.getY() - 20);
 		}
-		GridElement e = ((GridComponent) me.getComponent()).getGridElement();
 		resizeDirection = e.getResizeArea(me.getX(), me.getY());
 		resizeDirection = resizeDirection & e.getPossibleResizeDirections(); // LME
 		if (resizeDirection == 0) Main.getInstance().getGUI().setCursor(Constants.HAND_CURSOR);
@@ -116,10 +113,8 @@ public class GridElementListener extends UniversalListener {
 		int diffx = newp.x - oldp.x;
 		int diffy = newp.y - oldp.y;
 
-		Vector<GridElement> v = this.diagram.getAllEntities();
 		Vector<Command> moveCommands = new Vector<Command>();
-		for (int i = 0; i < v.size(); i++) {
-			GridElement e = v.elementAt(i);
+		for (GridElement e : diagram.getAllEntities()) {
 			if (e.isPartOfGroup()) continue;
 			moveCommands.add(new Move(e, diffx, diffy));
 		}
@@ -140,7 +135,7 @@ public class GridElementListener extends UniversalListener {
 	@Override
 	public void mousePressed(MouseEvent me) {
 		super.mousePressed(me);
-		GridElement e = ((GridComponent) me.getComponent()).getGridElement();
+		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
 		mousePressedPoint = getOffset(me);
 
 		if (!handler.getDrawPanel().equals(Main.getInstance().getPalettePanel())) Main.getInstance().getPalettePanel().getSelector().deselectAllWithoutUpdatePropertyPanel();
@@ -162,7 +157,7 @@ public class GridElementListener extends UniversalListener {
 	}
 
 	private void pressedLeftButton(MouseEvent me) {
-		GridElement e = ((GridComponent) me.getComponent()).getGridElement();
+		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
 
 		// Ctrl + Mouseclick initializes the lasso
 		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) initializeLasso(me);
@@ -205,7 +200,7 @@ public class GridElementListener extends UniversalListener {
 		// log.debug("Entity mouse released");
 		if (this.IS_DRAGGED_FROM_PALETTE) this.IS_DRAGGED_FROM_PALETTE = false;
 
-		GridElement e = ((GridComponent) me.getComponent()).getGridElement();
+		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
 		e.setStickingBorderActive(true);
 
 		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) {

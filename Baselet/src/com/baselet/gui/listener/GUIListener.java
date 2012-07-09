@@ -2,6 +2,7 @@ package com.baselet.gui.listener;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Collection;
 import java.util.Vector;
 
 import com.baselet.control.Main;
@@ -58,22 +59,20 @@ public class GUIListener implements KeyListener {
 				if ((e.getKeyCode() == KeyEvent.VK_RIGHT) || (e.getKeyCode() == KeyEvent.VK_KP_RIGHT)) diffx = handler.getGridSize();
 
 				if ((diffx != 0) || (diffy != 0)) {
-					Vector<GridElement> entitiesToBeMoved;
+					Collection<GridElement> entitiesToBeMoved;
 					// Move only selected entities or all if no entity is selected
 					entitiesToBeMoved = handler.getDrawPanel().getSelector().getSelectedEntities();
 					if (entitiesToBeMoved.isEmpty()) entitiesToBeMoved = handler.getDrawPanel().getAllEntities();
 
 					// TODO The following code is very similar to EntityListener 96-144 and should be refactored
 					Vector<Command> moveCommands = new Vector<Command>();
-					for (int i = 0; i < entitiesToBeMoved.size(); i++) {
-						GridElement entity = entitiesToBeMoved.elementAt(i);
+					for (GridElement entity : handler.getDrawPanel().getAllEntities()) {
 						if (entity.isPartOfGroup()) continue;
 						entity.setStickingBorderActive(true);
 						moveCommands.add(new Move(entity, diffx, diffy));
 					}
 					Vector<Command> linepointCommands = new Vector<Command>();
-					for (int i = 0; i < entitiesToBeMoved.size(); i++) {
-						GridElement tmpEntity = entitiesToBeMoved.elementAt(i);
+					for (GridElement tmpEntity : handler.getDrawPanel().getAllEntities()) {
 						if (tmpEntity instanceof Relation) continue;
 						StickingPolygon stick = null;
 						if (tmpEntity.isStickingBorderActive()) stick = tmpEntity.generateStickingBorder(tmpEntity.getLocation().x, tmpEntity.getLocation().y, tmpEntity.getSize().width, tmpEntity.getSize().height);

@@ -156,9 +156,7 @@ public class Selector {
 	}
 
 	public void multiSelect(Point upperLeft, Dimension size) {
-		Vector<GridElement> entities = this.panel.getAllEntities();
-		for (int i = 0; i < entities.size(); i++) {
-			GridElement e = entities.get(i);
+		for (GridElement e : panel.getAllEntities()) {
 			if (e.isInRange(upperLeft, size)) select(e);
 		}
 	}
