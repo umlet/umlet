@@ -193,24 +193,24 @@ public abstract class OldGridElement extends GridComponent implements GridElemen
 		return bgColor;
 	}
 
+	@Override
 	public String getBGColorString() {
 		return bgColorString;
 	}
 
 	@Override
-	public void setColor(String colorString, boolean isForegroundColor) {
-		String new_state = "";
-		Vector<String> textlines = Utils.decomposeStringsWithComments(this.getPanelAttributes());
-		String prefix = (isForegroundColor ? "fg=" : "bg=");
-		for (int i = 0; i < textlines.size(); i++) {
-			if (!textlines.get(i).startsWith(prefix)) new_state += textlines.get(i) + "\n";
+	public void updateProperty(String key, String newValue) {
+		String newState = "";
+		for (String line : Utils.decomposeStringsWithComments(this.getPanelAttributes())) {
+			if (!line.startsWith(key)) newState += line + "\n";
 		}
-		if (!colorString.equals("default")) new_state += prefix + colorString;
-		this.setPanelAttributes(new_state);
+		newState = newState.substring(0, newState.length()-1); //remove last linebreak
+		if (newValue != null) newState += "\n" + key + "=" + newValue; // null will not be added as a value
+		this.setPanelAttributes(newState);
 		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.repaint();
 	}
-
+	
 	public Composite[] colorize(Graphics2D g2) {
 		bgColorString = "";
 		fgColorString = "";

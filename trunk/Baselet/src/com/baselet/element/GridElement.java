@@ -85,8 +85,6 @@ public interface GridElement {
 
 	void changeSize(int diffx, int diffy);
 
-	void setColor(String colorString, boolean isForegroundColor);
-
 	Dimension getSize();
 
 	Dimension getRealSize();
@@ -96,5 +94,9 @@ public interface GridElement {
 	void paint(Graphics g);
 	
 	JComponent getComponent();
+
+	String getBGColorString();
+
+	void updateProperty(String key, String newValue);
 	
 }

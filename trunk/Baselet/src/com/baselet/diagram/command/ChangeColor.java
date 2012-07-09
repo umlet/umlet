@@ -26,10 +26,12 @@ public class ChangeColor extends Command {
 			Vector<GridElement> es = handler.getDrawPanel().getSelector().getSelectedEntities();
 			this.entities = new HashMap<GridElement, String>();
 			for (GridElement e : es)
-				this.entities.put(e, e.getFGColorString());
+				if (fg) this.entities.put(e, e.getFGColorString());
+				else this.entities.put(e, e.getBGColorString());
 		}
 		for (GridElement ent : entities.keySet()) {
-			ent.setColor(color, fg);
+			if (fg) ent.updateProperty("fg", color);
+			else ent.updateProperty("bg", color);
 		}
 	}
 
@@ -37,7 +39,9 @@ public class ChangeColor extends Command {
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
 		for (GridElement ent : entities.keySet()) {
-			ent.setColor(this.entities.get(ent), fg);
+			String colorString = this.entities.get(ent);
+			if (fg) ent.updateProperty("fg", colorString);
+			else ent.updateProperty("bg", colorString);
 		}
 	}
 }
