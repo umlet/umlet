@@ -97,4 +97,5 @@ public interface GridElement {
 
 	void updateProperty(String key, String newValue);
 	
+	public void updateModelFromText();
 }
