@@ -8,6 +8,8 @@ import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.JComponent;
@@ -23,6 +25,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
+import com.umlet.element.experimental.drawable.Drawable;
 
 public abstract class NewGridElement implements GridElement {
 
@@ -45,6 +48,8 @@ public abstract class NewGridElement implements GridElement {
 
 	private String fgColorString;
 	private String bgColorString;
+	
+	protected Set<Drawable> drawables = new HashSet<Drawable>();
 
 	private JComponent component = new JComponent() {
 		private static final long serialVersionUID = 1L;
@@ -53,6 +58,7 @@ public abstract class NewGridElement implements GridElement {
 		public void paint(Graphics g) {
 			drawer = new BaseDrawHandler(g, handler, Constants.DEFAULT_FOREGROUND_COLOR, Constants.DEFAULT_BACKGROUND_COLOR, component.getSize(), isSelected);
 			colorize();
+			updateModelFromText();
 			paintElement();
 		}
 
@@ -90,8 +96,12 @@ public abstract class NewGridElement implements GridElement {
 
 	};
 
-	protected abstract void paintElement();
-
+	protected void paintElement() {
+		for (Drawable d : drawables) {
+			d.draw(drawer);
+		}
+	}
+	
 	public void init(Rectangle bounds, String panelAttributes, String panelAttributesAdditional, DiagramHandler handler) {
 		this.setBounds(bounds);
 		this.panelAttributes = panelAttributes;
@@ -382,6 +392,5 @@ public abstract class NewGridElement implements GridElement {
 	public JComponent getComponent() {
 		return component;
 	}
-	
 	
 }

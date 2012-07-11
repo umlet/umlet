@@ -407,4 +407,9 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	public JComponent getComponent() {
 		return this;
 	}
+
+	@Override
+	public void updateModelFromText() {
+		/*OldGridElement has no model but simply parses the properties text within every paint() call*/
+	}
 }

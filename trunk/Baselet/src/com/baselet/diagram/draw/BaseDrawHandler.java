@@ -88,10 +88,6 @@ public class BaseDrawHandler {
 	 * TEXT METHODS
 	 */
 
-	public final void print(String text, int x, int y) {
-		drawText(new Text(text, (int) (x * getZoom()), (int) (y * getZoom()), AlignHorizontal.LEFT));
-	}
-
 	public final void print(String text, int x, int y, AlignHorizontal align) {
 		drawText(new Text(text, (int) (x * getZoom()), (int) (y * getZoom()), align));
 	}
