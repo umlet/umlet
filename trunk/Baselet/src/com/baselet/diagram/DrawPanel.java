@@ -523,6 +523,7 @@ public class DrawPanel extends JPanel implements Printable {
 	public void addElement(GridElement gridElement) {
 		componentToGridElementMap.put(gridElement.getComponent(), gridElement);
 		add(gridElement.getComponent());
+		gridElement.updateModelFromText();
 	}
 
 	public GridElement getElementToComponent(Component component) {
