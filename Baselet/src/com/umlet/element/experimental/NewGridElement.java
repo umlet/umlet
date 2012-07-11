@@ -8,8 +8,8 @@ import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JComponent;
@@ -49,7 +49,7 @@ public abstract class NewGridElement implements GridElement {
 	private String fgColorString;
 	private String bgColorString;
 	
-	protected Set<Drawable> drawables = new HashSet<Drawable>();
+	protected List<Drawable> drawables = new ArrayList<Drawable>();
 
 	private JComponent component = new JComponent() {
 		private static final long serialVersionUID = 1L;
@@ -58,7 +58,6 @@ public abstract class NewGridElement implements GridElement {
 		public void paint(Graphics g) {
 			drawer = new BaseDrawHandler(g, handler, Constants.DEFAULT_FOREGROUND_COLOR, Constants.DEFAULT_BACKGROUND_COLOR, component.getSize(), isSelected);
 			colorize();
-			updateModelFromText();
 			paintElement();
 		}
 
@@ -107,6 +106,7 @@ public abstract class NewGridElement implements GridElement {
 		this.panelAttributes = panelAttributes;
 		this.panelAttributesAdditional = panelAttributesAdditional;
 		setHandlerAndInitListeners(handler);
+		drawer = new BaseDrawHandler(handler, Constants.DEFAULT_FOREGROUND_COLOR, Constants.DEFAULT_BACKGROUND_COLOR, component.getSize());
 	}
 
 	@Override
@@ -138,6 +138,7 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void setPanelAttributes(String panelAttributes) {
 		this.panelAttributes = panelAttributes;
+		this.updateModelFromText();
 	}
 
 	@Override
@@ -149,10 +150,8 @@ public abstract class NewGridElement implements GridElement {
 	public GridElement CloneFromMe() {
 		try {
 			java.lang.Class<? extends GridElement> cx = this.getClass(); // get class of dynamic object
-			GridElement c = cx.newInstance();
-			c.setPanelAttributes(this.getPanelAttributes()); // copy states
-			c.setBounds(this.getBounds());
-			c.setHandlerAndInitListeners(this.getHandler());
+			NewGridElement c = (NewGridElement) cx.newInstance();
+			c.init(getBounds(), panelAttributes, panelAttributesAdditional, handler);
 			return c;
 		} catch (Exception e) {
 			log.error("Error at calling CloneFromMe() on entity", e);
@@ -209,6 +208,7 @@ public abstract class NewGridElement implements GridElement {
 		if (newValue != null) newState += "\n" + key + "=" + newValue; // null will not be added as a value
 		this.setPanelAttributes(newState);
 		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
+		this.updateModelFromText();
 		this.repaint();
 	}
 
@@ -350,7 +350,10 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void setSize(int width, int height) {
-		component.setSize(width, height);
+		if (width != getSize().width || height != getSize().height) { // only change size if it is really different
+			component.setSize(width, height);
+			updateModelFromText();
+		}
 	}
 
 	@Override

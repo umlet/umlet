@@ -35,16 +35,28 @@ public class BaseDrawHandler {
 
 	private boolean isSelected;
 
-	public BaseDrawHandler(Graphics g, DiagramHandler handler, Color fgColor, Color bgColor, Dimension size, boolean isSelected) {
-		this.g2 = (Graphics2D) g;
+	public BaseDrawHandler(DiagramHandler handler, Color fgColor, Color bgColor, Dimension size) {
 		this.handler = handler;
 		this.fgColor  = fgColor;
 		this.bgColor = bgColor;
-		g2.setFont(handler.getFontHandler().getFont());
-		g2.setColor(fgColor);
 		this.style = new Style(fgColor, bgColor, (int) handler.getFontHandler().getFontSize(false));
 		this.width = size.width;
 		this.height = size.height;
+	}
+	
+	public BaseDrawHandler(Graphics g, DiagramHandler handler, Color fgColor, Color bgColor, Dimension size, boolean isSelected) {
+		this(handler, fgColor, bgColor, size);
+		setGraphics(g);
+		setIsSelected(isSelected);
+	}
+	
+	public void setGraphics(Graphics g) {
+		this.g2 = (Graphics2D) g;
+		g2.setFont(handler.getFontHandler().getFont());
+		g2.setColor(fgColor);
+	}
+	
+	public void setIsSelected(boolean isSelected) {
 		this.isSelected = isSelected;
 	}
 
