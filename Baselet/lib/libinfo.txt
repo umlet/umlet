@@ -36,3 +36,7 @@ UMLET
 Eclipse JDT Core Compiler (org.eclipse.jdt.core_3.5.1.v_972_R35x.jar)
 Licence:  Eclipse Public Licence
 Used for: Compiling custom elements in Umlet
+
+Javaparser
+Licence:  LGPL
+Used for: Parsing java classes for drag&drop as class diagrams
