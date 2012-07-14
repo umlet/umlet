@@ -84,17 +84,6 @@ public class BaseDrawHandler {
 		this.g2.draw(s);
 	}
 
-	private void drawFilledShape(Shape s) {
-		// Shapes Background
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getFgAlpha()));
-		g2.setColor(style.getFgColor());
-		g2.fillRoundRect(s.getBounds().x, s.getBounds().y, s.getBounds().width, s.getBounds().height, s.getBounds().width, s.getBounds().height);
-		// Shapes Foreground
-		g2.setColor(style.getFgColor());
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getFgAlpha()));
-		this.g2.draw(s);
-	}
-
 	private void drawText(Text t) {
 		g2.setColor(style.getFgColor());
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getFgAlpha()));
@@ -159,7 +148,7 @@ public class BaseDrawHandler {
 	}
 
 	public final void drawCircle(int x, int y, int radius) {
-		drawFilledShape(new Ellipse2D.Float((int) ((x - radius) * getZoom()), (int) ((y - radius) * getZoom()), (int) (radius * 2 * getZoom()), (int) (radius * 2 * getZoom())));
+		drawShape(new Ellipse2D.Float((int) ((x - radius) * getZoom()), (int) ((y - radius) * getZoom()), (int) (radius * 2 * getZoom()), (int) (radius * 2 * getZoom())));
 	}
 
 	public final void drawCurveCubic(float x1, float y1, float ctrlx1, float ctrly1, float ctrlx2, float ctrly2, float x2, float y2) {
