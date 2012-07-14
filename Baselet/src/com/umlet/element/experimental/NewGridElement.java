@@ -51,12 +51,12 @@ public abstract class NewGridElement implements GridElement {
 	
 	protected List<Drawable> drawables = new ArrayList<Drawable>();
 
-	private JComponent component = new JComponent() {
+	protected JComponent component = new JComponent() {
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void paint(Graphics g) {
-			drawer = new BaseDrawHandler(g, handler, Constants.DEFAULT_FOREGROUND_COLOR, Constants.DEFAULT_BACKGROUND_COLOR, component.getSize(), isSelected);
+			drawer.setGraphics(g);
 			colorize();
 			paintElement();
 		}
@@ -105,8 +105,8 @@ public abstract class NewGridElement implements GridElement {
 		this.setBounds(bounds);
 		this.panelAttributes = panelAttributes;
 		this.panelAttributesAdditional = panelAttributesAdditional;
+		drawer = new BaseDrawHandler(Constants.DEFAULT_FOREGROUND_COLOR, Constants.DEFAULT_BACKGROUND_COLOR);
 		setHandlerAndInitListeners(handler);
-		drawer = new BaseDrawHandler(handler, Constants.DEFAULT_FOREGROUND_COLOR, Constants.DEFAULT_BACKGROUND_COLOR, component.getSize());
 	}
 
 	@Override
@@ -123,6 +123,7 @@ public abstract class NewGridElement implements GridElement {
 		this.handler = handler;
 		this.addMouseListener(this.getHandler().getEntityListener(this));
 		this.addMouseMotionListener(this.getHandler().getEntityListener(this));
+		drawer.setHandler(handler);
 	}
 
 	@Override
@@ -167,12 +168,14 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void onDeselected() {
 		isSelected = false;
+		drawer.setIsSelected(isSelected);
 		this.repaint();
 	}
 
 	@Override
 	public void onSelected() {
 		isSelected = true;
+		drawer.setIsSelected(isSelected);
 		this.repaint();
 	}
 

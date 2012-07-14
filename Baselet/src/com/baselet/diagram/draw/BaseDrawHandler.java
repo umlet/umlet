@@ -35,21 +35,24 @@ public class BaseDrawHandler {
 
 	private boolean isSelected;
 
-	public BaseDrawHandler(DiagramHandler handler, Color fgColor, Color bgColor, Dimension size) {
-		this.handler = handler;
+	public BaseDrawHandler(Color fgColor, Color bgColor) {
 		this.fgColor  = fgColor;
 		this.bgColor = bgColor;
-		this.style = new Style(fgColor, bgColor, (int) handler.getFontHandler().getFontSize(false));
-		this.width = size.width;
-		this.height = size.height;
 	}
 	
 	public BaseDrawHandler(Graphics g, DiagramHandler handler, Color fgColor, Color bgColor, Dimension size, boolean isSelected) {
-		this(handler, fgColor, bgColor, size);
+		this(fgColor, bgColor);
+		setHandler(handler);
 		setGraphics(g);
 		setIsSelected(isSelected);
+		setSize(size);
 	}
 	
+	public void setHandler(DiagramHandler handler) {
+		this.handler = handler;
+		this.style = new Style(fgColor, bgColor, (int) handler.getFontHandler().getFontSize(false));
+	}
+
 	public void setGraphics(Graphics g) {
 		this.g2 = (Graphics2D) g;
 		g2.setFont(handler.getFontHandler().getFont());
@@ -58,6 +61,11 @@ public class BaseDrawHandler {
 	
 	public void setIsSelected(boolean isSelected) {
 		this.isSelected = isSelected;
+	}
+	
+	public void setSize(Dimension size) {
+		this.width = size.width;
+		this.height = size.height;
 	}
 
 	private float getZoom() {
