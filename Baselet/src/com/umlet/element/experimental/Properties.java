@@ -2,6 +2,7 @@ package com.umlet.element.experimental;
 
 import java.awt.Color;
 import java.util.HashMap;
+import java.util.Vector;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Utils;
@@ -57,6 +58,36 @@ public class Properties {
 	public void setPanelAttributesAdditional(String panelAttributesAdditional) {
 		this.panelAttributesAdditional = panelAttributesAdditional;
 	}
+	
+	private static String filterRegex;
+	static {
+		filterRegex = "(";
+		for (SettingKey key : SettingKey.values()) {
+			filterRegex = filterRegex + "(" + key + Properties.SEPARATOR + ")|";
+		}
+		filterRegex += "(//)).*";
+	}
+	
+	private Vector<String> getPropertiesText(String fullString) {
+		return decomposePropertiesText(fullString, Constants.NEWLINE, false, true);
+	}
+	
+	public Vector<String> getPropertiesTextFiltered(String fullString) {
+		return decomposePropertiesText(fullString, Constants.NEWLINE, true, true);
+	}
+
+	private Vector<String> decomposePropertiesText(String fullString, String delimiter, boolean filterComments, boolean filterNewLines) {
+		Vector<String> returnVector = new Vector<String>();
+		String compatibleFullString = fullString.replaceAll("\r\n", delimiter); // compatibility to windows \r\n
+
+		for (String line : compatibleFullString.split("\\" + delimiter)) {
+			if (filterComments && (line.matches(filterRegex))) continue;
+			else if (filterNewLines && line.isEmpty()) continue;
+			else returnVector.add(line);
+		}
+
+		return returnVector;
+	}
 
 	private void applyProperties() {
 		Color fgColor = Utils.getColor(getSetting(SettingKey.ForegroundColor));
@@ -78,7 +109,7 @@ public class Properties {
 
 	public void initSettingsFromText() {
 		settings.clear();
-		for (String line : Utils.decomposeStringsWithComments(this.getPanelAttributes())) {
+		for (String line : getPropertiesText(this.getPanelAttributes())) {
 			if (line.contains(SEPARATOR)) {
 				String[] split = line.split(SEPARATOR, 2);
 				settings.put(split[0], split[1]);
