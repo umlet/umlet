@@ -1,19 +1,13 @@
 package com.baselet.gui.standalone;
 
-import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
-import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.FontHandler;
-import com.baselet.diagram.command.AddElement;
-import com.baselet.element.GridElement;
-import com.umlet.element.ClassDiagramConverter;
+import com.umlet.language.ClassDiagramConverter;
 
 public class FileDropListener implements FileDrop.Listener {
 
@@ -25,7 +19,7 @@ public class FileDropListener implements FileDrop.Listener {
 			try {
 				String filename = files[i].getCanonicalPath();
 				if (isJavaFile(filename)) { 
-					createClassDiagram(filename);
+					new ClassDiagramConverter().createClassDiagram(filename);
 				} else {
 					Main.getInstance().doOpen(filename);
 				}
@@ -40,23 +34,5 @@ public class FileDropListener implements FileDrop.Listener {
 		String extension = filename.substring(dotPosition + 1, filename.length()); 
 		if (extension.equals("class") || extension.equals("java")) return true;
 		return false;
-	}
-
-	private void createClassDiagram(String filename) {
-		DiagramHandler handler = Main.getInstance().getCurrentInfoDiagramHandler();
-
-		int offsetX = handler.getDrawPanel().getOriginAtDefaultZoom().x * handler.getGridSize() / Constants.DEFAULTGRIDSIZE;
-		int offsetY = handler.getDrawPanel().getOriginAtDefaultZoom().y * handler.getGridSize() / Constants.DEFAULTGRIDSIZE;
-
-		ClassDiagramConverter converter = new ClassDiagramConverter();
-		GridElement clazz = converter.createElement(filename);
-		
-		new AddElement(clazz, 
-				handler.realignToGrid(clazz.getLocation().x + offsetX),
-				handler.realignToGrid(clazz.getLocation().y + offsetY), false).execute(handler);
-		
-		converter.adjustSize(clazz);
-		
-		handler.setChanged(true);		
 	}
 }

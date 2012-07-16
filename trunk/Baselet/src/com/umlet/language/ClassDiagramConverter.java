@@ -1,7 +1,12 @@
-package com.umlet.element;
+package com.umlet.language;
 
+import com.baselet.control.Constants;
+import com.baselet.control.Main;
+import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler;
+import com.baselet.diagram.command.AddElement;
 import com.baselet.element.GridElement;
+import com.umlet.element.Class;
 import com.umlet.language.java.Field;
 import com.umlet.language.java.JavaClass;
 import com.umlet.language.java.JavaClass.ClassRole;
@@ -17,13 +22,32 @@ import com.umlet.language.java.jp.JpJavaClass;
  *
  */
 public class ClassDiagramConverter {
+	
+	public void createClassDiagram(String filename) {
+		DiagramHandler handler = Main.getInstance().getCurrentInfoDiagramHandler();
 
-	public GridElement createElement(String filename) {
+		int offsetX = handler.getDrawPanel().getOriginAtDefaultZoom().x * handler.getGridSize() / Constants.DEFAULTGRIDSIZE;
+		int offsetY = handler.getDrawPanel().getOriginAtDefaultZoom().y * handler.getGridSize() / Constants.DEFAULTGRIDSIZE;
+
+		GridElement clazz = this.createElement(filename);
+		
+		new AddElement(clazz, 
+				handler.realignToGrid(clazz.getLocation().x + offsetX),
+				handler.realignToGrid(clazz.getLocation().y + offsetY), false).execute(handler);
+		
+		this.adjustSize(clazz);
+		
+		handler.setChanged(true);		
+	}
+
+	private GridElement createElement(String filename) {
 		JavaClass parsedClass = parseFile(filename);
 
 		GridElement clazz = new Class();
 		clazz.setLocation(10, 10);
-		clazz.setPanelAttributes(getElementProperties(parsedClass));
+		if (parsedClass != null) {
+			clazz.setPanelAttributes(getElementProperties(parsedClass));
+		}
 		return clazz;
 	}
 	
@@ -32,7 +56,7 @@ public class ClassDiagramConverter {
 	 * 
 	 * @param clazz
 	 */
-	public void adjustSize(GridElement clazz) {
+	private void adjustSize(GridElement clazz) {
 		String[] strings = clazz.getPanelAttributes().split("\n");
 		FontHandler fontHandler = clazz.getHandler().getFontHandler();
 		
@@ -98,16 +122,22 @@ public class ClassDiagramConverter {
 	}
 
 	private JavaClass parseFile(String filename) {
-		if (getExtension(filename).equals("java")) {
-			return parseJavaFile(filename);
-		} else if (getExtension(filename).equals("class")) {
-			return parseClassFile(filename);
-		}
+		try {
+			if (getExtension(filename).equals("java")) {
+				return parseJavaFile(filename);
+			} else if (getExtension(filename).equals("class")) {
+				return parseClassFile(filename);
+			}
+		} catch (Exception ignored) {}
 		return null;
 	}
 	
 	private JavaClass parseJavaFile(String filename) {
-		return new JpJavaClass(filename);
+		try {
+			return new JpJavaClass(filename);
+		} catch (ClassParserException e) {
+			return null;
+		}
 	}
 	
 	private JavaClass parseClassFile(String filename) {

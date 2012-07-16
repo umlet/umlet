@@ -25,10 +25,12 @@ import com.baselet.diagram.command.Cut;
 import com.baselet.diagram.command.Paste;
 import com.baselet.diagram.command.RemoveElement;
 import com.baselet.diagram.command.UnGroup;
+import com.baselet.diagram.io.ClassChooser;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.custom.CustomElement;
+import com.umlet.language.ClassDiagramConverter;
 
 public class MenuFactory {
 
@@ -39,6 +41,7 @@ public class MenuFactory {
 	protected static final String NEW = "New";
 	protected static final String OPEN = "Open...";
 	protected static final String RECENT_FILES = "Recent files";
+	protected static final String GENERATE_CLASS = "Generate class elements from files or directory";
 	protected static final String SAVE = "Save";
 	protected static final String SAVE_AS = "Save as...";
 	protected static final String EXPORT_AS = "Export as...";
@@ -105,6 +108,11 @@ public class MenuFactory {
 				}
 				else if (menuItem.equals(RECENT_FILES)) {
 					main.doOpen((String) param);
+				}
+				else if (menuItem.equals(GENERATE_CLASS)) {	
+					for (String filename: ClassChooser.getFilesToOpen()) {
+						new ClassDiagramConverter().createClassDiagram(filename);
+					}
 				}
 				else if (menuItem.equals(SAVE) && diagramHandler != null) {
 					diagramHandler.doSave();

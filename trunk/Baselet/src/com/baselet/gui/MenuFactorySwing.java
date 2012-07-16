@@ -45,6 +45,10 @@ public class MenuFactorySwing extends MenuFactory {
 		});
 		return recentFiles;
 	}
+	
+	public JMenuItem createGenerate() {
+		return createJMenuItem(false, GENERATE_CLASS, null);
+	}
 
 	public JMenuItem createSave() {
 		return createJMenuItem(true, SAVE, KeyEvent.VK_S, true, null);
