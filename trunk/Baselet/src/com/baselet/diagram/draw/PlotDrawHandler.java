@@ -199,7 +199,8 @@ public class PlotDrawHandler {
 
 		if (axisConfig.showAxis()) drawAxis(xIsDescription, axisConfig.getDescAxisPos(), axisConfig.getValueAxisPos(), axisConfig.getValueSegment(), axisConfig.getDescSegment());
 
-		//		canvas.draw(base);
+		base.drawAll();
+		base.clearCache();
 	}
 
 	private void setupAxis() {
@@ -354,6 +355,7 @@ public class PlotDrawHandler {
 
 			if (cIndex >= colors.size()) cIndex = 0; // Restart with first color if all colors in the array has been used
 			base.setForegroundColor(colors.get(cIndex));
+			base.setBackground(colors.get(cIndex), Constants.ALPHA_NO_TRANSPARENCY);
 			
 			if (line) {
 			for (int i = 0; i < points.size() - 1; i++) {
@@ -430,6 +432,8 @@ public class PlotDrawHandler {
 		diameter = height>width?width:height;
 		ulCorner = new Point(canvas.getInnerLeftPos(), canvas.getInnerUpPos());
 		drawPieArcs(horizontal, values[0], desc, ulCorner, diameter, valueSum, colors);
+		base.drawAll();
+		base.clearCache();
 	}
 
 	private final void drawPieArcs(boolean horizontal, Double[] values, String[] desc, Point ulCorner, int diameter, Double valueSum, List<String> colors) {

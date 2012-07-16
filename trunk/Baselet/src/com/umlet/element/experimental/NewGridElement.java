@@ -8,8 +8,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Vector;
 
 import javax.swing.JComponent;
@@ -25,7 +24,6 @@ import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
-import com.umlet.element.experimental.drawable.Drawable;
 
 public abstract class NewGridElement implements GridElement {
 
@@ -45,20 +43,16 @@ public abstract class NewGridElement implements GridElement {
 
 	protected String panelAttributes = "";
 	protected String panelAttributesAdditional = "";
-
-	private String fgColorString;
-	private String bgColorString;
 	
-	protected List<Drawable> drawables = new ArrayList<Drawable>();
-
+	protected HashMap<String, String> properties = new HashMap<String, String>();
+	
 	protected JComponent component = new JComponent() {
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void paint(Graphics g) {
 			drawer.setGraphics(g);
-			colorize();
-			paintElement();
+			drawer.drawAll();
 		}
 
 		@Override
@@ -94,12 +88,6 @@ public abstract class NewGridElement implements GridElement {
 		}
 
 	};
-
-	protected void paintElement() {
-		for (Drawable d : drawables) {
-			d.draw(drawer);
-		}
-	}
 	
 	public void init(Rectangle bounds, String panelAttributes, String panelAttributesAdditional, DiagramHandler handler) {
 		this.setBounds(bounds);
@@ -142,6 +130,16 @@ public abstract class NewGridElement implements GridElement {
 		this.updateModelFromText();
 	}
 
+	private void setPropertiesFromText() {
+		properties.clear();
+		for (String line : Utils.decomposeStringsWithComments(this.getPanelAttributes())) {
+			if (line.contains("=")) {
+				String[] split = line.split("=", 2);
+				properties.put(split[0], split[1]);
+			}
+		}
+	}
+
 	@Override
 	public void setGroup(Group group) {
 		this.group = group;
@@ -169,6 +167,7 @@ public abstract class NewGridElement implements GridElement {
 	public void onDeselected() {
 		isSelected = false;
 		drawer.setIsSelected(isSelected);
+		updateModelFromText();
 		this.repaint();
 	}
 
@@ -176,31 +175,34 @@ public abstract class NewGridElement implements GridElement {
 	public void onSelected() {
 		isSelected = true;
 		drawer.setIsSelected(isSelected);
+		updateModelFromText();
 		this.repaint();
 	}
 
-	private void colorize() {
-		Color bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
-		float bgAlpha = Constants.ALPHA_FULL_TRANSPARENCY;
-		Color fgColor = Constants.DEFAULT_FOREGROUND_COLOR;
-		for (String line : Utils.decomposeStringsWithComments(panelAttributes)) {
-			if (line.startsWith("bg=")) {
-				bgColorString = line.substring("bg=".length());
-				bgColor = Utils.getColor(bgColorString);
-				if (bgColor == null) bgColor = Constants.DEFAULT_BACKGROUND_COLOR; // if value is unknown, default background color is used (at 100% transparency)
-				else bgAlpha = Constants.ALPHA_MIDDLE_TRANSPARENCY; // otherwise set 50% transparency to make sure the background color is visible
-			}
-			else if (line.startsWith("fg=")) {
-				fgColorString = line.substring("fg=".length());
-				fgColor = Utils.getColor(fgColorString);
-				if (fgColor == null) fgColor = Constants.DEFAULT_FOREGROUND_COLOR; // if value is unknown, default foreground color is used
-			}
-		}
-
-		drawer.setBackground(bgColor, bgAlpha);
-		drawer.setForegroundColor(fgColor);
+	@Override
+	public void updateModelFromText() {
+		setPropertiesFromText();
+		applyProperties();
+		drawer.clearCache();
+		drawer.setSize(getSize());
 	}
 
+	private void applyProperties() {
+		Color fgColor = Utils.getColor(properties.get("fg"));
+		if (fgColor == null) { // if fg is not set or invalid
+			fgColor = Constants.DEFAULT_FOREGROUND_COLOR;
+		}
+		drawer.setForegroundColor(fgColor);
+		
+		float bgAlpha = Constants.ALPHA_MIDDLE_TRANSPARENCY;
+		Color bgColor = Utils.getColor(properties.get("bg"));
+		if (bgColor == null) { // if bg is not set or invalid, the background is white at full transparency
+			bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
+			bgAlpha = Constants.ALPHA_FULL_TRANSPARENCY;
+		}
+		drawer.setBackground(bgColor, bgAlpha);
+	}
+	
 	@Override
 	public void updateProperty(String key, String newValue) {
 		String newState = "";
@@ -217,12 +219,12 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public String getFGColorString() {
-		return fgColorString;
+		return properties.get("fg");
 	}
 
 	@Override
 	public String getBGColorString() {
-		return bgColorString;
+		return properties.get("bg");
 	}
 
 	@Override
