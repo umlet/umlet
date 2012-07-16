@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import japa.parser.JavaParser;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.body.BodyDeclaration;
@@ -17,38 +15,36 @@ import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.ModifierSet;
 import japa.parser.ast.body.TypeDeclaration;
 
-import com.baselet.control.Utils;
+import com.umlet.language.ClassParserException;
 import com.umlet.language.java.Field;
 import com.umlet.language.java.JavaClass;
 import com.umlet.language.java.Method;
 
 public class JpJavaClass implements JavaClass {
 
-	private static Logger log = Logger.getLogger(Utils.getClassName());
-	
 	private CompilationUnit cu;
 	private List<MethodDeclaration> methods = new ArrayList<MethodDeclaration>();
 	private List<ConstructorDeclaration> constructors = new ArrayList<ConstructorDeclaration>();
 	private ClassOrInterfaceDeclaration clazz;
 	private List<FieldDeclaration> fields = new ArrayList<FieldDeclaration>();
 	
-	public JpJavaClass(String filename) {
+	public JpJavaClass(String filename) throws ClassParserException {
 		FileInputStream in = null;
 
 		try {
             in = new FileInputStream(filename);
             this.cu = JavaParser.parse(in);
         } catch (Exception e) {
-        	log.error("Javaparser library faild to parse .java file.", e);
+			throw new ClassParserException("Javaparser library failed to parse "+filename, e);
         } finally {
             try {
 				if (in != null) in.close();
 			} catch (IOException ignored) {}
         }
-		extractInformation();
+		extractInformation(filename);
 	}
 
-	private void extractInformation() {
+	private void extractInformation(String filename) throws ClassParserException {
 		List<TypeDeclaration> types = cu.getTypes();
 		for (TypeDeclaration type: types) {
 			if (type instanceof ClassOrInterfaceDeclaration) {
@@ -64,6 +60,9 @@ public class JpJavaClass implements JavaClass {
                 	this.methods.add((MethodDeclaration) member);
                 }
             }
+		}
+		if (clazz == null) {
+			throw new ClassParserException("Could not successfully parse "+filename+".");
 		}
 	}
 

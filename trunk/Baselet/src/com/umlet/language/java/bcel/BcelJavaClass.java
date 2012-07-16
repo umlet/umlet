@@ -20,7 +20,7 @@ public class BcelJavaClass implements com.umlet.language.java.JavaClass {
 			ClassParser parser = new ClassParser(filename);
 			this.clazz = parser.parse();
 		} catch (Exception e) {
-			log.error("BCEL library faild to parse .class file.", e);
+			log.error("BCEL library failed to parse "+filename, e);
 		}
 	}
 
