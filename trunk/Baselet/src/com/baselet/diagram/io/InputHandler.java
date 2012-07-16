@@ -100,6 +100,7 @@ public class InputHandler extends DefaultHandler {
 				} catch (Exception e) {
 					log.error("Cannot instantiate element with id: " + this.id, e);
 				}
+				id = null;
 			}
 			else if (!this.ignoreElements.contains(this.entityname)) { // load classes
 				try {
