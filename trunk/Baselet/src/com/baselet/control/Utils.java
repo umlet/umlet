@@ -17,8 +17,6 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants.LineType;
 import com.baselet.diagram.DiagramHandler;
-import com.umlet.element.experimental.Properties;
-import com.umlet.element.experimental.Properties.SettingKey;
 import com.umlet.element.relation.DoubleStroke;
 
 
@@ -71,21 +69,13 @@ public abstract class Utils {
 		return decomposeStrings(s, Constants.NEWLINE);
 	}
 
-	private static String filterRegex;
-	static {
-		filterRegex = "(";
-		for (SettingKey key : SettingKey.values()) {
-			filterRegex = filterRegex + "(" + key + Properties.SEPARATOR + ")|";
-		}
-		filterRegex += "(//)).*";
-	}
-	
+	//TODO: Decomposing should be moved to Properties.class. At the moment OldGridElement uses this method and NewGridElement the one in Properties.class
 	private static Vector<String> decomposeStringsWFilter(String fullString, String delimiter, boolean filterComments, boolean filterNewLines) {
 		Vector<String> returnVector = new Vector<String>();
 		String compatibleFullString = fullString.replaceAll("\r\n", delimiter); // compatibility to windows \r\n
 
 		for (String line : compatibleFullString.split("\\" + delimiter)) {
-			if (filterComments && (line.matches(filterRegex))) continue;
+			if (filterComments && (line.matches("((//)|(fg=)|(bg=)|(autoresize=)).*"))) continue;
 			else if (filterNewLines && line.isEmpty()) continue;
 			else returnVector.add(line);
 		}

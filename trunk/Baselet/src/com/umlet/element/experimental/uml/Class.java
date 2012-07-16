@@ -18,11 +18,11 @@ public class Class extends NewGridElement {
 		drawClassElements(drawer, this.getPanelAttributes(), drawer.textHeight()+2, getRealSize().width-1);
 	}
 	
-	public static void drawClassElements(BaseDrawHandler drawer, String panelText, int lineHeight, int width) {
+	public void drawClassElements(BaseDrawHandler drawer, String panelText, int lineHeight, int width) {
 		AlignHorizontal align = AlignHorizontal.CENTER;
 		float distanceBetweenTexts = lineHeight;
 		int yPos = (int) distanceBetweenTexts;
-		for (String line : Utils.decomposeStrings(panelText)) {
+		for (String line : properties.getPropertiesTextFiltered(panelText)) {
 			if (line.equals("--")) {
 				align = AlignHorizontal.LEFT;
 				int linePos = (int) (yPos - (distanceBetweenTexts/2));
