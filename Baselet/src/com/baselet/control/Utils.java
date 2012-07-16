@@ -178,6 +178,7 @@ public abstract class Utils {
 	 * @return Color which is related to the String or null if it is no valid colorString
 	 */
 	public static Color getColor(String colorString) {
+		if (colorString == null) return null;
 		Color returnColor = null;
 		for (String color : Constants.colorMap.keySet()) {
 			if (colorString.equals(color)) {

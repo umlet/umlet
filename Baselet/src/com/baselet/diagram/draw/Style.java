@@ -19,6 +19,9 @@ class Style {
 	private int fontSize;
 	private boolean applyZoom;
 	
+	public Style() {
+	}
+	
 	public Style(Color foregroundColor, Color backgroundColor, int fontSize) {
 		this.lineThickness = Constants.DEFAULT_LINE_THICKNESS;
 		this.lineType = LineType.SOLID;
@@ -28,6 +31,19 @@ class Style {
 		this.bgAlpha = Constants.ALPHA_MIDDLE_TRANSPARENCY;
 		this.fontSize = fontSize;
 		this.applyZoom = true;
+	}
+	
+	public Style cloneFromMe() {
+		Style clone = new Style();
+		clone.lineThickness = this.lineThickness;
+		clone.lineType = this.lineType;
+		clone.fgColor = this.fgColor;
+		clone.bgColor = this.bgColor;
+		clone.fgAlpha = this.fgAlpha;
+		clone.bgAlpha = this.bgAlpha;
+		clone.fontSize = this.fontSize;
+		clone.applyZoom = this.applyZoom;
+		return clone;
 	}
 	
 	public void setLineType(LineType lineType) {
