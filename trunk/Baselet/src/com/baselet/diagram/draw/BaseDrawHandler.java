@@ -18,8 +18,10 @@ import java.util.ArrayList;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
+import com.umlet.custom.CustomFunction;
 
 public class BaseDrawHandler {
 	private DiagramHandler handler;
@@ -292,5 +294,10 @@ public class BaseDrawHandler {
 
 	public final void setFontSize(int fontSize) {
 		style.setFontSize(fontSize);
+	}
+	
+	public final void setLineType(String type) {
+		if (".".equals(type)) style.setLineType(LineType.DASHED);
+		else style.setLineType(LineType.SOLID);
 	}
 }

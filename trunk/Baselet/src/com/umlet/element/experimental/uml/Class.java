@@ -1,13 +1,15 @@
-package com.umlet.element.experimental;
+package com.umlet.element.experimental.uml;
 
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.umlet.element.experimental.Id;
+import com.umlet.element.experimental.NewGridElement;
 
 
 
-@Id("Class")
-public class UMLClass extends NewGridElement {
+@Id("UMLClass")
+public class Class extends NewGridElement {
 
 	@Override
 	public void updateModelFromText() {

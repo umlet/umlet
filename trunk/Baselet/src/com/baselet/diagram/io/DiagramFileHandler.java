@@ -42,6 +42,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.umlet.custom.CustomElement;
+import com.umlet.element.experimental.Id;
 
 public class DiagramFileHandler {
 
@@ -137,9 +138,17 @@ public class DiagramFileHandler {
 					Element el = doc.createElement("element");
 					current.appendChild(el);
 
-					Element elType = doc.createElement("type");
-					elType.appendChild(doc.createTextNode(sElType));
-					el.appendChild(elType);
+					Id id = e.getClass().getAnnotation(Id.class);
+					if (id == null) { // OldGridElement
+						Element elType = doc.createElement("type");
+						elType.appendChild(doc.createTextNode(sElType));
+						el.appendChild(elType);
+					}
+					else {
+						Element elType = doc.createElement("id");
+						elType.appendChild(doc.createTextNode(id.value()));
+						el.appendChild(elType);
+					}
 
 					Element elCoor = doc.createElement("coordinates");
 					el.appendChild(elCoor);

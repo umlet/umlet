@@ -22,6 +22,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
+import com.umlet.element.experimental.Properties.SettingKey;
 
 public abstract class NewGridElement implements GridElement {
 
@@ -179,12 +180,12 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public String getFGColorString() {
-		return properties.getSetting("fg");
+		return properties.getSetting(SettingKey.ForegroundColor);
 	}
 
 	@Override
 	public String getBGColorString() {
-		return properties.getSetting("bg");
+		return properties.getSetting(SettingKey.BackgroundColor);
 	}
 
 	@Override
@@ -256,7 +257,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	private boolean isManResized() {
-		return properties.containsSetting(Properties.AUTORESIZE, "false");
+		return properties.containsSetting(SettingKey.Autoresize, "false");
 	}
 
 	@Override
