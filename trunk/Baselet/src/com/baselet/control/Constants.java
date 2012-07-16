@@ -217,7 +217,6 @@ public abstract class Constants {
 	public static final int RESIZE_BOTTOM_RIGHT = RESIZE_BOTTOM + RESIZE_RIGHT;
 
 	public static final String NOAUTORESIZE = "autoresize=false";
-	public static final String AUTORESIZE = "autoresize=";
 
 	public static final Cursor LR_CURSOR = new Cursor(Cursor.E_RESIZE_CURSOR);
 	public static final Cursor TB_CURSOR = new Cursor(Cursor.N_RESIZE_CURSOR);
