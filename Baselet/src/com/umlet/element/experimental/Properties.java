@@ -9,17 +9,31 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 
 public class Properties {
 
-	public static final String FG_COLOR = "fg";
-	public static final String BG_COLOR = "bg";
-	public static final String AUTORESIZE = "autoresize";
-	
-	private static final String SEPARATOR = "=";
+	public enum SettingKey {
+		ForegroundColor("fg"),
+		BackgroundColor("bg"),
+		LineType("lt"),
+		Autoresize("autosize");
+
+		private String string;
+
+		SettingKey(String string) {
+			this.string = string;
+		}
+		
+		@Override
+		public String toString() {
+			return string;
+		}
+	}
+
+	public static final String SEPARATOR = "=";
 
 	protected String panelAttributes = "";
 	protected String panelAttributesAdditional = "";
 
 	private BaseDrawHandler drawer;
-	
+
 	protected HashMap<String, String> settings = new HashMap<String, String>();
 
 	public Properties(String panelAttributes, String panelAttributesAdditional, BaseDrawHandler drawer) {
@@ -43,21 +57,23 @@ public class Properties {
 	public void setPanelAttributesAdditional(String panelAttributesAdditional) {
 		this.panelAttributesAdditional = panelAttributesAdditional;
 	}
-	
+
 	private void applyProperties() {
-		Color fgColor = Utils.getColor(settings.get(FG_COLOR));
+		Color fgColor = Utils.getColor(getSetting(SettingKey.ForegroundColor));
 		if (fgColor == null) { // if fg is not set or invalid
 			fgColor = Constants.DEFAULT_FOREGROUND_COLOR;
 		}
 		drawer.setForegroundColor(fgColor);
-		
+
 		float bgAlpha = Constants.ALPHA_MIDDLE_TRANSPARENCY;
-		Color bgColor = Utils.getColor(settings.get(BG_COLOR));
+		Color bgColor = Utils.getColor(getSetting(SettingKey.BackgroundColor));
 		if (bgColor == null) { // if bg is not set or invalid, the background is white at full transparency
 			bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
 			bgAlpha = Constants.ALPHA_FULL_TRANSPARENCY;
 		}
 		drawer.setBackground(bgColor, bgAlpha);
+
+		drawer.setLineType(getSetting(SettingKey.LineType));
 	}
 
 	public void initSettingsFromText() {
@@ -71,16 +87,16 @@ public class Properties {
 		applyProperties();
 	}
 
-	public String getSetting(String key) {
-		return settings.get(key);
+	public String getSetting(SettingKey key) {
+		return settings.get(key.toString());
 	}
 
-	public boolean containsSetting(String key, String checkValue) {
-		String realValue = settings.get(key);
+	public boolean containsSetting(SettingKey key, String checkValue) {
+		String realValue = settings.get(key.toString());
 		if (realValue == null && checkValue == null) return true;
 		return realValue != null && realValue.equals(checkValue);
 	}
-	
+
 	public void updateSetting(String key, String newValue) {
 		String newState = "";
 		for (String line : Utils.decomposeStringsWithComments(this.getPanelAttributes())) {
