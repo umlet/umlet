@@ -21,7 +21,6 @@ import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
-import com.umlet.custom.CustomFunction;
 
 public class BaseDrawHandler {
 	private DiagramHandler handler;
@@ -156,6 +155,10 @@ public class BaseDrawHandler {
 
 	public final int textHeight() {
 		return textDimension("dummy").height;
+	}
+
+	public final int textHeightWithSpace() {
+		return textHeight() + 2;
 	}
 
 	public final int textWidth(String text) {

@@ -68,12 +68,12 @@ public class Properties {
 		filterRegex += "(//)).*";
 	}
 	
-	private Vector<String> getPropertiesText(String fullString) {
-		return decomposePropertiesText(fullString, Constants.NEWLINE, false, true);
+	private Vector<String> getPropertiesText() {
+		return decomposePropertiesText(this.getPanelAttributes(), Constants.NEWLINE, false, true);
 	}
 	
-	public Vector<String> getPropertiesTextFiltered(String fullString) {
-		return decomposePropertiesText(fullString, Constants.NEWLINE, true, true);
+	public Vector<String> getPropertiesTextFiltered() {
+		return decomposePropertiesText(this.getPanelAttributes(), Constants.NEWLINE, true, true);
 	}
 
 	private Vector<String> decomposePropertiesText(String fullString, String delimiter, boolean filterComments, boolean filterNewLines) {
@@ -109,7 +109,7 @@ public class Properties {
 
 	public void initSettingsFromText() {
 		settings.clear();
-		for (String line : getPropertiesText(this.getPanelAttributes())) {
+		for (String line : getPropertiesText()) {
 			if (line.contains(SEPARATOR)) {
 				String[] split = line.split(SEPARATOR, 2);
 				settings.put(split[0], split[1]);
