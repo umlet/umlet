@@ -1,6 +1,5 @@
 package com.umlet.element.experimental;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -8,7 +7,6 @@ import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
-import java.util.HashMap;
 import java.util.Vector;
 
 import javax.swing.JComponent;
@@ -39,13 +37,9 @@ public abstract class NewGridElement implements GridElement {
 	protected boolean isSelected = false;
 
 	private Group group = null;
-	private boolean autoresizeandmanualresizeenabled;
 
-	protected String panelAttributes = "";
-	protected String panelAttributesAdditional = "";
-	
-	protected HashMap<String, String> properties = new HashMap<String, String>();
-	
+	protected Properties properties;
+
 	protected JComponent component = new JComponent() {
 		private static final long serialVersionUID = 1L;
 
@@ -81,19 +75,18 @@ public abstract class NewGridElement implements GridElement {
 			}
 			return true;
 		}
-		
+
 		@Override
 		public boolean contains(int x, int y) {
 			return this.contains(new Point(x, y));
 		}
 
 	};
-	
+
 	public void init(Rectangle bounds, String panelAttributes, String panelAttributesAdditional, DiagramHandler handler) {
-		this.setBounds(bounds);
-		this.panelAttributes = panelAttributes;
-		this.panelAttributesAdditional = panelAttributesAdditional;
+		setBounds(bounds);
 		drawer = new BaseDrawHandler(Constants.DEFAULT_FOREGROUND_COLOR, Constants.DEFAULT_BACKGROUND_COLOR);
+		properties = new Properties(panelAttributes, panelAttributesAdditional, drawer);
 		setHandlerAndInitListeners(handler);
 	}
 
@@ -116,7 +109,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public String getPanelAttributes() {
-		return panelAttributes;
+		return properties.getPanelAttributes();
 	}
 
 	@Override
@@ -126,18 +119,8 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void setPanelAttributes(String panelAttributes) {
-		this.panelAttributes = panelAttributes;
+		properties.setPanelAttributes(panelAttributes);
 		this.updateModelFromText();
-	}
-
-	private void setPropertiesFromText() {
-		properties.clear();
-		for (String line : Utils.decomposeStringsWithComments(this.getPanelAttributes())) {
-			if (line.contains("=")) {
-				String[] split = line.split("=", 2);
-				properties.put(split[0], split[1]);
-			}
-		}
 	}
 
 	@Override
@@ -150,7 +133,7 @@ public abstract class NewGridElement implements GridElement {
 		try {
 			java.lang.Class<? extends GridElement> cx = this.getClass(); // get class of dynamic object
 			NewGridElement c = (NewGridElement) cx.newInstance();
-			c.init(getBounds(), panelAttributes, panelAttributesAdditional, handler);
+			c.init(getBounds(), properties.getPanelAttributes(), properties.getPanelAttributesAdditional(), handler);
 			return c;
 		} catch (Exception e) {
 			log.error("Error at calling CloneFromMe() on entity", e);
@@ -181,37 +164,14 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void updateModelFromText() {
-		setPropertiesFromText();
-		applyProperties();
 		drawer.clearCache();
+		properties.initSettingsFromText();
 		drawer.setSize(getSize());
 	}
 
-	private void applyProperties() {
-		Color fgColor = Utils.getColor(properties.get("fg"));
-		if (fgColor == null) { // if fg is not set or invalid
-			fgColor = Constants.DEFAULT_FOREGROUND_COLOR;
-		}
-		drawer.setForegroundColor(fgColor);
-		
-		float bgAlpha = Constants.ALPHA_MIDDLE_TRANSPARENCY;
-		Color bgColor = Utils.getColor(properties.get("bg"));
-		if (bgColor == null) { // if bg is not set or invalid, the background is white at full transparency
-			bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
-			bgAlpha = Constants.ALPHA_FULL_TRANSPARENCY;
-		}
-		drawer.setBackground(bgColor, bgAlpha);
-	}
-	
 	@Override
 	public void updateProperty(String key, String newValue) {
-		String newState = "";
-		for (String line : Utils.decomposeStringsWithComments(this.getPanelAttributes())) {
-			if (!line.startsWith(key)) newState += line + "\n";
-		}
-		newState = newState.substring(0, newState.length()-1); //remove last linebreak
-		if (newValue != null) newState += "\n" + key + "=" + newValue; // null will not be added as a value
-		this.setPanelAttributes(newState);
+		properties.updateSetting(key, newValue);
 		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.updateModelFromText();
 		this.repaint();
@@ -219,12 +179,12 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public String getFGColorString() {
-		return properties.get("fg");
+		return properties.getSetting("fg");
 	}
 
 	@Override
 	public String getBGColorString() {
-		return properties.get("bg");
+		return properties.getSetting("bg");
 	}
 
 	@Override
@@ -292,20 +252,11 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void setManualResized() {
-		if (autoresizeandmanualresizeenabled) {
-			if (!this.isManResized()) {
-				this.setPanelAttributes(this.getPanelAttributes() + Constants.NEWLINE + Constants.NOAUTORESIZE);
-				if (this.equals(Main.getInstance().getEditedGridElement())) Main.getInstance().setPropertyPanelToGridElement(this);
-			}
-		}
+		/*nothing todo*/
 	}
 
 	private boolean isManResized() {
-		Vector<String> lines = Utils.decomposeStringsWithComments(this.getPanelAttributes());
-		for (String line : lines) {
-			if (line.startsWith(Constants.NOAUTORESIZE)) return true;
-		}
-		return false;
+		return properties.containsSetting(Properties.AUTORESIZE, "false");
 	}
 
 	@Override
@@ -400,5 +351,5 @@ public abstract class NewGridElement implements GridElement {
 	public JComponent getComponent() {
 		return component;
 	}
-	
+
 }
