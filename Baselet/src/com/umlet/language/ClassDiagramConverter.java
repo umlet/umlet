@@ -1,6 +1,9 @@
 package com.umlet.language;
 
-import com.baselet.control.Constants;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler;
@@ -15,40 +18,85 @@ import com.umlet.language.java.bcel.BcelJavaClass;
 import com.umlet.language.java.jp.JpJavaClass;
 
 /**
- * Creates a class element from a filename pointing to a .class or .java file according to UML standards.
- * Also provides the possibility to resize this class element to minimum size where all text is visible.
+ * Creates a class element from a filename pointing to a .class or .java file according to UML standards, 
+ * adds the class to the current diagram and resizes this class element to minimum size where all text is visible.
  * 
  * @author Lisi Bluemelhuber
  *
  */
 public class ClassDiagramConverter {
 	
+	private static final int GRIDSIZE = Main.getInstance().getCurrentInfoDiagramHandler().getGridSize();
+	
 	public void createClassDiagram(String filename) {
-		DiagramHandler handler = Main.getInstance().getCurrentInfoDiagramHandler();
+		List<String> fileNames = new ArrayList<String>();
+		fileNames.add(filename);
+		createClassDiagrams(fileNames);
+	}
 
-		int offsetX = handler.getDrawPanel().getOriginAtDefaultZoom().x * handler.getGridSize() / Constants.DEFAULTGRIDSIZE;
-		int offsetY = handler.getDrawPanel().getOriginAtDefaultZoom().y * handler.getGridSize() / Constants.DEFAULTGRIDSIZE;
-
-		GridElement clazz = this.createElement(filename);
-		
-		new AddElement(clazz, 
-				handler.realignToGrid(clazz.getLocation().x + offsetX),
-				handler.realignToGrid(clazz.getLocation().y + offsetY), false).execute(handler);
-		
-		this.adjustSize(clazz);
-		
-		handler.setChanged(true);		
+	public void createClassDiagrams(List<String> filesToOpen) {
+		List<GridElement> elements = new ArrayList<GridElement>();
+		for (String filename: filesToOpen) {
+			elements.add(createElement(filename));
+		}
+		determineLocations(elements);
+		addElementsToDiagram(elements);
 	}
 
 	private GridElement createElement(String filename) {
 		JavaClass parsedClass = parseFile(filename);
 
 		GridElement clazz = new Class();
-		clazz.setLocation(10, 10);
 		if (parsedClass != null) {
 			clazz.setPanelAttributes(getElementProperties(parsedClass));
 		}
+		adjustSize(clazz);
 		return clazz;
+	}
+
+	private void determineLocations(List<GridElement> elements) {
+		int maxHeight = 0;
+		int sumWidth = 0;
+		for (GridElement e: elements) {
+			if (e.getSize().height > maxHeight) {
+				maxHeight = e.getSize().height;
+			}
+			sumWidth += e.getSize().width;
+		}
+		// start with a rectangle with one row with all elements in it and determine
+		// the multiplicator by solving: (x / m) / (y * m) = desired relation of width to height  
+		double m = Math.sqrt(sumWidth / (0.4 * maxHeight));
+		int desiredWidth = (int) (sumWidth / m);
+		
+		Collections.sort(elements, new GridElementHeightSorter()); // descending
+		
+		int curWidth = GRIDSIZE; 
+		int curHeight = GRIDSIZE;
+		int maxHeightThisRow = 0;
+		for (GridElement e: elements) {
+			e.setLocation(curWidth, curHeight);
+			if (e.getSize().height > maxHeightThisRow) {
+				maxHeightThisRow = e.getSize().height;
+			}
+			if (curWidth > desiredWidth) { 
+				curHeight += maxHeightThisRow + GRIDSIZE;
+				curWidth = GRIDSIZE;
+				maxHeightThisRow = 0;
+			} else {
+				curWidth += e.getSize().width + GRIDSIZE;
+			}
+		}
+	}
+
+	private void addElementsToDiagram(List<GridElement> elements) {
+		DiagramHandler handler = Main.getInstance().getCurrentInfoDiagramHandler();
+
+		for (GridElement e: elements) {
+			new AddElement(e, 
+					handler.realignToGrid(e.getLocation().x),
+					handler.realignToGrid(e.getLocation().y), false).execute(handler);
+		}
+		handler.setChanged(true);		
 	}
 	
 	/**
@@ -58,7 +106,8 @@ public class ClassDiagramConverter {
 	 */
 	private void adjustSize(GridElement clazz) {
 		String[] strings = clazz.getPanelAttributes().split("\n");
-		FontHandler fontHandler = clazz.getHandler().getFontHandler();
+		//GridElement clazz not yet fully initialized, cannot call clazz.getHandler();  
+		FontHandler fontHandler = Main.getInstance().getCurrentInfoDiagramHandler().getFontHandler(); 
 		
 		int width = 0;
 		int height = strings.length;
@@ -74,9 +123,13 @@ public class ClassDiagramConverter {
 			}
 		}
 		height = (int) (fontHandler.getFontSize() + fontHandler.getDistanceBetweenTexts()) * (height - (int)heightTweaker);
-
-		clazz.setSize(width, height);
+		
+		clazz.setSize(align(width), align(height)); // width&height must be multiples of grid size
 		clazz.repaint();
+	}
+	
+	private int align(int n) {
+		return n - (n % GRIDSIZE) + GRIDSIZE;
 	}
 	
 	private String getElementProperties(JavaClass parsedClass) {
