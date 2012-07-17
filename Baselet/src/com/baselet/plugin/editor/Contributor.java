@@ -136,6 +136,8 @@ public class Contributor extends EditorActionBarContributor {
 		help.add(new Separator());
 		help.add(menuFactory.createAboutProgram());
 
+		menu.add(menuFactory.createGenerate());
+		
 		zoomMenu = menuFactory.createZoom();
 		menu.add(zoomMenu);
 
