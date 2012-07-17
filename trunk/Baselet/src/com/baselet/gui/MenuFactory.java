@@ -110,9 +110,7 @@ public class MenuFactory {
 					main.doOpen((String) param);
 				}
 				else if (menuItem.equals(GENERATE_CLASS)) {	
-					for (String filename: ClassChooser.getFilesToOpen()) {
-						new ClassDiagramConverter().createClassDiagram(filename);
-					}
+					new ClassDiagramConverter().createClassDiagrams(ClassChooser.getFilesToOpen());
 				}
 				else if (menuItem.equals(SAVE) && diagramHandler != null) {
 					diagramHandler.doSave();
