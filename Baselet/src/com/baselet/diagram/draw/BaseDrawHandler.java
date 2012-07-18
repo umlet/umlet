@@ -33,8 +33,8 @@ public class BaseDrawHandler {
 	private Color bgColor;
 	private Color fgColor;
 
-	private int width;
-	private int height;
+	private float width;
+	private float height;
 
 	private boolean isSelected;
 	
@@ -55,7 +55,7 @@ public class BaseDrawHandler {
 	
 	public void setHandler(DiagramHandler handler) {
 		this.handler = handler;
-		this.style = new Style(fgColor, bgColor, (int) handler.getFontHandler().getFontSize(false));
+		this.style = new Style(fgColor, bgColor, handler.getFontHandler().getFontSize(false));
 	}
 
 	public void setGraphics(Graphics g) {
@@ -126,14 +126,14 @@ public class BaseDrawHandler {
 	 * TEXT METHODS
 	 */
 
-	public final void print(String text, int x, int y, AlignHorizontal align) {
-		addText(new Text(text, (int) (x * getZoom()), (int) (y * getZoom()), align));
+	public final void print(String text, float x, float y, AlignHorizontal align) {
+		addText(new Text(text, x * getZoom(), y * getZoom(), align));
 	}
 
 	public final void print(String text, float y, AlignHorizontal align) {
-		int x;
+		float x;
 		if (align == AlignHorizontal.LEFT) {
-			x = (int) handler.getFontHandler().getDistanceBetweenTexts();
+			x = handler.getFontHandler().getDistanceBetweenTexts();
 		} else if (align == AlignHorizontal.CENTER) {
 			x = width / 2;
 		} else /*if (align == AlignHorizontal.RIGHT)*/ {
@@ -142,16 +142,16 @@ public class BaseDrawHandler {
 		addText(new Text(text, x, y * getZoom(), align));
 	}
 
-	public final void printLeft(String text, int y) {
-		addText(new Text(text, (int) handler.getFontHandler().getDistanceBetweenTexts(), (int) (y * getZoom()), AlignHorizontal.LEFT));
+	public final void printLeft(String text, float y) {
+		addText(new Text(text, handler.getFontHandler().getDistanceBetweenTexts(), y * getZoom(), AlignHorizontal.LEFT));
 	}
 
-	public final void printRight(String text, int y) {
-		addText(new Text(text, (int) (width - handler.getFontHandler().getDistanceBetweenTexts()), (int) (y * getZoom()) + 20, AlignHorizontal.RIGHT));
+	public final void printRight(String text, float y) {
+		addText(new Text(text, width - handler.getFontHandler().getDistanceBetweenTexts(), y * getZoom() + 20, AlignHorizontal.RIGHT));
 	}
 
-	public final void printCenter(String text, int y) {
-		addText(new Text(text, width / 2, (int) (y * getZoom()), AlignHorizontal.CENTER));
+	public final void printCenter(String text, float y) {
+		addText(new Text(text, width / 2, y * getZoom(), AlignHorizontal.CENTER));
 	}
 
 	public final float textHeight() {
@@ -167,7 +167,7 @@ public class BaseDrawHandler {
 	}
 
 	private final DimensionFloat textDimension(String text) {
-		boolean specialFontSize = (style.getFontSize() != (int) handler.getFontHandler().getFontSize(false));
+		boolean specialFontSize = (style.getFontSize() != handler.getFontHandler().getFontSize(false));
 		if (specialFontSize) {
 			handler.getFontHandler().setFontSize(style.getFontSize());
 		}
@@ -193,8 +193,8 @@ public class BaseDrawHandler {
 		addShape(new Arc2D.Float(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), start, extent, Arc2D.PIE));
 	}
 
-	public final void drawCircle(int x, int y, int radius) {
-		addShape(new Ellipse2D.Float((int) ((x - radius) * getZoom()), (int) ((y - radius) * getZoom()), (int) (radius * 2 * getZoom()), (int) (radius * 2 * getZoom())));
+	public final void drawCircle(float x, float y, float radius) {
+		addShape(new Ellipse2D.Float((x - radius) * getZoom(), (y - radius) * getZoom(), radius * 2 * getZoom(), radius * 2 * getZoom()));
 	}
 
 	public final void drawCurveCubic(float x1, float y1, float ctrlx1, float ctrly1, float ctrlx2, float ctrly2, float x2, float y2) {
@@ -205,20 +205,20 @@ public class BaseDrawHandler {
 		addShape(new QuadCurve2D.Float(x1 * getZoom(), y1 * getZoom(), ctrlx * getZoom(), ctrly * getZoom(), x2 * getZoom(), y2 * getZoom()));
 	}
 
-	public final void drawEllipse(int x, int y, int radiusX, int radiusY) {
-		addShape(new Ellipse2D.Float((int) ((x - radiusX) * getZoom()), (int) ((y - radiusY) * getZoom()), (int) (radiusX * 2 * getZoom()), (int) (radiusY * 2 * getZoom())));
+	public final void drawEllipse(float x, float y, float radiusX, float radiusY) {
+		addShape(new Ellipse2D.Float((x - radiusX) * getZoom(), (y - radiusY) * getZoom(), radiusX * 2 * getZoom(), radiusY * 2 * getZoom()));
 	}
 
-	public final void drawLine(double x1, double y1, double x2, double y2) {
-		addShape(new Line2D.Float((float) x1 * getZoom(), (float) y1 * getZoom(), (float) x2 * getZoom(), (float) y2 * getZoom()));
+	public final void drawLine(float x1, float y1, float x2, float y2) {
+		addShape(new Line2D.Float(x1 * getZoom(), y1 * getZoom(), x2 * getZoom(), y2 * getZoom()));
 	}
 
-	public final void drawLineHorizontal(int y) {
-		addShape(new Line2D.Float((int) (0 * getZoom()), (int) (y * getZoom()), handler.realignToGrid(false, width, true), (int) (y * getZoom())));
+	public final void drawLineHorizontal(float y) {
+		addShape(new Line2D.Float(0 * getZoom(), y * getZoom(), handler.realignToGrid(false, width, true), y * getZoom()));
 	}
 
-	public final void drawLineVertical(int x) {
-		addShape(new Line2D.Float((int) (x * getZoom()), (int) (0 * getZoom()), (int) (x * getZoom()), handler.realignToGrid(false, height, true)));
+	public final void drawLineVertical(float x) {
+		addShape(new Line2D.Float(x * getZoom(), 0 * getZoom(), x * getZoom(), handler.realignToGrid(false, height, true)));
 	}
 
 	public final void drawPolygon(Polygon polygon) {
@@ -231,12 +231,12 @@ public class BaseDrawHandler {
 		addShape(polygon);
 	}
 
-	public final void drawRectangle(int x, int y, int width, int height) {
-		addShape(new Rectangle((int) (x * getZoom()), (int) (y * getZoom()), (int) (width * getZoom()), (int) (height * getZoom())));
+	public final void drawRectangle(float x, float y, float width, float height) {
+		addShape(new Rectangle.Float(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom()));
 	}
 
-	public final void drawRectangleRound(int x, int y, int width, int height, float arcw, float arch) {
-		addShape(new RoundRectangle2D.Float((int) (x * getZoom()), (int) (y * getZoom()), (int) (width * getZoom()), (int) (height * getZoom()), arcw * getZoom(), arch * getZoom()));
+	public final void drawRectangleRound(float x, float y, float width, float height, float arcw, float arch) {
+		addShape(new RoundRectangle2D.Float(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), arcw * getZoom(), arch * getZoom()));
 	}
 
 	/*
@@ -296,7 +296,7 @@ public class BaseDrawHandler {
 		setBackground("bg", Constants.ALPHA_FULL_TRANSPARENCY);
 	}
 
-	public final void setFontSize(int fontSize) {
+	public final void setFontSize(float fontSize) {
 		style.setFontSize(fontSize);
 	}
 	

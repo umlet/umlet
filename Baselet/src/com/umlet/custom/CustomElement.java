@@ -57,8 +57,8 @@ public abstract class CustomElement extends OldGridElement {
 	private boolean bugfix;
 
 	protected Graphics2D g2;
-	protected double temp;
-	protected double width, height;
+	protected float temp;
+	protected float width, height;
 	protected Composite[] composites;
 	private String code;
 
@@ -128,7 +128,7 @@ public abstract class CustomElement extends OldGridElement {
 		for (Text t : this.texts) {
 			boolean applyZoom = true;
 			if (t.fixedSize != null) {
-				getHandler().getFontHandler().setFontSize(t.fixedSize);
+				getHandler().getFontHandler().setFontSize((float) t.fixedSize);
 				applyZoom = false;
 			}
 			this.getHandler().getFontHandler().writeText(this.g2, t.text, t.x, t.y, t.align, applyZoom);
@@ -284,7 +284,7 @@ public abstract class CustomElement extends OldGridElement {
 			// calculates the width and height of the component
 			for (String textline : Utils.decomposeStrings(this.getPanelAttributes())) {
 				height = height + textHeight();
-				width = Math.max(textWidth(textline, false) + 10 + horizontalSpacing, width);
+				width = (float) Math.max(textWidth(textline, false) + 10 + horizontalSpacing, width);
 			}
 			if (height < minHeight) height = minHeight;
 			if (width < minWidth) width = minWidth;

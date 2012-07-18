@@ -205,7 +205,7 @@ public class SequenceDiagram extends OldGridElement {
 			String title = lines.elementAt(0).substring("title:".length());
 			if ((title != null) && (title.length() > 0)) {
 				this.getHandler().getFontHandler().writeText(g2, title, (int) (5 * zoom), (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
-				int titlewidth = this.getHandler().getFontHandler().getTextWidth(title);
+				int titlewidth = (int) this.getHandler().getFontHandler().getTextWidth(title);
 				int ty = (int) (8 * zoom) + (int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts());
 				g2.drawLine(0, ty, titlewidth + (int) (10 * zoom), ty);
 				g2.drawLine(titlewidth + (int) (10 * zoom), ty, titlewidth + ty + (int) (10 * zoom), 0);
@@ -723,7 +723,7 @@ public class SequenceDiagram extends OldGridElement {
 		int textWidth = 0;
 		if ((text == null) || text.equals("")) text = " ";
 		g2.drawString(text, x + (int) (10 * zoom), textPos);
-		int pW = this.getHandler().getFontHandler().getTextWidth(text);
+		int pW = (int) this.getHandler().getFontHandler().getTextWidth(text);
 		textWidth = (pW > textWidth) ? (pW) : (textWidth);
 
 		g2.drawLine(x, uLinePos, x + textWidth + (int) (15 * zoom), uLinePos);

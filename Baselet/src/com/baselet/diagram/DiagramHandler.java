@@ -234,11 +234,11 @@ public class DiagramHandler {
 		this.gridSize = gridSize;
 	}
 
-	public int realignToGrid(int val) {
+	public int realignToGrid(float val) {
 		return realignToGrid(true, val, false);
 	}
 
-	public int realignToGrid(boolean logRealign, int val) {
+	public int realignToGrid(boolean logRealign, float val) {
 		return realignToGrid(logRealign, val, false);
 	}
 
@@ -253,13 +253,13 @@ public class DiagramHandler {
 	 *            if true the realign rounds up instead of down
 	 * @return value on the grid
 	 */
-	public int realignToGrid(boolean logRealign, int val, boolean roundUp) {
+	public int realignToGrid(boolean logRealign, float val, boolean roundUp) {
 		if (val % gridSize != 0) {
 			if (logRealign) log.error("realignToGrid");
 			val -= val % gridSize;
 			if (roundUp) val += gridSize;
 		}
-		return val;
+		return (int) val;
 	}
 
 	static public int realignTo(int val, int toVal) {

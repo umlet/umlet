@@ -390,7 +390,7 @@ public class ActivityDiagramText extends OldGridElement {
 
 			if ((title != null) && (title.length() > 0)) {
 				this.getHandler().getFontHandler().writeText(this.graphics, title, (int) (10 * zoom), (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
-				int titlewidth = this.getHandler().getFontHandler().getTextWidth(title);
+				int titlewidth = (int) this.getHandler().getFontHandler().getTextWidth(title);
 				int ty = (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() + (int) (8 * zoom);
 				this.graphics.drawLine(0, ty, titlewidth + (int) (10 * zoom), ty);
 				this.graphics.drawLine(titlewidth + (int) (10 * zoom), ty, titlewidth + ty + (int) (10 * zoom), 0);

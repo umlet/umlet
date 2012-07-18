@@ -20,8 +20,8 @@ public class FontHandler {
 	}
 
 	private DiagramHandler handler;
-	private Integer fontSize;
-	private Integer diagramDefaultSize = null; // if "fontsize=..." is uncommented this variable is set
+	private Float fontSize;
+	private Float diagramDefaultSize = null; // if "fontsize=..." is uncommented this variable is set
 
 	private String diagramDefaultFontFamily = null;
 	private FontRenderContext fontrenderContext = new FontRenderContext(null, true, true);
@@ -30,7 +30,7 @@ public class FontHandler {
 		this.handler = handler;
 	}
 
-	public void setFontSize(Integer fontsize) {
+	public void setFontSize(Float fontsize) {
 		this.fontSize = fontsize;
 	}
 
@@ -50,7 +50,7 @@ public class FontHandler {
 		return returnFontFamily;
 	}
 
-	public void setDiagramDefaultFontSize(Integer diagramDefaultSize) {
+	public void setDiagramDefaultFontSize(Float diagramDefaultSize) {
 		if (Constants.fontSizeList.contains(diagramDefaultSize)) this.diagramDefaultSize = diagramDefaultSize;
 	}
 
@@ -67,10 +67,10 @@ public class FontHandler {
 	}
 
 	public float getFontSize(boolean applyZoom) {
-		Integer returnFontSize;
+		Float returnFontSize;
 		if (fontSize == null) {
 			if (diagramDefaultSize != null) returnFontSize = diagramDefaultSize;
-			else returnFontSize = Constants.defaultFontsize;
+			else returnFontSize = (float) Constants.defaultFontsize;
 		}
 		else returnFontSize = fontSize;
 
@@ -105,13 +105,13 @@ public class FontHandler {
 		return new DimensionFloat((int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
 	}
 
-	public int getTextWidth(String s) {
+	public float getTextWidth(String s) {
 		return getTextWidth(s, true);
 	}
 
-	public int getTextWidth(String s, boolean applyZoom) {
+	public float getTextWidth(String s, boolean applyZoom) {
 		if (s == null) return 0;
-		return (int) this.getTextSize(s, applyZoom).getWidth();
+		return this.getTextSize(s, applyZoom).getWidth();
 	}
 
 	public void writeText(Graphics2D g2, String s, float x, float y, AlignHorizontal align) {

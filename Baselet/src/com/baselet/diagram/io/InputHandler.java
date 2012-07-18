@@ -79,7 +79,7 @@ public class InputHandler extends DefaultHandler {
 
 		if (elementname.equals("help_text")) {
 			handler.setHelpText(elementtext);
-			handler.getFontHandler().setDiagramDefaultFontSize(HelpPanelChanged.getFontsize(elementtext));
+			handler.getFontHandler().setDiagramDefaultFontSize((float) HelpPanelChanged.getFontsize(elementtext));
 		}
 		else if (elementname.equals("zoom_level")) {
 			if (handler != null) handler.setGridSize(Integer.parseInt(elementtext));

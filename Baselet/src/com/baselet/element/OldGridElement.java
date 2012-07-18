@@ -395,11 +395,11 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 
 	public abstract void paintEntity(Graphics g);
 
-	protected final double textHeight() {
+	protected final float textHeight() {
 		return (this.getHandler().getFontHandler().getFontSize(false) + this.getHandler().getFontHandler().getDistanceBetweenTexts(false));
 	}
 
-	protected final double textWidth(String text, boolean applyZoom) {
+	protected final float textWidth(String text, boolean applyZoom) {
 		return getHandler().getFontHandler().getTextSize(text, applyZoom).getWidth() + (int) getHandler().getFontHandler().getDistanceBetweenTexts(applyZoom);
 	}
 
