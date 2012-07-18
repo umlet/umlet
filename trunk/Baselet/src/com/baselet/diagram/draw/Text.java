@@ -7,11 +7,11 @@ import com.baselet.control.Constants.AlignHorizontal;
 
 class Text {
 	private String text;
-	private int x;
-	private int y;
+	private float x;
+	private float y;
 	private AlignHorizontal horizontalAlignment;
 
-	Text(String text, int x, int y, AlignHorizontal align) {
+	Text(String text, float x, float y, AlignHorizontal align) {
 		this.text = text;
 		this.x = x;
 		this.y = y;
@@ -22,11 +22,11 @@ class Text {
 		return text;
 	}
 
-	public int getX() {
+	public float getX() {
 		return x;
 	}
 
-	public int getY() {
+	public float getY() {
 		return y;
 	}
 

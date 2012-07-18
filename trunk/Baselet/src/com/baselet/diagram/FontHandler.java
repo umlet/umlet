@@ -7,7 +7,7 @@ import java.awt.font.TextLayout;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
-import com.baselet.control.DimensionDouble;
+import com.baselet.control.DimensionFloat;
 
 
 public class FontHandler {
@@ -94,15 +94,15 @@ public class FontHandler {
 		return getFontSize(applyZoom) / 4;
 	}
 
-	public DimensionDouble getTextSize(String s) {
+	public DimensionFloat getTextSize(String s) {
 		return getTextSize(s, true);
 	}
 
-	public DimensionDouble getTextSize(String s, boolean applyZoom) {
+	public DimensionFloat getTextSize(String s, boolean applyZoom) {
 		if (s == null) return null;
-		if (s.length() == 0) return new DimensionDouble(0, 0);
+		if (s.length() == 0) return new DimensionFloat(0, 0);
 		TextLayout tl = new TextLayout(s, getFont(applyZoom), fontrenderContext);
-		return new DimensionDouble((int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
+		return new DimensionFloat((int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
 	}
 
 	public int getTextWidth(String s) {
@@ -114,18 +114,18 @@ public class FontHandler {
 		return (int) this.getTextSize(s, applyZoom).getWidth();
 	}
 
-	public void writeText(Graphics2D g2, String s, int x, int y, AlignHorizontal align) {
+	public void writeText(Graphics2D g2, String s, float x, float y, AlignHorizontal align) {
 		writeText(g2, s, x, y, align, true);
 	}
 
-	public void writeText(Graphics2D g2, String s, int x, int y, AlignHorizontal align, boolean applyZoom) {
+	public void writeText(Graphics2D g2, String s, float x, float y, AlignHorizontal align, boolean applyZoom) {
 		for (String line : s.split("\n")) {
 			this.write(g2, line, x, y, align, applyZoom);
 			y += g2.getFontMetrics().getHeight();
 		}
 	}
 
-	private void write(Graphics2D g2, String stringWithFormatLabels, int x, int y, AlignHorizontal align, boolean applyZoom) {
+	private void write(Graphics2D g2, String stringWithFormatLabels, float x, float y, AlignHorizontal align, boolean applyZoom) {
 		if (stringWithFormatLabels == null || stringWithFormatLabels.isEmpty()) return;
 		float fontSize = getFontSize(applyZoom);
 		FormattedFont formattedFont = new FormattedFont(stringWithFormatLabels, fontSize, getFont(applyZoom), g2.getFontRenderContext());

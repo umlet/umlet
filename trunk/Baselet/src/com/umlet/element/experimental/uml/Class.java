@@ -18,18 +18,18 @@ public class Class extends NewGridElement {
 	
 	public void drawClassElements(int width) {
 		AlignHorizontal align = AlignHorizontal.CENTER;
-		double distanceBetweenTexts = drawer.textHeightWithSpace();
-		int yPos = (int) distanceBetweenTexts;
+		float distanceBetweenTexts = drawer.textHeightWithSpace();
+		float yPos = distanceBetweenTexts;
 		for (String line : properties.getPropertiesTextFiltered()) {
 			if (line.equals("--")) {
 				align = AlignHorizontal.LEFT;
-				int linePos = (int) (yPos - (distanceBetweenTexts/2));
+				float linePos = yPos - (distanceBetweenTexts/2);
 				drawer.drawLine(0, linePos, width, linePos);
 			}
 			else {
 				drawer.print(line, yPos, align);
 			}
-			yPos += (int) distanceBetweenTexts;
+			yPos += distanceBetweenTexts;
 		}
 	}
 }

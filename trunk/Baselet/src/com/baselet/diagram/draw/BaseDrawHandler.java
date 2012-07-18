@@ -17,7 +17,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import com.baselet.control.Constants;
-import com.baselet.control.DimensionDouble;
+import com.baselet.control.DimensionFloat;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
@@ -130,7 +130,7 @@ public class BaseDrawHandler {
 		addText(new Text(text, (int) (x * getZoom()), (int) (y * getZoom()), align));
 	}
 
-	public final void print(String text, int y, AlignHorizontal align) {
+	public final void print(String text, float y, AlignHorizontal align) {
 		int x;
 		if (align == AlignHorizontal.LEFT) {
 			x = (int) handler.getFontHandler().getDistanceBetweenTexts();
@@ -139,7 +139,7 @@ public class BaseDrawHandler {
 		} else /*if (align == AlignHorizontal.RIGHT)*/ {
 			x = (int) (width - handler.getFontHandler().getDistanceBetweenTexts());
 		}
-		addText(new Text(text, x, (int) (y * getZoom()), align));
+		addText(new Text(text, x, y * getZoom(), align));
 	}
 
 	public final void printLeft(String text, int y) {
@@ -154,24 +154,24 @@ public class BaseDrawHandler {
 		addText(new Text(text, width / 2, (int) (y * getZoom()), AlignHorizontal.CENTER));
 	}
 
-	public final double textHeight() {
+	public final float textHeight() {
 		return textDimension("dummy").getHeight();
 	}
 
-	public final double textHeightWithSpace() {
+	public final float textHeightWithSpace() {
 		return textHeight() + 2;
 	}
 
-	public final double textWidth(String text) {
+	public final float textWidth(String text) {
 		return textDimension(text).getWidth();
 	}
 
-	private final DimensionDouble textDimension(String text) {
+	private final DimensionFloat textDimension(String text) {
 		boolean specialFontSize = (style.getFontSize() != (int) handler.getFontHandler().getFontSize(false));
 		if (specialFontSize) {
 			handler.getFontHandler().setFontSize(style.getFontSize());
 		}
-		DimensionDouble returnVal = handler.getFontHandler().getTextSize(text, false);
+		DimensionFloat returnVal = handler.getFontHandler().getTextSize(text, false);
 		if (specialFontSize) {
 			handler.getFontHandler().resetFontSize();
 		}

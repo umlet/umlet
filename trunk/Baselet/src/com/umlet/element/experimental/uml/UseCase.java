@@ -20,12 +20,12 @@ public class UseCase extends NewGridElement {
 	
 	public void drawClassElements(int width, int height) {
 		Vector<String> propertiesTextFiltered = properties.getPropertiesTextFiltered();
-		double distanceBetweenTexts = drawer.textHeightWithSpace();
-		double yPos = calcStartPos(propertiesTextFiltered.get(0), width, height);
+		float distanceBetweenTexts = drawer.textHeightWithSpace();
+		float yPos = calcStartPos(propertiesTextFiltered.get(0), width, height);
 		for (String line : propertiesTextFiltered) {
 			if (line.equals("--")) {
-				double linePos = yPos - (distanceBetweenTexts/2);
-				double[] xPos = getXValuesOnEllipse(linePos, height, width);
+				float linePos = yPos - (distanceBetweenTexts/2);
+				float[] xPos = getXValuesOnEllipse(linePos, height, width);
 				drawer.drawLine(xPos[0], linePos, xPos[1], linePos);
 			}
 			else {
@@ -35,13 +35,13 @@ public class UseCase extends NewGridElement {
 		}
 	}
 	
-	private double calcStartPos(String firstLine, int width, int height) {
-		double yPos = drawer.textHeightWithSpace();
-		double spaceNeededForText = drawer.textWidth(firstLine);
-		double[] xVals;
-		double availableSpace;
+	private float calcStartPos(String firstLine, int width, int height) {
+		float yPos = drawer.textHeightWithSpace();
+		float spaceNeededForText = drawer.textWidth(firstLine);
+		float[] xVals;
+		float availableSpace;
 		do {
-			yPos += 5;
+			yPos += drawer.textHeight()/2;
 			xVals = getXValuesOnEllipse(yPos-drawer.textHeight(), height, width);
 			availableSpace = xVals[1]-xVals[0];
 		} while (availableSpace <= spaceNeededForText && yPos < height/2);
@@ -51,11 +51,11 @@ public class UseCase extends NewGridElement {
 	/**
 	 * calculates the left and right x value for a certain y value on an ellipse
 	 */
-	public double[] getXValuesOnEllipse(double y, int height, int width) {
-		double b = height/2;
-		double a = width/2;
+	public float[] getXValuesOnEllipse(float y, int height, int width) {
+		float b = height/2;
+		float a = width/2;
 		int x = (int) Math.sqrt((1-(Math.pow(b-y, 2) / Math.pow(b, 2)))*Math.pow(a, 2));
-		return new double[] {a-x, a+x};
+		return new float[] {a-x, a+x};
 	}
 }
 
