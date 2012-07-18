@@ -71,7 +71,7 @@ public class Package extends OldGridElement {
 				yPosBorder = (lines + 1) * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2 + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() + (int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts());
 			}
 			else if (!borders) {
-				maxUpperBox = Math.max(maxUpperBox, this.getHandler().getFontHandler().getTextWidth(s) + (int) this.getHandler().getFontHandler().getFontSize());
+				maxUpperBox = (int) Math.max(maxUpperBox, this.getHandler().getFontHandler().getTextWidth(s) + (int) this.getHandler().getFontHandler().getFontSize());
 				yPosBorder += (int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts());
 			}
 			else if (normal) {
@@ -106,7 +106,7 @@ public class Package extends OldGridElement {
 			else if (!borders) {
 
 				lines++;
-				maxUpperBox = Math.max(maxUpperBox, this.getHandler().getFontHandler().getTextWidth(s) + (int) this.getHandler().getFontHandler().getFontSize());
+				maxUpperBox = (int) Math.max(maxUpperBox, this.getHandler().getFontHandler().getTextWidth(s) + (int) this.getHandler().getFontHandler().getFontSize());
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
 				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
@@ -154,7 +154,7 @@ public class Package extends OldGridElement {
 			// G.Mueller End
 			if (s.equals("--") && (borders == false)) borders = true;
 			else if (!borders) {
-				maxUpperBox = Math.max(maxUpperBox, this.getHandler().getFontHandler().getTextWidth(s) + (int) this.getHandler().getFontHandler().getFontSize());
+				maxUpperBox = (int) Math.max(maxUpperBox, this.getHandler().getFontHandler().getTextWidth(s) + (int) this.getHandler().getFontHandler().getFontSize());
 				yPos += (int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts());
 			}
 		}

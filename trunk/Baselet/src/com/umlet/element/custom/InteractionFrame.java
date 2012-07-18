@@ -45,7 +45,7 @@ public class InteractionFrame extends OldGridElement {
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			maxWidthTemp = Math.max(this.getHandler().getFontHandler().getTextWidth(s), maxWidthTemp);
+			maxWidthTemp = (int) Math.max(this.getHandler().getFontHandler().getTextWidth(s), maxWidthTemp);
 			if (s.equals("--")) {
 				textWidth = (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() + maxWidthTemp + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				topHeight = i;

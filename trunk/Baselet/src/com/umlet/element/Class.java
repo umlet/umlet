@@ -135,7 +135,7 @@ public class Class extends OldGridElement {
 				String[] template = s.split("=");
 				if (template.length == 2) {
 
-					_templateWidth = this.getHandler().getFontHandler().getTextWidth(template[1]) + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
+					_templateWidth = (int) (this.getHandler().getFontHandler().getTextWidth(template[1]) + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts());
 					_templateHeight = (int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts()) + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 
 					Polygon border = new Polygon();

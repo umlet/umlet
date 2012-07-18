@@ -1432,11 +1432,11 @@ public class Relation extends OldGridElement {
 
 					// if (beginCSDArrow.equals("compStart")) {
 					if (beginArrow.startsWith("compStart")) {
-						getHandler().getFontHandler().setFontSize(10);
+						getHandler().getFontHandler().setFontSize((float) 10);
 
 						s = boxSize;
 
-						if (!csdStartText.equals("")) s = this.getHandler().getFontHandler().getTextWidth(csdStartText);
+						if (!csdStartText.equals("")) s = (int) this.getHandler().getFontHandler().getTextWidth(csdStartText);
 						if (s < boxSize) s = boxSize;
 
 						px1 = getStartPoint();
@@ -1496,11 +1496,11 @@ public class Relation extends OldGridElement {
 
 					// if (endCSDArrow.equals("compEnd")) {
 					if (endArrow.startsWith("compEnd")) {
-						getHandler().getFontHandler().setFontSize(10);
+						getHandler().getFontHandler().setFontSize((float) 10);
 
 						s = boxSize;
 
-						if (!csdEndText.equals("")) s = this.getHandler().getFontHandler().getTextWidth(csdEndText);
+						if (!csdEndText.equals("")) s = (int) this.getHandler().getFontHandler().getTextWidth(csdEndText);
 						if (s < boxSize) s = boxSize;
 
 						px1 = getEndPoint();
@@ -1640,7 +1640,7 @@ public class Relation extends OldGridElement {
 
 							if (s.endsWith(">")) {
 								s = s.substring(0, s.length() - 1);
-								int fontWidth = this.getHandler().getFontHandler().getTextWidth(s);
+								int fontWidth = (int) this.getHandler().getFontHandler().getTextWidth(s);
 								xPos = xPos - (fontHeight + 4) / 2;
 								int startDrawX = xPos + fontWidth / 2 + 4;
 								Polygon temp = new Polygon();
@@ -1652,7 +1652,7 @@ public class Relation extends OldGridElement {
 							}
 							else if (s.endsWith("<")) {
 								s = s.substring(0, s.length() - 1);
-								int fontWidth = this.getHandler().getFontHandler().getTextWidth(s);
+								int fontWidth = (int) this.getHandler().getFontHandler().getTextWidth(s);
 								xPos = xPos - (fontHeight + 4) / 2;
 								int startDrawX = xPos + fontWidth / 2 + 4;
 								Polygon temp = new Polygon();
@@ -1663,7 +1663,7 @@ public class Relation extends OldGridElement {
 							}
 							else if (s.startsWith(">")) {
 								s = s.substring(1, s.length());
-								int fontWidth = this.getHandler().getFontHandler().getTextWidth(s);
+								int fontWidth = (int) this.getHandler().getFontHandler().getTextWidth(s);
 								xPos = xPos + (fontHeight + 4) / 2;
 								int startDrawX = xPos - fontWidth / 2 - 4;
 								Polygon temp = new Polygon();
@@ -1674,7 +1674,7 @@ public class Relation extends OldGridElement {
 							}
 							else if (s.startsWith("<")) {
 								s = s.substring(1, s.length());
-								int fontWidth = this.getHandler().getFontHandler().getTextWidth(s);
+								int fontWidth = (int) this.getHandler().getFontHandler().getTextWidth(s);
 								xPos = xPos + (fontHeight + 4) / 2;
 								int startDrawX = xPos - fontWidth / 2 - 4;
 								Polygon temp = new Polygon();
@@ -1722,7 +1722,7 @@ public class Relation extends OldGridElement {
 				int xPos = start.x;
 				for (int i = 0; i < getStrings().size(); i++) {
 					String s = this.getStrings().elementAt(i);
-					int width = this.getHandler().getFontHandler().getTextWidth(s);
+					int width = (int) this.getHandler().getFontHandler().getTextWidth(s);
 					criticalPoints.add(new Point(xPos - width / 2 - (int) (20 * zoom), yPos - (int) this.getHandler().getFontHandler().getFontSize() - (int) (20 * zoom)));
 					criticalPoints.add(new Point(xPos + width / 2 + (int) (20 * zoom), yPos + (int) (20 * zoom)));
 					yPos += (int) this.getHandler().getFontHandler().getFontSize();

@@ -263,7 +263,7 @@ public abstract class Constants {
 	public static Font PANEL_FONT = new Font(Font.MONOSPACED, Font.PLAIN, 11);
 	
 	/**** VALUES LOADED FROM CONFIG ****/
-	public static int defaultFontsize = (Program.PROGRAM_NAME == ProgramName.UMLET ? 14 : 10);
+	public static Integer defaultFontsize = (Program.PROGRAM_NAME == ProgramName.UMLET ? 14 : 10);
 	public static String defaultFontFamily = Font.SANS_SERIF;
 	public static boolean start_maximized = false;
 	public static boolean show_stickingpolygon = true;
