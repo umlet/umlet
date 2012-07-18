@@ -57,8 +57,8 @@ public abstract class CustomElement extends OldGridElement {
 	private boolean bugfix;
 
 	protected Graphics2D g2;
-	protected float temp;
-	protected int width, height;
+	protected double temp;
+	protected double width, height;
 	protected Composite[] composites;
 	private String code;
 
@@ -184,7 +184,7 @@ public abstract class CustomElement extends OldGridElement {
 		// Resize elements if manual resize is not set
 		// if (!this.allowResize || (this.autoResizeandManualResizeEnabled() && !this.isManualResized())) {
 		// CHANGED: Resize every custom object by +1px to get consistent height and width
-		if (!bugfix) this.setSize(this.width + 1, this.height + 1);
+		if (!bugfix) this.setSize((int) (this.width + 1), (int) (this.height + 1));
 		// }
 	}
 
@@ -251,19 +251,19 @@ public abstract class CustomElement extends OldGridElement {
 	}
 
 	@CustomFunction(param_defaults = "value")
-	protected final int onGrid(int value) {
+	protected final int onGrid(double value) {
 		return onGrid(value, false);
 	}
 
 	@CustomFunction(param_defaults = "value, roundUp")
-	protected final int onGrid(int value, boolean roundUp) {
+	protected final int onGrid(double value, boolean roundUp) {
 		if (value % 10 != 0) {
 			value -= (value % 10);
 			if (roundUp) value += 10;
 		}
 		// BUGFIX for 10% and 20% zoom: Otherwise a manual resized entity border wouldn't be visible because of the exclusion of line 146
 		if (bugfix) value--;
-		return value;
+		return (int) value;
 	}
 	
 	@CustomFunction(param_defaults = "value1,value2")

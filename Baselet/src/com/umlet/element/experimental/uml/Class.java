@@ -18,7 +18,7 @@ public class Class extends NewGridElement {
 	
 	public void drawClassElements(int width) {
 		AlignHorizontal align = AlignHorizontal.CENTER;
-		float distanceBetweenTexts = drawer.textHeightWithSpace();
+		double distanceBetweenTexts = drawer.textHeightWithSpace();
 		int yPos = (int) distanceBetweenTexts;
 		for (String line : properties.getPropertiesTextFiltered()) {
 			if (line.equals("--")) {

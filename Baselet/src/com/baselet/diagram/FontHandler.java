@@ -1,6 +1,5 @@
 package com.baselet.diagram;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
@@ -8,6 +7,7 @@ import java.awt.font.TextLayout;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.DimensionDouble;
 
 
 public class FontHandler {
@@ -94,15 +94,15 @@ public class FontHandler {
 		return getFontSize(applyZoom) / 4;
 	}
 
-	public Dimension getTextSize(String s) {
+	public DimensionDouble getTextSize(String s) {
 		return getTextSize(s, true);
 	}
 
-	public Dimension getTextSize(String s, boolean applyZoom) {
+	public DimensionDouble getTextSize(String s, boolean applyZoom) {
 		if (s == null) return null;
-		if (s.length() == 0) return new Dimension(0, 0);
+		if (s.length() == 0) return new DimensionDouble(0, 0);
 		TextLayout tl = new TextLayout(s, getFont(applyZoom), fontrenderContext);
-		return new Dimension((int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
+		return new DimensionDouble((int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
 	}
 
 	public int getTextWidth(String s) {

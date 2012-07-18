@@ -17,6 +17,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import com.baselet.control.Constants;
+import com.baselet.control.DimensionDouble;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
@@ -153,24 +154,24 @@ public class BaseDrawHandler {
 		addText(new Text(text, width / 2, (int) (y * getZoom()), AlignHorizontal.CENTER));
 	}
 
-	public final int textHeight() {
-		return textDimension("dummy").height;
+	public final double textHeight() {
+		return textDimension("dummy").getHeight();
 	}
 
-	public final int textHeightWithSpace() {
+	public final double textHeightWithSpace() {
 		return textHeight() + 2;
 	}
 
-	public final int textWidth(String text) {
-		return textDimension(text).width;
+	public final double textWidth(String text) {
+		return textDimension(text).getWidth();
 	}
 
-	private final Dimension textDimension(String text) {
+	private final DimensionDouble textDimension(String text) {
 		boolean specialFontSize = (style.getFontSize() != (int) handler.getFontHandler().getFontSize(false));
 		if (specialFontSize) {
 			handler.getFontHandler().setFontSize(style.getFontSize());
 		}
-		Dimension returnVal = handler.getFontHandler().getTextSize(text, false);
+		DimensionDouble returnVal = handler.getFontHandler().getTextSize(text, false);
 		if (specialFontSize) {
 			handler.getFontHandler().resetFontSize();
 		}
@@ -208,8 +209,8 @@ public class BaseDrawHandler {
 		addShape(new Ellipse2D.Float((int) ((x - radiusX) * getZoom()), (int) ((y - radiusY) * getZoom()), (int) (radiusX * 2 * getZoom()), (int) (radiusY * 2 * getZoom())));
 	}
 
-	public final void drawLine(int x1, int y1, int x2, int y2) {
-		addShape(new Line2D.Float((int) (x1 * getZoom()), (int) (y1 * getZoom()), (int) (x2 * getZoom()), (int) (y2 * getZoom())));
+	public final void drawLine(double x1, double y1, double x2, double y2) {
+		addShape(new Line2D.Float((float) x1 * getZoom(), (float) y1 * getZoom(), (float) x2 * getZoom(), (float) y2 * getZoom()));
 	}
 
 	public final void drawLineHorizontal(int y) {
