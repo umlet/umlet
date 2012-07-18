@@ -648,7 +648,7 @@ public class Relation extends OldGridElement {
 			Point x1 = getLinePoints().elementAt(i - 1);
 			Point x2 = getLinePoints().elementAt(i + 1);
 			Point p = getLinePoints().elementAt(i);
-			if (pyth(p, x1) + pyth(p, x2) < pyth(x1, x2) + 5) return true;
+			if (p.distance(x1) + p.distance(x2) < x1.distance(x2) + 5) return true;
 		}
 		return false;
 	}
@@ -657,7 +657,7 @@ public class Relation extends OldGridElement {
 		for (int i = 0; i < getLinePoints().size() - 1; i++) {
 			Point x1 = getLinePoints().elementAt(i);
 			Point x2 = getLinePoints().elementAt(i + 1);
-			if (pyth(p, x1) + pyth(p, x2) < pyth(x1, x2) + 5) return i + 1;
+			if (p.distance(x1) + p.distance(x2) < x1.distance(x2) + 5) return i + 1;
 		}
 		return -1;
 	}
@@ -668,15 +668,9 @@ public class Relation extends OldGridElement {
 
 		for (int i = 0; i < getLinePoints().size(); i++) {
 			Point x = getLinePoints().elementAt(i);
-			if (pyth(p, x) < SELECTCIRCLESIZE * zoom) return i;
+			if (p.distance(x) < SELECTCIRCLESIZE * zoom) return i;
 		}
 		return -1;
-	}
-
-	private int pyth(Point x1, Point x2) {
-		int a = x1.x - x2.x;
-		int b = x1.y - x2.y;
-		return (int) Math.sqrt(a * a + b * b);
 	}
 
 	private <T> Vector<T> flipVector(Vector<T> v) {
@@ -709,14 +703,14 @@ public class Relation extends OldGridElement {
 
 		for (int i = 0; i < getLinePoints().size(); i++) {
 			Point x = getLinePoints().elementAt(i);
-			if (pyth(p, x) < SELECTCIRCLESIZE * zoom) return true;
+			if (p.distance(x) < SELECTCIRCLESIZE * zoom) return true;
 		}
 
 		for (int i = 0; i < getLinePoints().size() - 1; i++) {
 			Point x1 = getLinePoints().elementAt(i);
 			Point x2 = getLinePoints().elementAt(i + 1);
 
-			if (pyth(p, x1) + pyth(p, x2) > pyth(x1, x2) + 5) continue;
+			if (p.distance(x1) + p.distance(x2) > x1.distance(x2) + 5) continue;
 
 			// system origin translated to x1
 			double p1x = x2.getX() - x1.getX();
