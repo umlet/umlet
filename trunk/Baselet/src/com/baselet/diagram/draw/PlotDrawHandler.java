@@ -330,7 +330,7 @@ public class PlotDrawHandler {
 		}
 		if (drawHorizontalMarkerTexts) {
 			for (int i = 0; i < ypoints.size(); i++) {
-				base.print(ytext.get(i), axisConfig.getyAxisPos() - 8, ypoints.get(i) + base.textHeight()/2, AlignHorizontal.RIGHT);
+				base.print(ytext.get(i), axisConfig.getyAxisPos() - 8, (int) (ypoints.get(i) + base.textHeight()/2), AlignHorizontal.RIGHT);
 			}
 		}
 	}
@@ -475,8 +475,8 @@ public class PlotDrawHandler {
 	}
 
 	private void calculateAdditionalSpaceForYAxisTextWidth() {
-		int maxWidth = 0;
-		int valueWidth;
+		double maxWidth = 0;
+		double valueWidth;
 		if (axisConfig.isxDescription()) { // y-axis contains values
 			if (axisConfig.drawValueAxisMarkerText()) {
 				for (Double v : valuesShownOnAxisSorted) {
@@ -494,15 +494,15 @@ public class PlotDrawHandler {
 			}
 		}
 
-		int adjustValue = maxWidth + canvas.getOuterLeftPos() - (axisConfig.getyAxisPos() - canvas.getInnerLeftPos()) - 5;
+		double adjustValue = maxWidth + canvas.getOuterLeftPos() - (axisConfig.getyAxisPos() - canvas.getInnerLeftPos()) - 5;
 		if (adjustValue > canvas.getOuterLeftPos()) {
-			canvas.setBorderX(adjustValue);
+			canvas.setBorderX((int) adjustValue);
 			setupAxis();
 			// If the y-axis is not exactly over the innerleft-border, it will be displaced by the last setupAxis() call and therefore the additional space for it must be recalculated again
 			if ((axisConfig.getyAxisPos() - canvas.getInnerLeftPos()) != 0) {
 				adjustValue = maxWidth + canvas.getOuterLeftPos() - (axisConfig.getyAxisPos() - canvas.getInnerLeftPos()) - 5;
 				if (adjustValue > canvas.getOuterLeftPos()) {
-					canvas.setBorderX(adjustValue);
+					canvas.setBorderX((int) adjustValue);
 					setupAxis();
 				}
 			}
