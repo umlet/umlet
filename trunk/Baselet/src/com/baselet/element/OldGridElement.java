@@ -275,6 +275,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	/**
 	 * Must be overwritten because Swing uses this method to tell if 2 elements are overlapping
 	 * It's also used to determine which element gets selected if there are overlapping elements (the smallest one)
+	 * IMPORTANT: on overlapping elements, contains is called for all elements until the first one returns true, then the others contain methods are not called
 	 */
 	@Override
 	public boolean contains(Point p) {
@@ -304,8 +305,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	}
 
 	/**
-	 * Must be overwritten because Swing uses this method to tell if 2 elements are overlapping
-	 * It's also used to determine which element gets selected if there are overlapping elements (the smallest one)
+	 * Must be overwritten because Swing sometimes uses this method instead of contains(Point)
 	 */
 	@Override
 	public boolean contains(int x, int y) {

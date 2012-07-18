@@ -50,6 +50,11 @@ public abstract class NewGridElement implements GridElement {
 			drawer.drawAll();
 		}
 
+		/**
+		 * Must be overwritten because Swing uses this method to tell if 2 elements are overlapping
+		 * It's also used to determine which element gets selected if there are overlapping elements (the smallest one)
+		 * IMPORTANT: on overlapping elements, contains is called for all elements until the first one returns true, then the others contain methods are not called
+		 */
 		@Override
 		public boolean contains(Point p) {
 			Rectangle bounds = this.getVisibleRect();
@@ -77,6 +82,9 @@ public abstract class NewGridElement implements GridElement {
 			return true;
 		}
 
+		/**
+		 * Must be overwritten because Swing sometimes uses this method instead of contains(Point)
+		 */
 		@Override
 		public boolean contains(int x, int y) {
 			return this.contains(new Point(x, y));

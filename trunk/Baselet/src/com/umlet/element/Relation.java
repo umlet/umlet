@@ -689,7 +689,22 @@ public class Relation extends OldGridElement {
 
 	@Override
 	public boolean contains(Point p) {
+		// other relations which are selected are prioritized
+		for (GridElement other : getHandler().getDrawPanel().getAllEntities()) {
+			if (other != this && other instanceof Relation && other.isSelected()) {
+				int xDist = getLocation().x - other.getLocation().x;
+				int yDist = getLocation().y - other.getLocation().y;
+				Point modifiedP = new Point(p.x + xDist, p.y + yDist); // the point must be modified, because the other relation has other coordinates
+				boolean containsHelper = ((Relation) other).calcContains(modifiedP);
+				if (other.isSelected() && containsHelper) {
+					return false; 
+				}
+			}
+		}
+		return calcContains(p);
+	}
 
+	private boolean calcContains(Point p) {
 		float zoom = getHandler().getZoomFactor();
 
 		for (int i = 0; i < getLinePoints().size(); i++) {
