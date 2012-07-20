@@ -71,11 +71,9 @@ public class DrawPanel extends JPanel implements Printable {
 			}
 		};
 		p.getHorizontalScrollBar().setUnitIncrement(50); // Using mousewheel on bar or click on arrow
-		p.getHorizontalScrollBar().setBlockIncrement(20); // click in area without bar
 		p.getHorizontalScrollBar().setSize(0, 15);
 		p.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		p.getVerticalScrollBar().setUnitIncrement(50);
-		p.getVerticalScrollBar().setBlockIncrement(20);
 		p.getVerticalScrollBar().setSize(15, 0);
 		p.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
