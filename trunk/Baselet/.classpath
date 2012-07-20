@@ -19,5 +19,6 @@
 	<classpathentry kind="lib" path="lib/umlet_org.eclipse.jdt.core_3.5.1.v_972_R35x.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_jsyntaxpane_r096_r151_customized.jar"/>
 	<classpathentry kind="lib" path="lib/umlet_javaparser-1.0.8.jar"/>
+	<classpathentry kind="lib" path="lib/baselet_commons-io-2.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

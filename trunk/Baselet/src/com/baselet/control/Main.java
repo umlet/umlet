@@ -2,6 +2,7 @@ package com.baselet.control;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.filechooser.FileSystemView;
 
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -64,7 +66,7 @@ public class Main {
 
 	public static void main(String args[]) {
 
-//		System.setSecurityManager(new CustomElementSecurityManager());
+		//		System.setSecurityManager(new CustomElementSecurityManager());
 
 		Main main = Main.getInstance();
 		main.initOverallSettings();
@@ -93,7 +95,15 @@ public class Main {
 				else if ((action != null) && (format != null) && (filename != null)) {
 					if (action.equals("convert")) {
 						Program.RUNTIME_TYPE = RuntimeType.BATCH;
-						doConvert(filename, format, output);
+						String[] splitFilename = filename.split("(/|\\\\)");
+						String localName = splitFilename[splitFilename.length-1];
+						String dir = filename.substring(0, filename.length()-localName.length());
+						if (dir.isEmpty()) dir = ".";
+						FileFilter fileFilter = new WildcardFileFilter(localName);
+						File[] files = new File(dir).listFiles(fileFilter);
+						for (int i = 0; i < files.length; i++) {
+							doConvert(files[i].getAbsolutePath(), format, output);
+						}
 					}
 					else printUsage();
 				}
@@ -132,9 +142,9 @@ public class Main {
 				Writer writer = new BufferedWriter(new FileWriter(tempLog4jFile));
 				writer.write(
 						"log4j.rootLogger=ERROR, SYSTEM_OUT\n" +
-						"log4j.appender.SYSTEM_OUT=org.apache.log4j.ConsoleAppender\n" + 
-						"log4j.appender.SYSTEM_OUT.layout=org.apache.log4j.PatternLayout\n" + 
-				"log4j.appender.SYSTEM_OUT.layout.ConversionPattern=%6r | %-5p | %-30c - \"%m\"%n\n");
+								"log4j.appender.SYSTEM_OUT=org.apache.log4j.ConsoleAppender\n" + 
+								"log4j.appender.SYSTEM_OUT.layout=org.apache.log4j.PatternLayout\n" + 
+						"log4j.appender.SYSTEM_OUT.layout.ConversionPattern=%6r | %-5p | %-30c - \"%m\"%n\n");
 				writer.close();
 			}
 			Properties props = new Properties();
@@ -156,7 +166,7 @@ public class Main {
 			Program.init(programName, versionString);
 
 		} catch (Exception e) {
-//			log.error(null, e);
+			//			log.error(null, e);
 			e.printStackTrace(); // Logger is not initialized here
 		}
 	}
