@@ -101,8 +101,10 @@ public class Main {
 						if (dir.isEmpty()) dir = ".";
 						FileFilter fileFilter = new WildcardFileFilter(localName);
 						File[] files = new File(dir).listFiles(fileFilter);
-						for (int i = 0; i < files.length; i++) {
-							doConvert(files[i].getAbsolutePath(), format, output);
+						if (files !=null) {
+							for (int i = 0; i < files.length; i++) {
+								doConvert(files[i].getAbsolutePath(), format, output);
+							}
 						}
 					}
 					else printUsage();
