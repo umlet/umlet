@@ -84,7 +84,7 @@ public class DiagramFileHandler {
 			this.fileextensions.put(filter, filter.getFormat());
 		}
 	}
-	
+
 	public static DiagramFileHandler createInstance(DiagramHandler diagramHandler, File file) {
 		return new DiagramFileHandler(diagramHandler, file);
 	}
@@ -247,20 +247,12 @@ public class DiagramFileHandler {
 
 	public void doOpen() {
 		try {
-			try {
-				SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
-				FileInputStream input = new FileInputStream(this.file);
-				InputHandler xmlhandler = new InputHandler(this.handler);
-				parser.parse(input, xmlhandler);
-			} catch (SAXException e) {
-				log.error("Error parsing the inputstream.", e);
-			}
-			/*
-			 * } catch (IOException e) {
-			 * log.error(null, e);
-			 */
+			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+			FileInputStream input = new FileInputStream(this.file);
+			InputHandler xmlhandler = new InputHandler(this.handler);
+			parser.parse(input, xmlhandler);
 		} catch (Exception e) {
-			log.error(null, e);
+			log.error("Cannot open the file: " + this.file.getAbsolutePath(), e);
 
 		}
 	}
