@@ -103,7 +103,7 @@ public class Main {
 						File[] files = new File(dir).listFiles(fileFilter);
 						if (files !=null) {
 							for (int i = 0; i < files.length; i++) {
-								doConvert(files[i].getAbsolutePath(), format, output);
+								doConvert(files[i], format, output);
 							}
 						}
 					}
@@ -188,25 +188,35 @@ public class Main {
 		printToConsole("USAGE: -action=convert -format=(" + formats + ") -filename=inputfile." + Program.EXTENSION + " [-output=outputfile[.extension]]");
 	}
 
-	public static void doConvert(String fileName, String format, String outputfilename) {
-		File file = new File(fileName);
-		if (!file.exists()) {
-			printToConsole("File '" + file.getAbsolutePath() + "' not found.");
+	public static void doConvert(File inputFile, String outputFormat, String outputParam) {
+		if (!inputFile.exists()) {
+			printToConsole("File '" + inputFile.getAbsolutePath() + "' not found.");
 			return;
 		}
-		DiagramHandler handler = new DiagramHandler(file);
-		if (outputfilename == null) {
-			if (fileName.contains("." + Program.EXTENSION)) fileName = fileName.substring(0, fileName.indexOf("." + Program.EXTENSION));
-			outputfilename = fileName + "." + format;
-		}
-		else if (!outputfilename.endsWith("." + format)) outputfilename += "." + format;
+		DiagramHandler handler = new DiagramHandler(inputFile);
+
+		String outputFileName = determineOutputName(inputFile, outputFormat, outputParam);
 
 		try {
-			if (format != null) handler.getFileHandler().doExportAs(format, new File(outputfilename));
-			printToConsole("Conversion finished");
+			handler.getFileHandler().doExportAs(outputFormat, new File(outputFileName));
+			printToConsole("Conversion finished: " + inputFile.getAbsolutePath());
 		} catch (Exception e) {
-			printUsage();
+			printToConsole(e.getMessage());
 		}
+	}
+
+	private static String determineOutputName(File inputFile, String outputFormat, String outputParam) {
+		String outputFileName;
+		if (outputParam == null) {
+			outputFileName = inputFile.getAbsolutePath();
+		}
+		else if (new File(outputParam).isDirectory()) { // if outputdir already exists
+			outputFileName = outputParam + File.separator + inputFile.getName();
+		}
+		else {
+			outputFileName = outputParam;
+		}
+		return Utils.replaceFileExtension(outputFileName, Program.EXTENSION, outputFormat);
 	}
 
 	private static boolean alreadyRunningChecker(boolean force) {

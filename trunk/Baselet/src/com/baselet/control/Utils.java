@@ -241,4 +241,9 @@ public abstract class Utils {
 		return new Color(r,g,b);
 	}
 
+	public static String replaceFileExtension(String fileName, String oldExtension, String newExtension) {
+		if (fileName.endsWith("." + oldExtension)) fileName = fileName.substring(0, fileName.indexOf("." + oldExtension));
+		return fileName + "." + newExtension;
+	}
+
 }
