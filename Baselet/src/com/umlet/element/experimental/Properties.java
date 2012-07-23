@@ -6,7 +6,12 @@ import java.util.Vector;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Utils;
+import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.Constants.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.umlet.element.experimental.settings.Settings;
+import com.umlet.element.experimental.settings.SettingsClass;
+import com.umlet.element.experimental.settings.SettingsUseCase;
 
 public class Properties {
 
@@ -14,14 +19,16 @@ public class Properties {
 		ForegroundColor("fg"),
 		BackgroundColor("bg"),
 		LineType("lt"),
-		Autoresize("autosize");
+		Autoresize("autosize"),
+		VerticalAlign("valign"),
+		HorizontalAlign("halign");
 
 		private String string;
 
 		SettingKey(String string) {
 			this.string = string;
 		}
-		
+
 		@Override
 		public String toString() {
 			return string;
@@ -58,7 +65,7 @@ public class Properties {
 	public void setPanelAttributesAdditional(String panelAttributesAdditional) {
 		this.panelAttributesAdditional = panelAttributesAdditional;
 	}
-	
+
 	private static String filterRegex;
 	static {
 		filterRegex = "(";
@@ -67,11 +74,11 @@ public class Properties {
 		}
 		filterRegex += "(//)).*";
 	}
-	
+
 	private Vector<String> getPropertiesText() {
 		return decomposePropertiesText(this.getPanelAttributes(), Constants.NEWLINE, false, true);
 	}
-	
+
 	public Vector<String> getPropertiesTextFiltered() {
 		return decomposePropertiesText(this.getPanelAttributes(), Constants.NEWLINE, true, true);
 	}
@@ -137,4 +144,69 @@ public class Properties {
 		if (newValue != null) newState += "\n" + key + SEPARATOR + newValue; // null will not be added as a value
 		this.setPanelAttributes(newState);
 	}
+
+
+
+	public void drawTextForUseCase(int width, int height) {
+		drawPropertiesText(width, height, new SettingsUseCase());
+	}
+
+	public void drawTextForClass(int width, int height) {
+		drawPropertiesText(width, height, new SettingsClass());
+	}
+
+	public void drawPropertiesText(int width, int height, Settings calc) {
+		AlignHorizontal hAlign;
+		try {
+			hAlign = AlignHorizontal.valueOf(getSetting(SettingKey.HorizontalAlign).toUpperCase());
+		} catch (Exception e) {
+			hAlign = calc.getHAlignBeforeLine();
+		}
+		Vector<String> propertiesTextFiltered = getPropertiesTextFiltered();
+		float distanceBetweenTexts = drawer.textHeightWithSpace();
+		float yPos = calcStartPos(propertiesTextFiltered.get(0), width, height, propertiesTextFiltered.size()*distanceBetweenTexts, calc);
+
+		for (String line : propertiesTextFiltered) {
+			if (line.equals("--")) {
+				try {
+					hAlign = AlignHorizontal.valueOf(getSetting(SettingKey.HorizontalAlign).toUpperCase());
+				} catch (Exception e) {
+					hAlign = calc.getHAlignAfterLine();
+				}
+				float linePos = yPos - (distanceBetweenTexts/2);
+				float[] xPos = calc.getXValues(linePos, height, width);
+				drawer.drawLine(xPos[0]+1, linePos, xPos[1]-1, linePos);
+			}
+			else {
+				drawer.print(line, (int) yPos, hAlign);
+			}
+			yPos += distanceBetweenTexts;
+		}
+	}
+
+	private float calcStartPos(String firstLine, int width, int height, float textBlockHeight, Settings calc) {
+		AlignVertical vAlign;
+		try {
+			vAlign = AlignVertical.valueOf(getSetting(SettingKey.VerticalAlign).toUpperCase());
+		} catch (Exception e) {
+			vAlign = calc.getVAlign();
+		}
+		if (vAlign == AlignVertical.TOP) return calcNotInterferingStartPoint(firstLine, width, height, drawer.textHeight()/2, -drawer.textHeight(), drawer.textHeightWithSpace(), calc);
+		else if (vAlign == AlignVertical.CENTER) return Math.max((height - textBlockHeight)/2, drawer.textHeightWithSpace());
+		else /*if (verticalAlign == AlignVertical.BOTTOM)*/ return Math.max(height - textBlockHeight, drawer.textHeightWithSpace());
+	}
+
+	private float calcNotInterferingStartPoint(String firstLine, int width, int height, float increment, float relevantDisplacement, float start, Settings calc) {
+		float spaceNeededForText = drawer.textWidth(firstLine);
+		float yPos = start - increment;
+		float[] xVals;
+		float availableSpace;
+		do {
+			yPos += increment;
+			xVals = calc.getXValues(yPos+relevantDisplacement, height, width);
+			availableSpace = xVals[1]-xVals[0];
+		} while (availableSpace <= spaceNeededForText && yPos < height/2);
+		return yPos;
+	}
+
 }
