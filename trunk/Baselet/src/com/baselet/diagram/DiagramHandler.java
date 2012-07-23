@@ -1,5 +1,6 @@
 package com.baselet.diagram;
 
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
@@ -349,10 +350,12 @@ public class DiagramHandler {
 		 */
 
 		if (manualZoom) {
-			// Calculate the middle point of the actual diagramspanel size
-			float x = ((float) getDrawPanel().getViewableDiagrampanelSize().getWidth() / 2);
-			float y = ((float) getDrawPanel().getViewableDiagrampanelSize().getHeight() / 2);
-
+			// calculate mouse position relative to UMLet scrollpane
+			Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+			Point viewportLocation = getDrawPanel().getScrollPane().getViewport().getLocationOnScreen();
+			float x  = mouseLocation.x - viewportLocation.x;
+			float y  = mouseLocation.y - viewportLocation.y;
+			
 			// And add any space on the upper left corner which is not visible but reachable by scrollbar
 			x += getDrawPanel().getScrollPane().getViewport().getViewPosition().getX();
 			y += getDrawPanel().getScrollPane().getViewport().getViewPosition().getY();
