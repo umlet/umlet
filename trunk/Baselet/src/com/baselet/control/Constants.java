@@ -184,6 +184,7 @@ public abstract class Constants {
 	public static final Color DEFAULT_BACKGROUND_COLOR = Color.WHITE;
 	public static final float ALPHA_NO_TRANSPARENCY = 1.0f;
 	public static final float ALPHA_MIDDLE_TRANSPARENCY = 0.5f;
+	public static final float ALPHA_NEARLY_FULL_TRANSPARENCY = 0.03f;
 	public static final float ALPHA_FULL_TRANSPARENCY = 0.0f;
 
 	/**** EXPORT FORMATS ****/

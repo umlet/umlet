@@ -299,6 +299,10 @@ public class BaseDrawHandler {
 	public final void setFontSize(float fontSize) {
 		style.setFontSize(fontSize);
 	}
+
+	public final void setLineType(LineType type) {
+		style.setLineType(type);
+	}
 	
 	public final void setLineType(String type) {
 		if (".".equals(type)) style.setLineType(LineType.DASHED);

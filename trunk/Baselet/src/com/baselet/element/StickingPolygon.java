@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import com.baselet.control.Main;
 import com.baselet.diagram.DrawPanel;
+import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
 
@@ -78,6 +79,10 @@ public class StickingPolygon {
 			g2.drawLine(p1.x, p1.y, p2.x, p2.y);
 		}
 
+		private void draw(BaseDrawHandler drawer) {
+			drawer.drawLine(p1.x, p1.y, p2.x, p2.y);
+		}
+
 		private boolean isConnected(Point p) {
 			Line2D line = new Line2D.Double(p1, p2);
 			double d = line.ptLineDist(p); // calculate distance
@@ -105,6 +110,14 @@ public class StickingPolygon {
 	private Point lastpoint = null;
 	private Point firstpoint = null;
 
+	public void addPoint(int x, int y) {
+		addPoint(new Point(x, y));
+	}
+
+	public void addPoint(int x, int y, boolean connect_to_first) {
+		addPoint(new Point(x, y), connect_to_first);
+	}
+	
 	public void addPoint(Point p) {
 		// add a line with corresponding stickingInfo
 		if (this.lastpoint != null) {
@@ -130,6 +143,11 @@ public class StickingPolygon {
 	public final void draw(Graphics2D g2) { // LME: draw the sticking polygon
 		for (StickLine l : this.stick)
 			l.draw(g2);
+	}
+
+	public final void draw(BaseDrawHandler drawer) {
+		for (StickLine l : this.stick)
+			l.draw(drawer);
 	}
 
 	private int isConnected(Point p) {

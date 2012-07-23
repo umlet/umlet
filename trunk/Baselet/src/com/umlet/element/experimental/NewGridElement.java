@@ -1,9 +1,12 @@
 package com.umlet.element.experimental;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Stroke;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
@@ -16,6 +19,7 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
+import com.baselet.control.Constants.LineType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.element.GridElement;
@@ -174,6 +178,15 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void updateModelFromText() {
 		drawer.clearCache();
+		if (isSelected) { // draw blue rectangle around selected gridelements
+			drawer.setForegroundAlpha(Constants.ALPHA_FULL_TRANSPARENCY);
+			drawer.setBackground(Color.BLUE, Constants.ALPHA_NEARLY_FULL_TRANSPARENCY);
+			drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
+			drawer.resetColorSettings();
+			if (Constants.show_stickingpolygon && !this.isPartOfGroup()) {
+				drawStickingPolygon();
+			}
+		}
 		properties.initSettingsFromText();
 		drawer.setSize(getSize());
 	}
@@ -252,11 +265,23 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
 		StickingPolygon p = new StickingPolygon();
-		p.addPoint(new Point(x, y));
-		p.addPoint(new Point(x + width, y));
-		p.addPoint(new Point(x + width, y + height));
-		p.addPoint(new Point(x, y + height), true);
+		p.addPoint(x, y);
+		p.addPoint(x + width, y);
+		p.addPoint(x + width, y + height);
+		p.addPoint(x, y + height, true);
 		return p;
+	}
+
+	public final void drawStickingPolygon() {
+		StickingPolygon poly;
+		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
+		if (Utils.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getSize().width - 1, this.getSize().height - 1);
+		else poly = this.generateStickingBorder(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		if (poly != null) {
+			drawer.setLineType(LineType.DASHED);
+			poly.draw(drawer);
+			drawer.setLineType(LineType.SOLID);
+		}
 	}
 
 	@Override
