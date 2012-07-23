@@ -271,12 +271,11 @@ public abstract class NewGridElement implements GridElement {
 		p.addPoint(x, y + height, true);
 		return p;
 	}
-
-	public final void drawStickingPolygon() {
+	private final void drawStickingPolygon() {
 		StickingPolygon poly;
 		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
-		if (Utils.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getSize().width - 1, this.getSize().height - 1);
-		else poly = this.generateStickingBorder(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		if (Utils.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getRealSize().width - 1, this.getRealSize().height - 1);
+		else poly = this.generateStickingBorder(0, 0, this.getRealSize().width - 1, this.getRealSize().height - 1);
 		if (poly != null) {
 			drawer.setLineType(LineType.DASHED);
 			poly.draw(drawer);
