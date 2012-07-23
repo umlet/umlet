@@ -15,7 +15,7 @@ public class SettingsUseCase implements Settings {
 
 	@Override
 	public AlignVertical getVAlign() {
-		return AlignVertical.TOP;
+		return AlignVertical.CENTER;
 	}
 
 	@Override
