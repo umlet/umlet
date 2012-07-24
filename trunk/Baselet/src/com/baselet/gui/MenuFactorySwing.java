@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
@@ -11,6 +13,7 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Constants.Os;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Main;
 
@@ -97,7 +100,12 @@ public class MenuFactorySwing extends MenuFactory {
 	}
 
 	public JMenuItem createDelete() {
-		return createJMenuItem(false, DELETE, KeyEvent.VK_DELETE, false, null);
+		int[] keys = new int[]{KeyEvent.VK_BACK_SPACE, KeyEvent.VK_DELETE};
+		if (SystemInfo.OS == Os.MAC) {
+			return createJMenuItem(false, DELETE, keys, KeyEvent.VK_BACK_SPACE);
+		} else {
+			return createJMenuItem(false, DELETE, keys, KeyEvent.VK_DELETE);
+		}
 	}
 
 	public JMenuItem createSelectAll() {
@@ -214,5 +222,41 @@ public class MenuFactorySwing extends MenuFactory {
 		});
 		if (grayWithoutDiagram) diagramDependendComponents.add(menuItem);
 		return menuItem;
+	}
+	
+	/**
+	 * Create a JMenuItem with multiple key bindings (only one mnemonic can be set at any time).
+	 * @see "http://docs.oracle.com/javase/tutorial/uiswing/misc/action.html"
+	 */
+	private JMenuItem createJMenuItem(boolean grayWithoutDiagram, final String name, int[] keyEvents, int preferredMnemonic) {
+		JMenuItem menuItem = new JMenuItem(name);
+		
+		MultipleKeyBindingsAction action = new MultipleKeyBindingsAction(name, preferredMnemonic);
+		for (int keyEvent: keyEvents) {
+			addKeyBinding(menuItem, keyEvent, name);
+		}
+		menuItem.getActionMap().put(name, action);
+		menuItem.setAction(action);
+		
+		if (grayWithoutDiagram) diagramDependendComponents.add(menuItem);
+		return menuItem;
+	}
+	
+	private void addKeyBinding(JMenuItem menuItem, int keyEvent, String actionName) {
+		menuItem.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(keyEvent, 0), actionName);
+	}
+	
+	@SuppressWarnings("serial")
+	private class MultipleKeyBindingsAction extends AbstractAction {
+		
+		public MultipleKeyBindingsAction(String menuName, int preferredMnemonic) {
+			super(menuName);
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(preferredMnemonic, 0));
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			doAction(this.getValue(NAME).toString(), null);	
+		}
 	}
 }
