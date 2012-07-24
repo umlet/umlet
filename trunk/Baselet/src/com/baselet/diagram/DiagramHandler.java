@@ -364,14 +364,15 @@ public class DiagramHandler {
 			float diffx, diffy;
 			diffx = x - (x * gridSize / oldGridSize);
 			diffy = y - (y * gridSize / oldGridSize);
+			System.out.println(diffx + " ( " + diffy);
 
 			// AB: Move origin in opposite direction
 			log.debug("diffX/diffY: " + diffx + "/" + diffy);
-			log.debug("Manual Zoom Delta: " + realignToGrid(false, (int) diffx) + "/" + realignToGrid(false, (int) diffy));
-			getDrawPanel().moveOrigin(realignToGrid(false, -(int) diffx), realignToGrid(false, -(int) diffy));
+			log.debug("Manual Zoom Delta: " + realignToGrid(false, diffx) + "/" + realignToGrid(false, diffy));
+			getDrawPanel().moveOrigin(realignToGrid(false, -diffx), realignToGrid(false, - diffy));
 
 			for (GridElement e : getDrawPanel().getAllEntitiesNotInGroup()) {
-				e.changeLocation(realignToGrid(false, (int) diffx), realignToGrid(false, (int) diffy));
+				e.changeLocation(realignToGrid(false, diffx), realignToGrid(false, diffy));
 			}
 
 			/**
