@@ -55,7 +55,7 @@ public class HelpPanelChanged extends Command {
 		this.changed_from = handler.getHelpText();
 		handler.setHelpText(changed_to);
 		Float fontsize = getFontsize(changed_to);
-		if (fontsize != null) handler.getFontHandler().setDiagramDefaultFontSize((float) fontsize);
+		if (fontsize != null) handler.getFontHandler().setDiagramDefaultFontSize(fontsize);
 		else handler.getFontHandler().resetDiagramDefaultFontSize();
 		String fontfamily = getFontfamily(changed_to);
 		if (fontfamily != null) handler.getFontHandler().setDiagramDefaultFontFamily(fontfamily);
@@ -67,7 +67,7 @@ public class HelpPanelChanged extends Command {
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
 		handler.setHelpText(changed_from);
-		handler.getFontHandler().setDiagramDefaultFontSize((float) getFontsize(changed_from));
+		handler.getFontHandler().setDiagramDefaultFontSize(getFontsize(changed_from));
 		handler.getDrawPanel().repaint();
 	}
 

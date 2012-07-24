@@ -284,7 +284,7 @@ public abstract class CustomElement extends OldGridElement {
 			// calculates the width and height of the component
 			for (String textline : Utils.decomposeStrings(this.getPanelAttributes())) {
 				height = height + textHeight();
-				width = (float) Math.max(textWidth(textline, false) + 10 + horizontalSpacing, width);
+				width = Math.max(textWidth(textline, false) + 10 + horizontalSpacing, width);
 			}
 			if (height < minHeight) height = minHeight;
 			if (width < minWidth) width = minWidth;
