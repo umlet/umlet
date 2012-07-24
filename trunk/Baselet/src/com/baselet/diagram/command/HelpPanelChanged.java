@@ -21,7 +21,7 @@ public class HelpPanelChanged extends Command {
 		this.changed_to = changed_to;
 	}
 
-	public static Integer getFontsize(String text) {
+	public static Float getFontsize(String text) {
 		if (text == null) return null;
 		Pattern p = Pattern.compile("fontsize=([0-9]+)( .*)?");
 		Vector<String> txt = Utils.decomposeStrings(text);
@@ -29,7 +29,7 @@ public class HelpPanelChanged extends Command {
 			Matcher m = p.matcher(t);
 			if (m.matches()) {
 				if (t.contains("//")) t = t.split("//")[0];
-				return Integer.parseInt(m.group(1));
+				return Float.parseFloat(m.group(1));
 			}
 		}
 		return null;
@@ -54,7 +54,7 @@ public class HelpPanelChanged extends Command {
 		super.execute(handler);
 		this.changed_from = handler.getHelpText();
 		handler.setHelpText(changed_to);
-		Integer fontsize = getFontsize(changed_to);
+		Float fontsize = getFontsize(changed_to);
 		if (fontsize != null) handler.getFontHandler().setDiagramDefaultFontSize((float) fontsize);
 		else handler.getFontHandler().resetDiagramDefaultFontSize();
 		String fontfamily = getFontfamily(changed_to);
