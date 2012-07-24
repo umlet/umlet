@@ -364,7 +364,6 @@ public class DiagramHandler {
 			float diffx, diffy;
 			diffx = x - (x * gridSize / oldGridSize);
 			diffy = y - (y * gridSize / oldGridSize);
-			System.out.println(diffx + " ( " + diffy);
 
 			// AB: Move origin in opposite direction
 			log.debug("diffX/diffY: " + diffx + "/" + diffy);
