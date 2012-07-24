@@ -70,7 +70,7 @@ public class FontHandler {
 		Float returnFontSize;
 		if (fontSize == null) {
 			if (diagramDefaultSize != null) returnFontSize = diagramDefaultSize;
-			else returnFontSize = (float) Constants.defaultFontsize;
+			else returnFontSize = Float.valueOf(Constants.defaultFontsize);
 		}
 		else returnFontSize = fontSize;
 
