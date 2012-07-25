@@ -117,7 +117,8 @@ public class StandaloneGUI extends BaseGUI {
 		if (index != -1) {
 			this.diagramtabs.setTitleAt(index, name);
 		}
-		this.diagramtabs.updateUI();
+		// update only selected tab to keep scrolling tab position
+		((TabComponent)diagramtabs.getTabComponentAt(diagramtabs.getSelectedIndex())).updateUI(); 
 	}
 
 	@Override
