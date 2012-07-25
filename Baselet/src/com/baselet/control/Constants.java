@@ -235,7 +235,6 @@ public abstract class Constants {
 	public static final String DELIMITER_ADDITIONAL_ATTRIBUTES = ";";
 
 	public static final int PASTE_DISPLACEMENT_GRIDS = 2;
-	public static final int MIN_MAIL_SPLIT_POSITION = 100;
 	public static final Color GRID_COLOR = new Color(235, 235, 235);
 
 	public static final Integer FONT_MIN = 9;
@@ -262,6 +261,9 @@ public abstract class Constants {
 
 	// Default panel font is MONOSPACED to make sure that bold text has the same width as non-bold text (eg: for syntax highlighting)
 	public static Font PANEL_FONT = new Font(Font.MONOSPACED, Font.PLAIN, 11);
+
+	public static final int MIN_MAIN_SPLITPANEL_SIZE = 100;
+	public static final int MIN_MAIL_SPLITPANEL_SIZE = 250;
 	
 	/**** VALUES LOADED FROM CONFIG ****/
 	public static Integer defaultFontsize = (Program.PROGRAM_NAME == ProgramName.UMLET ? 14 : 10);

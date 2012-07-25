@@ -338,7 +338,6 @@ public class Editor extends EditorPart {
 
 		mailSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, mailpanel, customSplit);
 		mailSplit.setDividerSize(0);
-		mailSplit.setDividerLocation(Constants.mail_split_position);
 		mailSplit.setResizeWeight(0);
 		mailSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
 		mailpanel.setVisible(false);
@@ -422,7 +421,8 @@ public class Editor extends EditorPart {
 	public void setMailPanelEnabled(boolean enable) {
 		mailpanel.setVisible(enable);
 		if (enable) {
-			mailSplit.setDividerLocation(Constants.mail_split_position);
+			int mailDividerLoc= Math.max(Constants.MIN_MAIL_SPLITPANEL_SIZE, Constants.mail_split_position);
+			mailSplit.setDividerLocation(mailDividerLoc);
 			mailSplit.setDividerSize(2);
 		}
 		else {
