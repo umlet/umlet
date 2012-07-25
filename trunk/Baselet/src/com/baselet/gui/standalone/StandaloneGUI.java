@@ -356,7 +356,8 @@ public class StandaloneGUI extends BaseGUI {
 
 		mainSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, diagramspanel, rightPanel);
 		mainSplit.setDividerSize(2);
-		mainSplit.setDividerLocation(Constants.main_split_position);
+		int mainDividerLoc = Math.min(window.getSize().width-Constants.MIN_MAIN_SPLITPANEL_SIZE, Constants.main_split_position);
+		mainSplit.setDividerLocation(mainDividerLoc);
 		mainSplit.setResizeWeight(1);
 		mainSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
 
@@ -369,7 +370,6 @@ public class StandaloneGUI extends BaseGUI {
 		mailPanel = this.createMailPanel();
 		mailSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, mailPanel, customSplit);
 		mailSplit.setDividerSize(0);
-		mailSplit.setDividerLocation(Constants.mail_split_position);
 		mailSplit.setResizeWeight(1);
 		mailSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
 		mailPanel.setVisible(false);
@@ -530,13 +530,14 @@ public class StandaloneGUI extends BaseGUI {
 		if (enable) {
 			mailSplit.setDividerSize(2);
 			mailButton.setSelected(true);
+			int mailDividerLoc= Math.max(Constants.MIN_MAIL_SPLITPANEL_SIZE, Constants.mail_split_position);
+			mailSplit.setDividerLocation(mailDividerLoc);
 		}
 		if (!enable) {
 			mailSplit.setDividerSize(0);
 			mailButton.setSelected(false);
 		}
 		mailPanel.setVisible(enable);
-		if (enable) mailSplit.setDividerLocation(Constants.mail_split_position);
 		mail_panel_visible = enable;
 	}
 
@@ -628,7 +629,7 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public int getMailSplitPosition() {
-		return this.mailSplit.getDividerLocation();
+		return Constants.mail_split_position; // must return stored value in Constants, otherwise 0 will be returned in case of a closed panel
 	}
 
 	@Override

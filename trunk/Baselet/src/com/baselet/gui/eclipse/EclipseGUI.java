@@ -37,7 +37,7 @@ public class EclipseGUI extends BaseGUI {
 	private Hashtable<DiagramHandler, Editor> diagrams;
 	private Contributor contributor;
 
-	private int mainSplitPosition, rightSplitPosition, mailSplitPosition;
+	private int mainSplitPosition, rightSplitPosition;
 
 	public EclipseGUI(Main main) {
 		super(main);
@@ -100,7 +100,7 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public int getMailSplitPosition() {
-		return mailSplitPosition;
+		return Constants.mail_split_position; // must return stored value in Constants, otherwise 0 will be returned in case of a closed panel
 	}
 
 	@Override
@@ -119,7 +119,6 @@ public class EclipseGUI extends BaseGUI {
 		// We load the constants as startingsplitpositions into the variables
 		mainSplitPosition = Constants.main_split_position;
 		rightSplitPosition = Constants.right_split_position;
-		mailSplitPosition = Constants.mail_split_position;
 	}
 
 	@Override
@@ -195,7 +194,6 @@ public class EclipseGUI extends BaseGUI {
 		// to variables so that a new editor has the same splitpositions
 		mainSplitPosition = editor.getMainSplitLocation();
 		rightSplitPosition = editor.getRightSplitLocation();
-		mailSplitPosition = editor.getMailSplitLocation();
 		this.diagrams.remove(editor);
 		if (editor.equals(this.editor)) {
 			this.editor = null;

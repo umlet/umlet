@@ -77,7 +77,7 @@ public class Config {
 		Constants.pdfExportFont = getStringProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
 		Constants.checkForUpdates = getBoolProperty(CHECK_FOR_UPDATES, Constants.checkForUpdates);
 		Constants.openFileHome = getStringProperty(OPEN_FILE_HOME, Constants.openFileHome);
-		Constants.main_split_position = getIntProperty(MAIN_SPLIT_POSITION, Constants.mail_split_position);
+		Constants.main_split_position = getIntProperty(MAIN_SPLIT_POSITION, Constants.main_split_position);
 		Constants.right_split_position = getIntProperty(RIGHT_SPLIT_POSITION, Constants.right_split_position);
 		Constants.mail_split_position = getIntProperty(MAIL_SPLIT_POSITION, Constants.mail_split_position);
 		Constants.start_maximized = getBoolProperty(START_MAXIMIZED, Constants.start_maximized);
@@ -133,9 +133,7 @@ public class Config {
 			BaseGUI gui = Main.getInstance().getGUI();
 			props.setProperty(MAIN_SPLIT_POSITION, Integer.toString(gui.getMainSplitPosition()));
 			props.setProperty(RIGHT_SPLIT_POSITION, Integer.toString(gui.getRightSplitPosition()));
-			if (gui.getMailSplitPosition() > Constants.MIN_MAIL_SPLIT_POSITION) {
-				props.setProperty(MAIL_SPLIT_POSITION, Integer.toString(gui.getMailSplitPosition()));
-			}
+			props.setProperty(MAIL_SPLIT_POSITION, Integer.toString(gui.getMailSplitPosition()));
 			if (gui.getTopContainer() != null) {
 				// If the window is maximized in any direction this fact is written in the cfg
 				if (((gui.getTopContainer().getExtendedState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH)) {
