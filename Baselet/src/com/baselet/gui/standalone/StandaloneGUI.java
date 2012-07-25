@@ -116,9 +116,9 @@ public class StandaloneGUI extends BaseGUI {
 		int index = this.diagramtabs.indexOfComponent(diagram.getDrawPanel().getScrollPane());
 		if (index != -1) {
 			this.diagramtabs.setTitleAt(index, name);
+			// update only selected tab to keep scrolling tab position
+			((TabComponent)diagramtabs.getTabComponentAt(index)).updateUI();
 		}
-		// update only selected tab to keep scrolling tab position
-		((TabComponent)diagramtabs.getTabComponentAt(diagramtabs.getSelectedIndex())).updateUI(); 
 	}
 
 	@Override
