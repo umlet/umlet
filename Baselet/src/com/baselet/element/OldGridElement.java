@@ -279,8 +279,8 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	 */
 	@Override
 	public boolean contains(Point p) {
-		Rectangle bounds = this.getVisibleRect();
-		if (!bounds.contains(p)) return false;
+		Rectangle rectangle = this.getVisibleRect();
+		if (!rectangle.contains(p)) return false;
 
 		Vector<GridElement> entities = this.getHandler().getDrawPanel().getAllEntitiesNotInGroup();
 		for (GridElement other : entities) {
@@ -292,18 +292,26 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 
 			// If the this visibleRect is equal to the other VisibleRect, true will be returned. Otherwise we need to check further
 			else if (!this.getVisibleRect().equals(other.getVisibleRect())) {
-				Rectangle other_bounds = other.getVisibleRect();
+				Rectangle other_rectangle = other.getVisibleRect();
 				// move bounds to coordinate system of this component
-				other_bounds.x += other.getLocation().x - this.getLocation().x;
-				other_bounds.y += other.getLocation().y - this.getLocation().y;
-				if (other_bounds.contains(p)) { // the selected element has to be in front except if the other element is totally contained!
-					if (bounds.contains(other_bounds) || (other.isSelected() && !other_bounds.contains(bounds))) return false;
+				other_rectangle.x += other.getLocation().x - this.getLocation().x;
+				other_rectangle.y += other.getLocation().y - this.getLocation().y;
+				if (other_rectangle.contains(p)) { 
+					// when elements intersect, select the smaller element
+					if (rectangle.intersects(other_rectangle) && smaller(other_rectangle, rectangle)) return false; 
 				}
 			}
 		}
 		return true;
 	}
 
+	private boolean smaller(Rectangle a, Rectangle b) {
+		int areaA = a.getSize().height * a.getSize().width;
+		int areaB = b.getSize().height * b.getSize().width;
+		if (areaA < areaB) return true;
+		return false;
+	}
+	
 	/**
 	 * Must be overwritten because Swing sometimes uses this method instead of contains(Point)
 	 */
