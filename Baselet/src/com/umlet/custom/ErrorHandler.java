@@ -3,6 +3,7 @@ package com.umlet.custom;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.HashMap;
+import java.util.List;
 
 import com.baselet.control.Constants;
 import com.umlet.gui.CustomCodeSyntaxPane;
@@ -26,7 +27,7 @@ public class ErrorHandler implements MouseMotionListener {
 
 	@Override
 	public void mouseMoved(MouseEvent me) {
-		int line = (me.getY() - 3) / this.codepane.getFontMetrics(this.codepane.getFont()).getHeight();
+		int line = Math.round(me.getY() / (float) this.codepane.getFontMetrics(this.codepane.getFont()).getHeight());
 		if (this.errors.get(line) != null) {
 			this.codepane.setToolTipText(this.errors.get(line));
 		}
@@ -36,14 +37,19 @@ public class ErrorHandler implements MouseMotionListener {
 
 	protected void clearErrors() {
 		this.errors.clear();
-		//TODO CUSTOM ELMENTS REFACTORING
+		//TODO CUSTOM ELEMENTS REFACTORING
 //		this.codepane.getStyledDocument().setCharacterAttributes(0, this.codepane.getText().length(), this.codepane.getStyledDocument().getStyle("default"), true);
 	}
 
 	protected void addError(Integer line, String error, int from, int length) {
-		if (this.errors.containsKey(line)) this.errors.put(line, this.errors.get(line) + Constants.NEWLINE + error);
-		else this.errors.put(line, error);
-		//TODO CUSTOM ELMENTS REFACTORING
+		this.errors.put(line, error);
+		//TODO CUSTOM ELEMENTS REFACTORING
 //		this.codepane.getStyledDocument().setCharacterAttributes(from, length, this.codepane.getStyledDocument().getStyle("error"), true);
+	}
+
+	public void addErrors(List<CompileError> compileErrors) {
+		for (CompileError error : compileErrors) {
+			addError(error.getLineNr(), error.getError(), 0, 0);
+		}
 	}
 }
