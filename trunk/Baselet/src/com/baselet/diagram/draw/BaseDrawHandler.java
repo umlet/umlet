@@ -163,7 +163,7 @@ public class BaseDrawHandler {
 
 	private final float printHelper(String text, float x, float y, AlignHorizontal align) {
 		float outY = y;
-		List<String> list = wordWrap ? Utils.splitString(text, width * getZoom(), handler) : Arrays.asList(new String[] {text});
+		List<String> list = wordWrap ? Utils.splitString(text, width, handler) : Arrays.asList(new String[] {text});
 		for (String s : list) {
 			addText(new Text(s, x * getZoom(), outY * getZoom(), align));
 			outY += textHeightWithSpace();

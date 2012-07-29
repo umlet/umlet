@@ -101,7 +101,7 @@ public abstract class Utils {
 				lastEmptyChar = -1;
 				firstCharInLine = i + 1;
 			}
-			if ((handler.getFontHandler().getTextWidth(text.substring(firstCharInLine, i)) + 15 * handler.getZoomFactor()) > width) {
+			if ((handler.getFontHandler().getTextWidth(text.substring(firstCharInLine, i), false)) + 15 > width) {
 				if (lastEmptyChar != -1) {
 					stringBuilder.setCharAt(lastEmptyChar, '\n');
 					firstCharInLine = lastEmptyChar + 1;
