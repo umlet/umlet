@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import com.baselet.control.Constants.LineType;
+import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.baselet.diagram.Selector;
 import com.baselet.diagram.command.AddElement;
@@ -156,5 +157,10 @@ public class Group extends OldGridElement {
 		super.changeLocation(diffx, diffy);
 		for (GridElement e : this.entities)
 			e.changeLocation(diffx, diffy);
+	}
+	
+	@Override
+	public int getPossibleResizeDirections() {
+		return 0;
 	}
 }
