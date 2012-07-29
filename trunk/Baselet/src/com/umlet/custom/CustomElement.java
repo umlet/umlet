@@ -74,6 +74,7 @@ public abstract class CustomElement extends OldGridElement {
 
 	private boolean specialLine, specialFgColor, specialBgColor;
 	private boolean wordWrap = false;
+	private boolean allowResize = true;
 
 	public CustomElement() {
 		this.shapes = new Vector<StyleShape>();
@@ -431,5 +432,15 @@ public abstract class CustomElement extends OldGridElement {
 		tmpFgColor = fgColor;
 		tmpBgColor = bgColor;
 		tmpAlpha = alphaFactor;
+	}
+
+	protected final void allowResize(boolean allow) {
+		this.allowResize = allow;
+	}
+	
+	@Override
+	public int getPossibleResizeDirections() {
+		if (this.allowResize) return Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
+		return 0;
 	}
 }
