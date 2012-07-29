@@ -271,7 +271,6 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		this.setLocation(this.getLocation().x + diffx, this.getLocation().y + diffy);
 	}
 
-
 	/**
 	 * Must be overwritten because Swing uses this method to tell if 2 elements are overlapping
 	 * It's also used to determine which element gets selected if there are overlapping elements (the smallest one)
@@ -279,37 +278,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	 */
 	@Override
 	public boolean contains(Point p) {
-		Rectangle rectangle = this.getVisibleRect();
-		if (!rectangle.contains(p)) return false;
-
-		Vector<GridElement> entities = this.getHandler().getDrawPanel().getAllEntitiesNotInGroup();
-		for (GridElement other : entities) {
-			if (other instanceof Relation) { // a relation is always on top
-				// move point to coordinate system of other entity
-				Point other_p = new Point(p.x + this.getLocation().x - other.getLocation().x, p.y + this.getLocation().y - other.getLocation().y);
-				if (other.getComponent().contains(other_p)) return false;
-			}
-
-			// If the this visibleRect is equal to the other VisibleRect, true will be returned. Otherwise we need to check further
-			else if (!this.getVisibleRect().equals(other.getVisibleRect())) {
-				Rectangle other_rectangle = other.getVisibleRect();
-				// move bounds to coordinate system of this component
-				other_rectangle.x += other.getLocation().x - this.getLocation().x;
-				other_rectangle.y += other.getLocation().y - this.getLocation().y;
-				if (other_rectangle.contains(p)) { 
-					// when elements intersect, select the smaller element
-					if (rectangle.intersects(other_rectangle) && smaller(other_rectangle, rectangle)) return false; 
-				}
-			}
-		}
-		return true;
-	}
-
-	private boolean smaller(Rectangle a, Rectangle b) {
-		int areaA = a.getSize().height * a.getSize().width;
-		int areaB = b.getSize().height * b.getSize().width;
-		if (areaA < areaB) return true;
-		return false;
+		return Utils.contains(this, p);
 	}
 	
 	/**
@@ -317,7 +286,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	 */
 	@Override
 	public boolean contains(int x, int y) {
-		return this.contains(new Point(x, y));
+		return Utils.contains(this, new Point(x, y));
 	}
 
 	@Override
