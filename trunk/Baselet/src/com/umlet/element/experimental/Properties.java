@@ -16,23 +16,39 @@ import com.umlet.element.experimental.settings.SettingsUseCase;
 public class Properties {
 
 	public enum SettingKey {
-		ForegroundColor("fg"),
-		BackgroundColor("bg"),
-		LineType("lt"),
-		Autoresize("autosize"),
-		VerticalAlign("valign"),
-		HorizontalAlign("halign");
+		ForegroundColor("fg", "red", "#3c7a00"),
+		BackgroundColor("bg", "green", "#0A37D3"),
+		LineType("lt", "."),
+		Autoresize("autosize", "true", "false"),
+		VerticalAlign("valign", AlignVertical.values()),
+		HorizontalAlign("halign", AlignHorizontal.values());
 
-		private String string;
+		private String key;
+		private Object[] possibleValues;
 
-		SettingKey(String string) {
-			this.string = string;
+		SettingKey(String key, String ... possibleValues) {
+			this.key = key;
+			this.possibleValues = possibleValues;
+		}
+
+		SettingKey(String key, Object[] possibleValues) {
+			this.key = key;
+			this.possibleValues = possibleValues;
+		}
+
+		public String getKey() {
+			return key;
 		}
 
 		@Override
 		public String toString() {
-			return string;
+			return key;
 		}
+
+		public Object[] getPossibleValues() {
+			return possibleValues;
+		}
+		
 	}
 
 	public static final String SEPARATOR = "=";
