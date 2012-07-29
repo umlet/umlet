@@ -3,6 +3,7 @@ package com.baselet.control;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.io.File;
@@ -13,10 +14,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.swing.JComponent;
+
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants.LineType;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.element.GridElement;
+import com.umlet.element.Relation;
 import com.umlet.element.relation.DoubleStroke;
 
 
@@ -244,6 +249,45 @@ public abstract class Utils {
 	public static String replaceFileExtension(String fileName, String oldExtension, String newExtension) {
 		if (fileName.endsWith("." + oldExtension)) fileName = fileName.substring(0, fileName.indexOf("." + oldExtension));
 		return fileName + "." + newExtension;
+	}
+	
+	/**
+	 * Must be overwritten because Swing uses this method to tell if 2 elements are overlapping
+	 * It's also used to determine which element gets selected if there are overlapping elements (the smallest one)
+	 * IMPORTANT: on overlapping elements, contains is called for all elements until the first one returns true, then the others contain methods are not called
+	 */
+	public static boolean contains(GridElement gridElement, Point p) {
+		Rectangle rectangle = gridElement.getVisibleRect();
+		if (!rectangle.contains(p)) return false;
+
+		Vector<GridElement> entities = gridElement.getHandler().getDrawPanel().getAllEntitiesNotInGroup();
+		for (GridElement other : entities) {
+			if (other instanceof Relation) { // a relation is always on top
+				// move point to coordinate system of other entity
+				Point other_p = new Point(p.x + gridElement.getLocation().x - other.getLocation().x, p.y + gridElement.getLocation().y - other.getLocation().y);
+				if (other.getComponent().contains(other_p)) return false;
+			}
+
+			// If the this visibleRect is equal to the other VisibleRect, true will be returned. Otherwise we need to check further
+			else if (!gridElement.getVisibleRect().equals(other.getVisibleRect())) {
+				Rectangle other_rectangle = other.getVisibleRect();
+				// move bounds to coordinate system of this component
+				other_rectangle.x += other.getLocation().x - gridElement.getLocation().x;
+				other_rectangle.y += other.getLocation().y - gridElement.getLocation().y;
+				if (other_rectangle.contains(p)) { 
+					// when elements intersect, select the smaller element
+					if (rectangle.intersects(other_rectangle) && smaller(other_rectangle, rectangle)) return false; 
+				}
+			}
+		}
+		return true;
+	}
+
+	private static boolean smaller(Rectangle a, Rectangle b) {
+		int areaA = a.getSize().height * a.getSize().width;
+		int areaB = b.getSize().height * b.getSize().width;
+		if (areaA < areaB) return true;
+		return false;
 	}
 
 }
