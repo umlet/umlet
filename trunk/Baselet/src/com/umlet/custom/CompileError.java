@@ -23,11 +23,7 @@ public class CompileError {
 	private String error;
 
 	public static List<CompileError> getListFromString(String errorString, int beforecodelines) {
-		System.out.println(errorString);
-
-		
 		List<CompileError> returnList = new ArrayList<CompileError>();
-
 		String[] splitErrors = errorString.replaceAll("\r\n", Constants.NEWLINE).split(Constants.NEWLINE + "----------" + Constants.NEWLINE);
 		for (String error : splitErrors) {
 			Matcher m = error_pattern.matcher(error);
@@ -38,7 +34,6 @@ public class CompileError {
 				returnList.add(new CompileError(newLineNr, newLine, newError));
 			}
 		}
-
 		return returnList;
 	}
 

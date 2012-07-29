@@ -58,7 +58,7 @@ public abstract class CustomElement extends OldGridElement {
 
 	protected Graphics2D g2;
 	protected float temp;
-	protected float width, height;
+	protected int width, height;
 	protected Composite[] composites;
 	private String code;
 
