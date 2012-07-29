@@ -189,7 +189,7 @@ public abstract class CustomElement extends OldGridElement {
 	}
 
 	@Override
-	public final GridElement CloneFromMe() {
+	public GridElement CloneFromMe() {
 		CustomElement e = (CustomElement) super.CloneFromMe();
 		e.code = this.code;
 		return e;

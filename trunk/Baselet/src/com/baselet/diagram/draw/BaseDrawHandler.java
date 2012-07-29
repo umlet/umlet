@@ -40,13 +40,14 @@ public class BaseDrawHandler {
 	
 	private ArrayList<Drawable> drawables = new ArrayList<Drawable>();
 
-	public BaseDrawHandler(Color fgColor, Color bgColor) {
-		this.fgColor  = fgColor;
-		this.bgColor = bgColor;
+	public BaseDrawHandler() {
+		this.fgColor = Constants.DEFAULT_FOREGROUND_COLOR;
+		this.bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
 	}
 	
 	public BaseDrawHandler(Graphics g, DiagramHandler handler, Color fgColor, Color bgColor, Dimension size, boolean isSelected) {
-		this(fgColor, bgColor);
+		this.fgColor = fgColor;
+		this.bgColor= bgColor;
 		setHandler(handler);
 		setGraphics(g);
 		setIsSelected(isSelected);
@@ -65,6 +66,7 @@ public class BaseDrawHandler {
 	}
 	
 	public void setIsSelected(boolean isSelected) {
+		if (isSelected) setForegroundColor(Constants.DEFAULT_SELECTED_COLOR);
 		this.isSelected = isSelected;
 	}
 	

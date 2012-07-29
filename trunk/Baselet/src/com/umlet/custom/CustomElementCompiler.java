@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,11 +32,10 @@ public class CustomElementCompiler {
 	private String template;
 	private Pattern template_pattern;
 	private Pattern empty_line;
-	private Pattern error_pattern;
 	private Matcher template_match;
 	private String classname;
 	private int beforecodelines; // lines of code before the custom code begins (for error processing)
-	private Vector<String> compilation_errors;
+	private List<CompileError> compilation_errors;
 	private boolean global_error;
 
 	public static CustomElementCompiler getInstance() {
@@ -46,10 +47,9 @@ public class CustomElementCompiler {
 
 	private CustomElementCompiler() {
 		this.global_error = false;
-		this.compilation_errors = new Vector<String>();
+		this.compilation_errors = new ArrayList<CompileError>();
 		this.beforecodelines = 0;
 		this.template_pattern = Pattern.compile("(.*)(/\\*\\*\\*\\*CUSTOM_CODE START\\*\\*\\*\\*/\n)(.*)(\n\\s\\s/\\*\\*\\*\\*CUSTOM_CODE END\\*\\*\\*\\*/)(.*)", Pattern.DOTALL);
-		this.error_pattern = Pattern.compile(".*ERROR.*at line ([0-9]+).*\\s*$");
 		this.empty_line = Pattern.compile("^\\s*$");
 		this.template = this.loadJavaSource(new File(Path.customElements() + templatefile));
 		if (!"".equals(this.template)) {
@@ -64,8 +64,6 @@ public class CustomElementCompiler {
 		else global_error = true;
 
 		this.classname = Constants.CUSTOM_ELEMENT_CLASSNAME;
-		File tmpDir = new File(Path.temp());
-		tmpDir.mkdir();
 		this.sourcefile = new File(Path.temp() + this.classname + ".java");
 		sourcefile.deleteOnExit();
 		new File(Path.temp() + this.classname + ".class").deleteOnExit();
@@ -98,11 +96,12 @@ public class CustomElementCompiler {
 				if (c != null) entity = (CustomElement) c.newInstance();
 			}
 			else {
-				this.compilation_errors.addAll(Utils.decomposeStrings(compilerErrorMessageSW.toString()));
+				this.compilation_errors = CompileError.getListFromString(compilerErrorMessageSW.toString(), beforecodelines);
 			}
 		} catch (Exception e) {
 			log.error(null, e);
 		}
+		if (entity == null) entity = new CustomElementWithErrors(compilation_errors);
 		return entity;
 	}
 
@@ -149,30 +148,6 @@ public class CustomElementCompiler {
 				template_match.group(5);
 	}
 
-	private void handleErrors(String txt, ErrorHandler errorhandler) {
-		txt = txt.replaceAll("\r\n", Constants.NEWLINE);
-		String[] text = txt.split(Constants.NEWLINE);
-		for (int x = 0; x < compilation_errors.size(); x++) {
-			Matcher m = this.error_pattern.matcher(compilation_errors.get(x));
-			if (m.matches()) {
-				int errorLineNr = Integer.parseInt(m.group(1)) - this.beforecodelines;
-				x += 3; // The error description is 3 lines later
-				String error = compilation_errors.get(x);
-
-				int beftxt = 0, i = 0;
-				for (; (i < errorLineNr - 1) && (i < text.length - 1); i++)
-					beftxt += text[i].length() + 1;
-				if (i < text.length) {
-					for (Matcher emptymatcher = this.empty_line.matcher(text[i]); emptymatcher.matches() && (i > 0); i--) {
-						beftxt -= text[i - 1].length() + 1;
-						emptymatcher = this.empty_line.matcher(text[i - 1]);
-					}
-					errorhandler.addError(i, error, beftxt, text[i].length());
-				}
-			}
-		}
-	}
-
 	public GridElement genEntity(String code, ErrorHandler errorhandler) {
 		if (!Constants.enable_custom_elements) return new ErrorOccurred("Custom Elements are disabled\nEnable them in the Options\nOnly open Custom Elements\nfrom trusted sources!");
 		if (this.global_error) return new ErrorOccurred();
@@ -180,13 +155,9 @@ public class CustomElementCompiler {
 		if (code == null) code = this.parseCodeFromTemplate(this.template);
 
 		CustomElement element = this.compile(code);
-		if (element != null) {
-			element.setCode(code);
-			return element;
-		}
-		else if (errorhandler != null) this.handleErrors(code, errorhandler);
-
-		return new ErrorOccurred();
+		if (errorhandler != null) errorhandler.addErrors(compilation_errors);
+		element.setCode(code);
+		return element;
 	}
 
 	public GridElement genEntity(String code) {

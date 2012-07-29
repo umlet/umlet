@@ -77,7 +77,7 @@ public abstract class NewGridElement implements GridElement {
 
 	public void init(Rectangle bounds, String panelAttributes, String panelAttributesAdditional, DiagramHandler handler) {
 		setBounds(bounds);
-		drawer = new BaseDrawHandler(Constants.DEFAULT_FOREGROUND_COLOR, Constants.DEFAULT_BACKGROUND_COLOR);
+		drawer = new BaseDrawHandler();
 		properties = new Properties(panelAttributes, panelAttributesAdditional, drawer);
 		setHandlerAndInitListeners(handler);
 	}
