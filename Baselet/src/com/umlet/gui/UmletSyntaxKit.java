@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Utils;
 import com.plotlet.parser.PlotConstants;
+import com.umlet.element.experimental.Properties;
+import com.umlet.element.experimental.Properties.SettingKey;
 
 @SuppressWarnings("serial")
 public class UmletSyntaxKit extends DefaultSyntaxKit {
@@ -32,51 +34,12 @@ public class UmletSyntaxKit extends DefaultSyntaxKit {
 	}
 	
 	public static String createAutocompletionList(String listSep) {
-		String outString = "fg=" + listSep + "bg=" + listSep;
-
-			String fieldName = "", fieldContent = "", keyName = "", keyContent = "", keyType = "";
-			try {
-				Field[] fs = PlotConstants.class.getFields();
-				for (Field f : fs) {
-					fieldName = f.getName();
-					fieldContent = String.valueOf(f.get(String.class));
-					if (fieldName.startsWith("KEY_")) {
-						if (keyType.equals("LIST")) {
-							if (outString.lastIndexOf(PlotConstants.VALUE_LIST_SEPARATOR) != outString.length()-1) { // If no list values are listed
-								outString += /*"<a>" + PlotConstants.VALUE_LIST_SEPARATOR + "<b>" + PlotConstants.VALUE_LIST_SEPARATOR + "..." + */listSep;
-							}
-							else {
-								outString = outString.substring(0, outString.length()-PlotConstants.VALUE_LIST_SEPARATOR.length()) + listSep;
-							}
-						}
-						String[] keySplit = fieldName.split("_");
-						keyType = keySplit[1];
-						keyName = keySplit[2];
-						keyContent = fieldContent;
-						if (keyType.equals("BOOL")) {
-							outString += keyContent + "=" + "true" + listSep;
-							outString += keyContent + "=" + "false" + listSep;
-						}
-						else if (keyType.equals("INT")) {
-							outString += keyContent + "=" + /*"<int>" + */listSep;
-						}
-						else if (keyType.equals("LIST")) {
-							outString += keyContent + "="; 
-						}
-					}
-					else if (!keyName.isEmpty() && fieldName.startsWith(keyName) && !fieldName.endsWith("DEFAULT") && !fieldContent.isEmpty()) {
-						if (keyType.equals("LIST")) outString += fieldContent + PlotConstants.VALUE_LIST_SEPARATOR;
-						else outString += keyContent + "=" + fieldContent + listSep;
-					}
-				}
-				if (outString.lastIndexOf(PlotConstants.VALUE_LIST_SEPARATOR) == outString.length()-1) {
-					outString = outString.substring(0, outString.length()-PlotConstants.VALUE_LIST_SEPARATOR.length()) + listSep;
-				}
+		String outString = "";
+		for (SettingKey setting : SettingKey.values()) {
+			for (Object value : setting.getPossibleValues()) {
+				outString += setting.getKey() + Properties.SEPARATOR + value + listSep;
 			}
-			catch (Exception e) {
-				log.error("Error at creating keyValueMap", e);
-			}
-		
+		}
 		return outString;
 
 	}
