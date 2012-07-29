@@ -100,6 +100,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 
 	private static String createTempFileWithText(String textToWriteIntoFile) throws FileNotFoundException, IOException {
 		File tempFile = File.createTempFile(Program.PROGRAM_NAME + "_startupfile", ".html");
+		tempFile.deleteOnExit();
 		FileWriter w = new FileWriter(tempFile);
 		w.write(textToWriteIntoFile);
 		w.close();
