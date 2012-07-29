@@ -167,7 +167,7 @@ public abstract class NewGridElement implements GridElement {
 			}
 		}
 		properties.initSettingsFromText();
-		drawer.setSize(getSize());
+		drawer.setSize(getRealSize());
 	}
 
 	@Override

@@ -88,8 +88,7 @@ public abstract class Utils {
 		return returnVector;
 	}
 
-	public static List<String> splitString(String text, float width) {
-		DiagramHandler handler = Main.getInstance().getDiagramHandler();
+	public static List<String> splitString(String text, float width, DiagramHandler handler) {
 		StringBuilder stringBuilder = new StringBuilder(text);
 		int lastEmptyChar = -1; // is -1 if there was no ' ' in this line
 		int firstCharInLine = 0;

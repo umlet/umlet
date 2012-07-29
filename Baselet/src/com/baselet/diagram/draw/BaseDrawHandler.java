@@ -15,13 +15,16 @@ import java.awt.geom.Line2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.baselet.control.Constants;
-import com.baselet.control.DimensionFloat;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.LineType;
+import com.baselet.control.DimensionFloat;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.gui.standalone.ZoomListener;
 
 public class BaseDrawHandler {
 	private DiagramHandler handler;
@@ -37,14 +40,16 @@ public class BaseDrawHandler {
 	private float height;
 
 	private boolean isSelected;
-	
+
 	private ArrayList<Drawable> drawables = new ArrayList<Drawable>();
+
+	private boolean wordWrap = false;
 
 	public BaseDrawHandler() {
 		this.fgColor = Constants.DEFAULT_FOREGROUND_COLOR;
 		this.bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
 	}
-	
+
 	public BaseDrawHandler(Graphics g, DiagramHandler handler, Color fgColor, Color bgColor, Dimension size, boolean isSelected) {
 		this.fgColor = fgColor;
 		this.bgColor= bgColor;
@@ -53,7 +58,7 @@ public class BaseDrawHandler {
 		setIsSelected(isSelected);
 		setSize(size);
 	}
-	
+
 	public void setHandler(DiagramHandler handler) {
 		this.handler = handler;
 		this.style = new Style(fgColor, bgColor, handler.getFontHandler().getFontSize(false));
@@ -64,12 +69,12 @@ public class BaseDrawHandler {
 		g2.setFont(handler.getFontHandler().getFont());
 		g2.setColor(fgColor);
 	}
-	
+
 	public void setIsSelected(boolean isSelected) {
 		if (isSelected) setForegroundColor(Constants.DEFAULT_SELECTED_COLOR);
 		this.isSelected = isSelected;
 	}
-	
+
 	public void setSize(Dimension size) {
 		this.width = size.width;
 		this.height = size.height;
@@ -86,7 +91,7 @@ public class BaseDrawHandler {
 	private void addText(Text t) {
 		drawables.add(new Drawable(style.cloneFromMe(), t));
 	}
-	
+
 	public void drawAll() {
 		for (Drawable d : drawables) {
 			if (d.getShape() != null) {
@@ -112,8 +117,8 @@ public class BaseDrawHandler {
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getFgAlpha()));
 		g2.setStroke(Utils.getStroke(style.getLineType(), style.getLineThickness()));
 		this.g2.draw(s);
-		}
-	
+	}
+
 	private void drawText(Style style, Text t) {
 		g2.setColor(style.getFgColor());
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getFgAlpha()));
@@ -121,39 +126,49 @@ public class BaseDrawHandler {
 		g2.setFont(handler.getFontHandler().getFont());
 		handler.getFontHandler().writeText(this.g2, t.getText(), t.getX(), t.getY(), t.getHorizontalAlignment());
 		handler.getFontHandler().resetFontSize();
-	
+
 	}
 
 	/*
 	 * TEXT METHODS
 	 */
 
-	public final void print(String text, float x, float y, AlignHorizontal align) {
-		addText(new Text(text, x * getZoom(), y * getZoom(), align));
+	public final float print(String text, float x, float y, AlignHorizontal align) {
+		return printHelper(text, x, y, align);
 	}
 
-	public final void print(String text, float y, AlignHorizontal align) {
+	public final float print(String text, float y, AlignHorizontal align) {
 		float x;
 		if (align == AlignHorizontal.LEFT) {
-			x = handler.getFontHandler().getDistanceBetweenTexts();
+			x = handler.getFontHandler().getDistanceBetweenTexts(false);
 		} else if (align == AlignHorizontal.CENTER) {
 			x = width / 2;
 		} else /*if (align == AlignHorizontal.RIGHT)*/ {
-			x = (int) (width - handler.getFontHandler().getDistanceBetweenTexts());
+			x = (int) (width - handler.getFontHandler().getDistanceBetweenTexts(false));
 		}
-		addText(new Text(text, x, y * getZoom(), align));
+		return printHelper(text, x, y, align);
 	}
 
-	public final void printLeft(String text, float y) {
-		addText(new Text(text, handler.getFontHandler().getDistanceBetweenTexts(), y * getZoom(), AlignHorizontal.LEFT));
+	public final float printLeft(String text, float y) {
+		return print(text, y, AlignHorizontal.LEFT);
 	}
 
-	public final void printRight(String text, float y) {
-		addText(new Text(text, width - handler.getFontHandler().getDistanceBetweenTexts(), y * getZoom() + 20, AlignHorizontal.RIGHT));
+	public final float printRight(String text, float y) {
+		return print(text, y, AlignHorizontal.RIGHT);
 	}
 
-	public final void printCenter(String text, float y) {
-		addText(new Text(text, width / 2, y * getZoom(), AlignHorizontal.CENTER));
+	public final float printCenter(String text, float y) {
+		return print(text, y, AlignHorizontal.CENTER);
+	}
+
+	private final float printHelper(String text, float x, float y, AlignHorizontal align) {
+		float outY = y;
+		List<String> list = wordWrap ? Utils.splitString(text, width * getZoom(), handler) : Arrays.asList(new String[] {text});
+		for (String s : list) {
+			addText(new Text(s, x * getZoom(), outY * getZoom(), align));
+			outY += textHeightWithSpace();
+		}
+		return outY - y;
 	}
 
 	public final float textHeight() {
@@ -305,9 +320,13 @@ public class BaseDrawHandler {
 	public final void setLineType(LineType type) {
 		style.setLineType(type);
 	}
-	
+
 	public final void setLineType(String type) {
 		if (".".equals(type)) style.setLineType(LineType.DASHED);
 		else style.setLineType(LineType.SOLID);
+	}
+
+	public final void setWordWrap(boolean wordWrap) {
+		this.wordWrap = wordWrap;
 	}
 }
