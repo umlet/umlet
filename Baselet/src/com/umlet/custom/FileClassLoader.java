@@ -26,7 +26,7 @@ public class FileClassLoader extends ClassLoader {
 			c = defineClass(className, data, 0, data.length);
 			if (c == null) throw new ClassNotFoundException(className);
 		} catch (IOException e) {
-			throw new ClassNotFoundException(className);
+			throw new ClassNotFoundException(className, e);
 		}
 		return c;
 	}
