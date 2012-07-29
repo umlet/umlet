@@ -20,6 +20,7 @@ public class Properties {
 		BackgroundColor("bg", "green", "#0A37D3"),
 		LineType("lt", "."),
 		Autoresize("autosize", "true", "false"),
+		WordWrap("wordwrap", "true", "false"),
 		VerticalAlign("valign", AlignVertical.values()),
 		HorizontalAlign("halign", AlignHorizontal.values());
 
@@ -128,6 +129,8 @@ public class Properties {
 		drawer.setBackground(bgColor, bgAlpha);
 
 		drawer.setLineType(getSetting(SettingKey.LineType));
+
+		drawer.setWordWrap(Boolean.valueOf(getSetting(SettingKey.WordWrap)));
 	}
 
 	public void initSettingsFromText() {
@@ -180,7 +183,7 @@ public class Properties {
 		}
 		Vector<String> propertiesTextFiltered = getPropertiesTextFiltered();
 		float distanceBetweenTexts = drawer.textHeightWithSpace();
-		float yPos = calcStartPos(propertiesTextFiltered.get(0), width, height, propertiesTextFiltered.size()*distanceBetweenTexts, calc);
+		float yPos = calcStartPos(propertiesTextFiltered, width, height, propertiesTextFiltered.size()*distanceBetweenTexts, calc);
 
 		for (String line : propertiesTextFiltered) {
 			if (line.equals("--")) {
@@ -192,28 +195,35 @@ public class Properties {
 				float linePos = yPos - (distanceBetweenTexts/2);
 				float[] xPos = calc.getXValues(linePos, height, width);
 				drawer.drawLine(xPos[0]+1, linePos, xPos[1]-1, linePos);
+				yPos += distanceBetweenTexts;
 			}
 			else {
-				drawer.print(line, (int) yPos, hAlign);
+				yPos += drawer.print(line, (int) yPos, hAlign);
 			}
-			yPos += distanceBetweenTexts;
 		}
 	}
 
-	private float calcStartPos(String firstLine, int width, int height, float textBlockHeight, Settings calc) {
+	private float calcStartPos(Vector<String> propertiesTextFiltered, int width, int height, float textBlockHeight, Settings calc) {
 		AlignVertical vAlign;
 		try {
 			vAlign = AlignVertical.valueOf(getSetting(SettingKey.VerticalAlign).toUpperCase());
 		} catch (Exception e) {
 			vAlign = calc.getVAlign();
 		}
-		if (vAlign == AlignVertical.TOP) return calcNotInterferingStartPoint(firstLine, width, height, drawer.textHeight()/2, -drawer.textHeight(), drawer.textHeightWithSpace(), calc);
+
+		float textWidth = 0;
+		if (!propertiesTextFiltered.isEmpty()) {
+			textWidth = drawer.textWidth(propertiesTextFiltered.get(0));
+		}
+		
+		if (vAlign == AlignVertical.TOP) return calcNotInterferingStartPoint(textWidth, width, height, drawer.textHeight()/2, -drawer.textHeight(), drawer.textHeightWithSpace(), calc);
 		else if (vAlign == AlignVertical.CENTER) return Math.max((height - textBlockHeight)/2, drawer.textHeightWithSpace());
 		else /*if (verticalAlign == AlignVertical.BOTTOM)*/ return Math.max(height - textBlockHeight, drawer.textHeightWithSpace());
 	}
 
-	private float calcNotInterferingStartPoint(String firstLine, int width, int height, float increment, float relevantDisplacement, float start, Settings calc) {
-		float spaceNeededForText = drawer.textWidth(firstLine);
+	private float calcNotInterferingStartPoint(float textWidth, int width, int height, float increment, float relevantDisplacement, float start, Settings calc) {
+		if (textWidth > width) return start; // if the text is larger than the whole element, no optimization is possible
+		
 		float yPos = start - increment;
 		float[] xVals;
 		float availableSpace;
@@ -221,7 +231,7 @@ public class Properties {
 			yPos += increment;
 			xVals = calc.getXValues(yPos+relevantDisplacement, height, width);
 			availableSpace = xVals[1]-xVals[0];
-		} while (availableSpace <= spaceNeededForText && yPos < height/2);
+		} while (availableSpace <= textWidth && yPos < height/2);
 		return yPos;
 	}
 
