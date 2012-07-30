@@ -16,25 +16,26 @@ import com.umlet.element.experimental.settings.SettingsUseCase;
 public class Properties {
 
 	public enum SettingKey {
-		ForegroundColor("fg", "red", "#3c7a00"),
-		BackgroundColor("bg", "green", "#0A37D3"),
+		ForegroundColor("fg", "red"),
+		BackgroundColor("bg", "#0A37D3"),
 		LineType("lt", "."),
-		Autoresize("autosize", "true", "false"),
-		WordWrap("wordwrap", "true", "false"),
+		AutoResize("autoresize", "true"),
+		NotResizable("notresizable", "true"),
+		WordWrap("wordwrap", "true"),
 		VerticalAlign("valign", AlignVertical.values()),
 		HorizontalAlign("halign", AlignHorizontal.values());
 
 		private String key;
-		private Object[] possibleValues;
+		private Object[] autocompletionValues;
 
-		SettingKey(String key, String ... possibleValues) {
+		SettingKey(String key, String ... autocompletionValues) {
 			this.key = key;
-			this.possibleValues = possibleValues;
+			this.autocompletionValues = autocompletionValues;
 		}
 
-		SettingKey(String key, Object[] possibleValues) {
+		SettingKey(String key, Object[] autocompletionValues) {
 			this.key = key;
-			this.possibleValues = possibleValues;
+			this.autocompletionValues = autocompletionValues;
 		}
 
 		public String getKey() {
@@ -46,8 +47,8 @@ public class Properties {
 			return key;
 		}
 
-		public Object[] getPossibleValues() {
-			return possibleValues;
+		public Object[] autocompletionValues() {
+			return autocompletionValues;
 		}
 		
 	}

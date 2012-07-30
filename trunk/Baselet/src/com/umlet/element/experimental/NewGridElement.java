@@ -34,8 +34,6 @@ public abstract class NewGridElement implements GridElement {
 
 	private boolean stickingBorderActive;
 
-	private boolean allowResize = true;
-
 	protected BaseDrawHandler drawer; // this is the drawer for element specific stuff
 	private BaseDrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
 	private DiagramHandler handler;
@@ -239,8 +237,9 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public int getPossibleResizeDirections() {
-		if (this.allowResize) return Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
-		return 0;
+		boolean notresizable = Boolean.valueOf(properties.getSetting(SettingKey.NotResizable));
+		if (notresizable) return Constants.RESIZE_NONE;
+		else return Constants.RESIZE_ALL;
 	}
 
 	@Override
@@ -279,10 +278,6 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void setManualResized() {
 		/*nothing todo*/
-	}
-
-	private boolean isManResized() {
-		return properties.containsSetting(SettingKey.Autoresize, "false");
 	}
 
 	@Override

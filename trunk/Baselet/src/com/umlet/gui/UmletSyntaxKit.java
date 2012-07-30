@@ -36,7 +36,7 @@ public class UmletSyntaxKit extends DefaultSyntaxKit {
 	public static String createAutocompletionList(String listSep) {
 		String outString = "";
 		for (SettingKey setting : SettingKey.values()) {
-			for (Object value : setting.getPossibleValues()) {
+			for (Object value : setting.autocompletionValues()) {
 				outString += setting.getKey() + Properties.SEPARATOR + value + listSep;
 			}
 		}
