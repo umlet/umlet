@@ -46,8 +46,9 @@ public class OutputHandler {
 		int oldZoom = handler.getGridSize();
 		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
 
-		Collection<GridElement> entities = handler.getDrawPanel().getSelector().getSelectedEntities();
+		Collection<GridElement> entities = handler.getDrawPanel().getSelector().getSelectedEntitiesWithGroupParts();
 		if (entities.isEmpty()) entities = handler.getDrawPanel().getAllEntities();
+
 		OutputHandler.exportToOutputStream(extension, ostream, handler, entities);
 
 		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
