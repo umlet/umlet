@@ -36,7 +36,8 @@ public abstract class NewGridElement implements GridElement {
 
 	private boolean allowResize = true;
 
-	protected BaseDrawHandler drawer;
+	protected BaseDrawHandler drawer; // this is the drawer for element specific stuff
+	private BaseDrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
 	private DiagramHandler handler;
 
 	protected boolean isSelected = false;
@@ -51,7 +52,9 @@ public abstract class NewGridElement implements GridElement {
 		@Override
 		public void paint(Graphics g) {
 			drawer.setGraphics(g);
-			drawer.drawAll();
+			metaDrawer.setGraphics(g);
+			drawer.drawAll(isSelected);
+			metaDrawer.drawAll();
 		}
 
 
@@ -78,6 +81,7 @@ public abstract class NewGridElement implements GridElement {
 	public void init(Rectangle bounds, String panelAttributes, String panelAttributesAdditional, DiagramHandler handler) {
 		setBounds(bounds);
 		drawer = new BaseDrawHandler();
+		metaDrawer = new BaseDrawHandler();
 		properties = new Properties(panelAttributes, panelAttributesAdditional, drawer);
 		setHandlerAndInitListeners(handler);
 	}
@@ -97,6 +101,7 @@ public abstract class NewGridElement implements GridElement {
 		this.addMouseListener(this.getHandler().getEntityListener(this));
 		this.addMouseMotionListener(this.getHandler().getEntityListener(this));
 		drawer.setHandler(handler);
+		metaDrawer.setHandler(handler);
 	}
 
 	@Override
@@ -141,33 +146,40 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void onDeselected() {
 		isSelected = false;
-		drawer.setIsSelected(isSelected);
-		updateModelFromText();
+		updateMetaDrawer();
 		this.repaint();
 	}
 
 	@Override
 	public void onSelected() {
 		isSelected = true;
-		drawer.setIsSelected(isSelected);
-		updateModelFromText();
+		updateMetaDrawer();
 		this.repaint();
 	}
 
 	@Override
 	public void updateModelFromText() {
+		updateMetaDrawer();
+		properties.initSettingsFromText();
 		drawer.clearCache();
+		drawer.setSize(getRealSize());
+		updateConcreteModel();
+	}
+
+	protected abstract void updateConcreteModel();
+
+	private void updateMetaDrawer() {
+		metaDrawer.clearCache();
 		if (isSelected) { // draw blue rectangle around selected gridelements
-			drawer.setForegroundAlpha(Constants.ALPHA_FULL_TRANSPARENCY);
-			drawer.setBackground(Color.BLUE, Constants.ALPHA_NEARLY_FULL_TRANSPARENCY);
-			drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
-			drawer.resetColorSettings();
+			metaDrawer.setForegroundAlpha(Constants.ALPHA_FULL_TRANSPARENCY);
+			metaDrawer.setBackground(Color.BLUE, Constants.ALPHA_NEARLY_FULL_TRANSPARENCY);
+			metaDrawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
+			metaDrawer.resetColorSettings();
 			if (Constants.show_stickingpolygon && !this.isPartOfGroup()) {
 				drawStickingPolygon();
 			}
 		}
-		properties.initSettingsFromText();
-		drawer.setSize(getRealSize());
+		metaDrawer.setSize(getRealSize());
 	}
 
 	@Override
@@ -256,9 +268,11 @@ public abstract class NewGridElement implements GridElement {
 		if (Utils.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getRealSize().width - 1, this.getRealSize().height - 1);
 		else poly = this.generateStickingBorder(0, 0, this.getRealSize().width - 1, this.getRealSize().height - 1);
 		if (poly != null) {
-			drawer.setLineType(LineType.DASHED);
-			poly.draw(drawer);
-			drawer.setLineType(LineType.SOLID);
+			metaDrawer.setLineType(LineType.DASHED);
+			metaDrawer.setForegroundColor(Constants.DEFAULT_SELECTED_COLOR);
+			poly.draw(metaDrawer);
+			metaDrawer.setLineType(LineType.SOLID);
+			metaDrawer.resetColorSettings();
 		}
 	}
 

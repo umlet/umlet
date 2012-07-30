@@ -19,9 +19,12 @@ import com.baselet.diagram.draw.objects.PlotGridDrawConfig;
 
 public class PlotDrawHandler {
 	protected BaseDrawHandler base;
+	
+	private boolean isSelected;
 
 	public PlotDrawHandler(Graphics g, PlotGridDrawConfig plotDrawConfig) {
-		base = new BaseDrawHandler(g, plotDrawConfig.getDiagramHandler(),  plotDrawConfig.getFgColor(), plotDrawConfig.getBgColor(), plotDrawConfig.getSize(), plotDrawConfig.isSelected());
+		base = new BaseDrawHandler(g, plotDrawConfig.getDiagramHandler(),  plotDrawConfig.getFgColor(), plotDrawConfig.getBgColor(), plotDrawConfig.getSize());
+		isSelected = plotDrawConfig.isSelected();
 		drawLegend = false;
 		axisConfig = new AxisConfig();
 		canvas = new Canvas(plotDrawConfig.getRealSize());
@@ -199,7 +202,7 @@ public class PlotDrawHandler {
 
 		if (axisConfig.showAxis()) drawAxis(xIsDescription, axisConfig.getDescAxisPos(), axisConfig.getValueAxisPos(), axisConfig.getValueSegment(), axisConfig.getDescSegment());
 
-		base.drawAll();
+		base.drawAll(isSelected);
 		base.clearCache();
 	}
 
@@ -432,7 +435,7 @@ public class PlotDrawHandler {
 		diameter = height>width?width:height;
 		ulCorner = new Point(canvas.getInnerLeftPos(), canvas.getInnerUpPos());
 		drawPieArcs(horizontal, values[0], desc, ulCorner, diameter, valueSum, colors);
-		base.drawAll();
+		base.drawAll(isSelected);
 		base.clearCache();
 	}
 

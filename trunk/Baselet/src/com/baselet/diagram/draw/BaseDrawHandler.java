@@ -38,10 +38,8 @@ public class BaseDrawHandler {
 
 	private float width;
 	private float height;
-
-	private boolean isSelected;
-
-	private ArrayList<Drawable> drawables = new ArrayList<Drawable>();
+	
+	private DrawableCache drawables = new DrawableCache();
 
 	private boolean wordWrap = false;
 
@@ -50,12 +48,11 @@ public class BaseDrawHandler {
 		this.bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
 	}
 
-	public BaseDrawHandler(Graphics g, DiagramHandler handler, Color fgColor, Color bgColor, Dimension size, boolean isSelected) {
+	public BaseDrawHandler(Graphics g, DiagramHandler handler, Color fgColor, Color bgColor, Dimension size) {
 		this.fgColor = fgColor;
 		this.bgColor= bgColor;
 		setHandler(handler);
 		setGraphics(g);
-		setIsSelected(isSelected);
 		setSize(size);
 	}
 
@@ -68,11 +65,6 @@ public class BaseDrawHandler {
 		this.g2 = (Graphics2D) g;
 		g2.setFont(handler.getFontHandler().getFont());
 		g2.setColor(fgColor);
-	}
-
-	public void setIsSelected(boolean isSelected) {
-		if (isSelected) setForegroundColor(Constants.DEFAULT_SELECTED_COLOR);
-		this.isSelected = isSelected;
 	}
 
 	public void setSize(Dimension size) {
@@ -93,40 +85,20 @@ public class BaseDrawHandler {
 	}
 
 	public void drawAll() {
-		for (Drawable d : drawables) {
-			if (d.getShape() != null) {
-				drawShape(d.getStyle(), d.getShape());
-			}
-			if (d.getText() != null) {
-				drawText(d.getStyle(), d.getText());
-			}
+		drawables.drawAll(g2, handler);
+	}
+
+	public void drawAll(boolean isSelected) {
+		if (isSelected) {
+			drawables.setForegroundOverlay(Constants.DEFAULT_SELECTED_COLOR);
+		} else {
+			drawables.removeForegroundOverlay();
 		}
+		drawables.drawAll(g2, handler);
 	}
 
 	public void clearCache() {
 		drawables.clear();
-	}
-
-	private void drawShape(Style style, Shape s) {
-		// Shapes Background
-		g2.setColor(style.getBgColor());
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getBgAlpha()));
-		this.g2.fill(s);
-		// Shapes Foreground
-		g2.setColor(style.getFgColor());
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getFgAlpha()));
-		g2.setStroke(Utils.getStroke(style.getLineType(), style.getLineThickness()));
-		this.g2.draw(s);
-	}
-
-	private void drawText(Style style, Text t) {
-		g2.setColor(style.getFgColor());
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getFgAlpha()));
-		handler.getFontHandler().setFontSize(style.getFontSize());
-		g2.setFont(handler.getFontHandler().getFont());
-		handler.getFontHandler().writeText(this.g2, t.getText(), t.getX(), t.getY(), t.getHorizontalAlignment());
-		handler.getFontHandler().resetFontSize();
-
 	}
 
 	/*
@@ -285,8 +257,7 @@ public class BaseDrawHandler {
 	}
 
 	public final void setForegroundColor(Color color) {
-		if (isSelected) style.setFgColor(Constants.DEFAULT_SELECTED_COLOR);
-		else if (color == null) style.setFgColor(Constants.DEFAULT_FOREGROUND_COLOR);
+		if (color == null) style.setFgColor(Constants.DEFAULT_FOREGROUND_COLOR);
 		else style.setFgColor(color);
 	}
 

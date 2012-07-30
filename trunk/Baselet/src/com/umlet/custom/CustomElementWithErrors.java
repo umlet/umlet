@@ -25,7 +25,7 @@ public class CustomElementWithErrors extends CustomElement {
 
 	@Override
 	public void paint() {
-		BaseDrawHandler drawer = new BaseDrawHandler(g2, getHandler(), Color.RED, Constants.DEFAULT_BACKGROUND_COLOR, this.getRealSize(), isSelected());
+		BaseDrawHandler drawer = new BaseDrawHandler(g2, getHandler(), Color.RED, Constants.DEFAULT_BACKGROUND_COLOR, this.getRealSize());
 		drawer.drawRectangle(0, 0, this.getRealSize().width, this.getRealSize().height);
 		if (errors != null) {
 			float pos = textHeight();
@@ -36,7 +36,7 @@ public class CustomElementWithErrors extends CustomElement {
 				pos += textHeight();
 			}
 		}
-		drawer.drawAll();
+		drawer.drawAll(isSelected);
 	}
 
 	@Override
