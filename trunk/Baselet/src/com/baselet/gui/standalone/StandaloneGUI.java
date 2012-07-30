@@ -302,7 +302,7 @@ public class StandaloneGUI extends BaseGUI {
 		zoomListener = new ZoomListener();
 		zoomComboBox.addActionListener(zoomListener);
 		zoomComboBox.addMouseWheelListener(zoomListener);
-		zoomComboBox.setToolTipText("Use ± or Ctrl+mouse wheel to zoom");
+		zoomComboBox.setToolTipText("Use ± or mouse wheel to zoom");
 
 		String[] zoomValues = Constants.zoomValueList.toArray(new String[Constants.zoomValueList.size()]);
 		zoomComboBox.setModel(new DefaultComboBoxModel(zoomValues));
