@@ -10,11 +10,11 @@ import com.baselet.control.Constants.LineType;
 
 class Style {
 	private LineType lineType;
-	private float lineThickness;
+	private Float lineThickness;
 	private Color fgColor;
 	private Color bgColor;
-	private float fgAlpha;
-	private float bgAlpha;
+	private Float fgAlpha;
+	private Float bgAlpha;
 
 	private float fontSize;
 	private boolean applyZoom;
@@ -22,8 +22,8 @@ class Style {
 	public Style() {
 	}
 	
-	public Style(Color foregroundColor, Color backgroundColor, float fontSize) {
-		this.lineThickness = Constants.DEFAULT_LINE_THICKNESS;
+	public Style(Color foregroundColor, Color backgroundColor, Float fontSize) {
+		this.lineThickness = (float) Constants.DEFAULT_LINE_THICKNESS;
 		this.lineType = LineType.SOLID;
 		this.fgColor = foregroundColor;
 		this.bgColor = backgroundColor;

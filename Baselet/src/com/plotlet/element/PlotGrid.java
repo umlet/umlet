@@ -46,7 +46,7 @@ public class PlotGrid extends OldGridElement {
 
 		} catch (ParserException e) {
 //			log.error(null, e);
-			BaseDrawHandler draw = new BaseDrawHandler(g, getHandler(), fgColor, bgColor, getSize(), isSelected);
+			BaseDrawHandler draw = new BaseDrawHandler(g, getHandler(), fgColor, bgColor, getSize());
 			draw.setForegroundColor("red");
 			draw.setBackgroundColor("white");
 			draw.setBackgroundAlpha(Constants.ALPHA_NO_TRANSPARENCY);

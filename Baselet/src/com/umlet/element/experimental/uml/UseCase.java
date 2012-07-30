@@ -8,8 +8,7 @@ import com.umlet.element.experimental.NewGridElement;
 public class UseCase extends NewGridElement {
 
 	@Override
-	public void updateModelFromText() {
-		super.updateModelFromText();
+	public void updateConcreteModel() {
 		int halfWidth = getRealSize().width/2;
 		int halfHeight = getRealSize().height/2;
 		drawer.drawEllipse(halfWidth, halfHeight, halfWidth-1, halfHeight-1);
