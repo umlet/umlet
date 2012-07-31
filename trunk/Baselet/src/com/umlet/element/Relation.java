@@ -1780,7 +1780,6 @@ public class Relation extends OldGridElement {
 			this.changeSize(maxx - getSize().width, maxy - getSize().height);
 		}
 		if ((minx != 0) | (miny != 0)) {
-			this.changeLocation(minx, miny);
 			this.changeSize(-minx, -miny);
 			for (int i = 0; i < getLinePoints().size(); i++) {
 				Point p = getLinePoints().elementAt(i);
