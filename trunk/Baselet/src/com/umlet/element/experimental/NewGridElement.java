@@ -157,8 +157,18 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void updateModelFromText() {
-		updateMetaDrawer();
 		properties.initSettingsFromText();
+
+		if (Boolean.valueOf(properties.getSetting(SettingKey.AutoResize))) {
+			float width = 20;
+			for (String line : properties.getPropertiesTextFiltered()) {
+				width = Math.max(width, drawer.textWidth(line));
+			}
+			width += 10; // add 5px left and right as a buffer
+			setRealWidth(handler.realignToGrid(false, width, true));
+		}
+
+		updateMetaDrawer();
 		drawer.clearCache();
 		drawer.setSize(getRealSize());
 		updateConcreteModel();
@@ -366,6 +376,11 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public Dimension getRealSize() {
 		return new Dimension(getSize().width / handler.getGridSize() * Constants.DEFAULTGRIDSIZE, getSize().height / handler.getGridSize() * Constants.DEFAULTGRIDSIZE);
+	}
+	
+	private void setRealWidth(float width) {
+		float zoomedWidth = width / Constants.DEFAULTGRIDSIZE * handler.getGridSize();
+		component.setSize((int) zoomedWidth, getSize().height);
 	}
 
 	@Override
