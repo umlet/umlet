@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants.LineType;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.element.GridElement;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.DoubleStroke;
@@ -88,6 +89,7 @@ public abstract class Utils {
 		return returnVector;
 	}
 
+	@Deprecated //TODO remove after CustomElements are converted to NewGridElement
 	public static List<String> splitString(String text, float width, DiagramHandler handler) {
 		StringBuilder stringBuilder = new StringBuilder(text);
 		int lastEmptyChar = -1; // is -1 if there was no ' ' in this line
@@ -102,6 +104,35 @@ public abstract class Utils {
 				firstCharInLine = i + 1;
 			}
 			if ((handler.getFontHandler().getTextWidth(text.substring(firstCharInLine, i), false)) + 15 > width) {
+				if (lastEmptyChar != -1) {
+					stringBuilder.setCharAt(lastEmptyChar, '\n');
+					firstCharInLine = lastEmptyChar + 1;
+					lastEmptyChar = -1;
+				}
+				else {
+					stringBuilder.insert(i, '\n');
+					firstCharInLine = i+1;
+				}
+			}
+		}
+		return Arrays.asList(stringBuilder.toString().split("\\n"));
+	}
+
+	public static List<String> splitString(String text, float width, BaseDrawHandler drawer) {
+		float leftRightBuffer = drawer.textWidth("mm");
+		StringBuilder stringBuilder = new StringBuilder(text);
+		int lastEmptyChar = -1; // is -1 if there was no ' ' in this line
+		int firstCharInLine = 0;
+
+		for (int i = 0; i < text.length(); i++) {
+			if (stringBuilder.charAt(i) == ' ') {
+				lastEmptyChar = i;
+			}
+			else if (stringBuilder.charAt(i) == '\n') {
+				lastEmptyChar = -1;
+				firstCharInLine = i;
+			}
+			if (drawer.textWidth(text.substring(firstCharInLine, i)) + leftRightBuffer > width) {
 				if (lastEmptyChar != -1) {
 					stringBuilder.setCharAt(lastEmptyChar, '\n');
 					firstCharInLine = lastEmptyChar + 1;
