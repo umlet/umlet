@@ -183,8 +183,9 @@ public class Properties {
 			hAlign = calc.getHAlignBeforeLine();
 		}
 		Vector<String> propertiesTextFiltered = getPropertiesTextFiltered();
-		float distanceBetweenTexts = drawer.textHeightWithSpace();
-		float yPos = calcStartPos(propertiesTextFiltered, width, height, propertiesTextFiltered.size()*distanceBetweenTexts, calc);
+		float yPos = calcStartPos(propertiesTextFiltered, width, height, propertiesTextFiltered.size()*drawer.textHeight(), calc);
+//		drawer.drawLineHorizontal(height/2 - drawer.textHeight()/2);
+//		drawer.drawLineHorizontal(height/2 + drawer.textHeight()/2);
 
 		for (String line : propertiesTextFiltered) {
 			if (line.equals("--")) {
@@ -193,10 +194,10 @@ public class Properties {
 				} catch (Exception e) {
 					hAlign = calc.getHAlignAfterLine();
 				}
-				float linePos = yPos - (distanceBetweenTexts/2);
+				float linePos = yPos - (drawer.textHeight()) + 2;
 				float[] xPos = calc.getXValues(linePos, height, width);
 				drawer.drawLine(xPos[0]+1, linePos, xPos[1]-1, linePos);
-				yPos += distanceBetweenTexts;
+				yPos += 4;
 			}
 			else {
 				yPos += drawer.print(line, (int) yPos, hAlign);
@@ -216,9 +217,8 @@ public class Properties {
 		if (!propertiesTextFiltered.isEmpty()) {
 			textWidth = drawer.textWidth(propertiesTextFiltered.get(0));
 		}
-		
 		if (vAlign == AlignVertical.TOP) return calcNotInterferingStartPoint(textWidth, width, height, drawer.textHeight()/2, -drawer.textHeight(), drawer.textHeightWithSpace(), calc);
-		else if (vAlign == AlignVertical.CENTER) return Math.max((height - textBlockHeight)/2, drawer.textHeightWithSpace());
+		else if (vAlign == AlignVertical.CENTER) return Math.max((height - textBlockHeight)/2 + (drawer.textHeight() * 0.8f), drawer.textHeightWithSpace());
 		else /*if (verticalAlign == AlignVertical.BOTTOM)*/ return Math.max(height - textBlockHeight, drawer.textHeightWithSpace());
 	}
 

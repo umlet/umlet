@@ -203,11 +203,11 @@ public class BaseDrawHandler {
 	}
 
 	public final void drawLineHorizontal(float y) {
-		addShape(new Line2D.Float(0 * getZoom(), y * getZoom(), handler.realignToGrid(false, width, true), y * getZoom()));
+		addShape(new Line2D.Float(0, y * getZoom(), handler.realignToGrid(false, width * getZoom(), true), y * getZoom()));
 	}
 
 	public final void drawLineVertical(float x) {
-		addShape(new Line2D.Float(x * getZoom(), 0 * getZoom(), x * getZoom(), handler.realignToGrid(false, height, true)));
+		addShape(new Line2D.Float(x * getZoom(), 0, x * getZoom(), handler.realignToGrid(false, height, true)));
 	}
 
 	public final void drawPolygon(Polygon polygon) {
