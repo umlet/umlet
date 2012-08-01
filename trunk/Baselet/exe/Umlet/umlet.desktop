@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=UMLet
+GenericName=UMLet
+Comment=Free UML Tool for Fast UML Diagrams
+Exec=java -jar umlet.jar
+Icon=img/umlet_logo.png
+Terminal=false
+Categories=Development;
+StartupNotify=true

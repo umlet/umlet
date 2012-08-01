@@ -204,6 +204,7 @@
 		<!-- Copy everything into the standalone export directory -->
 		<copy todir="${dir.export.standalone}" file="${dir.executables}/${project.name.uc}.exe" />
 		<copy todir="${dir.export.standalone}" file="${dir.executables}/${project.name.lc}.sh" />
+		<copy todir="${dir.export.standalone}" file="${dir.executables}/${project.name.lc}.desktop" />
 
 		<copy todir="${dir.export.standalone}/html">
 			<fileset dir="html" excludes="*.generic"/>
