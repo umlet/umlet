@@ -1,13 +1,16 @@
 package com.umlet.element.experimental;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Utils;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
+import com.baselet.control.Utils;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsClass;
@@ -50,7 +53,7 @@ public class Properties {
 		public Object[] autocompletionValues() {
 			return autocompletionValues;
 		}
-		
+
 	}
 
 	public static final String SEPARATOR = "=";
@@ -130,8 +133,6 @@ public class Properties {
 		drawer.setBackground(bgColor, bgAlpha);
 
 		drawer.setLineType(getSetting(SettingKey.LineType));
-
-		drawer.setWordWrap(Boolean.valueOf(getSetting(SettingKey.WordWrap)));
 	}
 
 	public void initSettingsFromText() {
@@ -176,16 +177,32 @@ public class Properties {
 	}
 
 	public void drawPropertiesText(int width, int height, Settings calc) {
+		List<String> propertiesTextFiltered = new ArrayList<String>();
+		if (Boolean.valueOf(getSetting(SettingKey.WordWrap))) {
+			Vector<String> oneLine = getPropertiesTextFiltered();
+			for (String line : oneLine) {
+				propertiesTextFiltered.addAll(Utils.splitString(line, width, drawer));
+			}
+		}
+		else propertiesTextFiltered.addAll(getPropertiesTextFiltered());
+
+
 		AlignHorizontal hAlign;
 		try {
 			hAlign = AlignHorizontal.valueOf(getSetting(SettingKey.HorizontalAlign).toUpperCase());
 		} catch (Exception e) {
 			hAlign = calc.getHAlignBeforeLine();
 		}
-		Vector<String> propertiesTextFiltered = getPropertiesTextFiltered();
-		float yPos = calcStartPos(propertiesTextFiltered, width, height, propertiesTextFiltered.size()*drawer.textHeight(), calc);
-//		drawer.drawLineHorizontal(height/2 - drawer.textHeight()/2);
-//		drawer.drawLineHorizontal(height/2 + drawer.textHeight()/2);
+		
+		float textBlockHeight = 0;
+		for (String line : propertiesTextFiltered) {
+			if (line.equals("--")) textBlockHeight += 4;
+			else textBlockHeight += drawer.textHeightWithSpace();
+		}
+		
+		float yPos = calcStartPos(propertiesTextFiltered, width, height, textBlockHeight, calc);
+		//		drawer.drawLineHorizontal(height/2 - drawer.textHeight()/2);
+		//		drawer.drawLineHorizontal(height/2 + drawer.textHeight()/2);
 
 		for (String line : propertiesTextFiltered) {
 			if (line.equals("--")) {
@@ -200,12 +217,13 @@ public class Properties {
 				yPos += 4;
 			}
 			else {
-				yPos += drawer.print(line, (int) yPos, hAlign);
+				drawer.print(line, (int) yPos, hAlign);
+				yPos += drawer.textHeightWithSpace();
 			}
 		}
 	}
 
-	private float calcStartPos(Vector<String> propertiesTextFiltered, int width, int height, float textBlockHeight, Settings calc) {
+	private float calcStartPos(List<String> propertiesTextFiltered, int width, int height, float textBlockHeight, Settings calc) {
 		AlignVertical vAlign;
 		try {
 			vAlign = AlignVertical.valueOf(getSetting(SettingKey.VerticalAlign).toUpperCase());
@@ -218,13 +236,13 @@ public class Properties {
 			textWidth = drawer.textWidth(propertiesTextFiltered.get(0));
 		}
 		if (vAlign == AlignVertical.TOP) return calcNotInterferingStartPoint(textWidth, width, height, drawer.textHeight()/2, -drawer.textHeight(), drawer.textHeightWithSpace(), calc);
-		else if (vAlign == AlignVertical.CENTER) return Math.max((height - textBlockHeight)/2 + (drawer.textHeight() * 0.8f), drawer.textHeightWithSpace());
+		else if (vAlign == AlignVertical.CENTER) return Math.max((height - textBlockHeight)/2 + (drawer.textHeight() * 0.9f), drawer.textHeightWithSpace());
 		else /*if (verticalAlign == AlignVertical.BOTTOM)*/ return Math.max(height - textBlockHeight, drawer.textHeightWithSpace());
 	}
 
 	private float calcNotInterferingStartPoint(float textWidth, int width, int height, float increment, float relevantDisplacement, float start, Settings calc) {
 		if (textWidth > width) return start; // if the text is larger than the whole element, no optimization is possible
-		
+
 		float yPos = start - increment;
 		float[] xVals;
 		float availableSpace;

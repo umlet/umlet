@@ -38,10 +38,8 @@ public class BaseDrawHandler {
 
 	private float width;
 	private float height;
-	
-	private DrawableCache drawables = new DrawableCache();
 
-	private boolean wordWrap = false;
+	private DrawableCache drawables = new DrawableCache();
 
 	public BaseDrawHandler() {
 		this.fgColor = Constants.DEFAULT_FOREGROUND_COLOR;
@@ -105,11 +103,11 @@ public class BaseDrawHandler {
 	 * TEXT METHODS
 	 */
 
-	public final float print(String text, float x, float y, AlignHorizontal align) {
-		return printHelper(text, x, y, align);
+	public final void print(String text, float x, float y, AlignHorizontal align) {
+		addText(new Text(text, x * getZoom(), y * getZoom(), align));
 	}
 
-	public final float print(String text, float y, AlignHorizontal align) {
+	public final void print(String text, float y, AlignHorizontal align) {
 		float x;
 		if (align == AlignHorizontal.LEFT) {
 			x = handler.getFontHandler().getDistanceBetweenTexts(false);
@@ -118,29 +116,19 @@ public class BaseDrawHandler {
 		} else /*if (align == AlignHorizontal.RIGHT)*/ {
 			x = (int) (width - handler.getFontHandler().getDistanceBetweenTexts(false));
 		}
-		return printHelper(text, x, y, align);
+		print(text, x, y, align);
 	}
 
-	public final float printLeft(String text, float y) {
-		return print(text, y, AlignHorizontal.LEFT);
+	public final void printLeft(String text, float y) {
+		print(text, y, AlignHorizontal.LEFT);
 	}
 
-	public final float printRight(String text, float y) {
-		return print(text, y, AlignHorizontal.RIGHT);
+	public final void printRight(String text, float y) {
+		print(text, y, AlignHorizontal.RIGHT);
 	}
 
-	public final float printCenter(String text, float y) {
-		return print(text, y, AlignHorizontal.CENTER);
-	}
-
-	private final float printHelper(String text, float x, float y, AlignHorizontal align) {
-		float outY = y;
-		List<String> list = wordWrap ? Utils.splitString(text, width, handler) : Arrays.asList(new String[] {text});
-		for (String s : list) {
-			addText(new Text(s, x * getZoom(), outY * getZoom(), align));
-			outY += textHeightWithSpace();
-		}
-		return outY - y;
+	public final void printCenter(String text, float y) {
+		print(text, y, AlignHorizontal.CENTER);
 	}
 
 	public final float textHeight() {
@@ -295,9 +283,5 @@ public class BaseDrawHandler {
 	public final void setLineType(String type) {
 		if (".".equals(type)) style.setLineType(LineType.DASHED);
 		else style.setLineType(LineType.SOLID);
-	}
-
-	public final void setWordWrap(boolean wordWrap) {
-		this.wordWrap = wordWrap;
 	}
 }
