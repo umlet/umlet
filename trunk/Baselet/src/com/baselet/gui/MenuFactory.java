@@ -41,7 +41,7 @@ public class MenuFactory {
 	protected static final String NEW = "New";
 	protected static final String OPEN = "Open...";
 	protected static final String RECENT_FILES = "Recent files";
-	protected static final String GENERATE_CLASS = "Generate class elements from files or directory";
+	protected static final String GENERATE_CLASS = "Generate Class Elements from Files or Directory...";
 	protected static final String SAVE = "Save";
 	protected static final String SAVE_AS = "Save as...";
 	protected static final String EXPORT_AS = "Export as...";
@@ -75,7 +75,7 @@ public class MenuFactory {
 	public static final String HELP = "Help";
 	protected static final String ONLINE_HELP = "Online Help...";
 	protected static final String ONLINE_SAMPLE_DIAGRAMS = "Online Sample Diagrams...";
-	protected static final String VIDEO_TUTORIAL = "Video Tutorial: Basic Use and Custom Elements";
+	protected static final String VIDEO_TUTORIAL = "Video Tutorial: Basic Use and Custom Elements...";
 	protected static final String PROGRAM_HOMEPAGE = Program.PROGRAM_NAME + " Homepage...";
 	protected static final String RATE_PROGRAM = "Rate " + Program.PROGRAM_NAME + " at Eclipse Marketplace...";
 	protected static final String ABOUT_PROGRAM = "About " + Program.PROGRAM_NAME;
