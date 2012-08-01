@@ -7,6 +7,7 @@ import java.util.List;
 
 import japa.parser.JavaParser;
 import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.PackageDeclaration;
 import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.body.ConstructorDeclaration;
@@ -108,7 +109,9 @@ public class JpJavaClass implements JavaClass {
 
 	@Override
 	public String getPackage() {
-		String packageWithExtra = cu.getPackage().toString().replace("package ", "");
+		PackageDeclaration packageDecl = cu.getPackage();
+		if (packageDecl == null) return "";
+		String packageWithExtra = packageDecl.toString().replace("package ", "");
 		return packageWithExtra.substring(0, packageWithExtra.lastIndexOf(";"));
 	}
 }
