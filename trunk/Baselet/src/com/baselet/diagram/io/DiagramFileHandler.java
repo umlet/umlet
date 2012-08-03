@@ -31,7 +31,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
@@ -210,7 +209,7 @@ public class DiagramFileHandler {
 
 			// save helptext
 			String helptext = this.handler.getHelpText();
-			if (!helptext.equals(Constants.DEFAULT_HELPTEXT)) {
+			if (!helptext.equals(Constants.getDefaultHelptext())) {
 				Element help = doc.createElement("help_text");
 				help.appendChild(doc.createTextNode(helptext));
 				root.appendChild(help);

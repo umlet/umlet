@@ -215,7 +215,7 @@ public class DiagramHandler {
 	}
 
 	public String getHelpText() {
-		if (this.helptext == null) return Constants.DEFAULT_HELPTEXT;
+		if (this.helptext == null) return Constants.getDefaultHelptext();
 		else return this.helptext;
 	}
 

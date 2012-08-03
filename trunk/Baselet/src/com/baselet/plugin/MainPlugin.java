@@ -1,6 +1,7 @@
 package com.baselet.plugin;
 
 import java.net.URL;
+import java.util.Dictionary;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.FileLocator;
@@ -48,9 +49,10 @@ public class MainPlugin extends AbstractUIPlugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		
+
 		try {
-			Main.getInstance().initOverallSettings();
+			Main.getInstance().initLogger();
+			readBundleManifestInfo();
 			gui = new EclipseGUI(Main.getInstance());
 			Main.getInstance().init(gui);
 		} catch (Exception e) {
@@ -58,6 +60,13 @@ public class MainPlugin extends AbstractUIPlugin {
 		}
 	}
 
+	// Issue 83: Use OSGI Bundle to read Manifest information
+	private void readBundleManifestInfo() {
+		Dictionary<String, String> headers = MainPlugin.getDefault().getBundle().getHeaders();
+		PLUGIN_ID = MainPlugin.getDefault().getBundle().getSymbolicName();
+		Program.init(headers.get("Bundle-Name"), headers.get("Bundle-Version"));
+		
+	}
 
 	/*
 	 * (non-Javadoc)

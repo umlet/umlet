@@ -81,8 +81,8 @@ public abstract class Constants {
 		public static String VERSION;
 		public static String[] GRID_ELEMENT_PACKAGES = new String[] {"com.umlet.element", "com.umlet.element.custom", "com.plotlet.element", "com.baselet.element"};
 
-		public static void init(ProgramName name, String version) {
-			PROGRAM_NAME = name;
+		public static void init(String name, String version) {
+			PROGRAM_NAME = ProgramName.valueOf(name.toUpperCase());
 			WEBSITE = "http://www." + PROGRAM_NAME.toLowerCase() + ".com";
 
 			if (Program.RUNTIME_TYPE == RuntimeType.STANDALONE) CONFIG_NAME = Program.PROGRAM_NAME.toLowerCase() + ".cfg";
@@ -123,43 +123,43 @@ public abstract class Constants {
 	/**** NEWLINE CHARACTER AND DEFAULT HELP- AND MAILTEXT ****/
 	public static final String NEWLINE = "\n";
 	public static final String COMMENT = "//";
-	public static String DEFAULT_HELPTEXT;
-	public static String DEFAULT_MAILTEXT;
+	
+	public static String getDefaultHelptext() {
+		String returnString =
+				"// Uncomment the following line to change the fontsize and font:" + NEWLINE +
+				"// fontsize=14" + NEWLINE +
+				"// fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced" + NEWLINE +
+				"" + NEWLINE +
+				"" + NEWLINE +
+				"//////////////////////////////////////////////////////////////////////////////////////////////" + NEWLINE +
+				"// Welcome to " + Program.PROGRAM_NAME + "!" + NEWLINE +
+				"//" + NEWLINE +
+				"// Double-click on elements to add them to the diagram, or to copy them" + NEWLINE +
+				"// Edit elements by modifying the text in this panel" + NEWLINE +
+				"// Hold " + SystemInfo.META_KEY + " to select multiple elements" + NEWLINE +
+				"// Use " + SystemInfo.META_KEY + "+mouse to select via lasso" + NEWLINE +
+				"//" + NEWLINE +
+				"// Use +/- or " + SystemInfo.META_KEY + "+mouse wheel to zoom" + NEWLINE +
+				"// Drag a whole relation at its central square icon" + NEWLINE +
+				"//" + NEWLINE +
+				"// Press " + SystemInfo.META_KEY + "+C to copy the whole diagram to the system clipboard (then just paste it to, eg, Word)" + NEWLINE +
+				"// Edit the files in the \"palettes\" directory to create your own element palettes" + NEWLINE;
+			if (ProgramName.UMLET.equals(Program.PROGRAM_NAME)) {
+				returnString += "//" + NEWLINE + "// Select \"Custom Elements > New...\" to create new element types" + NEWLINE;
+			}
+			returnString += 
+				"//////////////////////////////////////////////////////////////////////////////////////////////" + NEWLINE +
+				"" + NEWLINE +
+				"" + NEWLINE +
+				"// This text will be stored with each diagram;  use it for notes.";
+			return returnString;
+	}
 
-	static {
-		DEFAULT_HELPTEXT =
-			"// Uncomment the following line to change the fontsize and font:" + NEWLINE +
-			"// fontsize=14" + NEWLINE +
-			"// fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced" + NEWLINE +
-			"" + NEWLINE +
-			"" + NEWLINE +
-			"//////////////////////////////////////////////////////////////////////////////////////////////" + NEWLINE +
-			"// Welcome to " + Program.PROGRAM_NAME + "!" + NEWLINE +
-			"//" + NEWLINE +
-			"// Double-click on elements to add them to the diagram, or to copy them" + NEWLINE +
-			"// Edit elements by modifying the text in this panel" + NEWLINE +
-			"// Hold " + SystemInfo.META_KEY + " to select multiple elements" + NEWLINE +
-			"// Use " + SystemInfo.META_KEY + "+mouse to select via lasso" + NEWLINE +
-			"//" + NEWLINE +
-			"// Use +/- or " + SystemInfo.META_KEY + "+mouse wheel to zoom" + NEWLINE +
-			"// Drag a whole relation at its central square icon" + NEWLINE +
-			"//" + NEWLINE +
-			"// Press " + SystemInfo.META_KEY + "+C to copy the whole diagram to the system clipboard (then just paste it to, eg, Word)" + NEWLINE +
-			"// Edit the files in the \"palettes\" directory to create your own element palettes" + NEWLINE;
-		if (Program.PROGRAM_NAME.equals(ProgramName.UMLET)) {
-			DEFAULT_HELPTEXT += "//" + NEWLINE + "// Select \"Custom Elements > New...\" to create new element types" + NEWLINE;
-		}
-		DEFAULT_HELPTEXT +=
-			"//////////////////////////////////////////////////////////////////////////////////////////////" + NEWLINE +
-			"" + NEWLINE +
-			"" + NEWLINE +
-			"// This text will be stored with each diagram;  use it for notes.";
-
-		DEFAULT_MAILTEXT =
-			"Type your message here.." + NEWLINE +
-			"" + NEWLINE +
-			"__" + NEWLINE;
-		DEFAULT_MAILTEXT += "To edit the diagram, open the attached " + Program.EXTENSION + "-file with the free editing tool " + Program.PROGRAM_NAME + " (" + Program.WEBSITE + ")";
+	public static String getDefaultMailtext() {
+		return "Type your message here.." + NEWLINE +
+				"" + NEWLINE +
+				"__" + NEWLINE +
+				"To edit the diagram, open the attached " + Program.EXTENSION + "-file with the free editing tool " + Program.PROGRAM_NAME + " (" + Program.WEBSITE + ")";
 	}
 
 	/**** AVAILABLE COLORS ****/

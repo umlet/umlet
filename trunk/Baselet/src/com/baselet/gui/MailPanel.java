@@ -169,7 +169,7 @@ public class MailPanel extends JPanel {
 
 	private void initAndFillComponents() {
 
-		ta_text.setText(Constants.DEFAULT_MAILTEXT);
+		ta_text.setText(Constants.getDefaultMailtext());
 
 		cb_pwSave.setText("save in config");
 		cb_attachXml.setText("attach " + Program.EXTENSION.toUpperCase());
