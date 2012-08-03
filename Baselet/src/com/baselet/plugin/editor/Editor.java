@@ -103,6 +103,7 @@ public class Editor extends EditorPart {
 		this.propertyTextPane = Main.getInstance().getGUI().createPropertyTextPane();
 		this.propertyTextPane.addFocusListener(new TextPaneFocusListener());
 		this.palettes = Main.getInstance().getPalettes();
+		MainPlugin.getGUI().setCurrentEditor(this);
 	}
 
 	@Override
@@ -215,6 +216,7 @@ public class Editor extends EditorPart {
 	}
 
 	public DrawPanel getDiagram() {
+		if (handler == null) return null;
 		return this.handler.getDrawPanel();
 	}
 

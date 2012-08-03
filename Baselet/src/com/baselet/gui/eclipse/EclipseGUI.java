@@ -185,7 +185,8 @@ public class EclipseGUI extends BaseGUI {
 	}
 
 	public void setCurrentEditor(Editor editor) {
-		if (!this.diagrams.containsKey(editor.getDiagram())) this.diagrams.put(editor.getDiagram().getHandler(), editor);
+		DrawPanel diagram = editor.getDiagram();
+		if (diagram != null && !this.diagrams.containsKey(diagram)) this.diagrams.put(diagram.getHandler(), editor);
 		this.editor = editor;
 	}
 
