@@ -82,6 +82,7 @@ public abstract class NewGridElement implements GridElement {
 		metaDrawer = new BaseDrawHandler();
 		properties = new Properties(panelAttributes, panelAttributesAdditional, drawer);
 		setHandlerAndInitListeners(handler);
+		updateModelFromText();
 	}
 
 	@Override

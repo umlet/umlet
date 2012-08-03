@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 
@@ -27,6 +29,7 @@ import com.baselet.control.Constants.Program;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
+import com.baselet.element.Group;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.DefaultFontMapper;
 import com.itextpdf.text.pdf.FontMapper;
@@ -46,12 +49,31 @@ public class OutputHandler {
 		int oldZoom = handler.getGridSize();
 		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
 
-		Collection<GridElement> entities = handler.getDrawPanel().getSelector().getSelectedEntitiesWithGroupParts();
-		if (entities.isEmpty()) entities = handler.getDrawPanel().getAllEntities();
+		// if some GridElements are selected, only export them
+		Collection<GridElement> elementsToDraw = degroupElements(handler.getDrawPanel().getSelector().getSelectedEntities());
+		// if nothing is selected, draw everything
+		if (elementsToDraw.isEmpty()) {
+			elementsToDraw = handler.getDrawPanel().getAllEntitiesNotInGroup();
+		}
 
-		OutputHandler.exportToOutputStream(extension, ostream, handler, entities);
+		OutputHandler.exportToOutputStream(extension, ostream, handler, elementsToDraw);
 
 		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
+	}
+
+	/**
+	 * helper method to degroup elements (because a paint-call on a group does not paint every contained member element)
+	 */
+	private static Collection<GridElement> degroupElements(Collection<GridElement> selectedEntities) {
+		Collection<GridElement> resultCol = new ArrayList<GridElement>();
+		for (GridElement selectedElement : selectedEntities) {
+			if (selectedElement instanceof Group) {
+				// if it's a top group, add all members recursively (groups can be part of groups)
+				if (!selectedElement.isPartOfGroup()) resultCol.addAll(((Group) selectedElement).getMembersRecursive());
+			}
+			else resultCol.add(selectedElement);
+		}
+		return resultCol;
 	}
 
 	public static BufferedImage createImageForClipboard(DiagramHandler handler, Collection<GridElement> entities) {
@@ -59,8 +81,11 @@ public class OutputHandler {
 		int oldZoom = handler.getGridSize();
 		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
 
-		if (entities.isEmpty()) entities = handler.getDrawPanel().getAllEntities();
-		BufferedImage returnImg = OutputHandler.getImageFromDiagram(handler, entities);
+		Collection<GridElement> elementsToDraw = degroupElements(entities);
+		if (elementsToDraw.isEmpty()) {
+			elementsToDraw = handler.getDrawPanel().getAllEntities();
+		}
+		BufferedImage returnImg = OutputHandler.getImageFromDiagram(handler, elementsToDraw);
 
 		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
 
@@ -137,6 +162,7 @@ public class OutputHandler {
 		root.setAttributeNS(null, "viewBox", String.format("%d %d %d %d", bounds.x, bounds.y, bounds.width, bounds.height));
 		Writer out = new OutputStreamWriter(ostream, "UTF-8"); // Stream out SVG to the standard output using UTF-8 character to byte encoding
 		graphics2d.stream(root, out, false, false);
+		graphics2d.dispose();
 	}
 
 	private static void exportImg(String imgType, OutputStream ostream, DiagramHandler handler, Collection<GridElement> entities) throws IOException {
@@ -154,6 +180,7 @@ public class OutputHandler {
 
 		setGraphicsBorders(bounds, graphics2d);
 		handler.getDrawPanel().paintEntitiesIntoGraphics2D(graphics2d, entities);
+		graphics2d.dispose();
 
 		return im;
 	}
