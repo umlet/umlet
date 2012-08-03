@@ -27,7 +27,6 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -69,7 +68,8 @@ public class Main {
 		//		System.setSecurityManager(new CustomElementSecurityManager());
 
 		Main main = Main.getInstance();
-		main.initOverallSettings();
+		main.readManifestInfo();
+		main.initLogger();
 		tmp_file = Program.PROGRAM_NAME.toLowerCase() + ".tmp";
 		tmp_read_file = Program.PROGRAM_NAME.toLowerCase() + "_1.tmp";
 
@@ -128,12 +128,7 @@ public class Main {
 		gui.initGUI(); // show gui
 	}
 
-	public void initOverallSettings() {
-		readManifestInfo();
-		initLogger();
-	}
-
-	private void initLogger() {
+	public void initLogger() {
 		String log4jFilePath = Path.homeProgram() + "log4j.properties";
 		try {
 			// If no log4j.properties file exists, we create a simple one
@@ -162,11 +157,7 @@ public class Main {
 	private void readManifestInfo() {
 		try {
 			Attributes attributes = Path.manifest().getMainAttributes();
-			String versionString = attributes.getValue("Bundle-Version");
-			String progNameString = attributes.getValue("Bundle-Name");
-			ProgramName programName = progNameString.equals("Umlet") ? ProgramName.UMLET : ProgramName.PLOTLET;
-			Program.init(programName, versionString);
-
+			Program.init(attributes.getValue("Bundle-Name"), attributes.getValue("Bundle-Version"));
 		} catch (Exception e) {
 			//			log.error(null, e);
 			e.printStackTrace(); // Logger is not initialized here
