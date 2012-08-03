@@ -57,6 +57,21 @@ public class Group extends OldGridElement {
 		return entities;
 	}
 
+	public Vector<GridElement> getMembersRecursive() {
+		Vector<GridElement> returnVector = new Vector<GridElement>();
+		getMembersAccumulator(returnVector);
+		return returnVector;
+	}
+
+	private void getMembersAccumulator(Vector<GridElement> vector) {
+		for (GridElement member : entities) {
+			if (member instanceof Group) {
+				((Group) member).getMembersAccumulator(vector);
+			}
+			else vector.add(member);
+		}
+	}
+
 	public void addMember(GridElement member) {
 		this.entities.add(member);
 		member.setGroup(this);

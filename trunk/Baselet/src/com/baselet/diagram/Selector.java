@@ -23,18 +23,6 @@ public class Selector {
 	public Vector<GridElement> getSelectedEntities() {
 		return selectedEntities;
 	}
-	
-	public Vector<GridElement> getSelectedEntitiesWithGroupParts() {
-		Vector<GridElement> elements = new Vector<GridElement>();
-		for (GridElement g: selectedEntities) {			
-			if (g instanceof Group) {
-				Vector<GridElement> gEntities = ((Group)g).getMembers();
-				elements.addAll(gEntities);
-				elements.add(g);
-			}
-		}
-		return elements;
-	}
 
 	public Selector(DrawPanel panel) {
 		this.panel = panel;

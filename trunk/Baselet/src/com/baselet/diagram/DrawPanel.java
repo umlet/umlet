@@ -18,6 +18,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.RepaintManager;
@@ -55,7 +56,7 @@ public class DrawPanel extends JPanel implements Printable {
 		// AB: Origin is used to track diagram movement in Cut Command
 		this.origin = new Point();
 		this.setLayout(null);
-		this.setBackground(Color.white);
+		this.setBackground(Color.WHITE);
 		// If this is not a palette, create a StartupHelpText
 		if (!(handler instanceof PaletteHandler)) {
 			StartUpHelpText startupHelpText = new StartUpHelpText(this);
@@ -150,16 +151,14 @@ public class DrawPanel extends JPanel implements Printable {
 	}
 
 	public void paintEntitiesIntoGraphics2D(Graphics2D g2d, Collection<GridElement> entities) {
+		JComponent tempPanel = new JPanel();
 		for (GridElement entity : entities) {
-			boolean entityWasSelected = entity.isSelected();
-			int x = entity.getLocation().x;
-			int y = entity.getLocation().y;
-			g2d.translate(x, y);
-			if (entityWasSelected) entity.onDeselected(); // If entity was selected deselect it before painting
-			entity.paint(g2d);
-			if (entityWasSelected) entity.onSelected(); // and select it afterwards.
-			g2d.translate(-x, -y);
+			tempPanel.add(entity.CloneFromMe().getComponent());
 		}
+		tempPanel.validate();
+		tempPanel.setBackground(Color.WHITE);
+		tempPanel.setSize(this.getWidth(), this.getHeight());
+		tempPanel.update(g2d);
 	}
 
 	@Override
@@ -521,7 +520,6 @@ public class DrawPanel extends JPanel implements Printable {
 	public void addElement(GridElement gridElement) {
 		componentToGridElementMap.put(gridElement.getComponent(), gridElement);
 		add(gridElement.getComponent());
-		gridElement.updateModelFromText();
 	}
 
 	public GridElement getElementToComponent(Component component) {
