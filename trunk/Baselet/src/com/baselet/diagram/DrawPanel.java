@@ -60,7 +60,9 @@ public class DrawPanel extends JPanel implements Printable {
 		// If this is not a palette, create a StartupHelpText
 		if (!(handler instanceof PaletteHandler)) {
 			StartUpHelpText startupHelpText = new StartUpHelpText(this);
-			new FileDrop(startupHelpText, new FileDropListener());
+			if (Program.RUNTIME_TYPE != RuntimeType.BATCH) { //Batchmode doesn't need drag&drop. Also fixes Issue 81
+				new FileDrop(startupHelpText, new FileDropListener());
+			}
 			this.add(startupHelpText);
 		}
 		this.selector = new Selector(this);
@@ -520,6 +522,12 @@ public class DrawPanel extends JPanel implements Printable {
 	public void addElement(GridElement gridElement) {
 		componentToGridElementMap.put(gridElement.getComponent(), gridElement);
 		add(gridElement.getComponent());
+	}
+	
+	public void updateElements() {
+		for (GridElement e : componentToGridElementMap.values()) {
+			e.updateModelFromText();
+		}
 	}
 
 	public GridElement getElementToComponent(Component component) {
