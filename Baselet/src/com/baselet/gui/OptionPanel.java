@@ -164,19 +164,15 @@ public class OptionPanel extends JPanel implements ActionListener {
 			Integer newsize = (Integer) this.default_fontsize.getSelectedItem();
 			if (Constants.defaultFontsize != newsize) {
 				Constants.defaultFontsize = newsize;
-				for (DiagramHandler d : Main.getInstance().getDiagrams()) {
+				for (DiagramHandler d : Main.getInstance().getDiagramsAndPalettes()) {
 					d.getFontHandler().resetFontSize();
-				}
-				for (DiagramHandler d : Main.getInstance().getPalettes().values()) {
-					d.getFontHandler().resetFontSize();
+					d.getDrawPanel().updateElements();
+					d.getDrawPanel().repaint();
 				}
 			}
 
 			String newfamily = (String) this.default_fontfamily.getSelectedItem();
 			if (Constants.defaultFontFamily != newfamily) Constants.defaultFontFamily = newfamily;
-
-			// After changing some options (eg: grid or fontsize) the GUI needs to be repainted
-			Main.getInstance().getGUI().repaint();
 		}
 	}
 }

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
@@ -432,6 +433,12 @@ public class Main {
 
 	public List<DiagramHandler> getDiagrams() {
 		return this.diagrams;
+	}
+	
+	public Collection<DiagramHandler> getDiagramsAndPalettes() {
+		List<DiagramHandler> returnList = new ArrayList<DiagramHandler>(getDiagrams());
+		returnList.addAll(getPalettes().values());
+		return returnList;
 	}
 
 	public BaseGUI getGUI() {
