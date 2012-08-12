@@ -82,7 +82,6 @@ public abstract class NewGridElement implements GridElement {
 		metaDrawer = new BaseDrawHandler();
 		properties = new Properties(panelAttributes, panelAttributesAdditional, drawer);
 		setHandlerAndInitListeners(handler);
-		updateModelFromText();
 	}
 
 	@Override
@@ -101,6 +100,7 @@ public abstract class NewGridElement implements GridElement {
 		this.addMouseMotionListener(this.getHandler().getEntityListener(this));
 		drawer.setHandler(handler);
 		metaDrawer.setHandler(handler);
+		updateModelFromText(); // must be updated here because the new handler could have a different zoom level
 	}
 
 	@Override
