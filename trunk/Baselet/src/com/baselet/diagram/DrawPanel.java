@@ -159,7 +159,7 @@ public class DrawPanel extends JPanel implements Printable {
 		}
 		tempPanel.validate();
 		tempPanel.setBackground(Color.WHITE);
-		tempPanel.setSize(this.getWidth(), this.getHeight());
+		tempPanel.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
 		tempPanel.update(g2d);
 	}
 
