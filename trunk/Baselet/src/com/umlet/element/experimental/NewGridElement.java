@@ -158,15 +158,19 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void updateModelFromText() {
-		properties.initSettingsFromText();
+		properties.initSettingsFromText(getRealSize().width, getRealSize().height);
 
 		if (Boolean.valueOf(properties.getSetting(SettingKey.AutoResize))) {
+			int BUFFER = 10; // buffer to make sure the text is inside the border
 			float width = 20;
 			for (String line : properties.getPropertiesTextFiltered()) {
 				width = Math.max(width, drawer.textWidth(line));
 			}
-			width += 10; // add 5px left and right as a buffer
-			setRealWidth(handler.realignToGrid(false, width, true));
+			width += BUFFER;
+			float height = Math.max(20, properties.getTextBlockHeight() + BUFFER);
+			setRealSize(handler.realignToGrid(false, width, true), handler.realignToGrid(false, height, true));
+			// settings must be reinitialized (first initialization is necessary for wordwrap, second to have correct sizes to draw)
+			properties.initSettingsFromText(getRealSize().width, getRealSize().height);
 		}
 
 		updateMetaDrawer();
@@ -379,9 +383,10 @@ public abstract class NewGridElement implements GridElement {
 		return new Dimension(getSize().width / handler.getGridSize() * Constants.DEFAULTGRIDSIZE, getSize().height / handler.getGridSize() * Constants.DEFAULTGRIDSIZE);
 	}
 	
-	private void setRealWidth(float width) {
+	private void setRealSize(float width, float height) {
+		float zoomedHeight = height / Constants.DEFAULTGRIDSIZE * handler.getGridSize();
 		float zoomedWidth = width / Constants.DEFAULTGRIDSIZE * handler.getGridSize();
-		component.setSize((int) zoomedWidth, getSize().height);
+		component.setSize((int) zoomedWidth, (int) zoomedHeight);
 	}
 
 	@Override

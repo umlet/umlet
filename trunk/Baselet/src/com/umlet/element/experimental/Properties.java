@@ -2,7 +2,6 @@ package com.umlet.element.experimental;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -64,6 +63,11 @@ public class Properties {
 	private BaseDrawHandler drawer;
 
 	protected HashMap<String, String> settings = new HashMap<String, String>();
+
+	private int gridElementWidth;
+	private int gridElementHeight;
+
+	private List<String> propertiesTextToDraw;
 
 	public Properties(String panelAttributes, String panelAttributesAdditional, BaseDrawHandler drawer) {
 		this.panelAttributes = panelAttributes;
@@ -135,7 +139,9 @@ public class Properties {
 		drawer.setLineType(getSetting(SettingKey.LineType));
 	}
 
-	public void initSettingsFromText() {
+	public void initSettingsFromText(int gridElementWidth, int gridElementHeight) {
+		this.gridElementWidth = gridElementWidth;
+		this.gridElementHeight = gridElementHeight;
 		settings.clear();
 		for (String line : getPropertiesText()) {
 			if (line.contains(SEPARATOR)) {
@@ -144,6 +150,8 @@ public class Properties {
 			}
 		}
 		applyProperties();
+
+		propertiesTextToDraw = getPropertiesTextAndApplyWordWrapIfSet();
 	}
 
 	public String getSetting(SettingKey key) {
@@ -168,24 +176,15 @@ public class Properties {
 
 
 
-	public void drawTextForUseCase(int width, int height) {
-		drawPropertiesText(width, height, new SettingsUseCase());
+	public void drawTextForUseCase() {
+		drawPropertiesText(new SettingsUseCase());
 	}
 
-	public void drawTextForClass(int width, int height) {
-		drawPropertiesText(width, height, new SettingsClass());
+	public void drawTextForClass() {
+		drawPropertiesText(new SettingsClass());
 	}
 
-	public void drawPropertiesText(int width, int height, Settings calc) {
-		List<String> propertiesTextFiltered = new ArrayList<String>();
-		if (Boolean.valueOf(getSetting(SettingKey.WordWrap))) {
-			Vector<String> oneLine = getPropertiesTextFiltered();
-			for (String line : oneLine) {
-				propertiesTextFiltered.addAll(Utils.splitString(line, width, drawer));
-			}
-		}
-		else propertiesTextFiltered.addAll(getPropertiesTextFiltered());
-
+	public void drawPropertiesText(Settings calc) {
 
 		AlignHorizontal hAlign;
 		try {
@@ -194,17 +193,11 @@ public class Properties {
 			hAlign = calc.getHAlignBeforeLine();
 		}
 		
-		float textBlockHeight = 0;
-		for (String line : propertiesTextFiltered) {
-			if (line.equals("--")) textBlockHeight += 4;
-			else textBlockHeight += drawer.textHeightWithSpace();
-		}
-		
-		float yPos = calcStartPos(propertiesTextFiltered, width, height, textBlockHeight, calc);
+		float yPos = calcStartPos(calc);
 		//		drawer.drawLineHorizontal(height/2 - drawer.textHeight()/2);
 		//		drawer.drawLineHorizontal(height/2 + drawer.textHeight()/2);
 
-		for (String line : propertiesTextFiltered) {
+		for (String line : propertiesTextToDraw) {
 			if (line.equals("--")) {
 				try {
 					hAlign = AlignHorizontal.valueOf(getSetting(SettingKey.HorizontalAlign).toUpperCase());
@@ -212,7 +205,7 @@ public class Properties {
 					hAlign = calc.getHAlignAfterLine();
 				}
 				float linePos = yPos - (drawer.textHeight()) + 2;
-				float[] xPos = calc.getXValues(linePos, height, width);
+				float[] xPos = calc.getXValues(linePos, gridElementHeight, gridElementWidth);
 				drawer.drawLine(xPos[0]+1, linePos, xPos[1]-1, linePos);
 				yPos += 4;
 			}
@@ -223,7 +216,28 @@ public class Properties {
 		}
 	}
 
-	private float calcStartPos(List<String> propertiesTextFiltered, int width, int height, float textBlockHeight, Settings calc) {
+	private List<String> getPropertiesTextAndApplyWordWrapIfSet() {
+		List<String> propertiesTextFiltered = new ArrayList<String>();
+		if (Boolean.valueOf(getSetting(SettingKey.WordWrap))) {
+			Vector<String> oneLine = getPropertiesTextFiltered();
+			for (String line : oneLine) {
+				propertiesTextFiltered.addAll(Utils.splitString(line, gridElementWidth, drawer));
+			}
+		}
+		else propertiesTextFiltered.addAll(getPropertiesTextFiltered());
+		return propertiesTextFiltered;
+	}
+
+	public float getTextBlockHeight() {
+		float textBlockHeight = 0;
+		for (String line : propertiesTextToDraw) {
+			if (line.equals("--")) textBlockHeight += 4;
+			else textBlockHeight += drawer.textHeightWithSpace();
+		}
+		return textBlockHeight;
+	}
+
+	private float calcStartPos(Settings calc) {
 		AlignVertical vAlign;
 		try {
 			vAlign = AlignVertical.valueOf(getSetting(SettingKey.VerticalAlign).toUpperCase());
@@ -232,12 +246,13 @@ public class Properties {
 		}
 
 		float textWidth = 0;
-		if (!propertiesTextFiltered.isEmpty()) {
-			textWidth = drawer.textWidth(propertiesTextFiltered.get(0));
+		if (!propertiesTextToDraw.isEmpty()) {
+			textWidth = drawer.textWidth(propertiesTextToDraw.get(0));
 		}
-		if (vAlign == AlignVertical.TOP) return calcNotInterferingStartPoint(textWidth, width, height, drawer.textHeight()/2, -drawer.textHeight(), drawer.textHeightWithSpace(), calc);
-		else if (vAlign == AlignVertical.CENTER) return Math.max((height - textBlockHeight)/2 + (drawer.textHeight() * 0.9f), drawer.textHeightWithSpace());
-		else /*if (verticalAlign == AlignVertical.BOTTOM)*/ return Math.max(height - textBlockHeight, drawer.textHeightWithSpace());
+		float textHeight = getTextBlockHeight();
+		if (vAlign == AlignVertical.TOP) return calcNotInterferingStartPoint(textWidth, gridElementWidth, gridElementHeight, drawer.textHeight()/2, -drawer.textHeight(), drawer.textHeightWithSpace(), calc);
+		else if (vAlign == AlignVertical.CENTER) return Math.max((gridElementHeight - textHeight)/2 + (drawer.textHeight() * 0.9f), drawer.textHeightWithSpace());
+		else /*if (verticalAlign == AlignVertical.BOTTOM)*/ return Math.max(gridElementHeight - textHeight, drawer.textHeightWithSpace());
 	}
 
 	private float calcNotInterferingStartPoint(float textWidth, int width, int height, float increment, float relevantDisplacement, float start, Settings calc) {
