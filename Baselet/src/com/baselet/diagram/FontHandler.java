@@ -51,7 +51,7 @@ public class FontHandler {
 	}
 
 	public void setDiagramDefaultFontSize(Float diagramDefaultSize) {
-		if (Constants.fontSizeList.contains(diagramDefaultSize)) this.diagramDefaultSize = diagramDefaultSize;
+		this.diagramDefaultSize = diagramDefaultSize;
 	}
 
 	public void resetFontSize() {
@@ -68,11 +68,9 @@ public class FontHandler {
 
 	public float getFontSize(boolean applyZoom) {
 		Float returnFontSize;
-		if (fontSize == null) {
-			if (diagramDefaultSize != null) returnFontSize = diagramDefaultSize;
-			else returnFontSize = Float.valueOf(Constants.defaultFontsize);
-		}
-		else returnFontSize = fontSize;
+		if (diagramDefaultSize != null) returnFontSize = diagramDefaultSize;
+		else if (fontSize != null) returnFontSize = fontSize;
+		else returnFontSize = Float.valueOf(Constants.defaultFontsize);
 
 		if (applyZoom) return returnFontSize * handler.getGridSize() / Constants.DEFAULTGRIDSIZE;
 		else return returnFontSize;
@@ -130,7 +128,7 @@ public class FontHandler {
 		float fontSize = getFontSize(applyZoom);
 		FormattedFont formattedFont = new FormattedFont(stringWithFormatLabels, fontSize, getFont(applyZoom), g2.getFontRenderContext());
 		this.fontrenderContext = g2.getFontRenderContext(); //TODO workaround to make sure getTextSize works without a graphics object
-		
+
 		if (align == AlignHorizontal.CENTER) x = (int) (x - formattedFont.getWidth() / 2);
 		else if (align == AlignHorizontal.RIGHT) x = (int) (x - formattedFont.getWidth());
 

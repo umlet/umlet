@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -63,7 +65,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 			uis_humanReadableNameVector.add(info.getName());
 		}
 		this.ui_manager = new JComboBox(uis_humanReadableNameVector);
-		this.default_fontsize = new JComboBox(Constants.fontSizeList.toArray(new Integer[Constants.fontSizeList.size()]));
+		this.default_fontsize = new JComboBox(new Integer[] {9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
 		this.default_fontfamily = new JComboBox(Constants.fontFamilyList.toArray(new String[Constants.fontFamilyList.size()]));
 
 		this.add(new JLabel("Show sticking ploygon"));
