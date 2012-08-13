@@ -20,16 +20,10 @@ class Style {
 	private boolean applyZoom;
 	
 	public Style() {
-	}
-	
-	public Style(Color foregroundColor, Color backgroundColor, Float fontSize) {
 		this.lineThickness = (float) Constants.DEFAULT_LINE_THICKNESS;
 		this.lineType = LineType.SOLID;
-		this.fgColor = foregroundColor;
-		this.bgColor = backgroundColor;
 		this.fgAlpha = Constants.ALPHA_NO_TRANSPARENCY;
 		this.bgAlpha = Constants.ALPHA_MIDDLE_TRANSPARENCY;
-		this.fontSize = fontSize;
 		this.applyZoom = true;
 	}
 	

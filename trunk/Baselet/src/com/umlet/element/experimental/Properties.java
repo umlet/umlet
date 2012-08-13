@@ -105,7 +105,7 @@ public class Properties {
 	}
 
 	public Vector<String> getPropertiesTextFiltered() {
-		return decomposePropertiesText(this.getPanelAttributes(), Constants.NEWLINE, true, true);
+		return decomposePropertiesText(this.getPanelAttributes(), Constants.NEWLINE, true, false);
 	}
 
 	private Vector<String> decomposePropertiesText(String fullString, String delimiter, boolean filterComments, boolean filterNewLines) {
