@@ -4,6 +4,7 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 
@@ -23,7 +24,7 @@ public class HelpPanelChanged extends Command {
 
 	public static Float getFontsize(String text) {
 		if (text == null) return null;
-		Pattern p = Pattern.compile("fontsize=([0-9]+)( .*)?");
+		Pattern p = Pattern.compile("fontsize=" + Constants.REGEX_FLOAT + "( .*)?");
 		Vector<String> txt = Utils.decomposeStrings(text);
 		for (String t : txt) {
 			Matcher m = p.matcher(t);
@@ -60,6 +61,7 @@ public class HelpPanelChanged extends Command {
 		String fontfamily = getFontfamily(changed_to);
 		if (fontfamily != null) handler.getFontHandler().setDiagramDefaultFontFamily(fontfamily);
 		else handler.getFontHandler().resetDiagramDefaultFontFamily();
+		handler.getDrawPanel().updateElements();
 		handler.getDrawPanel().repaint();
 	}
 
@@ -68,6 +70,7 @@ public class HelpPanelChanged extends Command {
 		super.undo(handler);
 		handler.setHelpText(changed_from);
 		handler.getFontHandler().setDiagramDefaultFontSize(getFontsize(changed_from));
+		handler.getDrawPanel().updateElements();
 		handler.getDrawPanel().repaint();
 	}
 

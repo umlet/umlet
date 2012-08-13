@@ -198,6 +198,10 @@ public abstract class Constants {
 		}
 	}
 
+	/**** REGULAR EXPRESSIONS ****/
+
+	public static final String REGEX_FLOAT = "(\\d+(\\.\\d+)?)";
+	
 	/**** OTHER CONSTANTS ****/
 
 	public static final String CUSTOM_ELEMENT_CLASSNAME = "CustomElementImpl";
@@ -238,15 +242,6 @@ public abstract class Constants {
 
 	public static final int PASTE_DISPLACEMENT_GRIDS = 2;
 	public static final Color GRID_COLOR = new Color(235, 235, 235);
-
-	public static final Integer FONT_MIN = 9;
-	public static final Integer FONT_MAX = 20;
-	public static final List<Integer> fontSizeList = new ArrayList<Integer>();
-	static {
-		for (int i = FONT_MIN; i <= FONT_MAX; i++) {
-			fontSizeList.add(i);
-		}
-	}
 
 	public static final List<String> fontFamilyList = Arrays.asList(new String[] {Font.SANS_SERIF, Font.SERIF, Font.MONOSPACED});
 	
