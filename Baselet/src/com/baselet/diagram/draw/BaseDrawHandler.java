@@ -56,7 +56,8 @@ public class BaseDrawHandler {
 
 	public void setHandler(DiagramHandler handler) {
 		this.handler = handler;
-		this.style = new Style(fgColor, bgColor, handler.getFontHandler().getFontSize(false));
+		this.style = new Style();
+		resetStyle();
 	}
 
 	public void setGraphics(Graphics g) {
@@ -275,6 +276,10 @@ public class BaseDrawHandler {
 	public final void setFontSize(float fontSize) {
 		style.setFontSize(fontSize);
 	}
+	
+	public void resetFontSize() {
+		style.setFontSize(handler.getFontHandler().getFontSize(false));
+	}
 
 	public final void setLineType(LineType type) {
 		style.setLineType(type);
@@ -283,5 +288,10 @@ public class BaseDrawHandler {
 	public final void setLineType(String type) {
 		if (".".equals(type)) style.setLineType(LineType.DASHED);
 		else style.setLineType(LineType.SOLID);
+	}
+
+	public void resetStyle() {
+		resetFontSize();
+		resetColorSettings();
 	}
 }

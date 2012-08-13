@@ -158,6 +158,9 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void updateModelFromText() {
+		drawer.clearCache();
+		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
+		
 		properties.initSettingsFromText(getRealSize().width, getRealSize().height);
 
 		if (Boolean.valueOf(properties.getSetting(SettingKey.AutoResize))) {
@@ -173,9 +176,8 @@ public abstract class NewGridElement implements GridElement {
 			properties.initSettingsFromText(getRealSize().width, getRealSize().height);
 		}
 
+		drawer.setSize(getRealSize()); // must be set after possible resizing due to AUTORESIZE
 		updateMetaDrawer();
-		drawer.clearCache();
-		drawer.setSize(getRealSize());
 		updateConcreteModel();
 	}
 
