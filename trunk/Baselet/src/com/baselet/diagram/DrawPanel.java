@@ -13,7 +13,6 @@ import java.awt.print.Printable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
@@ -47,7 +46,8 @@ public class DrawPanel extends JPanel implements Printable {
 	private JScrollPane _scr;
 	private Selector selector;
 	private DiagramHandler handler;
-	private List<DiagramNotification> notifications = new ArrayList<DiagramNotification>();
+	private DiagramNotification notification;
+	private TimerTask notificationRemoveTask;
 
 	private HashMap<Component, GridElement> componentToGridElementMap = new HashMap<Component, GridElement>();
 
@@ -450,18 +450,25 @@ public class DrawPanel extends JPanel implements Printable {
 	}
 
 	public void showNotification(String message) {
-
-		// There are no notifications on palette panels
-		if (getHandler() instanceof PaletteHandler) return;
-
-		if (!notifications.isEmpty()) {
-			for (DiagramNotification n : notifications)
-				this.remove(n);
+		if (notification != null) {
+				this.remove(notification);
+				if (notificationRemoveTask != null) notificationRemoveTask.cancel();
 		}
 
-		DiagramNotification notification = new DiagramNotification(this.getHandler(), message);
-		notifications.add(notification);
+		notification = new DiagramNotification(this.getScrollPane().getViewport().getViewRect(), message);
+		notificationRemoveTask = new TimerTask() {
+			@Override
+			public void run() {
+				if (notification != null) {
+					DrawPanel.this.remove(notification);
+					DrawPanel.this.repaint();
+				}
+			}
+		};
+		new Timer().schedule(notificationRemoveTask, Constants.NOTIFICATION_SHOW_TIME);
+		
 		this.add(notification);
+		this.repaint();
 	}
 
 	/**

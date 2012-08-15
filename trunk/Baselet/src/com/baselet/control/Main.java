@@ -409,7 +409,7 @@ public class Main {
 		Collections.sort(palettenames, new Comparator<String>() {
 			@Override
 			public int compare(String s1, String s2) {
-				if (s1.equals("Default")) return 0;
+				if (s1.equals("Default")) return 0; // Default palette is always on top
 				else return s1.compareTo(s2);
 			}
 		});
@@ -461,9 +461,13 @@ public class Main {
 		return this.currentDiagramHandler;
 	}
 
-	public void showNotification(String message) {
-		notificationDiagramHandler.getDrawPanel().showNotification(message);
-		notificationDiagramHandler.getDrawPanel().repaint();
+	public void showNotification(final String message) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				notificationDiagramHandler.getDrawPanel().showNotification(message);
+			}
+		});
 	}
 
 }
