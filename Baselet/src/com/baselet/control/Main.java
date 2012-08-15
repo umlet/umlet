@@ -341,12 +341,12 @@ public class Main {
 	}
 
 	private void doOpenHelper(String filename) {
-		if (lastTabIsEmpty()) (diagrams.get(diagrams.size() - 1)).doClose(); // If the last tab is empty close it (the opened diagram replaces the new one)
 		File file = new File(filename);
 		if (!file.exists()) {
 			Main.getInstance().showNotification(filename + " does not exist");
 			return;
 		}
+		if (lastTabIsEmpty()) (diagrams.get(diagrams.size() - 1)).doClose(); // If the last tab is empty close it (the opened diagram replaces the new one)
 		DiagramHandler diagram = new DiagramHandler(file);
 		this.diagrams.add(diagram);
 		this.gui.open(diagram);
