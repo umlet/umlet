@@ -2,10 +2,13 @@ package com.baselet.control;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
@@ -318,6 +321,13 @@ public abstract class Utils {
 		int areaB = b.getSize().height * b.getSize().width;
 		if (areaA < areaB) return true;
 		return false;
+	}
+
+	public static DimensionFloat getTextSize(String s, Font notificationFont, FontRenderContext frc) {
+		if (s == null) return null;
+		if (s.length() == 0) return new DimensionFloat(0, 0);
+		TextLayout tl = new TextLayout(s, notificationFont, frc);
+		return new DimensionFloat((int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
 	}
 
 }

@@ -390,7 +390,7 @@ public class DiagramHandler {
 			String zoomtext;
 			if (Main.getInstance().getDiagramHandler() instanceof PaletteHandler) zoomtext = "Palette zoomed to " + (new Integer((int) zoomFactor).toString()) + "%";
 			else zoomtext = "Diagram zoomed to " + (new Integer((int) zoomFactor).toString()) + "%";
-			Main.getInstance().getCurrentInfoDiagramHandler().getDrawPanel().showNotification(zoomtext);
+			Main.getInstance().showNotification(zoomtext);
 		}
 	}
 }

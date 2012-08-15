@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -13,9 +15,11 @@ import javax.swing.JComponent;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.DimensionFloat;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.FontHandler;
 import com.baselet.gui.NotificationRemoveTask;
 
 public class DiagramNotification extends JComponent {
@@ -24,11 +28,14 @@ public class DiagramNotification extends JComponent {
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 	private DiagramHandler handler;
 	private String message;
+	
+	private static final Font notificationFont = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
+	private static final FontRenderContext frc = new FontRenderContext(null, true, true);
 
 	public DiagramNotification(DiagramHandler handler, String message) {
 		this.handler = handler;
 		this.message = message;
-		TimerTask removeTask = new NotificationRemoveTask(this, Main.getInstance().getGUI().getCurrentDiagram());
+		TimerTask removeTask = new NotificationRemoveTask(this, handler.getDrawPanel());
 		new Timer().schedule(removeTask, 3000);
 		this.setSize(100, 20);
 		this.adaptDimensions();
@@ -44,8 +51,7 @@ public class DiagramNotification extends JComponent {
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f)); // 40% transparency
 		g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 
-		Font font = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
-		g2.setFont(font);
+		g2.setFont(notificationFont);
 		adaptDimensions();
 
 		log.debug("zoomFactor=" + handler.getZoomFactor());
@@ -64,12 +70,10 @@ public class DiagramNotification extends JComponent {
 
 	private void adaptDimensions() {
 		Rectangle currentView = this.handler.getDrawPanel().getScrollPane().getViewport().getViewRect();
-		Graphics2D g2 = (Graphics2D) this.handler.getDrawPanel().getGraphics();
-		int x = (int) (currentView.getMaxX() - g2.getFontMetrics().stringWidth(message));
+		DimensionFloat textSize = Utils.getTextSize(message, notificationFont, frc);
+		int x = (int) (currentView.getMaxX() - textSize.getWidth() - 20);
 		int y = (int) (currentView.getMinY() + 10);
 		this.setLocation(x, y);
-		int width = g2.getFontMetrics().stringWidth(message);
-		int height = g2.getFontMetrics().getHeight() + 10;
-		this.setSize(width, height);
+		this.setSize((int) textSize.getWidth() + 10, (int) textSize.getHeight() + 10);
 	}
 }
