@@ -1,7 +1,11 @@
 package com.umlet.element.experimental.settings;
 
+import java.util.Collection;
+
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
+import com.umlet.element.experimental.settings.text.Facet;
+import com.umlet.element.experimental.settings.text.SeparatorLineWithHalignSwitch;
 
 public class SettingsUseCase implements Settings {
 
@@ -19,12 +23,12 @@ public class SettingsUseCase implements Settings {
 	}
 
 	@Override
-	public AlignHorizontal getHAlignBeforeLine() {
+	public AlignHorizontal getHAlign() {
 		return AlignHorizontal.CENTER;
 	}
 
 	@Override
-	public AlignHorizontal getHAlignAfterLine() {
-		return AlignHorizontal.CENTER;
+	public Facet[] getFacets() {
+		return new Facet[]{new SeparatorLineWithHalignSwitch(false)};
 	}
 }

@@ -1,7 +1,10 @@
 package com.umlet.element.experimental.settings;
 
+import java.util.Collection;
+
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
+import com.umlet.element.experimental.settings.text.Facet;
 
 public interface Settings {
 
@@ -12,8 +15,8 @@ public interface Settings {
 
 	public abstract AlignVertical getVAlign();
 
-	public abstract AlignHorizontal getHAlignBeforeLine();
-
-	public abstract AlignHorizontal getHAlignAfterLine();
+	public abstract AlignHorizontal getHAlign();
+	
+	public Facet[] getFacets();
 
 }

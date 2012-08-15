@@ -14,6 +14,7 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsClass;
 import com.umlet.element.experimental.settings.SettingsUseCase;
+import com.umlet.element.experimental.settings.text.Facet;
 
 public class Properties {
 
@@ -174,44 +175,22 @@ public class Properties {
 		this.setPanelAttributes(newState);
 	}
 
-
-
-	public void drawTextForUseCase() {
-		drawPropertiesText(new SettingsUseCase());
-	}
-
-	public void drawTextForClass() {
-		drawPropertiesText(new SettingsClass());
-	}
-
-	public void drawPropertiesText(Settings calc) {
-
-		AlignHorizontal hAlign;
-		try {
-			hAlign = AlignHorizontal.valueOf(getSetting(SettingKey.HorizontalAlign).toUpperCase());
-		} catch (Exception e) {
-			hAlign = calc.getHAlignBeforeLine();
-		}
-		
-		float yPos = calcStartPos(calc);
-		//		drawer.drawLineHorizontal(height/2 - drawer.textHeight()/2);
-		//		drawer.drawLineHorizontal(height/2 + drawer.textHeight()/2);
+	private PropertiesConfig propCfg;
+	public void drawPropertiesText(Settings settings) {
+		propCfg = new PropertiesConfig(this, settings, gridElementHeight, gridElementWidth);
+		propCfg.addToYPos(calcStartPos(settings));
 
 		for (String line : propertiesTextToDraw) {
-			if (line.equals("--")) {
-				try {
-					hAlign = AlignHorizontal.valueOf(getSetting(SettingKey.HorizontalAlign).toUpperCase());
-				} catch (Exception e) {
-					hAlign = calc.getHAlignAfterLine();
+			boolean appliedFacet = false;
+			for (Facet facet : settings.getFacets()) {
+				if (!appliedFacet && facet.checkStart(line)) {
+					facet.handleLine(line, drawer, propCfg);
+					appliedFacet = true;
 				}
-				float linePos = yPos - (drawer.textHeight()) + 2;
-				float[] xPos = calc.getXValues(linePos, gridElementHeight, gridElementWidth);
-				drawer.drawLine(xPos[0]+1, linePos, xPos[1]-1, linePos);
-				yPos += 4;
 			}
-			else {
-				drawer.print(line, (int) yPos, hAlign);
-				yPos += drawer.textHeightWithSpace();
+			if (!appliedFacet) {
+				drawer.print(line, (int) propCfg.getyPos(), propCfg.gethAlign());
+				propCfg.addToYPos(drawer.textHeightWithSpace());
 			}
 		}
 	}
@@ -238,20 +217,13 @@ public class Properties {
 	}
 
 	private float calcStartPos(Settings calc) {
-		AlignVertical vAlign;
-		try {
-			vAlign = AlignVertical.valueOf(getSetting(SettingKey.VerticalAlign).toUpperCase());
-		} catch (Exception e) {
-			vAlign = calc.getVAlign();
-		}
-
 		float textWidth = 0;
 		if (!propertiesTextToDraw.isEmpty()) {
 			textWidth = drawer.textWidth(propertiesTextToDraw.get(0));
 		}
 		float textHeight = getTextBlockHeight();
-		if (vAlign == AlignVertical.TOP) return calcNotInterferingStartPoint(textWidth, gridElementWidth, gridElementHeight, drawer.textHeight()/2, -drawer.textHeight(), drawer.textHeightWithSpace(), calc);
-		else if (vAlign == AlignVertical.CENTER) return Math.max((gridElementHeight - textHeight)/2 + (drawer.textHeight() * 0.9f), drawer.textHeightWithSpace());
+		if (propCfg.getvAlign() == AlignVertical.TOP) return calcNotInterferingStartPoint(textWidth, gridElementWidth, gridElementHeight, drawer.textHeight()/2, -drawer.textHeight(), drawer.textHeightWithSpace(), calc);
+		else if (propCfg.getvAlign() == AlignVertical.CENTER) return Math.max((gridElementHeight - textHeight)/2 + (drawer.textHeight() * 0.9f), drawer.textHeightWithSpace());
 		else /*if (verticalAlign == AlignVertical.BOTTOM)*/ return Math.max(gridElementHeight - textHeight, drawer.textHeightWithSpace());
 	}
 
