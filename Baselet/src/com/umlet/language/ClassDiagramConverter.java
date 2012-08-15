@@ -26,7 +26,7 @@ import com.umlet.language.java.jp.JpJavaClass;
  */
 public class ClassDiagramConverter {
 	
-	private static final int GRIDSIZE = Main.getInstance().getCurrentInfoDiagramHandler().getGridSize();
+	private static final int GRIDSIZE = Main.getInstance().getDiagramHandler().getGridSize();
 	
 	public void createClassDiagram(String filename) {
 		List<String> fileNames = new ArrayList<String>();
@@ -89,7 +89,7 @@ public class ClassDiagramConverter {
 	}
 
 	private void addElementsToDiagram(List<GridElement> elements) {
-		DiagramHandler handler = Main.getInstance().getCurrentInfoDiagramHandler();
+		DiagramHandler handler = Main.getInstance().getDiagramHandler();
 
 		for (GridElement e: elements) {
 			new AddElement(e, 
@@ -107,7 +107,7 @@ public class ClassDiagramConverter {
 	private void adjustSize(GridElement clazz) {
 		String[] strings = clazz.getPanelAttributes().split("\n");
 		//GridElement clazz not yet fully initialized, cannot call clazz.getHandler();  
-		FontHandler fontHandler = Main.getInstance().getCurrentInfoDiagramHandler().getFontHandler(); 
+		FontHandler fontHandler = Main.getInstance().getDiagramHandler().getFontHandler(); 
 		
 		int width = 0;
 		int height = strings.length;

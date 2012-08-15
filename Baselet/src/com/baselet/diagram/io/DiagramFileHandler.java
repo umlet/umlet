@@ -311,6 +311,7 @@ public class DiagramFileHandler {
 			handler.setChanged(false);
 			Constants.recentlyUsedFilesList.add(saveToFile.getAbsolutePath());
 		}
+		Main.getInstance().showNotification(saveToFile.getAbsolutePath() + " saved");
 	}
 
 	private String chooseFileName(boolean ownXmlFormat, FileFilter filefilter) {

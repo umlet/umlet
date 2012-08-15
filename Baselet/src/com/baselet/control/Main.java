@@ -54,7 +54,7 @@ public class Main {
 	private Hashtable<String, PaletteHandler> palettes;
 	private ArrayList<DiagramHandler> diagrams = new ArrayList<DiagramHandler>();
 	private DiagramHandler currentDiagramHandler;
-	private DiagramHandler currentInfoDiagramHandler;
+	private DiagramHandler notificationDiagramHandler;
 	private ClassLoader classLoader;
 
 	public static Main getInstance() {
@@ -252,25 +252,11 @@ public class Main {
 
 	// sets the current diagram the user works with - that may be a palette too
 	public void setCurrentDiagramHandler(DiagramHandler handler) {
-		this.setCurrentInfoDiagramHandler(handler);
+		if (handler != null && !(handler instanceof PaletteHandler)) {
+			this.notificationDiagramHandler = handler; // notifications are never shown at the palette
+		}
 		this.currentDiagramHandler = handler;
 		if (gui != null) gui.diagramSelected(handler);
-	}
-
-	public DiagramHandler getCurrentInfoDiagramHandler() {
-		return this.currentInfoDiagramHandler;
-	}
-
-	public void setCurrentInfoDiagramHandler(DiagramHandler handler) {
-		log.debug("trying to setCurrentInfoDiagram");
-		log.debug("this.currentdiagram::");
-		log.debug(this.currentInfoDiagramHandler);
-		log.debug("handler::");
-		log.debug(handler);
-		if ((!(handler instanceof PaletteHandler)) && (handler != null)) {
-			log.debug("SETTING currentInfoDiagram");
-			this.currentInfoDiagramHandler = handler;
-		}
 	}
 
 	public void setPropertyPanelToCustomElement(GridElement e) {
@@ -357,12 +343,16 @@ public class Main {
 	private void doOpenHelper(String filename) {
 		if (lastTabIsEmpty()) (diagrams.get(diagrams.size() - 1)).doClose(); // If the last tab is empty close it (the opened diagram replaces the new one)
 		File file = new File(filename);
-		if (!file.exists()) return;
+		if (!file.exists()) {
+			Main.getInstance().showNotification(filename + " does not exist");
+			return;
+		}
 		DiagramHandler diagram = new DiagramHandler(file);
 		this.diagrams.add(diagram);
 		this.gui.open(diagram);
 		if (this.diagrams.size() == 1) this.setPropertyPanelToGridElement(null);
 		Constants.recentlyUsedFilesList.add(filename);
+		Main.getInstance().showNotification(filename + " opened");
 	}
 
 	/**
@@ -462,6 +452,11 @@ public class Main {
 	// returns the current diagramhandler the user works with - may be a diagramhandler of a palette too
 	public DiagramHandler getDiagramHandler() {
 		return this.currentDiagramHandler;
+	}
+
+	public void showNotification(String message) {
+		notificationDiagramHandler.getDrawPanel().showNotification(message);
+		notificationDiagramHandler.getDrawPanel().repaint();
 	}
 
 }

@@ -6,6 +6,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Utils;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.DimensionFloat;
 
@@ -97,10 +98,7 @@ public class FontHandler {
 	}
 
 	public DimensionFloat getTextSize(String s, boolean applyZoom) {
-		if (s == null) return null;
-		if (s.length() == 0) return new DimensionFloat(0, 0);
-		TextLayout tl = new TextLayout(s, getFont(applyZoom), fontrenderContext);
-		return new DimensionFloat((int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
+		return Utils.getTextSize(s, getFont(applyZoom), fontrenderContext);
 	}
 
 	public float getTextWidth(String s) {
