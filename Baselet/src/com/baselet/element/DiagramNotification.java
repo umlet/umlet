@@ -7,36 +7,24 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JComponent;
 
-import org.apache.log4j.Logger;
-
 import com.baselet.control.DimensionFloat;
-import com.baselet.control.Main;
 import com.baselet.control.Utils;
-import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.FontHandler;
-import com.baselet.gui.NotificationRemoveTask;
 
 public class DiagramNotification extends JComponent {
 
 	private static final long serialVersionUID = 1L;
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
-	private DiagramHandler handler;
 	private String message;
+	private Rectangle drawPanelSize;
 	
 	private static final Font notificationFont = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
 	private static final FontRenderContext frc = new FontRenderContext(null, true, true);
 
-	public DiagramNotification(DiagramHandler handler, String message) {
-		this.handler = handler;
+	public DiagramNotification(Rectangle drawPanelSize, String message) {
 		this.message = message;
-		TimerTask removeTask = new NotificationRemoveTask(this, handler.getDrawPanel());
-		new Timer().schedule(removeTask, 3000);
+		this.drawPanelSize = drawPanelSize;
 		this.setSize(100, 20);
 		this.adaptDimensions();
 	}
@@ -51,11 +39,10 @@ public class DiagramNotification extends JComponent {
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f)); // 40% transparency
 		g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 
+		Font drawFont = g2.getFont();
 		g2.setFont(notificationFont);
 		adaptDimensions();
 
-		log.debug("zoomFactor=" + handler.getZoomFactor());
-		log.debug("width=" + getWidth());
 		int textX = 5;
 		int textY = (getHeight() / 2 + 3);
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f)); // 70% transparency
@@ -65,14 +52,13 @@ public class DiagramNotification extends JComponent {
 		g2.setColor(java.awt.Color.blue);
 		g2.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
 		g2.setComposite(old);
-		g2.setFont(handler.getFontHandler().getFont());
+		g2.setFont(drawFont);
 	}
 
 	private void adaptDimensions() {
-		Rectangle currentView = this.handler.getDrawPanel().getScrollPane().getViewport().getViewRect();
 		DimensionFloat textSize = Utils.getTextSize(message, notificationFont, frc);
-		int x = (int) (currentView.getMaxX() - textSize.getWidth() - 20);
-		int y = (int) (currentView.getMinY() + 10);
+		int x = (int) (drawPanelSize.getMaxX() - textSize.getWidth() - 20);
+		int y = (int) (drawPanelSize.getMinY() + 10);
 		this.setLocation(x, y);
 		this.setSize((int) textSize.getWidth() + 10, (int) textSize.getHeight() + 10);
 	}
