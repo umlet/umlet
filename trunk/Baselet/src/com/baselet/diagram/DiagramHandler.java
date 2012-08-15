@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
+import com.baselet.control.Notifier;
 import com.baselet.control.Utils;
 import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.GridElement;
@@ -392,7 +393,7 @@ public class DiagramHandler {
 			String zoomtext;
 			if (Main.getInstance().getDiagramHandler() instanceof PaletteHandler) zoomtext = "Palette zoomed to " + (new Integer((int) zoomFactor).toString()) + "%";
 			else zoomtext = "Diagram zoomed to " + (new Integer((int) zoomFactor).toString()) + "%";
-			Main.getInstance().showNotification(zoomtext);
+			Notifier.getInstance().showNotification(zoomtext);
 		}
 	}
 }

@@ -35,6 +35,7 @@ import org.w3c.dom.Element;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
+import com.baselet.control.Notifier;
 import com.baselet.control.Path;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
@@ -311,7 +312,7 @@ public class DiagramFileHandler {
 			handler.setChanged(false);
 			Constants.recentlyUsedFilesList.add(saveToFile.getAbsolutePath());
 		}
-		Main.getInstance().showNotification(saveToFile.getAbsolutePath() + " saved");
+		Notifier.getInstance().showNotification(saveToFile.getAbsolutePath() + " saved");
 	}
 
 	private String chooseFileName(boolean ownXmlFormat, FileFilter filefilter) {

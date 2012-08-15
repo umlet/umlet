@@ -55,7 +55,6 @@ public class Main {
 	private Hashtable<String, PaletteHandler> palettes;
 	private ArrayList<DiagramHandler> diagrams = new ArrayList<DiagramHandler>();
 	private DiagramHandler currentDiagramHandler;
-	private DiagramHandler notificationDiagramHandler;
 	private ClassLoader classLoader;
 
 	public static Main getInstance() {
@@ -254,7 +253,7 @@ public class Main {
 	// sets the current diagram the user works with - that may be a palette too
 	public void setCurrentDiagramHandler(DiagramHandler handler) {
 		if (handler != null && !(handler instanceof PaletteHandler)) {
-			this.notificationDiagramHandler = handler; // notifications are never shown at the palette
+			Notifier.getInstance().setNotificationPanel(handler.getDrawPanel()); // update notification panel if it's not the palette
 		}
 		this.currentDiagramHandler = handler;
 		if (gui != null) gui.diagramSelected(handler);
@@ -344,7 +343,7 @@ public class Main {
 	private void doOpenHelper(String filename) {
 		File file = new File(filename);
 		if (!file.exists()) {
-			Main.getInstance().showNotification(filename + " does not exist");
+			Notifier.getInstance().showNotification(filename + " does not exist");
 			return;
 		}
 		if (lastTabIsEmpty()) (diagrams.get(diagrams.size() - 1)).doClose(); // If the last tab is empty close it (the opened diagram replaces the new one)
@@ -353,7 +352,7 @@ public class Main {
 		this.gui.open(diagram);
 		if (this.diagrams.size() == 1) this.setPropertyPanelToGridElement(null);
 		Constants.recentlyUsedFilesList.add(filename);
-		Main.getInstance().showNotification(filename + " opened");
+		Notifier.getInstance().showNotification(filename + " opened");
 	}
 
 	/**
@@ -431,7 +430,7 @@ public class Main {
 	public List<DiagramHandler> getDiagrams() {
 		return this.diagrams;
 	}
-	
+
 	public Collection<DiagramHandler> getDiagramsAndPalettes() {
 		List<DiagramHandler> returnList = new ArrayList<DiagramHandler>(getDiagrams());
 		returnList.addAll(getPalettes().values());
@@ -459,15 +458,6 @@ public class Main {
 	// returns the current diagramhandler the user works with - may be a diagramhandler of a palette too
 	public DiagramHandler getDiagramHandler() {
 		return this.currentDiagramHandler;
-	}
-
-	public void showNotification(final String message) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				notificationDiagramHandler.getDrawPanel().showNotification(message);
-			}
-		});
 	}
 
 }
