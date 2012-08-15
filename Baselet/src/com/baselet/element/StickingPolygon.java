@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.geom.Line2D;
-import java.util.List;
+import java.util.Collection;
 import java.util.Vector;
 
 import com.baselet.control.Main;
@@ -160,7 +160,7 @@ public class StickingPolygon {
 
 	public Vector<RelationLinePoint> getStickingRelationLinePoints(DrawPanel panel) {
 		Vector<RelationLinePoint> lpts = new Vector<RelationLinePoint>();
-		List<Relation> rels = panel.getAllRelations();
+		Collection<Relation> rels = panel.getAllRelations();
 		for (Relation r : rels) {
 			if (!r.isPartOfGroup()) {
 				Point l1 = r.getAbsoluteCoorStart();

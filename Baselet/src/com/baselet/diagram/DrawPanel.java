@@ -191,21 +191,25 @@ public class DrawPanel extends JPanel implements Printable {
 		return componentToGridElementMap.values();
 	}
 
+	public Collection<Relation> getAllRelations() {
+		return getAll(Relation.class);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private <T extends GridElement> Collection<T> getAll(Class<T> filtered) {
+		Collection<T> gridElementsToReturn = new ArrayList<T>();
+		for (GridElement e : getAllEntities()) {
+				if (e.getClass().equals(filtered)) gridElementsToReturn.add((T) e);
+		}
+		return gridElementsToReturn;
+	}
+
 	public Vector<GridElement> getAllEntitiesNotInGroup() {
 		Vector<GridElement> entities = new Vector<GridElement>();
 		for (GridElement e : getAllEntities()) {
 			if (!e.isPartOfGroup()) entities.add(e);
 		}
 		return entities;
-	}
-
-	public Vector<Relation> getAllRelations() {
-		Component[] tmp = this.getComponents();
-		Vector<Relation> ret = new Vector<Relation>();
-		for (int i = 0; i < tmp.length; i++) {
-			if (tmp[i] instanceof Relation) ret.add((Relation) tmp[i]);
-		}
-		return ret;
 	}
 
 	public Selector getSelector() {
