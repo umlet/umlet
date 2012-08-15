@@ -26,10 +26,10 @@ import javax.swing.ScrollPaneConstants;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
+import com.baselet.control.DiagramNotification;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Utils;
-import com.baselet.element.DiagramNotification;
 import com.baselet.element.GridElement;
 import com.baselet.gui.StartUpHelpText;
 import com.baselet.gui.listener.ScrollbarListener;
@@ -46,8 +46,6 @@ public class DrawPanel extends JPanel implements Printable {
 	private JScrollPane _scr;
 	private Selector selector;
 	private DiagramHandler handler;
-	private DiagramNotification notification;
-	private TimerTask notificationRemoveTask;
 
 	private HashMap<Component, GridElement> componentToGridElementMap = new HashMap<Component, GridElement>();
 
@@ -447,28 +445,6 @@ public class DrawPanel extends JPanel implements Printable {
 		g2d.setRenderingHints(Utils.getUxRenderingQualityHigh(true));
 		if (Constants.show_grid) drawGrid(g2d);
 		super.paintComponents(g);
-	}
-
-	public void showNotification(String message) {
-		if (notification != null) {
-				this.remove(notification);
-				if (notificationRemoveTask != null) notificationRemoveTask.cancel();
-		}
-
-		notification = new DiagramNotification(this.getScrollPane().getViewport().getViewRect(), message);
-		notificationRemoveTask = new TimerTask() {
-			@Override
-			public void run() {
-				if (notification != null) {
-					DrawPanel.this.remove(notification);
-					DrawPanel.this.repaint();
-				}
-			}
-		};
-		new Timer().schedule(notificationRemoveTask, Constants.NOTIFICATION_SHOW_TIME);
-		
-		this.add(notification);
-		this.repaint();
 	}
 
 	/**

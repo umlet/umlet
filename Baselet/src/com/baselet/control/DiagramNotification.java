@@ -1,4 +1,4 @@
-package com.baselet.element;
+package com.baselet.control;
 
 import java.awt.AlphaComposite;
 import java.awt.Composite;
@@ -10,8 +10,6 @@ import java.awt.font.FontRenderContext;
 
 import javax.swing.JComponent;
 
-import com.baselet.control.DimensionFloat;
-import com.baselet.control.Utils;
 
 public class DiagramNotification extends JComponent {
 
