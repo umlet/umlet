@@ -380,8 +380,10 @@ public class DiagramHandler {
 
 			getDrawPanel().updatePanelAndScrollbars();
 
-			// Set the isChanged variable to allow saving in EclipsePlugin and to reflect the changes made by zooming
-			setChanged(true);
+			// Set changed only if diagram is not empty (otherwise no element has been changed)
+			if (!drawpanel.getAllEntities().isEmpty()) {
+				setChanged(true);
+			}
 
 			BaseGUI gui = Main.getInstance().getGUI();
 			if (gui != null) gui.setValueOfZoomDisplay(factor);
