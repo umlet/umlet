@@ -70,10 +70,14 @@ public class Properties {
 
 	private List<String> propertiesTextToDraw;
 
-	public Properties(String panelAttributes, String panelAttributesAdditional, BaseDrawHandler drawer) {
+	private PropertiesConfig propCfg;
+	private Settings elementSettings;
+
+	public Properties(String panelAttributes, String panelAttributesAdditional, BaseDrawHandler drawer, Settings elementSettings) {
 		this.panelAttributes = panelAttributes;
 		this.panelAttributesAdditional = panelAttributesAdditional;
 		this.drawer = drawer;
+		this.elementSettings = elementSettings;
 	}
 
 	public String getPanelAttributes() {
@@ -175,15 +179,14 @@ public class Properties {
 		this.setPanelAttributes(newState);
 	}
 
-	private PropertiesConfig propCfg;
-	public void drawPropertiesText(Settings settings) {
-		propCfg = new PropertiesConfig(this, settings, gridElementHeight, gridElementWidth);
-		propCfg.addToYPos(calcStartPos(settings));
+	public void drawPropertiesText() {
+		propCfg = new PropertiesConfig(this, elementSettings, gridElementHeight, gridElementWidth);
+		propCfg.addToYPos(calcStartPos(elementSettings));
 
 		for (String line : propertiesTextToDraw) {
 			boolean appliedFacet = false;
-			for (Facet facet : settings.getFacets()) {
-				if (!appliedFacet && facet.checkStart(line)) {
+			for (Facet facet : elementSettings.getFacets()) {
+				if (facet.checkStart(line)) {
 					facet.handleLine(line, drawer, propCfg);
 					appliedFacet = true;
 				}
@@ -210,8 +213,16 @@ public class Properties {
 	public float getTextBlockHeight() {
 		float textBlockHeight = 0;
 		for (String line : propertiesTextToDraw) {
-			if (line.equals("--")) textBlockHeight += 4;
-			else textBlockHeight += drawer.textHeightWithSpace();
+			boolean appliedFacet = false;
+			for (Facet facet : elementSettings.getFacets()) {
+				if (facet.checkStart(line)) {
+					textBlockHeight += facet.getHorizontalSpace();
+					appliedFacet = true;
+				}
+			}
+			if (!appliedFacet) {
+				textBlockHeight += drawer.textHeightWithSpace();
+			}
 		}
 		return textBlockHeight;
 	}
