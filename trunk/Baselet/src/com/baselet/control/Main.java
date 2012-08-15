@@ -11,6 +11,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
@@ -386,7 +387,7 @@ public class Main {
 		return this.palettes;
 	}
 
-	public List<File> scanForPalettes() {
+	private List<File> scanForPalettes() {
 		// scan palettes directory...
 		FileSystemView fileSystemView = FileSystemView.getFileSystemView();
 		File[] paletteFiles = fileSystemView.getFiles(new File(Path.homeProgram() + "palettes/"), false);
@@ -405,7 +406,13 @@ public class Main {
 		List<String> palettenames = new ArrayList<String>();
 		for (String palette : palettes.keySet())
 			palettenames.add(palette.substring(0, palette.length() - 4));
-		Collections.sort(palettenames, new PaletteSorter());
+		Collections.sort(palettenames, new Comparator<String>() {
+			@Override
+			public int compare(String s1, String s2) {
+				if (s1.equals("Default")) return 0;
+				else return s1.compareTo(s2);
+			}
+		});
 		return palettenames;
 	}
 
