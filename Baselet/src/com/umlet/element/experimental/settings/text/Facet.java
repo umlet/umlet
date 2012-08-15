@@ -8,4 +8,6 @@ public interface Facet {
 	boolean checkStart(String line);
 	
 	void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig);
+	
+	float getHorizontalSpace();
 }

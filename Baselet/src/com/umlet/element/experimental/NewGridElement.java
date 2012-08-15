@@ -27,6 +27,7 @@ import com.baselet.element.Group;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
 import com.umlet.element.experimental.Properties.SettingKey;
+import com.umlet.element.experimental.settings.Settings;
 
 public abstract class NewGridElement implements GridElement {
 
@@ -80,7 +81,7 @@ public abstract class NewGridElement implements GridElement {
 		setBounds(bounds);
 		drawer = new BaseDrawHandler();
 		metaDrawer = new BaseDrawHandler();
-		properties = new Properties(panelAttributes, panelAttributesAdditional, drawer);
+		properties = new Properties(panelAttributes, panelAttributesAdditional, drawer, getSettings());
 		setHandlerAndInitListeners(handler);
 	}
 
@@ -395,5 +396,7 @@ public abstract class NewGridElement implements GridElement {
 	public JComponent getComponent() {
 		return component;
 	}
+	
+	public abstract Settings getSettings();
 
 }

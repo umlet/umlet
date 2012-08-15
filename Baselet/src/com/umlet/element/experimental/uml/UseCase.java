@@ -3,6 +3,7 @@ package com.umlet.element.experimental.uml;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.experimental.Id;
 import com.umlet.element.experimental.NewGridElement;
+import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsUseCase;
 
 @Id("UMLUseCase")
@@ -13,7 +14,7 @@ public class UseCase extends NewGridElement {
 		int halfWidth = getRealSize().width/2;
 		int halfHeight = getRealSize().height/2;
 		drawer.drawEllipse(halfWidth, halfHeight, halfWidth-1, halfHeight-1);
-		properties.drawPropertiesText(new SettingsUseCase());
+		properties.drawPropertiesText();
 	}
 
 
@@ -36,5 +37,11 @@ public class UseCase extends NewGridElement {
 				
 	 return p;
 	 }
+
+
+	@Override
+	public Settings getSettings() {
+		return new SettingsUseCase();
+	}
 }
 

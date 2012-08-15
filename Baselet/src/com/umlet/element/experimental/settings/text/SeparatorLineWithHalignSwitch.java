@@ -24,12 +24,17 @@ public class SeparatorLineWithHalignSwitch implements Facet {
 		float linePos = propConfig.getyPos() - (drawer.textHeight()) + 2;
 		float[] xPos = propConfig.getXLimits(linePos);
 		drawer.drawLine(xPos[0]+1, linePos, xPos[1]-1, linePos);
-		propConfig.addToYPos(4);
+		propConfig.addToYPos(getHorizontalSpace());
 	}
 
 	@Override
 	public boolean checkStart(String line) {
 		return line.equals("--");
+	}
+
+	@Override
+	public float getHorizontalSpace() {
+		return 4;
 	}
 
 }
