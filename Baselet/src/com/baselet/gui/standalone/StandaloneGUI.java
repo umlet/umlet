@@ -442,7 +442,12 @@ public class StandaloneGUI extends BaseGUI {
 	public void open(DiagramHandler diagram) {
 		diagramtabs.add(diagram.getName(), diagram.getDrawPanel().getScrollPane());
 		diagramtabs.setTabComponentAt(diagramtabs.getTabCount() - 1, new TabComponent(diagramtabs, diagram));
-		diagramtabs.setSelectedComponent(diagram.getDrawPanel().getScrollPane());
+		jumpTo(diagram);
+	}
+	
+	@Override
+	public void jumpTo(DiagramHandler diagram) {
+		diagramtabs.setSelectedComponent(diagram.getDrawPanel().getScrollPane());		
 		diagram.getDrawPanel().getSelector().updateSelectorInformation();
 		DrawPanel p = this.getCurrentDiagram();
 		if (p != null) Main.getInstance().setCurrentDiagramHandler(p.getHandler());
