@@ -346,14 +346,31 @@ public class Main {
 			Notifier.getInstance().showNotification(filename + " does not exist");
 			return;
 		}
-		if (lastTabIsEmpty()) (diagrams.get(diagrams.size() - 1)).doClose(); // If the last tab is empty close it (the opened diagram replaces the new one)
-		DiagramHandler diagram = new DiagramHandler(file);
-		this.diagrams.add(diagram);
-		this.gui.open(diagram);
-		if (this.diagrams.size() == 1) this.setPropertyPanelToGridElement(null);
-		Constants.recentlyUsedFilesList.add(filename);
-		Notifier.getInstance().showNotification(filename + " opened");
+		DiagramHandler handler = getDiagramHandlerForFile(filename);
+		if (handler != null) { // File is already opened -> jump to the tab
+			this.gui.jumpTo(handler);
+			Notifier.getInstance().showNotification("switched to " + filename);
+		}
+		else {
+			if (lastTabIsEmpty()) (diagrams.get(diagrams.size() - 1)).doClose(); // If the last tab is empty close it (the opened diagram replaces the new one)
+			DiagramHandler diagram = new DiagramHandler(file);
+			this.diagrams.add(diagram);
+			this.gui.open(diagram);
+			if (this.diagrams.size() == 1) this.setPropertyPanelToGridElement(null);
+			Constants.recentlyUsedFilesList.add(filename);
+			Notifier.getInstance().showNotification(filename + " opened");
+		}
 	}
+
+	private DiagramHandler getDiagramHandlerForFile(String file) {
+		for (DiagramHandler d : this.diagrams) {
+			if (d.getFullPathName().equalsIgnoreCase(file)) {
+				return d;
+			}
+		}
+		return null;
+	}
+
 
 	/**
 	 * If the last diagram tab and it's undo history (=controller) is empty return true, else return false

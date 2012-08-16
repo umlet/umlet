@@ -175,6 +175,8 @@ public abstract class BaseGUI extends JPanel {
 
 	public abstract void open(DiagramHandler diagram);
 
+	public abstract void jumpTo(DiagramHandler diagram);
+
 	public abstract void close(DiagramHandler diagram);
 
 	public abstract DrawPanel getCurrentDiagram();

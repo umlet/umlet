@@ -46,7 +46,7 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public void close(DiagramHandler diagram) {
-	// eclipse does the closing
+		// eclipse does the closing
 	}
 
 	@Override
@@ -123,7 +123,12 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public void open(DiagramHandler diagram) {
-	// not called by eclipse plugin (handles open by createEditor function)
+		// not called by eclipse plugin (handles open by createEditor function)
+	}
+
+	@Override
+	public void jumpTo(DiagramHandler diagram) {
+		// not called by eclipse plugin (handles open by createEditor function)
 	}
 
 	@Override
@@ -206,7 +211,7 @@ public class EclipseGUI extends BaseGUI {
 		if (editor != null) return editor.getPropertyPane();
 		else return null;
 	}
-	
+
 	public void panelDoAction(Pane pane, ActionName actionName) {
 
 		JTextComponent textpane = null;
