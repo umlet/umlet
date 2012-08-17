@@ -32,6 +32,10 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 	@Override
 	public void mousePressed(MouseEvent me) {
 		super.mousePressed(me);
+
+		// If some elements are selected, and the selector key (ctrl or meta) is still hold, don't deselect all elements if the drawpanel was clicked
+		if (!selector.getSelectedEntities().isEmpty() && (me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) return;		
+		
 		selector.deselectAll();
 		if (!handler.getDrawPanel().equals(Main.getInstance().getPalettePanel())) {
 			Main.getInstance().getPalettePanel().getSelector().deselectAllWithoutUpdatePropertyPanel();
