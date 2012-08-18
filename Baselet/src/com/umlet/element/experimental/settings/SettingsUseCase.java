@@ -5,9 +5,9 @@ import java.util.Collection;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
 import com.umlet.element.experimental.settings.text.Facet;
-import com.umlet.element.experimental.settings.text.SeparatorLineWithHalignSwitch;
+import com.umlet.element.experimental.settings.text.SeparatorLine;
 
-public class SettingsUseCase implements Settings {
+public class SettingsUseCase extends Settings {
 
 	@Override
 	public float[] getXValues(float y, int height, int width) {
@@ -28,7 +28,7 @@ public class SettingsUseCase implements Settings {
 	}
 
 	@Override
-	public Facet[] getFacets() {
-		return new Facet[]{new SeparatorLineWithHalignSwitch(false)};
+	public Facet[] createFacets() {
+		return new Facet[]{new SeparatorLine(false)};
 	}
 }

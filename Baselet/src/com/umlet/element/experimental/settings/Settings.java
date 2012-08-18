@@ -6,8 +6,10 @@ import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
 import com.umlet.element.experimental.settings.text.Facet;
 
-public interface Settings {
+public abstract class Settings {
 
+	private Facet[] facets;
+	
 	/**
 	 * calculates the left and right x value for a certain y value
 	 */
@@ -17,6 +19,11 @@ public interface Settings {
 
 	public abstract AlignHorizontal getHAlign();
 	
-	public Facet[] getFacets();
+	public abstract Facet[] createFacets();
+	
+	public final Facet[] getFacets() {
+		if (facets == null) facets = createFacets();
+		return facets;
+	}
 
 }

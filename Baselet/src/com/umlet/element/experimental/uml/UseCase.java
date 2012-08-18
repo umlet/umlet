@@ -14,7 +14,7 @@ public class UseCase extends NewGridElement {
 		int halfWidth = getRealSize().width/2;
 		int halfHeight = getRealSize().height/2;
 		drawer.drawEllipse(halfWidth, halfHeight, halfWidth-1, halfHeight-1);
-		properties.drawPropertiesText();
+		properties.drawPropertiesText(getSettings());
 	}
 
 

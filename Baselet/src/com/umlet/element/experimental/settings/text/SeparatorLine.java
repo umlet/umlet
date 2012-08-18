@@ -4,15 +4,15 @@ import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
 
-public class SeparatorLineWithHalignSwitch implements Facet {
+public class SeparatorLine implements Facet {
 
 	private boolean setHAlignToLeftAfterLine;
 
-	public SeparatorLineWithHalignSwitch() {
+	public SeparatorLine() {
 		this(false);
 	}
 
-	public SeparatorLineWithHalignSwitch(boolean setHAlignToLeftAfterLine) {
+	public SeparatorLine(boolean setHAlignToLeftAfterLine) {
 		this.setHAlignToLeftAfterLine = setHAlignToLeftAfterLine;
 	}
 	
@@ -35,6 +35,11 @@ public class SeparatorLineWithHalignSwitch implements Facet {
 	@Override
 	public float getHorizontalSpace() {
 		return 4;
+	}
+
+	@Override
+	public boolean replacesText(String line) {
+		return true;
 	}
 
 }

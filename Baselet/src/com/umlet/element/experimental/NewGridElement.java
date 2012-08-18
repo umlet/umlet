@@ -81,7 +81,7 @@ public abstract class NewGridElement implements GridElement {
 		setBounds(bounds);
 		drawer = new BaseDrawHandler();
 		metaDrawer = new BaseDrawHandler();
-		properties = new Properties(panelAttributes, panelAttributesAdditional, drawer, getSettings());
+		properties = new Properties(panelAttributes, panelAttributesAdditional, drawer);
 		setHandlerAndInitListeners(handler);
 	}
 
@@ -171,7 +171,7 @@ public abstract class NewGridElement implements GridElement {
 				width = Math.max(width, drawer.textWidth(line));
 			}
 			width += BUFFER;
-			float height = Math.max(20, properties.getTextBlockHeight() + BUFFER);
+			float height = Math.max(20, properties.getTextBlockHeight(getSettings()) + BUFFER);
 			setRealSize(handler.realignToGrid(false, width, true), handler.realignToGrid(false, height, true));
 			// settings must be reinitialized (first initialization is necessary for wordwrap, second to have correct sizes to draw)
 			properties.initSettingsFromText(getRealSize().width, getRealSize().height);

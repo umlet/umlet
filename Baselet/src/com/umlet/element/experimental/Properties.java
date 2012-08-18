@@ -71,13 +71,11 @@ public class Properties {
 	private List<String> propertiesTextToDraw;
 
 	private PropertiesConfig propCfg;
-	private Settings elementSettings;
 
-	public Properties(String panelAttributes, String panelAttributesAdditional, BaseDrawHandler drawer, Settings elementSettings) {
+	public Properties(String panelAttributes, String panelAttributesAdditional, BaseDrawHandler drawer) {
 		this.panelAttributes = panelAttributes;
 		this.panelAttributesAdditional = panelAttributesAdditional;
 		this.drawer = drawer;
-		this.elementSettings = elementSettings;
 	}
 
 	public String getPanelAttributes() {
@@ -179,19 +177,19 @@ public class Properties {
 		this.setPanelAttributes(newState);
 	}
 
-	public void drawPropertiesText() {
+	public void drawPropertiesText(Settings elementSettings) {
 		propCfg = new PropertiesConfig(this, elementSettings, gridElementHeight, gridElementWidth);
 		propCfg.addToYPos(calcStartPos(elementSettings));
 
 		for (String line : propertiesTextToDraw) {
-			boolean appliedFacet = false;
+			boolean drawText = true;
 			for (Facet facet : elementSettings.getFacets()) {
 				if (facet.checkStart(line)) {
 					facet.handleLine(line, drawer, propCfg);
-					appliedFacet = true;
+					if (facet.replacesText(line)) drawText = false;
 				}
 			}
-			if (!appliedFacet) {
+			if (drawText) {
 				drawer.print(line, (int) propCfg.getyPos(), propCfg.gethAlign());
 				propCfg.addToYPos(drawer.textHeightWithSpace());
 			}
@@ -210,7 +208,7 @@ public class Properties {
 		return propertiesTextFiltered;
 	}
 
-	public float getTextBlockHeight() {
+	public float getTextBlockHeight(Settings elementSettings) {
 		float textBlockHeight = 0;
 		for (String line : propertiesTextToDraw) {
 			boolean appliedFacet = false;
@@ -232,7 +230,7 @@ public class Properties {
 		if (!propertiesTextToDraw.isEmpty()) {
 			textWidth = drawer.textWidth(propertiesTextToDraw.get(0));
 		}
-		float textHeight = getTextBlockHeight();
+		float textHeight = getTextBlockHeight(calc);
 		if (propCfg.getvAlign() == AlignVertical.TOP) return calcNotInterferingStartPoint(textWidth, gridElementWidth, gridElementHeight, drawer.textHeight()/2, -drawer.textHeight(), drawer.textHeightWithSpace(), calc);
 		else if (propCfg.getvAlign() == AlignVertical.CENTER) return Math.max((gridElementHeight - textHeight)/2 + (drawer.textHeight() * 0.9f), drawer.textHeightWithSpace());
 		else /*if (verticalAlign == AlignVertical.BOTTOM)*/ return Math.max(gridElementHeight - textHeight, drawer.textHeightWithSpace());
