@@ -9,11 +9,10 @@ import java.util.Vector;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
+import com.baselet.control.Constants.ElementStyle;
 import com.baselet.control.Utils;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.SettingsClass;
-import com.umlet.element.experimental.settings.SettingsUseCase;
 import com.umlet.element.experimental.settings.text.Facet;
 
 public class Properties {
@@ -22,9 +21,8 @@ public class Properties {
 		ForegroundColor("fg", "red"),
 		BackgroundColor("bg", "#0A37D3"),
 		LineType("lt", "."),
-		AutoResize("autoresize", "true"),
-		NotResizable("notresizable", "true"),
-		WordWrap("wordwrap", "true"),
+		ElementStyle("elementstyle", com.baselet.control.Constants.ElementStyle.values()),
+		FontSize("fontsize", "12.5"),
 		VerticalAlign("valign", AlignVertical.values()),
 		HorizontalAlign("halign", AlignHorizontal.values());
 
@@ -140,6 +138,9 @@ public class Properties {
 		drawer.setBackground(bgColor, bgAlpha);
 
 		drawer.setLineType(getSetting(SettingKey.LineType));
+		
+		Float fontSize = getSettingFloat(SettingKey.FontSize);
+		if (fontSize != null) drawer.setFontSize(fontSize);
 	}
 
 	public void initSettingsFromText(int gridElementWidth, int gridElementHeight) {
@@ -159,6 +160,17 @@ public class Properties {
 
 	public String getSetting(SettingKey key) {
 		return settings.get(key.toString());
+	}
+
+	public Float getSettingFloat(SettingKey key) {
+		Float returnValue = null;
+		String value = settings.get(key.toString());
+		if (value != null) {
+			try {
+				returnValue = Float.valueOf(value);
+			} catch (NumberFormatException e) {/*do nothing; returnValue stays null*/}
+		}
+		return returnValue;
 	}
 
 	public boolean containsSetting(SettingKey key, String checkValue) {
@@ -214,7 +226,7 @@ public class Properties {
 
 	private List<String> getPropertiesTextAndApplyWordWrapIfSet() {
 		List<String> propertiesTextFiltered = new ArrayList<String>();
-		if (Boolean.valueOf(getSetting(SettingKey.WordWrap))) {
+		if (ElementStyle.WORDWRAP.toString().equalsIgnoreCase(getSetting(SettingKey.ElementStyle))) {
 			Vector<String> oneLine = getPropertiesTextFiltered();
 			for (String line : oneLine) {
 				propertiesTextFiltered.addAll(Utils.splitString(line, gridElementWidth, drawer));
@@ -262,12 +274,15 @@ public class Properties {
 	private float calcNotInterferingStartPoint(float textWidth, int width, int height, float increment, float relevantDisplacement, float start, Settings calc) {
 		float yPos = start - increment;
 		float[] xVals;
-		float availableSpace;
+		float previousSpace;
+		float availableSpace = 0;
 		do {
 			yPos += increment;
 			xVals = calc.getXValues(yPos+relevantDisplacement, height, width);
+			previousSpace = availableSpace;
 			availableSpace = xVals[1]-xVals[0];
-		} while (availableSpace <= textWidth && yPos < height/2);
+		} while (availableSpace <= textWidth && previousSpace < availableSpace);
+		// stop if enough space is available or if there has been no space-gain in the last step (eg: UseCase: in the middle, Class: at the top)
 		return yPos;
 	}
 
