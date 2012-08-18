@@ -208,6 +208,7 @@ public class StandaloneGUI extends BaseGUI {
 		fileMenu.add(menuFactory.createRecentFiles());
 		fileMenu.addSeparator();
 		fileMenu.add(menuFactory.createGenerate());
+		fileMenu.add(menuFactory.createGenerateOptions());
 		fileMenu.addSeparator();
 		fileMenu.add(menuFactory.createSave());
 		fileMenu.add(menuFactory.createSaveAs());

@@ -11,6 +11,9 @@ import java.util.Properties;
 
 import com.baselet.control.Constants.Program;
 import com.baselet.gui.BaseGUI;
+import com.umlet.language.FieldOptions;
+import com.umlet.language.MethodOptions;
+import com.umlet.language.SignatureOptions;
 
 
 public class Config {
@@ -45,6 +48,10 @@ public class Config {
 	private static final String MAIL_XML = "mail_xml";
 	private static final String MAIL_GIF = "mail_gif";
 	private static final String MAIL_PDF = "mail_pdf";
+	private static final String GENERATE_CLASS_PACKAGE = "generate_class_package";
+	private static final String GENERATE_CLASS_FIELDS = "generate_class_fields";
+	private static final String GENERATE_CLASS_METHODS = "generate_class_methods";
+	private static final String GENERATE_CLASS_SIGNATURES = "generate_class_signatures";
 	
 	private static File configfile;
 	private static Properties props;
@@ -106,6 +113,12 @@ public class Config {
 		Constants.mail_xml = getBoolProperty(MAIL_XML, Constants.mail_xml);
 		Constants.mail_gif = getBoolProperty(MAIL_GIF, Constants.mail_gif);
 		Constants.mail_pdf = getBoolProperty(MAIL_PDF, Constants.mail_pdf);
+		
+		/* Generate Class Element Options */
+		Constants.generateClassPackage = getBoolProperty(GENERATE_CLASS_PACKAGE, Constants.generateClassPackage);
+		Constants.generateClassFields = FieldOptions.getEnum(getStringProperty(GENERATE_CLASS_FIELDS, Constants.generateClassFields.toString()));
+		Constants.generateClassMethods = MethodOptions.getEnum(getStringProperty(GENERATE_CLASS_METHODS, Constants.generateClassMethods.toString()));
+		Constants.generateClassSignatures = SignatureOptions.getEnum(getStringProperty(GENERATE_CLASS_SIGNATURES, Constants.generateClassSignatures.toString()));
 	}
 
 	public static void saveConfig() {
@@ -167,6 +180,12 @@ public class Config {
 			props.setProperty(MAIL_XML, Boolean.toString(Constants.mail_xml));
 			props.setProperty(MAIL_GIF, Boolean.toString(Constants.mail_gif));
 			props.setProperty(MAIL_PDF, Boolean.toString(Constants.mail_pdf));
+			
+			/* Generate Class Element Options */
+			props.setProperty(GENERATE_CLASS_PACKAGE, Boolean.toString(Constants.generateClassPackage));
+			props.setProperty(GENERATE_CLASS_FIELDS, Constants.generateClassFields.toString());
+			props.setProperty(GENERATE_CLASS_METHODS, Constants.generateClassMethods.toString());
+			props.setProperty(GENERATE_CLASS_SIGNATURES, Constants.generateClassSignatures.toString());
 
 			FileOutputStream outStream = new FileOutputStream(configfile);
 			try {

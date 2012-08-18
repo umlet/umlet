@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler;
@@ -12,6 +13,7 @@ import com.baselet.element.GridElement;
 import com.umlet.element.Class;
 import com.umlet.language.java.Field;
 import com.umlet.language.java.JavaClass;
+import com.umlet.language.java.Accessible.AccessFlag;
 import com.umlet.language.java.JavaClass.ClassRole;
 import com.umlet.language.java.Method;
 import com.umlet.language.java.bcel.BcelJavaClass;
@@ -138,7 +140,7 @@ public class ClassDiagramConverter {
 		attributes = createTopSection(parsedClass, attributes);
 		attributes += "--\n";
 		
-		attributes = createMemberSection(parsedClass, attributes);
+		attributes = createFieldSection(parsedClass, attributes);
 		attributes += "--\n";
 		
 		attributes = createMethodSection(parsedClass, attributes);
@@ -149,14 +151,32 @@ public class ClassDiagramConverter {
 
 	private String createMethodSection(JavaClass parsedClass, String attributes) {
 		for (Method method: parsedClass.getMethods()) {
-			attributes += method.getAccess() + method.getName() + "("+ method.getSignature()+ "): " + method.getReturnType() + "\n";
+			if (Constants.generateClassMethods == MethodOptions.PUBLIC && method.getAccess() == AccessFlag.PUBLIC) {
+				attributes += getMethodString(method);
+			} else if (Constants.generateClassMethods == MethodOptions.ALL) {
+				attributes += getMethodString(method);
+			}
 		}
 		return attributes;
 	}
+	
+	private String getMethodString(Method method) {
+		if (Constants.generateClassSignatures == SignatureOptions.PARAMS_ONLY) {
+			return method.getAccess() + method.getName() + "(" + method.getSignature() + ")\n";
+		} else if (Constants.generateClassSignatures == SignatureOptions.RETURN_ONLY) {
+			return method.getAccess() + method.getName() + ": " + method.getReturnType() +"\n";
+		} else {
+			return method.getAccess() + method.getName() + "("+ method.getSignature()+ "): " + method.getReturnType() + "\n";
+		}
+	}
 
-	private String createMemberSection(JavaClass parsedClass, String attributes) {
+	private String createFieldSection(JavaClass parsedClass, String attributes) {
 		for (Field field: parsedClass.getFields()) {
-			attributes += field.getAccess() + field.getName() + ": " + field.getType() + "\n";
+			if (Constants.generateClassFields == FieldOptions.PUBLIC && field.getAccess() == AccessFlag.PUBLIC) {
+				attributes += field.getAccess() + field.getName() + ": " + field.getType() + "\n";
+			} else if (Constants.generateClassFields == FieldOptions.ALL) {
+				attributes += field.getAccess() + field.getName() + ": " + field.getType() + "\n";
+			}
 		}
 		return attributes;
 	}
@@ -165,13 +185,22 @@ public class ClassDiagramConverter {
 		ClassRole role = parsedClass.getRole();
 		if (role == ClassRole.INTERFACE) {
 			attributes += "<<"+role+">>\n";
-			attributes += parsedClass.getPackage()+"::"+parsedClass.getName();
+			attributes += getClassName(parsedClass);
 		} else if (role == ClassRole.ABSTRACT){
-			attributes += "/"+parsedClass.getPackage()+"::"+parsedClass.getName()+"/";
+			attributes += "/"+getClassName(parsedClass)+"/";
 		} else {
-			attributes += parsedClass.getPackage()+"::"+parsedClass.getName();
+			attributes += getClassName(parsedClass);
 		}
 		return attributes+="\n";
+	}
+	
+	private String getClassName(JavaClass parsedClass) {
+		String result = "";
+		if (Constants.generateClassPackage) {
+			result += parsedClass.getPackage()+"::";
+		} 
+		result += parsedClass.getName();
+		return result;
 	}
 
 	private JavaClass parseFile(String filename) {
