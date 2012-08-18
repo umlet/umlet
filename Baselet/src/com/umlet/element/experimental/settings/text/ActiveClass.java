@@ -5,7 +5,7 @@ import com.umlet.element.experimental.PropertiesConfig;
 
 public class ActiveClass implements Facet {
 
-	private static final int SPACING = 18;
+	private static final int SPACING = 6;
 	
 	@Override
 	public boolean checkStart(String line) {

@@ -247,14 +247,19 @@ public class Properties {
 			textWidth = drawer.textWidth(propertiesTextToDraw.get(0));
 		}
 		float textHeight = getTextBlockHeight(calc);
-		if (propCfg.getvAlign() == AlignVertical.TOP) return calcNotInterferingStartPoint(textWidth, gridElementWidth, gridElementHeight, drawer.textHeight()/2, -drawer.textHeight(), drawer.textHeightWithSpace(), calc);
-		else if (propCfg.getvAlign() == AlignVertical.CENTER) return Math.max((gridElementHeight - textHeight)/2 + (drawer.textHeight() * 0.9f), drawer.textHeightWithSpace());
-		else /*if (verticalAlign == AlignVertical.BOTTOM)*/ return Math.max(gridElementHeight - textHeight, drawer.textHeightWithSpace());
+		if (propCfg.getvAlign() == AlignVertical.TOP) {
+			return calcNotInterferingStartPoint(textWidth, gridElementWidth, gridElementHeight, drawer.textHeight()/2, -drawer.textHeight(), drawer.textHeightWithSpace(), calc);
+		}
+		else if (propCfg.getvAlign() == AlignVertical.CENTER) {
+			float startPoint = Math.max((gridElementHeight - textHeight)/2 + (drawer.textHeight() * 0.9f), drawer.textHeightWithSpace());
+			return calcNotInterferingStartPoint(textWidth, gridElementWidth, gridElementHeight, drawer.textHeight()/2, -drawer.textHeight(), startPoint, calc);
+		}
+		else /*if (propCfg.getvAlign() == AlignVertical.BOTTOM)*/ {
+			return Math.max(gridElementHeight - textHeight, drawer.textHeightWithSpace());
+		}
 	}
 
 	private float calcNotInterferingStartPoint(float textWidth, int width, int height, float increment, float relevantDisplacement, float start, Settings calc) {
-		if (textWidth > width) return start; // if the text is larger than the whole element, no optimization is possible
-
 		float yPos = start - increment;
 		float[] xVals;
 		float availableSpace;
