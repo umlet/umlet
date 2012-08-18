@@ -228,8 +228,8 @@ public abstract class Constants {
 	public static final int RESIZE_BOTTOM_LEFT = RESIZE_BOTTOM + RESIZE_LEFT;
 	public static final int RESIZE_BOTTOM_RIGHT = RESIZE_BOTTOM + RESIZE_RIGHT;
 
-	public static final String NOAUTORESIZE = "autoresize=false";
-
+	public enum ElementStyle {AUTORESIZE, NORESIZE, WORDWRAP};
+	
 	public static final Cursor LR_CURSOR = new Cursor(Cursor.E_RESIZE_CURSOR);
 	public static final Cursor TB_CURSOR = new Cursor(Cursor.N_RESIZE_CURSOR);
 	public static final Cursor NW_CURSOR = new Cursor(Cursor.NW_RESIZE_CURSOR);

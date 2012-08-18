@@ -105,7 +105,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	private boolean isManResized() {
 		Vector<String> lines = Utils.decomposeStringsWithComments(this.getPanelAttributes());
 		for (String line : lines) {
-			if (line.startsWith(Constants.NOAUTORESIZE)) return true;
+			if (line.startsWith("autoresize=false")) return true;
 		}
 		return false;
 	}
@@ -118,7 +118,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	public void setManualResized() {
 		if (autoresizeandmanualresizeenabled) {
 			if (!this.isManResized()) {
-				this.setPanelAttributes(this.getPanelAttributes() + Constants.NEWLINE + Constants.NOAUTORESIZE);
+				this.setPanelAttributes(this.getPanelAttributes() + Constants.NEWLINE + "autoresize=false");
 				if (this.equals(Main.getInstance().getEditedGridElement())) Main.getInstance().setPropertyPanelToGridElement(this);
 			}
 		}

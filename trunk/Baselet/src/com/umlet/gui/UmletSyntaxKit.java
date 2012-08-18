@@ -1,6 +1,5 @@
 package com.umlet.gui;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -37,7 +36,7 @@ public class UmletSyntaxKit extends DefaultSyntaxKit {
 		String outString = "";
 		for (SettingKey setting : SettingKey.values()) {
 			for (Object value : setting.autocompletionValues()) {
-				outString += setting.getKey() + Properties.SEPARATOR + value + listSep;
+				outString += setting.getKey().toLowerCase() + Properties.SEPARATOR + value.toString().toLowerCase() + listSep;
 			}
 		}
 		return outString;

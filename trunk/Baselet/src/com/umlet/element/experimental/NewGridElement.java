@@ -3,29 +3,25 @@ package com.umlet.element.experimental;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.Stroke;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
-import java.util.Vector;
 
 import javax.swing.JComponent;
 
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Main;
-import com.baselet.control.Utils;
+import com.baselet.control.Constants.ElementStyle;
 import com.baselet.control.Constants.LineType;
+import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.baselet.element.StickingPolygon;
-import com.umlet.element.Relation;
 import com.umlet.element.experimental.Properties.SettingKey;
 import com.umlet.element.experimental.settings.Settings;
 
@@ -164,7 +160,7 @@ public abstract class NewGridElement implements GridElement {
 		
 		properties.initSettingsFromText(getRealSize().width, getRealSize().height);
 
-		if (Boolean.valueOf(properties.getSetting(SettingKey.AutoResize))) {
+		if (ElementStyle.AUTORESIZE.toString().equalsIgnoreCase(properties.getSetting(SettingKey.ElementStyle))) {
 			int BUFFER = 10; // buffer to make sure the text is inside the border
 			float width = 20;
 			for (String line : properties.getPropertiesTextFiltered()) {
@@ -255,7 +251,9 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public int getPossibleResizeDirections() {
-		boolean notresizable = Boolean.valueOf(properties.getSetting(SettingKey.NotResizable));
+		boolean notresizable = // noresize and autoresize both disallow manual resizing
+				ElementStyle.AUTORESIZE.toString().equalsIgnoreCase(properties.getSetting(SettingKey.ElementStyle)) ||
+				ElementStyle.NORESIZE.toString().equalsIgnoreCase(properties.getSetting(SettingKey.ElementStyle));
 		if (notresizable) return Constants.RESIZE_NONE;
 		else return Constants.RESIZE_ALL;
 	}
