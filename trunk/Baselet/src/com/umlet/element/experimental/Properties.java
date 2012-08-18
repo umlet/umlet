@@ -227,14 +227,14 @@ public class Properties {
 	public float getTextBlockHeight(Settings elementSettings) {
 		float textBlockHeight = 0;
 		for (String line : propertiesTextToDraw) {
-			boolean appliedFacet = false;
+			boolean drawText = true;
 			for (Facet facet : elementSettings.getFacets()) {
 				if (facet.checkStart(line)) {
 					textBlockHeight += facet.getHorizontalSpace();
-					appliedFacet = true;
+					if (facet.replacesText(line)) drawText = false;
 				}
 			}
-			if (!appliedFacet) {
+			if (drawText) {
 				textBlockHeight += drawer.textHeightWithSpace();
 			}
 		}
