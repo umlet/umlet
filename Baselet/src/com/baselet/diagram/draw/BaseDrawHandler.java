@@ -139,6 +139,10 @@ public class BaseDrawHandler {
 	public final float textHeightWithSpace() {
 		return textHeight() + 2;
 	}
+	
+	public final float getDistanceBetweenTexts() {
+		return handler.getFontHandler().getDistanceBetweenTexts(false);
+	}
 
 	public final float textWidth(String text) {
 		return textDimension(text).getWidth();

@@ -190,10 +190,26 @@ public class Properties {
 				}
 			}
 			if (drawText) {
-				drawer.print(line, (int) propCfg.getyPos(), propCfg.gethAlign());
+				drawer.print(line, calcXToPrintText(), propCfg.getyPos(), propCfg.gethAlign());
 				propCfg.addToYPos(drawer.textHeightWithSpace());
 			}
 		}
+	}
+
+	private float calcXToPrintText() {
+		float[] xLimitsTop = propCfg.getXLimits(propCfg.getyPos());
+		float[] xLimitsBottom = propCfg.getXLimits(propCfg.getyPos() - drawer.textHeight());
+		float leftTextLimit = Math.max(xLimitsTop[0], xLimitsBottom[0]);
+		float rightTextLimit = Math.min(xLimitsTop[1], xLimitsBottom[1]);
+		float x;
+		if (propCfg.gethAlign() == AlignHorizontal.LEFT) {
+			x = leftTextLimit + drawer.getDistanceBetweenTexts();
+		} else if (propCfg.gethAlign() == AlignHorizontal.CENTER) {
+			x = propCfg.getGridElementWidth() / 2;
+		} else /*if (propCfg.gethAlign() == AlignHorizontal.RIGHT)*/ {
+			x = rightTextLimit - drawer.getDistanceBetweenTexts();
+		}
+		return x;
 	}
 
 	private List<String> getPropertiesTextAndApplyWordWrapIfSet() {

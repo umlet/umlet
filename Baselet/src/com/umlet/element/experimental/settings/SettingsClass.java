@@ -1,9 +1,8 @@
 package com.umlet.element.experimental.settings;
 
-import java.util.Collection;
-
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
+import com.umlet.element.experimental.settings.text.ActiveClass;
 import com.umlet.element.experimental.settings.text.Facet;
 import com.umlet.element.experimental.settings.text.InnerClass;
 import com.umlet.element.experimental.settings.text.SeparatorLine;
@@ -27,7 +26,7 @@ public class SettingsClass extends Settings {
 
 	@Override
 	public Facet[] createFacets() {
-		return new Facet[]{new InnerClass(), new SeparatorLine(true)};
+		return new Facet[]{new ActiveClass(), new InnerClass(), new SeparatorLine(true)};
 	}
 
 }
