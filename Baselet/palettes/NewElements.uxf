@@ -4,33 +4,18 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>16</x>
-      <y>168</y>
-      <w>168</w>
-      <h>120</h>
-    </coordinates>
-    <panel_attributes>This class has the setting
-*wordwrap=true*
---
-Write text and watch how the linebreak is added automatically at the expected position to fill the whole class.
-
-You can also resize the class and see that the text will always fit the border
-wordwrap=true</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
       <x>192</x>
       <y>168</y>
       <w>144</w>
       <h>120</h>
     </coordinates>
-    <panel_attributes>This class has the setting
+    <panel_attributes>This class has the settings
 *valign=center*
 *halign=center*
+*fontsize=12*
 valign=center
-halign=center</panel_attributes>
+halign=center
+fontsize=12</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -44,7 +29,7 @@ halign=center</panel_attributes>
     <panel_attributes>This palette contains the new grid elements UMLet offers since v11.2 (at the moment Class and UseCase).
 
 Press Ctrl+Space to open the possible settings to customize your elements as you can see below.
-wordwrap=true</panel_attributes>
+elementstyle=wordwrap</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -67,23 +52,6 @@ lt=.</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>16</x>
-      <y>96</y>
-      <w>320</w>
-      <h>57</h>
-    </coordinates>
-    <panel_attributes>This class has the settings
-*autoresize=true*
-*notresizable=true*
---
-Write text and watch how the class automatically grows/shrinks
-autoresize=true
-notresizable=true</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLUseCase</id>
     <coordinates>
       <x>192</x>
@@ -99,6 +67,38 @@ text is always within the
 usecase circle
 
 halign=LEFT</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>16</x>
+      <y>168</y>
+      <w>168</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>This class has the setting
+*elementstyle=wordwrap*
+--
+Write text and watch how the linebreak is added automatically at the expected position to fill the whole class.
+
+You can also resize the class and see that the text will always fit the border
+elementstyle=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>16</x>
+      <y>96</y>
+      <w>320</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>This class has the setting
+*elementstyle=autoresize*
+--
+Write text and watch how the class automatically grows/shrinks
+elementstyle=autoresize</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
