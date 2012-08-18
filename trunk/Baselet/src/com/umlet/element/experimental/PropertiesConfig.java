@@ -14,6 +14,8 @@ public class PropertiesConfig {
 	private float yPos = 0;
 	private int gridElementHeight;
 	private int gridElementWidth;
+	private int gridElementLeftBuffer = 0;
+	private int gridElementRightBuffer = 0;
 	private Settings specificSettings;
 	
 	public PropertiesConfig(Properties properties, Settings specificSettings, int gridElementHeight, int gridElementWidth) {
@@ -66,8 +68,17 @@ public class PropertiesConfig {
 		yPos += inc;
 	}
 	
+	public void setGridElementLeftBuffer(int gridElementLeftBuffer) {
+		this.gridElementLeftBuffer = gridElementLeftBuffer;
+	}
+	
+	public void setGridElementRightBuffer(int gridElementRightBuffer) {
+		this.gridElementRightBuffer = gridElementRightBuffer;
+	}
+
 	public float[] getXLimits(float linePos) {
-		return specificSettings.getXValues(linePos, gridElementHeight, gridElementWidth);
+		float[] xLimits = specificSettings.getXValues(linePos, gridElementHeight, gridElementWidth);
+		return new float[] {xLimits[0] + gridElementLeftBuffer, xLimits[1] - gridElementRightBuffer};
 	}
 	
 }
