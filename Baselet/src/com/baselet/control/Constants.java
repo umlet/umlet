@@ -15,6 +15,10 @@ import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import com.umlet.language.FieldOptions;
+import com.umlet.language.MethodOptions;
+import com.umlet.language.SignatureOptions;
+
 public abstract class Constants {
 
 	private Constants() {} // private constructor to avoid instantiation
@@ -280,6 +284,10 @@ public abstract class Constants {
 	public static boolean checkForUpdates = true;
 	public static String openFileHome = System.getProperty("user.dir");
 	public static String pdfExportFont = ""; //eg in Windows: "pdf_export_font = c:/windows/fonts/msgothic.ttc,1"
+	public static boolean generateClassPackage = true;
+	public static FieldOptions generateClassFields = FieldOptions.ALL;
+	public static MethodOptions generateClassMethods = MethodOptions.ALL;
+	public static SignatureOptions generateClassSignatures = SignatureOptions.ALL;
 
 	static {
 		// The default MacOS theme looks ugly, therefore we set metal

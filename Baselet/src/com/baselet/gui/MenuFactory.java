@@ -42,6 +42,7 @@ public class MenuFactory {
 	protected static final String OPEN = "Open...";
 	protected static final String RECENT_FILES = "Recent files";
 	protected static final String GENERATE_CLASS = "Generate Class Elements from Files or Directory...";
+	protected static final String GENERATE_CLASS_OPTIONS = "Generate Class Element Options...";
 	protected static final String SAVE = "Save";
 	protected static final String SAVE_AS = "Save as...";
 	protected static final String EXPORT_AS = "Export as...";
@@ -111,6 +112,9 @@ public class MenuFactory {
 				}
 				else if (menuItem.equals(GENERATE_CLASS)) {	
 					new ClassDiagramConverter().createClassDiagrams(ClassChooser.getFilesToOpen());
+				}
+				else if (menuItem.equals(GENERATE_CLASS_OPTIONS)) {
+					GenerateOptionPanel.getInstance().showPanel();
 				}
 				else if (menuItem.equals(SAVE) && diagramHandler != null) {
 					diagramHandler.doSave();

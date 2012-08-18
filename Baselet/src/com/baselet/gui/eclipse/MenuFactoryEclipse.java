@@ -175,6 +175,10 @@ public class MenuFactoryEclipse extends MenuFactory {
 	public IAction createGenerate() {
 		return createAction(GENERATE_CLASS, null);
 	}
+	
+	public IAction createGenerateOptions() {
+		return createAction(GENERATE_CLASS_OPTIONS, null);
+	}
 
 	public IMenuManager createZoom() {
 		final IMenuManager zoom = new MenuManager(ZOOM);
