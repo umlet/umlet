@@ -21,8 +21,8 @@ public class InnerClass implements Facet {
 
 	@Override
 	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
-		propConfig.setGridElementLeftBuffer(depth * 8);
-		propConfig.setGridElementRightBuffer(depth * 8);
+		propConfig.addToLeftBuffer(depth * 8);
+		propConfig.addToRightBuffer(depth * 8);
 	}
 
 	@Override
