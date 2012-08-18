@@ -13,6 +13,7 @@ import com.baselet.control.Constants.ElementStyle;
 import com.baselet.control.Utils;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.settings.Settings;
+import com.umlet.element.experimental.settings.XPoints;
 import com.umlet.element.experimental.settings.text.Facet;
 
 public class Properties {
@@ -209,10 +210,10 @@ public class Properties {
 	}
 
 	private float calcXToPrintText() {
-		float[] xLimitsTop = propCfg.getXLimits(propCfg.getyPos());
-		float[] xLimitsBottom = propCfg.getXLimits(propCfg.getyPos() - drawer.textHeight());
-		float leftTextLimit = Math.max(xLimitsTop[0], xLimitsBottom[0]);
-		float rightTextLimit = Math.min(xLimitsTop[1], xLimitsBottom[1]);
+		XPoints xLimitsTop = propCfg.getXLimits(propCfg.getyPos());
+		XPoints xLimitsBottom = propCfg.getXLimits(propCfg.getyPos() - drawer.textHeight());
+		float leftTextLimit = Math.max(xLimitsTop.getLeft(), xLimitsBottom.getLeft());
+		float rightTextLimit = Math.min(xLimitsTop.getRight(), xLimitsBottom.getRight());
 		float x;
 		if (propCfg.gethAlign() == AlignHorizontal.LEFT) {
 			x = leftTextLimit + drawer.getDistanceBetweenTexts();
@@ -271,18 +272,16 @@ public class Properties {
 		}
 	}
 
-	private float calcNotInterferingStartPoint(float textWidth, int width, int height, float increment, float relevantDisplacement, float start, Settings calc) {
-		float yPos = start - increment;
-		float[] xVals;
-		float previousSpace;
-		float availableSpace = 0;
-		do {
+	private float calcNotInterferingStartPoint(float textWidth, int width, int height, float increment, float yDisplacement, float start, Settings calc) {
+		float yPos = start;
+		float availableSpace = calc.getXValues(yPos+yDisplacement, height, width).distance();
+		float nextAvailableSpace = calc.getXValues(yPos+yDisplacement+increment, height, width).distance();
+		// stop if enough space is available or if the next step will not result in space gain (eg: UseCase: in the middle, Class: at the top)
+		while (availableSpace <= textWidth && nextAvailableSpace > availableSpace) {
 			yPos += increment;
-			xVals = calc.getXValues(yPos+relevantDisplacement, height, width);
-			previousSpace = availableSpace;
-			availableSpace = xVals[1]-xVals[0];
-		} while (availableSpace <= textWidth && previousSpace < availableSpace);
-		// stop if enough space is available or if there has been no space-gain in the last step (eg: UseCase: in the middle, Class: at the top)
+			availableSpace = nextAvailableSpace;
+			nextAvailableSpace = calc.getXValues(yPos+yDisplacement+increment, height, width).distance();
+		}
 		return yPos;
 	}
 

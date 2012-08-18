@@ -4,6 +4,7 @@ import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
 import com.umlet.element.experimental.Properties.SettingKey;
 import com.umlet.element.experimental.settings.Settings;
+import com.umlet.element.experimental.settings.XPoints;
 
 public class PropertiesConfig {
 
@@ -80,9 +81,11 @@ public class PropertiesConfig {
 		return gridElementWidth;
 	}
 
-	public float[] getXLimits(float linePos) {
-		float[] xLimits = specificSettings.getXValues(linePos, gridElementHeight, gridElementWidth);
-		return new float[] {xLimits[0] + leftBuffer, xLimits[1] - rightBuffer};
+	public XPoints getXLimits(float linePos) {
+		XPoints xLimits = specificSettings.getXValues(linePos, gridElementHeight, gridElementWidth);
+		xLimits.addLeft(leftBuffer);
+		xLimits.subRight(rightBuffer);
+		return xLimits;
 	}
 	
 }

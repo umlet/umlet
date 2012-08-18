@@ -2,6 +2,7 @@ package com.umlet.element.experimental.settings.text;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
+import com.umlet.element.experimental.settings.XPoints;
 
 public class ActiveClass implements Facet {
 
@@ -16,9 +17,9 @@ public class ActiveClass implements Facet {
 	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
 		propConfig.addToLeftBuffer(SPACING);
 		propConfig.addToRightBuffer(SPACING);
-		float[] xLimits = propConfig.getXLimits(propConfig.getyPos());
-		drawer.drawLineVertical(xLimits[0]);
-		drawer.drawLineVertical(xLimits[1]);
+		XPoints xLimits = propConfig.getXLimits(propConfig.getyPos());
+		drawer.drawLineVertical(xLimits.getLeft());
+		drawer.drawLineVertical(xLimits.getRight());
 	}
 
 	@Override

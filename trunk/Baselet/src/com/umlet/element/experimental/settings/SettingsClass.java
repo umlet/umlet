@@ -10,8 +10,8 @@ import com.umlet.element.experimental.settings.text.SeparatorLine;
 public class SettingsClass extends Settings {
 
 	@Override
-	public float[] getXValues(float y, int height, int width) {
-		return new float[] {0, width};
+	public XPoints getXValues(float y, int height, int width) {
+		return new XPoints(0, width);
 	}
 
 	@Override

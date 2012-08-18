@@ -3,6 +3,7 @@ package com.umlet.element.experimental.settings.text;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
+import com.umlet.element.experimental.settings.XPoints;
 
 public class SeparatorLine implements Facet {
 
@@ -22,8 +23,8 @@ public class SeparatorLine implements Facet {
 			propConfig.sethAlign(AlignHorizontal.LEFT);
 		}
 		float linePos = propConfig.getyPos() - (drawer.textHeight()) + 2;
-		float[] xPos = propConfig.getXLimits(linePos);
-		drawer.drawLine(xPos[0]+1, linePos, xPos[1]-1, linePos);
+		XPoints xPos = propConfig.getXLimits(linePos);
+		drawer.drawLine(xPos.getLeft()+1, linePos, xPos.getRight()-1, linePos);
 		propConfig.addToYPos(getHorizontalSpace());
 	}
 
