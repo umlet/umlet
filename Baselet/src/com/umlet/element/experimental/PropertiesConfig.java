@@ -88,4 +88,12 @@ public class PropertiesConfig {
 		return xLimits;
 	}
 	
+	public XPoints getXLimitsForArea(float areaHeight) {
+		XPoints xLimitsTop = getXLimits(getyPos());
+		XPoints xLimitsBottom = getXLimits(getyPos() - areaHeight);
+		float leftAreaLimit = Math.max(xLimitsTop.getLeft(), xLimitsBottom.getLeft());
+		float rightAreaLimit = Math.min(xLimitsTop.getRight(), xLimitsBottom.getRight());
+		return new XPoints(leftAreaLimit, rightAreaLimit);
+	}
+	
 }

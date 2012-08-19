@@ -23,6 +23,10 @@ public class XPoints {
 		return right;
 	}
 	
+	public float getSpace() {
+		return right-left;
+	}
+	
 	public void addLeft(float inc) {
 		left+=inc;
 	}

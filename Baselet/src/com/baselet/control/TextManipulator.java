@@ -12,11 +12,15 @@ import com.baselet.diagram.draw.BaseDrawHandler;
  * Cache for already known results of splitstrings
  */
 public class TextManipulator {
-	private static LinkedHashMap<SplitStringCacheKey, List<String>> splitStringCache = new LinkedHashMap<SplitStringCacheKey, List<String>>(100);
+	private static LinkedHashMap<SplitStringCacheKey, String> splitStringCache = new LinkedHashMap<SplitStringCacheKey, String>(100);
 
-	public static List<String> splitString(String text, float width, BaseDrawHandler drawer) {
+	public static boolean checkifStringFits(String text, float width, BaseDrawHandler drawer) {
+		return splitString(text, width, drawer).equals(text);
+	}
+	
+	public static String splitString(String text, float width, BaseDrawHandler drawer) {
 		SplitStringCacheKey key = new SplitStringCacheKey(text, width);
-		List<String> result = splitStringCache.get(key);
+		String result = splitStringCache.get(key);
 		if (result != null) return result;
 
 		result = splitStringAlgorithm(text, width, drawer);
@@ -25,12 +29,10 @@ public class TextManipulator {
 		return result;
 	}
 	
-	private static List<String> splitStringAlgorithm(String text, float width, BaseDrawHandler drawer) {
+	private static String splitStringAlgorithm(String text, float width, BaseDrawHandler drawer) {
 		String splitChar = " ";
-		List<String> returnList = new ArrayList<String>();
-		width -= drawer.textWidth("m"); // subtract a buffer to make sure no character is hidden at the end
+		width -= drawer.textWidth("n"); // subtract a buffer to make sure no character is hidden at the end
 		ListIterator<String> inputIter = new ArrayList<String>(Arrays.asList(text.split(splitChar))).listIterator();
-		while (inputIter.hasNext()) {
 			String line = "";
 			while (inputIter.hasNext()) {
 				String nextEl = inputIter.next();
@@ -42,19 +44,15 @@ public class TextManipulator {
 				line += nextEl;
 				inputIter.remove();
 			}
-			if (inputIter.hasNext() && line.equals("")) { // if the line has no space and would be to wide for one line
+			if (inputIter.hasNext() && line.isEmpty()) { // if the line has no space and would be to wide for one line
 				String nextEl = inputIter.next();
 				String possibleLine = nextEl;
-				while (drawer.textWidth(possibleLine) > width) {
-					possibleLine = possibleLine.substring(0, possibleLine.length()-1);
+				while (!possibleLine.isEmpty() && drawer.textWidth(possibleLine) > width) {
+						possibleLine = possibleLine.substring(0, possibleLine.length()-1);
 				}
 				line = possibleLine;
-				inputIter.set(nextEl.replace(possibleLine, "")); // the rest of the string must be handled at the next iteration
-				inputIter.previous();
 			}
-			returnList.add(line);
-		}
-		return returnList;
+		return line;
 	}
 
 	private static class SplitStringCacheKey {
