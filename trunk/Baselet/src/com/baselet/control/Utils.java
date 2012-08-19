@@ -10,14 +10,16 @@ import java.awt.Stroke;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
-
-import javax.swing.JComponent;
 
 import org.apache.log4j.Logger;
 
@@ -122,32 +124,30 @@ public abstract class Utils {
 	}
 
 	public static List<String> splitString(String text, float width, BaseDrawHandler drawer) {
-		float leftRightBuffer = drawer.textWidth("mm");
-		StringBuilder stringBuilder = new StringBuilder(text);
-		int lastEmptyChar = -1; // is -1 if there was no ' ' in this line
-		int firstCharInLine = 0;
-
-		for (int i = 0; i < text.length(); i++) {
-			if (stringBuilder.charAt(i) == ' ') {
-				lastEmptyChar = i;
-			}
-			else if (stringBuilder.charAt(i) == '\n') {
-				lastEmptyChar = -1;
-				firstCharInLine = i;
-			}
-			if (drawer.textWidth(text.substring(firstCharInLine, i)) + leftRightBuffer > width) {
-				if (lastEmptyChar != -1) {
-					stringBuilder.setCharAt(lastEmptyChar, '\n');
-					firstCharInLine = lastEmptyChar + 1;
-					lastEmptyChar = -1;
+		String splitChar = " ";
+		List<String> returnList = new ArrayList<String>();
+		width -= drawer.textWidth("m"); // subtract a buffer to make sure no character is hidden at the end
+		ListIterator<String> inputIter = new ArrayList<String>(Arrays.asList(text.split(splitChar))).listIterator();
+		while (inputIter.hasNext()) {
+			String line = "";
+			while (inputIter.hasNext()) {
+				String nextEl = inputIter.next();
+				if (drawer.textWidth(line + nextEl) > width) {
+					inputIter.previous();
+					break;
 				}
-				else {
-					stringBuilder.insert(i, '\n');
-					firstCharInLine = i+1;
-				}
+				line += nextEl + splitChar;
+				inputIter.remove();
 			}
+			if (inputIter.hasNext() && line.equals("")) { // if the line has no space and would be to wide for one line
+				String nextEl = inputIter.next();
+				line = SplitStringCache.getOutput(nextEl, width, drawer);
+				inputIter.set(nextEl.replace(line, "")); // the rest of the string must be handled at the next iteration
+				inputIter.previous();
+			}
+			returnList.add(line);
 		}
-		return Arrays.asList(stringBuilder.toString().split("\\n"));
+		return returnList;
 	}
 
 	public static String composeStrings(Vector<String> v, String delimiter) {
