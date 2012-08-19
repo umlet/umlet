@@ -2,7 +2,7 @@ package com.umlet.element.experimental.settings.text;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.settings.XPoints;
+import com.umlet.element.experimental.helper.XPoints;
 
 public class ActiveClass implements Facet {
 

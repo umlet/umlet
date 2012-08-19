@@ -38,7 +38,8 @@ public class TextManipulator {
 					inputIter.previous();
 					break;
 				}
-				line += nextEl + splitChar;
+				if (!line.isEmpty()) line += splitChar; // if this is not the first line, start with a splitcharacter
+				line += nextEl;
 				inputIter.remove();
 			}
 			if (inputIter.hasNext() && line.equals("")) { // if the line has no space and would be to wide for one line

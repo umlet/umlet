@@ -3,8 +3,8 @@ package com.umlet.element.experimental;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
 import com.umlet.element.experimental.Properties.SettingKey;
+import com.umlet.element.experimental.helper.XPoints;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.XPoints;
 
 public class PropertiesConfig {
 
