@@ -196,34 +196,43 @@ public class Properties {
 
 	public void drawPropertiesText(Settings elementSettings) {
 		propCfg = new PropertiesConfig(this, elementSettings, gridElementHeight, gridElementWidth);
-		float textWidth = 0;
-		if (!propertiesTextToDraw.isEmpty()) {
-			textWidth = drawer.textWidth(propertiesTextToDraw.get(0));
-		}
-		propCfg.addToYPos(calcStartPos(elementSettings, textWidth));
+		propCfg.addToYPos(drawer.textHeight());
 
-		iterateProperties(elementSettings, new LineHandlerPrint(propCfg));
+		iterateProperties(elementSettings, propCfg, false);
 	}
 
-	private void iterateProperties(Settings elementSettings, LineHandler lineHandler) {
+	private void iterateProperties(Settings elementSettings, PropertiesConfig propCfg, boolean countOnly) {
+		boolean firstLine = true;
 		boolean wordwrap = ElementStyle.WORDWRAP.toString().equalsIgnoreCase(getSetting(SettingKey.ElementStyle));
+		if (!countOnly) {
+			propCfg.addToYPos(calcStartPos(elementSettings)); // buffer to the top
+		}
 		for (String line : propertiesTextToDraw) {
 			if (wordwrap) {
-				for (String wrappedLine : TextManipulator.splitString(line, gridElementWidth, drawer)) {
-					handleLine(elementSettings, wrappedLine, lineHandler);
+				String wrappedLine;
+				while (propCfg.getyPos() < gridElementHeight && !line.trim().isEmpty()) {
+					wrappedLine = TextManipulator.splitString(line, propCfg.getXLimitsForArea(drawer.textHeight()).getSpace(), drawer);
+					handleLine(elementSettings, wrappedLine, propCfg, countOnly);
+					line = line.trim().substring(wrappedLine.length());
 				}
 			}
 			else {
-				handleLine(elementSettings, line, lineHandler);
+				if (!countOnly && firstLine) {
+					firstLine = false;
+					while(propCfg.getyPos() < gridElementHeight/2 && !TextManipulator.checkifStringFits(line, propCfg.getXLimitsForArea(drawer.textHeight()).getSpace(), drawer)) {
+						propCfg.addToYPos(drawer.textHeight()/2);
+					}
+				}
+				handleLine(elementSettings, line, propCfg, countOnly);
 			}
 		}
 	}
 
-	private void handleLine(Settings elementSettings, String line, LineHandler lineHandler) {
+	private void handleLine(Settings elementSettings, String line, PropertiesConfig propCfg, boolean countOnly) {
 		boolean drawText = true;
 		for (Facet facet : elementSettings.getFacets()) {
 			if (facet.checkStart(line)) {
-				if (lineHandler.countOnly()) lineHandler.addToYPos(facet.getHorizontalSpace());
+				if (countOnly) propCfg.addToYPos(facet.getHorizontalSpace());
 				else facet.handleLine(line, drawer, propCfg);
 				if (facet.replacesText(line)) {
 					drawText = false;
@@ -231,58 +240,41 @@ public class Properties {
 			}
 		}
 		if (drawText) {
-			if (!lineHandler.countOnly()) drawer.print(line, calcXToPrintText(), propCfg.getyPos(), propCfg.gethAlign());
-			lineHandler.addToYPos(drawer.textHeightWithSpace());
+			if (!countOnly) drawer.print(line, calcXToPrintText(propCfg), propCfg.getyPos(), propCfg.gethAlign());
+			propCfg.addToYPos(drawer.textHeightWithSpace());
 		}
 	}
 
-	private float calcXToPrintText() {
-		XPoints xLimitsTop = propCfg.getXLimits(propCfg.getyPos());
-		XPoints xLimitsBottom = propCfg.getXLimits(propCfg.getyPos() - drawer.textHeight());
-		float leftTextLimit = Math.max(xLimitsTop.getLeft(), xLimitsBottom.getLeft());
-		float rightTextLimit = Math.min(xLimitsTop.getRight(), xLimitsBottom.getRight());
+	private float calcXToPrintText(PropertiesConfig propCfg) {
+		XPoints xLimitsForText = propCfg.getXLimitsForArea(drawer.textHeight());
 		float x;
 		if (propCfg.gethAlign() == AlignHorizontal.LEFT) {
-			x = leftTextLimit + drawer.getDistanceBetweenTexts();
+			x = xLimitsForText.getLeft() + drawer.getDistanceBetweenTexts();
 		} else if (propCfg.gethAlign() == AlignHorizontal.CENTER) {
 			x = propCfg.getGridElementWidth() / 2;
 		} else /*if (propCfg.gethAlign() == AlignHorizontal.RIGHT)*/ {
-			x = rightTextLimit - drawer.getDistanceBetweenTexts();
+			x = xLimitsForText.getRight() - drawer.getDistanceBetweenTexts();
 		}
 		return x;
 	}
 
 	public float getTextBlockHeight(Settings elementSettings) {
-		LineHandlerCount lineHandler = new LineHandlerCount();
-		iterateProperties(elementSettings, lineHandler);
-		return lineHandler.getSum();
+		propCfg = new PropertiesConfig(this, elementSettings, gridElementHeight, gridElementWidth);
+		iterateProperties(elementSettings, propCfg, true);
+		return propCfg.getyPos();
 	}
 
-	private float calcStartPos(Settings calc, float textWidth) {
-		float textHeight = getTextBlockHeight(calc);
+	private float calcStartPos(Settings elementSettings) {
+		float textHeight = getTextBlockHeight(elementSettings);
 		if (propCfg.getvAlign() == AlignVertical.TOP) {
-			return calcNotInterferingStartPoint(textWidth, gridElementWidth, gridElementHeight, drawer.textHeight()/2, -drawer.textHeight(), drawer.textHeightWithSpace(), calc);
+			return drawer.textHeight()/2;
 		}
 		else if (propCfg.getvAlign() == AlignVertical.CENTER) {
-			float startPoint = Math.max((gridElementHeight - textHeight)/2 + (drawer.textHeight() * 0.9f), drawer.textHeightWithSpace());
-			return calcNotInterferingStartPoint(textWidth, gridElementWidth, gridElementHeight, drawer.textHeight()/2, -drawer.textHeight(), startPoint, calc);
+			return Math.max((gridElementHeight - textHeight)/2, drawer.textHeightWithSpace());
 		}
 		else /*if (propCfg.getvAlign() == AlignVertical.BOTTOM)*/ {
 			return Math.max(gridElementHeight - textHeight, drawer.textHeightWithSpace());
 		}
-	}
-
-	private float calcNotInterferingStartPoint(float textWidth, int width, int height, float increment, float yDisplacement, float start, Settings calc) {
-		float yPos = start;
-		float availableSpace = calc.getXValues(yPos+yDisplacement, height, width).distance();
-		float nextAvailableSpace = calc.getXValues(yPos+yDisplacement+increment, height, width).distance();
-		// stop if enough space is available or if the next step will not result in space gain (eg: UseCase: in the middle, Class: at the top)
-		while (availableSpace <= textWidth && nextAvailableSpace > availableSpace) {
-			yPos += increment;
-			availableSpace = nextAvailableSpace;
-			nextAvailableSpace = calc.getXValues(yPos+yDisplacement+increment, height, width).distance();
-		}
-		return yPos;
 	}
 
 }
