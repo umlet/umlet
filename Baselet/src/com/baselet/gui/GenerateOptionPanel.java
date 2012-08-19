@@ -26,6 +26,7 @@ import com.baselet.control.Constants;
 import com.umlet.language.FieldOptions;
 import com.umlet.language.MethodOptions;
 import com.umlet.language.SignatureOptions;
+import com.umlet.language.SortOptions;
 
 @SuppressWarnings("serial")
 public class GenerateOptionPanel extends JDialog {
@@ -36,6 +37,7 @@ public class GenerateOptionPanel extends JDialog {
 	private ButtonGroup fields;
 	private ButtonGroup methods;
 	private ButtonGroup signatures;
+	private ButtonGroup sortings;
 	
 	private static final String okButton = "Ok";
 	private static final String cancelButton = "Cancel";
@@ -67,6 +69,10 @@ public class GenerateOptionPanel extends JDialog {
 		
 		signatures = createButtonGroup(SignatureOptions.values());
 		optionPanel.add(createSubPanel("Show signatures", signatures), layout(c, 0, 2));
+		
+		sortings = createButtonGroup(SortOptions.values());
+		optionPanel.add(createSubPanel("Sorting", sortings), layout(c, 1, 2));
+		
 		optionPanel.validate();
 		return optionPanel;
 	}
@@ -93,9 +99,9 @@ public class GenerateOptionPanel extends JDialog {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(0, 1));
 		panel.setBorder(BorderFactory.createTitledBorder(title));
-		panel.add(e.nextElement());
-		panel.add(e.nextElement());
-		panel.add(e.nextElement());
+		while (e.hasMoreElements()) {
+			panel.add(e.nextElement());
+		}
 		return panel;
 	}
 
@@ -135,6 +141,7 @@ public class GenerateOptionPanel extends JDialog {
 				Constants.generateClassFields = FieldOptions.getEnum(fields.getSelection().getActionCommand().toString());
 				Constants.generateClassMethods = MethodOptions.getEnum(methods.getSelection().getActionCommand().toString());
 				Constants.generateClassSignatures = SignatureOptions.getEnum(signatures.getSelection().getActionCommand().toString());
+				Constants.generateClassSortings = SortOptions.getEnum(sortings.getSelection().getActionCommand().toString());
 			}
 		}
 	}
@@ -144,6 +151,7 @@ public class GenerateOptionPanel extends JDialog {
 		setSelectedRadioButton(fields, Constants.generateClassFields);
 		setSelectedRadioButton(methods, Constants.generateClassMethods);
 		setSelectedRadioButton(signatures, Constants.generateClassSignatures);
+		setSelectedRadioButton(sortings, Constants.generateClassSortings);
 		this.setVisible(true);
 		this.toFront();
 	}

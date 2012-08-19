@@ -37,7 +37,7 @@ public class ClassDiagramConverter {
 	}
 
 	public void createClassDiagrams(List<String> filesToOpen) {
-		List<GridElement> elements = new ArrayList<GridElement>();
+		List<ClassElement> elements = new ArrayList<ClassElement>();
 		for (String filename: filesToOpen) {
 			elements.add(createElement(filename));
 		}
@@ -45,7 +45,7 @@ public class ClassDiagramConverter {
 		addElementsToDiagram(elements);
 	}
 
-	private GridElement createElement(String filename) {
+	private ClassElement createElement(String filename) {
 		JavaClass parsedClass = parseFile(filename);
 
 		GridElement clazz = new Class();
@@ -53,50 +53,53 @@ public class ClassDiagramConverter {
 			clazz.setPanelAttributes(getElementProperties(parsedClass));
 		}
 		adjustSize(clazz);
-		return clazz;
+		return new ClassElement(clazz, parsedClass);
 	}
 
-	private void determineLocations(List<GridElement> elements) {
+	private void determineLocations(List<ClassElement> elements) {
 		int maxHeight = 0;
 		int sumWidth = 0;
-		for (GridElement e: elements) {
-			if (e.getSize().height > maxHeight) {
-				maxHeight = e.getSize().height;
+		for (ClassElement e: elements) {
+			if (e.getElement().getSize().height > maxHeight) {
+				maxHeight = e.getElement().getSize().height;
 			}
-			sumWidth += e.getSize().width;
+			sumWidth += e.getElement().getSize().width;
 		}
 		// start with a rectangle with one row with all elements in it and determine
 		// the multiplicator by solving: (x / m) / (y * m) = desired relation of width to height  
 		double m = Math.sqrt(sumWidth / (0.4 * maxHeight));
 		int desiredWidth = (int) (sumWidth / m);
 		
-		Collections.sort(elements, new GridElementHeightSorter()); // descending
+		switch(Constants.generateClassSortings) {
+			case ALPHABET: Collections.sort(elements, new ClassElementAlphabetSorter()); break;
+			default: Collections.sort(elements, new ClassElementHeightSorter()); // descending 
+		}
 		
 		int curWidth = GRIDSIZE; 
 		int curHeight = GRIDSIZE;
 		int maxHeightThisRow = 0;
-		for (GridElement e: elements) {
-			e.setLocation(curWidth, curHeight);
-			if (e.getSize().height > maxHeightThisRow) {
-				maxHeightThisRow = e.getSize().height;
+		for (ClassElement e: elements) {
+			e.getElement().setLocation(curWidth, curHeight);
+			if (e.getElement().getSize().height > maxHeightThisRow) {
+				maxHeightThisRow = e.getElement().getSize().height;
 			}
 			if (curWidth > desiredWidth) { 
 				curHeight += maxHeightThisRow + GRIDSIZE;
 				curWidth = GRIDSIZE;
 				maxHeightThisRow = 0;
 			} else {
-				curWidth += e.getSize().width + GRIDSIZE;
+				curWidth += e.getElement().getSize().width + GRIDSIZE;
 			}
 		}
 	}
 
-	private void addElementsToDiagram(List<GridElement> elements) {
+	private void addElementsToDiagram(List<ClassElement> elements) {
 		DiagramHandler handler = Main.getInstance().getDiagramHandler();
 
-		for (GridElement e: elements) {
-			new AddElement(e, 
-					handler.realignToGrid(e.getLocation().x),
-					handler.realignToGrid(e.getLocation().y), false).execute(handler);
+		for (ClassElement e: elements) {
+			new AddElement(e.getElement(), 
+					handler.realignToGrid(e.getElement().getLocation().x),
+					handler.realignToGrid(e.getElement().getLocation().y), false).execute(handler);
 		}
 		handler.setChanged(true);		
 	}
@@ -194,7 +197,7 @@ public class ClassDiagramConverter {
 		return attributes+="\n";
 	}
 	
-	private String getClassName(JavaClass parsedClass) {
+	protected static String getClassName(JavaClass parsedClass) {
 		String result = "";
 		if (Constants.generateClassPackage) {
 			result += parsedClass.getPackage()+"::";
