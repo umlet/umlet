@@ -13,8 +13,11 @@ import com.baselet.control.Constants.ElementStyle;
 import com.baselet.control.TextManipulator;
 import com.baselet.control.Utils;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.umlet.element.experimental.helper.LineHandler;
+import com.umlet.element.experimental.helper.LineHandlerCount;
+import com.umlet.element.experimental.helper.LineHandlerPrint;
+import com.umlet.element.experimental.helper.XPoints;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.XPoints;
 import com.umlet.element.experimental.settings.text.Facet;
 
 public class Properties {
@@ -140,7 +143,7 @@ public class Properties {
 		drawer.setBackground(bgColor, bgAlpha);
 
 		drawer.setLineType(getSetting(SettingKey.LineType));
-		
+
 		Float fontSize = getSettingFloat(SettingKey.FontSize);
 		if (fontSize != null) drawer.setFontSize(fontSize);
 	}
@@ -157,7 +160,7 @@ public class Properties {
 		}
 		applyProperties();
 
-		propertiesTextToDraw = getPropertiesTextAndApplyWordWrapIfSet();
+		propertiesTextToDraw = getPropertiesTextFiltered();
 	}
 
 	public String getSetting(SettingKey key) {
@@ -193,20 +196,43 @@ public class Properties {
 
 	public void drawPropertiesText(Settings elementSettings) {
 		propCfg = new PropertiesConfig(this, elementSettings, gridElementHeight, gridElementWidth);
-		propCfg.addToYPos(calcStartPos(elementSettings));
+		float textWidth = 0;
+		if (!propertiesTextToDraw.isEmpty()) {
+			textWidth = drawer.textWidth(propertiesTextToDraw.get(0));
+		}
+		propCfg.addToYPos(calcStartPos(elementSettings, textWidth));
 
+		iterateProperties(elementSettings, new LineHandlerPrint(propCfg));
+	}
+
+	private void iterateProperties(Settings elementSettings, LineHandler lineHandler) {
+		boolean wordwrap = ElementStyle.WORDWRAP.toString().equalsIgnoreCase(getSetting(SettingKey.ElementStyle));
 		for (String line : propertiesTextToDraw) {
-			boolean drawText = true;
-			for (Facet facet : elementSettings.getFacets()) {
-				if (facet.checkStart(line)) {
-					facet.handleLine(line, drawer, propCfg);
-					if (facet.replacesText(line)) drawText = false;
+			if (wordwrap) {
+				for (String wrappedLine : TextManipulator.splitString(line, gridElementWidth, drawer)) {
+					handleLine(elementSettings, wrappedLine, lineHandler);
 				}
 			}
-			if (drawText) {
-				drawer.print(line, calcXToPrintText(), propCfg.getyPos(), propCfg.gethAlign());
-				propCfg.addToYPos(drawer.textHeightWithSpace());
+			else {
+				handleLine(elementSettings, line, lineHandler);
 			}
+		}
+	}
+
+	private void handleLine(Settings elementSettings, String line, LineHandler lineHandler) {
+		boolean drawText = true;
+		for (Facet facet : elementSettings.getFacets()) {
+			if (facet.checkStart(line)) {
+				if (lineHandler.countOnly()) lineHandler.addToYPos(facet.getHorizontalSpace());
+				else facet.handleLine(line, drawer, propCfg);
+				if (facet.replacesText(line)) {
+					drawText = false;
+				}
+			}
+		}
+		if (drawText) {
+			if (!lineHandler.countOnly()) drawer.print(line, calcXToPrintText(), propCfg.getyPos(), propCfg.gethAlign());
+			lineHandler.addToYPos(drawer.textHeightWithSpace());
 		}
 	}
 
@@ -226,40 +252,13 @@ public class Properties {
 		return x;
 	}
 
-	private List<String> getPropertiesTextAndApplyWordWrapIfSet() {
-		List<String> propertiesTextFiltered = new ArrayList<String>();
-		if (ElementStyle.WORDWRAP.toString().equalsIgnoreCase(getSetting(SettingKey.ElementStyle))) {
-			Vector<String> oneLine = getPropertiesTextFiltered();
-			for (String line : oneLine) {
-				propertiesTextFiltered.addAll(TextManipulator.splitString(line, gridElementWidth, drawer));
-			}
-		}
-		else propertiesTextFiltered.addAll(getPropertiesTextFiltered());
-		return propertiesTextFiltered;
-	}
-
 	public float getTextBlockHeight(Settings elementSettings) {
-		float textBlockHeight = 0;
-		for (String line : propertiesTextToDraw) {
-			boolean drawText = true;
-			for (Facet facet : elementSettings.getFacets()) {
-				if (facet.checkStart(line)) {
-					textBlockHeight += facet.getHorizontalSpace();
-					if (facet.replacesText(line)) drawText = false;
-				}
-			}
-			if (drawText) {
-				textBlockHeight += drawer.textHeightWithSpace();
-			}
-		}
-		return textBlockHeight;
+		LineHandlerCount lineHandler = new LineHandlerCount();
+		iterateProperties(elementSettings, lineHandler);
+		return lineHandler.getSum();
 	}
 
-	private float calcStartPos(Settings calc) {
-		float textWidth = 0;
-		if (!propertiesTextToDraw.isEmpty()) {
-			textWidth = drawer.textWidth(propertiesTextToDraw.get(0));
-		}
+	private float calcStartPos(Settings calc, float textWidth) {
 		float textHeight = getTextBlockHeight(calc);
 		if (propCfg.getvAlign() == AlignVertical.TOP) {
 			return calcNotInterferingStartPoint(textWidth, gridElementWidth, gridElementHeight, drawer.textHeight()/2, -drawer.textHeight(), drawer.textHeightWithSpace(), calc);

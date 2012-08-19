@@ -3,7 +3,7 @@ package com.umlet.element.experimental.settings.text;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.settings.XPoints;
+import com.umlet.element.experimental.helper.XPoints;
 
 public class SeparatorLine implements Facet {
 

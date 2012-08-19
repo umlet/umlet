@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.settings;
+package com.umlet.element.experimental.helper;
 
 public class XPoints {
 
