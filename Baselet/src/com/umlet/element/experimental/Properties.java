@@ -10,6 +10,7 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
 import com.baselet.control.Constants.ElementStyle;
+import com.baselet.control.TextManipulator;
 import com.baselet.control.Utils;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.settings.Settings;
@@ -230,7 +231,7 @@ public class Properties {
 		if (ElementStyle.WORDWRAP.toString().equalsIgnoreCase(getSetting(SettingKey.ElementStyle))) {
 			Vector<String> oneLine = getPropertiesTextFiltered();
 			for (String line : oneLine) {
-				propertiesTextFiltered.addAll(Utils.splitString(line, gridElementWidth, drawer));
+				propertiesTextFiltered.addAll(TextManipulator.splitString(line, gridElementWidth, drawer));
 			}
 		}
 		else propertiesTextFiltered.addAll(getPropertiesTextFiltered());
