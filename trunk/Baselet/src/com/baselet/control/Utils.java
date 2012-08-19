@@ -123,33 +123,6 @@ public abstract class Utils {
 		return Arrays.asList(stringBuilder.toString().split("\\n"));
 	}
 
-	public static List<String> splitString(String text, float width, BaseDrawHandler drawer) {
-		String splitChar = " ";
-		List<String> returnList = new ArrayList<String>();
-		width -= drawer.textWidth("m"); // subtract a buffer to make sure no character is hidden at the end
-		ListIterator<String> inputIter = new ArrayList<String>(Arrays.asList(text.split(splitChar))).listIterator();
-		while (inputIter.hasNext()) {
-			String line = "";
-			while (inputIter.hasNext()) {
-				String nextEl = inputIter.next();
-				if (drawer.textWidth(line + nextEl) > width) {
-					inputIter.previous();
-					break;
-				}
-				line += nextEl + splitChar;
-				inputIter.remove();
-			}
-			if (inputIter.hasNext() && line.equals("")) { // if the line has no space and would be to wide for one line
-				String nextEl = inputIter.next();
-				line = SplitStringCache.getOutput(nextEl, width, drawer);
-				inputIter.set(nextEl.replace(line, "")); // the rest of the string must be handled at the next iteration
-				inputIter.previous();
-			}
-			returnList.add(line);
-		}
-		return returnList;
-	}
-
 	public static String composeStrings(Vector<String> v, String delimiter) {
 		String ret = null;
 		if (v != null) {
