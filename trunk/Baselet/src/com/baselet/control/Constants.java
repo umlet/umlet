@@ -18,6 +18,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import com.umlet.language.FieldOptions;
 import com.umlet.language.MethodOptions;
 import com.umlet.language.SignatureOptions;
+import com.umlet.language.SortOptions;
 
 public abstract class Constants {
 
@@ -288,6 +289,7 @@ public abstract class Constants {
 	public static FieldOptions generateClassFields = FieldOptions.ALL;
 	public static MethodOptions generateClassMethods = MethodOptions.ALL;
 	public static SignatureOptions generateClassSignatures = SignatureOptions.ALL;
+	public static SortOptions generateClassSortings = SortOptions.HEIGHT;
 
 	static {
 		// The default MacOS theme looks ugly, therefore we set metal

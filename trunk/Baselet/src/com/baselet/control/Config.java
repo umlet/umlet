@@ -14,6 +14,7 @@ import com.baselet.gui.BaseGUI;
 import com.umlet.language.FieldOptions;
 import com.umlet.language.MethodOptions;
 import com.umlet.language.SignatureOptions;
+import com.umlet.language.SortOptions;
 
 
 public class Config {
@@ -52,6 +53,7 @@ public class Config {
 	private static final String GENERATE_CLASS_FIELDS = "generate_class_fields";
 	private static final String GENERATE_CLASS_METHODS = "generate_class_methods";
 	private static final String GENERATE_CLASS_SIGNATURES = "generate_class_signatures";
+	private static final String GENERATE_CLASS_SORTINGS = "generate_class_sortings";
 	
 	private static File configfile;
 	private static Properties props;
@@ -119,6 +121,7 @@ public class Config {
 		Constants.generateClassFields = FieldOptions.getEnum(getStringProperty(GENERATE_CLASS_FIELDS, Constants.generateClassFields.toString()));
 		Constants.generateClassMethods = MethodOptions.getEnum(getStringProperty(GENERATE_CLASS_METHODS, Constants.generateClassMethods.toString()));
 		Constants.generateClassSignatures = SignatureOptions.getEnum(getStringProperty(GENERATE_CLASS_SIGNATURES, Constants.generateClassSignatures.toString()));
+		Constants.generateClassSortings = SortOptions.getEnum(getStringProperty(GENERATE_CLASS_SORTINGS, Constants.generateClassSortings.toString()));
 	}
 
 	public static void saveConfig() {
@@ -186,6 +189,7 @@ public class Config {
 			props.setProperty(GENERATE_CLASS_FIELDS, Constants.generateClassFields.toString());
 			props.setProperty(GENERATE_CLASS_METHODS, Constants.generateClassMethods.toString());
 			props.setProperty(GENERATE_CLASS_SIGNATURES, Constants.generateClassSignatures.toString());
+			props.setProperty(GENERATE_CLASS_SORTINGS, Constants.generateClassSortings.toString());
 
 			FileOutputStream outStream = new FileOutputStream(configfile);
 			try {
