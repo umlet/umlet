@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
@@ -48,10 +49,11 @@ public class GenerateOptionPanel extends JDialog {
 		content.add(createOptionPanel(), BorderLayout.CENTER);
 		content.add(createButtonPanel(), BorderLayout.SOUTH);
 		this.setTitle("Import Details");
-		this.setLocation(50, 50);
 		this.pack();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation(screenSize.width/2 - this.getWidth()/2, screenSize.height/2 - this.getWidth()/2);
 	}
-	
+
 	private JPanel createOptionPanel() {
 		JPanel optionPanel = new JPanel();
 		optionPanel.setLayout(new GridBagLayout());
