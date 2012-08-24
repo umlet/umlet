@@ -18,7 +18,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import com.umlet.language.FieldOptions;
 import com.umlet.language.MethodOptions;
 import com.umlet.language.SignatureOptions;
-import com.umlet.language.SortOptions;
+import com.umlet.language.sorting.SortOptions;
 
 public abstract class Constants {
 

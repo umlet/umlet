@@ -1,7 +1,6 @@
 package com.umlet.language;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.baselet.control.Constants;
@@ -18,6 +17,10 @@ import com.umlet.language.java.JavaClass.ClassRole;
 import com.umlet.language.java.Method;
 import com.umlet.language.java.bcel.BcelJavaClass;
 import com.umlet.language.java.jp.JpJavaClass;
+import com.umlet.language.sorting.AlphabetLayout;
+import com.umlet.language.sorting.HeightLayout;
+import com.umlet.language.sorting.PackageLayout;
+import com.umlet.language.sorting.RelationLayout;
 
 /**
  * Creates a class element from a filename pointing to a .class or .java file according to UML standards, 
@@ -37,15 +40,22 @@ public class ClassDiagramConverter {
 	}
 
 	public void createClassDiagrams(List<String> filesToOpen) {
-		List<ClassElement> elements = new ArrayList<ClassElement>();
+		List<SortableElement> elements = new ArrayList<SortableElement>();
 		for (String filename: filesToOpen) {
 			elements.add(createElement(filename));
 		}
-		determineLocations(elements);
+		
+		switch(Constants.generateClassSortings) {
+			case PACKAGE: new PackageLayout().layout(elements); break;
+			case ALPHABET: new AlphabetLayout().layout(elements); break;
+			case RELATIONS: new RelationLayout().layout(elements); break;
+			default: new HeightLayout().layout(elements); // by height
+		}
+		
 		addElementsToDiagram(elements);
 	}
 
-	private ClassElement createElement(String filename) {
+	private SortableElement createElement(String filename) {
 		JavaClass parsedClass = parseFile(filename);
 
 		GridElement clazz = new Class();
@@ -53,50 +63,13 @@ public class ClassDiagramConverter {
 			clazz.setPanelAttributes(getElementProperties(parsedClass));
 		}
 		adjustSize(clazz);
-		return new ClassElement(clazz, parsedClass);
+		return new SortableElement(clazz, parsedClass);
 	}
 
-	private void determineLocations(List<ClassElement> elements) {
-		int maxHeight = 0;
-		int sumWidth = 0;
-		for (ClassElement e: elements) {
-			if (e.getElement().getSize().height > maxHeight) {
-				maxHeight = e.getElement().getSize().height;
-			}
-			sumWidth += e.getElement().getSize().width;
-		}
-		// start with a rectangle with one row with all elements in it and determine
-		// the multiplicator by solving: (x / m) / (y * m) = desired relation of width to height  
-		double m = Math.sqrt(sumWidth / (0.4 * maxHeight));
-		int desiredWidth = (int) (sumWidth / m);
-		
-		switch(Constants.generateClassSortings) {
-			case ALPHABET: Collections.sort(elements, new ClassElementAlphabetSorter()); break;
-			default: Collections.sort(elements, new ClassElementHeightSorter()); // descending 
-		}
-		
-		int curWidth = GRIDSIZE; 
-		int curHeight = GRIDSIZE;
-		int maxHeightThisRow = 0;
-		for (ClassElement e: elements) {
-			e.getElement().setLocation(curWidth, curHeight);
-			if (e.getElement().getSize().height > maxHeightThisRow) {
-				maxHeightThisRow = e.getElement().getSize().height;
-			}
-			if (curWidth > desiredWidth) { 
-				curHeight += maxHeightThisRow + GRIDSIZE;
-				curWidth = GRIDSIZE;
-				maxHeightThisRow = 0;
-			} else {
-				curWidth += e.getElement().getSize().width + GRIDSIZE;
-			}
-		}
-	}
-
-	private void addElementsToDiagram(List<ClassElement> elements) {
+	private void addElementsToDiagram(List<SortableElement> elements) {
 		DiagramHandler handler = Main.getInstance().getDiagramHandler();
 
-		for (ClassElement e: elements) {
+		for (SortableElement e: elements) {
 			new AddElement(e.getElement(), 
 					handler.realignToGrid(e.getElement().getLocation().x),
 					handler.realignToGrid(e.getElement().getLocation().y), false).execute(handler);
@@ -197,7 +170,7 @@ public class ClassDiagramConverter {
 		return attributes+="\n";
 	}
 	
-	protected static String getClassName(JavaClass parsedClass) {
+	public static String getClassName(JavaClass parsedClass) {
 		String result = "";
 		if (Constants.generateClassPackage) {
 			result += parsedClass.getPackage()+"::";

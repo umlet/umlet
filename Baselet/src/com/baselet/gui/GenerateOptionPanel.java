@@ -27,7 +27,7 @@ import com.baselet.control.Constants;
 import com.umlet.language.FieldOptions;
 import com.umlet.language.MethodOptions;
 import com.umlet.language.SignatureOptions;
-import com.umlet.language.SortOptions;
+import com.umlet.language.sorting.SortOptions;
 
 @SuppressWarnings("serial")
 public class GenerateOptionPanel extends JDialog {
