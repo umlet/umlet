@@ -31,7 +31,11 @@ import com.umlet.language.sorting.RelationLayout;
  */
 public class ClassDiagramConverter {
 	
-	private static final int GRIDSIZE = Main.getInstance().getDiagramHandler().getGridSize();
+	private final int GRIDSIZE;
+	
+	public ClassDiagramConverter() {
+		 GRIDSIZE = Main.getInstance().getDiagramHandler().getGridSize();
+	}
 	
 	public void createClassDiagram(String filename) {
 		List<String> fileNames = new ArrayList<String>();
@@ -42,7 +46,10 @@ public class ClassDiagramConverter {
 	public void createClassDiagrams(List<String> filesToOpen) {
 		List<SortableElement> elements = new ArrayList<SortableElement>();
 		for (String filename: filesToOpen) {
-			elements.add(createElement(filename));
+			SortableElement element = createElement(filename);
+			if (element != null) {
+				elements.add(element);
+			}
 		}
 		
 		switch(Constants.generateClassSortings) {
@@ -57,11 +64,12 @@ public class ClassDiagramConverter {
 
 	private SortableElement createElement(String filename) {
 		JavaClass parsedClass = parseFile(filename);
+		if (parsedClass == null) {
+			return null;
+		}
 
 		GridElement clazz = new Class();
-		if (parsedClass != null) {
-			clazz.setPanelAttributes(getElementProperties(parsedClass));
-		}
+		clazz.setPanelAttributes(getElementProperties(parsedClass));
 		adjustSize(clazz);
 		return new SortableElement(clazz, parsedClass);
 	}

@@ -1,5 +1,6 @@
 package com.umlet.language.sorting;
 
+import java.awt.Dimension;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -9,7 +10,12 @@ import com.umlet.language.SortableElement;
 
 public abstract class Layout {
 	
-	private static final int GRIDSIZE = Main.getInstance().getDiagramHandler().getGridSize();
+	protected final int GRIDSIZE;
+	protected Dimension bounds;
+
+	public Layout() {
+		GRIDSIZE = Main.getInstance().getDiagramHandler().getGridSize();
+	}
 
 	public abstract void layout(List<SortableElement> elements);
 	
@@ -29,21 +35,35 @@ public abstract class Layout {
 		
 		Collections.sort(elements, comparator);
 		
-		int curWidth = GRIDSIZE; 
-		int curHeight = GRIDSIZE;
+		int rows = 1;
+		int curX = GRIDSIZE; 
+		int curY = GRIDSIZE;
+		Dimension d = new Dimension(curX, curY);
 		int maxHeightThisRow = 0;
 		for (SortableElement e: elements) {
-			e.getElement().setLocation(curWidth, curHeight);
+			e.getElement().setLocation(curX, curY);
 			if (e.getElement().getSize().height > maxHeightThisRow) {
 				maxHeightThisRow = e.getElement().getSize().height;
 			}
-			if (curWidth > desiredWidth) { 
-				curHeight += maxHeightThisRow + GRIDSIZE;
-				curWidth = GRIDSIZE;
+			// determine outer x-bounds of all elements placed
+			Dimension dim = e.getElement().getSize();
+			if (curX + dim.width > d.width) {
+				d.width = curX + e.getElement().getSize().width; 
+			}
+			if (curX > desiredWidth) {
+				++rows;
+				curY += maxHeightThisRow + GRIDSIZE;
+				curX = GRIDSIZE;
 				maxHeightThisRow = 0;
 			} else {
-				curWidth += e.getElement().getSize().width + GRIDSIZE;
+				curX += e.getElement().getSize().width + GRIDSIZE;
+			}
+			// determine outer y-bounds of alle elements placed
+			if (elements.indexOf(e) == elements.size()-1) {// element is the last one
+				d.height = curY + maxHeightThisRow + (rows+1)*GRIDSIZE;
 			}
 		}
+		d.width += GRIDSIZE;
+		bounds = d;
 	}
 }
