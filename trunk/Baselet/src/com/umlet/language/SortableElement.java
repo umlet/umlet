@@ -3,13 +3,17 @@ package com.umlet.language;
 import com.baselet.element.GridElement;
 import com.umlet.language.java.JavaClass;
 
-public class ClassElement {
+public class SortableElement {
 
 	private GridElement element;
 	private JavaClass parsedClass;
 	
-	public ClassElement(GridElement element, JavaClass parsedClass) {
+	public SortableElement(GridElement element) {
 		this.element = element;
+	}
+	
+	public SortableElement(GridElement element, JavaClass parsedClass) {
+		this(element);
 		this.parsedClass = parsedClass;
 	}
 	
