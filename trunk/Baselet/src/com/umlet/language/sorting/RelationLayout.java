@@ -8,8 +8,6 @@ public class RelationLayout extends Layout {
 
 	@Override
 	public void layout(List<SortableElement> elements) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
