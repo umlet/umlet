@@ -25,19 +25,20 @@ import com.baselet.control.DimensionFloat;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.standalone.ZoomListener;
+import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
 
 public class BaseDrawHandler {
-	private DiagramHandler handler;
+	protected DiagramHandler handler;
 
 	// Save some objects needed to draw the shapes
-	private Graphics2D g2;
-	private Style style;
+	protected Graphics2D g2;
+	protected Style style;
 
-	private Color bgColor;
-	private Color fgColor;
+	protected Color bgColor;
+	protected Color fgColor;
 
-	private float width;
-	private float height;
+	protected float width;
+	protected float height;
 
 	private DrawableCache drawables = new DrawableCache();
 
@@ -75,11 +76,11 @@ public class BaseDrawHandler {
 		return handler.getZoomFactor();
 	}
 
-	private void addShape(Shape s) {
+	protected void addShape(Shape s) {
 		drawables.add(new Drawable(style.cloneFromMe(), s));
 	}
 
-	private void addText(Text t) {
+	protected void addText(Text t) {
 		drawables.add(new Drawable(style.cloneFromMe(), t));
 	}
 
@@ -297,5 +298,13 @@ public class BaseDrawHandler {
 	public void resetStyle() {
 		resetFontSize();
 		resetColorSettings();
+	}
+
+	public PseudoDrawHandler getPseudoDrawHandler() {
+		PseudoDrawHandler counter = new PseudoDrawHandler();
+		counter.setHandler(handler);
+		counter.width = this.width;
+		counter.height = this.height;
+		return counter;
 	}
 }
