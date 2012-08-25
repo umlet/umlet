@@ -158,7 +158,7 @@ public abstract class NewGridElement implements GridElement {
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
 		
-		properties.initSettingsFromText(getRealSize().width, getRealSize().height);
+		properties.initSettingsFromText(getRealSize().width, getRealSize().height, getSettings());
 
 		if (ElementStyle.AUTORESIZE.toString().equalsIgnoreCase(properties.getSetting(SettingKey.ElementStyle))) {
 			int BUFFER = 10; // buffer to make sure the text is inside the border
@@ -167,10 +167,10 @@ public abstract class NewGridElement implements GridElement {
 				width = Math.max(width, drawer.textWidth(line));
 			}
 			width += BUFFER;
-			float height = Math.max(20, properties.getTextBlockHeight(getSettings()) + BUFFER);
+			float height = Math.max(20, properties.getTextBlockHeightWithSpacing() + BUFFER);
 			setRealSize(handler.realignToGrid(false, width, true), handler.realignToGrid(false, height, true));
 			// settings must be reinitialized (first initialization is necessary for wordwrap, second to have correct sizes to draw)
-			properties.initSettingsFromText(getRealSize().width, getRealSize().height);
+			properties.initSettingsFromText(getRealSize().width, getRealSize().height, getSettings());
 		}
 
 		drawer.setSize(getRealSize()); // must be set after possible resizing due to AUTORESIZE

@@ -13,6 +13,7 @@ import com.baselet.control.Constants.ElementStyle;
 import com.baselet.control.TextManipulator;
 import com.baselet.control.Utils;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.PseudoDrawHandler;
 import com.umlet.element.experimental.helper.LineHandler;
 import com.umlet.element.experimental.helper.LineHandlerCount;
 import com.umlet.element.experimental.helper.LineHandlerPrint;
@@ -74,6 +75,8 @@ public class Properties {
 	private List<String> propertiesTextToDraw;
 
 	private PropertiesConfig propCfg;
+	
+	private Settings elementSettings;
 
 	public Properties(String panelAttributes, String panelAttributesAdditional, BaseDrawHandler drawer) {
 		this.panelAttributes = panelAttributes;
@@ -148,7 +151,7 @@ public class Properties {
 		if (fontSize != null) drawer.setFontSize(fontSize);
 	}
 
-	public void initSettingsFromText(int gridElementWidth, int gridElementHeight) {
+	public void initSettingsFromText(int gridElementWidth, int gridElementHeight, Settings elementSettings) {
 		this.gridElementWidth = gridElementWidth;
 		this.gridElementHeight = gridElementHeight;
 		settings.clear();
@@ -161,6 +164,8 @@ public class Properties {
 		applyProperties();
 
 		propertiesTextToDraw = getPropertiesTextFiltered();
+		this.elementSettings = elementSettings;
+		this.propCfg = new PropertiesConfig(this, elementSettings, gridElementHeight, gridElementWidth);
 	}
 
 	public String getSetting(SettingKey key) {
@@ -194,59 +199,59 @@ public class Properties {
 		this.setPanelAttributes(newState);
 	}
 
-	public void drawPropertiesText(Settings elementSettings) {
-		propCfg = new PropertiesConfig(this, elementSettings, gridElementHeight, gridElementWidth);
-		propCfg.addToYPos(drawer.textHeight());
+	public void drawPropertiesText() {
+		propCfg.addToYPos(drawer.textHeight()); // print method is located at the bottom of the text therefore add text height
 
-		iterateProperties(elementSettings, propCfg, false);
+		propCfg.addToYPos(calcStartPointFromVAlign());
+		propCfg.addToYPos(calcTopDisplacementToFitLine());
+		handleWordWrapAndIterate(elementSettings, propCfg, drawer);
 	}
 
-	private void iterateProperties(Settings elementSettings, PropertiesConfig propCfg, boolean countOnly) {
-		boolean firstLine = true;
+	private float calcTopDisplacementToFitLine() {
+		float accumulator = 0;
 		boolean wordwrap = ElementStyle.WORDWRAP.toString().equalsIgnoreCase(getSetting(SettingKey.ElementStyle));
-		if (!countOnly) {
-			propCfg.addToYPos(calcStartPos(elementSettings)); // buffer to the top
+		if (!wordwrap && !propertiesTextToDraw.isEmpty()) { // in case of wordwrap or no text, there is no top displacement
+			String firstLine = propertiesTextToDraw.iterator().next();
+			while(accumulator < gridElementHeight/2 && !TextManipulator.checkifStringFits(firstLine, propCfg.getXLimitsForArea(accumulator, drawer.textHeight()).getSpace(), drawer)) {
+				accumulator += drawer.textHeight()/2;
+			}
 		}
+		return accumulator;
+	}
+
+	private void handleWordWrapAndIterate(Settings elementSettings, PropertiesConfig propCfg, BaseDrawHandler drawer) {
+		boolean wordwrap = ElementStyle.WORDWRAP.toString().equalsIgnoreCase(getSetting(SettingKey.ElementStyle));
 		for (String line : propertiesTextToDraw) {
 			if (wordwrap) {
 				String wrappedLine;
 				while (propCfg.getyPos() < gridElementHeight && !line.trim().isEmpty()) {
-					wrappedLine = TextManipulator.splitString(line, propCfg.getXLimitsForArea(drawer.textHeight()).getSpace(), drawer);
-					handleLine(elementSettings, wrappedLine, propCfg, countOnly);
+					wrappedLine = TextManipulator.splitString(line, propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight()).getSpace(), drawer);
+					handleLine(elementSettings, wrappedLine, propCfg, drawer);
 					line = line.trim().substring(wrappedLine.length());
 				}
 			}
-			else {
-				if (!countOnly && firstLine) {
-					firstLine = false;
-					while(propCfg.getyPos() < gridElementHeight/2 && !TextManipulator.checkifStringFits(line, propCfg.getXLimitsForArea(drawer.textHeight()).getSpace(), drawer)) {
-						propCfg.addToYPos(drawer.textHeight()/2);
-					}
-				}
-				handleLine(elementSettings, line, propCfg, countOnly);
-			}
+			else handleLine(elementSettings, line, propCfg, drawer);
 		}
 	}
 
-	private void handleLine(Settings elementSettings, String line, PropertiesConfig propCfg, boolean countOnly) {
+	private void handleLine(Settings elementSettings, String line, PropertiesConfig propCfg, BaseDrawHandler drawer) {
 		boolean drawText = true;
 		for (Facet facet : elementSettings.getFacets()) {
 			if (facet.checkStart(line)) {
-				if (countOnly) propCfg.addToYPos(facet.getHorizontalSpace(line));
-				else facet.handleLine(line, drawer, propCfg);
+				facet.handleLine(line, drawer, propCfg);
 				if (facet.replacesText(line)) {
 					drawText = false;
 				}
 			}
 		}
 		if (drawText) {
-			if (!countOnly) drawer.print(line, calcXToPrintText(propCfg), propCfg.getyPos(), propCfg.gethAlign());
+			drawer.print(line, calcHorizontalTextBoundaries(propCfg), propCfg.getyPos(), propCfg.gethAlign());
 			propCfg.addToYPos(drawer.textHeightWithSpace());
 		}
 	}
 
-	private float calcXToPrintText(PropertiesConfig propCfg) {
-		XPoints xLimitsForText = propCfg.getXLimitsForArea(drawer.textHeight());
+	private float calcHorizontalTextBoundaries(PropertiesConfig propCfg) {
+		XPoints xLimitsForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight());
 		float x;
 		if (propCfg.gethAlign() == AlignHorizontal.LEFT) {
 			x = xLimitsForText.getLeft() + drawer.getDistanceBetweenTexts();
@@ -258,23 +263,29 @@ public class Properties {
 		return x;
 	}
 
-	public float getTextBlockHeight(Settings elementSettings) {
-		propCfg = new PropertiesConfig(this, elementSettings, gridElementHeight, gridElementWidth);
-		iterateProperties(elementSettings, propCfg, true);
-		return propCfg.getyPos();
-	}
-
-	private float calcStartPos(Settings elementSettings) {
-		float textHeight = getTextBlockHeight(elementSettings);
+	private float calcStartPointFromVAlign() {
 		if (propCfg.getvAlign() == AlignVertical.TOP) {
 			return drawer.textHeight()/2;
 		}
 		else if (propCfg.getvAlign() == AlignVertical.CENTER) {
-			return Math.max((gridElementHeight - textHeight)/2, drawer.textHeightWithSpace());
+			return Math.max((gridElementHeight - getTextBlockHeight())/2, drawer.textHeightWithSpace());
 		}
 		else /*if (propCfg.getvAlign() == AlignVertical.BOTTOM)*/ {
-			return Math.max(gridElementHeight - textHeight, drawer.textHeightWithSpace());
+			return Math.max(gridElementHeight - getTextBlockHeight(), drawer.textHeightWithSpace());
 		}
+	}
+
+	public float getTextBlockHeight() {
+		PropertiesConfig countPropCfg = new PropertiesConfig(this, elementSettings, gridElementHeight, gridElementWidth);
+		handleWordWrapAndIterate(elementSettings, countPropCfg, drawer.getPseudoDrawHandler());
+		return countPropCfg.getyPos();
+	}
+
+	public float getTextBlockHeightWithSpacing() {
+		float result = getTextBlockHeight();
+		result += calcStartPointFromVAlign();
+		result += calcTopDisplacementToFitLine();
+		return result;
 	}
 
 }
