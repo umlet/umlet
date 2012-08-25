@@ -232,7 +232,7 @@ public class Properties {
 		boolean drawText = true;
 		for (Facet facet : elementSettings.getFacets()) {
 			if (facet.checkStart(line)) {
-				if (countOnly) propCfg.addToYPos(facet.getHorizontalSpace());
+				if (countOnly) propCfg.addToYPos(facet.getHorizontalSpace(line));
 				else facet.handleLine(line, drawer, propCfg);
 				if (facet.replacesText(line)) {
 					drawText = false;

@@ -19,13 +19,10 @@ public class SeparatorLine implements Facet {
 	
 	@Override
 	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
-		if (setHAlignToLeftAfterLine && !propConfig.ishAlignFixed()) {
+		if (setHAlignToLeftAfterLine) {
 			propConfig.sethAlign(AlignHorizontal.LEFT);
 		}
-		float linePos = propConfig.getyPos() - (drawer.textHeight()) + 2;
-		XPoints xPos = propConfig.getXLimits(linePos);
-		drawer.drawLine(xPos.getLeft()+1, linePos, xPos.getRight()-1, linePos);
-		propConfig.addToYPos(getHorizontalSpace());
+		Helper.drawHorizontalLine(getHorizontalSpace(line), drawer, propConfig);
 	}
 
 	@Override
@@ -34,7 +31,7 @@ public class SeparatorLine implements Facet {
 	}
 
 	@Override
-	public float getHorizontalSpace() {
+	public float getHorizontalSpace(String line) {
 		return 4;
 	}
 
