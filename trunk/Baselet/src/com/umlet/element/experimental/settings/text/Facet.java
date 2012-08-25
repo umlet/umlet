@@ -9,7 +9,7 @@ public interface Facet {
 	
 	void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig);
 	
-	float getHorizontalSpace();
+	float getHorizontalSpace(String line);
 	
 	boolean replacesText(String line);
 }

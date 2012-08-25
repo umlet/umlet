@@ -12,9 +12,9 @@ public class SettingsUseCase extends Settings {
 
 	@Override
 	public XPoints getXValues(float y, int height, int width) {
-		float b = height/2;
-		float a = width/2;
-		int x = (int) Math.sqrt((1-(Math.pow(b-y, 2) / Math.pow(b, 2)))*Math.pow(a, 2));
+		float b = height/2.0f;
+		float a = width/2.0f;
+		float x = (float) Math.sqrt((1-(Math.pow(b-y, 2) / Math.pow(b, 2)))*Math.pow(a, 2));
 		return new XPoints(a-x, a+x);
 	}
 

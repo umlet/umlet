@@ -9,9 +9,9 @@ import com.umlet.element.experimental.settings.Settings;
 public class PropertiesConfig {
 
 	private AlignHorizontal hAlign;
-	private boolean hAlignFixed = false;
+	private boolean hAlignManuallyOverwritten = false;
 	private AlignVertical vAlign;
-	private boolean vAlignFixed = false;
+	private boolean vAlignManuallyOverwritten = false;
 	private float yPos = 0;
 	private int gridElementHeight;
 	private int gridElementWidth;
@@ -22,13 +22,13 @@ public class PropertiesConfig {
 	public PropertiesConfig(Properties properties, Settings specificSettings, int gridElementHeight, int gridElementWidth) {
 		try {
 			hAlign = AlignHorizontal.valueOf(properties.getSetting(SettingKey.HorizontalAlign).toUpperCase());
-			hAlignFixed = true;
+			hAlignManuallyOverwritten = true;
 		} catch (Exception e) {
 			hAlign = specificSettings.getHAlign();
 		}
 		try {
 			vAlign = AlignVertical.valueOf(properties.getSetting(SettingKey.VerticalAlign).toUpperCase());
-			vAlignFixed = true;
+			vAlignManuallyOverwritten = true;
 		} catch (Exception e) {
 			vAlign = specificSettings.getVAlign();
 		}
@@ -42,7 +42,16 @@ public class PropertiesConfig {
 	}
 
 	public void sethAlign(AlignHorizontal hAlign) {
-		this.hAlign = hAlign;
+		if (!hAlignManuallyOverwritten) this.hAlign = hAlign;
+	}
+	
+	public void resetAlign() {
+		if (!hAlignManuallyOverwritten) this.hAlign = specificSettings.getHAlign();
+		if (!vAlignManuallyOverwritten) this.vAlign = specificSettings.getVAlign();
+	}
+
+	public boolean ishAlignManuallyOverwritten() {
+		return hAlignManuallyOverwritten;
 	}
 
 	public AlignVertical getvAlign() {
@@ -50,15 +59,11 @@ public class PropertiesConfig {
 	}
 
 	public void setvAlign(AlignVertical vAlign) {
-		this.vAlign = vAlign;
+		if (!vAlignManuallyOverwritten) this.vAlign = vAlign;
 	}
 
-	public boolean ishAlignFixed() {
-		return hAlignFixed;
-	}
-
-	public boolean isvAlignFixed() {
-		return vAlignFixed;
+	public boolean isvAlignManuallyOverwritten() {
+		return vAlignManuallyOverwritten;
 	}
 	
 	public float getyPos() {
@@ -75,6 +80,11 @@ public class PropertiesConfig {
 	
 	public void addToRightBuffer(int inc) {
 		this.rightBuffer += inc;
+	}
+	
+	public void addToBuffer(int inc) {
+		addToLeftBuffer(inc);
+		addToRightBuffer(inc);
 	}
 	
 	public int getGridElementWidth() {

@@ -23,7 +23,7 @@ public class ActiveClass implements Facet {
 	}
 
 	@Override
-	public float getHorizontalSpace() {
+	public float getHorizontalSpace(String line) {
 		return 0;
 	}
 
