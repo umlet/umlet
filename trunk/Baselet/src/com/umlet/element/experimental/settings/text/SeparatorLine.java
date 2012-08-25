@@ -23,7 +23,10 @@ public class SeparatorLine implements Facet {
 		if (setHAlignToLeftAfterLine) {
 			propConfig.sethAlign(AlignHorizontal.LEFT);
 		}
-		Helper.drawHorizontalLine(H_SPACE, drawer, propConfig);
+		float linePos = propConfig.getDividerPos(drawer.textHeight());
+		XPoints xPos = propConfig.getXLimits(linePos);
+		drawer.drawLine(xPos.getLeft()+1, linePos, xPos.getRight()-1, linePos);
+		propConfig.addToYPos(H_SPACE);
 	}
 
 	@Override
