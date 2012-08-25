@@ -8,6 +8,7 @@ import com.umlet.element.experimental.helper.XPoints;
 public class SeparatorLine implements Facet {
 
 	private boolean setHAlignToLeftAfterLine;
+	private static final int H_SPACE = 4;
 
 	public SeparatorLine() {
 		this(false);
@@ -22,17 +23,12 @@ public class SeparatorLine implements Facet {
 		if (setHAlignToLeftAfterLine) {
 			propConfig.sethAlign(AlignHorizontal.LEFT);
 		}
-		Helper.drawHorizontalLine(getHorizontalSpace(line), drawer, propConfig);
+		Helper.drawHorizontalLine(H_SPACE, drawer, propConfig);
 	}
 
 	@Override
 	public boolean checkStart(String line) {
 		return line.equals("--");
-	}
-
-	@Override
-	public float getHorizontalSpace(String line) {
-		return 4;
 	}
 
 	@Override

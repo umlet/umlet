@@ -10,10 +10,6 @@ public class XPoints {
 		this.left = left;
 		this.right = right;
 	}
-	
-	public float distance() {
-		return right-left;
-	}
 
 	public float getLeft() {
 		return left;

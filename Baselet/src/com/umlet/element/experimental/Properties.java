@@ -1,7 +1,6 @@
 package com.umlet.element.experimental;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -10,13 +9,10 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
 import com.baselet.control.Constants.ElementStyle;
+import com.baselet.control.DimensionFloat;
 import com.baselet.control.TextManipulator;
 import com.baselet.control.Utils;
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.diagram.draw.PseudoDrawHandler;
-import com.umlet.element.experimental.helper.LineHandler;
-import com.umlet.element.experimental.helper.LineHandlerCount;
-import com.umlet.element.experimental.helper.LineHandlerPrint;
 import com.umlet.element.experimental.helper.XPoints;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.text.Facet;
@@ -57,7 +53,6 @@ public class Properties {
 		public Object[] autocompletionValues() {
 			return autocompletionValues;
 		}
-
 	}
 
 	public static final String SEPARATOR = "=";
@@ -201,7 +196,6 @@ public class Properties {
 
 	public void drawPropertiesText() {
 		propCfg.addToYPos(drawer.textHeight()); // print method is located at the bottom of the text therefore add text height
-
 		propCfg.addToYPos(calcStartPointFromVAlign());
 		propCfg.addToYPos(calcTopDisplacementToFitLine());
 		handleWordWrapAndIterate(elementSettings, propCfg, drawer);
@@ -245,13 +239,17 @@ public class Properties {
 			}
 		}
 		if (drawText) {
-			drawer.print(line, calcHorizontalTextBoundaries(propCfg), propCfg.getyPos(), propCfg.gethAlign());
+			XPoints xLimitsForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight());
+			Float spaceNotUsedForText = gridElementWidth - xLimitsForText.getSpace();
+			if (!spaceNotUsedForText.equals(Float.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
+				propCfg.calcMaxTextWidth(spaceNotUsedForText + drawer.textWidth(line));
+			}
+			drawer.print(line, calcHorizontalTextBoundaries(xLimitsForText, propCfg), propCfg.getyPos(), propCfg.gethAlign());
 			propCfg.addToYPos(drawer.textHeightWithSpace());
 		}
 	}
 
-	private float calcHorizontalTextBoundaries(PropertiesConfig propCfg) {
-		XPoints xLimitsForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight());
+	private float calcHorizontalTextBoundaries(XPoints xLimitsForText, PropertiesConfig propCfg) {
 		float x;
 		if (propCfg.gethAlign() == AlignHorizontal.LEFT) {
 			x = xLimitsForText.getLeft() + drawer.getDistanceBetweenTexts();
@@ -276,16 +274,20 @@ public class Properties {
 	}
 
 	public float getTextBlockHeight() {
-		PropertiesConfig countPropCfg = new PropertiesConfig(this, elementSettings, gridElementHeight, gridElementWidth);
-		handleWordWrapAndIterate(elementSettings, countPropCfg, drawer.getPseudoDrawHandler());
-		return countPropCfg.getyPos();
+		PropertiesConfig propCfg = new PropertiesConfig(this, elementSettings, gridElementHeight, gridElementWidth);
+		handleWordWrapAndIterate(elementSettings, propCfg, drawer.getPseudoDrawHandler());
+		return propCfg.getyPos();
 	}
 
-	public float getTextBlockHeightWithSpacing() {
-		float result = getTextBlockHeight();
-		result += calcStartPointFromVAlign();
-		result += calcTopDisplacementToFitLine();
-		return result;
+	public DimensionFloat getExpectedElementDimensions() {
+		// add all ypos changes to simulate the real ypos for xlimit calculation etc.
+		PropertiesConfig propCfg = new PropertiesConfig(this, elementSettings, gridElementHeight, gridElementWidth);
+		propCfg.addToYPos(drawer.textHeight());
+		propCfg.addToYPos(calcStartPointFromVAlign());
+		propCfg.addToYPos(calcTopDisplacementToFitLine());
+		handleWordWrapAndIterate(elementSettings, propCfg, drawer.getPseudoDrawHandler());
+		
+		return new DimensionFloat(propCfg.getMaxTextWidth(), propCfg.getyPos());
 	}
 
 }

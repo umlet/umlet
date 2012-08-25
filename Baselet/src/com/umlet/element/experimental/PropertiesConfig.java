@@ -74,12 +74,25 @@ public class PropertiesConfig {
 		yPos += inc;
 	}
 	
+	private int maxLeftBuffer = 0;
+	private int maxRightBuffer = 0;
+	
 	public void addToLeftBuffer(int inc) {
 		this.leftBuffer += inc;
+		if (leftBuffer > maxLeftBuffer) maxLeftBuffer = leftBuffer;
 	}
 	
 	public void addToRightBuffer(int inc) {
 		this.rightBuffer += inc;
+		if (rightBuffer > maxRightBuffer) maxRightBuffer = rightBuffer;
+	}
+	
+	public int getMaxLeftBuffer() {
+		return maxLeftBuffer;
+	}
+	
+	public int getMaxRightBuffer() {
+		return maxRightBuffer;
 	}
 	
 	public void addToBuffer(int inc) {
@@ -104,6 +117,15 @@ public class PropertiesConfig {
 		float leftAreaLimit = Math.max(xLimitsTop.getLeft(), xLimitsBottom.getLeft());
 		float rightAreaLimit = Math.min(xLimitsTop.getRight(), xLimitsBottom.getRight());
 		return new XPoints(leftAreaLimit, rightAreaLimit);
+	}
+
+	private float maxTextWidth = 0;
+	public void calcMaxTextWidth(float width) {
+		maxTextWidth = Math.max(maxTextWidth, width);
+	}
+	
+	public float getMaxTextWidth() {
+		return maxTextWidth;
 	}
 	
 }
