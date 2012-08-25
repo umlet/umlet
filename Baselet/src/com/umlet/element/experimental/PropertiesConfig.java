@@ -118,6 +118,10 @@ public class PropertiesConfig {
 		float rightAreaLimit = Math.min(xLimitsTop.getRight(), xLimitsBottom.getRight());
 		return new XPoints(leftAreaLimit, rightAreaLimit);
 	}
+	
+	public float getDividerPos(float f) {
+		return getyPos() - f + 2;
+	}
 
 	private float maxTextWidth = 0;
 	public void calcMaxTextWidth(float width) {

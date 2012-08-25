@@ -26,20 +26,22 @@ public class InnerClass implements Facet {
 	@Override
 	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
 		if (line.equals(START)) {
-			ClassSettings settings = new ClassSettings(propConfig.gethAlign(), propConfig.getvAlign(), Helper.getHLinePos(drawer, propConfig));
+			ClassSettings settings = new ClassSettings(propConfig.gethAlign(), propConfig.getvAlign(), propConfig.getDividerPos(drawer.textHeight()));
 			innerClassStartPoints.add(settings);
 			propConfig.addToBuffer(innerClassStartPoints.size() * BUFFER_PIXEL_PER_INNER);
-			Helper.drawHorizontalLine(H_SPACE, drawer, propConfig);
+			propConfig.addToYPos(H_SPACE);
 			propConfig.resetAlign();
 		}
 		else if (line.equals(END)) {
 			int depth = innerClassStartPoints.size() * BUFFER_PIXEL_PER_INNER;
 			ClassSettings previousClassSettings = innerClassStartPoints.pop();
-			float end = Helper.getHLinePos(drawer, propConfig);
-			XPoints xLimit = propConfig.getXLimits(end);
-			drawer.drawLine(xLimit.getLeft(), previousClassSettings.start, xLimit.getLeft(), end);
-			drawer.drawLine(xLimit.getRight(), previousClassSettings.start, xLimit.getRight(), end);
-			Helper.drawHorizontalLine(H_SPACE, drawer, propConfig);
+			float start = previousClassSettings.start;
+			float height = propConfig.getDividerPos(drawer.textHeight()) - start;
+			XPoints xLimit = propConfig.getXLimits(height);
+			
+			drawer.drawRectangle(xLimit.getLeft(), start, xLimit.getSpace(), height);
+			
+			propConfig.addToYPos(H_SPACE);
 			propConfig.addToBuffer(-depth);
 			propConfig.sethAlign(previousClassSettings.hAlign);
 			propConfig.setvAlign(previousClassSettings.vAlign);
