@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.ElementStyle;
 import com.baselet.control.Constants.LineType;
+import com.baselet.control.DimensionFloat;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
@@ -161,13 +162,10 @@ public abstract class NewGridElement implements GridElement {
 		properties.initSettingsFromText(getRealSize().width, getRealSize().height, getSettings());
 
 		if (ElementStyle.AUTORESIZE.toString().equalsIgnoreCase(properties.getSetting(SettingKey.ElementStyle))) {
+			DimensionFloat dim = properties.getExpectedElementDimensions();
 			int BUFFER = 10; // buffer to make sure the text is inside the border
-			float width = 20;
-			for (String line : properties.getPropertiesTextFiltered()) {
-				width = Math.max(width, drawer.textWidth(line));
-			}
-			width += BUFFER;
-			float height = Math.max(20, properties.getTextBlockHeightWithSpacing() + BUFFER);
+			float width = Math.max(20, dim.getWidth() + BUFFER);
+			float height = Math.max(20, dim.getHeight() + BUFFER);
 			setRealSize(handler.realignToGrid(false, width, true), handler.realignToGrid(false, height, true));
 			// settings must be reinitialized (first initialization is necessary for wordwrap, second to have correct sizes to draw)
 			properties.initSettingsFromText(getRealSize().width, getRealSize().height, getSettings());

@@ -11,6 +11,7 @@ import com.umlet.element.experimental.helper.XPoints;
 public class InnerClass implements Facet {
 
 	private static final int BUFFER_PIXEL_PER_INNER = 5;
+	private static final int H_SPACE = 4;
 
 	private Stack<ClassSettings> innerClassStartPoints = new Stack<ClassSettings>();
 
@@ -28,7 +29,7 @@ public class InnerClass implements Facet {
 			ClassSettings settings = new ClassSettings(propConfig.gethAlign(), propConfig.getvAlign(), Helper.getHLinePos(drawer, propConfig));
 			innerClassStartPoints.add(settings);
 			propConfig.addToBuffer(innerClassStartPoints.size() * BUFFER_PIXEL_PER_INNER);
-			Helper.drawHorizontalLine(getHorizontalSpace(line), drawer, propConfig);
+			Helper.drawHorizontalLine(H_SPACE, drawer, propConfig);
 			propConfig.resetAlign();
 		}
 		else if (line.equals(END)) {
@@ -38,20 +39,12 @@ public class InnerClass implements Facet {
 			XPoints xLimit = propConfig.getXLimits(end);
 			drawer.drawLine(xLimit.getLeft(), previousClassSettings.start, xLimit.getLeft(), end);
 			drawer.drawLine(xLimit.getRight(), previousClassSettings.start, xLimit.getRight(), end);
-			Helper.drawHorizontalLine(getHorizontalSpace(line), drawer, propConfig);
+			Helper.drawHorizontalLine(H_SPACE, drawer, propConfig);
 			propConfig.addToBuffer(-depth);
 			propConfig.sethAlign(previousClassSettings.hAlign);
 			propConfig.setvAlign(previousClassSettings.vAlign);
 		}
 
-	}
-
-	@Override
-	public float getHorizontalSpace(String line) {
-		if (replacesText(line)) {
-			return 4; // is equal to separatorline
-		}
-		else return 0;
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class TextManipulator {
 	private static String splitStringAlgorithm(String text, float width, BaseDrawHandler drawer) {
 		String splitChar = " ";
 		width -= drawer.textWidth("n"); // subtract a buffer to make sure no character is hidden at the end
-		ListIterator<String> inputIter = new ArrayList<String>(Arrays.asList(text.split(splitChar))).listIterator();
+		ListIterator<String> inputIter = new ArrayList<String>(Arrays.asList(text.split(splitChar, -1))).listIterator(); // split limit is -1 to retain spaces at the end of the string
 			String line = "";
 			while (inputIter.hasNext()) {
 				String nextEl = inputIter.next();

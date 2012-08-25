@@ -15,16 +15,10 @@ public class ActiveClass implements Facet {
 
 	@Override
 	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
-		propConfig.addToLeftBuffer(SPACING);
-		propConfig.addToRightBuffer(SPACING);
+		propConfig.addToBuffer(SPACING);
 		XPoints xLimits = propConfig.getXLimits(propConfig.getyPos());
 		drawer.drawLineVertical(xLimits.getLeft());
 		drawer.drawLineVertical(xLimits.getRight());
-	}
-
-	@Override
-	public float getHorizontalSpace(String line) {
-		return 0;
 	}
 
 	@Override
