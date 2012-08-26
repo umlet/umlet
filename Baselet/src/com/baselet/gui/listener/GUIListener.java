@@ -78,7 +78,7 @@ public class GUIListener implements KeyListener {
 						if (tmpEntity.isStickingBorderActive()) stick = tmpEntity.generateStickingBorder(tmpEntity.getLocation().x, tmpEntity.getLocation().y, tmpEntity.getSize().width, tmpEntity.getSize().height);
 						else tmpEntity.setStickingBorderActive(true);
 						if (stick != null) {
-							Vector<RelationLinePoint> affectedRelationPoints = stick.getStickingRelationLinePoints(handler.getDrawPanel());
+							Vector<RelationLinePoint> affectedRelationPoints = stick.getStickingRelationLinePoints(handler);
 							for (int j = 0; j < affectedRelationPoints.size(); j++) {
 								RelationLinePoint tmpRlp = affectedRelationPoints.elementAt(j);
 								if (entitiesToBeMoved.contains(tmpRlp.getRelation())) continue;

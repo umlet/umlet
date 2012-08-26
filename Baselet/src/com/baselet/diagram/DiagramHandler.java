@@ -256,12 +256,13 @@ public class DiagramHandler {
 	 * @return value on the grid
 	 */
 	public int realignToGrid(boolean logRealign, float val, boolean roundUp) {
+		float alignedVal = val;
 		if (val % gridSize != 0) {
-			if (logRealign) log.error("realignToGrid");
-			val -= val % gridSize;
-			if (roundUp) val += gridSize;
+			alignedVal -= val % gridSize;
+			if (roundUp) alignedVal += gridSize;
+			if (logRealign) log.error("realignToGrid from " + val + " to " + alignedVal);
 		}
-		return (int) val;
+		return (int) alignedVal;
 	}
 
 	static public int realignTo(int val, int toVal) {
