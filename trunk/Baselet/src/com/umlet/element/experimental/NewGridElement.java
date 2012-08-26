@@ -116,7 +116,6 @@ public abstract class NewGridElement implements GridElement {
 	public void setPanelAttributes(String panelAttributes) {
 		properties.setPanelAttributes(panelAttributes);
 		this.updateModelFromText();
-		handleAutoresize();
 	}
 
 	@Override
@@ -160,8 +159,8 @@ public abstract class NewGridElement implements GridElement {
 	public void updateModelFromText() {
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
-
 		properties.initSettingsFromText(getRealSize().width, getRealSize().height, getSettings());
+		handleAutoresize();
 		drawer.setSize(getRealSize()); // must be set after possible resizing due to AUTORESIZE
 		updateMetaDrawer();
 		updateConcreteModel();
@@ -169,20 +168,17 @@ public abstract class NewGridElement implements GridElement {
 
 	private void handleAutoresize() {
 		if (ElementStyle.AUTORESIZE.toString().equalsIgnoreCase(properties.getSetting(SettingKey.ElementStyle))) {
-			if (handler.getZoomFactor() > 0.2f) {
-				DimensionFloat dim = properties.getExpectedElementDimensions();
-				int BUFFER = 10; // buffer to make sure the text is inside the border
-				float width = Math.max(20, dim.getWidth() + BUFFER);
-				float height = Math.max(20, dim.getHeight() + BUFFER);
-				// use resize command to move sticked relations correctly with the element
-				int diffw = (int) (width-getRealSize().width);
-				int diffh = (int) (height-getRealSize().height);
-				System.out.println("A" + diffw + "/" + diffh);
-				new Resize(this, 0, 0, diffw, diffh).execute(handler);
+			DimensionFloat dim = properties.getExpectedElementDimensions();
+			int BUFFER = 10; // buffer to make sure the text is inside the border
+			float width = Math.max(20, dim.getWidth() + BUFFER);
+			float height = Math.max(20, dim.getHeight() + BUFFER);
+			// use resize command to move sticked relations correctly with the element
+			int diffw = (int) (width-getRealSize().width);
+			int diffh = (int) (height-getRealSize().height);
+			new Resize(this, 0, 0, (int) (diffw * handler.getZoomFactor()), (int) (diffh * handler.getZoomFactor())).execute(handler);
 
-				// settings must be reinitialized (first initialization is necessary for wordwrap, second to have correct sizes to draw)
-				properties.initSettingsFromText(getRealSize().width, getRealSize().height, getSettings());
-			}
+			// settings must be reinitialized (first initialization is necessary for wordwrap, second to have correct sizes to draw)
+			properties.initSettingsFromText(getRealSize().width, getRealSize().height, getSettings());
 		}
 	}
 
@@ -207,7 +203,6 @@ public abstract class NewGridElement implements GridElement {
 		properties.updateSetting(key, newValue);
 		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.updateModelFromText();
-		this.handleAutoresize();
 		this.repaint();
 	}
 
@@ -390,13 +385,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public Dimension getRealSize() {
-		return new Dimension(getSize().width / handler.getGridSize() * Constants.DEFAULTGRIDSIZE, getSize().height / handler.getGridSize() * Constants.DEFAULTGRIDSIZE);
-	}
-
-	private void setRealSize(float width, float height) {
-		float zoomedHeight = height / Constants.DEFAULTGRIDSIZE * handler.getGridSize();
-		float zoomedWidth = width / Constants.DEFAULTGRIDSIZE * handler.getGridSize();
-		component.setSize((int) zoomedWidth, (int) zoomedHeight);
+		return new Dimension((int) (getSize().width / handler.getZoomFactor()), (int) (getSize().height / handler.getZoomFactor()));
 	}
 
 	@Override
