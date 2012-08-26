@@ -295,7 +295,8 @@ public class Properties {
 		propCfg.addToYPos(calcTopDisplacementToFitLine(calcStartPointFromVAlign()));
 		handleWordWrapAndIterate(elementSettings, propCfg, drawer.getPseudoDrawHandler());
 
-		return new DimensionFloat(propCfg.getMaxTextWidth(), propCfg.getyPos());
+		float textHeight = propCfg.getyPos()-drawer.textHeight(); // subtract last ypos step (because the print-text pos is always on the bottom)
+		return new DimensionFloat(propCfg.getMaxTextWidth(), textHeight);
 	}
 
 }
