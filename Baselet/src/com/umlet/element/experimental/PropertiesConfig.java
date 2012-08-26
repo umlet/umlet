@@ -1,5 +1,7 @@
 package com.umlet.element.experimental;
 
+import java.awt.Dimension;
+
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
 import com.umlet.element.experimental.Properties.SettingKey;
@@ -13,13 +15,12 @@ public class PropertiesConfig {
 	private AlignVertical vAlign;
 	private boolean vAlignManuallyOverwritten = false;
 	private float yPos = 0;
-	private int gridElementHeight;
-	private int gridElementWidth;
 	private int leftBuffer = 0;
 	private int rightBuffer = 0;
 	private Settings specificSettings;
+	private Dimension gridElementSize;
 	
-	public PropertiesConfig(Properties properties, Settings specificSettings, int gridElementHeight, int gridElementWidth) {
+	public PropertiesConfig(Properties properties, Settings specificSettings, Dimension gridElementSize) {
 		try {
 			hAlign = AlignHorizontal.valueOf(properties.getSetting(SettingKey.HorizontalAlign).toUpperCase());
 			hAlignManuallyOverwritten = true;
@@ -32,8 +33,7 @@ public class PropertiesConfig {
 		} catch (Exception e) {
 			vAlign = specificSettings.getVAlign();
 		}
-		this.gridElementHeight = gridElementHeight;
-		this.gridElementWidth = gridElementWidth;
+		this.gridElementSize = gridElementSize;
 		this.specificSettings = specificSettings;
 	}
 
@@ -100,12 +100,12 @@ public class PropertiesConfig {
 		addToRightBuffer(inc);
 	}
 	
-	public int getGridElementWidth() {
-		return gridElementWidth;
+	public Dimension getGridElementSize() {
+		return gridElementSize;
 	}
 
 	public XPoints getXLimits(float linePos) {
-		XPoints xLimits = specificSettings.getXValues(linePos, gridElementHeight, gridElementWidth);
+		XPoints xLimits = specificSettings.getXValues(linePos, gridElementSize.height, gridElementSize.width);
 		xLimits.addLeft(leftBuffer);
 		xLimits.subRight(rightBuffer);
 		return xLimits;
