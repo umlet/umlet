@@ -2,8 +2,8 @@ package com.umlet.element.experimental.helper;
 
 public class XPoints {
 
-	private float left;
-	private float right;
+	private Float left;
+	private Float right;
 	
 	public XPoints(float left, float right) {
 		super();
@@ -11,15 +11,15 @@ public class XPoints {
 		this.right = right;
 	}
 
-	public float getLeft() {
+	public Float getLeft() {
 		return left;
 	}
 
-	public float getRight() {
+	public Float getRight() {
 		return right;
 	}
 	
-	public float getSpace() {
+	public Float getSpace() {
 		return right-left;
 	}
 	
@@ -29,6 +29,17 @@ public class XPoints {
 	
 	public void subRight(float inc) {
 		right-=inc;
+	}
+	
+	/**
+	 * returns the intersection of both points [eg: (2,5) intersect (1,4) = (2,4)]
+	 */
+	public XPoints intersect(XPoints other) {
+		float maxLeft = left;
+		float minRight = right;
+		if (!other.left.equals(Float.NaN) && other.left > this.left) maxLeft = other.left;
+		if (!other.right.equals(Float.NaN) && other.right < this.right) minRight = other.right;
+		return new XPoints(maxLeft, minRight);
 	}
 	
 }

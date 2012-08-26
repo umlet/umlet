@@ -275,7 +275,7 @@ public class GridElementListener extends UniversalListener {
 			StickingPolygon stick = null;
 			if (e.isStickingBorderActive()) stick = e.generateStickingBorder(e.getLocation().x, e.getLocation().y, e.getSize().width, e.getSize().height);
 			if (stick != null) {
-				Vector<RelationLinePoint> affectedRelationPoints = stick.getStickingRelationLinePoints(this.diagram);
+				Vector<RelationLinePoint> affectedRelationPoints = stick.getStickingRelationLinePoints(this.diagram.getHandler());
 				for (int j = 0; j < affectedRelationPoints.size(); j++) {
 					RelationLinePoint tmpRlp = affectedRelationPoints.elementAt(j);
 					if (entitiesToBeMoved.contains(tmpRlp.getRelation())) continue;

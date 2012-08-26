@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+import sun.java2d.loops.DrawLine;
+
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
@@ -70,7 +72,7 @@ public class Properties {
 	private List<String> propertiesTextToDraw;
 
 	private PropertiesConfig propCfg;
-	
+
 	private Settings elementSettings;
 
 	public Properties(String panelAttributes, String panelAttributesAdditional, BaseDrawHandler drawer) {
@@ -195,22 +197,28 @@ public class Properties {
 	}
 
 	public void drawPropertiesText() {
-		propCfg.addToYPos(drawer.textHeight()); // print method is located at the bottom of the text therefore add text height
-		propCfg.addToYPos(calcStartPointFromVAlign());
-		propCfg.addToYPos(calcTopDisplacementToFitLine());
+		propCfg.addToYPos(calcTopDisplacementToFitLine(calcStartPointFromVAlign()));
 		handleWordWrapAndIterate(elementSettings, propCfg, drawer);
 	}
 
-	private float calcTopDisplacementToFitLine() {
-		float accumulator = 0;
+	private float calcTopDisplacementToFitLine(float startPoint) {
+		int BUFFER = 2; // a small buffer between text and outer border
+		float displacement = startPoint;
+		float textHeight = drawer.textHeight();
 		boolean wordwrap = ElementStyle.WORDWRAP.toString().equalsIgnoreCase(getSetting(SettingKey.ElementStyle));
 		if (!wordwrap && !propertiesTextToDraw.isEmpty()) { // in case of wordwrap or no text, there is no top displacement
 			String firstLine = propertiesTextToDraw.iterator().next();
-			while(accumulator < gridElementHeight/2 && !TextManipulator.checkifStringFits(firstLine, propCfg.getXLimitsForArea(accumulator, drawer.textHeight()).getSpace(), drawer)) {
-				accumulator += drawer.textHeight()/2;
+			float availableWidthSpace = propCfg.getXLimitsForArea(displacement, textHeight).getSpace() - BUFFER;
+			float accumulator = displacement;
+			while(accumulator < gridElementHeight && !TextManipulator.checkifStringFits(firstLine, availableWidthSpace, drawer)) {
+				accumulator += textHeight / 2;
+				float previousWidthSpace = availableWidthSpace;
+				availableWidthSpace = propCfg.getXLimitsForArea(accumulator, textHeight).getSpace() - BUFFER;
+				// only set displacement if the last iteration resulted in a space gain (eg: for UseCase until the middle, for Class: stays on top because on a rectangle there is never a width-space gain)
+				if (availableWidthSpace > previousWidthSpace) displacement = accumulator;
 			}
 		}
-		return accumulator;
+		return displacement;
 	}
 
 	private void handleWordWrapAndIterate(Settings elementSettings, PropertiesConfig propCfg, BaseDrawHandler drawer) {
@@ -262,15 +270,17 @@ public class Properties {
 	}
 
 	private float calcStartPointFromVAlign() {
+		float returnVal = drawer.textHeight(); // print method is located at the bottom of the text therefore add text height
 		if (propCfg.getvAlign() == AlignVertical.TOP) {
-			return drawer.textHeight()/2;
+			returnVal += drawer.textHeight()/2;
 		}
 		else if (propCfg.getvAlign() == AlignVertical.CENTER) {
-			return Math.max((gridElementHeight - getTextBlockHeight())/2, drawer.textHeightWithSpace());
+			returnVal += Math.max((gridElementHeight - getTextBlockHeight())/2, drawer.textHeightWithSpace());
 		}
 		else /*if (propCfg.getvAlign() == AlignVertical.BOTTOM)*/ {
-			return Math.max(gridElementHeight - getTextBlockHeight(), drawer.textHeightWithSpace());
+			returnVal += Math.max(gridElementHeight - getTextBlockHeight(), drawer.textHeightWithSpace());
 		}
+		return returnVal;
 	}
 
 	public float getTextBlockHeight() {
@@ -282,11 +292,9 @@ public class Properties {
 	public DimensionFloat getExpectedElementDimensions() {
 		// add all ypos changes to simulate the real ypos for xlimit calculation etc.
 		PropertiesConfig propCfg = new PropertiesConfig(this, elementSettings, gridElementHeight, gridElementWidth);
-		propCfg.addToYPos(drawer.textHeight());
-		propCfg.addToYPos(calcStartPointFromVAlign());
-		propCfg.addToYPos(calcTopDisplacementToFitLine());
+		propCfg.addToYPos(calcTopDisplacementToFitLine(calcStartPointFromVAlign()));
 		handleWordWrapAndIterate(elementSettings, propCfg, drawer.getPseudoDrawHandler());
-		
+
 		return new DimensionFloat(propCfg.getMaxTextWidth(), propCfg.getyPos());
 	}
 

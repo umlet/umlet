@@ -75,7 +75,7 @@ public class Resize extends Command {
 		else {
 			this.id = current_id;
 			current_id++;
-			this.linepoints = from.getStickingRelationLinePoints(this.entity.getHandler().getDrawPanel());
+			this.linepoints = from.getStickingRelationLinePoints(this.entity.getHandler());
 		}
 
 		Point diff, p;
@@ -86,7 +86,7 @@ public class Resize extends Command {
 
 			diff = from.getLine(lp.getStickingLineId()).diffToLine(to.getLine(lp.getStickingLineId()), p.x + r.getLocation().x, p.y + r.getLocation().y);
 
-			DiagramHandler handler = Main.getInstance().getDiagramHandler();
+			DiagramHandler handler = entity.getHandler();
 			this.move_commands.add(new MoveLinePoint(lp.getRelation(), lp.getLinePointId(), handler.realignToGrid(diff.x), handler.realignToGrid(diff.y)));
 		}
 

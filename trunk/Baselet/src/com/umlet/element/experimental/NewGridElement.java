@@ -19,6 +19,7 @@ import com.baselet.control.Constants.LineType;
 import com.baselet.control.DimensionFloat;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
@@ -63,7 +64,7 @@ public abstract class NewGridElement implements GridElement {
 		public boolean contains(Point p) {
 			return Utils.contains(NewGridElement.this, p);
 		}
-		
+
 		/**
 		 * Must be overwritten because Swing sometimes uses this method instead of contains(Point)
 		 */
@@ -115,6 +116,7 @@ public abstract class NewGridElement implements GridElement {
 	public void setPanelAttributes(String panelAttributes) {
 		properties.setPanelAttributes(panelAttributes);
 		this.updateModelFromText();
+		handleAutoresize();
 	}
 
 	@Override
@@ -158,22 +160,30 @@ public abstract class NewGridElement implements GridElement {
 	public void updateModelFromText() {
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
-		
+
 		properties.initSettingsFromText(getRealSize().width, getRealSize().height, getSettings());
-
-		if (ElementStyle.AUTORESIZE.toString().equalsIgnoreCase(properties.getSetting(SettingKey.ElementStyle))) {
-			DimensionFloat dim = properties.getExpectedElementDimensions();
-			int BUFFER = 10; // buffer to make sure the text is inside the border
-			float width = Math.max(20, dim.getWidth() + BUFFER);
-			float height = Math.max(20, dim.getHeight() + BUFFER);
-			setRealSize(handler.realignToGrid(false, width, true), handler.realignToGrid(false, height, true));
-			// settings must be reinitialized (first initialization is necessary for wordwrap, second to have correct sizes to draw)
-			properties.initSettingsFromText(getRealSize().width, getRealSize().height, getSettings());
-		}
-
 		drawer.setSize(getRealSize()); // must be set after possible resizing due to AUTORESIZE
 		updateMetaDrawer();
 		updateConcreteModel();
+	}
+
+	private void handleAutoresize() {
+		if (ElementStyle.AUTORESIZE.toString().equalsIgnoreCase(properties.getSetting(SettingKey.ElementStyle))) {
+			if (handler.getZoomFactor() > 0.2f) {
+				DimensionFloat dim = properties.getExpectedElementDimensions();
+				int BUFFER = 10; // buffer to make sure the text is inside the border
+				float width = Math.max(20, dim.getWidth() + BUFFER);
+				float height = Math.max(20, dim.getHeight() + BUFFER);
+				// use resize command to move sticked relations correctly with the element
+				int diffw = (int) (width-getRealSize().width);
+				int diffh = (int) (height-getRealSize().height);
+				System.out.println("A" + diffw + "/" + diffh);
+				new Resize(this, 0, 0, diffw, diffh).execute(handler);
+
+				// settings must be reinitialized (first initialization is necessary for wordwrap, second to have correct sizes to draw)
+				properties.initSettingsFromText(getRealSize().width, getRealSize().height, getSettings());
+			}
+		}
 	}
 
 	protected abstract void updateConcreteModel();
@@ -197,6 +207,7 @@ public abstract class NewGridElement implements GridElement {
 		properties.updateSetting(key, newValue);
 		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.updateModelFromText();
+		this.handleAutoresize();
 		this.repaint();
 	}
 
@@ -381,7 +392,7 @@ public abstract class NewGridElement implements GridElement {
 	public Dimension getRealSize() {
 		return new Dimension(getSize().width / handler.getGridSize() * Constants.DEFAULTGRIDSIZE, getSize().height / handler.getGridSize() * Constants.DEFAULTGRIDSIZE);
 	}
-	
+
 	private void setRealSize(float width, float height) {
 		float zoomedHeight = height / Constants.DEFAULTGRIDSIZE * handler.getGridSize();
 		float zoomedWidth = width / Constants.DEFAULTGRIDSIZE * handler.getGridSize();
@@ -392,7 +403,7 @@ public abstract class NewGridElement implements GridElement {
 	public JComponent getComponent() {
 		return component;
 	}
-	
+
 	public abstract Settings getSettings();
 
 }

@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import com.baselet.control.Main;
+import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.Relation;
@@ -83,12 +84,11 @@ public class StickingPolygon {
 			drawer.drawLine(p1.x, p1.y, p2.x, p2.y);
 		}
 
-		private boolean isConnected(Point p) {
+		private boolean isConnected(Point p, float zoomFactor) {
 			Line2D line = new Line2D.Double(p1, p2);
 			double d = line.ptLineDist(p); // calculate distance
 
-			// AB: original this tolerance was 4
-			int delta = (int) (Main.getInstance().getDiagramHandler().getZoomFactor() * STICKING_TOLERANCE + 0.5);
+			int delta = (int) (zoomFactor * STICKING_TOLERANCE + 0.5);
 			Polygon poly1 = new Polygon(); // create 2 rectangles with their size +/-4*zoom pixels
 			poly1.addPoint(p1.x - delta, p2.y + delta);
 			poly1.addPoint(p2.x + delta, p2.y + delta);
@@ -150,23 +150,23 @@ public class StickingPolygon {
 			l.draw(drawer);
 	}
 
-	private int isConnected(Point p) {
+	private int isConnected(Point p, float zoomFactor) {
 		int con = -1;
 		for (int i = 0; i < this.stick.size(); i++)
-			if (this.stick.get(i).isConnected(p)) return i;
+			if (this.stick.get(i).isConnected(p, zoomFactor)) return i;
 
 		return con;
 	}
 
-	public Vector<RelationLinePoint> getStickingRelationLinePoints(DrawPanel panel) {
+	public Vector<RelationLinePoint> getStickingRelationLinePoints(DiagramHandler handler) {
 		Vector<RelationLinePoint> lpts = new Vector<RelationLinePoint>();
-		Collection<Relation> rels = panel.getAllRelations();
+		Collection<Relation> rels = handler.getDrawPanel().getAllRelations();
 		for (Relation r : rels) {
 			if (!r.isPartOfGroup()) {
 				Point l1 = r.getAbsoluteCoorStart();
 				Point l2 = r.getAbsoluteCoorEnd();
-				int c1 = this.isConnected(l1);
-				int c2 = this.isConnected(l2);
+				int c1 = this.isConnected(l1, handler.getZoomFactor());
+				int c2 = this.isConnected(l2, handler.getZoomFactor());
 				if (c1 >= 0) lpts.add(new RelationLinePoint(r, 0, c1));
 				if (c2 >= 0) lpts.add(new RelationLinePoint(r, r.getLinePoints().size() - 1, c2));
 			}
