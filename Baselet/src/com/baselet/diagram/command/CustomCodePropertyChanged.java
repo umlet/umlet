@@ -57,10 +57,10 @@ public class CustomCodePropertyChanged extends Command {
 			gridElement.setPanelAttributes(_newState);
 			
 			OwnSyntaxPane pane = Main.getInstance().getGUI().getPropertyPane();
-			pane.setText(gridElement.getPanelAttributes());
+			pane.switchToElement(gridElement);
 			
 			if (pane.getText().length() >= _newCaret) {
-				pane.setCaretPosition(_newCaret);
+				pane.getTextComponent().setCaretPosition(_newCaret);
 			}
 			
 			gridElement.repaint();
@@ -87,10 +87,10 @@ public class CustomCodePropertyChanged extends Command {
 			gridElement.setPanelAttributes(_oldState);
 			
 			OwnSyntaxPane pane = Main.getInstance().getGUI().getPropertyPane();
-			pane.setText(gridElement.getPanelAttributes());
+			pane.switchToElement(gridElement);
 			
 			if (pane.getText().length() >= _oldCaret) {
-				pane.setCaretPosition(_oldCaret);
+				pane.getTextComponent().setCaretPosition(_oldCaret);
 			}
 			
 			gridElement.repaint();

@@ -10,6 +10,9 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JComponent;
@@ -389,4 +392,12 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	public void updateModelFromText() {
 		/*OldGridElement has no model but simply parses the properties text within every paint() call*/
 	}
+
+	private static final List<String> autocompList = new ArrayList<String>(Arrays.asList(new String[] {"fg=red", "bg=blue"}));
+	@Override
+	public List<String> getAutocompletionList() {
+		return autocompList;
+	}
+	
+	
 }

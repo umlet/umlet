@@ -114,7 +114,7 @@ public class HelpHandler implements KeyListener {
 
 	private void displaytooltip(boolean display) {
 		JMultiLineToolTip tip = (JMultiLineToolTip) this.codepane.getToolTip();
-		ActionMap m = this.codepane.getActionMap();
+		ActionMap m = this.codepane.getTextComponent().getActionMap();
 		Action post = m.get("postTip");
 		Action hide = m.get("hideTip");
 		boolean tipvisible = false;
@@ -133,13 +133,13 @@ public class HelpHandler implements KeyListener {
 			}
 
 			if (tip.getParent() != null) {
-				Point p = this.codepane.getLocationOnScreen();
-				int pos = this.codepane.getCaretPosition();
+				Point p = this.codepane.getTextComponent().getLocationOnScreen();
+				int pos = this.codepane.getTextComponent().getCaretPosition();
 				String[] lines = this.codepane.getText().split(Constants.NEWLINE, -1);
 				int linenum = 0;
 				for (int cur_pos = 0; (linenum < lines.length) && (cur_pos <= pos); cur_pos += lines[linenum].length() + 1, linenum++);
 
-				p.y += linenum * this.codepane.getFontMetrics(this.codepane.getFont()).getHeight() + 3;
+				p.y += linenum * this.codepane.getTextComponent().getFontMetrics(this.codepane.getTextComponent().getFont()).getHeight() + 3;
 				p.x += 15;
 				tip.getParent().getParent().getParent().getParent().setLocation(p);
 			}
@@ -150,7 +150,7 @@ public class HelpHandler implements KeyListener {
 	private ArrayList<String> parseFunctionVariableDesc() {
 		String[] lines = this.codepane.getText().split(Constants.NEWLINE, -1);
 		int linenum = 0;
-		int pos = this.codepane.getCaretPosition();
+		int pos = this.codepane.getTextComponent().getCaretPosition();
 		int cur_pos = 0;
 		while ((linenum < lines.length) && (cur_pos <= pos)) {
 			cur_pos += lines[linenum].length() + 1;

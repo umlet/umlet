@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.text.JTextComponent;
 
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -26,7 +27,7 @@ public class CustomElementPanel extends JPanel {
 	private JSplitPane custompanelsplitright;
 	private JLabel savelabel;
 	private CustomElementHandler customhandler;
-	private JEditorPane customcodepane;
+	private JTextComponent customcodepane;
 
 	public CustomElementPanel(CustomElementHandler customhandler) {
 		this.customhandler = customhandler;
@@ -35,7 +36,7 @@ public class CustomElementPanel extends JPanel {
 		JPanel custompanel2 = new JPanel();
 		custompanel2.setLayout(new BoxLayout(custompanel2, BoxLayout.Y_AXIS));
 
-		customcodepane = customhandler.getCodePane();
+		customcodepane = customhandler.getCodePane().getTextComponent();
 		JScrollPane scr = new JScrollPane(customcodepane);
 		scr.setBorder(null);
 		scr.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -124,7 +125,7 @@ public class CustomElementPanel extends JPanel {
 		return this.custompanelsplitright;
 	}
 
-	public JEditorPane getTextPane() {
+	public JTextComponent getTextPane() {
 		return customcodepane;
 	}
 }

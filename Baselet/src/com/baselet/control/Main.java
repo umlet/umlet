@@ -275,11 +275,11 @@ public class Main {
 	private void setPropertyPanelToGridElementHelper(GridElement e) {
 		editedGridElement = e;
 		OwnSyntaxPane propertyPane = gui.getPropertyPane();
-		if (e != null) propertyPane.setText(e.getPanelAttributes());
+		if (e != null) propertyPane.switchToElement(e);
 		else {			
 			DiagramHandler handler = this.getDiagramHandler();
-			if (handler == null) propertyPane.setText("");
-			else propertyPane.setText(handler.getHelpText());
+			if (handler == null) propertyPane.switchToNonElement("");
+			else propertyPane.switchToNonElement(handler.getHelpText());
 		}
 	}
 

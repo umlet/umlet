@@ -1,52 +1,57 @@
 package com.umlet.gui;
 
-import javax.swing.JPanel;
-import javax.swing.JToolTip;
-
-import jsyntaxpane.DefaultSyntaxKit;
-import jsyntaxpane.util.Configuration;
-
-import com.baselet.control.Constants;
 import com.baselet.gui.JMultiLineToolTip;
 import com.baselet.gui.OwnSyntaxPane;
 
 @SuppressWarnings("serial")
 public class CustomCodeSyntaxPane extends OwnSyntaxPane {
 
-	private JToolTip tooltip;
-	private CustomCodePanelListener listener;
-
-	public CustomCodeSyntaxPane(JPanel panel) {
-		super(panel);
-	}
-
-	@Override
-	public JToolTip createToolTip() {
-		tooltip = new JMultiLineToolTip();
-		return tooltip;
-	}
-
-	public JToolTip getToolTip() {
-		return this.tooltip;
-	}
+	//TODO refactor to a usable Java version of the syntaxpane
 	
-	@Override
-	public void initJSyntaxPane() {
-		DefaultSyntaxKit.initKit();		
-		
-		//removes the line numbering
-		Configuration conf = DefaultSyntaxKit.getConfig(DefaultSyntaxKit.class);
-		conf.remove("Components");
-		
-		this.setContentType("text/java");
-		this.setFont(Constants.PANEL_FONT); //Set font to make sure UTF-8 characters work
-		this.validate();
+	public JMultiLineToolTip getToolTip() {
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
-	public void initCodePanelListener() {
-		if (listener == null) {
-			listener = new CustomCodePanelListener();
-			this.getDocument().addUndoableEditListener(listener);
-		}
+
+	public void setToolTipText(String text) {
+		// TODO Auto-generated method stub
+		
 	}
+
+//	private JToolTip tooltip;
+//	private CustomCodePanelListener listener;
+//
+//	public CustomCodeSyntaxPane(JPanel panel) {
+//		super(panel);
+//	}
+//
+//	@Override
+//	public JToolTip createToolTip() {
+//		tooltip = new JMultiLineToolTip();
+//		return tooltip;
+//	}
+//
+//	public JToolTip getToolTip() {
+//		return this.tooltip;
+//	}
+//	
+//	@Override
+//	public void initJSyntaxPane() {
+//		DefaultSyntaxKit.initKit();		
+//		
+//		//removes the line numbering
+//		Configuration conf = DefaultSyntaxKit.getConfig(DefaultSyntaxKit.class);
+//		conf.remove("Components");
+//		
+//		this.setContentType("text/java");
+//		this.setFont(Constants.PANEL_FONT); //Set font to make sure UTF-8 characters work
+//		this.validate();
+//	}
+//	
+//	public void initCodePanelListener() {
+//		if (listener == null) {
+//			listener = new CustomCodePanelListener();
+//			this.getDocument().addUndoableEditListener(listener);
+//		}
+//	}
 }

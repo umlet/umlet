@@ -27,11 +27,11 @@ public class ErrorHandler implements MouseMotionListener {
 
 	@Override
 	public void mouseMoved(MouseEvent me) {
-		int line = Math.round(me.getY() / (float) this.codepane.getFontMetrics(this.codepane.getFont()).getHeight());
+		int line = Math.round(me.getY() / (float) this.codepane.getTextComponent().getFontMetrics(this.codepane.getTextComponent().getFont()).getHeight());
 		if (this.errors.get(line) != null) {
-			this.codepane.setToolTipText(this.errors.get(line));
+			this.codepane.getTextComponent().setToolTipText(this.errors.get(line));
 		}
-		else this.codepane.setToolTipText(null);
+		else this.codepane.getTextComponent().setToolTipText(null);
 
 	}
 

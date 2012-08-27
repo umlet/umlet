@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Panel;
+import java.awt.TextComponent;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.text.JTextComponent;
 
 import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IContainer;
@@ -101,7 +103,7 @@ public class Editor extends EditorPart {
 		this.custompanel.getTextPane().addFocusListener(new CustomCodePaneFocusListener());
 		this.mailpanel = Main.getInstance().getGUI().createMailPanel();
 		this.propertyTextPane = Main.getInstance().getGUI().createPropertyTextPane();
-		this.propertyTextPane.addFocusListener(new TextPaneFocusListener());
+		this.propertyTextPane.getTextComponent().addFocusListener(new TextPaneFocusListener());
 		this.palettes = Main.getInstance().getPalettes();
 		MainPlugin.getGUI().setCurrentEditor(this);
 	}
@@ -244,7 +246,7 @@ public class Editor extends EditorPart {
 		return this.propertyTextPane;
 	}
 
-	public JEditorPane getCustomPane() {
+	public JTextComponent getCustomPane() {
 		return custompanel.getTextPane();
 	}
 

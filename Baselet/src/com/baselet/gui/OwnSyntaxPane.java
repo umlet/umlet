@@ -1,99 +1,132 @@
 package com.baselet.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.JEditorPane;
 import javax.swing.JPanel;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
-import jsyntaxpane.DefaultSyntaxKit;
-import jsyntaxpane.util.Configuration;
+import org.fife.ui.autocomplete.AutoCompletion;
+import org.fife.ui.autocomplete.BasicCompletion;
+import org.fife.ui.autocomplete.DefaultCompletionProvider;
+import org.fife.ui.rsyntaxtextarea.AbstractTokenMakerFactory;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
+import org.fife.ui.rsyntaxtextarea.TokenMakerFactory;
+import org.fife.ui.rsyntaxtextarea.TokenMap;
+import org.fife.ui.rsyntaxtextarea.TokenTypes;
+import org.fife.ui.rsyntaxtextarea.modes.BBCodeTokenMaker;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
-import org.apache.log4j.Logger;
-
-import com.baselet.control.Constants;
-import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.ProgramName;
-import com.baselet.control.Utils;
-import com.plotlet.gui.PlotletSyntaxKit;
-import com.umlet.gui.UmletSyntaxKit;
+import com.baselet.element.GridElement;
 
 
-@SuppressWarnings("serial")
-public class OwnSyntaxPane extends JEditorPane {
+public class OwnSyntaxPane {
+	
+	private static final int INLINE_SETTING = 1;
 
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
-	private JPanel panel;
+	private static TokenMap myWordsToHighlight = new TokenMap();
+	private DefaultCompletionProvider provider = new DefaultCompletionProvider();
 
-	public OwnSyntaxPane(JPanel panel) {
-		this.panel = panel;
-		this.setBackground(Color.WHITE);
+	List<String> words = new ArrayList<String>();
+
+	JPanel panel;
+	RSyntaxTextArea textArea;
+
+	public OwnSyntaxPane() {
+
+		panel = new JPanel(new BorderLayout());
+		textArea = new RSyntaxTextArea();
+
+		//Setup highlighting
+		createHightLightMap();
+		AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
+		atmf.putMapping(OwnTokenMaker.ID, OwnTokenMaker.class.getName());
+		textArea.setSyntaxEditingStyle(OwnTokenMaker.ID);
 		
-		//AB: Reduce tab size (works only if document type is plain)
-		this.getDocument().putProperty(PlainDocument.tabSizeAttribute, 3);
+		SyntaxScheme scheme = textArea.getSyntaxScheme();
+	      scheme.getStyle(INLINE_SETTING).foreground = Color.BLUE;
+
+		//Setup autocompletion
+		createAutocompletionCompletionProvider();
+		new AutoCompletion(provider).install(textArea);
+
+
+		textArea.setAntiAliasingEnabled(true);
+		panel.add(new RTextScrollPane(textArea));
+
+		textArea.getDocument().putProperty(PlainDocument.tabSizeAttribute, 3); //Reduce tab size
+
 	}
 
-	@Override
-	public void setSize(Dimension d) {
-		if (d.width < getParent().getSize().width) d.width = getParent().getSize().width;
-
-		super.setSize(d);
+	/**
+	 * create one per class
+	 * @param strings 
+	 */
+	private void createAutocompletionCompletionProvider() {
+		provider.clear();
+		for (String word : words) {
+			provider.addCompletion(new BasicCompletion(provider, word));
+		}
+	
 	}
 
-	@Override
-	public boolean getScrollableTracksViewportWidth() {
-		return false;
+	private void createHightLightMap() {
+		myWordsToHighlight = new TokenMap();
+		for (String word : words) {
+			myWordsToHighlight.put(word, INLINE_SETTING);
+		}
+	}
+
+	public static class OwnTokenMaker extends BBCodeTokenMaker {
+
+		public static final String ID = "OwnTokenMaker";
+
+		@Override
+		public void addToken(char[] array, int start, int end, int tokenType, int startOffset) {
+			int value = myWordsToHighlight.get(array, start, end);
+			if (value != -1) {
+				tokenType = value;
+			}
+			else tokenType = TokenTypes.IDENTIFIER; // default type is IDENTIFIER (which is just black)
+			super.addToken(array, start, end, tokenType, startOffset);
+		}
+
+	}
+
+	public String getText() {
+		return textArea.getText();
 	}
 
 	public JPanel getPanel() {
 		return this.panel;
 	}
 
-	@Override
-	public void setText(String text) {
-		if (!getText().equals(text)) {
-			super.setText(text);
-			setCaretPosition(0);
+	public JTextComponent getTextComponent() {
+		return textArea;
+	}
+
+	public void switchToElement(GridElement e) {
+		words = e.getAutocompletionList();
+		setText(e.getPanelAttributes());
+	}
+
+	public void switchToNonElement(String text) {
+		words = new ArrayList<String>();
+		setText(text);
+		
+	}
+
+	private void setText(String text) {
+		if (!textArea.getText().equals(text)) {
+			textArea.setText(text);
+			textArea.setCaretPosition(0);
 		}
+		createHightLightMap();
+		createAutocompletionCompletionProvider();
 	}
 
-	public void initJSyntaxPane() {
-		DefaultSyntaxKit.initKit();
-		Configuration conf = DefaultSyntaxKit.getConfig(DefaultSyntaxKit.class);
-		
-		//remove built-in undo/redo
-		conf.remove("Action.undo");
-		conf.remove("Action.redo");
-		
-		if (Program.PROGRAM_NAME == ProgramName.PLOTLET) {
-			log.info("Register PlotletSyntaxKit");
-			
-			try {
-				// IMPORTANT: The config-key "Action.combo-completion.Items" only accepts a semikolon-separated string because we have changed the method:
-				//            jsyntaxpane/actions/ComboCompletionAction.java#setItems(). Otherwise it would only accept a real list
-				String autocompletionList = PlotletSyntaxKit.createAutocompletionList(";");
-				DefaultSyntaxKit.getConfig(PlotletSyntaxKit.class).put("Action.combo-completion.Items", autocompletionList);
-			} catch (Exception e) {
-				log.error("Error at creating the autocompletion");
-			}
-			DefaultSyntaxKit.registerContentType("text/propertypanel", PlotletSyntaxKit.class.getCanonicalName());
-		} else {
-			log.info("Register UmletSyntaxKit");
-
-			try {
-				// IMPORTANT: The config-key "Action.combo-completion.Items" only accepts a semikolon-separated string because we have changed the method:
-				//            jsyntaxpane/actions/ComboCompletionAction.java#setItems(). Otherwise it would only accept a real list
-				String autocompletionList = UmletSyntaxKit.createAutocompletionList(";");
-				DefaultSyntaxKit.getConfig(UmletSyntaxKit.class).put("Action.combo-completion.Items", autocompletionList);
-			} catch (Exception e) {
-				log.error("Error at creating the autocompletion");
-			}
-			DefaultSyntaxKit.registerContentType("text/propertypanel", UmletSyntaxKit.class.getCanonicalName());
-		}	
-
-		this.setContentType("text/propertypanel");
-		this.setFont(Constants.PANEL_FONT); //Set font to make sure UTF-8 characters work
-		this.validate();
-	}
 }

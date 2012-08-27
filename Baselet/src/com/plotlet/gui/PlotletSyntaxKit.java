@@ -4,16 +4,12 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
-import jsyntaxpane.DefaultSyntaxKit;
-import jsyntaxpane.lexers.SimpleRegexLexer;
-
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Utils;
 import com.plotlet.parser.PlotConstants;
 
-@SuppressWarnings("serial")
-public class PlotletSyntaxKit extends DefaultSyntaxKit {
+public class PlotletSyntaxKit {
 	
 	protected final static Logger log = Logger.getLogger(Utils.getClassName());
 
@@ -25,10 +21,6 @@ public class PlotletSyntaxKit extends DefaultSyntaxKit {
 		//		regExMap.put("KEYWORD2", Pattern.compile(PlotConstants.REGEX_COLOR_BASE));
 		regExMap.put("COMMENT", Pattern.compile(PlotConstants.REGEX_COMMENT));
 		regExMap.put("TYPE", Pattern.compile(PlotConstants.REGEX_VALUE_ASSIGNMENT));
-	}
-
-	public PlotletSyntaxKit() {
-		super(new SimpleRegexLexer(regExMap));
 	}
 	
 	public static String createAutocompletionList(String listSep) {

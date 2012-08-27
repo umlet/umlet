@@ -50,10 +50,10 @@ public class ChangeState extends Command {
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
 		if (gridElement != null && gridElement.equals(_entity)) {
 			OwnSyntaxPane pane = Main.getInstance().getGUI().getPropertyPane();
-			pane.setText(gridElement.getPanelAttributes());
+			pane.switchToElement(gridElement);
 			
 			if (pane.getText().length() >= _newCaret) {
-				pane.setCaretPosition(_newCaret);
+				pane.getTextComponent().setCaretPosition(_newCaret);
 			}
 		}
 	}
@@ -68,10 +68,10 @@ public class ChangeState extends Command {
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
 		if (gridElement != null && gridElement.equals(_entity)) {
 			OwnSyntaxPane pane = Main.getInstance().getGUI().getPropertyPane();
-			pane.setText(gridElement.getPanelAttributes());
+			pane.switchToElement(gridElement);
 			
 			if (pane.getText().length() >= _oldCaret) {
-				pane.setCaretPosition(_oldCaret);
+				pane.getTextComponent().setCaretPosition(_oldCaret);
 			}
 		}
 	}

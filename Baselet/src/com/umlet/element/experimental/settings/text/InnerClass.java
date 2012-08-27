@@ -68,4 +68,9 @@ public class InnerClass implements Facet {
 
 	}
 
+	@Override
+	public String[] getAutocompletionStrings() {
+		return new String[]  {START, END};
+	}
+
 }

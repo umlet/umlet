@@ -1,5 +1,7 @@
 package com.umlet.element.experimental.settings.text;
 
+import java.util.List;
+
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.helper.XPoints;
@@ -24,6 +26,11 @@ public class ActiveClass implements Facet {
 	@Override
 	public boolean replacesText(String line) {
 		return true;
+	}
+
+	@Override
+	public String[] getAutocompletionStrings() {
+		return new String[] {"{active}"};
 	}
 
 }

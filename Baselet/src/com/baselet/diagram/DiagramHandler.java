@@ -212,7 +212,7 @@ public class DiagramHandler {
 	public void setHelpText(String helptext) {
 		this.helptext = helptext;
 		BaseGUI gui = Main.getInstance().getGUI();
-		if (gui != null) gui.getPropertyPane().setText(this.helptext);
+		if (gui != null) gui.getPropertyPane().switchToNonElement(this.helptext);
 	}
 
 	public String getHelpText() {
