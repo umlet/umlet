@@ -1,5 +1,7 @@
 package com.umlet.element.experimental.settings.text;
 
+import java.util.List;
+
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
 
@@ -10,4 +12,6 @@ public interface Facet {
 	void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig);
 	
 	boolean replacesText(String line);
+	
+	String[] getAutocompletionStrings();
 }

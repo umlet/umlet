@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.List;
 
 import javax.swing.JComponent;
 
@@ -98,4 +99,6 @@ public interface GridElement {
 	void updateProperty(String key, String newValue);
 	
 	public void updateModelFromText();
+
+	List<String> getAutocompletionList();
 }

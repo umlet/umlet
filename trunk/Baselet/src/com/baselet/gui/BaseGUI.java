@@ -63,26 +63,24 @@ public abstract class BaseGUI extends JPanel {
 	}
 
 	public OwnSyntaxPane createPropertyTextPane() {
-		JPanel propertyTextPanel = new JPanel();
-		propertyTextPane = new OwnSyntaxPane(propertyTextPanel);
+		propertyTextPane = new OwnSyntaxPane();
 
 		// add listener to propertyTextPane
 		PropertyPanelListener pListener = new PropertyPanelListener(/*propertyTextPane*/);
-		propertyTextPane.addKeyListener(pListener);
-		propertyTextPane.addFocusListener(pListener);
+		propertyTextPane.getTextComponent().addKeyListener(pListener);
+		propertyTextPane.getTextComponent().addFocusListener(pListener);
 		
-		propertyTextPanel.setLayout(new BoxLayout(propertyTextPanel, BoxLayout.Y_AXIS));
-		JScrollPane propertyTextScrollPane = new JScrollPane(propertyTextPane);
-		propertyTextScrollPane.setBorder(null);
-		propertyTextScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
-		propertyTextScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+//		JScrollPane propertyTextScrollPane = new JScrollPane(propertyTextPane);
+//		propertyTextScrollPane.setBorder(null);
+//		propertyTextScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+//		propertyTextScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		JLabel propertyLabel = new JLabel(" Properties");
 		propertyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		propertyLabel.setFont(new Font("SansSerif", Font.BOLD, 11));
-		propertyTextPanel.add(propertyLabel);
-		propertyTextPanel.add(propertyTextScrollPane);
-
-		propertyTextPane.initJSyntaxPane();
+//		propertyTextPanel.add(propertyLabel);
+//		propertyTextPanel.add(propertyTextScrollPane);
+//
+//		propertyTextPane.initJSyntaxPane();
 		
 		return propertyTextPane;
 	}
@@ -92,7 +90,7 @@ public abstract class BaseGUI extends JPanel {
 	}
 
 	public void focusPropertyPane() {
-		propertyTextPane.requestFocus();
+		propertyTextPane.getTextComponent().requestFocus();
 		// The robot class simulates pressing a certain key
 		// try {
 		// new Robot().keyPress(character);

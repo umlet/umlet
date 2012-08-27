@@ -39,4 +39,9 @@ public class SeparatorLine implements Facet {
 		return true;
 	}
 
+	@Override
+	public String[] getAutocompletionStrings() {
+		return new String[] {"--"};
+	}
+
 }

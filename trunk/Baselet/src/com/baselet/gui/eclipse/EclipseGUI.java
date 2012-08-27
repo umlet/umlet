@@ -215,7 +215,7 @@ public class EclipseGUI extends BaseGUI {
 	public void panelDoAction(Pane pane, ActionName actionName) {
 
 		JTextComponent textpane = null;
-		if (pane == Pane.PROPERTY) textpane = editor.getPropertyPane();
+		if (pane == Pane.PROPERTY) textpane = editor.getPropertyPane().getTextComponent();
 		else if (pane == Pane.CUSTOMCODE) textpane = editor.getCustomPane();
 
 		if (textpane != null) {

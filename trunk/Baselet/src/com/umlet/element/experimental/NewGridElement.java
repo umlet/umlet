@@ -8,6 +8,9 @@ import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.JComponent;
 
@@ -24,6 +27,7 @@ import com.baselet.element.Group;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.experimental.Properties.SettingKey;
 import com.umlet.element.experimental.settings.Settings;
+import com.umlet.element.experimental.settings.text.Facet;
 
 public abstract class NewGridElement implements GridElement {
 
@@ -377,5 +381,19 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	public abstract Settings getSettings();
+
+	@Override
+	public List<String> getAutocompletionList() {
+		List<String> returnList = new ArrayList<String>();
+		for (SettingKey setting : SettingKey.values()) {
+			for (Object value : setting.autocompletionValues()) {
+				returnList.add(setting.getKey().toLowerCase() + Properties.SEPARATOR + value.toString().toLowerCase());
+			}
+		}
+		for (Facet f : getSettings().getFacets()) {
+			returnList.addAll(Arrays.asList(f.getAutocompletionStrings()));
+		}
+		return returnList;
+	}
 
 }

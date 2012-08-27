@@ -46,7 +46,7 @@ public class PropertyPanelListener implements KeyListener, FocusListener {
 		if (gridElement != null) {
 			//only create command if changes were made
 			if (!s.equals(gridElement.getPanelAttributes())) {
-				int newCaretPos = Main.getInstance().getGUI().getPropertyPane().getCaretPosition();
+				int newCaretPos = Main.getInstance().getGUI().getPropertyPane().getTextComponent().getCaretPosition();
 				int oldCaretPos = newCaretPos - (s.length()-gridElement.getPanelAttributes().length());		
 
 				if (gridElement.getHandler() instanceof CustomPreviewHandler) {

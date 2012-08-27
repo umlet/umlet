@@ -33,11 +33,11 @@ public class CustomElementHandler {
 	private String old_text;
 
 	public CustomElementHandler() {
-		this.codepane = new CustomCodeSyntaxPane(null);
+		this.codepane = new CustomCodeSyntaxPane();
 		this.errorhandler = new ErrorHandler(this.codepane);
 		this.helphandler = new HelpHandler(this.codepane, this);
-		this.codepane.addMouseMotionListener(this.errorhandler);
-		this.codepane.addKeyListener(this.helphandler);
+		this.codepane.getTextComponent().addMouseMotionListener(this.errorhandler);
+		this.codepane.getTextComponent().addKeyListener(this.helphandler);
 		this.preview = new CustomPreviewHandler();
 		this.timer = new Timer(true);
 		this.changed = false;
@@ -45,10 +45,9 @@ public class CustomElementHandler {
 		this.old_text = null;
 		this.panel = new CustomElementPanel(this);
 
-		this.codepane.initJSyntaxPane();
 		
 		//for undo/redo 
-		this.codepane.initCodePanelListener();
+//		this.codepane.initCodePanelListener();
 		
 		//TODO CUSTOM ELMENTS REFACTORING
 //		StyledDocument doc = codepane.getStyledDocument();
@@ -72,9 +71,9 @@ public class CustomElementHandler {
 		this.preview.closePreview();
 		this.originalElement = null;
 		this.editedEntity = CustomElementCompiler.getInstance().genEntityFromTemplate(template, this.errorhandler);
-		if (editedEntity instanceof CustomElement) this.codepane.setText(((CustomElement) this.editedEntity).getCode());
+		if (editedEntity instanceof CustomElement) this.codepane.switchToNonElement(((CustomElement) this.editedEntity).getCode());
 		else {
-			this.codepane.setText("");
+			this.codepane.switchToNonElement("");
 		}
 		this.editedEntity.setPanelAttributes("// Modify the text below and" +
 				Constants.NEWLINE +
@@ -95,7 +94,7 @@ public class CustomElementHandler {
 		this.originalElement = e;
 		this.editedEntity = e.CloneFromMe();
 		this.editedEntity.setLocation(20, 20);
-		this.codepane.setText(e.getCode());
+		this.codepane.switchToNonElement(e.getCode());
 		this.updatePreview(this.editedEntity);
 		this.getPreviewHandler().getDrawPanel().getSelector().select(editedEntity);
 		this.setChanged(false);
