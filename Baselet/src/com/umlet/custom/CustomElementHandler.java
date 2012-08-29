@@ -71,9 +71,9 @@ public class CustomElementHandler {
 		this.preview.closePreview();
 		this.originalElement = null;
 		this.editedEntity = CustomElementCompiler.getInstance().genEntityFromTemplate(template, this.errorhandler);
-		if (editedEntity instanceof CustomElement) this.codepane.switchToNonElement(((CustomElement) this.editedEntity).getCode());
+		if (editedEntity instanceof CustomElement) this.codepane.setCode(((CustomElement) this.editedEntity).getCode());
 		else {
-			this.codepane.switchToNonElement("");
+			this.codepane.setCode("");
 		}
 		this.editedEntity.setPanelAttributes("// Modify the text below and" +
 				Constants.NEWLINE +
@@ -94,7 +94,7 @@ public class CustomElementHandler {
 		this.originalElement = e;
 		this.editedEntity = e.CloneFromMe();
 		this.editedEntity.setLocation(20, 20);
-		this.codepane.switchToNonElement(e.getCode());
+		this.codepane.setCode(e.getCode());
 		this.updatePreview(this.editedEntity);
 		this.getPreviewHandler().getDrawPanel().getSelector().select(editedEntity);
 		this.setChanged(false);

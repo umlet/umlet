@@ -113,7 +113,7 @@ public class HelpHandler implements KeyListener {
 	}
 
 	private void displaytooltip(boolean display) {
-		JMultiLineToolTip tip = (JMultiLineToolTip) this.codepane.getToolTip();
+		JMultiLineToolTip tip = this.codepane.getToolTip();
 		ActionMap m = this.codepane.getTextComponent().getActionMap();
 		Action post = m.get("postTip");
 		Action hide = m.get("hideTip");

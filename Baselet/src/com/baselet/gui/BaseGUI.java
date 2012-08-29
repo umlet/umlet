@@ -70,17 +70,9 @@ public abstract class BaseGUI extends JPanel {
 		propertyTextPane.getTextComponent().addKeyListener(pListener);
 		propertyTextPane.getTextComponent().addFocusListener(pListener);
 		
-//		JScrollPane propertyTextScrollPane = new JScrollPane(propertyTextPane);
-//		propertyTextScrollPane.setBorder(null);
-//		propertyTextScrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
-//		propertyTextScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		JLabel propertyLabel = new JLabel(" Properties");
 		propertyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		propertyLabel.setFont(new Font("SansSerif", Font.BOLD, 11));
-//		propertyTextPanel.add(propertyLabel);
-//		propertyTextPanel.add(propertyTextScrollPane);
-//
-//		propertyTextPane.initJSyntaxPane();
 		
 		return propertyTextPane;
 	}
