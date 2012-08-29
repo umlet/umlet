@@ -1,13 +1,52 @@
 package com.umlet.gui;
 
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.PlainDocument;
+
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
+
 import com.baselet.gui.JMultiLineToolTip;
-import com.baselet.gui.OwnSyntaxPane;
 
-@SuppressWarnings("serial")
-public class CustomCodeSyntaxPane extends OwnSyntaxPane {
-
-	//TODO refactor to a usable Java version of the syntaxpane
+public class CustomCodeSyntaxPane {
 	
+	JPanel panel;
+	RSyntaxTextArea textArea;
+
+	public CustomCodeSyntaxPane() {
+
+		panel = new JPanel(new BorderLayout());
+		textArea = new RSyntaxTextArea();
+	    textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+		textArea.setAntiAliasingEnabled(true);
+		textArea.setCodeFoldingEnabled(true);
+	    
+		RTextScrollPane sp = new RTextScrollPane(textArea);
+	    sp.setFoldIndicatorEnabled(true);
+	    panel.add(sp);
+		textArea.getDocument().putProperty(PlainDocument.tabSizeAttribute, 3); //Reduce tab size
+	}
+
+	public String getText() {
+		return textArea.getText();
+	}
+
+	public JTextComponent getTextComponent() {
+		return textArea;
+	}
+
+	public JPanel getPanel() {
+		return this.panel;
+	}
+
+	public void setCode(String text) {
+		textArea.setText(text);
+	}
+
 	public JMultiLineToolTip getToolTip() {
 		// TODO Auto-generated method stub
 		return null;
@@ -18,40 +57,4 @@ public class CustomCodeSyntaxPane extends OwnSyntaxPane {
 		
 	}
 
-//	private JToolTip tooltip;
-//	private CustomCodePanelListener listener;
-//
-//	public CustomCodeSyntaxPane(JPanel panel) {
-//		super(panel);
-//	}
-//
-//	@Override
-//	public JToolTip createToolTip() {
-//		tooltip = new JMultiLineToolTip();
-//		return tooltip;
-//	}
-//
-//	public JToolTip getToolTip() {
-//		return this.tooltip;
-//	}
-//	
-//	@Override
-//	public void initJSyntaxPane() {
-//		DefaultSyntaxKit.initKit();		
-//		
-//		//removes the line numbering
-//		Configuration conf = DefaultSyntaxKit.getConfig(DefaultSyntaxKit.class);
-//		conf.remove("Components");
-//		
-//		this.setContentType("text/java");
-//		this.setFont(Constants.PANEL_FONT); //Set font to make sure UTF-8 characters work
-//		this.validate();
-//	}
-//	
-//	public void initCodePanelListener() {
-//		if (listener == null) {
-//			listener = new CustomCodePanelListener();
-//			this.getDocument().addUndoableEditListener(listener);
-//		}
-//	}
 }

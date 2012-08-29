@@ -27,7 +27,7 @@ public class CustomElementPanel extends JPanel {
 	private JSplitPane custompanelsplitright;
 	private JLabel savelabel;
 	private CustomElementHandler customhandler;
-	private JTextComponent customcodepane;
+	private CustomCodeSyntaxPane customcodepane;
 
 	public CustomElementPanel(CustomElementHandler customhandler) {
 		this.customhandler = customhandler;
@@ -36,15 +36,12 @@ public class CustomElementPanel extends JPanel {
 		JPanel custompanel2 = new JPanel();
 		custompanel2.setLayout(new BoxLayout(custompanel2, BoxLayout.Y_AXIS));
 
-		customcodepane = customhandler.getCodePane().getTextComponent();
-		JScrollPane scr = new JScrollPane(customcodepane);
-		scr.setBorder(null);
-		scr.setAlignmentX(Component.LEFT_ALIGNMENT);
 		JLabel codelabel = new JLabel(" Code");
 		codelabel.setFont(new Font("SansSerif", Font.BOLD, 11));
 		codelabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		custompanel2.add(codelabel);
-		custompanel2.add(scr);
+		customcodepane = customhandler.getCodePane();
+		custompanel2.add(customcodepane.getPanel());
 
 		JPanel custompanel3 = new JPanel();
 		custompanel3.setLayout(new BoxLayout(custompanel3, BoxLayout.Y_AXIS));
@@ -126,6 +123,6 @@ public class CustomElementPanel extends JPanel {
 	}
 
 	public JTextComponent getTextPane() {
-		return customcodepane;
+		return customcodepane.getTextComponent();
 	}
 }
