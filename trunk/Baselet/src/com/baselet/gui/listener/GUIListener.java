@@ -66,13 +66,13 @@ public class GUIListener implements KeyListener {
 
 					// TODO The following code is very similar to EntityListener 96-144 and should be refactored
 					Vector<Command> moveCommands = new Vector<Command>();
-					for (GridElement entity : handler.getDrawPanel().getAllEntities()) {
+					for (GridElement entity : entitiesToBeMoved) {
 						if (entity.isPartOfGroup()) continue;
 						entity.setStickingBorderActive(true);
 						moveCommands.add(new Move(entity, diffx, diffy));
 					}
 					Vector<Command> linepointCommands = new Vector<Command>();
-					for (GridElement tmpEntity : handler.getDrawPanel().getAllEntities()) {
+					for (GridElement tmpEntity : entitiesToBeMoved) {
 						if (tmpEntity instanceof Relation) continue;
 						StickingPolygon stick = null;
 						if (tmpEntity.isStickingBorderActive()) stick = tmpEntity.generateStickingBorder(tmpEntity.getLocation().x, tmpEntity.getLocation().y, tmpEntity.getSize().width, tmpEntity.getSize().height);
