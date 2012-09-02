@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -66,9 +68,9 @@ public abstract class BaseGUI extends JPanel {
 		propertyTextPane = new OwnSyntaxPane();
 
 		// add listener to propertyTextPane
-		PropertyPanelListener pListener = new PropertyPanelListener(/*propertyTextPane*/);
+		PropertyPanelListener pListener = new PropertyPanelListener();
 		propertyTextPane.getTextComponent().addKeyListener(pListener);
-		propertyTextPane.getTextComponent().addFocusListener(pListener);
+		propertyTextPane.getTextComponent().getDocument().addDocumentListener(pListener);
 		
 		JLabel propertyLabel = new JLabel(" Properties");
 		propertyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);

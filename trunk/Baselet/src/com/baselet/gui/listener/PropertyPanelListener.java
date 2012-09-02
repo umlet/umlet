@@ -1,11 +1,11 @@
 package com.baselet.gui.listener;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.baselet.control.Main;
 import com.baselet.diagram.CustomPreviewHandler;
@@ -15,28 +15,25 @@ import com.baselet.diagram.command.CustomCodePropertyChanged;
 import com.baselet.diagram.command.HelpPanelChanged;
 import com.baselet.element.GridElement;
 
-public class PropertyPanelListener implements KeyListener, FocusListener {
+public class PropertyPanelListener implements KeyListener, DocumentListener {
+
+	public PropertyPanelListener() {
+	}
 
 	@Override public void keyTyped(KeyEvent e) {
 		if (e.getKeyChar() == '\u001b') { // ESC Key: Leaves the Property Panel
 			Main.getInstance().getGUI().requestFocus();
-		} else if (!e.isActionKey()) {
-			final Runnable beeper = new Runnable() {
-				@Override
-				public void run() {updateGridElement();}
-			};
-			SwingUtilities.invokeLater(beeper);
 		}
 	}
 
 	@Override
-	public void focusGained(FocusEvent e) {
-		updateGridElement(); // Workaround which is needed to make selection of a autocompletion element via mouse work
+	public void changedUpdate(DocumentEvent e) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override public void run() {
+				updateGridElement();
+			}
+		});
 	}
-
-	@Override public void keyReleased(KeyEvent e) {}
-	@Override public void focusLost(FocusEvent e) {}
-	@Override public void keyPressed(KeyEvent e) {}
 
 	protected void updateGridElement() {
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
@@ -63,4 +60,9 @@ public class PropertyPanelListener implements KeyListener, FocusListener {
 		// Scrollbars must be updated cause some entities can grow out of screen border by typing text inside (eg: autoresize custom elements)
 		if (handler != null) handler.getDrawPanel().updatePanelAndScrollbars();
 	}
+
+	@Override public void keyReleased(KeyEvent e) {}
+	@Override public void keyPressed(KeyEvent e) {}
+	@Override public void insertUpdate(DocumentEvent e) {}
+	@Override public void removeUpdate(DocumentEvent e) {}
 }
