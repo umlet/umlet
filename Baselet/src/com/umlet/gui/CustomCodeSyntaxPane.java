@@ -1,21 +1,28 @@
 package com.umlet.gui;
 
 import java.awt.BorderLayout;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
+import org.fife.ui.autocomplete.AutoCompletion;
+import org.fife.ui.autocomplete.BasicCompletion;
+import org.fife.ui.autocomplete.DefaultCompletionProvider;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-import com.baselet.gui.JMultiLineToolTip;
+import com.umlet.custom.CustomElement;
+import com.umlet.custom.CustomFunction;
 
 public class CustomCodeSyntaxPane {
 	
-	JPanel panel;
-	RSyntaxTextArea textArea;
+	private JPanel panel;
+	private RSyntaxTextArea textArea;
+	private DefaultCompletionProvider provider = new DefaultCompletionProvider();
 
 	public CustomCodeSyntaxPane() {
 
@@ -24,6 +31,12 @@ public class CustomCodeSyntaxPane {
 	    textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 		textArea.setAntiAliasingEnabled(true);
 		textArea.setCodeFoldingEnabled(true);
+		
+		// setup autocompletion
+		for (String word : getAutocompletionStrings()) {
+			provider.addCompletion(new BasicCompletion(provider, word));
+		}
+		new AutoCompletion(provider).install(textArea);
 	    
 		RTextScrollPane sp = new RTextScrollPane(textArea);
 	    sp.setFoldIndicatorEnabled(true);
@@ -46,15 +59,28 @@ public class CustomCodeSyntaxPane {
 	public void setCode(String text) {
 		textArea.setText(text);
 	}
-
-	public JMultiLineToolTip getToolTip() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	private String getStringForCustomElementMethod(Method m) {
+		CustomFunction cm = m.getAnnotation(CustomFunction.class);
+		String description = m.getName() + "(";
+		String[] params = cm.param_defaults().split(",");
+		Class<?>[] types = m.getParameterTypes();
+		for (int i = 0; (i < params.length) && (i < types.length); i++) {
+			if (i != 0) description += ", ";
+			description += types[i].getSimpleName() + " " + params[i].trim();
+		}
+		return description + ");";
+	}
+	
+	private ArrayList<String> getAutocompletionStrings() {
+		ArrayList<String> descriptors = new ArrayList<String>();
+		for (Method m : (CustomElement.class).getDeclaredMethods()) {
+			if (m.isAnnotationPresent(CustomFunction.class)) {
+				descriptors.add(getStringForCustomElementMethod(m));
+			}
+		}
+		return descriptors;
 	}
 
-	public void setToolTipText(String text) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
