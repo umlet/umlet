@@ -26,7 +26,6 @@ public class CustomElementHandler {
 	private TimerTask compiletask;
 	private boolean changed;
 	private ErrorHandler errorhandler;
-	private HelpHandler helphandler;
 	private boolean compilation_running;
 	private CustomElementPanel panel;
 	boolean keypressed;
@@ -35,28 +34,13 @@ public class CustomElementHandler {
 	public CustomElementHandler() {
 		this.codepane = new CustomCodeSyntaxPane();
 		this.errorhandler = new ErrorHandler(this.codepane);
-		this.helphandler = new HelpHandler(this.codepane, this);
 		this.codepane.getTextComponent().addMouseMotionListener(this.errorhandler);
-		this.codepane.getTextComponent().addKeyListener(this.helphandler);
 		this.preview = new CustomPreviewHandler();
 		this.timer = new Timer(true);
 		this.changed = false;
 		this.compilation_running = false;
 		this.old_text = null;
 		this.panel = new CustomElementPanel(this);
-
-		
-		//for undo/redo 
-//		this.codepane.initCodePanelListener();
-		
-		//TODO CUSTOM ELMENTS REFACTORING
-//		StyledDocument doc = codepane.getStyledDocument();
-//		Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
-//		doc.addStyle("default", def);
-//		Style err = doc.addStyle("error", def);
-//		StyleConstants.setForeground(err, Color.red);
-//		StyleConstants.setBold(err, true);
-//		StyleConstants.setItalic(err, true);
 	}
 
 	public CustomElementPanel getPanel() {
