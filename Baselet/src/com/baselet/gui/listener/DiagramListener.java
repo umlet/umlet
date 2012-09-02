@@ -108,8 +108,14 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		int actualZoom = Main.getInstance().getDiagramHandler().getGridSize();
-		// e.getWheelRotation is -1 if scrolling up and +1 if scrolling down therefore we subtract it
-		Main.getInstance().getDiagramHandler().setGridAndZoom(actualZoom - e.getWheelRotation());
+		// Only if Ctrl is pressed while scrolling, we zoom in and out
+		if ((e.getModifiersEx() & SystemInfo.META_KEY.getMaskDown()) == SystemInfo.META_KEY.getMaskDown()) {
+			int actualZoom = Main.getInstance().getDiagramHandler().getGridSize();
+			// e.getWheelRotation is -1 if scrolling up and +1 if scrolling down therefore we subtract it
+			Main.getInstance().getDiagramHandler().setGridAndZoom(actualZoom - e.getWheelRotation());
+		}
+		else { //otherwise scroll the diagram
+			Main.getInstance().getDiagramHandler().getDrawPanel().scroll(e.getWheelRotation());
+		}
 	}
 }

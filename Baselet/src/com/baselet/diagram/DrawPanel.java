@@ -19,6 +19,7 @@ import java.util.Vector;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.RepaintManager;
 import javax.swing.ScrollPaneConstants;
@@ -27,6 +28,7 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
 import com.baselet.control.DiagramNotification;
+import com.baselet.control.Constants.AlignVertical;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Utils;
@@ -519,5 +521,11 @@ public class DrawPanel extends JPanel implements Printable {
 
 	public GridElement getElementToComponent(Component component) {
 		return componentToGridElementMap.get(component);
+	}
+	
+	public void scroll(int amount) {
+		JScrollBar scrollBar = _scr.getVerticalScrollBar();
+		int increment = scrollBar.getUnitIncrement();
+		scrollBar.setValue(scrollBar.getValue() + amount * increment);
 	}
 }
