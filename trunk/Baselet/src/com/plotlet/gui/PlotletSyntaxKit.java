@@ -23,6 +23,10 @@ public class PlotletSyntaxKit {
 		regExMap.put("TYPE", Pattern.compile(PlotConstants.REGEX_VALUE_ASSIGNMENT));
 	}
 	
+	/**
+	 * TODO Must be refactored to work with RSyntaxTextArea.
+	 * See how UMLet solves syntaxhighlighting and autocompletion and implement it appropriately (ie: move this code to PlotGrid and make it work with RSyntaxTextArea)
+	 */
 	public static String createAutocompletionList(String listSep) {
 		String outString = "plot" + listSep + "data" + listSep + "data=" + /*"<dataset_name>" +*/ listSep;
 
