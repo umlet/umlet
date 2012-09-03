@@ -1,6 +1,5 @@
 package com.baselet.diagram.draw;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -14,9 +13,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.RoundRectangle2D;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
@@ -24,8 +20,6 @@ import com.baselet.control.Constants.LineType;
 import com.baselet.control.DimensionFloat;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.gui.standalone.ZoomListener;
-import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
 
 public class BaseDrawHandler {
 	protected DiagramHandler handler;
@@ -281,6 +275,14 @@ public class BaseDrawHandler {
 	public final void setFontSize(float fontSize) {
 		style.setFontSize(fontSize);
 	}
+
+	public final void setFontSize(String fontSize) {
+		if (fontSize != null) {
+			try {
+				setFontSize(Float.valueOf(fontSize));
+			} catch (NumberFormatException e) {/*do nothing*/}
+		}
+	}
 	
 	public void resetFontSize() {
 		style.setFontSize(handler.getFontHandler().getFontSize(false));
@@ -292,7 +294,7 @@ public class BaseDrawHandler {
 
 	public final void setLineType(String type) {
 		if (".".equals(type)) style.setLineType(LineType.DASHED);
-		if ("..".equals(type)) style.setLineType(LineType.DOTTED);
+		else if ("..".equals(type)) style.setLineType(LineType.DOTTED);
 		else style.setLineType(LineType.SOLID);
 		
 		if ("*".equals(type)) style.setLineThickness(2.0f);

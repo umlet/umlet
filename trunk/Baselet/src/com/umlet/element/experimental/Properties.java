@@ -1,7 +1,5 @@
 package com.umlet.element.experimental;
 
-import java.awt.Color;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -16,8 +14,9 @@ import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.helper.XPoints;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.text.Facet;
-import com.umlet.element.experimental.settings.text.GlobalSettings;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet;
+import com.umlet.element.experimental.settings.facets.Facet;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
 public class Properties {
 
@@ -25,8 +24,6 @@ public class Properties {
 	protected String panelAttributesAdditional = "";
 
 	private BaseDrawHandler drawer;
-
-	protected GlobalSettings settings;
 
 	private List<String> propertiesTextToDraw;
 
@@ -64,12 +61,20 @@ public class Properties {
 		return decomposePropertiesText(this.getPanelAttributes(), Constants.NEWLINE, true, false);
 	}
 
+	private static String filterRegex;
+	static {
+		filterRegex = "(";
+		for (GlobalSetting key : GlobalSetting.values()) {
+			filterRegex = filterRegex + "(" + key + GlobalSetting.SEPARATOR + ")|";
+		}
+		filterRegex += "(//)).*";
+	}
 	private Vector<String> decomposePropertiesText(String fullString, String delimiter, boolean filterComments, boolean filterNewLines) {
 		Vector<String> returnVector = new Vector<String>();
 		String compatibleFullString = fullString.replaceAll("\r\n", delimiter); // compatibility to windows \r\n
 
 		for (String line : compatibleFullString.split("\\" + delimiter)) {
-			if (filterComments && (line.matches(GlobalSettings.getFilterRegex()))) continue;
+			if (filterComments && (line.matches(filterRegex))) continue;
 			else if (filterNewLines && line.isEmpty()) continue;
 			else returnVector.add(line);
 		}
@@ -77,39 +82,26 @@ public class Properties {
 		return returnVector;
 	}
 
-	private void applyProperties() {
-		Color fgColor = Utils.getColor(getSetting(SettingKey.ForegroundColor));
-		if (fgColor == null) { // if fg is not set or invalid
-			fgColor = Constants.DEFAULT_FOREGROUND_COLOR;
-		}
-		drawer.setForegroundColor(fgColor);
-
-		float bgAlpha = Constants.ALPHA_MIDDLE_TRANSPARENCY;
-		Color bgColor = Utils.getColor(getSetting(SettingKey.BackgroundColor));
-		if (bgColor == null) { // if bg is not set or invalid, the background is white at full transparency
-			bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
-			bgAlpha = Constants.ALPHA_FULL_TRANSPARENCY;
-		}
-		drawer.setBackground(bgColor, bgAlpha);
-
-		drawer.setLineType(getSetting(SettingKey.LineType));
-
-		Float fontSize = getSettingFloat(SettingKey.FontSize);
-		if (fontSize != null) drawer.setFontSize(fontSize);
-	}
-
 	public void initSettingsFromText(NewGridElement element) {
-		settings = new GlobalSettings(getPropertiesText());
-		applyProperties();
-
 		propertiesTextToDraw = getPropertiesTextFiltered();
 		this.elementSettings = element.getSettings();
+		this.propCfg = new PropertiesConfig(element.getSettings());
+
+		for (String line : getPropertiesText()) {
+			for (Facet gf : elementSettings.getGlobalFacets()) {
+				if (gf.checkStart(line)) {
+					gf.handleLine(line, drawer, propCfg);
+				}
+			}
+		}
+		
 		handleAutoresize(element);
-		this.propCfg = new PropertiesConfig(this, element.getSettings(), element.getRealSize());
+		this.propCfg.setGridElementSize(element.getRealSize());
+
 	}
 
 	private void handleAutoresize(NewGridElement element) {
-		if (ElementStyle.AUTORESIZE.toString().equalsIgnoreCase(getSetting(SettingKey.ElementStyle))) {
+		if (getElementStyle() == ElementStyle.AUTORESIZE) {
 			DimensionFloat dim = getExpectedElementDimensions(element);
 			int BUFFER = 10; // buffer to make sure the text is inside the border
 			float width = Math.max(20, dim.getWidth() + BUFFER);
@@ -121,17 +113,29 @@ public class Properties {
 			new Resize(element, 0, 0, (int) (diffw * zoomFactor), (int) (diffh * zoomFactor)).execute(element.getHandler());
 		}
 	}
-
-	public String getSetting(SettingKey key) {
-		return settings.getSetting(key);
+	
+	public ElementStyle getElementStyle() {
+		return this.propCfg.getElementStyle();
 	}
 
-	public Float getSettingFloat(SettingKey key) {
-		return settings.getSettingFloat(key);
+	public void updateSetting(GlobalSetting key, String newValue) {
+		String newState = "";
+		for (String line : Utils.decomposeStringsWithComments(getPanelAttributes())) {
+			if (!line.startsWith(key.toString())) newState += line + "\n";
+		}
+		newState = newState.substring(0, newState.length()-1); //remove last linebreak
+		if (newValue != null) newState += "\n" + key.toString() + GlobalSetting.SEPARATOR + newValue; // null will not be added as a value
+		this.setPanelAttributes(newState);
 	}
 
-	public void updateSetting(SettingKey key, String newValue) {
-		this.setPanelAttributes(settings.updateSetting(key, newValue, this.getPanelAttributes()));
+	public String getSetting(GlobalSetting key) {
+		for (String line : getPropertiesText()) {
+			if (line.startsWith(key + GlobalSetting.SEPARATOR)) {
+				String[] split = line.split(GlobalSetting.SEPARATOR, 2);
+				if (split.length > 1) return split[1];
+			}
+		}
+		return null;
 	}
 
 	public void drawPropertiesText() {
@@ -143,7 +147,7 @@ public class Properties {
 		int BUFFER = 2; // a small buffer between text and outer border
 		float displacement = startPoint;
 		float textHeight = drawer.textHeight();
-		boolean wordwrap = ElementStyle.WORDWRAP.toString().equalsIgnoreCase(getSetting(SettingKey.ElementStyle));
+		boolean wordwrap = getElementStyle() == ElementStyle.WORDWRAP;
 		if (!wordwrap && !propertiesTextToDraw.isEmpty()) { // in case of wordwrap or no text, there is no top displacement
 			String firstLine = propertiesTextToDraw.iterator().next();
 			float availableWidthSpace = propCfg.getXLimitsForArea(displacement, textHeight).getSpace() - BUFFER;
@@ -160,7 +164,7 @@ public class Properties {
 	}
 
 	private void handleWordWrapAndIterate(Settings elementSettings, PropertiesConfig propCfg, BaseDrawHandler drawer) {
-		boolean wordwrap = ElementStyle.WORDWRAP.toString().equalsIgnoreCase(getSetting(SettingKey.ElementStyle));
+		boolean wordwrap = getElementStyle() == ElementStyle.WORDWRAP;
 		for (String line : propertiesTextToDraw) {
 			if (wordwrap) {
 				String wrappedLine;
@@ -222,14 +226,14 @@ public class Properties {
 	}
 
 	public float getTextBlockHeight() {
-		PropertiesConfig tmpPropCfg = new PropertiesConfig(this, elementSettings, propCfg.getGridElementSize());
+		PropertiesConfig tmpPropCfg = new PropertiesConfig(elementSettings, propCfg.getGridElementSize());
 		handleWordWrapAndIterate(elementSettings, tmpPropCfg, drawer.getPseudoDrawHandler());
 		return tmpPropCfg.getyPos();
 	}
 
 	private DimensionFloat getExpectedElementDimensions(NewGridElement element) {
 		// add all ypos changes to simulate the real ypos for xlimit calculation etc.
-		PropertiesConfig tmpPropCfg = new PropertiesConfig(this, element.getSettings(), element.getRealSize());
+		PropertiesConfig tmpPropCfg = new PropertiesConfig(element.getSettings(), element.getRealSize());
 		tmpPropCfg.addToYPos(calcTopDisplacementToFitLine(calcStartPointFromVAlign(tmpPropCfg), tmpPropCfg));
 		handleWordWrapAndIterate(elementSettings, tmpPropCfg, drawer.getPseudoDrawHandler());
 

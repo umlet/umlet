@@ -27,8 +27,9 @@ import com.baselet.element.Group;
 import com.baselet.element.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.text.Facet;
-import com.umlet.element.experimental.settings.text.GlobalSettings;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet;
+import com.umlet.element.experimental.settings.facets.Facet;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
 public abstract class NewGridElement implements GridElement {
 
@@ -185,7 +186,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void updateProperty(SettingKey key, String newValue) {
+	public void updateProperty(GlobalSetting key, String newValue) {
 		properties.updateSetting(key, newValue);
 		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.updateModelFromText();
@@ -193,7 +194,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public String getSetting(SettingKey key) {
+	public String getSetting(GlobalSetting key) {
 		return properties.getSetting(key);
 	}
 
@@ -238,10 +239,9 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public int getPossibleResizeDirections() {
-		boolean notresizable = // noresize and autoresize both disallow manual resizing
-				ElementStyle.AUTORESIZE.toString().equalsIgnoreCase(properties.getSetting(SettingKey.ElementStyle)) ||
-				ElementStyle.NORESIZE.toString().equalsIgnoreCase(properties.getSetting(SettingKey.ElementStyle));
-		if (notresizable) return Constants.RESIZE_NONE;
+		if (properties.getElementStyle() == ElementStyle.NORESIZE || properties.getElementStyle() == ElementStyle.AUTORESIZE) {
+			return Constants.RESIZE_NONE;
+		}
 		else return Constants.RESIZE_ALL;
 	}
 
@@ -371,10 +371,8 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public List<AutocompletionText> getAutocompletionList() {
 		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
-		for (SettingKey setting : SettingKey.values()) {
-			for (Object value : setting.autocompletionValues()) {
-				returnList.add(new AutocompletionText(setting.getKey().toLowerCase() + GlobalSettings.SEPARATOR + value.toString().toLowerCase()));
-			}
+		for (Facet f : getSettings().getGlobalFacets()) {
+			returnList.addAll(Arrays.asList(f.getAutocompletionStrings()));
 		}
 		for (Facet f : getSettings().getFacets()) {
 			returnList.addAll(Arrays.asList(f.getAutocompletionStrings()));

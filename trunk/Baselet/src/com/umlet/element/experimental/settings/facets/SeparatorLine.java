@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.settings.text;
+package com.umlet.element.experimental.settings.facets;
 
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;

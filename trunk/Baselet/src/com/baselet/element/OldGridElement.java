@@ -25,7 +25,7 @@ import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.AutocompletionText;
-import com.umlet.element.experimental.SettingKey;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
 public abstract class OldGridElement extends JComponent implements GridElement {
 
@@ -190,20 +190,20 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	}
 
 	@Override
-	public String getSetting(SettingKey key) {
-		if (key == SettingKey.ForegroundColor) return fgColorString;
-		else if (key == SettingKey.BackgroundColor) return bgColorString;
+	public String getSetting(GlobalSetting key) {
+		if (key == GlobalSetting.ForegroundColor) return fgColorString;
+		else if (key == GlobalSetting.BackgroundColor) return bgColorString;
 		else return "";
 	}
 
 	@Override
-	public void updateProperty(SettingKey key, String newValue) {
+	public void updateProperty(GlobalSetting key, String newValue) {
 		String newState = "";
 		for (String line : Utils.decomposeStringsWithComments(this.getPanelAttributes())) {
-			if (!line.startsWith(key.getKey())) newState += line + "\n";
+			if (!line.startsWith(key.toString())) newState += line + "\n";
 		}
 		newState = newState.substring(0, newState.length()-1); //remove last linebreak
-		if (newValue != null && !newValue.isEmpty()) newState += "\n" + key.getKey() + "=" + newValue; // null will not be added as a value
+		if (newValue != null && !newValue.isEmpty()) newState += "\n" + key.toString() + "=" + newValue; // null will not be added as a value
 		this.setPanelAttributes(newState);
 		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.repaint();
