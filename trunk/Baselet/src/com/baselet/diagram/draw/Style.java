@@ -8,7 +8,7 @@ import java.awt.Color;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.LineType;
 
-class Style {
+public class Style {
 	private LineType lineType;
 	private Float lineThickness;
 	private Color fgColor;

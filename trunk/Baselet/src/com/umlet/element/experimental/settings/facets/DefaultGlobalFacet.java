@@ -15,10 +15,10 @@ public class DefaultGlobalFacet implements Facet {
 	public enum ElementStyleEnum {AUTORESIZE, NORESIZE, WORDWRAP};
 	
 	public enum GlobalSetting {
-		ForegroundColor("fg", "", "foreground color string (red,blue,...) or code (#0A37D3,...)"),
-		BackgroundColor("bg", "", "background color string (green,...) or code (#3c7a00,...)"),
+		ForegroundColor("fg", "red", "foreground color string (blue,...) or code (#0A37D3,...)"),
+		BackgroundColor("bg", "red", "background color string (green,...) or code (#3c7a00,...)"),
 		LineType("lt", new String[] {".", "dashed lines"}, new String[] {"..", "dotted lines"}, new String[] {"*", "bold lines"}),
-		FontSize("fontsize", "", "font size float (12.5, 14,...)"),
+		FontSize("fontsize", "14", "font size float (12.5, 10.3,...)"),
 		ElementStyle("elementstyle",
 				new String[] {ElementStyleEnum.AUTORESIZE.toString(), "resizes element as text grows"},
 				new String[] {ElementStyleEnum.WORDWRAP.toString(), "wrap lines at the end of the line"},
@@ -40,13 +40,13 @@ public class DefaultGlobalFacet implements Facet {
 
 		GlobalSetting(String key, String value, String info) {
 			this.key = key.toLowerCase();
-			this.autocompletionValues.add(new AutocompletionText(key.toLowerCase() + SEPARATOR + value.toLowerCase(), info));
+			this.autocompletionValues.add(new AutocompletionText(key.toLowerCase() + SEPARATOR + value.toLowerCase(), info, true));
 		}
 
 		GlobalSetting(String key, String[] ... valueInfoPairs) {
 			this.key = key.toLowerCase();
 			for (String[] valueInfoPair : valueInfoPairs) {
-				this.autocompletionValues.add(new AutocompletionText(key.toLowerCase() + SEPARATOR + valueInfoPair[0].toLowerCase(), valueInfoPair[1]));
+				this.autocompletionValues.add(new AutocompletionText(key.toLowerCase() + SEPARATOR + valueInfoPair[0].toLowerCase(), valueInfoPair[1], true));
 			}
 		}
 

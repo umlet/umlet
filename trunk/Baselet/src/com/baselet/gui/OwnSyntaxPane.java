@@ -21,12 +21,14 @@ import org.fife.ui.rsyntaxtextarea.TokenTypes;
 import org.fife.ui.rsyntaxtextarea.modes.BBCodeTokenMaker;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
+import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
 
 
 public class OwnSyntaxPane {
-	
-	private static final int INLINE_SETTING = 1;
+
+	private static final int SPECIFIC_SETTING = 1;
+	private static final int GLOBAL_SETTING = 2;
 
 	private static TokenMap myWordsToHighlight = new TokenMap();
 	private DefaultCompletionProvider provider = new DefaultCompletionProvider();
@@ -46,14 +48,15 @@ public class OwnSyntaxPane {
 		AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
 		atmf.putMapping(OwnTokenMaker.ID, OwnTokenMaker.class.getName());
 		textArea.setSyntaxEditingStyle(OwnTokenMaker.ID);
-		
+
 		SyntaxScheme scheme = textArea.getSyntaxScheme();
-	      scheme.getStyle(INLINE_SETTING).foreground = Color.BLUE;
+		scheme.getStyle(SPECIFIC_SETTING).foreground = Utils.getColor("#e10100");
+		scheme.getStyle(GLOBAL_SETTING).foreground = Color.BLUE;
 
 		//Setup autocompletion
 		createAutocompletionCompletionProvider();
 		AutoCompletion ac = new AutoCompletion(provider);
-//		ac.setShowDescWindow(true);
+		// ac.setShowDescWindow(true);
 		ac.install(textArea);
 
 
@@ -73,13 +76,13 @@ public class OwnSyntaxPane {
 		for (AutocompletionText word : words) {
 			provider.addCompletion(new BasicCompletion(provider, word.getText(), word.getInfo()));
 		}
-	
+
 	}
 
 	private void createHightLightMap() {
 		myWordsToHighlight = new TokenMap();
 		for (AutocompletionText word : words) {
-			myWordsToHighlight.put(word.getText(), INLINE_SETTING);
+			myWordsToHighlight.put(word.getText(), word.isGlobal() ? GLOBAL_SETTING : SPECIFIC_SETTING);
 		}
 	}
 
@@ -119,7 +122,7 @@ public class OwnSyntaxPane {
 	public void switchToNonElement(String text) {
 		words = new ArrayList<AutocompletionText>();
 		setText(text);
-		
+
 	}
 
 	private void setText(String text) {

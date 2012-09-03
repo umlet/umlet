@@ -389,12 +389,9 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		/*OldGridElement has no model but simply parses the properties text within every paint() call*/
 	}
 
-	private static final List<AutocompletionText> autocompList = new ArrayList<AutocompletionText>(Arrays.asList(new AutocompletionText[] {
-			new AutocompletionText("fg=red", "Sets foreground color (in this example to red)"),
-			new AutocompletionText("bg=blue", "Sets background color (in this example to blue")}));
 	@Override
 	public List<AutocompletionText> getAutocompletionList() {
-		return autocompList;
+		return new ArrayList<AutocompletionText>();
 	}
 	
 	
