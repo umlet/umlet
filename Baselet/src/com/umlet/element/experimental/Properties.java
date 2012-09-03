@@ -1,12 +1,11 @@
 package com.umlet.element.experimental;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
-import com.baselet.control.Constants.ElementStyle;
 import com.baselet.control.DimensionFloat;
 import com.baselet.control.TextManipulator;
 import com.baselet.control.Utils;
@@ -14,9 +13,9 @@ import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.helper.XPoints;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet;
-import com.umlet.element.experimental.settings.facets.Facet;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
+import com.umlet.element.experimental.settings.facets.Facet;
 
 public class Properties {
 
@@ -41,6 +40,10 @@ public class Properties {
 		return panelAttributes;
 	}
 
+	private List<String> getPanelAttributesAsList() {
+		return Arrays.asList(this.getPanelAttributes().split("\n"));
+	}
+
 	public String getPanelAttributesAdditional() {
 		return panelAttributesAdditional;
 	}
@@ -53,55 +56,29 @@ public class Properties {
 		this.panelAttributesAdditional = panelAttributesAdditional;
 	}
 
-	private Vector<String> getPropertiesText() {
-		return decomposePropertiesText(this.getPanelAttributes(), Constants.NEWLINE, false, true);
-	}
-
-	public Vector<String> getPropertiesTextFiltered() {
-		return decomposePropertiesText(this.getPanelAttributes(), Constants.NEWLINE, true, false);
-	}
-
-	private static String filterRegex;
-	static {
-		filterRegex = "(";
-		for (GlobalSetting key : GlobalSetting.values()) {
-			filterRegex = filterRegex + "(" + key + GlobalSetting.SEPARATOR + ")|";
-		}
-		filterRegex += "(//)).*";
-	}
-	private Vector<String> decomposePropertiesText(String fullString, String delimiter, boolean filterComments, boolean filterNewLines) {
-		Vector<String> returnVector = new Vector<String>();
-		String compatibleFullString = fullString.replaceAll("\r\n", delimiter); // compatibility to windows \r\n
-
-		for (String line : compatibleFullString.split("\\" + delimiter)) {
-			if (filterComments && (line.matches(filterRegex))) continue;
-			else if (filterNewLines && line.isEmpty()) continue;
-			else returnVector.add(line);
-		}
-
-		return returnVector;
-	}
-
 	public void initSettingsFromText(NewGridElement element) {
-		propertiesTextToDraw = getPropertiesTextFiltered();
+		propertiesTextToDraw = new ArrayList<String>();
 		this.elementSettings = element.getSettings();
 		this.propCfg = new PropertiesConfig(element.getSettings());
 
-		for (String line : getPropertiesText()) {
+		for (String line : getPanelAttributesAsList()) {
+			boolean drawText = true;
 			for (Facet gf : elementSettings.getGlobalFacets()) {
 				if (gf.checkStart(line)) {
 					gf.handleLine(line, drawer, propCfg);
+					if (gf.replacesText(line)) drawText = false;
 				}
 			}
+			if (drawText && !line.startsWith("//")) propertiesTextToDraw.add(line);
 		}
-		
+
 		handleAutoresize(element);
 		this.propCfg.setGridElementSize(element.getRealSize());
 
 	}
 
 	private void handleAutoresize(NewGridElement element) {
-		if (getElementStyle() == ElementStyle.AUTORESIZE) {
+		if (getElementStyle() == ElementStyleEnum.AUTORESIZE) {
 			DimensionFloat dim = getExpectedElementDimensions(element);
 			int BUFFER = 10; // buffer to make sure the text is inside the border
 			float width = Math.max(20, dim.getWidth() + BUFFER);
@@ -113,8 +90,8 @@ public class Properties {
 			new Resize(element, 0, 0, (int) (diffw * zoomFactor), (int) (diffh * zoomFactor)).execute(element.getHandler());
 		}
 	}
-	
-	public ElementStyle getElementStyle() {
+
+	public ElementStyleEnum getElementStyle() {
 		return this.propCfg.getElementStyle();
 	}
 
@@ -129,7 +106,7 @@ public class Properties {
 	}
 
 	public String getSetting(GlobalSetting key) {
-		for (String line : getPropertiesText()) {
+		for (String line : getPanelAttributesAsList()) {
 			if (line.startsWith(key + GlobalSetting.SEPARATOR)) {
 				String[] split = line.split(GlobalSetting.SEPARATOR, 2);
 				if (split.length > 1) return split[1];
@@ -147,7 +124,7 @@ public class Properties {
 		int BUFFER = 2; // a small buffer between text and outer border
 		float displacement = startPoint;
 		float textHeight = drawer.textHeight();
-		boolean wordwrap = getElementStyle() == ElementStyle.WORDWRAP;
+		boolean wordwrap = getElementStyle() == ElementStyleEnum.WORDWRAP;
 		if (!wordwrap && !propertiesTextToDraw.isEmpty()) { // in case of wordwrap or no text, there is no top displacement
 			String firstLine = propertiesTextToDraw.iterator().next();
 			float availableWidthSpace = propCfg.getXLimitsForArea(displacement, textHeight).getSpace() - BUFFER;
@@ -164,7 +141,7 @@ public class Properties {
 	}
 
 	private void handleWordWrapAndIterate(Settings elementSettings, PropertiesConfig propCfg, BaseDrawHandler drawer) {
-		boolean wordwrap = getElementStyle() == ElementStyle.WORDWRAP;
+		boolean wordwrap = getElementStyle() == ElementStyleEnum.WORDWRAP;
 		for (String line : propertiesTextToDraw) {
 			if (wordwrap) {
 				String wrappedLine;

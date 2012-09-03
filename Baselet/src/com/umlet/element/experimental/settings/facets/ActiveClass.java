@@ -9,11 +9,13 @@ import com.umlet.element.experimental.helper.XPoints;
 
 public class ActiveClass implements Facet {
 
+	private static final String KEY = "{active}";
+	
 	private static final int SPACING = 6;
 	
 	@Override
 	public boolean checkStart(String line) {
-		return line.equals("{active}");
+		return line.equals(KEY);
 	}
 
 	@Override
@@ -32,7 +34,7 @@ public class ActiveClass implements Facet {
 
 	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {new AutocompletionText("{active}", "double left/right border to make class active")};
+		return new AutocompletionText[] {new AutocompletionText(KEY, "double left/right border to make class active")};
 	}
 
 }
