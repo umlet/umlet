@@ -305,7 +305,18 @@ public class BaseDrawHandler {
 		resetFontSize();
 		resetColorSettings();
 	}
+	
+	public Style getCurrentStyle() {
+		return style.cloneFromMe();
+	}
+	
+	public void setCurrentStyle(Style style) {
+		this.style = style;
+	}
 
+	/**
+	 * exists to apply all facet operations without real drawing (eg: necessary to calculate space which is needed for autoresize)
+	 */
 	public PseudoDrawHandler getPseudoDrawHandler() {
 		PseudoDrawHandler counter = new PseudoDrawHandler();
 		counter.setHandler(handler);
