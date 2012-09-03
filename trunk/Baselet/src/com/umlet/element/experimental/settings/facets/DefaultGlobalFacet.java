@@ -15,22 +15,22 @@ public class DefaultGlobalFacet implements Facet {
 	public enum ElementStyleEnum {AUTORESIZE, NORESIZE, WORDWRAP};
 	
 	public enum GlobalSetting {
-		ForegroundColor("fg", "", "foreground color string (red,blue...) or code (#0A37D3,...)"),
-		BackgroundColor("bg", "", "background color string (red,blue...) or code (#0A37D3,...)"),
+		ForegroundColor("fg", "", "foreground color string (red,blue,...) or code (#0A37D3,...)"),
+		BackgroundColor("bg", "", "background color string (green,...) or code (#3c7a00,...)"),
 		LineType("lt", new String[] {".", "dashed lines"}, new String[] {"..", "dotted lines"}, new String[] {"*", "bold lines"}),
-		FontSize("fontsize", "", "set font size (12.5, 14,...)"),
+		FontSize("fontsize", "", "font size float (12.5, 14,...)"),
 		ElementStyle("elementstyle",
-				new String[] {ElementStyleEnum.AUTORESIZE.toString(), "automatically resizes element as text grows"},
-				new String[] {ElementStyleEnum.WORDWRAP.toString(), "enables wordwrap to make sure text will stay within borders"},
-				new String[] {ElementStyleEnum.NORESIZE.toString(), "disables manual element resizing"}),
+				new String[] {ElementStyleEnum.AUTORESIZE.toString(), "resizes element as text grows"},
+				new String[] {ElementStyleEnum.WORDWRAP.toString(), "wrap lines at the end of the line"},
+				new String[] {ElementStyleEnum.NORESIZE.toString(), "disable manual resizing"}),
 		VerticalAlign("valign",
-				new String[] {AlignVertical.TOP.toString(), "vertical text placed on top"},
-				new String[] {AlignVertical.CENTER.toString(), "vertical text placed in the center"},
-				new String[] {AlignVertical.BOTTOM.toString(), "vertical text placed on bottom"}),
+				new String[] {AlignVertical.TOP.toString(), "vertical text alignment"},
+				new String[] {AlignVertical.CENTER.toString(), "vertical text alignment"},
+				new String[] {AlignVertical.BOTTOM.toString(), "vertical text alignment"}),
 		HorizontalAlign("halign",
-				new String[] {AlignHorizontal.LEFT.toString(), "horizontal text alignment set to left"},
-				new String[] {AlignHorizontal.CENTER.toString(), "horizontal text alignment set to center"},
-				new String[] {AlignHorizontal.RIGHT.toString(), "horizontal text alignment set to right"});
+				new String[] {AlignHorizontal.LEFT.toString(), "horizontal text alignment"},
+				new String[] {AlignHorizontal.CENTER.toString(), "horizontal text alignment"},
+				new String[] {AlignHorizontal.RIGHT.toString(), "horizontal text alignment"});
 		;
 
 		public static final String SEPARATOR = "=";

@@ -35,7 +35,7 @@ public class TemplateClass implements Facet {
 
 	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {new AutocompletionText(KEY, "prints a template rectangle on the top right corner")};
+		return new AutocompletionText[] {new AutocompletionText(KEY, "print template rectangle on top right corner")};
 	}
 
 }

@@ -71,7 +71,7 @@ public class InnerClass implements Facet {
 
 	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[]  {new AutocompletionText(START, "begin of an inner class"), new AutocompletionText(END, "end of an inner class")};
+		return new AutocompletionText[]  {new AutocompletionText(START, "begin inner class"), new AutocompletionText(END, "end inner class")};
 	}
 
 }
