@@ -5,6 +5,7 @@ import java.util.Stack;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.helper.XPoints;
 
@@ -69,8 +70,8 @@ public class InnerClass implements Facet {
 	}
 
 	@Override
-	public String[] getAutocompletionStrings() {
-		return new String[]  {START, END};
+	public AutocompletionText[] getAutocompletionStrings() {
+		return new AutocompletionText[]  {new AutocompletionText(START, "begin of an inner class"), new AutocompletionText(END, "end of an inner class")};
 	}
 
 }
