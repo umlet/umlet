@@ -24,6 +24,7 @@ import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.Resize;
 import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
@@ -341,7 +342,7 @@ public class GridElementListener extends UniversalListener {
 		int diffy = newp.y - oldp.y - delta_y;
 		int diffw = 0;
 		int diffh = 0;
-		e.setManualResized();
+		if (e instanceof OldGridElement) ((OldGridElement) e).setManualResized();
 
 		// AB: get minsize; add 0.5 to round float at typecast; then add rest to stick on grid
 		// AB: Would be better if this is defined in the Entity class

@@ -18,7 +18,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.Selector;
 import com.baselet.diagram.command.Align;
-import com.baselet.diagram.command.ChangeColor;
+import com.baselet.diagram.command.ChangeElementSetting;
 import com.baselet.diagram.command.Copy;
 import com.baselet.diagram.command.CreateGroup;
 import com.baselet.diagram.command.Cut;
@@ -30,6 +30,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.custom.CustomElement;
+import com.umlet.element.experimental.SettingKey;
 import com.umlet.language.ClassDiagramConverter;
 
 public class MenuFactory {
@@ -221,10 +222,10 @@ public class MenuFactory {
 					AboutDialog.show();
 				}
 				else if (menuItem.equals(SET_FOREGROUND_COLOR) && (actualHandler != null)) {
-					actualHandler.getController().executeCommand(new ChangeColor((String) param, true));
+					actualHandler.getController().executeCommand(new ChangeElementSetting(SettingKey.ForegroundColor, (String) param));
 				}
 				else if (menuItem.equals(SET_BACKGROUND_COLOR) && (actualHandler != null)) {
-					actualHandler.getController().executeCommand(new ChangeColor((String) param, false));
+					actualHandler.getController().executeCommand(new ChangeElementSetting(SettingKey.BackgroundColor, (String) param));
 				}
 				else if (menuItem.equals(ALIGN) && (actualHandler != null) && (actualSelector != null)) {
 					Vector<GridElement> v = actualSelector.getSelectedEntities();

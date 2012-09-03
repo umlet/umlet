@@ -17,53 +17,16 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.helper.XPoints;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.text.Facet;
+import com.umlet.element.experimental.settings.text.GlobalSettings;
 
 public class Properties {
-
-	public enum SettingKey {
-		ForegroundColor("fg", "red"),
-		BackgroundColor("bg", "#0A37D3"),
-		LineType("lt", ".", "..", "*"),
-		ElementStyle("elementstyle", com.baselet.control.Constants.ElementStyle.values()),
-		FontSize("fontsize", "12.5"),
-		VerticalAlign("valign", AlignVertical.values()),
-		HorizontalAlign("halign", AlignHorizontal.values());
-
-		private String key;
-		private Object[] autocompletionValues;
-
-		SettingKey(String key, String ... autocompletionValues) {
-			this.key = key;
-			this.autocompletionValues = autocompletionValues;
-		}
-
-		SettingKey(String key, Object[] autocompletionValues) {
-			this.key = key;
-			this.autocompletionValues = autocompletionValues;
-		}
-
-		public String getKey() {
-			return key;
-		}
-
-		@Override
-		public String toString() {
-			return key;
-		}
-
-		public Object[] autocompletionValues() {
-			return autocompletionValues;
-		}
-	}
-
-	public static final String SEPARATOR = "=";
 
 	protected String panelAttributes = "";
 	protected String panelAttributesAdditional = "";
 
 	private BaseDrawHandler drawer;
 
-	protected HashMap<String, String> settings = new HashMap<String, String>();
+	protected GlobalSettings settings;
 
 	private List<String> propertiesTextToDraw;
 
@@ -93,15 +56,6 @@ public class Properties {
 		this.panelAttributesAdditional = panelAttributesAdditional;
 	}
 
-	private static String filterRegex;
-	static {
-		filterRegex = "(";
-		for (SettingKey key : SettingKey.values()) {
-			filterRegex = filterRegex + "(" + key + Properties.SEPARATOR + ")|";
-		}
-		filterRegex += "(//)).*";
-	}
-
 	private Vector<String> getPropertiesText() {
 		return decomposePropertiesText(this.getPanelAttributes(), Constants.NEWLINE, false, true);
 	}
@@ -115,7 +69,7 @@ public class Properties {
 		String compatibleFullString = fullString.replaceAll("\r\n", delimiter); // compatibility to windows \r\n
 
 		for (String line : compatibleFullString.split("\\" + delimiter)) {
-			if (filterComments && (line.matches(filterRegex))) continue;
+			if (filterComments && (line.matches(GlobalSettings.getFilterRegex()))) continue;
 			else if (filterNewLines && line.isEmpty()) continue;
 			else returnVector.add(line);
 		}
@@ -145,13 +99,7 @@ public class Properties {
 	}
 
 	public void initSettingsFromText(NewGridElement element) {
-		settings.clear();
-		for (String line : getPropertiesText()) {
-			if (line.contains(SEPARATOR)) {
-				String[] split = line.split(SEPARATOR, 2);
-				settings.put(split[0], split[1]);
-			}
-		}
+		settings = new GlobalSettings(getPropertiesText());
 		applyProperties();
 
 		propertiesTextToDraw = getPropertiesTextFiltered();
@@ -175,34 +123,15 @@ public class Properties {
 	}
 
 	public String getSetting(SettingKey key) {
-		return settings.get(key.toString());
+		return settings.getSetting(key);
 	}
 
 	public Float getSettingFloat(SettingKey key) {
-		Float returnValue = null;
-		String value = settings.get(key.toString());
-		if (value != null) {
-			try {
-				returnValue = Float.valueOf(value);
-			} catch (NumberFormatException e) {/*do nothing; returnValue stays null*/}
-		}
-		return returnValue;
+		return settings.getSettingFloat(key);
 	}
 
-	public boolean containsSetting(SettingKey key, String checkValue) {
-		String realValue = settings.get(key.toString());
-		if (realValue == null && checkValue == null) return true;
-		return realValue != null && realValue.equals(checkValue);
-	}
-
-	public void updateSetting(String key, String newValue) {
-		String newState = "";
-		for (String line : Utils.decomposeStringsWithComments(this.getPanelAttributes())) {
-			if (!line.startsWith(key)) newState += line + "\n";
-		}
-		newState = newState.substring(0, newState.length()-1); //remove last linebreak
-		if (newValue != null) newState += "\n" + key + SEPARATOR + newValue; // null will not be added as a value
-		this.setPanelAttributes(newState);
+	public void updateSetting(SettingKey key, String newValue) {
+		this.setPanelAttributes(settings.updateSetting(key, newValue, this.getPanelAttributes()));
 	}
 
 	public void drawPropertiesText() {

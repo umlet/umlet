@@ -56,12 +56,10 @@ public class PaletteEntityListener extends GridElementListener {
 		if (IS_DRAGGED_FROM_PALETTE) {
 			moveDraggedEntities();
 		}
-		else {
-			if (entity.getLocationOnScreen().x + entity.getSize().width <= handler.getDrawPanel().getLocationOnScreen().x) {
-				resetEntities();
-				insertDraggedEntities(me);
-				handler.getDrawPanel().getSelector().deselectAllWithoutUpdatePropertyPanel();
-			}
+		else if (entity.getLocation().x + entity.getSize().width <= 0) {
+			resetEntities();
+			insertDraggedEntities(me);
+			handler.getDrawPanel().getSelector().deselectAllWithoutUpdatePropertyPanel();
 		}
 	}
 
