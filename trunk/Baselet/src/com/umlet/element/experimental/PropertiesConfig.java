@@ -4,9 +4,9 @@ import java.awt.Dimension;
 
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
-import com.baselet.control.Constants.ElementStyle;
 import com.umlet.element.experimental.helper.XPoints;
 import com.umlet.element.experimental.settings.Settings;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 
 public class PropertiesConfig {
 
@@ -19,7 +19,7 @@ public class PropertiesConfig {
 	private int rightBuffer = 0;
 	private Settings specificSettings;
 	private Dimension gridElementSize;
-	private ElementStyle elementStyle;
+	private ElementStyleEnum elementStyle;
 
 	public PropertiesConfig(Settings specificSettings) {
 		hAlign = specificSettings.getHAlign();
@@ -131,11 +131,11 @@ public class PropertiesConfig {
 		this.gridElementSize = gridElementSize;
 	}
 
-	public ElementStyle getElementStyle() {
+	public ElementStyleEnum getElementStyle() {
 		return elementStyle;
 	}
 
-	public void setElementStyle(ElementStyle elementStyle) {
+	public void setElementStyle(ElementStyleEnum elementStyle) {
 		this.elementStyle = elementStyle;
 	}
 

@@ -17,7 +17,6 @@ import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.ElementStyle;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
@@ -27,9 +26,9 @@ import com.baselet.element.Group;
 import com.baselet.element.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet;
-import com.umlet.element.experimental.settings.facets.Facet;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
+import com.umlet.element.experimental.settings.facets.Facet;
 
 public abstract class NewGridElement implements GridElement {
 
@@ -239,7 +238,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public int getPossibleResizeDirections() {
-		if (properties.getElementStyle() == ElementStyle.NORESIZE || properties.getElementStyle() == ElementStyle.AUTORESIZE) {
+		if (properties.getElementStyle() == ElementStyleEnum.NORESIZE || properties.getElementStyle() == ElementStyleEnum.AUTORESIZE) {
 			return Constants.RESIZE_NONE;
 		}
 		else return Constants.RESIZE_ALL;

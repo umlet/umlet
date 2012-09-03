@@ -8,6 +8,8 @@ import com.umlet.element.experimental.helper.XPoints;
 
 public class SeparatorLine implements Facet {
 
+	private static final String KEY = "--";
+	
 	private boolean setHAlignToLeftAfterLine;
 	private static final int H_SPACE = 4;
 
@@ -32,7 +34,7 @@ public class SeparatorLine implements Facet {
 
 	@Override
 	public boolean checkStart(String line) {
-		return line.equals("--");
+		return line.equals(KEY);
 	}
 
 	@Override
@@ -42,7 +44,7 @@ public class SeparatorLine implements Facet {
 
 	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {new AutocompletionText("--", "draws a horizontal line")};
+		return new AutocompletionText[] {new AutocompletionText(KEY, "draws a horizontal line")};
 	}
 
 }

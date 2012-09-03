@@ -193,7 +193,7 @@ public abstract class Utils {
 		if (colorString == null) return null;
 		Color returnColor = null;
 		for (String color : Constants.colorMap.keySet()) {
-			if (colorString.equals(color)) {
+			if (colorString.equalsIgnoreCase(color)) {
 				returnColor = Constants.colorMap.get(color);
 				break;
 			}
