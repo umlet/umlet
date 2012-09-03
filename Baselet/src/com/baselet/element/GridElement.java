@@ -12,6 +12,7 @@ import javax.swing.JComponent;
 
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.AutocompletionText;
+import com.umlet.element.experimental.SettingKey;
 
 public interface GridElement {
 
@@ -71,17 +72,11 @@ public interface GridElement {
 
 	StickingPolygon generateStickingBorder(int x, int y, int width, int height);
 
-	void setManualResized();
-
 	Point getLocation();
-
-	Point getLocationOnScreen();
 
 	Rectangle getBounds();
 
 	void repaint();
-
-	String getFGColorString();
 
 	void changeSize(int diffx, int diffy);
 
@@ -95,11 +90,11 @@ public interface GridElement {
 	
 	JComponent getComponent();
 
-	String getBGColorString();
-
-	void updateProperty(String key, String newValue);
+	void updateProperty(SettingKey key, String newValue);
 	
 	public void updateModelFromText();
 
 	List<AutocompletionText> getAutocompletionList();
+
+	String getSetting(SettingKey key);
 }

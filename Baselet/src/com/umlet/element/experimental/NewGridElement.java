@@ -26,9 +26,9 @@ import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.baselet.element.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
-import com.umlet.element.experimental.Properties.SettingKey;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.text.Facet;
+import com.umlet.element.experimental.settings.text.GlobalSettings;
 
 public abstract class NewGridElement implements GridElement {
 
@@ -185,7 +185,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void updateProperty(String key, String newValue) {
+	public void updateProperty(SettingKey key, String newValue) {
 		properties.updateSetting(key, newValue);
 		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.updateModelFromText();
@@ -193,13 +193,8 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public String getFGColorString() {
-		return properties.getSetting(SettingKey.ForegroundColor);
-	}
-
-	@Override
-	public String getBGColorString() {
-		return properties.getSetting(SettingKey.BackgroundColor);
+	public String getSetting(SettingKey key) {
+		return properties.getSetting(key);
 	}
 
 	@Override
@@ -284,11 +279,6 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void setManualResized() {
-		/*nothing todo*/
-	}
-
-	@Override
 	public void changeSize(int diffx, int diffy) {
 		this.setSize(this.getSize().width + diffx, this.getSize().height + diffy);
 	}
@@ -347,11 +337,6 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public Point getLocationOnScreen() {
-		return component.getLocationOnScreen();
-	}
-
-	@Override
 	public Rectangle getBounds() {
 		return component.getBounds();
 	}
@@ -388,7 +373,7 @@ public abstract class NewGridElement implements GridElement {
 		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
 		for (SettingKey setting : SettingKey.values()) {
 			for (Object value : setting.autocompletionValues()) {
-				returnList.add(new AutocompletionText(setting.getKey().toLowerCase() + Properties.SEPARATOR + value.toString().toLowerCase()));
+				returnList.add(new AutocompletionText(setting.getKey().toLowerCase() + GlobalSettings.SEPARATOR + value.toString().toLowerCase()));
 			}
 		}
 		for (Facet f : getSettings().getFacets()) {

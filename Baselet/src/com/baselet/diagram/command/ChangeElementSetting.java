@@ -6,17 +6,18 @@ import java.util.Vector;
 
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
+import com.umlet.element.experimental.SettingKey;
 
 
-public class ChangeColor extends Command {
+public class ChangeElementSetting extends Command {
 
-	Map<GridElement, String> entities;
-	String color;
-	Boolean fg;
+	private Map<GridElement, String> entities;
+	private SettingKey key;
+	private String value;
 
-	public ChangeColor(String color, boolean fg) {
-		this.color = color;
-		this.fg = fg;
+	public ChangeElementSetting(SettingKey key, String value) {
+		this.key = key;
+		this.value = value;
 	}
 
 	@Override
@@ -26,12 +27,10 @@ public class ChangeColor extends Command {
 			Vector<GridElement> es = handler.getDrawPanel().getSelector().getSelectedEntities();
 			this.entities = new HashMap<GridElement, String>();
 			for (GridElement e : es)
-				if (fg) this.entities.put(e, e.getFGColorString());
-				else this.entities.put(e, e.getBGColorString());
+				this.entities.put(e, e.getSetting(key));
 		}
 		for (GridElement ent : entities.keySet()) {
-			if (fg) ent.updateProperty("fg", color);
-			else ent.updateProperty("bg", color);
+			ent.updateProperty(key, value);
 		}
 	}
 
@@ -39,9 +38,7 @@ public class ChangeColor extends Command {
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
 		for (GridElement ent : entities.keySet()) {
-			String colorString = this.entities.get(ent);
-			if (fg) ent.updateProperty("fg", colorString);
-			else ent.updateProperty("bg", colorString);
+			ent.updateProperty(key, this.entities.get(ent));
 		}
 	}
 }
