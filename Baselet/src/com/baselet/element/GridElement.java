@@ -12,7 +12,7 @@ import javax.swing.JComponent;
 
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.AutocompletionText;
-import com.umlet.element.experimental.SettingKey;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
 public interface GridElement {
 
@@ -90,11 +90,11 @@ public interface GridElement {
 	
 	JComponent getComponent();
 
-	void updateProperty(SettingKey key, String newValue);
+	void updateProperty(GlobalSetting key, String newValue);
 	
 	public void updateModelFromText();
 
 	List<AutocompletionText> getAutocompletionList();
 
-	String getSetting(SettingKey key);
+	String getSetting(GlobalSetting key);
 }
