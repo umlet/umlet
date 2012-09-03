@@ -25,6 +25,7 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.baselet.element.StickingPolygon;
+import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.Properties.SettingKey;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.text.Facet;
@@ -383,11 +384,11 @@ public abstract class NewGridElement implements GridElement {
 	public abstract Settings getSettings();
 
 	@Override
-	public List<String> getAutocompletionList() {
-		List<String> returnList = new ArrayList<String>();
+	public List<AutocompletionText> getAutocompletionList() {
+		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
 		for (SettingKey setting : SettingKey.values()) {
 			for (Object value : setting.autocompletionValues()) {
-				returnList.add(setting.getKey().toLowerCase() + Properties.SEPARATOR + value.toString().toLowerCase());
+				returnList.add(new AutocompletionText(setting.getKey().toLowerCase() + Properties.SEPARATOR + value.toString().toLowerCase()));
 			}
 		}
 		for (Facet f : getSettings().getFacets()) {

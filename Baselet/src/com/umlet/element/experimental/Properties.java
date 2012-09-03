@@ -23,7 +23,7 @@ public class Properties {
 	public enum SettingKey {
 		ForegroundColor("fg", "red"),
 		BackgroundColor("bg", "#0A37D3"),
-		LineType("lt", "."),
+		LineType("lt", ".", "..", "*"),
 		ElementStyle("elementstyle", com.baselet.control.Constants.ElementStyle.values()),
 		FontSize("fontsize", "12.5"),
 		VerticalAlign("valign", AlignVertical.values()),

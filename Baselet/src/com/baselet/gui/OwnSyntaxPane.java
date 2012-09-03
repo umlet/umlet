@@ -31,7 +31,7 @@ public class OwnSyntaxPane {
 	private static TokenMap myWordsToHighlight = new TokenMap();
 	private DefaultCompletionProvider provider = new DefaultCompletionProvider();
 
-	List<String> words = new ArrayList<String>();
+	List<AutocompletionText> words = new ArrayList<AutocompletionText>();
 
 	JPanel panel;
 	RSyntaxTextArea textArea;
@@ -52,7 +52,9 @@ public class OwnSyntaxPane {
 
 		//Setup autocompletion
 		createAutocompletionCompletionProvider();
-		new AutoCompletion(provider).install(textArea);
+		AutoCompletion ac = new AutoCompletion(provider);
+//		ac.setShowDescWindow(true);
+		ac.install(textArea);
 
 
 		textArea.setAntiAliasingEnabled(true);
@@ -68,16 +70,16 @@ public class OwnSyntaxPane {
 	 */
 	private void createAutocompletionCompletionProvider() {
 		provider.clear();
-		for (String word : words) {
-			provider.addCompletion(new BasicCompletion(provider, word));
+		for (AutocompletionText word : words) {
+			provider.addCompletion(new BasicCompletion(provider, word.getText(), word.getInfo()));
 		}
 	
 	}
 
 	private void createHightLightMap() {
 		myWordsToHighlight = new TokenMap();
-		for (String word : words) {
-			myWordsToHighlight.put(word, INLINE_SETTING);
+		for (AutocompletionText word : words) {
+			myWordsToHighlight.put(word.getText(), INLINE_SETTING);
 		}
 	}
 
@@ -115,7 +117,7 @@ public class OwnSyntaxPane {
 	}
 
 	public void switchToNonElement(String text) {
-		words = new ArrayList<String>();
+		words = new ArrayList<AutocompletionText>();
 		setText(text);
 		
 	}

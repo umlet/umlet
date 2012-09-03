@@ -2,6 +2,7 @@ package com.umlet.element.experimental.settings.text;
 
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.helper.XPoints;
 
@@ -40,8 +41,8 @@ public class SeparatorLine implements Facet {
 	}
 
 	@Override
-	public String[] getAutocompletionStrings() {
-		return new String[] {"--"};
+	public AutocompletionText[] getAutocompletionStrings() {
+		return new AutocompletionText[] {new AutocompletionText("--", "draws a horizontal line")};
 	}
 
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JComponent;
 
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.gui.AutocompletionText;
 
 public interface GridElement {
 
@@ -100,5 +101,5 @@ public interface GridElement {
 	
 	public void updateModelFromText();
 
-	List<String> getAutocompletionList();
+	List<AutocompletionText> getAutocompletionList();
 }

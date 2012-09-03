@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ import com.baselet.control.Constants.LineType;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
-import com.umlet.element.Relation;
+import com.baselet.gui.AutocompletionText;
 
 public abstract class OldGridElement extends JComponent implements GridElement {
 
@@ -393,9 +392,11 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		/*OldGridElement has no model but simply parses the properties text within every paint() call*/
 	}
 
-	private static final List<String> autocompList = new ArrayList<String>(Arrays.asList(new String[] {"fg=red", "bg=blue"}));
+	private static final List<AutocompletionText> autocompList = new ArrayList<AutocompletionText>(Arrays.asList(new AutocompletionText[] {
+			new AutocompletionText("fg=red", "Sets foreground color (in this example to red)"),
+			new AutocompletionText("bg=blue", "Sets background color (in this example to blue")}));
 	@Override
-	public List<String> getAutocompletionList() {
+	public List<AutocompletionText> getAutocompletionList() {
 		return autocompList;
 	}
 	

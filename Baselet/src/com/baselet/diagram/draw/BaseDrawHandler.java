@@ -292,7 +292,11 @@ public class BaseDrawHandler {
 
 	public final void setLineType(String type) {
 		if (".".equals(type)) style.setLineType(LineType.DASHED);
+		if ("..".equals(type)) style.setLineType(LineType.DOTTED);
 		else style.setLineType(LineType.SOLID);
+		
+		if ("*".equals(type)) style.setLineThickness(2.0f);
+		else style.setLineThickness(Constants.DEFAULT_LINE_THICKNESS);
 	}
 
 	public void resetStyle() {
