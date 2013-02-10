@@ -6,13 +6,12 @@ import java.awt.Font;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.text.JTextComponent;
 
+import com.baselet.control.Constants;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.gui.listener.DividerListener;
@@ -37,7 +36,7 @@ public class CustomElementPanel extends JPanel {
 		custompanel2.setLayout(new BoxLayout(custompanel2, BoxLayout.Y_AXIS));
 
 		JLabel codelabel = new JLabel(" Code");
-		codelabel.setFont(new Font("SansSerif", Font.BOLD, 11));
+		codelabel.setFont(Constants.PANEL_HEADER_FONT);
 		codelabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		custompanel2.add(codelabel);
 		customcodepane = customhandler.getCodePane();
@@ -51,7 +50,7 @@ public class CustomElementPanel extends JPanel {
 		DrawPanel custompreviewpanel = d.getDrawPanel();
 		custompreviewpanel.getScrollPane().setAlignmentX(Component.LEFT_ALIGNMENT);
 		JLabel previewlabel = new JLabel(" Preview");
-		previewlabel.setFont(new Font("SansSerif", Font.BOLD, 11));
+		previewlabel.setFont(Constants.PANEL_HEADER_FONT);
 		previewlabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		JPanel labelpanel = new JPanel();
 		labelpanel.setLayout(new BoxLayout(labelpanel, BoxLayout.Y_AXIS));
@@ -73,12 +72,12 @@ public class CustomElementPanel extends JPanel {
 				}
 			}
 		};
-		savelabel.setFont(new Font("SansSerif", Font.BOLD, 11));
+		savelabel.setFont(Constants.PANEL_HEADER_FONT);
 		savelabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		savelabel.setEnabled(true);
 
 		JLabel discardlabel = new JLabel("Discard and close editor");
-		discardlabel.setFont(new Font("SansSerif", Font.BOLD, 11));
+		discardlabel.setFont(Constants.PANEL_HEADER_FONT);
 		discardlabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		discardlabel.addMouseListener(MenuListener.getInstance());
 		discardlabel.addMouseMotionListener(MenuListener.getInstance());

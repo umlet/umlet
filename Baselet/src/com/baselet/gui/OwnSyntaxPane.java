@@ -26,6 +26,7 @@ import org.fife.ui.rsyntaxtextarea.TokenTypes;
 import org.fife.ui.rsyntaxtextarea.modes.BBCodeTokenMaker;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
+import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
 
@@ -67,10 +68,11 @@ public class OwnSyntaxPane {
 
 		JLabel propertyLabel = new JLabel(" Properties");
 		propertyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		propertyLabel.setFont(new Font("SansSerif", Font.BOLD, 11));
+		propertyLabel.setFont(Constants.PANEL_HEADER_FONT);
 		panel.add(propertyLabel);
 
 		textArea.setAntiAliasingEnabled(true);
+		textArea.setFont(Constants.PANEL_CONTENT_FONT);
 		RTextScrollPane scrollPane = new RTextScrollPane(textArea, false);
 		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
