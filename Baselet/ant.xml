@@ -2,7 +2,7 @@
 <project name="${project.name.uc}" default="start" basedir=".">
 
 	<!-- Release version property - MUST BE SET MANUALLY (afterwards run enable_*let to update the manifest file) -->
-	<property name="release.version" value="12" />
+	<property name="release.version" value="12.0" />
 
 	<!-- Imported and calculated properties -->
 	<tstamp>
