@@ -1,6 +1,5 @@
 package com.umlet.element.experimental.uml;
 
-import com.baselet.control.Constants.AlignHorizontal;
 import com.umlet.element.experimental.Id;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.settings.Settings;

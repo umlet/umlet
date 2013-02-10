@@ -5,7 +5,6 @@ import java.awt.event.MouseMotionListener;
 import java.util.HashMap;
 import java.util.List;
 
-import com.baselet.control.Constants;
 import com.umlet.gui.CustomCodeSyntaxPane;
 
 

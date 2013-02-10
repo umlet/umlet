@@ -10,7 +10,6 @@ import java.awt.Point;
 import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 

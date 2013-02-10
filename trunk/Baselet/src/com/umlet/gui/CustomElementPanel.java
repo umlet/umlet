@@ -2,7 +2,6 @@ package com.umlet.gui;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;

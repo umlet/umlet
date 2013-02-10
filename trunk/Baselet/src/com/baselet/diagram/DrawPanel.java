@@ -27,8 +27,6 @@ import javax.swing.ScrollPaneConstants;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
-import com.baselet.control.DiagramNotification;
-import com.baselet.control.Constants.AlignVertical;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Utils;

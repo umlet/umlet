@@ -232,8 +232,8 @@ public abstract class Constants {
 
 	public static final int CUSTOM_ELEMENT_COMPILE_INTERVAL = 500;
 
-	public enum AlignHorizontal {LEFT, CENTER, RIGHT};
-	public enum AlignVertical {TOP, CENTER, BOTTOM};
+	public enum AlignHorizontal {LEFT, CENTER, RIGHT}
+	public enum AlignVertical {TOP, CENTER, BOTTOM}
 	public static final int RESIZE_TOP = 1, RESIZE_RIGHT = 2, RESIZE_BOTTOM = 4, RESIZE_LEFT = 8;
 	public static final int RESIZE_NONE = 0;
 	public static final int RESIZE_ALL = Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
@@ -326,7 +326,7 @@ public abstract class Constants {
 	public static String mail_bcc = "";
 	public static boolean mail_xml = true;
 	public static boolean mail_gif = true;
-	public static boolean mail_pdf = false;;
+	public static boolean mail_pdf = false;
 
 	/**** ERROR MESSAGES ****/
 

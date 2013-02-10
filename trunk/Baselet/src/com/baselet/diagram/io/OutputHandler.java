@@ -14,7 +14,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Vector;
 
 import javax.imageio.ImageIO;
 

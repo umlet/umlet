@@ -1,7 +1,5 @@
 package com.umlet.element.experimental.settings;
 
-import java.util.Collection;
-
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
 import com.umlet.element.experimental.helper.XPoints;

@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,7 +30,6 @@ public class CustomElementCompiler {
 	private static final String templatefile = "Default.java";
 	private String template;
 	private Pattern template_pattern;
-	private Pattern empty_line;
 	private Matcher template_match;
 	private String classname;
 	private int beforecodelines; // lines of code before the custom code begins (for error processing)
@@ -50,7 +48,6 @@ public class CustomElementCompiler {
 		this.compilation_errors = new ArrayList<CompileError>();
 		this.beforecodelines = 0;
 		this.template_pattern = Pattern.compile("(.*)(/\\*\\*\\*\\*CUSTOM_CODE START\\*\\*\\*\\*/\n)(.*)(\n\\s\\s/\\*\\*\\*\\*CUSTOM_CODE END\\*\\*\\*\\*/)(.*)", Pattern.DOTALL);
-		this.empty_line = Pattern.compile("^\\s*$");
 		this.template = this.loadJavaSource(new File(Path.customElements() + templatefile));
 		if (!"".equals(this.template)) {
 			this.template_match = this.template_pattern.matcher(this.template);

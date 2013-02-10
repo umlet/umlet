@@ -8,9 +8,7 @@ import java.awt.geom.Line2D;
 import java.util.Collection;
 import java.util.Vector;
 
-import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;

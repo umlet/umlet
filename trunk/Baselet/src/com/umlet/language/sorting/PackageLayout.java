@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.umlet.element.Package;
-
 import com.umlet.language.SortableElement;
 
 public class PackageLayout extends Layout {
