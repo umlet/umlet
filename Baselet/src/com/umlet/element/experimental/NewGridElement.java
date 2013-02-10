@@ -160,9 +160,13 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void updateModelFromText() {
+		updateModelFromText(true);
+	}
+
+	private void updateModelFromText(boolean calcAutoresize) {
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
-		properties.initSettingsFromText(this);
+		properties.initSettingsFromText(this, calcAutoresize);
 		drawer.setSize(getRealSize()); // must be set after possible resizing due to AUTORESIZE
 		updateMetaDrawer();
 		updateConcreteModel();
@@ -326,7 +330,7 @@ public abstract class NewGridElement implements GridElement {
 	public void setSize(int width, int height) {
 		if (width != getSize().width || height != getSize().height) { // only change size if it is really different
 			component.setSize(width, height);
-			updateModelFromText();
+			updateModelFromText(false);
 		}
 	}
 
