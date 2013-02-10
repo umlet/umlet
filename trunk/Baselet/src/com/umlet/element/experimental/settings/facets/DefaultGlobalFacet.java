@@ -6,6 +6,8 @@ import java.util.List;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
+import com.baselet.control.Constants.LineType;
+import com.baselet.diagram.FontHandler.FormatLabels;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
@@ -17,7 +19,8 @@ public class DefaultGlobalFacet implements Facet {
 	public enum GlobalSetting {
 		ForegroundColor("fg", "red", "foreground color string (blue,...) or code (#0A37D3,...)"),
 		BackgroundColor("bg", "red", "background color string (green,...) or code (#3c7a00,...)"),
-		LineType("lt", new String[] {".", "dashed lines"}, new String[] {"..", "dotted lines"}, new String[] {"*", "bold lines"}),
+		LineType("lt", new String[] {Constants.LineType.DASHED.getValue(), "dashed lines"}, new String[] {Constants.LineType.DOTTED.getValue(), "dotted lines"}, new String[] {FormatLabels.BOLD, "bold lines"}),
+		LineThickness("lth", "2.0", "thickness of lines (1.0, 1.5, ...)"),
 		FontSize("fontsize", "14", "font size float (12.5, 10.3,...)"),
 		ElementStyle("elementstyle",
 				new String[] {ElementStyleEnum.AUTORESIZE.toString(), "resizes element as text grows"},
@@ -86,6 +89,8 @@ public class DefaultGlobalFacet implements Facet {
 					drawer.setBackground(value, Constants.ALPHA_MIDDLE_TRANSPARENCY);
 				} else if (key.equalsIgnoreCase(GlobalSetting.LineType.toString())) {
 					drawer.setLineType(value);
+				}  else if (key.equalsIgnoreCase(GlobalSetting.LineThickness.toString())) {
+					drawer.setLineThickness(Float.valueOf(value));
 				} else if (key.equalsIgnoreCase(GlobalSetting.FontSize.toString())) {
 					drawer.setFontSize(value);
 				} else if (key.equalsIgnoreCase(GlobalSetting.HorizontalAlign.toString())) {

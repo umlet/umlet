@@ -20,6 +20,7 @@ import com.baselet.control.Constants.LineType;
 import com.baselet.control.DimensionFloat;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.FontHandler.FormatLabels;
 
 public class BaseDrawHandler {
 	protected DiagramHandler handler;
@@ -293,12 +294,22 @@ public class BaseDrawHandler {
 	}
 
 	public final void setLineType(String type) {
-		if (".".equals(type)) style.setLineType(LineType.DASHED);
-		else if ("..".equals(type)) style.setLineType(LineType.DOTTED);
-		else style.setLineType(LineType.SOLID);
+		boolean match = false;
+		for (LineType lt : LineType.values()) {
+			if (lt.getValue().equals(type)) {
+				style.setLineType(lt);
+				match = true;
+				break;
+			}
+		}
+		if (!match) style.setLineType(LineType.SOLID);
 		
-		if ("*".equals(type)) style.setLineThickness(2.0f);
+		if (FormatLabels.BOLD.equals(type)) style.setLineThickness(2.0f);
 		else style.setLineThickness(Constants.DEFAULT_LINE_THICKNESS);
+	}
+
+	public final void setLineThickness(float lineThickness) {
+		style.setLineThickness(lineThickness);
 	}
 
 	public void resetStyle() {
