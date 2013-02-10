@@ -41,7 +41,9 @@ public class CustomElementPanel extends JPanel {
 		codelabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		custompanel2.add(codelabel);
 		customcodepane = customhandler.getCodePane();
-		custompanel2.add(customcodepane.getPanel());
+		JPanel codePanel = customcodepane.getPanel();
+		codePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		custompanel2.add(codePanel);
 
 		JPanel custompanel3 = new JPanel();
 		custompanel3.setLayout(new BoxLayout(custompanel3, BoxLayout.Y_AXIS));
