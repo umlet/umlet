@@ -151,7 +151,7 @@ public class Properties {
 				while (propCfg.getyPos() < propCfg.getGridElementSize().height && !line.trim().isEmpty()) {
 					wrappedLine = TextManipulator.splitString(line, propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight()).getSpace(), drawer);
 					handleLine(elementSettings, wrappedLine, propCfg, drawer);
-					line = line.trim().substring(wrappedLine.length());
+					line = line.substring(wrappedLine.length()).trim();
 				}
 			}
 			else handleLine(elementSettings, line, propCfg, drawer);
@@ -197,15 +197,15 @@ public class Properties {
 			returnVal += drawer.textHeight()/2;
 		}
 		else if (propCfg.getvAlign() == AlignVertical.CENTER) {
-			returnVal += Math.max((propCfg.getGridElementSize().height - getTextBlockHeight())/2, drawer.textHeightWithSpace());
+			returnVal += Math.max((propCfg.getGridElementSize().height - getTextBlockHeight(propCfg))/2, drawer.textHeightWithSpace());
 		}
 		else /*if (propCfg.getvAlign() == AlignVertical.BOTTOM)*/ {
-			returnVal += Math.max(propCfg.getGridElementSize().height - getTextBlockHeight(), drawer.textHeightWithSpace());
+			returnVal += Math.max(propCfg.getGridElementSize().height - getTextBlockHeight(propCfg), drawer.textHeightWithSpace());
 		}
 		return returnVal;
 	}
 
-	public float getTextBlockHeight() {
+	public float getTextBlockHeight(PropertiesConfig propCfg) {
 		PropertiesConfig tmpPropCfg = new PropertiesConfig(elementSettings, propCfg.getGridElementSize());
 		handleWordWrapAndIterate(elementSettings, tmpPropCfg, drawer.getPseudoDrawHandler());
 		return tmpPropCfg.getyPos();
