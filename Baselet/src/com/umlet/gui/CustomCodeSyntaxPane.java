@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
@@ -38,9 +39,11 @@ public class CustomCodeSyntaxPane {
 		}
 		new AutoCompletion(provider).install(textArea);
 	    
-		RTextScrollPane sp = new RTextScrollPane(textArea);
-	    sp.setFoldIndicatorEnabled(true);
-	    panel.add(sp);
+		RTextScrollPane scrollPane = new RTextScrollPane(textArea);
+	    scrollPane.setFoldIndicatorEnabled(true);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	    panel.add(scrollPane);
 		textArea.getDocument().putProperty(PlainDocument.tabSizeAttribute, 3); //Reduce tab size
 	}
 

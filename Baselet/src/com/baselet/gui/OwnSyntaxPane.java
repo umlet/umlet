@@ -1,11 +1,16 @@
 package com.baselet.gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
@@ -40,7 +45,8 @@ public class OwnSyntaxPane {
 
 	public OwnSyntaxPane() {
 
-		panel = new JPanel(new BorderLayout());
+		panel = new JPanel(new FlowLayout());
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		textArea = new RSyntaxTextArea();
 
 		//Setup highlighting
@@ -59,12 +65,19 @@ public class OwnSyntaxPane {
 		// ac.setShowDescWindow(true);
 		ac.install(textArea);
 
+		JLabel propertyLabel = new JLabel(" Properties");
+		propertyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		propertyLabel.setFont(new Font("SansSerif", Font.BOLD, 11));
+		panel.add(propertyLabel);
 
 		textArea.setAntiAliasingEnabled(true);
-		panel.add(new RTextScrollPane(textArea));
-
+		RTextScrollPane scrollPane = new RTextScrollPane(textArea, false);
+		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		panel.add(scrollPane);
+		
 		textArea.getDocument().putProperty(PlainDocument.tabSizeAttribute, 3); //Reduce tab size
-
 	}
 
 	/**

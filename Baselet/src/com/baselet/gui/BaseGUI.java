@@ -72,10 +72,6 @@ public abstract class BaseGUI extends JPanel {
 		propertyTextPane.getTextComponent().addKeyListener(pListener);
 		propertyTextPane.getTextComponent().getDocument().addDocumentListener(pListener);
 		
-		JLabel propertyLabel = new JLabel(" Properties");
-		propertyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		propertyLabel.setFont(new Font("SansSerif", Font.BOLD, 11));
-		
 		return propertyTextPane;
 	}
 
