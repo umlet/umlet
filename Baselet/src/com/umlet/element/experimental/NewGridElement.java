@@ -355,6 +355,9 @@ public abstract class NewGridElement implements GridElement {
 		component.paint(g);
 	}
 
+	/**
+	 * @see com.baselet.element.GridElement#getRealSize()
+	 */
 	@Override
 	public Dimension getRealSize() {
 		return new Dimension((int) (getSize().width / handler.getZoomFactor()), (int) (getSize().height / handler.getZoomFactor()));

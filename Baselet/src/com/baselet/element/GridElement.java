@@ -82,6 +82,9 @@ public interface GridElement {
 
 	Dimension getSize();
 
+	/**
+	 * @return size of the element as if the zoomlevel would be 100% (eg: if zoom is 80% and width is 80 it would be returned as 100)
+	 */
 	Dimension getRealSize();
 
 	boolean isInRange(Point upperLeft, Dimension size);
