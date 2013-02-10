@@ -68,6 +68,7 @@ public abstract class Constants {
 			if (this == CTRL) return ActionEvent.CTRL_MASK;
 			else return ActionEvent.META_MASK;
 		}
+
 		public int getMaskDown() {
 			if (this == CTRL) return InputEvent.CTRL_DOWN_MASK;
 			else return InputEvent.META_DOWN_MASK;
@@ -84,7 +85,7 @@ public abstract class Constants {
 		public static String EXTENSION;
 		public static String WEBSITE;
 		public static String VERSION;
-		public static String[] GRID_ELEMENT_PACKAGES = new String[] {"com.umlet.element", "com.umlet.element.custom", "com.plotlet.element", "com.baselet.element"};
+		public static String[] GRID_ELEMENT_PACKAGES = new String[] { "com.umlet.element", "com.umlet.element.custom", "com.plotlet.element", "com.baselet.element" };
 
 		public static void init(String name, String version) {
 			PROGRAM_NAME = ProgramName.valueOf(name.toUpperCase());
@@ -98,7 +99,6 @@ public abstract class Constants {
 
 			VERSION = version;
 		}
-
 
 	}
 
@@ -129,6 +129,7 @@ public abstract class Constants {
 	public static final String NEWLINE = "\n";
 	public static final String COMMENT = "//";
 
+	//@formatter:off
 	public static String getDefaultHelptext() {
 		String returnString =
 				"// Uncomment the following line to change the fontsize and font:" + NEWLINE +
@@ -166,6 +167,7 @@ public abstract class Constants {
 				"__" + NEWLINE +
 				"To edit the diagram, open the attached " + Program.EXTENSION + "-file with the free editing tool " + Program.PROGRAM_NAME + " (" + Program.WEBSITE + ")";
 	}
+	//@formatter:on
 
 	/**** AVAILABLE COLORS ****/
 	public static final HashMap<String, Color> colorMap = new HashMap<String, Color>();
@@ -193,7 +195,7 @@ public abstract class Constants {
 	public static final float ALPHA_FULL_TRANSPARENCY = 0.0f;
 
 	/**** EXPORT FORMATS ****/
-	public static final List<String> exportFormatList = Arrays.asList(new String[] {"bmp", "eps", "gif", "jpg", "pdf", "png", "svg"});
+	public static final List<String> exportFormatList = Arrays.asList(new String[] { "bmp", "eps", "gif", "jpg", "pdf", "png", "svg" });
 
 	/**** ZOOM VALUES ****/
 	public static final ArrayList<String> zoomValueList = new ArrayList<String>();
@@ -227,13 +229,19 @@ public abstract class Constants {
 			return value;
 		}
 	}
-	
+
 	public static final int DEFAULT_LINE_THICKNESS = 1;
 
 	public static final int CUSTOM_ELEMENT_COMPILE_INTERVAL = 500;
 
-	public enum AlignHorizontal {LEFT, CENTER, RIGHT}
-	public enum AlignVertical {TOP, CENTER, BOTTOM}
+	public enum AlignHorizontal {
+		LEFT, CENTER, RIGHT
+	}
+
+	public enum AlignVertical {
+		TOP, CENTER, BOTTOM
+	}
+
 	public static final int RESIZE_TOP = 1, RESIZE_RIGHT = 2, RESIZE_BOTTOM = 4, RESIZE_LEFT = 8;
 	public static final int RESIZE_NONE = 0;
 	public static final int RESIZE_ALL = Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
@@ -260,7 +268,7 @@ public abstract class Constants {
 	public static final int PASTE_DISPLACEMENT_GRIDS = 2;
 	public static final Color GRID_COLOR = new Color(235, 235, 235);
 
-	public static final List<String> fontFamilyList = Arrays.asList(new String[] {Font.SANS_SERIF, Font.SERIF, Font.MONOSPACED});
+	public static final List<String> fontFamilyList = Arrays.asList(new String[] { Font.SANS_SERIF, Font.SERIF, Font.MONOSPACED });
 
 	public static final List<LookAndFeelInfo> lookAndFeels = Arrays.asList(UIManager.getInstalledLookAndFeels());
 	static {
@@ -298,7 +306,7 @@ public abstract class Constants {
 	public static int printPadding = 20;
 	public static boolean checkForUpdates = true;
 	public static String openFileHome = System.getProperty("user.dir");
-	public static String pdfExportFont = ""; //eg in Windows: "pdf_export_font = c:/windows/fonts/msgothic.ttc,1"
+	public static String pdfExportFont = ""; // eg in Windows: "pdf_export_font = c:/windows/fonts/msgothic.ttc,1"
 	public static boolean generateClassPackage = true;
 	public static FieldOptions generateClassFields = FieldOptions.ALL;
 	public static MethodOptions generateClassMethods = MethodOptions.ALL;
