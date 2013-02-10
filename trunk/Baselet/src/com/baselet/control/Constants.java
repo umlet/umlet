@@ -279,6 +279,9 @@ public abstract class Constants {
 	public static final int MIN_MAIN_SPLITPANEL_SIZE = 100;
 	public static final int MIN_MAIL_SPLITPANEL_SIZE = 250;
 
+	public static final Font PANEL_HEADER_FONT = new Font("SansSerif", Font.BOLD, 11);
+	public static final Font PANEL_CONTENT_FONT = new Font("Monospaced", Font.PLAIN, 11);
+
 	/**** VALUES LOADED FROM CONFIG ****/
 	public static Integer defaultFontsize = (Program.PROGRAM_NAME == ProgramName.UMLET ? 14 : 10);
 	public static String defaultFontFamily = Font.SANS_SERIF;

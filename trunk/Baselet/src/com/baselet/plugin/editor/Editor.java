@@ -310,7 +310,7 @@ public class Editor extends EditorPart {
 		this.searchPanel = new JPanel();
 		this.searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
 		JLabel searchlabel = new JLabel("Search:");
-		searchlabel.setFont(new Font("SansSerif", Font.BOLD, 11));
+		searchlabel.setFont(Constants.PANEL_HEADER_FONT);
 		this.searchfield = new JTextField();
 		SearchListener listener = new SearchListener();
 		this.searchfield.addMouseMotionListener(listener);
