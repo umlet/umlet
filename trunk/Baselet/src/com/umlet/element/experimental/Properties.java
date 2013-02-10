@@ -79,15 +79,18 @@ public class Properties {
 
 	private void handleAutoresize(NewGridElement element) {
 		if (getElementStyle() == ElementStyleEnum.AUTORESIZE) {
-			DimensionFloat dim = getExpectedElementDimensions(element);
-			int BUFFER = 10; // buffer to make sure the text is inside the border
-			float width = Math.max(20, dim.getWidth() + BUFFER);
-			float height = Math.max(20, dim.getHeight() + BUFFER);
+			DimensionFloat dim = getExpectedElementDimensionsOnDefaultZoom(element);
+			float horizontalSpaceLeftAndRight = element.getHandler().getFontHandler().getDistanceBetweenTexts(false) * 2;
+			float width = Math.max(20, dim.getWidth() + horizontalSpaceLeftAndRight);
+			float height = Math.max(20, dim.getHeight() + horizontalSpaceLeftAndRight);
+			float diffw = width-element.getRealSize().width;
+			float diffh = height-element.getRealSize().height;
+			float diffwInCurrentZoom = diffw * element.getHandler().getZoomFactor();
+			float diffhInCurrentZoom = diffh * element.getHandler().getZoomFactor();
+			int diffwRealigned = element.getHandler().realignToGrid(false, diffwInCurrentZoom, true);
+			int diffhRealigned = element.getHandler().realignToGrid(false, diffhInCurrentZoom, true);
 			// use resize command to move sticked relations correctly with the element
-			int diffw = (int) (width-element.getRealSize().width);
-			int diffh = (int) (height-element.getRealSize().height);
-			float zoomFactor = element.getHandler().getZoomFactor();
-			new Resize(element, 0, 0, (int) (diffw * zoomFactor), (int) (diffh * zoomFactor)).execute(element.getHandler());
+			new Resize(element, 0, 0, diffwRealigned, diffhRealigned).execute(element.getHandler());
 		}
 	}
 
@@ -208,7 +211,7 @@ public class Properties {
 		return tmpPropCfg.getyPos();
 	}
 
-	private DimensionFloat getExpectedElementDimensions(NewGridElement element) {
+	private DimensionFloat getExpectedElementDimensionsOnDefaultZoom(NewGridElement element) {
 		// add all ypos changes to simulate the real ypos for xlimit calculation etc.
 		PropertiesConfig tmpPropCfg = new PropertiesConfig(element.getSettings(), element.getRealSize());
 		tmpPropCfg.addToYPos(calcTopDisplacementToFitLine(calcStartPointFromVAlign(tmpPropCfg), tmpPropCfg));

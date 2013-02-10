@@ -257,9 +257,12 @@ public class DiagramHandler {
 	 */
 	public int realignToGrid(boolean logRealign, float val, boolean roundUp) {
 		float alignedVal = val;
-		if (val % gridSize != 0) {
-			alignedVal -= val % gridSize;
-			if (roundUp) alignedVal += gridSize;
+		float mod = val % gridSize;
+		if (mod != 0) {
+			alignedVal -= mod; // this operation decreases alignedVal in case of positive val and increases it in case of negative val (because eg: -8 -= -8 => 0)
+			if (val > 0 && roundUp || val < 0 && !roundUp) { // therefore the gridSize must be added if positive val should be round up or if negative val should be round down
+				alignedVal += gridSize;
+			}
 			if (logRealign) log.error("realignToGrid from " + val + " to " + alignedVal);
 		}
 		return (int) alignedVal;
