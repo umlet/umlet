@@ -149,7 +149,8 @@ public class Properties {
 			if (wordwrap) {
 				String wrappedLine;
 				while (propCfg.getyPos() < propCfg.getGridElementSize().height && !line.trim().isEmpty()) {
-					wrappedLine = TextManipulator.splitString(line, propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight()).getSpace(), drawer);
+					Float spaceForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight()).getSpace() - drawer.getDistanceBetweenTexts() * 2;
+					wrappedLine = TextManipulator.splitString(line, spaceForText, drawer);
 					handleLine(elementSettings, wrappedLine, propCfg, drawer);
 					line = line.substring(wrappedLine.length()).trim();
 				}
@@ -192,15 +193,15 @@ public class Properties {
 	}
 
 	private float calcStartPointFromVAlign(PropertiesConfig propCfg) {
-		float returnVal = drawer.textHeight(); // print method is located at the bottom of the text therefore add text height
+		float returnVal = drawer.textHeight()/2; // distance to vertical border is always half the text height
 		if (propCfg.getvAlign() == AlignVertical.TOP) {
-			returnVal += drawer.textHeight()/2;
+			returnVal += drawer.textHeight();
 		}
 		else if (propCfg.getvAlign() == AlignVertical.CENTER) {
-			returnVal += Math.max((propCfg.getGridElementSize().height - getTextBlockHeight(propCfg))/2, drawer.textHeightWithSpace());
+			returnVal += (propCfg.getGridElementSize().height - getTextBlockHeight(propCfg))/2;
 		}
 		else /*if (propCfg.getvAlign() == AlignVertical.BOTTOM)*/ {
-			returnVal += Math.max(propCfg.getGridElementSize().height - getTextBlockHeight(propCfg), drawer.textHeightWithSpace());
+			returnVal += propCfg.getGridElementSize().height - getTextBlockHeight(propCfg);
 		}
 		return returnVal;
 	}
