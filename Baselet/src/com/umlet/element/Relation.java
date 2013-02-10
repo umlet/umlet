@@ -366,20 +366,20 @@ public class Relation extends OldGridElement {
 				else if ((s.indexOf("-") >= 0) & (s.indexOf(".") >= s.indexOf("-"))) {
 					lineType = "-.";
 				}
-				else if (s.indexOf(".") >= 0) {
-					lineType = ".";
+				else if (s.indexOf(LineType.DASHED.getValue()) >= 0) {
+					lineType = LineType.DASHED.getValue();
 				}
-				else if (s.indexOf("-") >= 0) {
-					lineType = "-";
+				else if (s.indexOf(LineType.SOLID.getValue()) >= 0) {
+					lineType = LineType.SOLID.getValue();
 				}
-				else if(s.substring(3, s.length()).indexOf("=") >= 0) {
-					lineType = "=";
+				else if(s.substring(3, s.length()).indexOf(LineType.DOUBLE.getValue()) >= 0) {
+					lineType = LineType.DOUBLE.getValue();
 				}
-				else if(s.indexOf("::") >= 0) {
-					lineType = "::";
+				else if(s.indexOf(LineType.DOUBLE_DOTTED.getValue()) >= 0) {
+					lineType = LineType.DOUBLE_DOTTED.getValue();
 				}
-				else if(s.indexOf(":") >= 0) {
-					lineType = ":";
+				else if(s.indexOf(LineType.DOUBLE_DASHED.getValue()) >= 0) {
+					lineType = LineType.DOUBLE_DASHED.getValue();
 				}
 			}
 			else {
@@ -980,11 +980,11 @@ public class Relation extends OldGridElement {
 
 		if (lineType.equals("-.")) g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
 		else if (lineType.equals(".-")) g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
-		else if (lineType.equals("-")) g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
-		else if (lineType.equals(".")) g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
-		else if (lineType.equals("=")) g2.setStroke(Utils.getStroke(LineType.DOUBLE, 1));
-		else if (lineType.equals(":")) g2.setStroke(Utils.getStroke(LineType.DOUBLE_DASHED, 1));
-		else if (lineType.equals("::")) g2.setStroke(Utils.getStroke(LineType.DOUBLE_DOTTED, 1));
+		else if (lineType.equals(LineType.SOLID.getValue())) g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
+		else if (lineType.equals(LineType.DASHED.getValue())) g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
+		else if (lineType.equals(LineType.DOUBLE.getValue())) g2.setStroke(Utils.getStroke(LineType.DOUBLE, 1));
+		else if (lineType.equals(LineType.DOUBLE_DASHED.getValue())) g2.setStroke(Utils.getStroke(LineType.DOUBLE_DASHED, 1));
+		else if (lineType.equals(LineType.DOUBLE_DOTTED.getValue())) g2.setStroke(Utils.getStroke(LineType.DOUBLE_DOTTED, 1));
 
 		for (int i = 0; i < getLinePoints().size() - 1; i++) {
 

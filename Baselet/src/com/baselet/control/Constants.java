@@ -95,10 +95,10 @@ public abstract class Constants {
 
 			if (Program.PROGRAM_NAME == ProgramName.UMLET) EXTENSION = "uxf";
 			else EXTENSION = "pxf";
-			
+
 			VERSION = version;
 		}
-	
+
 
 	}
 
@@ -119,7 +119,7 @@ public abstract class Constants {
 
 			if (java.lang.System.getProperty("java.runtime.name").toUpperCase().contains("OPEN")) JAVA_IMPL = JavaImplementation.OPEN;
 			else JAVA_IMPL = JavaImplementation.SUN;
-			
+
 			if (SystemInfo.OS == Os.MAC) META_KEY = Metakey.CMD;
 			else META_KEY = Metakey.CTRL;
 		}
@@ -128,7 +128,7 @@ public abstract class Constants {
 	/**** NEWLINE CHARACTER AND DEFAULT HELP- AND MAILTEXT ****/
 	public static final String NEWLINE = "\n";
 	public static final String COMMENT = "//";
-	
+
 	public static String getDefaultHelptext() {
 		String returnString =
 				"// Uncomment the following line to change the fontsize and font:" + NEWLINE +
@@ -149,15 +149,15 @@ public abstract class Constants {
 				"//" + NEWLINE +
 				"// Press " + SystemInfo.META_KEY + "+C to copy the whole diagram to the system clipboard (then just paste it to, eg, Word)" + NEWLINE +
 				"// Edit the files in the \"palettes\" directory to create your own element palettes" + NEWLINE;
-			if (ProgramName.UMLET.equals(Program.PROGRAM_NAME)) {
-				returnString += "//" + NEWLINE + "// Select \"Custom Elements > New...\" to create new element types" + NEWLINE;
-			}
-			returnString += 
+		if (ProgramName.UMLET.equals(Program.PROGRAM_NAME)) {
+			returnString += "//" + NEWLINE + "// Select \"Custom Elements > New...\" to create new element types" + NEWLINE;
+		}
+		returnString += 
 				"//////////////////////////////////////////////////////////////////////////////////////////////" + NEWLINE +
 				"" + NEWLINE +
 				"" + NEWLINE +
 				"// This text will be stored with each diagram;  use it for notes.";
-			return returnString;
+		return returnString;
 	}
 
 	public static String getDefaultMailtext() {
@@ -206,7 +206,7 @@ public abstract class Constants {
 	/**** REGULAR EXPRESSIONS ****/
 
 	public static final String REGEX_FLOAT = "(\\d+(\\.\\d+)?)";
-	
+
 	/**** OTHER CONSTANTS ****/
 
 	public static final int NOTIFICATION_SHOW_TIME = 3000;
@@ -214,7 +214,20 @@ public abstract class Constants {
 	public static final int DEFAULTGRIDSIZE = 10;
 	public static final int INTERFACE_LINE_LENGTH = 40;
 
-	public enum LineType {SOLID, DASHED, DOTTED, DOUBLE, DOUBLE_DASHED, DOUBLE_DOTTED};
+	public enum LineType {
+		SOLID("-"), DASHED("."), DOTTED(".."), DOUBLE("="), DOUBLE_DASHED(":"), DOUBLE_DOTTED("::");
+
+		private String value;
+
+		private LineType(String value) {
+			this.value = value;
+		}
+
+		public String getValue() {
+			return value;
+		}
+	}
+	
 	public static final int DEFAULT_LINE_THICKNESS = 1;
 
 	public static final int CUSTOM_ELEMENT_COMPILE_INTERVAL = 500;
@@ -228,7 +241,7 @@ public abstract class Constants {
 	public static final int RESIZE_TOP_RIGHT = RESIZE_TOP + RESIZE_RIGHT;
 	public static final int RESIZE_BOTTOM_LEFT = RESIZE_BOTTOM + RESIZE_LEFT;
 	public static final int RESIZE_BOTTOM_RIGHT = RESIZE_BOTTOM + RESIZE_RIGHT;
-	
+
 	public static final Cursor LR_CURSOR = new Cursor(Cursor.E_RESIZE_CURSOR);
 	public static final Cursor TB_CURSOR = new Cursor(Cursor.N_RESIZE_CURSOR);
 	public static final Cursor NW_CURSOR = new Cursor(Cursor.NW_RESIZE_CURSOR);
@@ -248,7 +261,7 @@ public abstract class Constants {
 	public static final Color GRID_COLOR = new Color(235, 235, 235);
 
 	public static final List<String> fontFamilyList = Arrays.asList(new String[] {Font.SANS_SERIF, Font.SERIF, Font.MONOSPACED});
-	
+
 	public static final List<LookAndFeelInfo> lookAndFeels = Arrays.asList(UIManager.getInstalledLookAndFeels());
 	static {
 		// The Eclipse Plugin doesn't work with GTKLookAndFeel, therefore we remove it from the choosable options
@@ -256,7 +269,7 @@ public abstract class Constants {
 			lookAndFeels.remove("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
 		}
 	}
-	
+
 	public static final int RECENT_FILES_LIST_LENGTH = 10;
 	public static final RecentlyUsedFilesList recentlyUsedFilesList = new RecentlyUsedFilesList();
 
@@ -265,7 +278,7 @@ public abstract class Constants {
 
 	public static final int MIN_MAIN_SPLITPANEL_SIZE = 100;
 	public static final int MIN_MAIL_SPLITPANEL_SIZE = 250;
-	
+
 	/**** VALUES LOADED FROM CONFIG ****/
 	public static Integer defaultFontsize = (Program.PROGRAM_NAME == ProgramName.UMLET ? 14 : 10);
 	public static String defaultFontFamily = Font.SANS_SERIF;
