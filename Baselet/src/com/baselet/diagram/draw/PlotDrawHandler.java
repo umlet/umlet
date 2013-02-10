@@ -2,13 +2,10 @@ package com.baselet.diagram.draw;
 
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
-
-import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
@@ -25,12 +22,10 @@ public class PlotDrawHandler {
 	public PlotDrawHandler(Graphics g, PlotGridDrawConfig plotDrawConfig) {
 		base = new BaseDrawHandler(g, plotDrawConfig.getDiagramHandler(),  plotDrawConfig.getFgColor(), plotDrawConfig.getBgColor(), plotDrawConfig.getSize());
 		isSelected = plotDrawConfig.isSelected();
-		drawLegend = false;
+//		drawLegend = false;
 		axisConfig = new AxisConfig();
 		canvas = new Canvas(plotDrawConfig.getRealSize());
 	}
-
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	// Enumerations
 	public enum Position { LEFT, UP, DOWN, RIGHT }
@@ -50,8 +45,8 @@ public class PlotDrawHandler {
 	private AxisConfig axisConfig;
 
 	// Legend Settings
-	private boolean drawLegend;
-	private Rectangle legendPos;
+//	private boolean drawLegend;
+//	private Rectangle legendPos;
 
 	//	/**
 	//	 * Abstracts the axis drawing from the type of variables on the axis (description or values)
@@ -389,7 +384,6 @@ public class PlotDrawHandler {
 		for(int vIndex = 0; vIndex < valueRowAmount; vIndex++) {
 			int cIndex = 0;
 			int subBarIterator = valueAxisPos;
-			int titleIndex=0;
 			for (Double v : values[vIndex]) {
 				if (cIndex >= colors.size()) cIndex = 0; // Restart with first color if all colors in the array has been used
 				base.setForegroundColor(colors.get(cIndex));
@@ -414,7 +408,6 @@ public class PlotDrawHandler {
 				}
 
 				subBarIterator += descSegment;
-				titleIndex++;
 				cIndex++;
 			}
 		}

@@ -6,7 +6,6 @@ import com.baselet.control.Constants.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.Style;
 import com.baselet.gui.AutocompletionText;
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import com.umlet.element.experimental.PropertiesConfig;
 
 public class TemplateClass implements Facet {

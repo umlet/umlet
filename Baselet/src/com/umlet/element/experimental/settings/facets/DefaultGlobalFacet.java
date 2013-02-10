@@ -6,7 +6,6 @@ import java.util.List;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
-import com.baselet.control.Constants.LineType;
 import com.baselet.diagram.FontHandler.FormatLabels;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
@@ -14,7 +13,7 @@ import com.umlet.element.experimental.PropertiesConfig;
 
 public class DefaultGlobalFacet implements Facet {
 
-	public enum ElementStyleEnum {AUTORESIZE, NORESIZE, WORDWRAP};
+	public enum ElementStyleEnum {AUTORESIZE, NORESIZE, WORDWRAP}
 	
 	public enum GlobalSetting {
 		ForegroundColor("fg", "red", "foreground color string (blue,...) or code (#0A37D3,...)"),
@@ -33,8 +32,8 @@ public class DefaultGlobalFacet implements Facet {
 		HorizontalAlign("halign",
 				new String[] {AlignHorizontal.LEFT.toString(), "horizontal text alignment"},
 				new String[] {AlignHorizontal.CENTER.toString(), "horizontal text alignment"},
-				new String[] {AlignHorizontal.RIGHT.toString(), "horizontal text alignment"});
-		;
+				new String[] {AlignHorizontal.RIGHT.toString(), "horizontal text alignment"})
+				;
 
 		public static final String SEPARATOR = "=";
 		

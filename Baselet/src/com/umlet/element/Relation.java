@@ -1,7 +1,6 @@
 package com.umlet.element;
 
 import java.awt.Color;
-import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -427,7 +426,7 @@ public class Relation extends OldGridElement {
 		int endx = pEnd.x;
 		int endy = pEnd.y;
 
-		for (int i = 0;; i++) {
+		for (@SuppressWarnings("unused") int i = 0;; i++) {
 			endx += vectorX;
 			endy += vectorY;
 			rMovable.setLocation(endx + centerDiffX, endy + centerDiffY);
@@ -814,7 +813,7 @@ public class Relation extends OldGridElement {
 
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setFont(this.getHandler().getFontHandler().getFont());
-		Composite[] composites = colorize(g2); // enable colors
+		colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		// Just to set anti-aliasing, even if no text
 		// operations occur
