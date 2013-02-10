@@ -56,7 +56,7 @@ public class Properties {
 		this.panelAttributesAdditional = panelAttributesAdditional;
 	}
 
-	public void initSettingsFromText(NewGridElement element) {
+	public void initSettingsFromText(NewGridElement element, boolean calcAutoresize) {
 		propertiesTextToDraw = new ArrayList<String>();
 		this.elementSettings = element.getSettings();
 		this.propCfg = new PropertiesConfig(element.getSettings());
@@ -72,7 +72,7 @@ public class Properties {
 			if (drawText && !line.startsWith("//")) propertiesTextToDraw.add(line);
 		}
 
-		handleAutoresize(element);
+		if (calcAutoresize) handleAutoresize(element);
 		this.propCfg.setGridElementSize(element.getRealSize());
 
 	}
@@ -87,6 +87,7 @@ public class Properties {
 			float diffh = height-element.getRealSize().height;
 			float diffwInCurrentZoom = diffw * element.getHandler().getZoomFactor();
 			float diffhInCurrentZoom = diffh * element.getHandler().getZoomFactor();
+			System.out.println(width + "/" + diffw + "/" + diffwInCurrentZoom);
 			int diffwRealigned = element.getHandler().realignToGrid(false, diffwInCurrentZoom, true);
 			int diffhRealigned = element.getHandler().realignToGrid(false, diffhInCurrentZoom, true);
 			// use resize command to move sticked relations correctly with the element
