@@ -26,7 +26,7 @@ public class TextManipulator {
 		result = splitStringAlgorithm(text, width, drawer);
 		
 		splitStringCache.put(key, result);
-		return result;
+		return result.trim();
 	}
 	
 	private static String splitStringAlgorithm(String text, float width, BaseDrawHandler drawer) {
