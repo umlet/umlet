@@ -80,14 +80,13 @@ public class Properties {
 	private void handleAutoresize(NewGridElement element) {
 		if (getElementStyle() == ElementStyleEnum.AUTORESIZE) {
 			DimensionFloat dim = getExpectedElementDimensionsOnDefaultZoom(element);
-			float horizontalSpaceLeftAndRight = element.getHandler().getFontHandler().getDistanceBetweenTexts(false) * 2;
-			float width = Math.max(20, dim.getWidth() + horizontalSpaceLeftAndRight);
-			float height = Math.max(20, dim.getHeight() + horizontalSpaceLeftAndRight);
+			float hSpaceLeftAndRight = drawer.getDistanceBetweenTexts() * 2;
+			float width = dim.getWidth() + hSpaceLeftAndRight;
+			float height = dim.getHeight() + drawer.textHeight()/2;
 			float diffw = width-element.getRealSize().width;
 			float diffh = height-element.getRealSize().height;
 			float diffwInCurrentZoom = diffw * element.getHandler().getZoomFactor();
 			float diffhInCurrentZoom = diffh * element.getHandler().getZoomFactor();
-			System.out.println(width + "/" + diffw + "/" + diffwInCurrentZoom);
 			int diffwRealigned = element.getHandler().realignToGrid(false, diffwInCurrentZoom, true);
 			int diffhRealigned = element.getHandler().realignToGrid(false, diffhInCurrentZoom, true);
 			// use resize command to move sticked relations correctly with the element
