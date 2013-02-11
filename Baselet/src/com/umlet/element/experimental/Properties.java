@@ -193,15 +193,15 @@ public class Properties {
 	}
 
 	private float calcStartPointFromVAlign(PropertiesConfig propCfg) {
-		float returnVal = drawer.textHeight()/2; // distance to vertical border is always half the text height
+		float returnVal = drawer.textHeight(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
 		if (propCfg.getvAlign() == AlignVertical.TOP) {
-			returnVal += drawer.textHeight();
+			returnVal += drawer.textHeight()/2;
 		}
 		else if (propCfg.getvAlign() == AlignVertical.CENTER) {
 			returnVal += (propCfg.getGridElementSize().height - getTextBlockHeight(propCfg))/2;
 		}
 		else /*if (propCfg.getvAlign() == AlignVertical.BOTTOM)*/ {
-			returnVal += propCfg.getGridElementSize().height - getTextBlockHeight(propCfg);
+			returnVal += propCfg.getGridElementSize().height - getTextBlockHeight(propCfg) - drawer.textHeight()/2;
 		}
 		return returnVal;
 	}
