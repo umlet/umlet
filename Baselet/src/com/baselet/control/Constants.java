@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -278,6 +279,16 @@ public abstract class Constants {
 		}
 	}
 
+	protected static final String DEFAULT_STRING = "Default";
+	public static final Comparator<String> DEFAULT_FIRST_COMPARATOR = new Comparator<String>() {
+		@Override
+		public int compare(String s1, String s2) { // Anything which starts with "Default" is always first
+			if (s1.startsWith(Constants.DEFAULT_STRING) && !s2.startsWith(Constants.DEFAULT_STRING)) return -1;
+			if (s2.startsWith(Constants.DEFAULT_STRING) && !s1.startsWith(Constants.DEFAULT_STRING)) return 1;
+			else return s1.compareTo(s2);
+		}
+	};
+
 	public static final int RECENT_FILES_LIST_LENGTH = 10;
 	public static final RecentlyUsedFilesList recentlyUsedFilesList = new RecentlyUsedFilesList();
 
@@ -312,6 +323,9 @@ public abstract class Constants {
 	public static MethodOptions generateClassMethods = MethodOptions.ALL;
 	public static SignatureOptions generateClassSignatures = SignatureOptions.ALL;
 	public static SortOptions generateClassSortings = SortOptions.HEIGHT;
+	
+	static final String DEFAULT_LAST_USED_PALETTE = DEFAULT_STRING + "." + Program.EXTENSION;
+	public static String lastUsedPalette = DEFAULT_LAST_USED_PALETTE;
 
 	static {
 		// The default MacOS theme looks ugly, therefore we set metal

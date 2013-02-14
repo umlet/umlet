@@ -30,6 +30,7 @@ public class Config {
 	private static final String PDF_EXPORT_FONT = "pdf_export_font";
 	private static final String CHECK_FOR_UPDATES = "check_for_updates";
 	private static final String OPEN_FILE_HOME = "open_file_home";
+	private static final String LAST_USED_PALETTE = "last_used_palette";
 	private static final String MAIN_SPLIT_POSITION = "main_split_position";
 	private static final String RIGHT_SPLIT_POSITION = "right_split_position";
 	private static final String START_MAXIMIZED = "start_maximized";
@@ -86,6 +87,7 @@ public class Config {
 		Constants.pdfExportFont = getStringProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
 		Constants.checkForUpdates = getBoolProperty(CHECK_FOR_UPDATES, Constants.checkForUpdates);
 		Constants.openFileHome = getStringProperty(OPEN_FILE_HOME, Constants.openFileHome);
+		Constants.lastUsedPalette = getStringProperty(LAST_USED_PALETTE, Constants.lastUsedPalette);
 		Constants.main_split_position = getIntProperty(MAIN_SPLIT_POSITION, Constants.main_split_position);
 		Constants.right_split_position = getIntProperty(RIGHT_SPLIT_POSITION, Constants.right_split_position);
 		Constants.mail_split_position = getIntProperty(MAIL_SPLIT_POSITION, Constants.mail_split_position);
@@ -145,6 +147,7 @@ public class Config {
 			props.setProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
 			props.setProperty(CHECK_FOR_UPDATES, Boolean.toString(Constants.checkForUpdates));
 			props.setProperty(OPEN_FILE_HOME, Constants.openFileHome);
+			props.setProperty(LAST_USED_PALETTE, Constants.lastUsedPalette);
 			
 			BaseGUI gui = Main.getInstance().getGUI();
 			props.setProperty(MAIN_SPLIT_POSITION, Integer.toString(gui.getMainSplitPosition()));

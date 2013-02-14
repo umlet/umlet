@@ -11,7 +11,6 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
@@ -127,6 +126,11 @@ public class Main {
 		Config.loadConfig(); // only load config after gui is set (because of homepath)
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE); // Tooltips should not hide after some time
 		gui.initGUI(); // show gui
+		if (getPaletteNames().contains(Constants.lastUsedPalette)) {
+			gui.selectPalette(Constants.lastUsedPalette);
+		} else {
+			Constants.lastUsedPalette = Constants.DEFAULT_LAST_USED_PALETTE;
+		}
 	}
 
 	public void initLogger() {
@@ -397,8 +401,10 @@ public class Main {
 			this.palettes = new Hashtable<String, PaletteHandler>();
 			// scan palettes
 			List<File> palettes = this.scanForPalettes();
-			for (File palette : palettes)
-				this.palettes.put(palette.getName(), new PaletteHandler(palette));
+			for (File palette : palettes) {
+				String nameWithoutExtension = palette.getName().substring(0, palette.getName().indexOf("."));
+				this.palettes.put(nameWithoutExtension, new PaletteHandler(palette));
+			}
 		}
 		return this.palettes;
 	}
@@ -419,16 +425,8 @@ public class Main {
 	}
 
 	public List<String> getPaletteNames(Hashtable<String, PaletteHandler> palettes) {
-		List<String> palettenames = new ArrayList<String>();
-		for (String palette : palettes.keySet())
-			palettenames.add(palette.substring(0, palette.length() - 4));
-		Collections.sort(palettenames, new Comparator<String>() {
-			@Override
-			public int compare(String s1, String s2) {
-				if (s1.equals("Default")) return 0; // Default palette is always on top
-				else return s1.compareTo(s2);
-			}
-		});
+		List<String> palettenames = new ArrayList<String>(palettes.keySet());
+		Collections.sort(palettenames, Constants.DEFAULT_FIRST_COMPARATOR);
 		return palettenames;
 	}
 
@@ -440,7 +438,7 @@ public class Main {
 		for (File template : templateFiles) {
 			if (template.getName().endsWith(".java")) templates.add(template.getName().substring(0, template.getName().length() - 5));
 		}
-		Collections.sort(templates, new TemplateSorter());
+		Collections.sort(templates, Constants.DEFAULT_FIRST_COMPARATOR);
 		return templates;
 	}
 
