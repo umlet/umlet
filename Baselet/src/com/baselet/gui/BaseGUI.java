@@ -42,7 +42,7 @@ public abstract class BaseGUI extends JPanel {
 		this.main = main;
 	}
 
-	public final void initGUI() throws Exception {
+	public final void initGUI() {
 		try {
 			UIManager.setLookAndFeel(Constants.ui_manager);
 		} catch (Exception e) { // If the LookAndFeel cannot be set, it gets logged (without stacktrace) and the default style is used

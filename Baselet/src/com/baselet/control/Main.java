@@ -121,7 +121,7 @@ public class Main {
 		}
 	}
 
-	public void init(BaseGUI gui) throws Exception {
+	public void init(BaseGUI gui) {
 		this.gui = gui;
 		Config.loadConfig(); // only load config after gui is set (because of homepath)
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE); // Tooltips should not hide after some time
