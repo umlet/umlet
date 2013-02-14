@@ -87,7 +87,11 @@ public class Config {
 		Constants.pdfExportFont = getStringProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
 		Constants.checkForUpdates = getBoolProperty(CHECK_FOR_UPDATES, Constants.checkForUpdates);
 		Constants.openFileHome = getStringProperty(OPEN_FILE_HOME, Constants.openFileHome);
-		Constants.lastUsedPalette = getStringProperty(LAST_USED_PALETTE, Constants.lastUsedPalette);
+		
+		// only set last used palette if its a valid palette, otherwise leave the default value
+		String tempVal = getStringProperty(LAST_USED_PALETTE, null);
+		if (Main.getInstance().getPaletteNames().contains(tempVal)) Constants.lastUsedPalette = tempVal;
+		
 		Constants.main_split_position = getIntProperty(MAIN_SPLIT_POSITION, Constants.main_split_position);
 		Constants.right_split_position = getIntProperty(RIGHT_SPLIT_POSITION, Constants.right_split_position);
 		Constants.mail_split_position = getIntProperty(MAIL_SPLIT_POSITION, Constants.mail_split_position);
