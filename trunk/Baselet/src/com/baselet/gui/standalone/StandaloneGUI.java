@@ -92,8 +92,6 @@ public class StandaloneGUI extends BaseGUI {
 	private JPanel paletteControlsPanel;
 	private JComboBox paletteList;
 
-	protected String selected_palette;
-
 	private CustomElementHandler customelementhandler;
 	private CustomElementPanel customPanel;
 	private boolean custom_element_selected;
@@ -108,7 +106,6 @@ public class StandaloneGUI extends BaseGUI {
 		custom_element_selected = false;
 		custom_panel_visible = false;
 		mail_panel_visible = false;
-		selected_palette = "";
 	}
 
 	@Override
@@ -406,8 +403,6 @@ public class StandaloneGUI extends BaseGUI {
 		/************************ ADD TOP COMPONENT ************************/
 		this.add(mailSplit);
 		/************************** SET DEFAULT INITIALIZATION VALUES ******/
-		if (!palettenames.isEmpty()) this.selectPalette(palettenames.get(0));
-
 		ToolTipManager.sharedInstance().setInitialDelay(100);
 		/*************************************************************/
 
@@ -416,19 +411,15 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public void selectPalette(String palette) {
-		if (this.selected_palette.equals(palette)) return;
-
-		this.selected_palette = palette;
-
-		paletteList.setSelectedItem(this.selected_palette);
-
+		super.selectPalette(palette);
+		paletteList.setSelectedItem(palette);
 		CardLayout cl = (CardLayout) (this.palettepanel.getLayout());
-		cl.show(this.palettepanel, this.getSelectedPalette());
+		cl.show(this.palettepanel, palette);
 	}
 
 	@Override
 	public String getSelectedPalette() {
-		return this.selected_palette + "." + Program.EXTENSION;
+		return this.paletteList.getSelectedItem().toString();
 	}
 
 	@Override

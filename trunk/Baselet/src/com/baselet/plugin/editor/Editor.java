@@ -43,7 +43,6 @@ import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
@@ -201,15 +200,15 @@ public class Editor extends EditorPart {
 						//when switching to another editor frame, check if palettePanel got lost
 						if (palettePanel.getComponentCount()==0) {
 							for (String palname : Main.getInstance().getPaletteNames(palettes)) {
-								DrawPanel panel = palettes.get(palname + "." + Program.EXTENSION).getDrawPanel();
+								DrawPanel panel = palettes.get(palname).getDrawPanel();
 								palettePanel.add(panel.getScrollPane(), palname);
 							}
 						}
-
-						selectPalette(getSelectedPaletteName());
 						log.debug("editor.setFocus thread complete");
 					}		
 				});
+		selectPalette(getSelectedPaletteName());
+
 		Main.getInstance().getGUI().setValueOfZoomDisplay(handler.getGridSize());
 		log.debug("editor.setFocus complete");
 	}
@@ -281,7 +280,7 @@ public class Editor extends EditorPart {
 		paletteList = new JComboBox();
 		paletteList.setMaximumRowCount(15);
 		for (String palname : Main.getInstance().getPaletteNames(palettes)) {
-			DrawPanel panel = palettes.get(palname + "." + Program.EXTENSION).getDrawPanel();
+			DrawPanel panel = palettes.get(palname).getDrawPanel();
 			palettePanel.add(panel.getScrollPane(), palname);
 			paletteList.addItem(palname);
 		}
@@ -302,7 +301,7 @@ public class Editor extends EditorPart {
 		rightPanel.add(paletteList);
 		rightPanel.add(rightSplit);
 
-		selectPalette(this.getSelectedPaletteName());
+		selectPalette(Constants.lastUsedPalette);
 
 		this.searchPanel = new JPanel();
 		this.searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
@@ -485,6 +484,7 @@ public class Editor extends EditorPart {
 
 	public void selectPalette(String paletteName) {
 		CardLayout palettePanelLayout = (CardLayout) palettePanel.getLayout();
+		paletteList.setSelectedItem(paletteName);
 		palettePanelLayout.show(palettePanel, paletteName);
 	}
 }

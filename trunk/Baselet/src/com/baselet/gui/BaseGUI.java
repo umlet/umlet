@@ -151,7 +151,9 @@ public abstract class BaseGUI extends JPanel {
 
 	public abstract String getSelectedPalette();
 
-	public abstract void selectPalette(String palette);
+	public void selectPalette(String palette) {
+		Constants.lastUsedPalette = palette;
+	}
 
 	public abstract void open(DiagramHandler diagram);
 

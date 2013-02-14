@@ -12,7 +12,6 @@ import javax.swing.text.JTextComponent;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
@@ -105,7 +104,7 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public String getSelectedPalette() {
-		if (this.editor != null) { return this.editor.getSelectedPaletteName() + "." + Program.EXTENSION; }
+		if (this.editor != null) return this.editor.getSelectedPaletteName();
 		return null;
 	}
 
@@ -133,7 +132,8 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public void selectPalette(String palette) {
-		editor.selectPalette(palette);
+		super.selectPalette(palette);
+		if (editor != null) editor.selectPalette(palette);
 	}
 
 	@Override
