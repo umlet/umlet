@@ -28,10 +28,8 @@ public class MainPlugin extends AbstractUIPlugin {
 	// The shared instance
 	private static MainPlugin plugin;
 
-	private static EclipseGUI gui;
-
 	public static EclipseGUI getGUI() {
-		return gui;
+		return (EclipseGUI) Main.getInstance().getGUI();
 	}
 
 	/**
@@ -53,8 +51,7 @@ public class MainPlugin extends AbstractUIPlugin {
 		try {
 			Main.getInstance().initLogger();
 			readBundleManifestInfo();
-			gui = new EclipseGUI(Main.getInstance());
-			Main.getInstance().init(gui);
+			Main.getInstance().init(new EclipseGUI(Main.getInstance()));
 		} catch (Exception e) {
 			log.error("Initialization or uncaught outer Exception", e);
 		}
