@@ -126,11 +126,7 @@ public class Main {
 		Config.loadConfig(); // only load config after gui is set (because of homepath)
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE); // Tooltips should not hide after some time
 		gui.initGUI(); // show gui
-		if (getPaletteNames().contains(Constants.lastUsedPalette)) {
-			gui.selectPalette(Constants.lastUsedPalette);
-		} else {
-			Constants.lastUsedPalette = Constants.DEFAULT_LAST_USED_PALETTE;
-		}
+		gui.selectPalette(Constants.lastUsedPalette);
 	}
 
 	public void initLogger() {
