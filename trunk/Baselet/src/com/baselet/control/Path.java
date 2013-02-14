@@ -32,11 +32,20 @@ public class Path {
 	}
 
 	private static String userHome() {
-		String homeDir = System.getProperty("user.home");
+		String homeDir = userHomeBase();
 		if (!homeDir.endsWith(File.separator)) homeDir += File.separator;
 		File homeDirFile = new File(homeDir + Program.PROGRAM_NAME);
 		if (!homeDirFile.exists()) homeDirFile.mkdir();
 		return homeDirFile.getAbsolutePath();
+	}
+
+	private static String userHomeBase() {
+		try {
+			String xdgConfigHome = System.getenv("XDG_CONFIG_HOME"); // use env variable $XDG_CONFIG_HOME if it's set
+			if (xdgConfigHome != null) return xdgConfigHome;
+		} catch (Exception e) { /* if env variable cannot be read, ignore it */ }
+
+		return System.getProperty("user.home");
 	}
 
 	public static String customElements() {
