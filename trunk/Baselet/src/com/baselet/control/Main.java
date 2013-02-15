@@ -130,13 +130,13 @@ public class Main {
 	}
 
 	public void initLogger() {
-		String log4jFilePath = Path.homeProgram() + "log4j.properties";
+		String log4jFilePath = Path.homeProgram() + Constants.LOG4J_PROPERTIES;
 		try {
 			// If no log4j.properties file exists, we create a simple one
 			if (!new File(log4jFilePath).exists()) {
-				log4jFilePath = Path.temp() + Program.PROGRAM_NAME.toLowerCase() + "_log4j.properties";
-				File tempLog4jFile = new File(log4jFilePath);
+				File tempLog4jFile = File.createTempFile(Constants.LOG4J_PROPERTIES, null);
 				tempLog4jFile.deleteOnExit();
+				log4jFilePath = tempLog4jFile.getAbsolutePath();
 				Writer writer = new BufferedWriter(new FileWriter(tempLog4jFile));
 				writer.write(
 						"log4j.rootLogger=ERROR, SYSTEM_OUT\n" +
@@ -150,15 +150,16 @@ public class Main {
 			props.load(new FileInputStream(log4jFilePath));
 			PropertyConfigurator.configure(props);
 			log.info("Logger configuration initialized");
-		} catch (IOException e) {
-			log.error("Initialization of log4j.properties failed", e);
+		} catch (Exception e) {
+			System.err.println("Initialization of " + Constants.LOG4J_PROPERTIES + " failed:");
+			e.printStackTrace();
 		}
 	}
 
 	private void readManifestInfo() {
 		try {
 			Attributes attributes = Path.manifest().getMainAttributes();
-			Program.init(attributes.getValue("Bundle-Name"), attributes.getValue("Bundle-Version"));
+			Program.init(attributes.getValue(Constants.MANIFEST_BUNDLE_NAME), attributes.getValue(Constants.MANIFEST_BUNDLE_VERSION));
 		} catch (Exception e) {
 			//			log.error(null, e);
 			e.printStackTrace(); // Logger is not initialized here
