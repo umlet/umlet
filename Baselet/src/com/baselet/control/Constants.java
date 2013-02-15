@@ -212,6 +212,10 @@ public abstract class Constants {
 
 	/**** OTHER CONSTANTS ****/
 
+	public static final String MANIFEST_BUNDLE_NAME = "Bundle-Name";
+	public static final String MANIFEST_BUNDLE_VERSION = "Bundle-Version";
+	public static final String LOG4J_PROPERTIES = "log4j.properties";
+
 	public static final int NOTIFICATION_SHOW_TIME = 3000;
 	public static final String CUSTOM_ELEMENT_CLASSNAME = "CustomElementImpl";
 	public static final int DEFAULTGRIDSIZE = 10;

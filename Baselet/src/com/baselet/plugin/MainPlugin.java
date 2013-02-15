@@ -11,6 +11,7 @@ import org.osgi.framework.BundleContext;
 
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
+import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.gui.eclipse.EclipseGUI;
@@ -61,7 +62,7 @@ public class MainPlugin extends AbstractUIPlugin {
 	private void readBundleManifestInfo() {
 		Dictionary<String, String> headers = MainPlugin.getDefault().getBundle().getHeaders();
 		PLUGIN_ID = MainPlugin.getDefault().getBundle().getSymbolicName();
-		Program.init(headers.get("Bundle-Name"), headers.get("Bundle-Version"));
+		Program.init(headers.get(Constants.MANIFEST_BUNDLE_NAME), headers.get(Constants.MANIFEST_BUNDLE_VERSION));
 		
 	}
 
