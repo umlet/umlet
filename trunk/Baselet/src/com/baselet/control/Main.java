@@ -72,51 +72,47 @@ public class Main {
 		tmp_file = Program.PROGRAM_NAME.toLowerCase() + ".tmp";
 		tmp_read_file = Program.PROGRAM_NAME.toLowerCase() + "_1.tmp";
 
-		try {
-			if (args.length != 0) {
-				String action = null;
-				String format = null;
-				String filename = null;
-				String output = null;
-				for (int i = 0; i < args.length; i++) {
-					if (args[i].startsWith("-action=")) action = args[i].substring(8);
-					else if (args[i].startsWith("-format=")) format = args[i].substring(8);
-					else if (args[i].startsWith("-filename=")) filename = args[i].substring(10);
-					else if (args[i].startsWith("-output=")) output = args[i].substring(8);
+		if (args.length != 0) {
+			String action = null;
+			String format = null;
+			String filename = null;
+			String output = null;
+			for (int i = 0; i < args.length; i++) {
+				if (args[i].startsWith("-action=")) action = args[i].substring(8);
+				else if (args[i].startsWith("-format=")) format = args[i].substring(8);
+				else if (args[i].startsWith("-filename=")) filename = args[i].substring(10);
+				else if (args[i].startsWith("-output=")) output = args[i].substring(8);
+			}
+			// Program started by double-click on diagram file
+			if ((action == null) && (format == null) && (filename != null)) {
+				if (!alreadyRunningChecker(false) || !sendFileNameToRunningApplication(filename)) {
+					main.init(new StandaloneGUI(main));
+					main.doOpen(filename);
 				}
-				// Program started by double-click on diagram file
-				if ((action == null) && (format == null) && (filename != null)) {
-					if (!alreadyRunningChecker(false) || !sendFileNameToRunningApplication(filename)) {
-						main.init(new StandaloneGUI(main));
-						main.doOpen(filename);
-					}
-				}
-				else if ((action != null) && (format != null) && (filename != null)) {
-					if (action.equals("convert")) {
-						Program.RUNTIME_TYPE = RuntimeType.BATCH;
-						String[] splitFilename = filename.split("(/|\\\\)");
-						String localName = splitFilename[splitFilename.length-1];
-						String dir = filename.substring(0, filename.length()-localName.length());
-						if (dir.isEmpty()) dir = ".";
-						FileFilter fileFilter = new WildcardFileFilter(localName);
-						File[] files = new File(dir).listFiles(fileFilter);
-						if (files !=null) {
-							for (int i = 0; i < files.length; i++) {
-								doConvert(files[i], format, output);
-							}
+			}
+			else if ((action != null) && (format != null) && (filename != null)) {
+				if (action.equals("convert")) {
+					Program.RUNTIME_TYPE = RuntimeType.BATCH;
+					String[] splitFilename = filename.split("(/|\\\\)");
+					String localName = splitFilename[splitFilename.length-1];
+					String dir = filename.substring(0, filename.length()-localName.length());
+					if (dir.isEmpty()) dir = ".";
+					FileFilter fileFilter = new WildcardFileFilter(localName);
+					File[] files = new File(dir).listFiles(fileFilter);
+					if (files !=null) {
+						for (int i = 0; i < files.length; i++) {
+							doConvert(files[i], format, output);
 						}
 					}
-					else printUsage();
 				}
 				else printUsage();
 			}
-			else { // no arguments specified
-				alreadyRunningChecker(true); // start checker
-				main.init(new StandaloneGUI(main));
-				main.doNew();
-			}
-		} catch (Exception e) {
-			log.error("Initialization or uncaught outer Exception", e);
+			else printUsage();
+		}
+		else { // no arguments specified
+			alreadyRunningChecker(true); // start checker
+			main.init(new StandaloneGUI(main));
+			main.doNew();
 		}
 	}
 
@@ -397,11 +393,14 @@ public class Main {
 			// scan palettes
 			List<File> palettes = this.scanForPalettes();
 			for (File palette : palettes) {
-				String nameWithoutExtension = palette.getName().substring(0, palette.getName().indexOf("."));
-				this.palettes.put(nameWithoutExtension, new PaletteHandler(palette));
+				this.palettes.put(getFilenameWithoutExtension(palette), new PaletteHandler(palette));
 			}
 		}
 		return this.palettes;
+	}
+
+	private String getFilenameWithoutExtension(File file) {
+		return file.getName().substring(0, file.getName().indexOf("."));
 	}
 
 	private List<File> scanForPalettes() {
@@ -416,13 +415,12 @@ public class Main {
 	}
 
 	public List<String> getPaletteNames() {
-		return this.getPaletteNames(this.getPalettes());
-	}
-
-	public List<String> getPaletteNames(Hashtable<String, PaletteHandler> palettes) {
-		List<String> palettenames = new ArrayList<String>(palettes.keySet());
-		Collections.sort(palettenames, Constants.DEFAULT_FIRST_COMPARATOR);
-		return palettenames;
+		List<String> nameList = new ArrayList<String>();
+		for (File f : scanForPalettes()) {
+			nameList.add(getFilenameWithoutExtension(f));
+		}
+		Collections.sort(nameList, Constants.DEFAULT_FIRST_COMPARATOR);
+		return nameList;
 	}
 
 	public List<String> getTemplateNames() {
