@@ -176,7 +176,7 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public void setDiagramChanged(DiagramHandler diagram, boolean changed) {
 		Editor editor = this.diagrams.get(diagram);
-		if ((editor != null) && changed) editor.dirtyChanged();
+		if (editor != null) editor.dirtyChanged();
 	}
 
 	@Override
