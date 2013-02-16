@@ -296,7 +296,7 @@ public class Editor extends EditorPart {
 		paletteList.setAlignmentX(Component.CENTER_ALIGNMENT);
 		rightSplit.setAlignmentX(Component.CENTER_ALIGNMENT);
 		PaletteComboBoxListener pl = new PaletteComboBoxListener();
-		paletteList.addActionListener(pl);
+		paletteList.addItemListener(pl);
 		paletteList.addMouseWheelListener(pl);
 		rightPanel.add(paletteList);
 		rightPanel.add(rightSplit);
