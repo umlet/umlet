@@ -42,6 +42,7 @@ public class OwnSyntaxPane {
 
 	JPanel panel;
 	RSyntaxTextArea textArea;
+	RTextScrollPane scrollPane;
 
 	public OwnSyntaxPane() {
 
@@ -72,7 +73,7 @@ public class OwnSyntaxPane {
 
 		textArea.setAntiAliasingEnabled(true);
 		textArea.setFont(Constants.PANEL_CONTENT_FONT);
-		RTextScrollPane scrollPane = new RTextScrollPane(textArea, false);
+		scrollPane = new RTextScrollPane(textArea, false);
 		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -122,6 +123,10 @@ public class OwnSyntaxPane {
 
 	public JPanel getPanel() {
 		return this.panel;
+	}
+	
+	public void repaint() {
+		if (scrollPane != null) scrollPane.repaint();
 	}
 
 	public JTextComponent getTextComponent() {
