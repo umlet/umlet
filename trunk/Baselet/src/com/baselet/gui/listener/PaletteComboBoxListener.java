@@ -14,7 +14,7 @@ public class PaletteComboBoxListener implements ItemListener, MouseWheelListener
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-		Main.getInstance().getGUI().selectPalette((String) e.getItem());
+		Main.getInstance().getGUI().showPalette((String) e.getItem());
 		setZoom();
 	}
 	
@@ -25,7 +25,7 @@ public class PaletteComboBoxListener implements ItemListener, MouseWheelListener
 			int newIndex = comboBox.getSelectedIndex() + e.getWheelRotation(); // wheelrotation is -1 (up) or +1 (down)
 			if (comboBox.getItemAt(newIndex) != null) {
 				String newSelectedItem = comboBox.getItemAt(newIndex).toString();
-				Main.getInstance().getGUI().selectPalette(newSelectedItem);
+				Main.getInstance().getGUI().showPalette(newSelectedItem);
 				comboBox.setSelectedIndex(newIndex);
 				setZoom();
 			}
