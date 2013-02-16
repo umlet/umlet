@@ -106,13 +106,11 @@ public class Contributor extends EditorActionBarContributor {
 		selectAllActionPropPanel = createPanelAction(Pane.PROPERTY, ActionName.SELECTALL);
 
 		setGlobalActionHandlers(Pane.DIAGRAM);
-
-		MainPlugin.getGUI().setContributor(this);
 	}
 
 	@Override
 	public void contributeToMenu(IMenuManager manager) {
-		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) (MainPlugin.getGUI()).setContributor(this);
+		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) MainPlugin.getGUI().setContributor(this);
 
 		IMenuManager menu = new MenuManager(Program.PROGRAM_NAME.toString());
 		IMenuManager custom = new MenuManager(MenuFactory.CUSTOM_ELEMENTS);
