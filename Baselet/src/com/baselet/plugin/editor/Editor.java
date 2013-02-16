@@ -204,10 +204,10 @@ public class Editor extends EditorPart {
 								palettePanel.add(panel.getScrollPane(), palname);
 							}
 						}
+						selectPalette(getSelectedPaletteName());
 						log.debug("editor.setFocus thread complete");
 					}		
 				});
-		selectPalette(getSelectedPaletteName());
 
 		Main.getInstance().getGUI().setValueOfZoomDisplay(handler.getGridSize());
 		log.debug("editor.setFocus complete");
