@@ -170,7 +170,7 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public void updateDiagramName(DiagramHandler diagram, String name) {
 		Editor editor = this.diagrams.get(diagram);
-		if (editor != null) editor.dirtyChanged();
+		if (editor != null) editor.diagramNameChanged();
 	}
 
 	@Override

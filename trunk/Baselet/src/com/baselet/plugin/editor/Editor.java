@@ -37,6 +37,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
@@ -106,8 +107,6 @@ public class Editor extends EditorPart {
 		//AB: This should also be made thread safe but the return value makes it difficulty. maybe this works anyway.
 		log.info("Call editor.doSave()");
 		if (handler.doSave()) {
-			log.debug("fireCleanProperty");
-			fireCleanProperty();
 			log.debug("monitor.done");
 			monitor.done();
 		}
@@ -252,25 +251,21 @@ public class Editor extends EditorPart {
 	}
 
 	public void dirtyChanged() {
-		org.eclipse.swt.widgets.Display.getDefault().asyncExec(new DirtyAction(this));
+		org.eclipse.swt.widgets.Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				firePropertyChange(IEditorPart.PROP_DIRTY);
+			}
+		});
 	}
 
 	public void diagramNameChanged() {
-		org.eclipse.swt.widgets.Display.getDefault().asyncExec(new UpdateDiagramNameAction(this));
-	}
-
-	protected void fireDiagramNameChanged() {
-		this.firePropertyChange(PROP_TITLE);
-	}
-
-	// Adds the star right to the tab to show that there are some changes which have not been stored
-	protected void fireDirtyProperty() {
-		this.firePropertyChange(IEditorPart.PROP_DIRTY);
-	}
-
-	// Removes the star right to the tab to show that the changes have yet been stored
-	protected void fireCleanProperty() {
-		this.firePropertyChange(IEditorPart.PROP_INPUT);
+		org.eclipse.swt.widgets.Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				firePropertyChange(IWorkbenchPart.PROP_TITLE);
+			}
+		});
 	}
 
 	private JPanel createEditor() {
