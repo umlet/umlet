@@ -204,7 +204,7 @@ public class Editor extends EditorPart {
 
 						//when switching to another editor frame, check if palettePanel got lost
 						if (palettePanel.getComponentCount()==0) {
-							for (String palname : Main.getInstance().getPaletteNames(palettes)) {
+							for (String palname : Main.getInstance().getPaletteNames()) {
 								DrawPanel panel = palettes.get(palname).getDrawPanel();
 								palettePanel.add(panel.getScrollPane(), palname);
 							}
@@ -284,7 +284,7 @@ public class Editor extends EditorPart {
 		palettePanel = new JPanel(new CardLayout());
 		paletteList = new JComboBox();
 		paletteList.setMaximumRowCount(15);
-		for (String palname : Main.getInstance().getPaletteNames(palettes)) {
+		for (String palname : Main.getInstance().getPaletteNames()) {
 			DrawPanel panel = palettes.get(palname).getDrawPanel();
 			palettePanel.add(panel.getScrollPane(), palname);
 			paletteList.addItem(palname);
