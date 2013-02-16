@@ -1,7 +1,7 @@
 package com.baselet.gui.listener;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
@@ -10,17 +10,14 @@ import javax.swing.JComboBox;
 import com.baselet.control.Main;
 
 
-public class PaletteComboBoxListener implements ActionListener, MouseWheelListener {
+public class PaletteComboBoxListener implements ItemListener, MouseWheelListener {
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() instanceof JComboBox) {
-			String paletteName = ((JComboBox) e.getSource()).getSelectedItem().toString();
-			Main.getInstance().getGUI().selectPalette(paletteName);
-			setZoom();
-		}
+	public void itemStateChanged(ItemEvent e) {
+		Main.getInstance().getGUI().selectPalette((String) e.getItem());
+		setZoom();
 	}
-
+	
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		if (e.getSource() instanceof JComboBox) {
