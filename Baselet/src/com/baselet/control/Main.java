@@ -10,10 +10,10 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
 import java.util.Timer;
+import java.util.TreeMap;
 import java.util.jar.Attributes;
 
 import javax.imageio.ImageIO;
@@ -50,7 +50,7 @@ public class Main {
 
 	private BaseGUI gui;
 	private GridElement editedGridElement;
-	private Hashtable<String, PaletteHandler> palettes;
+	private TreeMap<String, PaletteHandler> palettes;
 	private ArrayList<DiagramHandler> diagrams = new ArrayList<DiagramHandler>();
 	private DiagramHandler currentDiagramHandler;
 	private ClassLoader classLoader;
@@ -387,9 +387,9 @@ public class Main {
 		}
 	}
 
-	public Hashtable<String, PaletteHandler> getPalettes() {
+	public TreeMap<String, PaletteHandler> getPalettes() {
 		if (this.palettes == null) {
-			this.palettes = new Hashtable<String, PaletteHandler>();
+			this.palettes = new TreeMap<String, PaletteHandler>(Constants.DEFAULT_FIRST_COMPARATOR);
 			// scan palettes
 			List<File> palettes = this.scanForPalettes();
 			for (File palette : palettes) {

@@ -8,8 +8,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.Hashtable;
-import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -189,14 +187,7 @@ public class StandaloneGUI extends BaseGUI {
 		JMenuBar menu = new JMenuBar();
 		menuFactory = MenuFactorySwing.getInstance();
 
-		// Create Palettes and Edit Palette menuitem
-		List<String> palettenames = this.main.getPaletteNames();
-		for (String palette : palettenames) {
-			this.paletteList.addItem(palette);
-		}
 		PaletteComboBoxListener pl = new PaletteComboBoxListener();
-		this.paletteList.addActionListener(pl);
-		this.paletteList.addMouseWheelListener(pl);
 
 		JMenu fileMenu = new JMenu(MenuFactory.FILE);
 		fileMenu.setMnemonic(KeyEvent.VK_F);
@@ -377,10 +368,9 @@ public class StandaloneGUI extends BaseGUI {
 		palettepanel.addComponentListener(new DividerListener());
 
 		/******************* ADD PALETTES ***************************/
-		Hashtable<String, PaletteHandler> palettetable = main.getPalettes();
-		for (String palname : palettetable.keySet()) {
-			DrawPanel panel = palettetable.get(palname).getDrawPanel();
-			palettepanel.add(panel.getScrollPane(), palname);
+		for (PaletteHandler palette : main.getPalettes().values()) {
+			palettepanel.add(palette.getDrawPanel().getScrollPane(), palette.getName());
+			paletteList.addItem(palette.getName());
 		}
 
 		/***************** SETTING TABS AND TAB LAYOUT ***********************/
@@ -406,6 +396,8 @@ public class StandaloneGUI extends BaseGUI {
 		ToolTipManager.sharedInstance().setInitialDelay(100);
 		/*************************************************************/
 
+		paletteList.addActionListener(pl); // add listeners after adding every paletteList entry to avoid triggering the listener everytime
+		paletteList.addMouseWheelListener(pl);
 		paletteList.setSelectedItem(Constants.lastUsedPalette);
 		
 		this.window.setVisible(true);

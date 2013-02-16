@@ -12,7 +12,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -69,7 +68,6 @@ public class Editor extends EditorPart {
 	private CustomElementHandler customhandler;
 	private CustomElementPanel custompanel;
 	private MailPanel mailpanel;
-	private Hashtable<String, PaletteHandler> palettes;
 	private Panel embedded_panel;
 	private OwnSyntaxPane propertyTextPane;
 	private JTextField searchfield;
@@ -100,7 +98,6 @@ public class Editor extends EditorPart {
 		this.mailpanel = Main.getInstance().getGUI().createMailPanel();
 		this.propertyTextPane = Main.getInstance().getGUI().createPropertyTextPane();
 		this.propertyTextPane.getTextComponent().addFocusListener(new TextPaneFocusListener());
-		this.palettes = Main.getInstance().getPalettes();
 		MainPlugin.getGUI().setCurrentEditor(this);
 	}
 
@@ -204,9 +201,8 @@ public class Editor extends EditorPart {
 
 						//when switching to another editor frame, check if palettePanel got lost
 						if (palettePanel.getComponentCount()==0) {
-							for (String palname : Main.getInstance().getPaletteNames()) {
-								DrawPanel panel = palettes.get(palname).getDrawPanel();
-								palettePanel.add(panel.getScrollPane(), palname);
+							for (PaletteHandler palette : Main.getInstance().getPalettes().values()) {
+								palettePanel.add(palette.getDrawPanel().getScrollPane(), palette.getName());
 							}
 						}
 						showPalette(getSelectedPaletteName());
@@ -284,10 +280,9 @@ public class Editor extends EditorPart {
 		palettePanel = new JPanel(new CardLayout());
 		paletteList = new JComboBox();
 		paletteList.setMaximumRowCount(15);
-		for (String palname : Main.getInstance().getPaletteNames()) {
-			DrawPanel panel = palettes.get(palname).getDrawPanel();
-			palettePanel.add(panel.getScrollPane(), palname);
-			paletteList.addItem(palname);
+		for (PaletteHandler palette : Main.getInstance().getPalettes().values()) {
+			palettePanel.add(palette.getDrawPanel().getScrollPane(), palette.getName());
+			paletteList.addItem(palette.getName());
 		}
 
 		rightSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, palettePanel, propertyTextPane.getPanel());
