@@ -173,12 +173,17 @@ public class Editor extends EditorPart {
 	public void createPartControl(Composite parent) {
 		log.info("Call editor.createPartControl()");
 		Composite goodSWTComposite = new Composite(parent, SWT.EMBEDDED); // we need the embedded attribute set
-		Frame frame = org.eclipse.swt.awt.SWT_AWT.new_Frame(goodSWTComposite);
-		embedded_panel = new Panel();
-		embedded_panel.setLayout(new BorderLayout());
-		embedded_panel.add(createEditor());
-		embedded_panel.addKeyListener(new GUIListener());
-		frame.add(embedded_panel);
+		final Frame frame = org.eclipse.swt.awt.SWT_AWT.new_Frame(goodSWTComposite);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				embedded_panel = new Panel();
+				embedded_panel.setLayout(new BorderLayout());
+				embedded_panel.add(createEditor());
+				embedded_panel.addKeyListener(new GUIListener());
+				frame.add(embedded_panel);
+			}
+		});
 	}
 
 	@Override
@@ -204,7 +209,7 @@ public class Editor extends EditorPart {
 								palettePanel.add(panel.getScrollPane(), palname);
 							}
 						}
-						selectPalette(getSelectedPaletteName());
+						showPalette(getSelectedPaletteName());
 						log.debug("editor.setFocus thread complete");
 					}		
 				});
@@ -301,7 +306,7 @@ public class Editor extends EditorPart {
 		rightPanel.add(paletteList);
 		rightPanel.add(rightSplit);
 
-		selectPalette(Constants.lastUsedPalette);
+		paletteList.setSelectedItem(Constants.lastUsedPalette);
 
 		this.searchPanel = new JPanel();
 		this.searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
@@ -482,9 +487,13 @@ public class Editor extends EditorPart {
 		return mailSplit.getDividerLocation();
 	}
 
-	public void selectPalette(String paletteName) {
-		CardLayout palettePanelLayout = (CardLayout) palettePanel.getLayout();
-		paletteList.setSelectedItem(paletteName);
-		palettePanelLayout.show(palettePanel, paletteName);
+	public void showPalette(final String paletteName) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				CardLayout palettePanelLayout = (CardLayout) palettePanel.getLayout();
+				palettePanelLayout.show(palettePanel, paletteName);
+			}
+		});
 	}
 }

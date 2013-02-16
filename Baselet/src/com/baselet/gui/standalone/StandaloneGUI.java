@@ -406,13 +406,14 @@ public class StandaloneGUI extends BaseGUI {
 		ToolTipManager.sharedInstance().setInitialDelay(100);
 		/*************************************************************/
 
+		paletteList.setSelectedItem(Constants.lastUsedPalette);
+		
 		this.window.setVisible(true);
 	}
 
 	@Override
-	public void selectPalette(String palette) {
-		super.selectPalette(palette);
-		paletteList.setSelectedItem(palette);
+	public void showPalette(String palette) {
+		super.showPalette(palette);
 		CardLayout cl = (CardLayout) (this.palettepanel.getLayout());
 		cl.show(this.palettepanel, palette);
 	}

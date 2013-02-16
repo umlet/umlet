@@ -131,9 +131,9 @@ public class EclipseGUI extends BaseGUI {
 	}
 
 	@Override
-	public void selectPalette(String palette) {
-		super.selectPalette(palette);
-		if (editor != null) editor.selectPalette(palette);
+	public void showPalette(String palette) {
+		super.showPalette(palette);
+		if (editor != null) editor.showPalette(palette);
 	}
 
 	@Override

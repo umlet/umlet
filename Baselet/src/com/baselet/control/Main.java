@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -126,7 +125,6 @@ public class Main {
 		Config.loadConfig(); // only load config after gui is set (because of homepath)
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE); // Tooltips should not hide after some time
 		gui.initGUI(); // show gui
-		gui.selectPalette(Constants.lastUsedPalette);
 	}
 
 	public void initLogger() {
