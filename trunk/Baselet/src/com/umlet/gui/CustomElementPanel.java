@@ -26,6 +26,7 @@ public class CustomElementPanel extends JPanel {
 	private JLabel savelabel;
 	private CustomElementHandler customhandler;
 	private CustomCodeSyntaxPane customcodepane;
+	private DrawPanel custompreviewpanel;
 
 	public CustomElementPanel(CustomElementHandler customhandler) {
 		this.customhandler = customhandler;
@@ -46,7 +47,7 @@ public class CustomElementPanel extends JPanel {
 		JPanel custompanel3 = new JPanel();
 		custompanel3.setLayout(new BoxLayout(custompanel3, BoxLayout.Y_AXIS));
 		DiagramHandler d = customhandler.getPreviewHandler();
-		DrawPanel custompreviewpanel = d.getDrawPanel();
+		custompreviewpanel = d.getDrawPanel();
 		custompreviewpanel.getScrollPane().setAlignmentX(Component.LEFT_ALIGNMENT);
 		JLabel previewlabel = new JLabel(" Preview");
 		previewlabel.setFont(Constants.PANEL_HEADER_FONT);
@@ -124,5 +125,12 @@ public class CustomElementPanel extends JPanel {
 
 	public JTextComponent getTextPane() {
 		return customcodepane.getTextComponent();
+	}
+	
+	@Override
+	public void repaint() {
+		super.repaint();
+		if (customcodepane != null) customcodepane.repaint();
+		if (custompreviewpanel != null && custompreviewpanel.getScrollPane() != null) custompreviewpanel.getScrollPane().repaint();
 	}
 }

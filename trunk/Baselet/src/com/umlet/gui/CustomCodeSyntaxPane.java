@@ -23,6 +23,7 @@ import com.umlet.custom.CustomFunction;
 public class CustomCodeSyntaxPane {
 	
 	private JPanel panel;
+	private RTextScrollPane scrollPane;
 	private RSyntaxTextArea textArea;
 	private DefaultCompletionProvider provider = new DefaultCompletionProvider();
 
@@ -41,7 +42,7 @@ public class CustomCodeSyntaxPane {
 		}
 		new AutoCompletion(provider).install(textArea);
 	    
-		RTextScrollPane scrollPane = new RTextScrollPane(textArea);
+		scrollPane = new RTextScrollPane(textArea);
 	    scrollPane.setFoldIndicatorEnabled(true);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -87,5 +88,8 @@ public class CustomCodeSyntaxPane {
 		return descriptors;
 	}
 
+	public void repaint() {
+		if (scrollPane != null) scrollPane.repaint();
+	}
 
 }

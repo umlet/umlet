@@ -8,8 +8,6 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Panel;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
@@ -25,11 +23,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -40,7 +33,6 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
-import org.eclipse.ui.part.FileEditorInput;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
@@ -49,7 +41,6 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
-import com.baselet.diagram.io.OutputHandler;
 import com.baselet.gui.MailPanel;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.eclipse.CustomCodePaneFocusListener;
@@ -172,47 +163,50 @@ public class Editor extends EditorPart {
 		log.info("Call editor.createPartControl()");
 		Composite goodSWTComposite = new Composite(parent, SWT.EMBEDDED); // we need the embedded attribute set
 		final Frame frame = org.eclipse.swt.awt.SWT_AWT.new_Frame(goodSWTComposite);
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				embedded_panel = new Panel();
-				embedded_panel.setLayout(new BorderLayout());
-				embedded_panel.add(createEditor());
-				embedded_panel.addKeyListener(new GUIListener());
-				frame.add(embedded_panel);
-			}
-		});
+		embedded_panel = new Panel();
+		embedded_panel.setLayout(new BorderLayout());
+		embedded_panel.add(createEditor());
+		embedded_panel.addKeyListener(new GUIListener());
+		frame.add(embedded_panel);
 	}
 
 	@Override
 	public void setFocus() {
 		log.info("Call editor.setFocus()");
-		currenteditor = this;
-		MainPlugin.getGUI().setCurrentEditor(this);
+		currenteditor = Editor.this;
+		MainPlugin.getGUI().setCurrentEditor(Editor.this);
 		log.debug("setCurrentEditor complete");
 
 		//AB: The eclipse plugin might hang sometimes if this section is not placed into an event queue, since swing or swt is not thread safe!	
-		SwingUtilities.invokeLater(
-				new Runnable() {
-					@Override
-					public void run() {
-						log.debug("setFocus thread");
-						Main.getInstance().setCurrentDiagramHandler(handler);			
-						if (handler != null) handler.getDrawPanel().getSelector().updateSelectorInformation();					
+		log.debug("setFocus thread");
+		Main.getInstance().setCurrentDiagramHandler(handler);			
+		if (handler != null) handler.getDrawPanel().getSelector().updateSelectorInformation();					
 
-						//when switching to another editor frame, check if palettePanel got lost
-						if (palettePanel.getComponentCount()==0) {
-							for (PaletteHandler palette : Main.getInstance().getPalettes().values()) {
-								palettePanel.add(palette.getDrawPanel().getScrollPane(), palette.getName());
-							}
-						}
-						showPalette(getSelectedPaletteName());
-						log.debug("editor.setFocus thread complete");
-					}		
-				});
+		ensurePalettesExistAndRepaintEveryScrollbar();
 
 		Main.getInstance().getGUI().setValueOfZoomDisplay(handler.getGridSize());
 		log.debug("editor.setFocus complete");
+	}
+
+	/**
+	 * usually the palettes get lost (for unknown reasons) after switching the editor, therefore recreate them.
+	 * also reselect the current palette and repaint every element with scrollbars (otherwise they have a visual error)
+	 */
+	private void ensurePalettesExistAndRepaintEveryScrollbar() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				if (palettePanel.getComponentCount()==0) {
+					for (PaletteHandler palette : Main.getInstance().getPalettes().values()) {
+						palettePanel.add(palette.getDrawPanel().getScrollPane(), palette.getName());
+					}
+				}
+				showPalette(getSelectedPaletteName());
+				propertyTextPane.repaint();
+				handler.getDrawPanel().repaint();
+				custompanel.repaint();
+			}
+		});
 	}
 
 	public DrawPanel getDiagram() {
@@ -226,14 +220,8 @@ public class Editor extends EditorPart {
 		log.info("Call editor.dispose()");
 		//AB: The eclipse plugin might hang sometimes if this section is not placed into an event queue, since swing or swt is not thread safe!
 		final Editor editor = this;
-		SwingUtilities.invokeLater(
-				new Runnable() {
-					@Override
-					public void run() {		
-						if (mailpanel.isVisible()) mailpanel.closePanel();
-						MainPlugin.getGUI().editorRemoved(editor);
-					}
-				});
+		if (mailpanel.isVisible()) mailpanel.closePanel();
+		MainPlugin.getGUI().editorRemoved(editor);
 	}
 
 	public void setCursor(Cursor cursor) {
@@ -355,34 +343,6 @@ public class Editor extends EditorPart {
 		return this.customhandler;
 	}
 
-	public void exportToFormat(String format) {
-		try {
-			this.setFocus();
-			ByteArrayOutputStream outdata = new ByteArrayOutputStream();
-
-			try {
-				OutputHandler.createToStream(format.toLowerCase(), outdata, this.handler);
-			} catch (Exception e) {
-				log.error(null, e);
-			}
-
-			IFile selFile = (IFile) ((FileEditorInput) getEditorInput()).getStorage();
-			IContainer targetFolder = selFile.getParent();
-
-			IPath newFilePath = targetFolder.getFullPath().append("/" + selFile.getName().substring(0, selFile.getName().length() - 4) + "." + format.toLowerCase());
-			// [UB]: changed WorkspacePlugin to ResourcesPlugin for eclipse3.0 compatibility
-			IFile newFile = ResourcesPlugin.getWorkspace().getRoot().getFile(newFilePath);
-			if (!newFile.exists()) {
-				newFile.create(new ByteArrayInputStream(outdata.toByteArray()), false, null);
-			}
-			else {
-				newFile.setContents(new ByteArrayInputStream(outdata.toByteArray()), false, true, null);
-			}
-		} catch (CoreException e) {
-			throw new RuntimeException(e.getMessage());
-		}
-	}
-
 	public void setCustomPanelEnabled(boolean enable) {
 		if (this.custompanel.isVisible() != enable) {
 			int loc = this.mainSplit.getDividerLocation();
@@ -433,20 +393,16 @@ public class Editor extends EditorPart {
 	}
 
 	private void setDiagramsEnabled(boolean enable) {
-		// this.palettetabs.setEnabled(enable);
-		// for (Component c : this.palettetabs.getComponents())
-		// c.setEnabled(enable);
 		this.handler.getDrawPanel().getScrollPane().setEnabled(enable);
 	}
 
 	public void repaint() {
-		SwingUtilities.invokeLater(
-				new Runnable() {
-					@Override
-					public void run() {
-						embedded_panel.repaint();
-					}
-				});
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				embedded_panel.repaint();
+			}
+		});
 	}
 
 	public void enableSearch(boolean enable) {
@@ -485,6 +441,8 @@ public class Editor extends EditorPart {
 			public void run() {
 				CardLayout palettePanelLayout = (CardLayout) palettePanel.getLayout();
 				palettePanelLayout.show(palettePanel, paletteName);
+				palettePanel.repaint();
+				paletteList.repaint();
 			}
 		});
 	}

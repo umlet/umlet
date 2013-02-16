@@ -197,10 +197,10 @@ public class EclipseGUI extends BaseGUI {
 	}
 
 	public void editorRemoved(Editor editor) {
-		// Before removing the editor, we have to store the actual splitpositions
-		// to variables so that a new editor has the same splitpositions
+		// Before removing the editor, we have to store the actual splitpositions and lastUsedPalette to variables so that a new editor has the same values
 		mainSplitPosition = editor.getMainSplitLocation();
 		rightSplitPosition = editor.getRightSplitLocation();
+		Constants.lastUsedPalette = getSelectedPalette();
 		this.diagrams.remove(editor);
 		if (editor.equals(this.editor)) {
 			this.editor = null;
