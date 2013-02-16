@@ -22,7 +22,6 @@ import com.baselet.gui.MenuFactory;
 import com.baselet.gui.eclipse.EclipseGUI;
 import com.baselet.gui.eclipse.EclipseGUI.Pane;
 import com.baselet.gui.eclipse.MenuFactoryEclipse;
-import com.baselet.gui.eclipse.UpdateActionBars;
 import com.baselet.plugin.MainPlugin;
 
 public class Contributor extends EditorActionBarContributor {
@@ -228,7 +227,7 @@ public class Contributor extends EditorActionBarContributor {
 			getActionBars().setGlobalActionHandler(ActionFactory.FIND.getId(), null);
 		}
 
-		org.eclipse.swt.widgets.Display.getDefault().asyncExec(new UpdateActionBars(this.getActionBars()));
+		getActionBars().updateActionBars();
 	}
 
 	public void updateZoomMenuRadioButton(int newGridSize) {
