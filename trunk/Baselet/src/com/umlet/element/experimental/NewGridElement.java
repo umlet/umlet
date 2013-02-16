@@ -158,18 +158,23 @@ public abstract class NewGridElement implements GridElement {
 		this.repaint();
 	}
 
+	/**
+	 * ugly workaround to avoid that the Resize().execute() call which calls setSize() on this model updates the model during the
+	 * calculated model update from autoresize. Otherwise the drawer cache would get messed up (it gets cleaned up 2 times in a row and afterwards everything gets drawn 2 times).
+	 * Best testcase is an autoresize element with a background. Write some text and everytime autresize triggers, the background is drawn twice.
+	 */
+	private boolean autoresizePossiblyInProgress = false;
+	
 	@Override
 	public void updateModelFromText() {
-		updateModelFromText(true);
-	}
-
-	private void updateModelFromText(boolean calcAutoresize) {
+		this.autoresizePossiblyInProgress = true;
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
-		properties.initSettingsFromText(this, calcAutoresize);
+		properties.initSettingsFromText(this);
 		drawer.setSize(getRealSize()); // must be set after possible resizing due to AUTORESIZE
 		updateMetaDrawer();
 		updateConcreteModel();
+		this.autoresizePossiblyInProgress = false;
 	}
 
 	protected abstract void updateConcreteModel();
@@ -330,7 +335,9 @@ public abstract class NewGridElement implements GridElement {
 	public void setSize(int width, int height) {
 		if (width != getSize().width || height != getSize().height) { // only change size if it is really different
 			component.setSize(width, height);
-			updateModelFromText(false);
+			if (!this.autoresizePossiblyInProgress) {
+				updateModelFromText();
+			}
 		}
 	}
 

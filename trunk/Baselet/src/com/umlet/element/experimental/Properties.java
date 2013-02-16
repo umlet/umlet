@@ -56,7 +56,7 @@ public class Properties {
 		this.panelAttributesAdditional = panelAttributesAdditional;
 	}
 
-	public void initSettingsFromText(NewGridElement element, boolean calcAutoresize) {
+	public void initSettingsFromText(NewGridElement element) {
 		propertiesTextToDraw = new ArrayList<String>();
 		this.elementSettings = element.getSettings();
 		this.propCfg = new PropertiesConfig(element.getSettings());
@@ -72,7 +72,7 @@ public class Properties {
 			if (drawText && !line.startsWith("//")) propertiesTextToDraw.add(line);
 		}
 
-		if (calcAutoresize) handleAutoresize(element);
+		handleAutoresize(element);
 		this.propCfg.setGridElementSize(element.getRealSize());
 
 	}
