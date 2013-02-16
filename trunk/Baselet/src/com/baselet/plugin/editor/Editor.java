@@ -43,6 +43,7 @@ import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.FileEditorInput;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
@@ -104,18 +105,24 @@ public class Editor extends EditorPart {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		//AB: This should also be made thread safe but the return value makes it difficulty. maybe this works anyway.
-		log.info("Call editor.doSave()");
-		if (handler.doSave()) {
-			log.debug("monitor.done");
-			monitor.done();
-		}
-		log.debug("doSave complete");
-
+		handler.doSave();
+		monitor.done();
 	}
 
 	@Override
-	public void doSaveAs() {}
+	public void doSaveAs() {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				handler.doSaveAs(Program.EXTENSION);
+			}
+		});
+	}
+
+	@Override
+	public boolean isSaveAsAllowed() {
+		return true;
+	}
 
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
@@ -158,11 +165,6 @@ public class Editor extends EditorPart {
 	@Override
 	public boolean isDirty() {
 		return this.handler.isChanged();
-	}
-
-	@Override
-	public boolean isSaveAsAllowed() {
-		return false;
 	}
 
 	@Override

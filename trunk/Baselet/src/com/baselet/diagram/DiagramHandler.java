@@ -123,6 +123,7 @@ public class DiagramHandler {
 		try {
 			this.fileHandler.doSave();
 			this.reloadPalettes();
+			Main.getInstance().getGUI().afterSaving();
 			return true;
 		} catch (IOException e) {
 			Main.displayError(Constants.ERROR_SAVING_FILE);
@@ -136,6 +137,7 @@ public class DiagramHandler {
 			try {
 				this.fileHandler.doSaveAs(extension);
 				this.reloadPalettes();
+				Main.getInstance().getGUI().afterSaving();
 			} catch (IOException e) {
 				Main.displayError(Constants.ERROR_SAVING_FILE);
 			}

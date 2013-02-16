@@ -4,14 +4,18 @@ import java.net.URL;
 import java.util.Dictionary;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.gui.eclipse.EclipseGUI;
@@ -100,5 +104,14 @@ public class MainPlugin extends AbstractUIPlugin {
 
 	public static URL getURL() {
 		return FileLocator.find(MainPlugin.getDefault().getBundle(), new org.eclipse.core.runtime.Path("/"), null);
+	}
+
+	public static void refreshWorkspace() {
+		IWorkspaceRoot myWorkspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		try {
+			myWorkspaceRoot.refreshLocal(IResource.DEPTH_INFINITE, null);
+		} catch (CoreException e) {
+			log.error("Error at refreshing the workspace", e);
+		}
 	}
 }

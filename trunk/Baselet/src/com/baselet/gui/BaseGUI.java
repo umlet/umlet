@@ -184,4 +184,8 @@ public abstract class BaseGUI extends JPanel {
 	public abstract OwnSyntaxPane getPropertyPane();
 
 	public abstract void setValueOfZoomDisplay(int i);
+
+	public void afterSaving() {
+		/* do nothing*/
+	}
 }

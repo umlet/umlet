@@ -18,6 +18,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.OwnSyntaxPane;
+import com.baselet.plugin.MainPlugin;
 import com.baselet.plugin.editor.Contributor;
 import com.baselet.plugin.editor.Contributor.ActionName;
 import com.baselet.plugin.editor.Editor;
@@ -279,6 +280,12 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public void setValueOfZoomDisplay(int i) {
 		if (contributor != null) contributor.updateZoomMenuRadioButton(i);
+	}
+	
+	@Override
+	public void afterSaving() {
+		super.afterSaving();
+		MainPlugin.refreshWorkspace();
 	}
 
 }
