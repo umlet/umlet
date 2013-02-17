@@ -2,31 +2,20 @@ package com.baselet.gui.standalone;
 
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
+import java.awt.Cursor;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.KeyStroke;
-import javax.swing.ToolTipManager;
-import javax.swing.WindowConstants;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Main;
-import com.baselet.control.Path;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.TabComponent;
-import com.baselet.gui.listener.GUIListener;
 import com.umlet.custom.CustomElementHandler;
 
 @SuppressWarnings("serial")
@@ -34,7 +23,7 @@ public class StandaloneGUI extends BaseGUI {
 
 	private JFrame mainFrame;
 
-	private MenuBuilder menu = new MenuBuilder();
+	private MenuBuilder menuBuilder = new MenuBuilder();
 	private StandaloneGUIBuilder guiBuilder = new StandaloneGUIBuilder();
 
 	public StandaloneGUI(Main main) {
@@ -87,57 +76,7 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	protected void init() {
-
-		this.addKeyListener(new GUIListener());
-
-		this.mainFrame = new JFrame();
-		this.mainFrame.setContentPane(this);
-		this.mainFrame.addWindowListener(new WindowListener());
-		this.mainFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		this.mainFrame.setBounds(Constants.program_location.x, Constants.program_location.y, Constants.program_size.width, Constants.program_size.height);
-		if (Program.PROGRAM_NAME.equals(ProgramName.UMLET)) this.mainFrame.setTitle("UMLet - Free UML Tool for Fast UML Diagrams");
-		else if (Program.PROGRAM_NAME.equals(ProgramName.PLOTLET)) this.mainFrame.setTitle("Plotlet - Free Tool for Fast Plots");
-
-		/************************ SET PROGRAM ICON ************************/
-		String iconPath = Path.homeProgram() + "img/" + Program.PROGRAM_NAME.toLowerCase() + "_logo.png";
-		this.mainFrame.setIconImage(new ImageIcon(iconPath).getImage());
-		/*************************************************************/
-
-		/*********** SET WINDOW BOUNDS **************/
-		if (Constants.start_maximized) {
-			// If Main starts maximized we set fixed bounds and must set the frame visible
-			// now to avoid a bug where the right sidebar doesn't have the correct size
-			this.mainFrame.setExtendedState(this.mainFrame.getExtendedState() | Frame.MAXIMIZED_BOTH);
-			this.mainFrame.setVisible(true);
-		}
-
-
-		// Set the finished menu
-		this.mainFrame.setJMenuBar(menu.createMenu(guiBuilder.createSearchPanel(), guiBuilder.createZoomPanel(), guiBuilder.createMailButton()));
-
-		/************************ CREATE SUB PANELS ******************/
-
-		// create custom element handler
-
-		int mainDividerLoc = Math.min(mainFrame.getSize().width-Constants.MIN_MAIN_SPLITPANEL_SIZE, Constants.main_split_position);
-		
-		/********************* ADD KEYBOARD ACTIONS ************************/
-		Action findaction = new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Main.getInstance().getGUI().enableSearch(true);
-			}
-		};
-		this.getActionMap().put("focussearch", findaction);
-		this.getInputMap().put(KeyStroke.getKeyStroke('/'), "focussearch");
-
-		/************************ ADD TOP COMPONENT ************************/
-		this.add(guiBuilder.initSwingGui(mainDividerLoc));
-		/************************** SET DEFAULT INITIALIZATION VALUES ******/
-		ToolTipManager.sharedInstance().setInitialDelay(100);
-		/*************************************************************/
-
-		this.mainFrame.setVisible(true);
+		mainFrame = guiBuilder.initSwingGui(menuBuilder);
 	}
 
 	@Override
@@ -187,23 +126,23 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public void elementsSelected(int count) {
 		super.elementsSelected(count);
-		menu.elementsSelected(count);
+		menuBuilder.elementsSelected(count);
 	}
 
 	@Override
 	public void enablePasteMenuEntry() {
-		menu.enablePasteMenuEntry();
+		menuBuilder.enablePasteMenuEntry();
 	}
 
 	@Override
 	public void setUngroupEnabled(boolean enabled) {
-		menu.setUngroupEnabled(enabled);
+		menuBuilder.setUngroupEnabled(enabled);
 	}
 
 	@Override
 	public void setCustomPanelEnabled(boolean enable) {
 		guiBuilder.setCustomPanelEnabled(enable);
-		menu.setCustomPanelEnabled(enable);
+		menuBuilder.setCustomPanelEnabled(enable);
 		setDrawPanelEnabled(!enable);
 	}
 
@@ -232,7 +171,7 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public void setCustomElementSelected(boolean selected) {
-		menu.setCustomElementSelected(selected, guiBuilder.getCustomPanel().isEnabled());
+		menuBuilder.setCustomElementSelected(selected, guiBuilder.getCustomPanel().isEnabled());
 	}
 
 	@Override
@@ -241,7 +180,7 @@ public class StandaloneGUI extends BaseGUI {
 	}
 
 	public void updateGrayedOutMenuItems(DiagramHandler handler) {
-	menu.updateGrayedOutMenuItems(handler);
+		menuBuilder.updateGrayedOutMenuItems(handler);
 	}
 
 	@Override
@@ -292,5 +231,15 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public void focusPropertyPane() {
 		guiBuilder.getPropertyTextPane().getTextComponent().requestFocus();
+	}
+
+	@Override
+	public void setCursor(Cursor cursor) {
+		mainFrame.setCursor(cursor);
+	}
+
+	@Override
+	public void requestFocus() {
+		mainFrame.requestFocus();
 	}
 }

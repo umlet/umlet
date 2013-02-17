@@ -1,11 +1,10 @@
 package com.baselet.gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
 import javax.swing.plaf.InsetsUIResource;
@@ -27,7 +26,7 @@ import com.umlet.custom.CustomElementHandler;
 
 
 @SuppressWarnings("serial")
-public abstract class BaseGUI extends JPanel {
+public abstract class BaseGUI {
 
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
@@ -47,10 +46,10 @@ public abstract class BaseGUI extends JPanel {
 		}
 
 		this.initGUIParameters();
-		this.setLayout(new BorderLayout());
+//		this.setLayout(new BorderLayout());
 
 		this.init();
-		this.requestFocus();
+//		this.requestFocus();
 	}
 
 	public abstract void focusPropertyPane();
@@ -162,4 +161,8 @@ public abstract class BaseGUI extends JPanel {
 	public void afterSaving() {
 		/* do nothing*/
 	}
+
+	public abstract void setCursor(Cursor cursor);
+
+	public abstract void requestFocus();
 }

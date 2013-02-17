@@ -201,7 +201,6 @@ public class EclipseGUI extends BaseGUI {
 	}
 
 	public void panelDoAction(Pane pane, ActionName actionName) {
-
 		JTextComponent textpane = null;
 		if (pane == Pane.PROPERTY) textpane = editor.getPropertyPane().getTextComponent();
 		else if (pane == Pane.CUSTOMCODE) textpane = editor.getCustomPane();
@@ -239,11 +238,6 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public void requestFocus() {
 		if (this.editor != null) this.editor.requestFocus();
-	}
-
-	@Override
-	public void repaint() {
-		if (this.editor != null) this.editor.repaint();
 	}
 
 	public void setContributor(Contributor contributor) {
