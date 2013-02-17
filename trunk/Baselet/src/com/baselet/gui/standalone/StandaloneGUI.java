@@ -3,7 +3,6 @@ package com.baselet.gui.standalone;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Frame;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -16,7 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToggleButton;
@@ -34,7 +32,6 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.gui.BaseGUI;
-import com.baselet.gui.GuiBuilderStandalone;
 import com.baselet.gui.MenuFactory;
 import com.baselet.gui.MenuFactorySwing;
 import com.baselet.gui.OwnSyntaxPane;
@@ -47,8 +44,6 @@ public class StandaloneGUI extends BaseGUI {
 
 	private MenuFactorySwing menuFactory;
 	private JFrame window;
-	private JPanel diagramspanel;
-	private JTabbedPane diagramtabs;
 	private JMenu editMenu;
 	private JMenuItem editUndo;
 	private JMenuItem editRedo;
@@ -65,7 +60,8 @@ public class StandaloneGUI extends BaseGUI {
 
 	private boolean custom_element_selected;
 
-	protected GuiBuilderStandalone guiComponents = new GuiBuilderStandalone();
+	private MenuBuilder menu = new MenuBuilder();
+	private StandaloneGUIBuilder gui = new StandaloneGUIBuilder();
 
 	private JToggleButton mailButton;
 
@@ -76,9 +72,10 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public void updateDiagramName(DiagramHandler diagram, String name) {
-		int index = this.diagramtabs.indexOfComponent(diagram.getDrawPanel().getScrollPane());
+		JTabbedPane diagramtabs = gui.getDiagramtabs();
+		int index = diagramtabs.indexOfComponent(diagram.getDrawPanel().getScrollPane());
 		if (index != -1) {
-			this.diagramtabs.setTitleAt(index, name);
+			diagramtabs.setTitleAt(index, name);
 			// update only selected tab to keep scrolling tab position
 			((TabComponent)diagramtabs.getTabComponentAt(index)).updateUI();
 		}
@@ -99,7 +96,7 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public void closeWindow() {
-		guiComponents.getMailPanel().closePanel(); // We must close the mailpanel to save the input date
+		gui.getMailPanel().closePanel(); // We must close the mailpanel to save the input date
 		if (this.askSaveForAllDirtyDiagrams()) {
 			this.main.closeProgram();
 			this.window.dispose();
@@ -218,9 +215,9 @@ public class StandaloneGUI extends BaseGUI {
 		helpMenu.add(menuFactory.createAboutProgram());
 		menu.add(helpMenu);
 
-		menu.add(guiComponents.createSearchPanel());
+		menu.add(gui.createSearchPanel());
 
-		menu.add(guiComponents.createZoomPanel());
+		menu.add(gui.createZoomPanel());
 
 		mailButton = new JToggleButton("Mail diagram");
 
@@ -239,21 +236,11 @@ public class StandaloneGUI extends BaseGUI {
 
 		// create custom element handler
 
-		diagramspanel = new JPanel();
-		new FileDrop(diagramspanel, new FileDropListener()); // enable drag&drop from desktop into diagrampanel
-
 		int mainDividerLoc = Math.min(window.getSize().width-Constants.MIN_MAIN_SPLITPANEL_SIZE, Constants.main_split_position);
-		guiComponents.initAll(diagramspanel, mainDividerLoc);
+		gui.initAll(gui.createDiagramTabPanel(), mainDividerLoc);
 
-		guiComponents.getCustomHandler().getPanel().setVisible(false);
+		gui.getCustomHandler().getPanel().setVisible(false);
 		
-		/***************** SETTING TABS AND TAB LAYOUT ***********************/
-
-		diagramtabs = new JTabbedPane();
-		diagramtabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-		diagramspanel.setLayout(new GridLayout(1, 1));
-		diagramspanel.add(diagramtabs);
-
 		/********************* ADD KEYBOARD ACTIONS ************************/
 		Action findaction = new AbstractAction() {
 			@Override
@@ -265,7 +252,7 @@ public class StandaloneGUI extends BaseGUI {
 		this.getInputMap().put(KeyStroke.getKeyStroke('/'), "focussearch");
 
 		/************************ ADD TOP COMPONENT ************************/
-		this.add(guiComponents.getMailSplit());
+		this.add(gui.getMailSplit());
 		/************************** SET DEFAULT INITIALIZATION VALUES ******/
 		ToolTipManager.sharedInstance().setInitialDelay(100);
 		/*************************************************************/
@@ -276,18 +263,18 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public void showPalette(String palette) {
 		super.showPalette(palette);
-		CardLayout cl = (CardLayout) (this.guiComponents.getPalettePanel().getLayout());
-		cl.show(this.guiComponents.getPalettePanel(), palette);
+		CardLayout cl = (CardLayout) (this.gui.getPalettePanel().getLayout());
+		cl.show(this.gui.getPalettePanel(), palette);
 	}
 
 	@Override
 	public String getSelectedPalette() {
-		return this.guiComponents.getPaletteList().getSelectedItem().toString();
+		return this.gui.getPaletteList().getSelectedItem().toString();
 	}
 
 	@Override
 	public void close(DiagramHandler diagram) {
-		diagramtabs.remove(diagram.getDrawPanel().getScrollPane());
+		gui.getDiagramtabs().remove(diagram.getDrawPanel().getScrollPane());
 		DrawPanel p = this.getCurrentDiagram();
 		if (p != null) Main.getInstance().setCurrentDiagramHandler(p.getHandler());
 		else Main.getInstance().setCurrentDiagramHandler(null);
@@ -295,6 +282,7 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public void open(DiagramHandler diagram) {
+		JTabbedPane diagramtabs = gui.getDiagramtabs();
 		diagramtabs.add(diagram.getName(), diagram.getDrawPanel().getScrollPane());
 		diagramtabs.setTabComponentAt(diagramtabs.getTabCount() - 1, new TabComponent(diagramtabs, diagram));
 		jumpTo(diagram);
@@ -302,7 +290,7 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public void jumpTo(DiagramHandler diagram) {
-		diagramtabs.setSelectedComponent(diagram.getDrawPanel().getScrollPane());		
+		gui.getDiagramtabs().setSelectedComponent(diagram.getDrawPanel().getScrollPane());		
 		diagram.getDrawPanel().getSelector().updateSelectorInformation();
 		DrawPanel p = this.getCurrentDiagram();
 		if (p != null) Main.getInstance().setCurrentDiagramHandler(p.getHandler());
@@ -311,7 +299,7 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public DrawPanel getCurrentDiagram() {
-		JScrollPane scr = (JScrollPane) this.diagramtabs.getSelectedComponent();
+		JScrollPane scr = (JScrollPane) gui.getDiagramtabs().getSelectedComponent();
 		if (scr != null) return (DrawPanel) scr.getViewport().getView();
 		else return null;
 	}
@@ -345,7 +333,7 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public void setCustomPanelEnabled(boolean enable) {
-		guiComponents.setCustomPanelEnabled(enable);
+		gui.setCustomPanelEnabled(enable);
 		this.customEdit.setEnabled(!enable && this.custom_element_selected);
 		this.customMenu.setEnabled(!enable);
 		this.customTemplate.setEnabled(!enable);
@@ -354,32 +342,33 @@ public class StandaloneGUI extends BaseGUI {
 	}
 
 	private void setDiagramsEnabled(boolean enable) {
-		this.guiComponents.getPalettePanel().setEnabled(enable);
-		for (Component c : guiComponents.getPalettePanel().getComponents())
+		JTabbedPane diagramtabs = gui.getDiagramtabs();
+		this.gui.getPalettePanel().setEnabled(enable);
+		for (Component c : gui.getPalettePanel().getComponents())
 			c.setEnabled(enable);
-		this.diagramtabs.setEnabled(enable);
+		diagramtabs.setEnabled(enable);
 		for (Component c : diagramtabs.getComponents())
 			c.setEnabled(enable);
-		for (int i = 0; i < this.diagramtabs.getTabCount(); i++)
-			this.diagramtabs.getTabComponentAt(i).setEnabled(enable);
-		this.guiComponents.getSearchField().setEnabled(enable);
+		for (int i = 0; i < diagramtabs.getTabCount(); i++)
+			diagramtabs.getTabComponentAt(i).setEnabled(enable);
+		this.gui.getSearchField().setEnabled(enable);
 	}
 
 	@Override
 	public void setMailPanelEnabled(boolean enable) {
-		guiComponents.setMailPanelEnabled(enable);
+		gui.setMailPanelEnabled(enable);
 		mailButton.setSelected(false);
 	}
 
 	@Override
 	public boolean isMailPanelVisible() {
-		return guiComponents.getMailPanel().isVisible();
+		return gui.getMailPanel().isVisible();
 	}
 
 	@Override
 	public void setCustomElementSelected(boolean selected) {
 		this.custom_element_selected = selected;
-		if (customEdit != null) customEdit.setEnabled(selected && !guiComponents.getCustomPanel().isEnabled());
+		if (customEdit != null) customEdit.setEnabled(selected && !gui.getCustomPanel().isEnabled());
 	}
 
 	@Override
@@ -421,7 +410,7 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public void enableSearch(boolean enable) {
-		guiComponents.getSearchField().requestFocus();
+		gui.getSearchField().requestFocus();
 	}
 
 	private void setCustomElementEditMenuEnabled(boolean enabled)
@@ -437,12 +426,12 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public int getMainSplitPosition() {
-		return this.guiComponents.getMainSplit().getDividerLocation();
+		return this.gui.getMainSplit().getDividerLocation();
 	}
 
 	@Override
 	public int getRightSplitPosition() {
-		return this.guiComponents.getRightSplit().getDividerLocation();
+		return this.gui.getRightSplit().getDividerLocation();
 	}
 
 	@Override
@@ -457,27 +446,27 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public CustomElementHandler getCurrentCustomHandler() {
-		return guiComponents.getCustomHandler();
+		return gui.getCustomHandler();
 	}
 
 	@Override
 	public OwnSyntaxPane getPropertyPane() {
-		return guiComponents.getPropertyTextPane();
+		return gui.getPropertyTextPane();
 	}
 
 	@Override
 	public void setValueOfZoomDisplay(int i) {
-		JComboBox zoomComboBox = guiComponents.getZoomComboBox();
+		JComboBox zoomComboBox = gui.getZoomComboBox();
 		// This method should just set the value without ActionEvent therefore we remove the listener temporarily
 		if (zoomComboBox != null) {
-			zoomComboBox.removeActionListener(guiComponents.getZoomListener());
+			zoomComboBox.removeActionListener(gui.getZoomListener());
 			zoomComboBox.setSelectedIndex(i - 1);
-			zoomComboBox.addActionListener(guiComponents.getZoomListener());
+			zoomComboBox.addActionListener(gui.getZoomListener());
 		}
 	}
 
 	@Override
 	public void focusPropertyPane() {
-		guiComponents.getPropertyTextPane().getTextComponent().requestFocus();
+		gui.getPropertyTextPane().getTextComponent().requestFocus();
 	}
 }

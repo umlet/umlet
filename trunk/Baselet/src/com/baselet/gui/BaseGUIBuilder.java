@@ -17,7 +17,7 @@ import com.baselet.gui.listener.PropertyPanelListener;
 import com.umlet.custom.CustomElementHandler;
 import com.umlet.gui.CustomElementPanel;
 
-public class GuiBuilder {
+public class BaseGUIBuilder {
 
 	private JPanel palettePanel;
 	private JSplitPane rightSplit;
