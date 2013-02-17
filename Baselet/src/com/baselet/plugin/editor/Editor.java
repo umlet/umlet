@@ -79,9 +79,10 @@ public class Editor extends EditorPart {
 				@Override
 				public void run() {
 					log.debug("Create new DiagramHandler");
-					MainPlugin.getGUI().setCurrentEditor(Editor.this); // must be set here because onFocus is not always called (eg: tab is opened during eclipse startup)
-					embedded_panel = guiComponents.initEclipseGui(); // must be done in init and not in createPartControl (eg: parsing an uxf file happens between these 2 calls)
 					handler = new DiagramHandler(diagramFile);
+					MainPlugin.getGUI().registerEditorForDiagramHandler(Editor.this, handler);
+					MainPlugin.getGUI().setCurrentEditorAndDiagramHandler(Editor.this, handler); // must be also set here because onFocus is not always called (eg: tab is opened during eclipse startup)
+					embedded_panel = guiComponents.initEclipseGui(); // must be done in init and not in createPartControl (eg: parsing an uxf file happens between these 2 calls)
 					MainPlugin.getGUI().open(handler);
 					log.debug("DiagramHandler created...");
 				}
@@ -115,20 +116,15 @@ public class Editor extends EditorPart {
 		frame.add(embedded_panel);
 	}
 
-	public boolean hasFocus() {
-		return this.equals(this.getSite().getPage().getActivePart());
-	}
+//	public boolean hasFocus() {
+//		return this.equals(this.getSite().getPage().getActivePart());
+//	}
 
 	@Override
 	public void setFocus() {
-		if (hasFocus()) {
-			log.info("Call editor.setFocus() skipped (view already has focus)" + uuid.toString());
-			return;
-		}
 		log.info("Call editor.setFocus() " + uuid.toString());
-
-		MainPlugin.getGUI().setCurrentEditor(Editor.this);
-		Main.getInstance().setCurrentDiagramHandler(handler);	
+		
+		MainPlugin.getGUI().setCurrentEditorAndDiagramHandler(Editor.this, handler);
 		if (handler != null) handler.getDrawPanel().getSelector().updateSelectorInformation();
 
 		SwingUtilities.invokeLater(new Runnable() {

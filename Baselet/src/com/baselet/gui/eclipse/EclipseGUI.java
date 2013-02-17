@@ -4,7 +4,7 @@ import java.awt.Cursor;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import javax.swing.text.JTextComponent;
 
@@ -32,14 +32,14 @@ public class EclipseGUI extends BaseGUI {
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private Editor editor;
-	private Hashtable<DiagramHandler, Editor> diagrams;
+	private HashMap<DiagramHandler, Editor> diagrams;
 	private Contributor contributor;
 
 	private int mainSplitPosition, rightSplitPosition;
 
 	public EclipseGUI(Main main) {
 		super(main);
-		this.diagrams = new Hashtable<DiagramHandler, Editor>();
+		this.diagrams = new HashMap<DiagramHandler, Editor>();
 	}
 
 	@Override
@@ -175,11 +175,14 @@ public class EclipseGUI extends BaseGUI {
 	public void setCursor(Cursor cursor) {
 		if (this.editor != null) this.editor.setCursor(cursor);
 	}
+	
+	public void registerEditorForDiagramHandler(Editor editor, DiagramHandler handler) {
+		this.diagrams.put(handler, editor);
+	}
 
-	public void setCurrentEditor(Editor editor) {
-		DrawPanel diagram = editor.getDiagram();
-		if (diagram != null && !this.diagrams.containsKey(diagram)) this.diagrams.put(diagram.getHandler(), editor);
+	public void setCurrentEditorAndDiagramHandler(Editor editor, DiagramHandler handler) {
 		this.editor = editor;
+		Main.getInstance().setCurrentDiagramHandler(handler);	
 	}
 
 	public void editorRemoved(Editor editor) {
@@ -251,10 +254,6 @@ public class EclipseGUI extends BaseGUI {
 
 	public void setPaneFocused(Pane pane) {
 		if (this.contributor != null) this.contributor.setGlobalActionHandlers(pane);
-	}
-
-	public Contributor getContributor() {
-		return this.contributor;
 	}
 
 	@Override
