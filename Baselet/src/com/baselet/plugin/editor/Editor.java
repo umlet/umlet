@@ -1,6 +1,5 @@
 package com.baselet.plugin.editor;
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Cursor;
 import java.awt.Frame;
@@ -9,7 +8,6 @@ import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
@@ -26,18 +24,14 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
-import com.baselet.gui.BaseGUIBuilder;
 import com.baselet.gui.OwnSyntaxPane;
-import com.baselet.gui.eclipse.CustomCodePaneFocusListener;
-import com.baselet.gui.eclipse.TextPaneFocusListener;
-import com.baselet.gui.listener.GUIListener;
+import com.baselet.gui.eclipse.EclipseGUIBuilder;
 import com.baselet.plugin.MainPlugin;
 import com.umlet.custom.CustomElementHandler;
 
@@ -46,9 +40,10 @@ public class Editor extends EditorPart {
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private DiagramHandler handler;
-	private Panel embedded_panel;
+	private Panel embedded_panel = new Panel();
+	private File diagramFile;
 
-	private BaseGUIBuilder guiComponents = new BaseGUIBuilder();
+	private EclipseGUIBuilder guiComponents = new EclipseGUIBuilder();
 
 	private UUID uuid = UUID.randomUUID();
 
@@ -79,34 +74,7 @@ public class Editor extends EditorPart {
 		this.setSite(site);
 		this.setInput(input);
 		this.setPartName(input.getName());
-		final File file = getFile(input); 
-
-		try { //use invokeAndWait to make sure the following code is only invoked after everything is initialized
-			SwingUtilities.invokeAndWait(new Runnable() {
-				@Override
-				public void run() {
-					log.debug("Create new DiagramHandler");
-					handler = new DiagramHandler(file);
-					
-					JPanel editor = createEditor();
-
-					guiComponents.getCustomHandler().getPanel().setVisible(false);
-					guiComponents.getCustomHandler().getPanel().getTextPane().addFocusListener(new CustomCodePaneFocusListener());
-					guiComponents.getPropertyTextPane().getTextComponent().addFocusListener(new TextPaneFocusListener());
-
-					embedded_panel = new Panel();
-					embedded_panel.setLayout(new BorderLayout());
-					embedded_panel.add(editor);
-					embedded_panel.addKeyListener(new GUIListener());
-					log.debug("DiagramHandler created...");
-				}
-			});
-		} catch (InterruptedException e) {
-			log.error("Create DiagramHandler interrupted");
-		} catch (InvocationTargetException e) {
-			log.error("Create DiagramHandler invocation exception");
-		}
-
+		diagramFile = getFile(input); 
 	}
 
 	private File getFile(IEditorInput input) throws PartInitException {
@@ -126,6 +94,22 @@ public class Editor extends EditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
+		try { //use invokeAndWait to make sure the following code is only invoked after everything is initialized
+			SwingUtilities.invokeAndWait(new Runnable() {
+				@Override
+				public void run() {
+					log.debug("Create new DiagramHandler");
+					handler = new DiagramHandler(diagramFile);
+					embedded_panel = guiComponents.initEclipseGui(handler);
+					log.debug("DiagramHandler created...");
+				}
+			});
+		} catch (InterruptedException e) {
+			log.error("Create DiagramHandler interrupted");
+		} catch (InvocationTargetException e) {
+			log.error("Create DiagramHandler invocation exception");
+		}
+		
 		log.info("Call editor.createPartControl() " + uuid.toString());
 		final Frame frame = SWT_AWT.new_Frame(new Composite(parent, SWT.EMBEDDED));
 		frame.add(embedded_panel);
@@ -218,18 +202,6 @@ public class Editor extends EditorPart {
 		});
 	}
 
-	private JPanel createEditor() {
-		JPanel editor = new JPanel();
-		editor.setLayout(new BorderLayout());
-
-		int mainDividerLoc = Constants.main_split_position;
-		guiComponents.initAll(handler.getDrawPanel().getScrollPane(), mainDividerLoc);
-
-		editor.add(guiComponents.getMailSplit());
-
-		return editor;
-	}
-
 	public Panel getPanel() {
 		return this.embedded_panel;
 	}
@@ -285,6 +257,10 @@ public class Editor extends EditorPart {
 
 	public void setCustomPanelEnabled(boolean enable) {
 		guiComponents.setCustomPanelEnabled(enable);
+		setDrawPanelEnabled(!enable);
+	}
+
+	private void setDrawPanelEnabled(boolean enable) {
 		handler.getDrawPanel().getScrollPane().setEnabled(enable);
 	}
 

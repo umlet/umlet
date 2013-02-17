@@ -2,6 +2,8 @@ package com.baselet.gui.standalone;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -9,8 +11,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 
 import com.baselet.control.Constants;
 import com.baselet.gui.BaseGUIBuilder;
@@ -19,12 +23,11 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 
 	private JComboBox zoomComboBox;
 	private ZoomListener zoomListener;
-	
+
 	private JTextField searchField;
-	private JPanel zoomPanel;
-	private JPanel searchPanel;
 	private JTabbedPane diagramtabs;
-	
+	private JToggleButton mailButton;
+
 	public JTabbedPane getDiagramtabs() {
 		return diagramtabs;
 	}
@@ -32,7 +35,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 	public JComboBox getZoomComboBox() {
 		return zoomComboBox;
 	}
-	
+
 	public ZoomListener getZoomListener() {
 		return zoomListener;
 	}
@@ -41,6 +44,11 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		return searchField;
 	}
 	
+	public JSplitPane initSwingGui(int mainDividerLoc) {
+		JPanel diagramTabPanel = createDiagramTabPanel();
+		return super.initBase(diagramTabPanel, mainDividerLoc);
+	}
+
 	private void createZoomComboBox() {
 		zoomComboBox = new JComboBox();
 		zoomComboBox.setPreferredSize(new Dimension(80, 24));
@@ -58,7 +66,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 
 	public JPanel createZoomPanel() {
 		createZoomComboBox();
-		
+
 		JPanel zoomPanel = new JPanel();
 		zoomPanel.setOpaque(false);
 		zoomPanel.setLayout(new BoxLayout(zoomPanel, BoxLayout.X_AXIS));
@@ -67,7 +75,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		zoomPanel.add(Box.createRigidArea(new Dimension(20, 0)));
 		return zoomPanel;
 	}
-	
+
 	private void createSearchField() {
 		searchField = new JTextField(10);
 		searchField.setMinimumSize(searchField.getPreferredSize());
@@ -77,7 +85,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 
 	public JPanel createSearchPanel() {
 		createSearchField();
-		
+
 		JPanel searchPanel = new JPanel();
 		searchPanel.setOpaque(false);
 		searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
@@ -87,7 +95,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		searchPanel.add(Box.createRigidArea(new Dimension(20, 0)));
 		return searchPanel;
 	}
-	
+
 	public JPanel createDiagramTabPanel() {
 		JPanel diagramspanel = new JPanel();
 		@SuppressWarnings("unused")
@@ -99,5 +107,22 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		diagramspanel.add(diagramtabs);
 
 		return diagramspanel;
+	}
+
+	public JToggleButton createMailButton() {
+		mailButton = new JToggleButton("Mail diagram");
+		mailButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setMailPanelEnabled(!getMailPanel().isVisible());
+			}
+		});
+		return mailButton;
+	}
+	
+	@Override
+	public void setMailPanelEnabled(boolean enable) {
+		super.setMailPanelEnabled(enable);
+		mailButton.setSelected(enable);
 	}
 }

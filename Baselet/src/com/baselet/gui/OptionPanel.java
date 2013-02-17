@@ -24,6 +24,7 @@ import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.gui.standalone.StandaloneGUI;
 
 
 @SuppressWarnings("serial")
@@ -148,12 +149,13 @@ public class OptionPanel extends JPanel implements ActionListener {
 			if (!Constants.ui_manager.equals(newui) && (newui != null)) {
 				Constants.ui_manager = newui;
 				try {
-					JFrame frame = Main.getInstance().getGUI().getTopContainer();
-					if (frame != null) {
+					BaseGUI gui = Main.getInstance().getGUI();
+					if (gui instanceof StandaloneGUI) {
+						JFrame topFrame = ((StandaloneGUI) gui).getMainFrame();
 						UIManager.setLookAndFeel(newui);
-						SwingUtilities.updateComponentTreeUI(frame);
+						SwingUtilities.updateComponentTreeUI(topFrame);
 						SwingUtilities.updateComponentTreeUI(this.optionframe);
-						frame.pack();
+						topFrame.pack();
 						this.optionframe.pack();
 					}
 

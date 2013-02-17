@@ -3,7 +3,6 @@ package com.baselet.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
-import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -155,8 +154,6 @@ public abstract class BaseGUI extends JPanel {
 	public abstract int getMailSplitPosition();
 
 	public abstract int getRightSplitPosition();
-
-	public abstract JFrame getTopContainer();
 
 	public abstract OwnSyntaxPane getPropertyPane();
 

@@ -6,7 +6,6 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.util.Hashtable;
 
-import javax.swing.JFrame;
 import javax.swing.text.JTextComponent;
 
 import org.apache.log4j.Logger;
@@ -99,11 +98,6 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public String getSelectedPalette() {
 		if (this.editor != null) return this.editor.getSelectedPaletteName();
-		return null;
-	}
-
-	@Override
-	public JFrame getTopContainer() {
 		return null;
 	}
 
