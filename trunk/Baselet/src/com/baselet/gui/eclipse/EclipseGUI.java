@@ -23,7 +23,6 @@ import com.baselet.plugin.editor.Contributor.ActionName;
 import com.baselet.plugin.editor.Editor;
 import com.umlet.custom.CustomElementHandler;
 
-@SuppressWarnings("serial")
 public class EclipseGUI extends BaseGUI {
 
 	public enum Pane {
@@ -110,7 +109,7 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public void open(DiagramHandler diagram) {
-		// not called by eclipse plugin (handles open by createEditor function)
+		if (editor != null) editor.open(diagram);
 	}
 
 	@Override

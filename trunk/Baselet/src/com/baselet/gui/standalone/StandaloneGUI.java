@@ -18,7 +18,6 @@ import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.TabComponent;
 import com.umlet.custom.CustomElementHandler;
 
-@SuppressWarnings("serial")
 public class StandaloneGUI extends BaseGUI {
 
 	private JFrame mainFrame;
