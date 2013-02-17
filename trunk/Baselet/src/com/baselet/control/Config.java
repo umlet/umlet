@@ -9,8 +9,11 @@ import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.Properties;
 
+import javax.swing.JFrame;
+
 import com.baselet.control.Constants.Program;
 import com.baselet.gui.BaseGUI;
+import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.language.FieldOptions;
 import com.umlet.language.MethodOptions;
 import com.umlet.language.SignatureOptions;
@@ -157,16 +160,17 @@ public class Config {
 			props.setProperty(MAIN_SPLIT_POSITION, Integer.toString(gui.getMainSplitPosition()));
 			props.setProperty(RIGHT_SPLIT_POSITION, Integer.toString(gui.getRightSplitPosition()));
 			props.setProperty(MAIL_SPLIT_POSITION, Integer.toString(gui.getMailSplitPosition()));
-			if (gui.getTopContainer() != null) {
+			if (gui instanceof StandaloneGUI) {
 				// If the window is maximized in any direction this fact is written in the cfg
-				if (((gui.getTopContainer().getExtendedState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH)) {
+				JFrame topContainer = ((StandaloneGUI) gui).getMainFrame();
+				if (((topContainer.getExtendedState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH)) {
 					props.setProperty(START_MAXIMIZED, "true");
 				}
 				// Otherwise the size and the location is written in the cfg
 				else {
 					props.setProperty(START_MAXIMIZED, "false");
-					props.setProperty(PROGRAM_SIZE, gui.getTopContainer().getSize().width + "," + gui.getTopContainer().getSize().height);
-					props.setProperty(PROGRAM_LOCATION, gui.getTopContainer().getLocation().x + "," + gui.getTopContainer().getLocation().y);
+					props.setProperty(PROGRAM_SIZE, topContainer.getSize().width + "," + topContainer.getSize().height);
+					props.setProperty(PROGRAM_LOCATION, topContainer.getLocation().x + "," + topContainer.getLocation().y);
 				}
 			}
 			if (!Constants.recentlyUsedFilesList.isEmpty()) {

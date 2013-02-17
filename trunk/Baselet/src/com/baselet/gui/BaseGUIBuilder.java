@@ -17,7 +17,7 @@ import com.baselet.gui.listener.PropertyPanelListener;
 import com.umlet.custom.CustomElementHandler;
 import com.umlet.gui.CustomElementPanel;
 
-public class BaseGUIBuilder {
+public abstract class BaseGUIBuilder {
 
 	private JPanel palettePanel;
 	private JSplitPane rightSplit;
@@ -31,7 +31,7 @@ public class BaseGUIBuilder {
 	private JPanel rightPanel;
 	private OwnSyntaxPane propertyTextPane;
 	
-	public void initAll(Component mainComponent, int mainDividerLoc) {
+	protected JSplitPane initBase(Component mainComponent, int mainDividerLoc) {
 		palettePanel = newPalettePanel();
 		propertyTextPane = createPropertyTextPane();
 		rightSplit = newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, palettePanel, propertyTextPane.getPanel(), 2, Constants.right_split_position, true);
@@ -39,10 +39,12 @@ public class BaseGUIBuilder {
 
 		mainSplit = newGenericSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainComponent, rightPanel, 2, mainDividerLoc, true);
 		customHandler = new CustomElementHandler();
+		customHandler.getPanel().setVisible(false);
 		customSplit = newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, mainSplit, getCustomPanel(), 0, 0, true);
 		mailPanel = new MailPanel();
 		mailPanel.setVisible(false);
 		mailSplit = newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, mailPanel, customSplit, 0, 0, true);
+		return mailSplit;
 	}
 	
 	public JSplitPane getMailSplit() {
