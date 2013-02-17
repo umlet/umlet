@@ -1,6 +1,7 @@
-package com.baselet.gui;
+package com.baselet.gui.standalone;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -8,13 +9,13 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import com.baselet.control.Constants;
-import com.baselet.gui.standalone.SearchListener;
-import com.baselet.gui.standalone.ZoomListener;
+import com.baselet.gui.BaseGUIBuilder;
 
-public class GuiBuilderStandalone extends GuiBuilder {
+public class StandaloneGUIBuilder extends BaseGUIBuilder {
 
 	private JComboBox zoomComboBox;
 	private ZoomListener zoomListener;
@@ -22,6 +23,11 @@ public class GuiBuilderStandalone extends GuiBuilder {
 	private JTextField searchField;
 	private JPanel zoomPanel;
 	private JPanel searchPanel;
+	private JTabbedPane diagramtabs;
+	
+	public JTabbedPane getDiagramtabs() {
+		return diagramtabs;
+	}
 
 	public JComboBox getZoomComboBox() {
 		return zoomComboBox;
@@ -80,5 +86,18 @@ public class GuiBuilderStandalone extends GuiBuilder {
 		searchPanel.add(searchField);
 		searchPanel.add(Box.createRigidArea(new Dimension(20, 0)));
 		return searchPanel;
+	}
+	
+	public JPanel createDiagramTabPanel() {
+		JPanel diagramspanel = new JPanel();
+		@SuppressWarnings("unused")
+		FileDrop drop = new FileDrop(diagramspanel, new FileDropListener()); // enable drag&drop from desktop into diagrampanel
+
+		diagramtabs = new JTabbedPane();
+		diagramtabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		diagramspanel.setLayout(new GridLayout(1, 1));
+		diagramspanel.add(diagramtabs);
+
+		return diagramspanel;
 	}
 }

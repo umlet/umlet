@@ -33,7 +33,7 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
-import com.baselet.gui.GuiBuilder;
+import com.baselet.gui.BaseGUIBuilder;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.eclipse.CustomCodePaneFocusListener;
 import com.baselet.gui.eclipse.TextPaneFocusListener;
@@ -48,7 +48,7 @@ public class Editor extends EditorPart {
 	private DiagramHandler handler;
 	private Panel embedded_panel;
 
-	private GuiBuilder guiComponents = new GuiBuilder();
+	private BaseGUIBuilder guiComponents = new BaseGUIBuilder();
 
 	private UUID uuid = UUID.randomUUID();
 
