@@ -10,6 +10,7 @@ import java.awt.Frame;
 import java.awt.Panel;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.util.UUID;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -25,6 +26,7 @@ import javax.swing.text.JTextComponent;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -76,23 +78,7 @@ public class Editor extends EditorPart {
 	private JSplitPane mailSplit;
 	private boolean mail_panel_visible;
 
-	private static Editor currenteditor;
-
-	public static Editor getCurrent() {
-		return currenteditor;
-	}
-
-	public Editor() {
-		log.info("Create new Editor()");
-		//we have to set this to false since multiple instances of Editor are created
-		this.customhandler = new CustomElementHandler();
-		this.custompanel = this.customhandler.getPanel();
-		this.custompanel.getTextPane().addFocusListener(new CustomCodePaneFocusListener());
-		this.mailpanel = Main.getInstance().getGUI().createMailPanel();
-		this.propertyTextPane = Main.getInstance().getGUI().createPropertyTextPane();
-		this.propertyTextPane.getTextComponent().addFocusListener(new TextPaneFocusListener());
-		MainPlugin.getGUI().setCurrentEditor(this);
-	}
+	private UUID uuid = UUID.randomUUID();
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
@@ -117,40 +103,49 @@ public class Editor extends EditorPart {
 
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
-		log.info("Call editor.init()");
+		log.info("Call editor.init() " + uuid.toString());
 		this.setSite(site);
 		this.setInput(input);
 		this.setPartName(input.getName());
+		final File file = getFile(input); 
 
-		File inputFile = null;
+		try { //use invokeAndWait to make sure the following code is only invoked after everything is initialized
+			SwingUtilities.invokeAndWait(new Runnable() {
+				@Override
+				public void run() {
+					log.debug("Create new DiagramHandler");
+					handler = new DiagramHandler(file);
 
-		if (input instanceof IFileEditorInput) { // Files opened from workspace
-			inputFile = ((IFileEditorInput) input).getFile().getLocation().toFile();
-		}
-		else if (input instanceof org.eclipse.ui.ide.FileStoreEditorInput) { // Files from outside of the workspace (eg: edit current palette)
-			inputFile = new File(((org.eclipse.ui.ide.FileStoreEditorInput) input).getURI());
-		}
-		else throw new PartInitException("Editor input not supported.");
+					customhandler = new CustomElementHandler();
+					custompanel = customhandler.getPanel();
+					custompanel.getTextPane().addFocusListener(new CustomCodePaneFocusListener());
+					mailpanel = Main.getInstance().getGUI().createMailPanel();
+					propertyTextPane = Main.getInstance().getGUI().createPropertyTextPane();
+					propertyTextPane.getTextComponent().addFocusListener(new TextPaneFocusListener());
 
-		final File file = inputFile; 
-
-		//AB: The eclipse plugin might hang sometimes if this section is not placed into an event queue, since swing or swt is not thread safe!
-		//AB: Problem is...using invokeLater might lead to other NullPointerExceptions :P -> use invokeAndWait and hope this works	
-		try {
-			SwingUtilities.invokeAndWait(
-					new Runnable() {
-						@Override
-						public void run() {
-							log.debug("Create new DiagramHandler");
-							handler = new DiagramHandler(file);
-							log.debug("DiagramHandler created...");
-						}
-					});
+					embedded_panel = new Panel();
+					embedded_panel.setLayout(new BorderLayout());
+					embedded_panel.add(createEditor());
+					embedded_panel.addKeyListener(new GUIListener());
+					log.debug("DiagramHandler created...");
+				}
+			});
 		} catch (InterruptedException e) {
 			log.error("Create DiagramHandler interrupted");
 		} catch (InvocationTargetException e) {
 			log.error("Create DiagramHandler invocation exception");
 		}
+
+	}
+
+	private File getFile(IEditorInput input) throws PartInitException {
+		if (input instanceof IFileEditorInput) { // Files opened from workspace
+			return ((IFileEditorInput) input).getFile().getLocation().toFile();
+		}
+		else if (input instanceof org.eclipse.ui.ide.FileStoreEditorInput) { // Files from outside of the workspace (eg: edit current palette)
+			return new File(((org.eclipse.ui.ide.FileStoreEditorInput) input).getURI());
+		}
+		else throw new PartInitException("Editor input not supported.");
 	}
 
 	@Override
@@ -160,51 +155,41 @@ public class Editor extends EditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		log.info("Call editor.createPartControl()");
-		Composite goodSWTComposite = new Composite(parent, SWT.EMBEDDED); // we need the embedded attribute set
-		final Frame frame = org.eclipse.swt.awt.SWT_AWT.new_Frame(goodSWTComposite);
-		embedded_panel = new Panel();
-		embedded_panel.setLayout(new BorderLayout());
-		embedded_panel.add(createEditor());
-		embedded_panel.addKeyListener(new GUIListener());
+		log.info("Call editor.createPartControl() " + uuid.toString());
+		final Frame frame = SWT_AWT.new_Frame(new Composite(parent, SWT.EMBEDDED));
 		frame.add(embedded_panel);
+	}
+
+	public boolean hasFocus() {
+		return this.equals(this.getSite().getPage().getActivePart());
 	}
 
 	@Override
 	public void setFocus() {
-		log.info("Call editor.setFocus()");
-		currenteditor = Editor.this;
+		if (hasFocus()) {
+			log.info("Call editor.setFocus() skipped (view already has focus)" + uuid.toString());
+			return;
+		}
+		log.info("Call editor.setFocus() " + uuid.toString());
+
 		MainPlugin.getGUI().setCurrentEditor(Editor.this);
-		log.debug("setCurrentEditor complete");
+		Main.getInstance().setCurrentDiagramHandler(handler);	
+		if (handler != null) handler.getDrawPanel().getSelector().updateSelectorInformation();
 
-		//AB: The eclipse plugin might hang sometimes if this section is not placed into an event queue, since swing or swt is not thread safe!	
-		log.debug("setFocus thread");
-		Main.getInstance().setCurrentDiagramHandler(handler);			
-		if (handler != null) handler.getDrawPanel().getSelector().updateSelectorInformation();					
-
-		ensurePalettesExistAndRepaintEveryScrollbar();
-
-		Main.getInstance().getGUI().setValueOfZoomDisplay(handler.getGridSize());
-		log.debug("editor.setFocus complete");
-	}
-
-	/**
-	 * usually the palettes get lost (for unknown reasons) after switching the editor, therefore recreate them.
-	 * also reselect the current palette and repaint every element with scrollbars (otherwise they have a visual error)
-	 */
-	private void ensurePalettesExistAndRepaintEveryScrollbar() {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
-			public void run() {
+			public void run() {	
+				/**
+				 * usually the palettes get lost (for unknown reasons) after switching the editor, therefore recreate them.
+				 * also reselect the current palette and repaint every element with scrollbars (otherwise they have a visual error)
+				 */
 				if (palettePanel.getComponentCount()==0) {
 					for (PaletteHandler palette : Main.getInstance().getPalettes().values()) {
 						palettePanel.add(palette.getDrawPanel().getScrollPane(), palette.getName());
 					}
 				}
 				showPalette(getSelectedPaletteName());
-				propertyTextPane.repaint();
-				handler.getDrawPanel().repaint();
-				custompanel.repaint();
+				Main.getInstance().getGUI().setValueOfZoomDisplay(handler.getGridSize());
 			}
 		});
 	}
@@ -217,7 +202,7 @@ public class Editor extends EditorPart {
 	@Override
 	public void dispose() {
 		super.dispose();
-		log.info("Call editor.dispose()");
+		log.info("Call editor.dispose( )" + uuid.toString());
 		//AB: The eclipse plugin might hang sometimes if this section is not placed into an event queue, since swing or swt is not thread safe!
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
