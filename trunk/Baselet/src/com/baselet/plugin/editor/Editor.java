@@ -219,9 +219,13 @@ public class Editor extends EditorPart {
 		super.dispose();
 		log.info("Call editor.dispose()");
 		//AB: The eclipse plugin might hang sometimes if this section is not placed into an event queue, since swing or swt is not thread safe!
-		final Editor editor = this;
-		if (mailpanel.isVisible()) mailpanel.closePanel();
-		MainPlugin.getGUI().editorRemoved(editor);
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				if (mailpanel.isVisible()) mailpanel.closePanel();
+				MainPlugin.getGUI().editorRemoved(Editor.this);
+			}
+		});
 	}
 
 	public void setCursor(Cursor cursor) {
