@@ -202,10 +202,6 @@ public class Editor extends EditorPart {
 		});
 	}
 
-	public Panel getPanel() {
-		return this.embedded_panel;
-	}
-
 	public CustomElementHandler getCustomElementHandler() {
 		return guiComponents.getCustomHandler();
 	}
@@ -216,15 +212,6 @@ public class Editor extends EditorPart {
 
 	public boolean isMailPanelVisible() {
 		return guiComponents.getMailPanel().isVisible();
-	}
-
-	public void repaint() {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				embedded_panel.repaint();
-			}
-		});
 	}
 
 	public String getSelectedPaletteName() {
