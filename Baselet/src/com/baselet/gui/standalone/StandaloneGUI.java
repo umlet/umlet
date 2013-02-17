@@ -44,14 +44,13 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.gui.BaseGUI;
+import com.baselet.gui.GuiBuilder;
 import com.baselet.gui.MailPanel;
 import com.baselet.gui.MenuFactory;
 import com.baselet.gui.MenuFactorySwing;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.TabComponent;
-import com.baselet.gui.listener.DividerListener;
 import com.baselet.gui.listener.GUIListener;
-import com.baselet.gui.listener.PaletteComboBoxListener;
 import com.umlet.custom.CustomElementHandler;
 import com.umlet.gui.CustomElementPanel;
 
@@ -64,11 +63,9 @@ public class StandaloneGUI extends BaseGUI {
 	private JComboBox zoomComboBox;
 	private JFrame window;
 	private JSplitPane customSplit;
-	private JSplitPane rightSplit;
 	private JSplitPane mainSplit;
 	private JSplitPane mailSplit;
 	private JPanel diagramspanel;
-	private JPanel palettepanel;
 	private JTabbedPane diagramtabs;
 	private JMenu editMenu;
 	private JMenuItem editUndo;
@@ -87,8 +84,8 @@ public class StandaloneGUI extends BaseGUI {
 	private OwnSyntaxPane propertyTextPane;
 	private ZoomListener zoomListener;
 	private JPanel rightPanel;
-	private JPanel paletteControlsPanel;
-	private JComboBox paletteList;
+	
+	private GuiBuilder guiComponents = new GuiBuilder();
 
 	private CustomElementHandler customelementhandler;
 	private CustomElementPanel customPanel;
@@ -178,16 +175,9 @@ public class StandaloneGUI extends BaseGUI {
 			this.window.setVisible(true);
 		}
 
-		/***************************************/
-
-		paletteList = new JComboBox();
-		paletteList.setMaximumRowCount(15);
-
 		/*********** CREATE MENU *****************/
 		JMenuBar menu = new JMenuBar();
 		menuFactory = MenuFactorySwing.getInstance();
-
-		PaletteComboBoxListener pl = new PaletteComboBoxListener();
 
 		JMenu fileMenu = new JMenu(MenuFactory.FILE);
 		fileMenu.setMnemonic(KeyEvent.VK_F);
@@ -323,55 +313,19 @@ public class StandaloneGUI extends BaseGUI {
 		this.customPanel = this.customelementhandler.getPanel();
 
 		diagramspanel = new JPanel();
-		this.palettepanel = new JPanel(new CardLayout());
+		
 		new FileDrop(diagramspanel, new FileDropListener()); // enable drag&drop from desktop into diagrampanel
 		
-		rightSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, palettepanel, this.propertyTextPane.getPanel());
-		rightSplit.setDividerSize(2);
-		rightSplit.setDividerLocation(Constants.right_split_position);
-		rightSplit.setResizeWeight(1);
-		rightSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
-		rightSplit.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		rightPanel = GuiBuilder.newRightPanel(propertyTextPane.getPanel());
 
-		paletteControlsPanel = new JPanel();
-		paletteControlsPanel.setLayout(new BoxLayout(paletteControlsPanel, BoxLayout.X_AXIS));
-		paletteControlsPanel.add(paletteList);
-
-		rightPanel = new JPanel();
-		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		rightPanel.add(paletteControlsPanel);
-		rightPanel.add(rightSplit);
-		paletteList.setAlignmentX(Component.CENTER_ALIGNMENT);
-		rightSplit.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-		mainSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, diagramspanel, rightPanel);
-		mainSplit.setDividerSize(2);
 		int mainDividerLoc = Math.min(window.getSize().width-Constants.MIN_MAIN_SPLITPANEL_SIZE, Constants.main_split_position);
-		mainSplit.setDividerLocation(mainDividerLoc);
-		mainSplit.setResizeWeight(1);
-		mainSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
-
-		customSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, mainSplit, customPanel);
-		customSplit.setDividerSize(0);
-		customSplit.setResizeWeight(1);
-		customSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
+		mainSplit = GuiBuilder.newGenericSplitPane(JSplitPane.HORIZONTAL_SPLIT, diagramspanel, rightPanel, 2, mainDividerLoc, true);
 		customPanel.setVisible(false);
-
-		mailPanel = this.createMailPanel();
-		mailSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, mailPanel, customSplit);
-		mailSplit.setDividerSize(0);
-		mailSplit.setResizeWeight(1);
-		mailSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
+		customSplit = GuiBuilder.newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, mainSplit, customPanel, 0, 0, true);
+		mailPanel = new MailPanel();
 		mailPanel.setVisible(false);
-
-		// Adding the DividerListener which refreshes Scrollbars here is enough for all dividers
-		palettepanel.addComponentListener(new DividerListener());
-
-		/******************* ADD PALETTES ***************************/
-		for (PaletteHandler palette : main.getPalettes().values()) {
-			palettepanel.add(palette.getDrawPanel().getScrollPane(), palette.getName());
-			paletteList.addItem(palette.getName());
-		}
+		mailSplit = GuiBuilder.newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, mailPanel, customSplit, 0, 0, true);
+		
 
 		/***************** SETTING TABS AND TAB LAYOUT ***********************/
 
@@ -395,10 +349,6 @@ public class StandaloneGUI extends BaseGUI {
 		/************************** SET DEFAULT INITIALIZATION VALUES ******/
 		ToolTipManager.sharedInstance().setInitialDelay(100);
 		/*************************************************************/
-
-		paletteList.addActionListener(pl); // add listeners after adding every paletteList entry to avoid triggering the listener everytime
-		paletteList.addMouseWheelListener(pl);
-		paletteList.setSelectedItem(Constants.lastUsedPalette);
 		
 		this.window.setVisible(true);
 	}
@@ -406,13 +356,13 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public void showPalette(String palette) {
 		super.showPalette(palette);
-		CardLayout cl = (CardLayout) (this.palettepanel.getLayout());
-		cl.show(this.palettepanel, palette);
+		CardLayout cl = (CardLayout) (this.guiComponents.getPalettePanel().getLayout());
+		cl.show(this.guiComponents.getPalettePanel(), palette);
 	}
 
 	@Override
 	public String getSelectedPalette() {
-		return this.paletteList.getSelectedItem().toString();
+		return this.guiComponents.getPaletteList().getSelectedItem().toString();
 	}
 
 	@Override
@@ -484,10 +434,10 @@ public class StandaloneGUI extends BaseGUI {
 			this.customPanel.setVisible(enable);
 
 			if (enable) {
-				int rightloc = this.rightSplit.getDividerLocation();
+				int rightloc = guiComponents.getRightSplit().getDividerLocation();
 				log.info("rightSplit Divider Location: " + rightloc);
 				this.customSplit.setDividerSize(2);
-				this.rightSplit.setDividerSize(0);
+				this.guiComponents.getRightSplit().setDividerSize(0);
 
 				this.customPanel.getLeftSplit().setLeftComponent(this.propertyTextPane.getPanel());
 				log.info("customPanel.leftSplit Divider Location: " + customPanel.getLeftSplit().getDividerLocation());
@@ -503,9 +453,9 @@ public class StandaloneGUI extends BaseGUI {
 				log.info("customSplit Divider Location: " + rightloc);
 				this.customSplit.setDividerSize(0);
 
-				this.rightSplit.setDividerSize(2);
-				this.rightSplit.setRightComponent(this.propertyTextPane.getPanel());
-				this.rightSplit.setDividerLocation(rightloc);
+				this.guiComponents.getRightSplit().setDividerSize(2);
+				this.guiComponents.getRightSplit().setRightComponent(this.propertyTextPane.getPanel());
+				this.guiComponents.getRightSplit().setDividerLocation(rightloc);
 			}
 			this.mainSplit.setDividerLocation(loc);
 			log.info("mainSplit Divider Location: " + loc);
@@ -597,8 +547,8 @@ public class StandaloneGUI extends BaseGUI {
 	}
 
 	private void setDiagramsEnabled(boolean enable) {
-		this.palettepanel.setEnabled(enable);
-		for (Component c : this.palettepanel.getComponents())
+		this.guiComponents.getPalettePanel().setEnabled(enable);
+		for (Component c : this.guiComponents.getPalettePanel().getComponents())
 			c.setEnabled(enable);
 		this.diagramtabs.setEnabled(enable);
 		for (Component c : this.diagramtabs.getComponents())
@@ -615,7 +565,7 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public int getRightSplitPosition() {
-		return this.rightSplit.getDividerLocation();
+		return this.guiComponents.getRightSplit().getDividerLocation();
 	}
 
 	@Override

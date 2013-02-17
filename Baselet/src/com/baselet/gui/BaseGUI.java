@@ -63,12 +63,8 @@ public abstract class BaseGUI extends JPanel {
 		PropertyPanelListener pListener = new PropertyPanelListener();
 		propertyTextPane.getTextComponent().addKeyListener(pListener);
 		propertyTextPane.getTextComponent().getDocument().addDocumentListener(pListener);
-		
-		return propertyTextPane;
-	}
 
-	public MailPanel createMailPanel() {
-		return new MailPanel();
+		return propertyTextPane;
 	}
 
 	public void focusPropertyPane() {

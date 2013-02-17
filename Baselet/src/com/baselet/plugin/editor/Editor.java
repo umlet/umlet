@@ -3,7 +3,6 @@ package com.baselet.plugin.editor;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -15,7 +14,6 @@ import java.util.UUID;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
@@ -43,13 +41,12 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
+import com.baselet.gui.GuiBuilder;
 import com.baselet.gui.MailPanel;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.eclipse.CustomCodePaneFocusListener;
 import com.baselet.gui.eclipse.TextPaneFocusListener;
-import com.baselet.gui.listener.DividerListener;
 import com.baselet.gui.listener.GUIListener;
-import com.baselet.gui.listener.PaletteComboBoxListener;
 import com.baselet.gui.standalone.SearchListener;
 import com.baselet.plugin.MainPlugin;
 import com.umlet.custom.CustomElementHandler;
@@ -61,22 +58,21 @@ public class Editor extends EditorPart {
 
 	private DiagramHandler handler;
 	private CustomElementHandler customhandler;
-	private CustomElementPanel custompanel;
-	private MailPanel mailpanel;
+	private CustomElementPanel customPanel;
+	private MailPanel mailPanel;
 	private Panel embedded_panel;
 	private OwnSyntaxPane propertyTextPane;
 	private JTextField searchfield;
 	private JPanel searchPanel;
-	private JPanel palettePanel;
 	private JPanel rightPanel;
-	private JComboBox paletteList;
 
-	private JSplitPane rightSplit;
 	private JSplitPane mainSplit;
 	private JSplitPane customSplit;
 	private JSplitPane searchSplit;
 	private JSplitPane mailSplit;
 	private boolean mail_panel_visible;
+
+	private GuiBuilder guiComponents = new GuiBuilder();
 
 	private UUID uuid = UUID.randomUUID();
 
@@ -117,9 +113,8 @@ public class Editor extends EditorPart {
 					handler = new DiagramHandler(file);
 
 					customhandler = new CustomElementHandler();
-					custompanel = customhandler.getPanel();
-					custompanel.getTextPane().addFocusListener(new CustomCodePaneFocusListener());
-					mailpanel = Main.getInstance().getGUI().createMailPanel();
+					customPanel = customhandler.getPanel();
+					customPanel.getTextPane().addFocusListener(new CustomCodePaneFocusListener());
 					propertyTextPane = Main.getInstance().getGUI().createPropertyTextPane();
 					propertyTextPane.getTextComponent().addFocusListener(new TextPaneFocusListener());
 
@@ -183,9 +178,9 @@ public class Editor extends EditorPart {
 				 * usually the palettes get lost (for unknown reasons) after switching the editor, therefore recreate them.
 				 * also reselect the current palette and repaint every element with scrollbars (otherwise they have a visual error)
 				 */
-				if (palettePanel.getComponentCount()==0) {
+				if (guiComponents.getPalettePanel().getComponentCount()==0) {
 					for (PaletteHandler palette : Main.getInstance().getPalettes().values()) {
-						palettePanel.add(palette.getDrawPanel().getScrollPane(), palette.getName());
+						guiComponents.getPalettePanel().add(palette.getDrawPanel().getScrollPane(), palette.getName());
 					}
 				}
 				showPalette(getSelectedPaletteName());
@@ -207,7 +202,7 @@ public class Editor extends EditorPart {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				if (mailpanel.isVisible()) mailpanel.closePanel();
+				if (mailPanel.isVisible()) mailPanel.closePanel();
 				MainPlugin.getGUI().editorRemoved(Editor.this);
 			}
 		});
@@ -222,7 +217,7 @@ public class Editor extends EditorPart {
 	}
 
 	public JTextComponent getCustomPane() {
-		return custompanel.getTextPane();
+		return customPanel.getTextPane();
 	}
 
 	public void requestFocus() {
@@ -251,31 +246,7 @@ public class Editor extends EditorPart {
 		JPanel editor = new JPanel();
 		editor.setLayout(new BorderLayout());
 
-		palettePanel = new JPanel(new CardLayout());
-		paletteList = new JComboBox();
-		paletteList.setMaximumRowCount(15);
-		for (PaletteHandler palette : Main.getInstance().getPalettes().values()) {
-			palettePanel.add(palette.getDrawPanel().getScrollPane(), palette.getName());
-			paletteList.addItem(palette.getName());
-		}
-
-		rightSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, palettePanel, propertyTextPane.getPanel());
-		rightSplit.setDividerSize(2);
-		rightSplit.setDividerLocation(Main.getInstance().getGUI().getRightSplitPosition());
-		rightSplit.setResizeWeight(1);
-		rightSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
-
-		rightPanel = new JPanel();
-		rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-		paletteList.setAlignmentX(Component.CENTER_ALIGNMENT);
-		rightSplit.setAlignmentX(Component.CENTER_ALIGNMENT);
-		PaletteComboBoxListener pl = new PaletteComboBoxListener();
-		paletteList.addActionListener(pl);
-		paletteList.addMouseWheelListener(pl);
-		rightPanel.add(paletteList);
-		rightPanel.add(rightSplit);
-
-		paletteList.setSelectedItem(Constants.lastUsedPalette);
+		rightPanel = GuiBuilder.newRightPanel(propertyTextPane.getPanel());
 
 		this.searchPanel = new JPanel();
 		this.searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
@@ -298,26 +269,12 @@ public class Editor extends EditorPart {
 		this.searchSplit.setBorder(null);
 		this.searchPanel.setVisible(false);
 
-		mainSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, searchSplit, rightPanel);
-		mainSplit.setDividerSize(2);
-		mainSplit.setDividerLocation(Main.getInstance().getGUI().getMainSplitPosition());
-		mainSplit.setResizeWeight(1);
-		mainSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
-
-		customSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, mainSplit, custompanel);
-		customSplit.setDividerSize(0);
-		customSplit.setResizeWeight(1);
-		customSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
-		custompanel.setVisible(false);
-
-		mailSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, mailpanel, customSplit);
-		mailSplit.setDividerSize(0);
-		mailSplit.setResizeWeight(0);
-		mailSplit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 0));
-		mailpanel.setVisible(false);
-
-		// Adding the DividerListener which refreshes Scrollbars here is enough for all dividers
-		palettePanel.addComponentListener(new DividerListener());
+		int mainDividerLoc = Constants.main_split_position;
+		mainSplit = GuiBuilder.newGenericSplitPane(JSplitPane.HORIZONTAL_SPLIT, searchSplit, rightPanel, 2, mainDividerLoc, true);
+		customPanel.setVisible(false);
+		customSplit = GuiBuilder.newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, mainSplit, customPanel, 0, 0, true);
+		mailPanel = new MailPanel();
+		mailSplit = GuiBuilder.newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, mailPanel, customSplit, 0, 0, true);
 
 		editor.add(mailSplit);
 
@@ -333,31 +290,31 @@ public class Editor extends EditorPart {
 	}
 
 	public void setCustomPanelEnabled(boolean enable) {
-		if (this.custompanel.isVisible() != enable) {
+		if (this.customPanel.isVisible() != enable) {
 			int loc = this.mainSplit.getDividerLocation();
-			this.custompanel.setVisible(enable);
+			this.customPanel.setVisible(enable);
 
 			if (enable) {
-				int rightloc = this.rightSplit.getDividerLocation();
+				int rightloc = this.guiComponents.getRightSplit().getDividerLocation();
 
 				this.customSplit.setDividerSize(2);
-				this.rightSplit.setDividerSize(0);
+				this.guiComponents.getRightSplit().setDividerSize(0);
 
-				this.custompanel.getLeftSplit().setLeftComponent(this.propertyTextPane.getPanel());
+				this.customPanel.getLeftSplit().setLeftComponent(this.propertyTextPane.getPanel());
 				this.customSplit.setDividerLocation(rightloc);
 
-				this.custompanel.getRightSplit().setDividerLocation(loc);
-				this.custompanel.getLeftSplit().setDividerLocation(this.handler.getDrawPanel().getScrollPane().getWidth() / 2);
-				this.custompanel.getLeftSplit().updateUI();
+				this.customPanel.getRightSplit().setDividerLocation(loc);
+				this.customPanel.getLeftSplit().setDividerLocation(this.handler.getDrawPanel().getScrollPane().getWidth() / 2);
+				this.customPanel.getLeftSplit().updateUI();
 			}
 			else {
 				int rightloc = this.customSplit.getDividerLocation();
 
 				this.customSplit.setDividerSize(0);
 
-				this.rightSplit.setDividerSize(2);
-				this.rightSplit.setRightComponent(this.propertyTextPane.getPanel());
-				this.rightSplit.setDividerLocation(rightloc);
+				this.guiComponents.getRightSplit().setDividerSize(2);
+				this.guiComponents.getRightSplit().setRightComponent(this.propertyTextPane.getPanel());
+				this.guiComponents.getRightSplit().setDividerLocation(rightloc);
 			}
 			this.mainSplit.setDividerLocation(loc);
 		}
@@ -365,7 +322,7 @@ public class Editor extends EditorPart {
 	}
 
 	public void setMailPanelEnabled(boolean enable) {
-		mailpanel.setVisible(enable);
+		mailPanel.setVisible(enable);
 		if (enable) {
 			int mailDividerLoc= Math.max(Constants.MIN_MAIL_SPLITPANEL_SIZE, Constants.mail_split_position);
 			mailSplit.setDividerLocation(mailDividerLoc);
@@ -409,7 +366,7 @@ public class Editor extends EditorPart {
 	}
 
 	public String getSelectedPaletteName() {
-		return this.paletteList.getSelectedItem().toString();
+		return this.guiComponents.getPaletteList().getSelectedItem().toString();
 	}
 
 	public int getMainSplitLocation() {
@@ -417,7 +374,7 @@ public class Editor extends EditorPart {
 	}
 
 	public int getRightSplitLocation() {
-		return rightSplit.getDividerLocation();
+		return guiComponents.getRightSplit().getDividerLocation();
 	}
 
 	public int getMailSplitLocation() {
@@ -428,10 +385,10 @@ public class Editor extends EditorPart {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				CardLayout palettePanelLayout = (CardLayout) palettePanel.getLayout();
-				palettePanelLayout.show(palettePanel, paletteName);
-				palettePanel.repaint();
-				paletteList.repaint();
+				CardLayout palettePanelLayout = (CardLayout) guiComponents.getPalettePanel().getLayout();
+				palettePanelLayout.show(guiComponents.getPalettePanel(), paletteName);
+				guiComponents.getPalettePanel().repaint();
+				guiComponents.getPaletteList().repaint();
 			}
 		});
 	}
