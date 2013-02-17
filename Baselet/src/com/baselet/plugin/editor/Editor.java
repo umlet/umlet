@@ -40,8 +40,7 @@ public class Editor extends EditorPart {
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private DiagramHandler handler;
-	private Panel embedded_panel = new Panel();
-	private File diagramFile;
+	private Panel embedded_panel;
 
 	private EclipseGUIBuilder guiComponents = new EclipseGUIBuilder();
 
@@ -74,7 +73,24 @@ public class Editor extends EditorPart {
 		this.setSite(site);
 		this.setInput(input);
 		this.setPartName(input.getName());
-		diagramFile = getFile(input); 
+		final File diagramFile = getFile(input);
+		try { //use invokeAndWait to make sure the following code is only invoked after everything is initialized
+			SwingUtilities.invokeAndWait(new Runnable() {
+				@Override
+				public void run() {
+					log.debug("Create new DiagramHandler");
+					MainPlugin.getGUI().setCurrentEditor(Editor.this); // must be set here because onFocus is not always called (eg: tab is opened during eclipse startup)
+					embedded_panel = guiComponents.initEclipseGui(); // must be done in init and not in createPartControl (eg: parsing an uxf file happens between these 2 calls)
+					handler = new DiagramHandler(diagramFile);
+					MainPlugin.getGUI().open(handler);
+					log.debug("DiagramHandler created...");
+				}
+			});
+		} catch (InterruptedException e) {
+			log.error("Create DiagramHandler interrupted");
+		} catch (InvocationTargetException e) {
+			log.error("Create DiagramHandler invocation exception");
+		}
 	}
 
 	private File getFile(IEditorInput input) throws PartInitException {
@@ -94,22 +110,6 @@ public class Editor extends EditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		try { //use invokeAndWait to make sure the following code is only invoked after everything is initialized
-			SwingUtilities.invokeAndWait(new Runnable() {
-				@Override
-				public void run() {
-					log.debug("Create new DiagramHandler");
-					handler = new DiagramHandler(diagramFile);
-					embedded_panel = guiComponents.initEclipseGui(handler);
-					log.debug("DiagramHandler created...");
-				}
-			});
-		} catch (InterruptedException e) {
-			log.error("Create DiagramHandler interrupted");
-		} catch (InvocationTargetException e) {
-			log.error("Create DiagramHandler invocation exception");
-		}
-		
 		log.info("Call editor.createPartControl() " + uuid.toString());
 		final Frame frame = SWT_AWT.new_Frame(new Composite(parent, SWT.EMBEDDED));
 		frame.add(embedded_panel);
@@ -266,6 +266,15 @@ public class Editor extends EditorPart {
 
 	public void focusPropertyPane() {
 		guiComponents.getPropertyTextPane().getTextComponent().requestFocus();
+	}
+
+	public void open(final DiagramHandler handler) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				guiComponents.setContent(handler.getDrawPanel().getScrollPane());
+			}
+		});
 	}
 
 }
