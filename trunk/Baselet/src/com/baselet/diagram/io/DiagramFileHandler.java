@@ -324,11 +324,11 @@ public class DiagramFileHandler {
 		setAvailableFileFilters(ownXmlFormat);
 		saveFileChooser.setFileFilter(filefilter);
 
-		int returnVal = saveFileChooser.showSaveDialog(Main.getInstance().getGUI());
+		int returnVal = saveFileChooser.showSaveDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFileWithExt = getFileWithExtension();
 			if (selectedFileWithExt.exists()) {
-				int overwriteQuestionResult = JOptionPane.showConfirmDialog(Main.getInstance().getGUI(), "File already exists! Overwrite?", "Overwrite File", JOptionPane.YES_NO_OPTION);
+				int overwriteQuestionResult = JOptionPane.showConfirmDialog(null, "File already exists! Overwrite?", "Overwrite File", JOptionPane.YES_NO_OPTION);
 				if (overwriteQuestionResult == JOptionPane.NO_OPTION) return chooseFileName(ownXmlFormat, filefilter);
 			}
 			fileName = selectedFileWithExt.getAbsolutePath();

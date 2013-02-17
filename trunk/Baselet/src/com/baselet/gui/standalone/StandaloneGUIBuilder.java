@@ -1,6 +1,7 @@
 package com.baselet.gui.standalone;
 
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,16 +9,24 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.ToolTipManager;
+import javax.swing.WindowConstants;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Constants.Program;
+import com.baselet.control.Constants.ProgramName;
+import com.baselet.control.Path;
 import com.baselet.gui.BaseGUIBuilder;
+import com.baselet.gui.listener.GUIListener;
 
 public class StandaloneGUIBuilder extends BaseGUIBuilder {
 
@@ -44,9 +53,38 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		return searchField;
 	}
 	
-	public JSplitPane initSwingGui(int mainDividerLoc) {
+	public JFrame initSwingGui(MenuBuilder menuBuilder) {
+		JFrame mainFrame = new JFrame();
+		mainFrame.addKeyListener(new GUIListener());
+		mainFrame.addKeyListener(new SearchKeyListener());
+		mainFrame.addWindowListener(new WindowListener());
+		mainFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		mainFrame.setBounds(Constants.program_location.x, Constants.program_location.y, Constants.program_size.width, Constants.program_size.height);
+
+		if (Program.PROGRAM_NAME.equals(ProgramName.UMLET)) mainFrame.setTitle("UMLet - Free UML Tool for Fast UML Diagrams");
+		else if (Program.PROGRAM_NAME.equals(ProgramName.PLOTLET)) mainFrame.setTitle("Plotlet - Free Tool for Fast Plots");
+
+		String iconPath = Path.homeProgram() + "img/" + Program.PROGRAM_NAME.toLowerCase() + "_logo.png";
+		mainFrame.setIconImage(new ImageIcon(iconPath).getImage());
+
+		if (Constants.start_maximized) {
+			// If Main starts maximized we set fixed bounds and must set the frame visible
+			// now to avoid a bug where the right sidebar doesn't have the correct size
+			mainFrame.setExtendedState(mainFrame.getExtendedState() | Frame.MAXIMIZED_BOTH);
+			mainFrame.setVisible(true);
+		}
+
+		mainFrame.setJMenuBar(menuBuilder.createMenu(createSearchPanel(), createZoomPanel(), createMailButton()));
+
 		JPanel diagramTabPanel = createDiagramTabPanel();
-		return super.initBase(diagramTabPanel, mainDividerLoc);
+		int mainDividerLoc = Math.min(mainFrame.getSize().width-Constants.MIN_MAIN_SPLITPANEL_SIZE, Constants.main_split_position);
+		JSplitPane baseSplitPane = initBase(diagramTabPanel, mainDividerLoc);
+		mainFrame.add(baseSplitPane);
+		
+		ToolTipManager.sharedInstance().setInitialDelay(100);
+		mainFrame.setVisible(true);
+		
+		return mainFrame;
 	}
 
 	private void createZoomComboBox() {
