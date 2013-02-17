@@ -2,22 +2,14 @@ package com.baselet.plugin.editor;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
@@ -42,35 +34,19 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.gui.GuiBuilder;
-import com.baselet.gui.MailPanel;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.eclipse.CustomCodePaneFocusListener;
 import com.baselet.gui.eclipse.TextPaneFocusListener;
 import com.baselet.gui.listener.GUIListener;
-import com.baselet.gui.standalone.SearchListener;
 import com.baselet.plugin.MainPlugin;
 import com.umlet.custom.CustomElementHandler;
-import com.umlet.gui.CustomElementPanel;
 
 public class Editor extends EditorPart {
 
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private DiagramHandler handler;
-	private CustomElementHandler customhandler;
-	private CustomElementPanel customPanel;
-	private MailPanel mailPanel;
 	private Panel embedded_panel;
-	private OwnSyntaxPane propertyTextPane;
-	private JTextField searchfield;
-	private JPanel searchPanel;
-	private JPanel rightPanel;
-
-	private JSplitPane mainSplit;
-	private JSplitPane customSplit;
-	private JSplitPane searchSplit;
-	private JSplitPane mailSplit;
-	private boolean mail_panel_visible;
 
 	private GuiBuilder guiComponents = new GuiBuilder();
 
@@ -111,16 +87,16 @@ public class Editor extends EditorPart {
 				public void run() {
 					log.debug("Create new DiagramHandler");
 					handler = new DiagramHandler(file);
+					
+					JPanel editor = createEditor();
 
-					customhandler = new CustomElementHandler();
-					customPanel = customhandler.getPanel();
-					customPanel.getTextPane().addFocusListener(new CustomCodePaneFocusListener());
-					propertyTextPane = Main.getInstance().getGUI().createPropertyTextPane();
-					propertyTextPane.getTextComponent().addFocusListener(new TextPaneFocusListener());
+					guiComponents.getCustomHandler().getPanel().setVisible(false);
+					guiComponents.getCustomHandler().getPanel().getTextPane().addFocusListener(new CustomCodePaneFocusListener());
+					guiComponents.getPropertyTextPane().getTextComponent().addFocusListener(new TextPaneFocusListener());
 
 					embedded_panel = new Panel();
 					embedded_panel.setLayout(new BorderLayout());
-					embedded_panel.add(createEditor());
+					embedded_panel.add(editor);
 					embedded_panel.addKeyListener(new GUIListener());
 					log.debug("DiagramHandler created...");
 				}
@@ -202,7 +178,7 @@ public class Editor extends EditorPart {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				if (mailPanel.isVisible()) mailPanel.closePanel();
+				if (guiComponents.getMailPanel().isVisible()) guiComponents.getMailPanel().closePanel();
 				MainPlugin.getGUI().editorRemoved(Editor.this);
 			}
 		});
@@ -213,11 +189,11 @@ public class Editor extends EditorPart {
 	}
 
 	public OwnSyntaxPane getPropertyPane() {
-		return this.propertyTextPane;
+		return guiComponents.getPropertyTextPane();
 	}
 
 	public JTextComponent getCustomPane() {
-		return customPanel.getTextPane();
+		return guiComponents.getCustomPanel().getTextPane();
 	}
 
 	public void requestFocus() {
@@ -246,37 +222,10 @@ public class Editor extends EditorPart {
 		JPanel editor = new JPanel();
 		editor.setLayout(new BorderLayout());
 
-		rightPanel = GuiBuilder.newRightPanel(propertyTextPane.getPanel());
-
-		this.searchPanel = new JPanel();
-		this.searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
-		JLabel searchlabel = new JLabel("Search:");
-		searchlabel.setFont(Constants.PANEL_HEADER_FONT);
-		this.searchfield = new JTextField();
-		SearchListener listener = new SearchListener();
-		this.searchfield.addMouseMotionListener(listener);
-		this.searchfield.addKeyListener(listener);
-		this.searchfield.addFocusListener(new TextPaneFocusListener());
-		this.searchfield.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.darkGray));
-		this.searchPanel.add(Box.createRigidArea(new Dimension(10, 20)));
-		this.searchPanel.add(searchlabel);
-		this.searchPanel.add(Box.createRigidArea(new Dimension(10, 20)));
-		this.searchPanel.add(this.searchfield);
-		this.searchSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, searchPanel, handler.getDrawPanel().getScrollPane());
-		this.searchSplit.setDividerSize(0);
-		this.searchSplit.setResizeWeight(1);
-		this.searchSplit.setEnabled(false);
-		this.searchSplit.setBorder(null);
-		this.searchPanel.setVisible(false);
-
 		int mainDividerLoc = Constants.main_split_position;
-		mainSplit = GuiBuilder.newGenericSplitPane(JSplitPane.HORIZONTAL_SPLIT, searchSplit, rightPanel, 2, mainDividerLoc, true);
-		customPanel.setVisible(false);
-		customSplit = GuiBuilder.newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, mainSplit, customPanel, 0, 0, true);
-		mailPanel = new MailPanel();
-		mailSplit = GuiBuilder.newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, mailPanel, customSplit, 0, 0, true);
+		guiComponents.initAll(handler.getDrawPanel().getScrollPane(), mainDividerLoc);
 
-		editor.add(mailSplit);
+		editor.add(guiComponents.getMailSplit());
 
 		return editor;
 	}
@@ -286,60 +235,15 @@ public class Editor extends EditorPart {
 	}
 
 	public CustomElementHandler getCustomElementHandler() {
-		return this.customhandler;
-	}
-
-	public void setCustomPanelEnabled(boolean enable) {
-		if (this.customPanel.isVisible() != enable) {
-			int loc = this.mainSplit.getDividerLocation();
-			this.customPanel.setVisible(enable);
-
-			if (enable) {
-				int rightloc = this.guiComponents.getRightSplit().getDividerLocation();
-
-				this.customSplit.setDividerSize(2);
-				this.guiComponents.getRightSplit().setDividerSize(0);
-
-				this.customPanel.getLeftSplit().setLeftComponent(this.propertyTextPane.getPanel());
-				this.customSplit.setDividerLocation(rightloc);
-
-				this.customPanel.getRightSplit().setDividerLocation(loc);
-				this.customPanel.getLeftSplit().setDividerLocation(this.handler.getDrawPanel().getScrollPane().getWidth() / 2);
-				this.customPanel.getLeftSplit().updateUI();
-			}
-			else {
-				int rightloc = this.customSplit.getDividerLocation();
-
-				this.customSplit.setDividerSize(0);
-
-				this.guiComponents.getRightSplit().setDividerSize(2);
-				this.guiComponents.getRightSplit().setRightComponent(this.propertyTextPane.getPanel());
-				this.guiComponents.getRightSplit().setDividerLocation(rightloc);
-			}
-			this.mainSplit.setDividerLocation(loc);
-		}
-		this.setDiagramsEnabled(!enable);
+		return guiComponents.getCustomHandler();
 	}
 
 	public void setMailPanelEnabled(boolean enable) {
-		mailPanel.setVisible(enable);
-		if (enable) {
-			int mailDividerLoc= Math.max(Constants.MIN_MAIL_SPLITPANEL_SIZE, Constants.mail_split_position);
-			mailSplit.setDividerLocation(mailDividerLoc);
-			mailSplit.setDividerSize(2);
-		}
-		else {
-			mailSplit.setDividerSize(0);
-		}
-		mail_panel_visible = enable;
+		guiComponents.setMailPanelEnabled(enable);
 	}
 
 	public boolean isMailPanelVisible() {
-		return mail_panel_visible;
-	}
-
-	private void setDiagramsEnabled(boolean enable) {
-		this.handler.getDrawPanel().getScrollPane().setEnabled(enable);
+		return guiComponents.getMailPanel().isVisible();
 	}
 
 	public void repaint() {
@@ -351,26 +255,12 @@ public class Editor extends EditorPart {
 		});
 	}
 
-	public void enableSearch(boolean enable) {
-		this.searchPanel.setVisible(enable);
-		if (enable) {
-			this.searchSplit.setDividerSize(1);
-			this.searchSplit.setDividerLocation(20);
-			this.searchfield.requestFocus();
-		}
-		else {
-			this.searchfield.setText("");
-			this.searchSplit.setDividerSize(0);
-			this.requestFocus();
-		}
-	}
-
 	public String getSelectedPaletteName() {
 		return this.guiComponents.getPaletteList().getSelectedItem().toString();
 	}
 
 	public int getMainSplitLocation() {
-		return mainSplit.getDividerLocation();
+		return guiComponents.getMainSplit().getDividerLocation();
 	}
 
 	public int getRightSplitLocation() {
@@ -378,7 +268,7 @@ public class Editor extends EditorPart {
 	}
 
 	public int getMailSplitLocation() {
-		return mailSplit.getDividerLocation();
+		return guiComponents.getMailSplit().getDividerLocation();
 	}
 
 	public void showPalette(final String paletteName) {
@@ -392,4 +282,14 @@ public class Editor extends EditorPart {
 			}
 		});
 	}
+
+	public void setCustomPanelEnabled(boolean enable) {
+		guiComponents.setCustomPanelEnabled(enable);
+		handler.getDrawPanel().getScrollPane().setEnabled(enable);
+	}
+
+	public void focusPropertyPane() {
+		guiComponents.getPropertyTextPane().getTextComponent().requestFocus();
+	}
+
 }

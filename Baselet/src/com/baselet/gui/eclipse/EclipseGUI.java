@@ -70,13 +70,6 @@ public class EclipseGUI extends BaseGUI {
 	}
 
 	@Override
-	public void enableSearch(boolean enable) {
-		if (this.editor != null) {
-			this.editor.enableSearch(enable);
-		}
-	}
-
-	@Override
 	public CustomElementHandler getCurrentCustomHandler() {
 		if (this.editor == null) return null;
 		return this.editor.getCustomElementHandler();
@@ -151,7 +144,7 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public void setCustomPanelEnabled(boolean enable) {
 		if (this.editor != null) {
-			this.editor.setCustomPanelEnabled(enable);
+			editor.setCustomPanelEnabled(enable);
 			if (this.contributor != null) this.contributor.setCustomPanelEnabled(enable);
 		}
 	}
@@ -281,11 +274,15 @@ public class EclipseGUI extends BaseGUI {
 	public void setValueOfZoomDisplay(int i) {
 		if (contributor != null) contributor.updateZoomMenuRadioButton(i);
 	}
-	
+
 	@Override
 	public void afterSaving() {
 		super.afterSaving();
 		MainPlugin.refreshWorkspace();
 	}
 
+	@Override
+	public void focusPropertyPane() {
+		editor.focusPropertyPane();
+	}
 }

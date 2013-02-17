@@ -23,7 +23,6 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
-import com.baselet.gui.listener.PropertyPanelListener;
 import com.umlet.custom.CustomElement;
 import com.umlet.custom.CustomElementHandler;
 
@@ -35,7 +34,6 @@ public abstract class BaseGUI extends JPanel {
 
 	protected Main main;
 	protected int selected_elements;
-	protected OwnSyntaxPane propertyTextPane;
 	protected boolean paletteEdited = false;
 
 	public BaseGUI(Main main) {
@@ -56,26 +54,7 @@ public abstract class BaseGUI extends JPanel {
 		this.requestFocus();
 	}
 
-	public OwnSyntaxPane createPropertyTextPane() {
-		propertyTextPane = new OwnSyntaxPane();
-
-		// add listener to propertyTextPane
-		PropertyPanelListener pListener = new PropertyPanelListener();
-		propertyTextPane.getTextComponent().addKeyListener(pListener);
-		propertyTextPane.getTextComponent().getDocument().addDocumentListener(pListener);
-
-		return propertyTextPane;
-	}
-
-	public void focusPropertyPane() {
-		propertyTextPane.getTextComponent().requestFocus();
-		// The robot class simulates pressing a certain key
-		// try {
-		// new Robot().keyPress(character);
-		// } catch (AWTException e) {
-		// log.error(null, e);
-		// }
-	}
+	public abstract void focusPropertyPane();
 
 	public JPopupMenu getContextMenu(GridElement entity) {
 		MenuFactorySwing menuFactory = MenuFactorySwing.getInstance();
@@ -167,7 +146,9 @@ public abstract class BaseGUI extends JPanel {
 
 	public abstract void diagramSelected(DiagramHandler handler);
 
-	public abstract void enableSearch(boolean enable);
+	public void enableSearch(@SuppressWarnings("unused") boolean enable) {
+		/* do nothing*/
+		}
 
 	public abstract int getMainSplitPosition();
 

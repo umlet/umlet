@@ -2,7 +2,6 @@ package com.baselet.gui.standalone;
 
 import java.awt.CardLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,60 +10,43 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.ToolTipManager;
 import javax.swing.WindowConstants;
-
-import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Main;
 import com.baselet.control.Path;
-import com.baselet.control.Utils;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.gui.BaseGUI;
-import com.baselet.gui.GuiBuilder;
-import com.baselet.gui.MailPanel;
+import com.baselet.gui.GuiBuilderStandalone;
 import com.baselet.gui.MenuFactory;
 import com.baselet.gui.MenuFactorySwing;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.TabComponent;
 import com.baselet.gui.listener.GUIListener;
 import com.umlet.custom.CustomElementHandler;
-import com.umlet.gui.CustomElementPanel;
 
 @SuppressWarnings("serial")
 public class StandaloneGUI extends BaseGUI {
 
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
-
 	private MenuFactorySwing menuFactory;
-	private JComboBox zoomComboBox;
 	private JFrame window;
-	private JSplitPane customSplit;
-	private JSplitPane mainSplit;
-	private JSplitPane mailSplit;
 	private JPanel diagramspanel;
 	private JTabbedPane diagramtabs;
 	private JMenu editMenu;
@@ -80,27 +62,16 @@ public class StandaloneGUI extends BaseGUI {
 	private JMenuItem customMenu;
 	private JMenu customTemplate;
 	private JMenuItem customEdit;
-	private JTextField searchField;
-	private OwnSyntaxPane propertyTextPane;
-	private ZoomListener zoomListener;
-	private JPanel rightPanel;
-	
-	private GuiBuilder guiComponents = new GuiBuilder();
 
-	private CustomElementHandler customelementhandler;
-	private CustomElementPanel customPanel;
 	private boolean custom_element_selected;
-	private boolean custom_panel_visible;
 
-	private MailPanel mailPanel;
+	protected GuiBuilderStandalone guiComponents = new GuiBuilderStandalone();
+
 	private JToggleButton mailButton;
-	private boolean mail_panel_visible;
 
 	public StandaloneGUI(Main main) {
 		super(main);
 		custom_element_selected = false;
-		custom_panel_visible = false;
-		mail_panel_visible = false;
 	}
 
 	@Override
@@ -128,7 +99,7 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public void closeWindow() {
-		mailPanel.closePanel(); // We must close the mailpanel to save the input date
+		guiComponents.getMailPanel().closePanel(); // We must close the mailpanel to save the input date
 		if (this.askSaveForAllDirtyDiagrams()) {
 			this.main.closeProgram();
 			this.window.dispose();
@@ -163,9 +134,6 @@ public class StandaloneGUI extends BaseGUI {
 		String iconPath = Path.homeProgram() + "img/" + Program.PROGRAM_NAME.toLowerCase() + "_logo.png";
 		this.window.setIconImage(new ImageIcon(iconPath).getImage());
 		/*************************************************************/
-
-		/************************ CREATE PROP PANE *****************/
-		this.propertyTextPane = this.createPropertyTextPane();
 
 		/*********** SET WINDOW BOUNDS **************/
 		if (Constants.start_maximized) {
@@ -250,48 +218,9 @@ public class StandaloneGUI extends BaseGUI {
 		helpMenu.add(menuFactory.createAboutProgram());
 		menu.add(helpMenu);
 
-		// Search Field
-		JPanel searchPanel = new JPanel();
-		searchPanel.setOpaque(false);
-		searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
-		JLabel searchLabel = new JLabel("Search:   ");
-		searchField = new JTextField(10);
-		searchField.setMinimumSize(searchField.getPreferredSize());
-		searchField.setMaximumSize(searchField.getPreferredSize());
-		searchField.addKeyListener(new SearchListener());
+		menu.add(guiComponents.createSearchPanel());
 
-		// searchPanel.add(Box.createHorizontalGlue());
-		searchPanel.add(Box.createRigidArea(new Dimension(50, 0)));
-		searchPanel.add(searchLabel);
-		searchPanel.add(searchField);
-		searchPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-
-		menu.add(searchPanel);
-
-		/* Zoom field */
-
-		JPanel zoomPanel = new JPanel();
-		zoomPanel.setOpaque(false);
-		zoomPanel.setLayout(new BoxLayout(zoomPanel, BoxLayout.X_AXIS));
-		JLabel zoomLabel = new JLabel("Zoom:   ");
-		zoomComboBox = new JComboBox();
-		zoomComboBox.setPreferredSize(new Dimension(80, 24));
-		zoomComboBox.setMinimumSize(zoomComboBox.getPreferredSize());
-		zoomComboBox.setMaximumSize(zoomComboBox.getPreferredSize());
-		zoomListener = new ZoomListener();
-		zoomComboBox.addActionListener(zoomListener);
-		zoomComboBox.addMouseWheelListener(zoomListener);
-		zoomComboBox.setToolTipText("Use ± or mouse wheel to zoom");
-
-		String[] zoomValues = Constants.zoomValueList.toArray(new String[Constants.zoomValueList.size()]);
-		zoomComboBox.setModel(new DefaultComboBoxModel(zoomValues));
-		zoomComboBox.setSelectedIndex(9);
-
-		zoomPanel.add(zoomLabel);
-		zoomPanel.add(zoomComboBox);
-		zoomPanel.add(Box.createRigidArea(new Dimension(20, 0)));
-
-		menu.add(zoomPanel);
+		menu.add(guiComponents.createZoomPanel());
 
 		mailButton = new JToggleButton("Mail diagram");
 
@@ -309,24 +238,15 @@ public class StandaloneGUI extends BaseGUI {
 		/************************ CREATE SUB PANELS ******************/
 
 		// create custom element handler
-		this.customelementhandler = new CustomElementHandler();
-		this.customPanel = this.customelementhandler.getPanel();
 
 		diagramspanel = new JPanel();
-		
 		new FileDrop(diagramspanel, new FileDropListener()); // enable drag&drop from desktop into diagrampanel
-		
-		rightPanel = GuiBuilder.newRightPanel(propertyTextPane.getPanel());
 
 		int mainDividerLoc = Math.min(window.getSize().width-Constants.MIN_MAIN_SPLITPANEL_SIZE, Constants.main_split_position);
-		mainSplit = GuiBuilder.newGenericSplitPane(JSplitPane.HORIZONTAL_SPLIT, diagramspanel, rightPanel, 2, mainDividerLoc, true);
-		customPanel.setVisible(false);
-		customSplit = GuiBuilder.newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, mainSplit, customPanel, 0, 0, true);
-		mailPanel = new MailPanel();
-		mailPanel.setVisible(false);
-		mailSplit = GuiBuilder.newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, mailPanel, customSplit, 0, 0, true);
-		
+		guiComponents.initAll(diagramspanel, mainDividerLoc);
 
+		guiComponents.getCustomHandler().getPanel().setVisible(false);
+		
 		/***************** SETTING TABS AND TAB LAYOUT ***********************/
 
 		diagramtabs = new JTabbedPane();
@@ -345,11 +265,11 @@ public class StandaloneGUI extends BaseGUI {
 		this.getInputMap().put(KeyStroke.getKeyStroke('/'), "focussearch");
 
 		/************************ ADD TOP COMPONENT ************************/
-		this.add(mailSplit);
+		this.add(guiComponents.getMailSplit());
 		/************************** SET DEFAULT INITIALIZATION VALUES ******/
 		ToolTipManager.sharedInstance().setInitialDelay(100);
 		/*************************************************************/
-		
+
 		this.window.setVisible(true);
 	}
 
@@ -379,7 +299,7 @@ public class StandaloneGUI extends BaseGUI {
 		diagramtabs.setTabComponentAt(diagramtabs.getTabCount() - 1, new TabComponent(diagramtabs, diagram));
 		jumpTo(diagram);
 	}
-	
+
 	@Override
 	public void jumpTo(DiagramHandler diagram) {
 		diagramtabs.setSelectedComponent(diagram.getDrawPanel().getScrollPane());		
@@ -425,72 +345,41 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public void setCustomPanelEnabled(boolean enable) {
-		log.info("Set CustomPanel enabled=" + Boolean.toString(enable));
-		this.custom_panel_visible = enable;
-		if (this.customPanel.isVisible() != enable) {
-			int loc = this.mainSplit.getDividerLocation();
-			log.info("mainSplit Divider Location: " + loc);
+		guiComponents.setCustomPanelEnabled(enable);
+		this.customEdit.setEnabled(!enable && this.custom_element_selected);
+		this.customMenu.setEnabled(!enable);
+		this.customTemplate.setEnabled(!enable);
 
-			this.customPanel.setVisible(enable);
+		setDiagramsEnabled(enable);
+	}
 
-			if (enable) {
-				int rightloc = guiComponents.getRightSplit().getDividerLocation();
-				log.info("rightSplit Divider Location: " + rightloc);
-				this.customSplit.setDividerSize(2);
-				this.guiComponents.getRightSplit().setDividerSize(0);
-
-				this.customPanel.getLeftSplit().setLeftComponent(this.propertyTextPane.getPanel());
-				log.info("customPanel.leftSplit Divider Location: " + customPanel.getLeftSplit().getDividerLocation());
-
-				this.customSplit.setDividerLocation(rightloc);
-				this.customPanel.getRightSplit().setDividerLocation(loc);
-				this.customPanel.getLeftSplit().setDividerLocation(this.diagramspanel.getWidth() / 2);
-				log.info("customPanel.leftSplit New Divider Location: " + customPanel.getLeftSplit().getDividerLocation());
-				this.customPanel.getLeftSplit().updateUI();
-			}
-			else {
-				int rightloc = this.customSplit.getDividerLocation();
-				log.info("customSplit Divider Location: " + rightloc);
-				this.customSplit.setDividerSize(0);
-
-				this.guiComponents.getRightSplit().setDividerSize(2);
-				this.guiComponents.getRightSplit().setRightComponent(this.propertyTextPane.getPanel());
-				this.guiComponents.getRightSplit().setDividerLocation(rightloc);
-			}
-			this.mainSplit.setDividerLocation(loc);
-			log.info("mainSplit Divider Location: " + loc);
-			this.customEdit.setEnabled(!enable && this.custom_element_selected);
-			this.customMenu.setEnabled(!enable);
-			this.customTemplate.setEnabled(!enable);
-		}
-		this.setDiagramsEnabled(!enable);
+	private void setDiagramsEnabled(boolean enable) {
+		this.guiComponents.getPalettePanel().setEnabled(enable);
+		for (Component c : guiComponents.getPalettePanel().getComponents())
+			c.setEnabled(enable);
+		this.diagramtabs.setEnabled(enable);
+		for (Component c : diagramtabs.getComponents())
+			c.setEnabled(enable);
+		for (int i = 0; i < this.diagramtabs.getTabCount(); i++)
+			this.diagramtabs.getTabComponentAt(i).setEnabled(enable);
+		this.guiComponents.getSearchField().setEnabled(enable);
 	}
 
 	@Override
 	public void setMailPanelEnabled(boolean enable) {
-		if (enable) {
-			mailSplit.setDividerSize(2);
-			mailButton.setSelected(true);
-			int mailDividerLoc= Math.max(Constants.MIN_MAIL_SPLITPANEL_SIZE, Constants.mail_split_position);
-			mailSplit.setDividerLocation(mailDividerLoc);
-		}
-		if (!enable) {
-			mailSplit.setDividerSize(0);
-			mailButton.setSelected(false);
-		}
-		mailPanel.setVisible(enable);
-		mail_panel_visible = enable;
+		guiComponents.setMailPanelEnabled(enable);
+		mailButton.setSelected(false);
 	}
 
 	@Override
 	public boolean isMailPanelVisible() {
-		return mail_panel_visible;
+		return guiComponents.getMailPanel().isVisible();
 	}
 
 	@Override
 	public void setCustomElementSelected(boolean selected) {
 		this.custom_element_selected = selected;
-		if (customEdit != null) customEdit.setEnabled(selected && !this.custom_panel_visible);
+		if (customEdit != null) customEdit.setEnabled(selected && !guiComponents.getCustomPanel().isEnabled());
 	}
 
 	@Override
@@ -502,7 +391,7 @@ public class StandaloneGUI extends BaseGUI {
 		// These menuitems only get changed if this is not the palette or custompreview
 		if (!(handler instanceof PaletteHandler) && !(handler instanceof CustomPreviewHandler)) {
 			menuFactory.updateDiagramDependendComponents();
-			
+
 			if ((handler == null) || handler.getDrawPanel().getAllEntities().isEmpty()) {
 				mailButton.setEnabled(false);
 			}
@@ -532,9 +421,9 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public void enableSearch(boolean enable) {
-		this.searchField.requestFocus();
+		guiComponents.getSearchField().requestFocus();
 	}
-	
+
 	private void setCustomElementEditMenuEnabled(boolean enabled)
 	{
 		editGroup.setEnabled(enabled);
@@ -546,21 +435,9 @@ public class StandaloneGUI extends BaseGUI {
 		editSelectAll.setEnabled(enabled);		
 	}
 
-	private void setDiagramsEnabled(boolean enable) {
-		this.guiComponents.getPalettePanel().setEnabled(enable);
-		for (Component c : this.guiComponents.getPalettePanel().getComponents())
-			c.setEnabled(enable);
-		this.diagramtabs.setEnabled(enable);
-		for (Component c : this.diagramtabs.getComponents())
-			c.setEnabled(enable);
-		for (int i = 0; i < this.diagramtabs.getTabCount(); i++)
-			this.diagramtabs.getTabComponentAt(i).setEnabled(enable);
-		this.searchField.setEnabled(enable);
-	}
-
 	@Override
 	public int getMainSplitPosition() {
-		return this.mainSplit.getDividerLocation();
+		return this.guiComponents.getMainSplit().getDividerLocation();
 	}
 
 	@Override
@@ -580,21 +457,27 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public CustomElementHandler getCurrentCustomHandler() {
-		return this.customelementhandler;
+		return guiComponents.getCustomHandler();
 	}
 
 	@Override
 	public OwnSyntaxPane getPropertyPane() {
-		return this.propertyTextPane;
+		return guiComponents.getPropertyTextPane();
 	}
 
 	@Override
 	public void setValueOfZoomDisplay(int i) {
+		JComboBox zoomComboBox = guiComponents.getZoomComboBox();
 		// This method should just set the value without ActionEvent therefore we remove the listener temporarily
 		if (zoomComboBox != null) {
-			zoomComboBox.removeActionListener(zoomListener);
+			zoomComboBox.removeActionListener(guiComponents.getZoomListener());
 			zoomComboBox.setSelectedIndex(i - 1);
-			zoomComboBox.addActionListener(zoomListener);
+			zoomComboBox.addActionListener(guiComponents.getZoomListener());
 		}
+	}
+
+	@Override
+	public void focusPropertyPane() {
+		guiComponents.getPropertyTextPane().getTextComponent().requestFocus();
 	}
 }
