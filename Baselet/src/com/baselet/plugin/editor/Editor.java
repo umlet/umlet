@@ -79,10 +79,10 @@ public class Editor extends EditorPart {
 				@Override
 				public void run() {
 					log.debug("Create new DiagramHandler");
+					embedded_panel = guiComponents.initEclipseGui(); // must be done before handler initialization
 					handler = new DiagramHandler(diagramFile);
 					MainPlugin.getGUI().registerEditorForDiagramHandler(Editor.this, handler);
 					MainPlugin.getGUI().setCurrentEditorAndDiagramHandler(Editor.this, handler); // must be also set here because onFocus is not always called (eg: tab is opened during eclipse startup)
-					embedded_panel = guiComponents.initEclipseGui(); // must be done in init and not in createPartControl (eg: parsing an uxf file happens between these 2 calls)
 					MainPlugin.getGUI().open(handler);
 					log.debug("DiagramHandler created...");
 				}
@@ -141,6 +141,7 @@ public class Editor extends EditorPart {
 				}
 				showPalette(getSelectedPaletteName());
 				Main.getInstance().getGUI().setValueOfZoomDisplay(handler.getGridSize());
+				guiComponents.getPropertyTextPane().repaint();
 			}
 		});
 	}

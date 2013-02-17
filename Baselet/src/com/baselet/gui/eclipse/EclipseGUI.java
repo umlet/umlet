@@ -35,8 +35,6 @@ public class EclipseGUI extends BaseGUI {
 	private HashMap<DiagramHandler, Editor> diagrams;
 	private Contributor contributor;
 
-	private int mainSplitPosition, rightSplitPosition;
-
 	public EclipseGUI(Main main) {
 		super(main);
 		this.diagrams = new HashMap<DiagramHandler, Editor>();
@@ -81,17 +79,17 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public int getMainSplitPosition() {
-		return mainSplitPosition;
+		return Constants.main_split_position; // in Eclipse the Editors overwrite this constant everytime they are closed (editor.getMainSplitLocation() wouldn't work because the editor is already null)
 	}
 
 	@Override
 	public int getRightSplitPosition() {
-		return rightSplitPosition;
+		return Constants.right_split_position;
 	}
 
 	@Override
 	public int getMailSplitPosition() {
-		return Constants.mail_split_position; // must return stored value in Constants, otherwise 0 will be returned in case of a closed panel
+		return Constants.mail_split_position;
 	}
 
 	@Override
@@ -102,9 +100,6 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	protected void init() {
-		// We load the constants as startingsplitpositions into the variables
-		mainSplitPosition = Constants.main_split_position;
-		rightSplitPosition = Constants.right_split_position;
 	}
 
 	@Override
@@ -187,8 +182,8 @@ public class EclipseGUI extends BaseGUI {
 
 	public void editorRemoved(Editor editor) {
 		// Before removing the editor, we have to store the actual splitpositions and lastUsedPalette to variables so that a new editor has the same values
-		mainSplitPosition = editor.getMainSplitLocation();
-		rightSplitPosition = editor.getRightSplitLocation();
+		Constants.main_split_position = editor.getMainSplitLocation();
+		Constants.right_split_position = editor.getRightSplitLocation();
 		Constants.lastUsedPalette = getSelectedPalette();
 		this.diagrams.remove(editor);
 		if (editor.equals(this.editor)) {
