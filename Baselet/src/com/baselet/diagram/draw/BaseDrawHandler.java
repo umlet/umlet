@@ -285,36 +285,29 @@ public class BaseDrawHandler {
 		}
 	}
 	
-	public void resetFontSize() {
-		style.setFontSize(handler.getFontHandler().getFontSize(false));
-	}
-
 	public final void setLineType(LineType type) {
 		style.setLineType(type);
 	}
 
 	public final void setLineType(String type) {
-		boolean match = false;
 		for (LineType lt : LineType.values()) {
 			if (lt.getValue().equals(type)) {
 				style.setLineType(lt);
-				match = true;
-				break;
 			}
 		}
-		if (!match) style.setLineType(LineType.SOLID);
-		
-		if (FormatLabels.BOLD.equals(type)) style.setLineThickness(2.0f);
-		else style.setLineThickness(Constants.DEFAULT_LINE_THICKNESS);
-	}
 
+		if (FormatLabels.BOLD.equals(type)) style.setLineThickness(2.0f);
+	}
+	
 	public final void setLineThickness(float lineThickness) {
 		style.setLineThickness(lineThickness);
 	}
 
 	public void resetStyle() {
-		resetFontSize();
 		resetColorSettings();
+		style.setFontSize(handler.getFontHandler().getFontSize(false));
+		style.setLineType(LineType.SOLID);
+		style.setLineThickness(1.0f);
 	}
 	
 	public Style getCurrentStyle() {

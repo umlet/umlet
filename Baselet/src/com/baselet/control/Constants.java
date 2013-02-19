@@ -327,7 +327,7 @@ public abstract class Constants {
 	public static MethodOptions generateClassMethods = MethodOptions.ALL;
 	public static SignatureOptions generateClassSignatures = SignatureOptions.ALL;
 	public static SortOptions generateClassSortings = SortOptions.HEIGHT;
-	public static String lastUsedPalette = DEFAULT_STRING + " - new experimental elements"; // since v12 DefaultNewElements are shown at first startup (instead of Constants.DEFAULT_STRING)
+	public static String lastUsedPalette = DEFAULT_STRING + " - original main elements"; // since v12 DefaultNewElements are shown at first startup (instead of Constants.DEFAULT_STRING)
 
 	static {
 		// The default MacOS theme looks ugly, therefore we set metal
