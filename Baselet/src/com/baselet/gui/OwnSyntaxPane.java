@@ -125,8 +125,8 @@ public class OwnSyntaxPane {
 		return this.panel;
 	}
 	
-	public void repaint() {
-		if (scrollPane != null) scrollPane.repaint();
+	public void revalidate() {
+		if (scrollPane != null) scrollPane.revalidate();
 	}
 
 	public JTextComponent getTextComponent() {

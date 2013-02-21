@@ -140,7 +140,7 @@ public class Editor extends EditorPart {
 				}
 				showPalette(getSelectedPaletteName());
 				Main.getInstance().getGUI().setValueOfZoomDisplay(handler.getGridSize());
-				guiComponents.getPropertyTextPane().repaint();
+				guiComponents.getPropertyTextPane().revalidate();
 			}
 		});
 	}
