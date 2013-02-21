@@ -5,7 +5,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DrawPanel extends Composite {
@@ -15,7 +15,7 @@ public class DrawPanel extends Composite {
 	interface DrawPanelUiBinder extends UiBinder<Widget, DrawPanel> {}
 
 	@UiField
-	TabPanel tabPanel;
+	TabLayoutPanel tabPanel;
 
 	public DrawPanel() {
 		initWidget(uiBinder.createAndBindUi(this));

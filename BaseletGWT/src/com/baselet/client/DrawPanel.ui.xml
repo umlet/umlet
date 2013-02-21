@@ -64,7 +64,7 @@
 				</g:MenuBar>
 			</g:north>
 			<g:west size="127.0">
-				<g:TabPanel ui:field="tabPanel" width="400" height="400"/>
+				<g:TabLayoutPanel ui:field="tabPanel" barUnit="EM" barHeight="2" width="400" height="400"/>
 			</g:west>
 		</g:DockLayoutPanel>
 	</g:HTMLPanel>
