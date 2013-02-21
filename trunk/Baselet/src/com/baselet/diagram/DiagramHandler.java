@@ -6,6 +6,7 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -286,7 +287,7 @@ public class DiagramHandler {
 		zoomEntities(fromFactor, toFactor, vec);
 	}
 
-	static public void zoomEntities(int fromFactor, int toFactor, Vector<GridElement> selectedEntities) {
+	static public void zoomEntities(int fromFactor, int toFactor, List<GridElement> selectedEntities) {
 
 		/**
 		 * The entities must be resized to the new factor
