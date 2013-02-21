@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-	When updating your version of GWT, you should also update this DTD reference,
-	so that your app can take advantage of the latest GWT module capabilities.
--->
+<!-- When updating your version of GWT, you should also update this DTD reference, 
+	so that your app can take advantage of the latest GWT module capabilities. -->
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.5.0//EN"
   "http://google-web-toolkit.googlecode.com/svn/tags/2.5.0/distro-source/core/src/gwt-module.dtd">
 <module rename-to='baseletgwt'>
-	<!-- Inherit the core Web Toolkit stuff.                        -->
+	<!-- Inherit the core Web Toolkit stuff. -->
 	<inherits name='com.google.gwt.user.User' />
 
-	<!-- Inherit the default GWT style sheet.  You can change       -->
-	<!-- the theme of your GWT application by uncommenting          -->
-	<!-- any one of the following lines.                            -->
+	<!-- Inherit the default GWT style sheet. You can change -->
+	<!-- the theme of your GWT application by uncommenting -->
+	<!-- any one of the following lines. -->
 	<inherits name='com.google.gwt.user.theme.clean.Clean' />
 	<!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
 	<!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
-	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
+	<!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/> -->
 
-	<!-- Other module inherits                                      -->
+	<!-- Other module inherits -->
 
-	<!-- Specify the app entry point class.                         -->
+	<!-- Inherit the UiBinder module. -->
+	<inherits name="com.google.gwt.uibinder.UiBinder" />
+
+	<!-- Specify the app entry point class. -->
 	<entry-point class='com.baselet.client.BaseletGWT' />
 
-	<!-- Specify the paths for translatable code                    -->
+	<!-- Specify the paths for translatable code -->
 	<source path='client' />
 	<source path='shared' />
 
-	<entry-point class="com.baselet.client.BaseletEntryPoint" />
 </module>
