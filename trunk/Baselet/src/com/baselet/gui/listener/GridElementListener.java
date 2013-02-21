@@ -77,7 +77,7 @@ public class GridElementListener extends UniversalListener {
 		if (this.doReturn()) return;
 
 		if (IS_DRAGGING_DIAGRAM) dragDiagram();
-		if (IS_DRAGGING) dragEntity(e);
+		if (IS_DRAGGING) dragEntity();
 		if (IS_RESIZING) resizeEntity(e, me);
 	}
 
@@ -161,7 +161,7 @@ public class GridElementListener extends UniversalListener {
 		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
 
 		// Ctrl + Mouseclick initializes the lasso
-		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) initializeLasso(me);
+		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) initializeLasso();
 
 		int ra = e.getResizeArea(me.getX(), me.getY());
 		ra = ra & e.getPossibleResizeDirections(); // LME
@@ -222,7 +222,7 @@ public class GridElementListener extends UniversalListener {
 		}
 	}
 
-	private void initializeLasso(MouseEvent me) {
+	private void initializeLasso() {
 		lassoToleranceRectangle = new Rectangle(mousePressedPoint.x - lassoTolerance, mousePressedPoint.y - lassoTolerance, lassoTolerance * 2, lassoTolerance * 2);
 		LASSO_ACTIVE = true;
 		SelectorFrame selframe = selector.getSelectorFrame();
@@ -245,7 +245,7 @@ public class GridElementListener extends UniversalListener {
 	 * Dragging entities must be a Macro, because undo should undo the full move (and not only a small part which would
 	 * happen with many short Move actions) and it must consider sticking relations at the dragging-start and later
 	 */
-	private void dragEntity(GridElement e) {
+	private void dragEntity() {
 
 		DESELECT_MULTISEL = false;
 

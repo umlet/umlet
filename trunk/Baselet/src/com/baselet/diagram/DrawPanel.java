@@ -59,7 +59,8 @@ public class DrawPanel extends JPanel implements Printable {
 		if (!(handler instanceof PaletteHandler)) {
 			StartUpHelpText startupHelpText = new StartUpHelpText(this);
 			if (Program.RUNTIME_TYPE != RuntimeType.BATCH) { //Batchmode doesn't need drag&drop. Also fixes Issue 81
-				new FileDrop(startupHelpText, new FileDropListener());
+				@SuppressWarnings("unused")
+				FileDrop fd = new FileDrop(startupHelpText, new FileDropListener());
 			}
 			this.add(startupHelpText);
 		}

@@ -41,6 +41,7 @@ public class OutputHandler {
 	public static void createAndOutputToFile(String extension, File file, DiagramHandler handler) throws Exception {
 		OutputStream ostream = new FileOutputStream(file);
 		createToStream(extension, ostream, handler);
+		ostream.close();
 	}
 
 	public static void createToStream(String extension, OutputStream ostream, DiagramHandler handler) throws Exception {

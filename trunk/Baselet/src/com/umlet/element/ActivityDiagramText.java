@@ -150,7 +150,7 @@ public class ActivityDiagramText extends OldGridElement {
 			current_line = this.preparse(it.next());
 			if (current_line != null) {
 				if (!current_line.equals("")) {
-					for (current_depth = 0; current_line.charAt(current_depth) == '\t'; current_depth++);
+					for (current_depth = 0; current_line.charAt(current_depth) == '\t'; current_depth++) {/*do nothing except increasing current depth*/}
 					if (!previous_line.equals("") || (current_depth == last_depth)) parsed_lines.add(previous_line);
 
 					previous_line = current_line;

@@ -4,13 +4,11 @@ import javax.swing.JPopupMenu;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-import com.baselet.diagram.DiagramHandler;
-
 
 @SuppressWarnings("serial")
 public class DiagramPopupMenu extends JPopupMenu {
 
-	public DiagramPopupMenu(final DiagramHandler handler, boolean extendedForStandaloneGUI) {
+	public DiagramPopupMenu(boolean extendedForStandaloneGUI) {
 		final MenuFactorySwing menuFactory = MenuFactorySwing.getInstance();
 		
 		if (extendedForStandaloneGUI) { // Extended is true for StandaloneGUI

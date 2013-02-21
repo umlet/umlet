@@ -251,6 +251,7 @@ public class DiagramFileHandler {
 			FileInputStream input = new FileInputStream(this.file);
 			InputHandler xmlhandler = new InputHandler(this.handler);
 			parser.parse(input, xmlhandler);
+			input.close();
 		} catch (Exception e) {
 			log.error("Cannot open the file: " + this.file.getAbsolutePath(), e);
 
