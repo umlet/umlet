@@ -175,9 +175,12 @@ public class EclipseGUI extends BaseGUI {
 		this.diagrams.put(handler, editor);
 	}
 
-	public void setCurrentEditorAndDiagramHandler(Editor editor, DiagramHandler handler) {
-		this.editor = editor;
+	public void setCurrentDiagramHandler(DiagramHandler handler) {
 		Main.getInstance().setCurrentDiagramHandler(handler);	
+	}
+
+	public void setCurrentEditor(Editor editor) {
+		this.editor = editor;
 	}
 
 	public void editorRemoved(Editor editor) {

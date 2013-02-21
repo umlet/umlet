@@ -80,9 +80,10 @@ public class Editor extends EditorPart {
 				public void run() {
 					log.debug("Create new DiagramHandler");
 					embedded_panel = guiComponents.initEclipseGui(); // must be done before handler initialization
+					MainPlugin.getGUI().setCurrentEditor(Editor.this); // must be done before initalization of DiagramHandler (eg: to set propertypanel text)
 					handler = new DiagramHandler(diagramFile);
 					MainPlugin.getGUI().registerEditorForDiagramHandler(Editor.this, handler);
-					MainPlugin.getGUI().setCurrentEditorAndDiagramHandler(Editor.this, handler); // must be also set here because onFocus is not always called (eg: tab is opened during eclipse startup)
+					MainPlugin.getGUI().setCurrentDiagramHandler(handler); // must be also set here because onFocus is not always called (eg: tab is opened during eclipse startup)
 					MainPlugin.getGUI().open(handler);
 					log.debug("DiagramHandler created...");
 				}
@@ -116,15 +117,16 @@ public class Editor extends EditorPart {
 		frame.add(embedded_panel);
 	}
 
-//	public boolean hasFocus() {
-//		return this.equals(this.getSite().getPage().getActivePart());
-//	}
+	//	public boolean hasFocus() {
+	//		return this.equals(this.getSite().getPage().getActivePart());
+	//	}
 
 	@Override
 	public void setFocus() {
 		log.info("Call editor.setFocus() " + uuid.toString());
-		
-		MainPlugin.getGUI().setCurrentEditorAndDiagramHandler(Editor.this, handler);
+
+		MainPlugin.getGUI().setCurrentEditor(this);
+		MainPlugin.getGUI().setCurrentDiagramHandler(handler);
 		if (handler != null) handler.getDrawPanel().getSelector().updateSelectorInformation();
 
 		SwingUtilities.invokeLater(new Runnable() {

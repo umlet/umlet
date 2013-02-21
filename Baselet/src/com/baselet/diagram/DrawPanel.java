@@ -475,7 +475,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	 * @return a point that marks the diagram origin.
 	 */
 	public Point getOrigin() {
-		log.debug("Diagram origin: " + origin);
+		log.trace("Diagram origin: " + origin);
 		return new Point(origin);
 	}
 
@@ -484,7 +484,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	 * This method is mainly used by updatePanelAndScrollBars() to keep track of the panels size changes.
 	 */
 	public void moveOrigin(int dx, int dy) {
-		log.debug("Move origin to: " + origin);
+		log.trace("Move origin to: " + origin);
 		this.origin.translate(handler.realignToGrid(false, dx), handler.realignToGrid(false, dy));
 	}
 
@@ -499,7 +499,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	 *            the new grid size
 	 */
 	public void zoomOrigin(int oldGridSize, int newGridSize) {
-		log.debug("Zoom origin to: " + origin);
+		log.trace("Zoom origin to: " + origin);
 		origin.setLocation((origin.x * newGridSize) / oldGridSize, (origin.y * newGridSize) / oldGridSize);
 	}
 
