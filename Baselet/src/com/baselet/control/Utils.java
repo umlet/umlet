@@ -261,8 +261,7 @@ public abstract class Utils {
 		Rectangle rectangle = gridElement.getVisibleRect();
 		if (!rectangle.contains(p)) return false;
 
-		Vector<GridElement> entities = gridElement.getHandler().getDrawPanel().getAllEntitiesNotInGroup();
-		for (GridElement other : entities) {
+		for (GridElement other : gridElement.getHandler().getDrawPanel().getAllEntitiesNotInGroup()) {
 			if (other instanceof Relation) { // a relation is always on top
 				// move point to coordinate system of other entity
 				Point other_p = new Point(p.x + gridElement.getLocation().x - other.getLocation().x, p.y + gridElement.getLocation().y - other.getLocation().y);

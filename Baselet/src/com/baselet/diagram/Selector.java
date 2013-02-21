@@ -2,6 +2,8 @@ package com.baselet.diagram;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import com.baselet.control.Main;
@@ -81,12 +83,12 @@ public class Selector {
 	}
 
 	public void select(GridElement e) {
-		Vector<GridElement> v = new Vector<GridElement>();
+		List<GridElement> v = new ArrayList<GridElement>();
 		v.add(e);
 		handleSelect(v);
 	}
 
-	public void select(Vector<GridElement> entities) {
+	public void select(List<GridElement> entities) {
 		handleSelect(entities);
 	}
 
@@ -94,7 +96,7 @@ public class Selector {
 		handleSelect(panel.getAllEntitiesNotInGroup());
 	}
 
-	private void handleSelect(Vector<GridElement> entities) {
+	private void handleSelect(List<GridElement> entities) {
 		for (GridElement e : entities) {
 			if (selectedEntities.contains(e) || e.isPartOfGroup()) continue;
 			e.onSelected();

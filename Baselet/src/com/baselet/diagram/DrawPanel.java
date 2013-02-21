@@ -12,10 +12,9 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.Vector;
 
 import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
@@ -48,7 +47,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	private Selector selector;
 	private DiagramHandler handler;
 
-	private HashMap<Component, GridElement> componentToGridElementMap = new HashMap<Component, GridElement>();
+	private List<GridElement> gridElements = new ArrayList<GridElement>();
 
 	public DrawPanel(DiagramHandler handler) {
 		this.handler = handler;
@@ -188,25 +187,25 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		}
 	}
 
-	public Collection<GridElement> getAllEntities() {
-		return componentToGridElementMap.values();
+	public List<GridElement> getAllEntities() {
+		return gridElements;
 	}
 
-	public Collection<Relation> getAllRelations() {
+	public List<Relation> getAllRelations() {
 		return getAll(Relation.class);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private <T extends GridElement> Collection<T> getAll(Class<T> filtered) {
-		Collection<T> gridElementsToReturn = new ArrayList<T>();
+	private <T extends GridElement> List<T> getAll(Class<T> filtered) {
+		List<T> gridElementsToReturn = new ArrayList<T>();
 		for (GridElement e : getAllEntities()) {
 				if (e.getClass().equals(filtered)) gridElementsToReturn.add((T) e);
 		}
 		return gridElementsToReturn;
 	}
 
-	public Vector<GridElement> getAllEntitiesNotInGroup() {
-		Vector<GridElement> entities = new Vector<GridElement>();
+	public List<GridElement> getAllEntitiesNotInGroup() {
+		List<GridElement> entities = new ArrayList<GridElement>();
 		for (GridElement e : getAllEntities()) {
 			if (!e.isPartOfGroup()) entities.add(e);
 		}
@@ -505,23 +504,26 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	}
 
 	public void removeElement(GridElement gridElement) {
-		componentToGridElementMap.remove(gridElement.getComponent());
+		gridElements.remove(gridElement.getComponent());
 		remove(gridElement.getComponent());
 	}
 
 	public void addElement(GridElement gridElement) {
-		componentToGridElementMap.put(gridElement.getComponent(), gridElement);
+		gridElements.add(gridElement);
 		add(gridElement.getComponent(), gridElement.getLayer());
 	}
 	
 	public void updateElements() {
-		for (GridElement e : componentToGridElementMap.values()) {
+		for (GridElement e : gridElements) {
 			e.updateModelFromText();
 		}
 	}
 
 	public GridElement getElementToComponent(Component component) {
-		return componentToGridElementMap.get(component);
+		for (GridElement e : gridElements) {
+			if (e.getComponent().equals(component)) return e;
+		}
+		return null;
 	}
 	
 	public void scroll(int amount) {
