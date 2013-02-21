@@ -29,7 +29,6 @@ public class EclipseGUIBuilder extends BaseGUIBuilder {
 	public void setContent(JScrollPane scrollPane) {
 		contentPlaceHolder.removeAll();
 		contentPlaceHolder.add(scrollPane);
-		contentPlaceHolder.repaint();
 	}
 	
 }
