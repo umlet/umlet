@@ -207,7 +207,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.repaint();
 	}
-	
+
 	public Composite[] colorize(Graphics2D g2) {
 		bgColorString = "";
 		fgColorString = "";
@@ -242,7 +242,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	public Dimension getRealSize() {
 		return new Dimension(getSize().width / handler.getGridSize() * Constants.DEFAULTGRIDSIZE, getSize().height / handler.getGridSize() * Constants.DEFAULTGRIDSIZE);
 	}
-	
+
 	@Override
 	public int getResizeArea(int x, int y) {
 		int ret = 0;
@@ -278,7 +278,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	public boolean contains(Point p) {
 		return Utils.contains(this, p);
 	}
-	
+
 	/**
 	 * Must be overwritten because Swing sometimes uses this method instead of contains(Point)
 	 */
@@ -392,6 +392,18 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	public List<AutocompletionText> getAutocompletionList() {
 		return new ArrayList<AutocompletionText>();
 	}
-	
-	
+
+	@Override
+	public Integer getLayer() {
+		try {
+			for (String s : Utils.decomposeStringsWithComments(panelAttributes)) {
+				String key = GlobalSetting.Layer.toString() + GlobalSetting.SEPARATOR;
+				if (s.startsWith(key)) {
+					String value = s.split(key)[1];
+					return Integer.valueOf(value);
+				}
+			}
+		} catch (NumberFormatException e) {/* in case of an error return default layer*/}
+		return Integer.valueOf(GlobalSetting.Layer.getValue());
+	}
 }

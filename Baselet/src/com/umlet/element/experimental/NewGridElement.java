@@ -57,7 +57,6 @@ public abstract class NewGridElement implements GridElement {
 			metaDrawer.drawAll();
 		}
 
-
 		/**
 		 * Must be overwritten because Swing uses this method to tell if 2 elements are overlapping
 		 * It's also used to determine which element gets selected if there are overlapping elements (the smallest one)
@@ -170,10 +169,14 @@ public abstract class NewGridElement implements GridElement {
 		this.autoresizePossiblyInProgress = true;
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
+		int oldLayer = getLayer();
 		properties.initSettingsFromText(this);
 		drawer.setSize(getRealSize()); // must be set after possible resizing due to AUTORESIZE
 		updateMetaDrawer();
 		updateConcreteModel();
+		if (!getLayer().equals(oldLayer)) {
+			handler.getDrawPanel().setComponentZOrder(this.getComponent(), getLayer());
+		}
 		this.autoresizePossiblyInProgress = false;
 	}
 
@@ -391,6 +394,11 @@ public abstract class NewGridElement implements GridElement {
 			returnList.addAll(Arrays.asList(f.getAutocompletionStrings()));
 		}
 		return returnList;
+	}
+	
+	@Override
+	public Integer getLayer() {
+		return properties.getLayer();
 	}
 
 }

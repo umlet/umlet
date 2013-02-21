@@ -18,6 +18,7 @@ import java.util.TimerTask;
 import java.util.Vector;
 
 import javax.swing.JComponent;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -38,7 +39,7 @@ import com.baselet.gui.standalone.FileDropListener;
 import com.umlet.element.Relation;
 
 @SuppressWarnings("serial")
-public class DrawPanel extends JPanel implements Printable {
+public class DrawPanel extends JLayeredPane implements Printable {
 
 	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
@@ -55,6 +56,7 @@ public class DrawPanel extends JPanel implements Printable {
 		this.origin = new Point();
 		this.setLayout(null);
 		this.setBackground(Color.WHITE);
+		this.setOpaque(true);
 		// If this is not a palette, create a StartupHelpText
 		if (!(handler instanceof PaletteHandler)) {
 			StartUpHelpText startupHelpText = new StartUpHelpText(this);
@@ -510,6 +512,7 @@ public class DrawPanel extends JPanel implements Printable {
 	public void addElement(GridElement gridElement) {
 		componentToGridElementMap.put(gridElement.getComponent(), gridElement);
 		add(gridElement.getComponent());
+		System.out.println("LAYER " + gridElement.getLayer());
 	}
 	
 	public void updateElements() {

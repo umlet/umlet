@@ -19,8 +19,9 @@ public class DefaultGlobalFacet implements Facet {
 		ForegroundColor("fg", "red", "foreground color string (blue,...) or code (#0A37D3,...)"),
 		BackgroundColor("bg", "red", "background color string (green,...) or code (#3c7a00,...)"),
 		LineType("lt", new String[] {Constants.LineType.DASHED.getValue(), "dashed lines"}, new String[] {Constants.LineType.DOTTED.getValue(), "dotted lines"}, new String[] {FormatLabels.BOLD, "bold lines"}),
-		LineThickness("lth", "2.0", "thickness of lines (1.0, 1.5, ...)"),
-		FontSize("fontsize", "14", "font size float (12.5, 10.3,...)"),
+		LineThickness("lth", "1.0", "thickness of lines (1.5, 2.0, ...)"),
+		FontSize("fontsize", "12", "font size (12.5, 10.3,...)"),
+		Layer("layer", "0", "layer (z-axis) of element. default is 0, use positive numbers for higher and negative numbers for lower layers"),
 		ElementStyle("elementstyle",
 				new String[] {ElementStyleEnum.AUTORESIZE.toString(), "resizes element as text grows"},
 				new String[] {ElementStyleEnum.WORDWRAP.toString(), "wrap lines at the end of the line"},
@@ -40,8 +41,11 @@ public class DefaultGlobalFacet implements Facet {
 		private String key;
 		private List<AutocompletionText> autocompletionValues = new ArrayList<AutocompletionText>();
 
+		private String value;
+
 		GlobalSetting(String key, String value, String info) {
 			this.key = key.toLowerCase();
+			this.value = value;
 			this.autocompletionValues.add(new AutocompletionText(key.toLowerCase() + SEPARATOR + value.toLowerCase(), info, true));
 		}
 
@@ -55,6 +59,10 @@ public class DefaultGlobalFacet implements Facet {
 		@Override
 		public String toString() {
 			return key;
+		}
+		
+		public String getValue() {
+			return value;
 		}
 
 		public static AutocompletionText[] getAutocompletion() {
@@ -92,6 +100,8 @@ public class DefaultGlobalFacet implements Facet {
 					drawer.setLineThickness(Float.valueOf(value));
 				} else if (key.equalsIgnoreCase(GlobalSetting.FontSize.toString())) {
 					drawer.setFontSize(value);
+				} else if (key.equalsIgnoreCase(GlobalSetting.Layer.toString())) {
+					propConfig.setLayer(value);
 				} else if (key.equalsIgnoreCase(GlobalSetting.HorizontalAlign.toString())) {
 					propConfig.sethAlignGlobally(AlignHorizontal.valueOf(value));
 				} else if (key.equalsIgnoreCase(GlobalSetting.VerticalAlign.toString())) {

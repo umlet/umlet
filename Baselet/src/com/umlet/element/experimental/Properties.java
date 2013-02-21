@@ -95,7 +95,11 @@ public class Properties {
 	}
 
 	public ElementStyleEnum getElementStyle() {
-		return this.propCfg.getElementStyle();
+		return propCfg.getElementStyle();
+	}
+	
+	public Integer getLayer() {
+		return propCfg.getLayer();
 	}
 
 	public void updateSetting(GlobalSetting key, String newValue) {
