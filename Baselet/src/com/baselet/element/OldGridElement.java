@@ -48,6 +48,8 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	private String bgColorString = "";
 	protected float alphaFactor;
 
+	private Integer lastLayerValue;
+
 	public OldGridElement() {
 		this.setSize(100, 100);
 		this.setVisible(true);
@@ -364,6 +366,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		// t.scale(scale, scale);
 		// g2.setTransform(t);
 		// }
+		updateModelFromText();
 
 		this.paintEntity(g2);
 	}
@@ -384,26 +387,31 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	}
 
 	@Override
-	public void updateModelFromText() {
-		/*OldGridElement has no model but simply parses the properties text within every paint() call*/
-	}
-
-	@Override
 	public List<AutocompletionText> getAutocompletionList() {
 		return new ArrayList<AutocompletionText>();
 	}
 
 	@Override
+	public void updateModelFromText() {
+		/*OldGridElement has no model but simply parses the properties text within every paint() call*/
+		Integer oldLayer = lastLayerValue;
+		if (oldLayer != null && !oldLayer.equals(getLayer())) {
+			handler.getDrawPanel().setLayer(getComponent(), lastLayerValue);
+		}
+	}
+
+	@Override
 	public Integer getLayer() {
+		lastLayerValue = Integer.valueOf(GlobalSetting.Layer.getValue());
 		try {
 			for (String s : Utils.decomposeStringsWithComments(panelAttributes)) {
 				String key = GlobalSetting.Layer.toString() + GlobalSetting.SEPARATOR;
 				if (s.startsWith(key)) {
 					String value = s.split(key)[1];
-					return Integer.valueOf(value);
+					lastLayerValue = Integer.valueOf(value);
 				}
 			}
-		} catch (NumberFormatException e) {/* in case of an error return default layer*/}
-		return Integer.valueOf(GlobalSetting.Layer.getValue());
+		} catch (Exception e) {/* in case of an error return default layer*/}
+		return lastLayerValue;
 	}
 }

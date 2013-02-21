@@ -169,13 +169,13 @@ public abstract class NewGridElement implements GridElement {
 		this.autoresizePossiblyInProgress = true;
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
-		int oldLayer = getLayer();
+		Integer oldLayer = getLayer();
 		properties.initSettingsFromText(this);
 		drawer.setSize(getRealSize()); // must be set after possible resizing due to AUTORESIZE
 		updateMetaDrawer();
 		updateConcreteModel();
-		if (!getLayer().equals(oldLayer)) {
-			handler.getDrawPanel().setComponentZOrder(this.getComponent(), getLayer());
+		if (oldLayer != null && !oldLayer.equals(getLayer())) {
+			handler.getDrawPanel().setLayer(this.getComponent(), getLayer());
 		}
 		this.autoresizePossiblyInProgress = false;
 	}

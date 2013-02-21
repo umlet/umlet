@@ -99,6 +99,7 @@ public class Properties {
 	}
 	
 	public Integer getLayer() {
+		if (propCfg == null) return null;
 		return propCfg.getLayer();
 	}
 

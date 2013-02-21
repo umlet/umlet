@@ -81,7 +81,7 @@ public abstract class Utils {
 		String compatibleFullString = fullString.replaceAll("\r\n", delimiter); // compatibility to windows \r\n
 
 		for (String line : compatibleFullString.split("\\" + delimiter)) {
-			if (filterComments && (line.matches("((//)|(fg=)|(bg=)|(autoresize=)).*"))) continue;
+			if (filterComments && (line.matches("((//)|(fg=)|(bg=)|(autoresize=)|(layer=)).*"))) continue;
 			else if (filterNewLines && line.isEmpty()) continue;
 			else returnVector.add(line);
 		}
