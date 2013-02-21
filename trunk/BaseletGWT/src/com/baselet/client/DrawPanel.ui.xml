@@ -63,9 +63,18 @@
 					</g:MenuItem>
 				</g:MenuBar>
 			</g:north>
-			<g:west size="127.0">
-				<g:TabLayoutPanel ui:field="tabPanel" barUnit="EM" barHeight="2" width="400" height="400"/>
-			</g:west>
+			<g:center>
+				<g:SplitLayoutPanel>
+					<g:west size='200'>
+						<g:TabLayoutPanel ui:field="tabPanel" barUnit="EM" barHeight="2" width="400" height="400" />
+					</g:west>
+					<g:center>
+						<g:ScrollPanel>
+							<g:Label>Content Area</g:Label>
+						</g:ScrollPanel>
+					</g:center>
+				</g:SplitLayoutPanel>
+			</g:center>
 		</g:DockLayoutPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 
