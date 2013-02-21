@@ -1,0 +1,2091 @@
+Public resources found in...
+   [WARN] Error processing classpath URL 'file:/C:/Program Files/Eclipse/plugins/com.google.gdt.eclipse.designer.hosted.2_2_3.1.2.r42x201302131702/gwt-dev-designtime.jar'
+java.net.URISyntaxException: Illegal character in path at index 16: file:/C:/Program Files/Eclipse/plugins/com.google.gdt.eclipse.designer.hosted.2_2_3.1.2.r42x201302131702/gwt-dev-designtime.jar
+	at java.net.URI$Parser.fail(Unknown Source)
+	at java.net.URI$Parser.checkChars(Unknown Source)
+	at java.net.URI$Parser.parseHierarchical(Unknown Source)
+	at java.net.URI$Parser.parse(Unknown Source)
+	at java.net.URI.<init>(Unknown Source)
+	at java.net.URL.toURI(Unknown Source)
+	at com.google.gwt.dev.resource.impl.ResourceOracleImpl.addAllClassPathEntries(ResourceOracleImpl.java:326)
+	at com.google.gwt.dev.resource.impl.ResourceOracleImpl.getAllClassPathEntries(ResourceOracleImpl.java:361)
+	at com.google.gwt.dev.resource.impl.ResourceOracleImpl.<init>(ResourceOracleImpl.java:405)
+	at com.google.gwt.dev.cfg.ModuleDef.normalize(ModuleDef.java:545)
+	at com.google.gwt.dev.cfg.ModuleDefLoader.doLoadModule(ModuleDefLoader.java:202)
+	at com.google.gwt.dev.cfg.ModuleDefLoader.loadFromResources(ModuleDefLoader.java:172)
+	at com.google.gwt.dev.cfg.ModuleDefLoader.loadFromClassPath(ModuleDefLoader.java:144)
+	at com.google.gwt.dev.shell.designtime.HostedModeSupportImpl.loadModule(HostedModeSupportImpl.java:85)
+	at com.google.gwt.dev.shell.designtime.HostedModeSupportImpl.createModuleSpaceHost(HostedModeSupportImpl.java:64)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.wb.internal.core.utils.reflect.ReflectionUtils.invokeMethod(ReflectionUtils.java:869)
+	at com.google.gdt.eclipse.designer.hosted.tdt.HostedModeSupport.createModuleSpaceHost(HostedModeSupport.java:447)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.wb.internal.core.utils.reflect.ReflectionUtils.invokeMethod(ReflectionUtils.java:869)
+	at com.google.gdt.eclipse.designer.WarmUpSupport.warmUpHostedMode(WarmUpSupport.java:125)
+	at com.google.gdt.eclipse.designer.WarmUpSupport.warmUpHostedMode(WarmUpSupport.java:103)
+	at com.google.gdt.eclipse.designer.WarmUpSupport.doWarmUp(WarmUpSupport.java:84)
+	at com.google.gdt.eclipse.designer.Activator.earlyStartup(Activator.java:190)
+	at org.eclipse.ui.internal.EarlyStartupRunnable.runEarlyStartup(EarlyStartupRunnable.java:87)
+	at org.eclipse.ui.internal.EarlyStartupRunnable.run(EarlyStartupRunnable.java:73)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.ui.internal.Workbench$52.run(Workbench.java:2357)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2718 units from cache.
+Compiling...
+   10% complete (ETR: 30 seconds)
+   10% complete (ETR: 30 seconds)
+   20% complete (ETR: 25 seconds)
+   30% complete (ETR: 22 seconds)
+   40% complete (ETR: 16 seconds)
+   50% complete (ETR: 12 seconds)
+   60% complete (ETR: 9 seconds)
+   70% complete (ETR: 6 seconds)
+   80% complete (ETR: 4 seconds)
+   90% complete (ETR: 2 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 22,89 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+   [WARN] Error processing classpath URL 'file:/C:/Program Files/Eclipse/plugins/com.google.gdt.eclipse.designer.hosted.2_2_3.1.2.r42x201302131702/gwt-dev-designtime.jar'
+java.net.URISyntaxException: Illegal character in path at index 16: file:/C:/Program Files/Eclipse/plugins/com.google.gdt.eclipse.designer.hosted.2_2_3.1.2.r42x201302131702/gwt-dev-designtime.jar
+	at java.net.URI$Parser.fail(Unknown Source)
+	at java.net.URI$Parser.checkChars(Unknown Source)
+	at java.net.URI$Parser.parseHierarchical(Unknown Source)
+	at java.net.URI$Parser.parse(Unknown Source)
+	at java.net.URI.<init>(Unknown Source)
+	at java.net.URL.toURI(Unknown Source)
+	at com.google.gwt.dev.resource.impl.ResourceOracleImpl.addAllClassPathEntries(ResourceOracleImpl.java:326)
+	at com.google.gwt.dev.resource.impl.ResourceOracleImpl.getAllClassPathEntries(ResourceOracleImpl.java:361)
+	at com.google.gwt.dev.resource.impl.ResourceOracleImpl.<init>(ResourceOracleImpl.java:405)
+	at com.google.gwt.dev.cfg.ModuleDef.normalize(ModuleDef.java:545)
+	at com.google.gwt.dev.cfg.ModuleDefLoader.doLoadModule(ModuleDefLoader.java:202)
+	at com.google.gwt.dev.cfg.ModuleDefLoader.loadFromResources(ModuleDefLoader.java:172)
+	at com.google.gwt.dev.cfg.ModuleDefLoader.loadFromClassPath(ModuleDefLoader.java:144)
+	at com.google.gwt.dev.shell.designtime.HostedModeSupportImpl.loadModule(HostedModeSupportImpl.java:85)
+	at com.google.gwt.dev.shell.designtime.HostedModeSupportImpl.createModuleSpaceHost(HostedModeSupportImpl.java:64)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.wb.internal.core.utils.reflect.ReflectionUtils.invokeMethod(ReflectionUtils.java:869)
+	at com.google.gdt.eclipse.designer.hosted.tdt.HostedModeSupport.createModuleSpaceHost(HostedModeSupport.java:447)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.wb.internal.core.utils.reflect.ReflectionUtils.invokeMethod(ReflectionUtils.java:869)
+	at com.google.gdt.eclipse.designer.WarmUpSupport.warmUpHostedMode(WarmUpSupport.java:125)
+	at com.google.gdt.eclipse.designer.WarmUpSupport.warmUpHostedMode(WarmUpSupport.java:104)
+	at com.google.gdt.eclipse.designer.WarmUpSupport.doWarmUp(WarmUpSupport.java:84)
+	at com.google.gdt.eclipse.designer.Activator.earlyStartup(Activator.java:190)
+	at org.eclipse.ui.internal.EarlyStartupRunnable.runEarlyStartup(EarlyStartupRunnable.java:87)
+	at org.eclipse.ui.internal.EarlyStartupRunnable.run(EarlyStartupRunnable.java:73)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.ui.internal.Workbench$52.run(Workbench.java:2357)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Translatable source found in...
+Found 2718 cached/archived units.  Used 2718 / 2718 units from cache.
+Compiling...
+   Compilation completed in 0,00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+   [WARN] Error processing classpath URL 'file:/C:/Program Files/Eclipse/plugins/com.google.gdt.eclipse.designer.hosted.2_2_3.1.2.r42x201302131702/gwt-dev-designtime.jar'
+java.net.URISyntaxException: Illegal character in path at index 16: file:/C:/Program Files/Eclipse/plugins/com.google.gdt.eclipse.designer.hosted.2_2_3.1.2.r42x201302131702/gwt-dev-designtime.jar
+	at java.net.URI$Parser.fail(Unknown Source)
+	at java.net.URI$Parser.checkChars(Unknown Source)
+	at java.net.URI$Parser.parseHierarchical(Unknown Source)
+	at java.net.URI$Parser.parse(Unknown Source)
+	at java.net.URI.<init>(Unknown Source)
+	at java.net.URL.toURI(Unknown Source)
+	at com.google.gwt.dev.resource.impl.ResourceOracleImpl.addAllClassPathEntries(ResourceOracleImpl.java:326)
+	at com.google.gwt.dev.resource.impl.ResourceOracleImpl.getAllClassPathEntries(ResourceOracleImpl.java:361)
+	at com.google.gwt.dev.resource.impl.ResourceOracleImpl.<init>(ResourceOracleImpl.java:405)
+	at com.google.gwt.dev.cfg.ModuleDef.normalize(ModuleDef.java:545)
+	at com.google.gwt.dev.cfg.ModuleDefLoader.doLoadModule(ModuleDefLoader.java:202)
+	at com.google.gwt.dev.cfg.ModuleDefLoader.loadFromResources(ModuleDefLoader.java:172)
+	at com.google.gwt.dev.cfg.ModuleDefLoader.loadFromClassPath(ModuleDefLoader.java:144)
+	at com.google.gwt.dev.shell.designtime.HostedModeSupportImpl.loadModule(HostedModeSupportImpl.java:85)
+	at com.google.gwt.dev.shell.designtime.HostedModeSupportImpl.createModuleSpaceHost(HostedModeSupportImpl.java:64)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.wb.internal.core.utils.reflect.ReflectionUtils.invokeMethod(ReflectionUtils.java:869)
+	at com.google.gdt.eclipse.designer.hosted.tdt.HostedModeSupport.createModuleSpaceHost(HostedModeSupport.java:447)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.wb.internal.core.utils.reflect.ReflectionUtils.invokeMethod(ReflectionUtils.java:869)
+	at com.google.gdt.eclipse.designer.WarmUpSupport.warmUpHostedMode(WarmUpSupport.java:125)
+	at com.google.gdt.eclipse.designer.WarmUpSupport.warmUpHostedMode(WarmUpSupport.java:105)
+	at com.google.gdt.eclipse.designer.WarmUpSupport.doWarmUp(WarmUpSupport.java:84)
+	at com.google.gdt.eclipse.designer.Activator.earlyStartup(Activator.java:190)
+	at org.eclipse.ui.internal.EarlyStartupRunnable.runEarlyStartup(EarlyStartupRunnable.java:87)
+	at org.eclipse.ui.internal.EarlyStartupRunnable.run(EarlyStartupRunnable.java:73)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.ui.internal.Workbench$52.run(Workbench.java:2357)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Translatable source found in...
+Found 2718 cached/archived units.  Used 2718 / 2718 units from cache.
+Compiling...
+   Compilation completed in 0,00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+   [WARN] Error processing classpath URL 'file:/C:/Program Files/Eclipse/plugins/com.google.gdt.eclipse.designer.hosted.2_2_3.1.2.r42x201302131702/gwt-dev-designtime.jar'
+java.net.URISyntaxException: Illegal character in path at index 16: file:/C:/Program Files/Eclipse/plugins/com.google.gdt.eclipse.designer.hosted.2_2_3.1.2.r42x201302131702/gwt-dev-designtime.jar
+	at java.net.URI$Parser.fail(Unknown Source)
+	at java.net.URI$Parser.checkChars(Unknown Source)
+	at java.net.URI$Parser.parseHierarchical(Unknown Source)
+	at java.net.URI$Parser.parse(Unknown Source)
+	at java.net.URI.<init>(Unknown Source)
+	at java.net.URL.toURI(Unknown Source)
+	at com.google.gwt.dev.resource.impl.ResourceOracleImpl.addAllClassPathEntries(ResourceOracleImpl.java:326)
+	at com.google.gwt.dev.resource.impl.ResourceOracleImpl.getAllClassPathEntries(ResourceOracleImpl.java:361)
+	at com.google.gwt.dev.resource.impl.ResourceOracleImpl.<init>(ResourceOracleImpl.java:405)
+	at com.google.gwt.dev.cfg.ModuleDef.normalize(ModuleDef.java:545)
+	at com.google.gwt.dev.cfg.ModuleDefLoader.doLoadModule(ModuleDefLoader.java:202)
+	at com.google.gwt.dev.cfg.ModuleDefLoader.loadFromResources(ModuleDefLoader.java:172)
+	at com.google.gwt.dev.cfg.ModuleDefLoader.loadFromClassPath(ModuleDefLoader.java:144)
+	at com.google.gwt.dev.shell.designtime.HostedModeSupportImpl.loadModule(HostedModeSupportImpl.java:85)
+	at com.google.gwt.dev.shell.designtime.HostedModeSupportImpl.createModuleSpaceHost(HostedModeSupportImpl.java:64)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.wb.internal.core.utils.reflect.ReflectionUtils.invokeMethod(ReflectionUtils.java:869)
+	at com.google.gdt.eclipse.designer.hosted.tdt.HostedModeSupport.createModuleSpaceHost(HostedModeSupport.java:447)
+	at com.google.gwt.dev.shell.designtime.ModuleSpace.<init>(ModuleSpace.java:60)
+	at com.google.gdt.eclipse.designer.webkit.jsni.ModuleSpaceWebKit.<init>(ModuleSpaceWebKit.java:45)
+	at com.google.gdt.eclipse.designer.webkit.BrowserShellWebKit.setUrl(BrowserShellWebKit.java:85)
+	at com.google.gdt.eclipse.designer.hosted.tdt.HostedModeSupport.startup(HostedModeSupport.java:184)
+	at com.google.gdt.eclipse.designer.model.widgets.support.GwtState.initialize0(GwtState.java:248)
+	at com.google.gdt.eclipse.designer.model.widgets.support.GwtState.initialize(GwtState.java:206)
+	at com.google.gdt.eclipse.designer.uibinder.parser.UiBinderContext.createGWTState(UiBinderContext.java:467)
+	at com.google.gdt.eclipse.designer.uibinder.parser.UiBinderContext.createProjectClassLoader(UiBinderContext.java:328)
+	at org.eclipse.wb.internal.core.xml.model.EditorContext.createClassLoader(EditorContext.java:146)
+	at com.google.gdt.eclipse.designer.uibinder.parser.UiBinderContext.createClassLoader(UiBinderContext.java:285)
+	at org.eclipse.wb.internal.core.xml.model.EditorContext.initialize(EditorContext.java:100)
+	at com.google.gdt.eclipse.designer.uibinder.parser.UiBinderParser.parse(UiBinderParser.java:105)
+	at com.google.gdt.eclipse.designer.uibinder.editor.UiBinderDesignPage.parse(UiBinderDesignPage.java:56)
+	at org.eclipse.wb.internal.core.xml.editor.XmlDesignPage.internal_refreshGEF(XmlDesignPage.java:451)
+	at org.eclipse.wb.internal.core.xml.editor.XmlDesignPage.access$2(XmlDesignPage.java:443)
+	at org.eclipse.wb.internal.core.xml.editor.XmlDesignPage$7$1.run(XmlDesignPage.java:417)
+	at org.eclipse.swt.widgets.Synchronizer.syncExec(Synchronizer.java:180)
+	at org.eclipse.ui.internal.UISynchronizer.syncExec(UISynchronizer.java:150)
+	at org.eclipse.swt.widgets.Display.syncExec(Display.java:4687)
+	at org.eclipse.wb.internal.core.xml.editor.XmlDesignPage$7.run(XmlDesignPage.java:414)
+	at org.eclipse.jface.operation.ModalContext.runInCurrentThread(ModalContext.java:464)
+	at org.eclipse.jface.operation.ModalContext.run(ModalContext.java:372)
+	at org.eclipse.jface.dialogs.ProgressMonitorDialog.run(ProgressMonitorDialog.java:507)
+	at org.eclipse.wb.internal.core.xml.editor.XmlDesignPage.internal_refreshGEF_withProgress(XmlDesignPage.java:435)
+	at org.eclipse.wb.internal.core.xml.editor.XmlDesignPage.internal_refreshGEF(XmlDesignPage.java:388)
+	at org.eclipse.wb.internal.core.xml.editor.UndoManager.refreshDesignerEditor(UndoManager.java:252)
+	at org.eclipse.wb.internal.core.xml.editor.UndoManager.activate(UndoManager.java:85)
+	at org.eclipse.wb.internal.core.xml.editor.XmlDesignPage.setActive(XmlDesignPage.java:171)
+	at org.eclipse.wb.internal.core.xml.editor.AbstractXmlEditor.pageChange(AbstractXmlEditor.java:652)
+	at org.eclipse.ui.part.MultiPageEditorPart$2.widgetSelected(MultiPageEditorPart.java:292)
+	at org.eclipse.swt.widgets.TypedListener.handleEvent(TypedListener.java:248)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1053)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1077)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1062)
+	at org.eclipse.swt.widgets.Widget.notifyListeners(Widget.java:774)
+	at org.eclipse.swt.custom.CTabFolder.setSelection(CTabFolder.java:3023)
+	at org.eclipse.swt.custom.CTabFolder.onMouse(CTabFolder.java:1730)
+	at org.eclipse.swt.custom.CTabFolder$1.handleEvent(CTabFolder.java:270)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:84)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1053)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4169)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3758)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$9.run(PartRenderingEngine.java:1022)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:916)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:86)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:585)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:540)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:629)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:584)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1438)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1414)
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2724 units from cache.
+Compiling...
+   30% complete (ETR: 11 seconds)
+   30% complete (ETR: 11 seconds)
+   30% complete (ETR: 11 seconds)
+   30% complete (ETR: 11 seconds)
+   40% complete (ETR: 11 seconds)
+   50% complete (ETR: 9 seconds)
+   60% complete (ETR: 6 seconds)
+   70% complete (ETR: 5 seconds)
+   80% complete (ETR: 4 seconds)
+   90% complete (ETR: 2 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 23,58 seconds
+Removing invalidated units
+Finding entry point classes
+Rebinding com.google.gwt.i18n.client.impl.LocaleInfoImpl
+   Invoking generator com.google.gwt.i18n.rebind.LocaleInfoGenerator
+      Processing interface com.google.gwt.i18n.client.constants.NumberConstantsImpl
+         Generating method body for notANumber()
+         Generating method body for currencyPattern()
+         Generating method body for decimalPattern()
+         Generating method body for decimalSeparator()
+         Generating method body for defCurrencyCode()
+         Generating method body for exponentialSymbol()
+         Generating method body for globalCurrencyPattern()
+         Generating method body for groupingSeparator()
+         Generating method body for infinity()
+         Generating method body for minusSign()
+         Generating method body for monetaryGroupingSeparator()
+         Generating method body for monetarySeparator()
+         Generating method body for percent()
+         Generating method body for percentPattern()
+         Generating method body for perMill()
+         Generating method body for plusSign()
+         Generating method body for scientificPattern()
+         Generating method body for simpleCurrencyPattern()
+         Generating method body for zeroDigit()
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,04 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,04 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361469966849.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361469966849.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361469966849_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,04 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361469967869.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361469967869.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361469967869_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470190648.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470190648.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470190648_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470192333.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470192333.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470192333_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,04 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470194814.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470194814.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470194814_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470574921.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470574921.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,03 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470574921_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470577057.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470577057.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,03 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470577057_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470581221.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470581221.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470581221_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470643268.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470643268.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470643268_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.google.gwt.user.client.ui.MenuBar.Resources
+   Invoking generator com.google.gwt.resources.rebind.context.InlineClientBundleGenerator
+      Preparing method menuBarSubMenuIcon
+         Adding image 'com.google.gwt.user.client.ui.MenuBar.Resources.menuBarSubMenuIcon'
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470656386.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470656386.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470656386_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470658154.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470658154.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470658154_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,03 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470662109.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470662109.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470662109_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470670533.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470670533.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470670533_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470673361.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470673361.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470673361_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470689409.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470689409.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470689409_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470689901.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470689901.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470689901_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470697933.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470697933.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470697933_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,03 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470701910.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470701910.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470701910_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470704439.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470704439.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470704439_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470710274.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470710274.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470710274_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470730814.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470730814.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470730814_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,03 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470735122.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470735122.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470735122_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,04 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470737070.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470737070.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470737070_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470738453.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470738453.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470738453_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470739490.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470739490.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470739490_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470741926.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470741926.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470741926_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470744693.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470744693.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470744693_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470747273.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470747273.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470747273_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,04 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470749489.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470749489.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470749489_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470755301.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470755301.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470755301_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470760136.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470760136.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470760136_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470764012.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470764012.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470764012_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470765816.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470765816.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470765816_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470773624.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470773624.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470773624_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470777054.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470777054.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470777054_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470782490.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470782490.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470782490_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470785614.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470785614.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470785614_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.google.gwt.user.client.ui.impl.ClippedImageImpl.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.google.gwt.user.client.ui.impl.ClippedImageImpl.Template
+         Generating method body for image()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470793224.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470793224.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470793224_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470795184.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470795184.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470795184_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470805735.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470805735.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470805735_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470812523.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470812523.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470812523_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470819092.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470819092.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470819092_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470829395.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470829395.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,04 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470829395_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470832019.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470832019.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470832019_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470835558.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470835558.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470835558_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470838704.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470838704.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470838704_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470839793.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470839793.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470839793_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470845639.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470845639.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470845639_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470849450.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470849450.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470849450_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470852403.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470852403.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470852403_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470857612.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470857612.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470857612_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470862955.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470862955.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470862955_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470864108.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470864108.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470864108_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470867184.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470867184.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470867184_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470869833.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470869833.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470869833_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470875279.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470875279.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470875279_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470876834.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470876834.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470876834_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470880226.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470880226.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470880226_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470882757.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470882757.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470882757_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470884474.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470884474.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470884474_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470887459.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470887459.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470887459_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470889922.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470889922.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470889922_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470891542.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470891542.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470891542_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470894517.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470894517.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470894517_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470903268.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470903268.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470903268_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470931094.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470931094.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470931094_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,04 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470933137.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470933137.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470933137_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470937170.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470937170.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470937170_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470938614.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470938614.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470938614_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470940882.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470940882.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470940882_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470942517.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470942517.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470942517_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470947444.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470947444.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470947444_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470949655.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470949655.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470949655_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,04 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470953249.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470953249.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470953249_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470954890.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470954890.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470954890_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470957690.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470957690.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470957690_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470959315.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470959315.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470959315_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,04 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470961826.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470961826.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470961826_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470963221.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470963221.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470963221_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470965432.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470965432.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470965432_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470967409.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470967409.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470967409_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470970113.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470970113.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470970113_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470974352.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470974352.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470974352_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470976670.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470976670.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470976670_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470979560.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470979560.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361470979560_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471004795.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471004795.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471004795_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471008211.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471008211.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471008211_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471011437.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471011437.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471011437_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471014596.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471014596.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471014596_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471018039.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471018039.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471018039_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471020787.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471020787.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471020787_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471028127.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471028127.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471028127_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471030771.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471030771.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471030771_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471034177.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471034177.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471034177_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471036791.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471036791.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471036791_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,01 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471042685.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471042685.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471042685_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471045382.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471045382.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471045382_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471047870.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471047870.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471047870_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471051324.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471051324.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471051324_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel.DrawPanelUiBinder
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0,02 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471053356.Template
+   Invoking generator com.google.gwt.safehtml.rebind.SafeHtmlTemplatesGenerator
+      Constructing interface com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471053356.Template
+         Generating method body for html1()
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
+Rebinding com.baselet.client.DrawPanel_DrawPanelUiBinderImpl_designTime1361471053356_GenBundle
+   Adding '1' new generated units
+      Compiling...
+         Compilation completed in 0,00 seconds
+      Removing invalidated units
