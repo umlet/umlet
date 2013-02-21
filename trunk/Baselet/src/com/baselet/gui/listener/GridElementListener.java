@@ -89,7 +89,6 @@ public class GridElementListener extends UniversalListener {
 	@Override
 	public void mouseMoved(MouseEvent me) {
 		super.mouseMoved(me);
-		log.debug("Entity moved");
 		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
 		if (this.IS_DRAGGED_FROM_PALETTE) {
 			log.debug("mouseMoved with dragged");
