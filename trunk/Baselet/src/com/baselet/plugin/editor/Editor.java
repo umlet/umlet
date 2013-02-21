@@ -66,6 +66,8 @@ public class Editor extends EditorPart {
 	public boolean isSaveAsAllowed() {
 		return true;
 	}
+	
+	File diagramFile;
 
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
@@ -73,19 +75,12 @@ public class Editor extends EditorPart {
 		this.setSite(site);
 		this.setInput(input);
 		this.setPartName(input.getName());
-		final File diagramFile = getFile(input);
-		try { //use invokeAndWait to make sure the following code is only invoked after everything is initialized
+		diagramFile = getFile(input);
+		try { //use invokeAndWait to make sure the initialization is finished before SWT proceeds
 			SwingUtilities.invokeAndWait(new Runnable() {
 				@Override
-				public void run() {
-					log.debug("Create new DiagramHandler");
-					embedded_panel = guiComponents.initEclipseGui(); // must be done before handler initialization
-					MainPlugin.getGUI().setCurrentEditor(Editor.this); // must be done before initalization of DiagramHandler (eg: to set propertypanel text)
-					handler = new DiagramHandler(diagramFile);
-					MainPlugin.getGUI().registerEditorForDiagramHandler(Editor.this, handler);
-					MainPlugin.getGUI().setCurrentDiagramHandler(handler); // must be also set here because onFocus is not always called (eg: tab is opened during eclipse startup)
-					MainPlugin.getGUI().open(handler);
-					log.debug("DiagramHandler created...");
+				public void run() { // initialize embedded panel here (and not in createPartControl) to avoid ugly scrollbars
+					embedded_panel = guiComponents.initEclipseGui();
 				}
 			});
 		} catch (InterruptedException e) {
@@ -112,14 +107,16 @@ public class Editor extends EditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
+		MainPlugin.getGUI().setCurrentEditor(Editor.this); // must be done before initalization of DiagramHandler (eg: to set propertypanel text)
+		handler = new DiagramHandler(diagramFile);
+		MainPlugin.getGUI().registerEditorForDiagramHandler(Editor.this, handler);
+		MainPlugin.getGUI().setCurrentDiagramHandler(handler); // must be also set here because onFocus is not always called (eg: tab is opened during eclipse startup)
+		MainPlugin.getGUI().open(handler);
+
 		log.info("Call editor.createPartControl() " + uuid.toString());
 		final Frame frame = SWT_AWT.new_Frame(new Composite(parent, SWT.EMBEDDED));
 		frame.add(embedded_panel);
 	}
-
-	//	public boolean hasFocus() {
-	//		return this.equals(this.getSite().getPage().getActivePart());
-	//	}
 
 	@Override
 	public void setFocus() {
@@ -235,8 +232,7 @@ public class Editor extends EditorPart {
 			public void run() {
 				CardLayout palettePanelLayout = (CardLayout) guiComponents.getPalettePanel().getLayout();
 				palettePanelLayout.show(guiComponents.getPalettePanel(), paletteName);
-				guiComponents.getPalettePanel().repaint();
-				guiComponents.getPaletteList().repaint();
+				Main.getInstance().getPalettePanel().getScrollPane().revalidate();
 			}
 		});
 	}
