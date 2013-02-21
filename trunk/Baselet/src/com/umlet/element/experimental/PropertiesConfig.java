@@ -2,13 +2,19 @@ package com.umlet.element.experimental;
 
 import java.awt.Dimension;
 
+import org.apache.log4j.Logger;
+
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
+import com.baselet.control.Utils;
 import com.umlet.element.experimental.helper.XPoints;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
 public class PropertiesConfig {
+
+	Logger log = Logger.getLogger(Utils.getClassName());
 
 	private AlignHorizontal hAlign;
 	private boolean hAlignGloballySet = false;
@@ -20,6 +26,7 @@ public class PropertiesConfig {
 	private Settings specificSettings;
 	private Dimension gridElementSize;
 	private ElementStyleEnum elementStyle;
+	private Integer layer = Integer.valueOf(GlobalSetting.Layer.getValue());
 
 	public PropertiesConfig(Settings specificSettings) {
 		hAlign = specificSettings.getHAlign();
@@ -137,6 +144,18 @@ public class PropertiesConfig {
 
 	public void setElementStyle(ElementStyleEnum elementStyle) {
 		this.elementStyle = elementStyle;
+	}
+
+	public void setLayer(String layer) {
+		try {
+			this.layer = Integer.valueOf(layer);
+		} catch (NumberFormatException e) {
+			log.info("Invalid value: " + layer + " - " + GlobalSetting.Layer + " must be an Integer");
+		}
+	}
+
+	public Integer getLayer() {
+		return layer;
 	}
 
 }

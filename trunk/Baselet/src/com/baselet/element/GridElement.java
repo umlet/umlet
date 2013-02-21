@@ -95,9 +95,11 @@ public interface GridElement {
 
 	void updateProperty(GlobalSetting key, String newValue);
 	
-	public void updateModelFromText();
+	void updateModelFromText();
 
 	List<AutocompletionText> getAutocompletionList();
 
 	String getSetting(GlobalSetting key);
+	
+	Integer getLayer();
 }
