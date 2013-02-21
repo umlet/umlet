@@ -511,8 +511,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 
 	public void addElement(GridElement gridElement) {
 		componentToGridElementMap.put(gridElement.getComponent(), gridElement);
-		add(gridElement.getComponent());
-		System.out.println("LAYER " + gridElement.getLayer());
+		add(gridElement.getComponent(), gridElement.getLayer());
 	}
 	
 	public void updateElements() {
