@@ -25,7 +25,6 @@ import com.umlet.custom.CustomElement;
 import com.umlet.custom.CustomElementHandler;
 
 
-@SuppressWarnings("serial")
 public abstract class BaseGUI {
 
 	private final static Logger log = Logger.getLogger(Utils.getClassName());

@@ -40,7 +40,7 @@ public class DrawableCache implements Iterable<Drawable> {
 	public void drawAll(Graphics2D g2, DiagramHandler handler) {
 		for (Drawable d : drawables) {
 			if (d.getShape() != null) {
-				drawShape(d.getStyle(), d.getShape(), g2, handler);
+				drawShape(d.getStyle(), d.getShape(), g2);
 			}
 			if (d.getText() != null) {
 				drawText(d.getStyle(), d.getText(), g2, handler);
@@ -48,7 +48,7 @@ public class DrawableCache implements Iterable<Drawable> {
 		}
 	}
 
-	private void drawShape(Style style, Shape s, Graphics2D g2, DiagramHandler handler) {
+	private void drawShape(Style style, Shape s, Graphics2D g2) {
 		// Shapes Background
 		g2.setColor(style.getBgColor());
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getBgAlpha()));

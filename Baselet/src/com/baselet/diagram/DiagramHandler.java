@@ -65,7 +65,7 @@ public class DiagramHandler {
 			if (gui instanceof StandaloneGUI) extendedPopupMenu = true; // AB: use extended popup menu on standalone gui only
 		}
 
-		if (!(this instanceof PaletteHandler)) drawpanel.setComponentPopupMenu(new DiagramPopupMenu(this, extendedPopupMenu));
+		if (!(this instanceof PaletteHandler)) drawpanel.setComponentPopupMenu(new DiagramPopupMenu(extendedPopupMenu));
 
 	}
 

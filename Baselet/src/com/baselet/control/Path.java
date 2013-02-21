@@ -160,8 +160,14 @@ public class Path {
 
 	public static Manifest manifest() throws FileNotFoundException, IOException {
 		Manifest manifest;
-		if (Path.executable().endsWith(".jar")) manifest = new JarFile(Path.executable()).getManifest();
-		else manifest = new Manifest(new FileInputStream(Path.homeProgram() + "META-INF" + File.separator + "MANIFEST.MF"));
+		if (Path.executable().endsWith(".jar")) {
+			manifest = new JarFile(Path.executable()).getManifest();
+		}
+		else {
+			FileInputStream is = new FileInputStream(Path.homeProgram() + "META-INF" + File.separator + "MANIFEST.MF");
+			manifest = new Manifest(is);
+			is.close();
+		}
 		return manifest;
 	}
 

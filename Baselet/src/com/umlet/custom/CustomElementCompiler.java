@@ -109,8 +109,10 @@ public class CustomElementCompiler {
 			try {
 				BufferedReader br = new BufferedReader(new FileReader(sourceFile));
 				String line;
-				while ((line = br.readLine()) != null)
+				while ((line = br.readLine()) != null) {
 					_javaSource += line + Constants.NEWLINE;
+				}
+				br.close();
 			} catch (Exception e) {
 				log.error(null, e);
 			}
@@ -120,14 +122,19 @@ public class CustomElementCompiler {
 
 	// saves the source to a file
 	private void saveJavaSource(String code) { // LME3
-		BufferedWriter bw;
+		BufferedWriter bw = null;
 		try {
 			bw = new BufferedWriter(new FileWriter(sourcefile, false));
 			bw.write(this.parseCodeIntoTemplate(code));
 			bw.flush();
-			bw.close();
 		} catch (IOException e) {
 			log.error(null, e);
+		} finally {
+			if (bw != null) try {
+				bw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

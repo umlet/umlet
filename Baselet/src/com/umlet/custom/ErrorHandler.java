@@ -40,6 +40,7 @@ public class ErrorHandler implements MouseMotionListener {
 //		this.codepane.getStyledDocument().setCharacterAttributes(0, this.codepane.getText().length(), this.codepane.getStyledDocument().getStyle("default"), true);
 	}
 
+	@SuppressWarnings("unused")
 	protected void addError(Integer line, String error, int from, int length) {
 		this.errors.put(line, error);
 		//TODO CUSTOM ELEMENTS REFACTORING

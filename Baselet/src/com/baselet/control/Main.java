@@ -141,7 +141,9 @@ public class Main {
 			}
 			Properties props = new Properties();
 			props.put("PROJECT_PATH", Path.homeProgram()); // Put homepath as relative variable in properties file
-			props.load(new FileInputStream(log4jFilePath));
+			FileInputStream inStream = new FileInputStream(log4jFilePath);
+			props.load(inStream);
+			inStream.close();
 			PropertyConfigurator.configure(props);
 			log.info("Logger configuration initialized");
 		} catch (Exception e) {

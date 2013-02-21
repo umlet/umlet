@@ -415,7 +415,7 @@ public class PlotDrawHandler {
 		base.resetColorSettings();
 	}
 
-	public final void drawPiePlot(boolean horizontal) {
+	public final void drawPiePlot() {
 
 		Double valueSum = 0.0;
 		for (Double v : values[0]) { valueSum+=Math.abs(v); }
@@ -427,12 +427,12 @@ public class PlotDrawHandler {
 		int width = canvas.getInnerHorizontalDrawspace();
 		diameter = height>width?width:height;
 		ulCorner = new Point(canvas.getInnerLeftPos(), canvas.getInnerUpPos());
-		drawPieArcs(horizontal, values[0], desc, ulCorner, diameter, valueSum, colors);
+		drawPieArcs(values[0], desc, ulCorner, diameter, valueSum, colors);
 		base.drawAll(isSelected);
 		base.clearCache();
 	}
 
-	private final void drawPieArcs(boolean horizontal, Double[] values, String[] desc, Point ulCorner, int diameter, Double valueSum, List<String> colors) {
+	private final void drawPieArcs(Double[] values, String[] desc, Point ulCorner, int diameter, Double valueSum, List<String> colors) {
 		int cIndex = 0;
 
 		Double arcAngle = 0D;
