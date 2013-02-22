@@ -51,6 +51,19 @@ public class DrawPanel extends Composite {
 		paletteChooser.addItem("B");
 		paletteChooser.addItem("C");
 
+		paletteCanvas.setStyleName("mainCanvas");	
+
+		paletteCanvas.setWidth(canvasWidth + "px");
+		paletteCanvas.setCoordinateSpaceWidth(canvasWidth);
+
+		paletteCanvas.setHeight(canvasHeight + "px");
+		paletteCanvas.setCoordinateSpaceHeight(canvasHeight);
+
+		Context2d context = paletteCanvas.getContext2d();
+		context.setFillStyle(red);
+		context.fillRect(0, 0, canvasWidth, canvasHeight);
+		context.fill();
+	
 		initAndDrawOnCanvas();
 	}
 
