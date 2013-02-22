@@ -1,5 +1,6 @@
 package com.baselet.client;
 
+import com.baselet.client.Utils.MouseDragHandler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
@@ -59,12 +60,6 @@ public class DrawPanel extends Composite {
 		palettePanel.add(paletteCanvas);
 	}
 
-
-	private boolean dragging;
-	private HandlerRegistration mouseMove;
-
-	private int moveStartX, moveStartY;
-
 	private Canvas makeCanvas(int width, int height) {
 		final Canvas canvas = Canvas.createIfSupported();
 		canvas.setStyleName("canvas");
@@ -75,45 +70,13 @@ public class DrawPanel extends Composite {
 
 		final Context2d context = canvas.getContext2d();
 
-		canvas.addMouseDownHandler(new MouseDownHandler() {
-
+		Utils.addMouseDragHandler(canvas, new MouseDragHandler() {
 			@Override
-			public void onMouseDown(MouseDownEvent event) {
-				moveStartX = event.getScreenX();
-				moveStartY = event.getScreenY();
-				System.out.println("START " + moveStartX + " /" + moveStartY);
-				dragging = true;
-				// do other stuff related to starting of "dragging"
-				mouseMove = canvas.addMouseMoveHandler(new MouseMoveHandler() {
-					@Override
-					public void onMouseMove(MouseMoveEvent event) {
-						if (dragging) {
-							//							context.save();
-							int diffX = event.getScreenX() - moveStartX;
-							int diffY = event.getScreenY() - moveStartY;
-							context.translate(diffX, diffY);
-							draw(context);
-							System.out.println("NOW " + diffX + " /" + diffY);
-							moveStartX = event.getScreenX();
-							moveStartY = event.getScreenY();
-							//							context.restore();
-						}
-					}
-				});
+			public void onMouseDrag(int diffX, int diffY) {
+				context.translate(diffX, diffY);
+				draw(context);
 			}
 		});
-
-		canvas.addMouseUpHandler(new MouseUpHandler() {
-			@Override
-			public void onMouseUp(MouseUpEvent event) {
-				if (dragging){
-					// do other stuff related to stopping of "dragging"
-					dragging = false;
-					mouseMove.removeHandler();
-				}
-			}
-		});
-
 		draw(context);
 		return canvas;
 	}
