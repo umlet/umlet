@@ -66,20 +66,26 @@
 			<g:center>
 				<g:SplitLayoutPanel>
 					<g:west size='200'>
-						<g:TabLayoutPanel ui:field="tabPanel" barUnit="EM"
-							barHeight="2" width="400" height="400" />
+						<g:TabLayoutPanel ui:field="diagramTabPanel"
+							barUnit="EM" barHeight="2" width="400" height="400" />
 					</g:west>
 					<g:center>
 						<g:SplitLayoutPanel>
 							<g:north size="150">
 								<g:ScrollPanel>
-									<g:Label>Content Area</g:Label>
+									<g:DockLayoutPanel unit="EM" width="100%"
+										height="100%">
+										<g:north size="2">
+											<g:ListBox ui:field="paletteChooser" visibleItemCount="1" />
+										</g:north>
+										<g:center>
+											<c:Canvas ui:field="paletteCanvas" />
+										</g:center>
+									</g:DockLayoutPanel>
 								</g:ScrollPanel>
 							</g:north>
 							<g:center>
-								<g:ScrollPanel>
-									<g:Label>Content Area</g:Label>
-								</g:ScrollPanel>
+								<g:TextArea ui:field="propertiesPanel"></g:TextArea>
 							</g:center>
 						</g:SplitLayoutPanel>
 					</g:center>
