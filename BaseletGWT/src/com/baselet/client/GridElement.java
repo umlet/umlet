@@ -7,4 +7,8 @@ public class GridElement {
 	public GridElement(Rectangle bounds) {
 		this.bounds = bounds;
 	}
+	
+	public Rectangle getBounds() {
+		return bounds;
+	}
 }
