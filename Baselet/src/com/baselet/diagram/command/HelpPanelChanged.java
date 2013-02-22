@@ -66,6 +66,7 @@ public class HelpPanelChanged extends Command {
 		super.undo(handler);
 		handler.setHelpText(changed_from);
 		handler.getFontHandler().setDiagramDefaultFontSize(getFontsize(changed_from));
+		handler.getFontHandler().setDiagramDefaultFontFamily(getFontfamily(changed_from));
 		handler.getDrawPanel().updateElements();
 		handler.getDrawPanel().repaint();
 	}
