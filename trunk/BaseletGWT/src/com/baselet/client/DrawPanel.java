@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
@@ -37,15 +38,15 @@ public class DrawPanel extends Composite {
 	TextArea propertiesPanel;
 
 	@UiField
-	HTMLPanel palettePanel;
+	ScrollPanel palettePanel;
 
 	CssColor red = CssColor.make("rgba(" + 255 + ", " + 0 + "," + 0 + ", " + 1.0 + ")");
 
 	public DrawPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		Canvas diagramCanvas = makeCanvas();
-		diagramTabPanel.add(diagramCanvas,"Tab-CANVAS"); 
+		Canvas diagramCanvas = makeCanvas(1500, 1500);
+		diagramTabPanel.add(new ScrollPanel(diagramCanvas),"Tab-CANVAS"); 
 		diagramTabPanel.add(new HTML("ONE")," Tab-1 ");
 		diagramTabPanel.add(new HTML("TWO")," Tab-2 ");
 		diagramTabPanel.add(new HTML("THREE")," Tab-3 "); 
@@ -54,7 +55,7 @@ public class DrawPanel extends Composite {
 		paletteChooser.addItem("B");
 		paletteChooser.addItem("C");
 
-		Canvas paletteCanvas = makeCanvas();
+		Canvas paletteCanvas = makeCanvas(3000, 3000);
 		palettePanel.add(paletteCanvas);
 	}
 
@@ -64,11 +65,13 @@ public class DrawPanel extends Composite {
 
 	private int moveStartX, moveStartY;
 
-	private Canvas makeCanvas() {
+	private Canvas makeCanvas(int width, int height) {
 		final Canvas canvas = Canvas.createIfSupported();
 		canvas.setStyleName("canvas");
-		//		canvas.setCoordinateSpaceWidth(width);
-		//		canvas.setCoordinateSpaceHeight(height);
+//		canvas.setWidth(width + "px");
+		canvas.setCoordinateSpaceWidth(width);
+//		canvas.setHeight(height + "px");
+		canvas.setCoordinateSpaceHeight(height);
 
 		final Context2d context = canvas.getContext2d();
 
@@ -85,7 +88,7 @@ public class DrawPanel extends Composite {
 					@Override
 					public void onMouseMove(MouseMoveEvent event) {
 						if (dragging) {
-//							context.save();
+							//							context.save();
 							int diffX = event.getScreenX() - moveStartX;
 							int diffY = event.getScreenY() - moveStartY;
 							context.translate(diffX, diffY);
@@ -93,7 +96,7 @@ public class DrawPanel extends Composite {
 							System.out.println("NOW " + diffX + " /" + diffY);
 							moveStartX = event.getScreenX();
 							moveStartY = event.getScreenY();
-//							context.restore();
+							//							context.restore();
 						}
 					}
 				});

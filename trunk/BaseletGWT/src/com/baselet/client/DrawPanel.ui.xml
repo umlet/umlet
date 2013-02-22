@@ -77,7 +77,7 @@
 											<g:ListBox ui:field="paletteChooser" visibleItemCount="1" width="100%"/>
 										</g:north>
 										<g:center>
-											<g:HTMLPanel ui:field="palettePanel" width="100%" />
+											<g:ScrollPanel ui:field="palettePanel" width="100%" />
 										</g:center>
 									</g:DockLayoutPanel>
 							</g:center>
