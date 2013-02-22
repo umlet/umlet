@@ -13,8 +13,10 @@ public class DrawPanelCanvas {
 	
 	public final static int GRID_SIZE = 10;
 
-	CssColor red = CssColor.make("rgba(" + 255 + ", " + 0 + "," + 0 + ", " + 1.0 + ")");
-	CssColor gray = CssColor.make("rgba(" + 100 + ", " + 100 + "," + 100 + ", " + 0.2 + ")");
+	public static final CssColor RED = CssColor.make("rgba(" + 255 + ", " + 0 + "," + 0 + ", " + 0.3 + ")");
+	public static final CssColor GREEN = CssColor.make("rgba(" + 0 + ", " + 255 + "," + 0 + ", " + 0.3 + ")");
+	public static final CssColor BLUE = CssColor.make("rgba(" + 0 + ", " + 0 + "," + 255 + ", " + 0.3 + ")");
+	public static final CssColor GRAY = CssColor.make("rgba(" + 100 + ", " + 100 + "," + 100 + ", " + 0.2 + ")");
 	
 	List<GridElement> gridElements = new ArrayList<GridElement>();
 	
@@ -23,9 +25,12 @@ public class DrawPanelCanvas {
 	Canvas backgroundCanvas;
 	
 	public DrawPanelCanvas() {
-		gridElements.add(new GridElement(new Rectangle(10, 10, 30, 30)));
-		gridElements.add(new GridElement(new Rectangle(50, 10, 30, 30)));
-		gridElements.add(new GridElement(new Rectangle(50, 50, 30, 30)));
+		gridElements.add(new GridElement(new Rectangle(10, 10, 30, 30), RED));
+		gridElements.add(new GridElement(new Rectangle(50, 10, 30, 30), GREEN));
+		gridElements.add(new GridElement(new Rectangle(50, 50, 30, 30), RED));
+		gridElements.add(new GridElement(new Rectangle(110, 110, 30, 30), GREEN));
+		gridElements.add(new GridElement(new Rectangle(150, 110, 30, 30), RED));
+		gridElements.add(new GridElement(new Rectangle(150, 150, 30, 30), GREEN));
 	}
 	
 	Canvas makeCanvas(int width, int height) {
@@ -66,7 +71,7 @@ public class DrawPanelCanvas {
 
 	private void drawBackgroundGrid(int width, int height) {
 		Context2d backgroundContext = backgroundCanvas.getContext2d();
-		backgroundContext.setStrokeStyle(gray);
+		backgroundContext.setStrokeStyle(GRAY);
 		for (int i = 0; i < width; i += GRID_SIZE) {
 			ContextUtils.drawLine(backgroundContext, i, 0, i, height);
 		}
@@ -89,7 +94,7 @@ public class DrawPanelCanvas {
 		Context2d context = elementCanvas.getContext2d();
 		context.clearRect(-1000000, -1000000, 2000000, 2000000);
 		for (GridElement ge : gridElements) {
-			context.setFillStyle(red);
+			context.setFillStyle(ge.getColor());
 			context.fillRect(ge.getBounds().getX(), ge.getBounds().getY(), ge.getBounds().getWidth(), ge.getBounds().getHeight());
 		}
 		context.fill();
