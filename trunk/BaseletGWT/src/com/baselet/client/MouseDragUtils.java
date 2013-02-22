@@ -13,50 +13,52 @@ import com.google.gwt.user.client.ui.FocusWidget;
 
 public class MouseDragUtils {
 	
-	private static class Storage {
+	private static class DragCache {
 		private boolean dragging;
 		private HandlerRegistration mouseMove;
 		private int moveStartX, moveStartY;
+		private GridElement elementToDrag;
 	}
 	
 	public interface MouseDragHandler {
-		void onMouseDrag(int diffX, int diffY);
+		void onMouseDrag(int diffX, int diffY, GridElement gridElement);
 	}
 
-	public static void addMouseDragHandler(final FocusWidget widget, final MouseDragHandler mouseDragHandler) {
-		final Storage storage = new Storage();
+	public static void addMouseDragHandler(final DrawPanelCanvas drawPanelCanvas, final MouseDragHandler mouseDragHandler) {
+		final DragCache storage = new DragCache();
 		
-		widget.addMouseDownHandler(new MouseDownHandler() {
+		drawPanelCanvas.getCanvas().addMouseDownHandler(new MouseDownHandler() {
 
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
-				storage.moveStartX = event.getClientX(); //getClientX also works on zoomed browser (getScreenX moves elements too slow)
-				storage.moveStartY = event.getClientY();
+				storage.moveStartX = event.getX(); //getClientX also works on zoomed browser (getScreenX moves elements too slow)
+				storage.moveStartY = event.getY();
 				System.out.println("START " + storage.moveStartX + " /" + storage.moveStartY);
 				storage.dragging = true;
+				storage.elementToDrag = drawPanelCanvas.getGridElementOnPosition(storage.moveStartX, storage.moveStartY);
 				// do other stuff related to starting of "dragging"
-				storage.mouseMove = widget.addMouseMoveHandler(new MouseMoveHandler() {
+				storage.mouseMove = drawPanelCanvas.getCanvas().addMouseMoveHandler(new MouseMoveHandler() {
 					@Override
 					public void onMouseMove(MouseMoveEvent event) {
 						if (storage.dragging) {
-							int diffX = event.getClientX() - storage.moveStartX;
-							int diffY = event.getClientY() - storage.moveStartY;
+							int diffX = event.getX() - storage.moveStartX;
+							int diffY = event.getY() - storage.moveStartY;
 							System.out.println("NOW " + diffX + " /" + diffY);
-							mouseDragHandler.onMouseDrag(diffX, diffY);
-							storage.moveStartX = event.getClientX();
-							storage.moveStartY = event.getClientY();
+							mouseDragHandler.onMouseDrag(diffX, diffY, storage.elementToDrag);
+							storage.moveStartX = event.getX();
+							storage.moveStartY = event.getY();
 						}
 					}
 				});
 			}
 		});
-		widget.addMouseUpHandler(new MouseUpHandler() {
+		drawPanelCanvas.getCanvas().addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
 				endDragging(storage);
 			}
 		});
-		widget.addMouseOutHandler(new MouseOutHandler() {
+		drawPanelCanvas.getCanvas().addMouseOutHandler(new MouseOutHandler() {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
 				endDragging(storage);
@@ -64,7 +66,7 @@ public class MouseDragUtils {
 		});
 	}
 
-	private static void endDragging(final Storage storage) {
+	private static void endDragging(final DragCache storage) {
 		if (storage.dragging){
 			storage.dragging = false;
 			storage.mouseMove.removeHandler();

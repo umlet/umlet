@@ -2,13 +2,17 @@ package com.baselet.client;
 
 public class GridElement {
 
-	Rectangle bounds;
+	Rectangle canvasRectangle;
 	
 	public GridElement(Rectangle bounds) {
-		this.bounds = bounds;
+		this.canvasRectangle = bounds;
 	}
 	
 	public Rectangle getBounds() {
-		return bounds;
+		return canvasRectangle;
+	}
+	
+	public boolean contains(int x, int y) {
+		return canvasRectangle.contains(x, y);
 	}
 }
