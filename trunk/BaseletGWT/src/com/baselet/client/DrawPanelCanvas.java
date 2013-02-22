@@ -18,7 +18,7 @@ public class DrawPanelCanvas {
 	
 	List<GridElement> gridElements = new ArrayList<GridElement>();
 	
-	Canvas canvas;
+	Canvas elementCanvas;
 	
 	Canvas backgroundCanvas;
 	
@@ -29,10 +29,8 @@ public class DrawPanelCanvas {
 	}
 	
 	Canvas makeCanvas(int width, int height) {
-		canvas = initCanvas(width, height);
+		elementCanvas = initCanvas(width, height);
 		backgroundCanvas = initCanvas(width, height);
-
-		final Context2d context = canvas.getContext2d();
 
 		MouseDragUtils.addMouseDragHandler(this, new MouseDragHandler() {
 			@Override
@@ -44,7 +42,7 @@ public class DrawPanelCanvas {
 				} else {
 					gridElement.getBounds().move(diffX, diffY);
 				}
-				draw(context);
+				draw();
 			}
 		});
 
@@ -61,19 +59,20 @@ public class DrawPanelCanvas {
 //			}
 //		});
 
-		draw(context);
+		drawBackgroundGrid(width, height);
+		draw();
+		return elementCanvas;
+	}
 
+	private void drawBackgroundGrid(int width, int height) {
 		Context2d backgroundContext = backgroundCanvas.getContext2d();
-		context.setStrokeStyle(gray);
+		backgroundContext.setStrokeStyle(gray);
 		for (int i = 0; i < width; i += GRID_SIZE) {
-			ContextUtils.drawLine(context, i, 0, i, 1000);
+			ContextUtils.drawLine(backgroundContext, i, 0, i, height);
 		}
 		for (int i = 0; i < height; i += GRID_SIZE) {
-			ContextUtils.drawLine(context, 0, i, 1000, i);
+			ContextUtils.drawLine(backgroundContext, 0, i, width, i);
 		}
-		context.drawImage(backgroundContext.getCanvas(), 0, 0);
-
-		return canvas;
 	}
 
 	private Canvas initCanvas(int width, int height) {
@@ -86,17 +85,19 @@ public class DrawPanelCanvas {
 		return canvas;
 	}
 
-	private void draw(final Context2d context) {
+	private void draw() {
+		Context2d context = elementCanvas.getContext2d();
 		context.clearRect(-1000000, -1000000, 2000000, 2000000);
 		for (GridElement ge : gridElements) {
 			context.setFillStyle(red);
 			context.fillRect(ge.getBounds().getX(), ge.getBounds().getY(), ge.getBounds().getWidth(), ge.getBounds().getHeight());
 		}
 		context.fill();
+		context.drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
 	}
 	
 	public Canvas getCanvas() {
-		return canvas;
+		return elementCanvas;
 	}
 	
 	public GridElement getGridElementOnPosition(int x, int y) {
