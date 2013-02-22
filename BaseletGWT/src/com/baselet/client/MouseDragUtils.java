@@ -33,7 +33,6 @@ public class MouseDragUtils {
 			public void onMouseDown(MouseDownEvent event) {
 				storage.moveStartX = event.getX(); //getClientX also works on zoomed browser (getScreenX moves elements too slow)
 				storage.moveStartY = event.getY();
-				System.out.println("START " + storage.moveStartX + " /" + storage.moveStartY);
 				storage.dragging = true;
 				storage.elementToDrag = drawPanelCanvas.getGridElementOnPosition(storage.moveStartX, storage.moveStartY);
 				// do other stuff related to starting of "dragging"
@@ -42,11 +41,18 @@ public class MouseDragUtils {
 					public void onMouseMove(MouseMoveEvent event) {
 						if (storage.dragging) {
 							int diffX = event.getX() - storage.moveStartX;
+							diffX -= (diffX % DrawPanelCanvas.GRID_SIZE);
+
 							int diffY = event.getY() - storage.moveStartY;
-							System.out.println("NOW " + diffX + " /" + diffY);
-							mouseDragHandler.onMouseDrag(diffX, diffY, storage.elementToDrag);
-							storage.moveStartX = event.getX();
-							storage.moveStartY = event.getY();
+							diffY -= (diffY % DrawPanelCanvas.GRID_SIZE);
+							
+							System.out.println("REAL " + event.getX() + " MODIFIED " + diffX);
+							
+							if (diffX != 0 || diffY != 0) {
+								mouseDragHandler.onMouseDrag(diffX, diffY, storage.elementToDrag);
+								storage.moveStartX += diffX;
+								storage.moveStartY += diffY;
+							}
 						}
 					}
 				});

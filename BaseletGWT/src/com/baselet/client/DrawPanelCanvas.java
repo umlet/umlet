@@ -7,28 +7,30 @@ import com.baselet.client.MouseDragUtils.MouseDragHandler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.canvas.dom.client.FillStrokeStyle;
 
 public class DrawPanelCanvas {
+	
+	public final static int GRID_SIZE = 10;
 
 	CssColor red = CssColor.make("rgba(" + 255 + ", " + 0 + "," + 0 + ", " + 1.0 + ")");
+	CssColor gray = CssColor.make("rgba(" + 100 + ", " + 100 + "," + 100 + ", " + 0.2 + ")");
 	
 	List<GridElement> gridElements = new ArrayList<GridElement>();
 	
 	Canvas canvas;
 	
+	Canvas backgroundCanvas;
+	
 	public DrawPanelCanvas() {
-		gridElements.add(new GridElement(new Rectangle(5, 5, 30, 30)));
-		gridElements.add(new GridElement(new Rectangle(40, 5, 30, 30)));
-		gridElements.add(new GridElement(new Rectangle(40, 40, 30, 30)));
+		gridElements.add(new GridElement(new Rectangle(10, 10, 30, 30)));
+		gridElements.add(new GridElement(new Rectangle(50, 10, 30, 30)));
+		gridElements.add(new GridElement(new Rectangle(50, 50, 30, 30)));
 	}
 	
 	Canvas makeCanvas(int width, int height) {
-		canvas = Canvas.createIfSupported();
-		canvas.setStyleName("canvas");
-		//		canvas.setWidth(width + "px");
-		canvas.setCoordinateSpaceWidth(width);
-		//		canvas.setHeight(height + "px");
-		canvas.setCoordinateSpaceHeight(height);
+		canvas = initCanvas(width, height);
+		backgroundCanvas = initCanvas(width, height);
 
 		final Context2d context = canvas.getContext2d();
 
@@ -61,6 +63,26 @@ public class DrawPanelCanvas {
 
 		draw(context);
 
+		Context2d backgroundContext = backgroundCanvas.getContext2d();
+		context.setStrokeStyle(gray);
+		for (int i = 0; i < width; i += GRID_SIZE) {
+			ContextUtils.drawLine(context, i, 0, i, 1000);
+		}
+		for (int i = 0; i < height; i += GRID_SIZE) {
+			ContextUtils.drawLine(context, 0, i, 1000, i);
+		}
+		context.drawImage(backgroundContext.getCanvas(), 0, 0);
+
+		return canvas;
+	}
+
+	private Canvas initCanvas(int width, int height) {
+		Canvas canvas = Canvas.createIfSupported();
+		canvas.setStyleName("canvas");
+		//		canvas.setWidth(width + "px");
+		canvas.setCoordinateSpaceWidth(width);
+		//		canvas.setHeight(height + "px");
+		canvas.setCoordinateSpaceHeight(height);
 		return canvas;
 	}
 
