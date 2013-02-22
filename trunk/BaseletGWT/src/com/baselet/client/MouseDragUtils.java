@@ -11,7 +11,7 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FocusWidget;
 
-public class Utils {
+public class MouseDragUtils {
 	
 	private static class Storage {
 		private boolean dragging;
@@ -23,7 +23,6 @@ public class Utils {
 		void onMouseDrag(int diffX, int diffY);
 	}
 
-
 	public static void addMouseDragHandler(final FocusWidget widget, final MouseDragHandler mouseDragHandler) {
 		final Storage storage = new Storage();
 		
@@ -31,8 +30,8 @@ public class Utils {
 
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
-				storage.moveStartX = event.getScreenX();
-				storage.moveStartY = event.getScreenY();
+				storage.moveStartX = event.getClientX(); //getClientX also works on zoomed browser (getScreenX moves elements too slow)
+				storage.moveStartY = event.getClientY();
 				System.out.println("START " + storage.moveStartX + " /" + storage.moveStartY);
 				storage.dragging = true;
 				// do other stuff related to starting of "dragging"
@@ -40,12 +39,12 @@ public class Utils {
 					@Override
 					public void onMouseMove(MouseMoveEvent event) {
 						if (storage.dragging) {
-							int diffX = event.getScreenX() - storage.moveStartX;
-							int diffY = event.getScreenY() - storage.moveStartY;
+							int diffX = event.getClientX() - storage.moveStartX;
+							int diffY = event.getClientY() - storage.moveStartY;
 							System.out.println("NOW " + diffX + " /" + diffY);
 							mouseDragHandler.onMouseDrag(diffX, diffY);
-							storage.moveStartX = event.getScreenX();
-							storage.moveStartY = event.getScreenY();
+							storage.moveStartX = event.getClientX();
+							storage.moveStartY = event.getClientY();
 						}
 					}
 				});

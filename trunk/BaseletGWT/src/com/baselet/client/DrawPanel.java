@@ -1,6 +1,6 @@
 package com.baselet.client;
 
-import com.baselet.client.Utils.MouseDragHandler;
+import com.baselet.client.MouseDragUtils.MouseDragHandler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
@@ -11,6 +11,8 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
+import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -63,21 +65,36 @@ public class DrawPanel extends Composite {
 	private Canvas makeCanvas(int width, int height) {
 		final Canvas canvas = Canvas.createIfSupported();
 		canvas.setStyleName("canvas");
-//		canvas.setWidth(width + "px");
+		//		canvas.setWidth(width + "px");
 		canvas.setCoordinateSpaceWidth(width);
-//		canvas.setHeight(height + "px");
+		//		canvas.setHeight(height + "px");
 		canvas.setCoordinateSpaceHeight(height);
 
 		final Context2d context = canvas.getContext2d();
 
-		Utils.addMouseDragHandler(canvas, new MouseDragHandler() {
+		MouseDragUtils.addMouseDragHandler(canvas, new MouseDragHandler() {
 			@Override
 			public void onMouseDrag(int diffX, int diffY) {
 				context.translate(diffX, diffY);
 				draw(context);
 			}
 		});
+
+//		canvas.addMouseWheelHandler(new MouseWheelHandler() {
+//			@Override
+//			public void onMouseWheel(MouseWheelEvent event) {
+//				float zoom;
+//				if(event.getDeltaY() < 0) { // scrolling up = negative values, scrolling down = positive values
+//					zoom = 1.1f;
+//				} else {
+//					zoom = 0.9f;
+//				}
+//				context.scale(zoom,zoom);
+//			}
+//		});
+
 		draw(context);
+
 		return canvas;
 	}
 
