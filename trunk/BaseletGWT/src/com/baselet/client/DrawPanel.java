@@ -10,6 +10,7 @@ import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -30,7 +31,9 @@ public class DrawPanel extends Composite {
 	@UiField
 	TextArea propertiesPanel;
 
-	@UiField(provided=true)
+	@UiField
+	HTMLPanel palettePanel;
+	
 	Canvas paletteCanvas = Canvas.createIfSupported();
 
 	Canvas diagramCanvas = Canvas.createIfSupported();
@@ -58,6 +61,8 @@ public class DrawPanel extends Composite {
 
 		paletteCanvas.setHeight(canvasHeight + "px");
 		paletteCanvas.setCoordinateSpaceHeight(canvasHeight);
+		
+		palettePanel.add(paletteCanvas);
 
 		Context2d context = paletteCanvas.getContext2d();
 		context.setFillStyle(red);
