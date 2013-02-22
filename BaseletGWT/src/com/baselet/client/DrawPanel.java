@@ -34,17 +34,12 @@ public class DrawPanel extends Composite {
 	@UiField
 	HTMLPanel palettePanel;
 	
-	Canvas paletteCanvas = Canvas.createIfSupported();
-
-	Canvas diagramCanvas = Canvas.createIfSupported();
-
 	CssColor red = CssColor.make("rgba(" + 255 + ", " + 0 + "," + 0 + ", " + 1.0 + ")");
-
-	static final int canvasHeight = 300;
-	static final int canvasWidth = 300;
 
 	public DrawPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		Canvas diagramCanvas = makeCanvas();
 		diagramTabPanel.add(diagramCanvas,"Tab-CANVAS"); 
 		diagramTabPanel.add(new HTML("ONE")," Tab-1 ");
 		diagramTabPanel.add(new HTML("TWO")," Tab-2 ");
@@ -54,37 +49,20 @@ public class DrawPanel extends Composite {
 		paletteChooser.addItem("B");
 		paletteChooser.addItem("C");
 
-		paletteCanvas.setStyleName("mainCanvas");	
-
-		paletteCanvas.setWidth(canvasWidth + "px");
-		paletteCanvas.setCoordinateSpaceWidth(canvasWidth);
-
-		paletteCanvas.setHeight(canvasHeight + "px");
-		paletteCanvas.setCoordinateSpaceHeight(canvasHeight);
-		
+		Canvas paletteCanvas = makeCanvas();
 		palettePanel.add(paletteCanvas);
-
-		Context2d context = paletteCanvas.getContext2d();
-		context.setFillStyle(red);
-		context.fillRect(0, 0, canvasWidth, canvasHeight);
-		context.fill();
-	
-		initAndDrawOnCanvas();
 	}
 
-	private void initAndDrawOnCanvas() {
-		diagramCanvas.setStyleName("mainCanvas");	
+	private Canvas makeCanvas() {
+		Canvas canvas = Canvas.createIfSupported();
+		canvas.setStyleName("canvas");
+//		canvas.setCoordinateSpaceWidth(width);
+//		canvas.setCoordinateSpaceHeight(height);
 
-		diagramCanvas.setWidth(canvasWidth + "px");
-		diagramCanvas.setCoordinateSpaceWidth(canvasWidth);
-
-		diagramCanvas.setHeight(canvasHeight + "px");
-		diagramCanvas.setCoordinateSpaceHeight(canvasHeight);
-
-		Context2d context = diagramCanvas.getContext2d();
+		Context2d context = canvas.getContext2d();
 		context.setFillStyle(red);
-		context.fillRect(0, 0, canvasWidth, canvasHeight);
+		context.fillRect(0, 0, 30, 30);
 		context.fill();
+		return canvas;
 	}
-
 }
