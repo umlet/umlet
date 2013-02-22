@@ -1,2 +1,0 @@
-serviceClass: com.baselet.client.BaseletService
-path: 40873446838E77AEAC25BA02F1B73DC5.gwt.rpc
