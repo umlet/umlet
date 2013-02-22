@@ -14,6 +14,8 @@ public class DrawPanelCanvas {
 	
 	List<GridElement> gridElements = new ArrayList<GridElement>();
 	
+	Canvas canvas;
+	
 	public DrawPanelCanvas() {
 		gridElements.add(new GridElement(new Rectangle(5, 5, 30, 30)));
 		gridElements.add(new GridElement(new Rectangle(40, 5, 30, 30)));
@@ -21,7 +23,7 @@ public class DrawPanelCanvas {
 	}
 	
 	Canvas makeCanvas(int width, int height) {
-		final Canvas canvas = Canvas.createIfSupported();
+		canvas = Canvas.createIfSupported();
 		canvas.setStyleName("canvas");
 		//		canvas.setWidth(width + "px");
 		canvas.setCoordinateSpaceWidth(width);
@@ -30,10 +32,16 @@ public class DrawPanelCanvas {
 
 		final Context2d context = canvas.getContext2d();
 
-		MouseDragUtils.addMouseDragHandler(canvas, new MouseDragHandler() {
+		MouseDragUtils.addMouseDragHandler(this, new MouseDragHandler() {
 			@Override
-			public void onMouseDrag(int diffX, int diffY) {
-				context.translate(diffX, diffY);
+			public void onMouseDrag(int diffX, int diffY, GridElement gridElement) {
+				if (gridElement == null) { // nothing selected -> move whole diagram
+					for (GridElement ge : gridElements) {
+						ge.getBounds().move(diffX, diffY);
+					}
+				} else {
+					gridElement.getBounds().move(diffX, diffY);
+				}
 				draw(context);
 			}
 		});
@@ -63,5 +71,16 @@ public class DrawPanelCanvas {
 			context.fillRect(ge.getBounds().getX(), ge.getBounds().getY(), ge.getBounds().getWidth(), ge.getBounds().getHeight());
 		}
 		context.fill();
+	}
+	
+	public Canvas getCanvas() {
+		return canvas;
+	}
+	
+	public GridElement getGridElementOnPosition(int x, int y) {
+		for (GridElement ge : gridElements) {
+			if (ge.contains(x, y)) return ge;
+		}
+		return null;
 	}
 }

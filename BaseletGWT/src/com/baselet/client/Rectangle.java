@@ -18,6 +18,10 @@ public class Rectangle {
 	public int getX() {
 		return x;
 	}
+	
+	public int getX2() {
+		return x + width;
+	}
 
 	public void setX(int x) {
 		this.x = x;
@@ -25,6 +29,10 @@ public class Rectangle {
 
 	public int getY() {
 		return y;
+	}
+	
+	public int getY2() {
+		return y + height;
 	}
 
 	public void setY(int y) {
@@ -45,6 +53,15 @@ public class Rectangle {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+	
+	public void move(int diffX, int diffY) {
+		this.x += diffX;
+		this.y += diffY;
+	}
+
+	public boolean contains(int inX, int inY) {
+		return getX() <= inX && inX <= getX2() && getY() <= inY && inY <= getY2();
 	}
 	
 }
