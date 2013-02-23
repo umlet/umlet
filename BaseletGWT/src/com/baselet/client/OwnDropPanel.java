@@ -15,9 +15,9 @@ import com.google.gwt.event.dom.client.DropHandler;
 
 public class OwnDropPanel {
 
-	DropPanel dropPanel = new DropPanel();
+	private DropPanel dropPanel = new DropPanel();
 	
-	FileOpenHandler handler = new FileOpenHandler();
+	private FileOpenHandler handler = new FileOpenHandler();
 	
 	public DropPanel getDropPanel() {
 		return dropPanel;

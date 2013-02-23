@@ -1,5 +1,6 @@
-package com.baselet.client;
+package com.baselet.client.element;
 
+import com.baselet.client.Rectangle;
 import com.google.gwt.canvas.dom.client.CssColor;
 
 public class GridElement {

@@ -1,4 +1,4 @@
-package com.baselet.client;
+package com.baselet.client.element;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
