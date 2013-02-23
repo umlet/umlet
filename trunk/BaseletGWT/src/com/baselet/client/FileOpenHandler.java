@@ -40,7 +40,7 @@ public class FileOpenHandler {
 
 	private void createText(final File file) {
 		String result = reader.getStringResult();
-		Window.alert(result);
+		OwnXMLParser.parse(result);
 	}
 
 	public void processFiles(FileList files) {

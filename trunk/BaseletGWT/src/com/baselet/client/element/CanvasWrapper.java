@@ -1,4 +1,4 @@
-package com.baselet.client;
+package com.baselet.client.element;
 
 
 public abstract class CanvasWrapper {

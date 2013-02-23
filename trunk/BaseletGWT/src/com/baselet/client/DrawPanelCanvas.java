@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.baselet.client.MouseDragUtils.MouseDragHandler;
+import com.baselet.client.element.CanvasWrapperGWT;
+import com.baselet.client.element.GridElement;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
@@ -17,11 +19,11 @@ public class DrawPanelCanvas {
 	public static final CssColor BLUE = CssColor.make("rgba(" + 0 + ", " + 0 + "," + 255 + ", " + 0.3 + ")");
 	public static final CssColor GRAY = CssColor.make("rgba(" + 100 + ", " + 100 + "," + 100 + ", " + 0.2 + ")");
 
-	List<GridElement> gridElements = new ArrayList<GridElement>();
+	private List<GridElement> gridElements = new ArrayList<GridElement>();
 
-	Canvas elementCanvas;
+	private Canvas elementCanvas;
 
-	Canvas backgroundCanvas;
+	private Canvas backgroundCanvas;
 
 	public DrawPanelCanvas() {
 		gridElements.add(new GridElement(new Rectangle(10, 10, 30, 30), RED, new CanvasWrapperGWT()));

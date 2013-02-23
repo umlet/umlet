@@ -41,8 +41,8 @@ public class DrawPanel extends Composite {
 	@UiField
 	MenuItem openMenuItem;
 	
-	FileUploadExt hiddenUploadButton = new FileUploadExt();
-	FileOpenHandler handler = new FileOpenHandler();
+	private FileUploadExt hiddenUploadButton = new FileUploadExt();
+	private FileOpenHandler handler = new FileOpenHandler();
 
 	public DrawPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
