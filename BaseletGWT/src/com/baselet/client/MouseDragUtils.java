@@ -7,12 +7,8 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
 
 public class MouseDragUtils {
 
@@ -30,7 +26,6 @@ public class MouseDragUtils {
 		final DragCache storage = new DragCache();
 
 		drawPanelCanvas.getCanvas().addMouseDownHandler(new MouseDownHandler() {
-
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				storage.moveStartX = event.getX(); //getClientX also works on zoomed browser (getScreenX moves elements too slow)
@@ -61,9 +56,7 @@ public class MouseDragUtils {
 
 					int diffY = event.getY() - storage.moveStartY;
 					diffY -= (diffY % DrawPanelCanvas.GRID_SIZE);
-
-					//							System.out.println("REAL " + event.getX() + " MODIFIED " + diffX);
-
+					
 					if (diffX != 0 || diffY != 0) {
 						mouseDragHandler.onMouseDrag(diffX, diffY, storage.elementToDrag);
 						storage.moveStartX += diffX;
