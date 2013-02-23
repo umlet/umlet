@@ -46,7 +46,7 @@ public class MouseDragUtils {
 							int diffY = event.getY() - storage.moveStartY;
 							diffY -= (diffY % DrawPanelCanvas.GRID_SIZE);
 							
-							System.out.println("REAL " + event.getX() + " MODIFIED " + diffX);
+//							System.out.println("REAL " + event.getX() + " MODIFIED " + diffX);
 							
 							if (diffX != 0 || diffY != 0) {
 								mouseDragHandler.onMouseDrag(diffX, diffY, storage.elementToDrag);

@@ -4,14 +4,18 @@ import com.google.gwt.canvas.dom.client.CssColor;
 
 public class GridElement {
 
-	Rectangle canvasRectangle;
+	private Rectangle canvasRectangle;
 	
-	CssColor color;
+	private CssColor color;
 	
-	public GridElement(Rectangle canvasRectangle, CssColor color) {
+	private CanvasWrapper canvasUnderlying;
+	
+	public GridElement(Rectangle canvasRectangle, CssColor color, CanvasWrapper canvasUnderlying) {
 		super();
 		this.canvasRectangle = canvasRectangle;
 		this.color = color;
+		this.canvasUnderlying = canvasUnderlying;
+		this.canvasUnderlying.setGridElement(this);
 	}
 
 	public Rectangle getBounds() {
@@ -24,5 +28,18 @@ public class GridElement {
 	
 	public CssColor getColor() {
 		return color;
+	}
+	
+	public void move(int diffX, int diffY) {
+		canvasRectangle.move(diffX, diffY);
+		canvasUnderlying.setRedrawNecessary(true);
+	}
+
+	public void updateCanvas() {
+		canvasUnderlying.redrawIfNecessary();
+	}
+	
+	public CanvasWrapper getCanvasUnderlying() {
+		return canvasUnderlying;
 	}
 }
