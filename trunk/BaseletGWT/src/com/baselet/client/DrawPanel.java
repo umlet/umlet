@@ -51,6 +51,7 @@ public class DrawPanel extends Composite {
 
 		Canvas diagramCanvas = new DrawPanelCanvas().makeCanvas(1500, 1500);
 		diagramTabPanel.add(new ScrollPanel(diagramCanvas),"Tab-CANVAS"); 
+		diagramTabPanel.add(new OwnDropPanel().getDropPanel(),"DROP-CANVAS"); 
 		diagramTabPanel.add(new HTML("ONE")," Tab-1 ");
 		diagramTabPanel.add(new HTML("TWO")," Tab-2 ");
 		diagramTabPanel.add(new HTML("THREE")," Tab-3 "); 

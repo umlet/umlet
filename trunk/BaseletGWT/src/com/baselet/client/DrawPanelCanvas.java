@@ -32,7 +32,7 @@ public class DrawPanelCanvas {
 		gridElements.add(new GridElement(new Rectangle(150, 150, 30, 30), GREEN, new CanvasWrapperGWT()));
 
 	}
-
+	
 	Canvas makeCanvas(int width, int height) {
 		elementCanvas = initCanvas(width, height);
 		backgroundCanvas = initCanvas(width, height);
@@ -98,6 +98,12 @@ public class DrawPanelCanvas {
 			((CanvasWrapperGWT) ge.getCanvasUnderlying()).drawOn(context);
 		}
 		context.drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
+
+		// EXPORT TO IMAGE
+		//		String pngDataUrl = elementCanvas.toDataUrl("image/png");
+		//		Image image = new Image(pngDataUrl);
+		//		Window.open(image.getUrl(), "_blank", "");
+
 	}
 
 	public Canvas getCanvas() {
