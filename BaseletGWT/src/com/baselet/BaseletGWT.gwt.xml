@@ -19,6 +19,12 @@
 
 	<!-- Inherit the UiBinder module. -->
 	<inherits name="com.google.gwt.uibinder.UiBinder" />
+	
+	<!-- Inherit the XML parsing module -->
+	<inherits name="com.google.gwt.xml.XML" />
+	
+	<!-- Inherit the File API library lib-gwt-file -->
+	<inherits name="org.vectomatic.libgwtfile" />
 
 	<!-- Specify the app entry point class. -->
 	<entry-point class='com.baselet.client.BaseletGWT' />
