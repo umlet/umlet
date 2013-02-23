@@ -1,32 +1,34 @@
 package com.baselet.client;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 
 public class MouseDragUtils {
-	
+
 	private static class DragCache {
 		private boolean dragging;
-		private HandlerRegistration mouseMove;
 		private int moveStartX, moveStartY;
 		private GridElement elementToDrag;
 	}
-	
+
 	public interface MouseDragHandler {
 		void onMouseDrag(int diffX, int diffY, GridElement gridElement);
 	}
 
 	public static void addMouseDragHandler(final DrawPanelCanvas drawPanelCanvas, final MouseDragHandler mouseDragHandler) {
 		final DragCache storage = new DragCache();
-		
+
 		drawPanelCanvas.getCanvas().addMouseDownHandler(new MouseDownHandler() {
 
 			@Override
@@ -35,48 +37,44 @@ public class MouseDragUtils {
 				storage.moveStartY = event.getY();
 				storage.dragging = true;
 				storage.elementToDrag = drawPanelCanvas.getGridElementOnPosition(storage.moveStartX, storage.moveStartY);
-				// do other stuff related to starting of "dragging"
-				storage.mouseMove = drawPanelCanvas.getCanvas().addMouseMoveHandler(new MouseMoveHandler() {
-					@Override
-					public void onMouseMove(MouseMoveEvent event) {
-						if (storage.dragging) {
-							int diffX = event.getX() - storage.moveStartX;
-							diffX -= (diffX % DrawPanelCanvas.GRID_SIZE);
-
-							int diffY = event.getY() - storage.moveStartY;
-							diffY -= (diffY % DrawPanelCanvas.GRID_SIZE);
-							
-//							System.out.println("REAL " + event.getX() + " MODIFIED " + diffX);
-							
-							if (diffX != 0 || diffY != 0) {
-								mouseDragHandler.onMouseDrag(diffX, diffY, storage.elementToDrag);
-								storage.moveStartX += diffX;
-								storage.moveStartY += diffY;
-							}
-						}
-					}
-				});
 			}
 		});
 		drawPanelCanvas.getCanvas().addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
-				endDragging(storage);
+				storage.dragging = false;
 			}
 		});
 		drawPanelCanvas.getCanvas().addMouseOutHandler(new MouseOutHandler() {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				endDragging(storage);
+				storage.dragging = false;
+				Utils.showCursor(Style.Cursor.AUTO);
 			}
 		});
-	}
+		drawPanelCanvas.getCanvas().addMouseMoveHandler(new MouseMoveHandler() {
+			@Override
+			public void onMouseMove(MouseMoveEvent event) {
+				if (storage.dragging) {
+					int diffX = event.getX() - storage.moveStartX;
+					diffX -= (diffX % DrawPanelCanvas.GRID_SIZE);
 
-	private static void endDragging(final DragCache storage) {
-		if (storage.dragging){
-			storage.dragging = false;
-			storage.mouseMove.removeHandler();
-		}
+					int diffY = event.getY() - storage.moveStartY;
+					diffY -= (diffY % DrawPanelCanvas.GRID_SIZE);
+
+					//							System.out.println("REAL " + event.getX() + " MODIFIED " + diffX);
+
+					if (diffX != 0 || diffY != 0) {
+						mouseDragHandler.onMouseDrag(diffX, diffY, storage.elementToDrag);
+						storage.moveStartX += diffX;
+						storage.moveStartY += diffY;
+					}
+				}
+				GridElement geOnPosition = drawPanelCanvas.getGridElementOnPosition(event.getX(), event.getY());
+				if (geOnPosition != null) Utils.showCursor(Style.Cursor.POINTER);
+				else Utils.showCursor(Style.Cursor.AUTO);
+			}
+		});
 	}
 
 }
