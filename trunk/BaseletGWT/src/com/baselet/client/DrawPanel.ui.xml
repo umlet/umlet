@@ -13,7 +13,7 @@
 					<g:MenuItem text="File">
 						<g:MenuBar vertical="true">
 							<g:MenuItem text="New" />
-							<g:MenuItem text="Open..." />
+							<g:MenuItem ui:field="openMenuItem" text="Open..." />
 							<g:MenuItem text="Recent Files">
 								<g:MenuBar vertical="true" />
 							</g:MenuItem>

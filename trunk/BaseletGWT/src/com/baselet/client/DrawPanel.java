@@ -1,28 +1,20 @@
 package com.baselet.client;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.vectomatic.file.FileUploadExt;
 
-import com.baselet.client.MouseDragUtils.MouseDragHandler;
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.dom.client.MouseWheelEvent;
-import com.google.gwt.event.dom.client.MouseWheelHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -45,6 +37,12 @@ public class DrawPanel extends Composite {
 
 	@UiField
 	ScrollPanel palettePanel;
+	
+	@UiField
+	MenuItem openMenuItem;
+	
+	FileUploadExt hiddenUploadButton = new FileUploadExt();
+	FileOpenHandler handler = new FileOpenHandler();
 
 	public DrawPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -62,6 +60,24 @@ public class DrawPanel extends Composite {
 
 		Canvas paletteCanvas = new DrawPanelCanvas().makeCanvas(1500, 1500);
 		palettePanel.add(paletteCanvas);
+		
+		RootLayoutPanel.get().add(hiddenUploadButton);
+		hiddenUploadButton.addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				handler.processFiles(hiddenUploadButton.getFiles());
+			}
+		});
+		
+		openMenuItem.setScheduledCommand(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				hiddenUploadButton.click();
+				handler.processFiles(hiddenUploadButton.getFiles());
+			}
+		});
 	}
+	
+	
 
 }
