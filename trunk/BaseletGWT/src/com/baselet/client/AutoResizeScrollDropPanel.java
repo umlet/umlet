@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class AutoResizeScrollDropPanel extends ScrollPanel {
 	
-	private static final int SCROLLBAR_HEIGHT = 12;
+	private static final int SCROLLBAR_HEIGHT = 10;
 	
 	private OwnDropPanel dropPanel;
 
@@ -23,20 +23,20 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
 			public void onResize(ResizeEvent event) {
-				onWindowsResized();
+				updateCanvasMinimalSize();
 			}
 
 		});
 		
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
             public void execute() {
-            	onWindowsResized();
+            	updateCanvasMinimalSize();
            }
         }); 
 		
 	}
 	
-	private void onWindowsResized() {
+	public void updateCanvasMinimalSize() {
 		diagramHandler.setCanvasMinimalSize(getOffsetWidth() - SCROLLBAR_HEIGHT, getOffsetHeight() - SCROLLBAR_HEIGHT);
 	}
 }

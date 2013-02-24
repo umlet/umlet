@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,6 +29,14 @@ public class DrawPanel extends Composite {
 
 	interface DrawPanelUiBinder extends UiBinder<Widget, DrawPanel> {}
 
+	@UiField(provided=true)
+	SplitLayoutPanel mainSplit = new SplitLayoutPanel() {
+		public void onResize() {
+			diagramScrollPanel.updateCanvasMinimalSize();
+			paletteScrollPanel.updateCanvasMinimalSize();
+		};
+	};
+	
 	@UiField
 	TabLayoutPanel diagramTabPanel;
 
@@ -51,6 +60,12 @@ public class DrawPanel extends Composite {
 
 	@UiField
 	MenuItem exportUxfMenuItem;
+
+	private DrawPanelCanvas diagramHandler = new DrawPanelCanvas();
+	private AutoResizeScrollDropPanel diagramScrollPanel = new AutoResizeScrollDropPanel(diagramHandler);
+
+	private DrawPanelCanvas paletteHandler = new DrawPanelCanvas();
+	private AutoResizeScrollDropPanel paletteScrollPanel = new AutoResizeScrollDropPanel(paletteHandler);
 	
 	private FileUploadExt hiddenUploadButton = new FileUploadExt();
 	private FileOpenHandler handler;
@@ -58,10 +73,9 @@ public class DrawPanel extends Composite {
 	public DrawPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		final DrawPanelCanvas diagramHandler = new DrawPanelCanvas();
 		handler = new FileOpenHandler(diagramHandler);
 		
-		diagramTabPanel.add(new AutoResizeScrollDropPanel(diagramHandler),"Tayb-yCxANxVAS"); 
+		diagramTabPanel.add(diagramScrollPanel,"Tayb-yCxANxVAS"); 
 		diagramTabPanel.add(new HTML("ONE")," Tab-1 ");
 		diagramTabPanel.add(new HTML("TWO")," Tab-2 ");
 		diagramTabPanel.add(new HTML("THREE")," Tab-3 "); 
@@ -70,8 +84,7 @@ public class DrawPanel extends Composite {
 		paletteChooser.addItem("B");
 		paletteChooser.addItem("C");
 
-		DrawPanelCanvas paletteCanvas = new DrawPanelCanvas();
-		palettePanel.add(new AutoResizeScrollDropPanel(paletteCanvas));
+		palettePanel.add(paletteScrollPanel);
 		
 		RootLayoutPanel.get().add(hiddenUploadButton);
 		hiddenUploadButton.addChangeHandler(new ChangeHandler() {
