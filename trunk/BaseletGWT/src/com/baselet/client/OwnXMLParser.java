@@ -1,5 +1,10 @@
 package com.baselet.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.baselet.client.element.CanvasWrapperGWT;
+import com.baselet.client.element.GridElement;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.DOMException;
 import com.google.gwt.xml.client.Document;
@@ -9,7 +14,8 @@ import com.google.gwt.xml.client.XMLParser;
 
 public class OwnXMLParser {
 
-	public static void parse(String xml) {
+	public static List<GridElement> parse(String xml) {
+		List<GridElement> returnList = new ArrayList<GridElement>();
 		  try {
 			    // parse the XML document into a DOM
 			    Document messageDom = XMLParser.parse(xml);
@@ -19,17 +25,17 @@ public class OwnXMLParser {
 					Element element = (Element) elements.item(i);
 					String id = element.getElementsByTagName("id").item(0).getFirstChild().getNodeValue();
 					Element coordinates = (Element) element.getElementsByTagName("coordinates").item(0);
-					String x = coordinates.getElementsByTagName("x").item(0).getFirstChild().getNodeValue();
-					String y = coordinates.getElementsByTagName("y").item(0).getFirstChild().getNodeValue();
-					String w = coordinates.getElementsByTagName("w").item(0).getFirstChild().getNodeValue();
-					String h = coordinates.getElementsByTagName("h").item(0).getFirstChild().getNodeValue();
-					
-					System.out.println(id + " / " + x + " / " + y + " / " + w + " / " + h);
+					int x = Integer.valueOf(coordinates.getElementsByTagName("x").item(0).getFirstChild().getNodeValue());
+					int y = Integer.valueOf(coordinates.getElementsByTagName("y").item(0).getFirstChild().getNodeValue());
+					int w = Integer.valueOf(coordinates.getElementsByTagName("w").item(0).getFirstChild().getNodeValue());
+					int h = Integer.valueOf(coordinates.getElementsByTagName("h").item(0).getFirstChild().getNodeValue());
+					System.out.println("ID " + id);
+					returnList.add(new GridElement(new Rectangle(x, y, w, h), DrawPanelCanvas.BLUE, new CanvasWrapperGWT()));
 				}
 			  } catch (DOMException e) {
 			    Window.alert("Could not parse XML document.");
 			  }
-
+		  return returnList;
 	}
 	
 //	<?xml version="1.0" encoding="UTF-8" standalone="no"?>

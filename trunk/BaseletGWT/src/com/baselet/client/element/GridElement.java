@@ -9,14 +9,14 @@ public class GridElement {
 	
 	private CssColor color;
 	
-	private CanvasWrapper canvasUnderlying;
+	private CanvasWrapper canvasWrapper;
 	
-	public GridElement(Rectangle canvasRectangle, CssColor color, CanvasWrapper canvasUnderlying) {
+	public GridElement(Rectangle canvasRectangle, CssColor color, CanvasWrapper canvasWrapper) {
 		super();
 		this.canvasRectangle = canvasRectangle;
 		this.color = color;
-		this.canvasUnderlying = canvasUnderlying;
-		this.canvasUnderlying.setGridElement(this);
+		this.canvasWrapper = canvasWrapper;
+		this.canvasWrapper.setGridElement(this);
 	}
 
 	public Rectangle getBounds() {
@@ -33,14 +33,14 @@ public class GridElement {
 	
 	public void move(int diffX, int diffY) {
 		canvasRectangle.move(diffX, diffY);
-		canvasUnderlying.setRedrawNecessary(true);
+		canvasWrapper.setRedrawNecessary(true);
 	}
 
 	public void updateCanvas() {
-		canvasUnderlying.redrawIfNecessary();
+		canvasWrapper.redrawIfNecessary();
 	}
 	
 	public CanvasWrapper getCanvasUnderlying() {
-		return canvasUnderlying;
+		return canvasWrapper;
 	}
 }

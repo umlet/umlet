@@ -1,5 +1,6 @@
 package com.baselet.client;
 
+import org.vectomatic.dnd.DropPanel;
 import org.vectomatic.file.FileUploadExt;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -9,7 +10,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
@@ -48,8 +48,7 @@ public class DrawPanel extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 
 		Canvas diagramCanvas = new DrawPanelCanvas().makeCanvas(1500, 1500);
-		diagramTabPanel.add(new ScrollPanel(diagramCanvas),"Tab-CANVAS"); 
-		diagramTabPanel.add(new OwnDropPanel().getDropPanel(),"DROP-CANVAS"); 
+		diagramTabPanel.add(new ScrollDropPanel(diagramCanvas),"Tayb-yCxANxVAS"); 
 		diagramTabPanel.add(new HTML("ONE")," Tab-1 ");
 		diagramTabPanel.add(new HTML("TWO")," Tab-2 ");
 		diagramTabPanel.add(new HTML("THREE")," Tab-3 "); 
