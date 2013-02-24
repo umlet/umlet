@@ -24,7 +24,11 @@
 							<g:MenuItem text="Save" />
 							<g:MenuItem text="Save as..." />
 							<g:MenuItem text="Export as...">
-								<g:MenuBar vertical="true" />
+								<g:MenuBar vertical="true" >
+									<g:MenuItem ui:field="exportJpgMenuItem" text="JPG"/>
+									<g:MenuItem ui:field="exportPngMenuItem" text="PNG"/>
+									<g:MenuItem ui:field="exportUxfMenuItem" text="UXF"/>
+								</g:MenuBar>
 							</g:MenuItem>
 							<g:MenuItem text="Mail to..." />
 							<g:MenuItem text="Print" />
