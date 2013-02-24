@@ -10,8 +10,10 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
@@ -40,6 +42,15 @@ public class DrawPanel extends Composite {
 	
 	@UiField
 	MenuItem openMenuItem;
+
+	@UiField
+	MenuItem exportJpgMenuItem;
+	
+	@UiField
+	MenuItem exportPngMenuItem;
+
+	@UiField
+	MenuItem exportUxfMenuItem;
 	
 	private FileUploadExt hiddenUploadButton = new FileUploadExt();
 	private FileOpenHandler handler;
@@ -47,10 +58,10 @@ public class DrawPanel extends Composite {
 	public DrawPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		DrawPanelCanvas diagramCanvas = new DrawPanelCanvas();
-		handler = new FileOpenHandler(diagramCanvas);
+		final DrawPanelCanvas diagramHandler = new DrawPanelCanvas();
+		handler = new FileOpenHandler(diagramHandler);
 		
-		diagramTabPanel.add(new ScrollPanel(new OwnDropPanel(diagramCanvas)),"Tayb-yCxANxVAS"); 
+		diagramTabPanel.add(new ScrollPanel(new OwnDropPanel(diagramHandler)),"Tayb-yCxANxVAS"); 
 		diagramTabPanel.add(new HTML("ONE")," Tab-1 ");
 		diagramTabPanel.add(new HTML("TWO")," Tab-2 ");
 		diagramTabPanel.add(new HTML("THREE")," Tab-3 "); 
@@ -69,12 +80,28 @@ public class DrawPanel extends Composite {
 				handler.processFiles(hiddenUploadButton.getFiles());
 			}
 		});
-		
+
 		openMenuItem.setScheduledCommand(new ScheduledCommand() {
 			@Override
 			public void execute() {
 				hiddenUploadButton.click();
 				handler.processFiles(hiddenUploadButton.getFiles());
+			}
+		});
+
+		exportPngMenuItem.setScheduledCommand(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				String exportUrl = diagramHandler.getCanvas().toDataUrl("image/png");
+				Window.open(exportUrl, "_blank", "");
+			}
+		});
+
+		exportJpgMenuItem.setScheduledCommand(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				String exportUrl = diagramHandler.getCanvas().toDataUrl("image/jpeg");
+				Window.open(exportUrl, "_blank", "");
 			}
 		});
 	}

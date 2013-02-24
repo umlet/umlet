@@ -19,6 +19,8 @@ public class DrawPanelCanvas {
 	public static final CssColor BLUE = CssColor.make("rgba(" + 0 + ", " + 0 + "," + 255 + ", " + 0.3 + ")");
 	public static final CssColor GRAY = CssColor.make("rgba(" + 100 + ", " + 100 + "," + 100 + ", " + 0.2 + ")");
 
+	public static final CssColor WHITE = CssColor.make(255, 255, 255);
+	
 	private List<GridElement> gridElements = new ArrayList<GridElement>();
 
 	private Canvas elementCanvas;
@@ -94,17 +96,13 @@ public class DrawPanelCanvas {
 
 	private void draw() {
 		Context2d context = elementCanvas.getContext2d();
-		context.clearRect(-1000000, -1000000, 2000000, 2000000);
+		context.setFillStyle(WHITE);
+		context.fillRect(-1000000, -1000000, 2000000, 2000000);
 		for (GridElement ge : gridElements) {
 			ge.updateCanvas();
 			((CanvasWrapperGWT) ge.getCanvasUnderlying()).drawOn(context);
 		}
 		context.drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
-
-		// EXPORT TO IMAGE
-		//		String pngDataUrl = elementCanvas.toDataUrl("image/png");
-		//		Image image = new Image(pngDataUrl);
-		//		Window.open(image.getUrl(), "_blank", "");
 
 	}
 

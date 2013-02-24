@@ -26,6 +26,8 @@
 	<!-- Inherit the File API library lib-gwt-file -->
 	<inherits name="org.vectomatic.libgwtfile" />
 
+	<inherits name="com.google.gwt.resources.Resources" /> 
+
 	<!-- Specify the app entry point class. -->
 	<entry-point class='com.baselet.client.BaseletGWT' />
 
