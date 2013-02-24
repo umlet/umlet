@@ -1,19 +1,20 @@
 package com.baselet.client;
 
-import org.vectomatic.dnd.DropPanel;
+import java.util.List;
+
 import org.vectomatic.file.FileUploadExt;
 
-import com.google.gwt.canvas.client.Canvas;
+import com.baselet.client.element.GridElement;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.storage.client.Storage;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
@@ -51,6 +52,15 @@ public class DrawPanel extends Composite {
 	
 	@UiField
 	MenuItem openMenuItem;
+	
+	@UiField
+	MenuItem saveMenuItem;
+	
+	@UiField
+	MenuItem restoreMenuItem;
+	
+	@UiField
+	MenuItem saveAsMenuItem;
 
 	@UiField
 	MenuItem exportJpgMenuItem;
@@ -69,6 +79,8 @@ public class DrawPanel extends Composite {
 	
 	private FileUploadExt hiddenUploadButton = new FileUploadExt();
 	private FileOpenHandler handler;
+	
+	private Storage stockStore = Storage.getLocalStorageIfSupported();
 
 	public DrawPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -102,6 +114,30 @@ public class DrawPanel extends Composite {
 			}
 		});
 
+		saveMenuItem.setScheduledCommand(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				if (stockStore == null) throw new RuntimeException("The Browser doesn't support saving files");
+				stockStore.setItem("A", diagramHandler.toXml());
+			}
+		});
+
+		restoreMenuItem.setScheduledCommand(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				if (stockStore == null) throw new RuntimeException("The Browser doesn't support saving files");
+				List<GridElement> storedGridElements = OwnXMLParser.parse(stockStore.getItem("A"));
+				diagramHandler.setGridElements(storedGridElements);
+			}
+		});
+
+		saveAsMenuItem.setScheduledCommand(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				JavaScriptUtils.downloadStringAsFile("output.uxf", "testtext");
+			}
+		});
+
 		exportPngMenuItem.setScheduledCommand(new ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -119,6 +155,8 @@ public class DrawPanel extends Composite {
 		});
 	}
 	
-	
+	public static native void setWindowHref(String url)/*-{
+    $wnd.location.href = url;
+	}-*/;
 
 }

@@ -43,4 +43,8 @@ public class GridElement {
 	public CanvasWrapper getCanvasUnderlying() {
 		return canvasWrapper;
 	}
+
+	public String getId() {
+		return "UMLClass";
+	}
 }

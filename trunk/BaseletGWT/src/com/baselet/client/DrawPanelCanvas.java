@@ -28,12 +28,12 @@ public class DrawPanelCanvas {
 	private Canvas backgroundCanvas;
 
 	public DrawPanelCanvas() {
-		gridElements.add(new GridElement(new Rectangle(10, 10, 30, 30), RED, new CanvasWrapperGWT()));
-		gridElements.add(new GridElement(new Rectangle(50, 10, 30, 30), GREEN, new CanvasWrapperGWT()));
-		gridElements.add(new GridElement(new Rectangle(50, 50, 30, 30), RED, new CanvasWrapperGWT()));
-		gridElements.add(new GridElement(new Rectangle(110, 110, 30, 30), GREEN, new CanvasWrapperGWT()));
-		gridElements.add(new GridElement(new Rectangle(150, 110, 30, 30), RED, new CanvasWrapperGWT()));
-		gridElements.add(new GridElement(new Rectangle(150, 150, 30, 30), GREEN, new CanvasWrapperGWT()));
+		gridElements.add(new GridElement(new Rectangle(10, 10, 30, 30), BLUE, new CanvasWrapperGWT()));
+		gridElements.add(new GridElement(new Rectangle(50, 10, 30, 30), BLUE, new CanvasWrapperGWT()));
+		gridElements.add(new GridElement(new Rectangle(50, 50, 30, 30), BLUE, new CanvasWrapperGWT()));
+		gridElements.add(new GridElement(new Rectangle(110, 110, 30, 30), BLUE, new CanvasWrapperGWT()));
+		gridElements.add(new GridElement(new Rectangle(150, 110, 30, 30), BLUE, new CanvasWrapperGWT()));
+		gridElements.add(new GridElement(new Rectangle(150, 150, 30, 30), BLUE, new CanvasWrapperGWT()));
 
 		init();
 	}
@@ -126,6 +126,14 @@ public class DrawPanelCanvas {
 		canvas.setWidth(width + "px");
 		canvas.setCoordinateSpaceHeight(height);
 		canvas.setHeight(height + "px");
+	}
+
+	public String toXml() {
+		return OwnXMLParser.createXml(this);
+	}
+
+	public List<GridElement> getGridElements() {
+		return gridElements;
 	}
 
 }
