@@ -16,12 +16,12 @@ import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-public class ScrollDropPanel extends DropPanel {
+public class OwnDropPanel extends DropPanel {
 
 	private FileOpenHandler handler;
 	
-	public ScrollDropPanel(DrawPanelCanvas diagramCanvas) {
-		this.add(new ScrollPanel(diagramCanvas.getCanvas()));
+	public OwnDropPanel(DrawPanelCanvas diagramCanvas) {
+		this.add(diagramCanvas.getCanvas());
 		 handler = new FileOpenHandler(diagramCanvas);
 		
 		this.addDragOverHandler(new DragOverHandler() {

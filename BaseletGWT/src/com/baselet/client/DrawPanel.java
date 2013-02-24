@@ -50,7 +50,7 @@ public class DrawPanel extends Composite {
 		DrawPanelCanvas diagramCanvas = new DrawPanelCanvas();
 		handler = new FileOpenHandler(diagramCanvas);
 		
-		diagramTabPanel.add(new ScrollDropPanel(diagramCanvas),"Tayb-yCxANxVAS"); 
+		diagramTabPanel.add(new ScrollPanel(new OwnDropPanel(diagramCanvas)),"Tayb-yCxANxVAS"); 
 		diagramTabPanel.add(new HTML("ONE")," Tab-1 ");
 		diagramTabPanel.add(new HTML("TWO")," Tab-2 ");
 		diagramTabPanel.add(new HTML("THREE")," Tab-3 "); 
