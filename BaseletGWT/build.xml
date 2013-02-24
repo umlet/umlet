@@ -27,9 +27,9 @@
 			<arg value="${build.dir}" />
 			<arg value="${gwt.module.name}" />
 		</java>
-		<copy file="war/BaseletGWT.css" tofile="${build.dir}/BaseletGWT.css"/>
-		<copy file="war/BaseletGWT.html" tofile="${build.dir}/BaseletGWT.html"/>
 		<delete dir="${build.dir}/WEB-INF" />
+		<copy file="war/Baselet.css" tofile="${build.dir}/BaseletGWT.css"/>
+		<copy file="war/BaseletGWT.html" tofile="${build.dir}/BaseletGWT.html"/>
 	</target>
 
 	<target name="gwt-compile">
@@ -44,8 +44,8 @@
 			<arg value="${build.dir}" />
 			<arg value="${gwt.module.name}" />
 		</java>
-		<copy file="war/BaseletGWT.css" tofile="${build.dir}/BaseletGWT.css"/>
-		<copy file="war/BaseletGWT.html" tofile="${build.dir}/BaseletGWT.html"/>
 		<delete dir="${build.dir}/WEB-INF" />
+		<copy file="war/Baselet.css" tofile="${build.dir}/BaseletGWT.css"/>
+		<copy file="war/BaseletGWT.html" tofile="${build.dir}/BaseletGWT.html"/>
 	</target>
 </project>
