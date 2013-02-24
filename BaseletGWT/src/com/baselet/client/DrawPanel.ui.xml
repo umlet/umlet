@@ -21,8 +21,9 @@
 							<g:MenuItem text="Generate Class Elements from Files or Directory..." />
 							<g:MenuItem text="Generate Class Element Options..." />
 							<g:MenuItemSeparator />
-							<g:MenuItem text="Save" />
-							<g:MenuItem text="Save as..." />
+							<g:MenuItem ui:field="saveMenuItem" text="Save" />
+							<g:MenuItem ui:field="restoreMenuItem" text="Restore" />
+							<g:MenuItem ui:field="saveAsMenuItem" text="Save as..." />
 							<g:MenuItem text="Export as...">
 								<g:MenuBar vertical="true" >
 									<g:MenuItem ui:field="exportJpgMenuItem" text="JPG"/>
