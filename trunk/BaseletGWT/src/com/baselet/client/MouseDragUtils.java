@@ -65,7 +65,9 @@ public class MouseDragUtils {
 					}
 				}
 				GridElement geOnPosition = drawPanelCanvas.getGridElementOnPosition(event.getX(), event.getY());
-				if (geOnPosition != null) Utils.showCursor(Style.Cursor.POINTER);
+				if (storage.dragging || geOnPosition != null) { // if mouse is over an element or if it's dragging, show the hand cursor
+					Utils.showCursor(Style.Cursor.POINTER);
+				}
 				else Utils.showCursor(Style.Cursor.AUTO);
 			}
 		});

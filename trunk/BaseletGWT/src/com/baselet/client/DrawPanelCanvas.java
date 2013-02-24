@@ -20,7 +20,7 @@ public class DrawPanelCanvas {
 	public static final CssColor GRAY = CssColor.make("rgba(" + 100 + ", " + 100 + "," + 100 + ", " + 0.2 + ")");
 
 	public static final CssColor WHITE = CssColor.make(255, 255, 255);
-	
+
 	private List<GridElement> gridElements = new ArrayList<GridElement>();
 
 	private Canvas elementCanvas;
@@ -35,12 +35,12 @@ public class DrawPanelCanvas {
 		gridElements.add(new GridElement(new Rectangle(150, 110, 30, 30), RED, new CanvasWrapperGWT()));
 		gridElements.add(new GridElement(new Rectangle(150, 150, 30, 30), GREEN, new CanvasWrapperGWT()));
 
-		init(1500, 1500);
+		init();
 	}
 
-	private void init(int width, int height) {
-		elementCanvas = initCanvas(width, height);
-		backgroundCanvas = initCanvas(width, height);
+	private void init() {
+		elementCanvas = Canvas.createIfSupported();
+		backgroundCanvas = Canvas.createIfSupported();
 
 		MouseDragUtils.addMouseDragHandler(this, new MouseDragHandler() {
 			@Override
@@ -56,24 +56,14 @@ public class DrawPanelCanvas {
 			}
 		});
 
-		//		canvas.addMouseWheelHandler(new MouseWheelHandler() {
-		//			@Override
-		//			public void onMouseWheel(MouseWheelEvent event) {
-		//				float zoom;
-		//				if(event.getDeltaY() < 0) { // scrolling up = negative values, scrolling down = positive values
-		//					zoom = 1.1f;
-		//				} else {
-		//					zoom = 0.9f;
-		//				}
-		//				context.scale(zoom,zoom);
-		//			}
-		//		});
-
-		drawBackgroundGrid(width, height);
+		setCanvasSize(backgroundCanvas, 5000, 5000);
+		drawBackgroundGrid();
 		draw();
 	}
 
-	private void drawBackgroundGrid(int width, int height) {
+	private void drawBackgroundGrid() {
+		int width = backgroundCanvas.getCoordinateSpaceWidth();
+		int height = backgroundCanvas.getCoordinateSpaceHeight();
 		Context2d backgroundContext = backgroundCanvas.getContext2d();
 		backgroundContext.setStrokeStyle(GRAY);
 		for (int i = 0; i < width; i += GRID_SIZE) {
@@ -84,17 +74,8 @@ public class DrawPanelCanvas {
 		}
 	}
 
-	private Canvas initCanvas(int width, int height) {
-		Canvas canvas = Canvas.createIfSupported();
-		canvas.setStyleName("canvas");
-		//		canvas.setWidth(width + "px");
-		canvas.setCoordinateSpaceWidth(width);
-		//		canvas.setHeight(height + "px");
-		canvas.setCoordinateSpaceHeight(height);
-		return canvas;
-	}
-
 	private void draw() {
+		recalculateCanvasSize();
 		Context2d context = elementCanvas.getContext2d();
 		context.setFillStyle(WHITE);
 		context.fillRect(-1000000, -1000000, 2000000, 2000000);
@@ -122,9 +103,29 @@ public class DrawPanelCanvas {
 		draw();
 	}
 
-	public void setCanvasMinimalSize(int width, int height) {
-		elementCanvas.setCoordinateSpaceWidth(width);
-		elementCanvas.setCoordinateSpaceHeight(height);
+	private int minWidth, minHeight;
+	
+	public void setMinSize(int minWidth, int minHeight) {
+		this.minWidth = minWidth;
+		this.minHeight = minHeight;
 		draw();
 	}
+	
+	private void recalculateCanvasSize() {
+		int width = minWidth;
+		int height = minHeight;
+		for (GridElement ge : gridElements) {
+			width = Math.max(ge.getBounds().getX2(), width);
+			height = Math.max(ge.getBounds().getY2(), height);
+		}
+		setCanvasSize(elementCanvas, width, height);
+	}
+	
+	private void setCanvasSize(Canvas canvas, int width, int height) {
+		canvas.setCoordinateSpaceWidth(width);
+		canvas.setWidth(width + "px");
+		canvas.setCoordinateSpaceHeight(height);
+		canvas.setHeight(height + "px");
+	}
+
 }
