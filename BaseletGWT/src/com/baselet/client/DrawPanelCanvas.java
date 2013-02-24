@@ -122,7 +122,7 @@ public class DrawPanelCanvas {
 		draw();
 	}
 
-	public void setCanvasSize(int width, int height) {
+	public void setCanvasMinimalSize(int width, int height) {
 		elementCanvas.setCoordinateSpaceWidth(width);
 		elementCanvas.setCoordinateSpaceHeight(height);
 		draw();
