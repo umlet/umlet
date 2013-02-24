@@ -42,12 +42,14 @@ public class DrawPanel extends Composite {
 	MenuItem openMenuItem;
 	
 	private FileUploadExt hiddenUploadButton = new FileUploadExt();
-	private FileOpenHandler handler = new FileOpenHandler();
+	private FileOpenHandler handler;
 
 	public DrawPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		Canvas diagramCanvas = new DrawPanelCanvas().makeCanvas(1500, 1500);
+		DrawPanelCanvas diagramCanvas = new DrawPanelCanvas();
+		handler = new FileOpenHandler(diagramCanvas);
+		
 		diagramTabPanel.add(new ScrollDropPanel(diagramCanvas),"Tayb-yCxANxVAS"); 
 		diagramTabPanel.add(new HTML("ONE")," Tab-1 ");
 		diagramTabPanel.add(new HTML("TWO")," Tab-2 ");
@@ -57,8 +59,8 @@ public class DrawPanel extends Composite {
 		paletteChooser.addItem("B");
 		paletteChooser.addItem("C");
 
-		Canvas paletteCanvas = new DrawPanelCanvas().makeCanvas(1500, 1500);
-		palettePanel.add(paletteCanvas);
+		DrawPanelCanvas paletteCanvas = new DrawPanelCanvas();
+		palettePanel.add(paletteCanvas.getCanvas());
 		
 		RootLayoutPanel.get().add(hiddenUploadButton);
 		hiddenUploadButton.addChangeHandler(new ChangeHandler() {

@@ -2,6 +2,7 @@ package com.baselet.client;
 
 import org.vectomatic.dnd.DataTransferExt;
 import org.vectomatic.dnd.DropPanel;
+import org.vectomatic.file.FileList;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.DomEvent;
@@ -17,11 +18,11 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class ScrollDropPanel extends DropPanel {
 
-	private FileOpenHandler handler = new FileOpenHandler();
+	private FileOpenHandler handler;
 	
-	public ScrollDropPanel(Canvas diagramCanvas) {
-		this.add(new ScrollPanel(diagramCanvas));
-		
+	public ScrollDropPanel(DrawPanelCanvas diagramCanvas) {
+		this.add(new ScrollPanel(diagramCanvas.getCanvas()));
+		 handler = new FileOpenHandler(diagramCanvas);
 		
 		this.addDragOverHandler(new DragOverHandler() {
 			@Override
@@ -44,7 +45,8 @@ public class ScrollDropPanel extends DropPanel {
 		this.addDropHandler(new DropHandler() {
 			@Override
 			public void onDrop(DropEvent event) {
-				handler.processFiles(event.getDataTransfer().<DataTransferExt>cast().getFiles());
+				FileList files = event.getDataTransfer().<DataTransferExt>cast().getFiles();
+				handler.processFiles(files);
 				avoidDefaultHandling(event);
 			}
 		});

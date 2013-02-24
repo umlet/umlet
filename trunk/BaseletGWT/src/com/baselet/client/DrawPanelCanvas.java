@@ -33,9 +33,10 @@ public class DrawPanelCanvas {
 		gridElements.add(new GridElement(new Rectangle(150, 110, 30, 30), RED, new CanvasWrapperGWT()));
 		gridElements.add(new GridElement(new Rectangle(150, 150, 30, 30), GREEN, new CanvasWrapperGWT()));
 
+		init(1500, 1500);
 	}
-	
-	Canvas makeCanvas(int width, int height) {
+
+	private void init(int width, int height) {
 		elementCanvas = initCanvas(width, height);
 		backgroundCanvas = initCanvas(width, height);
 
@@ -68,7 +69,6 @@ public class DrawPanelCanvas {
 
 		drawBackgroundGrid(width, height);
 		draw();
-		return elementCanvas;
 	}
 
 	private void drawBackgroundGrid(int width, int height) {
@@ -117,5 +117,10 @@ public class DrawPanelCanvas {
 			if (ge.contains(x, y)) return ge;
 		}
 		return null;
+	}
+
+	public void setGridElements(List<GridElement> gridElements) {
+		this.gridElements = gridElements;
+		draw();
 	}
 }

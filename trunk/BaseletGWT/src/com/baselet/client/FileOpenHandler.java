@@ -11,6 +11,7 @@ import org.vectomatic.file.FileReader;
 import org.vectomatic.file.events.LoadEndEvent;
 import org.vectomatic.file.events.LoadEndHandler;
 
+import com.baselet.client.element.GridElement;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
@@ -19,7 +20,7 @@ public class FileOpenHandler {
 	protected FileReader reader;
 	protected List<File> readQueue = new ArrayList<File>();
 	
-	public FileOpenHandler() {
+	public FileOpenHandler(final DrawPanelCanvas diagramHandler) {
 		reader = new FileReader();
 		reader.addLoadEndHandler(new LoadEndHandler() {
 			@Override
@@ -27,7 +28,9 @@ public class FileOpenHandler {
 				if (reader.getError() == null) {
 					if (readQueue.size() > 0) {
 						try {
-							createText(readQueue.get(0));
+							String result = reader.getStringResult();
+							List<GridElement> gridElements = OwnXMLParser.parse(result);
+							diagramHandler.setGridElements(gridElements);
 						} finally {
 							readQueue.remove(0);
 							readNext();
@@ -36,11 +39,6 @@ public class FileOpenHandler {
 				}
 			}
 		});
-	}
-
-	private void createText(final File file) {
-		String result = reader.getStringResult();
-		OwnXMLParser.parse(result);
 	}
 
 	public void processFiles(FileList files) {
