@@ -61,7 +61,7 @@ public class DrawPanel extends Composite {
 		final DrawPanelCanvas diagramHandler = new DrawPanelCanvas();
 		handler = new FileOpenHandler(diagramHandler);
 		
-		diagramTabPanel.add(new ScrollPanel(new OwnDropPanel(diagramHandler)),"Tayb-yCxANxVAS"); 
+		diagramTabPanel.add(new AutoResizeScrollDropPanel(diagramHandler),"Tayb-yCxANxVAS"); 
 		diagramTabPanel.add(new HTML("ONE")," Tab-1 ");
 		diagramTabPanel.add(new HTML("TWO")," Tab-2 ");
 		diagramTabPanel.add(new HTML("THREE")," Tab-3 "); 
@@ -71,7 +71,7 @@ public class DrawPanel extends Composite {
 		paletteChooser.addItem("C");
 
 		DrawPanelCanvas paletteCanvas = new DrawPanelCanvas();
-		palettePanel.add(paletteCanvas.getCanvas());
+		palettePanel.add(new AutoResizeScrollDropPanel(paletteCanvas));
 		
 		RootLayoutPanel.get().add(hiddenUploadButton);
 		hiddenUploadButton.addChangeHandler(new ChangeHandler() {
