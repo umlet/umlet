@@ -121,4 +121,10 @@ public class DrawPanelCanvas {
 		this.gridElements = gridElements;
 		draw();
 	}
+
+	public void setCanvasSize(int width, int height) {
+		elementCanvas.setCoordinateSpaceWidth(width);
+		elementCanvas.setCoordinateSpaceHeight(height);
+		draw();
+	}
 }
