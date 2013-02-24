@@ -9,7 +9,8 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class AutoResizeScrollDropPanel extends ScrollPanel {
 	
-	private static final int SCROLLBAR_HEIGHT = 10;
+	private static final int SCROLLBAR_HEIGHT = 28;
+//	private static final int SCROLLBAR_HEIGHT = 10; // if using this height, a horizontal scrollbar gets added if width is larger than default
 	
 	private OwnDropPanel dropPanel;
 
@@ -37,6 +38,6 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 	}
 	
 	public void updateCanvasMinimalSize() {
-		diagramHandler.setCanvasMinimalSize(getOffsetWidth() - SCROLLBAR_HEIGHT, getOffsetHeight() - SCROLLBAR_HEIGHT);
+		diagramHandler.setMinSize(getOffsetWidth() - SCROLLBAR_HEIGHT, getOffsetHeight() - SCROLLBAR_HEIGHT);
 	}
 }
