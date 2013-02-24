@@ -3,6 +3,7 @@ package com.baselet.client;
 import org.vectomatic.dnd.DataTransferExt;
 import org.vectomatic.dnd.DropPanel;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.DragEnterEvent;
 import com.google.gwt.event.dom.client.DragEnterHandler;
@@ -12,37 +13,35 @@ import com.google.gwt.event.dom.client.DragOverEvent;
 import com.google.gwt.event.dom.client.DragOverHandler;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
+import com.google.gwt.user.client.ui.ScrollPanel;
 
-public class OwnDropPanel {
+public class ScrollDropPanel extends DropPanel {
 
-	private DropPanel dropPanel = new DropPanel();
-	
 	private FileOpenHandler handler = new FileOpenHandler();
 	
-	public DropPanel getDropPanel() {
-		return dropPanel;
-	}
-
-	public OwnDropPanel() {
-		dropPanel.addDragOverHandler(new DragOverHandler() {
+	public ScrollDropPanel(Canvas diagramCanvas) {
+		this.add(new ScrollPanel(diagramCanvas));
+		
+		
+		this.addDragOverHandler(new DragOverHandler() {
 			@Override
 			public void onDragOver(DragOverEvent event) {
 				avoidDefaultHandling(event);
 			}
 		});
-		dropPanel.addDragEnterHandler(new DragEnterHandler() {
+		this.addDragEnterHandler(new DragEnterHandler() {
 			@Override
 			public void onDragEnter(DragEnterEvent event) {
 				avoidDefaultHandling(event);
 			}
 		});
-		dropPanel.addDragLeaveHandler(new DragLeaveHandler() {
+		this.addDragLeaveHandler(new DragLeaveHandler() {
 			@Override
 			public void onDragLeave(DragLeaveEvent event) {
 				avoidDefaultHandling(event);
 			}
 		});
-		dropPanel.addDropHandler(new DropHandler() {
+		this.addDropHandler(new DropHandler() {
 			@Override
 			public void onDrop(DropEvent event) {
 				handler.processFiles(event.getDataTransfer().<DataTransferExt>cast().getFiles());
