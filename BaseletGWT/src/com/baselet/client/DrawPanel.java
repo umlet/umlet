@@ -19,6 +19,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
@@ -48,7 +49,7 @@ public class DrawPanel extends Composite {
 	TextArea propertiesPanel;
 
 	@UiField
-	ScrollPanel palettePanel;
+	SimpleLayoutPanel palettePanel;
 	
 	@UiField
 	MenuItem openMenuItem;
