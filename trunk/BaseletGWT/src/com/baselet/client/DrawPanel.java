@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
@@ -61,16 +60,7 @@ public class DrawPanel extends Composite {
 	MenuItem restoreMenuItem;
 	
 	@UiField
-	MenuItem saveAsMenuItem;
-
-	@UiField
-	MenuItem exportJpgMenuItem;
-	
-	@UiField
-	MenuItem exportPngMenuItem;
-
-	@UiField
-	MenuItem exportUxfMenuItem;
+	MenuItem exportMenuItem;
 
 	private DrawPanelCanvas diagramHandler = new DrawPanelCanvas();
 	private AutoResizeScrollDropPanel diagramScrollPanel = new AutoResizeScrollDropPanel(diagramHandler);
@@ -132,32 +122,14 @@ public class DrawPanel extends Composite {
 			}
 		});
 
-		saveAsMenuItem.setScheduledCommand(new ScheduledCommand() {
+		exportMenuItem.setScheduledCommand(new ScheduledCommand() {
 			@Override
 			public void execute() {
-				JavaScriptUtils.downloadStringAsFile("output.uxf", "testtext");
-			}
-		});
-
-		exportPngMenuItem.setScheduledCommand(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				String exportUrl = diagramHandler.getCanvas().toDataUrl("image/png");
-				Window.open(exportUrl, "_blank", "");
-			}
-		});
-
-		exportJpgMenuItem.setScheduledCommand(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				String exportUrl = diagramHandler.getCanvas().toDataUrl("image/jpeg");
-				Window.open(exportUrl, "_blank", "");
+				String uxfUrl = "data:text/xml;charset=utf-8," + diagramHandler.toXml();
+				String pngUrl = diagramHandler.getCanvas().toDataUrl("image/png");
+				new DownloadPopupPanel(uxfUrl, pngUrl);
 			}
 		});
 	}
-	
-	public static native void setWindowHref(String url)/*-{
-    $wnd.location.href = url;
-	}-*/;
 
 }
