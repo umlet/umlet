@@ -23,14 +23,7 @@
 							<g:MenuItemSeparator />
 							<g:MenuItem ui:field="saveMenuItem" text="Save" />
 							<g:MenuItem ui:field="restoreMenuItem" text="Restore" />
-							<g:MenuItem ui:field="saveAsMenuItem" text="Save as..." />
-							<g:MenuItem text="Export as...">
-								<g:MenuBar vertical="true" >
-									<g:MenuItem ui:field="exportJpgMenuItem" text="JPG"/>
-									<g:MenuItem ui:field="exportPngMenuItem" text="PNG"/>
-									<g:MenuItem ui:field="exportUxfMenuItem" text="UXF"/>
-								</g:MenuBar>
-							</g:MenuItem>
+							<g:MenuItem ui:field="exportMenuItem" text="Export" />
 							<g:MenuItem text="Mail to..." />
 							<g:MenuItem text="Print" />
 							<g:MenuItemSeparator />

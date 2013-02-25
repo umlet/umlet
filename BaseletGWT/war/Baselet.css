@@ -1,4 +1,12 @@
-
 .gwt-MenuItem {
-	color: blue!important;
+	color: blue !important;
+}
+
+.popup {
+	background-color: white;
+	font-size: 130%;
+	font-weight: bold;
+	border: 2px solid black;
+	padding: 5px;
+	text-align: center;
 }
