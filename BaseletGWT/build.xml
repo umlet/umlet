@@ -45,7 +45,7 @@
 			<arg value="${gwt.module.name}" />
 		</java>
 		<delete dir="${build.dir}/WEB-INF" />
-		<copy file="war/Baselet.css" tofile="${build.dir}/BaseletGWT.css"/>
+		<copy file="war/Baselet.css" tofile="${build.dir}/Baselet.css"/>
 		<copy file="war/BaseletGWT.html" tofile="${build.dir}/BaseletGWT.html"/>
 	</target>
 </project>
