@@ -43,6 +43,14 @@
         in order for this application to display correctly.
       </div>
     </noscript>
+    <div id="oldbrowser" style="visibility:hidden; 22em; position: absolute; left: 40%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        Sorry, but your browser is not supported. Please use Internet Explorer 10, Chrome or Firefox.
+      </div>
+    <script type="text/javascript">
+    if (typeof FileReader == "undefined") {
+    	document.getElementById('oldbrowser').style.visibility = 'visible'; 
+    }
+    </script>
     <div class="root"> </div>
   </body>
 </html>
