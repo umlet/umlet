@@ -16,9 +16,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.RepaintManager;
@@ -153,9 +151,10 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	}
 
 	public void paintEntitiesIntoGraphics2D(Graphics2D g2d, Collection<GridElement> entities) {
-		JComponent tempPanel = new JPanel();
+		JLayeredPane tempPanel = new JLayeredPane();
 		for (GridElement entity : entities) {
-			tempPanel.add(entity.CloneFromMe().getComponent());
+			GridElement clone = entity.CloneFromMe();
+			tempPanel.add(clone.getComponent(), clone.getLayer());
 		}
 		tempPanel.validate();
 		tempPanel.setBackground(Color.WHITE);
