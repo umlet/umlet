@@ -162,11 +162,11 @@ public class DiagramFileHandler {
 					elCoor.appendChild(elY);
 
 					Element elW = doc.createElement("w");
-					elW.appendChild(doc.createTextNode("" + e.getDimension().width));
+					elW.appendChild(doc.createTextNode("" + e.getZoomedSize().width));
 					elCoor.appendChild(elW);
 
 					Element elH = doc.createElement("h");
-					elH.appendChild(doc.createTextNode("" + e.getDimension().height));
+					elH.appendChild(doc.createTextNode("" + e.getZoomedSize().height));
 					elCoor.appendChild(elH);
 
 					Element elPA = doc.createElement("panel_attributes");

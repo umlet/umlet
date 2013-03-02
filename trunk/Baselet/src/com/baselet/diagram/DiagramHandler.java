@@ -299,8 +299,8 @@ public class DiagramHandler {
 
 			int newX = (entity.getLocation().x * toFactor) / fromFactor;
 			int newY = (entity.getLocation().y * toFactor) / fromFactor;
-			int newW = (entity.getDimension().width * toFactor) / fromFactor;
-			int newH = (entity.getDimension().height * toFactor) / fromFactor;
+			int newW = (entity.getZoomedSize().width * toFactor) / fromFactor;
+			int newH = (entity.getZoomedSize().height * toFactor) / fromFactor;
 			entity.setLocation(realignTo(newX, toFactor), realignTo(newY, toFactor));
 			// Normally there should be no realign here but relations and custom elements sometimes must be realigned therefore we don't log it as an error
 			entity.setSize(realignTo(newW, toFactor), realignTo(newH, toFactor));

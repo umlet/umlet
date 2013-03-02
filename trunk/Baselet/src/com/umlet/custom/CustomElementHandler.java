@@ -203,10 +203,10 @@ public class CustomElementHandler {
 			// set location for element
 			int x = 10, y = 10;
 			for (GridElement e : current.getDrawPanel().getAllEntities()) {
-				if (e.getLocation().y + e.getDimension().height + 10 > y) y = e.getLocation().y + e.getDimension().height + 10;
+				if (e.getLocation().y + e.getZoomedSize().height + 10 > y) y = e.getLocation().y + e.getZoomedSize().height + 10;
 			}
 
-			Rectangle bounds = new Rectangle(x, y, element.getDimension().width, element.getDimension().height);
+			Rectangle bounds = new Rectangle(x, y, element.getZoomedSize().width, element.getZoomedSize().height);
 			this.addElementToDiagram(element, current, true, bounds, element.getPanelAttributes());
 		}
 		else { // replace edited element (and ONLY edited element)

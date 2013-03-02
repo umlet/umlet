@@ -78,7 +78,7 @@ public interface GridElement {
 
 	void changeSize(int diffx, int diffy);
 
-	Dimension getDimension();
+	Dimension getZoomedSize();
 
 	/**
 	 * @return size of the element as if the zoomlevel would be 100% (eg: if zoom is 80% and width is 80 it would be returned as 100)

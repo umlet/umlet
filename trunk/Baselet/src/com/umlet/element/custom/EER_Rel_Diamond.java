@@ -34,10 +34,10 @@ public class EER_Rel_Diamond extends OldGridElement {
 
 		// Define the elements outline using a polygon, rectangle, oval, etc.
 		Polygon poly = new Polygon();
-		poly.addPoint(this.getDimension().width / 2, 0);
-		poly.addPoint(this.getDimension().width - 1, this.getDimension().height / 2);
-		poly.addPoint(this.getDimension().width / 2, this.getDimension().height - 1);
-		poly.addPoint(0, this.getDimension().height / 2);
+		poly.addPoint(this.getZoomedSize().width / 2, 0);
+		poly.addPoint(this.getZoomedSize().width - 1, this.getZoomedSize().height / 2);
+		poly.addPoint(this.getZoomedSize().width / 2, this.getZoomedSize().height - 1);
+		poly.addPoint(0, this.getZoomedSize().height / 2);
 
 		g2.setComposite(composites[1]); // set aplha composite for drawing the background color
 		g2.setColor(bgColor);
@@ -53,11 +53,11 @@ public class EER_Rel_Diamond extends OldGridElement {
 		// text printing and to react to special strings (like the "--" string
 		// in the UML class elements which draw a line).
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		int yPos = this.getDimension().height / 2 - (((int) this.getHandler().getFontHandler().getDistanceBetweenTexts() + (int) this.getHandler().getFontHandler().getFontSize()) * tmp.size()) / 2;
+		int yPos = this.getZoomedSize().height / 2 - (((int) this.getHandler().getFontHandler().getDistanceBetweenTexts() + (int) this.getHandler().getFontHandler().getFontSize()) * tmp.size()) / 2;
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 			yPos += (int) this.getHandler().getFontHandler().getFontSize();
-			this.getHandler().getFontHandler().writeText(g2, s, this.getDimension().width / 2, yPos, AlignHorizontal.CENTER);
+			this.getHandler().getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
 			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		}
 		
