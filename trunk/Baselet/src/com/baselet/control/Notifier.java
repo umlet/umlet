@@ -1,11 +1,13 @@
 package com.baselet.control;
 
+import java.awt.Rectangle;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.SwingUtilities;
 
 import com.baselet.diagram.DrawPanel;
+import com.baselet.element.Converter;
 
 public class Notifier {
 
@@ -41,7 +43,8 @@ public class Notifier {
 				if (notificationRemoveTask != null) notificationRemoveTask.cancel();
 		}
 
-		notification = new DiagramNotification(notifierPanel.getScrollPane().getViewport().getViewRect(), message);
+		Rectangle viewRect = notifierPanel.getScrollPane().getViewport().getViewRect();
+		notification = new DiagramNotification(Converter.convert(viewRect), message);
 		notificationRemoveTask = new TimerTask() {
 			@Override
 			public void run() {

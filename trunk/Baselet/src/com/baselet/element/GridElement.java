@@ -1,7 +1,7 @@
 package com.baselet.element;
 
 import java.awt.Point;
-import java.awt.Rectangle;
+import com.baselet.element.Rectangle;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.List;
@@ -18,13 +18,13 @@ public interface GridElement {
 
 	String getPanelAttributes();
 
-	Rectangle getVisibleRect();
+	Rectangle getVisibleRectangle();
 
 	boolean isSelected();
 
 	void setPanelAttributes(String panelAttributes);
 
-	void setBounds(Rectangle bounds);
+	void setRectangle(Rectangle bounds);
 
 	void setHandlerAndInitListeners(DiagramHandler handler);
 
@@ -72,7 +72,7 @@ public interface GridElement {
 
 	Point getLocation();
 
-	Rectangle getBounds();
+	Rectangle getRectangle();
 
 	void repaint();
 

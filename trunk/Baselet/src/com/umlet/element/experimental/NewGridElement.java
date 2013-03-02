@@ -2,7 +2,6 @@ package com.umlet.element.experimental;
 
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
@@ -19,9 +18,11 @@ import com.baselet.control.Utils;
 import com.baselet.control.interfaces.ColorInterface;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.element.Converter;
 import com.baselet.element.Dimension;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.baselet.element.Rectangle;
 import com.baselet.element.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.settings.Settings;
@@ -77,7 +78,7 @@ public abstract class NewGridElement implements GridElement {
 	};
 
 	public void init(Rectangle bounds, String panelAttributes, String panelAttributesAdditional, DiagramHandler handler) {
-		setBounds(bounds);
+		setRectangle(bounds);
 		drawer = new BaseDrawHandler();
 		metaDrawer = new BaseDrawHandler();
 		properties = new Properties(panelAttributes, panelAttributesAdditional, drawer);
@@ -129,7 +130,7 @@ public abstract class NewGridElement implements GridElement {
 		try {
 			java.lang.Class<? extends GridElement> cx = this.getClass(); // get class of dynamic object
 			NewGridElement c = (NewGridElement) cx.newInstance();
-			c.init(getBounds(), properties.getPanelAttributes(), properties.getPanelAttributesAdditional(), handler);
+			c.init(getRectangle(), properties.getPanelAttributes(), properties.getPanelAttributesAdditional(), handler);
 			return c;
 		} catch (Exception e) {
 			log.error("Error at calling CloneFromMe() on entity", e);
@@ -294,13 +295,13 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public Rectangle getVisibleRect() {
-		return component.getVisibleRect();
+	public Rectangle getVisibleRectangle() {
+		return Converter.convert(component.getVisibleRect());
 	}
 
 	@Override
-	public void setBounds(Rectangle bounds) {
-		component.setBounds(bounds);
+	public void setRectangle(Rectangle bounds) {
+		component.setBounds(Converter.convert(bounds));
 	}
 
 	@Override
@@ -349,8 +350,8 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public Rectangle getBounds() {
-		return component.getBounds();
+	public Rectangle getRectangle() {
+		return Converter.convert(component.getBounds());
 	}
 
 	@Override

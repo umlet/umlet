@@ -1,12 +1,10 @@
 package com.umlet.element;
 
 import java.awt.Color;
-import com.baselet.element.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.Rectangle;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
@@ -17,8 +15,11 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
+import com.baselet.element.Converter;
+import com.baselet.element.Dimension;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
+import com.baselet.element.Rectangle;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.relation.Arrow;
 import com.umlet.element.relation.EmptyShape;
@@ -430,7 +431,7 @@ public class Relation extends OldGridElement {
 			endx += vectorX;
 			endy += vectorY;
 			rMovable.setLocation(endx + centerDiffX, endy + centerDiffY);
-			if (!rFixed.intersects(rMovable)) break;
+			if (!rFixed.intersects(Converter.convert(rMovable))) break;
 		}
 
 		int newx = 0;
@@ -439,7 +440,7 @@ public class Relation extends OldGridElement {
 			newx = (endx + startx) / 2;
 			newy = (endy + starty) / 2;
 			rMovable.setLocation(newx + centerDiffX, newy + centerDiffY);
-			if (rFixed.intersects(rMovable)) {
+			if (rFixed.intersects(Converter.convert(rMovable))) {
 				startx = newx;
 				starty = newy;
 			}
@@ -478,7 +479,7 @@ public class Relation extends OldGridElement {
 				Point p = points.elementAt(0);
 				r.setLocation(p.x - hotspotx, p.y - hotspoty);
 			}
-			Area a = new Area(r);
+			Area a = new Area(Converter.convert(r));
 			tmpArea.add(a);
 
 			// rFixed=(Rectangle)shapes.elementAt(i);
@@ -620,7 +621,7 @@ public class Relation extends OldGridElement {
 			}
 
 			// ATTENTION: this Recangle will become the rFixed in the next loop
-			rMovable.setLocation(res);
+			rMovable.setLocation(res.x, res.y);
 		}
 
 		return true;
@@ -755,7 +756,7 @@ public class Relation extends OldGridElement {
 		c.setAdditionalAttributes(this.getAdditionalAttributes());
 
 		c.setVisible(true);
-		c.setBounds(this.getBounds());
+		c.setRectangle(this.getRectangle());
 		c.setHandlerAndInitListeners(this.getHandler());
 
 		return c;

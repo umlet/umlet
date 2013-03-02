@@ -1,6 +1,6 @@
 package com.umlet.custom;
 
-import java.awt.Rectangle;
+import com.baselet.element.Rectangle;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -133,7 +133,7 @@ public class CustomElementHandler {
 			Iterator<GridElement> iter = this.preview.getDrawPanel().getAllEntities().iterator();
 			if (iter.hasNext()) {
 				GridElement element = iter.next();
-				e.setBounds(element.getBounds());
+				e.setRectangle(element.getRectangle());
 				e.setPanelAttributes(element.getPanelAttributes());
 				if (this.preview.getDrawPanel().getSelector().getSelectedEntities().size() > 0) this.preview.getDrawPanel().getSelector().singleSelectWithoutUpdatePropertyPanel(e);
 				this.preview.getDrawPanel().removeElement(element);
@@ -212,7 +212,7 @@ public class CustomElementHandler {
 		else { // replace edited element (and ONLY edited element)
 			this.originalElement.getHandler().getDrawPanel().removeElement(this.originalElement);
 			this.addElementToDiagram(element, this.originalElement.getHandler(), true,
-					this.originalElement.getBounds(), this.originalElement.getPanelAttributes());
+					this.originalElement.getRectangle(), this.originalElement.getPanelAttributes());
 		}
 	}
 
@@ -227,7 +227,7 @@ public class CustomElementHandler {
 		GridElement e2 = e.CloneFromMe();
 		e2.setHandlerAndInitListeners(d);
 		e2.setPanelAttributes(state);
-		e2.setBounds(bounds);
+		e2.setRectangle(bounds);
 		d.getDrawPanel().addElement(e2);
 		if (setchanged) d.setChanged(true);
 

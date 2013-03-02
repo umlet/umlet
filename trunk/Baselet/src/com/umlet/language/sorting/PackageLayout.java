@@ -2,7 +2,7 @@ package com.umlet.language.sorting;
 
 import com.baselet.element.Dimension;
 import java.awt.Point;
-import java.awt.Rectangle;
+import com.baselet.element.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +41,7 @@ public class PackageLayout extends Layout {
 		Rectangle x = new Rectangle();
 		for (SortableElement pack: packList.keySet()) {
 			pack.getElement().setLocation(10, 10 + x.y + x.height);
-			x = pack.getElement().getBounds();
+			x = pack.getElement().getRectangle();
 		}
 		
 		for (SortableElement pack: packList.keySet()) {	

@@ -1,6 +1,6 @@
 package com.baselet.diagram.io;
 
-import java.awt.Rectangle;
+import com.baselet.element.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 

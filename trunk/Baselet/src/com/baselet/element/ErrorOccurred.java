@@ -42,7 +42,7 @@ public class ErrorOccurred extends OldGridElement {
 			Constructor<ErrorOccurred> c = ErrorOccurred.class.getConstructor(new Class[]{String.class});
 			GridElement ge = c.newInstance(new Object[]{errorMessage});
 			ge.setPanelAttributes(this.getPanelAttributes()); // copy states
-			ge.setBounds(this.getBounds());
+			ge.setRectangle(this.getRectangle());
 			ge.setHandlerAndInitListeners(this.getHandler());
 			return ge;
 		} catch (Exception e) {

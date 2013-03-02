@@ -313,7 +313,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 			java.lang.Class<? extends GridElement> cx = this.getClass(); // get class of dynamic object
 			GridElement c = cx.newInstance();
 			c.setPanelAttributes(this.getPanelAttributes()); // copy states
-			c.setBounds(this.getBounds());
+			c.setRectangle(this.getRectangle());
 			c.setHandlerAndInitListeners(this.getHandler());
 			return c;
 		} catch (Exception e) {
@@ -417,5 +417,22 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	@Override
 	public Dimension getDimension() {
 		return new Dimension(getWidth(), getHeight());
+	}
+	
+	@Override
+	public Rectangle getRectangle() {
+		java.awt.Rectangle rect = getBounds();
+		return new Rectangle(rect.x, rect.y, rect.width, rect.height);
+	}
+	
+	@Override
+	public void setRectangle(Rectangle rect) {
+		setBounds(rect.x, rect.y, rect.width, rect.height);
+	}
+	
+	@Override
+	public Rectangle getVisibleRectangle() {
+		java.awt.Rectangle rect = getVisibleRect();
+		return new Rectangle(rect.x, rect.y, rect.width, rect.height);
 	}
 }

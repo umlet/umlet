@@ -1,7 +1,7 @@
 package com.umlet.element.relation;
 
 import java.awt.Point;
-import java.awt.Rectangle;
+import com.baselet.element.Rectangle;
 
 @SuppressWarnings("serial")
 public class Arrow extends Rectangle {

@@ -1,7 +1,6 @@
 package com.baselet.diagram.draw;
 
 import java.awt.Color;
-import com.baselet.element.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
@@ -21,6 +20,7 @@ import com.baselet.control.DimensionFloat;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler.FormatLabels;
+import com.baselet.element.Dimension;
 
 public class BaseDrawHandler {
 	protected DiagramHandler handler;

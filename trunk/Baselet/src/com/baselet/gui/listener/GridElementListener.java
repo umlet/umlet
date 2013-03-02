@@ -1,7 +1,6 @@
 package com.baselet.gui.listener;
 
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Vector;
@@ -25,6 +24,7 @@ import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.Resize;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
+import com.baselet.element.Rectangle;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
@@ -69,7 +69,7 @@ public class GridElementListener extends UniversalListener {
 		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
 
 		// Lasso selection is only activated if mouse is moved more than lasso_tolerance to avoid accidential activation instead of selecting the entity
-		if (LASSO_ACTIVE && (lassoToleranceRectangle != null) && !lassoToleranceRectangle.contains(new Point(getOffset(me).x, getOffset(me).y))) {
+		if (LASSO_ACTIVE && (lassoToleranceRectangle != null) && !lassoToleranceRectangle.contains(getOffset(me).x, getOffset(me).y)) {
 			dragLasso(me, e);
 			return;
 		}

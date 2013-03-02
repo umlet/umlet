@@ -5,10 +5,11 @@ import java.awt.Composite;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.font.FontRenderContext;
 
 import javax.swing.JComponent;
+
+import com.baselet.element.Rectangle;
 
 
 public class DiagramNotification extends JComponent {
@@ -55,8 +56,8 @@ public class DiagramNotification extends JComponent {
 
 	private void adaptDimensions() {
 		DimensionFloat textSize = Utils.getTextSize(message, notificationFont, frc);
-		int x = (int) (drawPanelSize.getMaxX() - textSize.getWidth() - 20);
-		int y = (int) (drawPanelSize.getMinY() + 10);
+		int x = (int) (drawPanelSize.getX2() - textSize.getWidth() - 20);
+		int y = (int) (drawPanelSize.getY() + 10);
 		this.setLocation(x, y);
 		this.setSize((int) textSize.getWidth() + 10, (int) textSize.getHeight() + 10);
 	}

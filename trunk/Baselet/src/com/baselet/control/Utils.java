@@ -4,7 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.font.FontRenderContext;
@@ -22,6 +21,7 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants.LineType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
+import com.baselet.element.Rectangle;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.DoubleStroke;
 
@@ -258,8 +258,8 @@ public abstract class Utils {
 	 * IMPORTANT: on overlapping elements, contains is called for all elements until the first one returns true, then the others contain methods are not called
 	 */
 	public static boolean contains(GridElement gridElement, Point p) {
-		Rectangle rectangle = gridElement.getVisibleRect();
-		if (!rectangle.contains(p)) return false;
+		Rectangle rectangle = gridElement.getVisibleRectangle();
+		if (!rectangle.contains(p.x, p.y)) return false;
 
 		for (GridElement other : gridElement.getHandler().getDrawPanel().getAllEntitiesNotInGroup()) {
 			if (other instanceof Relation) { // a relation is always on top
@@ -269,12 +269,12 @@ public abstract class Utils {
 			}
 
 			// If the this visibleRect is equal to the other VisibleRect, true will be returned. Otherwise we need to check further
-			else if (!gridElement.getVisibleRect().equals(other.getVisibleRect())) {
-				Rectangle other_rectangle = other.getVisibleRect();
+			else if (!gridElement.getVisibleRectangle().equals(other.getVisibleRectangle())) {
+				Rectangle other_rectangle = other.getVisibleRectangle();
 				// move bounds to coordinate system of this component
 				other_rectangle.x += other.getLocation().x - gridElement.getLocation().x;
 				other_rectangle.y += other.getLocation().y - gridElement.getLocation().y;
-				if (other_rectangle.contains(p)) { 
+				if (other_rectangle.contains(p.x, p.y)) { 
 					// when elements intersect, select the smaller element
 					if (rectangle.intersects(other_rectangle) && smaller(other_rectangle, rectangle)) return false; 
 				}

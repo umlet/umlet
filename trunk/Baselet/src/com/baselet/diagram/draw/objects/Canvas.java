@@ -2,7 +2,7 @@ package com.baselet.diagram.draw.objects;
 
 import java.awt.Color;
 import com.baselet.element.Dimension;
-import java.awt.Rectangle;
+import com.baselet.element.Rectangle;
 
 import com.baselet.control.Constants;
 import com.baselet.diagram.draw.BaseDrawHandler;
