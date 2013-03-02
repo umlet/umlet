@@ -43,13 +43,13 @@ public class Database extends OldGridElement {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
 				CENTER = false;
-				g2.drawLine(0, yPos, this.getDimension().width, yPos);
+				g2.drawLine(0, yPos, this.getZoomedSize().width, yPos);
 				yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
 				if (CENTER) {
-					this.getHandler().getFontHandler().writeText(g2, s, this.getDimension().width / 2, yPos, AlignHorizontal.CENTER);
+					this.getHandler().getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
 					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
@@ -60,10 +60,10 @@ public class Database extends OldGridElement {
 
 		// Finally, change other graphical attributes using
 		// drawLine, getWidth, getHeight..
-		g2.drawLine(0, this.getDimension().height - 1 - inset / 2, 0, inset / 2);
-		g2.drawOval(0, 0, this.getDimension().width, inset);
-		g2.drawArc(0, this.getDimension().height - 1 - inset, this.getDimension().width, (int) this.getHandler().getFontHandler().getFontSize(), 180, 180);
-		g2.drawLine(this.getDimension().width - 1, inset / 2, this.getDimension().width - 1, this.getDimension().height - 1 - inset / 2);
+		g2.drawLine(0, this.getZoomedSize().height - 1 - inset / 2, 0, inset / 2);
+		g2.drawOval(0, 0, this.getZoomedSize().width, inset);
+		g2.drawArc(0, this.getZoomedSize().height - 1 - inset, this.getZoomedSize().width, (int) this.getHandler().getFontHandler().getFontSize(), 180, 180);
+		g2.drawLine(this.getZoomedSize().width - 1, inset / 2, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1 - inset / 2);
 	}
 
 	// Change this method if you want to set the resize-attributes of

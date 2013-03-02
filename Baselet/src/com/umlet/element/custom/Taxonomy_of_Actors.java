@@ -31,11 +31,11 @@ public class Taxonomy_of_Actors extends OldGridElement {
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillRect(0, 0, this.getDimension().width - 1, this.getDimension().height - 1);
+		g2.fillRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
 		g2.setComposite(composites[0]);
 		if (isSelected) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
-		g2.drawRect(0, 0, this.getDimension().width - 1, this.getDimension().height - 1);
+		g2.drawRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 

@@ -16,7 +16,7 @@ public class HeightLayout extends Layout {
 
 		@Override
 		public int compare(SortableElement e1, SortableElement e2) {
-			return e2.getElement().getDimension().height - e1.getElement().getDimension().height;
+			return e2.getElement().getZoomedSize().height - e1.getElement().getZoomedSize().height;
 		}
 	}
 }

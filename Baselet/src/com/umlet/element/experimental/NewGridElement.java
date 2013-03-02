@@ -233,7 +233,7 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public boolean isInRange(Point upperLeft, Dimension size) {
 		Rectangle rect1 = new Rectangle((int) upperLeft.getX(), (int) upperLeft.getY(), size.getWidth(), size.getHeight());
-		Rectangle rect2 = new Rectangle(getLocation().x, getLocation().y, getDimension().width, getDimension().height);
+		Rectangle rect2 = new Rectangle(getLocation().x, getLocation().y, getZoomedSize().width, getZoomedSize().height);
 		return (rect1.contains(rect2));
 	}
 
@@ -241,10 +241,10 @@ public abstract class NewGridElement implements GridElement {
 	public int getResizeArea(int x, int y) {
 		int ret = 0;
 		if ((x <= 5) && (x >= 0)) ret = Constants.RESIZE_LEFT;
-		else if ((x <= this.getDimension().width) && (x >= this.getDimension().width - 5)) ret = Constants.RESIZE_RIGHT;
+		else if ((x <= this.getZoomedSize().width) && (x >= this.getZoomedSize().width - 5)) ret = Constants.RESIZE_RIGHT;
 
 		if ((y <= 5) && (y >= 0)) ret = ret | Constants.RESIZE_TOP;
-		else if ((y <= this.getDimension().height) && (y >= this.getDimension().height - 5)) ret = ret | Constants.RESIZE_BOTTOM;
+		else if ((y <= this.getZoomedSize().height) && (y >= this.getZoomedSize().height - 5)) ret = ret | Constants.RESIZE_BOTTOM;
 		return ret;
 	}
 
@@ -291,7 +291,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void changeSize(int diffx, int diffy) {
-		this.setSize(this.getDimension().width + diffx, this.getDimension().height + diffy);
+		this.setSize(this.getZoomedSize().width + diffx, this.getZoomedSize().height + diffy);
 	}
 
 	@Override
@@ -336,7 +336,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void setSize(int width, int height) {
-		if (width != getDimension().width || height != getDimension().height) { // only change size if it is really different
+		if (width != getZoomedSize().width || height != getZoomedSize().height) { // only change size if it is really different
 			component.setSize(width, height);
 			if (!this.autoresizePossiblyInProgress) {
 				updateModelFromText();
@@ -360,7 +360,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public Dimension getDimension() {
+	public Dimension getZoomedSize() {
 		return new Dimension(component.getWidth(), component.getHeight());
 	}
 
@@ -369,7 +369,7 @@ public abstract class NewGridElement implements GridElement {
 	 */
 	@Override
 	public Dimension getRealSize() {
-		return new Dimension((int) (getDimension().width / handler.getZoomFactor()), (int) (getDimension().height / handler.getZoomFactor()));
+		return new Dimension((int) (getZoomedSize().width / handler.getZoomFactor()), (int) (getZoomedSize().height / handler.getZoomFactor()));
 	}
 
 	@Override

@@ -43,11 +43,11 @@ public class SynchBarVertical extends OldGridElement {
 			TextLayout l = new TextLayout(s, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 			Rectangle2D r2d = l.getBounds();
 			int width = (int) r2d.getWidth();
-			if ((this.getDimension().width / 2 - width / 2) < 0) {
+			if ((this.getZoomedSize().width / 2 - width / 2) < 0) {
 				ADAPT_SIZE = true;
 				break;
 			}
-			this.getHandler().getFontHandler().writeText(g2, s, this.getDimension().width / 2, yPos, AlignHorizontal.CENTER);
+			this.getHandler().getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
 			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		}
 
@@ -56,12 +56,12 @@ public class SynchBarVertical extends OldGridElement {
 			(new Resize(this, 0, 0, this.getHandler().getGridSize(), 0)).execute(this.getHandler());
 			return;
 		}
-		if (yPos > this.getDimension().height) {
+		if (yPos > this.getZoomedSize().height) {
 			(new Resize(this, 0, 0, 0, (int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts()))).execute(this.getHandler());
 			return;
 		}
 
-		g2.fillRect(this.getDimension().width / 2 - (int) (3 * zoom), textHeight + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), (int) (5 * zoom), this.getDimension().height - textHeight - (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() * 2);
+		g2.fillRect(this.getZoomedSize().width / 2 - (int) (3 * zoom), textHeight + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), (int) (5 * zoom), this.getZoomedSize().height - textHeight - (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() * 2);
 	}
 
 	/*

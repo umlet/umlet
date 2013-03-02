@@ -42,9 +42,9 @@ public class Align extends Command {
 		GridElement entity = dominantEntity;
 
 		int left = entity.getLocation().x;
-		int right = left + entity.getDimension().width;
+		int right = left + entity.getZoomedSize().width;
 		int top = entity.getLocation().y;
-		int bottom = top + entity.getDimension().height;
+		int bottom = top + entity.getZoomedSize().height;
 
 		DrawPanel p = handler.getDrawPanel();
 		for (GridElement e : this.entities) {
@@ -56,13 +56,13 @@ public class Align extends Command {
 					x = left;
 					break;
 				case RIGHT:
-					x = right - e.getDimension().width;
+					x = right - e.getZoomedSize().width;
 					break;
 				case TOP:
 					y = top;
 					break;
 				case BOTTOM:
-					y = bottom - e.getDimension().height;
+					y = bottom - e.getZoomedSize().height;
 					break;
 			}
 

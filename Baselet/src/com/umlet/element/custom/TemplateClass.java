@@ -39,13 +39,13 @@ public class TemplateClass extends OldGridElement {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
 				CENTER = false;
-				g2.drawLine(0, yPos, this.getDimension().width, yPos);
+				g2.drawLine(0, yPos, this.getZoomedSize().width, yPos);
 				yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
 				if (CENTER) {
-					this.getHandler().getFontHandler().writeText(g2, s, this.getDimension().width / 2, yPos, AlignHorizontal.CENTER);
+					this.getHandler().getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
 					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);

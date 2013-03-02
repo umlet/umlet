@@ -20,21 +20,21 @@ public class ActiveClass extends OldGridElement {
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = 0;
-		yPos = this.getDimension().height / 2 - tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
+		yPos = this.getZoomedSize().height / 2 - tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 			yPos += (int) this.getHandler().getFontHandler().getFontSize();
-			this.getHandler().getFontHandler().writeText(g2, s, this.getDimension().width / 2, yPos, AlignHorizontal.CENTER);
+			this.getHandler().getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
 			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		}
 
-		g2.drawLine(0, 0, this.getDimension().width, 0);
-		g2.drawLine(this.getDimension().width - 1, 0, this.getDimension().width - 1, this.getDimension().height - 1);
-		g2.drawLine(this.getDimension().width - 1, this.getDimension().height - 1, 0, this.getDimension().height - 1);
-		g2.drawLine(0, this.getDimension().height - 1, 0, 0);
+		g2.drawLine(0, 0, this.getZoomedSize().width, 0);
+		g2.drawLine(this.getZoomedSize().width - 1, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+		g2.drawLine(this.getZoomedSize().width - 1, this.getZoomedSize().height - 1, 0, this.getZoomedSize().height - 1);
+		g2.drawLine(0, this.getZoomedSize().height - 1, 0, 0);
 
-		g2.drawLine((int) this.getHandler().getFontHandler().getFontSize() / 2, 0, (int) this.getHandler().getFontHandler().getFontSize() / 2, this.getDimension().height - 1);
-		g2.drawLine(this.getDimension().width - (int) this.getHandler().getFontHandler().getFontSize() / 2, 0, this.getDimension().width - (int) this.getHandler().getFontHandler().getFontSize() / 2, this.getDimension().height - 1);
+		g2.drawLine((int) this.getHandler().getFontHandler().getFontSize() / 2, 0, (int) this.getHandler().getFontHandler().getFontSize() / 2, this.getZoomedSize().height - 1);
+		g2.drawLine(this.getZoomedSize().width - (int) this.getHandler().getFontHandler().getFontSize() / 2, 0, this.getZoomedSize().width - (int) this.getHandler().getFontHandler().getFontSize() / 2, this.getZoomedSize().height - 1);
 	}
 }

@@ -21,10 +21,10 @@ public class Decision extends OldGridElement {
 		
 
 		Polygon poly = new Polygon();
-		poly.addPoint(this.getDimension().width / 2, 0);
-		poly.addPoint(this.getDimension().width, this.getDimension().height / 2);
-		poly.addPoint(this.getDimension().width / 2, this.getDimension().height);
-		poly.addPoint(0, this.getDimension().height / 2);
+		poly.addPoint(this.getZoomedSize().width / 2, 0);
+		poly.addPoint(this.getZoomedSize().width, this.getZoomedSize().height / 2);
+		poly.addPoint(this.getZoomedSize().width / 2, this.getZoomedSize().height);
+		poly.addPoint(0, this.getZoomedSize().height / 2);
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);

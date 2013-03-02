@@ -22,8 +22,8 @@ public class FinalState extends OldGridElement {
 		g2.setColor(fgColor);
 		
 
-		g2.drawOval(0, 0, this.getDimension().width - 1, this.getDimension().height - 1);
-		g2.fillOval((int) (4 * zoom), (int) (4 * zoom), this.getDimension().width - (int) (8 * zoom), this.getDimension().height - (int) (8 * zoom));
+		g2.drawOval(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+		g2.fillOval((int) (4 * zoom), (int) (4 * zoom), this.getZoomedSize().width - (int) (8 * zoom), this.getZoomedSize().height - (int) (8 * zoom));
 	}
 
 	@Override

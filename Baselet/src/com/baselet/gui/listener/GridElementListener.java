@@ -273,7 +273,7 @@ public class GridElementListener extends UniversalListener {
 			moveCommands.add(new Move(e, diffx, diffy));
 			if (e instanceof Relation) continue;
 			StickingPolygon stick = null;
-			if (e.isStickingBorderActive()) stick = e.generateStickingBorder(e.getLocation().x, e.getLocation().y, e.getDimension().width, e.getDimension().height);
+			if (e.isStickingBorderActive()) stick = e.generateStickingBorder(e.getLocation().x, e.getLocation().y, e.getZoomedSize().width, e.getZoomedSize().height);
 			if (stick != null) {
 				Vector<RelationLinePoint> affectedRelationPoints = stick.getStickingRelationLinePoints(this.diagram.getHandler());
 				for (int j = 0; j < affectedRelationPoints.size(); j++) {
@@ -320,7 +320,7 @@ public class GridElementListener extends UniversalListener {
 		// If Shift is pressed and the resize direction is any diagonal direction, both axis are resized proportional
 		if (me.isShiftDown() && (resizeDirection == Constants.RESIZE_TOP_LEFT || resizeDirection == Constants.RESIZE_TOP_RIGHT ||
 				resizeDirection == Constants.RESIZE_BOTTOM_LEFT || resizeDirection == Constants.RESIZE_BOTTOM_RIGHT)) {
-			if (e.getDimension().width > e.getDimension().height) {
+			if (e.getZoomedSize().width > e.getZoomedSize().height) {
 				float proportion = (float) newp.x / mousePressedPoint.x;
 				newp.setLocation(newp.x, mousePressedPoint.y*proportion);
 			}
@@ -331,10 +331,10 @@ public class GridElementListener extends UniversalListener {
 		}
 
 		if ((RESIZE_DIRECTION & Constants.RESIZE_RIGHT) > 0) {
-			delta_x = (e.getLocation().x + e.getDimension().width) % gridSize;
+			delta_x = (e.getLocation().x + e.getZoomedSize().width) % gridSize;
 		}
 		if ((RESIZE_DIRECTION & Constants.RESIZE_BOTTOM) > 0) {
-			delta_y = (e.getLocation().y + e.getDimension().height) % gridSize;
+			delta_y = (e.getLocation().y + e.getZoomedSize().height) % gridSize;
 		}
 
 		int diffx = newp.x - oldp.x - delta_x;
@@ -353,8 +353,8 @@ public class GridElementListener extends UniversalListener {
 			diffx = newp.x - e.getLocation().x + gridSize;
 
 			// AB: only shrink to minimum size
-			if (e.getDimension().width - diffx < minSize) {
-				diffx = e.getDimension().width - minSize;
+			if (e.getZoomedSize().width - diffx < minSize) {
+				diffx = e.getZoomedSize().width - minSize;
 			}
 
 			if (RESIZE_DIRECTION == Constants.RESIZE_LEFT) {
@@ -364,11 +364,11 @@ public class GridElementListener extends UniversalListener {
 
 		if ((RESIZE_DIRECTION & Constants.RESIZE_RIGHT) > 0) {
 			// AB: get diffx; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffx = newp.x - (e.getLocation().x + e.getDimension().width) + gridSize;
+			diffx = newp.x - (e.getLocation().x + e.getZoomedSize().width) + gridSize;
 
 			// AB: only shrink to minimum size
-			if (e.getDimension().width + diffx < minSize) {
-				diffx = minSize - e.getDimension().width;
+			if (e.getZoomedSize().width + diffx < minSize) {
+				diffx = minSize - e.getZoomedSize().width;
 			}
 
 			if (RESIZE_DIRECTION == Constants.RESIZE_RIGHT) {
@@ -384,8 +384,8 @@ public class GridElementListener extends UniversalListener {
 			diffy = newp.y - e.getLocation().y + gridSize;
 
 			// AB: only shrink to minimum size
-			if (e.getDimension().height - diffy < minSize) {
-				diffy = e.getDimension().height - minSize;
+			if (e.getZoomedSize().height - diffy < minSize) {
+				diffy = e.getZoomedSize().height - minSize;
 			}
 
 			if (RESIZE_DIRECTION == Constants.RESIZE_TOP) {
@@ -395,11 +395,11 @@ public class GridElementListener extends UniversalListener {
 
 		if ((RESIZE_DIRECTION & Constants.RESIZE_BOTTOM) > 0) {
 			// AB: get diffy; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffy = newp.y - (e.getLocation().y + e.getDimension().height) + gridSize;
+			diffy = newp.y - (e.getLocation().y + e.getZoomedSize().height) + gridSize;
 
 			// AB: only shrink to minimum size
-			if (e.getDimension().height + diffy < minSize) {
-				diffy = minSize - e.getDimension().height;
+			if (e.getZoomedSize().height + diffy < minSize) {
+				diffy = minSize - e.getZoomedSize().height;
 			}
 
 			if (RESIZE_DIRECTION == Constants.RESIZE_BOTTOM) {

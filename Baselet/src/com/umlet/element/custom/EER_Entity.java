@@ -53,17 +53,17 @@ public class EER_Entity extends OldGridElement {
 			}
 		}
 		poly.addPoint(0, 0);
-		poly.addPoint(this.getDimension().width - 1, 0);
+		poly.addPoint(this.getZoomedSize().width - 1, 0);
 		if (CENTER) {
 			hasAttributes = false; // see getStickingBorder()
-			ySave = this.getDimension().height;
-			poly.addPoint(this.getDimension().width - 1, this.getDimension().height - 1);
-			poly.addPoint(0, this.getDimension().height - 1);
+			ySave = this.getZoomedSize().height;
+			poly.addPoint(this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+			poly.addPoint(0, this.getZoomedSize().height - 1);
 		}
 		else {
 			hasAttributes = true; // see getStickingBorder()
 			g.drawLine((int) (10 * zoom), ySave, (int) (10 * zoom), yPos + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() - (int) this.getHandler().getFontHandler().getDistanceBetweenTexts());
-			poly.addPoint(this.getDimension().width - 1, ySave);
+			poly.addPoint(this.getZoomedSize().width - 1, ySave);
 			poly.addPoint(0, ySave);
 		}
 
@@ -76,8 +76,8 @@ public class EER_Entity extends OldGridElement {
 		g2.drawPolygon(poly);
 
 		if (drawInnerRect) {
-			if (CENTER) g.drawRect((int) (3 * zoom), (int) (3 * zoom), this.getDimension().width - (int) (7 * zoom), this.getDimension().height - (int) (7 * zoom));
-			else g.drawRect((int) (3 * zoom), (int) (3 * zoom), this.getDimension().width - (int) (7 * zoom), ySave - (int) (6 * zoom));
+			if (CENTER) g.drawRect((int) (3 * zoom), (int) (3 * zoom), this.getZoomedSize().width - (int) (7 * zoom), this.getZoomedSize().height - (int) (7 * zoom));
+			else g.drawRect((int) (3 * zoom), (int) (3 * zoom), this.getZoomedSize().width - (int) (7 * zoom), ySave - (int) (6 * zoom));
 		}
 
 		// #### draw text
@@ -99,7 +99,7 @@ public class EER_Entity extends OldGridElement {
 						drawInnerRect = true;
 						s1 = s1.substring(2);
 					}
-					this.getHandler().getFontHandler().writeText(g2, s1, this.getDimension().width / 2, yPos, AlignHorizontal.CENTER);
+					this.getHandler().getFontHandler().writeText(g2, s1, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
 					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize(), yPos, AlignHorizontal.LEFT);
