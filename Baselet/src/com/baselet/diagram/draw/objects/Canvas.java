@@ -1,7 +1,7 @@
 package com.baselet.diagram.draw.objects;
 
 import java.awt.Color;
-import java.awt.Dimension;
+import com.baselet.element.Dimension;
 import java.awt.Rectangle;
 
 import com.baselet.control.Constants;

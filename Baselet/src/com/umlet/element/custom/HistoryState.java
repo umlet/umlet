@@ -20,7 +20,7 @@ public class HistoryState extends OldGridElement {
 		g2.setColor(fgColor);
 		
 
-		g2.fillOval(0, 0, this.getSize().width, this.getSize().height);
+		g2.fillOval(0, 0, this.getDimension().width, this.getDimension().height);
 		// Measure the font and the message
 		Rectangle2D bounds = this.getHandler().getFontHandler().getFont().getStringBounds("H", g2.getFontRenderContext());
 		LineMetrics metrics = this.getHandler().getFontHandler().getFont().getLineMetrics("H", g2.getFontRenderContext());
@@ -29,8 +29,8 @@ public class HistoryState extends OldGridElement {
 		float ascent = metrics.getAscent(); // Top of text to baseline
 
 		// Now display the message centered horizontally and vertically in this
-		float x0 = ((this.getSize().width - width) / 2);
-		float y0 = ((this.getSize().height - lineheight) / 2 + ascent);
+		float x0 = ((this.getDimension().width - width) / 2);
+		float y0 = ((this.getDimension().height - lineheight) / 2 + ascent);
 		g2.setColor(Color.WHITE);
 		g2.drawString("H", x0, y0);
 		g2.setColor(fgColor);

@@ -18,13 +18,13 @@ public class RegionEndState extends OldGridElement {
 		g2.setColor(fgColor);
 		
 
-		g2.drawOval(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		g2.drawOval(0, 0, this.getDimension().width - 1, this.getDimension().height - 1);
 		AffineTransform at = g2.getTransform();
 		AffineTransform at2 = (AffineTransform) at.clone();
-		at2.rotate(Math.toRadians(45), getSize().width / 2, getSize().height / 2);
+		at2.rotate(Math.toRadians(45), getDimension().width / 2, getDimension().height / 2);
 		g2.setTransform(at2);
-		g2.drawLine(0, this.getSize().height / 2, this.getSize().width, this.getSize().height / 2);
-		g2.drawLine(this.getSize().width / 2, 0, this.getSize().width / 2, this.getSize().height);
+		g2.drawLine(0, this.getDimension().height / 2, this.getDimension().width, this.getDimension().height / 2);
+		g2.drawLine(this.getDimension().width / 2, 0, this.getDimension().width / 2, this.getDimension().height);
 		g2.setTransform(at);
 
 	}

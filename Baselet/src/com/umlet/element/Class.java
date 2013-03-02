@@ -118,8 +118,8 @@ public class Class extends OldGridElement {
 				CENTER = false;
 
 				// A.Mueller start
-				if (_isTemplate) g2.drawLine(0, yPos, this.getSize().width - 1 - this.getSize().width / 10, yPos);
-				else g2.drawLine(0, yPos, this.getSize().width - 1, yPos);
+				if (_isTemplate) g2.drawLine(0, yPos, this.getDimension().width - 1 - this.getDimension().width / 10, yPos);
+				else g2.drawLine(0, yPos, this.getDimension().width - 1, yPos);
 				// A.Mueller end
 
 				yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
@@ -127,9 +127,9 @@ public class Class extends OldGridElement {
 				// A.Mueller start
 			}
 			else if (s.equals("{active}") && (i == 0)) {
-				g2.drawLine((int) this.getHandler().getFontHandler().getFontSize() / 2, 0, (int) this.getHandler().getFontHandler().getFontSize() / 2, this.getSize().height - 1);
-				g2.drawLine(this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize() / 2, 0, this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize() / 2, this.getSize().height - 1);
-				yPos = this.getSize().height / 2 - (tmp.size() - 1) * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
+				g2.drawLine((int) this.getHandler().getFontHandler().getFontSize() / 2, 0, (int) this.getHandler().getFontHandler().getFontSize() / 2, this.getDimension().height - 1);
+				g2.drawLine(this.getDimension().width - (int) this.getHandler().getFontHandler().getFontSize() / 2, 0, this.getDimension().width - (int) this.getHandler().getFontHandler().getFontSize() / 2, this.getDimension().height - 1);
+				yPos = this.getDimension().height / 2 - (tmp.size() - 1) * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 			}
 			else if (s.startsWith("template") && (i == 0)) {
 				String[] template = s.split("=");
@@ -140,35 +140,35 @@ public class Class extends OldGridElement {
 
 					Polygon border = new Polygon();
 					border.addPoint(0, _templateHeight / 2);
-					border.addPoint(getSize().width - _templateWidth, _templateHeight / 2);
+					border.addPoint(getDimension().width - _templateWidth, _templateHeight / 2);
 					border.addPoint(0, _templateHeight / 2);
-					border.addPoint(0, this.getSize().height);
-					border.addPoint(0, this.getSize().height - 1);
-					border.addPoint(this.getSize().width - this.getSize().width / 10, this.getSize().height - 1);
-					border.addPoint(this.getSize().width - this.getSize().width / 10, this.getSize().height - 1);
-					border.addPoint(this.getSize().width - this.getSize().width / 10, _templateHeight + 1);
-					border.addPoint(getSize().width - _templateWidth, _templateHeight + 1);
-					border.addPoint(getSize().width - _templateWidth, _templateHeight / 2);
+					border.addPoint(0, this.getDimension().height);
+					border.addPoint(0, this.getDimension().height - 1);
+					border.addPoint(this.getDimension().width - this.getDimension().width / 10, this.getDimension().height - 1);
+					border.addPoint(this.getDimension().width - this.getDimension().width / 10, this.getDimension().height - 1);
+					border.addPoint(this.getDimension().width - this.getDimension().width / 10, _templateHeight + 1);
+					border.addPoint(getDimension().width - _templateWidth, _templateHeight + 1);
+					border.addPoint(getDimension().width - _templateWidth, _templateHeight / 2);
 
 					g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
 					g2.setComposite(composites[1]); // set alpha composite
 					g2.setColor(bgColor);
-					g2.fillRect(getSize().width - _templateWidth, 0, _templateWidth, _templateHeight + 1);
+					g2.fillRect(getDimension().width - _templateWidth, 0, _templateWidth, _templateHeight + 1);
 					g2.fillPolygon(border);
 					g2.setComposite(composites[0]); // reset composite
 					if (isSelected) g2.setColor(fgColor);
 					else g2.setColor(fgColorBase);
 
 					// draw border lines of template box
-					g2.drawRect(getSize().width - _templateWidth, 0, _templateWidth - 1, _templateHeight); // template box
-					this.getHandler().getFontHandler().writeText(g2, template[1], getSize().width - _templateWidth + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
+					g2.drawRect(getDimension().width - _templateWidth, 0, _templateWidth - 1, _templateHeight); // template box
+					this.getHandler().getFontHandler().writeText(g2, template[1], getDimension().width - _templateWidth + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
 					g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
 
 					// draw border lines of class
-					g2.drawLine(0, _templateHeight / 2, getSize().width - _templateWidth, _templateHeight / 2);
-					g2.drawLine(0, _templateHeight / 2, 0, this.getSize().height);
-					g2.drawLine(0, this.getSize().height - 1, this.getSize().width - this.getSize().width / 10, this.getSize().height - 1);
-					g2.drawLine(this.getSize().width - this.getSize().width / 10, this.getSize().height - 1, this.getSize().width - this.getSize().width / 10, _templateHeight);
+					g2.drawLine(0, _templateHeight / 2, getDimension().width - _templateWidth, _templateHeight / 2);
+					g2.drawLine(0, _templateHeight / 2, 0, this.getDimension().height);
+					g2.drawLine(0, this.getDimension().height - 1, this.getDimension().width - this.getDimension().width / 10, this.getDimension().height - 1);
+					g2.drawLine(this.getDimension().width - this.getDimension().width / 10, this.getDimension().height - 1, this.getDimension().width - this.getDimension().width / 10, _templateHeight);
 
 					yPos = yPos + _templateHeight + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				}
@@ -216,11 +216,11 @@ public class Class extends OldGridElement {
 
 				temp.setLocation(5, yPos);
 
-				if (_isTemplate) temp.setSize((int) (this.getSize().width - this.getSize().width / 10 - 10 * zoom), height);
-				else temp.setSize((int) (this.getSize().width - 10 * zoom), height);
+				if (_isTemplate) temp.setSize((int) (this.getDimension().width - this.getDimension().width / 10 - 10 * zoom), height);
+				else temp.setSize((int) (this.getDimension().width - 10 * zoom), height);
 
-				temp.paintEntity(g.create((int) (5 * zoom), yPos, (int) (this.getSize().width - 5 * zoom), temp.getSize().height));
-				yPos = yPos + temp.getSize().height + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
+				temp.paintEntity(g.create((int) (5 * zoom), yPos, (int) (this.getDimension().width - 5 * zoom), temp.getDimension().height));
+				yPos = yPos + temp.getDimension().height + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 
 				// A.Mueller end
 
@@ -231,8 +231,8 @@ public class Class extends OldGridElement {
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
 				if (CENTER) {
 					// A.Mueller
-					if (_isTemplate) this.getHandler().getFontHandler().writeText(g2, s, (this.getSize().width - this.getSize().width / 10) / 2, yPos, AlignHorizontal.CENTER);
-					else this.getHandler().getFontHandler().writeText(g2, s, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
+					if (_isTemplate) this.getHandler().getFontHandler().writeText(g2, s, (this.getDimension().width - this.getDimension().width / 10) / 2, yPos, AlignHorizontal.CENTER);
+					else this.getHandler().getFontHandler().writeText(g2, s, this.getDimension().width / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
 					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);

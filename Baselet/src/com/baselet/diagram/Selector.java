@@ -1,6 +1,6 @@
 package com.baselet.diagram;
 
-import java.awt.Dimension;
+import com.baselet.element.Dimension;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;

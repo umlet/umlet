@@ -1,7 +1,7 @@
 package com.baselet.diagram.draw;
 
 import java.awt.Color;
-import java.awt.Dimension;
+import com.baselet.element.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;

@@ -1,6 +1,6 @@
 package com.umlet.language.sorting;
 
-import java.awt.Dimension;
+import com.baselet.element.Dimension;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -23,10 +23,10 @@ public abstract class Layout {
 		int maxHeight = 0;
 		int sumWidth = 0;
 		for (SortableElement e: elements) {
-			if (e.getElement().getSize().height > maxHeight) {
-				maxHeight = e.getElement().getSize().height;
+			if (e.getElement().getDimension().height > maxHeight) {
+				maxHeight = e.getElement().getDimension().height;
 			}
-			sumWidth += e.getElement().getSize().width;
+			sumWidth += e.getElement().getDimension().width;
 		}
 		// start with a rectangle with one row with all elements in it and determine
 		// the multiplicator by solving: (x / m) / (y * m) = desired relation of width to height  
@@ -42,13 +42,13 @@ public abstract class Layout {
 		int maxHeightThisRow = 0;
 		for (SortableElement e: elements) {
 			e.getElement().setLocation(curX, curY);
-			if (e.getElement().getSize().height > maxHeightThisRow) {
-				maxHeightThisRow = e.getElement().getSize().height;
+			if (e.getElement().getDimension().height > maxHeightThisRow) {
+				maxHeightThisRow = e.getElement().getDimension().height;
 			}
 			// determine outer x-bounds of all elements placed
-			Dimension dim = e.getElement().getSize();
+			Dimension dim = e.getElement().getDimension();
 			if (curX + dim.width > d.width) {
-				d.width = curX + e.getElement().getSize().width; 
+				d.width = curX + e.getElement().getDimension().width; 
 			}
 			if (curX > desiredWidth) {
 				++rows;
@@ -56,7 +56,7 @@ public abstract class Layout {
 				curX = GRIDSIZE;
 				maxHeightThisRow = 0;
 			} else {
-				curX += e.getElement().getSize().width + GRIDSIZE;
+				curX += e.getElement().getDimension().width + GRIDSIZE;
 			}
 			// determine outer y-bounds of alle elements placed
 			if (elements.indexOf(e) == elements.size()-1) {// element is the last one

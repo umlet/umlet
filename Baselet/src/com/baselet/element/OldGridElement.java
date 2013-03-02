@@ -3,7 +3,6 @@ package com.baselet.element;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -242,17 +241,17 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 
 	@Override
 	public Dimension getRealSize() {
-		return new Dimension(getSize().width / handler.getGridSize() * Constants.DEFAULTGRIDSIZE, getSize().height / handler.getGridSize() * Constants.DEFAULTGRIDSIZE);
+		return new Dimension(getDimension().width / handler.getGridSize() * Constants.DEFAULTGRIDSIZE, getDimension().height / handler.getGridSize() * Constants.DEFAULTGRIDSIZE);
 	}
 
 	@Override
 	public int getResizeArea(int x, int y) {
 		int ret = 0;
 		if ((x <= 5) && (x >= 0)) ret = Constants.RESIZE_LEFT;
-		else if ((x <= this.getSize().width) && (x >= this.getSize().width - 5)) ret = Constants.RESIZE_RIGHT;
+		else if ((x <= this.getDimension().width) && (x >= this.getDimension().width - 5)) ret = Constants.RESIZE_RIGHT;
 
 		if ((y <= 5) && (y >= 0)) ret = ret | Constants.RESIZE_TOP;
-		else if ((y <= this.getSize().height) && (y >= this.getSize().height - 5)) ret = ret | Constants.RESIZE_BOTTOM;
+		else if ((y <= this.getDimension().height) && (y >= this.getDimension().height - 5)) ret = ret | Constants.RESIZE_BOTTOM;
 		return ret;
 	}
 
@@ -263,7 +262,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 
 	@Override
 	public void changeSize(int diffx, int diffy) {
-		this.setSize(this.getSize().width + diffx, this.getSize().height + diffy);
+		this.setSize(this.getDimension().width + diffx, this.getDimension().height + diffy);
 	}
 
 	@Override
@@ -292,7 +291,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	@Override
 	public boolean isInRange(Point upperLeft, Dimension size) {
 		Rectangle2D rect1 = new Rectangle2D.Double(upperLeft.getX(), upperLeft.getY(), size.getWidth(), size.getHeight());
-		Rectangle2D rect2 = new Rectangle2D.Double(getLocation().x, getLocation().y, getSize().width, getSize().height);
+		Rectangle2D rect2 = new Rectangle2D.Double(getLocation().x, getLocation().y, getDimension().width, getDimension().height);
 		return (rect1.contains(rect2));
 	}
 
@@ -301,7 +300,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setFont(this.getHandler().getFontHandler().getFont());
 			g2.setColor(Color.red);
-			this.getHandler().getFontHandler().writeText(g2, "in progress...", this.getSize().width / 2 - 40, this.getSize().height / 2 + (int) this.getHandler().getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
+			this.getHandler().getFontHandler().writeText(g2, "in progress...", this.getDimension().width / 2 - 40, this.getDimension().height / 2 + (int) this.getHandler().getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
 		}
 		else {
 			repaint();
@@ -339,8 +338,8 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	public final void drawStickingPolygon(Graphics2D g2) {
 		StickingPolygon poly;
 		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
-		if (Utils.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getSize().width - 1, this.getSize().height - 1);
-		else poly = this.generateStickingBorder(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		if (Utils.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getDimension().width - 1, this.getDimension().height - 1);
+		else poly = this.generateStickingBorder(0, 0, this.getDimension().width - 1, this.getDimension().height - 1);
 		if (poly != null) {
 			Color c = g2.getColor();
 			Stroke s = g2.getStroke();
@@ -413,5 +412,10 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 			}
 		} catch (Exception e) {/* in case of an error return default layer*/}
 		return lastLayerValue;
+	}
+	
+	@Override
+	public Dimension getDimension() {
+		return new Dimension(getWidth(), getHeight());
 	}
 }

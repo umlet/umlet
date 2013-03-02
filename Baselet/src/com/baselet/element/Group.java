@@ -103,13 +103,13 @@ public class Group extends OldGridElement {
 			float alphaFactorStrong = 0.8f;
 			AlphaComposite alphaStrong = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaFactorStrong);
 			g2.setComposite(alphaStrong);
-			g2.drawRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+			g2.drawRect(0, 0, this.getDimension().width - 1, this.getDimension().height - 1);
 
 			// Create a strong transparency for the group background
 			float alphaFactorLight = 0.05f;
 			AlphaComposite alphaLight = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaFactorLight);
 			g2.setComposite(alphaLight);
-			g2.fillRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+			g2.fillRect(0, 0, this.getDimension().width - 1, this.getDimension().height - 1);
 
 			g2.setComposite(old);
 			g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
@@ -140,8 +140,8 @@ public class Group extends OldGridElement {
 		int maxY = 0;
 		for (GridElement e : entities) {
 			if (recursive && (e instanceof Group)) ((Group) e).adjustSize(true);
-			maxX = Math.max(e.getLocation().x + e.getSize().width, maxX);
-			maxY = Math.max(e.getLocation().y + e.getSize().height, maxY);
+			maxX = Math.max(e.getLocation().x + e.getDimension().width, maxX);
+			maxY = Math.max(e.getLocation().y + e.getDimension().height, maxY);
 			minX = Math.min(e.getLocation().x, minX);
 			minY = Math.min(e.getLocation().y, minY);
 		}

@@ -1,6 +1,6 @@
 package com.umlet.element.experimental;
 
-import java.awt.Dimension;
+import com.baselet.element.Dimension;
 
 import org.apache.log4j.Logger;
 

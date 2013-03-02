@@ -29,12 +29,12 @@ public class AlternativeUseCase extends OldGridElement {
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillRect(0, 0, getSize().width - 1, getSize().height - 1);
+		g2.fillRect(0, 0, getDimension().width - 1, getDimension().height - 1);
 		g2.setComposite(composites[0]);
 		if (isSelected) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
 
-		g2.drawRect(0, 0, getSize().width - 1, getSize().height - 1);
+		g2.drawRect(0, 0, getDimension().width - 1, getDimension().height - 1);
 
 		boolean center = false;
 
@@ -48,7 +48,7 @@ public class AlternativeUseCase extends OldGridElement {
 				center = true;
 			}
 			else if (center == true) {
-				this.getHandler().getFontHandler().writeText(g2, s, (getSize().width - 1) / 2, yPos, AlignHorizontal.CENTER);
+				this.getHandler().getFontHandler().writeText(g2, s, (getDimension().width - 1) / 2, yPos, AlignHorizontal.CENTER);
 				center = false;
 			}
 			else {
@@ -57,7 +57,7 @@ public class AlternativeUseCase extends OldGridElement {
 			}
 		}
 
-		g2.drawLine(0, (int) (30 * zoom), getSize().width - 1, (int) (30 * zoom));
-		g2.drawOval(getSize().width - (int) (59 * zoom), (int) (3 * zoom), (int) (55 * zoom), (int) (20 * zoom));
+		g2.drawLine(0, (int) (30 * zoom), getDimension().width - 1, (int) (30 * zoom));
+		g2.drawOval(getDimension().width - (int) (59 * zoom), (int) (3 * zoom), (int) (55 * zoom), (int) (20 * zoom));
 	}
 }

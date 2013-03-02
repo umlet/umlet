@@ -1,7 +1,7 @@
 package com.umlet.element;
 
 import java.awt.Color;
-import java.awt.Dimension;
+import com.baselet.element.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -1776,7 +1776,7 @@ public class Relation extends OldGridElement {
 		maxy += (maxy % gridSize);
 
 		if ((maxx != 0) || (maxy != 0)) {
-			this.changeSize(maxx - getSize().width, maxy - getSize().height);
+			this.changeSize(maxx - getDimension().width, maxy - getDimension().height);
 		}
 		if ((minx != 0) | (miny != 0)) {
 			this.changeLocation(minx, miny);

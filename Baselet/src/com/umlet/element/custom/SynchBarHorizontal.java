@@ -32,7 +32,7 @@ public class SynchBarHorizontal extends OldGridElement {
 
 		textWidth = 0; // reset
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		int yPos = this.getSize().height / 2 - tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
+		int yPos = this.getDimension().height / 2 - tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 		boolean ADAPT_SIZE_X = false;
 		int textHeight = tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts()));
 
@@ -43,7 +43,7 @@ public class SynchBarHorizontal extends OldGridElement {
 			Rectangle2D r2d = l.getBounds();
 			textWidth = ((int) r2d.getWidth() > textWidth) ? ((int) r2d.getWidth()) : (textWidth);
 
-			if ((this.getSize().width - textWidth) < 0) {
+			if ((this.getDimension().width - textWidth) < 0) {
 				ADAPT_SIZE_X = true;
 				break;
 			}
@@ -58,12 +58,12 @@ public class SynchBarHorizontal extends OldGridElement {
 			return;
 		}
 
-		if (textHeight > this.getSize().height) {
+		if (textHeight > this.getDimension().height) {
 			(new Resize(this, 0, 0, 0, 20)).execute(this.getHandler());
 			return;
 		}
 
-		g2.fillRect(textWidth + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), getSize().height / 2 - (int) (3 * zoom), this.getSize().width - textWidth - (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() * 2, (int) (5 * zoom));
+		g2.fillRect(textWidth + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), getDimension().height / 2 - (int) (3 * zoom), this.getDimension().width - textWidth - (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() * 2, (int) (5 * zoom));
 	}
 
 	/*

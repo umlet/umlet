@@ -26,11 +26,11 @@ public class Artefact extends OldGridElement {
 		// symbol outline
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		g2.fillRect(0, 0, this.getDimension().width - 1, this.getDimension().height - 1);
 		g2.setComposite(composites[0]);
 		if (isSelected) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
-		g2.drawRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		g2.drawRect(0, 0, this.getDimension().width - 1, this.getDimension().height - 1);
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = (int) (10 * zoom);
@@ -44,13 +44,13 @@ public class Artefact extends OldGridElement {
 		}
 
 		// small component symbol
-		g2.drawLine(this.getSize().width - (int) (30 * zoom), (int) (10 * zoom), this.getSize().width - (int) (30 * zoom), (int) (40 * zoom));
-		g2.drawLine(this.getSize().width - (int) (30 * zoom), (int) (40 * zoom), this.getSize().width - (int) (5 * zoom), (int) (40 * zoom));
-		g2.drawLine(this.getSize().width - (int) (5 * zoom), (int) (40 * zoom), this.getSize().width - (int) (5 * zoom), (int) (20 * zoom));
-		g2.drawLine(this.getSize().width - (int) (5 * zoom), (int) (20 * zoom), this.getSize().width - (int) (15 * zoom), (int) (10 * zoom));
-		g2.drawLine(this.getSize().width - (int) (15 * zoom), (int) (10 * zoom), this.getSize().width - (int) (30 * zoom), (int) (10 * zoom));
-		g2.drawLine(this.getSize().width - (int) (5 * zoom), (int) (20 * zoom), this.getSize().width - (int) (15 * zoom), (int) (20 * zoom));
-		g2.drawLine(this.getSize().width - (int) (15 * zoom), (int) (20 * zoom), this.getSize().width - (int) (15 * zoom), (int) (10 * zoom));
+		g2.drawLine(this.getDimension().width - (int) (30 * zoom), (int) (10 * zoom), this.getDimension().width - (int) (30 * zoom), (int) (40 * zoom));
+		g2.drawLine(this.getDimension().width - (int) (30 * zoom), (int) (40 * zoom), this.getDimension().width - (int) (5 * zoom), (int) (40 * zoom));
+		g2.drawLine(this.getDimension().width - (int) (5 * zoom), (int) (40 * zoom), this.getDimension().width - (int) (5 * zoom), (int) (20 * zoom));
+		g2.drawLine(this.getDimension().width - (int) (5 * zoom), (int) (20 * zoom), this.getDimension().width - (int) (15 * zoom), (int) (10 * zoom));
+		g2.drawLine(this.getDimension().width - (int) (15 * zoom), (int) (10 * zoom), this.getDimension().width - (int) (30 * zoom), (int) (10 * zoom));
+		g2.drawLine(this.getDimension().width - (int) (5 * zoom), (int) (20 * zoom), this.getDimension().width - (int) (15 * zoom), (int) (20 * zoom));
+		g2.drawLine(this.getDimension().width - (int) (15 * zoom), (int) (20 * zoom), this.getDimension().width - (int) (15 * zoom), (int) (10 * zoom));
 
 	}
 }

@@ -26,12 +26,12 @@ public class State extends OldGridElement {
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillRoundRect(0, 0, this.getSize().width - 1, this.getSize().height - 1, (int) (30 * zoom), (int) (30 * zoom));
+		g2.fillRoundRect(0, 0, this.getDimension().width - 1, this.getDimension().height - 1, (int) (30 * zoom), (int) (30 * zoom));
 		g2.setComposite(composites[0]);
 		if (isSelected) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
 
-		g2.drawRoundRect(0, 0, this.getSize().width - 1, this.getSize().height - 1, (int) (30 * zoom), (int) (30 * zoom));
+		g2.drawRoundRect(0, 0, this.getDimension().width - 1, this.getDimension().height - 1, (int) (30 * zoom), (int) (30 * zoom));
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = 0;
@@ -39,7 +39,7 @@ public class State extends OldGridElement {
 		if (tmp.contains("--") || tmp.contains("-.")) yPos = 2 * (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		else
 		// A.Mueller end
-		yPos = this.getSize().height / 2 - tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
+		yPos = this.getDimension().height / 2 - tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 
 		boolean CENTER = true;
 
@@ -48,21 +48,21 @@ public class State extends OldGridElement {
 			// A.Mueller start
 			if (s.equals("--")) {
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
-				g2.drawLine(0, yPos, getSize().width, yPos);
+				g2.drawLine(0, yPos, getDimension().width, yPos);
 				yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				CENTER = false;
 			}
 			else if (s.equals("-.")) {
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
-				g2.drawLine(0, yPos, getSize().width, yPos);
+				g2.drawLine(0, yPos, getDimension().width, yPos);
 				g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
 				yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				CENTER = false;
 			}
 			else {
 				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				if (CENTER) this.getHandler().getFontHandler().writeText(g2, s, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
+				if (CENTER) this.getHandler().getFontHandler().writeText(g2, s, this.getDimension().width / 2, yPos, AlignHorizontal.CENTER);
 				else
 					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();

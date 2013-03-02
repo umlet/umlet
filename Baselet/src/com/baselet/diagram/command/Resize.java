@@ -62,11 +62,11 @@ public class Resize extends Command {
 		this.diffh = (diffh - diffy) / entity.getHandler().getGridSize();
 
 		StickingPolygon from = this.entity.generateStickingBorder(this.entity.getLocation().x, this.entity.getLocation().y,
-				this.entity.getSize().width, this.entity.getSize().height);
+				this.entity.getDimension().width, this.entity.getDimension().height);
 
 		// AB: FIXED: Use this.diffw/this.diffh instead of diffw/diffh as calculation base
 		StickingPolygon to = this.entity.generateStickingBorder(this.entity.getLocation().x + diffx, this.entity.getLocation().y + diffy,
-				this.entity.getSize().width + getDiffw(), this.entity.getSize().height + this.getDiffh());
+				this.entity.getDimension().width + getDiffw(), this.entity.getDimension().height + this.getDiffh());
 
 		if (first != null) {
 			this.id = first.id;
