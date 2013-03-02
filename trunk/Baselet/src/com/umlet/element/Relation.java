@@ -636,7 +636,7 @@ public class Relation extends OldGridElement {
 		// Assume that the rect contains all relation points
 		for (Point p : getLinePoints()) {
 			// We must add the displacement from the top left corner of the drawpanel to the point coordinates
-			Point realPoint = new Point((int) (p.getX() + this.getLocation().x), (int) (p.getY() + this.getLocation().y));
+			Point realPoint = new Point((int) (p.getX() + this.getRectangle().x), (int) (p.getY() + this.getRectangle().y));
 			// If only one point is not in the selection rectangle, the method returns false
 			if (!rect1.contains(realPoint)) return false;
 		}
@@ -686,8 +686,8 @@ public class Relation extends OldGridElement {
 		// other relations which are selected are prioritized
 		for (GridElement other : getHandler().getDrawPanel().getAllEntities()) {
 			if (other != this && other instanceof Relation && other.isSelected()) {
-				int xDist = getLocation().x - other.getLocation().x;
-				int yDist = getLocation().y - other.getLocation().y;
+				int xDist = getRectangle().x - other.getRectangle().x;
+				int yDist = getRectangle().y - other.getRectangle().y;
 				Point modifiedP = new Point(p.x + xDist, p.y + yDist); // the point must be modified, because the other relation has other coordinates
 				boolean containsHelper = ((Relation) other).calcContains(modifiedP);
 				if (other.isSelected() && containsHelper) {
@@ -1780,7 +1780,7 @@ public class Relation extends OldGridElement {
 			this.changeSize(maxx - getZoomedSize().width, maxy - getZoomedSize().height);
 		}
 		if ((minx != 0) | (miny != 0)) {
-			this.changeLocation(minx, miny);
+			this.setLocationDifference(minx, miny);
 			this.changeSize(-minx, -miny);
 			for (int i = 0; i < getLinePoints().size(); i++) {
 				Point p = getLinePoints().elementAt(i);
@@ -1804,15 +1804,15 @@ public class Relation extends OldGridElement {
 
 	public Point getAbsoluteCoorStart() {
 		Point ret = new Point();
-		ret.x = this.getLocation().x + this.getStartPoint().x;
-		ret.y = this.getLocation().y + this.getStartPoint().y;
+		ret.x = this.getRectangle().x + this.getStartPoint().x;
+		ret.y = this.getRectangle().y + this.getStartPoint().y;
 		return ret;
 	}
 
 	public Point getAbsoluteCoorEnd() {
 		Point ret = new Point();
-		ret.x = this.getLocation().x + this.getEndPoint().x;
-		ret.y = this.getLocation().y + this.getEndPoint().y;
+		ret.x = this.getRectangle().x + this.getEndPoint().x;
+		ret.y = this.getRectangle().y + this.getEndPoint().y;
 		return ret;
 	}
 

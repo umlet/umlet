@@ -112,8 +112,8 @@ public class RelationListener extends GridElementListener {
 		if (IS_DRAGGING_LINEPOINT) {
 			Vector<Point> tmp = r.getLinePoints();
 			Point p = tmp.elementAt(LINEPOINT);
-			delta_x = (r.getLocation().x + p.x) % gridSize;
-			delta_y = (r.getLocation().y + p.y) % gridSize;
+			delta_x = (r.getRectangle().x + p.x) % gridSize;
+			delta_y = (r.getRectangle().y + p.y) % gridSize;
 		}
 
 		Point newp = this.getNewCoordinate();

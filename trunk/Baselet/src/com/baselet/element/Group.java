@@ -38,7 +38,7 @@ public class Group extends OldGridElement {
 
 		adjustSize(false);
 		s.singleSelect(this);
-		(new AddElement(this, this.getLocation().x, this.getLocation().y)).execute(this.getHandler());
+		(new AddElement(this, this.getRectangle().x, this.getRectangle().y)).execute(this.getHandler());
 	}
 
 	public void ungroup() {
@@ -140,10 +140,10 @@ public class Group extends OldGridElement {
 		int maxY = 0;
 		for (GridElement e : entities) {
 			if (recursive && (e instanceof Group)) ((Group) e).adjustSize(true);
-			maxX = Math.max(e.getLocation().x + e.getZoomedSize().width, maxX);
-			maxY = Math.max(e.getLocation().y + e.getZoomedSize().height, maxY);
-			minX = Math.min(e.getLocation().x, minX);
-			minY = Math.min(e.getLocation().y, minY);
+			maxX = Math.max(e.getRectangle().x + e.getZoomedSize().width, maxX);
+			maxY = Math.max(e.getRectangle().y + e.getZoomedSize().height, maxY);
+			minX = Math.min(e.getRectangle().x, minX);
+			minY = Math.min(e.getRectangle().y, minY);
 		}
 		this.setLocation(minX, minY);
 		this.setSize((maxX - minX), (maxY - minY));
@@ -167,10 +167,10 @@ public class Group extends OldGridElement {
 	}
 
 	@Override
-	public void changeLocation(int diffx, int diffy) {
-		super.changeLocation(diffx, diffy);
+	public void setLocationDifference(int diffx, int diffy) {
+		super.setLocationDifference(diffx, diffy);
 		for (GridElement e : this.entities)
-			e.changeLocation(diffx, diffy);
+			e.setLocationDifference(diffx, diffy);
 	}
 	
 	@Override

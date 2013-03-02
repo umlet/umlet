@@ -297,8 +297,8 @@ public class DiagramHandler {
 			// Entities in groups are not part of the selectedEntities vector. therefore they must be zoomed explicitely
 			if (entity instanceof Group) zoomEntities(fromFactor, toFactor, ((Group) entity).getMembers());
 
-			int newX = (entity.getLocation().x * toFactor) / fromFactor;
-			int newY = (entity.getLocation().y * toFactor) / fromFactor;
+			int newX = (entity.getRectangle().x * toFactor) / fromFactor;
+			int newY = (entity.getRectangle().y * toFactor) / fromFactor;
 			int newW = (entity.getZoomedSize().width * toFactor) / fromFactor;
 			int newH = (entity.getZoomedSize().height * toFactor) / fromFactor;
 			entity.setLocation(realignTo(newX, toFactor), realignTo(newY, toFactor));
@@ -382,7 +382,7 @@ public class DiagramHandler {
 			getDrawPanel().moveOrigin(realignToGrid(false, -diffx), realignToGrid(false, - diffy));
 
 			for (GridElement e : getDrawPanel().getAllEntitiesNotInGroup()) {
-				e.changeLocation(realignToGrid(false, diffx), realignToGrid(false, diffy));
+				e.setLocationDifference(realignToGrid(false, diffx), realignToGrid(false, diffy));
 			}
 
 			/**

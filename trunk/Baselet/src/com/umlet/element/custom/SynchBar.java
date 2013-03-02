@@ -41,8 +41,8 @@ public class SynchBar extends OldGridElement {
 
 	public int doesCoordinateAppearToBeConnectedToMe(Point p) {
 		int ret = 0;
-		int tmpX = p.x - this.getLocation().x;
-		int tmpY = p.y - this.getLocation().y;
+		int tmpX = p.x - this.getRectangle().x;
+		int tmpY = p.y - this.getRectangle().y;
 
 		if ((tmpX > -4) && (tmpX < this.getZoomedSize().width + 4)) {
 			if ((tmpY > 0) && (tmpY < 8)) ret += 1;

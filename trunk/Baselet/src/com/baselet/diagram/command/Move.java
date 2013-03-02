@@ -41,13 +41,13 @@ public class Move extends Command {
 	@Override
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
-		this.entity.changeLocation(getX(), getY());
+		this.entity.setLocationDifference(getX(), getY());
 	}
 
 	@Override
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
-		this.entity.changeLocation(-getX(), -getY());
+		this.entity.setLocationDifference(-getX(), -getY());
 		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 	}
 

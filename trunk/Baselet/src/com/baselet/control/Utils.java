@@ -264,7 +264,7 @@ public abstract class Utils {
 		for (GridElement other : gridElement.getHandler().getDrawPanel().getAllEntitiesNotInGroup()) {
 			if (other instanceof Relation) { // a relation is always on top
 				// move point to coordinate system of other entity
-				Point other_p = new Point(p.x + gridElement.getLocation().x - other.getLocation().x, p.y + gridElement.getLocation().y - other.getLocation().y);
+				Point other_p = new Point(p.x + gridElement.getRectangle().x - other.getRectangle().x, p.y + gridElement.getRectangle().y - other.getRectangle().y);
 				if (other.getComponent().contains(other_p)) return false;
 			}
 
@@ -272,8 +272,8 @@ public abstract class Utils {
 			else if (!gridElement.getVisibleRectangle().equals(other.getVisibleRectangle())) {
 				Rectangle other_rectangle = other.getVisibleRectangle();
 				// move bounds to coordinate system of this component
-				other_rectangle.x += other.getLocation().x - gridElement.getLocation().x;
-				other_rectangle.y += other.getLocation().y - gridElement.getLocation().y;
+				other_rectangle.x += other.getRectangle().x - gridElement.getRectangle().x;
+				other_rectangle.y += other.getRectangle().y - gridElement.getRectangle().y;
 				if (other_rectangle.contains(p.x, p.y)) { 
 					// when elements intersect, select the smaller element
 					if (rectangle.intersects(other_rectangle) && smaller(other_rectangle, rectangle)) return false; 

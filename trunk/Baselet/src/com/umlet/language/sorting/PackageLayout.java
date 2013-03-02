@@ -1,14 +1,13 @@
 package com.umlet.language.sorting;
 
-import com.baselet.element.Dimension;
-import java.awt.Point;
-import com.baselet.element.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.baselet.element.Dimension;
+import com.baselet.element.Rectangle;
 import com.umlet.element.Package;
 import com.umlet.language.SortableElement;
 
@@ -52,8 +51,8 @@ public class PackageLayout extends Layout {
 
 	private void adjustLocations(SortableElement pack, List<SortableElement> packElements) {
 		for (SortableElement s: packElements) {
-			Point loc = s.getElement().getLocation();
-			Point packLoc = pack.getElement().getLocation();
+			Rectangle loc = s.getElement().getRectangle();
+			Rectangle packLoc = pack.getElement().getRectangle();
 			s.getElement().setLocation(loc.x + packLoc.x, loc.y + packLoc.y + ADJUST_TO_PACKAGE_HEAD);
 		}
 	}

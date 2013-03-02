@@ -266,8 +266,8 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	}
 
 	@Override
-	public void changeLocation(int diffx, int diffy) {
-		this.setLocation(this.getLocation().x + diffx, this.getLocation().y + diffy);
+	public void setLocationDifference(int diffx, int diffy) {
+		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
 	}
 
 	/**
@@ -291,7 +291,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	@Override
 	public boolean isInRange(Point upperLeft, Dimension size) {
 		Rectangle2D rect1 = new Rectangle2D.Double(upperLeft.getX(), upperLeft.getY(), size.getWidth(), size.getHeight());
-		Rectangle2D rect2 = new Rectangle2D.Double(getLocation().x, getLocation().y, getZoomedSize().width, getZoomedSize().height);
+		Rectangle2D rect2 = new Rectangle2D.Double(getRectangle().x, getRectangle().y, getZoomedSize().width, getZoomedSize().height);
 		return (rect1.contains(rect2));
 	}
 

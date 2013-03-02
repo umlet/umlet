@@ -47,14 +47,14 @@ public class Paste extends Command {
 		int minY = Integer.MAX_VALUE;
 
 		for (GridElement e : this.entities) {
-			minX = Math.min(e.getLocation().x, minX);
-			minY = Math.min(e.getLocation().y, minY);
+			minX = Math.min(e.getRectangle().x, minX);
+			minY = Math.min(e.getRectangle().y, minY);
 		}
 
 		for (GridElement e : this.entities) {
 			e.setStickingBorderActive(false);
 			// Must use changeLocation instead of setLocation to make sure that groups are placed correctly
-			e.changeLocation(
+			e.setLocationDifference(
 					viewpX * handler.getGridSize() - minX + handler.getGridSize() * Constants.PASTE_DISPLACEMENT_GRIDS,
 					viewpY * handler.getGridSize() - minY + handler.getGridSize() * Constants.PASTE_DISPLACEMENT_GRIDS);
 		}
@@ -67,8 +67,8 @@ public class Paste extends Command {
 
 		for (GridElement e : this.entities) {
 			(new AddElement(e,
-					handler.realignToGrid(e.getLocation().x + offsetX),
-					handler.realignToGrid(e.getLocation().y + offsetY), false)).execute(handler);
+					handler.realignToGrid(e.getRectangle().x + offsetX),
+					handler.realignToGrid(e.getRectangle().y + offsetY), false)).execute(handler);
 		}
 
 		handler.getDrawPanel().getSelector().deselectAll();
