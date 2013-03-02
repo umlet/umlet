@@ -2,7 +2,7 @@ package com.baselet.control;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
+import com.baselet.element.Dimension;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;

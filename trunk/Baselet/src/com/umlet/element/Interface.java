@@ -60,7 +60,7 @@ public class Interface extends OldGridElement {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
-				g2.drawLine(0, yPos, this.getSize().width, yPos);
+				g2.drawLine(0, yPos, this.getDimension().width, yPos);
 				yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
@@ -68,12 +68,12 @@ public class Interface extends OldGridElement {
 				TextLayout l = new TextLayout(s, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 				Rectangle2D r2d = l.getBounds();
 				int width = (int) r2d.getWidth();
-				int xPos = this.getSize().width / 2 - width / 2;
+				int xPos = this.getDimension().width / 2 - width / 2;
 				if (xPos < 0) {
 					ADAPT_SIZE = true;
 					break;
 				}
-				this.getHandler().getFontHandler().writeText(g2, s, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
+				this.getHandler().getFontHandler().writeText(g2, s, this.getDimension().width / 2, yPos, AlignHorizontal.CENTER);
 				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 		}
@@ -83,19 +83,19 @@ public class Interface extends OldGridElement {
 			(new Resize(this, 0, 0, this.getHandler().getGridSize(), 0)).execute(this.getHandler());
 			return;
 		}
-		if (yPos > this.getSize().height) {
+		if (yPos > this.getDimension().height) {
 			(new Resize(this, 0, 0, 0, 20)).execute(this.getHandler());
 			return;
 		}
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g.fillOval(this.getSize().width / 2 - (int) (10 * zoom), 0, (int) (20 * zoom), (int) (20 * zoom));
+		g.fillOval(this.getDimension().width / 2 - (int) (10 * zoom), 0, (int) (20 * zoom), (int) (20 * zoom));
 		g2.setComposite(composites[0]);
 		if (isSelected) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
 
-		g.drawOval(this.getSize().width / 2 - (int) (10 * zoom), 0, (int) (20 * zoom), (int) (20 * zoom));
+		g.drawOval(this.getDimension().width / 2 - (int) (10 * zoom), 0, (int) (20 * zoom), (int) (20 * zoom));
 		/*
 		 * if (_selected) {
 		 * g.drawOval(this.getWidth()/2-Constants.getFontsize()+1, 1, 2*Constants.getFontsize()-2, 2*Constants.getFontsize()-2);

@@ -1,6 +1,6 @@
 package com.baselet.control;
 
-import java.awt.Dimension;
+import com.baselet.element.Dimension;
 import java.awt.Frame;
 import java.awt.Point;
 import java.io.File;

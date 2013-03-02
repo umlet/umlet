@@ -46,11 +46,11 @@ public class PlotGrid extends OldGridElement {
 
 		} catch (ParserException e) {
 //			log.error(null, e);
-			BaseDrawHandler draw = new BaseDrawHandler(g, getHandler(), fgColor, bgColor, getSize());
+			BaseDrawHandler draw = new BaseDrawHandler(g, getHandler(), fgColor, bgColor, getDimension());
 			draw.setForegroundColor("red");
 			draw.setBackgroundColor("white");
 			draw.setBackgroundAlpha(Constants.ALPHA_NO_TRANSPARENCY);
-			draw.drawRectangle(0, 0, getSize().width-1, getSize().height-1);
+			draw.drawRectangle(0, 0, getDimension().width-1, getDimension().height-1);
 			draw.printCenter(e.getMessage(), getRealSize().height/2);
 		}
 	}
@@ -193,7 +193,7 @@ public class PlotGrid extends OldGridElement {
 	private AbstractPlot createPlot(Graphics g, PlotState plotState, int xPos, int yPos, String info) {
 		String type = plotState.getValueValidated(PlotConstants.KEY_STRING_TYPE, PlotConstants.TYPE_BAR, PlotConstants.getValuesForKey(PlotConstants.KEY_STRING_TYPE));
 		log.info("PlotGrid insert : " + type + " (" + xPos + ";" + yPos + ") " + info);
-		PlotGridDrawConfig plotDrawConfig = new PlotGridDrawConfig(this.getHandler(), this.getRealSize(),  this.getSize(), this.getFgColor(), this.getBgColor(), this.isSelected, this.minValue, this.maxValue);
+		PlotGridDrawConfig plotDrawConfig = new PlotGridDrawConfig(this.getHandler(), this.getRealSize(),  this.getDimension(), this.getFgColor(), this.getBgColor(), this.isSelected, this.minValue, this.maxValue);
 		if (PlotConstants.TYPE_PIE.equals(type)) return  new PiePlot(g,plotDrawConfig, plotState, xPos, yPos);
 		else if (PlotConstants.TYPE_LINE.equals(type)) return  new LinePlot(g,plotDrawConfig, plotState, xPos, yPos);
 		else if (PlotConstants.TYPE_SCATTER.equals(type)) return  new ScatterPlot(g,plotDrawConfig, plotState, xPos, yPos);

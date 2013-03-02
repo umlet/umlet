@@ -1,6 +1,6 @@
 package com.baselet.element;
 
-import java.awt.Dimension;
+import com.baselet.element.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -80,7 +80,7 @@ public interface GridElement {
 
 	void changeSize(int diffx, int diffy);
 
-	Dimension getSize();
+	Dimension getDimension();
 
 	/**
 	 * @return size of the element as if the zoomlevel would be 100% (eg: if zoom is 80% and width is 80 it would be returned as 100)

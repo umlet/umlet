@@ -1,6 +1,6 @@
 package com.umlet.language.sorting;
 
-import java.awt.Dimension;
+import com.baselet.element.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
