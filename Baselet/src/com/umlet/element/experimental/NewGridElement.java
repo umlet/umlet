@@ -5,7 +5,6 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -232,8 +231,8 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public boolean isInRange(Point upperLeft, Dimension size) {
-		Rectangle2D rect1 = new Rectangle2D.Double(upperLeft.getX(), upperLeft.getY(), size.getWidth(), size.getHeight());
-		Rectangle2D rect2 = new Rectangle2D.Double(getLocation().x, getLocation().y, getDimension().width, getDimension().height);
+		Rectangle rect1 = new Rectangle((int) upperLeft.getX(), (int) upperLeft.getY(), size.getWidth(), size.getHeight());
+		Rectangle rect2 = new Rectangle(getLocation().x, getLocation().y, getDimension().width, getDimension().height);
 		return (rect1.contains(rect2));
 	}
 
@@ -362,11 +361,6 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public Dimension getDimension() {
 		return new Dimension(component.getWidth(), component.getHeight());
-	}
-
-	@Override
-	public void paint(Graphics g) {
-		component.paint(g);
 	}
 
 	/**
