@@ -1,6 +1,5 @@
 package com.umlet.element.experimental;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -19,6 +18,7 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
+import com.baselet.control.interfaces.ColorInterface;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.element.GridElement;
@@ -186,7 +186,7 @@ public abstract class NewGridElement implements GridElement {
 		metaDrawer.clearCache();
 		if (isSelected) { // draw blue rectangle around selected gridelements
 			metaDrawer.setForegroundAlpha(Constants.ALPHA_FULL_TRANSPARENCY);
-			metaDrawer.setBackground(Color.BLUE, Constants.ALPHA_NEARLY_FULL_TRANSPARENCY);
+			metaDrawer.setBackground(ColorInterface.BLUE, Constants.ALPHA_NEARLY_FULL_TRANSPARENCY);
 			metaDrawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
 			metaDrawer.resetColorSettings();
 			if (Constants.show_stickingpolygon && !this.isPartOfGroup()) {
