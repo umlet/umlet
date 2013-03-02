@@ -50,7 +50,7 @@ public class Search extends Command {
 				p = new Point(0, 0);
 				break;
 			}
-			else if (p == null) p = new Point(e.getLocation().x - panelview.x - 10, e.getLocation().y - panelview.y - 10);
+			else if (p == null) p = new Point(e.getRectangle().x - panelview.x - 10, e.getRectangle().y - panelview.y - 10);
 		}
 
 		if (p != null) d.changeViewPosition(p.x, p.y);

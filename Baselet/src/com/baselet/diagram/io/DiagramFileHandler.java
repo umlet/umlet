@@ -154,11 +154,11 @@ public class DiagramFileHandler {
 					el.appendChild(elCoor);
 
 					Element elX = doc.createElement("x");
-					elX.appendChild(doc.createTextNode("" + e.getLocation().x));
+					elX.appendChild(doc.createTextNode("" + e.getRectangle().x));
 					elCoor.appendChild(elX);
 
 					Element elY = doc.createElement("y");
-					elY.appendChild(doc.createTextNode("" + e.getLocation().y));
+					elY.appendChild(doc.createTextNode("" + e.getRectangle().y));
 					elCoor.appendChild(elY);
 
 					Element elW = doc.createElement("w");

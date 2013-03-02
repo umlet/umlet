@@ -142,10 +142,10 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		int maxy = 0;
 
 		for (GridElement e : entities) {
-			minx = Math.min(minx, e.getLocation().x - borderSpace);
-			miny = Math.min(miny, e.getLocation().y - borderSpace);
-			maxx = Math.max(maxx, e.getLocation().x + e.getZoomedSize().width + borderSpace);
-			maxy = Math.max(maxy, e.getLocation().y + e.getZoomedSize().height + borderSpace);
+			minx = Math.min(minx, e.getRectangle().x - borderSpace);
+			miny = Math.min(miny, e.getRectangle().y - borderSpace);
+			maxx = Math.max(maxx, e.getRectangle().x + e.getZoomedSize().width + borderSpace);
+			maxy = Math.max(maxy, e.getRectangle().y + e.getZoomedSize().height + borderSpace);
 		}
 		return new Rectangle(minx, miny, maxx - minx, maxy - miny);
 	}
@@ -319,7 +319,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		moveOrigin(newX, newY);
 
 		for (GridElement ge : getAllEntities()) {
-			ge.setLocation(handler.realignToGrid(false, ge.getLocation().x - newX), handler.realignToGrid(false, ge.getLocation().y - newY));
+			ge.setLocation(handler.realignToGrid(false, ge.getRectangle().x - newX), handler.realignToGrid(false, ge.getRectangle().y - newY));
 		}
 
 		changeViewPosition(-newX, -newY);

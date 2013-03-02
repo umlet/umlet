@@ -79,8 +79,8 @@ public class ClassDiagramConverter {
 
 		for (SortableElement e: elements) {
 			new AddElement(e.getElement(), 
-					handler.realignToGrid(e.getElement().getLocation().x),
-					handler.realignToGrid(e.getElement().getLocation().y), false).execute(handler);
+					handler.realignToGrid(e.getElement().getRectangle().x),
+					handler.realignToGrid(e.getElement().getRectangle().y), false).execute(handler);
 		}
 		handler.setChanged(true);		
 	}

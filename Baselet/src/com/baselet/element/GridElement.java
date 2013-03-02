@@ -1,7 +1,6 @@
 package com.baselet.element;
 
 import java.awt.Point;
-import com.baselet.element.Rectangle;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.List;
@@ -40,7 +39,7 @@ public interface GridElement {
 
 	GridElement CloneFromMe();
 
-	void changeLocation(int diffx, int diffy);
+	void setLocationDifference(int diffx, int diffy);
 
 	void onDeselected();
 
@@ -69,8 +68,6 @@ public interface GridElement {
 	boolean isStickingBorderActive();
 
 	StickingPolygon generateStickingBorder(int x, int y, int width, int height);
-
-	Point getLocation();
 
 	Rectangle getRectangle();
 

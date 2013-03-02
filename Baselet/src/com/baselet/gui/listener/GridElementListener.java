@@ -186,7 +186,7 @@ public class GridElementListener extends UniversalListener {
 		GridElementListener eListener = handler.getEntityListener(e);
 		Command cmd;
 		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
-		cmd = new AddElement(e, me.getLocation().x + gridSize * 2, me.getLocation().y + gridSize * 2);
+		cmd = new AddElement(e, me.getRectangle().x + gridSize * 2, me.getRectangle().y + gridSize * 2);
 		// this.IS_FIRST_DRAGGING_OVER=true;
 		this.controller.executeCommand(cmd);
 		this.selector.singleSelect(e);
@@ -234,7 +234,7 @@ public class GridElementListener extends UniversalListener {
 	private void dragLasso(MouseEvent me, GridElement e) {
 		selector.setSelectorFrameActive(true);
 
-		selector.getSelectorFrame().setDisplacement(e.getLocation().x, e.getLocation().y);
+		selector.getSelectorFrame().setDisplacement(e.getRectangle().x, e.getRectangle().y);
 		selector.getSelectorFrame().resizeTo(me.getX(), me.getY()); // Subtract difference between entityx/entityy and the position of the mouse cursor
 
 		selector.deselectAll(); // If lasso is active the clicked and therefore automatically selected entity gets unselected
@@ -273,7 +273,7 @@ public class GridElementListener extends UniversalListener {
 			moveCommands.add(new Move(e, diffx, diffy));
 			if (e instanceof Relation) continue;
 			StickingPolygon stick = null;
-			if (e.isStickingBorderActive()) stick = e.generateStickingBorder(e.getLocation().x, e.getLocation().y, e.getZoomedSize().width, e.getZoomedSize().height);
+			if (e.isStickingBorderActive()) stick = e.generateStickingBorder(e.getRectangle().x, e.getRectangle().y, e.getZoomedSize().width, e.getZoomedSize().height);
 			if (stick != null) {
 				Vector<RelationLinePoint> affectedRelationPoints = stick.getStickingRelationLinePoints(this.diagram.getHandler());
 				for (int j = 0; j < affectedRelationPoints.size(); j++) {
@@ -331,10 +331,10 @@ public class GridElementListener extends UniversalListener {
 		}
 
 		if ((RESIZE_DIRECTION & Constants.RESIZE_RIGHT) > 0) {
-			delta_x = (e.getLocation().x + e.getZoomedSize().width) % gridSize;
+			delta_x = (e.getRectangle().x + e.getZoomedSize().width) % gridSize;
 		}
 		if ((RESIZE_DIRECTION & Constants.RESIZE_BOTTOM) > 0) {
-			delta_y = (e.getLocation().y + e.getZoomedSize().height) % gridSize;
+			delta_y = (e.getRectangle().y + e.getZoomedSize().height) % gridSize;
 		}
 
 		int diffx = newp.x - oldp.x - delta_x;
@@ -350,7 +350,7 @@ public class GridElementListener extends UniversalListener {
 
 		if ((RESIZE_DIRECTION & Constants.RESIZE_LEFT) > 0) {
 			// AB: get diffx; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffx = newp.x - e.getLocation().x + gridSize;
+			diffx = newp.x - e.getRectangle().x + gridSize;
 
 			// AB: only shrink to minimum size
 			if (e.getZoomedSize().width - diffx < minSize) {
@@ -364,7 +364,7 @@ public class GridElementListener extends UniversalListener {
 
 		if ((RESIZE_DIRECTION & Constants.RESIZE_RIGHT) > 0) {
 			// AB: get diffx; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffx = newp.x - (e.getLocation().x + e.getZoomedSize().width) + gridSize;
+			diffx = newp.x - (e.getRectangle().x + e.getZoomedSize().width) + gridSize;
 
 			// AB: only shrink to minimum size
 			if (e.getZoomedSize().width + diffx < minSize) {
@@ -381,7 +381,7 @@ public class GridElementListener extends UniversalListener {
 
 		if ((RESIZE_DIRECTION & Constants.RESIZE_TOP) > 0) {
 			// AB: get diffy; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffy = newp.y - e.getLocation().y + gridSize;
+			diffy = newp.y - e.getRectangle().y + gridSize;
 
 			// AB: only shrink to minimum size
 			if (e.getZoomedSize().height - diffy < minSize) {
@@ -395,7 +395,7 @@ public class GridElementListener extends UniversalListener {
 
 		if ((RESIZE_DIRECTION & Constants.RESIZE_BOTTOM) > 0) {
 			// AB: get diffy; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffy = newp.y - (e.getLocation().y + e.getZoomedSize().height) + gridSize;
+			diffy = newp.y - (e.getRectangle().y + e.getZoomedSize().height) + gridSize;
 
 			// AB: only shrink to minimum size
 			if (e.getZoomedSize().height + diffy < minSize) {

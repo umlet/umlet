@@ -61,11 +61,11 @@ public class Resize extends Command {
 		this.diffw = (diffw - diffx) / entity.getHandler().getGridSize();
 		this.diffh = (diffh - diffy) / entity.getHandler().getGridSize();
 
-		StickingPolygon from = this.entity.generateStickingBorder(this.entity.getLocation().x, this.entity.getLocation().y,
+		StickingPolygon from = this.entity.generateStickingBorder(this.entity.getRectangle().x, this.entity.getRectangle().y,
 				this.entity.getZoomedSize().width, this.entity.getZoomedSize().height);
 
 		// AB: FIXED: Use this.diffw/this.diffh instead of diffw/diffh as calculation base
-		StickingPolygon to = this.entity.generateStickingBorder(this.entity.getLocation().x + diffx, this.entity.getLocation().y + diffy,
+		StickingPolygon to = this.entity.generateStickingBorder(this.entity.getRectangle().x + diffx, this.entity.getRectangle().y + diffy,
 				this.entity.getZoomedSize().width + getDiffw(), this.entity.getZoomedSize().height + this.getDiffh());
 
 		if (first != null) {
@@ -84,7 +84,7 @@ public class Resize extends Command {
 			r = lp.getRelation();
 			p = r.getLinePoints().get(lp.getLinePointId());
 
-			diff = from.getLine(lp.getStickingLineId()).diffToLine(to.getLine(lp.getStickingLineId()), p.x + r.getLocation().x, p.y + r.getLocation().y);
+			diff = from.getLine(lp.getStickingLineId()).diffToLine(to.getLine(lp.getStickingLineId()), p.x + r.getRectangle().x, p.y + r.getRectangle().y);
 
 			DiagramHandler handler = entity.getHandler();
 			this.move_commands.add(new MoveLinePoint(lp.getRelation(), lp.getLinePointId(), handler.realignToGrid(diff.x), handler.realignToGrid(diff.y)));
@@ -96,7 +96,7 @@ public class Resize extends Command {
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
 
-		entity.changeLocation(getDiffx(), getDiffy());
+		entity.setLocationDifference(getDiffx(), getDiffy());
 		entity.changeSize(getDiffw(), getDiffh());
 		if (entity.isStickingBorderActive()) {
 			for (MoveLinePoint c : this.move_commands) {
@@ -108,7 +108,7 @@ public class Resize extends Command {
 	@Override
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
-		entity.changeLocation(-getDiffx(), -getDiffy());
+		entity.setLocationDifference(-getDiffx(), -getDiffy());
 		entity.changeSize(-getDiffw(), -getDiffh());
 		for (MoveLinePoint c : this.move_commands)
 			c.undo(handler);
