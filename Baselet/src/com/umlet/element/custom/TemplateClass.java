@@ -2,7 +2,7 @@ package com.umlet.element.custom;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import com.baselet.element.Rectangle;
 import java.util.Vector;
 
 import com.baselet.control.Constants.AlignHorizontal;
@@ -54,7 +54,7 @@ public class TemplateClass extends OldGridElement {
 			}
 		}
 
-		Rectangle r = this.getBounds();
+		Rectangle r = this.getRectangle();
 		g.drawRect(0, 0, (int) r.getWidth() - 1, (int) r.getHeight() - 1);
 		/*
 		 * if (_selected) {

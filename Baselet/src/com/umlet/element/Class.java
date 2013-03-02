@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.Rectangle;
+import com.baselet.element.Rectangle;
 import java.util.Vector;
 
 import com.baselet.control.Constants.AlignHorizontal;
@@ -78,7 +78,7 @@ public class Class extends OldGridElement {
 		Composite[] composites = colorize(g2); // LME: enable colors
 		g2.setColor(fgColor);
 
-		Rectangle r = this.getBounds();
+		Rectangle r = this.getRectangle();
 		LineType lineType = LineType.SOLID;
 		int thickness = 1;
 		for (int i = 0; i < tmp.size(); i++) {

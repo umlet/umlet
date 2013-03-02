@@ -1,10 +1,8 @@
 package com.baselet.diagram.io;
 
 import java.awt.Color;
-import com.baselet.element.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,8 +25,11 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.element.Converter;
+import com.baselet.element.Dimension;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.baselet.element.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.DefaultFontMapper;
 import com.itextpdf.text.pdf.FontMapper;
@@ -138,7 +139,7 @@ public class OutputHandler {
 			Graphics2D graphics2d = writer.getDirectContent().createGraphics(drawSpace.getWidth(), drawSpace.getHeight(), mapper);
 
 			// We shift the diagram to the upper left corner, so we shift it by (minX,minY) of the contextBounds
-			Dimension trans = new Dimension((int) bounds.getMinX(), (int) bounds.getMinY());
+			Dimension trans = new Dimension((int) bounds.getX(), (int) bounds.getY());
 			graphics2d.translate(-trans.getWidth(), -trans.getHeight());
 
 			handler.getDrawPanel().paintEntitiesIntoGraphics2D(graphics2d, entities);
@@ -155,7 +156,7 @@ public class OutputHandler {
 		org.w3c.dom.Document document = domImpl.createDocument(null, "svg", null);
 
 		SVGGraphics2D graphics2d = new SVGGraphics2D(document);
-		graphics2d.setSVGCanvasSize(bounds.getSize());
+		graphics2d.setSVGCanvasSize(Converter.convert(bounds.getSize()));
 		handler.getDrawPanel().paintEntitiesIntoGraphics2D(graphics2d, entities);
 
 		Element root = graphics2d.getRoot();

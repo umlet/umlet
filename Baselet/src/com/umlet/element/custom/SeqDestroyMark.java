@@ -3,7 +3,7 @@ package com.umlet.element.custom;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
+import com.baselet.element.Rectangle;
 
 import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
@@ -18,7 +18,7 @@ public class SeqDestroyMark extends OldGridElement {
 		g2.setColor(fgColor);
 		
 
-		Rectangle r = this.getBounds();
+		Rectangle r = this.getRectangle();
 		g2.drawLine(0, 0, (int) r.getWidth() - 1, (int) r.getHeight() - 1);
 		g2.drawLine((int) r.getWidth() - 1, 0, 0, (int) r.getHeight() - 1);
 	}
