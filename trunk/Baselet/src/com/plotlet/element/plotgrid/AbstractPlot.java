@@ -5,9 +5,9 @@ import java.awt.Graphics;
 import java.util.List;
 
 import com.baselet.control.Constants;
-import com.baselet.diagram.draw.PlotDrawHandler;
-import com.baselet.diagram.draw.objects.AxisConfig;
-import com.baselet.diagram.draw.objects.PlotGridDrawConfig;
+import com.baselet.diagram.draw.swing.PlotDrawHandler;
+import com.baselet.diagram.draw.swing.objects.AxisConfig;
+import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
 import com.plotlet.parser.DataSet;
 import com.plotlet.parser.ParserException;
 import com.plotlet.parser.PlotConstants;

@@ -1,4 +1,4 @@
-package com.baselet.diagram.draw;
+package com.baselet.diagram.draw.swing;
 
 import java.awt.Graphics;
 import java.awt.Point;
@@ -10,9 +10,9 @@ import java.util.TreeSet;
 import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.diagram.draw.objects.AxisConfig;
-import com.baselet.diagram.draw.objects.Canvas;
-import com.baselet.diagram.draw.objects.PlotGridDrawConfig;
+import com.baselet.diagram.draw.swing.objects.AxisConfig;
+import com.baselet.diagram.draw.swing.objects.Canvas;
+import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
 
 public class PlotDrawHandler {
 	protected BaseDrawHandlerSwing base;

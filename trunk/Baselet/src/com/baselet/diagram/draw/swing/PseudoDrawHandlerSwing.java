@@ -1,4 +1,6 @@
-package com.baselet.diagram.draw;
+package com.baselet.diagram.draw.swing;
+
+import com.baselet.diagram.draw.DrawFunction;
 
 
 

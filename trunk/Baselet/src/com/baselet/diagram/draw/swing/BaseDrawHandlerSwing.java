@@ -1,4 +1,4 @@
-package com.baselet.diagram.draw;
+package com.baselet.diagram.draw.swing;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics;
@@ -12,49 +12,50 @@ import java.awt.geom.Line2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.RoundRectangle2D;
 
-import com.baselet.control.Constants;
 import com.baselet.control.DimensionFloat;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.ColorOwn;
+import com.baselet.diagram.draw.DrawFunction;
+import com.baselet.diagram.draw.Style;
+import com.baselet.diagram.draw.Text;
 import com.baselet.element.Converter;
 import com.baselet.element.Dimension;
 
 public class BaseDrawHandlerSwing extends BaseDrawHandler {
 
-	// Save some objects needed to draw the shapes
-	protected Graphics2D g2;
+	private Graphics2D g2;
 
 	public BaseDrawHandlerSwing() {
-		this.fgColor = Constants.DEFAULT_FOREGROUND_COLOR;
-		this.bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
+		super();
 	}
 
 	public BaseDrawHandlerSwing(Graphics g, DiagramHandler handler, ColorOwn fgColor, ColorOwn bgColor, Dimension size) {
-		this.fgColor = fgColor;
-		this.bgColor= bgColor;
+		super();
+		setFgDefaultColor(fgColor);
+		setBgDefaultColor(bgColor);
 		setHandler(handler);
 		setGraphics(g);
 		setSize(size);
 	}
 
-	@Override
 	public void setGraphics(Graphics g) {
 		this.g2 = (Graphics2D) g;
-		g2.setFont(handler.getFontHandler().getFont());
-		g2.setColor(Converter.convert(fgColor));
 	}
 
 	private float getZoom() {
 		return handler.getZoomFactor();
 	}
-	
+
 	@Override
 	public float getDistanceBetweenTexts() {
 		return handler.getFontHandler().getDistanceBetweenTexts(false);
 	}
 
-	@Override DimensionFloat textDimension(String text) {
+	@Override
+	public DimensionFloat textDimension(String text) {
 		boolean specialFontSize = (style.getFontSize() != getDefaultFontSize());
 		if (specialFontSize) {
 			handler.getFontHandler().setFontSize(style.getFontSize());
@@ -67,7 +68,7 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	}
 
 	@Override
-	float getDefaultFontSize() {
+	public float getDefaultFontSize() {
 		return handler.getFontHandler().getFontSize(false);
 	}
 
@@ -144,12 +145,12 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
-				drawShape(styleAtDrawingCall, s, g2);
+				drawShape(styleAtDrawingCall, s);
 			}
 		});
 	}
 
-	private void drawShape(Style style, Shape s, Graphics2D g2) {
+	private void drawShape(Style style, Shape s) {
 		// Shapes Background
 		g2.setColor(Converter.convert(style.getBgColor()));
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getBgAlpha()));
@@ -167,12 +168,12 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
-				drawText(styleAtDrawingCall, t, g2, handler);
+				drawText(styleAtDrawingCall, t);
 			}
 		});
 	}
 
-	private void drawText(Style style, Text t, Graphics2D g2, DiagramHandler handler) {
+	private void drawText(Style style, Text t) {
 		ColorOwn col = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
 		g2.setColor(Converter.convert(col));
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getFgAlpha()));
@@ -185,12 +186,12 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	/*
 	 * DEPRECATED PRINT METHODS (ONLY USED FROM CUSTOM ELEMENTS AND PLOTGRID)
 	 */
-	
+
 	@Deprecated
 	public final void printLeft(String text, float y) {
 		print(text, y, AlignHorizontal.LEFT);
 	}
-	
+
 	@Deprecated
 	public final void printRight(String text, float y) {
 		print(text, y, AlignHorizontal.RIGHT);

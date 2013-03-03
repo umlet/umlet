@@ -1,4 +1,4 @@
-package com.baselet.diagram.draw.objects;
+package com.baselet.diagram.draw.swing.objects;
 
 import java.util.List;
 import java.util.TreeSet;

@@ -1,6 +1,5 @@
 package com.baselet.diagram.draw;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 
 import com.baselet.control.Constants;
@@ -10,12 +9,13 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler.FormatLabels;
+import com.baselet.diagram.draw.swing.PseudoDrawHandlerSwing;
 import com.baselet.element.Dimension;
 
 public abstract class BaseDrawHandler {
 
-	protected ColorOwn bgColor;
-	protected ColorOwn fgColor;
+	private ColorOwn bgDefaultColor;
+	private ColorOwn fgDefaultColor;
 
 	protected DiagramHandler handler;
 
@@ -26,6 +26,19 @@ public abstract class BaseDrawHandler {
 
 	private ArrayList<DrawFunction> drawables = new ArrayList<DrawFunction>();
 	private Style overlay = new Style();
+
+	public BaseDrawHandler() {
+		this.fgDefaultColor = Constants.DEFAULT_FOREGROUND_COLOR;
+		this.bgDefaultColor = Constants.DEFAULT_BACKGROUND_COLOR;
+	}
+	
+	public void setFgDefaultColor(ColorOwn fgDefaultColor) {
+		this.fgDefaultColor = fgDefaultColor;
+	}
+	
+	public void setBgDefaultColor(ColorOwn bgDefaultColor) {
+		this.bgDefaultColor = bgDefaultColor;
+	}
 	
 	public void setHandler(DiagramHandler handler) {
 		this.handler = handler;
@@ -33,7 +46,7 @@ public abstract class BaseDrawHandler {
 		resetStyle();
 	}
 
-	Style getOverlay() {
+	protected Style getOverlay() {
 		return overlay;
 	}
 
@@ -92,7 +105,7 @@ public abstract class BaseDrawHandler {
 	}
 
 	public final void setForegroundColor(String color) {
-		if (color.equals("fg")) setForegroundColor(fgColor);
+		if (color.equals("fg")) setForegroundColor(fgDefaultColor);
 		else setForegroundColor(Utils.getColor(color)); // if fgColor is not a valid string null will be set
 	}
 
@@ -102,7 +115,7 @@ public abstract class BaseDrawHandler {
 	}
 
 	public final void setBackgroundColor(String color) {
-		if (color.equals("bg")) setBackgroundColor(bgColor);
+		if (color.equals("bg")) setBackgroundColor(bgDefaultColor);
 		else setBackgroundColor(Utils.getColor(color));
 	}
 
@@ -189,11 +202,10 @@ public abstract class BaseDrawHandler {
 	/*
 	 * HELPER METHODS
 	 */
-	
-	public abstract void setGraphics(Graphics g);
-	abstract DimensionFloat textDimension(String string);
+
 	public abstract float getDistanceBetweenTexts();
-	abstract float getDefaultFontSize();
+	protected abstract DimensionFloat textDimension(String string);
+	protected abstract float getDefaultFontSize();
 
 	/*
 	 * DRAW METHODS

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.baselet.control.Constants;
-import com.baselet.diagram.draw.BaseDrawHandlerSwing;
-import com.baselet.diagram.draw.objects.PlotGridDrawConfig;
+import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
+import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
 import com.baselet.element.Converter;
 import com.baselet.element.OldGridElement;
 import com.baselet.shared.Matrix;
