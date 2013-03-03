@@ -503,7 +503,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	}
 
 	public void removeElement(GridElement gridElement) {
-		gridElements.remove(gridElement.getComponent());
+		gridElements.remove(gridElement);
 		remove(gridElement.getComponent());
 	}
 

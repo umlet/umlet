@@ -17,7 +17,7 @@ public class CustomPreviewHandler extends DiagramHandler {
 	}
 
 	public void closePreview() {
-		for (GridElement e : this.getDrawPanel().getAllEntities())
-			this.getDrawPanel().removeElement(e);
+		this.getDrawPanel().getAllEntities().clear();
+		this.getDrawPanel().removeAll();
 	}
 }
