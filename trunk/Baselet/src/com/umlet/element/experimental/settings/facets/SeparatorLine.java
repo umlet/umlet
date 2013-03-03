@@ -1,7 +1,7 @@
 package com.umlet.element.experimental.settings.facets;
 
 import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.diagram.draw.BaseDrawHandlerSwing;
+import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.helper.XPoints;
@@ -22,7 +22,7 @@ public class SeparatorLine implements Facet {
 	}
 	
 	@Override
-	public void handleLine(String line, BaseDrawHandlerSwing drawer, PropertiesConfig propConfig) {
+	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
 		if (setHAlignToLeftAfterLine) {
 			propConfig.sethAlign(AlignHorizontal.LEFT);
 		}

@@ -8,7 +8,7 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.FontHandler.FormatLabels;
-import com.baselet.diagram.draw.BaseDrawHandlerSwing;
+import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 
@@ -85,7 +85,7 @@ public class DefaultGlobalFacet implements Facet {
 	}
 
 	@Override
-	public void handleLine(String line, BaseDrawHandlerSwing drawer, PropertiesConfig propConfig) {
+	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
 		String[] split = line.split(GlobalSetting.SEPARATOR, 2);
 		if (split.length > 1) {
 			try {

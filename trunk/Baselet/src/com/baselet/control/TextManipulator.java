@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.ListIterator;
 
-import com.baselet.diagram.draw.BaseDrawHandlerSwing;
+import com.baselet.diagram.draw.BaseDrawHandler;
 
 /**
  * Cache for already known results of splitstrings
@@ -13,11 +13,11 @@ import com.baselet.diagram.draw.BaseDrawHandlerSwing;
 public class TextManipulator {
 	private static LinkedHashMap<SplitStringCacheKey, String> splitStringCache = new LinkedHashMap<SplitStringCacheKey, String>(100);
 
-	public static boolean checkifStringFits(String text, float width, BaseDrawHandlerSwing drawer) {
+	public static boolean checkifStringFits(String text, float width, BaseDrawHandler drawer) {
 		return splitString(text, width, drawer).equals(text);
 	}
 	
-	public static String splitString(String text, float width, BaseDrawHandlerSwing drawer) {
+	public static String splitString(String text, float width, BaseDrawHandler drawer) {
 		SplitStringCacheKey key = new SplitStringCacheKey(text, width);
 		String result = splitStringCache.get(key);
 		if (result != null) return result;
@@ -28,7 +28,7 @@ public class TextManipulator {
 		return result.trim();
 	}
 	
-	private static String splitStringAlgorithm(String text, float width, BaseDrawHandlerSwing drawer) {
+	private static String splitStringAlgorithm(String text, float width, BaseDrawHandler drawer) {
 		String splitChar = " ";
 		width -= drawer.textWidth("n"); // subtract a buffer to make sure no character is hidden at the end
 		ListIterator<String> inputIter = new ArrayList<String>(Arrays.asList(text.split(splitChar, -1))).listIterator(); // split limit is -1 to retain spaces at the end of the string

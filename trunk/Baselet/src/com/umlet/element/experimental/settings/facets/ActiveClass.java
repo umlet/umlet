@@ -1,6 +1,6 @@
 package com.umlet.element.experimental.settings.facets;
 
-import com.baselet.diagram.draw.BaseDrawHandlerSwing;
+import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.helper.XPoints;
@@ -17,7 +17,7 @@ public class ActiveClass implements Facet {
 	}
 
 	@Override
-	public void handleLine(String line, BaseDrawHandlerSwing drawer, PropertiesConfig propConfig) {
+	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
 		//TODO doesn't work inside of an inner class
 		propConfig.addToBuffer(SPACING);
 		XPoints xLimits = propConfig.getXLimits(propConfig.getyPos());

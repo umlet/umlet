@@ -3,7 +3,7 @@ package com.umlet.element.experimental.settings.facets;
 import com.baselet.control.Constants;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.draw.BaseDrawHandlerSwing;
+import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.Style;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
@@ -20,7 +20,7 @@ public class TemplateClass implements Facet {
 	}
 
 	@Override
-	public void handleLine(String line, BaseDrawHandlerSwing drawer, PropertiesConfig propConfig) {
+	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
 		String templateValue = line.substring(KEY.length());
 		float height = drawer.textHeight() + SPACE;
 		float width = drawer.textWidth(templateValue) + SPACE;
