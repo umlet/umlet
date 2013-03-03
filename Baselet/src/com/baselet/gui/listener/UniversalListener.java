@@ -12,7 +12,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.Selector;
 import com.baselet.diagram.SelectorFrame;
-import com.baselet.element.Dimension;
+import com.baselet.element.Converter;
 
 
 public abstract class UniversalListener extends ComponentAdapter implements MouseListener, MouseMotionListener {
@@ -64,7 +64,7 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 			SelectorFrame selframe = this.selector.getSelectorFrame();
 			this.diagram.remove(selframe);
 			this.selector.deselectAll();
-			this.selector.multiSelect(selframe.getLocation(), new Dimension(selframe.getWidth(), selframe.getHeight()));
+			this.selector.multiSelect(Converter.convert(selframe.getBounds()));
 			this.selector.setSelectorFrameActive(false);
 			this.diagram.repaint();
 		}

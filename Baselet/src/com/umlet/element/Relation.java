@@ -8,7 +8,6 @@ import java.awt.Polygon;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
@@ -16,7 +15,6 @@ import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
 import com.baselet.element.Converter;
-import com.baselet.element.Dimension;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.Rectangle;
@@ -631,14 +629,13 @@ public class Relation extends OldGridElement {
 	 * A relation is only in range (= in the selection frame) if every relation point is in the selection frame
 	 */
 	@Override
-	public boolean isInRange(Point upperLeft, Dimension size) {
-		Rectangle2D rect1 = new Rectangle2D.Double(upperLeft.getX(), upperLeft.getY(), size.getWidth(), size.getHeight());
+	public boolean isInRange(Rectangle rect1) {
 		// Assume that the rect contains all relation points
 		for (Point p : getLinePoints()) {
 			// We must add the displacement from the top left corner of the drawpanel to the point coordinates
 			Point realPoint = new Point((int) (p.getX() + this.getRectangle().x), (int) (p.getY() + this.getRectangle().y));
 			// If only one point is not in the selection rectangle, the method returns false
-			if (!rect1.contains(realPoint)) return false;
+			if (!rect1.contains(realPoint.x, realPoint.y)) return false;
 		}
 		return true;
 	}

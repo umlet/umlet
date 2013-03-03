@@ -226,10 +226,8 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public boolean isInRange(Point upperLeft, Dimension size) {
-		Rectangle rect1 = new Rectangle((int) upperLeft.getX(), (int) upperLeft.getY(), size.getWidth(), size.getHeight());
-		Rectangle rect2 = new Rectangle(getRectangle().x, getRectangle().y, getZoomedSize().width, getZoomedSize().height);
-		return (rect1.contains(rect2));
+	public boolean isInRange(Rectangle rect1) {
+		return (rect1.contains(getRectangle()));
 	}
 
 	@Override

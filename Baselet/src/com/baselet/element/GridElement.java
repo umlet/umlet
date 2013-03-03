@@ -1,6 +1,5 @@
 package com.baselet.element;
 
-import java.awt.Point;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.List;
@@ -82,7 +81,7 @@ public interface GridElement {
 	 */
 	Dimension getRealSize();
 
-	boolean isInRange(Point upperLeft, Dimension size);
+	boolean isInRange(Rectangle rectangle);
 	
 	JComponent getComponent();
 
