@@ -3,7 +3,7 @@ package com.baselet.diagram.draw.objects;
 import java.awt.Color;
 
 import com.baselet.control.Constants;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.BaseDrawHandlerSwing;
 import com.baselet.element.Dimension;
 import com.baselet.element.Rectangle;
 
@@ -173,7 +173,7 @@ public class Canvas {
 		return (gridElementSize.width > getOuterHorizontalSum());
 	}
 
-	public void draw(BaseDrawHandler baseDrawHandler) {
+	public void draw(BaseDrawHandlerSwing baseDrawHandler) {
 		baseDrawHandler.setBackgroundAlpha(Constants.ALPHA_FULL_TRANSPARENCY);
 		baseDrawHandler.setForegroundAlpha(Constants.ALPHA_MIDDLE_TRANSPARENCY);
 		baseDrawHandler.setForegroundColor(Color.RED);

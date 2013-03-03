@@ -13,7 +13,7 @@ import com.baselet.control.Utils;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.control.interfaces.ColorInterface;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.BaseDrawHandlerSwing;
 import com.baselet.element.Converter;
 import com.baselet.element.Dimension;
 import com.baselet.element.GridElement;
@@ -32,8 +32,8 @@ public abstract class NewGridElement implements GridElement {
 
 	private boolean stickingBorderActive;
 
-	protected BaseDrawHandler drawer; // this is the drawer for element specific stuff
-	private BaseDrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
+	protected BaseDrawHandlerSwing drawer; // this is the drawer for element specific stuff
+	private BaseDrawHandlerSwing metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
 	private DiagramHandler handler;
 
 	protected boolean isSelected = false;
@@ -45,8 +45,8 @@ public abstract class NewGridElement implements GridElement {
 	protected JComponent component;
 
 	public void init(Rectangle bounds, String panelAttributes, String panelAttributesAdditional, DiagramHandler handler) {
-		drawer = new BaseDrawHandler();
-		metaDrawer = new BaseDrawHandler();
+		drawer = new BaseDrawHandlerSwing();
+		metaDrawer = new BaseDrawHandlerSwing();
 		component = new NewGridElementJComponent(drawer, metaDrawer, this);
 		setRectangle(bounds);
 		properties = new Properties(panelAttributes, panelAttributesAdditional, drawer);
