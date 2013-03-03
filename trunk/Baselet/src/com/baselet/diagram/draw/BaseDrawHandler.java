@@ -21,8 +21,7 @@ public abstract class BaseDrawHandler {
 
 	protected Style style;
 	
-	protected float width;
-	protected float height;
+	private Dimension size;
 
 	private ArrayList<DrawFunction> drawables = new ArrayList<DrawFunction>();
 	private Style overlay = new Style();
@@ -51,8 +50,11 @@ public abstract class BaseDrawHandler {
 	}
 
 	public void setSize(Dimension size) {
-		this.width = size.width;
-		this.height = size.height;
+		this.size = size;
+	}
+	
+	public Dimension getSize() {
+		return size;
 	}
 	
 	protected void addDrawable(DrawFunction drawable) {
@@ -188,8 +190,7 @@ public abstract class BaseDrawHandler {
 	public PseudoDrawHandlerSwing getPseudoDrawHandler() {
 		PseudoDrawHandlerSwing counter = new PseudoDrawHandlerSwing();
 		counter.setHandler(handler);
-		counter.width = this.width;
-		counter.height = this.height;
+		counter.setSize(size);
 		return counter;
 	}
 
