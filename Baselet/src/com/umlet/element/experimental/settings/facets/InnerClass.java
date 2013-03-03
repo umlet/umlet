@@ -4,7 +4,7 @@ import java.util.Stack;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.BaseDrawHandlerSwing;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.helper.XPoints;
@@ -25,7 +25,7 @@ public class InnerClass implements Facet {
 	}
 
 	@Override
-	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleLine(String line, BaseDrawHandlerSwing drawer, PropertiesConfig propConfig) {
 		if (line.equals(START)) {
 			ClassSettings settings = new ClassSettings(propConfig.gethAlign(), propConfig.getvAlign(), propConfig.getDividerPos(drawer.textHeight()));
 			innerClassStartPoints.add(settings);

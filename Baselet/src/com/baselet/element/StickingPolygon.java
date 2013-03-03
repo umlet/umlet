@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.BaseDrawHandlerSwing;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
 
@@ -78,7 +78,7 @@ public class StickingPolygon {
 			g2.drawLine(p1.x, p1.y, p2.x, p2.y);
 		}
 
-		private void draw(BaseDrawHandler drawer) {
+		private void draw(BaseDrawHandlerSwing drawer) {
 			drawer.drawLine(p1.x, p1.y, p2.x, p2.y);
 		}
 
@@ -143,7 +143,7 @@ public class StickingPolygon {
 			l.draw(g2);
 	}
 
-	public final void draw(BaseDrawHandler drawer) {
+	public final void draw(BaseDrawHandlerSwing drawer) {
 		for (StickLine l : this.stick)
 			l.draw(drawer);
 	}

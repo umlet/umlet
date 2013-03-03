@@ -15,12 +15,12 @@ import com.baselet.diagram.draw.objects.Canvas;
 import com.baselet.diagram.draw.objects.PlotGridDrawConfig;
 
 public class PlotDrawHandler {
-	protected BaseDrawHandler base;
+	protected BaseDrawHandlerSwing base;
 	
 	private boolean isSelected;
 
 	public PlotDrawHandler(Graphics g, PlotGridDrawConfig plotDrawConfig) {
-		base = new BaseDrawHandler(g, plotDrawConfig.getDiagramHandler(),  plotDrawConfig.getFgColor(), plotDrawConfig.getBgColor(), plotDrawConfig.getSize());
+		base = new BaseDrawHandlerSwing(g, plotDrawConfig.getDiagramHandler(),  plotDrawConfig.getFgColor(), plotDrawConfig.getBgColor(), plotDrawConfig.getSize());
 		isSelected = plotDrawConfig.isSelected();
 //		drawLegend = false;
 		axisConfig = new AxisConfig();
