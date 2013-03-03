@@ -9,8 +9,8 @@ import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
+import com.baselet.control.enumerations.LineType;
 import com.baselet.control.interfaces.ColorInterface;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;

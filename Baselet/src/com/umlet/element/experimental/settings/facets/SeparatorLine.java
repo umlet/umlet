@@ -1,6 +1,6 @@
 package com.umlet.element.experimental.settings.facets;
 
-import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;

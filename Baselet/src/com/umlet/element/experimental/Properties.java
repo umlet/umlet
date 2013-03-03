@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.control.Constants.AlignHorizontal;
-import com.baselet.control.Constants.AlignVertical;
 import com.baselet.control.DimensionFloat;
 import com.baselet.control.TextManipulator;
 import com.baselet.control.Utils;
+import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.helper.XPoints;

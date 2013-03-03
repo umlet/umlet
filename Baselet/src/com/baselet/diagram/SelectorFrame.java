@@ -9,8 +9,8 @@ import javax.swing.JComponent;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
+import com.baselet.control.enumerations.LineType;
 
 /**
  * @author unknown

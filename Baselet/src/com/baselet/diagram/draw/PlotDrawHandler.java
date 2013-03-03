@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.TreeSet;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
+import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.objects.AxisConfig;
 import com.baselet.diagram.draw.objects.Canvas;
 import com.baselet.diagram.draw.objects.PlotGridDrawConfig;

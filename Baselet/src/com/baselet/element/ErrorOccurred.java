@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.lang.reflect.Constructor;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.enumerations.AlignHorizontal;
 
 @SuppressWarnings("serial")
 public class ErrorOccurred extends OldGridElement {

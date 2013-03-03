@@ -221,10 +221,10 @@ public class MenuFactory {
 					AboutDialog.show();
 				}
 				else if (menuItem.equals(SET_FOREGROUND_COLOR) && (actualHandler != null)) {
-					actualHandler.getController().executeCommand(new ChangeElementSetting(GlobalSetting.ForegroundColor, (String) param));
+					actualHandler.getController().executeCommand(new ChangeElementSetting(GlobalSetting.FOREGROUND_COLOR, (String) param));
 				}
 				else if (menuItem.equals(SET_BACKGROUND_COLOR) && (actualHandler != null)) {
-					actualHandler.getController().executeCommand(new ChangeElementSetting(GlobalSetting.BackgroundColor, (String) param));
+					actualHandler.getController().executeCommand(new ChangeElementSetting(GlobalSetting.BACKGROUND_COLOR, (String) param));
 				}
 				else if (menuItem.equals(ALIGN) && (actualHandler != null) && (actualSelector != null)) {
 					Vector<GridElement> v = actualSelector.getSelectedEntities();

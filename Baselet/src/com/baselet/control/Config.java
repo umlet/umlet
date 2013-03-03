@@ -1,6 +1,5 @@
 package com.baselet.control;
 
-import com.baselet.element.Dimension;
 import java.awt.Frame;
 import java.awt.Point;
 import java.io.File;
@@ -12,6 +11,7 @@ import java.util.Properties;
 import javax.swing.JFrame;
 
 import com.baselet.control.Constants.Program;
+import com.baselet.element.Dimension;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.language.FieldOptions;

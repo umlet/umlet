@@ -16,10 +16,10 @@ import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.AlignHorizontal;
-import com.baselet.control.Constants.LineType;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
+import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
@@ -190,8 +190,8 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 
 	@Override
 	public String getSetting(GlobalSetting key) {
-		if (key == GlobalSetting.ForegroundColor) return fgColorString;
-		else if (key == GlobalSetting.BackgroundColor) return bgColorString;
+		if (key == GlobalSetting.FOREGROUND_COLOR) return fgColorString;
+		else if (key == GlobalSetting.BACKGROUND_COLOR) return bgColorString;
 		else return "";
 	}
 
@@ -398,10 +398,10 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 
 	@Override
 	public Integer getLayer() {
-		lastLayerValue = Integer.valueOf(GlobalSetting.Layer.getValue());
+		lastLayerValue = Integer.valueOf(GlobalSetting.LAYER.getValue());
 		try {
 			for (String s : Utils.decomposeStringsWithComments(panelAttributes)) {
-				String key = GlobalSetting.Layer.toString() + GlobalSetting.SEPARATOR;
+				String key = GlobalSetting.LAYER.toString() + GlobalSetting.SEPARATOR;
 				if (s.startsWith(key)) {
 					String value = s.split(key)[1];
 					lastLayerValue = Integer.valueOf(value);

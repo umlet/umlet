@@ -18,7 +18,7 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Constants.LineType;
+import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Rectangle;

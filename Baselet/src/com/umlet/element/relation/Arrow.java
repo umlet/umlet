@@ -1,6 +1,7 @@
 package com.umlet.element.relation;
 
 import java.awt.Point;
+
 import com.baselet.element.Rectangle;
 
 @SuppressWarnings("serial")

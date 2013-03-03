@@ -2,8 +2,8 @@ package com.umlet.element.experimental;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Constants.AlignHorizontal;
-import com.baselet.control.Constants.AlignVertical;
+import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.element.Dimension;
 import com.umlet.element.experimental.helper.XPoints;
 import com.umlet.element.experimental.settings.Settings;
@@ -24,7 +24,7 @@ public class PropertiesConfig {
 	private Settings specificSettings;
 	private Dimension gridElementSize;
 	private ElementStyleEnum elementStyle;
-	private Integer layer = Integer.valueOf(GlobalSetting.Layer.getValue());
+	private Integer layer = Integer.valueOf(GlobalSetting.LAYER.getValue());
 
 	public PropertiesConfig(Settings specificSettings) {
 		hAlign = specificSettings.getHAlign();
@@ -148,7 +148,7 @@ public class PropertiesConfig {
 		try {
 			this.layer = Integer.valueOf(layer);
 		} catch (NumberFormatException e) {
-			log.info("Invalid value: " + layer + " - " + GlobalSetting.Layer + " must be an Integer");
+			log.info("Invalid value: " + layer + " - " + GlobalSetting.LAYER + " must be an Integer");
 		}
 	}
 
