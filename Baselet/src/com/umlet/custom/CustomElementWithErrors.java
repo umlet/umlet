@@ -3,8 +3,8 @@ package com.umlet.custom;
 import java.util.List;
 
 import com.baselet.control.Constants;
-import com.baselet.diagram.draw.BaseDrawHandlerSwing;
 import com.baselet.diagram.draw.ColorOwn;
+import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.element.GridElement;
 
 

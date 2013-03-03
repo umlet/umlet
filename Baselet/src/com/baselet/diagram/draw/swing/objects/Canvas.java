@@ -1,8 +1,8 @@
-package com.baselet.diagram.draw.objects;
+package com.baselet.diagram.draw.swing.objects;
 
 import com.baselet.control.Constants;
-import com.baselet.diagram.draw.BaseDrawHandlerSwing;
 import com.baselet.diagram.draw.ColorOwn;
+import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.element.Dimension;
 import com.baselet.element.Rectangle;
 

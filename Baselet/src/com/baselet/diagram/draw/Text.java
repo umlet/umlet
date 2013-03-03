@@ -1,17 +1,15 @@
-/**
- * 
- */
+
 package com.baselet.diagram.draw;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 
-class Text {
+public class Text {
 	private String text;
 	private float x;
 	private float y;
 	private AlignHorizontal horizontalAlignment;
 
-	Text(String text, float x, float y, AlignHorizontal align) {
+	public Text(String text, float x, float y, AlignHorizontal align) {
 		this.text = text;
 		this.x = x;
 		this.y = y;
