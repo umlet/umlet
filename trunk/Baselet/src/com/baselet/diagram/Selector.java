@@ -1,7 +1,5 @@
 package com.baselet.diagram;
 
-import com.baselet.element.Dimension;
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -9,6 +7,7 @@ import java.util.Vector;
 import com.baselet.control.Main;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.baselet.element.Rectangle;
 import com.umlet.custom.CustomElement;
 
 
@@ -157,9 +156,9 @@ public class Selector {
 		this.select(e);
 	}
 
-	public void multiSelect(Point upperLeft, Dimension size) {
+	public void multiSelect(Rectangle rect) {
 		for (GridElement e : panel.getAllEntities()) {
-			if (e.isInRange(upperLeft, size)) select(e);
+			if (e.isInRange(rect)) select(e);
 		}
 	}
 }

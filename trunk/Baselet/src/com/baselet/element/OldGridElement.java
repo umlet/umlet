@@ -289,11 +289,9 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	}
 
 	@Override
-	public boolean isInRange(Point upperLeft, Dimension size) {
-		Rectangle2D rect1 = new Rectangle2D.Double(upperLeft.getX(), upperLeft.getY(), size.getWidth(), size.getHeight());
-		Rectangle2D rect2 = new Rectangle2D.Double(getRectangle().x, getRectangle().y, getZoomedSize().width, getZoomedSize().height);
-		return (rect1.contains(rect2));
-	}
+	public boolean isInRange(Rectangle rect1) {
+		return (rect1.contains(getRectangle()));
+		}
 
 	public void setInProgress(Graphics g, boolean flag) {
 		if (flag) {
