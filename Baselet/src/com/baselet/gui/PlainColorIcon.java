@@ -7,13 +7,14 @@ import java.awt.Graphics;
 import javax.swing.Icon;
 
 import com.baselet.control.Utils;
+import com.baselet.element.Converter;
 
 public class PlainColorIcon implements Icon {
 
 	private Color color;
 
 	public PlainColorIcon(String color) {
-		this.color = Utils.getColor(color);
+		this.color = Converter.convert(Utils.getColor(color));
 	}
 
 	@Override

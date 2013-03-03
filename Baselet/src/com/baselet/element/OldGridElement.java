@@ -21,6 +21,7 @@ import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.draw.ColorOwn;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
@@ -39,10 +40,10 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	protected boolean isSelected = false;
 
 	// deselectedColor and fgColor must be stored separately because selection changes the actual fgColor but not the fgColorBase
-	protected Color fgColorBase = Color.black;
+	protected Color fgColorBase = Converter.convert(ColorOwn.BLACK);
 	protected Color fgColor = fgColorBase;
 	private String fgColorString = "";
-	protected Color bgColor = Color.white;
+	protected Color bgColor = Converter.convert(ColorOwn.WHITE);
 	private String bgColorString = "";
 	protected float alphaFactor;
 
@@ -168,7 +169,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	@Override
 	public void onSelected() {
 		isSelected = true;
-		fgColor = Constants.DEFAULT_SELECTED_COLOR;
+		fgColor = Converter.convert(Constants.DEFAULT_SELECTED_COLOR);
 		this.repaint();
 	}
 
@@ -180,12 +181,12 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		this.repaint();
 	}
 
-	public Color getFgColor() {
-		return fgColor;
+	public ColorOwn getFgColor() {
+		return Converter.convert(fgColor);
 	}
 
-	public Color getBgColor() {
-		return bgColor;
+	public ColorOwn getBgColor() {
+		return Converter.convert(bgColor);
 	}
 
 	@Override
@@ -211,20 +212,20 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	public Composite[] colorize(Graphics2D g2) {
 		bgColorString = "";
 		fgColorString = "";
-		bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
-		fgColorBase = Constants.DEFAULT_FOREGROUND_COLOR;
+		bgColor = Converter.convert(Constants.DEFAULT_BACKGROUND_COLOR);
+		fgColorBase = Converter.convert(Constants.DEFAULT_FOREGROUND_COLOR);
 		Vector<String> v = Utils.decomposeStringsWithComments(panelAttributes);
 		for (int i = 0; i < v.size(); i++) {
 			String line = v.get(i);
 			if (line.indexOf("bg=") >= 0) {
 				bgColorString = line.substring("bg=".length());
-				bgColor = Utils.getColor(bgColorString);
-				if (bgColor == null) bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
+				bgColor = Converter.convert(Utils.getColor(bgColorString));
+				if (bgColor == null) bgColor = Converter.convert(Constants.DEFAULT_BACKGROUND_COLOR);
 			}
 			else if (line.indexOf("fg=") >= 0) {
 				fgColorString = line.substring("fg=".length());
-				fgColorBase = Utils.getColor(fgColorString);
-				if (fgColorBase == null) fgColorBase = Constants.DEFAULT_FOREGROUND_COLOR;
+				fgColorBase = Converter.convert(Utils.getColor(fgColorString));
+				if (fgColorBase == null) fgColorBase = Converter.convert(Constants.DEFAULT_FOREGROUND_COLOR);
 				if (!isSelected) fgColor = fgColorBase;
 			}
 		}
@@ -340,7 +341,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		if (poly != null) {
 			Color c = g2.getColor();
 			Stroke s = g2.getStroke();
-			g2.setColor(Constants.DEFAULT_SELECTED_COLOR);
+			g2.setColor(Converter.convert(Constants.DEFAULT_SELECTED_COLOR));
 			g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
 			poly.draw(g2);
 			g2.setColor(c);

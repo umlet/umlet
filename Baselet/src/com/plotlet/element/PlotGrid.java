@@ -7,6 +7,7 @@ import java.util.List;
 import com.baselet.control.Constants;
 import com.baselet.diagram.draw.BaseDrawHandlerSwing;
 import com.baselet.diagram.draw.objects.PlotGridDrawConfig;
+import com.baselet.element.Converter;
 import com.baselet.element.OldGridElement;
 import com.baselet.shared.Matrix;
 import com.plotlet.element.plotgrid.AbstractPlot;
@@ -46,7 +47,7 @@ public class PlotGrid extends OldGridElement {
 
 		} catch (ParserException e) {
 //			log.error(null, e);
-			BaseDrawHandlerSwing draw = new BaseDrawHandlerSwing(g, getHandler(), fgColor, bgColor, getZoomedSize());
+			BaseDrawHandlerSwing draw = new BaseDrawHandlerSwing(g, getHandler(), Converter.convert(fgColor), Converter.convert(bgColor), getZoomedSize());
 			draw.setForegroundColor("red");
 			draw.setBackgroundColor("white");
 			draw.setBackgroundAlpha(Constants.ALPHA_NO_TRANSPARENCY);

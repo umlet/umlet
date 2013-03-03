@@ -1,6 +1,5 @@
 package com.baselet.diagram.draw;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -15,8 +14,8 @@ import com.baselet.element.Dimension;
 
 public abstract class BaseDrawHandler {
 
-	protected Color bgColor;
-	protected Color fgColor;
+	protected ColorOwn bgColor;
+	protected ColorOwn fgColor;
 
 	protected DiagramHandler handler;
 
@@ -77,7 +76,7 @@ public abstract class BaseDrawHandler {
 		setForegroundAlpha(alpha);
 	}
 
-	public final void setForeground(Color color, float alpha) {
+	public final void setForeground(ColorOwn color, float alpha) {
 		setForegroundColor(color);
 		setForegroundAlpha(alpha);
 	}
@@ -87,7 +86,7 @@ public abstract class BaseDrawHandler {
 		setBackgroundAlpha(alpha);
 	}
 
-	public final void setBackground(Color color, float alpha) {
+	public final void setBackground(ColorOwn color, float alpha) {
 		setBackgroundColor(color);
 		setBackgroundAlpha(alpha);
 	}
@@ -97,7 +96,7 @@ public abstract class BaseDrawHandler {
 		else setForegroundColor(Utils.getColor(color)); // if fgColor is not a valid string null will be set
 	}
 
-	public final void setForegroundColor(Color color) {
+	public final void setForegroundColor(ColorOwn color) {
 		if (color == null) style.setFgColor(Constants.DEFAULT_FOREGROUND_COLOR);
 		else style.setFgColor(color);
 	}
@@ -107,7 +106,7 @@ public abstract class BaseDrawHandler {
 		else setBackgroundColor(Utils.getColor(color));
 	}
 
-	public final void setBackgroundColor(Color color) {
+	public final void setBackgroundColor(ColorOwn color) {
 		if (color == null) style.setBgColor(Constants.DEFAULT_BACKGROUND_COLOR);
 		else style.setBgColor(color);
 	}

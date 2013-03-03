@@ -27,6 +27,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Utils;
+import com.baselet.element.Converter;
 import com.baselet.element.GridElement;
 
 
@@ -57,7 +58,7 @@ public class OwnSyntaxPane {
 		textArea.setSyntaxEditingStyle(OwnTokenMaker.ID);
 
 		SyntaxScheme scheme = textArea.getSyntaxScheme();
-		scheme.getStyle(SPECIFIC_SETTING).foreground = Utils.getColor("#e10100");
+		scheme.getStyle(SPECIFIC_SETTING).foreground = Converter.convert(Utils.getColor("#e10100"));
 		scheme.getStyle(GLOBAL_SETTING).foreground = Color.BLUE;
 
 		//Setup autocompletion
