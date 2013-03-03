@@ -6,16 +6,16 @@ import java.awt.Point;
 import javax.swing.JComponent;
 
 import com.baselet.control.Utils;
-import com.baselet.diagram.draw.BaseDrawHandlerSwing;
+import com.baselet.diagram.draw.BaseDrawHandler;
 
 public class NewGridElementJComponent extends JComponent {
 	private static final long serialVersionUID = 1L;
 	
-	private BaseDrawHandlerSwing drawer;
-	private BaseDrawHandlerSwing metaDrawer;
+	private BaseDrawHandler drawer;
+	private BaseDrawHandler metaDrawer;
 	private NewGridElement gridElement;
 	
-	public NewGridElementJComponent(BaseDrawHandlerSwing drawer, BaseDrawHandlerSwing metaDrawer, NewGridElement gridElement) {
+	public NewGridElementJComponent(BaseDrawHandler drawer, BaseDrawHandler metaDrawer, NewGridElement gridElement) {
 		this.drawer = drawer;
 		this.metaDrawer = metaDrawer;
 		this.gridElement = gridElement;

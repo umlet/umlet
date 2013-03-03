@@ -50,18 +50,21 @@ public class BaseDrawHandlerSwing implements BaseDrawHandler {
 		setSize(size);
 	}
 
+	@Override
 	public void setHandler(DiagramHandler handler) {
 		this.handler = handler;
 		this.style = new Style();
 		resetStyle();
 	}
 
+	@Override
 	public void setGraphics(Graphics g) {
 		this.g2 = (Graphics2D) g;
 		g2.setFont(handler.getFontHandler().getFont());
 		g2.setColor(fgColor);
 	}
 
+	@Override
 	public void setSize(Dimension size) {
 		this.width = size.width;
 		this.height = size.height;
@@ -79,10 +82,12 @@ public class BaseDrawHandlerSwing implements BaseDrawHandler {
 		drawables.add(new Drawable(style.cloneFromMe(), t));
 	}
 
+	@Override
 	public void drawAll() {
 		drawables.drawAll(g2, handler);
 	}
 
+	@Override
 	public void drawAll(boolean isSelected) {
 		if (isSelected) {
 			drawables.setForegroundOverlay(Constants.DEFAULT_SELECTED_COLOR);
@@ -92,6 +97,7 @@ public class BaseDrawHandlerSwing implements BaseDrawHandler {
 		drawables.drawAll(g2, handler);
 	}
 
+	@Override
 	public void clearCache() {
 		drawables.clear();
 	}
@@ -100,6 +106,7 @@ public class BaseDrawHandlerSwing implements BaseDrawHandler {
 	 * TEXT METHODS
 	 */
 
+	@Override
 	public final void print(String text, float x, float y, AlignHorizontal align) {
 		addText(new Text(text, x * getZoom(), y * getZoom(), align));
 	}
@@ -128,18 +135,22 @@ public class BaseDrawHandlerSwing implements BaseDrawHandler {
 		print(text, y, AlignHorizontal.CENTER);
 	}
 
+	@Override
 	public final float textHeight() {
 		return textDimension("dummy").getHeight();
 	}
 
+	@Override
 	public final float textHeightWithSpace() {
 		return textHeight() + 2;
 	}
 	
+	@Override
 	public final float getDistanceBetweenTexts() {
 		return handler.getFontHandler().getDistanceBetweenTexts(false);
 	}
 
+	@Override
 	public final float textWidth(String text) {
 		return textDimension(text).getWidth();
 	}
@@ -183,10 +194,12 @@ public class BaseDrawHandlerSwing implements BaseDrawHandler {
 		addShape(new QuadCurve2D.Float(x1 * getZoom(), y1 * getZoom(), ctrlx * getZoom(), ctrly * getZoom(), x2 * getZoom(), y2 * getZoom()));
 	}
 
+	@Override
 	public final void drawEllipse(float x, float y, float radiusX, float radiusY) {
 		addShape(new Ellipse2D.Float((x - radiusX) * getZoom(), (y - radiusY) * getZoom(), radiusX * 2 * getZoom(), radiusY * 2 * getZoom()));
 	}
 
+	@Override
 	public final void drawLine(float x1, float y1, float x2, float y2) {
 		addShape(new Line2D.Float(x1 * getZoom(), y1 * getZoom(), x2 * getZoom(), y2 * getZoom()));
 	}
@@ -195,6 +208,7 @@ public class BaseDrawHandlerSwing implements BaseDrawHandler {
 		addShape(new Line2D.Float(0, y * getZoom(), handler.realignToGrid(false, width * getZoom(), true), y * getZoom()));
 	}
 
+	@Override
 	public final void drawLineVertical(float x) {
 		addShape(new Line2D.Float(x * getZoom(), 0, x * getZoom(), handler.realignToGrid(false, height, true)));
 	}
@@ -209,6 +223,7 @@ public class BaseDrawHandlerSwing implements BaseDrawHandler {
 		addShape(polygon);
 	}
 
+	@Override
 	public final void drawRectangle(float x, float y, float width, float height) {
 		addShape(new Rectangle.Float(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom()));
 	}
@@ -230,21 +245,25 @@ public class BaseDrawHandlerSwing implements BaseDrawHandler {
 		setForegroundAlpha(alpha);
 	}
 
+	@Override
 	public final void setBackground(String color, float alpha) {
 		setBackgroundColor(color);
 		setBackgroundAlpha(alpha);
 	}
 
+	@Override
 	public final void setBackground(Color color, float alpha) {
 		setBackgroundColor(color);
 		setBackgroundAlpha(alpha);
 	}
 
+	@Override
 	public final void setForegroundColor(String color) {
 		if (color.equals("fg")) setForegroundColor(fgColor);
 		else setForegroundColor(Utils.getColor(color)); // if fgColor is not a valid string null will be set
 	}
 
+	@Override
 	public final void setForegroundColor(Color color) {
 		if (color == null) style.setFgColor(Constants.DEFAULT_FOREGROUND_COLOR);
 		else style.setFgColor(color);
@@ -260,14 +279,17 @@ public class BaseDrawHandlerSwing implements BaseDrawHandler {
 		else style.setBgColor(color);
 	}
 
+	@Override
 	public final void setForegroundAlpha(float alpha) {
 		style.setFgAlpha(alpha);
 	}
 
+	@Override
 	public final void setBackgroundAlpha(float alpha) {
 		style.setBgAlpha(alpha);
 	}
 
+	@Override
 	public void resetColorSettings() {
 		setForeground("fg", Constants.ALPHA_NO_TRANSPARENCY);
 		setBackground("bg", Constants.ALPHA_FULL_TRANSPARENCY);
@@ -277,6 +299,7 @@ public class BaseDrawHandlerSwing implements BaseDrawHandler {
 		style.setFontSize(fontSize);
 	}
 
+	@Override
 	public final void setFontSize(String fontSize) {
 		if (fontSize != null) {
 			try {
@@ -285,10 +308,12 @@ public class BaseDrawHandlerSwing implements BaseDrawHandler {
 		}
 	}
 	
+	@Override
 	public final void setLineType(LineType type) {
 		style.setLineType(type);
 	}
 
+	@Override
 	public final void setLineType(String type) {
 		for (LineType lt : LineType.values()) {
 			if (lt.getValue().equals(type)) {
@@ -299,10 +324,12 @@ public class BaseDrawHandlerSwing implements BaseDrawHandler {
 		if (FormatLabels.BOLD.equals(type)) style.setLineThickness(2.0f);
 	}
 	
+	@Override
 	public final void setLineThickness(float lineThickness) {
 		style.setLineThickness(lineThickness);
 	}
 
+	@Override
 	public void resetStyle() {
 		resetColorSettings();
 		style.setFontSize(handler.getFontHandler().getFontSize(false));
@@ -310,10 +337,12 @@ public class BaseDrawHandlerSwing implements BaseDrawHandler {
 		style.setLineThickness(1.0f);
 	}
 	
+	@Override
 	public Style getCurrentStyle() {
 		return style.cloneFromMe();
 	}
 	
+	@Override
 	public void setCurrentStyle(Style style) {
 		this.style = style;
 	}
@@ -321,6 +350,7 @@ public class BaseDrawHandlerSwing implements BaseDrawHandler {
 	/**
 	 * exists to apply all facet operations without real drawing (eg: necessary to calculate space which is needed for autoresize)
 	 */
+	@Override
 	public PseudoDrawHandler getPseudoDrawHandler() {
 		PseudoDrawHandler counter = new PseudoDrawHandler();
 		counter.setHandler(handler);

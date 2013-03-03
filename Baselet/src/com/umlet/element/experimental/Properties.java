@@ -10,7 +10,7 @@ import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.command.Resize;
-import com.baselet.diagram.draw.BaseDrawHandlerSwing;
+import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.helper.XPoints;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
@@ -22,7 +22,7 @@ public class Properties {
 	protected String panelAttributes = "";
 	protected String panelAttributesAdditional = "";
 
-	private BaseDrawHandlerSwing drawer;
+	private BaseDrawHandler drawer;
 
 	private List<String> propertiesTextToDraw;
 
@@ -30,7 +30,7 @@ public class Properties {
 
 	private Settings elementSettings;
 
-	public Properties(String panelAttributes, String panelAttributesAdditional, BaseDrawHandlerSwing drawer) {
+	public Properties(String panelAttributes, String panelAttributesAdditional, BaseDrawHandler drawer) {
 		this.panelAttributes = panelAttributes;
 		this.panelAttributesAdditional = panelAttributesAdditional;
 		this.drawer = drawer;
@@ -148,7 +148,7 @@ public class Properties {
 		return displacement;
 	}
 
-	private void handleWordWrapAndIterate(Settings elementSettings, PropertiesConfig propCfg, BaseDrawHandlerSwing drawer) {
+	private void handleWordWrapAndIterate(Settings elementSettings, PropertiesConfig propCfg, BaseDrawHandler drawer) {
 		boolean wordwrap = getElementStyle() == ElementStyleEnum.WORDWRAP;
 		for (String line : propertiesTextToDraw) {
 			if (wordwrap) {
@@ -164,7 +164,7 @@ public class Properties {
 		}
 	}
 
-	private void handleLine(Settings elementSettings, String line, PropertiesConfig propCfg, BaseDrawHandlerSwing drawer) {
+	private void handleLine(Settings elementSettings, String line, PropertiesConfig propCfg, BaseDrawHandler drawer) {
 		boolean drawText = true;
 		for (Facet facet : elementSettings.getFacets()) {
 			if (facet.checkStart(line)) {
