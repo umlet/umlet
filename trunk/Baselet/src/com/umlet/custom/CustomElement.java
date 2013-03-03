@@ -22,6 +22,7 @@ import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
+import com.baselet.element.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
 
@@ -97,7 +98,7 @@ public abstract class CustomElement extends OldGridElement {
 		g2.setComposite(this.composites[1]);
 
 		for (StyleShape s : this.shapes) {
-			specialBgColor = ((s.getBgColor() != bgColor));
+			specialBgColor = !(s.getBgColor().equals(bgColor));
 			if (specialBgColor) {
 				g2.setColor(s.getBgColor());
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, s.getAlpha()));
@@ -114,11 +115,11 @@ public abstract class CustomElement extends OldGridElement {
 
 		for (StyleShape s : this.shapes) {
 			specialLine = ((s.getLineType() != LineType.SOLID) || (s.getLineThickness() != Constants.DEFAULT_LINE_THICKNESS));
-			specialFgColor = (s.getFgColor() != Constants.DEFAULT_FOREGROUND_COLOR);
+			specialFgColor = !s.getFgColor().equals(Converter.convert(Constants.DEFAULT_FOREGROUND_COLOR));
 
 			if (specialLine) g2.setStroke(Utils.getStroke(s.getLineType(), s.getLineThickness()));
 			if (specialFgColor) {
-				if (isSelected) g2.setColor(Constants.DEFAULT_SELECTED_COLOR);
+				if (isSelected) g2.setColor(Converter.convert(Constants.DEFAULT_SELECTED_COLOR));
 				else g2.setColor(s.getFgColor());
 			}
 			this.g2.draw(s.getShape());
@@ -408,7 +409,7 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "foregroundColor")
 	protected final void setForegroundColor(String fgColorString) {
-		tmpFgColor = Utils.getColor(fgColorString);
+		tmpFgColor = Converter.convert(Utils.getColor(fgColorString));
 		if (tmpFgColor == null) {
 			if (fgColorString.equals("fg")) tmpFgColor = fgColor;
 		}
@@ -416,7 +417,7 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "backgroundColor")
 	protected final void setBackgroundColor(String bgColorString) {
-		tmpBgColor = Utils.getColor(bgColorString);
+		tmpBgColor = Converter.convert(Utils.getColor(bgColorString));
 		if (tmpBgColor == null) {
 			if (bgColorString.equals("bg")) tmpBgColor = bgColor;
 		}

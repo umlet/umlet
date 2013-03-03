@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import com.baselet.diagram.draw.ColorOwn;
 import com.baselet.element.Dimension;
 import com.umlet.language.FieldOptions;
 import com.umlet.language.MethodOptions;
@@ -171,25 +172,25 @@ public abstract class Constants {
 	//@formatter:on
 
 	/**** AVAILABLE COLORS ****/
-	public static final HashMap<String, Color> colorMap = new HashMap<String, Color>();
+	public static final HashMap<String, ColorOwn> colorMap = new HashMap<String, ColorOwn>();
 	static {
-		colorMap.put("black", Color.BLACK);
-		colorMap.put("blue", Color.BLUE);
-		colorMap.put("cyan", Color.CYAN);
-		colorMap.put("dark_gray", Color.DARK_GRAY);
-		colorMap.put("gray", Color.GRAY);
-		colorMap.put("green", Color.GREEN);
-		colorMap.put("light_gray", Color.LIGHT_GRAY);
-		colorMap.put("magenta", Color.MAGENTA);
-		colorMap.put("orange", Color.decode("#FFA500"));
-		colorMap.put("pink", Color.PINK);
-		colorMap.put("red", Color.RED);
-		colorMap.put("white", Color.WHITE);
-		colorMap.put("yellow", Color.YELLOW);
+		colorMap.put("black", ColorOwn.BLACK);
+		colorMap.put("blue", ColorOwn.BLUE);
+		colorMap.put("cyan", ColorOwn.CYAN);
+		colorMap.put("dark_gray", ColorOwn.DARK_GRAY);
+		colorMap.put("gray", ColorOwn.GRAY);
+		colorMap.put("green", ColorOwn.GREEN);
+		colorMap.put("light_gray", ColorOwn.LIGHT_GRAY);
+		colorMap.put("magenta", ColorOwn.MAGENTA);
+		colorMap.put("orange", ColorOwn.ORANGE);
+		colorMap.put("pink", ColorOwn.PINK);
+		colorMap.put("red", ColorOwn.RED);
+		colorMap.put("white", ColorOwn.WHITE);
+		colorMap.put("yellow", ColorOwn.YELLOW);
 	}
-	public static final Color DEFAULT_SELECTED_COLOR = Color.BLUE;
-	public static final Color DEFAULT_FOREGROUND_COLOR = Color.BLACK;
-	public static final Color DEFAULT_BACKGROUND_COLOR = Color.WHITE;
+	public static final ColorOwn DEFAULT_SELECTED_COLOR = ColorOwn.BLUE;
+	public static final ColorOwn DEFAULT_FOREGROUND_COLOR = ColorOwn.BLACK;
+	public static final ColorOwn DEFAULT_BACKGROUND_COLOR = ColorOwn.WHITE;
 	public static final float ALPHA_NO_TRANSPARENCY = 1.0f;
 	public static final float ALPHA_MIDDLE_TRANSPARENCY = 0.5f;
 	public static final float ALPHA_NEARLY_FULL_TRANSPARENCY = 0.035f;

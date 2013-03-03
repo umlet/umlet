@@ -1,7 +1,6 @@
 package com.baselet.diagram.draw;
 
 import java.awt.AlphaComposite;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -18,6 +17,7 @@ import com.baselet.control.DimensionFloat;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.element.Converter;
 import com.baselet.element.Dimension;
 
 public class BaseDrawHandlerSwing extends BaseDrawHandler {
@@ -30,7 +30,7 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		this.bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
 	}
 
-	public BaseDrawHandlerSwing(Graphics g, DiagramHandler handler, Color fgColor, Color bgColor, Dimension size) {
+	public BaseDrawHandlerSwing(Graphics g, DiagramHandler handler, ColorOwn fgColor, ColorOwn bgColor, Dimension size) {
 		this.fgColor = fgColor;
 		this.bgColor= bgColor;
 		setHandler(handler);
@@ -42,7 +42,7 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	public void setGraphics(Graphics g) {
 		this.g2 = (Graphics2D) g;
 		g2.setFont(handler.getFontHandler().getFont());
-		g2.setColor(fgColor);
+		g2.setColor(Converter.convert(fgColor));
 	}
 
 	private float getZoom() {
@@ -151,11 +151,12 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 
 	private void drawShape(Style style, Shape s, Graphics2D g2) {
 		// Shapes Background
-		g2.setColor(style.getBgColor());
+		g2.setColor(Converter.convert(style.getBgColor()));
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getBgAlpha()));
 		g2.fill(s);
 		// Shapes Foreground
-		g2.setColor(getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor());
+		ColorOwn colOwn = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
+		g2.setColor(Converter.convert(colOwn));
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getFgAlpha()));
 		g2.setStroke(Utils.getStroke(style.getLineType(), style.getLineThickness()));
 		g2.draw(s);
@@ -172,7 +173,8 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	}
 
 	private void drawText(Style style, Text t, Graphics2D g2, DiagramHandler handler) {
-		g2.setColor(getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor());
+		ColorOwn col = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
+		g2.setColor(Converter.convert(col));
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getFgAlpha()));
 		handler.getFontHandler().setFontSize(style.getFontSize());
 		g2.setFont(handler.getFontHandler().getFont());

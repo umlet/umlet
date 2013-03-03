@@ -1,9 +1,5 @@
-/**
- * 
- */
-package com.baselet.diagram.draw;
 
-import java.awt.Color;
+package com.baselet.diagram.draw;
 
 import com.baselet.control.Constants;
 import com.baselet.control.enumerations.LineType;
@@ -11,8 +7,8 @@ import com.baselet.control.enumerations.LineType;
 public class Style {
 	private LineType lineType;
 	private Float lineThickness;
-	private Color fgColor;
-	private Color bgColor;
+	private ColorOwn fgColor;
+	private ColorOwn bgColor;
 	private Float fgAlpha;
 	private Float bgAlpha;
 
@@ -52,16 +48,16 @@ public class Style {
 	public float getLineThickness() {
 		return lineThickness;
 	}
-	public void setFgColor(Color fgColor) {
+	public void setFgColor(ColorOwn fgColor) {
 		this.fgColor = fgColor;
 	}
-	public Color getFgColor() {
+	public ColorOwn getFgColor() {
 		return fgColor;
 	}
-	public void setBgColor(Color bgColor) {
+	public void setBgColor(ColorOwn bgColor) {
 		this.bgColor = bgColor;
 	}
-	public Color getBgColor() {
+	public ColorOwn getBgColor() {
 		return bgColor;
 	}
 	public void setFgAlpha(float fgAlpha) {

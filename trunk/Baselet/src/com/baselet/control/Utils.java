@@ -1,7 +1,6 @@
 package com.baselet.control;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.RenderingHints;
@@ -20,6 +19,7 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.draw.ColorOwn;
 import com.baselet.element.GridElement;
 import com.baselet.element.Rectangle;
 import com.umlet.element.Relation;
@@ -184,9 +184,9 @@ public abstract class Utils {
 	 *            String which describes the color
 	 * @return Color which is related to the String or null if it is no valid colorString
 	 */
-	public static Color getColor(String colorString) {
+	public static ColorOwn getColor(String colorString) {
 		if (colorString == null) return null;
-		Color returnColor = null;
+		ColorOwn returnColor = null;
 		for (String color : Constants.colorMap.keySet()) {
 			if (colorString.equalsIgnoreCase(color)) {
 				returnColor = Constants.colorMap.get(color);
@@ -195,7 +195,7 @@ public abstract class Utils {
 		}
 		if (returnColor == null) {
 			try {
-				returnColor = Color.decode(colorString);
+				returnColor = new ColorOwn(colorString);
 			} catch (NumberFormatException e) {
 				//only print for debugging because message would be printed, when typing the color
 				log.debug("Invalid color:" + colorString);
@@ -226,16 +226,16 @@ public abstract class Utils {
 		return createDoubleArrayFromTo(min, max, 1D);
 	}
 
-	public static Color darkenColor(String inColor, int factor) {
+	public static ColorOwn darkenColor(String inColor, int factor) {
 		return darkenColor(getColor(inColor), factor);
 	}
 
-	public static Color darkenColor(Color inColor, int factor) {
+	public static ColorOwn darkenColor(ColorOwn inColor, int factor) {
 		int r = Math.max(0, inColor.getRed() - factor);
 		int g = Math.max(0, inColor.getGreen() - factor);
 		int b = Math.max(0, inColor.getBlue() - factor);
 
-		return new Color(r,g,b);
+		return new ColorOwn(r,g,b, inColor.getAlpha());
 	}
 
 	public static String replaceFileExtension(String fileName, String oldExtension, String newExtension) {
