@@ -1,9 +1,5 @@
 package com.umlet.element.experimental;
 
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,41 +42,13 @@ public abstract class NewGridElement implements GridElement {
 
 	protected Properties properties;
 
-	protected JComponent component = new JComponent() {
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void paint(Graphics g) {
-			drawer.setGraphics(g);
-			metaDrawer.setGraphics(g);
-			drawer.drawAll(isSelected);
-			metaDrawer.drawAll();
-		}
-
-		/**
-		 * Must be overwritten because Swing uses this method to tell if 2 elements are overlapping
-		 * It's also used to determine which element gets selected if there are overlapping elements (the smallest one)
-		 * IMPORTANT: on overlapping elements, contains is called for all elements until the first one returns true, then the others contain methods are not called
-		 */
-		@Override
-		public boolean contains(Point p) {
-			return Utils.contains(NewGridElement.this, p);
-		}
-
-		/**
-		 * Must be overwritten because Swing sometimes uses this method instead of contains(Point)
-		 */
-		@Override
-		public boolean contains(int x, int y) {
-			return Utils.contains(NewGridElement.this, new Point(x, y));
-		}
-
-	};
+	protected JComponent component;
 
 	public void init(Rectangle bounds, String panelAttributes, String panelAttributesAdditional, DiagramHandler handler) {
-		setRectangle(bounds);
 		drawer = new BaseDrawHandler();
 		metaDrawer = new BaseDrawHandler();
+		component = new NewGridElementJComponent(drawer, metaDrawer, this);
+		setRectangle(bounds);
 		properties = new Properties(panelAttributes, panelAttributesAdditional, drawer);
 		setHandlerAndInitListeners(handler);
 	}
@@ -93,12 +61,12 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void setHandlerAndInitListeners(DiagramHandler handler) {
 		if (this.getHandler() != null) {
-			this.removeMouseListener(this.getHandler().getEntityListener(this));
-			this.removeMouseMotionListener(this.getHandler().getEntityListener(this));
+			this.getComponent().removeMouseListener(this.getHandler().getEntityListener(this));
+			this.getComponent().removeMouseMotionListener(this.getHandler().getEntityListener(this));
 		}
 		this.handler = handler;
-		this.addMouseListener(this.getHandler().getEntityListener(this));
-		this.addMouseMotionListener(this.getHandler().getEntityListener(this));
+		getComponent().addMouseListener(this.getHandler().getEntityListener(this));
+		getComponent().addMouseMotionListener(this.getHandler().getEntityListener(this));
 		drawer.setHandler(handler);
 		metaDrawer.setHandler(handler);
 		updateModelFromText(); // must be updated here because the new handler could have a different zoom level
@@ -295,26 +263,6 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void setRectangle(Rectangle bounds) {
 		component.setBounds(Converter.convert(bounds));
-	}
-
-	@Override
-	public void addMouseListener(MouseListener mouseListener) {
-		component.addMouseListener(mouseListener);
-	}
-
-	@Override
-	public void addMouseMotionListener(MouseMotionListener mouseMotionListener) {
-		component.addMouseMotionListener(mouseMotionListener);
-	}
-
-	@Override
-	public void removeMouseMotionListener(MouseMotionListener mouseMotionListener) {
-		component.removeMouseMotionListener(mouseMotionListener);
-	}
-
-	@Override
-	public void removeMouseListener(MouseListener mouseListener) {
-		component.removeMouseListener(mouseListener);
 	}
 
 	@Override
