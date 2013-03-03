@@ -1,5 +1,9 @@
 package com.baselet.client;
 
+
+import org.apache.log4j.Logger;
+
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
