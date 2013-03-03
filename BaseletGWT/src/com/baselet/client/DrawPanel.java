@@ -2,6 +2,7 @@ package com.baselet.client;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.vectomatic.file.FileUploadExt;
 
 import com.baselet.client.element.GridElement;
@@ -73,8 +74,11 @@ public class DrawPanel extends Composite {
 	
 	private Storage stockStore = Storage.getLocalStorageIfSupported();
 
+	private Logger log = Logger.getLogger(DrawPanel.class);
+	
 	public DrawPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
+		log.trace("Main View initialized");
 
 		handler = new FileOpenHandler(diagramHandler);
 		
