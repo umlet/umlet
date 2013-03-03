@@ -2,8 +2,8 @@ package com.umlet.element.experimental.settings.facets;
 
 import java.util.Stack;
 
-import com.baselet.control.Constants.AlignHorizontal;
-import com.baselet.control.Constants.AlignVertical;
+import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;

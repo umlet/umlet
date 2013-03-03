@@ -1,9 +1,9 @@
 package com.baselet.diagram.draw.objects;
 
 import java.awt.Color;
-import com.baselet.element.Dimension;
 
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.element.Dimension;
 
 
 public class PlotGridDrawConfig {

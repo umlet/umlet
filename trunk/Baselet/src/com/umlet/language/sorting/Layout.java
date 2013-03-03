@@ -1,11 +1,11 @@
 package com.umlet.language.sorting;
 
-import com.baselet.element.Dimension;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import com.baselet.control.Main;
+import com.baselet.element.Dimension;
 import com.umlet.language.SortableElement;
 
 public abstract class Layout {

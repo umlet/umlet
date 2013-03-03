@@ -14,10 +14,10 @@ import java.awt.geom.QuadCurve2D;
 import java.awt.geom.RoundRectangle2D;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.AlignHorizontal;
-import com.baselet.control.Constants.LineType;
 import com.baselet.control.DimensionFloat;
 import com.baselet.control.Utils;
+import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler.FormatLabels;
 import com.baselet.element.Dimension;

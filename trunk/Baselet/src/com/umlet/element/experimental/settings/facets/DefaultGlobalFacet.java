@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.AlignHorizontal;
-import com.baselet.control.Constants.AlignVertical;
+import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.AlignVertical;
+import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.FontHandler.FormatLabels;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
@@ -16,21 +17,21 @@ public class DefaultGlobalFacet implements Facet {
 	public enum ElementStyleEnum {AUTORESIZE, NORESIZE, WORDWRAP}
 	
 	public enum GlobalSetting {
-		ForegroundColor("fg", "red", "foreground color string (blue,...) or code (#0A37D3,...)"),
-		BackgroundColor("bg", "red", "background color string (green,...) or code (#3c7a00,...)"),
-		LineType("lt", new String[] {Constants.LineType.DASHED.getValue(), "dashed lines"}, new String[] {Constants.LineType.DOTTED.getValue(), "dotted lines"}, new String[] {FormatLabels.BOLD, "bold lines"}),
-		LineThickness("lth", "1.0", "thickness of lines (1.5, 2.0, ...)"),
-		FontSize("fontsize", "12", "font size (12.5, 10.3,...)"),
-		Layer("layer", "0", "elements on higher layers are shown on top of others, default is 0 (-5, 0, 3,...)"),
-		ElementStyle("elementstyle",
+		FOREGROUND_COLOR("fg", "red", "foreground color string (blue,...) or code (#0A37D3,...)"),
+		BACKGROUND_COLOR("bg", "red", "background color string (green,...) or code (#3c7a00,...)"),
+		LINE_TYPE("lt", new String[] {LineType.DASHED.getValue(), "dashed lines"}, new String[] {LineType.DOTTED.getValue(), "dotted lines"}, new String[] {FormatLabels.BOLD, "bold lines"}),
+		LINE_THICKNESS("lth", "1.0", "thickness of lines (1.5, 2.0, ...)"),
+		FONT_SIZE("fontsize", "12", "font size (12.5, 10.3,...)"),
+		LAYER("layer", "0", "elements on higher layers are shown on top of others, default is 0 (-5, 0, 3,...)"),
+		ELEMENT_STYLE("elementstyle",
 				new String[] {ElementStyleEnum.AUTORESIZE.toString(), "resizes element as text grows"},
 				new String[] {ElementStyleEnum.WORDWRAP.toString(), "wrap lines at the end of the line"},
 				new String[] {ElementStyleEnum.NORESIZE.toString(), "disable manual resizing"}),
-		VerticalAlign("valign",
+		VERTICAL_ALIGN("valign",
 				new String[] {AlignVertical.TOP.toString(), "vertical text alignment"},
 				new String[] {AlignVertical.CENTER.toString(), "vertical text alignment"},
 				new String[] {AlignVertical.BOTTOM.toString(), "vertical text alignment"}),
-		HorizontalAlign("halign",
+		HORIZONTAL_ALIGN("halign",
 				new String[] {AlignHorizontal.LEFT.toString(), "horizontal text alignment"},
 				new String[] {AlignHorizontal.CENTER.toString(), "horizontal text alignment"},
 				new String[] {AlignHorizontal.RIGHT.toString(), "horizontal text alignment"})
@@ -90,23 +91,23 @@ public class DefaultGlobalFacet implements Facet {
 			try {
 				String key = split[0];
 				String value = split[1].toUpperCase();
-				if (key.equalsIgnoreCase(GlobalSetting.ForegroundColor.toString())) {
+				if (key.equalsIgnoreCase(GlobalSetting.FOREGROUND_COLOR.toString())) {
 					drawer.setForegroundColor(value);
-				} else if (key.equalsIgnoreCase(GlobalSetting.BackgroundColor.toString())) {
+				} else if (key.equalsIgnoreCase(GlobalSetting.BACKGROUND_COLOR.toString())) {
 					drawer.setBackground(value, Constants.ALPHA_MIDDLE_TRANSPARENCY);
-				} else if (key.equalsIgnoreCase(GlobalSetting.LineType.toString())) {
+				} else if (key.equalsIgnoreCase(GlobalSetting.LINE_TYPE.toString())) {
 					drawer.setLineType(value);
-				}  else if (key.equalsIgnoreCase(GlobalSetting.LineThickness.toString())) {
+				}  else if (key.equalsIgnoreCase(GlobalSetting.LINE_THICKNESS.toString())) {
 					drawer.setLineThickness(Float.valueOf(value));
-				} else if (key.equalsIgnoreCase(GlobalSetting.FontSize.toString())) {
+				} else if (key.equalsIgnoreCase(GlobalSetting.FONT_SIZE.toString())) {
 					drawer.setFontSize(value);
-				} else if (key.equalsIgnoreCase(GlobalSetting.Layer.toString())) {
+				} else if (key.equalsIgnoreCase(GlobalSetting.LAYER.toString())) {
 					propConfig.setLayer(value);
-				} else if (key.equalsIgnoreCase(GlobalSetting.HorizontalAlign.toString())) {
+				} else if (key.equalsIgnoreCase(GlobalSetting.HORIZONTAL_ALIGN.toString())) {
 					propConfig.sethAlignGlobally(AlignHorizontal.valueOf(value));
-				} else if (key.equalsIgnoreCase(GlobalSetting.VerticalAlign.toString())) {
+				} else if (key.equalsIgnoreCase(GlobalSetting.VERTICAL_ALIGN.toString())) {
 					propConfig.setvAlignGlobally(AlignVertical.valueOf(value));
-				} else if (key.equalsIgnoreCase(GlobalSetting.ElementStyle.toString())) {
+				} else if (key.equalsIgnoreCase(GlobalSetting.ELEMENT_STYLE.toString())) {
 					propConfig.setElementStyle(ElementStyleEnum.valueOf(value));
 				}
 			} catch (Exception e) {/*any exception results in no action*/}

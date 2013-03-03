@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Utils;
-
 public class ElementInitializer {
 	
 	private static final Logger log = Logger.getLogger(ElementInitializer.class);

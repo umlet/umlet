@@ -1,8 +1,8 @@
 package com.umlet.element.experimental.settings.facets;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.AlignHorizontal;
-import com.baselet.control.Constants.LineType;
+import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.Style;
 import com.baselet.gui.AutocompletionText;

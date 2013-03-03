@@ -9,8 +9,8 @@ import java.awt.Graphics2D;
 import java.util.Iterator;
 import java.util.Vector;
 
-import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
+import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.Selector;
 import com.baselet.diagram.command.AddElement;
 

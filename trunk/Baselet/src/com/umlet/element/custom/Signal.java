@@ -6,8 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Vector;
 
-import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
+import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
 
 

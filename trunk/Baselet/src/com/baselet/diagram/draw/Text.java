@@ -3,7 +3,7 @@
  */
 package com.baselet.diagram.draw;
 
-import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.enumerations.AlignHorizontal;
 
 class Text {
 	private String text;

@@ -7,8 +7,8 @@ import java.awt.Point;
 import java.awt.geom.Area;
 import java.util.Vector;
 
-import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
+import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 

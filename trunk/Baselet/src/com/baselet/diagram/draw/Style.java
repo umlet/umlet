@@ -6,7 +6,7 @@ package com.baselet.diagram.draw;
 import java.awt.Color;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.LineType;
+import com.baselet.control.enumerations.LineType;
 
 public class Style {
 	private LineType lineType;

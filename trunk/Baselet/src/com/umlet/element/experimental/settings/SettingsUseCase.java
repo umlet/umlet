@@ -1,7 +1,7 @@
 package com.umlet.element.experimental.settings;
 
-import com.baselet.control.Constants.AlignHorizontal;
-import com.baselet.control.Constants.AlignVertical;
+import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.AlignVertical;
 import com.umlet.element.experimental.helper.XPoints;
 import com.umlet.element.experimental.settings.facets.Facet;
 import com.umlet.element.experimental.settings.facets.SeparatorLine;

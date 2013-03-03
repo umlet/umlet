@@ -2,7 +2,6 @@ package com.baselet.control;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import com.baselet.element.Dimension;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -16,6 +15,7 @@ import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import com.baselet.element.Dimension;
 import com.umlet.language.FieldOptions;
 import com.umlet.language.MethodOptions;
 import com.umlet.language.SignatureOptions;
@@ -221,31 +221,9 @@ public abstract class Constants {
 	public static final int DEFAULTGRIDSIZE = 10;
 	public static final int INTERFACE_LINE_LENGTH = 40;
 
-	public enum LineType {
-		SOLID("-"), DASHED("."), DOTTED(".."), DOUBLE("="), DOUBLE_DASHED(":"), DOUBLE_DOTTED("::");
-
-		private String value;
-
-		private LineType(String value) {
-			this.value = value;
-		}
-
-		public String getValue() {
-			return value;
-		}
-	}
-
 	public static final int DEFAULT_LINE_THICKNESS = 1;
 
 	public static final int CUSTOM_ELEMENT_COMPILE_INTERVAL = 500;
-
-	public enum AlignHorizontal {
-		LEFT, CENTER, RIGHT
-	}
-
-	public enum AlignVertical {
-		TOP, CENTER, BOTTOM
-	}
 
 	public static final int RESIZE_TOP = 1, RESIZE_RIGHT = 2, RESIZE_BOTTOM = 4, RESIZE_LEFT = 8;
 	public static final int RESIZE_NONE = 0;
