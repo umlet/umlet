@@ -17,15 +17,14 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 import com.baselet.gui.eclipse.EclipseGUI;
 
 /**
  * The activator class controls the plug-in life cycle
  */
 public class MainPlugin extends AbstractUIPlugin {
-
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(MainPlugin.class);
 
 	// The plug-in ID
 	public static String PLUGIN_ID;

@@ -7,11 +7,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Utils;
-
 public class PlotConstants {
-
-	protected final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(PlotConstants.class);
 
 	/** Shared Value Constants **/
 

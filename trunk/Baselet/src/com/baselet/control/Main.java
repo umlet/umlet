@@ -39,7 +39,7 @@ import com.baselet.gui.standalone.StandaloneGUI;
 
 public class Main {
 
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	private static final Logger log = Logger.getLogger(Main.class);
 
 	private static Main instance;
 

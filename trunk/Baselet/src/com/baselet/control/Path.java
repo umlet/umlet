@@ -21,8 +21,8 @@ import com.baselet.control.Constants.RuntimeType;
 import com.baselet.plugin.MainPlugin;
 
 public class Path {
-
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(Path.class);
 
 	private static String tempDir;
 	private static String homeProgramDir;

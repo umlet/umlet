@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.gui.BaseGUI;
@@ -28,8 +27,8 @@ public class EclipseGUI extends BaseGUI {
 	public enum Pane {
 		PROPERTY, CUSTOMCODE, DIAGRAM
 	}
-
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(EclipseGUI.class);
 
 	private Editor editor;
 	private HashMap<DiagramHandler, Editor> diagrams;

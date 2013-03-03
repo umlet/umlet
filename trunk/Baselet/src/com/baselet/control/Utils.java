@@ -28,7 +28,7 @@ import com.umlet.element.relation.DoubleStroke;
 
 public abstract class Utils {
 
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	private final static Logger log = Logger.getLogger(Utils.class);
 
 	private Utils() {} // private constructor to avoid instantiation
 
@@ -203,16 +203,7 @@ public abstract class Utils {
 		}
 		return returnColor;
 	}
-
-	public static String getClassName() {
-		return Thread.currentThread().getStackTrace()[2].getClassName();
-		//		return new RuntimeException().getStackTrace()[1].getClassName(); //ALSO POSSIBLE
-	}
 	
-	public static Class<? extends StackTraceElement> getClassObject() {
-		return Thread.currentThread().getStackTrace()[2].getClass();
-	}
-
 	/**
 	 * eg: createDoubleArrayFromTo(5, 6, 0.1) = [5, 5.1, 5.2, ..., 5.9, 6] <br/>
 	 * eg: createDoubleArrayFromTo(10, 20, 3) = [10, 13, 16, 19, 22] <br/>

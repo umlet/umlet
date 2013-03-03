@@ -18,13 +18,12 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Path;
-import com.baselet.control.Utils;
 import com.baselet.element.ErrorOccurred;
 import com.baselet.element.GridElement;
 
 public class CustomElementCompiler {
-
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(CustomElementCompiler.class);
 
 	private static CustomElementCompiler compiler;
 	private static final String templatefile = "Default.java";

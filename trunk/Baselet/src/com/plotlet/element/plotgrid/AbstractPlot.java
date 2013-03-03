@@ -4,10 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import com.baselet.control.Constants;
-import com.baselet.control.Utils;
 import com.baselet.diagram.draw.PlotDrawHandler;
 import com.baselet.diagram.draw.objects.AxisConfig;
 import com.baselet.diagram.draw.objects.PlotGridDrawConfig;
@@ -18,7 +15,6 @@ import com.plotlet.parser.PlotState;
 
 public abstract class AbstractPlot {
 
-	protected final static Logger log = Logger.getLogger(Utils.getClassName());
 	protected PlotDrawHandler plot;
 
 	protected PlotGridDrawConfig plotDrawConfig;
@@ -50,7 +46,7 @@ public abstract class AbstractPlot {
 	public Integer getYPosition() {
 		return yPosition;
 	}
-	
+
 	private void setupAxis() {
 		plot.getAxisConfig().enableDescAxis(
 				plotState.getValueListValidated(PlotConstants.KEY_LIST_DESC_AXIS_SHOW, defaultDescAxisShow(), PlotConstants.getValuesForKey(PlotConstants.KEY_LIST_DESC_AXIS_SHOW), false));

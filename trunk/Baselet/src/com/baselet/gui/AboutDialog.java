@@ -14,12 +14,11 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Path;
-import com.baselet.control.Utils;
 import com.baselet.gui.listener.HyperLinkActiveListener;
 
 public class AboutDialog {
 
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	private static final Logger log = Logger.getLogger(AboutDialog.class);
 
 	public static void show() {
 		SwingUtilities.invokeLater(new Runnable() {

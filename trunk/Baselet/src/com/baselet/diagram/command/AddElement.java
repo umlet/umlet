@@ -5,15 +5,14 @@ import java.awt.Point;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 
 public class AddElement extends Command {
-
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(AddElement.class);
 	
 	// AB: checked false after first execution
 	private boolean firstCall = true;

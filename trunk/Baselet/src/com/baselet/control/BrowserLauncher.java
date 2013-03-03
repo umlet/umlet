@@ -14,8 +14,8 @@ import com.baselet.control.Constants.Os;
 import com.baselet.control.Constants.SystemInfo;
 
 public class BrowserLauncher {
-
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(BrowserLauncher.class);
 
 	public static void openURL(String url) {
 

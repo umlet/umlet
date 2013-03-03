@@ -17,7 +17,6 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
 import com.baselet.control.Notifier;
-import com.baselet.control.Utils;
 import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
@@ -30,8 +29,8 @@ import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.element.Relation;
 
 public class DiagramHandler {
-
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(DiagramHandler.class);
 
 	private boolean isChanged;
 	private DiagramFileHandler fileHandler;
