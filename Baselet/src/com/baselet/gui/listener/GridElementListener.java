@@ -13,7 +13,6 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.SelectorFrame;
 import com.baselet.diagram.command.AddElement;
@@ -32,7 +31,7 @@ import com.umlet.element.relation.RelationLinePoint;
 public class GridElementListener extends UniversalListener {
 
 	private static HashMap<DiagramHandler, GridElementListener> entitylistener = new HashMap<DiagramHandler, GridElementListener>();
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	private static final Logger log = Logger.getLogger(GridElementListener.class);
 
 	public static GridElementListener getInstance(DiagramHandler handler) {
 		if (!entitylistener.containsKey(handler)) entitylistener.put(handler, new GridElementListener(handler));

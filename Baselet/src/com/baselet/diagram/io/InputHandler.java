@@ -1,6 +1,5 @@
 package com.baselet.diagram.io;
 
-import com.baselet.element.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +8,13 @@ import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.command.HelpPanelChanged;
 import com.baselet.element.ErrorOccurred;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.baselet.element.Rectangle;
 import com.umlet.custom.CustomElementCompiler;
 import com.umlet.element.experimental.ElementInitializer;
 import com.umlet.element.experimental.NewGridElement;
@@ -26,7 +25,7 @@ import com.umlet.element.experimental.NewGridElement;
  */
 public class InputHandler extends DefaultHandler {
 	
-	protected final static Logger log = Logger.getLogger(Utils.getClassName());
+	private static final Logger log = Logger.getLogger(InputHandler.class);
 	
 	private DrawPanel _p = null;
 	private GridElement e = null;

@@ -15,7 +15,6 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -26,8 +25,8 @@ import com.umlet.custom.CustomElementHandler;
 
 
 public abstract class BaseGUI {
-
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(BaseGUI.class);
 
 	protected Main main;
 	protected int selected_elements;

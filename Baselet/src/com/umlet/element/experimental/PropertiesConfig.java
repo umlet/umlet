@@ -1,20 +1,18 @@
 package com.umlet.element.experimental;
 
-import com.baselet.element.Dimension;
-
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Constants.AlignVertical;
-import com.baselet.control.Utils;
+import com.baselet.element.Dimension;
 import com.umlet.element.experimental.helper.XPoints;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
 public class PropertiesConfig {
-
-	Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(PropertiesConfig.class);
 
 	private AlignHorizontal hAlign;
 	private boolean hAlignGloballySet = false;

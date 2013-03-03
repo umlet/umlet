@@ -13,7 +13,6 @@ import com.baselet.control.BrowserLauncher;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.Selector;
@@ -35,7 +34,7 @@ import com.umlet.language.ClassDiagramConverter;
 
 public class MenuFactory {
 
-	protected final static Logger log = Logger.getLogger(Utils.getClassName());
+	private static final Logger log = Logger.getLogger(MenuFactory.class);
 
 	//FILE
 	public static final String FILE = "File";

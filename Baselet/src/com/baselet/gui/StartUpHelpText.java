@@ -36,8 +36,8 @@ import com.baselet.gui.listener.HyperLinkActiveListener;
 public class StartUpHelpText extends JEditorPane implements ContainerListener, ComponentListener {
 
 	private static final long serialVersionUID = 1L;
-
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(StartUpHelpText.class);
 
 	private DrawPanel panel;
 	private boolean visible;

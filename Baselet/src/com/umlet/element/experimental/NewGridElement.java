@@ -27,8 +27,8 @@ import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalS
 import com.umlet.element.experimental.settings.facets.Facet;
 
 public abstract class NewGridElement implements GridElement {
-
-	protected final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(NewGridElement.class);
 
 	private boolean stickingBorderActive;
 

@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Utils;
 
 public class ElementInitializer {
-
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(ElementInitializer.class);
 
 	private List<Class<?>> classList;
 

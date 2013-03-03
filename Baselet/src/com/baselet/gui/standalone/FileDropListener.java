@@ -6,12 +6,11 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 import com.umlet.language.ClassDiagramConverter;
 
 public class FileDropListener implements FileDrop.Listener {
-
-	private static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(FileDropListener.class);
 
 	@Override
 	public void filesDropped(File[] files) {

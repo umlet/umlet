@@ -37,7 +37,6 @@ import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
 import com.baselet.control.Notifier;
 import com.baselet.control.Path;
-import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
@@ -45,8 +44,8 @@ import com.umlet.custom.CustomElement;
 import com.umlet.element.experimental.Id;
 
 public class DiagramFileHandler {
-
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(DiagramFileHandler.class);
 
 	private static JFileChooser saveFileChooser;
 

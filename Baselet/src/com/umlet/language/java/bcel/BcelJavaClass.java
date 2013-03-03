@@ -2,7 +2,6 @@ package com.umlet.language.java.bcel;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Utils;
 import com.sun.org.apache.bcel.internal.classfile.ClassParser;
 import com.sun.org.apache.bcel.internal.classfile.Field;
 import com.sun.org.apache.bcel.internal.classfile.JavaClass;
@@ -10,7 +9,7 @@ import com.sun.org.apache.bcel.internal.classfile.Method;
 
 public class BcelJavaClass implements com.umlet.language.java.JavaClass {
 	
-	private static Logger log = Logger.getLogger(Utils.getClassName());
+	private static final Logger log = Logger.getLogger(BcelJavaClass.class);
 	
 	private JavaClass clazz;
 	private String className;

@@ -26,7 +26,6 @@ import org.eclipse.ui.part.EditorPart;
 
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
@@ -36,8 +35,8 @@ import com.baselet.plugin.MainPlugin;
 import com.umlet.custom.CustomElementHandler;
 
 public class Editor extends EditorPart {
-
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(Editor.class);
 
 	private DiagramHandler handler;
 	private Panel embedded_panel;

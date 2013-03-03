@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Stroke;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -28,8 +27,8 @@ import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalS
 public abstract class OldGridElement extends JComponent implements GridElement {
 
 	private static final long serialVersionUID = 1L;
-
-	protected final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	protected static final Logger log = Logger.getLogger(OldGridElement.class);
 
 	private DiagramHandler handler;
 	private boolean enabled;

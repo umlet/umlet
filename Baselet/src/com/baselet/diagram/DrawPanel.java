@@ -37,8 +37,8 @@ import com.umlet.element.Relation;
 
 @SuppressWarnings("serial")
 public class DrawPanel extends JLayeredPane implements Printable {
-
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(DrawPanel.class);
 
 	private Point origin;
 	private JScrollPane _scr;

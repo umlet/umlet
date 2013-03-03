@@ -4,13 +4,13 @@ package com.baselet.diagram.command;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 
 public class Move extends Command {
-
-	private final static Logger log = Logger.getLogger(Utils.getClassName());
+	
+	private static final Logger log = Logger.getLogger(Move.class);
+	
 	private GridElement entity;
 
 	private int _x, _y;
