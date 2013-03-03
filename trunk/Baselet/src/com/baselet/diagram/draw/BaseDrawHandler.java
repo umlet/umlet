@@ -2,6 +2,7 @@ package com.baselet.diagram.draw;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 
 import com.baselet.control.Constants;
 import com.baselet.control.DimensionFloat;
@@ -19,12 +20,13 @@ public abstract class BaseDrawHandler {
 
 	protected DiagramHandler handler;
 
-	protected DrawableCache drawables = new DrawableCache();
-
 	protected Style style;
 	
 	protected float width;
 	protected float height;
+
+	private ArrayList<DrawFunction> drawables = new ArrayList<DrawFunction>();
+	private Style overlay = new Style();
 	
 	public void setHandler(DiagramHandler handler) {
 		this.handler = handler;
@@ -32,34 +34,30 @@ public abstract class BaseDrawHandler {
 		resetStyle();
 	}
 
+	Style getOverlay() {
+		return overlay;
+	}
+
 	public void setSize(Dimension size) {
 		this.width = size.width;
 		this.height = size.height;
 	}
 	
-	protected void addDrawable(Drawable drawable) {
+	protected void addDrawable(DrawFunction drawable) {
 		drawables.add(drawable);
 	}
 
 	public void drawAll(boolean isSelected) {
 		if (isSelected) {
-			drawables.setForegroundOverlay(Constants.DEFAULT_SELECTED_COLOR);
+			overlay.setFgColor(Constants.DEFAULT_SELECTED_COLOR);
 		} else {
-			drawables.removeForegroundOverlay();
+			overlay.setFgColor(null);
 		}
 		drawAll();
 	}
 
 	public void clearCache() {
 		drawables.clear();
-	}
-
-	protected void addText(Text t) {
-		addDrawable(new Drawable(style.cloneFromMe(), t));
-	}
-
-	public final void print(String text, float x, float y, AlignHorizontal align) {
-		addText(new Text(text, x * getZoom(), y * getZoom(), align));
 	}
 
 	public final float textHeightWithSpace() {
@@ -175,21 +173,25 @@ public abstract class BaseDrawHandler {
 	/**
 	 * exists to apply all facet operations without real drawing (eg: necessary to calculate space which is needed for autoresize)
 	 */
-	public PseudoDrawHandler getPseudoDrawHandler() {
-		PseudoDrawHandler counter = new PseudoDrawHandler();
+	public PseudoDrawHandlerSwing getPseudoDrawHandler() {
+		PseudoDrawHandlerSwing counter = new PseudoDrawHandlerSwing();
 		counter.setHandler(handler);
 		counter.width = this.width;
 		counter.height = this.height;
 		return counter;
 	}
 
+	public void drawAll() {
+		for (DrawFunction d : drawables) {
+			d.run();
+		}
+	}
+	
 	/*
 	 * HELPER METHODS
 	 */
 	
 	public abstract void setGraphics(Graphics g);
-	public abstract void drawAll();
-	abstract float getZoom();
 	abstract DimensionFloat textDimension(String string);
 	public abstract float getDistanceBetweenTexts();
 	abstract float getDefaultFontSize();
@@ -209,5 +211,5 @@ public abstract class BaseDrawHandler {
 	public abstract void drawLineVertical(float x);
 	public abstract void drawRectangle(float x, float y, float width, float height);
 	public abstract void drawRectangleRound(float x, float y, float width, float height, float arcw, float arch);
-
+	public abstract void print(String text, float x, float y, AlignHorizontal align);
 }
