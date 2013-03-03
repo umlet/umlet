@@ -1,7 +1,5 @@
 package com.baselet.element;
 
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -27,14 +25,6 @@ public interface GridElement {
 	void setHandlerAndInitListeners(DiagramHandler handler);
 
 	void setGroup(Group object);
-
-	void addMouseListener(MouseListener mouseListener);
-
-	void addMouseMotionListener(MouseMotionListener mouseMotionListener);
-
-	void removeMouseMotionListener(MouseMotionListener mouseMotionListener);
-
-	void removeMouseListener(MouseListener mouseListener);
 
 	GridElement CloneFromMe();
 

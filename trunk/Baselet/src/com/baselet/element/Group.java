@@ -44,8 +44,8 @@ public class Group extends OldGridElement {
 	public void ungroup() {
 		for (GridElement e : this.entities) {
 			e.setGroup(null);
-			e.addMouseListener(this.getHandler().getEntityListener(e));
-			e.addMouseMotionListener(this.getHandler().getEntityListener(e));
+			e.getComponent().addMouseListener(this.getHandler().getEntityListener(e));
+			e.getComponent().addMouseMotionListener(this.getHandler().getEntityListener(e));
 		}
 
 		this.getHandler().getDrawPanel().removeElement(this);
@@ -75,16 +75,16 @@ public class Group extends OldGridElement {
 		this.entities.add(member);
 		member.setGroup(this);
 		if (member.getHandler() != null) {
-			member.removeMouseListener(member.getHandler().getEntityListener(member));
-			member.removeMouseMotionListener(member.getHandler().getEntityListener(member));
+			member.getComponent().removeMouseListener(member.getHandler().getEntityListener(member));
+			member.getComponent().removeMouseMotionListener(member.getHandler().getEntityListener(member));
 		}
 	}
 
 	public void removeMemberListeners() {
 		if (this.getHandler() != null) {
 			for (GridElement e : this.entities) {
-				e.removeMouseListener(this.getHandler().getEntityListener(e));
-				e.removeMouseMotionListener(this.getHandler().getEntityListener(e));
+				e.getComponent().removeMouseListener(this.getHandler().getEntityListener(e));
+				e.getComponent().removeMouseMotionListener(this.getHandler().getEntityListener(e));
 			}
 		}
 	}
