@@ -419,18 +419,11 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	
 	@Override
 	public Rectangle getRectangle() {
-		java.awt.Rectangle rect = getBounds();
-		return new Rectangle(rect.x, rect.y, rect.width, rect.height);
+		return Converter.convert(getBounds());
 	}
 	
 	@Override
 	public void setRectangle(Rectangle rect) {
 		setBounds(rect.x, rect.y, rect.width, rect.height);
-	}
-	
-	@Override
-	public Rectangle getVisibleRectangle() {
-		java.awt.Rectangle rect = getVisibleRect();
-		return new Rectangle(rect.x, rect.y, rect.width, rect.height);
 	}
 }

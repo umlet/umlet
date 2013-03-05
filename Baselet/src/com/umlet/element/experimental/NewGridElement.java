@@ -259,11 +259,6 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public Rectangle getVisibleRectangle() {
-		return Converter.convert(component.getVisibleRect());
-	}
-
-	@Override
 	public void setRectangle(Rectangle bounds) {
 		component.setBounds(Converter.convert(bounds));
 	}

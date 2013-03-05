@@ -21,7 +21,6 @@ import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.ColorOwn;
 import com.baselet.element.GridElement;
-import com.baselet.element.Rectangle;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.DoubleStroke;
 
@@ -249,7 +248,7 @@ public abstract class Utils {
 	 * IMPORTANT: on overlapping elements, contains is called for all elements until the first one returns true, then the others contain methods are not called
 	 */
 	public static boolean contains(GridElement gridElement, Point p) {
-		Rectangle rectangle = gridElement.getVisibleRectangle();
+		java.awt.Rectangle rectangle = gridElement.getComponent().getVisibleRect();
 		if (!rectangle.contains(p.x, p.y)) return false;
 
 		for (GridElement other : gridElement.getHandler().getDrawPanel().getAllEntitiesNotInGroup()) {
@@ -260,8 +259,8 @@ public abstract class Utils {
 			}
 
 			// If the this visibleRect is equal to the other VisibleRect, true will be returned. Otherwise we need to check further
-			else if (!gridElement.getVisibleRectangle().equals(other.getVisibleRectangle())) {
-				Rectangle other_rectangle = other.getVisibleRectangle();
+			else if (!gridElement.getComponent().getVisibleRect().equals(other.getComponent().getVisibleRect())) {
+				java.awt.Rectangle other_rectangle = other.getComponent().getVisibleRect();
 				// move bounds to coordinate system of this component
 				other_rectangle.x += other.getRectangle().x - gridElement.getRectangle().x;
 				other_rectangle.y += other.getRectangle().y - gridElement.getRectangle().y;
@@ -274,7 +273,7 @@ public abstract class Utils {
 		return true;
 	}
 
-	private static boolean smaller(Rectangle a, Rectangle b) {
+	private static boolean smaller(java.awt.Rectangle a, java.awt.Rectangle b) {
 		int areaA = a.getSize().height * a.getSize().width;
 		int areaB = b.getSize().height * b.getSize().width;
 		if (areaA < areaB) return true;
