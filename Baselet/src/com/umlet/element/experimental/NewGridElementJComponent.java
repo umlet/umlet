@@ -7,6 +7,8 @@ import javax.swing.JComponent;
 
 import com.baselet.control.Utils;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
+import com.baselet.element.Converter;
+import com.baselet.element.Rectangle;
 
 public class NewGridElementJComponent extends JComponent implements ComponentInterface {
 	private static final long serialVersionUID = 1L;
@@ -45,6 +47,21 @@ public class NewGridElementJComponent extends JComponent implements ComponentInt
 	@Override
 	public boolean contains(int x, int y) {
 		return Utils.contains(gridElement, new Point(x, y));
+	}
+
+	@Override
+	public Rectangle getBoundsRect() {
+		return Converter.convert(getBounds());
+	}
+
+	@Override
+	public void repaintComponent() {
+		this.repaint();
+	}
+
+	@Override
+	public void setBoundsRect(Rectangle rect) {
+		this.setBounds(rect.x, rect.y, rect.width, rect.height);
 	}
 
 }

@@ -84,6 +84,11 @@ public class Rectangle {
 		this.x = x;
 		this.y = y;
 	}
+	
+	public void setSize(int width, int height) {
+		this.width = width;
+		this.height = height;
+	}
 
 	public boolean intersects(Rectangle other) {
 		if (getY2() < other.getY()) return false;
