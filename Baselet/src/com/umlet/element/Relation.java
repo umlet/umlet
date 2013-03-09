@@ -754,7 +754,7 @@ public class Relation extends OldGridElement {
 
 		c.setVisible(true);
 		c.setRectangle(this.getRectangle());
-		c.setHandlerAndInitListeners(this.getHandler());
+		this.getHandler().setHandlerAndInitListeners(c);
 
 		return c;
 	}

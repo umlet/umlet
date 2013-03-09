@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler;
 import com.baselet.element.OldGridElement;
 
@@ -172,12 +171,6 @@ public class SequenceDiagram extends OldGridElement {
 
 	public SequenceDiagram() {
 
-	}
-
-	@Override
-	public void setHandlerAndInitListeners(DiagramHandler handler) {
-		super.setHandlerAndInitListeners(handler);
-		zoomValues();
 	}
 
 	@Override
@@ -790,7 +783,7 @@ public class SequenceDiagram extends OldGridElement {
 		return 0;
 	} // deny size changes: dynamic resize is done by the diagram itself
 
-	private void zoomValues() {
+	public void zoomValues() {
 
 		float zoom = getHandler().getZoomFactor();
 

@@ -139,7 +139,7 @@ public class CustomElementHandler {
 				this.preview.getDrawPanel().removeElement(element);
 			}
 
-			e.setHandlerAndInitListeners(this.preview);
+			this.preview.setHandlerAndInitListeners(e);
 			this.preview.getDrawPanel().addElement(e);
 			e.repaint();
 		}
@@ -225,7 +225,7 @@ public class CustomElementHandler {
 		// d.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false);
 
 		GridElement e2 = e.CloneFromMe();
-		e2.setHandlerAndInitListeners(d);
+		d.setHandlerAndInitListeners(e2);
 		e2.setPanelAttributes(state);
 		e2.setRectangle(bounds);
 		d.getDrawPanel().addElement(e2);

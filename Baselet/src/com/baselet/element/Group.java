@@ -162,7 +162,7 @@ public class Group extends OldGridElement {
 			temp.addMember(clone);
 		}
 		temp.adjustSize(false);
-		temp.setHandlerAndInitListeners(this.getHandler());
+		this.getHandler().setHandlerAndInitListeners(temp);
 		return temp;
 	}
 

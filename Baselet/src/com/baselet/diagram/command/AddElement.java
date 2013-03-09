@@ -53,7 +53,7 @@ public class AddElement extends Command {
 	}
 
 	private void addentity(GridElement e, DrawPanel panel, int x, int y) {
-		e.setHandlerAndInitListeners(panel.getHandler());
+		panel.getHandler().setHandlerAndInitListeners(e);
 		panel.addElement(e);
 		if (e instanceof Group) {
 			Group g = (Group) e;
