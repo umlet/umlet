@@ -24,7 +24,7 @@ public class Paste extends Command {
 			this.entities = new Vector<GridElement>();
 			for (GridElement e : ClipBoard.getInstance().paste()) {
 				GridElement clone = e.CloneFromMe();
-				clone.setHandlerAndInitListeners(handler);
+				handler.setHandlerAndInitListeners(clone);
 				this.entities.add(clone);
 			}
 		}

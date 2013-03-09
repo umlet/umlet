@@ -66,7 +66,7 @@ public class InputHandler extends DefaultHandler {
 		}
 		if (qName.equals("group")) {
 			Group g = new Group();
-			g.setHandlerAndInitListeners(this.handler);
+			this.handler.setHandlerAndInitListeners(g);
 			if (currentGroup != null) currentGroup.addMember(g);
 			currentGroup = g;
 		}
@@ -113,7 +113,7 @@ public class InputHandler extends DefaultHandler {
 				e.setRectangle(new Rectangle(x, y, w, h));
 				e.setPanelAttributes(this.panel_attributes);
 				e.setAdditionalAttributes(this.additional_attributes);
-				e.setHandlerAndInitListeners(this.handler);
+				this.handler.setHandlerAndInitListeners(e);
 
 				if (this.currentGroup != null) this.currentGroup.addMember(e);
 				_p.addElement(e);

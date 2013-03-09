@@ -202,7 +202,7 @@ public class Class extends OldGridElement {
 				} catch (ArrayIndexOutOfBoundsException e) {
 					temp = new Class();
 					innerClasses.add(innerSoFar, temp);
-					temp.setHandlerAndInitListeners(this.getHandler());
+					this.getHandler().setHandlerAndInitListeners(temp);
 					temp.setIsInnerClass(true);
 					temp.setPanelString(state);
 					innerSoFar++;

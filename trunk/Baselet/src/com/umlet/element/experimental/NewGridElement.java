@@ -53,26 +53,25 @@ public abstract class NewGridElement implements GridElement {
 		component = new NewGridElementJComponent(drawer, metaDrawer, this);
 		setRectangle(bounds);
 		properties = new Properties(panelAttributes, panelAttributesAdditional, drawer);
-		setHandlerAndInitListeners(handler);
+		handler.setHandlerAndInitListeners(this);
+	}
+	
+	public BaseDrawHandler getDrawer() {
+		return drawer;
+	}
+	
+	public BaseDrawHandler getMetaDrawer() {
+		return metaDrawer;
 	}
 
 	@Override
 	public DiagramHandler getHandler() {
 		return handler;
 	}
-
+	
 	@Override
-	public void setHandlerAndInitListeners(DiagramHandler handler) {
-		if (this.getHandler() != null) {
-			this.getComponent().removeMouseListener(this.getHandler().getEntityListener(this));
-			this.getComponent().removeMouseMotionListener(this.getHandler().getEntityListener(this));
-		}
+	public void setHandler(DiagramHandler handler) {
 		this.handler = handler;
-		getComponent().addMouseListener(this.getHandler().getEntityListener(this));
-		getComponent().addMouseMotionListener(this.getHandler().getEntityListener(this));
-		drawer.setHandler(handler);
-		metaDrawer.setHandler(handler);
-		updateModelFromText(); // must be updated here because the new handler could have a different zoom level
 	}
 
 	@Override

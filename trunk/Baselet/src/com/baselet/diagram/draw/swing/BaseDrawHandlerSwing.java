@@ -28,6 +28,8 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 
 	private Graphics2D g2;
 
+	protected DiagramHandler handler;
+
 	public BaseDrawHandlerSwing() {
 		super();
 	}
@@ -39,6 +41,12 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		setHandler(handler);
 		setGraphics(g);
 		setSize(size);
+	}
+	
+	public void setHandler(DiagramHandler handler) {
+		this.handler = handler;
+		this.style = new Style();
+		resetStyle();
 	}
 
 	public void setGraphics(Graphics g) {
@@ -70,6 +78,16 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	@Override
 	public float getDefaultFontSize() {
 		return handler.getFontHandler().getFontSize(false);
+	}
+
+	/**
+	 * exists to apply all facet operations without real drawing (eg: necessary to calculate space which is needed for autoresize)
+	 */
+	public PseudoDrawHandlerSwing getPseudoDrawHandler() {
+		PseudoDrawHandlerSwing counter = new PseudoDrawHandlerSwing();
+		counter.setHandler(handler);
+		counter.setSize(getSize());
+		return counter;
 	}
 
 	/*

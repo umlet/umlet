@@ -63,14 +63,8 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	}
 
 	@Override
-	public void setHandlerAndInitListeners(DiagramHandler handler) {
-		if (this.getHandler() != null) {
-			this.removeMouseListener(this.getHandler().getEntityListener(this));
-			this.removeMouseMotionListener(this.getHandler().getEntityListener(this));
-		}
+	public void setHandler(DiagramHandler handler) {
 		this.handler = handler;
-		this.addMouseListener(this.getHandler().getEntityListener(this));
-		this.addMouseMotionListener(this.getHandler().getEntityListener(this));
 	}
 
 	@Override
@@ -312,7 +306,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 			GridElement c = cx.newInstance();
 			c.setPanelAttributes(this.getPanelAttributes()); // copy states
 			c.setRectangle(this.getRectangle());
-			c.setHandlerAndInitListeners(this.getHandler());
+			this.getHandler().setHandlerAndInitListeners(c);
 			return c;
 		} catch (Exception e) {
 			log.error("Error at calling CloneFromMe() on entity", e);

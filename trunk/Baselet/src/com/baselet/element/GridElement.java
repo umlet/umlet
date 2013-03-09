@@ -20,7 +20,7 @@ public interface GridElement {
 
 	void setRectangle(Rectangle bounds);
 
-	void setHandlerAndInitListeners(DiagramHandler handler);
+	void setHandler(DiagramHandler handler);
 
 	void setGroup(Group object);
 

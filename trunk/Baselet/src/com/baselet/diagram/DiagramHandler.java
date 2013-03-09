@@ -17,6 +17,7 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
 import com.baselet.control.Notifier;
+import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
@@ -27,6 +28,8 @@ import com.baselet.gui.listener.GridElementListener;
 import com.baselet.gui.listener.RelationListener;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.element.Relation;
+import com.umlet.element.SequenceDiagram;
+import com.umlet.element.experimental.NewGridElement;
 
 public class DiagramHandler {
 	
@@ -404,5 +407,23 @@ public class DiagramHandler {
 			else zoomtext = "Diagram zoomed to " + (new Integer((int) zoomFactor).toString()) + "%";
 			Notifier.getInstance().showNotification(zoomtext);
 		}
+	}
+	
+	public void setHandlerAndInitListeners(GridElement element) {
+		if (element.getHandler() != null) {
+			element.getComponent().removeMouseListener(element.getHandler().getEntityListener(element));
+			element.getComponent().removeMouseMotionListener(element.getHandler().getEntityListener(element));
+		}
+		element.setHandler(this);
+		element.getComponent().addMouseListener(element.getHandler().getEntityListener(element));
+		element.getComponent().addMouseMotionListener(element.getHandler().getEntityListener(element));
+		if (element instanceof NewGridElement) {
+			((BaseDrawHandlerSwing) ((NewGridElement) element).getDrawer()).setHandler(this);
+			((BaseDrawHandlerSwing) ((NewGridElement) element).getMetaDrawer()).setHandler(this);
+		}
+		if (element instanceof SequenceDiagram) {
+			((SequenceDiagram) element).zoomValues();
+		}
+		element.updateModelFromText(); // must be updated here because the new handler could have a different zoom level
 	}
 }

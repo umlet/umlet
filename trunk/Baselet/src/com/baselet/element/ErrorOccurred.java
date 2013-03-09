@@ -43,7 +43,7 @@ public class ErrorOccurred extends OldGridElement {
 			GridElement ge = c.newInstance(new Object[]{errorMessage});
 			ge.setPanelAttributes(this.getPanelAttributes()); // copy states
 			ge.setRectangle(this.getRectangle());
-			ge.setHandlerAndInitListeners(this.getHandler());
+			this.getHandler().setHandlerAndInitListeners(ge);
 			return ge;
 		} catch (Exception e) {
 			log.error("Error at calling CloneFromMe() on entity", e);

@@ -7,17 +7,13 @@ import com.baselet.control.DimensionFloat;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler.FormatLabels;
-import com.baselet.diagram.draw.swing.PseudoDrawHandlerSwing;
 import com.baselet.element.Dimension;
 
 public abstract class BaseDrawHandler {
 
 	private ColorOwn bgDefaultColor;
 	private ColorOwn fgDefaultColor;
-
-	protected DiagramHandler handler;
 
 	protected Style style;
 	
@@ -37,12 +33,6 @@ public abstract class BaseDrawHandler {
 	
 	public void setBgDefaultColor(ColorOwn bgDefaultColor) {
 		this.bgDefaultColor = bgDefaultColor;
-	}
-	
-	public void setHandler(DiagramHandler handler) {
-		this.handler = handler;
-		this.style = new Style();
-		resetStyle();
 	}
 
 	protected Style getOverlay() {
@@ -184,16 +174,6 @@ public abstract class BaseDrawHandler {
 		this.style = style;
 	}
 
-	/**
-	 * exists to apply all facet operations without real drawing (eg: necessary to calculate space which is needed for autoresize)
-	 */
-	public PseudoDrawHandlerSwing getPseudoDrawHandler() {
-		PseudoDrawHandlerSwing counter = new PseudoDrawHandlerSwing();
-		counter.setHandler(handler);
-		counter.setSize(size);
-		return counter;
-	}
-
 	public void drawAll() {
 		for (DrawFunction d : drawables) {
 			d.run();
@@ -207,6 +187,7 @@ public abstract class BaseDrawHandler {
 	public abstract float getDistanceBetweenTexts();
 	protected abstract DimensionFloat textDimension(String string);
 	protected abstract float getDefaultFontSize();
+	public abstract BaseDrawHandler getPseudoDrawHandler();
 
 	/*
 	 * DRAW METHODS
