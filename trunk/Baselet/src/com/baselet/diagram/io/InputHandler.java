@@ -16,7 +16,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.baselet.element.Rectangle;
 import com.umlet.custom.CustomElementCompiler;
-import com.umlet.element.experimental.ElementInitializer;
+import com.umlet.element.experimental.ElementFactory;
 import com.umlet.element.experimental.NewGridElement;
 
 /**
@@ -94,7 +94,7 @@ public class InputHandler extends DefaultHandler {
 		else if (elementname.equals("element")) {
 			if (this.id != null) {
 				try {
-					NewGridElement e = ElementInitializer.getInstance().getGridElementFromId(this.id);
+					NewGridElement e = ElementFactory.create(this.id);
 					e.init(new Rectangle(x, y, w, h), this.panel_attributes, this.additional_attributes, this.handler);
 					if (this.currentGroup != null) this.currentGroup.addMember(e);
 					_p.addElement(e);
