@@ -15,7 +15,6 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.ColorOwn;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
-import com.baselet.element.Converter;
 import com.baselet.element.Dimension;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
@@ -261,7 +260,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void setRectangle(Rectangle bounds) {
-		component.setBounds(Converter.convert(bounds));
+		component.setBoundsRect(bounds);
 	}
 
 	@Override
@@ -271,13 +270,17 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void setLocation(int x, int y) {
-		component.setLocation(x, y);
+		Rectangle rect = getRectangle();
+		rect.setLocation(x, y);
+		component.setBoundsRect(rect);
 	}
 
 	@Override
 	public void setSize(int width, int height) {
 		if (width != getZoomedSize().width || height != getZoomedSize().height) { // only change size if it is really different
-			component.setSize(width, height);
+			Rectangle rect = getRectangle();
+			rect.setSize(width, height);
+			component.setBoundsRect(rect);
 			if (!this.autoresizePossiblyInProgress) {
 				updateModelFromText();
 			}
@@ -286,17 +289,18 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public Rectangle getRectangle() {
-		return Converter.convert(component.getBounds());
+		return component.getBoundsRect();
 	}
 
 	@Override
 	public void repaint() {
-		component.repaint();
+		component.repaintComponent();
 	}
 
 	@Override
 	public Dimension getZoomedSize() {
-		return new Dimension(component.getWidth(), component.getHeight());
+		Rectangle rect = getRectangle();
+		return new Dimension(rect.getWidth(), rect.getHeight());
 	}
 
 	/**
