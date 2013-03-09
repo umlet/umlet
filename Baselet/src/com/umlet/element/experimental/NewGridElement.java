@@ -11,9 +11,9 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.control.interfaces.ColorInterface;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.ColorOwn;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.element.Converter;
 import com.baselet.element.Dimension;
@@ -22,6 +22,7 @@ import com.baselet.element.Group;
 import com.baselet.element.Rectangle;
 import com.baselet.element.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
+import com.umlet.element.experimental.ElementFactory.ElementId;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
@@ -152,7 +153,7 @@ public abstract class NewGridElement implements GridElement {
 		metaDrawer.clearCache();
 		if (isSelected) { // draw blue rectangle around selected gridelements
 			metaDrawer.setForegroundAlpha(Constants.ALPHA_FULL_TRANSPARENCY);
-			metaDrawer.setBackground(ColorInterface.BLUE, Constants.ALPHA_NEARLY_FULL_TRANSPARENCY);
+			metaDrawer.setBackground(ColorOwn.BLUE, Constants.ALPHA_NEARLY_FULL_TRANSPARENCY);
 			metaDrawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
 			metaDrawer.resetColorSettings();
 			if (Constants.show_stickingpolygon && !this.isPartOfGroup()) {
@@ -334,5 +335,7 @@ public abstract class NewGridElement implements GridElement {
 	public Integer getLayer() {
 		return properties.getLayer();
 	}
+	
+	public abstract ElementId getId();
 
 }
