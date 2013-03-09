@@ -170,7 +170,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	public void onSelected() {
 		isSelected = true;
 		fgColor = Converter.convert(Constants.DEFAULT_SELECTED_COLOR);
-		this.repaint();
+		this.getComponent().repaint();
 	}
 
 	@Override
@@ -178,7 +178,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		isSelected = false;
 		fgColor = fgColorBase;
 		this.setStickingBorderActive(true);
-		this.repaint();
+		this.getComponent().repaint();
 	}
 
 	public ColorOwn getFgColor() {
@@ -206,7 +206,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		if (newValue != null && !newValue.isEmpty()) newState += "\n" + key.toString() + "=" + newValue; // null will not be added as a value
 		this.setPanelAttributes(newState);
 		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
-		this.repaint();
+		this.getComponent().repaint();
 	}
 
 	public Composite[] colorize(Graphics2D g2) {
@@ -301,7 +301,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 			this.getHandler().getFontHandler().writeText(g2, "in progress...", this.getZoomedSize().width / 2 - 40, this.getZoomedSize().height / 2 + (int) this.getHandler().getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
 		}
 		else {
-			repaint();
+			getComponent().repaint();
 		}
 	}
 

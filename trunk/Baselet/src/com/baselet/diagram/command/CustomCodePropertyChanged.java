@@ -63,7 +63,7 @@ public class CustomCodePropertyChanged extends Command {
 				pane.getTextComponent().setCaretPosition(_newCaret);
 			}
 			
-			gridElement.repaint();
+			gridElement.getComponent().repaint();
 		}		
 	}
 
@@ -93,7 +93,7 @@ public class CustomCodePropertyChanged extends Command {
 				pane.getTextComponent().setCaretPosition(_oldCaret);
 			}
 			
-			gridElement.repaint();
+			gridElement.getComponent().repaint();
 		}
 	}
 		

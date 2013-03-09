@@ -114,14 +114,14 @@ public abstract class NewGridElement implements GridElement {
 	public void onDeselected() {
 		isSelected = false;
 		updateMetaDrawer();
-		this.repaint();
+		this.getComponent().repaint();
 	}
 
 	@Override
 	public void onSelected() {
 		isSelected = true;
 		updateMetaDrawer();
-		this.repaint();
+		this.getComponent().repaint();
 	}
 
 	/**
@@ -168,7 +168,7 @@ public abstract class NewGridElement implements GridElement {
 		properties.updateSetting(key, newValue);
 		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.updateModelFromText();
-		this.repaint();
+		this.getComponent().repaint();
 	}
 
 	@Override
@@ -292,11 +292,6 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public Rectangle getRectangle() {
 		return Converter.convert(component.getBounds());
-	}
-
-	@Override
-	public void repaint() {
-		component.repaint();
 	}
 
 	@Override
