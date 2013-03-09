@@ -2,7 +2,6 @@ package com.baselet.gui.listener;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
 import java.util.Vector;
 
 import javax.swing.JComponent;
@@ -30,13 +29,7 @@ import com.umlet.element.relation.RelationLinePoint;
 
 public class GridElementListener extends UniversalListener {
 
-	private static HashMap<DiagramHandler, GridElementListener> entitylistener = new HashMap<DiagramHandler, GridElementListener>();
 	private static final Logger log = Logger.getLogger(GridElementListener.class);
-
-	public static GridElementListener getInstance(DiagramHandler handler) {
-		if (!entitylistener.containsKey(handler)) entitylistener.put(handler, new GridElementListener(handler));
-		return entitylistener.get(handler);
-	}
 
 	protected boolean IS_DRAGGING = false;
 	protected boolean IS_DRAGGING_DIAGRAM = false;
@@ -56,7 +49,7 @@ public class GridElementListener extends UniversalListener {
 	private Point mousePressedPoint;
 	private int resizeDirection;
 
-	protected GridElementListener(DiagramHandler handler) {
+	public GridElementListener(DiagramHandler handler) {
 		super(handler);
 	}
 

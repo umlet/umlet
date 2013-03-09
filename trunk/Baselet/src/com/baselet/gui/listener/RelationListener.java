@@ -2,7 +2,6 @@ package com.baselet.gui.listener;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
@@ -18,18 +17,11 @@ import com.umlet.element.Relation;
 
 public class RelationListener extends GridElementListener {
 
-	private static HashMap<DiagramHandler, RelationListener> listener = new HashMap<DiagramHandler, RelationListener>();
-
-	public static RelationListener getInstance(DiagramHandler handler) {
-		if (!listener.containsKey(handler)) listener.put(handler, new RelationListener(handler));
-		return listener.get(handler);
-	}
-
 	private boolean IS_DRAGGING_LINEPOINT = false;
 	private boolean IS_DRAGGING_LINE = false;
 	private int LINEPOINT = -1;
 
-	private RelationListener(DiagramHandler handler) {
+	public RelationListener(DiagramHandler handler) {
 		super(handler);
 	}
 

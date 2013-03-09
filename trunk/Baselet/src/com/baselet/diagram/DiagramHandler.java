@@ -45,6 +45,9 @@ public class DiagramHandler {
 	private String helptext;
 	private boolean enabled;
 	private int gridSize;
+	
+	private RelationListener relationListener;
+	private GridElementListener gridElementListener;
 
 	public DiagramHandler(File diagram) {
 		this(diagram, false);
@@ -70,6 +73,8 @@ public class DiagramHandler {
 
 		if (!(this instanceof PaletteHandler)) drawpanel.setComponentPopupMenu(new DiagramPopupMenu(extendedPopupMenu));
 
+		relationListener = new RelationListener(this);
+		gridElementListener = new GridElementListener(this);
 	}
 
 	public void setEnabled(boolean en) {
@@ -197,8 +202,8 @@ public class DiagramHandler {
 
 	// function to be able to controll the entitylistener + diagramlistener from the handler
 	public GridElementListener getEntityListener(GridElement e) {
-		if (e instanceof Relation) return RelationListener.getInstance(this);
-		return GridElementListener.getInstance(this);
+		if (e instanceof Relation) return relationListener;
+		return gridElementListener;
 	}
 
 	public boolean askSaveIfDirty() {
