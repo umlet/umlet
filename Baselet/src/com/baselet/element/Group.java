@@ -177,4 +177,16 @@ public class Group extends OldGridElement {
 	public int getPossibleResizeDirections() {
 		return 0;
 	}
+	
+	/**
+	 * the groups layer is always 1 level under the lowest contained layer
+	 */
+	@Override
+	public Integer getLayer() {
+		int minLayer = 0;
+		for (GridElement el : entities) {
+			minLayer = Math.min(minLayer, el.getLayer());
+		}
+		return minLayer-1;
+	}
 }
