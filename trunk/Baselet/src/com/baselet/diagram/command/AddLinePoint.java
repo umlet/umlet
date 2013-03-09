@@ -42,7 +42,7 @@ public class AddLinePoint extends Command {
 		super.execute(handler);
 		Vector<Point> tmp = _relation.getLinePoints();
 		tmp.insertElementAt(new Point(getX(), getY()), _where);
-		_relation.getComponent().repaint();
+		_relation.repaint();
 	}
 
 	@Override
@@ -50,6 +50,6 @@ public class AddLinePoint extends Command {
 		super.undo(handler);
 		Vector<Point> tmp = _relation.getLinePoints();
 		tmp.removeElementAt(_where);
-		_relation.getComponent().repaint();
+		_relation.repaint();
 	}
 }

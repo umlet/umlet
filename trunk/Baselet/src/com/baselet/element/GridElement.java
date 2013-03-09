@@ -36,8 +36,6 @@ public interface GridElement {
 
 	String getAdditionalAttributes();
 
-	void setBounds(int x, int y, int width, int height);
-
 	void setAdditionalAttributes(String additional_attributes);
 
 	void setLocation(int x, int y);
@@ -57,6 +55,8 @@ public interface GridElement {
 	StickingPolygon generateStickingBorder(int x, int y, int width, int height);
 
 	Rectangle getRectangle();
+
+	void repaint();
 
 	void changeSize(int diffx, int diffy);
 

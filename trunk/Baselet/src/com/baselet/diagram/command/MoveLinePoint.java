@@ -39,7 +39,7 @@ public class MoveLinePoint extends Command {
 		Point p = _relation.getLinePoints().elementAt(_linePointId);
 		p.x = p.x + getDiffX();
 		p.y = p.y + getDiffY();
-		_relation.getComponent().repaint();
+		_relation.repaint();
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class MoveLinePoint extends Command {
 		Point p = _relation.getLinePoints().elementAt(_linePointId);
 		p.x = p.x - getDiffX();
 		p.y = p.y - getDiffY();
-		_relation.getComponent().repaint();
+		_relation.repaint();
 	}
 
 	@Override

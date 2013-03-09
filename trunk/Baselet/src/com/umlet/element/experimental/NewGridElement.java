@@ -44,7 +44,7 @@ public abstract class NewGridElement implements GridElement {
 
 	protected Properties properties;
 
-	protected JComponent component;
+	protected NewGridElementJComponent component;
 
 	public void init(Rectangle bounds, String panelAttributes, String panelAttributesAdditional, DiagramHandler handler) {
 		BaseDrawHandlerSwing drawer = new BaseDrawHandlerSwing();
@@ -114,14 +114,14 @@ public abstract class NewGridElement implements GridElement {
 	public void onDeselected() {
 		isSelected = false;
 		updateMetaDrawer();
-		this.getComponent().repaint();
+		this.repaint();
 	}
 
 	@Override
 	public void onSelected() {
 		isSelected = true;
 		updateMetaDrawer();
-		this.getComponent().repaint();
+		this.repaint();
 	}
 
 	/**
@@ -168,7 +168,7 @@ public abstract class NewGridElement implements GridElement {
 		properties.updateSetting(key, newValue);
 		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.updateModelFromText();
-		this.getComponent().repaint();
+		this.repaint();
 	}
 
 	@Override
@@ -265,11 +265,6 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void setBounds(int x, int y, int width, int height) {
-		component.setBounds(x, y, width, height);
-	}
-
-	@Override
 	public void setLocationDifference(int diffx, int diffy) {
 		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
 	}
@@ -292,6 +287,11 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public Rectangle getRectangle() {
 		return Converter.convert(component.getBounds());
+	}
+
+	@Override
+	public void repaint() {
+		component.repaint();
 	}
 
 	@Override

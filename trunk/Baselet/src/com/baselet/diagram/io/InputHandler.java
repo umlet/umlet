@@ -110,7 +110,7 @@ public class InputHandler extends DefaultHandler {
 				} catch (Exception ex) {
 					e = new ErrorOccurred();
 				}
-				e.setBounds(x, y, w, h);
+				e.setRectangle(new Rectangle(x, y, w, h));
 				e.setPanelAttributes(this.panel_attributes);
 				e.setAdditionalAttributes(this.additional_attributes);
 				e.setHandlerAndInitListeners(this.handler);

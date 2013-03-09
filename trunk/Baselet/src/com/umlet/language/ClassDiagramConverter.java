@@ -111,7 +111,7 @@ public class ClassDiagramConverter {
 		height = (int) (fontHandler.getFontSize() + fontHandler.getDistanceBetweenTexts()) * (height - (int)heightTweaker);
 		
 		clazz.setSize(align(width), align(height)); // width&height must be multiples of grid size
-		clazz.getComponent().repaint();
+		clazz.repaint();
 	}
 	
 	private int align(int n) {
