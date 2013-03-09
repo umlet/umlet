@@ -66,7 +66,7 @@ public class CustomElementHandler {
 				"Hello, World! " +
 				Constants.NEWLINE +
 				"Enjoy " + Program.PROGRAM_NAME + "!");
-		this.editedEntity.setBounds(20, 20, 200, 200);
+		this.editedEntity.setRectangle(new Rectangle(20, 20, 200, 200));
 		this.updatePreview(editedEntity);
 		this.getPreviewHandler().getDrawPanel().getSelector().select(editedEntity);
 		this.setChanged(false);
@@ -141,7 +141,7 @@ public class CustomElementHandler {
 
 			e.setHandlerAndInitListeners(this.preview);
 			this.preview.getDrawPanel().addElement(e);
-			e.getComponent().repaint();
+			e.repaint();
 		}
 	}
 

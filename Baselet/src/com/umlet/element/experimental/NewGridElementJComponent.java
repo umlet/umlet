@@ -8,7 +8,7 @@ import javax.swing.JComponent;
 import com.baselet.control.Utils;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 
-public class NewGridElementJComponent extends JComponent {
+public class NewGridElementJComponent extends JComponent implements ComponentInterface {
 	private static final long serialVersionUID = 1L;
 	
 	private BaseDrawHandlerSwing drawer;
