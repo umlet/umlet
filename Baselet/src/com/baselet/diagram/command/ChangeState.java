@@ -45,7 +45,7 @@ public class ChangeState extends Command {
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
 		_entity.setPanelAttributes(_newState);
-		_entity.repaint();
+		_entity.getComponent().repaint();
 
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
 		if (gridElement != null && gridElement.equals(_entity)) {
@@ -63,7 +63,7 @@ public class ChangeState extends Command {
 		//AB: Do not call super.undo() which would deselect the entity
 		//super.undo(handler);
 		_entity.setPanelAttributes(_oldState);
-		_entity.repaint();
+		_entity.getComponent().repaint();
 	
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
 		if (gridElement != null && gridElement.equals(_entity)) {

@@ -58,8 +58,6 @@ public interface GridElement {
 
 	Rectangle getRectangle();
 
-	void repaint();
-
 	void changeSize(int diffx, int diffy);
 
 	Dimension getZoomedSize();

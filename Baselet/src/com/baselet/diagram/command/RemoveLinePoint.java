@@ -44,7 +44,7 @@ public class RemoveLinePoint extends Command {
 		super.execute(handler);
 		Vector<Point> tmp = _relation.getLinePoints();
 		tmp.removeElementAt(_where);
-		_relation.repaint();
+		_relation.getComponent().repaint();
 	}
 
 	@Override
@@ -52,6 +52,6 @@ public class RemoveLinePoint extends Command {
 		super.undo(handler);
 		Vector<Point> tmp = _relation.getLinePoints();
 		tmp.insertElementAt(new Point(getX(), getY()), _where);
-		_relation.repaint();
+		_relation.getComponent().repaint();
 	}
 }

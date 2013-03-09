@@ -141,7 +141,7 @@ public class CustomElementHandler {
 
 			e.setHandlerAndInitListeners(this.preview);
 			this.preview.getDrawPanel().addElement(e);
-			e.repaint();
+			e.getComponent().repaint();
 		}
 	}
 
