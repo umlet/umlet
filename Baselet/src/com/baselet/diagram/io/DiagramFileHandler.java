@@ -122,11 +122,7 @@ public class DiagramFileHandler {
 		List<Group> insert_groups = new ArrayList<Group>();
 		for (GridElement e : entities) {
 			// only insert element in right grouping element
-			boolean insert_here = false;
-			if ((group == null) && (e.getGroup() == null)) insert_here = true;
-			else if (group != null) if (group.equals(e.getGroup())) insert_here = true;
-
-			if (insert_here) {
+			if (group == null || group.getMembers().contains(e)) {
 				if (e instanceof Group) insert_groups.add((Group) e);
 				else { // insert normal entity element
 					java.lang.Class<? extends GridElement> c = e.getClass();
