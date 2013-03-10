@@ -35,7 +35,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	private boolean enabled;
 	private boolean stickingBorderActive;
 	private boolean autoresizeandmanualresizeenabled;
-	private Group group = null;
+	private GroupGridElement group = null;
 	protected String panelAttributes = "";
 	protected boolean isSelected = false;
 
@@ -121,12 +121,12 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	}
 
 	@Override
-	public Group getGroup() {
+	public GroupGridElement getGroup() {
 		return this.group;
 	}
 
 	@Override
-	public void setGroup(Group group) {
+	public void setGroup(GroupGridElement group) {
 		this.group = group;
 	}
 

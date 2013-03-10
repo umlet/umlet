@@ -9,15 +9,15 @@ import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.ColorOwn;
-import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.element.Dimension;
 import com.baselet.element.GridElement;
-import com.baselet.element.Group;
+import com.baselet.element.GroupGridElement;
 import com.baselet.element.Rectangle;
 import com.baselet.element.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
@@ -28,50 +28,48 @@ import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalS
 import com.umlet.element.experimental.settings.facets.Facet;
 
 public abstract class NewGridElement implements GridElement {
-	
+
 	private static final Logger log = Logger.getLogger(NewGridElement.class);
 
 	private boolean stickingBorderActive;
 
 	protected BaseDrawHandler drawer; // this is the drawer for element specific stuff
 	private BaseDrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
-	private DiagramHandler handler;
 
 	protected boolean isSelected = false;
 
-	private Group group = null;
+	private GroupGridElement group = null;
 
 	protected Properties properties;
 
-	protected NewGridElementJComponent component;
+	protected ComponentInterface component;
 
-	public void init(Rectangle bounds, String panelAttributes, String panelAttributesAdditional, DiagramHandler handler) {
-		BaseDrawHandlerSwing drawer = new BaseDrawHandlerSwing();
-		BaseDrawHandlerSwing metaDrawer = new BaseDrawHandlerSwing();
-		this.drawer = drawer;
-		this.metaDrawer = metaDrawer;
-		component = new NewGridElementJComponent(drawer, metaDrawer, this);
+	void init(Rectangle bounds, String panelAttributes, ComponentInterface component, DiagramHandler handler) {
+		this.component = component;
+		this.drawer = component.getDrawHandler();
+		this.metaDrawer = component.getMetaDrawHandler();
 		setRectangle(bounds);
-		properties = new Properties(panelAttributes, panelAttributesAdditional, drawer);
-		handler.setHandlerAndInitListeners(this);
+		properties = new Properties(panelAttributes, drawer);
+		setHandler(handler);
+		getHandler().setHandlerAndInitListeners(this);
 	}
-	
+
 	public BaseDrawHandler getDrawer() {
 		return drawer;
 	}
-	
+
 	public BaseDrawHandler getMetaDrawer() {
 		return metaDrawer;
 	}
 
 	@Override
 	public DiagramHandler getHandler() {
-		return handler;
+		return Main.getGridElementHandlerMapping().get(this);
 	}
-	
+
 	@Override
 	public void setHandler(DiagramHandler handler) {
-		this.handler = handler;
+		Main.getGridElementHandlerMapping().put(this, handler);
 	}
 
 	@Override
@@ -91,21 +89,13 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void setGroup(Group group) {
+	public void setGroup(GroupGridElement group) {
 		this.group = group;
 	}
 
 	@Override
 	public GridElement CloneFromMe() {
-		try {
-			java.lang.Class<? extends GridElement> cx = this.getClass(); // get class of dynamic object
-			NewGridElement c = (NewGridElement) cx.newInstance();
-			c.init(getRectangle(), properties.getPanelAttributes(), properties.getPanelAttributesAdditional(), handler);
-			return c;
-		} catch (Exception e) {
-			log.error("Error at calling CloneFromMe() on entity", e);
-		}
-		return null;
+		return ElementFactory.create(getId(), getRectangle(), properties.getPanelAttributes(), getHandler());
 	}
 
 	@Override
@@ -128,7 +118,7 @@ public abstract class NewGridElement implements GridElement {
 	 * Best testcase is an autoresize element with a background. Write some text and everytime autresize triggers, the background is drawn twice.
 	 */
 	private boolean autoresizePossiblyInProgress = false;
-	
+
 	@Override
 	public void updateModelFromText() {
 		this.autoresizePossiblyInProgress = true;
@@ -140,7 +130,7 @@ public abstract class NewGridElement implements GridElement {
 		updateMetaDrawer();
 		updateConcreteModel();
 		if (oldLayer != null && !oldLayer.equals(getLayer())) {
-			handler.getDrawPanel().setLayer(this.getComponent(), getLayer());
+			getHandler().getDrawPanel().setLayer(this.getComponent(), getLayer());
 		}
 		this.autoresizePossiblyInProgress = false;
 	}
@@ -175,7 +165,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public Group getGroup() {
+	public GroupGridElement getGroup() {
 		return this.group;
 	}
 
@@ -307,12 +297,12 @@ public abstract class NewGridElement implements GridElement {
 	 */
 	@Override
 	public Dimension getRealSize() {
-		return new Dimension((int) (getZoomedSize().width / handler.getZoomFactor()), (int) (getZoomedSize().height / handler.getZoomFactor()));
+		return new Dimension((int) (getZoomedSize().width / getHandler().getZoomFactor()), (int) (getZoomedSize().height / getHandler().getZoomFactor()));
 	}
 
 	@Override
 	public JComponent getComponent() {
-		return component;
+		return (JComponent) component;
 	}
 
 	public abstract Settings getSettings();
@@ -328,12 +318,12 @@ public abstract class NewGridElement implements GridElement {
 		}
 		return returnList;
 	}
-	
+
 	@Override
 	public Integer getLayer() {
 		return properties.getLayer();
 	}
-	
+
 	public abstract ElementId getId();
 
 }

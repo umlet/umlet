@@ -20,7 +20,6 @@ import com.umlet.element.experimental.settings.facets.Facet;
 public class Properties {
 
 	protected String panelAttributes = "";
-	protected String panelAttributesAdditional = "";
 
 	private BaseDrawHandler drawer;
 
@@ -30,9 +29,8 @@ public class Properties {
 
 	private Settings elementSettings;
 
-	public Properties(String panelAttributes, String panelAttributesAdditional, BaseDrawHandler drawer) {
+	public Properties(String panelAttributes, BaseDrawHandler drawer) {
 		this.panelAttributes = panelAttributes;
-		this.panelAttributesAdditional = panelAttributesAdditional;
 		this.drawer = drawer;
 	}
 
@@ -44,16 +42,8 @@ public class Properties {
 		return Arrays.asList(this.getPanelAttributes().split("\n"));
 	}
 
-	public String getPanelAttributesAdditional() {
-		return panelAttributesAdditional;
-	}
-
 	public void setPanelAttributes(String panelAttributes) {
 		this.panelAttributes = panelAttributes;
-	}
-
-	public void setPanelAttributesAdditional(String panelAttributesAdditional) {
-		this.panelAttributesAdditional = panelAttributesAdditional;
 	}
 
 	public void initSettingsFromText(NewGridElement element) {
