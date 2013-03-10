@@ -6,6 +6,7 @@ import java.awt.Point;
 import javax.swing.JComponent;
 
 import com.baselet.control.Utils;
+import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.element.Converter;
 import com.baselet.element.Rectangle;
@@ -29,6 +30,16 @@ public class NewGridElementJComponent extends JComponent implements ComponentInt
 		metaDrawer.setGraphics(g);
 		drawer.drawAll(gridElement.isSelected);
 		metaDrawer.drawAll();
+	}
+
+	@Override
+	public BaseDrawHandler getDrawHandler() {
+		return drawer;
+	}
+
+	@Override
+	public BaseDrawHandler getMetaDrawHandler() {
+		return metaDrawer;
 	}
 
 	/**

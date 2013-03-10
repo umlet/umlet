@@ -16,7 +16,7 @@ import com.baselet.diagram.command.AddElement;
 
 
 @SuppressWarnings("serial")
-public class Group extends OldGridElement {
+public class Group extends OldGridElement implements GroupGridElement {
 	private Vector<GridElement> entities;
 
 	// after adding all elements to a group the function adjustSize has to be called!

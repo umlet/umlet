@@ -22,7 +22,7 @@ public interface GridElement {
 
 	void setHandler(DiagramHandler handler);
 
-	void setGroup(Group object);
+	void setGroup(GroupGridElement object);
 
 	GridElement CloneFromMe();
 
@@ -32,7 +32,7 @@ public interface GridElement {
 
 	void onSelected();
 
-	Group getGroup();
+	GroupGridElement getGroup();
 
 	String getAdditionalAttributes();
 

@@ -88,14 +88,14 @@ public class InputHandler extends DefaultHandler {
 			if (this.currentGroup != null) {
 				this.currentGroup.adjustSize(false);
 				_p.addElement(this.currentGroup);
-				this.currentGroup = this.currentGroup.getGroup();
+				//TODO here is a cast to group because InputHandler is only used by SWING
+				this.currentGroup = (Group) this.currentGroup.getGroup();
 			}
 		}
 		else if (elementname.equals("element")) {
 			if (this.id != null) {
 				try {
-					NewGridElement e = ElementFactory.create(this.id);
-					e.init(new Rectangle(x, y, w, h), this.panel_attributes, this.additional_attributes, this.handler);
+					NewGridElement e = ElementFactory.create(this.id, new Rectangle(x, y, w, h), this.panel_attributes, this.handler);
 					if (this.currentGroup != null) this.currentGroup.addMember(e);
 					_p.addElement(e);
 				} catch (Exception e) {

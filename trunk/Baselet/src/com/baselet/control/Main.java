@@ -10,6 +10,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.Timer;
@@ -468,6 +469,15 @@ public class Main {
 	// returns the current diagramhandler the user works with - may be a diagramhandler of a palette too
 	public DiagramHandler getDiagramHandler() {
 		return this.currentDiagramHandler;
+	}
+	
+	private static HashMap<GridElement, DiagramHandler> gridElementToHandlerMapping = new HashMap<GridElement, DiagramHandler>();
+	/**
+	 * Workaround to avoid storing the handler directly in the GridElement
+	 * (necessary as a first step in the direction of GridElements which do not know where they are painted)
+	 */
+	public static HashMap<GridElement, DiagramHandler> getGridElementHandlerMapping() {
+		return gridElementToHandlerMapping;
 	}
 
 }
