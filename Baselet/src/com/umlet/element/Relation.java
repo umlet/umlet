@@ -744,6 +744,12 @@ public class Relation extends OldGridElement {
 		}
 		return _points;
 	}
+	
+	public void moveLinePoint(int index, int diffx, int diffy) {
+		Point p = getLinePoints().elementAt(index);
+		p.move(diffx, diffy);
+		repaint();
+	}
 
 	@Override
 	public GridElement CloneFromMe() {

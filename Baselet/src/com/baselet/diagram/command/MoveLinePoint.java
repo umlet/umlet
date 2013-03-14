@@ -1,9 +1,6 @@
 package com.baselet.diagram.command;
 
-import java.awt.Point;
-
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.element.Converter;
 import com.umlet.element.Relation;
 
 
@@ -37,19 +34,13 @@ public class MoveLinePoint extends Command {
 	@Override
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
-		Point p = Converter.convert(_relation.getLinePoints().elementAt(_linePointId));
-		p.x = p.x + getDiffX();
-		p.y = p.y + getDiffY();
-		_relation.repaint();
+		_relation.moveLinePoint(_linePointId, getDiffX(), getDiffY());
 	}
 
 	@Override
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
-		Point p = Converter.convert(_relation.getLinePoints().elementAt(_linePointId));
-		p.x = p.x - getDiffX();
-		p.y = p.y - getDiffY();
-		_relation.repaint();
+		_relation.moveLinePoint(_linePointId, -getDiffX(), -getDiffY());
 	}
 
 	@Override
