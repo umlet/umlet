@@ -1,8 +1,9 @@
 
 package com.baselet.element;
 
-import java.awt.Polygon;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
 
 import com.baselet.diagram.DiagramHandler;
@@ -101,19 +102,19 @@ public class StickingPolygon {
 			double distance = distance(p1, p2, p);
 
 			int delta = (int) (zoomFactor * STICKING_TOLERANCE + 0.5);
-			Polygon poly1 = new Polygon(); // create 2 rectangles with their size +/-4*zoom pixels
-			poly1.addPoint(p1.x - delta, p2.y + delta);
-			poly1.addPoint(p2.x + delta, p2.y + delta);
-			poly1.addPoint(p2.x + delta, p1.y - delta);
-			poly1.addPoint(p1.x - delta, p1.y - delta);
-			Polygon poly2 = new Polygon();
-			poly2.addPoint(p1.x + delta, p2.y - delta);
-			poly2.addPoint(p2.x - delta, p2.y - delta);
-			poly2.addPoint(p2.x - delta, p1.y + delta);
-			poly2.addPoint(p1.x + delta, p1.y + delta);
+			List<Point> poly1 = new ArrayList<Point>(); // create 2 rectangles with their size +/-4*zoom pixels
+			poly1.add(new Point(p1.x - delta, p2.y + delta));
+			poly1.add(new Point(p2.x + delta, p2.y + delta));
+			poly1.add(new Point(p2.x + delta, p1.y - delta));
+			poly1.add(new Point(p1.x - delta, p1.y - delta));
+			List<Point> poly2 = new ArrayList<Point>();
+			poly2.add(new Point(p1.x + delta, p2.y - delta));
+			poly2.add(new Point(p2.x - delta, p2.y - delta));
+			poly2.add(new Point(p2.x - delta, p1.y + delta));
+			poly2.add(new Point(p1.x + delta, p1.y + delta));
 
 			// AB: original this tolerance was 5
-			return (distance < delta) && ((poly1.contains(Converter.convert(p)) || (poly2.contains(Converter.convert(p)))));
+			return (distance < delta) && ((poly1.contains(p) || (poly2.contains(p))));
 			// inside maximum distance AND inside one of the rectangles
 		}
 	}
