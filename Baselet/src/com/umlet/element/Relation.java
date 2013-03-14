@@ -635,7 +635,7 @@ public class Relation extends OldGridElement {
 			// We must add the displacement from the top left corner of the drawpanel to the point coordinates
 			Point realPoint = new Point((int) (p.getX() + this.getRectangle().x), (int) (p.getY() + this.getRectangle().y));
 			// If only one point is not in the selection rectangle, the method returns false
-			if (!rect1.contains(realPoint.x, realPoint.y)) return false;
+			if (!rect1.contains(realPoint)) return false;
 		}
 		return true;
 	}
