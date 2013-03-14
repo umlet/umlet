@@ -28,6 +28,11 @@ public class Point {
 		this.y = y;
 	}
 
+	public void move(int diffX, int diffY) {
+		this.x += diffX;
+		this.y += diffY;
+	}
+
     public double distance(Point o) {
 	double distX = o.getX() - this.getX();
 	double distY = o.getY() - this.getY();
