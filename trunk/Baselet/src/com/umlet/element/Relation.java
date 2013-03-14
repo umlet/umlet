@@ -3,7 +3,6 @@ package com.umlet.element;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
@@ -17,6 +16,7 @@ import com.baselet.control.enumerations.LineType;
 import com.baselet.element.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
+import com.baselet.element.Point;
 import com.baselet.element.Rectangle;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.relation.Arrow;
@@ -397,7 +397,7 @@ public class Relation extends OldGridElement {
 
 		for (int i = 1; i < points.size(); i++) {
 			pp_end = points.elementAt(i);
-			if (!r.contains(pp_end)) {
+			if (!r.contains(Converter.convert(pp_end))) {
 				// End point of intersecting line found
 				pp_start = points.elementAt(i - 1);
 
@@ -679,7 +679,7 @@ public class Relation extends OldGridElement {
 	}
 
 	@Override
-	public boolean contains(Point p) {
+	public boolean contains(java.awt.Point p) {
 		// other relations which are selected are prioritized
 		for (GridElement other : getHandler().getDrawPanel().getAllEntities()) {
 			if (other != this && other instanceof Relation && other.isSelected()) {
@@ -692,7 +692,7 @@ public class Relation extends OldGridElement {
 				}
 			}
 		}
-		return calcContains(p);
+		return calcContains(Converter.convert(p));
 	}
 
 	private boolean calcContains(Point p) {
@@ -733,7 +733,7 @@ public class Relation extends OldGridElement {
 
 	@Override
 	public boolean contains(int x, int y) {
-		return contains(new Point(x, y));
+		return contains(new java.awt.Point(x, y));
 	}
 
 	private Vector<Point> _points;

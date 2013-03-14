@@ -1,6 +1,5 @@
 package com.baselet.gui.listener;
 
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
@@ -19,6 +18,7 @@ import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
 import com.baselet.element.GridElement;
+import com.baselet.element.Point;
 
 public class DiagramListener extends UniversalListener implements MouseWheelListener {
 	

@@ -22,6 +22,14 @@ public class Converter {
 		return new Dimension(dim.width, dim.height);
 	}
 
+	public static java.awt.Point convert(Point p) {
+		return new java.awt.Point(p.x, p.y);
+	}
+
+	public static Point convert(java.awt.Point p) {
+		return new Point(p.x, p.y);
+	}
+
 	public static ColorOwn convert(Color color) {
 		return new ColorOwn(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 	}

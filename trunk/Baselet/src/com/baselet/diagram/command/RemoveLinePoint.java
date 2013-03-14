@@ -1,9 +1,9 @@
 package com.baselet.diagram.command;
 
-import java.awt.Point;
 import java.util.Vector;
 
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.element.Point;
 import com.umlet.element.Relation;
 
 public class RemoveLinePoint extends Command {
