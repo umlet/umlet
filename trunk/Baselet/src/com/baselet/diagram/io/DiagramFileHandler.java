@@ -116,75 +116,85 @@ public class DiagramFileHandler {
 		Main.getInstance().getGUI().updateDiagramName(this.handler, this.handler.getName());
 	}
 
-	private void createXMLOutputDoc(Document doc, Collection<GridElement> entities, Element current, Group group) {
-		// list of elements that are not inserted yet (to increase performance)
-		List<GridElement> toBeCheckedAgain = new ArrayList<GridElement>();
-		List<Group> insert_groups = new ArrayList<Group>();
-		for (GridElement e : entities) {
-			// only insert element in right grouping element
-			if (group == null || group.getMembers().contains(e)) {
-				if (e instanceof Group) insert_groups.add((Group) e);
-				else { // insert normal entity element
-					java.lang.Class<? extends GridElement> c = e.getClass();
-					String sElType = c.getName();
-					String sElPanelAttributes = e.getPanelAttributes();
-					String sElAdditionalAttributes = e.getAdditionalAttributes();
-
-					Element el = doc.createElement("element");
-					current.appendChild(el);
-
-					if (e instanceof NewGridElement){
-						Element elType = doc.createElement("id");
-						elType.appendChild(doc.createTextNode(((NewGridElement) e).getId().toString()));
-						el.appendChild(elType);
-					} else { // OldGridElement
-						Element elType = doc.createElement("type");
-						elType.appendChild(doc.createTextNode(sElType));
-						el.appendChild(elType);
-					}
-
-					Element elCoor = doc.createElement("coordinates");
-					el.appendChild(elCoor);
-
-					Element elX = doc.createElement("x");
-					elX.appendChild(doc.createTextNode("" + e.getRectangle().x));
-					elCoor.appendChild(elX);
-
-					Element elY = doc.createElement("y");
-					elY.appendChild(doc.createTextNode("" + e.getRectangle().y));
-					elCoor.appendChild(elY);
-
-					Element elW = doc.createElement("w");
-					elW.appendChild(doc.createTextNode("" + e.getZoomedSize().width));
-					elCoor.appendChild(elW);
-
-					Element elH = doc.createElement("h");
-					elH.appendChild(doc.createTextNode("" + e.getZoomedSize().height));
-					elCoor.appendChild(elH);
-
-					Element elPA = doc.createElement("panel_attributes");
-					elPA.appendChild(doc.createTextNode(sElPanelAttributes));
-					el.appendChild(elPA);
-
-					Element elAA = doc.createElement("additional_attributes");
-					elAA.appendChild(doc.createTextNode(sElAdditionalAttributes));
-					el.appendChild(elAA);
-
-					if (e instanceof CustomElement) {
-						Element elCO = doc.createElement("custom_code");
-						elCO.appendChild(doc.createTextNode(((CustomElement) e).getCode()));
-						el.appendChild(elCO);
-					}
-				}
-			}
-			else toBeCheckedAgain.add(e);
+	/**
+	 * A group acts as a parent XML Element for all of its members.
+	 * A group member which is a group itself creates a group-tag withing the other group-tag etc.
+	 * Only elements which are not part of groups are added directly to the top of the tree
+	 */
+	private void createXMLOutputDoc(Document doc, Collection<GridElement> elements, Element current) {
+		for (GridElement e : elements) {
+			appendRecursively(doc, current, e);
 		}
+	}
 
-		for (Group g : insert_groups) {
+	private void appendRecursively(Document doc, Element parentXmlElement, GridElement e) {
+		if (e instanceof Group) {
 			Element el = doc.createElement("group");
-			current.appendChild(el);
-			createXMLOutputDoc(doc, toBeCheckedAgain, el, g);
+			parentXmlElement.appendChild(el);
+			for (GridElement member : ((Group) e).getMembers()) {
+				if (member instanceof Group) {
+					appendRecursively(doc, el, member);
+				} else {
+					el.appendChild(createXmlElementForGridElement(doc, member));
+				}
+				
+			}
 		}
+		else parentXmlElement.appendChild(createXmlElementForGridElement(doc, e));
+	}
+
+	private Element createXmlElementForGridElement(Document doc, GridElement e) {
+		// insert normal entity element
+			java.lang.Class<? extends GridElement> c = e.getClass();
+			String sElType = c.getName();
+			String sElPanelAttributes = e.getPanelAttributes();
+			String sElAdditionalAttributes = e.getAdditionalAttributes();
+
+			Element el = doc.createElement("element");
+
+			if (e instanceof NewGridElement){
+				Element elType = doc.createElement("id");
+				elType.appendChild(doc.createTextNode(((NewGridElement) e).getId().toString()));
+				el.appendChild(elType);
+			} else { // OldGridElement
+				Element elType = doc.createElement("type");
+				elType.appendChild(doc.createTextNode(sElType));
+				el.appendChild(elType);
+			}
+
+			Element elCoor = doc.createElement("coordinates");
+			el.appendChild(elCoor);
+
+			Element elX = doc.createElement("x");
+			elX.appendChild(doc.createTextNode("" + e.getRectangle().x));
+			elCoor.appendChild(elX);
+
+			Element elY = doc.createElement("y");
+			elY.appendChild(doc.createTextNode("" + e.getRectangle().y));
+			elCoor.appendChild(elY);
+
+			Element elW = doc.createElement("w");
+			elW.appendChild(doc.createTextNode("" + e.getZoomedSize().width));
+			elCoor.appendChild(elW);
+
+			Element elH = doc.createElement("h");
+			elH.appendChild(doc.createTextNode("" + e.getZoomedSize().height));
+			elCoor.appendChild(elH);
+
+			Element elPA = doc.createElement("panel_attributes");
+			elPA.appendChild(doc.createTextNode(sElPanelAttributes));
+			el.appendChild(elPA);
+
+			Element elAA = doc.createElement("additional_attributes");
+			elAA.appendChild(doc.createTextNode(sElAdditionalAttributes));
+			el.appendChild(elAA);
+
+			if (e instanceof CustomElement) {
+				Element elCO = doc.createElement("custom_code");
+				elCO.appendChild(doc.createTextNode(((CustomElement) e).getCode()));
+				el.appendChild(elCO);
+			}
+			return el;
 	}
 
 	protected String createStringToBeSaved() {
@@ -215,7 +225,7 @@ public class DiagramFileHandler {
 			root.appendChild(zoom);
 
 			// save elements (group = null = rootlayer)
-			this.createXMLOutputDoc(doc, handler.getDrawPanel().getAllEntities(), root, null);
+			this.createXMLOutputDoc(doc, handler.getDrawPanel().getAllEntitiesWithGroupsAsTree(), root);
 
 			// output the stuff...
 			DOMSource source = new DOMSource(doc);
