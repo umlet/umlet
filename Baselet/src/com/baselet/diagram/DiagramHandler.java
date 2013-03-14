@@ -72,9 +72,6 @@ public class DiagramHandler {
 		}
 
 		if (!(this instanceof PaletteHandler)) drawpanel.setComponentPopupMenu(new DiagramPopupMenu(extendedPopupMenu));
-
-		relationListener = new RelationListener(this);
-		gridElementListener = new GridElementListener(this);
 	}
 
 	public void setEnabled(boolean en) {
@@ -201,9 +198,15 @@ public class DiagramHandler {
 	}
 
 	// function to be able to controll the entitylistener + diagramlistener from the handler
+	// they must be lazy initialized, otherwise they won't work everytime (eg: if a group is opened)
 	public GridElementListener getEntityListener(GridElement e) {
-		if (e instanceof Relation) return relationListener;
-		return gridElementListener;
+		if (e instanceof Relation) {
+			if (relationListener == null) relationListener = new RelationListener(this);
+			return relationListener;
+		} else {
+			if (gridElementListener == null) gridElementListener = new GridElementListener(this);
+			return gridElementListener;
+		}
 	}
 
 	public boolean askSaveIfDirty() {
