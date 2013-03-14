@@ -57,6 +57,14 @@ public class AddElement extends Command {
 		panel.addElement(e);
 		if (e instanceof Group) {
 			Group g = (Group) e;
+			for (GridElement ent : g.getMembers()) {
+				// Elements which are not on the panel get added now
+				// usually they are part if this AddElement command was issued by grouping existing elements
+				// and they are not part if this AddElement command was issued by copying an existing group
+				if (!panel.getAllEntities().contains(ent)) {
+					addentity(ent, panel, ent.getRectangle().x - g.getRectangle().x + x, ent.getRectangle().y - g.getRectangle().y + y);
+				}
+			}
 			g.removeMemberListeners(); // remove listeners from submembers of this group
 			if (_zoom) g.adjustSize(false); // Adjust cause problems if _zoom == false because the wrong zoomlevel would be assumed
 		}
