@@ -1,6 +1,5 @@
 package com.baselet.gui.listener;
 
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Vector;
@@ -13,6 +12,7 @@ import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.RemoveElement;
 import com.baselet.diagram.command.RemoveLinePoint;
+import com.baselet.element.Point;
 import com.umlet.element.Relation;
 
 

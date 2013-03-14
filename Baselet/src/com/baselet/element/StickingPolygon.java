@@ -1,15 +1,11 @@
 
 package com.baselet.element;
 
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Polygon;
-import java.awt.geom.Line2D;
 import java.util.Collection;
 import java.util.Vector;
 
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
 
@@ -74,17 +70,35 @@ public class StickingPolygon {
 			return diff;
 		}
 
-		private void draw(Graphics2D g2) {
-			g2.drawLine(p1.x, p1.y, p2.x, p2.y);
+		public Point getP1() {
+			return p1;
+		}
+		
+		public Point getP2() {
+			return p2;
 		}
 
-		private void draw(BaseDrawHandler drawer) {
-			drawer.drawLine(p1.x, p1.y, p2.x, p2.y);
+		/**
+		 * Checks the distance between a line and a specific point
+		 * @param linePoint1 startpoint of line
+		 * @param linePoint2 endpoint of line
+		 * @param pointToCheck point to check the distance
+		 * @return
+		 */
+		private double distance(Point linePoint1, Point linePoint2, Point pointToCheck) {
+			double x2rel = linePoint2.x - linePoint1.x;
+			double y2rel = linePoint2.y - linePoint1.y;
+			double pxrel = pointToCheck.x - linePoint1.x;
+			double pyrel = pointToCheck.y - linePoint1.y;
+			double multAdded = pxrel * x2rel + pyrel * y2rel;
+			double sq = multAdded * multAdded / (x2rel * x2rel + y2rel * y2rel);
+			double lengthSquare = pxrel * pxrel + pyrel * pyrel - sq;
+			if (lengthSquare < 0) lengthSquare = 0;
+			return Math.sqrt(lengthSquare);
 		}
 
 		private boolean isConnected(Point p, float zoomFactor) {
-			Line2D line = new Line2D.Double(p1, p2);
-			double d = line.ptLineDist(p); // calculate distance
+			double distance = distance(p1, p2, p);
 
 			int delta = (int) (zoomFactor * STICKING_TOLERANCE + 0.5);
 			Polygon poly1 = new Polygon(); // create 2 rectangles with their size +/-4*zoom pixels
@@ -99,7 +113,7 @@ public class StickingPolygon {
 			poly2.addPoint(p1.x + delta, p1.y + delta);
 
 			// AB: original this tolerance was 5
-			return (d < delta) && ((poly1.contains(p) || (poly2.contains(p))));
+			return (distance < delta) && ((poly1.contains(Converter.convert(p)) || (poly2.contains(Converter.convert(p)))));
 			// inside maximum distance AND inside one of the rectangles
 		}
 	}
@@ -138,14 +152,8 @@ public class StickingPolygon {
 		stick.add(new StickLine(p1, p2));
 	}
 
-	public final void draw(Graphics2D g2) { // LME: draw the sticking polygon
-		for (StickLine l : this.stick)
-			l.draw(g2);
-	}
-
-	public final void draw(BaseDrawHandler drawer) {
-		for (StickLine l : this.stick)
-			l.draw(drawer);
+	public Vector<StickLine> getStickLines() {
+		return this.stick;
 	}
 
 	private int isConnected(Point p, float zoomFactor) {

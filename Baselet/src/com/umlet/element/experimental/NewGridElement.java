@@ -20,6 +20,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.GroupGridElement;
 import com.baselet.element.Rectangle;
 import com.baselet.element.StickingPolygon;
+import com.baselet.element.StickingPolygon.StickLine;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.ElementFactory.ElementId;
 import com.umlet.element.experimental.settings.Settings;
@@ -236,7 +237,9 @@ public abstract class NewGridElement implements GridElement {
 		if (poly != null) {
 			metaDrawer.setLineType(LineType.DASHED);
 			metaDrawer.setForegroundColor(Constants.DEFAULT_SELECTED_COLOR);
-			poly.draw(metaDrawer);
+			for (StickLine line : poly.getStickLines()) {
+				metaDrawer.drawLine(line.getP1().getX(), line.getP1().getY(), line.getP2().getX(), line.getP2().getY());
+			}
 			metaDrawer.setLineType(LineType.SOLID);
 			metaDrawer.resetColorSettings();
 		}

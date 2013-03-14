@@ -1,7 +1,6 @@
 package com.umlet.element.experimental;
 
 import java.awt.Graphics;
-import java.awt.Point;
 
 import javax.swing.JComponent;
 
@@ -9,6 +8,7 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.element.Converter;
+import com.baselet.element.Point;
 import com.baselet.element.Rectangle;
 
 public class NewGridElementJComponent extends JComponent implements ComponentInterface {
@@ -48,8 +48,8 @@ public class NewGridElementJComponent extends JComponent implements ComponentInt
 	 * IMPORTANT: on overlapping elements, contains is called for all elements until the first one returns true, then the others contain methods are not called
 	 */
 	@Override
-	public boolean contains(Point p) {
-		return Utils.contains(gridElement, p);
+	public boolean contains(java.awt.Point p) {
+		return this.contains(p.x, p.y);
 	}
 
 	/**

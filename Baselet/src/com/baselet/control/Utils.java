@@ -2,7 +2,6 @@ package com.baselet.control;
 
 import java.awt.BasicStroke;
 import java.awt.Font;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.font.FontRenderContext;
@@ -20,7 +19,9 @@ import org.apache.log4j.Logger;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.ColorOwn;
+import com.baselet.element.Converter;
 import com.baselet.element.GridElement;
+import com.baselet.element.Point;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.DoubleStroke;
 
@@ -255,7 +256,7 @@ public abstract class Utils {
 			if (other instanceof Relation) { // a relation is always on top
 				// move point to coordinate system of other entity
 				Point other_p = new Point(p.x + gridElement.getRectangle().x - other.getRectangle().x, p.y + gridElement.getRectangle().y - other.getRectangle().y);
-				if (other.getComponent().contains(other_p)) return false;
+				if (other.getComponent().contains(Converter.convert(other_p))) return false;
 			}
 
 			// If the this visibleRect is equal to the other VisibleRect, true will be returned. Otherwise we need to check further

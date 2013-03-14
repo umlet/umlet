@@ -1,6 +1,5 @@
 package com.baselet.gui.listener;
 
-import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
@@ -20,8 +19,10 @@ import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.Resize;
+import com.baselet.element.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
+import com.baselet.element.Point;
 import com.baselet.element.Rectangle;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
@@ -217,7 +218,7 @@ public class GridElementListener extends UniversalListener {
 		lassoToleranceRectangle = new Rectangle(mousePressedPoint.x - lassoTolerance, mousePressedPoint.y - lassoTolerance, lassoTolerance * 2, lassoTolerance * 2);
 		LASSO_ACTIVE = true;
 		SelectorFrame selframe = selector.getSelectorFrame();
-		selframe.setLocation(mousePressedPoint);
+		selframe.setLocation(Converter.convert(mousePressedPoint));
 		selframe.setSize(1, 1);
 		Main.getInstance().getDiagramHandler().getDrawPanel().add(selframe, 0);
 		Main.getInstance().getGUI().setCursor(Constants.DEFAULT_CURSOR);
@@ -314,11 +315,13 @@ public class GridElementListener extends UniversalListener {
 				resizeDirection == Constants.RESIZE_BOTTOM_LEFT || resizeDirection == Constants.RESIZE_BOTTOM_RIGHT)) {
 			if (e.getZoomedSize().width > e.getZoomedSize().height) {
 				float proportion = (float) newp.x / mousePressedPoint.x;
-				newp.setLocation(newp.x, mousePressedPoint.y*proportion);
+				newp.setX(newp.x);
+				newp.setY((int) (mousePressedPoint.y*proportion));
 			}
 			else {
 				float proportion = (float) newp.y / mousePressedPoint.y;
-				newp.setLocation(mousePressedPoint.x*proportion, newp.y);
+				newp.setX((int) (mousePressedPoint.x*proportion));
+				newp.setY(newp.y);
 			}
 		}
 

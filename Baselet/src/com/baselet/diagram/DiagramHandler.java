@@ -1,7 +1,6 @@
 package com.baselet.diagram;
 
 import java.awt.MouseInfo;
-import java.awt.Point;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
@@ -19,8 +18,10 @@ import com.baselet.control.Main;
 import com.baselet.control.Notifier;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.diagram.io.DiagramFileHandler;
+import com.baselet.element.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.baselet.element.Point;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.DiagramPopupMenu;
 import com.baselet.gui.listener.DiagramListener;
@@ -320,7 +321,8 @@ public class DiagramHandler {
 				for (Point point : ((Relation) entity).getLinePoints()) {
 					newX = ((int) point.getX() * toFactor) / fromFactor;
 					newY = ((int) point.getY() * toFactor) / fromFactor;
-					point.setLocation(realignTo(newX, toFactor), realignTo(newY, toFactor));
+					point.setX(realignTo(newX, toFactor));
+					point.setY(realignTo(newY, toFactor));
 				}
 			}
 		}
@@ -372,8 +374,8 @@ public class DiagramHandler {
 
 		if (manualZoom) {
 			// calculate mouse position relative to UMLet scrollpane
-			Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
-			Point viewportLocation = getDrawPanel().getScrollPane().getViewport().getLocationOnScreen();
+			Point mouseLocation = Converter.convert(MouseInfo.getPointerInfo().getLocation());
+			Point viewportLocation = Converter.convert(getDrawPanel().getScrollPane().getViewport().getLocationOnScreen());
 			float x  = mouseLocation.x - viewportLocation.x;
 			float y  = mouseLocation.y - viewportLocation.y;
 			

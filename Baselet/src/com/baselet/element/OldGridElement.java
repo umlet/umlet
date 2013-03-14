@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +21,7 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.ColorOwn;
+import com.baselet.element.StickingPolygon.StickLine;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
@@ -270,8 +270,8 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	 * IMPORTANT: on overlapping elements, contains is called for all elements until the first one returns true, then the others contain methods are not called
 	 */
 	@Override
-	public boolean contains(Point p) {
-		return Utils.contains(this, p);
+	public boolean contains(java.awt.Point p) {
+		return this.contains(p.x, p.y);
 	}
 
 	/**
@@ -337,7 +337,9 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 			Stroke s = g2.getStroke();
 			g2.setColor(Converter.convert(Constants.DEFAULT_SELECTED_COLOR));
 			g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
-			poly.draw(g2);
+			for (StickLine line : poly.getStickLines()) {
+				g2.drawLine(line.getP1().getX(), line.getP1().getY(), line.getP2().getX(), line.getP2().getY());
+			}
 			g2.setColor(c);
 			g2.setStroke(s);
 		}

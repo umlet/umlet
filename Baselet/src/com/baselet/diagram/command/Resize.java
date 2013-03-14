@@ -1,6 +1,6 @@
 package com.baselet.diagram.command;
 
-import java.awt.Point;
+import com.baselet.element.Point;
 import java.util.Vector;
 
 import com.baselet.control.Main;

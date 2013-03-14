@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
+import com.baselet.element.Point;
 import java.awt.Polygon;
 import java.util.Vector;
 

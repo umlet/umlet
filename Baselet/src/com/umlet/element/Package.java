@@ -3,7 +3,7 @@ package com.umlet.element;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
+import com.baselet.element.Point;
 import java.awt.geom.Area;
 import java.util.Vector;
 
