@@ -1,11 +1,10 @@
 
 package com.baselet.element;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Vector;
 
+import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
@@ -17,9 +16,6 @@ public class StickingPolygon {
 
 		private Point p1;
 		private Point p2;
-
-		// AB: important: tolerance <5 leads to zero tolerance at smaller zoom levels -> no sticking
-		private int STICKING_TOLERANCE = 5;
 
 		private StickLine(Point p1, Point p2) {
 			this.p1 = p1;
@@ -79,43 +75,10 @@ public class StickingPolygon {
 			return p2;
 		}
 
-		/**
-		 * Checks the distance between a line and a specific point
-		 * @param linePoint1 startpoint of line
-		 * @param linePoint2 endpoint of line
-		 * @param pointToCheck point to check the distance
-		 * @return
-		 */
-		private double distance(Point linePoint1, Point linePoint2, Point pointToCheck) {
-			double x2rel = linePoint2.x - linePoint1.x;
-			double y2rel = linePoint2.y - linePoint1.y;
-			double pxrel = pointToCheck.x - linePoint1.x;
-			double pyrel = pointToCheck.y - linePoint1.y;
-			double multAdded = pxrel * x2rel + pyrel * y2rel;
-			double sq = multAdded * multAdded / (x2rel * x2rel + y2rel * y2rel);
-			double lengthSquare = pxrel * pxrel + pyrel * pyrel - sq;
-			if (lengthSquare < 0) lengthSquare = 0;
-			return Math.sqrt(lengthSquare);
-		}
 
-		private boolean isConnected(Point p, float zoomFactor) {
-			double distance = distance(p1, p2, p);
-
-			int delta = (int) (zoomFactor * STICKING_TOLERANCE + 0.5);
-			List<Point> poly1 = new ArrayList<Point>(); // create 2 rectangles with their size +/-4*zoom pixels
-			poly1.add(new Point(p1.x - delta, p2.y + delta));
-			poly1.add(new Point(p2.x + delta, p2.y + delta));
-			poly1.add(new Point(p2.x + delta, p1.y - delta));
-			poly1.add(new Point(p1.x - delta, p1.y - delta));
-			List<Point> poly2 = new ArrayList<Point>();
-			poly2.add(new Point(p1.x + delta, p2.y - delta));
-			poly2.add(new Point(p2.x - delta, p2.y - delta));
-			poly2.add(new Point(p2.x - delta, p1.y + delta));
-			poly2.add(new Point(p1.x + delta, p1.y + delta));
-
-			// AB: original this tolerance was 5
-			return (distance < delta) && ((poly1.contains(p) || (poly2.contains(p))));
-			// inside maximum distance AND inside one of the rectangles
+		private boolean isConnected(Point p, int gridSize) {
+			double distance = Utils.distance(p1, p2, p);
+			return (distance < gridSize);
 		}
 	}
 
@@ -157,10 +120,10 @@ public class StickingPolygon {
 		return this.stick;
 	}
 
-	private int isConnected(Point p, float zoomFactor) {
+	private int isConnected(Point p, int gridSize) {
 		int con = -1;
 		for (int i = 0; i < this.stick.size(); i++)
-			if (this.stick.get(i).isConnected(p, zoomFactor)) return i;
+			if (this.stick.get(i).isConnected(p, gridSize)) return i;
 
 		return con;
 	}
@@ -172,8 +135,8 @@ public class StickingPolygon {
 			if (!r.isPartOfGroup()) {
 				Point l1 = r.getAbsoluteCoorStart();
 				Point l2 = r.getAbsoluteCoorEnd();
-				int c1 = this.isConnected(l1, handler.getZoomFactor());
-				int c2 = this.isConnected(l2, handler.getZoomFactor());
+				int c1 = this.isConnected(l1, handler.getGridSize());
+				int c2 = this.isConnected(l2, handler.getGridSize());
 				if (c1 >= 0) lpts.add(new RelationLinePoint(r, 0, c1));
 				if (c2 >= 0) lpts.add(new RelationLinePoint(r, r.getLinePoints().size() - 1, c2));
 			}

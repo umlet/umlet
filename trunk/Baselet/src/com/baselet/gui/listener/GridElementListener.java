@@ -62,7 +62,7 @@ public class GridElementListener extends UniversalListener {
 		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
 
 		// Lasso selection is only activated if mouse is moved more than lasso_tolerance to avoid accidential activation instead of selecting the entity
-		if (LASSO_ACTIVE && (lassoToleranceRectangle != null) && !lassoToleranceRectangle.contains(getOffset(me).x, getOffset(me).y)) {
+		if (LASSO_ACTIVE && (lassoToleranceRectangle != null) && !lassoToleranceRectangle.contains(getOffset(me))) {
 			dragLasso(me, e);
 			return;
 		}

@@ -48,5 +48,10 @@ public class Dimension {
 		if (width != other.width) return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Dimension [width=" + width + ", height=" + height + "]";
+	}
 	
 }

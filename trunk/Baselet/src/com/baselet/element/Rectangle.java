@@ -72,8 +72,8 @@ public class Rectangle {
 		this.y += diffY;
 	}
 
-	public boolean contains(int inX, int inY) {
-		return contains(new Rectangle(inX, inY, 0, 0));
+	public boolean contains(Point p) {
+		return contains(new Rectangle(p.getX(), p.getY(), 0, 0));
 	}
 
 	public boolean contains(Rectangle other) {
@@ -120,6 +120,11 @@ public class Rectangle {
 		if (x != other.x) return false;
 		if (y != other.y) return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Rectangle [x=" + x + ", y=" + y + ", width=" + width + ", height=" + height + "]";
 	}
 
 }
