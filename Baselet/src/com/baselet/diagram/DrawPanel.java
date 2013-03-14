@@ -28,6 +28,7 @@ import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
+import com.baselet.element.Group;
 import com.baselet.element.Rectangle;
 import com.baselet.gui.StartUpHelpText;
 import com.baselet.gui.listener.ScrollbarListener;
@@ -188,6 +189,18 @@ public class DrawPanel extends JLayeredPane implements Printable {
 
 	public List<GridElement> getAllEntities() {
 		return gridElements;
+	}
+	
+	/**
+	 * Groups form a tree structure, therefore this method returns only elements which are not part of the group.
+	 * Elements which are part of a group must be retrieved from the group using {@link Group#getMembers()}
+	 */
+	public List<GridElement> getAllEntitiesWithGroupsAsTree() {
+		List<GridElement> elementsToDraw = new ArrayList<GridElement>(gridElements);
+		for (GridElement e : gridElements) {
+			if (e instanceof Group) elementsToDraw.removeAll(((Group) e).getMembers());
+		}
+		return elementsToDraw;
 	}
 
 	public List<Relation> getAllRelations() {
