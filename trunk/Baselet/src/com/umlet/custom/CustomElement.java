@@ -22,6 +22,7 @@ import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
+import com.baselet.diagram.draw.ColorOwn;
 import com.baselet.element.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
@@ -409,7 +410,7 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "foregroundColor")
 	protected final void setForegroundColor(String fgColorString) {
-		tmpFgColor = Converter.convert(Utils.getColor(fgColorString));
+		tmpFgColor = Converter.convert(ColorOwn.forString(fgColorString));
 		if (tmpFgColor == null) {
 			if (fgColorString.equals("fg")) tmpFgColor = fgColor;
 		}
@@ -417,7 +418,7 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "backgroundColor")
 	protected final void setBackgroundColor(String bgColorString) {
-		tmpBgColor = Converter.convert(Utils.getColor(bgColorString));
+		tmpBgColor = Converter.convert(ColorOwn.forString(bgColorString));
 		if (tmpBgColor == null) {
 			if (bgColorString.equals("bg")) tmpBgColor = bgColor;
 		}

@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.TreeSet;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.diagram.draw.ColorOwn;
 import com.baselet.diagram.draw.swing.objects.AxisConfig;
 import com.baselet.diagram.draw.swing.objects.Canvas;
 import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
@@ -369,7 +369,7 @@ public class PlotDrawHandler {
 				}
 			}
 			//print titleCol
-			base.setForegroundColor(Utils.darkenColor(colors.get(cIndex), 75));
+			base.setForegroundColor(ColorOwn.forString(colors.get(cIndex)).darken(75));
 			base.print(title[valueIndex], points.get(points.size()-1).x, points.get(points.size()-1).y, AlignHorizontal.CENTER);
 
 			cIndex++;
@@ -457,7 +457,7 @@ public class PlotDrawHandler {
 			int value_x = (int)((diameter / 2 ) * Math.cos(radians)) + ulCorner.x + diameter / 2 + width/2-diameter/2;
 			int value_y = (int)((diameter / 2 ) * Math.sin(radians)) + ulCorner.y + diameter / 2 + height/2-diameter/2;
 
-			base.setForegroundColor(Utils.darkenColor(colors.get(cIndex), 75));
+			base.setForegroundColor(ColorOwn.forString(colors.get(cIndex)).darken(75));
 			base.setForegroundAlpha(Constants.ALPHA_NO_TRANSPARENCY);
 			base.print(desc[i], value_x, value_y, AlignHorizontal.CENTER);
 

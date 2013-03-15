@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.baselet.control.Constants;
 import com.baselet.control.DimensionFloat;
-import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.FontHandler.FormatLabels;
@@ -98,7 +97,7 @@ public abstract class BaseDrawHandler {
 
 	public final void setForegroundColor(String color) {
 		if (color.equals("fg")) setForegroundColor(fgDefaultColor);
-		else setForegroundColor(Utils.getColor(color)); // if fgColor is not a valid string null will be set
+		else setForegroundColor(ColorOwn.forString(color)); // if fgColor is not a valid string null will be set
 	}
 
 	public final void setForegroundColor(ColorOwn color) {
@@ -108,7 +107,7 @@ public abstract class BaseDrawHandler {
 
 	public final void setBackgroundColor(String color) {
 		if (color.equals("bg")) setBackgroundColor(bgDefaultColor);
-		else setBackgroundColor(Utils.getColor(color));
+		else setBackgroundColor(ColorOwn.forString(color));
 	}
 
 	public final void setBackgroundColor(ColorOwn color) {

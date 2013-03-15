@@ -14,11 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
-
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.ColorOwn;
 import com.baselet.element.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.Point;
@@ -27,8 +24,6 @@ import com.umlet.element.relation.DoubleStroke;
 
 
 public abstract class Utils {
-
-	private final static Logger log = Logger.getLogger(Utils.class);
 
 	private Utils() {} // private constructor to avoid instantiation
 
@@ -177,32 +172,6 @@ public abstract class Utils {
 		return res;
 	}
 
-	/**
-	 * Converts colorString into a Color which is available in the colorMap or if not tries to decode the colorString
-	 * 
-	 * @param colorString
-	 *            String which describes the color
-	 * @return Color which is related to the String or null if it is no valid colorString
-	 */
-	public static ColorOwn getColor(String colorString) {
-		if (colorString == null) return null;
-		ColorOwn returnColor = null;
-		for (String color : Constants.colorMap.keySet()) {
-			if (colorString.equalsIgnoreCase(color)) {
-				returnColor = Constants.colorMap.get(color);
-				break;
-			}
-		}
-		if (returnColor == null) {
-			try {
-				returnColor = new ColorOwn(colorString);
-			} catch (NumberFormatException e) {
-				//only print for debugging because message would be printed, when typing the color
-				log.debug("Invalid color:" + colorString);
-			}
-		}
-		return returnColor;
-	}
 	
 	/**
 	 * eg: createDoubleArrayFromTo(5, 6, 0.1) = [5, 5.1, 5.2, ..., 5.9, 6] <br/>
@@ -224,18 +193,6 @@ public abstract class Utils {
 
 	public static Double[] createDoubleArrayFromTo(Double min, Double max) {
 		return createDoubleArrayFromTo(min, max, 1D);
-	}
-
-	public static ColorOwn darkenColor(String inColor, int factor) {
-		return darkenColor(getColor(inColor), factor);
-	}
-
-	public static ColorOwn darkenColor(ColorOwn inColor, int factor) {
-		int r = Math.max(0, inColor.getRed() - factor);
-		int g = Math.max(0, inColor.getGreen() - factor);
-		int b = Math.max(0, inColor.getBlue() - factor);
-
-		return new ColorOwn(r,g,b, inColor.getAlpha());
 	}
 
 	public static String replaceFileExtension(String fileName, String oldExtension, String newExtension) {
@@ -288,40 +245,4 @@ public abstract class Utils {
 		return new DimensionFloat((int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
 	}
 	
-
-	/**
-	 * Checks the distance between a line and a specific point
-	 * @param linePoint1 startpoint of line
-	 * @param linePoint2 endpoint of line
-	 * @param pointToCheck point to check the distance
-	 * @return
-	 */
-	public static double distance(Point linePoint1, Point linePoint2, Point pointToCheck) {
-		return distanceHelper(linePoint1.x, linePoint1.y, linePoint2.x, linePoint2.y, pointToCheck.x, pointToCheck.y);
-	}
-
-	/**
-	 * implementation is based on http://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment/2233538#2233538
-	 */
-	private static double distanceHelper(int x1, int y1, int x2, int y2, int checkX, int checkY) {
-		int px = x2 - x1;
-		int py = y2 - y1;
-
-		float mult = px * px + py * py;
-		double u = ((checkX - x1) * px + (checkY - y1) * py) / mult;
-
-		if (u > 1) u = 1;
-		else if (u < 0) u = 0;
-
-		double x = x1 + u * px;
-		double y = y1 + u * py;
-
-		double dx = x - checkX;
-		double dy = y - checkY;
-
-		double dist = Math.sqrt(dx * dx + dy * dy);
-
-		return dist;
-	}
-
 }

@@ -1,7 +1,13 @@
 package com.baselet.diagram.draw;
 
+import org.apache.log4j.Logger;
+
+import com.baselet.control.Constants;
+
 public class ColorOwn {
 
+	private final static Logger log = Logger.getLogger(ColorOwn.class);
+	
 	public static final ColorOwn RED = new ColorOwn(255, 0, 0, 255);
 	public static final ColorOwn GREEN = new ColorOwn(0, 255, 0, 255);
 	public static final ColorOwn BLUE = new ColorOwn(0, 0, 255, 255);
@@ -54,6 +60,40 @@ public class ColorOwn {
 
 	public int getAlpha() {
 		return alpha;
+	}
+	
+	public ColorOwn darken(int factor) {
+		red -= factor;
+		green -= factor;
+		blue -= factor;
+		return this;
+	}
+
+	/**
+	 * Converts colorString into a Color which is available in the colorMap or if not tries to decode the colorString
+	 * 
+	 * @param colorString
+	 *            String which describes the color
+	 * @return Color which is related to the String or null if it is no valid colorString
+	 */
+	public static ColorOwn forString(String colorString) {
+		if (colorString == null) return null;
+		ColorOwn returnColor = null;
+		for (String color : Constants.colorMap.keySet()) {
+			if (colorString.equalsIgnoreCase(color)) {
+				returnColor = Constants.colorMap.get(color);
+				break;
+			}
+		}
+		if (returnColor == null) {
+			try {
+				returnColor = new ColorOwn(colorString);
+			} catch (NumberFormatException e) {
+				//only print for debugging because message would be printed, when typing the color
+				log.debug("Invalid color:" + colorString);
+			}
+		}
+		return returnColor;
 	}
 
 	@Override

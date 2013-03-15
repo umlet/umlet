@@ -213,12 +213,12 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 			String line = v.get(i);
 			if (line.indexOf("bg=") >= 0) {
 				bgColorString = line.substring("bg=".length());
-				bgColor = Converter.convert(Utils.getColor(bgColorString));
+				bgColor = Converter.convert(ColorOwn.forString(bgColorString));
 				if (bgColor == null) bgColor = Converter.convert(Constants.DEFAULT_BACKGROUND_COLOR);
 			}
 			else if (line.indexOf("fg=") >= 0) {
 				fgColorString = line.substring("fg=".length());
-				fgColorBase = Converter.convert(Utils.getColor(fgColorString));
+				fgColorBase = Converter.convert(ColorOwn.forString(fgColorString));
 				if (fgColorBase == null) fgColorBase = Converter.convert(Constants.DEFAULT_FOREGROUND_COLOR);
 				if (!isSelected) fgColor = fgColorBase;
 			}
