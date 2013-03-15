@@ -4,7 +4,7 @@ package com.baselet.element;
 import java.util.Collection;
 import java.util.Vector;
 
-import com.baselet.control.Utils;
+import com.baselet.control.MathUtils;
 import com.baselet.diagram.DiagramHandler;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
@@ -77,7 +77,7 @@ public class StickingPolygon {
 
 
 		private boolean isConnected(Point p, int gridSize) {
-			double distance = Utils.distance(p1, p2, p);
+			double distance = MathUtils.distance(p1, p2, p);
 			return (distance < gridSize);
 		}
 	}
