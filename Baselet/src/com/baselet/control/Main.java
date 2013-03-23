@@ -478,7 +478,8 @@ public class Main {
 	private static HashMap<GridElement, DiagramHandler> gridElementToHandlerMapping = new HashMap<GridElement, DiagramHandler>();
 
 	public static DiagramHandler getHandlerForElement(GridElement element) {
-		return gridElementToHandlerMapping.get(element);
+		DiagramHandler diagramHandler = gridElementToHandlerMapping.get(element);
+		return diagramHandler;
 	}
 	
 	public static DiagramHandler setHandlerForElement(GridElement element, DiagramHandler handler) {

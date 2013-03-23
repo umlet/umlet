@@ -445,20 +445,17 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public void setLocation(int x, int y) {
-		// TODO Auto-generated method stub
-		
+		super.setLocation(x, y);
 	}
 
 	@Override
 	public void setSize(int width, int height) {
-		// TODO Auto-generated method stub
-		
+		super.setSize(width, height);
 	}
 
 	@Override
 	public void repaint() {
-		// TODO Auto-generated method stub
-		
+		super.repaint();
 	}
 
 }
