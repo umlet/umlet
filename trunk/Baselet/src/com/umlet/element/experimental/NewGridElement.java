@@ -110,7 +110,6 @@ public abstract class NewGridElement implements GridElement {
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
 		Integer oldLayer = getLayer();
 		properties.initSettingsFromText(this);
-		drawer.setSize(getRealSize()); // must be set after possible resizing due to AUTORESIZE
 		updateMetaDrawer();
 		updateConcreteModel();
 		if (oldLayer != null && !oldLayer.equals(getLayer())) {
@@ -132,7 +131,6 @@ public abstract class NewGridElement implements GridElement {
 				drawStickingPolygon();
 			}
 		}
-		metaDrawer.setSize(getRealSize());
 	}
 
 	@Override

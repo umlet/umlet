@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionFloat;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
@@ -16,8 +15,6 @@ public abstract class BaseDrawHandler {
 	private ColorOwn fgDefaultColor;
 
 	protected Style style;
-	
-	private Dimension size;
 
 	private ArrayList<DrawFunction> drawables = new ArrayList<DrawFunction>();
 	private Style overlay = new Style();
@@ -37,14 +34,6 @@ public abstract class BaseDrawHandler {
 
 	protected Style getOverlay() {
 		return overlay;
-	}
-
-	public void setSize(Dimension size) {
-		this.size = size;
-	}
-	
-	public Dimension getSize() {
-		return size;
 	}
 	
 	protected void addDrawable(DrawFunction drawable) {
@@ -200,8 +189,6 @@ public abstract class BaseDrawHandler {
 	public abstract void drawCurveQuad(float x1, float y1, float ctrlx, float ctrly, float x2, float y2);
 	public abstract void drawEllipse(float x, float y, float radiusX, float radiusY);
 	public abstract void drawLine(float x1, float y1, float x2, float y2);
-	public abstract void drawLineHorizontal(float y);
-	public abstract void drawLineVertical(float x);
 	public abstract void drawRectangle(float x, float y, float width, float height);
 	public abstract void drawRectangleRound(float x, float y, float width, float height, float arcw, float arch);
 	public abstract void print(String text, float x, float y, AlignHorizontal align);

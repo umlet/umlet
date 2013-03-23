@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
+import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.element.GridElement;
@@ -26,15 +27,16 @@ public class CustomElementWithErrors extends CustomElement {
 
 	@Override
 	public void paint() {
-		BaseDrawHandlerSwing drawer = new BaseDrawHandlerSwing(g2, Main.getHandlerForElement(this), ColorOwn.RED, Constants.DEFAULT_BACKGROUND_COLOR, this.getRealSize());
+		BaseDrawHandlerSwing drawer = new BaseDrawHandlerSwing(g2, Main.getHandlerForElement(this), ColorOwn.RED, Constants.DEFAULT_BACKGROUND_COLOR);
 		drawer.drawRectangle(0, 0, this.getRealSize().width, this.getRealSize().height);
 		if (errors != null) {
-			float pos = textHeight();
-			drawer.printLeft("Custom Element With Errors:", (int) pos);
-			pos += textHeight();
+			float y = textHeight();
+			float x = Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(false);
+			drawer.print("Custom Element With Errors:", x, (int) y, AlignHorizontal.LEFT);
+			y += textHeight();
 			for (CompileError error : errors) {
-				drawer.printLeft(error.getLineNr() + ": " + error.getError(), (int) pos);
-				pos += textHeight();
+				drawer.print(error.getLineNr() + ": " + error.getError(), x, (int) y, AlignHorizontal.LEFT);
+				y += textHeight();
 			}
 		}
 		drawer.drawAll(isSelected);
