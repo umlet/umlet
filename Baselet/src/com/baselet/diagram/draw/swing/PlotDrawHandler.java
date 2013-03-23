@@ -20,7 +20,7 @@ public class PlotDrawHandler {
 	private boolean isSelected;
 
 	public PlotDrawHandler(Graphics g, PlotGridDrawConfig plotDrawConfig) {
-		base = new BaseDrawHandlerSwing(g, plotDrawConfig.getDiagramHandler(),  plotDrawConfig.getFgColor(), plotDrawConfig.getBgColor(), plotDrawConfig.getSize());
+		base = new BaseDrawHandlerSwing(g, plotDrawConfig.getDiagramHandler(),  plotDrawConfig.getFgColor(), plotDrawConfig.getBgColor());
 		isSelected = plotDrawConfig.isSelected();
 //		drawLegend = false;
 		axisConfig = new AxisConfig();

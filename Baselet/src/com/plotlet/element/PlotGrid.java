@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
+import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
@@ -48,12 +49,13 @@ public class PlotGrid extends OldGridElement {
 
 		} catch (ParserException e) {
 //			log.error(null, e);
-			BaseDrawHandlerSwing draw = new BaseDrawHandlerSwing(g, Main.getHandlerForElement(this), Converter.convert(fgColor), Converter.convert(bgColor), getZoomedSize());
+			BaseDrawHandlerSwing draw = new BaseDrawHandlerSwing(g, Main.getHandlerForElement(this), Converter.convert(fgColor), Converter.convert(bgColor));
 			draw.setForegroundColor("red");
 			draw.setBackgroundColor("white");
 			draw.setBackgroundAlpha(Constants.ALPHA_NO_TRANSPARENCY);
 			draw.drawRectangle(0, 0, getZoomedSize().width-1, getZoomedSize().height-1);
-			draw.printCenter(e.getMessage(), getRealSize().height/2);
+			float x = getZoomedSize().getWidth() / 2;
+			draw.print(e.getMessage(), x, getRealSize().height/2, AlignHorizontal.CENTER);
 		}
 	}
 

@@ -21,8 +21,9 @@ public class ActiveClass implements Facet {
 		//TODO doesn't work inside of an inner class
 		propConfig.addToBuffer(SPACING);
 		LineHorizontal xLimits = propConfig.getXLimits(propConfig.getyPos());
-		drawer.drawLineVertical(xLimits.getLeft());
-		drawer.drawLineVertical(xLimits.getRight());
+		// draw vertical line left and right
+		drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), propConfig.getGridElementSize().getHeight());
+		drawer.drawLine(xLimits.getRight(), 0, xLimits.getRight(), propConfig.getGridElementSize().getHeight());
 	}
 
 	@Override

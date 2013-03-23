@@ -17,7 +17,6 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.DrawFunction;
-import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionFloat;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
@@ -33,13 +32,12 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		super();
 	}
 
-	public BaseDrawHandlerSwing(Graphics g, DiagramHandler handler, ColorOwn fgColor, ColorOwn bgColor, Dimension size) {
+	public BaseDrawHandlerSwing(Graphics g, DiagramHandler handler, ColorOwn fgColor, ColorOwn bgColor) {
 		super();
 		setFgDefaultColor(fgColor);
 		setBgDefaultColor(bgColor);
 		setHandler(handler);
 		setGraphics(g);
-		setSize(size);
 	}
 	
 	public void setHandler(DiagramHandler handler) {
@@ -85,7 +83,6 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	public PseudoDrawHandlerSwing getPseudoDrawHandler() {
 		PseudoDrawHandlerSwing counter = new PseudoDrawHandlerSwing();
 		counter.setHandler(handler);
-		counter.setSize(getSize());
 		return counter;
 	}
 
@@ -130,16 +127,6 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	@Override
 	public void drawLine(float x1, float y1, float x2, float y2) {
 		addShape(new Line2D.Float(x1 * getZoom(), y1 * getZoom(), x2 * getZoom(), y2 * getZoom()));
-	}
-
-	@Override
-	public void drawLineHorizontal(float y) {
-		addShape(new Line2D.Float(0, y * getZoom(), handler.realignToGrid(false, getSize().getWidth() * getZoom(), true), y * getZoom()));
-	}
-
-	@Override
-	public void drawLineVertical(float x) {
-		addShape(new Line2D.Float(x * getZoom(), 0, x * getZoom(), handler.realignToGrid(false, getSize().getHeight(), true)));
 	}
 
 	@Override
@@ -199,35 +186,5 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		handler.getFontHandler().writeText(g2, t.getText(), t.getX(), t.getY(), t.getHorizontalAlignment());
 		handler.getFontHandler().resetFontSize();
 
-	}
-	/*
-	 * DEPRECATED PRINT METHODS (ONLY USED FROM CUSTOM ELEMENTS AND PLOTGRID)
-	 */
-
-	@Deprecated
-	public final void printLeft(String text, float y) {
-		print(text, y, AlignHorizontal.LEFT);
-	}
-
-	@Deprecated
-	public final void printRight(String text, float y) {
-		print(text, y, AlignHorizontal.RIGHT);
-	}
-
-	@Deprecated
-	public final void printCenter(String text, float y) {
-		print(text, y, AlignHorizontal.CENTER);
-	}
-
-	private final void print(String text, float y, AlignHorizontal align) {
-		float x;
-		if (align == AlignHorizontal.LEFT) {
-			x = handler.getFontHandler().getDistanceBetweenTexts(false);
-		} else if (align == AlignHorizontal.CENTER) {
-			x = getSize().getWidth() / 2;
-		} else /*if (align == AlignHorizontal.RIGHT)*/ {
-			x = (int) (getSize().getWidth() - handler.getFontHandler().getDistanceBetweenTexts(false));
-		}
-		print(text, x, y, align);
 	}
 }
