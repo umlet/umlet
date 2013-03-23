@@ -11,7 +11,7 @@ import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.RemoveElement;
 import com.baselet.diagram.command.RemoveLinePoint;
-import com.baselet.element.Point;
+import com.baselet.diagram.draw.geom.Point;
 import com.umlet.element.Relation;
 
 

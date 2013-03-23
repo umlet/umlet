@@ -2,10 +2,11 @@ package com.umlet.element.custom;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import com.baselet.element.Point;
+
+import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.Rectangle;
 
 import com.baselet.element.OldGridElement;
-import com.baselet.element.Rectangle;
 import com.baselet.element.StickingPolygon;
 
 

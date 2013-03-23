@@ -11,8 +11,8 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.Selector;
 import com.baselet.diagram.SelectorFrame;
-import com.baselet.element.Converter;
-import com.baselet.element.Point;
+import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.swing.Converter;
 
 
 public abstract class UniversalListener extends ComponentAdapter implements MouseListener, MouseMotionListener {

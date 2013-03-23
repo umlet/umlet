@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.baselet.control.Main;
-import com.baselet.element.Dimension;
+import com.baselet.diagram.draw.geom.Dimension;
 import com.umlet.language.SortableElement;
 
 public abstract class Layout {

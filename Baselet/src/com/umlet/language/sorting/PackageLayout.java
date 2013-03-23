@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.baselet.element.Dimension;
-import com.baselet.element.Rectangle;
+import com.baselet.diagram.draw.geom.Dimension;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.umlet.element.Package;
 import com.umlet.language.SortableElement;
 

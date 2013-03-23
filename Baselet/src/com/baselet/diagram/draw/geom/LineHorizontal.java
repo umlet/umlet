@@ -1,11 +1,11 @@
-package com.umlet.element.experimental.helper;
+package com.baselet.diagram.draw.geom;
 
-public class XPoints {
+public class LineHorizontal {
 
 	private Float left;
 	private Float right;
 	
-	public XPoints(float left, float right) {
+	public LineHorizontal(float left, float right) {
 		super();
 		this.left = left;
 		this.right = right;
@@ -34,12 +34,12 @@ public class XPoints {
 	/**
 	 * returns the intersection of both points [eg: (2,5) intersect (1,4) = (2,4)]
 	 */
-	public XPoints intersect(XPoints other) {
+	public LineHorizontal intersect(LineHorizontal other) {
 		float maxLeft = left;
 		float minRight = right;
 		if (!other.left.equals(Float.NaN) && other.left > this.left) maxLeft = other.left;
 		if (!other.right.equals(Float.NaN) && other.right < this.right) minRight = other.right;
-		return new XPoints(maxLeft, minRight);
+		return new LineHorizontal(maxLeft, minRight);
 	}
 	
 }

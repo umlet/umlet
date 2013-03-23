@@ -1,4 +1,4 @@
-package com.baselet.element;
+package com.baselet.diagram.draw.geom;
 
 
 public class Point {

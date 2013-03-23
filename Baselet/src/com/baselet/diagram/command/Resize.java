@@ -1,10 +1,10 @@
 package com.baselet.diagram.command;
 
-import com.baselet.element.Point;
 import java.util.Vector;
 
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;

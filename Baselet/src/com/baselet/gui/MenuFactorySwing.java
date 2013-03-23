@@ -16,6 +16,7 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.Os;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Main;
+import com.baselet.diagram.draw.helper.ColorOwn;
 
 public class MenuFactorySwing extends MenuFactory {
 
@@ -180,7 +181,7 @@ public class MenuFactorySwing extends MenuFactory {
 		String name = (fg == true ? SET_FOREGROUND_COLOR : SET_BACKGROUND_COLOR);
 		JMenu menu = new JMenu(name);
 		menu.add(createJMenuItem(false, "default", name, "default"));
-		for (String color : Constants.colorMap.keySet()) {
+		for (String color : ColorOwn.COLOR_MAP.keySet()) {
 			JMenuItem item = createJMenuItem(false, color, name, color);
 			menu.add(item);
 			item.setIcon(new PlainColorIcon(color));

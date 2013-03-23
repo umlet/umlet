@@ -1,4 +1,4 @@
-package com.baselet.control;
+package com.baselet.diagram.draw.geom;
 
 public class DimensionFloat {
 

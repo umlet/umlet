@@ -4,8 +4,8 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
-import com.baselet.element.Dimension;
-import com.umlet.element.experimental.helper.XPoints;
+import com.baselet.diagram.draw.geom.Dimension;
+import com.baselet.diagram.draw.geom.LineHorizontal;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
@@ -106,16 +106,16 @@ public class PropertiesConfig {
 		return gridElementSize;
 	}
 
-	public XPoints getXLimits(float linePos) {
-		XPoints xLimits = specificSettings.getXValues(linePos, gridElementSize.height, gridElementSize.width);
+	public LineHorizontal getXLimits(float linePos) {
+		LineHorizontal xLimits = specificSettings.getXValues(linePos, gridElementSize.height, gridElementSize.width);
 		xLimits.addLeft(leftBuffer);
 		xLimits.subRight(rightBuffer);
 		return xLimits;
 	}
 
-	public XPoints getXLimitsForArea(float bottomYPos, float areaHeight) {
-		XPoints xLimitsTop = getXLimits(bottomYPos);
-		XPoints xLimitsBottom = getXLimits(bottomYPos - areaHeight);
+	public LineHorizontal getXLimitsForArea(float bottomYPos, float areaHeight) {
+		LineHorizontal xLimitsTop = getXLimits(bottomYPos);
+		LineHorizontal xLimitsBottom = getXLimits(bottomYPos - areaHeight);
 		return xLimitsTop.intersect(xLimitsBottom);
 	}
 

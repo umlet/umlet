@@ -1,5 +1,5 @@
 
-package com.baselet.diagram.draw;
+package com.baselet.diagram.draw.helper;
 
 import com.baselet.control.Constants;
 import com.baselet.control.enumerations.LineType;

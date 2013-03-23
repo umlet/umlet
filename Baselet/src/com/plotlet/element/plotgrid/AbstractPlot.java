@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.List;
 
-import com.baselet.control.Constants;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.swing.PlotDrawHandler;
 import com.baselet.diagram.draw.swing.objects.AxisConfig;
 import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
@@ -65,7 +65,7 @@ public abstract class AbstractPlot {
 		Double[][] values = ds.data();
 		List<String> colors = plotState.getValueList(PlotConstants.KEY_LIST_COLORS, PlotConstants.COLORS_DEFAULT);
 		for (String color : colors) {
-			if (!Constants.colorMap.containsKey(color)) {
+			if (!ColorOwn.COLOR_MAP.containsKey(color)) {
 				try { // If the color is decodable, it's valid
 					Color.decode(color);
 				}

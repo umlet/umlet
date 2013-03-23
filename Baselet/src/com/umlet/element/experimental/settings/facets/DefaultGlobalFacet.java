@@ -3,11 +3,10 @@ package com.umlet.element.experimental.settings.facets;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baselet.control.Constants;
+import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.FontHandler.FormatLabels;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
@@ -19,7 +18,7 @@ public class DefaultGlobalFacet implements Facet {
 	public enum GlobalSetting {
 		FOREGROUND_COLOR("fg", "red", "foreground color string (blue,...) or code (#0A37D3,...)"),
 		BACKGROUND_COLOR("bg", "red", "background color string (green,...) or code (#3c7a00,...)"),
-		LINE_TYPE("lt", new String[] {LineType.DASHED.getValue(), "dashed lines"}, new String[] {LineType.DOTTED.getValue(), "dotted lines"}, new String[] {FormatLabels.BOLD, "bold lines"}),
+		LINE_TYPE("lt", new String[] {LineType.DASHED.getValue(), "dashed lines"}, new String[] {LineType.DOTTED.getValue(), "dotted lines"}, new String[] {"*" /*for compatibility with FontHandler.FormatLabels.BOLD*/, "bold lines"}),
 		LINE_THICKNESS("lth", "1.0", "thickness of lines (1.5, 2.0, ...)"),
 		FONT_SIZE("fontsize", "12", "font size (12.5, 10.3,...)"),
 		LAYER("layer", "0", "elements on higher layers are shown on top of others, default is 0 (-5, 0, 3,...)"),
@@ -94,7 +93,7 @@ public class DefaultGlobalFacet implements Facet {
 				if (key.equalsIgnoreCase(GlobalSetting.FOREGROUND_COLOR.toString())) {
 					drawer.setForegroundColor(value);
 				} else if (key.equalsIgnoreCase(GlobalSetting.BACKGROUND_COLOR.toString())) {
-					drawer.setBackground(value, Constants.ALPHA_MIDDLE_TRANSPARENCY);
+					drawer.setBackground(value, NewGridElementConstants.ALPHA_MIDDLE_TRANSPARENCY);
 				} else if (key.equalsIgnoreCase(GlobalSetting.LINE_TYPE.toString())) {
 					drawer.setLineType(value);
 				}  else if (key.equalsIgnoreCase(GlobalSetting.LINE_THICKNESS.toString())) {

@@ -6,8 +6,8 @@ import java.awt.Graphics;
 
 import javax.swing.Icon;
 
-import com.baselet.diagram.draw.ColorOwn;
-import com.baselet.element.Converter;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.swing.Converter;
 
 public class PlainColorIcon implements Icon {
 

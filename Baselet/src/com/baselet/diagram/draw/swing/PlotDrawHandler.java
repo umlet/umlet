@@ -9,7 +9,7 @@ import java.util.TreeSet;
 
 import com.baselet.control.Constants;
 import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.diagram.draw.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.swing.objects.AxisConfig;
 import com.baselet.diagram.draw.swing.objects.Canvas;
 import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;

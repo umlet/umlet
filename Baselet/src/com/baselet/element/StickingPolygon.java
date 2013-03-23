@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Vector;
 
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.draw.geom.Line;
+import com.baselet.diagram.draw.geom.Point;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
 

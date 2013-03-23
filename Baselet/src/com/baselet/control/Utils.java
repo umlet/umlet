@@ -18,9 +18,10 @@ import javax.swing.JComponent;
 
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.element.Converter;
+import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
-import com.baselet.element.Point;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.DoubleStroke;
 

@@ -3,11 +3,13 @@ package com.baselet.diagram.draw;
 import java.util.ArrayList;
 
 import com.baselet.control.Constants;
-import com.baselet.control.DimensionFloat;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.FontHandler.FormatLabels;
-import com.baselet.element.Dimension;
+import com.baselet.diagram.draw.geom.Dimension;
+import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.Style;
 
 public abstract class BaseDrawHandler {
 

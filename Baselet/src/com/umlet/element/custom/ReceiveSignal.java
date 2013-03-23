@@ -9,8 +9,8 @@ import java.util.Vector;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
-import com.baselet.element.Point;
 import com.baselet.element.StickingPolygon;
 
 

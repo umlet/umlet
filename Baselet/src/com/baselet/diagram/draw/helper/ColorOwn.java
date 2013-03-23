@@ -1,8 +1,8 @@
-package com.baselet.diagram.draw;
+package com.baselet.diagram.draw.helper;
+
+import java.util.HashMap;
 
 import org.apache.log4j.Logger;
-
-import com.baselet.control.Constants;
 
 public class ColorOwn {
 
@@ -22,6 +22,23 @@ public class ColorOwn {
 	public static final ColorOwn LIGHT_GRAY = new ColorOwn(200, 200, 200, 255);
 	public static final ColorOwn PINK = new ColorOwn(255, 175, 175, 255);
 
+	public static final HashMap<String, ColorOwn> COLOR_MAP = new HashMap<String, ColorOwn>();
+	static {
+		COLOR_MAP.put("black", ColorOwn.BLACK);
+		COLOR_MAP.put("blue", ColorOwn.BLUE);
+		COLOR_MAP.put("cyan", ColorOwn.CYAN);
+		COLOR_MAP.put("dark_gray", ColorOwn.DARK_GRAY);
+		COLOR_MAP.put("gray", ColorOwn.GRAY);
+		COLOR_MAP.put("green", ColorOwn.GREEN);
+		COLOR_MAP.put("light_gray", ColorOwn.LIGHT_GRAY);
+		COLOR_MAP.put("magenta", ColorOwn.MAGENTA);
+		COLOR_MAP.put("orange", ColorOwn.ORANGE);
+		COLOR_MAP.put("pink", ColorOwn.PINK);
+		COLOR_MAP.put("red", ColorOwn.RED);
+		COLOR_MAP.put("white", ColorOwn.WHITE);
+		COLOR_MAP.put("yellow", ColorOwn.YELLOW);
+	}
+	
 	private int red;
 	private int green;
 	private int blue;
@@ -79,9 +96,9 @@ public class ColorOwn {
 	public static ColorOwn forString(String colorString) {
 		if (colorString == null) return null;
 		ColorOwn returnColor = null;
-		for (String color : Constants.colorMap.keySet()) {
+		for (String color : COLOR_MAP.keySet()) {
 			if (colorString.equalsIgnoreCase(color)) {
-				returnColor = Constants.colorMap.get(color);
+				returnColor = COLOR_MAP.get(color);
 				break;
 			}
 		}

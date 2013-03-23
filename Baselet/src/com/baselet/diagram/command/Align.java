@@ -8,9 +8,9 @@ import java.util.Vector;
 import com.baselet.control.Constants;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
-import com.baselet.element.Rectangle;
 
 public class Align extends Command {
 

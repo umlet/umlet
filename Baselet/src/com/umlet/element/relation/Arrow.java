@@ -1,7 +1,7 @@
 package com.umlet.element.relation;
 
-import com.baselet.element.Point;
-import com.baselet.element.Rectangle;
+import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.Rectangle;
 
 @SuppressWarnings("serial")
 public class Arrow extends Rectangle {

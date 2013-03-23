@@ -8,9 +8,9 @@ import java.util.regex.Pattern;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.Selector;
-import com.baselet.element.Converter;
+import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
-import com.baselet.element.Rectangle;
 
 
 public class Search extends Command {
