@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import com.baselet.control.Main;
+import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
@@ -78,7 +79,7 @@ public class GUIListener implements KeyListener {
 						if (tmpEntity.isStickingBorderActive()) stick = tmpEntity.generateStickingBorder(tmpEntity.getRectangle().x, tmpEntity.getRectangle().y, tmpEntity.getZoomedSize().width, tmpEntity.getZoomedSize().height);
 						else tmpEntity.setStickingBorderActive(true);
 						if (stick != null) {
-							Vector<RelationLinePoint> affectedRelationPoints = stick.getStickingRelationLinePoints(handler);
+							Vector<RelationLinePoint> affectedRelationPoints = Utils.getStickingRelationLinePoints(handler, stick);
 							for (int j = 0; j < affectedRelationPoints.size(); j++) {
 								RelationLinePoint tmpRlp = affectedRelationPoints.elementAt(j);
 								if (entitiesToBeMoved.contains(tmpRlp.getRelation())) continue;

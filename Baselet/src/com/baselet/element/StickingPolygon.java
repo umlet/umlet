@@ -1,14 +1,10 @@
 
 package com.baselet.element;
 
-import java.util.Collection;
 import java.util.Vector;
 
-import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
-import com.umlet.element.Relation;
-import com.umlet.element.relation.RelationLinePoint;
 
 
 public class StickingPolygon {
@@ -108,27 +104,11 @@ public class StickingPolygon {
 		return this.stick;
 	}
 
-	private int isConnected(Point p, int gridSize) {
+	public int isConnected(Point p, int gridSize) {
 		int con = -1;
 		for (int i = 0; i < this.stick.size(); i++)
 			if (this.stick.get(i).isConnected(p, gridSize)) return i;
 
 		return con;
-	}
-
-	public Vector<RelationLinePoint> getStickingRelationLinePoints(DiagramHandler handler) {
-		Vector<RelationLinePoint> lpts = new Vector<RelationLinePoint>();
-		Collection<Relation> rels = handler.getDrawPanel().getAllRelations();
-		for (Relation r : rels) {
-			if (!r.isPartOfGroup()) {
-				Point l1 = r.getAbsoluteCoorStart();
-				Point l2 = r.getAbsoluteCoorEnd();
-				int c1 = this.isConnected(l1, handler.getGridSize());
-				int c2 = this.isConnected(l2, handler.getGridSize());
-				if (c1 >= 0) lpts.add(new RelationLinePoint(r, 0, c1));
-				if (c2 >= 0) lpts.add(new RelationLinePoint(r, r.getLinePoints().size() - 1, c2));
-			}
-		}
-		return lpts;
 	}
 }
