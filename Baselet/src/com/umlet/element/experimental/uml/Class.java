@@ -1,6 +1,6 @@
 package com.umlet.element.experimental.uml;
 
-import com.umlet.element.experimental.ElementFactory.ElementId;
+import com.baselet.element.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsClass;

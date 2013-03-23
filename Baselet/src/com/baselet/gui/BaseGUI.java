@@ -60,7 +60,7 @@ public abstract class BaseGUI {
 			contextMenu.add(menuFactory.createEditSelected());
 		}
 
-		if (!(entity.getHandler() instanceof CustomPreviewHandler)) {
+		if (!(Main.getElementHandlerMapping().get(entity) instanceof CustomPreviewHandler)) {
 			contextMenu.add(menuFactory.createDelete());
 		}
 		JMenuItem group = menuFactory.createGroup();

@@ -1,5 +1,6 @@
 package com.baselet.gui.listener;
 
+import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
@@ -122,7 +123,7 @@ public class GridElementListener extends UniversalListener {
 		selector.setDominantEntity(ge);
 
 		JPopupMenu contextMenu = Main.getInstance().getGUI().getContextMenu(ge);
-		if (contextMenu != null) contextMenu.show(ge.getComponent(), x, y);
+		if (contextMenu != null) contextMenu.show((Component) ge.getComponent(), x, y);
 	}
 
 	@Override

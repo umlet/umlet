@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
@@ -22,7 +23,7 @@ public class SimpleComponent extends OldGridElement {
 		// Some unimportant initialization stuff; setting color, font
 		// quality, etc. You should not have to change this.
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(this.getHandler().getFontHandler().getFont());
+		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
@@ -36,27 +37,27 @@ public class SimpleComponent extends OldGridElement {
 		// to special strings
 		// (like the "--" string in the UML class elements which draw a line).
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		int yPos = (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
+		int yPos = (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 
-			yPos += (int) this.getHandler().getFontHandler().getFontSize();
-			this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() * 3, yPos, AlignHorizontal.LEFT);
+			yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+			Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() * 3, yPos, AlignHorizontal.LEFT);
 			// offset into box
-			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
+			yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 		}
 
 		// Finally, change other graphical attributes using
 		// drawLine, getWidth, getHeight..
 
-		int fnt = (int) this.getHandler().getFontHandler().getFontSize();
+		int fnt = (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
 
-		g2.drawLine((int) this.getHandler().getFontHandler().getFontSize(), 0, this.getZoomedSize().width - 1, 0);
+		g2.drawLine((int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), 0, this.getZoomedSize().width - 1, 0);
 		// top
-		g2.drawLine((int) this.getHandler().getFontHandler().getFontSize(), getZoomedSize().height - 1, getZoomedSize().width - 1, getZoomedSize().height - 1); // bottom
+		g2.drawLine((int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), getZoomedSize().height - 1, getZoomedSize().width - 1, getZoomedSize().height - 1); // bottom
 
 		// left side
-		g2.drawLine((int) this.getHandler().getFontHandler().getFontSize(), 0, (int) this.getHandler().getFontHandler().getFontSize(), fnt); // top
+		g2.drawLine((int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), 0, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), fnt); // top
 		g2.drawLine(fnt, fnt * 2, fnt, fnt * 3); // middle
 		g2.drawLine(fnt, fnt * 4, fnt, getZoomedSize().height - 1);
 		// bottom

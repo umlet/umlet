@@ -4,25 +4,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.JComponent;
-
-import org.apache.log4j.Logger;
-
 import com.baselet.control.Constants;
-import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.ColorOwn;
 import com.baselet.element.Dimension;
+import com.baselet.element.ElementId;
 import com.baselet.element.GridElement;
 import com.baselet.element.GroupGridElement;
+import com.baselet.element.Line;
 import com.baselet.element.Rectangle;
 import com.baselet.element.StickingPolygon;
-import com.baselet.element.StickingPolygon.StickLine;
 import com.baselet.gui.AutocompletionText;
-import com.umlet.element.experimental.ElementFactory.ElementId;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
@@ -30,7 +24,7 @@ import com.umlet.element.experimental.settings.facets.Facet;
 
 public abstract class NewGridElement implements GridElement {
 
-	private static final Logger log = Logger.getLogger(NewGridElement.class);
+//	private static final Logger log = Logger.getLogger(NewGridElement.class);
 
 	private boolean stickingBorderActive;
 
@@ -45,14 +39,15 @@ public abstract class NewGridElement implements GridElement {
 
 	protected ComponentInterface component;
 
-	void init(Rectangle bounds, String panelAttributes, ComponentInterface component, DiagramHandler handler) {
+	private DrawHandlerInterface panel;
+
+	void init(Rectangle bounds, String panelAttributes, ComponentInterface component, DrawHandlerInterface panel) {
 		this.component = component;
 		this.drawer = component.getDrawHandler();
 		this.metaDrawer = component.getMetaDrawHandler();
 		setRectangle(bounds);
 		properties = new Properties(panelAttributes, drawer);
-		setHandler(handler);
-		getHandler().setHandlerAndInitListeners(this);
+		this.panel = panel;
 	}
 
 	public BaseDrawHandler getDrawer() {
@@ -61,16 +56,6 @@ public abstract class NewGridElement implements GridElement {
 
 	public BaseDrawHandler getMetaDrawer() {
 		return metaDrawer;
-	}
-
-	@Override
-	public DiagramHandler getHandler() {
-		return Main.getGridElementHandlerMapping().get(this);
-	}
-
-	@Override
-	public void setHandler(DiagramHandler handler) {
-		Main.getGridElementHandlerMapping().put(this, handler);
 	}
 
 	@Override
@@ -96,7 +81,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public GridElement CloneFromMe() {
-		return ElementFactory.create(getId(), getRectangle(), properties.getPanelAttributes(), getHandler());
+		return ElementFactory.clone(this);
 	}
 
 	@Override
@@ -131,7 +116,7 @@ public abstract class NewGridElement implements GridElement {
 		updateMetaDrawer();
 		updateConcreteModel();
 		if (oldLayer != null && !oldLayer.equals(getLayer())) {
-			getHandler().getDrawPanel().setLayer(this.getComponent(), getLayer());
+			panel.updateLayer(this);
 		}
 		this.autoresizePossiblyInProgress = false;
 	}
@@ -155,7 +140,8 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void updateProperty(GlobalSetting key, String newValue) {
 		properties.updateSetting(key, newValue);
-		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
+		panel.updatePropertyPanel();
+//		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.updateModelFromText();
 		this.repaint();
 	}
@@ -237,8 +223,8 @@ public abstract class NewGridElement implements GridElement {
 		if (poly != null) {
 			metaDrawer.setLineType(LineType.DASHED);
 			metaDrawer.setForegroundColor(Constants.DEFAULT_SELECTED_COLOR);
-			for (StickLine line : poly.getStickLines()) {
-				metaDrawer.drawLine(line.getP1().getX(), line.getP1().getY(), line.getP2().getX(), line.getP2().getY());
+			for (Line line : poly.getStickLines()) {
+				metaDrawer.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
 			}
 			metaDrawer.setLineType(LineType.SOLID);
 			metaDrawer.resetColorSettings();
@@ -300,12 +286,12 @@ public abstract class NewGridElement implements GridElement {
 	 */
 	@Override
 	public Dimension getRealSize() {
-		return new Dimension((int) (getZoomedSize().width / getHandler().getZoomFactor()), (int) (getZoomedSize().height / getHandler().getZoomFactor()));
+		return new Dimension((int) (getZoomedSize().width / panel.getZoomFactor()), (int) (getZoomedSize().height / panel.getZoomFactor()));
 	}
 
 	@Override
-	public JComponent getComponent() {
-		return (JComponent) component;
+	public ComponentInterface getComponent() {
+		return component;
 	}
 
 	public abstract Settings getSettings();

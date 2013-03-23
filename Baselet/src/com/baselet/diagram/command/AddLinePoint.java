@@ -2,6 +2,7 @@ package com.baselet.diagram.command;
 
 import java.util.Vector;
 
+import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.Point;
 import com.umlet.element.Relation;
@@ -23,18 +24,18 @@ public class AddLinePoint extends Command {
 	}
 
 	private int getX() {
-		return _x * _relation.getHandler().getGridSize();
+		return _x * Main.getElementHandlerMapping().get(_relation).getGridSize();
 	}
 
 	private int getY() {
-		return _y * _relation.getHandler().getGridSize();
+		return _y * Main.getElementHandlerMapping().get(_relation).getGridSize();
 	}
 
 	public AddLinePoint(Relation r, int i, int x, int y) {
 		_relation = r;
 		_where = i;
-		_x = x / _relation.getHandler().getGridSize();
-		_y = y / _relation.getHandler().getGridSize();
+		_x = x / Main.getElementHandlerMapping().get(_relation).getGridSize();
+		_y = y / Main.getElementHandlerMapping().get(_relation).getGridSize();
 	}
 
 	@Override

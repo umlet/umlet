@@ -2,15 +2,11 @@ package com.baselet.element;
 
 import java.util.List;
 
-import javax.swing.JComponent;
-
-import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.AutocompletionText;
+import com.umlet.element.experimental.ComponentInterface;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
 public interface GridElement {
-
-	DiagramHandler getHandler();
 
 	String getPanelAttributes();
 
@@ -19,8 +15,6 @@ public interface GridElement {
 	void setPanelAttributes(String panelAttributes);
 
 	void setRectangle(Rectangle bounds);
-
-	void setHandler(DiagramHandler handler);
 
 	void setGroup(GroupGridElement object);
 
@@ -69,7 +63,7 @@ public interface GridElement {
 
 	boolean isInRange(Rectangle rectangle);
 	
-	JComponent getComponent();
+	ComponentInterface getComponent();
 
 	void updateProperty(GlobalSetting key, String newValue);
 	

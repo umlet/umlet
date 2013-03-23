@@ -2,6 +2,7 @@ package com.baselet.element;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -19,19 +20,18 @@ import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.ColorOwn;
-import com.baselet.element.StickingPolygon.StickLine;
 import com.baselet.gui.AutocompletionText;
+import com.umlet.element.experimental.ComponentInterface;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
-public abstract class OldGridElement extends JComponent implements GridElement {
+public abstract class OldGridElement extends JComponent implements GridElement, ComponentInterface {
 
 	private static final long serialVersionUID = 1L;
 	
 	protected static final Logger log = Logger.getLogger(OldGridElement.class);
 
-	private DiagramHandler handler;
 	private boolean enabled;
 	private boolean stickingBorderActive;
 	private boolean autoresizeandmanualresizeenabled;
@@ -58,27 +58,17 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	}
 
 	@Override
-	public DiagramHandler getHandler() {
-		return handler;
-	}
-
-	@Override
-	public void setHandler(DiagramHandler handler) {
-		this.handler = handler;
-	}
-
-	@Override
 	public void setEnabled(boolean en) {
 		super.setEnabled(en);
 		if (!en && enabled) {
-			this.removeMouseListener(this.getHandler().getEntityListener(this));
-			this.removeMouseMotionListener(this.getHandler().getEntityListener(this));
+			this.removeMouseListener(Main.getElementHandlerMapping().get(this).getEntityListener(this));
+			this.removeMouseMotionListener(Main.getElementHandlerMapping().get(this).getEntityListener(this));
 			enabled = false;
 		}
 		else if (en && !enabled) {
 			if (!this.isPartOfGroup()) {
-				this.addMouseListener(this.getHandler().getEntityListener(this));
-				this.addMouseMotionListener(this.getHandler().getEntityListener(this));
+				this.addMouseListener(Main.getElementHandlerMapping().get(this).getEntityListener(this));
+				this.addMouseMotionListener(Main.getElementHandlerMapping().get(this).getEntityListener(this));
 			}
 			enabled = true;
 		}
@@ -199,7 +189,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		newState = newState.substring(0, newState.length()-1); //remove last linebreak
 		if (newValue != null && !newValue.isEmpty()) newState += "\n" + key.toString() + "=" + newValue; // null will not be added as a value
 		this.setPanelAttributes(newState);
-		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
+		Main.getElementHandlerMapping().get(this).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.repaint();
 	}
 
@@ -235,7 +225,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 
 	@Override
 	public Dimension getRealSize() {
-		return new Dimension(getZoomedSize().width / handler.getGridSize() * Constants.DEFAULTGRIDSIZE, getZoomedSize().height / handler.getGridSize() * Constants.DEFAULTGRIDSIZE);
+		return new Dimension(getZoomedSize().width / Main.getElementHandlerMapping().get(this).getGridSize() * Constants.DEFAULTGRIDSIZE, getZoomedSize().height / Main.getElementHandlerMapping().get(this).getGridSize() * Constants.DEFAULTGRIDSIZE);
 	}
 
 	@Override
@@ -290,9 +280,9 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	public void setInProgress(Graphics g, boolean flag) {
 		if (flag) {
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setFont(this.getHandler().getFontHandler().getFont());
+			g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
 			g2.setColor(Color.red);
-			this.getHandler().getFontHandler().writeText(g2, "in progress...", this.getZoomedSize().width / 2 - 40, this.getZoomedSize().height / 2 + (int) this.getHandler().getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
+			Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, "in progress...", this.getZoomedSize().width / 2 - 40, this.getZoomedSize().height / 2 + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
 		}
 		else {
 			repaint();
@@ -306,7 +296,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 			GridElement c = cx.newInstance();
 			c.setPanelAttributes(this.getPanelAttributes()); // copy states
 			c.setRectangle(this.getRectangle());
-			this.getHandler().setHandlerAndInitListeners(c);
+			Main.getElementHandlerMapping().get(this).setHandlerAndInitListeners(c);
 			return c;
 		} catch (Exception e) {
 			log.error("Error at calling CloneFromMe() on entity", e);
@@ -337,8 +327,8 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 			Stroke s = g2.getStroke();
 			g2.setColor(Converter.convert(Constants.DEFAULT_SELECTED_COLOR));
 			g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
-			for (StickLine line : poly.getStickLines()) {
-				g2.drawLine(line.getP1().getX(), line.getP1().getY(), line.getP2().getX(), line.getP2().getY());
+			for (Line line : poly.getStickLines()) {
+				g2.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
 			}
 			g2.setColor(c);
 			g2.setStroke(s);
@@ -367,15 +357,15 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	public abstract void paintEntity(Graphics g);
 
 	protected final int textHeight() {
-		return (int) (this.getHandler().getFontHandler().getFontSize(false) + this.getHandler().getFontHandler().getDistanceBetweenTexts(false));
+		return (int) (Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(false) + Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts(false));
 	}
 
 	protected final int textWidth(String text, boolean applyZoom) {
-		return (int) (getHandler().getFontHandler().getTextSize(text, applyZoom).getWidth() + (int) getHandler().getFontHandler().getDistanceBetweenTexts(applyZoom));
+		return (int) (Main.getElementHandlerMapping().get(this).getFontHandler().getTextSize(text, applyZoom).getWidth() + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts(applyZoom));
 	}
 
 	@Override
-	public JComponent getComponent() {
+	public ComponentInterface getComponent() {
 		return this;
 	}
 
@@ -389,7 +379,7 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 		/*OldGridElement has no model but simply parses the properties text within every paint() call*/
 		Integer oldLayer = lastLayerValue;
 		if (oldLayer != null && !oldLayer.equals(getLayer())) {
-			handler.getDrawPanel().setLayer(getComponent(), lastLayerValue);
+			Main.getElementHandlerMapping().get(this).getDrawPanel().setLayer((Component) getComponent(), lastLayerValue);
 		}
 	}
 
@@ -422,4 +412,48 @@ public abstract class OldGridElement extends JComponent implements GridElement {
 	public void setRectangle(Rectangle rect) {
 		setBounds(rect.x, rect.y, rect.width, rect.height);
 	}
+	
+	@Override
+	public void setBoundsRect(Rectangle rect) {
+		setBounds(Converter.convert(rect));
+	}
+
+	@Override
+	public Rectangle getBoundsRect() {
+		return Converter.convert(getBounds());
+	}
+
+	@Override
+	public void repaintComponent() {
+		this.repaint();
+	}
+
+	@Override
+	public BaseDrawHandler getDrawHandler() {
+		return null;
+	}
+
+	@Override
+	public BaseDrawHandler getMetaDrawHandler() {
+		return null;
+	}
+
+	@Override
+	public void setLocation(int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSize(int width, int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void repaint() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

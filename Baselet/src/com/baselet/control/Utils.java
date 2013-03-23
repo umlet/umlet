@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.swing.JComponent;
+
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.Converter;
@@ -206,19 +208,21 @@ public abstract class Utils {
 	 * IMPORTANT: on overlapping elements, contains is called for all elements until the first one returns true, then the others contain methods are not called
 	 */
 	public static boolean contains(GridElement gridElement, Point p) {
-		java.awt.Rectangle rectangle = gridElement.getComponent().getVisibleRect();
+		JComponent component = ((JComponent) gridElement.getComponent());
+		java.awt.Rectangle rectangle = component.getVisibleRect();
 		if (!rectangle.contains(p.x, p.y)) return false;
 
-		for (GridElement other : gridElement.getHandler().getDrawPanel().getAllEntitiesNotInGroup()) {
+		for (GridElement other : Main.getElementHandlerMapping().get(gridElement).getDrawPanel().getAllEntitiesNotInGroup()) {
+			JComponent otherComponent = ((JComponent) other.getComponent());
 			if (other instanceof Relation) { // a relation is always on top
 				// move point to coordinate system of other entity
 				Point other_p = new Point(p.x + gridElement.getRectangle().x - other.getRectangle().x, p.y + gridElement.getRectangle().y - other.getRectangle().y);
-				if (other.getComponent().contains(Converter.convert(other_p))) return false;
+				if (otherComponent.contains(Converter.convert(other_p))) return false;
 			}
 
 			// If the this visibleRect is equal to the other VisibleRect, true will be returned. Otherwise we need to check further
-			else if (!gridElement.getComponent().getVisibleRect().equals(other.getComponent().getVisibleRect())) {
-				java.awt.Rectangle other_rectangle = other.getComponent().getVisibleRect();
+			else if (!component.getVisibleRect().equals(otherComponent.getVisibleRect())) {
+				java.awt.Rectangle other_rectangle = otherComponent.getVisibleRect();
 				// move bounds to coordinate system of this component
 				other_rectangle.x += other.getRectangle().x - gridElement.getRectangle().x;
 				other_rectangle.y += other.getRectangle().y - gridElement.getRectangle().y;

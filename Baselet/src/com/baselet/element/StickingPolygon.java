@@ -4,7 +4,6 @@ package com.baselet.element;
 import java.util.Collection;
 import java.util.Vector;
 
-import com.baselet.control.MathUtils;
 import com.baselet.diagram.DiagramHandler;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
@@ -12,72 +11,59 @@ import com.umlet.element.relation.RelationLinePoint;
 
 public class StickingPolygon {
 
-	public class StickLine {
-
-		private Point p1;
-		private Point p2;
+	public class StickLine extends Line {
 
 		private StickLine(Point p1, Point p2) {
-			this.p1 = p1;
-			this.p2 = p2;
+			super(p1, p2);
 		}
 
 		// calculates the difference between this line and the other line at the specified x or y coordinate (whichever fits better)
 		public Point diffToLine(StickLine s, int x, int y) {
 			Point diff = new Point(0, 0);
-			if (p2.x == p1.x) {
-				// AB: Fixed: use s.p1.x instead of p1.x
-				diff.x = s.p1.x - (s.p2.x - s.p1.x) - x; // mitte der neuen linie
+			if (getEnd().x == getStart().x) {
+				// AB: Fixed: use s.getStart().x instead of p1.x
+				diff.x = s.getStart().x - (s.getStart().x - s.getStart().x) - x; // mitte der neuen linie
 
-				if (s.p2.x == s.p1.x) {
+				if (s.getStart().x == s.getStart().x) {
 					// vertical lines - no y difference except the line is at an end
 					diff.y = 0;
-					if (s.p1.y > s.p2.y) {
-						if (s.p1.y < y) diff.y = s.p1.y - y;
-						else if (s.p2.y > y) diff.y = s.p2.y - y;
+					if (s.getStart().y > s.getStart().y) {
+						if (s.getStart().y < y) diff.y = s.getStart().y - y;
+						else if (s.getStart().y > y) diff.y = s.getStart().y - y;
 					}
 					else {
-						if (s.p2.y < y) diff.y = s.p2.y - y;
-						else if (s.p1.y > y) diff.y = s.p1.y - y;
+						if (s.getStart().y < y) diff.y = s.getStart().y - y;
+						else if (s.getStart().y > y) diff.y = s.getStart().y - y;
 					}
 					return diff;
 				}
 			}
-			else diff.x = (x - p1.x) * (s.p2.x - s.p1.x) / (p2.x - p1.x) + s.p1.x - x;
+			else diff.x = (x - getStart().x) * (s.getStart().x - s.getStart().x) / (getEnd().x - getStart().x) + s.getStart().x - x;
 
-			if (p2.y == p1.y) {
-				// AB: Fixed: use s.p1.x instead of p1.x
-				diff.y = s.p1.y - (s.p2.y - s.p1.y) - y;
+			if (getEnd().y == getStart().y) {
+				// AB: Fixed: use s.getStart().x instead of p1.x
+				diff.y = s.getStart().y - (s.getStart().y - s.getStart().y) - y;
 
-				if (s.p2.y == s.p1.y) {
+				if (s.getStart().y == s.getStart().y) {
 					// horizontal lines - no x difference except the line is at an end
 					diff.x = 0;
-					if (s.p1.x > s.p2.x) {
-						if (s.p1.x < x) diff.x = s.p1.x - x;
-						else if (s.p2.x > x) diff.x = s.p2.x - x;
+					if (s.getStart().x > s.getStart().x) {
+						if (s.getStart().x < x) diff.x = s.getStart().x - x;
+						else if (s.getStart().x > x) diff.x = s.getStart().x - x;
 					}
 					else {
-						if (s.p2.x < x) diff.x = s.p2.x - x;
-						else if (s.p1.x > x) diff.x = s.p1.x - x;
+						if (s.getStart().x < x) diff.x = s.getStart().x - x;
+						else if (s.getStart().x > x) diff.x = s.getStart().x - x;
 					}
 				}
 			}
-			else diff.y = (y - p1.y) * (s.p2.y - s.p1.y) / (p2.y - p1.y) + s.p1.y - y;
+			else diff.y = (y - getStart().y) * (s.getStart().y - s.getStart().y) / (getEnd().y - getStart().y) + s.getStart().y - y;
 
 			return diff;
 		}
 
-		public Point getP1() {
-			return p1;
-		}
-		
-		public Point getP2() {
-			return p2;
-		}
-
-
 		private boolean isConnected(Point p, int gridSize) {
-			double distance = MathUtils.distance(p1, p2, p);
+			double distance = this.distance(p);
 			return (distance < gridSize);
 		}
 	}
@@ -116,7 +102,7 @@ public class StickingPolygon {
 		stick.add(new StickLine(p1, p2));
 	}
 
-	public Vector<StickLine> getStickLines() {
+	public Vector<? extends Line> getStickLines() {
 		return this.stick;
 	}
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.DimensionFloat;
+import com.baselet.control.Main;
 import com.baselet.control.TextManipulator;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -75,12 +76,12 @@ public class Properties {
 			float height = dim.getHeight() + drawer.textHeight()/2;
 			float diffw = width-element.getRealSize().width;
 			float diffh = height-element.getRealSize().height;
-			float diffwInCurrentZoom = diffw * element.getHandler().getZoomFactor();
-			float diffhInCurrentZoom = diffh * element.getHandler().getZoomFactor();
-			int diffwRealigned = element.getHandler().realignToGrid(false, diffwInCurrentZoom, true);
-			int diffhRealigned = element.getHandler().realignToGrid(false, diffhInCurrentZoom, true);
+			float diffwInCurrentZoom = diffw * Main.getElementHandlerMapping().get(element).getZoomFactor();
+			float diffhInCurrentZoom = diffh * Main.getElementHandlerMapping().get(element).getZoomFactor();
+			int diffwRealigned = Main.getElementHandlerMapping().get(element).realignToGrid(false, diffwInCurrentZoom, true);
+			int diffhRealigned = Main.getElementHandlerMapping().get(element).realignToGrid(false, diffhInCurrentZoom, true);
 			// use resize command to move sticked relations correctly with the element
-			new Resize(element, 0, 0, diffwRealigned, diffhRealigned).execute(element.getHandler());
+			new Resize(element, 0, 0, diffwRealigned, diffhRealigned).execute(Main.getElementHandlerMapping().get(element));
 		}
 	}
 
