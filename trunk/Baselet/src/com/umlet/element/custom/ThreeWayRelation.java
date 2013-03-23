@@ -3,7 +3,9 @@ package com.umlet.element.custom;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import com.baselet.element.Point;
+
+import com.baselet.diagram.draw.geom.Point;
+
 import java.awt.Polygon;
 import java.util.Vector;
 

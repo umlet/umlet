@@ -6,10 +6,10 @@ import javax.swing.JComponent;
 
 import com.baselet.control.Utils;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
-import com.baselet.element.Converter;
-import com.baselet.element.Point;
-import com.baselet.element.Rectangle;
+import com.baselet.diagram.draw.swing.Converter;
 
 public class NewGridElementJComponent extends JComponent implements ComponentInterface {
 	private static final long serialVersionUID = 1L;

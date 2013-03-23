@@ -8,6 +8,7 @@ import java.lang.reflect.Constructor;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.diagram.draw.swing.Converter;
 
 @SuppressWarnings("serial")
 public class ErrorOccurred extends OldGridElement {

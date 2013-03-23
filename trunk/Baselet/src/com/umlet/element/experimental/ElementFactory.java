@@ -3,11 +3,11 @@ package com.umlet.element.experimental;
 import java.awt.Component;
 
 import com.baselet.control.Main;
+import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
-import com.baselet.element.ElementId;
 import com.baselet.element.GridElement;
-import com.baselet.element.Rectangle;
 import com.umlet.element.experimental.uml.Class;
 import com.umlet.element.experimental.uml.UseCase;
 
@@ -39,6 +39,10 @@ public class ElementFactory {
 			@Override
 			public float getZoomFactor() {
 				return Main.getElementHandlerMapping().get(returnObj).getZoomFactor();
+			}
+			@Override
+			public boolean displaceDrawingByOnePixel() {
+				return Utils.displaceDrawingByOnePixel();
 			}
 		};
 

@@ -1,8 +1,11 @@
-package com.baselet.element;
+package com.baselet.diagram.draw.swing;
 
 import java.awt.Color;
 
-import com.baselet.diagram.draw.ColorOwn;
+import com.baselet.diagram.draw.geom.Dimension;
+import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.diagram.draw.helper.ColorOwn;
 
 public class Converter {
 

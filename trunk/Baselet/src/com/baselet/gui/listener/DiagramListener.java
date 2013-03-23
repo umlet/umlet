@@ -17,8 +17,8 @@ import com.baselet.diagram.SelectorFrame;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
+import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
-import com.baselet.element.Point;
 
 public class DiagramListener extends UniversalListener implements MouseWheelListener {
 	

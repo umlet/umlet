@@ -4,17 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.control.Constants;
-import com.baselet.control.Utils;
+import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.diagram.draw.ColorOwn;
-import com.baselet.element.Dimension;
-import com.baselet.element.ElementId;
+import com.baselet.diagram.draw.geom.Dimension;
+import com.baselet.diagram.draw.geom.Line;
+import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
 import com.baselet.element.GroupGridElement;
-import com.baselet.element.Line;
-import com.baselet.element.Rectangle;
 import com.baselet.element.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.settings.Settings;
@@ -126,11 +124,11 @@ public abstract class NewGridElement implements GridElement {
 	private void updateMetaDrawer() {
 		metaDrawer.clearCache();
 		if (isSelected) { // draw blue rectangle around selected gridelements
-			metaDrawer.setForegroundAlpha(Constants.ALPHA_FULL_TRANSPARENCY);
-			metaDrawer.setBackground(ColorOwn.BLUE, Constants.ALPHA_NEARLY_FULL_TRANSPARENCY);
+			metaDrawer.setForegroundAlpha(NewGridElementConstants.ALPHA_FULL_TRANSPARENCY);
+			metaDrawer.setBackground(ColorOwn.BLUE, NewGridElementConstants.ALPHA_NEARLY_FULL_TRANSPARENCY);
 			metaDrawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
 			metaDrawer.resetColorSettings();
-			if (Constants.show_stickingpolygon && !this.isPartOfGroup()) {
+			if (NewGridElementConstants.show_stickingpolygon && !this.isPartOfGroup()) {
 				drawStickingPolygon();
 			}
 		}
@@ -180,20 +178,20 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public int getResizeArea(int x, int y) {
 		int ret = 0;
-		if ((x <= 5) && (x >= 0)) ret = Constants.RESIZE_LEFT;
-		else if ((x <= this.getZoomedSize().width) && (x >= this.getZoomedSize().width - 5)) ret = Constants.RESIZE_RIGHT;
+		if ((x <= 5) && (x >= 0)) ret = NewGridElementConstants.RESIZE_LEFT;
+		else if ((x <= this.getZoomedSize().width) && (x >= this.getZoomedSize().width - 5)) ret = NewGridElementConstants.RESIZE_RIGHT;
 
-		if ((y <= 5) && (y >= 0)) ret = ret | Constants.RESIZE_TOP;
-		else if ((y <= this.getZoomedSize().height) && (y >= this.getZoomedSize().height - 5)) ret = ret | Constants.RESIZE_BOTTOM;
+		if ((y <= 5) && (y >= 0)) ret = ret | NewGridElementConstants.RESIZE_TOP;
+		else if ((y <= this.getZoomedSize().height) && (y >= this.getZoomedSize().height - 5)) ret = ret | NewGridElementConstants.RESIZE_BOTTOM;
 		return ret;
 	}
 
 	@Override
 	public int getPossibleResizeDirections() {
 		if (properties.getElementStyle() == ElementStyleEnum.NORESIZE || properties.getElementStyle() == ElementStyleEnum.AUTORESIZE) {
-			return Constants.RESIZE_NONE;
+			return NewGridElementConstants.RESIZE_NONE;
 		}
-		else return Constants.RESIZE_ALL;
+		else return NewGridElementConstants.RESIZE_ALL;
 	}
 
 	@Override
@@ -218,11 +216,11 @@ public abstract class NewGridElement implements GridElement {
 	private final void drawStickingPolygon() {
 		StickingPolygon poly;
 		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
-		if (Utils.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getRealSize().width - 1, this.getRealSize().height - 1);
+		if (panel.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getRealSize().width - 1, this.getRealSize().height - 1);
 		else poly = this.generateStickingBorder(0, 0, this.getRealSize().width - 1, this.getRealSize().height - 1);
 		if (poly != null) {
 			metaDrawer.setLineType(LineType.DASHED);
-			metaDrawer.setForegroundColor(Constants.DEFAULT_SELECTED_COLOR);
+			metaDrawer.setForegroundColor(NewGridElementConstants.DEFAULT_SELECTED_COLOR);
 			for (Line line : poly.getStickLines()) {
 				metaDrawer.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
 			}

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.control.DimensionFloat;
 import com.baselet.control.Main;
 import com.baselet.control.TextManipulator;
 import com.baselet.control.Utils;
@@ -12,7 +11,8 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.umlet.element.experimental.helper.XPoints;
+import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.geom.LineHorizontal;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
@@ -166,7 +166,7 @@ public class Properties {
 			}
 		}
 		if (drawText) {
-			XPoints xLimitsForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight());
+			LineHorizontal xLimitsForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight());
 			Float spaceNotUsedForText = propCfg.getGridElementSize().width - xLimitsForText.getSpace();
 			if (!spaceNotUsedForText.equals(Float.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
 				propCfg.calcMaxTextWidth(spaceNotUsedForText + drawer.textWidth(line));
@@ -176,7 +176,7 @@ public class Properties {
 		}
 	}
 
-	private float calcHorizontalTextBoundaries(XPoints xLimitsForText, PropertiesConfig propCfg) {
+	private float calcHorizontalTextBoundaries(LineHorizontal xLimitsForText, PropertiesConfig propCfg) {
 		float x;
 		if (propCfg.gethAlign() == AlignHorizontal.LEFT) {
 			x = xLimitsForText.getLeft() + drawer.getDistanceBetweenTexts();

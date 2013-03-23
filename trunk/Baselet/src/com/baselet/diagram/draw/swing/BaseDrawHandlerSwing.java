@@ -12,17 +12,16 @@ import java.awt.geom.Line2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.RoundRectangle2D;
 
-import com.baselet.control.DimensionFloat;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.diagram.draw.ColorOwn;
 import com.baselet.diagram.draw.DrawFunction;
-import com.baselet.diagram.draw.Style;
-import com.baselet.diagram.draw.Text;
-import com.baselet.element.Converter;
-import com.baselet.element.Dimension;
+import com.baselet.diagram.draw.geom.Dimension;
+import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.Style;
+import com.baselet.diagram.draw.helper.Text;
 
 public class BaseDrawHandlerSwing extends BaseDrawHandler {
 

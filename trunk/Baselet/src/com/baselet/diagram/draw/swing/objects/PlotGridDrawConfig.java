@@ -1,8 +1,8 @@
 package com.baselet.diagram.draw.swing.objects;
 
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.ColorOwn;
-import com.baselet.element.Dimension;
+import com.baselet.diagram.draw.geom.Dimension;
+import com.baselet.diagram.draw.helper.ColorOwn;
 
 
 public class PlotGridDrawConfig {

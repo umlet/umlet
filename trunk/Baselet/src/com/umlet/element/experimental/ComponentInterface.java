@@ -1,7 +1,7 @@
 package com.umlet.element.experimental;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.element.Rectangle;
+import com.baselet.diagram.draw.geom.Rectangle;
 
 public interface ComponentInterface {
 

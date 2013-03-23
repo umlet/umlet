@@ -23,8 +23,8 @@ import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.draw.ColorOwn;
-import com.baselet.element.Converter;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
 

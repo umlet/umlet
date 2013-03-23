@@ -9,20 +9,18 @@ import java.awt.event.InputEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import com.baselet.diagram.draw.ColorOwn;
-import com.baselet.element.Dimension;
+import com.baselet.diagram.draw.geom.Dimension;
 import com.umlet.language.FieldOptions;
 import com.umlet.language.MethodOptions;
 import com.umlet.language.SignatureOptions;
 import com.umlet.language.sorting.SortOptions;
 
-public abstract class Constants {
+public abstract class Constants extends NewGridElementConstants {
 
 	private Constants() {} // private constructor to avoid instantiation
 
@@ -171,30 +169,6 @@ public abstract class Constants {
 	}
 	//@formatter:on
 
-	/**** AVAILABLE COLORS ****/
-	public static final HashMap<String, ColorOwn> colorMap = new HashMap<String, ColorOwn>();
-	static {
-		colorMap.put("black", ColorOwn.BLACK);
-		colorMap.put("blue", ColorOwn.BLUE);
-		colorMap.put("cyan", ColorOwn.CYAN);
-		colorMap.put("dark_gray", ColorOwn.DARK_GRAY);
-		colorMap.put("gray", ColorOwn.GRAY);
-		colorMap.put("green", ColorOwn.GREEN);
-		colorMap.put("light_gray", ColorOwn.LIGHT_GRAY);
-		colorMap.put("magenta", ColorOwn.MAGENTA);
-		colorMap.put("orange", ColorOwn.ORANGE);
-		colorMap.put("pink", ColorOwn.PINK);
-		colorMap.put("red", ColorOwn.RED);
-		colorMap.put("white", ColorOwn.WHITE);
-		colorMap.put("yellow", ColorOwn.YELLOW);
-	}
-	public static final ColorOwn DEFAULT_SELECTED_COLOR = ColorOwn.BLUE;
-	public static final ColorOwn DEFAULT_FOREGROUND_COLOR = ColorOwn.BLACK;
-	public static final ColorOwn DEFAULT_BACKGROUND_COLOR = ColorOwn.WHITE;
-	public static final float ALPHA_NO_TRANSPARENCY = 1.0f;
-	public static final float ALPHA_MIDDLE_TRANSPARENCY = 0.5f;
-	public static final float ALPHA_NEARLY_FULL_TRANSPARENCY = 0.035f;
-	public static final float ALPHA_FULL_TRANSPARENCY = 0.0f;
 
 	/**** EXPORT FORMATS ****/
 	public static final List<String> exportFormatList = Arrays.asList(new String[] { "bmp", "eps", "gif", "jpg", "pdf", "png", "svg" });
@@ -225,14 +199,6 @@ public abstract class Constants {
 	public static final int DEFAULT_LINE_THICKNESS = 1;
 
 	public static final int CUSTOM_ELEMENT_COMPILE_INTERVAL = 500;
-
-	public static final int RESIZE_TOP = 1, RESIZE_RIGHT = 2, RESIZE_BOTTOM = 4, RESIZE_LEFT = 8;
-	public static final int RESIZE_NONE = 0;
-	public static final int RESIZE_ALL = Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
-	public static final int RESIZE_TOP_LEFT = RESIZE_TOP + RESIZE_LEFT;
-	public static final int RESIZE_TOP_RIGHT = RESIZE_TOP + RESIZE_RIGHT;
-	public static final int RESIZE_BOTTOM_LEFT = RESIZE_BOTTOM + RESIZE_LEFT;
-	public static final int RESIZE_BOTTOM_RIGHT = RESIZE_BOTTOM + RESIZE_RIGHT;
 
 	public static final Cursor LR_CURSOR = new Cursor(Cursor.E_RESIZE_CURSOR);
 	public static final Cursor TB_CURSOR = new Cursor(Cursor.N_RESIZE_CURSOR);
@@ -288,7 +254,6 @@ public abstract class Constants {
 	public static Integer defaultFontsize = (Program.PROGRAM_NAME == ProgramName.UMLET ? 14 : 10);
 	public static String defaultFontFamily = Font.SANS_SERIF;
 	public static boolean start_maximized = false;
-	public static boolean show_stickingpolygon = true;
 	public static boolean show_grid = false;
 	public static boolean enable_custom_elements = true;
 	public static int main_split_position = 600;

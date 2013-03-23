@@ -26,8 +26,8 @@ import org.fife.ui.rsyntaxtextarea.modes.BBCodeTokenMaker;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.baselet.control.Constants;
-import com.baselet.diagram.draw.ColorOwn;
-import com.baselet.element.Converter;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 
 

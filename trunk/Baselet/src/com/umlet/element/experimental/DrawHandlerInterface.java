@@ -7,5 +7,7 @@ public interface DrawHandlerInterface {
 	void updatePropertyPanel();
 
 	float getZoomFactor();
+	
+	boolean displaceDrawingByOnePixel();
 
 }

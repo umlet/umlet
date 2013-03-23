@@ -5,9 +5,9 @@ import java.util.Stack;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.geom.LineHorizontal;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.helper.XPoints;
 
 public class InnerClass implements Facet {
 
@@ -38,7 +38,7 @@ public class InnerClass implements Facet {
 			ClassSettings previousClassSettings = innerClassStartPoints.pop();
 			float start = previousClassSettings.start;
 			float height = propConfig.getDividerPos(drawer.textHeight()) - start;
-			XPoints xLimit = propConfig.getXLimits(height);
+			LineHorizontal xLimit = propConfig.getXLimits(height);
 			
 			drawer.drawRectangle(xLimit.getLeft(), start, xLimit.getSpace(), height);
 			

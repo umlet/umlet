@@ -2,6 +2,8 @@ package com.baselet.element;
 
 import java.util.List;
 
+import com.baselet.diagram.draw.geom.Dimension;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.ComponentInterface;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;

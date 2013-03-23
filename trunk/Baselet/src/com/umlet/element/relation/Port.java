@@ -1,6 +1,6 @@
 package com.umlet.element.relation;
 
-import com.baselet.element.Rectangle;
+import com.baselet.diagram.draw.geom.Rectangle;
 
 @SuppressWarnings("serial")
 public class Port extends Rectangle {

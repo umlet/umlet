@@ -11,7 +11,7 @@ import java.util.Properties;
 import javax.swing.JFrame;
 
 import com.baselet.control.Constants.Program;
-import com.baselet.element.Dimension;
+import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.language.FieldOptions;

@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Vector;
 
 import com.baselet.control.Main;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
-import com.baselet.element.Rectangle;
 import com.umlet.custom.CustomElement;
 
 
