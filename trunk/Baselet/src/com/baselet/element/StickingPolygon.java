@@ -19,43 +19,43 @@ public class StickingPolygon {
 		public Point diffToLine(StickLine s, int x, int y) {
 			Point diff = new Point(0, 0);
 			if (getEnd().x == getStart().x) {
-				// AB: Fixed: use s.getStart().x instead of p1.x
-				diff.x = s.getStart().x - (s.getStart().x - s.getStart().x) - x; // mitte der neuen linie
+				// AB: Fixed: use s.getStart().x instead of getStart().x
+				diff.x = s.getStart().x - (s.getEnd().x - s.getStart().x) - x; // mitte der neuen linie
 
-				if (s.getStart().x == s.getStart().x) {
+				if (s.getEnd().x == s.getStart().x) {
 					// vertical lines - no y difference except the line is at an end
 					diff.y = 0;
-					if (s.getStart().y > s.getStart().y) {
+					if (s.getStart().y > s.getEnd().y) {
 						if (s.getStart().y < y) diff.y = s.getStart().y - y;
-						else if (s.getStart().y > y) diff.y = s.getStart().y - y;
+						else if (s.getEnd().y > y) diff.y = s.getEnd().y - y;
 					}
 					else {
-						if (s.getStart().y < y) diff.y = s.getStart().y - y;
+						if (s.getEnd().y < y) diff.y = s.getEnd().y - y;
 						else if (s.getStart().y > y) diff.y = s.getStart().y - y;
 					}
 					return diff;
 				}
 			}
-			else diff.x = (x - getStart().x) * (s.getStart().x - s.getStart().x) / (getEnd().x - getStart().x) + s.getStart().x - x;
+			else diff.x = (x - getStart().x) * (s.getEnd().x - s.getStart().x) / (getEnd().x - getStart().x) + s.getStart().x - x;
 
 			if (getEnd().y == getStart().y) {
-				// AB: Fixed: use s.getStart().x instead of p1.x
-				diff.y = s.getStart().y - (s.getStart().y - s.getStart().y) - y;
+				// AB: Fixed: use s.getStart().x instead of getStart().x
+				diff.y = s.getStart().y - (s.getEnd().y - s.getStart().y) - y;
 
-				if (s.getStart().y == s.getStart().y) {
+				if (s.getEnd().y == s.getStart().y) {
 					// horizontal lines - no x difference except the line is at an end
 					diff.x = 0;
-					if (s.getStart().x > s.getStart().x) {
+					if (s.getStart().x > s.getEnd().x) {
 						if (s.getStart().x < x) diff.x = s.getStart().x - x;
-						else if (s.getStart().x > x) diff.x = s.getStart().x - x;
+						else if (s.getEnd().x > x) diff.x = s.getEnd().x - x;
 					}
 					else {
-						if (s.getStart().x < x) diff.x = s.getStart().x - x;
+						if (s.getEnd().x < x) diff.x = s.getEnd().x - x;
 						else if (s.getStart().x > x) diff.x = s.getStart().x - x;
 					}
 				}
 			}
-			else diff.y = (y - getStart().y) * (s.getStart().y - s.getStart().y) / (getEnd().y - getStart().y) + s.getStart().y - y;
+			else diff.y = (y - getStart().y) * (s.getEnd().y - s.getStart().y) / (getEnd().y - getStart().y) + s.getStart().y - y;
 
 			return diff;
 		}
