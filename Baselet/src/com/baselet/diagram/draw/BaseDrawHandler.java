@@ -2,10 +2,9 @@ package com.baselet.diagram.draw;
 
 import java.util.ArrayList;
 
-import com.baselet.control.Constants;
+import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.FontHandler.FormatLabels;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionFloat;
 import com.baselet.diagram.draw.helper.ColorOwn;
@@ -24,8 +23,8 @@ public abstract class BaseDrawHandler {
 	private Style overlay = new Style();
 
 	public BaseDrawHandler() {
-		this.fgDefaultColor = Constants.DEFAULT_FOREGROUND_COLOR;
-		this.bgDefaultColor = Constants.DEFAULT_BACKGROUND_COLOR;
+		this.fgDefaultColor = NewGridElementConstants.DEFAULT_FOREGROUND_COLOR;
+		this.bgDefaultColor = NewGridElementConstants.DEFAULT_BACKGROUND_COLOR;
 	}
 	
 	public void setFgDefaultColor(ColorOwn fgDefaultColor) {
@@ -54,7 +53,7 @@ public abstract class BaseDrawHandler {
 
 	public void drawAll(boolean isSelected) {
 		if (isSelected) {
-			overlay.setFgColor(Constants.DEFAULT_SELECTED_COLOR);
+			overlay.setFgColor(NewGridElementConstants.DEFAULT_SELECTED_COLOR);
 		} else {
 			overlay.setFgColor(null);
 		}
@@ -103,7 +102,7 @@ public abstract class BaseDrawHandler {
 	}
 
 	public final void setForegroundColor(ColorOwn color) {
-		if (color == null) style.setFgColor(Constants.DEFAULT_FOREGROUND_COLOR);
+		if (color == null) style.setFgColor(NewGridElementConstants.DEFAULT_FOREGROUND_COLOR);
 		else style.setFgColor(color);
 	}
 
@@ -113,7 +112,7 @@ public abstract class BaseDrawHandler {
 	}
 
 	public final void setBackgroundColor(ColorOwn color) {
-		if (color == null) style.setBgColor(Constants.DEFAULT_BACKGROUND_COLOR);
+		if (color == null) style.setBgColor(NewGridElementConstants.DEFAULT_BACKGROUND_COLOR);
 		else style.setBgColor(color);
 	}
 
@@ -126,8 +125,8 @@ public abstract class BaseDrawHandler {
 	}
 
 	public void resetColorSettings() {
-		setForeground("fg", Constants.ALPHA_NO_TRANSPARENCY);
-		setBackground("bg", Constants.ALPHA_FULL_TRANSPARENCY);
+		setForeground("fg", NewGridElementConstants.ALPHA_NO_TRANSPARENCY);
+		setBackground("bg", NewGridElementConstants.ALPHA_FULL_TRANSPARENCY);
 	}
 
 	public final void setFontSize(float fontSize) {
@@ -153,7 +152,7 @@ public abstract class BaseDrawHandler {
 			}
 		}
 
-		if (FormatLabels.BOLD.equals(type)) style.setLineThickness(2.0f);
+		if (LineType.BOLD.getValue().equals(type)) style.setLineThickness(2.0f);
 	}
 	
 	public final void setLineThickness(float lineThickness) {

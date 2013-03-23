@@ -7,6 +7,7 @@ import java.awt.font.FontRenderContext;
 import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.geom.DimensionFloat;
 
 
@@ -15,7 +16,7 @@ public class FontHandler {
 	/**** TEXT FORMATTING LABELS ****/
 	public static class FormatLabels {
 		public static final String UNDERLINE = "_";
-		public static final String BOLD = "*";
+		public static final String BOLD = LineType.BOLD.getValue(); // uses same character as bold lines
 		public static final String ITALIC = "/";
 	}
 

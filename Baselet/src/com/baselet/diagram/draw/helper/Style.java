@@ -1,7 +1,7 @@
 
 package com.baselet.diagram.draw.helper;
 
-import com.baselet.control.Constants;
+import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.LineType;
 
 public class Style {
@@ -16,10 +16,10 @@ public class Style {
 	private boolean applyZoom;
 	
 	public Style() {
-		this.lineThickness = (float) Constants.DEFAULT_LINE_THICKNESS;
+		this.lineThickness = (float) NewGridElementConstants.DEFAULT_LINE_THICKNESS;
 		this.lineType = LineType.SOLID;
-		this.fgAlpha = Constants.ALPHA_NO_TRANSPARENCY;
-		this.bgAlpha = Constants.ALPHA_MIDDLE_TRANSPARENCY;
+		this.fgAlpha = NewGridElementConstants.ALPHA_NO_TRANSPARENCY;
+		this.bgAlpha = NewGridElementConstants.ALPHA_MIDDLE_TRANSPARENCY;
 		this.applyZoom = true;
 	}
 	

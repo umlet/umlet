@@ -196,8 +196,6 @@ public abstract class Constants extends NewGridElementConstants {
 	public static final int DEFAULTGRIDSIZE = 10;
 	public static final int INTERFACE_LINE_LENGTH = 40;
 
-	public static final int DEFAULT_LINE_THICKNESS = 1;
-
 	public static final int CUSTOM_ELEMENT_COMPILE_INTERVAL = 500;
 
 	public static final Cursor LR_CURSOR = new Cursor(Cursor.E_RESIZE_CURSOR);
