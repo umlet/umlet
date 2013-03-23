@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
@@ -17,10 +18,10 @@ public class Systemborder extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = getHandler().getZoomFactor();
+		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(this.getHandler().getFontHandler().getFont());
+		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
@@ -34,7 +35,7 @@ public class Systemborder extends OldGridElement {
 		g2.drawRect(0, 0, getZoomedSize().width - 1, getZoomedSize().height - 1);
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		int yPos = (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
+		int yPos = (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 		boolean center = false;
 		boolean downleft = false;
 		boolean upcenter = false;
@@ -45,7 +46,7 @@ public class Systemborder extends OldGridElement {
 					yPos = ((getZoomedSize().height - 1) / 2) - (int) (10 * zoom);
 				}
 				else {
-					yPos = ((getZoomedSize().height - 1) / 2) - (int) this.getHandler().getFontHandler().getFontSize() * (tmp.size() / 2) - (int) (10 * zoom);
+					yPos = ((getZoomedSize().height - 1) / 2) - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() * (tmp.size() / 2) - (int) (10 * zoom);
 				}
 				center = true;
 				s = s.replace("center:", "");
@@ -53,7 +54,7 @@ public class Systemborder extends OldGridElement {
 			else if (s.startsWith("bottomleft:") && !s.equals("bottomleft:")) {
 				downleft = true;
 				s = s.replace("bottomleft:", "");
-				yPos = (getZoomedSize().height - 1) - (int) this.getHandler().getFontHandler().getFontSize();
+				yPos = (getZoomedSize().height - 1) - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
 			}
 			else if (s.startsWith("topcenter:") && !s.equals("topcenter:")) {
 				upcenter = true;
@@ -61,22 +62,22 @@ public class Systemborder extends OldGridElement {
 				// yPos+=this.getHandler().getFontHandler().getFontsize();
 			}
 			if (center) {
-				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, (getZoomedSize().width - 1) / 2, yPos, AlignHorizontal.CENTER);
-				yPos += 2 * this.getHandler().getFontHandler().getDistanceBetweenTexts();
+				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, (getZoomedSize().width - 1) / 2, yPos, AlignHorizontal.CENTER);
+				yPos += 2 * Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else if (downleft) {
-				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
 			}
 			else if (upcenter) {
-				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, (getZoomedSize().width - 1) / 2, yPos, AlignHorizontal.CENTER);
-				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
+				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, (getZoomedSize().width - 1) / 2, yPos, AlignHorizontal.CENTER);
+				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
-				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
-				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
+				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 			}
 		}
 

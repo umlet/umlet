@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.element.OldGridElement;
 
@@ -14,10 +15,10 @@ public class InitialFinalState extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = getHandler().getZoomFactor();
+		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(this.getHandler().getFontHandler().getFont());
+		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
 		g2.setColor(Color.red);
 		
 

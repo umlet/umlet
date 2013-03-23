@@ -476,7 +476,7 @@ public class Main {
 	 * Workaround to avoid storing the handler directly in the GridElement
 	 * (necessary as a first step in the direction of GridElements which do not know where they are painted)
 	 */
-	public static HashMap<GridElement, DiagramHandler> getGridElementHandlerMapping() {
+	public static HashMap<GridElement, DiagramHandler> getElementHandlerMapping() {
 		return gridElementToHandlerMapping;
 	}
 

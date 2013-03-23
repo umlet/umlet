@@ -21,19 +21,19 @@ public class Resize extends Command {
 	private GridElement entity;
 
 	private int getDiffx() {
-		return diffx * entity.getHandler().getGridSize();
+		return diffx * Main.getElementHandlerMapping().get(entity).getGridSize();
 	}
 
 	private int getDiffy() {
-		return diffy * entity.getHandler().getGridSize();
+		return diffy * Main.getElementHandlerMapping().get(entity).getGridSize();
 	}
 
 	private int getDiffw() {
-		return diffw * entity.getHandler().getGridSize();
+		return diffw * Main.getElementHandlerMapping().get(entity).getGridSize();
 	}
 
 	private int getDiffh() {
-		return diffh * entity.getHandler().getGridSize();
+		return diffh * Main.getElementHandlerMapping().get(entity).getGridSize();
 	}
 
 	public Resize(GridElement entity, int diffx, int diffy, int diffw, int diffh) {
@@ -47,19 +47,19 @@ public class Resize extends Command {
 		this.id = id;
 		this.move_commands = move_commands;
 		this.move_commands.addAll(move_commands2);
-		this.diffx = diffx / entity.getHandler().getGridSize();
-		this.diffy = diffy / entity.getHandler().getGridSize();
-		this.diffw = diffw / entity.getHandler().getGridSize();
-		this.diffh = diffh / entity.getHandler().getGridSize();
+		this.diffx = diffx / Main.getElementHandlerMapping().get(entity).getGridSize();
+		this.diffy = diffy / Main.getElementHandlerMapping().get(entity).getGridSize();
+		this.diffw = diffw / Main.getElementHandlerMapping().get(entity).getGridSize();
+		this.diffh = diffh / Main.getElementHandlerMapping().get(entity).getGridSize();
 	}
 
 	public Resize(GridElement entity, int diffx, int diffy, int diffw, int diffh, Resize first) {
 		this.entity = entity;
 		this.move_commands = new Vector<MoveLinePoint>();
-		this.diffx = diffx / entity.getHandler().getGridSize();
-		this.diffy = diffy / entity.getHandler().getGridSize();
-		this.diffw = (diffw - diffx) / entity.getHandler().getGridSize();
-		this.diffh = (diffh - diffy) / entity.getHandler().getGridSize();
+		this.diffx = diffx / Main.getElementHandlerMapping().get(entity).getGridSize();
+		this.diffy = diffy / Main.getElementHandlerMapping().get(entity).getGridSize();
+		this.diffw = (diffw - diffx) / Main.getElementHandlerMapping().get(entity).getGridSize();
+		this.diffh = (diffh - diffy) / Main.getElementHandlerMapping().get(entity).getGridSize();
 
 		StickingPolygon from = this.entity.generateStickingBorder(this.entity.getRectangle().x, this.entity.getRectangle().y,
 				this.entity.getZoomedSize().width, this.entity.getZoomedSize().height);
@@ -75,7 +75,7 @@ public class Resize extends Command {
 		else {
 			this.id = current_id;
 			current_id++;
-			this.linepoints = from.getStickingRelationLinePoints(this.entity.getHandler());
+			this.linepoints = from.getStickingRelationLinePoints(Main.getElementHandlerMapping().get(this.entity));
 		}
 
 		Point diff, p;
@@ -86,7 +86,7 @@ public class Resize extends Command {
 
 			diff = from.getLine(lp.getStickingLineId()).diffToLine(to.getLine(lp.getStickingLineId()), p.x + r.getRectangle().x, p.y + r.getRectangle().y);
 
-			DiagramHandler handler = entity.getHandler();
+			DiagramHandler handler = Main.getElementHandlerMapping().get(entity);
 			this.move_commands.add(new MoveLinePoint(lp.getRelation(), lp.getLinePointId(), handler.realignToGrid(diff.x), handler.realignToGrid(diff.y)));
 		}
 

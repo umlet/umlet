@@ -155,7 +155,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		JLayeredPane tempPanel = new JLayeredPane();
 		for (GridElement entity : entities) {
 			GridElement clone = entity.CloneFromMe();
-			tempPanel.add(clone.getComponent(), clone.getLayer());
+			tempPanel.add((Component) clone.getComponent(), clone.getLayer());
 		}
 		tempPanel.validate();
 		tempPanel.setBackground(Color.WHITE);
@@ -517,12 +517,12 @@ public class DrawPanel extends JLayeredPane implements Printable {
 
 	public void removeElement(GridElement gridElement) {
 		gridElements.remove(gridElement);
-		remove(gridElement.getComponent());
+		remove((Component) gridElement.getComponent());
 	}
 
 	public void addElement(GridElement gridElement) {
 		gridElements.add(gridElement);
-		add(gridElement.getComponent(), gridElement.getLayer());
+		add((Component) gridElement.getComponent(), gridElement.getLayer());
 	}
 	
 	public void updateElements() {

@@ -8,6 +8,7 @@ import java.awt.Polygon;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
@@ -24,7 +25,7 @@ public class EER_Rel_Diamond extends OldGridElement {
 		// Some unimportant initialization stuff; setting color, font
 		// quality, etc. You should not have to change this.
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(this.getHandler().getFontHandler().getFont());
+		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
@@ -53,12 +54,12 @@ public class EER_Rel_Diamond extends OldGridElement {
 		// text printing and to react to special strings (like the "--" string
 		// in the UML class elements which draw a line).
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		int yPos = this.getZoomedSize().height / 2 - (((int) this.getHandler().getFontHandler().getDistanceBetweenTexts() + (int) this.getHandler().getFontHandler().getFontSize()) * tmp.size()) / 2;
+		int yPos = this.getZoomedSize().height / 2 - (((int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize()) * tmp.size()) / 2;
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			yPos += (int) this.getHandler().getFontHandler().getFontSize();
-			this.getHandler().getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
-			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
+			yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+			Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+			yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 		}
 		
 

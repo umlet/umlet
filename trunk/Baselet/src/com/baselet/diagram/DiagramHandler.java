@@ -1,5 +1,6 @@
 package com.baselet.diagram;
 
+import java.awt.Component;
 import java.awt.MouseInfo;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
@@ -420,13 +421,13 @@ public class DiagramHandler {
 	}
 	
 	public void setHandlerAndInitListeners(GridElement element) {
-		if (element.getHandler() != null) {
-			element.getComponent().removeMouseListener(element.getHandler().getEntityListener(element));
-			element.getComponent().removeMouseMotionListener(element.getHandler().getEntityListener(element));
+		if (Main.getElementHandlerMapping().get(element) != null) {
+			((Component) element.getComponent()).removeMouseListener(Main.getElementHandlerMapping().get(element).getEntityListener(element));
+			((Component) element.getComponent()).removeMouseMotionListener(Main.getElementHandlerMapping().get(element).getEntityListener(element));
 		}
-		element.setHandler(this);
-		element.getComponent().addMouseListener(element.getHandler().getEntityListener(element));
-		element.getComponent().addMouseMotionListener(element.getHandler().getEntityListener(element));
+		Main.getElementHandlerMapping().put(element, this);
+		((Component) element.getComponent()).addMouseListener(Main.getElementHandlerMapping().get(element).getEntityListener(element));
+		((Component) element.getComponent()).addMouseMotionListener(Main.getElementHandlerMapping().get(element).getEntityListener(element));
 		if (element instanceof NewGridElement) {
 			((BaseDrawHandlerSwing) ((NewGridElement) element).getDrawer()).setHandler(this);
 			((BaseDrawHandlerSwing) ((NewGridElement) element).getMetaDrawer()).setHandler(this);

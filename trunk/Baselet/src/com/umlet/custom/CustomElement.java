@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
@@ -131,12 +132,12 @@ public abstract class CustomElement extends OldGridElement {
 		for (Text t : this.texts) {
 			boolean applyZoom = true;
 			if (t.fixedSize != null) {
-				getHandler().getFontHandler().setFontSize((float) t.fixedSize);
+				Main.getElementHandlerMapping().get(this).getFontHandler().setFontSize((float) t.fixedSize);
 				applyZoom = false;
 			}
-			this.getHandler().getFontHandler().writeText(this.g2, t.text, t.x, t.y, t.align, applyZoom);
+			Main.getElementHandlerMapping().get(this).getFontHandler().writeText(this.g2, t.text, t.x, t.y, t.align, applyZoom);
 			if (t.fixedSize != null) {
-				getHandler().getFontHandler().resetFontSize();
+				Main.getElementHandlerMapping().get(this).getFontHandler().resetFontSize();
 			}
 		}
 
@@ -150,10 +151,10 @@ public abstract class CustomElement extends OldGridElement {
 
 		this.g2 = (Graphics2D) g;
 		composites = this.colorize(g2);
-		g2.setFont(this.getHandler().getFontHandler().getFont());
+		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
 		g2.setColor(fgColor);
 
-		zoom = getHandler().getZoomFactor();
+		zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
 		if (zoom < 0.25) bugfix = true;
 		else bugfix = false;
 
@@ -201,7 +202,7 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "text,x,y")
 	protected final int print(String text, int x, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? Utils.splitString(text, width, getHandler()) : Arrays.asList(new String[] {text});
+		List<String> list = wordWrap ? Utils.splitString(text, width, Main.getElementHandlerMapping().get(this)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
 			this.texts.add(new Text(s, (int) (x * zoom), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
@@ -212,9 +213,9 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "text,y")
 	protected final int printLeft(String text, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? Utils.splitString(text, width, getHandler()) : Arrays.asList(new String[] {text});
+		List<String> list = wordWrap ? Utils.splitString(text, width, Main.getElementHandlerMapping().get(this)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-			this.texts.add(new Text(s, ((int) this.getHandler().getFontHandler().getDistanceBetweenTexts()), (int) (y * zoom), AlignHorizontal.LEFT));
+			this.texts.add(new Text(s, ((int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts()), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
 		}
 		return y - inY;
@@ -223,7 +224,7 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "text,y")
 	protected final int printRight(String text, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? Utils.splitString(text, width, getHandler()) : Arrays.asList(new String[] {text});
+		List<String> list = wordWrap ? Utils.splitString(text, width, Main.getElementHandlerMapping().get(this)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
 			this.texts.add(new Text(s, (int) ((width * zoom - this.textWidth(s, true))), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
@@ -234,7 +235,7 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "text,y")
 	protected final int printCenter(String text, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? Utils.splitString(text, width, getHandler()) : Arrays.asList(new String[] {text});
+		List<String> list = wordWrap ? Utils.splitString(text, width, Main.getElementHandlerMapping().get(this)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
 			this.texts.add(new Text(s, (int) (((onGrid(width) * zoom - this.textWidth(s, true)) / 2)), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
@@ -245,7 +246,7 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "text,x,y,fixedFontSize")
 	protected final int printFixedSize(String text, int x, int inY, int fixedFontSize) {
 		int y = inY;
-		List<String> list = wordWrap ? Utils.splitString(text, width, getHandler()) : Arrays.asList(new String[] {text});
+		List<String> list = wordWrap ? Utils.splitString(text, width, Main.getElementHandlerMapping().get(this)) : Arrays.asList(new String[] {text});
 		for (String s : list) {
 		this.texts.add(new Text(s, x, y, AlignHorizontal.LEFT, fixedFontSize));
 		y += textHeight();
@@ -352,12 +353,12 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "y")
 	protected final void drawLineHorizontal(int y) {
-		this.shapes.add(new StyleShape(new Line2D.Float((int) (0 * zoom), (int) (y * zoom), getHandler().realignToGrid(false, (int) (width * zoom), true), (int) (y * zoom)), tmpLineType, tmpLineThickness, tmpFgColor, tmpBgColor, tmpAlpha));
+		this.shapes.add(new StyleShape(new Line2D.Float((int) (0 * zoom), (int) (y * zoom), Main.getElementHandlerMapping().get(this).realignToGrid(false, (int) (width * zoom), true), (int) (y * zoom)), tmpLineType, tmpLineThickness, tmpFgColor, tmpBgColor, tmpAlpha));
 	}
 
 	@CustomFunction(param_defaults = "x")
 	protected final void drawLineVertical(int x) {
-		this.shapes.add(new StyleShape(new Line2D.Float((int) (x * zoom), (int) (0 * zoom), (int) (x * zoom), getHandler().realignToGrid(false, (int) (height * zoom), true)), tmpLineType, tmpLineThickness, tmpFgColor, tmpBgColor, tmpAlpha));
+		this.shapes.add(new StyleShape(new Line2D.Float((int) (x * zoom), (int) (0 * zoom), (int) (x * zoom), Main.getElementHandlerMapping().get(this).realignToGrid(false, (int) (height * zoom), true)), tmpLineType, tmpLineThickness, tmpFgColor, tmpBgColor, tmpAlpha));
 	}
 
 	@CustomFunction(param_defaults = "polygon")

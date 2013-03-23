@@ -3,6 +3,7 @@ package com.umlet.custom;
 import java.util.List;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Main;
 import com.baselet.diagram.draw.ColorOwn;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.element.GridElement;
@@ -25,7 +26,7 @@ public class CustomElementWithErrors extends CustomElement {
 
 	@Override
 	public void paint() {
-		BaseDrawHandlerSwing drawer = new BaseDrawHandlerSwing(g2, getHandler(), ColorOwn.RED, Constants.DEFAULT_BACKGROUND_COLOR, this.getRealSize());
+		BaseDrawHandlerSwing drawer = new BaseDrawHandlerSwing(g2, Main.getElementHandlerMapping().get(this), ColorOwn.RED, Constants.DEFAULT_BACKGROUND_COLOR, this.getRealSize());
 		drawer.drawRectangle(0, 0, this.getRealSize().width, this.getRealSize().height);
 		if (errors != null) {
 			float pos = textHeight();

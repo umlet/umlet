@@ -8,6 +8,7 @@ import java.awt.Polygon;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
@@ -19,7 +20,7 @@ public class ThreeWayRelation extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(this.getHandler().getFontHandler().getFont());
+		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
@@ -40,12 +41,12 @@ public class ThreeWayRelation extends OldGridElement {
 		g2.drawPolygon(poly);
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		int yPos = (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
+		int yPos = (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			yPos += (int) this.getHandler().getFontHandler().getFontSize();
-			this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
-			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
+			yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+			Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+			yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 		}
 	}
 

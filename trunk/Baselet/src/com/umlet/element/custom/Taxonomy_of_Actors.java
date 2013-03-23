@@ -9,6 +9,7 @@ import java.awt.Polygon;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
@@ -21,10 +22,10 @@ public class Taxonomy_of_Actors extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = getHandler().getZoomFactor();
+		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(this.getHandler().getFontHandler().getFont());
+		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
@@ -105,7 +106,7 @@ public class Taxonomy_of_Actors extends OldGridElement {
 	}
 
 	private void drawDock(Graphics2D g2, Point nextDock, float xPos, float yPos) {
-		float zoom = getHandler().getZoomFactor();
+		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
 		float dockHeight = 50 * zoom;
 
 		g2.drawLine(nextDock.x, nextDock.y, nextDock.x, (int) (dockHeight / 2 + yPos + 0.5));
@@ -113,7 +114,7 @@ public class Taxonomy_of_Actors extends OldGridElement {
 	}
 
 	private void drawActor(Graphics2D g2, float xPos, float yPos, String name) {
-		float zoom = getHandler().getZoomFactor();
+		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
 		float head = 14 * zoom;
 		float distance = 10 * zoom;
 
@@ -123,11 +124,11 @@ public class Taxonomy_of_Actors extends OldGridElement {
 		g2.drawLine((int) (head / 2 + xPos + 0.5), (int) (yPos + head * 3 - distance + 0.5), (int) (head + xPos + 0.5), (int) (yPos + head * 4 - distance + 0.5));
 		g2.drawLine((int) (head / 2 + xPos), (int) (yPos + head * 3 - distance + 0.5), (int) (xPos + 0.5), (int) (yPos + head * 4 - distance + 0.5));
 		// this.getHandler().getFontHandler().writeText(g2, name, xPos, yPos + (int) (4.5*head), false);
-		this.getHandler().getFontHandler().writeText(g2, name, (int) (xPos + head * 1.5 + this.getHandler().getFontHandler().getDistanceBetweenTexts() + 0.5), (int) (2 * head + yPos + 0.5), AlignHorizontal.LEFT);
+		Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, name, (int) (xPos + head * 1.5 + Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts() + 0.5), (int) (2 * head + yPos + 0.5), AlignHorizontal.LEFT);
 	}
 
 	private void drawDockAnchor(Graphics2D g2, Point nextDock) {
-		float zoom = getHandler().getZoomFactor();
+		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
 
 		int[] xkanten = { nextDock.x, nextDock.x + (int) (6 * zoom), nextDock.x - (int) (6 * zoom) };
 		int[] ykanten = { nextDock.y - (int) (9 * zoom), nextDock.y, nextDock.y };

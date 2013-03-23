@@ -210,8 +210,8 @@ public class CustomElementHandler {
 			this.addElementToDiagram(element, current, true, bounds, element.getPanelAttributes());
 		}
 		else { // replace edited element (and ONLY edited element)
-			this.originalElement.getHandler().getDrawPanel().removeElement(this.originalElement);
-			this.addElementToDiagram(element, this.originalElement.getHandler(), true,
+			Main.getElementHandlerMapping().get(this.originalElement).getDrawPanel().removeElement(this.originalElement);
+			this.addElementToDiagram(element, Main.getElementHandlerMapping().get(this.originalElement), true,
 					this.originalElement.getRectangle(), this.originalElement.getPanelAttributes());
 		}
 	}

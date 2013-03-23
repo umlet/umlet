@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Vector;
 
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
@@ -16,13 +17,13 @@ public class Signal extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(this.getHandler().getFontHandler().getFont());
+		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
 		g2.setColor(Color.red);
 		
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = 0;
-		yPos = this.getZoomedSize().height / 2 - (tmp.size() - 1) * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
+		yPos = this.getZoomedSize().height / 2 - (tmp.size() - 1) * ((int) (Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() + Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts())) / 2;
 
 		int signalType = 0;
 
@@ -32,24 +33,24 @@ public class Signal extends OldGridElement {
 			else if (s.equals("<")) signalType = 2; // accept signal
 			else if (s.equals("x")) signalType = 3; // time signal
 			else { // draw string
-				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
-				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
+				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 			}
 		}
 
 		if (signalType == 1) { // send signal
-			g2.drawLine(0, 0, this.getZoomedSize().width - (int) this.getHandler().getFontHandler().getFontSize(), 0);
-			g2.drawLine(this.getZoomedSize().width - (int) this.getHandler().getFontHandler().getFontSize(), this.getZoomedSize().height - 1, 0, this.getZoomedSize().height - 1);
-			g2.drawLine(this.getZoomedSize().width - (int) this.getHandler().getFontHandler().getFontSize(), 0, this.getZoomedSize().width - 1, this.getZoomedSize().height / 2);
-			g2.drawLine(this.getZoomedSize().width, this.getZoomedSize().height / 2, this.getZoomedSize().width - (int) this.getHandler().getFontHandler().getFontSize(), this.getZoomedSize().height);
+			g2.drawLine(0, 0, this.getZoomedSize().width - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), 0);
+			g2.drawLine(this.getZoomedSize().width - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), this.getZoomedSize().height - 1, 0, this.getZoomedSize().height - 1);
+			g2.drawLine(this.getZoomedSize().width - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), 0, this.getZoomedSize().width - 1, this.getZoomedSize().height / 2);
+			g2.drawLine(this.getZoomedSize().width, this.getZoomedSize().height / 2, this.getZoomedSize().width - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), this.getZoomedSize().height);
 			g2.drawLine(0, this.getZoomedSize().height - 1, 0, 0);
 		}
 		else if (signalType == 2) { // accept signal
 			g2.drawLine(0, 0, this.getZoomedSize().width, 0);
 			g2.drawLine(this.getZoomedSize().width - 1, this.getZoomedSize().height - 1, 0, this.getZoomedSize().height - 1);
-			g2.drawLine(0, 0, (int) this.getHandler().getFontHandler().getFontSize() - 2, this.getZoomedSize().height / 2);
-			g2.drawLine((int) this.getHandler().getFontHandler().getFontSize() - 2, this.getZoomedSize().height / 2, 0, this.getZoomedSize().height);
+			g2.drawLine(0, 0, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() - 2, this.getZoomedSize().height / 2);
+			g2.drawLine((int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() - 2, this.getZoomedSize().height / 2, 0, this.getZoomedSize().height);
 			g2.drawLine(this.getZoomedSize().width - 1, this.getZoomedSize().height - 1, this.getZoomedSize().width - 1, 0);
 		}
 		else if (signalType == 3) { // time signal

@@ -9,6 +9,7 @@ import java.awt.Polygon;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
@@ -21,10 +22,10 @@ public class Taxonomy_of_Workprocesses extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = getHandler().getZoomFactor();
+		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(this.getHandler().getFontHandler().getFont());
+		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
@@ -42,9 +43,9 @@ public class Taxonomy_of_Workprocesses extends OldGridElement {
 		int level = 0;
 		float yPos = 10 * zoom;
 		float xPos = 10 * zoom;
-		float dist = 10 * this.getHandler().getFontHandler().getDistanceBetweenTexts();
-		float ovalHeight = 3 * this.getHandler().getFontHandler().getFontSize();
-		float ovalWidth = 10 * this.getHandler().getFontHandler().getFontSize();
+		float dist = 10 * Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+		float ovalHeight = 3 * Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+		float ovalWidth = 10 * Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
 		Point nextDock = new Point((int) (xPos + ovalWidth / 2 + 0.5), (int) (ovalHeight + yPos + 0.5));
 		Vector<Point> dock = new Vector<Point>();
 		dock.add(nextDock);
@@ -100,24 +101,24 @@ public class Taxonomy_of_Workprocesses extends OldGridElement {
 	}
 
 	private void drawProcess(Graphics2D g2, float xPos, float yPos, String name) {
-		float zoom = getHandler().getZoomFactor();
-		float ovalHeight = 3 * this.getHandler().getFontHandler().getFontSize();
-		float ovalWidth = 10 * this.getHandler().getFontHandler().getFontSize();
+		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
+		float ovalHeight = 3 * Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+		float ovalWidth = 10 * Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
 
 		g2.drawOval((int) (xPos + 0.5), (int) (yPos + 0.5), (int) (ovalWidth + 0.5), (int) (ovalHeight + 0.5));
-		this.getHandler().getFontHandler().writeText(g2, name, (int) (xPos + ovalWidth / 2 + 0.5), (int) (yPos + 5 * zoom + ovalHeight / 2 + 0.5), AlignHorizontal.CENTER);
+		Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, name, (int) (xPos + ovalWidth / 2 + 0.5), (int) (yPos + 5 * zoom + ovalHeight / 2 + 0.5), AlignHorizontal.CENTER);
 	}
 
 	private void drawDock(Graphics2D g2, Point nextDock, float xPos, float yPos) {
-		float zoom = getHandler().getZoomFactor();
-		float ovalHeight = 3 * this.getHandler().getFontHandler().getFontSize();
+		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
+		float ovalHeight = 3 * Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
 
 		g2.drawLine(nextDock.x, (int) (nextDock.y + 9 * zoom + 0.5), nextDock.x, (int) (ovalHeight / 2 + yPos + 0.5));
 		g2.drawLine(nextDock.x, (int) (ovalHeight / 2 + yPos + 0.5), (int) (xPos + 0.5), (int) (ovalHeight / 2 + yPos + 0.5));
 	}
 
 	private void drawDockAnchor(Graphics2D g2, Point nextDock) {
-		float zoom = getHandler().getZoomFactor();
+		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
 
 		int[] xkanten = { nextDock.x, nextDock.x + (int) (6 * zoom), nextDock.x - (int) (6 * zoom) };
 		int[] ykanten = { nextDock.y, nextDock.y + (int) (9 * zoom), nextDock.y + (int) (9 * zoom) };

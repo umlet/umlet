@@ -3,12 +3,14 @@
 package com.baselet.element;
 
 import java.awt.AlphaComposite;
+import java.awt.Component;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Iterator;
 import java.util.Vector;
 
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.Selector;
@@ -30,7 +32,7 @@ public class Group extends OldGridElement implements GroupGridElement {
 	 */
 	public void group(Vector<GridElement> ents) {
 		if (ents.isEmpty()) return;
-		Selector s = ents.get(0).getHandler().getDrawPanel().getSelector();
+		Selector s = Main.getElementHandlerMapping().get(ents.get(0)).getDrawPanel().getSelector();
 
 		this.entities.clear();
 		for (Iterator<GridElement> it = ents.iterator(); it.hasNext();)
@@ -38,18 +40,18 @@ public class Group extends OldGridElement implements GroupGridElement {
 
 		adjustSize(false);
 		s.singleSelect(this);
-		(new AddElement(this, this.getRectangle().x, this.getRectangle().y)).execute(this.getHandler());
+		(new AddElement(this, this.getRectangle().x, this.getRectangle().y)).execute(Main.getElementHandlerMapping().get(this));
 	}
 
 	public void ungroup() {
 		for (GridElement e : this.entities) {
 			e.setGroup(null);
-			e.getComponent().addMouseListener(this.getHandler().getEntityListener(e));
-			e.getComponent().addMouseMotionListener(this.getHandler().getEntityListener(e));
+			((Component) e.getComponent()).addMouseListener(Main.getElementHandlerMapping().get(this).getEntityListener(e));
+			((Component) e.getComponent()).addMouseMotionListener(Main.getElementHandlerMapping().get(this).getEntityListener(e));
 		}
 
-		this.getHandler().getDrawPanel().removeElement(this);
-		this.getHandler().getDrawPanel().repaint();
+		Main.getElementHandlerMapping().get(this).getDrawPanel().removeElement(this);
+		Main.getElementHandlerMapping().get(this).getDrawPanel().repaint();
 	}
 
 	public Vector<GridElement> getMembers() {
@@ -74,17 +76,17 @@ public class Group extends OldGridElement implements GroupGridElement {
 	public void addMember(GridElement member) {
 		this.entities.add(member);
 		member.setGroup(this);
-		if (member.getHandler() != null) {
-			member.getComponent().removeMouseListener(member.getHandler().getEntityListener(member));
-			member.getComponent().removeMouseMotionListener(member.getHandler().getEntityListener(member));
+		if (Main.getElementHandlerMapping().get(member) != null) {
+			((Component) member.getComponent()).removeMouseListener(Main.getElementHandlerMapping().get(member).getEntityListener(member));
+			((Component) member.getComponent()).removeMouseMotionListener(Main.getElementHandlerMapping().get(member).getEntityListener(member));
 		}
 	}
 
 	public void removeMemberListeners() {
-		if (this.getHandler() != null) {
+		if (Main.getElementHandlerMapping().get(this) != null) {
 			for (GridElement e : this.entities) {
-				e.getComponent().removeMouseListener(this.getHandler().getEntityListener(e));
-				e.getComponent().removeMouseMotionListener(this.getHandler().getEntityListener(e));
+				((Component) e.getComponent()).removeMouseListener(Main.getElementHandlerMapping().get(this).getEntityListener(e));
+				((Component) e.getComponent()).removeMouseMotionListener(Main.getElementHandlerMapping().get(this).getEntityListener(e));
 			}
 		}
 	}
@@ -162,7 +164,7 @@ public class Group extends OldGridElement implements GroupGridElement {
 			temp.addMember(clone);
 		}
 		temp.adjustSize(false);
-		this.getHandler().setHandlerAndInitListeners(temp);
+		Main.getElementHandlerMapping().get(this).setHandlerAndInitListeners(temp);
 		return temp;
 	}
 

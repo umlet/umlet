@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Vector;
 
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
@@ -16,23 +17,23 @@ public class SynchBar extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = getHandler().getZoomFactor();
+		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(this.getHandler().getFontHandler().getFont());
+		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
 		g2.setColor(Color.red);
 		
 
 		int yPos = 0;
-		yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
+		yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			yPos += (int) this.getHandler().getFontHandler().getFontSize();
-			this.getHandler().getFontHandler().writeText(g2, s, 0, yPos, AlignHorizontal.CENTER);
-			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
+			yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+			Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, 0, yPos, AlignHorizontal.CENTER);
+			yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 		}
 
 		// g2.fillRect(0,7,this.getWidth(),this.getHeight()-15);

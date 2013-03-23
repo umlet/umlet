@@ -1,5 +1,6 @@
 package com.baselet.diagram.command;
 
+import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.umlet.element.Relation;
 
@@ -17,18 +18,18 @@ public class MoveLinePoint extends Command {
 	}
 
 	public int getDiffX() {
-		return _diffx * _relation.getHandler().getGridSize();
+		return _diffx * Main.getElementHandlerMapping().get(_relation).getGridSize();
 	}
 
 	public int getDiffY() {
-		return _diffy * _relation.getHandler().getGridSize();
+		return _diffy * Main.getElementHandlerMapping().get(_relation).getGridSize();
 	}
 
 	public MoveLinePoint(Relation rel, int i, int diffx, int diffy) {
 		_relation = rel;
 		_linePointId = i;
-		_diffx = diffx / rel.getHandler().getGridSize();
-		_diffy = diffy / rel.getHandler().getGridSize();
+		_diffx = diffx / Main.getElementHandlerMapping().get(rel).getGridSize();
+		_diffy = diffy / Main.getElementHandlerMapping().get(rel).getGridSize();
 	}
 
 	@Override

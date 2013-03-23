@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
@@ -15,10 +16,10 @@ public class Component extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = getHandler().getZoomFactor();
+		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(this.getHandler().getFontHandler().getFont());
+		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
@@ -36,27 +37,27 @@ public class Component extends OldGridElement {
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = 0;
-		int startY = this.getZoomedSize().height / 2 - tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
+		int startY = this.getZoomedSize().height / 2 - tmp.size() * ((int) (Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() + Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts())) / 2;
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 
 			if (s.startsWith("'") || (normal == true)) { // G.M
-				startY = (int) this.getHandler().getFontHandler().getFontSize();
+				startY = (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
 				s = s.substring(1, s.length());
-				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, (int) (10 * zoom), startY + yPos, AlignHorizontal.LEFT);
-				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
+				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, (int) (10 * zoom), startY + yPos, AlignHorizontal.LEFT);
+				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 				normal = true;
 			}
 			else {
 				if (s.startsWith("*")) {
-					startY = (int) this.getHandler().getFontHandler().getFontSize();
+					startY = (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
 					s = s.substring(1, s.length());
 				}
-				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				this.getHandler().getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, startY + yPos, AlignHorizontal.CENTER);
-				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
+				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, startY + yPos, AlignHorizontal.CENTER);
+				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 			}
 		}
 

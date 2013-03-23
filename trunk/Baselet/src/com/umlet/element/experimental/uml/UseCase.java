@@ -1,7 +1,7 @@
 package com.umlet.element.experimental.uml;
 
+import com.baselet.element.ElementId;
 import com.baselet.element.StickingPolygon;
-import com.umlet.element.experimental.ElementFactory.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsUseCase;

@@ -9,6 +9,7 @@ import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.command.Resize;
@@ -21,10 +22,10 @@ public class TimeSignal extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = getHandler().getZoomFactor();
+		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(this.getHandler().getFontHandler().getFont());
+		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
@@ -58,19 +59,19 @@ public class TimeSignal extends OldGridElement {
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = 0;
-		yPos += 4 * this.getHandler().getGridSize();
-		yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
+		yPos += 4 * Main.getElementHandlerMapping().get(this).getGridSize();
+		yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
-				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
-				g2.drawLine(this.getZoomedSize().width / 2 - (int) this.getHandler().getFontHandler().getFontSize() * 4, yPos, this.getZoomedSize().width / 2 + (int) this.getHandler().getFontHandler().getFontSize() * 4, yPos);
-				yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
+				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				g2.drawLine(this.getZoomedSize().width / 2 - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() * 4, yPos, this.getZoomedSize().width / 2 + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() * 4, yPos);
+				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
-				yPos += (int) this.getHandler().getFontHandler().getFontSize();
-				TextLayout l = new TextLayout(s, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
+				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+				TextLayout l = new TextLayout(s, Main.getElementHandlerMapping().get(this).getFontHandler().getFont(), g2.getFontRenderContext());
 				Rectangle2D r2d = l.getBounds();
 				int width = (int) r2d.getWidth();
 				int xPos = this.getZoomedSize().width / 2 - width / 2;
@@ -78,18 +79,18 @@ public class TimeSignal extends OldGridElement {
 					ADAPT_SIZE = true;
 					break;
 				}
-				this.getHandler().getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
-				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
+				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
 			}
 		}
 
 		if (ADAPT_SIZE) {
-			(new Resize(this, -this.getHandler().getGridSize(), 0, 0, 0)).execute(this.getHandler());
-			(new Resize(this, 0, 0, this.getHandler().getGridSize(), 0)).execute(this.getHandler());
+			(new Resize(this, -Main.getElementHandlerMapping().get(this).getGridSize(), 0, 0, 0)).execute(Main.getElementHandlerMapping().get(this));
+			(new Resize(this, 0, 0, Main.getElementHandlerMapping().get(this).getGridSize(), 0)).execute(Main.getElementHandlerMapping().get(this));
 			return;
 		}
 		if (yPos > this.getZoomedSize().height) {
-			(new Resize(this, 0, 0, 0, 20)).execute(this.getHandler());
+			(new Resize(this, 0, 0, 0, 20)).execute(Main.getElementHandlerMapping().get(this));
 			return;
 		}
 
@@ -107,7 +108,7 @@ public class TimeSignal extends OldGridElement {
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
 
-		float zoom = getHandler().getZoomFactor();
+		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
 
 		StickingPolygon p = new StickingPolygon();
 		int px = x + width / 2;
