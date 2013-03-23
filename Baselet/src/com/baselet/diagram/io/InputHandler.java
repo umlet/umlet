@@ -113,7 +113,6 @@ public class InputHandler extends DefaultHandler {
 				e.setRectangle(new Rectangle(x, y, w, h));
 				e.setPanelAttributes(this.panel_attributes);
 				e.setAdditionalAttributes(this.additional_attributes);
-				Main.setHandlerForElement(e, handler);
 				this.handler.setHandlerAndInitListeners(e);
 
 				if (this.currentGroup != null) this.currentGroup.addMember(e);
