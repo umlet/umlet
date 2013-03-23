@@ -28,11 +28,11 @@ public class SeqSelfMessage extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
+		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 
-		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
+		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 		int size_3d = (int) (10 * zoom);
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
@@ -69,25 +69,25 @@ public class SeqSelfMessage extends OldGridElement {
 		g2.drawLine(this.getZoomedSize().width - size_3d - 1, size_3d, this.getZoomedSize().width - 1, 0);
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		int yPos = (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+		int yPos = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		yPos = yPos + size_3d;
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+			yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 			if (s.startsWith("center:")) {
 				s = s.substring(7);
-				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, (this.getZoomedSize().width - size_3d - 1) / 2, yPos, AlignHorizontal.CENTER);
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (this.getZoomedSize().width - size_3d - 1) / 2, yPos, AlignHorizontal.CENTER);
 			} else
-				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
 
-			yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+			yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		}
 
 	}
 
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
+		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 		int size_3d = (int) (10 * zoom);
 		StickingPolygon p = new StickingPolygon();
 		p.addPoint(new Point(x, y + size_3d));

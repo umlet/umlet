@@ -17,16 +17,16 @@ public class InteractionFrame extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
+		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
+		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
 
 		float yPos = 0;
-		yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+		yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
@@ -46,26 +46,26 @@ public class InteractionFrame extends OldGridElement {
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			maxWidthTemp = (int) Math.max(Main.getElementHandlerMapping().get(this).getFontHandler().getTextWidth(s), maxWidthTemp);
+			maxWidthTemp = (int) Math.max(Main.getHandlerForElement(this).getFontHandler().getTextWidth(s), maxWidthTemp);
 			if (s.equals("--")) {
-				textWidth = (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts() + maxWidthTemp + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				textWidth = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + maxWidthTemp + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 				topHeight = i;
-				yPos += (Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts() + Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts());
+				yPos += (Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts());
 				center = true;
 			}
 			else if (s.equals("-.")) {
-				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 				g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
 				g2.drawLine(0, (int) yPos, this.getZoomedSize().width, (int) yPos);
 				g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
-				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
-				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
-				if (center) Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, (int) yPos, AlignHorizontal.CENTER);
+				yPos += Main.getHandlerForElement(this).getFontHandler().getFontSize();
+				if (center) Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, (int) yPos, AlignHorizontal.CENTER);
 				else
-					Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() / 2, (int) yPos, AlignHorizontal.LEFT);
-				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, (int) yPos, AlignHorizontal.LEFT);
+				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 		}
 		if (textWidth == 0) textWidth = maxWidthTemp;
@@ -84,10 +84,10 @@ public class InteractionFrame extends OldGridElement {
 		 */
 		// A.Mueller end
 
-		int w = (((int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() * 7) > textWidth) ? ((int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() * 7) : (textWidth);
+		int w = (((int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 7) > textWidth) ? ((int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 7) : (textWidth);
 		// A.Mueller start
-		int h = topHeight * ((int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() + (int) (3 * zoom)) + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
-		int sw = w - (topHeight - 1) * (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+		int h = topHeight * ((int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) (3 * zoom)) + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+		int sw = w - (topHeight - 1) * (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 		// <OLDCODE>
 		// int h=tmp.size()*(this.getHandler().getFontHandler().getFontsize()+3)+this.getHandler().getFontHandler().getFontsize();
 		// int sw=w-(tmp.size()-1)*this.getHandler().getFontHandler().getFontsize();
@@ -95,7 +95,7 @@ public class InteractionFrame extends OldGridElement {
 		// A.Mueller end
 
 		g2.drawLine(0, h, sw, h);
-		g2.drawLine(w + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), 0, w + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize());
-		g2.drawLine(sw, h, w + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize());
+		g2.drawLine(w + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0, w + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
+		g2.drawLine(sw, h, w + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
 	}
 }

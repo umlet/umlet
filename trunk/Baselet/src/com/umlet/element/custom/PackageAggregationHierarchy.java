@@ -21,11 +21,11 @@ public class PackageAggregationHierarchy extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
+		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 
 		// init graph and colors
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
+		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
@@ -46,8 +46,8 @@ public class PackageAggregationHierarchy extends OldGridElement {
 		int level = 0;
 		float yPos = 10 * zoom;
 		float xPos = 10 * zoom;
-		float packageHeight = Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
-		float packageWidth = 2 * Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+		float packageHeight = Main.getHandlerForElement(this).getFontHandler().getFontSize();
+		float packageWidth = 2 * Main.getHandlerForElement(this).getFontHandler().getFontSize();
 
 		Vector<Point> dock = new Vector<Point>();
 
@@ -94,7 +94,7 @@ public class PackageAggregationHierarchy extends OldGridElement {
 			nextDock = new Point((int) (xPos + packageWidth / 3 + 0.5), (int) (2 * packageHeight + yPos + 0.5));
 			dock.set(level, nextDock);
 
-			yPos += 2 * packageHeight + Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+			yPos += 2 * packageHeight + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		}
 	}
 
@@ -111,7 +111,7 @@ public class PackageAggregationHierarchy extends OldGridElement {
 
 	private void drawDockAnchor(Graphics2D g2, Point nextDock) {
 		// Logger.getAnonymousLogger().info("\ndrawDock: \ndock.x/y: " + nextDock.x + "/" + nextDock.y);
-		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
+		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 
 		g2.drawOval(nextDock.x - (int) (5 * zoom + 0.5), nextDock.y - (int) (10 * zoom + 0.5), (int) (10 * zoom + 0.5), (int) (10 * zoom + 0.5));
 		g2.drawLine(nextDock.x, nextDock.y - (int) (8 * zoom + 0.5), nextDock.x, nextDock.y - (int) (2 * zoom + 0.5));
@@ -131,7 +131,7 @@ public class PackageAggregationHierarchy extends OldGridElement {
 		g2.drawRect((int) (xPos + 0.5), (int) (yPos + 0.5), (int) (packageWidth / 3 + 0.5), (int) (packageHeight / 4 + 0.5));
 		g2.drawRect((int) (xPos + 0.5), (int) (packageHeight / 4 + 0.5) + (int) (yPos + 0.5), (int) (packageWidth + 0.5), (int) (packageHeight + 0.5));
 
-		Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, name, (int) (xPos + packageWidth + Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts() + 0.5), (int) (packageHeight + yPos + 0.5), AlignHorizontal.LEFT);
+		Main.getHandlerForElement(this).getFontHandler().writeText(g2, name, (int) (xPos + packageWidth + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + 0.5), (int) (packageHeight + yPos + 0.5), AlignHorizontal.LEFT);
 	}
 
 	// calculates the hierarchy level according to tab count in the string

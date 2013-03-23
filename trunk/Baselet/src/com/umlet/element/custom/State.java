@@ -17,10 +17,10 @@ public class State extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
+		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
+		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
@@ -37,10 +37,10 @@ public class State extends OldGridElement {
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = 0;
 		// A.Mueller start
-		if (tmp.contains("--") || tmp.contains("-.")) yPos = 2 * (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+		if (tmp.contains("--") || tmp.contains("-.")) yPos = 2 * (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		else
 		// A.Mueller end
-		yPos = this.getZoomedSize().height / 2 - tmp.size() * ((int) (Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() + Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts())) / 2;
+		yPos = this.getZoomedSize().height / 2 - tmp.size() * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())) / 2;
 
 		boolean CENTER = true;
 
@@ -48,25 +48,25 @@ public class State extends OldGridElement {
 			String s = tmp.elementAt(i);
 			// A.Mueller start
 			if (s.equals("--")) {
-				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 				g2.drawLine(0, yPos, getZoomedSize().width, yPos);
-				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 				CENTER = false;
 			}
 			else if (s.equals("-.")) {
-				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 				g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
 				g2.drawLine(0, yPos, getZoomedSize().width, yPos);
 				g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
-				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 				CENTER = false;
 			}
 			else {
-				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
-				if (CENTER) Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+				if (CENTER) Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
 				else
-					Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
-				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			// A.Mueller end
 		}

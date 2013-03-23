@@ -16,10 +16,10 @@ public class Artefact extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
+		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
+		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
@@ -35,13 +35,13 @@ public class Artefact extends OldGridElement {
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = (int) (10 * zoom);
-		int startY = (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+		int startY = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
-			Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts(), startY + yPos, AlignHorizontal.LEFT);
-			yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+			yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+			Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), startY + yPos, AlignHorizontal.LEFT);
+			yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		}
 
 		// small component symbol

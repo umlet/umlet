@@ -53,7 +53,7 @@ public class CustomCodePropertyChanged extends Command {
 			}
 		}
 		
-		if (gridElement != null && Main.getElementHandlerMapping().get(gridElement) instanceof CustomPreviewHandler) {
+		if (gridElement != null && Main.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {
 			gridElement.setPanelAttributes(_newState);
 			
 			OwnSyntaxPane pane = Main.getInstance().getGUI().getPropertyPane();
@@ -83,7 +83,7 @@ public class CustomCodePropertyChanged extends Command {
 			}
 		}		
 		
-		if (gridElement != null  && Main.getElementHandlerMapping().get(gridElement) instanceof CustomPreviewHandler) {
+		if (gridElement != null  && Main.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {
 			gridElement.setPanelAttributes(_oldState);
 			
 			OwnSyntaxPane pane = Main.getInstance().getGUI().getPropertyPane();

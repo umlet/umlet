@@ -25,7 +25,7 @@ public class EER_Rel_Diamond extends OldGridElement {
 		// Some unimportant initialization stuff; setting color, font
 		// quality, etc. You should not have to change this.
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
+		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
@@ -54,12 +54,12 @@ public class EER_Rel_Diamond extends OldGridElement {
 		// text printing and to react to special strings (like the "--" string
 		// in the UML class elements which draw a line).
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		int yPos = this.getZoomedSize().height / 2 - (((int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize()) * tmp.size()) / 2;
+		int yPos = this.getZoomedSize().height / 2 - (((int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize()) * tmp.size()) / 2;
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
-			Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
-			yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+			yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+			Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+			yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		}
 		
 

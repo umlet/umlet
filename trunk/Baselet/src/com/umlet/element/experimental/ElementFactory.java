@@ -30,15 +30,15 @@ public class ElementFactory {
 		DrawHandlerInterface panel = new DrawHandlerInterface() {
 			@Override
 			public void updatePropertyPanel() {
-				Main.getElementHandlerMapping().get(returnObj).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
+				Main.getHandlerForElement(returnObj).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 			}
 			@Override
 			public void updateLayer(NewGridElement newGridElement) {
-				Main.getElementHandlerMapping().get(returnObj).getDrawPanel().setLayer((Component) returnObj.getComponent(), returnObj.getLayer());
+				Main.getHandlerForElement(returnObj).getDrawPanel().setLayer((Component) returnObj.getComponent(), returnObj.getLayer());
 			}
 			@Override
 			public float getZoomFactor() {
-				return Main.getElementHandlerMapping().get(returnObj).getZoomFactor();
+				return Main.getHandlerForElement(returnObj).getZoomFactor();
 			}
 			@Override
 			public boolean displaceDrawingByOnePixel() {
@@ -47,11 +47,11 @@ public class ElementFactory {
 		};
 
 		returnObj.init(bounds, panelAttributes, component, panel);
-		Main.getElementHandlerMapping().put(returnObj, handler);
-		Main.getElementHandlerMapping().get(returnObj).setHandlerAndInitListeners(returnObj);
+		Main.setHandlerForElement(returnObj, handler);
+		handler.setHandlerAndInitListeners(returnObj);
 		return returnObj;
 	}
 	public static GridElement clone(NewGridElement old) {
-		return create(old.getId(), old.getRectangle(), old.getPanelAttributes(), Main.getElementHandlerMapping().get(old));
+		return create(old.getId(), old.getRectangle(), old.getPanelAttributes(), Main.getHandlerForElement(old));
 	}
 }

@@ -16,10 +16,10 @@ public class Component extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
+		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
+		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
@@ -37,27 +37,27 @@ public class Component extends OldGridElement {
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = 0;
-		int startY = this.getZoomedSize().height / 2 - tmp.size() * ((int) (Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() + Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts())) / 2;
+		int startY = this.getZoomedSize().height / 2 - tmp.size() * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())) / 2;
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 
 			if (s.startsWith("'") || (normal == true)) { // G.M
-				startY = (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+				startY = (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 				s = s.substring(1, s.length());
-				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
-				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, (int) (10 * zoom), startY + yPos, AlignHorizontal.LEFT);
-				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) (10 * zoom), startY + yPos, AlignHorizontal.LEFT);
+				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 				normal = true;
 			}
 			else {
 				if (s.startsWith("*")) {
-					startY = (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+					startY = (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 					s = s.substring(1, s.length());
 				}
-				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
-				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, startY + yPos, AlignHorizontal.CENTER);
-				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, startY + yPos, AlignHorizontal.CENTER);
+				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 		}
 

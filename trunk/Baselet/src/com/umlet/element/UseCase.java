@@ -38,7 +38,7 @@ public class UseCase extends OldGridElement {
 		int yPos = 0;
 		int yPos1 = b;
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
+		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(bgColor);
 
@@ -62,7 +62,7 @@ public class UseCase extends OldGridElement {
 			found = true;
 		}
 		else {
-			yPos = this.getZoomedSize().height / 2 - tmp.size() * ((int) (Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() + Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts())) / 2;
+			yPos = this.getZoomedSize().height / 2 - tmp.size() * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())) / 2;
 		}
 
 		for (int i = 0; i < tmp.size(); i++) {
@@ -71,14 +71,14 @@ public class UseCase extends OldGridElement {
 				yPos = yPos1;
 			}
 			else if (found) {
-				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, a, yPos + 5, AlignHorizontal.CENTER);
-				yPos += 5 * Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, a, yPos + 5, AlignHorizontal.CENTER);
+				yPos += 5 * Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 
 			}
 			else {
-				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
-				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
-				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 		}
 		g2.setStroke(Utils.getStroke(LineType.SOLID, 1));

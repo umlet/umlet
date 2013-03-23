@@ -82,7 +82,7 @@ public class ActivityDiagramText extends OldGridElement {
 
 	private void init(Graphics2D graphics) {
 
-		zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
+		zoom = Main.getHandlerForElement(this).getZoomFactor();
 
 		this.graphics = graphics;
 		this.rows = new ArrayList<Row>();
@@ -90,7 +90,7 @@ public class ActivityDiagramText extends OldGridElement {
 		this.containers = new ArrayList<Container>();
 		this.elements = new HashMap<String, Element>();
 		this.rows.add(new Row());
-		this.root_container = new Container(Main.getElementHandlerMapping().get(this), graphics, null, rows, 0);
+		this.root_container = new Container(Main.getHandlerForElement(this), graphics, null, rows, 0);
 		this.current_container = this.root_container;
 		this.title = null;
 		this.goto_seperation_left = (int) (5 * zoom);
@@ -99,7 +99,7 @@ public class ActivityDiagramText extends OldGridElement {
 		// Some unimportant initialization stuff; setting color, font
 		// quality, etc. You should not have to change this.
 		this.graphics = graphics;
-		this.graphics.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
+		this.graphics.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		this.graphics.setColor(fgColor);
 	}
 
@@ -255,7 +255,7 @@ public class ActivityDiagramText extends OldGridElement {
 				if (m.group(2) != null) {
 					String input = "";
 					if (m.group(3) != null) input = m.group(3);
-					e = new Condition(Main.getElementHandlerMapping().get(this), input, this.graphics);
+					e = new Condition(Main.getHandlerForElement(this), input, this.graphics);
 					current_element = e;
 				}
 
@@ -268,32 +268,32 @@ public class ActivityDiagramText extends OldGridElement {
 
 					/* START */
 					if (m.group(6) != null) {
-						e = new Start(Main.getElementHandlerMapping().get(this), graphics);
+						e = new Start(Main.getHandlerForElement(this), graphics);
 					}
 					/* END */
 					else if (m.group(7) != null) {
-						if (m.group(7).equals("AEnd")) e = new AEnd(Main.getElementHandlerMapping().get(this), graphics, id);
-						else e = new End(Main.getElementHandlerMapping().get(this), graphics, id);
+						if (m.group(7).equals("AEnd")) e = new AEnd(Main.getHandlerForElement(this), graphics, id);
+						else e = new End(Main.getHandlerForElement(this), graphics, id);
 					}
 					/* LINESPACER */
 					else if (m.group(8) != null) {
-						e = new LineSpacer(Main.getElementHandlerMapping().get(this), graphics);
+						e = new LineSpacer(Main.getHandlerForElement(this), graphics);
 					}
 					/* IF/FORK */
 					else if (m.group(9) != null) {
 						// these elements are processed as soon as a the
 						// new container is opened (or as single elements
 						// if none is openend
-						if (m.group(9).equals("Fork")) start_element = new Fork(Main.getElementHandlerMapping().get(this), graphics, id);
-						else start_element = new If(Main.getElementHandlerMapping().get(this), graphics, id);
+						if (m.group(9).equals("Fork")) start_element = new Fork(Main.getHandlerForElement(this), graphics, id);
+						else start_element = new If(Main.getHandlerForElement(this), graphics, id);
 						current_element = start_element;
 					}
 					/* ENDIF/SYNC */
 					else if (m.group(10) != null) {
 						// set as stop element if a container has been closed
 						StopElement se;
-						if (m.group(10).equals("Sync")) se = new Sync(Main.getElementHandlerMapping().get(this), graphics, id);
-						else se = new EndIf(Main.getElementHandlerMapping().get(this), graphics, id);
+						if (m.group(10).equals("Sync")) se = new Sync(Main.getHandlerForElement(this), graphics, id);
+						else se = new EndIf(Main.getHandlerForElement(this), graphics, id);
 
 						if (closed_container != null) {
 							closed_container.setStopElement(se);
@@ -308,13 +308,13 @@ public class ActivityDiagramText extends OldGridElement {
 						current_depth++;
 					}
 					/* GET EVENT */
-					else if (m.group(15) != null) e = new EventRecieve(Main.getElementHandlerMapping().get(this), graphics, m.group(15), id);
+					else if (m.group(15) != null) e = new EventRecieve(Main.getHandlerForElement(this), graphics, m.group(15), id);
 					/* RAISE EVENT */
-					else if (m.group(17) != null) e = new EventRaise(Main.getElementHandlerMapping().get(this), graphics, m.group(17), id);
+					else if (m.group(17) != null) e = new EventRaise(Main.getHandlerForElement(this), graphics, m.group(17), id);
 					/* PARTACTIVITY */
-					else if (m.group(19) != null) e = new PartActivity(Main.getElementHandlerMapping().get(this), m.group(19), graphics, id);
+					else if (m.group(19) != null) e = new PartActivity(Main.getHandlerForElement(this), m.group(19), graphics, id);
 					/* ACTIVITY */
-					else if (m.group(20) != null) e = new Activity(Main.getElementHandlerMapping().get(this), m.group(20), graphics, id);
+					else if (m.group(20) != null) e = new Activity(Main.getHandlerForElement(this), m.group(20), graphics, id);
 				}
 
 				if (e != null) {
@@ -390,9 +390,9 @@ public class ActivityDiagramText extends OldGridElement {
 			height += (int) (25 * zoom);
 
 			if ((title != null) && (title.length() > 0)) {
-				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(this.graphics, title, (int) (10 * zoom), (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
-				int titlewidth = (int) Main.getElementHandlerMapping().get(this).getFontHandler().getTextWidth(title);
-				int ty = (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts() + (int) (8 * zoom);
+				Main.getHandlerForElement(this).getFontHandler().writeText(this.graphics, title, (int) (10 * zoom), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
+				int titlewidth = (int) Main.getHandlerForElement(this).getFontHandler().getTextWidth(title);
+				int ty = (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) (8 * zoom);
 				this.graphics.drawLine(0, ty, titlewidth + (int) (10 * zoom), ty);
 				this.graphics.drawLine(titlewidth + (int) (10 * zoom), ty, titlewidth + ty + (int) (10 * zoom), 0);
 			}

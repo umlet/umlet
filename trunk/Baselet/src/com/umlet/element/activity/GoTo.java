@@ -52,7 +52,7 @@ public class GoTo {
 			this.graphics.drawLine(x, from.y, x, to.y);
 
 			if ((to.x == to_origin.x) && (to.y == to_origin.y)) {
-				float zoom = Main.getElementHandlerMapping().get(dia).getZoomFactor();
+				float zoom = Main.getHandlerForElement(dia).getZoomFactor();
 				Connector.drawArrow(this.graphics, zoom, x, to.y, to.x, to.y);
 			}
 			else this.graphics.drawLine(x, to.y, to.x, to.y);
