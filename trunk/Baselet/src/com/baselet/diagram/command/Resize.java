@@ -3,6 +3,7 @@ package com.baselet.diagram.command;
 import java.util.Vector;
 
 import com.baselet.control.Main;
+import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
@@ -75,7 +76,7 @@ public class Resize extends Command {
 		else {
 			this.id = current_id;
 			current_id++;
-			this.linepoints = from.getStickingRelationLinePoints(Main.getHandlerForElement(this.entity));
+			this.linepoints = Utils.getStickingRelationLinePoints(Main.getHandlerForElement(this.entity), from);
 		}
 
 		Point diff, p;

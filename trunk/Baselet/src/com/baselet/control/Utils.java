@@ -8,6 +8,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,8 +23,10 @@ import com.baselet.diagram.draw.geom.DimensionFloat;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
+import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.DoubleStroke;
+import com.umlet.element.relation.RelationLinePoint;
 
 
 public abstract class Utils {
@@ -248,6 +251,23 @@ public abstract class Utils {
 		if (s.length() == 0) return new DimensionFloat(0, 0);
 		TextLayout tl = new TextLayout(s, notificationFont, frc);
 		return new DimensionFloat((int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
+	}
+
+
+	public static Vector<RelationLinePoint> getStickingRelationLinePoints(DiagramHandler handler, StickingPolygon stickingPolygon) {
+		Vector<RelationLinePoint> lpts = new Vector<RelationLinePoint>();
+		Collection<Relation> rels = handler.getDrawPanel().getAllRelations();
+		for (Relation r : rels) {
+			if (!r.isPartOfGroup()) {
+				Point l1 = r.getAbsoluteCoorStart();
+				Point l2 = r.getAbsoluteCoorEnd();
+				int c1 = stickingPolygon.isConnected(l1, handler.getGridSize());
+				int c2 = stickingPolygon.isConnected(l2, handler.getGridSize());
+				if (c1 >= 0) lpts.add(new RelationLinePoint(r, 0, c1));
+				if (c2 >= 0) lpts.add(new RelationLinePoint(r, r.getLinePoints().size() - 1, c2));
+			}
+		}
+		return lpts;
 	}
 	
 }

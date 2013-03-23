@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Main;
+import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.SelectorFrame;
 import com.baselet.diagram.command.AddElement;
@@ -269,7 +270,7 @@ public class GridElementListener extends UniversalListener {
 			StickingPolygon stick = null;
 			if (e.isStickingBorderActive()) stick = e.generateStickingBorder(e.getRectangle().x, e.getRectangle().y, e.getZoomedSize().width, e.getZoomedSize().height);
 			if (stick != null) {
-				Vector<RelationLinePoint> affectedRelationPoints = stick.getStickingRelationLinePoints(this.diagram.getHandler());
+				Vector<RelationLinePoint> affectedRelationPoints = Utils.getStickingRelationLinePoints(this.diagram.getHandler(), stick);
 				for (int j = 0; j < affectedRelationPoints.size(); j++) {
 					RelationLinePoint tmpRlp = affectedRelationPoints.elementAt(j);
 					if (entitiesToBeMoved.contains(tmpRlp.getRelation())) continue;
