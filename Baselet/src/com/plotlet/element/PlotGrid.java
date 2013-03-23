@@ -48,7 +48,7 @@ public class PlotGrid extends OldGridElement {
 
 		} catch (ParserException e) {
 //			log.error(null, e);
-			BaseDrawHandlerSwing draw = new BaseDrawHandlerSwing(g, Main.getElementHandlerMapping().get(this), Converter.convert(fgColor), Converter.convert(bgColor), getZoomedSize());
+			BaseDrawHandlerSwing draw = new BaseDrawHandlerSwing(g, Main.getHandlerForElement(this), Converter.convert(fgColor), Converter.convert(bgColor), getZoomedSize());
 			draw.setForegroundColor("red");
 			draw.setBackgroundColor("white");
 			draw.setBackgroundAlpha(Constants.ALPHA_NO_TRANSPARENCY);
@@ -195,7 +195,7 @@ public class PlotGrid extends OldGridElement {
 	private AbstractPlot createPlot(Graphics g, PlotState plotState, int xPos, int yPos, String info) {
 		String type = plotState.getValueValidated(PlotConstants.KEY_STRING_TYPE, PlotConstants.TYPE_BAR, PlotConstants.getValuesForKey(PlotConstants.KEY_STRING_TYPE));
 		log.info("PlotGrid insert : " + type + " (" + xPos + ";" + yPos + ") " + info);
-		PlotGridDrawConfig plotDrawConfig = new PlotGridDrawConfig(Main.getElementHandlerMapping().get(this), this.getRealSize(),  this.getZoomedSize(), this.getFgColor(), this.getBgColor(), this.isSelected, this.minValue, this.maxValue);
+		PlotGridDrawConfig plotDrawConfig = new PlotGridDrawConfig(Main.getHandlerForElement(this), this.getRealSize(),  this.getZoomedSize(), this.getFgColor(), this.getBgColor(), this.isSelected, this.minValue, this.maxValue);
 		if (PlotConstants.TYPE_PIE.equals(type)) return  new PiePlot(g,plotDrawConfig, plotState, xPos, yPos);
 		else if (PlotConstants.TYPE_LINE.equals(type)) return  new LinePlot(g,plotDrawConfig, plotState, xPos, yPos);
 		else if (PlotConstants.TYPE_SCATTER.equals(type)) return  new ScatterPlot(g,plotDrawConfig, plotState, xPos, yPos);

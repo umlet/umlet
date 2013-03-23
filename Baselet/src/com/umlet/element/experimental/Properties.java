@@ -75,12 +75,12 @@ public class Properties {
 			float height = dim.getHeight() + drawer.textHeight()/2;
 			float diffw = width-element.getRealSize().width;
 			float diffh = height-element.getRealSize().height;
-			float diffwInCurrentZoom = diffw * Main.getElementHandlerMapping().get(element).getZoomFactor();
-			float diffhInCurrentZoom = diffh * Main.getElementHandlerMapping().get(element).getZoomFactor();
-			int diffwRealigned = Main.getElementHandlerMapping().get(element).realignToGrid(false, diffwInCurrentZoom, true);
-			int diffhRealigned = Main.getElementHandlerMapping().get(element).realignToGrid(false, diffhInCurrentZoom, true);
+			float diffwInCurrentZoom = diffw * Main.getHandlerForElement(element).getZoomFactor();
+			float diffhInCurrentZoom = diffh * Main.getHandlerForElement(element).getZoomFactor();
+			int diffwRealigned = Main.getHandlerForElement(element).realignToGrid(false, diffwInCurrentZoom, true);
+			int diffhRealigned = Main.getHandlerForElement(element).realignToGrid(false, diffhInCurrentZoom, true);
 			// use resize command to move sticked relations correctly with the element
-			new Resize(element, 0, 0, diffwRealigned, diffhRealigned).execute(Main.getElementHandlerMapping().get(element));
+			new Resize(element, 0, 0, diffwRealigned, diffhRealigned).execute(Main.getHandlerForElement(element));
 		}
 	}
 

@@ -421,13 +421,13 @@ public class DiagramHandler {
 	}
 	
 	public void setHandlerAndInitListeners(GridElement element) {
-		if (Main.getElementHandlerMapping().get(element) != null) {
-			((Component) element.getComponent()).removeMouseListener(Main.getElementHandlerMapping().get(element).getEntityListener(element));
-			((Component) element.getComponent()).removeMouseMotionListener(Main.getElementHandlerMapping().get(element).getEntityListener(element));
+		if (Main.getHandlerForElement(element) != null) {
+			((Component) element.getComponent()).removeMouseListener(Main.getHandlerForElement(element).getEntityListener(element));
+			((Component) element.getComponent()).removeMouseMotionListener(Main.getHandlerForElement(element).getEntityListener(element));
 		}
-		Main.getElementHandlerMapping().put(element, this);
-		((Component) element.getComponent()).addMouseListener(Main.getElementHandlerMapping().get(element).getEntityListener(element));
-		((Component) element.getComponent()).addMouseMotionListener(Main.getElementHandlerMapping().get(element).getEntityListener(element));
+		Main.setHandlerForElement(element, this);
+		((Component) element.getComponent()).addMouseListener(Main.getHandlerForElement(element).getEntityListener(element));
+		((Component) element.getComponent()).addMouseMotionListener(Main.getHandlerForElement(element).getEntityListener(element));
 		if (element instanceof NewGridElement) {
 			((BaseDrawHandlerSwing) ((NewGridElement) element).getDrawer()).setHandler(this);
 			((BaseDrawHandlerSwing) ((NewGridElement) element).getMetaDrawer()).setHandler(this);

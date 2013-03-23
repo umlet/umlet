@@ -43,9 +43,9 @@ public class AddElement extends Command {
 		_entity = e;
 		_zoom = zoom;
 		if (_zoom) {
-			_x = x / Main.getElementHandlerMapping().get(e).getGridSize();
-			_y = y / Main.getElementHandlerMapping().get(e).getGridSize();
-			DiagramHandler.zoomEntity(Main.getElementHandlerMapping().get(e).getGridSize(), Constants.DEFAULTGRIDSIZE, e);
+			_x = x / Main.getHandlerForElement(e).getGridSize();
+			_y = y / Main.getHandlerForElement(e).getGridSize();
+			DiagramHandler.zoomEntity(Main.getHandlerForElement(e).getGridSize(), Constants.DEFAULTGRIDSIZE, e);
 		}
 		else {
 			_x = x;

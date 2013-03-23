@@ -23,10 +23,10 @@ public class SynchBarVertical extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
+		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
+		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
@@ -35,34 +35,34 @@ public class SynchBarVertical extends OldGridElement {
 		textHeight = 0; // reset
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		textHeight = tmp.size() * ((int) (Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() + Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts()));
+		textHeight = tmp.size() * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts()));
 		boolean ADAPT_SIZE = false;
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
-			TextLayout l = new TextLayout(s, Main.getElementHandlerMapping().get(this).getFontHandler().getFont(), g2.getFontRenderContext());
+			yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+			TextLayout l = new TextLayout(s, Main.getHandlerForElement(this).getFontHandler().getFont(), g2.getFontRenderContext());
 			Rectangle2D r2d = l.getBounds();
 			int width = (int) r2d.getWidth();
 			if ((this.getZoomedSize().width / 2 - width / 2) < 0) {
 				ADAPT_SIZE = true;
 				break;
 			}
-			Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
-			yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+			Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+			yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		}
 
 		if (ADAPT_SIZE) {
-			(new Resize(this, -Main.getElementHandlerMapping().get(this).getGridSize(), 0, 0, 0)).execute(Main.getElementHandlerMapping().get(this));
-			(new Resize(this, 0, 0, Main.getElementHandlerMapping().get(this).getGridSize(), 0)).execute(Main.getElementHandlerMapping().get(this));
+			(new Resize(this, -Main.getHandlerForElement(this).getGridSize(), 0, 0, 0)).execute(Main.getHandlerForElement(this));
+			(new Resize(this, 0, 0, Main.getHandlerForElement(this).getGridSize(), 0)).execute(Main.getHandlerForElement(this));
 			return;
 		}
 		if (yPos > this.getZoomedSize().height) {
-			(new Resize(this, 0, 0, 0, (int) (Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() + Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts()))).execute(Main.getElementHandlerMapping().get(this));
+			(new Resize(this, 0, 0, 0, (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts()))).execute(Main.getHandlerForElement(this));
 			return;
 		}
 
-		g2.fillRect(this.getZoomedSize().width / 2 - (int) (3 * zoom), textHeight + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts(), (int) (5 * zoom), this.getZoomedSize().height - textHeight - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts() * 2);
+		g2.fillRect(this.getZoomedSize().width / 2 - (int) (3 * zoom), textHeight + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), (int) (5 * zoom), this.getZoomedSize().height - textHeight - (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 2);
 	}
 
 	/*

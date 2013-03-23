@@ -22,12 +22,12 @@ public class Database extends OldGridElement {
 		// Some unimportant initialization stuff; setting color, font
 		// quality, etc. You should not have to change this.
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
+		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
 
-		int inset = (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+		int inset = (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 
 		// It's getting interesting here:
 		// First, the strings you type in the element editor are read and
@@ -38,24 +38,24 @@ public class Database extends OldGridElement {
 		// to special strings
 		// (like the "--" string in the UML class elements which draw a line).
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		int yPos = inset + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+		int yPos = inset + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		boolean CENTER = true;
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
 				CENTER = false;
 				g2.drawLine(0, yPos, this.getZoomedSize().width, yPos);
-				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
-				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 				if (CENTER) {
-					Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
-					Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
 				}
-				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 		}
 
@@ -63,7 +63,7 @@ public class Database extends OldGridElement {
 		// drawLine, getWidth, getHeight..
 		g2.drawLine(0, this.getZoomedSize().height - 1 - inset / 2, 0, inset / 2);
 		g2.drawOval(0, 0, this.getZoomedSize().width, inset);
-		g2.drawArc(0, this.getZoomedSize().height - 1 - inset, this.getZoomedSize().width, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), 180, 180);
+		g2.drawArc(0, this.getZoomedSize().height - 1 - inset, this.getZoomedSize().width, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 180, 180);
 		g2.drawLine(this.getZoomedSize().width - 1, inset / 2, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1 - inset / 2);
 	}
 

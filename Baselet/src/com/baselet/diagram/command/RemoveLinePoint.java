@@ -24,11 +24,11 @@ public class RemoveLinePoint extends Command {
 	}
 
 	private int getX() {
-		return _x * Main.getElementHandlerMapping().get(_relation).getGridSize();
+		return _x * Main.getHandlerForElement(_relation).getGridSize();
 	}
 
 	private int getY() {
-		return _y * Main.getElementHandlerMapping().get(_relation).getGridSize();
+		return _y * Main.getHandlerForElement(_relation).getGridSize();
 	}
 
 	public RemoveLinePoint(Relation r, int i) {
@@ -36,8 +36,8 @@ public class RemoveLinePoint extends Command {
 		_where = i;
 		Point p = r.getLinePoints().elementAt(i);
 
-		_x = p.x / Main.getElementHandlerMapping().get(_relation).getGridSize();
-		_y = p.y / Main.getElementHandlerMapping().get(_relation).getGridSize();
+		_x = p.x / Main.getHandlerForElement(_relation).getGridSize();
+		_y = p.y / Main.getHandlerForElement(_relation).getGridSize();
 	}
 
 	@Override

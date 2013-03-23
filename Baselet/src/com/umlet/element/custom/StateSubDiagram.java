@@ -13,7 +13,7 @@ public class StateSubDiagram extends State {
 	public void paintEntity(Graphics g) {
 		super.paintEntity(g);
 
-		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
+		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 		Graphics2D g2 = (Graphics2D) g;
 		int w = getZoomedSize().width;
 		int h = getZoomedSize().height;

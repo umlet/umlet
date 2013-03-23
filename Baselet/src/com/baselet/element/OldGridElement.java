@@ -66,14 +66,14 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public void setEnabled(boolean en) {
 		super.setEnabled(en);
 		if (!en && enabled) {
-			this.removeMouseListener(Main.getElementHandlerMapping().get(this).getEntityListener(this));
-			this.removeMouseMotionListener(Main.getElementHandlerMapping().get(this).getEntityListener(this));
+			this.removeMouseListener(Main.getHandlerForElement(this).getEntityListener(this));
+			this.removeMouseMotionListener(Main.getHandlerForElement(this).getEntityListener(this));
 			enabled = false;
 		}
 		else if (en && !enabled) {
 			if (!this.isPartOfGroup()) {
-				this.addMouseListener(Main.getElementHandlerMapping().get(this).getEntityListener(this));
-				this.addMouseMotionListener(Main.getElementHandlerMapping().get(this).getEntityListener(this));
+				this.addMouseListener(Main.getHandlerForElement(this).getEntityListener(this));
+				this.addMouseMotionListener(Main.getHandlerForElement(this).getEntityListener(this));
 			}
 			enabled = true;
 		}
@@ -194,7 +194,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		newState = newState.substring(0, newState.length()-1); //remove last linebreak
 		if (newValue != null && !newValue.isEmpty()) newState += "\n" + key.toString() + "=" + newValue; // null will not be added as a value
 		this.setPanelAttributes(newState);
-		Main.getElementHandlerMapping().get(this).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
+		Main.getHandlerForElement(this).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.repaint();
 	}
 
@@ -230,7 +230,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public Dimension getRealSize() {
-		return new Dimension(getZoomedSize().width / Main.getElementHandlerMapping().get(this).getGridSize() * Constants.DEFAULTGRIDSIZE, getZoomedSize().height / Main.getElementHandlerMapping().get(this).getGridSize() * Constants.DEFAULTGRIDSIZE);
+		return new Dimension(getZoomedSize().width / Main.getHandlerForElement(this).getGridSize() * Constants.DEFAULTGRIDSIZE, getZoomedSize().height / Main.getHandlerForElement(this).getGridSize() * Constants.DEFAULTGRIDSIZE);
 	}
 
 	@Override
@@ -285,9 +285,9 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public void setInProgress(Graphics g, boolean flag) {
 		if (flag) {
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
+			g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 			g2.setColor(Color.red);
-			Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, "in progress...", this.getZoomedSize().width / 2 - 40, this.getZoomedSize().height / 2 + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
+			Main.getHandlerForElement(this).getFontHandler().writeText(g2, "in progress...", this.getZoomedSize().width / 2 - 40, this.getZoomedSize().height / 2 + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
 		}
 		else {
 			repaint();
@@ -301,7 +301,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			GridElement c = cx.newInstance();
 			c.setPanelAttributes(this.getPanelAttributes()); // copy states
 			c.setRectangle(this.getRectangle());
-			Main.getElementHandlerMapping().get(this).setHandlerAndInitListeners(c);
+			Main.getHandlerForElement(this).setHandlerAndInitListeners(c);
 			return c;
 		} catch (Exception e) {
 			log.error("Error at calling CloneFromMe() on entity", e);
@@ -362,11 +362,11 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public abstract void paintEntity(Graphics g);
 
 	protected final int textHeight() {
-		return (int) (Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(false) + Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts(false));
+		return (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize(false) + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(false));
 	}
 
 	protected final int textWidth(String text, boolean applyZoom) {
-		return (int) (Main.getElementHandlerMapping().get(this).getFontHandler().getTextSize(text, applyZoom).getWidth() + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts(applyZoom));
+		return (int) (Main.getHandlerForElement(this).getFontHandler().getTextSize(text, applyZoom).getWidth() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(applyZoom));
 	}
 
 	@Override
@@ -384,7 +384,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		/*OldGridElement has no model but simply parses the properties text within every paint() call*/
 		Integer oldLayer = lastLayerValue;
 		if (oldLayer != null && !oldLayer.equals(getLayer())) {
-			Main.getElementHandlerMapping().get(this).getDrawPanel().setLayer((Component) getComponent(), lastLayerValue);
+			Main.getHandlerForElement(this).getDrawPanel().setLayer((Component) getComponent(), lastLayerValue);
 		}
 	}
 

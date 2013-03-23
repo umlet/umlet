@@ -26,21 +26,21 @@ public class Note extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
+		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		// g2.setColor(_activeColor);
 		
 		Composite[] composites = colorize(g2); // enable colors
 		int yPos = 0;
-		yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+		yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 
 		Vector<String> tmp = this.getStringVector();
 
 		Polygon poly = new Polygon();
 		poly.addPoint(0, 0);
-		poly.addPoint(this.getZoomedSize().width - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), 0);
-		poly.addPoint(this.getZoomedSize().width - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), 0);
-		poly.addPoint(this.getZoomedSize().width - 1, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize());
-		poly.addPoint(this.getZoomedSize().width - 1, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize());
+		poly.addPoint(this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0);
+		poly.addPoint(this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0);
+		poly.addPoint(this.getZoomedSize().width - 1, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
+		poly.addPoint(this.getZoomedSize().width - 1, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
 		poly.addPoint(this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
 		poly.addPoint(this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
 		poly.addPoint(0, this.getZoomedSize().height - 1);
@@ -58,17 +58,17 @@ public class Note extends OldGridElement {
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
-			Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
-			yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+			yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+			Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+			yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		}
 
-		g2.drawLine(0, 0, this.getZoomedSize().width - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), 0);
-		g2.drawLine(this.getZoomedSize().width - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), 0, this.getZoomedSize().width - 1, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize());
-		g2.drawLine(this.getZoomedSize().width - 1, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+		g2.drawLine(0, 0, this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0);
+		g2.drawLine(this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0, this.getZoomedSize().width - 1, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
+		g2.drawLine(this.getZoomedSize().width - 1, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
 		g2.drawLine(this.getZoomedSize().width - 1, this.getZoomedSize().height - 1, 0, this.getZoomedSize().height - 1);
 		g2.drawLine(0, this.getZoomedSize().height - 1, 0, 0);
-		g2.drawLine(this.getZoomedSize().width - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), 0, this.getZoomedSize().width - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize());
-		g2.drawLine(this.getZoomedSize().width - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), this.getZoomedSize().width - 1, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize());
+		g2.drawLine(this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0, this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
+		g2.drawLine(this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), this.getZoomedSize().width - 1, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
 	}
 }

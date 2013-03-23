@@ -31,7 +31,7 @@ public class Actor extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
+		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2);
 		g2.setColor(fgColor);
 		
@@ -39,18 +39,18 @@ public class Actor extends OldGridElement {
 		boolean ADAPT_SIZE = false;
 
 		Vector<String> tmp = getStringVector();
-		int yPos = 6 * (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
+		int yPos = 6 * (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
-				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
-				g2.drawLine(this.getZoomedSize().width / 2 - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() * 4, yPos, this.getZoomedSize().width / 2 + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() * 4, yPos);
-				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+				g2.drawLine(this.getZoomedSize().width / 2 - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 4, yPos, this.getZoomedSize().width / 2 + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 4, yPos);
+				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
-				yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
-				TextLayout l = new TextLayout(s, Main.getElementHandlerMapping().get(this).getFontHandler().getFont(), g2.getFontRenderContext());
+				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+				TextLayout l = new TextLayout(s, Main.getHandlerForElement(this).getFontHandler().getFont(), g2.getFontRenderContext());
 				Rectangle2D r2d = l.getBounds();
 				int width = (int) r2d.getWidth();
 				int xPos = this.getZoomedSize().width / 2 - width / 2;
@@ -58,18 +58,18 @@ public class Actor extends OldGridElement {
 					ADAPT_SIZE = true;
 					break;
 				}
-				Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
-				yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 		}
 
 		if (ADAPT_SIZE) {
-			(new Resize(this, -Main.getElementHandlerMapping().get(this).getGridSize(), 0, 0, 0)).execute(Main.getElementHandlerMapping().get(this));
-			(new Resize(this, 0, 0, Main.getElementHandlerMapping().get(this).getGridSize(), 0)).execute(Main.getElementHandlerMapping().get(this));
+			(new Resize(this, -Main.getHandlerForElement(this).getGridSize(), 0, 0, 0)).execute(Main.getHandlerForElement(this));
+			(new Resize(this, 0, 0, Main.getHandlerForElement(this).getGridSize(), 0)).execute(Main.getHandlerForElement(this));
 			return;
 		}
 		if (yPos > this.getZoomedSize().height) {
-			(new Resize(this, 0, 0, 0, 20)).execute(Main.getElementHandlerMapping().get(this));
+			(new Resize(this, 0, 0, 0, 20)).execute(Main.getHandlerForElement(this));
 			return;
 		}
 
@@ -77,29 +77,29 @@ public class Actor extends OldGridElement {
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillOval(startx - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() / 2, 0, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize());
+		g2.fillOval(startx - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, 0, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
 		g2.setComposite(composites[0]);
 		if (isSelected) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
 
-		g2.drawOval(startx - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() / 2, 0, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize());
-		g2.drawLine(startx, (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), startx, (int) ((int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() * 2.5));
-		g2.drawLine(startx - 2 * (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), (int) ((int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() * 1.3), startx + 2 * (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), (int) ((int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() * 1.3));
+		g2.drawOval(startx - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, 0, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
+		g2.drawLine(startx, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), startx, (int) ((int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 2.5));
+		g2.drawLine(startx - 2 * (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), (int) ((int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 1.3), startx + 2 * (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), (int) ((int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 1.3));
 
 		// Feet
-		g2.drawLine(startx, (int) ((int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() * 2.5), startx - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() * 5);
-		g2.drawLine(startx, (int) ((int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() * 2.5), startx + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize(), (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() * 5);
+		g2.drawLine(startx, (int) ((int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 2.5), startx - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 5);
+		g2.drawLine(startx, (int) ((int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 2.5), startx + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 5);
 	}
 
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
 
-		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
+		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 
-		int links = Main.getElementHandlerMapping().get(this).realignToGrid(false, x + width / 2 - (int) (25 * zoom));
-		int rechts = Main.getElementHandlerMapping().get(this).realignToGrid(false, x + width / 2 + (int) (35 * zoom));
-		int oben = Main.getElementHandlerMapping().get(this).realignToGrid(false, y);
-		int unten = Main.getElementHandlerMapping().get(this).realignToGrid(false, y + (int) (75 * zoom));
+		int links = Main.getHandlerForElement(this).realignToGrid(false, x + width / 2 - (int) (25 * zoom));
+		int rechts = Main.getHandlerForElement(this).realignToGrid(false, x + width / 2 + (int) (35 * zoom));
+		int oben = Main.getHandlerForElement(this).realignToGrid(false, y);
+		int unten = Main.getHandlerForElement(this).realignToGrid(false, y + (int) (75 * zoom));
 		StickingPolygon p = new StickingPolygon();
 		p.addPoint(new Point(links, oben));
 		p.addPoint(new Point(rechts, oben));

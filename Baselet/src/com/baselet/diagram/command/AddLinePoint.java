@@ -24,18 +24,18 @@ public class AddLinePoint extends Command {
 	}
 
 	private int getX() {
-		return _x * Main.getElementHandlerMapping().get(_relation).getGridSize();
+		return _x * Main.getHandlerForElement(_relation).getGridSize();
 	}
 
 	private int getY() {
-		return _y * Main.getElementHandlerMapping().get(_relation).getGridSize();
+		return _y * Main.getHandlerForElement(_relation).getGridSize();
 	}
 
 	public AddLinePoint(Relation r, int i, int x, int y) {
 		_relation = r;
 		_where = i;
-		_x = x / Main.getElementHandlerMapping().get(_relation).getGridSize();
-		_y = y / Main.getElementHandlerMapping().get(_relation).getGridSize();
+		_x = x / Main.getHandlerForElement(_relation).getGridSize();
+		_y = y / Main.getHandlerForElement(_relation).getGridSize();
 	}
 
 	@Override

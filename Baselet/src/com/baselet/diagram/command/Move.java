@@ -20,21 +20,21 @@ public class Move extends Command {
 	}
 
 	private int getX() {
-		int zoomedX = _x * Main.getElementHandlerMapping().get(entity).getGridSize();
+		int zoomedX = _x * Main.getHandlerForElement(entity).getGridSize();
 		log.debug("Zoomed x: " + zoomedX);
 		return zoomedX;
 	}
 
 	private int getY() {
-		int zoomedY = _y * Main.getElementHandlerMapping().get(entity).getGridSize();
+		int zoomedY = _y * Main.getHandlerForElement(entity).getGridSize();
 		log.debug("Zoomed y: " + zoomedY);
 		return zoomedY;
 	}
 
 	public Move(GridElement e, int x, int y) {
 		entity = e;
-		_x = x / Main.getElementHandlerMapping().get(e).getGridSize();
-		_y = y / Main.getElementHandlerMapping().get(e).getGridSize();
+		_x = x / Main.getHandlerForElement(e).getGridSize();
+		_y = y / Main.getHandlerForElement(e).getGridSize();
 		log.debug("Base for (x,y): (" + _x + "," + _y + ")");
 	}
 

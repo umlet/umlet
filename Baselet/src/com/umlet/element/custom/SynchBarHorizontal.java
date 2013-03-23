@@ -23,24 +23,24 @@ public class SynchBarHorizontal extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getElementHandlerMapping().get(this).getZoomFactor();
+		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getElementHandlerMapping().get(this).getFontHandler().getFont());
+		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
 
 		textWidth = 0; // reset
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		int yPos = this.getZoomedSize().height / 2 - tmp.size() * ((int) (Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() + Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts())) / 2;
+		int yPos = this.getZoomedSize().height / 2 - tmp.size() * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())) / 2;
 		boolean ADAPT_SIZE_X = false;
-		int textHeight = tmp.size() * ((int) (Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize() + Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts()));
+		int textHeight = tmp.size() * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts()));
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 
-			TextLayout l = new TextLayout(s, Main.getElementHandlerMapping().get(this).getFontHandler().getFont(), g2.getFontRenderContext());
+			TextLayout l = new TextLayout(s, Main.getHandlerForElement(this).getFontHandler().getFont(), g2.getFontRenderContext());
 			Rectangle2D r2d = l.getBounds();
 			textWidth = ((int) r2d.getWidth() > textWidth) ? ((int) r2d.getWidth()) : (textWidth);
 
@@ -48,23 +48,23 @@ public class SynchBarHorizontal extends OldGridElement {
 				ADAPT_SIZE_X = true;
 				break;
 			}
-			yPos += (int) Main.getElementHandlerMapping().get(this).getFontHandler().getFontSize();
-			Main.getElementHandlerMapping().get(this).getFontHandler().writeText(g2, s, 0, yPos, AlignHorizontal.LEFT);
-			yPos += Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts();
+			yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+			Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, 0, yPos, AlignHorizontal.LEFT);
+			yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		}
 
 		if (ADAPT_SIZE_X) {
-			(new Resize(this, -Main.getElementHandlerMapping().get(this).getGridSize(), 0, 0, 0)).execute(Main.getElementHandlerMapping().get(this));
-			(new Resize(this, 0, 0, Main.getElementHandlerMapping().get(this).getGridSize(), 0)).execute(Main.getElementHandlerMapping().get(this));
+			(new Resize(this, -Main.getHandlerForElement(this).getGridSize(), 0, 0, 0)).execute(Main.getHandlerForElement(this));
+			(new Resize(this, 0, 0, Main.getHandlerForElement(this).getGridSize(), 0)).execute(Main.getHandlerForElement(this));
 			return;
 		}
 
 		if (textHeight > this.getZoomedSize().height) {
-			(new Resize(this, 0, 0, 0, 20)).execute(Main.getElementHandlerMapping().get(this));
+			(new Resize(this, 0, 0, 0, 20)).execute(Main.getHandlerForElement(this));
 			return;
 		}
 
-		g2.fillRect(textWidth + (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts(), getZoomedSize().height / 2 - (int) (3 * zoom), this.getZoomedSize().width - textWidth - (int) Main.getElementHandlerMapping().get(this).getFontHandler().getDistanceBetweenTexts() * 2, (int) (5 * zoom));
+		g2.fillRect(textWidth + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), getZoomedSize().height / 2 - (int) (3 * zoom), this.getZoomedSize().width - textWidth - (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 2, (int) (5 * zoom));
 	}
 
 	/*

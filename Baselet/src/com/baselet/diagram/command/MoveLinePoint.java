@@ -18,18 +18,18 @@ public class MoveLinePoint extends Command {
 	}
 
 	public int getDiffX() {
-		return _diffx * Main.getElementHandlerMapping().get(_relation).getGridSize();
+		return _diffx * Main.getHandlerForElement(_relation).getGridSize();
 	}
 
 	public int getDiffY() {
-		return _diffy * Main.getElementHandlerMapping().get(_relation).getGridSize();
+		return _diffy * Main.getHandlerForElement(_relation).getGridSize();
 	}
 
 	public MoveLinePoint(Relation rel, int i, int diffx, int diffy) {
 		_relation = rel;
 		_linePointId = i;
-		_diffx = diffx / Main.getElementHandlerMapping().get(rel).getGridSize();
-		_diffy = diffy / Main.getElementHandlerMapping().get(rel).getGridSize();
+		_diffx = diffx / Main.getHandlerForElement(rel).getGridSize();
+		_diffy = diffy / Main.getHandlerForElement(rel).getGridSize();
 	}
 
 	@Override
