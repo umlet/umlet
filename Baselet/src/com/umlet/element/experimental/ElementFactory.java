@@ -47,7 +47,6 @@ public class ElementFactory {
 		};
 
 		returnObj.init(bounds, panelAttributes, component, panel);
-		Main.setHandlerForElement(returnObj, handler);
 		handler.setHandlerAndInitListeners(returnObj);
 		return returnObj;
 	}
