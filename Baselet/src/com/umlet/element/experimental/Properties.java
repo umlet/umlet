@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.baselet.control.Main;
 import com.baselet.control.TextManipulator;
-import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.command.Resize;
@@ -96,7 +95,7 @@ public class Properties {
 
 	public void updateSetting(GlobalSetting key, String newValue) {
 		String newState = "";
-		for (String line : Utils.decomposeStringsWithComments(getPanelAttributes())) {
+		for (String line : getPanelAttributes().split("\n")) {
 			if (!line.startsWith(key.toString())) newState += line + "\n";
 		}
 		newState = newState.substring(0, newState.length()-1); //remove last linebreak
