@@ -14,7 +14,7 @@ public abstract class BaseDrawHandler {
 	private ColorOwn bgDefaultColor;
 	private ColorOwn fgDefaultColor;
 
-	protected Style style;
+	protected Style style = new Style();
 
 	private ArrayList<DrawFunction> drawables = new ArrayList<DrawFunction>();
 	private Style overlay = new Style();

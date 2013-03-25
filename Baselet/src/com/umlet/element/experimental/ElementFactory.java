@@ -6,7 +6,6 @@ import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.element.GridElement;
 import com.umlet.element.experimental.uml.Class;
 import com.umlet.element.experimental.uml.UseCase;
@@ -25,7 +24,7 @@ public class ElementFactory {
 		else if (id == UseCase.ID) returnObj = new UseCase();
 		else throw new RuntimeException("Unknown class id: " + id);
 		
-		NewGridElementJComponent component = new NewGridElementJComponent(new BaseDrawHandlerSwing(), new BaseDrawHandlerSwing(), returnObj);
+		NewGridElementJComponent component = new NewGridElementJComponent(returnObj);
 		
 		DrawHandlerInterface panel = new DrawHandlerInterface() {
 			@Override
