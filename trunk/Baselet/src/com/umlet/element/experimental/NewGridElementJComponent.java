@@ -14,13 +14,11 @@ import com.baselet.diagram.draw.swing.Converter;
 public class NewGridElementJComponent extends JComponent implements ComponentInterface {
 	private static final long serialVersionUID = 1L;
 	
-	private BaseDrawHandlerSwing drawer;
-	private BaseDrawHandlerSwing metaDrawer;
+	private BaseDrawHandlerSwing drawer = new BaseDrawHandlerSwing();
+	private BaseDrawHandlerSwing metaDrawer = new BaseDrawHandlerSwing();
 	private NewGridElement gridElement;
 	
-	public NewGridElementJComponent(BaseDrawHandlerSwing drawer, BaseDrawHandlerSwing metaDrawer, NewGridElement gridElement) {
-		this.drawer = drawer;
-		this.metaDrawer = metaDrawer;
+	public NewGridElementJComponent(NewGridElement gridElement) {
 		this.gridElement = gridElement;
 	}
 
