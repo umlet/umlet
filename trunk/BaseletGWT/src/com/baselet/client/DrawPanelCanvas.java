@@ -3,9 +3,14 @@ package com.baselet.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baselet.client.EventBus.PropertiesTextChanged;
+import com.baselet.client.EventBus.PropertiesTextChanged.PropertiesTextChangedEventHandler;
 import com.baselet.client.MouseDragUtils.MouseDragHandler;
-import com.baselet.client.element.CanvasWrapperGWT;
-import com.baselet.client.element.GridElement;
+import com.baselet.client.copy.diagram.draw.geom.Point;
+import com.baselet.client.copy.diagram.draw.geom.Rectangle;
+import com.baselet.client.copy.element.GridElement;
+import com.baselet.client.newclasses.ElementFactory;
+import com.baselet.client.newclasses.GwtCanvasElementImpl;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
@@ -26,31 +31,39 @@ public class DrawPanelCanvas {
 	private Canvas elementCanvas;
 
 	private Canvas backgroundCanvas;
-
+	
+	private EventBus eventBus = EventBus.getInstance();
+	
 	public DrawPanelCanvas() {
-		gridElements.add(new GridElement(new Rectangle(10, 10, 30, 30), BLUE, new CanvasWrapperGWT()));
-		gridElements.add(new GridElement(new Rectangle(50, 10, 30, 30), BLUE, new CanvasWrapperGWT()));
-		gridElements.add(new GridElement(new Rectangle(50, 50, 30, 30), BLUE, new CanvasWrapperGWT()));
-		gridElements.add(new GridElement(new Rectangle(110, 110, 30, 30), BLUE, new CanvasWrapperGWT()));
-		gridElements.add(new GridElement(new Rectangle(150, 110, 30, 30), BLUE, new CanvasWrapperGWT()));
-		gridElements.add(new GridElement(new Rectangle(150, 150, 30, 30), BLUE, new CanvasWrapperGWT()));
-
+		Rectangle[] rects = new Rectangle[] {new Rectangle(10, 10, 30, 30), new Rectangle(50, 10, 30, 30), new Rectangle(50, 50, 30, 30), new Rectangle(110, 110, 30, 30), new Rectangle(150, 110, 30, 30), new Rectangle(150, 150, 30, 30)};
+		for (Rectangle r : rects) {
+			gridElements.add(ElementFactory.create(r, "testtext"));
+		}
 		init();
 	}
 
 	private void init() {
 		elementCanvas = Canvas.createIfSupported();
 		backgroundCanvas = Canvas.createIfSupported();
+		
+		eventBus.addHandler(PropertiesTextChanged.TYPE, new PropertiesTextChangedEventHandler() {
+			@Override
+			public void onPropertiesTextChange(PropertiesTextChanged event) {
+				for (GridElement ge : gridElements) {
+					ge.setPanelAttributes(event.getPropertiesText());
+				}
+			}
+		});
 
 		MouseDragUtils.addMouseDragHandler(this, new MouseDragHandler() {
 			@Override
 			public void onMouseDrag(int diffX, int diffY, GridElement gridElement) {
 				if (gridElement == null) { // nothing selected -> move whole diagram
 					for (GridElement ge : gridElements) {
-						ge.move(diffX, diffY);
+						ge.setLocationDifference(diffX, diffY);
 					}
 				} else {
-					gridElement.move(diffX, diffY);
+					gridElement.setLocationDifference(diffX, diffY);
 				}
 				draw();
 			}
@@ -80,8 +93,7 @@ public class DrawPanelCanvas {
 		context.setFillStyle(WHITE);
 		context.fillRect(-1000000, -1000000, 2000000, 2000000);
 		for (GridElement ge : gridElements) {
-			ge.updateCanvas();
-			((CanvasWrapperGWT) ge.getCanvasUnderlying()).drawOn(context);
+			((GwtCanvasElementImpl) ge.getComponent()).drawOn(context);
 		}
 		context.drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
 
@@ -93,7 +105,7 @@ public class DrawPanelCanvas {
 
 	public GridElement getGridElementOnPosition(int x, int y) {
 		for (GridElement ge : gridElements) {
-			if (ge.contains(x, y)) return ge;
+			if (ge.getRectangle().contains(new Point(x, y))) return ge;
 		}
 		return null;
 	}
@@ -115,8 +127,8 @@ public class DrawPanelCanvas {
 		int width = minWidth;
 		int height = minHeight;
 		for (GridElement ge : gridElements) {
-			width = Math.max(ge.getBounds().getX2(), width);
-			height = Math.max(ge.getBounds().getY2(), height);
+			width = Math.max(ge.getRectangle().getX2(), width);
+			height = Math.max(ge.getRectangle().getY2(), height);
 		}
 		setCanvasSize(elementCanvas, width, height);
 	}

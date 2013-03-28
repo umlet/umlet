@@ -3,8 +3,8 @@ package com.baselet.client;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baselet.client.element.CanvasWrapperGWT;
-import com.baselet.client.element.GridElement;
+import com.baselet.client.copy.element.GridElement;
+import com.baselet.client.newclasses.ElementFactory;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.DOMException;
 import com.google.gwt.xml.client.Document;
@@ -38,7 +38,8 @@ public class OwnXMLParser {
 					int y = Integer.valueOf(coordinates.getElementsByTagName(Y).item(0).getFirstChild().getNodeValue());
 					int w = Integer.valueOf(coordinates.getElementsByTagName(W).item(0).getFirstChild().getNodeValue());
 					int h = Integer.valueOf(coordinates.getElementsByTagName(H).item(0).getFirstChild().getNodeValue());
-					returnList.add(new GridElement(new Rectangle(x, y, w, h), DrawPanelCanvas.BLUE, new CanvasWrapperGWT()));
+					String panelAttributes = coordinates.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild().getNodeValue();
+					returnList.add(ElementFactory.create(new com.baselet.client.copy.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes));
 				}
 			  } catch (DOMException e) {
 			    Window.alert("Could not parse XML document.");
@@ -60,13 +61,13 @@ public class OwnXMLParser {
 		
 		for (GridElement ge : drawPanelCanvas.getGridElements()) {
 			Element x = doc.createElement(X);
-			x.appendChild(doc.createTextNode(ge.getBounds().getX()+""));
+			x.appendChild(doc.createTextNode(ge.getRectangle().getX()+""));
 			Element y = doc.createElement(Y);
-			y.appendChild(doc.createTextNode(ge.getBounds().getY()+""));
+			y.appendChild(doc.createTextNode(ge.getRectangle().getY()+""));
 			Element w = doc.createElement(W);
-			w.appendChild(doc.createTextNode(ge.getBounds().getWidth()+""));
+			w.appendChild(doc.createTextNode(ge.getRectangle().getWidth()+""));
 			Element h = doc.createElement(H);
-			h.appendChild(doc.createTextNode(ge.getBounds().getHeight()+""));
+			h.appendChild(doc.createTextNode(ge.getRectangle().getHeight()+""));
 
 			Element coordinates = doc.createElement(COORDINATES);
 			coordinates.appendChild(x);
@@ -75,10 +76,11 @@ public class OwnXMLParser {
 			coordinates.appendChild(h);
 			
 			Element id = doc.createElement(ID);
-			id.appendChild(doc.createTextNode(ge.getId()));
+			String id2 = "id_of_element"; // ge.getId(); TODO Replace with real id
+			id.appendChild(doc.createTextNode(id2));
 
 			Element panelAttributes = doc.createElement(PANEL_ATTRIBUTES);
-			panelAttributes.appendChild(doc.createTextNode("TODO IM XML PARSER"));
+			panelAttributes.appendChild(doc.createTextNode(ge.getPanelAttributes()));
 			
 			Element element = doc.createElement(ELEMENT);
 			element.appendChild(id);
