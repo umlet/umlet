@@ -1,6 +1,7 @@
 package com.baselet.client.newclasses;
 
 import com.baselet.client.copy.control.enumerations.AlignHorizontal;
+import com.baselet.client.copy.control.enumerations.LineType;
 import com.baselet.client.copy.diagram.draw.BaseDrawHandler;
 import com.baselet.client.copy.diagram.draw.DrawFunction;
 import com.baselet.client.copy.diagram.draw.geom.DimensionFloat;
@@ -8,6 +9,8 @@ import com.baselet.client.copy.diagram.draw.helper.ColorOwn;
 import com.baselet.client.copy.diagram.draw.helper.Style;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.CanvasElement;
 
 public class DrawHandlerGWT extends BaseDrawHandler {
@@ -89,7 +92,13 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 			@Override
 			public void run() {
 				Context2d ctx = canvas.getContext2d();
-				drawLineHelper(ctx, styleAtDrawingCall.getFgColor(), x1, y1, x2, y2);
+				ctx.beginPath();
+				ctx.setFillStyle(Converter.convert(styleAtDrawingCall.getFgColor()));
+				ctx.setLineWidth(style.getLineThickness());
+				setLineDash(ctx, style.getLineType(), style.getLineThickness());
+				ctx.moveTo(x1 + 0.5, y1 + 0.5); // +0.5 because a line of thickness 1.0 spans 50% left and 50% right (therefore it would not be on the 1 pixel - see https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors)
+				ctx.lineTo(x2 + 0.5, y2 + 0.5);
+				ctx.stroke();
 			}
 		});
 	}
@@ -106,6 +115,8 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 				ctx.fillRect(x + 0.5, y + 0.5, width, height);
 				// Shapes Foreground
 				ctx.setFillStyle(Converter.convert(styleAtDrawingCall.getFgColor()));
+				ctx.setLineWidth(style.getLineThickness());
+				setLineDash(ctx, style.getLineType(), style.getLineThickness());
 				ctx.rect(x + 0.5, y + 0.5, width, height);
 				ctx.stroke();
 			}
@@ -136,17 +147,30 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 	public void clearCache() {
 		super.clearCache();
 	}
-	
+
 	public void clearCanvas() {
 		CanvasElement el = canvas.getCanvasElement();
 		canvas.getContext2d().clearRect(0, 0, el.getWidth(), el.getWidth());
 	}
 	
-	private void drawLineHelper(Context2d context, ColorOwn color, float x1, float y1, float x2, float y2) {
-		context.beginPath();
-		context.setFillStyle(Converter.convert(color));
-		context.moveTo(x1 + 0.5, y2 + 0.5); // +0.5 because a line of thickness 1.0 spans 50% left and 50% right (therefore it would not be on the 1 pixel - see https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors)
-		context.lineTo(x2 + 0.5, y2 + 0.5);
-		context.stroke();
+	
+	private void setLineDash(Context2d ctx, LineType lineType, float lineThickness) {
+		if (lineType == LineType.DASHED) { // large linethickness values need longer dashes
+			setLineDash(ctx, 6 * Math.max(1, lineThickness/2));
+		}
+		if (lineType == LineType.DOTTED) { // minimum must be 2, otherwise the dotting is not really visible
+			setLineDash(ctx, Math.max(2, lineThickness));
+		}
 	}
+
+	/**
+	 * Chrome supports setLineDash()
+	 * Firefox supports mozDash()
+	 * Internet Explorer is not supported
+	 */
+	public final native void setLineDash(Context2d ctx, float dash) /*-{
+	    if (ctx.setLineDash !== undefined) ctx.setLineDash([dash]);
+		if (ctx.mozDash !== undefined) ctx.mozDash = [dash];
+  	}-*/;
+
 }
