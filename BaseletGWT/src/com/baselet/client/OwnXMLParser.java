@@ -38,7 +38,7 @@ public class OwnXMLParser {
 					int y = Integer.valueOf(coordinates.getElementsByTagName(Y).item(0).getFirstChild().getNodeValue());
 					int w = Integer.valueOf(coordinates.getElementsByTagName(W).item(0).getFirstChild().getNodeValue());
 					int h = Integer.valueOf(coordinates.getElementsByTagName(H).item(0).getFirstChild().getNodeValue());
-					String panelAttributes = coordinates.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild().getNodeValue();
+					String panelAttributes = element.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild().getNodeValue();
 					returnList.add(ElementFactory.create(new com.baselet.client.copy.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes));
 				}
 			  } catch (DOMException e) {
