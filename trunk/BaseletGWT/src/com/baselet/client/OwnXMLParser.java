@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.baselet.client.copy.element.GridElement;
+import com.baselet.client.copy.umlet.element.experimental.ElementId;
 import com.baselet.client.newclasses.ElementFactory;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.DOMException;
@@ -32,14 +33,14 @@ public class OwnXMLParser {
 			    NodeList elements = messageDom.getElementsByTagName(ELEMENT);
 			    for (int i = 0; i < elements.getLength(); i++) {
 					Element element = (Element) elements.item(i);
-					String id = element.getElementsByTagName(ID).item(0).getFirstChild().getNodeValue();
+					ElementId id = ElementId.valueOf(element.getElementsByTagName(ID).item(0).getFirstChild().getNodeValue());
 					Element coordinates = (Element) element.getElementsByTagName(COORDINATES).item(0);
 					int x = Integer.valueOf(coordinates.getElementsByTagName(X).item(0).getFirstChild().getNodeValue());
 					int y = Integer.valueOf(coordinates.getElementsByTagName(Y).item(0).getFirstChild().getNodeValue());
 					int w = Integer.valueOf(coordinates.getElementsByTagName(W).item(0).getFirstChild().getNodeValue());
 					int h = Integer.valueOf(coordinates.getElementsByTagName(H).item(0).getFirstChild().getNodeValue());
 					String panelAttributes = element.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild().getNodeValue();
-					returnList.add(ElementFactory.create(new com.baselet.client.copy.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes));
+					returnList.add(ElementFactory.create(id, new com.baselet.client.copy.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes));
 				}
 			  } catch (DOMException e) {
 			    Window.alert("Could not parse XML document.");

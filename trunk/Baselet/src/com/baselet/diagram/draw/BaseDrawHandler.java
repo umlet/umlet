@@ -187,7 +187,7 @@ public abstract class BaseDrawHandler {
 	public abstract void drawCircle(float x, float y, float radius);
 	public abstract void drawCurveCubic(float x1, float y1, float ctrlx1, float ctrly1, float ctrlx2, float ctrly2, float x2, float y2);
 	public abstract void drawCurveQuad(float x1, float y1, float ctrlx, float ctrly, float x2, float y2);
-	public abstract void drawEllipse(float x, float y, float radiusX, float radiusY);
+	public abstract void drawEllipse(float x, float y, float width, float height);
 	public abstract void drawLine(float x1, float y1, float x2, float y2);
 	public abstract void drawRectangle(float x, float y, float width, float height);
 	public abstract void drawRectangleRound(float x, float y, float width, float height, float arcw, float arch);

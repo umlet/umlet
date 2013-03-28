@@ -16,9 +16,7 @@ public class UseCase extends NewGridElement {
 	
 	@Override
 	public void updateConcreteModel() {
-		int halfWidth = getRealSize().width/2;
-		int halfHeight = getRealSize().height/2;
-		drawer.drawEllipse(halfWidth, halfHeight, halfWidth-1, halfHeight-1);
+		drawer.drawEllipse(0, 0, getRealSize().width-1, getRealSize().height-1);
 		properties.drawPropertiesText();
 	}
 
