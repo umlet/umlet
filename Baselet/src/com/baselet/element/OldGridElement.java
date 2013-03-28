@@ -458,4 +458,9 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		super.repaint();
 	}
 
+	@Override
+	public void afterModelUpdate() {
+		/* do nothing */
+	}
+
 }
