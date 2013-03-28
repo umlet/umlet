@@ -116,6 +116,7 @@ public abstract class NewGridElement implements GridElement {
 			panel.updateLayer(this);
 		}
 		this.autoresizePossiblyInProgress = false;
+		component.afterModelUpdate();
 	}
 
 	protected abstract void updateConcreteModel();
