@@ -7,8 +7,6 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.umlet.element.experimental.uml.Class;
-import com.umlet.element.experimental.uml.UseCase;
 
 public class ElementFactory {
 
@@ -19,10 +17,7 @@ public class ElementFactory {
 	 * uses no reflection, to avoid complications with GWT
 	 */
 	public static NewGridElement create(ElementId id, Rectangle bounds, String panelAttributes, DiagramHandler handler) {
-		final NewGridElement returnObj;
-		if (id == Class.ID) returnObj = new Class();
-		else if (id == UseCase.ID) returnObj = new UseCase();
-		else throw new RuntimeException("Unknown class id: " + id);
+		final NewGridElement returnObj = id.createAssociatedGridElement();
 		
 		NewGridElementJComponent component = new NewGridElementJComponent(returnObj);
 		
