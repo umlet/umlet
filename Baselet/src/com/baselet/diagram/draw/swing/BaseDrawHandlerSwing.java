@@ -120,8 +120,8 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawEllipse(float x, float y, float radiusX, float radiusY) {
-		addShape(new Ellipse2D.Float((x - radiusX) * getZoom(), (y - radiusY) * getZoom(), radiusX * 2 * getZoom(), radiusY * 2 * getZoom()));
+	public void drawEllipse(float x, float y, float width, float height) {
+		addShape(new Ellipse2D.Float(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom()));
 	}
 
 	@Override

@@ -10,13 +10,14 @@ import com.baselet.client.copy.diagram.draw.helper.ColorOwn;
 import com.baselet.client.copy.element.GridElement;
 import com.baselet.client.copy.umlet.element.experimental.ComponentInterface;
 import com.baselet.client.copy.umlet.element.experimental.DrawHandlerInterface;
+import com.baselet.client.copy.umlet.element.experimental.ElementId;
 import com.baselet.client.copy.umlet.element.experimental.NewGridElement;
 import com.baselet.client.copy.umlet.element.experimental.uml.Class;
 
 public class ElementFactory {
 	
-	public static GridElement create(Rectangle rect, String panelAttributes) {
-		Class element = new Class();
+	public static GridElement create(ElementId id, Rectangle rect, String panelAttributes) {
+		NewGridElement element = id.createAssociatedGridElement();
 		
 		DrawHandlerInterface handler = new DrawHandlerInterface() {
 			@Override

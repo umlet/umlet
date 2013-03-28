@@ -9,6 +9,7 @@ import com.baselet.client.MouseDragUtils.MouseDragHandler;
 import com.baselet.client.copy.diagram.draw.geom.Point;
 import com.baselet.client.copy.diagram.draw.geom.Rectangle;
 import com.baselet.client.copy.element.GridElement;
+import com.baselet.client.copy.umlet.element.experimental.ElementId;
 import com.baselet.client.newclasses.ElementFactory;
 import com.baselet.client.newclasses.GwtCanvasElementImpl;
 import com.google.gwt.canvas.client.Canvas;
@@ -37,7 +38,7 @@ public class DrawPanelCanvas {
 	public DrawPanelCanvas() {
 		Rectangle[] rects = new Rectangle[] {new Rectangle(10, 10, 30, 30), new Rectangle(50, 10, 30, 30), new Rectangle(50, 50, 30, 30), new Rectangle(110, 110, 30, 30), new Rectangle(150, 110, 30, 30), new Rectangle(150, 150, 30, 30)};
 		for (Rectangle r : rects) {
-			gridElements.add(ElementFactory.create(r, "testtext"));
+			gridElements.add(ElementFactory.create(ElementId.UMLClass, r, "testtext"));
 		}
 		init();
 	}
