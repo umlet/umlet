@@ -11,7 +11,7 @@ import org.vectomatic.file.FileReader;
 import org.vectomatic.file.events.LoadEndEvent;
 import org.vectomatic.file.events.LoadEndHandler;
 
-import com.baselet.client.element.GridElement;
+import com.baselet.client.copy.element.GridElement;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 

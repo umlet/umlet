@@ -5,7 +5,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.vectomatic.file.FileUploadExt;
 
-import com.baselet.client.element.GridElement;
+import com.baselet.client.OwnTextArea.InstantValueChangeHandler;
+import com.baselet.client.copy.element.GridElement;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -13,7 +14,6 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
@@ -22,7 +22,6 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
-import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 
 public class DrawPanel extends Composite {
@@ -46,7 +45,7 @@ public class DrawPanel extends Composite {
 	ListBox paletteChooser;
 
 	@UiField
-	TextArea propertiesPanel;
+	OwnTextArea propertiesPanel;
 
 	@UiField
 	SimpleLayoutPanel palettePanel;
@@ -62,6 +61,8 @@ public class DrawPanel extends Composite {
 	
 	@UiField
 	MenuItem exportMenuItem;
+	
+	private EventBus eventBus = EventBus.getInstance();
 
 	private DrawPanelCanvas diagramHandler = new DrawPanelCanvas();
 	private AutoResizeScrollDropPanel diagramScrollPanel = new AutoResizeScrollDropPanel(diagramHandler);
@@ -78,6 +79,13 @@ public class DrawPanel extends Composite {
 	
 	public DrawPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
+		propertiesPanel.addInstantValueChangeHandler(new InstantValueChangeHandler() {
+			@Override
+			public void onValueChange(String value) {
+				eventBus.fireEvent(new EventBus.PropertiesTextChanged(value));
+			}
+		});
+		
 		log.trace("Main View initialized");
 
 		handler = new FileOpenHandler(diagramHandler);
@@ -135,5 +143,4 @@ public class DrawPanel extends Composite {
 			}
 		});
 	}
-
 }

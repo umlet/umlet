@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c='urn:import:com.google.gwt.canvas.client'>
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c='urn:import:com.google.gwt.canvas.client' xmlns:o='urn:import:com.baselet.client'>
 	<ui:style>
 		.important {
 			font-weight: bold;
@@ -80,7 +80,7 @@
 									</g:DockLayoutPanel>
 							</g:center>
 							<g:south size="150">
-								<g:TextArea ui:field="propertiesPanel" height="100%" width="100%" />
+								<o:OwnTextArea ui:field="propertiesPanel" height="100%" width="100%" />
 							</g:south>
 						</g:SplitLayoutPanel>
 					</g:east>

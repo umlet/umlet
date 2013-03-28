@@ -51,7 +51,7 @@
 	<!-- Specify the paths for translatable code -->
 	<source path='client' />
 	<source path='shared' />
-
+	
 	<!-- necessary to work in Chrome as a client only application
 	see http://stackoverflow.com/questions/6073457/gwt-separate-js-css-images-from-server
 	see https://developers.google.com/web-toolkit/doc/latest/FAQ_Server?hl=de#What_is_the_Same_Origin_Policy,_and_how_does_it_affect_GWT?
