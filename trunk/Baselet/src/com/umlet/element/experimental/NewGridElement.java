@@ -219,7 +219,7 @@ public abstract class NewGridElement implements GridElement {
 		else poly = this.generateStickingBorder(0, 0, this.getRealSize().width - 1, this.getRealSize().height - 1);
 		if (poly != null) {
 			metaDrawer.setLineType(LineType.DASHED);
-			metaDrawer.setForegroundColor(NewGridElementConstants.DEFAULT_SELECTED_COLOR);
+			metaDrawer.setForegroundColor(ColorOwn.DEFAULT_SELECTION);
 			for (Line line : poly.getStickLines()) {
 				metaDrawer.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
 			}

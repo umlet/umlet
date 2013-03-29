@@ -117,11 +117,11 @@ public abstract class CustomElement extends OldGridElement {
 
 		for (StyleShape s : this.shapes) {
 			specialLine = ((s.getLineType() != LineType.SOLID) || (s.getLineThickness() != Constants.DEFAULT_LINE_THICKNESS));
-			specialFgColor = !s.getFgColor().equals(Converter.convert(Constants.DEFAULT_FOREGROUND_COLOR));
+			specialFgColor = !s.getFgColor().equals(Converter.convert(ColorOwn.DEFAULT_FOREGROUND));
 
 			if (specialLine) g2.setStroke(Utils.getStroke(s.getLineType(), s.getLineThickness()));
 			if (specialFgColor) {
-				if (isSelected) g2.setColor(Converter.convert(Constants.DEFAULT_SELECTED_COLOR));
+				if (isSelected) g2.setColor(Converter.convert(ColorOwn.DEFAULT_SELECTION));
 				else g2.setColor(s.getFgColor());
 			}
 			this.g2.draw(s.getShape());

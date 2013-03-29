@@ -8,19 +8,23 @@ public class ColorOwn {
 
 	private final static Logger log = Logger.getLogger(ColorOwn.class);
 	
-	public static final ColorOwn RED = new ColorOwn(255, 0, 0, 255);
-	public static final ColorOwn GREEN = new ColorOwn(0, 255, 0, 255);
-	public static final ColorOwn BLUE = new ColorOwn(0, 0, 255, 255);
-	public static final ColorOwn YELLOW = new ColorOwn(255, 255, 0, 255);
-	public static final ColorOwn MAGENTA = new ColorOwn(255, 0, 255, 255);
-	public static final ColorOwn WHITE = new ColorOwn(255, 255, 255, 255);
-	public static final ColorOwn BLACK = new ColorOwn(0, 0, 0, 255);
-	public static final ColorOwn ORANGE = new ColorOwn(255, 165, 0, 255);
-	public static final ColorOwn CYAN = new ColorOwn(0, 255, 255, 255);
-	public static final ColorOwn DARK_GRAY = new ColorOwn(70, 70, 70, 255);
-	public static final ColorOwn GRAY = new ColorOwn(120, 120, 120, 255);
-	public static final ColorOwn LIGHT_GRAY = new ColorOwn(200, 200, 200, 255);
-	public static final ColorOwn PINK = new ColorOwn(255, 175, 175, 255);
+	public static final ColorOwn RED = new ColorOwn(255, 0, 0);
+	public static final ColorOwn GREEN = new ColorOwn(0, 255, 0);
+	public static final ColorOwn BLUE = new ColorOwn(0, 0, 255);
+	public static final ColorOwn YELLOW = new ColorOwn(255, 255, 0);
+	public static final ColorOwn MAGENTA = new ColorOwn(255, 0, 255);
+	public static final ColorOwn WHITE = new ColorOwn(255, 255, 255);
+	public static final ColorOwn BLACK = new ColorOwn(0, 0, 0);
+	public static final ColorOwn ORANGE = new ColorOwn(255, 165, 0);
+	public static final ColorOwn CYAN = new ColorOwn(0, 255, 255);
+	public static final ColorOwn DARK_GRAY = new ColorOwn(70, 70, 70);
+	public static final ColorOwn GRAY = new ColorOwn(120, 120, 120);
+	public static final ColorOwn LIGHT_GRAY = new ColorOwn(200, 200, 200);
+	public static final ColorOwn PINK = new ColorOwn(255, 175, 175);
+	
+	public static final ColorOwn DEFAULT_SELECTION = BLUE;
+	public static final ColorOwn DEFAULT_FOREGROUND = BLACK;
+	public static final ColorOwn DEFAULT_BACKGROUND = WHITE;
 
 	public static final HashMap<String, ColorOwn> COLOR_MAP = new HashMap<String, ColorOwn>();
 	static {
@@ -42,17 +46,15 @@ public class ColorOwn {
 	private int red;
 	private int green;
 	private int blue;
-	private int alpha;
 
-	public ColorOwn(int red, int green, int blue, int alpha) {
-		init(red, green, blue, alpha);
+	public ColorOwn(int red, int green, int blue) {
+		init(red, green, blue);
 	}
 
-	private void init(int red, int green, int blue, int alpha) {
+	private void init(int red, int green, int blue) {
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
-		this.alpha = alpha;
 	}
 
 	public ColorOwn(String hex) {
@@ -60,7 +62,7 @@ public class ColorOwn {
 		int r = (i >> 16) & 0xFF;
 		int g = (i >> 8) & 0xFF;
 		int b = i & 0xFF;
-		init(r, g, b, 255);
+		init(r, g, b);
 	}
 
 	public int getRed() {
@@ -73,10 +75,6 @@ public class ColorOwn {
 
 	public int getBlue() {
 		return blue;
-	}
-
-	public int getAlpha() {
-		return alpha;
 	}
 	
 	public ColorOwn darken(int factor) {
@@ -117,7 +115,6 @@ public class ColorOwn {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + alpha;
 		result = prime * result + blue;
 		result = prime * result + green;
 		result = prime * result + red;
@@ -130,7 +127,6 @@ public class ColorOwn {
 		if (obj == null) return false;
 		if (getClass() != obj.getClass()) return false;
 		ColorOwn other = (ColorOwn) obj;
-		if (alpha != other.alpha) return false;
 		if (blue != other.blue) return false;
 		if (green != other.green) return false;
 		if (red != other.red) return false;

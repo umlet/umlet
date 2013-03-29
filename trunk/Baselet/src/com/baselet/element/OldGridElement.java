@@ -158,7 +158,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public void onSelected() {
 		isSelected = true;
-		fgColor = Converter.convert(Constants.DEFAULT_SELECTED_COLOR);
+		fgColor = Converter.convert(ColorOwn.DEFAULT_SELECTION);
 		this.repaint();
 	}
 
@@ -201,20 +201,20 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public Composite[] colorize(Graphics2D g2) {
 		bgColorString = "";
 		fgColorString = "";
-		bgColor = Converter.convert(Constants.DEFAULT_BACKGROUND_COLOR);
-		fgColorBase = Converter.convert(Constants.DEFAULT_FOREGROUND_COLOR);
+		bgColor = Converter.convert(ColorOwn.DEFAULT_BACKGROUND);
+		fgColorBase = Converter.convert(ColorOwn.DEFAULT_FOREGROUND);
 		Vector<String> v = Utils.decomposeStringsWithComments(panelAttributes);
 		for (int i = 0; i < v.size(); i++) {
 			String line = v.get(i);
 			if (line.indexOf("bg=") >= 0) {
 				bgColorString = line.substring("bg=".length());
 				bgColor = Converter.convert(ColorOwn.forString(bgColorString));
-				if (bgColor == null) bgColor = Converter.convert(Constants.DEFAULT_BACKGROUND_COLOR);
+				if (bgColor == null) bgColor = Converter.convert(ColorOwn.DEFAULT_BACKGROUND);
 			}
 			else if (line.indexOf("fg=") >= 0) {
 				fgColorString = line.substring("fg=".length());
 				fgColorBase = Converter.convert(ColorOwn.forString(fgColorString));
-				if (fgColorBase == null) fgColorBase = Converter.convert(Constants.DEFAULT_FOREGROUND_COLOR);
+				if (fgColorBase == null) fgColorBase = Converter.convert(ColorOwn.DEFAULT_FOREGROUND);
 				if (!isSelected) fgColor = fgColorBase;
 			}
 		}
@@ -330,7 +330,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		if (poly != null) {
 			Color c = g2.getColor();
 			Stroke s = g2.getStroke();
-			g2.setColor(Converter.convert(Constants.DEFAULT_SELECTED_COLOR));
+			g2.setColor(Converter.convert(ColorOwn.DEFAULT_SELECTION));
 			g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
 			for (Line line : poly.getStickLines()) {
 				g2.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
