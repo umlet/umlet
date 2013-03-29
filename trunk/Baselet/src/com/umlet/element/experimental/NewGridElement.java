@@ -124,8 +124,8 @@ public abstract class NewGridElement implements GridElement {
 	private void updateMetaDrawer() {
 		metaDrawer.clearCache();
 		if (isSelected) { // draw blue rectangle around selected gridelements
-			metaDrawer.setForegroundAlpha(NewGridElementConstants.ALPHA_FULL_TRANSPARENCY);
-			metaDrawer.setBackground(ColorOwn.BLUE, NewGridElementConstants.ALPHA_NEARLY_FULL_TRANSPARENCY);
+			metaDrawer.setForegroundColor(ColorOwn.TRANSPARENT);
+			metaDrawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 			metaDrawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
 			metaDrawer.resetColorSettings();
 			if (NewGridElementConstants.show_stickingpolygon && !this.isPartOfGroup()) {
@@ -219,7 +219,7 @@ public abstract class NewGridElement implements GridElement {
 		else poly = this.generateStickingBorder(0, 0, this.getRealSize().width - 1, this.getRealSize().height - 1);
 		if (poly != null) {
 			metaDrawer.setLineType(LineType.DASHED);
-			metaDrawer.setForegroundColor(ColorOwn.DEFAULT_SELECTION);
+			metaDrawer.setForegroundColor(ColorOwn.SELECTION_FG);
 			for (Line line : poly.getStickLines()) {
 				metaDrawer.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
 			}

@@ -24,6 +24,7 @@ import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
@@ -121,7 +122,7 @@ public abstract class CustomElement extends OldGridElement {
 
 			if (specialLine) g2.setStroke(Utils.getStroke(s.getLineType(), s.getLineThickness()));
 			if (specialFgColor) {
-				if (isSelected) g2.setColor(Converter.convert(ColorOwn.DEFAULT_SELECTION));
+				if (isSelected) g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
 				else g2.setColor(s.getFgColor());
 			}
 			this.g2.draw(s.getShape());
@@ -411,7 +412,7 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "foregroundColor")
 	protected final void setForegroundColor(String fgColorString) {
-		tmpFgColor = Converter.convert(ColorOwn.forString(fgColorString));
+		tmpFgColor = Converter.convert(ColorOwn.forString(fgColorString, Transparency.FOREGROUND));
 		if (tmpFgColor == null) {
 			if (fgColorString.equals("fg")) tmpFgColor = fgColor;
 		}
@@ -419,13 +420,14 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "backgroundColor")
 	protected final void setBackgroundColor(String bgColorString) {
-		tmpBgColor = Converter.convert(ColorOwn.forString(bgColorString));
+		// OldGridElements apply transparency for background explicitly, therefore don't apply it here
+		tmpBgColor = Converter.convert(ColorOwn.forString(bgColorString, Transparency.FOREGROUND));
 		if (tmpBgColor == null) {
 			if (bgColorString.equals("bg")) tmpBgColor = bgColor;
 		}
 //		 Transparency is 0% if none or 50% if anything else
-		if (bgColorString.equals("none")) tmpAlpha = Constants.ALPHA_FULL_TRANSPARENCY;
-		else tmpAlpha = Constants.ALPHA_MIDDLE_TRANSPARENCY;
+		if (bgColorString.equals("none")) tmpAlpha = OldGridElement.ALPHA_FULL_TRANSPARENCY;
+		else tmpAlpha = OldGridElement.ALPHA_MIDDLE_TRANSPARENCY;
 	}
 
 	@CustomFunction(param_defaults = "")

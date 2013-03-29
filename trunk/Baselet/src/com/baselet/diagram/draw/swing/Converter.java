@@ -34,10 +34,10 @@ public class Converter {
 	}
 
 	public static ColorOwn convert(Color color) {
-		return new ColorOwn(color.getRed(), color.getGreen(), color.getBlue());
+		return new ColorOwn(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 	}
 	
 	public static Color convert(ColorOwn color) {
-		return new Color(color.getRed(), color.getGreen(), color.getBlue());
+		return new Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
 	}
 }

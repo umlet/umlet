@@ -1,9 +1,9 @@
 package com.baselet.diagram.draw.swing.objects;
 
-import com.baselet.control.Constants;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 
 
@@ -173,9 +173,8 @@ public class Canvas {
 	}
 
 	public void draw(BaseDrawHandlerSwing baseDrawHandler) {
-		baseDrawHandler.setBackgroundAlpha(Constants.ALPHA_FULL_TRANSPARENCY);
-		baseDrawHandler.setForegroundAlpha(Constants.ALPHA_MIDDLE_TRANSPARENCY);
-		baseDrawHandler.setForegroundColor(ColorOwn.RED);
+		baseDrawHandler.setBackgroundColor(ColorOwn.TRANSPARENT);
+		baseDrawHandler.setForegroundColor(ColorOwn.RED.transparency(Transparency.BACKGROUND));
 		baseDrawHandler.drawRectangle(getOuterLeftPos(), getOuterUpPos(), getOuterRightPos() - getOuterLeftPos() -1, getOuterDownPos() - getOuterUpPos());
 		baseDrawHandler.setForegroundColor(ColorOwn.BLUE);
 		baseDrawHandler.drawRectangle(getInnerLeftPos(), getInnerUpPos(), getInnerRightPos() - getInnerLeftPos(), getInnerDownPos() - getInnerUpPos());
