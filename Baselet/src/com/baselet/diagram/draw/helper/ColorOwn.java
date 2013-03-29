@@ -108,7 +108,7 @@ public class ColorOwn {
 	}
 	
 	public ColorOwn darken(int factor) {
-		return new ColorOwn(getRed()-factor, getGreen()-factor, getBlue()-factor, getAlpha());
+		return new ColorOwn(Math.max(0, getRed()-factor), Math.max(0, getGreen()-factor), Math.max(0, getBlue()-factor), getAlpha());
 	}
 
 	/**
