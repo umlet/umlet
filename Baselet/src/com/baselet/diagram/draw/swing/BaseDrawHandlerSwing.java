@@ -1,6 +1,5 @@
 package com.baselet.diagram.draw.swing;
 
-import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -157,12 +156,10 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	private void drawShape(Style style, Shape s) {
 		// Shapes Background
 		g2.setColor(Converter.convert(style.getBgColor()));
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getBgAlpha()));
 		g2.fill(s);
 		// Shapes Foreground
 		ColorOwn colOwn = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
 		g2.setColor(Converter.convert(colOwn));
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getFgAlpha()));
 		g2.setStroke(Utils.getStroke(style.getLineType(), style.getLineThickness()));
 		g2.draw(s);
 	}
@@ -180,7 +177,6 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	private void drawText(Style style, Text t) {
 		ColorOwn col = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
 		g2.setColor(Converter.convert(col));
-		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, style.getFgAlpha()));
 		handler.getFontHandler().setFontSize(style.getFontSize());
 		g2.setFont(handler.getFontHandler().getFont());
 		handler.getFontHandler().writeText(g2, t.getText(), t.getX(), t.getY(), t.getHorizontalAlignment());

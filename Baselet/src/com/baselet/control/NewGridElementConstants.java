@@ -16,11 +16,6 @@ public class NewGridElementConstants {
 	public static final int RESIZE_BOTTOM_LEFT = RESIZE_BOTTOM + RESIZE_LEFT;
 	public static final int RESIZE_BOTTOM_RIGHT = RESIZE_BOTTOM + RESIZE_RIGHT;
 
-	public static final float ALPHA_NO_TRANSPARENCY = 1.0f;
-	public static final float ALPHA_MIDDLE_TRANSPARENCY = 0.5f;
-	public static final float ALPHA_NEARLY_FULL_TRANSPARENCY = 0.035f;
-	public static final float ALPHA_FULL_TRANSPARENCY = 0.0f;
-
 	public static boolean show_stickingpolygon = true;
 
 }

@@ -1,6 +1,5 @@
 package com.baselet.gui;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
@@ -27,6 +26,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.baselet.control.Constants;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 
@@ -58,8 +58,8 @@ public class OwnSyntaxPane {
 		textArea.setSyntaxEditingStyle(OwnTokenMaker.ID);
 
 		SyntaxScheme scheme = textArea.getSyntaxScheme();
-		scheme.getStyle(SPECIFIC_SETTING).foreground = Converter.convert(ColorOwn.forString("#e10100"));
-		scheme.getStyle(GLOBAL_SETTING).foreground = Color.BLUE;
+		scheme.getStyle(SPECIFIC_SETTING).foreground = Converter.convert(ColorOwn.forString("#e10100", Transparency.FOREGROUND));
+		scheme.getStyle(GLOBAL_SETTING).foreground = Converter.convert(ColorOwn.BLUE);
 
 		//Setup autocompletion
 		createAutocompletionCompletionProvider();

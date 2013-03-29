@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
-import com.baselet.control.Constants;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.objects.AxisConfig;
 import com.baselet.diagram.draw.swing.objects.Canvas;
 import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
@@ -287,7 +287,7 @@ public class PlotDrawHandler {
 	}
 
 	private void drawGraylines(List<Integer> xpoints, List<Integer> ypoints) {
-		base.setForegroundAlpha(0.07f);
+		base.setForegroundColor(ColorOwn.BLACK.transparency(Transparency.SELECTION_BACKGROUND));
 		boolean drawVerticalGraylines = axisConfig.isxDescription() && axisConfig.drawDescriptionAxisMarkerGrayline() || !axisConfig.isxDescription() && axisConfig.drawValueAxisMarkerGrayline();
 		boolean drawHorizontalGraylines = !axisConfig.isxDescription() && axisConfig.drawDescriptionAxisMarkerGrayline() || axisConfig.isxDescription() && axisConfig.drawValueAxisMarkerGrayline();
 		if (drawVerticalGraylines) {
@@ -300,7 +300,6 @@ public class PlotDrawHandler {
 				base.drawLine(canvas.getInnerLeftPos(), y, canvas.getInnerRightPos(), y);
 			}
 		}
-		base.setForegroundAlpha(Constants.ALPHA_NO_TRANSPARENCY);
 	}
 
 	private void drawMarkers(List<Integer> xpoints, List<Integer> ypoints) {
@@ -353,7 +352,7 @@ public class PlotDrawHandler {
 
 			if (cIndex >= colors.size()) cIndex = 0; // Restart with first color if all colors in the array has been used
 			base.setForegroundColor(colors.get(cIndex));
-			base.setBackground(colors.get(cIndex), Constants.ALPHA_NO_TRANSPARENCY);
+			base.setBackgroundColor(ColorOwn.forString(colors.get(cIndex), Transparency.FOREGROUND));
 			
 			if (line) {
 			for (int i = 0; i < points.size() - 1; i++) {
@@ -369,7 +368,7 @@ public class PlotDrawHandler {
 				}
 			}
 			//print titleCol
-			base.setForegroundColor(ColorOwn.forString(colors.get(cIndex)).darken(75));
+			base.setForegroundColor(ColorOwn.forString(colors.get(cIndex), Transparency.FOREGROUND).darken(75));
 			base.print(title[valueIndex], points.get(points.size()-1).x, points.get(points.size()-1).y, AlignHorizontal.CENTER);
 
 			cIndex++;
@@ -386,8 +385,7 @@ public class PlotDrawHandler {
 			int subBarIterator = valueAxisPos;
 			for (Double v : values[vIndex]) {
 				if (cIndex >= colors.size()) cIndex = 0; // Restart with first color if all colors in the array has been used
-				base.setForegroundColor(colors.get(cIndex));
-				base.setForegroundAlpha(Constants.ALPHA_FULL_TRANSPARENCY);
+				base.setForegroundColor(ColorOwn.TRANSPARENT);
 				base.setBackgroundColor(colors.get(cIndex));
 
 				barLength = (int) calculateValuePos(v, valueSegment);
@@ -440,7 +438,8 @@ public class PlotDrawHandler {
 
 		for (int i = 0; i < values.length; i++) {
 			if (cIndex >= colors.size()) cIndex = 0; // Restart with first color if all colors in the array has been used
-			base.setForegroundAlpha(Constants.ALPHA_FULL_TRANSPARENCY);
+			ColorOwn currentFg = base.getCurrentStyle().getFgColor();
+			base.setForegroundColor(ColorOwn.TRANSPARENT);
 			base.setBackgroundColor(colors.get(cIndex));
 
 			arcAngle = ((i < values.length - 1) ? Math.round(360.0/valueSum * Math.abs(values[i]) ) : 360 - startAngle);
@@ -451,14 +450,13 @@ public class PlotDrawHandler {
 			int width = canvas.getInnerHorizontalDrawspace();
 
 			base.drawArcPie(ulCorner.x+width/2-diameter/2, ulCorner.y+height/2-diameter/2, diameter, diameter, startAngle.floatValue(), arcAngle.floatValue());
-			base.setForegroundAlpha(1);
+			base.setForegroundColor(currentFg);
 
 			double radians=(360 - startAngle + (360 - arcAngle / 2)) * Math.PI / 180.0; 
 			int value_x = (int)((diameter / 2 ) * Math.cos(radians)) + ulCorner.x + diameter / 2 + width/2-diameter/2;
 			int value_y = (int)((diameter / 2 ) * Math.sin(radians)) + ulCorner.y + diameter / 2 + height/2-diameter/2;
 
-			base.setForegroundColor(ColorOwn.forString(colors.get(cIndex)).darken(75));
-			base.setForegroundAlpha(Constants.ALPHA_NO_TRANSPARENCY);
+			base.setForegroundColor(ColorOwn.forString(colors.get(cIndex), Transparency.FOREGROUND).darken(75));
 			base.print(desc[i], value_x, value_y, AlignHorizontal.CENTER);
 
 			//System.out.println("value_x: "+value_x+" / value_y:"+value_y);

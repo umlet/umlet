@@ -26,6 +26,7 @@ import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.ComponentInterface;
@@ -37,6 +38,9 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	
 	protected static final Logger log = Logger.getLogger(OldGridElement.class);
 
+	public static final float ALPHA_MIDDLE_TRANSPARENCY = 0.5f;
+	public static final float ALPHA_FULL_TRANSPARENCY = 0.0f;
+	
 	private boolean enabled;
 	private boolean stickingBorderActive;
 	private boolean autoresizeandmanualresizeenabled;
@@ -158,7 +162,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public void onSelected() {
 		isSelected = true;
-		fgColor = Converter.convert(ColorOwn.DEFAULT_SELECTION);
+		fgColor = Converter.convert(ColorOwn.SELECTION_FG);
 		this.repaint();
 	}
 
@@ -208,19 +212,20 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			String line = v.get(i);
 			if (line.indexOf("bg=") >= 0) {
 				bgColorString = line.substring("bg=".length());
-				bgColor = Converter.convert(ColorOwn.forString(bgColorString));
+				// OldGridElements apply transparency for background explicitly, therefore don't apply it here
+				bgColor = Converter.convert(ColorOwn.forString(bgColorString, Transparency.FOREGROUND));
 				if (bgColor == null) bgColor = Converter.convert(ColorOwn.DEFAULT_BACKGROUND);
 			}
 			else if (line.indexOf("fg=") >= 0) {
 				fgColorString = line.substring("fg=".length());
-				fgColorBase = Converter.convert(ColorOwn.forString(fgColorString));
+				fgColorBase = Converter.convert(ColorOwn.forString(fgColorString, Transparency.FOREGROUND));
 				if (fgColorBase == null) fgColorBase = Converter.convert(ColorOwn.DEFAULT_FOREGROUND);
 				if (!isSelected) fgColor = fgColorBase;
 			}
 		}
 
-		alphaFactor = Constants.ALPHA_MIDDLE_TRANSPARENCY;
-		if (bgColorString.equals("") || bgColorString.equals("default")) alphaFactor = Constants.ALPHA_FULL_TRANSPARENCY;
+		alphaFactor = ALPHA_MIDDLE_TRANSPARENCY;
+		if (bgColorString.equals("") || bgColorString.equals("default")) alphaFactor = ALPHA_FULL_TRANSPARENCY;
 
 		Composite old = g2.getComposite();
 		AlphaComposite alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaFactor);
@@ -330,7 +335,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		if (poly != null) {
 			Color c = g2.getColor();
 			Stroke s = g2.getStroke();
-			g2.setColor(Converter.convert(ColorOwn.DEFAULT_SELECTION));
+			g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
 			g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
 			for (Line line : poly.getStickLines()) {
 				g2.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
