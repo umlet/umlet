@@ -1,6 +1,5 @@
 package com.baselet.control;
 
-import com.baselet.diagram.draw.helper.ColorOwn;
 
 /**
  * temporary separation of constants which are used by NewGridElement class (for an easier migration to a non-awt based gui)
@@ -17,9 +16,6 @@ public class NewGridElementConstants {
 	public static final int RESIZE_BOTTOM_LEFT = RESIZE_BOTTOM + RESIZE_LEFT;
 	public static final int RESIZE_BOTTOM_RIGHT = RESIZE_BOTTOM + RESIZE_RIGHT;
 
-	public static final ColorOwn DEFAULT_SELECTED_COLOR = ColorOwn.BLUE;
-	public static final ColorOwn DEFAULT_FOREGROUND_COLOR = ColorOwn.BLACK;
-	public static final ColorOwn DEFAULT_BACKGROUND_COLOR = ColorOwn.WHITE;
 	public static final float ALPHA_NO_TRANSPARENCY = 1.0f;
 	public static final float ALPHA_MIDDLE_TRANSPARENCY = 0.5f;
 	public static final float ALPHA_NEARLY_FULL_TRANSPARENCY = 0.035f;

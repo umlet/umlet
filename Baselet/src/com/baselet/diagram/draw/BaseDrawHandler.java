@@ -20,8 +20,8 @@ public abstract class BaseDrawHandler {
 	private Style overlay = new Style();
 
 	public BaseDrawHandler() {
-		this.fgDefaultColor = NewGridElementConstants.DEFAULT_FOREGROUND_COLOR;
-		this.bgDefaultColor = NewGridElementConstants.DEFAULT_BACKGROUND_COLOR;
+		this.fgDefaultColor = ColorOwn.DEFAULT_FOREGROUND;
+		this.bgDefaultColor = ColorOwn.DEFAULT_BACKGROUND;
 	}
 	
 	public void setFgDefaultColor(ColorOwn fgDefaultColor) {
@@ -42,7 +42,7 @@ public abstract class BaseDrawHandler {
 
 	public void drawAll(boolean isSelected) {
 		if (isSelected) {
-			overlay.setFgColor(NewGridElementConstants.DEFAULT_SELECTED_COLOR);
+			overlay.setFgColor(ColorOwn.DEFAULT_SELECTION);
 		} else {
 			overlay.setFgColor(null);
 		}
@@ -91,7 +91,7 @@ public abstract class BaseDrawHandler {
 	}
 
 	public final void setForegroundColor(ColorOwn color) {
-		if (color == null) style.setFgColor(NewGridElementConstants.DEFAULT_FOREGROUND_COLOR);
+		if (color == null) style.setFgColor(ColorOwn.DEFAULT_FOREGROUND);
 		else style.setFgColor(color);
 	}
 
@@ -101,7 +101,7 @@ public abstract class BaseDrawHandler {
 	}
 
 	public final void setBackgroundColor(ColorOwn color) {
-		if (color == null) style.setBgColor(NewGridElementConstants.DEFAULT_BACKGROUND_COLOR);
+		if (color == null) style.setBgColor(ColorOwn.DEFAULT_BACKGROUND);
 		else style.setBgColor(color);
 	}
 
