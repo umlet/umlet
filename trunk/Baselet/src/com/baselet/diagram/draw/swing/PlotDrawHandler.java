@@ -260,8 +260,9 @@ public class PlotDrawHandler {
 			}
 		}
 
-		drawAxisLine();
 		drawGraylines(xpoints, ypoints);
+		base.setForegroundColor(ColorOwn.BLACK.transparency(Transparency.FOREGROUND));
+		drawAxisLine();
 		drawMarkers(xpoints, ypoints);
 		drawMarkerTexts(xpoints, xtext, ypoints, ytext);
 	}
