@@ -42,9 +42,11 @@
 	<!-- Compile the project -->
 	<target name="javac">
 		<mkdir dir="${project.path.output}" />
+		<!-- Compile elements project (into the same outputdir) -->
 		<javac srcdir="${elements.src}" destdir="${project.path.output}" nowarn="true">
 			<classpath refid="project.classpath.lib" />
 		</javac>
+		<!-- Compile this project -->
 		<javac srcdir="${project.path.source}" destdir="${project.path.output}" nowarn="true">
 			<classpath refid="project.classpath.build" />
 		</javac>
@@ -294,7 +296,8 @@
 		<delete file="${dir.export.plugin}/${project.path.prefix}.${project.name.lc}.plugin" failonerror="false" />
 		<mkdir dir="${dir.export.plugin}" />
 
-		<pde.exportPlugins destination="${dir.export}" exportSource="false" exportType="directory" plugins="${project.path.prefix}.${project.name.lc}.plugin" useJARFormat="true"/>
+		<!-- Build plugin from compiled classes (important to get all referenced projects with sources located elsewhere) -->
+		<pde.exportPlugins useWorkspaceCompiledClasses="true" destination="${dir.export}" exportSource="false" exportType="directory" plugins="${project.path.prefix}.${project.name.lc}.plugin" useJARFormat="true"/>
 		<echo message="Please wait until asynchronous plugin export is finished (watch the percentage at the bottom right corner of eclipse)"/>
 	</target>
 
