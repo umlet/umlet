@@ -1,35 +1,39 @@
 package com.baselet.control;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
-import javax.swing.JComponent;
+import org.apache.log4j.Logger;
 
-import com.baselet.control.enumerations.LineType;
+import com.baselet.control.Constants.LineType;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.geom.DimensionFloat;
-import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.swing.Converter;
+import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.element.GridElement;
-import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.DoubleStroke;
-import com.umlet.element.relation.RelationLinePoint;
 
 
 public abstract class Utils {
+
+	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private Utils() {} // private constructor to avoid instantiation
 
@@ -82,7 +86,7 @@ public abstract class Utils {
 		String compatibleFullString = fullString.replaceAll("\r\n", delimiter); // compatibility to windows \r\n
 
 		for (String line : compatibleFullString.split("\\" + delimiter)) {
-			if (filterComments && (line.matches("((//)|(fg=)|(bg=)|(autoresize=)|(layer=)).*"))) continue;
+			if (filterComments && (line.matches("((//)|(fg=)|(bg=)|(autoresize=)).*"))) continue;
 			else if (filterNewLines && line.isEmpty()) continue;
 			else returnVector.add(line);
 		}
@@ -178,7 +182,42 @@ public abstract class Utils {
 		return res;
 	}
 
+	/**
+	 * Converts colorString into a Color which is available in the colorMap or if not tries to decode the colorString
+	 * 
+	 * @param colorString
+	 *            String which describes the color
+	 * @return Color which is related to the String or null if it is no valid colorString
+	 */
+	public static Color getColor(String colorString) {
+		if (colorString == null) return null;
+		Color returnColor = null;
+		for (String color : Constants.colorMap.keySet()) {
+			if (colorString.equalsIgnoreCase(color)) {
+				returnColor = Constants.colorMap.get(color);
+				break;
+			}
+		}
+		if (returnColor == null) {
+			try {
+				returnColor = Color.decode(colorString);
+			} catch (NumberFormatException e) {
+				//only print for debugging because message would be printed, when typing the color
+				log.debug("Invalid color:" + colorString);
+			}
+		}
+		return returnColor;
+	}
+
+	public static String getClassName() {
+		return Thread.currentThread().getStackTrace()[2].getClassName();
+		//		return new RuntimeException().getStackTrace()[1].getClassName(); //ALSO POSSIBLE
+	}
 	
+	public static Class<? extends StackTraceElement> getClassObject() {
+		return Thread.currentThread().getStackTrace()[2].getClass();
+	}
+
 	/**
 	 * eg: createDoubleArrayFromTo(5, 6, 0.1) = [5, 5.1, 5.2, ..., 5.9, 6] <br/>
 	 * eg: createDoubleArrayFromTo(10, 20, 3) = [10, 13, 16, 19, 22] <br/>
@@ -201,6 +240,18 @@ public abstract class Utils {
 		return createDoubleArrayFromTo(min, max, 1D);
 	}
 
+	public static Color darkenColor(String inColor, int factor) {
+		return darkenColor(getColor(inColor), factor);
+	}
+
+	public static Color darkenColor(Color inColor, int factor) {
+		int r = Math.max(0, inColor.getRed() - factor);
+		int g = Math.max(0, inColor.getGreen() - factor);
+		int b = Math.max(0, inColor.getBlue() - factor);
+
+		return new Color(r,g,b);
+	}
+
 	public static String replaceFileExtension(String fileName, String oldExtension, String newExtension) {
 		if (fileName.endsWith("." + oldExtension)) fileName = fileName.substring(0, fileName.indexOf("." + oldExtension));
 		return fileName + "." + newExtension;
@@ -212,25 +263,24 @@ public abstract class Utils {
 	 * IMPORTANT: on overlapping elements, contains is called for all elements until the first one returns true, then the others contain methods are not called
 	 */
 	public static boolean contains(GridElement gridElement, Point p) {
-		JComponent component = ((JComponent) gridElement.getComponent());
-		java.awt.Rectangle rectangle = component.getVisibleRect();
-		if (!rectangle.contains(p.x, p.y)) return false;
+		Rectangle rectangle = gridElement.getVisibleRect();
+		if (!rectangle.contains(p)) return false;
 
-		for (GridElement other : Main.getHandlerForElement(gridElement).getDrawPanel().getAllEntitiesNotInGroup()) {
-			JComponent otherComponent = ((JComponent) other.getComponent());
+		Vector<GridElement> entities = gridElement.getHandler().getDrawPanel().getAllEntitiesNotInGroup();
+		for (GridElement other : entities) {
 			if (other instanceof Relation) { // a relation is always on top
 				// move point to coordinate system of other entity
-				Point other_p = new Point(p.x + gridElement.getRectangle().x - other.getRectangle().x, p.y + gridElement.getRectangle().y - other.getRectangle().y);
-				if (otherComponent.contains(Converter.convert(other_p))) return false;
+				Point other_p = new Point(p.x + gridElement.getLocation().x - other.getLocation().x, p.y + gridElement.getLocation().y - other.getLocation().y);
+				if (other.getComponent().contains(other_p)) return false;
 			}
 
 			// If the this visibleRect is equal to the other VisibleRect, true will be returned. Otherwise we need to check further
-			else if (!component.getVisibleRect().equals(otherComponent.getVisibleRect())) {
-				java.awt.Rectangle other_rectangle = otherComponent.getVisibleRect();
+			else if (!gridElement.getVisibleRect().equals(other.getVisibleRect())) {
+				Rectangle other_rectangle = other.getVisibleRect();
 				// move bounds to coordinate system of this component
-				other_rectangle.x += other.getRectangle().x - gridElement.getRectangle().x;
-				other_rectangle.y += other.getRectangle().y - gridElement.getRectangle().y;
-				if (other_rectangle.contains(p.x, p.y)) { 
+				other_rectangle.x += other.getLocation().x - gridElement.getLocation().x;
+				other_rectangle.y += other.getLocation().y - gridElement.getLocation().y;
+				if (other_rectangle.contains(p)) { 
 					// when elements intersect, select the smaller element
 					if (rectangle.intersects(other_rectangle) && smaller(other_rectangle, rectangle)) return false; 
 				}
@@ -239,7 +289,7 @@ public abstract class Utils {
 		return true;
 	}
 
-	private static boolean smaller(java.awt.Rectangle a, java.awt.Rectangle b) {
+	private static boolean smaller(Rectangle a, Rectangle b) {
 		int areaA = a.getSize().height * a.getSize().width;
 		int areaB = b.getSize().height * b.getSize().width;
 		if (areaA < areaB) return true;
@@ -253,21 +303,4 @@ public abstract class Utils {
 		return new DimensionFloat((int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
 	}
 
-
-	public static Vector<RelationLinePoint> getStickingRelationLinePoints(DiagramHandler handler, StickingPolygon stickingPolygon) {
-		Vector<RelationLinePoint> lpts = new Vector<RelationLinePoint>();
-		Collection<Relation> rels = handler.getDrawPanel().getAllRelations();
-		for (Relation r : rels) {
-			if (!r.isPartOfGroup()) {
-				Point l1 = r.getAbsoluteCoorStart();
-				Point l2 = r.getAbsoluteCoorEnd();
-				int c1 = stickingPolygon.isConnected(l1, handler.getGridSize());
-				int c2 = stickingPolygon.isConnected(l2, handler.getGridSize());
-				if (c1 >= 0) lpts.add(new RelationLinePoint(r, 0, c1));
-				if (c2 >= 0) lpts.add(new RelationLinePoint(r, r.getLinePoints().size() - 1, c2));
-			}
-		}
-		return lpts;
-	}
-	
 }

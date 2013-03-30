@@ -8,7 +8,6 @@ import java.util.Vector;
 import com.baselet.control.Constants;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 
@@ -42,39 +41,38 @@ public class Align extends Command {
 		// AB: determine fix points first item (the "dominantly selected" item)
 		GridElement entity = dominantEntity;
 
-		int left = entity.getRectangle().x;
-		int right = left + entity.getZoomedSize().width;
-		int top = entity.getRectangle().y;
-		int bottom = top + entity.getZoomedSize().height;
+		int left = entity.getLocation().x;
+		int right = left + entity.getSize().width;
+		int top = entity.getLocation().y;
+		int bottom = top + entity.getSize().height;
 
 		DrawPanel p = handler.getDrawPanel();
 		for (GridElement e : this.entities) {
-			Rectangle rectangle = e.getRectangle();
-			int x = rectangle.x;
-			int y = rectangle.y;
+			int x = e.getLocation().x;
+			int y = e.getLocation().y;
 
 			switch (edge) {
 				case LEFT:
 					x = left;
 					break;
 				case RIGHT:
-					x = right - e.getZoomedSize().width;
+					x = right - e.getSize().width;
 					break;
 				case TOP:
 					y = top;
 					break;
 				case BOTTOM:
-					y = bottom - e.getZoomedSize().height;
+					y = bottom - e.getSize().height;
 					break;
 			}
 
 			// AB: update group members position if group has been adjusted
 			if (e instanceof Group) {
-				Point diff = new Point(x - rectangle.x, y - rectangle.y);
+				Point diff = new Point(x - e.getLocation().x, y - e.getLocation().y);
 				moveGroupMembers((Group) e, diff, handler);
 			}
 
-			orgLocations.put(e, new Point(rectangle.x, rectangle.y));
+			orgLocations.put(e, e.getLocation());
 			e.setLocation(handler.realignToGrid(true, x), handler.realignToGrid(true, y));
 		}
 
@@ -104,7 +102,7 @@ public class Align extends Command {
 			Point orgLocation = orgLocations.get(entity);
 
 			if (entity instanceof Group) {
-				Point diff = new Point(orgLocation.x - entity.getRectangle().x + offsetX, orgLocation.y - entity.getRectangle().y + offsetY);
+				Point diff = new Point(orgLocation.x - entity.getLocation().x + offsetX, orgLocation.y - entity.getLocation().y + offsetY);
 				moveGroupMembers((Group) entity, diff, handler);
 			}
 
@@ -121,7 +119,7 @@ public class Align extends Command {
 	private void moveGroupMembers(Group g, Point diff, DiagramHandler handler) {
 		Vector<GridElement> members = g.getMembers();
 		for (GridElement member : members) {
-			member.setLocationDifference(handler.realignToGrid(true, diff.x), handler.realignToGrid(true, diff.y));
+			member.changeLocation(handler.realignToGrid(true, diff.x), handler.realignToGrid(true, diff.y));
 		}
 	}
 }

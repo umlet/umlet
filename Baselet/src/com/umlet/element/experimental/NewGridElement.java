@@ -1,18 +1,28 @@
 package com.umlet.element.experimental;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.control.NewGridElementConstants;
-import com.baselet.control.enumerations.LineType;
+import javax.swing.JComponent;
+
+import org.apache.log4j.Logger;
+
+import com.baselet.control.Constants;
+import com.baselet.control.Constants.LineType;
+import com.baselet.control.Utils;
+import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.Line;
-import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
-import com.baselet.element.GroupGridElement;
+import com.baselet.element.Group;
 import com.baselet.element.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.settings.Settings;
@@ -22,38 +32,77 @@ import com.umlet.element.experimental.settings.facets.Facet;
 
 public abstract class NewGridElement implements GridElement {
 
-//	private static final Logger log = Logger.getLogger(NewGridElement.class);
+	protected final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private boolean stickingBorderActive;
 
 	protected BaseDrawHandler drawer; // this is the drawer for element specific stuff
 	private BaseDrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
+	private DiagramHandler handler;
 
 	protected boolean isSelected = false;
 
-	private GroupGridElement group = null;
+	private Group group = null;
 
 	protected Properties properties;
 
-	protected ComponentInterface component;
+	protected JComponent component = new JComponent() {
+		private static final long serialVersionUID = 1L;
 
-	private DrawHandlerInterface panel;
+		@Override
+		public void paint(Graphics g) {
+			drawer.setGraphics(g);
+			metaDrawer.setGraphics(g);
+			drawer.drawAll(isSelected);
+			metaDrawer.drawAll();
+		}
 
-	void init(Rectangle bounds, String panelAttributes, ComponentInterface component, DrawHandlerInterface panel) {
-		this.component = component;
-		this.drawer = component.getDrawHandler();
-		this.metaDrawer = component.getMetaDrawHandler();
-		setRectangle(bounds);
-		properties = new Properties(panelAttributes, drawer);
-		this.panel = panel;
+
+		/**
+		 * Must be overwritten because Swing uses this method to tell if 2 elements are overlapping
+		 * It's also used to determine which element gets selected if there are overlapping elements (the smallest one)
+		 * IMPORTANT: on overlapping elements, contains is called for all elements until the first one returns true, then the others contain methods are not called
+		 */
+		@Override
+		public boolean contains(Point p) {
+			return Utils.contains(NewGridElement.this, p);
+		}
+
+		/**
+		 * Must be overwritten because Swing sometimes uses this method instead of contains(Point)
+		 */
+		@Override
+		public boolean contains(int x, int y) {
+			return Utils.contains(NewGridElement.this, new Point(x, y));
+		}
+
+	};
+
+	public void init(Rectangle bounds, String panelAttributes, String panelAttributesAdditional, DiagramHandler handler) {
+		setBounds(bounds);
+		drawer = new BaseDrawHandler();
+		metaDrawer = new BaseDrawHandler();
+		properties = new Properties(panelAttributes, panelAttributesAdditional, drawer);
+		setHandlerAndInitListeners(handler);
 	}
 
-	public BaseDrawHandler getDrawer() {
-		return drawer;
+	@Override
+	public DiagramHandler getHandler() {
+		return handler;
 	}
 
-	public BaseDrawHandler getMetaDrawer() {
-		return metaDrawer;
+	@Override
+	public void setHandlerAndInitListeners(DiagramHandler handler) {
+		if (this.getHandler() != null) {
+			this.removeMouseListener(this.getHandler().getEntityListener(this));
+			this.removeMouseMotionListener(this.getHandler().getEntityListener(this));
+		}
+		this.handler = handler;
+		this.addMouseListener(this.getHandler().getEntityListener(this));
+		this.addMouseMotionListener(this.getHandler().getEntityListener(this));
+		drawer.setHandler(handler);
+		metaDrawer.setHandler(handler);
+		updateModelFromText(); // must be updated here because the new handler could have a different zoom level
 	}
 
 	@Override
@@ -73,13 +122,26 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void setGroup(GroupGridElement group) {
+	public void setGroup(Group group) {
 		this.group = group;
 	}
 
 	@Override
 	public GridElement CloneFromMe() {
-		return ElementFactory.clone(this);
+		try {
+			java.lang.Class<? extends GridElement> cx = this.getClass(); // get class of dynamic object
+			NewGridElement c = (NewGridElement) cx.newInstance();
+			c.init(getBounds(), properties.getPanelAttributes(), properties.getPanelAttributesAdditional(), handler);
+			return c;
+		} catch (Exception e) {
+			log.error("Error at calling CloneFromMe() on entity", e);
+		}
+		return null;
+	}
+
+	@Override
+	public void changeLocation(int diffx, int diffy) {
+		this.setLocation(this.getLocation().x + diffx, this.getLocation().y + diffy);
 	}
 
 	@Override
@@ -96,27 +158,14 @@ public abstract class NewGridElement implements GridElement {
 		this.repaint();
 	}
 
-	/**
-	 * ugly workaround to avoid that the Resize().execute() call which calls setSize() on this model updates the model during the
-	 * calculated model update from autoresize. Otherwise the drawer cache would get messed up (it gets cleaned up 2 times in a row and afterwards everything gets drawn 2 times).
-	 * Best testcase is an autoresize element with a background. Write some text and everytime autresize triggers, the background is drawn twice.
-	 */
-	private boolean autoresizePossiblyInProgress = false;
-
 	@Override
 	public void updateModelFromText() {
-		this.autoresizePossiblyInProgress = true;
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
-		Integer oldLayer = getLayer();
 		properties.initSettingsFromText(this);
+		drawer.setSize(getRealSize()); // must be set after possible resizing due to AUTORESIZE
 		updateMetaDrawer();
 		updateConcreteModel();
-		if (oldLayer != null && !oldLayer.equals(getLayer())) {
-			panel.updateLayer(this);
-		}
-		this.autoresizePossiblyInProgress = false;
-		component.afterModelUpdate();
 	}
 
 	protected abstract void updateConcreteModel();
@@ -124,21 +173,21 @@ public abstract class NewGridElement implements GridElement {
 	private void updateMetaDrawer() {
 		metaDrawer.clearCache();
 		if (isSelected) { // draw blue rectangle around selected gridelements
-			metaDrawer.setForegroundColor(ColorOwn.TRANSPARENT);
-			metaDrawer.setBackgroundColor(ColorOwn.SELECTION_BG);
+			metaDrawer.setForegroundAlpha(Constants.ALPHA_FULL_TRANSPARENCY);
+			metaDrawer.setBackground(Color.BLUE, Constants.ALPHA_NEARLY_FULL_TRANSPARENCY);
 			metaDrawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
 			metaDrawer.resetColorSettings();
-			if (NewGridElementConstants.show_stickingpolygon && !this.isPartOfGroup()) {
+			if (Constants.show_stickingpolygon && !this.isPartOfGroup()) {
 				drawStickingPolygon();
 			}
 		}
+		metaDrawer.setSize(getRealSize());
 	}
 
 	@Override
 	public void updateProperty(GlobalSetting key, String newValue) {
 		properties.updateSetting(key, newValue);
-		panel.updatePropertyPanel();
-//		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
+		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.updateModelFromText();
 		this.repaint();
 	}
@@ -149,7 +198,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public GroupGridElement getGroup() {
+	public Group getGroup() {
 		return this.group;
 	}
 
@@ -170,27 +219,29 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public boolean isInRange(Rectangle rect1) {
-		return (rect1.contains(getRectangle()));
+	public boolean isInRange(Point upperLeft, Dimension size) {
+		Rectangle2D rect1 = new Rectangle2D.Double(upperLeft.getX(), upperLeft.getY(), size.getWidth(), size.getHeight());
+		Rectangle2D rect2 = new Rectangle2D.Double(getLocation().x, getLocation().y, getSize().width, getSize().height);
+		return (rect1.contains(rect2));
 	}
 
 	@Override
 	public int getResizeArea(int x, int y) {
 		int ret = 0;
-		if ((x <= 5) && (x >= 0)) ret = NewGridElementConstants.RESIZE_LEFT;
-		else if ((x <= this.getZoomedSize().width) && (x >= this.getZoomedSize().width - 5)) ret = NewGridElementConstants.RESIZE_RIGHT;
+		if ((x <= 5) && (x >= 0)) ret = Constants.RESIZE_LEFT;
+		else if ((x <= this.getSize().width) && (x >= this.getSize().width - 5)) ret = Constants.RESIZE_RIGHT;
 
-		if ((y <= 5) && (y >= 0)) ret = ret | NewGridElementConstants.RESIZE_TOP;
-		else if ((y <= this.getZoomedSize().height) && (y >= this.getZoomedSize().height - 5)) ret = ret | NewGridElementConstants.RESIZE_BOTTOM;
+		if ((y <= 5) && (y >= 0)) ret = ret | Constants.RESIZE_TOP;
+		else if ((y <= this.getSize().height) && (y >= this.getSize().height - 5)) ret = ret | Constants.RESIZE_BOTTOM;
 		return ret;
 	}
 
 	@Override
 	public int getPossibleResizeDirections() {
 		if (properties.getElementStyle() == ElementStyleEnum.NORESIZE || properties.getElementStyle() == ElementStyleEnum.AUTORESIZE) {
-			return NewGridElementConstants.RESIZE_NONE;
+			return Constants.RESIZE_NONE;
 		}
-		else return NewGridElementConstants.RESIZE_ALL;
+		else return Constants.RESIZE_ALL;
 	}
 
 	@Override
@@ -215,14 +266,12 @@ public abstract class NewGridElement implements GridElement {
 	private final void drawStickingPolygon() {
 		StickingPolygon poly;
 		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
-		if (panel.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getRealSize().width - 1, this.getRealSize().height - 1);
+		if (Utils.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getRealSize().width - 1, this.getRealSize().height - 1);
 		else poly = this.generateStickingBorder(0, 0, this.getRealSize().width - 1, this.getRealSize().height - 1);
 		if (poly != null) {
 			metaDrawer.setLineType(LineType.DASHED);
-			metaDrawer.setForegroundColor(ColorOwn.SELECTION_FG);
-			for (Line line : poly.getStickLines()) {
-				metaDrawer.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
-			}
+			metaDrawer.setForegroundColor(Constants.DEFAULT_SELECTED_COLOR);
+			poly.draw(metaDrawer);
 			metaDrawer.setLineType(LineType.SOLID);
 			metaDrawer.resetColorSettings();
 		}
@@ -230,52 +279,80 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void changeSize(int diffx, int diffy) {
-		this.setSize(this.getZoomedSize().width + diffx, this.getZoomedSize().height + diffy);
+		this.setSize(this.getSize().width + diffx, this.getSize().height + diffy);
 	}
 
 	@Override
-	public void setRectangle(Rectangle bounds) {
-		component.setBoundsRect(bounds);
+	public Rectangle getVisibleRect() {
+		return component.getVisibleRect();
 	}
 
 	@Override
-	public void setLocationDifference(int diffx, int diffy) {
-		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
+	public void setBounds(Rectangle bounds) {
+		component.setBounds(bounds);
+	}
+
+	@Override
+	public void addMouseListener(MouseListener mouseListener) {
+		component.addMouseListener(mouseListener);
+	}
+
+	@Override
+	public void addMouseMotionListener(MouseMotionListener mouseMotionListener) {
+		component.addMouseMotionListener(mouseMotionListener);
+	}
+
+	@Override
+	public void removeMouseMotionListener(MouseMotionListener mouseMotionListener) {
+		component.removeMouseMotionListener(mouseMotionListener);
+	}
+
+	@Override
+	public void removeMouseListener(MouseListener mouseListener) {
+		component.removeMouseListener(mouseListener);
+	}
+
+	@Override
+	public void setBounds(int x, int y, int width, int height) {
+		component.setBounds(x, y, width, height);
 	}
 
 	@Override
 	public void setLocation(int x, int y) {
-		Rectangle rect = getRectangle();
-		rect.setLocation(x, y);
-		component.setBoundsRect(rect);
+		component.setLocation(x, y);
 	}
 
 	@Override
 	public void setSize(int width, int height) {
-		if (width != getZoomedSize().width || height != getZoomedSize().height) { // only change size if it is really different
-			Rectangle rect = getRectangle();
-			rect.setSize(width, height);
-			component.setBoundsRect(rect);
-			if (!this.autoresizePossiblyInProgress) {
-				updateModelFromText();
-			}
+		if (width != getSize().width || height != getSize().height) { // only change size if it is really different
+			component.setSize(width, height);
+			updateModelFromText();
 		}
 	}
 
 	@Override
-	public Rectangle getRectangle() {
-		return component.getBoundsRect();
+	public Point getLocation() {
+		return component.getLocation();
+	}
+
+	@Override
+	public Rectangle getBounds() {
+		return component.getBounds();
 	}
 
 	@Override
 	public void repaint() {
-		component.repaintComponent();
+		component.repaint();
 	}
 
 	@Override
-	public Dimension getZoomedSize() {
-		Rectangle rect = getRectangle();
-		return new Dimension(rect.getWidth(), rect.getHeight());
+	public Dimension getSize() {
+		return component.getSize();
+	}
+
+	@Override
+	public void paint(Graphics g) {
+		component.paint(g);
 	}
 
 	/**
@@ -283,11 +360,11 @@ public abstract class NewGridElement implements GridElement {
 	 */
 	@Override
 	public Dimension getRealSize() {
-		return new Dimension((int) (getZoomedSize().width / panel.getZoomFactor()), (int) (getZoomedSize().height / panel.getZoomFactor()));
+		return new Dimension((int) (getSize().width / handler.getZoomFactor()), (int) (getSize().height / handler.getZoomFactor()));
 	}
 
 	@Override
-	public ComponentInterface getComponent() {
+	public JComponent getComponent() {
 		return component;
 	}
 
@@ -304,12 +381,5 @@ public abstract class NewGridElement implements GridElement {
 		}
 		return returnList;
 	}
-
-	@Override
-	public Integer getLayer() {
-		return properties.getLayer();
-	}
-
-	public abstract ElementId getId();
 
 }

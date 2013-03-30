@@ -4,27 +4,23 @@ import java.net.URL;
 import java.util.Dictionary;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Main;
+import com.baselet.control.Utils;
 import com.baselet.gui.eclipse.EclipseGUI;
 
 /**
  * The activator class controls the plug-in life cycle
  */
 public class MainPlugin extends AbstractUIPlugin {
-	
-	private static final Logger log = Logger.getLogger(MainPlugin.class);
+
+	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	// The plug-in ID
 	public static String PLUGIN_ID;
@@ -32,8 +28,10 @@ public class MainPlugin extends AbstractUIPlugin {
 	// The shared instance
 	private static MainPlugin plugin;
 
+	private static EclipseGUI gui;
+
 	public static EclipseGUI getGUI() {
-		return (EclipseGUI) Main.getInstance().getGUI();
+		return gui;
 	}
 
 	/**
@@ -55,7 +53,8 @@ public class MainPlugin extends AbstractUIPlugin {
 		try {
 			Main.getInstance().initLogger();
 			readBundleManifestInfo();
-			Main.getInstance().init(new EclipseGUI(Main.getInstance()));
+			gui = new EclipseGUI(Main.getInstance());
+			Main.getInstance().init(gui);
 		} catch (Exception e) {
 			log.error("Initialization or uncaught outer Exception", e);
 		}
@@ -65,7 +64,7 @@ public class MainPlugin extends AbstractUIPlugin {
 	private void readBundleManifestInfo() {
 		Dictionary<String, String> headers = MainPlugin.getDefault().getBundle().getHeaders();
 		PLUGIN_ID = MainPlugin.getDefault().getBundle().getSymbolicName();
-		Program.init(headers.get(Constants.MANIFEST_BUNDLE_NAME), headers.get(Constants.MANIFEST_BUNDLE_VERSION));
+		Program.init(headers.get("Bundle-Name"), headers.get("Bundle-Version"));
 		
 	}
 
@@ -103,14 +102,5 @@ public class MainPlugin extends AbstractUIPlugin {
 
 	public static URL getURL() {
 		return FileLocator.find(MainPlugin.getDefault().getBundle(), new org.eclipse.core.runtime.Path("/"), null);
-	}
-
-	public static void refreshWorkspace() {
-		IWorkspaceRoot myWorkspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-		try {
-			myWorkspaceRoot.refreshLocal(IResource.DEPTH_INFINITE, null);
-		} catch (CoreException e) {
-			log.error("Error at refreshing the workspace", e);
-		}
 	}
 }

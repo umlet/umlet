@@ -16,7 +16,7 @@ public class PaletteComboBoxListener implements ActionListener, MouseWheelListen
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof JComboBox) {
 			String paletteName = ((JComboBox) e.getSource()).getSelectedItem().toString();
-			Main.getInstance().getGUI().showPalette(paletteName);
+			Main.getInstance().getGUI().selectPalette(paletteName);
 			setZoom();
 		}
 	}
@@ -28,7 +28,7 @@ public class PaletteComboBoxListener implements ActionListener, MouseWheelListen
 			int newIndex = comboBox.getSelectedIndex() + e.getWheelRotation(); // wheelrotation is -1 (up) or +1 (down)
 			if (comboBox.getItemAt(newIndex) != null) {
 				String newSelectedItem = comboBox.getItemAt(newIndex).toString();
-				Main.getInstance().getGUI().showPalette(newSelectedItem);
+				Main.getInstance().getGUI().selectPalette(newSelectedItem);
 				comboBox.setSelectedIndex(newIndex);
 				setZoom();
 			}

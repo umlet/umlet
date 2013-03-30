@@ -9,8 +9,8 @@ import javax.swing.JComponent;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.LineType;
 
 /**
  * @author unknown
@@ -19,8 +19,8 @@ import com.baselet.control.enumerations.LineType;
  */
 @SuppressWarnings("serial")
 public class SelectorFrame extends JComponent {
-	
-	private static final Logger log = Logger.getLogger(SelectorFrame.class);
+
+	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	// If the frame is drawn from the right to the left or from bottom to top the offset is
 	// the distance from the drawing-start-point to the actual position of the mouse cursor

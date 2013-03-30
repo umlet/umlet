@@ -1,5 +1,6 @@
 package com.baselet.gui.listener;
 
+import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -11,8 +12,6 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.Selector;
 import com.baselet.diagram.SelectorFrame;
-import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.swing.Converter;
 
 
 public abstract class UniversalListener extends ComponentAdapter implements MouseListener, MouseMotionListener {
@@ -64,7 +63,7 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 			SelectorFrame selframe = this.selector.getSelectorFrame();
 			this.diagram.remove(selframe);
 			this.selector.deselectAll();
-			this.selector.multiSelect(Converter.convert(selframe.getBounds()));
+			this.selector.multiSelect(selframe.getLocation(), selframe.getSize());
 			this.selector.setSelectorFrameActive(false);
 			this.diagram.repaint();
 		}

@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.control.Main;
+import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.Constants.AlignVertical;
+import com.baselet.control.DimensionFloat;
 import com.baselet.control.TextManipulator;
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.AlignVertical;
+import com.baselet.control.Utils;
 import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.diagram.draw.geom.DimensionFloat;
-import com.baselet.diagram.draw.geom.LineHorizontal;
+import com.umlet.element.experimental.helper.XPoints;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
@@ -20,6 +20,7 @@ import com.umlet.element.experimental.settings.facets.Facet;
 public class Properties {
 
 	protected String panelAttributes = "";
+	protected String panelAttributesAdditional = "";
 
 	private BaseDrawHandler drawer;
 
@@ -29,8 +30,9 @@ public class Properties {
 
 	private Settings elementSettings;
 
-	public Properties(String panelAttributes, BaseDrawHandler drawer) {
+	public Properties(String panelAttributes, String panelAttributesAdditional, BaseDrawHandler drawer) {
 		this.panelAttributes = panelAttributes;
+		this.panelAttributesAdditional = panelAttributesAdditional;
 		this.drawer = drawer;
 	}
 
@@ -42,8 +44,16 @@ public class Properties {
 		return Arrays.asList(this.getPanelAttributes().split("\n"));
 	}
 
+	public String getPanelAttributesAdditional() {
+		return panelAttributesAdditional;
+	}
+
 	public void setPanelAttributes(String panelAttributes) {
 		this.panelAttributes = panelAttributes;
+	}
+
+	public void setPanelAttributesAdditional(String panelAttributesAdditional) {
+		this.panelAttributesAdditional = panelAttributesAdditional;
 	}
 
 	public void initSettingsFromText(NewGridElement element) {
@@ -70,32 +80,27 @@ public class Properties {
 	private void handleAutoresize(NewGridElement element) {
 		if (getElementStyle() == ElementStyleEnum.AUTORESIZE) {
 			DimensionFloat dim = getExpectedElementDimensionsOnDefaultZoom(element);
-			float hSpaceLeftAndRight = drawer.getDistanceBetweenTexts() * 2;
-			float width = dim.getWidth() + hSpaceLeftAndRight;
-			float height = dim.getHeight() + drawer.textHeight()/2;
+			float horizontalSpaceLeftAndRight = element.getHandler().getFontHandler().getDistanceBetweenTexts(false) * 2;
+			float width = Math.max(20, dim.getWidth() + horizontalSpaceLeftAndRight);
+			float height = Math.max(20, dim.getHeight() + horizontalSpaceLeftAndRight);
 			float diffw = width-element.getRealSize().width;
 			float diffh = height-element.getRealSize().height;
-			float diffwInCurrentZoom = diffw * Main.getHandlerForElement(element).getZoomFactor();
-			float diffhInCurrentZoom = diffh * Main.getHandlerForElement(element).getZoomFactor();
-			int diffwRealigned = Main.getHandlerForElement(element).realignToGrid(false, diffwInCurrentZoom, true);
-			int diffhRealigned = Main.getHandlerForElement(element).realignToGrid(false, diffhInCurrentZoom, true);
+			float diffwInCurrentZoom = diffw * element.getHandler().getZoomFactor();
+			float diffhInCurrentZoom = diffh * element.getHandler().getZoomFactor();
+			int diffwRealigned = element.getHandler().realignToGrid(false, diffwInCurrentZoom, true);
+			int diffhRealigned = element.getHandler().realignToGrid(false, diffhInCurrentZoom, true);
 			// use resize command to move sticked relations correctly with the element
-			new Resize(element, 0, 0, diffwRealigned, diffhRealigned).execute(Main.getHandlerForElement(element));
+			new Resize(element, 0, 0, diffwRealigned, diffhRealigned).execute(element.getHandler());
 		}
 	}
 
 	public ElementStyleEnum getElementStyle() {
-		return propCfg.getElementStyle();
-	}
-	
-	public Integer getLayer() {
-		if (propCfg == null) return null;
-		return propCfg.getLayer();
+		return this.propCfg.getElementStyle();
 	}
 
 	public void updateSetting(GlobalSetting key, String newValue) {
 		String newState = "";
-		for (String line : getPanelAttributes().split("\n")) {
+		for (String line : Utils.decomposeStringsWithComments(getPanelAttributes())) {
 			if (!line.startsWith(key.toString())) newState += line + "\n";
 		}
 		newState = newState.substring(0, newState.length()-1); //remove last linebreak
@@ -144,10 +149,9 @@ public class Properties {
 			if (wordwrap) {
 				String wrappedLine;
 				while (propCfg.getyPos() < propCfg.getGridElementSize().height && !line.trim().isEmpty()) {
-					Float spaceForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight()).getSpace() - drawer.getDistanceBetweenTexts() * 2;
-					wrappedLine = TextManipulator.splitString(line, spaceForText, drawer);
+					wrappedLine = TextManipulator.splitString(line, propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight()).getSpace(), drawer);
 					handleLine(elementSettings, wrappedLine, propCfg, drawer);
-					line = line.substring(wrappedLine.length()).trim();
+					line = line.trim().substring(wrappedLine.length());
 				}
 			}
 			else handleLine(elementSettings, line, propCfg, drawer);
@@ -165,7 +169,7 @@ public class Properties {
 			}
 		}
 		if (drawText) {
-			LineHorizontal xLimitsForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight());
+			XPoints xLimitsForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight());
 			Float spaceNotUsedForText = propCfg.getGridElementSize().width - xLimitsForText.getSpace();
 			if (!spaceNotUsedForText.equals(Float.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
 				propCfg.calcMaxTextWidth(spaceNotUsedForText + drawer.textWidth(line));
@@ -175,7 +179,7 @@ public class Properties {
 		}
 	}
 
-	private float calcHorizontalTextBoundaries(LineHorizontal xLimitsForText, PropertiesConfig propCfg) {
+	private float calcHorizontalTextBoundaries(XPoints xLimitsForText, PropertiesConfig propCfg) {
 		float x;
 		if (propCfg.gethAlign() == AlignHorizontal.LEFT) {
 			x = xLimitsForText.getLeft() + drawer.getDistanceBetweenTexts();
@@ -188,20 +192,20 @@ public class Properties {
 	}
 
 	private float calcStartPointFromVAlign(PropertiesConfig propCfg) {
-		float returnVal = drawer.textHeight(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
+		float returnVal = drawer.textHeight(); // print method is located at the bottom of the text therefore add text height
 		if (propCfg.getvAlign() == AlignVertical.TOP) {
 			returnVal += drawer.textHeight()/2;
 		}
 		else if (propCfg.getvAlign() == AlignVertical.CENTER) {
-			returnVal += (propCfg.getGridElementSize().height - getTextBlockHeight(propCfg))/2;
+			returnVal += Math.max((propCfg.getGridElementSize().height - getTextBlockHeight())/2, drawer.textHeightWithSpace());
 		}
 		else /*if (propCfg.getvAlign() == AlignVertical.BOTTOM)*/ {
-			returnVal += propCfg.getGridElementSize().height - getTextBlockHeight(propCfg) - drawer.textHeight()/2;
+			returnVal += Math.max(propCfg.getGridElementSize().height - getTextBlockHeight(), drawer.textHeightWithSpace());
 		}
 		return returnVal;
 	}
 
-	public float getTextBlockHeight(PropertiesConfig propCfg) {
+	public float getTextBlockHeight() {
 		PropertiesConfig tmpPropCfg = new PropertiesConfig(elementSettings, propCfg.getGridElementSize());
 		handleWordWrapAndIterate(elementSettings, tmpPropCfg, drawer.getPseudoDrawHandler());
 		return tmpPropCfg.getyPos();

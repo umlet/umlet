@@ -37,15 +37,16 @@ import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
 import com.baselet.control.Notifier;
 import com.baselet.control.Path;
+import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.umlet.custom.CustomElement;
-import com.umlet.element.experimental.NewGridElement;
+import com.umlet.element.experimental.Id;
 
 public class DiagramFileHandler {
-	
-	private static final Logger log = Logger.getLogger(DiagramFileHandler.class);
+
+	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private static JFileChooser saveFileChooser;
 
@@ -116,85 +117,81 @@ public class DiagramFileHandler {
 		Main.getInstance().getGUI().updateDiagramName(this.handler, this.handler.getName());
 	}
 
-	/**
-	 * A group acts as a parent XML Element for all of its members.
-	 * A group member which is a group itself creates a group-tag withing the other group-tag etc.
-	 * Only elements which are not part of groups are added directly to the top of the tree
-	 */
-	private void createXMLOutputDoc(Document doc, Collection<GridElement> elements, Element current) {
-		for (GridElement e : elements) {
-			appendRecursively(doc, current, e);
-		}
-	}
+	private void createXMLOutputDoc(Document doc, Collection<GridElement> entities, Element current, Group group) {
+		// list of elements that are not inserted yet (to increase performance)
+		List<GridElement> toBeCheckedAgain = new ArrayList<GridElement>();
+		List<Group> insert_groups = new ArrayList<Group>();
+		for (GridElement e : entities) {
+			// only insert element in right grouping element
+			boolean insert_here = false;
+			if ((group == null) && (e.getGroup() == null)) insert_here = true;
+			else if (group != null) if (group.equals(e.getGroup())) insert_here = true;
 
-	private void appendRecursively(Document doc, Element parentXmlElement, GridElement e) {
-		if (e instanceof Group) {
-			Element el = doc.createElement("group");
-			parentXmlElement.appendChild(el);
-			for (GridElement member : ((Group) e).getMembers()) {
-				if (member instanceof Group) {
-					appendRecursively(doc, el, member);
-				} else {
-					el.appendChild(createXmlElementForGridElement(doc, member));
+			if (insert_here) {
+				if (e instanceof Group) insert_groups.add((Group) e);
+				else { // insert normal entity element
+					java.lang.Class<? extends GridElement> c = e.getClass();
+					String sElType = c.getName();
+					String sElPanelAttributes = e.getPanelAttributes();
+					String sElAdditionalAttributes = e.getAdditionalAttributes();
+
+					Element el = doc.createElement("element");
+					current.appendChild(el);
+
+					Id id = e.getClass().getAnnotation(Id.class);
+					if (id == null) { // OldGridElement
+						Element elType = doc.createElement("type");
+						elType.appendChild(doc.createTextNode(sElType));
+						el.appendChild(elType);
+					}
+					else {
+						Element elType = doc.createElement("id");
+						elType.appendChild(doc.createTextNode(id.value()));
+						el.appendChild(elType);
+					}
+
+					Element elCoor = doc.createElement("coordinates");
+					el.appendChild(elCoor);
+
+					Element elX = doc.createElement("x");
+					elX.appendChild(doc.createTextNode("" + e.getLocation().x));
+					elCoor.appendChild(elX);
+
+					Element elY = doc.createElement("y");
+					elY.appendChild(doc.createTextNode("" + e.getLocation().y));
+					elCoor.appendChild(elY);
+
+					Element elW = doc.createElement("w");
+					elW.appendChild(doc.createTextNode("" + e.getSize().width));
+					elCoor.appendChild(elW);
+
+					Element elH = doc.createElement("h");
+					elH.appendChild(doc.createTextNode("" + e.getSize().height));
+					elCoor.appendChild(elH);
+
+					Element elPA = doc.createElement("panel_attributes");
+					elPA.appendChild(doc.createTextNode(sElPanelAttributes));
+					el.appendChild(elPA);
+
+					Element elAA = doc.createElement("additional_attributes");
+					elAA.appendChild(doc.createTextNode(sElAdditionalAttributes));
+					el.appendChild(elAA);
+
+					if (e instanceof CustomElement) {
+						Element elCO = doc.createElement("custom_code");
+						elCO.appendChild(doc.createTextNode(((CustomElement) e).getCode()));
+						el.appendChild(elCO);
+					}
 				}
-				
 			}
+			else toBeCheckedAgain.add(e);
 		}
-		else parentXmlElement.appendChild(createXmlElementForGridElement(doc, e));
-	}
 
-	private Element createXmlElementForGridElement(Document doc, GridElement e) {
-		// insert normal entity element
-			java.lang.Class<? extends GridElement> c = e.getClass();
-			String sElType = c.getName();
-			String sElPanelAttributes = e.getPanelAttributes();
-			String sElAdditionalAttributes = e.getAdditionalAttributes();
-
-			Element el = doc.createElement("element");
-
-			if (e instanceof NewGridElement){
-				Element elType = doc.createElement("id");
-				elType.appendChild(doc.createTextNode(((NewGridElement) e).getId().toString()));
-				el.appendChild(elType);
-			} else { // OldGridElement
-				Element elType = doc.createElement("type");
-				elType.appendChild(doc.createTextNode(sElType));
-				el.appendChild(elType);
-			}
-
-			Element elCoor = doc.createElement("coordinates");
-			el.appendChild(elCoor);
-
-			Element elX = doc.createElement("x");
-			elX.appendChild(doc.createTextNode("" + e.getRectangle().x));
-			elCoor.appendChild(elX);
-
-			Element elY = doc.createElement("y");
-			elY.appendChild(doc.createTextNode("" + e.getRectangle().y));
-			elCoor.appendChild(elY);
-
-			Element elW = doc.createElement("w");
-			elW.appendChild(doc.createTextNode("" + e.getZoomedSize().width));
-			elCoor.appendChild(elW);
-
-			Element elH = doc.createElement("h");
-			elH.appendChild(doc.createTextNode("" + e.getZoomedSize().height));
-			elCoor.appendChild(elH);
-
-			Element elPA = doc.createElement("panel_attributes");
-			elPA.appendChild(doc.createTextNode(sElPanelAttributes));
-			el.appendChild(elPA);
-
-			Element elAA = doc.createElement("additional_attributes");
-			elAA.appendChild(doc.createTextNode(sElAdditionalAttributes));
-			el.appendChild(elAA);
-
-			if (e instanceof CustomElement) {
-				Element elCO = doc.createElement("custom_code");
-				elCO.appendChild(doc.createTextNode(((CustomElement) e).getCode()));
-				el.appendChild(elCO);
-			}
-			return el;
+		for (Group g : insert_groups) {
+			Element el = doc.createElement("group");
+			current.appendChild(el);
+			createXMLOutputDoc(doc, toBeCheckedAgain, el, g);
+		}
 	}
 
 	protected String createStringToBeSaved() {
@@ -225,7 +222,7 @@ public class DiagramFileHandler {
 			root.appendChild(zoom);
 
 			// save elements (group = null = rootlayer)
-			this.createXMLOutputDoc(doc, handler.getDrawPanel().getAllEntitiesWithGroupsAsTree(), root);
+			this.createXMLOutputDoc(doc, handler.getDrawPanel().getAllEntities(), root, null);
 
 			// output the stuff...
 			DOMSource source = new DOMSource(doc);
@@ -254,7 +251,6 @@ public class DiagramFileHandler {
 			FileInputStream input = new FileInputStream(this.file);
 			InputHandler xmlhandler = new InputHandler(this.handler);
 			parser.parse(input, xmlhandler);
-			input.close();
 		} catch (Exception e) {
 			log.error("Cannot open the file: " + this.file.getAbsolutePath(), e);
 
@@ -328,11 +324,11 @@ public class DiagramFileHandler {
 		setAvailableFileFilters(ownXmlFormat);
 		saveFileChooser.setFileFilter(filefilter);
 
-		int returnVal = saveFileChooser.showSaveDialog(null);
+		int returnVal = saveFileChooser.showSaveDialog(Main.getInstance().getGUI());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFileWithExt = getFileWithExtension();
 			if (selectedFileWithExt.exists()) {
-				int overwriteQuestionResult = JOptionPane.showConfirmDialog(null, "File already exists! Overwrite?", "Overwrite File", JOptionPane.YES_NO_OPTION);
+				int overwriteQuestionResult = JOptionPane.showConfirmDialog(Main.getInstance().getGUI(), "File already exists! Overwrite?", "Overwrite File", JOptionPane.YES_NO_OPTION);
 				if (overwriteQuestionResult == JOptionPane.NO_OPTION) return chooseFileName(ownXmlFormat, filefilter);
 			}
 			fileName = selectedFileWithExt.getAbsolutePath();

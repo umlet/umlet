@@ -3,22 +3,21 @@
 package com.baselet.element;
 
 import java.awt.AlphaComposite;
-import java.awt.Component;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Iterator;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.Constants.LineType;
+import com.baselet.control.Constants;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.Selector;
 import com.baselet.diagram.command.AddElement;
 
 
 @SuppressWarnings("serial")
-public class Group extends OldGridElement implements GroupGridElement {
+public class Group extends OldGridElement {
 	private Vector<GridElement> entities;
 
 	// after adding all elements to a group the function adjustSize has to be called!
@@ -32,7 +31,7 @@ public class Group extends OldGridElement implements GroupGridElement {
 	 */
 	public void group(Vector<GridElement> ents) {
 		if (ents.isEmpty()) return;
-		Selector s = Main.getHandlerForElement(ents.get(0)).getDrawPanel().getSelector();
+		Selector s = ents.get(0).getHandler().getDrawPanel().getSelector();
 
 		this.entities.clear();
 		for (Iterator<GridElement> it = ents.iterator(); it.hasNext();)
@@ -40,18 +39,18 @@ public class Group extends OldGridElement implements GroupGridElement {
 
 		adjustSize(false);
 		s.singleSelect(this);
-		(new AddElement(this, this.getRectangle().x, this.getRectangle().y)).execute(Main.getHandlerForElement(this));
+		(new AddElement(this, this.getLocation().x, this.getLocation().y)).execute(this.getHandler());
 	}
 
 	public void ungroup() {
 		for (GridElement e : this.entities) {
 			e.setGroup(null);
-			((Component) e.getComponent()).addMouseListener(Main.getHandlerForElement(this).getEntityListener(e));
-			((Component) e.getComponent()).addMouseMotionListener(Main.getHandlerForElement(this).getEntityListener(e));
+			e.addMouseListener(this.getHandler().getEntityListener(e));
+			e.addMouseMotionListener(this.getHandler().getEntityListener(e));
 		}
 
-		Main.getHandlerForElement(this).getDrawPanel().removeElement(this);
-		Main.getHandlerForElement(this).getDrawPanel().repaint();
+		this.getHandler().getDrawPanel().removeElement(this);
+		this.getHandler().getDrawPanel().repaint();
 	}
 
 	public Vector<GridElement> getMembers() {
@@ -76,17 +75,17 @@ public class Group extends OldGridElement implements GroupGridElement {
 	public void addMember(GridElement member) {
 		this.entities.add(member);
 		member.setGroup(this);
-		if (Main.getHandlerForElement(member) != null) {
-			((Component) member.getComponent()).removeMouseListener(Main.getHandlerForElement(member).getEntityListener(member));
-			((Component) member.getComponent()).removeMouseMotionListener(Main.getHandlerForElement(member).getEntityListener(member));
+		if (member.getHandler() != null) {
+			member.removeMouseListener(member.getHandler().getEntityListener(member));
+			member.removeMouseMotionListener(member.getHandler().getEntityListener(member));
 		}
 	}
 
 	public void removeMemberListeners() {
-		if (Main.getHandlerForElement(this) != null) {
+		if (this.getHandler() != null) {
 			for (GridElement e : this.entities) {
-				((Component) e.getComponent()).removeMouseListener(Main.getHandlerForElement(this).getEntityListener(e));
-				((Component) e.getComponent()).removeMouseMotionListener(Main.getHandlerForElement(this).getEntityListener(e));
+				e.removeMouseListener(this.getHandler().getEntityListener(e));
+				e.removeMouseMotionListener(this.getHandler().getEntityListener(e));
 			}
 		}
 	}
@@ -105,13 +104,13 @@ public class Group extends OldGridElement implements GroupGridElement {
 			float alphaFactorStrong = 0.8f;
 			AlphaComposite alphaStrong = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaFactorStrong);
 			g2.setComposite(alphaStrong);
-			g2.drawRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+			g2.drawRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
 
 			// Create a strong transparency for the group background
 			float alphaFactorLight = 0.05f;
 			AlphaComposite alphaLight = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaFactorLight);
 			g2.setComposite(alphaLight);
-			g2.fillRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+			g2.fillRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
 
 			g2.setComposite(old);
 			g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
@@ -142,10 +141,10 @@ public class Group extends OldGridElement implements GroupGridElement {
 		int maxY = 0;
 		for (GridElement e : entities) {
 			if (recursive && (e instanceof Group)) ((Group) e).adjustSize(true);
-			maxX = Math.max(e.getRectangle().x + e.getZoomedSize().width, maxX);
-			maxY = Math.max(e.getRectangle().y + e.getZoomedSize().height, maxY);
-			minX = Math.min(e.getRectangle().x, minX);
-			minY = Math.min(e.getRectangle().y, minY);
+			maxX = Math.max(e.getLocation().x + e.getSize().width, maxX);
+			maxY = Math.max(e.getLocation().y + e.getSize().height, maxY);
+			minX = Math.min(e.getLocation().x, minX);
+			minY = Math.min(e.getLocation().y, minY);
 		}
 		this.setLocation(minX, minY);
 		this.setSize((maxX - minX), (maxY - minY));
@@ -164,31 +163,19 @@ public class Group extends OldGridElement implements GroupGridElement {
 			temp.addMember(clone);
 		}
 		temp.adjustSize(false);
-		Main.getHandlerForElement(this).setHandlerAndInitListeners(temp);
+		temp.setHandlerAndInitListeners(this.getHandler());
 		return temp;
 	}
 
 	@Override
-	public void setLocationDifference(int diffx, int diffy) {
-		super.setLocationDifference(diffx, diffy);
+	public void changeLocation(int diffx, int diffy) {
+		super.changeLocation(diffx, diffy);
 		for (GridElement e : this.entities)
-			e.setLocationDifference(diffx, diffy);
+			e.changeLocation(diffx, diffy);
 	}
 	
 	@Override
 	public int getPossibleResizeDirections() {
 		return 0;
-	}
-	
-	/**
-	 * the groups layer is always 1 level under the lowest contained layer
-	 */
-	@Override
-	public Integer getLayer() {
-		int minLayer = 0;
-		for (GridElement el : entities) {
-			minLayer = Math.min(minLayer, el.getLayer());
-		}
-		return minLayer-1;
 	}
 }

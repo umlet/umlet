@@ -5,10 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.lang.reflect.Constructor;
 
-import com.baselet.control.Main;
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.swing.Converter;
+import com.baselet.control.Constants.AlignHorizontal;
 
 @SuppressWarnings("serial")
 public class ErrorOccurred extends OldGridElement {
@@ -27,14 +24,13 @@ public class ErrorOccurred extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = getHandler().getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.drawRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
-		if (isSelected()) g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
-		else g2.setColor(Color.red);
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
-		Main.getHandlerForElement(this).getFontHandler().writeText(g2, errorMessage, this.getZoomedSize().width / 2, this.getZoomedSize().height / 2 - (int) (10 * zoom), AlignHorizontal.CENTER);
+		g2.drawRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		g2.setColor(Color.red);
+		g2.setFont(this.getHandler().getFontHandler().getFont());
+		this.getHandler().getFontHandler().writeText(g2, errorMessage, this.getSize().width / 2, this.getSize().height / 2 - (int) (10 * zoom), AlignHorizontal.CENTER);
 		g2.setColor(fgColor);
 	}
 
@@ -44,8 +40,8 @@ public class ErrorOccurred extends OldGridElement {
 			Constructor<ErrorOccurred> c = ErrorOccurred.class.getConstructor(new Class[]{String.class});
 			GridElement ge = c.newInstance(new Object[]{errorMessage});
 			ge.setPanelAttributes(this.getPanelAttributes()); // copy states
-			ge.setRectangle(this.getRectangle());
-			Main.getHandlerForElement(this).setHandlerAndInitListeners(ge);
+			ge.setBounds(this.getBounds());
+			ge.setHandlerAndInitListeners(this.getHandler());
 			return ge;
 		} catch (Exception e) {
 			log.error("Error at calling CloneFromMe() on entity", e);

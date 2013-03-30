@@ -6,11 +6,12 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.Utils;
 import com.plotlet.parser.PlotConstants;
 
 public class PlotletSyntaxKit {
 	
-	private static final Logger log = Logger.getLogger(PlotletSyntaxKit.class);
+	protected final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private static final HashMap<String,Pattern> regExMap = new HashMap<String,Pattern>();
 	static {	

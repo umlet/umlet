@@ -1,9 +1,11 @@
 package com.umlet.element.experimental.settings.facets;
 
+import java.util.List;
+
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.diagram.draw.geom.LineHorizontal;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
+import com.umlet.element.experimental.helper.XPoints;
 
 public class ActiveClass implements Facet {
 
@@ -20,10 +22,9 @@ public class ActiveClass implements Facet {
 	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
 		//TODO doesn't work inside of an inner class
 		propConfig.addToBuffer(SPACING);
-		LineHorizontal xLimits = propConfig.getXLimits(propConfig.getyPos());
-		// draw vertical line left and right
-		drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), propConfig.getGridElementSize().getHeight());
-		drawer.drawLine(xLimits.getRight(), 0, xLimits.getRight(), propConfig.getGridElementSize().getHeight());
+		XPoints xLimits = propConfig.getXLimits(propConfig.getyPos());
+		drawer.drawLineVertical(xLimits.getLeft());
+		drawer.drawLineVertical(xLimits.getRight());
 	}
 
 	@Override

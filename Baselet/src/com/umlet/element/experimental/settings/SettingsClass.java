@@ -1,8 +1,8 @@
 package com.umlet.element.experimental.settings;
 
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.AlignVertical;
-import com.baselet.diagram.draw.geom.LineHorizontal;
+import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.Constants.AlignVertical;
+import com.umlet.element.experimental.helper.XPoints;
 import com.umlet.element.experimental.settings.facets.ActiveClass;
 import com.umlet.element.experimental.settings.facets.Facet;
 import com.umlet.element.experimental.settings.facets.InnerClass;
@@ -12,8 +12,8 @@ import com.umlet.element.experimental.settings.facets.TemplateClass;
 public class SettingsClass extends Settings {
 
 	@Override
-	public LineHorizontal getXValues(float y, int height, int width) {
-		return new LineHorizontal(0, width);
+	public XPoints getXValues(float y, int height, int width) {
+		return new XPoints(0, width);
 	}
 
 	@Override

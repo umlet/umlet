@@ -1,11 +1,21 @@
 package com.baselet.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Cursor;
+import java.awt.Component;
+import java.awt.Font;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.plaf.InsetsUIResource;
 
@@ -15,28 +25,32 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Main;
+import com.baselet.control.Utils;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.baselet.gui.listener.PropertyPanelListener;
 import com.umlet.custom.CustomElement;
 import com.umlet.custom.CustomElementHandler;
 
 
-public abstract class BaseGUI {
-	
-	private static final Logger log = Logger.getLogger(BaseGUI.class);
+@SuppressWarnings("serial")
+public abstract class BaseGUI extends JPanel {
+
+	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	protected Main main;
 	protected int selected_elements;
+	protected OwnSyntaxPane propertyTextPane;
 	protected boolean paletteEdited = false;
 
 	public BaseGUI(Main main) {
 		this.main = main;
 	}
 
-	public final void initGUI() {
+	public final void initGUI() throws Exception {
 		try {
 			UIManager.setLookAndFeel(Constants.ui_manager);
 		} catch (Exception e) { // If the LookAndFeel cannot be set, it gets logged (without stacktrace) and the default style is used
@@ -44,13 +58,36 @@ public abstract class BaseGUI {
 		}
 
 		this.initGUIParameters();
-//		this.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());
 
 		this.init();
-//		this.requestFocus();
+		this.requestFocus();
 	}
 
-	public abstract void focusPropertyPane();
+	public OwnSyntaxPane createPropertyTextPane() {
+		propertyTextPane = new OwnSyntaxPane();
+
+		// add listener to propertyTextPane
+		PropertyPanelListener pListener = new PropertyPanelListener();
+		propertyTextPane.getTextComponent().addKeyListener(pListener);
+		propertyTextPane.getTextComponent().getDocument().addDocumentListener(pListener);
+		
+		return propertyTextPane;
+	}
+
+	public MailPanel createMailPanel() {
+		return new MailPanel();
+	}
+
+	public void focusPropertyPane() {
+		propertyTextPane.getTextComponent().requestFocus();
+		// The robot class simulates pressing a certain key
+		// try {
+		// new Robot().keyPress(character);
+		// } catch (AWTException e) {
+		// log.error(null, e);
+		// }
+	}
 
 	public JPopupMenu getContextMenu(GridElement entity) {
 		MenuFactorySwing menuFactory = MenuFactorySwing.getInstance();
@@ -60,7 +97,7 @@ public abstract class BaseGUI {
 			contextMenu.add(menuFactory.createEditSelected());
 		}
 
-		if (!(Main.getHandlerForElement(entity) instanceof CustomPreviewHandler)) {
+		if (!(entity.getHandler() instanceof CustomPreviewHandler)) {
 			contextMenu.add(menuFactory.createDelete());
 		}
 		JMenuItem group = menuFactory.createGroup();
@@ -122,9 +159,7 @@ public abstract class BaseGUI {
 
 	public abstract String getSelectedPalette();
 
-	public void showPalette(String palette) {
-		Constants.lastUsedPalette = palette;
-	}
+	public abstract void selectPalette(String palette);
 
 	public abstract void open(DiagramHandler diagram);
 
@@ -142,9 +177,7 @@ public abstract class BaseGUI {
 
 	public abstract void diagramSelected(DiagramHandler handler);
 
-	public void enableSearch(@SuppressWarnings("unused") boolean enable) {
-		/* do nothing*/
-		}
+	public abstract void enableSearch(boolean enable);
 
 	public abstract int getMainSplitPosition();
 
@@ -152,15 +185,9 @@ public abstract class BaseGUI {
 
 	public abstract int getRightSplitPosition();
 
+	public abstract JFrame getTopContainer();
+
 	public abstract OwnSyntaxPane getPropertyPane();
 
 	public abstract void setValueOfZoomDisplay(int i);
-
-	public void afterSaving() {
-		/* do nothing*/
-	}
-
-	public abstract void setCursor(Cursor cursor);
-
-	public abstract void requestFocus();
 }

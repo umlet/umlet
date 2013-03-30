@@ -2,14 +2,13 @@ package com.baselet.diagram.command;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.Selector;
-import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 
 
@@ -43,14 +42,14 @@ public class Search extends Command {
 
 		if (s.getSelectedEntities().size() == 0) return;
 
-		Rectangle panelview = Converter.convert(d.getVisibleRect());
+		Rectangle panelview = d.getVisibleRect();
 		Point p = null;
 		for (GridElement e : s.getSelectedEntities()) {
-			if (panelview.contains(e.getRectangle())) {
+			if (panelview.contains(e.getBounds())) {
 				p = new Point(0, 0);
 				break;
 			}
-			else if (p == null) p = new Point(e.getRectangle().x - panelview.x - 10, e.getRectangle().y - panelview.y - 10);
+			else if (p == null) p = new Point(e.getLocation().x - panelview.x - 10, e.getLocation().y - panelview.y - 10);
 		}
 
 		if (p != null) d.changeViewPosition(p.x, p.y);

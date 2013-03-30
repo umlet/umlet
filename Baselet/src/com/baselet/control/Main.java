@@ -5,16 +5,17 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Comparator;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
 import java.util.Timer;
-import java.util.TreeMap;
 import java.util.jar.Attributes;
 
 import javax.imageio.ImageIO;
@@ -40,7 +41,7 @@ import com.baselet.gui.standalone.StandaloneGUI;
 
 public class Main {
 
-	private static final Logger log = Logger.getLogger(Main.class);
+	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private static Main instance;
 
@@ -51,7 +52,7 @@ public class Main {
 
 	private BaseGUI gui;
 	private GridElement editedGridElement;
-	private TreeMap<String, PaletteHandler> palettes;
+	private Hashtable<String, PaletteHandler> palettes;
 	private ArrayList<DiagramHandler> diagrams = new ArrayList<DiagramHandler>();
 	private DiagramHandler currentDiagramHandler;
 	private ClassLoader classLoader;
@@ -73,51 +74,55 @@ public class Main {
 		tmp_file = Program.PROGRAM_NAME.toLowerCase() + ".tmp";
 		tmp_read_file = Program.PROGRAM_NAME.toLowerCase() + "_1.tmp";
 
-		if (args.length != 0) {
-			String action = null;
-			String format = null;
-			String filename = null;
-			String output = null;
-			for (int i = 0; i < args.length; i++) {
-				if (args[i].startsWith("-action=")) action = args[i].substring(8);
-				else if (args[i].startsWith("-format=")) format = args[i].substring(8);
-				else if (args[i].startsWith("-filename=")) filename = args[i].substring(10);
-				else if (args[i].startsWith("-output=")) output = args[i].substring(8);
-			}
-			// Program started by double-click on diagram file
-			if ((action == null) && (format == null) && (filename != null)) {
-				if (!alreadyRunningChecker(false) || !sendFileNameToRunningApplication(filename)) {
-					main.init(new StandaloneGUI(main));
-					main.doOpen(filename);
+		try {
+			if (args.length != 0) {
+				String action = null;
+				String format = null;
+				String filename = null;
+				String output = null;
+				for (int i = 0; i < args.length; i++) {
+					if (args[i].startsWith("-action=")) action = args[i].substring(8);
+					else if (args[i].startsWith("-format=")) format = args[i].substring(8);
+					else if (args[i].startsWith("-filename=")) filename = args[i].substring(10);
+					else if (args[i].startsWith("-output=")) output = args[i].substring(8);
 				}
-			}
-			else if ((action != null) && (format != null) && (filename != null)) {
-				if (action.equals("convert")) {
-					Program.RUNTIME_TYPE = RuntimeType.BATCH;
-					String[] splitFilename = filename.split("(/|\\\\)");
-					String localName = splitFilename[splitFilename.length-1];
-					String dir = filename.substring(0, filename.length()-localName.length());
-					if (dir.isEmpty()) dir = ".";
-					FileFilter fileFilter = new WildcardFileFilter(localName);
-					File[] files = new File(dir).listFiles(fileFilter);
-					if (files !=null) {
-						for (int i = 0; i < files.length; i++) {
-							doConvert(files[i], format, output);
+				// Program started by double-click on diagram file
+				if ((action == null) && (format == null) && (filename != null)) {
+					if (!alreadyRunningChecker(false) || !sendFileNameToRunningApplication(filename)) {
+						main.init(new StandaloneGUI(main));
+						main.doOpen(filename);
+					}
+				}
+				else if ((action != null) && (format != null) && (filename != null)) {
+					if (action.equals("convert")) {
+						Program.RUNTIME_TYPE = RuntimeType.BATCH;
+						String[] splitFilename = filename.split("(/|\\\\)");
+						String localName = splitFilename[splitFilename.length-1];
+						String dir = filename.substring(0, filename.length()-localName.length());
+						if (dir.isEmpty()) dir = ".";
+						FileFilter fileFilter = new WildcardFileFilter(localName);
+						File[] files = new File(dir).listFiles(fileFilter);
+						if (files !=null) {
+							for (int i = 0; i < files.length; i++) {
+								doConvert(files[i], format, output);
+							}
 						}
 					}
+					else printUsage();
 				}
 				else printUsage();
 			}
-			else printUsage();
-		}
-		else { // no arguments specified
-			alreadyRunningChecker(true); // start checker
-			main.init(new StandaloneGUI(main));
-			main.doNew();
+			else { // no arguments specified
+				alreadyRunningChecker(true); // start checker
+				main.init(new StandaloneGUI(main));
+				main.doNew();
+			}
+		} catch (Exception e) {
+			log.error("Initialization or uncaught outer Exception", e);
 		}
 	}
 
-	public void init(BaseGUI gui) {
+	public void init(BaseGUI gui) throws Exception {
 		this.gui = gui;
 		Config.loadConfig(); // only load config after gui is set (because of homepath)
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE); // Tooltips should not hide after some time
@@ -125,13 +130,13 @@ public class Main {
 	}
 
 	public void initLogger() {
-		String log4jFilePath = Path.homeProgram() + Constants.LOG4J_PROPERTIES;
+		String log4jFilePath = Path.homeProgram() + "log4j.properties";
 		try {
 			// If no log4j.properties file exists, we create a simple one
 			if (!new File(log4jFilePath).exists()) {
-				File tempLog4jFile = File.createTempFile(Constants.LOG4J_PROPERTIES, null);
+				log4jFilePath = Path.temp() + Program.PROGRAM_NAME.toLowerCase() + "_log4j.properties";
+				File tempLog4jFile = new File(log4jFilePath);
 				tempLog4jFile.deleteOnExit();
-				log4jFilePath = tempLog4jFile.getAbsolutePath();
 				Writer writer = new BufferedWriter(new FileWriter(tempLog4jFile));
 				writer.write(
 						"log4j.rootLogger=ERROR, SYSTEM_OUT\n" +
@@ -142,21 +147,18 @@ public class Main {
 			}
 			Properties props = new Properties();
 			props.put("PROJECT_PATH", Path.homeProgram()); // Put homepath as relative variable in properties file
-			FileInputStream inStream = new FileInputStream(log4jFilePath);
-			props.load(inStream);
-			inStream.close();
+			props.load(new FileInputStream(log4jFilePath));
 			PropertyConfigurator.configure(props);
 			log.info("Logger configuration initialized");
-		} catch (Exception e) {
-			System.err.println("Initialization of " + Constants.LOG4J_PROPERTIES + " failed:");
-			e.printStackTrace();
+		} catch (IOException e) {
+			log.error("Initialization of log4j.properties failed", e);
 		}
 	}
 
 	private void readManifestInfo() {
 		try {
 			Attributes attributes = Path.manifest().getMainAttributes();
-			Program.init(attributes.getValue(Constants.MANIFEST_BUNDLE_NAME), attributes.getValue(Constants.MANIFEST_BUNDLE_VERSION));
+			Program.init(attributes.getValue("Bundle-Name"), attributes.getValue("Bundle-Version"));
 		} catch (Exception e) {
 			//			log.error(null, e);
 			e.printStackTrace(); // Logger is not initialized here
@@ -390,20 +392,15 @@ public class Main {
 		}
 	}
 
-	public TreeMap<String, PaletteHandler> getPalettes() {
+	public Hashtable<String, PaletteHandler> getPalettes() {
 		if (this.palettes == null) {
-			this.palettes = new TreeMap<String, PaletteHandler>(Constants.DEFAULT_FIRST_COMPARATOR);
+			this.palettes = new Hashtable<String, PaletteHandler>();
 			// scan palettes
 			List<File> palettes = this.scanForPalettes();
-			for (File palette : palettes) {
-				this.palettes.put(getFilenameWithoutExtension(palette), new PaletteHandler(palette));
-			}
+			for (File palette : palettes)
+				this.palettes.put(palette.getName(), new PaletteHandler(palette));
 		}
 		return this.palettes;
-	}
-
-	private String getFilenameWithoutExtension(File file) {
-		return file.getName().substring(0, file.getName().indexOf("."));
 	}
 
 	private List<File> scanForPalettes() {
@@ -418,12 +415,21 @@ public class Main {
 	}
 
 	public List<String> getPaletteNames() {
-		List<String> nameList = new ArrayList<String>();
-		for (File f : scanForPalettes()) {
-			nameList.add(getFilenameWithoutExtension(f));
-		}
-		Collections.sort(nameList, Constants.DEFAULT_FIRST_COMPARATOR);
-		return nameList;
+		return this.getPaletteNames(this.getPalettes());
+	}
+
+	public List<String> getPaletteNames(Hashtable<String, PaletteHandler> palettes) {
+		List<String> palettenames = new ArrayList<String>();
+		for (String palette : palettes.keySet())
+			palettenames.add(palette.substring(0, palette.length() - 4));
+		Collections.sort(palettenames, new Comparator<String>() {
+			@Override
+			public int compare(String s1, String s2) {
+				if (s1.equals("Default")) return 0; // Default palette is always on top
+				else return s1.compareTo(s2);
+			}
+		});
+		return palettenames;
 	}
 
 	public List<String> getTemplateNames() {
@@ -434,7 +440,7 @@ public class Main {
 		for (File template : templateFiles) {
 			if (template.getName().endsWith(".java")) templates.add(template.getName().substring(0, template.getName().length() - 5));
 		}
-		Collections.sort(templates, Constants.DEFAULT_FIRST_COMPARATOR);
+		Collections.sort(templates, new TemplateSorter());
 		return templates;
 	}
 
@@ -469,21 +475,6 @@ public class Main {
 	// returns the current diagramhandler the user works with - may be a diagramhandler of a palette too
 	public DiagramHandler getDiagramHandler() {
 		return this.currentDiagramHandler;
-	}
-
-	/**
-	 * Workaround to avoid storing the handler directly in the GridElement
-	 * (necessary as a first step in the direction of GridElements which do not know where they are painted)
-	 */
-	private static HashMap<GridElement, DiagramHandler> gridElementToHandlerMapping = new HashMap<GridElement, DiagramHandler>();
-
-	public static DiagramHandler getHandlerForElement(GridElement element) {
-		DiagramHandler diagramHandler = gridElementToHandlerMapping.get(element);
-		return diagramHandler;
-	}
-	
-	public static DiagramHandler setHandlerForElement(GridElement element, DiagramHandler handler) {
-		return gridElementToHandlerMapping.put(element, handler);
 	}
 
 }

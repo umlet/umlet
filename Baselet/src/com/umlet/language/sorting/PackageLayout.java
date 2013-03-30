@@ -1,14 +1,16 @@
 package com.umlet.language.sorting;
 
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.umlet.element.Package;
+
 import com.umlet.language.SortableElement;
 
 public class PackageLayout extends Layout {
@@ -40,7 +42,7 @@ public class PackageLayout extends Layout {
 		Rectangle x = new Rectangle();
 		for (SortableElement pack: packList.keySet()) {
 			pack.getElement().setLocation(10, 10 + x.y + x.height);
-			x = pack.getElement().getRectangle();
+			x = pack.getElement().getBounds();
 		}
 		
 		for (SortableElement pack: packList.keySet()) {	
@@ -51,8 +53,8 @@ public class PackageLayout extends Layout {
 
 	private void adjustLocations(SortableElement pack, List<SortableElement> packElements) {
 		for (SortableElement s: packElements) {
-			Rectangle loc = s.getElement().getRectangle();
-			Rectangle packLoc = pack.getElement().getRectangle();
+			Point loc = s.getElement().getLocation();
+			Point packLoc = pack.getElement().getLocation();
 			s.getElement().setLocation(loc.x + packLoc.x, loc.y + packLoc.y + ADJUST_TO_PACKAGE_HEAD);
 		}
 	}

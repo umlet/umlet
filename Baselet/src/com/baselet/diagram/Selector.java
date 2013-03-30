@@ -1,11 +1,10 @@
 package com.baselet.diagram;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.util.Vector;
 
 import com.baselet.control.Main;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.umlet.custom.CustomElement;
@@ -82,12 +81,12 @@ public class Selector {
 	}
 
 	public void select(GridElement e) {
-		List<GridElement> v = new ArrayList<GridElement>();
+		Vector<GridElement> v = new Vector<GridElement>();
 		v.add(e);
 		handleSelect(v);
 	}
 
-	public void select(List<GridElement> entities) {
+	public void select(Vector<GridElement> entities) {
 		handleSelect(entities);
 	}
 
@@ -95,7 +94,7 @@ public class Selector {
 		handleSelect(panel.getAllEntitiesNotInGroup());
 	}
 
-	private void handleSelect(List<GridElement> entities) {
+	private void handleSelect(Vector<GridElement> entities) {
 		for (GridElement e : entities) {
 			if (selectedEntities.contains(e) || e.isPartOfGroup()) continue;
 			e.onSelected();
@@ -156,9 +155,9 @@ public class Selector {
 		this.select(e);
 	}
 
-	public void multiSelect(Rectangle rect) {
+	public void multiSelect(Point upperLeft, Dimension size) {
 		for (GridElement e : panel.getAllEntities()) {
-			if (e.isInRange(rect)) select(e);
+			if (e.isInRange(upperLeft, size)) select(e);
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.baselet.gui.listener;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
@@ -12,17 +13,17 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Main;
+import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.SelectorFrame;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
 
 public class DiagramListener extends UniversalListener implements MouseWheelListener {
-	
-	private static final Logger log = Logger.getLogger(DiagramListener.class);
+
+	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	public DiagramListener(DiagramHandler handler) {
 		super(handler);
@@ -53,6 +54,7 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 	@Override
 	public void mouseMoved(MouseEvent me) {
 		super.mouseMoved(me);
+		log.debug("DiagramLister move");
 		// for (Entity e : this.diagram.getSelector().getSelectedEntities()) {
 		// EntityListener listener = handler.getEntityListener(e);
 		// if(listener.IS_DRAGGED_FROM_PALETTE){

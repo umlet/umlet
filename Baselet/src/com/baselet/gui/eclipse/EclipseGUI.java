@@ -4,39 +4,44 @@ import java.awt.Cursor;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.util.HashMap;
+import java.util.Hashtable;
 
+import javax.swing.JFrame;
 import javax.swing.text.JTextComponent;
 
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
+import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.OwnSyntaxPane;
-import com.baselet.plugin.MainPlugin;
 import com.baselet.plugin.editor.Contributor;
 import com.baselet.plugin.editor.Contributor.ActionName;
 import com.baselet.plugin.editor.Editor;
 import com.umlet.custom.CustomElementHandler;
 
+@SuppressWarnings("serial")
 public class EclipseGUI extends BaseGUI {
 
 	public enum Pane {
 		PROPERTY, CUSTOMCODE, DIAGRAM
 	}
-	
-	private static final Logger log = Logger.getLogger(EclipseGUI.class);
+
+	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private Editor editor;
-	private HashMap<DiagramHandler, Editor> diagrams;
+	private Hashtable<DiagramHandler, Editor> diagrams;
 	private Contributor contributor;
+
+	private int mainSplitPosition, rightSplitPosition;
 
 	public EclipseGUI(Main main) {
 		super(main);
-		this.diagrams = new HashMap<DiagramHandler, Editor>();
+		this.diagrams = new Hashtable<DiagramHandler, Editor>();
 	}
 
 	@Override
@@ -65,6 +70,13 @@ public class EclipseGUI extends BaseGUI {
 	}
 
 	@Override
+	public void enableSearch(boolean enable) {
+		if (this.editor != null) {
+			this.editor.enableSearch(enable);
+		}
+	}
+
+	@Override
 	public CustomElementHandler getCurrentCustomHandler() {
 		if (this.editor == null) return null;
 		return this.editor.getCustomElementHandler();
@@ -78,32 +90,40 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public int getMainSplitPosition() {
-		return Constants.main_split_position; // in Eclipse the Editors overwrite this constant everytime they are closed (editor.getMainSplitLocation() wouldn't work because the editor is already null)
+		return mainSplitPosition;
 	}
 
 	@Override
 	public int getRightSplitPosition() {
-		return Constants.right_split_position;
+		return rightSplitPosition;
 	}
 
 	@Override
 	public int getMailSplitPosition() {
-		return Constants.mail_split_position;
+		return Constants.mail_split_position; // must return stored value in Constants, otherwise 0 will be returned in case of a closed panel
 	}
 
 	@Override
 	public String getSelectedPalette() {
-		if (this.editor != null) return this.editor.getSelectedPaletteName();
+		if (this.editor != null) { return this.editor.getSelectedPaletteName() + "." + Program.EXTENSION; }
+		return null;
+	}
+
+	@Override
+	public JFrame getTopContainer() {
 		return null;
 	}
 
 	@Override
 	protected void init() {
+		// We load the constants as startingsplitpositions into the variables
+		mainSplitPosition = Constants.main_split_position;
+		rightSplitPosition = Constants.right_split_position;
 	}
 
 	@Override
 	public void open(DiagramHandler diagram) {
-		if (editor != null) editor.open(diagram);
+		// not called by eclipse plugin (handles open by createEditor function)
 	}
 
 	@Override
@@ -112,9 +132,8 @@ public class EclipseGUI extends BaseGUI {
 	}
 
 	@Override
-	public void showPalette(String palette) {
-		super.showPalette(palette);
-		if (editor != null) editor.showPalette(palette);
+	public void selectPalette(String palette) {
+		editor.selectPalette(palette);
 	}
 
 	@Override
@@ -131,7 +150,7 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public void setCustomPanelEnabled(boolean enable) {
 		if (this.editor != null) {
-			editor.setCustomPanelEnabled(enable);
+			this.editor.setCustomPanelEnabled(enable);
 			if (this.contributor != null) this.contributor.setCustomPanelEnabled(enable);
 		}
 	}
@@ -151,13 +170,13 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public void updateDiagramName(DiagramHandler diagram, String name) {
 		Editor editor = this.diagrams.get(diagram);
-		if (editor != null) editor.diagramNameChanged();
+		if (editor != null) editor.dirtyChanged();
 	}
 
 	@Override
 	public void setDiagramChanged(DiagramHandler diagram, boolean changed) {
 		Editor editor = this.diagrams.get(diagram);
-		if (editor != null) editor.dirtyChanged();
+		if ((editor != null) && changed) editor.dirtyChanged();
 	}
 
 	@Override
@@ -169,24 +188,18 @@ public class EclipseGUI extends BaseGUI {
 	public void setCursor(Cursor cursor) {
 		if (this.editor != null) this.editor.setCursor(cursor);
 	}
-	
-	public void registerEditorForDiagramHandler(Editor editor, DiagramHandler handler) {
-		this.diagrams.put(handler, editor);
-	}
-
-	public void setCurrentDiagramHandler(DiagramHandler handler) {
-		Main.getInstance().setCurrentDiagramHandler(handler);	
-	}
 
 	public void setCurrentEditor(Editor editor) {
+		DrawPanel diagram = editor.getDiagram();
+		if (diagram != null && !this.diagrams.containsKey(diagram)) this.diagrams.put(diagram.getHandler(), editor);
 		this.editor = editor;
 	}
 
 	public void editorRemoved(Editor editor) {
-		// Before removing the editor, we have to store the actual splitpositions and lastUsedPalette to variables so that a new editor has the same values
-		Constants.main_split_position = editor.getMainSplitLocation();
-		Constants.right_split_position = editor.getRightSplitLocation();
-		Constants.lastUsedPalette = getSelectedPalette();
+		// Before removing the editor, we have to store the actual splitpositions
+		// to variables so that a new editor has the same splitpositions
+		mainSplitPosition = editor.getMainSplitLocation();
+		rightSplitPosition = editor.getRightSplitLocation();
 		this.diagrams.remove(editor);
 		if (editor.equals(this.editor)) {
 			this.editor = null;
@@ -200,6 +213,7 @@ public class EclipseGUI extends BaseGUI {
 	}
 
 	public void panelDoAction(Pane pane, ActionName actionName) {
+
 		JTextComponent textpane = null;
 		if (pane == Pane.PROPERTY) textpane = editor.getPropertyPane().getTextComponent();
 		else if (pane == Pane.CUSTOMCODE) textpane = editor.getCustomPane();
@@ -239,6 +253,11 @@ public class EclipseGUI extends BaseGUI {
 		if (this.editor != null) this.editor.requestFocus();
 	}
 
+	@Override
+	public void repaint() {
+		if (this.editor != null) this.editor.repaint();
+	}
+
 	public void setContributor(Contributor contributor) {
 		this.contributor = contributor;
 	}
@@ -253,19 +272,13 @@ public class EclipseGUI extends BaseGUI {
 		if (this.contributor != null) this.contributor.setGlobalActionHandlers(pane);
 	}
 
+	public Contributor getContributor() {
+		return this.contributor;
+	}
+
 	@Override
 	public void setValueOfZoomDisplay(int i) {
 		if (contributor != null) contributor.updateZoomMenuRadioButton(i);
 	}
 
-	@Override
-	public void afterSaving() {
-		super.afterSaving();
-		MainPlugin.refreshWorkspace();
-	}
-
-	@Override
-	public void focusPropertyPane() {
-		editor.focusPropertyPane();
-	}
 }

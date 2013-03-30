@@ -13,6 +13,7 @@ import com.baselet.control.BrowserLauncher;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Main;
+import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.Selector;
@@ -34,7 +35,7 @@ import com.umlet.language.ClassDiagramConverter;
 
 public class MenuFactory {
 
-	private static final Logger log = Logger.getLogger(MenuFactory.class);
+	protected final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	//FILE
 	public static final String FILE = "File";
@@ -221,10 +222,10 @@ public class MenuFactory {
 					AboutDialog.show();
 				}
 				else if (menuItem.equals(SET_FOREGROUND_COLOR) && (actualHandler != null)) {
-					actualHandler.getController().executeCommand(new ChangeElementSetting(GlobalSetting.FOREGROUND_COLOR, (String) param));
+					actualHandler.getController().executeCommand(new ChangeElementSetting(GlobalSetting.ForegroundColor, (String) param));
 				}
 				else if (menuItem.equals(SET_BACKGROUND_COLOR) && (actualHandler != null)) {
-					actualHandler.getController().executeCommand(new ChangeElementSetting(GlobalSetting.BACKGROUND_COLOR, (String) param));
+					actualHandler.getController().executeCommand(new ChangeElementSetting(GlobalSetting.BackgroundColor, (String) param));
 				}
 				else if (menuItem.equals(ALIGN) && (actualHandler != null) && (actualSelector != null)) {
 					Vector<GridElement> v = actualSelector.getSelectedEntities();

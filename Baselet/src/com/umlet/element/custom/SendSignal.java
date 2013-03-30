@@ -3,15 +3,12 @@ package com.umlet.element.custom;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
-import com.baselet.diagram.draw.geom.Point;
-
+import java.awt.Point;
 import java.awt.Polygon;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 
@@ -21,17 +18,17 @@ public class SendSignal extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(this.getHandler().getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
 
 		Polygon poly = new Polygon();
 		poly.addPoint(0, 0);
-		poly.addPoint(this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0);
-		poly.addPoint(this.getZoomedSize().width - 1, this.getZoomedSize().height / 2);
-		poly.addPoint(this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), this.getZoomedSize().height - 1);
-		poly.addPoint(0, this.getZoomedSize().height - 1);
+		poly.addPoint(this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), 0);
+		poly.addPoint(this.getSize().width - 1, this.getSize().height / 2);
+		poly.addPoint(this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), this.getSize().height - 1);
+		poly.addPoint(0, this.getSize().height - 1);
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
@@ -42,13 +39,13 @@ public class SendSignal extends OldGridElement {
 		g2.drawPolygon(poly);
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		int yPos = this.getZoomedSize().height / 2 - tmp.size() * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())) / 2;
+		int yPos = this.getSize().height / 2 - tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-			Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
-			yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+			yPos += (int) this.getHandler().getFontHandler().getFontSize();
+			this.getHandler().getFontHandler().writeText(g2, s, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
+			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		}
 		// g2.drawLine(0,0,this.getWidth()-this.getHandler().getFontHandler().getFontsize(),0);
 		// g2.drawLine(this.getWidth()-this.getHandler().getFontHandler().getFontsize(), this.getHeight()-1, 0, this.getHeight()-1);
@@ -61,9 +58,9 @@ public class SendSignal extends OldGridElement {
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
 		StickingPolygon p = new StickingPolygon();
 		p.addPoint(new Point(x, y));
-		p.addPoint(new Point(x + width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), y));
+		p.addPoint(new Point(x + width - (int) this.getHandler().getFontHandler().getFontSize(), y));
 		p.addPoint(new Point(x + width, y + height / 2));
-		p.addPoint(new Point(x + width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), y + height));
+		p.addPoint(new Point(x + width - (int) this.getHandler().getFontHandler().getFontSize(), y + height));
 		p.addPoint(new Point(x, y + height), true);
 		return p;
 	}

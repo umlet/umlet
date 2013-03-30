@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.5.1">
+  <zoom_level>8</zoom_level>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>72</x>
+      <y>272</y>
+      <w>144</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>24;144;128;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>240</x>
+      <y>56</y>
+      <w>144</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>24;136;128;24</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>136</x>
+      <y>136</y>
+      <w>128</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>aa
+asasasasa
+template=abcdefghi
+sasasas
+asasasasdas
+dasdsadsad
+sadsadsadsad
+sadsadsa
+dsadsad
+asasasasasasasasasasa
+OuterClass
+{innerclass
+testtest
+{innerclass
+testtest
+--
+innerclass}
+--
+innerclass}
+elementstyle=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>152</x>
+      <y>0</y>
+      <w>144</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>24;136;128;24</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>8</x>
+      <y>176</y>
+      <w>144</w>
+      <h>152</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>24;136;128;24</additional_attributes>
+  </element>
+</diagram>

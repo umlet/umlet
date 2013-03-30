@@ -46,10 +46,10 @@ public class PropertyPanelListener implements KeyListener, DocumentListener {
 				int newCaretPos = Main.getInstance().getGUI().getPropertyPane().getTextComponent().getCaretPosition();
 				int oldCaretPos = newCaretPos - (s.length()-gridElement.getPanelAttributes().length());		
 
-				if (Main.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {
-					Main.getHandlerForElement(gridElement).getController().executeCommand(new CustomCodePropertyChanged(gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
+				if (gridElement.getHandler() instanceof CustomPreviewHandler) {
+					gridElement.getHandler().getController().executeCommand(new CustomCodePropertyChanged(gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
 				} else {
-					Main.getHandlerForElement(gridElement).getController().executeCommand(new ChangeState(gridElement, gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
+					gridElement.getHandler().getController().executeCommand(new ChangeState(gridElement, gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
 				}
 			}
 		}

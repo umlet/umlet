@@ -9,7 +9,6 @@ import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionFactory;
@@ -108,11 +107,13 @@ public class Contributor extends EditorActionBarContributor {
 		selectAllActionPropPanel = createPanelAction(Pane.PROPERTY, ActionName.SELECTALL);
 
 		setGlobalActionHandlers(Pane.DIAGRAM);
+
+		MainPlugin.getGUI().setContributor(this);
 	}
 
 	@Override
 	public void contributeToMenu(IMenuManager manager) {
-		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) MainPlugin.getGUI().setContributor(this);
+		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) (MainPlugin.getGUI()).setContributor(this);
 
 		IMenuManager menu = new MenuManager(Program.PROGRAM_NAME.toString());
 		IMenuManager custom = new MenuManager(MenuFactory.CUSTOM_ELEMENTS);
@@ -227,7 +228,7 @@ public class Contributor extends EditorActionBarContributor {
 			getActionBars().setGlobalActionHandler(ActionFactory.FIND.getId(), null);
 		}
 
-		Display.getDefault().asyncExec(new UpdateActionBars(this.getActionBars()));
+		org.eclipse.swt.widgets.Display.getDefault().asyncExec(new UpdateActionBars(this.getActionBars()));
 	}
 
 	public void updateZoomMenuRadioButton(int newGridSize) {

@@ -6,16 +6,19 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Vector;
 
-import javax.swing.JLayeredPane;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.RepaintManager;
@@ -24,12 +27,12 @@ import javax.swing.ScrollPaneConstants;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
+import com.baselet.control.DiagramNotification;
+import com.baselet.control.Constants.AlignVertical;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Utils;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.baselet.element.Group;
 import com.baselet.gui.StartUpHelpText;
 import com.baselet.gui.listener.ScrollbarListener;
 import com.baselet.gui.standalone.FileDrop;
@@ -37,16 +40,16 @@ import com.baselet.gui.standalone.FileDropListener;
 import com.umlet.element.Relation;
 
 @SuppressWarnings("serial")
-public class DrawPanel extends JLayeredPane implements Printable {
-	
-	private static final Logger log = Logger.getLogger(DrawPanel.class);
+public class DrawPanel extends JPanel implements Printable {
+
+	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private Point origin;
 	private JScrollPane _scr;
 	private Selector selector;
 	private DiagramHandler handler;
 
-	private List<GridElement> gridElements = new ArrayList<GridElement>();
+	private HashMap<Component, GridElement> componentToGridElementMap = new HashMap<Component, GridElement>();
 
 	public DrawPanel(DiagramHandler handler) {
 		this.handler = handler;
@@ -54,13 +57,11 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		this.origin = new Point();
 		this.setLayout(null);
 		this.setBackground(Color.WHITE);
-		this.setOpaque(true);
 		// If this is not a palette, create a StartupHelpText
 		if (!(handler instanceof PaletteHandler)) {
 			StartUpHelpText startupHelpText = new StartUpHelpText(this);
 			if (Program.RUNTIME_TYPE != RuntimeType.BATCH) { //Batchmode doesn't need drag&drop. Also fixes Issue 81
-				@SuppressWarnings("unused")
-				FileDrop fd = new FileDrop(startupHelpText, new FileDropListener());
+				new FileDrop(startupHelpText, new FileDropListener());
 			}
 			this.add(startupHelpText);
 		}
@@ -143,19 +144,18 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		int maxy = 0;
 
 		for (GridElement e : entities) {
-			minx = Math.min(minx, e.getRectangle().x - borderSpace);
-			miny = Math.min(miny, e.getRectangle().y - borderSpace);
-			maxx = Math.max(maxx, e.getRectangle().x + e.getZoomedSize().width + borderSpace);
-			maxy = Math.max(maxy, e.getRectangle().y + e.getZoomedSize().height + borderSpace);
+			minx = Math.min(minx, e.getLocation().x - borderSpace);
+			miny = Math.min(miny, e.getLocation().y - borderSpace);
+			maxx = Math.max(maxx, e.getLocation().x + e.getSize().width + borderSpace);
+			maxy = Math.max(maxy, e.getLocation().y + e.getSize().height + borderSpace);
 		}
 		return new Rectangle(minx, miny, maxx - minx, maxy - miny);
 	}
 
 	public void paintEntitiesIntoGraphics2D(Graphics2D g2d, Collection<GridElement> entities) {
-		JLayeredPane tempPanel = new JLayeredPane();
+		JComponent tempPanel = new JPanel();
 		for (GridElement entity : entities) {
-			GridElement clone = entity.CloneFromMe();
-			tempPanel.add((Component) clone.getComponent(), clone.getLayer());
+			tempPanel.add(entity.CloneFromMe().getComponent());
 		}
 		tempPanel.validate();
 		tempPanel.setBackground(Color.WHITE);
@@ -187,37 +187,25 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		}
 	}
 
-	public List<GridElement> getAllEntities() {
-		return gridElements;
-	}
-	
-	/**
-	 * Groups form a tree structure, therefore this method returns only elements which are not part of the group.
-	 * Elements which are part of a group must be retrieved from the group using {@link Group#getMembers()}
-	 */
-	public List<GridElement> getAllEntitiesWithGroupsAsTree() {
-		List<GridElement> elementsToDraw = new ArrayList<GridElement>(gridElements);
-		for (GridElement e : gridElements) {
-			if (e instanceof Group) elementsToDraw.removeAll(((Group) e).getMembers());
-		}
-		return elementsToDraw;
+	public Collection<GridElement> getAllEntities() {
+		return componentToGridElementMap.values();
 	}
 
-	public List<Relation> getAllRelations() {
+	public Collection<Relation> getAllRelations() {
 		return getAll(Relation.class);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private <T extends GridElement> List<T> getAll(Class<T> filtered) {
-		List<T> gridElementsToReturn = new ArrayList<T>();
+	private <T extends GridElement> Collection<T> getAll(Class<T> filtered) {
+		Collection<T> gridElementsToReturn = new ArrayList<T>();
 		for (GridElement e : getAllEntities()) {
 				if (e.getClass().equals(filtered)) gridElementsToReturn.add((T) e);
 		}
 		return gridElementsToReturn;
 	}
 
-	public List<GridElement> getAllEntitiesNotInGroup() {
-		List<GridElement> entities = new ArrayList<GridElement>();
+	public Vector<GridElement> getAllEntitiesNotInGroup() {
+		Vector<GridElement> entities = new Vector<GridElement>();
 		for (GridElement e : getAllEntities()) {
 			if (!e.isPartOfGroup()) entities.add(e);
 		}
@@ -332,7 +320,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		moveOrigin(newX, newY);
 
 		for (GridElement ge : getAllEntities()) {
-			ge.setLocation(handler.realignToGrid(false, ge.getRectangle().x - newX), handler.realignToGrid(false, ge.getRectangle().y - newY));
+			ge.setLocation(handler.realignToGrid(false, ge.getLocation().x - newX), handler.realignToGrid(false, ge.getLocation().y - newY));
 		}
 
 		changeViewPosition(-newX, -newY);
@@ -487,7 +475,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	 * @return a point that marks the diagram origin.
 	 */
 	public Point getOrigin() {
-		log.trace("Diagram origin: " + origin);
+		log.debug("Diagram origin: " + origin);
 		return new Point(origin);
 	}
 
@@ -496,7 +484,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	 * This method is mainly used by updatePanelAndScrollBars() to keep track of the panels size changes.
 	 */
 	public void moveOrigin(int dx, int dy) {
-		log.trace("Move origin to: " + origin);
+		log.debug("Move origin to: " + origin);
 		this.origin.translate(handler.realignToGrid(false, dx), handler.realignToGrid(false, dy));
 	}
 
@@ -511,31 +499,28 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	 *            the new grid size
 	 */
 	public void zoomOrigin(int oldGridSize, int newGridSize) {
-		log.trace("Zoom origin to: " + origin);
+		log.debug("Zoom origin to: " + origin);
 		origin.setLocation((origin.x * newGridSize) / oldGridSize, (origin.y * newGridSize) / oldGridSize);
 	}
 
 	public void removeElement(GridElement gridElement) {
-		gridElements.remove(gridElement);
-		remove((Component) gridElement.getComponent());
+		componentToGridElementMap.remove(gridElement.getComponent());
+		remove(gridElement.getComponent());
 	}
 
 	public void addElement(GridElement gridElement) {
-		gridElements.add(gridElement);
-		add((Component) gridElement.getComponent(), gridElement.getLayer());
+		componentToGridElementMap.put(gridElement.getComponent(), gridElement);
+		add(gridElement.getComponent());
 	}
 	
 	public void updateElements() {
-		for (GridElement e : gridElements) {
+		for (GridElement e : componentToGridElementMap.values()) {
 			e.updateModelFromText();
 		}
 	}
 
 	public GridElement getElementToComponent(Component component) {
-		for (GridElement e : gridElements) {
-			if (e.getComponent().equals(component)) return e;
-		}
-		return null;
+		return componentToGridElementMap.get(component);
 	}
 	
 	public void scroll(int amount) {

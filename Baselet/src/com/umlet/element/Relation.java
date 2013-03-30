@@ -1,22 +1,23 @@
 package com.umlet.element;
 
 import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Main;
+import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
@@ -365,20 +366,20 @@ public class Relation extends OldGridElement {
 				else if ((s.indexOf("-") >= 0) & (s.indexOf(".") >= s.indexOf("-"))) {
 					lineType = "-.";
 				}
-				else if (s.indexOf(LineType.DASHED.getValue()) >= 0) {
-					lineType = LineType.DASHED.getValue();
+				else if (s.indexOf(".") >= 0) {
+					lineType = ".";
 				}
-				else if (s.indexOf(LineType.SOLID.getValue()) >= 0) {
-					lineType = LineType.SOLID.getValue();
+				else if (s.indexOf("-") >= 0) {
+					lineType = "-";
 				}
-				else if(s.substring(3, s.length()).indexOf(LineType.DOUBLE.getValue()) >= 0) {
-					lineType = LineType.DOUBLE.getValue();
+				else if(s.substring(3, s.length()).indexOf("=") >= 0) {
+					lineType = "=";
 				}
-				else if(s.indexOf(LineType.DOUBLE_DOTTED.getValue()) >= 0) {
-					lineType = LineType.DOUBLE_DOTTED.getValue();
+				else if(s.indexOf("::") >= 0) {
+					lineType = "::";
 				}
-				else if(s.indexOf(LineType.DOUBLE_DASHED.getValue()) >= 0) {
-					lineType = LineType.DOUBLE_DASHED.getValue();
+				else if(s.indexOf(":") >= 0) {
+					lineType = ":";
 				}
 			}
 			else {
@@ -398,7 +399,7 @@ public class Relation extends OldGridElement {
 
 		for (int i = 1; i < points.size(); i++) {
 			pp_end = points.elementAt(i);
-			if (!r.contains(Converter.convert(pp_end))) {
+			if (!r.contains(pp_end)) {
 				// End point of intersecting line found
 				pp_start = points.elementAt(i - 1);
 
@@ -426,11 +427,11 @@ public class Relation extends OldGridElement {
 		int endx = pEnd.x;
 		int endy = pEnd.y;
 
-		for (@SuppressWarnings("unused") int i = 0;; i++) {
+		for (int i = 0;; i++) {
 			endx += vectorX;
 			endy += vectorY;
 			rMovable.setLocation(endx + centerDiffX, endy + centerDiffY);
-			if (!rFixed.intersects(Converter.convert(rMovable))) break;
+			if (!rFixed.intersects(rMovable)) break;
 		}
 
 		int newx = 0;
@@ -439,7 +440,7 @@ public class Relation extends OldGridElement {
 			newx = (endx + startx) / 2;
 			newy = (endy + starty) / 2;
 			rMovable.setLocation(newx + centerDiffX, newy + centerDiffY);
-			if (rFixed.intersects(Converter.convert(rMovable))) {
+			if (rFixed.intersects(rMovable)) {
 				startx = newx;
 				starty = newy;
 			}
@@ -455,7 +456,7 @@ public class Relation extends OldGridElement {
 
 	public boolean lineUp(Vector<Rectangle> shapes, Vector<Point> points, int hotspotx, int hotspoty) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = getHandler().getZoomFactor();
 
 		// Remove point with the same coordinates
 		for (int i = points.size() - 1; i > 0; i--) {
@@ -478,7 +479,7 @@ public class Relation extends OldGridElement {
 				Point p = points.elementAt(0);
 				r.setLocation(p.x - hotspotx, p.y - hotspoty);
 			}
-			Area a = new Area(Converter.convert(r));
+			Area a = new Area(r);
 			tmpArea.add(a);
 
 			// rFixed=(Rectangle)shapes.elementAt(i);
@@ -510,8 +511,8 @@ public class Relation extends OldGridElement {
 				Point a2 = new Point(2 * diffA.x + diffB2.x, 2 * diffA.y
 						+ diffB2.y);
 
-				a1 = Utils.normalize(a1, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
-				a2 = Utils.normalize(a2, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
+				a1 = Utils.normalize(a1, (int) this.getHandler().getFontHandler().getFontSize());
+				a2 = Utils.normalize(a2, (int) this.getHandler().getFontHandler().getFontSize());
 
 				arrow.setArrowEndA(a1);
 				arrow.setArrowEndB(a2);
@@ -543,8 +544,8 @@ public class Relation extends OldGridElement {
 					// the point compared to each other
 					// (which means propX + propY = 1) and multiplies it with
 					// the second parameter...
-					newA1 = Utils.normalize(newA1, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 2);
-					newA2 = Utils.normalize(newA2, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 2);
+					newA1 = Utils.normalize(newA1, (int) this.getHandler().getFontHandler().getFontSize() * 2);
+					newA2 = Utils.normalize(newA2, (int) this.getHandler().getFontHandler().getFontSize() * 2);
 
 					arrow.setCrossEndA(newA1);
 					arrow.setCrossEndB(newA2);
@@ -620,7 +621,7 @@ public class Relation extends OldGridElement {
 			}
 
 			// ATTENTION: this Recangle will become the rFixed in the next loop
-			rMovable.setLocation(res.x, res.y);
+			rMovable.setLocation(res);
 		}
 
 		return true;
@@ -630,11 +631,12 @@ public class Relation extends OldGridElement {
 	 * A relation is only in range (= in the selection frame) if every relation point is in the selection frame
 	 */
 	@Override
-	public boolean isInRange(Rectangle rect1) {
+	public boolean isInRange(Point upperLeft, Dimension size) {
+		Rectangle2D rect1 = new Rectangle2D.Double(upperLeft.getX(), upperLeft.getY(), size.getWidth(), size.getHeight());
 		// Assume that the rect contains all relation points
 		for (Point p : getLinePoints()) {
 			// We must add the displacement from the top left corner of the drawpanel to the point coordinates
-			Point realPoint = new Point((int) (p.getX() + this.getRectangle().x), (int) (p.getY() + this.getRectangle().y));
+			Point realPoint = new Point((int) (p.getX() + this.getLocation().x), (int) (p.getY() + this.getLocation().y));
 			// If only one point is not in the selection rectangle, the method returns false
 			if (!rect1.contains(realPoint)) return false;
 		}
@@ -662,7 +664,7 @@ public class Relation extends OldGridElement {
 
 	public int getLinePoint(Point p) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = getHandler().getZoomFactor();
 
 		for (int i = 0; i < getLinePoints().size(); i++) {
 			Point x = getLinePoints().elementAt(i);
@@ -680,12 +682,12 @@ public class Relation extends OldGridElement {
 	}
 
 	@Override
-	public boolean contains(java.awt.Point p) {
+	public boolean contains(Point p) {
 		// other relations which are selected are prioritized
-		for (GridElement other : Main.getHandlerForElement(this).getDrawPanel().getAllEntities()) {
+		for (GridElement other : getHandler().getDrawPanel().getAllEntities()) {
 			if (other != this && other instanceof Relation && other.isSelected()) {
-				int xDist = getRectangle().x - other.getRectangle().x;
-				int yDist = getRectangle().y - other.getRectangle().y;
+				int xDist = getLocation().x - other.getLocation().x;
+				int yDist = getLocation().y - other.getLocation().y;
 				Point modifiedP = new Point(p.x + xDist, p.y + yDist); // the point must be modified, because the other relation has other coordinates
 				boolean containsHelper = ((Relation) other).calcContains(modifiedP);
 				if (other.isSelected() && containsHelper) {
@@ -693,11 +695,11 @@ public class Relation extends OldGridElement {
 				}
 			}
 		}
-		return calcContains(Converter.convert(p));
+		return calcContains(p);
 	}
 
 	private boolean calcContains(Point p) {
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = getHandler().getZoomFactor();
 
 		for (int i = 0; i < getLinePoints().size(); i++) {
 			Point x = getLinePoints().elementAt(i);
@@ -734,7 +736,7 @@ public class Relation extends OldGridElement {
 
 	@Override
 	public boolean contains(int x, int y) {
-		return contains(new java.awt.Point(x, y));
+		return contains(new Point(x, y));
 	}
 
 	private Vector<Point> _points;
@@ -745,12 +747,6 @@ public class Relation extends OldGridElement {
 		}
 		return _points;
 	}
-	
-	public void moveLinePoint(int index, int diffx, int diffy) {
-		Point p = getLinePoints().elementAt(index);
-		p.move(diffx, diffy);
-		repaint();
-	}
 
 	@Override
 	public GridElement CloneFromMe() {
@@ -760,8 +756,8 @@ public class Relation extends OldGridElement {
 		c.setAdditionalAttributes(this.getAdditionalAttributes());
 
 		c.setVisible(true);
-		c.setRectangle(this.getRectangle());
-		Main.getHandlerForElement(this).setHandlerAndInitListeners(c);
+		c.setBounds(this.getBounds());
+		c.setHandlerAndInitListeners(this.getHandler());
 
 		return c;
 	}
@@ -773,7 +769,7 @@ public class Relation extends OldGridElement {
 	// Polygon to draw the move whole line rectangle + check if it contains the mouse
 	public Polygon getWholeLinePolygon() {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = getHandler().getZoomFactor();
 
 		Polygon p = new Polygon();
 		Point mid;
@@ -814,11 +810,11 @@ public class Relation extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = getHandler().getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
-		colorize(g2); // enable colors
+		g2.setFont(this.getHandler().getFontHandler().getFont());
+		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		// Just to set anti-aliasing, even if no text
 		// operations occur
@@ -837,18 +833,18 @@ public class Relation extends OldGridElement {
 		endShapes.add(new NoShape());
 
 		if ((beginQualifier != null) && (beginQualifier.length() > 0)) {
-			TextLayout tl = new TextLayout(beginQualifier, Main.getHandlerForElement(this).getFontHandler().getFont(), g2.getFontRenderContext());
+			TextLayout tl = new TextLayout(beginQualifier, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 			Qualifier q = new Qualifier(beginQualifier, 0, 0, (int) tl.getBounds().getWidth()
-					+ (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 2, (int) tl.getBounds().getHeight()
-					+ (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2);
+					+ (int) this.getHandler().getFontHandler().getFontSize() * 2, (int) tl.getBounds().getHeight()
+					+ (int) this.getHandler().getFontHandler().getFontSize() / 2);
 			startShapes.add(q);
 		}
 		if ((endQualifier != null) && (endQualifier.length() > 0)) {
-			TextLayout tl = new TextLayout(endQualifier, Main.getHandlerForElement(this).getFontHandler().getFont(),
+			TextLayout tl = new TextLayout(endQualifier, this.getHandler().getFontHandler().getFont(),
 					g2.getFontRenderContext());
 			Qualifier q = new Qualifier(endQualifier, 0, 0, (int) tl.getBounds().getWidth()
-					+ (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 2, (int) tl.getBounds().getHeight()
-					+ (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2);
+					+ (int) this.getHandler().getFontHandler().getFontSize() * 2, (int) tl.getBounds().getHeight()
+					+ (int) this.getHandler().getFontHandler().getFontSize() / 2);
 			endShapes.add(q);
 		}
 		if ((beginArrow != null) && (beginArrow.length() > 0)) {
@@ -860,48 +856,48 @@ public class Relation extends OldGridElement {
 			endShapes.add(a);
 		}
 		if ((beginMultiplicity != null) && (beginMultiplicity.length() > 0)) {
-			EmptyShape e = new EmptyShape((int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
+			EmptyShape e = new EmptyShape((int) this.getHandler().getFontHandler().getFontSize());
 			startShapes.add(e);
-			TextLayout tl = new TextLayout(beginMultiplicity, Main.getHandlerForElement(this).getFontHandler().getFont(), g2.getFontRenderContext());
+			TextLayout tl = new TextLayout(beginMultiplicity, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 			Multiplicity m = new Multiplicity(beginMultiplicity, 0, 0, (int) tl.getBounds().getWidth(),
 					(int) tl.getBounds().getHeight());
 			startShapes.add(m);
 		}
 		if ((endMultiplicity != null) && (endMultiplicity.length() > 0)) {
-			EmptyShape e = new EmptyShape((int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
+			EmptyShape e = new EmptyShape((int) this.getHandler().getFontHandler().getFontSize());
 			endShapes.add(e);
-			TextLayout tl = new TextLayout(endMultiplicity, Main.getHandlerForElement(this).getFontHandler().getFont(), g2.getFontRenderContext());
+			TextLayout tl = new TextLayout(endMultiplicity, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 			Multiplicity m = new Multiplicity(endMultiplicity, 0, 0, (int) tl.getBounds().getWidth(),
 					(int) tl.getBounds().getHeight());
 			endShapes.add(m);
 		}
 		if ((beginRole != null) && (beginRole.length() > 0)) {
-			EmptyShape e = new EmptyShape((int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
+			EmptyShape e = new EmptyShape((int) this.getHandler().getFontHandler().getFontSize());
 			startShapes.add(e);
 			// A.Mueller start
 			// calculating the width if we break lines...
 
 			int position = 0;
 			int lineBreaks = 0;
-			double broadestText = Main.getHandlerForElement(this).getFontHandler().getTextWidth(beginRole);
+			double broadestText = this.getHandler().getFontHandler().getTextWidth(beginRole);
 			while (position != 1) {
 				int positionNew = beginRole.indexOf("\\\\", position);
 				if ((position == 0) && (positionNew != -1)) broadestText = 0;
 
 				if (positionNew != -1) {
 
-					broadestText = Math.max(broadestText, Main.getHandlerForElement(this).getFontHandler()
+					broadestText = Math.max(broadestText, this.getHandler().getFontHandler()
 							.getTextWidth(beginRole.substring(position,
 									positionNew)));
-					if (beginRole.lastIndexOf("\\\\") + 2 != beginRole.length()) broadestText = Math.max(broadestText, Main.getHandlerForElement(this).getFontHandler().getTextWidth(beginRole.substring(beginRole.lastIndexOf("\\\\") + 2, beginRole.length())));
+					if (beginRole.lastIndexOf("\\\\") + 2 != beginRole.length()) broadestText = Math.max(broadestText, this.getHandler().getFontHandler().getTextWidth(beginRole.substring(beginRole.lastIndexOf("\\\\") + 2, beginRole.length())));
 					lineBreaks++;
 				}
 
 				position = positionNew + 2;
 			}
 			Role r = new Role(beginRole, 0, 0, (int) broadestText, lineBreaks
-					* (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (lineBreaks + 2)
-					* (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts());
+					* (int) this.getHandler().getFontHandler().getFontSize() + (lineBreaks + 2)
+					* (int) this.getHandler().getFontHandler().getDistanceBetweenTexts());
 
 			// <OLDCODE>
 			/*
@@ -914,22 +910,22 @@ public class Relation extends OldGridElement {
 			startShapes.add(r);
 		}
 		if ((endRole != null) && (endRole.length() > 0)) {
-			EmptyShape e = new EmptyShape((int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
+			EmptyShape e = new EmptyShape((int) this.getHandler().getFontHandler().getFontSize());
 			endShapes.add(e);
 			// A.Mueller start
 			// calculating the width if we break lines...
 			int position = 0;
 			int lineBreaks = 0;
-			double broadestText = Main.getHandlerForElement(this).getFontHandler().getTextWidth(endRole);
+			double broadestText = this.getHandler().getFontHandler().getTextWidth(endRole);
 			while (position != 1) {
 				int positionNew = endRole.indexOf("\\\\", position);
 				if ((position == 0) && (positionNew != -1)) broadestText = 0;
 
 				if (positionNew != -1) {
 
-					broadestText = Math.max(broadestText, Main.getHandlerForElement(this).getFontHandler().getTextWidth(endRole.substring(position, positionNew)));
+					broadestText = Math.max(broadestText, this.getHandler().getFontHandler().getTextWidth(endRole.substring(position, positionNew)));
 					if (endRole.lastIndexOf("\\\\") + 2 != endRole.length()) broadestText = Math.max(broadestText,
-							Main.getHandlerForElement(this).getFontHandler().getTextWidth(endRole.substring(endRole.lastIndexOf("\\\\") + 2,
+							this.getHandler().getFontHandler().getTextWidth(endRole.substring(endRole.lastIndexOf("\\\\") + 2,
 									endRole.length())));
 					lineBreaks++;
 				}
@@ -937,8 +933,8 @@ public class Relation extends OldGridElement {
 				position = positionNew + 2;
 			}
 			Role r = new Role(endRole, 0, 0, (int) broadestText, lineBreaks
-					* (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (lineBreaks + 2)
-					* (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts());
+					* (int) this.getHandler().getFontHandler().getFontSize() + (lineBreaks + 2)
+					* (int) this.getHandler().getFontHandler().getDistanceBetweenTexts());
 
 			// <OLDCODE>
 			/*
@@ -953,18 +949,18 @@ public class Relation extends OldGridElement {
 		// G.Mueller start
 		if ((beginPort != null) && (beginPort.length() > 0)) {
 
-			EmptyShape e = new EmptyShape((int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
+			EmptyShape e = new EmptyShape((int) this.getHandler().getFontHandler().getFontSize());
 			startShapes.add(e);
-			TextLayout tl = new TextLayout(beginPort, Main.getHandlerForElement(this).getFontHandler().getFont(), g2.getFontRenderContext());
+			TextLayout tl = new TextLayout(beginPort, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 			Port p = new Port(beginPort, 0, 0, (int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
 
 			startShapes.add(p);
 
 		}
 		if ((endPort != null) && (endPort.length() > 0)) {
-			EmptyShape e = new EmptyShape((int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
+			EmptyShape e = new EmptyShape((int) this.getHandler().getFontHandler().getFontSize());
 			endShapes.add(e);
-			TextLayout tl = new TextLayout(endPort, Main.getHandlerForElement(this).getFontHandler().getFont(), g2.getFontRenderContext());
+			TextLayout tl = new TextLayout(endPort, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 			Port p = new Port(endPort, 0, 0, (int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
 			endShapes.add(p);
 		}
@@ -984,11 +980,11 @@ public class Relation extends OldGridElement {
 
 		if (lineType.equals("-.")) g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
 		else if (lineType.equals(".-")) g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
-		else if (lineType.equals(LineType.SOLID.getValue())) g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
-		else if (lineType.equals(LineType.DASHED.getValue())) g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
-		else if (lineType.equals(LineType.DOUBLE.getValue())) g2.setStroke(Utils.getStroke(LineType.DOUBLE, 1));
-		else if (lineType.equals(LineType.DOUBLE_DASHED.getValue())) g2.setStroke(Utils.getStroke(LineType.DOUBLE_DASHED, 1));
-		else if (lineType.equals(LineType.DOUBLE_DOTTED.getValue())) g2.setStroke(Utils.getStroke(LineType.DOUBLE_DOTTED, 1));
+		else if (lineType.equals("-")) g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
+		else if (lineType.equals(".")) g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
+		else if (lineType.equals("=")) g2.setStroke(Utils.getStroke(LineType.DOUBLE, 1));
+		else if (lineType.equals(":")) g2.setStroke(Utils.getStroke(LineType.DOUBLE_DASHED, 1));
+		else if (lineType.equals("::")) g2.setStroke(Utils.getStroke(LineType.DOUBLE_DOTTED, 1));
 
 		for (int i = 0; i < getLinePoints().size() - 1; i++) {
 
@@ -1221,9 +1217,9 @@ public class Relation extends OldGridElement {
 				g.setColor(fgColor);
 				// end
 				g.drawRect((int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight());
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, q.getString(), (int) r.getX()
-				+ (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), (int) r.getY()
-				+ (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), AlignHorizontal.LEFT);
+				this.getHandler().getFontHandler().writeText(g2, q.getString(), (int) r.getX()
+				+ (int) this.getHandler().getFontHandler().getFontSize(), (int) r.getY()
+				+ (int) this.getHandler().getFontHandler().getFontSize(), AlignHorizontal.LEFT);
 
 			}
 			else if (r instanceof Arrow) {
@@ -1436,11 +1432,11 @@ public class Relation extends OldGridElement {
 
 					// if (beginCSDArrow.equals("compStart")) {
 					if (beginArrow.startsWith("compStart")) {
-						Main.getHandlerForElement(this).getFontHandler().setFontSize((float) 10);
+						getHandler().getFontHandler().setFontSize((float) 10);
 
 						s = boxSize;
 
-						if (!csdStartText.equals("")) s = (int) Main.getHandlerForElement(this).getFontHandler().getTextWidth(csdStartText);
+						if (!csdStartText.equals("")) s = (int) this.getHandler().getFontHandler().getTextWidth(csdStartText);
 						if (s < boxSize) s = boxSize;
 
 						px1 = getStartPoint();
@@ -1477,7 +1473,7 @@ public class Relation extends OldGridElement {
 						}
 						else {
 							if (!csdStartText.equals("")) {
-								Main.getHandlerForElement(this).getFontHandler().writeText(g2, csdStartText, px1.x, px1.y + (int) (6 * zoom), AlignHorizontal.CENTER);
+								this.getHandler().getFontHandler().writeText(g2, csdStartText, px1.x, px1.y + (int) (6 * zoom), AlignHorizontal.CENTER);
 							}
 						}
 
@@ -1495,16 +1491,16 @@ public class Relation extends OldGridElement {
 							g2.setTransform(at);
 						}
 
-						Main.getHandlerForElement(this).getFontHandler().resetFontSize();
+						getHandler().getFontHandler().resetFontSize();
 					}
 
 					// if (endCSDArrow.equals("compEnd")) {
 					if (endArrow.startsWith("compEnd")) {
-						Main.getHandlerForElement(this).getFontHandler().setFontSize((float) 10);
+						getHandler().getFontHandler().setFontSize((float) 10);
 
 						s = boxSize;
 
-						if (!csdEndText.equals("")) s = (int) Main.getHandlerForElement(this).getFontHandler().getTextWidth(csdEndText);
+						if (!csdEndText.equals("")) s = (int) this.getHandler().getFontHandler().getTextWidth(csdEndText);
 						if (s < boxSize) s = boxSize;
 
 						px1 = getEndPoint();
@@ -1542,7 +1538,7 @@ public class Relation extends OldGridElement {
 						}
 						else {
 							if (!csdEndText.equals("")) {
-								Main.getHandlerForElement(this).getFontHandler().writeText(g2, csdEndText, px1.x, px1.y + (int) (6 * zoom), AlignHorizontal.CENTER);
+								this.getHandler().getFontHandler().writeText(g2, csdEndText, px1.x, px1.y + (int) (6 * zoom), AlignHorizontal.CENTER);
 							}
 						}
 
@@ -1560,7 +1556,7 @@ public class Relation extends OldGridElement {
 							g2.setTransform(at);
 						}
 
-						Main.getHandlerForElement(this).getFontHandler().resetFontSize();
+						getHandler().getFontHandler().resetFontSize();
 					}
 
 				}
@@ -1571,8 +1567,8 @@ public class Relation extends OldGridElement {
 				Multiplicity m = (Multiplicity) r;
 				// g.drawRect((int)r.getX(), (int)r.getY(), (int)r.getWidth(),
 				// (int)r.getHeight());
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, m.getString(), (int) r.getX(), (int) r.getY()
-				+ (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + 2 * (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT); // B. Buckl
+				this.getHandler().getFontHandler().writeText(g2, m.getString(), (int) r.getX(), (int) r.getY()
+				+ (int) this.getHandler().getFontHandler().getFontSize() + 2 * (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT); // B. Buckl
 				// added
 				// +2*this.getHandler().getDistTextToText()
 			}
@@ -1581,19 +1577,19 @@ public class Relation extends OldGridElement {
 				String str = role.getString();
 
 				int position = 0;
-				int y = 4 * (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+				int y = 4 * (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				while (position != -1) {
 					position = str.indexOf("\\\\");
 
 					if (position != -1) {
 						String s = str.substring(0, position);
-						Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) r.getX(), (int) r.getY() + y, AlignHorizontal.LEFT);
+						this.getHandler().getFontHandler().writeText(g2, s, (int) r.getX(), (int) r.getY() + y, AlignHorizontal.LEFT);
 
-						y = y + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+						y = y + (int) this.getHandler().getFontHandler().getFontSize();
 						str = str.substring(position + 2, str.length());
 					}
 					else {
-						Main.getHandlerForElement(this).getFontHandler().writeText(g2, str, (int) r.getX(), (int) r.getY() + y, AlignHorizontal.LEFT);
+						this.getHandler().getFontHandler().writeText(g2, str, (int) r.getX(), (int) r.getY() + y, AlignHorizontal.LEFT);
 
 					}
 
@@ -1613,7 +1609,7 @@ public class Relation extends OldGridElement {
 			else if (r instanceof Port) {
 				Port p = (Port) r;
 
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, p.getString(), (int) (r.getX()), (int) (r.getY()), AlignHorizontal.LEFT);
+				this.getHandler().getFontHandler().writeText(g2, p.getString(), (int) (r.getX()), (int) (r.getY()), AlignHorizontal.LEFT);
 
 			}
 			// G.Mueller end
@@ -1622,7 +1618,7 @@ public class Relation extends OldGridElement {
 		if (this.getStrings() != null) {
 			if (this.getStrings().size() > 0) {
 				Point start = this.getCenterOfLine();
-				int yPos = start.y - (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(); // B. Buckl
+				int yPos = start.y - (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(); // B. Buckl
 				// added
 				// -this.getHandler().getDistTextToText()
 				int xPos = start.x;
@@ -1637,14 +1633,14 @@ public class Relation extends OldGridElement {
 								|| ((s.indexOf("<") == s.lastIndexOf("<")) && (s.indexOf("<") != -1))) {
 							// decide where and what to draw...
 							int fontHeight = g2.getFontMetrics(
-									Main.getHandlerForElement(this).getFontHandler().getFont()).getHeight()
-									- g2.getFontMetrics(Main.getHandlerForElement(this).getFontHandler().getFont()).getDescent()
-									- g2.getFontMetrics(Main.getHandlerForElement(this).getFontHandler().getFont()).getLeading();
+									this.getHandler().getFontHandler().getFont()).getHeight()
+									- g2.getFontMetrics(this.getHandler().getFontHandler().getFont()).getDescent()
+									- g2.getFontMetrics(this.getHandler().getFontHandler().getFont()).getLeading();
 							fontHeight = fontHeight / 3 * 2;
 
 							if (s.endsWith(">")) {
 								s = s.substring(0, s.length() - 1);
-								int fontWidth = (int) Main.getHandlerForElement(this).getFontHandler().getTextWidth(s);
+								int fontWidth = (int) this.getHandler().getFontHandler().getTextWidth(s);
 								xPos = xPos - (fontHeight + 4) / 2;
 								int startDrawX = xPos + fontWidth / 2 + 4;
 								Polygon temp = new Polygon();
@@ -1656,7 +1652,7 @@ public class Relation extends OldGridElement {
 							}
 							else if (s.endsWith("<")) {
 								s = s.substring(0, s.length() - 1);
-								int fontWidth = (int) Main.getHandlerForElement(this).getFontHandler().getTextWidth(s);
+								int fontWidth = (int) this.getHandler().getFontHandler().getTextWidth(s);
 								xPos = xPos - (fontHeight + 4) / 2;
 								int startDrawX = xPos + fontWidth / 2 + 4;
 								Polygon temp = new Polygon();
@@ -1667,7 +1663,7 @@ public class Relation extends OldGridElement {
 							}
 							else if (s.startsWith(">")) {
 								s = s.substring(1, s.length());
-								int fontWidth = (int) Main.getHandlerForElement(this).getFontHandler().getTextWidth(s);
+								int fontWidth = (int) this.getHandler().getFontHandler().getTextWidth(s);
 								xPos = xPos + (fontHeight + 4) / 2;
 								int startDrawX = xPos - fontWidth / 2 - 4;
 								Polygon temp = new Polygon();
@@ -1678,7 +1674,7 @@ public class Relation extends OldGridElement {
 							}
 							else if (s.startsWith("<")) {
 								s = s.substring(1, s.length());
-								int fontWidth = (int) Main.getHandlerForElement(this).getFontHandler().getTextWidth(s);
+								int fontWidth = (int) this.getHandler().getFontHandler().getTextWidth(s);
 								xPos = xPos + (fontHeight + 4) / 2;
 								int startDrawX = xPos - fontWidth / 2 - 4;
 								Polygon temp = new Polygon();
@@ -1694,9 +1690,9 @@ public class Relation extends OldGridElement {
 					}
 					// A.Mueller end...
 
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, xPos, yPos, AlignHorizontal.CENTER);
-					yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-					yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+					this.getHandler().getFontHandler().writeText(g2, s, xPos, yPos, AlignHorizontal.CENTER);
+					yPos += (int) this.getHandler().getFontHandler().getFontSize();
+					yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				}
 			}
 		}
@@ -1726,11 +1722,11 @@ public class Relation extends OldGridElement {
 				int xPos = start.x;
 				for (int i = 0; i < getStrings().size(); i++) {
 					String s = this.getStrings().elementAt(i);
-					int width = (int) Main.getHandlerForElement(this).getFontHandler().getTextWidth(s);
-					criticalPoints.add(new Point(xPos - width / 2 - (int) (20 * zoom), yPos - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() - (int) (20 * zoom)));
+					int width = (int) this.getHandler().getFontHandler().getTextWidth(s);
+					criticalPoints.add(new Point(xPos - width / 2 - (int) (20 * zoom), yPos - (int) this.getHandler().getFontHandler().getFontSize() - (int) (20 * zoom)));
 					criticalPoints.add(new Point(xPos + width / 2 + (int) (20 * zoom), yPos + (int) (20 * zoom)));
-					yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-					yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+					yPos += (int) this.getHandler().getFontHandler().getFontSize();
+					yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				}
 			}
 		}
@@ -1768,7 +1764,7 @@ public class Relation extends OldGridElement {
 
 		// BUGFIX ZOOM: We must consider the gridsize for the min and max value to avoid rounding errors
 		// Therefore we subtract or add the difference to the next possible value
-		int gridSize = Main.getHandlerForElement(this).getGridSize();
+		int gridSize = this.getHandler().getGridSize();
 
 		minx -= (minx % gridSize);
 		miny -= (miny % gridSize);
@@ -1781,10 +1777,10 @@ public class Relation extends OldGridElement {
 		maxy += (maxy % gridSize);
 
 		if ((maxx != 0) || (maxy != 0)) {
-			this.changeSize(maxx - getZoomedSize().width, maxy - getZoomedSize().height);
+			this.changeSize(maxx - getSize().width, maxy - getSize().height);
 		}
 		if ((minx != 0) | (miny != 0)) {
-			this.setLocationDifference(minx, miny);
+			this.changeLocation(minx, miny);
 			this.changeSize(-minx, -miny);
 			for (int i = 0; i < getLinePoints().size(); i++) {
 				Point p = getLinePoints().elementAt(i);
@@ -1808,15 +1804,15 @@ public class Relation extends OldGridElement {
 
 	public Point getAbsoluteCoorStart() {
 		Point ret = new Point();
-		ret.x = this.getRectangle().x + this.getStartPoint().x;
-		ret.y = this.getRectangle().y + this.getStartPoint().y;
+		ret.x = this.getLocation().x + this.getStartPoint().x;
+		ret.y = this.getLocation().y + this.getStartPoint().y;
 		return ret;
 	}
 
 	public Point getAbsoluteCoorEnd() {
 		Point ret = new Point();
-		ret.x = this.getRectangle().x + this.getEndPoint().x;
-		ret.y = this.getRectangle().y + this.getEndPoint().y;
+		ret.x = this.getLocation().x + this.getEndPoint().x;
+		ret.y = this.getLocation().y + this.getEndPoint().y;
 		return ret;
 	}
 

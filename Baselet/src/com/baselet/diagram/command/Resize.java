@@ -1,11 +1,10 @@
 package com.baselet.diagram.command;
 
+import java.awt.Point;
 import java.util.Vector;
 
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
@@ -22,19 +21,19 @@ public class Resize extends Command {
 	private GridElement entity;
 
 	private int getDiffx() {
-		return diffx * Main.getHandlerForElement(entity).getGridSize();
+		return diffx * entity.getHandler().getGridSize();
 	}
 
 	private int getDiffy() {
-		return diffy * Main.getHandlerForElement(entity).getGridSize();
+		return diffy * entity.getHandler().getGridSize();
 	}
 
 	private int getDiffw() {
-		return diffw * Main.getHandlerForElement(entity).getGridSize();
+		return diffw * entity.getHandler().getGridSize();
 	}
 
 	private int getDiffh() {
-		return diffh * Main.getHandlerForElement(entity).getGridSize();
+		return diffh * entity.getHandler().getGridSize();
 	}
 
 	public Resize(GridElement entity, int diffx, int diffy, int diffw, int diffh) {
@@ -48,26 +47,26 @@ public class Resize extends Command {
 		this.id = id;
 		this.move_commands = move_commands;
 		this.move_commands.addAll(move_commands2);
-		this.diffx = diffx / Main.getHandlerForElement(entity).getGridSize();
-		this.diffy = diffy / Main.getHandlerForElement(entity).getGridSize();
-		this.diffw = diffw / Main.getHandlerForElement(entity).getGridSize();
-		this.diffh = diffh / Main.getHandlerForElement(entity).getGridSize();
+		this.diffx = diffx / entity.getHandler().getGridSize();
+		this.diffy = diffy / entity.getHandler().getGridSize();
+		this.diffw = diffw / entity.getHandler().getGridSize();
+		this.diffh = diffh / entity.getHandler().getGridSize();
 	}
 
 	public Resize(GridElement entity, int diffx, int diffy, int diffw, int diffh, Resize first) {
 		this.entity = entity;
 		this.move_commands = new Vector<MoveLinePoint>();
-		this.diffx = diffx / Main.getHandlerForElement(entity).getGridSize();
-		this.diffy = diffy / Main.getHandlerForElement(entity).getGridSize();
-		this.diffw = (diffw - diffx) / Main.getHandlerForElement(entity).getGridSize();
-		this.diffh = (diffh - diffy) / Main.getHandlerForElement(entity).getGridSize();
+		this.diffx = diffx / entity.getHandler().getGridSize();
+		this.diffy = diffy / entity.getHandler().getGridSize();
+		this.diffw = (diffw - diffx) / entity.getHandler().getGridSize();
+		this.diffh = (diffh - diffy) / entity.getHandler().getGridSize();
 
-		StickingPolygon from = this.entity.generateStickingBorder(this.entity.getRectangle().x, this.entity.getRectangle().y,
-				this.entity.getZoomedSize().width, this.entity.getZoomedSize().height);
+		StickingPolygon from = this.entity.generateStickingBorder(this.entity.getLocation().x, this.entity.getLocation().y,
+				this.entity.getSize().width, this.entity.getSize().height);
 
 		// AB: FIXED: Use this.diffw/this.diffh instead of diffw/diffh as calculation base
-		StickingPolygon to = this.entity.generateStickingBorder(this.entity.getRectangle().x + diffx, this.entity.getRectangle().y + diffy,
-				this.entity.getZoomedSize().width + getDiffw(), this.entity.getZoomedSize().height + this.getDiffh());
+		StickingPolygon to = this.entity.generateStickingBorder(this.entity.getLocation().x + diffx, this.entity.getLocation().y + diffy,
+				this.entity.getSize().width + getDiffw(), this.entity.getSize().height + this.getDiffh());
 
 		if (first != null) {
 			this.id = first.id;
@@ -76,7 +75,7 @@ public class Resize extends Command {
 		else {
 			this.id = current_id;
 			current_id++;
-			this.linepoints = Utils.getStickingRelationLinePoints(Main.getHandlerForElement(this.entity), from);
+			this.linepoints = from.getStickingRelationLinePoints(this.entity.getHandler());
 		}
 
 		Point diff, p;
@@ -85,9 +84,9 @@ public class Resize extends Command {
 			r = lp.getRelation();
 			p = r.getLinePoints().get(lp.getLinePointId());
 
-			diff = from.getLine(lp.getStickingLineId()).diffToLine(to.getLine(lp.getStickingLineId()), p.x + r.getRectangle().x, p.y + r.getRectangle().y);
+			diff = from.getLine(lp.getStickingLineId()).diffToLine(to.getLine(lp.getStickingLineId()), p.x + r.getLocation().x, p.y + r.getLocation().y);
 
-			DiagramHandler handler = Main.getHandlerForElement(entity);
+			DiagramHandler handler = entity.getHandler();
 			this.move_commands.add(new MoveLinePoint(lp.getRelation(), lp.getLinePointId(), handler.realignToGrid(diff.x), handler.realignToGrid(diff.y)));
 		}
 
@@ -97,7 +96,7 @@ public class Resize extends Command {
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
 
-		entity.setLocationDifference(getDiffx(), getDiffy());
+		entity.changeLocation(getDiffx(), getDiffy());
 		entity.changeSize(getDiffw(), getDiffh());
 		if (entity.isStickingBorderActive()) {
 			for (MoveLinePoint c : this.move_commands) {
@@ -109,7 +108,7 @@ public class Resize extends Command {
 	@Override
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
-		entity.setLocationDifference(-getDiffx(), -getDiffy());
+		entity.changeLocation(-getDiffx(), -getDiffy());
 		entity.changeSize(-getDiffw(), -getDiffh());
 		for (MoveLinePoint c : this.move_commands)
 			c.undo(handler);

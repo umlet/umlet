@@ -1,36 +1,58 @@
 package com.baselet.element;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.List;
 
-import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.Rectangle;
+import javax.swing.JComponent;
+
+import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.AutocompletionText;
-import com.umlet.element.experimental.ComponentInterface;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
 public interface GridElement {
 
+	DiagramHandler getHandler();
+
 	String getPanelAttributes();
+
+	Rectangle getVisibleRect();
 
 	boolean isSelected();
 
 	void setPanelAttributes(String panelAttributes);
 
-	void setRectangle(Rectangle bounds);
+	void setBounds(Rectangle bounds);
 
-	void setGroup(GroupGridElement object);
+	void setHandlerAndInitListeners(DiagramHandler handler);
+
+	void setGroup(Group object);
+
+	void addMouseListener(MouseListener mouseListener);
+
+	void addMouseMotionListener(MouseMotionListener mouseMotionListener);
+
+	void removeMouseMotionListener(MouseMotionListener mouseMotionListener);
+
+	void removeMouseListener(MouseListener mouseListener);
 
 	GridElement CloneFromMe();
 
-	void setLocationDifference(int diffx, int diffy);
+	void changeLocation(int diffx, int diffy);
 
 	void onDeselected();
 
 	void onSelected();
 
-	GroupGridElement getGroup();
+	Group getGroup();
 
 	String getAdditionalAttributes();
+
+	void setBounds(int x, int y, int width, int height);
 
 	void setAdditionalAttributes(String additional_attributes);
 
@@ -50,30 +72,32 @@ public interface GridElement {
 
 	StickingPolygon generateStickingBorder(int x, int y, int width, int height);
 
-	Rectangle getRectangle();
+	Point getLocation();
+
+	Rectangle getBounds();
 
 	void repaint();
 
 	void changeSize(int diffx, int diffy);
 
-	Dimension getZoomedSize();
+	Dimension getSize();
 
 	/**
 	 * @return size of the element as if the zoomlevel would be 100% (eg: if zoom is 80% and width is 80 it would be returned as 100)
 	 */
 	Dimension getRealSize();
 
-	boolean isInRange(Rectangle rectangle);
+	boolean isInRange(Point upperLeft, Dimension size);
+
+	void paint(Graphics g);
 	
-	ComponentInterface getComponent();
+	JComponent getComponent();
 
 	void updateProperty(GlobalSetting key, String newValue);
 	
-	void updateModelFromText();
+	public void updateModelFromText();
 
 	List<AutocompletionText> getAutocompletionList();
 
 	String getSetting(GlobalSetting key);
-	
-	Integer getLayer();
 }

@@ -1,10 +1,9 @@
 package com.baselet.diagram.command;
 
+import java.awt.Point;
 import java.util.Vector;
 
-import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.geom.Point;
 import com.umlet.element.Relation;
 
 public class RemoveLinePoint extends Command {
@@ -24,11 +23,11 @@ public class RemoveLinePoint extends Command {
 	}
 
 	private int getX() {
-		return _x * Main.getHandlerForElement(_relation).getGridSize();
+		return _x * _relation.getHandler().getGridSize();
 	}
 
 	private int getY() {
-		return _y * Main.getHandlerForElement(_relation).getGridSize();
+		return _y * _relation.getHandler().getGridSize();
 	}
 
 	public RemoveLinePoint(Relation r, int i) {
@@ -36,8 +35,8 @@ public class RemoveLinePoint extends Command {
 		_where = i;
 		Point p = r.getLinePoints().elementAt(i);
 
-		_x = p.x / Main.getHandlerForElement(_relation).getGridSize();
-		_y = p.y / Main.getHandlerForElement(_relation).getGridSize();
+		_x = p.x / _relation.getHandler().getGridSize();
+		_y = p.y / _relation.getHandler().getGridSize();
 	}
 
 	@Override

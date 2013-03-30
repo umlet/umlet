@@ -16,14 +16,12 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-import com.baselet.control.Constants;
 import com.umlet.custom.CustomElement;
 import com.umlet.custom.CustomFunction;
 
 public class CustomCodeSyntaxPane {
 	
 	private JPanel panel;
-	private RTextScrollPane scrollPane;
 	private RSyntaxTextArea textArea;
 	private DefaultCompletionProvider provider = new DefaultCompletionProvider();
 
@@ -34,7 +32,6 @@ public class CustomCodeSyntaxPane {
 	    textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 		textArea.setAntiAliasingEnabled(true);
 		textArea.setCodeFoldingEnabled(true);
-		textArea.setFont(Constants.PANEL_CONTENT_FONT);
 		
 		// setup autocompletion
 		for (String word : getAutocompletionStrings()) {
@@ -42,7 +39,7 @@ public class CustomCodeSyntaxPane {
 		}
 		new AutoCompletion(provider).install(textArea);
 	    
-		scrollPane = new RTextScrollPane(textArea);
+		RTextScrollPane scrollPane = new RTextScrollPane(textArea);
 	    scrollPane.setFoldIndicatorEnabled(true);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -88,8 +85,5 @@ public class CustomCodeSyntaxPane {
 		return descriptors;
 	}
 
-	public void repaint() {
-		if (scrollPane != null) scrollPane.repaint();
-	}
 
 }

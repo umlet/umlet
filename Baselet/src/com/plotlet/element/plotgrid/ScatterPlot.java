@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
+import com.baselet.diagram.draw.objects.PlotGridDrawConfig;
 import com.plotlet.parser.PlotConstants;
 import com.plotlet.parser.PlotState;
 

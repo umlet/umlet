@@ -1,22 +1,19 @@
 package com.umlet.element.experimental.uml;
 
 import com.baselet.element.StickingPolygon;
-import com.umlet.element.experimental.ElementId;
+import com.umlet.element.experimental.Id;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsUseCase;
 
+@Id("UMLUseCase")
 public class UseCase extends NewGridElement {
 
-	public static final ElementId ID = ElementId.UMLUseCase;
-	@Override
-	public ElementId getId() {
-		return ID;
-	}
-	
 	@Override
 	public void updateConcreteModel() {
-		drawer.drawEllipse(0, 0, getRealSize().width-1, getRealSize().height-1);
+		int halfWidth = getRealSize().width/2;
+		int halfHeight = getRealSize().height/2;
+		drawer.drawEllipse(halfWidth, halfHeight, halfWidth-1, halfHeight-1);
 		properties.drawPropertiesText();
 	}
 

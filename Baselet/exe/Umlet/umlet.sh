@@ -8,7 +8,7 @@
 #programDir=/path/to/umlet
 programDir=$(cd $(dirname $0);pwd)
 
-if [ $# -eq 1 ]
+if [ $# -gt 0 ]
  then java -jar ${programDir}/umlet.jar -filename="$1"
- else java -jar ${programDir}/umlet.jar "$@"
+ else java -jar ${programDir}/umlet.jar
 fi

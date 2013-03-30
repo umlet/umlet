@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,17 +19,19 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Path;
+import com.baselet.control.Utils;
 import com.baselet.element.ErrorOccurred;
 import com.baselet.element.GridElement;
 
 public class CustomElementCompiler {
-	
-	private static final Logger log = Logger.getLogger(CustomElementCompiler.class);
+
+	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private static CustomElementCompiler compiler;
 	private static final String templatefile = "Default.java";
 	private String template;
 	private Pattern template_pattern;
+	private Pattern empty_line;
 	private Matcher template_match;
 	private String classname;
 	private int beforecodelines; // lines of code before the custom code begins (for error processing)
@@ -47,6 +50,7 @@ public class CustomElementCompiler {
 		this.compilation_errors = new ArrayList<CompileError>();
 		this.beforecodelines = 0;
 		this.template_pattern = Pattern.compile("(.*)(/\\*\\*\\*\\*CUSTOM_CODE START\\*\\*\\*\\*/\n)(.*)(\n\\s\\s/\\*\\*\\*\\*CUSTOM_CODE END\\*\\*\\*\\*/)(.*)", Pattern.DOTALL);
+		this.empty_line = Pattern.compile("^\\s*$");
 		this.template = this.loadJavaSource(new File(Path.customElements() + templatefile));
 		if (!"".equals(this.template)) {
 			this.template_match = this.template_pattern.matcher(this.template);
@@ -108,10 +112,8 @@ public class CustomElementCompiler {
 			try {
 				BufferedReader br = new BufferedReader(new FileReader(sourceFile));
 				String line;
-				while ((line = br.readLine()) != null) {
+				while ((line = br.readLine()) != null)
 					_javaSource += line + Constants.NEWLINE;
-				}
-				br.close();
 			} catch (Exception e) {
 				log.error(null, e);
 			}
@@ -121,19 +123,14 @@ public class CustomElementCompiler {
 
 	// saves the source to a file
 	private void saveJavaSource(String code) { // LME3
-		BufferedWriter bw = null;
+		BufferedWriter bw;
 		try {
 			bw = new BufferedWriter(new FileWriter(sourcefile, false));
 			bw.write(this.parseCodeIntoTemplate(code));
 			bw.flush();
+			bw.close();
 		} catch (IOException e) {
 			log.error(null, e);
-		} finally {
-			if (bw != null) try {
-				bw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 

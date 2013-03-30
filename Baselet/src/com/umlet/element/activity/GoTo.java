@@ -3,7 +3,6 @@ package com.umlet.element.activity;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
-import com.baselet.control.Main;
 import com.umlet.element.ActivityDiagramText;
 
 public class GoTo {
@@ -52,7 +51,7 @@ public class GoTo {
 			this.graphics.drawLine(x, from.y, x, to.y);
 
 			if ((to.x == to_origin.x) && (to.y == to_origin.y)) {
-				float zoom = Main.getHandlerForElement(dia).getZoomFactor();
+				float zoom = dia.getHandler().getZoomFactor();
 				Connector.drawArrow(this.graphics, zoom, x, to.y, to.x, to.y);
 			}
 			else this.graphics.drawLine(x, to.y, to.x, to.y);

@@ -4,8 +4,6 @@ package com.umlet.element.custom;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import com.baselet.control.Main;
-
 @SuppressWarnings("serial")
 public class StateSubDiagram extends State {
 
@@ -13,10 +11,10 @@ public class StateSubDiagram extends State {
 	public void paintEntity(Graphics g) {
 		super.paintEntity(g);
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = getHandler().getZoomFactor();
 		Graphics2D g2 = (Graphics2D) g;
-		int w = getZoomedSize().width;
-		int h = getZoomedSize().height;
+		int w = getSize().width;
+		int h = getSize().height;
 
 		// draw substate sign
 		g2.drawRoundRect(w - (int) (65 * zoom), h - (int) (16 * zoom), (int) (20 * zoom), (int) (10 * zoom), (int) (8 * zoom), (int) (8 * zoom));

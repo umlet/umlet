@@ -1,8 +1,10 @@
 package com.baselet.diagram.io;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,6 +14,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 
@@ -25,9 +28,6 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.itextpdf.text.pdf.BaseFont;
@@ -42,7 +42,6 @@ public class OutputHandler {
 	public static void createAndOutputToFile(String extension, File file, DiagramHandler handler) throws Exception {
 		OutputStream ostream = new FileOutputStream(file);
 		createToStream(extension, ostream, handler);
-		ostream.close();
 	}
 
 	public static void createToStream(String extension, OutputStream ostream, DiagramHandler handler) throws Exception {
@@ -139,7 +138,7 @@ public class OutputHandler {
 			Graphics2D graphics2d = writer.getDirectContent().createGraphics(drawSpace.getWidth(), drawSpace.getHeight(), mapper);
 
 			// We shift the diagram to the upper left corner, so we shift it by (minX,minY) of the contextBounds
-			Dimension trans = new Dimension((int) bounds.getX(), (int) bounds.getY());
+			Dimension trans = new Dimension((int) bounds.getMinX(), (int) bounds.getMinY());
 			graphics2d.translate(-trans.getWidth(), -trans.getHeight());
 
 			handler.getDrawPanel().paintEntitiesIntoGraphics2D(graphics2d, entities);
@@ -156,7 +155,7 @@ public class OutputHandler {
 		org.w3c.dom.Document document = domImpl.createDocument(null, "svg", null);
 
 		SVGGraphics2D graphics2d = new SVGGraphics2D(document);
-		graphics2d.setSVGCanvasSize(Converter.convert(bounds.getSize()));
+		graphics2d.setSVGCanvasSize(bounds.getSize());
 		handler.getDrawPanel().paintEntitiesIntoGraphics2D(graphics2d, entities);
 
 		Element root = graphics2d.getRoot();

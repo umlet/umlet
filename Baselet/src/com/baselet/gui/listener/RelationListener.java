@@ -1,6 +1,8 @@
 package com.baselet.gui.listener;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
@@ -11,17 +13,23 @@ import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.RemoveElement;
 import com.baselet.diagram.command.RemoveLinePoint;
-import com.baselet.diagram.draw.geom.Point;
 import com.umlet.element.Relation;
 
 
 public class RelationListener extends GridElementListener {
 
+	private static HashMap<DiagramHandler, RelationListener> listener = new HashMap<DiagramHandler, RelationListener>();
+
+	public static RelationListener getInstance(DiagramHandler handler) {
+		if (!listener.containsKey(handler)) listener.put(handler, new RelationListener(handler));
+		return listener.get(handler);
+	}
+
 	private boolean IS_DRAGGING_LINEPOINT = false;
 	private boolean IS_DRAGGING_LINE = false;
 	private int LINEPOINT = -1;
 
-	public RelationListener(DiagramHandler handler) {
+	private RelationListener(DiagramHandler handler) {
 		super(handler);
 	}
 
@@ -104,8 +112,8 @@ public class RelationListener extends GridElementListener {
 		if (IS_DRAGGING_LINEPOINT) {
 			Vector<Point> tmp = r.getLinePoints();
 			Point p = tmp.elementAt(LINEPOINT);
-			delta_x = (r.getRectangle().x + p.x) % gridSize;
-			delta_y = (r.getRectangle().y + p.y) % gridSize;
+			delta_x = (r.getLocation().x + p.x) % gridSize;
+			delta_y = (r.getLocation().y + p.y) % gridSize;
 		}
 
 		Point newp = this.getNewCoordinate();

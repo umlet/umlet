@@ -1,6 +1,6 @@
 package com.umlet.element.relation;
 
-import com.baselet.diagram.draw.geom.Rectangle;
+import java.awt.Rectangle;
 
 @SuppressWarnings("serial")
 public class EmptyShape extends Rectangle {

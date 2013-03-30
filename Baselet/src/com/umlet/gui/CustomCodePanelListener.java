@@ -16,7 +16,7 @@ public class CustomCodePanelListener implements UndoableEditListener {
 		
 		if (gridElement != null) {
 			//only create command if changes were made
-			Main.getHandlerForElement(gridElement).getController().executeCommand(new CustomCodePanelChanged(e.getEdit()));
+			gridElement.getHandler().getController().executeCommand(new CustomCodePanelChanged(e.getEdit()));
 		}		
 	}
 }

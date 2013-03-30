@@ -1,5 +1,6 @@
 package com.baselet.control;
 
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Point;
 import java.io.File;
@@ -8,12 +9,8 @@ import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.Properties;
 
-import javax.swing.JFrame;
-
 import com.baselet.control.Constants.Program;
-import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.gui.BaseGUI;
-import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.language.FieldOptions;
 import com.umlet.language.MethodOptions;
 import com.umlet.language.SignatureOptions;
@@ -33,7 +30,6 @@ public class Config {
 	private static final String PDF_EXPORT_FONT = "pdf_export_font";
 	private static final String CHECK_FOR_UPDATES = "check_for_updates";
 	private static final String OPEN_FILE_HOME = "open_file_home";
-	private static final String LAST_USED_PALETTE = "last_used_palette";
 	private static final String MAIN_SPLIT_POSITION = "main_split_position";
 	private static final String RIGHT_SPLIT_POSITION = "right_split_position";
 	private static final String START_MAXIMIZED = "start_maximized";
@@ -90,11 +86,6 @@ public class Config {
 		Constants.pdfExportFont = getStringProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
 		Constants.checkForUpdates = getBoolProperty(CHECK_FOR_UPDATES, Constants.checkForUpdates);
 		Constants.openFileHome = getStringProperty(OPEN_FILE_HOME, Constants.openFileHome);
-		
-		// only set last used palette if its a valid palette, otherwise leave the default value
-		String tempVal = getStringProperty(LAST_USED_PALETTE, null);
-		if (Main.getInstance().getPaletteNames().contains(tempVal)) Constants.lastUsedPalette = tempVal;
-		
 		Constants.main_split_position = getIntProperty(MAIN_SPLIT_POSITION, Constants.main_split_position);
 		Constants.right_split_position = getIntProperty(RIGHT_SPLIT_POSITION, Constants.right_split_position);
 		Constants.mail_split_position = getIntProperty(MAIL_SPLIT_POSITION, Constants.mail_split_position);
@@ -154,23 +145,21 @@ public class Config {
 			props.setProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
 			props.setProperty(CHECK_FOR_UPDATES, Boolean.toString(Constants.checkForUpdates));
 			props.setProperty(OPEN_FILE_HOME, Constants.openFileHome);
-			props.setProperty(LAST_USED_PALETTE, Constants.lastUsedPalette);
 			
 			BaseGUI gui = Main.getInstance().getGUI();
 			props.setProperty(MAIN_SPLIT_POSITION, Integer.toString(gui.getMainSplitPosition()));
 			props.setProperty(RIGHT_SPLIT_POSITION, Integer.toString(gui.getRightSplitPosition()));
 			props.setProperty(MAIL_SPLIT_POSITION, Integer.toString(gui.getMailSplitPosition()));
-			if (gui instanceof StandaloneGUI) {
+			if (gui.getTopContainer() != null) {
 				// If the window is maximized in any direction this fact is written in the cfg
-				JFrame topContainer = ((StandaloneGUI) gui).getMainFrame();
-				if (((topContainer.getExtendedState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH)) {
+				if (((gui.getTopContainer().getExtendedState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH)) {
 					props.setProperty(START_MAXIMIZED, "true");
 				}
 				// Otherwise the size and the location is written in the cfg
 				else {
 					props.setProperty(START_MAXIMIZED, "false");
-					props.setProperty(PROGRAM_SIZE, topContainer.getSize().width + "," + topContainer.getSize().height);
-					props.setProperty(PROGRAM_LOCATION, topContainer.getLocation().x + "," + topContainer.getLocation().y);
+					props.setProperty(PROGRAM_SIZE, gui.getTopContainer().getSize().width + "," + gui.getTopContainer().getSize().height);
+					props.setProperty(PROGRAM_LOCATION, gui.getTopContainer().getLocation().x + "," + gui.getTopContainer().getLocation().y);
 				}
 			}
 			if (!Constants.recentlyUsedFilesList.isEmpty()) {

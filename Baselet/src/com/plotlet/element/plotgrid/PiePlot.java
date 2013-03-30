@@ -4,7 +4,8 @@ import java.awt.Graphics;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
+import com.baselet.diagram.draw.objects.PlotGridDrawConfig;
+import com.plotlet.parser.PlotConstants;
 import com.plotlet.parser.PlotState;
 
 public class PiePlot extends AbstractPlot {
@@ -16,8 +17,9 @@ public class PiePlot extends AbstractPlot {
 	@Override
 	public void plot(int columnCount, int rowCount) {
 		setPlotPosition(columnCount, rowCount);
+		Boolean tilt = plotState.getValueAsBoolean(PlotConstants.KEY_BOOL_PLOT_TILT, PlotConstants.PLOT_TILT_DEFAULT);
 		plotState.checkIfAllValuesUsed();
-		plot.drawPiePlot();
+		plot.drawPiePlot(tilt);
 	}
 
 	@Override

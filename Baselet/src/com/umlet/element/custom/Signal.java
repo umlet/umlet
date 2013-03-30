@@ -6,9 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
 
 
@@ -17,13 +16,13 @@ public class Signal extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(this.getHandler().getFontHandler().getFont());
 		g2.setColor(Color.red);
 		
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = 0;
-		yPos = this.getZoomedSize().height / 2 - (tmp.size() - 1) * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())) / 2;
+		yPos = this.getSize().height / 2 - (tmp.size() - 1) * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts())) / 2;
 
 		int signalType = 0;
 
@@ -33,37 +32,37 @@ public class Signal extends OldGridElement {
 			else if (s.equals("<")) signalType = 2; // accept signal
 			else if (s.equals("x")) signalType = 3; // time signal
 			else { // draw string
-				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
-				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += (int) this.getHandler().getFontHandler().getFontSize();
+				this.getHandler().getFontHandler().writeText(g2, s, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
+				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 		}
 
 		if (signalType == 1) { // send signal
-			g2.drawLine(0, 0, this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0);
-			g2.drawLine(this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), this.getZoomedSize().height - 1, 0, this.getZoomedSize().height - 1);
-			g2.drawLine(this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0, this.getZoomedSize().width - 1, this.getZoomedSize().height / 2);
-			g2.drawLine(this.getZoomedSize().width, this.getZoomedSize().height / 2, this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), this.getZoomedSize().height);
-			g2.drawLine(0, this.getZoomedSize().height - 1, 0, 0);
+			g2.drawLine(0, 0, this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), 0);
+			g2.drawLine(this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), this.getSize().height - 1, 0, this.getSize().height - 1);
+			g2.drawLine(this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), 0, this.getSize().width - 1, this.getSize().height / 2);
+			g2.drawLine(this.getSize().width, this.getSize().height / 2, this.getSize().width - (int) this.getHandler().getFontHandler().getFontSize(), this.getSize().height);
+			g2.drawLine(0, this.getSize().height - 1, 0, 0);
 		}
 		else if (signalType == 2) { // accept signal
-			g2.drawLine(0, 0, this.getZoomedSize().width, 0);
-			g2.drawLine(this.getZoomedSize().width - 1, this.getZoomedSize().height - 1, 0, this.getZoomedSize().height - 1);
-			g2.drawLine(0, 0, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() - 2, this.getZoomedSize().height / 2);
-			g2.drawLine((int) Main.getHandlerForElement(this).getFontHandler().getFontSize() - 2, this.getZoomedSize().height / 2, 0, this.getZoomedSize().height);
-			g2.drawLine(this.getZoomedSize().width - 1, this.getZoomedSize().height - 1, this.getZoomedSize().width - 1, 0);
+			g2.drawLine(0, 0, this.getSize().width, 0);
+			g2.drawLine(this.getSize().width - 1, this.getSize().height - 1, 0, this.getSize().height - 1);
+			g2.drawLine(0, 0, (int) this.getHandler().getFontHandler().getFontSize() - 2, this.getSize().height / 2);
+			g2.drawLine((int) this.getHandler().getFontHandler().getFontSize() - 2, this.getSize().height / 2, 0, this.getSize().height);
+			g2.drawLine(this.getSize().width - 1, this.getSize().height - 1, this.getSize().width - 1, 0);
 		}
 		else if (signalType == 3) { // time signal
-			g2.drawLine(0, 0, this.getZoomedSize().width, 0);
-			g2.drawLine(this.getZoomedSize().width - 1, this.getZoomedSize().height - 1, 0, this.getZoomedSize().height - 1);
-			g2.drawLine(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
-			g2.drawLine(this.getZoomedSize().width - 1, 0, 0, this.getZoomedSize().height - 1);
+			g2.drawLine(0, 0, this.getSize().width, 0);
+			g2.drawLine(this.getSize().width - 1, this.getSize().height - 1, 0, this.getSize().height - 1);
+			g2.drawLine(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+			g2.drawLine(this.getSize().width - 1, 0, 0, this.getSize().height - 1);
 		}
 		else { // NO signal specified
-			g2.drawLine(0, 0, this.getZoomedSize().width, 0);
-			g2.drawLine(this.getZoomedSize().width - 1, this.getZoomedSize().height - 1, 0, this.getZoomedSize().height - 1);
-			g2.drawLine(this.getZoomedSize().width - 1, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
-			g2.drawLine(0, this.getZoomedSize().height - 1, 0, 0);
+			g2.drawLine(0, 0, this.getSize().width, 0);
+			g2.drawLine(this.getSize().width - 1, this.getSize().height - 1, 0, this.getSize().height - 1);
+			g2.drawLine(this.getSize().width - 1, 0, this.getSize().width - 1, this.getSize().height - 1);
+			g2.drawLine(0, this.getSize().height - 1, 0, 0);
 		}
 
 	}
@@ -71,16 +70,16 @@ public class Signal extends OldGridElement {
 	public int doesCoordinateAppearToBeConnectedToMe(Point p) {
 		int ret = 0;
 
-		int tmpX = p.x - this.getRectangle().x;
-		int tmpY = p.y - this.getRectangle().y;
+		int tmpX = p.x - this.getLocation().x;
+		int tmpY = p.y - this.getLocation().y;
 
-		if ((tmpX > -4) && (tmpX < this.getZoomedSize().width + 4)) {
+		if ((tmpX > -4) && (tmpX < this.getSize().width + 4)) {
 			if ((tmpY > -4) && (tmpY < 4)) ret += 1;
-			if ((tmpY > this.getZoomedSize().height - 4) && (tmpY < this.getZoomedSize().height + 4)) ret += 4;
+			if ((tmpY > this.getSize().height - 4) && (tmpY < this.getSize().height + 4)) ret += 4;
 		}
-		if ((tmpY > -4) && (tmpY < this.getZoomedSize().height + 4)) {
+		if ((tmpY > -4) && (tmpY < this.getSize().height + 4)) {
 			if ((tmpX > -4) && (tmpX < 12)) ret += 8;
-			if ((tmpX > this.getZoomedSize().width - 4) && (tmpX < this.getZoomedSize().width + 4)) ret += 2;
+			if ((tmpX > this.getSize().width - 4) && (tmpX < this.getSize().width + 4)) ret += 2;
 		}
 		return ret;
 	}

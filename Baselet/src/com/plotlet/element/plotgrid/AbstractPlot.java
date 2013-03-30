@@ -4,11 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.List;
 
-import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
-import com.baselet.diagram.draw.swing.PlotDrawHandler;
-import com.baselet.diagram.draw.swing.objects.AxisConfig;
-import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
+import org.apache.log4j.Logger;
+
+import com.baselet.control.Constants;
+import com.baselet.control.Utils;
+import com.baselet.diagram.draw.PlotDrawHandler;
+import com.baselet.diagram.draw.objects.AxisConfig;
+import com.baselet.diagram.draw.objects.PlotGridDrawConfig;
 import com.plotlet.parser.DataSet;
 import com.plotlet.parser.ParserException;
 import com.plotlet.parser.PlotConstants;
@@ -16,6 +18,7 @@ import com.plotlet.parser.PlotState;
 
 public abstract class AbstractPlot {
 
+	protected final static Logger log = Logger.getLogger(Utils.getClassName());
 	protected PlotDrawHandler plot;
 
 	protected PlotGridDrawConfig plotDrawConfig;
@@ -31,8 +34,7 @@ public abstract class AbstractPlot {
 		this.plotState = plotState;
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
-		BaseDrawHandlerSwing drawHandler = new BaseDrawHandlerSwing(g, plotDrawConfig.getDiagramHandler(), plotDrawConfig.getFgColor(), plotDrawConfig.getBgColor());
-		plot = new PlotDrawHandler(drawHandler, plotDrawConfig.isSelected(), plotDrawConfig.getRealSize());
+		plot = new PlotDrawHandler(g,plotDrawConfig);
 		setupAxis();
 		setupAbstractPlot();
 	}
@@ -48,7 +50,7 @@ public abstract class AbstractPlot {
 	public Integer getYPosition() {
 		return yPosition;
 	}
-
+	
 	private void setupAxis() {
 		plot.getAxisConfig().enableDescAxis(
 				plotState.getValueListValidated(PlotConstants.KEY_LIST_DESC_AXIS_SHOW, defaultDescAxisShow(), PlotConstants.getValuesForKey(PlotConstants.KEY_LIST_DESC_AXIS_SHOW), false));
@@ -67,7 +69,7 @@ public abstract class AbstractPlot {
 		Double[][] values = ds.data();
 		List<String> colors = plotState.getValueList(PlotConstants.KEY_LIST_COLORS, PlotConstants.COLORS_DEFAULT);
 		for (String color : colors) {
-			if (!ColorOwn.COLOR_MAP.containsKey(color)) {
+			if (!Constants.colorMap.containsKey(color)) {
 				try { // If the color is decodable, it's valid
 					Color.decode(color);
 				}

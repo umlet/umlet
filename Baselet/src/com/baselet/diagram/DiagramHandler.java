@@ -1,12 +1,11 @@
 package com.baselet.diagram;
 
-import java.awt.Component;
 import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -17,9 +16,7 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
 import com.baselet.control.Notifier;
-import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
-import com.baselet.diagram.draw.swing.Converter;
+import com.baselet.control.Utils;
 import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
@@ -30,12 +27,10 @@ import com.baselet.gui.listener.GridElementListener;
 import com.baselet.gui.listener.RelationListener;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.element.Relation;
-import com.umlet.element.SequenceDiagram;
-import com.umlet.element.experimental.NewGridElement;
 
 public class DiagramHandler {
-	
-	private static final Logger log = Logger.getLogger(DiagramHandler.class);
+
+	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private boolean isChanged;
 	private DiagramFileHandler fileHandler;
@@ -47,9 +42,6 @@ public class DiagramHandler {
 	private String helptext;
 	private boolean enabled;
 	private int gridSize;
-	
-	private RelationListener relationListener;
-	private GridElementListener gridElementListener;
 
 	public DiagramHandler(File diagram) {
 		this(diagram, false);
@@ -73,7 +65,8 @@ public class DiagramHandler {
 			if (gui instanceof StandaloneGUI) extendedPopupMenu = true; // AB: use extended popup menu on standalone gui only
 		}
 
-		if (!(this instanceof PaletteHandler)) drawpanel.setComponentPopupMenu(new DiagramPopupMenu(extendedPopupMenu));
+		if (!(this instanceof PaletteHandler)) drawpanel.setComponentPopupMenu(new DiagramPopupMenu(this, extendedPopupMenu));
+
 	}
 
 	public void setEnabled(boolean en) {
@@ -130,7 +123,6 @@ public class DiagramHandler {
 		try {
 			this.fileHandler.doSave();
 			this.reloadPalettes();
-			Main.getInstance().getGUI().afterSaving();
 			return true;
 		} catch (IOException e) {
 			Main.displayError(Constants.ERROR_SAVING_FILE);
@@ -144,7 +136,6 @@ public class DiagramHandler {
 			try {
 				this.fileHandler.doSaveAs(extension);
 				this.reloadPalettes();
-				Main.getInstance().getGUI().afterSaving();
 			} catch (IOException e) {
 				Main.displayError(Constants.ERROR_SAVING_FILE);
 			}
@@ -200,20 +191,14 @@ public class DiagramHandler {
 	}
 
 	// function to be able to controll the entitylistener + diagramlistener from the handler
-	// they must be lazy initialized, otherwise they won't work everytime (eg: if a group is opened)
 	public GridElementListener getEntityListener(GridElement e) {
-		if (e instanceof Relation) {
-			if (relationListener == null) relationListener = new RelationListener(this);
-			return relationListener;
-		} else {
-			if (gridElementListener == null) gridElementListener = new GridElementListener(this);
-			return gridElementListener;
-		}
+		if (e instanceof Relation) return RelationListener.getInstance(this);
+		return GridElementListener.getInstance(this);
 	}
 
 	public boolean askSaveIfDirty() {
 		if (this.isChanged) {
-			int ch = JOptionPane.showOptionDialog(null, "Save changes?", Program.PROGRAM_NAME + " - " + this.getName(), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+			int ch = JOptionPane.showOptionDialog(Main.getInstance().getGUI(), "Save changes?", Program.PROGRAM_NAME + " - " + this.getName(), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
 			if (ch == JOptionPane.YES_OPTION) {
 				this.doSave();
 				return true;
@@ -274,12 +259,9 @@ public class DiagramHandler {
 		float alignedVal = val;
 		float mod = val % gridSize;
 		if (mod != 0) {
-			alignedVal -= mod; //ExampleA: 14 - 4 = 10 // ExampleB: -14 - -4 = -10 // (positive vals get round down, negative vals get round up)
-			if (val > 0 && roundUp) { //eg ExampleA: 10 + 10 = 20 (for positive vals roundUp must be specifically handled by adding gridSize)
+			alignedVal -= mod; // this operation decreases alignedVal in case of positive val and increases it in case of negative val (because eg: -8 -= -8 => 0)
+			if (val > 0 && roundUp || val < 0 && !roundUp) { // therefore the gridSize must be added if positive val should be round up or if negative val should be round down
 				alignedVal += gridSize;
-			}
-			if (val < 0 && !roundUp) { //eg ExampleB: -10 - 10 = -20 (for negative vals roundDown must be specifically handled by subtracting gridSize)
-				alignedVal -= gridSize;
 			}
 			if (logRealign) log.error("realignToGrid from " + val + " to " + alignedVal);
 		}
@@ -299,7 +281,7 @@ public class DiagramHandler {
 		zoomEntities(fromFactor, toFactor, vec);
 	}
 
-	static public void zoomEntities(int fromFactor, int toFactor, List<GridElement> selectedEntities) {
+	static public void zoomEntities(int fromFactor, int toFactor, Vector<GridElement> selectedEntities) {
 
 		/**
 		 * The entities must be resized to the new factor
@@ -309,10 +291,10 @@ public class DiagramHandler {
 			// Entities in groups are not part of the selectedEntities vector. therefore they must be zoomed explicitely
 			if (entity instanceof Group) zoomEntities(fromFactor, toFactor, ((Group) entity).getMembers());
 
-			int newX = (entity.getRectangle().x * toFactor) / fromFactor;
-			int newY = (entity.getRectangle().y * toFactor) / fromFactor;
-			int newW = (entity.getZoomedSize().width * toFactor) / fromFactor;
-			int newH = (entity.getZoomedSize().height * toFactor) / fromFactor;
+			int newX = (entity.getLocation().x * toFactor) / fromFactor;
+			int newY = (entity.getLocation().y * toFactor) / fromFactor;
+			int newW = (entity.getSize().width * toFactor) / fromFactor;
+			int newH = (entity.getSize().height * toFactor) / fromFactor;
 			entity.setLocation(realignTo(newX, toFactor), realignTo(newY, toFactor));
 			// Normally there should be no realign here but relations and custom elements sometimes must be realigned therefore we don't log it as an error
 			entity.setSize(realignTo(newW, toFactor), realignTo(newH, toFactor));
@@ -322,8 +304,7 @@ public class DiagramHandler {
 				for (Point point : ((Relation) entity).getLinePoints()) {
 					newX = ((int) point.getX() * toFactor) / fromFactor;
 					newY = ((int) point.getY() * toFactor) / fromFactor;
-					point.setX(realignTo(newX, toFactor));
-					point.setY(realignTo(newY, toFactor));
+					point.setLocation(realignTo(newX, toFactor), realignTo(newY, toFactor));
 				}
 			}
 		}
@@ -375,8 +356,8 @@ public class DiagramHandler {
 
 		if (manualZoom) {
 			// calculate mouse position relative to UMLet scrollpane
-			Point mouseLocation = Converter.convert(MouseInfo.getPointerInfo().getLocation());
-			Point viewportLocation = Converter.convert(getDrawPanel().getScrollPane().getViewport().getLocationOnScreen());
+			Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+			Point viewportLocation = getDrawPanel().getScrollPane().getViewport().getLocationOnScreen();
 			float x  = mouseLocation.x - viewportLocation.x;
 			float y  = mouseLocation.y - viewportLocation.y;
 			
@@ -395,7 +376,7 @@ public class DiagramHandler {
 			getDrawPanel().moveOrigin(realignToGrid(false, -diffx), realignToGrid(false, - diffy));
 
 			for (GridElement e : getDrawPanel().getAllEntitiesNotInGroup()) {
-				e.setLocationDifference(realignToGrid(false, diffx), realignToGrid(false, diffy));
+				e.changeLocation(realignToGrid(false, diffx), realignToGrid(false, diffy));
 			}
 
 			/**
@@ -418,23 +399,5 @@ public class DiagramHandler {
 			else zoomtext = "Diagram zoomed to " + (new Integer((int) zoomFactor).toString()) + "%";
 			Notifier.getInstance().showNotification(zoomtext);
 		}
-	}
-	
-	public void setHandlerAndInitListeners(GridElement element) {
-		if (Main.getHandlerForElement(element) != null) {
-			((Component) element.getComponent()).removeMouseListener(Main.getHandlerForElement(element).getEntityListener(element));
-			((Component) element.getComponent()).removeMouseMotionListener(Main.getHandlerForElement(element).getEntityListener(element));
-		}
-		Main.setHandlerForElement(element, this);
-		((Component) element.getComponent()).addMouseListener(Main.getHandlerForElement(element).getEntityListener(element));
-		((Component) element.getComponent()).addMouseMotionListener(Main.getHandlerForElement(element).getEntityListener(element));
-		if (element instanceof NewGridElement) {
-			((BaseDrawHandlerSwing) ((NewGridElement) element).getDrawer()).setHandler(this);
-			((BaseDrawHandlerSwing) ((NewGridElement) element).getMetaDrawer()).setHandler(this);
-		}
-		if (element instanceof SequenceDiagram) {
-			((SequenceDiagram) element).zoomValues();
-		}
-		element.updateModelFromText(); // must be updated here because the new handler could have a different zoom level
 	}
 }

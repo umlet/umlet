@@ -2,25 +2,25 @@ package com.baselet.control;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import com.baselet.diagram.draw.geom.Dimension;
 import com.umlet.language.FieldOptions;
 import com.umlet.language.MethodOptions;
 import com.umlet.language.SignatureOptions;
 import com.umlet.language.sorting.SortOptions;
 
-public abstract class Constants extends NewGridElementConstants {
+public abstract class Constants {
 
 	private Constants() {} // private constructor to avoid instantiation
 
@@ -68,7 +68,6 @@ public abstract class Constants extends NewGridElementConstants {
 			if (this == CTRL) return ActionEvent.CTRL_MASK;
 			else return ActionEvent.META_MASK;
 		}
-
 		public int getMaskDown() {
 			if (this == CTRL) return InputEvent.CTRL_DOWN_MASK;
 			else return InputEvent.META_DOWN_MASK;
@@ -85,7 +84,7 @@ public abstract class Constants extends NewGridElementConstants {
 		public static String EXTENSION;
 		public static String WEBSITE;
 		public static String VERSION;
-		public static String[] GRID_ELEMENT_PACKAGES = new String[] { "com.umlet.element", "com.umlet.element.custom", "com.plotlet.element", "com.baselet.element" };
+		public static String[] GRID_ELEMENT_PACKAGES = new String[] {"com.umlet.element", "com.umlet.element.custom", "com.plotlet.element", "com.baselet.element"};
 
 		public static void init(String name, String version) {
 			PROGRAM_NAME = ProgramName.valueOf(name.toUpperCase());
@@ -96,9 +95,10 @@ public abstract class Constants extends NewGridElementConstants {
 
 			if (Program.PROGRAM_NAME == ProgramName.UMLET) EXTENSION = "uxf";
 			else EXTENSION = "pxf";
-
+			
 			VERSION = version;
 		}
+	
 
 	}
 
@@ -119,7 +119,7 @@ public abstract class Constants extends NewGridElementConstants {
 
 			if (java.lang.System.getProperty("java.runtime.name").toUpperCase().contains("OPEN")) JAVA_IMPL = JavaImplementation.OPEN;
 			else JAVA_IMPL = JavaImplementation.SUN;
-
+			
 			if (SystemInfo.OS == Os.MAC) META_KEY = Metakey.CMD;
 			else META_KEY = Metakey.CTRL;
 		}
@@ -128,8 +128,7 @@ public abstract class Constants extends NewGridElementConstants {
 	/**** NEWLINE CHARACTER AND DEFAULT HELP- AND MAILTEXT ****/
 	public static final String NEWLINE = "\n";
 	public static final String COMMENT = "//";
-
-	//@formatter:off
+	
 	public static String getDefaultHelptext() {
 		String returnString =
 				"// Uncomment the following line to change the fontsize and font:" + NEWLINE +
@@ -150,15 +149,15 @@ public abstract class Constants extends NewGridElementConstants {
 				"//" + NEWLINE +
 				"// Press " + SystemInfo.META_KEY + "+C to copy the whole diagram to the system clipboard (then just paste it to, eg, Word)" + NEWLINE +
 				"// Edit the files in the \"palettes\" directory to create your own element palettes" + NEWLINE;
-		if (ProgramName.UMLET.equals(Program.PROGRAM_NAME)) {
-			returnString += "//" + NEWLINE + "// Select \"Custom Elements > New...\" to create new element types" + NEWLINE;
-		}
-		returnString += 
+			if (ProgramName.UMLET.equals(Program.PROGRAM_NAME)) {
+				returnString += "//" + NEWLINE + "// Select \"Custom Elements > New...\" to create new element types" + NEWLINE;
+			}
+			returnString += 
 				"//////////////////////////////////////////////////////////////////////////////////////////////" + NEWLINE +
 				"" + NEWLINE +
 				"" + NEWLINE +
 				"// This text will be stored with each diagram;  use it for notes.";
-		return returnString;
+			return returnString;
 	}
 
 	public static String getDefaultMailtext() {
@@ -167,11 +166,34 @@ public abstract class Constants extends NewGridElementConstants {
 				"__" + NEWLINE +
 				"To edit the diagram, open the attached " + Program.EXTENSION + "-file with the free editing tool " + Program.PROGRAM_NAME + " (" + Program.WEBSITE + ")";
 	}
-	//@formatter:on
 
+	/**** AVAILABLE COLORS ****/
+	public static final HashMap<String, Color> colorMap = new HashMap<String, Color>();
+	static {
+		colorMap.put("black", Color.BLACK);
+		colorMap.put("blue", Color.BLUE);
+		colorMap.put("cyan", Color.CYAN);
+		colorMap.put("dark_gray", Color.DARK_GRAY);
+		colorMap.put("gray", Color.GRAY);
+		colorMap.put("green", Color.GREEN);
+		colorMap.put("light_gray", Color.LIGHT_GRAY);
+		colorMap.put("magenta", Color.MAGENTA);
+		colorMap.put("orange", Color.decode("#FFA500"));
+		colorMap.put("pink", Color.PINK);
+		colorMap.put("red", Color.RED);
+		colorMap.put("white", Color.WHITE);
+		colorMap.put("yellow", Color.YELLOW);
+	}
+	public static final Color DEFAULT_SELECTED_COLOR = Color.BLUE;
+	public static final Color DEFAULT_FOREGROUND_COLOR = Color.BLACK;
+	public static final Color DEFAULT_BACKGROUND_COLOR = Color.WHITE;
+	public static final float ALPHA_NO_TRANSPARENCY = 1.0f;
+	public static final float ALPHA_MIDDLE_TRANSPARENCY = 0.5f;
+	public static final float ALPHA_NEARLY_FULL_TRANSPARENCY = 0.03f;
+	public static final float ALPHA_FULL_TRANSPARENCY = 0.0f;
 
 	/**** EXPORT FORMATS ****/
-	public static final List<String> exportFormatList = Arrays.asList(new String[] { "bmp", "eps", "gif", "jpg", "pdf", "png", "svg" });
+	public static final List<String> exportFormatList = Arrays.asList(new String[] {"bmp", "eps", "gif", "jpg", "pdf", "png", "svg"});
 
 	/**** ZOOM VALUES ****/
 	public static final ArrayList<String> zoomValueList = new ArrayList<String>();
@@ -184,20 +206,29 @@ public abstract class Constants extends NewGridElementConstants {
 	/**** REGULAR EXPRESSIONS ****/
 
 	public static final String REGEX_FLOAT = "(\\d+(\\.\\d+)?)";
-
+	
 	/**** OTHER CONSTANTS ****/
-
-	public static final String MANIFEST_BUNDLE_NAME = "Bundle-Name";
-	public static final String MANIFEST_BUNDLE_VERSION = "Bundle-Version";
-	public static final String LOG4J_PROPERTIES = "log4j.properties";
 
 	public static final int NOTIFICATION_SHOW_TIME = 3000;
 	public static final String CUSTOM_ELEMENT_CLASSNAME = "CustomElementImpl";
 	public static final int DEFAULTGRIDSIZE = 10;
 	public static final int INTERFACE_LINE_LENGTH = 40;
 
+	public enum LineType {SOLID, DASHED, DOTTED, DOUBLE, DOUBLE_DASHED, DOUBLE_DOTTED};
+	public static final int DEFAULT_LINE_THICKNESS = 1;
+
 	public static final int CUSTOM_ELEMENT_COMPILE_INTERVAL = 500;
 
+	public enum AlignHorizontal {LEFT, CENTER, RIGHT};
+	public enum AlignVertical {TOP, CENTER, BOTTOM};
+	public static final int RESIZE_TOP = 1, RESIZE_RIGHT = 2, RESIZE_BOTTOM = 4, RESIZE_LEFT = 8;
+	public static final int RESIZE_NONE = 0;
+	public static final int RESIZE_ALL = Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
+	public static final int RESIZE_TOP_LEFT = RESIZE_TOP + RESIZE_LEFT;
+	public static final int RESIZE_TOP_RIGHT = RESIZE_TOP + RESIZE_RIGHT;
+	public static final int RESIZE_BOTTOM_LEFT = RESIZE_BOTTOM + RESIZE_LEFT;
+	public static final int RESIZE_BOTTOM_RIGHT = RESIZE_BOTTOM + RESIZE_RIGHT;
+	
 	public static final Cursor LR_CURSOR = new Cursor(Cursor.E_RESIZE_CURSOR);
 	public static final Cursor TB_CURSOR = new Cursor(Cursor.N_RESIZE_CURSOR);
 	public static final Cursor NW_CURSOR = new Cursor(Cursor.NW_RESIZE_CURSOR);
@@ -216,8 +247,8 @@ public abstract class Constants extends NewGridElementConstants {
 	public static final int PASTE_DISPLACEMENT_GRIDS = 2;
 	public static final Color GRID_COLOR = new Color(235, 235, 235);
 
-	public static final List<String> fontFamilyList = Arrays.asList(new String[] { Font.SANS_SERIF, Font.SERIF, Font.MONOSPACED });
-
+	public static final List<String> fontFamilyList = Arrays.asList(new String[] {Font.SANS_SERIF, Font.SERIF, Font.MONOSPACED});
+	
 	public static final List<LookAndFeelInfo> lookAndFeels = Arrays.asList(UIManager.getInstalledLookAndFeels());
 	static {
 		// The Eclipse Plugin doesn't work with GTKLookAndFeel, therefore we remove it from the choosable options
@@ -225,17 +256,7 @@ public abstract class Constants extends NewGridElementConstants {
 			lookAndFeels.remove("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
 		}
 	}
-
-	protected static final String DEFAULT_STRING = "Default";
-	public static final Comparator<String> DEFAULT_FIRST_COMPARATOR = new Comparator<String>() {
-		@Override
-		public int compare(String s1, String s2) { // Anything which starts with "Default" is always first
-			if (s1.startsWith(Constants.DEFAULT_STRING) && !s2.startsWith(Constants.DEFAULT_STRING)) return -1;
-			if (s2.startsWith(Constants.DEFAULT_STRING) && !s1.startsWith(Constants.DEFAULT_STRING)) return 1;
-			else return s1.compareTo(s2);
-		}
-	};
-
+	
 	public static final int RECENT_FILES_LIST_LENGTH = 10;
 	public static final RecentlyUsedFilesList recentlyUsedFilesList = new RecentlyUsedFilesList();
 
@@ -244,14 +265,12 @@ public abstract class Constants extends NewGridElementConstants {
 
 	public static final int MIN_MAIN_SPLITPANEL_SIZE = 100;
 	public static final int MIN_MAIL_SPLITPANEL_SIZE = 250;
-
-	public static final Font PANEL_HEADER_FONT = new Font("SansSerif", Font.BOLD, 11);
-	public static final Font PANEL_CONTENT_FONT = new Font("Monospaced", Font.PLAIN, 11);
-
+	
 	/**** VALUES LOADED FROM CONFIG ****/
 	public static Integer defaultFontsize = (Program.PROGRAM_NAME == ProgramName.UMLET ? 14 : 10);
 	public static String defaultFontFamily = Font.SANS_SERIF;
 	public static boolean start_maximized = false;
+	public static boolean show_stickingpolygon = true;
 	public static boolean show_grid = false;
 	public static boolean enable_custom_elements = true;
 	public static int main_split_position = 600;
@@ -263,13 +282,12 @@ public abstract class Constants extends NewGridElementConstants {
 	public static int printPadding = 20;
 	public static boolean checkForUpdates = true;
 	public static String openFileHome = System.getProperty("user.dir");
-	public static String pdfExportFont = ""; // eg in Windows: "pdf_export_font = c:/windows/fonts/msgothic.ttc,1"
+	public static String pdfExportFont = ""; //eg in Windows: "pdf_export_font = c:/windows/fonts/msgothic.ttc,1"
 	public static boolean generateClassPackage = true;
 	public static FieldOptions generateClassFields = FieldOptions.ALL;
 	public static MethodOptions generateClassMethods = MethodOptions.ALL;
 	public static SignatureOptions generateClassSignatures = SignatureOptions.ALL;
 	public static SortOptions generateClassSortings = SortOptions.HEIGHT;
-	public static String lastUsedPalette = DEFAULT_STRING + " - original main elements"; // since v12 DefaultNewElements are shown at first startup (instead of Constants.DEFAULT_STRING)
 
 	static {
 		// The default MacOS theme looks ugly, therefore we set metal
@@ -292,7 +310,7 @@ public abstract class Constants extends NewGridElementConstants {
 	public static String mail_bcc = "";
 	public static boolean mail_xml = true;
 	public static boolean mail_gif = true;
-	public static boolean mail_pdf = false;
+	public static boolean mail_pdf = false;;
 
 	/**** ERROR MESSAGES ****/
 

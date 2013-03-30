@@ -9,9 +9,8 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.baselet.control.Main;
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.activity.AEnd;
@@ -82,7 +81,7 @@ public class ActivityDiagramText extends OldGridElement {
 
 	private void init(Graphics2D graphics) {
 
-		zoom = Main.getHandlerForElement(this).getZoomFactor();
+		zoom = getHandler().getZoomFactor();
 
 		this.graphics = graphics;
 		this.rows = new ArrayList<Row>();
@@ -90,7 +89,7 @@ public class ActivityDiagramText extends OldGridElement {
 		this.containers = new ArrayList<Container>();
 		this.elements = new HashMap<String, Element>();
 		this.rows.add(new Row());
-		this.root_container = new Container(Main.getHandlerForElement(this), graphics, null, rows, 0);
+		this.root_container = new Container(getHandler(), graphics, null, rows, 0);
 		this.current_container = this.root_container;
 		this.title = null;
 		this.goto_seperation_left = (int) (5 * zoom);
@@ -99,7 +98,7 @@ public class ActivityDiagramText extends OldGridElement {
 		// Some unimportant initialization stuff; setting color, font
 		// quality, etc. You should not have to change this.
 		this.graphics = graphics;
-		this.graphics.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		this.graphics.setFont(this.getHandler().getFontHandler().getFont());
 		this.graphics.setColor(fgColor);
 	}
 
@@ -151,7 +150,7 @@ public class ActivityDiagramText extends OldGridElement {
 			current_line = this.preparse(it.next());
 			if (current_line != null) {
 				if (!current_line.equals("")) {
-					for (current_depth = 0; current_line.charAt(current_depth) == '\t'; current_depth++) {/*do nothing except increasing current depth*/}
+					for (current_depth = 0; current_line.charAt(current_depth) == '\t'; current_depth++);
 					if (!previous_line.equals("") || (current_depth == last_depth)) parsed_lines.add(previous_line);
 
 					previous_line = current_line;
@@ -255,7 +254,7 @@ public class ActivityDiagramText extends OldGridElement {
 				if (m.group(2) != null) {
 					String input = "";
 					if (m.group(3) != null) input = m.group(3);
-					e = new Condition(Main.getHandlerForElement(this), input, this.graphics);
+					e = new Condition(getHandler(), input, this.graphics);
 					current_element = e;
 				}
 
@@ -268,32 +267,32 @@ public class ActivityDiagramText extends OldGridElement {
 
 					/* START */
 					if (m.group(6) != null) {
-						e = new Start(Main.getHandlerForElement(this), graphics);
+						e = new Start(getHandler(), graphics);
 					}
 					/* END */
 					else if (m.group(7) != null) {
-						if (m.group(7).equals("AEnd")) e = new AEnd(Main.getHandlerForElement(this), graphics, id);
-						else e = new End(Main.getHandlerForElement(this), graphics, id);
+						if (m.group(7).equals("AEnd")) e = new AEnd(getHandler(), graphics, id);
+						else e = new End(getHandler(), graphics, id);
 					}
 					/* LINESPACER */
 					else if (m.group(8) != null) {
-						e = new LineSpacer(Main.getHandlerForElement(this), graphics);
+						e = new LineSpacer(getHandler(), graphics);
 					}
 					/* IF/FORK */
 					else if (m.group(9) != null) {
 						// these elements are processed as soon as a the
 						// new container is opened (or as single elements
 						// if none is openend
-						if (m.group(9).equals("Fork")) start_element = new Fork(Main.getHandlerForElement(this), graphics, id);
-						else start_element = new If(Main.getHandlerForElement(this), graphics, id);
+						if (m.group(9).equals("Fork")) start_element = new Fork(getHandler(), graphics, id);
+						else start_element = new If(getHandler(), graphics, id);
 						current_element = start_element;
 					}
 					/* ENDIF/SYNC */
 					else if (m.group(10) != null) {
 						// set as stop element if a container has been closed
 						StopElement se;
-						if (m.group(10).equals("Sync")) se = new Sync(Main.getHandlerForElement(this), graphics, id);
-						else se = new EndIf(Main.getHandlerForElement(this), graphics, id);
+						if (m.group(10).equals("Sync")) se = new Sync(getHandler(), graphics, id);
+						else se = new EndIf(getHandler(), graphics, id);
 
 						if (closed_container != null) {
 							closed_container.setStopElement(se);
@@ -308,13 +307,13 @@ public class ActivityDiagramText extends OldGridElement {
 						current_depth++;
 					}
 					/* GET EVENT */
-					else if (m.group(15) != null) e = new EventRecieve(Main.getHandlerForElement(this), graphics, m.group(15), id);
+					else if (m.group(15) != null) e = new EventRecieve(getHandler(), graphics, m.group(15), id);
 					/* RAISE EVENT */
-					else if (m.group(17) != null) e = new EventRaise(Main.getHandlerForElement(this), graphics, m.group(17), id);
+					else if (m.group(17) != null) e = new EventRaise(getHandler(), graphics, m.group(17), id);
 					/* PARTACTIVITY */
-					else if (m.group(19) != null) e = new PartActivity(Main.getHandlerForElement(this), m.group(19), graphics, id);
+					else if (m.group(19) != null) e = new PartActivity(getHandler(), m.group(19), graphics, id);
 					/* ACTIVITY */
-					else if (m.group(20) != null) e = new Activity(Main.getHandlerForElement(this), m.group(20), graphics, id);
+					else if (m.group(20) != null) e = new Activity(getHandler(), m.group(20), graphics, id);
 				}
 
 				if (e != null) {
@@ -390,9 +389,9 @@ public class ActivityDiagramText extends OldGridElement {
 			height += (int) (25 * zoom);
 
 			if ((title != null) && (title.length() > 0)) {
-				Main.getHandlerForElement(this).getFontHandler().writeText(this.graphics, title, (int) (10 * zoom), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
-				int titlewidth = (int) Main.getHandlerForElement(this).getFontHandler().getTextWidth(title);
-				int ty = (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) (8 * zoom);
+				this.getHandler().getFontHandler().writeText(this.graphics, title, (int) (10 * zoom), (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
+				int titlewidth = (int) this.getHandler().getFontHandler().getTextWidth(title);
+				int ty = (int) this.getHandler().getFontHandler().getFontSize() + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() + (int) (8 * zoom);
 				this.graphics.drawLine(0, ty, titlewidth + (int) (10 * zoom), ty);
 				this.graphics.drawLine(titlewidth + (int) (10 * zoom), ty, titlewidth + ty + (int) (10 * zoom), 0);
 			}
@@ -414,7 +413,7 @@ public class ActivityDiagramText extends OldGridElement {
 
 		// draw diagram
 		this.setSize(width, height);
-		this.graphics.drawRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+		this.graphics.drawRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
 		this.root_container.paint();
 
 		// draw goto elements

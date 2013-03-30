@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Vector;
 
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
@@ -76,10 +75,10 @@ public class GUIListener implements KeyListener {
 					for (GridElement tmpEntity : entitiesToBeMoved) {
 						if (tmpEntity instanceof Relation) continue;
 						StickingPolygon stick = null;
-						if (tmpEntity.isStickingBorderActive()) stick = tmpEntity.generateStickingBorder(tmpEntity.getRectangle().x, tmpEntity.getRectangle().y, tmpEntity.getZoomedSize().width, tmpEntity.getZoomedSize().height);
+						if (tmpEntity.isStickingBorderActive()) stick = tmpEntity.generateStickingBorder(tmpEntity.getLocation().x, tmpEntity.getLocation().y, tmpEntity.getSize().width, tmpEntity.getSize().height);
 						else tmpEntity.setStickingBorderActive(true);
 						if (stick != null) {
-							Vector<RelationLinePoint> affectedRelationPoints = Utils.getStickingRelationLinePoints(handler, stick);
+							Vector<RelationLinePoint> affectedRelationPoints = stick.getStickingRelationLinePoints(handler);
 							for (int j = 0; j < affectedRelationPoints.size(); j++) {
 								RelationLinePoint tmpRlp = affectedRelationPoints.elementAt(j);
 								if (entitiesToBeMoved.contains(tmpRlp.getRelation())) continue;

@@ -1,5 +1,6 @@
 package com.baselet.gui.listener;
 
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Vector;
@@ -12,7 +13,6 @@ import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.RemoveElement;
 import com.baselet.diagram.command.RemoveLinePoint;
-import com.baselet.diagram.draw.geom.Point;
 import com.umlet.element.Relation;
 
 
@@ -113,8 +113,8 @@ public class PaletteRelationListener extends PaletteEntityListener {
 		if (IS_DRAGGING_LINEPOINT) {
 			Vector<Point> tmp = r.getLinePoints();
 			Point p = tmp.elementAt(LINEPOINT);
-			delta_x = (r.getRectangle().x + p.x) % gridSize;
-			delta_y = (r.getRectangle().y + p.y) % gridSize;
+			delta_x = (r.getLocation().x + p.x) % gridSize;
+			delta_y = (r.getLocation().y + p.y) % gridSize;
 		}
 
 		Point newp = this.getNewCoordinate();
@@ -130,7 +130,7 @@ public class PaletteRelationListener extends PaletteEntityListener {
 		}
 		else if (IS_DRAGGING_LINE) {
 			this.controller.executeCommand(new Move(r, diffx, diffy));
-			if (r.getLocationOnScreen().x + r.getZoomedSize().width <= handler.getDrawPanel().getLocationOnScreen().x) {
+			if (r.getLocationOnScreen().x + r.getSize().width <= handler.getDrawPanel().getLocationOnScreen().x) {
 				IS_DRAGGING_LINE = false;
 				IS_DRAGGING_LINEPOINT = false;
 			}

@@ -24,7 +24,7 @@ public class CreateGroup extends Command {
 			this._entities = new Vector<GridElement>();
 			this._entities.addAll(handler.getDrawPanel().getSelector().getSelectedEntities());
 		}
-		handler.setHandlerAndInitListeners(_group);
+		_group.setHandlerAndInitListeners(handler);
 		_group.group(this._entities);
 	}
 

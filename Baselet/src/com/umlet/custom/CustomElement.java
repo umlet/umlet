@@ -19,13 +19,9 @@ import java.util.List;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Main;
+import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.Constants.LineType;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
 
@@ -101,7 +97,7 @@ public abstract class CustomElement extends OldGridElement {
 		g2.setComposite(this.composites[1]);
 
 		for (StyleShape s : this.shapes) {
-			specialBgColor = !(s.getBgColor().equals(bgColor));
+			specialBgColor = ((s.getBgColor() != bgColor));
 			if (specialBgColor) {
 				g2.setColor(s.getBgColor());
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, s.getAlpha()));
@@ -118,11 +114,11 @@ public abstract class CustomElement extends OldGridElement {
 
 		for (StyleShape s : this.shapes) {
 			specialLine = ((s.getLineType() != LineType.SOLID) || (s.getLineThickness() != Constants.DEFAULT_LINE_THICKNESS));
-			specialFgColor = !s.getFgColor().equals(Converter.convert(ColorOwn.DEFAULT_FOREGROUND));
+			specialFgColor = (s.getFgColor() != Constants.DEFAULT_FOREGROUND_COLOR);
 
 			if (specialLine) g2.setStroke(Utils.getStroke(s.getLineType(), s.getLineThickness()));
 			if (specialFgColor) {
-				if (isSelected) g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
+				if (isSelected) g2.setColor(Constants.DEFAULT_SELECTED_COLOR);
 				else g2.setColor(s.getFgColor());
 			}
 			this.g2.draw(s.getShape());
@@ -133,12 +129,12 @@ public abstract class CustomElement extends OldGridElement {
 		for (Text t : this.texts) {
 			boolean applyZoom = true;
 			if (t.fixedSize != null) {
-				Main.getHandlerForElement(this).getFontHandler().setFontSize((float) t.fixedSize);
+				getHandler().getFontHandler().setFontSize((float) t.fixedSize);
 				applyZoom = false;
 			}
-			Main.getHandlerForElement(this).getFontHandler().writeText(this.g2, t.text, t.x, t.y, t.align, applyZoom);
+			this.getHandler().getFontHandler().writeText(this.g2, t.text, t.x, t.y, t.align, applyZoom);
 			if (t.fixedSize != null) {
-				Main.getHandlerForElement(this).getFontHandler().resetFontSize();
+				getHandler().getFontHandler().resetFontSize();
 			}
 		}
 
@@ -152,17 +148,17 @@ public abstract class CustomElement extends OldGridElement {
 
 		this.g2 = (Graphics2D) g;
 		composites = this.colorize(g2);
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(this.getHandler().getFontHandler().getFont());
 		g2.setColor(fgColor);
 
-		zoom = Main.getHandlerForElement(this).getZoomFactor();
+		zoom = getHandler().getZoomFactor();
 		if (zoom < 0.25) bugfix = true;
 		else bugfix = false;
 
 		// width and height must be zoomed back to 100% before any custom code is applied
-		temp = this.getZoomedSize().width;
+		temp = this.getSize().width;
 		width = Math.round(temp / zoom); // use Math.round cause (int) would round down from 239.99998 to 240
-		temp = this.getZoomedSize().height;
+		temp = this.getSize().height;
 		height = Math.round(temp / zoom);
 
 		// Set width and height on grid (used for manually resized custom elements mainly
@@ -203,7 +199,7 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "text,x,y")
 	protected final int print(String text, int x, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? Utils.splitString(text, width, Main.getHandlerForElement(this)) : Arrays.asList(new String[] {text});
+		List<String> list = wordWrap ? Utils.splitString(text, width, getHandler()) : Arrays.asList(new String[] {text});
 		for (String s : list) {
 			this.texts.add(new Text(s, (int) (x * zoom), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
@@ -214,9 +210,9 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "text,y")
 	protected final int printLeft(String text, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? Utils.splitString(text, width, Main.getHandlerForElement(this)) : Arrays.asList(new String[] {text});
+		List<String> list = wordWrap ? Utils.splitString(text, width, getHandler()) : Arrays.asList(new String[] {text});
 		for (String s : list) {
-			this.texts.add(new Text(s, ((int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts()), (int) (y * zoom), AlignHorizontal.LEFT));
+			this.texts.add(new Text(s, ((int) this.getHandler().getFontHandler().getDistanceBetweenTexts()), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
 		}
 		return y - inY;
@@ -225,7 +221,7 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "text,y")
 	protected final int printRight(String text, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? Utils.splitString(text, width, Main.getHandlerForElement(this)) : Arrays.asList(new String[] {text});
+		List<String> list = wordWrap ? Utils.splitString(text, width, getHandler()) : Arrays.asList(new String[] {text});
 		for (String s : list) {
 			this.texts.add(new Text(s, (int) ((width * zoom - this.textWidth(s, true))), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
@@ -236,7 +232,7 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "text,y")
 	protected final int printCenter(String text, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? Utils.splitString(text, width, Main.getHandlerForElement(this)) : Arrays.asList(new String[] {text});
+		List<String> list = wordWrap ? Utils.splitString(text, width, getHandler()) : Arrays.asList(new String[] {text});
 		for (String s : list) {
 			this.texts.add(new Text(s, (int) (((onGrid(width) * zoom - this.textWidth(s, true)) / 2)), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
@@ -247,7 +243,7 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "text,x,y,fixedFontSize")
 	protected final int printFixedSize(String text, int x, int inY, int fixedFontSize) {
 		int y = inY;
-		List<String> list = wordWrap ? Utils.splitString(text, width, Main.getHandlerForElement(this)) : Arrays.asList(new String[] {text});
+		List<String> list = wordWrap ? Utils.splitString(text, width, getHandler()) : Arrays.asList(new String[] {text});
 		for (String s : list) {
 		this.texts.add(new Text(s, x, y, AlignHorizontal.LEFT, fixedFontSize));
 		y += textHeight();
@@ -354,12 +350,12 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "y")
 	protected final void drawLineHorizontal(int y) {
-		this.shapes.add(new StyleShape(new Line2D.Float((int) (0 * zoom), (int) (y * zoom), Main.getHandlerForElement(this).realignToGrid(false, (int) (width * zoom), true), (int) (y * zoom)), tmpLineType, tmpLineThickness, tmpFgColor, tmpBgColor, tmpAlpha));
+		this.shapes.add(new StyleShape(new Line2D.Float((int) (0 * zoom), (int) (y * zoom), getHandler().realignToGrid(false, (int) (width * zoom), true), (int) (y * zoom)), tmpLineType, tmpLineThickness, tmpFgColor, tmpBgColor, tmpAlpha));
 	}
 
 	@CustomFunction(param_defaults = "x")
 	protected final void drawLineVertical(int x) {
-		this.shapes.add(new StyleShape(new Line2D.Float((int) (x * zoom), (int) (0 * zoom), (int) (x * zoom), Main.getHandlerForElement(this).realignToGrid(false, (int) (height * zoom), true)), tmpLineType, tmpLineThickness, tmpFgColor, tmpBgColor, tmpAlpha));
+		this.shapes.add(new StyleShape(new Line2D.Float((int) (x * zoom), (int) (0 * zoom), (int) (x * zoom), getHandler().realignToGrid(false, (int) (height * zoom), true)), tmpLineType, tmpLineThickness, tmpFgColor, tmpBgColor, tmpAlpha));
 	}
 
 	@CustomFunction(param_defaults = "polygon")
@@ -412,7 +408,7 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "foregroundColor")
 	protected final void setForegroundColor(String fgColorString) {
-		tmpFgColor = Converter.convert(ColorOwn.forString(fgColorString, Transparency.FOREGROUND));
+		tmpFgColor = Utils.getColor(fgColorString);
 		if (tmpFgColor == null) {
 			if (fgColorString.equals("fg")) tmpFgColor = fgColor;
 		}
@@ -420,14 +416,13 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "backgroundColor")
 	protected final void setBackgroundColor(String bgColorString) {
-		// OldGridElements apply transparency for background explicitly, therefore don't apply it here
-		tmpBgColor = Converter.convert(ColorOwn.forString(bgColorString, Transparency.FOREGROUND));
+		tmpBgColor = Utils.getColor(bgColorString);
 		if (tmpBgColor == null) {
 			if (bgColorString.equals("bg")) tmpBgColor = bgColor;
 		}
 //		 Transparency is 0% if none or 50% if anything else
-		if (bgColorString.equals("none")) tmpAlpha = OldGridElement.ALPHA_FULL_TRANSPARENCY;
-		else tmpAlpha = OldGridElement.ALPHA_MIDDLE_TRANSPARENCY;
+		if (bgColorString.equals("none")) tmpAlpha = Constants.ALPHA_FULL_TRANSPARENCY;
+		else tmpAlpha = Constants.ALPHA_MIDDLE_TRANSPARENCY;
 	}
 
 	@CustomFunction(param_defaults = "")

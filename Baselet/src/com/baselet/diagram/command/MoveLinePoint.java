@@ -1,6 +1,7 @@
 package com.baselet.diagram.command;
 
-import com.baselet.control.Main;
+import java.awt.Point;
+
 import com.baselet.diagram.DiagramHandler;
 import com.umlet.element.Relation;
 
@@ -18,30 +19,36 @@ public class MoveLinePoint extends Command {
 	}
 
 	public int getDiffX() {
-		return _diffx * Main.getHandlerForElement(_relation).getGridSize();
+		return _diffx * _relation.getHandler().getGridSize();
 	}
 
 	public int getDiffY() {
-		return _diffy * Main.getHandlerForElement(_relation).getGridSize();
+		return _diffy * _relation.getHandler().getGridSize();
 	}
 
 	public MoveLinePoint(Relation rel, int i, int diffx, int diffy) {
 		_relation = rel;
 		_linePointId = i;
-		_diffx = diffx / Main.getHandlerForElement(rel).getGridSize();
-		_diffy = diffy / Main.getHandlerForElement(rel).getGridSize();
+		_diffx = diffx / rel.getHandler().getGridSize();
+		_diffy = diffy / rel.getHandler().getGridSize();
 	}
 
 	@Override
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
-		_relation.moveLinePoint(_linePointId, getDiffX(), getDiffY());
+		Point p = _relation.getLinePoints().elementAt(_linePointId);
+		p.x = p.x + getDiffX();
+		p.y = p.y + getDiffY();
+		_relation.repaint();
 	}
 
 	@Override
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
-		_relation.moveLinePoint(_linePointId, -getDiffX(), -getDiffY());
+		Point p = _relation.getLinePoints().elementAt(_linePointId);
+		p.x = p.x - getDiffX();
+		p.y = p.y - getDiffY();
+		_relation.repaint();
 	}
 
 	@Override

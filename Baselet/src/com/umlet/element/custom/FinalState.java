@@ -3,7 +3,6 @@ package com.umlet.element.custom;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import com.baselet.control.Main;
 import com.baselet.element.OldGridElement;
 
 
@@ -15,16 +14,16 @@ public class FinalState extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = getHandler().getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(this.getHandler().getFontHandler().getFont());
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
 
-		g2.drawOval(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
-		g2.fillOval((int) (4 * zoom), (int) (4 * zoom), this.getZoomedSize().width - (int) (8 * zoom), this.getZoomedSize().height - (int) (8 * zoom));
+		g2.drawOval(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		g2.fillOval((int) (4 * zoom), (int) (4 * zoom), this.getSize().width - (int) (8 * zoom), this.getSize().height - (int) (8 * zoom));
 	}
 
 	@Override

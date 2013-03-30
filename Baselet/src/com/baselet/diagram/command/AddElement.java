@@ -5,15 +5,15 @@ import java.awt.Point;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Main;
+import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 
 public class AddElement extends Command {
-	
-	private static final Logger log = Logger.getLogger(AddElement.class);
+
+	private final static Logger log = Logger.getLogger(Utils.getClassName());
 	
 	// AB: checked false after first execution
 	private boolean firstCall = true;
@@ -43,9 +43,9 @@ public class AddElement extends Command {
 		_entity = e;
 		_zoom = zoom;
 		if (_zoom) {
-			_x = x / Main.getHandlerForElement(e).getGridSize();
-			_y = y / Main.getHandlerForElement(e).getGridSize();
-			DiagramHandler.zoomEntity(Main.getHandlerForElement(e).getGridSize(), Constants.DEFAULTGRIDSIZE, e);
+			_x = x / e.getHandler().getGridSize();
+			_y = y / e.getHandler().getGridSize();
+			DiagramHandler.zoomEntity(e.getHandler().getGridSize(), Constants.DEFAULTGRIDSIZE, e);
 		}
 		else {
 			_x = x;
@@ -54,18 +54,12 @@ public class AddElement extends Command {
 	}
 
 	private void addentity(GridElement e, DrawPanel panel, int x, int y) {
-		panel.getHandler().setHandlerAndInitListeners(e);
+		e.setHandlerAndInitListeners(panel.getHandler());
 		panel.addElement(e);
 		if (e instanceof Group) {
 			Group g = (Group) e;
-			for (GridElement ent : g.getMembers()) {
-				// Elements which are not on the panel get added now
-				// usually they are part if this AddElement command was issued by grouping existing elements
-				// and they are not part if this AddElement command was issued by copying an existing group
-				if (!panel.getAllEntities().contains(ent)) {
-					addentity(ent, panel, ent.getRectangle().x - g.getRectangle().x + x, ent.getRectangle().y - g.getRectangle().y + y);
-				}
-			}
+			for (GridElement ent : g.getMembers())
+				addentity(ent, panel, ent.getLocation().x - g.getLocation().x + x, ent.getLocation().y - g.getLocation().y + y);
 			g.removeMemberListeners(); // remove listeners from submembers of this group
 			if (_zoom) g.adjustSize(false); // Adjust cause problems if _zoom == false because the wrong zoomlevel would be assumed
 		}

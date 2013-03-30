@@ -6,9 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
 
 
@@ -25,17 +24,17 @@ public class EER_Entity extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = getHandler().getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(this.getHandler().getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 
 		Vector<String> tmp = getStringVector();
 		boolean CENTER = true;
 		boolean drawInnerRect = false;
-		int yPos = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 2;
+		int yPos = (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() * 2;
 
 		// ### draw rectangles and lines (some duplicated code)
 		Polygon poly = new Polygon();
@@ -43,28 +42,28 @@ public class EER_Entity extends OldGridElement {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
 				CENTER = false;
-				ySave = yPos + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 2;
-				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 3;
+				ySave = yPos + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() * 2;
+				yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() * 3;
 			}
 			else {
-				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+				yPos += (int) this.getHandler().getFontHandler().getFontSize();
 				if (CENTER && s.startsWith("##")) drawInnerRect = true;
-				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				if (CENTER) ySave = yPos;
 			}
 		}
 		poly.addPoint(0, 0);
-		poly.addPoint(this.getZoomedSize().width - 1, 0);
+		poly.addPoint(this.getSize().width - 1, 0);
 		if (CENTER) {
 			hasAttributes = false; // see getStickingBorder()
-			ySave = this.getZoomedSize().height;
-			poly.addPoint(this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
-			poly.addPoint(0, this.getZoomedSize().height - 1);
+			ySave = this.getSize().height;
+			poly.addPoint(this.getSize().width - 1, this.getSize().height - 1);
+			poly.addPoint(0, this.getSize().height - 1);
 		}
 		else {
 			hasAttributes = true; // see getStickingBorder()
-			g.drawLine((int) (10 * zoom), ySave, (int) (10 * zoom), yPos + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() - (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts());
-			poly.addPoint(this.getZoomedSize().width - 1, ySave);
+			g.drawLine((int) (10 * zoom), ySave, (int) (10 * zoom), yPos + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() - (int) this.getHandler().getFontHandler().getDistanceBetweenTexts());
+			poly.addPoint(this.getSize().width - 1, ySave);
 			poly.addPoint(0, ySave);
 		}
 
@@ -77,35 +76,35 @@ public class EER_Entity extends OldGridElement {
 		g2.drawPolygon(poly);
 
 		if (drawInnerRect) {
-			if (CENTER) g.drawRect((int) (3 * zoom), (int) (3 * zoom), this.getZoomedSize().width - (int) (7 * zoom), this.getZoomedSize().height - (int) (7 * zoom));
-			else g.drawRect((int) (3 * zoom), (int) (3 * zoom), this.getZoomedSize().width - (int) (7 * zoom), ySave - (int) (6 * zoom));
+			if (CENTER) g.drawRect((int) (3 * zoom), (int) (3 * zoom), this.getSize().width - (int) (7 * zoom), this.getSize().height - (int) (7 * zoom));
+			else g.drawRect((int) (3 * zoom), (int) (3 * zoom), this.getSize().width - (int) (7 * zoom), ySave - (int) (6 * zoom));
 		}
 
 		// #### draw text
 		CENTER = true;
-		yPos = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 2;
+		yPos = (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() * 2;
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
 				CENTER = false;
-				ySave = yPos + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 2;
-				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 3;
+				ySave = yPos + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() * 2;
+				yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() * 3;
 			}
 			else {
-				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+				yPos += (int) this.getHandler().getFontHandler().getFontSize();
 				if (CENTER) {
 					String s1 = s;
 					if (s.startsWith("##")) {
 						drawInnerRect = true;
 						s1 = s1.substring(2);
 					}
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s1, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+					this.getHandler().getFontHandler().writeText(g2, s1, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), yPos, AlignHorizontal.LEFT);
+					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize(), yPos, AlignHorizontal.LEFT);
 				}
-				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 				if (CENTER) ySave = yPos;
 			}
 		}

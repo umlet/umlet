@@ -1,5 +1,6 @@
 package com.baselet.diagram.io;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,15 +9,15 @@ import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.baselet.control.Main;
+import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.command.HelpPanelChanged;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.ErrorOccurred;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.umlet.custom.CustomElementCompiler;
-import com.umlet.element.experimental.ElementFactory;
+import com.umlet.element.experimental.ElementInitializer;
 import com.umlet.element.experimental.NewGridElement;
 
 /**
@@ -25,7 +26,7 @@ import com.umlet.element.experimental.NewGridElement;
  */
 public class InputHandler extends DefaultHandler {
 	
-	private static final Logger log = Logger.getLogger(InputHandler.class);
+	protected final static Logger log = Logger.getLogger(Utils.getClassName());
 	
 	private DrawPanel _p = null;
 	private GridElement e = null;
@@ -66,7 +67,7 @@ public class InputHandler extends DefaultHandler {
 		}
 		if (qName.equals("group")) {
 			Group g = new Group();
-			this.handler.setHandlerAndInitListeners(g);
+			g.setHandlerAndInitListeners(this.handler);
 			if (currentGroup != null) currentGroup.addMember(g);
 			currentGroup = g;
 		}
@@ -79,7 +80,6 @@ public class InputHandler extends DefaultHandler {
 		if (elementname.equals("help_text")) {
 			handler.setHelpText(elementtext);
 			handler.getFontHandler().setDiagramDefaultFontSize(HelpPanelChanged.getFontsize(elementtext));
-			handler.getFontHandler().setDiagramDefaultFontFamily(HelpPanelChanged.getFontfamily(elementtext));
 		}
 		else if (elementname.equals("zoom_level")) {
 			if (handler != null) handler.setGridSize(Integer.parseInt(elementtext));
@@ -88,14 +88,14 @@ public class InputHandler extends DefaultHandler {
 			if (this.currentGroup != null) {
 				this.currentGroup.adjustSize(false);
 				_p.addElement(this.currentGroup);
-				//TODO here is a cast to group because InputHandler is only used by SWING
-				this.currentGroup = (Group) this.currentGroup.getGroup();
+				this.currentGroup = this.currentGroup.getGroup();
 			}
 		}
 		else if (elementname.equals("element")) {
 			if (this.id != null) {
 				try {
-					NewGridElement e = ElementFactory.create(this.id, new Rectangle(x, y, w, h), this.panel_attributes, this.handler);
+					NewGridElement e = ElementInitializer.getInstance().getGridElementFromId(this.id);
+					e.init(new Rectangle(x, y, w, h), this.panel_attributes, this.additional_attributes, this.handler);
 					if (this.currentGroup != null) this.currentGroup.addMember(e);
 					_p.addElement(e);
 				} catch (Exception e) {
@@ -110,10 +110,10 @@ public class InputHandler extends DefaultHandler {
 				} catch (Exception ex) {
 					e = new ErrorOccurred();
 				}
-				e.setRectangle(new Rectangle(x, y, w, h));
+				e.setBounds(x, y, w, h);
 				e.setPanelAttributes(this.panel_attributes);
 				e.setAdditionalAttributes(this.additional_attributes);
-				this.handler.setHandlerAndInitListeners(e);
+				e.setHandlerAndInitListeners(this.handler);
 
 				if (this.currentGroup != null) this.currentGroup.addMember(e);
 				_p.addElement(e);

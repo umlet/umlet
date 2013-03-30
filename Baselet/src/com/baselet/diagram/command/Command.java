@@ -5,7 +5,7 @@ import com.baselet.diagram.Selector;
 
 public abstract class Command {
 
-	public void execute(@SuppressWarnings("unused") DiagramHandler handler) {
+	public void execute(DiagramHandler handler) {
 
 	}
 
@@ -18,11 +18,11 @@ public abstract class Command {
 		}
 	}
 
-	public boolean isMergeableTo(@SuppressWarnings("unused") Command c) {
+	public boolean isMergeableTo(Command c) {
 		return false;
 	}
 
-	public Command mergeTo(@SuppressWarnings("unused") Command c) {
+	public Command mergeTo(Command c) {
 		return null;
 	}
 

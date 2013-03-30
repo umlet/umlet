@@ -21,8 +21,8 @@ import com.baselet.control.Constants.RuntimeType;
 import com.baselet.plugin.MainPlugin;
 
 public class Path {
-	
-	private static final Logger log = Logger.getLogger(Path.class);
+
+	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private static String tempDir;
 	private static String homeProgramDir;
@@ -32,20 +32,11 @@ public class Path {
 	}
 
 	private static String userHome() {
-		String homeDir = userHomeBase();
+		String homeDir = System.getProperty("user.home");
 		if (!homeDir.endsWith(File.separator)) homeDir += File.separator;
 		File homeDirFile = new File(homeDir + Program.PROGRAM_NAME);
 		if (!homeDirFile.exists()) homeDirFile.mkdir();
 		return homeDirFile.getAbsolutePath();
-	}
-
-	private static String userHomeBase() {
-		try {
-			String xdgConfigHome = System.getenv("XDG_CONFIG_HOME"); // use env variable $XDG_CONFIG_HOME if it's set
-			if (xdgConfigHome != null) return xdgConfigHome;
-		} catch (Exception e) { /* if env variable cannot be read, ignore it */ }
-
-		return System.getProperty("user.home");
 	}
 
 	public static String customElements() {
@@ -160,14 +151,8 @@ public class Path {
 
 	public static Manifest manifest() throws FileNotFoundException, IOException {
 		Manifest manifest;
-		if (Path.executable().endsWith(".jar")) {
-			manifest = new JarFile(Path.executable()).getManifest();
-		}
-		else {
-			FileInputStream is = new FileInputStream(Path.homeProgram() + "META-INF" + File.separator + "MANIFEST.MF");
-			manifest = new Manifest(is);
-			is.close();
-		}
+		if (Path.executable().endsWith(".jar")) manifest = new JarFile(Path.executable()).getManifest();
+		else manifest = new Manifest(new FileInputStream(Path.homeProgram() + "META-INF" + File.separator + "MANIFEST.MF"));
 		return manifest;
 	}
 

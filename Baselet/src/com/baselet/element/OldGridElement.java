@@ -2,12 +2,15 @@ package com.baselet.element;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Composite;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Stroke;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
@@ -16,47 +19,35 @@ import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.Constants.LineType;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.Line;
-import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.diagram.draw.swing.Converter;
+import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.AutocompletionText;
-import com.umlet.element.experimental.ComponentInterface;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
-public abstract class OldGridElement extends JComponent implements GridElement, ComponentInterface {
+public abstract class OldGridElement extends JComponent implements GridElement {
 
 	private static final long serialVersionUID = 1L;
-	
-	protected static final Logger log = Logger.getLogger(OldGridElement.class);
 
-	public static final float ALPHA_MIDDLE_TRANSPARENCY = 0.5f;
-	public static final float ALPHA_FULL_TRANSPARENCY = 0.0f;
-	
+	protected final static Logger log = Logger.getLogger(Utils.getClassName());
+
+	private DiagramHandler handler;
 	private boolean enabled;
 	private boolean stickingBorderActive;
 	private boolean autoresizeandmanualresizeenabled;
-	private GroupGridElement group = null;
+	private Group group = null;
 	protected String panelAttributes = "";
 	protected boolean isSelected = false;
 
 	// deselectedColor and fgColor must be stored separately because selection changes the actual fgColor but not the fgColorBase
-	protected Color fgColorBase = Converter.convert(ColorOwn.BLACK);
+	protected Color fgColorBase = Color.black;
 	protected Color fgColor = fgColorBase;
 	private String fgColorString = "";
-	protected Color bgColor = Converter.convert(ColorOwn.WHITE);
+	protected Color bgColor = Color.white;
 	private String bgColorString = "";
 	protected float alphaFactor;
-
-	private Integer lastLayerValue;
 
 	public OldGridElement() {
 		this.setSize(100, 100);
@@ -67,17 +58,33 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
+	public DiagramHandler getHandler() {
+		return handler;
+	}
+
+	@Override
+	public void setHandlerAndInitListeners(DiagramHandler handler) {
+		if (this.getHandler() != null) {
+			this.removeMouseListener(this.getHandler().getEntityListener(this));
+			this.removeMouseMotionListener(this.getHandler().getEntityListener(this));
+		}
+		this.handler = handler;
+		this.addMouseListener(this.getHandler().getEntityListener(this));
+		this.addMouseMotionListener(this.getHandler().getEntityListener(this));
+	}
+
+	@Override
 	public void setEnabled(boolean en) {
 		super.setEnabled(en);
 		if (!en && enabled) {
-			this.removeMouseListener(Main.getHandlerForElement(this).getEntityListener(this));
-			this.removeMouseMotionListener(Main.getHandlerForElement(this).getEntityListener(this));
+			this.removeMouseListener(this.getHandler().getEntityListener(this));
+			this.removeMouseMotionListener(this.getHandler().getEntityListener(this));
 			enabled = false;
 		}
 		else if (en && !enabled) {
 			if (!this.isPartOfGroup()) {
-				this.addMouseListener(Main.getHandlerForElement(this).getEntityListener(this));
-				this.addMouseMotionListener(Main.getHandlerForElement(this).getEntityListener(this));
+				this.addMouseListener(this.getHandler().getEntityListener(this));
+				this.addMouseMotionListener(this.getHandler().getEntityListener(this));
 			}
 			enabled = true;
 		}
@@ -120,12 +127,12 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public GroupGridElement getGroup() {
+	public Group getGroup() {
 		return this.group;
 	}
 
 	@Override
-	public void setGroup(GroupGridElement group) {
+	public void setGroup(Group group) {
 		this.group = group;
 	}
 
@@ -162,7 +169,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public void onSelected() {
 		isSelected = true;
-		fgColor = Converter.convert(ColorOwn.SELECTION_FG);
+		fgColor = Constants.DEFAULT_SELECTED_COLOR;
 		this.repaint();
 	}
 
@@ -174,18 +181,18 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		this.repaint();
 	}
 
-	public ColorOwn getFgColor() {
-		return Converter.convert(fgColor);
+	public Color getFgColor() {
+		return fgColor;
 	}
 
-	public ColorOwn getBgColor() {
-		return Converter.convert(bgColor);
+	public Color getBgColor() {
+		return bgColor;
 	}
 
 	@Override
 	public String getSetting(GlobalSetting key) {
-		if (key == GlobalSetting.FOREGROUND_COLOR) return fgColorString;
-		else if (key == GlobalSetting.BACKGROUND_COLOR) return bgColorString;
+		if (key == GlobalSetting.ForegroundColor) return fgColorString;
+		else if (key == GlobalSetting.BackgroundColor) return bgColorString;
 		else return "";
 	}
 
@@ -198,34 +205,33 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		newState = newState.substring(0, newState.length()-1); //remove last linebreak
 		if (newValue != null && !newValue.isEmpty()) newState += "\n" + key.toString() + "=" + newValue; // null will not be added as a value
 		this.setPanelAttributes(newState);
-		Main.getHandlerForElement(this).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
+		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.repaint();
 	}
-
+	
 	public Composite[] colorize(Graphics2D g2) {
 		bgColorString = "";
 		fgColorString = "";
-		bgColor = Converter.convert(ColorOwn.DEFAULT_BACKGROUND);
-		fgColorBase = Converter.convert(ColorOwn.DEFAULT_FOREGROUND);
+		bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
+		fgColorBase = Constants.DEFAULT_FOREGROUND_COLOR;
 		Vector<String> v = Utils.decomposeStringsWithComments(panelAttributes);
 		for (int i = 0; i < v.size(); i++) {
 			String line = v.get(i);
 			if (line.indexOf("bg=") >= 0) {
 				bgColorString = line.substring("bg=".length());
-				// OldGridElements apply transparency for background explicitly, therefore don't apply it here
-				bgColor = Converter.convert(ColorOwn.forString(bgColorString, Transparency.FOREGROUND));
-				if (bgColor == null) bgColor = Converter.convert(ColorOwn.DEFAULT_BACKGROUND);
+				bgColor = Utils.getColor(bgColorString);
+				if (bgColor == null) bgColor = Constants.DEFAULT_BACKGROUND_COLOR;
 			}
 			else if (line.indexOf("fg=") >= 0) {
 				fgColorString = line.substring("fg=".length());
-				fgColorBase = Converter.convert(ColorOwn.forString(fgColorString, Transparency.FOREGROUND));
-				if (fgColorBase == null) fgColorBase = Converter.convert(ColorOwn.DEFAULT_FOREGROUND);
+				fgColorBase = Utils.getColor(fgColorString);
+				if (fgColorBase == null) fgColorBase = Constants.DEFAULT_FOREGROUND_COLOR;
 				if (!isSelected) fgColor = fgColorBase;
 			}
 		}
 
-		alphaFactor = ALPHA_MIDDLE_TRANSPARENCY;
-		if (bgColorString.equals("") || bgColorString.equals("default")) alphaFactor = ALPHA_FULL_TRANSPARENCY;
+		alphaFactor = Constants.ALPHA_MIDDLE_TRANSPARENCY;
+		if (bgColorString.equals("") || bgColorString.equals("default")) alphaFactor = Constants.ALPHA_FULL_TRANSPARENCY;
 
 		Composite old = g2.getComposite();
 		AlphaComposite alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaFactor);
@@ -235,17 +241,17 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public Dimension getRealSize() {
-		return new Dimension(getZoomedSize().width / Main.getHandlerForElement(this).getGridSize() * Constants.DEFAULTGRIDSIZE, getZoomedSize().height / Main.getHandlerForElement(this).getGridSize() * Constants.DEFAULTGRIDSIZE);
+		return new Dimension(getSize().width / handler.getGridSize() * Constants.DEFAULTGRIDSIZE, getSize().height / handler.getGridSize() * Constants.DEFAULTGRIDSIZE);
 	}
-
+	
 	@Override
 	public int getResizeArea(int x, int y) {
 		int ret = 0;
 		if ((x <= 5) && (x >= 0)) ret = Constants.RESIZE_LEFT;
-		else if ((x <= this.getZoomedSize().width) && (x >= this.getZoomedSize().width - 5)) ret = Constants.RESIZE_RIGHT;
+		else if ((x <= this.getSize().width) && (x >= this.getSize().width - 5)) ret = Constants.RESIZE_RIGHT;
 
 		if ((y <= 5) && (y >= 0)) ret = ret | Constants.RESIZE_TOP;
-		else if ((y <= this.getZoomedSize().height) && (y >= this.getZoomedSize().height - 5)) ret = ret | Constants.RESIZE_BOTTOM;
+		else if ((y <= this.getSize().height) && (y >= this.getSize().height - 5)) ret = ret | Constants.RESIZE_BOTTOM;
 		return ret;
 	}
 
@@ -256,12 +262,12 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public void changeSize(int diffx, int diffy) {
-		this.setSize(this.getZoomedSize().width + diffx, this.getZoomedSize().height + diffy);
+		this.setSize(this.getSize().width + diffx, this.getSize().height + diffy);
 	}
 
 	@Override
-	public void setLocationDifference(int diffx, int diffy) {
-		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
+	public void changeLocation(int diffx, int diffy) {
+		this.setLocation(this.getLocation().x + diffx, this.getLocation().y + diffy);
 	}
 
 	/**
@@ -270,10 +276,10 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	 * IMPORTANT: on overlapping elements, contains is called for all elements until the first one returns true, then the others contain methods are not called
 	 */
 	@Override
-	public boolean contains(java.awt.Point p) {
-		return this.contains(p.x, p.y);
+	public boolean contains(Point p) {
+		return Utils.contains(this, p);
 	}
-
+	
 	/**
 	 * Must be overwritten because Swing sometimes uses this method instead of contains(Point)
 	 */
@@ -283,16 +289,18 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public boolean isInRange(Rectangle rect1) {
-		return (rect1.contains(getRectangle()));
-		}
+	public boolean isInRange(Point upperLeft, Dimension size) {
+		Rectangle2D rect1 = new Rectangle2D.Double(upperLeft.getX(), upperLeft.getY(), size.getWidth(), size.getHeight());
+		Rectangle2D rect2 = new Rectangle2D.Double(getLocation().x, getLocation().y, getSize().width, getSize().height);
+		return (rect1.contains(rect2));
+	}
 
 	public void setInProgress(Graphics g, boolean flag) {
 		if (flag) {
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+			g2.setFont(this.getHandler().getFontHandler().getFont());
 			g2.setColor(Color.red);
-			Main.getHandlerForElement(this).getFontHandler().writeText(g2, "in progress...", this.getZoomedSize().width / 2 - 40, this.getZoomedSize().height / 2 + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
+			this.getHandler().getFontHandler().writeText(g2, "in progress...", this.getSize().width / 2 - 40, this.getSize().height / 2 + (int) this.getHandler().getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
 		}
 		else {
 			repaint();
@@ -305,8 +313,8 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			java.lang.Class<? extends GridElement> cx = this.getClass(); // get class of dynamic object
 			GridElement c = cx.newInstance();
 			c.setPanelAttributes(this.getPanelAttributes()); // copy states
-			c.setRectangle(this.getRectangle());
-			Main.getHandlerForElement(this).setHandlerAndInitListeners(c);
+			c.setBounds(this.getBounds());
+			c.setHandlerAndInitListeners(this.getHandler());
 			return c;
 		} catch (Exception e) {
 			log.error("Error at calling CloneFromMe() on entity", e);
@@ -330,16 +338,14 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public final void drawStickingPolygon(Graphics2D g2) {
 		StickingPolygon poly;
 		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
-		if (Utils.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
-		else poly = this.generateStickingBorder(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+		if (Utils.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getSize().width - 1, this.getSize().height - 1);
+		else poly = this.generateStickingBorder(0, 0, this.getSize().width - 1, this.getSize().height - 1);
 		if (poly != null) {
 			Color c = g2.getColor();
 			Stroke s = g2.getStroke();
-			g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
+			g2.setColor(Constants.DEFAULT_SELECTED_COLOR);
 			g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
-			for (Line line : poly.getStickLines()) {
-				g2.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
-			}
+			poly.draw(g2);
 			g2.setColor(c);
 			g2.setStroke(s);
 		}
@@ -359,7 +365,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		// t.scale(scale, scale);
 		// g2.setTransform(t);
 		// }
-		updateModelFromText();
 
 		this.paintEntity(g2);
 	}
@@ -367,105 +372,27 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public abstract void paintEntity(Graphics g);
 
 	protected final int textHeight() {
-		return (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize(false) + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(false));
+		return (int) (this.getHandler().getFontHandler().getFontSize(false) + this.getHandler().getFontHandler().getDistanceBetweenTexts(false));
 	}
 
 	protected final int textWidth(String text, boolean applyZoom) {
-		return (int) (Main.getHandlerForElement(this).getFontHandler().getTextSize(text, applyZoom).getWidth() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(applyZoom));
+		return (int) (getHandler().getFontHandler().getTextSize(text, applyZoom).getWidth() + (int) getHandler().getFontHandler().getDistanceBetweenTexts(applyZoom));
 	}
 
 	@Override
-	public ComponentInterface getComponent() {
+	public JComponent getComponent() {
 		return this;
+	}
+
+	@Override
+	public void updateModelFromText() {
+		/*OldGridElement has no model but simply parses the properties text within every paint() call*/
 	}
 
 	@Override
 	public List<AutocompletionText> getAutocompletionList() {
 		return new ArrayList<AutocompletionText>();
 	}
-
-	@Override
-	public void updateModelFromText() {
-		/*OldGridElement has no model but simply parses the properties text within every paint() call*/
-		Integer oldLayer = lastLayerValue;
-		if (oldLayer != null && !oldLayer.equals(getLayer())) {
-			Main.getHandlerForElement(this).getDrawPanel().setLayer((Component) getComponent(), lastLayerValue);
-		}
-	}
-
-	@Override
-	public Integer getLayer() {
-		lastLayerValue = Integer.valueOf(GlobalSetting.LAYER.getValue());
-		try {
-			for (String s : Utils.decomposeStringsWithComments(panelAttributes)) {
-				String key = GlobalSetting.LAYER.toString() + GlobalSetting.SEPARATOR;
-				if (s.startsWith(key)) {
-					String value = s.split(key)[1];
-					lastLayerValue = Integer.valueOf(value);
-				}
-			}
-		} catch (Exception e) {/* in case of an error return default layer*/}
-		return lastLayerValue;
-	}
 	
-	@Override
-	public Dimension getZoomedSize() {
-		return new Dimension(getWidth(), getHeight());
-	}
 	
-	@Override
-	public Rectangle getRectangle() {
-		return Converter.convert(getBounds());
-	}
-	
-	@Override
-	public void setRectangle(Rectangle rect) {
-		setBounds(rect.x, rect.y, rect.width, rect.height);
-	}
-	
-	@Override
-	public void setBoundsRect(Rectangle rect) {
-		setBounds(Converter.convert(rect));
-	}
-
-	@Override
-	public Rectangle getBoundsRect() {
-		return Converter.convert(getBounds());
-	}
-
-	@Override
-	public void repaintComponent() {
-		this.repaint();
-	}
-
-	@Override
-	public BaseDrawHandler getDrawHandler() {
-		return null;
-	}
-
-	@Override
-	public BaseDrawHandler getMetaDrawHandler() {
-		return null;
-	}
-
-	@Override
-	public void setLocation(int x, int y) {
-		super.setLocation(x, y);
-	}
-
-	@Override
-	public void setSize(int width, int height) {
-		super.setSize(width, height);
-	}
-
-	@Override
-	public void repaint() {
-		super.repaint();
-	}
-
-	@Override
-	public void afterModelUpdate() {
-		/* do nothing */
-	}
-
 }

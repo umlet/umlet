@@ -1,18 +1,14 @@
 package com.umlet.element.experimental;
 
-import org.apache.log4j.Logger;
+import java.awt.Dimension;
 
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.AlignVertical;
-import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.LineHorizontal;
+import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.Constants.AlignVertical;
+import com.umlet.element.experimental.helper.XPoints;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
 public class PropertiesConfig {
-	
-	private static final Logger log = Logger.getLogger(PropertiesConfig.class);
 
 	private AlignHorizontal hAlign;
 	private boolean hAlignGloballySet = false;
@@ -24,7 +20,6 @@ public class PropertiesConfig {
 	private Settings specificSettings;
 	private Dimension gridElementSize;
 	private ElementStyleEnum elementStyle;
-	private Integer layer = Integer.valueOf(GlobalSetting.LAYER.getValue());
 
 	public PropertiesConfig(Settings specificSettings) {
 		hAlign = specificSettings.getHAlign();
@@ -106,16 +101,16 @@ public class PropertiesConfig {
 		return gridElementSize;
 	}
 
-	public LineHorizontal getXLimits(float linePos) {
-		LineHorizontal xLimits = specificSettings.getXValues(linePos, gridElementSize.height, gridElementSize.width);
+	public XPoints getXLimits(float linePos) {
+		XPoints xLimits = specificSettings.getXValues(linePos, gridElementSize.height, gridElementSize.width);
 		xLimits.addLeft(leftBuffer);
 		xLimits.subRight(rightBuffer);
 		return xLimits;
 	}
 
-	public LineHorizontal getXLimitsForArea(float bottomYPos, float areaHeight) {
-		LineHorizontal xLimitsTop = getXLimits(bottomYPos);
-		LineHorizontal xLimitsBottom = getXLimits(bottomYPos - areaHeight);
+	public XPoints getXLimitsForArea(float bottomYPos, float areaHeight) {
+		XPoints xLimitsTop = getXLimits(bottomYPos);
+		XPoints xLimitsBottom = getXLimits(bottomYPos - areaHeight);
 		return xLimitsTop.intersect(xLimitsBottom);
 	}
 
@@ -142,18 +137,6 @@ public class PropertiesConfig {
 
 	public void setElementStyle(ElementStyleEnum elementStyle) {
 		this.elementStyle = elementStyle;
-	}
-
-	public void setLayer(String layer) {
-		try {
-			this.layer = Integer.valueOf(layer);
-		} catch (NumberFormatException e) {
-			log.info("Invalid value: " + layer + " - " + GlobalSetting.LAYER + " must be an Integer");
-		}
-	}
-
-	public Integer getLayer() {
-		return layer;
 	}
 
 }

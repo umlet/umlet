@@ -40,12 +40,13 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Main;
+import com.baselet.control.Utils;
 import com.baselet.diagram.io.DiagramFileHandler;
 
 public class MailPanel extends JPanel {
 
-	private static final Logger log = Logger.getLogger(MailPanel.class);
-	
+	private final static Logger log = Logger.getLogger(Utils.getClassName());
+
 	private static final long serialVersionUID = 1L;
 
 	/**

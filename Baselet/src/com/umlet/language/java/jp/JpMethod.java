@@ -1,10 +1,10 @@
 package com.umlet.language.java.jp;
 
+import java.util.List;
+
 import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.ModifierSet;
 import japa.parser.ast.body.Parameter;
-
-import java.util.List;
 
 import com.umlet.language.java.Method;
 

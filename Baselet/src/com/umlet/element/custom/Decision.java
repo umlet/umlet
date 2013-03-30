@@ -3,10 +3,7 @@ package com.umlet.element.custom;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-
-import com.baselet.control.Main;
-import com.baselet.diagram.draw.geom.Point;
-
+import java.awt.Point;
 import java.awt.Polygon;
 
 import com.baselet.element.OldGridElement;
@@ -18,16 +15,16 @@ public class Decision extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(this.getHandler().getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
 
 		Polygon poly = new Polygon();
-		poly.addPoint(this.getZoomedSize().width / 2, 0);
-		poly.addPoint(this.getZoomedSize().width, this.getZoomedSize().height / 2);
-		poly.addPoint(this.getZoomedSize().width / 2, this.getZoomedSize().height);
-		poly.addPoint(0, this.getZoomedSize().height / 2);
+		poly.addPoint(this.getSize().width / 2, 0);
+		poly.addPoint(this.getSize().width, this.getSize().height / 2);
+		poly.addPoint(this.getSize().width / 2, this.getSize().height);
+		poly.addPoint(0, this.getSize().height / 2);
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);

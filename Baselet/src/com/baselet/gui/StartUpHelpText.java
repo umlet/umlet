@@ -36,8 +36,8 @@ import com.baselet.gui.listener.HyperLinkActiveListener;
 public class StartUpHelpText extends JEditorPane implements ContainerListener, ComponentListener {
 
 	private static final long serialVersionUID = 1L;
-	
-	private static final Logger log = Logger.getLogger(StartUpHelpText.class);
+
+	private final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	private DrawPanel panel;
 	private boolean visible;
@@ -52,6 +52,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		// If the GUI is null (e.g.: if main is used in batch mode) the startup help text is not required
 		if (Main.getInstance().getGUI() == null) return;
 
+		panel.add(this);
 		panel.addContainerListener(this);
 		panel.addComponentListener(this);
 		this.addMouseListener(new DelegatingMouseListener());

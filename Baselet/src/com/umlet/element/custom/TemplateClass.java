@@ -2,12 +2,11 @@ package com.umlet.element.custom;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.OldGridElement;
 
 
@@ -25,7 +24,7 @@ public class TemplateClass extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(this.getHandler().getFontHandler().getFont());
 		g2.setColor(fgColor);
 
 		// Constants.getFRC(g2);
@@ -33,29 +32,29 @@ public class TemplateClass extends OldGridElement {
 		Vector<String> tmp = getStringVector();
 
 		int yPos = 0;
-		yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+		yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 
 		boolean CENTER = true;
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
 				CENTER = false;
-				g2.drawLine(0, yPos, this.getZoomedSize().width, yPos);
-				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+				g2.drawLine(0, yPos, this.getSize().width, yPos);
+				yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
-				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+				yPos += (int) this.getHandler().getFontHandler().getFontSize();
 				if (CENTER) {
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+					this.getHandler().getFontHandler().writeText(g2, s, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+					this.getHandler().getFontHandler().writeText(g2, s, (int) this.getHandler().getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
 				}
-				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 		}
 
-		Rectangle r = this.getRectangle();
+		Rectangle r = this.getBounds();
 		g.drawRect(0, 0, (int) r.getWidth() - 1, (int) r.getHeight() - 1);
 		/*
 		 * if (_selected) {

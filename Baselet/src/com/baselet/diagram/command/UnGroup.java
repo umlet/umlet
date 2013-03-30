@@ -32,7 +32,7 @@ public class UnGroup extends Command {
 		Selector s = handler.getDrawPanel().getSelector();
 		if (s == null) return;
 		s.deselectAll();
-		handler.setHandlerAndInitListeners(_group);
+		_group.setHandlerAndInitListeners(handler);
 		_group.group(this.members);
 	}
 }

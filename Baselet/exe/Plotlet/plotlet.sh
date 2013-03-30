@@ -8,7 +8,7 @@
 #programDir=/path/to/plotlet
 programDir=$(cd $(dirname $0);pwd)
 
-if [ $# -eq 1 ]
+if [ $# -gt 0 ]
  then java -jar ${programDir}/plotlet.jar -filename="$1"
- else java -jar ${programDir}/plotlet.jar "$@"
+ else java -jar ${programDir}/plotlet.jar
 fi

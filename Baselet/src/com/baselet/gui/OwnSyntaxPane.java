@@ -1,7 +1,9 @@
 package com.baselet.gui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,10 +26,7 @@ import org.fife.ui.rsyntaxtextarea.TokenTypes;
 import org.fife.ui.rsyntaxtextarea.modes.BBCodeTokenMaker;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-import com.baselet.control.Constants;
-import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.diagram.draw.swing.Converter;
+import com.baselet.control.Utils;
 import com.baselet.element.GridElement;
 
 
@@ -43,7 +42,6 @@ public class OwnSyntaxPane {
 
 	JPanel panel;
 	RSyntaxTextArea textArea;
-	RTextScrollPane scrollPane;
 
 	public OwnSyntaxPane() {
 
@@ -58,8 +56,8 @@ public class OwnSyntaxPane {
 		textArea.setSyntaxEditingStyle(OwnTokenMaker.ID);
 
 		SyntaxScheme scheme = textArea.getSyntaxScheme();
-		scheme.getStyle(SPECIFIC_SETTING).foreground = Converter.convert(ColorOwn.forString("#e10100", Transparency.FOREGROUND));
-		scheme.getStyle(GLOBAL_SETTING).foreground = Converter.convert(ColorOwn.BLUE);
+		scheme.getStyle(SPECIFIC_SETTING).foreground = Utils.getColor("#e10100");
+		scheme.getStyle(GLOBAL_SETTING).foreground = Color.BLUE;
 
 		//Setup autocompletion
 		createAutocompletionCompletionProvider();
@@ -69,12 +67,11 @@ public class OwnSyntaxPane {
 
 		JLabel propertyLabel = new JLabel(" Properties");
 		propertyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		propertyLabel.setFont(Constants.PANEL_HEADER_FONT);
+		propertyLabel.setFont(new Font("SansSerif", Font.BOLD, 11));
 		panel.add(propertyLabel);
 
 		textArea.setAntiAliasingEnabled(true);
-		textArea.setFont(Constants.PANEL_CONTENT_FONT);
-		scrollPane = new RTextScrollPane(textArea, false);
+		RTextScrollPane scrollPane = new RTextScrollPane(textArea, false);
 		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -124,10 +121,6 @@ public class OwnSyntaxPane {
 
 	public JPanel getPanel() {
 		return this.panel;
-	}
-	
-	public void revalidate() {
-		if (scrollPane != null) scrollPane.revalidate();
 	}
 
 	public JTextComponent getTextComponent() {

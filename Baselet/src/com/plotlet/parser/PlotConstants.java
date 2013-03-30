@@ -7,9 +7,11 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.Utils;
+
 public class PlotConstants {
-	
-	private static final Logger log = Logger.getLogger(PlotConstants.class);
+
+	protected final static Logger log = Logger.getLogger(Utils.getClassName());
 
 	/** Shared Value Constants **/
 
@@ -34,7 +36,7 @@ public class PlotConstants {
 	//data followed by an optional space or by space and a name which consists of word characters
 	public static final String REGEX_DATA = "((" + DATA + " ?)|(" + DATA + " (\\w)+))";
 	// 1 non-comment-line which contains at least 1 Tab is an interpreted dataset
-	public static final String REGEX_DATA_SEPARATOR = "([\t ]+)";
+	public static final String REGEX_DATA_SEPARATOR = "(\t)";
 	public static final String REGEX_DATA_GUESS = "((?!(" + REGEX_COMMENT + "))(([^=]+)|(.*" + REGEX_DATA_SEPARATOR + ".*)))";
 
 	// The following line is needed to color everything which doesn't match another RegEx

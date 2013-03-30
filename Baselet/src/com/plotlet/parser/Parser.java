@@ -36,7 +36,7 @@ public class Parser {
 
 		while (inputIterator.hasNext()) {
 			String line = inputIterator.next();
-			if (line.isEmpty() || line.matches(PlotConstants.REGEX_COMMENT)) {/* ignore empty lines and comments */}
+			if (line.isEmpty() || line.matches(PlotConstants.REGEX_COMMENT)) /* ignore empty lines and comments */;
 			else if (line.matches(PlotConstants.REGEX_PLOT)) parserResult.addPlotState(createPlotStateObject(line.split(" "), inputIterator));
 			else if (line.matches(PlotConstants.REGEX_PLOT_ADD)) {			
 				List<PlotState> plotStates = parserResult.getPlotStateList();

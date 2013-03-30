@@ -1,11 +1,12 @@
 package com.umlet.element.experimental.settings.facets;
 
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.LineType;
+import com.baselet.control.Constants;
+import com.baselet.control.Constants.AlignHorizontal;
+import com.baselet.control.Constants.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.Style;
+import com.baselet.diagram.draw.Style;
 import com.baselet.gui.AutocompletionText;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import com.umlet.element.experimental.PropertiesConfig;
 
 public class TemplateClass implements Facet {
@@ -25,11 +26,11 @@ public class TemplateClass implements Facet {
 		float height = drawer.textHeight() + SPACE;
 		float width = drawer.textWidth(templateValue) + SPACE;
 		Style style = drawer.getCurrentStyle();
-		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
+		drawer.setBackgroundAlpha(Constants.ALPHA_FULL_TRANSPARENCY);
 		drawer.setLineType(LineType.DASHED);
 		drawer.drawRectangle(propConfig.getGridElementSize().width - width, 0, width, height);
 		drawer.print(templateValue, propConfig.getGridElementSize().width - width/2, height-SPACE/2, AlignHorizontal.CENTER);
-		drawer.setCurrentStyle(style); // reset style to state before manipulations for drawing the template class
+		drawer.setCurrentStyle(style);
 	}
 
 	@Override

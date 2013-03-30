@@ -2,16 +2,15 @@ package com.umlet.element.custom;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Main;
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.command.Resize;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 
@@ -23,10 +22,10 @@ public class SynchBarVertical extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = getHandler().getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(this.getHandler().getFontHandler().getFont());
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
@@ -35,34 +34,34 @@ public class SynchBarVertical extends OldGridElement {
 		textHeight = 0; // reset
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		textHeight = tmp.size() * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts()));
+		textHeight = tmp.size() * ((int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts()));
 		boolean ADAPT_SIZE = false;
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-			TextLayout l = new TextLayout(s, Main.getHandlerForElement(this).getFontHandler().getFont(), g2.getFontRenderContext());
+			yPos += (int) this.getHandler().getFontHandler().getFontSize();
+			TextLayout l = new TextLayout(s, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 			Rectangle2D r2d = l.getBounds();
 			int width = (int) r2d.getWidth();
-			if ((this.getZoomedSize().width / 2 - width / 2) < 0) {
+			if ((this.getSize().width / 2 - width / 2) < 0) {
 				ADAPT_SIZE = true;
 				break;
 			}
-			Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
-			yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+			this.getHandler().getFontHandler().writeText(g2, s, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
+			yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 		}
 
 		if (ADAPT_SIZE) {
-			(new Resize(this, -Main.getHandlerForElement(this).getGridSize(), 0, 0, 0)).execute(Main.getHandlerForElement(this));
-			(new Resize(this, 0, 0, Main.getHandlerForElement(this).getGridSize(), 0)).execute(Main.getHandlerForElement(this));
+			(new Resize(this, -this.getHandler().getGridSize(), 0, 0, 0)).execute(this.getHandler());
+			(new Resize(this, 0, 0, this.getHandler().getGridSize(), 0)).execute(this.getHandler());
 			return;
 		}
-		if (yPos > this.getZoomedSize().height) {
-			(new Resize(this, 0, 0, 0, (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts()))).execute(Main.getHandlerForElement(this));
+		if (yPos > this.getSize().height) {
+			(new Resize(this, 0, 0, 0, (int) (this.getHandler().getFontHandler().getFontSize() + this.getHandler().getFontHandler().getDistanceBetweenTexts()))).execute(this.getHandler());
 			return;
 		}
 
-		g2.fillRect(this.getZoomedSize().width / 2 - (int) (3 * zoom), textHeight + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), (int) (5 * zoom), this.getZoomedSize().height - textHeight - (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 2);
+		g2.fillRect(this.getSize().width / 2 - (int) (3 * zoom), textHeight + (int) this.getHandler().getFontHandler().getDistanceBetweenTexts(), (int) (5 * zoom), this.getSize().height - textHeight - (int) this.getHandler().getFontHandler().getDistanceBetweenTexts() * 2);
 	}
 
 	/*

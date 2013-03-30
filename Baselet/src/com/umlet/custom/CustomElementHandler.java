@@ -1,5 +1,6 @@
 package com.umlet.custom;
 
+import java.awt.Rectangle;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -10,7 +11,6 @@ import com.baselet.control.Main;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.umlet.gui.CustomCodeSyntaxPane;
 import com.umlet.gui.CustomElementPanel;
@@ -66,7 +66,7 @@ public class CustomElementHandler {
 				"Hello, World! " +
 				Constants.NEWLINE +
 				"Enjoy " + Program.PROGRAM_NAME + "!");
-		this.editedEntity.setRectangle(new Rectangle(20, 20, 200, 200));
+		this.editedEntity.setBounds(20, 20, 200, 200);
 		this.updatePreview(editedEntity);
 		this.getPreviewHandler().getDrawPanel().getSelector().select(editedEntity);
 		this.setChanged(false);
@@ -133,13 +133,13 @@ public class CustomElementHandler {
 			Iterator<GridElement> iter = this.preview.getDrawPanel().getAllEntities().iterator();
 			if (iter.hasNext()) {
 				GridElement element = iter.next();
-				e.setRectangle(element.getRectangle());
+				e.setBounds(element.getBounds());
 				e.setPanelAttributes(element.getPanelAttributes());
 				if (this.preview.getDrawPanel().getSelector().getSelectedEntities().size() > 0) this.preview.getDrawPanel().getSelector().singleSelectWithoutUpdatePropertyPanel(e);
 				this.preview.getDrawPanel().removeElement(element);
 			}
 
-			this.preview.setHandlerAndInitListeners(e);
+			e.setHandlerAndInitListeners(this.preview);
 			this.preview.getDrawPanel().addElement(e);
 			e.repaint();
 		}
@@ -203,16 +203,16 @@ public class CustomElementHandler {
 			// set location for element
 			int x = 10, y = 10;
 			for (GridElement e : current.getDrawPanel().getAllEntities()) {
-				if (e.getRectangle().y + e.getZoomedSize().height + 10 > y) y = e.getRectangle().y + e.getZoomedSize().height + 10;
+				if (e.getLocation().y + e.getSize().height + 10 > y) y = e.getLocation().y + e.getSize().height + 10;
 			}
 
-			Rectangle bounds = new Rectangle(x, y, element.getZoomedSize().width, element.getZoomedSize().height);
+			Rectangle bounds = new Rectangle(x, y, element.getSize().width, element.getSize().height);
 			this.addElementToDiagram(element, current, true, bounds, element.getPanelAttributes());
 		}
 		else { // replace edited element (and ONLY edited element)
-			Main.getHandlerForElement(this.originalElement).getDrawPanel().removeElement(this.originalElement);
-			this.addElementToDiagram(element, Main.getHandlerForElement(this.originalElement), true,
-					this.originalElement.getRectangle(), this.originalElement.getPanelAttributes());
+			this.originalElement.getHandler().getDrawPanel().removeElement(this.originalElement);
+			this.addElementToDiagram(element, this.originalElement.getHandler(), true,
+					this.originalElement.getBounds(), this.originalElement.getPanelAttributes());
 		}
 	}
 
@@ -225,9 +225,9 @@ public class CustomElementHandler {
 		// d.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false);
 
 		GridElement e2 = e.CloneFromMe();
-		d.setHandlerAndInitListeners(e2);
+		e2.setHandlerAndInitListeners(d);
 		e2.setPanelAttributes(state);
-		e2.setRectangle(bounds);
+		e2.setBounds(bounds);
 		d.getDrawPanel().addElement(e2);
 		if (setchanged) d.setChanged(true);
 

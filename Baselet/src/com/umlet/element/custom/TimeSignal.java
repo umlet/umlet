@@ -3,16 +3,15 @@ package com.umlet.element.custom;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.Constants.AlignHorizontal;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.command.Resize;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 
@@ -22,19 +21,19 @@ public class TimeSignal extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = getHandler().getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(this.getHandler().getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 		
 		boolean ADAPT_SIZE = false;
 
 		int x0, y0, b, h;
-		x0 = (int) (this.getZoomedSize().width / 2 - 20 * zoom);
+		x0 = (int) (this.getSize().width / 2 - 20 * zoom);
 		y0 = 0;
-		b = (int) (this.getZoomedSize().width / 2 + 20 * zoom);
+		b = (int) (this.getSize().width / 2 + 20 * zoom);
 		h = (int) (40 * zoom);
 
 		// g2.drawLine(x0,y0,b,y0);
@@ -59,38 +58,38 @@ public class TimeSignal extends OldGridElement {
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = 0;
-		yPos += 4 * Main.getHandlerForElement(this).getGridSize();
-		yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+		yPos += 4 * this.getHandler().getGridSize();
+		yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
-				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
-				g2.drawLine(this.getZoomedSize().width / 2 - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 4, yPos, this.getZoomedSize().width / 2 + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 4, yPos);
-				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
+				g2.drawLine(this.getSize().width / 2 - (int) this.getHandler().getFontHandler().getFontSize() * 4, yPos, this.getSize().width / 2 + (int) this.getHandler().getFontHandler().getFontSize() * 4, yPos);
+				yPos += (int) this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
-				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-				TextLayout l = new TextLayout(s, Main.getHandlerForElement(this).getFontHandler().getFont(), g2.getFontRenderContext());
+				yPos += (int) this.getHandler().getFontHandler().getFontSize();
+				TextLayout l = new TextLayout(s, this.getHandler().getFontHandler().getFont(), g2.getFontRenderContext());
 				Rectangle2D r2d = l.getBounds();
 				int width = (int) r2d.getWidth();
-				int xPos = this.getZoomedSize().width / 2 - width / 2;
+				int xPos = this.getSize().width / 2 - width / 2;
 				if (xPos < 0) {
 					ADAPT_SIZE = true;
 					break;
 				}
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
-				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+				this.getHandler().getFontHandler().writeText(g2, s, this.getSize().width / 2, yPos, AlignHorizontal.CENTER);
+				yPos += this.getHandler().getFontHandler().getDistanceBetweenTexts();
 			}
 		}
 
 		if (ADAPT_SIZE) {
-			(new Resize(this, -Main.getHandlerForElement(this).getGridSize(), 0, 0, 0)).execute(Main.getHandlerForElement(this));
-			(new Resize(this, 0, 0, Main.getHandlerForElement(this).getGridSize(), 0)).execute(Main.getHandlerForElement(this));
+			(new Resize(this, -this.getHandler().getGridSize(), 0, 0, 0)).execute(this.getHandler());
+			(new Resize(this, 0, 0, this.getHandler().getGridSize(), 0)).execute(this.getHandler());
 			return;
 		}
-		if (yPos > this.getZoomedSize().height) {
-			(new Resize(this, 0, 0, 0, 20)).execute(Main.getHandlerForElement(this));
+		if (yPos > this.getSize().height) {
+			(new Resize(this, 0, 0, 0, 20)).execute(this.getHandler());
 			return;
 		}
 
@@ -108,7 +107,7 @@ public class TimeSignal extends OldGridElement {
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = getHandler().getZoomFactor();
 
 		StickingPolygon p = new StickingPolygon();
 		int px = x + width / 2;
