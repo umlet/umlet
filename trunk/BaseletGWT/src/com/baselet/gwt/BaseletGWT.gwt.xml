@@ -17,6 +17,9 @@
 
 	<!-- Other module inherits -->
 
+	<!-- BaseletElements (shared Baselet resources) -->
+	<inherits name="com.BaseletElements" />
+	
 	<!-- UiBinder module. -->
 	<inherits name="com.google.gwt.uibinder.UiBinder" />
 

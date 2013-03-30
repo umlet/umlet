@@ -5,8 +5,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.vectomatic.file.FileUploadExt;
 
+import com.baselet.element.GridElement;
 import com.baselet.gwt.client.OwnTextArea.InstantValueChangeHandler;
-import com.baselet.gwt.client.copy.element.GridElement;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;

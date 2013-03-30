@@ -1,6 +1,6 @@
 package com.baselet.gwt.client.newclasses;
 
-import com.baselet.gwt.client.copy.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.google.gwt.canvas.dom.client.CssColor;
 
 public class Converter {

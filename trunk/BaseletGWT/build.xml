@@ -6,6 +6,7 @@
 	<property name="lib.dir" location="war/WEB-INF/lib" />
 	<property name="gwt.module.name" value="com.baselet.gwt.BaseletGWT" />
 	<property name="gwt.sdk.location" value="C:/Program Files/Eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.5.0/gwt-2.5.0" />
+	<property name="elements.src.dir" location="../BaseletElements/src" />
 
 	<path id="project.classpath">
 		<fileset dir="${lib.dir}">
@@ -13,6 +14,7 @@
 		</fileset>
 		<pathelement location="${gwt.sdk.location}/gwt-user.jar" />
 		<pathelement location="${gwt.sdk.location}/gwt-dev.jar" />
+		<pathelement location="${elements.src.dir}" />
 	</path>
 
 	<target name="gwt-compile-draft">

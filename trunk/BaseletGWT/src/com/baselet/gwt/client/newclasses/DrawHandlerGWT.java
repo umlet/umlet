@@ -1,12 +1,12 @@
 package com.baselet.gwt.client.newclasses;
 
-import com.baselet.gwt.client.copy.control.enumerations.AlignHorizontal;
-import com.baselet.gwt.client.copy.control.enumerations.LineType;
-import com.baselet.gwt.client.copy.diagram.draw.BaseDrawHandler;
-import com.baselet.gwt.client.copy.diagram.draw.DrawFunction;
-import com.baselet.gwt.client.copy.diagram.draw.geom.DimensionFloat;
-import com.baselet.gwt.client.copy.diagram.draw.helper.ColorOwn;
-import com.baselet.gwt.client.copy.diagram.draw.helper.Style;
+import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.LineType;
+import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawFunction;
+import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.Style;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
