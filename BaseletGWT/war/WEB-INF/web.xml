@@ -18,7 +18,7 @@
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>BaseletGWT.html</welcome-file>
+    <welcome-file>Baselet.html</welcome-file>
   </welcome-file-list>
 
 </web-app>
