@@ -21,5 +21,6 @@
 	<classpathentry kind="lib" path="lib/baselet_commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_autocomplete.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_rsyntaxtextarea.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BaseletElements"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

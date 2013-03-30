@@ -11,9 +11,9 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.DimensionFloat;
 import com.baselet.diagram.draw.geom.LineHorizontal;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.facets.Facet;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
+import com.umlet.element.experimental.settings.facets.Facet;
 
 public class Properties {
 
@@ -60,32 +60,16 @@ public class Properties {
 			if (drawText && !line.startsWith("//")) propertiesTextToDraw.add(line);
 		}
 
-		handleAutoresize(element);
-		this.propCfg.setGridElementSize(element.getRealSize());
-
-	}
-
-	private void handleAutoresize(NewGridElement element) {
 		if (getElementStyle() == ElementStyleEnum.AUTORESIZE) {
-//			DimensionFloat dim = getExpectedElementDimensionsOnDefaultZoom(element);
-//			float hSpaceLeftAndRight = drawer.getDistanceBetweenTexts() * 2;
-//			float width = dim.getWidth() + hSpaceLeftAndRight;
-//			float height = dim.getHeight() + drawer.textHeight()/2;
-//			float diffw = width-element.getRealSize().width;
-//			float diffh = height-element.getRealSize().height;
-//			float diffwInCurrentZoom = diffw * Main.getElementHandlerMapping().get(element).getZoomFactor();
-//			float diffhInCurrentZoom = diffh * Main.getElementHandlerMapping().get(element).getZoomFactor();
-//			int diffwRealigned = Main.getElementHandlerMapping().get(element).realignToGrid(false, diffwInCurrentZoom, true);
-//			int diffhRealigned = Main.getElementHandlerMapping().get(element).realignToGrid(false, diffhInCurrentZoom, true);
-//			// use resize command to move sticked relations correctly with the element
-//			new Resize(element, 0, 0, diffwRealigned, diffhRealigned).execute(Main.getElementHandlerMapping().get(element));
+			element.handleAutoresize(getExpectedElementDimensionsOnDefaultZoom(element));
 		}
+		this.propCfg.setGridElementSize(element.getRealSize());
 	}
 
 	public ElementStyleEnum getElementStyle() {
 		return propCfg.getElementStyle();
 	}
-	
+
 	public Integer getLayer() {
 		if (propCfg == null) return null;
 		return propCfg.getLayer();

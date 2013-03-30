@@ -4,6 +4,7 @@ import com.baselet.control.NewGridElementConstants;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.GridElement;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -22,7 +23,7 @@ public class GwtCanvasElementImpl implements ComponentInterface {
 	private Rectangle rect;
 
 	public GwtCanvasElementImpl(GridElement element) {
-		drawer.setBackground(ColorOwn.BLUE, NewGridElementConstants.ALPHA_NEARLY_FULL_TRANSPARENCY);
+		drawer.setBackgroundColor(ColorOwn.BLUE);
 		this.element = element;
 	}
 

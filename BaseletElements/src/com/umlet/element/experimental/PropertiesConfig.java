@@ -1,5 +1,7 @@
 package com.umlet.element.experimental;
 
+import org.apache.log4j.Logger;
+
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.Dimension;
@@ -10,7 +12,7 @@ import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalS
 
 public class PropertiesConfig {
 	
-//	private static final Logger log = Logger.getLogger(PropertiesConfig.class);
+	private static final Logger log = Logger.getLogger(PropertiesConfig.class);
 
 	private AlignHorizontal hAlign;
 	private boolean hAlignGloballySet = false;
@@ -146,7 +148,7 @@ public class PropertiesConfig {
 		try {
 			this.layer = Integer.valueOf(layer);
 		} catch (NumberFormatException e) {
-//			log.info("Invalid value: " + layer + " - " + GlobalSetting.LAYER + " must be an Integer");
+			log.info("Invalid value: " + layer + " - " + GlobalSetting.LAYER + " must be an Integer");
 		}
 	}
 

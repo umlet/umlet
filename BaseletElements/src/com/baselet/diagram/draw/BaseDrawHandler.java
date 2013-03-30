@@ -2,11 +2,11 @@ package com.baselet.diagram.draw;
 
 import java.util.ArrayList;
 
-import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.geom.DimensionFloat;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Style;
 
 public abstract class BaseDrawHandler {
@@ -20,8 +20,8 @@ public abstract class BaseDrawHandler {
 	private Style overlay = new Style();
 
 	public BaseDrawHandler() {
-		this.fgDefaultColor = NewGridElementConstants.DEFAULT_FOREGROUND_COLOR;
-		this.bgDefaultColor = NewGridElementConstants.DEFAULT_BACKGROUND_COLOR;
+		this.fgDefaultColor = ColorOwn.DEFAULT_FOREGROUND;
+		this.bgDefaultColor = ColorOwn.DEFAULT_BACKGROUND;
 	}
 	
 	public void setFgDefaultColor(ColorOwn fgDefaultColor) {
@@ -42,7 +42,7 @@ public abstract class BaseDrawHandler {
 
 	public void drawAll(boolean isSelected) {
 		if (isSelected) {
-			overlay.setFgColor(NewGridElementConstants.DEFAULT_SELECTED_COLOR);
+			overlay.setFgColor(ColorOwn.SELECTION_FG);
 		} else {
 			overlay.setFgColor(null);
 		}
@@ -65,57 +65,29 @@ public abstract class BaseDrawHandler {
 		return textDimension(text).getWidth();
 	}
 
-	public final void setForeground(String color, float alpha) {
-		setForegroundColor(color);
-		setForegroundAlpha(alpha);
-	}
-
-	public final void setForeground(ColorOwn color, float alpha) {
-		setForegroundColor(color);
-		setForegroundAlpha(alpha);
-	}
-
-	public final void setBackground(String color, float alpha) {
-		setBackgroundColor(color);
-		setBackgroundAlpha(alpha);
-	}
-
-	public final void setBackground(ColorOwn color, float alpha) {
-		setBackgroundColor(color);
-		setBackgroundAlpha(alpha);
-	}
-
 	public final void setForegroundColor(String color) {
 		if (color.equals("fg")) setForegroundColor(fgDefaultColor);
-		else setForegroundColor(ColorOwn.forString(color)); // if fgColor is not a valid string null will be set
+		else setForegroundColor(ColorOwn.forString(color, Transparency.FOREGROUND)); // if fgColor is not a valid string null will be set
 	}
 
 	public final void setForegroundColor(ColorOwn color) {
-		if (color == null) style.setFgColor(NewGridElementConstants.DEFAULT_FOREGROUND_COLOR);
+		if (color == null) color = ColorOwn.DEFAULT_FOREGROUND;
 		else style.setFgColor(color);
 	}
 
 	public final void setBackgroundColor(String color) {
 		if (color.equals("bg")) setBackgroundColor(bgDefaultColor);
-		else setBackgroundColor(ColorOwn.forString(color));
+		else setBackgroundColor(ColorOwn.forString(color, Transparency.BACKGROUND));
 	}
 
 	public final void setBackgroundColor(ColorOwn color) {
-		if (color == null) style.setBgColor(NewGridElementConstants.DEFAULT_BACKGROUND_COLOR);
+		if (color == null) color = ColorOwn.DEFAULT_BACKGROUND;
 		else style.setBgColor(color);
 	}
 
-	public final void setForegroundAlpha(float alpha) {
-		style.setFgAlpha(alpha);
-	}
-
-	public final void setBackgroundAlpha(float alpha) {
-		style.setBgAlpha(alpha);
-	}
-
 	public void resetColorSettings() {
-		setForeground("fg", NewGridElementConstants.ALPHA_NO_TRANSPARENCY);
-		setBackground("bg", NewGridElementConstants.ALPHA_FULL_TRANSPARENCY);
+		setForegroundColor("fg");
+		setBackgroundColor("bg");
 	}
 
 	public final void setFontSize(float fontSize) {

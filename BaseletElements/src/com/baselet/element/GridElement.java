@@ -3,6 +3,7 @@ package com.baselet.element;
 import java.util.List;
 
 import com.baselet.diagram.draw.geom.Dimension;
+import com.baselet.diagram.draw.geom.DimensionFloat;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.ComponentInterface;
@@ -76,4 +77,6 @@ public interface GridElement {
 	String getSetting(GlobalSetting key);
 	
 	Integer getLayer();
+
+	void handleAutoresize(DimensionFloat necessaryElementDimension);
 }

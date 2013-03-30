@@ -17,10 +17,13 @@
 	<property name="dir.export.standalone" location="${dir.export}/standalone" />
 	<property name="dir.export.plugin" location="${dir.export}/plugins" />
 	<property name="dir.lib" location="lib" />
+	<property name="elements.src" location="../BaseletElements/src" />
+	<property name="elements.lib" location="../BaseletElements/lib" />
 
 	<!-- Classpaths -->
 	<path id="project.classpath.build">
-		<pathelement location="src" />
+		<pathelement location="${project.path.source}" />
+		<pathelement location="${elements.src}" />
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="*.jar" />
 		</fileset>
@@ -39,9 +42,11 @@
 	<!-- Compile the project -->
 	<target name="javac">
 		<mkdir dir="${project.path.output}" />
+		<javac srcdir="${elements.src}" destdir="${project.path.output}" nowarn="true">
+			<classpath refid="project.classpath.lib" />
+		</javac>
 		<javac srcdir="${project.path.source}" destdir="${project.path.output}" nowarn="true">
 			<classpath refid="project.classpath.build" />
-			<compilerarg value="-Xlint" />
 		</javac>
 	</target>
 
@@ -174,7 +179,7 @@
 		<java classname="${project.path.prefix}.${project.name.shared}.control.Main" fork="true" classpathref="project.classpath.run" />
 	</target>
 
-	<!-- Exportiert das Standalone Programm -->
+	<!-- Export standalone Programm -->
 	<target name="export_standalone" depends="javac" description="exports project as standalone program">
 
 		<!-- Delete old directory and create new one -->

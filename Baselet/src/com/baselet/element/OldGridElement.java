@@ -22,6 +22,7 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
+import com.baselet.diagram.draw.geom.DimensionFloat;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
@@ -466,6 +467,11 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public void afterModelUpdate() {
 		/* do nothing */
+	}
+	
+	@Override
+	public void handleAutoresize(DimensionFloat necessaryElementDimension) {
+		/* not possible on OldGridElement */
 	}
 
 }
