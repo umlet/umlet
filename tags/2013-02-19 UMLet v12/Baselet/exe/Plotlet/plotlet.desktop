@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Name=Plotlet
+GenericName=Plotlet
+Comment=Free Tool for Fast Plots
+Exec=java -jar plotlet.jar
+Icon=img/plotlet_logo.png
+Terminal=false
+Categories=Development;
+StartupNotify=true
