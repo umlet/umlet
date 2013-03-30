@@ -7,25 +7,14 @@ import java.util.TreeSet;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.objects.AxisConfig;
 import com.baselet.diagram.draw.swing.objects.Canvas;
-import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
 
 public class PlotDrawHandler {
-	protected BaseDrawHandler base;
-	
-	private boolean isSelected;
-
-	public PlotDrawHandler(BaseDrawHandler baseDrawHandler, PlotGridDrawConfig plotDrawConfig) {
-		base = baseDrawHandler;
-		isSelected = plotDrawConfig.isSelected();
-//		drawLegend = false;
-		axisConfig = new AxisConfig();
-		canvas = new Canvas(plotDrawConfig.getRealSize());
-	}
 
 	// Enumerations
 	public enum Position { LEFT, UP, DOWN, RIGHT }
@@ -38,12 +27,23 @@ public class PlotDrawHandler {
 	private TreeSet<Double> valuesShownOnAxisSorted;
 	//	private Double[][] valuesMinMaxCorrected; // if all values are >0 or all values are <0 the distance from 0 to the first real value will be subtracted
 
+	protected BaseDrawHandler base;
+	
+	private final boolean isSelected;
 	private Double minVal = null;
 	private Double maxVal = null;
 	private List<String> colors;
 	private Canvas canvas;
 	private AxisConfig axisConfig;
 
+	public PlotDrawHandler(BaseDrawHandler baseDrawHandler, boolean isSelected, Dimension size) {
+		base = baseDrawHandler;
+		this.isSelected = isSelected;
+//		drawLegend = false;
+		axisConfig = new AxisConfig();
+		canvas = new Canvas(size);
+	}
+	
 	// Legend Settings
 //	private boolean drawLegend;
 //	private Rectangle legendPos;

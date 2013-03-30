@@ -31,7 +31,8 @@ public abstract class AbstractPlot {
 		this.plotState = plotState;
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
-		plot = new PlotDrawHandler(new BaseDrawHandlerSwing(g, plotDrawConfig.getDiagramHandler(), plotDrawConfig.getFgColor(), plotDrawConfig.getBgColor()) ,plotDrawConfig);
+		BaseDrawHandlerSwing drawHandler = new BaseDrawHandlerSwing(g, plotDrawConfig.getDiagramHandler(), plotDrawConfig.getFgColor(), plotDrawConfig.getBgColor());
+		plot = new PlotDrawHandler(drawHandler, plotDrawConfig.isSelected(), plotDrawConfig.getRealSize());
 		setupAxis();
 		setupAbstractPlot();
 	}
