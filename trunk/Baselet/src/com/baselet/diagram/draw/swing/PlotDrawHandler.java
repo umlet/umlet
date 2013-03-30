@@ -1,13 +1,13 @@
 package com.baselet.diagram.draw.swing;
 
-import java.awt.Graphics;
-import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.objects.AxisConfig;
@@ -15,12 +15,12 @@ import com.baselet.diagram.draw.swing.objects.Canvas;
 import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
 
 public class PlotDrawHandler {
-	protected BaseDrawHandlerSwing base;
+	protected BaseDrawHandler base;
 	
 	private boolean isSelected;
 
-	public PlotDrawHandler(Graphics g, PlotGridDrawConfig plotDrawConfig) {
-		base = new BaseDrawHandlerSwing(g, plotDrawConfig.getDiagramHandler(),  plotDrawConfig.getFgColor(), plotDrawConfig.getBgColor());
+	public PlotDrawHandler(BaseDrawHandler baseDrawHandler, PlotGridDrawConfig plotDrawConfig) {
+		base = baseDrawHandler;
 		isSelected = plotDrawConfig.isSelected();
 //		drawLegend = false;
 		axisConfig = new AxisConfig();
