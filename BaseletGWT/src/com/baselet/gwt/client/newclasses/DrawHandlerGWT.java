@@ -19,9 +19,11 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 
 	private static final int DEFAULT_FONTSIZE = 12;
 	Canvas canvas;
+	Context2d ctx;
 
 	public DrawHandlerGWT(Canvas canvas) {
 		this.canvas = canvas;
+		this.ctx = canvas.getContext2d();
 	}
 
 	@Override
@@ -31,7 +33,7 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 
 	@Override
 	protected DimensionFloat textDimension(String string) { // TODO height is not implemented at the moment - impl infos at http://www.html5canvastutorials.com/tutorials/html5-canvas-text-metrics/
-		DimensionFloat dim = new DimensionFloat((float) canvas.getContext2d().measureText(string).getWidth(), getDefaultFontSize());
+		DimensionFloat dim = new DimensionFloat((float) ctx.measureText(string).getWidth(), getDefaultFontSize());
 		return dim;
 	}
 
@@ -87,7 +89,8 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
-				drawEllipseHelper(canvas.getContext2d(), x+HALF_PX, y+HALF_PX, width, height);
+				setStyle(ctx, styleAtDrawingCall);
+				drawEllipseHelper(ctx, x+HALF_PX, y+HALF_PX, width, height);
 			}
 		});
 	}
@@ -98,14 +101,8 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
-				Context2d ctx = canvas.getContext2d();
-				ctx.beginPath();
-				ctx.setFillStyle(Converter.convert(styleAtDrawingCall.getFgColor()));
-				ctx.setLineWidth(style.getLineThickness());
-				setLineDash(ctx, style.getLineType(), style.getLineThickness());
-				ctx.moveTo(x1 + HALF_PX, y1 + HALF_PX); // +0.5 because a line of thickness 1.0 spans 50% left and 50% right (therefore it would not be on the 1 pixel - see https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors)
-				ctx.lineTo(x2 + HALF_PX, y2 + HALF_PX);
-				ctx.stroke();
+				setStyle(ctx, styleAtDrawingCall);
+				drawLineHelper(x1, y1, x2, y2);
 			}
 		});
 	}
@@ -116,14 +113,8 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
-				// Shapes Background
-				Context2d ctx = canvas.getContext2d();
-				ctx.setFillStyle(Converter.convert(styleAtDrawingCall.getBgColor()));
+				setStyle(ctx, styleAtDrawingCall);
 				ctx.fillRect(x + HALF_PX, y + HALF_PX, width, height);
-				// Shapes Foreground
-				ctx.setFillStyle(Converter.convert(styleAtDrawingCall.getFgColor()));
-				ctx.setLineWidth(style.getLineThickness());
-				setLineDash(ctx, style.getLineType(), style.getLineThickness());
 				ctx.rect(x + HALF_PX, y + HALF_PX, width, height);
 				ctx.stroke();
 			}
@@ -142,7 +133,6 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
-				Context2d ctx = canvas.getContext2d();
 				ctx.setFillStyle(Converter.convert(styleAtDrawingCall.getFgColor()));
 				ctx.fillText(text, x, y);
 				//TODO set other font properties
@@ -157,7 +147,7 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 
 	public void clearCanvas() {
 		CanvasElement el = canvas.getCanvasElement();
-		canvas.getContext2d().clearRect(0, 0, el.getWidth(), el.getWidth());
+		ctx.clearRect(0, 0, el.getWidth(), el.getWidth());
 	}
 
 	/**
@@ -179,7 +169,23 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 		ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
 		ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
 		ctx.closePath();
+		ctx.fill();
 		ctx.stroke();
+	}
+
+	private void drawLineHelper(final float x1, final float y1, final float x2, final float y2) {
+		ctx.beginPath();
+		ctx.moveTo(x1 + HALF_PX, y1 + HALF_PX); // +0.5 because a line of thickness 1.0 spans 50% left and 50% right (therefore it would not be on the 1 pixel - see https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors)
+		ctx.lineTo(x2 + HALF_PX, y2 + HALF_PX);
+		ctx.stroke();
+	}
+	
+	private void setStyle(Context2d ctx, Style style) {
+		ctx.setFillStyle(Converter.convert(style.getBgColor()));
+		ctx.setStrokeStyle(Converter.convert(style.getFgColor()));
+		ctx.setLineWidth(style.getLineThickness());
+		setLineDash(ctx, style.getLineType(), style.getLineThickness());
+		
 	}
 
 	private void setLineDash(Context2d ctx, LineType lineType, float lineThickness) {
