@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.util.List;
 
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.diagram.draw.swing.PlotDrawHandler;
 import com.baselet.diagram.draw.swing.objects.AxisConfig;
 import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
@@ -30,7 +31,7 @@ public abstract class AbstractPlot {
 		this.plotState = plotState;
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
-		plot = new PlotDrawHandler(g,plotDrawConfig);
+		plot = new PlotDrawHandler(new BaseDrawHandlerSwing(g, plotDrawConfig.getDiagramHandler(), plotDrawConfig.getFgColor(), plotDrawConfig.getBgColor()) ,plotDrawConfig);
 		setupAxis();
 		setupAbstractPlot();
 	}
