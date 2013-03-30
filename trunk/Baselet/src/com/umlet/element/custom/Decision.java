@@ -3,12 +3,10 @@ package com.umlet.element.custom;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 
 import com.baselet.control.Main;
 import com.baselet.diagram.draw.geom.Point;
-
-import java.awt.Polygon;
-
 import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 

@@ -7,7 +7,8 @@ import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 
-import com.baselet.diagram.FontHandler.FormatLabels;
+import com.baselet.control.StringStyle;
+import com.baselet.control.enumerations.FormatLabels;
 
 public class FormattedFont {
 
@@ -46,30 +47,27 @@ public class FormattedFont {
 	}
 
 	private static String setFormatAndRemoveLabels(String s) {
-		underline = -1; // UNDERLINE_OFF
-		bold = TextAttribute.WEIGHT_REGULAR;
-		italic = TextAttribute.POSTURE_REGULAR;
-
-		if (s == null || s.isEmpty()) return s;
-
-		// As long as any text format applies the loop continues (any format type is only allowed once)
-		while (true) {
-			if (s.startsWith(FormatLabels.UNDERLINE) && s.endsWith(FormatLabels.UNDERLINE) && (s.length() > 2)) {
-				underline = TextAttribute.UNDERLINE_ON;
-				s = s.substring(1, s.length() - 1);
-			}
-			else if (s.startsWith(FormatLabels.BOLD) && s.endsWith(FormatLabels.BOLD) && (s.length() > 2)) {
-				bold = TextAttribute.WEIGHT_BOLD;
-				s = s.substring(1, s.length() - 1);
-			}
-			else if (s.startsWith(FormatLabels.ITALIC) && s.endsWith(FormatLabels.ITALIC) && (s.length() > 2)) {
-				italic = TextAttribute.POSTURE_OBLIQUE;
-				s = s.substring(1, s.length() - 1);
-			}
-			else break;
+		StringStyle style = StringStyle.analyseStyle(s);
+		
+		if (style.getFormat().contains(FormatLabels.UNDERLINE)) {
+			underline = TextAttribute.UNDERLINE_ON;
+		} else {
+			underline = -1; // UNDERLINE_OFF
 		}
-
-		return s;
+		
+		if (style.getFormat().contains(FormatLabels.BOLD)) {
+			bold = TextAttribute.WEIGHT_BOLD;
+		} else {
+			bold = TextAttribute.WEIGHT_REGULAR;
+		}
+		
+		if (style.getFormat().contains(FormatLabels.ITALIC)) {
+			italic = TextAttribute.POSTURE_OBLIQUE;
+		} else {
+			italic = TextAttribute.POSTURE_REGULAR;
+		}
+		
+		return style.getStringWithoutMarkup();
 	}
 
 	public double getWidth() {

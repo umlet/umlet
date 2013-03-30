@@ -20,8 +20,8 @@ import java.util.regex.Pattern;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.FormatLabels;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.FontHandler;
 import com.baselet.element.OldGridElement;
 
 
@@ -399,7 +399,7 @@ public class SequenceDiagram extends OldGridElement {
 		double maxHeight = 0;
 		for (int i = 0; i < numObjects; i++) {
 			String s = obj.elementAt(i);
-			if (s.startsWith(FontHandler.FormatLabels.UNDERLINE) && s.endsWith(FontHandler.FormatLabels.UNDERLINE) && (s.length() > 2)) {
+			if (s.startsWith(FormatLabels.UNDERLINE.getValue()) && s.endsWith(FormatLabels.UNDERLINE.getValue()) && (s.length() > 2)) {
 				s = s.substring(1, s.length() - 1);
 			}
 			TextLayout layout = new TextLayout(s, Main.getHandlerForElement(this).getFontHandler().getFont(), g2.getFontRenderContext());
@@ -416,7 +416,7 @@ public class SequenceDiagram extends OldGridElement {
 		for (int i = 0; i < numObjects; i++) {
 			boolean underline = false;
 			String s = obj.elementAt(i);
-			if (s.startsWith(FontHandler.FormatLabels.UNDERLINE) && s.endsWith(FontHandler.FormatLabels.UNDERLINE) && (s.length() > 2)) {
+			if (s.startsWith(FormatLabels.UNDERLINE.getValue()) && s.endsWith(FormatLabels.UNDERLINE.getValue()) && (s.length() > 2)) {
 				underline = true;
 				s = s.substring(1, s.length() - 1);
 			}
