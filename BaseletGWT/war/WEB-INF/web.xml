@@ -8,7 +8,7 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>greetServlet</servlet-name>
-    <servlet-class>com.baselet.server.BaseletServiceImpl</servlet-class>
+    <servlet-class>com.baselet.gwt.server.BaseletServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
