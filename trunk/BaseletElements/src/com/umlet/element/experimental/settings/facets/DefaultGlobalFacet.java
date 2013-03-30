@@ -3,7 +3,6 @@ package com.umlet.element.experimental.settings.facets;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.control.enumerations.LineType;
@@ -93,7 +92,7 @@ public class DefaultGlobalFacet implements Facet {
 				if (key.equalsIgnoreCase(GlobalSetting.FOREGROUND_COLOR.toString())) {
 					drawer.setForegroundColor(value);
 				} else if (key.equalsIgnoreCase(GlobalSetting.BACKGROUND_COLOR.toString())) {
-					drawer.setBackground(value, NewGridElementConstants.ALPHA_MIDDLE_TRANSPARENCY);
+					drawer.setBackgroundColor(value);
 				} else if (key.equalsIgnoreCase(GlobalSetting.LINE_TYPE.toString())) {
 					drawer.setLineType(value);
 				}  else if (key.equalsIgnoreCase(GlobalSetting.LINE_THICKNESS.toString())) {

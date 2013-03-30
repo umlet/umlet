@@ -2,21 +2,48 @@ package com.baselet.diagram.draw.helper;
 
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 public class ColorOwn {
 
-	public static final ColorOwn RED = new ColorOwn(255, 0, 0, 255);
-	public static final ColorOwn GREEN = new ColorOwn(0, 255, 0, 255);
-	public static final ColorOwn BLUE = new ColorOwn(0, 0, 255, 255);
-	public static final ColorOwn YELLOW = new ColorOwn(255, 255, 0, 255);
-	public static final ColorOwn MAGENTA = new ColorOwn(255, 0, 255, 255);
-	public static final ColorOwn WHITE = new ColorOwn(255, 255, 255, 255);
-	public static final ColorOwn BLACK = new ColorOwn(0, 0, 0, 255);
-	public static final ColorOwn ORANGE = new ColorOwn(255, 165, 0, 255);
-	public static final ColorOwn CYAN = new ColorOwn(0, 255, 255, 255);
-	public static final ColorOwn DARK_GRAY = new ColorOwn(70, 70, 70, 255);
-	public static final ColorOwn GRAY = new ColorOwn(120, 120, 120, 255);
-	public static final ColorOwn LIGHT_GRAY = new ColorOwn(200, 200, 200, 255);
-	public static final ColorOwn PINK = new ColorOwn(255, 175, 175, 255);
+	private final static Logger log = Logger.getLogger(ColorOwn.class);
+
+	public static enum Transparency {
+		FOREGROUND(255), // ALPHA_NO_TRANSPARENCY = 1.0f;
+		FULL_TRANSPARENT(0),
+		BACKGROUND(125),
+		SELECTION_BACKGROUND(20); // ALPHA_NEARLY_FULL_TRANSPARENCY = 0.035f;
+		
+		private int alpha;
+
+		private Transparency(int alpha) {
+			this.alpha = alpha;
+		}
+		
+		public int getAlpha() {
+			return alpha;
+		}
+	}
+	
+	public static final ColorOwn RED = new ColorOwn(255, 0, 0, Transparency.FOREGROUND);
+	public static final ColorOwn GREEN = new ColorOwn(0, 255, 0, Transparency.FOREGROUND);
+	public static final ColorOwn BLUE = new ColorOwn(0, 0, 255, Transparency.FOREGROUND);
+	public static final ColorOwn YELLOW = new ColorOwn(255, 255, 0, Transparency.FOREGROUND);
+	public static final ColorOwn MAGENTA = new ColorOwn(255, 0, 255, Transparency.FOREGROUND);
+	public static final ColorOwn WHITE = new ColorOwn(255, 255, 255, Transparency.FOREGROUND);
+	public static final ColorOwn BLACK = new ColorOwn(0, 0, 0, Transparency.FOREGROUND);
+	public static final ColorOwn ORANGE = new ColorOwn(255, 165, 0, Transparency.FOREGROUND);
+	public static final ColorOwn CYAN = new ColorOwn(0, 255, 255, Transparency.FOREGROUND);
+	public static final ColorOwn DARK_GRAY = new ColorOwn(70, 70, 70, Transparency.FOREGROUND);
+	public static final ColorOwn GRAY = new ColorOwn(120, 120, 120, Transparency.FOREGROUND);
+	public static final ColorOwn LIGHT_GRAY = new ColorOwn(200, 200, 200, Transparency.FOREGROUND);
+	public static final ColorOwn PINK = new ColorOwn(255, 175, 175, Transparency.FOREGROUND);
+
+	public static final ColorOwn TRANSPARENT = new ColorOwn(0, 0, 0, Transparency.FULL_TRANSPARENT);
+	public static final ColorOwn SELECTION_FG = new ColorOwn(0, 0, 255, Transparency.FOREGROUND);
+	public static final ColorOwn SELECTION_BG = new ColorOwn(0, 0, 255, Transparency.SELECTION_BACKGROUND);
+	public static final ColorOwn DEFAULT_FOREGROUND = BLACK;
+	public static final ColorOwn DEFAULT_BACKGROUND = TRANSPARENT;
 
 	public static final HashMap<String, ColorOwn> COLOR_MAP = new HashMap<String, ColorOwn>();
 	static {
@@ -35,16 +62,17 @@ public class ColorOwn {
 		COLOR_MAP.put("yellow", ColorOwn.YELLOW);
 	}
 	
-	private int red;
-	private int green;
-	private int blue;
-	private int alpha;
+	/* fields should be final to avoid changing parts of existing color object (otherwise unexpected visible changes can happen) */
+	private final int red;
+	private final int green;
+	private final int blue;
+	private final int alpha;
 
-	public ColorOwn(int red, int green, int blue, int alpha) {
-		init(red, green, blue, alpha);
+	public ColorOwn(int red, int green, int blue, Transparency transparency) {
+		this(red, green, blue, transparency.getAlpha());
 	}
-
-	private void init(int red, int green, int blue, int alpha) {
+	
+	public ColorOwn(int red, int green, int blue, int alpha) {
 		this.red = red;
 		this.green = green;
 		this.blue = blue;
@@ -53,10 +81,10 @@ public class ColorOwn {
 
 	public ColorOwn(String hex) {
 		int i = Integer.decode(hex);
-		int r = (i >> 16) & 0xFF;
-		int g = (i >> 8) & 0xFF;
-		int b = i & 0xFF;
-		init(r, g, b, 255);
+		this.red = (i >> 16) & 0xFF;
+		this.green = (i >> 8) & 0xFF;
+		this.blue = i & 0xFF;
+		this.alpha = Transparency.FOREGROUND.getAlpha();
 	}
 
 	public int getRed() {
@@ -75,11 +103,12 @@ public class ColorOwn {
 		return alpha;
 	}
 	
+	public ColorOwn transparency(Transparency transparency) {
+		return new ColorOwn(getRed(), getGreen(), getBlue(), transparency.getAlpha());
+	}
+	
 	public ColorOwn darken(int factor) {
-		red -= factor;
-		green -= factor;
-		blue -= factor;
-		return this;
+		return new ColorOwn(Math.max(0, getRed()-factor), Math.max(0, getGreen()-factor), Math.max(0, getBlue()-factor), getAlpha());
 	}
 
 	/**
@@ -89,7 +118,7 @@ public class ColorOwn {
 	 *            String which describes the color
 	 * @return Color which is related to the String or null if it is no valid colorString
 	 */
-	public static ColorOwn forString(String colorString) {
+	public static ColorOwn forString(String colorString, Transparency transparency) {
 		if (colorString == null) return null;
 		ColorOwn returnColor = null;
 		for (String color : COLOR_MAP.keySet()) {
@@ -103,9 +132,10 @@ public class ColorOwn {
 				returnColor = new ColorOwn(colorString);
 			} catch (NumberFormatException e) {
 				//only print for debugging because message would be printed, when typing the color
-//				log.debug("Invalid color:" + colorString);
+				log.debug("Invalid color:" + colorString);
 			}
 		}
+		if (returnColor != null) returnColor = returnColor.transparency(transparency);
 		return returnColor;
 	}
 
@@ -132,5 +162,12 @@ public class ColorOwn {
 		if (red != other.red) return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "ColorOwn [red=" + red + ", green=" + green + ", blue=" + blue + ", alpha=" + alpha + "]";
+	}
+	
+	
 
 }

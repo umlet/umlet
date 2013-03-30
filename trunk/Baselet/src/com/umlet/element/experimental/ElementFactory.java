@@ -5,6 +5,7 @@ import java.awt.Component;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 
@@ -38,13 +39,24 @@ public class ElementFactory {
 			public boolean displaceDrawingByOnePixel() {
 				return Utils.displaceDrawingByOnePixel();
 			}
+			@Override
+			public GridElement clone(GridElement gridElement) {
+				NewGridElement old = (NewGridElement) gridElement;
+				return create(old.getId(), old.getRectangle(), old.getPanelAttributes(), Main.getHandlerForElement(old));
+			}
+			@Override
+			public void Resize(GridElement element, float diffw, float diffh) {
+				float diffwInCurrentZoom = diffw * getZoomFactor();
+				float diffhInCurrentZoom = diffh * getZoomFactor();
+				int diffwRealigned = Main.getHandlerForElement(element).realignToGrid(false, diffwInCurrentZoom, true);
+				int diffhRealigned = Main.getHandlerForElement(element).realignToGrid(false, diffhInCurrentZoom, true);
+				// use resize command to move sticked relations correctly with the element
+				new Resize(element, 0, 0, diffwRealigned, diffhRealigned).execute(Main.getHandlerForElement(element));
+			}
 		};
 
 		returnObj.init(bounds, panelAttributes, component, panel);
 		handler.setHandlerAndInitListeners(returnObj);
 		return returnObj;
-	}
-	public static GridElement clone(NewGridElement old) {
-		return create(old.getId(), old.getRectangle(), old.getPanelAttributes(), Main.getHandlerForElement(old));
 	}
 }

@@ -8,6 +8,7 @@ import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
+import com.baselet.diagram.draw.geom.DimensionFloat;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
@@ -16,13 +17,13 @@ import com.baselet.element.GroupGridElement;
 import com.baselet.element.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.facets.Facet;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
+import com.umlet.element.experimental.settings.facets.Facet;
 
 public abstract class NewGridElement implements GridElement {
 
-//	private static final Logger log = Logger.getLogger(NewGridElement.class);
+	//	private static final Logger log = Logger.getLogger(NewGridElement.class);
 
 	private boolean stickingBorderActive;
 
@@ -37,15 +38,15 @@ public abstract class NewGridElement implements GridElement {
 
 	protected ComponentInterface component;
 
-	private DrawHandlerInterface panel;
+	private DrawHandlerInterface handler;
 
-	public void init(Rectangle bounds, String panelAttributes, ComponentInterface component, DrawHandlerInterface panel) {
+	public void init(Rectangle bounds, String panelAttributes, ComponentInterface component, DrawHandlerInterface handler) {
 		this.component = component;
 		this.drawer = component.getDrawHandler();
 		this.metaDrawer = component.getMetaDrawHandler();
 		setRectangle(bounds);
 		properties = new Properties(panelAttributes, drawer);
-		this.panel = panel;
+		this.handler = handler;
 	}
 
 	public BaseDrawHandler getDrawer() {
@@ -79,7 +80,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public GridElement CloneFromMe() {
-		return null;
+		return handler.clone(this);
 	}
 
 	@Override
@@ -113,7 +114,7 @@ public abstract class NewGridElement implements GridElement {
 		updateMetaDrawer();
 		updateConcreteModel();
 		if (oldLayer != null && !oldLayer.equals(getLayer())) {
-			panel.updateLayer(this);
+			handler.updateLayer(this);
 		}
 		this.autoresizePossiblyInProgress = false;
 		component.afterModelUpdate();
@@ -124,8 +125,8 @@ public abstract class NewGridElement implements GridElement {
 	private void updateMetaDrawer() {
 		metaDrawer.clearCache();
 		if (isSelected) { // draw blue rectangle around selected gridelements
-			metaDrawer.setForegroundAlpha(NewGridElementConstants.ALPHA_FULL_TRANSPARENCY);
-			metaDrawer.setBackground(ColorOwn.BLUE, NewGridElementConstants.ALPHA_NEARLY_FULL_TRANSPARENCY);
+			metaDrawer.setForegroundColor(ColorOwn.TRANSPARENT);
+			metaDrawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 			metaDrawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
 			metaDrawer.resetColorSettings();
 			if (NewGridElementConstants.show_stickingpolygon && !this.isPartOfGroup()) {
@@ -137,8 +138,8 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void updateProperty(GlobalSetting key, String newValue) {
 		properties.updateSetting(key, newValue);
-		panel.updatePropertyPanel();
-//		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
+		handler.updatePropertyPanel();
+		//		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.updateModelFromText();
 		this.repaint();
 	}
@@ -215,11 +216,11 @@ public abstract class NewGridElement implements GridElement {
 	private final void drawStickingPolygon() {
 		StickingPolygon poly;
 		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
-		if (panel.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getRealSize().width - 1, this.getRealSize().height - 1);
+		if (handler.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getRealSize().width - 1, this.getRealSize().height - 1);
 		else poly = this.generateStickingBorder(0, 0, this.getRealSize().width - 1, this.getRealSize().height - 1);
 		if (poly != null) {
 			metaDrawer.setLineType(LineType.DASHED);
-			metaDrawer.setForegroundColor(NewGridElementConstants.DEFAULT_SELECTED_COLOR);
+			metaDrawer.setForegroundColor(ColorOwn.SELECTION_FG);
 			for (Line line : poly.getStickLines()) {
 				metaDrawer.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
 			}
@@ -283,7 +284,7 @@ public abstract class NewGridElement implements GridElement {
 	 */
 	@Override
 	public Dimension getRealSize() {
-		return new Dimension((int) (getZoomedSize().width / panel.getZoomFactor()), (int) (getZoomedSize().height / panel.getZoomFactor()));
+		return new Dimension((int) (getZoomedSize().width / handler.getZoomFactor()), (int) (getZoomedSize().height / handler.getZoomFactor()));
 	}
 
 	@Override
@@ -311,5 +312,15 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	public abstract ElementId getId();
+
+	@Override
+	public void handleAutoresize(DimensionFloat necessaryElementDimension) {
+		float hSpaceLeftAndRight = drawer.getDistanceBetweenTexts() * 2;
+		float width = necessaryElementDimension.getWidth() + hSpaceLeftAndRight;
+		float height = necessaryElementDimension.getHeight() + drawer.textHeight()/2;
+		float diffw = width-getRealSize().width;
+		float diffh = height-getRealSize().height;
+		handler.Resize(this, diffw, diffh);
+	}
 
 }

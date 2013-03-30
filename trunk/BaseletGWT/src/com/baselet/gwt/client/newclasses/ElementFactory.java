@@ -28,6 +28,14 @@ public class ElementFactory {
 			public float getZoomFactor() { return 1.0f; }
 			@Override
 			public boolean displaceDrawingByOnePixel() { return false; }
+			@Override
+			public GridElement clone(GridElement gridElement) {
+				return null;
+			}
+			@Override
+			public void Resize(GridElement gridElement, float diffw, float diffh) {
+				// TODO Auto-generated method stub
+			}
 		};
 		
 		element.init(rect, "paneltext", new GwtCanvasElementImpl(element), handler);
