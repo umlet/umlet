@@ -1,20 +1,19 @@
 package com.baselet.gwt.client.newclasses;
 
+import com.baselet.control.StringStyle;
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.FormatLabels;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.DrawFunction;
 import com.baselet.diagram.draw.geom.DimensionFloat;
-import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.CanvasElement;
 
 public class DrawHandlerGWT extends BaseDrawHandler {
-	
+
 	private float HALF_PX = 0.5f;
 
 	private static final int DEFAULT_FONTSIZE = 12;
@@ -134,8 +133,7 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 			@Override
 			public void run() {
 				ctx.setFillStyle(Converter.convert(styleAtDrawingCall.getFgColor()));
-				ctx.fillText(text, x, y);
-				//TODO set other font properties
+				drawTextHelper(text, x, y);
 			}
 		});
 	}
@@ -148,6 +146,27 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 	public void clearCanvas() {
 		CanvasElement el = canvas.getCanvasElement();
 		ctx.clearRect(0, 0, el.getWidth(), el.getWidth());
+	}
+
+	private void drawTextHelper(final String text, final float x, final float y) {
+		StringStyle stringStyle = StringStyle.analyseStyle(text);
+		String textToDraw = stringStyle.getStringWithoutMarkup();
+
+		String htmlStyle = "";
+		if (stringStyle.getFormat().contains(FormatLabels.BOLD)) {
+			htmlStyle += " bold";
+		}
+		if (stringStyle.getFormat().contains(FormatLabels.ITALIC)) {
+			htmlStyle += " italic";
+		}
+		if (stringStyle.getFormat().contains(FormatLabels.UNDERLINE)) {
+			ctx.setLineWidth(1.0f);
+			setLineDash(ctx, LineType.SOLID, 1.0f);
+			drawLineHelper(x, y, x + textWidth(textToDraw), y);
+			
+		}
+		ctx.setFont(htmlStyle + " 12px sans-serif");
+		ctx.fillText(textToDraw, x, y);
 	}
 
 	/**
@@ -179,21 +198,25 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 		ctx.lineTo(x2 + HALF_PX, y2 + HALF_PX);
 		ctx.stroke();
 	}
-	
+
 	private void setStyle(Context2d ctx, Style style) {
 		ctx.setFillStyle(Converter.convert(style.getBgColor()));
 		ctx.setStrokeStyle(Converter.convert(style.getFgColor()));
 		ctx.setLineWidth(style.getLineThickness());
 		setLineDash(ctx, style.getLineType(), style.getLineThickness());
-		
+
 	}
 
 	private void setLineDash(Context2d ctx, LineType lineType, float lineThickness) {
-		if (lineType == LineType.DASHED) { // large linethickness values need longer dashes
-			setLineDash(ctx, 6 * Math.max(1, lineThickness/2));
-		}
-		if (lineType == LineType.DOTTED) { // minimum must be 2, otherwise the dotting is not really visible
-			setLineDash(ctx, Math.max(2, lineThickness));
+		switch (lineType) {
+			case DASHED: // large linethickness values need longer dashes
+				setLineDash(ctx, 6 * Math.max(1, lineThickness/2));
+				break;
+			case DOTTED: // minimum must be 2, otherwise the dotting is not really visible
+				setLineDash(ctx, Math.max(2, lineThickness));
+				break;
+			default: // default is a solid line
+				setLineDash(ctx, 0);
 		}
 	}
 

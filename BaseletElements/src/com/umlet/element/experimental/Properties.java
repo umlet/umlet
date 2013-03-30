@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.control.TextManipulator;
+import com.baselet.control.TextSplitter;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
@@ -109,7 +109,7 @@ public class Properties {
 			String firstLine = propertiesTextToDraw.iterator().next();
 			float availableWidthSpace = propCfg.getXLimitsForArea(displacement, textHeight).getSpace() - BUFFER;
 			float accumulator = displacement;
-			while(accumulator < propCfg.getGridElementSize().height && !TextManipulator.checkifStringFits(firstLine, availableWidthSpace, drawer)) {
+			while(accumulator < propCfg.getGridElementSize().height && !TextSplitter.checkifStringFits(firstLine, availableWidthSpace, drawer)) {
 				accumulator += textHeight / 2;
 				float previousWidthSpace = availableWidthSpace;
 				availableWidthSpace = propCfg.getXLimitsForArea(accumulator, textHeight).getSpace() - BUFFER;
@@ -127,7 +127,7 @@ public class Properties {
 				String wrappedLine;
 				while (propCfg.getyPos() < propCfg.getGridElementSize().height && !line.trim().isEmpty()) {
 					Float spaceForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight()).getSpace() - drawer.getDistanceBetweenTexts() * 2;
-					wrappedLine = TextManipulator.splitString(line, spaceForText, drawer);
+					wrappedLine = TextSplitter.splitString(line, spaceForText, drawer);
 					handleLine(elementSettings, wrappedLine, propCfg, drawer);
 					line = line.substring(wrappedLine.length()).trim();
 				}
