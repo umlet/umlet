@@ -1,6 +1,6 @@
 package com.baselet.gwt.client.newclasses;
 
-import com.baselet.gwt.client.copy.diagram.draw.DrawFunction;
+import com.baselet.diagram.draw.DrawFunction;
 import com.google.gwt.canvas.client.Canvas;
 
 public class PseudoDrawHandlerGWT extends DrawHandlerGWT {

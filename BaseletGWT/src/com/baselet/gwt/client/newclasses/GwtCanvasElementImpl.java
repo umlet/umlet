@@ -1,13 +1,13 @@
 package com.baselet.gwt.client.newclasses;
 
-import com.baselet.gwt.client.copy.control.NewGridElementConstants;
-import com.baselet.gwt.client.copy.diagram.draw.BaseDrawHandler;
-import com.baselet.gwt.client.copy.diagram.draw.geom.Rectangle;
-import com.baselet.gwt.client.copy.diagram.draw.helper.ColorOwn;
-import com.baselet.gwt.client.copy.element.GridElement;
-import com.baselet.gwt.client.copy.umlet.element.experimental.ComponentInterface;
+import com.baselet.control.NewGridElementConstants;
+import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.element.GridElement;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.umlet.element.experimental.ComponentInterface;
 
 public class GwtCanvasElementImpl implements ComponentInterface {
 

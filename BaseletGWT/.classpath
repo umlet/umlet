@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-compiler only/lib-gwt-file-0.3.3.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-compiler only/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-compiler only/log4j-gwt.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BaseletElements"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

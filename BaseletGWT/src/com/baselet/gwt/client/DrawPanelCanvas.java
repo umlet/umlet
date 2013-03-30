@@ -3,18 +3,18 @@ package com.baselet.gwt.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.element.GridElement;
 import com.baselet.gwt.client.EventBus.PropertiesTextChanged;
 import com.baselet.gwt.client.EventBus.PropertiesTextChanged.PropertiesTextChangedEventHandler;
 import com.baselet.gwt.client.MouseDragUtils.MouseDragHandler;
-import com.baselet.gwt.client.copy.diagram.draw.geom.Point;
-import com.baselet.gwt.client.copy.diagram.draw.geom.Rectangle;
-import com.baselet.gwt.client.copy.element.GridElement;
-import com.baselet.gwt.client.copy.umlet.element.experimental.ElementId;
 import com.baselet.gwt.client.newclasses.ElementFactory;
 import com.baselet.gwt.client.newclasses.GwtCanvasElementImpl;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.umlet.element.experimental.ElementId;
 
 public class DrawPanelCanvas {
 

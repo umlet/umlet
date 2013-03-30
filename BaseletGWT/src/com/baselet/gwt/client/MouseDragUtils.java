@@ -1,6 +1,6 @@
 package com.baselet.gwt.client;
 
-import com.baselet.gwt.client.copy.element.GridElement;
+import com.baselet.element.GridElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;

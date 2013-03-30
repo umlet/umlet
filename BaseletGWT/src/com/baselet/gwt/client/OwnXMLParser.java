@@ -3,8 +3,7 @@ package com.baselet.gwt.client;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baselet.gwt.client.copy.element.GridElement;
-import com.baselet.gwt.client.copy.umlet.element.experimental.ElementId;
+import com.baselet.element.GridElement;
 import com.baselet.gwt.client.newclasses.ElementFactory;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.DOMException;
@@ -12,6 +11,7 @@ import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
+import com.umlet.element.experimental.ElementId;
 
 public class OwnXMLParser {
 
@@ -40,7 +40,7 @@ public class OwnXMLParser {
 					int w = Integer.valueOf(coordinates.getElementsByTagName(W).item(0).getFirstChild().getNodeValue());
 					int h = Integer.valueOf(coordinates.getElementsByTagName(H).item(0).getFirstChild().getNodeValue());
 					String panelAttributes = element.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild().getNodeValue();
-					returnList.add(ElementFactory.create(id, new com.baselet.gwt.client.copy.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes));
+					returnList.add(ElementFactory.create(id, new com.baselet.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes));
 				}
 			  } catch (DOMException e) {
 			    Window.alert("Could not parse XML document.");
