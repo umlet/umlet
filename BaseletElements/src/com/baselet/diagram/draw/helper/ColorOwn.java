@@ -40,7 +40,7 @@ public class ColorOwn {
 	public static final ColorOwn PINK = new ColorOwn(255, 175, 175, Transparency.FOREGROUND);
 
 	public static final ColorOwn TRANSPARENT = new ColorOwn(0, 0, 0, Transparency.FULL_TRANSPARENT);
-	public static final ColorOwn SELECTION_FG = new ColorOwn(0, 0, 255, Transparency.FOREGROUND);
+	public static final ColorOwn SELECTION_FG = BLUE;
 	public static final ColorOwn SELECTION_BG = new ColorOwn(0, 0, 255, Transparency.SELECTION_BACKGROUND);
 	public static final ColorOwn DEFAULT_FOREGROUND = BLACK;
 	public static final ColorOwn DEFAULT_BACKGROUND = TRANSPARENT;
