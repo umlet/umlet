@@ -2,7 +2,7 @@ package com.umlet.element.experimental.settings;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
-import com.baselet.diagram.draw.geom.LineHorizontal;
+import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet;
 import com.umlet.element.experimental.settings.facets.Facet;
 
@@ -11,7 +11,7 @@ public abstract class Settings {
 	/**
 	 * calculates the left and right x value for a certain y value
 	 */
-	public abstract LineHorizontal getXValues(float y, int height, int width);
+	public abstract XValues getXValues(float y, int height, int width);
 
 	public abstract AlignVertical getVAlign();
 

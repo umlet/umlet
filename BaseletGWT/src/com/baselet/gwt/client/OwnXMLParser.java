@@ -9,6 +9,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.DOMException;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 import com.umlet.element.experimental.ElementId;
@@ -23,6 +24,7 @@ public class OwnXMLParser {
 	private static final String W = "w";
 	private static final String H = "h";
 	private static final String PANEL_ATTRIBUTES = "panel_attributes";
+	private static final String ADDITIONAL_ATTRIBUTES = "additional_attributes";
 
 	public static List<GridElement> parse(String xml) {
 		List<GridElement> returnList = new ArrayList<GridElement>();
@@ -40,7 +42,13 @@ public class OwnXMLParser {
 					int w = Integer.valueOf(coordinates.getElementsByTagName(W).item(0).getFirstChild().getNodeValue());
 					int h = Integer.valueOf(coordinates.getElementsByTagName(H).item(0).getFirstChild().getNodeValue());
 					String panelAttributes = element.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild().getNodeValue();
-					returnList.add(ElementFactory.create(id, new com.baselet.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes));
+					
+					String additionalPanelAttributes = "";
+					Node additionalAttrNode = element.getElementsByTagName(ADDITIONAL_ATTRIBUTES).item(0);
+					if (additionalAttrNode != null && additionalAttrNode.getFirstChild() != null) {
+						additionalPanelAttributes = additionalAttrNode.getFirstChild().getNodeValue();
+					}
+					returnList.add(ElementFactory.create(id, new com.baselet.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes, additionalPanelAttributes));
 				}
 			  } catch (DOMException e) {
 			    Window.alert("Could not parse XML document.");

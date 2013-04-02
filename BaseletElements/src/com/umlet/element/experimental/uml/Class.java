@@ -8,10 +8,9 @@ import com.umlet.element.experimental.settings.SettingsClass;
 
 public class Class extends NewGridElement {
 
-	public static final ElementId ID = ElementId.UMLClass;
 	@Override
 	public ElementId getId() {
-		return ID;
+		return ElementId.UMLClass;
 	}
 	
 	@Override

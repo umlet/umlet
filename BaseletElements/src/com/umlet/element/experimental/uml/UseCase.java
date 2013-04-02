@@ -8,10 +8,9 @@ import com.umlet.element.experimental.settings.SettingsUseCase;
 
 public class UseCase extends NewGridElement {
 
-	public static final ElementId ID = ElementId.UMLUseCase;
 	@Override
 	public ElementId getId() {
-		return ID;
+		return ElementId.UMLUseCase;
 	}
 	
 	@Override

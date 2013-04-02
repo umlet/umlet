@@ -33,7 +33,7 @@ public interface GridElement {
 
 	String getAdditionalAttributes();
 
-	void setAdditionalAttributes(String additional_attributes);
+	void setAdditionalAttributes(String additionalAttributes);
 
 	void setLocation(int x, int y);
 

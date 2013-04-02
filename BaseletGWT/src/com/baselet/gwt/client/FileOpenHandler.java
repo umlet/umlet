@@ -3,6 +3,7 @@ package com.baselet.gwt.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.vectomatic.file.ErrorCode;
 import org.vectomatic.file.File;
 import org.vectomatic.file.FileError;
@@ -16,6 +17,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
 public class FileOpenHandler {
+	
+	private Logger log = Logger.getLogger(FileOpenHandler.class);
 
 	protected FileReader reader;
 	protected List<File> readQueue = new ArrayList<File>();
@@ -31,6 +34,8 @@ public class FileOpenHandler {
 							String result = reader.getStringResult();
 							List<GridElement> gridElements = OwnXMLParser.parse(result);
 							diagramHandler.setGridElements(gridElements);
+						} catch (RuntimeException e) {
+							log.error("Error at loading diagram from file", e);
 						} finally {
 							readQueue.remove(0);
 							readNext();

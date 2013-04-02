@@ -117,25 +117,6 @@ public class Relation extends OldGridElement {
 	@Override
 	public void setAdditionalAttributes(String s) {
 		Vector<String> tmp = Utils.decomposeStringsIncludingEmptyStrings(s, Constants.DELIMITER_ADDITIONAL_ATTRIBUTES);
-		// 9 attributes, 4 for start/end point, 4 for x,y,w,h
-		/*
-		 * if (tmp.size()<17) throw new RuntimeException("Error in
-		 * Relation.setHiddenState(), state value = "+s);
-		 * beginQualifier=(String)tmp.elementAt(0);
-		 * endQualifier=(String)tmp.elementAt(1);
-		 * beginArrow=(String)tmp.elementAt(2);
-		 * endArrow=(String)tmp.elementAt(3);
-		 * beginMultiplicity=(String)tmp.elementAt(4);
-		 * endMultiplicity=(String)tmp.elementAt(5);
-		 * beginRole=(String)tmp.elementAt(6); endRole=(String)tmp.elementAt(7);
-		 * lineType=(String)tmp.elementAt(8);
-		 * int x=Integer.parseInt((String)tmp.elementAt(9)); int
-		 * y=Integer.parseInt((String)tmp.elementAt(10)); int
-		 * w=Integer.parseInt((String)tmp.elementAt(11)); int
-		 * h=Integer.parseInt((String)tmp.elementAt(12));
-		 * this.setBounds(x,y,w,h);
-		 */
-
 		for (int i = 0; i < tmp.size(); i = i + 2) {
 			int x = Integer.parseInt(tmp.elementAt(i));
 			int y = Integer.parseInt(tmp.elementAt(i + 1));
