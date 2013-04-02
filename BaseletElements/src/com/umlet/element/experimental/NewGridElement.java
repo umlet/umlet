@@ -89,14 +89,14 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void onDeselected() {
 		isSelected = false;
-		updateMetaDrawer();
+		updateMetaDrawer(metaDrawer);
 		this.repaint();
 	}
 
 	@Override
 	public void onSelected() {
 		isSelected = true;
-		updateMetaDrawer();
+		updateMetaDrawer(metaDrawer);
 		this.repaint();
 	}
 
@@ -114,7 +114,7 @@ public abstract class NewGridElement implements GridElement {
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
 		Integer oldLayer = getLayer();
 		properties.initSettingsFromText(this);
-		updateMetaDrawer();
+		updateMetaDrawer(metaDrawer);
 		updateConcreteModel();
 		if (oldLayer != null && !oldLayer.equals(getLayer())) {
 			handler.updateLayer(this);
@@ -125,15 +125,15 @@ public abstract class NewGridElement implements GridElement {
 
 	protected abstract void updateConcreteModel();
 
-	private void updateMetaDrawer() {
-		metaDrawer.clearCache();
+	protected void updateMetaDrawer(BaseDrawHandler drawer) {
+		drawer.clearCache();
 		if (isSelected) { // draw blue rectangle around selected gridelements
-			metaDrawer.setForegroundColor(ColorOwn.TRANSPARENT);
-			metaDrawer.setBackgroundColor(ColorOwn.SELECTION_BG);
-			metaDrawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
-			metaDrawer.resetColorSettings();
+			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
+			drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
+			drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
+			drawer.resetColorSettings();
 			if (NewGridElementConstants.show_stickingpolygon && !this.isPartOfGroup()) {
-				drawStickingPolygon();
+				drawStickingPolygon(drawer);
 			}
 		}
 	}
@@ -217,19 +217,20 @@ public abstract class NewGridElement implements GridElement {
 		p.addPoint(x, y + height, true);
 		return p;
 	}
-	private final void drawStickingPolygon() {
+	
+	private final void drawStickingPolygon(BaseDrawHandler drawer) {
 		StickingPolygon poly;
 		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
 		if (handler.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getRealSize().width - 1, this.getRealSize().height - 1);
 		else poly = this.generateStickingBorder(0, 0, this.getRealSize().width - 1, this.getRealSize().height - 1);
 		if (poly != null) {
-			metaDrawer.setLineType(LineType.DASHED);
-			metaDrawer.setForegroundColor(ColorOwn.SELECTION_FG);
+			drawer.setLineType(LineType.DASHED);
+			drawer.setForegroundColor(ColorOwn.SELECTION_FG);
 			for (Line line : poly.getStickLines()) {
-				metaDrawer.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
+				drawer.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
 			}
-			metaDrawer.setLineType(LineType.SOLID);
-			metaDrawer.resetColorSettings();
+			drawer.setLineType(LineType.SOLID);
+			drawer.resetColorSettings();
 		}
 	}
 
