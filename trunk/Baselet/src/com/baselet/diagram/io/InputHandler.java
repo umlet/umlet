@@ -95,7 +95,7 @@ public class InputHandler extends DefaultHandler {
 		else if (elementname.equals("element")) {
 			if (this.id != null) {
 				try {
-					NewGridElement e = ElementFactory.create(this.id, new Rectangle(x, y, w, h), this.panel_attributes, this.handler);
+					NewGridElement e = ElementFactory.create(this.id, new Rectangle(x, y, w, h), this.panel_attributes, this.additional_attributes, this.handler);
 					if (this.currentGroup != null) this.currentGroup.addMember(e);
 					_p.addElement(e);
 				} catch (Exception e) {

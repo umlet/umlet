@@ -9,7 +9,7 @@ import com.umlet.element.experimental.settings.facets.InnerClass;
 import com.umlet.element.experimental.settings.facets.SeparatorLine;
 import com.umlet.element.experimental.settings.facets.TemplateClass;
 
-public class SettingsClass extends Settings {
+public class SettingsRelation extends Settings {
 
 	@Override
 	public XValues getXValues(float y, int height, int width) {
@@ -28,7 +28,7 @@ public class SettingsClass extends Settings {
 
 	@Override
 	public Facet[] createFacets() {
-		return new Facet[]{new ActiveClass(), new InnerClass(), new SeparatorLine(true), new TemplateClass()};
+		return new Facet[0];
 	}
 
 }

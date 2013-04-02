@@ -11,13 +11,13 @@ import com.baselet.element.GridElement;
 
 public class ElementFactory {
 
-	public static NewGridElement create(String idString, Rectangle bounds, String panelAttributes, DiagramHandler handler) {
-		return create(ElementId.valueOf(idString), bounds, panelAttributes, handler);
+	public static NewGridElement create(String idString, Rectangle bounds, String panelAttributes, String additionalAttributes, DiagramHandler handler) {
+		return create(ElementId.valueOf(idString), bounds, panelAttributes, additionalAttributes, handler);
 	}
 	/**
 	 * uses no reflection, to avoid complications with GWT
 	 */
-	public static NewGridElement create(ElementId id, Rectangle bounds, String panelAttributes, DiagramHandler handler) {
+	public static NewGridElement create(ElementId id, Rectangle bounds, String panelAttributes, String additionalAttributes, DiagramHandler handler) {
 		final NewGridElement returnObj = id.createAssociatedGridElement();
 		
 		NewGridElementJComponent component = new NewGridElementJComponent(returnObj);
@@ -42,7 +42,7 @@ public class ElementFactory {
 			@Override
 			public GridElement clone(GridElement gridElement) {
 				NewGridElement old = (NewGridElement) gridElement;
-				return create(old.getId(), old.getRectangle(), old.getPanelAttributes(), Main.getHandlerForElement(old));
+				return create(old.getId(), old.getRectangle(), old.getPanelAttributes(), old.getAdditionalAttributes(), Main.getHandlerForElement(old));
 			}
 			@Override
 			public void Resize(GridElement element, float diffw, float diffh) {
@@ -55,7 +55,7 @@ public class ElementFactory {
 			}
 		};
 
-		returnObj.init(bounds, panelAttributes, component, panel);
+		returnObj.init(bounds, panelAttributes, additionalAttributes, component, panel);
 		handler.setHandlerAndInitListeners(returnObj);
 		return returnObj;
 	}

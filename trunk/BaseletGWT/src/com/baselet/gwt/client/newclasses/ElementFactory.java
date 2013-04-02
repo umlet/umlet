@@ -16,7 +16,7 @@ import com.umlet.element.experimental.uml.Class;
 
 public class ElementFactory {
 	
-	public static GridElement create(ElementId id, Rectangle rect, String panelAttributes) {
+	public static GridElement create(ElementId id, Rectangle rect, String panelAttributes, String additionalPanelAttributes) {
 		NewGridElement element = id.createAssociatedGridElement();
 		
 		DrawHandlerInterface handler = new DrawHandlerInterface() {
@@ -38,7 +38,7 @@ public class ElementFactory {
 			}
 		};
 		
-		element.init(rect, "paneltext", new GwtCanvasElementImpl(element), handler);
+		element.init(rect, panelAttributes, additionalPanelAttributes, new GwtCanvasElementImpl(element), handler);
 		element.setPanelAttributes(panelAttributes);
 		return element;
 	}

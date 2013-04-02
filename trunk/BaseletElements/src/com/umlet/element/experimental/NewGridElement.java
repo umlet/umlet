@@ -40,12 +40,13 @@ public abstract class NewGridElement implements GridElement {
 
 	private DrawHandlerInterface handler;
 
-	public void init(Rectangle bounds, String panelAttributes, ComponentInterface component, DrawHandlerInterface handler) {
+	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, ComponentInterface component, DrawHandlerInterface handler) {
 		this.component = component;
 		this.drawer = component.getDrawHandler();
 		this.metaDrawer = component.getMetaDrawHandler();
 		setRectangle(bounds);
 		properties = new Properties(panelAttributes, drawer);
+		setAdditionalAttributes(additionalAttributes);
 		this.handler = handler;
 	}
 
@@ -160,7 +161,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void setAdditionalAttributes(String additional_attributes) {
+	public void setAdditionalAttributes(String additionalAttributes) {
 		/*TODO: perhaps refactor the additionattributes stuff completely (why should it be stored as a string? only for easier saving in uxf?)*/
 	}
 

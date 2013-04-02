@@ -9,7 +9,7 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.DimensionFloat;
-import com.baselet.diagram.draw.geom.LineHorizontal;
+import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
@@ -147,7 +147,7 @@ public class Properties {
 			}
 		}
 		if (drawText) {
-			LineHorizontal xLimitsForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight());
+			XValues xLimitsForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight());
 			Float spaceNotUsedForText = propCfg.getGridElementSize().width - xLimitsForText.getSpace();
 			if (!spaceNotUsedForText.equals(Float.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
 				propCfg.calcMaxTextWidth(spaceNotUsedForText + drawer.textWidth(line));
@@ -157,7 +157,7 @@ public class Properties {
 		}
 	}
 
-	private float calcHorizontalTextBoundaries(LineHorizontal xLimitsForText, PropertiesConfig propCfg) {
+	private float calcHorizontalTextBoundaries(XValues xLimitsForText, PropertiesConfig propCfg) {
 		float x;
 		if (propCfg.gethAlign() == AlignHorizontal.LEFT) {
 			x = xLimitsForText.getLeft() + drawer.getDistanceBetweenTexts();
