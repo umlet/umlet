@@ -11,32 +11,44 @@ import com.umlet.element.experimental.settings.SettingsRelation;
 
 public class Relation extends NewGridElement {
 
-	private List<Point> points = new ArrayList<Point>();
+	private final float SELECTBOXSIZE = 10;
+	private final float SELECTCIRCLERADIUS = 10;
 	
+	private List<Point> points = new ArrayList<Point>();
+
 	@Override
 	public ElementId getId() {
 		return ElementId.Relation;
 	}
-	
+
 	@Override
 	public void updateConcreteModel() {
-		drawer.drawLine(0, 0, getRealSize().width-1, getRealSize().height-1);
 		properties.drawPropertiesText();
-	}
-	
-	@Override
-	public void setAdditionalAttributes(String additionalAttributes) {
-		Integer firstPos = null;
-		for (String pos : additionalAttributes.split(";")) {
-			if (firstPos == null) {
-				firstPos = Integer.valueOf(pos);
-			} else {
-				points.add(new Point(firstPos, Integer.valueOf(pos)));
-				firstPos = null;
-			}
+		
+		// draw lines
+		for (int i = 1; i < points.size(); i++) {
+			Point a = points.get(i-1);
+			Point b = points.get(i);
+			drawer.drawLine(a.x, a.y, b.x, b.y);
 		}
+		// draw selection circles
+		for (Point p : points) {
+			drawer.drawCircle(p.x, p.y, SELECTCIRCLERADIUS);
+		}
+		// draw drag-box roughly
+		int x = Math.abs(points.get(points.size()-2).x - points.get(points.size()-1).x)/2 + points.get(points.size()-2).x;
+		int y = Math.abs(points.get(points.size()-2).y - points.get(points.size()-1).y)/2;
+		drawer.drawRectangle(x - SELECTBOXSIZE/2, y - SELECTBOXSIZE/2, SELECTBOXSIZE, SELECTBOXSIZE);
 	}
 
+	@Override
+	public void setAdditionalAttributes(String additionalAttributes) {
+		super.setAdditionalAttributes(additionalAttributes);
+		String[] split = additionalAttributes.split(";");
+		for (int i = 0; i < split.length; i += 2) {
+			points.add(new Point(Integer.valueOf(split[i]), Integer.valueOf(split[i+1])));
+		}
+	}
 
 	@Override
 	public Settings getSettings() {
