@@ -27,14 +27,14 @@ public abstract class NewGridElement implements GridElement {
 
 	private boolean stickingBorderActive;
 
-	protected BaseDrawHandler drawer; // this is the drawer for element specific stuff
+	private BaseDrawHandler drawer; // this is the drawer for element specific stuff
 	private BaseDrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
 
 	protected boolean isSelected = false;
 
 	private GroupGridElement group = null;
 
-	protected Properties properties;
+	private Properties properties;
 
 	protected ComponentInterface component;
 
@@ -115,7 +115,7 @@ public abstract class NewGridElement implements GridElement {
 		Integer oldLayer = getLayer();
 		properties.initSettingsFromText(this);
 		updateMetaDrawer(metaDrawer);
-		updateConcreteModel();
+		updateConcreteModel(drawer, properties);
 		if (oldLayer != null && !oldLayer.equals(getLayer())) {
 			handler.updateLayer(this);
 		}
@@ -123,7 +123,7 @@ public abstract class NewGridElement implements GridElement {
 		component.afterModelUpdate();
 	}
 
-	protected abstract void updateConcreteModel();
+	protected abstract void updateConcreteModel(BaseDrawHandler drawer, Properties properties);
 
 	protected void updateMetaDrawer(BaseDrawHandler drawer) {
 		drawer.clearCache();

@@ -8,6 +8,7 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
+import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsRelation;
 
@@ -24,7 +25,7 @@ public class Relation extends NewGridElement {
 	}
 
 	@Override
-	public void updateConcreteModel() {
+	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
 		//		properties.drawPropertiesText();
 
 		// draw lines
