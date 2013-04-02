@@ -216,9 +216,9 @@ public class Relation extends OldGridElement {
 				else if (s.indexOf(">>") >= 0) {
 					endArrow = "<<";
 				}
-				// else if (s.indexOf("m>") >= 0) {
-				// endArrow = "crowsFoot";
-				// }
+				 else if (s.indexOf("m>") >= 0) {
+				 endArrow = "crowsFoot";
+				 }
 				else if (s.indexOf(">") >= 0) {
 					if (endArrow.equals("")) endArrow = "<";
 				}
@@ -235,9 +235,9 @@ public class Relation extends OldGridElement {
 				else if (s.indexOf("<<") >= 0) {
 					beginArrow = "<<";
 				}
-				// else if (s.indexOf("<m") >= 0) {
-				// beginArrow = "crowsFoot";
-				// }
+				 else if (s.indexOf("<m") >= 0) {
+				 beginArrow = "crowsFoot";
+				 }
 				else if (s.indexOf("<") >= 0) {
 					if (beginArrow.equals("")) beginArrow = "<";
 				}

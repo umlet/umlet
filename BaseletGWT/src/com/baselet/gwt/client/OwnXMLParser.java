@@ -90,11 +90,15 @@ public class OwnXMLParser {
 
 			Element panelAttributes = doc.createElement(PANEL_ATTRIBUTES);
 			panelAttributes.appendChild(doc.createTextNode(ge.getPanelAttributes()));
+
+			Element additionalPanelAttributes = doc.createElement(ADDITIONAL_ATTRIBUTES);
+			additionalPanelAttributes.appendChild(doc.createTextNode(ge.getAdditionalAttributes()));
 			
 			Element element = doc.createElement(ELEMENT);
 			element.appendChild(id);
 			element.appendChild(coordinates);
 			element.appendChild(panelAttributes);
+			element.appendChild(additionalPanelAttributes);
 			
 			diagramElement.appendChild(element);
 		}
