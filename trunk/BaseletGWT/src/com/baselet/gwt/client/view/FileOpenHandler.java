@@ -1,4 +1,4 @@
-package com.baselet.gwt.client;
+package com.baselet.gwt.client.view;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import org.vectomatic.file.events.LoadEndEvent;
 import org.vectomatic.file.events.LoadEndHandler;
 
 import com.baselet.element.GridElement;
+import com.baselet.gwt.client.OwnXMLParser;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 

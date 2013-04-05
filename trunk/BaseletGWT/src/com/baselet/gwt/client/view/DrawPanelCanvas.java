@@ -1,4 +1,4 @@
-package com.baselet.gwt.client;
+package com.baselet.gwt.client.view;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,11 +6,13 @@ import java.util.List;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
+import com.baselet.gwt.client.EventBus;
+import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.EventBus.PropertiesTextChanged;
 import com.baselet.gwt.client.EventBus.PropertiesTextChanged.PropertiesTextChangedEventHandler;
-import com.baselet.gwt.client.MouseDragUtils.MouseDragHandler;
-import com.baselet.gwt.client.newclasses.ElementFactory;
-import com.baselet.gwt.client.newclasses.GwtCanvasElementImpl;
+import com.baselet.gwt.client.element.ElementFactory;
+import com.baselet.gwt.client.element.GwtCanvasElementImpl;
+import com.baselet.gwt.client.view.MouseDragUtils.MouseDragHandler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
@@ -81,11 +83,18 @@ public class DrawPanelCanvas {
 		Context2d backgroundContext = backgroundCanvas.getContext2d();
 		backgroundContext.setStrokeStyle(GRAY);
 		for (int i = 0; i < width; i += GRID_SIZE) {
-			ContextUtils.drawLine(backgroundContext, i, 0, i, height);
+			drawLine(backgroundContext, i, 0, i, height);
 		}
 		for (int i = 0; i < height; i += GRID_SIZE) {
-			ContextUtils.drawLine(backgroundContext, 0, i, width, i);
+			drawLine(backgroundContext, 0, i, width, i);
 		}
+	}
+	
+	private static void drawLine(Context2d context, int x, int y, int x2, int y2) {
+		context.beginPath();
+		context.moveTo(x + 0.5, y + 0.5); // +0.5 because a line of thickness 1.0 spans 50% left and 50% right (therefore it would not be on the 1 pixel - see https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors)
+		context.lineTo(x2 + 0.5, y2 + 0.5);
+		context.stroke();
 	}
 
 	private void draw() {

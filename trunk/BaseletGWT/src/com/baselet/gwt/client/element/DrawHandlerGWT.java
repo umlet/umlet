@@ -1,4 +1,4 @@
-package com.baselet.gwt.client.newclasses;
+package com.baselet.gwt.client.element;
 
 import com.baselet.control.StringStyle;
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -9,6 +9,7 @@ import com.baselet.diagram.draw.DrawFunction;
 import com.baselet.diagram.draw.geom.DimensionFloat;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
+import com.baselet.gwt.client.Converter;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
@@ -204,7 +205,6 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 	private void setStyle(Context2d ctx, Style style) {
 		ctx.setFillStyle(Converter.convert(style.getBgColor()));
 		ColorOwn fgColor = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
-		System.out.println(fgColor + "/" + getOverlay().getFgColor());
 		ctx.setStrokeStyle(Converter.convert(fgColor));
 		ctx.setLineWidth(style.getLineThickness());
 		setLineDash(ctx, style.getLineType(), style.getLineThickness());

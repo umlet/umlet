@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.baselet.element.GridElement;
-import com.baselet.gwt.client.newclasses.ElementFactory;
+import com.baselet.gwt.client.element.ElementFactory;
+import com.baselet.gwt.client.view.DrawPanelCanvas;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.DOMException;
 import com.google.gwt.xml.client.Document;

@@ -1,4 +1,4 @@
-package com.baselet.gwt.client.newclasses;
+package com.baselet.gwt.client.element;
 
 import java.util.Arrays;
 import java.util.Iterator;

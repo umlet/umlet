@@ -13,7 +13,7 @@ public class Utils {
 	}
 
 	public static String getProgramnameLowerCase() {
-		return "umlet";
+		return "umlet_web";
 	}
 
 	public static String getProgramVersion() {
