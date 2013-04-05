@@ -242,7 +242,13 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 	 */
 	public final native void setLineDash(Context2d ctx, float dash) /*-{
 	    if (ctx.setLineDash !== undefined) ctx.setLineDash([dash]);
-		if (ctx.mozDash !== undefined) ctx.mozDash = [dash];
+		if (ctx.mozDash !== undefined) {
+			if (dash != 0) {
+				ctx.mozDash = [dash];
+			} else { // default is null
+				ctx.mozDash = null;
+			}
+		}
   	}-*/;
 
 }
