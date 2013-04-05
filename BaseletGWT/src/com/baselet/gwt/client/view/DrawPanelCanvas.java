@@ -11,9 +11,11 @@ import com.baselet.gwt.client.EventBus.PropertiesTextChanged.PropertiesTextChang
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.element.GwtCanvasElementImpl;
 import com.baselet.gwt.client.view.MouseDragUtils.MouseDragHandler;
+import com.baselet.gwt.client.view.OwnTextArea.InstantValueChangeHandler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.user.client.ui.HasValue;
 
 public class DrawPanelCanvas {
 
@@ -28,19 +30,18 @@ public class DrawPanelCanvas {
 
 	private Canvas backgroundCanvas;
 	
-	private EventBus eventBus = EventBus.getInstance();
-	
 	private SelectorNew selector = new SelectorNew();
 	
-	public DrawPanelCanvas() {
+	public DrawPanelCanvas(final OwnTextArea propertiesPanel) {
 		elementCanvas = Canvas.createIfSupported();
 		backgroundCanvas = Canvas.createIfSupported();
-		
-		eventBus.addHandler(PropertiesTextChanged.TYPE, new PropertiesTextChangedEventHandler() {
+
+		propertiesPanel.addInstantValueChangeHandler(new InstantValueChangeHandler() {
 			@Override
-			public void onPropertiesTextChange(PropertiesTextChanged event) {
-				for (GridElement ge : gridElements) {
-					ge.setPanelAttributes(event.getPropertiesText());
+			public void onValueChange(String value) {
+				GridElement singleSelected = getSelector().getSingleSelected();
+				if (singleSelected != null) {
+					singleSelected.setPanelAttributes(value);
 				}
 			}
 		});
@@ -56,6 +57,12 @@ public class DrawPanelCanvas {
 					gridElement.setLocationDifference(diffX, diffY);
 				}
 				draw();
+			}
+
+			@Override
+			public void onMouseDown(GridElement element) {
+				selector.singleSelect(element);
+				propertiesPanel.setValue(element.getPanelAttributes());
 			}
 		});
 
@@ -144,9 +151,8 @@ public class DrawPanelCanvas {
 	public List<GridElement> getGridElements() {
 		return gridElements;
 	}
-	
+
 	public SelectorNew getSelector() {
 		return selector;
 	}
-
 }

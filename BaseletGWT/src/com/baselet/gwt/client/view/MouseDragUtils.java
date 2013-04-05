@@ -22,6 +22,7 @@ public class MouseDragUtils {
 
 	public interface MouseDragHandler {
 		void onMouseDrag(int diffX, int diffY, GridElement gridElement);
+		void onMouseDown(GridElement gridElement);
 	}
 
 	public static void addMouseDragHandler(final DrawPanelCanvas drawPanelCanvas, final MouseDragHandler mouseDragHandler) {
@@ -35,7 +36,7 @@ public class MouseDragUtils {
 				storage.dragging = true;
 				storage.elementToDrag = drawPanelCanvas.getGridElementOnPosition(storage.moveStartX, storage.moveStartY);
 				if (storage.elementToDrag != null) {
-					drawPanelCanvas.getSelector().singleSelect(storage.elementToDrag);
+					mouseDragHandler.onMouseDown(storage.elementToDrag);
 				}
 			}
 		});
