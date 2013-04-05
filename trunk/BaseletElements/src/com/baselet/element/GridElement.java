@@ -7,6 +7,7 @@ import com.baselet.diagram.draw.geom.DimensionFloat;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.ComponentInterface;
+import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
 public interface GridElement {
@@ -77,4 +78,6 @@ public interface GridElement {
 	Integer getLayer();
 
 	void handleAutoresize(DimensionFloat necessaryElementDimension);
+	
+	ElementId getId();
 }

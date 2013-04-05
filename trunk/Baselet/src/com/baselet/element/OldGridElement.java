@@ -31,6 +31,7 @@ import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.ComponentInterface;
+import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
 public abstract class OldGridElement extends JComponent implements GridElement, ComponentInterface {
@@ -464,6 +465,11 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public void handleAutoresize(DimensionFloat necessaryElementDimension) {
 		/* not possible on OldGridElement */
+	}
+	
+	@Override
+	public ElementId getId() {
+		return null;
 	}
 
 }

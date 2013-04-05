@@ -17,7 +17,10 @@ import com.umlet.element.experimental.ElementId;
 
 public class OwnXMLParser {
 
+	private static final String NEWLINE_XML_ENCODED = "&#10;";
+	
 	private static final String ELEMENT = "element";
+	private static final String ZOOM_LEVEL = "zoom_level";
 	private static final String ID = "id";
 	private static final String COORDINATES = "coordinates";
 	private static final String X = "x";
@@ -43,6 +46,7 @@ public class OwnXMLParser {
 					int w = Integer.valueOf(coordinates.getElementsByTagName(W).item(0).getFirstChild().getNodeValue());
 					int h = Integer.valueOf(coordinates.getElementsByTagName(H).item(0).getFirstChild().getNodeValue());
 					String panelAttributes = element.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild().getNodeValue();
+					panelAttributes = panelAttributes.replace(NEWLINE_XML_ENCODED, "\n");
 					
 					String additionalPanelAttributes = "";
 					Node additionalAttrNode = element.getElementsByTagName(ADDITIONAL_ATTRIBUTES).item(0);
@@ -60,7 +64,7 @@ public class OwnXMLParser {
 	public static String createXml(DrawPanelCanvas drawPanelCanvas) {
 		Document doc = XMLParser.createDocument();
 
-		Element zoomElement = doc.createElement("zoom");
+		Element zoomElement = doc.createElement(ZOOM_LEVEL);
 		zoomElement.appendChild(doc.createTextNode("10"));
 		
 		Element diagramElement = doc.createElement("diagram");
@@ -86,11 +90,11 @@ public class OwnXMLParser {
 			coordinates.appendChild(h);
 			
 			Element id = doc.createElement(ID);
-			String id2 = "id_of_element"; // ge.getId(); TODO Replace with real id
-			id.appendChild(doc.createTextNode(id2));
+			id.appendChild(doc.createTextNode(ge.getId().toString()));
 
 			Element panelAttributes = doc.createElement(PANEL_ATTRIBUTES);
-			panelAttributes.appendChild(doc.createTextNode(ge.getPanelAttributes()));
+			String panelText = ge.getPanelAttributes().replace("\n", NEWLINE_XML_ENCODED);
+			panelAttributes.appendChild(doc.createTextNode(panelText));
 
 			Element additionalPanelAttributes = doc.createElement(ADDITIONAL_ATTRIBUTES);
 			additionalPanelAttributes.appendChild(doc.createTextNode(ge.getAdditionalAttributes()));
