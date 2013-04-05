@@ -26,7 +26,7 @@ public class NewGridElementJComponent extends JComponent implements ComponentInt
 	public void paint(Graphics g) {
 		drawer.setGraphics(g);
 		metaDrawer.setGraphics(g);
-		drawer.drawAll(gridElement.isSelected);
+		drawer.drawAll(gridElement.isSelected());
 		metaDrawer.drawAll();
 	}
 
@@ -71,11 +71,6 @@ public class NewGridElementJComponent extends JComponent implements ComponentInt
 	@Override
 	public void setBoundsRect(Rectangle rect) {
 		this.setBounds(rect.x, rect.y, rect.width, rect.height);
-	}
-
-	@Override
-	public void afterModelUpdate() {
-		/*do nothing*/
 	}
 
 }

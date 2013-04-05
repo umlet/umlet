@@ -30,13 +30,13 @@ public abstract class NewGridElement implements GridElement {
 	private BaseDrawHandler drawer; // this is the drawer for element specific stuff
 	private BaseDrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
 
-	protected boolean isSelected = false;
+	private boolean selected = false;
 
 	private GroupGridElement group = null;
 
 	private Properties properties;
 
-	protected ComponentInterface component;
+	private ComponentInterface component;
 
 	private DrawHandlerInterface handler;
 	
@@ -67,7 +67,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public boolean isSelected() {
-		return isSelected;
+		return selected;
 	}
 
 	@Override
@@ -87,19 +87,12 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void onDeselected() {
-		isSelected = false;
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 		updateMetaDrawer(metaDrawer);
 		this.repaint();
 	}
-
-	@Override
-	public void onSelected() {
-		isSelected = true;
-		updateMetaDrawer(metaDrawer);
-		this.repaint();
-	}
-
+	
 	/**
 	 * ugly workaround to avoid that the Resize().execute() call which calls setSize() on this model updates the model during the
 	 * calculated model update from autoresize. Otherwise the drawer cache would get messed up (it gets cleaned up 2 times in a row and afterwards everything gets drawn 2 times).
@@ -120,14 +113,13 @@ public abstract class NewGridElement implements GridElement {
 			handler.updateLayer(this);
 		}
 		this.autoresizePossiblyInProgress = false;
-		component.afterModelUpdate();
 	}
 
 	protected abstract void updateConcreteModel(BaseDrawHandler drawer, Properties properties);
 
 	protected void updateMetaDrawer(BaseDrawHandler drawer) {
 		drawer.clearCache();
-		if (isSelected) { // draw blue rectangle around selected gridelements
+		if (selected) { // draw blue rectangle around selected gridelements
 			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 			drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 			drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);

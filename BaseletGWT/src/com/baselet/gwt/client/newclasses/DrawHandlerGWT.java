@@ -7,6 +7,7 @@ import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.DrawFunction;
 import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -132,7 +133,8 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
-				ctx.setFillStyle(Converter.convert(styleAtDrawingCall.getFgColor()));
+				ColorOwn fgColor = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : styleAtDrawingCall.getFgColor();
+				ctx.setFillStyle(Converter.convert(fgColor));
 				drawTextHelper(text, x, y);
 			}
 		});
@@ -201,7 +203,9 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 
 	private void setStyle(Context2d ctx, Style style) {
 		ctx.setFillStyle(Converter.convert(style.getBgColor()));
-		ctx.setStrokeStyle(Converter.convert(style.getFgColor()));
+		ColorOwn fgColor = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
+		System.out.println(fgColor + "/" + getOverlay().getFgColor());
+		ctx.setStrokeStyle(Converter.convert(fgColor));
 		ctx.setLineWidth(style.getLineThickness());
 		setLineDash(ctx, style.getLineType(), style.getLineThickness());
 

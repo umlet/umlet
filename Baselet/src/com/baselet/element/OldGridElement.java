@@ -161,17 +161,14 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public void onSelected() {
-		isSelected = true;
-		fgColor = Converter.convert(ColorOwn.SELECTION_FG);
-		this.repaint();
-	}
-
-	@Override
-	public void onDeselected() {
-		isSelected = false;
-		fgColor = fgColorBase;
-		this.setStickingBorderActive(true);
+	public void setSelected(boolean selected) {
+		isSelected = selected;
+		if (selected) {
+			fgColor = Converter.convert(ColorOwn.SELECTION_FG);
+		} else {
+			fgColor = fgColorBase;
+			this.setStickingBorderActive(true);
+		}
 		this.repaint();
 	}
 
@@ -462,11 +459,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public void repaint() {
 		super.repaint();
-	}
-
-	@Override
-	public void afterModelUpdate() {
-		/* do nothing */
 	}
 	
 	@Override

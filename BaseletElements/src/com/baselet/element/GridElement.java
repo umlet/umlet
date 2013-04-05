@@ -25,9 +25,7 @@ public interface GridElement {
 
 	void setLocationDifference(int diffx, int diffy);
 
-	void onDeselected();
-
-	void onSelected();
+	void setSelected(boolean selected);
 
 	GroupGridElement getGroup();
 

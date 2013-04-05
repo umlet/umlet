@@ -119,17 +119,10 @@ public class Group extends OldGridElement implements GroupGridElement {
 	}
 
 	@Override
-	public void onDeselected() {
-		super.onDeselected();
+	public void setSelected(boolean selected) {
+		super.setSelected(selected);
 		for (GridElement e : this.entities)
-			e.onDeselected();
-	}
-
-	@Override
-	public void onSelected() {
-		super.onSelected();
-		for (GridElement e : this.entities)
-			e.onSelected();
+			e.setSelected(selected);
 	}
 
 	public void adjustSize(boolean recursive) {
