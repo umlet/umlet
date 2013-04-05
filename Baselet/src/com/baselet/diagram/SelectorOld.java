@@ -1,6 +1,7 @@
 package com.baselet.diagram;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -8,12 +9,13 @@ import com.baselet.control.Main;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.baselet.element.Selector;
 import com.umlet.custom.CustomElement;
 
 
-public class Selector {
+public class SelectorOld implements Selector {
 
-	private static Selector currentSelector;// to determin what selector is active right now (to set that element blue)
+	private static SelectorOld currentSelector;// to determin what selector is active right now (to set that element blue)
 
 	private GridElement dominantEntity;
 	private Vector<GridElement> selectedEntities = new Vector<GridElement>();
@@ -25,7 +27,12 @@ public class Selector {
 		return selectedEntities;
 	}
 
-	public Selector(DrawPanel panel) {
+	@Override
+	public boolean isSelected(GridElement ge) {
+		return selectedEntities.contains(ge);
+	}
+
+	public SelectorOld(DrawPanel panel) {
 		this.panel = panel;
 		this._selectorframeactive = false;
 		this._selectorframe = new SelectorFrame();
@@ -57,12 +64,7 @@ public class Selector {
 	}
 
 	public void deselectAll() {
-		for (GridElement e : this.selectedEntities)
-			e.setSelected(false);
-
-		dominantEntity = null;
-		selectedEntities.clear();
-		updateSelectorInformation();
+		deselect(selectedEntities.toArray(new GridElement[selectedEntities.size()]));
 	}
 
 	// needed for custom element exchange
@@ -81,10 +83,9 @@ public class Selector {
 		selectedEntities.clear();
 	}
 
-	public void select(GridElement e) {
-		List<GridElement> v = new ArrayList<GridElement>();
-		v.add(e);
-		handleSelect(v);
+	@Override
+	public void select(GridElement ... elements) {
+		handleSelect(Arrays.asList(elements));
 	}
 
 	public void select(List<GridElement> entities) {
@@ -98,17 +99,23 @@ public class Selector {
 	private void handleSelect(List<GridElement> entities) {
 		for (GridElement e : entities) {
 			if (selectedEntities.contains(e) || e.isPartOfGroup()) continue;
-			e.setSelected(true);
 			selectedEntities.add(e);
+			e.setSelected(true);
 		}
 		updateSelectorInformation();
 	}
 
-	public void deselect(GridElement e) {
-		if (selectedEntities.contains(e)) {
-			selectedEntities.removeElement(e);
-			e.setSelected(false);
-			updateSelectorInformation();
+	@Override
+	public void deselect(GridElement ... elements) {
+		for (GridElement e : elements) {
+			Iterator<GridElement> iter = selectedEntities.iterator();
+			while (iter.hasNext()) {
+				if (iter.next().equals(e)) {
+					iter.remove();
+					e.setSelected(false);
+					updateSelectorInformation();
+				}
+			}
 		}
 	}
 

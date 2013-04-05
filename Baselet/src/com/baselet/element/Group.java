@@ -13,7 +13,7 @@ import java.util.Vector;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.Selector;
+import com.baselet.diagram.SelectorOld;
 import com.baselet.diagram.command.AddElement;
 
 
@@ -32,7 +32,7 @@ public class Group extends OldGridElement implements GroupGridElement {
 	 */
 	public void group(Vector<GridElement> ents) {
 		if (ents.isEmpty()) return;
-		Selector s = Main.getHandlerForElement(ents.get(0)).getDrawPanel().getSelector();
+		SelectorOld s = Main.getHandlerForElement(ents.get(0)).getDrawPanel().getSelector();
 
 		this.entities.clear();
 		for (Iterator<GridElement> it = ents.iterator(); it.hasNext();)
@@ -119,7 +119,7 @@ public class Group extends OldGridElement implements GroupGridElement {
 	}
 
 	@Override
-	public void setSelected(boolean selected) {
+	public void setSelected(Boolean selected) {
 		super.setSelected(selected);
 		for (GridElement e : this.entities)
 			e.setSelected(selected);

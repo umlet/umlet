@@ -15,7 +15,7 @@ import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
-import com.baselet.diagram.Selector;
+import com.baselet.diagram.SelectorOld;
 import com.baselet.diagram.command.Align;
 import com.baselet.diagram.command.ChangeElementSetting;
 import com.baselet.diagram.command.Copy;
@@ -99,7 +99,7 @@ public class MenuFactory {
 				BaseGUI gui = main.getGUI();
 				DiagramHandler diagramHandler = gui.getCurrentDiagram().getHandler();
 				DiagramHandler actualHandler = main.getDiagramHandler();
-				Selector actualSelector = actualHandler == null ? null : actualHandler.getDrawPanel().getSelector();
+				SelectorOld actualSelector = actualHandler == null ? null : actualHandler.getDrawPanel().getSelector();
 				
 				if (menuItem.equals(NEW)) {
 					main.doNew();

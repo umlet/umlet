@@ -1,7 +1,7 @@
 package com.baselet.diagram.command;
 
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.Selector;
+import com.baselet.diagram.SelectorOld;
 
 public abstract class Command {
 
@@ -11,7 +11,7 @@ public abstract class Command {
 
 	public void undo(DiagramHandler handler) {
 		if (handler != null) {
-			Selector selector = handler.getDrawPanel().getSelector();
+			SelectorOld selector = handler.getDrawPanel().getSelector();
 			if (selector != null) {
 				selector.deselectAll();
 			}

@@ -8,6 +8,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
+import com.baselet.element.Selector;
 
 public class ElementFactory {
 
@@ -28,7 +29,7 @@ public class ElementFactory {
 				Main.getHandlerForElement(returnObj).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 			}
 			@Override
-			public void updateLayer(NewGridElement newGridElement) {
+			public void updateLayer() {
 				Main.getHandlerForElement(returnObj).getDrawPanel().setLayer((Component) returnObj.getComponent(), returnObj.getLayer());
 			}
 			@Override
@@ -40,18 +41,22 @@ public class ElementFactory {
 				return Utils.displaceDrawingByOnePixel();
 			}
 			@Override
-			public GridElement clone(GridElement gridElement) {
-				NewGridElement old = (NewGridElement) gridElement;
+			public GridElement clone() {
+				NewGridElement old = returnObj;
 				return create(old.getId(), old.getRectangle(), old.getPanelAttributes(), old.getAdditionalAttributes(), Main.getHandlerForElement(old));
 			}
 			@Override
-			public void Resize(GridElement element, float diffw, float diffh) {
+			public void Resize(float diffw, float diffh) {
 				float diffwInCurrentZoom = diffw * getZoomFactor();
 				float diffhInCurrentZoom = diffh * getZoomFactor();
-				int diffwRealigned = Main.getHandlerForElement(element).realignToGrid(false, diffwInCurrentZoom, true);
-				int diffhRealigned = Main.getHandlerForElement(element).realignToGrid(false, diffhInCurrentZoom, true);
+				int diffwRealigned = Main.getHandlerForElement(returnObj).realignToGrid(false, diffwInCurrentZoom, true);
+				int diffhRealigned = Main.getHandlerForElement(returnObj).realignToGrid(false, diffhInCurrentZoom, true);
 				// use resize command to move sticked relations correctly with the element
-				new Resize(element, 0, 0, diffwRealigned, diffhRealigned).execute(Main.getHandlerForElement(element));
+				new Resize(returnObj, 0, 0, diffwRealigned, diffhRealigned).execute(Main.getHandlerForElement(returnObj));
+			}
+			@Override
+			public Selector getSelector() {
+				return Main.getHandlerForElement(returnObj).getDrawPanel().getSelector();
 			}
 		};
 

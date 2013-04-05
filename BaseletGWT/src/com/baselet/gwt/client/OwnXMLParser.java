@@ -30,7 +30,7 @@ public class OwnXMLParser {
 	private static final String PANEL_ATTRIBUTES = "panel_attributes";
 	private static final String ADDITIONAL_ATTRIBUTES = "additional_attributes";
 
-	public static List<GridElement> parse(String xml) {
+	public static void parseAndInsertDiagram(String xml, DrawPanelCanvas handler) {
 		List<GridElement> returnList = new ArrayList<GridElement>();
 		  try {
 			    // parse the XML document into a DOM
@@ -53,12 +53,12 @@ public class OwnXMLParser {
 					if (additionalAttrNode != null && additionalAttrNode.getFirstChild() != null) {
 						additionalPanelAttributes = additionalAttrNode.getFirstChild().getNodeValue();
 					}
-					returnList.add(ElementFactory.create(id, new com.baselet.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes, additionalPanelAttributes));
+					returnList.add(ElementFactory.create(id, new com.baselet.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes, additionalPanelAttributes, handler.getSelector()));
 				}
 			  } catch (DOMException e) {
 			    Window.alert("Could not parse XML document.");
 			  }
-		  return returnList;
+			handler.setGridElements(returnList);
 	}
 
 	public static String createXml(DrawPanelCanvas drawPanelCanvas) {

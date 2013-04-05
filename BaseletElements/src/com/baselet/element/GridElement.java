@@ -16,6 +16,8 @@ public interface GridElement {
 
 	boolean isSelected();
 
+	void setSelected(Boolean selected);
+
 	void setPanelAttributes(String panelAttributes);
 
 	void setRectangle(Rectangle bounds);
@@ -25,8 +27,6 @@ public interface GridElement {
 	GridElement CloneFromMe();
 
 	void setLocationDifference(int diffx, int diffy);
-
-	void setSelected(boolean selected);
 
 	GroupGridElement getGroup();
 

@@ -1,10 +1,11 @@
 package com.umlet.element.experimental;
 
 import com.baselet.element.GridElement;
+import com.baselet.element.Selector;
 
 public interface DrawHandlerInterface {
 
-	void updateLayer(NewGridElement newGridElement);
+	void updateLayer();
 
 	void updatePropertyPanel();
 
@@ -12,8 +13,10 @@ public interface DrawHandlerInterface {
 	
 	boolean displaceDrawingByOnePixel();
 	
-	GridElement clone(GridElement gridElement);
+	GridElement clone();
 	
-	void Resize(GridElement gridElement, float diffw, float diffh);
+	void Resize(float diffw, float diffh);
+
+	Selector getSelector();
 
 }

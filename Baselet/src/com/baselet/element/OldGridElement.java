@@ -162,7 +162,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public void setSelected(boolean selected) {
+	public void setSelected(Boolean selected) {
 		isSelected = selected;
 		if (selected) {
 			fgColor = Converter.convert(ColorOwn.SELECTION_FG);

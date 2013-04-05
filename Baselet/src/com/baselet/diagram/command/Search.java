@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
-import com.baselet.diagram.Selector;
+import com.baselet.diagram.SelectorOld;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
@@ -27,7 +27,7 @@ public class Search extends Command {
 	@Override
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
-		Selector s = handler.getDrawPanel().getSelector();
+		SelectorOld s = handler.getDrawPanel().getSelector();
 		s.deselectAll();
 		DrawPanel d = handler.getDrawPanel();
 		pattern = Pattern.compile(regex);

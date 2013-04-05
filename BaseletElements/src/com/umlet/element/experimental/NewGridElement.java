@@ -30,8 +30,6 @@ public abstract class NewGridElement implements GridElement {
 	private BaseDrawHandler drawer; // this is the drawer for element specific stuff
 	private BaseDrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
 
-	private boolean selected = false;
-
 	private GroupGridElement group = null;
 
 	private Properties properties;
@@ -67,7 +65,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public boolean isSelected() {
-		return selected;
+		return handler.getSelector().isSelected(this);
 	}
 
 	@Override
@@ -83,14 +81,17 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public GridElement CloneFromMe() {
-		return handler.clone(this);
+		return handler.clone();
 	}
-
+	
+	/**
+	 * "selected" variable is only used in OldGridElement.
+	 * NewGridElement directly accesses Selector (to avoid saving redundant information) and uses this method call only to update metadrawer and redraw (for selection color)
+	 */
 	@Override
-	public void setSelected(boolean selected) {
-		this.selected = selected;
+	public void setSelected(Boolean selected) {
 		updateMetaDrawer(metaDrawer);
-		this.repaint();
+		repaint();
 	}
 	
 	/**
@@ -110,7 +111,7 @@ public abstract class NewGridElement implements GridElement {
 		updateMetaDrawer(metaDrawer);
 		updateConcreteModel(drawer, properties);
 		if (oldLayer != null && !oldLayer.equals(getLayer())) {
-			handler.updateLayer(this);
+			handler.updateLayer();
 		}
 		this.autoresizePossiblyInProgress = false;
 	}
@@ -119,7 +120,7 @@ public abstract class NewGridElement implements GridElement {
 
 	protected void updateMetaDrawer(BaseDrawHandler drawer) {
 		drawer.clearCache();
-		if (selected) { // draw blue rectangle around selected gridelements
+		if (isSelected()) { // draw blue rectangle around selected gridelements
 			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 			drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 			drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
@@ -317,7 +318,7 @@ public abstract class NewGridElement implements GridElement {
 		float height = necessaryElementDimension.getHeight() + drawer.textHeight()/2;
 		float diffw = width-getRealSize().width;
 		float diffh = height-getRealSize().height;
-		handler.Resize(this, diffw, diffh);
+		handler.Resize(diffw, diffh);
 	}
 
 }

@@ -5,7 +5,7 @@ package com.baselet.diagram.command;
 import java.util.Vector;
 
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.Selector;
+import com.baselet.diagram.SelectorOld;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 
@@ -29,7 +29,7 @@ public class UnGroup extends Command {
 	@Override
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
-		Selector s = handler.getDrawPanel().getSelector();
+		SelectorOld s = handler.getDrawPanel().getSelector();
 		if (s == null) return;
 		s.deselectAll();
 		handler.setHandlerAndInitListeners(_group);
