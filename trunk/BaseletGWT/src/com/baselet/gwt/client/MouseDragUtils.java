@@ -33,6 +33,9 @@ public class MouseDragUtils {
 				storage.moveStartY = event.getY();
 				storage.dragging = true;
 				storage.elementToDrag = drawPanelCanvas.getGridElementOnPosition(storage.moveStartX, storage.moveStartY);
+				if (storage.elementToDrag != null) {
+					storage.elementToDrag.setSelected(!storage.elementToDrag.isSelected());
+				}
 			}
 		});
 		drawPanelCanvas.getCanvas().addMouseUpHandler(new MouseUpHandler() {

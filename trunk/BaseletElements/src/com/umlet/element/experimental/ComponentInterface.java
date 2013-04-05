@@ -9,5 +9,4 @@ public interface ComponentInterface {
 	void repaintComponent();
 	BaseDrawHandler getDrawHandler();
 	BaseDrawHandler getMetaDrawHandler();
-	void afterModelUpdate();
 }

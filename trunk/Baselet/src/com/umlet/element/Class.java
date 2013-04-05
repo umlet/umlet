@@ -212,8 +212,7 @@ public class Class extends OldGridElement {
 				int height = innerLines * (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts()
 						+ (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * --innerLines;
 
-				if (this.isSelected()) temp.onSelected();
-				else temp.onDeselected();
+				temp.setSelected(this.isSelected());
 
 				temp.setLocation(5, yPos);
 

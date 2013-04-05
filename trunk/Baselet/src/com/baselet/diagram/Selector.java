@@ -58,7 +58,7 @@ public class Selector {
 
 	public void deselectAll() {
 		for (GridElement e : this.selectedEntities)
-			e.onDeselected();
+			e.setSelected(false);
 
 		dominantEntity = null;
 		selectedEntities.clear();
@@ -69,14 +69,14 @@ public class Selector {
 	public void singleSelectWithoutUpdatePropertyPanel(GridElement e) {
 		deselectAllWithoutUpdatePropertyPanel();
 		selectedEntities.add(e);
-		e.onSelected();
+		e.setSelected(true);
 		if (Main.getInstance().getGUI() != null) updateGUIInformation();
 		Main.getInstance().setPropertyPanelToCustomElement(e);
 	}
 
 	public void deselectAllWithoutUpdatePropertyPanel() {
 		for (GridElement e : this.selectedEntities)
-			e.onDeselected();
+			e.setSelected(false);
 		dominantEntity = null;
 		selectedEntities.clear();
 	}
@@ -98,7 +98,7 @@ public class Selector {
 	private void handleSelect(List<GridElement> entities) {
 		for (GridElement e : entities) {
 			if (selectedEntities.contains(e) || e.isPartOfGroup()) continue;
-			e.onSelected();
+			e.setSelected(true);
 			selectedEntities.add(e);
 		}
 		updateSelectorInformation();
@@ -107,7 +107,7 @@ public class Selector {
 	public void deselect(GridElement e) {
 		if (selectedEntities.contains(e)) {
 			selectedEntities.removeElement(e);
-			e.onDeselected();
+			e.setSelected(false);
 			updateSelectorInformation();
 		}
 	}
@@ -141,14 +141,8 @@ public class Selector {
 	}
 
 	private void setElementsSelected(boolean selected) {
-		if (selected) {
-			for (GridElement e : this.selectedEntities)
-				e.onSelected();
-		}
-		else {
-			for (GridElement e : this.selectedEntities)
-				e.onDeselected();
-		}
+		for (GridElement e : this.selectedEntities)
+			e.setSelected(selected);
 	}
 
 	public void singleSelect(GridElement e) {

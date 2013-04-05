@@ -1,10 +1,8 @@
 package com.baselet.gwt.client.newclasses;
 
-import com.baselet.control.NewGridElementConstants;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.GridElement;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -15,8 +13,10 @@ public class GwtCanvasElementImpl implements ComponentInterface {
 	boolean redrawNecessary = true;
 	
 	private Canvas canvas = Canvas.createIfSupported();
-
 	private DrawHandlerGWT drawer = new DrawHandlerGWT(canvas);
+
+	private Canvas metaCanvas = Canvas.createIfSupported();
+	private DrawHandlerGWT metadrawer = new DrawHandlerGWT(metaCanvas);
 
 	private GridElement element;
 	
@@ -39,6 +39,7 @@ public class GwtCanvasElementImpl implements ComponentInterface {
 
 	@Override
 	public void repaintComponent() {
+		redrawNecessary = true;
 	}
 
 	@Override
@@ -48,24 +49,19 @@ public class GwtCanvasElementImpl implements ComponentInterface {
 
 	@Override
 	public BaseDrawHandler getMetaDrawHandler() {
-		return drawer;
+		return metadrawer;
 	}
 
 	public void drawOn(Context2d context) {
 		if (redrawNecessary) {
 			redrawNecessary = false;
 			drawer.clearCanvas();
-			drawer.drawAll();
+			drawer.drawAll(element.isSelected());
+			metadrawer.clearCanvas();
+			metadrawer.drawAll(element.isSelected());
 		}
 		context.drawImage(canvas.getCanvasElement(), element.getRectangle().getX(), element.getRectangle().getY());
-	}
-
-	/**
-	 * every model update triggers redrawing the canvas the next time it is used
-	 */
-	@Override
-	public void afterModelUpdate() {
-		redrawNecessary = true;
+		context.drawImage(metaCanvas.getCanvasElement(), element.getRectangle().getX(), element.getRectangle().getY());
 	}
 
 }
