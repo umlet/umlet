@@ -1,4 +1,4 @@
-package com.baselet.gwt.client.newclasses;
+package com.baselet.gwt.client.element;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
@@ -58,7 +58,7 @@ public class GwtCanvasElementImpl implements ComponentInterface {
 			drawer.clearCanvas();
 			drawer.drawAll(element.isSelected());
 			metadrawer.clearCanvas();
-			metadrawer.drawAll(element.isSelected());
+			metadrawer.drawAll();
 		}
 		context.drawImage(canvas.getCanvasElement(), element.getRectangle().getX(), element.getRectangle().getY());
 		context.drawImage(metaCanvas.getCanvasElement(), element.getRectangle().getX(), element.getRectangle().getY());

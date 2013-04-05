@@ -1,4 +1,4 @@
-package com.baselet.gwt.client.newclasses;
+package com.baselet.gwt.client.element;
 
 import com.baselet.diagram.draw.DrawFunction;
 import com.google.gwt.canvas.client.Canvas;

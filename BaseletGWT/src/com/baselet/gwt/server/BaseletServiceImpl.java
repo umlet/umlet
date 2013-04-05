@@ -1,6 +1,6 @@
 package com.baselet.gwt.server;
 
-import com.baselet.gwt.client.BaseletService;
+import com.baselet.gwt.client.rpc.BaseletService;
 import com.baselet.gwt.shared.FieldVerifier;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

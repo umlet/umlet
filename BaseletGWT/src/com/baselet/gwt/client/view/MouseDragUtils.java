@@ -1,6 +1,7 @@
-package com.baselet.gwt.client;
+package com.baselet.gwt.client.view;
 
 import com.baselet.element.GridElement;
+import com.baselet.gwt.client.Utils;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -34,7 +35,7 @@ public class MouseDragUtils {
 				storage.dragging = true;
 				storage.elementToDrag = drawPanelCanvas.getGridElementOnPosition(storage.moveStartX, storage.moveStartY);
 				if (storage.elementToDrag != null) {
-					storage.elementToDrag.setSelected(!storage.elementToDrag.isSelected());
+					storage.elementToDrag.setSelected(true);
 				}
 			}
 		});

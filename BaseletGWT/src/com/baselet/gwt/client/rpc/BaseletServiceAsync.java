@@ -1,4 +1,4 @@
-package com.baselet.gwt.client;
+package com.baselet.gwt.client.rpc;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
