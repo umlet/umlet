@@ -12,6 +12,7 @@ import com.baselet.diagram.draw.helper.Style;
 import com.baselet.gwt.client.Converter;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 import com.google.gwt.dom.client.CanvasElement;
 
 public class DrawHandlerGWT extends BaseDrawHandler {
@@ -129,14 +130,14 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	public void print(final String text, final float x, final float y, AlignHorizontal align) {
+	public void print(final String text, final float x, final float y, final AlignHorizontal align) {
 		final Style styleAtDrawingCall = style.cloneFromMe();
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
 				ColorOwn fgColor = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : styleAtDrawingCall.getFgColor();
 				ctx.setFillStyle(Converter.convert(fgColor));
-				drawTextHelper(text, x, y);
+				drawTextHelper(text, x, y, align);
 			}
 		});
 	}
@@ -151,7 +152,7 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 		ctx.clearRect(0, 0, el.getWidth(), el.getWidth());
 	}
 
-	private void drawTextHelper(final String text, final float x, final float y) {
+	private void drawTextHelper(final String text, final float x, final float y, AlignHorizontal align) {
 		StringStyle stringStyle = StringStyle.analyseStyle(text);
 		String textToDraw = stringStyle.getStringWithoutMarkup();
 
@@ -166,8 +167,18 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 			ctx.setLineWidth(1.0f);
 			setLineDash(ctx, LineType.SOLID, 1.0f);
 			drawLineHelper(x, y, x + textWidth(textToDraw), y);
-			
 		}
+		
+		TextAlign ctxAlign = null;
+		switch (align) {
+			case LEFT:
+				ctxAlign = TextAlign.LEFT; break;
+			case CENTER:
+				ctxAlign = TextAlign.CENTER; break;
+			case RIGHT:
+				ctxAlign = TextAlign.RIGHT; break;
+		}
+		ctx.setTextAlign(ctxAlign);
 		ctx.setFont(htmlStyle + " 12px sans-serif");
 		ctx.fillText(textToDraw, x, y);
 	}
