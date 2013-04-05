@@ -33,8 +33,7 @@ public class FileOpenHandler {
 					if (readQueue.size() > 0) {
 						try {
 							String result = reader.getStringResult();
-							List<GridElement> gridElements = OwnXMLParser.parse(result);
-							diagramHandler.setGridElements(gridElements);
+							OwnXMLParser.parseAndInsertDiagram(result, diagramHandler);
 						} catch (RuntimeException e) {
 							log.error("Error at loading diagram from file", e);
 						} finally {

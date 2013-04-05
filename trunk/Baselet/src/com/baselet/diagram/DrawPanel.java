@@ -43,7 +43,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 
 	private Point origin;
 	private JScrollPane _scr;
-	private Selector selector;
+	private SelectorOld selector;
 	private DiagramHandler handler;
 
 	private List<GridElement> gridElements = new ArrayList<GridElement>();
@@ -64,7 +64,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 			}
 			this.add(startupHelpText);
 		}
-		this.selector = new Selector(this);
+		this.selector = new SelectorOld(this);
 		JScrollPane p = new JScrollPane() {
 			@Override
 			public void setEnabled(boolean en) {
@@ -224,7 +224,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		return entities;
 	}
 
-	public Selector getSelector() {
+	public SelectorOld getSelector() {
 		return this.selector;
 	}
 

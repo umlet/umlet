@@ -9,7 +9,7 @@ import com.baselet.control.Main;
 import com.baselet.diagram.Controller;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
-import com.baselet.diagram.Selector;
+import com.baselet.diagram.SelectorOld;
 import com.baselet.diagram.SelectorFrame;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.swing.Converter;
@@ -19,7 +19,7 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 
 	protected DiagramHandler handler;
 	protected DrawPanel diagram;
-	public Selector selector;
+	public SelectorOld selector;
 	protected Controller controller;
 
 	protected UniversalListener(DiagramHandler handler) {

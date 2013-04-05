@@ -3,7 +3,7 @@ package com.baselet.diagram.command;
 import com.baselet.control.Main;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.Selector;
+import com.baselet.diagram.SelectorOld;
 import com.baselet.element.GridElement;
 import com.baselet.gui.OwnSyntaxPane;
 
@@ -46,7 +46,7 @@ public class CustomCodePropertyChanged extends Command {
 
 		//select grid element if nothing is selected
 		if (gridElement == null) {
-			Selector selector = Main.getInstance().getGUI().getCurrentCustomHandler().getPreviewHandler().getDrawPanel().getSelector();
+			SelectorOld selector = Main.getInstance().getGUI().getCurrentCustomHandler().getPreviewHandler().getDrawPanel().getSelector();
 			selector.selectAll();
 			if (selector.getSelectedEntities().size() >= 1) {
 				gridElement = selector.getSelectedEntities().firstElement();
@@ -76,7 +76,7 @@ public class CustomCodePropertyChanged extends Command {
 
 		//select grid element
 		if (gridElement == null) {
-			Selector selector = Main.getInstance().getGUI().getCurrentCustomHandler().getPreviewHandler().getDrawPanel().getSelector();
+			SelectorOld selector = Main.getInstance().getGUI().getCurrentCustomHandler().getPreviewHandler().getDrawPanel().getSelector();
 			selector.selectAll();
 			if (selector.getSelectedEntities().size() >= 1) {
 				gridElement = selector.getSelectedEntities().firstElement();

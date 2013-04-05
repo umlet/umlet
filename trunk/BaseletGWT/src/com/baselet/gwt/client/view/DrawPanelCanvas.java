@@ -30,6 +30,8 @@ public class DrawPanelCanvas {
 	
 	private EventBus eventBus = EventBus.getInstance();
 	
+	private SelectorNew selector = new SelectorNew();
+	
 	public DrawPanelCanvas() {
 		elementCanvas = Canvas.createIfSupported();
 		backgroundCanvas = Canvas.createIfSupported();
@@ -94,7 +96,7 @@ public class DrawPanelCanvas {
 
 	}
 
-	public Canvas getCanvas() {
+	Canvas getCanvas() {
 		return elementCanvas;
 	}
 
@@ -141,6 +143,10 @@ public class DrawPanelCanvas {
 
 	public List<GridElement> getGridElements() {
 		return gridElements;
+	}
+	
+	public SelectorNew getSelector() {
+		return selector;
 	}
 
 }
