@@ -40,7 +40,7 @@ public class Relation extends NewGridElement {
 	protected void updateMetaDrawer(BaseDrawHandler drawer) {
 		drawer.clearCache();
 		if (isSelected) {
-			drawer.setForegroundColor(ColorOwn.BLUE);
+			drawer.setForegroundColor(ColorOwn.SELECTION_FG);
 			// draw selection circles
 			for (Point p : points) {
 				drawer.drawCircle(p.x, p.y, SELECTCIRCLERADIUS);
