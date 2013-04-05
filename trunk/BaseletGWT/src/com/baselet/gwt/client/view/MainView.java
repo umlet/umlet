@@ -19,6 +19,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
@@ -67,11 +68,11 @@ public class MainView extends Composite {
 	
 	private EventBus eventBus = EventBus.getInstance();
 
-	private DrawPanelCanvas diagramHandler = new DrawPanelCanvas();
-	private AutoResizeScrollDropPanel diagramScrollPanel = new AutoResizeScrollDropPanel(diagramHandler);
+	private DrawPanelCanvas diagramHandler;
+	private AutoResizeScrollDropPanel diagramScrollPanel;
 
-	private DrawPanelCanvas paletteHandler = new DrawPanelCanvas();
-	private AutoResizeScrollDropPanel paletteScrollPanel = new AutoResizeScrollDropPanel(paletteHandler);
+	private DrawPanelCanvas paletteHandler;
+	private AutoResizeScrollDropPanel paletteScrollPanel;
 	
 	private FileUploadExt hiddenUploadButton = new FileUploadExt();
 	private FileOpenHandler handler;
@@ -84,12 +85,10 @@ public class MainView extends Composite {
 	
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
-		propertiesPanel.addInstantValueChangeHandler(new InstantValueChangeHandler() {
-			@Override
-			public void onValueChange(String value) {
-				eventBus.fireEvent(new EventBus.PropertiesTextChanged(value));
-			}
-		});
+		diagramHandler = new DrawPanelCanvas(propertiesPanel);
+		diagramScrollPanel = new AutoResizeScrollDropPanel(diagramHandler);
+		paletteHandler = new DrawPanelCanvas(propertiesPanel);
+		paletteScrollPanel = new AutoResizeScrollDropPanel(paletteHandler);
 		
 		log.trace("Main View initialized");
 

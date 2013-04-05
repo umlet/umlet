@@ -1,5 +1,8 @@
 package com.baselet.gwt.client.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -10,7 +13,7 @@ import com.google.gwt.user.client.ui.TextArea;
 
 public class OwnTextArea extends TextArea {
 
-	private InstantValueChangeHandler handler;
+	private List<InstantValueChangeHandler> handlers = new ArrayList<InstantValueChangeHandler>();
 
 	public OwnTextArea() {
 		super();
@@ -18,7 +21,7 @@ public class OwnTextArea extends TextArea {
 		this.addKeyUpHandler(new KeyUpHandler() {
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
-				if (handler != null) {
+				for (InstantValueChangeHandler handler : handlers) {
 					handler.onValueChange(getText());
 				}
 			}
@@ -32,7 +35,7 @@ public class OwnTextArea extends TextArea {
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 				@Override
 				public void execute() {
-					if (handler != null) {
+					for (InstantValueChangeHandler handler : handlers) {
 						handler.onValueChange(getText());
 					}
 				}
@@ -45,7 +48,7 @@ public class OwnTextArea extends TextArea {
 	}
 
 	public void addInstantValueChangeHandler(InstantValueChangeHandler handler) {
-		this.handler = handler;
+		handlers.add(handler);
 	}
 
 }

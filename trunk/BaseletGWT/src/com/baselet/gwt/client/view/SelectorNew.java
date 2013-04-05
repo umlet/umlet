@@ -44,5 +44,12 @@ public class SelectorNew implements Selector {
 		return selectedElements.contains(ge);
 	}
 	
+	public GridElement getSingleSelected() {
+		if (selectedElements.size() == 1) {
+			return selectedElements.get(0);
+		} else {
+			return null;
+		}
+	}
 
 }
