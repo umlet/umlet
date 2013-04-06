@@ -3,6 +3,7 @@ package com.umlet.element.activity;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 
 
@@ -142,8 +143,8 @@ public abstract class Element {
 
 	protected Point getConnect(Direction dir) {
 		Point c = (Point) this.cord.clone();
-		if (dir == Direction.TOP) c.y -= this.getHeight() / 2;
-		else if (dir == Direction.BOTTOM) c.y += this.getHeight() - this.getHeight() / 2;
+		if (dir == Direction.UP) c.y -= this.getHeight() / 2;
+		else if (dir == Direction.DOWN) c.y += this.getHeight() - this.getHeight() / 2;
 		else if (dir == Direction.LEFT) c.x -= this.getLeftWidth();
 		else if (dir == Direction.RIGHT) c.x += this.getRightWidth();
 		return c;

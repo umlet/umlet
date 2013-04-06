@@ -12,6 +12,7 @@ import java.util.Vector;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
@@ -143,7 +144,7 @@ public class Interface extends OldGridElement {
 	}
 
 	@Override
-	public Set<com.baselet.control.enumerations.Direction> getResizeArea(int x, int y) {
-		return new HashSet<com.baselet.control.enumerations.Direction>(); // deny size changes
+	public Set<Direction> getResizeArea(int x, int y) {
+		return new HashSet<Direction>(); // deny size changes
 	}
 }

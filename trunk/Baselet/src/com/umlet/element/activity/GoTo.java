@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 
 import com.baselet.control.Main;
+import com.baselet.control.enumerations.Direction;
 import com.umlet.element.ActivityDiagramText;
 
 public class GoTo {

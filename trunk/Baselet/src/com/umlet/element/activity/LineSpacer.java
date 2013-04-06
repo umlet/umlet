@@ -3,6 +3,7 @@ package com.umlet.element.activity;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 
 
@@ -21,7 +22,7 @@ public class LineSpacer extends WhileElement {
 
 	@Override
 	protected Point getNonStdConnectOut(Direction dir) {
-		return this.getConnect(Direction.BOTTOM);
+		return this.getConnect(Direction.DOWN);
 	}
 
 	@Override

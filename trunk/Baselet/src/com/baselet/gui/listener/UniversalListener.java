@@ -9,8 +9,8 @@ import com.baselet.control.Main;
 import com.baselet.diagram.Controller;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
-import com.baselet.diagram.SelectorOld;
 import com.baselet.diagram.SelectorFrame;
+import com.baselet.diagram.SelectorOld;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.swing.Converter;
 

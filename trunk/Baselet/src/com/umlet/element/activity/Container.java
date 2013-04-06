@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 
 
@@ -146,10 +147,10 @@ public class Container extends Element {
 
 	@Override
 	protected Point getConnect(Direction dir) {
-		if (dir.equals(Direction.TOP)) {
+		if (dir.equals(Direction.UP)) {
 			if (this.start != null) return this.start.getConnect(dir);
 		}
-		if (dir.equals(Direction.BOTTOM)) {
+		if (dir.equals(Direction.DOWN)) {
 			if (this.stop != null) return this.stop.getConnect(dir);
 		}
 		return super.getConnect(dir);

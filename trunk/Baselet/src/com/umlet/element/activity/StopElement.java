@@ -3,6 +3,7 @@ package com.umlet.element.activity;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 
 
@@ -26,8 +27,8 @@ public class StopElement extends Element {
 		if (e != null) {
 			if (this.connectIn() && e.connectOut()) {
 				Point to = this.getPosition();
-				Point from = e.getConnect(Direction.BOTTOM);
-				if (from.x == to.x) to = this.getConnect(Direction.TOP);
+				Point from = e.getConnect(Direction.DOWN);
+				if (from.x == to.x) to = this.getConnect(Direction.UP);
 				else if (from.x < to.x) to = this.getConnect(Direction.LEFT);
 				else if (from.x > to.x) to = this.getConnect(Direction.RIGHT);
 

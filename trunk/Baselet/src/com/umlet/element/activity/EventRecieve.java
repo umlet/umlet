@@ -3,6 +3,7 @@ package com.umlet.element.activity;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 
 
@@ -23,7 +24,7 @@ public class EventRecieve extends Activity {
 	@Override
 	protected Point getNonStdConnectOut(Direction dir) {
 		if (dir.equals(Direction.LEFT)) {
-			Point c = this.getConnect(Direction.BOTTOM);
+			Point c = this.getConnect(Direction.DOWN);
 			Point c2 = this.getConnect(Direction.LEFT);
 			c.x = c2.x + width;
 			this.getGraphics().drawLine(c.x, c.y, c.x, c.y + (int) (3 * getZoom()));

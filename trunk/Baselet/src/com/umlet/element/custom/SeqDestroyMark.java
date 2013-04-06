@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.OldGridElement;
@@ -38,7 +39,7 @@ public class SeqDestroyMark extends OldGridElement {
 	}
 
 	@Override
-	public Set<com.baselet.control.enumerations.Direction> getResizeArea(int x, int y) {
-		return new HashSet<com.baselet.control.enumerations.Direction>(); // deny size changes
+	public Set<Direction> getResizeArea(int x, int y) {
+		return new HashSet<Direction>(); // deny size changes
 	}
 }

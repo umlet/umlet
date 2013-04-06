@@ -3,6 +3,7 @@ package com.umlet.element.activity;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 
 
@@ -14,7 +15,7 @@ public abstract class WhileElement extends Element {
 
 	public void connectTo(StartElement start, StopElement stop) {
 		if (this.connectOut() && start.connectIn()) {
-			Point from = this.getConnect(Direction.TOP);
+			Point from = this.getConnect(Direction.UP);
 			Point to = start.getConnect(Direction.LEFT);
 
 			this.getGraphics().drawLine(from.x, from.y, from.x, to.y);
@@ -23,7 +24,7 @@ public abstract class WhileElement extends Element {
 		}
 
 		if (this.connectIn() && stop.connectOut()) {
-			Point to = this.getConnect(Direction.BOTTOM);
+			Point to = this.getConnect(Direction.DOWN);
 			Point from = stop.getConnect(Direction.LEFT);
 
 			this.getGraphics().drawLine(from.x, from.y, to.x, from.y);
