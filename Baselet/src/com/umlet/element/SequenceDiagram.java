@@ -780,9 +780,9 @@ public class SequenceDiagram extends OldGridElement {
 	}
 
 	@Override
-	public int getPossibleResizeDirections() {
-		return 0;
-	} // deny size changes: dynamic resize is done by the diagram itself
+	public Set<com.baselet.control.enumerations.Direction> getResizeArea(int x, int y) {
+		return new HashSet<com.baselet.control.enumerations.Direction>(); // deny size changes
+	}
 
 	public void zoomValues() {
 

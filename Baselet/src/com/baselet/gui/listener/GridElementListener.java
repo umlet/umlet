@@ -2,6 +2,8 @@ package com.baselet.gui.listener;
 
 import java.awt.Component;
 import java.awt.event.MouseEvent;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.JComponent;
@@ -13,6 +15,7 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.SelectorFrame;
 import com.baselet.diagram.command.AddElement;
@@ -40,7 +43,7 @@ public class GridElementListener extends UniversalListener {
 	protected boolean IS_DRAGGED_FROM_PALETTE = false;
 	protected boolean IS_FIRST_MOVE = false;
 	protected boolean IS_FIRST_DRAGGING_OVER = false;
-	private int RESIZE_DIRECTION = 0;
+	private Set<Direction> RESIZE_DIRECTION = new HashSet<Direction>();
 	private Resize FIRST_RESIZE = null;
 	private Vector<Command> ALL_MOVE_COMMANDS = null;
 	protected boolean DESELECT_MULTISEL = false;
@@ -50,7 +53,7 @@ public class GridElementListener extends UniversalListener {
 	private final int lassoTolerance = 2;
 
 	private Point mousePressedPoint;
-	private int resizeDirection;
+	private Set<Direction> resizeDirection;
 
 	public GridElementListener(DiagramHandler handler) {
 		super(handler);
@@ -90,12 +93,17 @@ public class GridElementListener extends UniversalListener {
 			e.setLocation(me.getX() - 100, me.getY() - 20);
 		}
 		resizeDirection = e.getResizeArea(me.getX(), me.getY());
-		resizeDirection = resizeDirection & e.getPossibleResizeDirections(); // LME
-		if (resizeDirection == 0) Main.getInstance().getGUI().setCursor(Constants.HAND_CURSOR);
-		if ((resizeDirection == Constants.RESIZE_TOP) | (resizeDirection == Constants.RESIZE_BOTTOM)) Main.getInstance().getGUI().setCursor(Constants.TB_CURSOR);
-		if ((resizeDirection == Constants.RESIZE_RIGHT) | (resizeDirection == Constants.RESIZE_LEFT)) Main.getInstance().getGUI().setCursor(Constants.LR_CURSOR);
-		if ((resizeDirection == Constants.RESIZE_TOP_RIGHT) | (resizeDirection == Constants.RESIZE_BOTTOM_LEFT)) Main.getInstance().getGUI().setCursor(Constants.NE_CURSOR);
-		if ((resizeDirection == Constants.RESIZE_BOTTOM_RIGHT) | (resizeDirection == Constants.RESIZE_TOP_LEFT)) Main.getInstance().getGUI().setCursor(Constants.NW_CURSOR);
+		if (resizeDirection.isEmpty()) {
+			Main.getInstance().getGUI().setCursor(Constants.HAND_CURSOR);
+		} else if ((resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) || (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT))) {
+			Main.getInstance().getGUI().setCursor(Constants.NE_CURSOR);
+		} else if ((resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)) || (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT))) {
+			Main.getInstance().getGUI().setCursor(Constants.NW_CURSOR);
+		} else if (resizeDirection.contains(Direction.UP) || resizeDirection.contains(Direction.DOWN)) {
+			Main.getInstance().getGUI().setCursor(Constants.TB_CURSOR);
+		} else if (resizeDirection.contains(Direction.LEFT) || resizeDirection.contains(Direction.RIGHT)) {
+			Main.getInstance().getGUI().setCursor(Constants.LR_CURSOR);
+		}
 	}
 
 	private void dragDiagram() {
@@ -157,12 +165,10 @@ public class GridElementListener extends UniversalListener {
 		// Ctrl + Mouseclick initializes the lasso
 		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) initializeLasso();
 
-		int ra = e.getResizeArea(me.getX(), me.getY());
-		ra = ra & e.getPossibleResizeDirections(); // LME
-
-		if (ra != 0) {
+		Set<Direction> resizeArea = e.getResizeArea(me.getX(), me.getY());
+		if (!resizeArea.isEmpty()) {
 			IS_RESIZING = true;
-			RESIZE_DIRECTION = ra;
+			RESIZE_DIRECTION = resizeArea;
 		}
 		else {
 			IS_DRAGGING = true;
@@ -313,8 +319,11 @@ public class GridElementListener extends UniversalListener {
 		final Point oldp = this.getOldCoordinate();
 
 		// If Shift is pressed and the resize direction is any diagonal direction, both axis are resized proportional
-		if (me.isShiftDown() && (resizeDirection == Constants.RESIZE_TOP_LEFT || resizeDirection == Constants.RESIZE_TOP_RIGHT ||
-				resizeDirection == Constants.RESIZE_BOTTOM_LEFT || resizeDirection == Constants.RESIZE_BOTTOM_RIGHT)) {
+		if (me.isShiftDown() && (
+				(resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) ||
+				(resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) ||
+				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) ||
+				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)))) {
 			if (e.getZoomedSize().width > e.getZoomedSize().height) {
 				float proportion = (float) newp.x / mousePressedPoint.x;
 				newp.setX(newp.x);
@@ -327,10 +336,10 @@ public class GridElementListener extends UniversalListener {
 			}
 		}
 
-		if ((RESIZE_DIRECTION & Constants.RESIZE_RIGHT) > 0) {
+		if (RESIZE_DIRECTION.contains(Direction.RIGHT)) {
 			delta_x = (e.getRectangle().x + e.getZoomedSize().width) % gridSize;
 		}
-		if ((RESIZE_DIRECTION & Constants.RESIZE_BOTTOM) > 0) {
+		if (RESIZE_DIRECTION.contains(Direction.DOWN)) {
 			delta_y = (e.getRectangle().y + e.getZoomedSize().height) % gridSize;
 		}
 
@@ -345,7 +354,7 @@ public class GridElementListener extends UniversalListener {
 		int minSize = (int) (2 * this.handler.getFontHandler().getFontSize() + 0.5);
 		minSize = minSize - minSize % gridSize;
 
-		if ((RESIZE_DIRECTION & Constants.RESIZE_LEFT) > 0) {
+		if (RESIZE_DIRECTION.contains(Direction.LEFT)) {
 			// AB: get diffx; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
 			diffx = newp.x - e.getRectangle().x + gridSize;
 
@@ -354,12 +363,12 @@ public class GridElementListener extends UniversalListener {
 				diffx = e.getZoomedSize().width - minSize;
 			}
 
-			if (RESIZE_DIRECTION == Constants.RESIZE_LEFT) {
+			if (RESIZE_DIRECTION.size() == 1) { // if direction is ONLY LEFT
 				diffy = 0;
 			}
 		}
 
-		if ((RESIZE_DIRECTION & Constants.RESIZE_RIGHT) > 0) {
+		if (RESIZE_DIRECTION.contains(Direction.RIGHT)) {
 			// AB: get diffx; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
 			diffx = newp.x - (e.getRectangle().x + e.getZoomedSize().width) + gridSize;
 
@@ -368,7 +377,7 @@ public class GridElementListener extends UniversalListener {
 				diffx = minSize - e.getZoomedSize().width;
 			}
 
-			if (RESIZE_DIRECTION == Constants.RESIZE_RIGHT) {
+			if (RESIZE_DIRECTION.size() == 1) { // if direction is ONLY RIGHT
 				diffy = 0;
 			}
 
@@ -376,7 +385,7 @@ public class GridElementListener extends UniversalListener {
 			diffx = 0;
 		}
 
-		if ((RESIZE_DIRECTION & Constants.RESIZE_TOP) > 0) {
+		if (RESIZE_DIRECTION.contains(Direction.UP)) {
 			// AB: get diffy; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
 			diffy = newp.y - e.getRectangle().y + gridSize;
 
@@ -385,12 +394,12 @@ public class GridElementListener extends UniversalListener {
 				diffy = e.getZoomedSize().height - minSize;
 			}
 
-			if (RESIZE_DIRECTION == Constants.RESIZE_TOP) {
+			if (RESIZE_DIRECTION.size() == 1) { // if direction is ONLY UP
 				diffx = 0;
 			}
 		}
 
-		if ((RESIZE_DIRECTION & Constants.RESIZE_BOTTOM) > 0) {
+		if (RESIZE_DIRECTION.contains(Direction.DOWN)) {
 			// AB: get diffy; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
 			diffy = newp.y - (e.getRectangle().y + e.getZoomedSize().height) + gridSize;
 
@@ -399,7 +408,7 @@ public class GridElementListener extends UniversalListener {
 				diffy = minSize - e.getZoomedSize().height;
 			}
 
-			if (RESIZE_DIRECTION == Constants.RESIZE_BOTTOM) {
+			if (RESIZE_DIRECTION.size() == 1) { // if direction is ONLY DOWN
 				diffx = 0;
 			}
 

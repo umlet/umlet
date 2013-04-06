@@ -4,12 +4,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
+import java.util.Set;
 import java.util.Vector;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
@@ -87,7 +88,10 @@ public class SynchBarHorizontal extends OldGridElement {
 	}
 
 	@Override
-	public int getPossibleResizeDirections() { // allow width changes only
-		return Constants.RESIZE_LEFT | Constants.RESIZE_RIGHT;
+	public Set<Direction> getResizeArea(int x, int y) {
+		Set<Direction> returnSet = super.getResizeArea(x, y);
+		returnSet.remove(Direction.UP);
+		returnSet.remove(Direction.DOWN);
+		return returnSet;
 	}
 }

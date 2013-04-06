@@ -1,7 +1,10 @@
 package com.baselet.element;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionFloat;
 import com.baselet.diagram.draw.geom.Rectangle;
@@ -40,9 +43,7 @@ public interface GridElement {
 
 	boolean isPartOfGroup();
 
-	int getResizeArea(int x, int y);
-
-	int getPossibleResizeDirections();
+	Set<Direction> getResizeArea(int x, int y);
 
 	void setStickingBorderActive(boolean stickingBordersActive);
 

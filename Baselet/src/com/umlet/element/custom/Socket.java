@@ -3,6 +3,8 @@ package com.umlet.element.custom;
 // Some import to have access to more Java features
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.baselet.control.Main;
 import com.baselet.element.OldGridElement;
@@ -30,8 +32,8 @@ public class Socket extends OldGridElement {
 	}
 
 	@Override
-	public int getPossibleResizeDirections() {
-		return 0;
+	public Set<com.baselet.control.enumerations.Direction> getResizeArea(int x, int y) {
+		return new HashSet<com.baselet.control.enumerations.Direction>(); // deny size changes
 	}
 
 }

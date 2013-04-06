@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -81,13 +80,5 @@ public class Systemborder extends OldGridElement {
 			}
 		}
 
-	}
-
-	// Change this method if you want to set the resize-attributes of
-	// your custom element
-	@Override
-	public int getPossibleResizeDirections() {
-		// Remove from this list the borders you don't want to be resizeable.
-		return Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
 	}
 }
