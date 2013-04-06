@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.baselet.control.Main;
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
@@ -52,7 +53,7 @@ public class Decision extends OldGridElement {
 	}
 
 	@Override
-	public Set<com.baselet.control.enumerations.Direction> getResizeArea(int x, int y) {
-		return new HashSet<com.baselet.control.enumerations.Direction>(); // deny size changes
+	public Set<Direction> getResizeArea(int x, int y) {
+		return new HashSet<Direction>(); // deny size changes
 	}
 }

@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.Direction;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.activity.AEnd;
@@ -21,7 +22,6 @@ import com.umlet.element.activity.Activity;
 import com.umlet.element.activity.Condition;
 import com.umlet.element.activity.Const;
 import com.umlet.element.activity.Container;
-import com.umlet.element.activity.Direction;
 import com.umlet.element.activity.Element;
 import com.umlet.element.activity.End;
 import com.umlet.element.activity.EndIf;
@@ -424,8 +424,8 @@ public class ActivityDiagramText extends OldGridElement {
 			it.next().paint(this);
 	}
 	@Override
-	public Set<com.baselet.control.enumerations.Direction> getResizeArea(int x, int y) {
-		return new HashSet<com.baselet.control.enumerations.Direction>(); // deny size changes
+	public Set<Direction> getResizeArea(int x, int y) {
+		return new HashSet<Direction>(); // deny size changes
 	}
 	
 	public StickingPolygon generateStickingBorder() {

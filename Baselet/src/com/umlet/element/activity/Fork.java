@@ -3,6 +3,7 @@ package com.umlet.element.activity;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 
 
@@ -39,7 +40,7 @@ public class Fork extends StartElement {
 
 	@Override
 	protected Point getNonStdConnectIn(Direction dir) {
-		Point c = this.getConnect(Direction.TOP);
+		Point c = this.getConnect(Direction.UP);
 
 		if (dir.equals(Direction.LEFT)) c.x -= (int) (10 * getZoom());
 		else if (dir.equals(Direction.RIGHT)) c.x += (int) (10 * getZoom());
@@ -76,8 +77,8 @@ public class Fork extends StartElement {
 			this.current_right_x = this.current_left_x;
 		}
 
-		if (dir == Direction.TOP) c.y -= (pad + h) / 2;
-		else if (dir == Direction.BOTTOM) c.y += (h - pad) / 2;
+		if (dir == Direction.UP) c.y -= (pad + h) / 2;
+		else if (dir == Direction.DOWN) c.y += (h - pad) / 2;
 		else if (dir == Direction.LEFT) {
 			if (c.x - this.current_left_x < w / 2 - this.con_pad) this.current_left_x -= this.con_pad;
 			c.x = this.current_left_x;
@@ -96,8 +97,8 @@ public class Fork extends StartElement {
 		if (e != null) {
 			if (this.connectOut_overrideable() && e.connectIn()) {
 				Point from = this.getPosition();
-				Point to = e.getConnect(Direction.TOP);
-				if (from.x == to.x) from = this.getConnect(Direction.BOTTOM);
+				Point to = e.getConnect(Direction.UP);
+				if (from.x == to.x) from = this.getConnect(Direction.DOWN);
 				else if (from.x < to.x) from = this.getConnect(Direction.RIGHT);
 				else if (from.x > to.x) from = this.getConnect(Direction.LEFT);
 

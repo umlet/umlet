@@ -3,6 +3,7 @@ package com.umlet.element.activity;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 
 
@@ -53,7 +54,7 @@ public class Sync extends StopElement {
 
 	@Override
 	protected Point getNonStdConnectOut(Direction dir) {
-		Point c = this.getConnect(Direction.BOTTOM);
+		Point c = this.getConnect(Direction.DOWN);
 		if (dir.equals(Direction.LEFT)) c.x -= (int) (10 * getZoom());
 		else if (dir.equals(Direction.RIGHT)) c.x += (int) (10 * getZoom());
 
@@ -72,8 +73,8 @@ public class Sync extends StopElement {
 			this.current_right_x = this.current_left_x;
 		}
 
-		if (dir == Direction.TOP) c.y += (pad - h) / 2;
-		else if (dir == Direction.BOTTOM) c.y += (pad + h) / 2;
+		if (dir == Direction.UP) c.y += (pad - h) / 2;
+		else if (dir == Direction.DOWN) c.y += (pad + h) / 2;
 		else if (dir == Direction.LEFT) {
 			if (c.x - this.current_left_x < w / 2 - this.con_pad) this.current_left_x -= this.con_pad;
 			c.x = this.current_left_x;
@@ -92,8 +93,8 @@ public class Sync extends StopElement {
 		if (e != null) {
 			if (this.connectIn() && e.connectOut()) {
 				Point to = this.getPosition();
-				Point from = e.getConnect(Direction.BOTTOM);
-				if (from.x == to.x) to = this.getConnect(Direction.TOP);
+				Point from = e.getConnect(Direction.DOWN);
+				if (from.x == to.x) to = this.getConnect(Direction.UP);
 				else if (from.x < to.x) to = this.getConnect(Direction.LEFT);
 				else if (from.x > to.x) to = this.getConnect(Direction.RIGHT);
 

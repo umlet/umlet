@@ -3,6 +3,8 @@ package com.umlet.element.activity;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
+import com.baselet.control.enumerations.Direction;
+
 public class Connector {
 
 	private Element e1, e2;
@@ -36,8 +38,8 @@ public class Connector {
 
 	public void paint() {
 		if (e1.connectOut() && e2.connectIn()) {
-			Point c2 = this.e2.getConnect(Direction.TOP);
-			Point c1 = this.e1.getConnect(Direction.BOTTOM);
+			Point c2 = this.e2.getConnect(Direction.UP);
+			Point c1 = this.e1.getConnect(Direction.DOWN);
 
 			if ((c1 != null) && (c2 != null)) {
 				if (!c1.equals(c2)) {

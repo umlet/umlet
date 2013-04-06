@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.FormatLabels;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.element.OldGridElement;
@@ -780,8 +781,8 @@ public class SequenceDiagram extends OldGridElement {
 	}
 
 	@Override
-	public Set<com.baselet.control.enumerations.Direction> getResizeArea(int x, int y) {
-		return new HashSet<com.baselet.control.enumerations.Direction>(); // deny size changes
+	public Set<Direction> getResizeArea(int x, int y) {
+		return new HashSet<Direction>(); // deny size changes
 	}
 
 	public void zoomValues() {
