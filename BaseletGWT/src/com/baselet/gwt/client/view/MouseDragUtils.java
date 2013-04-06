@@ -34,6 +34,7 @@ public class MouseDragUtils {
 		drawPanelCanvas.getCanvas().addMouseDownHandler(new MouseDownHandler() {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
+				event.preventDefault(); // necessary to avoid Chrome showing the text-cursor during dragging
 				storage.moveStartX = event.getX(); //getClientX also works on zoomed browser (getScreenX moves elements too slow)
 				storage.moveStartY = event.getY();
 				storage.dragging = true;

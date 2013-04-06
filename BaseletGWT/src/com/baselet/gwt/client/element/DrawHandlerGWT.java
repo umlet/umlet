@@ -214,9 +214,13 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	private void setStyle(Context2d ctx, Style style) {
-		ctx.setFillStyle(Converter.convert(style.getBgColor()));
+		if (style.getBgColor() != null) {
+			ctx.setFillStyle(Converter.convert(style.getBgColor()));
+		}
 		ColorOwn fgColor = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
-		ctx.setStrokeStyle(Converter.convert(fgColor));
+		if (fgColor != null) {
+			ctx.setStrokeStyle(Converter.convert(fgColor));
+		}
 		ctx.setLineWidth(style.getLineThickness());
 		setLineDash(ctx, style.getLineType(), style.getLineThickness());
 
