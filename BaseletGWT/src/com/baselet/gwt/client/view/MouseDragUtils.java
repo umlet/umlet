@@ -24,8 +24,10 @@ public class MouseDragUtils {
 	}
 
 	public interface MouseDragHandler {
-		void onMouseDrag(int diffX, int diffY, GridElement gridElement);
+		void onMouseMoveDragging(int absoluteX, int absoluteY, int diffX, int diffY, GridElement draggedGridElement);
+		void onMouseOut();
 		void onMouseDown(GridElement gridElement);
+		void onMouseMove(int absoluteX, int absoluteY);
 	}
 
 	public static void addMouseDragHandler(final DrawPanelCanvas drawPanelCanvas, final MouseDragHandler mouseDragHandler) {
@@ -52,7 +54,7 @@ public class MouseDragUtils {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
 				storage.dragging = false;
-				Utils.showCursor(Style.Cursor.AUTO);
+				mouseDragHandler.onMouseOut();
 			}
 		});
 		drawPanelCanvas.getCanvas().addMouseMoveHandler(new MouseMoveHandler() {
@@ -60,43 +62,17 @@ public class MouseDragUtils {
 			public void onMouseMove(MouseMoveEvent event) {
 				if (storage.dragging) {
 					int diffX = event.getX() - storage.moveStartX;
-					diffX -= (diffX % DrawPanelCanvas.GRID_SIZE);
-
 					int diffY = event.getY() - storage.moveStartY;
+					diffX -= (diffX % DrawPanelCanvas.GRID_SIZE);
 					diffY -= (diffY % DrawPanelCanvas.GRID_SIZE);
-
 					if (diffX != 0 || diffY != 0) {
-						mouseDragHandler.onMouseDrag(diffX, diffY, storage.elementToDrag);
+						mouseDragHandler.onMouseMoveDragging(event.getX(), event.getY(), diffX, diffY, storage.elementToDrag);
 						storage.moveStartX += diffX;
 						storage.moveStartY += diffY;
 					}
+				} else {
+					mouseDragHandler.onMouseMove(event.getX(), event.getY());
 				}
-				GridElement geOnPosition = drawPanelCanvas.getGridElementOnPosition(event.getX(), event.getY());
-				if (geOnPosition != null) {
-					Set<Direction> resizeDirection = geOnPosition.getResizeArea(event.getX() - geOnPosition.getRectangle().getX(), event.getY() - geOnPosition.getRectangle().getY());
-					if (resizeDirection.isEmpty()) {
-						Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
-					} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) {
-						Utils.showCursor(Style.Cursor.NE_RESIZE);
-					} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) {
-						Utils.showCursor(Style.Cursor.NW_RESIZE);
-					} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) {
-						Utils.showCursor(Style.Cursor.SW_RESIZE);
-					} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)) {
-						Utils.showCursor(Style.Cursor.SE_RESIZE);
-					} else if (resizeDirection.contains(Direction.UP)) {
-						Utils.showCursor(Style.Cursor.N_RESIZE);
-					} else if (resizeDirection.contains(Direction.RIGHT)) {
-						Utils.showCursor(Style.Cursor.E_RESIZE);
-					} else if (resizeDirection.contains(Direction.DOWN)) {
-						Utils.showCursor(Style.Cursor.S_RESIZE);
-					} else if (resizeDirection.contains(Direction.LEFT)) {
-						Utils.showCursor(Style.Cursor.W_RESIZE);
-					}
-				} else if (storage.dragging) { // Dragging the whole diagram
-					Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
-				}
-				else Utils.showCursor(Style.Cursor.AUTO);
 			}
 		});
 	}

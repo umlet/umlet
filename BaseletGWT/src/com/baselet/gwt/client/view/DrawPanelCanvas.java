@@ -1,21 +1,23 @@
 package com.baselet.gwt.client.view;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.baselet.gwt.client.EventBus;
-import com.baselet.gwt.client.EventBus.PropertiesTextChanged;
-import com.baselet.gwt.client.EventBus.PropertiesTextChanged.PropertiesTextChangedEventHandler;
 import com.baselet.gwt.client.OwnXMLParser;
+import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.GwtCanvasElementImpl;
 import com.baselet.gwt.client.view.MouseDragUtils.MouseDragHandler;
 import com.baselet.gwt.client.view.OwnTextArea.InstantValueChangeHandler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
-import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.dom.client.Style;
 
 public class DrawPanelCanvas {
 
@@ -50,18 +52,6 @@ public class DrawPanelCanvas {
 
 		MouseDragUtils.addMouseDragHandler(this, new MouseDragHandler() {
 			@Override
-			public void onMouseDrag(int diffX, int diffY, GridElement gridElement) {
-				if (gridElement == null) { // nothing selected -> move whole diagram
-					for (GridElement ge : gridElements) {
-						ge.setLocationDifference(diffX, diffY);
-					}
-				} else {
-					gridElement.setLocationDifference(diffX, diffY);
-				}
-				draw();
-			}
-
-			@Override
 			public void onMouseDown(GridElement element) {
 				if (element == null) {
 					selector.deselectAll();
@@ -70,6 +60,77 @@ public class DrawPanelCanvas {
 					propertiesPanel.setValue(element.getPanelAttributes());
 				}
 				draw();
+			}
+
+			@Override
+			public void onMouseOut() {
+				Utils.showCursor(Style.Cursor.AUTO);
+			}
+			
+			Set<Direction> resizeDirection = new HashSet<Direction>();
+
+			@Override
+			public void onMouseMoveDragging(int absoluteX, int absoluteY, int diffX, int diffY, GridElement draggedGridElement) {
+					if (draggedGridElement == null) { // nothing selected -> move whole diagram
+						Utils.showCursor(Style.Cursor.POINTER);
+						for (GridElement ge : gridElements) {
+							ge.setLocationDifference(diffX, diffY);
+						}
+					} else {
+						if (resizeDirection.isEmpty()) { // Move GridElement
+							Utils.showCursor(Style.Cursor.POINTER);
+							draggedGridElement.setLocationDifference(diffX, diffY);
+						} else { // Resize GridElement
+							Rectangle rect = draggedGridElement.getRectangle();
+							if (resizeDirection.contains(Direction.LEFT)) {
+								rect.setX(rect.getX() + diffX);
+								rect.setWidth(rect.getWidth() - diffX);
+							}
+							if (resizeDirection.contains(Direction.RIGHT)) {
+								rect.setWidth(rect.getWidth() + diffX);
+							}
+							if (resizeDirection.contains(Direction.UP)) {
+								rect.setY(rect.getY() + diffY);
+								rect.setHeight(rect.getHeight() - diffY);
+							}
+							if (resizeDirection.contains(Direction.DOWN)) {
+								rect.setHeight(rect.getHeight() + diffY);
+							}
+							draggedGridElement.setRectangle(rect); // not necessary because the reference is changed, but still here for clarity
+							draggedGridElement.updateModelFromText();
+							draggedGridElement.repaint();
+						}
+					}
+					draw();
+			}
+
+			@Override
+			public void onMouseMove(int absoluteX, int absoluteY) {
+				GridElement geOnPosition = getGridElementOnPosition(absoluteX, absoluteY);
+				if (geOnPosition != null) {
+					resizeDirection = geOnPosition.getResizeArea(absoluteX - geOnPosition.getRectangle().getX(), absoluteY - geOnPosition.getRectangle().getY());
+					if (resizeDirection.isEmpty()) {
+						Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
+					} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) {
+						Utils.showCursor(Style.Cursor.NE_RESIZE);
+					} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) {
+						Utils.showCursor(Style.Cursor.NW_RESIZE);
+					} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) {
+						Utils.showCursor(Style.Cursor.SW_RESIZE);
+					} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)) {
+						Utils.showCursor(Style.Cursor.SE_RESIZE);
+					} else if (resizeDirection.contains(Direction.UP)) {
+						Utils.showCursor(Style.Cursor.N_RESIZE);
+					} else if (resizeDirection.contains(Direction.RIGHT)) {
+						Utils.showCursor(Style.Cursor.E_RESIZE);
+					} else if (resizeDirection.contains(Direction.DOWN)) {
+						Utils.showCursor(Style.Cursor.S_RESIZE);
+					} else if (resizeDirection.contains(Direction.LEFT)) {
+						Utils.showCursor(Style.Cursor.W_RESIZE);
+					}
+				} else {
+					Utils.showCursor(Style.Cursor.DEFAULT);
+				}
 			}
 		});
 
