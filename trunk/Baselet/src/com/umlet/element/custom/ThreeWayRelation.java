@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.util.Vector;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -60,10 +59,5 @@ public class ThreeWayRelation extends OldGridElement {
 		p.addPoint(new Point(x + width / 2, y + height));
 		p.addPoint(new Point(x, y + height / 2), true);
 		return p;
-	}
-
-	@Override
-	public int getPossibleResizeDirections() {
-		return Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
 	}
 }

@@ -7,7 +7,9 @@ import java.awt.Component;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.Vector;
 
 import com.baselet.control.Main;
@@ -167,10 +169,10 @@ public class Group extends OldGridElement implements GroupGridElement {
 		for (GridElement e : this.entities)
 			e.setLocationDifference(diffx, diffy);
 	}
-	
+
 	@Override
-	public int getPossibleResizeDirections() {
-		return 0;
+	public Set<com.baselet.control.enumerations.Direction> getResizeArea(int x, int y) {
+		return new HashSet<com.baselet.control.enumerations.Direction>(); // deny size changes
 	}
 	
 	/**

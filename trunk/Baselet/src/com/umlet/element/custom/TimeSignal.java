@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 
 import com.baselet.control.Main;
@@ -121,7 +123,7 @@ public class TimeSignal extends OldGridElement {
 	}
 
 	@Override
-	public int getPossibleResizeDirections() {
-		return 0;
-	} // deny size changes
+	public Set<com.baselet.control.enumerations.Direction> getResizeArea(int x, int y) {
+		return new HashSet<com.baselet.control.enumerations.Direction>(); // deny size changes
+	}
 }

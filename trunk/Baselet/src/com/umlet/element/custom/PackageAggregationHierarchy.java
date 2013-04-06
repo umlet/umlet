@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Vector;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -96,11 +95,6 @@ public class PackageAggregationHierarchy extends OldGridElement {
 
 			yPos += 2 * packageHeight + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		}
-	}
-
-	@Override
-	public int getPossibleResizeDirections() {
-		return Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
 	}
 
 	public StickingPolygon generateStickingBorder() {

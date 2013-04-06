@@ -2,9 +2,12 @@ package com.umlet.element.experimental;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.baselet.control.NewGridElementConstants;
+import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
@@ -173,22 +176,18 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public int getResizeArea(int x, int y) {
-		int ret = 0;
-		if ((x <= 5) && (x >= 0)) ret = NewGridElementConstants.RESIZE_LEFT;
-		else if ((x <= this.getZoomedSize().width) && (x >= this.getZoomedSize().width - 5)) ret = NewGridElementConstants.RESIZE_RIGHT;
-
-		if ((y <= 5) && (y >= 0)) ret = ret | NewGridElementConstants.RESIZE_TOP;
-		else if ((y <= this.getZoomedSize().height) && (y >= this.getZoomedSize().height - 5)) ret = ret | NewGridElementConstants.RESIZE_BOTTOM;
-		return ret;
-	}
-
-	@Override
-	public int getPossibleResizeDirections() {
+	public Set<Direction> getResizeArea(int x, int y) {
+		Set<Direction> returnSet = new HashSet<Direction>();
 		if (properties.getElementStyle() == ElementStyleEnum.NORESIZE || properties.getElementStyle() == ElementStyleEnum.AUTORESIZE) {
-			return NewGridElementConstants.RESIZE_NONE;
+			return returnSet;
 		}
-		else return NewGridElementConstants.RESIZE_ALL;
+		
+		if ((x <= 5) && (x >= 0)) returnSet.add(Direction.LEFT);
+		else if ((x <= this.getZoomedSize().width) && (x >= this.getZoomedSize().width - 5)) returnSet.add(Direction.RIGHT);
+
+		if ((y <= 5) && (y >= 0)) returnSet.add(Direction.UP);
+		else if ((y <= this.getZoomedSize().height) && (y >= this.getZoomedSize().height - 5)) returnSet.add(Direction.DOWN);
+		return returnSet;
 	}
 
 	@Override

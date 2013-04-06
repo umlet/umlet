@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.font.LineMetrics;
 import java.awt.geom.Rectangle2D;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.baselet.control.Main;
 import com.baselet.element.OldGridElement;
@@ -39,8 +41,8 @@ public class HistoryState extends OldGridElement {
 	}
 
 	@Override
-	public int getPossibleResizeDirections() {
-		return 0;
-	} // deny size changes
+	public Set<com.baselet.control.enumerations.Direction> getResizeArea(int x, int y) {
+		return new HashSet<com.baselet.control.enumerations.Direction>(); // deny size changes
+	}
 
 }

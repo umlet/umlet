@@ -15,13 +15,16 @@ import java.awt.geom.Line2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
@@ -444,8 +447,9 @@ public abstract class CustomElement extends OldGridElement {
 	}
 	
 	@Override
-	public int getPossibleResizeDirections() {
-		if (this.allowResize) return Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
-		return 0;
+	public Set<Direction> getResizeArea(int x, int y) {
+		if (allowResize) return super.getResizeArea(x, y);
+		else return new HashSet<Direction>();
 	}
+	
 }

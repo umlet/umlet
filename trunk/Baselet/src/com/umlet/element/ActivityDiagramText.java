@@ -4,7 +4,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -421,12 +423,11 @@ public class ActivityDiagramText extends OldGridElement {
 		for (Iterator<GoTo> it = valid_gotos.iterator(); it.hasNext();)
 			it.next().paint(this);
 	}
-
 	@Override
-	public int getPossibleResizeDirections() {
-		return 0;
-	} // deny size changes: dynamic resize is done by the diagram itself
-
+	public Set<com.baselet.control.enumerations.Direction> getResizeArea(int x, int y) {
+		return new HashSet<com.baselet.control.enumerations.Direction>(); // deny size changes
+	}
+	
 	public StickingPolygon generateStickingBorder() {
 		return null;
 	}

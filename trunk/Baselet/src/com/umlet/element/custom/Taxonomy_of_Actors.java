@@ -8,7 +8,6 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.util.Vector;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -94,12 +93,7 @@ public class Taxonomy_of_Actors extends OldGridElement {
 			yPos += actorHeight;
 		}
 	}
-
-	@Override
-	public int getPossibleResizeDirections() {
-		return Constants.RESIZE_TOP | Constants.RESIZE_LEFT | Constants.RESIZE_BOTTOM | Constants.RESIZE_RIGHT;
-	}
-
+	
 	public StickingPolygon generateStickingBorder() {
 		StickingPolygon p = new StickingPolygon();
 		return p;

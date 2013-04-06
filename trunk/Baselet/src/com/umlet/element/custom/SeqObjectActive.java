@@ -3,8 +3,9 @@ package com.umlet.element.custom;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.Set;
 
-import com.baselet.control.Constants;
+import com.baselet.control.enumerations.Direction;
 import com.baselet.element.OldGridElement;
 
 
@@ -29,7 +30,10 @@ public class SeqObjectActive extends OldGridElement {
 	}
 
 	@Override
-	public int getPossibleResizeDirections() { // allow height changes only
-		return Constants.RESIZE_TOP | Constants.RESIZE_BOTTOM;
+	public Set<Direction> getResizeArea(int x, int y) {
+		Set<Direction> returnSet = super.getResizeArea(x, y);
+		returnSet.remove(Direction.LEFT);
+		returnSet.remove(Direction.RIGHT);
+		return returnSet;
 	}
 }
