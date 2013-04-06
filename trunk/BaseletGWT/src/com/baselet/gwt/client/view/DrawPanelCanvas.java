@@ -29,9 +29,9 @@ public class DrawPanelCanvas {
 	private Canvas elementCanvas;
 
 	private Canvas backgroundCanvas;
-	
+
 	private SelectorNew selector = new SelectorNew();
-	
+
 	public DrawPanelCanvas(final OwnTextArea propertiesPanel) {
 		elementCanvas = Canvas.createIfSupported();
 		backgroundCanvas = Canvas.createIfSupported();
@@ -42,7 +42,9 @@ public class DrawPanelCanvas {
 				GridElement singleSelected = getSelector().getSingleSelected();
 				if (singleSelected != null) {
 					singleSelected.setPanelAttributes(value);
+					singleSelected.repaint();
 				}
+				draw();
 			}
 		});
 
@@ -61,8 +63,13 @@ public class DrawPanelCanvas {
 
 			@Override
 			public void onMouseDown(GridElement element) {
-				selector.singleSelect(element);
-				propertiesPanel.setValue(element.getPanelAttributes());
+				if (element == null) {
+					selector.deselectAll();
+				} else {
+					selector.singleSelect(element);
+					propertiesPanel.setValue(element.getPanelAttributes());
+				}
+				draw();
 			}
 		});
 
@@ -83,7 +90,7 @@ public class DrawPanelCanvas {
 			drawLine(backgroundContext, 0, i, width, i);
 		}
 	}
-	
+
 	private static void drawLine(Context2d context, int x, int y, int x2, int y2) {
 		context.beginPath();
 		context.moveTo(x + 0.5, y + 0.5); // +0.5 because a line of thickness 1.0 spans 50% left and 50% right (therefore it would not be on the 1 pixel - see https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors)
@@ -120,13 +127,13 @@ public class DrawPanelCanvas {
 	}
 
 	private int minWidth, minHeight;
-	
+
 	public void setMinSize(int minWidth, int minHeight) {
 		this.minWidth = minWidth;
 		this.minHeight = minHeight;
 		draw();
 	}
-	
+
 	private void recalculateCanvasSize() {
 		int width = minWidth;
 		int height = minHeight;
@@ -136,7 +143,7 @@ public class DrawPanelCanvas {
 		}
 		setCanvasSize(elementCanvas, width, height);
 	}
-	
+
 	private void setCanvasSize(Canvas canvas, int width, int height) {
 		canvas.setCoordinateSpaceWidth(width);
 		canvas.setWidth(width + "px");
