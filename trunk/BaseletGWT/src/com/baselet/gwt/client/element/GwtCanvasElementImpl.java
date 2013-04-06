@@ -55,9 +55,15 @@ public class GwtCanvasElementImpl implements ComponentInterface {
 	public void drawOn(Context2d context) {
 		if (redrawNecessary) {
 			redrawNecessary = false;
+			
 			drawer.clearCanvas();
+			canvas.getCanvasElement().setWidth(rect.getWidth());
+			canvas.getCanvasElement().setHeight(rect.getHeight());
 			drawer.drawAll(element.isSelected());
+			
 			metadrawer.clearCanvas();
+			metaCanvas.getCanvasElement().setWidth(rect.getWidth());
+			metaCanvas.getCanvasElement().setHeight(rect.getHeight());
 			metadrawer.drawAll();
 		}
 		context.drawImage(canvas.getCanvasElement(), element.getRectangle().getX(), element.getRectangle().getY());
