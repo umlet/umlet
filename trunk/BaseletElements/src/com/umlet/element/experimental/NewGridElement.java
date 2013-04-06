@@ -181,7 +181,7 @@ public abstract class NewGridElement implements GridElement {
 		if (properties.getElementStyle() == ElementStyleEnum.NORESIZE || properties.getElementStyle() == ElementStyleEnum.AUTORESIZE) {
 			return returnSet;
 		}
-		
+
 		if ((x <= 5) && (x >= 0)) returnSet.add(Direction.LEFT);
 		else if ((x <= this.getZoomedSize().width) && (x >= this.getZoomedSize().width - 5)) returnSet.add(Direction.RIGHT);
 
