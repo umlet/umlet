@@ -1,5 +1,8 @@
 package com.baselet.gwt.client.view;
 
+import java.util.Set;
+
+import com.baselet.control.enumerations.Direction;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.Utils;
 import com.google.gwt.dom.client.Style;
@@ -68,8 +71,29 @@ public class MouseDragUtils {
 					}
 				}
 				GridElement geOnPosition = drawPanelCanvas.getGridElementOnPosition(event.getX(), event.getY());
-				if (storage.dragging || geOnPosition != null) { // if mouse is over an element or if it's dragging, show the hand cursor
-					Utils.showCursor(Style.Cursor.POINTER);
+				if (geOnPosition != null) {
+					Set<Direction> resizeDirection = geOnPosition.getResizeArea(event.getX() - geOnPosition.getRectangle().getX(), event.getY() - geOnPosition.getRectangle().getY());
+					if (resizeDirection.isEmpty()) {
+						Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
+					} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) {
+						Utils.showCursor(Style.Cursor.NE_RESIZE);
+					} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) {
+						Utils.showCursor(Style.Cursor.NW_RESIZE);
+					} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) {
+						Utils.showCursor(Style.Cursor.SW_RESIZE);
+					} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)) {
+						Utils.showCursor(Style.Cursor.SE_RESIZE);
+					} else if (resizeDirection.contains(Direction.UP)) {
+						Utils.showCursor(Style.Cursor.N_RESIZE);
+					} else if (resizeDirection.contains(Direction.RIGHT)) {
+						Utils.showCursor(Style.Cursor.E_RESIZE);
+					} else if (resizeDirection.contains(Direction.DOWN)) {
+						Utils.showCursor(Style.Cursor.S_RESIZE);
+					} else if (resizeDirection.contains(Direction.LEFT)) {
+						Utils.showCursor(Style.Cursor.W_RESIZE);
+					}
+				} else if (storage.dragging) { // Dragging the whole diagram
+					Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
 				}
 				else Utils.showCursor(Style.Cursor.AUTO);
 			}
