@@ -66,42 +66,21 @@ public class DrawPanelCanvas {
 			public void onMouseOut() {
 				Utils.showCursor(Style.Cursor.AUTO);
 			}
-			
+
 			Set<Direction> resizeDirection = new HashSet<Direction>();
 
 			@Override
-			public void onMouseMoveDragging(int absoluteX, int absoluteY, int diffX, int diffY, GridElement draggedGridElement) {
-					if (draggedGridElement == null) { // nothing selected -> move whole diagram
-						Utils.showCursor(Style.Cursor.POINTER);
-						for (GridElement ge : gridElements) {
-							ge.setLocationDifference(diffX, diffY);
-						}
-					} else {
-						if (resizeDirection.isEmpty()) { // Move GridElement
-							Utils.showCursor(Style.Cursor.POINTER);
-							draggedGridElement.setLocationDifference(diffX, diffY);
-						} else { // Resize GridElement
-							Rectangle rect = draggedGridElement.getRectangle();
-							if (resizeDirection.contains(Direction.LEFT)) {
-								rect.setX(rect.getX() + diffX);
-								rect.setWidth(rect.getWidth() - diffX);
-							}
-							if (resizeDirection.contains(Direction.RIGHT)) {
-								rect.setWidth(rect.getWidth() + diffX);
-							}
-							if (resizeDirection.contains(Direction.UP)) {
-								rect.setY(rect.getY() + diffY);
-								rect.setHeight(rect.getHeight() - diffY);
-							}
-							if (resizeDirection.contains(Direction.DOWN)) {
-								rect.setHeight(rect.getHeight() + diffY);
-							}
-							draggedGridElement.setRectangle(rect); // not necessary because the reference is changed, but still here for clarity
-							draggedGridElement.updateModelFromText();
-							draggedGridElement.repaint();
-						}
+			public void onMouseMoveDragging(int absoluteX, int absoluteY, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown) {
+				if (draggedGridElement == null) { // nothing selected -> move whole diagram
+					Utils.showCursor(Style.Cursor.POINTER);
+					for (GridElement ge : gridElements) {
+						ge.setLocationDifference(diffX, diffY);
 					}
-					draw();
+				} else {
+					Point point = new Point(absoluteX - draggedGridElement.getRectangle().getX(), absoluteY - draggedGridElement.getRectangle().getY());
+					draggedGridElement.drag(resizeDirection, diffX, diffY, point, isShiftKeyDown);
+				}
+				draw();
 			}
 
 			@Override

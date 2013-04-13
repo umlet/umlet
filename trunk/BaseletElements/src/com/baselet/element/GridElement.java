@@ -1,12 +1,12 @@
 package com.baselet.element;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.ComponentInterface;
@@ -81,4 +81,6 @@ public interface GridElement {
 	void handleAutoresize(DimensionFloat necessaryElementDimension);
 	
 	ElementId getId();
+	
+	void drag(Set<Direction> resizeDirection, int diffX, int diffY, Point mousePosAfterDrag, boolean isShiftKeyDown);
 }

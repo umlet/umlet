@@ -68,9 +68,18 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawCircle(float x, float y, float radius) {
-		// TODO Auto-generated method stub
-
+	public void drawCircle(final float x, final float y, final float radius) {
+		final Style styleAtDrawingCall = style.cloneFromMe();
+		addDrawable(new DrawFunction() {
+			@Override
+			public void run() {
+				setStyle(ctx, styleAtDrawingCall);
+				ctx.beginPath();
+				ctx.arc(x + HALF_PX, y + HALF_PX, radius, 0, 2*Math.PI);
+				ctx.fill();
+				ctx.stroke();
+			}
+		});
 	}
 
 	@Override
@@ -117,6 +126,7 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 			public void run() {
 				setStyle(ctx, styleAtDrawingCall);
 				ctx.fillRect(x + HALF_PX, y + HALF_PX, width, height);
+				ctx.beginPath();
 				ctx.rect(x + HALF_PX, y + HALF_PX, width, height);
 				ctx.stroke();
 			}
@@ -201,7 +211,6 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 		ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
 		ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
 		ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
-		ctx.closePath();
 		ctx.fill();
 		ctx.stroke();
 	}
