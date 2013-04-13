@@ -326,13 +326,11 @@ public class GridElementListener extends UniversalListener {
 				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)))) {
 			if (e.getZoomedSize().width > e.getZoomedSize().height) {
 				float proportion = (float) newp.x / mousePressedPoint.x;
-				newp.setX(newp.x);
 				newp.setY((int) (mousePressedPoint.y*proportion));
 			}
 			else {
 				float proportion = (float) newp.y / mousePressedPoint.y;
 				newp.setX((int) (mousePressedPoint.x*proportion));
-				newp.setY(newp.y);
 			}
 		}
 

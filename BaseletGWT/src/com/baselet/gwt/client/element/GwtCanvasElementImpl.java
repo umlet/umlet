@@ -23,7 +23,6 @@ public class GwtCanvasElementImpl implements ComponentInterface {
 	private Rectangle rect;
 
 	public GwtCanvasElementImpl(GridElement element) {
-		drawer.setBackgroundColor(ColorOwn.BLUE);
 		this.element = element;
 	}
 

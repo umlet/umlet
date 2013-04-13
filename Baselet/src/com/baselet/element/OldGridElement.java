@@ -470,5 +470,11 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public ElementId getId() {
 		return null;
 	}
+	
+	@Override
+	public void drag(Set<Direction> resizeDirection, int diffX, int diffY, Point mousePosAfterDrag, boolean isShiftKeyDown) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

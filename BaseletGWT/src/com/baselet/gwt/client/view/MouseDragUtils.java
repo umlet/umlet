@@ -24,7 +24,7 @@ public class MouseDragUtils {
 	}
 
 	public interface MouseDragHandler {
-		void onMouseMoveDragging(int absoluteX, int absoluteY, int diffX, int diffY, GridElement draggedGridElement);
+		void onMouseMoveDragging(int absoluteX, int absoluteY, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown);
 		void onMouseOut();
 		void onMouseDown(GridElement gridElement);
 		void onMouseMove(int absoluteX, int absoluteY);
@@ -66,7 +66,7 @@ public class MouseDragUtils {
 					diffX -= (diffX % DrawPanelCanvas.GRID_SIZE);
 					diffY -= (diffY % DrawPanelCanvas.GRID_SIZE);
 					if (diffX != 0 || diffY != 0) {
-						mouseDragHandler.onMouseMoveDragging(event.getX(), event.getY(), diffX, diffY, storage.elementToDrag);
+						mouseDragHandler.onMouseMoveDragging(event.getX(), event.getY(), diffX, diffY, storage.elementToDrag, event.isShiftKeyDown());
 						storage.moveStartX += diffX;
 						storage.moveStartY += diffY;
 					}

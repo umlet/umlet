@@ -13,6 +13,7 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionFloat;
 import com.baselet.diagram.draw.geom.Line;
+import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
@@ -318,6 +319,43 @@ public abstract class NewGridElement implements GridElement {
 		float diffw = width-getRealSize().width;
 		float diffh = height-getRealSize().height;
 		handler.Resize(diffw, diffh);
+	}
+	
+	@Override
+	public void drag(Set<Direction> resizeDirection, int diffX, int diffY, Point mousePosAfterDrag, boolean isShiftKeyDown) {
+		if (resizeDirection.isEmpty()) { // Move GridElement
+			setLocationDifference(diffX, diffY);
+		} else { // Resize GridElement
+			Rectangle rect = component.getBoundsRect();
+			if (isShiftKeyDown && diagonalResize(resizeDirection)) { // Proportional Resize
+				if (diffX > diffY) diffX = diffY;
+				if (diffY > diffX) diffY = diffX;
+			}
+			if (resizeDirection.contains(Direction.LEFT)) {
+				rect.setX(rect.getX() + diffX);
+				rect.setWidth(rect.getWidth() - diffX);
+			}
+			if (resizeDirection.contains(Direction.RIGHT)) {
+				rect.setWidth(rect.getWidth() + diffX);
+			}
+			if (resizeDirection.contains(Direction.UP)) {
+				rect.setY(rect.getY() + diffY);
+				rect.setHeight(rect.getHeight() - diffY);
+			}
+			if (resizeDirection.contains(Direction.DOWN)) {
+				rect.setHeight(rect.getHeight() + diffY);
+			}
+			updateModelFromText();
+			repaint();
+		}
+	}
+
+
+	private boolean diagonalResize(Set<Direction> resizeDirection) {
+		return (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) ||
+				(resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) ||
+				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) ||
+				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT));
 	}
 
 }

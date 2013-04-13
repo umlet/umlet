@@ -2,9 +2,12 @@ package com.umlet.element.experimental.uml;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
@@ -15,7 +18,7 @@ import com.umlet.element.experimental.settings.SettingsRelation;
 public class Relation extends NewGridElement {
 
 	private final float SELECTBOXSIZE = 10;
-	private final float SELECTCIRCLERADIUS = 10;
+	private final int SELECTCIRCLERADIUS = 10;
 
 	private List<Point> points = new ArrayList<Point>();
 
@@ -41,6 +44,7 @@ public class Relation extends NewGridElement {
 		drawer.clearCache();
 		if (isSelected()) {
 			drawer.setForegroundColor(ColorOwn.SELECTION_FG);
+			drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 			// draw selection circles
 			for (Point p : points) {
 				drawer.drawCircle(p.x, p.y, SELECTCIRCLERADIUS);
@@ -64,6 +68,35 @@ public class Relation extends NewGridElement {
 	@Override
 	public Settings getSettings() {
 		return new SettingsRelation();
+	}
+
+	private Point currentlyDragging = null;
+
+	@Override
+	public void drag(Set<Direction> resizeDirection, int diffX, int diffY, Point mousePosAfterDrag, boolean isShiftKeyDown) {
+		Point mousePosBeforeDrag = new Point(mousePosAfterDrag.x - diffX, mousePosAfterDrag.y - diffY);
+		// User is still moving the previously moved point
+		if (currentlyDragging != null && checkAndMove(currentlyDragging, mousePosBeforeDrag, diffX, diffY)) {
+			return;
+		}
+		// Otherwise check if another point should be moved
+		for (Point relationPoint : points) {
+			if (checkAndMove(relationPoint, mousePosBeforeDrag, diffX, diffY)) {
+				return;
+			}
+		}
+	}
+
+	private boolean checkAndMove(Point relationPoint, Point mousePosBeforeDrag, int diffX, int diffY) {
+		Rectangle rect = new Rectangle(relationPoint.x-SELECTCIRCLERADIUS, relationPoint.y-SELECTCIRCLERADIUS, SELECTCIRCLERADIUS*2, SELECTCIRCLERADIUS*2);
+		if (rect.contains(mousePosBeforeDrag)) {
+			relationPoint.move(diffX, diffY);
+			currentlyDragging = relationPoint;
+			updateModelFromText();
+			repaint();
+			return true;
+		}
+		return false;
 	}
 }
 
