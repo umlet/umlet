@@ -70,24 +70,23 @@ public class DrawPanelCanvas {
 			Set<Direction> resizeDirection = new HashSet<Direction>();
 
 			@Override
-			public void onMouseMoveDragging(int absoluteX, int absoluteY, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown) {
+			public void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown) {
 				if (draggedGridElement == null) { // nothing selected -> move whole diagram
 					Utils.showCursor(Style.Cursor.POINTER);
 					for (GridElement ge : gridElements) {
 						ge.setLocationDifference(diffX, diffY);
 					}
 				} else {
-					Point point = new Point(absoluteX - draggedGridElement.getRectangle().getX(), absoluteY - draggedGridElement.getRectangle().getY());
-					draggedGridElement.drag(resizeDirection, diffX, diffY, point, isShiftKeyDown);
+					draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown);
 				}
 				draw();
 			}
 
 			@Override
-			public void onMouseMove(int absoluteX, int absoluteY) {
-				GridElement geOnPosition = getGridElementOnPosition(absoluteX, absoluteY);
+			public void onMouseMove(Point absolute) {
+				GridElement geOnPosition = getGridElementOnPosition(absolute);
 				if (geOnPosition != null) {
-					resizeDirection = geOnPosition.getResizeArea(absoluteX - geOnPosition.getRectangle().getX(), absoluteY - geOnPosition.getRectangle().getY());
+					resizeDirection = geOnPosition.getResizeArea(absolute.getX() - geOnPosition.getRectangle().getX(), absolute.getY() - geOnPosition.getRectangle().getY());
 					if (resizeDirection.isEmpty()) {
 						Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
 					} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) {
@@ -154,9 +153,9 @@ public class DrawPanelCanvas {
 		return elementCanvas;
 	}
 
-	public GridElement getGridElementOnPosition(int x, int y) {
+	public GridElement getGridElementOnPosition(Point point) {
 		for (GridElement ge : gridElements) {
-			if (ge.getRectangle().contains(new Point(x, y))) return ge;
+			if (ge.getRectangle().contains(point)) return ge;
 		}
 		return null;
 	}

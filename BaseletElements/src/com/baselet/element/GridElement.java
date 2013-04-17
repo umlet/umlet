@@ -89,5 +89,5 @@ public interface GridElement {
 	
 	ElementId getId();
 	
-	void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosAfterDrag, boolean isShiftKeyDown);
+	void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown);
 }
