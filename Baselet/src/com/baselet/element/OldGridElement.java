@@ -473,7 +473,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 	
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -484,4 +484,9 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		
 	}
 
+	@Override
+	public boolean isSelectableOn(Point point) {
+		return getRectangle().contains(point);
+	}
+	
 }

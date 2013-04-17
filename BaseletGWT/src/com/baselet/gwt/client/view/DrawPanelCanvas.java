@@ -70,14 +70,14 @@ public class DrawPanelCanvas {
 			Set<Direction> resizeDirection = new HashSet<Direction>();
 
 			@Override
-			public void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown) {
+			public void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean firstDrag) {
 				if (draggedGridElement == null) { // nothing selected -> move whole diagram
 					Utils.showCursor(Style.Cursor.POINTER);
 					for (GridElement ge : gridElements) {
 						ge.setLocationDifference(diffX, diffY);
 					}
 				} else {
-					draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown);
+					draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag);
 				}
 				draw();
 			}
@@ -155,7 +155,7 @@ public class DrawPanelCanvas {
 
 	public GridElement getGridElementOnPosition(Point point) {
 		for (GridElement ge : gridElements) {
-			if (ge.getRectangle().contains(point)) return ge;
+			if (ge.isSelectableOn(point)) return ge;
 		}
 		return null;
 	}
