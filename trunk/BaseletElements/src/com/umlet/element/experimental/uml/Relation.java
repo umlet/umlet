@@ -61,11 +61,16 @@ public class Relation extends NewGridElement {
 			for (Point p : points) {
 				drawer.drawCircle(p.x, p.y, SELECTCIRCLERADIUS);
 			}
-			Point begin = points.get(points.size()/2);
-			Point end = points.get(points.size()/2-1);
-			Point center = new Line(begin, end).getCenter();
-			drawer.drawRectangle(toRectangle(center, SELECTBOXSIZE));
+			drawer.drawRectangle(getDragBox());
 		}
+	}
+
+	private Rectangle getDragBox() {
+		Point begin = points.get(points.size()/2);
+		Point end = points.get(points.size()/2-1);
+		Point center = new Line(begin, end).getCenter();
+		Rectangle rectangle = toRectangle(center, SELECTBOXSIZE);
+		return rectangle;
 	}
 
 	@Override
@@ -85,28 +90,38 @@ public class Relation extends NewGridElement {
 	/**
 	 * currently dragged point is stored to make sure the selection is not changed (eg if dragging over another point)
 	 */
-	private Point currentlyDragging = null;
+	private Point currentlyDraggedRelationPoint = null;
 
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosAfterDrag, boolean isShiftKeyDown) {
 		Point mousePosBeforeDrag = new Point(mousePosAfterDrag.x - diffX, mousePosAfterDrag.y - diffY);
-		// User is still moving the previously moved point
-		if (currentlyDragging != null && checkAndMove(currentlyDragging, mousePosBeforeDrag, diffX, diffY)) {
+		
+		// if a relation-point is currently moved, it has preference
+		if (currentlyDraggedRelationPoint != null && checkAndMoveRelationPoint(currentlyDraggedRelationPoint, mousePosBeforeDrag, diffX, diffY)) {
 			return;
+		} else {
+			currentlyDraggedRelationPoint = null;
 		}
-		// Otherwise check if another point should be moved
+		// otherwise the relation-dragbox is checked
+		System.out.println(getDragBox() + "/" + mousePosBeforeDrag);
+		if (currentlyDraggedRelationPoint == null && getDragBox().contains(mousePosBeforeDrag)) {
+			this.setLocationDifference(diffX, diffY);
+			updateModelFromText();
+			repaint();
+		}
+		// at last the other relation points are checked
 		for (Point relationPoint : points) {
-			if (checkAndMove(relationPoint, mousePosBeforeDrag, diffX, diffY)) {
+			if (checkAndMoveRelationPoint(relationPoint, mousePosBeforeDrag, diffX, diffY)) {
 				return;
 			}
 		}
 	}
 
-	private boolean checkAndMove(Point relationPoint, Point mousePosBeforeDrag, int diffX, int diffY) {
+	private boolean checkAndMoveRelationPoint(Point relationPoint, Point mousePosBeforeDrag, int diffX, int diffY) {
 		Rectangle rect = toCircleRectangle(relationPoint);
 		if (rect.contains(mousePosBeforeDrag)) {
 			relationPoint.move(diffX, diffY);
-			currentlyDragging = relationPoint;
+			currentlyDraggedRelationPoint = relationPoint;
 			repositionRelationAndPointsBasedOnPoints();
 			updateModelFromText();
 			repaint();
