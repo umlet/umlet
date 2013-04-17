@@ -324,7 +324,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 	
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag) {
 		if (resizeDirection.isEmpty()) { // Move GridElement
 			setLocationDifference(diffX, diffY);
 		} else { // Resize GridElement
@@ -351,6 +351,10 @@ public abstract class NewGridElement implements GridElement {
 		}
 	}
 
+	@Override
+	public boolean isSelectableOn(Point point) {
+		return getRectangle().contains(point);
+	}
 
 	private boolean diagonalResize(Collection<Direction> resizeDirection) {
 		return (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) ||

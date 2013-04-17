@@ -1,5 +1,6 @@
 package com.baselet.gwt.client.view;
 
+import java.util.Arrays;
 import java.util.Set;
 
 import com.baselet.control.enumerations.Direction;
@@ -18,16 +19,23 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 
 public class MouseDragUtils {
 
+	private static enum DragStatus {
+		FIRST, CONTINUOUS, NO
+	}
+
 	private static class DragCache {
-		private boolean dragging;
+		private DragStatus dragging = DragStatus.NO;
 		private Point moveStart;
 		private GridElement elementToDrag;
 	}
 
 	public interface MouseDragHandler {
-		void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown);
+		void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean firstDrag);
+
 		void onMouseOut();
+
 		void onMouseDown(GridElement gridElement);
+
 		void onMouseMove(Point absolute);
 	}
 
@@ -39,7 +47,7 @@ public class MouseDragUtils {
 			public void onMouseDown(MouseDownEvent event) {
 				event.preventDefault(); // necessary to avoid Chrome showing the text-cursor during dragging
 				storage.moveStart = new Point(event.getX(), event.getY());
-				storage.dragging = true;
+				storage.dragging = DragStatus.FIRST;
 				storage.elementToDrag = drawPanelCanvas.getGridElementOnPosition(storage.moveStart);
 				mouseDragHandler.onMouseDown(storage.elementToDrag);
 			}
@@ -47,29 +55,31 @@ public class MouseDragUtils {
 		drawPanelCanvas.getCanvas().addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
-				storage.dragging = false;
+				storage.dragging = DragStatus.NO;
 			}
 		});
 		drawPanelCanvas.getCanvas().addMouseOutHandler(new MouseOutHandler() {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				storage.dragging = false;
+				storage.dragging = DragStatus.NO;
 				mouseDragHandler.onMouseOut();
 			}
 		});
 		drawPanelCanvas.getCanvas().addMouseMoveHandler(new MouseMoveHandler() {
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
-				if (storage.dragging) {
+				if (Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS).contains(storage.dragging)) {
 					int diffX = event.getX() - storage.moveStart.getX();
 					int diffY = event.getY() - storage.moveStart.getY();
 					diffX -= (diffX % DrawPanelCanvas.GRID_SIZE);
 					diffY -= (diffY % DrawPanelCanvas.GRID_SIZE);
 					if (diffX != 0 || diffY != 0) {
-						mouseDragHandler.onMouseMoveDragging(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown());
+						mouseDragHandler.onMouseMoveDragging(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), (storage.dragging == DragStatus.FIRST));
+						storage.dragging = DragStatus.CONTINUOUS; // after FIRST real drag switch to CONTINUOUS
 						storage.moveStart.move(diffX, diffY);
 					}
-				} else {
+				}
+				else {
 					mouseDragHandler.onMouseMove(new Point(event.getX(), event.getY()));
 				}
 			}

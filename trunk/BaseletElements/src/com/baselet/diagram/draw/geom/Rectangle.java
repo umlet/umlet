@@ -43,6 +43,10 @@ public class Rectangle {
 	public int getY2() {
 		return y + height;
 	}
+	
+	public Point getUpperLeftCorner() {
+		return new Point(x,y);
+	}
 
 	public void setY(int y) {
 		this.y = y;
