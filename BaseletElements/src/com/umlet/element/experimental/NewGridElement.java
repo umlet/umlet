@@ -2,6 +2,7 @@ package com.umlet.element.experimental;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -322,7 +323,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 	
 	@Override
-	public void drag(Set<Direction> resizeDirection, int diffX, int diffY, Point mousePosAfterDrag, boolean isShiftKeyDown) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosAfterDrag, boolean isShiftKeyDown) {
 		if (resizeDirection.isEmpty()) { // Move GridElement
 			setLocationDifference(diffX, diffY);
 		} else { // Resize GridElement
@@ -351,7 +352,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 
-	private boolean diagonalResize(Set<Direction> resizeDirection) {
+	private boolean diagonalResize(Collection<Direction> resizeDirection) {
 		return (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) ||
 				(resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) ||
 				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) ||
