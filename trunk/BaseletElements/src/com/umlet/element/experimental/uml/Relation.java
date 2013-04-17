@@ -93,8 +93,8 @@ public class Relation extends NewGridElement {
 	private Point currentlyDraggedRelationPoint = null;
 
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosAfterDrag, boolean isShiftKeyDown) {
-		Point mousePosBeforeDrag = new Point(mousePosAfterDrag.x - diffX, mousePosAfterDrag.y - diffY);
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown) {
+		mousePosBeforeDrag = new Point(mousePosBeforeDrag.getX() - getRectangle().getX(), mousePosBeforeDrag.getY() - getRectangle().getY());
 		
 		// if a relation-point is currently moved, it has preference
 		if (currentlyDraggedRelationPoint != null && checkAndMoveRelationPoint(currentlyDraggedRelationPoint, mousePosBeforeDrag, diffX, diffY)) {
@@ -103,7 +103,6 @@ public class Relation extends NewGridElement {
 			currentlyDraggedRelationPoint = null;
 		}
 		// otherwise the relation-dragbox is checked
-		System.out.println(getDragBox() + "/" + mousePosBeforeDrag);
 		if (currentlyDraggedRelationPoint == null && getDragBox().contains(mousePosBeforeDrag)) {
 			this.setLocationDifference(diffX, diffY);
 			updateModelFromText();

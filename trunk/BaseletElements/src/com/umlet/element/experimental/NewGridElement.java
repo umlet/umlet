@@ -323,7 +323,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 	
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosAfterDrag, boolean isShiftKeyDown) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown) {
 		if (resizeDirection.isEmpty()) { // Move GridElement
 			setLocationDifference(diffX, diffY);
 		} else { // Resize GridElement
