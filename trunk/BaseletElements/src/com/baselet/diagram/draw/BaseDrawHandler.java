@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Style;
@@ -153,6 +154,9 @@ public abstract class BaseDrawHandler {
 	/*
 	 * DRAW METHODS
 	 */
+	public void drawRectangle(Rectangle rect) {
+		drawRectangle(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+	}
 	public abstract void drawArcOpen(float x, float y, float width, float height, float start, float extent);
 	public abstract void drawArcChord(float x, float y, float width, float height, float start, float extent);
 	public abstract void drawArcPie(float x, float y, float width, float height, float start, float extent);
