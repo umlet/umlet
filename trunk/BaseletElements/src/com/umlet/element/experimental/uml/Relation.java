@@ -103,7 +103,7 @@ public class Relation extends NewGridElement {
 		if (rect.contains(mousePosBeforeDrag)) {
 			relationPoint.move(diffX, diffY);
 			currentlyDragging = relationPoint;
-			repositionRelation();
+			repositionRelationAndPointsBasedOnPoints();
 			updateModelFromText();
 			repaint();
 			return true;
@@ -111,7 +111,7 @@ public class Relation extends NewGridElement {
 		return false;
 	}
 
-	private void repositionRelation() {
+	private void repositionRelationAndPointsBasedOnPoints() {
 		// Calculate new Relation position and size
 		Rectangle newSize = null;
 		for (Point p : points) {
