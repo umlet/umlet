@@ -96,7 +96,7 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void setSelected(Boolean selected) {
 		updateMetaDrawer(metaDrawer);
-		repaint();
+		component.afterModelUpdate();
 	}
 	
 	/**
@@ -119,6 +119,8 @@ public abstract class NewGridElement implements GridElement {
 			handler.updateLayer();
 		}
 		this.autoresizePossiblyInProgress = false;
+		
+		component.afterModelUpdate();
 	}
 
 	protected abstract void updateConcreteModel(BaseDrawHandler drawer, Properties properties);
@@ -141,8 +143,7 @@ public abstract class NewGridElement implements GridElement {
 		properties.updateSetting(key, newValue);
 		handler.updatePropertyPanel();
 		//		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
-		this.updateModelFromText();
-		this.repaint();
+		updateModelFromText();
 	}
 
 	@Override
@@ -347,7 +348,6 @@ public abstract class NewGridElement implements GridElement {
 				rect.setHeight(rect.getHeight() + diffY);
 			}
 			updateModelFromText();
-			repaint();
 		}
 	}
 

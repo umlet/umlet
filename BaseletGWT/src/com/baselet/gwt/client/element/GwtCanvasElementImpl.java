@@ -38,6 +38,11 @@ public class GwtCanvasElementImpl implements ComponentInterface {
 
 	@Override
 	public void repaintComponent() {
+		// repainting is currently not controlled by the gridelement itself
+	}
+	
+	@Override
+	public void afterModelUpdate() {
 		redrawNecessary = true;
 	}
 

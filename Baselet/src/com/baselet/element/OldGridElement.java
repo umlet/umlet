@@ -477,5 +477,11 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void afterModelUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
