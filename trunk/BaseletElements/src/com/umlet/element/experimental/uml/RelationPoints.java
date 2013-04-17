@@ -33,11 +33,27 @@ public class RelationPoints {
 		NOTHING;
 	}
 
+	/**
+	 * because of the complex selection logic, the other method (which applies changes usually) is reused to make sure the result of this method is correct
+	 */
 	public Selection getSelection(Point point) {
-		return getSelectionAndMaybeApplyChanges(point, null, null, null, false);
+		return getSelectionAndMaybeApplyChanges(point, null, null, null, true, false);
 	}
 
-	Selection getSelectionAndMaybeApplyChanges(Point point, Integer diffX, Integer diffY, Relation relation, boolean applyChanges) {
+	private Point relationPointOfFirstDrag = null;
+	Selection getSelectionAndMaybeApplyChanges(Point point, Integer diffX, Integer diffY, Relation relation, boolean firstDrag, boolean applyChanges) {
+		// Special case: if this is not the first drag and a relation-point is currently dragged, it has preference
+		// Necessary to avoid changing the currently moved point if moving over another point and to avoid losing the current point if it's a new line point and the mouse is dragged very fast
+		if (!firstDrag && relationPointOfFirstDrag != null) {
+			if (applyChanges) {
+				relationPointOfFirstDrag.move(diffX, diffY);
+				relation.setRectangle(repositionRelationAndPointsBasedOnPoints(relation.getRectangle().getUpperLeftCorner()));
+			}
+			return Selection.RELATION_POINT;
+		}
+		
+		// If the special case doesn't apply, forget the relationPointOfFirstDrag, because its a new first drag
+		relationPointOfFirstDrag = null;
 		if (getDragBox().contains(point)) {
 			if (applyChanges) {
 				relation.setLocationDifference(diffX, diffY);
@@ -47,6 +63,7 @@ public class RelationPoints {
 		for (Point relationPoint : points) {
 			if (toCircleRectangle(relationPoint).contains(point)) {
 				if (applyChanges) {
+					relationPointOfFirstDrag = relationPoint;
 					relationPoint.move(diffX, diffY);
 					relation.setRectangle(repositionRelationAndPointsBasedOnPoints(relation.getRectangle().getUpperLeftCorner()));
 
@@ -58,58 +75,13 @@ public class RelationPoints {
 			if (line.distance(point) < NEW_POINT_DISTANCE) {
 				if (applyChanges) {
 					points.add(points.indexOf(line.getEnd()), point);
-					// currentlyDraggedRelationPoint = mousePosBeforeDragRelative;
+					relationPointOfFirstDrag = point;
 				}
 				return Selection.LINE;
 			}
 		}
 		return Selection.NOTHING;
 	}
-
-	//	/**
-	//	 * currently dragged point is stored to make sure the selection is not changed (eg if dragging over another point)
-	//	 */
-	//	private Point currentlyDraggedRelationPoint = null;
-	//
-	//	public void drag(int diffX, int diffY, Point mousePosBeforeDragRelative) {
-	//
-	//		// if a relation-point is currently moved, it has preference
-	//		if (currentlyDraggedRelationPoint != null && checkAndMoveRelationPoint(currentlyDraggedRelationPoint, mousePosBeforeDragRelative, diffX, diffY)) {
-	//			return;
-	//		} else {
-	//			currentlyDraggedRelationPoint = null;
-	//		}
-	//		// otherwise the relation-dragbox is checked
-	//		if (currentlyDraggedRelationPoint == null && getDragBox().contains(mousePosBeforeDragRelative)) {
-	//			return;
-	//		}
-	//		// then the other relation points are checked
-	//		for (Point relationPoint : points) {
-	//			if (checkAndMoveRelationPoint(relationPoint, mousePosBeforeDragRelative, diffX, diffY)) {
-	//				return;
-	//			}
-	//		}
-	//		// at last check if a new relation-point should be created
-	//		for (Line line : getRelationPointLines()) {
-	//			if (line.distance(mousePosBeforeDragRelative) < NEW_POINT_DISTANCE) {
-	//				points.add(points.indexOf(line.getEnd()), mousePosBeforeDragRelative);
-	//				currentlyDraggedRelationPoint = mousePosBeforeDragRelative;
-	//				break;
-	//			}
-	//		}
-	//
-	//	}
-	//
-	//	private boolean checkAndMoveRelationPoint(Point relationPoint, Point mousePosBeforeDrag, int diffX, int diffY) {
-	//		if (toCircleRectangle(relationPoint).contains(mousePosBeforeDrag)) {
-	//			relationPoint.move(diffX, diffY);
-	//			currentlyDraggedRelationPoint = relationPoint;
-	//			// now apply the new rectangle size
-	//			setRectangle(repositionRelationAndPointsBasedOnPoints(getRectangle().getUpperLeftCorner()));
-	//			return true;
-	//		}
-	//		return false;
-	//	}
 
 	Rectangle repositionRelationAndPointsBasedOnPoints(Point elementStart) {
 		// Calculate new Relation position and size

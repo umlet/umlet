@@ -21,18 +21,18 @@ import com.umlet.element.experimental.uml.RelationPoints.Selection;
 
 public class Relation extends NewGridElement {
 
+	private RelationPoints relationPoints;
+	
 	@Override
 	public ElementId getId() {
 		return ElementId.Relation;
 	}
 
-	RelationPoints points;
-
 	@Override
 	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
 		//		properties.drawPropertiesText();
 
-		points.drawLinesBetweenPoints(drawer);
+		relationPoints.drawLinesBetweenPoints(drawer);
 	}
 
 	@Override
@@ -41,13 +41,13 @@ public class Relation extends NewGridElement {
 		if (isSelected()) {
 			drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 
-			// draw rectangle around whole element (basically a helper for developers and a reminder that the user uses a new element)
-			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
-			drawer.drawRectangle(0, 0, getRectangle().getWidth(), getRectangle().getHeight());
+			// draw rectangle around whole element (basically a helper for developers to make sure the (invisible) size of the element is correct)
+//			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
+//			drawer.drawRectangle(0, 0, getRectangle().getWidth(), getRectangle().getHeight());
 
 			drawer.setForegroundColor(ColorOwn.SELECTION_FG);
-			points.drawPointCircles(drawer);
-			points.drawDragBox(drawer);
+			relationPoints.drawPointCircles(drawer);
+			relationPoints.drawDragBox(drawer);
 		}
 	}
 
@@ -59,7 +59,7 @@ public class Relation extends NewGridElement {
 		for (int i = 0; i < split.length; i += 2) {
 			pointList.add(new Point(Integer.valueOf(split[i]), Integer.valueOf(split[i+1])));
 		}
-		points = new RelationPoints(pointList);
+		relationPoints = new RelationPoints(pointList);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class Relation extends NewGridElement {
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag) {
 		Point mousePosBeforeDragRelative = new Point(mousePosBeforeDrag.getX() - getRectangle().getX(), mousePosBeforeDrag.getY() - getRectangle().getY());
-		Selection returnSelection = points.getSelectionAndMaybeApplyChanges(mousePosBeforeDragRelative, diffX, diffY, this, true);
+		Selection returnSelection = relationPoints.getSelectionAndMaybeApplyChanges(mousePosBeforeDragRelative, diffX, diffY, this, firstDrag, true);
 		if (returnSelection != Selection.NOTHING) {
 			updateModelFromText();
 		}
@@ -84,7 +84,7 @@ public class Relation extends NewGridElement {
 	@Override
 	public boolean isSelectableOn(Point point) {
 		Point relativePoint = new Point(point.getX() - getRectangle().getX(), point.getY() - getRectangle().getY());
-		return points.getSelection(relativePoint) != Selection.NOTHING;
+		return relationPoints.getSelection(relativePoint) != Selection.NOTHING;
 	}
 
 }
