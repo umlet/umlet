@@ -11,6 +11,7 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
@@ -48,8 +49,13 @@ public class Relation extends NewGridElement {
 	protected void updateMetaDrawer(BaseDrawHandler drawer) {
 		drawer.clearCache();
 		if (isSelected()) {
-			drawer.setForegroundColor(ColorOwn.SELECTION_FG);
 			drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
+			
+			// draw rectangle around whole element (basically a helper for developers and a reminder that the user uses a new element)
+			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
+			drawer.drawRectangle(0, 0, getRectangle().getWidth(), getRectangle().getHeight());
+			
+			drawer.setForegroundColor(ColorOwn.SELECTION_FG);
 			// draw selection circles
 			for (Point p : points) {
 				drawer.drawCircle(p.x, p.y, SELECTCIRCLERADIUS);
@@ -106,17 +112,34 @@ public class Relation extends NewGridElement {
 	}
 
 	private void repositionRelation() {
-		Rectangle newSize = new Rectangle(0, 0, 0, 0);
+		// Calculate new Relation position and size
+		Rectangle newSize = null;
 		for (Point p : points) {
-			newSize.merge(toCircleRectangle(p));
+			Rectangle absoluteRectangle = toCircleRectangle(new Point(p.x + getRectangle().getX(), p.y + getRectangle().getY()));
+			if (newSize == null) {
+				newSize = absoluteRectangle;
+			} else {
+				newSize.merge(absoluteRectangle);
+			}
 		}
-		// move the new bounds to the origin of the element
-		newSize.move(getRectangle().getX(), getRectangle().getY());
+		// move relation points to their new position (their position is relative to the relation-position)
+		int xDisplacement = Integer.MAX_VALUE;
+		int yDisplacement = Integer.MAX_VALUE;
+		for (Point p : points) {
+			Rectangle r = toCircleRectangle(p);
+			xDisplacement = Math.min(xDisplacement, r.getX());
+			yDisplacement = Math.min(yDisplacement, r.getY());
+		}
+		for (Point p : points) {
+			p.move(-xDisplacement, -yDisplacement);
+		}
+		// now apply the new rectangle size
 		setRectangle(newSize);
 	}
-	
+
 	private Rectangle toCircleRectangle(Point p) {
-		return new Rectangle(p.x-SELECTCIRCLERADIUS, p.y-SELECTCIRCLERADIUS, SELECTCIRCLERADIUS*2, SELECTCIRCLERADIUS*2);
+		int radius = SELECTCIRCLERADIUS + 1;
+		return new Rectangle(p.x-radius, p.y-radius, radius*2, radius*2);
 	}
 }
 

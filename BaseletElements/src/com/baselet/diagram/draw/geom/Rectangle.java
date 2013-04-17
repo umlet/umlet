@@ -104,17 +104,14 @@ public class Rectangle {
 	 * eg: Rect(x=-1,y=2,x2=3,y2=5).merge(Rect(x=2,y=1,x2=5,y2=3))=Rect(x=-1,y=1,x2=5,y2=5)
 	 */
 	public void merge(Rectangle other) {
+		// must store X2 and Y2 before changing this X and Y, otherwise information can be lost
+		// eg: this(y=100,h=10) and other(y=50,h=10) -> this.y2 is 110 but would be changed to 60)
+		int oldX2 = this.getX2();
+		int oldY2 = this.getY2();
 		setX(Math.min(this.getX(), other.getX()));
 		setY(Math.min(this.getY(), other.getY()));
-
-		int diffX = other.getX2() - this.getX2();
-		if (diffX > 0) {
-			width += diffX;
-		}
-		int diffY = other.getY2() - this.getY2();
-		if (diffY > 0) {
-			height += diffY;
-		}
+		setWidth(Math.max(oldX2, other.getX2()) - getX());
+		setHeight(Math.max(oldY2, other.getY2()) - getY());
 	}
 
 	@Override
