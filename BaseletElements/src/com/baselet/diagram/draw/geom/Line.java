@@ -29,7 +29,10 @@ public class Line {
 	public void setEnd(Point end) {
 		this.end = end;
 	}
-
+	
+	public Point getCenter() {
+	    return new Point((start.getX() + end.getX()) / 2, (start.getY() + end.getY()) / 2);
+	}
 
 	/**
 	 * Checks the distance between this line and a specific point
