@@ -1,10 +1,8 @@
 package com.umlet.element.experimental.uml;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.BaseDrawHandler;
@@ -12,7 +10,6 @@ import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
@@ -23,6 +20,7 @@ public class Relation extends NewGridElement {
 
 	private final int SELECTBOXSIZE = 5;
 	private final int SELECTCIRCLERADIUS = 10;
+	private final int NEW_POINT_DISTANCE = 5;
 
 	/**
 	 * Points of this relation (point of origin is the upper left corner of the relation element (not the drawpanel!))
@@ -39,11 +37,17 @@ public class Relation extends NewGridElement {
 		//		properties.drawPropertiesText();
 
 		// draw lines
-		for (int i = 1; i < points.size(); i++) {
-			Point a = points.get(i-1);
-			Point b = points.get(i);
-			drawer.drawLine(a.x, a.y, b.x, b.y);
+		for (Line line : getRelationPointLines()) {
+			drawer.drawLine(line);
 		}
+	}
+
+	private List<Line> getRelationPointLines() {
+		List<Line> lines = new ArrayList<Line>();
+		for (int i = 1; i < points.size(); i++) {
+			lines.add(new Line(points.get(i-1), points.get(i)));
+		}
+		return lines;
 	}
 
 	@Override
@@ -94,26 +98,36 @@ public class Relation extends NewGridElement {
 
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown) {
-		mousePosBeforeDrag = new Point(mousePosBeforeDrag.getX() - getRectangle().getX(), mousePosBeforeDrag.getY() - getRectangle().getY());
-		
+		Point mousePosBeforeDragRelative = new Point(mousePosBeforeDrag.getX() - getRectangle().getX(), mousePosBeforeDrag.getY() - getRectangle().getY());
+		System.out.println(currentlyDraggedRelationPoint);
 		// if a relation-point is currently moved, it has preference
-		if (currentlyDraggedRelationPoint != null && checkAndMoveRelationPoint(currentlyDraggedRelationPoint, mousePosBeforeDrag, diffX, diffY)) {
+		if (currentlyDraggedRelationPoint != null && checkAndMoveRelationPoint(currentlyDraggedRelationPoint, mousePosBeforeDragRelative, diffX, diffY)) {
 			return;
 		} else {
 			currentlyDraggedRelationPoint = null;
 		}
 		// otherwise the relation-dragbox is checked
-		if (currentlyDraggedRelationPoint == null && getDragBox().contains(mousePosBeforeDrag)) {
+		if (currentlyDraggedRelationPoint == null && getDragBox().contains(mousePosBeforeDragRelative)) {
 			this.setLocationDifference(diffX, diffY);
 			updateModelFromText();
-			repaint();
+			return;
 		}
-		// at last the other relation points are checked
+		// then the other relation points are checked
 		for (Point relationPoint : points) {
-			if (checkAndMoveRelationPoint(relationPoint, mousePosBeforeDrag, diffX, diffY)) {
+			if (checkAndMoveRelationPoint(relationPoint, mousePosBeforeDragRelative, diffX, diffY)) {
 				return;
 			}
 		}
+		// at last check if a new relation-point should be created
+		for (Line line : getRelationPointLines()) {
+			if (line.distance(mousePosBeforeDragRelative) < NEW_POINT_DISTANCE) {
+				points.add(points.indexOf(line.getEnd()), mousePosBeforeDragRelative);
+				currentlyDraggedRelationPoint = mousePosBeforeDragRelative;
+				updateModelFromText();
+				break;
+			}
+		}
+		
 	}
 
 	private boolean checkAndMoveRelationPoint(Point relationPoint, Point mousePosBeforeDrag, int diffX, int diffY) {
@@ -123,7 +137,6 @@ public class Relation extends NewGridElement {
 			currentlyDraggedRelationPoint = relationPoint;
 			repositionRelationAndPointsBasedOnPoints();
 			updateModelFromText();
-			repaint();
 			return true;
 		}
 		return false;

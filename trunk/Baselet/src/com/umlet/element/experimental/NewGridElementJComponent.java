@@ -72,5 +72,10 @@ public class NewGridElementJComponent extends JComponent implements ComponentInt
 	public void setBoundsRect(Rectangle rect) {
 		this.setBounds(rect.x, rect.y, rect.width, rect.height);
 	}
+	
+	@Override
+	public void afterModelUpdate() {
+		// do nothing special
+	}
 
 }
