@@ -1,6 +1,8 @@
 package com.umlet.element.experimental.uml;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -20,6 +22,9 @@ public class Relation extends NewGridElement {
 	private final float SELECTBOXSIZE = 10;
 	private final int SELECTCIRCLERADIUS = 10;
 
+	/**
+	 * Points of this relation (point of origin is the upper left corner of the relation element (not the drawpanel!))
+	 */
 	private List<Point> points = new ArrayList<Point>();
 
 	@Override
@@ -73,7 +78,7 @@ public class Relation extends NewGridElement {
 	private Point currentlyDragging = null;
 
 	@Override
-	public void drag(Set<Direction> resizeDirection, int diffX, int diffY, Point mousePosAfterDrag, boolean isShiftKeyDown) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosAfterDrag, boolean isShiftKeyDown) {
 		Point mousePosBeforeDrag = new Point(mousePosAfterDrag.x - diffX, mousePosAfterDrag.y - diffY);
 		// User is still moving the previously moved point
 		if (currentlyDragging != null && checkAndMove(currentlyDragging, mousePosBeforeDrag, diffX, diffY)) {
@@ -88,15 +93,30 @@ public class Relation extends NewGridElement {
 	}
 
 	private boolean checkAndMove(Point relationPoint, Point mousePosBeforeDrag, int diffX, int diffY) {
-		Rectangle rect = new Rectangle(relationPoint.x-SELECTCIRCLERADIUS, relationPoint.y-SELECTCIRCLERADIUS, SELECTCIRCLERADIUS*2, SELECTCIRCLERADIUS*2);
+		Rectangle rect = toCircleRectangle(relationPoint);
 		if (rect.contains(mousePosBeforeDrag)) {
 			relationPoint.move(diffX, diffY);
 			currentlyDragging = relationPoint;
+			repositionRelation();
 			updateModelFromText();
 			repaint();
 			return true;
 		}
 		return false;
+	}
+
+	private void repositionRelation() {
+		Rectangle newSize = new Rectangle(0, 0, 0, 0);
+		for (Point p : points) {
+			newSize.merge(toCircleRectangle(p));
+		}
+		// move the new bounds to the origin of the element
+		newSize.move(getRectangle().getX(), getRectangle().getY());
+		setRectangle(newSize);
+	}
+	
+	private Rectangle toCircleRectangle(Point p) {
+		return new Rectangle(p.x-SELECTCIRCLERADIUS, p.y-SELECTCIRCLERADIUS, SELECTCIRCLERADIUS*2, SELECTCIRCLERADIUS*2);
 	}
 }
 

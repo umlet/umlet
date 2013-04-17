@@ -98,6 +98,24 @@ public class Rectangle {
 		if (getX() > other.getX2()) return false;
 		return true;
 	}
+	
+	/**
+	 * move the bounds of this rectangle to the lowest upper/left and highest lower/right bounds
+	 * eg: Rect(x=-1,y=2,x2=3,y2=5).merge(Rect(x=2,y=1,x2=5,y2=3))=Rect(x=-1,y=1,x2=5,y2=5)
+	 */
+	public void merge(Rectangle other) {
+		setX(Math.min(this.getX(), other.getX()));
+		setY(Math.min(this.getY(), other.getY()));
+
+		int diffX = other.getX2() - this.getX2();
+		if (diffX > 0) {
+			width += diffX;
+		}
+		int diffY = other.getY2() - this.getY2();
+		if (diffY > 0) {
+			height += diffY;
+		}
+	}
 
 	@Override
 	public int hashCode() {

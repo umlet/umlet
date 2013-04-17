@@ -1,5 +1,6 @@
 package com.baselet.element;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -51,6 +52,12 @@ public interface GridElement {
 
 	StickingPolygon generateStickingBorder(int x, int y, int width, int height);
 
+	/**
+	 * position of the element on the drawpanel.
+	 * x and y: distance from the upper left corner of the drawpanel.
+	 * width and height: size of the element.
+	 * 
+	 */
 	Rectangle getRectangle();
 
 	void repaint();
@@ -82,5 +89,5 @@ public interface GridElement {
 	
 	ElementId getId();
 	
-	void drag(Set<Direction> resizeDirection, int diffX, int diffY, Point mousePosAfterDrag, boolean isShiftKeyDown);
+	void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosAfterDrag, boolean isShiftKeyDown);
 }
