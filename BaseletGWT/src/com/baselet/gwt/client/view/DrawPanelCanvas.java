@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
@@ -20,8 +21,6 @@ import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.dom.client.Style;
 
 public class DrawPanelCanvas {
-
-	public final static int GRID_SIZE = 10;
 
 	public static final CssColor GRAY = CssColor.make("rgba(" + 100 + ", " + 100 + "," + 100 + ", " + 0.2 + ")");
 	public static final CssColor WHITE = CssColor.make(255, 255, 255);
@@ -122,10 +121,10 @@ public class DrawPanelCanvas {
 		int height = backgroundCanvas.getCoordinateSpaceHeight();
 		Context2d backgroundContext = backgroundCanvas.getContext2d();
 		backgroundContext.setStrokeStyle(GRAY);
-		for (int i = 0; i < width; i += GRID_SIZE) {
+		for (int i = 0; i < width; i += NewGridElementConstants.DEFAULT_GRID_SIZE) {
 			drawLine(backgroundContext, i, 0, i, height);
 		}
-		for (int i = 0; i < height; i += GRID_SIZE) {
+		for (int i = 0; i < height; i += NewGridElementConstants.DEFAULT_GRID_SIZE) {
 			drawLine(backgroundContext, 0, i, width, i);
 		}
 	}

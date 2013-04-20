@@ -6,11 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
@@ -61,6 +60,11 @@ public class Relation extends NewGridElement {
 		}
 		relationPoints = new RelationPoints(pointList);
 	}
+	
+	@Override
+	public String getAdditionalAttributes() {
+		return relationPoints.toAdditionalAttributesString();
+	}
 
 	@Override
 	public Settings getSettings() {
@@ -70,7 +74,8 @@ public class Relation extends NewGridElement {
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag) {
 		Point mousePosBeforeDragRelative = new Point(mousePosBeforeDrag.getX() - getRectangle().getX(), mousePosBeforeDrag.getY() - getRectangle().getY());
-		Selection returnSelection = relationPoints.getSelectionAndMaybeApplyChanges(mousePosBeforeDragRelative, diffX, diffY, this, firstDrag, true);
+		int gridSize = (int) (getHandler().getZoomFactor() * NewGridElementConstants.DEFAULT_GRID_SIZE);
+		Selection returnSelection = relationPoints.getSelectionAndApplyChanges(mousePosBeforeDragRelative, diffX, diffY, this, gridSize, firstDrag);
 		if (returnSelection != Selection.NOTHING) {
 			updateModelFromText();
 		}
