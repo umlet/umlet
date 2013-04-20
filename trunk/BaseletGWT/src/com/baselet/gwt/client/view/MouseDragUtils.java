@@ -3,6 +3,7 @@ package com.baselet.gwt.client.view;
 import java.util.Arrays;
 import java.util.Set;
 
+import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
@@ -71,8 +72,8 @@ public class MouseDragUtils {
 				if (Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS).contains(storage.dragging)) {
 					int diffX = event.getX() - storage.moveStart.getX();
 					int diffY = event.getY() - storage.moveStart.getY();
-					diffX -= (diffX % DrawPanelCanvas.GRID_SIZE);
-					diffY -= (diffY % DrawPanelCanvas.GRID_SIZE);
+					diffX -= (diffX % NewGridElementConstants.DEFAULT_GRID_SIZE);
+					diffY -= (diffY % NewGridElementConstants.DEFAULT_GRID_SIZE);
 					if (diffX != 0 || diffY != 0) {
 						mouseDragHandler.onMouseMoveDragging(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), (storage.dragging == DragStatus.FIRST));
 						storage.dragging = DragStatus.CONTINUOUS; // after FIRST real drag switch to CONTINUOUS

@@ -110,21 +110,4 @@ public class OwnXMLParser {
 		return doc.toString();
 	}
 	
-//	<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-//	<diagram program="umlet" version="12.1">
-//	  <zoom_level>10</zoom_level>
-//	  <element>
-//	    <id>UMLClass</id>
-//	    <coordinates>
-//	      <x>240</x>
-//	      <y>180</y>
-//	      <w>180</w>
-//	      <h>90</h>
-//	    </coordinates>
-//	    <panel_attributes>This palette contains the new grid elements UMLet offers since v12 (at the moment Class and UseCase).
-//
-//	Press Ctrl+Space to open the possible settings to customize your elements as you can see below.
-//	elementstyle=wordwrap</panel_attributes>
-//	    <additional_attributes/>
-//	  </element>
 }

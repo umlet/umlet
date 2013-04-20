@@ -42,8 +42,6 @@ public abstract class NewGridElement implements GridElement {
 	private ComponentInterface component;
 
 	private DrawHandlerInterface handler;
-	
-	private String additionalAttributes;
 
 	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, ComponentInterface component, DrawHandlerInterface handler) {
 		this.component = component;
@@ -158,13 +156,13 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public String getAdditionalAttributes() {
-		return additionalAttributes;
+		return "";
 	}
 
 	@Override
 	public void setAdditionalAttributes(String additionalAttributes) {
+		// usually GridElements have no additional attributes
 		/*TODO: perhaps refactor the additionattributes stuff completely (why should it be stored as a string? only for easier saving in uxf?)*/
-		this.additionalAttributes = additionalAttributes;
 	}
 
 	@Override
@@ -361,6 +359,10 @@ public abstract class NewGridElement implements GridElement {
 				(resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) ||
 				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) ||
 				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT));
+	}
+	
+	protected DrawHandlerInterface getHandler() {
+		return handler;
 	}
 
 }
