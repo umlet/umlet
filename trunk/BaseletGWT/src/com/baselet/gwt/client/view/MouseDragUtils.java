@@ -33,7 +33,7 @@ public class MouseDragUtils {
 	public interface MouseDragHandler {
 		void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean firstDrag);
 
-		void onMouseOut();
+		void onMouseDragEnd(GridElement gridElement);
 
 		void onMouseDown(GridElement gridElement);
 
@@ -56,14 +56,13 @@ public class MouseDragUtils {
 		drawPanelCanvas.getCanvas().addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
-				storage.dragging = DragStatus.NO;
+				handleDragEnd(storage, mouseDragHandler);
 			}
 		});
 		drawPanelCanvas.getCanvas().addMouseOutHandler(new MouseOutHandler() {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				storage.dragging = DragStatus.NO;
-				mouseDragHandler.onMouseOut();
+				handleDragEnd(storage, mouseDragHandler);
 			}
 		});
 		drawPanelCanvas.getCanvas().addMouseMoveHandler(new MouseMoveHandler() {
@@ -85,6 +84,13 @@ public class MouseDragUtils {
 				}
 			}
 		});
+	}
+
+	private static void handleDragEnd(final DragCache storage, MouseDragHandler mouseDragHandler) {
+		if (Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS).contains(storage.dragging)) {
+			mouseDragHandler.onMouseDragEnd(storage.elementToDrag);
+		}
+		storage.dragging = DragStatus.NO;
 	}
 
 }

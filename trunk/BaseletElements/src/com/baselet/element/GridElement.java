@@ -92,4 +92,6 @@ public interface GridElement {
 	void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag);
 
 	boolean isSelectableOn(Point point);
+
+	void dragEnd();
 }

@@ -489,4 +489,10 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		return getRectangle().contains(point);
 	}
 	
+	@Override
+	public void dragEnd() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
