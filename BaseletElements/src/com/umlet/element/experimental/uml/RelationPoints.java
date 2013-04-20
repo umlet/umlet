@@ -16,9 +16,9 @@ import com.baselet.diagram.draw.geom.Rectangle;
 
 public class RelationPoints {
 
-	private final int SELECTBOXSIZE = 5;
-	private final int SELECTCIRCLERADIUS = 10;
-	private final int NEW_POINT_DISTANCE = 5;
+	private final int DRAG_BOX_SIZE = 10; // size of the box to drag the whole relation
+	private final int POINT_SELECTION_RADIUS = 10; // radius of the selection circle of relation-points
+	private final int NEW_POINT_DISTANCE = 5; // distance from which new points can be dragged away from a relation-line
 
 	/**
 	 * Points of this relation (point of origin is the upper left corner of the relation element (not the drawpanel!))
@@ -54,8 +54,7 @@ public class RelationPoints {
 		// Necessary to avoid changing the currently moved point if moving over another point and to avoid losing the current point if it's a new line point and the mouse is dragged very fast
 		if (!firstDrag && relationPointOfCurrentDrag != null) {
 			if (applyChanges) {
-				relationPointOfCurrentDrag.move(diffX, diffY);
-				relation.setRectangle(repositionRelationAndPointsBasedOnPoints(relation.getRectangle().getUpperLeftCorner(), gridSize));
+				movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY, relation, gridSize);
 			}
 			return Selection.RELATION_POINT;
 		}
@@ -72,8 +71,7 @@ public class RelationPoints {
 			if (toCircleRectangle(relationPoint).contains(point)) {
 				if (applyChanges) {
 					relationPointOfCurrentDrag = relationPoint;
-					relationPoint.move(diffX, diffY);
-					relation.setRectangle(repositionRelationAndPointsBasedOnPoints(relation.getRectangle().getUpperLeftCorner(), gridSize));
+					movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY, relation, gridSize);
 
 				}
 				return Selection.RELATION_POINT;
@@ -90,6 +88,17 @@ public class RelationPoints {
 			}
 		}
 		return Selection.NOTHING;
+	}
+
+	private void movePointAndResizeRectangle(Point point, Integer diffX, Integer diffY, Relation relation, int gridSize) {
+		// move the point
+		point.move(diffX, diffY);
+		// if there are only 2 points and they would overlap now (therefore the relation would have a size of 0x0px), revert the move
+		if (points.size() == 2 && points.get(0).equals(points.get(1))) {
+			point.move(-diffX, -diffY);
+		}
+		// now rebuild width and height of the relation, based on the new positions of the relation-points
+		relation.setRectangle(repositionRelationAndPointsBasedOnPoints(relation.getRectangle().getUpperLeftCorner(), gridSize));
 	}
 
 	/**
@@ -144,7 +153,7 @@ public class RelationPoints {
 	}
 
 	private Rectangle toCircleRectangle(Point p) {
-		return toRectangle(p, SELECTCIRCLERADIUS);
+		return toRectangle(p, POINT_SELECTION_RADIUS);
 	}
 
 	private Rectangle toRectangle(Point p, int size) {
@@ -165,7 +174,7 @@ public class RelationPoints {
 		Point begin = points.get(points.size() / 2);
 		Point end = points.get(points.size() / 2 - 1);
 		Point center = new Line(begin, end).getCenter();
-		Rectangle rectangle = toRectangle(center, SELECTBOXSIZE);
+		Rectangle rectangle = toRectangle(center, DRAG_BOX_SIZE/2);
 		return rectangle;
 	}
 
@@ -179,7 +188,7 @@ public class RelationPoints {
 
 	public void drawPointCircles(BaseDrawHandler drawer) {
 		for (Point p : points) {
-			drawer.drawCircle(p.x, p.y, SELECTCIRCLERADIUS-1);
+			drawer.drawCircle(p.x, p.y, POINT_SELECTION_RADIUS-1);
 		}
 	}
 
