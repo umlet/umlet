@@ -42,6 +42,8 @@ public abstract class NewGridElement implements GridElement {
 	private ComponentInterface component;
 
 	private DrawHandlerInterface handler;
+	
+	private static final int MINIMAL_SIZE = NewGridElementConstants.DEFAULT_GRID_SIZE * 2;
 
 	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, ComponentInterface component, DrawHandlerInterface handler) {
 		this.component = component;
@@ -333,17 +335,17 @@ public abstract class NewGridElement implements GridElement {
 			}
 			if (resizeDirection.contains(Direction.LEFT)) {
 				rect.setX(rect.getX() + diffX);
-				rect.setWidth(rect.getWidth() - diffX);
+				rect.setWidth(Math.max(rect.getWidth() - diffX, MINIMAL_SIZE));
 			}
 			if (resizeDirection.contains(Direction.RIGHT)) {
-				rect.setWidth(rect.getWidth() + diffX);
+				rect.setWidth(Math.max(rect.getWidth() + diffX, MINIMAL_SIZE));
 			}
 			if (resizeDirection.contains(Direction.UP)) {
 				rect.setY(rect.getY() + diffY);
-				rect.setHeight(rect.getHeight() - diffY);
+				rect.setHeight(Math.max(rect.getHeight() - diffY, MINIMAL_SIZE));
 			}
 			if (resizeDirection.contains(Direction.DOWN)) {
-				rect.setHeight(rect.getHeight() + diffY);
+				rect.setHeight(Math.max(rect.getHeight() + diffY, MINIMAL_SIZE));
 			}
 			updateModelFromText();
 		}
