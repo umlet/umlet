@@ -45,7 +45,7 @@ public class ElementFactory {
 			}
 		};
 		
-		element.init(rect, panelAttributes, additionalPanelAttributes, new GwtCanvasElementImpl(element), handler);
+		element.init(rect, panelAttributes, additionalPanelAttributes, new GwtComponent(element), handler);
 		element.setPanelAttributes(panelAttributes);
 		return element;
 	}

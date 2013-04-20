@@ -21,7 +21,7 @@ public class ElementFactory {
 	public static NewGridElement create(ElementId id, Rectangle bounds, String panelAttributes, String additionalAttributes, DiagramHandler handler) {
 		final NewGridElement returnObj = id.createAssociatedGridElement();
 		
-		NewGridElementJComponent component = new NewGridElementJComponent(returnObj);
+		SwingComponent component = new SwingComponent(returnObj);
 		
 		DrawHandlerInterface panel = new DrawHandlerInterface() {
 			@Override

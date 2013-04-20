@@ -12,7 +12,7 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.Utils;
-import com.baselet.gwt.client.element.GwtCanvasElementImpl;
+import com.baselet.gwt.client.element.GwtComponent;
 import com.baselet.gwt.client.view.MouseDragUtils.MouseDragHandler;
 import com.baselet.gwt.client.view.OwnTextArea.InstantValueChangeHandler;
 import com.google.gwt.canvas.client.Canvas;
@@ -62,8 +62,11 @@ public class DrawPanelCanvas {
 			}
 
 			@Override
-			public void onMouseOut() {
-				Utils.showCursor(Style.Cursor.AUTO);
+			public void onMouseDragEnd(GridElement draggedGridElement) {
+				if (draggedGridElement != null) {
+					draggedGridElement.dragEnd();
+				}
+				draw();
 			}
 
 			Set<Direction> resizeDirection = new HashSet<Direction>();
@@ -142,7 +145,7 @@ public class DrawPanelCanvas {
 		context.setFillStyle(WHITE);
 		context.fillRect(-1000000, -1000000, 2000000, 2000000);
 		for (GridElement ge : gridElements) {
-			((GwtCanvasElementImpl) ge.getComponent()).drawOn(context);
+			((GwtComponent) ge.getComponent()).drawOn(context);
 		}
 		context.drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
 

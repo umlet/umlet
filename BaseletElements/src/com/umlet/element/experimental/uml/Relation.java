@@ -82,6 +82,14 @@ public class Relation extends NewGridElement {
 	}
 	
 	@Override
+	public void dragEnd() {
+		boolean updateNecessary = relationPoints.removeRelationPointOfCurrentDragIfItOverlaps();
+		if (updateNecessary) {
+			updateModelFromText();
+		}
+	}
+	
+	@Override
 	public Set<Direction> getResizeArea(int x, int y) {
 		return new HashSet<Direction>();
 	}

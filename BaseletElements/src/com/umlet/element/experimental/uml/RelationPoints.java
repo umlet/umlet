@@ -48,20 +48,20 @@ public class RelationPoints {
 		return getSelectionAndMaybeApplyChangesHelper(point, diffX, diffY, relation, gridSize, firstDrag, true);
 	}
 
-	private Point relationPointOfFirstDrag = null;
+	private Point relationPointOfCurrentDrag = null;
 	private Selection getSelectionAndMaybeApplyChangesHelper(Point point, Integer diffX, Integer diffY, Relation relation, int gridSize, boolean firstDrag, boolean applyChanges) {
 		// Special case: if this is not the first drag and a relation-point is currently dragged, it has preference
 		// Necessary to avoid changing the currently moved point if moving over another point and to avoid losing the current point if it's a new line point and the mouse is dragged very fast
-		if (!firstDrag && relationPointOfFirstDrag != null) {
+		if (!firstDrag && relationPointOfCurrentDrag != null) {
 			if (applyChanges) {
-				relationPointOfFirstDrag.move(diffX, diffY);
+				relationPointOfCurrentDrag.move(diffX, diffY);
 				relation.setRectangle(repositionRelationAndPointsBasedOnPoints(relation.getRectangle().getUpperLeftCorner(), gridSize));
 			}
 			return Selection.RELATION_POINT;
 		}
 
 		// If the special case doesn't apply, forget the relationPointOfFirstDrag, because its a new first drag
-		relationPointOfFirstDrag = null;
+		relationPointOfCurrentDrag = null;
 		if (getDragBox().contains(point)) {
 			if (applyChanges) {
 				relation.setLocationDifference(diffX, diffY);
@@ -71,7 +71,7 @@ public class RelationPoints {
 		for (Point relationPoint : points) {
 			if (toCircleRectangle(relationPoint).contains(point)) {
 				if (applyChanges) {
-					relationPointOfFirstDrag = relationPoint;
+					relationPointOfCurrentDrag = relationPoint;
 					relationPoint.move(diffX, diffY);
 					relation.setRectangle(repositionRelationAndPointsBasedOnPoints(relation.getRectangle().getUpperLeftCorner(), gridSize));
 
@@ -84,12 +84,32 @@ public class RelationPoints {
 				if (applyChanges) {
 					Point roundedPoint = new Point(SharedUtils.realignToGrid(false, point.x), SharedUtils.realignToGrid(false, point.y));
 					points.add(points.indexOf(line.getEnd()), roundedPoint);
-					relationPointOfFirstDrag = roundedPoint;
+					relationPointOfCurrentDrag = roundedPoint;
 				}
 				return Selection.LINE;
 			}
 		}
 		return Selection.NOTHING;
+	}
+
+	/**
+	 * if a relation-point was dragged and there are more than 2 relation-points and the last dragged relation-point overlaps
+	 * a neighbour relation-point, they get merged into one point.
+	 * @return relation points have been merged
+	 */
+	public boolean removeRelationPointOfCurrentDragIfItOverlaps() {
+		if (relationPointOfCurrentDrag != null && points.size() > 2) {
+			Point lastPoint = points.get(0);
+			for (int i = 1; i < points.size(); i++) {
+				if (points.get(i).equals(lastPoint)) {
+					points.remove(i);
+					return true;
+				} else {
+					lastPoint = points.get(i);
+				}
+			}
+		}
+		return false;
 	}
 
 	Rectangle repositionRelationAndPointsBasedOnPoints(Point elementStart, int gridSize) {
@@ -106,13 +126,12 @@ public class RelationPoints {
 		// Realign new size to grid (should not be necessary as long as SELECTCIRCLERADIUS == DefaultGridSize
 		newSize.setLocation(SharedUtils.realignTo(false, newSize.getX(), false, gridSize), SharedUtils.realignTo(false, newSize.getY(), false, gridSize));
 		newSize.setSize(SharedUtils.realignTo(false, newSize.getWidth(), true, gridSize), SharedUtils.realignTo(false, newSize.getHeight(), true, gridSize));
-		
+
 		// move relation points to their new position (their position is relative to the relation-position)
 		int displacementX = Integer.MAX_VALUE;
 		int displacementY = Integer.MAX_VALUE;
 		for (Point p : points) {
 			Rectangle r = toCircleRectangle(p);
-			System.out.println(p + "/" + r);
 			displacementX = Math.min(displacementX, r.getX());
 			displacementY = Math.min(displacementY, r.getY());
 		}

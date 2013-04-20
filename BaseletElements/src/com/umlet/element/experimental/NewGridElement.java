@@ -348,6 +348,11 @@ public abstract class NewGridElement implements GridElement {
 			updateModelFromText();
 		}
 	}
+	
+	@Override
+	public void dragEnd() {
+		// do nothing
+	}
 
 	@Override
 	public boolean isSelectableOn(Point point) {
