@@ -250,9 +250,6 @@ public class Main {
 
 	// sets the current diagram the user works with - that may be a palette too
 	public void setCurrentDiagramHandler(DiagramHandler handler) {
-		if (handler != null && !(handler instanceof PaletteHandler)) {
-			Notifier.getInstance().setNotificationPanel(handler.getDrawPanel()); // update notification panel if it's not the palette
-		}
 		this.currentDiagramHandler = handler;
 		if (gui != null) gui.diagramSelected(handler);
 	}

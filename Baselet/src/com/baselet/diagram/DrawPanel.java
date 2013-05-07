@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
+import com.baselet.control.DiagramNotification;
 import com.baselet.control.Utils;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
@@ -542,5 +543,17 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		JScrollBar scrollBar = _scr.getVerticalScrollBar();
 		int increment = scrollBar.getUnitIncrement();
 		scrollBar.setValue(scrollBar.getValue() + amount * increment);
+	}
+
+	private DiagramNotification notification;
+	public void setNotification(DiagramNotification newNotification) {
+		if (notification != null) {
+			remove(notification);
+		}
+	
+		this.notification = newNotification;
+		add(notification);
+		
+		repaint();
 	}
 }
