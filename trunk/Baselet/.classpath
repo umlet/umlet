@@ -11,7 +11,7 @@
 	<classpathentry kind="lib" path="lib/baselet_batik-svggen.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_batik-util.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_batik-xml.jar"/>
-	<classpathentry kind="lib" path="lib/baselet_itextpdf-5.1.3.jar"/>
+	<classpathentry kind="lib" path="lib/baselet_itextpdf-5.4.1.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_jlibeps.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_mailapi.jar"/>

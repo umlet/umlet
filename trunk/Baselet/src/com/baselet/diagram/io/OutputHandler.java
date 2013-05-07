@@ -30,9 +30,9 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.itextpdf.awt.DefaultFontMapper;
+import com.itextpdf.awt.FontMapper;
 import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.DefaultFontMapper;
-import com.itextpdf.text.pdf.FontMapper;
 
 
 public class OutputHandler {
@@ -113,7 +113,7 @@ public class OutputHandler {
 	private static void exportPdf(OutputStream ostream, DiagramHandler handler, Collection<GridElement> entities) throws IOException {
 		try {
 			Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
-			com.itextpdf.text.Rectangle drawSpace = new com.itextpdf.text.Rectangle((float) bounds.getWidth(), (float) bounds.getHeight());
+			com.itextpdf.text.Rectangle drawSpace = new com.itextpdf.text.Rectangle(bounds.getWidth(), bounds.getHeight());
 
 			com.itextpdf.text.Document document = new com.itextpdf.text.Document(drawSpace);
 			com.itextpdf.text.pdf.PdfWriter writer = com.itextpdf.text.pdf.PdfWriter.getInstance(document, ostream);
@@ -125,15 +125,16 @@ public class OutputHandler {
 				public BaseFont awtToPdf(Font font) {
 					try {
 						return BaseFont.createFont(Constants.pdfExportFont, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-					} catch (Exception e) {/*is handled later by returning null*/}
-					return null;
+					} catch (Exception e) {
+						return null;
+					}
 				}
 				@Override
 				public Font pdfToAwt(BaseFont font, int size) {
 					return null;
 				}
 			};
-			
+
 			if (mapper.awtToPdf(null) == null) mapper = new DefaultFontMapper();
 
 			Graphics2D graphics2d = writer.getDirectContent().createGraphics(drawSpace.getWidth(), drawSpace.getHeight(), mapper);
