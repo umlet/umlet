@@ -5,6 +5,7 @@ import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.settings.facets.Facet;
 import com.umlet.element.experimental.settings.facets.SeparatorLine;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 
 public class SettingsUseCase extends Settings {
 
@@ -24,6 +25,11 @@ public class SettingsUseCase extends Settings {
 	@Override
 	public AlignHorizontal getHAlign() {
 		return AlignHorizontal.CENTER;
+	}
+
+	@Override
+	public ElementStyleEnum getElementStyle() {
+		return ElementStyleEnum.NORESIZE;
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import com.umlet.element.experimental.settings.facets.SeparatorLine;
 import com.umlet.element.experimental.settings.facets.TemplateClass;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 
-public class SettingsRelation extends Settings {
+public class SettingsInterface extends Settings {
 
 	@Override
 	public XValues getXValues(float y, int height, int width) {
@@ -19,7 +19,7 @@ public class SettingsRelation extends Settings {
 
 	@Override
 	public AlignVertical getVAlign() {
-		return AlignVertical.TOP;
+		return AlignVertical.CENTER;
 	}
 
 	@Override
@@ -29,12 +29,17 @@ public class SettingsRelation extends Settings {
 
 	@Override
 	public ElementStyleEnum getElementStyle() {
-		return ElementStyleEnum.NORESIZE;
+		return ElementStyleEnum.AUTORESIZE;
+	}
+	
+	@Override
+	public int getYPosStart() {
+		return 22; // space reserved for the top circle
 	}
 
 	@Override
 	public Facet[] createFacets() {
-		return new Facet[0];
+		return new Facet[]{new SeparatorLine(false)};
 	}
 
 }
