@@ -18,7 +18,7 @@ public class PropertiesConfig {
 	private boolean hAlignGloballySet = false;
 	private AlignVertical vAlign;
 	private boolean vAlignGloballySet = false;
-	private float yPos = 0;
+	private float yPos;
 	private int leftBuffer = 0;
 	private int rightBuffer = 0;
 	private Settings specificSettings;
@@ -29,6 +29,8 @@ public class PropertiesConfig {
 	public PropertiesConfig(Settings specificSettings) {
 		hAlign = specificSettings.getHAlign();
 		vAlign = specificSettings.getVAlign();
+		elementStyle = specificSettings.getElementStyle();
+		yPos = specificSettings.getYPosStart();
 		this.specificSettings = specificSettings;
 	}
 

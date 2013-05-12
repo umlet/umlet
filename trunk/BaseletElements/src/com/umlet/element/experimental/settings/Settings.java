@@ -5,6 +5,7 @@ import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet;
 import com.umlet.element.experimental.settings.facets.Facet;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 
 public abstract class Settings {
 
@@ -16,8 +17,14 @@ public abstract class Settings {
 	public abstract AlignVertical getVAlign();
 
 	public abstract AlignHorizontal getHAlign();
+
+	public abstract ElementStyleEnum getElementStyle();
 	
 	public abstract Facet[] createFacets();
+	
+	public int getYPosStart() {
+		return 0;
+	}
 	
 	public Facet[] createGlobalFacets() {
 		return new Facet[]{new DefaultGlobalFacet()};
