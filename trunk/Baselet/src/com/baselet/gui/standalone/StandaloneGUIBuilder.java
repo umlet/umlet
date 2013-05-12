@@ -5,11 +5,15 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -64,8 +68,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		if (Program.PROGRAM_NAME.equals(ProgramName.UMLET)) mainFrame.setTitle("UMLet - Free UML Tool for Fast UML Diagrams");
 		else if (Program.PROGRAM_NAME.equals(ProgramName.PLOTLET)) mainFrame.setTitle("Plotlet - Free Tool for Fast Plots");
 
-		String iconPath = Path.homeProgram() + "img/" + Program.PROGRAM_NAME.toLowerCase() + "_logo.png";
-		mainFrame.setIconImage(new ImageIcon(iconPath).getImage());
+		setImage(mainFrame);
 
 		if (Constants.start_maximized) {
 			// If Main starts maximized we set fixed bounds and must set the frame visible
@@ -85,6 +88,19 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		mainFrame.setVisible(true);
 		
 		return mainFrame;
+	}
+
+	private void setImage(JFrame mainFrame) {
+		try {
+			ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
+			for (Integer i : new int[] {16, 20, 24, 32, 40, 48, 64}) {
+				File file = new File(Path.homeProgram() + "img/" + Program.PROGRAM_NAME.toLowerCase() + "_logo" + i + ".png");
+				images.add(ImageIO.read(file));
+			}
+			mainFrame.setIconImages(images);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private void createZoomComboBox() {
