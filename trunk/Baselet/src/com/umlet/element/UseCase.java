@@ -84,7 +84,7 @@ public class UseCase extends OldGridElement {
 
 	 @Override
 	 public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-	 StickingPolygon p = new StickingPolygon();
+	 StickingPolygon p = new StickingPolygon(0, 0);
 	
 	 //First point is the top left then the points are added clockwise
 	 p.addPoint(new Point(x + width / 4, y));

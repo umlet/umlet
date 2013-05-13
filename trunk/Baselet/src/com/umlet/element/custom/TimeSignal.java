@@ -113,7 +113,7 @@ public class TimeSignal extends OldGridElement {
 
 		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 
-		StickingPolygon p = new StickingPolygon();
+		StickingPolygon p = new StickingPolygon(0, 0);
 		int px = x + width / 2;
 		int py = (int) (y + (40 * zoom) / 2);
 		p.addPoint(new Point(px - 4, py - 4));

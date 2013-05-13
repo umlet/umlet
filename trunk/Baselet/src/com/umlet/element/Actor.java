@@ -103,7 +103,7 @@ public class Actor extends OldGridElement {
 		int rechts = Main.getHandlerForElement(this).realignToGrid(false, x + width / 2 + (int) (35 * zoom));
 		int oben = Main.getHandlerForElement(this).realignToGrid(false, y);
 		int unten = Main.getHandlerForElement(this).realignToGrid(false, y + (int) (75 * zoom));
-		StickingPolygon p = new StickingPolygon();
+		StickingPolygon p = new StickingPolygon(0, 0);
 		p.addPoint(new Point(links, oben));
 		p.addPoint(new Point(rechts, oben));
 		p.addPoint(new Point(rechts, unten));

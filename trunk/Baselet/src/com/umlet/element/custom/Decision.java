@@ -42,7 +42,7 @@ public class Decision extends OldGridElement {
 
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-		StickingPolygon p = new StickingPolygon();
+		StickingPolygon p = new StickingPolygon(0, 0);
 		y += 1;
 		width += 1;
 		p.addPoint(new Point(x + width / 2, y));

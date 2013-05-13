@@ -141,7 +141,7 @@ public class Package extends OldGridElement {
 
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-		StickingPolygon p = new StickingPolygon();
+		StickingPolygon p = new StickingPolygon(0, 0);
 		Vector<String> tmp = new Vector<String>(getStringVector());
 		if (tmp.size() == 0) tmp.add(" ");
 		int yPos = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();

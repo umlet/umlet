@@ -28,7 +28,7 @@ public class SeqDestroyMark extends OldGridElement {
 
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-		StickingPolygon p = new StickingPolygon();
+		StickingPolygon p = new StickingPolygon(0, 0);
 		int px = x + width / 2;
 		int py = y + height / 2;
 		p.addPoint(new Point(px - 4, py - 4));

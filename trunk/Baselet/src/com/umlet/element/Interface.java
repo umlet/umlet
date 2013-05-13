@@ -134,7 +134,7 @@ public class Interface extends OldGridElement {
 		int rechts = x + width / 2 + (int) (10 * zoom);
 		int oben = y;
 		int unten = y + (int) (20 * zoom);
-		StickingPolygon p = new StickingPolygon();
+		StickingPolygon p = new StickingPolygon(0, 0);
 		p.addPoint(new Point(links, oben));
 		p.addPoint(new Point(rechts, oben));
 		p.addPoint(new Point(rechts, unten));

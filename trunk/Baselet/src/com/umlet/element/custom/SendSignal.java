@@ -57,7 +57,7 @@ public class SendSignal extends OldGridElement {
 
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-		StickingPolygon p = new StickingPolygon();
+		StickingPolygon p = new StickingPolygon(0, 0);
 		p.addPoint(new Point(x, y));
 		p.addPoint(new Point(x + width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), y));
 		p.addPoint(new Point(x + width, y + height / 2));

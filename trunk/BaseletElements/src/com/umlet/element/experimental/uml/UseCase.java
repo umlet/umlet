@@ -14,7 +14,7 @@ public class UseCase extends NewGridElement {
 	public ElementId getId() {
 		return ElementId.UMLUseCase;
 	}
-	
+
 	@Override
 	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
 		drawer.drawEllipse(0, 0, getRealSize().width-1, getRealSize().height-1);
@@ -22,25 +22,24 @@ public class UseCase extends NewGridElement {
 	}
 
 
-	 @Override
-	 public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-		 //First point is the top left then the points are added clockwise
-	 StickingPolygon p = new StickingPolygon();
-	
-	 p.addPoint(x + width / 4, y);
-	 p.addPoint(x + width * 3 / 4, y);
-				
-	 p.addPoint(x + width, y + height / 4);
-	 p.addPoint(x + width, y + height * 3 / 4);
-				
-	 p.addPoint(x + width * 3 / 4, y + height);
-	 p.addPoint(x + width / 4, y + height);
-				
-	 p.addPoint(x, y + height * 3 / 4);
-	 p.addPoint(x, y + height / 4, true);
-				
-	 return p;
-	 }
+	@Override
+	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
+		StickingPolygon p = new StickingPolygon(x, y);
+
+		p.addPoint(width / 4, 0);
+		p.addPoint(width * 3 / 4, 0);
+
+		p.addPoint(width, height / 4);
+		p.addPoint(width, height * 3 / 4);
+
+		p.addPoint(width * 3 / 4, height);
+		p.addPoint(width / 4, height);
+
+		p.addPoint(0, height * 3 / 4);
+		p.addPoint(0, height / 4, true);
+		
+		return p;
+	}
 
 
 	@Override

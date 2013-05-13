@@ -69,35 +69,49 @@ public class StickingPolygon {
 	private Vector<StickLine> stick = new Vector<StickLine>();
 	private Point lastpoint = null;
 	private Point firstpoint = null;
+	private int elementX;
+	private int elementY;
+
+	public StickingPolygon(int elementX, int elementY) {
+		this.elementX = elementX;
+		this.elementY = elementY;
+	}
+
+	@Deprecated
+	public void addPoint(Point p) {
+		addPoint(p.x, p.y);
+	}
+
+	@Deprecated
+	public void addPoint(Point p, boolean connect_to_first) {
+		addPoint(p.x, p.y, connect_to_first);
+	}
 
 	public void addPoint(int x, int y) {
-		addPoint(new Point(x, y));
-	}
-
-	public void addPoint(int x, int y, boolean connect_to_first) {
-		addPoint(new Point(x, y), connect_to_first);
-	}
-	
-	public void addPoint(Point p) {
-		// add a line with corresponding stickingInfo
-		if (this.lastpoint != null) {
+		Point p = new Point(elementX + x, elementY + y);
+		if (firstpoint == null) {
+			firstpoint = p;
+		} else {
 			stick.add(new StickLine(lastpoint, p));
 		}
-		else this.firstpoint = p;
-		this.lastpoint = p;
+		lastpoint = p;
+	}
+	public void addPoint(int x, int y, boolean connectToFirst) {
+		this.addPoint(x, y);
+		if (connectToFirst) {
+			stick.add(new StickLine(lastpoint, firstpoint));
+		}
+	}
+
+	public void addRectangle(int x, int y, int width, int height) {
+		addPoint(x, y);
+		addPoint(x+width, y);
+		addPoint(x+width, y+height);
+		addPoint(x, y+height, true);
 	}
 
 	public StickLine getLine(int index) {
 		return this.stick.get(index);
-	}
-
-	public void addPoint(Point p, boolean connect_to_first) {
-		this.addPoint(p);
-		if (connect_to_first && (this.firstpoint != null)) this.addPoint(this.firstpoint);
-	}
-
-	public void addLine(Point p1, Point p2) {
-		stick.add(new StickLine(p1, p2));
 	}
 
 	public Vector<? extends Line> getStickLines() {
