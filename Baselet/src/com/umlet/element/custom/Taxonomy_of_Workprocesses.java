@@ -90,7 +90,7 @@ public class Taxonomy_of_Workprocesses extends OldGridElement {
 	}
 
 	public StickingPolygon generateStickingBorder() {
-		StickingPolygon p = new StickingPolygon();
+		StickingPolygon p = new StickingPolygon(0, 0);
 		return p;
 	}
 

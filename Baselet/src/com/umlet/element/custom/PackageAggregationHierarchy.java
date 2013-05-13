@@ -98,7 +98,7 @@ public class PackageAggregationHierarchy extends OldGridElement {
 	}
 
 	public StickingPolygon generateStickingBorder() {
-		StickingPolygon p = new StickingPolygon();
+		StickingPolygon p = new StickingPolygon(0, 0);
 
 		return p;
 	}

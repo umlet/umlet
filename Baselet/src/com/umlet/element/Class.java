@@ -247,7 +247,7 @@ public class Class extends OldGridElement {
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
 		// LME: define the polygon on which relations stick on
 		if (!_isTemplate) return super.generateStickingBorder(x, y, width, height);
-		StickingPolygon p = new StickingPolygon();
+		StickingPolygon p = new StickingPolygon(0, 0);
 		p.addPoint(new Point(x, y + _templateHeight / 2));
 		p.addPoint(new Point(x + (9 * width) / 10 + 1, y + _templateHeight / 2));
 		p.addPoint(new Point(x + (9 * width) / 10 + 1, y + height));

@@ -89,7 +89,7 @@ public class Node extends OldGridElement {
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
 		int size_3d = 10;
-		StickingPolygon p = new StickingPolygon();
+		StickingPolygon p = new StickingPolygon(0, 0);
 		p.addPoint(new Point(x, y + size_3d));
 		p.addPoint(new Point(x, y + height));
 		p.addPoint(new Point(x + width - size_3d, y + height));

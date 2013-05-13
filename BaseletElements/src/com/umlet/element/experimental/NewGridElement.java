@@ -205,11 +205,8 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-		StickingPolygon p = new StickingPolygon();
-		p.addPoint(x, y);
-		p.addPoint(x + width, y);
-		p.addPoint(x + width, y + height);
-		p.addPoint(x, y + height, true);
+		StickingPolygon p = new StickingPolygon(x, y);
+		p.addRectangle(0, 0, width, height);
 		return p;
 	}
 	

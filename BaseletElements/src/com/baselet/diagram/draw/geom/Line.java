@@ -1,6 +1,10 @@
 package com.baselet.diagram.draw.geom;
 
+import org.apache.log4j.Logger;
+
 public class Line {
+	
+	private static final Logger log = Logger.getLogger(Line.class);
 
 	Point start;
 	Point end;
@@ -40,7 +44,9 @@ public class Line {
 	 * @return minimal distance from point to line as double value
 	 */
 	public double distance(Point pointToCheck) {
-		return distanceHelper(start.x, start.y, end.x, end.y, pointToCheck.x, pointToCheck.y);
+		double dist = distanceHelper(start.x, start.y, end.x, end.y, pointToCheck.x, pointToCheck.y);
+		log.debug("Minimal distance between " + this + " and " + pointToCheck + " is " + dist);
+		return dist;
 	}
 
 	/**
@@ -67,13 +73,6 @@ public class Line {
 		return dist;
 	}
 
-	
-	
-	
-	
-	
-	
-	
 	
 	@Override
 	public int hashCode() {

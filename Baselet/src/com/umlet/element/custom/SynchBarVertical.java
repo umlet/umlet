@@ -12,7 +12,6 @@ import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.command.Resize;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 
@@ -81,8 +80,9 @@ public class SynchBarVertical extends OldGridElement {
 
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-		StickingPolygon p = new StickingPolygon();
-		p.addLine(new Point(x + width / 2, y + textHeight), new Point(x + width / 2, y + height));
+		StickingPolygon p = new StickingPolygon(0, 0);
+		p.addPoint(x + width / 2, y + textHeight);
+		p.addPoint(x + width / 2, y + height);
 		return p;
 	}
 

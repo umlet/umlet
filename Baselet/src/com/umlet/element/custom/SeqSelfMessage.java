@@ -87,7 +87,7 @@ public class SeqSelfMessage extends OldGridElement {
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
 		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 		int size_3d = (int) (10 * zoom);
-		StickingPolygon p = new StickingPolygon();
+		StickingPolygon p = new StickingPolygon(0, 0);
 		p.addPoint(new Point(x, y + size_3d));
 		p.addPoint(new Point(x, y + height));
 		p.addPoint(new Point(x + width - size_3d, y + height));
