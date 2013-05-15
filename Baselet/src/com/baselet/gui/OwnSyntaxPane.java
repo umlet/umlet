@@ -20,8 +20,6 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
 import org.fife.ui.rsyntaxtextarea.TokenMakerFactory;
 import org.fife.ui.rsyntaxtextarea.TokenMap;
-import org.fife.ui.rsyntaxtextarea.TokenTypes;
-import org.fife.ui.rsyntaxtextarea.modes.BBCodeTokenMaker;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.baselet.control.Constants;
@@ -30,13 +28,11 @@ import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 
-
 public class OwnSyntaxPane {
 
 	private static final int SPECIFIC_SETTING = 1;
 	private static final int GLOBAL_SETTING = 2;
 
-	private static TokenMap myWordsToHighlight = new TokenMap();
 	private DefaultCompletionProvider provider = new DefaultCompletionProvider();
 
 	List<AutocompletionText> words = new ArrayList<AutocompletionText>();
@@ -51,7 +47,7 @@ public class OwnSyntaxPane {
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		textArea = new RSyntaxTextArea();
 
-		//Setup highlighting
+		// Setup highlighting
 		createHightLightMap();
 		AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory) TokenMakerFactory.getDefaultInstance();
 		atmf.putMapping(OwnTokenMaker.ID, OwnTokenMaker.class.getName());
@@ -61,7 +57,7 @@ public class OwnSyntaxPane {
 		scheme.getStyle(SPECIFIC_SETTING).foreground = Converter.convert(ColorOwn.forString("#e10100", Transparency.FOREGROUND));
 		scheme.getStyle(GLOBAL_SETTING).foreground = Converter.convert(ColorOwn.BLUE);
 
-		//Setup autocompletion
+		// Setup autocompletion
 		createAutocompletionCompletionProvider();
 		AutoCompletion ac = new AutoCompletion(provider);
 		// ac.setShowDescWindow(true);
@@ -79,8 +75,8 @@ public class OwnSyntaxPane {
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		panel.add(scrollPane);
-		
-		textArea.getDocument().putProperty(PlainDocument.tabSizeAttribute, 3); //Reduce tab size
+
+		textArea.getDocument().putProperty(PlainDocument.tabSizeAttribute, 3); // Reduce tab size
 	}
 
 	/**
@@ -96,26 +92,12 @@ public class OwnSyntaxPane {
 	}
 
 	private void createHightLightMap() {
-		myWordsToHighlight = new TokenMap();
+		TokenMap myWordsToHighlight = new TokenMap();
 		for (AutocompletionText word : words) {
 			myWordsToHighlight.put(word.getText(), word.isGlobal() ? GLOBAL_SETTING : SPECIFIC_SETTING);
 		}
-	}
-
-	public static class OwnTokenMaker extends BBCodeTokenMaker {
-
-		public static final String ID = "OwnTokenMaker";
-
-		@Override
-		public void addToken(char[] array, int start, int end, int tokenType, int startOffset) {
-			int value = myWordsToHighlight.get(array, start, end);
-			if (value != -1) {
-				tokenType = value;
-			}
-			else tokenType = TokenTypes.IDENTIFIER; // default type is IDENTIFIER (which is just black)
-			super.addToken(array, start, end, tokenType, startOffset);
-		}
-
+		// use ugly static setter because OwnTokenMaker is unfortunately not instantiated by us
+		OwnTokenMaker.setMyWordsToHighlight(myWordsToHighlight);
 	}
 
 	public String getText() {
@@ -125,7 +107,7 @@ public class OwnSyntaxPane {
 	public JPanel getPanel() {
 		return this.panel;
 	}
-	
+
 	public void revalidate() {
 		if (scrollPane != null) scrollPane.revalidate();
 	}
