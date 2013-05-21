@@ -20,7 +20,7 @@ elementstyle=autoresize</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>16</x>
-      <y>304</y>
+      <y>312</y>
       <w>168</w>
       <h>96</h>
     </coordinates>
@@ -41,7 +41,7 @@ lt=.</panel_attributes>
       <x>16</x>
       <y>168</y>
       <w>168</w>
-      <h>120</h>
+      <h>128</h>
     </coordinates>
     <panel_attributes>This class has the setting
 *elementstyle=wordwrap*
@@ -70,7 +70,7 @@ elementstyle=wordwrap</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>192</x>
-      <y>304</y>
+      <y>312</y>
       <w>144</w>
       <h>96</h>
     </coordinates>
@@ -90,16 +90,17 @@ halign=LEFT</panel_attributes>
       <x>192</x>
       <y>168</y>
       <w>144</w>
-      <h>120</h>
+      <h>128</h>
     </coordinates>
-    <panel_attributes>This class has the settings
+    <panel_attributes>This class has
+the settings
 *valign=center*
 *halign=center*
-*fontsize=12*
+*fontsize=18*
 *lth=2.5*
 valign=center
 halign=center
-fontsize=12
+fontsize=18
 lth=2.5</panel_attributes>
     <additional_attributes/>
   </element>

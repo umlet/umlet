@@ -1,5 +1,6 @@
 package com.baselet.diagram;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -77,10 +78,14 @@ public class SelectorOld implements Selector {
 	}
 
 	public void deselectAllWithoutUpdatePropertyPanel() {
-		for (GridElement e : this.selectedEntities)
-			e.setSelected(false);
-		dominantEntity = null;
+		// copy selected entities, clear list (to let GridElement.isSelected() calls return the correct result) and iterate over list and update selection status of GridElements
+		List<GridElement> listCopy = new ArrayList<GridElement>(selectedEntities);
 		selectedEntities.clear();
+		for (GridElement e : listCopy) {
+			e.setSelected(false);
+			e.repaint(); // repaint to make sure now unselected entities are not drawn as selected anymore
+		}
+		dominantEntity = null;
 	}
 
 	@Override
