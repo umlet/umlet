@@ -29,7 +29,7 @@ public class SettingsClass extends Settings {
 
 	@Override
 	public ElementStyleEnum getElementStyle() {
-		return ElementStyleEnum.NORESIZE;
+		return ElementStyleEnum.RESIZE;
 	}
 
 	@Override
