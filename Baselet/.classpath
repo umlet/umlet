@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_29"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/baselet_batik-awt-util.jar"/>
@@ -20,7 +20,7 @@
 	<classpathentry kind="lib" path="lib/umlet_javaparser-1.0.8.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_autocomplete.jar"/>
-	<classpathentry kind="lib" path="lib/baselet_rsyntaxtextarea.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BaseletElements"/>
+	<classpathentry kind="lib" path="lib/baselet_rsyntaxtextarea.jar-2.0.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

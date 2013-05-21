@@ -12,7 +12,7 @@ import com.umlet.element.experimental.PropertiesConfig;
 
 public class DefaultGlobalFacet implements Facet {
 
-	public enum ElementStyleEnum {AUTORESIZE, NORESIZE, WORDWRAP}
+	public enum ElementStyleEnum {AUTORESIZE, RESIZE, NORESIZE, WORDWRAP}
 	
 	public enum GlobalSetting {
 		FOREGROUND_COLOR("fg", "red", "foreground color string (blue,...) or code (#0A37D3,...)"),

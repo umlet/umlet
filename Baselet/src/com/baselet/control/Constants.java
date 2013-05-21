@@ -239,14 +239,11 @@ public abstract class Constants extends NewGridElementConstants {
 	public static final int RECENT_FILES_LIST_LENGTH = 10;
 	public static final RecentlyUsedFilesList recentlyUsedFilesList = new RecentlyUsedFilesList();
 
-	// Default panel font is MONOSPACED to make sure that bold text has the same width as non-bold text (eg: for syntax highlighting)
-	public static Font PANEL_FONT = new Font(Font.MONOSPACED, Font.PLAIN, 11);
-
 	public static final int MIN_MAIN_SPLITPANEL_SIZE = 100;
 	public static final int MIN_MAIL_SPLITPANEL_SIZE = 250;
 
-	public static final Font PANEL_HEADER_FONT = new Font("SansSerif", Font.BOLD, 11);
-	public static final Font PANEL_CONTENT_FONT = new Font("Monospaced", Font.PLAIN, 11);
+	public static final Font PANEL_HEADER_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 11);
+	public static final Font PANEL_CONTENT_FONT = new Font(Font.MONOSPACED, Font.PLAIN, 11);
 
 	/**** VALUES LOADED FROM CONFIG ****/
 	public static Integer defaultFontsize = (Program.PROGRAM_NAME == ProgramName.UMLET ? 14 : 10);
