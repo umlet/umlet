@@ -29,7 +29,7 @@ public class TemplateClass implements Facet {
 		drawer.setLineType(LineType.DASHED);
 		drawer.drawRectangle(propConfig.getGridElementSize().width - width, 0, width, height);
 		drawer.print(templateValue, propConfig.getGridElementSize().width - width/2, height-SPACE/2, AlignHorizontal.CENTER);
-		drawer.setCurrentStyle(style); // reset style to state before manipulations for drawing the template class
+		drawer.setStyle(style); // reset style to state before manipulations for drawing the template class
 	}
 
 	@Override
