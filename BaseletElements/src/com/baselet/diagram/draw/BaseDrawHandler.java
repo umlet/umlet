@@ -133,7 +133,7 @@ public abstract class BaseDrawHandler {
 		return style.cloneFromMe();
 	}
 	
-	public void setCurrentStyle(Style style) {
+	public void setStyle(Style style) {
 		this.style = style;
 	}
 

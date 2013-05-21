@@ -27,10 +27,10 @@ public class PropertiesConfig {
 	private Integer layer = Integer.valueOf(GlobalSetting.LAYER.getValue());
 
 	public PropertiesConfig(Settings specificSettings) {
-		hAlign = specificSettings.getHAlign();
-		vAlign = specificSettings.getVAlign();
-		elementStyle = specificSettings.getElementStyle();
-		yPos = specificSettings.getYPosStart();
+		this.hAlign = specificSettings.getHAlign();
+		this.vAlign = specificSettings.getVAlign();
+		this.elementStyle = specificSettings.getElementStyle();
+		this.yPos = specificSettings.getYPosStart();
 		this.specificSettings = specificSettings;
 	}
 
