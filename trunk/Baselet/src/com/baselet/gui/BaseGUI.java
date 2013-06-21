@@ -163,4 +163,8 @@ public abstract class BaseGUI {
 	public abstract void setCursor(Cursor cursor);
 
 	public abstract void requestFocus();
+
+	public void updateGrayedOutMenuItems(@SuppressWarnings("unused") DiagramHandler handler) {
+		/* do nothing*/
+	}
 }

@@ -178,6 +178,7 @@ public class StandaloneGUI extends BaseGUI {
 		updateGrayedOutMenuItems(handler);
 	}
 
+	@Override
 	public void updateGrayedOutMenuItems(DiagramHandler handler) {
 		menuBuilder.updateGrayedOutMenuItems(handler);
 	}
