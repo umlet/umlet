@@ -1,27 +1,21 @@
 package com.baselet.gwt.client.view;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.vectomatic.file.FileUploadExt;
 
-import com.baselet.element.GridElement;
 import com.baselet.gwt.client.EventBus;
 import com.baselet.gwt.client.OwnXMLParser;
-import com.baselet.gwt.client.EventBus.PropertiesTextChanged;
 import com.baselet.gwt.client.Utils;
-import com.baselet.gwt.client.view.OwnTextArea.InstantValueChangeHandler;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
@@ -36,13 +30,19 @@ public class MainView extends Composite {
 
 	interface MainViewUiBinder extends UiBinder<Widget, MainView> {}
 
+	@UiField
+	SplitLayoutPanel diagramPaletteSplitter;
+	
 	@UiField(provided=true)
-	SplitLayoutPanel mainSplit = new SplitLayoutPanel() {
+	SplitLayoutPanel palettePropertiesSplitter = new SplitLayoutPanel() {
 		public void onResize() {
 			diagramScrollPanel.updateCanvasMinimalSize();
 			paletteScrollPanel.updateCanvasMinimalSize();
 		};
 	};
+	
+	@UiField
+	DockLayoutPanel paletteChooserCanvasSplitter;
 	
 	@UiField
 	TabLayoutPanel diagramTabPanel;
@@ -87,6 +87,8 @@ public class MainView extends Composite {
 	
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
+		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(palettePropertiesSplitter, true);
+		palettePropertiesSplitter.setWidgetToggleDisplayAllowed(paletteChooserCanvasSplitter, true);
 		diagramHandler = new DrawFocusPanel(propertiesPanel);
 		diagramScrollPanel = new AutoResizeScrollDropPanel(diagramHandler);
 		paletteHandler = new DrawFocusPanel(propertiesPanel);
