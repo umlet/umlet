@@ -7,8 +7,8 @@ import java.util.Set;
 
 import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.Direction;
+import com.baselet.diagram.commandnew.AddGridElementCommand.AddGridElementTarget;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.Utils;
@@ -19,8 +19,10 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 
-public class DrawPanelCanvas {
+public class DrawPanelCanvas implements AddGridElementTarget {
 
 	public static final CssColor GRAY = CssColor.make("rgba(" + 100 + ", " + 100 + "," + 100 + ", " + 0.2 + ")");
 	public static final CssColor WHITE = CssColor.make(255, 255, 255);
@@ -32,6 +34,8 @@ public class DrawPanelCanvas {
 	private Canvas backgroundCanvas;
 
 	private SelectorNew selector = new SelectorNew();
+	
+	private CommandInvoker commandInvoker = new CommandInvoker(this);
 
 	public DrawPanelCanvas(final OwnTextArea propertiesPanel) {
 		elementCanvas = Canvas.createIfSupported();
@@ -113,6 +117,20 @@ public class DrawPanelCanvas {
 				}
 			}
 		});
+		
+		getCanvas().addDoubleClickHandler(new DoubleClickHandler() {
+			@Override
+			public void onDoubleClick(DoubleClickEvent event) {
+				GridElement ge = getGridElementOnPosition(new Point(event.getX(), event.getY()));
+				if (ge != null) {
+					GridElement e = ge.CloneFromMe();
+					e.setLocationDifference(NewGridElementConstants.DEFAULT_GRID_SIZE, NewGridElementConstants.DEFAULT_GRID_SIZE);
+					selector.singleSelect(e);
+					e.setStickingBorderActive(false);
+					commandInvoker.addElement(e);
+				}
+			}
+		});
 
 		setCanvasSize(backgroundCanvas, 5000, 5000);
 		drawBackgroundGrid();
@@ -164,6 +182,18 @@ public class DrawPanelCanvas {
 
 	public void setGridElements(List<GridElement> gridElements) {
 		this.gridElements = gridElements;
+		draw();
+	}
+
+	@Override
+	public void addGridElement(GridElement element) {
+		this.gridElements.add(element);
+		draw();
+	}
+
+	@Override
+	public void removeGridElement(GridElement element) {
+		this.gridElements.remove(element);
 		draw();
 	}
 

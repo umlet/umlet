@@ -117,6 +117,10 @@ public class Rectangle {
 		setWidth(Math.max(oldX2, other.getX2()) - getX());
 		setHeight(Math.max(oldY2, other.getY2()) - getY());
 	}
+	
+	public Rectangle copy() {
+		return new Rectangle(x, y, width, height);
+	}
 
 	@Override
 	public int hashCode() {

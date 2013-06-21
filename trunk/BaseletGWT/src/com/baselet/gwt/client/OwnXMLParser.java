@@ -16,8 +16,6 @@ import com.google.gwt.xml.client.XMLParser;
 import com.umlet.element.experimental.ElementId;
 
 public class OwnXMLParser {
-
-	private static final String NEWLINE_XML_ENCODED = "&#10;";
 	
 	private static final String ELEMENT = "element";
 	private static final String ZOOM_LEVEL = "zoom_level";
@@ -46,7 +44,6 @@ public class OwnXMLParser {
 					int w = Integer.valueOf(coordinates.getElementsByTagName(W).item(0).getFirstChild().getNodeValue());
 					int h = Integer.valueOf(coordinates.getElementsByTagName(H).item(0).getFirstChild().getNodeValue());
 					String panelAttributes = element.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild().getNodeValue();
-					panelAttributes = panelAttributes.replace(NEWLINE_XML_ENCODED, "\n");
 					
 					String additionalPanelAttributes = "";
 					Node additionalAttrNode = element.getElementsByTagName(ADDITIONAL_ATTRIBUTES).item(0);
@@ -93,7 +90,7 @@ public class OwnXMLParser {
 			id.appendChild(doc.createTextNode(ge.getId().toString()));
 
 			Element panelAttributes = doc.createElement(PANEL_ATTRIBUTES);
-			String panelText = ge.getPanelAttributes().replace("\n", NEWLINE_XML_ENCODED);
+			String panelText = ge.getPanelAttributes();
 			panelAttributes.appendChild(doc.createTextNode(panelText));
 
 			Element additionalPanelAttributes = doc.createElement(ADDITIONAL_ATTRIBUTES);
