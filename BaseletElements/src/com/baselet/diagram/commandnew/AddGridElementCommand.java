@@ -7,23 +7,23 @@ public class AddGridElementCommand extends Command {
 
 	private CanAddAndRemoveGridElement target;
 	private Selector selector;
-	private GridElement element;
+	private GridElement[] elements;
 
-	public AddGridElementCommand(CanAddAndRemoveGridElement target, Selector selector, GridElement element) {
+	public AddGridElementCommand(CanAddAndRemoveGridElement target, Selector selector, GridElement ... elements) {
 		this.target = target;
 		this.selector = selector;
-		this.element = element;
+		this.elements = elements;
 	}
 
 	@Override
 	public void execute() {
-		target.addGridElement(element);
-		selector.singleSelect(element);
+		target.addGridElements(elements);
+		selector.select(elements);
 	}
 
 	@Override
 	public void undo() {
-		target.removeGridElement(element);
+		target.removeGridElements(elements);
 	}
 	
 }
