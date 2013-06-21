@@ -7,7 +7,7 @@
 		}
 	</ui:style>
 	<g:HTMLPanel width="100%" height="100%">
-		<g:DockLayoutPanel width="100%" height="100%">
+		<g:DockLayoutPanel width="100%" height="100%" ui:field="menuContentSplitter">
 			<g:north size="30.0">
 				<g:MenuBar>
 					<g:MenuItem text="File">
@@ -62,26 +62,25 @@
 				</g:MenuBar>
 			</g:north>
 			<g:center>
-				<g:SplitLayoutPanel>
+				<g:SplitLayoutPanel ui:field="diagramPaletteSplitter">
 					<g:center>
-						<g:TabLayoutPanel ui:field="diagramTabPanel"
-							barUnit="EM" barHeight="2" />
+						<g:TabLayoutPanel ui:field="diagramTabPanel" barUnit="EM" barHeight="2" />
 					</g:center>
 					<g:east size='400'>
-						<g:SplitLayoutPanel ui:field="mainSplit">
-							<g:center>
-									<g:DockLayoutPanel unit="EM">
-										<g:north class="BBBB" size="2.0">
+						<g:SplitLayoutPanel ui:field="palettePropertiesSplitter">
+							<g:north size='500'>
+									<g:DockLayoutPanel unit="EM" ui:field="paletteChooserCanvasSplitter" >
+										<g:north size="2.0">
 											<g:ListBox ui:field="paletteChooser" visibleItemCount="1" width="100%"/>
 										</g:north>
 										<g:center>
 											<g:SimpleLayoutPanel ui:field="palettePanel" />
 										</g:center>
 									</g:DockLayoutPanel>
-							</g:center>
-							<g:south size="150">
+							</g:north>
+							<g:center>
 								<o:OwnTextArea ui:field="propertiesPanel" height="100%" width="100%" />
-							</g:south>
+							</g:center>
 						</g:SplitLayoutPanel>
 					</g:east>
 				</g:SplitLayoutPanel>
