@@ -14,9 +14,9 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 	
 	private OwnDropPanel dropPanel;
 
-	private DrawPanelCanvas diagramHandler;
+	private DrawFocusPanel diagramHandler;
 
-	public AutoResizeScrollDropPanel(final DrawPanelCanvas diagramHandler) {
+	public AutoResizeScrollDropPanel(final DrawFocusPanel diagramHandler) {
 		this.diagramHandler = diagramHandler;
 		dropPanel = new OwnDropPanel(diagramHandler);
 		this.add(dropPanel);

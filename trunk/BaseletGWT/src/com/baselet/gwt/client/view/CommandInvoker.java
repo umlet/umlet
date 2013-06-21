@@ -9,9 +9,9 @@ import com.baselet.element.GridElement;
 
 public class CommandInvoker extends Controller {
 	
-	private DrawPanelCanvas canvas;
+	private DrawFocusPanel canvas;
 
-	public CommandInvoker(DrawPanelCanvas canvas) {
+	public CommandInvoker(DrawFocusPanel canvas) {
 		super();
 		this.canvas = canvas;
 	}

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.element.ElementFactory;
-import com.baselet.gwt.client.view.DrawPanelCanvas;
+import com.baselet.gwt.client.view.DrawFocusPanel;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.DOMException;
 import com.google.gwt.xml.client.Document;
@@ -28,7 +28,7 @@ public class OwnXMLParser {
 	private static final String PANEL_ATTRIBUTES = "panel_attributes";
 	private static final String ADDITIONAL_ATTRIBUTES = "additional_attributes";
 
-	public static void parseAndInsertDiagram(String xml, DrawPanelCanvas handler) {
+	public static void parseAndInsertDiagram(String xml, DrawFocusPanel handler) {
 		List<GridElement> returnList = new ArrayList<GridElement>();
 		  try {
 			    // parse the XML document into a DOM
@@ -58,7 +58,7 @@ public class OwnXMLParser {
 			handler.setGridElements(returnList);
 	}
 
-	public static String createXml(DrawPanelCanvas drawPanelCanvas) {
+	public static String createXml(DrawFocusPanel drawPanelCanvas) {
 		Document doc = XMLParser.createDocument();
 
 		Element zoomElement = doc.createElement(ZOOM_LEVEL);

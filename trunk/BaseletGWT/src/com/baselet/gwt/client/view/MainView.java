@@ -70,10 +70,10 @@ public class MainView extends Composite {
 	
 	private EventBus eventBus = EventBus.getInstance();
 
-	private DrawPanelCanvas diagramHandler;
+	private DrawFocusPanel diagramHandler;
 	private AutoResizeScrollDropPanel diagramScrollPanel;
 
-	private DrawPanelCanvas paletteHandler;
+	private DrawFocusPanel paletteHandler;
 	private AutoResizeScrollDropPanel paletteScrollPanel;
 	
 	private FileUploadExt hiddenUploadButton = new FileUploadExt();
@@ -87,9 +87,9 @@ public class MainView extends Composite {
 	
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
-		diagramHandler = new DrawPanelCanvas(propertiesPanel);
+		diagramHandler = new DrawFocusPanel(propertiesPanel);
 		diagramScrollPanel = new AutoResizeScrollDropPanel(diagramHandler);
-		paletteHandler = new DrawPanelCanvas(propertiesPanel);
+		paletteHandler = new DrawFocusPanel(propertiesPanel);
 		paletteScrollPanel = new AutoResizeScrollDropPanel(paletteHandler);
 		
 		log.trace("Main View initialized");
