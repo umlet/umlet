@@ -51,7 +51,7 @@ public class OutputHandler {
 		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
 
 		// if some GridElements are selected, only export them
-		Collection<GridElement> elementsToDraw = degroupElements(handler.getDrawPanel().getSelector().getSelectedEntities());
+		Collection<GridElement> elementsToDraw = degroupElements(handler.getDrawPanel().getSelector().getSelectedElements());
 		// if nothing is selected, draw everything
 		if (elementsToDraw.isEmpty()) {
 			elementsToDraw = handler.getDrawPanel().getAllEntitiesNotInGroup();

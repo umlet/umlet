@@ -62,7 +62,7 @@ public class GUIListener implements KeyListener {
 				if ((diffx != 0) || (diffy != 0)) {
 					Collection<GridElement> entitiesToBeMoved;
 					// Move only selected entities or all if no entity is selected
-					entitiesToBeMoved = handler.getDrawPanel().getSelector().getSelectedEntities();
+					entitiesToBeMoved = handler.getDrawPanel().getSelector().getSelectedElements();
 					if (entitiesToBeMoved.isEmpty()) entitiesToBeMoved = handler.getDrawPanel().getAllEntities();
 
 					// TODO The following code is very similar to EntityListener 96-144 and should be refactored

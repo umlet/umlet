@@ -22,7 +22,7 @@ public class CreateGroup extends Command {
 		super.execute(handler);
 		if (this._entities == null) {
 			this._entities = new Vector<GridElement>();
-			this._entities.addAll(handler.getDrawPanel().getSelector().getSelectedEntities());
+			this._entities.addAll(handler.getDrawPanel().getSelector().getSelectedElements());
 		}
 		handler.setHandlerAndInitListeners(_group);
 		_group.group(this._entities);

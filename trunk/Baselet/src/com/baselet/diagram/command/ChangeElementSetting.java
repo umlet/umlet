@@ -1,8 +1,8 @@
 package com.baselet.diagram.command;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
@@ -24,7 +24,7 @@ public class ChangeElementSetting extends Command {
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
 		if (this.entities == null) {
-			Vector<GridElement> es = handler.getDrawPanel().getSelector().getSelectedEntities();
+			List<GridElement> es = handler.getDrawPanel().getSelector().getSelectedElements();
 			this.entities = new HashMap<GridElement, String>();
 			for (GridElement e : es)
 				this.entities.put(e, e.getSetting(key));

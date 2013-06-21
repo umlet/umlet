@@ -135,7 +135,7 @@ public class CustomElementHandler {
 				GridElement element = iter.next();
 				e.setRectangle(element.getRectangle());
 				e.setPanelAttributes(element.getPanelAttributes());
-				if (this.preview.getDrawPanel().getSelector().getSelectedEntities().size() > 0) this.preview.getDrawPanel().getSelector().singleSelectWithoutUpdatePropertyPanel(e);
+				if (this.preview.getDrawPanel().getSelector().getSelectedElements().size() > 0) this.preview.getDrawPanel().getSelector().singleSelectWithoutUpdatePropertyPanel(e);
 				this.preview.getDrawPanel().removeElement(element);
 			}
 

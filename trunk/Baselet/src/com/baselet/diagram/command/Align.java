@@ -1,7 +1,9 @@
 package com.baselet.diagram.command;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -20,13 +22,13 @@ public class Align extends Command {
 
 	private Point origin;
 	private GridElement dominantEntity;
-	private Vector<GridElement> entities;
+	private List<GridElement> entities;
 	private Map<GridElement, Point> orgLocations = new HashMap<GridElement, Point>();
 	private Edge edge;
 
-	public Align(Vector<GridElement> entities, GridElement dominantEntity, String edge) {
+	public Align(List<GridElement> entities, GridElement dominantEntity, String edge) {
 		this.dominantEntity = dominantEntity;
-		this.entities = new Vector<GridElement>(entities);
+		this.entities = new ArrayList<GridElement>(entities);
 		this.edge = Edge.valueOf(edge.toUpperCase());
 	}
 
