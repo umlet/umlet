@@ -1,6 +1,7 @@
 package com.baselet.gwt.client.view;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +25,6 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusPanel;
 
 public class DrawPanelCanvas implements CanAddAndRemoveGridElement {
@@ -137,7 +137,7 @@ public class DrawPanelCanvas implements CanAddAndRemoveGridElement {
 					e.setLocationDifference(NewGridElementConstants.DEFAULT_GRID_SIZE, NewGridElementConstants.DEFAULT_GRID_SIZE);
 					selector.singleSelect(e);
 					e.setStickingBorderActive(false);
-					commandInvoker.addElement(e);
+					commandInvoker.addElements(e);
 				}
 			}
 		});
@@ -146,9 +146,7 @@ public class DrawPanelCanvas implements CanAddAndRemoveGridElement {
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_DELETE) {
-					for (GridElement ge : selector.getSelectedElements()) {
-						commandInvoker.removeElement(ge);
-					}
+					commandInvoker.removeElements(selector.getSelectedElements());
 				}
 			}
 		});
@@ -207,14 +205,14 @@ public class DrawPanelCanvas implements CanAddAndRemoveGridElement {
 	}
 
 	@Override
-	public void addGridElement(GridElement element) {
-		this.gridElements.add(element);
+	public void addGridElements(GridElement ... elements) {
+		this.gridElements.addAll(Arrays.asList(elements));
 		draw();
 	}
 
 	@Override
-	public void removeGridElement(GridElement element) {
-		this.gridElements.remove(element);
+	public void removeGridElements(GridElement ... elements) {
+		this.gridElements.removeAll(Arrays.asList(elements));
 		draw();
 	}
 
