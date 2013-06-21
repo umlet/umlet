@@ -35,12 +35,12 @@ public class MouseDragUtils {
 
 		void onMouseDragEnd(GridElement gridElement);
 
-		void onMouseDown(GridElement gridElement);
+		void onMouseDown(GridElement gridElement, boolean controlKeyDown);
 
 		void onMouseMove(Point absolute);
 	}
 
-	public static void addMouseDragHandler(final DrawPanelCanvas drawPanelCanvas, final MouseDragHandler mouseDragHandler) {
+	public static void addMouseDragHandler(final DrawFocusPanel drawPanelCanvas, final MouseDragHandler mouseDragHandler) {
 		final DragCache storage = new DragCache();
 
 		drawPanelCanvas.getCanvas().addMouseDownHandler(new MouseDownHandler() {
@@ -50,7 +50,7 @@ public class MouseDragUtils {
 				storage.moveStart = new Point(event.getX(), event.getY());
 				storage.dragging = DragStatus.FIRST;
 				storage.elementToDrag = drawPanelCanvas.getGridElementOnPosition(storage.moveStart);
-				mouseDragHandler.onMouseDown(storage.elementToDrag);
+				mouseDragHandler.onMouseDown(storage.elementToDrag, event.isControlKeyDown());
 			}
 		});
 		drawPanelCanvas.getCanvas().addMouseUpHandler(new MouseUpHandler() {

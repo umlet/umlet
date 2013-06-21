@@ -24,7 +24,7 @@ public class FileOpenHandler {
 	protected FileReader reader;
 	protected List<File> readQueue = new ArrayList<File>();
 	
-	public FileOpenHandler(final DrawPanelCanvas diagramHandler) {
+	public FileOpenHandler(final DrawFocusPanel diagramHandler) {
 		reader = new FileReader();
 		reader.addLoadEndHandler(new LoadEndHandler() {
 			@Override

@@ -27,7 +27,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
 
-public class DrawPanelCanvas implements CanAddAndRemoveGridElement {
+public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
 
 	public static final CssColor GRAY = CssColor.make("rgba(" + 100 + ", " + 100 + "," + 100 + ", " + 0.2 + ")");
 	public static final CssColor WHITE = CssColor.make(255, 255, 255);
@@ -41,14 +41,12 @@ public class DrawPanelCanvas implements CanAddAndRemoveGridElement {
 	private SelectorNew selector = new SelectorNew();
 
 	private CommandInvoker commandInvoker = new CommandInvoker(this);
-	
-	private FocusPanel fp;
 
-	public DrawPanelCanvas(final OwnTextArea propertiesPanel) {
+	public DrawFocusPanel(final OwnTextArea propertiesPanel) {
 		elementCanvas = Canvas.createIfSupported();
 		backgroundCanvas = Canvas.createIfSupported();
 		
-		fp = new FocusPanel(elementCanvas);
+		this.add(elementCanvas);
 
 		propertiesPanel.addInstantValueChangeHandler(new InstantValueChangeHandler() {
 			@Override
@@ -64,14 +62,23 @@ public class DrawPanelCanvas implements CanAddAndRemoveGridElement {
 
 		MouseDragUtils.addMouseDragHandler(this, new MouseDragHandler() {
 			@Override
-			public void onMouseDown(GridElement element) {
-				fp.setFocus(true);
-				if (element == null) {
+			public void onMouseDown(GridElement element, boolean isControlKeyDown) {
+				// Set Focus (to make key-shortcuts work)
+				DrawFocusPanel.this.setFocus(true);
+				
+				// Update Selection
+				if (!isControlKeyDown) { // if no control key was pressed, deselect all elements
 					selector.deselectAll();
-				} else {
-					selector.singleSelect(element);
-					propertiesPanel.setValue(element.getPanelAttributes());
 				}
+				if (element != null) { // handle selection of new element
+					if (element.isSelected()) { // invert selection if already selected (only possible if ctrl key retained previous selection)
+						selector.deselect(element);
+					} else {
+						selector.select(element);
+						propertiesPanel.setValue(element.getPanelAttributes());
+					}
+				}
+				
 				draw();
 			}
 
@@ -142,7 +149,7 @@ public class DrawPanelCanvas implements CanAddAndRemoveGridElement {
 			}
 		});
 
-		fp.addKeyDownHandler(new KeyDownHandler() {
+		this.addKeyDownHandler(new KeyDownHandler() {
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_DELETE) {
@@ -251,9 +258,5 @@ public class DrawPanelCanvas implements CanAddAndRemoveGridElement {
 
 	public SelectorNew getSelector() {
 		return selector;
-	}
-
-	public FocusPanel getFocusPanel() {
-		return fp;
 	}
 }
