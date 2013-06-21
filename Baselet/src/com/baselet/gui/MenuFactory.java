@@ -2,7 +2,6 @@ package com.baselet.gui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
@@ -149,7 +148,7 @@ public class MenuFactory {
 					if (gui instanceof StandaloneGUI) ((StandaloneGUI) gui).updateGrayedOutMenuItems(actualHandler);
 				}
 				else if (menuItem.equals(DELETE) && (actualHandler != null) && (actualSelector != null)) {
-					Vector<GridElement> v = actualSelector.getSelectedEntities();
+					List<GridElement> v = actualSelector.getSelectedElements();
 					if (v.size() > 0) actualHandler.getController().executeCommand(new RemoveElement(v));
 				}
 				else if (menuItem.equals(SELECT_ALL) && (actualHandler != null) && (actualSelector != null)) {
@@ -159,7 +158,7 @@ public class MenuFactory {
 					Main.getInstance().getDiagramHandler().getController().executeCommand(new CreateGroup());
 				}
 				else if (menuItem.equals(UNGROUP) && (actualHandler != null) && (actualSelector != null)) {
-					Vector<GridElement> gridElements = actualSelector.getSelectedEntities();
+					List<GridElement> gridElements = actualSelector.getSelectedElements();
 					for (GridElement gridElement : gridElements) {
 						if (gridElement instanceof Group) actualHandler.getController().executeCommand(new UnGroup((Group) gridElement));
 					}
@@ -227,7 +226,7 @@ public class MenuFactory {
 					actualHandler.getController().executeCommand(new ChangeElementSetting(GlobalSetting.BACKGROUND_COLOR, (String) param));
 				}
 				else if (menuItem.equals(ALIGN) && (actualHandler != null) && (actualSelector != null)) {
-					Vector<GridElement> v = actualSelector.getSelectedEntities();
+					List<GridElement> v = actualSelector.getSelectedElements();
 					if (v.size() > 0) {
 						actualHandler.getController().executeCommand(new Align(v, actualSelector.getDominantEntity(), (String) param));
 					}

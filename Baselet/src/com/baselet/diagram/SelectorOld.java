@@ -13,8 +13,7 @@ import com.baselet.element.Group;
 import com.baselet.element.Selector;
 import com.umlet.custom.CustomElement;
 
-
-public class SelectorOld implements Selector {
+public class SelectorOld extends Selector {
 
 	private static SelectorOld currentSelector;// to determin what selector is active right now (to set that element blue)
 
@@ -23,10 +22,6 @@ public class SelectorOld implements Selector {
 	private DrawPanel panel;
 	private boolean _selectorframeactive;
 	private SelectorFrame _selectorframe;
-
-	public Vector<GridElement> getSelectedEntities() {
-		return selectedEntities;
-	}
 
 	@Override
 	public boolean isSelected(GridElement ge) {
@@ -64,10 +59,6 @@ public class SelectorOld implements Selector {
 		return this._selectorframeactive;
 	}
 
-	public void deselectAll() {
-		deselect(selectedEntities.toArray(new GridElement[selectedEntities.size()]));
-	}
-
 	// needed for custom element exchange
 	public void singleSelectWithoutUpdatePropertyPanel(GridElement e) {
 		deselectAllWithoutUpdatePropertyPanel();
@@ -89,7 +80,7 @@ public class SelectorOld implements Selector {
 	}
 
 	@Override
-	public void select(GridElement ... elements) {
+	public void select(GridElement... elements) {
 		handleSelect(Arrays.asList(elements));
 	}
 
@@ -111,7 +102,7 @@ public class SelectorOld implements Selector {
 	}
 
 	@Override
-	public void deselect(GridElement ... elements) {
+	public void deselect(GridElement... elements) {
 		for (GridElement e : elements) {
 			Iterator<GridElement> iter = selectedEntities.iterator();
 			while (iter.hasNext()) {
@@ -157,14 +148,14 @@ public class SelectorOld implements Selector {
 			e.setSelected(selected);
 	}
 
-	public void singleSelect(GridElement e) {
-		this.deselectAll();
-		this.select(e);
-	}
-
 	public void multiSelect(Rectangle rect) {
 		for (GridElement e : panel.getAllEntities()) {
 			if (e.isInRange(rect)) select(e);
 		}
+	}
+
+	@Override
+	public List<GridElement> getSelectedElements() {
+		return selectedEntities;
 	}
 }

@@ -48,8 +48,8 @@ public class CustomCodePropertyChanged extends Command {
 		if (gridElement == null) {
 			SelectorOld selector = Main.getInstance().getGUI().getCurrentCustomHandler().getPreviewHandler().getDrawPanel().getSelector();
 			selector.selectAll();
-			if (selector.getSelectedEntities().size() >= 1) {
-				gridElement = selector.getSelectedEntities().firstElement();
+			if (selector.getSelectedElements().size() >= 1) {
+				gridElement = selector.getSelectedElements().get(0);
 			}
 		}
 		
@@ -78,8 +78,8 @@ public class CustomCodePropertyChanged extends Command {
 		if (gridElement == null) {
 			SelectorOld selector = Main.getInstance().getGUI().getCurrentCustomHandler().getPreviewHandler().getDrawPanel().getSelector();
 			selector.selectAll();
-			if (selector.getSelectedEntities().size() >= 1) {
-				gridElement = selector.getSelectedEntities().firstElement();
+			if (selector.getSelectedElements().size() >= 1) {
+				gridElement = selector.getSelectedElements().get(0);
 			}
 		}		
 		

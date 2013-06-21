@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -42,7 +43,7 @@ public class PaletteEntityListener extends GridElementListener {
 	@Override
 	public void mousePressed(MouseEvent me) {
 		super.mousePressed(me);
-		Vector<GridElement> selectedEntities = handler.getDrawPanel().getSelector().getSelectedEntities();
+		List<GridElement> selectedEntities = handler.getDrawPanel().getSelector().getSelectedElements();
 		for (GridElement currentEntity : selectedEntities) {
 			currentEntity.setStickingBorderActive(false);
 			if (this.IS_DRAGGING) previousDraggingLocation.put(currentEntity, currentEntity.getRectangle());
@@ -75,7 +76,7 @@ public class PaletteEntityListener extends GridElementListener {
 	}
 
 	private void resetEntities() {
-		Vector<GridElement> selectedEntities = handler.getDrawPanel().getSelector().getSelectedEntities();
+		List<GridElement> selectedEntities = handler.getDrawPanel().getSelector().getSelectedElements();
 		for (GridElement currentEntity : selectedEntities) {
 			Rectangle previousLocation = previousDraggingLocation.get(currentEntity);
 			currentEntity.setStickingBorderActive(true);
@@ -86,7 +87,7 @@ public class PaletteEntityListener extends GridElementListener {
 	private void insertDraggedEntities(MouseEvent me) {
 		GridElement entity = handler.getDrawPanel().getElementToComponent(me.getComponent());
 		DrawPanel currentDiagram = Main.getInstance().getGUI().getCurrentDiagram();
-		Vector<GridElement> selectedEntities = handler.getDrawPanel().getSelector().getSelectedEntities();
+		List<GridElement> selectedEntities = handler.getDrawPanel().getSelector().getSelectedElements();
 
 		if (!allowCopyEntity()) return;
 

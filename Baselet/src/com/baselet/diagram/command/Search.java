@@ -41,11 +41,11 @@ public class Search extends Command {
 			}
 		}
 
-		if (s.getSelectedEntities().size() == 0) return;
+		if (s.getSelectedElements().size() == 0) return;
 
 		Rectangle panelview = Converter.convert(d.getVisibleRect());
 		Point p = null;
-		for (GridElement e : s.getSelectedEntities()) {
+		for (GridElement e : s.getSelectedElements()) {
 			if (panelview.contains(e.getRectangle())) {
 				p = new Point(0, 0);
 				break;

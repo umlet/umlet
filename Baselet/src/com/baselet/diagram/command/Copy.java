@@ -21,7 +21,7 @@ public class Copy extends Command {
 		// dont execute super.execute() because no change of diagram is required.
 		if (this.entities == null) {
 			this.entities = new Vector<GridElement>();
-			for (GridElement e : handler.getDrawPanel().getSelector().getSelectedEntities())
+			for (GridElement e : handler.getDrawPanel().getSelector().getSelectedElements())
 				this.entities.add(e.CloneFromMe());
 		}
 

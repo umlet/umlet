@@ -23,7 +23,7 @@ public class Cut extends Command {
 		super.execute(handler);
 		if (this.entities == null) {
 			this.entities = new Vector<GridElement>();
-			this.entities.addAll(handler.getDrawPanel().getSelector().getSelectedEntities());
+			this.entities.addAll(handler.getDrawPanel().getSelector().getSelectedElements());
 		}
 
 		if (this.entities.isEmpty()) return;

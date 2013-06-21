@@ -1,6 +1,8 @@
 package com.baselet.diagram.command;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
@@ -12,7 +14,7 @@ import com.baselet.element.Group;
 
 public class RemoveElement extends Command {
 
-	private Vector<GridElement> _entities;
+	private List<GridElement> _entities;
 	private Point origin;
 	private boolean _zoom;
 
@@ -21,18 +23,18 @@ public class RemoveElement extends Command {
 	}
 
 	public RemoveElement(GridElement e, boolean zoom) {
-		_entities = new Vector<GridElement>();
+		_entities = new ArrayList<GridElement>();
 		_entities.add(e);
 		_zoom = zoom;
 		handleGroups();
 	}
 
-	public RemoveElement(Vector<GridElement> v) {
+	public RemoveElement(List<GridElement> v) {
 		this(v, true);
 	}
 
-	public RemoveElement(Vector<GridElement> v, boolean zoom) {
-		_entities = new Vector<GridElement>();
+	public RemoveElement(List<GridElement> v, boolean zoom) {
+		_entities = new ArrayList<GridElement>();
 		_entities.addAll(v);
 		_zoom = zoom;
 		handleGroups();
@@ -40,7 +42,7 @@ public class RemoveElement extends Command {
 
 	private void handleGroups() {
 		for (int i = 0; i < _entities.size(); i++) {
-			GridElement e = _entities.elementAt(i);
+			GridElement e = _entities.get(i);
 			if (e instanceof Group) {
 				Group g = (Group) e;
 				Vector<GridElement> groupElements = g.getMembers();

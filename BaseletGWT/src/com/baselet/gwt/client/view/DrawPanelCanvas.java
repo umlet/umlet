@@ -7,7 +7,7 @@ import java.util.Set;
 
 import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.Direction;
-import com.baselet.diagram.commandnew.AddGridElementCommand.AddGridElementTarget;
+import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.OwnXMLParser;
@@ -21,8 +21,13 @@ import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FocusPanel;
 
-public class DrawPanelCanvas implements AddGridElementTarget {
+public class DrawPanelCanvas implements CanAddAndRemoveGridElement {
 
 	public static final CssColor GRAY = CssColor.make("rgba(" + 100 + ", " + 100 + "," + 100 + ", " + 0.2 + ")");
 	public static final CssColor WHITE = CssColor.make(255, 255, 255);
@@ -34,12 +39,16 @@ public class DrawPanelCanvas implements AddGridElementTarget {
 	private Canvas backgroundCanvas;
 
 	private SelectorNew selector = new SelectorNew();
-	
+
 	private CommandInvoker commandInvoker = new CommandInvoker(this);
+	
+	private FocusPanel fp;
 
 	public DrawPanelCanvas(final OwnTextArea propertiesPanel) {
 		elementCanvas = Canvas.createIfSupported();
 		backgroundCanvas = Canvas.createIfSupported();
+		
+		fp = new FocusPanel(elementCanvas);
 
 		propertiesPanel.addInstantValueChangeHandler(new InstantValueChangeHandler() {
 			@Override
@@ -56,6 +65,7 @@ public class DrawPanelCanvas implements AddGridElementTarget {
 		MouseDragUtils.addMouseDragHandler(this, new MouseDragHandler() {
 			@Override
 			public void onMouseDown(GridElement element) {
+				fp.setFocus(true);
 				if (element == null) {
 					selector.deselectAll();
 				} else {
@@ -117,7 +127,7 @@ public class DrawPanelCanvas implements AddGridElementTarget {
 				}
 			}
 		});
-		
+
 		getCanvas().addDoubleClickHandler(new DoubleClickHandler() {
 			@Override
 			public void onDoubleClick(DoubleClickEvent event) {
@@ -128,6 +138,17 @@ public class DrawPanelCanvas implements AddGridElementTarget {
 					selector.singleSelect(e);
 					e.setStickingBorderActive(false);
 					commandInvoker.addElement(e);
+				}
+			}
+		});
+
+		fp.addKeyDownHandler(new KeyDownHandler() {
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_DELETE) {
+					for (GridElement ge : selector.getSelectedElements()) {
+						commandInvoker.removeElement(ge);
+					}
 				}
 			}
 		});
@@ -232,5 +253,9 @@ public class DrawPanelCanvas implements AddGridElementTarget {
 
 	public SelectorNew getSelector() {
 		return selector;
+	}
+
+	public FocusPanel getFocusPanel() {
+		return fp;
 	}
 }

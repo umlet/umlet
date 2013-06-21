@@ -3,6 +3,7 @@ package com.baselet.gui.listener;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
@@ -127,7 +128,7 @@ public class GridElementListener extends UniversalListener {
 
 	private void showContextMenu(GridElement ge, int x, int y) {
 
-		if (!this.selector.getSelectedEntities().contains(ge)) this.selector.singleSelect(ge);
+		if (!this.selector.getSelectedElements().contains(ge)) this.selector.singleSelect(ge);
 
 		selector.setDominantEntity(ge);
 
@@ -178,7 +179,7 @@ public class GridElementListener extends UniversalListener {
 			}
 		}
 
-		if (!this.selector.getSelectedEntities().contains(e)) this.selector.singleSelect(e);
+		if (!this.selector.getSelectedElements().contains(e)) this.selector.singleSelect(e);
 		else this.selector.updateSelectorInformation();
 	}
 
@@ -266,7 +267,7 @@ public class GridElementListener extends UniversalListener {
 	 * At the beginning of dragging entities sticking relations must be calculated (and also moved from now on)
 	 */
 	private void firstDragging(int diffx, int diffy) {
-		Vector<GridElement> entitiesToBeMoved = this.selector.getSelectedEntities();
+		List<GridElement> entitiesToBeMoved = this.selector.getSelectedElements();
 
 		Vector<Move> moveCommands = new Vector<Move>();
 		Vector<MoveLinePoint> linepointCommands = new Vector<MoveLinePoint>();
