@@ -21,23 +21,25 @@ public class Interface extends NewGridElement {
 
 	@Override
 	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
-		drawer.drawEllipse(posOfCircleAdjustedToGridSize(), TOP_DISTANCE, CIRCLE_SIZE, CIRCLE_SIZE);
+		drawer.drawEllipse(posOfCircle(), TOP_DISTANCE, CIRCLE_SIZE, CIRCLE_SIZE);
 		properties.drawPropertiesText();
 	}
 
 	/**
-	 * circle is in the middle but always on grid (therefore slightly displaced)
+	 * circle is in the middle. At the moment it's not always on grid (otherwise it would "jump" around)
+	 * TODO let circle have a fixed position and grow element around it (like in the old Interface)
 	 */
-	private int posOfCircleAdjustedToGridSize() {
-		int gridSize = (int) (getHandler().getZoomFactor() * NewGridElementConstants.DEFAULT_GRID_SIZE);
+	private int posOfCircle() {
+//		int gridSize = (int) (getHandler().getZoomFactor() * NewGridElementConstants.DEFAULT_GRID_SIZE);
 		int middlePos = getRealSize().getWidth() / 2 - CIRCLE_SIZE/2;
-		return middlePos - (middlePos % gridSize);
+//		return middlePos - (middlePos % gridSize);
+		return middlePos;
 	}
 
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
 		StickingPolygon p = new StickingPolygon(x, y);
-		p.addRectangle(posOfCircleAdjustedToGridSize(), TOP_DISTANCE, CIRCLE_SIZE, CIRCLE_SIZE);
+		p.addRectangle(posOfCircle(), TOP_DISTANCE, CIRCLE_SIZE, CIRCLE_SIZE);
 		return p;
 	}
 

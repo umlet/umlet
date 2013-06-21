@@ -9,11 +9,13 @@ import com.baselet.element.GridElement;
 import com.baselet.gwt.client.EventBus;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.EventBus.PropertiesTextChanged;
+import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.view.OwnTextArea.InstantValueChangeHandler;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -143,10 +145,13 @@ public class MainView extends Composite {
 		exportMenuItem.setScheduledCommand(new ScheduledCommand() {
 			@Override
 			public void execute() {
-				String uxfUrl = "data:text/xml;charset=utf-8," + diagramHandler.toXml();
+				// use base64 encoding to make it work in firefox (one alternative would be encoding <,>,... like the following website does: http://dopiaza.org/tools/datauri/index.php)
+				String uxfUrl = "data:text/plain;charset=utf-8;base64," + Utils.b64encode(diagramHandler.toXml());
 				String pngUrl = diagramHandler.getCanvas().toDataUrl("image/png");
 				new DownloadPopupPanel(uxfUrl, pngUrl);
 			}
 		});
 	}
+	
+	
 }
