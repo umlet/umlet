@@ -25,6 +25,7 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusPanel;
 
 public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
@@ -142,8 +143,6 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 				if (ge != null) {
 					GridElement e = ge.CloneFromMe();
 					e.setLocationDifference(NewGridElementConstants.DEFAULT_GRID_SIZE, NewGridElementConstants.DEFAULT_GRID_SIZE);
-					selector.singleSelect(e);
-					e.setStickingBorderActive(false);
 					commandInvoker.addElements(e);
 				}
 			}
@@ -152,8 +151,15 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 		this.addKeyDownHandler(new KeyDownHandler() {
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
+				event.preventDefault(); // avoid any browser key-handling in canvas
 				if (event.getNativeKeyCode() == KeyCodes.KEY_DELETE) {
 					commandInvoker.removeElements(selector.getSelectedElements());
+				}
+				else if (event.isControlKeyDown() && event.getNativeKeyCode() == 'C') {
+					commandInvoker.copyElements(selector.getSelectedElements());
+				}
+				else if (event.isControlKeyDown() && event.getNativeKeyCode() == 'V') {
+					commandInvoker.pasteElements();
 				}
 			}
 		});
