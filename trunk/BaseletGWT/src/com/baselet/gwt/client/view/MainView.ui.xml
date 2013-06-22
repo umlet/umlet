@@ -64,7 +64,7 @@
 			<g:center>
 				<g:SplitLayoutPanel ui:field="diagramPaletteSplitter">
 					<g:center>
-						<g:TabLayoutPanel ui:field="diagramTabPanel" barUnit="EM" barHeight="2" />
+						<g:SimpleLayoutPanel ui:field="diagramPanel" />
 					</g:center>
 					<g:east size='400'>
 						<g:SplitLayoutPanel ui:field="palettePropertiesSplitter">

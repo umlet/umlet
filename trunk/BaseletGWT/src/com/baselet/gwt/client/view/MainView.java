@@ -19,8 +19,10 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -46,7 +48,7 @@ public class MainView extends Composite {
 	DockLayoutPanel paletteChooserCanvasSplitter;
 	
 	@UiField
-	TabLayoutPanel diagramTabPanel;
+	SimpleLayoutPanel diagramPanel;
 
 	@UiField
 	ListBox paletteChooser;
@@ -97,10 +99,7 @@ public class MainView extends Composite {
 
 		handler = new FileOpenHandler(diagramHandler);
 		
-		diagramTabPanel.add(diagramScrollPanel,"Tayb-yCxANxVAS"); 
-		diagramTabPanel.add(new HTML("ONE")," Tab-1 ");
-		diagramTabPanel.add(new HTML("TWO")," Tab-2 ");
-		diagramTabPanel.add(new HTML("THREE")," Tab-3 "); 
+		diagramPanel.add(diagramScrollPanel); 
 
 		paletteChooser.addItem("A");
 		paletteChooser.addItem("B");
