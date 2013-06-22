@@ -134,6 +134,7 @@ public class DiagramHandler {
 			Main.getInstance().getGUI().afterSaving();
 			return true;
 		} catch (IOException e) {
+			log.error(e);
 			Main.displayError(Constants.ERROR_SAVING_FILE);
 			return false;
 		}
@@ -147,6 +148,7 @@ public class DiagramHandler {
 				this.reloadPalettes();
 				Main.getInstance().getGUI().afterSaving();
 			} catch (IOException e) {
+				log.error(e);
 				Main.displayError(Constants.ERROR_SAVING_FILE);
 			}
 		}
