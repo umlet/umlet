@@ -10,6 +10,8 @@ import com.baselet.diagram.commandnew.AddGridElementCommand;
 import com.baselet.diagram.commandnew.Controller;
 import com.baselet.diagram.commandnew.RemoveGridElementCommand;
 import com.baselet.element.GridElement;
+import com.baselet.element.Selector;
+import com.baselet.gwt.client.BrowserStorage;
 
 public class CommandInvoker extends Controller {
 	
@@ -42,13 +44,12 @@ public class CommandInvoker extends Controller {
 	
 	//TODO implement copy & paste as commands
 
-	private List<GridElement> copyTemplates = new ArrayList<GridElement>();
 	void copyElements(Collection<GridElement> elements) {
-		copyTemplates = copyElementsInList(elements); // must be copied here to ensure location etc. will not be changed
+		BrowserStorage.setClipboard(copyElementsInList(elements)); // must be copied here to ensure location etc. will not be changed
 	}
 	
-	void pasteElements() {
-		addElements(copyElementsInList(copyTemplates)); // copy here to make sure it can be pasted multiple times
+	void pasteElements(Selector selector) {
+		addElements(copyElementsInList(BrowserStorage.getClipboard(selector))); // copy here to make sure it can be pasted multiple times
 	}
 
 	private List<GridElement> copyElementsInList(Collection<GridElement> sourceElements) {
