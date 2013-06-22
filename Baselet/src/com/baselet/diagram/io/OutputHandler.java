@@ -32,7 +32,9 @@ import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.itextpdf.awt.DefaultFontMapper;
 import com.itextpdf.awt.FontMapper;
+import com.itextpdf.awt.PdfGraphics2D;
 import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
 
 
 public class OutputHandler {
@@ -112,14 +114,7 @@ public class OutputHandler {
 
 	private static void exportPdf(OutputStream ostream, DiagramHandler handler, Collection<GridElement> entities) throws IOException {
 		try {
-			Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
-			com.itextpdf.text.Rectangle drawSpace = new com.itextpdf.text.Rectangle(bounds.getWidth(), bounds.getHeight());
-
-			com.itextpdf.text.Document document = new com.itextpdf.text.Document(drawSpace);
-			com.itextpdf.text.pdf.PdfWriter writer = com.itextpdf.text.pdf.PdfWriter.getInstance(document, ostream);
-
-			document.open();
-
+			// use special font if defined in properties
 			FontMapper mapper = new FontMapper() {
 				@Override
 				public BaseFont awtToPdf(Font font) {
@@ -134,13 +129,17 @@ public class OutputHandler {
 					return null;
 				}
 			};
-
 			if (mapper.awtToPdf(null) == null) mapper = new DefaultFontMapper();
 
-			Graphics2D graphics2d = writer.getDirectContent().createGraphics(drawSpace.getWidth(), drawSpace.getHeight(), mapper);
+			Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
+			com.itextpdf.text.Document document = new com.itextpdf.text.Document(new com.itextpdf.text.Rectangle(bounds.getWidth(), bounds.getHeight()));
+			PdfWriter writer = PdfWriter.getInstance(document, ostream);
+			document.open();
+
+			Graphics2D graphics2d = new PdfGraphics2D(writer.getDirectContent(), bounds.getWidth(), bounds.getHeight(), mapper);
 
 			// We shift the diagram to the upper left corner, so we shift it by (minX,minY) of the contextBounds
-			Dimension trans = new Dimension((int) bounds.getX(), (int) bounds.getY());
+			Dimension trans = new Dimension(bounds.getX(), bounds.getY());
 			graphics2d.translate(-trans.getWidth(), -trans.getHeight());
 
 			handler.getDrawPanel().paintEntitiesIntoGraphics2D(graphics2d, entities);
