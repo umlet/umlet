@@ -25,7 +25,6 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusPanel;
 
 public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
@@ -159,7 +158,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 					commandInvoker.copyElements(selector.getSelectedElements());
 				}
 				else if (event.isControlKeyDown() && event.getNativeKeyCode() == 'V') {
-					commandInvoker.pasteElements();
+					commandInvoker.pasteElements(selector);
 				}
 			}
 		});
@@ -255,7 +254,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 	}
 
 	public String toXml() {
-		return OwnXMLParser.createXml(this);
+		return OwnXMLParser.gridElementsToXml(getGridElements());
 	}
 
 	public List<GridElement> getGridElements() {

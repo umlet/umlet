@@ -1,9 +1,11 @@
 package com.baselet.gwt.client;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.baselet.element.GridElement;
+import com.baselet.element.Selector;
 import com.baselet.gwt.client.element.ElementFactory;
 import com.baselet.gwt.client.view.DrawFocusPanel;
 import com.google.gwt.user.client.Window;
@@ -28,7 +30,7 @@ public class OwnXMLParser {
 	private static final String PANEL_ATTRIBUTES = "panel_attributes";
 	private static final String ADDITIONAL_ATTRIBUTES = "additional_attributes";
 
-	public static void parseAndInsertDiagram(String xml, DrawFocusPanel handler) {
+	public static List<GridElement> xmlToGridElements(String xml, Selector selector) {
 		List<GridElement> returnList = new ArrayList<GridElement>();
 		  try {
 			    // parse the XML document into a DOM
@@ -50,15 +52,15 @@ public class OwnXMLParser {
 					if (additionalAttrNode != null && additionalAttrNode.getFirstChild() != null) {
 						additionalPanelAttributes = additionalAttrNode.getFirstChild().getNodeValue();
 					}
-					returnList.add(ElementFactory.create(id, new com.baselet.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes, additionalPanelAttributes, handler.getSelector()));
+					returnList.add(ElementFactory.create(id, new com.baselet.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes, additionalPanelAttributes, selector));
 				}
 			  } catch (DOMException e) {
 			    Window.alert("Could not parse XML document.");
 			  }
-			handler.setGridElements(returnList);
+			return returnList;
 	}
 
-	public static String createXml(DrawFocusPanel drawPanelCanvas) {
+	public static String gridElementsToXml(Collection<GridElement> gridElements) {
 		Document doc = XMLParser.createDocument();
 
 		Element zoomElement = doc.createElement(ZOOM_LEVEL);
@@ -70,7 +72,7 @@ public class OwnXMLParser {
 		diagramElement.appendChild(zoomElement);
 		doc.appendChild(diagramElement);
 		
-		for (GridElement ge : drawPanelCanvas.getGridElements()) {
+		for (GridElement ge : gridElements) {
 			Element x = doc.createElement(X);
 			x.appendChild(doc.createTextNode(ge.getRectangle().getX()+""));
 			Element y = doc.createElement(Y);

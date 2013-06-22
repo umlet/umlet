@@ -10,7 +10,7 @@ import com.umlet.element.experimental.NewGridElement;
 
 public class ElementFactory {
 	
-	public static GridElement create(ElementId id, Rectangle rect, String panelAttributes, String additionalPanelAttributes, final SelectorNew selector) {
+	public static GridElement create(ElementId id, Rectangle rect, String panelAttributes, String additionalPanelAttributes, final Selector selector) {
 		final NewGridElement element = id.createAssociatedGridElement();
 		
 		DrawHandlerInterface handler = new DrawHandlerInterface() {
