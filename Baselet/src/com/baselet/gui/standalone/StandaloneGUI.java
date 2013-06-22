@@ -141,7 +141,7 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public void setCustomPanelEnabled(boolean enable) {
 		guiBuilder.setCustomPanelEnabled(enable);
-		menuBuilder.setCustomPanelEnabled(enable);
+		menuBuilder.setNewCustomElementMenuItemsEnabled(!enable); // disable "New" menu items if panel is visible
 		setDrawPanelEnabled(!enable);
 	}
 
@@ -170,7 +170,8 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public void setCustomElementSelected(boolean selected) {
-		menuBuilder.setCustomElementSelected(selected, guiBuilder.getCustomPanel().isEnabled());
+		// Custom Element Edit is only enabled if a CE is selected and the panel is not visible
+		menuBuilder.setEditCustomElementMenuItemEnabled(selected && !guiBuilder.getCustomPanel().isVisible());
 	}
 
 	@Override

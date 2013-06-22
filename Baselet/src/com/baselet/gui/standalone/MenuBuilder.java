@@ -29,8 +29,8 @@ public class MenuBuilder {
 	private JMenuItem editCut;
 	private JMenuItem editCopy;
 	private JMenuItem editPaste;
-	private JMenuItem customMenu;
-	private JMenu customTemplate;
+	private JMenuItem customNew;
+	private JMenu customNewFromTemplate;
 	private JMenuItem customEdit;
 	private JToggleButton mailButton;
 	
@@ -86,8 +86,8 @@ public class MenuBuilder {
 		if (Program.PROGRAM_NAME == ProgramName.UMLET) {
 			JMenu menu_custom = new JMenu(MenuFactory.CUSTOM_ELEMENTS);
 			menu_custom.setMnemonic(KeyEvent.VK_C);
-			menu_custom.add(customMenu = menuFactory.createNewCustomElement());
-			menu_custom.add(customTemplate = menuFactory.createNewCustomElementFromTemplate());
+			menu_custom.add(customNew = menuFactory.createNewCustomElement());
+			menu_custom.add(customNewFromTemplate = menuFactory.createNewCustomElementFromTemplate());
 			menu_custom.add(customEdit = menuFactory.createEditSelected());
 			menu_custom.addSeparator();
 			menu_custom.add(menuFactory.createCustomElementTutorial());
@@ -141,17 +141,13 @@ public class MenuBuilder {
 		editUngroup.setEnabled(enabled);
 	}
 
-	private boolean custom_element_selected = false;
-
-	public void setCustomPanelEnabled(boolean enable) {
-		this.customEdit.setEnabled(!enable && custom_element_selected);
-		this.customMenu.setEnabled(!enable);
-		this.customTemplate.setEnabled(!enable);
+	public void setNewCustomElementMenuItemsEnabled(boolean enable) {
+		this.customNew.setEnabled(enable);
+		this.customNewFromTemplate.setEnabled(enable);
 	}
 	
-	public void setCustomElementSelected(boolean selected, boolean customPanelEnabled) {
-		this.custom_element_selected = selected;
-		if (customEdit != null) customEdit.setEnabled(selected && !customPanelEnabled);
+	public void setEditCustomElementMenuItemEnabled(boolean enabled) {
+		if (customEdit != null) customEdit.setEnabled(enabled);
 	}
 
 	public void setCustomElementEditMenuEnabled(boolean enabled) {
