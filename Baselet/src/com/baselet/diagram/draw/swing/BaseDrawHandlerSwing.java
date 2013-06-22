@@ -26,6 +26,8 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	private Graphics2D g2;
 
 	protected DiagramHandler handler;
+	
+	private Double translate; //is used because pdf and svg export cut lines if they are drawn at (0,0)
 
 	public BaseDrawHandlerSwing() {
 		super();
@@ -163,6 +165,11 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		ColorOwn colOwn = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
 		g2.setColor(Converter.convert(colOwn));
 		g2.setStroke(Utils.getStroke(style.getLineType(), style.getLineThickness()));
+		if (translate != null) {
+			double xTranslation = s.getBounds().x == 0 ? 0.5 : 0;
+			double yTranslation = s.getBounds().y == 0 ? 0.5 : 0;
+			g2.translate(xTranslation, yTranslation);
+		}
 		g2.draw(s);
 	}
 
@@ -183,6 +190,9 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		g2.setFont(handler.getFontHandler().getFont());
 		handler.getFontHandler().writeText(g2, t.getText(), t.getX(), t.getY(), t.getHorizontalAlignment());
 		handler.getFontHandler().resetFontSize();
-
+	}
+	
+	public void setTranslate(Double translate) {
+		this.translate = translate;
 	}
 }
