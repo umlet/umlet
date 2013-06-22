@@ -218,7 +218,7 @@
 		</copy>
 
 		<copy todir="${dir.export.standalone}/img">
-			<fileset dir="img" includes="ok.gif, ${project.name.lc}_eclipse.gif, ${project.name.lc}_logo.png" />
+			<fileset dir="img" includes="ok.gif, ${project.name.lc}_*" />
 		</copy>
 
 		<copy todir="${dir.export.standalone}/lib">
