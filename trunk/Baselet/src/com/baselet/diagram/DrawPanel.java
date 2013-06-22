@@ -36,6 +36,8 @@ import com.baselet.gui.listener.ScrollbarListener;
 import com.baselet.gui.standalone.FileDrop;
 import com.baselet.gui.standalone.FileDropListener;
 import com.umlet.element.Relation;
+import com.umlet.element.experimental.ComponentInterface;
+import com.umlet.element.experimental.SwingComponent;
 
 @SuppressWarnings("serial")
 public class DrawPanel extends JLayeredPane implements Printable {
@@ -156,7 +158,12 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		JLayeredPane tempPanel = new JLayeredPane();
 		for (GridElement entity : entities) {
 			GridElement clone = entity.CloneFromMe();
-			tempPanel.add((Component) clone.getComponent(), clone.getLayer());
+			ComponentInterface component = clone.getComponent();
+			if (component instanceof SwingComponent) {
+				//Issue 138: when PDF and Swing Export draw on (0,0) a part of the drawn image is cut, therefore it's displaced by 0.5px in that case
+				((SwingComponent) component).translateForExport();
+			}
+			tempPanel.add((Component) component, clone.getLayer());
 		}
 		tempPanel.validate();
 		tempPanel.setBackground(Color.WHITE);

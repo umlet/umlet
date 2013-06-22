@@ -30,6 +30,11 @@ public class SwingComponent extends JComponent implements ComponentInterface {
 		metaDrawer.drawAll();
 	}
 
+	public void translateForExport() {
+		drawer.setTranslate(0.5);
+		metaDrawer.setTranslate(0.5);
+	}
+
 	@Override
 	public BaseDrawHandler getDrawHandler() {
 		return drawer;
