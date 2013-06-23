@@ -25,6 +25,8 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
 
 public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
@@ -147,20 +149,27 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 			}
 		});
 
-		this.addKeyDownHandler(new KeyDownHandler() {
+		this.addKeyPressHandler(new KeyPressHandler() {
 			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				event.preventDefault(); // avoid any browser key-handling in canvas
-				if (event.getNativeKeyCode() == KeyCodes.KEY_DELETE) {
+			public void onKeyPress(KeyPressEvent event) {
+				char key = event.getCharCode();
+				int keyCode = event.getNativeEvent().getKeyCode();
+				
+				boolean zoomControls = event.isControlKeyDown() && (key == '+' || key == '-' || key == '0');
+				if (!zoomControls) {
+					event.preventDefault(); // avoid any browser key-handling in canvas except zooming
+				}
+				
+				if (keyCode == KeyCodes.KEY_DELETE) {
 					commandInvoker.removeSelectedElements();
 				}
-				else if (event.isControlKeyDown() && event.getNativeKeyCode() == 'C') {
+				else if (event.isControlKeyDown() && key == 'c') {
 					commandInvoker.copySelectedElements();
 				}
-				else if (event.isControlKeyDown() && event.getNativeKeyCode() == 'X') {
+				else if (event.isControlKeyDown() && key == 'x') {
 					commandInvoker.cutSelectedElements();
 				}
-				else if (event.isControlKeyDown() && event.getNativeKeyCode() == 'V') {
+				else if (event.isControlKeyDown() && key == 'v') {
 					commandInvoker.pasteElements();
 				}
 			}
