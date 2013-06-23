@@ -22,19 +22,21 @@
 				<g:MenuBar>
 					<g:MenuItem text="File">
 						<g:MenuBar vertical="true">
-							<g:MenuItem text="New" />
+							<g:MenuItem ui:field="newMenuItem" text="New" />
 							<g:MenuItem ui:field="openMenuItem" text="Open..." />
-							<g:MenuItem text="Recent Files">
-								<g:MenuBar vertical="true" />
+<!-- 							<g:MenuItem text="Recent Files"> -->
+<!-- 								<g:MenuBar vertical="true" /> -->
+<!-- 							</g:MenuItem> -->
+<!-- 							<g:MenuItemSeparator /> -->
+<!-- 							<g:MenuItem text="Generate Class Elements from Files or Directory..." /> -->
+<!-- 							<g:MenuItem text="Generate Class Element Options..." /> -->
+							<g:MenuItemSeparator />
+							<g:MenuItem ui:field="saveMenuItem" text="Save in Browser Storage" />
+							<g:MenuItem ui:field="restoreMenuItem" text="Restore from Browser Storage" >
+								<g:MenuBar ui:field="restoreMenuBar" vertical="true" autoOpen="true" />
 							</g:MenuItem>
-							<g:MenuItemSeparator />
-							<g:MenuItem text="Generate Class Elements from Files or Directory..." />
-							<g:MenuItem text="Generate Class Element Options..." />
-							<g:MenuItemSeparator />
-							<g:MenuItem ui:field="saveMenuItem" text="Save" />
-							<g:MenuItem ui:field="restoreMenuItem" text="Restore" />
 							<g:MenuItem ui:field="exportMenuItem" text="Export" />
-							<g:MenuItem text="Mail to..." />
+<!-- 							<g:MenuItem text="Mail to..." /> -->
 							<g:MenuItem text="Print" />
 							<g:MenuItemSeparator />
 							<g:MenuItem text="Edit Current Palette" />

@@ -1,6 +1,9 @@
 package com.baselet.gwt.client;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
@@ -13,17 +16,21 @@ import com.google.gwt.storage.client.Storage;
 public class BrowserStorage {
 
 	private static final String NO_STORAGE_ERROR = "The Browser doesn't support local storage";
-	private static final String CACHED_DIAGRAM_ID = "CachedDiagram";
 	private static final String CLIPBOARD = "Clipboard";
+	private static final String SAVE_PREFIX = "s_";
 	
 	private static Storage localStorage = Storage.getLocalStorageIfSupported();
 
-	public static void setCachedDiagram(String diagramXml) {
-		set(CACHED_DIAGRAM_ID, diagramXml);
+	public static void addSavedDiagram(String name, String diagramXml) {
+		set(SAVE_PREFIX + name, diagramXml);
 	}
 	
-	public static String getCachedDiagram() {
-		return get(CACHED_DIAGRAM_ID);
+	public static String getSavedDiagram(String name) {
+		return get(SAVE_PREFIX + name);
+	}
+
+	public static Collection<String> getSavedDiagramKeys() {
+		return getWithPrefix(SAVE_PREFIX, true).keySet();
 	}
 	
 	public static void setClipboard(List<GridElement> gridelements) {
@@ -37,6 +44,21 @@ public class BrowserStorage {
 	private static String get(String id) {
 		if (localStorage == null) throw new RuntimeException(NO_STORAGE_ERROR);
 		return localStorage.getItem(id);
+	}
+	
+	private static Map<String, String> getWithPrefix(String prefix, boolean removePrefixFromKey) {
+		if (localStorage == null) throw new RuntimeException(NO_STORAGE_ERROR);
+		Map<String, String> returnList = new HashMap<String, String>();
+		for (int i = 0; i < localStorage.getLength(); i++) {
+			String key = localStorage.key(i);
+			if (key.startsWith(prefix)) {
+				if (removePrefixFromKey) {
+					key = key.substring(prefix.length());
+				}
+				returnList.put(key, localStorage.getItem(key));
+			}
+		}
+		return returnList;
 	}
 	
 	private static void set(String id, String value) {
