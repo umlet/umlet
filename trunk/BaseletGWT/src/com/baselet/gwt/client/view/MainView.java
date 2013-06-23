@@ -11,6 +11,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -70,6 +71,18 @@ public class MainView extends Composite {
 
 	@UiField
 	MenuItem exportMenuItem;
+
+	@UiField
+	MenuItem deleteMenuItem;
+
+	@UiField
+	MenuItem cutMenuItem;
+
+	@UiField
+	MenuItem copyMenuItem;
+
+	@UiField
+	MenuItem pasteMenuItem;
 	
 	private DrawFocusPanel diagramHandler;
 	private AutoResizeScrollDropPanel diagramScrollPanel;
@@ -157,6 +170,35 @@ public class MainView extends Composite {
 				new DownloadPopupPanel(uxfUrl, pngUrl);
 			}
 		});
+
+		deleteMenuItem.setScheduledCommand(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				diagramHandler.getCommandInvoker().removeSelectedElements();
+			}
+		});
+
+		cutMenuItem.setScheduledCommand(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				diagramHandler.getCommandInvoker().cutSelectedElements();
+			}
+		});
+
+		copyMenuItem.setScheduledCommand(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				diagramHandler.getCommandInvoker().copySelectedElements();
+				}
+		});
+
+		pasteMenuItem.setScheduledCommand(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				diagramHandler.getCommandInvoker().pasteElements();
+				}
+		});
+		
 	}
 
 	private void addRestoreMenuItem(final String chosenName) {

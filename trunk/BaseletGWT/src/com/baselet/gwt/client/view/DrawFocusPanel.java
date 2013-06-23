@@ -152,13 +152,16 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 			public void onKeyDown(KeyDownEvent event) {
 				event.preventDefault(); // avoid any browser key-handling in canvas
 				if (event.getNativeKeyCode() == KeyCodes.KEY_DELETE) {
-					commandInvoker.removeElements(selector.getSelectedElements());
+					commandInvoker.removeSelectedElements();
 				}
 				else if (event.isControlKeyDown() && event.getNativeKeyCode() == 'C') {
-					commandInvoker.copyElements(selector.getSelectedElements());
+					commandInvoker.copySelectedElements();
+				}
+				else if (event.isControlKeyDown() && event.getNativeKeyCode() == 'X') {
+					commandInvoker.cutSelectedElements();
 				}
 				else if (event.isControlKeyDown() && event.getNativeKeyCode() == 'V') {
-					commandInvoker.pasteElements(selector);
+					commandInvoker.pasteElements();
 				}
 			}
 		});
@@ -263,5 +266,9 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 
 	public SelectorNew getSelector() {
 		return selector;
+	}
+	
+	public CommandInvoker getCommandInvoker() {
+		return commandInvoker;
 	}
 }

@@ -29,13 +29,10 @@ public class CommandInvoker extends Controller {
 	void addElements(Collection<GridElement> elements) {
 		addElements(elements.toArray(new GridElement[elements.size()]));
 	}
-	
-	void removeElements(GridElement ... elements) {
-		this.executeCommand(new RemoveGridElementCommand(canvas, canvas.getSelector(), elements));
-	}
-
-	void removeElements(Collection<GridElement> elements) {
-		removeElements(elements.toArray(new GridElement[elements.size()]));
+	void removeSelectedElements() {
+		List<GridElement> elements = canvas.getSelector().getSelectedElements();
+		GridElement[] elementsArray = elements.toArray(new GridElement[elements.size()]);
+		this.executeCommand(new RemoveGridElementCommand(canvas, canvas.getSelector(), elementsArray));
 	}
 	
 	
@@ -44,12 +41,17 @@ public class CommandInvoker extends Controller {
 	
 	//TODO implement copy & paste as commands
 
-	void copyElements(Collection<GridElement> elements) {
-		BrowserStorage.setClipboard(copyElementsInList(elements)); // must be copied here to ensure location etc. will not be changed
+	void copySelectedElements() {
+		BrowserStorage.setClipboard(copyElementsInList(canvas.getSelector().getSelectedElements())); // must be copied here to ensure location etc. will not be changed
+	}
+
+	void cutSelectedElements() {
+		copySelectedElements();
+		removeSelectedElements();
 	}
 	
-	void pasteElements(Selector selector) {
-		addElements(copyElementsInList(BrowserStorage.getClipboard(selector))); // copy here to make sure it can be pasted multiple times
+	void pasteElements() {
+		addElements(copyElementsInList(BrowserStorage.getClipboard(canvas.getSelector()))); // copy here to make sure it can be pasted multiple times
 	}
 
 	private List<GridElement> copyElementsInList(Collection<GridElement> sourceElements) {
