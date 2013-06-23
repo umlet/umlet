@@ -70,6 +70,7 @@ public class SaveDialogBox extends DialogBox {
 	public void clearAndCenter() {
 		textBox.setText("");
 		center();
+		textBox.setFocus(true);
 	}
 
 	/**
