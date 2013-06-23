@@ -32,7 +32,7 @@
 <!-- 							<g:MenuItem text="Generate Class Element Options..." /> -->
 							<g:MenuItemSeparator />
 							<g:MenuItem ui:field="saveMenuItem" text="Save in Browser Storage" />
-							<g:MenuItem ui:field="restoreMenuItem" text="Restore from Browser Storage" >
+							<g:MenuItem text="Restore from Browser Storage" >
 								<g:MenuBar ui:field="restoreMenuBar" vertical="true" autoOpen="true" />
 							</g:MenuItem>
 							<g:MenuItem ui:field="exportMenuItem" text="Export" />

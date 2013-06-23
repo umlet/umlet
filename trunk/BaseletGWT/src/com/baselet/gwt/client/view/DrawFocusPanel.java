@@ -46,7 +46,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 
 	private CommandInvoker commandInvoker = new CommandInvoker(this);
 
-	public DrawFocusPanel(final OwnTextArea propertiesPanel) {
+	public DrawFocusPanel(final MainView mainView, final OwnTextArea propertiesPanel) {
 		elementCanvas = Canvas.createIfSupported();
 		backgroundCanvas = Canvas.createIfSupported();
 		
@@ -172,6 +172,9 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 				}
 				else if (event.isControlKeyDown() && code == 'V') {
 					commandInvoker.pasteElements();
+				}
+				else if (event.isControlKeyDown() && code == 'S') {
+					mainView.getSaveCommand().execute();
 				}
 			
 			}
