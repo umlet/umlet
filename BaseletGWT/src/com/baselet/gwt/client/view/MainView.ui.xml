@@ -37,26 +37,26 @@
 							</g:MenuItem>
 							<g:MenuItem ui:field="exportMenuItem" text="Export" />
 <!-- 							<g:MenuItem text="Mail to..." /> -->
-							<g:MenuItem text="Print" />
-							<g:MenuItemSeparator />
-							<g:MenuItem text="Edit Current Palette" />
-							<g:MenuItemSeparator />
-							<g:MenuItem text="Options" />
+<!-- 							<g:MenuItem text="Print" /> -->
+<!-- 							<g:MenuItemSeparator /> -->
+<!-- 							<g:MenuItem text="Edit Current Palette" /> -->
+<!-- 							<g:MenuItemSeparator /> -->
+<!-- 							<g:MenuItem text="Options" /> -->
 						</g:MenuBar>
 					</g:MenuItem>
 					<g:MenuItem text="Edit">
 						<g:MenuBar vertical="true">
-							<g:MenuItem text="Undo" />
-							<g:MenuItem text="Redo" />
-							<g:MenuItem text="Delete" />
-							<g:MenuItemSeparator />
-							<g:MenuItem text="Select All" />
-							<g:MenuItem text="Group" />
-							<g:MenuItem text="Ungroup" />
-							<g:MenuItemSeparator />
-							<g:MenuItem text="Cut" />
-							<g:MenuItem text="Copy" />
-							<g:MenuItem text="Paste" />
+<!-- 							<g:MenuItem text="Undo" /> -->
+<!-- 							<g:MenuItem text="Redo" /> -->
+							<g:MenuItem ui:field="deleteMenuItem" text="Delete" />
+<!-- 							<g:MenuItemSeparator /> -->
+<!-- 							<g:MenuItem text="Select All" /> -->
+<!-- 							<g:MenuItem text="Group" /> -->
+<!-- 							<g:MenuItem text="Ungroup" /> -->
+<!-- 							<g:MenuItemSeparator /> -->
+							<g:MenuItem ui:field="cutMenuItem" text="Cut" />
+							<g:MenuItem ui:field="copyMenuItem" text="Copy" />
+							<g:MenuItem ui:field="pasteMenuItem" text="Paste" />
 						</g:MenuBar>
 					</g:MenuItem>
 					<g:MenuItem text="Help">
