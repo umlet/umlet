@@ -11,6 +11,7 @@ import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
+import com.baselet.gwt.client.KeyCodesExt;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.GwtComponent;
@@ -27,6 +28,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusPanel;
 
 public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
@@ -148,30 +150,30 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 				}
 			}
 		});
-
-		this.addKeyPressHandler(new KeyPressHandler() {
+		this.addKeyDownHandler(new KeyDownHandler() {
+			
 			@Override
-			public void onKeyPress(KeyPressEvent event) {
-				char key = event.getCharCode();
-				int keyCode = event.getNativeEvent().getKeyCode();
+			public void onKeyDown(KeyDownEvent event) {
+				int code = event.getNativeKeyCode();
 				
-				boolean zoomControls = event.isControlKeyDown() && (key == '+' || key == '-' || key == '0');
+				boolean zoomControls = event.isControlKeyDown() && KeyCodesExt.isZoomKey(code);
 				if (!zoomControls) {
 					event.preventDefault(); // avoid any browser key-handling in canvas except zooming
 				}
 				
-				if (keyCode == KeyCodes.KEY_DELETE) {
+				if (code == KeyCodes.KEY_DELETE) {
 					commandInvoker.removeSelectedElements();
 				}
-				else if (event.isControlKeyDown() && key == 'c') {
+				else if (event.isControlKeyDown() && code == 'C') {
 					commandInvoker.copySelectedElements();
 				}
-				else if (event.isControlKeyDown() && key == 'x') {
+				else if (event.isControlKeyDown() && code == 'X') {
 					commandInvoker.cutSelectedElements();
 				}
-				else if (event.isControlKeyDown() && key == 'v') {
+				else if (event.isControlKeyDown() && code == 'V') {
 					commandInvoker.pasteElements();
 				}
+			
 			}
 		});
 

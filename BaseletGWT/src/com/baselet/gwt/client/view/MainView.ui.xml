@@ -53,7 +53,7 @@
 <!-- 							<g:MenuItem text="Select All" /> -->
 <!-- 							<g:MenuItem text="Group" /> -->
 <!-- 							<g:MenuItem text="Ungroup" /> -->
-<!-- 							<g:MenuItemSeparator /> -->
+							<g:MenuItemSeparator />
 							<g:MenuItem ui:field="cutMenuItem" text="Cut" />
 							<g:MenuItem ui:field="copyMenuItem" text="Copy" />
 							<g:MenuItem ui:field="pasteMenuItem" text="Paste" />
