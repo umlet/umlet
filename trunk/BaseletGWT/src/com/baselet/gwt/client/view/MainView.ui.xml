@@ -17,65 +17,51 @@
 	</ui:style>
 	
 	<g:HTMLPanel width="100%" height="100%">
-		<g:DockLayoutPanel width="100%" height="100%" ui:field="menuContentSplitter">
-			<g:north size="30.0">
-				<g:MenuBar>
-					<g:MenuItem text="File">
-						<g:MenuBar vertical="true">
-							<g:MenuItem ui:field="newMenuItem" text="New" />
-<!-- 							<g:MenuItem text="Recent Files"> -->
-<!-- 								<g:MenuBar vertical="true" /> -->
+<!-- 		<g:DockLayoutPanel width="100%" height="100%" ui:field="menuContentSplitter"> -->
+<!-- 			<g:north size="30.0"> -->
+<!-- 				<g:MenuBar> -->
+<!-- 					<g:MenuItem text="File"> -->
+<!-- 						<g:MenuBar vertical="true"> -->
+<!-- 							<g:MenuItem ui:field="newMenuItem" text="New" /> -->
+<!-- 							<g:MenuItemSeparator /> -->
+<!-- 							<g:MenuItem ui:field="saveMenuItem" text="Save in Browser" /> -->
+<!-- 							<g:MenuItem text="Restore in Browser" > -->
+<!-- 								<g:MenuBar ui:field="restoreMenuBar" vertical="true" autoOpen="true" /> -->
 <!-- 							</g:MenuItem> -->
 <!-- 							<g:MenuItemSeparator /> -->
-<!-- 							<g:MenuItem text="Generate Class Elements from Files or Directory..." /> -->
-<!-- 							<g:MenuItem text="Generate Class Element Options..." /> -->
-							<g:MenuItemSeparator />
-							<g:MenuItem ui:field="saveMenuItem" text="Save in Browser" />
-							<g:MenuItem text="Restore in Browser" >
-								<g:MenuBar ui:field="restoreMenuBar" vertical="true" autoOpen="true" />
-							</g:MenuItem>
-							<g:MenuItemSeparator />
-							<g:MenuItem ui:field="importMenuItem" text="Import" />
-							<g:MenuItem ui:field="exportMenuItem" text="Export" />
-<!-- 							<g:MenuItem text="Mail to..." /> -->
-<!-- 							<g:MenuItem text="Print" /> -->
-<!-- 							<g:MenuItemSeparator /> -->
-<!-- 							<g:MenuItem text="Edit Current Palette" /> -->
-<!-- 							<g:MenuItemSeparator /> -->
-<!-- 							<g:MenuItem text="Options" /> -->
-						</g:MenuBar>
-					</g:MenuItem>
-					<g:MenuItem text="Edit">
-						<g:MenuBar vertical="true">
-<!-- 							<g:MenuItem text="Undo" /> -->
-<!-- 							<g:MenuItem text="Redo" /> -->
-							<g:MenuItem ui:field="deleteMenuItem" text="Delete" />
-<!-- 							<g:MenuItemSeparator /> -->
-<!-- 							<g:MenuItem text="Select All" /> -->
-<!-- 							<g:MenuItem text="Group" /> -->
-<!-- 							<g:MenuItem text="Ungroup" /> -->
-							<g:MenuItemSeparator />
-							<g:MenuItem ui:field="cutMenuItem" text="Cut" />
-							<g:MenuItem ui:field="copyMenuItem" text="Copy" />
-							<g:MenuItem ui:field="pasteMenuItem" text="Paste" />
-						</g:MenuBar>
-					</g:MenuItem>
-<!-- 					<g:MenuItem text="Help"> -->
-<!-- 						<g:MenuBar vertical="true"> -->
-<!-- 							<g:MenuItem text="Online Help..." /> -->
-<!-- 							<g:MenuItem text="Online Sample Diagrams..." /> -->
-<!-- 							<g:MenuItem text="Video Tutorial: Basic Use and Custom Elements..." /> -->
-<!-- 							<g:MenuItemSeparator /> -->
-<!-- 							<g:MenuItem text="UMLet Homepage..." /> -->
-<!-- 							<g:MenuItem text="Rate UMLet at Eclipse Marketplace..." /> -->
-<!-- 							<g:MenuItemSeparator /> -->
-<!-- 							<g:MenuItem text="About UMLet" /> -->
+<!-- 							<g:MenuItem ui:field="importMenuItem" text="Import" /> -->
+<!-- 							<g:MenuItem ui:field="exportMenuItem" text="Export" /> -->
 <!-- 						</g:MenuBar> -->
 <!-- 					</g:MenuItem> -->
-				</g:MenuBar>
-			</g:north>
-			<g:center>
-				<g:SplitLayoutPanel ui:field="diagramPaletteSplitter">
+<!-- 					<g:MenuItem text="Edit"> -->
+<!-- 						<g:MenuBar vertical="true"> -->
+<!-- 							<g:MenuItem ui:field="deleteMenuItem" text="Delete" /> -->
+<!-- 							<g:MenuItemSeparator /> -->
+<!-- 							<g:MenuItem ui:field="cutMenuItem" text="Cut" /> -->
+<!-- 							<g:MenuItem ui:field="copyMenuItem" text="Copy" /> -->
+<!-- 							<g:MenuItem ui:field="pasteMenuItem" text="Paste" /> -->
+<!-- 						</g:MenuBar> -->
+<!-- 					</g:MenuItem> -->
+<!-- 				</g:MenuBar> -->
+<!-- 			</g:north> -->
+<!-- 			<g:center> -->
+				<g:SplitLayoutPanel width="100%" height="100%" ui:field="diagramPaletteSplitter">
+					<g:west size='50'>
+						<g:FlowPanel ui:field="menuPanel" >
+							<g:HTML ui:field="newMenuItem" text="New" />
+							<g:HTML><hr/></g:HTML>
+							<g:HTML ui:field="importMenuItem" text="Import" />
+							<g:HTML ui:field="exportMenuItem" text="Export" />
+							<g:HTML><hr/></g:HTML>
+							<g:HTML ui:field="saveMenuItem" text="Save" />
+							<g:FlowPanel ui:field="restoreMenuPanel" />
+							<g:HTML><hr/></g:HTML>
+							<g:HTML ui:field="deleteMenuItem" text="Delete" />
+							<g:HTML ui:field="cutMenuItem" text="Cut" />
+							<g:HTML ui:field="copyMenuItem" text="Copy" />
+							<g:HTML ui:field="pasteMenuItem" text="Paste" />
+						</g:FlowPanel>
+					</g:west>
 					<g:center>
 						<g:SimpleLayoutPanel ui:field="diagramPanel" />
 					</g:center>
@@ -100,7 +86,7 @@
 						</g:SplitLayoutPanel>
 					</g:east>
 				</g:SplitLayoutPanel>
-			</g:center>
-		</g:DockLayoutPanel>
+<!-- 			</g:center> -->
+<!-- 		</g:DockLayoutPanel> -->
 	</g:HTMLPanel>
 </ui:UiBinder> 
