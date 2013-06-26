@@ -11,15 +11,17 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
@@ -31,8 +33,14 @@ public class MainView extends Composite {
 
 	interface MainViewUiBinder extends UiBinder<Widget, MainView> {}
 
+	@UiField(provided=true)
+	SplitLayoutPanel diagramPaletteSplitter = new SplitLayoutPanel(4);
+
 	@UiField
-	SplitLayoutPanel diagramPaletteSplitter;
+	FlowPanel menuPanel;
+	
+	@UiField
+	FlowPanel restoreMenuPanel;
 
 	@UiField(provided=true)
 	SplitLayoutPanel palettePropertiesSplitter = new SplitLayoutPanel() {
@@ -57,33 +65,6 @@ public class MainView extends Composite {
 	@UiField
 	SimpleLayoutPanel palettePanel;
 
-	@UiField
-	MenuItem newMenuItem;
-
-	@UiField
-	MenuItem saveMenuItem;
-
-	@UiField
-	MenuBar restoreMenuBar;
-
-	@UiField
-	MenuItem importMenuItem;
-	
-	@UiField
-	MenuItem exportMenuItem;
-
-	@UiField
-	MenuItem deleteMenuItem;
-
-	@UiField
-	MenuItem cutMenuItem;
-
-	@UiField
-	MenuItem copyMenuItem;
-
-	@UiField
-	MenuItem pasteMenuItem;
-	
 	private DrawFocusPanel diagramHandler;
 	private AutoResizeScrollDropPanel diagramScrollPanel;
 
@@ -118,6 +99,8 @@ public class MainView extends Composite {
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
 		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(palettePropertiesSplitter, true);
+		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(menuPanel, true);
+		diagramPaletteSplitter.setWidgetSnapClosedSize(menuPanel, 40);
 		palettePropertiesSplitter.setWidgetToggleDisplayAllowed(paletteChooserCanvasSplitter, true);
 		diagramHandler = new DrawFocusPanel(this, propertiesPanel);
 		diagramScrollPanel = new AutoResizeScrollDropPanel(diagramHandler);
@@ -144,77 +127,67 @@ public class MainView extends Composite {
 		paletteHandler.setGridElements(OwnXMLParser.xmlToGridElements(DEFAULT_UXF, paletteHandler.getSelector()));
 
 		RootLayoutPanel.get().add(hiddenUploadButton);
+		hiddenUploadButton.setVisible(false);
 		hiddenUploadButton.addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {
 				handler.processFiles(hiddenUploadButton.getFiles());
 			}
 		});
-
-		newMenuItem.setScheduledCommand(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				Window.open(Window.Location.getQueryString(),"_blank","");
-			}
-		});
-
-		importMenuItem.setScheduledCommand(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				hiddenUploadButton.click();
-			}
-		});
-
-		saveMenuItem.setScheduledCommand(saveCommand );
-
-		exportMenuItem.setScheduledCommand(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				// use base64 encoding to make it work in firefox (one alternative would be encoding <,>,... like the following website does: http://dopiaza.org/tools/datauri/index.php)
-				String uxfUrl = "data:text/plain;charset=utf-8;base64," + Utils.b64encode(diagramHandler.toXml());
-				String pngUrl = diagramHandler.getCanvas().toDataUrl("image/png");
-				new DownloadPopupPanel(uxfUrl, pngUrl);
-			}
-		});
-
-		deleteMenuItem.setScheduledCommand(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				diagramHandler.getCommandInvoker().removeSelectedElements();
-			}
-		});
-
-		cutMenuItem.setScheduledCommand(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				diagramHandler.getCommandInvoker().cutSelectedElements();
-			}
-		});
-
-		copyMenuItem.setScheduledCommand(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				diagramHandler.getCommandInvoker().copySelectedElements();
-				}
-		});
-
-		pasteMenuItem.setScheduledCommand(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				diagramHandler.getCommandInvoker().pasteElements();
-				}
-		});
-		
 	}
 
 	private void addRestoreMenuItem(final String chosenName) {
-		restoreMenuBar.addItem(new MenuItem(chosenName, false, new ScheduledCommand() {
+		Label label = new Label(chosenName);
+		label.addClickHandler(new ClickHandler() {
 			@Override
-			public void execute() {
+			public void onClick(ClickEvent event) {
 				diagramHandler.setGridElements(OwnXMLParser.xmlToGridElements(BrowserStorage.getSavedDiagram(chosenName), diagramHandler.getSelector()));
 			}
-		}));
+		});
+		restoreMenuPanel.add(label);
 	}
 
 
+	@UiHandler("newMenuItem")
+	void onNewMenuItemClick(ClickEvent event) {
+		Window.open(Window.Location.getQueryString(),"_blank","");
+	}
+
+	@UiHandler("importMenuItem")
+	void onImportMenuItemClick(ClickEvent event) {
+		hiddenUploadButton.click();
+	}
+
+	@UiHandler("exportMenuItem")
+	void onExportMenuItemClick(ClickEvent event) {
+		// use base64 encoding to make it work in firefox (one alternative would be encoding <,>,... like the following website does: http://dopiaza.org/tools/datauri/index.php)
+		String uxfUrl = "data:text/plain;charset=utf-8;base64," + Utils.b64encode(diagramHandler.toXml());
+		String pngUrl = diagramHandler.getCanvas().toDataUrl("image/png");
+		new DownloadPopupPanel(uxfUrl, pngUrl);
+	}
+
+	@UiHandler("saveMenuItem")
+	void onSaveMenuItemClick(ClickEvent event) {
+		saveCommand.execute();
+	}
+
+	@UiHandler("deleteMenuItem")
+	void onDeleteMenuItemClick(ClickEvent event) {
+		diagramHandler.getCommandInvoker().removeSelectedElements();
+	}
+
+	@UiHandler("cutMenuItem")
+	void onCutMenuItemClick(ClickEvent event) {
+		diagramHandler.getCommandInvoker().cutSelectedElements();
+	}
+	
+	@UiHandler("copyMenuItem")
+	void onCopyMenuItemClick(ClickEvent event) {
+		diagramHandler.getCommandInvoker().copySelectedElements();
+	}
+	
+	@UiHandler("pasteMenuItem")
+	void onPasteMenuItemClick(ClickEvent event) {
+		diagramHandler.getCommandInvoker().pasteElements();
+	}
 }
