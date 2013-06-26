@@ -16,7 +16,8 @@ import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.GwtComponent;
 import com.baselet.gwt.client.view.MouseDragUtils.MouseDragHandler;
-import com.baselet.gwt.client.view.OwnTextArea.InstantValueChangeHandler;
+import com.baselet.gwt.client.view.widgets.OwnTextArea;
+import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
@@ -26,9 +27,6 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusPanel;
 
 public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
@@ -157,8 +155,8 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 				int code = event.getNativeKeyCode();
 				
 				boolean zoomControls = event.isControlKeyDown() && KeyCodesExt.isZoomKey(code);
-				if (!zoomControls) {
-					event.preventDefault(); // avoid any browser key-handling in canvas except zooming
+				if (!zoomControls && !KeyCodesExt.isSwitchToFullscreen(code)) {
+					event.preventDefault(); // avoid most browser key handlings
 				}
 				
 				if (code == KeyCodes.KEY_DELETE) {

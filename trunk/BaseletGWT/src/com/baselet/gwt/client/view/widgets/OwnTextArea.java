@@ -1,4 +1,4 @@
-package com.baselet.gwt.client.view;
+package com.baselet.gwt.client.view.widgets;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class OwnTextArea extends TextArea {
 		}
 	}
 
-	static interface InstantValueChangeHandler {
+	public static interface InstantValueChangeHandler {
 		void onValueChange(String value);
 	}
 
