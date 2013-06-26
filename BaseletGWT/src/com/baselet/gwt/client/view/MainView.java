@@ -6,13 +6,17 @@ import org.vectomatic.file.FileUploadExt;
 import com.baselet.gwt.client.BrowserStorage;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.Utils;
-import com.baselet.gwt.client.view.SaveDialogBox.Callback;
+import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
+import com.baselet.gwt.client.view.widgets.OwnTextArea;
+import com.baselet.gwt.client.view.widgets.SaveDialogBox;
+import com.baselet.gwt.client.view.widgets.SaveDialogBox.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -33,12 +37,19 @@ public class MainView extends Composite {
 
 	interface MainViewUiBinder extends UiBinder<Widget, MainView> {}
 
+	interface MyStyle extends CssResource {
+		String menuItem();
+	}
+
+	@UiField
+	MyStyle style;
+
 	@UiField(provided=true)
 	SplitLayoutPanel diagramPaletteSplitter = new SplitLayoutPanel(4);
 
 	@UiField
 	FlowPanel menuPanel;
-	
+
 	@UiField
 	FlowPanel restoreMenuPanel;
 
@@ -91,7 +102,7 @@ public class MainView extends Composite {
 			saveDialogBox.clearAndCenter();
 		}
 	};
-	
+
 	public ScheduledCommand getSaveCommand() {
 		return saveCommand;
 	}
@@ -106,7 +117,7 @@ public class MainView extends Composite {
 		diagramScrollPanel = new AutoResizeScrollDropPanel(diagramHandler);
 		paletteHandler = new DrawFocusPanel(this, propertiesPanel);
 		paletteScrollPanel = new AutoResizeScrollDropPanel(paletteHandler);
-		
+
 		for (String diagramName : BrowserStorage.getSavedDiagramKeys()) {
 			addRestoreMenuItem(diagramName);
 		}
@@ -138,6 +149,7 @@ public class MainView extends Composite {
 
 	private void addRestoreMenuItem(final String chosenName) {
 		Label label = new Label(chosenName);
+		label.addStyleName(style.menuItem());
 		label.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -180,12 +192,12 @@ public class MainView extends Composite {
 	void onCutMenuItemClick(ClickEvent event) {
 		diagramHandler.getCommandInvoker().cutSelectedElements();
 	}
-	
+
 	@UiHandler("copyMenuItem")
 	void onCopyMenuItemClick(ClickEvent event) {
 		diagramHandler.getCommandInvoker().copySelectedElements();
 	}
-	
+
 	@UiHandler("pasteMenuItem")
 	void onPasteMenuItemClick(ClickEvent event) {
 		diagramHandler.getCommandInvoker().pasteElements();

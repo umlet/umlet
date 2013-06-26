@@ -1,13 +1,26 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:o='urn:import:com.baselet.gwt.client.view'>
-	<ui:style>
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:o='urn:import:com.baselet.gwt.client.view.widgets'>
+	<ui:style type='com.baselet.gwt.client.view.MainView.MyStyle'>
+		.menuItem {
+			padding-left: 0.3em;
+			font-size: 0.9em;
+		}
+		.menuItem:hover {
+			/*gradients created with http://www.colorzilla.com/gradient-editor/*/
+			background: #63acff; /* Old browsers */
+			background: -moz-linear-gradient(left, #63acff 0%, #cbebff 49%, #ffffff 100%); /* FF3.6+ */
+			background: -webkit-gradient(linear, left top, right top, color-stop(0%,#63acff), color-stop(49%,#cbebff), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+			background: -webkit-linear-gradient(left, #63acff 0%,#cbebff 49%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+			background: -o-linear-gradient(left, #63acff 0%,#cbebff 49%,#ffffff 100%); /* Opera 11.10+ */
+			background: -ms-linear-gradient(left, #63acff 0%,#cbebff 49%,#ffffff 100%); /* IE10+ */
+			background: linear-gradient(to right, #63acff 0%,#cbebff 49%,#ffffff 100%); /* W3C */
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#63acff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */		}
 		.propertiesTitle {
 			padding-left: 0.5em;
 			font-size: 0.85em;
 			font-weight: bold;
-			background-color : #E7E7E7;
-			
+			background-color: #E7E7E7;
 			-moz-user-select: -moz-none;
 			-khtml-user-select: none;
 			-webkit-user-select: none;
@@ -48,18 +61,18 @@
 				<g:SplitLayoutPanel width="100%" height="100%" ui:field="diagramPaletteSplitter">
 					<g:west size='50'>
 						<g:FlowPanel ui:field="menuPanel" >
-							<g:HTML ui:field="newMenuItem" text="New" />
+							<g:HTML styleName="{style.menuItem}" ui:field="newMenuItem" text="New" />
 							<g:HTML><hr/></g:HTML>
-							<g:HTML ui:field="importMenuItem" text="Import" />
-							<g:HTML ui:field="exportMenuItem" text="Export" />
+							<g:HTML styleName="{style.menuItem}" ui:field="importMenuItem" text="Import" />
+							<g:HTML styleName="{style.menuItem}" ui:field="exportMenuItem" text="Export" />
 							<g:HTML><hr/></g:HTML>
-							<g:HTML ui:field="saveMenuItem" text="Save" />
+							<g:HTML styleName="{style.menuItem}" ui:field="saveMenuItem" text="Save" />
 							<g:FlowPanel ui:field="restoreMenuPanel" />
 							<g:HTML><hr/></g:HTML>
-							<g:HTML ui:field="deleteMenuItem" text="Delete" />
-							<g:HTML ui:field="cutMenuItem" text="Cut" />
-							<g:HTML ui:field="copyMenuItem" text="Copy" />
-							<g:HTML ui:field="pasteMenuItem" text="Paste" />
+							<g:HTML styleName="{style.menuItem}" ui:field="deleteMenuItem" text="Delete" />
+							<g:HTML styleName="{style.menuItem}" ui:field="cutMenuItem" text="Cut" />
+							<g:HTML styleName="{style.menuItem}" ui:field="copyMenuItem" text="Copy" />
+							<g:HTML styleName="{style.menuItem}" ui:field="pasteMenuItem" text="Paste" />
 						</g:FlowPanel>
 					</g:west>
 					<g:center>

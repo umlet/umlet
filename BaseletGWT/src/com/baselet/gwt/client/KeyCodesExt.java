@@ -6,7 +6,7 @@ package com.baselet.gwt.client;
  * and http://www.w3.org/2002/09/tests/keys.html
  */
 public class KeyCodesExt {
-
+	
 	public static boolean isPlus(int code) {
 		return code == 61 || code == 187|| code == 107 || code == 171;
 	}
@@ -18,5 +18,9 @@ public class KeyCodesExt {
 	}
 	public static boolean isZoomKey(int code) {
 		return isPlus(code) || isMinus(code) || isZero(code);
+	}
+	
+	public static boolean isSwitchToFullscreen(int code) {
+		return code == 122; // F11
 	}
 }
