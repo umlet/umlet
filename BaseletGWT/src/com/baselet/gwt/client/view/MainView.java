@@ -61,14 +61,14 @@ public class MainView extends Composite {
 	MenuItem newMenuItem;
 
 	@UiField
-	MenuItem openMenuItem;
-
-	@UiField
 	MenuItem saveMenuItem;
 
 	@UiField
 	MenuBar restoreMenuBar;
 
+	@UiField
+	MenuItem importMenuItem;
+	
 	@UiField
 	MenuItem exportMenuItem;
 
@@ -158,7 +158,7 @@ public class MainView extends Composite {
 			}
 		});
 
-		openMenuItem.setScheduledCommand(new ScheduledCommand() {
+		importMenuItem.setScheduledCommand(new ScheduledCommand() {
 			@Override
 			public void execute() {
 				hiddenUploadButton.click();
