@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
 import com.baselet.gwt.client.element.ElementFactory;
@@ -18,6 +20,8 @@ import com.google.gwt.xml.client.XMLParser;
 import com.umlet.element.experimental.ElementId;
 
 public class OwnXMLParser {
+	
+	private static final Logger log = Logger.getLogger(OwnXMLParser.class);
 	
 	private static final String ELEMENT = "element";
 	private static final String ZOOM_LEVEL = "zoom_level";
@@ -39,20 +43,24 @@ public class OwnXMLParser {
 			    NodeList elements = messageDom.getElementsByTagName(ELEMENT);
 			    for (int i = 0; i < elements.getLength(); i++) {
 					Element element = (Element) elements.item(i);
-					ElementId id = ElementId.valueOf(element.getElementsByTagName(ID).item(0).getFirstChild().getNodeValue());
-					Element coordinates = (Element) element.getElementsByTagName(COORDINATES).item(0);
-					int x = Integer.valueOf(coordinates.getElementsByTagName(X).item(0).getFirstChild().getNodeValue());
-					int y = Integer.valueOf(coordinates.getElementsByTagName(Y).item(0).getFirstChild().getNodeValue());
-					int w = Integer.valueOf(coordinates.getElementsByTagName(W).item(0).getFirstChild().getNodeValue());
-					int h = Integer.valueOf(coordinates.getElementsByTagName(H).item(0).getFirstChild().getNodeValue());
-					String panelAttributes = element.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild().getNodeValue();
-					
-					String additionalPanelAttributes = "";
-					Node additionalAttrNode = element.getElementsByTagName(ADDITIONAL_ATTRIBUTES).item(0);
-					if (additionalAttrNode != null && additionalAttrNode.getFirstChild() != null) {
-						additionalPanelAttributes = additionalAttrNode.getFirstChild().getNodeValue();
+					try {
+						ElementId id = ElementId.valueOf(element.getElementsByTagName(ID).item(0).getFirstChild().getNodeValue());
+						Element coordinates = (Element) element.getElementsByTagName(COORDINATES).item(0);
+						int x = Integer.valueOf(coordinates.getElementsByTagName(X).item(0).getFirstChild().getNodeValue());
+						int y = Integer.valueOf(coordinates.getElementsByTagName(Y).item(0).getFirstChild().getNodeValue());
+						int w = Integer.valueOf(coordinates.getElementsByTagName(W).item(0).getFirstChild().getNodeValue());
+						int h = Integer.valueOf(coordinates.getElementsByTagName(H).item(0).getFirstChild().getNodeValue());
+						String panelAttributes = element.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild().getNodeValue();
+						
+						String additionalPanelAttributes = "";
+						Node additionalAttrNode = element.getElementsByTagName(ADDITIONAL_ATTRIBUTES).item(0);
+						if (additionalAttrNode != null && additionalAttrNode.getFirstChild() != null) {
+							additionalPanelAttributes = additionalAttrNode.getFirstChild().getNodeValue();
+						}
+						returnList.add(ElementFactory.create(id, new com.baselet.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes, additionalPanelAttributes, selector));
+					} catch (Exception e) {
+						log.error("Element has invalid XML structure: " + element);
 					}
-					returnList.add(ElementFactory.create(id, new com.baselet.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes, additionalPanelAttributes, selector));
 				}
 			  } catch (DOMException e) {
 			    Window.alert("Could not parse XML document.");

@@ -15,7 +15,8 @@
 			background: -o-linear-gradient(left, #63acff 0%,#cbebff 49%,#ffffff 100%); /* Opera 11.10+ */
 			background: -ms-linear-gradient(left, #63acff 0%,#cbebff 49%,#ffffff 100%); /* IE10+ */
 			background: linear-gradient(to right, #63acff 0%,#cbebff 49%,#ffffff 100%); /* W3C */
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#63acff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */		}
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#63acff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */
+			}
 		.propertiesTitle {
 			padding-left: 0.5em;
 			font-size: 0.85em;
