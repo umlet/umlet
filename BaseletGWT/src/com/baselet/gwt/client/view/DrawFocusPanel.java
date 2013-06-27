@@ -27,6 +27,7 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.FocusPanel;
 
 public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
@@ -179,7 +180,9 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 		});
 
 		setCanvasSize(backgroundCanvas, 5000, 5000);
-		drawBackgroundGrid();
+		if (Location.getParameter("grid") != null) {
+			drawBackgroundGrid();
+		}
 		draw();
 	}
 
