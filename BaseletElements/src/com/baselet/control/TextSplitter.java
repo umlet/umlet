@@ -26,7 +26,7 @@ public class TextSplitter {
 		result = splitStringAlgorithm(text, width, drawer);
 
 		splitStringCache.put(key, result);
-		return result.trim();
+		return result;
 	}
 
 	private static String splitStringAlgorithm(String text, float width, BaseDrawHandler drawer) {
@@ -40,9 +40,11 @@ public class TextSplitter {
 				inputIter.previous();
 				break;
 			}
-			if (!line.isEmpty()) line += splitChar; // if this is not the first line, start with a splitcharacter
-			line += nextEl;
+			line += nextEl + splitChar;
 			inputIter.remove();
+		}
+		if (!line.isEmpty()) { // cut the last splitChar
+			line = line.substring(0, line.length()-1);
 		}
 		if (inputIter.hasNext() && line.isEmpty()) { // if the line has no space and would be to wide for one line
 			String nextEl = inputIter.next();

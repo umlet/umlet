@@ -246,10 +246,18 @@ public abstract class Utils {
 		return false;
 	}
 
-	public static DimensionFloat getTextSize(String s, Font notificationFont, FontRenderContext frc) {
-		if (s == null) return null;
-		if (s.length() == 0) return new DimensionFloat(0, 0);
-		TextLayout tl = new TextLayout(s, notificationFont, frc);
+	public static DimensionFloat getTextSize(String s, Font font, FontRenderContext frc) {
+		if (s == null) {
+			return null;
+		} else if (s.isEmpty()) {
+			return new DimensionFloat(0, 0);
+		}
+
+		// TextLayout trims the string, therefore replace spaces with dots in such cases (dots have exactly the same width as spaces, therefore we will get the expected width WITH spaces)
+		if (s.startsWith(" ") || s.endsWith(" ")) {
+			s = s.replace(' ', '.');
+		}
+		TextLayout tl = new TextLayout(s, font, frc);
 		return new DimensionFloat((int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
 	}
 
