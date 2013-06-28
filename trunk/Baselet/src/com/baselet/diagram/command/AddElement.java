@@ -92,7 +92,7 @@ public class AddElement extends Command {
 		addentity(_entity, handler.getDrawPanel(), getX() + offsetX, getY() + offsetY);
 
 		if (_zoom) DiagramHandler.zoomEntity(Constants.DEFAULTGRIDSIZE, handler.getGridSize(), _entity);
-		handler.getDrawPanel().getSelector().singleSelect(_entity);
+		handler.getDrawPanel().getSelector().selectOnly(_entity);
 
 		// AB: do this because updatePanelAndScrollbars messes up frequent calls of AddEntity in a loop
 		if (!firstCall) {

@@ -31,7 +31,7 @@ public class MouseDragUtils {
 	}
 
 	public interface MouseDragHandler {
-		void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean firstDrag);
+		void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag);
 
 		void onMouseDragEnd(GridElement gridElement);
 
@@ -74,7 +74,7 @@ public class MouseDragUtils {
 					diffX -= (diffX % NewGridElementConstants.DEFAULT_GRID_SIZE);
 					diffY -= (diffY % NewGridElementConstants.DEFAULT_GRID_SIZE);
 					if (diffX != 0 || diffY != 0) {
-						mouseDragHandler.onMouseMoveDragging(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), (storage.dragging == DragStatus.FIRST));
+						mouseDragHandler.onMouseMoveDragging(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), event.isControlKeyDown(), (storage.dragging == DragStatus.FIRST));
 						storage.dragging = DragStatus.CONTINUOUS; // after FIRST real drag switch to CONTINUOUS
 						storage.moveStart.move(diffX, diffY);
 					}

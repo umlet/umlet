@@ -23,7 +23,7 @@ public class CommandInvoker extends Controller {
 	}
 	
 	void addElements(GridElement ... elements) {
-		this.executeCommand(new AddGridElementCommand(canvas, canvas.getSelector(), elements));
+		this.executeCommand(new AddGridElementCommand(canvas, elements));
 	}
 
 	void addElements(Collection<GridElement> elements) {
@@ -32,7 +32,7 @@ public class CommandInvoker extends Controller {
 	void removeSelectedElements() {
 		List<GridElement> elements = canvas.getSelector().getSelectedElements();
 		GridElement[] elementsArray = elements.toArray(new GridElement[elements.size()]);
-		this.executeCommand(new RemoveGridElementCommand(canvas, canvas.getSelector(), elementsArray));
+		this.executeCommand(new RemoveGridElementCommand(canvas, elementsArray));
 	}
 	
 	

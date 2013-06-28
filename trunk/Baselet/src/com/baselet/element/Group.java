@@ -42,7 +42,7 @@ public class Group extends OldGridElement implements GroupGridElement {
 			this.addMember(it.next());
 
 		adjustSize(false);
-		s.singleSelect(this);
+		s.selectOnly(this);
 		(new AddElement(this, this.getRectangle().x, this.getRectangle().y)).execute(Main.getHandlerForElement(this));
 	}
 

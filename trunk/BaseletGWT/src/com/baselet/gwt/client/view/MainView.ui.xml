@@ -94,7 +94,7 @@
 							<g:center>
 								<g:FlowPanel>
 									<g:HTML><div class='{style.propertiesTitle}'>Properties</div></g:HTML>
-									<o:OwnTextArea ui:field="propertiesPanel" height="100%" width="100%" />
+									<o:PropertiesTextArea ui:field="propertiesPanel" height="100%" width="100%" />
 								</g:FlowPanel>
 							</g:center>
 						</g:SplitLayoutPanel>

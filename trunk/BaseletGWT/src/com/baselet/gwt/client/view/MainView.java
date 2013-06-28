@@ -8,6 +8,7 @@ import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
 import com.baselet.gwt.client.view.widgets.OwnTextArea;
+import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox.Callback;
 import com.google.gwt.core.client.GWT;
@@ -71,7 +72,7 @@ public class MainView extends Composite {
 	ListBox paletteChooser;
 
 	@UiField
-	OwnTextArea propertiesPanel;
+	PropertiesTextArea propertiesPanel;
 
 	@UiField
 	SimpleLayoutPanel palettePanel;
