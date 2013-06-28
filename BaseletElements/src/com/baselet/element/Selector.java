@@ -1,5 +1,6 @@
 package com.baselet.element;
 
+import java.util.Collection;
 import java.util.List;
 
 public abstract class Selector {
@@ -9,10 +10,14 @@ public abstract class Selector {
 	public abstract boolean isSelected(GridElement element);
 	public abstract List<GridElement> getSelectedElements();
 	
-	public void singleSelect(GridElement element) {
+	public void selectOnly(GridElement ... elements) {
 		deselectAll();
-		select(element);
+		select(elements);
 	}
+
+//	public void selectOnly(Collection<GridElement> elements) {
+//		selectOnly(elements.toArray(new GridElement[elements.size()]));
+//	}
 
 	public void deselectAll() {
 		deselect(getSelectedElements().toArray(new GridElement[getSelectedElements().size()]));

@@ -2,6 +2,8 @@ package com.baselet.gwt.client.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +20,7 @@ import com.baselet.gwt.client.element.GwtComponent;
 import com.baselet.gwt.client.view.MouseDragUtils.MouseDragHandler;
 import com.baselet.gwt.client.view.widgets.OwnTextArea;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
+import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
@@ -45,21 +48,21 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 
 	private CommandInvoker commandInvoker = new CommandInvoker(this);
 
-	public DrawFocusPanel(final MainView mainView, final OwnTextArea propertiesPanel) {
+	public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
 		elementCanvas = Canvas.createIfSupported();
 		backgroundCanvas = Canvas.createIfSupported();
-		
+
 		this.add(elementCanvas);
 
 		propertiesPanel.addInstantValueChangeHandler(new InstantValueChangeHandler() {
 			@Override
 			public void onValueChange(String value) {
-				GridElement singleSelected = getSelector().getSingleSelected();
-				if (singleSelected != null) {
-					singleSelected.setPanelAttributes(value);
-					singleSelected.repaint();
+				GridElement gridElement = propertiesPanel.getGridElement();
+				if (gridElement != null) {
+					gridElement.setPanelAttributes(value);
+					gridElement.repaint();
 				}
-				draw();
+				redraw();
 			}
 		});
 
@@ -68,50 +71,63 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 			public void onMouseDown(GridElement element, boolean isControlKeyDown) {
 				// Set Focus (to make key-shortcuts work)
 				DrawFocusPanel.this.setFocus(true);
-				
-				// Update Selection
-				if (!isControlKeyDown) { // if no control key was pressed, deselect all elements
-					selector.deselectAll();
-				}
-				if (element != null) { // handle selection of new element
-					if (element.isSelected()) { // invert selection if already selected (only possible if ctrl key retained previous selection)
-						selector.deselect(element);
+
+				if (isControlKeyDown) {
+					if (element != null) {
+						if (element.isSelected()) {
+							selector.deselect(element);
+						} else {
+							selector.select(element);
+							propertiesPanel.setGridElement(element);
+						}
+					}
+				} else {
+					if (element != null) {
+						if (!selector.isSelected(element)) {
+							selector.selectOnly(element);
+						}
+						propertiesPanel.setGridElement(element);
 					} else {
-						selector.select(element);
-						propertiesPanel.setValue(element.getPanelAttributes());
+						selector.deselectAll();
 					}
 				}
-				
-				draw();
+
+				redraw();
 			}
 
 			@Override
 			public void onMouseDragEnd(GridElement draggedGridElement) {
-				if (draggedGridElement != null) {
+				if (draggedGridElement != null && selector.isSelectedOnly(draggedGridElement)) {
 					draggedGridElement.dragEnd();
 				}
-				draw();
+				redraw();
 			}
 
 			Set<Direction> resizeDirection = new HashSet<Direction>();
 
 			@Override
-			public void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean firstDrag) {
-				if (draggedGridElement == null) { // nothing selected -> move whole diagram
+			public void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
+				if (draggedGridElement == null) { // not dragging a grid element -> move whole diagram
 					Utils.showCursor(Style.Cursor.POINTER);
 					for (GridElement ge : gridElements) {
 						ge.setLocationDifference(diffX, diffY);
 					}
+				} else if (isCtrlKeyDown) {
+					return; // TODO implement Lasso
+				} else if (selector.getSelectedElements().size() > 1) {
+					for (GridElement ge : selector.getSelectedElements()) {
+						ge.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag);
+					}
 				} else {
 					draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag);
 				}
-				draw();
+				redraw();
 			}
 
 			@Override
 			public void onMouseMove(Point absolute) {
 				GridElement geOnPosition = getGridElementOnPosition(absolute);
-				if (geOnPosition != null) {
+				if (geOnPosition != null && selector.isSelectedOnly(geOnPosition)) {
 					resizeDirection = geOnPosition.getResizeArea(absolute.getX() - geOnPosition.getRectangle().getX(), absolute.getY() - geOnPosition.getRectangle().getY());
 					if (resizeDirection.isEmpty()) {
 						Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
@@ -150,16 +166,16 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 			}
 		});
 		this.addKeyDownHandler(new KeyDownHandler() {
-			
+
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				int code = event.getNativeKeyCode();
-				
+
 				boolean zoomControls = event.isControlKeyDown() && KeyCodesExt.isZoomKey(code);
 				if (!zoomControls && !KeyCodesExt.isSwitchToFullscreen(code)) {
 					event.preventDefault(); // avoid most browser key handlings
 				}
-				
+
 				if (code == KeyCodes.KEY_DELETE) {
 					commandInvoker.removeSelectedElements();
 				}
@@ -175,15 +191,15 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 				else if (event.isControlKeyDown() && code == 'S') {
 					mainView.getSaveCommand().execute();
 				}
-			
+
 			}
 		});
 
-		setCanvasSize(backgroundCanvas, 5000, 5000);
+		clearAndSetCanvasSize(backgroundCanvas, 5000, 5000);
 		if (Location.getParameter("grid") != null) {
 			drawBackgroundGrid();
 		}
-		draw();
+		redraw();
 	}
 
 	private void drawBackgroundGrid() {
@@ -206,11 +222,9 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 		context.stroke();
 	}
 
-	private void draw() {
-		recalculateCanvasSize();
+	private void redraw() {
+		clearAndRecalculateCanvasSize();
 		Context2d context = elementCanvas.getContext2d();
-		context.setFillStyle(WHITE);
-		context.fillRect(-1000000, -1000000, 2000000, 2000000);
 		for (GridElement ge : gridElements) {
 			((GwtComponent) ge.getComponent()).drawOn(context);
 		}
@@ -223,27 +237,40 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 	}
 
 	public GridElement getGridElementOnPosition(Point point) {
+		List<GridElement> elementsOnPosition = new ArrayList<GridElement>();
 		for (GridElement ge : gridElements) {
-			if (ge.isSelectableOn(point)) return ge;
+			if (ge.isSelectableOn(point)) {
+				elementsOnPosition.add(ge);
+			}
+		}
+		for (GridElement ge : elementsOnPosition) { // selected elements have priority
+			if (selector.isSelected(ge)) {
+				return ge;
+			}
+		}
+		if (!elementsOnPosition.isEmpty()) { // TODO implement algorithm that smallest element will be returned
+			return elementsOnPosition.get(0);
 		}
 		return null;
 	}
 
 	public void setGridElements(List<GridElement> gridElements) {
 		this.gridElements = gridElements;
-		draw();
+		redraw();
 	}
 
 	@Override
 	public void addGridElements(GridElement ... elements) {
 		this.gridElements.addAll(Arrays.asList(elements));
-		draw();
+		selector.selectOnly(elements);
+		redraw();
 	}
 
 	@Override
 	public void removeGridElements(GridElement ... elements) {
 		this.gridElements.removeAll(Arrays.asList(elements));
-		draw();
+		selector.deselect(elements);
+		redraw();
 	}
 
 	private int minWidth, minHeight;
@@ -251,24 +278,23 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 	public void setMinSize(int minWidth, int minHeight) {
 		this.minWidth = minWidth;
 		this.minHeight = minHeight;
-		draw();
+		redraw();
 	}
 
-	private void recalculateCanvasSize() {
+	private void clearAndRecalculateCanvasSize() {
 		int width = minWidth;
 		int height = minHeight;
 		for (GridElement ge : gridElements) {
 			width = Math.max(ge.getRectangle().getX2(), width);
 			height = Math.max(ge.getRectangle().getY2(), height);
 		}
-		setCanvasSize(elementCanvas, width, height);
+		clearAndSetCanvasSize(elementCanvas, width, height);
 	}
 
-	private void setCanvasSize(Canvas canvas, int width, int height) {
+	private void clearAndSetCanvasSize(Canvas canvas, int width, int height) {
+		// setCoordinateSpace always clears the canvas. To avoid that see https://groups.google.com/d/msg/google-web-toolkit/dpc84mHeKkA/3EKxrlyFCEAJ
 		canvas.setCoordinateSpaceWidth(width);
-		canvas.setWidth(width + "px");
 		canvas.setCoordinateSpaceHeight(height);
-		canvas.setHeight(height + "px");
 	}
 
 	public String toXml() {
@@ -282,7 +308,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 	public SelectorNew getSelector() {
 		return selector;
 	}
-	
+
 	public CommandInvoker getCommandInvoker() {
 		return commandInvoker;
 	}

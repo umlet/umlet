@@ -128,7 +128,7 @@ public class GridElementListener extends UniversalListener {
 
 	private void showContextMenu(GridElement ge, int x, int y) {
 
-		if (!this.selector.getSelectedElements().contains(ge)) this.selector.singleSelect(ge);
+		if (!this.selector.getSelectedElements().contains(ge)) this.selector.selectOnly(ge);
 
 		selector.setDominantEntity(ge);
 
@@ -179,7 +179,7 @@ public class GridElementListener extends UniversalListener {
 			}
 		}
 
-		if (!this.selector.getSelectedElements().contains(e)) this.selector.singleSelect(e);
+		if (!this.selector.getSelectedElements().contains(e)) this.selector.selectOnly(e);
 		else this.selector.updateSelectorInformation();
 	}
 
@@ -191,7 +191,7 @@ public class GridElementListener extends UniversalListener {
 		cmd = new AddElement(e, me.getRectangle().x + gridSize * 2, me.getRectangle().y + gridSize * 2);
 		// this.IS_FIRST_DRAGGING_OVER=true;
 		this.controller.executeCommand(cmd);
-		this.selector.singleSelect(e);
+		this.selector.selectOnly(e);
 		e.setStickingBorderActive(false);
 		eListener.IS_FIRST_DRAGGING_OVER = false;
 	}

@@ -33,6 +33,10 @@ public class SelectorNew extends Selector {
 	public boolean isSelected(GridElement ge) {
 		return selectedElements.contains(ge);
 	}
+
+	public boolean isSelectedOnly(GridElement ge) {
+		return selectedElements.size() == 1 && selectedElements.contains(ge);
+	}
 	
 	public GridElement getSingleSelected() {
 		if (selectedElements.size() == 1) {

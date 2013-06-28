@@ -167,7 +167,7 @@ public class PaletteEntityListener extends GridElementListener {
 				handler.realignToGrid(((upperLeftX / oldZoomDiagram) + Constants.PASTE_DISPLACEMENT_GRIDS) * Constants.DEFAULTGRIDSIZE),
 				handler.realignToGrid(((upperLeftY / oldZoomDiagram) + Constants.PASTE_DISPLACEMENT_GRIDS) * Constants.DEFAULTGRIDSIZE));
 		currentDiagram.getHandler().getController().executeCommand(cmd);
-		currentDiagram.getSelector().singleSelect(e);
+		currentDiagram.getSelector().selectOnly(e);
 		e.setStickingBorderActive(false);
 
 		// After inserting the new entity we restore the old zoom level of both diagrams
