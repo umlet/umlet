@@ -10,10 +10,13 @@ import com.baselet.diagram.draw.geom.DimensionFloat;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.gwt.client.Converter;
+import com.baselet.gwt.client.Notification;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class DrawHandlerGWT extends BaseDrawHandler {
 
@@ -180,7 +183,7 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 			setLineDash(ctx, LineType.SOLID, 1.0f);
 			drawLineHelper(x, y, x + textWidth(textToDraw), y);
 		}
-		
+
 		TextAlign ctxAlign = null;
 		switch (align) {
 			case LEFT:
@@ -238,32 +241,38 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	private void setLineDash(Context2d ctx, LineType lineType, float lineThickness) {
-		switch (lineType) {
-			case DASHED: // large linethickness values need longer dashes
-				setLineDash(ctx, 6 * Math.max(1, lineThickness/2));
-				break;
-			case DOTTED: // minimum must be 2, otherwise the dotting is not really visible
-				setLineDash(ctx, Math.max(2, lineThickness));
-				break;
-			default: // default is a solid line
-				setLineDash(ctx, 0);
+		try {
+			switch (lineType) {
+				case DASHED: // large linethickness values need longer dashes
+					setLineDash(ctx, 6 * Math.max(1, lineThickness/2));
+					break;
+				case DOTTED: // minimum must be 2, otherwise the dotting is not really visible
+					setLineDash(ctx, Math.max(2, lineThickness));
+					break;
+				default: // default is a solid line
+					setLineDash(ctx, 0);
+			}
+		} catch (Exception e) {
+			Notification.showFeatureNotSupported("To see dashed lines, please use Firefox or Chrome<br/>In your browser they will be shown as solid lines");
 		}
 	}
 
 	/**
 	 * Chrome supports setLineDash()
 	 * Firefox supports mozDash()
-	 * Internet Explorer is not supported
 	 */
 	public final native void setLineDash(Context2d ctx, float dash) /*-{
-	    if (ctx.setLineDash !== undefined) ctx.setLineDash([dash]);
-		if (ctx.mozDash !== undefined) {
+	    if (ctx.setLineDash !== undefined) {
+	    	ctx.setLineDash([dash]);
+	    } else if (ctx.mozDash !== undefined) {
 			if (dash != 0) {
 				ctx.mozDash = [dash];
 			} else { // default is null
 				ctx.mozDash = null;
 			}
-		}
+		} else if (dash != 0) { // if another line than a solid one should be set and the browser doesn't support it throw an Exception
+			throw new Exception();
+	    }
   	}-*/;
 
 }
