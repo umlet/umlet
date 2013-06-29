@@ -149,6 +149,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 						Utils.showCursor(Style.Cursor.W_RESIZE);
 					}
 				} else {
+					resizeDirection.clear();
 					Utils.showCursor(Style.Cursor.DEFAULT);
 				}
 			}
