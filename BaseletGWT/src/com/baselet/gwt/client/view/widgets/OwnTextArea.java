@@ -21,9 +21,7 @@ public class OwnTextArea extends TextArea {
 		this.addKeyUpHandler(new KeyUpHandler() {
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
-				for (InstantValueChangeHandler handler : handlers) {
-					handler.onValueChange(getText());
-				}
+				fireHandlers();
 			}
 		});
 	}
@@ -35,11 +33,15 @@ public class OwnTextArea extends TextArea {
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 				@Override
 				public void execute() {
-					for (InstantValueChangeHandler handler : handlers) {
-						handler.onValueChange(getText());
+					fireHandlers();
 					}
-				}
 			});
+		}
+	}
+
+	public void fireHandlers() {
+		for (InstantValueChangeHandler handler : handlers) {
+			handler.onValueChange(getText());
 		}
 	}
 
