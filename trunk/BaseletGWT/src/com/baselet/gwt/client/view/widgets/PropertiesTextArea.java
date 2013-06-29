@@ -22,18 +22,21 @@ public class PropertiesTextArea extends MySuggestBox {
 	private GridElement gridElement;
 	
 	public PropertiesTextArea() {
-		super(new MultiWordSuggestOracle(), new OwnTextArea());
+		super(new MultiWordSuggestOracle("%"), new OwnTextArea());
 		textArea = (OwnTextArea) getValueBox();
 		oracle = (MultiWordSuggestOracle) getSuggestOracle();
-		this.addKeyDownHandler(new KeyDownHandler() {
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				int code = event.getNativeKeyCode();
-				if (event.isControlKeyDown() && code == 'X') {
-					showSuggestionList();
-				}
-			}
-		});
+		
+		//TODO ctrl+space should show ALL suggestions
+		
+//		this.addKeyDownHandler(new KeyDownHandler() {
+//			@Override
+//			public void onKeyDown(KeyDownEvent event) {
+//				int code = event.getNativeKeyCode();
+//				if (event.isControlKeyDown() && KeyCodesExt.isSpace(code)) {
+//					showSuggestionList();
+//				}
+//			}
+//		});
 	}
 	
 	public void setGridElement(GridElement gridElement) {
@@ -41,7 +44,7 @@ public class PropertiesTextArea extends MySuggestBox {
 		textArea.setValue(gridElement.getPanelAttributes());
 		oracle.clear();
 		for (final AutocompletionText autoCompl : gridElement.getAutocompletionList()) {
-			oracle.add(autoCompl.getText());
+			oracle.add(autoCompl.getText() + COMMENT_CHAR + autoCompl.getInfo().replace(' ', '\t'));
 		}
 	}
 	

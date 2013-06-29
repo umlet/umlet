@@ -8,9 +8,14 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 
 public class MySuggestBox extends SuggestBox {
+	
+	//TODO perhaps use '\t' because its completely invisible
+	public final static String COMMENT_CHAR = " ~";
 
 	public MySuggestBox(SuggestOracle oracle, OwnTextArea textArea) {
 		super(oracle, textArea);
+		
+		// if the focus is on the suggestbox avoid propagating certain keyevents to the textarea
 		this.addKeyPressHandler(new KeyPressHandler() {
 	        @Override
 	        public void onKeyPress(KeyPressEvent event) {
@@ -25,7 +30,8 @@ public class MySuggestBox extends SuggestBox {
 
 	@Override
 	public void setText(String text) {
-		super.setText(replaceTextOfCurrentLine(text));
+		// only replace current line. Also only use suggestion until COMMENT_CHAR which only contains additional explaination about the gridelement-setting
+		super.setText(replaceTextOfCurrentLine(text.substring(0, text.indexOf(COMMENT_CHAR))));
 	}
 
 	@Override
