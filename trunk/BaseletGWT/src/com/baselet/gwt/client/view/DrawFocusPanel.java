@@ -180,9 +180,19 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 				if (!zoomControls && !KeyCodesExt.isSwitchToFullscreen(code)) {
 					event.preventDefault(); // avoid most browser key handlings
 				}
-
+				
 				if (code == KeyCodes.KEY_DELETE) {
 					commandInvoker.removeSelectedElements();
+				}
+				else if (
+						(event.isControlKeyDown() && code == 'D') || 
+						(event.isControlKeyDown() && event.isShiftKeyDown() && code == 'A')) {
+					selector.deselectAll();
+					redraw();
+				}
+				else if (event.isControlKeyDown() && code == 'A') {
+					selector.select(getGridElements());
+					redraw();
 				}
 				else if (event.isControlKeyDown() && code == 'C') {
 					commandInvoker.copySelectedElements();
