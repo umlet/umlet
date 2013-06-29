@@ -127,7 +127,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 			@Override
 			public void onMouseMove(Point absolute) {
 				GridElement geOnPosition = getGridElementOnPosition(absolute);
-				if (geOnPosition != null && selector.isSelectedOnly(geOnPosition)) {
+				if (geOnPosition != null && selector.isSelectedOnly(geOnPosition)) { // exactly one gridelement selected which is at the mouseposition
 					resizeDirection = geOnPosition.getResizeArea(absolute.getX() - geOnPosition.getRectangle().getX(), absolute.getY() - geOnPosition.getRectangle().getY());
 					if (resizeDirection.isEmpty()) {
 						Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
@@ -150,7 +150,11 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 					}
 				} else {
 					resizeDirection.clear();
-					Utils.showCursor(Style.Cursor.DEFAULT);
+					if (geOnPosition != null) {
+						Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
+					} else {
+						Utils.showCursor(Style.Cursor.DEFAULT);
+					}
 				}
 			}
 		});
