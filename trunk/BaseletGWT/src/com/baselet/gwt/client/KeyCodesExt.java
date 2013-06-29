@@ -19,6 +19,9 @@ public class KeyCodesExt {
 	public static boolean isZoomKey(int code) {
 		return isPlus(code) || isMinus(code) || isZero(code);
 	}
+	public static boolean isSpace(int code) {
+		return code == 32;
+	}
 	
 	public static boolean isSwitchToFullscreen(int code) {
 		return code == 122; // F11
