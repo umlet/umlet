@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +13,9 @@ import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
+import com.baselet.gwt.client.Converter;
 import com.baselet.gwt.client.KeyCodesExt;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.Utils;
@@ -35,8 +38,11 @@ import com.google.gwt.user.client.ui.FocusPanel;
 
 public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
 
-	public static final CssColor GRAY = CssColor.make("rgba(" + 100 + ", " + 100 + "," + 100 + ", " + 0.2 + ")");
-	public static final CssColor WHITE = CssColor.make(255, 255, 255);
+	private static final Comparator<GridElement> LAYER_COMPARATOR = new Comparator<GridElement>() {
+			@Override
+			public int compare(GridElement o1, GridElement o2) {
+				return o1.getLayer().compareTo(o2.getLayer());
+			}};
 
 	private List<GridElement> gridElements = new ArrayList<GridElement>();
 
@@ -221,7 +227,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 		int width = backgroundCanvas.getCoordinateSpaceWidth();
 		int height = backgroundCanvas.getCoordinateSpaceHeight();
 		Context2d backgroundContext = backgroundCanvas.getContext2d();
-		backgroundContext.setStrokeStyle(GRAY);
+		backgroundContext.setStrokeStyle(Converter.convert(ColorOwn.GRAY));
 		for (int i = 0; i < width; i += NewGridElementConstants.DEFAULT_GRID_SIZE) {
 			drawLine(backgroundContext, i, 0, i, height);
 		}
@@ -240,6 +246,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 	private void redraw() {
 		clearAndRecalculateCanvasSize();
 		Context2d context = elementCanvas.getContext2d();
+		Collections.sort(gridElements, LAYER_COMPARATOR);
 		for (GridElement ge : gridElements) {
 			((GwtComponent) ge.getComponent()).drawOn(context);
 		}
