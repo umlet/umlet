@@ -17,35 +17,34 @@ public class PropertiesTextArea extends MySuggestBox {
 	
 	private OwnTextArea textArea;
 
-	private MultiWordSuggestOracle oracle;
+	private MySuggestOracle oracle;
 
 	private GridElement gridElement;
 	
 	public PropertiesTextArea() {
-		super(new MultiWordSuggestOracle("%"), new OwnTextArea());
+		super(new MySuggestOracle(), new OwnTextArea());
 		textArea = (OwnTextArea) getValueBox();
-		oracle = (MultiWordSuggestOracle) getSuggestOracle();
+		oracle = (MySuggestOracle) getSuggestOracle();
 		
 		//TODO ctrl+space should show ALL suggestions
 		
-//		this.addKeyDownHandler(new KeyDownHandler() {
-//			@Override
-//			public void onKeyDown(KeyDownEvent event) {
-//				int code = event.getNativeKeyCode();
-//				if (event.isControlKeyDown() && KeyCodesExt.isSpace(code)) {
-//					showSuggestionList();
-//				}
-//			}
-//		});
+		this.addKeyDownHandler(new KeyDownHandler() {
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				int code = event.getNativeKeyCode();
+				if (event.isControlKeyDown() && KeyCodesExt.isSpace(code)) {
+					oracle.setShowAllAsDefault(true);
+					showSuggestionList();
+					oracle.setShowAllAsDefault(false);
+				}
+			}
+		});
 	}
 	
 	public void setGridElement(GridElement gridElement) {
 		this.gridElement = gridElement;
 		textArea.setValue(gridElement.getPanelAttributes());
-		oracle.clear();
-		for (final AutocompletionText autoCompl : gridElement.getAutocompletionList()) {
-			oracle.add(autoCompl.getText() + COMMENT_CHAR + autoCompl.getInfo().replace(' ', '\t'));
-		}
+		oracle.setAutocompletionList(gridElement.getAutocompletionList());
 	}
 	
 	public GridElement getGridElement() {
