@@ -5,8 +5,6 @@ import com.baselet.element.Selector;
 
 public interface DrawHandlerInterface {
 
-	void updateLayer();
-
 	void updatePropertyPanel();
 
 	float getZoomFactor();

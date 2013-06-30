@@ -15,8 +15,6 @@ public class ElementFactory {
 		
 		DrawHandlerInterface handler = new DrawHandlerInterface() {
 			@Override
-			public void updateLayer() { }
-			@Override
 			public void updatePropertyPanel() { }
 			@Override
 			public float getZoomFactor() { return 1.0f; }

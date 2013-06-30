@@ -1,7 +1,5 @@
 package com.umlet.element.experimental;
 
-import java.awt.Component;
-
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
@@ -27,10 +25,6 @@ public class ElementFactory {
 			@Override
 			public void updatePropertyPanel() {
 				Main.getHandlerForElement(returnObj).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
-			}
-			@Override
-			public void updateLayer() {
-				Main.getHandlerForElement(returnObj).getDrawPanel().setLayer((Component) returnObj.getComponent(), returnObj.getLayer());
 			}
 			@Override
 			public float getZoomFactor() {
