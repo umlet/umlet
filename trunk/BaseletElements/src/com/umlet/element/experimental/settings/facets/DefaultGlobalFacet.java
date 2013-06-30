@@ -20,7 +20,7 @@ public class DefaultGlobalFacet implements Facet {
 		LINE_TYPE("lt", new String[] {LineType.DASHED.getValue(), "dashed lines"}, new String[] {LineType.DOTTED.getValue(), "dotted lines"}, new String[] {LineType.BOLD.getValue(), "bold lines"}),
 		LINE_THICKNESS("lth", "1.0", "thickness of lines (1.5, 2.0, ...)"),
 		FONT_SIZE("fontsize", "12", "font size (12.5, 10.3,...)"),
-		LAYER("layer", "0", "elements on higher layers are shown on top of others, default is 0 (-5, 0, 3,...)"),
+		LAYER("layer", "0", "higher layers are shown on top of lowers (-5, 0(=default), 3,...)"),
 		ELEMENT_STYLE("elementstyle",
 				new String[] {ElementStyleEnum.AUTORESIZE.toString(), "resizes element as text grows"},
 				new String[] {ElementStyleEnum.WORDWRAP.toString(), "wrap lines at the end of the line"},
