@@ -111,13 +111,9 @@ public abstract class NewGridElement implements GridElement {
 		this.autoresizePossiblyInProgress = true;
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
-		Integer oldLayer = getLayer();
 		properties.initSettingsFromText(this);
 		updateMetaDrawer(metaDrawer);
 		updateConcreteModel(drawer, properties);
-		if (oldLayer != null && !oldLayer.equals(getLayer())) {
-			handler.updateLayer();
-		}
 		this.autoresizePossiblyInProgress = false;
 		
 		component.afterModelUpdate();

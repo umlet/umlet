@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -463,6 +464,14 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		// g2.setTransform(t);
 
 		// drawDevHelpLines((Graphics2D) g);
+		
+		// check if layers have changed and update them
+		for (GridElement ge : gridElements) {
+			if (!ge.getLayer().equals(getLayer((JComponent) ge.getComponent()))) {
+				setLayer((JComponent) ge.getComponent(), ge.getLayer());
+			}
+		}
+		
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHints(Utils.getUxRenderingQualityHigh(true));
 		if (Constants.show_grid) drawGrid(g2d);
