@@ -3,23 +3,23 @@ package com.baselet.gwt.client.view.widgets;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
+import com.google.gwt.user.client.ui.ValueBoxBase;
 
 public class MySuggestBox extends SuggestBox {
 
-	public MySuggestBox(SuggestOracle oracle, OwnTextArea textArea) {
-		super(oracle, textArea);
+	public MySuggestBox(SuggestOracle oracle, ValueBoxBase<String> textArea, final DefaultSuggestionDisplay display) {
+		super(oracle, textArea, display);
 		
 		this.addKeyPressHandler(new KeyPressHandler() {
 	        @Override
 	        public void onKeyPress(KeyPressEvent event) {
 	            int key = event.getNativeEvent().getKeyCode();
 	            if (key == KeyCodes.KEY_ESCAPE) {
-	            	MySuggestBox.this.hideSuggestionList();
+	            	display.hideSuggestions();
 	            }
-	            else if (MySuggestBox.this.isSuggestionListShowing() && (key == KeyCodes.KEY_ENTER || key == KeyCodes.KEY_UP || key == KeyCodes.KEY_DOWN)) {
+	            else if (display.isSuggestionListShowing() && (key == KeyCodes.KEY_ENTER || key == KeyCodes.KEY_UP || key == KeyCodes.KEY_DOWN)) {
 	            	event.getNativeEvent().preventDefault(); // if the focus is on the suggestbox avoid propagating certain keyevents to the textarea
 	            }
 	        }
