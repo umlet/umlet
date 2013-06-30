@@ -8,10 +8,11 @@
 	text-align: center;
 }
 
-/* .gwt-SuggestBoxPopup { */
-/*   overflow: auto !important; */
-/*   max-height: 400px; */
-/* } */
+.gwt-SuggestBoxPopup {
+	/*   overflow: auto !important; */
+	/*   max-height: 400px; */
+	background-color: white !important;
+}
 
 .gwt-SuggestBoxPopup .item {
 	font-size: 90% !important;
