@@ -11,6 +11,9 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
+import com.google.gwt.user.client.ui.SuggestOracle;
+import com.google.gwt.user.client.ui.ValueBoxBase;
+import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 public class PropertiesTextArea extends MySuggestBox {
@@ -20,15 +23,17 @@ public class PropertiesTextArea extends MySuggestBox {
 	private MySuggestOracle oracle;
 
 	private GridElement gridElement;
-	
+
 	public PropertiesTextArea() {
-		super(new MySuggestOracle(), new OwnTextArea());
-		textArea = (OwnTextArea) getValueBox();
-		oracle = (MySuggestOracle) getSuggestOracle();
+		this(new MySuggestOracle(), new OwnTextArea(), new DefaultSuggestionDisplay());
+	}
+	
+	public PropertiesTextArea(final MySuggestOracle oracle, OwnTextArea textArea, final DefaultSuggestionDisplay display) {
+		super(oracle, textArea, display);
+		this.oracle = oracle;
+		this.textArea = textArea;
 		
-		//TODO ctrl+space should show ALL suggestions
-		
-		this.addKeyDownHandler(new KeyDownHandler() {
+		this.addKeyDownHandler(new KeyDownHandler() { // CTRL+Space shows all suggestions
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				int code = event.getNativeKeyCode();
