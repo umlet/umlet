@@ -135,7 +135,7 @@ public class DiagramHandler {
 			return true;
 		} catch (IOException e) {
 			log.error(e);
-			Main.displayError(Constants.ERROR_SAVING_FILE);
+			Main.displayError(Constants.ERROR_SAVING_FILE + e.getMessage());
 			return false;
 		}
 	}
@@ -149,7 +149,7 @@ public class DiagramHandler {
 				Main.getInstance().getGUI().afterSaving();
 			} catch (IOException e) {
 				log.error(e);
-				Main.displayError(Constants.ERROR_SAVING_FILE);
+				Main.displayError(Constants.ERROR_SAVING_FILE + e.getMessage());
 			}
 		}
 	}
