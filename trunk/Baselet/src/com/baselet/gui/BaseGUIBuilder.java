@@ -2,11 +2,14 @@ package com.baselet.gui;
 
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
@@ -31,13 +34,23 @@ public abstract class BaseGUIBuilder {
 	private JPanel rightPanel;
 	private OwnSyntaxPane propertyTextPane;
 	
-	protected JSplitPane initBase(Component mainComponent, int mainDividerLoc) {
+	protected JSplitPane initBase(Component mainComponent, final int mainDividerLoc) {
 		palettePanel = newPalettePanel();
 		propertyTextPane = createPropertyTextPane();
 		rightSplit = newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, palettePanel, propertyTextPane.getPanel(), 2, Constants.right_split_position, true);
 		rightPanel = newRightPanel();
 
 		mainSplit = newGenericSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainComponent, rightPanel, 2, mainDividerLoc, true);
+		// hide mainSplit on doubleclick
+		((BasicSplitPaneUI)mainSplit.getUI()).getDivider().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					rightPanel.setVisible(!rightPanel.isVisible());
+					mainSplit.setDividerLocation(mainDividerLoc);
+				}
+			}
+		});
 		customHandler = new CustomElementHandler();
 		customHandler.getPanel().setVisible(false);
 		customSplit = newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, mainSplit, getCustomPanel(), 0, 0, true);
