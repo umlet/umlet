@@ -178,7 +178,15 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 		if (stringStyle.getFormat().contains(FormatLabels.UNDERLINE)) {
 			ctx.setLineWidth(1.0f);
 			setLineDash(ctx, LineType.SOLID, 1.0f);
-			drawLineHelper(x, y, x + textWidth(textToDraw), y);
+			float textWidth = textWidth(textToDraw);
+			switch (align) {
+				case LEFT:
+					drawLineHelper(x, y, x + textWidth, y); break;
+				case CENTER:
+					drawLineHelper(x - textWidth/2, y, x + textWidth/2, y); break;
+				case RIGHT:
+					drawLineHelper(x - textWidth, y, x, y); break;
+			}
 		}
 
 		ctxSetTextAlign(align);
