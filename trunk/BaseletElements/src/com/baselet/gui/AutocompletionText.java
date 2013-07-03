@@ -12,10 +12,6 @@ public class AutocompletionText {
 		this.global = global;
 	}
 
-	public AutocompletionText(String text, String info) {
-		this(text, info, false);
-	}
-
 	public String getText() {
 		return text;
 	}

@@ -18,4 +18,10 @@ public class DimensionFloat {
 	public float getHeight() {
 		return height;
 	}
+
+	@Override
+	public String toString() {
+		return "DimensionFloat [height=" + height + ", width=" + width + "]";
+	}
+	
 }

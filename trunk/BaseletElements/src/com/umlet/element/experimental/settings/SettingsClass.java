@@ -5,6 +5,7 @@ import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.settings.facets.ActiveClass;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet;
 import com.umlet.element.experimental.settings.facets.Facet;
 import com.umlet.element.experimental.settings.facets.InnerClass;
 import com.umlet.element.experimental.settings.facets.SeparatorLine;
@@ -34,7 +35,11 @@ public class SettingsClass extends Settings {
 
 	@Override
 	public Facet[] createFacets() {
-		return new Facet[]{new ActiveClass(), new InnerClass(), new SeparatorLine(true), new TemplateClass()};
+		return new Facet[]{new InnerClass(), new SeparatorLine(true)};
+	}
+
+	public Facet[] createGlobalFacets() {
+		return new Facet[]{new ActiveClass(), new TemplateClass()};
 	}
 
 }
