@@ -1,7 +1,6 @@
 package com.baselet.gwt.client.view.widgets;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;

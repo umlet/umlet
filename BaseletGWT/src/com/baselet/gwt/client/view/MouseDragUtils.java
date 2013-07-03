@@ -1,14 +1,10 @@
 package com.baselet.gwt.client.view;
 
 import java.util.Arrays;
-import java.util.Set;
 
 import com.baselet.control.NewGridElementConstants;
-import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
-import com.baselet.gwt.client.Utils;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;

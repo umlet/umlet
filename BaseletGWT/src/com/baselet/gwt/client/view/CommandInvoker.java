@@ -2,15 +2,12 @@ package com.baselet.gwt.client.view;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
-import com.baselet.control.NewGridElementConstants;
 import com.baselet.diagram.commandnew.AddGridElementCommand;
 import com.baselet.diagram.commandnew.Controller;
 import com.baselet.diagram.commandnew.RemoveGridElementCommand;
 import com.baselet.element.GridElement;
-import com.baselet.element.Selector;
 import com.baselet.gwt.client.BrowserStorage;
 
 public class CommandInvoker extends Controller {

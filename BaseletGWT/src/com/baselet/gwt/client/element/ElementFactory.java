@@ -3,7 +3,6 @@ package com.baselet.gwt.client.element;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
-import com.baselet.gwt.client.view.SelectorNew;
 import com.umlet.element.experimental.DrawHandlerInterface;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;

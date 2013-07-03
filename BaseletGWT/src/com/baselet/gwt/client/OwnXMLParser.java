@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
 import com.baselet.gwt.client.element.ElementFactory;
-import com.baselet.gwt.client.view.DrawFocusPanel;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.DOMException;
 import com.google.gwt.xml.client.Document;

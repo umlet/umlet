@@ -1,20 +1,10 @@
 package com.baselet.gwt.client.view.widgets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.baselet.element.GridElement;
-import com.baselet.gui.AutocompletionText;
 import com.baselet.gwt.client.KeyCodesExt;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwt.user.client.ui.ValueBoxBase;
-import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
-import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 public class PropertiesTextArea extends MySuggestBox {
 	

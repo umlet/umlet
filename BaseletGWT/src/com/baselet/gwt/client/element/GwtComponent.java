@@ -2,7 +2,6 @@ package com.baselet.gwt.client.element;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
