@@ -146,11 +146,6 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 		});
 	}
 
-	public void clearCanvas() {
-		CanvasElement el = canvas.getCanvasElement();
-		ctx.clearRect(0, 0, el.getWidth(), el.getWidth());
-	}
-
 	private void drawTextHelper(final String text, final float x, final float y, AlignHorizontal align, float fontSize) {
 		StringStyle stringStyle = StringStyle.analyseStyle(text);
 		
