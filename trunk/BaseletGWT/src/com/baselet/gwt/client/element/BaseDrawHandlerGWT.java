@@ -14,9 +14,6 @@ import com.baselet.gwt.client.Notification;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
-import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.RootPanel;
 
 public class BaseDrawHandlerGWT extends BaseDrawHandler {
 

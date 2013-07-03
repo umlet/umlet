@@ -1,6 +1,5 @@
 package com.baselet.gwt.client;
 
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
