@@ -44,7 +44,7 @@ public class SeparatorLine implements Facet {
 
 	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {new AutocompletionText(KEY, "draw horizontal line")};
+		return new AutocompletionText[] {new AutocompletionText(KEY, "draw horizontal line", false)};
 	}
 
 }

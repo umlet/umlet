@@ -25,10 +25,6 @@ public abstract class Settings {
 	public int getYPosStart() {
 		return 0;
 	}
-	
-	public Facet[] createGlobalFacets() {
-		return new Facet[]{new DefaultGlobalFacet()};
-	}
 
 	/**
 	 * facets are checked and applied during text parsing.
@@ -40,6 +36,10 @@ public abstract class Settings {
 		if (facets == null) facets = createFacets();
 		return facets;
 	}
+	
+	public Facet[] createGlobalFacets() {
+		return new Facet[]{};
+	}
 
 	/**
 	 * before any other parsing, the properties panel text is parsed for matching global facets.
@@ -50,6 +50,19 @@ public abstract class Settings {
 	public final Facet[] getGlobalFacets() {
 		if (globalFacets == null) globalFacets = createGlobalFacets();
 		return globalFacets;
+	}
+
+	private Facet[] preparseFacets;
+	public Facet[] createPreparseGlobalFacets() {
+		return new Facet[]{new DefaultGlobalFacet()};
+	}
+	/**
+	 * PreparseGlobalFacets manipulate important properties like element size, elementStyle, etc. and must be parsed before any other facets
+	 * eg: it must be known if an element is of type AUTORESIZE, before it's size is calculated, before other global facets which could use the size (eg: {active} are applied
+	 */
+	public Facet[] getPreparseGlobalFacets() {
+		if (preparseFacets == null) preparseFacets = createPreparseGlobalFacets();
+		return preparseFacets;
 	}
 
 }
