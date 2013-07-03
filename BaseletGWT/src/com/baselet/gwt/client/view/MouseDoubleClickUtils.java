@@ -1,5 +1,6 @@
 package com.baselet.gwt.client.view;
 
+import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
@@ -30,7 +31,7 @@ public class MouseDoubleClickUtils {
 			@Override
 			public void onDoubleClick(DoubleClickEvent event) {
 				if (storage.doubleClickEnabled) {
-					
+					handler.onDoubleClick(drawPanelCanvas.getGridElementOnPosition(new Point(event.getX(), event.getY())));
 				}
 			}
 		});

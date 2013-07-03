@@ -6,6 +6,7 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.dom.client.CanvasElement;
 import com.umlet.element.experimental.ComponentInterface;
 
 public class GwtComponent implements ComponentInterface {
@@ -14,9 +15,7 @@ public class GwtComponent implements ComponentInterface {
 	
 	private Canvas canvas = Canvas.createIfSupported();
 	private BaseDrawHandlerGWT drawer = new BaseDrawHandlerGWT(canvas);
-
-	private Canvas metaCanvas = Canvas.createIfSupported();
-	private BaseDrawHandlerGWT metadrawer = new BaseDrawHandlerGWT(metaCanvas);
+	private BaseDrawHandlerGWT metadrawer = new BaseDrawHandlerGWT(canvas);
 
 	private GridElement element;
 	
@@ -59,19 +58,14 @@ public class GwtComponent implements ComponentInterface {
 	public void drawOn(Context2d context) {
 		if (redrawNecessary) {
 			redrawNecessary = false;
-			
-			drawer.clearCanvas();
+			CanvasElement el = canvas.getCanvasElement();
+			canvas.getContext2d().clearRect(0, 0, el.getWidth(), el.getWidth());
 			canvas.getCanvasElement().setWidth(rect.getWidth());
 			canvas.getCanvasElement().setHeight(rect.getHeight());
 			drawer.drawAll(element.isSelected());
-			
-			metadrawer.clearCanvas();
-			metaCanvas.getCanvasElement().setWidth(rect.getWidth());
-			metaCanvas.getCanvasElement().setHeight(rect.getHeight());
 			metadrawer.drawAll();
 		}
 		context.drawImage(canvas.getCanvasElement(), element.getRectangle().getX(), element.getRectangle().getY());
-		context.drawImage(metaCanvas.getCanvasElement(), element.getRectangle().getX(), element.getRectangle().getY());
 	}
 
 }
