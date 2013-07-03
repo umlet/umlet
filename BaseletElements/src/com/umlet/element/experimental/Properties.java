@@ -137,7 +137,7 @@ public class Properties {
 			if (wordwrap) {
 				String wrappedLine;
 				while (propCfg.getyPos() < propCfg.getGridElementSize().height && !line.trim().isEmpty()) {
-					Float spaceForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight()).getSpace() - drawer.getDistanceBetweenTexts() * 2;
+					Float spaceForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight()).getSpace() - drawer.getDistanceHorizontalBorderToText() * 2;
 					wrappedLine = TextSplitter.splitString(line, spaceForText, drawer);
 					handleLine(elementSettings, wrappedLine, propCfg, drawer);
 					line = line.substring(wrappedLine.length()).trim();
@@ -171,11 +171,11 @@ public class Properties {
 	private float calcHorizontalTextBoundaries(XValues xLimitsForText, PropertiesConfig propCfg) {
 		float x;
 		if (propCfg.gethAlign() == AlignHorizontal.LEFT) {
-			x = xLimitsForText.getLeft() + drawer.getDistanceBetweenTexts();
+			x = xLimitsForText.getLeft() + drawer.getDistanceHorizontalBorderToText();
 		} else if (propCfg.gethAlign() == AlignHorizontal.CENTER) {
 			x = propCfg.getGridElementSize().width / 2;
 		} else /*if (propCfg.gethAlign() == AlignHorizontal.RIGHT)*/ {
-			x = xLimitsForText.getRight() - drawer.getDistanceBetweenTexts();
+			x = xLimitsForText.getRight() - drawer.getDistanceHorizontalBorderToText();
 		}
 		return x;
 	}

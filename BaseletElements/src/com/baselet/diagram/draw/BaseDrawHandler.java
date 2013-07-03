@@ -142,12 +142,15 @@ public abstract class BaseDrawHandler {
 			d.run();
 		}
 	}
+
+	public float getDistanceHorizontalBorderToText() {
+		return 3;
+	}
 	
 	/*
 	 * HELPER METHODS
 	 */
 
-	public abstract float getDistanceBetweenTexts();
 	protected abstract DimensionFloat textDimension(String string);
 	protected abstract float getDefaultFontSize();
 	public abstract BaseDrawHandler getPseudoDrawHandler();
