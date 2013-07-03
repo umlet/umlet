@@ -3,7 +3,7 @@ package com.baselet.gwt.client.element;
 import com.baselet.diagram.draw.DrawFunction;
 import com.google.gwt.canvas.client.Canvas;
 
-public class PseudoDrawHandlerGWT extends DrawHandlerGWT {
+public class PseudoDrawHandlerGWT extends BaseDrawHandlerGWT {
 
 	public PseudoDrawHandlerGWT(Canvas canvas) {
 		super(canvas);

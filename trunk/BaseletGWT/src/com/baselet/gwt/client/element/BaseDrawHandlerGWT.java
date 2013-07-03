@@ -18,7 +18,7 @@ import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class DrawHandlerGWT extends BaseDrawHandler {
+public class BaseDrawHandlerGWT extends BaseDrawHandler {
 
 	private float HALF_PX = 0.5f;
 
@@ -26,7 +26,7 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 	Canvas canvas;
 	Context2d ctx;
 
-	public DrawHandlerGWT(Canvas canvas) {
+	public BaseDrawHandlerGWT(Canvas canvas) {
 		this.canvas = canvas;
 		this.ctx = canvas.getContext2d();
 	}
@@ -36,9 +36,11 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 		return getDefaultFontSize() / 4;
 	}
 
+	//TOD
 	@Override
 	protected DimensionFloat textDimension(String string) { // TODO height is not implemented at the moment - impl infos at http://www.html5canvastutorials.com/tutorials/html5-canvas-text-metrics/
-		DimensionFloat dim = new DimensionFloat((float) ctx.measureText(string).getWidth(), getDefaultFontSize());
+		ctxSetFont(style.getFontSize(), StringStyle.analyseStyle(string));
+		DimensionFloat dim = new DimensionFloat((float) ctx.measureText(string).getWidth(), style.getFontSize());
 		return dim;
 	}
 
@@ -152,7 +154,7 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 			public void run() {
 				ColorOwn fgColor = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : styleAtDrawingCall.getFgColor();
 				ctx.setFillStyle(Converter.convert(fgColor));
-				drawTextHelper(text, x, y, align);
+				drawTextHelper(text, x, y, align, styleAtDrawingCall.getFontSize());
 			}
 		});
 	}
@@ -167,10 +169,23 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 		ctx.clearRect(0, 0, el.getWidth(), el.getWidth());
 	}
 
-	private void drawTextHelper(final String text, final float x, final float y, AlignHorizontal align) {
+	private void drawTextHelper(final String text, final float x, final float y, AlignHorizontal align, float fontSize) {
 		StringStyle stringStyle = StringStyle.analyseStyle(text);
-		String textToDraw = stringStyle.getStringWithoutMarkup();
+		
+		ctxSetFont(fontSize, stringStyle);
 
+		String textToDraw = stringStyle.getStringWithoutMarkup();
+		if (stringStyle.getFormat().contains(FormatLabels.UNDERLINE)) {
+			ctx.setLineWidth(1.0f);
+			setLineDash(ctx, LineType.SOLID, 1.0f);
+			drawLineHelper(x, y, x + textWidth(textToDraw), y);
+		}
+
+		ctxSetTextAlign(align);
+		ctx.fillText(textToDraw, x, y);
+	}
+
+	private void ctxSetFont(float fontSize, StringStyle stringStyle) {
 		String htmlStyle = "";
 		if (stringStyle.getFormat().contains(FormatLabels.BOLD)) {
 			htmlStyle += " bold";
@@ -178,12 +193,10 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 		if (stringStyle.getFormat().contains(FormatLabels.ITALIC)) {
 			htmlStyle += " italic";
 		}
-		if (stringStyle.getFormat().contains(FormatLabels.UNDERLINE)) {
-			ctx.setLineWidth(1.0f);
-			setLineDash(ctx, LineType.SOLID, 1.0f);
-			drawLineHelper(x, y, x + textWidth(textToDraw), y);
-		}
+		ctx.setFont(htmlStyle + " " + fontSize + "px sans-serif");
+	}
 
+	private void ctxSetTextAlign(AlignHorizontal align) {
 		TextAlign ctxAlign = null;
 		switch (align) {
 			case LEFT:
@@ -194,8 +207,6 @@ public class DrawHandlerGWT extends BaseDrawHandler {
 				ctxAlign = TextAlign.RIGHT; break;
 		}
 		ctx.setTextAlign(ctxAlign);
-		ctx.setFont(htmlStyle + " 12px sans-serif");
-		ctx.fillText(textToDraw, x, y);
 	}
 
 	/**
