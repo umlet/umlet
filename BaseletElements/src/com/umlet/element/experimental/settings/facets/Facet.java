@@ -13,4 +13,7 @@ public interface Facet {
 	boolean replacesText(String line);
 	
 	AutocompletionText[] getAutocompletionStrings();
+	
+	boolean isGlobal();
+	
 }

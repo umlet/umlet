@@ -1,5 +1,9 @@
 package com.umlet.element.experimental.settings;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
@@ -19,48 +23,57 @@ public abstract class Settings {
 	public abstract AlignHorizontal getHAlign();
 
 	public abstract ElementStyleEnum getElementStyle();
-	
+
+	/**
+	 * facets are checked and applied during text parsing.
+	 * e.g. if a line matches "--" and the facet SeparatorLine is setup for the current element,
+	 * a separator line will be drawn instead of printing the text.
+	 * 
+	 * Global facets are parsed before any other ones, because they influence the whole diagram, even if they are located at the bottom
+	 * e.g. fg=red could be located at the bottom, but will still be applied to the whole text
+	 */
 	public abstract Facet[] createFacets();
 	
 	public int getYPosStart() {
 		return 0;
 	}
 
-	/**
-	 * facets are checked and applied during text parsing.
-	 * e.g. if a line matches "--" and the facet SeparatorLine is setup for the current element,
-	 * a separator line will be drawn instead of printing the text.
-	 */
-	private Facet[] facets;
-	public final Facet[] getFacets() {
-		if (facets == null) facets = createFacets();
-		return facets;
-	}
-	
-	public Facet[] createGlobalFacets() {
-		return new Facet[]{};
+	private List<Facet> localFacets;
+	private List<Facet> globalFacets;
+	private void initFacets() {
+		if (localFacets == null) {
+			localFacets = new ArrayList<Facet>();
+			globalFacets = new ArrayList<Facet>(getPreparseGlobalFacets()); // preparseGlobalFacets is applied again to make sure the keywords are filtered from the outputtext. it's would not be necessary for handling them because they have already been handled
+			for (Facet f : createFacets()) {
+				if (f.isGlobal()) {
+					globalFacets.add(f);
+				} else {
+					localFacets.add(f);
+				}
+			}
+		}
 	}
 
-	/**
-	 * before any other parsing, the properties panel text is parsed for matching global facets.
-	 * therefore any setting made by a global facet will influence every text line, although it could be located at the bottom
-	 * e.g. fg=red could be located at the bottom, but will still be applied to the whole text
-	 */
-	private Facet[] globalFacets;
-	public final Facet[] getGlobalFacets() {
-		if (globalFacets == null) globalFacets = createGlobalFacets();
+	public final List<Facet> getLocalFacets() {
+		initFacets();
+		return localFacets;
+	}
+
+	public final List<Facet> getGlobalFacets() {
+		initFacets();
 		return globalFacets;
 	}
-
-	private Facet[] preparseFacets;
-	public Facet[] createPreparseGlobalFacets() {
-		return new Facet[]{new DefaultGlobalFacet()};
+	
+	
+	private List<? extends Facet> preparseFacets;
+	public List<? extends Facet> createPreparseGlobalFacets() {
+		return Arrays.asList(new DefaultGlobalFacet());
 	}
 	/**
 	 * PreparseGlobalFacets manipulate important properties like element size, elementStyle, etc. and must be parsed before any other facets
 	 * eg: it must be known if an element is of type AUTORESIZE, before it's size is calculated, before other global facets which could use the size (eg: {active} are applied
 	 */
-	public Facet[] getPreparseGlobalFacets() {
+	public List<? extends Facet> getPreparseGlobalFacets() {
 		if (preparseFacets == null) preparseFacets = createPreparseGlobalFacets();
 		return preparseFacets;
 	}

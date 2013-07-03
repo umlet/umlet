@@ -63,14 +63,6 @@ public class DefaultGlobalFacet implements Facet {
 		public String getValue() {
 			return value;
 		}
-
-		public static AutocompletionText[] getAutocompletion() {
-			List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
-			for (GlobalSetting s : GlobalSetting.values()) {
-				returnList.addAll(s.autocompletionValues);
-			}
-			return returnList.toArray(new AutocompletionText[returnList.size()]);
-		}
 	}
 
 	@Override
@@ -118,8 +110,17 @@ public class DefaultGlobalFacet implements Facet {
 	}
 
 	@Override
+	public boolean isGlobal() {
+		return true;
+	}
+
+	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
-		return GlobalSetting.getAutocompletion();
+		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
+		for (GlobalSetting s : GlobalSetting.values()) {
+			returnList.addAll(s.autocompletionValues);
+		}
+		return returnList.toArray(new AutocompletionText[returnList.size()]);
 	}
 
 }

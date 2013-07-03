@@ -64,7 +64,7 @@ public class Properties {
 		parseGlobalFacets(elementSettings.getGlobalFacets());
 	}
 
-	private void parseGlobalFacets(Facet[] facets) {
+	private void parseGlobalFacets(List<? extends Facet> facets) {
 		for (String line : getPanelAttributesAsList()) {
 			boolean drawText = true;
 			for (Facet gf : facets) {
@@ -149,7 +149,7 @@ public class Properties {
 
 	private void handleLine(Settings elementSettings, String line, PropertiesConfig propCfg, BaseDrawHandler drawer) {
 		boolean drawText = true;
-		for (Facet facet : elementSettings.getFacets()) {
+		for (Facet facet : elementSettings.getLocalFacets()) {
 			if (facet.checkStart(line)) {
 				facet.handleLine(line, drawer, propCfg);
 				if (facet.replacesText(line)) {
