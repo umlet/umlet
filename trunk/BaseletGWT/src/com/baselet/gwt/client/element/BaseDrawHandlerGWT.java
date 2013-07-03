@@ -22,9 +22,8 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 
 	private float HALF_PX = 0.5f;
 
-	private static final int DEFAULT_FONTSIZE = 12;
-	Canvas canvas;
-	Context2d ctx;
+	private Canvas canvas;
+	private Context2d ctx;
 
 	public BaseDrawHandlerGWT(Canvas canvas) {
 		this.canvas = canvas;
@@ -32,13 +31,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	public float getDistanceBetweenTexts() { // TODO copied from swing but should use real font size
-		return getDefaultFontSize() / 4;
-	}
-
-	//TOD
-	@Override
-	protected DimensionFloat textDimension(String string) { // TODO height is not implemented at the moment - impl infos at http://www.html5canvastutorials.com/tutorials/html5-canvas-text-metrics/
+	protected DimensionFloat textDimension(String string) {
 		ctxSetFont(style.getFontSize(), StringStyle.analyseStyle(string));
 		DimensionFloat dim = new DimensionFloat((float) ctx.measureText(string).getWidth(), style.getFontSize());
 		return dim;
@@ -46,7 +39,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 
 	@Override
 	protected float getDefaultFontSize() {
-		return DEFAULT_FONTSIZE;
+		return 12;
 	}
 
 	@Override
@@ -59,19 +52,31 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	@Override
 	public void drawArcOpen(float x, float y, float width, float height, float start, float extent) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void drawArcChord(float x, float y, float width, float height, float start, float extent) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void drawArcPie(float x, float y, float width, float height, float start, float extent) {
 		// TODO Auto-generated method stub
+	}
 
+	@Override
+	public void drawRectangleRound(float x, float y, float width, float height, float arcw, float arch) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void drawCurveCubic(float x1, float y1, float ctrlx1, float ctrly1, float ctrlx2, float ctrly2, float x2, float y2) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void drawCurveQuad(float x1, float y1, float ctrlx, float ctrly, float x2, float y2) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -87,18 +92,6 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 				ctx.stroke();
 			}
 		});
-	}
-
-	@Override
-	public void drawCurveCubic(float x1, float y1, float ctrlx1, float ctrly1, float ctrlx2, float ctrly2, float x2, float y2) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void drawCurveQuad(float x1, float y1, float ctrlx, float ctrly, float x2, float y2) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -141,12 +134,6 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawRectangleRound(float x, float y, float width, float height, float arcw, float arch) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void print(final String text, final float x, final float y, final AlignHorizontal align) {
 		final Style styleAtDrawingCall = style.cloneFromMe();
 		addDrawable(new DrawFunction() {
@@ -157,11 +144,6 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 				drawTextHelper(text, x, y, align, styleAtDrawingCall.getFontSize());
 			}
 		});
-	}
-
-	@Override
-	public void clearCache() {
-		super.clearCache();
 	}
 
 	public void clearCanvas() {

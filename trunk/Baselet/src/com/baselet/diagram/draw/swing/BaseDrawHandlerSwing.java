@@ -56,11 +56,6 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	}
 
 	@Override
-	public float getDistanceBetweenTexts() {
-		return handler.getFontHandler().getDistanceBetweenTexts(false);
-	}
-
-	@Override
 	public DimensionFloat textDimension(String text) {
 		boolean specialFontSize = (style.getFontSize() != getDefaultFontSize());
 		if (specialFontSize) {
