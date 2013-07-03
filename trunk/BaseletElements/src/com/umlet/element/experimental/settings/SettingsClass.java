@@ -35,11 +35,7 @@ public class SettingsClass extends Settings {
 
 	@Override
 	public Facet[] createFacets() {
-		return new Facet[]{new InnerClass(), new SeparatorLine(true)};
-	}
-
-	public Facet[] createGlobalFacets() {
-		return new Facet[]{new ActiveClass(), new TemplateClass()};
+		return new Facet[]{new InnerClass(), new SeparatorLine(true), new ActiveClass(), new TemplateClass()};
 	}
 
 }

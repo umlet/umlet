@@ -70,8 +70,13 @@ public class InnerClass implements Facet {
 	}
 
 	@Override
+	public boolean isGlobal() {
+		return false;
+	}
+
+	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[]  {new AutocompletionText(START, "begin inner class", false), new AutocompletionText(END, "end inner class", false)};
+		return new AutocompletionText[]  {new AutocompletionText(START, "begin inner class", isGlobal()), new AutocompletionText(END, "end inner class", isGlobal())};
 	}
 
 }

@@ -293,7 +293,7 @@ public abstract class NewGridElement implements GridElement {
 		for (Facet f : getSettings().getGlobalFacets()) {
 			returnList.addAll(Arrays.asList(f.getAutocompletionStrings()));
 		}
-		for (Facet f : getSettings().getFacets()) {
+		for (Facet f : getSettings().getLocalFacets()) {
 			returnList.addAll(Arrays.asList(f.getAutocompletionStrings()));
 		}
 		return returnList;

@@ -38,8 +38,13 @@ public class TemplateClass implements Facet {
 	}
 
 	@Override
+	public boolean isGlobal() {
+		return true;
+	}
+
+	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {new AutocompletionText(KEY + "txt", "print template rectangle on top right corner", true)};
+		return new AutocompletionText[] {new AutocompletionText(KEY + "txt", "print template rectangle on top right corner", isGlobal())};
 	}
 
 }

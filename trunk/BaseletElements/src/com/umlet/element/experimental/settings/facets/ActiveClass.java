@@ -32,8 +32,13 @@ public class ActiveClass implements Facet {
 	}
 
 	@Override
+	public boolean isGlobal() {
+		return true;
+	}
+
+	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {new AutocompletionText(KEY, "make class active (double left/right border)", true)};
+		return new AutocompletionText[] {new AutocompletionText(KEY, "make class active (double left/right border)", isGlobal())};
 	}
 
 }

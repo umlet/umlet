@@ -43,8 +43,13 @@ public class SeparatorLine implements Facet {
 	}
 
 	@Override
+	public boolean isGlobal() {
+		return false;
+	}
+
+	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {new AutocompletionText(KEY, "draw horizontal line", false)};
+		return new AutocompletionText[] {new AutocompletionText(KEY, "draw horizontal line", isGlobal())};
 	}
 
 }
