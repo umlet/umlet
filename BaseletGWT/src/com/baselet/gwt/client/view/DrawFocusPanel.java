@@ -2,7 +2,6 @@ package com.baselet.gwt.client.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -20,16 +19,13 @@ import com.baselet.gwt.client.KeyCodesExt;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.GwtComponent;
+import com.baselet.gwt.client.view.MouseDoubleClickUtils.Handler;
 import com.baselet.gwt.client.view.MouseDragUtils.MouseDragHandler;
-import com.baselet.gwt.client.view.widgets.OwnTextArea;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -164,11 +160,10 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 				}
 			}
 		});
-
-		getCanvas().addDoubleClickHandler(new DoubleClickHandler() {
+		
+		MouseDoubleClickUtils.addMouseDragHandler(this, new Handler() {
 			@Override
-			public void onDoubleClick(DoubleClickEvent event) {
-				GridElement ge = getGridElementOnPosition(new Point(event.getX(), event.getY()));
+			public void onDoubleClick(GridElement ge) {
 				if (ge != null) {
 					GridElement e = ge.CloneFromMe();
 					e.setLocationDifference(NewGridElementConstants.DEFAULT_GRID_SIZE, NewGridElementConstants.DEFAULT_GRID_SIZE);
@@ -176,8 +171,8 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 				}
 			}
 		});
+		
 		this.addKeyDownHandler(new KeyDownHandler() {
-
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				int code = event.getNativeKeyCode();
