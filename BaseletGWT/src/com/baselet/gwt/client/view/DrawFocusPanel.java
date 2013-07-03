@@ -12,6 +12,7 @@ import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.Converter;
@@ -50,6 +51,8 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 
 	private CommandInvoker commandInvoker = new CommandInvoker(this);
 
+	private boolean devModeActive = Location.getParameter("grid") != null;
+	
 	public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
 		elementCanvas = Canvas.createIfSupported();
 		backgroundCanvas = Canvas.createIfSupported();
@@ -211,8 +214,8 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 			}
 		});
 
-		clearAndSetCanvasSize(backgroundCanvas, 5000, 5000);
-		if (Location.getParameter("grid") != null) {
+		if (devModeActive) {
+			clearAndSetCanvasSize(backgroundCanvas, 5000, 5000);
 			drawBackgroundGrid();
 		}
 		redraw();
@@ -242,12 +245,39 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 		clearAndRecalculateCanvasSize();
 		Context2d context = elementCanvas.getContext2d();
 		Collections.sort(gridElements, LAYER_COMPARATOR);
+
+//		if (tryOptimizedDrawing()) return;
+		
 		for (GridElement ge : gridElements) {
 			((GwtComponent) ge.getComponent()).drawOn(context);
 		}
-		context.drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
+		
+		if (devModeActive) {
+			context.drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
+		}
 
 	}
+
+	//TODO would not work because canvas gets always resized and therefore cleaned -> so everything must be redrawn
+//	private boolean tryOptimizedDrawing() {
+//		List<GridElement> geToRedraw = new ArrayList<GridElement>();
+//		for (GridElement ge : gridElements) {
+//			if(((GwtComponent) ge.getComponent()).isRedrawNecessary()) {
+//				for (GridElement geRedraw : geToRedraw) {
+//					if (geRedraw.getRectangle().intersects(ge.getRectangle())) {
+//						return false;
+//					}
+//				}
+//				geToRedraw.add(ge);
+//			}
+//		}
+//
+//		for (GridElement ge : gridElements) {
+//			elementCanvas.getContext2d().clearRect(0, 0, ge.getRectangle().getWidth(), ge.getRectangle().getHeight());
+//			((GwtComponent) ge.getComponent()).drawOn(elementCanvas.getContext2d());
+//		}
+//		return true;
+//	}
 
 	Canvas getCanvas() {
 		return elementCanvas;

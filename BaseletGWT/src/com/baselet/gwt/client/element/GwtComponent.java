@@ -54,11 +54,15 @@ public class GwtComponent implements ComponentInterface {
 		return metadrawer;
 	}
 
+//	public boolean isRedrawNecessary() {
+//		return redrawNecessary;
+//	}
+
 	public void drawOn(Context2d context) {
 		if (redrawNecessary) {
 			redrawNecessary = false;
 			CanvasElement el = canvas.getCanvasElement();
-			canvas.getContext2d().clearRect(0, 0, el.getWidth(), el.getWidth());
+			canvas.getContext2d().clearRect(0, 0, el.getWidth(), el.getHeight());
 			canvas.getCanvasElement().setWidth(rect.getWidth());
 			canvas.getCanvasElement().setHeight(rect.getHeight());
 			drawer.drawAll(element.isSelected());
