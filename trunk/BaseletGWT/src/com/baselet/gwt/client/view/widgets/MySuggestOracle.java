@@ -38,15 +38,20 @@ public class MySuggestOracle extends SuggestOracle {
 	private List<Suggestion> suggestions = new ArrayList<Suggestion>();
 
 	public void requestSuggestions(final Request request, final Callback callback) {
-		String userInput = request.getQuery();
-		Collection<Suggestion> result = new LinkedList<Suggestion>();
-		for (Suggestion suggestion : suggestions) {
-			if (suggestion.getReplacementString().startsWith(userInput)) {
-				result.add(highlightUserInput(suggestion, userInput));
-			}
-		}
+		Collection<Suggestion> result = getSuggestionsForText(request.getQuery());
 		Response response = new Response(result);
 		callback.onSuggestionsReady(request, response);
+	}
+
+	public Collection<Suggestion> getSuggestionsForText(String userInput) {
+		String userInputLc = userInput.toLowerCase();
+		Collection<Suggestion> result = new LinkedList<Suggestion>();
+		for (Suggestion suggestion : suggestions) {
+			if (suggestion.getReplacementString().toLowerCase().startsWith(userInputLc)) {
+				result.add(highlightUserInput(suggestion, userInputLc));
+			}
+		}
+		return result;
 	}
 
 	private Suggestion highlightUserInput(final Suggestion suggestion, final String userInput) {

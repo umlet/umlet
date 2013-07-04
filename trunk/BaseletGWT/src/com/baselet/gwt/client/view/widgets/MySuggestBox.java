@@ -3,27 +3,41 @@ package com.baselet.gwt.client.view.widgets;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.ValueBoxBase;
 
 public class MySuggestBox extends SuggestBox {
 
-	public MySuggestBox(SuggestOracle oracle, ValueBoxBase<String> textArea, final DefaultSuggestionDisplay display) {
+	private String lastRequestLine;
+
+	public MySuggestBox(final MySuggestOracle oracle, ValueBoxBase<String> textArea, final DefaultSuggestionDisplay display) {
 		super(oracle, textArea, display);
 		
+		getValueBox().addMouseUpHandler(new MouseUpHandler() {
+			@Override
+			public void onMouseUp(MouseUpEvent event) {
+				showSuggestionList(); // switching line of textarea by click should also trigger the suggestbox
+			}
+		});
+
 		this.addKeyPressHandler(new KeyPressHandler() {
-	        @Override
-	        public void onKeyPress(KeyPressEvent event) {
-	            int key = event.getNativeEvent().getKeyCode();
-	            if (key == KeyCodes.KEY_ESCAPE) {
-	            	display.hideSuggestions();
-	            }
-	            else if (display.isSuggestionListShowing() && (key == KeyCodes.KEY_ENTER || key == KeyCodes.KEY_UP || key == KeyCodes.KEY_DOWN)) {
-	            	event.getNativeEvent().preventDefault(); // if the focus is on the suggestbox avoid propagating certain keyevents to the textarea
-	            }
-	        }
-	});
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				int key = event.getNativeEvent().getKeyCode();
+				boolean isSuggestBoxControls = key == KeyCodes.KEY_ENTER || key == KeyCodes.KEY_UP || key == KeyCodes.KEY_DOWN;
+				if (key == KeyCodes.KEY_ESCAPE) {
+					display.hideSuggestions();
+				}
+				else if (display.isSuggestionListShowing() && isSuggestBoxControls && oracle.getSuggestionsForText(lastRequestLine).size() > 1) {
+					event.getNativeEvent().preventDefault(); // if the focus is on the suggestbox and it has >1 entries, avoid propagating keyevents to the textarea
+				}
+			}
+		});
 	}
 
 	@Override
@@ -33,7 +47,8 @@ public class MySuggestBox extends SuggestBox {
 
 	@Override
 	public String getText() {
-		return getCursorLine();
+		lastRequestLine = getCursorLine();
+		return lastRequestLine;
 	}
 
 	private String getCursorLine() {
