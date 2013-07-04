@@ -12,14 +12,13 @@ import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.Converter;
-import com.baselet.gwt.client.KeyCodesExt;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.GwtComponent;
+import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.MouseDoubleClickUtils.Handler;
 import com.baselet.gwt.client.view.MouseDragUtils.MouseDragHandler;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
@@ -27,7 +26,6 @@ import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Window.Location;
@@ -178,36 +176,32 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 		this.addKeyDownHandler(new KeyDownHandler() {
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
-				int code = event.getNativeKeyCode();
-
-				boolean zoomControls = event.isControlKeyDown() && KeyCodesExt.isZoomKey(code);
-				if (!zoomControls && !KeyCodesExt.isSwitchToFullscreen(code)) {
+				boolean isZoomKey = Shortcut.ZOOM_IN.matches(event) || Shortcut.ZOOM_OUT.matches(event) ||Shortcut.ZOOM_RESET.matches(event);
+				if (!isZoomKey && !Shortcut.FULLSCREEN.matches(event)) {
 					event.preventDefault(); // avoid most browser key handlings
 				}
 				
-				if (code == KeyCodes.KEY_DELETE) {
+				if (Shortcut.DELETE_ELEMENT.matches(event)) {
 					commandInvoker.removeSelectedElements();
 				}
-				else if (
-						(event.isControlKeyDown() && code == 'D') || 
-						(event.isControlKeyDown() && event.isShiftKeyDown() && code == 'A')) {
+				else if (Shortcut.DESELECT_ALL.matches(event)) {
 					selector.deselectAll();
 					redraw();
 				}
-				else if (event.isControlKeyDown() && code == 'A') {
+				else if (Shortcut.SELECT_ALL.matches(event)) {
 					selector.select(getGridElements());
 					redraw();
 				}
-				else if (event.isControlKeyDown() && code == 'C') {
+				else if (Shortcut.COPY.matches(event)) {
 					commandInvoker.copySelectedElements();
 				}
-				else if (event.isControlKeyDown() && code == 'X') {
+				else if (Shortcut.CUT.matches(event)) {
 					commandInvoker.cutSelectedElements();
 				}
-				else if (event.isControlKeyDown() && code == 'V') {
+				else if (Shortcut.PASTE.matches(event)) {
 					commandInvoker.pasteElements();
 				}
-				else if (event.isControlKeyDown() && code == 'S') {
+				else if (Shortcut.SAVE.matches(event)) {
 					mainView.getSaveCommand().execute();
 				}
 

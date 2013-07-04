@@ -73,6 +73,8 @@
 							<g:HTML styleName="{style.menuItem}" ui:field="cutMenuItem" text="Cut" />
 							<g:HTML styleName="{style.menuItem}" ui:field="copyMenuItem" text="Copy" />
 							<g:HTML styleName="{style.menuItem}" ui:field="pasteMenuItem" text="Paste" />
+							<g:HTML><hr/></g:HTML>
+							<g:HTML styleName="{style.menuItem}" ui:field="helpMenuItem" text="Help" />
 						</g:FlowPanel>
 					</g:west>
 					<g:center>

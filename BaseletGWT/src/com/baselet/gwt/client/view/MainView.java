@@ -10,6 +10,7 @@ import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox.Callback;
+import com.baselet.gwt.client.view.widgets.ShortcutDialogBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -201,5 +202,10 @@ public class MainView extends Composite {
 	@UiHandler("pasteMenuItem")
 	void onPasteMenuItemClick(ClickEvent event) {
 		diagramHandler.getCommandInvoker().pasteElements();
+	}
+
+	@UiHandler("helpMenuItem")
+	void onHelpMenuItemClick(ClickEvent event) {
+		ShortcutDialogBox.getInstance().center();
 	}
 }
