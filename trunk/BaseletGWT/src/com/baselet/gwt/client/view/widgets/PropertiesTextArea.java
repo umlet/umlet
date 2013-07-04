@@ -1,7 +1,7 @@
 package com.baselet.gwt.client.view.widgets;
 
 import com.baselet.element.GridElement;
-import com.baselet.gwt.client.KeyCodesExt;
+import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -26,8 +26,7 @@ public class PropertiesTextArea extends MySuggestBox {
 		this.addKeyDownHandler(new KeyDownHandler() { // CTRL+Space shows all suggestions
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
-				int code = event.getNativeKeyCode();
-				if (event.isControlKeyDown() && KeyCodesExt.isSpace(code)) {
+				if (Shortcut.SHOW_AUTOCOMPLETION.matches(event)) {
 					oracle.setShowAllAsDefault(true);
 					showSuggestionList();
 					oracle.setShowAllAsDefault(false);
