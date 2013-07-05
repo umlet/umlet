@@ -7,14 +7,7 @@
 			font-size: 0.9em;
 		}
 		.menuItem:hover {
-			/*gradients created with http://www.colorzilla.com/gradient-editor/*/
-			background: #63acff; /* Old browsers */
-			background: -moz-linear-gradient(left, #63acff 0%, #cbebff 49%, #ffffff 100%); /* FF3.6+ */
-			background: -webkit-gradient(linear, left top, right top, color-stop(0%,#63acff), color-stop(49%,#cbebff), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
-			background: -webkit-linear-gradient(left, #63acff 0%,#cbebff 49%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
-			background: -o-linear-gradient(left, #63acff 0%,#cbebff 49%,#ffffff 100%); /* Opera 11.10+ */
-			background: -ms-linear-gradient(left, #63acff 0%,#cbebff 49%,#ffffff 100%); /* IE10+ */
-			background: linear-gradient(to right, #63acff 0%,#cbebff 49%,#ffffff 100%); /* W3C */
+			background: #E3E8F3;
 			}
 		.propertiesTitle {
 			padding-left: 0.5em;

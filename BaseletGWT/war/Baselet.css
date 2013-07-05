@@ -1,11 +1,15 @@
 
 .gwt-PopupPanel {
 	background-color: white;
+	padding: 0px !important;
 	}
 
 .centerPopup {
 	border: 2px solid black !important;
-	padding: 3px !important;
+}
+
+.centerPopupContent {
+	padding: 2px !important;
 }
 
 .exportPopup {
@@ -20,14 +24,13 @@
 }
 
 .popupHeader {
-	font-variant: small-caps;
+	text-transform: uppercase;
 	font-weight: bold;
-	font-size: 1.1em;
-	letter-spacing: 0.12em;
+	font-size: 0.8em;
+	letter-spacing: 1px;
 	color: white;
 	background-color: black;
-	margin-bottom: 0.4em;
-	padding: 0.05em 0.3em;
+	padding-bottom: 0.1em;
 }
 
 
