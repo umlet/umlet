@@ -184,26 +184,6 @@ public class MainView extends Composite {
 		saveCommand.execute();
 	}
 
-	@UiHandler("deleteMenuItem")
-	void onDeleteMenuItemClick(ClickEvent event) {
-		diagramHandler.getCommandInvoker().removeSelectedElements();
-	}
-
-	@UiHandler("cutMenuItem")
-	void onCutMenuItemClick(ClickEvent event) {
-		diagramHandler.getCommandInvoker().cutSelectedElements();
-	}
-
-	@UiHandler("copyMenuItem")
-	void onCopyMenuItemClick(ClickEvent event) {
-		diagramHandler.getCommandInvoker().copySelectedElements();
-	}
-
-	@UiHandler("pasteMenuItem")
-	void onPasteMenuItemClick(ClickEvent event) {
-		diagramHandler.getCommandInvoker().pasteElements();
-	}
-
 	@UiHandler("helpMenuItem")
 	void onHelpMenuItemClick(ClickEvent event) {
 		ShortcutDialogBox.getInstance().center();
