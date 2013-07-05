@@ -40,7 +40,7 @@ public class ShortcutDialogBox extends MyPopupPanel {
 		
 		FlowPanel panel = new FlowPanel();
 		boolean first = true;
-		for (Shortcut.Category c : Arrays.asList(Category.DIAGRAM, Category.BROWSER, Category.PROPERTIES)) {
+		for (Shortcut.Category c : Arrays.asList(Category.values())) {
 			String header = "<strong>" + c.getHeader() + "</strong>";
 			if (!first) {
 				header = "<hr/>" + header;

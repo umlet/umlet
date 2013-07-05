@@ -36,6 +36,7 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.umlet.element.experimental.uml.Relation;
 
 public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
 
@@ -333,21 +334,22 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 		}
 
 		public GridElement getGridElementOnPosition(Point point) {
-			List<GridElement> elementsOnPosition = new ArrayList<GridElement>();
+			GridElement returnGe = null;
 			for (GridElement ge : gridElements) {
 				if (ge.isSelectableOn(point)) {
-					elementsOnPosition.add(ge);
+					if (returnGe == null) {
+						returnGe = ge;
+					} else {
+						boolean newIsRelationOldNot = ((ge instanceof Relation) && (!(returnGe instanceof Relation)));
+						boolean oldContainsNew = returnGe.getRectangle().contains(ge.getRectangle());
+						if (newIsRelationOldNot || oldContainsNew) {
+							returnGe = ge; 
+						}
+					}
+
 				}
 			}
-			for (GridElement ge : elementsOnPosition) { // selected elements have priority
-				if (selector.isSelected(ge)) {
-					return ge;
-				}
-			}
-			if (!elementsOnPosition.isEmpty()) { // TODO implement algorithm that smallest element will be returned
-				return elementsOnPosition.get(0);
-			}
-			return null;
+			return returnGe;
 		}
 
 		public void setGridElements(List<GridElement> gridElements) {
