@@ -30,34 +30,6 @@
 	</ui:style>
 	
 	<g:HTMLPanel width="100%" height="100%">
-<!-- 		<g:DockLayoutPanel width="100%" height="100%" ui:field="menuContentSplitter"> -->
-<!-- 			<g:north size="30.0"> -->
-<!-- 				<g:MenuBar> -->
-<!-- 					<g:MenuItem text="File"> -->
-<!-- 						<g:MenuBar vertical="true"> -->
-<!-- 							<g:MenuItem ui:field="newMenuItem" text="New" /> -->
-<!-- 							<g:MenuItemSeparator /> -->
-<!-- 							<g:MenuItem ui:field="saveMenuItem" text="Save in Browser" /> -->
-<!-- 							<g:MenuItem text="Restore in Browser" > -->
-<!-- 								<g:MenuBar ui:field="restoreMenuBar" vertical="true" autoOpen="true" /> -->
-<!-- 							</g:MenuItem> -->
-<!-- 							<g:MenuItemSeparator /> -->
-<!-- 							<g:MenuItem ui:field="importMenuItem" text="Import" /> -->
-<!-- 							<g:MenuItem ui:field="exportMenuItem" text="Export" /> -->
-<!-- 						</g:MenuBar> -->
-<!-- 					</g:MenuItem> -->
-<!-- 					<g:MenuItem text="Edit"> -->
-<!-- 						<g:MenuBar vertical="true"> -->
-<!-- 							<g:MenuItem ui:field="deleteMenuItem" text="Delete" /> -->
-<!-- 							<g:MenuItemSeparator /> -->
-<!-- 							<g:MenuItem ui:field="cutMenuItem" text="Cut" /> -->
-<!-- 							<g:MenuItem ui:field="copyMenuItem" text="Copy" /> -->
-<!-- 							<g:MenuItem ui:field="pasteMenuItem" text="Paste" /> -->
-<!-- 						</g:MenuBar> -->
-<!-- 					</g:MenuItem> -->
-<!-- 				</g:MenuBar> -->
-<!-- 			</g:north> -->
-<!-- 			<g:center> -->
 				<g:SplitLayoutPanel width="100%" height="100%" ui:field="diagramPaletteSplitter">
 					<g:west size='50'>
 						<g:FlowPanel ui:field="menuPanel" >
@@ -68,11 +40,6 @@
 							<g:HTML><hr/></g:HTML>
 							<g:HTML styleName="{style.menuItem}" ui:field="saveMenuItem" text="Save" />
 							<g:FlowPanel ui:field="restoreMenuPanel" />
-							<g:HTML><hr/></g:HTML>
-							<g:HTML styleName="{style.menuItem}" ui:field="deleteMenuItem" text="Delete" />
-							<g:HTML styleName="{style.menuItem}" ui:field="cutMenuItem" text="Cut" />
-							<g:HTML styleName="{style.menuItem}" ui:field="copyMenuItem" text="Copy" />
-							<g:HTML styleName="{style.menuItem}" ui:field="pasteMenuItem" text="Paste" />
 							<g:HTML><hr/></g:HTML>
 							<g:HTML styleName="{style.menuItem}" ui:field="helpMenuItem" text="Help" />
 						</g:FlowPanel>
