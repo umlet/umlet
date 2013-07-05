@@ -14,27 +14,31 @@ public class MyPopupPanel extends PopupPanel {
 	public enum Type {POPUP, MENU}
 
 	private String header;
+	private Type type;
 	
 	public MyPopupPanel(boolean glassEnabled, Type type) {
 		super(true);
 		this.setGlassEnabled(glassEnabled);
-		switch (type) {
-			case POPUP:
-				addStyleName("centerPopup");
-				break;
-			case MENU:
-				addStyleName("menuPopup");
-				break;
-		}
+		this.type = type;
 		
 	}
-	
+
 	public void setHeader(String header) {
 		this.header = header;
 	}
 	
 	@Override
 	public void setWidget(Widget w) {
+		switch (type) {
+			case POPUP:
+				addStyleName("centerPopup");
+				w.addStyleName("centerPopupContent");
+				break;
+			case MENU:
+				addStyleName("menuPopup");
+				break;
+		}
+	
 		if (header == null) {
 			super.setWidget(w);
 		} else {

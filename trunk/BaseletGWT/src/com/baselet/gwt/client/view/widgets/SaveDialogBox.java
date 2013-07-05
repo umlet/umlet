@@ -9,12 +9,11 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SaveDialogBox extends DialogBox {
+public class SaveDialogBox extends MyPopupPanel {
 
 	public static interface Callback {
 		void callback(String chosenName);
@@ -25,10 +24,8 @@ public class SaveDialogBox extends DialogBox {
 	private Button cancelButton = new Button("Cancel");
 
 	public SaveDialogBox(final Callback callback) {
-		super(true);
-		setText("Please choose a name");
-		setGlassEnabled(true);
-		setAnimationEnabled(true);
+		super(true, Type.POPUP);
+		setHeader("Save Diagram");
 		textBox.addKeyPressHandler(new KeyPressHandler() {
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
@@ -49,13 +46,14 @@ public class SaveDialogBox extends DialogBox {
 				hide();
 			}
 		});
-		VerticalPanel vPanel = new VerticalPanel();
-		vPanel.add(textBox);
+		FlowPanel panel = new FlowPanel();
+		panel.add(new HTML("Please choose a name"));
+		panel.add(textBox);
 		FlowPanel fp = new FlowPanel();
 		fp.add(saveButton);
 		fp.add(cancelButton);
-		vPanel.add(fp);
-		setWidget(vPanel);
+		panel.add(fp);
+		setWidget(panel);
 	}
 
 	private void submitDialog(final Callback callback) {
