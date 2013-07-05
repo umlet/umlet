@@ -1,5 +1,6 @@
 package com.baselet.gwt.client.view.widgets;
 
+import com.baselet.gwt.client.view.widgets.MyPopupPanel.Type;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
 import com.google.gwt.event.dom.client.ContextMenuHandler;
@@ -15,7 +16,7 @@ public class MenuPopup {
 	}
 	
 	public static void appendTo(Widget widget, MenuPopupItem ... items) {
-		final PopupPanel popupPanel = new PopupPanel(true);
+		final MyPopupPanel popupPanel = new MyPopupPanel(false, Type.MENU);
         MenuBar popupMenuBar = new MenuBar(true);
         
         for (final MenuPopupItem item : items) {

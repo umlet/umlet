@@ -1,12 +1,35 @@
 
-.popup {
+.gwt-PopupPanel {
 	background-color: white;
+	}
+
+.centerPopup {
+	border: 2px solid black !important;
+	padding: 3px !important;
+}
+
+.exportPopup {
 	font-size: 130%;
 	font-weight: bold;
-	border: 2px solid black;
-	padding: 5px;
 	text-align: center;
 }
+
+.menuPopup {
+	border: 2px solid #E3E8F3 !important;
+	padding: 0px !important;
+}
+
+.popupHeader {
+	font-variant: small-caps;
+	font-weight: bold;
+	font-size: 1.1em;
+	letter-spacing: 0.12em;
+	color: white;
+	background-color: black;
+	margin-bottom: 0.4em;
+	padding: 0.05em 0.3em;
+}
+
 
 .gwt-SuggestBoxPopup {
 	/*   overflow: auto !important; */

@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 
-public class ShortcutDialogBox extends DialogBox {
+public class ShortcutDialogBox extends MyPopupPanel {
 	
 	private static ShortcutDialogBox instance = new ShortcutDialogBox();
 	
@@ -23,10 +23,8 @@ public class ShortcutDialogBox extends DialogBox {
 	}
 
 	public ShortcutDialogBox() {
-		super(true);
-		setText("Keyboard Shortcuts");
-		setGlassEnabled(true);
-		setAnimationEnabled(true);
+		super(true, Type.POPUP);
+		setHeader("Keyboard Shortcuts");
 		
 		Shortcut[] values = Shortcut.values();
 		Map<Shortcut.Category, SafeHtmlBuilder> map = new HashMap<Shortcut.Category, SafeHtmlBuilder>();
