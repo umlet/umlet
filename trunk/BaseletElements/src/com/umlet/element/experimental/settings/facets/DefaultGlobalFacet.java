@@ -10,7 +10,7 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 
-public class DefaultGlobalFacet implements Facet {
+public class DefaultGlobalFacet extends GlobalStatelessFacet {
 
 	public enum ElementStyleEnum {AUTORESIZE, RESIZE, NORESIZE, WORDWRAP}
 	
@@ -34,8 +34,6 @@ public class DefaultGlobalFacet implements Facet {
 				new String[] {AlignHorizontal.CENTER.toString(), "horizontal text alignment"},
 				new String[] {AlignHorizontal.RIGHT.toString(), "horizontal text alignment"})
 				;
-
-		public static final String SEPARATOR = "=";
 		
 		private String key;
 		private List<AutocompletionText> autocompletionValues = new ArrayList<AutocompletionText>();
@@ -45,13 +43,13 @@ public class DefaultGlobalFacet implements Facet {
 		GlobalSetting(String key, String value, String info) {
 			this.key = key.toLowerCase();
 			this.value = value;
-			this.autocompletionValues.add(new AutocompletionText(key.toLowerCase() + SEPARATOR + value.toLowerCase(), info, true));
+			this.autocompletionValues.add(new AutocompletionText(key.toLowerCase() + SEP + value.toLowerCase(), info, true));
 		}
 
 		GlobalSetting(String key, String[] ... valueInfoPairs) {
 			this.key = key.toLowerCase();
 			for (String[] valueInfoPair : valueInfoPairs) {
-				this.autocompletionValues.add(new AutocompletionText(key.toLowerCase() + SEPARATOR + valueInfoPair[0].toLowerCase(), valueInfoPair[1], true));
+				this.autocompletionValues.add(new AutocompletionText(key.toLowerCase() + SEP + valueInfoPair[0].toLowerCase(), valueInfoPair[1], true));
 			}
 		}
 
@@ -69,14 +67,14 @@ public class DefaultGlobalFacet implements Facet {
 	public boolean checkStart(String line) {
 		boolean startsWithEnumKey = false;
 		for (GlobalSetting s : GlobalSetting.values()) {
-			if (line.startsWith(s + GlobalSetting.SEPARATOR)) startsWithEnumKey = true;
+			if (line.startsWith(s + SEP)) startsWithEnumKey = true;
 		}
 		return startsWithEnumKey;
 	}
 
 	@Override
 	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
-		String[] split = line.split(GlobalSetting.SEPARATOR, 2);
+		String[] split = line.split(SEP, 2);
 		if (split.length > 1) {
 			try {
 				String key = split[0];
@@ -102,16 +100,6 @@ public class DefaultGlobalFacet implements Facet {
 				}
 			} catch (Exception e) {/*any exception results in no action*/}
 		}
-	}
-
-	@Override
-	public boolean replacesText(String line) {
-		return true;
-	}
-
-	@Override
-	public boolean isGlobal() {
-		return true;
 	}
 
 	@Override

@@ -37,6 +37,7 @@ import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.ComponentInterface;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
+import com.umlet.element.experimental.settings.facets.Facet;
 
 public abstract class OldGridElement extends JComponent implements GridElement, ComponentInterface {
 
@@ -397,7 +398,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		lastLayerValue = Integer.valueOf(GlobalSetting.LAYER.getValue());
 		try {
 			for (String s : Utils.decomposeStringsWithComments(panelAttributes)) {
-				String key = GlobalSetting.LAYER.toString() + GlobalSetting.SEPARATOR;
+				String key = GlobalSetting.LAYER.toString() + Facet.SEP;
 				if (s.startsWith(key)) {
 					String value = s.split(key)[1];
 					lastLayerValue = Integer.valueOf(value);

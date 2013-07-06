@@ -92,14 +92,14 @@ public class Properties {
 			if (!line.startsWith(key.toString())) newState += line + "\n";
 		}
 		newState = newState.substring(0, newState.length()-1); //remove last linebreak
-		if (newValue != null) newState += "\n" + key.toString() + GlobalSetting.SEPARATOR + newValue; // null will not be added as a value
+		if (newValue != null) newState += "\n" + key.toString() + Facet.SEP + newValue; // null will not be added as a value
 		this.setPanelAttributes(newState);
 	}
 
 	public String getSetting(GlobalSetting key) {
 		for (String line : getPanelAttributesAsList()) {
-			if (line.startsWith(key + GlobalSetting.SEPARATOR)) {
-				String[] split = line.split(GlobalSetting.SEPARATOR, 2);
+			if (line.startsWith(key + Facet.SEP)) {
+				String[] split = line.split(Facet.SEP, 2);
 				if (split.length > 1) return split[1];
 			}
 		}

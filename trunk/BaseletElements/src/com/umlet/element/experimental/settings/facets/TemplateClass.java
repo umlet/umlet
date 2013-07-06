@@ -8,9 +8,9 @@ import com.baselet.diagram.draw.helper.Style;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 
-public class TemplateClass implements Facet {
+public class TemplateClass extends GlobalStatelessFacet {
 
-	private static final String KEY = "template=";
+	private static final String KEY = "template" + SEP;
 	
 	private static final int SPACE = 6;
 	
@@ -30,16 +30,6 @@ public class TemplateClass implements Facet {
 		drawer.drawRectangle(propConfig.getGridElementSize().width - width, 0, width, height);
 		drawer.print(templateValue, propConfig.getGridElementSize().width - width/2, height-SPACE/2, AlignHorizontal.CENTER);
 		drawer.setStyle(style); // reset style to state before manipulations for drawing the template class
-	}
-
-	@Override
-	public boolean replacesText(String line) {
-		return true;
-	}
-
-	@Override
-	public boolean isGlobal() {
-		return true;
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 
-public class ActiveClass implements Facet {
+public class ActiveClass extends GlobalStatelessFacet {
 
 	private static final String KEY = "{active}";
 	
@@ -24,16 +24,6 @@ public class ActiveClass implements Facet {
 		// draw vertical line left and right
 		drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), propConfig.getGridElementSize().getHeight());
 		drawer.drawLine(xLimits.getRight(), 0, xLimits.getRight(), propConfig.getGridElementSize().getHeight());
-	}
-
-	@Override
-	public boolean replacesText(String line) {
-		return true;
-	}
-
-	@Override
-	public boolean isGlobal() {
-		return true;
 	}
 
 	@Override
