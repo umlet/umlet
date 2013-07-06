@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.uml;
+package com.umlet.element.experimental.uml.relation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +16,7 @@ import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsRelation;
-import com.umlet.element.experimental.uml.RelationPoints.Selection;
+import com.umlet.element.experimental.uml.relation.RelationPoints.Selection;
 
 public class Relation extends NewGridElement {
 

@@ -36,7 +36,7 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.umlet.element.experimental.uml.Relation;
+import com.umlet.element.experimental.uml.relation.Relation;
 
 public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
 

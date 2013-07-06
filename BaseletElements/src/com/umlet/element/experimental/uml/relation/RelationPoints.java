@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.uml;
+package com.umlet.element.experimental.uml.relation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,9 @@ import com.baselet.diagram.draw.geom.Rectangle;
 
 public class RelationPoints {
 
-	private final int DRAG_BOX_SIZE = 10; // size of the box to drag the whole relation
-	private final int POINT_SELECTION_RADIUS = 10; // radius of the selection circle of relation-points
-	private final int NEW_POINT_DISTANCE = 5; // distance from which new points can be dragged away from a relation-line
+	final static int DRAG_BOX_SIZE = 10; // size of the box to drag the whole relation
+	final static int POINT_SELECTION_RADIUS = 10; // radius of the selection circle of relation-points
+	final static int NEW_POINT_DISTANCE = 5; // distance from which new points can be dragged away from a relation-line
 
 	/**
 	 * Points of this relation (point of origin is the upper left corner of the relation element (not the drawpanel!))
@@ -187,28 +187,11 @@ public class RelationPoints {
 	private void drawArrow(BaseDrawHandler drawer) {
 		List<Line> lines = getRelationPointLines();
 		if (lines.size() > 1) {
-			//TODO extract to Arrow-class which handles drawing
+			//TODO extract to Arrow-class which handles drawing and analyze  text for drawing
 			//TODO perhaps angleofslope should handle start/end
-			drawArrowToLine(drawer, lines.get(0), true);
-			drawArrowToLine(drawer, lines.get(lines.size()-1), false);
+			ArrowStart.draw(drawer, lines.get(0));
+			ArrowEnd.draw(drawer, lines.get(lines.size()-1));
 		}
-	}
-
-	private void drawArrowToLine(BaseDrawHandler drawer, Line line, boolean arrowOnLineStart) {
-		Point point = arrowOnLineStart ? line.getStart() : line.getEnd();
-		double angleOfSlopeOfLine = line.getAngleOfSlope();
-		int angle = arrowOnLineStart ? 135 : 45;
-		drawArrowLine(drawer, point, angleOfSlopeOfLine, true, angle);
-		drawArrowLine(drawer, point, angleOfSlopeOfLine, false, angle);
-	}
-
-	private void drawArrowLine(BaseDrawHandler drawer, Point start, double angleOfSlopeOfLine, boolean first, int angle) {
-		int arrowLength = POINT_SELECTION_RADIUS;
-		int arrowAngle = angle;
-		double angleTotal = first ? angleOfSlopeOfLine-arrowAngle : angleOfSlopeOfLine+arrowAngle;
-		double xx = start.x + arrowLength * Math.cos(Math.toRadians(angleTotal));
-		double yx = start.y + arrowLength * Math.sin(Math.toRadians(angleTotal));
-		drawer.drawLine(start.x, start.y, (float)xx, (float)yx);
 	}
 
 	public static Point normalize(Point p, int pixels) {
