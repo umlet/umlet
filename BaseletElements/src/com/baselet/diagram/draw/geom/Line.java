@@ -79,7 +79,7 @@ public class Line {
 		double x = x1 + u * px;
 		double y = y1 + u * py;
 		
-		return distanceBetweenTwoPoints(x, checkX, y, checkY);
+		return distanceBetweenTwoPoints(x, y, checkX, checkY);
 	}
 
 	private static double distanceBetweenTwoPoints(double x1, double y1, double x2, double y2) {
