@@ -3,14 +3,9 @@ package com.umlet.element.experimental.settings;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
-import com.umlet.element.experimental.settings.facets.ActiveClass;
-import com.umlet.element.experimental.settings.facets.Facet;
-import com.umlet.element.experimental.settings.facets.InnerClass;
-import com.umlet.element.experimental.settings.facets.SeparatorLine;
-import com.umlet.element.experimental.settings.facets.TemplateClass;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
-import com.umlet.element.experimental.uml.relation.ArrowEnd;
-import com.umlet.element.experimental.uml.relation.ArrowStart;
+import com.umlet.element.experimental.settings.facets.Facet;
+import com.umlet.element.experimental.uml.relation.ArrowNormal;
 import com.umlet.element.experimental.uml.relation.RelationPoints;
 
 public class SettingsRelation extends Settings {
@@ -47,7 +42,7 @@ public class SettingsRelation extends Settings {
 
 	@Override
 	public Facet[] createFacets() {
-		return new Facet[] {new ArrowStart(), new ArrowEnd()};
+		return new Facet[] {new ArrowNormal()};
 	}
 
 }

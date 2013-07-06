@@ -11,11 +11,18 @@ import com.umlet.element.experimental.settings.SettingsRelation;
 import com.umlet.element.experimental.settings.facets.Facet;
 
 public abstract class Arrow implements Facet {
+	
+	static final char SEP = '=';
+	static final String START = "start" + SEP;
+	static final String END = "end" + SEP;
 
-	void drawArrowToLine(BaseDrawHandler drawer, Line line, boolean arrowOnLineStart) {
-		Point point = arrowOnLineStart ? line.getStart() : line.getEnd();
+	void drawArrowToLine(BaseDrawHandler drawer, Line line, boolean drawOnStart, boolean inverseArrow) {
+		Point point = drawOnStart ? line.getStart() : line.getEnd();
 		double angleOfSlopeOfLine = line.getAngleOfSlope();
-		int angle = arrowOnLineStart ? 150 : 30;
+		if (inverseArrow) {
+			drawOnStart = !drawOnStart;
+		}
+		int angle = drawOnStart ? 150 : 30;
 		drawArrowLine(drawer, point, angleOfSlopeOfLine, true, angle);
 		drawArrowLine(drawer, point, angleOfSlopeOfLine, false, angle);
 	}
@@ -30,11 +37,6 @@ public abstract class Arrow implements Facet {
 	}
 
 	@Override
-	public boolean checkStart(String line) {
-		return line.equals(getKey());
-	}
-
-	@Override
 	public boolean replacesText(String line) {
 		return true;
 	}
@@ -44,16 +46,8 @@ public abstract class Arrow implements Facet {
 		return true;
 	}
 
-	@Override
-	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {new AutocompletionText(getKey(), getDescription(), isGlobal())};
-	}
-	
 	public List<Line> getLinesFromConfig(PropertiesConfig config) {
 		RelationPoints rp = ((SettingsRelation) config.getSettings()).getRelationPoints();
 		return rp.getRelationPointLines();
 	}
-
-	public abstract String getKey();
-	public abstract String getDescription();
 }
