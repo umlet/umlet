@@ -10,6 +10,7 @@ import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
@@ -53,10 +54,10 @@ public class Relation extends NewGridElement {
 	@Override
 	public void setAdditionalAttributes(String additionalAttributes) {
 		super.setAdditionalAttributes(additionalAttributes);
-		List<Point> pointList = new ArrayList<Point>();
+		List<PointDouble> pointList = new ArrayList<PointDouble>();
 		String[] split = additionalAttributes.split(";");
 		for (int i = 0; i < split.length; i += 2) {
-			pointList.add(new Point(Integer.valueOf(split[i]), Integer.valueOf(split[i+1])));
+			pointList.add(new PointDouble(Double.valueOf(split[i]), Double.valueOf(split[i+1])));
 		}
 		relationPoints = new RelationPoints(pointList);
 	}

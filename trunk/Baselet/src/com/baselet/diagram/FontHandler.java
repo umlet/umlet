@@ -7,7 +7,7 @@ import java.awt.font.FontRenderContext;
 import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.geom.DimensionDouble;
 
 
 public class FontHandler {
@@ -85,11 +85,11 @@ public class FontHandler {
 		return getFontSize(applyZoom) / 4;
 	}
 
-	public DimensionFloat getTextSize(String s) {
+	public DimensionDouble getTextSize(String s) {
 		return getTextSize(s, true);
 	}
 
-	public DimensionFloat getTextSize(String s, boolean applyZoom) {
+	public DimensionDouble getTextSize(String s, boolean applyZoom) {
 		return Utils.getTextSize(s, getFont(applyZoom), fontrenderContext);
 	}
 

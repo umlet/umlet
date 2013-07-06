@@ -6,6 +6,7 @@ import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
@@ -79,7 +80,8 @@ public class Resize extends Command {
 			this.linepoints = Utils.getStickingRelationLinePoints(Main.getHandlerForElement(this.entity), from);
 		}
 
-		Point diff, p;
+		PointDouble diff;
+		Point p;
 		Relation r;
 		for (RelationLinePoint lp : this.linepoints) {
 			r = lp.getRelation();

@@ -9,7 +9,7 @@ import java.awt.font.FontRenderContext;
 
 import javax.swing.JComponent;
 
-import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 
 
@@ -56,7 +56,7 @@ public class DiagramNotification extends JComponent {
 	}
 
 	private void adaptDimensions() {
-		DimensionFloat textSize = Utils.getTextSize(message, notificationFont, frc);
+		DimensionDouble textSize = Utils.getTextSize(message, notificationFont, frc);
 		int x = (int) (drawPanelSize.getX2() - textSize.getWidth() - 20);
 		int y = (int) (drawPanelSize.getY() + 10);
 		this.setLocation(x, y);

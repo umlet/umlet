@@ -1,42 +1,39 @@
 package com.baselet.diagram.draw.geom;
 
 
-/**
- * should be removed after every Point has been replaced by PointDouble
- */
-public class Point {
+public class PointDouble {
 
-	public int x;
-	public int y;
+	public double x;
+	public double y;
 	
-	public Point() {
+	public PointDouble() {
 	}
 	
-	public Point(int x, int y) {
+	public PointDouble(double x, double y) {
 		super();
 		this.x = x;
 		this.y = y;
 	}
 	
-	public int getX() {
+	public double getX() {
 		return x;
 	}
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 	}
-	public int getY() {
+	public double getY() {
 		return y;
 	}
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 
-	public void move(int diffX, int diffY) {
+	public void move(double diffX, double diffY) {
 		this.x += diffX;
 		this.y += diffY;
 	}
 
-    public double distance(Point o) {
+    public double distance(PointDouble o) {
 	double distX = o.getX() - this.getX();
 	double distY = o.getY() - this.getY();
 	return Math.sqrt(distX * distX + distY * distY);
@@ -46,8 +43,11 @@ public class Point {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + x;
-		result = prime * result + y;
+		long temp;
+		temp = Double.doubleToLongBits(x);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(y);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
@@ -56,9 +56,9 @@ public class Point {
 		if (this == obj) return true;
 		if (obj == null) return false;
 		if (getClass() != obj.getClass()) return false;
-		Point other = (Point) obj;
-		if (x != other.x) return false;
-		if (y != other.y) return false;
+		PointDouble other = (PointDouble) obj;
+		if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x)) return false;
+		if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y)) return false;
 		return true;
 	}
 

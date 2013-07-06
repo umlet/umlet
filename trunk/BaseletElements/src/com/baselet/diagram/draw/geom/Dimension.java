@@ -1,5 +1,8 @@
 package com.baselet.diagram.draw.geom;
 
+/**
+ * should be removed after every Dimension has been replaced by DimensionFloat
+ */
 public class Dimension {
 	public int width;
 	public int height;

@@ -5,19 +5,20 @@ import java.util.Vector;
 
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 
 
 public class StickingPolygon {
 
 	public class StickLine extends Line {
 
-		private StickLine(Point p1, Point p2) {
+		private StickLine(PointDouble p1, PointDouble p2) {
 			super(p1, p2);
 		}
 
 		// calculates the difference between this line and the other line at the specified x or y coordinate (whichever fits better)
-		public Point diffToLine(StickLine s, int x, int y) {
-			Point diff = new Point(0, 0);
+		public PointDouble diffToLine(StickLine s, int x, int y) {
+			PointDouble diff = new PointDouble(0, 0);
 			if (getEnd().x == getStart().x) {
 				// AB: Fixed: use s.getStart().x instead of getStart().x
 				diff.x = s.getStart().x - (s.getEnd().x - s.getStart().x) - x; // mitte der neuen linie
@@ -67,8 +68,8 @@ public class StickingPolygon {
 	}
 
 	private Vector<StickLine> stick = new Vector<StickLine>();
-	private Point lastpoint = null;
-	private Point firstpoint = null;
+	private PointDouble lastpoint = null;
+	private PointDouble firstpoint = null;
 	private int elementX;
 	private int elementY;
 
@@ -88,7 +89,7 @@ public class StickingPolygon {
 	}
 
 	public void addPoint(int x, int y) {
-		Point p = new Point(elementX + x, elementY + y);
+		PointDouble p = new PointDouble(elementX + x, elementY + y);
 		if (firstpoint == null) {
 			firstpoint = p;
 		} else {

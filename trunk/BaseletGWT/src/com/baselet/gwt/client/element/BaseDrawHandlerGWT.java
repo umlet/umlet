@@ -6,7 +6,7 @@ import com.baselet.control.enumerations.FormatLabels;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.DrawFunction;
-import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.gwt.client.Converter;
@@ -28,9 +28,9 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	protected DimensionFloat textDimension(String string) {
+	protected DimensionDouble textDimension(String string) {
 		ctxSetFont(style.getFontSize(), StringStyle.analyseStyle(string));
-		DimensionFloat dim = new DimensionFloat((float) ctx.measureText(string).getWidth(), style.getFontSize());
+		DimensionDouble dim = new DimensionDouble((float) ctx.measureText(string).getWidth(), style.getFontSize());
 		return dim;
 	}
 
@@ -77,7 +77,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawCircle(final float x, final float y, final float radius) {
+	public void drawCircle(final double x, final double y, final double radius) {
 		final Style styleAtDrawingCall = style.cloneFromMe();
 		addDrawable(new DrawFunction() {
 			@Override
@@ -104,7 +104,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawLine(final float x1, final float y1, final float x2, final float y2) {
+	public void drawLine(final double x1, final double y1, final double x2, final double y2) {
 		final Style styleAtDrawingCall = style.cloneFromMe();
 		addDrawable(new DrawFunction() {
 			@Override
@@ -213,7 +213,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 		ctx.stroke();
 	}
 
-	private void drawLineHelper(final float x1, final float y1, final float x2, final float y2) {
+	private void drawLineHelper(final double x1, final double y1, final double x2, final double y2) {
 		ctx.beginPath();
 		ctx.moveTo(x1 + HALF_PX, y1 + HALF_PX); // +0.5 because a line of thickness 1.0 spans 50% left and 50% right (therefore it would not be on the 1 pixel - see https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors)
 		ctx.lineTo(x2 + HALF_PX, y2 + HALF_PX);

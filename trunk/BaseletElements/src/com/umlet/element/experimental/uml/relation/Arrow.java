@@ -5,6 +5,7 @@ import java.util.List;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.settings.SettingsRelation;
@@ -16,24 +17,29 @@ public abstract class Arrow implements Facet {
 	static final String START = "start" + SEP;
 	static final String END = "end" + SEP;
 
-	void drawArrowToLine(BaseDrawHandler drawer, Line line, boolean drawOnStart, boolean inverseArrow) {
-		Point point = drawOnStart ? line.getStart() : line.getEnd();
+	void drawArrowToLine(BaseDrawHandler drawer, Line line, boolean drawOnStart, boolean inverseArrow, boolean closeArrow) {
+		PointDouble point = drawOnStart ? line.getStart() : line.getEnd();
 		double angleOfSlopeOfLine = line.getAngleOfSlope();
 		if (inverseArrow) {
 			drawOnStart = !drawOnStart;
 		}
 		int angle = drawOnStart ? 150 : 30;
-		drawArrowLine(drawer, point, angleOfSlopeOfLine, true, angle);
-		drawArrowLine(drawer, point, angleOfSlopeOfLine, false, angle);
+		PointDouble p1 = drawArrowLine(drawer, point, angleOfSlopeOfLine, true, angle);
+		drawer.drawLine(point, p1);
+		PointDouble p2 = drawArrowLine(drawer, point, angleOfSlopeOfLine, false, angle);
+		drawer.drawLine(point, p2);
+		if (closeArrow) {
+			drawer.drawLine(p1, p2);
+		}
 	}
 
-	void drawArrowLine(BaseDrawHandler drawer, Point start, double angleOfSlopeOfLine, boolean first, int angle) {
+	PointDouble drawArrowLine(BaseDrawHandler drawer, PointDouble point, double angleOfSlopeOfLine, boolean first, int angle) {
 		int arrowLength = RelationPoints.POINT_SELECTION_RADIUS;
 		int arrowAngle = angle;
 		double angleTotal = first ? angleOfSlopeOfLine-arrowAngle : angleOfSlopeOfLine+arrowAngle;
-		double xx = start.x + arrowLength * Math.cos(Math.toRadians(angleTotal));
-		double yx = start.y + arrowLength * Math.sin(Math.toRadians(angleTotal));
-		drawer.drawLine(start.x, start.y, (float)xx, (float)yx);
+		double x = point.x + arrowLength * Math.cos(Math.toRadians(angleTotal));
+		double y = point.y + arrowLength * Math.sin(Math.toRadians(angleTotal));
+		return new PointDouble(x, y);
 	}
 
 	@Override

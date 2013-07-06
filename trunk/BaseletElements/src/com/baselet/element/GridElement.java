@@ -6,7 +6,7 @@ import java.util.Set;
 
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.gui.AutocompletionText;
@@ -85,7 +85,7 @@ public interface GridElement {
 	
 	Integer getLayer();
 
-	void handleAutoresize(DimensionFloat necessaryElementDimension);
+	void handleAutoresize(DimensionDouble necessaryElementDimension);
 	
 	ElementId getId();
 	

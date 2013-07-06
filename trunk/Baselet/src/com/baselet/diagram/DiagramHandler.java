@@ -254,15 +254,15 @@ public class DiagramHandler {
 		this.gridSize = gridSize;
 	}
 
-	public int realignToGrid(float val) {
+	public int realignToGrid(double val) {
 		return realignToGrid(true, val, false);
 	}
 
-	public int realignToGrid(boolean logRealign, float val) {
+	public int realignToGrid(boolean logRealign, double val) {
 		return realignToGrid(logRealign, val, false);
 	}
 
-	public int realignToGrid(boolean logRealign, float val, boolean roundUp) {
+	public int realignToGrid(boolean logRealign, double val, boolean roundUp) {
 		return SharedUtils.realignTo(logRealign, val, roundUp, gridSize);
 	}
 

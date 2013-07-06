@@ -1,11 +1,11 @@
 package com.baselet.diagram.draw.geom;
 
-public class DimensionFloat {
+public class DimensionDouble {
 
 	private float height;
 	private float width;
 
-	public DimensionFloat(float width, float height) {
+	public DimensionDouble(float width, float height) {
 		super();
 		this.width = width;
 		this.height = height;
@@ -21,7 +21,7 @@ public class DimensionFloat {
 
 	@Override
 	public String toString() {
-		return "DimensionFloat [height=" + height + ", width=" + width + "]";
+		return "Dimension [height=" + height + ", width=" + width + "]";
 	}
 	
 }
