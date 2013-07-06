@@ -136,7 +136,9 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 					path.lineTo(Double.valueOf(p.getX() * getZoom()), Double.valueOf(p.getY() * getZoom()));
 				}
 			}
-			addShape(path);
+			// only fill if first point == lastpoint
+			boolean fillShape = points[0].equals(points[points.length-1]);
+			addShape(path, fillShape);
 		}
 	}
 
@@ -154,21 +156,27 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	public void print(String text, PointDouble point, AlignHorizontal align) {
 		addText(new Text(text, point.x * getZoom(), point.y * getZoom(), align));
 	}
-
+	
 	protected void addShape(final Shape s) {
+		addShape(s, true);
+	}
+
+	protected void addShape(final Shape s, final boolean fillShape) {
 		final Style styleAtDrawingCall = style.cloneFromMe();
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
-				drawShape(styleAtDrawingCall, s);
+				drawShape(styleAtDrawingCall, s, fillShape);
 			}
 		});
 	}
 
-	private void drawShape(Style style, Shape s) {
-		// Shapes Background
-		g2.setColor(Converter.convert(style.getBgColor()));
-		g2.fill(s);
+	private void drawShape(Style style, Shape s, boolean fillShape) {
+		if (fillShape) {
+			// Shapes Background
+			g2.setColor(Converter.convert(style.getBgColor()));
+			g2.fill(s);
+		}
 		// Shapes Foreground
 		ColorOwn colOwn = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
 		g2.setColor(Converter.convert(colOwn));
