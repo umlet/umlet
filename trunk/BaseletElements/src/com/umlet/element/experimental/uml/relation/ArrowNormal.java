@@ -1,5 +1,6 @@
 package com.umlet.element.experimental.uml.relation;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
@@ -13,13 +14,14 @@ public class ArrowNormal extends Arrow {
 	private static final String INVERSE = "<";
 	private static final String CLOSED = ">>";
 	private static final String INV_CLOSED = "<<";
+	private List<String> endings = Arrays.asList(NORMAL, INVERSE, CLOSED, INV_CLOSED);
 
 	@Override
 	public boolean checkStart(String line) {
-		return line.equals(START+NORMAL) || line.equals(START+INVERSE) || 
-				line.equals(START+CLOSED) || line.equals(END+INV_CLOSED) || 
-				line.equals(END+NORMAL) || line.equals(END+INVERSE) || 
-				line.equals(END+CLOSED) || line.equals(END+INV_CLOSED);
+		for (String ending : endings) {
+			if (line.equals(START + ending) || line.equals(END + ending)) return true;
+		}
+		return false;
 	}
 
 	@Override

@@ -226,7 +226,9 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 			}
 			ctx.lineTo(point.x + HALF_PX, point.y + HALF_PX);
 		}
-		ctx.fill();
+		if (points[0].equals(points[points.length-1])) {
+			ctx.fill(); // only fill if first point == lastpoint
+		}
 		ctx.stroke();
 	}
 
