@@ -32,7 +32,7 @@ public abstract class Arrow implements Facet {
 		if (closeArrow) {
 			points.add(p1);
 		}
-		drawer.drawLine(points);
+		drawer.drawLines(points);
 	}
 
 	PointDouble drawArrowLine(BaseDrawHandler drawer, PointDouble point, double angleOfSlopeOfLine, boolean first, int angle) {
