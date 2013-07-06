@@ -157,7 +157,7 @@ public class RelationPoints {
 
 	// HELPER METHODS
 
-	private List<Line> getRelationPointLines() {
+	public List<Line> getRelationPointLines() {
 		List<Line> lines = new ArrayList<Line>();
 		for (int i = 1; i < points.size(); i++) {
 			lines.add(new Line(points.get(i - 1), points.get(i)));
@@ -189,8 +189,6 @@ public class RelationPoints {
 		if (lines.size() > 1) {
 			//TODO extract to Arrow-class which handles drawing and analyze  text for drawing
 			//TODO perhaps angleofslope should handle start/end
-			ArrowStart.draw(drawer, lines.get(0));
-			ArrowEnd.draw(drawer, lines.get(lines.size()-1));
 		}
 	}
 

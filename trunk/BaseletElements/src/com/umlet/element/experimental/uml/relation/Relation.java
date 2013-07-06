@@ -68,7 +68,7 @@ public class Relation extends NewGridElement {
 
 	@Override
 	public Settings getSettings() {
-		return new SettingsRelation();
+		return new SettingsRelation(relationPoints);
 	}
 
 	@Override

@@ -21,17 +21,17 @@ public class PropertiesConfig {
 	private float yPos;
 	private int leftBuffer = 0;
 	private int rightBuffer = 0;
-	private Settings specificSettings;
+	private Settings settings;
 	private Dimension gridElementSize;
 	private ElementStyleEnum elementStyle;
 	private Integer layer = Integer.valueOf(GlobalSetting.LAYER.getValue());
 
-	public PropertiesConfig(Settings specificSettings) {
-		this.hAlign = specificSettings.getHAlign();
-		this.vAlign = specificSettings.getVAlign();
-		this.elementStyle = specificSettings.getElementStyle();
-		this.yPos = specificSettings.getYPosStart();
-		this.specificSettings = specificSettings;
+	public PropertiesConfig(Settings settings) {
+		this.hAlign = settings.getHAlign();
+		this.vAlign = settings.getVAlign();
+		this.elementStyle = settings.getElementStyle();
+		this.yPos = settings.getYPosStart();
+		this.settings = settings;
 	}
 
 	public PropertiesConfig(Settings settings, Dimension realSize) {
@@ -58,8 +58,8 @@ public class PropertiesConfig {
 	}
 
 	public void resetAlign() {
-		if (!hAlignGloballySet) this.hAlign = specificSettings.getHAlign();
-		if (!vAlignGloballySet) this.vAlign = specificSettings.getVAlign();
+		if (!hAlignGloballySet) this.hAlign = settings.getHAlign();
+		if (!vAlignGloballySet) this.vAlign = settings.getVAlign();
 	}
 
 	public AlignVertical getvAlign() {
@@ -109,7 +109,7 @@ public class PropertiesConfig {
 	}
 
 	public XValues getXLimits(float linePos) {
-		XValues xLimits = specificSettings.getXValues(linePos, gridElementSize.height, gridElementSize.width);
+		XValues xLimits = settings.getXValues(linePos, gridElementSize.height, gridElementSize.width);
 		xLimits.addLeft(leftBuffer);
 		xLimits.subRight(rightBuffer);
 		return xLimits;
@@ -156,6 +156,10 @@ public class PropertiesConfig {
 
 	public Integer getLayer() {
 		return layer;
+	}
+	
+	public Settings getSettings() {
+		return settings;
 	}
 
 }
