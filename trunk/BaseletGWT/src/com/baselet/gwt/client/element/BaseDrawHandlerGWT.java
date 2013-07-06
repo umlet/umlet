@@ -105,7 +105,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawLine(final PointDouble ... points) {
+	public void drawLines(final PointDouble ... points) {
 		if (points.length > 1) {
 			final Style styleAtDrawingCall = style.cloneFromMe();
 			addDrawable(new DrawFunction() {

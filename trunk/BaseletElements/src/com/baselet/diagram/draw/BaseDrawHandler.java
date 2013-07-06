@@ -167,10 +167,10 @@ public abstract class BaseDrawHandler {
 		drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
 	}
 	public void drawLine(double x1, double y1, double x2, double y2) {
-		drawLine(new PointDouble(x1, y1), new PointDouble(x2, y2));
+		drawLines(new PointDouble(x1, y1), new PointDouble(x2, y2));
 	}
-	public void drawLine(Collection<PointDouble> points) {
-		drawLine(points.toArray(new PointDouble[points.size()]));
+	public void drawLines(Collection<PointDouble> points) {
+		drawLines(points.toArray(new PointDouble[points.size()]));
 	}
 	public void print(String text, double x, double y, AlignHorizontal align) {
 		print(text, new PointDouble(x,y), align);
@@ -182,7 +182,7 @@ public abstract class BaseDrawHandler {
 	public abstract void drawCurveCubic(float x1, float y1, float ctrlx1, float ctrly1, float ctrlx2, float ctrly2, float x2, float y2);
 	public abstract void drawCurveQuad(float x1, float y1, float ctrlx, float ctrly, float x2, float y2);
 	public abstract void drawEllipse(float x, float y, float width, float height);
-	public abstract void drawLine(PointDouble ... points);
+	public abstract void drawLines(PointDouble ... points);
 	public abstract void drawRectangle(double x, double y, double width, double height);
 	public abstract void drawRectangleRound(float x, float y, float width, float height, float arcw, float arch);
 	public abstract void print(String text, PointDouble point, AlignHorizontal align);

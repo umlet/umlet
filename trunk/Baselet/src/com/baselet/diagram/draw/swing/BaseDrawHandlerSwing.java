@@ -124,7 +124,7 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawLine(PointDouble ... points) {
+	public void drawLines(PointDouble ... points) {
 		if (points.length > 0) {
 			Path2D.Double path = new Path2D.Double();
 			boolean first = true;
