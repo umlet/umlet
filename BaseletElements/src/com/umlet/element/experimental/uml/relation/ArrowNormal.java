@@ -30,10 +30,10 @@ public class ArrowNormal extends Arrow {
 
 	@Override
 	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
-		List<Line> linesToDraw = getLinesFromConfig(propConfig);
+		RelationPoints relationPoints = getRelationPoints(propConfig);
 		boolean start = line.startsWith(START);
 		
-		Line lineToDraw = start ? linesToDraw.get(0) : linesToDraw.get(linesToDraw.size()-1);
+		Line lineToDraw = start ? relationPoints.getFirstLine() : relationPoints.getLastLine();
 		drawArrowToLine(drawer, lineToDraw, line.startsWith(START), line.endsWith(INVERSE));
 	}
 	

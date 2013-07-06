@@ -165,6 +165,14 @@ public class RelationPoints {
 		return lines;
 	}
 
+	public Line getFirstLine() {
+		return new Line(points.get(0), points.get(1));
+	}
+
+	public Line getLastLine() {
+		return new Line(points.get(points.size()-2), points.get(points.size()-1));
+	}
+
 	private Rectangle getDragBox() {
 		Point begin = points.get(points.size() / 2);
 		Point end = points.get(points.size() / 2 - 1);
@@ -178,17 +186,6 @@ public class RelationPoints {
 	public void drawLinesBetweenPoints(BaseDrawHandler drawer) {
 		for (Line line : getRelationPointLines()) {
 			drawer.drawLine(line);
-		}
-
-		drawArrow(drawer);
-
-	}
-
-	private void drawArrow(BaseDrawHandler drawer) {
-		List<Line> lines = getRelationPointLines();
-		if (lines.size() > 1) {
-			//TODO extract to Arrow-class which handles drawing and analyze  text for drawing
-			//TODO perhaps angleofslope should handle start/end
 		}
 	}
 
