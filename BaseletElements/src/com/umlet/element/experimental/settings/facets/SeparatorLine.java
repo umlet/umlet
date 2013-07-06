@@ -6,7 +6,7 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 
-public class SeparatorLine implements Facet {
+public class SeparatorLine extends LocalStatelessFacet {
 
 	private static final String KEY = "--";
 	
@@ -35,16 +35,6 @@ public class SeparatorLine implements Facet {
 	@Override
 	public boolean checkStart(String line) {
 		return line.equals(KEY);
-	}
-
-	@Override
-	public boolean replacesText(String line) {
-		return true;
-	}
-
-	@Override
-	public boolean isGlobal() {
-		return false;
 	}
 
 	@Override

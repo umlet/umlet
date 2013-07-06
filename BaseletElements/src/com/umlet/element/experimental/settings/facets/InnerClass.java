@@ -9,7 +9,7 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 
-public class InnerClass implements Facet {
+public class InnerClass extends LocalFacet {
 
 	private static final int BUFFER_PIXEL_PER_INNER = 5;
 	private static final int H_SPACE = 4;
@@ -67,11 +67,6 @@ public class InnerClass implements Facet {
 			this.start = startpoint;
 		}
 
-	}
-
-	@Override
-	public boolean isGlobal() {
-		return false;
 	}
 
 	@Override
