@@ -5,7 +5,8 @@ import com.google.gwt.canvas.dom.client.CssColor;
 
 public class Converter {
 
-	public static CssColor convert(ColorOwn color) {
-		return CssColor.make("rgba(" + color.getRed() + ", " + color.getGreen() + "," + color.getBlue() + ", " + color.getAlpha()/255.0 + ")");
+	public static CssColor convert(ColorOwn in) {
+		if (in == null) return null;
+		return CssColor.make("rgba(" + in.getRed() + ", " + in.getGreen() + "," + in.getBlue() + ", " + in.getAlpha()/255.0 + ")");
 	}
 }

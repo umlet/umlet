@@ -6,6 +6,7 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.Facet;
 import com.umlet.element.experimental.uml.relation.ArrowNormal;
+import com.umlet.element.experimental.uml.relation.LineDescription;
 import com.umlet.element.experimental.uml.relation.RelationPoints;
 
 public class SettingsRelation extends Settings {
@@ -42,7 +43,7 @@ public class SettingsRelation extends Settings {
 
 	@Override
 	public Facet[] createFacets() {
-		return new Facet[] {new ArrowNormal()};
+		return new Facet[] {new ArrowNormal(), new LineDescription()};
 	}
 
 }
