@@ -37,11 +37,9 @@ public class ArrowNormal extends Arrow {
 				new AutocompletionText(END+INV_CLOSED, "inversed closed arrow", isGlobal()),
 				};
 	}
-	
 
 	@Override
-	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
-		RelationPoints relationPoints = getRelationPoints(propConfig);
+	void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig, RelationPoints relationPoints) {
 		boolean start = line.startsWith(START);
 		boolean isClosed = line.endsWith(CLOSED) || line.endsWith(INV_CLOSED);
 		

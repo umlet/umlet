@@ -13,9 +13,8 @@ import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.settings.SettingsRelation;
 import com.umlet.element.experimental.settings.facets.Facet;
 
-public abstract class Arrow implements Facet {
+public abstract class Arrow extends RelationFacet {
 	
-	static final char SEP = '=';
 	static final String START = "start" + SEP;
 	static final String END = "end" + SEP;
 
@@ -42,16 +41,6 @@ public abstract class Arrow implements Facet {
 		double x = point.x + arrowLength * Math.cos(Math.toRadians(angleTotal));
 		double y = point.y + arrowLength * Math.sin(Math.toRadians(angleTotal));
 		return new PointDouble(x, y);
-	}
-
-	@Override
-	public boolean replacesText(String line) {
-		return true;
-	}
-
-	@Override
-	public boolean isGlobal() {
-		return true;
 	}
 
 	public RelationPoints getRelationPoints(PropertiesConfig config) {

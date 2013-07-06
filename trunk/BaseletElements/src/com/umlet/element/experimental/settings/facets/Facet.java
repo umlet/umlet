@@ -5,6 +5,8 @@ import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 
 public interface Facet {
+	
+	public static final String SEP = "=";
 
 	boolean checkStart(String line);
 	
