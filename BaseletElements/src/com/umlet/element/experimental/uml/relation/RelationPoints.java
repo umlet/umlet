@@ -7,6 +7,7 @@ import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 
 public class RelationPoints {
@@ -18,9 +19,9 @@ public class RelationPoints {
 	/**
 	 * Points of this relation (point of origin is the upper left corner of the relation element (not the drawpanel!))
 	 */
-	private List<Point> points = new ArrayList<Point>();
+	private List<PointDouble> points = new ArrayList<PointDouble>();
 
-	public RelationPoints(List<Point> points) {
+	public RelationPoints(List<PointDouble> points) {
 		super();
 		this.points = points;
 	}
@@ -43,7 +44,7 @@ public class RelationPoints {
 		return getSelectionAndMaybeApplyChangesHelper(point, diffX, diffY, relation, gridSize, firstDrag, true);
 	}
 
-	private Point relationPointOfCurrentDrag = null;
+	private PointDouble relationPointOfCurrentDrag = null;
 	private Selection getSelectionAndMaybeApplyChangesHelper(Point point, Integer diffX, Integer diffY, Relation relation, int gridSize, boolean firstDrag, boolean applyChanges) {
 		// Special case: if this is not the first drag and a relation-point is currently dragged, it has preference
 		// Necessary to avoid changing the currently moved point if moving over another point and to avoid losing the current point if it's a new line point and the mouse is dragged very fast
@@ -62,7 +63,7 @@ public class RelationPoints {
 			}
 			return Selection.DRAG_BOX;
 		}
-		for (Point relationPoint : points) {
+		for (PointDouble relationPoint : points) {
 			if (toCircleRectangle(relationPoint).contains(point)) {
 				if (applyChanges) {
 					relationPointOfCurrentDrag = relationPoint;
@@ -75,7 +76,7 @@ public class RelationPoints {
 		for (Line line : getRelationPointLines()) {
 			if (line.getDistanceToPoint(point) < NEW_POINT_DISTANCE) {
 				if (applyChanges) {
-					Point roundedPoint = new Point(SharedUtils.realignToGrid(false, point.x), SharedUtils.realignToGrid(false, point.y));
+					PointDouble roundedPoint = new PointDouble(SharedUtils.realignToGrid(false, point.x), SharedUtils.realignToGrid(false, point.y));
 					points.add(points.indexOf(line.getEnd()), roundedPoint);
 					relationPointOfCurrentDrag = roundedPoint;
 				}
@@ -85,7 +86,7 @@ public class RelationPoints {
 		return Selection.NOTHING;
 	}
 
-	private void movePointAndResizeRectangle(Point point, Integer diffX, Integer diffY, Relation relation, int gridSize) {
+	private void movePointAndResizeRectangle(PointDouble point, Integer diffX, Integer diffY, Relation relation, int gridSize) {
 		// move the point
 		point.move(diffX, diffY);
 		// if there are only 2 points and they would overlap now (therefore the relation would have a size of 0x0px), revert the move
@@ -103,7 +104,7 @@ public class RelationPoints {
 	 */
 	public boolean removeRelationPointOfCurrentDragIfItOverlaps() {
 		if (relationPointOfCurrentDrag != null && points.size() > 2) {
-			Point lastPoint = points.get(0);
+			PointDouble lastPoint = points.get(0);
 			for (int i = 1; i < points.size(); i++) {
 				if (points.get(i).equals(lastPoint)) {
 					points.remove(i);
@@ -119,8 +120,8 @@ public class RelationPoints {
 	Rectangle repositionRelationAndPointsBasedOnPoints(Point elementStart, int gridSize) {
 		// Calculate new Relation position and size
 		Rectangle newSize = null;
-		for (Point p : points) {
-			Rectangle absoluteRectangle = toCircleRectangle(new Point(p.x + elementStart.getX(), p.y + elementStart.getY()));
+		for (PointDouble p : points) {
+			Rectangle absoluteRectangle = toCircleRectangle(new PointDouble(p.x + elementStart.getX(), p.y + elementStart.getY()));
 			if (newSize == null) {
 				newSize = absoluteRectangle;
 			} else {
@@ -134,12 +135,12 @@ public class RelationPoints {
 		// move relation points to their new position (their position is relative to the relation-position)
 		int displacementX = Integer.MAX_VALUE;
 		int displacementY = Integer.MAX_VALUE;
-		for (Point p : points) {
+		for (PointDouble p : points) {
 			Rectangle r = toCircleRectangle(p);
 			displacementX = Math.min(displacementX, r.getX());
 			displacementY = Math.min(displacementY, r.getY());
 		}
-		for (Point p : points) {
+		for (PointDouble p : points) {
 			// p.move(-displacementX, -displacementY) would be sufficient, but it is realigned to make sure displaced points are corrected here
 			p.setX(SharedUtils.realignTo(true, p.getX()-displacementX, false, gridSize));
 			p.setY(SharedUtils.realignTo(true, p.getY()-displacementY, false, gridSize));
@@ -147,11 +148,11 @@ public class RelationPoints {
 		return newSize;
 	}
 
-	private Rectangle toCircleRectangle(Point p) {
+	private Rectangle toCircleRectangle(PointDouble p) {
 		return toRectangle(p, POINT_SELECTION_RADIUS);
 	}
 
-	private Rectangle toRectangle(Point p, int size) {
+	private Rectangle toRectangle(PointDouble p, double size) {
 		return new Rectangle(p.x-size, p.y-size, size*2, size*2);
 	}
 
@@ -174,9 +175,9 @@ public class RelationPoints {
 	}
 
 	private Rectangle getDragBox() {
-		Point begin = points.get(points.size() / 2);
-		Point end = points.get(points.size() / 2 - 1);
-		Point center = new Line(begin, end).getCenter();
+		PointDouble begin = points.get(points.size() / 2);
+		PointDouble end = points.get(points.size() / 2 - 1);
+		PointDouble center = new Line(begin, end).getCenter();
 		Rectangle rectangle = toRectangle(center, DRAG_BOX_SIZE/2);
 		return rectangle;
 	}
@@ -198,7 +199,7 @@ public class RelationPoints {
 	}
 
 	public void drawPointCircles(BaseDrawHandler drawer) {
-		for (Point p : points) {
+		for (PointDouble p : points) {
 			drawer.drawCircle(p.x, p.y, POINT_SELECTION_RADIUS-1);
 		}
 	}
@@ -209,7 +210,7 @@ public class RelationPoints {
 
 	public String toAdditionalAttributesString() {
 		String returnString = "";
-		for (Point p : points) {
+		for (PointDouble p : points) {
 			returnString += p.getX() + ";" + p.getY() + ";";
 		}
 		if (!returnString.isEmpty()) {

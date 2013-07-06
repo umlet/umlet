@@ -12,6 +12,13 @@ public class Rectangle {
 		super();
 	}
 
+	/**
+	 * TODO as with DimensionDouble and PointDouble, Rectangle should also contain only double values in future!
+	 */
+	public Rectangle(Double x, Double y, Double width, Double height) {
+		this(x.intValue(), y.intValue(), width.intValue(), height.intValue());
+	}
+	
 	public Rectangle(int x, int y, int width, int height) {
 		this();
 		setBounds(x, y, width, height);

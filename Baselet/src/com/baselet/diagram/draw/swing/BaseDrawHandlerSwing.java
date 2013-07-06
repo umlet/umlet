@@ -16,7 +16,7 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.DrawFunction;
-import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.diagram.draw.helper.Text;
@@ -56,12 +56,12 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	}
 
 	@Override
-	public DimensionFloat textDimension(String text) {
+	public DimensionDouble textDimension(String text) {
 		boolean specialFontSize = (style.getFontSize() != getDefaultFontSize());
 		if (specialFontSize) {
 			handler.getFontHandler().setFontSize(style.getFontSize());
 		}
-		DimensionFloat returnVal = handler.getFontHandler().getTextSize(text, false);
+		DimensionDouble returnVal = handler.getFontHandler().getTextSize(text, false);
 		if (specialFontSize) {
 			handler.getFontHandler().resetFontSize();
 		}
@@ -103,8 +103,8 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawCircle(float x, float y, float radius) {
-		addShape(new Ellipse2D.Float((x - radius) * getZoom(), (y - radius) * getZoom(), radius * 2 * getZoom(), radius * 2 * getZoom()));
+	public void drawCircle(double x, double y, double radius) {
+		addShape(new Ellipse2D.Double((x - radius) * getZoom(), (y - radius) * getZoom(), radius * 2 * getZoom(), radius * 2 * getZoom()));
 	}
 
 	@Override
@@ -123,8 +123,8 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawLine(float x1, float y1, float x2, float y2) {
-		addShape(new Line2D.Float(x1 * getZoom(), y1 * getZoom(), x2 * getZoom(), y2 * getZoom()));
+	public void drawLine(double x1, double y1, double x2, double y2) {
+		addShape(new Line2D.Double(x1 * getZoom(), y1 * getZoom(), x2 * getZoom(), y2 * getZoom()));
 	}
 
 	@Override

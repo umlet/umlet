@@ -26,7 +26,7 @@ import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
@@ -337,7 +337,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
 			g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
 			for (Line line : poly.getStickLines()) {
-				g2.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
+				g2.drawLine((int)line.getStart().getX(), (int)line.getStart().getY(), (int)line.getEnd().getX(), (int)line.getEnd().getY());
 			}
 			g2.setColor(c);
 			g2.setStroke(s);
@@ -463,7 +463,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 	
 	@Override
-	public void handleAutoresize(DimensionFloat necessaryElementDimension) {
+	public void handleAutoresize(DimensionDouble necessaryElementDimension) {
 		/* not possible on OldGridElement */
 	}
 	

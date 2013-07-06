@@ -25,9 +25,9 @@ public class SharedUtils {
 	 *            if true the realign rounds up instead of down
 	 * @return value on the grid
 	 */
-	public static int realignTo(boolean logRealign, float val, boolean roundUp, int gridSize) {
-		float alignedVal = val;
-		float mod = val % gridSize;
+	public static int realignTo(boolean logRealign, double val, boolean roundUp, int gridSize) {
+		double alignedVal = val;
+		double mod = val % gridSize;
 		if (mod != 0) {
 			alignedVal -= mod; //ExampleA: 14 - 4 = 10 // ExampleB: -14 - -4 = -10 // (positive vals get round down, negative vals get round up)
 			if (val > 0 && roundUp) { //eg ExampleA: 10 + 10 = 20 (for positive vals roundUp must be specifically handled by adding gridSize)

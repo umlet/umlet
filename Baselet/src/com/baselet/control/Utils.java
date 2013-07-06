@@ -19,7 +19,7 @@ import javax.swing.JComponent;
 
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
@@ -246,11 +246,11 @@ public abstract class Utils {
 		return false;
 	}
 
-	public static DimensionFloat getTextSize(String s, Font font, FontRenderContext frc) {
+	public static DimensionDouble getTextSize(String s, Font font, FontRenderContext frc) {
 		if (s == null) {
 			return null;
 		} else if (s.isEmpty()) {
-			return new DimensionFloat(0, 0);
+			return new DimensionDouble(0, 0);
 		}
 
 		// TextLayout trims the string, therefore replace spaces with dots in such cases (dots have exactly the same width as spaces, therefore we will get the expected width WITH spaces)
@@ -258,7 +258,7 @@ public abstract class Utils {
 			s = s.replace(' ', '.');
 		}
 		TextLayout tl = new TextLayout(s, font, frc);
-		return new DimensionFloat((int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
+		return new DimensionDouble((int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
 	}
 
 

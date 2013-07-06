@@ -12,7 +12,7 @@ import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
@@ -307,7 +307,7 @@ public abstract class NewGridElement implements GridElement {
 	public abstract ElementId getId();
 
 	@Override
-	public void handleAutoresize(DimensionFloat necessaryElementDimension) {
+	public void handleAutoresize(DimensionDouble necessaryElementDimension) {
 		float hSpaceLeftAndRight = drawer.getDistanceHorizontalBorderToText() * 2;
 		float width = necessaryElementDimension.getWidth() + hSpaceLeftAndRight;
 		float height = necessaryElementDimension.getHeight() + drawer.textHeight()/2;

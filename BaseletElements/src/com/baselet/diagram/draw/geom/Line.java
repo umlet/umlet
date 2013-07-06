@@ -6,36 +6,36 @@ public class Line {
 	
 	private static final Logger log = Logger.getLogger(Line.class);
 
-	Point start;
-	Point end;
+	PointDouble start;
+	PointDouble end;
 	
 	public Line() {
 	}
 	
-	public Line(Point start, Point end) {
+	public Line(PointDouble start, PointDouble end) {
 		super();
 		this.start = start;
 		this.end = end;
 	}
 
-	public Point getStart() {
+	public PointDouble getStart() {
 		return start;
 	}
 
-	public void setStart(Point start) {
+	public void setStart(PointDouble start) {
 		this.start = start;
 	}
 
-	public Point getEnd() {
+	public PointDouble getEnd() {
 		return end;
 	}
 
-	public void setEnd(Point end) {
+	public void setEnd(PointDouble end) {
 		this.end = end;
 	}
 	
-	public Point getCenter() {
-	    return new Point((start.getX() + end.getX()) / 2, (start.getY() + end.getY()) / 2);
+	public PointDouble getCenter() {
+	    return new PointDouble((start.getX() + end.getX()) / 2, (start.getY() + end.getY()) / 2);
 	}
 	
 	public double getDistance() {
@@ -66,11 +66,11 @@ public class Line {
 	/**
 	 * implementation is based on http://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment/2233538#2233538
 	 */
-	private static double distanceHelper(int x1, int y1, int x2, int y2, int checkX, int checkY) {
-		int px = x2 - x1;
-		int py = y2 - y1;
+	private static double distanceHelper(double x1, double y1, double x2, double y2, double checkX, double checkY) {
+		double px = x2 - x1;
+		double py = y2 - y1;
 
-		float mult = px * px + py * py;
+		double mult = px * px + py * py;
 		double u = ((checkX - x1) * px + (checkY - y1) * py) / mult;
 
 		if (u > 1) u = 1;

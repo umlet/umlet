@@ -8,7 +8,7 @@ import com.baselet.control.TextSplitter;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
@@ -200,14 +200,14 @@ public class Properties {
 		return tmpPropCfg.getyPos();
 	}
 
-	private DimensionFloat getExpectedElementDimensionsOnDefaultZoom(NewGridElement element) {
+	private DimensionDouble getExpectedElementDimensionsOnDefaultZoom(NewGridElement element) {
 		// add all ypos changes to simulate the real ypos for xlimit calculation etc.
 		PropertiesConfig tmpPropCfg = new PropertiesConfig(element.getSettings(), element.getRealSize());
 		tmpPropCfg.addToYPos(calcTopDisplacementToFitLine(calcStartPointFromVAlign(tmpPropCfg), tmpPropCfg));
 		handleWordWrapAndIterate(elementSettings, tmpPropCfg, drawer.getPseudoDrawHandler());
 
 		float textHeight = tmpPropCfg.getyPos()-drawer.textHeight(); // subtract last ypos step (because the print-text pos is always on the bottom)
-		return new DimensionFloat(tmpPropCfg.getMaxTextWidth(), textHeight);
+		return new DimensionDouble(tmpPropCfg.getMaxTextWidth(), textHeight);
 	}
 
 }

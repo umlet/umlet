@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.draw.geom.DimensionFloat;
+import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
@@ -152,7 +153,7 @@ public abstract class BaseDrawHandler {
 	 * HELPER METHODS
 	 */
 
-	protected abstract DimensionFloat textDimension(String string);
+	protected abstract DimensionDouble textDimension(String string);
 	protected abstract float getDefaultFontSize();
 	public abstract BaseDrawHandler getPseudoDrawHandler();
 
@@ -165,17 +166,17 @@ public abstract class BaseDrawHandler {
 	public void drawLine(Line line) {
 		drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
 	}
-	public void drawLine(Point a, Point b) {
+	public void drawLine(PointDouble a, PointDouble b) {
 		drawLine(a.getX(), a.getY(), b.getX(), b.getY());
 	}
 	public abstract void drawArcOpen(float x, float y, float width, float height, float start, float extent);
 	public abstract void drawArcChord(float x, float y, float width, float height, float start, float extent);
 	public abstract void drawArcPie(float x, float y, float width, float height, float start, float extent);
-	public abstract void drawCircle(float x, float y, float radius);
+	public abstract void drawCircle(double x, double y, double radius);
 	public abstract void drawCurveCubic(float x1, float y1, float ctrlx1, float ctrly1, float ctrlx2, float ctrly2, float x2, float y2);
 	public abstract void drawCurveQuad(float x1, float y1, float ctrlx, float ctrly, float x2, float y2);
 	public abstract void drawEllipse(float x, float y, float width, float height);
-	public abstract void drawLine(float x1, float y1, float x2, float y2);
+	public abstract void drawLine(double x1, double y1, double x2, double y2);
 	public abstract void drawRectangle(float x, float y, float width, float height);
 	public abstract void drawRectangleRound(float x, float y, float width, float height, float arcw, float arch);
 	public abstract void print(String text, float x, float y, AlignHorizontal align);
