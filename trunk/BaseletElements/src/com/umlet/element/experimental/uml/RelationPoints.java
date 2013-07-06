@@ -1,14 +1,9 @@
 package com.umlet.element.experimental.uml;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.apache.log4j.helpers.AbsoluteTimeDateFormat;
-
-import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.SharedUtils;
-import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
@@ -78,7 +73,7 @@ public class RelationPoints {
 			}
 		}
 		for (Line line : getRelationPointLines()) {
-			if (line.distance(point) < NEW_POINT_DISTANCE) {
+			if (line.getDistanceToPoint(point) < NEW_POINT_DISTANCE) {
 				if (applyChanges) {
 					Point roundedPoint = new Point(SharedUtils.realignToGrid(false, point.x), SharedUtils.realignToGrid(false, point.y));
 					points.add(points.indexOf(line.getEnd()), roundedPoint);
@@ -184,6 +179,44 @@ public class RelationPoints {
 		for (Line line : getRelationPointLines()) {
 			drawer.drawLine(line);
 		}
+
+		drawArrow(drawer);
+
+	}
+
+	private void drawArrow(BaseDrawHandler drawer) {
+		List<Line> lines = getRelationPointLines();
+		if (lines.size() > 1) {
+			//TODO extract to Arrow-class which handles drawing
+			//TODO perhaps angleofslope should handle start/end
+			drawArrowToLine(drawer, lines.get(0), true);
+			drawArrowToLine(drawer, lines.get(lines.size()-1), false);
+		}
+	}
+
+	private void drawArrowToLine(BaseDrawHandler drawer, Line line, boolean arrowOnLineStart) {
+		Point point = arrowOnLineStart ? line.getStart() : line.getEnd();
+		double angleOfSlopeOfLine = line.getAngleOfSlope();
+		int angle = arrowOnLineStart ? 135 : 45;
+		drawArrowLine(drawer, point, angleOfSlopeOfLine, true, angle);
+		drawArrowLine(drawer, point, angleOfSlopeOfLine, false, angle);
+	}
+
+	private void drawArrowLine(BaseDrawHandler drawer, Point start, double angleOfSlopeOfLine, boolean first, int angle) {
+		int arrowLength = POINT_SELECTION_RADIUS;
+		int arrowAngle = angle;
+		double angleTotal = first ? angleOfSlopeOfLine-arrowAngle : angleOfSlopeOfLine+arrowAngle;
+		double xx = start.x + arrowLength * Math.cos(Math.toRadians(angleTotal));
+		double yx = start.y + arrowLength * Math.sin(Math.toRadians(angleTotal));
+		drawer.drawLine(start.x, start.y, (float)xx, (float)yx);
+	}
+
+	public static Point normalize(Point p, int pixels) {
+		Point ret = new Point();
+		double d = Math.sqrt(p.x * p.x + p.y * p.y);
+		ret.x = (int) (p.x / d * pixels);
+		ret.y = (int) (p.y / d * pixels);
+		return ret;
 	}
 
 	public void drawPointCircles(BaseDrawHandler drawer) {

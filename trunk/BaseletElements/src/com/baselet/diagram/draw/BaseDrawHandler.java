@@ -6,6 +6,7 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.geom.DimensionFloat;
 import com.baselet.diagram.draw.geom.Line;
+import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
@@ -163,6 +164,9 @@ public abstract class BaseDrawHandler {
 	}
 	public void drawLine(Line line) {
 		drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
+	}
+	public void drawLine(Point a, Point b) {
+		drawLine(a.getX(), a.getY(), b.getX(), b.getY());
 	}
 	public abstract void drawArcOpen(float x, float y, float width, float height, float start, float extent);
 	public abstract void drawArcChord(float x, float y, float width, float height, float start, float extent);

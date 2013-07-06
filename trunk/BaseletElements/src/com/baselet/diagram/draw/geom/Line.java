@@ -37,13 +37,27 @@ public class Line {
 	public Point getCenter() {
 	    return new Point((start.getX() + end.getX()) / 2, (start.getY() + end.getY()) / 2);
 	}
+	
+	public double getDistance() {
+		return distanceBetweenTwoPoints(start.x, start.y, end.x, end.y);
+	}
+
+	public double getAngleOfSlope() {
+		double radius = getDistance();
+		double rad = Math.acos((start.x-end.x)/radius);
+		double radDeg = Math.toDegrees(rad);
+		if (start.y < end.y){
+			radDeg = 360- radDeg;
+		}
+		return radDeg;
+	}
 
 	/**
 	 * Checks the distance between this line and a specific point
 	 * @param pointToCheck point to check the distance
 	 * @return minimal distance from point to line as double value
 	 */
-	public double distance(Point pointToCheck) {
+	public double getDistanceToPoint(Point pointToCheck) {
 		double dist = distanceHelper(start.x, start.y, end.x, end.y, pointToCheck.x, pointToCheck.y);
 		log.debug("Minimal distance between " + this + " and " + pointToCheck + " is " + dist);
 		return dist;
@@ -64,13 +78,14 @@ public class Line {
 
 		double x = x1 + u * px;
 		double y = y1 + u * py;
+		
+		return distanceBetweenTwoPoints(x, checkX, y, checkY);
+	}
 
-		double dx = x - checkX;
-		double dy = y - checkY;
-
-		double dist = Math.sqrt(dx * dx + dy * dy);
-
-		return dist;
+	private static double distanceBetweenTwoPoints(double x1, double y1, double x2, double y2) {
+		double xDist = x1-x2;
+		double yDist = y1-y2;
+		return Math.sqrt(xDist * xDist + yDist * yDist);
 	}
 
 	
