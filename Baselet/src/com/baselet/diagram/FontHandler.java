@@ -93,27 +93,27 @@ public class FontHandler {
 		return Utils.getTextSize(s, getFont(applyZoom), fontrenderContext);
 	}
 
-	public float getTextWidth(String s) {
+	public double getTextWidth(String s) {
 		return getTextWidth(s, true);
 	}
 
-	public float getTextWidth(String s, boolean applyZoom) {
+	public double getTextWidth(String s, boolean applyZoom) {
 		if (s == null) return 0;
 		return this.getTextSize(s, applyZoom).getWidth();
 	}
 
-	public void writeText(Graphics2D g2, String s, float x, float y, AlignHorizontal align) {
+	public void writeText(Graphics2D g2, String s, double x, double y, AlignHorizontal align) {
 		writeText(g2, s, x, y, align, true);
 	}
 
-	public void writeText(Graphics2D g2, String s, float x, float y, AlignHorizontal align, boolean applyZoom) {
+	public void writeText(Graphics2D g2, String s, double x, double y, AlignHorizontal align, boolean applyZoom) {
 		for (String line : s.split("\n")) {
 			this.write(g2, line, x, y, align, applyZoom);
 			y += g2.getFontMetrics().getHeight();
 		}
 	}
 
-	private void write(Graphics2D g2, String stringWithFormatLabels, float x, float y, AlignHorizontal align, boolean applyZoom) {
+	private void write(Graphics2D g2, String stringWithFormatLabels, double x, double y, AlignHorizontal align, boolean applyZoom) {
 		if (stringWithFormatLabels == null || stringWithFormatLabels.isEmpty()) return;
 		float fontSize = getFontSize(applyZoom);
 		FormattedFont formattedFont = new FormattedFont(stringWithFormatLabels, fontSize, getFont(applyZoom), g2.getFontRenderContext());
@@ -122,7 +122,7 @@ public class FontHandler {
 		if (align == AlignHorizontal.CENTER) x = (int) (x - formattedFont.getWidth() / 2);
 		else if (align == AlignHorizontal.RIGHT) x = (int) (x - formattedFont.getWidth());
 
-		g2.drawString(formattedFont.getAttributedCharacterIterator(), x, y);
+		g2.drawString(formattedFont.getAttributedCharacterIterator(), (float) x, (float) y);
 	}
 
 }

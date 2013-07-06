@@ -18,7 +18,7 @@ public class PropertiesConfig {
 	private boolean hAlignGloballySet = false;
 	private AlignVertical vAlign;
 	private boolean vAlignGloballySet = false;
-	private float yPos;
+	private double yPos;
 	private int leftBuffer = 0;
 	private int rightBuffer = 0;
 	private Settings settings;
@@ -70,11 +70,11 @@ public class PropertiesConfig {
 		if (!vAlignGloballySet) this.vAlign = vAlign;
 	}
 
-	public float getyPos() {
+	public double getyPos() {
 		return yPos;
 	}
 
-	public void addToYPos(float inc) {
+	public void addToYPos(double inc) {
 		yPos += inc;
 	}
 
@@ -108,29 +108,29 @@ public class PropertiesConfig {
 		return gridElementSize;
 	}
 
-	public XValues getXLimits(float linePos) {
+	public XValues getXLimits(double linePos) {
 		XValues xLimits = settings.getXValues(linePos, gridElementSize.height, gridElementSize.width);
 		xLimits.addLeft(leftBuffer);
 		xLimits.subRight(rightBuffer);
 		return xLimits;
 	}
 
-	public XValues getXLimitsForArea(float bottomYPos, float areaHeight) {
+	public XValues getXLimitsForArea(double bottomYPos, double areaHeight) {
 		XValues xLimitsTop = getXLimits(bottomYPos);
 		XValues xLimitsBottom = getXLimits(bottomYPos - areaHeight);
 		return xLimitsTop.intersect(xLimitsBottom);
 	}
 
-	public float getDividerPos(float f) {
+	public double getDividerPos(double f) {
 		return getyPos() - f + 2;
 	}
 
-	private float maxTextWidth = 0;
-	public void calcMaxTextWidth(float width) {
+	private double maxTextWidth = 0;
+	public void calcMaxTextWidth(double width) {
 		maxTextWidth = Math.max(maxTextWidth, width);
 	}
 
-	public float getMaxTextWidth() {
+	public double getMaxTextWidth() {
 		return maxTextWidth;
 	}
 

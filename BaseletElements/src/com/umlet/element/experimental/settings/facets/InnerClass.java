@@ -36,8 +36,8 @@ public class InnerClass implements Facet {
 		else if (line.equals(END)) {
 			int depth = innerClassStartPoints.size() * BUFFER_PIXEL_PER_INNER;
 			ClassSettings previousClassSettings = innerClassStartPoints.pop();
-			float start = previousClassSettings.start;
-			float height = propConfig.getDividerPos(drawer.textHeight()) - start;
+			double start = previousClassSettings.start;
+			double height = propConfig.getDividerPos(drawer.textHeight()) - start;
 			XValues xLimit = propConfig.getXLimits(height);
 			
 			drawer.drawRectangle(xLimit.getLeft(), start, xLimit.getSpace(), height);
@@ -58,9 +58,9 @@ public class InnerClass implements Facet {
 	private static class ClassSettings {
 		private AlignHorizontal hAlign;
 		private AlignVertical vAlign;
-		private float start;
+		private double start;
 
-		public ClassSettings(AlignHorizontal hAlign, AlignVertical vAlign, float startpoint) {
+		public ClassSettings(AlignHorizontal hAlign, AlignVertical vAlign, double startpoint) {
 			super();
 			this.hAlign = hAlign;
 			this.vAlign = vAlign;

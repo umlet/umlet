@@ -308,11 +308,11 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void handleAutoresize(DimensionDouble necessaryElementDimension) {
-		float hSpaceLeftAndRight = drawer.getDistanceHorizontalBorderToText() * 2;
-		float width = necessaryElementDimension.getWidth() + hSpaceLeftAndRight;
-		float height = necessaryElementDimension.getHeight() + drawer.textHeight()/2;
-		float diffw = width-getRealSize().width;
-		float diffh = height-getRealSize().height;
+		double hSpaceLeftAndRight = drawer.getDistanceHorizontalBorderToText() * 2;
+		double width = necessaryElementDimension.getWidth() + hSpaceLeftAndRight;
+		double height = necessaryElementDimension.getHeight() + drawer.textHeight()/2;
+		double diffw = width-getRealSize().width;
+		double diffh = height-getRealSize().height;
 		handler.Resize(diffw, diffh);
 	}
 	

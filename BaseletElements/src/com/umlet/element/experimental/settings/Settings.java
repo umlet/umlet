@@ -16,7 +16,7 @@ public abstract class Settings {
 	/**
 	 * calculates the left and right x value for a certain y value
 	 */
-	public abstract XValues getXValues(float y, int height, int width);
+	public abstract XValues getXValues(double y, int height, int width);
 
 	public abstract AlignVertical getVAlign();
 

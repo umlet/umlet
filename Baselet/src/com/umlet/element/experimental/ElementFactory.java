@@ -40,9 +40,9 @@ public class ElementFactory {
 				return create(old.getId(), old.getRectangle(), old.getPanelAttributes(), old.getAdditionalAttributes(), Main.getHandlerForElement(old));
 			}
 			@Override
-			public void Resize(float diffw, float diffh) {
-				float diffwInCurrentZoom = diffw * getZoomFactor();
-				float diffhInCurrentZoom = diffh * getZoomFactor();
+			public void Resize(double diffw, double diffh) {
+				double diffwInCurrentZoom = diffw * getZoomFactor();
+				double diffhInCurrentZoom = diffh * getZoomFactor();
 				int diffwRealigned = Main.getHandlerForElement(returnObj).realignToGrid(false, diffwInCurrentZoom, true);
 				int diffhRealigned = Main.getHandlerForElement(returnObj).realignToGrid(false, diffhInCurrentZoom, true);
 				// use resize command to move sticked relations correctly with the element

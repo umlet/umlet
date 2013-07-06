@@ -7,6 +7,7 @@ import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.DrawFunction;
 import com.baselet.diagram.draw.geom.DimensionDouble;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.gwt.client.Converter;
@@ -104,19 +105,21 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawLine(final double x1, final double y1, final double x2, final double y2) {
-		final Style styleAtDrawingCall = style.cloneFromMe();
-		addDrawable(new DrawFunction() {
-			@Override
-			public void run() {
-				setStyle(ctx, styleAtDrawingCall);
-				drawLineHelper(x1, y1, x2, y2);
-			}
-		});
+	public void drawLine(final PointDouble ... points) {
+		if (points.length > 1) {
+			final Style styleAtDrawingCall = style.cloneFromMe();
+			addDrawable(new DrawFunction() {
+				@Override
+				public void run() {
+					setStyle(ctx, styleAtDrawingCall);
+					drawLineHelper(points);
+				}
+			});
+		}
 	}
 
 	@Override
-	public void drawRectangle(final float x, final float y, final float width, final float height) {
+	public void drawRectangle(final double x, final double y, final double width, final double height) {
 		final Style styleAtDrawingCall = style.cloneFromMe();
 		addDrawable(new DrawFunction() {
 			@Override
@@ -131,19 +134,19 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	public void print(final String text, final float x, final float y, final AlignHorizontal align) {
+	public void print(final String text, final PointDouble point, final AlignHorizontal align) {
 		final Style styleAtDrawingCall = style.cloneFromMe();
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
 				ColorOwn fgColor = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : styleAtDrawingCall.getFgColor();
 				ctx.setFillStyle(Converter.convert(fgColor));
-				drawTextHelper(text, x, y, align, styleAtDrawingCall.getFontSize());
+				drawTextHelper(text, point, align, styleAtDrawingCall.getFontSize());
 			}
 		});
 	}
 
-	private void drawTextHelper(final String text, final float x, final float y, AlignHorizontal align, float fontSize) {
+	private void drawTextHelper(final String text, PointDouble p, AlignHorizontal align, float fontSize) {
 		StringStyle stringStyle = StringStyle.analyseStyle(text);
 		
 		ctxSetFont(fontSize, stringStyle);
@@ -152,19 +155,19 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 		if (stringStyle.getFormat().contains(FormatLabels.UNDERLINE)) {
 			ctx.setLineWidth(1.0f);
 			setLineDash(ctx, LineType.SOLID, 1.0f);
-			float textWidth = textWidth(textToDraw);
+			double textWidth = textWidth(textToDraw);
 			switch (align) {
 				case LEFT:
-					drawLineHelper(x, y, x + textWidth, y); break;
+					drawLineHelper(p, new PointDouble(p.x + textWidth, p.y)); break;
 				case CENTER:
-					drawLineHelper(x - textWidth/2, y, x + textWidth/2, y); break;
+					drawLineHelper(new PointDouble(p.x - textWidth/2, p.y), new PointDouble(p.x + textWidth/2, p.y)); break;
 				case RIGHT:
-					drawLineHelper(x - textWidth, y, x, y); break;
+					drawLineHelper(new PointDouble(p.x - textWidth, p.y), p); break;
 			}
 		}
 
 		ctxSetTextAlign(align);
-		ctx.fillText(textToDraw, x, y);
+		ctx.fillText(textToDraw, p.x, p.y);
 	}
 
 	private void ctxSetFont(float fontSize, StringStyle stringStyle) {
@@ -213,10 +216,17 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 		ctx.stroke();
 	}
 
-	private void drawLineHelper(final double x1, final double y1, final double x2, final double y2) {
+	private void drawLineHelper(PointDouble ... points) {
 		ctx.beginPath();
-		ctx.moveTo(x1 + HALF_PX, y1 + HALF_PX); // +0.5 because a line of thickness 1.0 spans 50% left and 50% right (therefore it would not be on the 1 pixel - see https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors)
-		ctx.lineTo(x2 + HALF_PX, y2 + HALF_PX);
+		boolean first = true;
+		for (PointDouble point : points) {
+			if (first) {
+				ctx.moveTo(point.x + HALF_PX, point.y + HALF_PX); // +0.5 because a line of thickness 1.0 spans 50% left and 50% right (therefore it would not be on the 1 pixel - see https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors)
+				first = false;
+			}
+			ctx.lineTo(point.x + HALF_PX, point.y + HALF_PX);
+		}
+		ctx.fill();
 		ctx.stroke();
 	}
 

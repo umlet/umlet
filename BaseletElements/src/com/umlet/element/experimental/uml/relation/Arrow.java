@@ -1,5 +1,7 @@
 package com.umlet.element.experimental.uml.relation;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
@@ -25,12 +27,12 @@ public abstract class Arrow implements Facet {
 		}
 		int angle = drawOnStart ? 150 : 30;
 		PointDouble p1 = drawArrowLine(drawer, point, angleOfSlopeOfLine, true, angle);
-		drawer.drawLine(point, p1);
 		PointDouble p2 = drawArrowLine(drawer, point, angleOfSlopeOfLine, false, angle);
-		drawer.drawLine(point, p2);
+		List<PointDouble> points = new ArrayList<PointDouble>(Arrays.asList(p1, point, p2));
 		if (closeArrow) {
-			drawer.drawLine(p1, p2);
+			points.add(p1);
 		}
+		drawer.drawLine(points);
 	}
 
 	PointDouble drawArrowLine(BaseDrawHandler drawer, PointDouble point, double angleOfSlopeOfLine, boolean first, int angle) {

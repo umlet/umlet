@@ -24,7 +24,7 @@ public class ElementFactory {
 				return create(element.getId(), element.getRectangle().copy(), element.getPanelAttributes(), element.getAdditionalAttributes(), selector);
 			}
 			@Override
-			public void Resize(float diffw, float diffh) {
+			public void Resize(double diffw, double diffh) {
 				// TODO Auto-generated method stub
 			}
 			@Override
