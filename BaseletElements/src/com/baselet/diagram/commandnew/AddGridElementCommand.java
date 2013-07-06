@@ -1,7 +1,6 @@
 package com.baselet.diagram.commandnew;
 
 import com.baselet.element.GridElement;
-import com.baselet.element.Selector;
 
 public class AddGridElementCommand extends Command {
 

@@ -5,7 +5,6 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.settings.facets.Facet;
 
 public class LineDescription extends RelationFacet {
 

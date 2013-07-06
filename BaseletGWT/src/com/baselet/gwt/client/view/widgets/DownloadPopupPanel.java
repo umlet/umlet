@@ -1,5 +1,4 @@
 package com.baselet.gwt.client.view.widgets;
-import com.baselet.gwt.client.view.widgets.MyPopupPanel.Type;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.SimplePanel;
 

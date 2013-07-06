@@ -6,12 +6,9 @@ import java.util.List;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Line;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
-import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.settings.SettingsRelation;
-import com.umlet.element.experimental.settings.facets.Facet;
 
 public abstract class Arrow extends RelationFacet {
 	
