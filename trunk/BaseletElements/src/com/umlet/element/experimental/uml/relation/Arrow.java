@@ -46,8 +46,7 @@ public abstract class Arrow implements Facet {
 		return true;
 	}
 
-	public List<Line> getLinesFromConfig(PropertiesConfig config) {
-		RelationPoints rp = ((SettingsRelation) config.getSettings()).getRelationPoints();
-		return rp.getRelationPointLines();
+	public RelationPoints getRelationPoints(PropertiesConfig config) {
+		return ((SettingsRelation) config.getSettings()).getRelationPoints();
 	}
 }
