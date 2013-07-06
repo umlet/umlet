@@ -61,7 +61,7 @@ public class StickingPolygon {
 		}
 
 		private boolean isConnected(Point p, int gridSize) {
-			double distance = this.distance(p);
+			double distance = this.getDistanceToPoint(p);
 			return (distance < gridSize);
 		}
 	}
