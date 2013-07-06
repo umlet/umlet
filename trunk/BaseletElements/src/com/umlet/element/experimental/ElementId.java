@@ -2,8 +2,8 @@ package com.umlet.element.experimental;
 
 import com.umlet.element.experimental.uml.Class;
 import com.umlet.element.experimental.uml.Interface;
-import com.umlet.element.experimental.uml.Relation;
 import com.umlet.element.experimental.uml.UseCase;
+import com.umlet.element.experimental.uml.relation.Relation;
 
 /**
  * these IDs should NEVER be changed, because they are stored in uxf files
