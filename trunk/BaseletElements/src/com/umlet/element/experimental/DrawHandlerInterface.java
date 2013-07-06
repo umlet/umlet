@@ -13,7 +13,7 @@ public interface DrawHandlerInterface {
 	
 	GridElement clone();
 	
-	void Resize(float diffw, float diffh);
+	void Resize(double diffw, double diffh);
 
 	Selector getSelector();
 

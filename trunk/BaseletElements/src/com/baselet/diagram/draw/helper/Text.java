@@ -5,11 +5,11 @@ import com.baselet.control.enumerations.AlignHorizontal;
 
 public class Text {
 	private String text;
-	private float x;
-	private float y;
+	private double x;
+	private double y;
 	private AlignHorizontal horizontalAlignment;
 
-	public Text(String text, float x, float y, AlignHorizontal align) {
+	public Text(String text, double x, double y, AlignHorizontal align) {
 		this.text = text;
 		this.x = x;
 		this.y = y;
@@ -20,11 +20,11 @@ public class Text {
 		return text;
 	}
 
-	public float getX() {
+	public double getX() {
 		return x;
 	}
 
-	public float getY() {
+	public double getY() {
 		return y;
 	}
 

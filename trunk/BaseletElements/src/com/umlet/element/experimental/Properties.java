@@ -111,18 +111,18 @@ public class Properties {
 		handleWordWrapAndIterate(elementSettings, propCfg, drawer);
 	}
 
-	private float calcTopDisplacementToFitLine(float startPoint, PropertiesConfig propCfg) {
+	private double calcTopDisplacementToFitLine(double startPoint, PropertiesConfig propCfg) {
 		int BUFFER = 2; // a small buffer between text and outer border
-		float displacement = startPoint;
-		float textHeight = drawer.textHeight();
+		double displacement = startPoint;
+		double textHeight = drawer.textHeight();
 		boolean wordwrap = getElementStyle() == ElementStyleEnum.WORDWRAP;
 		if (!wordwrap && !propertiesTextToDraw.isEmpty()) { // in case of wordwrap or no text, there is no top displacement
 			String firstLine = propertiesTextToDraw.iterator().next();
-			float availableWidthSpace = propCfg.getXLimitsForArea(displacement, textHeight).getSpace() - BUFFER;
-			float accumulator = displacement;
+			double availableWidthSpace = propCfg.getXLimitsForArea(displacement, textHeight).getSpace() - BUFFER;
+			double accumulator = displacement;
 			while(accumulator < propCfg.getGridElementSize().height && !TextSplitter.checkifStringFits(firstLine, availableWidthSpace, drawer)) {
 				accumulator += textHeight / 2;
-				float previousWidthSpace = availableWidthSpace;
+				double previousWidthSpace = availableWidthSpace;
 				availableWidthSpace = propCfg.getXLimitsForArea(accumulator, textHeight).getSpace() - BUFFER;
 				// only set displacement if the last iteration resulted in a space gain (eg: for UseCase until the middle, for Class: stays on top because on a rectangle there is never a width-space gain)
 				if (availableWidthSpace > previousWidthSpace) displacement = accumulator;
@@ -137,7 +137,7 @@ public class Properties {
 			if (wordwrap) {
 				String wrappedLine;
 				while (propCfg.getyPos() < propCfg.getGridElementSize().height && !line.trim().isEmpty()) {
-					Float spaceForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight()).getSpace() - drawer.getDistanceHorizontalBorderToText() * 2;
+					double spaceForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight()).getSpace() - drawer.getDistanceHorizontalBorderToText() * 2;
 					wrappedLine = TextSplitter.splitString(line, spaceForText, drawer);
 					handleLine(elementSettings, wrappedLine, propCfg, drawer);
 					line = line.substring(wrappedLine.length()).trim();
@@ -159,8 +159,8 @@ public class Properties {
 		}
 		if (drawText) {
 			XValues xLimitsForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight());
-			Float spaceNotUsedForText = propCfg.getGridElementSize().width - xLimitsForText.getSpace();
-			if (!spaceNotUsedForText.equals(Float.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
+			Double spaceNotUsedForText = propCfg.getGridElementSize().width - xLimitsForText.getSpace();
+			if (!spaceNotUsedForText.equals(Double.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
 				propCfg.calcMaxTextWidth(spaceNotUsedForText + drawer.textWidth(line));
 			}
 			drawer.print(line, calcHorizontalTextBoundaries(xLimitsForText, propCfg), propCfg.getyPos(), propCfg.gethAlign());
@@ -168,8 +168,8 @@ public class Properties {
 		}
 	}
 
-	private float calcHorizontalTextBoundaries(XValues xLimitsForText, PropertiesConfig propCfg) {
-		float x;
+	private double calcHorizontalTextBoundaries(XValues xLimitsForText, PropertiesConfig propCfg) {
+		double x;
 		if (propCfg.gethAlign() == AlignHorizontal.LEFT) {
 			x = xLimitsForText.getLeft() + drawer.getDistanceHorizontalBorderToText();
 		} else if (propCfg.gethAlign() == AlignHorizontal.CENTER) {
@@ -180,8 +180,8 @@ public class Properties {
 		return x;
 	}
 
-	private float calcStartPointFromVAlign(PropertiesConfig propCfg) {
-		float returnVal = drawer.textHeight(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
+	private double calcStartPointFromVAlign(PropertiesConfig propCfg) {
+		double returnVal = drawer.textHeight(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
 		if (propCfg.getvAlign() == AlignVertical.TOP) {
 			returnVal += drawer.textHeight()/2;
 		}
@@ -194,7 +194,7 @@ public class Properties {
 		return returnVal;
 	}
 
-	public float getTextBlockHeight(PropertiesConfig propCfg) {
+	public double getTextBlockHeight(PropertiesConfig propCfg) {
 		PropertiesConfig tmpPropCfg = new PropertiesConfig(elementSettings, propCfg.getGridElementSize());
 		handleWordWrapAndIterate(elementSettings, tmpPropCfg, drawer.getPseudoDrawHandler());
 		return tmpPropCfg.getyPos();
@@ -206,7 +206,7 @@ public class Properties {
 		tmpPropCfg.addToYPos(calcTopDisplacementToFitLine(calcStartPointFromVAlign(tmpPropCfg), tmpPropCfg));
 		handleWordWrapAndIterate(elementSettings, tmpPropCfg, drawer.getPseudoDrawHandler());
 
-		float textHeight = tmpPropCfg.getyPos()-drawer.textHeight(); // subtract last ypos step (because the print-text pos is always on the bottom)
+		double textHeight = tmpPropCfg.getyPos()-drawer.textHeight(); // subtract last ypos step (because the print-text pos is always on the bottom)
 		return new DimensionDouble(tmpPropCfg.getMaxTextWidth(), textHeight);
 	}
 

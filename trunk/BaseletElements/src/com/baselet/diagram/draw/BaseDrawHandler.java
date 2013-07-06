@@ -1,12 +1,12 @@
 package com.baselet.diagram.draw;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Line;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
@@ -57,15 +57,15 @@ public abstract class BaseDrawHandler {
 		drawables.clear();
 	}
 
-	public final float textHeightWithSpace() {
+	public final double textHeightWithSpace() {
 		return textHeight() + 2;
 	}
 
-	public final float textHeight() {
+	public final double textHeight() {
 		return textDimension("dummy").getHeight();
 	}
 
-	public final float textWidth(String text) {
+	public final double textWidth(String text) {
 		return textDimension(text).getWidth();
 	}
 
@@ -166,8 +166,14 @@ public abstract class BaseDrawHandler {
 	public void drawLine(Line line) {
 		drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
 	}
-	public void drawLine(PointDouble a, PointDouble b) {
-		drawLine(a.getX(), a.getY(), b.getX(), b.getY());
+	public void drawLine(double x1, double y1, double x2, double y2) {
+		drawLine(new PointDouble(x1, y1), new PointDouble(x2, y2));
+	}
+	public void drawLine(Collection<PointDouble> points) {
+		drawLine(points.toArray(new PointDouble[points.size()]));
+	}
+	public void print(String text, double x, double y, AlignHorizontal align) {
+		print(text, new PointDouble(x,y), align);
 	}
 	public abstract void drawArcOpen(float x, float y, float width, float height, float start, float extent);
 	public abstract void drawArcChord(float x, float y, float width, float height, float start, float extent);
@@ -176,8 +182,8 @@ public abstract class BaseDrawHandler {
 	public abstract void drawCurveCubic(float x1, float y1, float ctrlx1, float ctrly1, float ctrlx2, float ctrly2, float x2, float y2);
 	public abstract void drawCurveQuad(float x1, float y1, float ctrlx, float ctrly, float x2, float y2);
 	public abstract void drawEllipse(float x, float y, float width, float height);
-	public abstract void drawLine(double x1, double y1, double x2, double y2);
-	public abstract void drawRectangle(float x, float y, float width, float height);
+	public abstract void drawLine(PointDouble ... points);
+	public abstract void drawRectangle(double x, double y, double width, double height);
 	public abstract void drawRectangleRound(float x, float y, float width, float height, float arcw, float arch);
-	public abstract void print(String text, float x, float y, AlignHorizontal align);
+	public abstract void print(String text, PointDouble point, AlignHorizontal align);
 }

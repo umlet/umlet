@@ -22,8 +22,8 @@ public class TemplateClass implements Facet {
 	@Override
 	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
 		String templateValue = line.substring(KEY.length());
-		float height = drawer.textHeight() + SPACE;
-		float width = drawer.textWidth(templateValue) + SPACE;
+		double height = drawer.textHeight() + SPACE;
+		double width = drawer.textWidth(templateValue) + SPACE;
 		Style style = drawer.getCurrentStyle();
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 		drawer.setLineType(LineType.DASHED);

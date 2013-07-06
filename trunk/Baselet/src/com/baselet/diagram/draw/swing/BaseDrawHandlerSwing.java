@@ -7,7 +7,7 @@ import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.RoundRectangle2D;
 
@@ -17,6 +17,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.DrawFunction;
 import com.baselet.diagram.draw.geom.DimensionDouble;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.diagram.draw.helper.Text;
@@ -123,13 +124,25 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawLine(double x1, double y1, double x2, double y2) {
-		addShape(new Line2D.Double(x1 * getZoom(), y1 * getZoom(), x2 * getZoom(), y2 * getZoom()));
+	public void drawLine(PointDouble ... points) {
+		if (points.length > 0) {
+			Path2D.Double path = new Path2D.Double();
+			boolean first = true;
+			for (PointDouble p : points) {
+				if (first) {
+					path.moveTo(Double.valueOf(p.getX() * getZoom()), Double.valueOf(p.getY() * getZoom()));
+					first = false;
+				} else {
+					path.lineTo(Double.valueOf(p.getX() * getZoom()), Double.valueOf(p.getY() * getZoom()));
+				}
+			}
+			addShape(path);
+		}
 	}
 
 	@Override
-	public void drawRectangle(float x, float y, float width, float height) {
-		addShape(new Rectangle.Float(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom()));
+	public void drawRectangle(double x, double y, double width, double height) {
+		addShape(new Rectangle.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom()));
 	}
 
 	@Override
@@ -138,8 +151,8 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	}
 
 	@Override
-	public void print(String text, float x, float y, AlignHorizontal align) {
-		addText(new Text(text, x * getZoom(), y * getZoom(), align));
+	public void print(String text, PointDouble point, AlignHorizontal align) {
+		addText(new Text(text, point.x * getZoom(), point.y * getZoom(), align));
 	}
 
 	protected void addShape(final Shape s) {

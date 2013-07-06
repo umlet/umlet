@@ -2,20 +2,20 @@ package com.baselet.diagram.draw.geom;
 
 public class DimensionDouble {
 
-	private float height;
-	private float width;
+	private double height;
+	private double width;
 
-	public DimensionDouble(float width, float height) {
+	public DimensionDouble(double width, double height) {
 		super();
 		this.width = width;
 		this.height = height;
 	}
 
-	public float getWidth() {
+	public double getWidth() {
 		return width;
 	}
 
-	public float getHeight() {
+	public double getHeight() {
 		return height;
 	}
 

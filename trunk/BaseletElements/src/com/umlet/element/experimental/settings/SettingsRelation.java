@@ -21,7 +21,7 @@ public class SettingsRelation extends Settings {
 	}
 
 	@Override
-	public XValues getXValues(float y, int height, int width) {
+	public XValues getXValues(double y, int height, int width) {
 		return new XValues(0, width);
 	}
 

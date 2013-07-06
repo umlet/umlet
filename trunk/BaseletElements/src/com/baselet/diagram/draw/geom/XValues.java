@@ -2,24 +2,24 @@ package com.baselet.diagram.draw.geom;
 
 public class XValues {
 
-	private Float left;
-	private Float right;
+	private Double left;
+	private Double right;
 	
-	public XValues(float left, float right) {
+	public XValues(double left, double right) {
 		super();
 		this.left = left;
 		this.right = right;
 	}
 
-	public Float getLeft() {
+	public double getLeft() {
 		return left;
 	}
 
-	public Float getRight() {
+	public double getRight() {
 		return right;
 	}
 	
-	public Float getSpace() {
+	public double getSpace() {
 		return right-left;
 	}
 	
@@ -35,10 +35,10 @@ public class XValues {
 	 * returns the intersection of both points [eg: (2,5) intersect (1,4) = (2,4)]
 	 */
 	public XValues intersect(XValues other) {
-		float maxLeft = left;
-		float minRight = right;
-		if (!other.left.equals(Float.NaN) && other.left > this.left) maxLeft = other.left;
-		if (!other.right.equals(Float.NaN) && other.right < this.right) minRight = other.right;
+		double maxLeft = left;
+		double minRight = right;
+		if (!other.left.equals(Double.NaN) && other.left > this.left) maxLeft = other.left;
+		if (!other.right.equals(Double.NaN) && other.right < this.right) minRight = other.right;
 		return new XValues(maxLeft, minRight);
 	}
 	
