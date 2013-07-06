@@ -1,6 +1,5 @@
 package com.umlet.element.experimental.uml;
 
-import com.baselet.control.NewGridElementConstants;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.experimental.ElementId;
