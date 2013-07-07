@@ -2,7 +2,6 @@ package com.baselet.control;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -158,7 +157,7 @@ public class Path {
 		}
 	}
 
-	public static Manifest manifest() throws FileNotFoundException, IOException {
+	public static Manifest manifest() throws IOException {
 		Manifest manifest;
 		if (Path.executable().endsWith(".jar")) {
 			manifest = new JarFile(Path.executable()).getManifest();

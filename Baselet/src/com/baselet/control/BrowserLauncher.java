@@ -3,7 +3,6 @@ package com.baselet.control;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.Scanner;
@@ -50,7 +49,7 @@ public class BrowserLauncher {
 		}
 	}
 
-	public static String readURL(String url) throws MalformedURLException, IOException {
+	public static String readURL(String url) throws IOException {
 		String content = "";
 		Scanner sc = new Scanner(new URL(url).openStream());
 		while (sc.hasNextLine()) {

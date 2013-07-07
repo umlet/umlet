@@ -107,7 +107,7 @@ public abstract class Constants extends NewGridElementConstants {
 		public static final Os OS;
 		public static final JavaImplementation JAVA_IMPL;
 		public static final String JAVA_VERSION = java.lang.System.getProperty("java.specification.version");
-		public final static Metakey META_KEY;
+		public static final Metakey META_KEY;
 
 		static {
 			String os = java.lang.System.getProperty("os.name").toUpperCase();

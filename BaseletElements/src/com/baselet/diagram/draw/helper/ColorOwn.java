@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 
 public class ColorOwn {
 
-	private final static Logger log = Logger.getLogger(ColorOwn.class);
+	private static final Logger log = Logger.getLogger(ColorOwn.class);
 
 	public static enum Transparency {
 		FOREGROUND(255), // ALPHA_NO_TRANSPARENCY = 1.0f;

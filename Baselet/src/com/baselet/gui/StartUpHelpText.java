@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -101,7 +100,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		this.setSelectedTextColor(this.getForeground());
 	}
 
-	private static String createTempFileWithText(String textToWriteIntoFile) throws FileNotFoundException, IOException {
+	private static String createTempFileWithText(String textToWriteIntoFile) throws IOException {
 		File tempFile = File.createTempFile(Program.PROGRAM_NAME + "_startupfile", ".html");
 		tempFile.deleteOnExit();
 		FileWriter w = new FileWriter(tempFile);
@@ -208,7 +207,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 			}
 		}
 
-		private String getNewVersionTextWithStartupHtmlFormat(String startupFileName) throws MalformedURLException, IOException {
+		private String getNewVersionTextWithStartupHtmlFormat(String startupFileName) throws IOException {
 			String textFromURL = getNewVersionTextFromURL();
 			if (textFromURL == null) return null;
 
@@ -223,7 +222,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 			return returnText;
 		}
 
-		private String getNewVersionTextFromURL() throws MalformedURLException, IOException {
+		private String getNewVersionTextFromURL() throws IOException {
 			String versionText = BrowserLauncher.readURL(Program.WEBSITE + "/current_umlet_version_changes.txt");
 			versionText = versionText.replace("<", "&lt;").replace(">", "&gt;").replace("&", "&amp;").replace("\"", "&quot;"); //escape html characters for safety
 			String[] splitString = versionText.split("\n");
