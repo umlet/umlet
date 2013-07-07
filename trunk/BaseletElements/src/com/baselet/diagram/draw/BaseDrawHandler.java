@@ -75,7 +75,7 @@ public abstract class BaseDrawHandler {
 	}
 
 	public final void setForegroundColor(ColorOwn color) {
-		if (color == null) color = ColorOwn.DEFAULT_FOREGROUND;
+		if (color == null) style.setFgColor(ColorOwn.DEFAULT_FOREGROUND);
 		else style.setFgColor(color);
 	}
 
@@ -85,7 +85,7 @@ public abstract class BaseDrawHandler {
 	}
 
 	public final void setBackgroundColor(ColorOwn color) {
-		if (color == null) color = ColorOwn.DEFAULT_BACKGROUND;
+		if (color == null) style.setBgColor(ColorOwn.DEFAULT_BACKGROUND);
 		else style.setBgColor(color);
 	}
 

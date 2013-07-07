@@ -56,10 +56,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		panel.addComponentListener(this);
 		this.addMouseListener(new DelegatingMouseListener());
 
-		if (Constants.checkForUpdates && updateChecker == null) {
-			updateChecker = new Thread(new Updater());
-			updateChecker.start();
-		}
+		startUpdatechecker();
 		try {
 			if (filename == null) {
 				filename = createTempFileWithText(getDefaultTextWithReplacedSystemspecificMetakeys());
@@ -67,6 +64,13 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 			showHTML();
 		} catch (Exception e) {
 			log.error(null, e);
+		}
+	}
+
+	private void startUpdatechecker() {
+		if (Constants.checkForUpdates && updateChecker == null) {
+			updateChecker = new Thread(new Updater());
+			updateChecker.start();
 		}
 	}
 

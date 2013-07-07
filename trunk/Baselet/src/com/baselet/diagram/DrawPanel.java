@@ -379,11 +379,13 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		if ((_scr.getHorizontalScrollBar().getValue() < handler.getGridSize()) && ((diaWithoutWhite.getX() + diaWithoutWhite.getWidth()) <= (viewSize.getWidth() + verSbWidth))) setHorizontalScrollbarVisibility(false);
 		// This is needed to hide the scrollbar if it's only scrollable by a value lower than the gridsize. Otherwise this scrollbar would remain visible to avoid grid-jumps of the diagram (only on the lower right corner)
 		// We also hide it if the horizontal scrollbar has lower than gridsize && the viewable diagrampanel width plus the horizontal scrollbar value is equal the right end of the diagram without whitespace
-		else if ((_scr.getHorizontalScrollBar().getValue() < handler.getGridSize()) && (getViewableDiagrampanelSize().getWidth() + _scr.getHorizontalScrollBar().getValue() == diaWithoutWhite.getX() + diaWithoutWhite.getWidth())) setHorizontalScrollbarVisibility(false);
+		else if ((_scr.getHorizontalScrollBar().getValue() < handler.getGridSize()) && (getViewableDiagrampanelSize().width + _scr.getHorizontalScrollBar().getValue() == diaWithoutWhite.getX() + diaWithoutWhite.getWidth())) {
+			setHorizontalScrollbarVisibility(false);
+		}
 		else setHorizontalScrollbarVisibility(true);
 
 		if ((_scr.getVerticalScrollBar().getValue() < handler.getGridSize()) && ((diaWithoutWhite.getY() + diaWithoutWhite.getHeight()) <= (viewSize.getHeight() + horSbHeight))) setVerticalScrollbarVisibility(false);
-		else if ((_scr.getVerticalScrollBar().getValue() < handler.getGridSize()) && (getViewableDiagrampanelSize().getHeight() + _scr.getVerticalScrollBar().getValue() == diaWithoutWhite.getY() + diaWithoutWhite.getHeight())) setVerticalScrollbarVisibility(false);
+		else if ((_scr.getVerticalScrollBar().getValue() < handler.getGridSize()) && (getViewableDiagrampanelSize().height + _scr.getVerticalScrollBar().getValue() == diaWithoutWhite.getY() + diaWithoutWhite.getHeight())) setVerticalScrollbarVisibility(false);
 		else setVerticalScrollbarVisibility(true);
 
 		// REMOVED TO FIX JUMPING PALETTE ENTRIES AT COPYING/CUTTING
