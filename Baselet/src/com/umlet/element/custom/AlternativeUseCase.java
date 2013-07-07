@@ -48,7 +48,7 @@ public class AlternativeUseCase extends OldGridElement {
 				yPos = (int) (35 * zoom);
 				center = true;
 			}
-			else if (center == true) {
+			else if (center) {
 				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getZoomedSize().width - 1) / 2, yPos, AlignHorizontal.CENTER);
 				center = false;
 			}

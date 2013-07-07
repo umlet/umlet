@@ -64,7 +64,7 @@ public class PaletteRelationListener extends PaletteEntityListener {
 		super.mouseReleased(me);
 		if (IS_DRAGGING_LINEPOINT & (LINEPOINT >= 0)) {
 			Relation rel = (Relation) me.getComponent();
-			if (rel.isPartOfGroup() == false) {
+			if (!rel.isPartOfGroup()) {
 				if (rel.allPointsOnSamePos()) {
 					// If mousebutton is released and all points of a relation are on the same position,
 					// the command which moved all points to the same position gets undone and the relation gets removed instead

@@ -1,5 +1,7 @@
 package com.baselet.gwt.client.element;
 
+import org.apache.log4j.Logger;
+
 import com.baselet.control.StringStyle;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.FormatLabels;
@@ -19,6 +21,8 @@ import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 public class BaseDrawHandlerGWT extends BaseDrawHandler {
 
 	private float HALF_PX = 0.5f;
+	
+	private static final Logger log = Logger.getLogger(BaseDrawHandlerGWT.class);
 
 	private Canvas canvas;
 	private Context2d ctx;
@@ -258,6 +262,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 					setLineDash(ctx, 0);
 			}
 		} catch (Exception e) {
+			log.error("No browser support for dashed lines", e);
 			Notification.showFeatureNotSupported("To see dashed lines, please use Firefox or Chrome<br/>In your browser they will be shown as solid lines");
 		}
 	}

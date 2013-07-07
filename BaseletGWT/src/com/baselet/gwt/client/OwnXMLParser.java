@@ -19,9 +19,9 @@ import com.google.gwt.xml.client.XMLParser;
 import com.umlet.element.experimental.ElementId;
 
 public class OwnXMLParser {
-	
+
 	private static final Logger log = Logger.getLogger(OwnXMLParser.class);
-	
+
 	private static final String ELEMENT = "element";
 	private static final String ZOOM_LEVEL = "zoom_level";
 	private static final String ID = "id";
@@ -35,36 +35,37 @@ public class OwnXMLParser {
 
 	public static List<GridElement> xmlToGridElements(String xml, Selector selector) {
 		List<GridElement> returnList = new ArrayList<GridElement>();
-		  try {
-			    // parse the XML document into a DOM
-			    Document messageDom = XMLParser.parse(xml);
+		try {
+			// parse the XML document into a DOM
+			Document messageDom = XMLParser.parse(xml);
 
-			    NodeList elements = messageDom.getElementsByTagName(ELEMENT);
-			    for (int i = 0; i < elements.getLength(); i++) {
-					Element element = (Element) elements.item(i);
-					try {
-						ElementId id = ElementId.valueOf(element.getElementsByTagName(ID).item(0).getFirstChild().getNodeValue());
-						Element coordinates = (Element) element.getElementsByTagName(COORDINATES).item(0);
-						int x = Integer.valueOf(coordinates.getElementsByTagName(X).item(0).getFirstChild().getNodeValue());
-						int y = Integer.valueOf(coordinates.getElementsByTagName(Y).item(0).getFirstChild().getNodeValue());
-						int w = Integer.valueOf(coordinates.getElementsByTagName(W).item(0).getFirstChild().getNodeValue());
-						int h = Integer.valueOf(coordinates.getElementsByTagName(H).item(0).getFirstChild().getNodeValue());
-						String panelAttributes = element.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild().getNodeValue();
-						
-						String additionalPanelAttributes = "";
-						Node additionalAttrNode = element.getElementsByTagName(ADDITIONAL_ATTRIBUTES).item(0);
-						if (additionalAttrNode != null && additionalAttrNode.getFirstChild() != null) {
-							additionalPanelAttributes = additionalAttrNode.getFirstChild().getNodeValue();
-						}
-						returnList.add(ElementFactory.create(id, new com.baselet.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes, additionalPanelAttributes, selector));
-					} catch (Exception e) {
-						log.error("Element has invalid XML structure: " + element);
+			NodeList elements = messageDom.getElementsByTagName(ELEMENT);
+			for (int i = 0; i < elements.getLength(); i++) {
+				Element element = (Element) elements.item(i);
+				try {
+					ElementId id = ElementId.valueOf(element.getElementsByTagName(ID).item(0).getFirstChild().getNodeValue());
+					Element coordinates = (Element) element.getElementsByTagName(COORDINATES).item(0);
+					int x = Integer.valueOf(coordinates.getElementsByTagName(X).item(0).getFirstChild().getNodeValue());
+					int y = Integer.valueOf(coordinates.getElementsByTagName(Y).item(0).getFirstChild().getNodeValue());
+					int w = Integer.valueOf(coordinates.getElementsByTagName(W).item(0).getFirstChild().getNodeValue());
+					int h = Integer.valueOf(coordinates.getElementsByTagName(H).item(0).getFirstChild().getNodeValue());
+					String panelAttributes = element.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild().getNodeValue();
+
+					String additionalPanelAttributes = "";
+					Node additionalAttrNode = element.getElementsByTagName(ADDITIONAL_ATTRIBUTES).item(0);
+					if (additionalAttrNode != null && additionalAttrNode.getFirstChild() != null) {
+						additionalPanelAttributes = additionalAttrNode.getFirstChild().getNodeValue();
 					}
+					returnList.add(ElementFactory.create(id, new com.baselet.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes, additionalPanelAttributes, selector));
+				} catch (Exception e) {
+					log.error("Element has invalid XML structure: " + element, e);
 				}
-			  } catch (DOMException e) {
-			    Window.alert("Could not parse XML document.");
-			  }
-			return returnList;
+			}
+		} catch (DOMException e) {
+			log.error("Parsing error", e);
+			Window.alert("Could not parse XML document.");
+		}
+		return returnList;
 	}
 
 	public static String gridElementsToXml(Collection<GridElement> gridElements) {
@@ -72,13 +73,13 @@ public class OwnXMLParser {
 
 		Element zoomElement = doc.createElement(ZOOM_LEVEL);
 		zoomElement.appendChild(doc.createTextNode("10"));
-		
+
 		Element diagramElement = doc.createElement("diagram");
 		diagramElement.setAttribute("program", Utils.getProgramnameLowerCase());
 		diagramElement.setAttribute("version", Utils.getProgramVersion());
 		diagramElement.appendChild(zoomElement);
 		doc.appendChild(diagramElement);
-		
+
 		for (GridElement ge : gridElements) {
 			Element x = doc.createElement(X);
 			x.appendChild(doc.createTextNode(ge.getRectangle().getX()+""));
@@ -94,7 +95,7 @@ public class OwnXMLParser {
 			coordinates.appendChild(y);
 			coordinates.appendChild(w);
 			coordinates.appendChild(h);
-			
+
 			Element id = doc.createElement(ID);
 			id.appendChild(doc.createTextNode(ge.getId().toString()));
 
@@ -104,16 +105,16 @@ public class OwnXMLParser {
 
 			Element additionalPanelAttributes = doc.createElement(ADDITIONAL_ATTRIBUTES);
 			additionalPanelAttributes.appendChild(doc.createTextNode(ge.getAdditionalAttributes()));
-			
+
 			Element element = doc.createElement(ELEMENT);
 			element.appendChild(id);
 			element.appendChild(coordinates);
 			element.appendChild(panelAttributes);
 			element.appendChild(additionalPanelAttributes);
-			
+
 			diagramElement.appendChild(element);
 		}
 		return doc.toString();
 	}
-	
+
 }

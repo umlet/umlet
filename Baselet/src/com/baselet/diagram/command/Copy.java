@@ -29,10 +29,6 @@ public class Copy extends Command {
 		ClipBoard.getInstance().copy(this.entities, handler);
 	}
 
-	@Override
-	public void undo(DiagramHandler handler) {
-		super.undo(handler);
-	}
 
 	@Override
 	public boolean isChangingDiagram() {

@@ -72,7 +72,7 @@ public class Path {
 				String path = null;
 				try {
 					URL homeURL = MainPlugin.getURL();
-					path = FileLocator.toFileURL(homeURL).toString().substring(new String("file:/").length());
+					path = FileLocator.toFileURL(homeURL).toString().substring("file:/".length());
 					if (File.separator.equals("/")) path = "/" + path;
 				} catch (IOException e) {
 					log.error("Cannot find location of Eclipse Plugin jar", e);

@@ -297,8 +297,8 @@ public class DiagramHandler {
 			// Resize the coordinates of the points of the relations
 			if (entity instanceof Relation) {
 				for (Point point : ((Relation) entity).getLinePoints()) {
-					newX = ((int) point.getX() * toFactor) / fromFactor;
-					newY = ((int) point.getY() * toFactor) / fromFactor;
+					newX = (point.getX() * toFactor) / fromFactor;
+					newY = (point.getY() * toFactor) / fromFactor;
 					point.setX(realignTo(newX, toFactor));
 					point.setY(realignTo(newY, toFactor));
 				}
@@ -391,8 +391,8 @@ public class DiagramHandler {
 
 			float zoomFactor = Main.getInstance().getDiagramHandler().getZoomFactor() * 100;
 			String zoomtext;
-			if (Main.getInstance().getDiagramHandler() instanceof PaletteHandler) zoomtext = "Palette zoomed to " + (new Integer((int) zoomFactor).toString()) + "%";
-			else zoomtext = "Diagram zoomed to " + (new Integer((int) zoomFactor).toString()) + "%";
+			if (Main.getInstance().getDiagramHandler() instanceof PaletteHandler) zoomtext = "Palette zoomed to " + (Integer.toString((int) zoomFactor)) + "%";
+			else zoomtext = "Diagram zoomed to " + (Integer.toString((int) zoomFactor)) + "%";
 			Notifier.getInstance().showNotification(zoomtext);
 		}
 	}

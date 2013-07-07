@@ -353,7 +353,7 @@ public class OwnTokenMaker extends AbstractTokenMaker {
 						} // End of switch (c).
 					}
 					else { // Character other than first after the '%'.
-						if (bracketVariable == true) {
+						if (bracketVariable) {
 							if (c == '}') {
 								addToken(text, currentTokenStart, i, Token.VARIABLE, newStartOffset + currentTokenStart);
 								currentTokenType = Token.NULL;
