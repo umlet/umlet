@@ -173,7 +173,7 @@ public class Properties {
 		if (propCfg.gethAlign() == AlignHorizontal.LEFT) {
 			x = xLimitsForText.getLeft() + drawer.getDistanceHorizontalBorderToText();
 		} else if (propCfg.gethAlign() == AlignHorizontal.CENTER) {
-			x = propCfg.getGridElementSize().width / 2;
+			x = propCfg.getGridElementSize().width / 2.0;
 		} else /*if (propCfg.gethAlign() == AlignHorizontal.RIGHT)*/ {
 			x = xLimitsForText.getRight() - drawer.getDistanceHorizontalBorderToText();
 		}

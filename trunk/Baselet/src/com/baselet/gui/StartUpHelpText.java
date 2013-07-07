@@ -68,7 +68,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 
 	private void startUpdatechecker() {
 		if (Constants.checkForUpdates && updateChecker == null) {
-			updateChecker = new Thread(new Updater());
+			updateChecker = new Thread(new Updater(), "Update Checker");
 			updateChecker.start();
 		}
 	}

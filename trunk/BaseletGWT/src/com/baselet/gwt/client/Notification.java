@@ -25,7 +25,7 @@ public class Notification {
 	        final int numberOfSteps = 30;
 	        int stepLengthMillis = totalTimeMillis / numberOfSteps;
 	        stepCount = 0;
-	        final float deltaOpacity = (float) (endOpacity - startOpacity) / numberOfSteps;
+	        final float deltaOpacity = (endOpacity - startOpacity) / numberOfSteps;
 	        if (timer != null) {
 	        	timer.cancel();
 	        }

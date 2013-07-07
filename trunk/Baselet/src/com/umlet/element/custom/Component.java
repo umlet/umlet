@@ -42,7 +42,7 @@ public class Component extends OldGridElement {
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 
-			if (s.startsWith("'") || (normal == true)) { // G.M
+			if (s.startsWith("'") || (normal)) { // G.M
 				startY = (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 				s = s.substring(1, s.length());
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();

@@ -258,7 +258,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		Rectangle diaWithoutWhite = getContentBounds(0, getAllEntities());
 		// We must adjust the components and the view by a certain factor
 		int adjustWidth = 0;
-		if (diaWithoutWhite.getX() < 0) adjustWidth = (int) diaWithoutWhite.getX();
+		if (diaWithoutWhite.getX() < 0) adjustWidth = diaWithoutWhite.getX();
 
 		int adjustHeight = 0;
 		if (diaWithoutWhite.getY() < 0) adjustHeight = (int) diaWithoutWhite.getY();
@@ -412,13 +412,11 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	}
 
 	private boolean isHorizontalScrollbarVisible() {
-		if (_scr.getHorizontalScrollBarPolicy() == ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS) return true;
-		else return false;
+		return _scr.getHorizontalScrollBarPolicy() == ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS;
 	}
 
 	private boolean isVerticalScrollbarVisible() {
-		if (_scr.getVerticalScrollBarPolicy() == ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS) return true;
-		else return false;
+		return _scr.getVerticalScrollBarPolicy() == ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
 	}
 
 	private void drawGrid(Graphics2D g2d) {

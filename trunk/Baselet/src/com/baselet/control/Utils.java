@@ -37,8 +37,7 @@ public abstract class Utils {
 	 * This method checks if the drawing of graphics should start at pixel (1,1) instead of (0,0) or not
 	 */
 	public static boolean displaceDrawingByOnePixel() {
-		if (Constants.SystemInfo.JAVA_IMPL == Constants.JavaImplementation.OPEN) return true;
-		else return false;
+		return Constants.SystemInfo.JAVA_IMPL == Constants.JavaImplementation.OPEN;
 	}
 
 	// Not used

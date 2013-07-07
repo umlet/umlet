@@ -67,15 +67,6 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 		Main.getInstance().getGUI().setCursor(Constants.DEFAULT_CURSOR);
 	}
 
-	@Override
-	public void mouseReleased(MouseEvent me) {
-		super.mouseReleased(me);
-		// for(Entity e: this.diagram.getSelector().getSelectedEntities()){
-		// if(handler.getEntityListener(e).IS_DRAGGED_FROM_PALETTE){
-		// handler.getEntityListener(e).IS_DRAGGED_FROM_PALETTE = false;
-		// }
-		// }
-	}
 
 	@Override
 	public void mouseDragged(MouseEvent me) {

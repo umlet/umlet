@@ -91,7 +91,7 @@ public class DiagramFileHandler {
 	private JFileChooser reloadSaveFileChooser(boolean ownXmlFormat) {
 		// Set the initial target location for the fileChooser
 		if (this.file != null) {
-			if (ownXmlFormat == true) saveFileChooser = new JFileChooser(this.file);
+			if (ownXmlFormat) saveFileChooser = new JFileChooser(this.file);
 			else saveFileChooser = new JFileChooser(this.exportFile);
 		}
 		else saveFileChooser = new JFileChooser(System.getProperty("user.dir"));

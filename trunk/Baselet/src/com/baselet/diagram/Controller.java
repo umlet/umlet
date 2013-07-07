@@ -63,18 +63,15 @@ public class Controller {
 	}
 
 	public boolean isEmpty() {
-		if (commands.isEmpty()) return true;
-		else return false;
+		return commands.isEmpty();
 	}
 
 	public boolean isUndoable() {
-		if (_cursor >= 0) return true;
-		else return false;
+		return _cursor >= 0;
 	}
 
 	public boolean isRedoable() {
-		if (_cursor < commands.size() - 1) return true;
-		else return false;
+		return _cursor < commands.size() - 1;
 	}
 
 	public void clear() {

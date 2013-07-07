@@ -50,9 +50,8 @@ class Interaction {
 	}
 
 	public boolean hasControl(int objNum) {
-		if ((srcObjHasControl && (srcObj == objNum)) ||
-				(destObjHasControl && (destObj == objNum))) return true;
-		else return false;
+		return (srcObjHasControl && (srcObj == objNum)) ||
+				(destObjHasControl && (destObj == objNum));
 	}
 
 	@Override
