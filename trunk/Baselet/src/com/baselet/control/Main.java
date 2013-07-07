@@ -63,7 +63,7 @@ public class Main {
 		return instance;
 	}
 
-	public static void main(String args[]) {
+	public static void main(final String[] args) {
 
 		//		System.setSecurityManager(new CustomElementSecurityManager());
 

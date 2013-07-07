@@ -13,7 +13,7 @@ public class Notifier {
 
 	private static final Notifier instance = new Notifier();
 
-	public synchronized static Notifier getInstance() {
+	public static synchronized Notifier getInstance() {
 		return instance;
 	}
 

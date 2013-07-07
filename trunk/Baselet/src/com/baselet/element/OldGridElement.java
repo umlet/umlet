@@ -233,7 +233,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 		Composite old = g2.getComposite();
 		AlphaComposite alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaFactor);
-		Composite composites[] = { old, alpha };
+		Composite[] composites = { old, alpha };
 		return composites;
 	}
 

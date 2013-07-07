@@ -22,7 +22,7 @@ public class FileClassLoader extends ClassLoader {
 	protected Class<?> findClass(String className) throws ClassNotFoundException {
 		Class<?> c = null;
 		try {
-			byte data[] = loadClassData(className);
+			byte[] data = loadClassData(className);
 			c = defineClass(className, data, 0, data.length);
 			if (c == null) throw new ClassNotFoundException(className);
 		} catch (IOException e) {
@@ -33,7 +33,7 @@ public class FileClassLoader extends ClassLoader {
 
 	private byte[] loadClassData(String className) throws IOException {
 		File f = new File(Path.temp() + className + ".class");
-		byte buff[] = new byte[(int) f.length()];
+		byte[] buff = new byte[(int) f.length()];
 		FileInputStream fis = new FileInputStream(f);
 		DataInputStream dis = new DataInputStream(fis);
 		dis.readFully(buff);

@@ -495,8 +495,8 @@ public class SequenceDiagram extends OldGridElement {
 						g2.drawLine(p1.x, p1.y, d2.x, d2.y);
 					}
 					else if (ia.getArrowKind() == SYNC) {
-						int xs[] = { p1.x, d1.x, d2.x };
-						int ys[] = { p1.y, d1.y, d2.y };
+						int[] xs = { p1.x, d1.x, d2.x };
+						int[] ys = { p1.y, d1.y, d2.y };
 						Color oldColor = g2.getColor();
 						g2.setColor(bgColor);
 						g2.fillPolygon(xs, ys, 3);

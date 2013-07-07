@@ -1804,7 +1804,7 @@ public class Relation extends OldGridElement {
 	// G.Mueller start
 	public String[] getCSDText(String str) { // for the Composite Structure Diagram Text
 
-		String tmp[] = new String[4];
+		String[] tmp = new String[4];
 		int to = 0;
 		int from = 0;
 		tmp[0] = " ";

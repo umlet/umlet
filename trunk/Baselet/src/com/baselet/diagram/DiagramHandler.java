@@ -270,13 +270,13 @@ public class DiagramHandler {
 		return SharedUtils.realignTo(false, val, false, toVal);
 	}
 
-	static public void zoomEntity(int fromFactor, int toFactor, GridElement e) {
+	public static void zoomEntity(int fromFactor, int toFactor, GridElement e) {
 		Vector<GridElement> vec = new Vector<GridElement>();
 		vec.add(e);
 		zoomEntities(fromFactor, toFactor, vec);
 	}
 
-	static public void zoomEntities(int fromFactor, int toFactor, List<GridElement> selectedEntities) {
+	public static void zoomEntities(int fromFactor, int toFactor, List<GridElement> selectedEntities) {
 
 		/**
 		 * The entities must be resized to the new factor

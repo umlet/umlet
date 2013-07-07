@@ -27,7 +27,7 @@ import com.baselet.plugin.editor.Contributor;
 
 public class MenuFactoryEclipse extends MenuFactory {
 
-	private final static Logger log = Logger.getLogger(MenuFactoryEclipse.class);	
+	private static final Logger log = Logger.getLogger(MenuFactoryEclipse.class);	
 
 	private static MenuFactoryEclipse instance = null;
 	public static MenuFactoryEclipse getInstance() {
