@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
 import com.baselet.gwt.client.element.ElementFactory;
@@ -44,11 +45,8 @@ public class OwnXMLParser {
 				Element element = (Element) elements.item(i);
 				try {
 					ElementId id = ElementId.valueOf(element.getElementsByTagName(ID).item(0).getFirstChild().getNodeValue());
-					Element coordinates = (Element) element.getElementsByTagName(COORDINATES).item(0);
-					int x = Integer.valueOf(coordinates.getElementsByTagName(X).item(0).getFirstChild().getNodeValue());
-					int y = Integer.valueOf(coordinates.getElementsByTagName(Y).item(0).getFirstChild().getNodeValue());
-					int w = Integer.valueOf(coordinates.getElementsByTagName(W).item(0).getFirstChild().getNodeValue());
-					int h = Integer.valueOf(coordinates.getElementsByTagName(H).item(0).getFirstChild().getNodeValue());
+					Element coord = (Element) element.getElementsByTagName(COORDINATES).item(0);
+					Rectangle rect = new Rectangle(getInt(coord, X), getInt(coord, Y), getInt(coord, W), getInt(coord, H));
 					String panelAttributes = element.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild().getNodeValue();
 
 					String additionalPanelAttributes = "";
@@ -56,7 +54,7 @@ public class OwnXMLParser {
 					if (additionalAttrNode != null && additionalAttrNode.getFirstChild() != null) {
 						additionalPanelAttributes = additionalAttrNode.getFirstChild().getNodeValue();
 					}
-					returnList.add(ElementFactory.create(id, new com.baselet.diagram.draw.geom.Rectangle(x, y, w, h), panelAttributes, additionalPanelAttributes, selector));
+					returnList.add(ElementFactory.create(id, rect, panelAttributes, additionalPanelAttributes, selector));
 				} catch (Exception e) {
 					log.error("Element has invalid XML structure: " + element, e);
 				}
@@ -66,6 +64,10 @@ public class OwnXMLParser {
 			Window.alert("Could not parse XML document.");
 		}
 		return returnList;
+	}
+
+	private static Integer getInt(Element coordinates, String tag) {
+		return Integer.valueOf(coordinates.getElementsByTagName(tag).item(0).getFirstChild().getNodeValue());
 	}
 
 	public static String gridElementsToXml(Collection<GridElement> gridElements) {
@@ -81,40 +83,27 @@ public class OwnXMLParser {
 		doc.appendChild(diagramElement);
 
 		for (GridElement ge : gridElements) {
-			Element x = doc.createElement(X);
-			x.appendChild(doc.createTextNode(ge.getRectangle().getX()+""));
-			Element y = doc.createElement(Y);
-			y.appendChild(doc.createTextNode(ge.getRectangle().getY()+""));
-			Element w = doc.createElement(W);
-			w.appendChild(doc.createTextNode(ge.getRectangle().getWidth()+""));
-			Element h = doc.createElement(H);
-			h.appendChild(doc.createTextNode(ge.getRectangle().getHeight()+""));
-
-			Element coordinates = doc.createElement(COORDINATES);
-			coordinates.appendChild(x);
-			coordinates.appendChild(y);
-			coordinates.appendChild(w);
-			coordinates.appendChild(h);
-
-			Element id = doc.createElement(ID);
-			id.appendChild(doc.createTextNode(ge.getId().toString()));
-
-			Element panelAttributes = doc.createElement(PANEL_ATTRIBUTES);
-			String panelText = ge.getPanelAttributes();
-			panelAttributes.appendChild(doc.createTextNode(panelText));
-
-			Element additionalPanelAttributes = doc.createElement(ADDITIONAL_ATTRIBUTES);
-			additionalPanelAttributes.appendChild(doc.createTextNode(ge.getAdditionalAttributes()));
-
-			Element element = doc.createElement(ELEMENT);
-			element.appendChild(id);
-			element.appendChild(coordinates);
-			element.appendChild(panelAttributes);
-			element.appendChild(additionalPanelAttributes);
-
-			diagramElement.appendChild(element);
+			diagramElement.appendChild(
+				create(doc, ELEMENT, 
+					create(doc, ID, doc.createTextNode(ge.getId().toString())), 
+					create(doc, COORDINATES, 
+							create(doc, X, doc.createTextNode(ge.getRectangle().getX()+"")), 
+							create(doc, Y, doc.createTextNode(ge.getRectangle().getY()+"")), 
+							create(doc, W, doc.createTextNode(ge.getRectangle().getWidth()+"")), 
+							create(doc, H, doc.createTextNode(ge.getRectangle().getHeight()+""))), 
+					create(doc, PANEL_ATTRIBUTES, doc.createTextNode(ge.getPanelAttributes())), 
+					create(doc, ADDITIONAL_ATTRIBUTES, doc.createTextNode(ge.getAdditionalAttributes()))
+				));
 		}
 		return doc.toString();
+	}
+
+	private static Element create(Document doc, String name, Node ... children) {
+		Element element = doc.createElement(name);
+		for (Node c : children) {
+			element.appendChild(c);
+		}
+		return element;
 	}
 
 }
