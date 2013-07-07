@@ -150,10 +150,10 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		return searchPanel;
 	}
 
+	@SuppressWarnings("unused")
 	public JPanel createDiagramTabPanel() {
 		JPanel diagramspanel = new JPanel();
-		@SuppressWarnings("unused")
-		FileDrop drop = new FileDrop(diagramspanel, new FileDropListener()); // enable drag&drop from desktop into diagrampanel
+		new FileDrop(diagramspanel, new FileDropListener()); // enable drag&drop from desktop into diagrampanel
 
 		diagramtabs = new JTabbedPane();
 		diagramtabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);

@@ -21,7 +21,7 @@ public class Notification {
 	private static class ElementFader {
 		private static Timer timer = null;
 	    private static int stepCount = 0;
-	    static void fade(final Element element, final float startOpacity, final float endOpacity, int totalTimeMillis) {
+	    static synchronized void fade(final Element element, final float startOpacity, final float endOpacity, int totalTimeMillis) {
 	        final int numberOfSteps = 30;
 	        int stepLengthMillis = totalTimeMillis / numberOfSteps;
 	        stepCount = 0;

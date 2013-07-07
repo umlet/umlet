@@ -86,7 +86,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public GridElement CloneFromMe() {
-		return handler.clone();
+		return handler.cloneElement();
 	}
 	
 	/**

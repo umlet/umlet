@@ -20,7 +20,7 @@ public class ElementFactory {
 			@Override
 			public boolean displaceDrawingByOnePixel() { return false; }
 			@Override
-			public GridElement clone() {
+			public GridElement cloneElement() {
 				return create(element.getId(), element.getRectangle().copy(), element.getPanelAttributes(), element.getAdditionalAttributes(), selector);
 			}
 			@Override

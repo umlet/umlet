@@ -164,7 +164,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 			}
 
 			Integer newsize = (Integer) this.default_fontsize.getSelectedItem();
-			if (Constants.defaultFontsize != newsize) {
+			if (!Constants.defaultFontsize.equals(newsize)) {
 				Constants.defaultFontsize = newsize;
 				for (DiagramHandler d : Main.getInstance().getDiagramsAndPalettes()) {
 					d.getFontHandler().resetFontSize();
@@ -174,7 +174,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 			}
 
 			String newfamily = (String) this.default_fontfamily.getSelectedItem();
-			if (Constants.defaultFontFamily != newfamily) Constants.defaultFontFamily = newfamily;
+			Constants.defaultFontFamily = newfamily;
 		}
 	}
 }

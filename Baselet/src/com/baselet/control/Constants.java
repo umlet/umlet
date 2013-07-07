@@ -219,12 +219,6 @@ public abstract class Constants extends NewGridElementConstants {
 	public static final List<String> fontFamilyList = Arrays.asList(new String[] { Font.SANS_SERIF, Font.SERIF, Font.MONOSPACED });
 
 	public static final List<LookAndFeelInfo> lookAndFeels = Arrays.asList(UIManager.getInstalledLookAndFeels());
-	static {
-		// The Eclipse Plugin doesn't work with GTKLookAndFeel, therefore we remove it from the choosable options
-		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) {
-			lookAndFeels.remove("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-		}
-	}
 
 	protected static final String DEFAULT_STRING = "Default";
 	public static final Comparator<String> DEFAULT_FIRST_COMPARATOR = new Comparator<String>() {

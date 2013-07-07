@@ -35,7 +35,7 @@ public class ElementFactory {
 				return Utils.displaceDrawingByOnePixel();
 			}
 			@Override
-			public GridElement clone() {
+			public GridElement cloneElement() {
 				NewGridElement old = returnObj;
 				return create(old.getId(), old.getRectangle(), old.getPanelAttributes(), old.getAdditionalAttributes(), Main.getHandlerForElement(old));
 			}

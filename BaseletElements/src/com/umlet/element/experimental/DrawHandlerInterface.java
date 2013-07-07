@@ -11,7 +11,7 @@ public interface DrawHandlerInterface {
 	
 	boolean displaceDrawingByOnePixel();
 	
-	GridElement clone();
+	GridElement cloneElement();
 	
 	void Resize(double diffw, double diffh);
 

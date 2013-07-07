@@ -187,7 +187,7 @@ public class EclipseGUI extends BaseGUI {
 		Constants.main_split_position = editor.getMainSplitLocation();
 		Constants.right_split_position = editor.getRightSplitLocation();
 		Constants.lastUsedPalette = getSelectedPalette();
-		this.diagrams.remove(editor);
+		this.diagrams.remove(editor.getDiagram().getHandler());
 		if (editor.equals(this.editor)) {
 			this.editor = null;
 		}
