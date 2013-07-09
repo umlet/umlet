@@ -1,9 +1,14 @@
 package com.umlet.element.experimental.settings;
 
+import java.util.Arrays;
+import java.util.List;
+
+import DefaultGlobalFacet.DefaultGlobalTextFacet.ElementStyleEnum;
+
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet;
 import com.umlet.element.experimental.settings.facets.Facet;
 import com.umlet.element.experimental.uml.relation.ArrowNormal;
 import com.umlet.element.experimental.uml.relation.LineDescription;
@@ -44,6 +49,11 @@ public class SettingsRelation extends Settings {
 	@Override
 	public Facet[] createFacets() {
 		return new Facet[] {new ArrowNormal(), new LineDescription()};
+	}
+	
+	@Override
+	public List<? extends Facet> createPreparseGlobalFacets() {
+		return Arrays.asList(new DefaultGlobalFacet());
 	}
 
 }

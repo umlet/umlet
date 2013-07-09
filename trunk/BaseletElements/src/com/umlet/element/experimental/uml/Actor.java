@@ -1,5 +1,10 @@
 package com.umlet.element.experimental.uml;
 
+import java.util.Arrays;
+import java.util.List;
+
+import DefaultGlobalFacet.DefaultGlobalTextFacet.ElementStyleEnum;
+
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
@@ -9,7 +14,7 @@ import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet;
 import com.umlet.element.experimental.settings.facets.Facet;
 import com.umlet.element.experimental.settings.facets.SeparatorLine;
 
@@ -40,6 +45,11 @@ public class Actor extends NewGridElement {
 		@Override
 		public Facet[] createFacets() {
 			return new Facet[]{new SeparatorLine()};
+		}
+		
+		@Override
+		public List<? extends Facet> createPreparseGlobalFacets() {
+			return Arrays.asList(new DefaultGlobalFacet());
 		}
 	}
 

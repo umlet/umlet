@@ -2,12 +2,13 @@ package com.umlet.element.experimental;
 
 import org.apache.log4j.Logger;
 
+import DefaultGlobalFacet.DefaultGlobalTextFacet.ElementStyleEnum;
+
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 
 public class PropertiesConfig {
