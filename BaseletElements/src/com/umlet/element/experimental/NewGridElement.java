@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import DefaultGlobalFacet.DefaultGlobalTextFacet.ElementStyleEnum;
+
 import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
@@ -22,7 +24,6 @@ import com.baselet.element.GroupGridElement;
 import com.baselet.element.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
 import com.umlet.element.experimental.settings.facets.Facet;
 

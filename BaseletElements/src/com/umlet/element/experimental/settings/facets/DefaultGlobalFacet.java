@@ -3,8 +3,6 @@ package com.umlet.element.experimental.settings.facets;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
@@ -12,29 +10,15 @@ import com.umlet.element.experimental.PropertiesConfig;
 
 public class DefaultGlobalFacet extends GlobalStatelessFacet {
 
-	public enum ElementStyleEnum {AUTORESIZE, RESIZE, NORESIZE, WORDWRAP}
-	
 	public enum GlobalSetting {
 		FOREGROUND_COLOR("fg", "red", "foreground color string (blue,...) or code (#0A37D3,...)"),
 		BACKGROUND_COLOR("bg", "red", "background color string (green,...) or code (#3c7a00,...)"),
 		LINE_TYPE("lt", new String[] {LineType.DASHED.getValue(), "dashed lines"}, new String[] {LineType.DOTTED.getValue(), "dotted lines"}, new String[] {LineType.BOLD.getValue(), "bold lines"}),
 		LINE_THICKNESS("lth", "1.0", "thickness of lines (1.5, 2.0, ...)"),
 		FONT_SIZE("fontsize", "12", "font size (12.5, 10.3,...)"),
-		LAYER("layer", "0", "higher layers are shown on top of lowers (-5, 0(=default), 3,...)"),
-		ELEMENT_STYLE("elementstyle",
-				new String[] {ElementStyleEnum.AUTORESIZE.toString(), "resizes element as text grows"},
-				new String[] {ElementStyleEnum.WORDWRAP.toString(), "wrap lines at the end of the line"},
-				new String[] {ElementStyleEnum.NORESIZE.toString(), "disable manual resizing"}),
-		VERTICAL_ALIGN("valign",
-				new String[] {AlignVertical.TOP.toString(), "vertical text alignment"},
-				new String[] {AlignVertical.CENTER.toString(), "vertical text alignment"},
-				new String[] {AlignVertical.BOTTOM.toString(), "vertical text alignment"}),
-		HORIZONTAL_ALIGN("halign",
-				new String[] {AlignHorizontal.LEFT.toString(), "horizontal text alignment"},
-				new String[] {AlignHorizontal.CENTER.toString(), "horizontal text alignment"},
-				new String[] {AlignHorizontal.RIGHT.toString(), "horizontal text alignment"})
-				;
-		
+		LAYER("layer", "0", "higher layers are shown on top of lowers (-5, 0(=default), 3,...)")
+		;
+
 		private String key;
 		private List<AutocompletionText> autocompletionValues = new ArrayList<AutocompletionText>();
 
@@ -57,7 +41,7 @@ public class DefaultGlobalFacet extends GlobalStatelessFacet {
 		public String toString() {
 			return key;
 		}
-		
+
 		public String getValue() {
 			return value;
 		}
@@ -91,12 +75,6 @@ public class DefaultGlobalFacet extends GlobalStatelessFacet {
 					drawer.setFontSize(value);
 				} else if (key.equalsIgnoreCase(GlobalSetting.LAYER.toString())) {
 					propConfig.setLayer(value);
-				} else if (key.equalsIgnoreCase(GlobalSetting.HORIZONTAL_ALIGN.toString())) {
-					propConfig.sethAlignGlobally(AlignHorizontal.valueOf(value));
-				} else if (key.equalsIgnoreCase(GlobalSetting.VERTICAL_ALIGN.toString())) {
-					propConfig.setvAlignGlobally(AlignVertical.valueOf(value));
-				} else if (key.equalsIgnoreCase(GlobalSetting.ELEMENT_STYLE.toString())) {
-					propConfig.setElementStyle(ElementStyleEnum.valueOf(value));
 				}
 			} catch (Exception e) {/*any exception results in no action*/}
 		}

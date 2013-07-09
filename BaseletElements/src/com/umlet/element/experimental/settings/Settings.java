@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import DefaultGlobalFacet.DefaultGlobalTextFacet;
+import DefaultGlobalFacet.DefaultGlobalTextFacet.ElementStyleEnum;
+
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.Facet;
 
 public abstract class Settings {
@@ -67,7 +69,7 @@ public abstract class Settings {
 	
 	private List<? extends Facet> preparseFacets;
 	public List<? extends Facet> createPreparseGlobalFacets() {
-		return Arrays.asList(new DefaultGlobalFacet());
+		return Arrays.asList(new DefaultGlobalFacet(), new DefaultGlobalTextFacet());
 	}
 	/**
 	 * PreparseGlobalFacets manipulate important properties like element size, elementStyle, etc. and must be parsed before any other facets
