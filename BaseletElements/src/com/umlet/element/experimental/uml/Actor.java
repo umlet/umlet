@@ -54,7 +54,12 @@ public class Actor extends NewGridElement {
 		
 		@Override
 		public int getYPosStart() {
-			return (int) (getDrawer().getCurrentStyle().getFontSize()*5);
+			return (int) (getDrawer().getCurrentStyle().getFontSize()*5); // equals headBodyLegLength
+		}
+		
+		@Override
+		public double getMinElementWidth() {
+			return getDrawer().getCurrentStyle().getFontSize()*3; // armLength
 		}
 	}
 

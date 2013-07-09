@@ -40,6 +40,10 @@ public abstract class Settings {
 		return 0;
 	}
 
+	public double getMinElementWidth() {
+		return 0;
+	}
+	
 	private List<Facet> localFacets;
 	private List<Facet> globalFacets;
 	private void initFacets() {
@@ -75,7 +79,7 @@ public abstract class Settings {
 	 * PreparseGlobalFacets manipulate important properties like element size, elementStyle, etc. and must be parsed before any other facets
 	 * eg: it must be known if an element is of type AUTORESIZE, before it's size is calculated, before other global facets which could use the size (eg: {active} are applied
 	 */
-	public List<? extends Facet> getPreparseGlobalFacets() {
+	public final List<? extends Facet> getPreparseGlobalFacets() {
 		if (preparseFacets == null) preparseFacets = createPreparseGlobalFacets();
 		return preparseFacets;
 	}

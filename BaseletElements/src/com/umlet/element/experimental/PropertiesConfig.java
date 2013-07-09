@@ -20,6 +20,7 @@ public class PropertiesConfig {
 	private AlignVertical vAlign;
 	private boolean vAlignGloballySet = false;
 	private double yPos;
+	private double requiredElementWidth = 0;
 	private int leftBuffer = 0;
 	private int rightBuffer = 0;
 	private Settings settings;
@@ -32,6 +33,7 @@ public class PropertiesConfig {
 		this.vAlign = settings.getVAlign();
 		this.elementStyle = settings.getElementStyle();
 		this.yPos = settings.getYPosStart();
+		this.requiredElementWidth = settings.getMinElementWidth();
 		this.settings = settings;
 	}
 
@@ -126,13 +128,12 @@ public class PropertiesConfig {
 		return getyPos() - f + 2;
 	}
 
-	private double maxTextWidth = 0;
-	public void calcMaxTextWidth(double width) {
-		maxTextWidth = Math.max(maxTextWidth, width);
+	public void updateRequiredElementWidth(double width) {
+		requiredElementWidth = Math.max(requiredElementWidth, width);
 	}
 
-	public double getMaxTextWidth() {
-		return maxTextWidth;
+	public double getRequiredElementWidth() {
+		return requiredElementWidth;
 	}
 
 	public void setGridElementSize(Dimension gridElementSize) {
