@@ -21,7 +21,7 @@ public class FormattedFont {
 	
 	private TextLayout textLayout;
 	
-	public FormattedFont(String text, float fontSize, Font font, FontRenderContext fontRenderContext) {
+	public FormattedFont(String text, double fontSize, Font font, FontRenderContext fontRenderContext) {
 		string = setFormatAndRemoveLabels(text);
 
 		string = string.replaceAll("<<", "\u00AB");

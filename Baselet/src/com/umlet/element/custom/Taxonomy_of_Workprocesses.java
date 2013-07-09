@@ -40,11 +40,11 @@ public class Taxonomy_of_Workprocesses extends OldGridElement {
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 
 		int level = 0;
-		float yPos = 10 * zoom;
-		float xPos = 10 * zoom;
-		float dist = 10 * Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
-		float ovalHeight = 3 * Main.getHandlerForElement(this).getFontHandler().getFontSize();
-		float ovalWidth = 10 * Main.getHandlerForElement(this).getFontHandler().getFontSize();
+		double yPos = 10 * zoom;
+		double xPos = 10 * zoom;
+		double dist = 10 * Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+		double ovalHeight = 3 * Main.getHandlerForElement(this).getFontHandler().getFontSize();
+		double ovalWidth = 10 * Main.getHandlerForElement(this).getFontHandler().getFontSize();
 		Point nextDock = new Point((int) (xPos + ovalWidth / 2 + 0.5), (int) (ovalHeight + yPos + 0.5));
 		Vector<Point> dock = new Vector<Point>();
 		dock.add(nextDock);
@@ -94,18 +94,18 @@ public class Taxonomy_of_Workprocesses extends OldGridElement {
 		return p;
 	}
 
-	private void drawProcess(Graphics2D g2, float xPos, float yPos, String name) {
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
-		float ovalHeight = 3 * Main.getHandlerForElement(this).getFontHandler().getFontSize();
-		float ovalWidth = 10 * Main.getHandlerForElement(this).getFontHandler().getFontSize();
+	private void drawProcess(Graphics2D g2, double xPos, double yPos, String name) {
+		double zoom = Main.getHandlerForElement(this).getZoomFactor();
+		double ovalHeight = 3 * Main.getHandlerForElement(this).getFontHandler().getFontSize();
+		double ovalWidth = 10 * Main.getHandlerForElement(this).getFontHandler().getFontSize();
 
 		g2.drawOval((int) (xPos + 0.5), (int) (yPos + 0.5), (int) (ovalWidth + 0.5), (int) (ovalHeight + 0.5));
 		Main.getHandlerForElement(this).getFontHandler().writeText(g2, name, (int) (xPos + ovalWidth / 2 + 0.5), (int) (yPos + 5 * zoom + ovalHeight / 2 + 0.5), AlignHorizontal.CENTER);
 	}
 
-	private void drawDock(Graphics2D g2, Point nextDock, float xPos, float yPos) {
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
-		float ovalHeight = 3 * Main.getHandlerForElement(this).getFontHandler().getFontSize();
+	private void drawDock(Graphics2D g2, Point nextDock, double xPos, double yPos) {
+		double zoom = Main.getHandlerForElement(this).getZoomFactor();
+		double ovalHeight = 3 * Main.getHandlerForElement(this).getFontHandler().getFontSize();
 
 		g2.drawLine(nextDock.x, (int) (nextDock.y + 9 * zoom + 0.5), nextDock.x, (int) (ovalHeight / 2 + yPos + 0.5));
 		g2.drawLine(nextDock.x, (int) (ovalHeight / 2 + yPos + 0.5), (int) (xPos + 0.5), (int) (ovalHeight / 2 + yPos + 0.5));

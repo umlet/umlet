@@ -40,7 +40,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	protected float getDefaultFontSize() {
+	protected double getDefaultFontSize() {
 		return 12;
 	}
 
@@ -150,7 +150,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 		});
 	}
 
-	private void drawTextHelper(final String text, PointDouble p, AlignHorizontal align, float fontSize) {
+	private void drawTextHelper(final String text, PointDouble p, AlignHorizontal align, double fontSize) {
 		StringStyle stringStyle = StringStyle.analyseStyle(text);
 		
 		ctxSetFont(fontSize, stringStyle);
@@ -174,7 +174,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 		ctx.fillText(textToDraw, p.x, p.y);
 	}
 
-	private void ctxSetFont(float fontSize, StringStyle stringStyle) {
+	private void ctxSetFont(double fontSize, StringStyle stringStyle) {
 		String htmlStyle = "";
 		if (stringStyle.getFormat().contains(FormatLabels.BOLD)) {
 			htmlStyle += " bold";

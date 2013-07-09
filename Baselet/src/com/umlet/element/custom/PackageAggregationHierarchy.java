@@ -43,10 +43,10 @@ public class PackageAggregationHierarchy extends OldGridElement {
 
 		// init coordinates;
 		int level = 0;
-		float yPos = 10 * zoom;
-		float xPos = 10 * zoom;
-		float packageHeight = Main.getHandlerForElement(this).getFontHandler().getFontSize();
-		float packageWidth = 2 * Main.getHandlerForElement(this).getFontHandler().getFontSize();
+		double yPos = 10 * zoom;
+		double xPos = 10 * zoom;
+		double packageHeight = Main.getHandlerForElement(this).getFontHandler().getFontSize();
+		double packageWidth = 2 * Main.getHandlerForElement(this).getFontHandler().getFontSize();
 
 		Vector<Point> dock = new Vector<Point>();
 
@@ -112,14 +112,14 @@ public class PackageAggregationHierarchy extends OldGridElement {
 		g2.drawLine(nextDock.x - (int) (3 * zoom + 0.5), nextDock.y - (int) (5 * zoom + 0.5), nextDock.x + (int) (3 * zoom + 0.5), nextDock.y - (int) (5 * zoom + 0.5));
 	}
 
-	private void drawDock(Graphics2D g2, Point nextDock, float xPos, float yPos, float packageHeight) {
+	private void drawDock(Graphics2D g2, Point nextDock, double xPos, double yPos, double packageHeight) {
 		// Logger.getAnonymousLogger().info("\ndrawDock: \ndock.x/y: " + nextDock.x + "/" + nextDock.y + "\nx/yPos: " + xPos + "/" + yPos);
 
 		g2.drawLine(nextDock.x, nextDock.y, nextDock.x, (int) (packageHeight / 2 + 0.5) + (int) (yPos + 0.5));
 		g2.drawLine(nextDock.x, (int) (packageHeight / 2 + 0.5) + (int) (yPos + 0.5), (int) (xPos + 0.5), (int) (packageHeight / 2 + 0.5) + (int) (yPos + 0.5));
 	}
 
-	private void drawPackage(Graphics2D g2, float xPos, float yPos, float packageHeight, float packageWidth, String name) {
+	private void drawPackage(Graphics2D g2, double xPos, double yPos, double packageHeight, double packageWidth, String name) {
 		// Logger.getAnonymousLogger().info("\nxPos: " + xPos + "\nyPos: " + yPos + "\nzoom: " + zoom + "\nname: " + name);
 
 		g2.drawRect((int) (xPos + 0.5), (int) (yPos + 0.5), (int) (packageWidth / 3 + 0.5), (int) (packageHeight / 4 + 0.5));

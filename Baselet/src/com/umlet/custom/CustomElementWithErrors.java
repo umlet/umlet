@@ -29,8 +29,8 @@ public class CustomElementWithErrors extends CustomElement {
 		BaseDrawHandlerSwing drawer = new BaseDrawHandlerSwing(g2, Main.getHandlerForElement(this), ColorOwn.RED, ColorOwn.DEFAULT_BACKGROUND);
 		drawer.drawRectangle(0, 0, this.getRealSize().width, this.getRealSize().height);
 		if (errors != null) {
-			float y = textHeight();
-			float x = Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(false);
+			double y = textHeight();
+			double x = Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(false);
 			drawer.print("Custom Element With Errors:", x, (int) y, AlignHorizontal.LEFT);
 			y += textHeight();
 			for (CompileError error : errors) {

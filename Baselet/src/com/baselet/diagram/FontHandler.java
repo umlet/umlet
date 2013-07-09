@@ -13,8 +13,8 @@ import com.baselet.diagram.draw.geom.DimensionDouble;
 public class FontHandler {
 
 	private DiagramHandler handler;
-	private Float fontSize;
-	private Float diagramDefaultSize = null; // if "fontsize=..." is uncommented this variable is set
+	private Double fontSize;
+	private Double diagramDefaultSize = null; // if "fontsize=..." is uncommented this variable is set
 
 	private String diagramDefaultFontFamily = null;
 	private FontRenderContext fontrenderContext = new FontRenderContext(null, true, true);
@@ -23,7 +23,7 @@ public class FontHandler {
 		this.handler = handler;
 	}
 
-	public void setFontSize(Float fontsize) {
+	public void setFontSize(Double fontsize) {
 		this.fontSize = fontsize;
 	}
 
@@ -43,7 +43,7 @@ public class FontHandler {
 		return returnFontFamily;
 	}
 
-	public void setDiagramDefaultFontSize(Float diagramDefaultSize) {
+	public void setDiagramDefaultFontSize(Double diagramDefaultSize) {
 		this.diagramDefaultSize = diagramDefaultSize;
 	}
 
@@ -55,15 +55,15 @@ public class FontHandler {
 		diagramDefaultSize = null;
 	}
 
-	public float getFontSize() {
+	public double getFontSize() {
 		return getFontSize(true);
 	}
 
-	public float getFontSize(boolean applyZoom) {
-		Float returnFontSize;
+	public double getFontSize(boolean applyZoom) {
+		Double returnFontSize;
 		if (diagramDefaultSize != null) returnFontSize = diagramDefaultSize;
 		else if (fontSize != null) returnFontSize = fontSize;
-		else returnFontSize = Float.valueOf(Constants.defaultFontsize);
+		else returnFontSize = Double.valueOf(Constants.defaultFontsize);
 
 		if (applyZoom) return returnFontSize * handler.getGridSize() / Constants.DEFAULTGRIDSIZE;
 		else return returnFontSize;
@@ -77,11 +77,11 @@ public class FontHandler {
 		return new Font(getDiagramDefaultFontFamily(), Font.PLAIN, (int) getFontSize(applyZoom));
 	}
 
-	public float getDistanceBetweenTexts() {
+	public double getDistanceBetweenTexts() {
 		return getDistanceBetweenTexts(true);
 	}
 
-	public float getDistanceBetweenTexts(boolean applyZoom) {
+	public double getDistanceBetweenTexts(boolean applyZoom) {
 		return getFontSize(applyZoom) / 4;
 	}
 
@@ -115,7 +115,7 @@ public class FontHandler {
 
 	private void write(Graphics2D g2, String stringWithFormatLabels, double x, double y, AlignHorizontal align, boolean applyZoom) {
 		if (stringWithFormatLabels == null || stringWithFormatLabels.isEmpty()) return;
-		float fontSize = getFontSize(applyZoom);
+		double fontSize = getFontSize(applyZoom);
 		FormattedFont formattedFont = new FormattedFont(stringWithFormatLabels, fontSize, getFont(applyZoom), g2.getFontRenderContext());
 		this.fontrenderContext = g2.getFontRenderContext(); //TODO workaround to make sure getTextSize works without a graphics object
 

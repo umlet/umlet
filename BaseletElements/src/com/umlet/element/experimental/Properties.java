@@ -86,6 +86,10 @@ public class Properties {
 		return propCfg.getLayer();
 	}
 
+	public void addToYPos(double inc) {
+		propCfg.addToYPos(inc);
+	}
+
 	public void updateSetting(GlobalSetting key, String newValue) {
 		String newState = "";
 		for (String line : getPanelAttributes().split("\n")) {
