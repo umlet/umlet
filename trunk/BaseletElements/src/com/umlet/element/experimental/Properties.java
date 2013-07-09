@@ -162,7 +162,7 @@ public class Properties {
 			XValues xLimitsForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight());
 			Double spaceNotUsedForText = propCfg.getGridElementSize().width - xLimitsForText.getSpace();
 			if (!spaceNotUsedForText.equals(Double.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
-				propCfg.calcMaxTextWidth(spaceNotUsedForText + drawer.textWidth(line));
+				propCfg.updateRequiredElementWidth(spaceNotUsedForText + drawer.textWidth(line));
 			}
 			drawer.print(line, calcHorizontalTextBoundaries(xLimitsForText, propCfg), propCfg.getyPos(), propCfg.gethAlign());
 			propCfg.addToYPos(drawer.textHeightWithSpace());
@@ -208,7 +208,8 @@ public class Properties {
 		handleWordWrapAndIterate(elementSettings, tmpPropCfg, drawer.getPseudoDrawHandler());
 
 		double textHeight = tmpPropCfg.getyPos()-drawer.textHeight(); // subtract last ypos step (because the print-text pos is always on the bottom)
-		return new DimensionDouble(tmpPropCfg.getMaxTextWidth(), textHeight);
+		double width = tmpPropCfg.getRequiredElementWidth();
+		return new DimensionDouble(width, textHeight);
 	}
 
 }
