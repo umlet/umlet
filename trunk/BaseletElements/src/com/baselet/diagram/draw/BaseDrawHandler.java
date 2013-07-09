@@ -154,7 +154,7 @@ public abstract class BaseDrawHandler {
 	 */
 
 	protected abstract DimensionDouble textDimension(String string);
-	protected abstract float getDefaultFontSize();
+	protected abstract double getDefaultFontSize();
 	public abstract BaseDrawHandler getPseudoDrawHandler();
 
 	/*

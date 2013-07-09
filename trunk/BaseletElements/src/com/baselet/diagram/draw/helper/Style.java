@@ -10,7 +10,7 @@ public class Style {
 	private ColorOwn fgColor;
 	private ColorOwn bgColor;
 
-	private float fontSize;
+	private double fontSize;
 	private boolean applyZoom;
 	
 	public Style() {
@@ -54,10 +54,10 @@ public class Style {
 	public ColorOwn getBgColor() {
 		return bgColor;
 	}
-	public void setFontSize(float fontSize) {
+	public void setFontSize(double fontSize) {
 		this.fontSize = fontSize;
 	}
-	public float getFontSize() {
+	public double getFontSize() {
 		return fontSize;
 	}
 	public void setApplyZoom(boolean applyZoom) {

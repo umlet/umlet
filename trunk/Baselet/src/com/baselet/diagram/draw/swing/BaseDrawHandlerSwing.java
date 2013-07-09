@@ -70,7 +70,7 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	}
 
 	@Override
-	public float getDefaultFontSize() {
+	public double getDefaultFontSize() {
 		return handler.getFontHandler().getFontSize(false);
 	}
 

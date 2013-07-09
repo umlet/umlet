@@ -136,7 +136,7 @@ public abstract class CustomElement extends OldGridElement {
 		for (Text t : this.texts) {
 			boolean applyZoom = true;
 			if (t.fixedSize != null) {
-				Main.getHandlerForElement(this).getFontHandler().setFontSize((float) t.fixedSize);
+				Main.getHandlerForElement(this).getFontHandler().setFontSize((double) t.fixedSize);
 				applyZoom = false;
 			}
 			Main.getHandlerForElement(this).getFontHandler().writeText(this.g2, t.text, t.x, t.y, t.align, applyZoom);

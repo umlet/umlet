@@ -1417,7 +1417,7 @@ public class Relation extends OldGridElement {
 
 					// if (beginCSDArrow.equals("compStart")) {
 					if (beginArrow.startsWith("compStart")) {
-						Main.getHandlerForElement(this).getFontHandler().setFontSize((float) 10);
+						Main.getHandlerForElement(this).getFontHandler().setFontSize((double) 10);
 
 						s = boxSize;
 
@@ -1481,7 +1481,7 @@ public class Relation extends OldGridElement {
 
 					// if (endCSDArrow.equals("compEnd")) {
 					if (endArrow.startsWith("compEnd")) {
-						Main.getHandlerForElement(this).getFontHandler().setFontSize((float) 10);
+						Main.getHandlerForElement(this).getFontHandler().setFontSize(10.0);
 
 						s = boxSize;
 

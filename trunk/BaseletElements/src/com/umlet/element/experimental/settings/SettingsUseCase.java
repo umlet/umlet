@@ -34,6 +34,6 @@ public class SettingsUseCase extends Settings {
 
 	@Override
 	public Facet[] createFacets() {
-		return new Facet[]{new SeparatorLine(false)};
+		return new Facet[]{new SeparatorLine()};
 	}
 }

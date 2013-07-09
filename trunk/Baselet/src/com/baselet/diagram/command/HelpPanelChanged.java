@@ -22,7 +22,7 @@ public class HelpPanelChanged extends Command {
 		this.changed_to = changed_to;
 	}
 
-	public static Float getFontsize(String text) {
+	public static Double getFontsize(String text) {
 		if (text == null) return null;
 		Pattern p = Pattern.compile("fontsize=" + Constants.REGEX_FLOAT + "( .*)?");
 		Vector<String> txt = Utils.decomposeStrings(text);
@@ -30,7 +30,7 @@ public class HelpPanelChanged extends Command {
 			Matcher m = p.matcher(t);
 			if (m.matches()) {
 				if (t.contains("//")) t = t.split("//")[0];
-				return Float.parseFloat(m.group(1));
+				return Double.parseDouble(m.group(1));
 			}
 		}
 		return null;
