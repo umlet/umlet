@@ -20,7 +20,7 @@ import com.umlet.element.experimental.settings.facets.SeparatorLine;
 
 public class Actor extends NewGridElement {
 	
-	private static class SettingsActor extends Settings {
+	private class SettingsActor extends Settings {
 
 		@Override
 		public XValues getXValues(double y, int height, int width) {
@@ -39,7 +39,7 @@ public class Actor extends NewGridElement {
 
 		@Override
 		public ElementStyleEnum getElementStyle() {
-			return ElementStyleEnum.RESIZE;
+			return ElementStyleEnum.AUTORESIZE;
 		}
 
 		@Override
@@ -50,6 +50,11 @@ public class Actor extends NewGridElement {
 		@Override
 		public List<? extends Facet> createPreparseGlobalFacets() {
 			return Arrays.asList(new DefaultGlobalFacet());
+		}
+		
+		@Override
+		public int getYPosStart() {
+			return (int) (getDrawer().getCurrentStyle().getFontSize()*5);
 		}
 	}
 
@@ -73,7 +78,6 @@ public class Actor extends NewGridElement {
 		drawer.drawLine(hCenter, headRadius*2, hCenter, headAndBodyLength); // Body
 		drawer.drawLine(hCenter, headAndBodyLength, hCenter-legSpan, headBodyLegLength); // Legs
 		drawer.drawLine(hCenter, headAndBodyLength, hCenter+legSpan, headBodyLegLength); // Legs
-		properties.addToYPos(fontSize*5);
 		properties.drawPropertiesText();
 	}
 
@@ -84,8 +88,7 @@ public class Actor extends NewGridElement {
 		double headBodyLegLength = fontSize*5;
 		int hCenter = getRealSize().width/2;
 		
-		StickingPolygon p = new StickingPolygon(x, y);
-
+		StickingPolygon p = new StickingPolygon();
 		p.addPoint((int)(hCenter-armLength), 0);
 		p.addPoint((int)(hCenter+armLength), 0);
 		p.addPoint((int)(hCenter+armLength), (int)(headBodyLegLength));

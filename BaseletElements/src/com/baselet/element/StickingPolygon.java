@@ -73,6 +73,10 @@ public class StickingPolygon {
 	private int elementX;
 	private int elementY;
 
+	public StickingPolygon() {
+		this(0, 0);
+	}
+	
 	public StickingPolygon(int elementX, int elementY) {
 		this.elementX = elementX;
 		this.elementY = elementY;
