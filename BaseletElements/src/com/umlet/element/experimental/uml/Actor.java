@@ -54,12 +54,12 @@ public class Actor extends NewGridElement {
 		
 		@Override
 		public int getYPosStart() {
-			return (int) (getDrawer().getCurrentStyle().getFontSize()*5); // equals headBodyLegLength
+			return (int) headToLegLength(); // equals headBodyLegLength
 		}
 		
 		@Override
 		public double getMinElementWidth() {
-			return getDrawer().getCurrentStyle().getFontSize()*3; // armLength
+			return armLength()*2; // armLength
 		}
 	}
 
@@ -70,40 +70,54 @@ public class Actor extends NewGridElement {
 	
 	@Override
 	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
-		double fontSize = drawer.getCurrentStyle().getFontSize();
 		int hCenter = getRealSize().width/2;
-		double headRadius = fontSize/2;
-		double armLength = fontSize*1.5;
-		double armHeight = fontSize*1.5;
-		double headAndBodyLength = fontSize*2+headRadius*2;
-		double headBodyLegLength = fontSize*2+headAndBodyLength;
-		double legSpan = fontSize;
-		drawer.drawCircle(hCenter, headRadius, headRadius); // Head
-		drawer.drawLine(hCenter-armLength, armHeight, hCenter+armLength, armHeight); // Arms
-		drawer.drawLine(hCenter, headRadius*2, hCenter, headAndBodyLength); // Body
-		drawer.drawLine(hCenter, headAndBodyLength, hCenter-legSpan, headBodyLegLength); // Legs
-		drawer.drawLine(hCenter, headAndBodyLength, hCenter+legSpan, headBodyLegLength); // Legs
+		drawer.drawCircle(hCenter, headRadius(), headRadius()); // Head
+		drawer.drawLine(hCenter-armLength(), armHeight(), hCenter+armLength(), armHeight()); // Arms
+		drawer.drawLine(hCenter, headRadius()*2, hCenter, headToBodyLength()); // Body
+		drawer.drawLine(hCenter, headToBodyLength(), hCenter-legSpan(), headToLegLength()); // Legs
+		drawer.drawLine(hCenter, headToBodyLength(), hCenter+legSpan(), headToLegLength()); // Legs
 		properties.drawPropertiesText();
 	}
 
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-		double fontSize = getDrawer().getCurrentStyle().getFontSize();
-		double armLength = fontSize*1.5;
-		double headBodyLegLength = fontSize*5;
 		int hCenter = getRealSize().width/2;
 		
 		StickingPolygon p = new StickingPolygon();
-		p.addPoint((int)(hCenter-armLength), 0);
-		p.addPoint((int)(hCenter+armLength), 0);
-		p.addPoint((int)(hCenter+armLength), (int)(headBodyLegLength));
-		p.addPoint((int)(hCenter-armLength), (int)(headBodyLegLength), true);
+		p.addPoint((int)(hCenter-armLength()), 0);
+		p.addPoint((int)(hCenter+armLength()), 0);
+		p.addPoint((int)(hCenter+armLength()), (int)(headToLegLength()));
+		p.addPoint((int)(hCenter-armLength()), (int)(headToLegLength()), true);
 		return p;
 	}
 
 	@Override
 	public Settings getSettings() {
 		return new SettingsActor();
+	}
+
+	private double headToLegLength() {
+		return legSpan()*2+headToBodyLength();
+	}
+
+	private double legSpan() {
+		return getDrawer().getCurrentStyle().getFontSize();
+	}
+
+	private double headToBodyLength() {
+		return getDrawer().getCurrentStyle().getFontSize()*2+headRadius()*2;
+	}
+
+	private double armHeight() {
+		return armLength();
+	}
+	
+	private double armLength() {
+		return getDrawer().getCurrentStyle().getFontSize()*1.5;
+	}
+
+	private double headRadius() {
+		return getDrawer().getCurrentStyle().getFontSize()/2;
 	}
 }
 
