@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>16</x>
-      <y>96</y>
+      <x>8</x>
+      <y>88</y>
       <w>320</w>
       <h>52</h>
     </coordinates>
@@ -19,8 +19,8 @@ elementstyle=autoresize</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>16</x>
-      <y>312</y>
+      <x>8</x>
+      <y>304</y>
       <w>168</w>
       <h>96</h>
     </coordinates>
@@ -38,8 +38,8 @@ lt=.</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>16</x>
-      <y>168</y>
+      <x>8</x>
+      <y>160</y>
       <w>168</w>
       <h>128</h>
     </coordinates>
@@ -55,8 +55,8 @@ elementstyle=wordwrap</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>16</x>
-      <y>16</y>
+      <x>8</x>
+      <y>8</y>
       <w>320</w>
       <h>64</h>
     </coordinates>
@@ -69,8 +69,8 @@ elementstyle=wordwrap</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>192</x>
-      <y>312</y>
+      <x>184</x>
+      <y>304</y>
       <w>144</w>
       <h>96</h>
     </coordinates>
@@ -87,8 +87,8 @@ halign=LEFT</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>192</x>
-      <y>168</y>
+      <x>184</x>
+      <y>160</y>
       <w>144</w>
       <h>128</h>
     </coordinates>
@@ -107,7 +107,7 @@ lth=2.5</panel_attributes>
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>24</x>
+      <x>16</x>
       <y>416</y>
       <w>64</w>
       <h>72</h>
@@ -116,6 +116,33 @@ lth=2.5</panel_attributes>
 --
 Operation1
 Operation2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>88</x>
+      <y>416</y>
+      <w>56</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>Large
+Actor
+lt=..
+fg=gray
+fontsize=20</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>152</x>
+      <y>416</y>
+      <w>40</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Actor2
+bg=red</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
