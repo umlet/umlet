@@ -52,32 +52,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawArcOpen(double x, double y, double width, double height, double start, double extent) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void drawArcChord(double x, double y, double width, double height, double start, double extent) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public void drawArcPie(double x, double y, double width, double height, double start, double extent) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void drawRectangleRound(double x, double y, double width, double height, double arcw, double arch) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void drawCurveCubic(double x1, double y1, double ctrlx1, double ctrly1, double ctrlx2, double ctrly2, double x2, double y2) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void drawCurveQuad(double x1, double y1, double ctrlx, double ctrly, double x2, double y2) {
 		// TODO Auto-generated method stub
 	}
 
