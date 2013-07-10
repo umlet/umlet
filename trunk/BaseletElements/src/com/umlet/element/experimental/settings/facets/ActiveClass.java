@@ -17,18 +17,23 @@ public class ActiveClass extends GlobalStatelessFacet {
 	}
 
 	@Override
-	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleLine(String line, final BaseDrawHandler drawer, final PropertiesConfig propConfig) {
 		//TODO doesn't work inside of an inner class
 		propConfig.addToBuffer(SPACING);
-		XValues xLimits = propConfig.getXLimits(propConfig.getyPos());
-		// draw vertical line left and right
-		drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), propConfig.getGridElementSize().getHeight());
-		drawer.drawLine(xLimits.getRight(), 0, xLimits.getRight(), propConfig.getGridElementSize().getHeight());
+		// draw delayed vertical line left and right (because at this moment, the size is not fixed - it could be changed by autoresize)
+		propConfig.drawDelayed(new Runnable() {
+			@Override
+			public void run() {
+				XValues xLimits = propConfig.getXLimits(propConfig.getyPos());
+				drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), propConfig.getGridElementSize().getHeight());
+				drawer.drawLine(xLimits.getRight(), 0, xLimits.getRight(), propConfig.getGridElementSize().getHeight());
+			}
+		});
 	}
 
 	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {new AutocompletionText(KEY, "make class active (double left/right border)", isGlobal())};
+		return new AutocompletionText[] {new AutocompletionText(KEY, "make class active (double left/right border)")};
 	}
 
 }

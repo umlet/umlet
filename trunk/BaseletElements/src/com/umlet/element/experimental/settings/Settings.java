@@ -1,7 +1,6 @@
 package com.umlet.element.experimental.settings;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import DefaultGlobalFacet.DefaultGlobalTextFacet;
@@ -35,6 +34,10 @@ public abstract class Settings {
 	 * e.g. fg=red could be located at the bottom, but will still be applied to the whole text
 	 */
 	public abstract Facet[] createFacets();
+
+	public Facet[] createGlobalFacets() {
+		return new Facet[]{new DefaultGlobalFacet(), new DefaultGlobalTextFacet()};
+	}
 	
 	public double getYPosStart() {
 		return 0;
@@ -43,19 +46,18 @@ public abstract class Settings {
 	public double getMinElementWidthForAutoresize() {
 		return 0;
 	}
-	
+
 	private List<Facet> localFacets;
 	private List<Facet> globalFacets;
 	private void initFacets() {
 		if (localFacets == null) {
 			localFacets = new ArrayList<Facet>();
-			globalFacets = new ArrayList<Facet>(getPreparseGlobalFacets()); // preparseGlobalFacets is applied again to make sure the keywords are filtered from the outputtext. it's would not be necessary for handling them because they have already been handled
+			globalFacets = new ArrayList<Facet>();
 			for (Facet f : createFacets()) {
-				if (f.isGlobal()) {
-					globalFacets.add(f);
-				} else {
-					localFacets.add(f);
-				}
+				localFacets.add(f);
+			}
+			for (Facet f : createGlobalFacets()) {
+				globalFacets.add(f);
 			}
 		}
 	}
@@ -68,20 +70,6 @@ public abstract class Settings {
 	public final List<Facet> getGlobalFacets() {
 		initFacets();
 		return globalFacets;
-	}
-	
-	
-	private List<? extends Facet> preparseFacets;
-	public List<? extends Facet> createPreparseGlobalFacets() {
-		return Arrays.asList(new DefaultGlobalFacet(), new DefaultGlobalTextFacet());
-	}
-	/**
-	 * PreparseGlobalFacets manipulate important properties like element size, elementStyle, etc. and must be parsed before any other facets
-	 * eg: it must be known if an element is of type AUTORESIZE, before it's size is calculated, before other global facets which could use the size (eg: {active} are applied
-	 */
-	public final List<? extends Facet> getPreparseGlobalFacets() {
-		if (preparseFacets == null) preparseFacets = createPreparseGlobalFacets();
-		return preparseFacets;
 	}
 
 }

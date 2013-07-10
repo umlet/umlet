@@ -5,11 +5,10 @@ public class AutocompletionText {
 	private String info;
 	private boolean global;
 
-	public AutocompletionText(String text, String info, boolean global) {
+	public AutocompletionText(String text, String info) {
 		super();
 		this.text = text;
 		this.info = info;
-		this.global = global;
 	}
 
 	public String getText() {
@@ -18,6 +17,10 @@ public class AutocompletionText {
 
 	public String getInfo() {
 		return info;
+	}
+	
+	public void setGlobal(boolean global) {
+		this.global = global;
 	}
 
 	public boolean isGlobal() {

@@ -18,8 +18,8 @@ public class LineDescription extends RelationFacet {
 	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
 		return new AutocompletionText[] {
-				new AutocompletionText(MESSAGE_START_KEY + SEP, "message at start", isGlobal()),
-				new AutocompletionText(MESSAGE_END_KEY + SEP, "message at end", isGlobal()),
+				new AutocompletionText(MESSAGE_START_KEY + SEP, "message at start"),
+				new AutocompletionText(MESSAGE_END_KEY + SEP, "message at end"),
 				};
 	}
 

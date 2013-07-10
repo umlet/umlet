@@ -1,5 +1,8 @@
 package com.umlet.element.experimental;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 import DefaultGlobalFacet.DefaultGlobalTextFacet.ElementStyleEnum;
@@ -27,6 +30,7 @@ public class PropertiesConfig {
 	private Dimension gridElementSize;
 	private ElementStyleEnum elementStyle;
 	private Integer layer = Integer.valueOf(GlobalSetting.LAYER.getValue());
+	private List<Runnable> delayedDrawings = new ArrayList<Runnable>();
 
 	public PropertiesConfig(Settings settings) {
 		this.hAlign = settings.getHAlign();
@@ -113,11 +117,14 @@ public class PropertiesConfig {
 	}
 
 	public Dimension getGridElementSize() {
+		if (gridElementSize == null) {
+			throw new RuntimeException("Invocation of getGridElementSize() before size has been calculated. Perhaps you should use drawDelayed() method (eg: like in Facet ActiveClass.java)");
+		}
 		return gridElementSize;
 	}
 
 	public XValues getXLimits(double linePos) {
-		XValues xLimits = settings.getXValues(linePos, gridElementSize.height, gridElementSize.width);
+		XValues xLimits = settings.getXValues(linePos, getGridElementSize().height, getGridElementSize().width);
 		xLimits.addLeft(leftBuffer);
 		xLimits.subRight(rightBuffer);
 		return xLimits;
@@ -167,6 +174,17 @@ public class PropertiesConfig {
 	
 	public Settings getSettings() {
 		return settings;
+	}
+	
+	public void drawDelayed(Runnable runnable) {
+		delayedDrawings.add(runnable);
+	}
+	
+	public void executeDelayedDrawings() {
+		for (Runnable r : delayedDrawings) {
+			r.run();
+		}
+		delayedDrawings.clear();
 	}
 
 }

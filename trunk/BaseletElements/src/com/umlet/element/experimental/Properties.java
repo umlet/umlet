@@ -50,19 +50,12 @@ public class Properties {
 		this.elementSettings = element.getSettings();
 		this.propCfg = new PropertiesConfig(element.getSettings());
 
-		// Handle preparse global facets which set main attributes like elementstyle, ...
-		parseGlobalFacets(elementSettings.getPreparseGlobalFacets());
-		
-		// Determine element size which is necessary for some global facets (like {active})
+		parseGlobalFacets(elementSettings.getGlobalFacets());
+
 		if (getElementStyle() == ElementStyleEnum.AUTORESIZE) {
 			element.handleAutoresize(getExpectedElementDimensionsOnDefaultZoom(element));
 		}
 		this.propCfg.setGridElementSize(element.getRealSize());
-
-		propertiesTextToDraw.clear(); // clear text to draw which was only necessary to determine text-dimensions for autoresize
-
-		// Handle other global facets
-		parseGlobalFacets(elementSettings.getGlobalFacets());
 	}
 
 	private void parseGlobalFacets(List<? extends Facet> facets) {
@@ -115,6 +108,7 @@ public class Properties {
 	public void drawPropertiesText() {
 		propCfg.addToYPos(calcTopDisplacementToFitLine(calcStartPointFromVAlign(propCfg), propCfg));
 		handleWordWrapAndIterate(elementSettings, propCfg, drawer);
+		propCfg.executeDelayedDrawings();
 	}
 
 	private double calcTopDisplacementToFitLine(double startPoint, PropertiesConfig propCfg) {

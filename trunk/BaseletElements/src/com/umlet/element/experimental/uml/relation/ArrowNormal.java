@@ -27,14 +27,14 @@ public class ArrowNormal extends Arrow {
 	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
 		return new AutocompletionText[] {
-				new AutocompletionText(START+NORMAL, "normal start arrow", isGlobal()),
-				new AutocompletionText(START+CLOSED, "closed start arrow", isGlobal()),
-				new AutocompletionText(START+INVERSE, "inversed normal start arrow", isGlobal()),
-				new AutocompletionText(START+INV_CLOSED, "inversed closed start arrow", isGlobal()),
-				new AutocompletionText(END+NORMAL, "normal end arrow", isGlobal()),
-				new AutocompletionText(END+CLOSED, "closed end arrow", isGlobal()),
-				new AutocompletionText(END+INVERSE, "inversed normal end arrow", isGlobal()),
-				new AutocompletionText(END+INV_CLOSED, "inversed closed arrow", isGlobal()),
+				new AutocompletionText(START+NORMAL, "normal start arrow"),
+				new AutocompletionText(START+CLOSED, "closed start arrow"),
+				new AutocompletionText(START+INVERSE, "inversed normal start arrow"),
+				new AutocompletionText(START+INV_CLOSED, "inversed closed start arrow"),
+				new AutocompletionText(END+NORMAL, "normal end arrow"),
+				new AutocompletionText(END+CLOSED, "closed end arrow"),
+				new AutocompletionText(END+INVERSE, "inversed normal end arrow"),
+				new AutocompletionText(END+INV_CLOSED, "inversed closed arrow"),
 				};
 	}
 
