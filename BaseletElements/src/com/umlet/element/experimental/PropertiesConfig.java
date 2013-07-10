@@ -20,7 +20,7 @@ public class PropertiesConfig {
 	private AlignVertical vAlign;
 	private boolean vAlignGloballySet = false;
 	private Double yPos = null;
-	private double requiredElementWidth = 0;
+	private double elementWidthForAutoresize;
 	private int leftBuffer = 0;
 	private int rightBuffer = 0;
 	private Settings settings;
@@ -32,7 +32,7 @@ public class PropertiesConfig {
 		this.hAlign = settings.getHAlign();
 		this.vAlign = settings.getVAlign();
 		this.elementStyle = settings.getElementStyle();
-		this.requiredElementWidth = settings.getMinElementWidthForAutoresize();
+		this.elementWidthForAutoresize = settings.getMinElementWidthForAutoresize();
 		this.settings = settings;
 	}
 
@@ -86,26 +86,26 @@ public class PropertiesConfig {
 		yPos += inc;
 	}
 
-	private int maxLeftBuffer = 0;
-	private int maxRightBuffer = 0;
+//	private int maxLeftBuffer = 0;
+//	private int maxRightBuffer = 0;
 
 	public void addToLeftBuffer(int inc) {
 		this.leftBuffer += inc;
-		if (leftBuffer > maxLeftBuffer) maxLeftBuffer = leftBuffer;
+//		if (leftBuffer > maxLeftBuffer) maxLeftBuffer = leftBuffer;
 	}
 
 	public void addToRightBuffer(int inc) {
 		this.rightBuffer += inc;
-		if (rightBuffer > maxRightBuffer) maxRightBuffer = rightBuffer;
+//		if (rightBuffer > maxRightBuffer) maxRightBuffer = rightBuffer;
 	}
 
-	public int getMaxLeftBuffer() {
-		return maxLeftBuffer;
-	}
-
-	public int getMaxRightBuffer() {
-		return maxRightBuffer;
-	}
+//	public int getMaxLeftBuffer() {
+//		return maxLeftBuffer;
+//	}
+//
+//	public int getMaxRightBuffer() {
+//		return maxRightBuffer;
+//	}
 
 	public void addToBuffer(int inc) {
 		addToLeftBuffer(inc);
@@ -133,12 +133,12 @@ public class PropertiesConfig {
 		return getyPos() - f + 2;
 	}
 
-	public void updateRequiredElementWidth(double width) {
-		requiredElementWidth = Math.max(requiredElementWidth, width);
+	public void updateElementWidthForAutoresize(double width) {
+		elementWidthForAutoresize = Math.max(elementWidthForAutoresize, width);
 	}
 
-	public double getRequiredElementWidth() {
-		return requiredElementWidth;
+	public double getElementWidthForAutoresize() {
+		return elementWidthForAutoresize;
 	}
 
 	public void setGridElementSize(Dimension gridElementSize) {
