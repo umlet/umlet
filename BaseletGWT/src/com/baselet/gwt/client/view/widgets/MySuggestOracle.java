@@ -20,7 +20,7 @@ public class MySuggestOracle extends SuggestOracle {
 
 		@Override
 		public String getDisplayString() {
-			return autoCompletionText.getText() + " <span style='font-style:italic;color:gray'>" + autoCompletionText.getInfo() + "</span>";
+			return autoCompletionText.getHtmlInfo();
 		}
 
 		@Override
