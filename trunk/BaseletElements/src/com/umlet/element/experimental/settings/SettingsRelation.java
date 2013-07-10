@@ -5,7 +5,6 @@ import DefaultGlobalFacet.DefaultGlobalTextFacet.ElementStyleEnum;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet;
 import com.umlet.element.experimental.settings.facets.Facet;
 import com.umlet.element.experimental.uml.relation.ArrowNormal;
 import com.umlet.element.experimental.uml.relation.LineDescription;
@@ -49,8 +48,8 @@ public class SettingsRelation extends Settings {
 	}
 	
 	@Override
-	public Facet[] createGlobalFacets() {
-		return new Facet[]{new DefaultGlobalFacet()};
+	protected boolean addDefaultGlobalTextFacet() {
+		return false;
 	}
 
 }

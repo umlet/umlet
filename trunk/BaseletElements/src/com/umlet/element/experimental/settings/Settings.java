@@ -35,8 +35,12 @@ public abstract class Settings {
 	 */
 	public abstract Facet[] createFacets();
 
-	public Facet[] createGlobalFacets() {
-		return new Facet[]{new DefaultGlobalFacet(), new DefaultGlobalTextFacet()};
+	protected boolean addDefaultGlobalFacets() {
+		return true;
+	}
+	
+	protected boolean addDefaultGlobalTextFacet() {
+		return true;
 	}
 	
 	public double getYPosStart() {
@@ -54,10 +58,17 @@ public abstract class Settings {
 			localFacets = new ArrayList<Facet>();
 			globalFacets = new ArrayList<Facet>();
 			for (Facet f : createFacets()) {
-				localFacets.add(f);
+				if (f.isGlobal()) {
+					globalFacets.add(f);
+				} else {
+					localFacets.add(f);
+				}
 			}
-			for (Facet f : createGlobalFacets()) {
-				globalFacets.add(f);
+			if (addDefaultGlobalFacets()) {
+				globalFacets.add(new DefaultGlobalFacet());
+			}
+			if (addDefaultGlobalTextFacet()) {
+				globalFacets.add(new DefaultGlobalTextFacet());
 			}
 		}
 	}
