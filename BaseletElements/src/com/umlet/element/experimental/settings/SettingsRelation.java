@@ -1,8 +1,5 @@
 package com.umlet.element.experimental.settings;
 
-import java.util.Arrays;
-import java.util.List;
-
 import DefaultGlobalFacet.DefaultGlobalTextFacet.ElementStyleEnum;
 
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -52,8 +49,8 @@ public class SettingsRelation extends Settings {
 	}
 	
 	@Override
-	public List<? extends Facet> createPreparseGlobalFacets() {
-		return Arrays.asList(new DefaultGlobalFacet());
+	public Facet[] createGlobalFacets() {
+		return new Facet[]{new DefaultGlobalFacet()};
 	}
 
 }

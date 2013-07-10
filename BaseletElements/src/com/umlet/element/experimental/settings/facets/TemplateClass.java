@@ -34,7 +34,7 @@ public class TemplateClass extends GlobalStatelessFacet {
 
 	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {new AutocompletionText(KEY + "txt", "print template rectangle on top right corner", isGlobal())};
+		return new AutocompletionText[] {new AutocompletionText(KEY + "txt", "print template rectangle on top right corner")};
 	}
 
 }

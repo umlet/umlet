@@ -37,13 +37,13 @@ public class DefaultGlobalTextFacet extends GlobalStatelessFacet {
 		GlobalTextSetting(String key, String value, String info) {
 			this.key = key.toLowerCase();
 			this.value = value;
-			this.autocompletionValues.add(new AutocompletionText(key.toLowerCase() + SEP + value.toLowerCase(), info, true));
+			this.autocompletionValues.add(new AutocompletionText(key.toLowerCase() + SEP + value.toLowerCase(), info));
 		}
 
 		GlobalTextSetting(String key, String[] ... valueInfoPairs) {
 			this.key = key.toLowerCase();
 			for (String[] valueInfoPair : valueInfoPairs) {
-				this.autocompletionValues.add(new AutocompletionText(key.toLowerCase() + SEP + valueInfoPair[0].toLowerCase(), valueInfoPair[1], true));
+				this.autocompletionValues.add(new AutocompletionText(key.toLowerCase() + SEP + valueInfoPair[0].toLowerCase(), valueInfoPair[1]));
 			}
 		}
 

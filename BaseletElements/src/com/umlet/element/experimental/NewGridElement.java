@@ -1,7 +1,6 @@
 package com.umlet.element.experimental;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -291,13 +290,18 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public List<AutocompletionText> getAutocompletionList() {
 		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
-		for (Facet f : getSettings().getGlobalFacets()) {
-			returnList.addAll(Arrays.asList(f.getAutocompletionStrings()));
-		}
-		for (Facet f : getSettings().getLocalFacets()) {
-			returnList.addAll(Arrays.asList(f.getAutocompletionStrings()));
-		}
+		addAutocompletionTexts(returnList, getSettings().getGlobalFacets());
+		addAutocompletionTexts(returnList, getSettings().getLocalFacets());
 		return returnList;
+	}
+
+	private void addAutocompletionTexts(List<AutocompletionText> returnList, List<Facet> facets) {
+		for (Facet f : facets) {
+			for (AutocompletionText t : f.getAutocompletionStrings()) {
+				t.setGlobal(f.isGlobal());
+				returnList.add(t);
+			}
+		}
 	}
 
 	@Override

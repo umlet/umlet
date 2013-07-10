@@ -71,7 +71,7 @@ public class InnerClass extends LocalFacet {
 
 	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[]  {new AutocompletionText(START, "begin inner class", isGlobal()), new AutocompletionText(END, "end inner class", isGlobal())};
+		return new AutocompletionText[]  {new AutocompletionText(START, "begin inner class"), new AutocompletionText(END, "end inner class")};
 	}
 
 }

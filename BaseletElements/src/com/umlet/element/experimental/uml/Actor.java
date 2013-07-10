@@ -1,8 +1,5 @@
 package com.umlet.element.experimental.uml;
 
-import java.util.Arrays;
-import java.util.List;
-
 import DefaultGlobalFacet.DefaultGlobalTextFacet.ElementStyleEnum;
 
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -48,8 +45,8 @@ public class Actor extends NewGridElement {
 		}
 		
 		@Override
-		public List<? extends Facet> createPreparseGlobalFacets() {
-			return Arrays.asList(new DefaultGlobalFacet());
+		public Facet[] createGlobalFacets() {
+			return new Facet[]{new DefaultGlobalFacet()};
 		}
 		
 		@Override

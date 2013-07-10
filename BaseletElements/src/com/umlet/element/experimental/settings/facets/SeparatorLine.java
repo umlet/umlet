@@ -39,7 +39,7 @@ public class SeparatorLine extends LocalStatelessFacet {
 
 	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {new AutocompletionText(KEY, "draw horizontal line", isGlobal())};
+		return new AutocompletionText[] {new AutocompletionText(KEY, "draw horizontal line")};
 	}
 
 }
