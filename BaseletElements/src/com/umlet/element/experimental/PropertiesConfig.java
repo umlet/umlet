@@ -19,7 +19,7 @@ public class PropertiesConfig {
 	private boolean hAlignGloballySet = false;
 	private AlignVertical vAlign;
 	private boolean vAlignGloballySet = false;
-	private double yPos;
+	private Double yPos = null;
 	private double requiredElementWidth = 0;
 	private int leftBuffer = 0;
 	private int rightBuffer = 0;
@@ -32,8 +32,7 @@ public class PropertiesConfig {
 		this.hAlign = settings.getHAlign();
 		this.vAlign = settings.getVAlign();
 		this.elementStyle = settings.getElementStyle();
-		this.yPos = settings.getYPosStart();
-		this.requiredElementWidth = settings.getMinElementWidth();
+		this.requiredElementWidth = settings.getMinElementWidthForAutoresize();
 		this.settings = settings;
 	}
 
@@ -74,10 +73,16 @@ public class PropertiesConfig {
 	}
 
 	public double getyPos() {
+		if (yPos == null) {
+			yPos = settings.getYPosStart();
+		}
 		return yPos;
 	}
 
 	public void addToYPos(double inc) {
+		if (yPos == null) { // get yPos from settings the first time it would be modified, because initialization in constructor would be too early (eg: it could depend on some settings of preparsefacets like fontsize)
+			yPos = settings.getYPosStart();
+		}
 		yPos += inc;
 	}
 

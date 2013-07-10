@@ -31,7 +31,7 @@ public class SettingsInterface extends Settings {
 	}
 	
 	@Override
-	public int getYPosStart() {
+	public double getYPosStart() {
 		return 22; // space reserved for the top circle
 	}
 

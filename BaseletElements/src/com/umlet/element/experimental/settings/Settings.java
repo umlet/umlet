@@ -36,11 +36,11 @@ public abstract class Settings {
 	 */
 	public abstract Facet[] createFacets();
 	
-	public int getYPosStart() {
+	public double getYPosStart() {
 		return 0;
 	}
 
-	public double getMinElementWidth() {
+	public double getMinElementWidthForAutoresize() {
 		return 0;
 	}
 	
