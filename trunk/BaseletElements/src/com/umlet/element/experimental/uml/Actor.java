@@ -53,12 +53,12 @@ public class Actor extends NewGridElement {
 		}
 		
 		@Override
-		public int getYPosStart() {
-			return (int) headToLegLength(); // equals headBodyLegLength
+		public double getYPosStart() {
+			return headToLegLength(); // equals headBodyLegLength
 		}
 		
 		@Override
-		public double getMinElementWidth() {
+		public double getMinElementWidthForAutoresize() {
 			return armLength()*2; // armLength
 		}
 	}
