@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import DefaultGlobalFacet.DefaultGlobalTextFacet.ElementStyleEnum;
-
 import com.baselet.control.TextSplitter;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
@@ -14,6 +12,7 @@ import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalTextFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.facets.Facet;
 
 public class Properties {
