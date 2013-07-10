@@ -6,7 +6,7 @@ import com.baselet.control.enumerations.LineType;
 
 public class Style {
 	private LineType lineType;
-	private Float lineThickness;
+	private double lineThickness;
 	private ColorOwn fgColor;
 	private ColorOwn bgColor;
 
@@ -14,7 +14,7 @@ public class Style {
 	private boolean applyZoom;
 	
 	public Style() {
-		this.lineThickness = (float) NewGridElementConstants.DEFAULT_LINE_THICKNESS;
+		this.lineThickness = (double) NewGridElementConstants.DEFAULT_LINE_THICKNESS;
 		this.lineType = LineType.SOLID;
 		this.applyZoom = true;
 	}
@@ -36,10 +36,10 @@ public class Style {
 	public LineType getLineType() {
 		return lineType;
 	}
-	public void setLineThickness(float lineThickness) {
+	public void setLineThickness(double lineThickness) {
 		this.lineThickness = lineThickness;
 	}
-	public float getLineThickness() {
+	public double getLineThickness() {
 		return lineThickness;
 	}
 	public void setFgColor(ColorOwn fgColor) {

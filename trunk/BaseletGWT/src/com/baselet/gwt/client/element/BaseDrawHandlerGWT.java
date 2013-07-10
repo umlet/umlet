@@ -20,7 +20,7 @@ import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 
 public class BaseDrawHandlerGWT extends BaseDrawHandler {
 
-	private float HALF_PX = 0.5f;
+	private double HALF_PX = 0.5f;
 	
 	private static final Logger log = Logger.getLogger(BaseDrawHandlerGWT.class);
 
@@ -35,7 +35,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	@Override
 	protected DimensionDouble textDimension(String string) {
 		ctxSetFont(style.getFontSize(), StringStyle.analyseStyle(string));
-		DimensionDouble dim = new DimensionDouble((float) ctx.measureText(string).getWidth(), style.getFontSize());
+		DimensionDouble dim = new DimensionDouble((double) ctx.measureText(string).getWidth(), style.getFontSize());
 		return dim;
 	}
 
@@ -52,32 +52,32 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawArcOpen(float x, float y, float width, float height, float start, float extent) {
+	public void drawArcOpen(double x, double y, double width, double height, double start, double extent) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void drawArcChord(float x, float y, float width, float height, float start, float extent) {
+	public void drawArcChord(double x, double y, double width, double height, double start, double extent) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void drawArcPie(float x, float y, float width, float height, float start, float extent) {
+	public void drawArcPie(double x, double y, double width, double height, double start, double extent) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void drawRectangleRound(float x, float y, float width, float height, float arcw, float arch) {
+	public void drawRectangleRound(double x, double y, double width, double height, double arcw, double arch) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void drawCurveCubic(float x1, float y1, float ctrlx1, float ctrly1, float ctrlx2, float ctrly2, float x2, float y2) {
+	public void drawCurveCubic(double x1, double y1, double ctrlx1, double ctrly1, double ctrlx2, double ctrly2, double x2, double y2) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void drawCurveQuad(float x1, float y1, float ctrlx, float ctrly, float x2, float y2) {
+	public void drawCurveQuad(double x1, double y1, double ctrlx, double ctrly, double x2, double y2) {
 		// TODO Auto-generated method stub
 	}
 
@@ -97,7 +97,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawEllipse(final float x, final float y, final float width, final float height) {
+	public void drawEllipse(final double x, final double y, final double width, final double height) {
 		final Style styleAtDrawingCall = style.cloneFromMe();
 		addDrawable(new DrawFunction() {
 			@Override
@@ -201,14 +201,14 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	/**
 	 * based on http://stackoverflow.com/questions/2172798/how-to-draw-an-oval-in-html5-canvas/2173084#2173084
 	 */
-	private void drawEllipseHelper(Context2d ctx, float x, float y, float w, float h) {
-		float kappa = .5522848f;
-		float ox = (w / 2) * kappa; // control point offset horizontal
-		float oy = (h / 2) * kappa; // control point offset vertical
-		float xe = x + w;           // x-end
-		float ye = y + h;           // y-end
-		float xm = x + w / 2;       // x-middle
-		float ym = y + h / 2;       // y-middle
+	private void drawEllipseHelper(Context2d ctx, double x, double y, double w, double h) {
+		double kappa = .5522848f;
+		double ox = (w / 2) * kappa; // control point offset horizontal
+		double oy = (h / 2) * kappa; // control point offset vertical
+		double xe = x + w;           // x-end
+		double ye = y + h;           // y-end
+		double xm = x + w / 2;       // x-middle
+		double ym = y + h / 2;       // y-middle
 
 		ctx.beginPath();
 		ctx.moveTo(x, ym);
@@ -249,7 +249,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 
 	}
 
-	private void setLineDash(Context2d ctx, LineType lineType, float lineThickness) {
+	private void setLineDash(Context2d ctx, LineType lineType, double lineThickness) {
 		try {
 			switch (lineType) {
 				case DASHED: // large linethickness values need longer dashes
@@ -271,7 +271,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	 * Chrome supports setLineDash()
 	 * Firefox supports mozDash()
 	 */
-	public final native void setLineDash(Context2d ctx, float dash) /*-{
+	public final native void setLineDash(Context2d ctx, double dash) /*-{
 	    if (ctx.setLineDash !== undefined) {
 	    	ctx.setLineDash([dash]);
 	    } else if (ctx.mozDash !== undefined) {
