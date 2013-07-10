@@ -11,7 +11,6 @@ import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet;
 import com.umlet.element.experimental.settings.facets.Facet;
 import com.umlet.element.experimental.settings.facets.SeparatorLine;
 
@@ -43,10 +42,10 @@ public class Actor extends NewGridElement {
 		public Facet[] createFacets() {
 			return new Facet[]{new SeparatorLine()};
 		}
-		
+
 		@Override
-		public Facet[] createGlobalFacets() {
-			return new Facet[]{new DefaultGlobalFacet()};
+		protected boolean addDefaultGlobalTextFacet() {
+			return false;
 		}
 		
 		@Override
