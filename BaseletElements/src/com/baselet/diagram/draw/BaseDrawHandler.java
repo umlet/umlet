@@ -94,14 +94,14 @@ public abstract class BaseDrawHandler {
 		setBackgroundColor("bg");
 	}
 
-	public final void setFontSize(float fontSize) {
+	public final void setFontSize(double fontSize) {
 		style.setFontSize(fontSize);
 	}
 
 	public final void setFontSize(String fontSize) {
 		if (fontSize != null) {
 			try {
-				setFontSize(Float.valueOf(fontSize));
+				setFontSize(Double.valueOf(fontSize));
 			} catch (NumberFormatException e) {/*do nothing*/}
 		}
 	}
@@ -117,10 +117,10 @@ public abstract class BaseDrawHandler {
 			}
 		}
 
-		if (LineType.BOLD.getValue().equals(type)) style.setLineThickness(2.0f);
+		if (LineType.BOLD.getValue().equals(type)) style.setLineThickness(2);
 	}
 	
-	public final void setLineThickness(float lineThickness) {
+	public final void setLineThickness(double lineThickness) {
 		style.setLineThickness(lineThickness);
 	}
 	
@@ -128,7 +128,7 @@ public abstract class BaseDrawHandler {
 		resetColorSettings();
 		style.setFontSize(getDefaultFontSize());
 		style.setLineType(LineType.SOLID);
-		style.setLineThickness(1.0f);
+		style.setLineThickness(1);
 	}
 
 	public Style getCurrentStyle() {
@@ -145,7 +145,7 @@ public abstract class BaseDrawHandler {
 		}
 	}
 
-	public float getDistanceHorizontalBorderToText() {
+	public double getDistanceHorizontalBorderToText() {
 		return 3;
 	}
 	
@@ -175,15 +175,15 @@ public abstract class BaseDrawHandler {
 	public void print(String text, double x, double y, AlignHorizontal align) {
 		print(text, new PointDouble(x,y), align);
 	}
-	public abstract void drawArcOpen(float x, float y, float width, float height, float start, float extent);
-	public abstract void drawArcChord(float x, float y, float width, float height, float start, float extent);
-	public abstract void drawArcPie(float x, float y, float width, float height, float start, float extent);
+	public abstract void drawArcOpen(double x, double y, double width, double height, double start, double extent);
+	public abstract void drawArcChord(double x, double y, double width, double height, double start, double extent);
+	public abstract void drawArcPie(double x, double y, double width, double height, double start, double extent);
 	public abstract void drawCircle(double x, double y, double radius);
-	public abstract void drawCurveCubic(float x1, float y1, float ctrlx1, float ctrly1, float ctrlx2, float ctrly2, float x2, float y2);
-	public abstract void drawCurveQuad(float x1, float y1, float ctrlx, float ctrly, float x2, float y2);
-	public abstract void drawEllipse(float x, float y, float width, float height);
+	public abstract void drawCurveCubic(double x1, double y1, double ctrlx1, double ctrly1, double ctrlx2, double ctrly2, double x2, double y2);
+	public abstract void drawCurveQuad(double x1, double y1, double ctrlx, double ctrly, double x2, double y2);
+	public abstract void drawEllipse(double x, double y, double width, double height);
 	public abstract void drawLines(PointDouble ... points);
 	public abstract void drawRectangle(double x, double y, double width, double height);
-	public abstract void drawRectangleRound(float x, float y, float width, float height, float arcw, float arch);
+	public abstract void drawRectangleRound(double x, double y, double width, double height, double arcw, double arch);
 	public abstract void print(String text, PointDouble point, AlignHorizontal align);
 }

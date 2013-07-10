@@ -52,7 +52,7 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		this.g2 = (Graphics2D) g;
 	}
 
-	private float getZoom() {
+	private double getZoom() {
 		return handler.getZoomFactor();
 	}
 
@@ -89,18 +89,18 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	 * DRAW METHODS
 	 */
 	@Override
-	public void drawArcOpen(float x, float y, float width, float height, float start, float extent) {
-		addShape(new Arc2D.Float(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), start, extent, Arc2D.OPEN));
+	public void drawArcOpen(double x, double y, double width, double height, double start, double extent) {
+		addShape(new Arc2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), start, extent, Arc2D.OPEN));
 	}
 
 	@Override
-	public void drawArcChord(float x, float y, float width, float height, float start, float extent) {
-		addShape(new Arc2D.Float(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), start, extent, Arc2D.CHORD));
+	public void drawArcChord(double x, double y, double width, double height, double start, double extent) {
+		addShape(new Arc2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), start, extent, Arc2D.CHORD));
 	}
 
 	@Override
-	public void drawArcPie(float x, float y, float width, float height, float start, float extent) {
-		addShape(new Arc2D.Float(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), start, extent, Arc2D.PIE));
+	public void drawArcPie(double x, double y, double width, double height, double start, double extent) {
+		addShape(new Arc2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), start, extent, Arc2D.PIE));
 	}
 
 	@Override
@@ -109,18 +109,18 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawCurveCubic(float x1, float y1, float ctrlx1, float ctrly1, float ctrlx2, float ctrly2, float x2, float y2) {
-		addShape(new CubicCurve2D.Float(x1 * getZoom(), y1 * getZoom(), ctrlx1 * getZoom(), ctrly1 * getZoom(), ctrlx2 * getZoom(), ctrly2 * getZoom(), x2 * getZoom(), y2 * getZoom()));
+	public void drawCurveCubic(double x1, double y1, double ctrlx1, double ctrly1, double ctrlx2, double ctrly2, double x2, double y2) {
+		addShape(new CubicCurve2D.Double(x1 * getZoom(), y1 * getZoom(), ctrlx1 * getZoom(), ctrly1 * getZoom(), ctrlx2 * getZoom(), ctrly2 * getZoom(), x2 * getZoom(), y2 * getZoom()));
 	}
 
 	@Override
-	public void drawCurveQuad(float x1, float y1, float ctrlx, float ctrly, float x2, float y2) {
-		addShape(new QuadCurve2D.Float(x1 * getZoom(), y1 * getZoom(), ctrlx * getZoom(), ctrly * getZoom(), x2 * getZoom(), y2 * getZoom()));
+	public void drawCurveQuad(double x1, double y1, double ctrlx, double ctrly, double x2, double y2) {
+		addShape(new QuadCurve2D.Double(x1 * getZoom(), y1 * getZoom(), ctrlx * getZoom(), ctrly * getZoom(), x2 * getZoom(), y2 * getZoom()));
 	}
 
 	@Override
-	public void drawEllipse(float x, float y, float width, float height) {
-		addShape(new Ellipse2D.Float(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom()));
+	public void drawEllipse(double x, double y, double width, double height) {
+		addShape(new Ellipse2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom()));
 	}
 
 	@Override
@@ -148,8 +148,8 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawRectangleRound(float x, float y, float width, float height, float arcw, float arch) {
-		addShape(new RoundRectangle2D.Float(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), arcw * getZoom(), arch * getZoom()));
+	public void drawRectangleRound(double x, double y, double width, double height, double arcw, double arch) {
+		addShape(new RoundRectangle2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), arcw * getZoom(), arch * getZoom()));
 	}
 
 	@Override
@@ -180,7 +180,7 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		// Shapes Foreground
 		ColorOwn colOwn = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
 		g2.setColor(Converter.convert(colOwn));
-		g2.setStroke(Utils.getStroke(style.getLineType(), style.getLineThickness()));
+		g2.setStroke(Utils.getStroke(style.getLineType(), (float) style.getLineThickness()));
 		if (translate != null) {
 			double xTranslation = s.getBounds().x == 0 ? 0.5 : 0;
 			double yTranslation = s.getBounds().y == 0 ? 0.5 : 0;
