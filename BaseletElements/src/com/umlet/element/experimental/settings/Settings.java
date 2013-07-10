@@ -3,14 +3,13 @@ package com.umlet.element.experimental.settings;
 import java.util.ArrayList;
 import java.util.List;
 
-import DefaultGlobalFacet.DefaultGlobalTextFacet;
-import DefaultGlobalFacet.DefaultGlobalTextFacet.ElementStyleEnum;
-
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalTextFacet;
 import com.umlet.element.experimental.settings.facets.Facet;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalTextFacet.ElementStyleEnum;
 
 public abstract class Settings {
 

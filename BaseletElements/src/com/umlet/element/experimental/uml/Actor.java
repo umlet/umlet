@@ -1,7 +1,5 @@
 package com.umlet.element.experimental.uml;
 
-import DefaultGlobalFacet.DefaultGlobalTextFacet.ElementStyleEnum;
-
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
@@ -13,6 +11,7 @@ import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.facets.Facet;
 import com.umlet.element.experimental.settings.facets.SeparatorLine;
+import com.umlet.element.experimental.settings.facets.DefaultGlobalTextFacet.ElementStyleEnum;
 
 public class Actor extends NewGridElement {
 	

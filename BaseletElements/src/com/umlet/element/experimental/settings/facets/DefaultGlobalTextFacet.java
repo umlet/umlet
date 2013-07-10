@@ -1,4 +1,4 @@
-package DefaultGlobalFacet;
+package com.umlet.element.experimental.settings.facets;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,6 @@ import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.settings.facets.GlobalStatelessFacet;
 
 public class DefaultGlobalTextFacet extends GlobalStatelessFacet {
 
