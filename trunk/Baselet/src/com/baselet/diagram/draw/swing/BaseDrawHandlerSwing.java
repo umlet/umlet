@@ -5,11 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Arc2D;
-import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
-import java.awt.geom.QuadCurve2D;
-import java.awt.geom.RoundRectangle2D;
 
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -88,15 +85,15 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	/*
 	 * DRAW METHODS
 	 */
-	@Override
-	public void drawArcOpen(double x, double y, double width, double height, double start, double extent) {
-		addShape(new Arc2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), start, extent, Arc2D.OPEN));
-	}
-
-	@Override
-	public void drawArcChord(double x, double y, double width, double height, double start, double extent) {
-		addShape(new Arc2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), start, extent, Arc2D.CHORD));
-	}
+//	@Override
+//	public void drawArcOpen(double x, double y, double width, double height, double start, double extent) {
+//		addShape(new Arc2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), start, extent, Arc2D.OPEN));
+//	}
+//
+//	@Override
+//	public void drawArcChord(double x, double y, double width, double height, double start, double extent) {
+//		addShape(new Arc2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), start, extent, Arc2D.CHORD));
+//	}
 
 	@Override
 	public void drawArcPie(double x, double y, double width, double height, double start, double extent) {
@@ -108,15 +105,15 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		addShape(new Ellipse2D.Double((x - radius) * getZoom(), (y - radius) * getZoom(), radius * 2 * getZoom(), radius * 2 * getZoom()));
 	}
 
-	@Override
-	public void drawCurveCubic(double x1, double y1, double ctrlx1, double ctrly1, double ctrlx2, double ctrly2, double x2, double y2) {
-		addShape(new CubicCurve2D.Double(x1 * getZoom(), y1 * getZoom(), ctrlx1 * getZoom(), ctrly1 * getZoom(), ctrlx2 * getZoom(), ctrly2 * getZoom(), x2 * getZoom(), y2 * getZoom()));
-	}
-
-	@Override
-	public void drawCurveQuad(double x1, double y1, double ctrlx, double ctrly, double x2, double y2) {
-		addShape(new QuadCurve2D.Double(x1 * getZoom(), y1 * getZoom(), ctrlx * getZoom(), ctrly * getZoom(), x2 * getZoom(), y2 * getZoom()));
-	}
+//	@Override
+//	public void drawCurveCubic(double x1, double y1, double ctrlx1, double ctrly1, double ctrlx2, double ctrly2, double x2, double y2) {
+//		addShape(new CubicCurve2D.Double(x1 * getZoom(), y1 * getZoom(), ctrlx1 * getZoom(), ctrly1 * getZoom(), ctrlx2 * getZoom(), ctrly2 * getZoom(), x2 * getZoom(), y2 * getZoom()));
+//	}
+//
+//	@Override
+//	public void drawCurveQuad(double x1, double y1, double ctrlx, double ctrly, double x2, double y2) {
+//		addShape(new QuadCurve2D.Double(x1 * getZoom(), y1 * getZoom(), ctrlx * getZoom(), ctrly * getZoom(), x2 * getZoom(), y2 * getZoom()));
+//	}
 
 	@Override
 	public void drawEllipse(double x, double y, double width, double height) {
@@ -147,10 +144,10 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		addShape(new Rectangle.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom()));
 	}
 
-	@Override
-	public void drawRectangleRound(double x, double y, double width, double height, double arcw, double arch) {
-		addShape(new RoundRectangle2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), arcw * getZoom(), arch * getZoom()));
-	}
+//	@Override
+//	public void drawRectangleRound(double x, double y, double width, double height, double arcw, double arch) {
+//		addShape(new RoundRectangle2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), arcw * getZoom(), arch * getZoom()));
+//	}
 
 	@Override
 	public void print(String text, PointDouble point, AlignHorizontal align) {

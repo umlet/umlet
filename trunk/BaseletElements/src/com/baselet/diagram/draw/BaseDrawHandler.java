@@ -175,15 +175,10 @@ public abstract class BaseDrawHandler {
 	public void print(String text, double x, double y, AlignHorizontal align) {
 		print(text, new PointDouble(x,y), align);
 	}
-	public abstract void drawArcOpen(double x, double y, double width, double height, double start, double extent);
-	public abstract void drawArcChord(double x, double y, double width, double height, double start, double extent);
 	public abstract void drawArcPie(double x, double y, double width, double height, double start, double extent);
 	public abstract void drawCircle(double x, double y, double radius);
-	public abstract void drawCurveCubic(double x1, double y1, double ctrlx1, double ctrly1, double ctrlx2, double ctrly2, double x2, double y2);
-	public abstract void drawCurveQuad(double x1, double y1, double ctrlx, double ctrly, double x2, double y2);
 	public abstract void drawEllipse(double x, double y, double width, double height);
 	public abstract void drawLines(PointDouble ... points);
 	public abstract void drawRectangle(double x, double y, double width, double height);
-	public abstract void drawRectangleRound(double x, double y, double width, double height, double arcw, double arch);
 	public abstract void print(String text, PointDouble point, AlignHorizontal align);
 }
