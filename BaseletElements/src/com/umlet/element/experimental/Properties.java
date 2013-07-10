@@ -67,15 +67,20 @@ public class Properties {
 
 	private void parseGlobalFacets(List<? extends Facet> facets) {
 		for (String line : getPanelAttributesAsList()) {
-			boolean drawText = true;
-			for (Facet gf : facets) {
-				if (gf.checkStart(line)) {
-					gf.handleLine(line, drawer, propCfg);
-					if (gf.replacesText(line)) drawText = false;
-				}
-			}
+			boolean drawText = parseFacets(facets, line, drawer, propCfg);
 			if (drawText && !line.startsWith("//")) propertiesTextToDraw.add(line);
 		}
+	}
+
+	private boolean parseFacets(List<? extends Facet> facets, String line, BaseDrawHandler drawer, PropertiesConfig propCfg) {
+		boolean drawText = true;
+		for (Facet f : facets) {
+			if (f.checkStart(line)) {
+				f.handleLine(line, drawer, propCfg);
+				if (f.replacesText(line)) drawText = false;
+			}
+		}
+		return drawText;
 	}
 
 	public ElementStyleEnum getElementStyle() {
@@ -149,15 +154,7 @@ public class Properties {
 	}
 
 	private void handleLine(Settings elementSettings, String line, PropertiesConfig propCfg, BaseDrawHandler drawer) {
-		boolean drawText = true;
-		for (Facet facet : elementSettings.getLocalFacets()) {
-			if (facet.checkStart(line)) {
-				facet.handleLine(line, drawer, propCfg);
-				if (facet.replacesText(line)) {
-					drawText = false;
-				}
-			}
-		}
+		boolean drawText = parseFacets(elementSettings.getLocalFacets(), line, drawer, propCfg);
 		if (drawText) {
 			XValues xLimitsForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight());
 			Double spaceNotUsedForText = propCfg.getGridElementSize().width - xLimitsForText.getSpace();
