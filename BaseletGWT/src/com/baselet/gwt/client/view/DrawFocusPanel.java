@@ -54,7 +54,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 		private SelectorNew selector = new SelectorNew();
 
-		private CommandInvoker commandInvoker = CommandInvoker.getInstance();
+		CommandInvoker commandInvoker = CommandInvoker.getInstance();
 
 		private boolean showGrid = Location.getParameter("grid") != null;
 
@@ -222,9 +222,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				@Override
 				public void onDoubleClick(GridElement ge) {
 					if (ge != null) {
-						GridElement e = ge.CloneFromMe();
-						e.setLocationDifference(NewGridElementConstants.DEFAULT_GRID_SIZE, NewGridElementConstants.DEFAULT_GRID_SIZE);
-							commandInvoker.addElements(getDoubleclickTarget(), e);
+						doDoubleClickAction(ge);
 					}
 				}
 			});
@@ -408,8 +406,8 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			clearAndSetCanvasSize(elementCanvas, width, height);
 		}
 
-		abstract CanAddAndRemoveGridElement getDoubleclickTarget();
-		
+		abstract void doDoubleClickAction(GridElement ge);
+
 		private void clearAndSetCanvasSize(Canvas canvas, int width, int height) {
 			// setCoordinateSpace always clears the canvas. To avoid that see https://groups.google.com/d/msg/google-web-toolkit/dpc84mHeKkA/3EKxrlyFCEAJ
 			canvas.setCoordinateSpaceWidth(width);
