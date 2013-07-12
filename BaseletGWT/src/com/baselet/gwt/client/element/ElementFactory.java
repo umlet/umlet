@@ -24,7 +24,8 @@ public class ElementFactory {
 			}
 			@Override
 			public void Resize(double diffw, double diffh) {
-				// TODO Auto-generated method stub
+				Rectangle oldSize = element.getRectangle();
+				element.setRectangle(new Rectangle((double)oldSize.getX(), (double)oldSize.getY(), oldSize.getWidth()+diffw, oldSize.getHeight()+diffh));
 			}
 		};
 		
