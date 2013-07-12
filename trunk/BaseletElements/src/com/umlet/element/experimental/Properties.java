@@ -10,9 +10,9 @@ import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.XValues;
-import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.settings.Settings;
 
 public class Properties {
@@ -133,7 +133,7 @@ public class Properties {
 	private void handleWordWrapAndIterate(Settings elementSettings, PropertiesConfig propCfg, BaseDrawHandler drawer) {
 		boolean wordwrap = getElementStyle() == ElementStyleEnum.WORDWRAP;
 		for (String line : propertiesTextToDraw) {
-			if (wordwrap) {
+			if (wordwrap && !line.trim().isEmpty()) { // empty lines are skipped (otherwise they would get lost)
 				String wrappedLine;
 				while (propCfg.getyPos() < propCfg.getGridElementSize().height && !line.trim().isEmpty()) {
 					double spaceForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight()).getSpace() - drawer.getDistanceHorizontalBorderToText() * 2;
