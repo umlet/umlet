@@ -52,7 +52,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 		private Canvas backgroundCanvas;
 
-		private SelectorNew selector = new SelectorNew();
+		SelectorNew selector = new SelectorNew();
 
 		CommandInvoker commandInvoker = CommandInvoker.getInstance();
 

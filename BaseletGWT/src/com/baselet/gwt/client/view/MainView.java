@@ -114,7 +114,7 @@ public class MainView extends Composite {
 		palettePropertiesSplitter.setWidgetToggleDisplayAllowed(paletteChooserCanvasSplitter, true);
 		diagramPanel = new DrawFocusPanelDiagram(this, propertiesPanel);
 		diagramScrollPanel = new AutoResizeScrollDropPanel(diagramPanel);
-		palettePanel = new DrawFocusPanelPalette(this, propertiesPanel, diagramPanel);
+		palettePanel = new DrawFocusPanelPalette(this, propertiesPanel, paletteChooser, diagramPanel);
 		paletteScrollPanel = new AutoResizeScrollDropPanel(palettePanel);
 
 		for (String diagramName : BrowserStorage.getSavedDiagramKeys()) {
@@ -125,11 +125,7 @@ public class MainView extends Composite {
 
 		handler = new FileOpenHandler(diagramPanel);
 
-		diagramPanelWrapper.add(diagramScrollPanel); 
-
-		paletteChooser.addItem("A");
-		paletteChooser.addItem("B");
-		paletteChooser.addItem("C");
+		diagramPanelWrapper.add(diagramScrollPanel);
 
 		palettePanelWrapper.add(paletteScrollPanel);
 
