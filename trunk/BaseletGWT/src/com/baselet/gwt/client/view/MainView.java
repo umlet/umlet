@@ -66,7 +66,7 @@ public class MainView extends Composite {
 	DockLayoutPanel paletteChooserCanvasSplitter;
 
 	@UiField
-	SimpleLayoutPanel diagramPanel;
+	SimpleLayoutPanel diagramPanelWrapper;
 
 	@UiField
 	ListBox paletteChooser;
@@ -75,12 +75,12 @@ public class MainView extends Composite {
 	PropertiesTextArea propertiesPanel;
 
 	@UiField
-	SimpleLayoutPanel palettePanel;
+	SimpleLayoutPanel palettePanelWrapper;
 
-	private DrawFocusPanel diagramHandler;
+	private DrawFocusPanel diagramPanel;
 	private AutoResizeScrollDropPanel diagramScrollPanel;
 
-	private DrawFocusPanel paletteHandler;
+	private DrawFocusPanel palettePanel;
 	private AutoResizeScrollDropPanel paletteScrollPanel;
 
 	private FileUploadExt hiddenUploadButton = new FileUploadExt();
@@ -94,7 +94,7 @@ public class MainView extends Composite {
 		private SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
 			@Override
 			public void callback(final String chosenName) {
-				BrowserStorage.addSavedDiagram(chosenName, diagramHandler.toXml());
+				BrowserStorage.addSavedDiagram(chosenName, diagramPanel.toXml());
 				addRestoreMenuItem(chosenName);
 			}
 		});
@@ -114,10 +114,10 @@ public class MainView extends Composite {
 		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(menuPanel, true);
 		diagramPaletteSplitter.setWidgetSnapClosedSize(menuPanel, 40);
 		palettePropertiesSplitter.setWidgetToggleDisplayAllowed(paletteChooserCanvasSplitter, true);
-		diagramHandler = new DrawFocusPanel(this, propertiesPanel);
-		diagramScrollPanel = new AutoResizeScrollDropPanel(diagramHandler);
-		paletteHandler = new DrawFocusPanel(this, propertiesPanel);
-		paletteScrollPanel = new AutoResizeScrollDropPanel(paletteHandler);
+		diagramPanel = new DrawFocusPanel(this, propertiesPanel, null);
+		diagramScrollPanel = new AutoResizeScrollDropPanel(diagramPanel);
+		palettePanel = new DrawFocusPanel(this, propertiesPanel, diagramPanel);
+		paletteScrollPanel = new AutoResizeScrollDropPanel(palettePanel);
 
 		for (String diagramName : BrowserStorage.getSavedDiagramKeys()) {
 			addRestoreMenuItem(diagramName);
@@ -125,18 +125,18 @@ public class MainView extends Composite {
 
 		log.trace("Main View initialized");
 
-		handler = new FileOpenHandler(diagramHandler);
+		handler = new FileOpenHandler(diagramPanel);
 
-		diagramPanel.add(diagramScrollPanel); 
+		diagramPanelWrapper.add(diagramScrollPanel); 
 
 		paletteChooser.addItem("A");
 		paletteChooser.addItem("B");
 		paletteChooser.addItem("C");
 
-		palettePanel.add(paletteScrollPanel);
+		palettePanelWrapper.add(paletteScrollPanel);
 
-		diagramHandler.setGridElements(OwnXMLParser.xmlToGridElements(DEFAULT_UXF, diagramHandler.getSelector()));
-		paletteHandler.setGridElements(OwnXMLParser.xmlToGridElements(DEFAULT_UXF, paletteHandler.getSelector()));
+		diagramPanel.setGridElements(OwnXMLParser.xmlToGridElements(DEFAULT_UXF));
+		palettePanel.setGridElements(OwnXMLParser.xmlToGridElements(DEFAULT_UXF));
 
 		RootLayoutPanel.get().add(hiddenUploadButton);
 		hiddenUploadButton.setVisible(false);
@@ -154,7 +154,7 @@ public class MainView extends Composite {
 		label.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				diagramHandler.setGridElements(OwnXMLParser.xmlToGridElements(BrowserStorage.getSavedDiagram(chosenName), diagramHandler.getSelector()));
+				diagramPanel.setGridElements(OwnXMLParser.xmlToGridElements(BrowserStorage.getSavedDiagram(chosenName)));
 			}
 		});
 		restoreMenuPanel.add(label);
@@ -174,8 +174,8 @@ public class MainView extends Composite {
 	@UiHandler("exportMenuItem")
 	void onExportMenuItemClick(ClickEvent event) {
 		// use base64 encoding to make it work in firefox (one alternative would be encoding <,>,... like the following website does: http://dopiaza.org/tools/datauri/index.php)
-		String uxfUrl = "data:text/plain;charset=utf-8;base64," + Utils.b64encode(diagramHandler.toXml());
-		String pngUrl = diagramHandler.getCanvas().toDataUrl("image/png");
+		String uxfUrl = "data:text/plain;charset=utf-8;base64," + Utils.b64encode(diagramPanel.toXml());
+		String pngUrl = diagramPanel.getCanvas().toDataUrl("image/png");
 		new DownloadPopupPanel(uxfUrl, pngUrl);
 	}
 

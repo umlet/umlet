@@ -60,7 +60,7 @@ public class Package extends OldGridElement {
 				g2.fillRect(0, 0, maxUpperBox, yPosBorder);
 				g2.fillRect(0, yPosBorder, this.getZoomedSize().width - 1, this.getZoomedSize().height - yPosBorder - 1);
 				g2.setComposite(composites[0]);
-				if (isSelected) g2.setColor(fgColor);
+				if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
 				else g2.setColor(fgColorBase);
 
 				g2.drawRect(0, 0, maxUpperBox, yPosBorder);

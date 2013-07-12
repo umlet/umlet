@@ -14,7 +14,7 @@ public class SelectorNew extends Selector {
 	public void select(GridElement ... elements) {
 		for (GridElement e : elements) {
 			selectedElements.add(e);
-			e.setSelected(null);
+			e.getComponent().afterModelUpdate();
 		}
 	}
 
@@ -24,7 +24,7 @@ public class SelectorNew extends Selector {
 			while (iter.hasNext()) {
 				if (iter.next().equals(e)) {
 					iter.remove();
-					e.setSelected(null);
+					e.getComponent().afterModelUpdate();
 				}
 			}
 		}

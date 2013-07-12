@@ -29,7 +29,7 @@ public class State extends OldGridElement {
 		g2.setColor(bgColor);
 		g2.fillRoundRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1, (int) (30 * zoom), (int) (30 * zoom));
 		g2.setComposite(composites[0]);
-		if (isSelected) g2.setColor(fgColor);
+		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
 
 		g2.drawRoundRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1, (int) (30 * zoom), (int) (30 * zoom));

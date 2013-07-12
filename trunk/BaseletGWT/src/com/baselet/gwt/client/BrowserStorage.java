@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.baselet.element.GridElement;
-import com.baselet.element.Selector;
 import com.google.gwt.storage.client.Storage;
 
 /**
@@ -37,8 +36,8 @@ public class BrowserStorage {
 		set(CLIPBOARD, OwnXMLParser.gridElementsToXml(gridelements));
 	}
 	
-	public static List<GridElement> getClipboard(Selector selector) {
-		return OwnXMLParser.xmlToGridElements(get(CLIPBOARD), selector);
+	public static List<GridElement> getClipboard() {
+		return OwnXMLParser.xmlToGridElements(get(CLIPBOARD));
 	}
 	
 	private static String get(String id) {

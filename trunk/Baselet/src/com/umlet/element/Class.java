@@ -102,8 +102,11 @@ public class Class extends OldGridElement {
 			g2.setColor(bgColor);
 			g2.fillRect(0, 0, (int) r.getWidth() - 1, (int) r.getHeight() - 1);
 			g2.setComposite(composites[0]); // reset composite settings
-			if (isSelected) g2.setColor(fgColor);
-			else g2.setColor(fgColorBase);
+			if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
+				g2.setColor(fgColor);
+			} else {
+				g2.setColor(fgColorBase);
+			}
 			g2.setStroke(Utils.getStroke(lineType, thickness));
 			g2.drawRect(0, 0, (int) r.getWidth() - 1, (int) r.getHeight() - 1);
 			g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
@@ -157,7 +160,7 @@ public class Class extends OldGridElement {
 					g2.fillRect(getZoomedSize().width - _templateWidth, 0, _templateWidth, _templateHeight + 1);
 					g2.fillPolygon(border);
 					g2.setComposite(composites[0]); // reset composite
-					if (isSelected) g2.setColor(fgColor);
+					if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
 					else g2.setColor(fgColorBase);
 
 					// draw border lines of template box
@@ -212,8 +215,6 @@ public class Class extends OldGridElement {
 				int height = innerLines * (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts()
 						+ (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * --innerLines;
 
-				temp.setSelected(this.isSelected());
-
 				temp.setLocation(5, yPos);
 
 				if (_isTemplate) temp.setSize((int) (this.getZoomedSize().width - this.getZoomedSize().width / 10 - 10 * zoom), height);
@@ -226,7 +227,7 @@ public class Class extends OldGridElement {
 
 			}
 			else {
-				if (isSelected) g2.setColor(fgColor);
+				if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
 				else g2.setColor(fgColorBase);
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 				if (CENTER) {

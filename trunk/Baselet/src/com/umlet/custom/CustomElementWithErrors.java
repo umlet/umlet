@@ -38,7 +38,7 @@ public class CustomElementWithErrors extends CustomElement {
 				y += textHeight();
 			}
 		}
-		drawer.drawAll(isSelected);
+		drawer.drawAll(Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this));
 	}
 
 	@Override

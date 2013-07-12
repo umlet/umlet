@@ -10,6 +10,7 @@ import com.baselet.control.Main;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.baselet.element.OldGridElement;
 import com.baselet.element.Selector;
 import com.umlet.custom.CustomElement;
 
@@ -63,9 +64,15 @@ public class SelectorOld extends Selector {
 	public void singleSelectWithoutUpdatePropertyPanel(GridElement e) {
 		deselectAllWithoutUpdatePropertyPanel();
 		selectedEntities.add(e);
-		e.setSelected(true);
+		setSelected(e, true);
 		if (Main.getInstance().getGUI() != null) updateGUIInformation();
 		Main.getInstance().setPropertyPanelToCustomElement(e);
+	}
+
+	private void setSelected(GridElement e, boolean value) {
+		if (e instanceof OldGridElement) {
+			((OldGridElement) e).setSelected(value);
+		}
 	}
 
 	public void deselectAllWithoutUpdatePropertyPanel() {
@@ -73,7 +80,7 @@ public class SelectorOld extends Selector {
 		List<GridElement> listCopy = new ArrayList<GridElement>(selectedEntities);
 		selectedEntities.clear();
 		for (GridElement e : listCopy) {
-			e.setSelected(false);
+			setSelected(e, false);
 			e.repaint(); // repaint to make sure now unselected entities are not drawn as selected anymore
 		}
 		dominantEntity = null;
@@ -96,7 +103,7 @@ public class SelectorOld extends Selector {
 		for (GridElement e : entities) {
 			if (selectedEntities.contains(e) || e.isPartOfGroup()) continue;
 			selectedEntities.add(e);
-			e.setSelected(true);
+			setSelected(e, true);
 		}
 		updateSelectorInformation();
 	}
@@ -108,7 +115,7 @@ public class SelectorOld extends Selector {
 			while (iter.hasNext()) {
 				if (iter.next().equals(e)) {
 					iter.remove();
-					e.setSelected(false);
+					setSelected(e, false);
 					updateSelectorInformation();
 				}
 			}
@@ -145,7 +152,7 @@ public class SelectorOld extends Selector {
 
 	private void setElementsSelected(boolean selected) {
 		for (GridElement e : this.selectedEntities)
-			e.setSelected(selected);
+			setSelected(e, selected);
 	}
 
 	public void multiSelect(Rectangle rect) {

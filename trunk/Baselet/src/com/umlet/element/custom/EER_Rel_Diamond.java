@@ -43,7 +43,7 @@ public class EER_Rel_Diamond extends OldGridElement {
 		g2.setColor(bgColor);
 		g2.fillPolygon(poly); // fill the background
 		g2.setComposite(composites[0]); // reset composite settings
-		if (isSelected) g2.setColor(fgColor);
+		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
 
 		// It's getting interesting here:

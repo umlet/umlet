@@ -125,7 +125,7 @@ public abstract class CustomElement extends OldGridElement {
 
 			if (specialLine) g2.setStroke(Utils.getStroke(s.getLineType(), s.getLineThickness()));
 			if (specialFgColor) {
-				if (isSelected) g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
+				if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
 				else g2.setColor(s.getFgColor());
 			}
 			this.g2.draw(s.getShape());

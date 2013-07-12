@@ -7,6 +7,7 @@ import java.lang.reflect.Constructor;
 
 import com.baselet.control.Main;
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.swing.Converter;
 
@@ -27,14 +28,15 @@ public class ErrorOccurred extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		DiagramHandler handlerForElement = Main.getHandlerForElement(this);
+		float zoom = handlerForElement.getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
-		if (isSelected()) g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
+		if (handlerForElement.getDrawPanel().getSelector().isSelected(this)) g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
 		else g2.setColor(Color.red);
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
-		Main.getHandlerForElement(this).getFontHandler().writeText(g2, errorMessage, this.getZoomedSize().width / 2, this.getZoomedSize().height / 2 - (int) (10 * zoom), AlignHorizontal.CENTER);
+		g2.setFont(handlerForElement.getFontHandler().getFont());
+		handlerForElement.getFontHandler().writeText(g2, errorMessage, this.getZoomedSize().width / 2, this.getZoomedSize().height / 2 - (int) (10 * zoom), AlignHorizontal.CENTER);
 		g2.setColor(fgColor);
 	}
 

@@ -41,7 +41,7 @@ public abstract class NewGridElement implements GridElement {
 	private ComponentInterface component;
 
 	private DrawHandlerInterface handler;
-	
+
 	private static final int MINIMAL_SIZE = NewGridElementConstants.DEFAULT_GRID_SIZE * 2;
 
 	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, ComponentInterface component, DrawHandlerInterface handler) {
@@ -68,11 +68,6 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public boolean isSelected() {
-		return handler.getSelector().isSelected(this);
-	}
-
-	@Override
 	public void setPanelAttributes(String panelAttributes) {
 		properties.setPanelAttributes(panelAttributes);
 		this.updateModelFromText();
@@ -87,17 +82,7 @@ public abstract class NewGridElement implements GridElement {
 	public GridElement CloneFromMe() {
 		return handler.cloneElement();
 	}
-	
-	/**
-	 * "selected" variable is only used in OldGridElement.
-	 * NewGridElement directly accesses Selector (to avoid saving redundant information) and uses this method call only to update metadrawer and redraw (for selection color)
-	 */
-	@Override
-	public void setSelected(Boolean selected) {
-		updateMetaDrawer(metaDrawer);
-		component.afterModelUpdate();
-	}
-	
+
 	/**
 	 * ugly workaround to avoid that the Resize().execute() call which calls setSize() on this model updates the model during the
 	 * calculated model update from autoresize. Otherwise the drawer cache would get messed up (it gets cleaned up 2 times in a row and afterwards everything gets drawn 2 times).
@@ -114,7 +99,7 @@ public abstract class NewGridElement implements GridElement {
 		updateMetaDrawer(metaDrawer);
 		updateConcreteModel(drawer, properties);
 		this.autoresizePossiblyInProgress = false;
-		
+
 		component.afterModelUpdate();
 	}
 
@@ -122,14 +107,12 @@ public abstract class NewGridElement implements GridElement {
 
 	protected void updateMetaDrawer(BaseDrawHandler drawer) {
 		drawer.clearCache();
-		if (isSelected()) { // draw blue rectangle around selected gridelements
-			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
-			drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
-			drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
-			drawer.resetColorSettings();
-			if (NewGridElementConstants.show_stickingpolygon && !this.isPartOfGroup()) {
-				drawStickingPolygon(drawer);
-			}
+		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
+		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
+		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
+		drawer.resetColorSettings();
+		if (NewGridElementConstants.show_stickingpolygon && !this.isPartOfGroup()) {
+			drawStickingPolygon(drawer);
 		}
 	}
 
@@ -204,7 +187,7 @@ public abstract class NewGridElement implements GridElement {
 		p.addRectangle(0, 0, width, height);
 		return p;
 	}
-	
+
 	private final void drawStickingPolygon(BaseDrawHandler drawer) {
 		StickingPolygon poly;
 		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
@@ -319,7 +302,7 @@ public abstract class NewGridElement implements GridElement {
 		double diffh = height-getRealSize().height;
 		handler.Resize(diffw, diffh);
 	}
-	
+
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag) {
 		if (resizeDirection.isEmpty()) { // Move GridElement
@@ -347,7 +330,7 @@ public abstract class NewGridElement implements GridElement {
 			updateModelFromText();
 		}
 	}
-	
+
 	@Override
 	public void dragEnd() {
 		// do nothing
@@ -364,7 +347,7 @@ public abstract class NewGridElement implements GridElement {
 				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) ||
 				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT));
 	}
-	
+
 	protected DrawHandlerInterface getHandler() {
 		return handler;
 	}
