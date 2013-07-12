@@ -58,7 +58,7 @@ public class Node extends OldGridElement {
 		g2.setComposite(composites[0]);
 		g2.setColor(fgColor);
 
-		if (isSelected) g2.setColor(fgColor);
+		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
 
 		g2.drawRect(0, size_3d, this.getZoomedSize().width - size_3d - 1, this.getZoomedSize().height - size_3d - 1);

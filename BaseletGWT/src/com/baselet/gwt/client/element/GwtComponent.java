@@ -3,6 +3,7 @@ package com.baselet.gwt.client.element;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
+import com.baselet.element.Selector;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
@@ -58,15 +59,18 @@ public class GwtComponent implements ComponentInterface {
 //		return redrawNecessary;
 //	}
 
-	public void drawOn(Context2d context) {
+	public void drawOn(Context2d context, Selector s) {
 		if (redrawNecessary) {
 			redrawNecessary = false;
 			CanvasElement el = canvas.getCanvasElement();
 			canvas.getContext2d().clearRect(0, 0, el.getWidth(), el.getHeight());
 			canvas.getCanvasElement().setWidth(rect.getWidth());
 			canvas.getCanvasElement().setHeight(rect.getHeight());
-			drawer.drawAll(element.isSelected());
-			metadrawer.drawAll();
+			boolean isSelected = s.isSelected(element);
+			drawer.drawAll(isSelected);
+			if (isSelected) {
+				metadrawer.drawAll();
+			}
 		}
 		context.drawImage(canvas.getCanvasElement(), element.getRectangle().getX(), element.getRectangle().getY());
 	}

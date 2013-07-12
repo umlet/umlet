@@ -53,7 +53,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	private boolean autoresizeandmanualresizeenabled;
 	private GroupGridElement group = null;
 	protected String panelAttributes = "";
-	protected boolean isSelected = false;
 
 	// deselectedColor and fgColor must be stored separately because selection changes the actual fgColor but not the fgColorBase
 	protected Color fgColorBase = Converter.convert(ColorOwn.BLACK);
@@ -160,15 +159,8 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public void setPanelAttributes(String panelAttributes) {
 		this.panelAttributes = panelAttributes;
 	}
-
-	@Override
-	public boolean isSelected() {
-		return isSelected;
-	}
-
-	@Override
+	
 	public void setSelected(Boolean selected) {
-		isSelected = selected;
 		if (selected) {
 			fgColor = Converter.convert(ColorOwn.SELECTION_FG);
 		} else {
@@ -224,7 +216,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 				fgColorString = line.substring("fg=".length());
 				fgColorBase = Converter.convert(ColorOwn.forString(fgColorString, Transparency.FOREGROUND));
 				if (fgColorBase == null) fgColorBase = Converter.convert(ColorOwn.DEFAULT_FOREGROUND);
-				if (!isSelected) fgColor = fgColorBase;
+				if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) fgColor = fgColorBase;
 			}
 		}
 
@@ -350,7 +342,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D) g;
 
-		if (this.isSelected && Constants.show_stickingpolygon && !this.isPartOfGroup()) this.drawStickingPolygon(g2);
+		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this) && Constants.show_stickingpolygon && !this.isPartOfGroup()) this.drawStickingPolygon(g2);
 
 		// Zoom per transformation for certain elements. unused!
 		// if (this instanceof SequenceDiagram) {

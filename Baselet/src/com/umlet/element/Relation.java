@@ -19,6 +19,7 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
+import com.baselet.element.Selector;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.relation.Arrow;
 import com.umlet.element.relation.EmptyShape;
@@ -664,12 +665,13 @@ public class Relation extends OldGridElement {
 	public boolean contains(java.awt.Point p) {
 		// other relations which are selected are prioritized
 		for (GridElement other : Main.getHandlerForElement(this).getDrawPanel().getAllEntities()) {
-			if (other != this && other instanceof Relation && other.isSelected()) {
+			Selector s = Main.getHandlerForElement(other).getDrawPanel().getSelector();
+			if (other != this && other instanceof Relation && s.isSelected(other)) {
 				int xDist = getRectangle().x - other.getRectangle().x;
 				int yDist = getRectangle().y - other.getRectangle().y;
 				Point modifiedP = new Point(p.x + xDist, p.y + yDist); // the point must be modified, because the other relation has other coordinates
 				boolean containsHelper = ((Relation) other).calcContains(modifiedP);
-				if (other.isSelected() && containsHelper) {
+				if (s.isSelected(other) && containsHelper) {
 					return false; 
 				}
 			}
@@ -1175,7 +1177,7 @@ public class Relation extends OldGridElement {
 		}
 
 		g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
-		if (isSelected && !this.isPartOfGroup()) {
+		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this) && !this.isPartOfGroup()) {
 			for (int i = 0; i < getLinePoints().size(); i++) {
 				Point p = getLinePoints().elementAt(i);
 				int start = (int) ((SELECTCIRCLESIZE / 15 * 10) * zoom);

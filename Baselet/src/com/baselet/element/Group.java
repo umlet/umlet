@@ -96,7 +96,8 @@ public class Group extends OldGridElement implements GroupGridElement {
 
 	@Override
 	public void paintEntity(Graphics g) {
-		if (this.isSelected() && !this.isPartOfGroup()) {
+		Selector s = Main.getHandlerForElement(this).getDrawPanel().getSelector();
+		if (s.isSelected(this) && !this.isPartOfGroup()) {
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setColor(java.awt.Color.green);
 			g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
@@ -120,14 +121,7 @@ public class Group extends OldGridElement implements GroupGridElement {
 			g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
 		}
 	}
-
-	@Override
-	public void setSelected(Boolean selected) {
-		super.setSelected(selected);
-		for (GridElement e : this.entities)
-			e.setSelected(selected);
-	}
-
+	
 	public void adjustSize(boolean recursive) {
 
 		if (entities.isEmpty()) return;

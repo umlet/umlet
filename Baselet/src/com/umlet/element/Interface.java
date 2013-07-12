@@ -96,7 +96,7 @@ public class Interface extends OldGridElement {
 		g2.setColor(bgColor);
 		g.fillOval(this.getZoomedSize().width / 2 - (int) (10 * zoom), 0, (int) (20 * zoom), (int) (20 * zoom));
 		g2.setComposite(composites[0]);
-		if (isSelected) g2.setColor(fgColor);
+		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
 
 		g.drawOval(this.getZoomedSize().width / 2 - (int) (10 * zoom), 0, (int) (20 * zoom), (int) (20 * zoom));

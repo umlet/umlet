@@ -22,7 +22,7 @@ import com.umlet.element.experimental.uml.relation.RelationPoints.Selection;
 public class Relation extends NewGridElement {
 
 	private RelationPoints relationPoints;
-	
+
 	@Override
 	public ElementId getId() {
 		return ElementId.Relation;
@@ -38,17 +38,15 @@ public class Relation extends NewGridElement {
 	@Override
 	protected void updateMetaDrawer(BaseDrawHandler drawer) {
 		drawer.clearCache();
-		if (isSelected()) {
-			drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
+		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 
-			// draw rectangle around whole element (basically a helper for developers to make sure the (invisible) size of the element is correct)
-//			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
-//			drawer.drawRectangle(0, 0, getRectangle().getWidth(), getRectangle().getHeight());
+		// draw rectangle around whole element (basically a helper for developers to make sure the (invisible) size of the element is correct)
+		//			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
+		//			drawer.drawRectangle(0, 0, getRectangle().getWidth(), getRectangle().getHeight());
 
-			drawer.setForegroundColor(ColorOwn.SELECTION_FG);
-			relationPoints.drawPointCircles(drawer);
-			relationPoints.drawDragBox(drawer);
-		}
+		drawer.setForegroundColor(ColorOwn.SELECTION_FG);
+		relationPoints.drawPointCircles(drawer);
+		relationPoints.drawDragBox(drawer);
 	}
 
 	@Override
@@ -61,7 +59,7 @@ public class Relation extends NewGridElement {
 		}
 		relationPoints = new RelationPoints(pointList);
 	}
-	
+
 	@Override
 	public String getAdditionalAttributes() {
 		return relationPoints.toAdditionalAttributesString();
@@ -81,7 +79,7 @@ public class Relation extends NewGridElement {
 			updateModelFromText();
 		}
 	}
-	
+
 	@Override
 	public void dragEnd() {
 		boolean updateNecessary = relationPoints.removeRelationPointOfCurrentDragIfItOverlaps();
@@ -89,12 +87,12 @@ public class Relation extends NewGridElement {
 			updateModelFromText();
 		}
 	}
-	
+
 	@Override
 	public Set<Direction> getResizeArea(int x, int y) {
 		return new HashSet<Direction>();
 	}
-	
+
 	@Override
 	public boolean isSelectableOn(Point point) {
 		Point relativePoint = new Point(point.getX() - getRectangle().getX(), point.getY() - getRectangle().getY());

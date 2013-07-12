@@ -174,7 +174,7 @@ public class GridElementListener extends UniversalListener {
 		else {
 			IS_DRAGGING = true;
 			if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) {
-				if (e.isSelected()) DESELECT_MULTISEL = true;
+				if (selector.isSelected(e)) DESELECT_MULTISEL = true;
 				else this.selector.select(e);
 			}
 		}
@@ -206,7 +206,7 @@ public class GridElementListener extends UniversalListener {
 		e.setStickingBorderActive(true);
 
 		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) {
-			if (e.isSelected() && DESELECT_MULTISEL) this.selector.deselect(e);
+			if (selector.isSelected(e) && DESELECT_MULTISEL) this.selector.deselect(e);
 		}
 
 		DESELECT_MULTISEL = false;

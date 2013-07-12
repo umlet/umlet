@@ -18,10 +18,6 @@ public interface GridElement {
 
 	String getPanelAttributes();
 
-	boolean isSelected();
-
-	void setSelected(Boolean selected);
-
 	void setPanelAttributes(String panelAttributes);
 
 	void setRectangle(Rectangle bounds);

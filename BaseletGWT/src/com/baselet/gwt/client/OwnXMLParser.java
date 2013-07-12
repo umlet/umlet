@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.baselet.element.Selector;
 import com.baselet.gwt.client.element.ElementFactory;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.DOMException;
@@ -34,7 +33,7 @@ public class OwnXMLParser {
 	private static final String PANEL_ATTRIBUTES = "panel_attributes";
 	private static final String ADDITIONAL_ATTRIBUTES = "additional_attributes";
 
-	public static List<GridElement> xmlToGridElements(String xml, Selector selector) {
+	public static List<GridElement> xmlToGridElements(String xml) {
 		List<GridElement> returnList = new ArrayList<GridElement>();
 		try {
 			// parse the XML document into a DOM
@@ -54,7 +53,7 @@ public class OwnXMLParser {
 					if (additionalAttrNode != null && additionalAttrNode.getFirstChild() != null) {
 						additionalPanelAttributes = additionalAttrNode.getFirstChild().getNodeValue();
 					}
-					returnList.add(ElementFactory.create(id, rect, panelAttributes, additionalPanelAttributes, selector));
+					returnList.add(ElementFactory.create(id, rect, panelAttributes, additionalPanelAttributes));
 				} catch (Exception e) {
 					log.error("Element has invalid XML structure: " + element, e);
 				}

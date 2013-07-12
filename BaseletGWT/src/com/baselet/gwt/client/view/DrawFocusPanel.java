@@ -2,6 +2,7 @@ package com.baselet.gwt.client.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -53,11 +54,11 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 
 		private SelectorNew selector = new SelectorNew();
 
-		private CommandInvoker commandInvoker = new CommandInvoker(this);
+		private CommandInvoker commandInvoker = CommandInvoker.getInstance();
 
-		private boolean devModeActive = Location.getParameter("grid") != null;
+		private boolean showGrid = Location.getParameter("grid") != null;
 
-		public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
+		public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel, final CanAddAndRemoveGridElement doubleClickTarget) {
 			elementCanvas = Canvas.createIfSupported();
 			backgroundCanvas = Canvas.createIfSupported();
 
@@ -68,7 +69,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 				}
 				@Override
 				public void execute() {
-					commandInvoker.removeSelectedElements();
+					commandInvoker.removeSelectedElements(DrawFocusPanel.this);
 				}
 			}, new MenuPopupItem() {
 				@Override
@@ -77,7 +78,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 				}
 				@Override
 				public void execute() {
-					commandInvoker.copySelectedElements();
+					commandInvoker.copySelectedElements(DrawFocusPanel.this);
 				}
 			}, new MenuPopupItem() {
 				@Override
@@ -86,7 +87,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 				}
 				@Override
 				public void execute() {
-					commandInvoker.cutSelectedElements();
+					commandInvoker.cutSelectedElements(DrawFocusPanel.this);
 				}
 			}, new MenuPopupItem() {
 				@Override
@@ -95,7 +96,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 				}
 				@Override
 				public void execute() {
-					commandInvoker.pasteElements();
+					commandInvoker.pasteElements(DrawFocusPanel.this);
 				}
 			}, new MenuPopupItem() {
 				@Override
@@ -132,7 +133,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 
 					if (isControlKeyDown) {
 						if (element != null) {
-							if (element.isSelected()) {
+							if (selector.isSelected(element)) {
 								selector.deselect(element);
 							} else {
 								selector.select(element);
@@ -223,7 +224,11 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 					if (ge != null) {
 						GridElement e = ge.CloneFromMe();
 						e.setLocationDifference(NewGridElementConstants.DEFAULT_GRID_SIZE, NewGridElementConstants.DEFAULT_GRID_SIZE);
-						commandInvoker.addElements(e);
+						if (doubleClickTarget == null) {
+							commandInvoker.addElements(DrawFocusPanel.this, e);
+						} else {
+							commandInvoker.addElements(doubleClickTarget, e);
+						}
 					}
 				}
 			});
@@ -237,7 +242,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 					}
 
 					if (Shortcut.DELETE_ELEMENT.matches(event)) {
-						commandInvoker.removeSelectedElements();
+						commandInvoker.removeSelectedElements(DrawFocusPanel.this);
 					}
 					else if (Shortcut.DESELECT_ALL.matches(event)) {
 						selector.deselectAll();
@@ -248,13 +253,13 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 						redraw();
 					}
 					else if (Shortcut.COPY.matches(event)) {
-						commandInvoker.copySelectedElements();
+						commandInvoker.copySelectedElements(DrawFocusPanel.this);
 					}
 					else if (Shortcut.CUT.matches(event)) {
-						commandInvoker.cutSelectedElements();
+						commandInvoker.cutSelectedElements(DrawFocusPanel.this);
 					}
 					else if (Shortcut.PASTE.matches(event)) {
-						commandInvoker.pasteElements();
+						commandInvoker.pasteElements(DrawFocusPanel.this);
 					}
 					else if (Shortcut.SAVE.matches(event)) {
 						mainView.getSaveCommand().execute();
@@ -263,7 +268,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 				}
 			});
 
-			if (devModeActive) {
+			if (showGrid) {
 				clearAndSetCanvasSize(backgroundCanvas, 5000, 5000);
 				drawBackgroundGrid();
 			}
@@ -300,19 +305,19 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 				double elHeight = 80;
 				double elXPos = elementCanvas.getCoordinateSpaceWidth()/2 - elWidth/2;
 				double elYPos = elementCanvas.getCoordinateSpaceHeight()/2 - elHeight;
-				emptyEl = ElementFactory.create(ElementId.UMLClass, new Rectangle(elXPos, elYPos, elWidth, elHeight), "Double-click on an element to add it to the diagram\n\nImport uxf Files using the Menu \"Import\" or simply drag them into the diagram\n\nSave diagrams persistent in browser storage using the \"Save\" menu", "", selector);
-				((GwtComponent) emptyEl.getComponent()).drawOn(context);
+				emptyEl = ElementFactory.create(ElementId.UMLClass, new Rectangle(elXPos, elYPos, elWidth, elHeight), "Double-click on an element to add it to the diagram\n\nImport uxf Files using the Menu \"Import\" or simply drag them into the diagram\n\nSave diagrams persistent in browser storage using the \"Save\" menu", "");
+				((GwtComponent) emptyEl.getComponent()).drawOn(context, selector);
 			} else {
 				Collections.sort(gridElements, LAYER_COMPARATOR);
 
 				//		if (tryOptimizedDrawing()) return;
 
 				for (GridElement ge : gridElements) {
-					((GwtComponent) ge.getComponent()).drawOn(context);
+					((GwtComponent) ge.getComponent()).drawOn(context, selector);
 				}
 			}
 
-			if (devModeActive) {
+			if (showGrid) {
 				context.drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
 			}
 
@@ -345,7 +350,16 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 
 		public GridElement getGridElementOnPosition(Point point) {
 			GridElement returnGe = null;
-			for (GridElement ge : gridElements) {
+			returnGe = getGridElementOnPositionHelper(point, selector.getSelectedElements());
+			if (returnGe == null) { // if no selected element is found, search all elements
+				returnGe = getGridElementOnPositionHelper(point, gridElements);
+			}
+			return returnGe;
+		}
+
+		private GridElement getGridElementOnPositionHelper(Point point, Collection<GridElement> elements) {
+			GridElement returnGe = null;
+			for (GridElement ge : elements) {
 				if (ge.isSelectableOn(point)) {
 					if (returnGe == null) {
 						returnGe = ge;
@@ -356,7 +370,6 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 							returnGe = ge; 
 						}
 					}
-
 				}
 			}
 			return returnGe;

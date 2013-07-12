@@ -6,7 +6,6 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.baselet.element.Selector;
 
 public class ElementFactory {
 
@@ -47,10 +46,6 @@ public class ElementFactory {
 				int diffhRealigned = Main.getHandlerForElement(returnObj).realignToGrid(false, diffhInCurrentZoom, true);
 				// use resize command to move sticked relations correctly with the element
 				new Resize(returnObj, 0, 0, diffwRealigned, diffhRealigned).execute(Main.getHandlerForElement(returnObj));
-			}
-			@Override
-			public Selector getSelector() {
-				return Main.getHandlerForElement(returnObj).getDrawPanel().getSelector();
 			}
 		};
 

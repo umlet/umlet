@@ -53,7 +53,7 @@ public class Note extends OldGridElement {
 		g2.setColor(bgColor);
 		g2.fillPolygon(poly);
 		g2.setComposite(composites[0]);
-		if (isSelected) g2.setColor(fgColor);
+		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
 
 		for (int i = 0; i < tmp.size(); i++) {

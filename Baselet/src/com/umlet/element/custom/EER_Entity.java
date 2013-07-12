@@ -72,7 +72,7 @@ public class EER_Entity extends OldGridElement {
 		g2.setColor(bgColor);
 		g2.fillPolygon(poly);
 		g2.setComposite(composites[0]);
-		if (isSelected) g2.setColor(fgColor);
+		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
 		g2.drawPolygon(poly);
 

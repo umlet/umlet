@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Point;
@@ -26,8 +27,11 @@ public class SwingComponent extends JComponent implements ComponentInterface {
 	public void paint(Graphics g) {
 		drawer.setGraphics(g);
 		metaDrawer.setGraphics(g);
-		drawer.drawAll(gridElement.isSelected());
-		metaDrawer.drawAll();
+		boolean selected = Main.getHandlerForElement(gridElement).getDrawPanel().getSelector().isSelected(gridElement);
+		drawer.drawAll(selected);
+		if (selected) {
+			metaDrawer.drawAll();
+		}
 	}
 
 	public void translateForExport() {
