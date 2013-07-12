@@ -3,7 +3,9 @@ package com.baselet.gwt.client.view;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baselet.control.NewGridElementConstants;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
+import com.baselet.element.GridElement;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 
@@ -23,8 +25,10 @@ public class DrawFocusPanelPalette extends DrawFocusPanel {
 	}
 
 	@Override
-	CanAddAndRemoveGridElement getDoubleclickTarget() {
-		return doubleClickTarget;
+	void doDoubleClickAction(GridElement ge) {
+		GridElement e = ge.CloneFromMe();
+		e.setLocation(NewGridElementConstants.DEFAULT_GRID_SIZE, NewGridElementConstants.DEFAULT_GRID_SIZE);
+		commandInvoker.addElements(doubleClickTarget, e);
 	}
 
 }
