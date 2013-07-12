@@ -295,11 +295,11 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			clearAndRecalculateCanvasSize();
 			Context2d context = elementCanvas.getContext2d();
 			if (gridElements.isEmpty()) {
-				double elWidth = 430;
+				double elWidth = 440;
 				double elHeight = 80;
 				double elXPos = elementCanvas.getCoordinateSpaceWidth()/2 - elWidth/2;
 				double elYPos = elementCanvas.getCoordinateSpaceHeight()/2 - elHeight;
-				emptyEl = ElementFactory.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), "elementstyle=noresize\nhalign=center\nDouble-click on an element to add it to the diagram\n\nImport uxf Files using the Menu \"Import\" or simply drag them into the diagram\n\nSave diagrams persistent in browser storage using the \"Save\" menu", "");
+				emptyEl = ElementFactory.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), "halign=center\nDouble-click on an element to add it to the diagram\n\nImport uxf Files using the Menu \"Import\" or simply drag them into the diagram\n\nSave diagrams persistent in browser storage using the \"Save\" menu", "");
 				((GwtComponent) emptyEl.getComponent()).drawOn(context, selector);
 			} else {
 				Collections.sort(gridElements, LAYER_COMPARATOR);
