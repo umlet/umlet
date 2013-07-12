@@ -12,11 +12,13 @@ import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.Converter;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.Utils;
+import com.baselet.gwt.client.element.ElementFactory;
 import com.baselet.gwt.client.element.GwtComponent;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.MouseDoubleClickUtils.Handler;
@@ -32,6 +34,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.uml.relation.Relation;
 
 public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
@@ -287,15 +290,26 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 			context.stroke();
 		}
 
+		private GridElement emptyEl;
+
 		private void redraw() {
 			clearAndRecalculateCanvasSize();
 			Context2d context = elementCanvas.getContext2d();
-			Collections.sort(gridElements, LAYER_COMPARATOR);
+			if (gridElements.isEmpty()) {
+				double elWidth = 430;
+				double elHeight = 80;
+				double elXPos = elementCanvas.getCoordinateSpaceWidth()/2 - elWidth/2;
+				double elYPos = elementCanvas.getCoordinateSpaceHeight()/2 - elHeight;
+				emptyEl = ElementFactory.create(ElementId.UMLClass, new Rectangle(elXPos, elYPos, elWidth, elHeight), "Double-click on an element to add it to the diagram\n\nImport uxf Files using the Menu \"Import\" or simply drag them into the diagram\n\nSave diagrams persistent in browser storage using the \"Save\" menu", "", selector);
+				((GwtComponent) emptyEl.getComponent()).drawOn(context);
+			} else {
+				Collections.sort(gridElements, LAYER_COMPARATOR);
 
-			//		if (tryOptimizedDrawing()) return;
+				//		if (tryOptimizedDrawing()) return;
 
-			for (GridElement ge : gridElements) {
-				((GwtComponent) ge.getComponent()).drawOn(context);
+				for (GridElement ge : gridElements) {
+					((GwtComponent) ge.getComponent()).drawOn(context);
+				}
 			}
 
 			if (devModeActive) {
