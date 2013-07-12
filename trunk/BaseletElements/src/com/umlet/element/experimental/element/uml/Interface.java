@@ -1,12 +1,17 @@
 package com.umlet.element.experimental.element.uml;
 
+import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
-import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.SettingsInterface;
+import com.umlet.element.experimental.Settings;
+import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.Facet;
+import com.umlet.element.experimental.facets.SeparatorLine;
 
 public class Interface extends NewGridElement {
 
@@ -29,9 +34,9 @@ public class Interface extends NewGridElement {
 	 * TODO let circle have a fixed position and grow element around it (like in the old Interface)
 	 */
 	private int posOfCircle() {
-//		int gridSize = (int) (getHandler().getZoomFactor() * NewGridElementConstants.DEFAULT_GRID_SIZE);
+		//		int gridSize = (int) (getHandler().getZoomFactor() * NewGridElementConstants.DEFAULT_GRID_SIZE);
 		int middlePos = getRealSize().getWidth() / 2 - CIRCLE_SIZE/2;
-//		return middlePos - (middlePos % gridSize);
+		//		return middlePos - (middlePos % gridSize);
 		return middlePos;
 	}
 
@@ -43,7 +48,32 @@ public class Interface extends NewGridElement {
 	}
 
 	@Override
-	public Settings getSettings() {
-		return new SettingsInterface();
+	protected Settings createSettings() {
+		return new Settings() {
+			@Override
+			public XValues getXValues(double y, int height, int width) {
+				return new XValues(0, width);
+			}
+			@Override
+			public AlignVertical getVAlign() {
+				return AlignVertical.CENTER;
+			}
+			@Override
+			public AlignHorizontal getHAlign() {
+				return AlignHorizontal.CENTER;
+			}
+			@Override
+			public ElementStyleEnum getElementStyle() {
+				return ElementStyleEnum.AUTORESIZE;
+			}
+			@Override
+			public double getYPosStart() {
+				return 22; // space reserved for the top circle
+			}
+			@Override
+			public Facet[] createFacets() {
+				return new Facet[]{new SeparatorLine()};
+			}
+		};
 	}
 }

@@ -11,7 +11,6 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
-import com.umlet.element.experimental.settings.Settings;
 
 public class PropertiesConfig {
 	

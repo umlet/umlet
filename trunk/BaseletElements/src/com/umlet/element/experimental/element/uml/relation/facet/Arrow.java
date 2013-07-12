@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.element.uml.relation;
+package com.umlet.element.experimental.element.uml.relation.facet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,7 +8,8 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.settings.SettingsRelation;
+import com.umlet.element.experimental.element.uml.relation.RelationPoints;
+import com.umlet.element.experimental.element.uml.relation.SettingsRelation;
 
 public abstract class Arrow extends RelationFacet {
 	
