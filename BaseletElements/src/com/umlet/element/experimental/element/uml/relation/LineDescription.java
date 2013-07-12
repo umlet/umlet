@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.uml.relation;
+package com.umlet.element.experimental.element.uml.relation;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;

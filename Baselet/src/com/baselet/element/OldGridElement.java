@@ -36,8 +36,8 @@ import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.ComponentInterface;
 import com.umlet.element.experimental.ElementId;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
-import com.umlet.element.experimental.settings.facets.Facet;
+import com.umlet.element.experimental.facets.Facet;
+import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 
 public abstract class OldGridElement extends JComponent implements GridElement, ComponentInterface {
 

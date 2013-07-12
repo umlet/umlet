@@ -1,9 +1,9 @@
-package com.umlet.element.experimental.uml.relation;
+package com.umlet.element.experimental.element.uml.relation;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
+import com.umlet.element.experimental.facets.GlobalStatelessFacet;
 import com.umlet.element.experimental.settings.SettingsRelation;
-import com.umlet.element.experimental.settings.facets.GlobalStatelessFacet;
 
 public abstract class RelationFacet extends GlobalStatelessFacet {
 

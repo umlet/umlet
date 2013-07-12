@@ -36,7 +36,7 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.umlet.element.experimental.ElementId;
-import com.umlet.element.experimental.uml.relation.Relation;
+import com.umlet.element.experimental.element.uml.relation.Relation;
 
 public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
 
@@ -301,7 +301,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				double elHeight = 80;
 				double elXPos = elementCanvas.getCoordinateSpaceWidth()/2 - elWidth/2;
 				double elYPos = elementCanvas.getCoordinateSpaceHeight()/2 - elHeight;
-				emptyEl = ElementFactory.create(ElementId.UMLClass, new Rectangle(elXPos, elYPos, elWidth, elHeight), "Double-click on an element to add it to the diagram\n\nImport uxf Files using the Menu \"Import\" or simply drag them into the diagram\n\nSave diagrams persistent in browser storage using the \"Save\" menu", "");
+				emptyEl = ElementFactory.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), "elementstyle=noresize\nhalign=center\nDouble-click on an element to add it to the diagram\n\nImport uxf Files using the Menu \"Import\" or simply drag them into the diagram\n\nSave diagrams persistent in browser storage using the \"Save\" menu", "");
 				((GwtComponent) emptyEl.getComponent()).drawOn(context, selector);
 			} else {
 				Collections.sort(gridElements, LAYER_COMPARATOR);

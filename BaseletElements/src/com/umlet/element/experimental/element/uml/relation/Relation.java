@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.uml.relation;
+package com.umlet.element.experimental.element.uml.relation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,9 +15,9 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
+import com.umlet.element.experimental.element.uml.relation.RelationPoints.Selection;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsRelation;
-import com.umlet.element.experimental.uml.relation.RelationPoints.Selection;
 
 public class Relation extends NewGridElement {
 

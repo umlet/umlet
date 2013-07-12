@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.uml.relation;
+package com.umlet.element.experimental.element.uml.relation;
 
 import java.util.ArrayList;
 import java.util.List;
