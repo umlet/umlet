@@ -10,10 +10,10 @@ import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.XValues;
+import com.umlet.element.experimental.facets.Facet;
+import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
+import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalTextFacet.ElementStyleEnum;
-import com.umlet.element.experimental.settings.facets.Facet;
 
 public class Properties {
 

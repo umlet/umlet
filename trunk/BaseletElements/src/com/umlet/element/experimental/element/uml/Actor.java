@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.uml;
+package com.umlet.element.experimental.element.uml;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
@@ -8,10 +8,10 @@ import com.baselet.element.StickingPolygon;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
+import com.umlet.element.experimental.facets.Facet;
+import com.umlet.element.experimental.facets.SeparatorLine;
+import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.facets.Facet;
-import com.umlet.element.experimental.settings.facets.SeparatorLine;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalTextFacet.ElementStyleEnum;
 
 public class Actor extends NewGridElement {
 	

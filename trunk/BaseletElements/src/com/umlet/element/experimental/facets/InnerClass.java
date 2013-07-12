@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.settings.facets;
+package com.umlet.element.experimental.facets;
 
 import java.util.Stack;
 

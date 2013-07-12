@@ -28,7 +28,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.custom.CustomElement;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
+import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 import com.umlet.language.ClassDiagramConverter;
 
 public class MenuFactory {

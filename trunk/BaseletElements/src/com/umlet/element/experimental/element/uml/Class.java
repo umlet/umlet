@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.uml;
+package com.umlet.element.experimental.element.uml;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.ElementId;

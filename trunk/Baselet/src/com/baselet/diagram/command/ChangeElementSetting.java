@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
-import com.umlet.element.experimental.settings.facets.DefaultGlobalFacet.GlobalSetting;
+import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 
 
 public class ChangeElementSetting extends Command {
