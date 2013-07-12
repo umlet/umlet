@@ -15,9 +15,8 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
+import com.umlet.element.experimental.Settings;
 import com.umlet.element.experimental.element.uml.relation.RelationPoints.Selection;
-import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.SettingsRelation;
 
 public class Relation extends NewGridElement {
 
@@ -66,7 +65,7 @@ public class Relation extends NewGridElement {
 	}
 
 	@Override
-	public Settings getSettings() {
+	protected Settings createSettings() {
 		return new SettingsRelation(relationPoints);
 	}
 

@@ -20,10 +20,9 @@ import com.baselet.element.GridElement;
 import com.baselet.element.GroupGridElement;
 import com.baselet.element.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
-import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
-import com.umlet.element.experimental.settings.Settings;
+import com.umlet.element.experimental.facets.Facet;
 
 public abstract class NewGridElement implements GridElement {
 
@@ -267,7 +266,14 @@ public abstract class NewGridElement implements GridElement {
 		return component;
 	}
 
-	public abstract Settings getSettings();
+	private Settings settings;
+	protected abstract Settings createSettings();
+	public final Settings getSettings() {
+		if (settings == null) {
+			settings = createSettings();
+		}
+		return settings;
+	}
 
 	@Override
 	public List<AutocompletionText> getAutocompletionList() {

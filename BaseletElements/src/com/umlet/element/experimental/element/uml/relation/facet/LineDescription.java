@@ -1,10 +1,11 @@
-package com.umlet.element.experimental.element.uml.relation;
+package com.umlet.element.experimental.element.uml.relation.facet;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
+import com.umlet.element.experimental.element.uml.relation.RelationPoints;
 
 public class LineDescription extends RelationFacet {
 

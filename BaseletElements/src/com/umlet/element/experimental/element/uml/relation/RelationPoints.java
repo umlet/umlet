@@ -12,9 +12,9 @@ import com.baselet.diagram.draw.geom.Rectangle;
 
 public class RelationPoints {
 
-	static final int DRAG_BOX_SIZE = 10; // size of the box to drag the whole relation
-	static final int POINT_SELECTION_RADIUS = 10; // radius of the selection circle of relation-points
-	static final int NEW_POINT_DISTANCE = 5; // distance from which new points can be dragged away from a relation-line
+	public static final int DRAG_BOX_SIZE = 10; // size of the box to drag the whole relation
+	public static final int POINT_SELECTION_RADIUS = 10; // radius of the selection circle of relation-points
+	public static final int NEW_POINT_DISTANCE = 5; // distance from which new points can be dragged away from a relation-line
 
 	/**
 	 * Points of this relation (point of origin is the upper left corner of the relation element (not the drawpanel!))

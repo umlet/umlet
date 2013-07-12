@@ -8,61 +8,56 @@ import com.baselet.element.StickingPolygon;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
+import com.umlet.element.experimental.Settings;
+import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.SeparatorLine;
-import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
-import com.umlet.element.experimental.settings.Settings;
 
 public class Actor extends NewGridElement {
-	
-	private class SettingsActor extends Settings {
 
-		@Override
-		public XValues getXValues(double y, int height, int width) {
-			return new XValues(0, width);
-		}
-
-		@Override
-		public AlignVertical getVAlign() {
-			return AlignVertical.TOP;
-		}
-
-		@Override
-		public AlignHorizontal getHAlign() {
-			return AlignHorizontal.CENTER;
-		}
-
-		@Override
-		public ElementStyleEnum getElementStyle() {
-			return ElementStyleEnum.AUTORESIZE;
-		}
-
-		@Override
-		public Facet[] createFacets() {
-			return new Facet[]{new SeparatorLine()};
-		}
-
-		@Override
-		protected boolean addDefaultGlobalTextFacet() {
-			return false;
-		}
-		
-		@Override
-		public double getYPosStart() {
-			return headToLegLength(); // equals headBodyLegLength
-		}
-		
-		@Override
-		public double getMinElementWidthForAutoresize() {
-			return armLength()*2; // armLength
-		}
+	@Override
+	protected Settings createSettings() {
+		return new Settings() {
+			@Override
+			public XValues getXValues(double y, int height, int width) {
+				return new XValues(0, width);
+			}
+			@Override
+			public AlignVertical getVAlign() {
+				return AlignVertical.TOP;
+			}
+			@Override
+			public AlignHorizontal getHAlign() {
+				return AlignHorizontal.CENTER;
+			}
+			@Override
+			public ElementStyleEnum getElementStyle() {
+				return ElementStyleEnum.AUTORESIZE;
+			}
+			@Override
+			public Facet[] createFacets() {
+				return new Facet[]{new SeparatorLine()};
+			}
+			@Override
+			protected boolean addDefaultGlobalTextFacet() {
+				return false;
+			}
+			@Override
+			public double getYPosStart() {
+				return headToLegLength(); // equals headBodyLegLength
+			}
+			@Override
+			public double getMinElementWidthForAutoresize() {
+				return armLength()*2; // armLength
+			}
+		};
 	}
 
 	@Override
 	public ElementId getId() {
 		return ElementId.UMLActor;
 	}
-	
+
 	@Override
 	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
 		int hCenter = getRealSize().width/2;
@@ -77,18 +72,13 @@ public class Actor extends NewGridElement {
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
 		int hCenter = getRealSize().width/2;
-		
+
 		StickingPolygon p = new StickingPolygon();
 		p.addPoint((int)(hCenter-armLength()), 0);
 		p.addPoint((int)(hCenter+armLength()), 0);
 		p.addPoint((int)(hCenter+armLength()), (int)(headToLegLength()));
 		p.addPoint((int)(hCenter-armLength()), (int)(headToLegLength()), true);
 		return p;
-	}
-
-	@Override
-	public Settings getSettings() {
-		return new SettingsActor();
 	}
 
 	private double headToLegLength() {
@@ -106,7 +96,7 @@ public class Actor extends NewGridElement {
 	private double armHeight() {
 		return armLength();
 	}
-	
+
 	private double armLength() {
 		return getDrawer().getCurrentStyle().getFontSize()*1.5;
 	}

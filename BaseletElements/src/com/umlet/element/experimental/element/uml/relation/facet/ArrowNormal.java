@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.element.uml.relation;
+package com.umlet.element.experimental.element.uml.relation.facet;
 
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +7,7 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
+import com.umlet.element.experimental.element.uml.relation.RelationPoints;
 
 public class ArrowNormal extends Arrow {
 
