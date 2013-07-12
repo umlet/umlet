@@ -38,7 +38,7 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.uml.relation.Relation;
 
-public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
+public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
 
 	private static final Comparator<GridElement> LAYER_COMPARATOR = new Comparator<GridElement>() {
 		@Override
@@ -58,7 +58,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 
 		private boolean showGrid = Location.getParameter("grid") != null;
 
-		public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel, final CanAddAndRemoveGridElement doubleClickTarget) {
+		public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
 			elementCanvas = Canvas.createIfSupported();
 			backgroundCanvas = Canvas.createIfSupported();
 
@@ -224,11 +224,7 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 					if (ge != null) {
 						GridElement e = ge.CloneFromMe();
 						e.setLocationDifference(NewGridElementConstants.DEFAULT_GRID_SIZE, NewGridElementConstants.DEFAULT_GRID_SIZE);
-						if (doubleClickTarget == null) {
-							commandInvoker.addElements(DrawFocusPanel.this, e);
-						} else {
-							commandInvoker.addElements(doubleClickTarget, e);
-						}
+							commandInvoker.addElements(getDoubleclickTarget(), e);
 					}
 				}
 			});
@@ -412,6 +408,8 @@ public class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridEle
 			clearAndSetCanvasSize(elementCanvas, width, height);
 		}
 
+		abstract CanAddAndRemoveGridElement getDoubleclickTarget();
+		
 		private void clearAndSetCanvasSize(Canvas canvas, int width, int height) {
 			// setCoordinateSpace always clears the canvas. To avoid that see https://groups.google.com/d/msg/google-web-toolkit/dpc84mHeKkA/3EKxrlyFCEAJ
 			canvas.setCoordinateSpaceWidth(width);
