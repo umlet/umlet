@@ -15,6 +15,7 @@ import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.Converter;
 import com.baselet.gwt.client.OwnXMLParser;
@@ -33,7 +34,6 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.element.uml.relation.Relation;
@@ -55,8 +55,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		SelectorNew selector = new SelectorNew();
 
 		CommandInvoker commandInvoker = CommandInvoker.getInstance();
-
-		private boolean showGrid = Location.getParameter("grid") != null;
 
 		public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
 			elementCanvas = Canvas.createIfSupported();
@@ -262,7 +260,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				}
 			});
 
-			if (showGrid) {
+			if (NewGridElementConstants.isDevMode) {
 				clearAndSetCanvasSize(backgroundCanvas, 5000, 5000);
 				drawBackgroundGrid();
 			}
@@ -273,7 +271,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			int width = backgroundCanvas.getCoordinateSpaceWidth();
 			int height = backgroundCanvas.getCoordinateSpaceHeight();
 			Context2d backgroundContext = backgroundCanvas.getContext2d();
-			backgroundContext.setStrokeStyle(Converter.convert(ColorOwn.GRAY));
+			backgroundContext.setStrokeStyle(Converter.convert(ColorOwn.BLACK.transparency(Transparency.SELECTION_BACKGROUND)));
 			for (int i = 0; i < width; i += NewGridElementConstants.DEFAULT_GRID_SIZE) {
 				drawLine(backgroundContext, i, 0, i, height);
 			}
@@ -294,6 +292,11 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		private void redraw() {
 			clearAndRecalculateCanvasSize();
 			Context2d context = elementCanvas.getContext2d();
+
+			if (NewGridElementConstants.isDevMode) {
+				context.drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
+			}
+			
 			if (gridElements.isEmpty()) {
 				double elWidth = 440;
 				double elHeight = 80;
@@ -309,10 +312,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				for (GridElement ge : gridElements) {
 					((GwtComponent) ge.getComponent()).drawOn(context, selector);
 				}
-			}
-
-			if (showGrid) {
-				context.drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
 			}
 
 		}
