@@ -40,8 +40,10 @@ public class Relation extends NewGridElement {
 		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 
 		// draw rectangle around whole element (basically a helper for developers to make sure the (invisible) size of the element is correct)
-		//			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
-		//			drawer.drawRectangle(0, 0, getRectangle().getWidth(), getRectangle().getHeight());
+		if (NewGridElementConstants.isDevMode) {
+			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
+			drawer.drawRectangle(0, 0, getRectangle().getWidth(), getRectangle().getHeight());
+		}
 
 		drawer.setForegroundColor(ColorOwn.SELECTION_FG);
 		relationPoints.drawPointCircles(drawer);
