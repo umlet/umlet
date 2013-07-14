@@ -11,6 +11,7 @@ public class BaseletGWT implements EntryPoint {
 	
 	public void onModuleLoad() {
 		NewGridElementConstants.isDevMode = Location.getParameter("dev") != null;
+		NewGridElementConstants.program = "umlet_web";
 		RootLayoutPanel.get().add(new MainView());
 	}
 }

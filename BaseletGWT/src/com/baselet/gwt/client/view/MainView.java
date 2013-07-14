@@ -147,7 +147,7 @@ public class MainView extends Composite {
 		label.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				diagramPanel.setGridElements(OwnXMLParser.xmlToGridElements(BrowserStorage.getSavedDiagram(chosenName)));
+				diagramPanel.setDiagram(OwnXMLParser.xmlToDiagram(BrowserStorage.getSavedDiagram(chosenName)));
 			}
 		});
 		restoreMenuPanel.add(label);
