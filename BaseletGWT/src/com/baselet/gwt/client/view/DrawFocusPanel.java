@@ -55,20 +55,27 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 		private Canvas backgroundCanvas;
 
-		Selector selector = new SelectorNew();
+		Selector selector;
 
 		CommandInvoker commandInvoker = CommandInvoker.getInstance();
 
-		PropertiesTextArea propertiesPanel;
-
 		DrawFocusPanel otherDrawFocusPanel;
-		
+
 		public void setOtherDrawFocusPanel(DrawFocusPanel otherDrawFocusPanel) {
 			this.otherDrawFocusPanel = otherDrawFocusPanel;
 		}
 
 		public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
-			this.propertiesPanel = propertiesPanel;
+			selector = new SelectorNew() {
+				public void doAfterSelectionChanged() {
+					if (getSelectedElements().size() == 1) {
+						propertiesPanel.setGridElement(getSelectedElements().get(0));
+					} else {
+						propertiesPanel.setNoGridElement();
+					}
+					redraw();
+				}
+			};
 			elementCanvas = Canvas.createIfSupported();
 			backgroundCanvas = Canvas.createIfSupported();
 
@@ -116,7 +123,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				@Override
 				public void execute() {
 					selector.select(getGridElements());
-					redraw();
 				}
 			});
 
@@ -134,15 +140,14 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 					redraw();
 				}
 			});
-			
+
 			this.addFocusHandler(new FocusHandler() {
 				@Override
 				public void onFocus(FocusEvent event) {
 					otherDrawFocusPanel.getSelector().deselectAll();
-					otherDrawFocusPanel.redraw();
 				}
 			});
-			
+
 			MouseDragUtils.addMouseDragHandler(this, new MouseDragHandler() {
 				@Override
 				public void onMouseDown(GridElement element, boolean isControlKeyDown) {
@@ -155,7 +160,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 								selector.deselect(element);
 							} else {
 								selector.select(element);
-								propertiesPanel.setGridElement(element);
 							}
 						}
 					} else {
@@ -163,14 +167,11 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 							if (!selector.isSelected(element)) {
 								selector.selectOnly(element);
 							}
-							propertiesPanel.setGridElement(element);
 						} else {
 							selector.deselectAll();
-							propertiesPanel.setNoGridElement();
 						}
 					}
 
-					redraw();
 				}
 
 				@Override
@@ -259,11 +260,9 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 					}
 					else if (Shortcut.DESELECT_ALL.matches(event)) {
 						selector.deselectAll();
-						redraw();
 					}
 					else if (Shortcut.SELECT_ALL.matches(event)) {
 						selector.select(getGridElements());
-						redraw();
 					}
 					else if (Shortcut.COPY.matches(event)) {
 						commandInvoker.copySelectedElements(DrawFocusPanel.this);
@@ -285,7 +284,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				clearAndSetCanvasSize(backgroundCanvas, 5000, 5000);
 				drawBackgroundGrid();
 			}
-			redraw();
 		}
 
 		private void drawBackgroundGrid() {
@@ -317,7 +315,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			if (NewGridElementConstants.isDevMode) {
 				context.drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
 			}
-			
+
 			if (gridElements.isEmpty()) {
 				double elWidth = 440;
 				double elHeight = 80;
@@ -397,21 +395,13 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		@Override
 		public void addGridElements(GridElement ... elements) {
 			this.gridElements.addAll(Arrays.asList(elements));
-			if (elements.length == 1) {
-				propertiesPanel.setGridElement(elements[0]);
-			} else {
-				propertiesPanel.setNoGridElement();
-			}
 			selector.selectOnly(elements);
-			redraw();
 		}
 
 		@Override
 		public void removeGridElements(GridElement ... elements) {
 			this.gridElements.removeAll(Arrays.asList(elements));
-			propertiesPanel.setNoGridElement();
 			selector.deselect(elements);
-			redraw();
 		}
 
 		private int minWidth, minHeight;

@@ -1,7 +1,6 @@
 package com.baselet.gwt.client.view;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import com.baselet.element.GridElement;
@@ -10,25 +9,6 @@ import com.baselet.element.Selector;
 public class SelectorNew extends Selector {
 	
 	private List<GridElement> selectedElements = new ArrayList<GridElement>();
-	
-	public void select(GridElement ... elements) {
-		for (GridElement e : elements) {
-			selectedElements.add(e);
-			e.getComponent().afterModelUpdate();
-		}
-	}
-
-	public void deselect(GridElement ... elements) {
-		for (GridElement e : elements) {
-			Iterator<GridElement> iter = selectedElements.iterator();
-			while (iter.hasNext()) {
-				if (iter.next().equals(e)) {
-					iter.remove();
-					e.getComponent().afterModelUpdate();
-				}
-			}
-		}
-	}
 	
 	public GridElement getSingleSelected() {
 		if (selectedElements.size() == 1) {
