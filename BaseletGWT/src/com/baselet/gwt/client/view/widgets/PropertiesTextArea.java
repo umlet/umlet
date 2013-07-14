@@ -1,6 +1,9 @@
 package com.baselet.gwt.client.view.widgets;
 
+import java.util.Collections;
+
 import com.baselet.element.GridElement;
+import com.baselet.gui.AutocompletionText;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -39,6 +42,12 @@ public class PropertiesTextArea extends MySuggestBox {
 		this.gridElement = gridElement;
 		textArea.setValue(gridElement.getPanelAttributes());
 		oracle.setAutocompletionList(gridElement.getAutocompletionList());
+	}
+	
+	public void setNoGridElement() {
+		this.gridElement = null;
+		textArea.setValue("");
+		oracle.setAutocompletionList(Collections.<AutocompletionText>emptyList());
 	}
 	
 	public GridElement getGridElement() {

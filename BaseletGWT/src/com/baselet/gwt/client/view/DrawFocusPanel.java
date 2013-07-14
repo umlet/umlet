@@ -17,6 +17,7 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.GridElement;
+import com.baselet.element.Selector;
 import com.baselet.gwt.client.Converter;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.Utils;
@@ -32,6 +33,8 @@ import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
@@ -52,11 +55,20 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 		private Canvas backgroundCanvas;
 
-		SelectorNew selector = new SelectorNew();
+		Selector selector = new SelectorNew();
 
 		CommandInvoker commandInvoker = CommandInvoker.getInstance();
 
+		PropertiesTextArea propertiesPanel;
+
+		DrawFocusPanel otherDrawFocusPanel;
+		
+		public void setOtherDrawFocusPanel(DrawFocusPanel otherDrawFocusPanel) {
+			this.otherDrawFocusPanel = otherDrawFocusPanel;
+		}
+
 		public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
+			this.propertiesPanel = propertiesPanel;
 			elementCanvas = Canvas.createIfSupported();
 			backgroundCanvas = Canvas.createIfSupported();
 
@@ -122,7 +134,15 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 					redraw();
 				}
 			});
-
+			
+			this.addFocusHandler(new FocusHandler() {
+				@Override
+				public void onFocus(FocusEvent event) {
+					otherDrawFocusPanel.getSelector().deselectAll();
+					otherDrawFocusPanel.redraw();
+				}
+			});
+			
 			MouseDragUtils.addMouseDragHandler(this, new MouseDragHandler() {
 				@Override
 				public void onMouseDown(GridElement element, boolean isControlKeyDown) {
@@ -146,6 +166,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 							propertiesPanel.setGridElement(element);
 						} else {
 							selector.deselectAll();
+							propertiesPanel.setNoGridElement();
 						}
 					}
 
@@ -289,7 +310,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 		private GridElement emptyEl;
 
-		private void redraw() {
+		void redraw() {
 			clearAndRecalculateCanvasSize();
 			Context2d context = elementCanvas.getContext2d();
 
@@ -376,6 +397,11 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		@Override
 		public void addGridElements(GridElement ... elements) {
 			this.gridElements.addAll(Arrays.asList(elements));
+			if (elements.length == 1) {
+				propertiesPanel.setGridElement(elements[0]);
+			} else {
+				propertiesPanel.setNoGridElement();
+			}
 			selector.selectOnly(elements);
 			redraw();
 		}
@@ -383,6 +409,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		@Override
 		public void removeGridElements(GridElement ... elements) {
 			this.gridElements.removeAll(Arrays.asList(elements));
+			propertiesPanel.setNoGridElement();
 			selector.deselect(elements);
 			redraw();
 		}
@@ -421,7 +448,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			return gridElements;
 		}
 
-		public SelectorNew getSelector() {
+		public Selector getSelector() {
 			return selector;
 		}
 }
