@@ -22,13 +22,11 @@ public interface GridElement {
 
 	void setRectangle(Rectangle bounds);
 
-	void setGroup(GroupGridElement object);
+	void setGroup(GridElement object);
 
 	GridElement CloneFromMe();
 
 	void setLocationDifference(int diffx, int diffy);
-
-	GroupGridElement getGroup();
 
 	String getAdditionalAttributes();
 

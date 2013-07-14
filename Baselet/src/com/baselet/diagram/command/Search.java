@@ -35,8 +35,6 @@ public class Search extends Command {
 		for (GridElement e : d.getAllEntities()) {
 			m = pattern.matcher(e.getPanelAttributes().toLowerCase());
 			if (m.find()) {
-				while (e.isPartOfGroup())
-					e = e.getGroup();
 				s.select(e);
 			}
 		}

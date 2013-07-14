@@ -17,7 +17,6 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
-import com.baselet.element.GroupGridElement;
 import com.baselet.element.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
@@ -33,7 +32,7 @@ public abstract class NewGridElement implements GridElement {
 	private BaseDrawHandler drawer; // this is the drawer for element specific stuff
 	private BaseDrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
 
-	private GroupGridElement group = null;
+	private GridElement group = null;
 
 	private Properties properties;
 
@@ -73,7 +72,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void setGroup(GroupGridElement group) {
+	public void setGroup(GridElement group) {
 		this.group = group;
 	}
 
@@ -126,11 +125,6 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public String getSetting(GlobalSetting key) {
 		return properties.getSetting(key);
-	}
-
-	@Override
-	public GroupGridElement getGroup() {
-		return this.group;
 	}
 
 	@Override

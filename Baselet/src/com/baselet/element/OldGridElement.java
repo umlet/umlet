@@ -51,7 +51,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	private boolean enabled;
 	private boolean stickingBorderActive;
 	private boolean autoresizeandmanualresizeenabled;
-	private GroupGridElement group = null;
+	protected GridElement group = null;
 	protected String panelAttributes = "";
 
 	// deselectedColor and fgColor must be stored separately because selection changes the actual fgColor but not the fgColorBase
@@ -126,12 +126,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public GroupGridElement getGroup() {
-		return this.group;
-	}
-
-	@Override
-	public void setGroup(GroupGridElement group) {
+	public void setGroup(GridElement group) {
 		this.group = group;
 	}
 
