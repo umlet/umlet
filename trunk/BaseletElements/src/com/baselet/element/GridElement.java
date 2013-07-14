@@ -1,7 +1,6 @@
 package com.baselet.element;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 import com.baselet.control.enumerations.Direction;
@@ -9,16 +8,11 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.ComponentInterface;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 
-public interface GridElement {
-
-	String getPanelAttributes();
-
-	void setPanelAttributes(String panelAttributes);
+public interface GridElement extends HasPanelAttributes {
 
 	void setRectangle(Rectangle bounds);
 
@@ -72,8 +66,6 @@ public interface GridElement {
 	void updateProperty(GlobalSetting key, String newValue);
 	
 	void updateModelFromText();
-
-	List<AutocompletionText> getAutocompletionList();
 
 	String getSetting(GlobalSetting key);
 	

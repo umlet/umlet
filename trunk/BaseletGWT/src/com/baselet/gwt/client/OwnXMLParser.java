@@ -87,7 +87,10 @@ public class OwnXMLParser {
 		diagramElement.setAttribute(ATTR_PROGRAM, NewGridElementConstants.program);
 		diagramElement.setAttribute(ATTR_VERSION, NewGridElementConstants.VERSION);
 		diagramElement.appendChild(create(doc, ZOOM_LEVEL, doc.createTextNode("10")));
-		diagramElement.appendChild(create(doc, HELP_TEXT, doc.createTextNode(diagram.getHelpText())));
+		String helpText = diagram.getPanelAttributes();
+		if (helpText != null) {
+			diagramElement.appendChild(create(doc, HELP_TEXT, doc.createTextNode(helpText)));
+		}
 		doc.appendChild(diagramElement);
 
 		for (GridElement ge : diagram.getGridElements()) {

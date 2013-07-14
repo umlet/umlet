@@ -1,9 +1,6 @@
 package com.baselet.gwt.client.view.widgets;
 
-import java.util.Collections;
-
-import com.baselet.element.GridElement;
-import com.baselet.gui.AutocompletionText;
+import com.baselet.element.HasPanelAttributes;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -11,11 +8,13 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 
 public class PropertiesTextArea extends MySuggestBox {
 	
+	private static final String DEFAULT_HELPTEXT = "Space for diagram notes";
+
 	private OwnTextArea textArea;
 
 	private MySuggestOracle oracle;
 
-	private GridElement gridElement;
+	private HasPanelAttributes gridElement;
 
 	public PropertiesTextArea() {
 		this(new MySuggestOracle(), new OwnTextArea(), new DefaultSuggestionDisplay());
@@ -38,22 +37,16 @@ public class PropertiesTextArea extends MySuggestBox {
 		});
 	}
 	
-	public void setGridElement(GridElement gridElement) {
-		this.gridElement = gridElement;
-		textArea.setValue(gridElement.getPanelAttributes());
-		oracle.setAutocompletionList(gridElement.getAutocompletionList());
+	public void setGridElement(HasPanelAttributes panelAttributeProvider) {
+		this.gridElement = panelAttributeProvider;
+		String panelAttributes = panelAttributeProvider.getPanelAttributes();
+		if (panelAttributes == null) {
+			panelAttributes = DEFAULT_HELPTEXT;
+		}
+		textArea.setValue(panelAttributes);
+		oracle.setAutocompletionList(panelAttributeProvider.getAutocompletionList());
 	}
 	
-	public void setNoGridElement() {
-		this.gridElement = null;
-		textArea.setValue("");
-		oracle.setAutocompletionList(Collections.<AutocompletionText>emptyList());
-	}
-	
-	public GridElement getGridElement() {
-		return gridElement;
-	}
-
 	public void addInstantValueChangeHandler(InstantValueChangeHandler handler) {
 		textArea.addInstantValueChangeHandler(handler);
 	}
@@ -65,5 +58,11 @@ public class PropertiesTextArea extends MySuggestBox {
 	public void setText(String text) {
 		super.setText(text);
 		textArea.fireHandlers();
+	}
+
+	public void updateElementOrHelptext() {
+		if (gridElement != null) {
+			gridElement.setPanelAttributes(getValue());
+		}
 	}
 }

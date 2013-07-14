@@ -39,386 +39,383 @@ import com.umlet.element.experimental.element.uml.relation.Relation;
 
 public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
 
-		private Diagram diagram = new Diagram(new ArrayList<GridElement>());
+	private Diagram diagram = new Diagram(new ArrayList<GridElement>());
 
-		private Canvas elementCanvas;
+	private Canvas elementCanvas;
 
-		private Canvas backgroundCanvas;
+	private Canvas backgroundCanvas;
 
-		Selector selector;
+	Selector selector;
 
-		CommandInvoker commandInvoker = CommandInvoker.getInstance();
+	CommandInvoker commandInvoker = CommandInvoker.getInstance();
 
-		DrawFocusPanel otherDrawFocusPanel;
+	DrawFocusPanel otherDrawFocusPanel;
 
-		public void setOtherDrawFocusPanel(DrawFocusPanel otherDrawFocusPanel) {
-			this.otherDrawFocusPanel = otherDrawFocusPanel;
-		}
+	public void setOtherDrawFocusPanel(DrawFocusPanel otherDrawFocusPanel) {
+		this.otherDrawFocusPanel = otherDrawFocusPanel;
+	}
 
-		public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
-			selector = new SelectorNew() {
-				public void doAfterSelectionChanged() {
-					if (getSelectedElements().size() == 1) {
-						propertiesPanel.setGridElement(getSelectedElements().get(0));
-					} else {
-						propertiesPanel.setNoGridElement();
-					}
-					redraw();
+	public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
+		selector = new SelectorNew() {
+			public void doAfterSelectionChanged() {
+				if (getSelectedElements().size() == 1) {
+					propertiesPanel.setGridElement(getSelectedElements().get(0));
+				} else {
+					propertiesPanel.setGridElement(diagram);
 				}
-			};
-			elementCanvas = Canvas.createIfSupported();
-			backgroundCanvas = Canvas.createIfSupported();
+				redraw();
+			}
+		};
+		elementCanvas = Canvas.createIfSupported();
+		backgroundCanvas = Canvas.createIfSupported();
 
-			MenuPopup.appendTo(elementCanvas, new MenuPopupItem() {
-				@Override
-				public String getText() {
-					return "Delete";
-				}
-				@Override
-				public void execute() {
-					commandInvoker.removeSelectedElements(DrawFocusPanel.this);
-				}
-			}, new MenuPopupItem() {
-				@Override
-				public String getText() {
-					return "Copy";
-				}
-				@Override
-				public void execute() {
-					commandInvoker.copySelectedElements(DrawFocusPanel.this);
-				}
-			}, new MenuPopupItem() {
-				@Override
-				public String getText() {
-					return "Cut";
-				}
-				@Override
-				public void execute() {
-					commandInvoker.cutSelectedElements(DrawFocusPanel.this);
-				}
-			}, new MenuPopupItem() {
-				@Override
-				public String getText() {
-					return "Paste";
-				}
-				@Override
-				public void execute() {
-					commandInvoker.pasteElements(DrawFocusPanel.this);
-				}
-			}, new MenuPopupItem() {
-				@Override
-				public String getText() {
-					return "Select All";
-				}
-				@Override
-				public void execute() {
-					selector.select(diagram.getGridElements());
-				}
-			});
+		MenuPopup.appendTo(elementCanvas, new MenuPopupItem() {
+			@Override
+			public String getText() {
+				return "Delete";
+			}
+			@Override
+			public void execute() {
+				commandInvoker.removeSelectedElements(DrawFocusPanel.this);
+			}
+		}, new MenuPopupItem() {
+			@Override
+			public String getText() {
+				return "Copy";
+			}
+			@Override
+			public void execute() {
+				commandInvoker.copySelectedElements(DrawFocusPanel.this);
+			}
+		}, new MenuPopupItem() {
+			@Override
+			public String getText() {
+				return "Cut";
+			}
+			@Override
+			public void execute() {
+				commandInvoker.cutSelectedElements(DrawFocusPanel.this);
+			}
+		}, new MenuPopupItem() {
+			@Override
+			public String getText() {
+				return "Paste";
+			}
+			@Override
+			public void execute() {
+				commandInvoker.pasteElements(DrawFocusPanel.this);
+			}
+		}, new MenuPopupItem() {
+			@Override
+			public String getText() {
+				return "Select All";
+			}
+			@Override
+			public void execute() {
+				selector.select(diagram.getGridElements());
+			}
+		});
 
 
-			this.add(elementCanvas);
+		this.add(elementCanvas);
 
-			propertiesPanel.addInstantValueChangeHandler(new InstantValueChangeHandler() {
-				@Override
-				public void onValueChange(String value) {
-					GridElement gridElement = propertiesPanel.getGridElement();
-					if (gridElement != null) {
-						gridElement.setPanelAttributes(value);
-						gridElement.repaint();
-					}
-					redraw();
-				}
-			});
+		propertiesPanel.addInstantValueChangeHandler(new InstantValueChangeHandler() {
+			@Override
+			public void onValueChange(String value) {
+				propertiesPanel.updateElementOrHelptext();
+				redraw();
+			}
+		});
 
-			this.addFocusHandler(new FocusHandler() {
-				@Override
-				public void onFocus(FocusEvent event) {
-					otherDrawFocusPanel.getSelector().deselectAll();
-				}
-			});
+		this.addFocusHandler(new FocusHandler() {
+			@Override
+			public void onFocus(FocusEvent event) {
+				otherDrawFocusPanel.getSelector().deselectAll();
+			}
+		});
 
-			MouseDragUtils.addMouseDragHandler(this, new MouseDragHandler() {
-				@Override
-				public void onMouseDown(GridElement element, boolean isControlKeyDown) {
-					// Set Focus (to make key-shortcuts work)
-					DrawFocusPanel.this.setFocus(true);
+		MouseDragUtils.addMouseDragHandler(this, new MouseDragHandler() {
+			@Override
+			public void onMouseDown(GridElement element, boolean isControlKeyDown) {
+				// Set Focus (to make key-shortcuts work)
+				DrawFocusPanel.this.setFocus(true);
 
-					if (isControlKeyDown) {
-						if (element != null) {
-							if (selector.isSelected(element)) {
-								selector.deselect(element);
-							} else {
-								selector.select(element);
-							}
-						}
-					} else {
-						if (element != null) {
-							if (!selector.isSelected(element)) {
-								selector.selectOnly(element);
-							}
+				if (isControlKeyDown) {
+					if (element != null) {
+						if (selector.isSelected(element)) {
+							selector.deselect(element);
 						} else {
-							selector.deselectAll();
+							selector.select(element);
 						}
 					}
-
-				}
-
-				@Override
-				public void onMouseDragEnd(GridElement draggedGridElement) {
-					if (draggedGridElement != null && selector.isSelectedOnly(draggedGridElement)) {
-						draggedGridElement.dragEnd();
-					}
-					redraw();
-				}
-
-				Set<Direction> resizeDirection = new HashSet<Direction>();
-
-				@Override
-				public void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
-					if (draggedGridElement == null) { // not dragging a grid element -> move whole diagram
-						Utils.showCursor(Style.Cursor.POINTER);
-						for (GridElement ge : diagram.getGridElements()) {
-							ge.setLocationDifference(diffX, diffY);
-						}
-					} else if (isCtrlKeyDown) {
-						return; // TODO implement Lasso
-					} else if (selector.getSelectedElements().size() > 1) {
-						for (GridElement ge : selector.getSelectedElements()) {
-							ge.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag);
+				} else {
+					if (element != null) {
+						if (!selector.isSelected(element)) {
+							selector.selectOnly(element);
 						}
 					} else {
-						draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag);
-					}
-					redraw();
-				}
-
-				@Override
-				public void onMouseMove(Point absolute) {
-					GridElement geOnPosition = getGridElementOnPosition(absolute);
-					if (geOnPosition != null && selector.isSelectedOnly(geOnPosition)) { // exactly one gridelement selected which is at the mouseposition
-						resizeDirection = geOnPosition.getResizeArea(absolute.getX() - geOnPosition.getRectangle().getX(), absolute.getY() - geOnPosition.getRectangle().getY());
-						if (resizeDirection.isEmpty()) {
-							Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
-						} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) {
-							Utils.showCursor(Style.Cursor.NE_RESIZE);
-						} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) {
-							Utils.showCursor(Style.Cursor.NW_RESIZE);
-						} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) {
-							Utils.showCursor(Style.Cursor.SW_RESIZE);
-						} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)) {
-							Utils.showCursor(Style.Cursor.SE_RESIZE);
-						} else if (resizeDirection.contains(Direction.UP)) {
-							Utils.showCursor(Style.Cursor.N_RESIZE);
-						} else if (resizeDirection.contains(Direction.RIGHT)) {
-							Utils.showCursor(Style.Cursor.E_RESIZE);
-						} else if (resizeDirection.contains(Direction.DOWN)) {
-							Utils.showCursor(Style.Cursor.S_RESIZE);
-						} else if (resizeDirection.contains(Direction.LEFT)) {
-							Utils.showCursor(Style.Cursor.W_RESIZE);
-						}
-					} else {
-						resizeDirection.clear();
-						if (geOnPosition != null) {
-							Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
-						} else {
-							Utils.showCursor(Style.Cursor.DEFAULT);
-						}
-					}
-				}
-			});
-
-			MouseDoubleClickUtils.addMouseDragHandler(this, new Handler() {
-				@Override
-				public void onDoubleClick(GridElement ge) {
-					if (ge != null) {
-						doDoubleClickAction(ge);
-					}
-				}
-			});
-
-			this.addKeyDownHandler(new KeyDownHandler() {
-				@Override
-				public void onKeyDown(KeyDownEvent event) {
-					boolean isZoomKey = Shortcut.ZOOM_IN.matches(event) || Shortcut.ZOOM_OUT.matches(event) ||Shortcut.ZOOM_RESET.matches(event);
-					if (!isZoomKey && !Shortcut.FULLSCREEN.matches(event)) {
-						event.preventDefault(); // avoid most browser key handlings
-					}
-
-					if (Shortcut.DELETE_ELEMENT.matches(event)) {
-						commandInvoker.removeSelectedElements(DrawFocusPanel.this);
-					}
-					else if (Shortcut.DESELECT_ALL.matches(event)) {
 						selector.deselectAll();
 					}
-					else if (Shortcut.SELECT_ALL.matches(event)) {
-						selector.select(diagram.getGridElements());
-					}
-					else if (Shortcut.COPY.matches(event)) {
-						commandInvoker.copySelectedElements(DrawFocusPanel.this);
-					}
-					else if (Shortcut.CUT.matches(event)) {
-						commandInvoker.cutSelectedElements(DrawFocusPanel.this);
-					}
-					else if (Shortcut.PASTE.matches(event)) {
-						commandInvoker.pasteElements(DrawFocusPanel.this);
-					}
-					else if (Shortcut.SAVE.matches(event)) {
-						mainView.getSaveCommand().execute();
-					}
-
 				}
-			});
 
-			if (NewGridElementConstants.isDevMode) {
-				clearAndSetCanvasSize(backgroundCanvas, 5000, 5000);
-				drawBackgroundGrid();
-			}
-		}
-
-		private void drawBackgroundGrid() {
-			int width = backgroundCanvas.getCoordinateSpaceWidth();
-			int height = backgroundCanvas.getCoordinateSpaceHeight();
-			Context2d backgroundContext = backgroundCanvas.getContext2d();
-			backgroundContext.setStrokeStyle(Converter.convert(ColorOwn.BLACK.transparency(Transparency.SELECTION_BACKGROUND)));
-			for (int i = 0; i < width; i += NewGridElementConstants.DEFAULT_GRID_SIZE) {
-				drawLine(backgroundContext, i, 0, i, height);
-			}
-			for (int i = 0; i < height; i += NewGridElementConstants.DEFAULT_GRID_SIZE) {
-				drawLine(backgroundContext, 0, i, width, i);
-			}
-		}
-
-		private static void drawLine(Context2d context, int x, int y, int x2, int y2) {
-			context.beginPath();
-			context.moveTo(x + 0.5, y + 0.5); // +0.5 because a line of thickness 1.0 spans 50% left and 50% right (therefore it would not be on the 1 pixel - see https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors)
-			context.lineTo(x2 + 0.5, y2 + 0.5);
-			context.stroke();
-		}
-
-		void redraw() {
-			clearAndRecalculateCanvasSize();
-			Context2d context = elementCanvas.getContext2d();
-
-			if (NewGridElementConstants.isDevMode) {
-				context.drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
 			}
 
-			if (diagram.getGridElements().isEmpty()) {
-				diagram.drawEmptyInfoText(elementCanvas);
-			} else {
-				//		if (tryOptimizedDrawing()) return;
-				for (GridElement ge : diagram.getGridElementsSorted()) {
-					((GwtComponent) ge.getComponent()).drawOn(context, selector.isSelected(ge));
+			@Override
+			public void onMouseDragEnd(GridElement draggedGridElement) {
+				if (draggedGridElement != null && selector.isSelectedOnly(draggedGridElement)) {
+					draggedGridElement.dragEnd();
 				}
+				redraw();
 			}
 
-		}
+			Set<Direction> resizeDirection = new HashSet<Direction>();
 
-		//TODO would not work because canvas gets always resized and therefore cleaned -> so everything must be redrawn
-		//	private boolean tryOptimizedDrawing() {
-		//		List<GridElement> geToRedraw = new ArrayList<GridElement>();
-		//		for (GridElement ge : gridElements) {
-		//			if(((GwtComponent) ge.getComponent()).isRedrawNecessary()) {
-		//				for (GridElement geRedraw : geToRedraw) {
-		//					if (geRedraw.getRectangle().intersects(ge.getRectangle())) {
-		//						return false;
-		//					}
-		//				}
-		//				geToRedraw.add(ge);
-		//			}
-		//		}
-		//
-		//		for (GridElement ge : gridElements) {
-		//			elementCanvas.getContext2d().clearRect(0, 0, ge.getRectangle().getWidth(), ge.getRectangle().getHeight());
-		//			((GwtComponent) ge.getComponent()).drawOn(elementCanvas.getContext2d());
-		//		}
-		//		return true;
-		//	}
-
-		Canvas getCanvas() {
-			return elementCanvas;
-		}
-
-		public GridElement getGridElementOnPosition(Point point) {
-			GridElement returnGe = null;
-			returnGe = getGridElementOnPositionHelper(point, selector.getSelectedElements());
-			if (returnGe == null) { // if no selected element is found, search all elements
-				returnGe = getGridElementOnPositionHelper(point, diagram.getGridElements());
+			@Override
+			public void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
+				if (draggedGridElement == null) { // not dragging a grid element -> move whole diagram
+					Utils.showCursor(Style.Cursor.POINTER);
+					for (GridElement ge : diagram.getGridElements()) {
+						ge.setLocationDifference(diffX, diffY);
+					}
+				} else if (isCtrlKeyDown) {
+					return; // TODO implement Lasso
+				} else if (selector.getSelectedElements().size() > 1) {
+					for (GridElement ge : selector.getSelectedElements()) {
+						ge.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag);
+					}
+				} else {
+					draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag);
+				}
+				redraw();
 			}
-			return returnGe;
-		}
 
-		private GridElement getGridElementOnPositionHelper(Point point, Collection<GridElement> elements) {
-			GridElement returnGe = null;
-			for (GridElement ge : elements) {
-				if (ge.isSelectableOn(point)) {
-					if (returnGe == null) {
-						returnGe = ge;
+			@Override
+			public void onMouseMove(Point absolute) {
+				GridElement geOnPosition = getGridElementOnPosition(absolute);
+				if (geOnPosition != null && selector.isSelectedOnly(geOnPosition)) { // exactly one gridelement selected which is at the mouseposition
+					resizeDirection = geOnPosition.getResizeArea(absolute.getX() - geOnPosition.getRectangle().getX(), absolute.getY() - geOnPosition.getRectangle().getY());
+					if (resizeDirection.isEmpty()) {
+						Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
+					} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) {
+						Utils.showCursor(Style.Cursor.NE_RESIZE);
+					} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) {
+						Utils.showCursor(Style.Cursor.NW_RESIZE);
+					} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) {
+						Utils.showCursor(Style.Cursor.SW_RESIZE);
+					} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)) {
+						Utils.showCursor(Style.Cursor.SE_RESIZE);
+					} else if (resizeDirection.contains(Direction.UP)) {
+						Utils.showCursor(Style.Cursor.N_RESIZE);
+					} else if (resizeDirection.contains(Direction.RIGHT)) {
+						Utils.showCursor(Style.Cursor.E_RESIZE);
+					} else if (resizeDirection.contains(Direction.DOWN)) {
+						Utils.showCursor(Style.Cursor.S_RESIZE);
+					} else if (resizeDirection.contains(Direction.LEFT)) {
+						Utils.showCursor(Style.Cursor.W_RESIZE);
+					}
+				} else {
+					resizeDirection.clear();
+					if (geOnPosition != null) {
+						Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
 					} else {
-						boolean newIsRelationOldNot = ((ge instanceof Relation) && (!(returnGe instanceof Relation)));
-						boolean oldContainsNew = returnGe.getRectangle().contains(ge.getRectangle());
-						if (newIsRelationOldNot || oldContainsNew) {
-							returnGe = ge; 
-						}
+						Utils.showCursor(Style.Cursor.DEFAULT);
 					}
 				}
 			}
-			return returnGe;
-		}
+		});
 
-		public void setDiagram(Diagram diagram) {
-			this.diagram = diagram;
-			redraw();
-		}
-
-		@Override
-		public void addGridElements(GridElement ... elements) {
-			diagram.getGridElements().addAll(Arrays.asList(elements));
-			selector.selectOnly(elements);
-		}
-
-		@Override
-		public void removeGridElements(GridElement ... elements) {
-			diagram.getGridElements().removeAll(Arrays.asList(elements));
-			selector.deselect(elements);
-		}
-
-		private int minWidth, minHeight;
-
-		public void setMinSize(int minWidth, int minHeight) {
-			this.minWidth = minWidth;
-			this.minHeight = minHeight;
-			redraw();
-		}
-
-		private void clearAndRecalculateCanvasSize() {
-			int width = minWidth;
-			int height = minHeight;
-			for (GridElement ge : diagram.getGridElements()) {
-				width = Math.max(ge.getRectangle().getX2(), width);
-				height = Math.max(ge.getRectangle().getY2(), height);
+		MouseDoubleClickUtils.addMouseDragHandler(this, new Handler() {
+			@Override
+			public void onDoubleClick(GridElement ge) {
+				if (ge != null) {
+					doDoubleClickAction(ge);
+				}
 			}
-			clearAndSetCanvasSize(elementCanvas, width, height);
+		});
+
+		this.addKeyDownHandler(new KeyDownHandler() {
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				boolean isZoomKey = Shortcut.ZOOM_IN.matches(event) || Shortcut.ZOOM_OUT.matches(event) ||Shortcut.ZOOM_RESET.matches(event);
+				if (!isZoomKey && !Shortcut.FULLSCREEN.matches(event)) {
+					event.preventDefault(); // avoid most browser key handlings
+				}
+
+				if (Shortcut.DELETE_ELEMENT.matches(event)) {
+					commandInvoker.removeSelectedElements(DrawFocusPanel.this);
+				}
+				else if (Shortcut.DESELECT_ALL.matches(event)) {
+					selector.deselectAll();
+				}
+				else if (Shortcut.SELECT_ALL.matches(event)) {
+					selector.select(diagram.getGridElements());
+				}
+				else if (Shortcut.COPY.matches(event)) {
+					commandInvoker.copySelectedElements(DrawFocusPanel.this);
+				}
+				else if (Shortcut.CUT.matches(event)) {
+					commandInvoker.cutSelectedElements(DrawFocusPanel.this);
+				}
+				else if (Shortcut.PASTE.matches(event)) {
+					commandInvoker.pasteElements(DrawFocusPanel.this);
+				}
+				else if (Shortcut.SAVE.matches(event)) {
+					mainView.getSaveCommand().execute();
+				}
+
+			}
+		});
+
+		if (NewGridElementConstants.isDevMode) {
+			clearAndSetCanvasSize(backgroundCanvas, 5000, 5000);
+			drawBackgroundGrid();
+		}
+	}
+
+	private void drawBackgroundGrid() {
+		int width = backgroundCanvas.getCoordinateSpaceWidth();
+		int height = backgroundCanvas.getCoordinateSpaceHeight();
+		Context2d backgroundContext = backgroundCanvas.getContext2d();
+		backgroundContext.setStrokeStyle(Converter.convert(ColorOwn.BLACK.transparency(Transparency.SELECTION_BACKGROUND)));
+		for (int i = 0; i < width; i += NewGridElementConstants.DEFAULT_GRID_SIZE) {
+			drawLine(backgroundContext, i, 0, i, height);
+		}
+		for (int i = 0; i < height; i += NewGridElementConstants.DEFAULT_GRID_SIZE) {
+			drawLine(backgroundContext, 0, i, width, i);
+		}
+	}
+
+	private static void drawLine(Context2d context, int x, int y, int x2, int y2) {
+		context.beginPath();
+		context.moveTo(x + 0.5, y + 0.5); // +0.5 because a line of thickness 1.0 spans 50% left and 50% right (therefore it would not be on the 1 pixel - see https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors)
+		context.lineTo(x2 + 0.5, y2 + 0.5);
+		context.stroke();
+	}
+
+	void redraw() {
+		clearAndRecalculateCanvasSize();
+		Context2d context = elementCanvas.getContext2d();
+
+		if (NewGridElementConstants.isDevMode) {
+			context.drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
 		}
 
-		abstract void doDoubleClickAction(GridElement ge);
-
-		private void clearAndSetCanvasSize(Canvas canvas, int width, int height) {
-			// setCoordinateSpace always clears the canvas. To avoid that see https://groups.google.com/d/msg/google-web-toolkit/dpc84mHeKkA/3EKxrlyFCEAJ
-			canvas.setCoordinateSpaceWidth(width);
-			canvas.setCoordinateSpaceHeight(height);
+		if (diagram.getGridElements().isEmpty()) {
+			diagram.drawEmptyInfoText(elementCanvas);
+		} else {
+			//		if (tryOptimizedDrawing()) return;
+			for (GridElement ge : diagram.getGridElementsSorted()) {
+				((GwtComponent) ge.getComponent()).drawOn(context, selector.isSelected(ge));
+			}
 		}
 
-		public String toXml() {
-			return OwnXMLParser.diagramToXml(diagram);
-		}
+	}
 
-		public Diagram getDiagram() {
-			return diagram;
-		}
+	//TODO would not work because canvas gets always resized and therefore cleaned -> so everything must be redrawn
+	//	private boolean tryOptimizedDrawing() {
+	//		List<GridElement> geToRedraw = new ArrayList<GridElement>();
+	//		for (GridElement ge : gridElements) {
+	//			if(((GwtComponent) ge.getComponent()).isRedrawNecessary()) {
+	//				for (GridElement geRedraw : geToRedraw) {
+	//					if (geRedraw.getRectangle().intersects(ge.getRectangle())) {
+	//						return false;
+	//					}
+	//				}
+	//				geToRedraw.add(ge);
+	//			}
+	//		}
+	//
+	//		for (GridElement ge : gridElements) {
+	//			elementCanvas.getContext2d().clearRect(0, 0, ge.getRectangle().getWidth(), ge.getRectangle().getHeight());
+	//			((GwtComponent) ge.getComponent()).drawOn(elementCanvas.getContext2d());
+	//		}
+	//		return true;
+	//	}
 
-		public Selector getSelector() {
-			return selector;
+	Canvas getCanvas() {
+		return elementCanvas;
+	}
+
+	public GridElement getGridElementOnPosition(Point point) {
+		GridElement returnGe = null;
+		returnGe = getGridElementOnPositionHelper(point, selector.getSelectedElements());
+		if (returnGe == null) { // if no selected element is found, search all elements
+			returnGe = getGridElementOnPositionHelper(point, diagram.getGridElements());
 		}
+		return returnGe;
+	}
+
+	private GridElement getGridElementOnPositionHelper(Point point, Collection<GridElement> elements) {
+		GridElement returnGe = null;
+		for (GridElement ge : elements) {
+			if (ge.isSelectableOn(point)) {
+				if (returnGe == null) {
+					returnGe = ge;
+				} else {
+					boolean newIsRelationOldNot = ((ge instanceof Relation) && (!(returnGe instanceof Relation)));
+					boolean oldContainsNew = returnGe.getRectangle().contains(ge.getRectangle());
+					if (newIsRelationOldNot || oldContainsNew) {
+						returnGe = ge; 
+					}
+				}
+			}
+		}
+		return returnGe;
+	}
+
+	public void setDiagram(Diagram diagram) {
+		this.diagram = diagram;
+		selector.deselectAll(); // necessary to trigger setting helptext to properties
+		redraw();
+	}
+
+	@Override
+	public void addGridElements(GridElement ... elements) {
+		diagram.getGridElements().addAll(Arrays.asList(elements));
+		selector.selectOnly(elements);
+	}
+
+	@Override
+	public void removeGridElements(GridElement ... elements) {
+		diagram.getGridElements().removeAll(Arrays.asList(elements));
+		selector.deselect(elements);
+	}
+
+	private int minWidth, minHeight;
+
+	public void setMinSize(int minWidth, int minHeight) {
+		this.minWidth = minWidth;
+		this.minHeight = minHeight;
+		redraw();
+	}
+
+	private void clearAndRecalculateCanvasSize() {
+		int width = minWidth;
+		int height = minHeight;
+		for (GridElement ge : diagram.getGridElements()) {
+			width = Math.max(ge.getRectangle().getX2(), width);
+			height = Math.max(ge.getRectangle().getY2(), height);
+		}
+		clearAndSetCanvasSize(elementCanvas, width, height);
+	}
+
+	abstract void doDoubleClickAction(GridElement ge);
+
+	private void clearAndSetCanvasSize(Canvas canvas, int width, int height) {
+		// setCoordinateSpace always clears the canvas. To avoid that see https://groups.google.com/d/msg/google-web-toolkit/dpc84mHeKkA/3EKxrlyFCEAJ
+		canvas.setCoordinateSpaceWidth(width);
+		canvas.setCoordinateSpaceHeight(height);
+	}
+
+	public String toXml() {
+		return OwnXMLParser.diagramToXml(diagram);
+	}
+
+	public Diagram getDiagram() {
+		return diagram;
+	}
+
+	public Selector getSelector() {
+		return selector;
+	}
 }
