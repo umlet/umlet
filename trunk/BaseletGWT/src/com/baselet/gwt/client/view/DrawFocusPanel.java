@@ -4,16 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.GridElement;
@@ -21,7 +18,7 @@ import com.baselet.element.Selector;
 import com.baselet.gwt.client.Converter;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.Utils;
-import com.baselet.gwt.client.element.ElementFactory;
+import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.element.GwtComponent;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.MouseDoubleClickUtils.Handler;
@@ -38,18 +35,11 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.element.uml.relation.Relation;
 
 public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
 
-	private static final Comparator<GridElement> LAYER_COMPARATOR = new Comparator<GridElement>() {
-		@Override
-		public int compare(GridElement o1, GridElement o2) {
-			return o1.getLayer().compareTo(o2.getLayer());
-		}};
-
-		private List<GridElement> gridElements = new ArrayList<GridElement>();
+		private Diagram diagram = new Diagram(new ArrayList<GridElement>());
 
 		private Canvas elementCanvas;
 
@@ -122,7 +112,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				}
 				@Override
 				public void execute() {
-					selector.select(getGridElements());
+					selector.select(diagram.getGridElements());
 				}
 			});
 
@@ -188,7 +178,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				public void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
 					if (draggedGridElement == null) { // not dragging a grid element -> move whole diagram
 						Utils.showCursor(Style.Cursor.POINTER);
-						for (GridElement ge : gridElements) {
+						for (GridElement ge : diagram.getGridElements()) {
 							ge.setLocationDifference(diffX, diffY);
 						}
 					} else if (isCtrlKeyDown) {
@@ -262,7 +252,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 						selector.deselectAll();
 					}
 					else if (Shortcut.SELECT_ALL.matches(event)) {
-						selector.select(getGridElements());
+						selector.select(diagram.getGridElements());
 					}
 					else if (Shortcut.COPY.matches(event)) {
 						commandInvoker.copySelectedElements(DrawFocusPanel.this);
@@ -306,8 +296,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			context.stroke();
 		}
 
-		private GridElement emptyEl;
-
 		void redraw() {
 			clearAndRecalculateCanvasSize();
 			Context2d context = elementCanvas.getContext2d();
@@ -316,20 +304,12 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				context.drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
 			}
 
-			if (gridElements.isEmpty()) {
-				double elWidth = 440;
-				double elHeight = 80;
-				double elXPos = elementCanvas.getCoordinateSpaceWidth()/2 - elWidth/2;
-				double elYPos = elementCanvas.getCoordinateSpaceHeight()/2 - elHeight;
-				emptyEl = ElementFactory.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), "halign=center\nDouble-click on an element to add it to the diagram\n\nImport uxf Files using the Menu \"Import\" or simply drag them into the diagram\n\nSave diagrams persistent in browser storage using the \"Save\" menu", "");
-				((GwtComponent) emptyEl.getComponent()).drawOn(context, selector);
+			if (diagram.getGridElements().isEmpty()) {
+				diagram.drawEmptyInfoText(elementCanvas);
 			} else {
-				Collections.sort(gridElements, LAYER_COMPARATOR);
-
 				//		if (tryOptimizedDrawing()) return;
-
-				for (GridElement ge : gridElements) {
-					((GwtComponent) ge.getComponent()).drawOn(context, selector);
+				for (GridElement ge : diagram.getGridElementsSorted()) {
+					((GwtComponent) ge.getComponent()).drawOn(context, selector.isSelected(ge));
 				}
 			}
 
@@ -364,7 +344,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			GridElement returnGe = null;
 			returnGe = getGridElementOnPositionHelper(point, selector.getSelectedElements());
 			if (returnGe == null) { // if no selected element is found, search all elements
-				returnGe = getGridElementOnPositionHelper(point, gridElements);
+				returnGe = getGridElementOnPositionHelper(point, diagram.getGridElements());
 			}
 			return returnGe;
 		}
@@ -387,20 +367,20 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			return returnGe;
 		}
 
-		public void setGridElements(List<GridElement> gridElements) {
-			this.gridElements = gridElements;
+		public void setDiagram(Diagram diagram) {
+			this.diagram = diagram;
 			redraw();
 		}
 
 		@Override
 		public void addGridElements(GridElement ... elements) {
-			this.gridElements.addAll(Arrays.asList(elements));
+			diagram.getGridElements().addAll(Arrays.asList(elements));
 			selector.selectOnly(elements);
 		}
 
 		@Override
 		public void removeGridElements(GridElement ... elements) {
-			this.gridElements.removeAll(Arrays.asList(elements));
+			diagram.getGridElements().removeAll(Arrays.asList(elements));
 			selector.deselect(elements);
 		}
 
@@ -415,7 +395,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		private void clearAndRecalculateCanvasSize() {
 			int width = minWidth;
 			int height = minHeight;
-			for (GridElement ge : gridElements) {
+			for (GridElement ge : diagram.getGridElements()) {
 				width = Math.max(ge.getRectangle().getX2(), width);
 				height = Math.max(ge.getRectangle().getY2(), height);
 			}
@@ -431,11 +411,11 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		}
 
 		public String toXml() {
-			return OwnXMLParser.gridElementsToXml(getGridElements());
+			return OwnXMLParser.diagramToXml(diagram);
 		}
 
-		public List<GridElement> getGridElements() {
-			return gridElements;
+		public Diagram getDiagram() {
+			return diagram;
 		}
 
 		public Selector getSelector() {

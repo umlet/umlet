@@ -12,14 +12,6 @@ public class Utils {
 		RootLayoutPanel.get().getElement().getStyle().setCursor(cursor);
 	}
 
-	public static String getProgramnameLowerCase() {
-		return "umlet_web";
-	}
-
-	public static String getProgramVersion() {
-		return "12.2";
-	}
-
 	public static native String b64encode(String a) /*-{
 	  return window.btoa(a);
 	}-*/;

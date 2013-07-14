@@ -14,5 +14,10 @@ public class NewGridElementConstants {
 	public static boolean show_stickingpolygon = true;
 	
 	public static boolean isDevMode = false;
+	
+	public static String program = ""; // TODO merge with Constants.Program
+
+	public static String VERSION = "12.2"; // TODO merge with Constants.Program
+
 
 }
