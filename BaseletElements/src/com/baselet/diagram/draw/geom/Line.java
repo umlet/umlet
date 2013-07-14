@@ -119,5 +119,9 @@ public class Line {
 	public String toString() {
 		return "Line [start=" + start + ", end=" + end + "]";
 	}
+
+	public PointDouble[] toPoints() {
+		return new PointDouble[] {start, end};
+	}
 	
 }

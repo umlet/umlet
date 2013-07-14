@@ -7,6 +7,7 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Line;
+import com.baselet.diagram.draw.geom.Lines;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
@@ -171,6 +172,9 @@ public abstract class BaseDrawHandler {
 	}
 	public void drawLines(Collection<PointDouble> points) {
 		drawLines(points.toArray(new PointDouble[points.size()]));
+	}
+	public void drawLines(Line ... lines) {
+		drawLines(Lines.toPoints(lines));
 	}
 	public void print(String text, double x, double y, AlignHorizontal align) {
 		print(text, new PointDouble(x,y), align);
