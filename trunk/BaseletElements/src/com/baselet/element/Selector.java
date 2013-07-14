@@ -48,7 +48,7 @@ public abstract class Selector {
 	}
 	
 	public boolean isSelectedOnly(GridElement ge) {
-		return getSelectedElements().size() == 1 && getSelectedElements().contains(ge);
+		return getSelectedElements().size() == 1 && isSelected(ge);
 	}
 	
 	public void selectOnly(GridElement ... elements) {

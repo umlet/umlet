@@ -69,6 +69,11 @@ public class SelectorOld extends Selector {
 		} else {
 			((SwingComponent)e.getComponent()).setSelected(value);
 		}
+		if (e instanceof Group) {
+			for (GridElement eInGroup : ((Group) e).getMembers()) {
+				setSelected(eInGroup, value);
+			}
+		}
 	}
 
 	public void deselectAllWithoutUpdatePropertyPanel() {
@@ -142,6 +147,17 @@ public class SelectorOld extends Selector {
 		}
 	}
 
+	@Override
+	public boolean isSelected(GridElement ge) {
+		boolean isSelected = super.isSelected(ge);
+		for (GridElement sge : getSelectedElements()) {
+			if (sge instanceof Group) {
+				isSelected = isSelected || ((Group) sge).getMembersRecursive().contains(ge);
+			}
+		}
+		return isSelected;
+	}
+	
 	@Override
 	public List<GridElement> getSelectedElements() {
 		return selectedElements;

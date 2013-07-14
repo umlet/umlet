@@ -96,8 +96,7 @@ public class Group extends OldGridElement implements GroupGridElement {
 
 	@Override
 	public void paintEntity(Graphics g) {
-		Selector s = Main.getHandlerForElement(this).getDrawPanel().getSelector();
-		if (s.isSelected(this) && !this.isPartOfGroup()) {
+		if (selected && !this.isPartOfGroup()) {
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setColor(java.awt.Color.green);
 			g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
