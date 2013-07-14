@@ -1,8 +1,6 @@
 package com.baselet.diagram;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -81,42 +79,25 @@ public class SelectorOld extends Selector {
 		dominantEntity = null;
 	}
 
-	@Override
-	public void select(GridElement... elements) {
-		handleSelect(Arrays.asList(elements));
-	}
-
-	public void select(List<GridElement> entities) {
-		handleSelect(entities);
-	}
-
 	public void selectAll() {
-		handleSelect(panel.getAllEntitiesNotInGroup());
+		select(panel.getAllEntitiesNotInGroup());
 	}
 
-	private void handleSelect(List<GridElement> entities) {
-		for (GridElement e : entities) {
-			if (selectedElements.contains(e) || e.isPartOfGroup()) continue;
-			selectedElements.add(e);
-			setSelected(e, true);
-		}
+	@Override
+	public void doAfterSelectionChanged() {
 		updateSelectorInformation();
 	}
-
+	
 	@Override
-	public void deselect(GridElement... elements) {
-		for (GridElement e : elements) {
-			Iterator<GridElement> iter = selectedElements.iterator();
-			while (iter.hasNext()) {
-				if (iter.next().equals(e)) {
-					iter.remove();
-					setSelected(e, false);
-					updateSelectorInformation();
-				}
-			}
-		}
+	public void doAfterSelect(GridElement e) {
+		setSelected(e, true);
 	}
-
+	
+	@Override
+	public void doAfterDeselect(GridElement e) {
+		setSelected(e, false);
+	}
+	
 	private void updateGUIInformation() {
 		Main.getInstance().getGUI().elementsSelected(selectedElements.size());
 		boolean ungroupEnabled = (selectedElements.size() == 1) && (selectedElements.get(0) instanceof Group);

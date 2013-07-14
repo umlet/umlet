@@ -35,11 +35,10 @@ public class DrawFocusPanelPalette extends DrawFocusPanel {
 
 	@Override
 	void doDoubleClickAction(GridElement ge) {
+		otherDrawFocusPanel.setFocus(true);
 		GridElement e = ge.CloneFromMe();
 		e.setLocation(NewGridElementConstants.DEFAULT_GRID_SIZE, NewGridElementConstants.DEFAULT_GRID_SIZE);
 		commandInvoker.addElements(otherDrawFocusPanel, e);
-		otherDrawFocusPanel.setFocus(true);
-		propertiesPanel.setGridElement(e);
 	}
 
 }
