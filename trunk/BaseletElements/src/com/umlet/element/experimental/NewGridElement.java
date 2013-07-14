@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.enumerations.Direction;
@@ -188,10 +189,9 @@ public abstract class NewGridElement implements GridElement {
 		else poly = this.generateStickingBorder(0, 0, this.getRealSize().width - 1, this.getRealSize().height - 1);
 		if (poly != null) {
 			drawer.setLineType(LineType.DASHED);
-			drawer.setForegroundColor(ColorOwn.SELECTION_FG);
-			for (Line line : poly.getStickLines()) {
-				drawer.drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
-			}
+			drawer.setForegroundColor(ColorOwn.STICKING_POLYGON);
+			Vector<? extends Line> lines = poly.getStickLines();
+			drawer.drawLines(lines.toArray(new Line[lines.size()]));
 			drawer.setLineType(LineType.SOLID);
 			drawer.resetColorSettings();
 		}

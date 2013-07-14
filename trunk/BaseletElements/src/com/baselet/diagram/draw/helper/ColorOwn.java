@@ -9,10 +9,10 @@ public class ColorOwn {
 	private static final Logger log = Logger.getLogger(ColorOwn.class);
 
 	public static enum Transparency {
-		FOREGROUND(255), // ALPHA_NO_TRANSPARENCY = 1.0f;
+		FOREGROUND(255),
 		FULL_TRANSPARENT(0),
 		BACKGROUND(125),
-		SELECTION_BACKGROUND(20); // ALPHA_NEARLY_FULL_TRANSPARENCY = 0.035f;
+		SELECTION_BACKGROUND(15);
 		
 		private int alpha;
 
@@ -42,6 +42,7 @@ public class ColorOwn {
 	public static final ColorOwn TRANSPARENT = new ColorOwn(0, 0, 0, Transparency.FULL_TRANSPARENT);
 	public static final ColorOwn SELECTION_FG = BLUE;
 	public static final ColorOwn SELECTION_BG = new ColorOwn(0, 0, 255, Transparency.SELECTION_BACKGROUND);
+	public static final ColorOwn STICKING_POLYGON = BLUE;
 	public static final ColorOwn DEFAULT_FOREGROUND = BLACK;
 	public static final ColorOwn DEFAULT_BACKGROUND = TRANSPARENT;
 
