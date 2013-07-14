@@ -160,9 +160,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		this.panelAttributes = panelAttributes;
 	}
 	
-	protected boolean selected = false;
 	public void setSelected(Boolean selected) {
-		this.selected = selected;
 		if (selected) {
 			fgColor = Converter.convert(ColorOwn.SELECTION_FG);
 		} else {

@@ -94,6 +94,12 @@ public class Group extends OldGridElement implements GroupGridElement {
 		}
 	}
 
+	protected boolean selected = false; // necessary woraround because selector doesn't have the correct selection state
+	@Override
+	public void setSelected(Boolean selected) {
+		super.setSelected(selected);
+		this.selected = selected;
+	}
 	@Override
 	public void paintEntity(Graphics g) {
 		if (selected && !this.isPartOfGroup()) {
