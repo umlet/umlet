@@ -21,7 +21,7 @@ import com.baselet.diagram.command.AddElement;
 
 
 @SuppressWarnings("serial")
-public class Group extends OldGridElement implements GroupGridElement {
+public class Group extends OldGridElement {
 	private Vector<GridElement> entities;
 
 	// after adding all elements to a group the function adjustSize has to be called!
@@ -92,6 +92,10 @@ public class Group extends OldGridElement implements GroupGridElement {
 				((Component) e.getComponent()).removeMouseMotionListener(Main.getHandlerForElement(this).getEntityListener(e));
 			}
 		}
+	}
+
+	public Group getGroup() {
+		return (Group) group;
 	}
 
 	protected boolean selected = false; // necessary woraround because selector doesn't have the correct selection state
