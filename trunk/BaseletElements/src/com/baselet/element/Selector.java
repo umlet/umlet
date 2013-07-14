@@ -11,7 +11,6 @@ public abstract class Selector {
 			if (!getSelectedElements().contains(e)) {
 				getSelectedElements().add(e);
 				doAfterSelect(e);
-				e.getComponent().afterModelUpdate();
 			}
 		}
 		if (applyAfterAction) {
@@ -26,7 +25,6 @@ public abstract class Selector {
 				if (iter.next().equals(e)) {
 					iter.remove();
 					doAfterDeselect(e);
-					e.getComponent().afterModelUpdate();
 				}
 			}
 		}
@@ -75,7 +73,7 @@ public abstract class Selector {
 	}
 	
 	public void doAfterDeselect(GridElement e) {
-		//hook method
+		e.getComponent().afterModelUpdate();
 	}
 	
 	public void doAfterSelectionChanged() {
@@ -83,6 +81,6 @@ public abstract class Selector {
 	}
 	
 	public void doAfterSelect(GridElement e) {
-		//hook method
+		e.getComponent().afterModelUpdate();
 	}
 }

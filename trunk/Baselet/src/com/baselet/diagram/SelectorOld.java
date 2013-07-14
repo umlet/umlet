@@ -11,6 +11,7 @@ import com.baselet.element.Group;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.Selector;
 import com.umlet.custom.CustomElement;
+import com.umlet.element.experimental.SwingComponent;
 
 public class SelectorOld extends Selector {
 
@@ -65,6 +66,8 @@ public class SelectorOld extends Selector {
 	private void setSelected(GridElement e, boolean value) {
 		if (e instanceof OldGridElement) {
 			((OldGridElement) e).setSelected(value);
+		} else {
+			((SwingComponent)e.getComponent()).setSelected(value);
 		}
 	}
 
@@ -90,11 +93,13 @@ public class SelectorOld extends Selector {
 	
 	@Override
 	public void doAfterSelect(GridElement e) {
+		super.doAfterSelect(e);
 		setSelected(e, true);
 	}
 	
 	@Override
 	public void doAfterDeselect(GridElement e) {
+		super.doAfterDeselect(e);
 		setSelected(e, false);
 	}
 	
