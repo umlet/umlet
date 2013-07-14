@@ -19,15 +19,10 @@ public class SelectorOld extends Selector {
 	private static SelectorOld currentSelector;// to determin what selector is active right now (to set that element blue)
 
 	private GridElement dominantEntity;
-	private Vector<GridElement> selectedEntities = new Vector<GridElement>();
+	private Vector<GridElement> selectedElements = new Vector<GridElement>();
 	private DrawPanel panel;
 	private boolean _selectorframeactive;
 	private SelectorFrame _selectorframe;
-
-	@Override
-	public boolean isSelected(GridElement ge) {
-		return selectedEntities.contains(ge);
-	}
 
 	public SelectorOld(DrawPanel panel) {
 		this.panel = panel;
@@ -38,7 +33,7 @@ public class SelectorOld extends Selector {
 	// AB: usually this is the first selected entity
 	// If a group has been selected this entity can be set explicitly
 	public GridElement getDominantEntity() {
-		if ((dominantEntity == null) && !selectedEntities.isEmpty()) { return selectedEntities.firstElement(); }
+		if ((dominantEntity == null) && !selectedElements.isEmpty()) { return selectedElements.firstElement(); }
 		return dominantEntity;
 	}
 
@@ -63,7 +58,7 @@ public class SelectorOld extends Selector {
 	// needed for custom element exchange
 	public void singleSelectWithoutUpdatePropertyPanel(GridElement e) {
 		deselectAllWithoutUpdatePropertyPanel();
-		selectedEntities.add(e);
+		selectedElements.add(e);
 		setSelected(e, true);
 		if (Main.getInstance().getGUI() != null) updateGUIInformation();
 		Main.getInstance().setPropertyPanelToCustomElement(e);
@@ -77,8 +72,8 @@ public class SelectorOld extends Selector {
 
 	public void deselectAllWithoutUpdatePropertyPanel() {
 		// copy selected entities, clear list (to let GridElement.isSelected() calls return the correct result) and iterate over list and update selection status of GridElements
-		List<GridElement> listCopy = new ArrayList<GridElement>(selectedEntities);
-		selectedEntities.clear();
+		List<GridElement> listCopy = new ArrayList<GridElement>(selectedElements);
+		selectedElements.clear();
 		for (GridElement e : listCopy) {
 			setSelected(e, false);
 			e.repaint(); // repaint to make sure now unselected entities are not drawn as selected anymore
@@ -101,8 +96,8 @@ public class SelectorOld extends Selector {
 
 	private void handleSelect(List<GridElement> entities) {
 		for (GridElement e : entities) {
-			if (selectedEntities.contains(e) || e.isPartOfGroup()) continue;
-			selectedEntities.add(e);
+			if (selectedElements.contains(e) || e.isPartOfGroup()) continue;
+			selectedElements.add(e);
 			setSelected(e, true);
 		}
 		updateSelectorInformation();
@@ -111,7 +106,7 @@ public class SelectorOld extends Selector {
 	@Override
 	public void deselect(GridElement... elements) {
 		for (GridElement e : elements) {
-			Iterator<GridElement> iter = selectedEntities.iterator();
+			Iterator<GridElement> iter = selectedElements.iterator();
 			while (iter.hasNext()) {
 				if (iter.next().equals(e)) {
 					iter.remove();
@@ -123,11 +118,11 @@ public class SelectorOld extends Selector {
 	}
 
 	private void updateGUIInformation() {
-		Main.getInstance().getGUI().elementsSelected(selectedEntities.size());
-		boolean ungroupEnabled = (selectedEntities.size() == 1) && (selectedEntities.get(0) instanceof Group);
+		Main.getInstance().getGUI().elementsSelected(selectedElements.size());
+		boolean ungroupEnabled = (selectedElements.size() == 1) && (selectedElements.get(0) instanceof Group);
 		Main.getInstance().getGUI().setUngroupEnabled(ungroupEnabled);
 
-		boolean customElementSelected = (selectedEntities.size() == 1) && (selectedEntities.get(0) instanceof CustomElement);
+		boolean customElementSelected = (selectedElements.size() == 1) && (selectedElements.get(0) instanceof CustomElement);
 		Main.getInstance().getGUI().setCustomElementSelected(customElementSelected);
 	}
 
@@ -145,13 +140,13 @@ public class SelectorOld extends Selector {
 		Main.getInstance().setCurrentDiagramHandler(this.panel.getHandler());
 		if (Main.getInstance().getGUI() != null) {
 			updateGUIInformation();
-			if (selectedEntities.size() == 1) Main.getInstance().setPropertyPanelToGridElement(selectedEntities.elementAt(0));
+			if (selectedElements.size() == 1) Main.getInstance().setPropertyPanelToGridElement(selectedElements.elementAt(0));
 			else Main.getInstance().setPropertyPanelToGridElement(null);
 		}
 	}
 
 	private void setElementsSelected(boolean selected) {
-		for (GridElement e : this.selectedEntities)
+		for (GridElement e : this.selectedElements)
 			setSelected(e, selected);
 	}
 
@@ -163,6 +158,6 @@ public class SelectorOld extends Selector {
 
 	@Override
 	public List<GridElement> getSelectedElements() {
-		return selectedEntities;
+		return selectedElements;
 	}
 }

@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.NewGridElementConstants;
-import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
@@ -19,11 +18,8 @@ public class DrawFocusPanelPalette extends DrawFocusPanel {
 			OwnXMLParser.xmlToGridElements("<diagram program=\"umlet_web\" version=\"12.2\"><zoom_level>10</zoom_level><element><id>Relation</id><coordinates><x>10</x><y>10</y><w>80</w><h>20</h></coordinates><panel_attributes>start=&gt;&#10;end=&lt;</panel_attributes><additional_attributes>10.0;10.0;70.0;10.0</additional_attributes></element><element><id>Relation</id><coordinates><x>10</x><y>40</y><w>80</w><h>20</h></coordinates><panel_attributes>start=&lt;&#10;end=&gt;&#10;starttext=text&#10;endtext=text&#10;</panel_attributes><additional_attributes>10.0;10.0;70.0;10.0</additional_attributes></element><element><id>Relation</id><coordinates><x>10</x><y>70</y><w>80</w><h>20</h></coordinates><panel_attributes>start=&gt;&gt;&#10;end=&gt;&gt;</panel_attributes><additional_attributes>10.0;10.0;70.0;10.0</additional_attributes></element><element><id>Relation</id><coordinates><x>10</x><y>90</y><w>80</w><h>20</h></coordinates><panel_attributes>start=&gt;&gt;&gt;&#10;end=&gt;&gt;&gt;</panel_attributes><additional_attributes>10.0;10.0;70.0;10.0</additional_attributes></element></diagram>")
 			);
 
-	private CanAddAndRemoveGridElement doubleClickTarget;
-
-	public DrawFocusPanelPalette(MainView mainView, PropertiesTextArea propertiesPanel, final ListBox paletteChooser, CanAddAndRemoveGridElement doubleClickTarget) {
+	public DrawFocusPanelPalette(MainView mainView, PropertiesTextArea propertiesPanel, final ListBox paletteChooser) {
 		super(mainView, propertiesPanel);
-		this.doubleClickTarget = doubleClickTarget;
 		this.setGridElements(PALETTELIST.get(0));
 
 		paletteChooser.addItem("Default");
@@ -41,7 +37,9 @@ public class DrawFocusPanelPalette extends DrawFocusPanel {
 	void doDoubleClickAction(GridElement ge) {
 		GridElement e = ge.CloneFromMe();
 		e.setLocation(NewGridElementConstants.DEFAULT_GRID_SIZE, NewGridElementConstants.DEFAULT_GRID_SIZE);
-		commandInvoker.addElements(doubleClickTarget, e);
+		commandInvoker.addElements(otherDrawFocusPanel, e);
+		otherDrawFocusPanel.setFocus(true);
+		propertiesPanel.setGridElement(e);
 	}
 
 }
