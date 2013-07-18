@@ -71,6 +71,10 @@ public abstract class Selector {
 	public void deselectAll() {
 		deselect(getSelectedElements().toArray(new GridElement[getSelectedElements().size()]));
 	}
+
+	public void deselectAllWithoutAfterAction() {
+		deselectHelper(false, getSelectedElements().toArray(new GridElement[getSelectedElements().size()]));
+	}
 	
 	public void doAfterDeselect(GridElement e) {
 		e.getComponent().afterModelUpdate();
@@ -82,5 +86,11 @@ public abstract class Selector {
 	
 	public void doAfterSelect(GridElement e) {
 		e.getComponent().afterModelUpdate();
+	}
+
+	public void moveToLastPosInList(GridElement element) {
+		List<GridElement> elements = getSelectedElements();
+		elements.remove(element);
+		elements.add(element);
 	}
 }

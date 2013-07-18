@@ -64,8 +64,8 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 	public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
 		selector = new SelectorNew() {
 			public void doAfterSelectionChanged() {
-				if (getSelectedElements().size() == 1) {
-					propertiesPanel.setGridElement(getSelectedElements().get(0));
+				if (!getSelectedElements().isEmpty()) { // always set properties text of latest selected element (so you also have an element in the prop panel even if you have an active multiselect)
+					propertiesPanel.setGridElement(getSelectedElements().get(getSelectedElements().size()-1));
 				} else {
 					propertiesPanel.setGridElement(diagram);
 				}
@@ -161,7 +161,10 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 					}
 				} else {
 					if (element != null) {
-						if (!selector.isSelected(element)) {
+						if (selector.isSelected(element)) {
+							selector.moveToLastPosInList(element);
+							propertiesPanel.setGridElement(element);
+						} else {
 							selector.selectOnly(element);
 						}
 					} else {
