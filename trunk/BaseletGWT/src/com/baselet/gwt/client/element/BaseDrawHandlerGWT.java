@@ -21,7 +21,7 @@ import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 public class BaseDrawHandlerGWT extends BaseDrawHandler {
 
 	private double HALF_PX = 0.5f;
-	
+
 	private static final Logger log = Logger.getLogger(BaseDrawHandlerGWT.class);
 
 	private Canvas canvas;
@@ -127,10 +127,14 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 
 	private void drawTextHelper(final String text, PointDouble p, AlignHorizontal align, double fontSize) {
 		StringStyle stringStyle = StringStyle.analyseStyle(text);
-		
+
 		ctxSetFont(fontSize, stringStyle);
 
 		String textToDraw = stringStyle.getStringWithoutMarkup();
+		if (textToDraw == null || textToDraw.isEmpty()) {
+			return; // if nothing should be drawn return (some browsers like Opera have problems with ctx.fillText calls on empty strings)
+		}
+
 		if (stringStyle.getFormat().contains(FormatLabels.UNDERLINE)) {
 			ctx.setLineWidth(1.0f);
 			setLineDash(ctx, LineType.SOLID, 1.0f);
