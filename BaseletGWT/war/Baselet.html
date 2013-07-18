@@ -19,14 +19,5 @@
     </noscript>
     <div align="center" id="featurewarning" style="color: red; font-family: sans-serif; font-weight:bold; font-size:1.2em" />
     <div class="root"> </div>
-    <script type="text/javascript">
-        if (typeof FileReader == "undefined" || typeof(window.localStorage) == "undefined") {
-            if (navigator.appVersion.indexOf("MSIE 10") != -1) {
-             	document.getElementById('featurewarning').innerHTML = "You have opened this webpage from your filesystem, therefore<br/>Internet Explorer 10 will not support some essential features<br/><br/>Please use another browser like Firefox or Chrome,<br/>or open this application from the web url"
-            } else {
-				document.getElementById('featurewarning').innerHTML = "Sorry, but your browser does not support all necessary features<br/>Suggested browsers are Firefox, Chrome, Opera, Internet Explorer 10+"
-    	}
-    }
-    </script>
   </body>
 </html>
