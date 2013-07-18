@@ -22,7 +22,7 @@ import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.element.GwtComponent;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.MouseDoubleClickUtils.Handler;
-import com.baselet.gwt.client.view.MouseDragUtils.MouseDragHandler;
+import com.baselet.gwt.client.view.MouseUtils.MouseDragHandler;
 import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
@@ -50,9 +50,15 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 	CommandInvoker commandInvoker = CommandInvoker.getInstance();
 
 	DrawFocusPanel otherDrawFocusPanel;
+	
+	private boolean hasFocus = false;
 
 	public void setOtherDrawFocusPanel(DrawFocusPanel otherDrawFocusPanel) {
 		this.otherDrawFocusPanel = otherDrawFocusPanel;
+	}
+	
+	public void setHasFocus(boolean hasFocus) {
+		this.hasFocus = hasFocus;
 	}
 
 	public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
@@ -130,11 +136,16 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		this.addFocusHandler(new FocusHandler() {
 			@Override
 			public void onFocus(FocusEvent event) {
-				otherDrawFocusPanel.getSelector().deselectAll();
+				if (!hasFocus) { // if focus has switched from diagram <-> palette, reset other selector and redraw
+					otherDrawFocusPanel.getSelector().deselectAllWithoutAfterAction();
+					otherDrawFocusPanel.redraw(); // redraw is necessary even if other afteractions (properties panel update) are not
+					otherDrawFocusPanel.setHasFocus(false);
+					setHasFocus(true);
+				}
 			}
 		});
 
-		MouseDragUtils.addMouseDragHandler(this, new MouseDragHandler() {
+		MouseUtils.addMouseHandler(this, new MouseDragHandler() {
 			@Override
 			public void onMouseDown(GridElement element, boolean isControlKeyDown) {
 				// Set Focus (to make key-shortcuts work)

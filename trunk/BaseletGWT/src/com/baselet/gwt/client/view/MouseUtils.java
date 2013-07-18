@@ -14,7 +14,7 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 
-public class MouseDragUtils {
+public class MouseUtils {
 
 	private static enum DragStatus {
 		FIRST, CONTINUOUS, NO
@@ -36,7 +36,7 @@ public class MouseDragUtils {
 		void onMouseMove(Point absolute);
 	}
 
-	public static void addMouseDragHandler(final DrawFocusPanel drawPanelCanvas, final MouseDragHandler mouseDragHandler) {
+	public static void addMouseHandler(final DrawFocusPanel drawPanelCanvas, final MouseDragHandler mouseDragHandler) {
 		final DragCache storage = new DragCache();
 
 		drawPanelCanvas.getCanvas().addMouseDownHandler(new MouseDownHandler() {
