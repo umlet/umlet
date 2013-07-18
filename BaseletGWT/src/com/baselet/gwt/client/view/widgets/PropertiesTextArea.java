@@ -25,7 +25,7 @@ public class PropertiesTextArea extends MySuggestBox {
 		this.oracle = oracle;
 		this.textArea = textArea;
 		
-		this.addKeyDownHandler(new KeyDownHandler() { // CTRL+Space shows all suggestions
+		textArea.addKeyDownHandler(new KeyDownHandler() { // CTRL+Space shows all suggestions
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				if (Shortcut.SHOW_AUTOCOMPLETION.matches(event)) {
