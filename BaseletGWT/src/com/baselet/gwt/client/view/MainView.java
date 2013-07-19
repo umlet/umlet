@@ -21,7 +21,6 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -154,10 +153,10 @@ public class MainView extends Composite {
 	}
 
 
-	@UiHandler("newMenuItem")
-	void onNewMenuItemClick(ClickEvent event) {
-		Window.open(Window.Location.getQueryString(),"_blank","");
-	}
+//	@UiHandler("newMenuItem")
+//	void onNewMenuItemClick(ClickEvent event) {
+//		Window.open(Window.Location.getQueryString(),"_blank",""); // TODO doesn't work in compiled version
+//	}
 
 	@UiHandler("importMenuItem")
 	void onImportMenuItemClick(ClickEvent event) {

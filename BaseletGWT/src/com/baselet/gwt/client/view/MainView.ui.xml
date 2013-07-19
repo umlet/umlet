@@ -26,8 +26,8 @@
 				<g:SplitLayoutPanel width="100%" height="100%" ui:field="diagramPaletteSplitter">
 					<g:west size='50'>
 						<g:FlowPanel ui:field="menuPanel" >
-							<g:HTML styleName="{style.menuItem}" ui:field="newMenuItem" text="New" />
-							<g:HTML><hr/></g:HTML>
+<!-- 							<g:HTML styleName="{style.menuItem}" ui:field="newMenuItem" text="New" /> -->
+<!-- 							<g:HTML><hr/></g:HTML> -->
 							<g:HTML styleName="{style.menuItem}" ui:field="importMenuItem" text="Import" />
 							<g:HTML styleName="{style.menuItem}" ui:field="exportMenuItem" text="Export" />
 							<g:HTML><hr/></g:HTML>
