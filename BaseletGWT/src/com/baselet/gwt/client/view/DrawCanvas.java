@@ -3,6 +3,7 @@ package com.baselet.gwt.client.view;
 import java.util.List;
 
 import com.baselet.control.NewGridElementConstants;
+import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
@@ -16,6 +17,9 @@ import com.umlet.element.experimental.ElementId;
 
 public class DrawCanvas {
 	private Canvas canvas = Canvas.createIfSupported();
+
+	private int minWidth = 0;
+	private int minHeight = 0;
 	
 	public DrawCanvas() {
 	}
@@ -74,6 +78,18 @@ public class DrawCanvas {
 		((GwtComponent) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false);
 
 	}
+
+	public void setMinSize(int minWidth, int minHeight) {
+		this.minWidth = minWidth;
+		this.minHeight = minHeight;
+	}
+
+	public void clearAndRecalculateSizeForGridElements(List<GridElement> gridElements) {
+			Rectangle rect = SharedUtils.getGridElementsRectangle(gridElements);
+			int width = Math.max(rect.getX2(), minWidth);
+			int height = Math.max(rect.getY2(), minHeight);
+			clearAndSetSize(width, height);
+		}
 
 	//TODO would not work because canvas gets always resized and therefore cleaned -> so everything must be redrawn
 	//	private boolean tryOptimizedDrawing() {

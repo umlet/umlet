@@ -7,11 +7,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
 import com.baselet.gwt.client.Utils;
@@ -35,7 +33,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 	private Diagram diagram = new Diagram(new ArrayList<GridElement>());
 
-	private DrawCanvas elementCanvas = new DrawCanvas();
+	private DrawCanvas canvas = new DrawCanvas();
 
 	Selector selector;
 
@@ -64,7 +62,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				redraw();
 			}
 		};
-		MenuPopup.appendTo(elementCanvas.getWidget(), new MenuPopupItem() {
+		MenuPopup.appendTo(canvas.getWidget(), new MenuPopupItem() {
 			@Override
 			public String getText() {
 				return "Delete";
@@ -112,7 +110,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		});
 
 
-		this.add(elementCanvas.getWidget());
+		this.add(canvas.getWidget());
 
 		propertiesPanel.addInstantValueChangeHandler(new InstantValueChangeHandler() {
 			@Override
@@ -134,7 +132,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			}
 		});
 
-		MouseUtils.addMouseHandler(this, elementCanvas.getWidget(), new MouseDragHandler() {
+		MouseUtils.addMouseHandler(this, canvas.getWidget(), new MouseDragHandler() {
 			@Override
 			public void onMouseDown(GridElement element, boolean isControlKeyDown) {
 				// Set Focus (to make key-shortcuts work)
@@ -227,7 +225,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			}
 		});
 
-		MouseDoubleClickUtils.addMouseDragHandler(this, elementCanvas.getWidget(), new Handler() {
+		MouseDoubleClickUtils.addMouseDragHandler(this, canvas.getWidget(), new Handler() {
 			@Override
 			public void onDoubleClick(GridElement ge) {
 				if (ge != null) {
@@ -271,8 +269,8 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 	}
 
 	void redraw() {
-		clearAndRecalculateCanvasSize(elementCanvas, minWidth, minHeight);
-		elementCanvas.draw(true, diagram.getGridElementsSortedByLayer(), selector);
+		canvas.clearAndRecalculateSizeForGridElements(diagram.getGridElements());
+		canvas.draw(true, diagram.getGridElementsSortedByLayer(), selector);
 
 	}
 	
@@ -321,19 +319,9 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		selector.deselect(elements);
 	}
 
-	private int minWidth, minHeight;
-
 	public void setMinSize(int minWidth, int minHeight) {
-		this.minWidth = minWidth;
-		this.minHeight = minHeight;
+		canvas.setMinSize(minWidth, minHeight);
 		redraw();
-	}
-
-	private void clearAndRecalculateCanvasSize(DrawCanvas canvas, int minWidth, int minHeight) {
-		Rectangle rect = SharedUtils.getGridElementsRectangle(diagram.getGridElements());
-		int width = Math.max(rect.getX2(), minWidth);
-		int height = Math.max(rect.getY2(), minHeight);
-		canvas.clearAndSetSize(width, height);
 	}
 
 	abstract void doDoubleClickAction(GridElement ge);
