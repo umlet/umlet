@@ -21,9 +21,6 @@ public class DrawCanvas {
 	private int minWidth = 0;
 	private int minHeight = 0;
 	
-	public DrawCanvas() {
-	}
-	
 	public FocusWidget getWidget() {
 		return canvas;
 	}

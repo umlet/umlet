@@ -33,6 +33,9 @@
 	padding-bottom: 0.1em;
 }
 
+.canvasFocusPanel {
+	outline: none;
+}
 
 .gwt-SuggestBoxPopup {
 	/*   overflow: auto !important; */
