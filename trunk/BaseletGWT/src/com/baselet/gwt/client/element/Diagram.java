@@ -5,13 +5,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.HasPanelAttributes;
 import com.baselet.gui.AutocompletionText;
 import com.baselet.gwt.client.OwnXMLParser;
-import com.baselet.gwt.client.view.DrawCanvas;
-import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.element.uml.relation.Relation;
 
 public class Diagram implements HasPanelAttributes {
@@ -47,16 +44,6 @@ public class Diagram implements HasPanelAttributes {
 				}
 			}
 			return returnList;
-		}
-
-		public void drawEmptyInfoText(DrawCanvas canvas) {
-			double elWidth = 440;
-			double elHeight = 80;
-			double elXPos = canvas.getWidth()/2 - elWidth/2;
-			double elYPos = canvas.getHeight()/2 - elHeight;
-			GridElement emptyElement = ElementFactory.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), "halign=center\nDouble-click on an element to add it to the diagram\n\nImport uxf Files using the Menu \"Import\" or simply drag them into the diagram\n\nSave diagrams persistent in browser storage using the \"Save\" menu", "");
-			((GwtComponent) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false);
-
 		}
 
 		public List<GridElement> getGridElementsSortedByLayer() {

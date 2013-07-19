@@ -7,14 +7,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
 import com.baselet.gwt.client.Converter;
@@ -27,7 +25,6 @@ import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -43,8 +40,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 	private Diagram diagram = new Diagram(new ArrayList<GridElement>());
 
 	private DrawCanvas elementCanvas = new DrawCanvas();
-
-	private DrawCanvas backgroundCanvas = new DrawCanvas();
 
 	Selector selector;
 
@@ -277,46 +272,11 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 			}
 		});
-
-		if (NewGridElementConstants.isDevMode) {
-			backgroundCanvas.clearAndSetSize(5000, 5000);
-			drawBackgroundGrid();
-		}
-	}
-
-	private void drawBackgroundGrid() {
-		int width = backgroundCanvas.getWidth();
-		int height = backgroundCanvas.getHeight();
-		Context2d backgroundContext = backgroundCanvas.getContext2d();
-		backgroundContext.setStrokeStyle(Converter.convert(ColorOwn.BLACK.transparency(Transparency.SELECTION_BACKGROUND)));
-		for (int i = 0; i < width; i += NewGridElementConstants.DEFAULT_GRID_SIZE) {
-			drawLine(backgroundContext, i, 0, i, height);
-		}
-		for (int i = 0; i < height; i += NewGridElementConstants.DEFAULT_GRID_SIZE) {
-			drawLine(backgroundContext, 0, i, width, i);
-		}
-	}
-
-	private static void drawLine(Context2d context, int x, int y, int x2, int y2) {
-		context.beginPath();
-		context.moveTo(x + 0.5, y + 0.5); // +0.5 because a line of thickness 1.0 spans 50% left and 50% right (therefore it would not be on the 1 pixel - see https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors)
-		context.lineTo(x2 + 0.5, y2 + 0.5);
-		context.stroke();
 	}
 
 	void redraw() {
 		clearAndRecalculateCanvasSize(elementCanvas, minWidth, minHeight);
-		Context2d context = elementCanvas.getContext2d();
-
-		if (NewGridElementConstants.isDevMode) {
-			context.drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
-		}
-
-		if (diagram.getGridElements().isEmpty()) {
-			diagram.drawEmptyInfoText(elementCanvas);
-		} else {
-			elementCanvas.drawElements(diagram.getGridElementsSortedByLayer(), selector);
-		}
+		elementCanvas.draw(true, diagram.getGridElementsSortedByLayer(), selector);
 
 	}
 	
@@ -331,7 +291,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		pngCanvas.getContext2d().fillRect(0, 0, pngCanvas.getWidth(), pngCanvas.getHeight());
 		// Draw Elements on Canvas and translate their position
 		pngCanvas.getContext2d().translate(-geRect.getX(), -geRect.getY());
-		pngCanvas.drawElements(diagram.getGridElementsSortedByLayer(), new SelectorNew()); //use a new selector which has nothing selected
+		pngCanvas.draw(false, diagram.getGridElementsSortedByLayer(), new SelectorNew()); //use a new selector which has nothing selected
 		return pngCanvas.toPng();
 	}
 	
