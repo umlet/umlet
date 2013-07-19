@@ -83,6 +83,13 @@ public class Rectangle {
 		this.x += diffX;
 		this.y += diffY;
 	}
+	
+	public void addBorder(int border) {
+		x -= border;
+		y -= border;
+		width += border*2;
+		height += border*2;
+	}
 
 	public boolean contains(Point p) {
 		return contains(new Rectangle(p.getX(), p.getY(), 0, 0));

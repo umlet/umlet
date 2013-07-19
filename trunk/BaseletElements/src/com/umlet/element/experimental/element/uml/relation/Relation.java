@@ -72,7 +72,7 @@ public class Relation extends NewGridElement {
 	}
 
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<Relation> relations) {
 		Point mousePosBeforeDragRelative = new Point(mousePosBeforeDrag.getX() - getRectangle().getX(), mousePosBeforeDrag.getY() - getRectangle().getY());
 		int gridSize = (int) (getHandler().getZoomFactor() * NewGridElementConstants.DEFAULT_GRID_SIZE);
 		Selection returnSelection = relationPoints.getSelectionAndApplyChanges(mousePosBeforeDragRelative, diffX, diffY, this, gridSize, firstDrag);
@@ -98,6 +98,10 @@ public class Relation extends NewGridElement {
 	public boolean isSelectableOn(Point point) {
 		Point relativePoint = new Point(point.getX() - getRectangle().getX(), point.getY() - getRectangle().getY());
 		return relationPoints.getSelection(relativePoint) != Selection.NOTHING;
+	}
+	
+	public Collection<PointDouble> getStickablePoints() {
+		return relationPoints.getStickablePoints();
 	}
 
 }

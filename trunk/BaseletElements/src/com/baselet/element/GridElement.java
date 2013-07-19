@@ -10,6 +10,7 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.umlet.element.experimental.ComponentInterface;
 import com.umlet.element.experimental.ElementId;
+import com.umlet.element.experimental.element.uml.relation.Relation;
 import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 
 public interface GridElement extends HasPanelAttributes {
@@ -75,7 +76,7 @@ public interface GridElement extends HasPanelAttributes {
 	
 	ElementId getId();
 	
-	void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag);
+	void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<Relation> relations);
 
 	boolean isSelectableOn(Point point);
 

@@ -58,8 +58,9 @@ public class GwtComponent implements ComponentInterface {
 //		return redrawNecessary;
 //	}
 
+	private boolean lastSelected = false;
 	public void drawOn(Context2d context, boolean isSelected) {
-		if (redrawNecessary) {
+		if (redrawNecessary || lastSelected != isSelected) {
 			redrawNecessary = false;
 			CanvasElement el = canvas.getCanvasElement();
 			canvas.getContext2d().clearRect(0, 0, el.getWidth(), el.getHeight());
@@ -70,6 +71,7 @@ public class GwtComponent implements ComponentInterface {
 				metadrawer.drawAll();
 			}
 		}
+		lastSelected = isSelected;
 		context.drawImage(canvas.getCanvasElement(), element.getRectangle().getX(), element.getRectangle().getY());
 	}
 

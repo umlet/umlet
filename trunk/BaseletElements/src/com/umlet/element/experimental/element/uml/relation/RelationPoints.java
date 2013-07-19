@@ -1,6 +1,8 @@
 package com.umlet.element.experimental.element.uml.relation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import com.baselet.control.SharedUtils;
@@ -172,6 +174,10 @@ public class RelationPoints {
 
 	public Line getLastLine() {
 		return new Line(points.get(points.size()-2), points.get(points.size()-1));
+	}
+	
+	public Collection<PointDouble> getStickablePoints() {
+		return Arrays.asList(points.get(0), points.get(points.size()-1));
 	}
 
 	private Rectangle getDragBox() {

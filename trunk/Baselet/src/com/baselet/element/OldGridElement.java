@@ -36,6 +36,7 @@ import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.ComponentInterface;
 import com.umlet.element.experimental.ElementId;
+import com.umlet.element.experimental.element.uml.relation.Relation;
 import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 import com.umlet.element.experimental.facets.Facet;
 
@@ -446,7 +447,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 	
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<Relation> relations) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -15,11 +15,13 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
+import com.umlet.element.experimental.element.uml.relation.Relation;
 import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.Facet;
@@ -304,9 +306,18 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<Relation> relations) {
 		if (resizeDirection.isEmpty()) { // Move GridElement
 			setLocationDifference(diffX, diffY);
+			Rectangle r = getRectangle();
+			StickingPolygon sp = generateStickingBorder(r.x, r.y, r.width, r.height);
+			for (Relation rel : relations) {
+				for (PointDouble pd : rel.getStickablePoints()) {
+					if (-1 != sp.isConnected(new Point((int) pd.x, (int) pd.y) , (int) (handler.getZoomFactor()*NewGridElementConstants.DEFAULT_GRID_SIZE))) {
+						System.out.println("CONNECTION"); //TODO berechnung passt noch nicht, danach weiterbauen dass punkte verschoben werden und relationen neu gezeichnet werden!!
+					}
+				}
+			}
 		} else { // Resize GridElement
 			Rectangle rect = component.getBoundsRect();
 			if (isShiftKeyDown && diagonalResize(resizeDirection)) { // Proportional Resize
