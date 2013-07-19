@@ -13,6 +13,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.user.client.ui.FocusWidget;
 
 public class MouseUtils {
 
@@ -36,10 +37,10 @@ public class MouseUtils {
 		void onMouseMove(Point absolute);
 	}
 
-	public static void addMouseHandler(final DrawFocusPanel drawPanelCanvas, final MouseDragHandler mouseDragHandler) {
+	public static void addMouseHandler(final DrawFocusPanel drawPanelCanvas, FocusWidget canvas, final MouseDragHandler mouseDragHandler) {
 		final DragCache storage = new DragCache();
 
-		drawPanelCanvas.getCanvas().addMouseDownHandler(new MouseDownHandler() {
+		canvas.addMouseDownHandler(new MouseDownHandler() {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				event.preventDefault(); // necessary to avoid Chrome showing the text-cursor during dragging
@@ -49,19 +50,19 @@ public class MouseUtils {
 				mouseDragHandler.onMouseDown(storage.elementToDrag, event.isControlKeyDown());
 			}
 		});
-		drawPanelCanvas.getCanvas().addMouseUpHandler(new MouseUpHandler() {
+		canvas.addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
 				handleDragEnd(storage, mouseDragHandler);
 			}
 		});
-		drawPanelCanvas.getCanvas().addMouseOutHandler(new MouseOutHandler() {
+		canvas.addMouseOutHandler(new MouseOutHandler() {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
 				handleDragEnd(storage, mouseDragHandler);
 			}
 		});
-		drawPanelCanvas.getCanvas().addMouseMoveHandler(new MouseMoveHandler() {
+		canvas.addMouseMoveHandler(new MouseMoveHandler() {
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
 				if (Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS).contains(storage.dragging)) {

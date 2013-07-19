@@ -1,7 +1,6 @@
 package com.baselet.gwt.client.element;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -11,7 +10,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.HasPanelAttributes;
 import com.baselet.gui.AutocompletionText;
 import com.baselet.gwt.client.OwnXMLParser;
-import com.google.gwt.canvas.client.Canvas;
+import com.baselet.gwt.client.view.DrawCanvas;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.element.uml.relation.Relation;
 
@@ -50,17 +49,17 @@ public class Diagram implements HasPanelAttributes {
 			return returnList;
 		}
 
-		public void drawEmptyInfoText(Canvas elementCanvas) {
+		public void drawEmptyInfoText(DrawCanvas canvas) {
 			double elWidth = 440;
 			double elHeight = 80;
-			double elXPos = elementCanvas.getCoordinateSpaceWidth()/2 - elWidth/2;
-			double elYPos = elementCanvas.getCoordinateSpaceHeight()/2 - elHeight;
+			double elXPos = canvas.getWidth()/2 - elWidth/2;
+			double elYPos = canvas.getHeight()/2 - elHeight;
 			GridElement emptyElement = ElementFactory.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), "halign=center\nDouble-click on an element to add it to the diagram\n\nImport uxf Files using the Menu \"Import\" or simply drag them into the diagram\n\nSave diagrams persistent in browser storage using the \"Save\" menu", "");
-			((GwtComponent) emptyElement.getComponent()).drawOn(elementCanvas.getContext2d(), false);
+			((GwtComponent) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false);
 
 		}
 
-		public Collection<GridElement> getGridElementsSortedByLayer() {
+		public List<GridElement> getGridElementsSortedByLayer() {
 			Collections.sort(gridElements, LAYER_COMPARATOR);
 			return getGridElements();
 		}
