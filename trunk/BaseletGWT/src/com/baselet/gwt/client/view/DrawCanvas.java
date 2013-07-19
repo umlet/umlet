@@ -16,12 +16,8 @@ import com.umlet.element.experimental.ElementId;
 
 public class DrawCanvas {
 	private Canvas canvas = Canvas.createIfSupported();
-	private BackgroundCanvas backgroundCanvas = new BackgroundCanvas();
 	
 	public DrawCanvas() {
-		if (NewGridElementConstants.isDevMode) {
-			backgroundCanvas.drawBackgroundGrid();
-		}
 	}
 	
 	public FocusWidget getWidget() {
@@ -46,17 +42,17 @@ public class DrawCanvas {
 		return canvas.getCoordinateSpaceHeight();
 	}
 
-	public String toPng() {
-		return canvas.toDataUrl("image/png");
-	}
-
 	public CanvasElement getCanvasElement() {
 		return canvas.getCanvasElement();
+	}
+
+	public String toDataUrl(String type) {
+		return canvas.toDataUrl(type);
 	}
 	
 	void draw(boolean drawEmptyInfo, List<GridElement> gridElements, Selector selector) {
 		if (NewGridElementConstants.isDevMode) {
-			getContext2d().drawImage(backgroundCanvas.getCanvasElement(), 0, 0);
+			CanvasUtils.drawGridOn(getContext2d());
 		}
 
 		if (drawEmptyInfo && gridElements.isEmpty()) {

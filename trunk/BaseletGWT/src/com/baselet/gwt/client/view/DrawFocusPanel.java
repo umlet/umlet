@@ -12,10 +12,8 @@ import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
-import com.baselet.gwt.client.Converter;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.keyboard.Shortcut;
@@ -34,8 +32,6 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.umlet.element.experimental.element.uml.relation.Relation;
 
 public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
-	
-	private static final int EXPORT_BORDER = 10;
 
 	private Diagram diagram = new Diagram(new ArrayList<GridElement>());
 
@@ -280,22 +276,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 	}
 	
-	String getPngUrl() {
-		DrawCanvas pngCanvas = new DrawCanvas();
-		// Calculate and set canvas width
-		Rectangle geRect = SharedUtils.getGridElementsRectangle(diagram.getGridElements());
-		geRect.addBorder(EXPORT_BORDER);
-		pngCanvas.clearAndSetSize(geRect.getWidth(), geRect.getHeight());
-		// Fill Canvas white
-		pngCanvas.getContext2d().setFillStyle(Converter.convert(ColorOwn.WHITE));
-		pngCanvas.getContext2d().fillRect(0, 0, pngCanvas.getWidth(), pngCanvas.getHeight());
-		// Draw Elements on Canvas and translate their position
-		pngCanvas.getContext2d().translate(-geRect.getX(), -geRect.getY());
-		pngCanvas.draw(false, diagram.getGridElementsSortedByLayer(), new SelectorNew()); //use a new selector which has nothing selected
-		return pngCanvas.toPng();
-	}
-	
-
 	public GridElement getGridElementOnPosition(Point point) {
 		GridElement returnGe = null;
 		returnGe = getGridElementOnPositionHelper(point, selector.getSelectedElements());
