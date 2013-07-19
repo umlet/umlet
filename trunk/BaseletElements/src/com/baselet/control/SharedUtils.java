@@ -19,6 +19,10 @@ public class SharedUtils {
 		return realignTo(logRealign, val, false, NewGridElementConstants.DEFAULT_GRID_SIZE);
 	}
 
+	public static int realignToGrid(boolean logRealign, float val, boolean roundUp) {
+		return realignTo(logRealign, val, roundUp, NewGridElementConstants.DEFAULT_GRID_SIZE);
+	}
+
 	/**
 	 * returns the integer which is nearest to val but on the grid (round down)
 	 * 
