@@ -1,5 +1,6 @@
 package com.baselet.gwt.client.view;
 
+
 import org.apache.log4j.Logger;
 import org.vectomatic.file.FileUploadExt;
 
@@ -21,9 +22,12 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
@@ -91,8 +95,11 @@ public class MainView extends Composite {
 		private SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
 			@Override
 			public void callback(final String chosenName) {
+				boolean itemIsNewlyAdded = BrowserStorage.getSavedDiagram(chosenName) == null;
 				BrowserStorage.addSavedDiagram(chosenName, diagramPanel.getDiagram().toXml());
-				addRestoreMenuItem(chosenName);
+				if (itemIsNewlyAdded) {
+					addRestoreMenuItem(chosenName);
+				}
 			}
 		});
 		@Override
@@ -141,6 +148,8 @@ public class MainView extends Composite {
 	}
 
 	private void addRestoreMenuItem(final String chosenName) {
+		final HorizontalPanel hp = new HorizontalPanel();
+		
 		Label label = new Label(chosenName);
 		label.addStyleName(style.menuItem());
 		label.addClickHandler(new ClickHandler() {
@@ -149,7 +158,21 @@ public class MainView extends Composite {
 				diagramPanel.setDiagram(OwnXMLParser.xmlToDiagram(BrowserStorage.getSavedDiagram(chosenName)));
 			}
 		});
-		restoreMenuPanel.add(label);
+		Image img = new Image("data:image/gif;base64,R0lGODlhCgAKAJEAAAAAAP////8AAP///yH5BAEAAAMALAAAAAAKAAoAAAIUnI8jgmvLlHtwnpqkpZh72UTZUQAAOw==");
+		img.addStyleName(style.menuItem());
+		img.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (Window.confirm("Delete saved diagram " + chosenName)) {
+					BrowserStorage.removeSavedDiagram(chosenName);
+					restoreMenuPanel.remove(hp);
+				}
+			}
+		});
+		
+		hp.add(img);
+		hp.add(label);
+		restoreMenuPanel.add(hp);
 	}
 
 
