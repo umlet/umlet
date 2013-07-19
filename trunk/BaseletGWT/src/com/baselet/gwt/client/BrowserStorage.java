@@ -23,6 +23,10 @@ public class BrowserStorage {
 	public static void addSavedDiagram(String name, String diagramXml) {
 		set(SAVE_PREFIX + name, diagramXml);
 	}
+
+	public static void removeSavedDiagram(String chosenName) {
+		remove(SAVE_PREFIX + chosenName);
+	}
 	
 	public static String getSavedDiagram(String name) {
 		return get(SAVE_PREFIX + name);
@@ -43,6 +47,11 @@ public class BrowserStorage {
 	private static String get(String id) {
 		if (localStorage == null) throw new RuntimeException(NO_STORAGE_ERROR);
 		return localStorage.getItem(id);
+	}
+	
+	private static void remove(String id) {
+		if (localStorage == null) throw new RuntimeException(NO_STORAGE_ERROR);
+		localStorage.removeItem(id);
 	}
 	
 	private static Map<String, String> getWithPrefix(String prefix, boolean removePrefixFromKey) {
