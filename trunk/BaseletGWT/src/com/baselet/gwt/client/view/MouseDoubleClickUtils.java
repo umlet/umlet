@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.user.client.ui.FocusWidget;
 
 public class MouseDoubleClickUtils {
 
@@ -23,11 +24,12 @@ public class MouseDoubleClickUtils {
 	 * doubleclicks are only handled if the mouse has moved into the canvas before
 	 * this is necessary to void unwanted propagation of suggestbox-selections via doubleclick
 	 * TODO: a better fix would be a custom SuggestDisplay which stops mouseevent propagation after handling them
+	 * @param elementCanvas 
 	 */
-	public static void addMouseDragHandler(final DrawFocusPanel drawPanelCanvas, final Handler handler) {
+	public static void addMouseDragHandler(final DrawFocusPanel drawPanelCanvas, FocusWidget canvas, final Handler handler) {
 		final Cache storage = new Cache();
 
-		drawPanelCanvas.getCanvas().addDoubleClickHandler(new DoubleClickHandler() {
+		canvas.addDoubleClickHandler(new DoubleClickHandler() {
 			@Override
 			public void onDoubleClick(DoubleClickEvent event) {
 				if (storage.doubleClickEnabled) {
@@ -35,14 +37,14 @@ public class MouseDoubleClickUtils {
 				}
 			}
 		});
-		drawPanelCanvas.getCanvas().addMouseOutHandler(new MouseOutHandler() {
+		canvas.addMouseOutHandler(new MouseOutHandler() {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
 				storage.doubleClickEnabled = false;
 			}
 		});
 
-		drawPanelCanvas.getCanvas().addMouseOverHandler(new MouseOverHandler() {
+		canvas.addMouseOverHandler(new MouseOverHandler() {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				storage.doubleClickEnabled = true;
