@@ -1,5 +1,6 @@
 package com.baselet.gwt.client.element;
 
+import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.umlet.element.experimental.DrawHandlerInterface;
@@ -25,7 +26,11 @@ public class ElementFactory {
 			@Override
 			public void Resize(double diffw, double diffh) {
 				Rectangle oldSize = element.getRectangle();
-				element.setRectangle(new Rectangle((double)oldSize.getX(), (double)oldSize.getY(), oldSize.getWidth()+diffw, oldSize.getHeight()+diffh));
+				double x = (double)oldSize.getX();
+				double y = (double)oldSize.getY();
+				double w = (double)SharedUtils.realignToGrid(false, oldSize.getWidth()+(float)diffw, true);
+				double h = (double)SharedUtils.realignToGrid(false, oldSize.getHeight()+(float)diffh, true);
+				element.setRectangle(new Rectangle(x, y, w, h));
 			}
 		};
 		
