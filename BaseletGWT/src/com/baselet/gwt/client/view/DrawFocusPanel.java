@@ -8,15 +8,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.baselet.control.NewGridElementConstants;
+import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
 import com.baselet.gwt.client.Converter;
-import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.element.GwtComponent;
@@ -38,6 +39,8 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.umlet.element.experimental.element.uml.relation.Relation;
 
 public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
+	
+	private static final int EXPORT_BORDER = 10;
 
 	private Diagram diagram = new Diagram(new ArrayList<GridElement>());
 
@@ -195,10 +198,10 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 					return; // TODO implement Lasso
 				} else if (selector.getSelectedElements().size() > 1) {
 					for (GridElement ge : selector.getSelectedElements()) {
-						ge.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag);
+						ge.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
 					}
 				} else {
-					draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag);
+					draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
 				}
 				redraw();
 			}
@@ -307,7 +310,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 	}
 
 	void redraw() {
-		clearAndRecalculateCanvasSize();
+		clearAndRecalculateCanvasSize(elementCanvas, minWidth, minHeight);
 		Context2d context = elementCanvas.getContext2d();
 
 		if (NewGridElementConstants.isDevMode) {
@@ -317,12 +320,16 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		if (diagram.getGridElements().isEmpty()) {
 			diagram.drawEmptyInfoText(elementCanvas);
 		} else {
-			//		if (tryOptimizedDrawing()) return;
-			for (GridElement ge : diagram.getGridElementsSorted()) {
-				((GwtComponent) ge.getComponent()).drawOn(context, selector.isSelected(ge));
-			}
+			drawElementsOnContext(context, selector);
 		}
 
+	}
+
+	private void drawElementsOnContext(Context2d context, Selector selector) {
+		//		if (tryOptimizedDrawing()) return;
+		for (GridElement ge : diagram.getGridElementsSortedByLayer()) {
+			((GwtComponent) ge.getComponent()).drawOn(context, selector.isSelected(ge));
+		}
 	}
 
 	//TODO would not work because canvas gets always resized and therefore cleaned -> so everything must be redrawn
@@ -349,6 +356,22 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 	Canvas getCanvas() {
 		return elementCanvas;
 	}
+	
+	String getPngUrl() {
+		Canvas pngCanvas = Canvas.createIfSupported();
+		// Calculate and set canvas width
+		Rectangle geRect = SharedUtils.getGridElementsRectangle(diagram.getGridElements());
+		geRect.addBorder(EXPORT_BORDER);
+		clearAndSetCanvasSize(pngCanvas, geRect.getWidth(), geRect.getHeight());
+		// Fill Canvas white
+		pngCanvas.getContext2d().setFillStyle(Converter.convert(ColorOwn.WHITE));
+		pngCanvas.getContext2d().fillRect(0, 0, pngCanvas.getCoordinateSpaceWidth(), pngCanvas.getCoordinateSpaceHeight());
+		// Draw Elements on Canvas and translate their position
+		pngCanvas.getContext2d().translate(-geRect.getX(), -geRect.getY());
+		drawElementsOnContext(pngCanvas.getContext2d(), new SelectorNew()); //use a new selector which has nothing selected
+		return pngCanvas.toDataUrl("image/png");
+	}
+	
 
 	public GridElement getGridElementOnPosition(Point point) {
 		GridElement returnGe = null;
@@ -403,14 +426,11 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		redraw();
 	}
 
-	private void clearAndRecalculateCanvasSize() {
-		int width = minWidth;
-		int height = minHeight;
-		for (GridElement ge : diagram.getGridElements()) {
-			width = Math.max(ge.getRectangle().getX2(), width);
-			height = Math.max(ge.getRectangle().getY2(), height);
-		}
-		clearAndSetCanvasSize(elementCanvas, width, height);
+	private void clearAndRecalculateCanvasSize(Canvas canvas, int minWidth, int minHeight) {
+		Rectangle rect = SharedUtils.getGridElementsRectangle(diagram.getGridElements());
+		int width = Math.max(rect.getX2(), minWidth);
+		int height = Math.max(rect.getY2(), minHeight);
+		clearAndSetCanvasSize(canvas, width, height);
 	}
 
 	abstract void doDoubleClickAction(GridElement ge);
@@ -419,10 +439,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		// setCoordinateSpace always clears the canvas. To avoid that see https://groups.google.com/d/msg/google-web-toolkit/dpc84mHeKkA/3EKxrlyFCEAJ
 		canvas.setCoordinateSpaceWidth(width);
 		canvas.setCoordinateSpaceHeight(height);
-	}
-
-	public String toXml() {
-		return OwnXMLParser.diagramToXml(diagram);
 	}
 
 	public Diagram getDiagram() {

@@ -91,7 +91,7 @@ public class MainView extends Composite {
 		private SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
 			@Override
 			public void callback(final String chosenName) {
-				BrowserStorage.addSavedDiagram(chosenName, diagramPanel.toXml());
+				BrowserStorage.addSavedDiagram(chosenName, diagramPanel.getDiagram().toXml());
 				addRestoreMenuItem(chosenName);
 			}
 		});
@@ -166,8 +166,8 @@ public class MainView extends Composite {
 	@UiHandler("exportMenuItem")
 	void onExportMenuItemClick(ClickEvent event) {
 		// use base64 encoding to make it work in firefox (one alternative would be encoding <,>,... like the following website does: http://dopiaza.org/tools/datauri/index.php)
-		String uxfUrl = "data:text/plain;charset=utf-8;base64," + Utils.b64encode(diagramPanel.toXml());
-		String pngUrl = diagramPanel.getCanvas().toDataUrl("image/png");
+		String uxfUrl = "data:text/plain;charset=utf-8;base64," + Utils.b64encode(diagramPanel.getDiagram().toXml());
+		String pngUrl = diagramPanel.getPngUrl();
 		new DownloadPopupPanel(uxfUrl, pngUrl);
 	}
 

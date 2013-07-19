@@ -1,5 +1,6 @@
 package com.baselet.gwt.client.element;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,8 +10,10 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.HasPanelAttributes;
 import com.baselet.gui.AutocompletionText;
+import com.baselet.gwt.client.OwnXMLParser;
 import com.google.gwt.canvas.client.Canvas;
 import com.umlet.element.experimental.ElementId;
+import com.umlet.element.experimental.element.uml.relation.Relation;
 
 public class Diagram implements HasPanelAttributes {
 
@@ -37,6 +40,16 @@ public class Diagram implements HasPanelAttributes {
 			return gridElements;
 		}
 
+		public List<Relation> getRelations() {
+			List<Relation> returnList = new ArrayList<Relation>();
+			for (GridElement ge : gridElements) {
+				if (ge instanceof Relation) {
+					returnList.add((Relation) ge);
+				}
+			}
+			return returnList;
+		}
+
 		public void drawEmptyInfoText(Canvas elementCanvas) {
 			double elWidth = 440;
 			double elHeight = 80;
@@ -47,9 +60,13 @@ public class Diagram implements HasPanelAttributes {
 
 		}
 
-		public Collection<GridElement> getGridElementsSorted() {
+		public Collection<GridElement> getGridElementsSortedByLayer() {
 			Collections.sort(gridElements, LAYER_COMPARATOR);
 			return getGridElements();
+		}
+		
+		public String toXml() {
+			return OwnXMLParser.diagramToXml(this);
 		}
 
 		@Override
