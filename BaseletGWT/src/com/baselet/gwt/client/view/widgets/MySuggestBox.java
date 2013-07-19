@@ -71,7 +71,7 @@ public class MySuggestBox extends SuggestBox {
 		String returnText = "";
 		String wholeText = super.getText();
 		if (!wholeText.contains("\n")) {
-			returnText = wholeText;
+			returnText = newText;
 		} else {
 			boolean replaced = false;
 			int cursorPos = getValueBox().getCursorPos();

@@ -52,6 +52,8 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 	}
 
 	public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
+		this.setStylePrimaryName("canvasFocusPanel");
+
 		selector = new SelectorNew() {
 			public void doAfterSelectionChanged() {
 				if (!getSelectedElements().isEmpty()) { // always set properties text of latest selected element (so you also have an element in the prop panel even if you have an active multiselect)
