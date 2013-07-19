@@ -8,7 +8,8 @@
 		}
 		.menuItem:hover {
 			background: #E3E8F3;
-			}
+			cursor: pointer;
+		}
 		.propertiesTitle {
 			padding-left: 0.5em;
 			font-size: 0.85em;
@@ -28,13 +29,13 @@
 						<g:FlowPanel ui:field="menuPanel" >
 <!-- 							<g:HTML styleName="{style.menuItem}" ui:field="newMenuItem" text="New" /> -->
 <!-- 							<g:HTML><hr/></g:HTML> -->
-							<g:HTML styleName="{style.menuItem}" ui:field="importMenuItem" text="Import" />
-							<g:HTML styleName="{style.menuItem}" ui:field="exportMenuItem" text="Export" />
+							<g:HTML styleName="{style.menuItem}" ui:field="importMenuItem" text="Import" title="import diagram from uxf file" />
+							<g:HTML styleName="{style.menuItem}" ui:field="exportMenuItem" text="Export" title="export diagram to uxf or as image" />
 							<g:HTML><hr/></g:HTML>
-							<g:HTML styleName="{style.menuItem}" ui:field="saveMenuItem" text="Save" />
+							<g:HTML styleName="{style.menuItem}" ui:field="saveMenuItem" text="Save" title="save diagram to browser storage" />
 							<g:FlowPanel ui:field="restoreMenuPanel" />
 							<g:HTML><hr/></g:HTML>
-							<g:HTML styleName="{style.menuItem}" ui:field="helpMenuItem" text="Help" />
+							<g:HTML styleName="{style.menuItem}" ui:field="helpMenuItem" text="Help" title="show keyboard shortcuts and other informations" />
 						</g:FlowPanel>
 					</g:west>
 					<g:center>

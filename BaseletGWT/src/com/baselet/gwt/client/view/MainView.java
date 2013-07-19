@@ -151,6 +151,7 @@ public class MainView extends Composite {
 		final HorizontalPanel hp = new HorizontalPanel();
 		
 		Label label = new Label(chosenName);
+		label.setTitle("open diagram " + chosenName);
 		label.addStyleName(style.menuItem());
 		label.addClickHandler(new ClickHandler() {
 			@Override
@@ -159,6 +160,7 @@ public class MainView extends Composite {
 			}
 		});
 		Image img = new Image("data:image/gif;base64,R0lGODlhCgAKAJEAAAAAAP////8AAP///yH5BAEAAAMALAAAAAAKAAoAAAIUnI8jgmvLlHtwnpqkpZh72UTZUQAAOw==");
+		img.setTitle("delete diagram " + chosenName);
 		img.addStyleName(style.menuItem());
 		img.addClickHandler(new ClickHandler() {
 			@Override
