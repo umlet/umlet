@@ -1,10 +1,8 @@
 package com.baselet.gwt.client.view.widgets;
 
 import com.baselet.element.HasPanelAttributes;
-import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.uibinder.client.UiConstructor;
 
 public class PropertiesTextArea extends MySuggestBox {
 	
@@ -16,6 +14,7 @@ public class PropertiesTextArea extends MySuggestBox {
 
 	private HasPanelAttributes gridElement;
 
+	@UiConstructor
 	public PropertiesTextArea() {
 		this(new MySuggestOracle(), new OwnTextArea(), new DefaultSuggestionDisplay());
 	}
@@ -24,17 +23,6 @@ public class PropertiesTextArea extends MySuggestBox {
 		super(oracle, textArea, display);
 		this.oracle = oracle;
 		this.textArea = textArea;
-		
-		textArea.addKeyDownHandler(new KeyDownHandler() { // CTRL+Space shows all suggestions
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				if (Shortcut.SHOW_AUTOCOMPLETION.matches(event)) {
-					oracle.setShowAllAsDefault(true);
-					showSuggestionList();
-					oracle.setShowAllAsDefault(false);
-				}
-			}
-		});
 	}
 	
 	public void setGridElement(HasPanelAttributes panelAttributeProvider) {

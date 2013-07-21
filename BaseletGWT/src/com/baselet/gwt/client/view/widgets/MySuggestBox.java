@@ -1,8 +1,9 @@
 package com.baselet.gwt.client.view.widgets;
 
+import com.baselet.gwt.client.keyboard.Shortcut;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -14,7 +15,7 @@ public class MySuggestBox extends SuggestBox {
 
 	public MySuggestBox(final MySuggestOracle oracle, ValueBoxBase<String> textArea, final DefaultSuggestionDisplay display) {
 		super(oracle, textArea, display);
-		
+
 		getValueBox().addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
@@ -22,16 +23,23 @@ public class MySuggestBox extends SuggestBox {
 			}
 		});
 
-		this.addKeyPressHandler(new KeyPressHandler() {
+		textArea.addKeyDownHandler(new KeyDownHandler() { // CTRL+Space shows all suggestions
 			@Override
-			public void onKeyPress(KeyPressEvent event) {
+			public void onKeyDown(KeyDownEvent event) {
 				int key = event.getNativeEvent().getKeyCode();
-				boolean isSuggestBoxControls = key == KeyCodes.KEY_ENTER || key == KeyCodes.KEY_UP || key == KeyCodes.KEY_DOWN;
-				if (key == KeyCodes.KEY_ESCAPE) {
-					display.hideSuggestions();
+				if (display.isSuggestionListShowing()) {
+					if (key == KeyCodes.KEY_ESCAPE) {
+						display.hideSuggestions();
+					}
+					else if ((key == KeyCodes.KEY_ENTER || key == KeyCodes.KEY_UP || key == KeyCodes.KEY_DOWN) && oracle.getSuggestionsForText(lastRequestLine).size() > 1) {
+						event.getNativeEvent().preventDefault(); // if the focus is on the suggestbox and it has >1 entries, avoid propagating keyevents to the textarea
+					}
 				}
-				else if (display.isSuggestionListShowing() && isSuggestBoxControls && oracle.getSuggestionsForText(lastRequestLine).size() > 1) {
-					event.getNativeEvent().preventDefault(); // if the focus is on the suggestbox and it has >1 entries, avoid propagating keyevents to the textarea
+				else if (Shortcut.SHOW_AUTOCOMPLETION.matches(event)) {
+					event.getNativeEvent().preventDefault();
+					oracle.setShowAllAsDefault(true);
+					showSuggestionList();
+					oracle.setShowAllAsDefault(false);
 				}
 			}
 		});
