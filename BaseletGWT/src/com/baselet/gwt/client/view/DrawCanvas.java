@@ -13,6 +13,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.umlet.element.experimental.ElementId;
 
 public class DrawCanvas {
@@ -20,25 +21,27 @@ public class DrawCanvas {
 
 	private int minWidth = 0;
 	private int minHeight = 0;
-	
+
+	private ScrollPanel scrollPanel;
+
 	public FocusWidget getWidget() {
 		return canvas;
 	}
-	
+
 	public Context2d getContext2d() {
 		return canvas.getContext2d();
 	}
-	
+
 	public void clearAndSetSize(int width, int height) {
 		// setCoordinateSpace always clears the canvas. To avoid that see https://groups.google.com/d/msg/google-web-toolkit/dpc84mHeKkA/3EKxrlyFCEAJ
 		canvas.setCoordinateSpaceWidth(width);
 		canvas.setCoordinateSpaceHeight(height);
 	}
-	
+
 	public int getWidth() {
 		return canvas.getCoordinateSpaceWidth();
 	}
-	
+
 	public int getHeight() {
 		return canvas.getCoordinateSpaceHeight();
 	}
@@ -50,7 +53,7 @@ public class DrawCanvas {
 	public String toDataUrl(String type) {
 		return canvas.toDataUrl(type);
 	}
-	
+
 	void draw(boolean drawEmptyInfo, List<GridElement> gridElements, Selector selector) {
 		if (NewGridElementConstants.isDevMode) {
 			CanvasUtils.drawGridOn(getContext2d());
@@ -64,6 +67,35 @@ public class DrawCanvas {
 				((GwtComponent) ge.getComponent()).drawOn(canvas.getContext2d(), selector.isSelected(ge));
 			}
 		}
+	}
+
+	private void clearAndRecalculateSizeForGridElements(Rectangle gridElementRect, int xTranslate, int yTranslate) {
+		int width = Math.max(minWidth, Math.max(getWidth(), gridElementRect.getX2())-xTranslate);
+		int height = Math.max(minHeight, Math.max(getHeight(), gridElementRect.getY2())-yTranslate);
+		clearAndSetSize(width, height);
+	}
+
+	public void recalcSizeForGridElementsAndDraw(boolean drawEmptyInfo, List<GridElement> gridElements, Selector selector) {
+		Rectangle rect = SharedUtils.getGridElementsRectangle(gridElements);
+		final int xTranslate = Math.min(0, rect.getX());
+		final int yTranslate = Math.min(0, rect.getY());
+		if (scrollPanel != null) {
+//			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+//				@Override
+//				public void execute() {
+					scrollPanel.setHorizontalScrollPosition(scrollPanel.getHorizontalScrollPosition() - xTranslate);
+					scrollPanel.setVerticalScrollPosition(scrollPanel.getVerticalScrollPosition() - yTranslate);
+//				}
+//			});
+		}
+
+		clearAndRecalculateSizeForGridElements(rect, xTranslate, yTranslate);
+		if (xTranslate < 0 || yTranslate < 0) {
+			for (GridElement ge : gridElements) {
+				ge.setLocationDifference(-xTranslate, -yTranslate);
+			}
+		}
+		draw(drawEmptyInfo, gridElements, selector);
 	}
 
 	private void drawEmptyInfoText() {
@@ -81,12 +113,9 @@ public class DrawCanvas {
 		this.minHeight = minHeight;
 	}
 
-	public void clearAndRecalculateSizeForGridElements(List<GridElement> gridElements) {
-			Rectangle rect = SharedUtils.getGridElementsRectangle(gridElements);
-			int width = Math.max(rect.getX2(), minWidth);
-			int height = Math.max(rect.getY2(), minHeight);
-			clearAndSetSize(width, height);
-		}
+	public void setScrollPanel(ScrollPanel scrollPanel) {
+		this.scrollPanel = scrollPanel;
+	}
 
 	//TODO would not work because canvas gets always resized and therefore cleaned -> so everything must be redrawn
 	//	private boolean tryOptimizedDrawing() {
