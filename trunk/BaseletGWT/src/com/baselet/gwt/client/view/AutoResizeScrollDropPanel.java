@@ -5,12 +5,9 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.CustomScrollPanel;
 
-public class AutoResizeScrollDropPanel extends ScrollPanel {
-	
-	private static final int SCROLLBAR_HEIGHT = 28;
-//	private static final int SCROLLBAR_HEIGHT = 10; // if using this height, a horizontal scrollbar gets added if width is larger than default
+public class AutoResizeScrollDropPanel extends CustomScrollPanel {
 	
 	private OwnDropPanel dropPanel;
 
@@ -18,6 +15,7 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 
 	public AutoResizeScrollDropPanel(final DrawFocusPanel diagramHandler) {
 		this.diagramHandler = diagramHandler;
+		diagramHandler.setScrollPanel(this);
 		dropPanel = new OwnDropPanel(diagramHandler);
 		this.add(dropPanel);
 
@@ -38,6 +36,6 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 	}
 	
 	public void updateCanvasMinimalSize() {
-		diagramHandler.setMinSize(getOffsetWidth() - SCROLLBAR_HEIGHT, getOffsetHeight() - SCROLLBAR_HEIGHT);
+		diagramHandler.setMinSize(getOffsetWidth(), getOffsetHeight() - 4);
 	}
 }
