@@ -43,4 +43,12 @@ public class AutoResizeScrollDropPanel extends CustomScrollPanel {
 	public Rectangle getVisibleBounds() {
 		return new Rectangle(getHorizontalScrollPosition(), getVerticalScrollPosition(), getOffsetWidth(), getOffsetHeight());
 	}
+	
+	public void moveHorizontalScrollbar(int diff) {
+		setHorizontalScrollPosition(getHorizontalScrollPosition() + diff);
+	}
+	
+	public void moveVerticalScrollbar(int diff) {
+		setVerticalScrollPosition(getVerticalScrollPosition() + diff);
+	}
 }
