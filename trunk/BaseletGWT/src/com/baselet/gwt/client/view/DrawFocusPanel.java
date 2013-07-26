@@ -27,7 +27,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.umlet.element.experimental.element.uml.relation.Relation;
 
 public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
@@ -337,7 +336,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		return selector;
 	}
 
-	public void setScrollPanel(ScrollPanel scrollPanel) {
+	public void setScrollPanel(AutoResizeScrollDropPanel scrollPanel) {
 		canvas.setScrollPanel(scrollPanel);
 	}
 }

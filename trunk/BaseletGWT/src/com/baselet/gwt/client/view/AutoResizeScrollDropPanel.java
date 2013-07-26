@@ -1,5 +1,6 @@
 package com.baselet.gwt.client.view;
 
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -37,5 +38,9 @@ public class AutoResizeScrollDropPanel extends CustomScrollPanel {
 	
 	public void updateCanvasMinimalSize() {
 		diagramHandler.setMinSize(getOffsetWidth(), getOffsetHeight() - 4);
+	}
+	
+	public Rectangle getVisibleBounds() {
+		return new Rectangle(getHorizontalScrollPosition(), getVerticalScrollPosition(), getOffsetWidth(), getOffsetHeight());
 	}
 }
