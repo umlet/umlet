@@ -13,7 +13,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.user.client.ui.FocusWidget;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.umlet.element.experimental.ElementId;
 
 public class DrawCanvas {
@@ -22,7 +21,7 @@ public class DrawCanvas {
 	private int minWidth = 0;
 	private int minHeight = 0;
 
-	private ScrollPanel scrollPanel;
+	private AutoResizeScrollDropPanel scrollPanel;
 
 	public FocusWidget getWidget() {
 		return canvas;
@@ -69,9 +68,35 @@ public class DrawCanvas {
 		}
 	}
 
-	private void clearAndRecalculateSizeForGridElements(Rectangle gridElementRect, int xTranslate, int yTranslate) {
+	private void clearAndRecalculateSizeForGridElements(List<GridElement> gridElements, int xTranslate, int yTranslate) {
+		Rectangle gridElementRect = SharedUtils.getGridElementsRectangle(gridElements);
 		int width = Math.max(minWidth, Math.max(getWidth(), gridElementRect.getX2())-xTranslate);
 		int height = Math.max(minHeight, Math.max(getHeight(), gridElementRect.getY2())-yTranslate);
+
+		if (scrollPanel != null) {
+			// crop empty space on the top left
+			Rectangle visibleRect = scrollPanel.getVisibleBounds();
+			final int xTranslateb = Math.min(visibleRect.getX(), gridElementRect.getX());
+			final int yTranslateb = Math.min(visibleRect.getY(), gridElementRect.getY());
+			if (xTranslateb > 0 || yTranslateb > 0) {
+				for (GridElement ge : gridElements) {
+					ge.setLocationDifference(-xTranslateb, -yTranslateb);
+				}
+				scrollPanel.setHorizontalScrollPosition(scrollPanel.getHorizontalScrollPosition() - xTranslateb);
+				scrollPanel.setVerticalScrollPosition(scrollPanel.getVerticalScrollPosition() - yTranslateb);
+			}
+
+			// crop empty space on the lower right
+			gridElementRect = SharedUtils.getGridElementsRectangle(gridElements);
+			Rectangle visibleRect2 = scrollPanel.getVisibleBounds();
+			int xCropLimit = Math.max(gridElementRect.getX2(), visibleRect2.getX2());
+			int yCropLimit = Math.max(gridElementRect.getY2(), visibleRect2.getY2());
+			final int rightInvisiblePart = canvas.getCoordinateSpaceWidth() - xCropLimit;
+			final int lowerInvisiblePart = canvas.getCoordinateSpaceHeight() - yCropLimit;
+			width -= rightInvisiblePart;
+			height -= lowerInvisiblePart;
+		}
+
 		clearAndSetSize(width, height);
 	}
 
@@ -80,21 +105,23 @@ public class DrawCanvas {
 		final int xTranslate = Math.min(0, rect.getX());
 		final int yTranslate = Math.min(0, rect.getY());
 		if (scrollPanel != null) {
-//			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-//				@Override
-//				public void execute() {
-					scrollPanel.setHorizontalScrollPosition(scrollPanel.getHorizontalScrollPosition() - xTranslate);
-					scrollPanel.setVerticalScrollPosition(scrollPanel.getVerticalScrollPosition() - yTranslate);
-//				}
-//			});
+			//			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			//				@Override
+			//				public void execute() {
+			//			System.out.println("DIAGRAM " + rect.getX() + "/" + rect.getX2());
+			//			System.out.println("SPACE " + scrollPanel.getHorizontalScrollPosition() + "/" + (scrollPanel.getHorizontalScrollPosition() + scrollPanel.getOffsetWidth()) + "/" + canvas.getCoordinateSpaceWidth());
+			scrollPanel.setHorizontalScrollPosition(scrollPanel.getHorizontalScrollPosition() - xTranslate);
+			scrollPanel.setVerticalScrollPosition(scrollPanel.getVerticalScrollPosition() - yTranslate);
+			//				}
+			//			});
 		}
 
-		clearAndRecalculateSizeForGridElements(rect, xTranslate, yTranslate);
 		if (xTranslate < 0 || yTranslate < 0) {
 			for (GridElement ge : gridElements) {
 				ge.setLocationDifference(-xTranslate, -yTranslate);
 			}
 		}
+		clearAndRecalculateSizeForGridElements(gridElements, xTranslate, yTranslate);
 		draw(drawEmptyInfo, gridElements, selector);
 	}
 
@@ -113,7 +140,7 @@ public class DrawCanvas {
 		this.minHeight = minHeight;
 	}
 
-	public void setScrollPanel(ScrollPanel scrollPanel) {
+	public void setScrollPanel(AutoResizeScrollDropPanel scrollPanel) {
 		this.scrollPanel = scrollPanel;
 	}
 
