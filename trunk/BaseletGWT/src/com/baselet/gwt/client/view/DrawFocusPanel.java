@@ -5,11 +5,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
 import com.baselet.gwt.client.Utils;
@@ -40,13 +43,18 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 	CommandInvoker commandInvoker = CommandInvoker.getInstance();
 
 	DrawFocusPanel otherDrawFocusPanel;
-	
+
 	private boolean hasFocus = false;
+
+	private AutoResizeScrollDropPanel scrollPanel;
+
+	private int minWidth = 0;
+	private int minHeight = 0;
 
 	public void setOtherDrawFocusPanel(DrawFocusPanel otherDrawFocusPanel) {
 		this.otherDrawFocusPanel = otherDrawFocusPanel;
 	}
-	
+
 	public void setHasFocus(boolean hasFocus) {
 		this.hasFocus = hasFocus;
 	}
@@ -271,10 +279,34 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 	}
 
 	void redraw() {
-		canvas.recalcSizeForGridElementsAndDraw(true, diagram.getGridElementsSortedByLayer(), selector);
+		List<GridElement> gridElements = diagram.getGridElementsSortedByLayer();
+		if (scrollPanel == null) return;
 
+		Rectangle diagramRect = SharedUtils.getGridElementsRectangle(gridElements);
+		Rectangle visibleRect = scrollPanel.getVisibleBounds();
+		// realign top left corner of the diagram back to the canvas and remove invisible whitespace outside of the diagram
+		final int xTranslate = Math.min(visibleRect.getX(), diagramRect.getX()); // can be positive (to cut upper left whitespace without diagram) or negative (to move diagram back to the visible canvas which starts at (0,0))
+		final int yTranslate = Math.min(visibleRect.getY(), diagramRect.getY());
+		if (xTranslate != 0 || yTranslate != 0) {
+			scrollPanel.moveHorizontalScrollbar(-xTranslate);
+			scrollPanel.moveVerticalScrollbar(-yTranslate);
+
+			if (xTranslate < 0 || yTranslate < 0) {
+				for (GridElement ge : gridElements) {
+					ge.setLocationDifference(-xTranslate, -yTranslate);
+				}
+			}
+		}
+
+		// now realign bottom right corner to include the translate-factor and the changed visible and diagram rect
+		int width = Math.max(minWidth, Math.max(visibleRect.getX2(), diagramRect.getX2())-xTranslate);
+		int height = Math.max(minHeight, Math.max(visibleRect.getY2(), diagramRect.getY2())-yTranslate);
+
+		canvas.clearAndSetSize(width, height);
+
+		canvas.draw(true, gridElements, selector);
 	}
-	
+
 	public GridElement getGridElementOnPosition(Point point) {
 		GridElement returnGe = null;
 		returnGe = getGridElementOnPositionHelper(point, selector.getSelectedElements());
@@ -321,7 +353,8 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 	}
 
 	public void setMinSize(int minWidth, int minHeight) {
-		canvas.setMinSize(minWidth, minHeight);
+		this.minWidth = minWidth;
+		this.minHeight = minHeight; 
 		redraw();
 	}
 
@@ -337,6 +370,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 	}
 
 	public void setScrollPanel(AutoResizeScrollDropPanel scrollPanel) {
-		canvas.setScrollPanel(scrollPanel);
+		this.scrollPanel = scrollPanel;
 	}
 }
