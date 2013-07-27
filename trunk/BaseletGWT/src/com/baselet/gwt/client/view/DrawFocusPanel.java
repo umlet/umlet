@@ -197,7 +197,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				} else {
 					draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
 				}
-				redraw();
+				redraw(false);
 			}
 
 			@Override
@@ -278,33 +278,41 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		});
 	}
 
-	void redraw() {
+	void redraw(boolean recalcSize) {
 		List<GridElement> gridElements = diagram.getGridElementsSortedByLayer();
-		if (scrollPanel == null) return;
+		if (recalcSize) {
+			if (scrollPanel == null) return;
 
-		Rectangle diagramRect = SharedUtils.getGridElementsRectangle(gridElements);
-		Rectangle visibleRect = scrollPanel.getVisibleBounds();
-		// realign top left corner of the diagram back to the canvas and remove invisible whitespace outside of the diagram
-		final int xTranslate = Math.min(visibleRect.getX(), diagramRect.getX()); // can be positive (to cut upper left whitespace without diagram) or negative (to move diagram back to the visible canvas which starts at (0,0))
-		final int yTranslate = Math.min(visibleRect.getY(), diagramRect.getY());
-		if (xTranslate != 0 || yTranslate != 0) {
-			scrollPanel.moveHorizontalScrollbar(-xTranslate);
-			scrollPanel.moveVerticalScrollbar(-yTranslate);
-
-			if (xTranslate < 0 || yTranslate < 0) {
+			Rectangle diagramRect = SharedUtils.getGridElementsRectangle(gridElements);
+			Rectangle visibleRect = scrollPanel.getVisibleBounds();
+			// realign top left corner of the diagram back to the canvas and remove invisible whitespace outside of the diagram
+			final int xTranslate = Math.min(visibleRect.getX(), diagramRect.getX()); // can be positive (to cut upper left whitespace without diagram) or negative (to move diagram back to the visible canvas which starts at (0,0))
+			final int yTranslate = Math.min(visibleRect.getY(), diagramRect.getY());
+			if (xTranslate != 0 || yTranslate != 0) {
+				// temp increase of canvas size to make sure scrollbar can be moved
+				canvas.clearAndSetSize(canvas.getWidth()-xTranslate, canvas.getHeight()-yTranslate);
+				// now move the scrollbar
+				scrollPanel.moveHorizontalScrollbar(-xTranslate);
+				scrollPanel.moveVerticalScrollbar(-yTranslate);
+				// then move gridelements to right position
 				for (GridElement ge : gridElements) {
 					ge.setLocationDifference(-xTranslate, -yTranslate);
 				}
 			}
+
+			// now realign bottom right corner to include the translate-factor and the changed visible and diagram rect
+			int width = Math.max(minWidth, Math.max(visibleRect.getX2(), diagramRect.getX2())-xTranslate);
+			int height = Math.max(minHeight, Math.max(visibleRect.getY2(), diagramRect.getY2())-yTranslate);
+
+			canvas.clearAndSetSize(width, height);
+		} else {
+			canvas.clearAndSetSize(canvas.getWidth(), canvas.getHeight());
 		}
-
-		// now realign bottom right corner to include the translate-factor and the changed visible and diagram rect
-		int width = Math.max(minWidth, Math.max(visibleRect.getX2(), diagramRect.getX2())-xTranslate);
-		int height = Math.max(minHeight, Math.max(visibleRect.getY2(), diagramRect.getY2())-yTranslate);
-
-		canvas.clearAndSetSize(width, height);
-
 		canvas.draw(true, gridElements, selector);
+	}
+
+	void redraw() {
+		redraw(true);
 	}
 
 	public GridElement getGridElementOnPosition(Point point) {
