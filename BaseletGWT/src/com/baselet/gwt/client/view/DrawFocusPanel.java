@@ -291,10 +291,14 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			if (xTranslate != 0 || yTranslate != 0) {
 				// temp increase of canvas size to make sure scrollbar can be moved
 				canvas.clearAndSetSize(canvas.getWidth()-xTranslate, canvas.getHeight()-yTranslate);
-				// now move the scrollbar
-				scrollPanel.moveHorizontalScrollbar(-xTranslate);
-				scrollPanel.moveVerticalScrollbar(-yTranslate);
-				// then move gridelements to right position
+				// if and only if the diagram has been moved from negative coordinates back to positives, the scrollbars must be aligned too
+				if (xTranslate < 0) {
+					scrollPanel.moveHorizontalScrollbar(-xTranslate);
+				}
+				if (yTranslate < 0) {
+					scrollPanel.moveVerticalScrollbar(-yTranslate);
+				}
+				// then move gridelements to correct position
 				for (GridElement ge : gridElements) {
 					ge.setLocationDifference(-xTranslate, -yTranslate);
 				}
