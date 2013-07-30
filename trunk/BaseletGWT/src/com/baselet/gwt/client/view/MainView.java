@@ -60,8 +60,8 @@ public class MainView extends Composite {
 	@UiField(provided=true)
 	SplitLayoutPanel palettePropertiesSplitter = new SplitLayoutPanel() {
 		public void onResize() {
-			diagramScrollPanel.updateCanvasMinimalSizeAndRedraw();
-			paletteScrollPanel.updateCanvasMinimalSizeAndRedraw();
+			diagramPanel.redraw();
+			palettePanel.redraw();
 		};
 	};
 

@@ -364,7 +364,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		selector.deselect(elements);
 	}
 
-	public void setMinSize(int minWidth, int minHeight) {
+	public void setMinSizeAndRedraw(int minWidth, int minHeight) {
 		this.minWidth = minWidth;
 		this.minHeight = minHeight; 
 		redraw();

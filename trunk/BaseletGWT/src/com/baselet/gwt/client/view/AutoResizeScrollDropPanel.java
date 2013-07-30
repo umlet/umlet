@@ -12,20 +12,19 @@ import com.google.gwt.user.client.ui.CustomScrollPanel;
 
 public class AutoResizeScrollDropPanel extends CustomScrollPanel {
 	
+	private static final int HEIGHT_DISP = 4; // must subtract 4px from height, otherwise the scrollbar would be always visible
+	
 	private OwnDropPanel dropPanel;
 
-	private DrawFocusPanel diagramHandler;
-
-	public AutoResizeScrollDropPanel(final DrawFocusPanel diagramHandler) {
-		this.diagramHandler = diagramHandler;
-		diagramHandler.setScrollPanel(this);
-		dropPanel = new OwnDropPanel(diagramHandler);
+	public AutoResizeScrollDropPanel(final DrawFocusPanel diagram) {
+		diagram.setScrollPanel(this);
+		dropPanel = new OwnDropPanel(diagram);
 		this.add(dropPanel);
 		
 		// update size after initialization of gui has finished
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
             public void execute() {
-            	updateCanvasMinimalSizeAndRedraw();
+            	diagram.redraw();
            }
         }); 
 		
@@ -33,7 +32,7 @@ public class AutoResizeScrollDropPanel extends CustomScrollPanel {
 		MouseUpHandler handler = new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
-				updateCanvasMinimalSizeAndRedraw();
+				diagram.redraw();
 			}
 		};
 		getHorizontalScrollbar().asWidget().addDomHandler(handler, MouseUpEvent.getType());
@@ -42,18 +41,14 @@ public class AutoResizeScrollDropPanel extends CustomScrollPanel {
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
 			public void onResize(ResizeEvent event) {
-				updateCanvasMinimalSizeAndRedraw();
+				diagram.redraw();
 			}
 		});
 		
 	}
 	
-	public void updateCanvasMinimalSizeAndRedraw() {
-		diagramHandler.setMinSize(getOffsetWidth(), getOffsetHeight() - 4);
-	}
-	
 	public Rectangle getVisibleBounds() {
-		return new Rectangle(getHorizontalScrollPosition(), getVerticalScrollPosition(), getOffsetWidth(), getOffsetHeight());
+		return new Rectangle(getHorizontalScrollPosition(), getVerticalScrollPosition(), getOffsetWidth(), getOffsetHeight() - HEIGHT_DISP);
 	}
 	
 	public void moveHorizontalScrollbar(int diff) {
