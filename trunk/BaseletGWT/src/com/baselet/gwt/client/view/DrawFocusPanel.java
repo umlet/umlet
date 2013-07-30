@@ -48,9 +48,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 	private AutoResizeScrollDropPanel scrollPanel;
 
-	private int minWidth = 0;
-	private int minHeight = 0;
-
 	public void setOtherDrawFocusPanel(DrawFocusPanel otherDrawFocusPanel) {
 		this.otherDrawFocusPanel = otherDrawFocusPanel;
 	}
@@ -305,8 +302,8 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			}
 
 			// now realign bottom right corner to include the translate-factor and the changed visible and diagram rect
-			int width = Math.max(minWidth, Math.max(visibleRect.getX2(), diagramRect.getX2())-xTranslate);
-			int height = Math.max(minHeight, Math.max(visibleRect.getY2(), diagramRect.getY2())-yTranslate);
+			int width = Math.max(visibleRect.getX2(), diagramRect.getX2())-xTranslate;
+			int height = Math.max(visibleRect.getY2(), diagramRect.getY2())-yTranslate;
 
 			canvas.clearAndSetSize(width, height);
 		} else {
@@ -362,12 +359,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 	public void removeGridElements(GridElement ... elements) {
 		diagram.getGridElements().removeAll(Arrays.asList(elements));
 		selector.deselect(elements);
-	}
-
-	public void setMinSizeAndRedraw(int minWidth, int minHeight) {
-		this.minWidth = minWidth;
-		this.minHeight = minHeight; 
-		redraw();
 	}
 
 	abstract void doDoubleClickAction(GridElement ge);
