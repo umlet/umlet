@@ -67,7 +67,7 @@ public class CommandInvoker extends Controller {
 		return targetElements;
 	}
 	
-	private void realignElementsToVisibleRect(DrawFocusPanel target, List<GridElement> gridElements) {
+	void realignElementsToVisibleRect(DrawFocusPanel target, List<GridElement> gridElements) {
 		Rectangle rect = SharedUtils.getGridElementsRectangle(gridElements);
 		Rectangle visible = target.getVisibleBounds();
 		for (GridElement ge : gridElements) {

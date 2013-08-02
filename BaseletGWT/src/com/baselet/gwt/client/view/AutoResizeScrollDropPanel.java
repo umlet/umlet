@@ -15,6 +15,7 @@ public class AutoResizeScrollDropPanel extends CustomScrollPanel {
 	private OwnDropPanel dropPanel;
 
 	public AutoResizeScrollDropPanel(final DrawFocusPanel diagram) {
+		this.setAlwaysShowScrollBars(true);
 		diagram.setScrollPanel(this);
 		dropPanel = new OwnDropPanel(diagram);
 		this.add(dropPanel);

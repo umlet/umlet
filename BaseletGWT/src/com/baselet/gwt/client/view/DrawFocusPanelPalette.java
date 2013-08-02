@@ -3,7 +3,6 @@ package com.baselet.gwt.client.view;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.control.NewGridElementConstants;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.element.Diagram;
@@ -38,7 +37,7 @@ public class DrawFocusPanelPalette extends DrawFocusPanel {
 	void doDoubleClickAction(GridElement ge) {
 		otherDrawFocusPanel.setFocus(true);
 		GridElement e = ge.CloneFromMe();
-		e.setLocation(NewGridElementConstants.DEFAULT_GRID_SIZE, NewGridElementConstants.DEFAULT_GRID_SIZE);
+		commandInvoker.realignElementsToVisibleRect(otherDrawFocusPanel, Arrays.asList(e));
 		commandInvoker.addElements(otherDrawFocusPanel, e);
 	}
 
