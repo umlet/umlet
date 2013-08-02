@@ -17,14 +17,15 @@
 		<pathelement location="${elements.src.dir}" />
 	</path>
 
-	<target name="gwt-compile-draft">
+	<target name="gwt-compile-helper">
 		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
 			<classpath>
+				<!-- src dir is added to ensure the module.xml file(s) are on the classpath -->
 				<pathelement location="${src.dir}" />
 				<path refid="project.classpath" />
 			</classpath>
 			<jvmarg value="-Xmx256M" />
-			<arg line="-draftCompile" />
+			<arg line="${args}" />
 			<arg line="-war"/>
 			<arg value="${build.dir}" />
 			<arg value="${gwt.module.name}" />
@@ -33,21 +34,16 @@
 		<copy file="war/Baselet.css" tofile="${build.dir}/Baselet.css"/>
 		<copy file="war/Baselet.html" tofile="${build.dir}/Baselet.html"/>
 	</target>
-
-	<target name="gwt-compile">
-		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
-			<classpath>
-				<!-- src dir is added to ensure the module.xml file(s) are on the classpath -->
-				<pathelement location="${src.dir}" />
-				<path refid="project.classpath" />
-			</classpath>
-			<jvmarg value="-Xmx256M" />
-			<arg line="-war"/>
-			<arg value="${build.dir}" />
-			<arg value="${gwt.module.name}" />
-		</java>
-		<delete dir="${build.dir}/WEB-INF" />
-		<copy file="war/Baselet.css" tofile="${build.dir}/Baselet.css"/>
-		<copy file="war/Baselet.html" tofile="${build.dir}/Baselet.html"/>
+	
+	<target name="gwt-compile-draft" description="compile in draft mode">
+	  <antcall target="gwt-compile-helper">
+	    <param name="args" value="-draftCompile"/>
+	  </antcall>
+	</target>
+	
+	<target name="gwt-compile" description="compile in normal mode">
+	  <antcall target="gwt-compile-helper">
+	    <param name="args" value=""/>
+	  </antcall>
 	</target>
 </project>

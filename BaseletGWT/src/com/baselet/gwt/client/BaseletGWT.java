@@ -15,7 +15,7 @@ public class BaseletGWT implements EntryPoint {
 		NewGridElementConstants.program = "umlet_web";
 		
 		if (!browserSupportsLocalStorage() || !browserSupportsFileReader()) {
-			if (browserIsIE10()) {
+			if (Browser.get() == Browser.INTERNET_EXPLORER) {
 				Notification.showFeatureNotSupported("You have opened this webpage from your filesystem, therefore<br/>Internet Explorer 10 will not support some essential features<br/><br/>Please use another browser like Firefox or Chrome,<br/>or open this application from the web url");
 			} else {
 				Notification.showFeatureNotSupported("Sorry, but your browser does not support all necessary features<br/>Suggested browsers are Firefox, Chrome, Opera, Internet Explorer 10+");
@@ -27,10 +27,6 @@ public class BaseletGWT implements EntryPoint {
 
 	private final native boolean browserSupportsFileReader() /*-{
     	return typeof FileReader != "undefined";
-	}-*/;
-
-	private final native boolean browserIsIE10() /*-{
-    	return navigator.appVersion.indexOf("MSIE 10") != -1;
 	}-*/;
 	
 	private final boolean browserSupportsLocalStorage() {

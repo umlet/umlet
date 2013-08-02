@@ -1,6 +1,7 @@
 package com.baselet.gwt.client.view;
 
 import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.gwt.client.Browser;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -45,9 +46,16 @@ public class AutoResizeScrollDropPanel extends CustomScrollPanel {
 		});
 		
 	}
-	
+
 	public Rectangle getVisibleBounds() {
-		return new Rectangle(getHorizontalScrollPosition(), getVerticalScrollPosition(), getOffsetWidth(), getOffsetHeight());
+		int height = getOffsetHeight();
+		if (Browser.get() == Browser.FIREFOX) {
+			height -= 21; // if too low, the "scroll down" arrow of the vertical scrollbar will never stop moving the diagram and the scrollbar is always visible, if too high, elements will move down if user clicks on the diagram
+		}
+		else {
+			height -= 20; // if too low, the "scroll down" arrow of the vertical scrollbar will never stop moving the diagram and the scrollbar is always visible, if too high, elements will move down if user clicks on the diagram
+		}
+		return new Rectangle(getHorizontalScrollPosition(), getVerticalScrollPosition(), getOffsetWidth(), height);
 	}
 	
 	public void moveHorizontalScrollbar(int diff) {
