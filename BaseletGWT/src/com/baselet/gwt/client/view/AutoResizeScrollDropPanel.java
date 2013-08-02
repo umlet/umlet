@@ -12,8 +12,6 @@ import com.google.gwt.user.client.ui.CustomScrollPanel;
 
 public class AutoResizeScrollDropPanel extends CustomScrollPanel {
 	
-	private static final int HEIGHT_DISP = 4; // must subtract 4px from height, otherwise the scrollbar would be always visible
-	
 	private OwnDropPanel dropPanel;
 
 	public AutoResizeScrollDropPanel(final DrawFocusPanel diagram) {
@@ -48,7 +46,7 @@ public class AutoResizeScrollDropPanel extends CustomScrollPanel {
 	}
 	
 	public Rectangle getVisibleBounds() {
-		return new Rectangle(getHorizontalScrollPosition(), getVerticalScrollPosition(), getOffsetWidth(), getOffsetHeight() - HEIGHT_DISP);
+		return new Rectangle(getHorizontalScrollPosition(), getVerticalScrollPosition(), getOffsetWidth(), getOffsetHeight());
 	}
 	
 	public void moveHorizontalScrollbar(int diff) {

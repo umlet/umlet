@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+
 import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
@@ -33,6 +35,8 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.umlet.element.experimental.element.uml.relation.Relation;
 
 public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
+	
+	private static final Logger log = Logger.getLogger(DrawFocusPanel.class);
 
 	private Diagram diagram = new Diagram(new ArrayList<GridElement>());
 
@@ -275,6 +279,8 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		});
 	}
 
+	private static final int VERT_OFFSET = 21; // if too low, the "scroll down" arrow of the vertical scrollbar will never stop moving the diagram, if too high, elements will move even if mouse moves diagram <gridsize
+	
 	void redraw(boolean recalcSize) {
 		List<GridElement> gridElements = diagram.getGridElementsSortedByLayer();
 		if (recalcSize) {
@@ -291,20 +297,24 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				// if and only if the diagram has been moved from negative coordinates back to positives, the scrollbars must be aligned too
 				if (xTranslate < 0) {
 					scrollPanel.moveHorizontalScrollbar(-xTranslate);
+//					log.trace("Move horizontal scrollbar by " + -xTranslate);
 				}
 				if (yTranslate < 0) {
 					scrollPanel.moveVerticalScrollbar(-yTranslate);
+//					log.trace("Move vertical scrollbar by " + -yTranslate);
 				}
 				// then move gridelements to correct position
 				for (GridElement ge : gridElements) {
 					ge.setLocationDifference(-xTranslate, -yTranslate);
 				}
+//				log.trace("Move elements by " + -xTranslate + ", " + -yTranslate);
 			}
-
+			log.trace(visibleRect.getY2() + "/" + diagramRect.getY2());
+//			log.trace("Old canvas dimensions: width=" + canvas.getWidth() + ", height=" + canvas.getHeight());
 			// now realign bottom right corner to include the translate-factor and the changed visible and diagram rect
 			int width = Math.max(visibleRect.getX2(), diagramRect.getX2())-xTranslate;
-			int height = Math.max(visibleRect.getY2(), diagramRect.getY2())-yTranslate;
-
+			int height = Math.max(visibleRect.getY2()-VERT_OFFSET, diagramRect.getY2())-yTranslate;
+//			log.trace("New canvas dimensions: width=" + width + ", height=" + height);
 			canvas.clearAndSetSize(width, height);
 		} else {
 			canvas.clearAndSetSize(canvas.getWidth(), canvas.getHeight());
