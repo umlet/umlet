@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.baselet.control.NewGridElementConstants;
+import com.baselet.control.SharedUtils;
 import com.baselet.diagram.commandnew.AddGridElementCommand;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.commandnew.Controller;
 import com.baselet.diagram.commandnew.RemoveGridElementCommand;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.BrowserStorage;
 
@@ -50,7 +53,9 @@ public class CommandInvoker extends Controller {
 	}
 	
 	void pasteElements(DrawFocusPanel target) {
-		addElements(target, copyElementsInList(BrowserStorage.getClipboard())); // copy here to make sure it can be pasted multiple times
+		List<GridElement> copyOfElements = copyElementsInList(BrowserStorage.getClipboard());
+		realignElementsToVisibleRect(target, copyOfElements);
+		addElements(target, copyOfElements); // copy here to make sure it can be pasted multiple times
 	}
 
 	private List<GridElement> copyElementsInList(Collection<GridElement> sourceElements) {
@@ -60,5 +65,13 @@ public class CommandInvoker extends Controller {
 			targetElements.add(e);
 		}
 		return targetElements;
+	}
+	
+	private void realignElementsToVisibleRect(DrawFocusPanel target, List<GridElement> gridElements) {
+		Rectangle rect = SharedUtils.getGridElementsRectangle(gridElements);
+		Rectangle visible = target.getVisibleBounds();
+		for (GridElement ge : gridElements) {
+			ge.getRectangle().move(visible.getX()-rect.getX() + NewGridElementConstants.DEFAULT_GRID_SIZE, visible.getY()-rect.getY() + NewGridElementConstants.DEFAULT_GRID_SIZE);
+		}
 	}
 }

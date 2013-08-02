@@ -287,7 +287,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			if (scrollPanel == null) return;
 
 			Rectangle diagramRect = SharedUtils.getGridElementsRectangle(gridElements);
-			Rectangle visibleRect = scrollPanel.getVisibleBounds();
+			Rectangle visibleRect = getVisibleBounds();
 			// realign top left corner of the diagram back to the canvas and remove invisible whitespace outside of the diagram
 			final int xTranslate = Math.min(visibleRect.getX(), diagramRect.getX()); // can be positive (to cut upper left whitespace without diagram) or negative (to move diagram back to the visible canvas which starts at (0,0))
 			final int yTranslate = Math.min(visibleRect.getY(), diagramRect.getY());
@@ -320,6 +320,10 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			canvas.clearAndSetSize(canvas.getWidth(), canvas.getHeight());
 		}
 		canvas.draw(true, gridElements, selector);
+	}
+
+	Rectangle getVisibleBounds() {
+		return scrollPanel.getVisibleBounds();
 	}
 
 	void redraw() {
