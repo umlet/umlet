@@ -9,6 +9,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.HasPanelAttributes;
 import com.baselet.gui.AutocompletionText;
 import com.baselet.gwt.client.OwnXMLParser;
+import com.google.gwt.http.client.URL;
 import com.umlet.element.experimental.element.uml.relation.Relation;
 
 public class Diagram implements HasPanelAttributes {
@@ -68,6 +69,10 @@ public class Diagram implements HasPanelAttributes {
 		@Override
 		public List<AutocompletionText> getAutocompletionList() {
 			return Collections.<AutocompletionText>emptyList();
+		}
+
+		public String toXmlUrlEncoded() {
+			return URL.encode(toXml()).replace("#", "%23"); // # is not automatically encoded
 		}
 
 }
