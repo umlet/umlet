@@ -14,10 +14,13 @@ import com.baselet.gwt.client.view.widgets.SaveDialogBox.Callback;
 import com.baselet.gwt.client.view.widgets.ShortcutDialogBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -149,7 +152,7 @@ public class MainView extends Composite {
 
 	private void addRestoreMenuItem(final String chosenName) {
 		final HorizontalPanel hp = new HorizontalPanel();
-		
+
 		Label label = new Label(chosenName);
 		label.setTitle("open diagram " + chosenName);
 		label.addStyleName(style.menuItem());
@@ -171,17 +174,17 @@ public class MainView extends Composite {
 				}
 			}
 		});
-		
+
 		hp.add(img);
 		hp.add(label);
 		restoreMenuPanel.add(hp);
 	}
 
 
-//	@UiHandler("newMenuItem")
-//	void onNewMenuItemClick(ClickEvent event) {
-//		Window.open(Window.Location.getQueryString(),"_blank",""); // TODO doesn't work in compiled version
-//	}
+	//	@UiHandler("newMenuItem")
+	//	void onNewMenuItemClick(ClickEvent event) {
+	//		Window.open(Window.Location.getQueryString(),"_blank",""); // TODO doesn't work in compiled version
+	//	}
 
 	@UiHandler("importMenuItem")
 	void onImportMenuItemClick(ClickEvent event) {
@@ -204,5 +207,21 @@ public class MainView extends Composite {
 	@UiHandler("helpMenuItem")
 	void onHelpMenuItemClick(ClickEvent event) {
 		ShortcutDialogBox.getInstance().center();
+	}
+	@UiHandler("paletteChooser")
+	void onPaletteChooserMouseWheel(MouseWheelEvent event) {
+		// determine new index based on scroll direction
+		int newIndex = paletteChooser.getSelectedIndex();
+		if (event.getDeltaY() < 0) {
+			newIndex--;
+		} else {
+			newIndex++;
+		}
+		
+		// set new index (if it's valid) and trigger change event (is not automatically triggered)
+		if (newIndex >= 0 && newIndex < paletteChooser.getItemCount()) {
+			paletteChooser.setSelectedIndex(newIndex);
+			DomEvent.fireNativeEvent(Document.get().createChangeEvent(), paletteChooser);
+		}
 	}
 }

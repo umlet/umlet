@@ -9,8 +9,8 @@ import com.umlet.element.experimental.element.uml.relation.RelationPoints;
 
 public class LineDescription extends RelationFacet {
 
-	private static final String MESSAGE_START_KEY = "starttext";
-	private static final String MESSAGE_END_KEY = "endtext";
+	private static final String MESSAGE_START_KEY = "lm";
+	private static final String MESSAGE_END_KEY = "rm";
 	@Override
 	public boolean checkStart(String line) {
 		return line.startsWith(MESSAGE_START_KEY + SEP) || line.startsWith(MESSAGE_END_KEY + SEP);
