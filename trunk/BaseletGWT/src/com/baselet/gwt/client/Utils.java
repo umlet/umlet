@@ -16,4 +16,8 @@ public class Utils {
 	  return window.btoa(a);
 	}-*/;
 
+	public static native String b64decode(String a) /*-{
+	  return window.atob(a);
+	}-*/;
+
 }

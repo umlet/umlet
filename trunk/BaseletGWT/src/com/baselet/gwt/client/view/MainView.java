@@ -6,7 +6,6 @@ import org.vectomatic.file.FileUploadExt;
 
 import com.baselet.gwt.client.BrowserStorage;
 import com.baselet.gwt.client.OwnXMLParser;
-import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox;
@@ -148,6 +147,15 @@ public class MainView extends Composite {
 				handler.processFiles(hiddenUploadButton.getFiles());
 			}
 		});
+		
+		
+		//TODO doesnt work for long strings or < / > in prop panel
+//		String base64Diagram = Location.getParameter("open");
+//		if (base64Diagram != null) {
+//			diagramPanel.setDiagram(OwnXMLParser.xmlToDiagram(base64Diagram));
+//			System.out.println(base64Diagram);
+//			String fix = "%3Cdiagram%20program=%22umlet_web%22%20version=%2212.2%22%3E%3Czoom_level%3E10%3C/zoom_level%3E%3Celement%3E%3Cid%3EUMLUseCase%3C/id%3E%3Ccoordinates%3E%3Cx%3E10%3C/x%3E%3Cy%3E310%3C/y%3E%3Cw%3E170%3C/w%3E%3Ch%3E100%3C/h%3E%3C/coordinates%3E%3Cpanel_attributes%3EThis%20usecase%20has%0Acustom%20colors%20and%20linetype%0A--%0A*fg=%25235c2b00*%0A*bg=orange*%0A*lt=.*%0Afg=%25235c2b00%0Abg=orange%0Alt=.%3C/panel_attributes%3E%3Cadditional_attributes%3E%3C/additional_attributes%3E%3C/element%3E%3Celement%3E%3Cid%3EUMLUseCase%3C/id%3E%3Ccoordinates%3E%3Cx%3E190%3C/x%3E%3Cy%3E310%3C/y%3E%3Cw%3E150%3C/w%3E%3Ch%3E100%3C/h%3E%3C/coordinates%3E%3Cpanel_attributes%3Ethis%20usecase%20has%0A*halign=left*%0A--%0AAs%20you%20can%20see%20the%0Atext%20is%20always%20within%20the%0Ausecase%20circle%0A%0Ahalign=LEFT%3C/panel_attributes%3E%3Cadditional_attributes%3E%3C/additional_attributes%3E%3C/element%3E%3Celement%3E%3Cid%3EUMLInterface%3C/id%3E%3Ccoordinates%3E%3Cx%3E20%3C/x%3E%3Cy%3E420%3C/y%3E%3Cw%3E70%3C/w%3E%3Ch%3E80%3C/h%3E%3C/coordinates%3E%3Cpanel_attributes%3EInterface%0A--%0AOperation1%0AOperation2%3C/panel_attributes%3E%3Cadditional_attributes%3E%3C/additional_attributes%3E%3C/element%3E%3Celement%3E%3Cid%3EUMLActor%3C/id%3E%3Ccoordinates%3E%3Cx%3E90%3C/x%3E%3Cy%3E420%3C/y%3E%3Cw%3E70%3C/w%3E%3Ch%3E170%3C/h%3E%3C/coordinates%3E%3Cpanel_attributes%3ELarge%0AActor%0Alt=..%0Afg=gray%0Afontsize=20%3C/panel_attributes%3E%3Cadditional_attributes%3E%3C/additional_attributes%3E%3C/element%3E%3Celement%3E%3Cid%3EUMLActor%3C/id%3E%3Ccoordinates%3E%3Cx%3E150%3C/x%3E%3Cy%3E420%3C/y%3E%3Cw%3E50%3C/w%3E%3Ch%3E90%3C/h%3E%3C/coordinates%3E%3Cpanel_attributes%3EActor2%0Abg=red%3C/panel_attributes%3E%3Cadditional_attributes%3E%3C/additional_attributes%3E%3C/element%3E%3Celement%3E%3Cid%3ERelation%3C/id%3E%3Ccoordinates%3E%3Cx%3E190%3C/x%3E%3Cy%3E400%3C/y%3E%3Cw%3E180%3C/w%3E%3Ch%3E120%3C/h%3E%3C/coordinates%3E%3Cpanel_attributes%3El=&gt;%0Ar=&lt;%3C/panel_attributes%3E%3Cadditional_attributes%3E20.0;60.0;80.0;60.0;120.0;20.0%3C/additional_attributes%3E%3C/element%3E%3Celement%3E%3Cid%3EText%3C/id%3E%3Ccoordinates%3E%3Cx%3E210%3C/x%3E%3Cy%3E490%3C/y%3E%3Cw%3E150%3C/w%3E%3Ch%3E30%3C/h%3E%3C/coordinates%3E%3Cpanel_attributes%3Ethis%20is%20a%20text%20element%3C/panel_attributes%3E%3Cadditional_attributes%3E%3C/additional_attributes%3E%3C/element%3E%3C/diagram%3E";
+//		}
 	}
 
 	private void addRestoreMenuItem(final String chosenName) {
@@ -193,8 +201,8 @@ public class MainView extends Composite {
 
 	@UiHandler("exportMenuItem")
 	void onExportMenuItemClick(ClickEvent event) {
-		// use base64 encoding to make it work in firefox (one alternative would be encoding <,>,... like the following website does: http://dopiaza.org/tools/datauri/index.php)
-		String uxfUrl = "data:text/plain;charset=utf-8;base64," + Utils.b64encode(diagramPanel.getDiagram().toXml());
+		System.out.println(diagramPanel.getDiagram().toXmlUrlEncoded());
+		String uxfUrl = "data:text/xml;charset=utf-8," + diagramPanel.getDiagram().toXmlUrlEncoded();
 		String pngUrl = CanvasUtils.createPngCanvasDataUrl(diagramPanel.getDiagram());
 		new DownloadPopupPanel(uxfUrl, pngUrl);
 	}
