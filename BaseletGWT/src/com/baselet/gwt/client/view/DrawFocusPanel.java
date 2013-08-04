@@ -280,11 +280,19 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		});
 	}
 
+	Rectangle getVisibleBounds() {
+		return scrollPanel.getVisibleBounds();
+	}
+
+	void redraw() {
+		redraw(true);
+	}
+
 	void redraw(boolean recalcSize) {
 		List<GridElement> gridElements = diagram.getGridElementsSortedByLayer();
 		if (recalcSize) {
 			if (scrollPanel == null) return;
-
+	
 			Rectangle diagramRect = SharedUtils.getGridElementsRectangle(gridElements);
 			Rectangle visibleRect = getVisibleBounds();
 			// realign top left corner of the diagram back to the canvas and remove invisible whitespace outside of the diagram
@@ -292,7 +300,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			final int yTranslate = Math.min(visibleRect.getY(), diagramRect.getY());
 			if (xTranslate != 0 || yTranslate != 0) {
 				// temp increase of canvas size to make sure scrollbar can be moved
-				canvas.clearAndSetSize(canvas.getWidth()-xTranslate+5000, canvas.getHeight()+5000);
+				canvas.clearAndSetSize(canvas.getWidth() + Math.abs(xTranslate), canvas.getHeight() + Math.abs(yTranslate));
 				// move scrollbars
 				scrollPanel.moveHorizontalScrollbar(-xTranslate);
 				scrollPanel.moveVerticalScrollbar(-yTranslate);
@@ -309,14 +317,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			canvas.clearAndSetSize(canvas.getWidth(), canvas.getHeight());
 		}
 		canvas.draw(true, gridElements, selector);
-	}
-
-	Rectangle getVisibleBounds() {
-		return scrollPanel.getVisibleBounds();
-	}
-
-	void redraw() {
-		redraw(true);
 	}
 
 	public GridElement getGridElementOnPosition(Point point) {

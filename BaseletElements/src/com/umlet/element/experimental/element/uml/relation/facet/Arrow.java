@@ -13,8 +13,8 @@ import com.umlet.element.experimental.element.uml.relation.SettingsRelation;
 
 public abstract class Arrow extends RelationFacet {
 	
-	static final String START = "start" + SEP;
-	static final String END = "end" + SEP;
+	static final String START = "l" + SEP;
+	static final String END = "r" + SEP;
 
 	void drawArrowToLine(BaseDrawHandler drawer, Line line, boolean drawOnStart, boolean inverseArrow, boolean closeArrow) {
 		PointDouble point = drawOnStart ? line.getStart() : line.getEnd();
