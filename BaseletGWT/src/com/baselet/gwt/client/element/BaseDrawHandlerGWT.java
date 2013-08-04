@@ -242,7 +242,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 			}
 		} catch (Exception e) {
 			log.error("No browser support for dashed lines", e);
-			Notification.showFeatureNotSupported("To see dashed lines, please use Firefox or Chrome<br/>In your browser they will be shown as solid lines");
+			Notification.showFeatureNotSupported("To see dashed lines, please use Firefox or Chrome<br/>In your browser they will be shown as solid lines", true);
 		}
 	}
 

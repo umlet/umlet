@@ -17,6 +17,7 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
+import com.baselet.gwt.client.Browser;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.keyboard.Shortcut;
@@ -376,5 +377,19 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 	public void setScrollPanel(AutoResizeScrollDropPanel scrollPanel) {
 		this.scrollPanel = scrollPanel;
+	}
+	
+	@Override
+	public void setFocus(boolean focused) {
+		// Internet explorer scrolls to the top left if canvas gets focus, therefore scroll back afterwards // see http://stackoverflow.com/questions/14979365/table-scroll-bar-jumps-up-when-table-receives-focus-in-ie
+		if (Browser.get() == Browser.INTERNET_EXPLORER && focused) {
+			int oldH = scrollPanel.getHorizontalScrollPosition();
+			int oldV = scrollPanel.getVerticalScrollPosition();
+			super.setFocus(focused);
+			scrollPanel.setHorizontalScrollPosition(oldH);
+			scrollPanel.setVerticalScrollPosition(oldV);
+		} else {
+			super.setFocus(focused);
+		}
 	}
 }

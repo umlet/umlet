@@ -9,13 +9,15 @@ public class Notification {
 	
 	private static String lastShownFeatureNotSupportedText;
 
-	public static void showFeatureNotSupported(String text) {
+	public static void showFeatureNotSupported(String text, boolean fadeOut) {
 		if (text.equals(lastShownFeatureNotSupportedText)) {
 			return; // don't repeat the last warning
 		}
 		lastShownFeatureNotSupportedText = text;
 		RootPanel.get("featurewarning").getElement().setInnerHTML(text);
-		ElementFader.fade(RootPanel.get("featurewarning").getElement(), 1, 0, 15000);
+		if (fadeOut) {
+			ElementFader.fade(RootPanel.get("featurewarning").getElement(), 1, 0, 15000);
+		}
 	}
 	
 	private static class ElementFader {
