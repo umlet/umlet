@@ -48,7 +48,7 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 	public Rectangle getVisibleBounds() {
 		int width = getOffsetWidth() - getScrollbarSize()[0];
 		int height = getOffsetHeight() - getScrollbarSize()[1];
-		if (Browser.get() == Browser.FIREFOX) {
+		if (Browser.get() == Browser.FIREFOX || Browser.get() == Browser.INTERNET_EXPLORER) {
 			height -= 4; // if too low, the "scroll down" arrow of the vertical scrollbar will never stop moving the diagram and the scrollbar is always visible, if too high, elements will move down if user clicks on the diagram
 		}
 		else {
