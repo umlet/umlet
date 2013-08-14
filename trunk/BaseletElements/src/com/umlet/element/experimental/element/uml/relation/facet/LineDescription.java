@@ -37,6 +37,8 @@ public class LineDescription extends RelationFacet {
 				p = relationPoints.getLastLine().getEnd();
 			}
 			drawer.print(text, p, AlignHorizontal.LEFT);
+			
+			relationPoints.setRequiredRelationWidthBecauseOfText(drawer.textWidth(text)+p.getX());
 		}
 	}
 
