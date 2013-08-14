@@ -23,6 +23,8 @@ public class RelationPoints {
 	 */
 	private List<PointDouble> points = new ArrayList<PointDouble>();
 
+	private double maxTextWidth = 0.0;
+	
 	public RelationPoints(List<PointDouble> points) {
 		super();
 		this.points = points;
@@ -96,7 +98,7 @@ public class RelationPoints {
 			point.move(-diffX, -diffY);
 		}
 		// now rebuild width and height of the relation, based on the new positions of the relation-points
-		relation.setRectangle(repositionRelationAndPointsBasedOnPoints(relation.getRectangle().getUpperLeftCorner(), gridSize));
+		repositionRelationAndPointsBasedOnPoints(relation, gridSize);
 	}
 
 	/**
@@ -119,7 +121,8 @@ public class RelationPoints {
 		return false;
 	}
 
-	Rectangle repositionRelationAndPointsBasedOnPoints(Point elementStart, int gridSize) {
+	void repositionRelationAndPointsBasedOnPoints(Relation relation, int gridSize) {
+		Point elementStart = relation.getRectangle().getUpperLeftCorner();
 		// Calculate new Relation position and size
 		Rectangle newSize = null;
 		for (PointDouble p : points) {
@@ -130,7 +133,7 @@ public class RelationPoints {
 				newSize.merge(absoluteRectangle);
 			}
 		}
-		// Realign new size to grid (should not be necessary as long as SELECTCIRCLERADIUS == DefaultGridSize
+		// Realign new size to grid (should not be necessary as long as SELECTCIRCLERADIUS == DefaultGridSize)
 		newSize.setLocation(SharedUtils.realignTo(false, newSize.getX(), false, gridSize), SharedUtils.realignTo(false, newSize.getY(), false, gridSize));
 		newSize.setSize(SharedUtils.realignTo(false, newSize.getWidth(), true, gridSize), SharedUtils.realignTo(false, newSize.getHeight(), true, gridSize));
 
@@ -147,7 +150,12 @@ public class RelationPoints {
 			p.setX(SharedUtils.realignTo(true, p.getX()-displacementX, false, gridSize));
 			p.setY(SharedUtils.realignTo(true, p.getY()-displacementY, false, gridSize));
 		}
-		return newSize;
+		
+		if (newSize.getWidth() < maxTextWidth) {
+			newSize.setWidth(SharedUtils.realignTo(false, maxTextWidth, true, gridSize));
+		}
+		
+		relation.setRectangle(newSize);
 	}
 
 	private Rectangle toCircleRectangle(PointDouble p) {
@@ -223,5 +231,13 @@ public class RelationPoints {
 			returnString = returnString.substring(0, returnString.length()-1);
 		}
 		return returnString;
+	}
+
+	public void setRequiredRelationWidthBecauseOfText(double newMaxTextWidth) {
+		maxTextWidth = Math.max(maxTextWidth, newMaxTextWidth);
+	}
+	
+	public void resetRequiredRelationWidthBecauseOfText() {
+		maxTextWidth = 0.0;
 	}
 }
