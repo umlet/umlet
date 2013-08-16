@@ -58,7 +58,7 @@ public class Relation extends NewGridElement {
 		for (int i = 0; i < split.length; i += 2) {
 			pointList.add(new PointDouble(Double.valueOf(split[i]), Double.valueOf(split[i+1])));
 		}
-		relationPoints = new RelationPoints(pointList);
+		relationPoints = new RelationPoints(this, pointList);
 	}
 
 	@Override
@@ -74,25 +74,14 @@ public class Relation extends NewGridElement {
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<Relation> relations) {
 		Point mousePosBeforeDragRelative = new Point(mousePosBeforeDrag.getX() - getRectangle().getX(), mousePosBeforeDrag.getY() - getRectangle().getY());
-		Selection returnSelection = relationPoints.getSelectionAndApplyChanges(mousePosBeforeDragRelative, diffX, diffY, this, getGridSize(), firstDrag);
+		Selection returnSelection = relationPoints.getSelectionAndApplyChanges(mousePosBeforeDragRelative, diffX, diffY, this, firstDrag);
 		if (returnSelection != Selection.NOTHING) {
 			updateModelFromText();
 		}
 	}
 
-	private int getGridSize() {
+	public int getGridSize() {
 		return (int) (getHandler().getZoomFactor() * NewGridElementConstants.DEFAULT_GRID_SIZE);
-	}
-	
-	/**
-	 * the properties text can change the size of the relation (eg: arrow-description text which is too long)
-	 * therefore the maxtextwidth must be reset before updating the model and the relation size must be recalculated after updating the model
-	 */
-	@Override
-	public void updateModelFromText() {
-		relationPoints.resetRequiredRelationWidthBecauseOfText();
-		super.updateModelFromText();
-		relationPoints.repositionRelationAndPointsBasedOnPoints(this, getGridSize());
 	}
 
 	@Override

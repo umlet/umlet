@@ -22,11 +22,11 @@ public class RelationPoints {
 	 * Points of this relation (point of origin is the upper left corner of the relation element (not the drawpanel!))
 	 */
 	private List<PointDouble> points = new ArrayList<PointDouble>();
-
-	private double maxTextWidth = 0.0;
+	private Relation relation;
 	
-	public RelationPoints(List<PointDouble> points) {
+	public RelationPoints(Relation relation, List<PointDouble> points) {
 		super();
+		this.relation = relation;
 		this.points = points;
 	}
 
@@ -41,20 +41,20 @@ public class RelationPoints {
 	 * because of the complex selection logic, the other method (which applies changes usually) is reused to make sure the result of this method is correct
 	 */
 	public Selection getSelection(Point point) {
-		return getSelectionAndMaybeApplyChangesHelper(point, null, null, null, 0, true, false);
+		return getSelectionAndMaybeApplyChangesHelper(point, null, null, null, true, false);
 	}
 
-	public Selection getSelectionAndApplyChanges(Point point, Integer diffX, Integer diffY, Relation relation, int gridSize, boolean firstDrag) {
-		return getSelectionAndMaybeApplyChangesHelper(point, diffX, diffY, relation, gridSize, firstDrag, true);
+	public Selection getSelectionAndApplyChanges(Point point, Integer diffX, Integer diffY, Relation relation, boolean firstDrag) {
+		return getSelectionAndMaybeApplyChangesHelper(point, diffX, diffY, relation, firstDrag, true);
 	}
 
 	private PointDouble relationPointOfCurrentDrag = null;
-	private Selection getSelectionAndMaybeApplyChangesHelper(Point point, Integer diffX, Integer diffY, Relation relation, int gridSize, boolean firstDrag, boolean applyChanges) {
+	private Selection getSelectionAndMaybeApplyChangesHelper(Point point, Integer diffX, Integer diffY, Relation relation, boolean firstDrag, boolean applyChanges) {
 		// Special case: if this is not the first drag and a relation-point is currently dragged, it has preference
 		// Necessary to avoid changing the currently moved point if moving over another point and to avoid losing the current point if it's a new line point and the mouse is dragged very fast
 		if (!firstDrag && relationPointOfCurrentDrag != null) {
 			if (applyChanges) {
-				movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY, relation, gridSize);
+				movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY);
 			}
 			return Selection.RELATION_POINT;
 		}
@@ -71,7 +71,7 @@ public class RelationPoints {
 			if (toCircleRectangle(relationPoint).contains(point)) {
 				if (applyChanges) {
 					relationPointOfCurrentDrag = relationPoint;
-					movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY, relation, gridSize);
+					movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY);
 
 				}
 				return Selection.RELATION_POINT;
@@ -90,7 +90,7 @@ public class RelationPoints {
 		return Selection.NOTHING;
 	}
 
-	private void movePointAndResizeRectangle(PointDouble point, Integer diffX, Integer diffY, Relation relation, int gridSize) {
+	private void movePointAndResizeRectangle(PointDouble point, Integer diffX, Integer diffY) {
 		// move the point
 		point.move(diffX, diffY);
 		// if there are only 2 points and they would overlap now (therefore the relation would have a size of 0x0px), revert the move
@@ -98,7 +98,7 @@ public class RelationPoints {
 			point.move(-diffX, -diffY);
 		}
 		// now rebuild width and height of the relation, based on the new positions of the relation-points
-		repositionRelationAndPointsBasedOnPoints(relation, gridSize);
+		repositionRelationAndPointsBasedOnPoints();
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class RelationPoints {
 		return false;
 	}
 
-	void repositionRelationAndPointsBasedOnPoints(Relation relation, int gridSize) {
+	void repositionRelationAndPointsBasedOnPoints() {
 		Point elementStart = relation.getRectangle().getUpperLeftCorner();
 		// Calculate new Relation position and size
 		Rectangle newSize = null;
@@ -134,8 +134,8 @@ public class RelationPoints {
 			}
 		}
 		// Realign new size to grid (should not be necessary as long as SELECTCIRCLERADIUS == DefaultGridSize)
-		newSize.setLocation(SharedUtils.realignTo(false, newSize.getX(), false, gridSize), SharedUtils.realignTo(false, newSize.getY(), false, gridSize));
-		newSize.setSize(SharedUtils.realignTo(false, newSize.getWidth(), true, gridSize), SharedUtils.realignTo(false, newSize.getHeight(), true, gridSize));
+		newSize.setLocation(SharedUtils.realignTo(false, newSize.getX(), false, relation.getGridSize()), SharedUtils.realignTo(false, newSize.getY(), false, relation.getGridSize()));
+		newSize.setSize(SharedUtils.realignTo(false, newSize.getWidth(), true, relation.getGridSize()), SharedUtils.realignTo(false, newSize.getHeight(), true, relation.getGridSize()));
 
 		// move relation points to their new position (their position is relative to the relation-position)
 		int displacementX = Integer.MAX_VALUE;
@@ -147,12 +147,8 @@ public class RelationPoints {
 		}
 		for (PointDouble p : points) {
 			// p.move(-displacementX, -displacementY) would be sufficient, but it is realigned to make sure displaced points are corrected here
-			p.setX(SharedUtils.realignTo(true, p.getX()-displacementX, false, gridSize));
-			p.setY(SharedUtils.realignTo(true, p.getY()-displacementY, false, gridSize));
-		}
-		
-		if (newSize.getWidth() < maxTextWidth) {
-			newSize.setWidth(SharedUtils.realignTo(false, maxTextWidth, true, gridSize));
+			p.setX(SharedUtils.realignTo(true, p.getX()-displacementX, false, relation.getGridSize()));
+			p.setY(SharedUtils.realignTo(true, p.getY()-displacementY, false, relation.getGridSize()));
 		}
 		
 		relation.setRectangle(newSize);
@@ -233,11 +229,9 @@ public class RelationPoints {
 		return returnString;
 	}
 
-	public void setRequiredRelationWidthBecauseOfText(double newMaxTextWidth) {
-		maxTextWidth = Math.max(maxTextWidth, newMaxTextWidth);
-	}
-	
-	public void resetRequiredRelationWidthBecauseOfText() {
-		maxTextWidth = 0.0;
+	public void setRequiredRelationWidthBecauseOfText(double maxTextWidth) {
+		if (relation.getRectangle().getWidth() < maxTextWidth) {
+			relation.getRectangle().setWidth((int) maxTextWidth);
+		}
 	}
 }
