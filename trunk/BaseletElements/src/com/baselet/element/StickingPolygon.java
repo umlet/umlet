@@ -6,6 +6,7 @@ import java.util.Vector;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
+import com.baselet.diagram.draw.geom.Rectangle;
 
 
 public class StickingPolygon {
@@ -113,6 +114,10 @@ public class StickingPolygon {
 		addPoint(x+width, y);
 		addPoint(x+width, y+height);
 		addPoint(x, y+height, true);
+	}
+
+	public void addRectangle(Rectangle rect) {
+		addRectangle(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
 	}
 
 	public StickLine getLine(int index) {
