@@ -313,7 +313,7 @@ public abstract class NewGridElement implements GridElement {
 			StickingPolygon sp = generateStickingBorder(r.x, r.y, r.width, r.height);
 			for (Relation rel : relations) {
 				for (PointDouble pd : rel.getStickablePoints()) {
-					if (-1 != sp.isConnected(new Point((int) pd.x, (int) pd.y) , (int) (handler.getZoomFactor()*NewGridElementConstants.DEFAULT_GRID_SIZE))) {
+					if (-1 != sp.isConnected(new Point((int) pd.x, (int) pd.y) , getGridSize())) {
 						System.out.println("CONNECTION"); //TODO berechnung passt noch nicht, danach weiterbauen dass punkte verschoben werden und relationen neu gezeichnet werden!!
 					}
 				}
@@ -365,6 +365,10 @@ public abstract class NewGridElement implements GridElement {
 
 	public void onParsingStart() {
 		// hook method, do nothing at default
+	}
+
+	public int getGridSize() {
+		return (int) (getHandler().getZoomFactor() * NewGridElementConstants.DEFAULT_GRID_SIZE);
 	}
 
 }
