@@ -29,17 +29,40 @@ public class LineDescription extends RelationFacet {
 		String[] split = line.split(SEP, -1);
 		String key = split[0];
 		String text = split[1];
-		PointDouble p = null;
+		double textWidth = drawer.textWidth(text);
+		double textHeight = drawer.textHeight();
+		PointDouble pointArrow = null;
 		if (!text.isEmpty()) {
 			if (key.equals(MESSAGE_START_KEY)) {
-				p = relationPoints.getFirstLine().getStart();
+				pointArrow = relationPoints.getFirstLine().getStart();
 			} else if (key.equals(MESSAGE_END_KEY)) {
-				p = relationPoints.getLastLine().getEnd();
+				pointArrow = relationPoints.getLastLine().getEnd();
 			}
-			drawer.print(text, p, AlignHorizontal.LEFT);
+			PointDouble pointText = calcTextPos(pointArrow, textWidth, textHeight);
+			drawer.print(text, pointText, AlignHorizontal.LEFT);
 			
-			relationPoints.setRequiredRelationWidthBecauseOfText(drawer.textWidth(text)+p.getX());
+			// to make sure text is printed (and therefore withing relation-element-borders, resize relation according to text
+			relationPoints.resizeRelationSpaceToMakeTextVisible(textWidth+pointText.getX(), pointText.getY());
 		}
+	}
+
+	private PointDouble calcTextPos(PointDouble pointArrow, double textWidth, double textHeight) {
+		double textX = pointArrow.getX() + RelationPoints.POINT_SELECTION_RADIUS; // default x-pos is at the right end of selectionradius
+		double textY = pointArrow.getY();
+		
+		// if text would be placed on the right outside of the relation and there is enough space to place it inside, do so
+		double selectionDiameter = RelationPoints.POINT_SELECTION_RADIUS*2;
+		double textXWithinRelationSpace = textX - textWidth - selectionDiameter;
+		if (textXWithinRelationSpace > selectionDiameter) {
+			textX = textXWithinRelationSpace;
+		}
+		
+		// if text wouldn't fit on top of the relation (normally for arrow points which are on the upper most position of the relation), place it on bottom of it
+		if (textY < textHeight) {
+			textY += textHeight; // make sure larger fontsizes will still fit
+		}
+		PointDouble pointText = new PointDouble(textX, textY);
+		return pointText;
 	}
 
 }

@@ -229,9 +229,12 @@ public class RelationPoints {
 		return returnString;
 	}
 
-	public void setRequiredRelationWidthBecauseOfText(double maxTextWidth) {
-		if (relation.getRectangle().getWidth() < maxTextWidth) {
-			relation.getRectangle().setWidth((int) maxTextWidth);
+	public void resizeRelationSpaceToMakeTextVisible(double textWidth, double textHeight) {
+		if (relation.getRectangle().getWidth() < textWidth) {
+			relation.getRectangle().setWidth((int) textWidth);
+		}
+		if (relation.getRectangle().getHeight() < textHeight) {
+			relation.getRectangle().setHeight((int) textHeight);
 		}
 	}
 }
