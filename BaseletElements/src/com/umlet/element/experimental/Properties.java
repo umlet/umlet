@@ -44,6 +44,7 @@ public class Properties {
 	}
 
 	public void initSettingsFromText(NewGridElement element) {
+		element.onParsingStart();
 		propertiesTextToDraw = new ArrayList<String>();
 		this.elementSettings = element.getSettings();
 		this.propCfg = new PropertiesConfig(element.getSettings());

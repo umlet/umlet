@@ -363,4 +363,8 @@ public abstract class NewGridElement implements GridElement {
 		return handler;
 	}
 
+	public void onParsingStart() {
+		// hook method, do nothing at default
+	}
+
 }
