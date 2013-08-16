@@ -122,7 +122,7 @@ public class RelationPoints {
 	}
 
 	void repositionRelationAndPointsBasedOnPoints() {
-		Point elementStart = relation.getRectangle().getUpperLeftCorner();
+		PointDouble elementStart = relation.getRectangle().getUpperLeftCorner();
 		// Calculate new Relation position and size
 		Rectangle newSize = null;
 		for (PointDouble p : points) {
@@ -184,7 +184,7 @@ public class RelationPoints {
 		return Arrays.asList(points.get(0), points.get(points.size()-1));
 	}
 
-	private Rectangle getDragBox() {
+	public Rectangle getDragBox() {
 		PointDouble begin = points.get(points.size() / 2);
 		PointDouble end = points.get(points.size() / 2 - 1);
 		PointDouble center = new Line(begin, end).getCenter();

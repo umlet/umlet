@@ -11,9 +11,10 @@ public class LineDescription extends RelationFacet {
 
 	private static final String MESSAGE_START_KEY = "lm";
 	private static final String MESSAGE_END_KEY = "rm";
+	private static final String MESSAGE_MIDDLE_KEY = "mm";
 	@Override
 	public boolean checkStart(String line) {
-		return line.startsWith(MESSAGE_START_KEY + SEP) || line.startsWith(MESSAGE_END_KEY + SEP);
+		return line.startsWith(MESSAGE_START_KEY + SEP) || line.startsWith(MESSAGE_MIDDLE_KEY + SEP) || line.startsWith(MESSAGE_END_KEY + SEP);
 	}
 
 	@Override
@@ -21,6 +22,7 @@ public class LineDescription extends RelationFacet {
 		return new AutocompletionText[] {
 				new AutocompletionText(MESSAGE_START_KEY + SEP, "message at start"),
 				new AutocompletionText(MESSAGE_END_KEY + SEP, "message at end"),
+				new AutocompletionText(MESSAGE_MIDDLE_KEY + SEP, "message in the middle"),
 				};
 	}
 
@@ -31,14 +33,15 @@ public class LineDescription extends RelationFacet {
 		String text = split[1];
 		double textWidth = drawer.textWidth(text);
 		double textHeight = drawer.textHeight();
-		PointDouble pointArrow = null;
+		PointDouble pointText = null;
 		if (!text.isEmpty()) {
 			if (key.equals(MESSAGE_START_KEY)) {
-				pointArrow = relationPoints.getFirstLine().getStart();
+				pointText = calcPosOfArrowText(relationPoints.getFirstLine().getStart(), textWidth, textHeight);
 			} else if (key.equals(MESSAGE_END_KEY)) {
-				pointArrow = relationPoints.getLastLine().getEnd();
+				pointText = calcPosOfArrowText(relationPoints.getLastLine().getEnd(), textWidth, textHeight);
+			} else if (key.equals(MESSAGE_MIDDLE_KEY)) {
+				pointText = calcPosOfMiddleText(relationPoints.getDragBox().getCenter(), textWidth, textHeight);
 			}
-			PointDouble pointText = calcTextPos(pointArrow, textWidth, textHeight);
 			drawer.print(text, pointText, AlignHorizontal.LEFT);
 			
 			// to make sure text is printed (and therefore withing relation-element-borders, resize relation according to text
@@ -46,7 +49,7 @@ public class LineDescription extends RelationFacet {
 		}
 	}
 
-	private PointDouble calcTextPos(PointDouble pointArrow, double textWidth, double textHeight) {
+	private PointDouble calcPosOfArrowText(PointDouble pointArrow, double textWidth, double textHeight) {
 		double textX = pointArrow.getX() + RelationPoints.POINT_SELECTION_RADIUS; // default x-pos is at the right end of selectionradius
 		double textY = pointArrow.getY();
 		
@@ -61,8 +64,19 @@ public class LineDescription extends RelationFacet {
 		if (textY < textHeight) {
 			textY += textHeight; // make sure larger fontsizes will still fit
 		}
-		PointDouble pointText = new PointDouble(textX, textY);
-		return pointText;
+		return new PointDouble(textX, textY);
+	}
+
+	private PointDouble calcPosOfMiddleText(PointDouble center, double textWidth, double textHeight) {
+		double textX = center.getX() - textWidth/2;
+		double textY = center.getY();
+
+		// if text would not be visible at the left relation part, move it to visible area
+		if (textX < 0) {
+			textX += textWidth/2 + RelationPoints.DRAG_BOX_SIZE;
+		}
+
+		return new PointDouble(textX, textY);
 	}
 
 }

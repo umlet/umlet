@@ -51,8 +51,12 @@ public class Rectangle {
 		return y + height;
 	}
 	
-	public Point getUpperLeftCorner() {
-		return new Point(x,y);
+	public PointDouble getUpperLeftCorner() {
+		return new PointDouble(x,y);
+	}
+
+	public PointDouble getCenter() {
+		return new PointDouble(x + width/2,y + height/2);
 	}
 
 	public void setY(int y) {
