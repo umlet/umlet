@@ -2,6 +2,7 @@ package com.umlet.element.experimental;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -308,7 +309,6 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<Relation> relations) {
 		if (resizeDirection.isEmpty()) { // Move GridElement
-			setLocationDifference(diffX, diffY);
 			Rectangle r = getRectangle();
 			StickingPolygon sp = generateStickingBorder(r.x, r.y, r.width, r.height);
 			for (Relation rel : relations) {
@@ -316,10 +316,11 @@ public abstract class NewGridElement implements GridElement {
 					// the points are located relative to the upper left corner of the relation, therefore add this corner to have it located to the upper left corner of the diagram
 					Point absolutePositionOfStickablePoint = new Point(rel.getRectangle().getX() + (int) pd.x, rel.getRectangle().getY() + (int) pd.y);
 					if (-1 != sp.isConnected(absolutePositionOfStickablePoint, getGridSize())) {
-						System.out.println("CONNECTION"); //TODO berechnung passt noch nicht, danach weiterbauen dass punkte verschoben werden und relationen neu gezeichnet werden!!
+						rel.drag(resizeDirection, diffX, diffY, absolutePositionOfStickablePoint, isShiftKeyDown, true, Collections.<Relation>emptyList());
 					}
 				}
 			}
+			setLocationDifference(diffX, diffY);
 		} else { // Resize GridElement
 			Rectangle rect = component.getBoundsRect();
 			if (isShiftKeyDown && diagonalResize(resizeDirection)) { // Proportional Resize
