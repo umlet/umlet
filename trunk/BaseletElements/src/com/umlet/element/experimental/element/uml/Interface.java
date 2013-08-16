@@ -28,7 +28,7 @@ public class Interface extends NewGridElement {
 
 	@Override
 	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
-		drawer.drawEllipse(circleSpace.x, circleSpace.y, circleSpace.width, circleSpace.height);
+		drawer.drawCircle(circleSpace.x + CIRCLE_SIZE/2, circleSpace.y + CIRCLE_SIZE/2, CIRCLE_SIZE/2);
 		properties.drawPropertiesText();
 	}
 
@@ -61,7 +61,7 @@ public class Interface extends NewGridElement {
 			}
 			@Override
 			public AlignVertical getVAlign() {
-				return AlignVertical.CENTER;
+				return AlignVertical.TOP;
 			}
 			@Override
 			public AlignHorizontal getHAlign() {
