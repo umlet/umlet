@@ -80,10 +80,6 @@ public class Relation extends NewGridElement {
 		}
 	}
 
-	public int getGridSize() {
-		return (int) (getHandler().getZoomFactor() * NewGridElementConstants.DEFAULT_GRID_SIZE);
-	}
-
 	@Override
 	public void dragEnd() {
 		boolean updateNecessary = relationPoints.removeRelationPointOfCurrentDragIfItOverlaps();
