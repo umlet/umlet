@@ -29,7 +29,7 @@ public class UseCase extends NewGridElement {
 
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-		StickingPolygon p = new StickingPolygon();
+		StickingPolygon p = new StickingPolygon(x, y);
 
 		p.addPoint(width / 4, 0);
 		p.addPoint(width * 3 / 4, 0);

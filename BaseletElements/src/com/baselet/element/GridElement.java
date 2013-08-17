@@ -8,9 +8,9 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
-import com.umlet.element.experimental.ComponentInterface;
+import com.umlet.element.experimental.Component;
 import com.umlet.element.experimental.ElementId;
-import com.umlet.element.experimental.element.uml.relation.Relation;
+import com.umlet.element.experimental.Stickable;
 import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 
 public interface GridElement extends HasPanelAttributes {
@@ -62,7 +62,7 @@ public interface GridElement extends HasPanelAttributes {
 
 	boolean isInRange(Rectangle rectangle);
 	
-	ComponentInterface getComponent();
+	Component getComponent();
 
 	void updateProperty(GlobalSetting key, String newValue);
 	
@@ -76,7 +76,7 @@ public interface GridElement extends HasPanelAttributes {
 	
 	ElementId getId();
 	
-	void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<Relation> relations);
+	void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables);
 
 	boolean isSelectableOn(Point point);
 

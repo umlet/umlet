@@ -11,14 +11,14 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.diagram.draw.swing.Converter;
 
-public class SwingComponent extends JComponent implements ComponentInterface {
+public class ComponentSwing extends JComponent implements Component {
 	private static final long serialVersionUID = 1L;
 	
 	private BaseDrawHandlerSwing drawer = new BaseDrawHandlerSwing();
 	private BaseDrawHandlerSwing metaDrawer = new BaseDrawHandlerSwing();
 	private NewGridElement gridElement;
 	
-	public SwingComponent(NewGridElement gridElement) {
+	public ComponentSwing(NewGridElement gridElement) {
 		this.gridElement = gridElement;
 	}
 
