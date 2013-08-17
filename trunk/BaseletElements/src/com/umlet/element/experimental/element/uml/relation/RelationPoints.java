@@ -90,7 +90,7 @@ public class RelationPoints {
 		return Selection.NOTHING;
 	}
 
-	private void movePointAndResizeRectangle(PointDouble point, Integer diffX, Integer diffY) {
+	void movePointAndResizeRectangle(PointDouble point, Integer diffX, Integer diffY) {
 		// move the point
 		point.move(diffX, diffY);
 		// if there are only 2 points and they would overlap now (therefore the relation would have a size of 0x0px), revert the move

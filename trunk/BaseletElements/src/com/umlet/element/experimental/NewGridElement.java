@@ -3,7 +3,6 @@ package com.umlet.element.experimental;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -373,7 +372,7 @@ public abstract class NewGridElement implements GridElement {
 							// then move the stickable along with the stickingline
 							int stickLineDiffX = (int) (newLine.getCenter().getX()-oldLine.getCenter().getX());
 							int stickLineDiffY = (int) (newLine.getCenter().getY()-oldLine.getCenter().getY());
-							stickable.drag(resizeDirection, stickLineDiffX, stickLineDiffY, absolutePositionOfStickablePoint, isShiftKeyDown, true, Collections.<Stickable>emptyList());
+							stickable.movePoint(pd, stickLineDiffX, stickLineDiffY);
 						}
 					}
 				}

@@ -8,4 +8,6 @@ import com.baselet.element.GridElement;
 public interface Stickable extends GridElement {
 
 	Collection<PointDouble> getStickablePoints();
+
+	void movePoint(PointDouble pointToMove, int diffX, int diffY);
 }
