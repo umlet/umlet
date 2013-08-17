@@ -1,24 +1,33 @@
 package com.baselet.gwt.client;
 
+
 public enum Browser {
 	INTERNET_EXPLORER("MSIE"),
 	FIREFOX("Firefox"),
-	CHROME("Chrome"),
+	CHROME("Chrome"), // also includes CHROME_ANDROID which would have browserFilters=["Android", "Chrome"]
 	OPERA("Opera"),
+	ANDROID_STOCK_BROWSER("Android"), // android chrome also have "Android" in its useragent but matches CHROME before coming here
 	UNKNOWN("######");
 	
-	private String userAgent;
+	private String[] browserFilters;
 	
-	private Browser(String userAgent) {
-		this.userAgent = userAgent;
+	private Browser(String ... browserFilters) {
+		this.browserFilters = browserFilters;
 	}
 
 	public static Browser get() {
 		String currentAgent = getUserAgent();
 		for (Browser b : Browser.values()) {
-			if (currentAgent.contains(b.userAgent)) return b;
+			if (browserFiltersMatch(currentAgent, b)) return b;
 		}
 		return UNKNOWN;
+	}
+
+	private static boolean browserFiltersMatch(String currentAgent, Browser b) {
+		for (String filterString : b.browserFilters) {
+			if (!currentAgent.contains(filterString)) return false;
+		}
+		return true;
 	}
 
 	private final native static String getUserAgent() /*-{
