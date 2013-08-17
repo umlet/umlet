@@ -38,12 +38,12 @@ public class Line {
 	    return new PointDouble((start.getX() + end.getX()) / 2, (start.getY() + end.getY()) / 2);
 	}
 	
-	public double getDistance() {
-		return distanceBetweenTwoPoints(start.x, start.y, end.x, end.y);
+	public double getLength() {
+		return distanceBetweenTwoPoints(start, end);
 	}
 
 	public double getAngleOfSlope() {
-		double radius = getDistance();
+		double radius = getLength();
 		double rad = Math.acos((start.x-end.x)/radius);
 		double radDeg = Math.toDegrees(rad);
 		if (start.y < end.y){
@@ -57,7 +57,7 @@ public class Line {
 	 * @param pointToCheck point to check the distance
 	 * @return minimal distance from point to line as double value
 	 */
-	public double getDistanceToPoint(Point pointToCheck) {
+	public double getDistanceToPoint(PointDouble pointToCheck) {
 		double dist = distanceHelper(start.x, start.y, end.x, end.y, pointToCheck.x, pointToCheck.y);
 		log.trace("Minimal distance between " + this + " and " + pointToCheck + " is " + dist);
 		return dist;
@@ -82,7 +82,11 @@ public class Line {
 		return distanceBetweenTwoPoints(x, y, checkX, checkY);
 	}
 
-	private static double distanceBetweenTwoPoints(double x1, double y1, double x2, double y2) {
+	public static double distanceBetweenTwoPoints(PointDouble p1, PointDouble p2) {
+		return distanceBetweenTwoPoints(p1.x,  p1.y, p2.x, p2.y);
+	}
+	
+	public static double distanceBetweenTwoPoints(double x1, double y1, double x2, double y2) {
 		double xDist = x1-x2;
 		double yDist = y1-y2;
 		return Math.sqrt(xDist * xDist + yDist * yDist);

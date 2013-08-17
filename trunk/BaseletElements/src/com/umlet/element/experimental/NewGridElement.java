@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import com.baselet.control.NewGridElementConstants;
+import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
@@ -335,6 +336,9 @@ public abstract class NewGridElement implements GridElement {
 			updateModelFromText();
 		}
 
+		for (Object o : stickablesFromFirstDrag.entrySet()) {
+			System.out.println(o);
+		}
 		// compare stickingpolygon before drag with stickingpolygon after drag
 		StickingPolygon newStickingPolygon = generateStickingBorder();
 		Iterator<StickLine> oldLineIter = oldStickingPolygon.getStickLines().iterator();
@@ -351,7 +355,7 @@ public abstract class NewGridElement implements GridElement {
 					Collection<PointDouble> pointsToCheck = firstDrag ? stickable.getStickablePoints() : stickablesFromFirstDrag.get(stickable);
 					for (PointDouble pd : pointsToCheck) {
 						// the points are located relative to the upper left corner of the relation, therefore add this corner to have it located to the upper left corner of the diagram
-						Point absolutePositionOfStickablePoint = new Point(stickable.getRectangle().getX() + (int) pd.x, stickable.getRectangle().getY() + (int) pd.y);
+						PointDouble absolutePositionOfStickablePoint = new PointDouble(stickable.getRectangle().getX() + (int) pd.x, stickable.getRectangle().getY() + (int) pd.y);
 						// if the line is connected to the point of the stickable
 						if (oldLine.isConnected(absolutePositionOfStickablePoint, getGridSize())) {
 							if (firstDrag) { // if it's the first drag, remember the stickable and the point
@@ -362,10 +366,15 @@ public abstract class NewGridElement implements GridElement {
 									points.add(pd);
 								}
 							}
-							// then move the stickable along with the stickingline
-							int stickLineDiffX = (int) (newLine.getCenter().getX()-oldLine.getCenter().getX());
-							int stickLineDiffY = (int) (newLine.getCenter().getY()-oldLine.getCenter().getY());
-							stickable.movePoint(pd, stickLineDiffX, stickLineDiffY);
+							// if distance to start end end of the stickable line has changed, move the stickable point (avoids unwanted moves (eg stickablepoint in middle and resizing top or bottom -> no move necessary))
+							if ((Line.distanceBetweenTwoPoints(oldLine.getStart(), absolutePositionOfStickablePoint) != Line.distanceBetweenTwoPoints(newLine.getStart(), absolutePositionOfStickablePoint)) &&
+									(Line.distanceBetweenTwoPoints(oldLine.getEnd(), absolutePositionOfStickablePoint) != Line.distanceBetweenTwoPoints(newLine.getEnd(), absolutePositionOfStickablePoint))) {
+								// TODO stickLineDiff should be the difference between position of stickpoint on the old stickline and the new stickline. center works only for simple cases like rectangle sticking polygons)
+								int stickLineDiffX = SharedUtils.realignToGrid(newLine.getCenter().getX()-oldLine.getCenter().getX());
+								int stickLineDiffY = SharedUtils.realignToGrid(newLine.getCenter().getY()-oldLine.getCenter().getY());
+								stickable.movePoint(pd, stickLineDiffX, stickLineDiffY);
+							}
+							
 						}
 					}
 				}

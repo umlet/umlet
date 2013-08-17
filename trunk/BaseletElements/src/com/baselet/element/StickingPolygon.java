@@ -62,7 +62,7 @@ public class StickingPolygon {
 			return diff;
 		}
 
-		public boolean isConnected(Point p, int gridSize) {
+		public boolean isConnected(PointDouble p, int gridSize) {
 			double distance = this.getDistanceToPoint(p);
 			return (distance < gridSize);
 		}
@@ -124,7 +124,7 @@ public class StickingPolygon {
 		return this.stick;
 	}
 
-	public int isConnected(Point p, int gridSize) {
+	public int isConnected(PointDouble p, int gridSize) {
 		int con = -1;
 		for (int i = 0; i < this.stick.size(); i++)
 			if (this.stick.get(i).isConnected(p, gridSize)) return i;

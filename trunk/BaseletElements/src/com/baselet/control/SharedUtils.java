@@ -11,15 +11,15 @@ public class SharedUtils {
 
 	private static final Logger log = Logger.getLogger(SharedUtils.class);
 
-	public static int realignToGrid(float val) {
-		return realignTo(true, val, false, NewGridElementConstants.DEFAULT_GRID_SIZE);
+	public static int realignToGrid(double d) {
+		return realignTo(true, d, false, NewGridElementConstants.DEFAULT_GRID_SIZE);
 	}
 
-	public static int realignToGrid(boolean logRealign, float val) {
+	public static int realignToGrid(boolean logRealign, double val) {
 		return realignTo(logRealign, val, false, NewGridElementConstants.DEFAULT_GRID_SIZE);
 	}
 
-	public static int realignToGrid(boolean logRealign, float val, boolean roundUp) {
+	public static int realignToGrid(boolean logRealign, double val, boolean roundUp) {
 		return realignTo(logRealign, val, roundUp, NewGridElementConstants.DEFAULT_GRID_SIZE);
 	}
 
@@ -45,7 +45,9 @@ public class SharedUtils {
 			if (val < 0 && !roundUp) { //eg ExampleB: -10 - 10 = -20 (for negative vals roundDown must be specifically handled by subtracting gridSize)
 				alignedVal -= gridSize;
 			}
-			if (logRealign) log.error("realignToGrid from " + val + " to " + alignedVal);
+			if (logRealign) {
+				log.error("realignToGrid from " + val + " to " + alignedVal);
+			}
 		}
 		return (int) alignedVal;
 	}
