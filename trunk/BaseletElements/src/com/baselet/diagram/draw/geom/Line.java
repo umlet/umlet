@@ -59,7 +59,7 @@ public class Line {
 	 */
 	public double getDistanceToPoint(Point pointToCheck) {
 		double dist = distanceHelper(start.x, start.y, end.x, end.y, pointToCheck.x, pointToCheck.y);
-		log.debug("Minimal distance between " + this + " and " + pointToCheck + " is " + dist);
+		log.trace("Minimal distance between " + this + " and " + pointToCheck + " is " + dist);
 		return dist;
 	}
 
