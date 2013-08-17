@@ -1,11 +1,14 @@
 package com.umlet.element.experimental;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -24,7 +27,6 @@ import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
 import com.baselet.element.StickingPolygon.StickLine;
 import com.baselet.gui.AutocompletionText;
-import com.umlet.element.experimental.element.uml.relation.Relation;
 import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.Facet;
@@ -311,6 +313,8 @@ public abstract class NewGridElement implements GridElement {
 		handler.Resize(diffw, diffh);
 	}
 
+	private Map<Stickable, Set<PointDouble>> stickablesFromFirstDrag = new HashMap<Stickable, Set<PointDouble>>();
+	
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
 		StickingPolygon oldStickingPolygon = generateStickingBorder();
@@ -339,29 +343,40 @@ public abstract class NewGridElement implements GridElement {
 			updateModelFromText();
 		}
 
+		// compare stickingpolygon before drag with stickingpolygon after drag
 		StickingPolygon newStickingPolygon = generateStickingBorder();
-
-		// now check all stickinglines if they have changed and change sticking relations too
 		Iterator<StickLine> oldLineIter = oldStickingPolygon.getStickLines().iterator();
 		Iterator<StickLine> newLineIter = newStickingPolygon.getStickLines().iterator();
 		while (oldLineIter.hasNext()) {
 			StickLine oldLine = oldLineIter.next();
 			StickLine newLine = newLineIter.next();
-			System.out.println(oldLine);
+			// for all changed stickinglines
 			if (!oldLine.equals(newLine)) {
-
-				for (Stickable stickable : stickables) {
-					for (PointDouble pd : stickable.getStickablePoints()) {
+				// if it's the first drag, go through all stickables, otherwise only go through stickablesFromFirstDrag
+				Collection<? extends Stickable> stickablesToCheck = firstDrag ? stickables : stickablesFromFirstDrag.keySet();
+				for (Stickable stickable : stickablesToCheck) {
+					// if it's the first drag, go through all points of the stickable, otherwise only go through points from first drag
+					Collection<PointDouble> pointsToCheck = firstDrag ? stickable.getStickablePoints() : stickablesFromFirstDrag.get(stickable);
+					for (PointDouble pd : pointsToCheck) {
 						// the points are located relative to the upper left corner of the relation, therefore add this corner to have it located to the upper left corner of the diagram
 						Point absolutePositionOfStickablePoint = new Point(stickable.getRectangle().getX() + (int) pd.x, stickable.getRectangle().getY() + (int) pd.y);
+						// if the line is connected to the point of the stickable
 						if (oldLine.isConnected(absolutePositionOfStickablePoint, getGridSize())) {
+							if (firstDrag) { // if it's the first drag, remember the stickable and the point
+								Set<PointDouble> points = stickablesFromFirstDrag.get(stickable);
+								if (points == null) {
+									stickablesFromFirstDrag.put(stickable, new HashSet<PointDouble>(Arrays.asList(pd)));
+								} else {
+									points.add(pd);
+								}
+							}
+							// then move the stickable along with the stickingline
 							int stickLineDiffX = (int) (newLine.getCenter().getX()-oldLine.getCenter().getX());
 							int stickLineDiffY = (int) (newLine.getCenter().getY()-oldLine.getCenter().getY());
-							stickable.drag(resizeDirection, stickLineDiffX, stickLineDiffY, absolutePositionOfStickablePoint, isShiftKeyDown, true, Collections.<Relation>emptyList());
+							stickable.drag(resizeDirection, stickLineDiffX, stickLineDiffY, absolutePositionOfStickablePoint, isShiftKeyDown, true, Collections.<Stickable>emptyList());
 						}
 					}
 				}
-
 			}
 		}
 
@@ -369,7 +384,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void dragEnd() {
-		// do nothing
+		stickablesFromFirstDrag.clear();
 	}
 
 	@Override
