@@ -130,7 +130,7 @@ public class PaletteRelationListener extends PaletteEntityListener {
 		}
 		else if (IS_DRAGGING_LINE) {
 			this.controller.executeCommand(new Move(r, diffx, diffy));
-			if (r.getLocationOnScreen().x + r.getZoomedSize().width <= handler.getDrawPanel().getLocationOnScreen().x) {
+			if (r.getLocationOnScreen().x + r.getRectangle().width <= handler.getDrawPanel().getLocationOnScreen().x) {
 				IS_DRAGGING_LINE = false;
 				IS_DRAGGING_LINEPOINT = false;
 			}

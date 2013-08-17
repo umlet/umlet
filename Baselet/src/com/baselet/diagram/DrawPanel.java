@@ -148,8 +148,8 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		for (GridElement e : entities) {
 			minx = Math.min(minx, e.getRectangle().x - borderSpace);
 			miny = Math.min(miny, e.getRectangle().y - borderSpace);
-			maxx = Math.max(maxx, e.getRectangle().x + e.getZoomedSize().width + borderSpace);
-			maxy = Math.max(maxy, e.getRectangle().y + e.getZoomedSize().height + borderSpace);
+			maxx = Math.max(maxx, e.getRectangle().x + e.getRectangle().width + borderSpace);
+			maxy = Math.max(maxy, e.getRectangle().y + e.getRectangle().height + borderSpace);
 		}
 		return new Rectangle(minx, miny, maxx - minx, maxy - miny);
 	}

@@ -325,7 +325,7 @@ public class GridElementListener extends UniversalListener {
 				(resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) ||
 				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) ||
 				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)))) {
-			if (e.getZoomedSize().width > e.getZoomedSize().height) {
+			if (e.getRectangle().width > e.getRectangle().height) {
 				float proportion = (float) newp.x / mousePressedPoint.x;
 				newp.setY((int) (mousePressedPoint.y*proportion));
 			}
@@ -336,10 +336,10 @@ public class GridElementListener extends UniversalListener {
 		}
 
 		if (RESIZE_DIRECTION.contains(Direction.RIGHT)) {
-			delta_x = (e.getRectangle().x + e.getZoomedSize().width) % gridSize;
+			delta_x = (e.getRectangle().x + e.getRectangle().width) % gridSize;
 		}
 		if (RESIZE_DIRECTION.contains(Direction.DOWN)) {
-			delta_y = (e.getRectangle().y + e.getZoomedSize().height) % gridSize;
+			delta_y = (e.getRectangle().y + e.getRectangle().height) % gridSize;
 		}
 
 		int diffx = newp.x - oldp.x - delta_x;
@@ -358,8 +358,8 @@ public class GridElementListener extends UniversalListener {
 			diffx = newp.x - e.getRectangle().x + gridSize;
 
 			// AB: only shrink to minimum size
-			if (e.getZoomedSize().width - diffx < minSize) {
-				diffx = e.getZoomedSize().width - minSize;
+			if (e.getRectangle().width - diffx < minSize) {
+				diffx = e.getRectangle().width - minSize;
 			}
 
 			if (RESIZE_DIRECTION.size() == 1) { // if direction is ONLY LEFT
@@ -369,11 +369,11 @@ public class GridElementListener extends UniversalListener {
 
 		if (RESIZE_DIRECTION.contains(Direction.RIGHT)) {
 			// AB: get diffx; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffx = newp.x - (e.getRectangle().x + e.getZoomedSize().width) + gridSize;
+			diffx = newp.x - (e.getRectangle().x + e.getRectangle().width) + gridSize;
 
 			// AB: only shrink to minimum size
-			if (e.getZoomedSize().width + diffx < minSize) {
-				diffx = minSize - e.getZoomedSize().width;
+			if (e.getRectangle().width + diffx < minSize) {
+				diffx = minSize - e.getRectangle().width;
 			}
 
 			if (RESIZE_DIRECTION.size() == 1) { // if direction is ONLY RIGHT
@@ -389,8 +389,8 @@ public class GridElementListener extends UniversalListener {
 			diffy = newp.y - e.getRectangle().y + gridSize;
 
 			// AB: only shrink to minimum size
-			if (e.getZoomedSize().height - diffy < minSize) {
-				diffy = e.getZoomedSize().height - minSize;
+			if (e.getRectangle().height - diffy < minSize) {
+				diffy = e.getRectangle().height - minSize;
 			}
 
 			if (RESIZE_DIRECTION.size() == 1) { // if direction is ONLY UP
@@ -400,11 +400,11 @@ public class GridElementListener extends UniversalListener {
 
 		if (RESIZE_DIRECTION.contains(Direction.DOWN)) {
 			// AB: get diffy; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffy = newp.y - (e.getRectangle().y + e.getZoomedSize().height) + gridSize;
+			diffy = newp.y - (e.getRectangle().y + e.getRectangle().height) + gridSize;
 
 			// AB: only shrink to minimum size
-			if (e.getZoomedSize().height + diffy < minSize) {
-				diffy = minSize - e.getZoomedSize().height;
+			if (e.getRectangle().height + diffy < minSize) {
+				diffy = minSize - e.getRectangle().height;
 			}
 
 			if (RESIZE_DIRECTION.size() == 1) { // if direction is ONLY DOWN

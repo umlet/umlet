@@ -8,8 +8,8 @@ import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.facets.DefaultGlobalFacet;
 import com.umlet.element.experimental.facets.DefaultGlobalTextFacet;
-import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.Facet;
 
 public abstract class Settings {
 

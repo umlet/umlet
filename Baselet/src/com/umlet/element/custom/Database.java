@@ -43,13 +43,13 @@ public class Database extends OldGridElement {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
 				CENTER = false;
-				g2.drawLine(0, yPos, this.getZoomedSize().width, yPos);
+				g2.drawLine(0, yPos, this.getRectangle().width, yPos);
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 				if (CENTER) {
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getRectangle().width / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
 					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
@@ -60,10 +60,10 @@ public class Database extends OldGridElement {
 
 		// Finally, change other graphical attributes using
 		// drawLine, getWidth, getHeight..
-		g2.drawLine(0, this.getZoomedSize().height - 1 - inset / 2, 0, inset / 2);
-		g2.drawOval(0, 0, this.getZoomedSize().width, inset);
-		g2.drawArc(0, this.getZoomedSize().height - 1 - inset, this.getZoomedSize().width, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 180, 180);
-		g2.drawLine(this.getZoomedSize().width - 1, inset / 2, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1 - inset / 2);
+		g2.drawLine(0, this.getRectangle().height - 1 - inset / 2, 0, inset / 2);
+		g2.drawOval(0, 0, this.getRectangle().width, inset);
+		g2.drawArc(0, this.getRectangle().height - 1 - inset, this.getRectangle().width, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 180, 180);
+		g2.drawLine(this.getRectangle().width - 1, inset / 2, this.getRectangle().width - 1, this.getRectangle().height - 1 - inset / 2);
 	}
 
 }

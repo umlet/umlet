@@ -58,7 +58,7 @@ public class PaletteEntityListener extends GridElementListener {
 		if (IS_DRAGGED_FROM_PALETTE) {
 			moveDraggedEntities();
 		}
-		else if (entity.getRectangle().x + entity.getZoomedSize().width <= 0) {
+		else if (entity.getRectangle().x + entity.getRectangle().width <= 0) {
 			resetEntities();
 			insertDraggedEntities(me);
 			handler.getDrawPanel().getSelector().deselectAllWithoutUpdatePropertyPanel();
@@ -108,8 +108,8 @@ public class PaletteEntityListener extends GridElementListener {
 			copiedEntities.add(copiedEntity);
 			int x = (currentEntity.getRectangle().x - entity.getRectangle().x);
 			int y = (currentEntity.getRectangle().y - entity.getRectangle().y);
-			x -= (entity.getZoomedSize().width / 2);
-			y -= (entity.getZoomedSize().height / 2);
+			x -= (entity.getRectangle().width / 2);
+			y -= (entity.getRectangle().height / 2);
 			copiedEntity.setLocation(x, y);
 		}
 

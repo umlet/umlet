@@ -35,11 +35,11 @@ public class PackageAggregationHierarchy extends OldGridElement {
 		// draw bounding box
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+		g2.fillRect(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
 		g2.setComposite(composites[0]);
 		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
-		g2.drawRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+		g2.drawRect(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
 
 		// init coordinates;
 		int level = 0;

@@ -118,13 +118,13 @@ public class Group extends OldGridElement {
 			float alphaFactorStrong = 0.8f;
 			AlphaComposite alphaStrong = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaFactorStrong);
 			g2.setComposite(alphaStrong);
-			g2.drawRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+			g2.drawRect(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
 
 			// Create a strong transparency for the group background
 			float alphaFactorLight = 0.05f;
 			AlphaComposite alphaLight = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaFactorLight);
 			g2.setComposite(alphaLight);
-			g2.fillRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+			g2.fillRect(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
 
 			g2.setComposite(old);
 			g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
@@ -141,8 +141,8 @@ public class Group extends OldGridElement {
 		int maxY = 0;
 		for (GridElement e : entities) {
 			if (recursive && (e instanceof Group)) ((Group) e).adjustSize(true);
-			maxX = Math.max(e.getRectangle().x + e.getZoomedSize().width, maxX);
-			maxY = Math.max(e.getRectangle().y + e.getZoomedSize().height, maxY);
+			maxX = Math.max(e.getRectangle().x + e.getRectangle().width, maxX);
+			maxY = Math.max(e.getRectangle().y + e.getRectangle().height, maxY);
 			minX = Math.min(e.getRectangle().x, minX);
 			minY = Math.min(e.getRectangle().y, minY);
 		}
