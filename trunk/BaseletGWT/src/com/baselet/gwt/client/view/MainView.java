@@ -98,7 +98,7 @@ public class MainView extends Composite {
 			@Override
 			public void callback(final String chosenName) {
 				boolean itemIsNewlyAdded = BrowserStorage.getSavedDiagram(chosenName) == null;
-				BrowserStorage.addSavedDiagram(chosenName, diagramPanel.getDiagram().toXml());
+				BrowserStorage.addSavedDiagram(chosenName, OwnXMLParser.diagramToXml(diagramPanel.getDiagram()));
 				if (itemIsNewlyAdded) {
 					addRestoreMenuItem(chosenName);
 				}
@@ -201,8 +201,8 @@ public class MainView extends Composite {
 
 	@UiHandler("exportMenuItem")
 	void onExportMenuItemClick(ClickEvent event) {
-		log.info("Exporting: " + diagramPanel.getDiagram().toXmlUrlEncoded());
-		String uxfUrl = "data:text/xml;charset=utf-8," + diagramPanel.getDiagram().toXmlUrlEncoded();
+		log.info("Exporting: " + OwnXMLParser.diagramToXml(true, diagramPanel.getDiagram()));
+		String uxfUrl = "data:text/xml;charset=utf-8," + OwnXMLParser.diagramToXml(true, diagramPanel.getDiagram());
 		String pngUrl = CanvasUtils.createPngCanvasDataUrl(diagramPanel.getDiagram());
 		new DownloadPopupPanel(uxfUrl, pngUrl);
 	}

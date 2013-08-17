@@ -10,6 +10,7 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.element.ElementFactory;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.DOMException;
 import com.google.gwt.xml.client.Document;
@@ -21,6 +22,9 @@ import com.umlet.element.experimental.ElementId;
 
 public class OwnXMLParser {
 
+	private static final String NUMBER_SIGN = "#"; // # is not automatically encoded by URL.encode() and URL.decode()
+	private static final String NUMBER_SIGN_URL_ENCODED = "%23";
+	
 	private static final Logger log = Logger.getLogger(OwnXMLParser.class);
 
 	private static final String DIAGRAM = "diagram";
@@ -38,6 +42,13 @@ public class OwnXMLParser {
 	private static final String ATTR_PROGRAM = "program";
 	private static final String ATTR_VERSION = "version";
 
+	public static Diagram xmlToDiagram(boolean decodeUrl, String xml) {
+		if (decodeUrl) {
+			xml = URL.decode(xml).replaceAll(NUMBER_SIGN_URL_ENCODED, NUMBER_SIGN);
+		}
+		return xmlToDiagram(xml);
+	}
+	
 	public static Diagram xmlToDiagram(String xml) {
 		String helpText = null;
 		List<GridElement> returnList = new ArrayList<GridElement>();
@@ -113,6 +124,14 @@ public class OwnXMLParser {
 				));
 		}
 		return doc.toString();
+	}
+
+	public static String diagramToXml(boolean encodeUrl, Diagram diagram) {
+		String xml = diagramToXml(diagram);
+		if (encodeUrl) {
+			xml = URL.encode(xml).replace(NUMBER_SIGN, NUMBER_SIGN_URL_ENCODED);
+		}
+		return xml;
 	}
 
 	private static Element create(Document doc, String name, Node ... children) {
