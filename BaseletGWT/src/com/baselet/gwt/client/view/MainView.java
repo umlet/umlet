@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 import org.vectomatic.file.FileUploadExt;
 
 import com.baselet.gwt.client.BrowserStorage;
+import com.baselet.gwt.client.Notification;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
@@ -102,6 +103,7 @@ public class MainView extends Composite {
 				if (itemIsNewlyAdded) {
 					addRestoreMenuItem(chosenName);
 				}
+				Notification.showInfo("Diagram saved as: " + chosenName);
 			}
 		});
 		@Override
@@ -168,6 +170,7 @@ public class MainView extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				diagramPanel.setDiagram(OwnXMLParser.xmlToDiagram(BrowserStorage.getSavedDiagram(chosenName)));
+				Notification.showInfo("Diagram opened: " + chosenName);
 			}
 		});
 		Image img = new Image("data:image/gif;base64,R0lGODlhCgAKAJEAAAAAAP////8AAP///yH5BAEAAAMALAAAAAAKAAoAAAIUnI8jgmvLlHtwnpqkpZh72UTZUQAAOw==");
@@ -179,6 +182,7 @@ public class MainView extends Composite {
 				if (Window.confirm("Delete saved diagram " + chosenName)) {
 					BrowserStorage.removeSavedDiagram(chosenName);
 					restoreMenuPanel.remove(hp);
+					Notification.showInfo("Deleted diagram: " + chosenName);
 				}
 			}
 		});
