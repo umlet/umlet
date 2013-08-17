@@ -66,5 +66,9 @@ public class Point {
 	public String toString() {
 		return "Point [x=" + x + ", y=" + y + "]";
 	}
+
+	public PointDouble toPointDouble() {
+		return new PointDouble(x, y);
+	}
 	
 }

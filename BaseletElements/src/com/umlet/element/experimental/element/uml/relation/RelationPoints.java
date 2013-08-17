@@ -78,7 +78,7 @@ public class RelationPoints {
 			}
 		}
 		for (Line line : getRelationPointLines()) {
-			if (line.getDistanceToPoint(point) < NEW_POINT_DISTANCE) {
+			if (line.getDistanceToPoint(point.toPointDouble()) < NEW_POINT_DISTANCE) {
 				if (applyChanges) {
 					PointDouble roundedPoint = new PointDouble(SharedUtils.realignToGrid(false, point.x), SharedUtils.realignToGrid(false, point.y));
 					points.add(points.indexOf(line.getEnd()), roundedPoint);
