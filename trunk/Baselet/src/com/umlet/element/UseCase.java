@@ -29,10 +29,10 @@ public class UseCase extends OldGridElement {
 
 	@Override
 	public void paintEntity(Graphics g) {
-		int a = Math.max(1, (getZoomedSize().width - 1) / 2);
-		int b = (getZoomedSize().height - 1) / 2;
+		int a = Math.max(1, (getRectangle().width - 1) / 2);
+		int b = (getRectangle().height - 1) / 2;
 		boolean found = false;
-		int x = ((getZoomedSize().width - 1) / 9 * 4);
+		int x = ((getRectangle().width - 1) / 9 * 4);
 		int y = (int) Math.round((Math.sqrt(((a * a * b * b) - (b * b * x * x)) / (a * a))));
 		int yPos = 0;
 		int yPos1 = b;
@@ -62,7 +62,7 @@ public class UseCase extends OldGridElement {
 			found = true;
 		}
 		else {
-			yPos = this.getZoomedSize().height / 2 - tmp.size() * ((int) (handlerForElement.getFontHandler().getFontSize() + handlerForElement.getFontHandler().getDistanceBetweenTexts())) / 2;
+			yPos = this.getRectangle().height / 2 - tmp.size() * ((int) (handlerForElement.getFontHandler().getFontSize() + handlerForElement.getFontHandler().getDistanceBetweenTexts())) / 2;
 		}
 
 		for (int i = 0; i < tmp.size(); i++) {
@@ -77,7 +77,7 @@ public class UseCase extends OldGridElement {
 			}
 			else {
 				yPos += (int) handlerForElement.getFontHandler().getFontSize();
-				handlerForElement.getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+				handlerForElement.getFontHandler().writeText(g2, s, this.getRectangle().width / 2, yPos, AlignHorizontal.CENTER);
 				yPos += handlerForElement.getFontHandler().getDistanceBetweenTexts();
 			}
 		}

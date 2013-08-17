@@ -122,8 +122,8 @@ public class Class extends OldGridElement {
 				CENTER = false;
 
 				// A.Mueller start
-				if (_isTemplate) g2.drawLine(0, yPos, this.getZoomedSize().width - 1 - this.getZoomedSize().width / 10, yPos);
-				else g2.drawLine(0, yPos, this.getZoomedSize().width - 1, yPos);
+				if (_isTemplate) g2.drawLine(0, yPos, this.getRectangle().width - 1 - this.getRectangle().width / 10, yPos);
+				else g2.drawLine(0, yPos, this.getRectangle().width - 1, yPos);
 				// A.Mueller end
 
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
@@ -131,9 +131,9 @@ public class Class extends OldGridElement {
 				// A.Mueller start
 			}
 			else if (s.equals("{active}") && (i == 0)) {
-				g2.drawLine((int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, 0, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, this.getZoomedSize().height - 1);
-				g2.drawLine(this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, 0, this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, this.getZoomedSize().height - 1);
-				yPos = this.getZoomedSize().height / 2 - (tmp.size() - 1) * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())) / 2;
+				g2.drawLine((int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, 0, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, this.getRectangle().height - 1);
+				g2.drawLine(this.getRectangle().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, 0, this.getRectangle().width - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, this.getRectangle().height - 1);
+				yPos = this.getRectangle().height / 2 - (tmp.size() - 1) * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())) / 2;
 			}
 			else if (s.startsWith("template") && (i == 0)) {
 				String[] template = s.split("=");
@@ -144,35 +144,35 @@ public class Class extends OldGridElement {
 
 					Polygon border = new Polygon();
 					border.addPoint(0, _templateHeight / 2);
-					border.addPoint(getZoomedSize().width - _templateWidth, _templateHeight / 2);
+					border.addPoint(getRectangle().width - _templateWidth, _templateHeight / 2);
 					border.addPoint(0, _templateHeight / 2);
-					border.addPoint(0, this.getZoomedSize().height);
-					border.addPoint(0, this.getZoomedSize().height - 1);
-					border.addPoint(this.getZoomedSize().width - this.getZoomedSize().width / 10, this.getZoomedSize().height - 1);
-					border.addPoint(this.getZoomedSize().width - this.getZoomedSize().width / 10, this.getZoomedSize().height - 1);
-					border.addPoint(this.getZoomedSize().width - this.getZoomedSize().width / 10, _templateHeight + 1);
-					border.addPoint(getZoomedSize().width - _templateWidth, _templateHeight + 1);
-					border.addPoint(getZoomedSize().width - _templateWidth, _templateHeight / 2);
+					border.addPoint(0, this.getRectangle().height);
+					border.addPoint(0, this.getRectangle().height - 1);
+					border.addPoint(this.getRectangle().width - this.getRectangle().width / 10, this.getRectangle().height - 1);
+					border.addPoint(this.getRectangle().width - this.getRectangle().width / 10, this.getRectangle().height - 1);
+					border.addPoint(this.getRectangle().width - this.getRectangle().width / 10, _templateHeight + 1);
+					border.addPoint(getRectangle().width - _templateWidth, _templateHeight + 1);
+					border.addPoint(getRectangle().width - _templateWidth, _templateHeight / 2);
 
 					g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
 					g2.setComposite(composites[1]); // set alpha composite
 					g2.setColor(bgColor);
-					g2.fillRect(getZoomedSize().width - _templateWidth, 0, _templateWidth, _templateHeight + 1);
+					g2.fillRect(getRectangle().width - _templateWidth, 0, _templateWidth, _templateHeight + 1);
 					g2.fillPolygon(border);
 					g2.setComposite(composites[0]); // reset composite
 					if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
 					else g2.setColor(fgColorBase);
 
 					// draw border lines of template box
-					g2.drawRect(getZoomedSize().width - _templateWidth, 0, _templateWidth - 1, _templateHeight); // template box
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, template[1], getZoomedSize().width - _templateWidth + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
+					g2.drawRect(getRectangle().width - _templateWidth, 0, _templateWidth - 1, _templateHeight); // template box
+					Main.getHandlerForElement(this).getFontHandler().writeText(g2, template[1], getRectangle().width - _templateWidth + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
 					g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
 
 					// draw border lines of class
-					g2.drawLine(0, _templateHeight / 2, getZoomedSize().width - _templateWidth, _templateHeight / 2);
-					g2.drawLine(0, _templateHeight / 2, 0, this.getZoomedSize().height);
-					g2.drawLine(0, this.getZoomedSize().height - 1, this.getZoomedSize().width - this.getZoomedSize().width / 10, this.getZoomedSize().height - 1);
-					g2.drawLine(this.getZoomedSize().width - this.getZoomedSize().width / 10, this.getZoomedSize().height - 1, this.getZoomedSize().width - this.getZoomedSize().width / 10, _templateHeight);
+					g2.drawLine(0, _templateHeight / 2, getRectangle().width - _templateWidth, _templateHeight / 2);
+					g2.drawLine(0, _templateHeight / 2, 0, this.getRectangle().height);
+					g2.drawLine(0, this.getRectangle().height - 1, this.getRectangle().width - this.getRectangle().width / 10, this.getRectangle().height - 1);
+					g2.drawLine(this.getRectangle().width - this.getRectangle().width / 10, this.getRectangle().height - 1, this.getRectangle().width - this.getRectangle().width / 10, _templateHeight);
 
 					yPos = yPos + _templateHeight + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 				}
@@ -217,11 +217,11 @@ public class Class extends OldGridElement {
 
 				temp.setLocation(5, yPos);
 
-				if (_isTemplate) temp.setSize((int) (this.getZoomedSize().width - this.getZoomedSize().width / 10 - 10 * zoom), height);
-				else temp.setSize((int) (this.getZoomedSize().width - 10 * zoom), height);
+				if (_isTemplate) temp.setSize((int) (this.getRectangle().width - this.getRectangle().width / 10 - 10 * zoom), height);
+				else temp.setSize((int) (this.getRectangle().width - 10 * zoom), height);
 
-				temp.paintEntity(g.create((int) (5 * zoom), yPos, (int) (this.getZoomedSize().width - 5 * zoom), temp.getZoomedSize().height));
-				yPos = yPos + temp.getZoomedSize().height + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+				temp.paintEntity(g.create((int) (5 * zoom), yPos, (int) (this.getRectangle().width - 5 * zoom), temp.getRectangle().height));
+				yPos = yPos + temp.getRectangle().height + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 
 				// A.Mueller end
 
@@ -232,8 +232,8 @@ public class Class extends OldGridElement {
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 				if (CENTER) {
 					// A.Mueller
-					if (_isTemplate) Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (this.getZoomedSize().width - this.getZoomedSize().width / 10) / 2, yPos, AlignHorizontal.CENTER);
-					else Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+					if (_isTemplate) Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (this.getRectangle().width - this.getRectangle().width / 10) / 2, yPos, AlignHorizontal.CENTER);
+					else Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getRectangle().width / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
 					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);

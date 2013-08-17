@@ -27,11 +27,11 @@ public class Systemborder extends OldGridElement {
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillRect(0, 0, getZoomedSize().width - 1, getZoomedSize().height - 1);
+		g2.fillRect(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 		g2.setComposite(composites[0]);
 		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
-		g2.drawRect(0, 0, getZoomedSize().width - 1, getZoomedSize().height - 1);
+		g2.drawRect(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 		int yPos = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
@@ -42,10 +42,10 @@ public class Systemborder extends OldGridElement {
 			String s = tmp.elementAt(i);
 			if (s.startsWith("center:") && !s.equals("center:")) {
 				if (tmp.size() == 1) {
-					yPos = ((getZoomedSize().height - 1) / 2) - (int) (10 * zoom);
+					yPos = ((getRectangle().height - 1) / 2) - (int) (10 * zoom);
 				}
 				else {
-					yPos = ((getZoomedSize().height - 1) / 2) - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * (tmp.size() / 2) - (int) (10 * zoom);
+					yPos = ((getRectangle().height - 1) / 2) - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * (tmp.size() / 2) - (int) (10 * zoom);
 				}
 				center = true;
 				s = s.replace("center:", "");
@@ -53,7 +53,7 @@ public class Systemborder extends OldGridElement {
 			else if (s.startsWith("bottomleft:") && !s.equals("bottomleft:")) {
 				downleft = true;
 				s = s.replace("bottomleft:", "");
-				yPos = (getZoomedSize().height - 1) - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+				yPos = (getRectangle().height - 1) - (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 			}
 			else if (s.startsWith("topcenter:") && !s.equals("topcenter:")) {
 				upcenter = true;
@@ -62,7 +62,7 @@ public class Systemborder extends OldGridElement {
 			}
 			if (center) {
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getZoomedSize().width - 1) / 2, yPos, AlignHorizontal.CENTER);
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getRectangle().width - 1) / 2, yPos, AlignHorizontal.CENTER);
 				yPos += 2 * Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else if (downleft) {
@@ -70,7 +70,7 @@ public class Systemborder extends OldGridElement {
 			}
 			else if (upcenter) {
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getZoomedSize().width - 1) / 2, yPos, AlignHorizontal.CENTER);
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getRectangle().width - 1) / 2, yPos, AlignHorizontal.CENTER);
 				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else {

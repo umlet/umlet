@@ -32,11 +32,11 @@ public class ErrorOccurred extends OldGridElement {
 		float zoom = handlerForElement.getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.drawRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+		g2.drawRect(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
 		if (handlerForElement.getDrawPanel().getSelector().isSelected(this)) g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
 		else g2.setColor(Color.red);
 		g2.setFont(handlerForElement.getFontHandler().getFont());
-		handlerForElement.getFontHandler().writeText(g2, errorMessage, this.getZoomedSize().width / 2, this.getZoomedSize().height / 2 - (int) (10 * zoom), AlignHorizontal.CENTER);
+		handlerForElement.getFontHandler().writeText(g2, errorMessage, this.getRectangle().width / 2, this.getRectangle().height / 2 - (int) (10 * zoom), AlignHorizontal.CENTER);
 		g2.setColor(fgColor);
 	}
 

@@ -229,7 +229,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public Dimension getRealSize() {
-		return new Dimension(getZoomedSize().width / Main.getHandlerForElement(this).getGridSize() * Constants.DEFAULTGRIDSIZE, getZoomedSize().height / Main.getHandlerForElement(this).getGridSize() * Constants.DEFAULTGRIDSIZE);
+		return new Dimension(getRectangle().width / Main.getHandlerForElement(this).getGridSize() * Constants.DEFAULTGRIDSIZE, getRectangle().height / Main.getHandlerForElement(this).getGridSize() * Constants.DEFAULTGRIDSIZE);
 	}
 
 
@@ -237,16 +237,16 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public Set<Direction> getResizeArea(int x, int y) {
 		Set<Direction> returnSet = new HashSet<Direction>();
 		if ((x <= 5) && (x >= 0)) returnSet.add(Direction.LEFT);
-		else if ((x <= this.getZoomedSize().width) && (x >= this.getZoomedSize().width - 5)) returnSet.add(Direction.RIGHT);
+		else if ((x <= this.getRectangle().width) && (x >= this.getRectangle().width - 5)) returnSet.add(Direction.RIGHT);
 
 		if ((y <= 5) && (y >= 0)) returnSet.add(Direction.UP);
-		else if ((y <= this.getZoomedSize().height) && (y >= this.getZoomedSize().height - 5)) returnSet.add(Direction.DOWN);
+		else if ((y <= this.getRectangle().height) && (y >= this.getRectangle().height - 5)) returnSet.add(Direction.DOWN);
 		return returnSet;
 	}
 	
 	@Override
 	public void changeSize(int diffx, int diffy) {
-		this.setSize(this.getZoomedSize().width + diffx, this.getZoomedSize().height + diffy);
+		this.setSize(this.getRectangle().width + diffx, this.getRectangle().height + diffy);
 	}
 
 	@Override
@@ -282,7 +282,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 			g2.setColor(Color.red);
-			Main.getHandlerForElement(this).getFontHandler().writeText(g2, "in progress...", this.getZoomedSize().width / 2 - 40, this.getZoomedSize().height / 2 + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
+			Main.getHandlerForElement(this).getFontHandler().writeText(g2, "in progress...", this.getRectangle().width / 2 - 40, this.getRectangle().height / 2 + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
 		}
 		else {
 			repaint();
@@ -318,7 +318,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public final void drawStickingPolygon(Graphics2D g2) {
 		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
 		int start = Utils.displaceDrawingByOnePixel() ? 1 : 0;
-		Rectangle rect = new Rectangle(start, start, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+		Rectangle rect = new Rectangle(start, start, this.getRectangle().width - 1, this.getRectangle().height - 1);
 		StickingPolygon poly = this.generateStickingBorder(rect);
 		if (poly != null) {
 			Color c = g2.getColor();
@@ -393,11 +393,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			}
 		} catch (Exception e) {/* in case of an error return default layer*/}
 		return lastLayerValue;
-	}
-	
-	@Override
-	public Dimension getZoomedSize() {
-		return new Dimension(getWidth(), getHeight());
 	}
 	
 	@Override

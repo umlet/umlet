@@ -164,10 +164,10 @@ public abstract class NewGridElement implements GridElement {
 		}
 
 		if ((x <= 5) && (x >= 0)) returnSet.add(Direction.LEFT);
-		else if ((x <= this.getZoomedSize().width) && (x >= this.getZoomedSize().width - 5)) returnSet.add(Direction.RIGHT);
+		else if ((x <= this.getRectangle().width) && (x >= this.getRectangle().width - 5)) returnSet.add(Direction.RIGHT);
 
 		if ((y <= 5) && (y >= 0)) returnSet.add(Direction.UP);
-		else if ((y <= this.getZoomedSize().height) && (y >= this.getZoomedSize().height - 5)) returnSet.add(Direction.DOWN);
+		else if ((y <= this.getRectangle().height) && (y >= this.getRectangle().height - 5)) returnSet.add(Direction.DOWN);
 		return returnSet;
 	}
 
@@ -207,7 +207,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void changeSize(int diffx, int diffy) {
-		this.setSize(this.getZoomedSize().width + diffx, this.getZoomedSize().height + diffy);
+		this.setSize(this.getRectangle().width + diffx, this.getRectangle().height + diffy);
 	}
 
 	@Override
@@ -229,7 +229,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void setSize(int width, int height) {
-		if (width != getZoomedSize().width || height != getZoomedSize().height) { // only change size if it is really different
+		if (width != getRectangle().width || height != getRectangle().height) { // only change size if it is really different
 			Rectangle rect = getRectangle();
 			rect.setSize(width, height);
 			component.setBoundsRect(rect);
@@ -249,18 +249,12 @@ public abstract class NewGridElement implements GridElement {
 		component.repaintComponent();
 	}
 
-	@Override
-	public Dimension getZoomedSize() {
-		Rectangle rect = getRectangle();
-		return new Dimension(rect.getWidth(), rect.getHeight());
-	}
-
 	/**
 	 * @see com.baselet.element.GridElement#getRealSize()
 	 */
 	@Override
 	public Dimension getRealSize() {
-		return new Dimension((int) (getZoomedSize().width / handler.getZoomFactor()), (int) (getZoomedSize().height / handler.getZoomFactor()));
+		return new Dimension((int) (getRectangle().width / handler.getZoomFactor()), (int) (getRectangle().height / handler.getZoomFactor()));
 	}
 
 	@Override

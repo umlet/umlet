@@ -188,7 +188,7 @@ public class SequenceDiagram extends OldGridElement {
 		
 
 		// draw the border
-		g2.drawRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+		g2.drawRect(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
 
 		levelNum = 1;
 
@@ -710,7 +710,7 @@ public class SequenceDiagram extends OldGridElement {
 		int pos11 = (pos1 + 1) * levelHeight + yOffsetforTitle;
 		int h = (pos2 - pos1) * levelHeight;
 		int x = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 2 + recursionLevel * 4;
-		g2.drawRect(x, pos11, this.getZoomedSize().width - (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 4 - 1 - recursionLevel * 8, h);
+		g2.drawRect(x, pos11, this.getRectangle().width - (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 4 - 1 - recursionLevel * 8, h);
 		int uLinePos = pos11 + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts());
 		int textPos = pos11 + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 

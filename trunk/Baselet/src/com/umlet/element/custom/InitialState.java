@@ -20,7 +20,7 @@ public class InitialState extends OldGridElement {
 		g2.setColor(fgColor);
 		
 
-		g2.fillOval(0, 0, this.getZoomedSize().width, this.getZoomedSize().height);
+		g2.fillOval(0, 0, this.getRectangle().width, this.getRectangle().height);
 	}
 
 	@Override

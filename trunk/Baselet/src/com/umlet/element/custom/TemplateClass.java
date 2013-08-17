@@ -40,13 +40,13 @@ public class TemplateClass extends OldGridElement {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
 				CENTER = false;
-				g2.drawLine(0, yPos, this.getZoomedSize().width, yPos);
+				g2.drawLine(0, yPos, this.getRectangle().width, yPos);
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 				if (CENTER) {
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getRectangle().width / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
 					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);

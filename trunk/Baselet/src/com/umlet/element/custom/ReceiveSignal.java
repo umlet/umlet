@@ -26,10 +26,10 @@ public class ReceiveSignal extends OldGridElement {
 
 		Polygon poly = new Polygon();
 		poly.addPoint(0, 0);
-		poly.addPoint(this.getZoomedSize().width - 1, 0);
-		poly.addPoint(this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
-		poly.addPoint(0, this.getZoomedSize().height - 1);
-		poly.addPoint((int) Main.getHandlerForElement(this).getFontHandler().getFontSize() - 2, this.getZoomedSize().height / 2);
+		poly.addPoint(this.getRectangle().width - 1, 0);
+		poly.addPoint(this.getRectangle().width - 1, this.getRectangle().height - 1);
+		poly.addPoint(0, this.getRectangle().height - 1);
+		poly.addPoint((int) Main.getHandlerForElement(this).getFontHandler().getFontSize() - 2, this.getRectangle().height / 2);
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
@@ -40,12 +40,12 @@ public class ReceiveSignal extends OldGridElement {
 		g2.drawPolygon(poly);
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		int yPos = this.getZoomedSize().height / 2 - tmp.size() * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())) / 2;
+		int yPos = this.getRectangle().height / 2 - tmp.size() * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())) / 2;
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 			yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-			Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, yPos, AlignHorizontal.CENTER);
+			Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getRectangle().width / 2, yPos, AlignHorizontal.CENTER);
 			yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		}
 	}

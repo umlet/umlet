@@ -33,7 +33,7 @@ public class SynchBarHorizontal extends OldGridElement {
 
 		textWidth = 0; // reset
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
-		int yPos = this.getZoomedSize().height / 2 - tmp.size() * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())) / 2;
+		int yPos = this.getRectangle().height / 2 - tmp.size() * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())) / 2;
 		boolean ADAPT_SIZE_X = false;
 		int textHeight = tmp.size() * ((int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts()));
 
@@ -44,7 +44,7 @@ public class SynchBarHorizontal extends OldGridElement {
 			Rectangle2D r2d = l.getBounds();
 			textWidth = ((int) r2d.getWidth() > textWidth) ? ((int) r2d.getWidth()) : (textWidth);
 
-			if ((this.getZoomedSize().width - textWidth) < 0) {
+			if ((this.getRectangle().width - textWidth) < 0) {
 				ADAPT_SIZE_X = true;
 				break;
 			}
@@ -59,12 +59,12 @@ public class SynchBarHorizontal extends OldGridElement {
 			return;
 		}
 
-		if (textHeight > this.getZoomedSize().height) {
+		if (textHeight > this.getRectangle().height) {
 			(new Resize(this, 0, 0, 0, 20)).execute(Main.getHandlerForElement(this));
 			return;
 		}
 
-		g2.fillRect(textWidth + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), getZoomedSize().height / 2 - (int) (3 * zoom), this.getZoomedSize().width - textWidth - (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 2, (int) (5 * zoom));
+		g2.fillRect(textWidth + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), getRectangle().height / 2 - (int) (3 * zoom), this.getRectangle().width - textWidth - (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 2, (int) (5 * zoom));
 	}
 
 	/*

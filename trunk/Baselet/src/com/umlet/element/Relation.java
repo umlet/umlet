@@ -1764,7 +1764,7 @@ public class Relation extends OldGridElement {
 		maxy += (maxy % gridSize);
 
 		if ((maxx != 0) || (maxy != 0)) {
-			this.changeSize(maxx - getZoomedSize().width, maxy - getZoomedSize().height);
+			this.changeSize(maxx - getRectangle().width, maxy - getRectangle().height);
 		}
 		if ((minx != 0) | (miny != 0)) {
 			this.setLocationDifference(minx, miny);

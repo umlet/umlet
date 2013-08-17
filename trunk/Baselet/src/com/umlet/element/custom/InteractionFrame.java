@@ -30,11 +30,11 @@ public class InteractionFrame extends OldGridElement {
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+		g2.fillRect(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
 		g2.setComposite(composites[0]);
 		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
 		else g2.setColor(fgColorBase);
-		g2.drawRect(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+		g2.drawRect(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
 
 		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
 
@@ -56,13 +56,13 @@ public class InteractionFrame extends OldGridElement {
 			else if (s.equals("-.")) {
 				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 				g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
-				g2.drawLine(0, (int) yPos, this.getZoomedSize().width, (int) yPos);
+				g2.drawLine(0, (int) yPos, this.getRectangle().width, (int) yPos);
 				g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
 				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
 				yPos += Main.getHandlerForElement(this).getFontHandler().getFontSize();
-				if (center) Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getZoomedSize().width / 2, (int) yPos, AlignHorizontal.CENTER);
+				if (center) Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getRectangle().width / 2, (int) yPos, AlignHorizontal.CENTER);
 				else
 					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, (int) yPos, AlignHorizontal.LEFT);
 				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();

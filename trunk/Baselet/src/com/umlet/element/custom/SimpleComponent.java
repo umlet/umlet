@@ -51,17 +51,17 @@ public class SimpleComponent extends OldGridElement {
 
 		int fnt = (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 
-		g2.drawLine((int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0, this.getZoomedSize().width - 1, 0);
+		g2.drawLine((int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0, this.getRectangle().width - 1, 0);
 		// top
-		g2.drawLine((int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), getZoomedSize().height - 1, getZoomedSize().width - 1, getZoomedSize().height - 1); // bottom
+		g2.drawLine((int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), getRectangle().height - 1, getRectangle().width - 1, getRectangle().height - 1); // bottom
 
 		// left side
 		g2.drawLine((int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), fnt); // top
 		g2.drawLine(fnt, fnt * 2, fnt, fnt * 3); // middle
-		g2.drawLine(fnt, fnt * 4, fnt, getZoomedSize().height - 1);
+		g2.drawLine(fnt, fnt * 4, fnt, getRectangle().height - 1);
 		// bottom
 
-		g2.drawLine(getZoomedSize().width - 1, 0, getZoomedSize().width - 1, getZoomedSize().height - 1); // right side
+		g2.drawLine(getRectangle().width - 1, 0, getRectangle().width - 1, getRectangle().height - 1); // right side
 
 		g2.drawLine(0, fnt, fnt * 2, fnt); // top box top line
 		g2.drawLine(0, fnt * 2, fnt * 2, fnt * 2); // top box bottom line

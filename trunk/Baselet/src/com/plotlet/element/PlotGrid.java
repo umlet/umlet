@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.baselet.control.Main;
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.diagram.draw.swing.Converter;
@@ -52,8 +53,8 @@ public class PlotGrid extends OldGridElement {
 			BaseDrawHandlerSwing draw = new BaseDrawHandlerSwing(g, Main.getHandlerForElement(this), Converter.convert(fgColor), Converter.convert(bgColor));
 			draw.setForegroundColor("red");
 			draw.setBackgroundColor(ColorOwn.WHITE);
-			draw.drawRectangle(0, 0, getZoomedSize().width-1, getZoomedSize().height-1);
-			float x = getZoomedSize().getWidth() / 2;
+			draw.drawRectangle(0, 0, getRectangle().width-1, getRectangle().height-1);
+			float x = getRectangle().getWidth() / 2;
 			draw.print(e.getMessage(), x, getRealSize().height/2, AlignHorizontal.CENTER);
 		}
 	}
@@ -196,7 +197,7 @@ public class PlotGrid extends OldGridElement {
 	private AbstractPlot createPlot(Graphics g, PlotState plotState, int xPos, int yPos, String info) {
 		String type = plotState.getValueValidated(PlotConstants.KEY_STRING_TYPE, PlotConstants.TYPE_BAR, PlotConstants.getValuesForKey(PlotConstants.KEY_STRING_TYPE));
 		log.info("PlotGrid insert : " + type + " (" + xPos + ";" + yPos + ") " + info);
-		PlotGridDrawConfig plotDrawConfig = new PlotGridDrawConfig(Main.getHandlerForElement(this), this.getRealSize(),  this.getZoomedSize(), this.getFgColor(), this.getBgColor(), Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this), this.minValue, this.maxValue);
+		PlotGridDrawConfig plotDrawConfig = new PlotGridDrawConfig(Main.getHandlerForElement(this), getRealSize(), new Dimension(getRectangle().width, getRectangle().height), this.getFgColor(), this.getBgColor(), Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this), this.minValue, this.maxValue);
 		if (PlotConstants.TYPE_PIE.equals(type)) return  new PiePlot(g,plotDrawConfig, plotState, xPos, yPos);
 		else if (PlotConstants.TYPE_LINE.equals(type)) return  new LinePlot(g,plotDrawConfig, plotState, xPos, yPos);
 		else if (PlotConstants.TYPE_SCATTER.equals(type)) return  new ScatterPlot(g,plotDrawConfig, plotState, xPos, yPos);
