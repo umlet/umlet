@@ -73,7 +73,7 @@ public class Actor extends NewGridElement {
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
 		int hCenter = getRealSize().width/2;
 
-		StickingPolygon p = new StickingPolygon();
+		StickingPolygon p = new StickingPolygon(x, y);
 		p.addPoint((int)(hCenter-armLength()), 0);
 		p.addPoint((int)(hCenter+armLength()), 0);
 		p.addPoint((int)(hCenter+armLength()), (int)(headToLegLength()));

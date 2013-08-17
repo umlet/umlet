@@ -16,9 +16,10 @@ import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.Settings;
+import com.umlet.element.experimental.Stickable;
 import com.umlet.element.experimental.element.uml.relation.RelationPoints.Selection;
 
-public class Relation extends NewGridElement {
+public class Relation extends NewGridElement implements Stickable {
 
 	private RelationPoints relationPoints;
 
@@ -72,7 +73,7 @@ public class Relation extends NewGridElement {
 	}
 
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<Relation> relations) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
 		Point mousePosBeforeDragRelative = new Point(mousePosBeforeDrag.getX() - getRectangle().getX(), mousePosBeforeDrag.getY() - getRectangle().getY());
 		Selection returnSelection = relationPoints.getSelectionAndApplyChanges(mousePosBeforeDragRelative, diffX, diffY, this, firstDrag);
 		if (returnSelection != Selection.NOTHING) {

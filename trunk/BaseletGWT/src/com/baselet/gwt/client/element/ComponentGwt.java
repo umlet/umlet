@@ -6,9 +6,9 @@ import com.baselet.element.GridElement;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
-import com.umlet.element.experimental.ComponentInterface;
+import com.umlet.element.experimental.Component;
 
-public class GwtComponent implements ComponentInterface {
+public class ComponentGwt implements Component {
 
 	boolean redrawNecessary = true;
 	
@@ -20,7 +20,7 @@ public class GwtComponent implements ComponentInterface {
 	
 	private Rectangle rect;
 
-	public GwtComponent(GridElement element) {
+	public ComponentGwt(GridElement element) {
 		this.element = element;
 	}
 

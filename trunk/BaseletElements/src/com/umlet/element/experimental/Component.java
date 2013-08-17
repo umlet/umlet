@@ -3,7 +3,7 @@ package com.umlet.element.experimental;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
 
-public interface ComponentInterface {
+public interface Component {
 	void setBoundsRect(Rectangle rect);
 	Rectangle getBoundsRect();
 	void repaintComponent();

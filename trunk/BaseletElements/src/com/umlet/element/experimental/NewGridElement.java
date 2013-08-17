@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -21,6 +22,7 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
+import com.baselet.element.StickingPolygon.StickLine;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.element.uml.relation.Relation;
 import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
@@ -40,13 +42,13 @@ public abstract class NewGridElement implements GridElement {
 
 	private Properties properties;
 
-	private ComponentInterface component;
+	private Component component;
 
 	private DrawHandlerInterface handler;
 
 	private static final int MINIMAL_SIZE = NewGridElementConstants.DEFAULT_GRID_SIZE * 2;
 
-	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, ComponentInterface component, DrawHandlerInterface handler) {
+	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, Component component, DrawHandlerInterface handler) {
 		this.component = component;
 		this.drawer = component.getDrawHandler();
 		this.metaDrawer = component.getMetaDrawHandler();
@@ -185,6 +187,11 @@ public abstract class NewGridElement implements GridElement {
 		return p;
 	}
 
+	private StickingPolygon generateStickingBorder() {
+		Rectangle r = getRectangle();
+		return generateStickingBorder(r.x, r.y, r.width, r.height);
+	}
+
 	private final void drawStickingPolygon(BaseDrawHandler drawer) {
 		StickingPolygon poly;
 		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
@@ -194,6 +201,7 @@ public abstract class NewGridElement implements GridElement {
 			drawer.setLineType(LineType.DASHED);
 			drawer.setForegroundColor(ColorOwn.STICKING_POLYGON);
 			Vector<? extends Line> lines = poly.getStickLines();
+			System.out.println(lines);
 			drawer.drawLines(lines.toArray(new Line[lines.size()]));
 			drawer.setLineType(LineType.SOLID);
 			drawer.resetColorSettings();
@@ -259,7 +267,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public ComponentInterface getComponent() {
+	public Component getComponent() {
 		return component;
 	}
 
@@ -307,19 +315,9 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<Relation> relations) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
+		StickingPolygon oldStickingPolygon = generateStickingBorder();
 		if (resizeDirection.isEmpty()) { // Move GridElement
-			Rectangle r = getRectangle();
-			StickingPolygon sp = generateStickingBorder(r.x, r.y, r.width, r.height);
-			for (Relation rel : relations) {
-				for (PointDouble pd : rel.getStickablePoints()) {
-					// the points are located relative to the upper left corner of the relation, therefore add this corner to have it located to the upper left corner of the diagram
-					Point absolutePositionOfStickablePoint = new Point(rel.getRectangle().getX() + (int) pd.x, rel.getRectangle().getY() + (int) pd.y);
-					if (-1 != sp.isConnected(absolutePositionOfStickablePoint, getGridSize())) {
-						rel.drag(resizeDirection, diffX, diffY, absolutePositionOfStickablePoint, isShiftKeyDown, true, Collections.<Relation>emptyList());
-					}
-				}
-			}
 			setLocationDifference(diffX, diffY);
 		} else { // Resize GridElement
 			Rectangle rect = component.getBoundsRect();
@@ -343,6 +341,33 @@ public abstract class NewGridElement implements GridElement {
 			}
 			updateModelFromText();
 		}
+
+		StickingPolygon newStickingPolygon = generateStickingBorder();
+
+		// now check all stickinglines if they have changed and change sticking relations too
+		Iterator<StickLine> oldLineIter = oldStickingPolygon.getStickLines().iterator();
+		Iterator<StickLine> newLineIter = newStickingPolygon.getStickLines().iterator();
+		while (oldLineIter.hasNext()) {
+			StickLine oldLine = oldLineIter.next();
+			StickLine newLine = newLineIter.next();
+			System.out.println(oldLine);
+			if (!oldLine.equals(newLine)) {
+
+				for (Stickable stickable : stickables) {
+					for (PointDouble pd : stickable.getStickablePoints()) {
+						// the points are located relative to the upper left corner of the relation, therefore add this corner to have it located to the upper left corner of the diagram
+						Point absolutePositionOfStickablePoint = new Point(stickable.getRectangle().getX() + (int) pd.x, stickable.getRectangle().getY() + (int) pd.y);
+						if (oldLine.isConnected(absolutePositionOfStickablePoint, getGridSize())) {
+							int stickLineDiffX = (int) (newLine.getCenter().getX()-oldLine.getCenter().getX());
+							int stickLineDiffY = (int) (newLine.getCenter().getY()-oldLine.getCenter().getY());
+							stickable.drag(resizeDirection, stickLineDiffX, stickLineDiffY, absolutePositionOfStickablePoint, isShiftKeyDown, true, Collections.<Relation>emptyList());
+						}
+					}
+				}
+				
+			}
+		}
+		
 	}
 
 	@Override

@@ -62,7 +62,7 @@ public class StickingPolygon {
 			return diff;
 		}
 
-		private boolean isConnected(Point p, int gridSize) {
+		public boolean isConnected(Point p, int gridSize) {
 			double distance = this.getDistanceToPoint(p);
 			return (distance < gridSize);
 		}
@@ -74,10 +74,6 @@ public class StickingPolygon {
 	private int elementX;
 	private int elementY;
 
-	public StickingPolygon() {
-		this(0, 0);
-	}
-	
 	public StickingPolygon(int elementX, int elementY) {
 		this.elementX = elementX;
 		this.elementY = elementY;
@@ -124,7 +120,7 @@ public class StickingPolygon {
 		return this.stick.get(index);
 	}
 
-	public Vector<? extends Line> getStickLines() {
+	public Vector<StickLine> getStickLines() {
 		return this.stick;
 	}
 

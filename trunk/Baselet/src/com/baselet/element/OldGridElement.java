@@ -34,13 +34,12 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.gui.AutocompletionText;
-import com.umlet.element.experimental.ComponentInterface;
 import com.umlet.element.experimental.ElementId;
-import com.umlet.element.experimental.element.uml.relation.Relation;
+import com.umlet.element.experimental.Stickable;
 import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 import com.umlet.element.experimental.facets.Facet;
 
-public abstract class OldGridElement extends JComponent implements GridElement, ComponentInterface {
+public abstract class OldGridElement extends JComponent implements GridElement, com.umlet.element.experimental.Component {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -363,7 +362,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public ComponentInterface getComponent() {
+	public com.umlet.element.experimental.Component getComponent() {
 		return this;
 	}
 
@@ -447,7 +446,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 	
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<Relation> relations) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
 		// TODO Auto-generated method stub
 		
 	}
