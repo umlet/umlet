@@ -3,6 +3,7 @@ package com.umlet.element.experimental.element.uml;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.experimental.ElementId;
@@ -28,20 +29,20 @@ public class UseCase extends NewGridElement {
 
 
 	@Override
-	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-		StickingPolygon p = new StickingPolygon(x, y);
+	public StickingPolygon generateStickingBorder(Rectangle rect) {
+		StickingPolygon p = new StickingPolygon(rect.x, rect.y);
 
-		p.addPoint(width / 4, 0);
-		p.addPoint(width * 3 / 4, 0);
+		p.addPoint(rect.width / 4, 0);
+		p.addPoint(rect.width * 3 / 4, 0);
 
-		p.addPoint(width, height / 4);
-		p.addPoint(width, height * 3 / 4);
+		p.addPoint(rect.width, rect.height / 4);
+		p.addPoint(rect.width, rect.height * 3 / 4);
 
-		p.addPoint(width * 3 / 4, height);
-		p.addPoint(width / 4, height);
+		p.addPoint(rect.width * 3 / 4, rect.height);
+		p.addPoint(rect.width / 4, rect.height);
 
-		p.addPoint(0, height * 3 / 4);
-		p.addPoint(0, height / 4, true);
+		p.addPoint(0, rect.height * 3 / 4);
+		p.addPoint(0, rect.height / 4, true);
 
 		return p;
 	}

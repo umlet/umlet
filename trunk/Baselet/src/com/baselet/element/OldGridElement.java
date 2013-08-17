@@ -301,24 +301,22 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		return null;
 	}
 
-	/**
-	 * Define and return the polygon on which relations stick on
-	 */
 	@Override
+	public StickingPolygon generateStickingBorder(Rectangle rect) {
+		return generateStickingBorder(rect.x, rect.y, rect.width, rect.height);
+	}
+
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-		StickingPolygon p = new StickingPolygon(0, 0);
-		p.addPoint(new Point(x, y));
-		p.addPoint(new Point(x + width, y));
-		p.addPoint(new Point(x + width, y + height));
-		p.addPoint(new Point(x, y + height), true);
+		StickingPolygon p = new StickingPolygon(x, y);
+		p.addRectangle(0, 0, width, height);
 		return p;
 	}
 
 	public final void drawStickingPolygon(Graphics2D g2) {
-		StickingPolygon poly;
 		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
-		if (Utils.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
-		else poly = this.generateStickingBorder(0, 0, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+		int start = Utils.displaceDrawingByOnePixel() ? 1 : 0;
+		Rectangle rect = new Rectangle(start, start, this.getZoomedSize().width - 1, this.getZoomedSize().height - 1);
+		StickingPolygon poly = this.generateStickingBorder(rect);
 		if (poly != null) {
 			Color c = g2.getColor();
 			Stroke s = g2.getStroke();

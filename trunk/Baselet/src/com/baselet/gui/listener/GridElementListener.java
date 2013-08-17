@@ -275,7 +275,7 @@ public class GridElementListener extends UniversalListener {
 			moveCommands.add(new Move(e, diffx, diffy));
 			if (e instanceof Relation) continue;
 			StickingPolygon stick = null;
-			if (e.isStickingBorderActive()) stick = e.generateStickingBorder(e.getRectangle().x, e.getRectangle().y, e.getZoomedSize().width, e.getZoomedSize().height);
+			if (e.isStickingBorderActive()) stick = e.generateStickingBorder(e.getRectangle());
 			if (stick != null) {
 				Vector<RelationLinePoint> affectedRelationPoints = Utils.getStickingRelationLinePoints(this.diagram.getHandler(), stick);
 				for (int j = 0; j < affectedRelationPoints.size(); j++) {

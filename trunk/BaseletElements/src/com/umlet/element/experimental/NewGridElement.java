@@ -181,31 +181,28 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-		StickingPolygon p = new StickingPolygon(x, y);
-		p.addRectangle(0, 0, width, height);
+	public StickingPolygon generateStickingBorder(Rectangle rect) {
+		StickingPolygon p = new StickingPolygon(rect.x, rect.y);
+		p.addRectangle(0, 0, rect.width, rect.height);
 		return p;
 	}
 
 	private StickingPolygon generateStickingBorder() {
-		Rectangle r = getRectangle();
-		return generateStickingBorder(r.x, r.y, r.width, r.height);
+		return generateStickingBorder(getRectangle());
 	}
 
 	private final void drawStickingPolygon(BaseDrawHandler drawer) {
-		StickingPolygon poly;
 		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
-		if (handler.displaceDrawingByOnePixel()) poly = this.generateStickingBorder(1, 1, this.getRealSize().width - 1, this.getRealSize().height - 1);
-		else poly = this.generateStickingBorder(0, 0, this.getRealSize().width - 1, this.getRealSize().height - 1);
-		if (poly != null) {
-			drawer.setLineType(LineType.DASHED);
-			drawer.setForegroundColor(ColorOwn.STICKING_POLYGON);
-			Vector<? extends Line> lines = poly.getStickLines();
-			System.out.println(lines);
-			drawer.drawLines(lines.toArray(new Line[lines.size()]));
-			drawer.setLineType(LineType.SOLID);
-			drawer.resetColorSettings();
-		}
+		int start = handler.displaceDrawingByOnePixel() ? 1 : 0;
+		Rectangle rect = new Rectangle(start, start, getRealSize().width - 1, getRealSize().height - 1);
+		StickingPolygon poly = this.generateStickingBorder(rect);
+		drawer.setLineType(LineType.DASHED);
+		drawer.setForegroundColor(ColorOwn.STICKING_POLYGON);
+		Vector<? extends Line> lines = poly.getStickLines();
+		System.out.println(lines);
+		drawer.drawLines(lines.toArray(new Line[lines.size()]));
+		drawer.setLineType(LineType.SOLID);
+		drawer.resetColorSettings();
 	}
 
 	@Override
@@ -364,10 +361,10 @@ public abstract class NewGridElement implements GridElement {
 						}
 					}
 				}
-				
+
 			}
 		}
-		
+
 	}
 
 	@Override
