@@ -104,5 +104,11 @@ public class Relation extends NewGridElement implements Stickable {
 		return relationPoints.getStickablePoints();
 	}
 
+	@Override
+	public void movePoint(PointDouble pointToMove, int diffX, int diffY) {
+		relationPoints.movePointAndResizeRectangle(pointToMove, diffX, diffY);
+		updateModelFromText();
+	}
+
 }
 
