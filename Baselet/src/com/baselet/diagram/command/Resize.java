@@ -7,6 +7,7 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
@@ -63,12 +64,12 @@ public class Resize extends Command {
 		this.diffw = (diffw - diffx) / Main.getHandlerForElement(entity).getGridSize();
 		this.diffh = (diffh - diffy) / Main.getHandlerForElement(entity).getGridSize();
 
-		StickingPolygon from = this.entity.generateStickingBorder(this.entity.getRectangle().x, this.entity.getRectangle().y,
-				this.entity.getZoomedSize().width, this.entity.getZoomedSize().height);
+		Rectangle entityRect = this.entity.getRectangle();
+		StickingPolygon from = this.entity.generateStickingBorder(entityRect);
 
 		// AB: FIXED: Use this.diffw/this.diffh instead of diffw/diffh as calculation base
-		StickingPolygon to = this.entity.generateStickingBorder(this.entity.getRectangle().x + diffx, this.entity.getRectangle().y + diffy,
-				this.entity.getZoomedSize().width + getDiffw(), this.entity.getZoomedSize().height + this.getDiffh());
+		Rectangle newRect = new Rectangle(entityRect.x + diffx, entityRect.y + diffy, entityRect.width + getDiffw(), entityRect.height + getDiffh());
+		StickingPolygon to = this.entity.generateStickingBorder(newRect);
 
 		if (first != null) {
 			this.id = first.id;

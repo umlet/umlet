@@ -3,6 +3,7 @@ package com.umlet.element.experimental.element.uml;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.experimental.ElementId;
@@ -70,10 +71,10 @@ public class Actor extends NewGridElement {
 	}
 
 	@Override
-	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
+	public StickingPolygon generateStickingBorder(Rectangle rect) {
 		int hCenter = getRealSize().width/2;
 
-		StickingPolygon p = new StickingPolygon(x, y);
+		StickingPolygon p = new StickingPolygon(rect.x, rect.y);
 		p.addPoint((int)(hCenter-armLength()), 0);
 		p.addPoint((int)(hCenter+armLength()), 0);
 		p.addPoint((int)(hCenter+armLength()), (int)(headToLegLength()));

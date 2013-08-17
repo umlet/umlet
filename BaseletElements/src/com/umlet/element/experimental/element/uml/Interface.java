@@ -33,8 +33,8 @@ public class Interface extends NewGridElement {
 	}
 
 	@Override
-	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-		StickingPolygon p = new StickingPolygon(x, y);
+	public StickingPolygon generateStickingBorder(Rectangle rect) {
+		StickingPolygon p = new StickingPolygon(rect.x, rect.y);
 		p.addRectangle(circleSpace);
 		return p;
 	}

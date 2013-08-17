@@ -39,7 +39,7 @@ public interface GridElement extends HasPanelAttributes {
 
 	boolean isStickingBorderActive();
 
-	StickingPolygon generateStickingBorder(int x, int y, int width, int height);
+	StickingPolygon generateStickingBorder(Rectangle rect);
 
 	/**
 	 * position of the element on the drawpanel.
