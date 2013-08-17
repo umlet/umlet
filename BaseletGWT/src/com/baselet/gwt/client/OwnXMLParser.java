@@ -24,6 +24,10 @@ public class OwnXMLParser {
 
 	private static final String NUMBER_SIGN = "#"; // # is not automatically encoded by URL.encode() and URL.decode()
 	private static final String NUMBER_SIGN_URL_ENCODED = "%23";
+	private static final String GT = ">";
+	private static final String GT_ENCODED = "&gt;"; // in some cases the xml parser doesn't convert automatically (especially together with URL.encoded strings) therefore replace manually
+	private static final String LT = "<";
+	private static final String LT_ENCODED = "&lt;";
 	
 	private static final Logger log = Logger.getLogger(OwnXMLParser.class);
 
@@ -44,7 +48,7 @@ public class OwnXMLParser {
 
 	public static Diagram xmlToDiagram(boolean decodeUrl, String xml) {
 		if (decodeUrl) {
-			xml = URL.decode(xml).replaceAll(NUMBER_SIGN_URL_ENCODED, NUMBER_SIGN);
+			xml = URL.decode(xml).replace(NUMBER_SIGN_URL_ENCODED, NUMBER_SIGN);
 		}
 		return xmlToDiagram(xml);
 	}
@@ -72,7 +76,7 @@ public class OwnXMLParser {
 					String panelAttributes = "";
 					Node panelAttrNode = element.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild();
 					if (panelAttrNode != null) {
-						panelAttributes = panelAttrNode.getNodeValue().replace("&lt;", "<").replace("&gt;", ">");
+						panelAttributes = panelAttrNode.getNodeValue().replace(LT_ENCODED, LT).replace(GT_ENCODED, GT);
 					}
 
 					String additionalPanelAttributes = "";
@@ -119,7 +123,7 @@ public class OwnXMLParser {
 							create(doc, Y, doc.createTextNode(ge.getRectangle().getY()+"")), 
 							create(doc, W, doc.createTextNode(ge.getRectangle().getWidth()+"")), 
 							create(doc, H, doc.createTextNode(ge.getRectangle().getHeight()+""))), 
-					create(doc, PANEL_ATTRIBUTES, doc.createTextNode(ge.getPanelAttributes().replace("<", "&lt;").replace(">", "&gt;"))), 
+					create(doc, PANEL_ATTRIBUTES, doc.createTextNode(ge.getPanelAttributes().replace(LT, LT_ENCODED).replace(GT, GT_ENCODED))), 
 					create(doc, ADDITIONAL_ATTRIBUTES, doc.createTextNode(ge.getAdditionalAttributes()))
 				));
 		}
