@@ -120,7 +120,8 @@ public class MainView extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(palettePropertiesSplitter, true);
 		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(menuPanel, true);
-		diagramPaletteSplitter.setWidgetSnapClosedSize(menuPanel, 40);
+		diagramPaletteSplitter.setWidgetSnapClosedSize(menuPanel, 25);
+		diagramPaletteSplitter.setWidgetMinSize(menuPanel, 50);
 		palettePropertiesSplitter.setWidgetToggleDisplayAllowed(paletteChooserCanvasSplitter, true);
 		diagramPanel = new DrawFocusPanelDiagram(this, propertiesPanel);
 		palettePanel = new DrawFocusPanelPalette(this, propertiesPanel, paletteChooser);
