@@ -64,6 +64,8 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	private Integer lastLayerValue;
 
+	private boolean selected = false;
+
 	public OldGridElement() {
 		this.setSize(100, 100);
 		this.setVisible(true);
@@ -156,6 +158,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 	
 	public void setSelected(Boolean selected) {
+		this.selected = selected;
 		if (selected) {
 			fgColor = Converter.convert(ColorOwn.SELECTION_FG);
 		} else {
@@ -335,15 +338,14 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D) g;
 
-		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this) && Constants.show_stickingpolygon && !this.isPartOfGroup()) this.drawStickingPolygon(g2);
+		// TODO (same problem as in @see com.umlet.element.experimental.ComponentSwing#paint(Graphics g))
+		// the selected state stored in GridElements is NOT the same as the selector holds, therefore it must be set explicitly through a setSelected() method.
+		// TODO make sure the selector holds the correct state and a repaint is triggered, then the following line should work:
+//		boolean selected = Main.getHandlerForElement(gridElement).getDrawPanel().getSelector().isSelected(gridElement);
+		if (selected && Constants.show_stickingpolygon && !this.isPartOfGroup()) {
+			this.drawStickingPolygon(g2);
+		}
 
-		// Zoom per transformation for certain elements. unused!
-		// if (this instanceof SequenceDiagram) {
-		// AffineTransform t = g2.getTransform();
-		// float scale = ((float) this.getHandler().getGridSize()) / 10;
-		// t.scale(scale, scale);
-		// g2.setTransform(t);
-		// }
 		updateModelFromText();
 
 		this.paintEntity(g2);
