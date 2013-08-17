@@ -34,7 +34,7 @@ public abstract class NewGridElement implements GridElement {
 
 	//	private static final Logger log = Logger.getLogger(NewGridElement.class);
 
-	private boolean stickingBorderActive;
+	private boolean stickingBorderActive = true;
 
 	private BaseDrawHandler drawer; // this is the drawer for element specific stuff
 	private BaseDrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
@@ -200,7 +200,6 @@ public abstract class NewGridElement implements GridElement {
 		drawer.setLineType(LineType.DASHED);
 		drawer.setForegroundColor(ColorOwn.STICKING_POLYGON);
 		Vector<? extends Line> lines = poly.getStickLines();
-		System.out.println(lines);
 		drawer.drawLines(lines.toArray(new Line[lines.size()]));
 		drawer.setLineType(LineType.SOLID);
 		drawer.resetColorSettings();

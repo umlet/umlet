@@ -72,6 +72,7 @@ public class OwnXMLParser {
 					returnList.add(ElementFactory.create(id, rect, panelAttributes, additionalPanelAttributes));
 				} catch (Exception e) {
 					log.error("Element has invalid XML structure: " + element, e);
+					Notification.showFeatureNotSupported("Diagram has invalid element: " + element, true);
 				}
 			}
 		} catch (DOMException e) {
