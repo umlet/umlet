@@ -1,18 +1,18 @@
 package com.plotlet.element.plotgrid;
 
-import java.awt.Graphics;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
 import com.plotlet.parser.PlotConstants;
 import com.plotlet.parser.PlotState;
 
 public class BarPlot extends AbstractPlot {
 
-	public BarPlot(Graphics g, PlotGridDrawConfig plotDrawConfig, PlotState plotState, int xPos, int yPos) {
-		super(g,plotDrawConfig, plotState, xPos, yPos);
+	public BarPlot(BaseDrawHandler drawer, PlotGridDrawConfig plotDrawConfig, PlotState plotState, int xPos, int yPos) {
+		super(drawer, plotDrawConfig, plotState, xPos, yPos);
 	}
 
 	@Override

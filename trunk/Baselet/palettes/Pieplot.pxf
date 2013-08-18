@@ -1,13 +1,13 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="plotlet" version="0.81">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="plotlet" version="12.1">
   <zoom_level>10</zoom_level>
   <element>
-    <type>com.plotlet.element.PlotGrid</type>
+    <id>PlotGrid</id>
     <coordinates>
-      <x>20</x>
+      <x>30</x>
       <y>0</y>
-      <w>660</w>
-      <h>460</h>
+      <w>650</w>
+      <h>240</h>
     </coordinates>
     <panel_attributes>data
 a	b	c
@@ -20,20 +20,16 @@ a	b	c
 grid.width=2
 type=pie
 
-plot
+plot data=#2
 
-plot tilt=true
-
-plot
-
-plot data=#1 tilt=true</panel_attributes>
+plot</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.plotlet.element.PlotGrid</type>
+    <id>PlotGrid</id>
     <coordinates>
       <x>20</x>
-      <y>470</y>
+      <y>270</y>
       <w>660</w>
       <h>460</h>
     </coordinates>

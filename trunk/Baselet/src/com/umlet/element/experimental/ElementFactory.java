@@ -6,6 +6,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
+import com.plotlet.element.PlotGrid;
 
 public class ElementFactory {
 
@@ -16,7 +17,9 @@ public class ElementFactory {
 	 * uses no reflection, to avoid complications with GWT
 	 */
 	public static NewGridElement create(ElementId id, Rectangle bounds, String panelAttributes, String additionalAttributes, DiagramHandler handler) {
-		final NewGridElement returnObj = id.createAssociatedGridElement();
+		final NewGridElement returnObj;
+		if (id == ElementId.PlotGrid) returnObj = new PlotGrid();
+		else returnObj = id.createAssociatedGridElement();
 		
 		ComponentSwing component = new ComponentSwing(returnObj);
 		

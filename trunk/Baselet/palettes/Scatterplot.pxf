@@ -2,7 +2,7 @@
 <diagram program="plotlet" version="0.81">
   <zoom_level>10</zoom_level>
   <element>
-    <type>com.plotlet.element.PlotGrid</type>
+    <id>PlotGrid</id>
     <coordinates>
       <x>170</x>
       <y>0</y>
@@ -32,7 +32,7 @@ plot colors=blue</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.plotlet.element.PlotGrid</type>
+    <id>PlotGrid</id>
     <coordinates>
       <x>90</x>
       <y>480</y>
@@ -62,7 +62,7 @@ plot data=#1 tilt=true</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.plotlet.element.PlotGrid</type>
+    <id>PlotGrid</id>
     <coordinates>
       <x>60</x>
       <y>990</y>

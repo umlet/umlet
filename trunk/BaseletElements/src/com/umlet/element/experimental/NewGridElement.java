@@ -34,8 +34,6 @@ import com.umlet.element.experimental.facets.GlobalFacet;
 
 public abstract class NewGridElement implements GridElement {
 
-	//	private static final Logger log = Logger.getLogger(NewGridElement.class);
-
 	private boolean stickingBorderActive = true;
 
 	private BaseDrawHandler drawer; // this is the drawer for element specific stuff
@@ -310,7 +308,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	private Map<Stickable, Set<PointDouble>> stickablesFromFirstDrag = new HashMap<Stickable, Set<PointDouble>>();
-	
+
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
 		StickingPolygon oldStickingPolygon = generateStickingBorder();
@@ -377,7 +375,7 @@ public abstract class NewGridElement implements GridElement {
 								int stickLineDiffY = SharedUtils.realignToGrid(newLine.getCenter().getY()-oldLine.getCenter().getY());
 								stickable.movePoint(pd, stickLineDiffX, stickLineDiffY);
 							}
-							
+
 						}
 					}
 				}

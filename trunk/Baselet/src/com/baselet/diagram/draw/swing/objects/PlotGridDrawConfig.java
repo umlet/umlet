@@ -2,7 +2,6 @@ package com.baselet.diagram.draw.swing.objects;
 
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.helper.ColorOwn;
 
 
 public class PlotGridDrawConfig {
@@ -10,19 +9,15 @@ public class PlotGridDrawConfig {
 	private final DiagramHandler diagramHandler;
 	private final Dimension realSize;
 	private final Dimension size;
-	private final ColorOwn fgColor;
-	private final ColorOwn bgColor;
 	private final boolean isSelected;
 	private final Double minValue;
 	private final Double maxValue;
 	
-	public PlotGridDrawConfig(DiagramHandler diagramHandler, Dimension realSize, Dimension size, ColorOwn fgColor, ColorOwn bgColor, boolean isSelected, Double minValue, Double maxValue) {
+	public PlotGridDrawConfig(DiagramHandler diagramHandler, Dimension realSize, Dimension size, boolean isSelected, Double minValue, Double maxValue) {
 		super();
 		this.diagramHandler = diagramHandler;
 		this.realSize = realSize;
 		this.size = size;
-		this.fgColor = fgColor;
-		this.bgColor = bgColor;
 		this.isSelected = isSelected;
 		this.minValue = minValue;
 		this.maxValue = maxValue;
@@ -38,14 +33,6 @@ public class PlotGridDrawConfig {
 
 	public Dimension getSize() {
 		return size;
-	}
-
-	public ColorOwn getFgColor() {
-		return fgColor;
-	}
-
-	public ColorOwn getBgColor() {
-		return bgColor;
 	}
 
 	public boolean isSelected() {

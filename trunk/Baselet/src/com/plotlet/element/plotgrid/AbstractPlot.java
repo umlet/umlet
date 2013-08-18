@@ -1,11 +1,10 @@
 package com.plotlet.element.plotgrid;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.util.List;
 
+import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.diagram.draw.swing.PlotDrawHandler;
 import com.baselet.diagram.draw.swing.objects.AxisConfig;
 import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
@@ -26,13 +25,12 @@ public abstract class AbstractPlot {
 
 	protected Integer maxDatasetRows = Integer.MAX_VALUE;
 
-	public AbstractPlot(Graphics g, PlotGridDrawConfig plotDrawConfig, PlotState plotState, int xPosition, int yPosition) {
+	public AbstractPlot(BaseDrawHandler drawer, PlotGridDrawConfig plotDrawConfig, PlotState plotState, int xPosition, int yPosition) {
 		this.plotDrawConfig = plotDrawConfig;
 		this.plotState = plotState;
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
-		BaseDrawHandlerSwing drawHandler = new BaseDrawHandlerSwing(g, plotDrawConfig.getDiagramHandler(), plotDrawConfig.getFgColor(), plotDrawConfig.getBgColor());
-		plot = new PlotDrawHandler(drawHandler, plotDrawConfig.isSelected(), plotDrawConfig.getRealSize());
+		plot = new PlotDrawHandler(drawer, plotDrawConfig.isSelected(), plotDrawConfig.getRealSize());
 		setupAxis();
 		setupAbstractPlot();
 	}
