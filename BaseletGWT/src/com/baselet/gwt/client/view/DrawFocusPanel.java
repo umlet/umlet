@@ -21,7 +21,6 @@ import com.baselet.gwt.client.Browser;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.keyboard.Shortcut;
-import com.baselet.gwt.client.view.MouseDoubleClickUtils.Handler;
 import com.baselet.gwt.client.view.MouseUtils.MouseDragHandler;
 import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
@@ -74,53 +73,54 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				redraw();
 			}
 		};
-		MenuPopup.appendTo(canvas.getWidget(), new MenuPopupItem() {
-			@Override
-			public String getText() {
-				return "Delete";
-			}
-			@Override
-			public void execute() {
-				commandInvoker.removeSelectedElements(DrawFocusPanel.this);
-			}
-		}, new MenuPopupItem() {
-			@Override
-			public String getText() {
-				return "Copy";
-			}
-			@Override
-			public void execute() {
-				commandInvoker.copySelectedElements(DrawFocusPanel.this);
-			}
-		}, new MenuPopupItem() {
-			@Override
-			public String getText() {
-				return "Cut";
-			}
-			@Override
-			public void execute() {
-				commandInvoker.cutSelectedElements(DrawFocusPanel.this);
-			}
-		}, new MenuPopupItem() {
-			@Override
-			public String getText() {
-				return "Paste";
-			}
-			@Override
-			public void execute() {
-				commandInvoker.pasteElements(DrawFocusPanel.this);
-			}
-		}, new MenuPopupItem() {
-			@Override
-			public String getText() {
-				return "Select All";
-			}
-			@Override
-			public void execute() {
-				selector.select(diagram.getGridElements());
-			}
-		});
 
+		final MenuPopup popup = new MenuPopup (
+				new MenuPopupItem() {
+					@Override
+					public String getText() {
+						return "Delete";
+					}
+					@Override
+					public void execute() {
+						commandInvoker.removeSelectedElements(DrawFocusPanel.this);
+					}
+				}, new MenuPopupItem() {
+					@Override
+					public String getText() {
+						return "Copy";
+					}
+					@Override
+					public void execute() {
+						commandInvoker.copySelectedElements(DrawFocusPanel.this);
+					}
+				}, new MenuPopupItem() {
+					@Override
+					public String getText() {
+						return "Cut";
+					}
+					@Override
+					public void execute() {
+						commandInvoker.cutSelectedElements(DrawFocusPanel.this);
+					}
+				}, new MenuPopupItem() {
+					@Override
+					public String getText() {
+						return "Paste";
+					}
+					@Override
+					public void execute() {
+						commandInvoker.pasteElements(DrawFocusPanel.this);
+					}
+				}, new MenuPopupItem() {
+					@Override
+					public String getText() {
+						return "Select All";
+					}
+					@Override
+					public void execute() {
+						selector.select(diagram.getGridElements());
+					}
+				});
 
 		this.add(canvas.getWidget());
 
@@ -235,14 +235,17 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 					}
 				}
 			}
-		});
 
-		MouseDoubleClickUtils.addMouseDragHandler(this, canvas.getWidget(), new Handler() {
 			@Override
 			public void onDoubleClick(GridElement ge) {
 				if (ge != null) {
 					doDoubleClickAction(ge);
 				}
+			}
+
+			@Override
+			public void onShowMenu(Point point) {
+				popup.show(point);
 			}
 		});
 
@@ -292,7 +295,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		List<GridElement> gridElements = diagram.getGridElementsSortedByLayer();
 		if (recalcSize) {
 			if (scrollPanel == null) return;
-	
+
 			Rectangle diagramRect = SharedUtils.getGridElementsRectangle(gridElements);
 			Rectangle visibleRect = getVisibleBounds();
 			// realign top left corner of the diagram back to the canvas and remove invisible whitespace outside of the diagram
@@ -378,7 +381,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 	public void setScrollPanel(AutoResizeScrollDropPanel scrollPanel) {
 		this.scrollPanel = scrollPanel;
 	}
-	
+
 	@Override
 	public void setFocus(boolean focused) {
 		// Internet explorer scrolls to the top left if canvas gets focus, therefore scroll back afterwards // see http://stackoverflow.com/questions/14979365/table-scroll-bar-jumps-up-when-table-receives-focus-in-ie
