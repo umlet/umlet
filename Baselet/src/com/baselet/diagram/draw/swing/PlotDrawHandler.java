@@ -196,9 +196,6 @@ public class PlotDrawHandler {
 		if (drawPoints) drawLineOrPoints(xIsDescription, values, axisConfig.getDescAxisPos(), axisConfig.getValueAxisPos(), axisConfig.getValueSegment(), axisConfig.getDescSegment(), colors, false);
 
 		if (axisConfig.showAxis()) drawAxis(xIsDescription, axisConfig.getDescAxisPos(), axisConfig.getValueAxisPos(), axisConfig.getValueSegment(), axisConfig.getDescSegment());
-
-		base.drawAll(isSelected);
-		base.clearCache();
 	}
 
 	private void setupAxis() {
@@ -427,8 +424,6 @@ public class PlotDrawHandler {
 		diameter = height>width?width:height;
 		ulCorner = new Point(canvas.getInnerLeftPos(), canvas.getInnerUpPos());
 		drawPieArcs(values[0], desc, ulCorner, diameter, valueSum, colors);
-		base.drawAll(isSelected);
-		base.clearCache();
 	}
 
 	private final void drawPieArcs(Double[] values, String[] desc, Point ulCorner, int diameter, Double valueSum, List<String> colors) {

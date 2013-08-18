@@ -2,7 +2,7 @@
 <diagram program="plotlet" version="0.81">
   <zoom_level>10</zoom_level>
   <element>
-    <type>com.plotlet.element.PlotGrid</type>
+    <id>PlotGrid</id>
     <coordinates>
       <x>20</x>
       <y>470</y>
@@ -25,7 +25,7 @@ plot type=scatter
     <additional_attributes/>
   </element>
   <element>
-    <type>com.plotlet.element.PlotGrid</type>
+    <id>PlotGrid</id>
     <coordinates>
       <x>20</x>
       <y>0</y>

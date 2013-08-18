@@ -11,7 +11,8 @@ import com.umlet.element.experimental.element.uml.relation.Relation;
  * these IDs should NEVER be changed, because they are stored in uxf files
  */
 public enum ElementId {
-	UMLClass, UMLUseCase, Relation, UMLInterface, UMLActor, Text;
+	UMLClass, UMLUseCase, Relation, UMLInterface, UMLActor, Text, 
+	PlotGrid /*standalone only (at the moment), therefore instantiated in ElementFactory and not here*/;
 	
 	public NewGridElement createAssociatedGridElement() {
 		final NewGridElement returnObj;
