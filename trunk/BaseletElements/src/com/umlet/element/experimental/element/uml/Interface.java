@@ -19,8 +19,6 @@ public class Interface extends NewGridElement {
 	private int TOP_DISTANCE = 10;
 	private int CIRCLE_SIZE = 20;
 
-	private Rectangle circleSpace = null;
-	
 	@Override
 	public ElementId getId() {
 		return ElementId.UMLInterface;
@@ -28,28 +26,21 @@ public class Interface extends NewGridElement {
 
 	@Override
 	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
-		drawer.drawCircle(circleSpace.x + CIRCLE_SIZE/2, circleSpace.y + CIRCLE_SIZE/2, CIRCLE_SIZE/2);
 		properties.drawPropertiesText();
+		Rectangle circleRect = circleRect();
+		drawer.drawCircle(circleRect.x + CIRCLE_SIZE/2, circleRect.y + CIRCLE_SIZE/2, CIRCLE_SIZE/2);
 	}
 
 	@Override
 	public StickingPolygon generateStickingBorder(Rectangle rect) {
 		StickingPolygon p = new StickingPolygon(rect.x, rect.y);
-		p.addRectangle(circleSpace);
+		p.addRectangle(circleRect());
 		return p;
 	}
 
-	/**
-	 * circle is in the middle. At the moment it's not always on grid (otherwise it would "jump" around)
-	 * TODO let circle have a fixed position and grow element around it (like in the old Interface)
-	 */
-	@Override
-	public void onParsingStart() {
-		//		int gridSize = (int) (getHandler().getZoomFactor() * NewGridElementConstants.DEFAULT_GRID_SIZE);
+	private Rectangle circleRect() {
 		int middlePos = getRealSize().getWidth() / 2 - CIRCLE_SIZE/2;
-		//		return middlePos - (middlePos % gridSize);
-		
-		circleSpace = new Rectangle(middlePos, TOP_DISTANCE, CIRCLE_SIZE-1, CIRCLE_SIZE-1); //TODO -1 because otherwise circle would be cut if text is not width enough (typical problem of width based drawing, also in usecase and class)
+		return new Rectangle(middlePos, TOP_DISTANCE, CIRCLE_SIZE-1, CIRCLE_SIZE-1);
 	}
 
 	@Override
@@ -73,7 +64,7 @@ public class Interface extends NewGridElement {
 			}
 			@Override
 			public double getYPosStart() {
-				return circleSpace.getY2(); // space reserved for the top circle
+				return TOP_DISTANCE + CIRCLE_SIZE; // space reserved for the top circle
 			}
 			@Override
 			public Facet[] createFacets() {
