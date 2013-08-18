@@ -21,6 +21,7 @@ import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
@@ -266,8 +267,8 @@ public abstract class Utils {
 		Collection<Relation> rels = handler.getDrawPanel().getAllRelations();
 		for (Relation r : rels) {
 			if (!r.isPartOfGroup()) {
-				Point l1 = r.getAbsoluteCoorStart();
-				Point l2 = r.getAbsoluteCoorEnd();
+				PointDouble l1 = r.getAbsoluteCoorStart();
+				PointDouble l2 = r.getAbsoluteCoorEnd();
 				int c1 = stickingPolygon.isConnected(l1, handler.getGridSize());
 				int c2 = stickingPolygon.isConnected(l2, handler.getGridSize());
 				if (c1 >= 0) lpts.add(new RelationLinePoint(r, 0, c1));

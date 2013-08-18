@@ -18,7 +18,7 @@ public class Rectangle {
 	public Rectangle(Double x, Double y, Double width, Double height) {
 		this(x.intValue(), y.intValue(), width.intValue(), height.intValue());
 	}
-	
+
 	public Rectangle(int x, int y, int width, int height) {
 		this();
 		setBounds(x, y, width, height);
@@ -50,7 +50,7 @@ public class Rectangle {
 	public int getY2() {
 		return y + height;
 	}
-	
+
 	public PointDouble getUpperLeftCorner() {
 		return new PointDouble(x,y);
 	}
@@ -87,7 +87,7 @@ public class Rectangle {
 		this.x += diffX;
 		this.y += diffY;
 	}
-	
+
 	public void addBorder(int border) {
 		x -= border;
 		y -= border;
@@ -107,7 +107,7 @@ public class Rectangle {
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	public void setSize(int width, int height) {
 		this.width = width;
 		this.height = height;
@@ -120,7 +120,7 @@ public class Rectangle {
 		if (getX() > other.getX2()) return false;
 		return true;
 	}
-	
+
 	/**
 	 * move the bounds of this rectangle to the lowest upper/left and highest lower/right bounds
 	 * eg: Rect(x=-1,y=2,x2=3,y2=5).merge(Rect(x=2,y=1,x2=5,y2=3))=Rect(x=-1,y=1,x2=5,y2=5)
@@ -135,7 +135,7 @@ public class Rectangle {
 		setWidth(Math.max(oldX2, other.getX2()) - getX());
 		setHeight(Math.max(oldY2, other.getY2()) - getY());
 	}
-	
+
 	public Rectangle copy() {
 		return new Rectangle(x, y, width, height);
 	}

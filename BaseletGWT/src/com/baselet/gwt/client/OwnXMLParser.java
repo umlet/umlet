@@ -28,7 +28,7 @@ public class OwnXMLParser {
 	private static final String GT_ENCODED = "&gt;"; // in some cases the xml parser doesn't convert automatically (especially together with URL.encoded strings) therefore replace manually
 	private static final String LT = "<";
 	private static final String LT_ENCODED = "&lt;";
-	
+
 	private static final Logger log = Logger.getLogger(OwnXMLParser.class);
 
 	private static final String DIAGRAM = "diagram";
@@ -52,17 +52,23 @@ public class OwnXMLParser {
 		}
 		return xmlToDiagram(xml);
 	}
-	
+
 	public static Diagram xmlToDiagram(String xml) {
 		String helpText = null;
-		List<GridElement> returnList = new ArrayList<GridElement>();
+		List<GridElement> gridElementList = new ArrayList<GridElement>();
 		try {
 			// parse the XML document into a DOM
 			Document messageDom = XMLParser.parse(xml);
-			
+
 			Node helpTextNode = messageDom.getElementsByTagName(HELP_TEXT).item(0);
 			if (helpTextNode != null) {
 				helpText = helpTextNode.getFirstChild().getNodeValue();
+			}
+
+			float zoomScale = 1.0f;
+			Node zoomElement = messageDom.getElementsByTagName(ZOOM_LEVEL).item(0);
+			if (zoomElement != null) {
+				zoomScale = Float.valueOf(zoomElement.getFirstChild().getNodeValue()) / NewGridElementConstants.DEFAULT_GRID_SIZE;
 			}
 
 			NodeList elements = messageDom.getElementsByTagName(ELEMENT);
@@ -72,7 +78,7 @@ public class OwnXMLParser {
 					ElementId id = ElementId.valueOf(element.getElementsByTagName(ID).item(0).getFirstChild().getNodeValue());
 					Element coord = (Element) element.getElementsByTagName(COORDINATES).item(0);
 					Rectangle rect = new Rectangle(getInt(coord, X), getInt(coord, Y), getInt(coord, W), getInt(coord, H));
-					
+
 					String panelAttributes = "";
 					Node panelAttrNode = element.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild();
 					if (panelAttrNode != null) {
@@ -84,7 +90,16 @@ public class OwnXMLParser {
 					if (additionalAttrNode != null && additionalAttrNode.getFirstChild() != null) {
 						additionalPanelAttributes = additionalAttrNode.getFirstChild().getNodeValue();
 					}
-					returnList.add(ElementFactory.create(id, rect, panelAttributes, additionalPanelAttributes));
+					GridElement gridElement = ElementFactory.create(id, rect, panelAttributes, additionalPanelAttributes);
+					if (zoomScale != 1.0f) {
+						Rectangle r = gridElement.getRectangle();
+						r.setX((int) (r.getX() / zoomScale));
+						r.setY((int) (r.getY() / zoomScale));
+						r.setWidth((int) (r.getWidth() / zoomScale));
+						r.setHeight((int) (r.getHeight() / zoomScale));
+						gridElement.updateModelFromText();
+					}
+					gridElementList.add(gridElement);
 				} catch (Exception e) {
 					log.error("Element has invalid XML structure: " + element, e);
 					Notification.showFeatureNotSupported("Diagram has invalid element: " + element, true);
@@ -94,7 +109,7 @@ public class OwnXMLParser {
 			log.error("Parsing error", e);
 			Window.alert("Could not parse XML document.");
 		}
-		return new Diagram(helpText, returnList);
+		return new Diagram(helpText, gridElementList);
 	}
 
 	private static Integer getInt(Element coordinates, String tag) {
@@ -116,16 +131,16 @@ public class OwnXMLParser {
 
 		for (GridElement ge : diagram.getGridElements()) {
 			diagramElement.appendChild(
-				create(doc, ELEMENT, 
-					create(doc, ID, doc.createTextNode(ge.getId().toString())), 
-					create(doc, COORDINATES, 
-							create(doc, X, doc.createTextNode(ge.getRectangle().getX()+"")), 
-							create(doc, Y, doc.createTextNode(ge.getRectangle().getY()+"")), 
-							create(doc, W, doc.createTextNode(ge.getRectangle().getWidth()+"")), 
-							create(doc, H, doc.createTextNode(ge.getRectangle().getHeight()+""))), 
-					create(doc, PANEL_ATTRIBUTES, doc.createTextNode(ge.getPanelAttributes().replace(LT, LT_ENCODED).replace(GT, GT_ENCODED))), 
-					create(doc, ADDITIONAL_ATTRIBUTES, doc.createTextNode(ge.getAdditionalAttributes()))
-				));
+					create(doc, ELEMENT, 
+							create(doc, ID, doc.createTextNode(ge.getId().toString())), 
+							create(doc, COORDINATES, 
+									create(doc, X, doc.createTextNode(ge.getRectangle().getX()+"")), 
+									create(doc, Y, doc.createTextNode(ge.getRectangle().getY()+"")), 
+									create(doc, W, doc.createTextNode(ge.getRectangle().getWidth()+"")), 
+									create(doc, H, doc.createTextNode(ge.getRectangle().getHeight()+""))), 
+									create(doc, PANEL_ATTRIBUTES, doc.createTextNode(ge.getPanelAttributes().replace(LT, LT_ENCODED).replace(GT, GT_ENCODED))), 
+									create(doc, ADDITIONAL_ATTRIBUTES, doc.createTextNode(ge.getAdditionalAttributes()))
+							));
 		}
 		return doc.toString();
 	}
