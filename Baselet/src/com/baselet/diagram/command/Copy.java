@@ -5,6 +5,7 @@ import java.util.Vector;
 import com.baselet.control.ClipBoard;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
+import com.umlet.element.experimental.ElementFactory;
 
 
 public class Copy extends Command {
@@ -22,7 +23,7 @@ public class Copy extends Command {
 		if (this.entities == null) {
 			this.entities = new Vector<GridElement>();
 			for (GridElement e : handler.getDrawPanel().getSelector().getSelectedElements())
-				this.entities.add(e.CloneFromMe());
+				this.entities.add(ElementFactory.createCopy(e));
 		}
 
 		// if (entities.isEmpty()) return; UNCOMMENTED TO ALLOW COPY FULL DIAGRAM TO CLIPBOARD WITHOUT SELECTING ANYTHING

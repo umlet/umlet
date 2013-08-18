@@ -83,11 +83,6 @@ public abstract class NewGridElement implements GridElement {
 		this.group = group;
 	}
 
-	@Override
-	public GridElement CloneFromMe() {
-		return handler.cloneElement();
-	}
-
 	/**
 	 * ugly workaround to avoid that the Resize().execute() call which calls setSize() on this model updates the model during the
 	 * calculated model update from autoresize. Otherwise the drawer cache would get messed up (it gets cleaned up 2 times in a row and afterwards everything gets drawn 2 times).

@@ -19,8 +19,6 @@ public interface GridElement extends HasPanelAttributes {
 
 	void setGroup(GridElement object);
 
-	GridElement CloneFromMe();
-
 	void setLocationDifference(int diffx, int diffy);
 
 	String getAdditionalAttributes();

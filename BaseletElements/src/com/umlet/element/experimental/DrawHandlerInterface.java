@@ -1,6 +1,5 @@
 package com.umlet.element.experimental;
 
-import com.baselet.element.GridElement;
 
 public interface DrawHandlerInterface {
 
@@ -9,8 +8,6 @@ public interface DrawHandlerInterface {
 	float getZoomFactor();
 	
 	boolean displaceDrawingByOnePixel();
-	
-	GridElement cloneElement();
 	
 	void resize(double diffw, double diffh);
 
