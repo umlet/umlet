@@ -12,6 +12,6 @@ public interface DrawHandlerInterface {
 	
 	GridElement cloneElement();
 	
-	void Resize(double diffw, double diffh);
+	void resize(double diffw, double diffh);
 
 }

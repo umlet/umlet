@@ -67,7 +67,7 @@ public class DrawCanvas {
 		double elHeight = 120;
 		double elXPos = getWidth()/2 - elWidth/2;
 		double elYPos = getHeight()/2 - elHeight;
-		GridElement emptyElement = ElementFactory.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), "halign=center\nDouble-click on an element to add it to the diagram\n\n<Import> uxf Files using the Menu or simply drag them into the diagram\n\n<Export> diagrams to Standalone-UMLet-compatible uxf or png \n\n<Save> diagrams to persistent browser storage", "");
+		GridElement emptyElement = ElementFactory.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), "halign=center\nDouble-click on an element to add it to the diagram\n\n<Import> uxf Files using the Menu or simply drag them into the diagram\n\n<Export> diagrams to Standalone-UMLet-compatible uxf or png \n\n<Save> diagrams to persistent browser storage", "", null);
 		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false);
 
 	}

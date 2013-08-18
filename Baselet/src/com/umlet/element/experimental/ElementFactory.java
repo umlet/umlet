@@ -10,9 +10,6 @@ import com.plotlet.element.PlotGrid;
 
 public class ElementFactory {
 
-	public static NewGridElement create(String idString, Rectangle bounds, String panelAttributes, String additionalAttributes, DiagramHandler handler) {
-		return create(ElementId.valueOf(idString), bounds, panelAttributes, additionalAttributes, handler);
-	}
 	/**
 	 * uses no reflection, to avoid complications with GWT
 	 */
@@ -39,10 +36,10 @@ public class ElementFactory {
 			@Override
 			public GridElement cloneElement() {
 				NewGridElement old = returnObj;
-				return create(old.getId(), old.getRectangle(), old.getPanelAttributes(), old.getAdditionalAttributes(), Main.getHandlerForElement(old));
+				return create(old.getId(), old.getRectangle().copy(), old.getPanelAttributes(), old.getAdditionalAttributes(), Main.getHandlerForElement(old));
 			}
 			@Override
-			public void Resize(double diffw, double diffh) {
+			public void resize(double diffw, double diffh) {
 				double diffwInCurrentZoom = diffw * getZoomFactor();
 				double diffhInCurrentZoom = diffh * getZoomFactor();
 				int diffwRealigned = Main.getHandlerForElement(returnObj).realignToGrid(false, diffwInCurrentZoom, true);
@@ -55,5 +52,9 @@ public class ElementFactory {
 		returnObj.init(bounds, panelAttributes, additionalAttributes, component, panel);
 		handler.setHandlerAndInitListeners(returnObj);
 		return returnObj;
+	}
+
+	public static NewGridElement createCopy(GridElement old) {
+		return create(old.getId(), old.getRectangle().copy(), old.getPanelAttributes(), old.getAdditionalAttributes(), Main.getHandlerForElement(old));
 	}
 }

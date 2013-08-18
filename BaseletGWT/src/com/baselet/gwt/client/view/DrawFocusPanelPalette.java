@@ -6,6 +6,7 @@ import java.util.List;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.element.Diagram;
+import com.baselet.gwt.client.element.ElementFactory;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -36,7 +37,7 @@ public class DrawFocusPanelPalette extends DrawFocusPanel {
 	@Override
 	void doDoubleClickAction(GridElement ge) {
 		otherDrawFocusPanel.setFocus(true);
-		GridElement e = ge.CloneFromMe();
+		GridElement e = ElementFactory.create(ge, otherDrawFocusPanel.getDiagram());
 		commandInvoker.realignElementsToVisibleRect(otherDrawFocusPanel, Arrays.asList(e));
 		commandInvoker.addElements(otherDrawFocusPanel, e);
 	}

@@ -54,8 +54,8 @@ public class OwnXMLParser {
 	}
 
 	public static Diagram xmlToDiagram(String xml) {
+		Diagram diagram = null;
 		String helpText = null;
-		List<GridElement> gridElementList = new ArrayList<GridElement>();
 		try {
 			// parse the XML document into a DOM
 			Document messageDom = XMLParser.parse(xml);
@@ -71,6 +71,7 @@ public class OwnXMLParser {
 				zoomScale = Float.valueOf(zoomElement.getFirstChild().getNodeValue()) / NewGridElementConstants.DEFAULT_GRID_SIZE;
 			}
 
+			diagram = new Diagram(helpText, new ArrayList<GridElement>());
 			NodeList elements = messageDom.getElementsByTagName(ELEMENT);
 			for (int i = 0; i < elements.getLength(); i++) {
 				Element element = (Element) elements.item(i);
@@ -90,7 +91,7 @@ public class OwnXMLParser {
 					if (additionalAttrNode != null && additionalAttrNode.getFirstChild() != null) {
 						additionalPanelAttributes = additionalAttrNode.getFirstChild().getNodeValue();
 					}
-					GridElement gridElement = ElementFactory.create(id, rect, panelAttributes, additionalPanelAttributes);
+					GridElement gridElement = ElementFactory.create(id, rect, panelAttributes, additionalPanelAttributes, diagram);
 					if (zoomScale != 1.0f) {
 						Rectangle r = gridElement.getRectangle();
 						r.setX((int) (r.getX() / zoomScale));
@@ -99,7 +100,7 @@ public class OwnXMLParser {
 						r.setHeight((int) (r.getHeight() / zoomScale));
 						gridElement.updateModelFromText();
 					}
-					gridElementList.add(gridElement);
+					diagram.getGridElements().add(gridElement);
 				} catch (Exception e) {
 					log.error("Element has invalid XML structure: " + element, e);
 					Notification.showFeatureNotSupported("Diagram has invalid element: " + element, true);
@@ -109,7 +110,7 @@ public class OwnXMLParser {
 			log.error("Parsing error", e);
 			Window.alert("Could not parse XML document.");
 		}
-		return new Diagram(helpText, gridElementList);
+		return diagram;
 	}
 
 	private static Integer getInt(Element coordinates, String tag) {

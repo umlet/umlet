@@ -13,6 +13,8 @@ import com.baselet.diagram.commandnew.RemoveGridElementCommand;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.BrowserStorage;
+import com.baselet.gwt.client.element.Diagram;
+import com.baselet.gwt.client.element.ElementFactory;
 
 public class CommandInvoker extends Controller {
 
@@ -44,7 +46,7 @@ public class CommandInvoker extends Controller {
 	//TODO implement copy & paste as commands
 
 	void copySelectedElements(DrawFocusPanel target) {
-		BrowserStorage.setClipboard(copyElementsInList(target.getSelector().getSelectedElements())); // must be copied here to ensure location etc. will not be changed
+		BrowserStorage.setClipboard(copyElementsInList(target.getSelector().getSelectedElements(), target.getDiagram())); // must be copied here to ensure location etc. will not be changed
 	}
 
 	void cutSelectedElements(DrawFocusPanel target) {
@@ -53,15 +55,15 @@ public class CommandInvoker extends Controller {
 	}
 	
 	void pasteElements(DrawFocusPanel target) {
-		List<GridElement> copyOfElements = copyElementsInList(BrowserStorage.getClipboard());
+		List<GridElement> copyOfElements = copyElementsInList(BrowserStorage.getClipboard(), target.getDiagram());
 		realignElementsToVisibleRect(target, copyOfElements);
 		addElements(target, copyOfElements); // copy here to make sure it can be pasted multiple times
 	}
 
-	private List<GridElement> copyElementsInList(Collection<GridElement> sourceElements) {
+	private List<GridElement> copyElementsInList(Collection<GridElement> sourceElements, Diagram targetDiagram) {
 		List<GridElement> targetElements = new ArrayList<GridElement>();
 		for (GridElement ge : sourceElements) {
-			GridElement e = ge.CloneFromMe();
+			GridElement e = ElementFactory.create(ge, targetDiagram);
 			targetElements.add(e);
 		}
 		return targetElements;

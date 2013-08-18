@@ -304,7 +304,7 @@ public abstract class NewGridElement implements GridElement {
 		double height = necessaryElementDimension.getHeight() + drawer.textHeight()/2;
 		double diffw = width-getRealSize().width;
 		double diffh = height-getRealSize().height;
-		handler.Resize(diffw, diffh);
+		handler.resize(diffw, diffh);
 	}
 
 	private Map<Stickable, Set<PointDouble>> stickablesFromFirstDrag = new HashMap<Stickable, Set<PointDouble>>();
@@ -334,12 +334,12 @@ public abstract class NewGridElement implements GridElement {
 			if (resizeDirection.contains(Direction.DOWN)) {
 				rect.setHeight(Math.max(rect.getHeight() + diffY, MINIMAL_SIZE));
 			}
+
+			if (!this.autoresizePossiblyInProgress) {
 			updateModelFromText();
+			}
 		}
 
-		for (Object o : stickablesFromFirstDrag.entrySet()) {
-			System.out.println(o);
-		}
 		// compare stickingpolygon before drag with stickingpolygon after drag
 		StickingPolygon newStickingPolygon = generateStickingBorder();
 		Iterator<StickLine> oldLineIter = oldStickingPolygon.getStickLines().iterator();
