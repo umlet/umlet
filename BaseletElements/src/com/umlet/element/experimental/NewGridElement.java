@@ -13,6 +13,7 @@ import java.util.Vector;
 
 import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.SharedUtils;
+import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
@@ -227,7 +228,7 @@ public abstract class NewGridElement implements GridElement {
 		if (width != getRectangle().width || height != getRectangle().height) { // only change size if it is really different
 			Rectangle rect = getRectangle();
 			rect.setSize(width, height);
-			component.setBoundsRect(rect);
+			setRectangle(rect);
 			if (!this.autoresizePossiblyInProgress) {
 				updateModelFromText();
 			}
@@ -293,13 +294,14 @@ public abstract class NewGridElement implements GridElement {
 	public abstract ElementId getId();
 
 	@Override
-	public void handleAutoresize(DimensionDouble necessaryElementDimension) {
+	public void handleAutoresize(DimensionDouble necessaryElementDimension, AlignHorizontal alignHorizontal) {
 		double hSpaceLeftAndRight = drawer.getDistanceHorizontalBorderToText() * 2;
 		double width = necessaryElementDimension.getWidth() + hSpaceLeftAndRight;
 		double height = necessaryElementDimension.getHeight() + drawer.textHeight()/2;
-		double diffw = width-getRealSize().width;
-		double diffh = height-getRealSize().height;
-		handler.resize(diffw, diffh);
+		Dimension realSize = getRealSize();
+		double diffw = width-realSize.width;
+		double diffh = height-realSize.height;
+		handler.resize(diffw, diffh, alignHorizontal);
 	}
 
 	private Map<Stickable, Set<PointDouble>> stickablesFromFirstDrag = new HashMap<Stickable, Set<PointDouble>>();
@@ -310,7 +312,7 @@ public abstract class NewGridElement implements GridElement {
 		if (resizeDirection.isEmpty()) { // Move GridElement
 			setLocationDifference(diffX, diffY);
 		} else { // Resize GridElement
-			Rectangle rect = component.getBoundsRect();
+			Rectangle rect = getRectangle();
 			if (isShiftKeyDown && diagonalResize(resizeDirection)) { // Proportional Resize
 				if (diffX > diffY) diffX = diffY;
 				if (diffY > diffX) diffY = diffX;

@@ -56,7 +56,7 @@ public class Properties {
 		parseGlobalFacets(elementSettings.getGlobalFacets());
 
 		if (getElementStyle() == ElementStyleEnum.AUTORESIZE) {
-			element.handleAutoresize(getExpectedElementDimensionsOnDefaultZoom(element));
+			element.handleAutoresize(getExpectedElementDimensionsOnDefaultZoom(element), propCfg.gethAlign());
 		}
 		this.propCfg.setGridElementSize(element.getRealSize());
 	}

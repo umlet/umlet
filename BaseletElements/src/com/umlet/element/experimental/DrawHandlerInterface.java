@@ -1,5 +1,7 @@
 package com.umlet.element.experimental;
 
+import com.baselet.control.enumerations.AlignHorizontal;
+
 
 public interface DrawHandlerInterface {
 
@@ -9,6 +11,6 @@ public interface DrawHandlerInterface {
 	
 	boolean displaceDrawingByOnePixel();
 	
-	void resize(double diffw, double diffh);
+	void resize(double diffw, double diffh, AlignHorizontal alignHorizontal);
 
 }

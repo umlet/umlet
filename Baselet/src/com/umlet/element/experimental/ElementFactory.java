@@ -2,6 +2,7 @@ package com.umlet.element.experimental;
 
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
+import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.geom.Rectangle;
@@ -35,13 +36,24 @@ public class ElementFactory {
 				return Utils.displaceDrawingByOnePixel();
 			}
 			@Override
-			public void resize(double diffw, double diffh) {
+			public void resize(double diffw, double diffh, AlignHorizontal alignHorizontal) {
 				double diffwInCurrentZoom = diffw * getZoomFactor();
 				double diffhInCurrentZoom = diffh * getZoomFactor();
-				int diffwRealigned = Main.getHandlerForElement(returnObj).realignToGrid(false, diffwInCurrentZoom, true);
-				int diffhRealigned = Main.getHandlerForElement(returnObj).realignToGrid(false, diffhInCurrentZoom, true);
+				DiagramHandler h = Main.getHandlerForElement(returnObj);
+				int diffhRealigned = h.realignToGrid(false, diffhInCurrentZoom, true);
+
 				// use resize command to move sticked relations correctly with the element
-				new Resize(returnObj, 0, 0, diffwRealigned, diffhRealigned).execute(Main.getHandlerForElement(returnObj));
+				int xDiff = 0;
+				int wDiff = 0;
+				if (alignHorizontal == AlignHorizontal.LEFT) {
+					wDiff = h.realignToGrid(false, diffwInCurrentZoom, true);
+				} else if (alignHorizontal == AlignHorizontal.RIGHT) {
+					xDiff = -h.realignToGrid(false, diffwInCurrentZoom, true);
+				} else if (alignHorizontal == AlignHorizontal.CENTER) {
+					wDiff = h.realignToGrid(false, diffwInCurrentZoom/2, true);
+					xDiff = -h.realignToGrid(false, diffwInCurrentZoom/2, true);
+				}
+				new Resize(returnObj, xDiff, 0, wDiff, diffhRealigned).execute(h);
 			}
 		};
 
