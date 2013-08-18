@@ -1,5 +1,6 @@
 package com.umlet.element.experimental.element.uml;
 
+import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
@@ -61,24 +62,27 @@ public class Actor extends NewGridElement {
 
 	@Override
 	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
+		properties.drawPropertiesText();
 		int hCenter = getRealSize().width/2;
 		drawer.drawCircle(hCenter, headRadius(), headRadius()); // Head
 		drawer.drawLine(hCenter-armLength(), armHeight(), hCenter+armLength(), armHeight()); // Arms
 		drawer.drawLine(hCenter, headRadius()*2, hCenter, headToBodyLength()); // Body
 		drawer.drawLine(hCenter, headToBodyLength(), hCenter-legSpan(), headToLegLength()); // Legs
 		drawer.drawLine(hCenter, headToBodyLength(), hCenter+legSpan(), headToLegLength()); // Legs
-		properties.drawPropertiesText();
 	}
 
 	@Override
 	public StickingPolygon generateStickingBorder(Rectangle rect) {
-		int hCenter = getRealSize().width/2;
-
+		double hCenter = getRealSize().width/2;
+		int left = SharedUtils.realignToGrid(false, hCenter-armLength(), false);
+		int right = SharedUtils.realignToGrid(false, hCenter+armLength(), true)-1;
+		int head = (int) headToLegLength();
+		
 		StickingPolygon p = new StickingPolygon(rect.x, rect.y);
-		p.addPoint((int)(hCenter-armLength()), 0);
-		p.addPoint((int)(hCenter+armLength()), 0);
-		p.addPoint((int)(hCenter+armLength()), (int)(headToLegLength()));
-		p.addPoint((int)(hCenter-armLength()), (int)(headToLegLength()), true);
+		p.addPoint(left, 0);
+		p.addPoint(right, 0);
+		p.addPoint(right, head);
+		p.addPoint(left, head, true);
 		return p;
 	}
 
