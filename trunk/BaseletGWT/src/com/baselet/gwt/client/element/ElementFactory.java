@@ -27,7 +27,7 @@ public class ElementFactory {
 			public void resize(double diffw, double diffh) {
 				int diffwInt = SharedUtils.realignToGrid(false, diffw, true);
 				int diffhInt = SharedUtils.realignToGrid(false, diffh, true);
-				element.drag(Arrays.asList(Direction.RIGHT), diffwInt, diffhInt, new Point(0,0), false, true, diagram.getRelations());
+				element.drag(Arrays.asList(Direction.RIGHT, Direction.DOWN), diffwInt, diffhInt, new Point(0,0), false, true, diagram.getRelations());
 			}
 		};
 		
