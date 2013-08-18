@@ -1,7 +1,9 @@
 package com.umlet.element.experimental;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
@@ -10,6 +12,8 @@ import com.umlet.element.experimental.facets.DefaultGlobalFacet;
 import com.umlet.element.experimental.facets.DefaultGlobalTextFacet;
 import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.Facet;
+import com.umlet.element.experimental.facets.GlobalFacet;
+import com.umlet.element.experimental.facets.GlobalFacet.Priority;
 
 public abstract class Settings {
 
@@ -51,25 +55,34 @@ public abstract class Settings {
 	}
 
 	private List<Facet> localFacets;
-	private List<Facet> globalFacets;
+	Map<Priority, List<GlobalFacet>> globalFacets;
 	private void initFacets() {
 		if (localFacets == null) {
 			localFacets = new ArrayList<Facet>();
-			globalFacets = new ArrayList<Facet>();
+			globalFacets = new HashMap<Priority, List<GlobalFacet>>();
 			for (Facet f : createFacets()) {
-				if (f.isGlobal()) {
-					globalFacets.add(f);
+				if (f instanceof GlobalFacet) {
+					addGlobalFacet((GlobalFacet) f);
 				} else {
 					localFacets.add(f);
 				}
 			}
 			if (addDefaultGlobalFacets()) {
-				globalFacets.add(new DefaultGlobalFacet());
+				addGlobalFacet(new DefaultGlobalFacet());
 			}
 			if (addDefaultGlobalTextFacet()) {
-				globalFacets.add(new DefaultGlobalTextFacet());
+				addGlobalFacet(new DefaultGlobalTextFacet());
 			}
 		}
+	}
+
+	private void addGlobalFacet(GlobalFacet f) {
+		List<GlobalFacet> list = globalFacets.get(f.getPriority());
+		if (list == null) {
+			list = new ArrayList<GlobalFacet>();
+			globalFacets.put(f.getPriority(), list);
+		}
+		list.add(f);
 	}
 
 	public final List<Facet> getLocalFacets() {
@@ -77,7 +90,7 @@ public abstract class Settings {
 		return localFacets;
 	}
 
-	public final List<Facet> getGlobalFacets() {
+	public final Map<Priority, List<GlobalFacet>> getGlobalFacets() {
 		initFacets();
 		return globalFacets;
 	}

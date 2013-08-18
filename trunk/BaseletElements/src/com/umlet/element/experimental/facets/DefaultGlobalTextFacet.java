@@ -91,5 +91,9 @@ public class DefaultGlobalTextFacet extends GlobalStatelessFacet {
 		}
 		return returnList.toArray(new AutocompletionText[returnList.size()]);
 	}
+	
+	public Priority getPriority() {
+		return Priority.HIGH;
+	}
 
 }

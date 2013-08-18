@@ -30,6 +30,7 @@ import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.Facet;
+import com.umlet.element.experimental.facets.GlobalFacet;
 
 public abstract class NewGridElement implements GridElement {
 
@@ -275,15 +276,17 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public List<AutocompletionText> getAutocompletionList() {
 		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
-		addAutocompletionTexts(returnList, getSettings().getGlobalFacets());
+		for (List<? extends Facet> f : getSettings().getGlobalFacets().values()) {
+			addAutocompletionTexts(returnList, f);
+		}
 		addAutocompletionTexts(returnList, getSettings().getLocalFacets());
 		return returnList;
 	}
 
-	private void addAutocompletionTexts(List<AutocompletionText> returnList, List<Facet> facets) {
+	private void addAutocompletionTexts(List<AutocompletionText> returnList, List<? extends Facet> facets) {
 		for (Facet f : facets) {
 			for (AutocompletionText t : f.getAutocompletionStrings()) {
-				t.setGlobal(f.isGlobal());
+				t.setGlobal(f instanceof GlobalFacet);
 				returnList.add(t);
 			}
 		}

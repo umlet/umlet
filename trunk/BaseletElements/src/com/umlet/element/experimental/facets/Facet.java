@@ -16,6 +16,4 @@ public interface Facet {
 	
 	AutocompletionText[] getAutocompletionStrings();
 	
-	boolean isGlobal();
-	
 }

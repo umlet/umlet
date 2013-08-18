@@ -2,7 +2,9 @@ package com.umlet.element.experimental;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.baselet.control.TextSplitter;
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -13,6 +15,8 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.Facet;
+import com.umlet.element.experimental.facets.GlobalFacet;
+import com.umlet.element.experimental.facets.GlobalFacet.Priority;
 
 public class Properties {
 
@@ -45,7 +49,7 @@ public class Properties {
 
 	public void initSettingsFromText(NewGridElement element) {
 		element.onParsingStart();
-		propertiesTextToDraw = new ArrayList<String>();
+		propertiesTextToDraw = new ArrayList<String>(getPanelAttributesAsList());
 		this.elementSettings = element.getSettings();
 		this.propCfg = new PropertiesConfig(element.getSettings());
 
@@ -57,10 +61,15 @@ public class Properties {
 		this.propCfg.setGridElementSize(element.getRealSize());
 	}
 
-	private void parseGlobalFacets(List<? extends Facet> facets) {
-		for (String line : getPanelAttributesAsList()) {
-			boolean drawText = parseFacets(facets, line, drawer, propCfg);
-			if (drawText && !line.startsWith("//")) propertiesTextToDraw.add(line);
+	private void parseGlobalFacets(Map<Priority, List<GlobalFacet>> globalFacetMap) {
+		for (Priority priority : Priority.values()) {
+			List<GlobalFacet> facets = globalFacetMap.get(priority);
+			if (facets == null) continue; // skip priorities without facets
+			for (Iterator<String> iter = propertiesTextToDraw.iterator(); iter.hasNext();) {
+				String line = iter.next();
+				boolean drawText = parseFacets(facets, line, drawer, propCfg);
+				if (!drawText || line.startsWith("//")) iter.remove();
+			}
 		}
 	}
 
