@@ -13,12 +13,14 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
+import com.baselet.gui.AutocompletionText;
 import com.baselet.shared.Matrix;
 import com.plotlet.element.plotgrid.AbstractPlot;
 import com.plotlet.element.plotgrid.BarPlot;
 import com.plotlet.element.plotgrid.LinePlot;
 import com.plotlet.element.plotgrid.PiePlot;
 import com.plotlet.element.plotgrid.ScatterPlot;
+import com.plotlet.gui.PlotletSyntaxKit;
 import com.plotlet.parser.Parser;
 import com.plotlet.parser.ParserException;
 import com.plotlet.parser.ParserResult;
@@ -27,9 +29,11 @@ import com.plotlet.parser.PlotState;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
+import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.Settings;
 import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.Facet;
+import com.umlet.element.experimental.facets.GlobalFacet;
 
 
 
@@ -265,8 +269,41 @@ public class PlotGrid extends NewGridElement {
 				return ElementStyleEnum.RESIZE;
 			}
 			@Override
+			protected boolean addDefaultGlobalFacets() {
+				return false;
+			}
+			@Override
+			protected boolean addDefaultGlobalTextFacet() {
+				return false;
+			}
+			@Override
 			public Facet[] createFacets() {
-				return new Facet[]{};
+				return new Facet[]{new GlobalFacet() {
+					
+					@Override
+					public boolean replacesText(String line) {
+						return false;
+					}
+					
+					@Override
+					public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+						// do nothing
+					}
+					
+					@Override
+					public AutocompletionText[] getAutocompletionStrings() {
+						List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
+						for (String autocomp : PlotletSyntaxKit.createAutocompletionList(",").split(",")) {
+							returnList.add(new AutocompletionText(autocomp,null));
+						}
+						return returnList.toArray(new AutocompletionText[returnList.size()]);
+					}
+					
+					@Override
+					public boolean checkStart(String line) {
+						return true;
+					}
+				}};
 			}
 		};
 	}
