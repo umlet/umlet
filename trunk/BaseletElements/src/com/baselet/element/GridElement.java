@@ -3,6 +3,7 @@ package com.baselet.element;
 import java.util.Collection;
 import java.util.Set;
 
+import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionDouble;
@@ -68,7 +69,7 @@ public interface GridElement extends HasPanelAttributes {
 	
 	Integer getLayer();
 
-	void handleAutoresize(DimensionDouble necessaryElementDimension);
+	void handleAutoresize(DimensionDouble necessaryElementDimension, AlignHorizontal alignHorizontal);
 	
 	ElementId getId();
 	

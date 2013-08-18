@@ -430,7 +430,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public void handleAutoresize(DimensionDouble necessaryElementDimension) {
+	public void handleAutoresize(DimensionDouble necessaryElementDimension, AlignHorizontal alignHorizontal) {
 		/* not possible on OldGridElement */
 	}
 	

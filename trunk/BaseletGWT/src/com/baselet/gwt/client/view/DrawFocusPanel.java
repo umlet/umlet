@@ -24,7 +24,6 @@ import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.MouseUtils.MouseDragHandler;
 import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
-import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -65,9 +64,9 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		selector = new SelectorNew() {
 			public void doAfterSelectionChanged() {
 				if (!getSelectedElements().isEmpty()) { // always set properties text of latest selected element (so you also have an element in the prop panel even if you have an active multiselect)
-					propertiesPanel.setGridElement(getSelectedElements().get(getSelectedElements().size()-1));
+					propertiesPanel.setGridElement(getSelectedElements().get(getSelectedElements().size()-1), DrawFocusPanel.this);
 				} else {
-					propertiesPanel.setGridElement(diagram);
+					propertiesPanel.setGridElement(diagram, DrawFocusPanel.this);
 				}
 				redraw();
 			}
@@ -123,14 +122,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 		this.add(canvas.getWidget());
 
-		propertiesPanel.addInstantValueChangeHandler(new InstantValueChangeHandler() {
-			@Override
-			public void onValueChange(String value) {
-				propertiesPanel.updateElementOrHelptext();
-				redraw();
-			}
-		});
-
 		this.addFocusHandler(new FocusHandler() {
 			@Override
 			public void onFocus(FocusEvent event) {
@@ -161,7 +152,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 					if (element != null) {
 						if (selector.isSelected(element)) {
 							selector.moveToLastPosInList(element);
-							propertiesPanel.setGridElement(element);
+							propertiesPanel.setGridElement(element, DrawFocusPanel.this);
 						} else {
 							selector.selectOnly(element);
 						}
@@ -286,7 +277,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		return scrollPanel.getVisibleBounds();
 	}
 
-	void redraw() {
+	public void redraw() {
 		redraw(true);
 	}
 

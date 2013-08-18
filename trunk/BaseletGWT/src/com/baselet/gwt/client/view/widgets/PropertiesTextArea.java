@@ -1,6 +1,7 @@
 package com.baselet.gwt.client.view.widgets;
 
 import com.baselet.element.HasPanelAttributes;
+import com.baselet.gwt.client.view.DrawFocusPanel;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
 import com.google.gwt.uibinder.client.UiConstructor;
 
@@ -13,10 +14,22 @@ public class PropertiesTextArea extends MySuggestBox {
 	private MySuggestOracle oracle;
 
 	private HasPanelAttributes gridElement;
+	
+	private DrawFocusPanel activePanel = null;
 
 	@UiConstructor
 	public PropertiesTextArea() {
 		this(new MySuggestOracle(), new OwnTextArea(), new DefaultSuggestionDisplay());
+
+		textArea.setInstantValueChangeHandler(new InstantValueChangeHandler() {
+			@Override
+			public void onValueChange(String value) {
+				if (gridElement != null) {
+					gridElement.setPanelAttributes(getValue());
+				}
+				activePanel.redraw();
+			}
+		});
 	}
 	
 	public PropertiesTextArea(final MySuggestOracle oracle, OwnTextArea textArea, final DefaultSuggestionDisplay display) {
@@ -25,7 +38,8 @@ public class PropertiesTextArea extends MySuggestBox {
 		this.textArea = textArea;
 	}
 	
-	public void setGridElement(HasPanelAttributes panelAttributeProvider) {
+	public void setGridElement(HasPanelAttributes panelAttributeProvider, DrawFocusPanel panel) {
+		activePanel = panel;
 		this.gridElement = panelAttributeProvider;
 		String panelAttributes = panelAttributeProvider.getPanelAttributes();
 		if (panelAttributes == null) {
@@ -35,22 +49,12 @@ public class PropertiesTextArea extends MySuggestBox {
 		oracle.setAutocompletionList(panelAttributeProvider.getAutocompletionList());
 	}
 	
-	public void addInstantValueChangeHandler(InstantValueChangeHandler handler) {
-		textArea.addInstantValueChangeHandler(handler);
-	}
-	
 	/**
 	 * also fire texthandlers if a text is inserted via choosing a selectionbox entry
 	 */
 	@Override
 	public void setText(String text) {
 		super.setText(text);
-		textArea.fireHandlers();
-	}
-
-	public void updateElementOrHelptext() {
-		if (gridElement != null) {
-			gridElement.setPanelAttributes(getValue());
-		}
+		textArea.fireHandler();
 	}
 }
