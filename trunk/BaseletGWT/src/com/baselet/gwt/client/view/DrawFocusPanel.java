@@ -32,7 +32,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.umlet.element.experimental.element.uml.relation.Relation;
 
 public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
 
@@ -324,23 +323,23 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 	public GridElement getGridElementOnPosition(Point point) {
 		GridElement returnGe = null;
-		returnGe = getGridElementOnPositionHelper(point, selector.getSelectedElements());
-		if (returnGe == null) { // if no selected element is found, search all elements
+		returnGe = getGridElementOnPositionHelper(point, diagram.getRelations());
+		if (returnGe == null) { // if no relation, search all elements
 			returnGe = getGridElementOnPositionHelper(point, diagram.getGridElements());
 		}
 		return returnGe;
 	}
 
-	private GridElement getGridElementOnPositionHelper(Point point, Collection<GridElement> elements) {
+	private GridElement getGridElementOnPositionHelper(Point point, Collection<? extends GridElement> elements) {
 		GridElement returnGe = null;
 		for (GridElement ge : elements) {
 			if (ge.isSelectableOn(point)) {
 				if (returnGe == null) {
 					returnGe = ge;
 				} else {
-					boolean newIsRelationOldNot = ((ge instanceof Relation) && (!(returnGe instanceof Relation)));
+					boolean newIsSelectedOldNot = selector.isSelected(ge) && !selector.isSelected(returnGe);
 					boolean oldContainsNew = returnGe.getRectangle().contains(ge.getRectangle());
-					if (newIsRelationOldNot || oldContainsNew) {
+					if (newIsSelectedOldNot || oldContainsNew) {
 						returnGe = ge; 
 					}
 				}
