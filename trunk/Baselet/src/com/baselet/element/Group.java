@@ -18,6 +18,7 @@ import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.SelectorOld;
 import com.baselet.diagram.command.AddElement;
+import com.umlet.element.experimental.ElementFactory;
 
 
 @SuppressWarnings("serial")
@@ -159,7 +160,7 @@ public class Group extends OldGridElement {
 	public GridElement CloneFromMe() {
 		Group temp = new Group();
 		for (GridElement e : this.entities) {
-			GridElement clone = e.CloneFromMe();
+			GridElement clone = ElementFactory.createCopy(e);
 			temp.addMember(clone);
 		}
 		temp.adjustSize(false);

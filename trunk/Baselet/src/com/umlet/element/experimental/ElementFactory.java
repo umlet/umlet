@@ -6,6 +6,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
+import com.baselet.element.OldGridElement;
 import com.plotlet.element.PlotGrid;
 
 public class ElementFactory {
@@ -34,11 +35,6 @@ public class ElementFactory {
 				return Utils.displaceDrawingByOnePixel();
 			}
 			@Override
-			public GridElement cloneElement() {
-				NewGridElement old = returnObj;
-				return create(old.getId(), old.getRectangle().copy(), old.getPanelAttributes(), old.getAdditionalAttributes(), Main.getHandlerForElement(old));
-			}
-			@Override
 			public void resize(double diffw, double diffh) {
 				double diffwInCurrentZoom = diffw * getZoomFactor();
 				double diffhInCurrentZoom = diffh * getZoomFactor();
@@ -54,7 +50,11 @@ public class ElementFactory {
 		return returnObj;
 	}
 
-	public static NewGridElement createCopy(GridElement old) {
-		return create(old.getId(), old.getRectangle().copy(), old.getPanelAttributes(), old.getAdditionalAttributes(), Main.getHandlerForElement(old));
+	public static GridElement createCopy(GridElement old) {
+		if (old instanceof OldGridElement) {
+			return ((OldGridElement) old).CloneFromMe();
+		} else {
+			return create(old.getId(), old.getRectangle().copy(), old.getPanelAttributes(), old.getAdditionalAttributes(), Main.getHandlerForElement(old));
+		}
 	}
 }

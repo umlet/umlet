@@ -32,6 +32,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.StickingPolygon;
 import com.umlet.element.Relation;
+import com.umlet.element.experimental.ElementFactory;
 import com.umlet.element.relation.RelationLinePoint;
 
 public class GridElementListener extends UniversalListener {
@@ -184,7 +185,7 @@ public class GridElementListener extends UniversalListener {
 	}
 
 	public void mouseDoubleClicked(GridElement me) {
-		GridElement e = me.CloneFromMe();
+		GridElement e = ElementFactory.createCopy(me);
 		GridElementListener eListener = handler.getEntityListener(e);
 		Command cmd;
 		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();

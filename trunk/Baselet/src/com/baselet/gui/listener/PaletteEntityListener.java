@@ -16,6 +16,7 @@ import com.baselet.diagram.command.AddElement;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
+import com.umlet.element.experimental.ElementFactory;
 
 public class PaletteEntityListener extends GridElementListener {
 
@@ -157,7 +158,7 @@ public class PaletteEntityListener extends GridElementListener {
 		currentDiagram.getHandler().setGridAndZoom(Constants.DEFAULTGRIDSIZE, false);
 		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false);
 
-		GridElement e = me.CloneFromMe();
+		GridElement e = ElementFactory.createCopy(me);
 
 		Command cmd;
 		Point viewp = currentDiagram.getScrollPane().getViewport().getViewPosition();

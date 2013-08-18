@@ -12,6 +12,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
+import com.umlet.element.experimental.ElementFactory;
 import com.umlet.gui.CustomCodeSyntaxPane;
 import com.umlet.gui.CustomElementPanel;
 
@@ -224,7 +225,7 @@ public class CustomElementHandler {
 		// int oldZoom = d.getGridSize();
 		// d.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false);
 
-		GridElement e2 = e.CloneFromMe();
+		GridElement e2 = ElementFactory.createCopy(e);
 		d.setHandlerAndInitListeners(e2);
 		e2.setPanelAttributes(state);
 		e2.setRectangle(bounds);

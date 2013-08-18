@@ -24,10 +24,6 @@ public class ElementFactory {
 			@Override
 			public boolean displaceDrawingByOnePixel() { return false; }
 			@Override
-			public GridElement cloneElement() {
-				throw new RuntimeException("Use ElementFactory.create(GridElement src, final Diagram diagram) instead!");
-			}
-			@Override
 			public void resize(double diffw, double diffh) {
 				int diffwInt = SharedUtils.realignToGrid(false, diffw, true);
 				int diffhInt = SharedUtils.realignToGrid(false, diffh, true);

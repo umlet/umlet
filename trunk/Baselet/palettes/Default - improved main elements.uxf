@@ -7,7 +7,7 @@
       <x>8</x>
       <y>88</y>
       <w>320</w>
-      <h>52</h>
+      <h>48</h>
     </coordinates>
     <panel_attributes>This class has the setting
 *elementstyle=autoresize*
