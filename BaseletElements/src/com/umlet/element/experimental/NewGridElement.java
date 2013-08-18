@@ -317,13 +317,18 @@ public abstract class NewGridElement implements GridElement {
 				if (diffX > diffY) diffX = diffY;
 				if (diffY > diffX) diffY = diffX;
 			}
-			if (resizeDirection.contains(Direction.LEFT)) {
+			if (resizeDirection.contains(Direction.LEFT) && resizeDirection.contains(Direction.RIGHT)) {
+				rect.setX(rect.getX() - diffX/2);
+				rect.setWidth(Math.max(rect.getWidth() + diffX, MINIMAL_SIZE));
+			}
+			else if (resizeDirection.contains(Direction.LEFT)) {
 				rect.setX(rect.getX() + diffX);
 				rect.setWidth(Math.max(rect.getWidth() - diffX, MINIMAL_SIZE));
 			}
-			if (resizeDirection.contains(Direction.RIGHT)) {
+			else if (resizeDirection.contains(Direction.RIGHT)) {
 				rect.setWidth(Math.max(rect.getWidth() + diffX, MINIMAL_SIZE));
 			}
+			
 			if (resizeDirection.contains(Direction.UP)) {
 				rect.setY(rect.getY() + diffY);
 				rect.setHeight(Math.max(rect.getHeight() - diffY, MINIMAL_SIZE));
@@ -333,7 +338,7 @@ public abstract class NewGridElement implements GridElement {
 			}
 
 			if (!this.autoresizePossiblyInProgress) {
-			updateModelFromText();
+				updateModelFromText();
 			}
 		}
 

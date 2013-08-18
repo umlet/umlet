@@ -1,6 +1,7 @@
 package com.baselet.gwt.client.element;
 
 import java.util.Arrays;
+import java.util.List;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -28,16 +29,18 @@ public class ElementFactory {
 			public void resize(double diffw, double diffh, AlignHorizontal alignHorizontal) {
 				int diffwInt = SharedUtils.realignToGrid(false, diffw, true);
 				int diffhInt = SharedUtils.realignToGrid(false, diffh, true);
+				
+				List<Direction> directions = null;
 				if (alignHorizontal == AlignHorizontal.LEFT) {
-					element.drag(Arrays.asList(Direction.RIGHT, Direction.DOWN), diffwInt, diffhInt, new Point(0,0), false, true, diagram.getRelations());
+					directions = Arrays.asList(Direction.RIGHT, Direction.DOWN);
 				} else if (alignHorizontal == AlignHorizontal.RIGHT) {
 					diffwInt = -diffwInt;
-					element.drag(Arrays.asList(Direction.LEFT, Direction.DOWN), diffwInt, diffhInt, new Point(0,0), false, true, diagram.getRelations());
+					directions = Arrays.asList(Direction.LEFT, Direction.DOWN);
 				}else if (alignHorizontal == AlignHorizontal.CENTER) {
-					int halfDiff = SharedUtils.realignToGrid(false, diffw, true);
-					element.drag(Arrays.asList(Direction.RIGHT, Direction.DOWN), halfDiff, diffhInt, new Point(0,0), false, true, diagram.getRelations());
-					element.drag(Arrays.asList(Direction.LEFT, Direction.DOWN), -halfDiff, diffhInt, new Point(0,0), false, true, diagram.getRelations());
+					diffwInt = SharedUtils.realignToGrid(false, diffwInt/2, true) * 2;
+					directions = Arrays.asList(Direction.RIGHT, Direction.LEFT, Direction.DOWN);
 				}
+				element.drag(directions, diffwInt, diffhInt, new Point(0,0), false, true, diagram.getRelations());
 			}
 		};
 
