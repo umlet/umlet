@@ -15,6 +15,7 @@ import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
@@ -1789,15 +1790,15 @@ public class Relation extends OldGridElement {
 		return ret;
 	}
 
-	public Point getAbsoluteCoorStart() {
-		Point ret = new Point();
+	public PointDouble getAbsoluteCoorStart() {
+		PointDouble ret = new PointDouble();
 		ret.x = this.getRectangle().x + this.getStartPoint().x;
 		ret.y = this.getRectangle().y + this.getStartPoint().y;
 		return ret;
 	}
 
-	public Point getAbsoluteCoorEnd() {
-		Point ret = new Point();
+	public PointDouble getAbsoluteCoorEnd() {
+		PointDouble ret = new PointDouble();
 		ret.x = this.getRectangle().x + this.getEndPoint().x;
 		ret.y = this.getRectangle().y + this.getEndPoint().y;
 		return ret;
