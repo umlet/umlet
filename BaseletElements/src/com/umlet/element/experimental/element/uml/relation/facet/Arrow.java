@@ -12,9 +12,11 @@ import com.umlet.element.experimental.element.uml.relation.RelationPoints;
 import com.umlet.element.experimental.element.uml.relation.SettingsRelation;
 
 public abstract class Arrow extends RelationFacet {
-	
-	static final String START = "l" + SEP;
-	static final String END = "r" + SEP;
+
+	static final String START_ID = "s";
+	static final String END_ID = "e";
+	static final String START = START_ID + SEP;
+	static final String END = END_ID + SEP;
 
 	void drawArrowToLine(BaseDrawHandler drawer, Line line, boolean drawOnStart, boolean inverseArrow, boolean closeArrow) {
 		PointDouble point = drawOnStart ? line.getStart() : line.getEnd();
