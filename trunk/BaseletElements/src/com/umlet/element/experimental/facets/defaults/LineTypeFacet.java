@@ -10,11 +10,11 @@ public class LineTypeFacet extends KeyValueGlobalStatelessFacet {
 	@Override
 	public KeyValue getKeyValue() {
 		return new KeyValue("lt", 
-				new ValueInfo(LineType.DASHED.getValue(), "dashed lines"),
-				new ValueInfo(LineType.DOTTED.getValue(), "dotted lines"),
-				new ValueInfo(LineType.BOLD.getValue(), "bold lines"));
+				new ValueInfo(LineType.DASHED, "dashed lines"),
+				new ValueInfo(LineType.DOTTED, "dotted lines"),
+				new ValueInfo(LineType.BOLD, "bold lines"));
 	}
-
+	
 	@Override
 	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
 		drawer.setLineType(value.toUpperCase());
