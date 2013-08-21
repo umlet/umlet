@@ -10,9 +10,9 @@ public class VerticalAlignFacet extends KeyValueGlobalStatelessFacet {
 	@Override
 	public KeyValue getKeyValue() {
 		return new KeyValue("valign", 
-				new ValueInfo(AlignVertical.TOP.toString(), "vertical text alignment"),
-				new ValueInfo(AlignVertical.CENTER.toString(), "vertical text alignment"),
-				new ValueInfo(AlignVertical.BOTTOM.toString(), "vertical text alignment"));
+				new ValueInfo(AlignVertical.TOP, "vertical text alignment"),
+				new ValueInfo(AlignVertical.CENTER, "vertical text alignment"),
+				new ValueInfo(AlignVertical.BOTTOM, "vertical text alignment"));
 	}
 
 	@Override

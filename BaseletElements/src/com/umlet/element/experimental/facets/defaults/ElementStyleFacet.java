@@ -11,9 +11,9 @@ public class ElementStyleFacet extends KeyValueGlobalStatelessFacet {
 	@Override
 	public KeyValue getKeyValue() {
 		return new KeyValue("elementstyle", 
-				new ValueInfo(ElementStyleEnum.AUTORESIZE.toString(), "resizes element as text grows"),
-				new ValueInfo(ElementStyleEnum.WORDWRAP.toString(), "wrap lines at the end of the line"),
-				new ValueInfo(ElementStyleEnum.NORESIZE.toString(), "disable manual resizing"));
+				new ValueInfo(ElementStyleEnum.AUTORESIZE, "resizes element as text grows"),
+				new ValueInfo(ElementStyleEnum.WORDWRAP, "wrap lines at the end of the line"),
+				new ValueInfo(ElementStyleEnum.NORESIZE, "disable manual resizing"));
 	}
 
 	@Override

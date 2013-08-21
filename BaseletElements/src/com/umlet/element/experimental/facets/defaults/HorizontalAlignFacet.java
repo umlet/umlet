@@ -10,9 +10,9 @@ public class HorizontalAlignFacet extends KeyValueGlobalStatelessFacet {
 	@Override
 	public KeyValue getKeyValue() {
 		return new KeyValue("halign", 
-				new ValueInfo(AlignHorizontal.LEFT.toString(), "horizontal text alignment"),
-				new ValueInfo(AlignHorizontal.CENTER.toString(), "horizontal text alignment"),
-				new ValueInfo(AlignHorizontal.RIGHT.toString(), "horizontal text alignment"));
+				new ValueInfo(AlignHorizontal.LEFT, "horizontal text alignment"),
+				new ValueInfo(AlignHorizontal.CENTER, "horizontal text alignment"),
+				new ValueInfo(AlignHorizontal.RIGHT, "horizontal text alignment"));
 	}
 
 	@Override
