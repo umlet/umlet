@@ -13,7 +13,7 @@ import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.InnerClass;
 import com.umlet.element.experimental.facets.SeparatorLine;
 import com.umlet.element.experimental.facets.TemplateClass;
-import com.umlet.element.experimental.facets.defaultgl.ElementStyleFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 
 
 public class Class extends NewGridElement {

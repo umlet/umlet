@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.facets.defaultgl;
+package com.umlet.element.experimental.facets.defaults;
 
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;

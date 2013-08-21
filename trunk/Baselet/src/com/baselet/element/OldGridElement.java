@@ -37,9 +37,9 @@ import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.Stickable;
 import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.defaultgl.BackgroundColorFacet;
-import com.umlet.element.experimental.facets.defaultgl.ForegroundColorFacet;
-import com.umlet.element.experimental.facets.defaultgl.LayerFacet;
+import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
+import com.umlet.element.experimental.facets.defaults.ForegroundColorFacet;
+import com.umlet.element.experimental.facets.defaults.LayerFacet;
 
 public abstract class OldGridElement extends JComponent implements GridElement, com.umlet.element.experimental.Component {
 

@@ -33,7 +33,7 @@ import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.Settings;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
-import com.umlet.element.experimental.facets.defaultgl.ElementStyleFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 
 
 
