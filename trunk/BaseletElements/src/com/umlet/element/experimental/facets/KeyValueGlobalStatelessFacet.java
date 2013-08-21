@@ -26,11 +26,11 @@ public abstract class KeyValueGlobalStatelessFacet extends GlobalStatelessFacet 
 			this.valueInfos = Arrays.asList(valueInfos);
 		}
 
-		public String getKey() {
+		private String getKey() {
 			return key;
 		}
 
-		public List<ValueInfo> getValueInfos() {
+		private List<ValueInfo> getValueInfos() {
 			return valueInfos;
 		}
 	}
@@ -38,17 +38,26 @@ public abstract class KeyValueGlobalStatelessFacet extends GlobalStatelessFacet 
 	public static class ValueInfo {
 		private Object value;
 		private String info;
+		private String base64Img;
 
 		public ValueInfo(Object value, String info) {
+			this(value, info, null);
+		}
+		
+		public ValueInfo(Object value, String info, String base64Img) {
 			super();
 			this.value = value;
 			this.info = info;
+			this.base64Img = base64Img;
 		}
-		public Object getValue() {
+		private Object getValue() {
 			return value;
 		}
-		public String getInfo() {
+		private String getInfo() {
 			return info;
+		}
+		private String getBase64Img() {
+			return base64Img;
 		}
 
 	}
@@ -73,7 +82,7 @@ public abstract class KeyValueGlobalStatelessFacet extends GlobalStatelessFacet 
 	public List<AutocompletionText> getAutocompletionStrings() {
 		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
 		for (ValueInfo valueInfo : getKeyValue().getValueInfos()) {
-			returnList.add(new AutocompletionText(getKeyWithSep() + valueInfo.getValue().toString().toLowerCase(), valueInfo.getInfo()));
+			returnList.add(new AutocompletionText(getKeyWithSep() + valueInfo.getValue().toString().toLowerCase(), valueInfo.getInfo(), valueInfo.getBase64Img()));
 		}
 		return returnList;
 	}

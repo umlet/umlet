@@ -9,7 +9,7 @@ import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.umlet.element.experimental.element.uml.relation.RelationPoints;
 
-public class Arrows {
+public class RelationDrawer {
 
 	public static void drawArrowToLine(BaseDrawHandler drawer, Line line, boolean drawOnStart, boolean inverseArrow, boolean closeArrow) {
 		PointDouble point = drawOnStart ? line.getStart() : line.getEnd();
