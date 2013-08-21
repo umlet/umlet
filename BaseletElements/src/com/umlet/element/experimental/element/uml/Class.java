@@ -9,11 +9,11 @@ import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.Settings;
 import com.umlet.element.experimental.facets.ActiveClass;
-import com.umlet.element.experimental.facets.DefaultGlobalNonRelationFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.InnerClass;
 import com.umlet.element.experimental.facets.SeparatorLine;
 import com.umlet.element.experimental.facets.TemplateClass;
+import com.umlet.element.experimental.facets.defaultgl.ElementStyleFacet.ElementStyleEnum;
 
 
 public class Class extends NewGridElement {
