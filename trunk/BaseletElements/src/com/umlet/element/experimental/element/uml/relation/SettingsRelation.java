@@ -4,10 +4,16 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.Settings;
-import com.umlet.element.experimental.element.uml.relation.facet.ArrowNormal;
+import com.umlet.element.experimental.element.uml.relation.facet.Arrow;
 import com.umlet.element.experimental.element.uml.relation.facet.LineDescription;
-import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.DefaultGlobalNonRelationFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.Facet;
+import com.umlet.element.experimental.facets.GlobalFacet;
+import com.umlet.element.experimental.facets.defaultgl.BackgroundColorFacet;
+import com.umlet.element.experimental.facets.defaultgl.FontSizeFacet;
+import com.umlet.element.experimental.facets.defaultgl.ForegroundColorFacet;
+import com.umlet.element.experimental.facets.defaultgl.LayerFacet;
+import com.umlet.element.experimental.facets.defaultgl.LineThicknessFacet;
 
 public class SettingsRelation extends Settings {
 
@@ -37,11 +43,11 @@ public class SettingsRelation extends Settings {
 	}
 	@Override
 	public Facet[] createFacets() {
-		return new Facet[] {new ArrowNormal(), new LineDescription()};
+		return new Facet[] {new Arrow(), new LineDescription()};
 	}
 	@Override
-	protected boolean addDefaultGlobalTextFacet() {
-		return false;
+	protected GlobalFacet[] createDefaultGlobalFacets() {
+		return new GlobalFacet[] {new BackgroundColorFacet(), new FontSizeFacet(), new ForegroundColorFacet(), new LayerFacet(), new LineThicknessFacet()};
 	}
 
 }

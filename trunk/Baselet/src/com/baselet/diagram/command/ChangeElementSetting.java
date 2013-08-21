@@ -6,16 +6,15 @@ import java.util.Map;
 
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
-import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 
 
 public class ChangeElementSetting extends Command {
 
 	private Map<GridElement, String> entities;
-	private GlobalSetting key;
+	private String key;
 	private String value;
 
-	public ChangeElementSetting(GlobalSetting key, String value) {
+	public ChangeElementSetting(String key, String value) {
 		this.key = key;
 		this.value = value;
 	}

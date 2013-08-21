@@ -12,7 +12,6 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.umlet.element.experimental.Component;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.Stickable;
-import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 
 public interface GridElement extends HasPanelAttributes {
 
@@ -61,11 +60,11 @@ public interface GridElement extends HasPanelAttributes {
 	
 	Component getComponent();
 
-	void updateProperty(GlobalSetting key, String newValue);
+	void updateProperty(String key, String newValue);
 	
 	void updateModelFromText();
 
-	String getSetting(GlobalSetting key);
+	String getSetting(String key);
 	
 	Integer getLayer();
 

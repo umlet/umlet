@@ -36,8 +36,10 @@ import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.Stickable;
-import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
 import com.umlet.element.experimental.facets.Facet;
+import com.umlet.element.experimental.facets.defaultgl.BackgroundColorFacet;
+import com.umlet.element.experimental.facets.defaultgl.ForegroundColorFacet;
+import com.umlet.element.experimental.facets.defaultgl.LayerFacet;
 
 public abstract class OldGridElement extends JComponent implements GridElement, com.umlet.element.experimental.Component {
 
@@ -177,14 +179,14 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public String getSetting(GlobalSetting key) {
-		if (key == GlobalSetting.FOREGROUND_COLOR) return fgColorString;
-		else if (key == GlobalSetting.BACKGROUND_COLOR) return bgColorString;
+	public String getSetting(String key) {
+		if (key == ForegroundColorFacet.KEY) return fgColorString;
+		else if (key == BackgroundColorFacet.KEY) return bgColorString;
 		else return "";
 	}
 
 	@Override
-	public void updateProperty(GlobalSetting key, String newValue) {
+	public void updateProperty(String key, String newValue) {
 		String newState = "";
 		for (String line : Utils.decomposeStringsWithComments(this.getPanelAttributes())) {
 			if (!line.startsWith(key.toString())) newState += line + "\n";
@@ -381,10 +383,10 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public Integer getLayer() {
-		lastLayerValue = Integer.valueOf(GlobalSetting.LAYER.getValue());
+		lastLayerValue = LayerFacet.DEFAULT_VALUE;
 		try {
 			for (String s : Utils.decomposeStringsWithComments(panelAttributes)) {
-				String key = GlobalSetting.LAYER.toString() + Facet.SEP;
+				String key = LayerFacet.KEY + Facet.SEP;
 				if (s.startsWith(key)) {
 					String value = s.split(key)[1];
 					lastLayerValue = Integer.valueOf(value);

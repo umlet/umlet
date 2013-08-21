@@ -31,7 +31,7 @@ import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.Settings;
-import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.DefaultGlobalNonRelationFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
 
@@ -269,12 +269,8 @@ public class PlotGrid extends NewGridElement {
 				return ElementStyleEnum.RESIZE;
 			}
 			@Override
-			protected boolean addDefaultGlobalFacets() {
-				return false;
-			}
-			@Override
-			protected boolean addDefaultGlobalTextFacet() {
-				return false;
+			protected GlobalFacet[] createDefaultGlobalFacets() {
+				return new GlobalFacet[0];
 			}
 			@Override
 			public Facet[] createFacets() {

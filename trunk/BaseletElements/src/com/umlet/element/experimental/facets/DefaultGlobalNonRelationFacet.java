@@ -5,15 +5,16 @@ import java.util.List;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
+import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 
-public class DefaultGlobalTextFacet extends GlobalStatelessFacet {
+public class DefaultGlobalNonRelationFacet extends GlobalStatelessFacet {
 
 	public enum ElementStyleEnum {AUTORESIZE, RESIZE, NORESIZE, WORDWRAP}
 	
-	public enum GlobalTextSetting {
+	public enum GlobalSetting {
 		ELEMENT_STYLE("elementstyle",
 				new String[] {ElementStyleEnum.AUTORESIZE.toString(), "resizes element as text grows"},
 				new String[] {ElementStyleEnum.WORDWRAP.toString(), "wrap lines at the end of the line"},
@@ -25,7 +26,8 @@ public class DefaultGlobalTextFacet extends GlobalStatelessFacet {
 		HORIZONTAL_ALIGN("halign",
 				new String[] {AlignHorizontal.LEFT.toString(), "horizontal text alignment"},
 				new String[] {AlignHorizontal.CENTER.toString(), "horizontal text alignment"},
-				new String[] {AlignHorizontal.RIGHT.toString(), "horizontal text alignment"})
+				new String[] {AlignHorizontal.RIGHT.toString(), "horizontal text alignment"}),
+		LINE_TYPE("lt", new String[] {LineType.DASHED.getValue(), "dashed lines"}, new String[] {LineType.DOTTED.getValue(), "dotted lines"}, new String[] {LineType.BOLD.getValue(), "bold lines"}),
 				;
 		
 		private String key;
@@ -33,13 +35,13 @@ public class DefaultGlobalTextFacet extends GlobalStatelessFacet {
 
 		private String value;
 
-		GlobalTextSetting(String key, String value, String info) {
+		GlobalSetting(String key, String value, String info) {
 			this.key = key.toLowerCase();
 			this.value = value;
 			this.autocompletionValues.add(new AutocompletionText(key.toLowerCase() + SEP + value.toLowerCase(), info));
 		}
 
-		GlobalTextSetting(String key, String[] ... valueInfoPairs) {
+		GlobalSetting(String key, String[] ... valueInfoPairs) {
 			this.key = key.toLowerCase();
 			for (String[] valueInfoPair : valueInfoPairs) {
 				this.autocompletionValues.add(new AutocompletionText(key.toLowerCase() + SEP + valueInfoPair[0].toLowerCase(), valueInfoPair[1]));
@@ -59,7 +61,7 @@ public class DefaultGlobalTextFacet extends GlobalStatelessFacet {
 	@Override
 	public boolean checkStart(String line) {
 		boolean startsWithEnumKey = false;
-		for (GlobalTextSetting s : GlobalTextSetting.values()) {
+		for (GlobalSetting s : GlobalSetting.values()) {
 			if (line.startsWith(s + SEP)) startsWithEnumKey = true;
 		}
 		return startsWithEnumKey;
@@ -72,13 +74,15 @@ public class DefaultGlobalTextFacet extends GlobalStatelessFacet {
 			try {
 				String key = split[0];
 				String value = split[1].toUpperCase();
-				if (key.equalsIgnoreCase(GlobalTextSetting.HORIZONTAL_ALIGN.toString())) {
+				if (key.equalsIgnoreCase(GlobalSetting.HORIZONTAL_ALIGN.toString())) {
 					propConfig.sethAlignGlobally(AlignHorizontal.valueOf(value));
-				} else if (key.equalsIgnoreCase(GlobalTextSetting.VERTICAL_ALIGN.toString())) {
+				} else if (key.equalsIgnoreCase(GlobalSetting.VERTICAL_ALIGN.toString())) {
 					propConfig.setvAlignGlobally(AlignVertical.valueOf(value));
-				} else if (key.equalsIgnoreCase(GlobalTextSetting.ELEMENT_STYLE.toString())) {
+				} else if (key.equalsIgnoreCase(GlobalSetting.ELEMENT_STYLE.toString())) {
 					propConfig.setElementStyle(ElementStyleEnum.valueOf(value));
-				}
+				} else if (key.equalsIgnoreCase(GlobalSetting.LINE_TYPE.toString())) {
+					drawer.setLineType(value);
+				}  
 			} catch (Exception e) {/*any exception results in no action*/}
 		}
 	}
@@ -86,7 +90,7 @@ public class DefaultGlobalTextFacet extends GlobalStatelessFacet {
 	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
 		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
-		for (GlobalTextSetting s : GlobalTextSetting.values()) {
+		for (GlobalSetting s : GlobalSetting.values()) {
 			returnList.addAll(s.autocompletionValues);
 		}
 		return returnList.toArray(new AutocompletionText[returnList.size()]);

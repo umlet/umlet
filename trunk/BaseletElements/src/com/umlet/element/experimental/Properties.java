@@ -12,8 +12,7 @@ import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.XValues;
-import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
-import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.DefaultGlobalNonRelationFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.GlobalFacet.Priority;
@@ -93,17 +92,17 @@ public class Properties {
 		return propCfg.getLayer();
 	}
 
-	public void updateSetting(GlobalSetting key, String newValue) {
+	public void updateSetting(String key, String newValue) {
 		String newState = "";
 		for (String line : getPanelAttributes().split("\n")) {
-			if (!line.startsWith(key.toString())) newState += line + "\n";
+			if (!line.startsWith(key)) newState += line + "\n";
 		}
 		newState = newState.substring(0, newState.length()-1); //remove last linebreak
-		if (newValue != null) newState += "\n" + key.toString() + Facet.SEP + newValue; // null will not be added as a value
+		if (newValue != null) newState += "\n" + key + Facet.SEP + newValue; // null will not be added as a value
 		this.setPanelAttributes(newState);
 	}
 
-	public String getSetting(GlobalSetting key) {
+	public String getSetting(String key) {
 		for (String line : getPanelAttributesAsList()) {
 			if (line.startsWith(key + Facet.SEP)) {
 				String[] split = line.split(Facet.SEP, 2);

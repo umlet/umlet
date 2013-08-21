@@ -28,8 +28,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.StickingPolygon;
 import com.baselet.element.StickingPolygon.StickLine;
 import com.baselet.gui.AutocompletionText;
-import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
-import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.DefaultGlobalNonRelationFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
 
@@ -118,7 +117,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void updateProperty(GlobalSetting key, String newValue) {
+	public void updateProperty(String key, String newValue) {
 		properties.updateSetting(key, newValue);
 		handler.updatePropertyPanel();
 		//		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
@@ -126,7 +125,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public String getSetting(GlobalSetting key) {
+	public String getSetting(String key) {
 		return properties.getSetting(key);
 	}
 

@@ -8,12 +8,16 @@ import java.util.Map;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
-import com.umlet.element.experimental.facets.DefaultGlobalFacet;
-import com.umlet.element.experimental.facets.DefaultGlobalTextFacet;
-import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.DefaultGlobalNonRelationFacet;
+import com.umlet.element.experimental.facets.DefaultGlobalNonRelationFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.GlobalFacet.Priority;
+import com.umlet.element.experimental.facets.defaultgl.BackgroundColorFacet;
+import com.umlet.element.experimental.facets.defaultgl.FontSizeFacet;
+import com.umlet.element.experimental.facets.defaultgl.ForegroundColorFacet;
+import com.umlet.element.experimental.facets.defaultgl.LayerFacet;
+import com.umlet.element.experimental.facets.defaultgl.LineThicknessFacet;
 
 public abstract class Settings {
 
@@ -37,13 +41,10 @@ public abstract class Settings {
 	 * e.g. fg=red could be located at the bottom, but will still be applied to the whole text
 	 */
 	public abstract Facet[] createFacets();
-
-	protected boolean addDefaultGlobalFacets() {
-		return true;
-	}
 	
-	protected boolean addDefaultGlobalTextFacet() {
-		return true;
+	protected GlobalFacet[] createDefaultGlobalFacets() {
+		return new GlobalFacet[] {new BackgroundColorFacet(), new FontSizeFacet(), new ForegroundColorFacet(), new LayerFacet(), new LineThicknessFacet(), new DefaultGlobalNonRelationFacet()};
+		
 	}
 	
 	public double getYPosStart() {
@@ -67,11 +68,8 @@ public abstract class Settings {
 					localFacets.add(f);
 				}
 			}
-			if (addDefaultGlobalFacets()) {
-				addGlobalFacet(new DefaultGlobalFacet());
-			}
-			if (addDefaultGlobalTextFacet()) {
-				addGlobalFacet(new DefaultGlobalTextFacet());
+			for (GlobalFacet f : createDefaultGlobalFacets()) {
+				addGlobalFacet(f);
 			}
 		}
 	}
