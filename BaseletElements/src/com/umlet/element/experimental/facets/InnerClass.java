@@ -10,8 +10,9 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
+import com.umlet.element.experimental.facets.Facet.AbstractFacet;
 
-public class InnerClass extends LocalFacet {
+public class InnerClass extends AbstractFacet {
 
 	private static final int BUFFER_PIXEL_PER_INNER = 5;
 	private static final int H_SPACE = 4;

@@ -13,8 +13,8 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.GlobalFacet;
-import com.umlet.element.experimental.facets.GlobalFacet.Priority;
+import com.umlet.element.experimental.facets.Facet.Global;
+import com.umlet.element.experimental.facets.Facet.Priority;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 
 public class Properties {
@@ -60,9 +60,9 @@ public class Properties {
 		this.propCfg.setGridElementSize(element.getRealSize());
 	}
 
-	private void parseGlobalFacets(Map<Priority, List<GlobalFacet>> globalFacetMap) {
+	private void parseGlobalFacets(Map<Priority, List<Global>> globalFacetMap) {
 		for (Priority priority : Priority.values()) {
-			List<GlobalFacet> facets = globalFacetMap.get(priority);
+			List<Global> facets = globalFacetMap.get(priority);
 			if (facets == null) continue; // skip priorities without facets
 			for (Iterator<String> iter = propertiesTextToDraw.iterator(); iter.hasNext();) {
 				String line = iter.next();

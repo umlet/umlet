@@ -1,19 +1,8 @@
 package com.umlet.element.experimental.facets;
 
-public abstract class GlobalFacet implements Facet {
-	public boolean replacesText(String line) {
-		return true;
-	}
+import com.umlet.element.experimental.facets.Facet.AbstractFacet;
+import com.umlet.element.experimental.facets.Facet.Global;
 
-	/**
-	 * priority enum, must be ordered from highest to lowest priority!
-	 */
-	public enum Priority {HIGH, MEDIUM}
-	
-	/**
-	 * facets with higher priority will be applied before facets with lower priority
-	 */
-	public Priority getPriority() {
-		return Priority.MEDIUM;
-	}
+public abstract class GlobalFacet extends AbstractFacet implements Global {
+
 }

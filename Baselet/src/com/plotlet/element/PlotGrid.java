@@ -271,7 +271,7 @@ public class PlotGrid extends NewGridElement {
 				return ElementStyleEnum.RESIZE;
 			}
 			@Override
-			protected List<? extends GlobalFacet> createDefaultGlobalFacets() {
+			protected List<? extends Facet> createDefaultFacets() {
 				return Collections.emptyList();
 			}
 			@Override
