@@ -1,6 +1,7 @@
 package com.umlet.element.experimental;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.GlobalFacet.Priority;
 import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet;
+import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.defaults.FontSizeFacet;
 import com.umlet.element.experimental.facets.defaults.ForegroundColorFacet;
 import com.umlet.element.experimental.facets.defaults.HorizontalAlignFacet;
@@ -20,7 +22,6 @@ import com.umlet.element.experimental.facets.defaults.LayerFacet;
 import com.umlet.element.experimental.facets.defaults.LineThicknessFacet;
 import com.umlet.element.experimental.facets.defaults.LineTypeFacet;
 import com.umlet.element.experimental.facets.defaults.VerticalAlignFacet;
-import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 
 public abstract class Settings {
 
@@ -43,10 +44,10 @@ public abstract class Settings {
 	 * Global facets are parsed before any other ones, because they influence the whole diagram, even if they are located at the bottom
 	 * e.g. fg=red could be located at the bottom, but will still be applied to the whole text
 	 */
-	public abstract Facet[] createFacets();
+	public abstract List<? extends Facet> createFacets();
 	
-	protected GlobalFacet[] createDefaultGlobalFacets() {
-		return new GlobalFacet[] {new BackgroundColorFacet(), new ElementStyleFacet(), new FontSizeFacet(), new ForegroundColorFacet(), new HorizontalAlignFacet(), new LayerFacet(), new LineThicknessFacet(), new LineTypeFacet(), new VerticalAlignFacet()};
+	protected List<? extends GlobalFacet> createDefaultGlobalFacets() {
+		return Arrays.asList(new BackgroundColorFacet(), new ElementStyleFacet(), new FontSizeFacet(), new ForegroundColorFacet(), new HorizontalAlignFacet(), new LayerFacet(), new LineThicknessFacet(), new LineTypeFacet(), new VerticalAlignFacet());
 		
 	}
 	

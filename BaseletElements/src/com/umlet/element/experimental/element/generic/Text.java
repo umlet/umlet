@@ -1,5 +1,8 @@
 package com.umlet.element.experimental.element.generic;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
@@ -34,8 +37,8 @@ public class Text extends NewGridElement {
 				return ElementStyleEnum.WORDWRAP;
 			}
 			@Override
-			public Facet[] createFacets() {
-				return new Facet[]{new SeparatorLine(true)};
+			public List<? extends Facet> createFacets() {
+				return Arrays.asList(new SeparatorLine(true));
 			}
 		};
 	}
