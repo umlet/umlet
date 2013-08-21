@@ -1,5 +1,9 @@
 package com.umlet.element.experimental.facets;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
@@ -8,26 +12,44 @@ public abstract class KeyValueGlobalStatelessFacet extends GlobalStatelessFacet 
 	
 	public static class KeyValue {
 		private String key;
-		private String value;
-		private String autocompletion;
+		private List<ValueInfo> valueInfos;
 		
-		public KeyValue(String key, String value, String autocompletion) {
+		public KeyValue(String key, String value, String info) {
+			super();
+			this.key = key.toLowerCase();
+			this.valueInfos = Arrays.asList(new ValueInfo(value, info));
+		}
+		
+		public KeyValue(String key, ValueInfo ... valueInfos) {
 			super();
 			this.key = key;
-			this.value = value;
-			this.autocompletion = autocompletion;
+			this.valueInfos = Arrays.asList(valueInfos);
 		}
 
 		public String getKey() {
 			return key;
 		}
 
+		public List<ValueInfo> getValueInfos() {
+			return valueInfos;
+		}
+		
+	}
+
+	public static class ValueInfo {
+		String value;
+		String info;
+		
+		public ValueInfo(String value, String info) {
+			super();
+			this.value = value.toLowerCase();
+			this.info = info;
+		}
 		public String getValue() {
 			return value;
 		}
-
-		public String getAutocompletion() {
-			return autocompletion;
+		public String getInfo() {
+			return info;
 		}
 		
 	}
@@ -43,18 +65,21 @@ public abstract class KeyValueGlobalStatelessFacet extends GlobalStatelessFacet 
 
 	@Override
 	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
-		handleValue(line.substring(getKeyWithSep().length()), drawer, propConfig);
+		String value = line.substring(getKeyWithSep().length());
+		handleValue(value, drawer, propConfig);
 	}
 
 	@Override
 	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {
-				new AutocompletionText(getKeyWithSep() + getKeyValue().getValue(), getKeyValue().getAutocompletion())
-		};
+		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
+		for (ValueInfo valueInfo : getKeyValue().getValueInfos()) {
+			returnList.add(new AutocompletionText(getKeyWithSep() + valueInfo.getValue(), valueInfo.getInfo()));
+		}
+		return returnList.toArray(new AutocompletionText[returnList.size()]);
 	}
 
 	private String getKeyWithSep() {
-		return getKeyValue().getKey() + SEP;
+		return getKeyValue().key + SEP;
 	}
 	
 	public Priority getPriority() {

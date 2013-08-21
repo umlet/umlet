@@ -9,7 +9,7 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.XValues;
-import com.umlet.element.experimental.facets.DefaultGlobalNonRelationFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.defaultgl.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.defaultgl.LayerFacet;
 
 public class PropertiesConfig {

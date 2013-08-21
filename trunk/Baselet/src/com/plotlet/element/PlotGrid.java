@@ -31,9 +31,9 @@ import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.Settings;
-import com.umlet.element.experimental.facets.DefaultGlobalNonRelationFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
+import com.umlet.element.experimental.facets.defaultgl.ElementStyleFacet.ElementStyleEnum;
 
 
 
