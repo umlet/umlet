@@ -4,9 +4,9 @@ import org.apache.log4j.Logger;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.KeyValueGlobalFacet;
+import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
 
-public class LayerFacet extends KeyValueGlobalFacet {
+public class LayerFacet extends AbstractGlobalKeyValueFacet {
 	
 	public static LayerFacet INSTANCE = new LayerFacet();
 	private LayerFacet() {}

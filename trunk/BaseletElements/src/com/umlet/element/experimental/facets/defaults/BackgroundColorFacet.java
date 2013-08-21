@@ -2,9 +2,9 @@ package com.umlet.element.experimental.facets.defaults;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.KeyValueGlobalFacet;
+import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
 
-public class BackgroundColorFacet extends KeyValueGlobalFacet {
+public class BackgroundColorFacet extends AbstractGlobalKeyValueFacet {
 	
 	public static BackgroundColorFacet INSTANCE = new BackgroundColorFacet();
 	private BackgroundColorFacet() {}

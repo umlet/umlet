@@ -7,9 +7,8 @@ import java.util.List;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.Facet.AbstractFacet;
 
-public abstract class KeyValueFacet extends AbstractFacet {
+public abstract class AbstractKeyValueFacet extends AbstractFacet {
 
 	public static class KeyValue {
 		private String key;

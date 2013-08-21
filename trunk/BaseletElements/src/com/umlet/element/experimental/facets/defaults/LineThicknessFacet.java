@@ -2,9 +2,9 @@ package com.umlet.element.experimental.facets.defaults;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.KeyValueGlobalFacet;
+import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
 
-public class LineThicknessFacet extends KeyValueGlobalFacet {
+public class LineThicknessFacet extends AbstractGlobalKeyValueFacet {
 	
 	public static LineThicknessFacet INSTANCE = new LineThicknessFacet();
 	private LineThicknessFacet() {}

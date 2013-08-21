@@ -15,7 +15,7 @@ import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.Settings;
 import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.SeparatorLine;
+import com.umlet.element.experimental.facets.base.SeparatorLine;
 import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.defaults.FontSizeFacet;

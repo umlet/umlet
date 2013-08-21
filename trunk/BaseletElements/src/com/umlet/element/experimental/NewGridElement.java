@@ -29,7 +29,7 @@ import com.baselet.element.StickingPolygon;
 import com.baselet.element.StickingPolygon.StickLine;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.Facet.Global;
+import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 
 public abstract class NewGridElement implements GridElement {
@@ -279,7 +279,7 @@ public abstract class NewGridElement implements GridElement {
 	private void addAutocompletionTexts(List<AutocompletionText> returnList, List<? extends Facet> facets) {
 		for (Facet f : facets) {
 			for (AutocompletionText t : f.getAutocompletionStrings()) {
-				t.setGlobal(f instanceof Global);
+				t.setGlobal(f instanceof GlobalFacet);
 				returnList.add(t);
 			}
 		}

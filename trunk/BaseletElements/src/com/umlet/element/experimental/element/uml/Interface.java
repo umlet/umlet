@@ -14,7 +14,7 @@ import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.Settings;
 import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.SeparatorLine;
+import com.umlet.element.experimental.facets.base.SeparatorLine;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 
 public class Interface extends NewGridElement {

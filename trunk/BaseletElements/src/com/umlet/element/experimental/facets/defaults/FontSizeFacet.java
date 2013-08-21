@@ -2,9 +2,9 @@ package com.umlet.element.experimental.facets.defaults;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.KeyValueGlobalFacet;
+import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
 
-public class FontSizeFacet extends KeyValueGlobalFacet {
+public class FontSizeFacet extends AbstractGlobalKeyValueFacet {
 	
 	public static FontSizeFacet INSTANCE = new FontSizeFacet();
 	private FontSizeFacet() {}
