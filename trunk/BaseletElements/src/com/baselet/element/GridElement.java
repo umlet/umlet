@@ -77,4 +77,6 @@ public interface GridElement extends HasPanelAttributes {
 	boolean isSelectableOn(Point point);
 
 	void dragEnd();
+
+	void setLocationDifference(int diffx, int diffy, Collection<? extends Stickable> stickables);
 }

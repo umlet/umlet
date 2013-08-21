@@ -74,14 +74,10 @@ public class Relation extends NewGridElement implements Stickable {
 
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
-		if (mousePosBeforeDrag == null) {
-			setLocationDifference(diffX, diffY);
-		} else {
-			Point mousePosBeforeDragRelative = new Point(mousePosBeforeDrag.getX() - getRectangle().getX(), mousePosBeforeDrag.getY() - getRectangle().getY());
-			Selection returnSelection = relationPoints.getSelectionAndApplyChanges(mousePosBeforeDragRelative, diffX, diffY, this, firstDrag);
-			if (returnSelection != Selection.NOTHING) {
-				updateModelFromText();
-			}
+		Point mousePosBeforeDragRelative = new Point(mousePosBeforeDrag.getX() - getRectangle().getX(), mousePosBeforeDrag.getY() - getRectangle().getY());
+		Selection returnSelection = relationPoints.getSelectionAndApplyChanges(mousePosBeforeDragRelative, diffX, diffY, this, firstDrag);
+		if (returnSelection != Selection.NOTHING) {
+			updateModelFromText();
 		}
 	}
 

@@ -306,6 +306,13 @@ public abstract class NewGridElement implements GridElement {
 	private Map<Stickable, Set<PointDouble>> stickablesFromFirstDrag = new HashMap<Stickable, Set<PointDouble>>();
 
 	@Override
+	public void setLocationDifference(int diffx, int diffy, Collection<? extends Stickable> stickables) {
+		StickingPolygon oldStickingPolygon = generateStickingBorder();
+		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
+		checkStickLines(true, stickables, oldStickingPolygon);
+		stickablesFromFirstDrag.clear();
+	}
+	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
 		StickingPolygon oldStickingPolygon = generateStickingBorder();
 		if (resizeDirection.isEmpty()) { // Move GridElement
@@ -341,16 +348,16 @@ public abstract class NewGridElement implements GridElement {
 			}
 		}
 
+		checkStickLines(firstDrag, stickables, oldStickingPolygon);
+
+	}
+
+	private void checkStickLines(boolean firstDrag, Collection<? extends Stickable> stickables, StickingPolygon oldStickingPolygon) {
 		// compare stickingpolygon before drag with stickingpolygon after drag
 		StickingPolygon newStickingPolygon = generateStickingBorder();
 		Iterator<StickLine> oldLineIter = oldStickingPolygon.getStickLines().iterator();
 		Iterator<StickLine> newLineIter = newStickingPolygon.getStickLines().iterator();
 		
-		checkStickLines(firstDrag, stickables, oldLineIter, newLineIter);
-
-	}
-
-	private void checkStickLines(boolean firstDrag, Collection<? extends Stickable> stickables, Iterator<StickLine> oldLineIter, Iterator<StickLine> newLineIter) {
 		Map<Stickable, Double> distanceMap = new HashMap<Stickable, Double>();
 		Map<Stickable, Runnable> execMap = new HashMap<Stickable, Runnable>();
 		

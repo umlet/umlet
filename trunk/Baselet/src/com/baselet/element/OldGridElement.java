@@ -464,4 +464,10 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		
 	}
 	
+	@Override
+	public void setLocationDifference(int diffx, int diffy, Collection<? extends Stickable> stickables) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
