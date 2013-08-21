@@ -1,5 +1,8 @@
 package com.umlet.element.experimental.element.uml;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
@@ -15,13 +18,13 @@ import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.SeparatorLine;
 import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
+import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.defaults.FontSizeFacet;
 import com.umlet.element.experimental.facets.defaults.ForegroundColorFacet;
 import com.umlet.element.experimental.facets.defaults.HorizontalAlignFacet;
 import com.umlet.element.experimental.facets.defaults.LayerFacet;
 import com.umlet.element.experimental.facets.defaults.LineThicknessFacet;
 import com.umlet.element.experimental.facets.defaults.LineTypeFacet;
-import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 
 public class Actor extends NewGridElement {
 
@@ -45,12 +48,12 @@ public class Actor extends NewGridElement {
 				return ElementStyleEnum.AUTORESIZE;
 			}
 			@Override
-			public Facet[] createFacets() {
-				return new Facet[]{new SeparatorLine()};
+			public List<? extends Facet> createFacets() {
+				return Arrays.asList(new SeparatorLine());
 			}
 			@Override
-			protected GlobalFacet[] createDefaultGlobalFacets() {
-				return new GlobalFacet[] {new BackgroundColorFacet(), new FontSizeFacet(), new ForegroundColorFacet(), new HorizontalAlignFacet(), new LayerFacet(), new LineThicknessFacet(), new LineTypeFacet()};
+			protected List<? extends GlobalFacet> createDefaultGlobalFacets() {
+				return Arrays.asList(new BackgroundColorFacet(), new FontSizeFacet(), new ForegroundColorFacet(), new HorizontalAlignFacet(), new LayerFacet(), new LineThicknessFacet(), new LineTypeFacet());
 			}
 			@Override
 			public double getYPosStart() {

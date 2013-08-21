@@ -1,5 +1,8 @@
 package com.umlet.element.experimental.element.uml.relation;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
@@ -9,11 +12,11 @@ import com.umlet.element.experimental.element.uml.relation.facet.LineDescription
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
+import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.defaults.FontSizeFacet;
 import com.umlet.element.experimental.facets.defaults.ForegroundColorFacet;
 import com.umlet.element.experimental.facets.defaults.LayerFacet;
 import com.umlet.element.experimental.facets.defaults.LineThicknessFacet;
-import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 
 public class SettingsRelation extends Settings {
 
@@ -42,12 +45,12 @@ public class SettingsRelation extends Settings {
 		return ElementStyleEnum.NORESIZE;
 	}
 	@Override
-	public Facet[] createFacets() {
-		return new Facet[] {new Arrow(), new LineDescription()};
+	public List<? extends Facet> createFacets() {
+		return Arrays.asList(new Arrow(), new LineDescription());
 	}
 	@Override
-	protected GlobalFacet[] createDefaultGlobalFacets() {
-		return new GlobalFacet[] {new BackgroundColorFacet(), new FontSizeFacet(), new ForegroundColorFacet(), new LayerFacet(), new LineThicknessFacet()};
+	protected List<? extends GlobalFacet> createDefaultGlobalFacets() {
+		return Arrays.asList(new BackgroundColorFacet(), new FontSizeFacet(), new ForegroundColorFacet(), new LayerFacet(), new LineThicknessFacet());
 	}
 
 }

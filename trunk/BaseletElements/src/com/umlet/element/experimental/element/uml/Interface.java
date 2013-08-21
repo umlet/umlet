@@ -1,5 +1,8 @@
 package com.umlet.element.experimental.element.uml;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
@@ -67,8 +70,8 @@ public class Interface extends NewGridElement {
 				return TOP_DISTANCE + CIRCLE_SIZE; // space reserved for the top circle
 			}
 			@Override
-			public Facet[] createFacets() {
-				return new Facet[]{new SeparatorLine()};
+			public List<? extends Facet> createFacets() {
+				return Arrays.asList(new SeparatorLine());
 			}
 		};
 	}

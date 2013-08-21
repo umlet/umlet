@@ -1,6 +1,8 @@
 package com.plotlet.element;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -269,12 +271,12 @@ public class PlotGrid extends NewGridElement {
 				return ElementStyleEnum.RESIZE;
 			}
 			@Override
-			protected GlobalFacet[] createDefaultGlobalFacets() {
-				return new GlobalFacet[0];
+			protected List<? extends GlobalFacet> createDefaultGlobalFacets() {
+				return Collections.emptyList();
 			}
 			@Override
-			public Facet[] createFacets() {
-				return new Facet[]{new GlobalFacet() {
+			public List<? extends Facet> createFacets() {
+				return Arrays.asList(new GlobalFacet() {
 					
 					@Override
 					public boolean replacesText(String line) {
@@ -299,7 +301,7 @@ public class PlotGrid extends NewGridElement {
 					public boolean checkStart(String line) {
 						return true;
 					}
-				}};
+				});
 			}
 		};
 	}
