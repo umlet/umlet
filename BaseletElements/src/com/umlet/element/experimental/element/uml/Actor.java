@@ -14,14 +14,14 @@ import com.umlet.element.experimental.Settings;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.SeparatorLine;
-import com.umlet.element.experimental.facets.defaultgl.BackgroundColorFacet;
-import com.umlet.element.experimental.facets.defaultgl.ElementStyleFacet.ElementStyleEnum;
-import com.umlet.element.experimental.facets.defaultgl.FontSizeFacet;
-import com.umlet.element.experimental.facets.defaultgl.ForegroundColorFacet;
-import com.umlet.element.experimental.facets.defaultgl.HorizontalAlignFacet;
-import com.umlet.element.experimental.facets.defaultgl.LayerFacet;
-import com.umlet.element.experimental.facets.defaultgl.LineThicknessFacet;
-import com.umlet.element.experimental.facets.defaultgl.LineTypeFacet;
+import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
+import com.umlet.element.experimental.facets.defaults.FontSizeFacet;
+import com.umlet.element.experimental.facets.defaults.ForegroundColorFacet;
+import com.umlet.element.experimental.facets.defaults.HorizontalAlignFacet;
+import com.umlet.element.experimental.facets.defaults.LayerFacet;
+import com.umlet.element.experimental.facets.defaults.LineThicknessFacet;
+import com.umlet.element.experimental.facets.defaults.LineTypeFacet;
+import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 
 public class Actor extends NewGridElement {
 

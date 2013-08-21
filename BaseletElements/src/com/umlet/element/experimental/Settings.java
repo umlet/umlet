@@ -11,16 +11,16 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.GlobalFacet.Priority;
-import com.umlet.element.experimental.facets.defaultgl.BackgroundColorFacet;
-import com.umlet.element.experimental.facets.defaultgl.ElementStyleFacet;
-import com.umlet.element.experimental.facets.defaultgl.ElementStyleFacet.ElementStyleEnum;
-import com.umlet.element.experimental.facets.defaultgl.FontSizeFacet;
-import com.umlet.element.experimental.facets.defaultgl.ForegroundColorFacet;
-import com.umlet.element.experimental.facets.defaultgl.HorizontalAlignFacet;
-import com.umlet.element.experimental.facets.defaultgl.LayerFacet;
-import com.umlet.element.experimental.facets.defaultgl.LineThicknessFacet;
-import com.umlet.element.experimental.facets.defaultgl.LineTypeFacet;
-import com.umlet.element.experimental.facets.defaultgl.VerticalAlignFacet;
+import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
+import com.umlet.element.experimental.facets.defaults.ElementStyleFacet;
+import com.umlet.element.experimental.facets.defaults.FontSizeFacet;
+import com.umlet.element.experimental.facets.defaults.ForegroundColorFacet;
+import com.umlet.element.experimental.facets.defaults.HorizontalAlignFacet;
+import com.umlet.element.experimental.facets.defaults.LayerFacet;
+import com.umlet.element.experimental.facets.defaults.LineThicknessFacet;
+import com.umlet.element.experimental.facets.defaults.LineTypeFacet;
+import com.umlet.element.experimental.facets.defaults.VerticalAlignFacet;
+import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 
 public abstract class Settings {
 

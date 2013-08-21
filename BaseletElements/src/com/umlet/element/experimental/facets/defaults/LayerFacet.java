@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.facets.defaultgl;
+package com.umlet.element.experimental.facets.defaults;
 
 import org.apache.log4j.Logger;
 

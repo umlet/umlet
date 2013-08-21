@@ -28,8 +28,8 @@ import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.custom.CustomElement;
-import com.umlet.element.experimental.facets.defaultgl.BackgroundColorFacet;
-import com.umlet.element.experimental.facets.defaultgl.ForegroundColorFacet;
+import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
+import com.umlet.element.experimental.facets.defaults.ForegroundColorFacet;
 import com.umlet.language.ClassDiagramConverter;
 
 public class MenuFactory {
