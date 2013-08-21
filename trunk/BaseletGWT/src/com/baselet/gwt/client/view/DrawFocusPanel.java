@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +33,7 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.umlet.element.experimental.element.uml.relation.Relation;
 
 public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
 
@@ -183,9 +185,11 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				else if (!resizeDirection.isEmpty()) {
 					draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
 				}
-				// if no resize should be made move every selected element
-				else {
-					moveSelectedElements(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
+				// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
+				else if (selector.getSelectedElements().size() == 1) {
+					draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
+				} else { // if != 1 elements are selected, move them (without using dragStart, therefore avoiding special handling from Relations or other classes)
+					moveSelectedElements(diffX, diffY, isShiftKeyDown, firstDrag);
 				}
 				redraw(false);
 			}
@@ -263,19 +267,19 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 					mainView.getSaveCommand().execute();
 				}
 				else if (Shortcut.MOVE_UP.matches(event)) {
-					moveSelectedElements(new Point(0, 0), 0, -NewGridElementConstants.DEFAULT_GRID_SIZE, false, true);
+					moveSelectedElements(0, -NewGridElementConstants.DEFAULT_GRID_SIZE, false, true);
 					redraw(true);
 				}
 				else if (Shortcut.MOVE_DOWN.matches(event)) {
-					moveSelectedElements(new Point(0, 0), 0, NewGridElementConstants.DEFAULT_GRID_SIZE, false, true);
+					moveSelectedElements(0, NewGridElementConstants.DEFAULT_GRID_SIZE, false, true);
 					redraw(true);
 				}
 				else if (Shortcut.MOVE_LEFT.matches(event)) {
-					moveSelectedElements(new Point(0, 0), -NewGridElementConstants.DEFAULT_GRID_SIZE, 0, false, true);
+					moveSelectedElements(-NewGridElementConstants.DEFAULT_GRID_SIZE, 0, false, true);
 					redraw(true);
 				}
 				else if (Shortcut.MOVE_RIGHT.matches(event)) {
-					moveSelectedElements(new Point(0, 0), NewGridElementConstants.DEFAULT_GRID_SIZE, 0, false, true);
+					moveSelectedElements(NewGridElementConstants.DEFAULT_GRID_SIZE, 0, false, true);
 					redraw(true);
 				}
 
@@ -283,13 +287,20 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		});
 	}
 
-	private void moveSelectedElements(Point dragStart, int diffX, int diffY, boolean isShiftKeyDown, boolean firstDrag) {
+	private void moveSelectedElements(int diffX, int diffY, boolean isShiftKeyDown, boolean firstDrag) {
 		List<GridElement> elements = selector.getSelectedElements();
 		if (elements.isEmpty()) { // if nothing is selected, move whole diagram
 			elements = diagram.getGridElements();
 		}
-		for (GridElement ge : elements) {
-			ge.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
+		// only stickables which are not moved themselves must be used for sticking-checks (otherwise a stickable can be moved itself and by "sticking" to a stickingpolygon afterwards)
+		List<Relation> stickablesToCheck = diagram.getRelations();
+		for (Iterator<Relation> iter = stickablesToCheck.iterator(); iter.hasNext();) {
+			if (elements.contains(iter.next())) {
+				iter.remove();
+			}
+		}
+		for (GridElement ge : elements) { // Important: mousePosBeforeDrag is null, because multiple elements are moved (therefore Relations should ALWAYS be moved and never apply their special drag-handling) //TODO instead use setLocation and check for stickings (at the moment sticking-check is inside of drag, therefore this is the current workaround)
+			ge.drag(Collections.<Direction> emptySet(), diffX, diffY, null, isShiftKeyDown, firstDrag, stickablesToCheck);
 		}
 	}
 
