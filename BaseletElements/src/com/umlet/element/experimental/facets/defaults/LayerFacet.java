@@ -4,9 +4,12 @@ import org.apache.log4j.Logger;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.KeyValueGlobalStatelessFacet;
+import com.umlet.element.experimental.facets.KeyValueGlobalFacet;
 
-public class LayerFacet extends KeyValueGlobalStatelessFacet {
+public class LayerFacet extends KeyValueGlobalFacet {
+	
+	public static LayerFacet INSTANCE = new LayerFacet();
+	private LayerFacet() {}
 	
 	private Logger log = Logger.getLogger(LayerFacet.class);
 

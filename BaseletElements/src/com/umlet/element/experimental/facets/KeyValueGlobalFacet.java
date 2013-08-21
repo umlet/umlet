@@ -8,7 +8,7 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 
-public abstract class KeyValueGlobalStatelessFacet extends GlobalStatelessFacet {
+public abstract class KeyValueGlobalFacet extends GlobalFacet {
 
 	public static class KeyValue {
 		private String key;

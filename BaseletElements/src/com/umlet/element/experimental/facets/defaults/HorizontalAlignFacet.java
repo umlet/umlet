@@ -3,9 +3,12 @@ package com.umlet.element.experimental.facets.defaults;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.KeyValueGlobalStatelessFacet;
+import com.umlet.element.experimental.facets.KeyValueGlobalFacet;
 
-public class HorizontalAlignFacet extends KeyValueGlobalStatelessFacet {
+public class HorizontalAlignFacet extends KeyValueGlobalFacet {
+	
+	public static HorizontalAlignFacet INSTANCE = new HorizontalAlignFacet();
+	private HorizontalAlignFacet() {}
 
 	@Override
 	public KeyValue getKeyValue() {

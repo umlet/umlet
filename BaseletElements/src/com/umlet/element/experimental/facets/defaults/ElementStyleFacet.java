@@ -2,9 +2,12 @@ package com.umlet.element.experimental.facets.defaults;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.KeyValueGlobalStatelessFacet;
+import com.umlet.element.experimental.facets.KeyValueGlobalFacet;
 
-public class ElementStyleFacet extends KeyValueGlobalStatelessFacet {
+public class ElementStyleFacet extends KeyValueGlobalFacet {
+	
+	public static ElementStyleFacet INSTANCE = new ElementStyleFacet();
+	private ElementStyleFacet() {}
 
 	public enum ElementStyleEnum {AUTORESIZE, RESIZE, NORESIZE, WORDWRAP}
 

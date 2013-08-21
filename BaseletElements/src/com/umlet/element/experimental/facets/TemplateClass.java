@@ -11,7 +11,10 @@ import com.baselet.diagram.draw.helper.Style;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 
-public class TemplateClass extends GlobalStatelessFacet {
+public class TemplateClass extends GlobalFacet {
+	
+	public static TemplateClass INSTANCE = new TemplateClass();
+	private TemplateClass() {}
 
 	private static final String KEY = "template" + SEP;
 	

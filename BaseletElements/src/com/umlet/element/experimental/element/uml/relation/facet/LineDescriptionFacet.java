@@ -10,9 +10,12 @@ import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.element.uml.relation.RelationPoints;
 import com.umlet.element.experimental.element.uml.relation.SettingsRelation;
-import com.umlet.element.experimental.facets.GlobalStatelessFacet;
+import com.umlet.element.experimental.facets.GlobalFacet;
 
-public class LineDescriptionFacet extends GlobalStatelessFacet {
+public class LineDescriptionFacet extends GlobalFacet {
+	
+	public static LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
+	private LineDescriptionFacet() {}
 
 	private static final String MESSAGE_START_KEY = "m1";
 	private static final String MESSAGE_END_KEY = "m2";
