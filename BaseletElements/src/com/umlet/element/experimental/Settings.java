@@ -10,8 +10,8 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.Facet.Global;
 import com.umlet.element.experimental.facets.Facet.Priority;
+import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
@@ -60,11 +60,11 @@ public abstract class Settings {
 	}
 
 	private List<Facet> localFacets;
-	Map<Priority, List<Global>> globalFacets;
+	Map<Priority, List<GlobalFacet>> globalFacets;
 	private void initFacets() {
 		if (localFacets == null) {
 			localFacets = new ArrayList<Facet>();
-			globalFacets = new HashMap<Priority, List<Global>>();
+			globalFacets = new HashMap<Priority, List<GlobalFacet>>();
 			addAll(createFacets());
 			addAll(createDefaultFacets());
 		}
@@ -72,18 +72,18 @@ public abstract class Settings {
 
 	private void addAll(List<? extends Facet> facets) {
 		for (Facet f : facets) {
-			if (f instanceof Global) {
-				addGlobalFacet((Global) f);
+			if (f instanceof GlobalFacet) {
+				addGlobalFacet((GlobalFacet) f);
 			} else {
 				localFacets.add(f);
 			}
 		}
 	}
 
-	private void addGlobalFacet(Global f) {
-		List<Global> list = globalFacets.get(f.getPriority());
+	private void addGlobalFacet(GlobalFacet f) {
+		List<GlobalFacet> list = globalFacets.get(f.getPriority());
 		if (list == null) {
-			list = new ArrayList<Global>();
+			list = new ArrayList<GlobalFacet>();
 			globalFacets.put(f.getPriority(), list);
 		}
 		list.add(f);
@@ -94,7 +94,7 @@ public abstract class Settings {
 		return localFacets;
 	}
 
-	public final Map<Priority, List<Global>> getGlobalFacets() {
+	public final Map<Priority, List<GlobalFacet>> getGlobalFacets() {
 		initFacets();
 		return globalFacets;
 	}

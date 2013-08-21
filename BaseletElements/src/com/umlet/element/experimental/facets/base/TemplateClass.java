@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.facets;
+package com.umlet.element.experimental.facets.base;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,8 +10,9 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
+import com.umlet.element.experimental.facets.AbstractGlobalFacet;
 
-public class TemplateClass extends GlobalFacet {
+public class TemplateClass extends AbstractGlobalFacet {
 	
 	public static TemplateClass INSTANCE = new TemplateClass();
 	private TemplateClass() {}

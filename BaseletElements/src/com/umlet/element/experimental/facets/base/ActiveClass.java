@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.facets;
+package com.umlet.element.experimental.facets.base;
 
 import java.util.Arrays;
 import java.util.List;
@@ -7,8 +7,9 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
+import com.umlet.element.experimental.facets.AbstractGlobalFacet;
 
-public class ActiveClass extends GlobalFacet {
+public class ActiveClass extends AbstractGlobalFacet {
 	
 	public static ActiveClass INSTANCE = new ActiveClass();
 	private ActiveClass() {}

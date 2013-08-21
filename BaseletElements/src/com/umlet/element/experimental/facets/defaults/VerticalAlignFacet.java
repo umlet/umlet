@@ -3,9 +3,9 @@ package com.umlet.element.experimental.facets.defaults;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.KeyValueGlobalFacet;
+import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
 
-public class VerticalAlignFacet extends KeyValueGlobalFacet {
+public class VerticalAlignFacet extends AbstractGlobalKeyValueFacet {
 	
 	public static VerticalAlignFacet INSTANCE = new VerticalAlignFacet();
 	private VerticalAlignFacet() {}
