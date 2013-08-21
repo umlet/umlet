@@ -28,7 +28,8 @@ import com.baselet.element.GridElement;
 import com.baselet.element.Group;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.custom.CustomElement;
-import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
+import com.umlet.element.experimental.facets.defaultgl.BackgroundColorFacet;
+import com.umlet.element.experimental.facets.defaultgl.ForegroundColorFacet;
 import com.umlet.language.ClassDiagramConverter;
 
 public class MenuFactory {
@@ -220,10 +221,10 @@ public class MenuFactory {
 					AboutDialog.show();
 				}
 				else if (menuItem.equals(SET_FOREGROUND_COLOR) && (actualHandler != null)) {
-					actualHandler.getController().executeCommand(new ChangeElementSetting(GlobalSetting.FOREGROUND_COLOR, (String) param));
+					actualHandler.getController().executeCommand(new ChangeElementSetting(ForegroundColorFacet.KEY, (String) param));
 				}
 				else if (menuItem.equals(SET_BACKGROUND_COLOR) && (actualHandler != null)) {
-					actualHandler.getController().executeCommand(new ChangeElementSetting(GlobalSetting.BACKGROUND_COLOR, (String) param));
+					actualHandler.getController().executeCommand(new ChangeElementSetting(BackgroundColorFacet.KEY, (String) param));
 				}
 				else if (menuItem.equals(ALIGN) && (actualHandler != null) && (actualSelector != null)) {
 					List<GridElement> v = actualSelector.getSelectedElements();

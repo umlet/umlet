@@ -9,8 +9,8 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.XValues;
-import com.umlet.element.experimental.facets.DefaultGlobalFacet.GlobalSetting;
-import com.umlet.element.experimental.facets.DefaultGlobalTextFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.DefaultGlobalNonRelationFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.defaultgl.LayerFacet;
 
 public class PropertiesConfig {
 	
@@ -27,7 +27,7 @@ public class PropertiesConfig {
 	private Settings settings;
 	private Dimension gridElementSize;
 	private ElementStyleEnum elementStyle;
-	private Integer layer = Integer.valueOf(GlobalSetting.LAYER.getValue());
+	private Integer layer = LayerFacet.DEFAULT_VALUE;
 	private List<Runnable> delayedDrawings = new ArrayList<Runnable>();
 
 	public PropertiesConfig(Settings settings) {
@@ -158,12 +158,8 @@ public class PropertiesConfig {
 		this.elementStyle = elementStyle;
 	}
 
-	public void setLayer(String layer) {
-		try {
-			this.layer = Integer.valueOf(layer);
-		} catch (NumberFormatException e) {
-			log.info("Invalid value: " + layer + " - " + GlobalSetting.LAYER + " must be an Integer");
-		}
+	public void setLayer(Integer layer) {
+			this.layer = layer;
 	}
 
 	public Integer getLayer() {
