@@ -70,12 +70,12 @@ public abstract class KeyValueGlobalStatelessFacet extends GlobalStatelessFacet 
 	}
 
 	@Override
-	public AutocompletionText[] getAutocompletionStrings() {
+	public List<AutocompletionText> getAutocompletionStrings() {
 		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
 		for (ValueInfo valueInfo : getKeyValue().getValueInfos()) {
 			returnList.add(new AutocompletionText(getKeyWithSep() + valueInfo.getValue(), valueInfo.getInfo()));
 		}
-		return returnList.toArray(new AutocompletionText[returnList.size()]);
+		return returnList;
 	}
 
 	private String getKeyWithSep() {
