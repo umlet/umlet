@@ -1,5 +1,8 @@
 package com.umlet.element.experimental.facets;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.gui.AutocompletionText;
@@ -32,8 +35,8 @@ public class ActiveClass extends GlobalStatelessFacet {
 	}
 
 	@Override
-	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {new AutocompletionText(KEY, "make class active (double left/right border)")};
+	public List<AutocompletionText> getAutocompletionStrings() {
+		return Arrays.asList(new AutocompletionText(KEY, "make class active (double left/right border)"));
 	}
 
 }

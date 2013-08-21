@@ -1,5 +1,7 @@
 package com.umlet.element.experimental.facets;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
 
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -70,8 +72,8 @@ public class InnerClass extends LocalFacet {
 	}
 
 	@Override
-	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[]  {new AutocompletionText(START, "begin inner class"), new AutocompletionText(END, "end inner class")};
+	public List<AutocompletionText> getAutocompletionStrings() {
+		return Arrays.asList(new AutocompletionText(START, "begin inner class"), new AutocompletionText(END, "end inner class"));
 	}
 
 }

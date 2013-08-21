@@ -21,8 +21,8 @@ public class ArrowNormal extends Arrow {
 	private static final String IMG_INV_CLOSED = "R0lGODlhPgALANUAAAAAAP////v7+/f39/Pz8+/v7+vr6+Pj49/f39vb29fX18/Pz8vLy8PDw7e3t6urq6enp5+fn5ubm4CAgHh4eHBwcGRkZGBgYFhYWFBQUExMTEhISDw8PDAwMCwsLCgoKCQkJCAgIBwcHBgYGAwMDP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAACUALAAAAAA+AAsAAAZlwIBwSCwaj8ikcqjQPJbQqPRYqIgyl6l2exRIRpRCJMstaxsdTUI4NruXCMzHQWwHJoC8fs/v+/+AeyQeBEV2b4hFBhYhEHVkiZFDCxwcDGyQkpoQIBYGh5qaAxMjG5mhmgcYWUEAOw==";
 
 	@Override
-	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {
+	public List<AutocompletionText> getAutocompletionStrings() {
+		return Arrays.asList();
 //				new AutocompletionText(START+NORMAL, "normal start arrow", IMG_NORMAL),
 //				new AutocompletionText(START+CLOSED, "closed start arrow", IMG_CLOSED),
 //				new AutocompletionText(START+INVERSE, "inversed normal start arrow" , IMG_INVERSE),
@@ -31,7 +31,7 @@ public class ArrowNormal extends Arrow {
 //				new AutocompletionText(END+CLOSED, "closed end arrow", IMG_CLOSED),
 //				new AutocompletionText(END+INVERSE, "inversed normal end arrow", IMG_INVERSE),
 //				new AutocompletionText(END+INV_CLOSED, "inversed closed arrow", IMG_INV_CLOSED),
-				};
+//				};
 	}
 
 	@Override

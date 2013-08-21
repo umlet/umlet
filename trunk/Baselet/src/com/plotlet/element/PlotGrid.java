@@ -289,12 +289,12 @@ public class PlotGrid extends NewGridElement {
 					}
 					
 					@Override
-					public AutocompletionText[] getAutocompletionStrings() {
+					public List<AutocompletionText> getAutocompletionStrings() {
 						List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
 						for (String autocomp : PlotletSyntaxKit.createAutocompletionList(",").split(",")) {
 							returnList.add(new AutocompletionText(autocomp,null));
 						}
-						return returnList.toArray(new AutocompletionText[returnList.size()]);
+						return returnList;
 					}
 					
 					@Override

@@ -1,5 +1,8 @@
 package com.umlet.element.experimental.facets;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
@@ -38,8 +41,8 @@ public class SeparatorLine extends LocalStatelessFacet {
 	}
 
 	@Override
-	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {new AutocompletionText(KEY, "draw horizontal line")};
+	public List<AutocompletionText> getAutocompletionStrings() {
+		return Arrays.asList(new AutocompletionText(KEY, "draw horizontal line"));
 	}
 
 }

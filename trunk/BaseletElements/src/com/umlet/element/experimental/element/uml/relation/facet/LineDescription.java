@@ -1,5 +1,8 @@
 package com.umlet.element.experimental.element.uml.relation.facet;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
@@ -18,12 +21,12 @@ public class LineDescription extends RelationFacet {
 	}
 
 	@Override
-	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {
+	public List<AutocompletionText> getAutocompletionStrings() {
+		return Arrays.asList(
 				new AutocompletionText(MESSAGE_START_KEY + SEP, "message at start"),
 				new AutocompletionText(MESSAGE_END_KEY + SEP, "message at end"),
-				new AutocompletionText(MESSAGE_MIDDLE_KEY + SEP, "message in the middle"),
-				};
+				new AutocompletionText(MESSAGE_MIDDLE_KEY + SEP, "message in the middle")
+				);
 	}
 
 	@Override

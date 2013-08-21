@@ -1,5 +1,7 @@
 package com.umlet.element.experimental.facets;
 
+import java.util.List;
+
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
@@ -14,6 +16,6 @@ public interface Facet {
 	
 	boolean replacesText(String line);
 	
-	AutocompletionText[] getAutocompletionStrings();
+	List<AutocompletionText> getAutocompletionStrings();
 	
 }

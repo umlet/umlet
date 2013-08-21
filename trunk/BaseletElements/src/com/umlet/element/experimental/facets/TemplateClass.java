@@ -1,5 +1,8 @@
 package com.umlet.element.experimental.facets;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
@@ -33,8 +36,8 @@ public class TemplateClass extends GlobalStatelessFacet {
 	}
 
 	@Override
-	public AutocompletionText[] getAutocompletionStrings() {
-		return new AutocompletionText[] {new AutocompletionText(KEY + "txt", "print template rectangle on top right corner")};
+	public List<AutocompletionText> getAutocompletionStrings() {
+		return Arrays.asList(new AutocompletionText(KEY + "txt", "print template rectangle on top right corner"));
 	}
 
 }
