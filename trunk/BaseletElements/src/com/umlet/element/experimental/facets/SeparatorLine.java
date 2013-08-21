@@ -8,8 +8,9 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
+import com.umlet.element.experimental.facets.Facet.AbstractFacet;
 
-public class SeparatorLine extends LocalFacet {
+public class SeparatorLine extends AbstractFacet {
 
 	public static SeparatorLine INSTANCE = new SeparatorLine(false);
 	public static SeparatorLine INSTANCE_WITH_HALIGN_CHANGE = new SeparatorLine(true);

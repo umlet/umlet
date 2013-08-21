@@ -15,7 +15,6 @@ import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.Settings;
 import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.SeparatorLine;
 import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
@@ -52,7 +51,7 @@ public class Actor extends NewGridElement {
 				return Arrays.asList(SeparatorLine.INSTANCE);
 			}
 			@Override
-			protected List<? extends GlobalFacet> createDefaultGlobalFacets() {
+			protected List<? extends Facet> createDefaultFacets() {
 				return Arrays.asList(BackgroundColorFacet.INSTANCE, FontSizeFacet.INSTANCE, ForegroundColorFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, LineTypeFacet.INSTANCE);
 			}
 			@Override

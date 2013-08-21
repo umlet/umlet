@@ -10,7 +10,6 @@ import com.umlet.element.experimental.Settings;
 import com.umlet.element.experimental.element.uml.relation.facet.LineDescriptionFacet;
 import com.umlet.element.experimental.element.uml.relation.facet.RelationLineTypeFacet;
 import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.defaults.FontSizeFacet;
@@ -49,7 +48,7 @@ public class SettingsRelation extends Settings {
 		return Arrays.asList(RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE);
 	}
 	@Override
-	protected List<? extends GlobalFacet> createDefaultGlobalFacets() {
+	protected List<? extends Facet> createDefaultFacets() {
 		return Arrays.asList(BackgroundColorFacet.INSTANCE, FontSizeFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE);
 	}
 
