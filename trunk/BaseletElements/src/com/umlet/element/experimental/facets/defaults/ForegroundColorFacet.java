@@ -2,9 +2,12 @@ package com.umlet.element.experimental.facets.defaults;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.KeyValueGlobalStatelessFacet;
+import com.umlet.element.experimental.facets.KeyValueGlobalFacet;
 
-public class ForegroundColorFacet extends KeyValueGlobalStatelessFacet {
+public class ForegroundColorFacet extends KeyValueGlobalFacet {
+	
+	public static ForegroundColorFacet INSTANCE = new ForegroundColorFacet();
+	private ForegroundColorFacet() {}
 
 	public static final String KEY = "fg";
 	

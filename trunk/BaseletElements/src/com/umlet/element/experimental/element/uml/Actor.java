@@ -49,11 +49,11 @@ public class Actor extends NewGridElement {
 			}
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(new SeparatorLine());
+				return Arrays.asList(SeparatorLine.INSTANCE);
 			}
 			@Override
 			protected List<? extends GlobalFacet> createDefaultGlobalFacets() {
-				return Arrays.asList(new BackgroundColorFacet(), new FontSizeFacet(), new ForegroundColorFacet(), new HorizontalAlignFacet(), new LayerFacet(), new LineThicknessFacet(), new LineTypeFacet());
+				return Arrays.asList(BackgroundColorFacet.INSTANCE, FontSizeFacet.INSTANCE, ForegroundColorFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, LineTypeFacet.INSTANCE);
 			}
 			@Override
 			public double getYPosStart() {

@@ -71,7 +71,7 @@ public class Interface extends NewGridElement {
 			}
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(new SeparatorLine());
+				return Arrays.asList(SeparatorLine.INSTANCE);
 			}
 		};
 	}

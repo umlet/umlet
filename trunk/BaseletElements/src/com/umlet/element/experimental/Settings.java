@@ -47,7 +47,7 @@ public abstract class Settings {
 	public abstract List<? extends Facet> createFacets();
 	
 	protected List<? extends GlobalFacet> createDefaultGlobalFacets() {
-		return Arrays.asList(new BackgroundColorFacet(), new ElementStyleFacet(), new FontSizeFacet(), new ForegroundColorFacet(), new HorizontalAlignFacet(), new LayerFacet(), new LineThicknessFacet(), new LineTypeFacet(), new VerticalAlignFacet());
+		return Arrays.asList(BackgroundColorFacet.INSTANCE, ElementStyleFacet.INSTANCE, FontSizeFacet.INSTANCE, ForegroundColorFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, LineTypeFacet.INSTANCE, VerticalAlignFacet.INSTANCE);
 		
 	}
 	

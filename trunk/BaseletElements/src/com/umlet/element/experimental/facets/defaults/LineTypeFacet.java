@@ -3,9 +3,12 @@ package com.umlet.element.experimental.facets.defaults;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.KeyValueGlobalStatelessFacet;
+import com.umlet.element.experimental.facets.KeyValueGlobalFacet;
 
-public class LineTypeFacet extends KeyValueGlobalStatelessFacet {
+public class LineTypeFacet extends KeyValueGlobalFacet {
+	
+	public static LineTypeFacet INSTANCE = new LineTypeFacet();
+	private LineTypeFacet() {}
 
 	@Override
 	public KeyValue getKeyValue() {

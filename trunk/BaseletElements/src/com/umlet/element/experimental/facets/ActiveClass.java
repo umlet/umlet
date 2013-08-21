@@ -8,7 +8,10 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 
-public class ActiveClass extends GlobalStatelessFacet {
+public class ActiveClass extends GlobalFacet {
+	
+	public static ActiveClass INSTANCE = new ActiveClass();
+	private ActiveClass() {}
 
 	private static final String KEY = "{active}";
 	

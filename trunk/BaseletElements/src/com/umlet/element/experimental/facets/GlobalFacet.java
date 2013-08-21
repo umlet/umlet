@@ -1,6 +1,9 @@
 package com.umlet.element.experimental.facets;
 
 public abstract class GlobalFacet implements Facet {
+	public boolean replacesText(String line) {
+		return true;
+	}
 
 	/**
 	 * priority enum, must be ordered from highest to lowest priority!

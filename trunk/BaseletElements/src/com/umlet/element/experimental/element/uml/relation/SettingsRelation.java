@@ -7,8 +7,8 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.Settings;
-import com.umlet.element.experimental.element.uml.relation.facet.RelationLineTypeFacet;
 import com.umlet.element.experimental.element.uml.relation.facet.LineDescriptionFacet;
+import com.umlet.element.experimental.element.uml.relation.facet.RelationLineTypeFacet;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
@@ -46,11 +46,11 @@ public class SettingsRelation extends Settings {
 	}
 	@Override
 	public List<? extends Facet> createFacets() {
-		return Arrays.asList(new RelationLineTypeFacet(), new LineDescriptionFacet());
+		return Arrays.asList(RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE);
 	}
 	@Override
 	protected List<? extends GlobalFacet> createDefaultGlobalFacets() {
-		return Arrays.asList(new BackgroundColorFacet(), new FontSizeFacet(), new ForegroundColorFacet(), new LayerFacet(), new LineThicknessFacet());
+		return Arrays.asList(BackgroundColorFacet.INSTANCE, FontSizeFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE);
 	}
 
 }

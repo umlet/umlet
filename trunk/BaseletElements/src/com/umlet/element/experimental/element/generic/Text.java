@@ -38,7 +38,7 @@ public class Text extends NewGridElement {
 			}
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(new SeparatorLine(true));
+				return Arrays.asList(SeparatorLine.INSTANCE);
 			}
 		};
 	}

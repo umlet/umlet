@@ -42,7 +42,7 @@ public class Class extends NewGridElement {
 			}
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(new InnerClass(), new SeparatorLine(true), new ActiveClass(), new TemplateClass());
+				return Arrays.asList(new InnerClass(), SeparatorLine.INSTANCE_WITH_HALIGN_CHANGE, ActiveClass.INSTANCE, TemplateClass.INSTANCE);
 			}
 		};
 	}

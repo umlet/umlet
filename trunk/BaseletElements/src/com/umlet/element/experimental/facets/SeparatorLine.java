@@ -9,18 +9,17 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 
-public class SeparatorLine extends LocalStatelessFacet {
+public class SeparatorLine extends LocalFacet {
+
+	public static SeparatorLine INSTANCE = new SeparatorLine(false);
+	public static SeparatorLine INSTANCE_WITH_HALIGN_CHANGE = new SeparatorLine(true);
 
 	private static final String KEY = "--";
 	
 	private boolean setHAlignToLeftAfterLine;
 	private static final int H_SPACE = 4;
 
-	public SeparatorLine() {
-		this(false);
-	}
-
-	public SeparatorLine(boolean setHAlignToLeftAfterLine) {
+	private SeparatorLine(boolean setHAlignToLeftAfterLine) {
 		this.setHAlignToLeftAfterLine = setHAlignToLeftAfterLine;
 	}
 	
