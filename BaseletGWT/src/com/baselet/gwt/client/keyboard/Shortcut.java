@@ -72,6 +72,30 @@ public enum Shortcut {
 			return event.isControlKeyDown() && KeyCodesExt.isZero(code);
 		}
 	}),
+	MOVE_UP("Cursor ↑", "moves selected element(s) up", Category.BROWSER, new Check() {
+		@Override
+		public boolean check(int code, KeyDownEvent event) {
+			return code == KeyCodes.KEY_UP;
+		}
+	}),
+	MOVE_DOWN("Cursor ↓", "moves selected element(s) down", Category.BROWSER, new Check() {
+		@Override
+		public boolean check(int code, KeyDownEvent event) {
+			return code == KeyCodes.KEY_DOWN;
+		}
+	}),
+	MOVE_LEFT("Cursor ←", "moves selected element(s) left", Category.BROWSER, new Check() {
+		@Override
+		public boolean check(int code, KeyDownEvent event) {
+			return code == KeyCodes.KEY_LEFT;
+		}
+	}),
+	MOVE_RIGHT("Cursor →", "moves selected element(s) right", Category.BROWSER, new Check() {
+		@Override
+		public boolean check(int code, KeyDownEvent event) {
+			return code == KeyCodes.KEY_RIGHT;
+		}
+	}),
 	
 	// PROPERTIES PANEL SHORTCUTS
 	SHOW_AUTOCOMPLETION("Ctrl+SPACE", "Show all autocompletion suggestions", Category.PROPERTIES, new Check() {

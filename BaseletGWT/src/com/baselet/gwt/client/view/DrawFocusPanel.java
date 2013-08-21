@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.NewGridElementConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
@@ -175,19 +176,16 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 			@Override
 			public void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
-				if (draggedGridElement == null) { // not dragging a grid element -> move whole diagram
-					Utils.showCursor(Style.Cursor.POINTER);
-					for (GridElement ge : diagram.getGridElements()) {
-						ge.setLocationDifference(diffX, diffY);
-					}
-				} else if (isCtrlKeyDown) {
+				if (isCtrlKeyDown) {
 					return; // TODO implement Lasso
-				} else if (selector.getSelectedElements().size() > 1) {
-					for (GridElement ge : selector.getSelectedElements()) {
-						ge.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
-					}
-				} else {
+				}
+				// if cursorpos determines a resizedirection, resize the element from where the mouse is dragging (eg: if 2 elements are selected, you can resize any of them without losing your selection)
+				else if (!resizeDirection.isEmpty()) {
 					draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
+				}
+				// if no resize should be made move every selected element
+				else {
+					moveSelectedElements(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
 				}
 				redraw(false);
 			}
@@ -218,7 +216,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 					}
 				} else {
 					resizeDirection.clear();
-					Utils.showCursor(Style.Cursor.DEFAULT);
+					Utils.showCursor(Style.Cursor.MOVE);
 				}
 			}
 
@@ -264,9 +262,35 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				else if (Shortcut.SAVE.matches(event)) {
 					mainView.getSaveCommand().execute();
 				}
+				else if (Shortcut.MOVE_UP.matches(event)) {
+					moveSelectedElements(new Point(0, 0), 0, -NewGridElementConstants.DEFAULT_GRID_SIZE, false, true);
+					redraw(true);
+				}
+				else if (Shortcut.MOVE_DOWN.matches(event)) {
+					moveSelectedElements(new Point(0, 0), 0, NewGridElementConstants.DEFAULT_GRID_SIZE, false, true);
+					redraw(true);
+				}
+				else if (Shortcut.MOVE_LEFT.matches(event)) {
+					moveSelectedElements(new Point(0, 0), -NewGridElementConstants.DEFAULT_GRID_SIZE, 0, false, true);
+					redraw(true);
+				}
+				else if (Shortcut.MOVE_RIGHT.matches(event)) {
+					moveSelectedElements(new Point(0, 0), NewGridElementConstants.DEFAULT_GRID_SIZE, 0, false, true);
+					redraw(true);
+				}
 
 			}
 		});
+	}
+
+	private void moveSelectedElements(Point dragStart, int diffX, int diffY, boolean isShiftKeyDown, boolean firstDrag) {
+		List<GridElement> elements = selector.getSelectedElements();
+		if (elements.isEmpty()) { // if nothing is selected, move whole diagram
+			elements = diagram.getGridElements();
+		}
+		for (GridElement ge : elements) {
+			ge.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
+		}
 	}
 
 	Rectangle getVisibleBounds() {
