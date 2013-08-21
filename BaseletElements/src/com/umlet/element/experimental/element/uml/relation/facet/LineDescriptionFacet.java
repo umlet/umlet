@@ -9,8 +9,10 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.element.uml.relation.RelationPoints;
+import com.umlet.element.experimental.element.uml.relation.SettingsRelation;
+import com.umlet.element.experimental.facets.GlobalStatelessFacet;
 
-public class LineDescription extends RelationFacet {
+public class LineDescriptionFacet extends GlobalStatelessFacet {
 
 	private static final String MESSAGE_START_KEY = "m1";
 	private static final String MESSAGE_END_KEY = "m2";
@@ -30,7 +32,8 @@ public class LineDescription extends RelationFacet {
 	}
 
 	@Override
-	void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig, RelationPoints relationPoints) {
+	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+		RelationPoints relationPoints = ((SettingsRelation) propConfig.getSettings()).getRelationPoints();
 		String[] split = line.split(SEP, -1);
 		String key = split[0];
 		String text = split[1];
