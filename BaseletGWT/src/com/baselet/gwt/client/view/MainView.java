@@ -119,6 +119,8 @@ public class MainView extends Composite {
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
 		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(palettePropertiesSplitter, true);
+		diagramPaletteSplitter.setWidgetSnapClosedSize(palettePropertiesSplitter, 100);
+		diagramPaletteSplitter.setWidgetMinSize(palettePropertiesSplitter, 200);
 		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(menuPanel, true);
 		diagramPaletteSplitter.setWidgetSnapClosedSize(menuPanel, 25);
 		diagramPaletteSplitter.setWidgetMinSize(menuPanel, 50);
