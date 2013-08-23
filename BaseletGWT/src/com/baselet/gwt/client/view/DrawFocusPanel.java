@@ -266,19 +266,19 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				}
 				else if (Shortcut.MOVE_UP.matches(event)) {
 					moveSelectedElements(0, -NewGridElementConstants.DEFAULT_GRID_SIZE);
-					redraw(true);
+					redraw();
 				}
 				else if (Shortcut.MOVE_DOWN.matches(event)) {
 					moveSelectedElements(0, NewGridElementConstants.DEFAULT_GRID_SIZE);
-					redraw(true);
+					redraw();
 				}
 				else if (Shortcut.MOVE_LEFT.matches(event)) {
 					moveSelectedElements(-NewGridElementConstants.DEFAULT_GRID_SIZE, 0);
-					redraw(true);
+					redraw();
 				}
 				else if (Shortcut.MOVE_RIGHT.matches(event)) {
 					moveSelectedElements(NewGridElementConstants.DEFAULT_GRID_SIZE, 0);
-					redraw(true);
+					redraw();
 				}
 
 			}
