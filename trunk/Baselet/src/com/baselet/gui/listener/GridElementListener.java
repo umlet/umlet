@@ -30,7 +30,7 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
-import com.baselet.element.StickingPolygon;
+import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.Relation;
 import com.umlet.element.experimental.ElementFactory;
 import com.umlet.element.relation.RelationLinePoint;

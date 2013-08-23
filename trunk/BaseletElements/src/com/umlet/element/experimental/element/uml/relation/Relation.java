@@ -12,11 +12,11 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.element.sticking.Stickable;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.Settings;
-import com.umlet.element.experimental.Stickable;
 import com.umlet.element.experimental.element.uml.relation.RelationPoints.Selection;
 
 public class Relation extends NewGridElement implements Stickable {

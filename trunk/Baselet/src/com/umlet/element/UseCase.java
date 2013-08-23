@@ -12,7 +12,7 @@ import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
-import com.baselet.element.StickingPolygon;
+import com.baselet.element.sticking.StickingPolygon;
 
 
 @SuppressWarnings("serial")

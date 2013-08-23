@@ -18,6 +18,7 @@ import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.SelectorOld;
 import com.baselet.diagram.command.AddElement;
+import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.experimental.ElementFactory;
 
 

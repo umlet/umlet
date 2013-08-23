@@ -1,4 +1,4 @@
-package com.umlet.element.experimental;
+package com.baselet.element.sticking;
 
 import java.util.Collection;
 
