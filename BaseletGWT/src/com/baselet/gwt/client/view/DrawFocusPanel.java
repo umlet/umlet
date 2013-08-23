@@ -166,8 +166,8 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 			@Override
 			public void onMouseDragEnd(GridElement draggedGridElement) {
-				if (draggedGridElement != null && selector.isSelectedOnly(draggedGridElement)) {
-					draggedGridElement.dragEnd();
+				for (GridElement ge : selector.getSelectedElements()) {
+					ge.dragEnd();
 				}
 				redraw();
 			}
@@ -187,7 +187,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				else if (selector.getSelectedElements().size() == 1) {
 					draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
 				} else { // if != 1 elements are selected, move them
-					moveSelectedElements(diffX, diffY);
+					moveSelectedElements(diffX, diffY, firstDrag);
 				}
 				redraw(false);
 			}
@@ -265,19 +265,19 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 					mainView.getSaveCommand().execute();
 				}
 				else if (Shortcut.MOVE_UP.matches(event)) {
-					moveSelectedElements(0, -NewGridElementConstants.DEFAULT_GRID_SIZE);
+					moveSelectedElements(0, -NewGridElementConstants.DEFAULT_GRID_SIZE, true);
 					redraw();
 				}
 				else if (Shortcut.MOVE_DOWN.matches(event)) {
-					moveSelectedElements(0, NewGridElementConstants.DEFAULT_GRID_SIZE);
+					moveSelectedElements(0, NewGridElementConstants.DEFAULT_GRID_SIZE, true);
 					redraw();
 				}
 				else if (Shortcut.MOVE_LEFT.matches(event)) {
-					moveSelectedElements(-NewGridElementConstants.DEFAULT_GRID_SIZE, 0);
+					moveSelectedElements(-NewGridElementConstants.DEFAULT_GRID_SIZE, 0, true);
 					redraw();
 				}
 				else if (Shortcut.MOVE_RIGHT.matches(event)) {
-					moveSelectedElements(NewGridElementConstants.DEFAULT_GRID_SIZE, 0);
+					moveSelectedElements(NewGridElementConstants.DEFAULT_GRID_SIZE, 0, true);
 					redraw();
 				}
 
@@ -285,12 +285,12 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		});
 	}
 
-	private void moveSelectedElements(int diffX, int diffY) {
+	private void moveSelectedElements(int diffX, int diffY, boolean firstDrag) {
 		List<GridElement> elements = selector.getSelectedElements();
 		if (elements.isEmpty()) { // if nothing is selected, move whole diagram
 			elements = diagram.getGridElements();
 		}
-		diagram.moveGridElements(diffX, diffY, elements);
+		diagram.moveGridElements(diffX, diffY, firstDrag, elements);
 	}
 
 	Rectangle getVisibleBounds() {
