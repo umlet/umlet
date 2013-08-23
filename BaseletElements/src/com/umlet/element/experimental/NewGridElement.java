@@ -354,7 +354,6 @@ public abstract class NewGridElement implements GridElement {
 		if (firstDrag) {
 			stickablesFromFirstDrag = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(oldStickingPolygon, stickables, getGridSize());
 		}
-		System.out.println(stickablesFromFirstDrag.size());
 		if (!stickablesFromFirstDrag.isEmpty()) {
 			Stickables.moveStickPointsBasedOnPolygonChanges(oldStickingPolygon, generateStickingBorder(), stickablesFromFirstDrag, getGridSize());
 		}
