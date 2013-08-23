@@ -304,11 +304,10 @@ public abstract class NewGridElement implements GridElement {
 	private Map<Stickable, Set<PointDouble>> stickablesFromFirstDrag = new HashMap<Stickable, Set<PointDouble>>();
 
 	@Override
-	public void setLocationDifference(int diffx, int diffy, Collection<? extends Stickable> stickables) {
+	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, Collection<? extends Stickable> stickables) {
 		StickingPolygon oldStickingPolygon = generateStickingBorder();
 		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
-		moveStickables(true, stickables, oldStickingPolygon);
-		stickablesFromFirstDrag.clear();
+		moveStickables(firstDrag, stickables, oldStickingPolygon);
 	}
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {

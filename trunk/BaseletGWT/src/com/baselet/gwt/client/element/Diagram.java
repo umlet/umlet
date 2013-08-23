@@ -46,7 +46,7 @@ public class Diagram implements HasPanelAttributes {
 			return returnList;
 		}
 
-		public void moveGridElements(int diffX, int diffY, List<GridElement> elements) {
+		public void moveGridElements(int diffX, int diffY, boolean firstDrag, List<GridElement> elements) {
 			// only stickables which are not moved themselves must be used for sticking-checks (otherwise a stickable can be moved itself and by "sticking" to a stickingpolygon afterwards)
 			List<Relation> stickablesToCheck = getRelations();
 			for (Iterator<Relation> iter = stickablesToCheck.iterator(); iter.hasNext();) {
@@ -55,7 +55,7 @@ public class Diagram implements HasPanelAttributes {
 				}
 			}
 			for (GridElement ge : elements) {
-				ge.setLocationDifference(diffX, diffY, stickablesToCheck); //uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
+				ge.setLocationDifference(diffX, diffY, firstDrag, stickablesToCheck); //uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
 			}
 		}
 
