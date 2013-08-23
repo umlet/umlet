@@ -13,7 +13,7 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.command.Resize;
 import com.baselet.element.OldGridElement;
-import com.baselet.element.StickingPolygon;
+import com.baselet.element.sticking.StickingPolygon;
 
 
 @SuppressWarnings("serial")

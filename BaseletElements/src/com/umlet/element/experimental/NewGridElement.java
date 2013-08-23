@@ -1,18 +1,15 @@
 package com.umlet.element.experimental;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
 import com.baselet.control.NewGridElementConstants;
-import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
@@ -25,8 +22,9 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
-import com.baselet.element.StickingPolygon;
-import com.baselet.element.StickingPolygon.StickLine;
+import com.baselet.element.sticking.Stickable;
+import com.baselet.element.sticking.Stickables;
+import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
@@ -309,7 +307,7 @@ public abstract class NewGridElement implements GridElement {
 	public void setLocationDifference(int diffx, int diffy, Collection<? extends Stickable> stickables) {
 		StickingPolygon oldStickingPolygon = generateStickingBorder();
 		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
-		checkStickLines(true, stickables, oldStickingPolygon);
+		moveStickables(true, stickables, oldStickingPolygon);
 		stickablesFromFirstDrag.clear();
 	}
 	@Override
@@ -334,7 +332,7 @@ public abstract class NewGridElement implements GridElement {
 			else if (resizeDirection.contains(Direction.RIGHT)) {
 				rect.setWidth(Math.max(rect.getWidth() + diffX, MINIMAL_SIZE));
 			}
-			
+
 			if (resizeDirection.contains(Direction.UP)) {
 				rect.setY(rect.getY() + diffY);
 				rect.setHeight(Math.max(rect.getHeight() - diffY, MINIMAL_SIZE));
@@ -348,76 +346,17 @@ public abstract class NewGridElement implements GridElement {
 			}
 		}
 
-		checkStickLines(firstDrag, stickables, oldStickingPolygon);
-
+		moveStickables(firstDrag, stickables, oldStickingPolygon);
 	}
 
-	private void checkStickLines(boolean firstDrag, Collection<? extends Stickable> stickables, StickingPolygon oldStickingPolygon) {
-		// compare stickingpolygon before drag with stickingpolygon after drag
-		StickingPolygon newStickingPolygon = generateStickingBorder();
-		Iterator<StickLine> oldLineIter = oldStickingPolygon.getStickLines().iterator();
-		Iterator<StickLine> newLineIter = newStickingPolygon.getStickLines().iterator();
-		
-		Map<Stickable, Double> distanceMap = new HashMap<Stickable, Double>();
-		Map<Stickable, Runnable> execMap = new HashMap<Stickable, Runnable>();
-		
-		while (oldLineIter.hasNext()) {
-			StickLine oldLine = oldLineIter.next();
-			StickLine newLine = newLineIter.next();
-			// for all changed stickinglines
-			if (!oldLine.equals(newLine)) {
-				// if it's the first drag, go through all stickables, otherwise only go through stickablesFromFirstDrag
-				Collection<? extends Stickable> stickablesToCheck = firstDrag ? stickables : stickablesFromFirstDrag.keySet();
-				for (final Stickable stickable : stickablesToCheck) {
-					// if it's the first drag, go through all points of the stickable, otherwise only go through points from first drag
-					Collection<PointDouble> pointsToCheck = firstDrag ? stickable.getStickablePoints() : stickablesFromFirstDrag.get(stickable);
-					for (final PointDouble pd : pointsToCheck) {
-						// the points are located relative to the upper left corner of the relation, therefore add this corner to have it located to the upper left corner of the diagram
-						PointDouble absolutePositionOfStickablePoint = new PointDouble(stickable.getRectangle().getX() + (int) pd.x, stickable.getRectangle().getY() + (int) pd.y);
-						// if the line is connected to the point of the stickable
-						double distance = oldLine.getDistanceToPoint(absolutePositionOfStickablePoint);
-						if (distance < getGridSize()) {
-							rememberStickingPointsFromFirstDrag(firstDrag, stickable, pd);
-							
-							if (distanceMap.get(stickable) != null && (distanceMap.get(stickable) < distance)) {
-								continue; // already found a match with lower distance
-							}
-							distanceMap.put(stickable, distance); // remember the new lowest distance
-							
-							// if distance to start end end of the stickable line has changed, move the stickable point (avoids unwanted moves (eg stickablepoint in middle and resizing top or bottom -> no move necessary))
-							if ((Line.distanceBetweenTwoPoints(oldLine.getStart(), absolutePositionOfStickablePoint) != Line.distanceBetweenTwoPoints(newLine.getStart(), absolutePositionOfStickablePoint)) &&
-									(Line.distanceBetweenTwoPoints(oldLine.getEnd(), absolutePositionOfStickablePoint) != Line.distanceBetweenTwoPoints(newLine.getEnd(), absolutePositionOfStickablePoint))) {
-								// TODO stickLineDiff should be the difference between position of stickpoint on the old stickline and the new stickline. center works only for simple cases like rectangle sticking polygons)
-								final int stickLineDiffX = SharedUtils.realignToGrid(newLine.getCenter().getX()-oldLine.getCenter().getX());
-								final int stickLineDiffY = SharedUtils.realignToGrid(newLine.getCenter().getY()-oldLine.getCenter().getY());
-								execMap.put(stickable, new Runnable() {
-									@Override
-									public void run() {
-										stickable.movePoint(pd, stickLineDiffX, stickLineDiffY);
-									}
-								});
-							}
-
-						}
-					}
-				}
-			}
+	private void moveStickables(boolean firstDrag, Collection<? extends Stickable> stickables, StickingPolygon oldStickingPolygon) {
+		// the first drag determines which stickables and which points of them will stick (eg: moving through other relations should NOT "collect" their stickingpoints)
+		if (firstDrag) {
+			stickablesFromFirstDrag = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(oldStickingPolygon, stickables, getGridSize());
 		}
-		
-		// after checking all lines and points, execute all movements for the lowest distances
-		for (Runnable r : execMap.values()) {
-			r.run();
-		}
-	}
-
-	private void rememberStickingPointsFromFirstDrag(boolean firstDrag, Stickable stickable, PointDouble pd) {
-		if (firstDrag) { // if it's the first drag, remember the stickable and the point (only remembering the stickable wouldn't be enough, because mostly only one point of it will stick at firstDrag)
-			Set<PointDouble> points = stickablesFromFirstDrag.get(stickable);
-			if (points == null) {
-				stickablesFromFirstDrag.put(stickable, new HashSet<PointDouble>(Arrays.asList(pd)));
-			} else {
-				points.add(pd);
-			}
+		System.out.println(stickablesFromFirstDrag.size());
+		if (!stickablesFromFirstDrag.isEmpty()) {
+			Stickables.moveStickPointsBasedOnPolygonChanges(oldStickingPolygon, generateStickingBorder(), stickablesFromFirstDrag, getGridSize());
 		}
 	}
 

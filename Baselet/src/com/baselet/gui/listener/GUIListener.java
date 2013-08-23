@@ -13,7 +13,7 @@ import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.element.GridElement;
-import com.baselet.element.StickingPolygon;
+import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
 

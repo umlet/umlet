@@ -9,9 +9,10 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.element.sticking.Stickable;
+import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.experimental.Component;
 import com.umlet.element.experimental.ElementId;
-import com.umlet.element.experimental.Stickable;
 
 public interface GridElement extends HasPanelAttributes {
 

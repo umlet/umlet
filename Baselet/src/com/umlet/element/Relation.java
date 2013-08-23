@@ -21,7 +21,7 @@ import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.Selector;
-import com.baselet.element.StickingPolygon;
+import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.relation.Arrow;
 import com.umlet.element.relation.EmptyShape;
 import com.umlet.element.relation.Multiplicity;

@@ -1,6 +1,7 @@
 
-package com.baselet.element;
+package com.baselet.element.sticking;
 
+import java.util.Arrays;
 import java.util.Vector;
 
 import com.baselet.diagram.draw.geom.Line;
@@ -62,9 +63,9 @@ public class StickingPolygon {
 			return diff;
 		}
 
-		public boolean isConnected(PointDouble p, int gridSize) {
+		public boolean isConnected(PointDouble p, int maxDistance) {
 			double distance = this.getDistanceToPoint(p);
-			return (distance < gridSize);
+			return (distance < maxDistance);
 		}
 	}
 
@@ -131,4 +132,10 @@ public class StickingPolygon {
 
 		return con;
 	}
+
+	@Override
+	public String toString() {
+		return "StickingPolygon [stick=" + Arrays.toString(stick.toArray(new StickLine[stick.size()])) + "]";
+	}
+	
 }

@@ -11,7 +11,7 @@ import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
-import com.baselet.element.StickingPolygon;
+import com.baselet.element.sticking.StickingPolygon;
 
 
 @SuppressWarnings("serial")
