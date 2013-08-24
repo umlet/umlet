@@ -7,7 +7,6 @@ import org.vectomatic.file.FileUploadExt;
 import com.baselet.gwt.client.BrowserStorage;
 import com.baselet.gwt.client.Notification;
 import com.baselet.gwt.client.OwnXMLParser;
-import com.baselet.gwt.client.view.MouseUtils.HasDiagram;
 import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox;
@@ -40,7 +39,7 @@ import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MainView extends Composite implements HasDiagram {
+public class MainView extends Composite {
 
 	private static MainViewUiBinder uiBinder = GWT.create(MainViewUiBinder.class);
 
@@ -161,7 +160,7 @@ public class MainView extends Composite implements HasDiagram {
 		
 
 
-		MouseUtils.addMouseHandler(this, mainPanel);
+		MouseUtils.addMouseHandler(mainPanel, diagramPanel, palettePanel);
 	}
 
 	private void addRestoreMenuItem(final String chosenName) {
@@ -233,11 +232,5 @@ public class MainView extends Composite implements HasDiagram {
 			paletteChooser.setSelectedIndex(newIndex);
 			DomEvent.fireNativeEvent(Document.get().createChangeEvent(), paletteChooser);
 		}
-	}
-
-	@Override
-	public DrawFocusPanel getCurrentDiagram() {
-		if (diagramPanel.getFocus()) return diagramPanel;
-		else return palettePanel;
 	}
 }

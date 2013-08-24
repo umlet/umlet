@@ -21,20 +21,15 @@ import com.baselet.element.Selector;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.keyboard.Shortcut;
-import com.baselet.gwt.client.view.MouseUtils.MouseDragHandler;
 import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
 
-public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement, MouseDragHandler {
+public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
 
 	private static final Logger log = Logger.getLogger(DrawFocusPanel.class);
 
@@ -138,20 +133,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				});
 
 		this.add(canvas.getWidget());
-
-		this.addMouseDownHandler(new MouseDownHandler() {
-			@Override
-			public void onMouseDown(MouseDownEvent event) {
-				setFocus(true);
-			}
-		});
-
-		this.addTouchStartHandler(new TouchStartHandler() {
-			@Override
-			public void onTouchStart(TouchStartEvent event) {
-				setFocus(true);
-			}
-		});
 
 		this.addKeyDownHandler(new KeyDownHandler() {
 			@Override
