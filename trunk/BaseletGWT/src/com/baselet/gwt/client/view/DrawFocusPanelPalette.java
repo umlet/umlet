@@ -26,7 +26,7 @@ public class DrawFocusPanelPalette extends DrawFocusPanel {
 	public DrawFocusPanelPalette(MainView mainView, PropertiesTextArea propertiesPanel, final ListBox paletteChooser) {
 		super(mainView, propertiesPanel);
 		this.setDiagram(PALETTELIST.get(0));
-this.paletteChooser = paletteChooser;
+		this.paletteChooser = paletteChooser;
 		paletteChooser.addItem("Default");
 		paletteChooser.addItem("Arrows");
 		paletteChooser.addChangeHandler(new ChangeHandler() {
@@ -39,24 +39,39 @@ this.paletteChooser = paletteChooser;
 	}
 
 	@Override
-	void doDoubleClickAction(GridElement ge) {
-		otherDrawFocusPanel.setFocus(true);
-		GridElement e = ElementFactory.create(ge, otherDrawFocusPanel.getDiagram());
-		commandInvoker.realignElementsToVisibleRect(otherDrawFocusPanel, Arrays.asList(e));
-		commandInvoker.addElements(otherDrawFocusPanel, e);
+	public void onDoubleClick(GridElement ge) {
+		if (ge != null) {
+			otherDrawFocusPanel.setFocus(true);
+			GridElement e = ElementFactory.create(ge, otherDrawFocusPanel.getDiagram());
+			commandInvoker.realignElementsToVisibleRect(otherDrawFocusPanel, Arrays.asList(e));
+			commandInvoker.addElements(otherDrawFocusPanel, e);
+		}
 	}
 
+	private List<GridElement> draggedElements = new ArrayList<GridElement>();
+	public void onMouseDown(GridElement element, boolean isControlKeyDown) {
+		super.onMouseDown(element, isControlKeyDown);
+		for (GridElement original : selector.getSelectedElements()) {
+			draggedElements.add(ElementFactory.create(original, getDiagram()));
+		}
+	}
+	
 	@Override
-	void onDragEnd(GridElement gridElement, Point lastPoint) {
+	public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
 		if (lastPoint.getX() < 0) {
 			List<GridElement> elementsToMove = new ArrayList<GridElement>();
 			for (GridElement original : selector.getSelectedElements()) {
 				GridElement copy = ElementFactory.create(original, otherDrawFocusPanel.getDiagram());
-				copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width - copy.getRectangle().width, paletteChooser.getOffsetHeight());
+				copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width, paletteChooser.getOffsetHeight());
 				elementsToMove.add(copy);
 			}
 			commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
+			commandInvoker.removeSelectedElements(this);
+			commandInvoker.addElements(this, draggedElements);
+			selector.deselectAll();
 		}
+		draggedElements.clear();
+		super.onMouseDragEnd(gridElement, lastPoint);
 	}
 
 }

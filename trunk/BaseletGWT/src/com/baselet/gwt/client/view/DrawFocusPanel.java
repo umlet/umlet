@@ -18,7 +18,6 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
-import com.baselet.gwt.client.Browser;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.keyboard.Shortcut;
@@ -27,13 +26,15 @@ import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
 
-public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
+public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement, MouseDragHandler {
 
 	private static final Logger log = Logger.getLogger(DrawFocusPanel.class);
 
@@ -47,20 +48,35 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 	DrawFocusPanel otherDrawFocusPanel;
 
-	private boolean hasFocus = false;
-
 	private AutoResizeScrollDropPanel scrollPanel;
+
+	private PropertiesTextArea propertiesPanel;
+
+	private MenuPopup menuPopup;
 
 	public void setOtherDrawFocusPanel(DrawFocusPanel otherDrawFocusPanel) {
 		this.otherDrawFocusPanel = otherDrawFocusPanel;
 	}
 
-	public void setHasFocus(boolean hasFocus) {
-		this.hasFocus = hasFocus;
+	private Boolean focus = false;
+
+	public void setFocus(boolean focus) {
+		if (focus) { // if focus has switched from diagram <-> palette, reset other selector and redraw
+			otherDrawFocusPanel.getSelector().deselectAllWithoutAfterAction();
+			otherDrawFocusPanel.redraw(); // redraw is necessary even if other afteractions (properties panel update) are not
+			otherDrawFocusPanel.setFocus(false);
+		}
+		this.focus = focus;
+	}
+	
+	public Boolean getFocus() {
+		return focus;
 	}
 
 	public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
 		this.setStylePrimaryName("canvasFocusPanel");
+
+		this.propertiesPanel = propertiesPanel;
 
 		selector = new SelectorNew() {
 			public void doAfterSelectionChanged() {
@@ -73,7 +89,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			}
 		};
 
-		final MenuPopup popup = new MenuPopup (
+		menuPopup = new MenuPopup (
 				new MenuPopupItem() {
 					@Override
 					public String getText() {
@@ -123,116 +139,17 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 		this.add(canvas.getWidget());
 
-		this.addFocusHandler(new FocusHandler() {
+		this.addMouseDownHandler(new MouseDownHandler() {
 			@Override
-			public void onFocus(FocusEvent event) {
-				if (!hasFocus) { // if focus has switched from diagram <-> palette, reset other selector and redraw
-					otherDrawFocusPanel.getSelector().deselectAllWithoutAfterAction();
-					otherDrawFocusPanel.redraw(); // redraw is necessary even if other afteractions (properties panel update) are not
-					otherDrawFocusPanel.setHasFocus(false);
-					setHasFocus(true);
-				}
+			public void onMouseDown(MouseDownEvent event) {
+				setFocus(true);
 			}
 		});
 
-		MouseUtils.addMouseHandler(this, canvas.getWidget(), new MouseDragHandler() {
+		this.addTouchStartHandler(new TouchStartHandler() {
 			@Override
-			public void onMouseDown(GridElement element, boolean isControlKeyDown) {
-				// Set Focus (to make key-shortcuts work)
-				DrawFocusPanel.this.setFocus(true);
-
-				if (isControlKeyDown) {
-					if (element != null) {
-						if (selector.isSelected(element)) {
-							selector.deselect(element);
-						} else {
-							selector.select(element);
-						}
-					}
-				} else {
-					if (element != null) {
-						if (selector.isSelected(element)) {
-							selector.moveToLastPosInList(element);
-							propertiesPanel.setGridElement(element, DrawFocusPanel.this);
-						} else {
-							selector.selectOnly(element);
-						}
-					} else {
-						selector.deselectAll();
-					}
-				}
-
-			}
-
-			@Override
-			public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
-				onDragEnd(gridElement, lastPoint);
-				for (GridElement ge : selector.getSelectedElements()) {
-					ge.dragEnd();
-				}
-				redraw();
-			}
-
-			Set<Direction> resizeDirection = new HashSet<Direction>();
-
-			@Override
-			public void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
-				if (isCtrlKeyDown) {
-					return; // TODO implement Lasso
-				}
-				// if cursorpos determines a resizedirection, resize the element from where the mouse is dragging (eg: if 2 elements are selected, you can resize any of them without losing your selection)
-				else if (!resizeDirection.isEmpty()) {
-					draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
-				}
-				// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
-				else if (selector.getSelectedElements().size() == 1) {
-					draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
-				} else { // if != 1 elements are selected, move them
-					moveSelectedElements(diffX, diffY, firstDrag);
-				}
-				redraw(false);
-			}
-
-			@Override
-			public void onMouseMove(Point absolute) {
-				GridElement geOnPosition = getGridElementOnPosition(absolute);
-				if (geOnPosition != null) { // exactly one gridelement selected which is at the mouseposition
-					resizeDirection = geOnPosition.getResizeArea(absolute.getX() - geOnPosition.getRectangle().getX(), absolute.getY() - geOnPosition.getRectangle().getY());
-					if (resizeDirection.isEmpty()) {
-						Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
-					} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) {
-						Utils.showCursor(Style.Cursor.NE_RESIZE);
-					} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) {
-						Utils.showCursor(Style.Cursor.NW_RESIZE);
-					} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) {
-						Utils.showCursor(Style.Cursor.SW_RESIZE);
-					} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)) {
-						Utils.showCursor(Style.Cursor.SE_RESIZE);
-					} else if (resizeDirection.contains(Direction.UP)) {
-						Utils.showCursor(Style.Cursor.N_RESIZE);
-					} else if (resizeDirection.contains(Direction.RIGHT)) {
-						Utils.showCursor(Style.Cursor.E_RESIZE);
-					} else if (resizeDirection.contains(Direction.DOWN)) {
-						Utils.showCursor(Style.Cursor.S_RESIZE);
-					} else if (resizeDirection.contains(Direction.LEFT)) {
-						Utils.showCursor(Style.Cursor.W_RESIZE);
-					}
-				} else {
-					resizeDirection.clear();
-					Utils.showCursor(Style.Cursor.MOVE);
-				}
-			}
-
-			@Override
-			public void onDoubleClick(GridElement ge) {
-				if (ge != null) {
-					doDoubleClickAction(ge);
-				}
-			}
-
-			@Override
-			public void onShowMenu(Point point) {
-				popup.show(point);
+			public void onTouchStart(TouchStartEvent event) {
+				setFocus(true);
 			}
 		});
 
@@ -378,8 +295,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		selector.deselect(elements);
 	}
 
-	abstract void doDoubleClickAction(GridElement ge);
-
 
 	public Diagram getDiagram() {
 		return diagram;
@@ -393,19 +308,87 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		this.scrollPanel = scrollPanel;
 	}
 
-	@Override
-	public void setFocus(boolean focused) {
-		// Internet explorer scrolls to the top left if canvas gets focus, therefore scroll back afterwards // see http://stackoverflow.com/questions/14979365/table-scroll-bar-jumps-up-when-table-receives-focus-in-ie
-		if (Browser.get() == Browser.INTERNET_EXPLORER && focused) {
-			int oldH = scrollPanel.getHorizontalScrollPosition();
-			int oldV = scrollPanel.getVerticalScrollPosition();
-			super.setFocus(focused);
-			scrollPanel.setHorizontalScrollPosition(oldH);
-			scrollPanel.setVerticalScrollPosition(oldV);
+	public abstract void onDoubleClick(GridElement ge);
+
+	public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
+		for (GridElement ge : selector.getSelectedElements()) {
+			ge.dragEnd();
+		}
+		redraw();
+	}
+
+	public void onMouseDown(GridElement element, boolean isControlKeyDown) {
+		if (isControlKeyDown) {
+			if (element != null) {
+				if (selector.isSelected(element)) {
+					selector.deselect(element);
+				} else {
+					selector.select(element);
+				}
+			}
 		} else {
-			super.setFocus(focused);
+			if (element != null) {
+				if (selector.isSelected(element)) {
+					selector.moveToLastPosInList(element);
+					propertiesPanel.setGridElement(element, DrawFocusPanel.this);
+				} else {
+					selector.selectOnly(element);
+				}
+			} else {
+				selector.deselectAll();
+			}
 		}
 	}
 
-	abstract void onDragEnd(GridElement gridElement, Point lastPoint);
+	private Set<Direction> resizeDirection = new HashSet<Direction>();
+
+	public void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
+		if (isCtrlKeyDown) {
+			return; // TODO implement Lasso
+		}
+		// if cursorpos determines a resizedirection, resize the element from where the mouse is dragging (eg: if 2 elements are selected, you can resize any of them without losing your selection)
+		else if (!resizeDirection.isEmpty()) {
+			draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
+		}
+		// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
+		else if (selector.getSelectedElements().size() == 1) {
+			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
+		} else { // if != 1 elements are selected, move them
+			moveSelectedElements(diffX, diffY, firstDrag);
+		}
+		redraw(false);
+	}
+
+	public void onMouseMove(Point absolute) {
+		GridElement geOnPosition = getGridElementOnPosition(absolute);
+		if (geOnPosition != null) { // exactly one gridelement selected which is at the mouseposition
+			resizeDirection = geOnPosition.getResizeArea(absolute.getX() - geOnPosition.getRectangle().getX(), absolute.getY() - geOnPosition.getRectangle().getY());
+			if (resizeDirection.isEmpty()) {
+				Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
+			} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) {
+				Utils.showCursor(Style.Cursor.NE_RESIZE);
+			} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) {
+				Utils.showCursor(Style.Cursor.NW_RESIZE);
+			} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) {
+				Utils.showCursor(Style.Cursor.SW_RESIZE);
+			} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)) {
+				Utils.showCursor(Style.Cursor.SE_RESIZE);
+			} else if (resizeDirection.contains(Direction.UP)) {
+				Utils.showCursor(Style.Cursor.N_RESIZE);
+			} else if (resizeDirection.contains(Direction.RIGHT)) {
+				Utils.showCursor(Style.Cursor.E_RESIZE);
+			} else if (resizeDirection.contains(Direction.DOWN)) {
+				Utils.showCursor(Style.Cursor.S_RESIZE);
+			} else if (resizeDirection.contains(Direction.LEFT)) {
+				Utils.showCursor(Style.Cursor.W_RESIZE);
+			}
+		} else {
+			resizeDirection.clear();
+			Utils.showCursor(Style.Cursor.MOVE);
+		}
+	}
+
+	public void onShowMenu(Point point) {
+		menuPopup.show(point);
+	}
 }
