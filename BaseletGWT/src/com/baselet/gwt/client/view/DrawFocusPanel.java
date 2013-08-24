@@ -39,7 +39,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 	private Diagram diagram = new Diagram(new ArrayList<GridElement>());
 
-	private DrawCanvas canvas = new DrawCanvas();
+	protected DrawCanvas canvas = new DrawCanvas();
 
 	Selector selector;
 
@@ -165,7 +165,8 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			}
 
 			@Override
-			public void onMouseDragEnd(GridElement draggedGridElement) {
+			public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
+				onDragEnd(gridElement, lastPoint);
 				for (GridElement ge : selector.getSelectedElements()) {
 					ge.dragEnd();
 				}
@@ -405,4 +406,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			super.setFocus(focused);
 		}
 	}
+
+	abstract void onDragEnd(GridElement gridElement, Point lastPoint);
 }

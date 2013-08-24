@@ -56,7 +56,7 @@ public class MouseUtils {
 	public interface MouseDragHandler {
 		void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag);
 
-		void onMouseDragEnd(GridElement gridElement);
+		void onMouseDragEnd(GridElement gridElement, Point lastPoint);
 
 		void onMouseDown(GridElement gridElement, boolean controlKeyDown);
 
@@ -100,19 +100,19 @@ public class MouseUtils {
 			@Override
 			public void onTouchEnd(TouchEndEvent event) {
 				storage.menuShowTimer.cancel();
-				handleEnd(storage, handler);
+				handleEnd(storage, handler, getTouchPoint(canvEl, event));
 			}
 		});
 		canvas.addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
-				handleEnd(storage, handler);
+				handleEnd(storage, handler, getMousePoint(canvEl, event));
 			}
 		});
 		canvas.addMouseOutHandler(new MouseOutHandler() {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				handleEnd(storage, handler);
+				handleEnd(storage, handler, getMousePoint(canvEl, event));
 				storage.doubleClickEnabled = false;
 			}
 		});
@@ -159,10 +159,10 @@ public class MouseUtils {
 		}, ContextMenuEvent.getType());
 	}
 
-	private static void handleEnd(final DragCache storage, MouseDragHandler mouseDragHandler) {
+	private static void handleEnd(final DragCache storage, MouseDragHandler mouseDragHandler, Point point) {
 		//		Notification.showInfo("UP");
 		if (Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS).contains(storage.dragging)) {
-			mouseDragHandler.onMouseDragEnd(storage.elementToDrag);
+			mouseDragHandler.onMouseDragEnd(storage.elementToDrag, point);
 		}
 		storage.dragging = DragStatus.NO;
 	}

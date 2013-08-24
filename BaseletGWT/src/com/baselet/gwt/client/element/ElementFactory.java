@@ -49,8 +49,8 @@ public class ElementFactory {
 		return element;
 	}
 
-	public static GridElement create(GridElement src, final Diagram diagram) {
-		return create(src.getId(), src.getRectangle().copy(), src.getPanelAttributes(), src.getAdditionalAttributes(), diagram);
+	public static GridElement create(GridElement src, final Diagram targetDiagram) {
+		return create(src.getId(), src.getRectangle().copy(), src.getPanelAttributes(), src.getAdditionalAttributes(), targetDiagram);
 	}
 
 }
