@@ -224,6 +224,8 @@ public class SequenceDiagram extends OldGridElement {
 			levelNum++;
 		}
 
+		if (lines.size() == 0) return; // return if it only has the title line (Issue 146)
+		
 		String firstLine = lines.elementAt(0);
 		Vector<String> obj = Utils.decomposeStrings(firstLine, "|");
 		int numObjects = obj.size();
