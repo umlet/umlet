@@ -13,7 +13,6 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.SharedUtils;
-import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.element.sticking.StickingPolygon.StickLine;
 
@@ -76,17 +75,19 @@ public class Stickables {
 		StickLineChange change = getNearestStickLineChangeWhichWilLChangeTheStickPoint(changedStickLines, absolutePositionOfStickablePoint, maxDistance);
 		
 		if (change != null) {
-			// TODO stickLineDiff should be the difference between position of stickpoint on the old stickline and the new stickline. center works only for simple cases like rectangle sticking polygons)
-			final int stickLineDiffX = SharedUtils.realignToGrid(change.getNew().getCenter().getX()-change.getOld().getCenter().getX());
-			final int stickLineDiffY = SharedUtils.realignToGrid(change.getNew().getCenter().getY()-change.getOld().getCenter().getY());
+			PointDouble newPointToUse, oldPointToUse;
+			if (change.getNew().isConnected(absolutePositionOfStickablePoint, maxDistance)) {
+				newPointToUse = change.getNew().getStart();
+				oldPointToUse = change.getOld().getStart();
+			} else {
+				newPointToUse = change.getNew().getEnd();
+				oldPointToUse = change.getOld().getEnd();
+			}
+			
+			final int stickLineDiffX = SharedUtils.realignToGridRoundToNearest(true, newPointToUse.getX()-oldPointToUse.getX());
+			final int stickLineDiffY = SharedUtils.realignToGridRoundToNearest(true, newPointToUse.getY()-oldPointToUse.getY());
 			stickable.movePoint(pd, stickLineDiffX, stickLineDiffY);
 		}
-	}
-
-
-	private static PointDouble getAbsolutePosition(Stickable stickable, PointDouble pd) {
-		// the points are located relative to the upper left corner of the relation, therefore add this corner to have it located to the upper left corner of the diagram
-		return new PointDouble(stickable.getRectangle().getX() + (int) pd.x, stickable.getRectangle().getY() + (int) pd.y);
 	}
 
 	private static StickLineChange getNearestStickLineChangeWhichWilLChangeTheStickPoint(List<StickLineChange> changedStickLines, PointDouble absolutePositionOfStickablePoint, int maxDistance) {
@@ -98,15 +99,20 @@ public class Stickables {
 			// update best match if this distance is in range and better than the old best match
 			if (distance < maxDistance && (lowestDistance == null || distance < lowestDistance)) {
 				// if distance to start end end of the stickable line has changed, move the stickable point (avoids unwanted moves (eg stickablepoint in middle and resizing top or bottom -> no move necessary))
-				if ((Line.distanceBetweenTwoPoints(change.getOld().getStart(), absolutePositionOfStickablePoint) != Line.distanceBetweenTwoPoints(change.getNew().getStart(), absolutePositionOfStickablePoint)) &&
-						(Line.distanceBetweenTwoPoints(change.getOld().getEnd(), absolutePositionOfStickablePoint) != Line.distanceBetweenTwoPoints(change.getNew().getEnd(), absolutePositionOfStickablePoint))) {
+//				if ((Line.distanceBetweenTwoPoints(change.getOld().getStart(), absolutePositionOfStickablePoint) != Line.distanceBetweenTwoPoints(change.getNew().getStart(), absolutePositionOfStickablePoint)) &&
+//						(Line.distanceBetweenTwoPoints(change.getOld().getEnd(), absolutePositionOfStickablePoint) != Line.distanceBetweenTwoPoints(change.getNew().getEnd(), absolutePositionOfStickablePoint))) {
 					lowestDistance = distance;
 					changeMatchingLowestDistance = change;
-				}
+//				}
 			}
 
 		}
 		return changeMatchingLowestDistance;
+	}
+
+	private static PointDouble getAbsolutePosition(Stickable stickable, PointDouble pd) {
+		// the points are located relative to the upper left corner of the relation, therefore add this corner to have it located to the upper left corner of the diagram
+		return new PointDouble(stickable.getRectangle().getX() + (int) pd.x, stickable.getRectangle().getY() + (int) pd.y);
 	}
 
 }
