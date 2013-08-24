@@ -26,6 +26,9 @@ public class StringStyle {
 		return stringStyle;
 	}
 
+	/**
+	 * this method does not use "complex" regular expressions to avoid problems with compiling to GWT
+	 */
 	private static String replaceNotEscaped(String s, String old, String replacement) {
 		s = s.replace(ESCAPE_CHARACTER + old, TEMP_REPLACEMENT);
 		s = s.replace(old, replacement);
