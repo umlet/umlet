@@ -6,6 +6,10 @@ import java.util.Set;
 import com.baselet.control.enumerations.FormatLabels;
 
 public class StringStyle {
+
+	public static final String ESCAPE_CHARACTER = "\\";
+	private static final String TEMP_REPLACEMENT = "§$§ä%§%ü/,";
+	
 	private final Set<FormatLabels> format;
 	private final String stringWithoutMarkup;
 
@@ -16,8 +20,21 @@ public class StringStyle {
 	}
 
 	public static StringStyle analyseStyle(String s) {
-		Set<FormatLabels> format = new HashSet<FormatLabels>();
+		s = replaceNotEscaped(s, "<<", "\u00AB");
+		s = replaceNotEscaped(s, ">>", "\u00BB");
+		StringStyle stringStyle = analyzeFormatLabels(s);
+		return stringStyle;
+	}
 
+	private static String replaceNotEscaped(String s, String old, String replacement) {
+		s = s.replace(ESCAPE_CHARACTER + old, TEMP_REPLACEMENT);
+		s = s.replace(old, replacement);
+		s = s.replace(TEMP_REPLACEMENT, old);
+		return s;
+	}
+
+	private static StringStyle analyzeFormatLabels(String s) {
+		Set<FormatLabels> format = new HashSet<FormatLabels>();
 		if (s != null && !s.isEmpty()) {
 			// As long as any text format applies the loop continues
 			boolean matchFound = true;
