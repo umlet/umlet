@@ -15,8 +15,17 @@ public class SharedUtils {
 		return realignTo(true, d, false, NewGridElementConstants.DEFAULT_GRID_SIZE);
 	}
 
-	public static int realignToGrid(boolean logRealign, double val) {
-		return realignTo(logRealign, val, false, NewGridElementConstants.DEFAULT_GRID_SIZE);
+	/**
+	 * rounds eg: 5 to 10, 4 to 0, -5 to -10, -4 to 0
+	 */
+	public static int realignToGridRoundToNearest(boolean logRealign, double val) {
+		boolean roundUp;
+		if (Math.abs(val % NewGridElementConstants.DEFAULT_GRID_SIZE) < NewGridElementConstants.DEFAULT_GRID_SIZE / 2) {
+			roundUp = val < 0;
+		} else {
+			roundUp = val >= 0;
+		}
+		return realignTo(logRealign, val, roundUp, NewGridElementConstants.DEFAULT_GRID_SIZE);
 	}
 
 	public static int realignToGrid(boolean logRealign, double val, boolean roundUp) {
@@ -51,7 +60,7 @@ public class SharedUtils {
 		}
 		return (int) alignedVal;
 	}
-	
+
 	public static Rectangle getGridElementsRectangle(Collection<GridElement> gridElements) {
 		int x = Integer.MAX_VALUE;
 		int y = Integer.MAX_VALUE;

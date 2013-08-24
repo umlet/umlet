@@ -80,7 +80,7 @@ public class RelationPoints {
 		for (Line line : getRelationPointLines()) {
 			if (line.getDistanceToPoint(point.toPointDouble()) < NEW_POINT_DISTANCE) {
 				if (applyChanges) {
-					PointDouble roundedPoint = new PointDouble(SharedUtils.realignToGrid(false, point.x), SharedUtils.realignToGrid(false, point.y));
+					PointDouble roundedPoint = new PointDouble(SharedUtils.realignToGridRoundToNearest(false, point.x), SharedUtils.realignToGridRoundToNearest(false, point.y));
 					points.add(points.indexOf(line.getEnd()), roundedPoint);
 					relationPointOfCurrentDrag = roundedPoint;
 				}
