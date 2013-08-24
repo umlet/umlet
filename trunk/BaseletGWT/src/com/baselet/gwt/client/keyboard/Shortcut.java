@@ -4,10 +4,10 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 
 public enum Shortcut {
-	DELETE_ELEMENT("DEL", "delete the currently selected elements", Category.DIAGRAM, new Check() {
+	DELETE_ELEMENT("DELETE BACKSPACE", "delete the currently selected elements", Category.DIAGRAM, new Check() {
 		@Override
 		public boolean check(int code, KeyDownEvent event) {
-			return code == KeyCodes.KEY_DELETE;
+			return code == KeyCodes.KEY_DELETE || code == KeyCodes.KEY_BACKSPACE;
 		}
 	}),
 	SELECT_ALL("Ctrl+A", "select all elements", Category.DIAGRAM, new Check() {

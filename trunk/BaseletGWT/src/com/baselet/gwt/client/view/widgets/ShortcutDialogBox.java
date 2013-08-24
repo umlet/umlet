@@ -15,6 +15,22 @@ import com.google.gwt.user.client.ui.HTML;
 
 public class ShortcutDialogBox extends MyPopupPanel {
 	
+	private static class TableBuilder {
+		SafeHtmlBuilder builder = new SafeHtmlBuilder();
+		int i = 0;
+		public TableBuilder() {
+			builder.appendHtmlConstant("<table style='border-spacing: 0px;'><tbody>");
+		}
+		public void append(Shortcut shortcut) {
+			String color = (i++ % 2 != 0) ? "white" : "#E5E4E2";
+			builder.appendHtmlConstant("<tr style='background-color:" + color + "'><td style='padding-right:0.7em'>" + shortcut.getShortcut() + "</td><td style='width:100%'>" + shortcut.getDescription() + "</td></tr>");
+		}
+		public HTML toHTML() {
+			builder.appendHtmlConstant("</tbody></table>");
+			return new HTML(builder.toSafeHtml());
+		}
+	}
+	
 	private static ShortcutDialogBox instance = new ShortcutDialogBox();
 	
 	public static ShortcutDialogBox getInstance() {
@@ -26,29 +42,26 @@ public class ShortcutDialogBox extends MyPopupPanel {
 		setHeader("Keyboard Shortcuts");
 		
 		Shortcut[] values = Shortcut.values();
-		Map<Shortcut.Category, SafeHtmlBuilder> map = new HashMap<Shortcut.Category, SafeHtmlBuilder>();
+		Map<Shortcut.Category, TableBuilder> map = new HashMap<Shortcut.Category, TableBuilder>();
 		for (Shortcut.Category c : Shortcut.Category.values()) {
-			SafeHtmlBuilder  builder = new SafeHtmlBuilder();
-			builder.appendHtmlConstant("<table><tbody>");
-			map.put(c, builder);
+			map.put(c, new TableBuilder());
 		}
 		for (int i = 0; i < values.length; i++) {
 			Shortcut shortcut = values[i];
-			map.get(shortcut.getCategory()).appendHtmlConstant("<tr><td width=\"85em\">" + shortcut.getShortcut() + "</td><td>" + shortcut.getDescription() + "</td></tr>");
+			map.get(shortcut.getCategory()).append(values[i]);
 		}
 		
 		FlowPanel panel = new FlowPanel();
 		boolean first = true;
 		for (Shortcut.Category c : Arrays.asList(Category.values())) {
-			String header = "<strong>" + c.getHeader() + "</strong>";
+			String additional = "";
 			if (!first) {
-				header = "<hr/>" + header;
+				additional = "padding-top:0.5em;margin-top:0.5em;border-top:1px solid;";
 			}
+			String header = "<div style='font-weight:bold;" + additional + "'>" + c.getHeader() + "</div>";
 			first = false;
 			panel.add(new HTML(header));
-			SafeHtmlBuilder builder = map.get(c);
-			builder.appendHtmlConstant("</tbody></table>");
-			panel.add(new HTML(builder.toSafeHtml()));
+			panel.add(map.get(c).toHTML());
 		}
 		setWidget(panel);
 	}
