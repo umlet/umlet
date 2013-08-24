@@ -24,9 +24,6 @@ public class FormattedFont {
 	public FormattedFont(String text, double fontSize, Font font, FontRenderContext fontRenderContext) {
 		string = setFormatAndRemoveLabels(text);
 
-		string = string.replaceAll("<<", "\u00AB");
-		string = string.replaceAll(">>", "\u00BB");
-
 		atrString = new AttributedString(string);
 
 		atrString.addAttribute(TextAttribute.FAMILY, font.getFamily());
