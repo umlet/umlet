@@ -1,8 +1,10 @@
 package com.baselet.gwt.client.view;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.element.Diagram;
@@ -19,10 +21,12 @@ public class DrawFocusPanelPalette extends DrawFocusPanel {
 			OwnXMLParser.xmlToDiagram(true, "%3Cdiagram%20program=%22umlet_web%22%20version=%2212.2%22%3E%3Czoom_level%3E10%3C/zoom_level%3E%3Celement%3E%3Cid%3ERelation%3C/id%3E%3Ccoordinates%3E%3Cx%3E10%3C/x%3E%3Cy%3E10%3C/y%3E%3Cw%3E160%3C/w%3E%3Ch%3E20%3C/h%3E%3C/coordinates%3E%3Cpanel_attributes%3Elt=&amp;lt;-&amp;gt;%3C/panel_attributes%3E%3Cadditional_attributes%3E10.0;10.0;150.0;10.0%3C/additional_attributes%3E%3C/element%3E%3Celement%3E%3Cid%3ERelation%3C/id%3E%3Ccoordinates%3E%3Cx%3E10%3C/x%3E%3Cy%3E40%3C/y%3E%3Cw%3E160%3C/w%3E%3Ch%3E22%3C/h%3E%3C/coordinates%3E%3Cpanel_attributes%3Elt=&amp;lt;..&amp;gt;&amp;gt;%0Am1=text1%0Am2=text2%0Amm=middle%3C/panel_attributes%3E%3Cadditional_attributes%3E10.0;10.0;150.0;10.0%3C/additional_attributes%3E%3C/element%3E%3Celement%3E%3Cid%3ERelation%3C/id%3E%3Ccoordinates%3E%3Cx%3E10%3C/x%3E%3Cy%3E70%3C/y%3E%3Cw%3E160%3C/w%3E%3Ch%3E20%3C/h%3E%3C/coordinates%3E%3Cpanel_attributes%3Elt=&amp;lt;&amp;lt;.&amp;gt;&amp;gt;%3C/panel_attributes%3E%3Cadditional_attributes%3E10.0;10.0;150.0;10.0%3C/additional_attributes%3E%3C/element%3E%3C/diagram%3E")
 			);
 
+	private ListBox paletteChooser;
+
 	public DrawFocusPanelPalette(MainView mainView, PropertiesTextArea propertiesPanel, final ListBox paletteChooser) {
 		super(mainView, propertiesPanel);
 		this.setDiagram(PALETTELIST.get(0));
-
+this.paletteChooser = paletteChooser;
 		paletteChooser.addItem("Default");
 		paletteChooser.addItem("Arrows");
 		paletteChooser.addChangeHandler(new ChangeHandler() {
@@ -40,6 +44,19 @@ public class DrawFocusPanelPalette extends DrawFocusPanel {
 		GridElement e = ElementFactory.create(ge, otherDrawFocusPanel.getDiagram());
 		commandInvoker.realignElementsToVisibleRect(otherDrawFocusPanel, Arrays.asList(e));
 		commandInvoker.addElements(otherDrawFocusPanel, e);
+	}
+
+	@Override
+	void onDragEnd(GridElement gridElement, Point lastPoint) {
+		if (lastPoint.getX() < 0) {
+			List<GridElement> elementsToMove = new ArrayList<GridElement>();
+			for (GridElement original : selector.getSelectedElements()) {
+				GridElement copy = ElementFactory.create(original, otherDrawFocusPanel.getDiagram());
+				copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width - copy.getRectangle().width, paletteChooser.getOffsetHeight());
+				elementsToMove.add(copy);
+			}
+			commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
+		}
 	}
 
 }
