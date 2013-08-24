@@ -30,7 +30,7 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.FocusPanel;
 
 public class MouseUtils {
 
@@ -67,94 +67,97 @@ public class MouseUtils {
 		void onShowMenu(Point point);
 	}
 
-	public static void addMouseHandler(final DrawFocusPanel drawPanelCanvas, FocusWidget canvas, final MouseDragHandler handler) {
-		final Element canvEl = drawPanelCanvas.getElement();
+	public interface HasDiagram {
+		DrawFocusPanel getCurrentDiagram();
+	}
+
+	public static void addMouseHandler(final HasDiagram hasDiagram, FocusPanel handlerTarget) {
 		final DragCache storage = new DragCache();
 
-		canvas.addTouchStartHandler(new TouchStartHandler() {
+		handlerTarget.addTouchStartHandler(new TouchStartHandler() {
 			@Override
 			public void onTouchStart(final TouchStartEvent event) {
 				if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
-					handleStart(drawPanelCanvas, handler, storage, event, getTouchPoint(canvEl, event));
+					handleStart(hasDiagram.getCurrentDiagram(), hasDiagram.getCurrentDiagram(), storage, event, getTouchPoint(hasDiagram, event));
 
 					final Point absolutePos = new Point(event.getTouches().get(0).getPageX(), event.getTouches().get(0).getPageY());
 //					Notification.showInfo("START " + absolutePos.x);
 					storage.menuShowTimer = new Timer() {
 						@Override
 						public void run() {
-							handleShowMenu(handler, absolutePos);
+							handleShowMenu(hasDiagram.getCurrentDiagram(), absolutePos);
 						}
 					};
 					storage.menuShowTimer.schedule(500);
 				}
 			}
 		});
-		canvas.addMouseDownHandler(new MouseDownHandler() {
+		handlerTarget.addMouseDownHandler(new MouseDownHandler() {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
-				handleStart(drawPanelCanvas, handler, storage, event, getMousePoint(canvEl, event));
+				handleStart(hasDiagram.getCurrentDiagram(), hasDiagram.getCurrentDiagram(), storage, event, getMousePoint(hasDiagram, event));
 			}
 		});
 
-		canvas.addTouchEndHandler(new TouchEndHandler() {
+		handlerTarget.addTouchEndHandler(new TouchEndHandler() {
 			@Override
 			public void onTouchEnd(TouchEndEvent event) {
 				storage.menuShowTimer.cancel();
-				handleEnd(storage, handler, getTouchPoint(canvEl, event));
+				handleEnd(storage, hasDiagram.getCurrentDiagram(), getTouchPoint(hasDiagram, event));
 			}
 		});
-		canvas.addMouseUpHandler(new MouseUpHandler() {
+		handlerTarget.addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
-				handleEnd(storage, handler, getMousePoint(canvEl, event));
+				handleEnd(storage, hasDiagram.getCurrentDiagram(), getMousePoint(hasDiagram, event));
 			}
 		});
-		canvas.addMouseOutHandler(new MouseOutHandler() {
+		handlerTarget.addMouseOutHandler(new MouseOutHandler() {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				handleEnd(storage, handler, getMousePoint(canvEl, event));
+				handleEnd(storage, hasDiagram.getCurrentDiagram(), getMousePoint(hasDiagram, event));
 				storage.doubleClickEnabled = false;
 			}
 		});
-		canvas.addMouseOverHandler(new MouseOverHandler() {
+		handlerTarget.addMouseOverHandler(new MouseOverHandler() {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				storage.doubleClickEnabled = true;
 			}
 		});
 
-		canvas.addMouseMoveHandler(new MouseMoveHandler() {
+		handlerTarget.addMouseMoveHandler(new MouseMoveHandler() {
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
-				handleMove(drawPanelCanvas, handler, storage, event, getMousePoint(canvEl, event));
+				handleMove(hasDiagram.getCurrentDiagram(), hasDiagram.getCurrentDiagram(), storage, event, getMousePoint(hasDiagram, event));
 			}
 		});
-		canvas.addTouchMoveHandler(new TouchMoveHandler() {
+		handlerTarget.addTouchMoveHandler(new TouchMoveHandler() {
 			@Override
 			public void onTouchMove(TouchMoveEvent event) {
 				storage.menuShowTimer.cancel();
 				if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
-					handleMove(drawPanelCanvas, handler, storage, event, getTouchPoint(canvEl, event));
+					handleMove(hasDiagram.getCurrentDiagram(), hasDiagram.getCurrentDiagram(), storage, event, getTouchPoint(hasDiagram, event));
 				}
 			}
 		});
 
 		// double tap on mobile devices is not easy to implement because browser zoom on double-tap is not an event which can be canceled
-		canvas.addDoubleClickHandler(new DoubleClickHandler() {
+		handlerTarget.addDoubleClickHandler(new DoubleClickHandler() {
 			@Override
 			public void onDoubleClick(DoubleClickEvent event) {
 				if (storage.doubleClickEnabled) {
-					handleDoubleClick(drawPanelCanvas, handler, getMousePoint(canvEl, event));
+					handleDoubleClick(hasDiagram.getCurrentDiagram(), hasDiagram.getCurrentDiagram(), getMousePoint(hasDiagram, event));
 				}
 			}
 		});
 
-		canvas.addDomHandler(new ContextMenuHandler() {
+		handlerTarget.addDomHandler(new ContextMenuHandler() {
 			@Override
 			public void onContextMenu(ContextMenuEvent event) {
 				event.preventDefault();
 				event.stopPropagation();
-				handleShowMenu(handler, new Point(event.getNativeEvent().getClientX(), event.getNativeEvent().getClientY()));
+				handleShowMenu(hasDiagram.getCurrentDiagram(), new Point(event.getNativeEvent().getClientX(), event.getNativeEvent().getClientY()));
 			}
 		}, ContextMenuEvent.getType());
 	}
@@ -202,11 +205,13 @@ public class MouseUtils {
 		handler.onShowMenu(p);
 	}
 
-	private static Point getMousePoint(final Element canvEl, MouseEvent<?> event) {
-		return new Point(event.getRelativeX(canvEl), event.getRelativeY(canvEl));
+	private static Point getMousePoint(HasDiagram hasDiagram, MouseEvent<?> event) {
+		Element e = hasDiagram.getCurrentDiagram().getElement();
+		return new Point(event.getRelativeX(e), event.getRelativeY(e));
 	}
 
-	private static Point getTouchPoint(final Element canvEl, TouchEvent<?> event) {
-		return new Point(event.getTouches().get(0).getRelativeX(canvEl), event.getTouches().get(0).getRelativeY(canvEl));
+	private static Point getTouchPoint(HasDiagram hasDiagram, TouchEvent<?> event) {
+		Element e = hasDiagram.getCurrentDiagram().getElement();
+		return new Point(event.getTouches().get(0).getRelativeX(e), event.getTouches().get(0).getRelativeY(e));
 	}
 }
