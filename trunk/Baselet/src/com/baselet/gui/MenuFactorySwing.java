@@ -105,8 +105,8 @@ public class MenuFactorySwing extends MenuFactory {
 	}
 
 	public JMenuItem createDelete() {
-		int[] keys = new int[]{KeyEvent.VK_BACK_SPACE, KeyEvent.VK_DELETE};
-		if (SystemInfo.OS == Os.MAC) {
+		int[] keys = new int[]{KeyEvent.VK_BACK_SPACE, KeyEvent.VK_DELETE}; // backspace AND delete both work for deleting elements
+		if (SystemInfo.OS == Os.MAC) { // MacOS shows the backspace key mapping because it's the only one working - see http://stackoverflow.com/questions/4881262/java-keystroke-for-delete/4881606#4881606
 			return createJMenuItem(false, DELETE, keys, KeyEvent.VK_BACK_SPACE);
 		} else {
 			return createJMenuItem(false, DELETE, keys, KeyEvent.VK_DELETE);
