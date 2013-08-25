@@ -98,7 +98,7 @@ public abstract class AbstractKeyValueFacet extends AbstractFacet {
 		try {
 			handleValue(value, drawer, propConfig);
 		} catch (Exception e) {
-			log.error("KeyValue Error", e);
+			log.debug("KeyValue Error", e);
 			throw new RuntimeException(FormatLabels.BOLD.getValue() + "Invalid value: " + getKeyWithSep() + value + FormatLabels.BOLD.getValue() + "\n" + getKeyValue().getValueString());
 		}
 	}

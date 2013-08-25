@@ -25,11 +25,19 @@ import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.HasKeyDownHandlers;
+import com.google.gwt.event.dom.client.HasMouseOutHandlers;
+import com.google.gwt.event.dom.client.HasMouseOverHandlers;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.SimplePanel;
 
-public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
+public abstract class DrawFocusPanel extends SimplePanel implements CanAddAndRemoveGridElement, HasMouseOutHandlers, HasMouseOverHandlers, HasKeyDownHandlers {
 
 	private static final Logger log = Logger.getLogger(DrawFocusPanel.class);
 
@@ -372,4 +380,19 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 	public void onShowMenu(Point point) {
 		menuPopup.show(point);
 	}
+
+	@Override
+	public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
+        return addDomHandler(handler, KeyDownEvent.getType());
+        }
+
+	@Override
+	public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
+        return addDomHandler(handler, MouseOverEvent.getType());
+        }
+
+	@Override
+	public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+        return addDomHandler(handler, MouseOutEvent.getType());
+        }
 }
