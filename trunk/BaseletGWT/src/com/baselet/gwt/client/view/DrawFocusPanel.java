@@ -18,6 +18,7 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
+import com.baselet.gwt.client.Browser;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.keyboard.Shortcut;
@@ -27,19 +28,11 @@ import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.HasKeyDownHandlers;
-import com.google.gwt.event.dom.client.HasMouseOutHandlers;
-import com.google.gwt.event.dom.client.HasMouseOverHandlers;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.FocusPanel;
 
-public abstract class DrawFocusPanel extends SimplePanel implements CanAddAndRemoveGridElement, HasMouseOutHandlers, HasMouseOverHandlers, HasKeyDownHandlers {
+public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
 
 	private static final Logger log = Logger.getLogger(DrawFocusPanel.class);
 
@@ -65,16 +58,17 @@ public abstract class DrawFocusPanel extends SimplePanel implements CanAddAndRem
 
 	private Boolean focus = false;
 
-	public void setFocus(boolean focus) {
+	public void setFocusState(boolean focus) {
+		setFocus(focus);
 		if (focus) { // if focus has switched from diagram <-> palette, reset other selector and redraw
 			otherDrawFocusPanel.getSelector().deselectAllWithoutAfterAction();
 			otherDrawFocusPanel.redraw(); // redraw is necessary even if other afteractions (properties panel update) are not
-			otherDrawFocusPanel.setFocus(false);
+			otherDrawFocusPanel.setFocusState(false);
 		}
 		this.focus = focus;
 	}
 
-	public Boolean getFocus() {
+	public Boolean getFocusState() {
 		return focus;
 	}
 
@@ -368,10 +362,10 @@ public abstract class DrawFocusPanel extends SimplePanel implements CanAddAndRem
 		redraw(false);
 	}
 
-	public void onMouseMove(Point absolute) {
-		GridElement geOnPosition = getGridElementOnPosition(absolute);
+	public void onMouseMove(Point p) {
+		GridElement geOnPosition = getGridElementOnPosition(p);
 		if (geOnPosition != null) { // exactly one gridelement selected which is at the mouseposition
-			resizeDirection = geOnPosition.getResizeArea(absolute.getX() - geOnPosition.getRectangle().getX(), absolute.getY() - geOnPosition.getRectangle().getY());
+			resizeDirection = geOnPosition.getResizeArea(p.getX() - geOnPosition.getRectangle().getX(), p.getY() - geOnPosition.getRectangle().getY());
 			if (resizeDirection.isEmpty()) {
 				Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
 			} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) {
@@ -402,17 +396,17 @@ public abstract class DrawFocusPanel extends SimplePanel implements CanAddAndRem
 	}
 
 	@Override
-	public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
-		return addDomHandler(handler, KeyDownEvent.getType());
+	public void setFocus(boolean focused) {
+		// Internet explorer scrolls to the top left if canvas gets focus, therefore scroll back afterwards // see http://stackoverflow.com/questions/14979365/table-scroll-bar-jumps-up-when-table-receives-focus-in-ie
+		if (Browser.get() == Browser.INTERNET_EXPLORER && focused) {
+			int oldH = scrollPanel.getHorizontalScrollPosition();
+			int oldV = scrollPanel.getVerticalScrollPosition();
+			super.setFocus(focused);
+			scrollPanel.setHorizontalScrollPosition(oldH);
+			scrollPanel.setVerticalScrollPosition(oldV);
+		} else {
+			super.setFocus(focused);
+		}
 	}
 
-	@Override
-	public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
-		return addDomHandler(handler, MouseOverEvent.getType());
-	}
-
-	@Override
-	public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
-		return addDomHandler(handler, MouseOutEvent.getType());
-	}
 }

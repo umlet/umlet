@@ -212,10 +212,10 @@ public class MouseUtils {
 			Rectangle visibleBounds = panel.getVisibleBounds();
 			visibleBounds.move(panel.getAbsoluteLeft(), panel.getAbsoluteTop());
 			if (visibleBounds.contains(p)) {
-				panel.setFocus(true);
+				panel.setFocusState(true);
 				returnPanel = panel;
 			} else {
-				panel.setFocus(false);
+				panel.setFocusState(false);
 			}
 		}
 		return returnPanel;

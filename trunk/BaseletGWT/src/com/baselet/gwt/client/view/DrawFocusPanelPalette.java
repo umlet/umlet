@@ -41,7 +41,7 @@ public class DrawFocusPanelPalette extends DrawFocusPanel {
 	@Override
 	public void onDoubleClick(GridElement ge) {
 		if (ge != null) {
-			otherDrawFocusPanel.setFocus(true);
+			otherDrawFocusPanel.setFocusState(true);
 			GridElement e = ElementFactory.create(ge, otherDrawFocusPanel.getDiagram());
 			commandInvoker.realignElementsToVisibleRect(otherDrawFocusPanel, Arrays.asList(e));
 			commandInvoker.addElements(otherDrawFocusPanel, e);
