@@ -252,6 +252,8 @@ public class MouseUtils {
 		Element e = drawPanelCanvas.getElement();
 		if (event instanceof MouseEvent<?>) {
 			return new Point(((MouseEvent<?>) event).getRelativeX(e), ((MouseEvent<?>) event).getRelativeY(e));
+		} else if (event instanceof TouchEndEvent) {
+			return new Point(((TouchEvent<?>) event).getChangedTouches().get(0).getRelativeX(e), ((TouchEvent<?>) event).getChangedTouches().get(0).getRelativeY(e));
 		} else if (event instanceof TouchEvent<?>) {
 			return new Point(((TouchEvent<?>) event).getTouches().get(0).getRelativeX(e), ((TouchEvent<?>) event).getTouches().get(0).getRelativeY(e));
 		} else {
@@ -262,6 +264,8 @@ public class MouseUtils {
 	private static Point getPointAbsolute(HumanInputEvent<?> event) {
 		if (event instanceof MouseEvent<?>) {
 			return new Point(((MouseEvent<?>) event).getClientX(), ((MouseEvent<?>) event).getClientY());
+		} else if (event instanceof TouchEndEvent) {
+			return new Point(((TouchEvent<?>) event).getChangedTouches().get(0).getPageX(), ((TouchEvent<?>) event).getChangedTouches().get(0).getPageY());
 		} else if (event instanceof TouchEvent<?>) {
 			return new Point(((TouchEvent<?>) event).getTouches().get(0).getPageX(), ((TouchEvent<?>) event).getTouches().get(0).getPageY());
 		} else {
