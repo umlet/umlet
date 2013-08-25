@@ -51,7 +51,7 @@ public abstract class DrawFocusPanel extends SimplePanel implements CanAddAndRem
 
 	DrawFocusPanel otherDrawFocusPanel;
 
-	private AutoResizeScrollDropPanel scrollPanel;
+	AutoResizeScrollDropPanel scrollPanel;
 
 	private PropertiesTextArea propertiesPanel;
 
