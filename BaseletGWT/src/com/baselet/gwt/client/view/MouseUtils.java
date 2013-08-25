@@ -45,6 +45,7 @@ public class MouseUtils {
 		private GridElement elementToDrag;
 		private DrawFocusPanel activePanel;
 		private DrawFocusPanel mouseContainingPanel;
+		private boolean touchDetected = false;
 		/**
 		 * doubleclicks are only handled if the mouse has moved into the canvas before
 		 * this is necessary to void unwanted propagation of suggestbox-selections via doubleclick
@@ -76,6 +77,7 @@ public class MouseUtils {
 		handlerTarget.addTouchStartHandler(new TouchStartHandler() {
 			@Override
 			public void onTouchStart(final TouchStartEvent event) {
+				storage.touchDetected = true;
 				if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
 					final Point absolutePos = getPointAbsolute(event);
 					storage.activePanel = getPanelWhichContainsPoint(panels, absolutePos);
@@ -98,7 +100,7 @@ public class MouseUtils {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				storage.activePanel = getPanelWhichContainsPoint(panels, getPointAbsolute(event));
-				if (storage.activePanel != null) {
+				if (!storage.touchDetected && storage.activePanel != null) {
 					handleStart(panels, storage, event, getPoint(storage.activePanel, event));
 				}
 			}
@@ -116,7 +118,7 @@ public class MouseUtils {
 		handlerTarget.addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
-				if (storage.activePanel != null) {
+				if (!storage.touchDetected && storage.activePanel != null) {
 					handleEnd(storage, storage.activePanel, getPoint(storage.activePanel, event));
 				}
 			}
@@ -124,7 +126,7 @@ public class MouseUtils {
 		handlerTarget.addMouseOutHandler(new MouseOutHandler() {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				if (storage.activePanel != null) {
+				if (!storage.touchDetected && storage.activePanel != null) {
 					handleEnd(storage, storage.activePanel, getPoint(storage.activePanel, event));
 					storage.doubleClickEnabled = false;
 				}
@@ -140,7 +142,9 @@ public class MouseUtils {
 		handlerTarget.addMouseMoveHandler(new MouseMoveHandler() {
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
-				handleMove(storage.activePanel, storage, event);
+				if (!storage.touchDetected) { // mousemove is triggered on each touchdown therefore it must be deactivated if touch is detected
+					handleMove(storage.activePanel, storage, event);
+				}
 			}
 		});
 		handlerTarget.addTouchMoveHandler(new TouchMoveHandler() {
@@ -157,7 +161,7 @@ public class MouseUtils {
 		handlerTarget.addDoubleClickHandler(new DoubleClickHandler() {
 			@Override
 			public void onDoubleClick(DoubleClickEvent event) {
-				if (storage.activePanel != null) {
+				if (!storage.touchDetected && storage.activePanel != null) {
 					if (storage.doubleClickEnabled) {
 						handleDoubleClick(storage.activePanel, getPoint(storage.activePanel, event));
 					}
