@@ -44,6 +44,7 @@ public class MouseUtils {
 		private Point moveStart;
 		private GridElement elementToDrag;
 		private DrawFocusPanel activePanel;
+		private DrawFocusPanel mouseContainingPanel;
 		/**
 		 * doubleclicks are only handled if the mouse has moved into the canvas before
 		 * this is necessary to void unwanted propagation of suggestbox-selections via doubleclick
@@ -57,14 +58,29 @@ public class MouseUtils {
 	public static void addMouseHandler(FocusPanel handlerTarget, final DrawFocusPanel ... panels) {
 		final DragCache storage = new DragCache();
 
+		for (final DrawFocusPanel panel : panels) {
+			panel.addMouseOutHandler(new MouseOutHandler() {
+				@Override
+				public void onMouseOut(MouseOutEvent event) {
+					storage.mouseContainingPanel = null;
+				}
+			});
+			panel.addMouseOverHandler(new MouseOverHandler() {
+				@Override
+				public void onMouseOver(MouseOverEvent event) {
+					storage.mouseContainingPanel = panel;
+				}
+			});
+		}
+		
 		handlerTarget.addTouchStartHandler(new TouchStartHandler() {
 			@Override
 			public void onTouchStart(final TouchStartEvent event) {
 				if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
-					final Point absolutePos = getTouchPointAbsolute(event);
+					final Point absolutePos = getPointAbsolute(event);
 					storage.activePanel = getPanelWhichContainsPoint(panels, absolutePos);
 					if (storage.activePanel != null) {
-						handleStart(panels, storage, event, getTouchPoint(storage.activePanel, event));
+						handleStart(panels, storage, event, getPoint(storage.activePanel, event));
 					}
 					//					Notification.showInfo("START " + absolutePos.x);
 					storage.menuShowTimer = new Timer() {
@@ -81,9 +97,9 @@ public class MouseUtils {
 		handlerTarget.addMouseDownHandler(new MouseDownHandler() {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
-				storage.activePanel = getPanelWhichContainsPoint(panels, getMousePointAbsolute(event));
+				storage.activePanel = getPanelWhichContainsPoint(panels, getPointAbsolute(event));
 				if (storage.activePanel != null) {
-					handleStart(panels, storage, event, getMousePoint(storage.activePanel, event));
+					handleStart(panels, storage, event, getPoint(storage.activePanel, event));
 				}
 			}
 		});
@@ -93,7 +109,7 @@ public class MouseUtils {
 			public void onTouchEnd(TouchEndEvent event) {
 				if (storage.activePanel != null) {
 					storage.menuShowTimer.cancel();
-					handleEnd(storage, storage.activePanel, getTouchPoint(storage.activePanel, event));
+					handleEnd(storage, storage.activePanel, getPoint(storage.activePanel, event));
 				}
 			}
 		});
@@ -101,7 +117,7 @@ public class MouseUtils {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
 				if (storage.activePanel != null) {
-					handleEnd(storage, storage.activePanel, getMousePoint(storage.activePanel, event));
+					handleEnd(storage, storage.activePanel, getPoint(storage.activePanel, event));
 				}
 			}
 		});
@@ -109,7 +125,7 @@ public class MouseUtils {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
 				if (storage.activePanel != null) {
-					handleEnd(storage, storage.activePanel, getMousePoint(storage.activePanel, event));
+					handleEnd(storage, storage.activePanel, getPoint(storage.activePanel, event));
 					storage.doubleClickEnabled = false;
 				}
 			}
@@ -125,7 +141,7 @@ public class MouseUtils {
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
 				if (storage.activePanel != null) {
-					handleMove(storage.activePanel, storage, event, getMousePoint(storage.activePanel, event));
+					handleMove(storage.activePanel, storage, event, getPoint(storage.activePanel, event));
 				}
 			}
 		});
@@ -135,7 +151,7 @@ public class MouseUtils {
 				if (storage.activePanel != null) {
 					storage.menuShowTimer.cancel();
 					if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
-						handleMove(storage.activePanel, storage, event, getTouchPoint(storage.activePanel, event));
+						handleMove(storage.activePanel, storage, event, getPoint(storage.activePanel, event));
 					}
 				}
 			}
@@ -147,7 +163,7 @@ public class MouseUtils {
 			public void onDoubleClick(DoubleClickEvent event) {
 				if (storage.activePanel != null) {
 					if (storage.doubleClickEnabled) {
-						handleDoubleClick(storage.activePanel, getMousePoint(storage.activePanel, event));
+						handleDoubleClick(storage.activePanel, getPoint(storage.activePanel, event));
 					}
 				}
 			}
@@ -211,7 +227,13 @@ public class MouseUtils {
 			}
 		}
 		else {
-			drawPanelCanvas.onMouseMove(p);
+			if (storage.mouseContainingPanel != null) {
+				if (event instanceof MouseEvent<?>) {
+					storage.mouseContainingPanel.onMouseMove(getPoint(storage.mouseContainingPanel, (MouseEvent<?>) event));
+				} else if (event instanceof TouchEvent<?>) {
+					storage.mouseContainingPanel.onMouseMove(getPoint(storage.mouseContainingPanel, (TouchEvent<?>) event));
+				}
+			}
 		}
 	}
 
@@ -223,21 +245,21 @@ public class MouseUtils {
 		drawPanelCanvas.onShowMenu(p);
 	}
 
-	private static Point getMousePoint(DrawFocusPanel drawPanelCanvas, MouseEvent<?> event) {
+	private static Point getPoint(DrawFocusPanel drawPanelCanvas, MouseEvent<?> event) {
 		Element e = drawPanelCanvas.getElement();
 		return new Point(event.getRelativeX(e), event.getRelativeY(e));
 	}
 
-	private static Point getMousePointAbsolute(MouseEvent<?> event) {
+	private static Point getPointAbsolute(MouseEvent<?> event) {
 		return new Point(event.getClientX(), event.getClientY());
 	}
 
-	private static Point getTouchPoint(DrawFocusPanel drawPanelCanvas, TouchEvent<?> event) {
+	private static Point getPoint(DrawFocusPanel drawPanelCanvas, TouchEvent<?> event) {
 		Element e = drawPanelCanvas.getElement();
 		return new Point(event.getTouches().get(0).getRelativeX(e), event.getTouches().get(0).getRelativeY(e));
 	}
 
-	private static Point getTouchPointAbsolute(final TouchEvent<?> event) {
+	private static Point getPointAbsolute(final TouchEvent<?> event) {
 		return new Point(event.getTouches().get(0).getPageX(), event.getTouches().get(0).getPageY());
 	}
 }
