@@ -38,6 +38,9 @@ public class PointDouble {
 	double distY = o.getY() - this.getY();
 	return Math.sqrt(distX * distX + distY * distY);
     }
+	public PointDouble copy() {
+		return new PointDouble(x, y);
+	}
 
 	@Override
 	public int hashCode() {

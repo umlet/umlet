@@ -72,7 +72,7 @@ public class MouseUtils {
 				}
 			});
 		}
-		
+
 		handlerTarget.addTouchStartHandler(new TouchStartHandler() {
 			@Override
 			public void onTouchStart(final TouchStartEvent event) {
@@ -140,19 +140,15 @@ public class MouseUtils {
 		handlerTarget.addMouseMoveHandler(new MouseMoveHandler() {
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
-				if (storage.activePanel != null) {
-					handleMove(storage.activePanel, storage, event, getPoint(storage.activePanel, event));
-				}
+				handleMove(storage.activePanel, storage, event);
 			}
 		});
 		handlerTarget.addTouchMoveHandler(new TouchMoveHandler() {
 			@Override
 			public void onTouchMove(TouchMoveEvent event) {
-				if (storage.activePanel != null) {
-					storage.menuShowTimer.cancel();
-					if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
-						handleMove(storage.activePanel, storage, event, getPoint(storage.activePanel, event));
-					}
+				storage.menuShowTimer.cancel();
+				if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
+					handleMove(storage.activePanel, storage, event);
 				}
 			}
 		});
@@ -212,10 +208,11 @@ public class MouseUtils {
 		return returnPanel;
 	}
 
-	private static void handleMove(final DrawFocusPanel drawPanelCanvas, final DragCache storage, HumanInputEvent<?> event, Point p) {
+	private static void handleMove(final DrawFocusPanel drawPanelCanvas, final DragCache storage, HumanInputEvent<?> event) {
 		//		Notification.showInfo("MOVE " + p.x);
 		event.preventDefault(); // necessary to avoid Chrome showing the text-cursor during dragging
-		if (Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS).contains(storage.dragging)) {
+		if (storage.activePanel != null && Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS).contains(storage.dragging)) {
+			Point p = getPoint(storage.activePanel, event);
 			int diffX = p.x - storage.moveStart.getX();
 			int diffY = p.y - storage.moveStart.getY();
 			diffX -= (diffX % NewGridElementConstants.DEFAULT_GRID_SIZE);
@@ -226,14 +223,8 @@ public class MouseUtils {
 				storage.moveStart.move(diffX, diffY);
 			}
 		}
-		else {
-			if (storage.mouseContainingPanel != null) {
-				if (event instanceof MouseEvent<?>) {
-					storage.mouseContainingPanel.onMouseMove(getPoint(storage.mouseContainingPanel, (MouseEvent<?>) event));
-				} else if (event instanceof TouchEvent<?>) {
-					storage.mouseContainingPanel.onMouseMove(getPoint(storage.mouseContainingPanel, (TouchEvent<?>) event));
-				}
-			}
+		else if (storage.mouseContainingPanel != null) {
+			storage.mouseContainingPanel.onMouseMove(getPoint(storage.mouseContainingPanel, event));
 		}
 	}
 
@@ -245,21 +236,24 @@ public class MouseUtils {
 		drawPanelCanvas.onShowMenu(p);
 	}
 
-	private static Point getPoint(DrawFocusPanel drawPanelCanvas, MouseEvent<?> event) {
+	private static Point getPoint(DrawFocusPanel drawPanelCanvas, HumanInputEvent<?> event) {
 		Element e = drawPanelCanvas.getElement();
-		return new Point(event.getRelativeX(e), event.getRelativeY(e));
+		if (event instanceof MouseEvent<?>) {
+			return new Point(((MouseEvent<?>) event).getRelativeX(e), ((MouseEvent<?>) event).getRelativeY(e));
+		} else if (event instanceof TouchEvent<?>) {
+			return new Point(((TouchEvent<?>) event).getTouches().get(0).getRelativeX(e), ((TouchEvent<?>) event).getTouches().get(0).getRelativeY(e));
+		} else {
+			throw new RuntimeException("Unknown Event Type: " + event);
+		}
 	}
 
-	private static Point getPointAbsolute(MouseEvent<?> event) {
-		return new Point(event.getClientX(), event.getClientY());
-	}
-
-	private static Point getPoint(DrawFocusPanel drawPanelCanvas, TouchEvent<?> event) {
-		Element e = drawPanelCanvas.getElement();
-		return new Point(event.getTouches().get(0).getRelativeX(e), event.getTouches().get(0).getRelativeY(e));
-	}
-
-	private static Point getPointAbsolute(final TouchEvent<?> event) {
-		return new Point(event.getTouches().get(0).getPageX(), event.getTouches().get(0).getPageY());
+	private static Point getPointAbsolute(HumanInputEvent<?> event) {
+		if (event instanceof MouseEvent<?>) {
+			return new Point(((MouseEvent<?>) event).getClientX(), ((MouseEvent<?>) event).getClientY());
+		} else if (event instanceof TouchEvent<?>) {
+			return new Point(((TouchEvent<?>) event).getTouches().get(0).getPageX(), ((TouchEvent<?>) event).getTouches().get(0).getPageY());
+		} else {
+			throw new RuntimeException("Unknown Event Type: " + event);
+		}
 	}
 }

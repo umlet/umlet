@@ -118,9 +118,13 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
+				PointDouble pToDraw = point.copy(); // must use copy to avoid modification of initial point for future drawings (testcase: set invalid key-value setting to get the error message (which has 2 lines) and then click multiple times on the element and anywhere else (to trigger redraw))
 				ColorOwn fgColor = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : styleAtDrawingCall.getFgColor();
 				ctx.setFillStyle(Converter.convert(fgColor));
-				drawTextHelper(text, point, align, styleAtDrawingCall.getFontSize());
+				for (String line : text.split("\n")) {
+					drawTextHelper(line, pToDraw, align, styleAtDrawingCall.getFontSize());
+					pToDraw.move(0, textHeight());
+				}
 			}
 		});
 	}

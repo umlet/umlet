@@ -21,6 +21,7 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.Stickables;
@@ -98,7 +99,9 @@ public abstract class NewGridElement implements GridElement {
 			properties.initSettingsFromText(this);
 			properties.drawPropertiesText();
 		} catch (Exception e) {
-			drawer.print(e.getLocalizedMessage(), 3, getRealSize().height/2 - drawer.textHeight(), AlignHorizontal.LEFT);
+			drawer.setForegroundColor(ColorOwn.RED);
+			drawer.setBackgroundColor(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND));
+				drawer.print(e.getLocalizedMessage(), 3, getRealSize().height/2 - drawer.textHeight(), AlignHorizontal.LEFT);
 		}
 		updateConcreteModel(drawer, properties);
 		this.autoresizePossiblyInProgress = false;
