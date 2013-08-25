@@ -97,13 +97,14 @@ public abstract class NewGridElement implements GridElement {
 		updateMetaDrawer(metaDrawer);
 		try {
 			properties.initSettingsFromText(this);
+			updateConcreteModel(drawer, properties);
 			properties.drawPropertiesText();
 		} catch (Exception e) {
 			drawer.setForegroundColor(ColorOwn.RED);
 			drawer.setBackgroundColor(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND));
+			updateConcreteModel(drawer, properties);
 				drawer.print(e.getLocalizedMessage(), 3, getRealSize().height/2 - drawer.textHeight(), AlignHorizontal.LEFT);
 		}
-		updateConcreteModel(drawer, properties);
 		this.autoresizePossiblyInProgress = false;
 
 		component.afterModelUpdate();

@@ -68,10 +68,10 @@ public class DrawFocusPanelPalette extends DrawFocusPanel {
 				copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width + horizontalScrollbarDiff, paletteChooser.getOffsetHeight() + verticalScrollbarDiff);
 				elementsToMove.add(copy);
 			}
-			commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
 			commandInvoker.removeSelectedElements(this);
 			commandInvoker.addElements(this, draggedElements);
 			selector.deselectAll();
+			commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
 		}
 		draggedElements.clear();
 		super.onMouseDragEnd(gridElement, lastPoint);
