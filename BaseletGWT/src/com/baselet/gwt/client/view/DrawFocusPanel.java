@@ -308,37 +308,50 @@ public abstract class DrawFocusPanel extends SimplePanel implements CanAddAndRem
 		redraw();
 	}
 
-	public void onMouseDown(final GridElement element, final boolean isControlKeyDown) {
+	public void onMouseDownScheduleDeferred(final GridElement element, final boolean isControlKeyDown) {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
 			@Override
 			public void execute() {
-				if (isControlKeyDown) {
-					if (element != null) {
-						if (selector.isSelected(element)) {
-							selector.deselect(element);
-						} else {
-							selector.select(element);
-						}
-					}
-				} else {
-					if (element != null) {
-						if (selector.isSelected(element)) {
-							selector.moveToLastPosInList(element);
-							propertiesPanel.setGridElement(element, DrawFocusPanel.this);
-						} else {
-							selector.selectOnly(element);
-						}
-					} else {
-						selector.deselectAll();
-					}
-				}
+				onMouseDown(element, isControlKeyDown);
 			}
 		});
 	}
 
+	void onMouseDown(final GridElement element, final boolean isControlKeyDown) {
+		if (isControlKeyDown) {
+			if (element != null) {
+				if (selector.isSelected(element)) {
+					selector.deselect(element);
+				} else {
+					selector.select(element);
+				}
+			}
+		} else {
+			if (element != null) {
+				if (selector.isSelected(element)) {
+					selector.moveToLastPosInList(element);
+					propertiesPanel.setGridElement(element, DrawFocusPanel.this);
+				} else {
+					selector.selectOnly(element);
+				}
+			} else {
+				selector.deselectAll();
+			}
+		}
+	}
+
 	private Set<Direction> resizeDirection = new HashSet<Direction>();
 
-	public void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
+	public void onMouseMoveDraggingScheduleDeferred(final Point dragStart, final int diffX, final int diffY, final GridElement draggedGridElement, final boolean isShiftKeyDown, final boolean isCtrlKeyDown, final boolean firstDrag) {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
+			@Override
+			public void execute() {
+				onMouseMoveDragging(dragStart, diffX, diffY, draggedGridElement, isShiftKeyDown, isCtrlKeyDown, firstDrag);
+			}
+		});
+	}
+
+	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
 		if (isCtrlKeyDown) {
 			return; // TODO implement Lasso
 		}

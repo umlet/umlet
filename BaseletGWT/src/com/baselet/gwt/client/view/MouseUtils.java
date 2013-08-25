@@ -1,6 +1,8 @@
 package com.baselet.gwt.client.view;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.baselet.control.NewGridElementConstants;
 import com.baselet.diagram.draw.geom.Point;
@@ -29,6 +31,7 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FocusPanel;
@@ -45,7 +48,7 @@ public class MouseUtils {
 		private GridElement elementToDrag;
 		private DrawFocusPanel activePanel;
 		private DrawFocusPanel mouseContainingPanel;
-		private boolean touchDetected = false;
+		private List<HandlerRegistration> mouseHandlers = new ArrayList<HandlerRegistration>();
 		/**
 		 * doubleclicks are only handled if the mouse has moved into the canvas before
 		 * this is necessary to void unwanted propagation of suggestbox-selections via doubleclick
@@ -60,24 +63,30 @@ public class MouseUtils {
 		final DragCache storage = new DragCache();
 
 		for (final DrawFocusPanel panel : panels) {
-			panel.addMouseOutHandler(new MouseOutHandler() {
+			storage.mouseHandlers.add(panel.addMouseOutHandler(new MouseOutHandler() {
 				@Override
 				public void onMouseOut(MouseOutEvent event) {
 					storage.mouseContainingPanel = null;
 				}
-			});
-			panel.addMouseOverHandler(new MouseOverHandler() {
+			}));
+			storage.mouseHandlers.add(panel.addMouseOverHandler(new MouseOverHandler() {
 				@Override
 				public void onMouseOver(MouseOverEvent event) {
 					storage.mouseContainingPanel = panel;
 				}
-			});
+			}));
 		}
 
 		handlerTarget.addTouchStartHandler(new TouchStartHandler() {
 			@Override
 			public void onTouchStart(final TouchStartEvent event) {
-				storage.touchDetected = true;
+				 // some mouseevents are interfering with touch events (eg: mousemove is triggered on each touchdown event) therefore they are removed as soon as a touch event is detected
+				if (storage.mouseHandlers != null) {
+					for (HandlerRegistration h : storage.mouseHandlers) {
+						h.removeHandler();
+					}
+					storage.mouseHandlers = null;
+				}
 				if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
 					final Point absolutePos = getPointAbsolute(event);
 					storage.activePanel = getPanelWhichContainsPoint(panels, absolutePos);
@@ -115,69 +124,64 @@ public class MouseUtils {
 			}
 		});
 
-		handlerTarget.addMouseDownHandler(new MouseDownHandler() {
+		storage.mouseHandlers.add(handlerTarget.addMouseDownHandler(new MouseDownHandler() {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
-				if (!storage.touchDetected) {
-					storage.activePanel = getPanelWhichContainsPoint(panels, getPointAbsolute(event));
-					if (storage.activePanel != null) {
-						handleStart(panels, storage, event, getPoint(storage.activePanel, event));
-					}
+				storage.activePanel = getPanelWhichContainsPoint(panels, getPointAbsolute(event));
+				if (storage.activePanel != null) {
+					handleStart(panels, storage, event, getPoint(storage.activePanel, event));
 				}
 			}
-		});
+		}));
 
-		handlerTarget.addMouseUpHandler(new MouseUpHandler() {
+		storage.mouseHandlers.add(handlerTarget.addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
-				if (!storage.touchDetected && storage.activePanel != null) {
+				if (storage.activePanel != null) {
 					handleEnd(storage, storage.activePanel, getPoint(storage.activePanel, event));
 				}
 			}
-		});
-		handlerTarget.addMouseOutHandler(new MouseOutHandler() {
+		}));
+		storage.mouseHandlers.add(handlerTarget.addMouseOutHandler(new MouseOutHandler() {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
-				if (!storage.touchDetected && storage.activePanel != null) {
+				if (storage.activePanel != null) {
 					handleEnd(storage, storage.activePanel, getPoint(storage.activePanel, event));
 					storage.doubleClickEnabled = false;
 				}
 			}
-		});
-		handlerTarget.addMouseOverHandler(new MouseOverHandler() {
+		}));
+		storage.mouseHandlers.add(handlerTarget.addMouseOverHandler(new MouseOverHandler() {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				storage.doubleClickEnabled = true;
 			}
-		});
+		}));
 
-		handlerTarget.addMouseMoveHandler(new MouseMoveHandler() {
+		storage.mouseHandlers.add(handlerTarget.addMouseMoveHandler(new MouseMoveHandler() {
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
-				if (!storage.touchDetected) { // mousemove is triggered on each touchdown therefore it must be deactivated if touch is detected
-					event.preventDefault(); // necessary to avoid Chrome showing the text-cursor during dragging
-					handleMove(storage.activePanel, storage, event);
-				}
+				handleMove(storage.activePanel, storage, event);
 			}
-		});
+		}));
 
 		// double tap on mobile devices is not easy to implement because browser zoom on double-tap is not an event which can be canceled
-		handlerTarget.addDoubleClickHandler(new DoubleClickHandler() {
+		storage.mouseHandlers.add(handlerTarget.addDoubleClickHandler(new DoubleClickHandler() {
 			@Override
 			public void onDoubleClick(DoubleClickEvent event) {
-				if (!storage.touchDetected && storage.activePanel != null) {
+				if (storage.activePanel != null) {
 					if (storage.doubleClickEnabled) {
 						handleDoubleClick(storage.activePanel, getPoint(storage.activePanel, event));
 					}
 				}
 			}
-		});
+		}));
 
 		handlerTarget.addDomHandler(new ContextMenuHandler() {
 			@Override
 			public void onContextMenu(ContextMenuEvent event) {
 				if (storage.activePanel != null) {
-					event.preventDefault();
+					event.preventDefault(); // avoid default contextmenu
 					event.stopPropagation();
 					handleShowMenu(storage.activePanel, new Point(event.getNativeEvent().getClientX(), event.getNativeEvent().getClientY()));
 				}
@@ -195,11 +199,11 @@ public class MouseUtils {
 
 	private static void handleStart(DrawFocusPanel[] panels, final DragCache storage, HumanInputEvent<?> event, Point p) {
 		//		Notification.showInfo("DOWN " + p.x);
-		event.preventDefault(); // necessary to avoid Chrome showing the text-cursor during dragging
+		event.preventDefault(); // necessary to avoid showing textcursor and selecting proppanel in chrome AND to avoid scrolling with touch move
 		storage.moveStart = new Point(p.x, p.y);
 		storage.dragging = DragStatus.FIRST;
 		storage.elementToDrag = storage.activePanel.getGridElementOnPosition(storage.moveStart);
-		storage.activePanel.onMouseDown(storage.elementToDrag, event.isControlKeyDown());
+		storage.activePanel.onMouseDownScheduleDeferred(storage.elementToDrag, event.isControlKeyDown());
 	}
 
 	private static DrawFocusPanel getPanelWhichContainsPoint(DrawFocusPanel[] panels, Point p) {
@@ -226,7 +230,7 @@ public class MouseUtils {
 			diffX -= (diffX % NewGridElementConstants.DEFAULT_GRID_SIZE);
 			diffY -= (diffY % NewGridElementConstants.DEFAULT_GRID_SIZE);
 			if (diffX != 0 || diffY != 0) {
-				drawPanelCanvas.onMouseMoveDragging(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), event.isControlKeyDown(), (storage.dragging == DragStatus.FIRST));
+				drawPanelCanvas.onMouseMoveDraggingScheduleDeferred(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), event.isControlKeyDown(), (storage.dragging == DragStatus.FIRST));
 				storage.dragging = DragStatus.CONTINUOUS; // after FIRST real drag switch to CONTINUOUS
 				storage.moveStart.move(diffX, diffY);
 			}

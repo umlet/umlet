@@ -49,7 +49,7 @@ public class DrawFocusPanelPalette extends DrawFocusPanel {
 	}
 
 	private List<GridElement> draggedElements = new ArrayList<GridElement>();
-	public void onMouseDown(GridElement element, boolean isControlKeyDown) {
+	void onMouseDown(GridElement element, boolean isControlKeyDown) {
 		super.onMouseDown(element, isControlKeyDown);
 		for (GridElement original : selector.getSelectedElements()) {
 			draggedElements.add(ElementFactory.create(original, getDiagram()));
