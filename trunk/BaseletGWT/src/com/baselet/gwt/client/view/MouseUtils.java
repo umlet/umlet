@@ -91,17 +91,7 @@ public class MouseUtils {
 							handleShowMenu(storage.activePanel, absolutePos);
 						}
 					};
-					storage.menuShowTimer.schedule(500);
-				}
-			}
-
-		});
-		handlerTarget.addMouseDownHandler(new MouseDownHandler() {
-			@Override
-			public void onMouseDown(MouseDownEvent event) {
-				storage.activePanel = getPanelWhichContainsPoint(panels, getPointAbsolute(event));
-				if (!storage.touchDetected && storage.activePanel != null) {
-					handleStart(panels, storage, event, getPoint(storage.activePanel, event));
+					storage.menuShowTimer.schedule(1000);
 				}
 			}
 		});
@@ -115,6 +105,28 @@ public class MouseUtils {
 				}
 			}
 		});
+		handlerTarget.addTouchMoveHandler(new TouchMoveHandler() {
+			@Override
+			public void onTouchMove(TouchMoveEvent event) {
+				storage.menuShowTimer.cancel();
+				if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
+					handleMove(storage.activePanel, storage, event);
+				}
+			}
+		});
+
+		handlerTarget.addMouseDownHandler(new MouseDownHandler() {
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				if (!storage.touchDetected) {
+					storage.activePanel = getPanelWhichContainsPoint(panels, getPointAbsolute(event));
+					if (storage.activePanel != null) {
+						handleStart(panels, storage, event, getPoint(storage.activePanel, event));
+					}
+				}
+			}
+		});
+
 		handlerTarget.addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
@@ -143,15 +155,7 @@ public class MouseUtils {
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
 				if (!storage.touchDetected) { // mousemove is triggered on each touchdown therefore it must be deactivated if touch is detected
-					handleMove(storage.activePanel, storage, event);
-				}
-			}
-		});
-		handlerTarget.addTouchMoveHandler(new TouchMoveHandler() {
-			@Override
-			public void onTouchMove(TouchMoveEvent event) {
-				storage.menuShowTimer.cancel();
-				if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
+					event.preventDefault(); // necessary to avoid Chrome showing the text-cursor during dragging
 					handleMove(storage.activePanel, storage, event);
 				}
 			}
@@ -214,8 +218,7 @@ public class MouseUtils {
 	}
 
 	private static void handleMove(final DrawFocusPanel drawPanelCanvas, final DragCache storage, HumanInputEvent<?> event) {
-//		Notification.showInfo("MOVE " + getPointAbsolute(event));
-		event.preventDefault(); // necessary to avoid Chrome showing the text-cursor during dragging
+		//		Notification.showInfo("MOVE " + getPointAbsolute(event));
 		if (storage.activePanel != null && Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS).contains(storage.dragging)) {
 			Point p = getPoint(storage.activePanel, event);
 			int diffX = p.x - storage.moveStart.getX();
