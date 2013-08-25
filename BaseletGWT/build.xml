@@ -31,8 +31,8 @@
 			<arg value="${gwt.module.name}" />
 		</java>
 		<delete dir="${build.dir}/WEB-INF" />
-		<copy file="war/Baselet.css" tofile="${build.dir}/Baselet.css"/>
-		<copy file="war/Baselet.html" tofile="${build.dir}/Baselet.html"/>
+		<copy file="war/index.css" tofile="${build.dir}/index.css"/>
+		<copy file="war/index.html" tofile="${build.dir}/index.html"/>
 	</target>
 	
 	<target name="gwt-compile-draft-with-detailed-names" description="compile in draft mode">
