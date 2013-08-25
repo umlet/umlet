@@ -94,16 +94,17 @@ public abstract class NewGridElement implements GridElement {
 		this.autoresizePossiblyInProgress = true;
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
-		updateMetaDrawer(metaDrawer);
 		try {
-			properties.initSettingsFromText(this);
-			updateConcreteModel(drawer, properties);
+			properties.initSettingsFromText(this); // must be before concrete model update (because bg=... and other settings are set here)
+			updateMetaDrawer(metaDrawer); // must be after initSettings because stickingpolygon size can be based on some settings (eg: Actor uses this)
+			updateConcreteModel(drawer, properties); // must be before properties text (to make sure a possible background color is behind the text)
 			properties.drawPropertiesText();
 		} catch (Exception e) {
 			drawer.setForegroundColor(ColorOwn.RED);
 			drawer.setBackgroundColor(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND));
+			updateMetaDrawer(metaDrawer);
 			updateConcreteModel(drawer, properties);
-				drawer.print(e.getLocalizedMessage(), 3, getRealSize().height/2 - drawer.textHeight(), AlignHorizontal.LEFT);
+			drawer.print(e.getLocalizedMessage(), 3, getRealSize().height/2 - drawer.textHeight(), AlignHorizontal.LEFT);
 		}
 		this.autoresizePossiblyInProgress = false;
 
