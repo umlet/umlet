@@ -11,7 +11,7 @@ public class FontSizeFacet extends AbstractGlobalKeyValueFacet {
 
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue("fontsize", "12", "font size (12.5, 10.3,...)");
+		return new KeyValue("fontsize", false, "12", "font size as decimal number (12.5, 10.3,...)");
 	}
 
 	@Override
