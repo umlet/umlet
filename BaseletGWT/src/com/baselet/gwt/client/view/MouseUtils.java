@@ -80,7 +80,7 @@ public class MouseUtils {
 		handlerTarget.addTouchStartHandler(new TouchStartHandler() {
 			@Override
 			public void onTouchStart(final TouchStartEvent event) {
-				 // some mouseevents are interfering with touch events (eg: mousemove is triggered on each touchdown event) therefore they are removed as soon as a touch event is detected
+				// some mouseevents are interfering with touch events (eg: mousemove is triggered on each touchdown event) therefore they are removed as soon as a touch event is detected
 				if (storage.mouseHandlers != null) {
 					for (HandlerRegistration h : storage.mouseHandlers) {
 						h.removeHandler();
@@ -90,9 +90,7 @@ public class MouseUtils {
 				if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
 					final Point absolutePos = getPointAbsolute(event);
 					storage.activePanel = getPanelWhichContainsPoint(panels, absolutePos);
-					if (storage.activePanel != null) {
-						handleStart(panels, storage, event, getPoint(storage.activePanel, event));
-					}
+					handleStart(storage, event);
 					//					Notification.showInfo("START " + absolutePos.x);
 					storage.menuShowTimer = new Timer() {
 						@Override
@@ -128,9 +126,7 @@ public class MouseUtils {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				storage.activePanel = getPanelWhichContainsPoint(panels, getPointAbsolute(event));
-				if (storage.activePanel != null) {
-					handleStart(panels, storage, event, getPoint(storage.activePanel, event));
-				}
+				handleStart(storage, event);
 			}
 		}));
 
@@ -197,13 +193,15 @@ public class MouseUtils {
 		storage.dragging = DragStatus.NO;
 	}
 
-	private static void handleStart(DrawFocusPanel[] panels, final DragCache storage, HumanInputEvent<?> event, Point p) {
+	private static void handleStart(final DragCache storage, HumanInputEvent<?> event) {
 		//		Notification.showInfo("DOWN " + p.x);
-		event.preventDefault(); // necessary to avoid showing textcursor and selecting proppanel in chrome AND to avoid scrolling with touch move
-		storage.moveStart = new Point(p.x, p.y);
-		storage.dragging = DragStatus.FIRST;
-		storage.elementToDrag = storage.activePanel.getGridElementOnPosition(storage.moveStart);
-		storage.activePanel.onMouseDownScheduleDeferred(storage.elementToDrag, event.isControlKeyDown());
+		if (storage.activePanel != null) {
+			event.preventDefault(); // necessary to avoid showing textcursor and selecting proppanel in chrome AND to avoid scrolling with touch move
+			storage.moveStart = getPoint(storage.activePanel, event);
+			storage.dragging = DragStatus.FIRST;
+			storage.elementToDrag = storage.activePanel.getGridElementOnPosition(storage.moveStart);
+			storage.activePanel.onMouseDownScheduleDeferred(storage.elementToDrag, event.isControlKeyDown());
+		}
 	}
 
 	private static DrawFocusPanel getPanelWhichContainsPoint(DrawFocusPanel[] panels, Point p) {
@@ -212,10 +210,10 @@ public class MouseUtils {
 			Rectangle visibleBounds = panel.getVisibleBounds();
 			visibleBounds.move(panel.getAbsoluteLeft(), panel.getAbsoluteTop());
 			if (visibleBounds.contains(p)) {
-				panel.setFocusState(true);
+				panel.setFocus(true);
 				returnPanel = panel;
 			} else {
-				panel.setFocusState(false);
+				panel.setFocus(false);
 			}
 		}
 		return returnPanel;

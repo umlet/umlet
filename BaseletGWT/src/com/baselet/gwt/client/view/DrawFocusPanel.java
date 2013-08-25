@@ -32,6 +32,9 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
 
+/**
+ * Panel must be a focus panel, otherwise Chrome cannot handle keyboard-shortcuts
+ */
 public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
 
 	private static final Logger log = Logger.getLogger(DrawFocusPanel.class);
@@ -56,20 +59,30 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		this.otherDrawFocusPanel = otherDrawFocusPanel;
 	}
 
-	private Boolean focus = false;
+	private Boolean focused = false;
 
-	public void setFocusState(boolean focus) {
-		setFocus(focus);
-		if (focus) { // if focus has switched from diagram <-> palette, reset other selector and redraw
-			otherDrawFocusPanel.getSelector().deselectAllWithoutAfterAction();
-			otherDrawFocusPanel.redraw(); // redraw is necessary even if other afteractions (properties panel update) are not
-			otherDrawFocusPanel.setFocusState(false);
-		}
-		this.focus = focus;
+	public Boolean getFocus() {
+		return focused;
 	}
 
-	public Boolean getFocusState() {
-		return focus;
+	@Override
+	public void setFocus(boolean focused) {
+		// Internet explorer scrolls to the top left if canvas gets focus, therefore scroll back afterwards // see http://stackoverflow.com/questions/14979365/table-scroll-bar-jumps-up-when-table-receives-focus-in-ie
+		if (Browser.get() == Browser.INTERNET_EXPLORER && focused) {
+			int oldH = scrollPanel.getHorizontalScrollPosition();
+			int oldV = scrollPanel.getVerticalScrollPosition();
+			super.setFocus(focused);
+			scrollPanel.setHorizontalScrollPosition(oldH);
+			scrollPanel.setVerticalScrollPosition(oldV);
+		} else {
+			super.setFocus(focused);
+		}
+		if (focused) { // if focus has switched from diagram <-> palette, reset other selector and redraw
+			otherDrawFocusPanel.getSelector().deselectAllWithoutAfterAction();
+			otherDrawFocusPanel.redraw(); // redraw is necessary even if other afteractions (properties panel update) are not
+			otherDrawFocusPanel.setFocus(false);
+		}
+		this.focused = focused;
 	}
 
 	public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
@@ -393,20 +406,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 	public void onShowMenu(Point point) {
 		menuPopup.show(point);
-	}
-
-	@Override
-	public void setFocus(boolean focused) {
-		// Internet explorer scrolls to the top left if canvas gets focus, therefore scroll back afterwards // see http://stackoverflow.com/questions/14979365/table-scroll-bar-jumps-up-when-table-receives-focus-in-ie
-		if (Browser.get() == Browser.INTERNET_EXPLORER && focused) {
-			int oldH = scrollPanel.getHorizontalScrollPosition();
-			int oldV = scrollPanel.getVerticalScrollPosition();
-			super.setFocus(focused);
-			scrollPanel.setHorizontalScrollPosition(oldH);
-			scrollPanel.setVerticalScrollPosition(oldV);
-		} else {
-			super.setFocus(focused);
-		}
 	}
 
 }
