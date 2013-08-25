@@ -59,10 +59,13 @@ public class DrawFocusPanelPalette extends DrawFocusPanel {
 	@Override
 	public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
 		if (lastPoint.getX() < 0) {
+			System.out.println(scrollPanel.getVerticalScrollPosition());
 			List<GridElement> elementsToMove = new ArrayList<GridElement>();
 			for (GridElement original : selector.getSelectedElements()) {
 				GridElement copy = ElementFactory.create(original, otherDrawFocusPanel.getDiagram());
-				copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width, paletteChooser.getOffsetHeight());
+				int verticalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getVerticalScrollPosition() - scrollPanel.getVerticalScrollPosition();
+				int horizontalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getHorizontalScrollPosition() - scrollPanel.getHorizontalScrollPosition();
+				copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width + horizontalScrollbarDiff, paletteChooser.getOffsetHeight() + verticalScrollbarDiff);
 				elementsToMove.add(copy);
 			}
 			commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
