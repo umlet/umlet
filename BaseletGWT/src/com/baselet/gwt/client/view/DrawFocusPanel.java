@@ -24,6 +24,8 @@ import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.HasKeyDownHandlers;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
@@ -71,7 +73,7 @@ public abstract class DrawFocusPanel extends SimplePanel implements CanAddAndRem
 		}
 		this.focus = focus;
 	}
-	
+
 	public Boolean getFocus() {
 		return focus;
 	}
@@ -306,27 +308,32 @@ public abstract class DrawFocusPanel extends SimplePanel implements CanAddAndRem
 		redraw();
 	}
 
-	public void onMouseDown(GridElement element, boolean isControlKeyDown) {
-		if (isControlKeyDown) {
-			if (element != null) {
-				if (selector.isSelected(element)) {
-					selector.deselect(element);
+	public void onMouseDown(final GridElement element, final boolean isControlKeyDown) {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
+			@Override
+			public void execute() {
+				if (isControlKeyDown) {
+					if (element != null) {
+						if (selector.isSelected(element)) {
+							selector.deselect(element);
+						} else {
+							selector.select(element);
+						}
+					}
 				} else {
-					selector.select(element);
+					if (element != null) {
+						if (selector.isSelected(element)) {
+							selector.moveToLastPosInList(element);
+							propertiesPanel.setGridElement(element, DrawFocusPanel.this);
+						} else {
+							selector.selectOnly(element);
+						}
+					} else {
+						selector.deselectAll();
+					}
 				}
 			}
-		} else {
-			if (element != null) {
-				if (selector.isSelected(element)) {
-					selector.moveToLastPosInList(element);
-					propertiesPanel.setGridElement(element, DrawFocusPanel.this);
-				} else {
-					selector.selectOnly(element);
-				}
-			} else {
-				selector.deselectAll();
-			}
-		}
+		});
 	}
 
 	private Set<Direction> resizeDirection = new HashSet<Direction>();
@@ -383,16 +390,16 @@ public abstract class DrawFocusPanel extends SimplePanel implements CanAddAndRem
 
 	@Override
 	public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
-        return addDomHandler(handler, KeyDownEvent.getType());
-        }
+		return addDomHandler(handler, KeyDownEvent.getType());
+	}
 
 	@Override
 	public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
-        return addDomHandler(handler, MouseOverEvent.getType());
-        }
+		return addDomHandler(handler, MouseOverEvent.getType());
+	}
 
 	@Override
 	public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
-        return addDomHandler(handler, MouseOutEvent.getType());
-        }
+		return addDomHandler(handler, MouseOutEvent.getType());
+	}
 }
