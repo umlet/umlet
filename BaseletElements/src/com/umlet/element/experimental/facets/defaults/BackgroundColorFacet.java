@@ -13,7 +13,7 @@ public class BackgroundColorFacet extends AbstractGlobalKeyValueFacet {
 	
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue(KEY, "red", "background color string (green,...) or code (#3c7a00,...)");
+		return new KeyValue(KEY, false, "red", "background color string (green,...) or code (#3c7a00,...)");
 	}
 
 	@Override

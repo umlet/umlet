@@ -72,7 +72,6 @@ public class Actor extends NewGridElement {
 
 	@Override
 	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
-		properties.drawPropertiesText();
 		int hCenter = getRealSize().width/2;
 		drawer.drawCircle(hCenter, headRadius(), headRadius()); // Head
 		drawer.drawLine(hCenter-armLength(), armHeight(), hCenter+armLength(), armHeight()); // Arms

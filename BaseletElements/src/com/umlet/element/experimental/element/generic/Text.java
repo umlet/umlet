@@ -50,7 +50,6 @@ public class Text extends NewGridElement {
 
 	@Override
 	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
-		properties.drawPropertiesText();
 	}
 
 }

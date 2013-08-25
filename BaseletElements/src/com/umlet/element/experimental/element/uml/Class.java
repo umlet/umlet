@@ -55,7 +55,6 @@ public class Class extends NewGridElement {
 	@Override
 	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
 		drawer.drawRectangle(0, 0, getRealSize().width-1, getRealSize().height-1);
-		properties.drawPropertiesText();
 	}
 }
 

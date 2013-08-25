@@ -30,8 +30,6 @@ public class Relation extends NewGridElement implements Stickable {
 
 	@Override
 	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
-		//		properties.drawPropertiesText();
-
 		relationPoints.drawLinesBetweenPoints(drawer);
 	}
 

@@ -11,7 +11,7 @@ public class LineThicknessFacet extends AbstractGlobalKeyValueFacet {
 
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue("lth", "1.0", "thickness of lines (1.5, 2.0, ...)");
+		return new KeyValue("lth", false, "1.0", "thickness of lines as decimal number (1.5, 2.0, ...)");
 	}
 
 	@Override

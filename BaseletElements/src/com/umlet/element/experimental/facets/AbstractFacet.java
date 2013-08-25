@@ -2,16 +2,13 @@ package com.umlet.element.experimental.facets;
 
 import java.util.List;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import org.apache.log4j.Logger;
+
 import com.baselet.gui.AutocompletionText;
-import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.Facet.Priority;
 
 public abstract class AbstractFacet implements Facet {
-
-	public abstract boolean checkStart(String line);
-
-	public abstract void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig);
+	
+	protected Logger log = Logger.getLogger(AbstractFacet.class);
 
 	public boolean replacesText(String line) {
 		return true;

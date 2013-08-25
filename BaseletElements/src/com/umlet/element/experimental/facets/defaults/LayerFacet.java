@@ -17,7 +17,7 @@ public class LayerFacet extends AbstractGlobalKeyValueFacet {
 	public static final Integer DEFAULT_VALUE = 0;
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue(KEY, DEFAULT_VALUE.toString(), "higher layers are shown on top of lowers (-5, 0(=default), 3,...)");
+		return new KeyValue(KEY, false, DEFAULT_VALUE.toString(), "higher layers are shown on top of lowers. (-5, 0(=default), 3,...)");
 	}
 
 	@Override
