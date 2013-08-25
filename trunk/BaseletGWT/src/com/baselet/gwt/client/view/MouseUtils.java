@@ -107,8 +107,8 @@ public class MouseUtils {
 		handlerTarget.addTouchEndHandler(new TouchEndHandler() {
 			@Override
 			public void onTouchEnd(TouchEndEvent event) {
+				storage.menuShowTimer.cancel();
 				if (storage.activePanel != null) {
-					storage.menuShowTimer.cancel();
 					handleEnd(storage, storage.activePanel, getPoint(storage.activePanel, event));
 				}
 			}
@@ -187,6 +187,7 @@ public class MouseUtils {
 
 	private static void handleStart(DrawFocusPanel[] panels, final DragCache storage, HumanInputEvent<?> event, Point p) {
 		//		Notification.showInfo("DOWN " + p.x);
+		event.preventDefault(); // necessary to avoid Chrome showing the text-cursor during dragging
 		storage.moveStart = new Point(p.x, p.y);
 		storage.dragging = DragStatus.FIRST;
 		storage.elementToDrag = storage.activePanel.getGridElementOnPosition(storage.moveStart);
@@ -209,7 +210,7 @@ public class MouseUtils {
 	}
 
 	private static void handleMove(final DrawFocusPanel drawPanelCanvas, final DragCache storage, HumanInputEvent<?> event) {
-		//		Notification.showInfo("MOVE " + p.x);
+//		Notification.showInfo("MOVE " + getPointAbsolute(event));
 		event.preventDefault(); // necessary to avoid Chrome showing the text-cursor during dragging
 		if (storage.activePanel != null && Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS).contains(storage.dragging)) {
 			Point p = getPoint(storage.activePanel, event);
