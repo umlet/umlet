@@ -157,7 +157,7 @@ public class MainView extends Composite {
 			}
 		});
 		
-		MouseUtils.addMouseHandler(mainPanel, diagramPanel, palettePanel);
+		EventHandlingUtils.addEventHandler(mainPanel, diagramPanel, palettePanel);
 	}
 
 	private void addRestoreMenuItem(final String chosenName) {
