@@ -64,10 +64,10 @@ public class DrawCanvas {
 
 	private void drawEmptyInfoText() {
 		double elWidth = 440;
-		double elHeight = 120;
+		double elHeight = 150;
 		double elXPos = getWidth()/2 - elWidth/2;
 		double elYPos = getHeight()/2 - elHeight;
-		GridElement emptyElement = ElementFactory.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), "halign=center\nDouble-click on an element to add it to the diagram\n\n<Import> uxf Files using the Menu or simply drag them into the diagram\n\n<Export> diagrams to Standalone-UMLet-compatible uxf or png \n\n<Save> diagrams to persistent browser storage", "", null);
+		GridElement emptyElement = ElementFactory.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), "halign=center\nDouble-click on an element to add it to the diagram (or use drag&drop)\n\n<Import> uxf Files using the Menu or simply drag them into the diagram\n<Export> diagrams to Standalone-UMLet-compatible uxf or png \n<Save> diagrams to persistent browser storage\n\nOnly Improved Elements work in standalone and web umlet\nWeb-Umlet Relations currently don't work in Standalone and vica versa\n\nPlease report bugs at http://code.google.com/p/umlet/", "", null);
 		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false);
 
 	}
