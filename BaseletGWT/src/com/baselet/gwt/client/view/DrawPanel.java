@@ -18,7 +18,6 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
-import com.baselet.gwt.client.Browser;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.keyboard.Shortcut;
@@ -28,16 +27,19 @@ import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.HasMouseOutHandlers;
+import com.google.gwt.event.dom.client.HasMouseOverHandlers;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.SimplePanel;
 
-/**
- * Panel must be a focus panel, otherwise Chrome cannot handle keyboard-shortcuts
- */
-public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemoveGridElement {
+public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGridElement, HasMouseOutHandlers, HasMouseOverHandlers {
 
-	private static final Logger log = Logger.getLogger(DrawFocusPanel.class);
+	private static final Logger log = Logger.getLogger(DrawPanel.class);
 
 	private Diagram diagram = new Diagram(new ArrayList<GridElement>());
 
@@ -47,55 +49,47 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 
 	CommandInvoker commandInvoker = CommandInvoker.getInstance();
 
-	DrawFocusPanel otherDrawFocusPanel;
+	DrawPanel otherDrawFocusPanel;
 
 	AutoResizeScrollDropPanel scrollPanel;
 
+	private MainView mainView;
+	
 	private PropertiesTextArea propertiesPanel;
 
 	private MenuPopup menuPopup;
 
-	public void setOtherDrawFocusPanel(DrawFocusPanel otherDrawFocusPanel) {
+	public void setOtherDrawFocusPanel(DrawPanel otherDrawFocusPanel) {
 		this.otherDrawFocusPanel = otherDrawFocusPanel;
 	}
 
-	private Boolean focused = false;
+	private Boolean focus = false;
 
-	public Boolean getFocus() {
-		return focused;
-	}
-
-	@Override
-	public void setFocus(boolean focused) {
-		// Internet explorer scrolls to the top left if canvas gets focus, therefore scroll back afterwards // see http://stackoverflow.com/questions/14979365/table-scroll-bar-jumps-up-when-table-receives-focus-in-ie
-		if (Browser.get() == Browser.INTERNET_EXPLORER && focused) {
-			int oldH = scrollPanel.getHorizontalScrollPosition();
-			int oldV = scrollPanel.getVerticalScrollPosition();
-			super.setFocus(focused);
-			scrollPanel.setHorizontalScrollPosition(oldH);
-			scrollPanel.setVerticalScrollPosition(oldV);
-		} else {
-			super.setFocus(focused);
-		}
-		if (focused) { // if focus has switched from diagram <-> palette, reset other selector and redraw
+	public void setFocus(boolean focus) {
+		if (focus) { // if focus has switched from diagram <-> palette, reset other selector and redraw
 			otherDrawFocusPanel.getSelector().deselectAllWithoutAfterAction();
 			otherDrawFocusPanel.redraw(); // redraw is necessary even if other afteractions (properties panel update) are not
 			otherDrawFocusPanel.setFocus(false);
 		}
-		this.focused = focused;
+		this.focus = focus;
 	}
 
-	public DrawFocusPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
+	public Boolean getFocus() {
+		return focus;
+	}
+
+	public DrawPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
 		this.setStylePrimaryName("canvasFocusPanel");
 
+		this.mainView = mainView;
 		this.propertiesPanel = propertiesPanel;
 
 		selector = new SelectorNew() {
 			public void doAfterSelectionChanged() {
 				if (!getSelectedElements().isEmpty()) { // always set properties text of latest selected element (so you also have an element in the prop panel even if you have an active multiselect)
-					propertiesPanel.setGridElement(getSelectedElements().get(getSelectedElements().size()-1), DrawFocusPanel.this);
+					propertiesPanel.setGridElement(getSelectedElements().get(getSelectedElements().size()-1), DrawPanel.this);
 				} else {
-					propertiesPanel.setGridElement(diagram, DrawFocusPanel.this);
+					propertiesPanel.setGridElement(diagram, DrawPanel.this);
 				}
 				redraw();
 			}
@@ -109,7 +103,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 					}
 					@Override
 					public void execute() {
-						commandInvoker.removeSelectedElements(DrawFocusPanel.this);
+						commandInvoker.removeSelectedElements(DrawPanel.this);
 					}
 				}, new MenuPopupItem() {
 					@Override
@@ -118,7 +112,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 					}
 					@Override
 					public void execute() {
-						commandInvoker.copySelectedElements(DrawFocusPanel.this);
+						commandInvoker.copySelectedElements(DrawPanel.this);
 					}
 				}, new MenuPopupItem() {
 					@Override
@@ -127,7 +121,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 					}
 					@Override
 					public void execute() {
-						commandInvoker.cutSelectedElements(DrawFocusPanel.this);
+						commandInvoker.cutSelectedElements(DrawPanel.this);
 					}
 				}, new MenuPopupItem() {
 					@Override
@@ -136,7 +130,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 					}
 					@Override
 					public void execute() {
-						commandInvoker.pasteElements(DrawFocusPanel.this);
+						commandInvoker.pasteElements(DrawPanel.this);
 					}
 				}, new MenuPopupItem() {
 					@Override
@@ -150,55 +144,6 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 				});
 
 		this.add(canvas.getWidget());
-
-		this.addKeyDownHandler(new KeyDownHandler() {
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				boolean isZoomKey = Shortcut.ZOOM_IN.matches(event) || Shortcut.ZOOM_OUT.matches(event) ||Shortcut.ZOOM_RESET.matches(event);
-				if (!isZoomKey && !Shortcut.FULLSCREEN.matches(event)) {
-					event.preventDefault(); // avoid most browser key handlings
-				}
-
-				if (Shortcut.DELETE_ELEMENT.matches(event)) {
-					commandInvoker.removeSelectedElements(DrawFocusPanel.this);
-				}
-				else if (Shortcut.DESELECT_ALL.matches(event)) {
-					selector.deselectAll();
-				}
-				else if (Shortcut.SELECT_ALL.matches(event)) {
-					selector.select(diagram.getGridElements());
-				}
-				else if (Shortcut.COPY.matches(event)) {
-					commandInvoker.copySelectedElements(DrawFocusPanel.this);
-				}
-				else if (Shortcut.CUT.matches(event)) {
-					commandInvoker.cutSelectedElements(DrawFocusPanel.this);
-				}
-				else if (Shortcut.PASTE.matches(event)) {
-					commandInvoker.pasteElements(DrawFocusPanel.this);
-				}
-				else if (Shortcut.SAVE.matches(event)) {
-					mainView.getSaveCommand().execute();
-				}
-				else if (Shortcut.MOVE_UP.matches(event)) {
-					moveSelectedElements(0, -NewGridElementConstants.DEFAULT_GRID_SIZE, true);
-					redraw();
-				}
-				else if (Shortcut.MOVE_DOWN.matches(event)) {
-					moveSelectedElements(0, NewGridElementConstants.DEFAULT_GRID_SIZE, true);
-					redraw();
-				}
-				else if (Shortcut.MOVE_LEFT.matches(event)) {
-					moveSelectedElements(-NewGridElementConstants.DEFAULT_GRID_SIZE, 0, true);
-					redraw();
-				}
-				else if (Shortcut.MOVE_RIGHT.matches(event)) {
-					moveSelectedElements(NewGridElementConstants.DEFAULT_GRID_SIZE, 0, true);
-					redraw();
-				}
-
-			}
-		});
 	}
 
 	private void moveSelectedElements(int diffX, int diffY, boolean firstDrag) {
@@ -337,7 +282,7 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 			if (element != null) {
 				if (selector.isSelected(element)) {
 					selector.moveToLastPosInList(element);
-					propertiesPanel.setGridElement(element, DrawFocusPanel.this);
+					propertiesPanel.setGridElement(element, DrawPanel.this);
 				} else {
 					selector.selectOnly(element);
 				}
@@ -375,10 +320,10 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		redraw(false);
 	}
 
-	public void onMouseMove(Point p) {
-		GridElement geOnPosition = getGridElementOnPosition(p);
+	public void onMouseMove(Point absolute) {
+		GridElement geOnPosition = getGridElementOnPosition(absolute);
 		if (geOnPosition != null) { // exactly one gridelement selected which is at the mouseposition
-			resizeDirection = geOnPosition.getResizeArea(p.getX() - geOnPosition.getRectangle().getX(), p.getY() - geOnPosition.getRectangle().getY());
+			resizeDirection = geOnPosition.getResizeArea(absolute.getX() - geOnPosition.getRectangle().getX(), absolute.getY() - geOnPosition.getRectangle().getY());
 			if (resizeDirection.isEmpty()) {
 				Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
 			} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) {
@@ -408,4 +353,58 @@ public abstract class DrawFocusPanel extends FocusPanel implements CanAddAndRemo
 		menuPopup.show(point);
 	}
 
+	public void handleKeyDown(KeyDownEvent event) {
+		boolean isZoomKey = Shortcut.ZOOM_IN.matches(event) || Shortcut.ZOOM_OUT.matches(event) ||Shortcut.ZOOM_RESET.matches(event);
+		if (!isZoomKey && !Shortcut.FULLSCREEN.matches(event)) {
+			event.preventDefault(); // avoid most browser key handlings
+		}
+
+		if (Shortcut.DELETE_ELEMENT.matches(event)) {
+			commandInvoker.removeSelectedElements(DrawPanel.this);
+		}
+		else if (Shortcut.DESELECT_ALL.matches(event)) {
+			selector.deselectAll();
+		}
+		else if (Shortcut.SELECT_ALL.matches(event)) {
+			selector.select(diagram.getGridElements());
+		}
+		else if (Shortcut.COPY.matches(event)) {
+			commandInvoker.copySelectedElements(DrawPanel.this);
+		}
+		else if (Shortcut.CUT.matches(event)) {
+			commandInvoker.cutSelectedElements(DrawPanel.this);
+		}
+		else if (Shortcut.PASTE.matches(event)) {
+			commandInvoker.pasteElements(DrawPanel.this);
+		}
+		else if (Shortcut.SAVE.matches(event)) {
+			mainView.getSaveCommand().execute();
+		}
+		else if (Shortcut.MOVE_UP.matches(event)) {
+			moveSelectedElements(0, -NewGridElementConstants.DEFAULT_GRID_SIZE, true);
+			redraw();
+		}
+		else if (Shortcut.MOVE_DOWN.matches(event)) {
+			moveSelectedElements(0, NewGridElementConstants.DEFAULT_GRID_SIZE, true);
+			redraw();
+		}
+		else if (Shortcut.MOVE_LEFT.matches(event)) {
+			moveSelectedElements(-NewGridElementConstants.DEFAULT_GRID_SIZE, 0, true);
+			redraw();
+		}
+		else if (Shortcut.MOVE_RIGHT.matches(event)) {
+			moveSelectedElements(NewGridElementConstants.DEFAULT_GRID_SIZE, 0, true);
+			redraw();
+		}
+	}
+
+	@Override
+	public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
+		return addDomHandler(handler, MouseOverEvent.getType());
+	}
+
+	@Override
+	public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+		return addDomHandler(handler, MouseOutEvent.getType());
+	}
 }

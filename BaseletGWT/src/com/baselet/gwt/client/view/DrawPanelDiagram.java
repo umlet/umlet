@@ -5,9 +5,9 @@ import com.baselet.element.GridElement;
 import com.baselet.gwt.client.element.ElementFactory;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 
-public class DrawFocusPanelDiagram extends DrawFocusPanel {
+public class DrawPanelDiagram extends DrawPanel {
 
-	public DrawFocusPanelDiagram(MainView mainView, PropertiesTextArea propertiesPanel) {
+	public DrawPanelDiagram(MainView mainView, PropertiesTextArea propertiesPanel) {
 		super(mainView, propertiesPanel);
 	}
 

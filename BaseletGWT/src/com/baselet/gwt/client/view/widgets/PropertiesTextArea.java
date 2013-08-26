@@ -1,7 +1,7 @@
 package com.baselet.gwt.client.view.widgets;
 
 import com.baselet.element.HasPanelAttributes;
-import com.baselet.gwt.client.view.DrawFocusPanel;
+import com.baselet.gwt.client.view.DrawPanel;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
 import com.google.gwt.uibinder.client.UiConstructor;
 
@@ -15,7 +15,7 @@ public class PropertiesTextArea extends MySuggestBox {
 
 	private HasPanelAttributes gridElement;
 	
-	private DrawFocusPanel activePanel = null;
+	private DrawPanel activePanel = null;
 
 	@UiConstructor
 	public PropertiesTextArea() {
@@ -38,7 +38,7 @@ public class PropertiesTextArea extends MySuggestBox {
 		this.textArea = textArea;
 	}
 	
-	public void setGridElement(HasPanelAttributes panelAttributeProvider, DrawFocusPanel panel) {
+	public void setGridElement(HasPanelAttributes panelAttributeProvider, DrawPanel panel) {
 		activePanel = panel;
 		this.gridElement = panelAttributeProvider;
 		String panelAttributes = panelAttributeProvider.getPanelAttributes();

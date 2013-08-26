@@ -13,7 +13,7 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 	
 	private OwnDropPanel dropPanel;
 
-	public AutoResizeScrollDropPanel(final DrawFocusPanel diagram) {
+	public AutoResizeScrollDropPanel(final DrawPanel diagram) {
 		this.setAlwaysShowScrollBars(true); // must be set otherwise elements can "jump around" (eg: empty diagram, class outside of top of diagram, click multiple times on diagram -> class jumps back to diagram)
 		diagram.setScrollPanel(this);
 		dropPanel = new OwnDropPanel(diagram);

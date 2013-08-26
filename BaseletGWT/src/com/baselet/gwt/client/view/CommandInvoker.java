@@ -33,12 +33,12 @@ public class CommandInvoker extends Controller {
 	void addElements(CanAddAndRemoveGridElement target, Collection<GridElement> elements) {
 		addElements(target, elements.toArray(new GridElement[elements.size()]));
 	}
-	void removeElements(DrawFocusPanel target, List<GridElement> elements) {
+	void removeElements(DrawPanel target, List<GridElement> elements) {
 		GridElement[] elementsArray = elements.toArray(new GridElement[elements.size()]);
 		this.executeCommand(new RemoveGridElementCommand(target, elementsArray));
 	}
 	
-	void removeSelectedElements(DrawFocusPanel target) {
+	void removeSelectedElements(DrawPanel target) {
 		removeElements(target, target.getSelector().getSelectedElements());
 	}
 	
@@ -48,16 +48,16 @@ public class CommandInvoker extends Controller {
 	
 	//TODO implement copy & paste as commands
 
-	void copySelectedElements(DrawFocusPanel target) {
+	void copySelectedElements(DrawPanel target) {
 		BrowserStorage.setClipboard(copyElementsInList(target.getSelector().getSelectedElements(), target.getDiagram())); // must be copied here to ensure location etc. will not be changed
 	}
 
-	void cutSelectedElements(DrawFocusPanel target) {
+	void cutSelectedElements(DrawPanel target) {
 		copySelectedElements(target);
 		removeSelectedElements(target);
 	}
 	
-	void pasteElements(DrawFocusPanel target) {
+	void pasteElements(DrawPanel target) {
 		List<GridElement> copyOfElements = copyElementsInList(BrowserStorage.getClipboard(), target.getDiagram());
 		realignElementsToVisibleRect(target, copyOfElements);
 		addElements(target, copyOfElements); // copy here to make sure it can be pasted multiple times
@@ -72,7 +72,7 @@ public class CommandInvoker extends Controller {
 		return targetElements;
 	}
 	
-	void realignElementsToVisibleRect(DrawFocusPanel target, List<GridElement> gridElements) {
+	void realignElementsToVisibleRect(DrawPanel target, List<GridElement> gridElements) {
 		Rectangle rect = SharedUtils.getGridElementsRectangle(gridElements);
 		Rectangle visible = target.getVisibleBounds();
 		for (GridElement ge : gridElements) {

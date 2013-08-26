@@ -23,7 +23,7 @@ public class FileOpenHandler {
 	protected FileReader reader;
 	protected List<File> readQueue = new ArrayList<File>();
 	
-	public FileOpenHandler(final DrawFocusPanel diagramHandler) {
+	public FileOpenHandler(final DrawPanel diagramHandler) {
 		reader = new FileReader();
 		reader.addLoadEndHandler(new LoadEndHandler() {
 			@Override

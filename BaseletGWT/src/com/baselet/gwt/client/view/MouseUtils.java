@@ -13,6 +13,8 @@ import com.google.gwt.event.dom.client.ContextMenuHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.HumanInputEvent;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseEvent;
@@ -46,8 +48,8 @@ public class MouseUtils {
 		private DragStatus dragging = DragStatus.NO;
 		private Point moveStart;
 		private GridElement elementToDrag;
-		private DrawFocusPanel activePanel;
-		private DrawFocusPanel mouseContainingPanel;
+		private DrawPanel activePanel;
+		private DrawPanel mouseContainingPanel;
 		private List<HandlerRegistration> mouseHandlers = new ArrayList<HandlerRegistration>();
 		/**
 		 * doubleclicks are only handled if the mouse has moved into the canvas before
@@ -59,10 +61,10 @@ public class MouseUtils {
 		private Timer menuShowTimer;
 	}
 
-	public static void addMouseHandler(FocusPanel handlerTarget, final DrawFocusPanel ... panels) {
+	public static void addMouseHandler(final FocusPanel handlerTarget, final DrawPanel ... panels) {
 		final DragCache storage = new DragCache();
 
-		for (final DrawFocusPanel panel : panels) {
+		for (final DrawPanel panel : panels) {
 			storage.mouseHandlers.add(panel.addMouseOutHandler(new MouseOutHandler() {
 				@Override
 				public void onMouseOut(MouseOutEvent event) {
@@ -80,7 +82,7 @@ public class MouseUtils {
 		handlerTarget.addTouchStartHandler(new TouchStartHandler() {
 			@Override
 			public void onTouchStart(final TouchStartEvent event) {
-				// some mouseevents are interfering with touch events (eg: mousemove is triggered on each touchdown event) therefore they are removed as soon as a touch event is detected
+				 // some mouseevents are interfering with touch events (eg: mousemove is triggered on each touchdown event) therefore they are removed as soon as a touch event is detected
 				if (storage.mouseHandlers != null) {
 					for (HandlerRegistration h : storage.mouseHandlers) {
 						h.removeHandler();
@@ -90,7 +92,9 @@ public class MouseUtils {
 				if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
 					final Point absolutePos = getPointAbsolute(event);
 					storage.activePanel = getPanelWhichContainsPoint(panels, absolutePos);
-					handleStart(storage, event);
+					if (storage.activePanel != null) {
+						handleStart(handlerTarget, panels, storage, event, getPoint(storage.activePanel, event));
+					}
 					//					Notification.showInfo("START " + absolutePos.x);
 					storage.menuShowTimer = new Timer() {
 						@Override
@@ -126,7 +130,9 @@ public class MouseUtils {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				storage.activePanel = getPanelWhichContainsPoint(panels, getPointAbsolute(event));
-				handleStart(storage, event);
+				if (storage.activePanel != null) {
+					handleStart(handlerTarget, panels, storage, event, getPoint(storage.activePanel, event));
+				}
 			}
 		}));
 
@@ -172,6 +178,15 @@ public class MouseUtils {
 				}
 			}
 		}));
+		
+		handlerTarget.addKeyDownHandler(new KeyDownHandler() {
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				if (storage.activePanel != null) {
+					storage.activePanel.handleKeyDown(event);
+				}
+			}
+		});
 
 		handlerTarget.addDomHandler(new ContextMenuHandler() {
 			@Override
@@ -185,7 +200,7 @@ public class MouseUtils {
 		}, ContextMenuEvent.getType());
 	}
 
-	private static void handleEnd(final DragCache storage, DrawFocusPanel drawPanelCanvas, Point point) {
+	private static void handleEnd(final DragCache storage, DrawPanel drawPanelCanvas, Point point) {
 		//		Notification.showInfo("UP");
 		if (Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS).contains(storage.dragging)) {
 			drawPanelCanvas.onMouseDragEnd(storage.elementToDrag, point);
@@ -193,20 +208,20 @@ public class MouseUtils {
 		storage.dragging = DragStatus.NO;
 	}
 
-	private static void handleStart(final DragCache storage, HumanInputEvent<?> event) {
+	private static void handleStart(FocusPanel handlerTarget, DrawPanel[] panels, final DragCache storage, HumanInputEvent<?> event, Point p) {
 		//		Notification.showInfo("DOWN " + p.x);
-		if (storage.activePanel != null) {
-			event.preventDefault(); // necessary to avoid showing textcursor and selecting proppanel in chrome AND to avoid scrolling with touch move
-			storage.moveStart = getPoint(storage.activePanel, event);
-			storage.dragging = DragStatus.FIRST;
-			storage.elementToDrag = storage.activePanel.getGridElementOnPosition(storage.moveStart);
-			storage.activePanel.onMouseDownScheduleDeferred(storage.elementToDrag, event.isControlKeyDown());
-		}
+		handlerTarget.setFocus(true);
+
+		event.preventDefault(); // necessary to avoid showing textcursor and selecting proppanel in chrome AND to avoid scrolling with touch move
+		storage.moveStart = new Point(p.x, p.y);
+		storage.dragging = DragStatus.FIRST;
+		storage.elementToDrag = storage.activePanel.getGridElementOnPosition(storage.moveStart);
+		storage.activePanel.onMouseDownScheduleDeferred(storage.elementToDrag, event.isControlKeyDown());
 	}
 
-	private static DrawFocusPanel getPanelWhichContainsPoint(DrawFocusPanel[] panels, Point p) {
-		DrawFocusPanel returnPanel = null;
-		for (DrawFocusPanel panel : panels) {
+	private static DrawPanel getPanelWhichContainsPoint(DrawPanel[] panels, Point p) {
+		DrawPanel returnPanel = null;
+		for (DrawPanel panel : panels) {
 			Rectangle visibleBounds = panel.getVisibleBounds();
 			visibleBounds.move(panel.getAbsoluteLeft(), panel.getAbsoluteTop());
 			if (visibleBounds.contains(p)) {
@@ -219,7 +234,7 @@ public class MouseUtils {
 		return returnPanel;
 	}
 
-	private static void handleMove(final DrawFocusPanel drawPanelCanvas, final DragCache storage, HumanInputEvent<?> event) {
+	private static void handleMove(final DrawPanel drawPanelCanvas, final DragCache storage, HumanInputEvent<?> event) {
 		//		Notification.showInfo("MOVE " + getPointAbsolute(event));
 		if (storage.activePanel != null && Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS).contains(storage.dragging)) {
 			Point p = getPoint(storage.activePanel, event);
@@ -238,15 +253,15 @@ public class MouseUtils {
 		}
 	}
 
-	private static void handleDoubleClick(final DrawFocusPanel drawPanelCanvas, Point p) {
+	private static void handleDoubleClick(final DrawPanel drawPanelCanvas, Point p) {
 		drawPanelCanvas.onDoubleClick(drawPanelCanvas.getGridElementOnPosition(p));
 	}
 
-	private static void handleShowMenu(final DrawFocusPanel drawPanelCanvas, Point p) {
+	private static void handleShowMenu(final DrawPanel drawPanelCanvas, Point p) {
 		drawPanelCanvas.onShowMenu(p);
 	}
 
-	private static Point getPoint(DrawFocusPanel drawPanelCanvas, HumanInputEvent<?> event) {
+	private static Point getPoint(DrawPanel drawPanelCanvas, HumanInputEvent<?> event) {
 		Element e = drawPanelCanvas.getElement();
 		if (event instanceof MouseEvent<?>) {
 			return new Point(((MouseEvent<?>) event).getRelativeX(e), ((MouseEvent<?>) event).getRelativeY(e));
