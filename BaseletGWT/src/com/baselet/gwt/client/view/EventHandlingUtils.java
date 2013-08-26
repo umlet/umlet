@@ -8,6 +8,8 @@ import com.baselet.control.NewGridElementConstants;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
 import com.google.gwt.event.dom.client.ContextMenuHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -35,10 +37,9 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FocusPanel;
 
-public class MouseUtils {
+public class EventHandlingUtils {
 
 	private static enum DragStatus {
 		FIRST, CONTINUOUS, NO
@@ -50,7 +51,7 @@ public class MouseUtils {
 		private GridElement elementToDrag;
 		private DrawPanel activePanel;
 		private DrawPanel mouseContainingPanel;
-		private List<HandlerRegistration> mouseHandlers = new ArrayList<HandlerRegistration>();
+		private List<HandlerRegistration> nonTouchHandlers = new ArrayList<HandlerRegistration>();
 		/**
 		 * doubleclicks are only handled if the mouse has moved into the canvas before
 		 * this is necessary to void unwanted propagation of suggestbox-selections via doubleclick
@@ -58,20 +59,20 @@ public class MouseUtils {
 		 */
 		private boolean doubleClickEnabled = true;
 
-		private Timer menuShowTimer;
+//		private Timer menuShowTimer; //TODO doesn't really work at the moment (because some move and end events are not processed, therefore it's shown even if not wanted)
 	}
 
-	public static void addMouseHandler(final FocusPanel handlerTarget, final DrawPanel ... panels) {
+	public static void addEventHandler(final FocusPanel handlerTarget, final DrawPanel ... panels) {
 		final DragCache storage = new DragCache();
 
 		for (final DrawPanel panel : panels) {
-			storage.mouseHandlers.add(panel.addMouseOutHandler(new MouseOutHandler() {
+			storage.nonTouchHandlers.add(panel.addMouseOutHandler(new MouseOutHandler() {
 				@Override
 				public void onMouseOut(MouseOutEvent event) {
 					storage.mouseContainingPanel = null;
 				}
 			}));
-			storage.mouseHandlers.add(panel.addMouseOverHandler(new MouseOverHandler() {
+			storage.nonTouchHandlers.add(panel.addMouseOverHandler(new MouseOverHandler() {
 				@Override
 				public void onMouseOver(MouseOverEvent event) {
 					storage.mouseContainingPanel = panel;
@@ -83,11 +84,11 @@ public class MouseUtils {
 			@Override
 			public void onTouchStart(final TouchStartEvent event) {
 				 // some mouseevents are interfering with touch events (eg: mousemove is triggered on each touchdown event) therefore they are removed as soon as a touch event is detected
-				if (storage.mouseHandlers != null) {
-					for (HandlerRegistration h : storage.mouseHandlers) {
+				if (storage.nonTouchHandlers != null) {
+					for (HandlerRegistration h : storage.nonTouchHandlers) {
 						h.removeHandler();
 					}
-					storage.mouseHandlers = null;
+					storage.nonTouchHandlers = null;
 				}
 				if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
 					final Point absolutePos = getPointAbsolute(event);
@@ -95,14 +96,13 @@ public class MouseUtils {
 					if (storage.activePanel != null) {
 						handleStart(handlerTarget, panels, storage, event, getPoint(storage.activePanel, event));
 					}
-					//					Notification.showInfo("START " + absolutePos.x);
-					storage.menuShowTimer = new Timer() {
-						@Override
-						public void run() {
-							handleShowMenu(storage.activePanel, absolutePos);
-						}
-					};
-					storage.menuShowTimer.schedule(1000);
+//					storage.menuShowTimer = new Timer() {
+//						@Override
+//						public void run() {
+//							handleShowMenu(storage.activePanel, absolutePos);
+//						}
+//					};
+//					storage.menuShowTimer.schedule(1000);
 				}
 			}
 		});
@@ -110,7 +110,7 @@ public class MouseUtils {
 		handlerTarget.addTouchEndHandler(new TouchEndHandler() {
 			@Override
 			public void onTouchEnd(TouchEndEvent event) {
-				storage.menuShowTimer.cancel();
+//				storage.menuShowTimer.cancel();
 				if (storage.activePanel != null) {
 					handleEnd(storage, storage.activePanel, getPoint(storage.activePanel, event));
 				}
@@ -119,14 +119,14 @@ public class MouseUtils {
 		handlerTarget.addTouchMoveHandler(new TouchMoveHandler() {
 			@Override
 			public void onTouchMove(TouchMoveEvent event) {
-				storage.menuShowTimer.cancel();
+//				storage.menuShowTimer.cancel();
 				if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
 					handleMove(storage.activePanel, storage, event);
 				}
 			}
 		});
 
-		storage.mouseHandlers.add(handlerTarget.addMouseDownHandler(new MouseDownHandler() {
+		storage.nonTouchHandlers.add(handlerTarget.addMouseDownHandler(new MouseDownHandler() {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				storage.activePanel = getPanelWhichContainsPoint(panels, getPointAbsolute(event));
@@ -136,7 +136,7 @@ public class MouseUtils {
 			}
 		}));
 
-		storage.mouseHandlers.add(handlerTarget.addMouseUpHandler(new MouseUpHandler() {
+		storage.nonTouchHandlers.add(handlerTarget.addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
 				if (storage.activePanel != null) {
@@ -144,7 +144,7 @@ public class MouseUtils {
 				}
 			}
 		}));
-		storage.mouseHandlers.add(handlerTarget.addMouseOutHandler(new MouseOutHandler() {
+		storage.nonTouchHandlers.add(handlerTarget.addMouseOutHandler(new MouseOutHandler() {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
 				if (storage.activePanel != null) {
@@ -153,14 +153,14 @@ public class MouseUtils {
 				}
 			}
 		}));
-		storage.mouseHandlers.add(handlerTarget.addMouseOverHandler(new MouseOverHandler() {
+		storage.nonTouchHandlers.add(handlerTarget.addMouseOverHandler(new MouseOverHandler() {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				storage.doubleClickEnabled = true;
 			}
 		}));
 
-		storage.mouseHandlers.add(handlerTarget.addMouseMoveHandler(new MouseMoveHandler() {
+		storage.nonTouchHandlers.add(handlerTarget.addMouseMoveHandler(new MouseMoveHandler() {
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
 				handleMove(storage.activePanel, storage, event);
@@ -168,7 +168,7 @@ public class MouseUtils {
 		}));
 
 		// double tap on mobile devices is not easy to implement because browser zoom on double-tap is not an event which can be canceled
-		storage.mouseHandlers.add(handlerTarget.addDoubleClickHandler(new DoubleClickHandler() {
+		storage.nonTouchHandlers.add(handlerTarget.addDoubleClickHandler(new DoubleClickHandler() {
 			@Override
 			public void onDoubleClick(DoubleClickEvent event) {
 				if (storage.activePanel != null) {
@@ -178,17 +178,8 @@ public class MouseUtils {
 				}
 			}
 		}));
-		
-		handlerTarget.addKeyDownHandler(new KeyDownHandler() {
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				if (storage.activePanel != null) {
-					storage.activePanel.handleKeyDown(event);
-				}
-			}
-		});
 
-		handlerTarget.addDomHandler(new ContextMenuHandler() {
+		storage.nonTouchHandlers.add(handlerTarget.addDomHandler(new ContextMenuHandler() {
 			@Override
 			public void onContextMenu(ContextMenuEvent event) {
 				if (storage.activePanel != null) {
@@ -197,7 +188,24 @@ public class MouseUtils {
 					handleShowMenu(storage.activePanel, new Point(event.getNativeEvent().getClientX(), event.getNativeEvent().getClientY()));
 				}
 			}
-		}, ContextMenuEvent.getType());
+		}, ContextMenuEvent.getType()));
+
+		storage.nonTouchHandlers.add(handlerTarget.addKeyDownHandler(new KeyDownHandler() {
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				if (storage.activePanel != null) {
+					storage.activePanel.handleKeyDown(event);
+				}
+			}
+		}));
+		
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				handlerTarget.setFocus(true); // set focus to enable keyboard shortcuts
+
+			}
+		});
 	}
 
 	private static void handleEnd(final DragCache storage, DrawPanel drawPanelCanvas, Point point) {

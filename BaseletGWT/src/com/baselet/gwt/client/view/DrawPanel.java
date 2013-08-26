@@ -261,7 +261,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 	}
 
 	public void onMouseDownScheduleDeferred(final GridElement element, final boolean isControlKeyDown) {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
+		Scheduler.get().scheduleFinally(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
 			@Override
 			public void execute() {
 				onMouseDown(element, isControlKeyDown);
@@ -295,7 +295,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 	private Set<Direction> resizeDirection = new HashSet<Direction>();
 
 	public void onMouseMoveDraggingScheduleDeferred(final Point dragStart, final int diffX, final int diffY, final GridElement draggedGridElement, final boolean isShiftKeyDown, final boolean isCtrlKeyDown, final boolean firstDrag) {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
+		Scheduler.get().scheduleFinally(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
 			@Override
 			public void execute() {
 				onMouseMoveDragging(dragStart, diffX, diffY, draggedGridElement, isShiftKeyDown, isCtrlKeyDown, firstDrag);
