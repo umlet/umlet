@@ -87,10 +87,10 @@ public class MainView extends Composite {
 	@UiField
 	SimpleLayoutPanel palettePanelWrapper;
 
-	private DrawFocusPanel diagramPanel;
+	private DrawPanel diagramPanel;
 	private AutoResizeScrollDropPanel diagramScrollPanel;
 
-	private DrawFocusPanel palettePanel;
+	private DrawPanel palettePanel;
 	private AutoResizeScrollDropPanel paletteScrollPanel;
 
 	private FileUploadExt hiddenUploadButton = new FileUploadExt();
@@ -129,8 +129,8 @@ public class MainView extends Composite {
 		diagramPaletteSplitter.setWidgetSnapClosedSize(menuPanel, 25);
 		diagramPaletteSplitter.setWidgetMinSize(menuPanel, 50);
 		palettePropertiesSplitter.setWidgetToggleDisplayAllowed(paletteChooserCanvasSplitter, true);
-		diagramPanel = new DrawFocusPanelDiagram(this, propertiesPanel);
-		palettePanel = new DrawFocusPanelPalette(this, propertiesPanel, paletteChooser);
+		diagramPanel = new DrawPanelDiagram(this, propertiesPanel);
+		palettePanel = new DrawPanelPalette(this, propertiesPanel, paletteChooser);
 		diagramPanel.setOtherDrawFocusPanel(palettePanel);
 		palettePanel.setOtherDrawFocusPanel(diagramPanel);
 		diagramScrollPanel = new AutoResizeScrollDropPanel(diagramPanel);
@@ -157,9 +157,6 @@ public class MainView extends Composite {
 			}
 		});
 		
-		
-
-
 		MouseUtils.addMouseHandler(mainPanel, diagramPanel, palettePanel);
 	}
 

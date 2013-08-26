@@ -18,7 +18,7 @@ public class OwnDropPanel extends DropPanel {
 
 	private FileOpenHandler handler;
 	
-	public OwnDropPanel(final DrawFocusPanel diagramCanvas) {
+	public OwnDropPanel(final DrawPanel diagramCanvas) {
 
 		this.add(diagramCanvas);
 		 handler = new FileOpenHandler(diagramCanvas);
