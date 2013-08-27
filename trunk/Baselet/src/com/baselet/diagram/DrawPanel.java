@@ -32,6 +32,7 @@ import com.baselet.control.Utils;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.baselet.element.OldGridElement;
 import com.baselet.gui.StartUpHelpText;
 import com.baselet.gui.listener.ScrollbarListener;
 import com.baselet.gui.standalone.FileDrop;
@@ -160,9 +161,11 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		for (GridElement entity : entities) {
 			GridElement clone = ElementFactory.createCopy(entity);
 			com.umlet.element.experimental.Component component = clone.getComponent();
+			//Issue 138: when PDF and Swing Export draw on (0,0) a part of the drawn image is cut, therefore it's displaced by 0.5px in that case
 			if (component instanceof ComponentSwing) {
-				//Issue 138: when PDF and Swing Export draw on (0,0) a part of the drawn image is cut, therefore it's displaced by 0.5px in that case
 				((ComponentSwing) component).translateForExport();
+			} else if (component instanceof OldGridElement) {
+				((OldGridElement) component).translateForExport();
 			}
 			tempPanel.add((Component) component, clone.getLayer());
 		}

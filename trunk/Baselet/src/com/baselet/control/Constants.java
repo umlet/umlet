@@ -186,6 +186,8 @@ public abstract class Constants extends NewGridElementConstants {
 	public static final String REGEX_FLOAT = "(\\d+(\\.\\d+)?)";
 
 	/**** OTHER CONSTANTS ****/
+	
+	public static final double EXPORT_DISPLACEMENT = 0.5;
 
 	public static final String MANIFEST_BUNDLE_NAME = "Bundle-Name";
 	public static final String MANIFEST_BUNDLE_VERSION = "Bundle-Version";

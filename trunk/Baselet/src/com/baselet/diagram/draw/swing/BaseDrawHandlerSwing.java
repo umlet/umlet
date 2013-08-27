@@ -8,6 +8,7 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 
+import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.DiagramHandler;
@@ -25,7 +26,7 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 
 	protected DiagramHandler handler;
 	
-	private Double translate; //is used because pdf and svg export cut lines if they are drawn at (0,0)
+	private boolean translate; //is used because pdf and svg export cut lines if they are drawn at (0,0)
 
 	public BaseDrawHandlerSwing() {
 		super();
@@ -178,9 +179,9 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		ColorOwn colOwn = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
 		g2.setColor(Converter.convert(colOwn));
 		g2.setStroke(Utils.getStroke(style.getLineType(), (float) style.getLineThickness()));
-		if (translate != null) {
-			double xTranslation = s.getBounds().x == 0 ? 0.5 : 0;
-			double yTranslation = s.getBounds().y == 0 ? 0.5 : 0;
+		if (translate) {
+			double xTranslation = s.getBounds().x == 0 ? Constants.EXPORT_DISPLACEMENT : 0;
+			double yTranslation = s.getBounds().y == 0 ? Constants.EXPORT_DISPLACEMENT : 0;
 			g2.translate(xTranslation, yTranslation);
 		}
 		g2.draw(s);
@@ -205,7 +206,7 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		handler.getFontHandler().resetFontSize();
 	}
 	
-	public void setTranslate(Double translate) {
+	public void setTranslate(boolean translate) {
 		this.translate = translate;
 	}
 }

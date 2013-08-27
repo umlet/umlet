@@ -334,11 +334,19 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			g2.setStroke(s);
 		}
 	}
+	
+	private boolean translateForExport = false;
+	public void translateForExport() {
+		translateForExport = true;
+	}
 
 	@Override
 	public final void paint(Graphics g) {
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D) g;
+		if (translateForExport) {
+			g2.translate(Constants.EXPORT_DISPLACEMENT, Constants.EXPORT_DISPLACEMENT);
+		}
 
 		// TODO (same problem as in @see com.umlet.element.experimental.ComponentSwing#paint(Graphics g))
 		// the selected state stored in GridElements is NOT the same as the selector holds, therefore it must be set explicitly through a setSelected() method.
