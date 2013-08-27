@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="src_elements"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
@@ -20,7 +21,6 @@
 	<classpathentry kind="lib" path="lib/umlet_javaparser-1.0.8.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="lib/baselet_autocomplete.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/BaseletElements"/>
 	<classpathentry kind="lib" path="lib/baselet_rsyntaxtextarea.jar-2.0.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -133,6 +133,7 @@ public class RelationPoints {
 				newSize.merge(absoluteRectangle);
 			}
 		}
+		if (newSize == null) throw new RuntimeException("This relation has no points: " + points);
 		// Realign new size to grid (should not be necessary as long as SELECTCIRCLERADIUS == DefaultGridSize)
 		newSize.setLocation(SharedUtils.realignTo(false, newSize.getX(), false, relation.getGridSize()), SharedUtils.realignTo(false, newSize.getY(), false, relation.getGridSize()));
 		newSize.setSize(SharedUtils.realignTo(false, newSize.getWidth(), true, relation.getGridSize()), SharedUtils.realignTo(false, newSize.getHeight(), true, relation.getGridSize()));

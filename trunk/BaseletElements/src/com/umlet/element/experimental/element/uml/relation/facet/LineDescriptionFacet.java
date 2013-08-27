@@ -48,7 +48,7 @@ public class LineDescriptionFacet extends AbstractGlobalFacet {
 				pointText = calcPosOfArrowText(relationPoints.getFirstLine().getStart(), textWidth, textHeight);
 			} else if (key.equals(MESSAGE_END_KEY)) {
 				pointText = calcPosOfArrowText(relationPoints.getLastLine().getEnd(), textWidth, textHeight);
-			} else if (key.equals(MESSAGE_MIDDLE_KEY)) {
+			} else /*if (key.equals(MESSAGE_MIDDLE_KEY))*/ {
 				pointText = calcPosOfMiddleText(relationPoints.getDragBox().getCenter(), textWidth, textHeight);
 			}
 			drawer.print(text, pointText, AlignHorizontal.LEFT);
