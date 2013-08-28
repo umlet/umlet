@@ -43,7 +43,7 @@
 	
 	<target name="gwt-compile" description="compile in normal mode">
 	  <antcall target="gwt-compile-helper">
-	    <param name="args" value=""/>
+	    <param name="args" value="-optimize 9"/>
 	  </antcall>
 	</target>
 </project>
