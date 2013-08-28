@@ -31,9 +31,10 @@ public class Point {
 		this.y = y;
 	}
 
-	public void move(int diffX, int diffY) {
+	public Point move(int diffX, int diffY) {
 		this.x += diffX;
 		this.y += diffY;
+		return this;
 	}
 
     public double distance(Point o) {
@@ -41,6 +42,9 @@ public class Point {
 	double distY = o.getY() - this.getY();
 	return Math.sqrt(distX * distX + distY * distY);
     }
+	public Point copy() {
+		return new Point(x, y);
+	}
 
 	@Override
 	public int hashCode() {
