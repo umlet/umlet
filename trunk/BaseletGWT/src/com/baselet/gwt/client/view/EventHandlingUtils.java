@@ -253,7 +253,7 @@ public class EventHandlingUtils {
 			if (diffX != 0 || diffY != 0) {
 				drawPanelCanvas.onMouseMoveDraggingScheduleDeferred(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), event.isControlKeyDown(), (storage.dragging == DragStatus.FIRST));
 				storage.dragging = DragStatus.CONTINUOUS; // after FIRST real drag switch to CONTINUOUS
-				storage.moveStart.move(diffX, diffY);
+				storage.moveStart = storage.moveStart.copy().move(diffX, diffY); // make copy because otherwise deferred action will act on wrong position
 			}
 		}
 		else if (storage.mouseContainingPanel != null) {
