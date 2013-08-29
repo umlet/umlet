@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.OwnXMLParser;
@@ -65,6 +66,7 @@ public class DrawPanelPalette extends DrawPanel {
 				int verticalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getVerticalScrollPosition() - scrollPanel.getVerticalScrollPosition();
 				int horizontalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getHorizontalScrollPosition() - scrollPanel.getHorizontalScrollPosition();
 				copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width + horizontalScrollbarDiff, paletteChooser.getOffsetHeight() + verticalScrollbarDiff);
+				SharedUtils.realignToGrid(false, copy.getRectangle());
 				elementsToMove.add(copy);
 			}
 			commandInvoker.removeSelectedElements(this);
