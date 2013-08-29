@@ -43,7 +43,7 @@
 					</g:center>
 					<g:east size='400'>
 						<g:SplitLayoutPanel ui:field="palettePropertiesSplitter">
-							<g:north size='500'>
+							<g:north size='550'>
 								<g:DockLayoutPanel unit="EM" ui:field="paletteChooserCanvasSplitter">
 									<g:north size="2.0">
 										<g:ListBox ui:field="paletteChooser" visibleItemCount="1" width="100%" />
