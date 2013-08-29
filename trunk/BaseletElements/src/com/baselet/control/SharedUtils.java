@@ -15,6 +15,10 @@ public class SharedUtils {
 		return realignTo(true, d, false, NewGridElementConstants.DEFAULT_GRID_SIZE);
 	}
 
+	public static void realignToGrid(boolean logRealign, Rectangle rectangle) {
+		rectangle.setLocation(realignToGrid(logRealign, rectangle.getX(), false), realignToGrid(logRealign, rectangle.getY(), false));
+	}
+
 	/**
 	 * rounds eg: 5 to 10, 4 to 0, -5 to -10, -4 to 0
 	 */
