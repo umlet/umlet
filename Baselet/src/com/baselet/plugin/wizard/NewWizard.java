@@ -152,7 +152,7 @@ public class NewWizard extends Wizard implements INewWizard {
 	 */
 
 	private InputStream openContentStream() {
-		String progName = Program.PROGRAM_NAME.toLowerCase();
+		String progName = Program.NAME.toLowerCase();
 		String contents = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><" + progName + "_diagram></" + progName + "_diagram>";
 		return new ByteArrayInputStream(contents.getBytes());
 	}

@@ -101,7 +101,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 	}
 
 	private static String createTempFileWithText(String textToWriteIntoFile) throws IOException {
-		File tempFile = File.createTempFile(Program.PROGRAM_NAME + "_startupfile", ".html");
+		File tempFile = File.createTempFile(Program.NAME + "_startupfile", ".html");
 		tempFile.deleteOnExit();
 		FileWriter w = new FileWriter(tempFile);
 		w.write(textToWriteIntoFile);
@@ -203,7 +203,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 					filename = createTempFileWithText(newVersionText);
 				}
 			} catch (Exception e) {
-				log.error("Error at checking for new " + Program.PROGRAM_NAME + " version", e);
+				log.error("Error at checking for new " + Program.NAME + " version", e);
 			}
 		}
 
@@ -229,7 +229,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 			String actualVersion = splitString[0];
 			if (Program.VERSION.equals(actualVersion)) return null; // no newer version found
 
-			String returnText = "<p><b>A new version of " + Program.PROGRAM_NAME + " (" + actualVersion + ") is available at <a href=\"" + Program.WEBSITE + "\">" + Program.WEBSITE.substring("http://".length()) + "</a></b></p>";
+			String returnText = "<p><b>A new version of " + Program.NAME + " (" + actualVersion + ") is available at <a href=\"" + Program.WEBSITE + "\">" + Program.WEBSITE.substring("http://".length()) + "</a></b></p>";
 			//Every line after the first one describes a feature of the new version and will be listed
 			for (int i = 1; i < splitString.length; i++) {
 				returnText += "<p>" + splitString[i] + "</p>";

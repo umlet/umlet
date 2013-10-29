@@ -105,7 +105,7 @@ public class OutputHandler {
 
 	private static void exportEps(OutputStream ostream, DiagramHandler handler, Collection<GridElement> entities) throws IOException {
 		Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
-		EpsGraphics2D graphics2d = new EpsGraphics2D(Program.PROGRAM_NAME + " Diagram", ostream, 0, 0, bounds.width, bounds.height);
+		EpsGraphics2D graphics2d = new EpsGraphics2D(Program.NAME + " Diagram", ostream, 0, 0, bounds.width, bounds.height);
 		setGraphicsBorders(bounds, graphics2d);
 		handler.getDrawPanel().paintEntitiesIntoGraphics2D(graphics2d, entities);
 		graphics2d.flush();

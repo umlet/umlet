@@ -8,8 +8,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
-import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.ProgramName;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.PaletteHandler;
@@ -33,7 +31,7 @@ public class MenuBuilder {
 	private JMenu customNewFromTemplate;
 	private JMenuItem customEdit;
 	private JToggleButton mailButton;
-	
+
 	public JMenuBar createMenu(JPanel searchPanel, JPanel zoomPanel, JToggleButton mailButton) {
 		/*********** CREATE MENU *****************/
 		JMenuBar menu = new JMenuBar();
@@ -83,41 +81,37 @@ public class MenuBuilder {
 		editUngroup.setEnabled(false);
 
 		// Custom Element Menu
-		if (Program.PROGRAM_NAME == ProgramName.UMLET) {
-			JMenu menu_custom = new JMenu(MenuFactory.CUSTOM_ELEMENTS);
-			menu_custom.setMnemonic(KeyEvent.VK_C);
-			menu_custom.add(customNew = menuFactory.createNewCustomElement());
-			menu_custom.add(customNewFromTemplate = menuFactory.createNewCustomElementFromTemplate());
-			menu_custom.add(customEdit = menuFactory.createEditSelected());
-			menu_custom.addSeparator();
-			menu_custom.add(menuFactory.createCustomElementTutorial());
-			menu.add(menu_custom);
-			customEdit.setEnabled(false);
-		}
+		JMenu menu_custom = new JMenu(MenuFactory.CUSTOM_ELEMENTS);
+		menu_custom.setMnemonic(KeyEvent.VK_C);
+		menu_custom.add(customNew = menuFactory.createNewCustomElement());
+		menu_custom.add(customNewFromTemplate = menuFactory.createNewCustomElementFromTemplate());
+		menu_custom.add(customEdit = menuFactory.createEditSelected());
+		menu_custom.addSeparator();
+		menu_custom.add(menuFactory.createCustomElementTutorial());
+		menu.add(menu_custom);
+		customEdit.setEnabled(false);
 
 		// Help Menu
 		JMenu helpMenu = new JMenu(MenuFactory.HELP);
 		helpMenu.setMnemonic(KeyEvent.VK_H);
 		helpMenu.add(menuFactory.createOnlineHelp());
-		if (Program.PROGRAM_NAME == ProgramName.UMLET) {
-			helpMenu.add(menuFactory.createOnlineSampleDiagrams());
-			helpMenu.add(menuFactory.createVideoTutorials());
-		}
+		helpMenu.add(menuFactory.createOnlineSampleDiagrams());
+		helpMenu.add(menuFactory.createVideoTutorials());
 		helpMenu.addSeparator();
 		helpMenu.add(menuFactory.createProgramHomepage());
 		helpMenu.add(menuFactory.createRateProgram());
 		helpMenu.addSeparator();
 		helpMenu.add(menuFactory.createAboutProgram());
 		menu.add(helpMenu);
-		
+
 		menu.add(searchPanel);
 		menu.add(zoomPanel);
 		this.mailButton = mailButton;
 		menu.add(mailButton);
-		
+
 		return menu;
 	}
-	
+
 	public void elementsSelected(int count) {
 		if (count > 0) {
 			editDelete.setEnabled(true);
@@ -136,7 +130,7 @@ public class MenuBuilder {
 	public void enablePasteMenuEntry() {
 		editPaste.setEnabled(true);
 	}
-	
+
 	public void setUngroupEnabled(boolean enabled) {
 		editUngroup.setEnabled(enabled);
 	}
@@ -145,7 +139,7 @@ public class MenuBuilder {
 		this.customNew.setEnabled(enable);
 		this.customNewFromTemplate.setEnabled(enable);
 	}
-	
+
 	public void setEditCustomElementMenuItemEnabled(boolean enabled) {
 		if (customEdit != null) customEdit.setEnabled(enabled);
 	}
@@ -159,7 +153,7 @@ public class MenuBuilder {
 		editCopy.setEnabled(enabled);
 		editSelectAll.setEnabled(enabled);		
 	}
-	
+
 	public void updateGrayedOutMenuItems(DiagramHandler handler) {
 		// These menuitems only get changed if this is not the palette or custompreview
 		if (!(handler instanceof PaletteHandler) && !(handler instanceof CustomPreviewHandler)) {

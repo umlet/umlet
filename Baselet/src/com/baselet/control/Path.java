@@ -33,7 +33,7 @@ public class Path {
 	private static String userHome() {
 		String homeDir = userHomeBase();
 		if (!homeDir.endsWith(File.separator)) homeDir += File.separator;
-		File homeDirFile = new File(homeDir + Program.PROGRAM_NAME);
+		File homeDirFile = new File(homeDir + Program.NAME);
 		if (!homeDirFile.exists()) homeDirFile.mkdir();
 		return homeDirFile.getAbsolutePath();
 	}

@@ -65,7 +65,7 @@ public class MainPlugin extends AbstractUIPlugin {
 	private void readBundleManifestInfo() {
 		Dictionary<String, String> headers = MainPlugin.getDefault().getBundle().getHeaders();
 		PLUGIN_ID = MainPlugin.getDefault().getBundle().getSymbolicName();
-		Program.init(headers.get(Constants.MANIFEST_BUNDLE_NAME), headers.get(Constants.MANIFEST_BUNDLE_VERSION));
+		Program.init(headers.get(Constants.MANIFEST_BUNDLE_VERSION));
 		
 	}
 
