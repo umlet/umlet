@@ -35,8 +35,8 @@ public abstract class BaseGUIBuilder {
 	private OwnSyntaxPane propertyTextPane;
 	
 	protected JSplitPane initBase(Component mainComponent, final int mainDividerLoc) {
+		propertyTextPane = createPropertyTextPane(); // must be initialized before palettePanel because it could be accessed during palette initialization (eg in case of different default fontsize)
 		palettePanel = newPalettePanel();
-		propertyTextPane = createPropertyTextPane();
 		rightSplit = newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, palettePanel, propertyTextPane.getPanel(), 2, Constants.right_split_position, true);
 		rightPanel = newRightPanel();
 

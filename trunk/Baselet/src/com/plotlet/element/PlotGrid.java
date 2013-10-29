@@ -33,8 +33,8 @@ import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.Settings;
-import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.AbstractGlobalFacet;
+import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 
 
@@ -280,7 +280,7 @@ public class PlotGrid extends NewGridElement {
 					
 					@Override
 					public boolean replacesText(String line) {
-						return false;
+						return true;
 					}
 					
 					@Override
