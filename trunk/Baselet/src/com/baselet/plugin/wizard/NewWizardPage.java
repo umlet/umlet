@@ -42,9 +42,9 @@ public class NewWizardPage extends WizardPage {
 	 * Constructor for SampleNewWizardPage.
 	 */
 	public NewWizardPage(ISelection selection) {
-		super(Program.PROGRAM_NAME + " wizard");
-		setTitle(Program.PROGRAM_NAME + " diagram");
-		setDescription("This wizard creates a " + Program.PROGRAM_NAME + " diagram.");
+		super(Program.NAME + " wizard");
+		setTitle(Program.NAME + " diagram");
+		setDescription("This wizard creates a " + Program.NAME + " diagram.");
 		this.selection = selection;
 	}
 

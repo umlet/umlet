@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.BrowserLauncher;
 import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -77,9 +76,9 @@ public class MenuFactory {
 	protected static final String ONLINE_HELP = "Online Help...";
 	protected static final String ONLINE_SAMPLE_DIAGRAMS = "Online Sample Diagrams...";
 	protected static final String VIDEO_TUTORIAL = "Video Tutorial: Basic Use and Custom Elements...";
-	protected static final String PROGRAM_HOMEPAGE = Program.PROGRAM_NAME + " Homepage...";
-	protected static final String RATE_PROGRAM = "Rate " + Program.PROGRAM_NAME + " at Eclipse Marketplace...";
-	protected static final String ABOUT_PROGRAM = "About " + Program.PROGRAM_NAME;
+	protected static final String PROGRAM_HOMEPAGE = Program.NAME + " Homepage...";
+	protected static final String RATE_PROGRAM = "Rate " + Program.NAME + " at Eclipse Marketplace...";
+	protected static final String ABOUT_PROGRAM = "About " + Program.NAME;
 
 	// CONTEXT ON ELEMENT
 	protected static final String SET_FOREGROUND_COLOR = "Set foreground color";
@@ -204,8 +203,7 @@ public class MenuFactory {
 					BrowserLauncher.openURL(Program.WEBSITE + "/faq.htm");
 				}
 				else if (menuItem.equals(ONLINE_SAMPLE_DIAGRAMS)) {
-					if (Program.PROGRAM_NAME == ProgramName.UMLET) BrowserLauncher.openURL("http://www.itmeyer.at/umlet/uml2/");
-					else if (Program.PROGRAM_NAME == ProgramName.PLOTLET) BrowserLauncher.openURL("http://www.itmeyer.at/umlet/uml2/");
+					BrowserLauncher.openURL("http://www.itmeyer.at/umlet/uml2/");
 				}
 				else if (menuItem.equals(VIDEO_TUTORIAL)) {
 					BrowserLauncher.openURL("http://www.youtube.com/watch?v=3UHZedDtr28");
@@ -214,8 +212,7 @@ public class MenuFactory {
 					BrowserLauncher.openURL(Program.WEBSITE);
 				}
 				else if (menuItem.equals(RATE_PROGRAM)) {
-					if (Program.PROGRAM_NAME == ProgramName.UMLET) BrowserLauncher.openURL("http://marketplace.eclipse.org/content/umlet-uml-tool-fast-uml-diagrams");
-					else if (Program.PROGRAM_NAME == ProgramName.PLOTLET) BrowserLauncher.openURL("http://marketplace.eclipse.org/content/plotlet");
+					BrowserLauncher.openURL("http://marketplace.eclipse.org/content/umlet-uml-tool-fast-uml-diagrams");
 				}
 				else if (menuItem.equals(ABOUT_PROGRAM)) {
 					AboutDialog.show();

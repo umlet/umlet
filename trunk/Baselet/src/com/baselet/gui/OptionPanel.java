@@ -73,10 +73,10 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.add(this.show_grid);
 		this.add(new JLabel("Enable Custom Elements"));
 		this.add(this.enable_custom_elements);
-		this.add(new JLabel("Check for " + Program.PROGRAM_NAME + " updates"));
+		this.add(new JLabel("Check for " + Program.NAME + " updates"));
 		this.add(this.checkForUpdates);
 		if (Program.RUNTIME_TYPE == RuntimeType.STANDALONE) {
-			this.add(new JLabel("Select " + Program.PROGRAM_NAME + " style"));
+			this.add(new JLabel("Select " + Program.NAME + " style"));
 			this.add(this.ui_manager);
 		}
 		this.add(new JLabel("Select default fontsize"));
@@ -108,7 +108,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		parent.add(button_panel);
 		parent.add(Box.createRigidArea(new Dimension(0, 20)));
 
-		this.optionframe = new JFrame(Program.PROGRAM_NAME + " Options");
+		this.optionframe = new JFrame(Program.NAME + " Options");
 		this.optionframe.setContentPane(parent);
 		this.optionframe.setLocation(50, 50);
 		this.optionframe.pack(); //autoresize of the optionframe

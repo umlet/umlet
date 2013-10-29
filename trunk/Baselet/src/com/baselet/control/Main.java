@@ -70,8 +70,8 @@ public class Main {
 		Main main = Main.getInstance();
 		main.readManifestInfo();
 		main.initLogger();
-		tmp_file = Program.PROGRAM_NAME.toLowerCase() + ".tmp";
-		tmp_read_file = Program.PROGRAM_NAME.toLowerCase() + "_1.tmp";
+		tmp_file = Program.NAME.toLowerCase() + ".tmp";
+		tmp_read_file = Program.NAME.toLowerCase() + "_1.tmp";
 
 		if (args.length != 0) {
 			String action = null;
@@ -156,7 +156,7 @@ public class Main {
 	private void readManifestInfo() {
 		try {
 			Attributes attributes = Path.manifest().getMainAttributes();
-			Program.init(attributes.getValue(Constants.MANIFEST_BUNDLE_NAME), attributes.getValue(Constants.MANIFEST_BUNDLE_VERSION));
+			Program.init(attributes.getValue(Constants.MANIFEST_BUNDLE_VERSION));
 		} catch (Exception e) {
 			//			log.error(null, e);
 			e.printStackTrace(); // Logger is not initialized here

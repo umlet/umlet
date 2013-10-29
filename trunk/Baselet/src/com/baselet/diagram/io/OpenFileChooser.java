@@ -26,7 +26,7 @@ public class OpenFileChooser {
 
 				@Override
 				public String getDescription() {
-					return Program.PROGRAM_NAME + " diagram format (*." + Program.EXTENSION + ")";
+					return Program.NAME + " diagram format (*." + Program.EXTENSION + ")";
 				}
 			});
 			instance.setAcceptAllFileFilterUsed(false);

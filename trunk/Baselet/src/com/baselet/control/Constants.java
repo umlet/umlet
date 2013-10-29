@@ -36,24 +36,6 @@ public abstract class Constants extends NewGridElementConstants {
 		STANDALONE, ECLIPSE_PLUGIN, BATCH
 	}
 
-	public enum ProgramName {
-		UMLET("UMLet"), PLOTLET("Plotlet");
-		private String name;
-
-		private ProgramName(String n) {
-			name = n;
-		}
-
-		@Override
-		public String toString() {
-			return name;
-		}
-
-		public String toLowerCase() {
-			return name.toLowerCase();
-		}
-	}
-
 	public enum Metakey {
 		CTRL, CMD;
 
@@ -80,22 +62,18 @@ public abstract class Constants extends NewGridElementConstants {
 
 		// Basically the RUNTIME_TYPE is STANDALONE until it gets overwritten after program startup
 		public static RuntimeType RUNTIME_TYPE = RuntimeType.STANDALONE;
-		public static ProgramName PROGRAM_NAME;
 		public static String CONFIG_NAME;
-		public static String EXTENSION;
+		public static String NAME = "UMLet";
+		public static String EXTENSION = "uxf";
 		public static String WEBSITE;
 		public static String VERSION;
 		public static String[] GRID_ELEMENT_PACKAGES = new String[] { "com.umlet.element", "com.umlet.element.custom", "com.plotlet.element", "com.baselet.element" };
 
-		public static void init(String name, String version) {
-			PROGRAM_NAME = ProgramName.valueOf(name.toUpperCase());
-			WEBSITE = "http://www." + PROGRAM_NAME.toLowerCase() + ".com";
+		public static void init(String version) {
+			WEBSITE = "http://www." + NAME.toLowerCase() + ".com";
 
-			if (Program.RUNTIME_TYPE == RuntimeType.STANDALONE) CONFIG_NAME = Program.PROGRAM_NAME.toLowerCase() + ".cfg";
-			else CONFIG_NAME = Program.PROGRAM_NAME.toLowerCase() + "plugin.cfg";
-
-			if (Program.PROGRAM_NAME == ProgramName.UMLET) EXTENSION = "uxf";
-			else EXTENSION = "pxf";
+			if (Program.RUNTIME_TYPE == RuntimeType.STANDALONE) CONFIG_NAME = NAME.toLowerCase() + ".cfg";
+			else CONFIG_NAME = NAME.toLowerCase() + "plugin.cfg";
 
 			VERSION = version;
 		}
@@ -138,7 +116,7 @@ public abstract class Constants extends NewGridElementConstants {
 				"" + NEWLINE +
 				"" + NEWLINE +
 				"//////////////////////////////////////////////////////////////////////////////////////////////" + NEWLINE +
-				"// Welcome to " + Program.PROGRAM_NAME + "!" + NEWLINE +
+				"// Welcome to " + Program.NAME + "!" + NEWLINE +
 				"//" + NEWLINE +
 				"// Double-click on elements to add them to the diagram, or to copy them" + NEWLINE +
 				"// Edit elements by modifying the text in this panel" + NEWLINE +
@@ -149,10 +127,8 @@ public abstract class Constants extends NewGridElementConstants {
 				"// Drag a whole relation at its central square icon" + NEWLINE +
 				"//" + NEWLINE +
 				"// Press " + SystemInfo.META_KEY + "+C to copy the whole diagram to the system clipboard (then just paste it to, eg, Word)" + NEWLINE +
-				"// Edit the files in the \"palettes\" directory to create your own element palettes" + NEWLINE;
-		if (ProgramName.UMLET.equals(Program.PROGRAM_NAME)) {
-			returnString += "//" + NEWLINE + "// Select \"Custom Elements > New...\" to create new element types" + NEWLINE;
-		}
+				"// Edit the files in the \"palettes\" directory to create your own element palettes" + NEWLINE +
+				"//" + NEWLINE + "// Select \"Custom Elements > New...\" to create new element types" + NEWLINE;
 		returnString += 
 				"//////////////////////////////////////////////////////////////////////////////////////////////" + NEWLINE +
 				"" + NEWLINE +
@@ -165,7 +141,7 @@ public abstract class Constants extends NewGridElementConstants {
 		return "Type your message here.." + NEWLINE +
 				"" + NEWLINE +
 				"__" + NEWLINE +
-				"To edit the diagram, open the attached " + Program.EXTENSION + "-file with the free editing tool " + Program.PROGRAM_NAME + " (" + Program.WEBSITE + ")";
+				"To edit the diagram, open the attached " + Program.EXTENSION + "-file with the free editing tool " + Program.NAME + " (" + Program.WEBSITE + ")";
 	}
 	//@formatter:on
 
@@ -223,11 +199,16 @@ public abstract class Constants extends NewGridElementConstants {
 	public static final List<LookAndFeelInfo> lookAndFeels = Arrays.asList(UIManager.getInstalledLookAndFeels());
 
 	protected static final String DEFAULT_STRING = "Default";
+	protected static final String PLOTS_STRING = "Plots";
 	public static final Comparator<String> DEFAULT_FIRST_COMPARATOR = new Comparator<String>() {
 		@Override
-		public int compare(String s1, String s2) { // Anything which starts with "Default" is always first
+		public int compare(String s1, String s2) {
+			// Anything which starts with "Default" is always first
 			if (s1.startsWith(Constants.DEFAULT_STRING) && !s2.startsWith(Constants.DEFAULT_STRING)) return -1;
 			if (s2.startsWith(Constants.DEFAULT_STRING) && !s1.startsWith(Constants.DEFAULT_STRING)) return 1;
+			// Anything which starts with "Plot" is always last
+			if (s1.startsWith(Constants.PLOTS_STRING) && !s2.startsWith(Constants.PLOTS_STRING)) return 1;
+			if (s2.startsWith(Constants.PLOTS_STRING) && !s1.startsWith(Constants.PLOTS_STRING)) return -1;
 			else return s1.compareTo(s2);
 		}
 	};
@@ -242,7 +223,7 @@ public abstract class Constants extends NewGridElementConstants {
 	public static final Font PANEL_CONTENT_FONT = new Font(Font.MONOSPACED, Font.PLAIN, 11);
 
 	/**** VALUES LOADED FROM CONFIG ****/
-	public static Integer defaultFontsize = (Program.PROGRAM_NAME == ProgramName.UMLET ? 14 : 10);
+	public static Integer defaultFontsize = 14;
 	public static String defaultFontFamily = Font.SANS_SERIF;
 	public static boolean start_maximized = false;
 	public static boolean show_grid = false;

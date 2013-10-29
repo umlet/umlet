@@ -31,7 +31,7 @@ public class AboutDialog {
 					edit.addHyperlinkListener(new HyperLinkActiveListener());
 					edit.setEditable(false);
 					edit.setSelectionColor(Color.WHITE);
-					JDialog instance = (new JOptionPane(edit, JOptionPane.PLAIN_MESSAGE)).createDialog("About " + Program.PROGRAM_NAME);
+					JDialog instance = (new JOptionPane(edit, JOptionPane.PLAIN_MESSAGE)).createDialog("About " + Program.NAME);
 					instance.setVisible(true);
 				} catch (IOException e) {
 					log.error(null, e);

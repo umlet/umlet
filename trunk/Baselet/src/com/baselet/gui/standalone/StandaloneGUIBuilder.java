@@ -27,7 +27,6 @@ import javax.swing.WindowConstants;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Path;
 import com.baselet.gui.BaseGUIBuilder;
 import com.baselet.gui.listener.GUIListener;
@@ -64,9 +63,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		mainFrame.addWindowListener(new WindowListener());
 		mainFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		mainFrame.setBounds(Constants.program_location.x, Constants.program_location.y, Constants.program_size.width, Constants.program_size.height);
-
-		if (Program.PROGRAM_NAME.equals(ProgramName.UMLET)) mainFrame.setTitle("UMLet - Free UML Tool for Fast UML Diagrams");
-		else if (Program.PROGRAM_NAME.equals(ProgramName.PLOTLET)) mainFrame.setTitle("Plotlet - Free Tool for Fast Plots");
+		mainFrame.setTitle(Program.NAME + " - Free UML Tool for Fast UML Diagrams");
 
 		setImage(mainFrame);
 
@@ -94,7 +91,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		try {
 			ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
 			for (Integer i : new int[] {16, 20, 24, 32, 40, 48, 64}) {
-				File file = new File(Path.homeProgram() + "img/" + Program.PROGRAM_NAME.toLowerCase() + "_logo" + i + ".png");
+				File file = new File(Path.homeProgram() + "img/" + Program.NAME.toLowerCase() + "_logo" + i + ".png");
 				images.add(ImageIO.read(file));
 			}
 			mainFrame.setIconImages(images);

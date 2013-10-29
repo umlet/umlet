@@ -16,7 +16,6 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.EditorActionBarContributor;
 
 import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Constants.RuntimeType;
 import com.baselet.control.Main;
 import com.baselet.gui.MenuFactory;
@@ -114,7 +113,7 @@ public class Contributor extends EditorActionBarContributor {
 	public void contributeToMenu(IMenuManager manager) {
 		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) MainPlugin.getGUI().setContributor(this);
 
-		IMenuManager menu = new MenuManager(Program.PROGRAM_NAME.toString());
+		IMenuManager menu = new MenuManager(Program.NAME.toString());
 		IMenuManager custom = new MenuManager(MenuFactory.CUSTOM_ELEMENTS);
 		IMenuManager help = new MenuManager(MenuFactory.HELP);
 		manager.appendToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
@@ -125,10 +124,8 @@ public class Contributor extends EditorActionBarContributor {
 		custom.add(menuFactory.createCustomElementsTutorial());
 
 		help.add(menuFactory.createOnlineHelp());
-		if (Program.PROGRAM_NAME == ProgramName.UMLET) {
-			help.add(menuFactory.createOnlineSampleDiagrams());
-			help.add(menuFactory.createVideoTutorial());
-		}
+		help.add(menuFactory.createOnlineSampleDiagrams());
+		help.add(menuFactory.createVideoTutorial());
 		help.add(new Separator());
 		help.add(menuFactory.createProgramHomepage());
 		help.add(menuFactory.createRateProgram());
@@ -137,7 +134,7 @@ public class Contributor extends EditorActionBarContributor {
 
 		menu.add(menuFactory.createGenerate());
 		menu.add(menuFactory.createGenerateOptions());
-		
+
 		zoomMenu = menuFactory.createZoom();
 		menu.add(zoomMenu);
 
@@ -149,7 +146,7 @@ public class Contributor extends EditorActionBarContributor {
 		menu.add(export);
 
 		menu.add(menuFactory.createEditCurrentPalette());
-		if (Program.PROGRAM_NAME == ProgramName.UMLET) menu.add(custom);
+		menu.add(custom);
 		menu.add(menuFactory.createMailTo());
 		menu.add(new Separator());
 		menu.add(help);

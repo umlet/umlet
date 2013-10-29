@@ -12,8 +12,6 @@ import javax.swing.plaf.InsetsUIResource;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.ProgramName;
 import com.baselet.control.Main;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
@@ -25,7 +23,7 @@ import com.umlet.custom.CustomElementHandler;
 
 
 public abstract class BaseGUI {
-	
+
 	private static final Logger log = Logger.getLogger(BaseGUI.class);
 
 	protected Main main;
@@ -44,10 +42,10 @@ public abstract class BaseGUI {
 		}
 
 		this.initGUIParameters();
-//		this.setLayout(new BorderLayout());
+		//		this.setLayout(new BorderLayout());
 
 		this.init();
-//		this.requestFocus();
+		//		this.requestFocus();
 	}
 
 	public abstract void focusPropertyPane();
@@ -71,10 +69,8 @@ public abstract class BaseGUI {
 		contextMenu.add(ungroup);
 		if (!(entity instanceof Group)) ungroup.setEnabled(false);
 
-		if (Program.PROGRAM_NAME == ProgramName.UMLET) {
-			contextMenu.add(menuFactory.createSetColor(true));
-			contextMenu.add(menuFactory.createSetColor(false));
-		}
+		contextMenu.add(menuFactory.createSetColor(true));
+		contextMenu.add(menuFactory.createSetColor(false));
 
 		// insert alignment menu
 		JMenu alignmentMenu = menuFactory.createAlign();
@@ -144,7 +140,7 @@ public abstract class BaseGUI {
 
 	public void enableSearch(@SuppressWarnings("unused") boolean enable) {
 		/* do nothing*/
-		}
+	}
 
 	public abstract int getMainSplitPosition();
 

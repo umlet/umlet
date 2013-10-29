@@ -56,7 +56,7 @@ public class DiagramFileHandler {
 	private HashMap<String, FileFilter> filters = new HashMap<String, FileFilter>();
 	private HashMap<FileFilter, String> fileextensions = new HashMap<FileFilter, String>();
 
-	private OwnFileFilter filterxml = new OwnFileFilter(Program.EXTENSION, Program.PROGRAM_NAME + " diagram format");
+	private OwnFileFilter filterxml = new OwnFileFilter(Program.EXTENSION, Program.NAME + " diagram format");
 	private OwnFileFilter filterbmp = new OwnFileFilter("bmp", "BMP");
 	private OwnFileFilter filtereps = new OwnFileFilter("eps", "EPS");
 	private OwnFileFilter filtergif = new OwnFileFilter("gif", "GIF");
@@ -207,7 +207,7 @@ public class DiagramFileHandler {
 			Document doc = db.newDocument();
 
 			Element root = doc.createElement("diagram");
-			root.setAttribute("program", Program.PROGRAM_NAME.toLowerCase());
+			root.setAttribute("program", Program.NAME.toLowerCase());
 			root.setAttribute("version", String.valueOf(Program.VERSION));
 			doc.appendChild(root);
 
