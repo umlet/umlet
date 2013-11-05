@@ -43,3 +43,29 @@ Answer:
 The ant file is only working in Eclipse and only if it running in the same JRE as the workspace.
 Therefore right click on the target to run and select "Run As" -> "External Tools Configurations"
 Click on the "JRE" tab and select "Run in the same JRE as the workspace"
+
+-----------------------
+
+Question:
+How do you create exe files?
+
+Answer:
+Executables are created using http://launch4j.sourceforge.net
+Download Launch4J, import the launch4j_project.xml file and you can create updated versions of the executable
+
+-----------------------
+
+Question:
+Do I need a JDK or can I compile UMLet using a JRE?
+
+Answer:
+The JRE is enough to run the compiled UMLet, but for development and for starting UMLet using Eclipse launchers you should use JDK
+-----------------------
+
+Question:
+Why are there more than one project?
+
+Answer:
+BaseletElement is the basic project which will always be necessary
+Baselet is the Swing Standalone and Eclipse Plugin project
+BaseletGWT is the Web-Version which is based on GWT
