@@ -17,6 +17,7 @@ import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
@@ -1864,4 +1865,8 @@ public class Relation extends OldGridElement {
 		return true;
 	}
 
+	@Override
+	protected Color getDefaultBackgroundColor() {
+		return Converter.convert(ColorOwn.WHITE);
+	}
 }
