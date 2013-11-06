@@ -202,7 +202,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public Composite[] colorize(Graphics2D g2) {
 		bgColorString = "";
 		fgColorString = "";
-		bgColor = Converter.convert(ColorOwn.DEFAULT_BACKGROUND);
+		bgColor = getDefaultBackgroundColor();
 		fgColorBase = Converter.convert(ColorOwn.DEFAULT_FOREGROUND);
 		Vector<String> v = Utils.decomposeStringsWithComments(panelAttributes);
 		for (int i = 0; i < v.size(); i++) {
@@ -211,7 +211,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 				bgColorString = line.substring("bg=".length());
 				// OldGridElements apply transparency for background explicitly, therefore don't apply it here
 				bgColor = Converter.convert(ColorOwn.forString(bgColorString, Transparency.FOREGROUND));
-				if (bgColor == null) bgColor = Converter.convert(ColorOwn.DEFAULT_BACKGROUND);
+				if (bgColor == null) bgColor = getDefaultBackgroundColor();
 			}
 			else if (line.indexOf("fg=") >= 0) {
 				fgColorString = line.substring("fg=".length());
@@ -228,6 +228,10 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		AlphaComposite alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaFactor);
 		Composite[] composites = { old, alpha };
 		return composites;
+	}
+
+	protected Color getDefaultBackgroundColor() {
+		return Converter.convert(ColorOwn.DEFAULT_BACKGROUND);
 	}
 
 	@Override
