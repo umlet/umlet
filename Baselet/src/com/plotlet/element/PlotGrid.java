@@ -83,7 +83,7 @@ public class PlotGrid extends NewGridElement {
 			}
 		}
 		gridWidth = matrix.cols(); // Recalculate grid width
-		log.info("\n" + this.toString() + "\n");
+		log.debug("\n" + this.toString() + "\n");
 	}
 
 	private void setOverallMinMaxValue(List<PlotState> plotStateList) {
@@ -188,7 +188,7 @@ public class PlotGrid extends NewGridElement {
 	
 	private AbstractPlot createPlot(PlotState plotState, int xPos, int yPos, String info) {
 		String type = plotState.getValueValidated(PlotConstants.KEY_STRING_TYPE, PlotConstants.TYPE_BAR, PlotConstants.getValuesForKey(PlotConstants.KEY_STRING_TYPE));
-		log.info("PlotGrid insert : " + type + " (" + xPos + ";" + yPos + ") " + info);
+		log.debug("PlotGrid insert : " + type + " (" + xPos + ";" + yPos + ") " + info);
 		PlotGridDrawConfig plotDrawConfig = new PlotGridDrawConfig(Main.getHandlerForElement(this), getRealSize(), new Dimension(getRectangle().width, getRectangle().height), Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this), this.minValue, this.maxValue);
 		if (PlotConstants.TYPE_PIE.equals(type)) return  new PiePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
 		else if (PlotConstants.TYPE_LINE.equals(type)) return  new LinePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
