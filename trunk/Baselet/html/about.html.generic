@@ -17,7 +17,7 @@
 	 	<p>*******************************************</p>
 		<div class="intend">
 			<p>
-				@project.name.uc@ version @release.version@<br />
+				UMLet version @release.version@<br />
 				@release.month@ @release.year@
 			</p>
 			<p>
@@ -25,8 +25,8 @@
 				GNU General Public License
 			</p>
 			<p>
-				Web: <a href="@project.website.home@">@project.website.home@</a><br />
-				Contact: <a href="mailto:@project.email@">@project.email@<a>
+				Web: <a href="http://www.umlet.com">http://www.umlet.com</a><br />
+				Contact: <a href="mailto:info@umlet.com">info@umlet.com<a>
 			</p>
 		</div>
 	 	<p>*******************************************</p><br/>
