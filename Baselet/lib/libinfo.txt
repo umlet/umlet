@@ -4,7 +4,6 @@ Licence:  Apache License 2.0
 Used for: Export to "eps" and "svg"
 
 jlibeps
-Version: 0.1
 Licence:  GPL2+
 Used for: Export to "eps" and "svg"
 
