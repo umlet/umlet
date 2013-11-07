@@ -1,19 +1,23 @@
 
 Question:
-How do I import the sourcefiles into Eclipse?
+Where do I get the sourcecode?
 
 Answer:
-1.) Create a new folder in your Eclipse Workspace.
-2.) Copy the content of "sourcefiles" into your project directory. Also copy the "lib" folder into your project directory.
-3.) Click "Import..." -> "Existing Projects into Workspace" and select the project folder
+We use a SVN Repository for development which can be found at: http://code.google.com/p/umlet/source/
+There you can check out the latest development snapshot in "trunk" (although we try to only check in working code, we cannot guarantee it)
+Also we create a tag for every released version which can be found in the "tags" subdirectory.
+
+All of these projects are working Eclipse Projects. Currently we do not support other IDEs or use maven.
 
 -----------------------
 
 Question:
-What are all those variable names like "project.name.uc"?
+Why is there more than one project?
 
 Answer:
-UMLet and Plotlet use a shared program base called Baselet. We are using those variables to avoid manual adjustment of many files before every release.
+BaseletElement is the basic project which is needed by both other projects
+Baselet is the Swing Standalone and Eclipse Plugin project
+BaseletGWT is the Web-Version which is based on GWT
 
 -----------------------
 
@@ -43,16 +47,6 @@ Answer:
 The ant file is only working in Eclipse and only if it running in the same JRE as the workspace.
 Therefore right click on the target to run and select "Run As" -> "External Tools Configurations"
 Click on the "JRE" tab and select "Run in the same JRE as the workspace"
-
------------------------
-
-Question:
-How do you create exe files?
-
-Answer:
-Executables are created using http://launch4j.sourceforge.net
-Download Launch4J, import the launch4j_project.xml file and you can create updated versions of the executable
-
 -----------------------
 
 Question:
@@ -60,12 +54,3 @@ Do I need a JDK or can I compile UMLet using a JRE?
 
 Answer:
 The JRE is enough to run the compiled UMLet, but for development and for starting UMLet using Eclipse launchers you should use JDK
------------------------
-
-Question:
-Why are there more than one project?
-
-Answer:
-BaseletElement is the basic project which will always be necessary
-Baselet is the Swing Standalone and Eclipse Plugin project
-BaseletGWT is the Web-Version which is based on GWT
