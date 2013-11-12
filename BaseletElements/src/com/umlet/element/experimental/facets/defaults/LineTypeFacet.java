@@ -13,9 +13,9 @@ public class LineTypeFacet extends AbstractGlobalKeyValueFacet {
 	@Override
 	public KeyValue getKeyValue() {
 		return new KeyValue("lt", 
-				new ValueInfo(LineType.DASHED, "dashed lines"),
-				new ValueInfo(LineType.DOTTED, "dotted lines"),
-				new ValueInfo(LineType.BOLD, "bold lines"));
+				new ValueInfo(LineType.DASHED.getValue(), "dashed lines"),
+				new ValueInfo(LineType.DOTTED.getValue(), "dotted lines"),
+				new ValueInfo(LineType.BOLD.getValue(), "bold lines"));
 	}
 	
 	@Override
