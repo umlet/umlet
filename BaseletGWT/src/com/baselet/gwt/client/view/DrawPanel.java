@@ -146,7 +146,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		this.add(canvas.getWidget());
 	}
 
-	private void moveSelectedElements(int diffX, int diffY, boolean firstDrag) {
+	void moveSelectedElements(int diffX, int diffY, boolean firstDrag) {
 		List<GridElement> elements = selector.getSelectedElements();
 		if (elements.isEmpty()) { // if nothing is selected, move whole diagram
 			elements = diagram.getGridElements();
