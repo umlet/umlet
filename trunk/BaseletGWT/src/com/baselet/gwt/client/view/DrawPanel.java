@@ -354,11 +354,12 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 	}
 
 	public void handleKeyDown(KeyDownEvent event) {
-		boolean isZoomKey = Shortcut.ZOOM_IN.matches(event) || Shortcut.ZOOM_OUT.matches(event) ||Shortcut.ZOOM_RESET.matches(event);
-		if (!isZoomKey && !Shortcut.FULLSCREEN.matches(event)) {
-			event.preventDefault(); // avoid most browser key handlings
-		}
+//		boolean isZoomKey = Shortcut.ZOOM_IN.matches(event) || Shortcut.ZOOM_OUT.matches(event) ||Shortcut.ZOOM_RESET.matches(event);
+//		if (!isZoomKey && !Shortcut.FULLSCREEN.matches(event)) {
+//			event.preventDefault(); // avoid most browser key handlings
+//		}
 
+		boolean avoidBrowserDefault = true;
 		if (Shortcut.DELETE_ELEMENT.matches(event)) {
 			commandInvoker.removeSelectedElements(DrawPanel.this);
 		}
@@ -395,6 +396,13 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		else if (Shortcut.MOVE_RIGHT.matches(event)) {
 			moveSelectedElements(NewGridElementConstants.DEFAULT_GRID_SIZE, 0, true);
 			redraw();
+		} else {
+			avoidBrowserDefault = false;
+		}
+		
+		// avoid browser default key handling for all overwritten keys, but not for others (like F5 for refresh or the zoom controls)
+		if (avoidBrowserDefault) {
+			event.preventDefault();
 		}
 	}
 
