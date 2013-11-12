@@ -78,4 +78,13 @@ public class DrawPanelPalette extends DrawPanel {
 		super.onMouseDragEnd(gridElement, lastPoint);
 	}
 
+	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
+		if (isCtrlKeyDown) {
+			return; // TODO implement Lasso
+		} else { // palette always moves items (instead of dragging relation points etc.
+			moveSelectedElements(diffX, diffY, firstDrag);
+		}
+		redraw(false);
+	}
+
 }
