@@ -9,7 +9,6 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.facets.AbstractFacet;
-import com.umlet.element.experimental.facets.Facet;
 
 public class SeparatorLine extends AbstractFacet {
 

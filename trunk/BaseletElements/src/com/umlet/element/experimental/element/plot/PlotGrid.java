@@ -1,4 +1,4 @@
-package com.plotlet.element;
+package com.umlet.element.experimental.element.plot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,32 +7,31 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Main;
+import com.baselet.control.Matrix;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
 import com.baselet.gui.AutocompletionText;
-import com.baselet.shared.Matrix;
-import com.plotlet.element.plotgrid.AbstractPlot;
-import com.plotlet.element.plotgrid.BarPlot;
-import com.plotlet.element.plotgrid.LinePlot;
-import com.plotlet.element.plotgrid.PiePlot;
-import com.plotlet.element.plotgrid.ScatterPlot;
-import com.plotlet.gui.PlotletSyntaxKit;
-import com.plotlet.parser.Parser;
-import com.plotlet.parser.ParserException;
-import com.plotlet.parser.ParserResult;
-import com.plotlet.parser.PlotConstants;
-import com.plotlet.parser.PlotState;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.Settings;
+import com.umlet.element.experimental.element.plot.drawer.PlotGridDrawConfig;
+import com.umlet.element.experimental.element.plot.elements.AbstractPlot;
+import com.umlet.element.experimental.element.plot.elements.BarPlot;
+import com.umlet.element.experimental.element.plot.elements.LinePlot;
+import com.umlet.element.experimental.element.plot.elements.PiePlot;
+import com.umlet.element.experimental.element.plot.elements.ScatterPlot;
+import com.umlet.element.experimental.element.plot.parser.Parser;
+import com.umlet.element.experimental.element.plot.parser.ParserException;
+import com.umlet.element.experimental.element.plot.parser.ParserResult;
+import com.umlet.element.experimental.element.plot.parser.PlotConstants;
+import com.umlet.element.experimental.element.plot.parser.PlotConstants.PlotType;
+import com.umlet.element.experimental.element.plot.parser.PlotState;
 import com.umlet.element.experimental.facets.AbstractGlobalFacet;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
@@ -44,8 +43,6 @@ public class PlotGrid extends NewGridElement {
 	private static final Logger log = Logger.getLogger(PlotGrid.class);
 	
 	private Matrix<List<AbstractPlot>> matrix;
-
-	private static final long serialVersionUID = 1L;
 
 	private Integer gridWidth;
 	private Double minValue;
@@ -187,12 +184,12 @@ public class PlotGrid extends NewGridElement {
 	}	
 	
 	private AbstractPlot createPlot(PlotState plotState, int xPos, int yPos, String info) {
-		String type = plotState.getValueValidated(PlotConstants.KEY_STRING_TYPE, PlotConstants.TYPE_BAR, PlotConstants.getValuesForKey(PlotConstants.KEY_STRING_TYPE));
+		String type = plotState.getValueValidated(PlotType.getKey(), PlotType.Bar.getValue(), PlotConstants.toStringList(PlotType.values()));
 		log.debug("PlotGrid insert : " + type + " (" + xPos + ";" + yPos + ") " + info);
-		PlotGridDrawConfig plotDrawConfig = new PlotGridDrawConfig(Main.getHandlerForElement(this), getRealSize(), new Dimension(getRectangle().width, getRectangle().height), Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this), this.minValue, this.maxValue);
-		if (PlotConstants.TYPE_PIE.equals(type)) return  new PiePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
-		else if (PlotConstants.TYPE_LINE.equals(type)) return  new LinePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
-		else if (PlotConstants.TYPE_SCATTER.equals(type)) return  new ScatterPlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
+		PlotGridDrawConfig plotDrawConfig = new PlotGridDrawConfig(getRealSize(), new Dimension(getRectangle().width, getRectangle().height), this.minValue, this.maxValue);
+		if (PlotType.Pie.getValue().equals(type)) return  new PiePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
+		else if (PlotType.Line.getValue().equals(type)) return  new LinePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
+		else if (PlotType.Scatter.getValue().equals(type)) return  new ScatterPlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
 		else return new BarPlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
 	}
 
@@ -290,11 +287,7 @@ public class PlotGrid extends NewGridElement {
 					
 					@Override
 					public List<AutocompletionText> getAutocompletionStrings() {
-						List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
-						for (String autocomp : PlotletSyntaxKit.createAutocompletionList(",").split(",")) {
-							returnList.add(new AutocompletionText(autocomp,null));
-						}
-						return returnList;
+						return PlotConstants.AUTOCOMPLETION_LIST;
 					}
 					
 					@Override

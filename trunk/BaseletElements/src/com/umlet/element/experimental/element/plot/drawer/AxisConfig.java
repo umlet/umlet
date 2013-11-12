@@ -1,9 +1,10 @@
-package com.baselet.diagram.draw.swing.objects;
+package com.umlet.element.experimental.element.plot.drawer;
 
 import java.util.List;
 import java.util.TreeSet;
 
-import com.plotlet.parser.PlotConstants;
+import com.umlet.element.experimental.element.plot.parser.PlotConstants.AxisList;
+import com.umlet.element.experimental.element.plot.parser.PlotConstants.AxisShow;
 
 public class AxisConfig {
 
@@ -36,20 +37,20 @@ public class AxisConfig {
 
 	public final void enableDescAxis(List<String> showList/*, List<String> valueList*/) {
 		this.drawAxis = true;
-		this.descAxisLine = showList.contains(PlotConstants.DESC_AXIS_SHOW_AXIS);
-		this.descAxisGray = showList.contains(PlotConstants.DESC_AXIS_SHOW_LINE);
-		this.descAxisMarkers = showList.contains(PlotConstants.DESC_AXIS_SHOW_MARKER);
-		this.descAxisText = showList.contains(PlotConstants.DESC_AXIS_SHOW_TEXT);
+		this.descAxisLine = showList.contains(AxisShow.Axis.getValue());
+		this.descAxisGray = showList.contains(AxisShow.Line.getValue());
+		this.descAxisMarkers = showList.contains(AxisShow.Marker.getValue());
+		this.descAxisText = showList.contains(AxisShow.Text.getValue());
 	}
 
 	public final void enableValueAxis(List<String> showList, List<String> valueList) {
 		this.drawAxis = true;
-		this.valueAxisLine = showList.contains(PlotConstants.VALUE_AXIS_SHOW_AXIS);
-		this.valueAxisGray = showList.contains(PlotConstants.VALUE_AXIS_SHOW_LINE);
-		this.valueAxisMarkers = showList.contains(PlotConstants.VALUE_AXIS_SHOW_MARKER);
-		this.valueAxisText = showList.contains(PlotConstants.VALUE_AXIS_SHOW_TEXT);
+		this.valueAxisLine = showList.contains(AxisShow.Axis.getValue());
+		this.valueAxisGray = showList.contains(AxisShow.Line.getValue());
+		this.valueAxisMarkers = showList.contains(AxisShow.Marker.getValue());
+		this.valueAxisText = showList.contains(AxisShow.Text.getValue());
 
-		this.showRelevantValues = valueList.contains(PlotConstants.VALUE_AXIS_LIST_RELEVANT);
+		this.showRelevantValues = valueList.contains(AxisList.Relevant.getValue());
 		this.valueAxisList = new TreeSet<Double>();
 		for (String v : valueList) {
 			try {
