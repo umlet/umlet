@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="12.1">
+<diagram program="umlet" version="12.2">
   <zoom_level>8</zoom_level>
   <element>
     <id>UMLClass</id>
@@ -63,6 +63,18 @@ elementstyle=wordwrap</panel_attributes>
     <panel_attributes>This palette contains the new grid elements UMLet offers since v12 (at the moment Class and UseCase).
 
 Press Ctrl+Space to open the possible settings to customize your elements as you can see below.
+elementstyle=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>208</x>
+      <y>424</y>
+      <w>152</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>this is a simple text element which supports all of the new settings shown here
 elementstyle=wordwrap</panel_attributes>
     <additional_attributes/>
   </element>
