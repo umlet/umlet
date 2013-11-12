@@ -1,4 +1,4 @@
-package com.baselet.diagram.draw.swing.objects;
+package com.umlet.element.experimental.element.plot.drawer;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;

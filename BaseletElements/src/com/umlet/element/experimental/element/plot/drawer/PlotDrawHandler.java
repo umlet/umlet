@@ -1,4 +1,4 @@
-package com.baselet.diagram.draw.swing;
+package com.umlet.element.experimental.element.plot.drawer;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,8 +11,6 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.diagram.draw.swing.objects.AxisConfig;
-import com.baselet.diagram.draw.swing.objects.Canvas;
 
 public class PlotDrawHandler {
 
@@ -29,16 +27,14 @@ public class PlotDrawHandler {
 
 	protected BaseDrawHandler base;
 	
-	private final boolean isSelected;
 	private Double minVal = null;
 	private Double maxVal = null;
 	private List<String> colors;
 	private Canvas canvas;
 	private AxisConfig axisConfig;
 
-	public PlotDrawHandler(BaseDrawHandler baseDrawHandler, boolean isSelected, Dimension size) {
+	public PlotDrawHandler(BaseDrawHandler baseDrawHandler, Dimension size) {
 		base = baseDrawHandler;
-		this.isSelected = isSelected;
 //		drawLegend = false;
 		axisConfig = new AxisConfig();
 		canvas = new Canvas(size);

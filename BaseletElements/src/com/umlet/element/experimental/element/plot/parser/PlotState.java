@@ -1,4 +1,4 @@
-package com.plotlet.parser;
+package com.umlet.element.experimental.element.plot.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;

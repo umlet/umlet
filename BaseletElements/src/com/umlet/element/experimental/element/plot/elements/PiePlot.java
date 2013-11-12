@@ -1,11 +1,13 @@
-package com.plotlet.element.plotgrid;
+package com.umlet.element.experimental.element.plot.elements;
 
 import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
-import com.plotlet.parser.PlotState;
+import com.umlet.element.experimental.element.plot.drawer.PlotGridDrawConfig;
+import com.umlet.element.experimental.element.plot.parser.PlotConstants.AxisList;
+import com.umlet.element.experimental.element.plot.parser.PlotConstants.AxisShow;
+import com.umlet.element.experimental.element.plot.parser.PlotState;
 
 public class PiePlot extends AbstractPlot {
 
@@ -21,18 +23,18 @@ public class PiePlot extends AbstractPlot {
 	}
 
 	@Override
-	protected List<String> defaultDescAxisShow() {
-		return Arrays.asList(new String[] {});
+	protected List<AxisShow> defaultDescAxisShow() {
+		return Arrays.asList();
 	}
 
 	@Override
-	protected List<String> defaultValueAxisShow() {
-		return Arrays.asList(new String[] {});
+	protected List<AxisShow> defaultValueAxisShow() {
+		return defaultDescAxisShow();
 	}
 
 	@Override
-	protected List<String> defaultValueAxisList() {
-		return Arrays.asList(new String[] {});
+	protected List<AxisList> defaultValueAxisList() {
+		return Arrays.asList();
 	}
 
 	@Override

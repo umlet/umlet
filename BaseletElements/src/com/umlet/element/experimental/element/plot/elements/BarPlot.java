@@ -1,13 +1,15 @@
-package com.plotlet.element.plotgrid;
+package com.umlet.element.experimental.element.plot.elements;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
-import com.plotlet.parser.PlotConstants;
-import com.plotlet.parser.PlotState;
+import com.umlet.element.experimental.element.plot.drawer.PlotGridDrawConfig;
+import com.umlet.element.experimental.element.plot.parser.PlotConstants;
+import com.umlet.element.experimental.element.plot.parser.PlotConstants.AxisList;
+import com.umlet.element.experimental.element.plot.parser.PlotConstants.AxisShow;
+import com.umlet.element.experimental.element.plot.parser.PlotState;
 
 public class BarPlot extends AbstractPlot {
 
@@ -29,18 +31,18 @@ public class BarPlot extends AbstractPlot {
 	}
 
 	@Override
-	protected List<String> defaultDescAxisShow() {
-		return Arrays.asList(new String[] {PlotConstants.DESC_AXIS_SHOW_AXIS, PlotConstants.DESC_AXIS_SHOW_MARKER, PlotConstants.DESC_AXIS_SHOW_TEXT});
+	protected List<AxisShow> defaultDescAxisShow() {
+		return Arrays.asList(AxisShow.Axis, AxisShow.Marker, AxisShow.Text);
 	}
 
 	@Override
-	protected List<String> defaultValueAxisShow() {
-		return Arrays.asList(new String[] {PlotConstants.VALUE_AXIS_SHOW_AXIS, PlotConstants.DESC_AXIS_SHOW_LINE, PlotConstants.VALUE_AXIS_SHOW_MARKER, PlotConstants.VALUE_AXIS_SHOW_TEXT});
+	protected List<AxisShow> defaultValueAxisShow() {
+		return Arrays.asList(AxisShow.Axis, AxisShow.Line, AxisShow.Marker, AxisShow.Text);
 	}
 
 	@Override
-	protected List<String> defaultValueAxisList() {
-		return Arrays.asList(new String[] {PlotConstants.VALUE_AXIS_LIST_RELEVANT});
+	protected List<AxisList> defaultValueAxisList() {
+		return Arrays.asList(AxisList.Relevant);
 	}
 
 	@Override

@@ -1,17 +1,19 @@
-package com.plotlet.element.plotgrid;
+package com.umlet.element.experimental.element.plot.elements;
 
-import java.awt.Color;
 import java.util.List;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.swing.PlotDrawHandler;
-import com.baselet.diagram.draw.swing.objects.AxisConfig;
-import com.baselet.diagram.draw.swing.objects.PlotGridDrawConfig;
-import com.plotlet.parser.DataSet;
-import com.plotlet.parser.ParserException;
-import com.plotlet.parser.PlotConstants;
-import com.plotlet.parser.PlotState;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.umlet.element.experimental.element.plot.drawer.AxisConfig;
+import com.umlet.element.experimental.element.plot.drawer.PlotDrawHandler;
+import com.umlet.element.experimental.element.plot.drawer.PlotGridDrawConfig;
+import com.umlet.element.experimental.element.plot.parser.DataSet;
+import com.umlet.element.experimental.element.plot.parser.ParserException;
+import com.umlet.element.experimental.element.plot.parser.PlotConstants;
+import com.umlet.element.experimental.element.plot.parser.PlotConstants.AxisList;
+import com.umlet.element.experimental.element.plot.parser.PlotConstants.AxisShow;
+import com.umlet.element.experimental.element.plot.parser.PlotState;
 
 public abstract class AbstractPlot {
 
@@ -30,7 +32,7 @@ public abstract class AbstractPlot {
 		this.plotState = plotState;
 		this.xPosition = xPosition;
 		this.yPosition = yPosition;
-		plot = new PlotDrawHandler(drawer, plotDrawConfig.isSelected(), plotDrawConfig.getRealSize());
+		plot = new PlotDrawHandler(drawer, plotDrawConfig.getRealSize());
 		setupAxis();
 		setupAbstractPlot();
 	}
@@ -49,10 +51,10 @@ public abstract class AbstractPlot {
 
 	private void setupAxis() {
 		plot.getAxisConfig().enableDescAxis(
-				plotState.getValueListValidated(PlotConstants.KEY_LIST_DESC_AXIS_SHOW, defaultDescAxisShow(), PlotConstants.getValuesForKey(PlotConstants.KEY_LIST_DESC_AXIS_SHOW), false));
+				plotState.getValueListValidated(AxisShow.getKeyDescAxis(), PlotConstants.toStringList(defaultDescAxisShow()), PlotConstants.toStringList(AxisShow.values()), false));
 		plot.getAxisConfig().enableValueAxis(
-				plotState.getValueListValidated(PlotConstants.KEY_LIST_VALUE_AXIS_SHOW, defaultValueAxisShow(), PlotConstants.getValuesForKey(PlotConstants.KEY_LIST_VALUE_AXIS_SHOW), false),
-				plotState.getValueListValidated(PlotConstants.KEY_LIST_VALUE_AXIS_LIST, defaultValueAxisList(), PlotConstants.getValuesForKey(PlotConstants.KEY_LIST_VALUE_AXIS_LIST), true));
+				plotState.getValueListValidated(AxisShow.getKeyValueAxis(), PlotConstants.toStringList(defaultValueAxisShow()), PlotConstants.toStringList(AxisShow.values()), false),
+				plotState.getValueListValidated(AxisList.getKey(), PlotConstants.toStringList(defaultValueAxisList()), PlotConstants.toStringList(AxisList.values()), true));
 	}
 
 	private void setupAbstractPlot() {
@@ -65,13 +67,8 @@ public abstract class AbstractPlot {
 		Double[][] values = ds.data();
 		List<String> colors = plotState.getValueList(PlotConstants.KEY_LIST_COLORS, PlotConstants.COLORS_DEFAULT);
 		for (String color : colors) {
-			if (!ColorOwn.COLOR_MAP.containsKey(color)) {
-				try { // If the color is decodable, it's valid
-					Color.decode(color);
-				}
-				catch(NumberFormatException e) {
-					throw new ParserException("Unknown color: " + color + "(line: " + plotState.getLine(PlotConstants.KEY_LIST_COLORS) + ")");
-				}
+			if (ColorOwn.forString(color, Transparency.FOREGROUND) == null) {
+				throw new ParserException("Unknown color: " + color + "(line: " + plotState.getLine(PlotConstants.KEY_LIST_COLORS) + ")");
 			}
 		}
 		if (values.length > getMaxAllowedValueRows()) throw new ParserException("The dataset (line: " + plotState.getDataSet().getLineNr() + ") has too many rows for the plot (line: " + plotState.getPlotLineNr() + ")");
@@ -112,12 +109,12 @@ public abstract class AbstractPlot {
 		int spaceBottom = (int) (segmentHeight * (rowCount - yPosition - 1));
 		plot.getCanvas().setBorder(spaceLeft, spaceTop, spaceRight, spaceBottom, AxisConfig.ARROW_DISTANCE);
 	}
-
+	
 	public abstract void plot(int columnCount, int rowCount);
 
-	protected abstract List<String> defaultDescAxisShow();
-	protected abstract List<String> defaultValueAxisShow();
-	protected abstract List<String> defaultValueAxisList();
+	protected abstract List<AxisShow> defaultDescAxisShow();
+	protected abstract List<AxisShow> defaultValueAxisShow();
+	protected abstract List<AxisList> defaultValueAxisList();
 	protected abstract int getMaxAllowedValueRows();
 
 }

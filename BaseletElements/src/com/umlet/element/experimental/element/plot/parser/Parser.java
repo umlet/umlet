@@ -1,4 +1,4 @@
-package com.plotlet.parser;
+package com.umlet.element.experimental.element.plot.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,7 +93,7 @@ public class Parser {
 	}
 
 	private int addDataset(PlotState plotState, int actualAutoDatasetNr) {
-		String datasetId = plotState.getValue(PlotConstants.KEY_STRING_DATA, null);
+		String datasetId = plotState.getValue(PlotConstants.DATA, null);
 		if (datasetId == null) {
 			if (actualAutoDatasetNr >= datasetList.size()) actualAutoDatasetNr = 0;
 			plotState.setDataSet(datasetList.get(actualAutoDatasetNr++));
@@ -112,7 +112,7 @@ public class Parser {
 				}
 			}
 			if (dataset != null) plotState.setDataSet(dataset);
-			else throw new ParserException(PlotConstants.KEY_STRING_DATA, datasetId, plotState.getLine(PlotConstants.KEY_STRING_DATA));
+			else throw new ParserException(PlotConstants.DATA, datasetId, plotState.getLine(PlotConstants.DATA));
 		}		
 
 		return actualAutoDatasetNr;
@@ -166,8 +166,8 @@ public class Parser {
 			}
 		}
 		// If no dataset is specified the data-value is set to auto
-		if (localCopyOfValuesCache.get(PlotConstants.KEY_STRING_DATA) == null) {
-			localCopyOfValuesCache.put(PlotConstants.KEY_STRING_DATA, new KeyValue(PlotConstants.KEY_STRING_DATA, PlotConstants.DEFAULT_VALUE, lineNr));
+		if (localCopyOfValuesCache.get(PlotConstants.DATA) == null) {
+			localCopyOfValuesCache.put(PlotConstants.DATA, new KeyValue(PlotConstants.DATA, PlotConstants.DEFAULT_VALUE, lineNr));
 		}
 		PlotState newPlotState = new PlotState(lineNr, localCopyOfValuesCache);
 

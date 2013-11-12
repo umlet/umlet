@@ -1,6 +1,7 @@
 package com.umlet.element.experimental;
 
 import com.umlet.element.experimental.element.generic.Text;
+import com.umlet.element.experimental.element.plot.PlotGrid;
 import com.umlet.element.experimental.element.uml.Actor;
 import com.umlet.element.experimental.element.uml.Class;
 import com.umlet.element.experimental.element.uml.Interface;
@@ -22,6 +23,7 @@ public enum ElementId {
 		else if (this == UMLActor) returnObj = new Actor();
 		else if (this == Relation) returnObj = new Relation();
 		else if (this == Text) returnObj = new Text();
+		else if (this == PlotGrid) returnObj = new PlotGrid();
 		else throw new RuntimeException("Unknown class id: " + this);
 		return returnObj;
 	}
