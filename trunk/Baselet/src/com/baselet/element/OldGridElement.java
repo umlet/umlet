@@ -58,8 +58,15 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	protected String panelAttributes = "";
 
 	// deselectedColor and fgColor must be stored separately because selection changes the actual fgColor but not the fgColorBase
+	/**
+	 * contains the value of the fgColor of the element if not selected
+	 */
 	protected Color fgColorBase = Converter.convert(ColorOwn.BLACK);
+	/**
+	 * contains the current fgColor of the element. Will be overwritten by selectioncolor if it's selected
+	 */
 	protected Color fgColor = fgColorBase;
+	
 	private String fgColorString = "";
 	protected Color bgColor = Converter.convert(ColorOwn.WHITE);
 	private String bgColorString = "";
@@ -171,14 +178,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		this.repaint();
 	}
 
-	public ColorOwn getFgColor() {
-		return Converter.convert(fgColor);
-	}
-
-	public ColorOwn getBgColor() {
-		return Converter.convert(bgColor);
-	}
-
 	@Override
 	public String getSetting(String key) {
 		if (key == ForegroundColorFacet.KEY) return fgColorString;
@@ -217,7 +216,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 				fgColorString = line.substring("fg=".length());
 				fgColorBase = Converter.convert(ColorOwn.forString(fgColorString, Transparency.FOREGROUND));
 				if (fgColorBase == null) fgColorBase = Converter.convert(ColorOwn.DEFAULT_FOREGROUND);
-				if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) fgColor = fgColorBase;
+				if (!Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) fgColor = fgColorBase;
 			}
 		}
 
