@@ -34,7 +34,7 @@ public class CustomCodeSyntaxPane {
 	    textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 		textArea.setAntiAliasingEnabled(true);
 		textArea.setCodeFoldingEnabled(true);
-		textArea.setFont(Constants.PANEL_CONTENT_FONT);
+		textArea.setFont(Constants.getPanelContentFont());
 		
 		// setup autocompletion
 		for (String word : getAutocompletionStrings()) {

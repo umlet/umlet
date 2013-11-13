@@ -219,9 +219,14 @@ public abstract class Constants extends NewGridElementConstants {
 	public static final int MIN_MAIN_SPLITPANEL_SIZE = 100;
 	public static final int MIN_MAIL_SPLITPANEL_SIZE = 250;
 
-	public static final Font PANEL_HEADER_FONT = new Font(Font.SANS_SERIF, Font.BOLD, 11);
-	public static final Font PANEL_CONTENT_FONT = new Font(Font.MONOSPACED, Font.PLAIN, 11);
-
+	public static Integer propertiesPanelFontsize = 11;
+	public static Font getPanelHeaderFont() {
+		return new Font(Font.SANS_SERIF, Font.BOLD, propertiesPanelFontsize);
+	}
+	public static Font getPanelContentFont() {
+		return new Font(Font.MONOSPACED, Font.PLAIN, propertiesPanelFontsize);
+	}
+	
 	/**** VALUES LOADED FROM CONFIG ****/
 	public static Integer defaultFontsize = 14;
 	public static String defaultFontFamily = Font.SANS_SERIF;

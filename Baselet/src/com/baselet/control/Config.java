@@ -23,6 +23,7 @@ import com.umlet.language.sorting.SortOptions;
 public class Config {
 
 	private static final String PROGRAM_VERSION = "program_version";
+	private static final String PROPERTIES_PANEL_FONTSIZE = "properties_panel_fontsize";
 	private static final String DEFAULT_FONTSIZE = "default_fontsize";
 	private static final String DEFAULT_FONTFAMILY = "default_fontfamily";
 	private static final String SHOW_STICKINGPOLYGON = "show_stickingpolygon";
@@ -81,6 +82,7 @@ public class Config {
 		}
 			
 		Constants.defaultFontsize = getIntProperty(DEFAULT_FONTSIZE, Constants.defaultFontsize);
+		Constants.propertiesPanelFontsize = getIntProperty(PROPERTIES_PANEL_FONTSIZE, Constants.propertiesPanelFontsize);
 		Constants.defaultFontFamily = getStringProperty(DEFAULT_FONTFAMILY, Constants.defaultFontFamily);
 		Constants.show_stickingpolygon = getBoolProperty(SHOW_STICKINGPOLYGON, Constants.show_stickingpolygon);
 		Constants.show_grid = getBoolProperty(SHOW_GRID, Constants.show_grid);
@@ -145,6 +147,7 @@ public class Config {
 
 			props.setProperty(PROGRAM_VERSION, Program.VERSION);
 			props.setProperty(DEFAULT_FONTSIZE, Integer.toString(Constants.defaultFontsize));
+			props.setProperty(PROPERTIES_PANEL_FONTSIZE, Integer.toString(Constants.propertiesPanelFontsize));
 			props.setProperty(DEFAULT_FONTFAMILY, Constants.defaultFontFamily);
 			props.setProperty(SHOW_STICKINGPOLYGON, Boolean.toString(Constants.show_stickingpolygon));
 			props.setProperty(SHOW_GRID, Boolean.toString(Constants.show_grid));
