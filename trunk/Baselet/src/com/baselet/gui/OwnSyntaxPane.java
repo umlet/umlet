@@ -65,11 +65,11 @@ public class OwnSyntaxPane {
 
 		JLabel propertyLabel = new JLabel(" Properties");
 		propertyLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		propertyLabel.setFont(Constants.PANEL_HEADER_FONT);
+		propertyLabel.setFont(Constants.getPanelHeaderFont());
 		panel.add(propertyLabel);
 
 		textArea.setAntiAliasingEnabled(true);
-		textArea.setFont(Constants.PANEL_CONTENT_FONT);
+		textArea.setFont(Constants.getPanelContentFont());
 		scrollPane = new RTextScrollPane(textArea, false);
 		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);

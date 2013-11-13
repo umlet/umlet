@@ -36,7 +36,7 @@ public class CustomElementPanel extends JPanel {
 		custompanel2.setLayout(new BoxLayout(custompanel2, BoxLayout.Y_AXIS));
 
 		JLabel codelabel = new JLabel(" Code");
-		codelabel.setFont(Constants.PANEL_HEADER_FONT);
+		codelabel.setFont(Constants.getPanelHeaderFont());
 		codelabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		custompanel2.add(codelabel);
 		customcodepane = customhandler.getCodePane();
@@ -50,7 +50,7 @@ public class CustomElementPanel extends JPanel {
 		custompreviewpanel = d.getDrawPanel();
 		custompreviewpanel.getScrollPane().setAlignmentX(Component.LEFT_ALIGNMENT);
 		JLabel previewlabel = new JLabel(" Preview");
-		previewlabel.setFont(Constants.PANEL_HEADER_FONT);
+		previewlabel.setFont(Constants.getPanelHeaderFont());
 		previewlabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		JPanel labelpanel = new JPanel();
 		labelpanel.setLayout(new BoxLayout(labelpanel, BoxLayout.Y_AXIS));
@@ -72,12 +72,12 @@ public class CustomElementPanel extends JPanel {
 				}
 			}
 		};
-		savelabel.setFont(Constants.PANEL_HEADER_FONT);
+		savelabel.setFont(Constants.getPanelHeaderFont());
 		savelabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		savelabel.setEnabled(true);
 
 		JLabel discardlabel = new JLabel("Discard and close editor");
-		discardlabel.setFont(Constants.PANEL_HEADER_FONT);
+		discardlabel.setFont(Constants.getPanelHeaderFont());
 		discardlabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		discardlabel.addMouseListener(MenuListener.getInstance());
 		discardlabel.addMouseMotionListener(MenuListener.getInstance());

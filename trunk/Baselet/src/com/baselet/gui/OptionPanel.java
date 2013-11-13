@@ -44,6 +44,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 	private JCheckBox checkForUpdates;
 	private JComboBox ui_manager;
 	private JComboBox default_fontsize;
+	private JComboBox propertiesPanelFontsize;
 	private JComboBox default_fontfamily;
 
 	private Vector<String> uis_technicalNameVector;
@@ -65,6 +66,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		}
 		this.ui_manager = new JComboBox(uis_humanReadableNameVector);
 		this.default_fontsize = new JComboBox(new Integer[] {9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
+		this.propertiesPanelFontsize = new JComboBox(new Integer[] {9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
 		this.default_fontfamily = new JComboBox(Constants.fontFamilyList.toArray(new String[Constants.fontFamilyList.size()]));
 
 		this.add(new JLabel("Show sticking ploygon"));
@@ -76,12 +78,14 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.add(new JLabel("Check for " + Program.NAME + " updates"));
 		this.add(this.checkForUpdates);
 		if (Program.RUNTIME_TYPE == RuntimeType.STANDALONE) {
-			this.add(new JLabel("Select " + Program.NAME + " style"));
+			this.add(new JLabel(Program.NAME + " style"));
 			this.add(this.ui_manager);
 		}
-		this.add(new JLabel("Select default fontsize"));
+		this.add(new JLabel("Default fontsize"));
 		this.add(this.default_fontsize);
-		this.add(new JLabel("Select default fontfamily"));
+		this.add(new JLabel("Properties panel fontsize (requires restart)"));
+		this.add(this.propertiesPanelFontsize);
+		this.add(new JLabel("Default fontfamily"));
 		this.add(this.default_fontfamily);
 
 		JButton button_ok = new JButton("Ok");
@@ -121,6 +125,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.checkForUpdates.setSelected(Constants.checkForUpdates);
 		this.ui_manager.setSelectedIndex(uis_technicalNameVector.indexOf(Constants.ui_manager));
 		this.default_fontsize.setSelectedItem(Constants.defaultFontsize);
+		this.propertiesPanelFontsize.setSelectedItem(Constants.propertiesPanelFontsize);
 		this.default_fontfamily.setSelectedItem(Constants.defaultFontFamily);
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -172,6 +177,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 					d.getDrawPanel().repaint();
 				}
 			}
+			Constants.propertiesPanelFontsize = (Integer) propertiesPanelFontsize.getSelectedItem();
 
 			String newfamily = (String) this.default_fontfamily.getSelectedItem();
 			Constants.defaultFontFamily = newfamily;
