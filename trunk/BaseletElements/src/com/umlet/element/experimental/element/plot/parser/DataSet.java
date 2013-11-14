@@ -120,6 +120,9 @@ public class DataSet {
 		boolean hasTitleCol = isTitleLine(firstCol);
 
 		if (hasTitleRow && hasTitleCol) {
+			if (!firstRow.get(0).isEmpty() || !firstCol.get(0).isEmpty()) {
+				throw new ParserException("If a dataset has a title row and column, the upper left space must be empty");
+			}
 			titleRow = firstRow.subList(1, firstRow.size()); // ignore first cell
 			titleCol = firstCol.subList(1, firstCol.size()); // ignore first cell
 		}
