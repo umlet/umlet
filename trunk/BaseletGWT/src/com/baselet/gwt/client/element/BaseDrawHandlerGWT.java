@@ -52,8 +52,23 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	public void drawArcPie(double x, double y, double width, double height, double start, double extent) {
-		// TODO Auto-generated method stub
+	public void drawArcPie(final double x, final double y, final double width, final double height, final double start, final double extent) {
+		final Style styleAtDrawingCall = style.cloneFromMe();
+		addDrawable(new DrawFunction() { //start = alles bisherige, extends = currentval
+			@Override
+			public void run() {
+				setStyle(ctx, styleAtDrawingCall);
+				
+			    double centerX = x+ width/2 + HALF_PX;
+			    double centerY = y + height/2 + HALF_PX;
+			    ctx.beginPath();
+			    ctx.moveTo(centerX, centerY);
+			    ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
+			    ctx.closePath();
+				ctx.fill();
+				ctx.stroke();
+			}
+		});
 	}
 
 	@Override
