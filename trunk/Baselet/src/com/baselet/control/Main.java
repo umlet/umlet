@@ -84,14 +84,17 @@ public class Main {
 				else if (args[i].startsWith("-filename=")) filename = args[i].substring(10);
 				else if (args[i].startsWith("-output=")) output = args[i].substring(8);
 			}
-			// Program started by double-click on diagram file
-			if ((action == null) && (format == null) && (filename != null)) {
+			// Program started by double-click on diagram file (either diagram filename is passed without prefix or with -filename=... prefix)
+			if (action == null && format == null && (filename != null || args.length == 1)) {
+				if (filename == null) {
+					filename = args[0];
+				}
 				if (!alreadyRunningChecker(false) || !sendFileNameToRunningApplication(filename)) {
 					main.init(new StandaloneGUI(main));
 					main.doOpen(filename);
 				}
 			}
-			else if ((action != null) && (format != null) && (filename != null)) {
+			else if (action != null && format != null && filename != null) {
 				if (action.equals("convert")) {
 					Program.RUNTIME_TYPE = RuntimeType.BATCH;
 					String[] splitFilename = filename.split("(/|\\\\)");
