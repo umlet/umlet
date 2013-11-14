@@ -54,3 +54,13 @@ Do I need a JDK or can I compile UMLet using a JRE?
 
 Answer:
 The JRE is enough to run the compiled UMLet, but for development and for starting UMLet using Eclipse launchers you should use JDK
+
+-----------------------
+
+Question:
+How do you create exe files?
+
+Answer:
+Executables are created using http://launch4j.sourceforge.net
+Download Launch4J, import the launch4j_project.xml file and you can create updated versions of the executable
+
