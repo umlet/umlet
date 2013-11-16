@@ -127,7 +127,11 @@ public class Properties {
 			String firstLine = propertiesTextToDraw.iterator().next();
 			double availableWidthSpace = propCfg.getXLimitsForArea(displacement, textHeight).getSpace() - BUFFER;
 			double accumulator = displacement;
+			int maxLoops = 1000;
 			while(accumulator < propCfg.getGridElementSize().height && !TextSplitter.checkifStringFits(firstLine, availableWidthSpace, drawer)) {
+				if (maxLoops-- < 0) {
+					throw new RuntimeException("UNEXPECTED ERROR: Endless loop during calculation of top displacement");
+				}
 				accumulator += textHeight / 2;
 				double previousWidthSpace = availableWidthSpace;
 				availableWidthSpace = propCfg.getXLimitsForArea(accumulator, textHeight).getSpace() - BUFFER;
