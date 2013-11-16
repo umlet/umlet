@@ -258,7 +258,7 @@ public abstract class Utils {
 			s = s.replace(' ', '.');
 		}
 		TextLayout tl = new TextLayout(s, font, frc);
-		return new DimensionDouble((int) tl.getBounds().getWidth(), (int) tl.getBounds().getHeight());
+		return new DimensionDouble(tl.getBounds().getWidth(), tl.getBounds().getHeight());
 	}
 
 
