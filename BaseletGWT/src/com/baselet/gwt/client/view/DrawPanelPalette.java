@@ -13,6 +13,8 @@ import com.baselet.gwt.client.element.ElementFactory;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class DrawPanelPalette extends DrawPanel {
@@ -37,6 +39,12 @@ public class DrawPanelPalette extends DrawPanel {
 			public void onChange(ChangeEvent event) {
 				setDiagram(PALETTELIST.get(paletteChooser.getSelectedIndex()));
 				selector.deselectAll();
+			}
+		});
+		paletteChooser.addMouseDownHandler(new MouseDownHandler() {
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				event.stopPropagation(); // avoid propagation of mouseclick to palette which can be under the opened listbox
 			}
 		});
 	}
