@@ -56,7 +56,7 @@ public class OutputHandler {
 		Collection<GridElement> elementsToDraw = degroupElements(handler.getDrawPanel().getSelector().getSelectedElements());
 		// if nothing is selected, draw everything
 		if (elementsToDraw.isEmpty()) {
-			elementsToDraw = handler.getDrawPanel().getAllEntitiesNotInGroup();
+			elementsToDraw = handler.getDrawPanel().getAllEntities();
 		}
 
 		OutputHandler.exportToOutputStream(extension, ostream, handler, elementsToDraw);
