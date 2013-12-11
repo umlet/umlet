@@ -216,7 +216,7 @@ public class DiagramHandler {
 
 	public boolean askSaveIfDirty() {
 		if (this.isChanged) {
-			int ch = JOptionPane.showOptionDialog(null, "Save changes?", Program.NAME + " - " + this.getName(), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+			int ch = JOptionPane.showOptionDialog(Main.getInstance().getGUI().getMainFrame(), "Save changes?", Program.NAME + " - " + this.getName(), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
 			if (ch == JOptionPane.YES_OPTION) {
 				this.doSave();
 				return true;

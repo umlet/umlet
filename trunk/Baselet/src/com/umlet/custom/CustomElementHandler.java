@@ -97,15 +97,6 @@ public class CustomElementHandler {
 
 	public boolean closeEntity() {
 		if (this.changed) {
-			/*
-			 * int ch=JOptionPane.showOptionDialog(Main.getInstance().getGUI(),"Save changes?","CustomElement",JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE,null, null, null);
-			 * if (ch==JOptionPane.YES_OPTION)
-			 * this.saveEntity();
-			 * else if (ch==JOptionPane.CANCEL_OPTION)
-			 * return false;
-			 * else
-			 * this.setChanged(false);
-			 */
 			this.setChanged(false);
 		}
 		this.stop();

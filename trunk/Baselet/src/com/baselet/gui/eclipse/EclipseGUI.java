@@ -1,6 +1,7 @@
 package com.baselet.gui.eclipse;
 
 import java.awt.Cursor;
+import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -267,5 +268,10 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public void focusPropertyPane() {
 		editor.focusPropertyPane();
+	}
+	
+	@Override
+	public Frame getMainFrame() {
+		return editor.getMainFrame();
 	}
 }

@@ -3,6 +3,7 @@ package com.baselet.gui.standalone;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Frame;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -204,7 +205,8 @@ public class StandaloneGUI extends BaseGUI {
 		return Constants.mail_split_position; // must return stored value in Constants, otherwise 0 will be returned in case of a closed panel
 	}
 
-	public JFrame getMainFrame() {
+	@Override
+	public Frame getMainFrame() {
 		return this.mainFrame;
 	}
 

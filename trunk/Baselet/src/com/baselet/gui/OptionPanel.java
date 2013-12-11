@@ -2,6 +2,7 @@ package com.baselet.gui;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -114,7 +115,6 @@ public class OptionPanel extends JPanel implements ActionListener {
 
 		this.optionframe = new JFrame(Program.NAME + " Options");
 		this.optionframe.setContentPane(parent);
-		this.optionframe.setLocation(50, 50);
 		this.optionframe.pack(); //autoresize of the optionframe
 	}
 
@@ -130,6 +130,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				optionframe.setLocationRelativeTo(Main.getInstance().getGUI().getMainFrame());
 				optionframe.setVisible(true);
 				optionframe.toFront();
 			}
@@ -156,7 +157,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 				try {
 					BaseGUI gui = Main.getInstance().getGUI();
 					if (gui instanceof StandaloneGUI) {
-						JFrame topFrame = ((StandaloneGUI) gui).getMainFrame();
+						Frame topFrame = ((StandaloneGUI) gui).getMainFrame();
 						UIManager.setLookAndFeel(newui);
 						SwingUtilities.updateComponentTreeUI(topFrame);
 						SwingUtilities.updateComponentTreeUI(this.optionframe);

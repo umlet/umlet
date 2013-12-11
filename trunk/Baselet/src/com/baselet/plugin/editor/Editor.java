@@ -39,7 +39,7 @@ public class Editor extends EditorPart {
 	private static final Logger log = Logger.getLogger(Editor.class);
 
 	private DiagramHandler handler;
-	private Panel embedded_panel;
+	private Panel embeddedPanel;
 
 	private EclipseGUIBuilder guiComponents = new EclipseGUIBuilder();
 
@@ -68,6 +68,8 @@ public class Editor extends EditorPart {
 	
 	File diagramFile;
 
+	private Frame mainFrame;
+
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		log.info("Call editor.init() " + uuid.toString());
@@ -79,7 +81,7 @@ public class Editor extends EditorPart {
 			SwingUtilities.invokeAndWait(new Runnable() {
 				@Override
 				public void run() { // initialize embedded panel here (and not in createPartControl) to avoid ugly scrollbars
-					embedded_panel = guiComponents.initEclipseGui();
+					embeddedPanel = guiComponents.initEclipseGui();
 				}
 			});
 		} catch (InterruptedException e) {
@@ -113,8 +115,8 @@ public class Editor extends EditorPart {
 		MainPlugin.getGUI().open(handler);
 
 		log.info("Call editor.createPartControl() " + uuid.toString());
-		final Frame frame = SWT_AWT.new_Frame(new Composite(parent, SWT.EMBEDDED));
-		frame.add(embedded_panel);
+		mainFrame = SWT_AWT.new_Frame(new Composite(parent, SWT.EMBEDDED));
+		mainFrame.add(embeddedPanel);
 	}
 
 	@Override
@@ -164,7 +166,7 @@ public class Editor extends EditorPart {
 	}
 
 	public void setCursor(Cursor cursor) {
-		this.embedded_panel.setCursor(cursor);
+		this.embeddedPanel.setCursor(cursor);
 	}
 
 	public OwnSyntaxPane getPropertyPane() {
@@ -176,7 +178,11 @@ public class Editor extends EditorPart {
 	}
 
 	public void requestFocus() {
-		this.embedded_panel.requestFocus();
+		this.embeddedPanel.requestFocus();
+	}
+	
+	public Frame getMainFrame() {
+		return mainFrame;
 	}
 
 	public void dirtyChanged() {
