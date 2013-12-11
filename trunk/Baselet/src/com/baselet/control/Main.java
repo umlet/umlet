@@ -97,6 +97,7 @@ public class Main {
 			else if (action != null && format != null && filename != null) {
 				if (action.equals("convert")) {
 					Program.RUNTIME_TYPE = RuntimeType.BATCH;
+					Config.loadConfig();
 					String[] splitFilename = filename.split("(/|\\\\)");
 					String localName = splitFilename[splitFilename.length-1];
 					String dir = filename.substring(0, filename.length()-localName.length());
