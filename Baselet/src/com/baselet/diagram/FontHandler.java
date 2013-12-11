@@ -61,8 +61,8 @@ public class FontHandler {
 
 	public double getFontSize(boolean applyZoom) {
 		Double returnFontSize;
-		if (diagramDefaultSize != null) returnFontSize = diagramDefaultSize;
-		else if (fontSize != null) returnFontSize = fontSize;
+		if (fontSize != null) returnFontSize = fontSize;
+		else if (diagramDefaultSize != null) returnFontSize = diagramDefaultSize;
 		else returnFontSize = Double.valueOf(Constants.defaultFontsize);
 
 		if (applyZoom) return returnFontSize * handler.getGridSize() / Constants.DEFAULTGRIDSIZE;
