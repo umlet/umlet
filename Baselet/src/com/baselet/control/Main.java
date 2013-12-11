@@ -167,7 +167,7 @@ public class Main {
 	}
 
 	public static void displayError(String error) {
-		JOptionPane.showMessageDialog(null, error, "ERROR", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(Main.getInstance().getGUI().getMainFrame(), error, "ERROR", JOptionPane.ERROR_MESSAGE);
 	}
 
 	private static void printToConsole(String text) {

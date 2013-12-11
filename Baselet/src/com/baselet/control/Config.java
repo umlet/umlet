@@ -8,8 +8,6 @@ import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.Properties;
 
-import javax.swing.JFrame;
-
 import com.baselet.control.Constants.Program;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.gui.BaseGUI;
@@ -165,7 +163,7 @@ public class Config {
 			props.setProperty(MAIL_SPLIT_POSITION, Integer.toString(gui.getMailSplitPosition()));
 			if (gui instanceof StandaloneGUI) {
 				// If the window is maximized in any direction this fact is written in the cfg
-				JFrame topContainer = ((StandaloneGUI) gui).getMainFrame();
+				Frame topContainer = ((StandaloneGUI) gui).getMainFrame();
 				if (((topContainer.getExtendedState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH)) {
 					props.setProperty(START_MAXIMIZED, "true");
 				}

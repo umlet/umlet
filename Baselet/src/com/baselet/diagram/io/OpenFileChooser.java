@@ -9,6 +9,7 @@ import javax.swing.filechooser.FileFilter;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
+import com.baselet.control.Main;
 
 public class OpenFileChooser {
 
@@ -36,7 +37,7 @@ public class OpenFileChooser {
 	
 	public static List<String> getFilesToOpen() {
 		List<String> fileNames = new ArrayList<String>();
-		int returnVal = getInstance().showOpenDialog(null);
+		int returnVal = getInstance().showOpenDialog(Main.getInstance().getGUI().getMainFrame());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File[] selectedFiles = getInstance().getSelectedFiles();
 			for (File file : selectedFiles) {

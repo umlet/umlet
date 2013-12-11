@@ -2,6 +2,7 @@ package com.baselet.gui;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Frame;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -163,4 +164,6 @@ public abstract class BaseGUI {
 	public void updateGrayedOutMenuItems(@SuppressWarnings("unused") DiagramHandler handler) {
 		/* do nothing*/
 	}
+
+	public abstract Frame getMainFrame();
 }
