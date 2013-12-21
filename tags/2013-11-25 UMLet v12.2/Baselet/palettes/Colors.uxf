@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.0">
+  <zoom_level>8</zoom_level>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>8</x>
+      <y>8</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>red
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>8</x>
+      <y>48</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>green
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>8</x>
+      <y>88</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>blue
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>8</x>
+      <y>128</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>yellow
+bg=yellow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>112</x>
+      <y>8</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>white
+bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>112</x>
+      <y>168</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>black
+bg=black
+fg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>112</x>
+      <y>88</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>gray
+bg=gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>112</x>
+      <y>48</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>light_gray
+bg=light_gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>112</x>
+      <y>128</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>dark_gray
+bg=dark_gray</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>8</x>
+      <y>168</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>orange
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>112</x>
+      <y>208</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>pink
+bg=pink</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>8</x>
+      <y>208</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>magenta
+bg=magenta</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>8</x>
+      <y>248</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>cyan
+bg=cyan</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>112</x>
+      <y>248</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>#3c7a00
+bg=#3c7a00</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

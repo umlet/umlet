@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.2">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>16</x>
+      <y>104</y>
+      <w>320</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>This class has the setting
+*elementstyle=autoresize*
+--
+Write text and watch how the class automatically grows/shrinks
+elementstyle=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>16</x>
+      <y>328</y>
+      <w>168</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>This usecase has
+custom colors and linetype
+--
+*fg=#5c2b00*
+*bg=orange*
+*lt=.*
+fg=#5c2b00
+bg=orange
+lt=.</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>16</x>
+      <y>176</y>
+      <w>168</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>This class has the setting
+*elementstyle=wordwrap*
+--
+Write text and watch how the linebreak is added automatically at the expected position to fill the whole class.
+
+You can also resize the class and see that the text will always fit the border
+elementstyle=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>16</x>
+      <y>16</y>
+      <w>320</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>This palette contains the new grid elements UMLet offers since v12 (at the moment Class and UseCase).
+
+Press Ctrl+Space to open the possible settings to customize your elements as you can see below.
+elementstyle=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>208</x>
+      <y>432</y>
+      <w>152</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>this is a simple text element which supports all of the new settings shown here
+elementstyle=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>192</x>
+      <y>328</y>
+      <w>144</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>this usecase has
+*halign=left*
+--
+As you can see the
+text is always within the
+usecase circle
+
+halign=LEFT</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>192</x>
+      <y>176</y>
+      <w>144</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>This class has
+the settings
+*valign=center*
+*halign=center*
+*fontsize=18*
+*lth=2.5*
+valign=center
+halign=center
+fontsize=18
+lth=2.5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>24</x>
+      <y>440</y>
+      <w>64</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Interface
+--
+Operation1
+Operation2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>88</x>
+      <y>440</y>
+      <w>64</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>Large
+Actor
+lt=..
+fg=gray
+fontsize=20</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLActor</id>
+    <coordinates>
+      <x>152</x>
+      <y>440</y>
+      <w>48</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Actor2
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
