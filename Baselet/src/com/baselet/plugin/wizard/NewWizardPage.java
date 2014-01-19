@@ -5,6 +5,7 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.dialogs.IDialogPage;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -58,6 +59,8 @@ public class NewWizardPage extends WizardPage {
 		container.setLayout(layout);
 		layout.numColumns = 3;
 		layout.verticalSpacing = 9;
+		
+		// Input for the container where the new diagram should be placed
 		Label label = new Label(container, SWT.NULL);
 		label.setText("&Container:");
 
@@ -71,6 +74,7 @@ public class NewWizardPage extends WizardPage {
 			}
 		});
 
+		// button to choose the container
 		Button button = new Button(container, SWT.PUSH);
 		button.setText("Browse...");
 		button.addSelectionListener(new SelectionAdapter() {
@@ -79,6 +83,8 @@ public class NewWizardPage extends WizardPage {
 				handleBrowse();
 			}
 		});
+		
+		// name of the diagram
 		label = new Label(container, SWT.NULL);
 		label.setText("&Diagram name:");
 
@@ -106,10 +112,22 @@ public class NewWizardPage extends WizardPage {
 			IStructuredSelection ssel = (IStructuredSelection) selection;
 			if (ssel.size() > 1) return;
 			Object obj = ssel.getFirstElement();
+			
+			// try to find a resource for the selected object
+			IResource resource=null;
 			if (obj instanceof IResource) {
-				IContainer container;
-				if (obj instanceof IContainer) container = (IContainer) obj;
-				else container = ((IResource) obj).getParent();
+				resource=(IResource) obj;
+			}
+			else if (obj instanceof IJavaElement){
+				resource = ((IJavaElement) obj).getResource();
+			}
+			
+			if (resource!=null){
+				// convert the resource to a container and 
+				// initalize the container text with it
+				IContainer container=null;
+				if (resource instanceof IContainer) container = (IContainer) resource;
+				else container = (resource).getParent();
 				containerText.setText(container.getFullPath().toString());
 			}
 		}

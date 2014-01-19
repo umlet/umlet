@@ -7,8 +7,11 @@ Bundle-SymbolicName: com.umlet.plugin;singleton:=true
 Bundle-Version: 12.2
 Bundle-Activator: com.baselet.plugin.MainPlugin
 Bundle-Vendor: http://www.umlet.com
-Require-Bundle: org.eclipse.ui,org.eclipse.ui.ide,org.eclipse.core.res
- ources,org.eclipse.core.runtime
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.jdt.core
 Bundle-ClassPath: ., lib/autocomplete.jar, lib/batik-awt-util.jar, lib
  /batik-dom.jar, lib/batik-ext.jar, lib/batik-svggen.jar, lib/batik-ut
  il.jar, lib/batik-xml.jar, lib/commons-io-2.4.jar, lib/itextpdf-5.4.1
