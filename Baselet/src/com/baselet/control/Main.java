@@ -210,7 +210,15 @@ public class Main {
 		else {
 			outputFileName = outputParam;
 		}
-		return Utils.replaceFileExtension(outputFileName, Program.EXTENSION, outputFormat);
+		return createBatchOutputName(outputFormat, outputFileName);
+	}
+
+	private static String createBatchOutputName(String extension, String fileName) {
+		if (fileName.endsWith(extension)) {
+			return fileName;
+		} else {
+			return fileName + "." + extension;
+		}
 	}
 
 	private static boolean alreadyRunningChecker(boolean force) {
