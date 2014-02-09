@@ -37,7 +37,7 @@ public abstract class BaseGUI {
 
 	public final void initGUI() {
 		try {
-			UIManager.setLookAndFeel(Constants.ui_manager);
+			UIManager.setLookAndFeel(Constants.uiManager);
 		} catch (Exception e) { // If the LookAndFeel cannot be set, it gets logged (without stacktrace) and the default style is used
 			log.error(e.getMessage());
 		}

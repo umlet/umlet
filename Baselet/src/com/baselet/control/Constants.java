@@ -238,7 +238,6 @@ public abstract class Constants extends NewGridElementConstants {
 	public static int mail_split_position = 250;
 	public static Dimension program_size = new Dimension(960, 750);
 	public static Point program_location = new Point(5, 5);
-	public static String ui_manager;
 	public static int printPadding = 20;
 	public static boolean checkForUpdates = true;
 	public static String openFileHome = System.getProperty("user.dir");
@@ -250,14 +249,15 @@ public abstract class Constants extends NewGridElementConstants {
 	public static SortOptions generateClassSortings = SortOptions.HEIGHT;
 	public static String lastUsedPalette = DEFAULT_STRING + " - original main elements"; // since v12 DefaultNewElements are shown at first startup (instead of Constants.DEFAULT_STRING)
 
+	public static String uiManager;
 	static {
 		// The default MacOS theme looks ugly, therefore we set metal
-		if (SystemInfo.OS == Os.MAC) ui_manager = "javax.swing.plaf.metal.MetalLookAndFeel";
+		if (SystemInfo.OS == Os.MAC) uiManager = "javax.swing.plaf.metal.MetalLookAndFeel";
 		// The GTKLookAndFeel crashes the eclipse plugin therefore we set metal as default instead
 		else if ((Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) && UIManager.getSystemLookAndFeelClassName().equals("com.sun.java.swing.plaf.gtk.GTKLookAndFeel")) {
-			ui_manager = "javax.swing.plaf.metal.MetalLookAndFeel";
+			uiManager = "javax.swing.plaf.metal.MetalLookAndFeel";
 		}
-		else ui_manager = UIManager.getSystemLookAndFeelClassName();
+		else uiManager = UIManager.getSystemLookAndFeelClassName();
 	}
 
 	public static String mail_smtp = "";
