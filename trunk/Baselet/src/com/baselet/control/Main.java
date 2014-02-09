@@ -97,7 +97,7 @@ public class Main {
 			else if (action != null && format != null && filename != null) {
 				if (action.equals("convert")) {
 					Program.RUNTIME_TYPE = RuntimeType.BATCH;
-					Config.loadConfig();
+					ConfigHandler.loadConfig();
 					String[] splitFilename = filename.split("(/|\\\\)");
 					String localName = splitFilename[splitFilename.length-1];
 					String dir = filename.substring(0, filename.length()-localName.length());
@@ -123,7 +123,7 @@ public class Main {
 
 	public void init(BaseGUI gui) {
 		this.gui = gui;
-		Config.loadConfig(); // only load config after gui is set (because of homepath)
+		ConfigHandler.loadConfig(); // only load config after gui is set (because of homepath)
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE); // Tooltips should not hide after some time
 		gui.initGUI(); // show gui
 	}
@@ -392,7 +392,7 @@ public class Main {
 
 	// called by UI when main is closed
 	public void closeProgram() {
-		Config.saveConfig();
+		ConfigHandler.saveConfig();
 		if (file_created) {
 			timer.cancel();
 			(new File(Path.temp() + tmp_file)).delete();

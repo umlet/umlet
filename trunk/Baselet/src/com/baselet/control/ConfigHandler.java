@@ -18,7 +18,7 @@ import com.umlet.language.SignatureOptions;
 import com.umlet.language.sorting.SortOptions;
 
 
-public class Config {
+public class ConfigHandler {
 
 	private static final String PROGRAM_VERSION = "program_version";
 	private static final String PROPERTIES_PANEL_FONTSIZE = "properties_panel_fontsize";
@@ -85,7 +85,7 @@ public class Config {
 		Constants.show_stickingpolygon = getBoolProperty(SHOW_STICKINGPOLYGON, Constants.show_stickingpolygon);
 		Constants.show_grid = getBoolProperty(SHOW_GRID, Constants.show_grid);
 		Constants.enable_custom_elements = getBoolProperty(ENABLE_CUSTOM_ELEMENTS, Constants.enable_custom_elements);
-		Constants.ui_manager = getStringProperty(UI_MANAGER, Constants.ui_manager);	
+		Constants.uiManager = getStringProperty(UI_MANAGER, Constants.uiManager);	
 		Constants.printPadding = getIntProperty(PRINT_PADDING, Constants.printPadding);
 		Constants.pdfExportFont = getStringProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
 		Constants.checkForUpdates = getBoolProperty(CHECK_FOR_UPDATES, Constants.checkForUpdates);
@@ -150,7 +150,7 @@ public class Config {
 			props.setProperty(SHOW_STICKINGPOLYGON, Boolean.toString(Constants.show_stickingpolygon));
 			props.setProperty(SHOW_GRID, Boolean.toString(Constants.show_grid));
 			props.setProperty(ENABLE_CUSTOM_ELEMENTS, Boolean.toString(Constants.enable_custom_elements));
-			props.setProperty(UI_MANAGER, Constants.ui_manager);
+			props.setProperty(UI_MANAGER, Constants.uiManager);
 			props.setProperty(PRINT_PADDING, Integer.toString(Constants.printPadding));
 			props.setProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
 			props.setProperty(CHECK_FOR_UPDATES, Boolean.toString(Constants.checkForUpdates));
