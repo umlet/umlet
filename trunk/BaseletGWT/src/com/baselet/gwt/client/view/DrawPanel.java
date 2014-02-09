@@ -10,6 +10,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.MenuConstants;
 import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
@@ -99,7 +100,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 				new MenuPopupItem() {
 					@Override
 					public String getText() {
-						return "Delete";
+						return MenuConstants.DELETE;
 					}
 					@Override
 					public void execute() {
@@ -108,7 +109,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 				}, new MenuPopupItem() {
 					@Override
 					public String getText() {
-						return "Copy";
+						return MenuConstants.COPY;
 					}
 					@Override
 					public void execute() {
@@ -117,7 +118,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 				}, new MenuPopupItem() {
 					@Override
 					public String getText() {
-						return "Cut";
+						return MenuConstants.CUT;
 					}
 					@Override
 					public void execute() {
@@ -126,7 +127,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 				}, new MenuPopupItem() {
 					@Override
 					public String getText() {
-						return "Paste";
+						return MenuConstants.PASTE;
 					}
 					@Override
 					public void execute() {
@@ -135,7 +136,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 				}, new MenuPopupItem() {
 					@Override
 					public String getText() {
-						return "Select All";
+						return MenuConstants.SELECT_ALL;
 					}
 					@Override
 					public void execute() {

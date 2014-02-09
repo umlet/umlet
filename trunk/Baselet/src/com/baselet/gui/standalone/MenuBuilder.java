@@ -8,10 +8,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
+import com.baselet.control.MenuConstants;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.PaletteHandler;
-import com.baselet.gui.MenuFactory;
 import com.baselet.gui.MenuFactorySwing;
 
 public class MenuBuilder {
@@ -37,7 +37,7 @@ public class MenuBuilder {
 		JMenuBar menu = new JMenuBar();
 		menuFactory = MenuFactorySwing.getInstance();
 
-		JMenu fileMenu = new JMenu(MenuFactory.FILE);
+		JMenu fileMenu = new JMenu(MenuConstants.FILE);
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 		fileMenu.add(menuFactory.createNew());
 		fileMenu.add(menuFactory.createOpen());
@@ -60,7 +60,7 @@ public class MenuBuilder {
 		fileMenu.add(menuFactory.createExit());
 		menu.add(fileMenu);
 
-		editMenu = new JMenu(MenuFactory.EDIT);
+		editMenu = new JMenu(MenuConstants.EDIT);
 		editMenu.setMnemonic(KeyEvent.VK_E);
 		editMenu.add(editUndo = menuFactory.createUndo());
 		editMenu.add(editRedo = menuFactory.createRedo());
@@ -81,7 +81,7 @@ public class MenuBuilder {
 		editUngroup.setEnabled(false);
 
 		// Custom Element Menu
-		JMenu menu_custom = new JMenu(MenuFactory.CUSTOM_ELEMENTS);
+		JMenu menu_custom = new JMenu(MenuConstants.CUSTOM_ELEMENTS);
 		menu_custom.setMnemonic(KeyEvent.VK_C);
 		menu_custom.add(customNew = menuFactory.createNewCustomElement());
 		menu_custom.add(customNewFromTemplate = menuFactory.createNewCustomElementFromTemplate());
@@ -92,7 +92,7 @@ public class MenuBuilder {
 		customEdit.setEnabled(false);
 
 		// Help Menu
-		JMenu helpMenu = new JMenu(MenuFactory.HELP);
+		JMenu helpMenu = new JMenu(MenuConstants.HELP);
 		helpMenu.setMnemonic(KeyEvent.VK_H);
 		helpMenu.add(menuFactory.createOnlineHelp());
 		helpMenu.add(menuFactory.createOnlineSampleDiagrams());

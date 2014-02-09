@@ -15,10 +15,10 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.EditorActionBarContributor;
 
-import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Main;
+import com.baselet.control.MenuConstants;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
-import com.baselet.gui.MenuFactory;
 import com.baselet.gui.eclipse.EclipseGUI;
 import com.baselet.gui.eclipse.EclipseGUI.Pane;
 import com.baselet.gui.eclipse.MenuFactoryEclipse;
@@ -114,8 +114,8 @@ public class Contributor extends EditorActionBarContributor {
 		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) MainPlugin.getGUI().setContributor(this);
 
 		IMenuManager menu = new MenuManager(Program.NAME.toString());
-		IMenuManager custom = new MenuManager(MenuFactory.CUSTOM_ELEMENTS);
-		IMenuManager help = new MenuManager(MenuFactory.HELP);
+		IMenuManager custom = new MenuManager(MenuConstants.CUSTOM_ELEMENTS);
+		IMenuManager help = new MenuManager(MenuConstants.HELP);
 		manager.appendToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
 
 		custom.add(customnew = menuFactory.createNewCustomElement());
