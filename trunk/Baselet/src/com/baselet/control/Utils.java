@@ -200,11 +200,6 @@ public abstract class Utils {
 	public static Double[] createDoubleArrayFromTo(Double min, Double max) {
 		return createDoubleArrayFromTo(min, max, 1D);
 	}
-
-	public static String replaceFileExtension(String fileName, String oldExtension, String newExtension) {
-		if (fileName.endsWith("." + oldExtension)) fileName = fileName.substring(0, fileName.indexOf("." + oldExtension));
-		return fileName + "." + newExtension;
-	}
 	
 	/**
 	 * Must be overwritten because Swing uses this method to tell if 2 elements are overlapping
