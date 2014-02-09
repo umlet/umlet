@@ -61,7 +61,7 @@ public class TextSplitter {
 	private static class SplitStringCacheKey {
 		private String input;
 		private double width;
-		private Style style;
+		private Style style; // must be part of key, because text width also depends on styling like fontsize
 
 		public SplitStringCacheKey(String input, double width, Style style) {
 			super();
