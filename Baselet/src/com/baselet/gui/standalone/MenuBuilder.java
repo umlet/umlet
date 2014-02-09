@@ -70,8 +70,8 @@ public class MenuBuilder {
 		editMenu.add(editGroup = menuFactory.createGroup());
 		editMenu.add(editUngroup = menuFactory.createUngroup());
 		editMenu.addSeparator();
-		editMenu.add(editCut = menuFactory.createCut());
 		editMenu.add(editCopy = menuFactory.createCopy());
+		editMenu.add(editCut = menuFactory.createCut());
 		editMenu.add(editPaste = menuFactory.createPaste());
 		menu.add(editMenu);
 		editDelete.setEnabled(false);
