@@ -13,8 +13,10 @@ import com.baselet.gwt.client.view.widgets.SaveDialogBox;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox.Callback;
 import com.baselet.gwt.client.view.widgets.ShortcutDialogBox;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -35,6 +37,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -51,12 +54,17 @@ public class MainView extends Composite {
 
 	@UiField
 	MyStyle style;
-	
+
 	@UiField
 	FocusPanel mainPanel;
 
 	@UiField(provided=true)
-	SplitLayoutPanel diagramPaletteSplitter = new SplitLayoutPanel(4);
+	SplitLayoutPanel diagramPaletteSplitter = new SplitLayoutPanel(4) {
+		public void onResize() {
+			super.onResize();
+			updateNotificationPosition();
+		}
+	};
 
 	@UiField
 	FlowPanel menuPanel;
@@ -135,6 +143,7 @@ public class MainView extends Composite {
 		palettePanel.setOtherDrawFocusPanel(diagramPanel);
 		diagramScrollPanel = new AutoResizeScrollDropPanel(diagramPanel);
 		paletteScrollPanel = new AutoResizeScrollDropPanel(palettePanel);
+		updateNotificationPosition();
 
 		for (String diagramName : BrowserStorage.getSavedDiagramKeys()) {
 			addRestoreMenuItem(diagramName);
@@ -156,7 +165,7 @@ public class MainView extends Composite {
 				handler.processFiles(hiddenUploadButton.getFiles());
 			}
 		});
-		
+
 		EventHandlingUtils.addEventHandler(mainPanel, diagramPanel, palettePanel);
 	}
 
@@ -223,11 +232,20 @@ public class MainView extends Composite {
 		} else {
 			newIndex++;
 		}
-		
+
 		// set new index (if it's valid) and trigger change event (is not automatically triggered)
 		if (newIndex >= 0 && newIndex < paletteChooser.getItemCount()) {
 			paletteChooser.setSelectedIndex(newIndex);
 			DomEvent.fireNativeEvent(Document.get().createChangeEvent(), paletteChooser);
 		}
+	}
+
+	private void updateNotificationPosition() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				RootPanel.get("featurewarning").getElement().getStyle().setMarginLeft(menuPanel.getOffsetWidth(), Unit.PX);
+			}
+		});
 	}
 }
