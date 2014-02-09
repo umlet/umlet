@@ -3,7 +3,7 @@ package com.baselet.gwt.client;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.NewGridElementConstants;
+import com.baselet.control.SharedConstants;
 import com.baselet.gwt.client.view.MainView;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -16,8 +16,8 @@ public class BaseletGWT implements EntryPoint {
 	Logger log = Logger.getLogger(BaseletGWT.class);
 
 	public void onModuleLoad() {
-		NewGridElementConstants.isDevMode = Location.getParameter("dev") != null;
-		NewGridElementConstants.program = "umlet_web";
+		SharedConstants.isDevMode = Location.getParameter("dev") != null;
+		SharedConstants.program = "umlet_web";
 		
 		if (!browserSupportsLocalStorage() || !browserSupportsFileReader()) {
 			if (Browser.get() == Browser.INTERNET_EXPLORER && GWT.getHostPageBaseURL().startsWith("file:")) {

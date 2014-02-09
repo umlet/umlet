@@ -10,7 +10,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.NewGridElementConstants;
+import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
@@ -382,19 +382,19 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 			mainView.getSaveCommand().execute();
 		}
 		else if (Shortcut.MOVE_UP.matches(event)) {
-			moveSelectedElements(0, -NewGridElementConstants.DEFAULT_GRID_SIZE, true);
+			moveSelectedElements(0, -SharedConstants.DEFAULT_GRID_SIZE, true);
 			redraw();
 		}
 		else if (Shortcut.MOVE_DOWN.matches(event)) {
-			moveSelectedElements(0, NewGridElementConstants.DEFAULT_GRID_SIZE, true);
+			moveSelectedElements(0, SharedConstants.DEFAULT_GRID_SIZE, true);
 			redraw();
 		}
 		else if (Shortcut.MOVE_LEFT.matches(event)) {
-			moveSelectedElements(-NewGridElementConstants.DEFAULT_GRID_SIZE, 0, true);
+			moveSelectedElements(-SharedConstants.DEFAULT_GRID_SIZE, 0, true);
 			redraw();
 		}
 		else if (Shortcut.MOVE_RIGHT.matches(event)) {
-			moveSelectedElements(NewGridElementConstants.DEFAULT_GRID_SIZE, 0, true);
+			moveSelectedElements(SharedConstants.DEFAULT_GRID_SIZE, 0, true);
 			redraw();
 		} else {
 			avoidBrowserDefault = false;

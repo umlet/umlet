@@ -22,9 +22,9 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import com.baselet.control.Config;
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.RuntimeType;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Main;
+import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.standalone.StandaloneGUI;
 

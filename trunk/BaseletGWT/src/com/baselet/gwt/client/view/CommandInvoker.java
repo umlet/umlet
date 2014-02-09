@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.baselet.control.NewGridElementConstants;
+import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.commandnew.AddGridElementCommand;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
@@ -76,7 +76,7 @@ public class CommandInvoker extends Controller {
 		Rectangle rect = SharedUtils.getGridElementsRectangle(gridElements);
 		Rectangle visible = target.getVisibleBounds();
 		for (GridElement ge : gridElements) {
-			ge.getRectangle().move(visible.getX()-rect.getX() + NewGridElementConstants.DEFAULT_GRID_SIZE, visible.getY()-rect.getY() + NewGridElementConstants.DEFAULT_GRID_SIZE);
+			ge.getRectangle().move(visible.getX()-rect.getX() + SharedConstants.DEFAULT_GRID_SIZE, visible.getY()-rect.getY() + SharedConstants.DEFAULT_GRID_SIZE);
 		}
 	}
 }

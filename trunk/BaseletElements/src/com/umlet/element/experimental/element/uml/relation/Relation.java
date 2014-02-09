@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.baselet.control.NewGridElementConstants;
+import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Point;
@@ -39,7 +39,7 @@ public class Relation extends NewGridElement implements Stickable {
 		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 
 		// draw rectangle around whole element (basically a helper for developers to make sure the (invisible) size of the element is correct)
-		if (NewGridElementConstants.isDevMode) {
+		if (SharedConstants.isDevMode) {
 			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 			drawer.drawRectangle(0, 0, getRectangle().getWidth(), getRectangle().getHeight());
 		}

@@ -12,7 +12,7 @@ import javax.swing.border.LineBorder;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Constants.Program;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Path;
 import com.baselet.gui.listener.HyperLinkActiveListener;
 

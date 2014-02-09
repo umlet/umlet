@@ -20,7 +20,7 @@ import com.umlet.language.MethodOptions;
 import com.umlet.language.SignatureOptions;
 import com.umlet.language.sorting.SortOptions;
 
-public abstract class Constants extends NewGridElementConstants {
+public abstract class Constants extends SharedConstants {
 
 	private Constants() {} // private constructor to avoid instantiation
 
@@ -30,10 +30,6 @@ public abstract class Constants extends NewGridElementConstants {
 
 	public enum JavaImplementation {
 		OPEN, SUN
-	}
-
-	public enum RuntimeType {
-		STANDALONE, ECLIPSE_PLUGIN, BATCH
 	}
 
 	public enum Metakey {
@@ -55,29 +51,6 @@ public abstract class Constants extends NewGridElementConstants {
 			if (this == CTRL) return InputEvent.CTRL_DOWN_MASK;
 			else return InputEvent.META_DOWN_MASK;
 		}
-	}
-
-	/**** PROGRAM, PLATTFORM AND JAVA SPECIFIC SETTINGS ****/
-	public static class Program {
-
-		// Basically the RUNTIME_TYPE is STANDALONE until it gets overwritten after program startup
-		public static RuntimeType RUNTIME_TYPE = RuntimeType.STANDALONE;
-		public static String CONFIG_NAME;
-		public static String NAME = "UMLet";
-		public static String EXTENSION = "uxf";
-		public static String WEBSITE;
-		public static String VERSION;
-		public static String[] GRID_ELEMENT_PACKAGES = new String[] { "com.umlet.element", "com.umlet.element.custom", "com.plotlet.element", "com.baselet.element" };
-
-		public static void init(String version) {
-			WEBSITE = "http://www." + NAME.toLowerCase() + ".com";
-
-			if (Program.RUNTIME_TYPE == RuntimeType.STANDALONE) CONFIG_NAME = NAME.toLowerCase() + ".cfg";
-			else CONFIG_NAME = NAME.toLowerCase() + "plugin.cfg";
-
-			VERSION = version;
-		}
-
 	}
 
 	public static class SystemInfo {

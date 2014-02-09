@@ -1,7 +1,7 @@
 
 package com.baselet.diagram.draw.helper;
 
-import com.baselet.control.NewGridElementConstants;
+import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.LineType;
 
 public class Style {
@@ -14,7 +14,7 @@ public class Style {
 	private boolean applyZoom;
 	
 	public Style() {
-		this.lineThickness = (double) NewGridElementConstants.DEFAULT_LINE_THICKNESS;
+		this.lineThickness = (double) SharedConstants.DEFAULT_LINE_THICKNESS;
 		this.lineType = LineType.SOLID;
 		this.applyZoom = true;
 	}

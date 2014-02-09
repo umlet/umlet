@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import com.baselet.control.NewGridElementConstants;
+import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
@@ -46,7 +46,7 @@ public abstract class NewGridElement implements GridElement {
 
 	private DrawHandlerInterface handler;
 
-	private static final int MINIMAL_SIZE = NewGridElementConstants.DEFAULT_GRID_SIZE * 2;
+	private static final int MINIMAL_SIZE = SharedConstants.DEFAULT_GRID_SIZE * 2;
 
 	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, Component component, DrawHandlerInterface handler) {
 		this.component = component;
@@ -119,7 +119,7 @@ public abstract class NewGridElement implements GridElement {
 		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
 		drawer.resetColorSettings();
-		if (NewGridElementConstants.show_stickingpolygon && !this.isPartOfGroup()) {
+		if (SharedConstants.show_stickingpolygon && !this.isPartOfGroup()) {
 			drawStickingPolygon(drawer);
 		}
 	}
@@ -394,7 +394,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	public int getGridSize() {
-		return (int) (getHandler().getZoomFactor() * NewGridElementConstants.DEFAULT_GRID_SIZE);
+		return (int) (getHandler().getZoomFactor() * SharedConstants.DEFAULT_GRID_SIZE);
 	}
 
 }

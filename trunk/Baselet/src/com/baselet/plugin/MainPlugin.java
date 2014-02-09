@@ -14,9 +14,9 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.RuntimeType;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Main;
+import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.gui.eclipse.EclipseGUI;
 
 /**
