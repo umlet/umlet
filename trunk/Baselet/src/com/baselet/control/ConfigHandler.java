@@ -62,6 +62,8 @@ public class ConfigHandler {
 	private static Properties props;
 
 	public static void loadConfig() {
+		Config cfg = Config.getInstance();
+		
 		configfile = new File(Path.config());
 		if (!configfile.exists()) {
 			return;
@@ -85,7 +87,7 @@ public class ConfigHandler {
 		Constants.show_stickingpolygon = getBoolProperty(SHOW_STICKINGPOLYGON, Constants.show_stickingpolygon);
 		Constants.show_grid = getBoolProperty(SHOW_GRID, Constants.show_grid);
 		Constants.enable_custom_elements = getBoolProperty(ENABLE_CUSTOM_ELEMENTS, Constants.enable_custom_elements);
-		Constants.uiManager = getStringProperty(UI_MANAGER, Constants.uiManager);	
+		cfg.setUiManager(getStringProperty(UI_MANAGER, cfg.getUiManager()));
 		Constants.printPadding = getIntProperty(PRINT_PADDING, Constants.printPadding);
 		Constants.pdfExportFont = getStringProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
 		Constants.checkForUpdates = getBoolProperty(CHECK_FOR_UPDATES, Constants.checkForUpdates);
@@ -134,6 +136,8 @@ public class ConfigHandler {
 	}
 
 	public static void saveConfig() {
+		Config cfg = Config.getInstance();
+
 		if (configfile == null) {
 			return;
 		}
@@ -150,7 +154,7 @@ public class ConfigHandler {
 			props.setProperty(SHOW_STICKINGPOLYGON, Boolean.toString(Constants.show_stickingpolygon));
 			props.setProperty(SHOW_GRID, Boolean.toString(Constants.show_grid));
 			props.setProperty(ENABLE_CUSTOM_ELEMENTS, Boolean.toString(Constants.enable_custom_elements));
-			props.setProperty(UI_MANAGER, Constants.uiManager);
+			props.setProperty(UI_MANAGER, cfg.getUiManager());
 			props.setProperty(PRINT_PADDING, Integer.toString(Constants.printPadding));
 			props.setProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
 			props.setProperty(CHECK_FOR_UPDATES, Boolean.toString(Constants.checkForUpdates));
