@@ -1,16 +1,51 @@
 package com.baselet.gui;
 
+import static com.baselet.control.MenuConstants.ABOUT_PROGRAM;
+import static com.baselet.control.MenuConstants.ALIGN;
+import static com.baselet.control.MenuConstants.COPY;
+import static com.baselet.control.MenuConstants.CUSTOM_ELEMENTS_TUTORIAL;
+import static com.baselet.control.MenuConstants.CUSTOM_ELEMENTS_TUTORIAL_URL;
+import static com.baselet.control.MenuConstants.CUT;
+import static com.baselet.control.MenuConstants.DELETE;
+import static com.baselet.control.MenuConstants.EDIT_CURRENT_PALETTE;
+import static com.baselet.control.MenuConstants.EDIT_SELECTED;
+import static com.baselet.control.MenuConstants.EXIT;
+import static com.baselet.control.MenuConstants.EXPORT_AS;
+import static com.baselet.control.MenuConstants.GENERATE_CLASS;
+import static com.baselet.control.MenuConstants.GENERATE_CLASS_OPTIONS;
+import static com.baselet.control.MenuConstants.GROUP;
+import static com.baselet.control.MenuConstants.MAIL_TO;
+import static com.baselet.control.MenuConstants.NEW;
+import static com.baselet.control.MenuConstants.NEW_CE;
+import static com.baselet.control.MenuConstants.NEW_FROM_TEMPLATE;
+import static com.baselet.control.MenuConstants.ONLINE_HELP;
+import static com.baselet.control.MenuConstants.ONLINE_SAMPLE_DIAGRAMS;
+import static com.baselet.control.MenuConstants.OPEN;
+import static com.baselet.control.MenuConstants.OPTIONS;
+import static com.baselet.control.MenuConstants.PASTE;
+import static com.baselet.control.MenuConstants.PRINT;
+import static com.baselet.control.MenuConstants.PROGRAM_HOMEPAGE;
+import static com.baselet.control.MenuConstants.RATE_PROGRAM;
+import static com.baselet.control.MenuConstants.RECENT_FILES;
+import static com.baselet.control.MenuConstants.REDO;
+import static com.baselet.control.MenuConstants.SAVE;
+import static com.baselet.control.MenuConstants.SAVE_AS;
+import static com.baselet.control.MenuConstants.SELECT_ALL;
+import static com.baselet.control.MenuConstants.SET_BACKGROUND_COLOR;
+import static com.baselet.control.MenuConstants.SET_FOREGROUND_COLOR;
+import static com.baselet.control.MenuConstants.UNDO;
+import static com.baselet.control.MenuConstants.UNGROUP;
+import static com.baselet.control.MenuConstants.VIDEO_TUTORIAL;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Logger;
-
 import com.baselet.control.BrowserLauncher;
-import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Main;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.SelectorOld;
@@ -32,62 +67,6 @@ import com.umlet.element.experimental.facets.defaults.ForegroundColorFacet;
 import com.umlet.language.ClassDiagramConverter;
 
 public class MenuFactory {
-
-	private static final Logger log = Logger.getLogger(MenuFactory.class);
-
-	//FILE
-	public static final String FILE = "File";
-	protected static final String NEW = "New";
-	protected static final String OPEN = "Open...";
-	protected static final String RECENT_FILES = "Recent files";
-	protected static final String GENERATE_CLASS = "Generate Class Elements from Files or Directory...";
-	protected static final String GENERATE_CLASS_OPTIONS = "Generate Class Element Options...";
-	protected static final String SAVE = "Save";
-	protected static final String SAVE_AS = "Save as...";
-	protected static final String EXPORT_AS = "Export as...";
-	protected static final String MAIL_TO = "Mail to...";
-	protected static final String EDIT_CURRENT_PALETTE = "Edit Current Palette";
-	protected static final String OPTIONS = "Options...";
-	protected static final String PRINT = "Print...";
-	protected static final String EXIT = "Exit";
-
-	//EDIT
-	public static final String EDIT = "Edit";
-	protected static final String UNDO = "Undo";
-	protected static final String REDO = "Redo";
-	protected static final String DELETE = "Delete";
-	protected static final String SELECT_ALL = "Select All";
-	protected static final String GROUP = "Group";
-	protected static final String UNGROUP = "Ungroup";
-	protected static final String CUT = "Cut";
-	protected static final String COPY = "Copy";
-	protected static final String PASTE = "Paste";
-
-	//CUSTOM ELEMENTS
-	public static final String CUSTOM_ELEMENTS = "Custom Elements";
-	protected static final String NEW_CE = "New...";
-	protected static final String NEW_FROM_TEMPLATE = "New from Template";
-	protected static final String EDIT_SELECTED = "Edit Selected...";
-	protected static final String CUSTOM_ELEMENTS_TUTORIAL = "Custom Elements Tutorial...";
-	protected static final String CUSTOM_ELEMENTS_TUTORIAL_URL = "http://www.umlet.com/ce/ce.htm";
-
-	// HELP
-	public static final String HELP = "Help";
-	protected static final String ONLINE_HELP = "Online Help...";
-	protected static final String ONLINE_SAMPLE_DIAGRAMS = "Online Sample Diagrams...";
-	protected static final String VIDEO_TUTORIAL = "Video Tutorial: Basic Use and Custom Elements...";
-	protected static final String PROGRAM_HOMEPAGE = Program.NAME + " Homepage...";
-	protected static final String RATE_PROGRAM = "Rate " + Program.NAME + " at Eclipse Marketplace...";
-	protected static final String ABOUT_PROGRAM = "About " + Program.NAME;
-
-	// CONTEXT ON ELEMENT
-	protected static final String SET_FOREGROUND_COLOR = "Set foreground color";
-	protected static final String SET_BACKGROUND_COLOR = "Set background color";
-	protected static final String ALIGN = "Align";
-
-	// OTHERS
-	protected static final String SEARCH = "Search";
-	protected static final String ZOOM = "Zoom to";
 
 	protected void doAction(final String menuItem, final Object param) {
 		//AB: Hopefully this will resolve threading issues and work for eclipse AND standalone
@@ -197,7 +176,7 @@ public class MenuFactory {
 					}
 				}
 				else if (menuItem.equals(CUSTOM_ELEMENTS_TUTORIAL)) {
-					BrowserLauncher.openURL(MenuFactory.CUSTOM_ELEMENTS_TUTORIAL_URL);
+					BrowserLauncher.openURL(CUSTOM_ELEMENTS_TUTORIAL_URL);
 				}
 				else if (menuItem.equals(ONLINE_HELP)) {
 					BrowserLauncher.openURL(Program.WEBSITE + "/faq.htm");

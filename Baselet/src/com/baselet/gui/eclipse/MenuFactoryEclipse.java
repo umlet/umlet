@@ -1,5 +1,32 @@
 package com.baselet.gui.eclipse;
 
+import static com.baselet.control.MenuConstants.ABOUT_PROGRAM;
+import static com.baselet.control.MenuConstants.COPY;
+import static com.baselet.control.MenuConstants.CUSTOM_ELEMENTS_TUTORIAL;
+import static com.baselet.control.MenuConstants.CUT;
+import static com.baselet.control.MenuConstants.DELETE;
+import static com.baselet.control.MenuConstants.EDIT_CURRENT_PALETTE;
+import static com.baselet.control.MenuConstants.EDIT_SELECTED;
+import static com.baselet.control.MenuConstants.EXPORT_AS;
+import static com.baselet.control.MenuConstants.GENERATE_CLASS;
+import static com.baselet.control.MenuConstants.GENERATE_CLASS_OPTIONS;
+import static com.baselet.control.MenuConstants.MAIL_TO;
+import static com.baselet.control.MenuConstants.NEW_CE;
+import static com.baselet.control.MenuConstants.NEW_FROM_TEMPLATE;
+import static com.baselet.control.MenuConstants.ONLINE_HELP;
+import static com.baselet.control.MenuConstants.ONLINE_SAMPLE_DIAGRAMS;
+import static com.baselet.control.MenuConstants.OPTIONS;
+import static com.baselet.control.MenuConstants.PASTE;
+import static com.baselet.control.MenuConstants.PRINT;
+import static com.baselet.control.MenuConstants.PROGRAM_HOMEPAGE;
+import static com.baselet.control.MenuConstants.RATE_PROGRAM;
+import static com.baselet.control.MenuConstants.REDO;
+import static com.baselet.control.MenuConstants.SEARCH;
+import static com.baselet.control.MenuConstants.SELECT_ALL;
+import static com.baselet.control.MenuConstants.UNDO;
+import static com.baselet.control.MenuConstants.VIDEO_TUTORIAL;
+import static com.baselet.control.MenuConstants.ZOOM;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
