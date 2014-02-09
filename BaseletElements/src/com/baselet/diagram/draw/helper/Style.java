@@ -14,7 +14,7 @@ public class Style {
 	private boolean applyZoom;
 	
 	public Style() {
-		this.lineThickness = (double) SharedConstants.DEFAULT_LINE_THICKNESS;
+		this.lineThickness = SharedConstants.DEFAULT_LINE_THICKNESS;
 		this.lineType = LineType.SOLID;
 		this.applyZoom = true;
 	}
@@ -66,4 +66,42 @@ public class Style {
 	public boolean isApplyZoom() {
 		return applyZoom;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (applyZoom ? 1231 : 1237);
+		result = prime * result + ((bgColor == null) ? 0 : bgColor.hashCode());
+		result = prime * result + ((fgColor == null) ? 0 : fgColor.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(fontSize);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(lineThickness);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((lineType == null) ? 0 : lineType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		Style other = (Style) obj;
+		if (applyZoom != other.applyZoom) return false;
+		if (bgColor == null) {
+			if (other.bgColor != null) return false;
+		}
+		else if (!bgColor.equals(other.bgColor)) return false;
+		if (fgColor == null) {
+			if (other.fgColor != null) return false;
+		}
+		else if (!fgColor.equals(other.fgColor)) return false;
+		if (Double.doubleToLongBits(fontSize) != Double.doubleToLongBits(other.fontSize)) return false;
+		if (Double.doubleToLongBits(lineThickness) != Double.doubleToLongBits(other.lineThickness)) return false;
+		if (lineType != other.lineType) return false;
+		return true;
+	}
+	
 }

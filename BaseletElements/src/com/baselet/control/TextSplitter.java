@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.ListIterator;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.helper.Style;
 
 public class TextSplitter {
 
@@ -19,7 +20,7 @@ public class TextSplitter {
 	}
 
 	public static String splitString(String text, double width, BaseDrawHandler drawer) {
-		SplitStringCacheKey key = new SplitStringCacheKey(text, width);
+		SplitStringCacheKey key = new SplitStringCacheKey(text, width, drawer.getCurrentStyle());
 		String result = splitStringCache.get(key);
 		if (result != null) return result;
 
@@ -60,11 +61,13 @@ public class TextSplitter {
 	private static class SplitStringCacheKey {
 		private String input;
 		private double width;
+		private Style style;
 
-		public SplitStringCacheKey(String input, double width) {
+		public SplitStringCacheKey(String input, double width, Style style) {
 			super();
 			this.input = input;
 			this.width = width;
+			this.style = style;
 		}
 
 		@Override
@@ -72,6 +75,7 @@ public class TextSplitter {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + ((input == null) ? 0 : input.hashCode());
+			result = prime * result + ((style == null) ? 0 : style.hashCode());
 			long temp;
 			temp = Double.doubleToLongBits(width);
 			result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -88,6 +92,10 @@ public class TextSplitter {
 				if (other.input != null) return false;
 			}
 			else if (!input.equals(other.input)) return false;
+			if (style == null) {
+				if (other.style != null) return false;
+			}
+			else if (!style.equals(other.style)) return false;
 			if (Double.doubleToLongBits(width) != Double.doubleToLongBits(other.width)) return false;
 			return true;
 		}
