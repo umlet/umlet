@@ -1,6 +1,6 @@
 package com.baselet.gwt.client.view;
 
-import com.baselet.control.NewGridElementConstants;
+import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
@@ -40,10 +40,10 @@ public class CanvasUtils {
 			int height = gridCanvas.getCoordinateSpaceHeight();
 			Context2d backgroundContext = gridCanvas.getContext2d();
 			backgroundContext.setStrokeStyle(Converter.convert(ColorOwn.BLACK.transparency(Transparency.SELECTION_BACKGROUND)));
-			for (int i = 0; i < width; i += NewGridElementConstants.DEFAULT_GRID_SIZE) {
+			for (int i = 0; i < width; i += SharedConstants.DEFAULT_GRID_SIZE) {
 				drawLine(backgroundContext, i, 0, i, height);
 			}
-			for (int i = 0; i < height; i += NewGridElementConstants.DEFAULT_GRID_SIZE) {
+			for (int i = 0; i < height; i += SharedConstants.DEFAULT_GRID_SIZE) {
 				drawLine(backgroundContext, 0, i, width, i);
 			}
 		}

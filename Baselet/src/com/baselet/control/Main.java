@@ -27,8 +27,8 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.RuntimeType;
+import com.baselet.control.SharedConstants.Program;
+import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;

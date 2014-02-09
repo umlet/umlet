@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 
-import com.baselet.control.Constants.Program;
+import com.baselet.control.SharedConstants.Program;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well

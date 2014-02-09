@@ -15,8 +15,8 @@ import java.util.jar.Manifest;
 import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.FileLocator;
 
-import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.RuntimeType;
+import com.baselet.control.SharedConstants.Program;
+import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.plugin.MainPlugin;
 
 public class Path {

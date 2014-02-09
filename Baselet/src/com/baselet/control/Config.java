@@ -3,9 +3,9 @@ package com.baselet.control;
 import javax.swing.UIManager;
 
 import com.baselet.control.Constants.Os;
-import com.baselet.control.Constants.Program;
-import com.baselet.control.Constants.RuntimeType;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Constants.SystemInfo;
+import com.baselet.control.SharedConstants.RuntimeType;
 
 /**
  * holds all configuration settings from umlet.config

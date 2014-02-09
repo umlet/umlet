@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.BrowserLauncher;
-import com.baselet.control.Constants.Program;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;

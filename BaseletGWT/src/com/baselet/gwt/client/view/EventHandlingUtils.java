@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.control.NewGridElementConstants;
+import com.baselet.control.SharedConstants;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
@@ -248,8 +248,8 @@ public class EventHandlingUtils {
 			Point p = getPoint(storage.activePanel, event);
 			int diffX = p.x - storage.moveStart.getX();
 			int diffY = p.y - storage.moveStart.getY();
-			diffX -= (diffX % NewGridElementConstants.DEFAULT_GRID_SIZE);
-			diffY -= (diffY % NewGridElementConstants.DEFAULT_GRID_SIZE);
+			diffX -= (diffX % SharedConstants.DEFAULT_GRID_SIZE);
+			diffY -= (diffY % SharedConstants.DEFAULT_GRID_SIZE);
 			if (diffX != 0 || diffY != 0) {
 				drawPanelCanvas.onMouseMoveDraggingScheduleDeferred(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), event.isControlKeyDown(), (storage.dragging == DragStatus.FIRST));
 				storage.dragging = DragStatus.CONTINUOUS; // after FIRST real drag switch to CONTINUOUS

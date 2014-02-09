@@ -12,7 +12,7 @@ public class SharedUtils {
 	private static final Logger log = Logger.getLogger(SharedUtils.class);
 
 	public static int realignToGrid(double d) {
-		return realignTo(true, d, false, NewGridElementConstants.DEFAULT_GRID_SIZE);
+		return realignTo(true, d, false, SharedConstants.DEFAULT_GRID_SIZE);
 	}
 
 	public static void realignToGrid(boolean logRealign, Rectangle rectangle) {
@@ -24,16 +24,16 @@ public class SharedUtils {
 	 */
 	public static int realignToGridRoundToNearest(boolean logRealign, double val) {
 		boolean roundUp;
-		if (Math.abs(val % NewGridElementConstants.DEFAULT_GRID_SIZE) < NewGridElementConstants.DEFAULT_GRID_SIZE / 2) {
+		if (Math.abs(val % SharedConstants.DEFAULT_GRID_SIZE) < SharedConstants.DEFAULT_GRID_SIZE / 2) {
 			roundUp = val < 0;
 		} else {
 			roundUp = val >= 0;
 		}
-		return realignTo(logRealign, val, roundUp, NewGridElementConstants.DEFAULT_GRID_SIZE);
+		return realignTo(logRealign, val, roundUp, SharedConstants.DEFAULT_GRID_SIZE);
 	}
 
 	public static int realignToGrid(boolean logRealign, double val, boolean roundUp) {
-		return realignTo(logRealign, val, roundUp, NewGridElementConstants.DEFAULT_GRID_SIZE);
+		return realignTo(logRealign, val, roundUp, SharedConstants.DEFAULT_GRID_SIZE);
 	}
 
 	/**

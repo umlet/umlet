@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 import com.baselet.control.BrowserLauncher;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Metakey;
-import com.baselet.control.Constants.Program;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Main;
 import com.baselet.control.Path;

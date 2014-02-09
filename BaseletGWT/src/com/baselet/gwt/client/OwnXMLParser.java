@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.NewGridElementConstants;
+import com.baselet.control.SharedConstants;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.gwt.client.element.Diagram;
@@ -68,7 +68,7 @@ public class OwnXMLParser {
 			float zoomScale = 1.0f;
 			Node zoomElement = messageDom.getElementsByTagName(ZOOM_LEVEL).item(0);
 			if (zoomElement != null) {
-				zoomScale = Float.valueOf(zoomElement.getFirstChild().getNodeValue()) / NewGridElementConstants.DEFAULT_GRID_SIZE;
+				zoomScale = Float.valueOf(zoomElement.getFirstChild().getNodeValue()) / SharedConstants.DEFAULT_GRID_SIZE;
 			}
 
 			diagram = new Diagram(helpText, new ArrayList<GridElement>());
@@ -121,8 +121,8 @@ public class OwnXMLParser {
 		Document doc = XMLParser.createDocument();
 
 		Element diagramElement = doc.createElement(DIAGRAM);
-		diagramElement.setAttribute(ATTR_PROGRAM, NewGridElementConstants.program);
-		diagramElement.setAttribute(ATTR_VERSION, NewGridElementConstants.VERSION);
+		diagramElement.setAttribute(ATTR_PROGRAM, SharedConstants.program);
+		diagramElement.setAttribute(ATTR_VERSION, SharedConstants.VERSION);
 		diagramElement.appendChild(create(doc, ZOOM_LEVEL, doc.createTextNode("10")));
 		String helpText = diagram.getPanelAttributes();
 		if (helpText != null) {

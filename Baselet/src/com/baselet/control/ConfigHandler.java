@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.Properties;
 
-import com.baselet.control.Constants.Program;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.standalone.StandaloneGUI;

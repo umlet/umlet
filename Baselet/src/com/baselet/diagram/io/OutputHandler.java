@@ -22,7 +22,7 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Element;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.Program;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Dimension;
