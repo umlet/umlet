@@ -20,6 +20,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import com.baselet.control.Config;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Program;
 import com.baselet.control.Constants.RuntimeType;
@@ -123,7 +124,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.show_grid.setSelected(Constants.show_grid);
 		this.enable_custom_elements.setSelected(Constants.enable_custom_elements);
 		this.checkForUpdates.setSelected(Constants.checkForUpdates);
-		this.ui_manager.setSelectedIndex(uis_technicalNameVector.indexOf(Constants.uiManager));
+		this.ui_manager.setSelectedIndex(uis_technicalNameVector.indexOf(Config.getInstance().getUiManager()));
 		this.default_fontsize.setSelectedItem(Constants.defaultFontsize);
 		this.propertiesPanelFontsize.setSelectedItem(Constants.propertiesPanelFontsize);
 		this.default_fontfamily.setSelectedItem(Constants.defaultFontFamily);
@@ -152,8 +153,8 @@ public class OptionPanel extends JPanel implements ActionListener {
 			Constants.enable_custom_elements = this.enable_custom_elements.isSelected();
 			Constants.checkForUpdates = this.checkForUpdates.isSelected();
 			String newui = this.uis_technicalNameVector.get(this.ui_manager.getSelectedIndex());
-			if (!Constants.uiManager.equals(newui) && (newui != null)) {
-				Constants.uiManager = newui;
+			if (newui != null) {
+				Config.getInstance().setUiManager(newui);
 				try {
 					BaseGUI gui = Main.getInstance().getGUI();
 					if (gui instanceof StandaloneGUI) {

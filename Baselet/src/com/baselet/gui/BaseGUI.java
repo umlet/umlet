@@ -12,6 +12,7 @@ import javax.swing.plaf.InsetsUIResource;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.Config;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.diagram.CustomPreviewHandler;
@@ -37,7 +38,7 @@ public abstract class BaseGUI {
 
 	public final void initGUI() {
 		try {
-			UIManager.setLookAndFeel(Constants.uiManager);
+			UIManager.setLookAndFeel(Config.getInstance().getUiManager());
 		} catch (Exception e) { // If the LookAndFeel cannot be set, it gets logged (without stacktrace) and the default style is used
 			log.error(e.getMessage());
 		}

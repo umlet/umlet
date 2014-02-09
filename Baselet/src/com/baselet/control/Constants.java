@@ -249,17 +249,6 @@ public abstract class Constants extends NewGridElementConstants {
 	public static SortOptions generateClassSortings = SortOptions.HEIGHT;
 	public static String lastUsedPalette = DEFAULT_STRING + " - original main elements"; // since v12 DefaultNewElements are shown at first startup (instead of Constants.DEFAULT_STRING)
 
-	public static String uiManager;
-	static {
-		// The default MacOS theme looks ugly, therefore we set metal
-		if (SystemInfo.OS == Os.MAC) uiManager = "javax.swing.plaf.metal.MetalLookAndFeel";
-		// The GTKLookAndFeel crashes the eclipse plugin therefore we set metal as default instead
-		else if ((Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) && UIManager.getSystemLookAndFeelClassName().equals("com.sun.java.swing.plaf.gtk.GTKLookAndFeel")) {
-			uiManager = "javax.swing.plaf.metal.MetalLookAndFeel";
-		}
-		else uiManager = UIManager.getSystemLookAndFeelClassName();
-	}
-
 	public static String mail_smtp = "";
 	public static boolean mail_smtp_auth = false;
 	public static String mail_smtp_user = "";
