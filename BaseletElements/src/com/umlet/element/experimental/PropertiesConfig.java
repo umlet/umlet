@@ -30,16 +30,12 @@ public class PropertiesConfig {
 	private Integer layer = LayerFacet.DEFAULT_VALUE;
 	private List<Runnable> delayedDrawings = new ArrayList<Runnable>();
 
-	public PropertiesConfig(Settings settings) {
+	public PropertiesConfig(Settings settings, Dimension realSize) {
 		this.hAlign = settings.getHAlign();
 		this.vAlign = settings.getVAlign();
 		this.elementStyle = settings.getElementStyle();
 		this.elementWidthForAutoresize = settings.getMinElementWidthForAutoresize();
 		this.settings = settings;
-	}
-
-	public PropertiesConfig(Settings settings, Dimension realSize) {
-		this(settings);
 		setGridElementSize(realSize);
 	}
 
