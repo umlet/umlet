@@ -47,25 +47,15 @@ public abstract class NewGridElement implements GridElement {
 	private DrawHandlerInterface handler;
 
 	private static final int MINIMAL_SIZE = SharedConstants.DEFAULT_GRID_SIZE * 2;
-	
-	private PropertiesConfig propertiesConfig;
 
 	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, Component component, DrawHandlerInterface handler) {
 		this.component = component;
 		this.drawer = component.getDrawHandler();
 		this.metaDrawer = component.getMetaDrawHandler();
 		setRectangle(bounds);
-		properties = new Properties(panelAttributes, drawer);
+		properties = new Properties(panelAttributes);
 		setAdditionalAttributes(additionalAttributes);
 		this.handler = handler;
-	}
-	
-	public PropertiesConfig getPropertiesConfig() {
-		return propertiesConfig;
-	}
-	
-	public void resetPropertiesConfig() {
-		propertiesConfig = new PropertiesConfig(getSettings(), getRealSize());
 	}
 
 	public BaseDrawHandler getDrawer() {
@@ -108,7 +98,7 @@ public abstract class NewGridElement implements GridElement {
 			properties.initSettingsFromText(this); // must be before concrete model update (because bg=... and other settings are set here)
 			updateMetaDrawer(metaDrawer); // must be after initSettings because stickingpolygon size can be based on some settings (eg: Actor uses this)
 			updateConcreteModel(drawer, properties); // must be before properties text (to make sure a possible background color is behind the text)
-			properties.drawPropertiesText(this);
+			properties.drawPropertiesText(drawer, settings);
 		} catch (Exception e) {
 			drawer.setForegroundColor(ColorOwn.RED);
 			drawer.setBackgroundColor(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND));
@@ -172,7 +162,7 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public Set<Direction> getResizeArea(int x, int y) {
 		Set<Direction> returnSet = new HashSet<Direction>();
-		if (propertiesConfig.getElementStyle() == ElementStyleEnum.NORESIZE || propertiesConfig.getElementStyle() == ElementStyleEnum.AUTORESIZE) {
+		if (properties.getElementStyle() == ElementStyleEnum.NORESIZE || properties.getElementStyle() == ElementStyleEnum.AUTORESIZE) {
 			return returnSet;
 		}
 
@@ -305,7 +295,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public Integer getLayer() {
-		return propertiesConfig.getLayer();
+		return properties.getLayer();
 	}
 
 	public abstract ElementId getId();
