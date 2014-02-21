@@ -220,7 +220,7 @@ public class EventHandlingUtils {
 		//		Notification.showInfo("DOWN " + p.x);
 		handlerTarget.setFocus(true);
 
-		event.preventDefault(); // necessary to avoid showing textcursor and selecting proppanel in chrome AND to avoid scrolling with touch move
+		event.preventDefault(); // necessary to avoid showing textcursor and selecting proppanel in chrome AND to avoid scrolling with touch move (problem is it also avoids scrolling with 2 fingers)
 		storage.moveStart = new Point(p.x, p.y);
 		storage.dragging = DragStatus.FIRST;
 		storage.elementToDrag = storage.activePanel.getGridElementOnPosition(storage.moveStart);

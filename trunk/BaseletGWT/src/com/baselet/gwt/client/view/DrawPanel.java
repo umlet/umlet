@@ -67,6 +67,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 	private Boolean focus = false;
 
 	public void setFocus(boolean focus) {
+		if (this.focus == focus) return;
 		if (focus) { // if focus has switched from diagram <-> palette, reset other selector and redraw
 			otherDrawFocusPanel.getSelector().deselectAllWithoutAfterAction();
 			otherDrawFocusPanel.redraw(); // redraw is necessary even if other afteractions (properties panel update) are not
