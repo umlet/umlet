@@ -49,7 +49,7 @@ public class Text extends NewGridElement {
 	}
 
 	@Override
-	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
+	protected void drawCommonContent(BaseDrawHandler drawer, Properties properties) {
 	}
 
 }

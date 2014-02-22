@@ -21,8 +21,6 @@ public class Properties {
 
 	protected String panelAttributes = "";
 
-	private List<String> propertiesTextToDraw;
-
 	public Properties(String panelAttributes) {
 		this.panelAttributes = panelAttributes;
 	}
@@ -39,24 +37,25 @@ public class Properties {
 		this.panelAttributes = panelAttributes;
 	}
 
-	public void initSettingsFromText(NewGridElement element) {
+	private List<String> initSettingsFromText(NewGridElement element) {
 		element.onParsingStart();
-		propertiesTextToDraw = new ArrayList<String>(getPanelAttributesAsList());
-		element.resetPropCfg();
+		List<String> propertiesText = new ArrayList<String>(getPanelAttributesAsList());
+		element.getPropCfg().resetValues();
 
-		parseGlobalFacets(element.getSettings().getGlobalFacets(), element.getDrawer(), element.getPropCfg());
+		parseGlobalFacets(propertiesText, element.getSettings().getGlobalFacets(), element.getDrawer(), element.getPropCfg());
 
 		if (element.getPropCfg().getElementStyle() == ElementStyleEnum.AUTORESIZE) {
-			element.handleAutoresize(getExpectedElementDimensionsOnDefaultZoom(element), element.getPropCfg().gethAlign());
+			element.handleAutoresize(getExpectedElementDimensionsOnDefaultZoom(propertiesText, element), element.getPropCfg().gethAlign());
 		}
 		element.getPropCfg().setGridElementSize(element.getRealSize());
+		return propertiesText;
 	}
 
-	private void parseGlobalFacets(Map<Priority, List<GlobalFacet>> globalFacetMap, BaseDrawHandler drawer, PropertiesConfig propCfg) {
+	private void parseGlobalFacets(List<String> propertiesText, Map<Priority, List<GlobalFacet>> globalFacetMap, BaseDrawHandler drawer, PropertiesConfig propCfg) {
 		for (Priority priority : Priority.values()) {
 			List<GlobalFacet> facets = globalFacetMap.get(priority);
 			if (facets == null) continue; // skip priorities without facets
-			for (Iterator<String> iter = propertiesTextToDraw.iterator(); iter.hasNext();) {
+			for (Iterator<String> iter = propertiesText.iterator(); iter.hasNext();) {
 				String line = iter.next();
 				boolean drawText = parseFacets(facets, line, drawer, propCfg);
 				if (!drawText || line.startsWith("//")) iter.remove();
@@ -95,19 +94,24 @@ public class Properties {
 		return null;
 	}
 
-	public void drawPropertiesText(BaseDrawHandler drawer, Settings settings, PropertiesConfig propCfg) {
-		propCfg.addToYPos(calcTopDisplacementToFitLine(calcStartPointFromVAlign(propCfg, drawer, settings), propCfg, drawer));
-		handleWordWrapAndIterate(settings, propCfg, drawer);
+	public void drawPropertiesText(NewGridElement element) {
+		PropertiesConfig propCfg = element.getPropCfg();
+		Settings settings = element.getSettings();
+		BaseDrawHandler drawer = element.getDrawer();
+		List<String> propertiesText = initSettingsFromText(element); // must be before element.drawCommonContent (because bg=... and other settings are set here)
+		element.resetMetaDrawerAndDrawCommonContent();
+		propCfg.addToYPos(calcTopDisplacementToFitLine(propertiesText, calcStartPointFromVAlign(propertiesText, propCfg, drawer, settings), propCfg, drawer));
+		handleWordWrapAndIterate(propertiesText, settings, propCfg, drawer);
 		propCfg.executeDelayedDrawings();
 	}
 
-	private double calcTopDisplacementToFitLine(double startPoint, PropertiesConfig propCfg, BaseDrawHandler drawer) {
+	private double calcTopDisplacementToFitLine(List<String> propertiesText, double startPoint, PropertiesConfig propCfg, BaseDrawHandler drawer) {
 		int BUFFER = 2; // a small buffer between text and outer border
 		double displacement = startPoint;
 		double textHeight = drawer.textHeight();
 		boolean wordwrap = propCfg.getElementStyle() == ElementStyleEnum.WORDWRAP;
-		if (!wordwrap && !propertiesTextToDraw.isEmpty()) { // in case of wordwrap or no text, there is no top displacement
-			String firstLine = propertiesTextToDraw.iterator().next();
+		if (!wordwrap && !propertiesText.isEmpty()) { // in case of wordwrap or no text, there is no top displacement
+			String firstLine = propertiesText.iterator().next();
 			double availableWidthSpace = propCfg.getXLimitsForArea(displacement, textHeight).getSpace() - BUFFER;
 			double accumulator = displacement;
 			int maxLoops = 1000;
@@ -125,9 +129,9 @@ public class Properties {
 		return displacement;
 	}
 
-	private void handleWordWrapAndIterate(Settings elementSettings, PropertiesConfig propCfg, BaseDrawHandler drawer) {
+	private void handleWordWrapAndIterate(List<String> propertiesText, Settings elementSettings, PropertiesConfig propCfg, BaseDrawHandler drawer) {
 		boolean wordwrap = propCfg.getElementStyle() == ElementStyleEnum.WORDWRAP;
-		for (String line : propertiesTextToDraw) {
+		for (String line : propertiesText) {
 			if (wordwrap && !line.trim().isEmpty()) { // empty lines are skipped (otherwise they would get lost)
 				String wrappedLine;
 				while (propCfg.getyPos() < propCfg.getGridElementSize().height && !line.trim().isEmpty()) {
@@ -166,32 +170,32 @@ public class Properties {
 		return x;
 	}
 
-	private double calcStartPointFromVAlign(PropertiesConfig propCfg, BaseDrawHandler drawer, Settings settings) {
+	private double calcStartPointFromVAlign(List<String> propertiesText, PropertiesConfig propCfg, BaseDrawHandler drawer, Settings settings) {
 		double returnVal = drawer.textHeight(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
 		if (propCfg.getvAlign() == AlignVertical.TOP) {
 			returnVal += drawer.textHeight()/2;
 		}
 		else if (propCfg.getvAlign() == AlignVertical.CENTER) {
-			returnVal += (propCfg.getGridElementSize().height - getTextBlockHeight(propCfg, drawer, settings))/2;
+			returnVal += (propCfg.getGridElementSize().height - getTextBlockHeight(propertiesText, propCfg, drawer, settings))/2;
 		}
 		else /*if (propCfg.getvAlign() == AlignVertical.BOTTOM)*/ {
-			returnVal += propCfg.getGridElementSize().height - getTextBlockHeight(propCfg, drawer, settings) - drawer.textHeight()/2;
+			returnVal += propCfg.getGridElementSize().height - getTextBlockHeight(propertiesText, propCfg, drawer, settings) - drawer.textHeight()/2;
 		}
 		return returnVal;
 	}
 
-	public double getTextBlockHeight(PropertiesConfig propCfg, BaseDrawHandler drawer, Settings settings) {
+	public double getTextBlockHeight(List<String> propertiesText, PropertiesConfig propCfg, BaseDrawHandler drawer, Settings settings) {
 		PropertiesConfig tmpPropCfg = new PropertiesConfig(settings, propCfg.getGridElementSize());
-		handleWordWrapAndIterate(settings, tmpPropCfg, drawer.getPseudoDrawHandler());
+		handleWordWrapAndIterate(propertiesText, settings, tmpPropCfg, drawer.getPseudoDrawHandler());
 		return tmpPropCfg.getyPos();
 	}
 
-	private DimensionDouble getExpectedElementDimensionsOnDefaultZoom(NewGridElement element) {
+	private DimensionDouble getExpectedElementDimensionsOnDefaultZoom(List<String> propertiesText, NewGridElement element) {
 		BaseDrawHandler pseudoDrawer = element.getDrawer().getPseudoDrawHandler();
 		// add all ypos changes to simulate the real ypos for xlimit calculation etc.
 		PropertiesConfig tmpPropCfg = new PropertiesConfig(element.getSettings(), element.getRealSize());
-		tmpPropCfg.addToYPos(calcTopDisplacementToFitLine(calcStartPointFromVAlign(tmpPropCfg, pseudoDrawer, element.getSettings()), tmpPropCfg, pseudoDrawer));
-		handleWordWrapAndIterate(element.getSettings(), tmpPropCfg, pseudoDrawer);
+		tmpPropCfg.addToYPos(calcTopDisplacementToFitLine(propertiesText, calcStartPointFromVAlign(propertiesText, tmpPropCfg, pseudoDrawer, element.getSettings()), tmpPropCfg, pseudoDrawer));
+		handleWordWrapAndIterate(propertiesText, element.getSettings(), tmpPropCfg, pseudoDrawer);
 
 		double textHeight = tmpPropCfg.getyPos()-pseudoDrawer.textHeight(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
 		double width = tmpPropCfg.getElementWidthForAutoresize();

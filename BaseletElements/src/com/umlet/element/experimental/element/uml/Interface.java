@@ -28,7 +28,7 @@ public class Interface extends NewGridElement {
 	}
 
 	@Override
-	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
+	protected void drawCommonContent(BaseDrawHandler drawer, Properties properties) {
 		Rectangle circleRect = circleRect();
 		drawer.drawCircle(circleRect.x + CIRCLE_SIZE/2, circleRect.y + CIRCLE_SIZE/2, CIRCLE_SIZE/2);
 	}

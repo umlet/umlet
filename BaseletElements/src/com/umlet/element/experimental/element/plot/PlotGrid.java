@@ -227,7 +227,7 @@ public class PlotGrid extends NewGridElement {
 	}
 
 	@Override
-	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
+	protected void drawCommonContent(BaseDrawHandler drawer, Properties properties) {
 		try {
 			matrix = new Matrix<List<AbstractPlot>>();
 			ParserResult parserState = new Parser().parse(getPanelAttributes());

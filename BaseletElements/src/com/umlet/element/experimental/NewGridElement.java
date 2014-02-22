@@ -94,30 +94,22 @@ public abstract class NewGridElement implements GridElement {
 
 	PropertiesConfig getPropCfg() {
 		if (propCfg == null) {
-			this.propCfg = new PropertiesConfig(settings);
+			propCfg = new PropertiesConfig(getSettings());
 		}
 		return propCfg;
 	}
 	
-	void resetPropCfg() {
-		propCfg = null;
-	}
-
 	@Override
 	public void updateModelFromText() {
 		this.autoresizePossiblyInProgress = true;
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
 		try {
-			properties.initSettingsFromText(this); // must be before concrete model update (because bg=... and other settings are set here)
-			updateMetaDrawer(metaDrawer); // must be after initSettings because stickingpolygon size can be based on some settings (eg: Actor uses this)
-			updateConcreteModel(drawer, properties); // must be before properties text (to make sure a possible background color is behind the text)
-			properties.drawPropertiesText(drawer, settings, propCfg);
+			properties.drawPropertiesText(this);
 		} catch (Exception e) {
 			drawer.setForegroundColor(ColorOwn.RED);
 			drawer.setBackgroundColor(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND));
-			updateMetaDrawer(metaDrawer);
-			updateConcreteModel(drawer, properties);
+			resetMetaDrawerAndDrawCommonContent();
 			drawer.print(e.getLocalizedMessage(), 3, getRealSize().height/2 - drawer.textHeight(), AlignHorizontal.LEFT);
 		}
 		this.autoresizePossiblyInProgress = false;
@@ -125,9 +117,14 @@ public abstract class NewGridElement implements GridElement {
 		component.afterModelUpdate();
 	}
 
-	protected abstract void updateConcreteModel(BaseDrawHandler drawer, Properties properties);
+	void resetMetaDrawerAndDrawCommonContent() {
+		resetMetaDrawer(metaDrawer); // must be after properties.initSettingsFromText() because stickingpolygon size can be based on some settings (eg: Actor uses this)
+		drawCommonContent(drawer, properties); // must be before properties.drawPropertiesText (to make sure a possible background color is behind the text)
+	}
 
-	protected void updateMetaDrawer(BaseDrawHandler drawer) {
+	protected abstract void drawCommonContent(BaseDrawHandler drawer, Properties properties);
+
+	protected void resetMetaDrawer(BaseDrawHandler drawer) {
 		drawer.clearCache();
 		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);

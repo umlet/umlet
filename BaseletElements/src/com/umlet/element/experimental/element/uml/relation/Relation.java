@@ -29,12 +29,12 @@ public class Relation extends NewGridElement implements Stickable {
 	}
 
 	@Override
-	protected void updateConcreteModel(BaseDrawHandler drawer, Properties properties) {
+	protected void drawCommonContent(BaseDrawHandler drawer, Properties properties) {
 		relationPoints.drawLinesBetweenPoints(drawer);
 	}
 
 	@Override
-	protected void updateMetaDrawer(BaseDrawHandler drawer) {
+	protected void resetMetaDrawer(BaseDrawHandler drawer) {
 		drawer.clearCache();
 		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 
