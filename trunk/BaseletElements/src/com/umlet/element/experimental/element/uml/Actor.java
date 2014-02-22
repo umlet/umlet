@@ -12,7 +12,6 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
-import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.Settings;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.base.SeparatorLine;
@@ -71,7 +70,7 @@ public class Actor extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer, Properties properties) {
+	protected void drawCommonContent(BaseDrawHandler drawer) {
 		int hCenter = getRealSize().width/2;
 		drawer.drawCircle(hCenter, headRadius(), headRadius()); // Head
 		drawer.drawLine(hCenter-armLength(), armHeight(), hCenter+armLength(), armHeight()); // Arms
