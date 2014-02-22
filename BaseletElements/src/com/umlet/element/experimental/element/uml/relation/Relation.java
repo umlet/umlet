@@ -15,7 +15,6 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.sticking.Stickable;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
-import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.Settings;
 import com.umlet.element.experimental.element.uml.relation.RelationPoints.Selection;
 
@@ -29,7 +28,7 @@ public class Relation extends NewGridElement implements Stickable {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer, Properties properties) {
+	protected void drawCommonContent(BaseDrawHandler drawer) {
 		relationPoints.drawLinesBetweenPoints(drawer);
 	}
 

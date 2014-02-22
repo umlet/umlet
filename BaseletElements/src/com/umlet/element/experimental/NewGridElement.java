@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
 import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
@@ -33,6 +35,8 @@ import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementS
 import com.umlet.element.experimental.facets.defaults.LayerFacet;
 
 public abstract class NewGridElement implements GridElement {
+	
+	private Logger log = Logger.getLogger(NewGridElement.class);
 
 	private boolean stickingBorderActive = true;
 
@@ -107,6 +111,7 @@ public abstract class NewGridElement implements GridElement {
 		try {
 			properties.drawPropertiesText(this);
 		} catch (Exception e) {
+			log.error("Cannot parse Properties Text", e);
 			drawer.setForegroundColor(ColorOwn.RED);
 			drawer.setBackgroundColor(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND));
 			resetMetaDrawerAndDrawCommonContent();
@@ -119,10 +124,10 @@ public abstract class NewGridElement implements GridElement {
 
 	void resetMetaDrawerAndDrawCommonContent() {
 		resetMetaDrawer(metaDrawer); // must be after properties.initSettingsFromText() because stickingpolygon size can be based on some settings (eg: Actor uses this)
-		drawCommonContent(drawer, properties); // must be before properties.drawPropertiesText (to make sure a possible background color is behind the text)
+		drawCommonContent(drawer); // must be before properties.drawPropertiesText (to make sure a possible background color is behind the text)
 	}
 
-	protected abstract void drawCommonContent(BaseDrawHandler drawer, Properties properties);
+	protected abstract void drawCommonContent(BaseDrawHandler drawer);
 
 	protected void resetMetaDrawer(BaseDrawHandler drawer) {
 		drawer.clearCache();

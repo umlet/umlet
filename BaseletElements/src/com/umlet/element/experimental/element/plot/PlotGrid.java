@@ -17,7 +17,6 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
-import com.umlet.element.experimental.Properties;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.Settings;
 import com.umlet.element.experimental.element.plot.drawer.PlotGridDrawConfig;
@@ -227,7 +226,7 @@ public class PlotGrid extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer, Properties properties) {
+	protected void drawCommonContent(BaseDrawHandler drawer) {
 		try {
 			matrix = new Matrix<List<AbstractPlot>>();
 			ParserResult parserState = new Parser().parse(getPanelAttributes());
