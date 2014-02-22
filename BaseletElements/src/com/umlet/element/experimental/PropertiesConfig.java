@@ -51,9 +51,9 @@ public class PropertiesConfig {
 		delayedDrawings = new ArrayList<Runnable>();
 	}
 
-	public PropertiesConfig(Settings settings, Dimension realSize) {
+	public PropertiesConfig(Settings settings, Dimension gridElementSize) {
 		this(settings);
-		setGridElementSize(realSize);
+		setGridElementSize(gridElementSize);
 	}
 
 	public AlignHorizontal gethAlign() {

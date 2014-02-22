@@ -45,7 +45,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	}
 
 	@Override
-	public BaseDrawHandler getPseudoDrawHandler() {
+	public PseudoDrawHandlerGWT getPseudoDrawHandler() {
 		PseudoDrawHandlerGWT pseudo = new PseudoDrawHandlerGWT(canvas);
 		pseudo.setStyle(style); // set style to make sure fontsize (and therefore calls like this.textHeight()) work as intended
 		return pseudo;
