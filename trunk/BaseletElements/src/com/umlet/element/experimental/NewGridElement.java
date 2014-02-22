@@ -30,6 +30,7 @@ import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.defaults.LayerFacet;
 
 public abstract class NewGridElement implements GridElement {
 
@@ -89,6 +90,19 @@ public abstract class NewGridElement implements GridElement {
 	 */
 	private boolean autoresizePossiblyInProgress = false;
 
+	private PropertiesConfig propCfg;
+
+	PropertiesConfig getPropCfg() {
+		if (propCfg == null) {
+			this.propCfg = new PropertiesConfig(settings);
+		}
+		return propCfg;
+	}
+	
+	void resetPropCfg() {
+		propCfg = null;
+	}
+
 	@Override
 	public void updateModelFromText() {
 		this.autoresizePossiblyInProgress = true;
@@ -98,7 +112,7 @@ public abstract class NewGridElement implements GridElement {
 			properties.initSettingsFromText(this); // must be before concrete model update (because bg=... and other settings are set here)
 			updateMetaDrawer(metaDrawer); // must be after initSettings because stickingpolygon size can be based on some settings (eg: Actor uses this)
 			updateConcreteModel(drawer, properties); // must be before properties text (to make sure a possible background color is behind the text)
-			properties.drawPropertiesText(drawer, settings);
+			properties.drawPropertiesText(drawer, settings, propCfg);
 		} catch (Exception e) {
 			drawer.setForegroundColor(ColorOwn.RED);
 			drawer.setBackgroundColor(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND));
@@ -162,7 +176,7 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public Set<Direction> getResizeArea(int x, int y) {
 		Set<Direction> returnSet = new HashSet<Direction>();
-		if (properties.getElementStyle() == ElementStyleEnum.NORESIZE || properties.getElementStyle() == ElementStyleEnum.AUTORESIZE) {
+		if (getPropCfg().getElementStyle() == ElementStyleEnum.NORESIZE || getPropCfg().getElementStyle() == ElementStyleEnum.AUTORESIZE) {
 			return returnSet;
 		}
 
@@ -295,7 +309,8 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public Integer getLayer() {
-		return properties.getLayer();
+		if (getPropCfg() == null) return LayerFacet.DEFAULT_VALUE;
+		return getPropCfg().getLayer();
 	}
 
 	public abstract ElementId getId();
