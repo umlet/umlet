@@ -33,7 +33,6 @@ import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
-import com.umlet.element.experimental.facets.defaults.LayerFacet;
 
 public abstract class NewGridElement implements GridElement {
 	
@@ -52,6 +51,8 @@ public abstract class NewGridElement implements GridElement {
 
 	private String panelAttributes;
 
+	private PropertiesConfig propCfg;
+
 	private static final int MINIMAL_SIZE = SharedConstants.DEFAULT_GRID_SIZE * 2;
 
 	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, Component component, DrawHandlerInterface handler) {
@@ -62,6 +63,7 @@ public abstract class NewGridElement implements GridElement {
 		setRectangle(bounds);
 		setAdditionalAttributes(additionalAttributes);
 		this.handler = handler;
+		propCfg = new PropertiesConfig(createSettings());
 	}
 
 	public BaseDrawHandler getDrawer() {
@@ -99,22 +101,14 @@ public abstract class NewGridElement implements GridElement {
 	 */
 	private boolean autoresizePossiblyInProgress = false;
 
-	private PropertiesConfig propCfg;
 
-	PropertiesConfig getPropCfg() {
-		if (propCfg == null) {
-			propCfg = new PropertiesConfig(getSettings());
-		}
-		return propCfg;
-	}
-	
 	@Override
 	public void updateModelFromText() {
 		this.autoresizePossiblyInProgress = true;
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
 		try {
-			PropertiesParser.drawPropertiesText(this);
+			PropertiesParser.drawPropertiesText(this, propCfg);
 		} catch (Exception e) {
 			log.error("Cannot parse Properties Text", e);
 			drawer.setForegroundColor(ColorOwn.RED);
@@ -175,13 +169,12 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public String getAdditionalAttributes() {
-		return "";
+		return ""; // usually GridElements have no additional attributes
 	}
 
 	@Override
 	public void setAdditionalAttributes(String additionalAttributes) {
 		// usually GridElements have no additional attributes
-		/*TODO: perhaps refactor the additionattributes stuff completely (why should it be stored as a string? only for easier saving in uxf?)*/
 	}
 
 	@Override
@@ -198,7 +191,7 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public Set<Direction> getResizeArea(int x, int y) {
 		Set<Direction> returnSet = new HashSet<Direction>();
-		if (getPropCfg().getElementStyle() == ElementStyleEnum.NORESIZE || getPropCfg().getElementStyle() == ElementStyleEnum.AUTORESIZE) {
+		if (propCfg.getElementStyle() == ElementStyleEnum.NORESIZE || propCfg.getElementStyle() == ElementStyleEnum.AUTORESIZE) {
 			return returnSet;
 		}
 
@@ -301,22 +294,15 @@ public abstract class NewGridElement implements GridElement {
 		return component;
 	}
 
-	private Settings settings;
 	protected abstract Settings createSettings();
-	public final Settings getSettings() {
-		if (settings == null) {
-			settings = createSettings();
-		}
-		return settings;
-	}
-
+	
 	@Override
 	public List<AutocompletionText> getAutocompletionList() {
 		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
-		for (List<? extends Facet> f : getSettings().getGlobalFacets().values()) {
+		for (List<? extends Facet> f : propCfg.getSettings().getGlobalFacets().values()) {
 			addAutocompletionTexts(returnList, f);
 		}
-		addAutocompletionTexts(returnList, getSettings().getLocalFacets());
+		addAutocompletionTexts(returnList, propCfg.getSettings().getLocalFacets());
 		return returnList;
 	}
 
@@ -331,8 +317,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public Integer getLayer() {
-		if (getPropCfg() == null) return LayerFacet.DEFAULT_VALUE;
-		return getPropCfg().getLayer();
+		return propCfg.getLayer();
 	}
 
 	public abstract ElementId getId();

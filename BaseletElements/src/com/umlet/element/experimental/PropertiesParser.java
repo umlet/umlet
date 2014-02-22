@@ -19,29 +19,28 @@ import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementS
 
 public class PropertiesParser {
 
-	public static void drawPropertiesText(NewGridElement element) {
-		PropertiesConfig propCfg = element.getPropCfg();
-		Settings settings = element.getSettings();
+	public static void drawPropertiesText(NewGridElement element, PropertiesConfig propCfg) {
+		Settings settings = propCfg.getSettings();
 		BaseDrawHandler drawer = element.getDrawer();
-		List<String> propertiesText = initSettingsFromText(element); // must be before element.drawCommonContent (because bg=... and other settings are set here)
+		List<String> propertiesText = initSettingsFromText(element, propCfg); // must be before element.drawCommonContent (because bg=... and other settings are set here)
 		element.resetMetaDrawerAndDrawCommonContent();
 		propCfg.addToYPos(calcTopDisplacementToFitLine(propertiesText, calcStartPointFromVAlign(propertiesText, propCfg.getvAlign(), propCfg.getGridElementSize(), drawer, settings), propCfg, drawer));
 		handleWordWrapAndIterate(propertiesText, settings.getLocalFacets(), propCfg, drawer);
 		propCfg.executeDelayedDrawings();
 	}
 
-	private static List<String> initSettingsFromText(NewGridElement element) {
+	private static List<String> initSettingsFromText(NewGridElement element, PropertiesConfig propCfg) {
 		element.onParsingStart();
 		List<String> propertiesText = new ArrayList<String>(element.getPanelAttributesAsList());
-		element.getPropCfg().resetValues();
+		propCfg.resetValues();
 
-		parseGlobalFacets(propertiesText, element.getSettings().getGlobalFacets(), element.getDrawer(), element.getPropCfg());
+		parseGlobalFacets(propertiesText, propCfg.getSettings().getGlobalFacets(), element.getDrawer(), propCfg);
 
-		if (element.getPropCfg().getElementStyle() == ElementStyleEnum.AUTORESIZE) {
-			DimensionDouble expectedElementSizeOnDefaultZoom = getExpectedElementDimensionsOnDefaultZoom(propertiesText, element.getDrawer().getPseudoDrawHandler(), element.getSettings(), element.getRealSize());
-			element.handleAutoresize(expectedElementSizeOnDefaultZoom, element.getPropCfg().gethAlign());
+		if (propCfg.getElementStyle() == ElementStyleEnum.AUTORESIZE) {
+			DimensionDouble expectedElementSizeOnDefaultZoom = getExpectedElementDimensionsOnDefaultZoom(propertiesText, element.getDrawer().getPseudoDrawHandler(), propCfg.getSettings(), element.getRealSize());
+			element.handleAutoresize(expectedElementSizeOnDefaultZoom, propCfg.gethAlign());
 		}
-		element.getPropCfg().setGridElementSize(element.getRealSize());
+		propCfg.setGridElementSize(element.getRealSize());
 		return propertiesText;
 	}
 
