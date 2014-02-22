@@ -1,6 +1,7 @@
 package com.umlet.element.experimental;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -51,14 +52,17 @@ public abstract class NewGridElement implements GridElement {
 
 	private DrawHandlerInterface handler;
 
+	private String panelAttributes;
+
 	private static final int MINIMAL_SIZE = SharedConstants.DEFAULT_GRID_SIZE * 2;
 
 	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, Component component, DrawHandlerInterface handler) {
 		this.component = component;
 		this.drawer = component.getDrawHandler();
 		this.metaDrawer = component.getMetaDrawHandler();
+		this.panelAttributes = panelAttributes;
 		setRectangle(bounds);
-		properties = new Properties(panelAttributes);
+		properties = new Properties();
 		setAdditionalAttributes(additionalAttributes);
 		this.handler = handler;
 	}
@@ -73,12 +77,16 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public String getPanelAttributes() {
-		return properties.getPanelAttributes();
+		return panelAttributes;
+	}
+
+	List<String> getPanelAttributesAsList() {
+		return Arrays.asList(panelAttributes.split("\n"));
 	}
 
 	@Override
 	public void setPanelAttributes(String panelAttributes) {
-		properties.setPanelAttributes(panelAttributes);
+		this.panelAttributes = panelAttributes;
 		this.updateModelFromText();
 	}
 
@@ -142,15 +150,30 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void updateProperty(String key, String newValue) {
-		properties.updateSetting(key, newValue);
+		updateSetting(key, newValue);
 		handler.updatePropertyPanel();
-		//		this.getHandler().getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		updateModelFromText();
+	}
+
+	private void updateSetting(String key, String newValue) {
+		String newState = "";
+		for (String line : getPanelAttributes().split("\n")) {
+			if (!line.startsWith(key)) newState += line + "\n";
+		}
+		newState = newState.substring(0, newState.length()-1); //remove last linebreak
+		if (newValue != null) newState += "\n" + key + Facet.SEP + newValue; // null will not be added as a value
+		this.setPanelAttributes(newState);
 	}
 
 	@Override
 	public String getSetting(String key) {
-		return properties.getSetting(key);
+		for (String line : getPanelAttributesAsList()) {
+			if (line.startsWith(key + Facet.SEP)) {
+				String[] split = line.split(Facet.SEP, 2);
+				if (split.length > 1) return split[1];
+			}
+		}
+		return null;
 	}
 
 	@Override

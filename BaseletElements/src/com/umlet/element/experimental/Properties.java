@@ -1,7 +1,6 @@
 package com.umlet.element.experimental;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,27 +18,9 @@ import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementS
 
 public class Properties {
 
-	protected String panelAttributes = "";
-
-	public Properties(String panelAttributes) {
-		this.panelAttributes = panelAttributes;
-	}
-
-	public String getPanelAttributes() {
-		return panelAttributes;
-	}
-
-	private List<String> getPanelAttributesAsList() {
-		return Arrays.asList(this.getPanelAttributes().split("\n"));
-	}
-
-	public void setPanelAttributes(String panelAttributes) {
-		this.panelAttributes = panelAttributes;
-	}
-
 	private List<String> initSettingsFromText(NewGridElement element) {
 		element.onParsingStart();
-		List<String> propertiesText = new ArrayList<String>(getPanelAttributesAsList());
+		List<String> propertiesText = new ArrayList<String>(element.getPanelAttributesAsList());
 		element.getPropCfg().resetValues();
 
 		parseGlobalFacets(propertiesText, element.getSettings().getGlobalFacets(), element.getDrawer(), element.getPropCfg());
@@ -72,26 +53,6 @@ public class Properties {
 			}
 		}
 		return drawText;
-	}
-
-	public void updateSetting(String key, String newValue) {
-		String newState = "";
-		for (String line : getPanelAttributes().split("\n")) {
-			if (!line.startsWith(key)) newState += line + "\n";
-		}
-		newState = newState.substring(0, newState.length()-1); //remove last linebreak
-		if (newValue != null) newState += "\n" + key + Facet.SEP + newValue; // null will not be added as a value
-		this.setPanelAttributes(newState);
-	}
-
-	public String getSetting(String key) {
-		for (String line : getPanelAttributesAsList()) {
-			if (line.startsWith(key + Facet.SEP)) {
-				String[] split = line.split(Facet.SEP, 2);
-				if (split.length > 1) return split[1];
-			}
-		}
-		return null;
 	}
 
 	public void drawPropertiesText(NewGridElement element) {
