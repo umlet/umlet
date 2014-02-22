@@ -23,8 +23,6 @@ public class Properties {
 
 	private List<String> propertiesTextToDraw;
 
-	private PropertiesConfig propCfg;
-
 	public Properties(String panelAttributes) {
 		this.panelAttributes = panelAttributes;
 	}
@@ -44,17 +42,17 @@ public class Properties {
 	public void initSettingsFromText(NewGridElement element) {
 		element.onParsingStart();
 		propertiesTextToDraw = new ArrayList<String>(getPanelAttributesAsList());
-		this.propCfg = new PropertiesConfig(element.getSettings());
+		element.resetPropCfg();
 
-		parseGlobalFacets(element.getSettings().getGlobalFacets(), element.getDrawer());
+		parseGlobalFacets(element.getSettings().getGlobalFacets(), element.getDrawer(), element.getPropCfg());
 
-		if (getElementStyle() == ElementStyleEnum.AUTORESIZE) {
-			element.handleAutoresize(getExpectedElementDimensionsOnDefaultZoom(element), propCfg.gethAlign());
+		if (element.getPropCfg().getElementStyle() == ElementStyleEnum.AUTORESIZE) {
+			element.handleAutoresize(getExpectedElementDimensionsOnDefaultZoom(element), element.getPropCfg().gethAlign());
 		}
-		this.propCfg.setGridElementSize(element.getRealSize());
+		element.getPropCfg().setGridElementSize(element.getRealSize());
 	}
 
-	private void parseGlobalFacets(Map<Priority, List<GlobalFacet>> globalFacetMap, BaseDrawHandler drawer) {
+	private void parseGlobalFacets(Map<Priority, List<GlobalFacet>> globalFacetMap, BaseDrawHandler drawer, PropertiesConfig propCfg) {
 		for (Priority priority : Priority.values()) {
 			List<GlobalFacet> facets = globalFacetMap.get(priority);
 			if (facets == null) continue; // skip priorities without facets
@@ -77,15 +75,6 @@ public class Properties {
 		return drawText;
 	}
 
-	public ElementStyleEnum getElementStyle() {
-		return propCfg.getElementStyle();
-	}
-
-	public Integer getLayer() {
-		if (propCfg == null) return null;
-		return propCfg.getLayer();
-	}
-
 	public void updateSetting(String key, String newValue) {
 		String newState = "";
 		for (String line : getPanelAttributes().split("\n")) {
@@ -106,7 +95,7 @@ public class Properties {
 		return null;
 	}
 
-	public void drawPropertiesText(BaseDrawHandler drawer, Settings settings) {
+	public void drawPropertiesText(BaseDrawHandler drawer, Settings settings, PropertiesConfig propCfg) {
 		propCfg.addToYPos(calcTopDisplacementToFitLine(calcStartPointFromVAlign(propCfg, drawer, settings), propCfg, drawer));
 		handleWordWrapAndIterate(settings, propCfg, drawer);
 		propCfg.executeDelayedDrawings();
@@ -116,7 +105,7 @@ public class Properties {
 		int BUFFER = 2; // a small buffer between text and outer border
 		double displacement = startPoint;
 		double textHeight = drawer.textHeight();
-		boolean wordwrap = getElementStyle() == ElementStyleEnum.WORDWRAP;
+		boolean wordwrap = propCfg.getElementStyle() == ElementStyleEnum.WORDWRAP;
 		if (!wordwrap && !propertiesTextToDraw.isEmpty()) { // in case of wordwrap or no text, there is no top displacement
 			String firstLine = propertiesTextToDraw.iterator().next();
 			double availableWidthSpace = propCfg.getXLimitsForArea(displacement, textHeight).getSpace() - BUFFER;
@@ -137,7 +126,7 @@ public class Properties {
 	}
 
 	private void handleWordWrapAndIterate(Settings elementSettings, PropertiesConfig propCfg, BaseDrawHandler drawer) {
-		boolean wordwrap = getElementStyle() == ElementStyleEnum.WORDWRAP;
+		boolean wordwrap = propCfg.getElementStyle() == ElementStyleEnum.WORDWRAP;
 		for (String line : propertiesTextToDraw) {
 			if (wordwrap && !line.trim().isEmpty()) { // empty lines are skipped (otherwise they would get lost)
 				String wrappedLine;
