@@ -46,8 +46,6 @@ public abstract class NewGridElement implements GridElement {
 
 	private GridElement group = null;
 
-	private Properties properties;
-
 	private Component component;
 
 	private DrawHandlerInterface handler;
@@ -62,7 +60,6 @@ public abstract class NewGridElement implements GridElement {
 		this.metaDrawer = component.getMetaDrawHandler();
 		this.panelAttributes = panelAttributes;
 		setRectangle(bounds);
-		properties = new Properties();
 		setAdditionalAttributes(additionalAttributes);
 		this.handler = handler;
 	}
@@ -117,7 +114,7 @@ public abstract class NewGridElement implements GridElement {
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
 		try {
-			properties.drawPropertiesText(this);
+			PropertiesParser.drawPropertiesText(this);
 		} catch (Exception e) {
 			log.error("Cannot parse Properties Text", e);
 			drawer.setForegroundColor(ColorOwn.RED);
