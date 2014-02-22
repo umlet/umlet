@@ -31,7 +31,7 @@ public class SeparatorLine extends AbstractFacet {
 		}
 		double linePos = propConfig.getDividerPos(drawer.textHeight());
 		XValues xPos = propConfig.getXLimits(linePos);
-		drawer.drawLine(xPos.getLeft()+1, linePos, xPos.getRight()-1, linePos);
+		drawer.drawLine(xPos.getLeft()+0.5, linePos, xPos.getRight()-1, linePos);
 		propConfig.addToYPos(H_SPACE);
 	}
 

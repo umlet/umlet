@@ -54,8 +54,8 @@ public class UseCase extends NewGridElement {
 		return new Settings() {
 			@Override
 			public XValues getXValues(double y, int height, int width) {
-				double b = height/2.0f;
-				double a = width/2.0f;
+				double b = height/2.0;
+				double a = width/2.0;
 				double x = Math.sqrt((1-(Math.pow(b-y, 2) / Math.pow(b, 2)))*Math.pow(a, 2));
 				return new XValues(a-x, a+x);
 			}
