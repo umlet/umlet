@@ -16,26 +16,39 @@ public class PropertiesConfig {
 	
 	private static final Logger log = Logger.getLogger(PropertiesConfig.class);
 
-	private AlignHorizontal hAlign;
-	private boolean hAlignGloballySet = false;
-	private AlignVertical vAlign;
-	private boolean vAlignGloballySet = false;
-	private Double yPos = null;
-	private double elementWidthForAutoresize;
-	private int leftBuffer = 0;
-	private int rightBuffer = 0;
 	private Settings settings;
+	
+	private AlignHorizontal hAlign;
+	private boolean hAlignGloballySet;
+	private AlignVertical vAlign;
+	private boolean vAlignGloballySet;
+	private Double yPos;
+	private double elementWidthForAutoresize;
+	private int leftBuffer;
+	private int rightBuffer;
 	private Dimension gridElementSize;
 	private ElementStyleEnum elementStyle;
-	private Integer layer = LayerFacet.DEFAULT_VALUE;
-	private List<Runnable> delayedDrawings = new ArrayList<Runnable>();
+	private Integer layer;
+	private List<Runnable> delayedDrawings;
 
 	public PropertiesConfig(Settings settings) {
-		this.hAlign = settings.getHAlign();
-		this.vAlign = settings.getVAlign();
-		this.elementStyle = settings.getElementStyle();
-		this.elementWidthForAutoresize = settings.getMinElementWidthForAutoresize();
 		this.settings = settings;
+		resetValues();
+	}
+
+	void resetValues() {
+		hAlign = settings.getHAlign();
+		hAlignGloballySet = false;
+		vAlign = settings.getVAlign();
+		vAlignGloballySet = false;
+		yPos = null;
+		elementWidthForAutoresize = settings.getMinElementWidthForAutoresize();
+		leftBuffer = 0;
+		rightBuffer = 0;
+		gridElementSize = null;
+		elementStyle = settings.getElementStyle();
+		layer = LayerFacet.DEFAULT_VALUE;
+		delayedDrawings = new ArrayList<Runnable>();
 	}
 
 	public PropertiesConfig(Settings settings, Dimension realSize) {
