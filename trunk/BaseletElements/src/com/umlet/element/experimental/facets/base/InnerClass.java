@@ -30,7 +30,7 @@ public class InnerClass extends AbstractFacet {
 	@Override
 	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
 		if (line.equals(START)) {
-			ClassSettings settings = new ClassSettings(propConfig.gethAlign(), propConfig.getvAlign(), propConfig.getDividerPos(drawer.textHeight()));
+			ClassSettings settings = new ClassSettings(propConfig.gethAlign(), propConfig.getvAlign(), propConfig.getDividerPos(drawer));
 			innerClassStartPoints.add(settings);
 			propConfig.addToBuffer(innerClassStartPoints.size() * BUFFER_PIXEL_PER_INNER);
 			propConfig.addToYPos(H_SPACE);
@@ -40,7 +40,7 @@ public class InnerClass extends AbstractFacet {
 			int depth = innerClassStartPoints.size() * BUFFER_PIXEL_PER_INNER;
 			ClassSettings previousClassSettings = innerClassStartPoints.pop();
 			double start = previousClassSettings.start;
-			double height = propConfig.getDividerPos(drawer.textHeight()) - start;
+			double height = propConfig.getDividerPos(drawer) - start;
 			XValues xLimit = propConfig.getXLimits(height);
 			
 			drawer.drawRectangle(xLimit.getLeft(), start, xLimit.getSpace(), height);

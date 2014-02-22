@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
+import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
@@ -110,6 +111,10 @@ public class PropertiesConfig {
 		addToRightBuffer(inc);
 	}
 
+	public void setGridElementSize(Dimension gridElementSize) {
+		this.gridElementSize = gridElementSize;
+	}
+
 	public Dimension getGridElementSize() {
 		if (gridElementSize == null) {
 			throw new RuntimeException("Invocation of getGridElementSize() before size has been calculated. Perhaps you should use drawDelayed() method (eg: like in Facet ActiveClass.java)");
@@ -130,8 +135,8 @@ public class PropertiesConfig {
 		return xLimitsTop.intersect(xLimitsBottom);
 	}
 
-	public double getDividerPos(double f) {
-		return getyPos() - f + 2;
+	public double getDividerPos(BaseDrawHandler drawer) {
+		return getyPos() - drawer.textHeight() + 2;
 	}
 
 	public void updateCalculatedElementWidth(double width) {
@@ -140,10 +145,6 @@ public class PropertiesConfig {
 
 	public double getCalculatedElementWidth() {
 		return calculatedElementWidth;
-	}
-
-	public void setGridElementSize(Dimension gridElementSize) {
-		this.gridElementSize = gridElementSize;
 	}
 
 	public ElementStyleEnum getElementStyle() {
