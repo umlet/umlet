@@ -3,8 +3,6 @@ package com.umlet.element.experimental;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.Dimension;
@@ -14,8 +12,6 @@ import com.umlet.element.experimental.facets.defaults.LayerFacet;
 
 public class PropertiesConfig {
 	
-	private static final Logger log = Logger.getLogger(PropertiesConfig.class);
-
 	private Settings settings;
 	
 	private AlignHorizontal hAlign;
@@ -23,7 +19,7 @@ public class PropertiesConfig {
 	private AlignVertical vAlign;
 	private boolean vAlignGloballySet;
 	private Double yPos;
-	private double elementWidthForAutoresize;
+	private double calculatedElementWidth;
 	private int leftBuffer;
 	private int rightBuffer;
 	private Dimension gridElementSize;
@@ -42,7 +38,7 @@ public class PropertiesConfig {
 		vAlign = settings.getVAlign();
 		vAlignGloballySet = false;
 		yPos = null;
-		elementWidthForAutoresize = settings.getMinElementWidthForAutoresize();
+		calculatedElementWidth = settings.getMinElementWidthForAutoresize();
 		leftBuffer = 0;
 		rightBuffer = 0;
 		gridElementSize = null;
@@ -101,26 +97,13 @@ public class PropertiesConfig {
 		yPos += inc;
 	}
 
-//	private int maxLeftBuffer = 0;
-//	private int maxRightBuffer = 0;
-
 	public void addToLeftBuffer(int inc) {
 		this.leftBuffer += inc;
-//		if (leftBuffer > maxLeftBuffer) maxLeftBuffer = leftBuffer;
 	}
 
 	public void addToRightBuffer(int inc) {
 		this.rightBuffer += inc;
-//		if (rightBuffer > maxRightBuffer) maxRightBuffer = rightBuffer;
 	}
-
-//	public int getMaxLeftBuffer() {
-//		return maxLeftBuffer;
-//	}
-//
-//	public int getMaxRightBuffer() {
-//		return maxRightBuffer;
-//	}
 
 	public void addToBuffer(int inc) {
 		addToLeftBuffer(inc);
@@ -151,12 +134,12 @@ public class PropertiesConfig {
 		return getyPos() - f + 2;
 	}
 
-	public void updateElementWidthForAutoresize(double width) {
-		elementWidthForAutoresize = Math.max(elementWidthForAutoresize, width);
+	public void updateCalculatedElementWidth(double width) {
+		calculatedElementWidth = Math.max(calculatedElementWidth, width);
 	}
 
-	public double getElementWidthForAutoresize() {
-		return elementWidthForAutoresize;
+	public double getCalculatedElementWidth() {
+		return calculatedElementWidth;
 	}
 
 	public void setGridElementSize(Dimension gridElementSize) {
