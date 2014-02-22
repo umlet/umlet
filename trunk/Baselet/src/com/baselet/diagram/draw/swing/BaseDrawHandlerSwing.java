@@ -76,7 +76,7 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	 * exists to apply all facet operations without real drawing (eg: necessary to calculate space which is needed for autoresize)
 	 */
 	@Override
-	public PseudoDrawHandlerSwing getPseudoDrawHandler() {
+	public BaseDrawHandlerSwing getPseudoDrawHandler() {
 		PseudoDrawHandlerSwing counter = new PseudoDrawHandlerSwing();
 		counter.setHandler(handler);
 		counter.setStyle(style); // set style to make sure fontsize (and therefore calls like this.textHeight()) work as intended
