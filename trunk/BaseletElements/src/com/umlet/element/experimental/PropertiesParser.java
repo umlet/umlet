@@ -52,7 +52,7 @@ public class PropertiesParser {
 		handleWordWrapAndIterate(propertiesText, settings.getLocalFacets(), tmpPropCfg, pseudoDrawer);
 	
 		double textHeight = tmpPropCfg.getyPos()-pseudoDrawer.textHeight(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
-		double width = tmpPropCfg.getElementWidthForAutoresize();
+		double width = tmpPropCfg.getCalculatedElementWidth();
 		return new DimensionDouble(width, textHeight);
 	}
 
@@ -125,7 +125,7 @@ public class PropertiesParser {
 			XValues xLimitsForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight());
 			Double spaceNotUsedForText = propCfg.getGridElementSize().width - xLimitsForText.getSpace();
 			if (!spaceNotUsedForText.equals(Double.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
-				propCfg.updateElementWidthForAutoresize(spaceNotUsedForText + drawer.textWidth(line));
+				propCfg.updateCalculatedElementWidth(spaceNotUsedForText + drawer.textWidth(line));
 			}
 			drawer.print(line, calcHorizontalTextBoundaries(xLimitsForText, propCfg, drawer), propCfg.getyPos(), propCfg.gethAlign());
 			propCfg.addToYPos(drawer.textHeightWithSpace());
