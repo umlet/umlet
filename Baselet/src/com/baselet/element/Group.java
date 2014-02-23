@@ -96,7 +96,7 @@ public class Group extends OldGridElement {
 		}
 	}
 
-	public Group getGroup() {
+	public Group getGroupObject() {
 		return (Group) group;
 	}
 

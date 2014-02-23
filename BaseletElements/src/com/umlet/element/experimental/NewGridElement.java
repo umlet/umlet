@@ -322,6 +322,11 @@ public abstract class NewGridElement implements GridElement {
 	public Integer getLayer() {
 		return propCfg.getLayer();
 	}
+	
+	@Override
+	public String getGroup() {
+		return propCfg.getGroup();
+	}
 
 	public abstract ElementId getId();
 

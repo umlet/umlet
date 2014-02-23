@@ -90,7 +90,7 @@ public class InputHandler extends DefaultHandler {
 				this.currentGroup.adjustSize(false);
 				_p.addElement(this.currentGroup);
 				//TODO here is a cast to group because InputHandler is only used by SWING
-				this.currentGroup = (Group) this.currentGroup.getGroup();
+				this.currentGroup = (Group) this.currentGroup.getGroupObject();
 			}
 		}
 		else if (elementname.equals("element")) {

@@ -17,6 +17,7 @@ import com.umlet.element.experimental.facets.defaults.ElementStyleFacet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.defaults.FontSizeFacet;
 import com.umlet.element.experimental.facets.defaults.ForegroundColorFacet;
+import com.umlet.element.experimental.facets.defaults.GroupFacet;
 import com.umlet.element.experimental.facets.defaults.HorizontalAlignFacet;
 import com.umlet.element.experimental.facets.defaults.LayerFacet;
 import com.umlet.element.experimental.facets.defaults.LineThicknessFacet;
@@ -47,7 +48,7 @@ public abstract class Settings {
 	public abstract List<? extends Facet> createFacets();
 	
 	protected List<? extends Facet> createDefaultFacets() {
-		return Arrays.asList(BackgroundColorFacet.INSTANCE, ElementStyleFacet.INSTANCE, FontSizeFacet.INSTANCE, ForegroundColorFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, LineTypeFacet.INSTANCE, VerticalAlignFacet.INSTANCE);
+		return Arrays.asList(BackgroundColorFacet.INSTANCE, ElementStyleFacet.INSTANCE, FontSizeFacet.INSTANCE, ForegroundColorFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, LineTypeFacet.INSTANCE, VerticalAlignFacet.INSTANCE, GroupFacet.INSTANCE);
 		
 	}
 	
