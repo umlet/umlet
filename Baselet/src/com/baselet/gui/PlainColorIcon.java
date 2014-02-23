@@ -15,7 +15,7 @@ public class PlainColorIcon implements Icon {
 	private Color color;
 
 	public PlainColorIcon(String color) {
-		this.color = Converter.convert(ColorOwn.forString(color, Transparency.FOREGROUND));
+		this.color = Converter.convert(ColorOwn.forStringOrNull(color, Transparency.FOREGROUND));
 	}
 
 	@Override
