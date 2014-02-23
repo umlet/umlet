@@ -2,7 +2,6 @@ package com.baselet.element;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -40,17 +39,18 @@ import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
 import com.umlet.element.experimental.facets.defaults.ForegroundColorFacet;
+import com.umlet.element.experimental.facets.defaults.GroupFacet;
 import com.umlet.element.experimental.facets.defaults.LayerFacet;
 
 public abstract class OldGridElement extends JComponent implements GridElement, com.umlet.element.experimental.Component {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	protected static final Logger log = Logger.getLogger(OldGridElement.class);
 
 	public static final float ALPHA_MIDDLE_TRANSPARENCY = 0.5f;
 	public static final float ALPHA_FULL_TRANSPARENCY = 0.0f;
-	
+
 	private boolean enabled;
 	private boolean stickingBorderActive;
 	private boolean autoresizeandmanualresizeenabled;
@@ -66,13 +66,11 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	 * contains the current fgColor of the element. Will be overwritten by selectioncolor if it's selected
 	 */
 	protected Color fgColor = fgColorBase;
-	
+
 	private String fgColorString = "";
 	protected Color bgColor = Converter.convert(ColorOwn.WHITE);
 	private String bgColorString = "";
 	protected float alphaFactor;
-
-	private Integer lastLayerValue;
 
 	private boolean selected = false;
 
@@ -166,7 +164,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public void setPanelAttributes(String panelAttributes) {
 		this.panelAttributes = panelAttributes;
 	}
-	
+
 	public void setSelected(Boolean selected) {
 		this.selected = selected;
 		if (selected) {
@@ -249,7 +247,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		else if ((y <= this.getRectangle().height) && (y >= this.getRectangle().height - 5)) returnSet.add(Direction.DOWN);
 		return returnSet;
 	}
-	
+
 	@Override
 	public void changeSize(int diffx, int diffy) {
 		this.setSize(this.getRectangle().width + diffx, this.getRectangle().height + diffy);
@@ -281,7 +279,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public boolean isInRange(Rectangle rect1) {
 		return (rect1.contains(getRectangle()));
-		}
+	}
 
 	public void setInProgress(Graphics g, boolean flag) {
 		if (flag) {
@@ -337,7 +335,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			g2.setStroke(s);
 		}
 	}
-	
+
 	private boolean translateForExport = false;
 	public void translateForExport() {
 		translateForExport = true;
@@ -354,7 +352,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		// TODO (same problem as in @see com.umlet.element.experimental.ComponentSwing#paint(Graphics g))
 		// the selected state stored in GridElements is NOT the same as the selector holds, therefore it must be set explicitly through a setSelected() method.
 		// TODO make sure the selector holds the correct state and a repaint is triggered, then the following line should work:
-//		boolean selected = Main.getHandlerForElement(gridElement).getDrawPanel().getSelector().isSelected(gridElement);
+		//		boolean selected = Main.getHandlerForElement(gridElement).getDrawPanel().getSelector().isSelected(gridElement);
 		if (selected && Constants.show_stickingpolygon && !this.isPartOfGroup()) {
 			this.drawStickingPolygon(g2);
 		}
@@ -387,37 +385,43 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public void updateModelFromText() {
 		/*OldGridElement has no model but simply parses the properties text within every paint() call*/
-		Integer oldLayer = lastLayerValue;
-		if (oldLayer != null && !oldLayer.equals(getLayer())) {
-			Main.getHandlerForElement(this).getDrawPanel().setLayer((Component) getComponent(), lastLayerValue);
-		}
 	}
 
 	@Override
 	public Integer getLayer() {
-		lastLayerValue = LayerFacet.DEFAULT_VALUE;
 		try {
-			for (String s : Utils.decomposeStringsWithComments(panelAttributes)) {
-				String key = LayerFacet.KEY + Facet.SEP;
-				if (s.startsWith(key)) {
-					String value = s.split(key)[1];
-					lastLayerValue = Integer.valueOf(value);
-				}
-			}
-		} catch (Exception e) {/* in case of an error return default layer*/}
-		return lastLayerValue;
+			return Integer.valueOf(getSettingHelper(LayerFacet.KEY, LayerFacet.DEFAULT_VALUE.toString()));
+		} catch (NumberFormatException e) {/*default value applies*/}
+		return LayerFacet.DEFAULT_VALUE;
 	}
-	
+
+	private String getSettingHelper(String key, String defaultValue) {
+		key = key + Facet.SEP;
+		for (String s : Utils.decomposeStringsWithComments(panelAttributes)) {
+			if (s.startsWith(key)) {
+				String[] value = s.split(key);
+				if (value.length == 0) return "";
+				return value[1];
+			}
+		}
+		return defaultValue;
+	}
+
+	@Override
+	public String getGroup() {
+		return getSettingHelper(GroupFacet.KEY, GroupFacet.DEFAULT_VALUE);
+	}
+
 	@Override
 	public Rectangle getRectangle() {
 		return Converter.convert(getBounds());
 	}
-	
+
 	@Override
 	public void setRectangle(Rectangle rect) {
 		setBounds(rect.x, rect.y, rect.width, rect.height);
 	}
-	
+
 	@Override
 	public void setBoundsRect(Rectangle rect) {
 		setBounds(Converter.convert(rect));
@@ -447,39 +451,39 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public void handleAutoresize(DimensionDouble necessaryElementDimension, AlignHorizontal alignHorizontal) {
 		/* not possible on OldGridElement */
 	}
-	
+
 	@Override
 	public ElementId getId() {
 		return null;
 	}
-	
+
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public void afterModelUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public boolean isSelectableOn(Point point) {
 		return getRectangle().contains(point);
 	}
-	
+
 	@Override
 	public void dragEnd() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, Collection<? extends Stickable> stickables) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }

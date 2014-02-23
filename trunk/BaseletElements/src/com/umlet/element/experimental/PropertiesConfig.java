@@ -23,6 +23,7 @@ public class PropertiesConfig {
 	private Dimension gridElementSize;
 	private ElementStyleEnum elementStyle;
 	private Integer layer;
+	private String group;
 
 	public PropertiesConfig(Settings settings) {
 		this.settings = settings;
@@ -40,6 +41,7 @@ public class PropertiesConfig {
 		this.gridElementSize = gridElementSize;
 		elementStyle = settings.getElementStyle();
 		layer = LayerFacet.DEFAULT_VALUE;
+		group = "";
 	}
 
 	public PropertiesConfig(Settings settings, Dimension gridElementSize) {
@@ -152,6 +154,14 @@ public class PropertiesConfig {
 	
 	public Settings getSettings() {
 		return settings;
+	}
+	
+	public String getGroup() {
+		return group;
+	}
+	
+	public void setGroup(String group) {
+		this.group = group;
 	}
 
 }

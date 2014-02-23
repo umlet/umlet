@@ -6,10 +6,10 @@ import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
 
 public class LayerFacet extends AbstractGlobalKeyValueFacet {
-	
+
 	public static LayerFacet INSTANCE = new LayerFacet();
 	private LayerFacet() {}
-	
+
 	public static final String KEY = "layer";
 	public static final Integer DEFAULT_VALUE = 0;
 	@Override
@@ -19,11 +19,11 @@ public class LayerFacet extends AbstractGlobalKeyValueFacet {
 
 	@Override
 	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
-			try {
-				propConfig.setLayer(Integer.valueOf(value));
-			} catch (NumberFormatException e) {
-				throw new StyleException("value must be a positive or negative integer");
-			}
+		try {
+			propConfig.setLayer(Integer.valueOf(value));
+		} catch (NumberFormatException e) {
+			throw new StyleException("value must be a positive or negative integer");
+		}
 	}
 
 }
