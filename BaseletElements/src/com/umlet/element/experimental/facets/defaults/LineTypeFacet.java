@@ -23,4 +23,8 @@ public class LineTypeFacet extends AbstractGlobalKeyValueFacet {
 		drawer.setLineType(value.toUpperCase());
 	}
 
+	public Priority getPriority() {
+		return Priority.HIGH;
+	}
+
 }

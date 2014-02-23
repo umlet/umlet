@@ -19,4 +19,8 @@ public class LineThicknessFacet extends AbstractGlobalKeyValueFacet {
 		drawer.setLineThickness(Float.valueOf(value));
 	}
 
+	public Priority getPriority() {
+		return Priority.HIGH;
+	}
+
 }

@@ -275,11 +275,6 @@ public class PlotGrid extends NewGridElement {
 				return Arrays.asList(new AbstractGlobalFacet() {
 					
 					@Override
-					public boolean replacesText(String line) {
-						return true;
-					}
-					
-					@Override
 					public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
 						// do nothing
 					}

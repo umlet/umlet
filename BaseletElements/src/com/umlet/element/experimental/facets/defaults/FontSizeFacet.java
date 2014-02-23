@@ -19,4 +19,8 @@ public class FontSizeFacet extends AbstractGlobalKeyValueFacet {
 		drawer.setFontSize(value);
 	}
 
+	public Priority getPriority() {
+		return Priority.HIGH;
+	}
+
 }
