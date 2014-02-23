@@ -10,8 +10,6 @@ import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
 
 public class ActionType extends AbstractGlobalKeyValueFacet {
 
-	private static final int DEPTH = 20;
-
 	public static ActionType INSTANCE = new ActionType();
 	private ActionType() {}
 
@@ -33,13 +31,17 @@ public class ActionType extends AbstractGlobalKeyValueFacet {
 		if (actionType == ActionTypeEnum.ACTION) {
 			drawer.drawEllipse(0, 0, s.width, s.height);
 		} else if (actionType == ActionTypeEnum.SEND_SIGNAL) {
-			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-DEPTH, 0), p(s.width-1, s.height/2), p(s.width-DEPTH, s.height-1), p(0, s.height-1), p(0, 0)));
+			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-depth(s), 0), p(s.width-1, s.height/2), p(s.width-depth(s), s.height-1), p(0, s.height-1), p(0, 0)));
 		} else if (actionType == ActionTypeEnum.RECEIVE_SIGNAL) {
-			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-1, 0), p(s.width-1, s.height-1), p(0, s.height-1), p(DEPTH, s.height/2), p(0, 0)));
+			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-1, 0), p(s.width-1, s.height-1), p(0, s.height-1), p(depth(s), s.height/2), p(0, 0)));
 		} else if (actionType == ActionTypeEnum.TIMER) {
 
 		}
 	
+	}
+
+	private double depth(Dimension s) {
+		return s.width/5;
 	}
 
 	private PointDouble p(double x, double y) {
