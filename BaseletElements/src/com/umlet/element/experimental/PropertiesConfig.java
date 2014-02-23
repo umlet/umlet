@@ -1,8 +1,5 @@
 package com.umlet.element.experimental;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
@@ -26,14 +23,12 @@ public class PropertiesConfig {
 	private Dimension gridElementSize;
 	private ElementStyleEnum elementStyle;
 	private Integer layer;
-	private List<Runnable> delayedDrawings;
 
 	public PropertiesConfig(Settings settings) {
 		this.settings = settings;
-		resetValues();
 	}
 
-	void resetValues() {
+	void resetValues(Dimension gridElementSize) {
 		hAlign = settings.getHAlign();
 		hAlignGloballySet = false;
 		vAlign = settings.getVAlign();
@@ -42,15 +37,14 @@ public class PropertiesConfig {
 		calculatedElementWidth = settings.getMinElementWidthForAutoresize();
 		leftBuffer = 0;
 		rightBuffer = 0;
-		gridElementSize = null;
+		this.gridElementSize = gridElementSize;
 		elementStyle = settings.getElementStyle();
 		layer = LayerFacet.DEFAULT_VALUE;
-		delayedDrawings = new ArrayList<Runnable>();
 	}
 
 	public PropertiesConfig(Settings settings, Dimension gridElementSize) {
 		this(settings);
-		setGridElementSize(gridElementSize);
+		resetValues(gridElementSize);
 	}
 
 	public AlignHorizontal gethAlign() {
@@ -111,14 +105,7 @@ public class PropertiesConfig {
 		addToRightBuffer(inc);
 	}
 
-	public void setGridElementSize(Dimension gridElementSize) {
-		this.gridElementSize = gridElementSize;
-	}
-
 	public Dimension getGridElementSize() {
-		if (gridElementSize == null) {
-			throw new RuntimeException("Invocation of getGridElementSize() before size has been calculated. Perhaps you should use drawDelayed() method (eg: like in Facet ActiveClass.java)");
-		}
 		return gridElementSize;
 	}
 
@@ -165,17 +152,6 @@ public class PropertiesConfig {
 	
 	public Settings getSettings() {
 		return settings;
-	}
-	
-	public void drawDelayed(Runnable runnable) {
-		delayedDrawings.add(runnable);
-	}
-	
-	public void executeDelayedDrawings() {
-		for (Runnable r : delayedDrawings) {
-			r.run();
-		}
-		delayedDrawings.clear();
 	}
 
 }

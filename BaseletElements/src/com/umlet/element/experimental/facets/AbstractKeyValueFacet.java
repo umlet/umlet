@@ -112,7 +112,7 @@ public abstract class AbstractKeyValueFacet extends AbstractFacet {
 		return returnList;
 	}
 
-	private String getKeyWithSep() {
+	protected String getKeyWithSep() {
 		return getKeyValue().getKey() + SEP;
 	}
 

@@ -1,5 +1,7 @@
 package com.umlet.element.experimental.facets.defaults;
 
+import java.util.List;
+
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
@@ -26,6 +28,15 @@ public class ElementStyleFacet extends AbstractGlobalKeyValueFacet {
 
 	public Priority getPriority() {
 		return Priority.HIGH;
+	}
+
+	public boolean isAutoresize(List<String> propertiesText) {
+		for (String line : propertiesText) {
+			if (line.equalsIgnoreCase(getKeyWithSep() + ElementStyleEnum.AUTORESIZE)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

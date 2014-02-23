@@ -9,7 +9,7 @@ import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
 
 public class ActionType extends AbstractGlobalKeyValueFacet {
-	
+
 	private static final int DEPTH = 20;
 
 	public static ActionType INSTANCE = new ActionType();
@@ -28,29 +28,22 @@ public class ActionType extends AbstractGlobalKeyValueFacet {
 
 	@Override
 	public void handleValue(final String value, final BaseDrawHandler drawer, final PropertiesConfig propConfig) {
-		asd(ActionTypeEnum.valueOf(value.toUpperCase()), drawer, propConfig);
+		ActionTypeEnum actionType = ActionTypeEnum.valueOf(value.toUpperCase());
+		Dimension s = propConfig.getGridElementSize();
+		if (actionType == ActionTypeEnum.ACTION) {
+			drawer.drawEllipse(0, 0, s.width, s.height);
+		} else if (actionType == ActionTypeEnum.SEND_SIGNAL) {
+			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-DEPTH, 0), p(s.width-1, s.height/2), p(s.width-DEPTH, s.height-1), p(0, s.height-1), p(0, 0)));
+		} else if (actionType == ActionTypeEnum.RECEIVE_SIGNAL) {
+			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-1, 0), p(s.width-1, s.height-1), p(0, s.height-1), p(DEPTH, s.height/2), p(0, 0)));
+		} else if (actionType == ActionTypeEnum.TIMER) {
+
+		}
+	
 	}
 
-	private void asd(final ActionTypeEnum actionType, final BaseDrawHandler drawer, final PropertiesConfig propConfig) {
-		propConfig.drawDelayed(new Runnable() {
-			@Override
-			public void run() {
-				Dimension s = propConfig.getGridElementSize();
-				if (actionType == ActionTypeEnum.ACTION) {
-					drawer.drawEllipse(0, 0, s.width, s.height);
-				} else if (actionType == ActionTypeEnum.SEND_SIGNAL) {
-					drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-DEPTH, 0), p(s.width-1, s.height/2), p(s.width-DEPTH, s.height-1), p(0, s.height-1), p(0, 0)));
-				} else if (actionType == ActionTypeEnum.RECEIVE_SIGNAL) {
-					drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-1, 0), p(s.width-1, s.height-1), p(0, s.height-1), p(DEPTH, s.height/2), p(0, 0)));
-				} else if (actionType == ActionTypeEnum.TIMER) {
-
-				}
-			}
-
-			private PointDouble p(double x, double y) {
-				return new PointDouble(x, y);
-			}
-		});
+	private PointDouble p(double x, double y) {
+		return new PointDouble(x, y);
 	}
 
 }
