@@ -110,9 +110,12 @@ public abstract class NewGridElement implements GridElement {
 		try {
 			PropertiesParser.drawPropertiesText(this, propCfg);
 		} catch (Exception e) {
-			log.error("Cannot parse Properties Text", e);
+			log.debug("Cannot parse Properties Text", e);
+			drawer.resetStyle();
 			drawer.setForegroundColor(ColorOwn.RED);
 			drawer.setBackgroundColor(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND));
+			drawer.setLineThickness(0.2);
+			drawer.drawRectangle(0, 0, getRealSize().width-1, getRealSize().height-1); // draw dotted rect (to enforce background color even if element has no border)
 			resetMetaDrawerAndDrawCommonContent();
 			drawer.print(e.getLocalizedMessage(), 3, getRealSize().height/2 - drawer.textHeight(), AlignHorizontal.LEFT);
 		}

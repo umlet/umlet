@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.baselet.control.enumerations.FormatLabels;
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 
@@ -48,7 +49,7 @@ public abstract class AbstractKeyValueFacet extends AbstractFacet {
 				sb.deleteCharAt(sb.length()-1);
 			} else {
 				for (ValueInfo vi : valueInfos) {
-				sb.append("Values must confirm: ").append(vi.info);
+				sb.append(vi.info);
 				}
 			}
 			return sb.toString();
@@ -99,7 +100,11 @@ public abstract class AbstractKeyValueFacet extends AbstractFacet {
 			handleValue(value, drawer, propConfig);
 		} catch (Exception e) {
 			log.debug("KeyValue Error", e);
-			throw new RuntimeException(FormatLabels.BOLD.getValue() + "Invalid value: " + getKeyWithSep() + value + FormatLabels.BOLD.getValue() + "\n" + getKeyValue().getValueString());
+			String errorMessage = getKeyValue().getValueString();
+			if (e instanceof StyleException) { // self defined exceptions overwrite the default message
+				errorMessage = e.getMessage();
+			}
+			throw new RuntimeException(FormatLabels.BOLD.getValue() + "Invalid value:" + FormatLabels.BOLD.getValue() + "\n" + getKeyWithSep() + value + "\n" + errorMessage);
 		}
 	}
 
