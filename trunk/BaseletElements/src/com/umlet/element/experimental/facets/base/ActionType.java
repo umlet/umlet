@@ -29,7 +29,7 @@ public class ActionType extends AbstractGlobalKeyValueFacet {
 		ActionTypeEnum actionType = ActionTypeEnum.valueOf(value.toUpperCase());
 		Dimension s = propConfig.getGridElementSize();
 		if (actionType == ActionTypeEnum.ACTION) {
-			drawer.drawEllipse(0, 0, s.width, s.height);
+			drawer.drawRectangleRound(0, 0, s.width-1, s.height-1, Math.min(s.width, s.height)/5);
 		} else if (actionType == ActionTypeEnum.SEND_SIGNAL) {
 			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-depth(s), 0), p(s.width-1, s.height/2), p(s.width-depth(s), s.height-1), p(0, s.height-1), p(0, 0)));
 		} else if (actionType == ActionTypeEnum.RECEIVE_SIGNAL) {

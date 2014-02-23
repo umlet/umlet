@@ -33,7 +33,7 @@ public class PropertiesParser {
 		if (hasAutoresizeEnabled(propertiesText, propCfg.getSettings().getGlobalFacets())) {
 			PropertiesConfig tmpPropCfg = new PropertiesConfig(propCfg.getSettings(), element.getRealSize());
 			DimensionDouble expectedElementSizeOnDefaultZoom = getExpectedElementDimensionsOnDefaultZoom(propertiesText, element.getDrawer().getPseudoDrawHandler(), tmpPropCfg);
-			element.handleAutoresize(expectedElementSizeOnDefaultZoom, propCfg.gethAlign());
+			element.handleAutoresize(expectedElementSizeOnDefaultZoom, tmpPropCfg.gethAlign());
 		}
 		propCfg.resetValues(element.getRealSize()); // now that the element size is known (after possible resizes from autoresize), parse global facets
 		return parseGlobalFacets(propertiesText, propCfg.getSettings().getGlobalFacets(), element.getDrawer(), propCfg);
