@@ -126,6 +126,19 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 			}
 		});
 	}
+	
+	@Override
+	public void drawRectangleRound(final double x, final double y, final double width, final double height, final double radius) {
+		final Style styleAtDrawingCall = style.cloneFromMe();
+		addDrawable(new DrawFunction() {
+			@Override
+			public void run() {
+				setStyle(ctx, styleAtDrawingCall);
+				drawRoundRectHelper(ctx, x + HALF_PX, y + HALF_PX, width + HALF_PX, height + HALF_PX, radius);
+			}
+		});
+	}
+
 
 	@Override
 	public void print(final String text, final PointDouble point, final AlignHorizontal align) {
@@ -199,7 +212,7 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 	/**
 	 * based on http://stackoverflow.com/questions/2172798/how-to-draw-an-oval-in-html5-canvas/2173084#2173084
 	 */
-	private void drawEllipseHelper(Context2d ctx, double x, double y, double w, double h) {
+	private static void drawEllipseHelper(Context2d ctx, double x, double y, double w, double h) {
 		double kappa = .5522848f;
 		double ox = (w / 2) * kappa; // control point offset horizontal
 		double oy = (h / 2) * kappa; // control point offset vertical
@@ -214,6 +227,22 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 		ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
 		ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
 		ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
+		ctx.fill();
+		ctx.stroke();
+	}
+
+	private static void drawRoundRectHelper(Context2d ctx, final double x, final double y, final double width, final double height, final double radius) {
+		ctx.beginPath();
+		ctx.moveTo(x + radius, y);
+		ctx.lineTo(width - radius, y);
+		ctx.quadraticCurveTo(width, y, width, y + radius);
+		ctx.lineTo(width, height - radius);
+		ctx.quadraticCurveTo(width, height, width - radius, height);
+		ctx.lineTo(x + radius, height);
+		ctx.quadraticCurveTo(x, height, x, height - radius);
+		ctx.lineTo(x, y + radius);
+		ctx.quadraticCurveTo(x, y, x + radius, y);
+	    ctx.closePath();
 		ctx.fill();
 		ctx.stroke();
 	}

@@ -184,5 +184,6 @@ public abstract class BaseDrawHandler {
 	public abstract void drawEllipse(double x, double y, double width, double height);
 	public abstract void drawLines(PointDouble ... points);
 	public abstract void drawRectangle(double x, double y, double width, double height);
+	public abstract void drawRectangleRound(double x, double y, double width, double height, double radius);
 	public abstract void print(String text, PointDouble point, AlignHorizontal align);
 }

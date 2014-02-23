@@ -7,6 +7,7 @@ import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
+import java.awt.geom.RoundRectangle2D;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Utils;
@@ -145,10 +146,11 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		addShape(new Rectangle.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom()));
 	}
 
-//	@Override
-//	public void drawRectangleRound(double x, double y, double width, double height, double arcw, double arch) {
-//		addShape(new RoundRectangle2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), arcw * getZoom(), arch * getZoom()));
-//	}
+	@Override
+	public void drawRectangleRound(double x, double y, double width, double height, double radius) {
+		double rad = radius * 2 * getZoom();
+		addShape(new RoundRectangle2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), rad, rad));
+	}
 
 	@Override
 	public void print(String text, PointDouble point, AlignHorizontal align) {
