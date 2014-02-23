@@ -14,6 +14,8 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.diagram.draw.helper.StyleException;
+import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
+import com.umlet.element.experimental.facets.defaults.ForegroundColorFacet;
 
 public abstract class BaseDrawHandler {
 
@@ -29,11 +31,11 @@ public abstract class BaseDrawHandler {
 		this.fgDefaultColor = ColorOwn.DEFAULT_FOREGROUND;
 		this.bgDefaultColor = ColorOwn.DEFAULT_BACKGROUND;
 	}
-	
+
 	public void setFgDefaultColor(ColorOwn fgDefaultColor) {
 		this.fgDefaultColor = fgDefaultColor;
 	}
-	
+
 	public void setBgDefaultColor(ColorOwn bgDefaultColor) {
 		this.bgDefaultColor = bgDefaultColor;
 	}
@@ -41,7 +43,7 @@ public abstract class BaseDrawHandler {
 	protected Style getOverlay() {
 		return overlay;
 	}
-	
+
 	protected void addDrawable(DrawFunction drawable) {
 		drawables.add(drawable);
 	}
@@ -72,7 +74,7 @@ public abstract class BaseDrawHandler {
 	}
 
 	public final void setForegroundColor(String color) {
-		if (color.equals("fg")) setForegroundColor(fgDefaultColor);
+		if (color.equals(ForegroundColorFacet.KEY)) setForegroundColor(fgDefaultColor);
 		else setForegroundColor(ColorOwn.forString(color, Transparency.FOREGROUND)); // if fgColor is not a valid string null will be set
 	}
 
@@ -82,7 +84,7 @@ public abstract class BaseDrawHandler {
 	}
 
 	public final void setBackgroundColor(String color) {
-		if (color.equals("bg")) setBackgroundColor(bgDefaultColor);
+		if (color.equals(BackgroundColorFacet.KEY)) setBackgroundColor(bgDefaultColor);
 		else setBackgroundColor(ColorOwn.forString(color, Transparency.BACKGROUND));
 	}
 
@@ -92,43 +94,30 @@ public abstract class BaseDrawHandler {
 	}
 
 	public void resetColorSettings() {
-		setForegroundColor("fg");
-		setBackgroundColor("bg");
+		setForegroundColor(ForegroundColorFacet.KEY);
+		setBackgroundColor(BackgroundColorFacet.KEY);
 	}
 
 	public final void setFontSize(double fontSize) {
+		assertDoubleRange(fontSize);
 		style.setFontSize(fontSize);
 	}
 
-	public final void setFontSize(String fontSize) {
-		if (fontSize != null) {
-			try {
-				setFontSize(Double.valueOf(fontSize));
-			} catch (NumberFormatException e) {/*do nothing*/}
-		}
-	}
-	
 	public final void setLineType(LineType type) {
 		style.setLineType(type);
 	}
 
-	public final void setLineType(String type) {
-		for (LineType lt : LineType.values()) {
-			if (lt.getValue().equals(type)) {
-				style.setLineType(lt);
-			}
-		}
-
-		if (LineType.BOLD.getValue().equals(type)) style.setLineThickness(2);
-	}
-	
 	public final void setLineThickness(double lineThickness) {
-		if (lineThickness <= 0 || lineThickness > 100) {
-			throw new StyleException("value must be >0 and <=100");
-		}
+		assertDoubleRange(lineThickness);
 		style.setLineThickness(lineThickness);
 	}
-	
+
+	private void assertDoubleRange(double doubleValue) {
+		if (doubleValue <= 0 || doubleValue > 100) {
+			throw new StyleException("value must be >0 and <=100");
+		}
+	}
+
 	public void resetStyle() {
 		resetColorSettings();
 		style.setFontSize(getDefaultFontSize());
@@ -139,7 +128,7 @@ public abstract class BaseDrawHandler {
 	public Style getCurrentStyle() {
 		return style.cloneFromMe();
 	}
-	
+
 	public void setStyle(Style style) {
 		this.style = style;
 	}
@@ -153,7 +142,7 @@ public abstract class BaseDrawHandler {
 	public double getDistanceHorizontalBorderToText() {
 		return 3;
 	}
-	
+
 	/*
 	 * HELPER METHODS
 	 */

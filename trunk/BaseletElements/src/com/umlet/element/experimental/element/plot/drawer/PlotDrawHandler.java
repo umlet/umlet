@@ -345,8 +345,8 @@ public class PlotDrawHandler {
 			}
 
 			if (cIndex >= colors.size()) cIndex = 0; // Restart with first color if all colors in the array has been used
-			base.setForegroundColor(colors.get(cIndex));
-			base.setBackgroundColor(ColorOwn.forString(colors.get(cIndex), Transparency.FOREGROUND));
+			base.setForegroundColor(ColorOwn.forStringOrNull(colors.get(cIndex), Transparency.FOREGROUND));
+			base.setBackgroundColor(ColorOwn.forStringOrNull(colors.get(cIndex), Transparency.FOREGROUND));
 			
 			if (line) {
 			for (int i = 0; i < points.size() - 1; i++) {
@@ -362,7 +362,7 @@ public class PlotDrawHandler {
 				}
 			}
 			//print titleCol
-			base.setForegroundColor(ColorOwn.forString(colors.get(cIndex), Transparency.FOREGROUND).darken(75));
+			base.setForegroundColor(ColorOwn.forStringOrNull(colors.get(cIndex), Transparency.FOREGROUND).darken(75));
 			base.print(title[valueIndex], points.get(points.size()-1).x, points.get(points.size()-1).y, AlignHorizontal.CENTER);
 
 			cIndex++;
@@ -448,7 +448,7 @@ public class PlotDrawHandler {
 			int value_x = (int)((diameter / 2 ) * Math.cos(radians)) + ulCorner.x + diameter / 2 + width/2-diameter/2;
 			int value_y = (int)((diameter / 2 ) * Math.sin(radians)) + ulCorner.y + diameter / 2 + height/2-diameter/2;
 
-			base.setForegroundColor(ColorOwn.forString(colors.get(cIndex), Transparency.FOREGROUND).darken(75));
+			base.setForegroundColor(ColorOwn.forStringOrNull(colors.get(cIndex), Transparency.FOREGROUND).darken(75));
 			base.print(desc[i], value_x, value_y, AlignHorizontal.CENTER);
 
 			//System.out.println("value_x: "+value_x+" / value_y:"+value_y);

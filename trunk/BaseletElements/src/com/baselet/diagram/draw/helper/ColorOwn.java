@@ -6,6 +6,8 @@ import org.apache.log4j.Logger;
 
 public class ColorOwn {
 
+	public static final String EXAMPLE_TEXT = "color string (green,...) or code (#3c7a00,...)";
+
 	private static final Logger log = Logger.getLogger(ColorOwn.class);
 
 	public static enum Transparency {
@@ -13,18 +15,18 @@ public class ColorOwn {
 		FULL_TRANSPARENT(0),
 		BACKGROUND(125),
 		SELECTION_BACKGROUND(15);
-		
+
 		private int alpha;
 
 		private Transparency(int alpha) {
 			this.alpha = alpha;
 		}
-		
+
 		public int getAlpha() {
 			return alpha;
 		}
 	}
-	
+
 	public static final ColorOwn RED = new ColorOwn(255, 0, 0, Transparency.FOREGROUND);
 	public static final ColorOwn GREEN = new ColorOwn(0, 255, 0, Transparency.FOREGROUND);
 	public static final ColorOwn BLUE = new ColorOwn(0, 0, 255, Transparency.FOREGROUND);
@@ -62,7 +64,7 @@ public class ColorOwn {
 		COLOR_MAP.put("white", ColorOwn.WHITE);
 		COLOR_MAP.put("yellow", ColorOwn.YELLOW);
 	}
-	
+
 	/* fields should be final to avoid changing parts of existing color object (otherwise unexpected visible changes can happen) */
 	private final int red;
 	private final int green;
@@ -72,7 +74,7 @@ public class ColorOwn {
 	public ColorOwn(int red, int green, int blue, Transparency transparency) {
 		this(red, green, blue, transparency.getAlpha());
 	}
-	
+
 	public ColorOwn(int red, int green, int blue, int alpha) {
 		this.red = red;
 		this.green = green;
@@ -103,11 +105,11 @@ public class ColorOwn {
 	public int getAlpha() {
 		return alpha;
 	}
-	
+
 	public ColorOwn transparency(Transparency transparency) {
 		return new ColorOwn(getRed(), getGreen(), getBlue(), transparency.getAlpha());
 	}
-	
+
 	public ColorOwn darken(int factor) {
 		return new ColorOwn(Math.max(0, getRed()-factor), Math.max(0, getGreen()-factor), Math.max(0, getBlue()-factor), getAlpha());
 	}
@@ -119,24 +121,45 @@ public class ColorOwn {
 	 *            String which describes the color
 	 * @return Color which is related to the String or null if it is no valid colorString
 	 */
+	public static ColorOwn forStringOrNull(String colorString, Transparency transparency) {
+		try {
+			return forString(colorString, transparency);
+		} catch (StyleException e) {
+			return null;
+		}
+	}
+
+	/**
+	 * Converts colorString into a Color which is available in the colorMap or if not tries to decode the colorString
+	 * 
+	 * @param colorString
+	 *            String which describes the color
+	 * @return Color which is related to the String or null if it is no valid colorString
+	 */
 	public static ColorOwn forString(String colorString, Transparency transparency) {
-		if (colorString == null) return null;
+		boolean error = false;
 		ColorOwn returnColor = null;
-		for (String color : COLOR_MAP.keySet()) {
-			if (colorString.equalsIgnoreCase(color)) {
-				returnColor = COLOR_MAP.get(color);
-				break;
+		if (colorString == null) {
+			error = true;
+		} else {
+			for (String color : COLOR_MAP.keySet()) {
+				if (colorString.equalsIgnoreCase(color)) {
+					returnColor = COLOR_MAP.get(color);
+					break;
+				}
 			}
-		}
-		if (returnColor == null) {
-			try {
-				returnColor = new ColorOwn(colorString);
-			} catch (NumberFormatException e) {
-				//only print for debugging because message would be printed, when typing the color
-				log.debug("Invalid color:" + colorString);
+			if (returnColor == null) {
+				try {
+					returnColor = new ColorOwn(colorString);
+				} catch (NumberFormatException e) {
+					error = true;
+				}
 			}
+			if (returnColor != null) returnColor = returnColor.transparency(transparency);
 		}
-		if (returnColor != null) returnColor = returnColor.transparency(transparency);
+		if (error) {
+			throw new StyleException("value must be a " + EXAMPLE_TEXT);
+		}
 		return returnColor;
 	}
 
@@ -168,7 +191,7 @@ public class ColorOwn {
 	public String toString() {
 		return "ColorOwn [red=" + red + ", green=" + green + ", blue=" + blue + ", alpha=" + alpha + "]";
 	}
-	
-	
+
+
 
 }

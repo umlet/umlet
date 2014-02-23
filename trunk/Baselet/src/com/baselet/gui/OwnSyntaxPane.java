@@ -54,7 +54,7 @@ public class OwnSyntaxPane {
 		textArea.setSyntaxEditingStyle(OwnTokenMaker.ID);
 
 		SyntaxScheme scheme = textArea.getSyntaxScheme();
-		scheme.getStyle(SPECIFIC_SETTING).foreground = Converter.convert(ColorOwn.forString("#e10100", Transparency.FOREGROUND));
+		scheme.getStyle(SPECIFIC_SETTING).foreground = Converter.convert(ColorOwn.forStringOrNull("#e10100", Transparency.FOREGROUND));
 		scheme.getStyle(GLOBAL_SETTING).foreground = Converter.convert(ColorOwn.BLUE);
 
 		// Setup autocompletion

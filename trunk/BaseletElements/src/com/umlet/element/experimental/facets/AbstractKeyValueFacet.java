@@ -71,7 +71,7 @@ public abstract class AbstractKeyValueFacet extends AbstractFacet {
 			this.info = info;
 			this.base64Img = base64Img;
 		}
-		private Object getValue() {
+		public Object getValue() {
 			return value;
 		}
 		private String getInfo() {

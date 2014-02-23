@@ -1,5 +1,8 @@
 package com.umlet.element.experimental.facets.defaults;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
@@ -18,9 +21,19 @@ public class LineTypeFacet extends AbstractGlobalKeyValueFacet {
 				new ValueInfo(LineType.BOLD.getValue(), "bold lines"));
 	}
 	
+	private static final List<LineType> supportedTypes = Arrays.asList(LineType.DASHED, LineType.DOTTED, LineType.BOLD);
+	
 	@Override
 	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
-		drawer.setLineType(value.toUpperCase());
+		LineType lt = null;
+		for (LineType s : supportedTypes) {
+			if (s.getValue().equals(value)) lt = s;
+		}
+		if (lt == null) {
+			throw new RuntimeException(); // will be translated to usage message
+		}
+		drawer.setLineType(lt);
+		if (lt == LineType.BOLD) drawer.setLineThickness(2);
 	}
 
 	public Priority getPriority() {

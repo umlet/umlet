@@ -31,6 +31,8 @@ import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
+import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
+import com.umlet.element.experimental.facets.defaults.ForegroundColorFacet;
 
 
 @SuppressWarnings("serial")
@@ -415,18 +417,18 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "foregroundColor")
 	protected final void setForegroundColor(String fgColorString) {
-		tmpFgColor = Converter.convert(ColorOwn.forString(fgColorString, Transparency.FOREGROUND));
+		tmpFgColor = Converter.convert(ColorOwn.forStringOrNull(fgColorString, Transparency.FOREGROUND));
 		if (tmpFgColor == null) {
-			if (fgColorString.equals("fg")) tmpFgColor = fgColor;
+			if (fgColorString.equals(ForegroundColorFacet.KEY)) tmpFgColor = fgColor;
 		}
 	}
 
 	@CustomFunction(param_defaults = "backgroundColor")
 	protected final void setBackgroundColor(String bgColorString) {
 		// OldGridElements apply transparency for background explicitly, therefore don't apply it here
-		tmpBgColor = Converter.convert(ColorOwn.forString(bgColorString, Transparency.FOREGROUND));
+		tmpBgColor = Converter.convert(ColorOwn.forStringOrNull(bgColorString, Transparency.FOREGROUND));
 		if (tmpBgColor == null) {
-			if (bgColorString.equals("bg")) tmpBgColor = bgColor;
+			if (bgColorString.equals(BackgroundColorFacet.KEY)) tmpBgColor = bgColor;
 		}
 //		 Transparency is 0% if none or 50% if anything else
 		if (bgColorString.equals("none")) tmpAlpha = OldGridElement.ALPHA_FULL_TRANSPARENCY;

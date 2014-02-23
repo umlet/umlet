@@ -67,7 +67,7 @@ public abstract class AbstractPlot {
 		Double[][] values = ds.data();
 		List<String> colors = plotState.getValueList(PlotConstants.KEY_LIST_COLORS, PlotConstants.COLORS_DEFAULT);
 		for (String color : colors) {
-			if (ColorOwn.forString(color, Transparency.FOREGROUND) == null) {
+			if (ColorOwn.forStringOrNull(color, Transparency.FOREGROUND) == null) {
 				throw new ParserException("Unknown color: " + color + "(line: " + plotState.getLine(PlotConstants.KEY_LIST_COLORS) + ")");
 			}
 		}

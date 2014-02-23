@@ -209,12 +209,12 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			if (line.indexOf("bg=") >= 0) {
 				bgColorString = line.substring("bg=".length());
 				// OldGridElements apply transparency for background explicitly, therefore don't apply it here
-				bgColor = Converter.convert(ColorOwn.forString(bgColorString, Transparency.FOREGROUND));
+				bgColor = Converter.convert(ColorOwn.forStringOrNull(bgColorString, Transparency.FOREGROUND));
 				if (bgColor == null) bgColor = getDefaultBackgroundColor();
 			}
 			else if (line.indexOf("fg=") >= 0) {
 				fgColorString = line.substring("fg=".length());
-				fgColorBase = Converter.convert(ColorOwn.forString(fgColorString, Transparency.FOREGROUND));
+				fgColorBase = Converter.convert(ColorOwn.forStringOrNull(fgColorString, Transparency.FOREGROUND));
 				if (fgColorBase == null) fgColorBase = Converter.convert(ColorOwn.DEFAULT_FOREGROUND);
 				if (!Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) fgColor = fgColorBase;
 			}

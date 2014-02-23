@@ -13,4 +13,5 @@ public enum LineType implements ValueHolder {
 	public String getValue() {
 		return value;
 	}
+	
 }

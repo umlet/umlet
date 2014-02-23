@@ -1,6 +1,7 @@
 package com.umlet.element.experimental.facets.defaults;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
 
@@ -13,7 +14,7 @@ public class ForegroundColorFacet extends AbstractGlobalKeyValueFacet {
 	
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue(KEY, false, "red", "foreground color string (blue,...) or code (#0A37D3,...)");
+		return new KeyValue(KEY, false, "red", "foreground " + ColorOwn.EXAMPLE_TEXT);
 	}
 
 	@Override
