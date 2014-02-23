@@ -231,6 +231,9 @@ public class BaseDrawHandlerGWT extends BaseDrawHandler {
 		ctx.stroke();
 	}
 
+	/**
+	 * based on http://js-bits.blogspot.co.at/2010/07/canvas-rounded-corner-rectangles.html
+	 */
 	private static void drawRoundRectHelper(Context2d ctx, final double x, final double y, final double width, final double height, final double radius) {
 		ctx.beginPath();
 		ctx.moveTo(x + radius, y);
