@@ -160,12 +160,39 @@ bg=red</panel_attributes>
   <element>
     <id>UMLAction</id>
     <coordinates>
-      <x>240</x>
-      <y>512</y>
-      <w>48</w>
-      <h>80</h>
+      <x>208</x>
+      <y>568</y>
+      <w>88</w>
+      <h>32</h>
     </coordinates>
-    <panel_attributes>asdasdasd</panel_attributes>
+    <panel_attributes>type=receive_signal
+activity
+receiver</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLAction</id>
+    <coordinates>
+      <x>208</x>
+      <y>488</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>type=action
+activity action</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLAction</id>
+    <coordinates>
+      <x>208</x>
+      <y>528</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>type=send_signal
+activity
+sender</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
