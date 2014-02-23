@@ -9,9 +9,10 @@ import java.util.List;
 import com.baselet.element.GridElement;
 import com.baselet.element.HasPanelAttributes;
 import com.baselet.gui.AutocompletionText;
+import com.baselet.gwt.client.view.SelectorNew.HasGridElements;
 import com.umlet.element.experimental.element.uml.relation.Relation;
 
-public class Diagram implements HasPanelAttributes {
+public class Diagram implements HasPanelAttributes, HasGridElements {
 
 	private static final Comparator<GridElement> LAYER_COMPARATOR = new Comparator<GridElement>() {
 		@Override
@@ -32,6 +33,7 @@ public class Diagram implements HasPanelAttributes {
 			this.gridElements = gridElements;
 		}
 
+		@Override
 		public List<GridElement> getGridElements() {
 			return gridElements;
 		}

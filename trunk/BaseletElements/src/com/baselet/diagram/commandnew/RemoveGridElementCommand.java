@@ -1,13 +1,15 @@
 package com.baselet.diagram.commandnew;
 
+import java.util.List;
+
 import com.baselet.element.GridElement;
 
 public class RemoveGridElementCommand extends Command {
 
 	private CanAddAndRemoveGridElement target;
-	private GridElement[] elements;
+	private List<GridElement> elements;
 
-	public RemoveGridElementCommand(CanAddAndRemoveGridElement target, GridElement ... elements) {
+	public RemoveGridElementCommand(CanAddAndRemoveGridElement target, List<GridElement> elements) {
 		this.target = target;
 		this.elements = elements;
 	}

@@ -8,6 +8,16 @@ import com.baselet.element.Selector;
 
 public class SelectorNew extends Selector {
 	
+	public static interface HasGridElements {
+		public List<GridElement> getGridElements();
+	}
+
+	private HasGridElements gridElementProvider;
+	
+	public SelectorNew(HasGridElements gridElementProvider) {
+		this.gridElementProvider = gridElementProvider;
+	}
+	
 	private List<GridElement> selectedElements = new ArrayList<GridElement>();
 	
 	public GridElement getSingleSelected() {
@@ -21,6 +31,11 @@ public class SelectorNew extends Selector {
 	@Override
 	public List<GridElement> getSelectedElements() {
 		return selectedElements;
+	}
+
+	@Override
+	public List<GridElement> getAllElements() {
+		return gridElementProvider.getGridElements();
 	}
 
 }
