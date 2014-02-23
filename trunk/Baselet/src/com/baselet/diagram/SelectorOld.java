@@ -144,7 +144,7 @@ public class SelectorOld extends Selector {
 		Main.getInstance().setCurrentDiagramHandler(this.panel.getHandler());
 		if (Main.getInstance().getGUI() != null) {
 			updateGUIInformation();
-			if (selectedElements.size() == 1) Main.getInstance().setPropertyPanelToGridElement(selectedElements.elementAt(0));
+			if (!selectedElements.isEmpty()) Main.getInstance().setPropertyPanelToGridElement(selectedElements.elementAt(0));
 			else Main.getInstance().setPropertyPanelToGridElement(null);
 		}
 	}
