@@ -411,10 +411,6 @@ public abstract class NewGridElement implements GridElement {
 		return handler;
 	}
 
-	public void onParsingStart() {
-		// hook method, do nothing at default
-	}
-
 	public int getGridSize() {
 		return (int) (getHandler().getZoomFactor() * SharedConstants.DEFAULT_GRID_SIZE);
 	}
