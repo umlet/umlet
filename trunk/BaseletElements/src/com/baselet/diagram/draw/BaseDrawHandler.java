@@ -13,6 +13,7 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Style;
+import com.baselet.diagram.draw.helper.StyleException;
 
 public abstract class BaseDrawHandler {
 
@@ -122,6 +123,9 @@ public abstract class BaseDrawHandler {
 	}
 	
 	public final void setLineThickness(double lineThickness) {
+		if (lineThickness <= 0 || lineThickness > 100) {
+			throw new StyleException("value must be >0 and <=100");
+		}
 		style.setLineThickness(lineThickness);
 	}
 	
