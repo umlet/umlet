@@ -157,4 +157,15 @@ fontsize=20</panel_attributes>
 bg=red</panel_attributes>
     <additional_attributes/>
   </element>
+  <element>
+    <id>UMLAction</id>
+    <coordinates>
+      <x>240</x>
+      <y>512</y>
+      <w>48</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>asdasdasd</panel_attributes>
+    <additional_attributes/>
+  </element>
 </diagram>
