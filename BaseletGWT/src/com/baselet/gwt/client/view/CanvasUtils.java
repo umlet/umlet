@@ -25,7 +25,7 @@ public class CanvasUtils {
 		pngCanvas.getContext2d().fillRect(0, 0, pngCanvas.getWidth(), pngCanvas.getHeight());
 		// Draw Elements on Canvas and translate their position
 		pngCanvas.getContext2d().translate(-geRect.getX(), -geRect.getY());
-		pngCanvas.draw(false, diagram.getGridElementsSortedByLayer(), new SelectorNew()); //use a new selector which has nothing selected
+		pngCanvas.draw(false, diagram.getGridElementsSortedByLayer(), new SelectorNew(diagram)); //use a new selector which has nothing selected
 		return pngCanvas.toDataUrl("image/png");
 	}
 

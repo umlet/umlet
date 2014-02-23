@@ -1,7 +1,6 @@
 package com.baselet.gwt.client.view;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -86,7 +85,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		this.mainView = mainView;
 		this.propertiesPanel = propertiesPanel;
 
-		selector = new SelectorNew() {
+		selector = new SelectorNew(diagram) {
 			public void doAfterSelectionChanged() {
 				if (!getSelectedElements().isEmpty()) { // always set properties text of latest selected element (so you also have an element in the prop panel even if you have an active multiselect)
 					propertiesPanel.setGridElement(getSelectedElements().get(getSelectedElements().size()-1), DrawPanel.this);
@@ -229,14 +228,14 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 	}
 
 	@Override
-	public void addGridElements(GridElement ... elements) {
-		diagram.getGridElements().addAll(Arrays.asList(elements));
+	public void addGridElements(List<GridElement> elements) {
+		diagram.getGridElements().addAll(elements);
 		selector.selectOnly(elements);
 	}
 
 	@Override
-	public void removeGridElements(GridElement ... elements) {
-		diagram.getGridElements().removeAll(Arrays.asList(elements));
+	public void removeGridElements(List<GridElement> elements) {
+		diagram.getGridElements().removeAll(elements);
 		selector.deselect(elements);
 	}
 

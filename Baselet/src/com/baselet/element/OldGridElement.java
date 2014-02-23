@@ -153,7 +153,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public void setAdditionalAttributes(String s) { }
+	public void setAdditionalAttributes(String s) {}
 
 	@Override
 	public String getPanelAttributes() {
@@ -169,7 +169,8 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		this.selected = selected;
 		if (selected) {
 			fgColor = Converter.convert(ColorOwn.SELECTION_FG);
-		} else {
+		}
+		else {
 			fgColor = fgColorBase;
 			this.setStickingBorderActive(true);
 		}
@@ -189,7 +190,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		for (String line : Utils.decomposeStringsWithComments(this.getPanelAttributes())) {
 			if (!line.startsWith(key.toString())) newState += line + "\n";
 		}
-		newState = newState.substring(0, newState.length()-1); //remove last linebreak
+		newState = newState.substring(0, newState.length() - 1); // remove last linebreak
 		if (newValue != null && !newValue.isEmpty()) newState += "\n" + key.toString() + "=" + newValue; // null will not be added as a value
 		this.setPanelAttributes(newState);
 		Main.getHandlerForElement(this).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
@@ -235,7 +236,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public Dimension getRealSize() {
 		return new Dimension(getRectangle().width / Main.getHandlerForElement(this).getGridSize() * Constants.DEFAULTGRIDSIZE, getRectangle().height / Main.getHandlerForElement(this).getGridSize() * Constants.DEFAULTGRIDSIZE);
 	}
-
 
 	@Override
 	public Set<Direction> getResizeArea(int x, int y) {
@@ -329,7 +329,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
 			g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
 			for (Line line : poly.getStickLines()) {
-				g2.drawLine((int)line.getStart().getX(), (int)line.getStart().getY(), (int)line.getEnd().getX(), (int)line.getEnd().getY());
+				g2.drawLine((int) line.getStart().getX(), (int) line.getStart().getY(), (int) line.getEnd().getX(), (int) line.getEnd().getY());
 			}
 			g2.setColor(c);
 			g2.setStroke(s);
@@ -337,6 +337,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	private boolean translateForExport = false;
+
 	public void translateForExport() {
 		translateForExport = true;
 	}
@@ -352,7 +353,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		// TODO (same problem as in @see com.umlet.element.experimental.ComponentSwing#paint(Graphics g))
 		// the selected state stored in GridElements is NOT the same as the selector holds, therefore it must be set explicitly through a setSelected() method.
 		// TODO make sure the selector holds the correct state and a repaint is triggered, then the following line should work:
-		//		boolean selected = Main.getHandlerForElement(gridElement).getDrawPanel().getSelector().isSelected(gridElement);
+		// boolean selected = Main.getHandlerForElement(gridElement).getDrawPanel().getSelector().isSelected(gridElement);
 		if (selected && Constants.show_stickingpolygon && !this.isPartOfGroup()) {
 			this.drawStickingPolygon(g2);
 		}
@@ -384,14 +385,14 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public void updateModelFromText() {
-		/*OldGridElement has no model but simply parses the properties text within every paint() call*/
+		/* OldGridElement has no model but simply parses the properties text within every paint() call */
 	}
 
 	@Override
 	public Integer getLayer() {
 		try {
 			return Integer.valueOf(getSettingHelper(LayerFacet.KEY, LayerFacet.DEFAULT_VALUE.toString()));
-		} catch (NumberFormatException e) {/*default value applies*/}
+		} catch (NumberFormatException e) {/* default value applies */}
 		return LayerFacet.DEFAULT_VALUE;
 	}
 

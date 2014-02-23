@@ -1,6 +1,7 @@
 package com.baselet.diagram;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -12,6 +13,7 @@ import com.baselet.element.OldGridElement;
 import com.baselet.element.Selector;
 import com.umlet.custom.CustomElement;
 import com.umlet.element.experimental.ComponentSwing;
+import com.umlet.element.experimental.facets.defaults.GroupFacet;
 
 public class SelectorOld extends Selector {
 
@@ -64,15 +66,26 @@ public class SelectorOld extends Selector {
 	}
 
 	private void setSelected(GridElement e, boolean value) {
-		if (e instanceof OldGridElement) {
-			((OldGridElement) e).setSelected(value);
-		} else {
-			((ComponentSwing)e.getComponent()).setSelected(value);
+		setSelectedHelper(e, value);
+		if (!e.getGroup().equals(GroupFacet.DEFAULT_VALUE)) {
+			for (GridElement other : getAllElements()) {
+				if (other != e && other.getGroup().equals(e.getGroup())) {
+					setSelectedHelper(other, value);
+				}
+			}
 		}
 		if (e instanceof Group) {
 			for (GridElement eInGroup : ((Group) e).getMembers()) {
 				setSelected(eInGroup, value);
 			}
+		}
+	}
+
+	private void setSelectedHelper(GridElement e, boolean value) {
+		if (e instanceof OldGridElement) {
+			((OldGridElement) e).setSelected(value);
+		} else {
+			((ComponentSwing)e.getComponent()).setSelected(value);
 		}
 	}
 
@@ -161,5 +174,13 @@ public class SelectorOld extends Selector {
 	@Override
 	public List<GridElement> getSelectedElements() {
 		return selectedElements;
+	}
+
+	@Override
+	public List<GridElement> getAllElements() {
+		if (Main.getInstance().getDiagramHandler() == null) {
+			return Collections.<GridElement>emptyList();
+		}
+		return Main.getInstance().getDiagramHandler().getDrawPanel().getAllEntities();
 	}
 }

@@ -55,7 +55,7 @@ public class DrawPanelPalette extends DrawPanel {
 			otherDrawFocusPanel.setFocus(true);
 			GridElement e = ElementFactory.create(ge, otherDrawFocusPanel.getDiagram());
 			commandInvoker.realignElementsToVisibleRect(otherDrawFocusPanel, Arrays.asList(e));
-			commandInvoker.addElements(otherDrawFocusPanel, e);
+			commandInvoker.addElements(otherDrawFocusPanel, Arrays.asList(e));
 		}
 	}
 

@@ -26,16 +26,15 @@ public class CommandInvoker extends Controller {
 		super();
 	}
 	
-	void addElements(CanAddAndRemoveGridElement target, GridElement ... elements) {
+	void addElements(CanAddAndRemoveGridElement target, List<GridElement> elements) {
 		this.executeCommand(new AddGridElementCommand(target, elements));
 	}
 
 	void addElements(CanAddAndRemoveGridElement target, Collection<GridElement> elements) {
-		addElements(target, elements.toArray(new GridElement[elements.size()]));
+		addElements(target, elements);
 	}
 	void removeElements(DrawPanel target, List<GridElement> elements) {
-		GridElement[] elementsArray = elements.toArray(new GridElement[elements.size()]);
-		this.executeCommand(new RemoveGridElementCommand(target, elementsArray));
+		this.executeCommand(new RemoveGridElementCommand(target, elements));
 	}
 	
 	void removeSelectedElements(DrawPanel target) {
