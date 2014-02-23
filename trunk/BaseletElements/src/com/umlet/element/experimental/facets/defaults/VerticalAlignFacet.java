@@ -23,4 +23,8 @@ public class VerticalAlignFacet extends AbstractGlobalKeyValueFacet {
 		propConfig.setvAlignGlobally(AlignVertical.valueOf(value.toUpperCase()));
 	}
 
+	public Priority getPriority() {
+		return Priority.HIGH;
+	}
+
 }

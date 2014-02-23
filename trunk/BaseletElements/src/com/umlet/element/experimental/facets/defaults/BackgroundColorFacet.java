@@ -21,4 +21,8 @@ public class BackgroundColorFacet extends AbstractGlobalKeyValueFacet {
 		drawer.setBackgroundColor(value);
 	}
 
+	public Priority getPriority() {
+		return Priority.HIGH;
+	}
+
 }

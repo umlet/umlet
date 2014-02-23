@@ -116,8 +116,4 @@ public abstract class AbstractKeyValueFacet extends AbstractFacet {
 		return getKeyValue().getKey() + SEP;
 	}
 
-	public Priority getPriority() {
-		return Priority.HIGH;
-	}
-
 }

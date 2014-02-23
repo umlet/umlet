@@ -24,4 +24,8 @@ public class ElementStyleFacet extends AbstractGlobalKeyValueFacet {
 		propConfig.setElementStyle(ElementStyleEnum.valueOf(value.toUpperCase()));
 	}
 
+	public Priority getPriority() {
+		return Priority.HIGH;
+	}
+
 }
