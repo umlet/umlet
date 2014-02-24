@@ -18,7 +18,7 @@ public class GroupFacet extends AbstractGlobalKeyValueFacet {
 
 	@Override
 	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
-		propConfig.setGroup(value);
+		propConfig.putFacetResponse(GroupFacet.class, value);
 	}
 
 }

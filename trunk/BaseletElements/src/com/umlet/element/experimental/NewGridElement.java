@@ -33,6 +33,8 @@ import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.defaults.GroupFacet;
+import com.umlet.element.experimental.facets.defaults.LayerFacet;
 
 public abstract class NewGridElement implements GridElement {
 	
@@ -320,12 +322,12 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public Integer getLayer() {
-		return propCfg.getLayer();
+		return propCfg.getFacetResponse(LayerFacet.class, LayerFacet.DEFAULT_VALUE);
 	}
 	
 	@Override
 	public String getGroup() {
-		return propCfg.getGroup();
+		return propCfg.getFacetResponse(GroupFacet.class, GroupFacet.DEFAULT_VALUE);
 	}
 
 	public abstract ElementId getId();
