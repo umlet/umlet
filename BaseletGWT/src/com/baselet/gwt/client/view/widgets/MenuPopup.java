@@ -1,5 +1,7 @@
 package com.baselet.gwt.client.view.widgets;
 
+import java.util.List;
+
 import com.baselet.diagram.draw.geom.Point;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -21,7 +23,7 @@ public class MenuPopup extends MyPopupPanel {
 		public abstract void execute();
 	}
 
-	public MenuPopup(MenuPopupItem ... items) {
+	public MenuPopup(List<MenuPopupItem> items) {
 		super(false, Type.MENU);
 		MenuBar popupMenuBar = new MenuBar(true);
 
