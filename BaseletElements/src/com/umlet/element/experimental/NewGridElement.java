@@ -128,10 +128,10 @@ public abstract class NewGridElement implements GridElement {
 
 	void resetMetaDrawerAndDrawCommonContent() {
 		resetMetaDrawer(metaDrawer); // must be after properties.initSettingsFromText() because stickingpolygon size can be based on some settings (eg: Actor uses this)
-		drawCommonContent(drawer); // must be before properties.drawPropertiesText (to make sure a possible background color is behind the text)
+		drawCommonContent(drawer, propCfg); // must be before properties.drawPropertiesText (to make sure a possible background color is behind the text)
 	}
 
-	protected abstract void drawCommonContent(BaseDrawHandler drawer);
+	protected abstract void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg);
 
 	protected void resetMetaDrawer(BaseDrawHandler drawer) {
 		drawer.clearCache();

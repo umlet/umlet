@@ -226,7 +226,7 @@ public class PlotGrid extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer) {
+	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
 		try {
 			matrix = new Matrix<List<AbstractPlot>>();
 			ParserResult parserState = new Parser().parse(getPanelAttributes());
