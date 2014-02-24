@@ -8,6 +8,7 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 
 public class ActionType extends AbstractGlobalKeyValueFacet {
 	
@@ -43,6 +44,7 @@ public class ActionType extends AbstractGlobalKeyValueFacet {
 			drawer.drawLines(Arrays.asList(p(xClock, 0), p(x2Clock, CLOCK_DIM), p(xClock, CLOCK_DIM), p(x2Clock, 0), p(xClock, 0)));
 			propConfig.addToYPos(CLOCK_DIM);
 			propConfig.setvAlign(AlignVertical.TOP);
+			propConfig.setElementStyle(ElementStyleEnum.AUTORESIZE);
 		}
 		propConfig.putFacetResponse(ActionType.class, true);
 	}
