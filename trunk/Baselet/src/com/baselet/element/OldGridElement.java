@@ -136,7 +136,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public void setGroup(GridElement group) {
+	public void setGroupObj(GridElement group) {
 		this.group = group;
 	}
 
@@ -185,13 +185,13 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public void updateProperty(String key, String newValue) {
+	public void updateProperty(String key, Object newValue) {
 		String newState = "";
 		for (String line : Utils.decomposeStringsWithComments(this.getPanelAttributes())) {
 			if (!line.startsWith(key.toString())) newState += line + "\n";
 		}
 		newState = newState.substring(0, newState.length() - 1); // remove last linebreak
-		if (newValue != null && !newValue.isEmpty()) newState += "\n" + key.toString() + "=" + newValue; // null will not be added as a value
+		if (newValue != null && !newValue.toString().isEmpty()) newState += "\n" + key.toString() + "=" + newValue; // null will not be added as a value
 		this.setPanelAttributes(newState);
 		Main.getHandlerForElement(this).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 		this.repaint();
@@ -409,8 +409,11 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public String getGroup() {
-		return getSettingHelper(GroupFacet.KEY, GroupFacet.DEFAULT_VALUE);
+	public Integer getGroup() {
+		try {
+			return Integer.valueOf(getSettingHelper(GroupFacet.KEY, null));
+		} catch (NumberFormatException e) {/* default value applies */}
+		return null;
 	}
 
 	@Override

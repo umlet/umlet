@@ -13,7 +13,6 @@ import com.baselet.element.OldGridElement;
 import com.baselet.element.Selector;
 import com.umlet.custom.CustomElement;
 import com.umlet.element.experimental.ComponentSwing;
-import com.umlet.element.experimental.facets.defaults.GroupFacet;
 
 public class SelectorOld extends Selector {
 
@@ -67,7 +66,7 @@ public class SelectorOld extends Selector {
 
 	private void setSelected(GridElement e, boolean value) {
 		setSelectedHelper(e, value);
-		if (!e.getGroup().equals(GroupFacet.DEFAULT_VALUE)) {
+		if (e.getGroup() != null) {
 			for (GridElement other : getAllElements()) {
 				if (other != e && other.getGroup().equals(e.getGroup())) {
 					setSelectedHelper(other, value);

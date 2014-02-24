@@ -50,7 +50,7 @@ public class Group extends OldGridElement {
 
 	public void ungroup() {
 		for (GridElement e : this.entities) {
-			e.setGroup(null);
+			e.setGroupObj(null);
 			((Component) e.getComponent()).addMouseListener(Main.getHandlerForElement(this).getEntityListener(e));
 			((Component) e.getComponent()).addMouseMotionListener(Main.getHandlerForElement(this).getEntityListener(e));
 		}
@@ -80,7 +80,7 @@ public class Group extends OldGridElement {
 
 	public void addMember(GridElement member) {
 		this.entities.add(member);
-		member.setGroup(this);
+		member.setGroupObj(this);
 		if (Main.getHandlerForElement(member) != null) {
 			((Component) member.getComponent()).removeMouseListener(Main.getHandlerForElement(member).getEntityListener(member));
 			((Component) member.getComponent()).removeMouseMotionListener(Main.getHandlerForElement(member).getEntityListener(member));

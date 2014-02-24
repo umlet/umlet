@@ -87,64 +87,59 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 
 		selector = new SelectorNew(diagram) {
 			public void doAfterSelectionChanged() {
-				if (!getSelectedElements().isEmpty()) { // always set properties text of latest selected element (so you also have an element in the prop panel even if you have an active multiselect)
-					propertiesPanel.setGridElement(getSelectedElements().get(getSelectedElements().size()-1), DrawPanel.this);
-				} else {
-					propertiesPanel.setGridElement(diagram, DrawPanel.this);
-				}
-				redraw();
+				updatePropertiesPanelWithSelectedElement();
 			}
 		};
 
 		menuPopup = new MenuPopup (
-				new MenuPopupItem() {
-					@Override
-					public String getText() {
-						return MenuConstants.DELETE;
-					}
+				new MenuPopupItem(MenuConstants.DELETE) {
 					@Override
 					public void execute() {
 						commandInvoker.removeSelectedElements(DrawPanel.this);
 					}
-				}, new MenuPopupItem() {
-					@Override
-					public String getText() {
-						return MenuConstants.COPY;
-					}
+				}, new MenuPopupItem(MenuConstants.COPY) {
 					@Override
 					public void execute() {
 						commandInvoker.copySelectedElements(DrawPanel.this);
 					}
-				}, new MenuPopupItem() {
-					@Override
-					public String getText() {
-						return MenuConstants.CUT;
-					}
+				}, new MenuPopupItem(MenuConstants.CUT) {
 					@Override
 					public void execute() {
 						commandInvoker.cutSelectedElements(DrawPanel.this);
 					}
-				}, new MenuPopupItem() {
-					@Override
-					public String getText() {
-						return MenuConstants.PASTE;
-					}
+				}, new MenuPopupItem(MenuConstants.PASTE) {
 					@Override
 					public void execute() {
 						commandInvoker.pasteElements(DrawPanel.this);
 					}
-				}, new MenuPopupItem() {
-					@Override
-					public String getText() {
-						return MenuConstants.SELECT_ALL;
-					}
+				}, new MenuPopupItem(MenuConstants.SELECT_ALL) {
 					@Override
 					public void execute() {
 						selector.select(diagram.getGridElements());
 					}
+				}, new MenuPopupItem(MenuConstants.GROUP) {
+					@Override
+					public void execute() {
+						commandInvoker.updateSelectedElementsGroup(DrawPanel.this, true);
+					}
+				}, new MenuPopupItem(MenuConstants.UNGROUP) {
+					@Override
+					public void execute() {
+						commandInvoker.updateSelectedElementsGroup(DrawPanel.this, false);
+					}
 				});
 
 		this.add(canvas.getWidget());
+	}
+
+	public void updatePropertiesPanelWithSelectedElement() {
+		List<GridElement> elements = selector.getSelectedElements();
+		if (!elements.isEmpty()) { // always set properties text of latest selected element (so you also have an element in the prop panel even if you have an active multiselect)
+			propertiesPanel.setGridElement(elements.get(elements.size()-1), DrawPanel.this);
+		} else {
+			propertiesPanel.setGridElement(diagram, DrawPanel.this);
+		}
+		redraw();
 	}
 
 	void moveSelectedElements(int diffX, int diffY, boolean firstDrag) {

@@ -3,6 +3,7 @@ package com.baselet.element;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -42,11 +43,11 @@ public abstract class Selector {
 	}
 
 	private List<GridElement> expand(Collection<GridElement> elements) {
-		Map<String, Set<GridElement>> map = buildGroupMap();
+		Map<Integer, Set<GridElement>> map = buildGroupMap();
 		List<GridElement> elemenentsWithGroups = new ArrayList<GridElement>();
 		elemenentsWithGroups.addAll(elements);
 		for (GridElement e : elements) {
-			if (!e.getGroup().equals(GroupFacet.DEFAULT_VALUE)) {
+			if (e.getGroup() != null) {
 				Set<GridElement> set = map.get(e.getGroup());
 				if (set != null) { // TODO set can be null in standalone version because getAllElements is empty (eg if grouped elements are selected when diagram is closed)
 					for (GridElement g : set) {
@@ -60,10 +61,10 @@ public abstract class Selector {
 		return elemenentsWithGroups;
 	}
 
-	private Map<String, Set<GridElement>> buildGroupMap() {
-		Map<String, Set<GridElement>> groupMap = new HashMap<String, Set<GridElement>>();
+	private Map<Integer, Set<GridElement>> buildGroupMap() {
+		Map<Integer, Set<GridElement>> groupMap = new HashMap<Integer, Set<GridElement>>();
 		for (GridElement e : getAllElements()) {
-			if (!e.getGroup().equals(GroupFacet.DEFAULT_VALUE)) {
+			if (e.getGroup() != null) {
 				Set<GridElement> set = groupMap.get(e.getGroup());
 				if (set == null) {
 					set = new HashSet<GridElement>();
@@ -135,6 +136,27 @@ public abstract class Selector {
 		List<GridElement> elements = getSelectedElements();
 		elements.remove(element);
 		elements.add(element);
+	}
+
+	public void updateSelectedElementsGroup(boolean setCommonGroup) {
+		Integer newGroup = null;
+		if (setCommonGroup) {
+			for (GridElement ge : getSelectedElements()) {
+				newGroup = ge.getGroup();
+				if (newGroup != null) break;
+			}
+			if (newGroup == null) {
+				Set<Integer> usedGroups = buildGroupMap().keySet();
+				if (usedGroups.isEmpty()) {
+					newGroup = 1;
+				} else {
+					newGroup = Collections.max(usedGroups) + 1;
+				}
+			}
+		}
+		for (GridElement ge : getSelectedElements()) {
+			ge.updateProperty(GroupFacet.KEY, newGroup);
+		}
 	}
 
 	public abstract List<GridElement> getAllElements();
