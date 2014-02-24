@@ -15,49 +15,30 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.Facet.Priority;
 import com.umlet.element.experimental.facets.GlobalFacet;
-import com.umlet.element.experimental.facets.defaults.ElementStyleFacet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 
 public class PropertiesParser {
 
 	public static void drawPropertiesText(NewGridElement element, PropertiesConfig propCfg) {
-		List<String> propertiesTextWithoutGobalFacets = handleAutoresizeAndGlobalFacets(element, propCfg); // must be before element.drawCommonContent (because bg=... and other settings are set here)
-		element.resetMetaDrawerAndDrawCommonContent(); // draw common content like border around classes
-		drawPropertiesWithoutGlobalFacets(propertiesTextWithoutGobalFacets, propCfg, element.getDrawer()); // iterate over propertiestext and draw text and resolve localfacets
-	}
-	
-	private static List<String> handleAutoresizeAndGlobalFacets(NewGridElement element, PropertiesConfig propCfg) {
 		List<String> propertiesText = element.getPanelAttributesAsList();
-
-		// the check if autoresize is enabled must be done before evaluating other global facets, because they may depend on the correct gridelement size
-		if (hasAutoresizeEnabled(propertiesText, propCfg.getSettings().getGlobalFacets())) {
-			PropertiesConfig tmpPropCfg = new PropertiesConfig(propCfg.getSettings(), element.getRealSize());
-			DimensionDouble expectedElementSizeOnDefaultZoom = getExpectedElementDimensionsOnDefaultZoom(propertiesText, element.getDrawer().getPseudoDrawHandler(), tmpPropCfg);
-			element.handleAutoresize(expectedElementSizeOnDefaultZoom, tmpPropCfg.gethAlign());
-		}
-		propCfg.resetValues(element.getRealSize()); // now that the element size is known (after possible resizes from autoresize), parse global facets
-		return parseGlobalFacets(propertiesText, propCfg.getSettings().getGlobalFacets(), element.getDrawer(), propCfg);
+		autoresizeAnalysis(element, propCfg.getSettings(), propertiesText); // at first handle autoresize (which possibly changes elementsize)
+		propCfg.resetValues(element.getRealSize()); // now that the element size is known, reset the propCfg with it
+		List<String> propTextWithoutGobalFacets = parseGlobalFacets(propertiesText, propCfg.getSettings().getGlobalFacets(), element.getDrawer(), propCfg); // must be before element.drawCommonContent (because bg=... and other settings are set here)
+		element.resetMetaDrawerAndDrawCommonContent(); // draw common content like border around classes
+		drawPropertiesWithoutGlobalFacets(propTextWithoutGobalFacets, propCfg, element.getDrawer()); // iterate over propertiestext and draw text and resolve localfacets
 	}
 
-	private static boolean hasAutoresizeEnabled(List<String> propertiesText, Map<Priority, List<GlobalFacet>> globalFacets) {
-		for (List<GlobalFacet> list : globalFacets.values()) {
-			for (GlobalFacet f : list) {
-				if (f instanceof ElementStyleFacet) {
-					return ElementStyleFacet.INSTANCE.isAutoresize(propertiesText);
-				}
-			}
-		}
-		return false;
-	}
-
-	private static DimensionDouble getExpectedElementDimensionsOnDefaultZoom(List<String> propertiesText, BaseDrawHandler pseudoDrawer, PropertiesConfig tmpPropCfg) {
-		List<String> propertiesTextWithoutGlobalFacets = parseGlobalFacets(propertiesText, tmpPropCfg.getSettings().getGlobalFacets(), pseudoDrawer, tmpPropCfg);
+	private static void autoresizeAnalysis(NewGridElement element, Settings settings, List<String> propertiesText) {
+		BaseDrawHandler pseudoDrawer = element.getDrawer().getPseudoDrawHandler();
+		PropertiesConfig tmpPropCfg = new PropertiesConfig(settings, element.getRealSize()); // we use a tmpPropCfg to parse global facets to see if autoresize is enabled
+		List<String> tmpPropTextWithoutGlobalFacets = parseGlobalFacets(propertiesText, tmpPropCfg.getSettings().getGlobalFacets(), pseudoDrawer, tmpPropCfg);
 		
-		drawPropertiesWithoutGlobalFacets(propertiesTextWithoutGlobalFacets, tmpPropCfg, pseudoDrawer);
-	
-		double textHeight = tmpPropCfg.getyPos()-pseudoDrawer.textHeight(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
-		double width = tmpPropCfg.getCalculatedElementWidth();
-		return new DimensionDouble(width, textHeight);
+		if (tmpPropCfg.getElementStyle() == ElementStyleEnum.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
+			drawPropertiesWithoutGlobalFacets(tmpPropTextWithoutGlobalFacets, tmpPropCfg, pseudoDrawer);
+			double textHeight = tmpPropCfg.getyPos()-pseudoDrawer.textHeight(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
+			double width = tmpPropCfg.getCalculatedElementWidth();
+			element.handleAutoresize(new DimensionDouble(width, textHeight), tmpPropCfg.gethAlign());
+		}
 	}
 
 	private static List<String> parseGlobalFacets(List<String> propertiesText, Map<Priority, List<GlobalFacet>> globalFacetMap, BaseDrawHandler drawer, PropertiesConfig propCfg) {
@@ -80,26 +61,6 @@ public class PropertiesParser {
 		handleWordWrapAndIterate(propertiesTextWithoutGobalFacets, propCfg.getSettings().getLocalFacets(), propCfg, drawer);
 	}
 
-	private static double calcStartPointFromVAlign(List<String> propertiesText, AlignVertical vAlign, Dimension gridElementSize, BaseDrawHandler drawer, Settings settings) {
-		double returnVal = drawer.textHeight(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
-		if (vAlign == AlignVertical.TOP) {
-			returnVal += drawer.textHeight()/2;
-		}
-		else if (vAlign == AlignVertical.CENTER) {
-			returnVal += (gridElementSize.height - getTextBlockHeight(propertiesText, gridElementSize, drawer, settings))/2;
-		}
-		else /*if (propCfg.getvAlign() == AlignVertical.BOTTOM)*/ {
-			returnVal += gridElementSize.height - getTextBlockHeight(propertiesText, gridElementSize, drawer, settings) - drawer.textHeight()/2;
-		}
-		return returnVal;
-	}
-	
-	private static double getTextBlockHeight(List<String> propertiesText, Dimension gridElementSize, BaseDrawHandler drawer, Settings settings) {
-		PropertiesConfig tmpPropCfg = new PropertiesConfig(settings, gridElementSize);
-		handleWordWrapAndIterate(propertiesText, settings.getLocalFacets(), tmpPropCfg, drawer.getPseudoDrawHandler());
-		return tmpPropCfg.getyPos();
-	}
-	
 	private static double calcTopDisplacementToFitLine(List<String> propertiesText, double startPoint, PropertiesConfig propCfg, BaseDrawHandler drawer) {
 		int BUFFER = 2; // a small buffer between text and outer border
 		double displacement = startPoint;
@@ -122,6 +83,26 @@ public class PropertiesParser {
 			}
 		}
 		return displacement;
+	}
+
+	private static double calcStartPointFromVAlign(List<String> propertiesText, AlignVertical vAlign, Dimension gridElementSize, BaseDrawHandler drawer, Settings settings) {
+		double returnVal = drawer.textHeight(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
+		if (vAlign == AlignVertical.TOP) {
+			returnVal += drawer.textHeight()/2;
+		}
+		else if (vAlign == AlignVertical.CENTER) {
+			returnVal += (gridElementSize.height - getTextBlockHeight(propertiesText, gridElementSize, drawer, settings))/2;
+		}
+		else /*if (propCfg.getvAlign() == AlignVertical.BOTTOM)*/ {
+			returnVal += gridElementSize.height - getTextBlockHeight(propertiesText, gridElementSize, drawer, settings) - drawer.textHeight()/2;
+		}
+		return returnVal;
+	}
+	
+	private static double getTextBlockHeight(List<String> propertiesText, Dimension gridElementSize, BaseDrawHandler drawer, Settings settings) {
+		PropertiesConfig tmpPropCfg = new PropertiesConfig(settings, gridElementSize);
+		handleWordWrapAndIterate(propertiesText, settings.getLocalFacets(), tmpPropCfg, drawer.getPseudoDrawHandler());
+		return tmpPropCfg.getyPos();
 	}
 	
 	private static void handleWordWrapAndIterate(List<String> propertiesText, List<Facet> facets, PropertiesConfig propCfg, BaseDrawHandler drawer) {
