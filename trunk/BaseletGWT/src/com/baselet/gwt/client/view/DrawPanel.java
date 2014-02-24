@@ -1,6 +1,7 @@
 package com.baselet.gwt.client.view;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -54,10 +55,11 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 	AutoResizeScrollDropPanel scrollPanel;
 
 	private MainView mainView;
-	
+
 	private PropertiesTextArea propertiesPanel;
 
-	private MenuPopup menuPopup;
+	private MenuPopup elementContextMenu;
+	private MenuPopup diagramContextMenu;
 
 	public void setOtherDrawFocusPanel(DrawPanel otherDrawFocusPanel) {
 		this.otherDrawFocusPanel = otherDrawFocusPanel;
@@ -91,7 +93,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 			}
 		};
 
-		menuPopup = new MenuPopup (
+		List<MenuPopupItem> diagramItems = Arrays.asList(
 				new MenuPopupItem(MenuConstants.DELETE) {
 					@Override
 					public void execute() {
@@ -117,7 +119,10 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 					public void execute() {
 						selector.select(diagram.getGridElements());
 					}
-				}, new MenuPopupItem(MenuConstants.GROUP) {
+				});
+		List<MenuPopupItem> elementItems = new ArrayList<MenuPopupItem>(diagramItems);
+		elementItems.addAll(Arrays.asList(
+				new MenuPopupItem(MenuConstants.GROUP) {
 					@Override
 					public void execute() {
 						commandInvoker.updateSelectedElementsGroup(DrawPanel.this, true);
@@ -127,7 +132,9 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 					public void execute() {
 						commandInvoker.updateSelectedElementsGroup(DrawPanel.this, false);
 					}
-				});
+				}));
+		diagramContextMenu = new MenuPopup(diagramItems);
+		elementContextMenu = new MenuPopup(elementItems);
 
 		this.add(canvas.getWidget());
 	}
@@ -346,14 +353,19 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 	}
 
 	public void onShowMenu(Point point) {
-		menuPopup.show(point);
+		Point relativePoint = new Point(point.x - getAbsoluteLeft(), point.y - getAbsoluteTop());
+		if (getGridElementOnPosition(relativePoint) == null) { // gridelement check must be made with relative coordinates
+			diagramContextMenu.show(point);
+		} else {
+			elementContextMenu.show(point);
+		}
 	}
 
 	public void handleKeyDown(KeyDownEvent event) {
-//		boolean isZoomKey = Shortcut.ZOOM_IN.matches(event) || Shortcut.ZOOM_OUT.matches(event) ||Shortcut.ZOOM_RESET.matches(event);
-//		if (!isZoomKey && !Shortcut.FULLSCREEN.matches(event)) {
-//			event.preventDefault(); // avoid most browser key handlings
-//		}
+		//		boolean isZoomKey = Shortcut.ZOOM_IN.matches(event) || Shortcut.ZOOM_OUT.matches(event) ||Shortcut.ZOOM_RESET.matches(event);
+		//		if (!isZoomKey && !Shortcut.FULLSCREEN.matches(event)) {
+		//			event.preventDefault(); // avoid most browser key handlings
+		//		}
 
 		boolean avoidBrowserDefault = true;
 		if (Shortcut.DELETE_ELEMENT.matches(event)) {
@@ -395,7 +407,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		} else {
 			avoidBrowserDefault = false;
 		}
-		
+
 		// avoid browser default key handling for all overwritten keys, but not for others (like F5 for refresh or the zoom controls)
 		if (avoidBrowserDefault) {
 			event.preventDefault();
