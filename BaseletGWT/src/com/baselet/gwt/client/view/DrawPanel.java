@@ -46,7 +46,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 
 	protected DrawCanvas canvas = new DrawCanvas();
 
-	Selector selector;
+	SelectorNew selector;
 
 	CommandInvoker commandInvoker = CommandInvoker.getInstance();
 
@@ -225,6 +225,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 
 	public void setDiagram(Diagram diagram) {
 		this.diagram = diagram;
+		selector.setGridElementProvider(diagram);
 		selector.deselectAll(); // necessary to trigger setting helptext to properties
 		redraw();
 	}

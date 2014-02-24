@@ -18,6 +18,10 @@ public class SelectorNew extends Selector {
 		this.gridElementProvider = gridElementProvider;
 	}
 	
+	public void setGridElementProvider(HasGridElements gridElementProvider) {
+		this.gridElementProvider = gridElementProvider;
+	}
+	
 	private List<GridElement> selectedElements = new ArrayList<GridElement>();
 	
 	public GridElement getSingleSelected() {
