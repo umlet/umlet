@@ -1,12 +1,15 @@
 package com.umlet.element.experimental;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.XValues;
+import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
-import com.umlet.element.experimental.facets.defaults.LayerFacet;
 
 public class PropertiesConfig {
 	
@@ -22,8 +25,7 @@ public class PropertiesConfig {
 	private int rightBuffer;
 	private Dimension gridElementSize;
 	private ElementStyleEnum elementStyle;
-	private Integer layer;
-	private String group;
+	private Map<Class<? extends Facet>, Object> facetResponse = new HashMap<Class<? extends Facet>, Object>();
 
 	public PropertiesConfig(Settings settings) {
 		this.settings = settings;
@@ -40,8 +42,7 @@ public class PropertiesConfig {
 		rightBuffer = 0;
 		this.gridElementSize = gridElementSize;
 		elementStyle = settings.getElementStyle();
-		layer = LayerFacet.DEFAULT_VALUE;
-		group = "";
+		facetResponse.clear();
 	}
 
 	public PropertiesConfig(Settings settings, Dimension gridElementSize) {
@@ -143,25 +144,19 @@ public class PropertiesConfig {
 	public void setElementStyle(ElementStyleEnum elementStyle) {
 		this.elementStyle = elementStyle;
 	}
-
-	public void setLayer(Integer layer) {
-			this.layer = layer;
-	}
-
-	public Integer getLayer() {
-		return layer;
-	}
 	
 	public Settings getSettings() {
 		return settings;
 	}
 	
-	public String getGroup() {
-		return group;
-	}
-	
-	public void setGroup(String group) {
-		this.group = group;
+	@SuppressWarnings("unchecked")
+	public <T> T getFacetResponse(Class<? extends Facet> facetClass, T defaultValue) {
+		T mapValue = (T) facetResponse.get(facetClass);
+		if (mapValue == null) return defaultValue;
+		return mapValue;
 	}
 
+	public void putFacetResponse(Class<? extends Facet> facetClass, Object value) {
+		facetResponse.put(facetClass, value);
+	}
 }
