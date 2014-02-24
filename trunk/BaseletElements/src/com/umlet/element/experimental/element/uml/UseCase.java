@@ -11,6 +11,7 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
+import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.Settings;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.base.SeparatorLine;
@@ -24,7 +25,7 @@ public class UseCase extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer) {
+	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
 		drawer.drawEllipse(0, 0, getRealSize().width-1, getRealSize().height-1);
 	}
 

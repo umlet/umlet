@@ -32,7 +32,7 @@ public class ActionType extends AbstractGlobalKeyValueFacet {
 		ActionTypeEnum actionType = ActionTypeEnum.valueOf(value.toUpperCase());
 		Dimension s = propConfig.getGridElementSize();
 		if (actionType == ActionTypeEnum.ACTION) {
-			drawer.drawRectangleRound(0, 0, s.width-1, s.height-1, Math.min(s.width, s.height)/5);
+			drawAction(drawer, s);
 		} else if (actionType == ActionTypeEnum.SEND_SIGNAL) {
 			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-depth(s), 0), p(s.width-1, s.height/2), p(s.width-depth(s), s.height-1), p(0, s.height-1), p(0, 0)));
 		} else if (actionType == ActionTypeEnum.RECEIVE_SIGNAL) {
@@ -44,7 +44,11 @@ public class ActionType extends AbstractGlobalKeyValueFacet {
 			propConfig.addToYPos(CLOCK_DIM);
 			propConfig.setvAlign(AlignVertical.TOP);
 		}
-	
+		propConfig.putFacetResponse(ActionType.class, true);
+	}
+
+	public static void drawAction(final BaseDrawHandler drawer, Dimension s) {
+		drawer.drawRectangleRound(0, 0, s.width-1, s.height-1, Math.min(s.width, s.height)/5);
 	}
 
 	private double depth(Dimension s) {

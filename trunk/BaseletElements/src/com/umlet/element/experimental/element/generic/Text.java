@@ -9,6 +9,7 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
+import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.Settings;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.base.SeparatorLine;
@@ -48,7 +49,7 @@ public class Text extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer) {
+	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
 	}
 
 }
