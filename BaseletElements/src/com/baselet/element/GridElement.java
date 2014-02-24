@@ -18,10 +18,12 @@ public interface GridElement extends HasPanelAttributes {
 
 	void setRectangle(Rectangle bounds);
 
-	void setGroup(GridElement object);
-	
-	String getGroup();
+	void setGroupObj(GridElement object);
 
+	boolean isPartOfGroup();
+	
+	Integer getGroup();
+	
 	void setLocationDifference(int diffx, int diffy);
 
 	String getAdditionalAttributes();
@@ -31,8 +33,6 @@ public interface GridElement extends HasPanelAttributes {
 	void setLocation(int x, int y);
 
 	void setSize(int width, int height);
-
-	boolean isPartOfGroup();
 
 	Set<Direction> getResizeArea(int x, int y);
 
@@ -63,7 +63,7 @@ public interface GridElement extends HasPanelAttributes {
 	
 	Component getComponent();
 
-	void updateProperty(String key, String newValue);
+	void updateProperty(String key, Object newValue);
 	
 	void updateModelFromText();
 

@@ -92,7 +92,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void setGroup(GridElement group) {
+	public void setGroupObj(GridElement group) {
 		this.group = group;
 	}
 
@@ -145,19 +145,19 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void updateProperty(String key, String newValue) {
+	public void updateProperty(String key, Object newValue) {
 		updateSetting(key, newValue);
 		handler.updatePropertyPanel();
 		updateModelFromText();
 	}
 
-	private void updateSetting(String key, String newValue) {
+	private void updateSetting(String key, Object newValue) {
 		String newState = "";
 		for (String line : getPanelAttributes().split("\n")) {
 			if (!line.startsWith(key)) newState += line + "\n";
 		}
 		newState = newState.substring(0, newState.length()-1); //remove last linebreak
-		if (newValue != null) newState += "\n" + key + Facet.SEP + newValue; // null will not be added as a value
+		if (newValue != null) newState += "\n" + key + Facet.SEP + newValue.toString(); // null will not be added as a value
 		this.setPanelAttributes(newState);
 	}
 
@@ -326,10 +326,10 @@ public abstract class NewGridElement implements GridElement {
 	}
 	
 	@Override
-	public String getGroup() {
-		return propCfg.getFacetResponse(GroupFacet.class, GroupFacet.DEFAULT_VALUE);
+	public Integer getGroup() {
+		return propCfg.getFacetResponse(GroupFacet.class, null);
 	}
-
+	
 	public abstract ElementId getId();
 
 	@Override

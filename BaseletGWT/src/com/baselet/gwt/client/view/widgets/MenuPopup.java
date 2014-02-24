@@ -6,9 +6,19 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
 public class MenuPopup extends MyPopupPanel {
-	public static interface MenuPopupItem {
-		public String getText();
-		public void execute();
+	public static abstract class MenuPopupItem {
+		private String text;
+		
+		public MenuPopupItem(String text) {
+			super();
+			this.text = text;
+		}
+		
+		public String getText() {
+			return text;
+		}
+
+		public abstract void execute();
 	}
 
 	public MenuPopup(MenuPopupItem ... items) {

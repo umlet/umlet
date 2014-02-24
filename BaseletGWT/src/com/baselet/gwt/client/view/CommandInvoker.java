@@ -25,7 +25,7 @@ public class CommandInvoker extends Controller {
 	private CommandInvoker() {
 		super();
 	}
-	
+
 	void addElements(CanAddAndRemoveGridElement target, List<GridElement> elements) {
 		this.executeCommand(new AddGridElementCommand(target, elements));
 	}
@@ -36,15 +36,15 @@ public class CommandInvoker extends Controller {
 	void removeElements(DrawPanel target, List<GridElement> elements) {
 		this.executeCommand(new RemoveGridElementCommand(target, elements));
 	}
-	
+
 	void removeSelectedElements(DrawPanel target) {
 		removeElements(target, target.getSelector().getSelectedElements());
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	//TODO implement copy & paste as commands
 
 	void copySelectedElements(DrawPanel target) {
@@ -55,7 +55,7 @@ public class CommandInvoker extends Controller {
 		copySelectedElements(target);
 		removeSelectedElements(target);
 	}
-	
+
 	void pasteElements(DrawPanel target) {
 		List<GridElement> copyOfElements = copyElementsInList(BrowserStorage.getClipboard(), target.getDiagram());
 		realignElementsToVisibleRect(target, copyOfElements);
@@ -70,12 +70,16 @@ public class CommandInvoker extends Controller {
 		}
 		return targetElements;
 	}
-	
+
 	void realignElementsToVisibleRect(DrawPanel target, List<GridElement> gridElements) {
 		Rectangle rect = SharedUtils.getGridElementsRectangle(gridElements);
 		Rectangle visible = target.getVisibleBounds();
 		for (GridElement ge : gridElements) {
 			ge.getRectangle().move(visible.getX()-rect.getX() + SharedConstants.DEFAULT_GRID_SIZE, visible.getY()-rect.getY() + SharedConstants.DEFAULT_GRID_SIZE);
 		}
+	}
+	public void updateSelectedElementsGroup(DrawPanel target, boolean setCommonGroup) {
+		target.getSelector().updateSelectedElementsGroup(setCommonGroup);
+		target.updatePropertiesPanelWithSelectedElement();
 	}
 }
