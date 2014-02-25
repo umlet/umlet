@@ -136,7 +136,7 @@ Operation2</panel_attributes>
       <x>96</x>
       <y>440</y>
       <w>48</w>
-      <h>128</h>
+      <h>104</h>
     </coordinates>
     <panel_attributes>Large
 Actor
@@ -165,9 +165,9 @@ bg=red</panel_attributes>
       <w>88</w>
       <h>32</h>
     </coordinates>
-    <panel_attributes>type=receive_signal
-activity
-receiver</panel_attributes>
+    <panel_attributes>activity
+receiver
+type=receive_signal</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -178,8 +178,8 @@ receiver</panel_attributes>
       <w>88</w>
       <h>32</h>
     </coordinates>
-    <panel_attributes>type=action
-activity action</panel_attributes>
+    <panel_attributes>activity
+action</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -190,20 +190,75 @@ activity action</panel_attributes>
       <w>88</w>
       <h>32</h>
     </coordinates>
-    <panel_attributes>type=send_signal
-activity
-sender</panel_attributes>
+    <panel_attributes>activity
+sender
+type=send_signal</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLTimer</id>
     <coordinates>
-      <x>96</x>
-      <y>584</y>
+      <x>144</x>
+      <y>576</y>
       <w>48</w>
       <h>56</h>
     </coordinates>
     <panel_attributes>Timer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNode</id>
+    <coordinates>
+      <x>40</x>
+      <y>576</y>
+      <w>16</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>type=final</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNode</id>
+    <coordinates>
+      <x>16</x>
+      <y>576</y>
+      <w>16</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>type=initial</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNode</id>
+    <coordinates>
+      <x>64</x>
+      <y>648</y>
+      <w>16</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNode</id>
+    <coordinates>
+      <x>64</x>
+      <y>576</y>
+      <w>16</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>type=flow_final</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNode</id>
+    <coordinates>
+      <x>88</x>
+      <y>576</y>
+      <w>16</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>

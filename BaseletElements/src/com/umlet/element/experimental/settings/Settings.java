@@ -25,9 +25,10 @@ import com.umlet.element.experimental.facets.defaults.LineTypeFacet;
 import com.umlet.element.experimental.facets.defaults.VerticalAlignFacet;
 
 public abstract class Settings {
-	protected static final List<? extends Facet> RELATION =   Arrays.asList(BackgroundColorFacet.INSTANCE, FontSizeFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, GroupFacet.INSTANCE);
-	protected static final List<? extends Facet> AUTORESIZE = Arrays.asList(BackgroundColorFacet.INSTANCE, FontSizeFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE);
-	protected static final List<? extends Facet> ALL =        Arrays.asList(BackgroundColorFacet.INSTANCE, FontSizeFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, VerticalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
+	protected static final List<? extends Facet> NOTEXT =     Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE);
+	protected static final List<? extends Facet> RELATION =   Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE);
+	protected static final List<? extends Facet> AUTORESIZE = Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE);
+	protected static final List<? extends Facet> ALL =        Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, VerticalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
 	
 	/**
 	 * calculates the left and right x value for a certain y value
@@ -90,6 +91,10 @@ public abstract class Settings {
 	public final Map<Priority, List<GlobalFacet>> getGlobalFacets() {
 		initFacets();
 		return globalFacets;
+	}
+	
+	public boolean printText() {
+		return true;
 	}
 
 }

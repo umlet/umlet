@@ -131,7 +131,9 @@ public class PropertiesParser {
 			if (!spaceNotUsedForText.equals(Double.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
 				propCfg.updateCalculatedElementWidth(spaceNotUsedForText + drawer.textWidth(line));
 			}
-			drawer.print(line, calcHorizontalTextBoundaries(xLimitsForText, propCfg, drawer), propCfg.getyPos(), propCfg.gethAlign());
+			if (propCfg.getSettings().printText()) {
+				drawer.print(line, calcHorizontalTextBoundaries(xLimitsForText, propCfg, drawer), propCfg.getyPos(), propCfg.gethAlign());
+			}
 			propCfg.addToYPos(drawer.textHeightWithSpace());
 		}
 	}
