@@ -13,7 +13,7 @@ public class ActionType extends AbstractGlobalKeyValueFacet {
 	public static ActionType INSTANCE = new ActionType();
 	private ActionType() {}
 
-	public enum ActionTypeEnum {ACTION, SEND_SIGNAL, RECEIVE_SIGNAL}
+	private enum ActionTypeEnum {ACTION, SEND_SIGNAL, RECEIVE_SIGNAL}
 
 	@Override
 	public KeyValue getKeyValue() {
@@ -25,13 +25,13 @@ public class ActionType extends AbstractGlobalKeyValueFacet {
 
 	@Override
 	public void handleValue(final String value, final BaseDrawHandler drawer, final PropertiesConfig propConfig) {
-		ActionTypeEnum actionType = ActionTypeEnum.valueOf(value.toUpperCase());
+		ActionTypeEnum type = ActionTypeEnum.valueOf(value.toUpperCase());
 		Dimension s = propConfig.getGridElementSize();
-		if (actionType == ActionTypeEnum.ACTION) {
+		if (type == ActionTypeEnum.ACTION) {
 			drawAction(drawer, s);
-		} else if (actionType == ActionTypeEnum.SEND_SIGNAL) {
+		} else if (type == ActionTypeEnum.SEND_SIGNAL) {
 			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-depth(s), 0), p(s.width-1, s.height/2), p(s.width-depth(s), s.height-1), p(0, s.height-1), p(0, 0)));
-		} else if (actionType == ActionTypeEnum.RECEIVE_SIGNAL) {
+		} else if (type == ActionTypeEnum.RECEIVE_SIGNAL) {
 			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-1, 0), p(s.width-1, s.height-1), p(0, s.height-1), p(depth(s), s.height/2), p(0, 0)));
 		}
 		propConfig.putFacetResponse(ActionType.class, true);

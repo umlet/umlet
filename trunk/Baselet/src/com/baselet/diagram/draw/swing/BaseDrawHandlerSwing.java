@@ -80,7 +80,7 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	public BaseDrawHandlerSwing getPseudoDrawHandler() {
 		PseudoDrawHandlerSwing counter = new PseudoDrawHandlerSwing();
 		counter.setHandler(handler);
-		counter.setStyle(style); // set style to make sure fontsize (and therefore calls like this.textHeight()) work as intended
+		counter.setStyle(style.cloneFromMe()); // set style to make sure fontsize (and therefore calls like this.textHeight()) work as intended
 		return counter;
 	}
 
