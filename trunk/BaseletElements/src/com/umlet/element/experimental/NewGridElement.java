@@ -51,7 +51,7 @@ public abstract class NewGridElement implements GridElement {
 
 	private DrawHandlerInterface handler;
 
-	private String panelAttributes;
+	private List<String> panelAttributes;
 
 	private PropertiesConfig propCfg;
 
@@ -61,7 +61,7 @@ public abstract class NewGridElement implements GridElement {
 		this.component = component;
 		this.drawer = component.getDrawHandler();
 		this.metaDrawer = component.getMetaDrawHandler();
-		this.panelAttributes = panelAttributes;
+		setPanelAttributesHelper(panelAttributes);
 		setRectangle(bounds);
 		setAdditionalAttributes(additionalAttributes);
 		this.handler = handler;
@@ -78,17 +78,29 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public String getPanelAttributes() {
-		return panelAttributes;
+		StringBuilder sb = new StringBuilder();
+		for (String line : panelAttributes) {
+			sb.append(line).append("\n");
+		}
+		if (sb.length() > 0) {
+			sb.setLength(sb.length() - 1);
+		}
+		return sb.toString();
 	}
 
-	List<String> getPanelAttributesAsList() {
-		return Arrays.asList(panelAttributes.split("\n"));
+	@Override
+	public List<String> getPanelAttributesAsList() {
+		return panelAttributes;
 	}
 
 	@Override
 	public void setPanelAttributes(String panelAttributes) {
-		this.panelAttributes = panelAttributes;
+		setPanelAttributesHelper(panelAttributes);
 		this.updateModelFromText();
+	}
+	
+	public void setPanelAttributesHelper(String panelAttributes) {
+		this.panelAttributes = Arrays.asList(panelAttributes.split("\n", -1)); // split with -1 to retain empty lines at the end
 	}
 
 	@Override
@@ -153,7 +165,7 @@ public abstract class NewGridElement implements GridElement {
 
 	private void updateSetting(String key, Object newValue) {
 		String newState = "";
-		for (String line : getPanelAttributes().split("\n")) {
+		for (String line : getPanelAttributesAsList()) {
 			if (!line.startsWith(key)) newState += line + "\n";
 		}
 		newState = newState.substring(0, newState.length()-1); //remove last linebreak

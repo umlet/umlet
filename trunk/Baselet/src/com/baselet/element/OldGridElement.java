@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -158,6 +159,11 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public String getPanelAttributes() {
 		return panelAttributes;
+	}
+
+	@Override
+	public List<String> getPanelAttributesAsList() {
+		return Arrays.asList(panelAttributes.split("\n", -1));
 	}
 
 	@Override

@@ -31,7 +31,7 @@ public class Parser {
 
 	public ParserResult parse(String source) {
 
-		List<String> inputList = Arrays.asList(source.split("\n"));
+		List<String> inputList = Arrays.asList(source.split("\n", -1));
 		ListIterator<String> inputIterator = inputList.listIterator();
 
 		while (inputIterator.hasNext()) {
