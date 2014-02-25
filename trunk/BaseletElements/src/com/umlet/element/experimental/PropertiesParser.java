@@ -35,6 +35,7 @@ public class PropertiesParser {
 		List<String> tmpPropTextWithoutGlobalFacets = parseGlobalFacets(propertiesText, tmpPropCfg.getSettings().getGlobalFacets(), pseudoDrawer, tmpPropCfg);
 		
 		if (tmpPropCfg.getElementStyle() == ElementStyleEnum.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
+			element.drawCommonContent(pseudoDrawer, tmpPropCfg);
 			drawPropertiesWithoutGlobalFacets(tmpPropTextWithoutGlobalFacets, tmpPropCfg, pseudoDrawer);
 			double textHeight = tmpPropCfg.getyPos()-pseudoDrawer.textHeight(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
 			double width = tmpPropCfg.getCalculatedElementWidth();

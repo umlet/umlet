@@ -52,14 +52,6 @@ public abstract class Settings {
 	
 	protected abstract List<? extends Facet> createDefaultFacets();
 	
-	public double getYPosStart() {
-		return 0;
-	}
-
-	public double getMinElementWidthForAutoresize() {
-		return 0;
-	}
-
 	private List<Facet> localFacets;
 	Map<Priority, List<GlobalFacet>> globalFacets;
 	private void initFacets() {

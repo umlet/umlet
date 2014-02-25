@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
+import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.PropertiesConfig;
@@ -21,25 +23,35 @@ public class Timer extends NewGridElement {
 	public ElementId getId() {
 		return ElementId.UMLTimer;
 	}
+	
+	@Override
+	public StickingPolygon generateStickingBorder(Rectangle rect) {
+		StickingPolygon p = new StickingPolygon(rect.x, rect.y);
+		p.addPoint(xClock(), 0);
+		p.addPoint(x2Clock(), CLOCK_DIM);
+		p.addPoint(xClock(), CLOCK_DIM);
+		p.addPoint(x2Clock(), 0, true);
+		return p;
+	}
 
 	@Override
 	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
-		int xClock = (getRealSize().width-CLOCK_DIM)/2;
-		int x2Clock = xClock+CLOCK_DIM;
-		drawer.drawLines(Arrays.asList(new PointDouble(xClock, 0), new PointDouble(x2Clock, CLOCK_DIM), new PointDouble(xClock, CLOCK_DIM), new PointDouble(x2Clock, 0), new PointDouble(xClock, 0)));
+		propCfg.addToYPos(CLOCK_DIM);
+		propCfg.updateCalculatedElementWidth(CLOCK_DIM);
+		drawer.drawLines(Arrays.asList(new PointDouble(xClock(), 0), new PointDouble(x2Clock(), CLOCK_DIM), new PointDouble(xClock(), CLOCK_DIM), new PointDouble(x2Clock(), 0), new PointDouble(xClock(), 0)));
+	}
+
+	private int x2Clock() {
+		return xClock()+CLOCK_DIM;
+	}
+
+	private int xClock() {
+		return (getRealSize().width-CLOCK_DIM)/2;
 	}
 
 	@Override
 	protected Settings createSettings() {
 		return new SettingsAutoresize() {
-			@Override
-			public double getYPosStart() {
-				return CLOCK_DIM;
-			}
-			@Override
-			public double getMinElementWidthForAutoresize() {
-				return CLOCK_DIM;
-			}
 			@Override
 			public List<? extends Facet> createFacets() {
 				return Arrays.asList(SeparatorLine.INSTANCE);

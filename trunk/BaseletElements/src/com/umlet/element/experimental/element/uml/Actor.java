@@ -21,14 +21,6 @@ public class Actor extends NewGridElement {
 	protected Settings createSettings() {
 		return new SettingsAutoresize() {
 			@Override
-			public double getYPosStart() {
-				return headToLegLength(); // equals headBodyLegLength
-			}
-			@Override
-			public double getMinElementWidthForAutoresize() {
-				return armLength()*2; // armLength
-			}
-			@Override
 			public List<? extends Facet> createFacets() {
 				return Arrays.asList(SeparatorLine.INSTANCE);
 			}
@@ -42,6 +34,9 @@ public class Actor extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
+		propCfg.addToYPos(headToLegLength());
+		propCfg.updateCalculatedElementWidth(armLength()*2);
+		
 		int hCenter = getRealSize().width/2;
 		drawer.drawCircle(hCenter, headRadius(), headRadius()); // Head
 		drawer.drawLine(hCenter-armLength(), armHeight(), hCenter+armLength(), armHeight()); // Arms

@@ -26,6 +26,7 @@ public class Interface extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
+		propCfg.addToYPos(TOP_DISTANCE + CIRCLE_SIZE);// space reserved for the top circle
 		Rectangle circleRect = circleRect();
 		drawer.drawCircle(circleRect.x + CIRCLE_SIZE/2, circleRect.y + CIRCLE_SIZE/2, CIRCLE_SIZE/2);
 	}
@@ -45,10 +46,6 @@ public class Interface extends NewGridElement {
 	@Override
 	protected Settings createSettings() {
 		return new SettingsAutoresize() {
-			@Override
-			public double getYPosStart() {
-				return TOP_DISTANCE + CIRCLE_SIZE; // space reserved for the top circle
-			}
 			@Override
 			public List<? extends Facet> createFacets() {
 				return Arrays.asList(SeparatorLine.INSTANCE);
