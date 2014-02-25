@@ -2,30 +2,25 @@ package com.umlet.element.experimental.facets.base;
 
 import java.util.Arrays;
 
-import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
-import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 
 public class ActionType extends AbstractGlobalKeyValueFacet {
 	
-	private static final int CLOCK_DIM = 40;
-
 	public static ActionType INSTANCE = new ActionType();
 	private ActionType() {}
 
-	public enum ActionTypeEnum {ACTION, SEND_SIGNAL, RECEIVE_SIGNAL, TIMER}
+	public enum ActionTypeEnum {ACTION, SEND_SIGNAL, RECEIVE_SIGNAL}
 
 	@Override
 	public KeyValue getKeyValue() {
 		return new KeyValue("type", 
 				new ValueInfo(ActionTypeEnum.ACTION, "an action"),
 				new ValueInfo(ActionTypeEnum.SEND_SIGNAL, "an action which sends a signal"),
-				new ValueInfo(ActionTypeEnum.RECEIVE_SIGNAL, "an action which receives a signal"),
-				new ValueInfo(ActionTypeEnum.TIMER, "a time event for periodic output"));
+				new ValueInfo(ActionTypeEnum.RECEIVE_SIGNAL, "an action which receives a signal"));
 	}
 
 	@Override
@@ -38,13 +33,6 @@ public class ActionType extends AbstractGlobalKeyValueFacet {
 			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-depth(s), 0), p(s.width-1, s.height/2), p(s.width-depth(s), s.height-1), p(0, s.height-1), p(0, 0)));
 		} else if (actionType == ActionTypeEnum.RECEIVE_SIGNAL) {
 			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-1, 0), p(s.width-1, s.height-1), p(0, s.height-1), p(depth(s), s.height/2), p(0, 0)));
-		} else if (actionType == ActionTypeEnum.TIMER) {
-			int xClock = (s.width-CLOCK_DIM)/2;
-			int x2Clock = xClock+CLOCK_DIM;
-			drawer.drawLines(Arrays.asList(p(xClock, 0), p(x2Clock, CLOCK_DIM), p(xClock, CLOCK_DIM), p(x2Clock, 0), p(xClock, 0)));
-			propConfig.addToYPos(CLOCK_DIM);
-			propConfig.setvAlign(AlignVertical.TOP);
-			propConfig.setElementStyle(ElementStyleEnum.AUTORESIZE);
 		}
 		propConfig.putFacetResponse(ActionType.class, true);
 	}

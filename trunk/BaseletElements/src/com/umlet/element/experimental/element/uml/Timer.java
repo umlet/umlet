@@ -4,8 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.element.sticking.StickingPolygon;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.PropertiesConfig;
@@ -14,32 +13,20 @@ import com.umlet.element.experimental.facets.base.SeparatorLine;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsAutoresize;
 
-public class Interface extends NewGridElement {
+public class Timer extends NewGridElement {
 
-	private int TOP_DISTANCE = 10;
-	private int CIRCLE_SIZE = 20;
+	private static final int CLOCK_DIM = 40;
 
 	@Override
 	public ElementId getId() {
-		return ElementId.UMLInterface;
+		return ElementId.UMLTimer;
 	}
 
 	@Override
 	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
-		Rectangle circleRect = circleRect();
-		drawer.drawCircle(circleRect.x + CIRCLE_SIZE/2, circleRect.y + CIRCLE_SIZE/2, CIRCLE_SIZE/2);
-	}
-
-	@Override
-	public StickingPolygon generateStickingBorder(Rectangle rect) {
-		StickingPolygon p = new StickingPolygon(rect.x, rect.y);
-		p.addRectangle(circleRect());
-		return p;
-	}
-
-	private Rectangle circleRect() {
-		int middlePos = getRealSize().getWidth() / 2 - CIRCLE_SIZE/2;
-		return new Rectangle(middlePos, TOP_DISTANCE, CIRCLE_SIZE-1, CIRCLE_SIZE-1);
+		int xClock = (getRealSize().width-CLOCK_DIM)/2;
+		int x2Clock = xClock+CLOCK_DIM;
+		drawer.drawLines(Arrays.asList(new PointDouble(xClock, 0), new PointDouble(x2Clock, CLOCK_DIM), new PointDouble(xClock, CLOCK_DIM), new PointDouble(x2Clock, 0), new PointDouble(xClock, 0)));
 	}
 
 	@Override
@@ -47,7 +34,11 @@ public class Interface extends NewGridElement {
 		return new SettingsAutoresize() {
 			@Override
 			public double getYPosStart() {
-				return TOP_DISTANCE + CIRCLE_SIZE; // space reserved for the top circle
+				return CLOCK_DIM;
+			}
+			@Override
+			public double getMinElementWidthForAutoresize() {
+				return CLOCK_DIM;
 			}
 			@Override
 			public List<? extends Facet> createFacets() {

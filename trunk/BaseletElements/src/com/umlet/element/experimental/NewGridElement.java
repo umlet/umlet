@@ -35,6 +35,7 @@ import com.umlet.element.experimental.facets.GlobalFacet;
 import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facets.defaults.GroupFacet;
 import com.umlet.element.experimental.facets.defaults.LayerFacet;
+import com.umlet.element.experimental.settings.Settings;
 
 public abstract class NewGridElement implements GridElement {
 	

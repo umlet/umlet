@@ -133,9 +133,9 @@ Operation2</panel_attributes>
   <element>
     <id>UMLActor</id>
     <coordinates>
-      <x>88</x>
+      <x>96</x>
       <y>440</y>
-      <w>64</w>
+      <w>48</w>
       <h>128</h>
     </coordinates>
     <panel_attributes>Large
@@ -193,6 +193,17 @@ activity action</panel_attributes>
     <panel_attributes>type=send_signal
 activity
 sender</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLTimer</id>
+    <coordinates>
+      <x>96</x>
+      <y>584</y>
+      <w>48</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>Timer</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
