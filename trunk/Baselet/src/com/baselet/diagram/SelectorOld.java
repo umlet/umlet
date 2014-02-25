@@ -68,7 +68,7 @@ public class SelectorOld extends Selector {
 		setSelectedHelper(e, value);
 		if (e.getGroup() != null) {
 			for (GridElement other : getAllElements()) {
-				if (other != e && other.getGroup().equals(e.getGroup())) {
+				if (other != e && other.getGroup() != null && other.getGroup().equals(e.getGroup())) {
 					setSelectedHelper(other, value);
 				}
 			}
