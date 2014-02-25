@@ -20,7 +20,7 @@ public class PropertiesConfig {
 	private boolean hAlignGloballySet;
 	private AlignVertical vAlign;
 	private boolean vAlignGloballySet;
-	private Double yPos;
+	private double yPos;
 	private double calculatedElementWidth;
 	private int leftBuffer;
 	private int rightBuffer;
@@ -37,8 +37,8 @@ public class PropertiesConfig {
 		hAlignGloballySet = false;
 		vAlign = settings.getVAlign();
 		vAlignGloballySet = false;
-		yPos = null;
-		calculatedElementWidth = settings.getMinElementWidthForAutoresize();
+		yPos = 0;
+		calculatedElementWidth = 0;
 		leftBuffer = 0;
 		rightBuffer = 0;
 		this.gridElementSize = gridElementSize;
@@ -83,16 +83,10 @@ public class PropertiesConfig {
 	}
 
 	public double getyPos() {
-		if (yPos == null) {
-			yPos = settings.getYPosStart();
-		}
 		return yPos;
 	}
 
 	public void addToYPos(double inc) {
-		if (yPos == null) { // get yPos from settings the first time it would be modified, because initialization in constructor would be too early (eg: it could depend on some settings of preparsefacets like fontsize)
-			yPos = settings.getYPosStart();
-		}
 		yPos += inc;
 	}
 
