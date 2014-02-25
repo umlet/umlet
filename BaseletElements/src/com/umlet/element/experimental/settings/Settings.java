@@ -1,4 +1,4 @@
-package com.umlet.element.experimental;
+package com.umlet.element.experimental.settings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,7 +25,10 @@ import com.umlet.element.experimental.facets.defaults.LineTypeFacet;
 import com.umlet.element.experimental.facets.defaults.VerticalAlignFacet;
 
 public abstract class Settings {
-
+	protected static final List<? extends Facet> RELATION =   Arrays.asList(BackgroundColorFacet.INSTANCE, FontSizeFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, GroupFacet.INSTANCE);
+	protected static final List<? extends Facet> AUTORESIZE = Arrays.asList(BackgroundColorFacet.INSTANCE, FontSizeFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE);
+	protected static final List<? extends Facet> ALL =        Arrays.asList(BackgroundColorFacet.INSTANCE, FontSizeFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, VerticalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
+	
 	/**
 	 * calculates the left and right x value for a certain y value
 	 */
@@ -47,10 +50,7 @@ public abstract class Settings {
 	 */
 	public abstract List<? extends Facet> createFacets();
 	
-	protected List<? extends Facet> createDefaultFacets() {
-		return Arrays.asList(BackgroundColorFacet.INSTANCE, ElementStyleFacet.INSTANCE, FontSizeFacet.INSTANCE, ForegroundColorFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, LineTypeFacet.INSTANCE, VerticalAlignFacet.INSTANCE, GroupFacet.INSTANCE);
-		
-	}
+	protected abstract List<? extends Facet> createDefaultFacets();
 	
 	public double getYPosStart() {
 		return 0;
