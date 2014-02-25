@@ -91,12 +91,12 @@ public class ClassDiagramConverter {
 	 * @param clazz
 	 */
 	private void adjustSize(GridElement clazz) {
-		String[] strings = clazz.getPanelAttributes().split("\n");
+		List<String> strings = clazz.getPanelAttributesAsList();
 		//GridElement clazz not yet fully initialized, cannot call clazz.getHandler();  
 		FontHandler fontHandler = Main.getInstance().getDiagramHandler().getFontHandler(); 
 		
 		int width = 0;
-		int height = strings.length;
+		int height = strings.size();
 		double heightTweaker = 0.1;
 		for (String string: strings) {
 			if (string.isEmpty()) {

@@ -107,7 +107,7 @@ public class FontHandler {
 	}
 
 	public void writeText(Graphics2D g2, String s, double x, double y, AlignHorizontal align, boolean applyZoom) {
-		for (String line : s.split("\n")) {
+		for (String line : s.split("\n", -1)) {
 			this.write(g2, line, x, y, align, applyZoom);
 			y += g2.getFontMetrics().getHeight();
 		}

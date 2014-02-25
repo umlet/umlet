@@ -1,6 +1,7 @@
 package com.baselet.element;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -80,6 +81,8 @@ public interface GridElement extends HasPanelAttributes {
 	boolean isSelectableOn(Point point);
 
 	void dragEnd();
+
+	List<String> getPanelAttributesAsList();
 
 	void setLocationDifference(int diffx, int diffy, boolean firstDrag, Collection<? extends Stickable> stickables);
 }
