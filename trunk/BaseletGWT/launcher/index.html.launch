@@ -10,9 +10,9 @@
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="4"/>
 </listAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.google.gwt.eclipse.core.moduleClasspathProvider"/>
+<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.google.gdt.eclipse.maven.mavenClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -startupUrl index.html -logLevel INFO -codeServerPort 9997 -port 8888 -war D:\media\Programmieren\Eclipse\BaseletGWT\war com.baselet.gwt.BaseletGWT"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -startupUrl index.html -logLevel INFO -codeServerPort 9997 -port 8888 -war D:\media\Programmieren\Eclipse\BaseletGWT\src\main\webapp com.baselet.gwt.BaseletGWT main.resources.com.baselet.gwt.BaseletGWT"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="BaseletGWT"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xss512m -Xmx1024m -XX:MaxPermSize=1024m"/>
 </launchConfiguration>
