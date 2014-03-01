@@ -14,9 +14,9 @@ import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
-import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Main;
 import com.baselet.control.Notifier;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
@@ -230,7 +230,7 @@ public class DiagramHandler {
 	public void setHelpText(String helptext) {
 		this.helptext = helptext;
 		BaseGUI gui = Main.getInstance().getGUI();
-		if (gui != null) gui.getPropertyPane().switchToNonElement(this.helptext);
+		if (gui != null && gui.getPropertyPane() != null) gui.getPropertyPane().switchToNonElement(this.helptext);
 	}
 
 	public String getHelpText() {
