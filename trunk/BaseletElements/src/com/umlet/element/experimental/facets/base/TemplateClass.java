@@ -35,13 +35,14 @@ public class TemplateClass extends AbstractGlobalFacet {
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 		drawer.setLineType(LineType.DASHED);
 		drawer.drawRectangle(propConfig.getGridElementSize().width - width, 0, width, height);
-		drawer.print(templateValue, propConfig.getGridElementSize().width - width/2, height-SPACE/2, AlignHorizontal.CENTER);
+		drawer.print(templateValue, propConfig.getGridElementSize().width - drawer.getDistanceHorizontalBorderToText(), height-SPACE/2, AlignHorizontal.RIGHT);
 		drawer.setStyle(style); // reset style to state before manipulations for drawing the template class
+		propConfig.addToYPos(height);
 	}
 
 	@Override
 	public List<AutocompletionText> getAutocompletionStrings() {
-		return Arrays.asList(new AutocompletionText(KEY + "txt", "print template rectangle on top right corner"));
+		return Arrays.asList(new AutocompletionText(KEY + "text", "print template rectangle on top right corner"));
 	}
 
 }

@@ -12,6 +12,7 @@ import com.umlet.element.experimental.facets.base.ActiveClass;
 import com.umlet.element.experimental.facets.base.InnerClass;
 import com.umlet.element.experimental.facets.base.SeparatorLine;
 import com.umlet.element.experimental.facets.base.TemplateClass;
+import com.umlet.element.experimental.facets.base.TitleFacet;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsClass;
 
@@ -23,7 +24,7 @@ public class Class extends NewGridElement {
 		return new SettingsClass() {
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(new InnerClass(), SeparatorLine.INSTANCE_WITH_HALIGN_CHANGE, ActiveClass.INSTANCE, TemplateClass.INSTANCE);
+				return Arrays.asList(new InnerClass(), SeparatorLine.INSTANCE_WITH_HALIGN_CHANGE, ActiveClass.INSTANCE, TemplateClass.INSTANCE, TitleFacet.INSTANCE);
 			}
 		};
 	}

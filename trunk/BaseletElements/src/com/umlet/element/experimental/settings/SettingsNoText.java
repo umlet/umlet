@@ -23,7 +23,7 @@ public abstract class SettingsNoText extends Settings {
 	}
 	@Override
 	public ElementStyleEnum getElementStyle() {
-		return ElementStyleEnum.RESIZE;
+		return ElementStyleEnum.SIMPLE;
 	}
 	@Override
 	protected List<? extends Facet> createDefaultFacets() {

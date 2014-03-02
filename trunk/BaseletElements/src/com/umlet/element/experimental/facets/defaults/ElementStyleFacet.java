@@ -9,14 +9,13 @@ public class ElementStyleFacet extends AbstractGlobalKeyValueFacet {
 	public static ElementStyleFacet INSTANCE = new ElementStyleFacet();
 	private ElementStyleFacet() {}
 
-	public enum ElementStyleEnum {AUTORESIZE, RESIZE, NORESIZE, WORDWRAP}
+	public enum ElementStyleEnum {AUTORESIZE, SIMPLE, NORESIZE, WORDWRAP}
 
 	@Override
 	public KeyValue getKeyValue() {
 		return new KeyValue("elementstyle", 
 				new ValueInfo(ElementStyleEnum.AUTORESIZE, "resizes element as text grows"),
 				new ValueInfo(ElementStyleEnum.WORDWRAP, "wrap lines at the end of the line"),
-				new ValueInfo(ElementStyleEnum.RESIZE, "manual resizing of element"),
 				new ValueInfo(ElementStyleEnum.NORESIZE, "disable manual resizing"));
 	}
 
