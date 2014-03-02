@@ -20,7 +20,7 @@ public class LayerFacet extends AbstractGlobalKeyValueFacet {
 	@Override
 	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
 		try {
-			propConfig.putFacetResponse(LayerFacet.class, Integer.valueOf(value));
+			propConfig.setFacetResponse(LayerFacet.class, Integer.valueOf(value));
 		} catch (NumberFormatException e) {
 			throw new StyleException("value must be a positive or negative integer");
 		}

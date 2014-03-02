@@ -38,7 +38,7 @@ public class TemplateClassFacet extends AbstractGlobalKeyValueFacet {
 		drawer.setDrawDelayed(true);
 		drawer.print(value, elemWidth - drawer.getDistanceHorizontalBorderToText(), height-LOWER_SPACE, AlignHorizontal.RIGHT);
 		drawer.setDrawDelayed(false);
-		propConfig.putFacetResponse(TemplateClassFacet.class, new Rectangle(elemWidth - width, 0.0, width, height));
+		propConfig.setFacetResponse(TemplateClassFacet.class, new Rectangle(elemWidth - width, 0.0, width, height));
 	}
 	
 	private static int round(double val) {

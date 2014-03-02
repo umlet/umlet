@@ -13,17 +13,6 @@
     <additional_attributes>24;40;24;24</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.custom.SynchBarHorizontal</type>
-    <coordinates>
-      <x>192</x>
-      <y>368</y>
-      <w>64</w>
-      <h>16</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes/>
-  </element>
-  <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>216</x>
@@ -55,21 +44,6 @@
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>24;88;24;64;64;64;64;24</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.custom.SynchBarHorizontal</type>
-    <coordinates>
-      <x>120</x>
-      <y>168</y>
-      <w>144</w>
-      <h>96</h>
-    </coordinates>
-    <panel_attributes>{joinSpec=
-date is on or 
-after July 1st
-and the exam 
-is passed}</panel_attributes>
-    <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -374,25 +348,55 @@ bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.custom.SynchBarHorizontal</type>
+    <id>UMLSyncBarHorizontal</id>
     <coordinates>
       <x>24</x>
       <y>56</y>
       <w>64</w>
       <h>16</h>
     </coordinates>
-    <panel_attributes/>
+    <panel_attributes>lth=5
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.custom.SynchBarVertical</type>
+    <id>UMLSyncBarVertical</id>
     <coordinates>
       <x>88</x>
       <y>72</y>
       <w>16</w>
       <h>56</h>
     </coordinates>
-    <panel_attributes/>
+    <panel_attributes>template=txt
+title=titletext
+bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSyncBarHorizontal</id>
+    <coordinates>
+      <x>184</x>
+      <y>208</y>
+      <w>80</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>{joinSpec=
+date is on or 
+after July 1st
+and the exam 
+is passed}</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSyncBarHorizontal</id>
+    <coordinates>
+      <x>192</x>
+      <y>368</y>
+      <w>64</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>lth=5
+</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>

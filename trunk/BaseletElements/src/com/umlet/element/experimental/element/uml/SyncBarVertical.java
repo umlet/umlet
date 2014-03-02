@@ -18,22 +18,22 @@ import com.umlet.element.experimental.facet.common.LineThicknessFacet;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsNoText;
 
-public class SyncBar extends NewGridElement {
-	
+public class SyncBarVertical extends NewGridElement {
+
 	private StickingPolygonGenerator syncBarStickingPolygonGenerator = new StickingPolygonGenerator() {
 		@Override
 		public StickingPolygon generateStickingBorder(Rectangle rect) {
 			StickingPolygon p = new StickingPolygon(rect.x, rect.y);
 			double lt = getDrawer().getCurrentStyle().getLineThickness();
-			double halfHeight = getRealSize().getHeight()/2;
-			p.addRectangle(new Rectangle(0.0, halfHeight-lt/2, (double) getRealSize().getWidth(), lt));
+			double halfWidth = getRealSize().getWidth()/2;
+			p.addRectangle(new Rectangle(halfWidth-lt/2, 0.0, lt, (double) getRealSize().getHeight()));
 			return p;
 		}
 	};
 
 	@Override
 	public ElementId getId() {
-		return ElementId.UMLSyncBar;
+		return ElementId.UMLSyncBarVertical;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class SyncBar extends NewGridElement {
 			drawer.setLineThickness(5);
 		}
 		Dimension s = getRealSize();
-		drawer.drawLine(0, s.getHeight()/2, s.getWidth(), s.getHeight()/2);
+		drawer.drawLine(s.getWidth()/2, 0, s.getWidth()/2, s.getHeight());
 		propCfg.setStickingPolygonGenerator(syncBarStickingPolygonGenerator);
 	}
 
@@ -55,12 +55,12 @@ public class SyncBar extends NewGridElement {
 			}
 		};
 	}
-	
+
 	@Override
 	public Set<Direction> getResizeArea(int x, int y) {
 		Set<Direction> returnSet = super.getResizeArea(x, y);
-		returnSet.remove(Direction.UP);
-		returnSet.remove(Direction.DOWN);
+		returnSet.remove(Direction.LEFT);
+		returnSet.remove(Direction.RIGHT);
 		return returnSet;
 	}
 }

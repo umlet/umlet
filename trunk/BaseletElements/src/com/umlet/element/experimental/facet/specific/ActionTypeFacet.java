@@ -34,7 +34,7 @@ public class ActionTypeFacet extends AbstractGlobalKeyValueFacet {
 		} else if (type == ActionTypeEnum.RECEIVE_SIGNAL) {
 			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-1, 0), p(s.width-1, s.height-1), p(0, s.height-1), p(depth(s), s.height/2), p(0, 0)));
 		}
-		propConfig.putFacetResponse(ActionTypeFacet.class, true);
+		propConfig.setFacetResponse(ActionTypeFacet.class, true);
 	}
 
 	public static void drawAction(final BaseDrawHandler drawer, Dimension s) {
