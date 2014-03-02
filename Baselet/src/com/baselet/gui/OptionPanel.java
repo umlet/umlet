@@ -22,8 +22,8 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import com.baselet.control.Config;
 import com.baselet.control.Constants;
-import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Main;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.standalone.StandaloneGUI;
@@ -49,7 +49,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 	private JComboBox propertiesPanelFontsize;
 	private JComboBox default_fontfamily;
 
-	private Vector<String> uis_technicalNameVector;
+	private Vector<String> uis_technicalNames;
 
 	private OptionPanel() {
 		this.setLayout(new GridLayout(0, 2, 4, 4));
@@ -59,11 +59,11 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.show_grid = new JCheckBox();
 		this.enable_custom_elements = new JCheckBox();
 		this.checkForUpdates = new JCheckBox();
-		uis_technicalNameVector = new Vector<String>();
+		uis_technicalNames = new Vector<String>();
 		Vector<String> uis_humanReadableNameVector = new Vector<String>();
 		LookAndFeelInfo[] lookAndFeelInfoArray = Constants.lookAndFeels.toArray(new LookAndFeelInfo[Constants.lookAndFeels.size()]);
 		for (LookAndFeelInfo info : lookAndFeelInfoArray) {
-			uis_technicalNameVector.add(info.getClassName());
+			uis_technicalNames.add(info.getClassName());
 			uis_humanReadableNameVector.add(info.getName());
 		}
 		this.ui_manager = new JComboBox(uis_humanReadableNameVector);
@@ -124,7 +124,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.show_grid.setSelected(Constants.show_grid);
 		this.enable_custom_elements.setSelected(Constants.enable_custom_elements);
 		this.checkForUpdates.setSelected(Constants.checkForUpdates);
-		this.ui_manager.setSelectedIndex(uis_technicalNameVector.indexOf(Config.getInstance().getUiManager()));
+		this.ui_manager.setSelectedIndex(uis_technicalNames.indexOf(Config.getInstance().getUiManager()));
 		this.default_fontsize.setSelectedItem(Constants.defaultFontsize);
 		this.propertiesPanelFontsize.setSelectedItem(Constants.propertiesPanelFontsize);
 		this.default_fontfamily.setSelectedItem(Constants.defaultFontFamily);
@@ -152,8 +152,11 @@ public class OptionPanel extends JPanel implements ActionListener {
 			Constants.show_grid = this.show_grid.isSelected();
 			Constants.enable_custom_elements = this.enable_custom_elements.isSelected();
 			Constants.checkForUpdates = this.checkForUpdates.isSelected();
-			String newui = this.uis_technicalNameVector.get(this.ui_manager.getSelectedIndex());
-			if (newui != null) {
+			Constants.defaultFontsize = (Integer) this.default_fontsize.getSelectedItem();
+			
+			String newui = this.uis_technicalNames.get(this.ui_manager.getSelectedIndex());
+			// only set look and feel if it has changed, because it messes up frame-size
+			if (newui != null && !newui.equals(Config.getInstance().getUiManager())) {
 				Config.getInstance().setUiManager(newui);
 				try {
 					BaseGUI gui = Main.getInstance().getGUI();
@@ -169,15 +172,12 @@ public class OptionPanel extends JPanel implements ActionListener {
 				} catch (Exception ex) {}
 
 			}
-
-			Integer newsize = (Integer) this.default_fontsize.getSelectedItem();
-			if (!Constants.defaultFontsize.equals(newsize)) {
-				Constants.defaultFontsize = newsize;
-				for (DiagramHandler d : Main.getInstance().getDiagramsAndPalettes()) {
-					d.getFontHandler().resetFontSize();
-					d.getDrawPanel().updateElements();
-					d.getDrawPanel().repaint();
-				}
+			
+			// redraw every element to apply changes (like show stickingpolygon, fontsize, ...)
+			for (DiagramHandler d : Main.getInstance().getDiagramsAndPalettes()) {
+				d.getFontHandler().resetFontSize();
+				d.getDrawPanel().updateElements();
+				d.getDrawPanel().repaint();
 			}
 			Constants.propertiesPanelFontsize = (Integer) propertiesPanelFontsize.getSelectedItem();
 

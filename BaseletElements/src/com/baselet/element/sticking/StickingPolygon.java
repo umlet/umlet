@@ -2,6 +2,7 @@
 package com.baselet.element.sticking;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 import com.baselet.diagram.draw.geom.Line;
@@ -90,7 +91,13 @@ public class StickingPolygon {
 		addPoint(p.x, p.y, connect_to_first);
 	}
 
-	public void addPoint(int x, int y) {
+	public void addPoint(List<PointDouble> points) {
+		for (PointDouble p : points) {
+			addPoint(p.getX(), p.getY());
+		}
+	}
+	
+	public void addPoint(double x, double y) {
 		PointDouble p = new PointDouble(elementX + x, elementY + y);
 		if (firstpoint == null) {
 			firstpoint = p;

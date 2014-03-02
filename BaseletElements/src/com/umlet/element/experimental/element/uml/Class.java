@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.element.sticking.PointDoubleStickingPolygonGenerator;
 import com.baselet.element.sticking.SimpleStickingPolygonGenerator;
-import com.baselet.element.sticking.StickingPolygon;
-import com.baselet.element.sticking.StickingPolygonGenerator;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.PropertiesConfig;
@@ -23,15 +23,6 @@ import com.umlet.element.experimental.settings.SettingsClass;
 
 public class Class extends NewGridElement {
 	
-	private static final StickingPolygonGenerator templateClassStickingPolygonGenerator = new StickingPolygonGenerator() {
-		@Override
-		public StickingPolygon generateStickingBorder(Rectangle rect) {
-			StickingPolygon p = new StickingPolygon(rect.x, rect.y);
-			p.addRectangle(0, 0, rect.width/2, rect.height/2);
-			return p;
-		}
-	};
-
 	@Override
 	protected Settings createSettings() {
 		return new SettingsClass() {
@@ -57,8 +48,8 @@ public class Class extends NewGridElement {
 			propCfg.setStickingPolygonGenerator(SimpleStickingPolygonGenerator.INSTANCE);
 			
 		} else {
-			TemplateClassFacet.drawTemplateClass(drawer, tR, height, width);
-			propCfg.setStickingPolygonGenerator(templateClassStickingPolygonGenerator);
+			List<PointDouble> points = TemplateClassFacet.drawTemplateClass(drawer, tR, height, width);
+			propCfg.setStickingPolygonGenerator(new PointDoubleStickingPolygonGenerator(points));
 		}
 	}
 
