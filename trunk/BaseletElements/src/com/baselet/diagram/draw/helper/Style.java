@@ -1,8 +1,8 @@
 
 package com.baselet.diagram.draw.helper;
 
-import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.LineType;
+import com.umlet.element.experimental.facet.common.LineThicknessFacet;
 
 public class Style {
 	private LineType lineType;
@@ -14,7 +14,7 @@ public class Style {
 	private boolean applyZoom;
 	
 	public Style() {
-		this.lineThickness = SharedConstants.DEFAULT_LINE_THICKNESS;
+		this.lineThickness = LineThicknessFacet.DEFAULT_LINE_THICKNESS;
 		this.lineType = LineType.SOLID;
 		this.applyZoom = true;
 	}

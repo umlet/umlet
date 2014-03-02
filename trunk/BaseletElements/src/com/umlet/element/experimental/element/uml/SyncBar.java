@@ -14,6 +14,7 @@ import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.facet.Facet;
+import com.umlet.element.experimental.facet.common.LineThicknessFacet;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsNoText;
 
@@ -37,7 +38,9 @@ public class SyncBar extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
-		drawer.setLineThickness(5);
+		if (drawer.getCurrentStyle().getLineThickness() == LineThicknessFacet.DEFAULT_LINE_THICKNESS) {
+			drawer.setLineThickness(5);
+		}
 		Dimension s = getRealSize();
 		drawer.drawLine(0, s.getHeight()/2, s.getWidth(), s.getHeight()/2);
 		propCfg.setStickingPolygonGenerator(syncBarStickingPolygonGenerator);
