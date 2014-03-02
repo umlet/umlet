@@ -40,7 +40,7 @@ public class Interface extends NewGridElement {
 		Rectangle circleRect = circleRect();
 		drawer.drawCircle(circleRect.x + CIRCLE_SIZE/2, circleRect.y + CIRCLE_SIZE/2, CIRCLE_SIZE/2);
 		
-		propCfg.setStickingPolygonGenerator(interfacePolygonGenerator);
+		setStickingPolygonGenerator(interfacePolygonGenerator);
 	}
 
 	private Rectangle circleRect() {

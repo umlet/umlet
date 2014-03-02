@@ -26,9 +26,11 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.GridElement;
+import com.baselet.element.sticking.SimpleStickingPolygonGenerator;
 import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
+import com.baselet.element.sticking.StickingPolygonGenerator;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.facet.Facet;
 import com.umlet.element.experimental.facet.GlobalFacet;
@@ -57,6 +59,8 @@ public abstract class NewGridElement implements GridElement {
 	private PropertiesConfig propCfg;
 
 	private static final int MINIMAL_SIZE = SharedConstants.DEFAULT_GRID_SIZE * 2;
+	
+	private StickingPolygonGenerator stickingPolygonGenerator = SimpleStickingPolygonGenerator.INSTANCE;
 
 	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, Component component, DrawHandlerInterface handler) {
 		this.component = component;
@@ -237,7 +241,11 @@ public abstract class NewGridElement implements GridElement {
 	 */
 	@Override
 	public final StickingPolygon generateStickingBorder(Rectangle rect) {
-		return propCfg.getStickingPolygonGenerator().generateStickingBorder(rect);
+		return stickingPolygonGenerator.generateStickingBorder(rect);
+	}
+	
+	protected void setStickingPolygonGenerator(StickingPolygonGenerator stickingPolygonGenerator) {
+		this.stickingPolygonGenerator = stickingPolygonGenerator;
 	}
 
 	private StickingPolygon generateStickingBorder() {

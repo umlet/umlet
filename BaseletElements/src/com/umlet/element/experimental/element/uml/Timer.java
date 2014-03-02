@@ -43,7 +43,7 @@ public class Timer extends NewGridElement {
 		propCfg.updateCalculatedElementWidth(CLOCK_DIM);
 		drawer.drawLines(Arrays.asList(new PointDouble(xClock(), 0), new PointDouble(x2Clock(), CLOCK_DIM), new PointDouble(xClock(), CLOCK_DIM), new PointDouble(x2Clock(), 0), new PointDouble(xClock(), 0)));
 
-		propCfg.setStickingPolygonGenerator(timerStickingPolygonGenerator);
+		this.setStickingPolygonGenerator(timerStickingPolygonGenerator);
 	}
 
 	private int x2Clock() {
