@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.facets.common;
+package com.umlet.element.experimental.facet.specific;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
@@ -6,12 +6,12 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.diagram.draw.helper.Style;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
 
-public class StateType extends AbstractGlobalKeyValueFacet {
+public class StateTypeFacet extends AbstractGlobalKeyValueFacet {
 
-	public static StateType INSTANCE = new StateType();
-	private StateType() {}
+	public static StateTypeFacet INSTANCE = new StateTypeFacet();
+	private StateTypeFacet() {}
 
 	private enum StateTypeEnum {INITIAL, FINAL, FLOW_FINAL, TERMINATION, DECISION}
 
@@ -50,7 +50,7 @@ public class StateType extends AbstractGlobalKeyValueFacet {
 		} else if (type == StateTypeEnum.DECISION) {
 			drawer.drawLines(new PointDouble(w/2, 0), new PointDouble(w, h/2), new PointDouble(w/2, h), new PointDouble(0, h/2), new PointDouble(w/2, 0));
 		}
-		propConfig.putFacetResponse(StateType.class, true);
+		propConfig.putFacetResponse(StateTypeFacet.class, true);
 	}
 
 	private void drawBlackEllipse(final BaseDrawHandler drawer, double width, double height, double radius) {

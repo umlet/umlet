@@ -37,11 +37,11 @@ import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.ElementId;
-import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.common.BackgroundColorFacet;
-import com.umlet.element.experimental.facets.common.ForegroundColorFacet;
-import com.umlet.element.experimental.facets.common.GroupFacet;
-import com.umlet.element.experimental.facets.common.LayerFacet;
+import com.umlet.element.experimental.facet.Facet;
+import com.umlet.element.experimental.facet.common.BackgroundColorFacet;
+import com.umlet.element.experimental.facet.common.ForegroundColorFacet;
+import com.umlet.element.experimental.facet.common.GroupFacet;
+import com.umlet.element.experimental.facet.common.LayerFacet;
 
 public abstract class OldGridElement extends JComponent implements GridElement, com.umlet.element.experimental.Component {
 

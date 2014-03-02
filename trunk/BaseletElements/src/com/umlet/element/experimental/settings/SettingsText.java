@@ -6,9 +6,9 @@ import java.util.List;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
-import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.base.SeparatorLine;
-import com.umlet.element.experimental.facets.common.ElementStyleFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facet.Facet;
+import com.umlet.element.experimental.facet.common.SeparatorLineFacet;
+import com.umlet.element.experimental.facet.common.ElementStyleFacet.ElementStyleEnum;
 
 public class SettingsText extends Settings {
 	@Override
@@ -29,7 +29,7 @@ public class SettingsText extends Settings {
 	}
 	@Override
 	public List<? extends Facet> createFacets() {
-		return Arrays.asList(SeparatorLine.INSTANCE);
+		return Arrays.asList(SeparatorLineFacet.INSTANCE);
 	}
 	@Override
 	protected List<? extends Facet> createDefaultFacets() {

@@ -7,12 +7,12 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.base.ActiveClass;
-import com.umlet.element.experimental.facets.base.InnerClass;
-import com.umlet.element.experimental.facets.base.SeparatorLine;
-import com.umlet.element.experimental.facets.base.TemplateClass;
-import com.umlet.element.experimental.facets.base.TitleFacet;
+import com.umlet.element.experimental.facet.Facet;
+import com.umlet.element.experimental.facet.common.SeparatorLineFacet;
+import com.umlet.element.experimental.facet.specific.ActiveClassFacet;
+import com.umlet.element.experimental.facet.specific.InnerClassFacet;
+import com.umlet.element.experimental.facet.specific.TemplateClassFacet;
+import com.umlet.element.experimental.facet.specific.TitleFacet;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsClass;
 
@@ -24,7 +24,7 @@ public class Class extends NewGridElement {
 		return new SettingsClass() {
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(new InnerClass(), SeparatorLine.INSTANCE_WITH_HALIGN_CHANGE, ActiveClass.INSTANCE, TemplateClass.INSTANCE, TitleFacet.INSTANCE);
+				return Arrays.asList(new InnerClassFacet(), SeparatorLineFacet.INSTANCE_WITH_HALIGN_CHANGE, ActiveClassFacet.INSTANCE, TemplateClassFacet.INSTANCE, TitleFacet.INSTANCE);
 			}
 		};
 	}

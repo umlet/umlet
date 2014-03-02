@@ -6,10 +6,10 @@ import java.util.List;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
-import com.umlet.element.experimental.element.uml.relation.facet.LineDescriptionFacet;
-import com.umlet.element.experimental.element.uml.relation.facet.RelationLineTypeFacet;
-import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.common.ElementStyleFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facet.Facet;
+import com.umlet.element.experimental.facet.common.ElementStyleFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facet.relation.LineDescriptionFacet;
+import com.umlet.element.experimental.facet.relation.RelationLineTypeFacet;
 import com.umlet.element.experimental.settings.Settings;
 
 public class SettingsRelation extends Settings {

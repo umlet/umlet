@@ -12,10 +12,10 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.XValues;
-import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.Facet.Priority;
-import com.umlet.element.experimental.facets.GlobalFacet;
-import com.umlet.element.experimental.facets.common.ElementStyleFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facet.Facet;
+import com.umlet.element.experimental.facet.GlobalFacet;
+import com.umlet.element.experimental.facet.Facet.Priority;
+import com.umlet.element.experimental.facet.common.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.Settings;
 
 public class PropertiesParser {

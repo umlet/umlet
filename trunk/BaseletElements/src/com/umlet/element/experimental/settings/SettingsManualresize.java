@@ -5,8 +5,8 @@ import java.util.List;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
-import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.common.ElementStyleFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facet.Facet;
+import com.umlet.element.experimental.facet.common.ElementStyleFacet.ElementStyleEnum;
 
 public abstract class SettingsManualresize extends Settings {
 	@Override

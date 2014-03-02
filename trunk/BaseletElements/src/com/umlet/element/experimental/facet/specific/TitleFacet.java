@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.facets.base;
+package com.umlet.element.experimental.facet.specific;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;
@@ -6,7 +6,7 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
 
 public class TitleFacet extends AbstractGlobalKeyValueFacet {
 
