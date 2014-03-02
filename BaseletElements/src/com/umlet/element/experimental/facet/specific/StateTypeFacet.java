@@ -48,9 +48,13 @@ public class StateTypeFacet extends AbstractGlobalKeyValueFacet {
 			drawer.drawLine(0, 0, s.getWidth(), s.getHeight());
 			drawer.drawLine(s.getWidth(), 0, 0, s.getHeight());
 		} else if (type == StateTypeEnum.DECISION) {
-			drawer.drawLines(new PointDouble(w/2, 0), new PointDouble(w, h/2), new PointDouble(w/2, h), new PointDouble(0, h/2), new PointDouble(w/2, 0));
+			drawDecision(drawer, w, h);
 		}
 		propConfig.putFacetResponse(StateTypeFacet.class, true);
+	}
+
+	public static void drawDecision(final BaseDrawHandler drawer, final double w, final double h) {
+		drawer.drawLines(new PointDouble(w/2, 0), new PointDouble(w, h/2), new PointDouble(w/2, h), new PointDouble(0, h/2), new PointDouble(w/2, 0));
 	}
 
 	private void drawBlackEllipse(final BaseDrawHandler drawer, double width, double height, double radius) {

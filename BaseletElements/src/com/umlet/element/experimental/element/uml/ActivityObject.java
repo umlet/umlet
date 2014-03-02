@@ -8,31 +8,28 @@ import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.facet.Facet;
-import com.umlet.element.experimental.facet.specific.StateTypeFacet;
+import com.umlet.element.experimental.facet.common.SeparatorLineFacet;
 import com.umlet.element.experimental.settings.Settings;
-import com.umlet.element.experimental.settings.SettingsNoText;
+import com.umlet.element.experimental.settings.SettingsManualresize;
 
-public class State extends NewGridElement {
+public class ActivityObject extends NewGridElement {
 
 	@Override
 	public ElementId getId() {
-		return ElementId.UMLState;
+		return ElementId.UMLObject;
 	}
 
 	@Override
 	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
-		// if not type is given, throw an error
-		if (!propCfg.getFacetResponse(StateTypeFacet.class, false)) { // default is decision
-			StateTypeFacet.drawDecision(drawer, getRealSize().getWidth(), getRealSize().getHeight());
-		}
+		drawer.drawRectangle(0, 0, getRealSize().getWidth()-1, getRealSize().getHeight()-1);
 	}
 
 	@Override
 	protected Settings createSettings() {
-		return new SettingsNoText() {
+		return new SettingsManualresize() {
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(StateTypeFacet.INSTANCE);
+				return Arrays.asList(SeparatorLineFacet.INSTANCE);
 			}
 		};
 	}

@@ -265,12 +265,23 @@ type=send_signal</panel_attributes>
   <element>
     <id>UMLNote</id>
     <coordinates>
-      <x>56</x>
-      <y>616</y>
+      <x>64</x>
+      <y>600</y>
       <w>72</w>
       <h>40</h>
     </coordinates>
     <panel_attributes>text</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>264</x>
+      <y>616</y>
+      <w>48</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>Object</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
