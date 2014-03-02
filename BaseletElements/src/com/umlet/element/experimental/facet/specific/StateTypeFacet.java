@@ -50,7 +50,7 @@ public class StateTypeFacet extends AbstractGlobalKeyValueFacet {
 		} else if (type == StateTypeEnum.DECISION) {
 			drawDecision(drawer, w, h);
 		}
-		propConfig.putFacetResponse(StateTypeFacet.class, true);
+		propConfig.setFacetResponse(StateTypeFacet.class, true);
 	}
 
 	public static void drawDecision(final BaseDrawHandler drawer, final double w, final double h) {

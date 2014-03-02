@@ -19,7 +19,7 @@ public class GroupFacet extends AbstractGlobalKeyValueFacet {
 	@Override
 	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
 		try {
-			propConfig.putFacetResponse(GroupFacet.class, Integer.valueOf(value));
+			propConfig.setFacetResponse(GroupFacet.class, Integer.valueOf(value));
 		} catch (NumberFormatException e) {
 			throw new StyleException("value must be a positive or negative integer");
 		}

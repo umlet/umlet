@@ -167,7 +167,7 @@ public class PropertiesConfig {
 		return mapValue;
 	}
 
-	public void putFacetResponse(Class<? extends Facet> facetClass, Object value) {
+	public void setFacetResponse(Class<? extends Facet> facetClass, Object value) {
 		facetResponse.put(facetClass, value);
 	}
 

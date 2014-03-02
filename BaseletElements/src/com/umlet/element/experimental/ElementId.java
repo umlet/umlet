@@ -9,7 +9,8 @@ import com.umlet.element.experimental.element.uml.Class;
 import com.umlet.element.experimental.element.uml.Interface;
 import com.umlet.element.experimental.element.uml.Note;
 import com.umlet.element.experimental.element.uml.State;
-import com.umlet.element.experimental.element.uml.SyncBar;
+import com.umlet.element.experimental.element.uml.SyncBarHorizontal;
+import com.umlet.element.experimental.element.uml.SyncBarVertical;
 import com.umlet.element.experimental.element.uml.Timer;
 import com.umlet.element.experimental.element.uml.UseCase;
 import com.umlet.element.experimental.element.uml.relation.Relation;
@@ -18,7 +19,7 @@ import com.umlet.element.experimental.element.uml.relation.Relation;
  * these IDs should NEVER be changed, because they are stored in uxf files
  */
 public enum ElementId {
-	UMLClass, UMLUseCase, UMLInterface, UMLActor, UMLAction, UMLObject, UMLTimer, UMLState, UMLNote, UMLSyncBar, Relation, Text, 
+	UMLClass, UMLUseCase, UMLInterface, UMLActor, UMLAction, UMLObject, UMLTimer, UMLState, UMLNote, UMLSyncBarHorizontal, UMLSyncBarVertical, Relation, Text, 
 	PlotGrid /*standalone only (at the moment), therefore instantiated in ElementFactory and not here*/;
 	
 	public NewGridElement createAssociatedGridElement() {
@@ -32,7 +33,8 @@ public enum ElementId {
 		else if (this == UMLTimer) returnObj = new Timer();
 		else if (this == UMLState) returnObj = new State();
 		else if (this == UMLNote) returnObj = new Note();
-		else if (this == UMLSyncBar) returnObj = new SyncBar();
+		else if (this == UMLSyncBarHorizontal) returnObj = new SyncBarHorizontal();
+		else if (this == UMLSyncBarVertical) returnObj = new SyncBarVertical();
 		else if (this == Relation) returnObj = new Relation();
 		else if (this == Text) returnObj = new Text();
 		else if (this == PlotGrid) returnObj = new PlotGrid();
