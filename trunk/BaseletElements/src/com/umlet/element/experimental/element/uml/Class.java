@@ -47,18 +47,16 @@ public class Class extends NewGridElement {
 		if (tR == null) {
 			drawer.drawRectangle(0, 0, width, height);
 		} else {
-			int us = tR.getHeight()/2;
-			int rightEnd = width-tR.getWidth()/2;
 			// DRAW BACKGROUND RECT
 			Style style = drawer.getCurrentStyle();
 			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
-			PointDouble p1 = p(0, us);
-			PointDouble p2 = p(tR.getX(), us);
+			PointDouble p1 = p(0, tR.getHeight()/2);
+			PointDouble p2 = p(tR.getX(), tR.getHeight()/2);
 			PointDouble p3 = p(tR.getX(), 0);
 			PointDouble p4 = p(width, 0);
 			PointDouble p5 = p(width, tR.getHeight());
-			PointDouble p6 = p(rightEnd, tR.getHeight());
-			PointDouble p7 = p(rightEnd, height);
+			PointDouble p6 = p(width-tR.getWidth()/2, tR.getHeight());
+			PointDouble p7 = p(width-tR.getWidth()/2, height);
 			PointDouble p8 = p(0, height);
 			drawer.drawLines(p1, p2, p3, p4, p5, p6, p7, p8, p1);
 			drawer.setStyle(style.cloneFromMe()); // reset style to state before manipulations
