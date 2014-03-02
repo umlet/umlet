@@ -54,11 +54,11 @@ public class Class extends NewGridElement {
 		int width = getRealSize().getWidth() - 1;
 		if (tR == null) {
 			drawer.drawRectangle(0, 0, width, height);
-			setStickingPolygonGenerator(SimpleStickingPolygonGenerator.INSTANCE);
+			propCfg.setStickingPolygonGenerator(SimpleStickingPolygonGenerator.INSTANCE);
 			
 		} else {
 			TemplateClassFacet.drawTemplateClass(drawer, tR, height, width);
-			setStickingPolygonGenerator(templateClassStickingPolygonGenerator);
+			propCfg.setStickingPolygonGenerator(templateClassStickingPolygonGenerator);
 		}
 	}
 
