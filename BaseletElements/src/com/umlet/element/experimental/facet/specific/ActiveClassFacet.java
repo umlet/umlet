@@ -25,9 +25,7 @@ public class ActiveClassFacet extends AbstractGlobalFacet {
 
 	@Override
 	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
-		//TODO doesn't work inside of an inner class
 		propConfig.addToBuffer(SPACING);
-		// draw delayed vertical line left and right (because at this moment, the size is not fixed - it could be changed by autoresize)
 		XValues xLimits = propConfig.getXLimits(propConfig.getyPos());
 		drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), propConfig.getGridElementSize().getHeight());
 		drawer.drawLine(xLimits.getRight(), 0, xLimits.getRight(), propConfig.getGridElementSize().getHeight());
@@ -36,6 +34,11 @@ public class ActiveClassFacet extends AbstractGlobalFacet {
 	@Override
 	public List<AutocompletionText> getAutocompletionStrings() {
 		return Arrays.asList(new AutocompletionText(KEY, "make class active (double left/right border)"));
+	}
+	
+	@Override
+	public Priority getPriority() {
+		return Priority.HIGH; // because it changes the xlimits
 	}
 
 }
