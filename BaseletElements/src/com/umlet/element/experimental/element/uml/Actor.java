@@ -7,6 +7,7 @@ import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.StickingPolygon;
+import com.baselet.element.sticking.StickingPolygonGenerator;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.PropertiesConfig;
@@ -17,6 +18,22 @@ import com.umlet.element.experimental.settings.SettingsAutoresize;
 
 public class Actor extends NewGridElement {
 
+	private StickingPolygonGenerator actorStickingPolygonGenerator = new StickingPolygonGenerator() {
+		@Override
+		public StickingPolygon generateStickingBorder(Rectangle rect) {
+			double hCenter = getRealSize().width/2;
+			int left = SharedUtils.realignToGrid(false, hCenter-armLength(), false);
+			int right = SharedUtils.realignToGrid(false, hCenter+armLength(), true)-1;
+			int head = (int) headToLegLength();
+			
+			StickingPolygon p = new StickingPolygon(rect.x, rect.y);
+			p.addPoint(left, 0);
+			p.addPoint(right, 0);
+			p.addPoint(right, head);
+			p.addPoint(left, head, true);
+			return p;
+		}
+	};
 	@Override
 	protected Settings createSettings() {
 		return new SettingsAutoresize() {
@@ -43,23 +60,10 @@ public class Actor extends NewGridElement {
 		drawer.drawLine(hCenter, headRadius()*2, hCenter, headToBodyLength()); // Body
 		drawer.drawLine(hCenter, headToBodyLength(), hCenter-legSpan(), headToLegLength()); // Legs
 		drawer.drawLine(hCenter, headToBodyLength(), hCenter+legSpan(), headToLegLength()); // Legs
-	}
 
-	@Override
-	public StickingPolygon generateStickingBorder(Rectangle rect) {
-		double hCenter = getRealSize().width/2;
-		int left = SharedUtils.realignToGrid(false, hCenter-armLength(), false);
-		int right = SharedUtils.realignToGrid(false, hCenter+armLength(), true)-1;
-		int head = (int) headToLegLength();
-		
-		StickingPolygon p = new StickingPolygon(rect.x, rect.y);
-		p.addPoint(left, 0);
-		p.addPoint(right, 0);
-		p.addPoint(right, head);
-		p.addPoint(left, head, true);
-		return p;
+		propCfg.setStickingPolygonGenerator(actorStickingPolygonGenerator);
 	}
-
+	
 	private double headToLegLength() {
 		return legSpan()*2+headToBodyLength();
 	}
