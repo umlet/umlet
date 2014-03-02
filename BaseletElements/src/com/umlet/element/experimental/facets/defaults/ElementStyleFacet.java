@@ -16,6 +16,7 @@ public class ElementStyleFacet extends AbstractGlobalKeyValueFacet {
 		return new KeyValue("elementstyle", 
 				new ValueInfo(ElementStyleEnum.AUTORESIZE, "resizes element as text grows"),
 				new ValueInfo(ElementStyleEnum.WORDWRAP, "wrap lines at the end of the line"),
+				new ValueInfo(ElementStyleEnum.RESIZE, "manual resizing of element"),
 				new ValueInfo(ElementStyleEnum.NORESIZE, "disable manual resizing"));
 	}
 
