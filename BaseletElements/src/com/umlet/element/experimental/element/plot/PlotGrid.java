@@ -28,8 +28,8 @@ import com.umlet.element.experimental.element.plot.parser.ParserResult;
 import com.umlet.element.experimental.element.plot.parser.PlotConstants;
 import com.umlet.element.experimental.element.plot.parser.PlotConstants.PlotType;
 import com.umlet.element.experimental.element.plot.parser.PlotState;
-import com.umlet.element.experimental.facets.AbstractGlobalFacet;
-import com.umlet.element.experimental.facets.Facet;
+import com.umlet.element.experimental.facet.AbstractGlobalFacet;
+import com.umlet.element.experimental.facet.Facet;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsManualresize;
 

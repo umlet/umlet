@@ -31,8 +31,8 @@ import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
-import com.umlet.element.experimental.facets.common.BackgroundColorFacet;
-import com.umlet.element.experimental.facets.common.ForegroundColorFacet;
+import com.umlet.element.experimental.facet.common.BackgroundColorFacet;
+import com.umlet.element.experimental.facet.common.ForegroundColorFacet;
 
 
 @SuppressWarnings("serial")

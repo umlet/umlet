@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.facets.base;
+package com.umlet.element.experimental.facet.specific;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
@@ -7,12 +7,12 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
 
-public class TemplateClass extends AbstractGlobalKeyValueFacet {
+public class TemplateClassFacet extends AbstractGlobalKeyValueFacet {
 
-	public static TemplateClass INSTANCE = new TemplateClass();
-	private TemplateClass() {}
+	public static TemplateClassFacet INSTANCE = new TemplateClassFacet();
+	private TemplateClassFacet() {}
 
 	private static final int UPPER_SPACE = 3;
 	private static final int LOWER_SPACE = 3;

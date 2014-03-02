@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.facets.base;
+package com.umlet.element.experimental.facet.common;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,19 +8,19 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.AbstractFacet;
+import com.umlet.element.experimental.facet.AbstractFacet;
 
-public class SeparatorLine extends AbstractFacet {
+public class SeparatorLineFacet extends AbstractFacet {
 
-	public static SeparatorLine INSTANCE = new SeparatorLine(false);
-	public static SeparatorLine INSTANCE_WITH_HALIGN_CHANGE = new SeparatorLine(true);
+	public static SeparatorLineFacet INSTANCE = new SeparatorLineFacet(false);
+	public static SeparatorLineFacet INSTANCE_WITH_HALIGN_CHANGE = new SeparatorLineFacet(true);
 
 	private static final String KEY = "--";
 	
 	private boolean setHAlignToLeftAfterLine;
 	private static final int H_SPACE = 4;
 
-	private SeparatorLine(boolean setHAlignToLeftAfterLine) {
+	private SeparatorLineFacet(boolean setHAlignToLeftAfterLine) {
 		this.setHAlignToLeftAfterLine = setHAlignToLeftAfterLine;
 	}
 	

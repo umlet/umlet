@@ -1,8 +1,8 @@
-package com.umlet.element.experimental.facets.common;
+package com.umlet.element.experimental.facet.common;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
 
 public class LineThicknessFacet extends AbstractGlobalKeyValueFacet {
 	

@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.facets.base;
+package com.umlet.element.experimental.facet.specific;
 
 import java.util.Arrays;
 
@@ -6,12 +6,12 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
 
-public class ActionType extends AbstractGlobalKeyValueFacet {
+public class ActionTypeFacet extends AbstractGlobalKeyValueFacet {
 	
-	public static ActionType INSTANCE = new ActionType();
-	private ActionType() {}
+	public static ActionTypeFacet INSTANCE = new ActionTypeFacet();
+	private ActionTypeFacet() {}
 
 	private enum ActionTypeEnum {ACTION, SEND_SIGNAL, RECEIVE_SIGNAL}
 
@@ -34,7 +34,7 @@ public class ActionType extends AbstractGlobalKeyValueFacet {
 		} else if (type == ActionTypeEnum.RECEIVE_SIGNAL) {
 			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-1, 0), p(s.width-1, s.height-1), p(0, s.height-1), p(depth(s), s.height/2), p(0, 0)));
 		}
-		propConfig.putFacetResponse(ActionType.class, true);
+		propConfig.putFacetResponse(ActionTypeFacet.class, true);
 	}
 
 	public static void drawAction(final BaseDrawHandler drawer, Dimension s) {

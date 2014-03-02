@@ -9,8 +9,8 @@ import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.base.SeparatorLine;
+import com.umlet.element.experimental.facet.Facet;
+import com.umlet.element.experimental.facet.common.SeparatorLineFacet;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsAutoresize;
 
@@ -48,7 +48,7 @@ public class Interface extends NewGridElement {
 		return new SettingsAutoresize() {
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(SeparatorLine.INSTANCE);
+				return Arrays.asList(SeparatorLineFacet.INSTANCE);
 			}
 		};
 	}

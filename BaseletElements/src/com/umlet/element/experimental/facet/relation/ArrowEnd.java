@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.element.uml.relation.facet;
+package com.umlet.element.experimental.facet.relation;
 
 import com.baselet.control.enumerations.ValueHolder;
 import com.baselet.diagram.draw.BaseDrawHandler;

@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.element.uml.relation.facet;
+package com.umlet.element.experimental.facet.relation;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.element.uml.relation.facet;
+package com.umlet.element.experimental.facet.relation;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +11,7 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.element.uml.relation.RelationPoints;
 import com.umlet.element.experimental.element.uml.relation.SettingsRelation;
-import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
 
 public class RelationLineTypeFacet extends AbstractGlobalKeyValueFacet {
 	

@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.facets.base;
+package com.umlet.element.experimental.facet.specific;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,9 +10,9 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.AbstractFacet;
+import com.umlet.element.experimental.facet.AbstractFacet;
 
-public class InnerClass extends AbstractFacet {
+public class InnerClassFacet extends AbstractFacet {
 
 	private static final int BUFFER_PIXEL_PER_INNER = 5;
 	private static final int H_SPACE = 4;

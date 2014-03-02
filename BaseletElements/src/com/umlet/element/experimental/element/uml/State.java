@@ -8,8 +8,8 @@ import com.baselet.diagram.draw.helper.StyleException;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.common.StateType;
+import com.umlet.element.experimental.facet.Facet;
+import com.umlet.element.experimental.facet.specific.StateTypeFacet;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsNoText;
 
@@ -23,7 +23,7 @@ public class State extends NewGridElement {
 	@Override
 	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
 		// if not type is given, throw an error
-		if (!propCfg.getFacetResponse(StateType.class, false)) {
+		if (!propCfg.getFacetResponse(StateTypeFacet.class, false)) {
 			throw new StyleException("ASDASDDS");
 		}
 	}
@@ -33,7 +33,7 @@ public class State extends NewGridElement {
 		return new SettingsNoText() {
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(StateType.INSTANCE);
+				return Arrays.asList(StateTypeFacet.INSTANCE);
 			}
 		};
 	}

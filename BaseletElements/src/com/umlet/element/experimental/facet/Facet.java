@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.facets;
+package com.umlet.element.experimental.facet;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.element.uml.relation.facet;
+package com.umlet.element.experimental.facet.relation;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +10,7 @@ import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.element.uml.relation.RelationPoints;
 import com.umlet.element.experimental.element.uml.relation.SettingsRelation;
-import com.umlet.element.experimental.facets.AbstractGlobalFacet;
+import com.umlet.element.experimental.facet.AbstractGlobalFacet;
 
 public class LineDescriptionFacet extends AbstractGlobalFacet {
 	
