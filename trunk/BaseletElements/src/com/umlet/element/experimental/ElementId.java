@@ -3,6 +3,7 @@ package com.umlet.element.experimental;
 import com.umlet.element.experimental.element.Text;
 import com.umlet.element.experimental.element.plot.PlotGrid;
 import com.umlet.element.experimental.element.uml.Action;
+import com.umlet.element.experimental.element.uml.ActivityObject;
 import com.umlet.element.experimental.element.uml.Actor;
 import com.umlet.element.experimental.element.uml.Class;
 import com.umlet.element.experimental.element.uml.Interface;
@@ -16,7 +17,7 @@ import com.umlet.element.experimental.element.uml.relation.Relation;
  * these IDs should NEVER be changed, because they are stored in uxf files
  */
 public enum ElementId {
-	UMLClass, UMLUseCase, Relation, UMLInterface, UMLActor, UMLAction, UMLTimer, UMLState, UMLNote, Text, 
+	UMLClass, UMLUseCase, Relation, UMLInterface, UMLActor, UMLAction, UMLObject, UMLTimer, UMLState, UMLNote, Text, 
 	PlotGrid /*standalone only (at the moment), therefore instantiated in ElementFactory and not here*/;
 	
 	public NewGridElement createAssociatedGridElement() {
@@ -26,6 +27,7 @@ public enum ElementId {
 		else if (this == UMLInterface) returnObj = new Interface();
 		else if (this == UMLActor) returnObj = new Actor();
 		else if (this == UMLAction) returnObj = new Action();
+		else if (this == UMLObject) returnObj = new ActivityObject();
 		else if (this == UMLTimer) returnObj = new Timer();
 		else if (this == UMLState) returnObj = new State();
 		else if (this == UMLNote) returnObj = new Note();
