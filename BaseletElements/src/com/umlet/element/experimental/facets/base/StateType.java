@@ -8,35 +8,35 @@ import com.baselet.diagram.draw.helper.Style;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.facets.AbstractGlobalKeyValueFacet;
 
-public class NodeType extends AbstractGlobalKeyValueFacet {
+public class StateType extends AbstractGlobalKeyValueFacet {
 
-	public static NodeType INSTANCE = new NodeType();
-	private NodeType() {}
+	public static StateType INSTANCE = new StateType();
+	private StateType() {}
 
-	private enum NodeTypeEnum {INITIAL, FINAL, FLOW_FINAL, TERMINATION, DECISION}
+	private enum StateTypeEnum {INITIAL, FINAL, FLOW_FINAL, TERMINATION, DECISION}
 
 	@Override
 	public KeyValue getKeyValue() {
 		return new KeyValue("type", 
-				new ValueInfo(NodeTypeEnum.INITIAL, "an initial node"),
-				new ValueInfo(NodeTypeEnum.FINAL, "a final node for the activity"),
-				new ValueInfo(NodeTypeEnum.FLOW_FINAL, "a final node for a flow"),
-				new ValueInfo(NodeTypeEnum.TERMINATION, "a termination node"),
-				new ValueInfo(NodeTypeEnum.DECISION, "a decision node"));
+				new ValueInfo(StateTypeEnum.INITIAL, "an initial state"),
+				new ValueInfo(StateTypeEnum.FINAL, "a final state for the activity"),
+				new ValueInfo(StateTypeEnum.FLOW_FINAL, "a final state for a flow"),
+				new ValueInfo(StateTypeEnum.TERMINATION, "a termination state"),
+				new ValueInfo(StateTypeEnum.DECISION, "a decision"));
 	}
 
 	@Override
 	public void handleValue(final String value, final BaseDrawHandler drawer, final PropertiesConfig propConfig) {
-		NodeTypeEnum type = NodeTypeEnum.valueOf(value.toUpperCase());
+		StateTypeEnum type = StateTypeEnum.valueOf(value.toUpperCase());
 		Dimension s = propConfig.getGridElementSize();
 		final double w = s.getWidth();
 		final double h = s.getHeight();
-		if (type == NodeTypeEnum.INITIAL) {
+		if (type == StateTypeEnum.INITIAL) {
 			drawBlackEllipse(drawer, w, h, 0);
-		} else if (type == NodeTypeEnum.FINAL) {
+		} else if (type == StateTypeEnum.FINAL) {
 			drawer.drawEllipse(0, 0, w, h);
 			drawBlackEllipse(drawer, w, h, Math.max(w, h)/5);
-		} else if (type == NodeTypeEnum.FLOW_FINAL) {
+		} else if (type == StateTypeEnum.FLOW_FINAL) {
 			drawer.drawEllipse(0, 0, w, h);
 			double yPos = h / 6;
 			double lowerY = h-yPos;
@@ -44,13 +44,13 @@ public class NodeType extends AbstractGlobalKeyValueFacet {
 			XValues lowerXVal = XValues.createForEllipse(lowerY, h, w);
 			drawer.drawLine(upperXVal.getLeft(), yPos, lowerXVal.getRight(), lowerY);
 			drawer.drawLine(lowerXVal.getLeft(), lowerY, upperXVal.getRight(), yPos);
-		} else if (type == NodeTypeEnum.TERMINATION) {
+		} else if (type == StateTypeEnum.TERMINATION) {
 			drawer.drawLine(0, 0, s.getWidth(), s.getHeight());
 			drawer.drawLine(s.getWidth(), 0, 0, s.getHeight());
-		} else if (type == NodeTypeEnum.DECISION) {
+		} else if (type == StateTypeEnum.DECISION) {
 			drawer.drawLines(new PointDouble(w/2, 0), new PointDouble(w, h/2), new PointDouble(w/2, h), new PointDouble(0, h/2), new PointDouble(w/2, 0));
 		}
-		propConfig.putFacetResponse(NodeType.class, true);
+		propConfig.putFacetResponse(StateType.class, true);
 	}
 
 	private void drawBlackEllipse(final BaseDrawHandler drawer, double width, double height, double radius) {
