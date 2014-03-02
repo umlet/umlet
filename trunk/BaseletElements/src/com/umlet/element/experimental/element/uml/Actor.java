@@ -61,7 +61,7 @@ public class Actor extends NewGridElement {
 		drawer.drawLine(hCenter, headToBodyLength(), hCenter-legSpan(), headToLegLength()); // Legs
 		drawer.drawLine(hCenter, headToBodyLength(), hCenter+legSpan(), headToLegLength()); // Legs
 
-		setStickingPolygonGenerator(actorStickingPolygonGenerator);
+		propCfg.setStickingPolygonGenerator(actorStickingPolygonGenerator);
 	}
 	
 	private double headToLegLength() {

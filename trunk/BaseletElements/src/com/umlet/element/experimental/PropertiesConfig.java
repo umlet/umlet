@@ -8,6 +8,8 @@ import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.XValues;
+import com.baselet.element.sticking.SimpleStickingPolygonGenerator;
+import com.baselet.element.sticking.StickingPolygonGenerator;
 import com.umlet.element.experimental.facet.Facet;
 import com.umlet.element.experimental.facet.common.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.Settings;
@@ -169,4 +171,13 @@ public class PropertiesConfig {
 		facetResponse.put(facetClass, value);
 	}
 
+	private StickingPolygonGenerator stickingPolygonGenerator = SimpleStickingPolygonGenerator.INSTANCE;
+	
+	public StickingPolygonGenerator getStickingPolygonGenerator() {
+		return stickingPolygonGenerator;
+	}
+	
+	public void setStickingPolygonGenerator(StickingPolygonGenerator stickingPolygonGenerator) {
+		this.stickingPolygonGenerator = stickingPolygonGenerator;
+	}
 }
