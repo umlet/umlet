@@ -23,11 +23,11 @@ public class XValues {
 		return right-left;
 	}
 	
-	public void addLeft(float inc) {
+	public void addLeft(double inc) {
 		left+=inc;
 	}
 	
-	public void subRight(float inc) {
+	public void subRight(double inc) {
 		right-=inc;
 	}
 	

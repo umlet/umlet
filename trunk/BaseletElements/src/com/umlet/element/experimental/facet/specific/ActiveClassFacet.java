@@ -25,7 +25,7 @@ public class ActiveClassFacet extends AbstractGlobalFacet {
 
 	@Override
 	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
-		propConfig.addToBuffer(SPACING);
+		propConfig.addToHorizontalBuffer(SPACING);
 		XValues xLimits = propConfig.getXLimits(propConfig.getyPos());
 		drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), propConfig.getGridElementSize().getHeight());
 		drawer.drawLine(xLimits.getRight(), 0, xLimits.getRight(), propConfig.getGridElementSize().getHeight());

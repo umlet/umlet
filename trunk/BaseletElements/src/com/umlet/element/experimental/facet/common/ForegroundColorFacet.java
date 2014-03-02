@@ -23,7 +23,7 @@ public class ForegroundColorFacet extends AbstractGlobalKeyValueFacet {
 	}
 
 	public Priority getPriority() {
-		return Priority.HIGH;
+		return Priority.HIGHER;
 	}
 
 }

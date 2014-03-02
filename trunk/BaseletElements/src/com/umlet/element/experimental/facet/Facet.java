@@ -13,7 +13,7 @@ public interface Facet {
 	/**
 	 * priority enum, must be ordered from highest to lowest priority!
 	 */
-	public enum Priority {HIGH, MEDIUM}
+	public enum Priority {HIGHER, HIGH, MEDIUM}
 	
 	boolean checkStart(String line);
 	void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig);

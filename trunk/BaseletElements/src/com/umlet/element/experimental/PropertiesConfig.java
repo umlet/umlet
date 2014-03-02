@@ -22,8 +22,9 @@ public class PropertiesConfig {
 	private boolean vAlignGloballySet;
 	private double yPos;
 	private double calculatedElementWidth;
-	private int leftBuffer;
-	private int rightBuffer;
+	private double topBuffer;
+	private double leftBuffer;
+	private double rightBuffer;
 	private Dimension gridElementSize;
 	private ElementStyleEnum elementStyle;
 	private Map<Class<? extends Facet>, Object> facetResponse = new HashMap<Class<? extends Facet>, Object>();
@@ -39,6 +40,7 @@ public class PropertiesConfig {
 		vAlignGloballySet = false;
 		yPos = 0;
 		calculatedElementWidth = 0;
+		topBuffer = 0;
 		leftBuffer = 0;
 		rightBuffer = 0;
 		this.gridElementSize = gridElementSize;
@@ -83,28 +85,36 @@ public class PropertiesConfig {
 	}
 
 	public double getyPos() {
-		return yPos;
+		return yPos + topBuffer;
 	}
 
 	public void addToYPos(double inc) {
 		yPos += inc;
 	}
 
-	public void addToLeftBuffer(int inc) {
+	public void addToTopBuffer(double inc) {
+		this.topBuffer += inc;
+	}
+
+	public void addToLeftBuffer(double inc) {
 		this.leftBuffer += inc;
 	}
 
-	public void addToRightBuffer(int inc) {
+	public void addToRightBuffer(double inc) {
 		this.rightBuffer += inc;
 	}
 
-	public void addToBuffer(int inc) {
+	public void addToHorizontalBuffer(double inc) {
 		addToLeftBuffer(inc);
 		addToRightBuffer(inc);
 	}
 
 	public Dimension getGridElementSize() {
 		return gridElementSize;
+	}
+	
+	public double getTopBuffer() {
+		return topBuffer;
 	}
 
 	public XValues getXLimits(double linePos) {
