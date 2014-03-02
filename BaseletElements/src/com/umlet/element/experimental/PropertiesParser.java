@@ -13,8 +13,8 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.facet.Facet;
-import com.umlet.element.experimental.facet.GlobalFacet;
 import com.umlet.element.experimental.facet.Facet.Priority;
+import com.umlet.element.experimental.facet.GlobalFacet;
 import com.umlet.element.experimental.facet.common.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.Settings;
 
@@ -154,7 +154,7 @@ public class PropertiesParser {
 		if (propCfg.gethAlign() == AlignHorizontal.LEFT) {
 			x = xLimitsForText.getLeft() + drawer.getDistanceHorizontalBorderToText();
 		} else if (propCfg.gethAlign() == AlignHorizontal.CENTER) {
-			x = propCfg.getGridElementSize().width / 2.0;
+			x = xLimitsForText.getSpace() / 2.0;
 		} else /*if (propCfg.gethAlign() == AlignHorizontal.RIGHT)*/ {
 			x = xLimitsForText.getRight() - drawer.getDistanceHorizontalBorderToText();
 		}
