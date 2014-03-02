@@ -32,9 +32,9 @@ import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.facet.Facet;
 import com.umlet.element.experimental.facet.GlobalFacet;
+import com.umlet.element.experimental.facet.common.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facet.common.GroupFacet;
 import com.umlet.element.experimental.facet.common.LayerFacet;
-import com.umlet.element.experimental.facet.common.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.Settings;
 
 public abstract class NewGridElement implements GridElement {
@@ -140,8 +140,8 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	void resetMetaDrawerAndDrawCommonContent() {
-		resetMetaDrawer(metaDrawer); // must be after properties.initSettingsFromText() because stickingpolygon size can be based on some settings (eg: Actor uses this)
 		drawCommonContent(drawer, propCfg); // must be before properties.drawPropertiesText (to make sure a possible background color is behind the text)
+		resetMetaDrawer(metaDrawer); // must be after properties.initSettingsFromText() because stickingpolygon size can be based on some settings (eg: Actor uses this)
 	}
 
 	protected abstract void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg);
@@ -231,11 +231,13 @@ public abstract class NewGridElement implements GridElement {
 		return stickingBorderActive;
 	}
 
+	/*
+	 * method is final because it's not flexible enough. instead overwrite StickingPolygonGenerator in PropertiesConfig
+	 * eg: Class uses this to change the stickingpolygon based on which facets are active (see Class.java)
+	 */
 	@Override
-	public StickingPolygon generateStickingBorder(Rectangle rect) {
-		StickingPolygon p = new StickingPolygon(rect.x, rect.y);
-		p.addRectangle(0, 0, rect.width, rect.height);
-		return p;
+	public final StickingPolygon generateStickingBorder(Rectangle rect) {
+		return propCfg.getStickingPolygonGenerator().generateStickingBorder(rect);
 	}
 
 	private StickingPolygon generateStickingBorder() {

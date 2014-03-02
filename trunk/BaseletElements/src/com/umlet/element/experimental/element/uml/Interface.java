@@ -6,6 +6,7 @@ import java.util.List;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.StickingPolygon;
+import com.baselet.element.sticking.StickingPolygonGenerator;
 import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.PropertiesConfig;
@@ -19,6 +20,15 @@ public class Interface extends NewGridElement {
 	private int TOP_DISTANCE = 10;
 	private int CIRCLE_SIZE = 20;
 
+	private final StickingPolygonGenerator interfacePolygonGenerator = new StickingPolygonGenerator() {
+		@Override
+		public StickingPolygon generateStickingBorder(Rectangle rect) {
+			StickingPolygon p = new StickingPolygon(rect.x, rect.y);
+			p.addRectangle(circleRect());
+			return p;
+		}
+	};
+	
 	@Override
 	public ElementId getId() {
 		return ElementId.UMLInterface;
@@ -29,13 +39,8 @@ public class Interface extends NewGridElement {
 		propCfg.addToYPos(TOP_DISTANCE + CIRCLE_SIZE);// space reserved for the top circle
 		Rectangle circleRect = circleRect();
 		drawer.drawCircle(circleRect.x + CIRCLE_SIZE/2, circleRect.y + CIRCLE_SIZE/2, CIRCLE_SIZE/2);
-	}
-
-	@Override
-	public StickingPolygon generateStickingBorder(Rectangle rect) {
-		StickingPolygon p = new StickingPolygon(rect.x, rect.y);
-		p.addRectangle(circleRect());
-		return p;
+		
+		propCfg.setStickingPolygonGenerator(interfacePolygonGenerator);
 	}
 
 	private Rectangle circleRect() {
