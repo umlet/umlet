@@ -32,7 +32,7 @@ public class InnerClassFacet extends AbstractFacet {
 		if (line.equals(START)) {
 			ClassSettings settings = new ClassSettings(propConfig.gethAlign(), propConfig.getvAlign(), propConfig.getDividerPos(drawer));
 			innerClassStartPoints.add(settings);
-			propConfig.addToBuffer(innerClassStartPoints.size() * BUFFER_PIXEL_PER_INNER);
+			propConfig.addToHorizontalBuffer(innerClassStartPoints.size() * BUFFER_PIXEL_PER_INNER);
 			propConfig.addToYPos(H_SPACE);
 			propConfig.resetAlign();
 		}
@@ -46,7 +46,7 @@ public class InnerClassFacet extends AbstractFacet {
 			drawer.drawRectangle(xLimit.getLeft(), start, xLimit.getSpace(), height);
 			
 			propConfig.addToYPos(H_SPACE);
-			propConfig.addToBuffer(-depth);
+			propConfig.addToHorizontalBuffer(-depth);
 			propConfig.sethAlign(previousClassSettings.hAlign);
 			propConfig.setvAlign(previousClassSettings.vAlign);
 		}
