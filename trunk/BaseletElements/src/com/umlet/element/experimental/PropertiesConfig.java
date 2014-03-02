@@ -96,6 +96,10 @@ public class PropertiesConfig {
 		this.topBuffer += inc;
 	}
 
+	public void setMinTopBuffer(double minimum) {
+		this.topBuffer = Math.max(this.topBuffer, minimum);
+	}
+
 	public void addToLeftBuffer(double inc) {
 		this.leftBuffer += inc;
 	}

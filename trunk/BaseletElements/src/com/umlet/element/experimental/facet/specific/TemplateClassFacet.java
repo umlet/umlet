@@ -26,7 +26,7 @@ public class TemplateClassFacet extends AbstractGlobalKeyValueFacet {
 		double height = drawer.textHeight() + UPPER_SPACE + LOWER_SPACE;
 		double width = drawer.textWidth(value) + LEFT_SPACE;
 		propConfig.addToRightBuffer(width/2);
-		propConfig.addToTopBuffer(height/2);
+		propConfig.setMinTopBuffer(height/2);
 //		Style style = drawer.getCurrentStyle();
 //		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 //		drawer.setLineType(LineType.DASHED);
@@ -35,7 +35,6 @@ public class TemplateClassFacet extends AbstractGlobalKeyValueFacet {
 //		drawer.drawRectangle(elemWidth - width -1, 0, width, height);
 		drawer.print(value, elemWidth - drawer.getDistanceHorizontalBorderToText(), height-LOWER_SPACE, AlignHorizontal.RIGHT);
 //		drawer.setStyle(style); // reset style to state before manipulations for drawing the template class
-		propConfig.addToYPos(height);
 		propConfig.putFacetResponse(TemplateClassFacet.class, new Rectangle(s.getWidth() - width, 0.0, width, height));
 	}
 	

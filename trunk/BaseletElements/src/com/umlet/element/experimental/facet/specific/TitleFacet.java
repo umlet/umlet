@@ -25,7 +25,7 @@ public class TitleFacet extends AbstractGlobalKeyValueFacet {
 	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
 		double top = propConfig.getTopBuffer();
 		double height = drawer.textHeight() + UPPER_SPACE + LOWER_SPACE + top;
-		double corner = height / 2;
+		double corner = height * 0.4;
 		double rightSpace = corner * 1.5;
 		double lowerLeftSpace = propConfig.getXLimits(height).getLeft();
 		double width = drawer.textWidth(value) + rightSpace + lowerLeftSpace;
@@ -34,7 +34,7 @@ public class TitleFacet extends AbstractGlobalKeyValueFacet {
 		drawer.drawLines(new PointDouble(width, top), new PointDouble(width, height-corner), new PointDouble(width-corner, height), new PointDouble(lowerLeftSpace, height));
 		drawer.print(value, lowerLeftSpace + drawer.getDistanceHorizontalBorderToText(), height-LOWER_SPACE, AlignHorizontal.LEFT);
 		drawer.setStyle(style); // reset style to state before manipulations for drawing the template class
-		propConfig.addToYPos(height);
+		propConfig.setMinTopBuffer(height);
 	}
 
 }
