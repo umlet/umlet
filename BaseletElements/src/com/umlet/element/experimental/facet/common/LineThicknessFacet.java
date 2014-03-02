@@ -5,13 +5,15 @@ import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
 
 public class LineThicknessFacet extends AbstractGlobalKeyValueFacet {
+
+	public static final double DEFAULT_LINE_THICKNESS = 1.0;
 	
 	public static LineThicknessFacet INSTANCE = new LineThicknessFacet();
 	private LineThicknessFacet() {}
 
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue("lth", false, "1.0", "thickness of lines as decimal number (1.5, 2.0, ...)");
+		return new KeyValue("lth", false, DEFAULT_LINE_THICKNESS+"", "thickness of lines as decimal number (1.5, 2.0, ...)");
 	}
 
 	@Override
