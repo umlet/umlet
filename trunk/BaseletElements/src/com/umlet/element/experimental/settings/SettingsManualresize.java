@@ -6,7 +6,7 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.common.ElementStyleFacet.ElementStyleEnum;
 
 public abstract class SettingsManualresize extends Settings {
 	@Override

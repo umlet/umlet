@@ -9,7 +9,7 @@ import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.base.StateType;
+import com.umlet.element.experimental.facets.common.StateType;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsNoText;
 

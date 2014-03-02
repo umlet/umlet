@@ -36,8 +36,4 @@ public class TitleFacet extends AbstractGlobalKeyValueFacet {
 		propConfig.addToYPos(height);
 	}
 
-	public Priority getPriority() {
-		return Priority.MEDIUM;
-	}
-
 }

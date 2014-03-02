@@ -12,17 +12,17 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.Facet.Priority;
 import com.umlet.element.experimental.facets.GlobalFacet;
-import com.umlet.element.experimental.facets.defaults.BackgroundColorFacet;
-import com.umlet.element.experimental.facets.defaults.ElementStyleFacet;
-import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
-import com.umlet.element.experimental.facets.defaults.FontSizeFacet;
-import com.umlet.element.experimental.facets.defaults.ForegroundColorFacet;
-import com.umlet.element.experimental.facets.defaults.GroupFacet;
-import com.umlet.element.experimental.facets.defaults.HorizontalAlignFacet;
-import com.umlet.element.experimental.facets.defaults.LayerFacet;
-import com.umlet.element.experimental.facets.defaults.LineThicknessFacet;
-import com.umlet.element.experimental.facets.defaults.LineTypeFacet;
-import com.umlet.element.experimental.facets.defaults.VerticalAlignFacet;
+import com.umlet.element.experimental.facets.common.BackgroundColorFacet;
+import com.umlet.element.experimental.facets.common.ElementStyleFacet;
+import com.umlet.element.experimental.facets.common.FontSizeFacet;
+import com.umlet.element.experimental.facets.common.ForegroundColorFacet;
+import com.umlet.element.experimental.facets.common.GroupFacet;
+import com.umlet.element.experimental.facets.common.HorizontalAlignFacet;
+import com.umlet.element.experimental.facets.common.LayerFacet;
+import com.umlet.element.experimental.facets.common.LineThicknessFacet;
+import com.umlet.element.experimental.facets.common.LineTypeFacet;
+import com.umlet.element.experimental.facets.common.VerticalAlignFacet;
+import com.umlet.element.experimental.facets.common.ElementStyleFacet.ElementStyleEnum;
 
 public abstract class Settings {
 	protected static final List<? extends Facet> NOTEXT =     Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE);

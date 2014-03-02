@@ -9,7 +9,7 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.common.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.Settings;
 
 public class PropertiesConfig {

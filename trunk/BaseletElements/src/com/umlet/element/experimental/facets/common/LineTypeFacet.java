@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.facets.defaults;
+package com.umlet.element.experimental.facets.common;
 
 import java.util.Arrays;
 import java.util.List;
