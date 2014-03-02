@@ -9,21 +9,21 @@ import com.umlet.element.experimental.ElementId;
 import com.umlet.element.experimental.NewGridElement;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.facets.Facet;
-import com.umlet.element.experimental.facets.base.NodeType;
+import com.umlet.element.experimental.facets.base.StateType;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsNoText;
 
-public class Node extends NewGridElement {
+public class State extends NewGridElement {
 
 	@Override
 	public ElementId getId() {
-		return ElementId.UMLNode;
+		return ElementId.UMLState;
 	}
 
 	@Override
 	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
 		// if not type is given, throw an error
-		if (!propCfg.getFacetResponse(NodeType.class, false)) {
+		if (!propCfg.getFacetResponse(StateType.class, false)) {
 			throw new StyleException("ASDASDDS");
 		}
 	}
@@ -33,7 +33,7 @@ public class Node extends NewGridElement {
 		return new SettingsNoText() {
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(NodeType.INSTANCE);
+				return Arrays.asList(StateType.INSTANCE);
 			}
 		};
 	}

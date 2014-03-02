@@ -208,7 +208,7 @@ type=send_signal</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLNode</id>
+    <id>UMLState</id>
     <coordinates>
       <x>56</x>
       <y>568</y>
@@ -219,7 +219,7 @@ type=send_signal</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLNode</id>
+    <id>UMLState</id>
     <coordinates>
       <x>24</x>
       <y>568</y>
@@ -230,7 +230,7 @@ type=send_signal</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLNode</id>
+    <id>UMLState</id>
     <coordinates>
       <x>88</x>
       <y>568</y>
@@ -241,7 +241,7 @@ type=send_signal</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLNode</id>
+    <id>UMLState</id>
     <coordinates>
       <x>120</x>
       <y>568</y>
@@ -252,7 +252,7 @@ type=send_signal</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLNode</id>
+    <id>UMLState</id>
     <coordinates>
       <x>152</x>
       <y>568</y>
