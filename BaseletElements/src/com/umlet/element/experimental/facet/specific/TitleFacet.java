@@ -30,10 +30,12 @@ public class TitleFacet extends AbstractGlobalKeyValueFacet {
 		double lowerLeftSpace = propConfig.getXLimits(height).getLeft();
 		double width = drawer.textWidth(value) + rightSpace + lowerLeftSpace;
 		Style style = drawer.getCurrentStyle();
+		drawer.setDrawDelayed(true);
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 		drawer.drawLines(new PointDouble(width, top), new PointDouble(width, height-corner), new PointDouble(width-corner, height), new PointDouble(lowerLeftSpace, height));
 		drawer.print(value, lowerLeftSpace + drawer.getDistanceHorizontalBorderToText(), height-LOWER_SPACE, AlignHorizontal.LEFT);
 		drawer.setStyle(style); // reset style to state before manipulations for drawing the template class
+		drawer.setDrawDelayed(false);
 		propConfig.setMinTopBuffer(height);
 	}
 

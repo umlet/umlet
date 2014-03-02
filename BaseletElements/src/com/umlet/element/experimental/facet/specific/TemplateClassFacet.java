@@ -2,7 +2,6 @@ package com.umlet.element.experimental.facet.specific;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
@@ -27,15 +26,11 @@ public class TemplateClassFacet extends AbstractGlobalKeyValueFacet {
 		double width = drawer.textWidth(value) + LEFT_SPACE;
 		propConfig.addToRightBuffer(width/2);
 		propConfig.setMinTopBuffer(height/2);
-//		Style style = drawer.getCurrentStyle();
-//		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
-//		drawer.setLineType(LineType.DASHED);
-		Dimension s = propConfig.getGridElementSize();
-		int elemWidth = s.width;
-//		drawer.drawRectangle(elemWidth - width -1, 0, width, height);
+		int elemWidth = propConfig.getGridElementSize().width;
+		drawer.setDrawDelayed(true);
 		drawer.print(value, elemWidth - drawer.getDistanceHorizontalBorderToText(), height-LOWER_SPACE, AlignHorizontal.RIGHT);
-//		drawer.setStyle(style); // reset style to state before manipulations for drawing the template class
-		propConfig.putFacetResponse(TemplateClassFacet.class, new Rectangle(s.getWidth() - width, 0.0, width, height));
+		drawer.setDrawDelayed(false);
+		propConfig.putFacetResponse(TemplateClassFacet.class, new Rectangle(elemWidth - width, 0.0, width, height));
 	}
 	
 	@Override

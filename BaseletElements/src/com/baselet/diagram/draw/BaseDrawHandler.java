@@ -25,7 +25,14 @@ public abstract class BaseDrawHandler {
 	protected Style style = new Style();
 
 	private ArrayList<DrawFunction> drawables = new ArrayList<DrawFunction>();
+	private ArrayList<DrawFunction> drawablesDelayed = new ArrayList<DrawFunction>();
 	private Style overlay = new Style();
+	
+	private boolean drawDelayed = false;
+	
+	public void setDrawDelayed(boolean drawDelayed) {
+		this.drawDelayed = drawDelayed;
+	}
 
 	public BaseDrawHandler() {
 		this.fgDefaultColor = ColorOwn.DEFAULT_FOREGROUND;
@@ -45,7 +52,11 @@ public abstract class BaseDrawHandler {
 	}
 
 	protected void addDrawable(DrawFunction drawable) {
-		drawables.add(drawable);
+		if (drawDelayed) {
+			drawablesDelayed.add(drawable);
+		} else {
+			drawables.add(drawable);
+		}
 	}
 
 	public void drawAll(boolean isSelected) {
@@ -59,6 +70,7 @@ public abstract class BaseDrawHandler {
 
 	public void clearCache() {
 		drawables.clear();
+		drawablesDelayed.clear();
 	}
 
 	public final double textHeightWithSpace() {
@@ -135,6 +147,9 @@ public abstract class BaseDrawHandler {
 
 	public void drawAll() {
 		for (DrawFunction d : drawables) {
+			d.run();
+		}
+		for (DrawFunction d : drawablesDelayed) {
 			d.run();
 		}
 	}
