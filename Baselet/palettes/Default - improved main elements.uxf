@@ -5,7 +5,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>16</x>
-      <y>104</y>
+      <y>112</y>
       <w>320</w>
       <h>56</h>
     </coordinates>
@@ -20,7 +20,7 @@ elementstyle=autoresize</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>16</x>
-      <y>328</y>
+      <y>336</y>
       <w>168</w>
       <h>96</h>
     </coordinates>
@@ -39,7 +39,7 @@ lt=.</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>16</x>
-      <y>176</y>
+      <y>184</y>
       <w>168</w>
       <h>136</h>
     </coordinates>
@@ -58,9 +58,10 @@ elementstyle=wordwrap</panel_attributes>
       <x>16</x>
       <y>16</y>
       <w>320</w>
-      <h>72</h>
+      <h>80</h>
     </coordinates>
-    <panel_attributes>This palette contains the new grid elements UMLet offers since v12 (at the moment Class and UseCase).
+    <panel_attributes>title=new grid elements
+This palette contains the new grid elements UMLet offers since v12 (at the moment Class and UseCase).
 
 Press Ctrl+Space to open the possible settings to customize your elements as you can see below.
 elementstyle=wordwrap</panel_attributes>
@@ -70,7 +71,7 @@ elementstyle=wordwrap</panel_attributes>
     <id>Text</id>
     <coordinates>
       <x>208</x>
-      <y>432</y>
+      <y>440</y>
       <w>152</w>
       <h>72</h>
     </coordinates>
@@ -82,7 +83,7 @@ elementstyle=wordwrap</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>192</x>
-      <y>328</y>
+      <y>336</y>
       <w>144</w>
       <h>96</h>
     </coordinates>
@@ -100,7 +101,7 @@ halign=LEFT</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>192</x>
-      <y>176</y>
+      <y>184</y>
       <w>144</w>
       <h>136</h>
     </coordinates>
@@ -120,7 +121,7 @@ lth=2.5</panel_attributes>
     <id>UMLInterface</id>
     <coordinates>
       <x>24</x>
-      <y>440</y>
+      <y>448</y>
       <w>64</w>
       <h>80</h>
     </coordinates>
@@ -134,7 +135,7 @@ Operation2</panel_attributes>
     <id>UMLActor</id>
     <coordinates>
       <x>96</x>
-      <y>440</y>
+      <y>448</y>
       <w>48</w>
       <h>104</h>
     </coordinates>
@@ -149,7 +150,7 @@ fontsize=20</panel_attributes>
     <id>UMLActor</id>
     <coordinates>
       <x>152</x>
-      <y>440</y>
+      <y>448</y>
       <w>48</w>
       <h>80</h>
     </coordinates>
@@ -161,7 +162,7 @@ bg=red</panel_attributes>
     <id>UMLAction</id>
     <coordinates>
       <x>208</x>
-      <y>568</y>
+      <y>576</y>
       <w>88</w>
       <h>32</h>
     </coordinates>
@@ -174,7 +175,7 @@ type=receive_signal</panel_attributes>
     <id>UMLAction</id>
     <coordinates>
       <x>208</x>
-      <y>488</y>
+      <y>496</y>
       <w>88</w>
       <h>32</h>
     </coordinates>
@@ -186,7 +187,7 @@ action</panel_attributes>
     <id>UMLAction</id>
     <coordinates>
       <x>208</x>
-      <y>528</y>
+      <y>536</y>
       <w>88</w>
       <h>32</h>
     </coordinates>
@@ -198,8 +199,8 @@ type=send_signal</panel_attributes>
   <element>
     <id>UMLTimer</id>
     <coordinates>
-      <x>144</x>
-      <y>576</y>
+      <x>208</x>
+      <y>624</y>
       <w>48</w>
       <h>56</h>
     </coordinates>
@@ -209,8 +210,8 @@ type=send_signal</panel_attributes>
   <element>
     <id>UMLNode</id>
     <coordinates>
-      <x>40</x>
-      <y>576</y>
+      <x>56</x>
+      <y>568</y>
       <w>16</w>
       <h>16</h>
     </coordinates>
@@ -220,8 +221,8 @@ type=send_signal</panel_attributes>
   <element>
     <id>UMLNode</id>
     <coordinates>
-      <x>16</x>
-      <y>576</y>
+      <x>24</x>
+      <y>568</y>
       <w>16</w>
       <h>16</h>
     </coordinates>
@@ -231,19 +232,8 @@ type=send_signal</panel_attributes>
   <element>
     <id>UMLNode</id>
     <coordinates>
-      <x>64</x>
-      <y>648</y>
-      <w>16</w>
-      <h>16</h>
-    </coordinates>
-    <panel_attributes>type=decision</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLNode</id>
-    <coordinates>
-      <x>64</x>
-      <y>576</y>
+      <x>88</x>
+      <y>568</y>
       <w>16</w>
       <h>16</h>
     </coordinates>
@@ -253,8 +243,19 @@ type=send_signal</panel_attributes>
   <element>
     <id>UMLNode</id>
     <coordinates>
-      <x>88</x>
-      <y>576</y>
+      <x>120</x>
+      <y>568</y>
+      <w>16</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>type=termination</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNode</id>
+    <coordinates>
+      <x>152</x>
+      <y>568</y>
       <w>16</w>
       <h>16</h>
     </coordinates>
