@@ -33,7 +33,7 @@ public class Action extends NewGridElement {
 		return new SettingsManualresize() {
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(SeparatorLine.INSTANCE, ActionType.INSTANCE);
+				return Arrays.asList(SeparatorLine.INSTANCE_WITH_HALIGN_CHANGE, ActionType.INSTANCE);
 			}
 		};
 	}
