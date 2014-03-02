@@ -32,9 +32,9 @@ import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.GlobalFacet;
-import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
-import com.umlet.element.experimental.facets.defaults.GroupFacet;
-import com.umlet.element.experimental.facets.defaults.LayerFacet;
+import com.umlet.element.experimental.facets.common.GroupFacet;
+import com.umlet.element.experimental.facets.common.LayerFacet;
+import com.umlet.element.experimental.facets.common.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.Settings;
 
 public abstract class NewGridElement implements GridElement {

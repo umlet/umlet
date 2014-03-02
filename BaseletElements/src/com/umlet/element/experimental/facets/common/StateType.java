@@ -1,4 +1,4 @@
-package com.umlet.element.experimental.facets.base;
+package com.umlet.element.experimental.facets.common;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;

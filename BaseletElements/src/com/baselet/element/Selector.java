@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.umlet.element.experimental.facets.defaults.GroupFacet;
+import com.umlet.element.experimental.facets.common.GroupFacet;
 
 public abstract class Selector {
 

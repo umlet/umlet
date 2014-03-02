@@ -15,7 +15,7 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.facets.Facet;
 import com.umlet.element.experimental.facets.Facet.Priority;
 import com.umlet.element.experimental.facets.GlobalFacet;
-import com.umlet.element.experimental.facets.defaults.ElementStyleFacet.ElementStyleEnum;
+import com.umlet.element.experimental.facets.common.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.settings.Settings;
 
 public class PropertiesParser {

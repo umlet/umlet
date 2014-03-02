@@ -36,9 +36,5 @@ public class TemplateClass extends AbstractGlobalKeyValueFacet {
 		drawer.setStyle(style); // reset style to state before manipulations for drawing the template class
 		propConfig.addToYPos(height);
 	}
-	
-	public Priority getPriority() {
-		return Priority.MEDIUM;
-	}
 
 }
