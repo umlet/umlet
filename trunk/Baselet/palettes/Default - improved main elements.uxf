@@ -262,4 +262,15 @@ type=send_signal</panel_attributes>
     <panel_attributes>type=decision</panel_attributes>
     <additional_attributes/>
   </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>56</x>
+      <y>616</y>
+      <w>72</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>text</panel_attributes>
+    <additional_attributes/>
+  </element>
 </diagram>
