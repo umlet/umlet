@@ -4,6 +4,11 @@
 	<groupId>com.umlet</groupId>
 	<artifactId>gwt</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<properties>
+		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
+	</properties>
 
 	<build>
 		<plugins>
@@ -23,16 +28,30 @@
 					<execution>
 						<goals>
 							<goal>compile</goal>
-							<goal>generateAsync</goal>
 							<goal>test</goal>
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<runTarget>index.html</runTarget>
+					<hostedWebapp>${webappDirectory}</hostedWebapp>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.umlet</groupId>
+			<artifactId>common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.umlet</groupId>
+			<artifactId>common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<classifier>sources</classifier>
+		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
@@ -55,6 +74,13 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.log4j-gwt</groupId>
+			<artifactId>log4j-gwt</artifactId>
+			<version>1.0.0</version>
+			<scope>system</scope>
+			<systemPath>${project.build.directory}/../log4j-gwt.jar</systemPath>
 		</dependency>
 	</dependencies>
 
