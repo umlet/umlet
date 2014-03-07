@@ -24,8 +24,8 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
-import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Main;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;

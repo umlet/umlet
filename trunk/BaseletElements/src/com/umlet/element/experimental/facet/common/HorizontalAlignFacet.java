@@ -3,9 +3,9 @@ package com.umlet.element.experimental.facet.common;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facet.KeyValueFacet;
 
-public class HorizontalAlignFacet extends AbstractGlobalKeyValueFacet {
+public class HorizontalAlignFacet extends KeyValueFacet {
 	
 	public static HorizontalAlignFacet INSTANCE = new HorizontalAlignFacet();
 	private HorizontalAlignFacet() {}

@@ -10,9 +10,9 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facet.AbstractFacet;
+import com.umlet.element.experimental.facet.Facet;
 
-public class InnerClassFacet extends AbstractFacet {
+public class InnerClassFacet extends Facet {
 	
 	public static InnerClassFacet INSTANCE = new InnerClassFacet();
 	private InnerClassFacet() {}

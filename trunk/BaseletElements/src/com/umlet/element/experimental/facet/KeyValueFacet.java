@@ -10,7 +10,7 @@ import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 
-public abstract class AbstractKeyValueFacet extends AbstractFacet {
+public abstract class KeyValueFacet extends GlobalFacet {
 
 	public static class KeyValue {
 		private String key;

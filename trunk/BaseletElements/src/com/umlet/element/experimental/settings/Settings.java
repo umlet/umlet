@@ -10,10 +10,11 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
 import com.umlet.element.experimental.facet.Facet;
-import com.umlet.element.experimental.facet.GlobalFacet;
 import com.umlet.element.experimental.facet.Facet.Priority;
+import com.umlet.element.experimental.facet.GlobalFacet;
 import com.umlet.element.experimental.facet.common.BackgroundColorFacet;
 import com.umlet.element.experimental.facet.common.ElementStyleFacet;
+import com.umlet.element.experimental.facet.common.ElementStyleFacet.ElementStyleEnum;
 import com.umlet.element.experimental.facet.common.FontSizeFacet;
 import com.umlet.element.experimental.facet.common.ForegroundColorFacet;
 import com.umlet.element.experimental.facet.common.GroupFacet;
@@ -22,7 +23,6 @@ import com.umlet.element.experimental.facet.common.LayerFacet;
 import com.umlet.element.experimental.facet.common.LineThicknessFacet;
 import com.umlet.element.experimental.facet.common.LineTypeFacet;
 import com.umlet.element.experimental.facet.common.VerticalAlignFacet;
-import com.umlet.element.experimental.facet.common.ElementStyleFacet.ElementStyleEnum;
 
 public abstract class Settings {
 	protected static final List<? extends Facet> NOTEXT =     Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineThicknessFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE);

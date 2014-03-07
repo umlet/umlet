@@ -3,9 +3,9 @@ package com.umlet.element.experimental.facet.common;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facet.KeyValueFacet;
 
-public class GroupFacet extends AbstractGlobalKeyValueFacet {
+public class GroupFacet extends KeyValueFacet {
 
 	public static GroupFacet INSTANCE = new GroupFacet();
 	private GroupFacet() {}

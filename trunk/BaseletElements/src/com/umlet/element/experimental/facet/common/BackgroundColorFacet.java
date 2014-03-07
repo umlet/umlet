@@ -3,9 +3,9 @@ package com.umlet.element.experimental.facet.common;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facet.KeyValueFacet;
 
-public class BackgroundColorFacet extends AbstractGlobalKeyValueFacet {
+public class BackgroundColorFacet extends KeyValueFacet {
 	
 	public static BackgroundColorFacet INSTANCE = new BackgroundColorFacet();
 	private BackgroundColorFacet() {}

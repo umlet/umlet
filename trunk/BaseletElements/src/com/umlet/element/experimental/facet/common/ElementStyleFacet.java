@@ -2,9 +2,9 @@ package com.umlet.element.experimental.facet.common;
 
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facet.KeyValueFacet;
 
-public class ElementStyleFacet extends AbstractGlobalKeyValueFacet {
+public class ElementStyleFacet extends KeyValueFacet {
 	
 	public static ElementStyleFacet INSTANCE = new ElementStyleFacet();
 	private ElementStyleFacet() {}

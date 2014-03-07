@@ -6,9 +6,9 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facet.KeyValueFacet;
 
-public class ActionTypeFacet extends AbstractGlobalKeyValueFacet {
+public class ActionTypeFacet extends KeyValueFacet {
 	
 	public static ActionTypeFacet INSTANCE = new ActionTypeFacet();
 	private ActionTypeFacet() {}

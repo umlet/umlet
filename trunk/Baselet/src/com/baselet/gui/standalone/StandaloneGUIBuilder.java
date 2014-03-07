@@ -26,8 +26,8 @@ import javax.swing.ToolTipManager;
 import javax.swing.WindowConstants;
 
 import com.baselet.control.Constants;
-import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Path;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.gui.BaseGUIBuilder;
 import com.baselet.gui.listener.GUIListener;
 

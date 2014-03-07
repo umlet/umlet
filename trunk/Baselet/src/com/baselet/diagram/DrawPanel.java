@@ -25,8 +25,8 @@ import javax.swing.ScrollPaneConstants;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
-import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.DiagramNotification;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.control.Utils;
 import com.baselet.diagram.draw.geom.Rectangle;

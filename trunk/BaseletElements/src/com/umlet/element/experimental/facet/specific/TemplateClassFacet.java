@@ -12,9 +12,9 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facet.KeyValueFacet;
 
-public class TemplateClassFacet extends AbstractGlobalKeyValueFacet {
+public class TemplateClassFacet extends KeyValueFacet {
 
 	public static TemplateClassFacet INSTANCE = new TemplateClassFacet();
 	private TemplateClassFacet() {}

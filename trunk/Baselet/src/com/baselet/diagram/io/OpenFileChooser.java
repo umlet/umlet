@@ -8,8 +8,8 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
 import com.baselet.control.Constants;
-import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Main;
+import com.baselet.control.SharedConstants.Program;
 
 public class OpenFileChooser {
 

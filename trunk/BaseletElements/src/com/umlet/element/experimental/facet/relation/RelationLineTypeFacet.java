@@ -11,9 +11,9 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.element.uml.relation.RelationPoints;
 import com.umlet.element.experimental.element.uml.relation.SettingsRelation;
-import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facet.KeyValueFacet;
 
-public class RelationLineTypeFacet extends AbstractGlobalKeyValueFacet {
+public class RelationLineTypeFacet extends KeyValueFacet {
 	
 	public static RelationLineTypeFacet INSTANCE = new RelationLineTypeFacet();
 	private RelationLineTypeFacet() {}

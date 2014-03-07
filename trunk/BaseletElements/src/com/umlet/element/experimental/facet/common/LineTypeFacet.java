@@ -6,9 +6,9 @@ import java.util.List;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facet.KeyValueFacet;
 
-public class LineTypeFacet extends AbstractGlobalKeyValueFacet {
+public class LineTypeFacet extends KeyValueFacet {
 	
 	public static LineTypeFacet INSTANCE = new LineTypeFacet();
 	private LineTypeFacet() {}
