@@ -13,8 +13,8 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.elementnew.facet.Facet;
-import com.baselet.elementnew.facet.GlobalFacet;
 import com.baselet.elementnew.facet.Facet.Priority;
+import com.baselet.elementnew.facet.GlobalFacet;
 import com.baselet.elementnew.facet.common.ElementStyleFacet.ElementStyleEnum;
 import com.baselet.elementnew.settings.Settings;
 
@@ -58,17 +58,17 @@ public class PropertiesParser {
 	}
 	
 	private static void drawPropertiesWithoutGlobalFacets(List<String> propertiesTextWithoutGobalFacets, PropertiesConfig propCfg, BaseDrawHandler drawer) {
-		double startPointFromVAlign = calcStartPointFromVAlign(propertiesTextWithoutGobalFacets, propCfg.getvAlign(), propCfg.getGridElementSize(), drawer, propCfg.getSettings(), propCfg.getElementStyle());
+		double startPointFromVAlign = calcStartPointFromVAlign(propertiesTextWithoutGobalFacets, propCfg, drawer);
 		propCfg.addToYPos(calcTopDisplacementToFitLine(propertiesTextWithoutGobalFacets, startPointFromVAlign, propCfg, drawer));
 		handleWordWrapAndIterate(propertiesTextWithoutGobalFacets, propCfg.getSettings().getLocalFacets(), propCfg, drawer);
 	}
 
 	private static double calcTopDisplacementToFitLine(List<String> propertiesText, double startPoint, PropertiesConfig propCfg, BaseDrawHandler drawer) {
-		int BUFFER = 2; // a small buffer between text and outer border
 		double displacement = startPoint;
-		double textHeight = drawer.textHeight();
 		boolean wordwrap = propCfg.getElementStyle() == ElementStyleEnum.WORDWRAP;
 		if (!wordwrap && !propertiesText.isEmpty()) { // in case of wordwrap or no text, there is no top displacement
+			int BUFFER = 2; // a small buffer between text and outer border
+			double textHeight = drawer.textHeight();
 			String firstLine = propertiesText.iterator().next();
 			double availableWidthSpace = propCfg.getXLimitsForArea(displacement, textHeight).getSpace() - BUFFER;
 			double accumulator = displacement;
@@ -87,16 +87,16 @@ public class PropertiesParser {
 		return displacement;
 	}
 
-	private static double calcStartPointFromVAlign(List<String> propertiesText, AlignVertical vAlign, Dimension gridElementSize, BaseDrawHandler drawer, Settings settings, ElementStyleEnum elementStyle) {
+	private static double calcStartPointFromVAlign(List<String> propertiesText, PropertiesConfig p, BaseDrawHandler drawer) {
 		double returnVal = drawer.textHeight(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
-		if (vAlign == AlignVertical.TOP) {
-			returnVal += drawer.getDistanceHorizontalBorderToText();
+		if (p.getvAlign() == AlignVertical.TOP) {
+			returnVal += drawer.getDistanceHorizontalBorderToText() + p.getTopBuffer();
 		}
-		else if (vAlign == AlignVertical.CENTER) {
-			returnVal += (gridElementSize.height - getTextBlockHeight(propertiesText, gridElementSize, drawer, settings, elementStyle))/2 - drawer.textHeight()/6; // 1/6 of textheight is a good value for large fontsizes and "deep" characters like "y"
+		else if (p.getvAlign() == AlignVertical.CENTER) {
+			returnVal += (p.getGridElementSize().height - getTextBlockHeight(propertiesText, p.getGridElementSize(), drawer, p.getSettings(), p.getElementStyle()))/2 + p.getTopBuffer()/2 - drawer.textHeight()/6; // 1/6 of textheight is a good value for large fontsizes and "deep" characters like "y"
 		}
 		else /*if (propCfg.getvAlign() == AlignVertical.BOTTOM)*/ {
-			returnVal += gridElementSize.height - getTextBlockHeight(propertiesText, gridElementSize, drawer, settings, elementStyle) - drawer.textHeight()/4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
+			returnVal += p.getGridElementSize().height - getTextBlockHeight(propertiesText, p.getGridElementSize(), drawer, p.getSettings(), p.getElementStyle()) - drawer.textHeight()/4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
 		}
 		return returnVal;
 	}

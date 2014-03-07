@@ -4,41 +4,12 @@
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>80</x>
-      <y>424</y>
-      <w>136</w>
-      <h>48</h>
-    </coordinates>
-    <panel_attributes>Name
-asd
-name=text
-valign=bottom</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Package</type>
-    <coordinates>
-      <x>152</x>
-      <y>128</y>
+      <x>16</x>
+      <y>80</y>
       <w>80</w>
       <h>56</h>
     </coordinates>
-    <panel_attributes>--
-Name
-bg=green</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Package</type>
-    <coordinates>
-      <x>152</x>
-      <y>16</y>
-      <w>80</w>
-      <h>56</h>
-    </coordinates>
-    <panel_attributes>--
-Name
-bg=blue</panel_attributes>
+    <panel_attributes>Text</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -59,18 +30,6 @@ root
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Package</type>
-    <coordinates>
-      <x>16</x>
-      <y>80</y>
-      <w>80</w>
-      <h>56</h>
-    </coordinates>
-    <panel_attributes>--
-Name</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>168</x>
@@ -81,20 +40,6 @@ Name</panel_attributes>
     <panel_attributes>lt=&lt;(+)-
 </panel_attributes>
     <additional_attributes>24;24;24;96</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Package</type>
-    <coordinates>
-      <x>16</x>
-      <y>144</y>
-      <w>80</w>
-      <h>56</h>
-    </coordinates>
-    <panel_attributes>Name
---
-left:Text
-Text</panel_attributes>
-    <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -133,35 +78,77 @@ Text</panel_attributes>
     <additional_attributes>128;40;24;40</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.Package</type>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>16</x>
+      <y>144</y>
+      <w>80</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>name=Name
+Text
+Text
+halign=left</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>152</x>
+      <y>16</y>
+      <w>80</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>name=Name
+Text
+Text
+bg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
     <coordinates>
       <x>16</x>
       <y>16</y>
       <w>80</w>
       <h>56</h>
     </coordinates>
-    <panel_attributes>Name</panel_attributes>
+    <panel_attributes>name=Name</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>152</x>
+      <y>128</y>
+      <w>80</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>name=Name
+Text
+Text
+bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <group>
     <element>
-      <type>com.umlet.element.Package</type>
-      <coordinates>
-        <x>16</x>
-        <y>208</y>
-        <w>120</w>
-        <h>88</h>
-      </coordinates>
-      <panel_attributes/>
-      <additional_attributes/>
-    </element>
-    <element>
-      <type>com.umlet.element.Package</type>
+      <id>UMLPackage</id>
       <coordinates>
         <x>40</x>
         <y>232</y>
         <w>80</w>
         <h>56</h>
+      </coordinates>
+      <panel_attributes/>
+      <additional_attributes/>
+    </element>
+    <element>
+      <id>UMLPackage</id>
+      <coordinates>
+        <x>16</x>
+        <y>208</y>
+        <w>120</w>
+        <h>88</h>
       </coordinates>
       <panel_attributes/>
       <additional_attributes/>
