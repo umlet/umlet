@@ -30,15 +30,7 @@ public class TemplateClassFacet extends KeyValueFacet {
 
 	@Override
 	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
-		double height = drawer.textHeight() + UPPER_SPACE + LOWER_SPACE;
-		double width = drawer.textWidth(value) + LEFT_SPACE;
-		propConfig.addToRightBuffer(round(width/2));
-		propConfig.setMinTopBuffer(round(height/2));
-		int elemWidth = propConfig.getGridElementSize().width;
-		drawer.setDrawDelayed(true);
-		drawer.print(value, elemWidth - drawer.getDistanceHorizontalBorderToText(), height-LOWER_SPACE, AlignHorizontal.RIGHT);
-		drawer.setDrawDelayed(false);
-		propConfig.setFacetResponse(TemplateClassFacet.class, new Rectangle(elemWidth - width, 0.0, width, height));
+		propConfig.setFacetResponse(TemplateClassFacet.class, value);
 	}
 	
 	private static int round(double val) {
@@ -46,9 +38,8 @@ public class TemplateClassFacet extends KeyValueFacet {
 	}
 
 
-	public static List<PointDouble> drawTemplateClass(BaseDrawHandler drawer, Rectangle tR, int height, int width) {
-		Style style = drawer.getCurrentStyle();
-		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
+	public static List<PointDouble> drawTemplateClass(String templateClassText, BaseDrawHandler drawer, PropertiesConfig propConfig, int height, int width) {
+		Rectangle tR = calcTemplateRect(templateClassText, drawer, width);
 		int classTopEnd = round(tR.getHeight()/2);
 		int classWidth = width-round(tR.getWidth()/2);
 		List<PointDouble> p = Arrays.asList(
@@ -60,7 +51,12 @@ public class TemplateClassFacet extends KeyValueFacet {
 				new PointDouble(classWidth, tR.getHeight()),
 				new PointDouble(classWidth, height),
 				new PointDouble(0, height));
+		// SET BUFFERS FOR REDUCED CLASS BORDER
+		propConfig.setMinTopBuffer(tR.getHeight());
+		propConfig.addToRightBuffer(width-classWidth);
 		// DRAW BACKGROUND RECT
+		Style style = drawer.getCurrentStyle();
+		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 		int i = 0;
 		drawer.drawLines(p.get(i++), p.get(i++), p.get(i++), p.get(i++), p.get(i++), p.get(i++), p.get(i++), p.get(i++), p.get(0));
 		drawer.setStyle(style.cloneFromMe()); // reset style to state before manipulations
@@ -71,7 +67,16 @@ public class TemplateClassFacet extends KeyValueFacet {
 		drawer.setStyle(style); // reset style to state before manipulations
 		// DRAW PARTIAL CLASS BORDER
 		drawer.drawLines(p.get(1), p.get(0), p.get(7), p.get(6), p.get(5));
+		// DRAW TEMPLATE TEXT
+		drawer.print(templateClassText, width - drawer.getDistanceHorizontalBorderToText(), tR.getHeight()-LOWER_SPACE, AlignHorizontal.RIGHT);
 		return p;
+	}
+
+	private static Rectangle calcTemplateRect(String templateClassText, BaseDrawHandler drawer, int width) {
+		double templateHeight = drawer.textHeight() + UPPER_SPACE + LOWER_SPACE;
+		double templateWidth = drawer.textWidth(templateClassText) + LEFT_SPACE;
+		Rectangle tR = new Rectangle(width - templateWidth, 0.0, templateWidth, templateHeight);
+		return tR;
 	}
 
 	@Override
