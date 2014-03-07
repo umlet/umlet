@@ -32,6 +32,7 @@ public class ActionTypeFacet extends KeyValueFacet {
 		} else if (type == ActionTypeEnum.SEND_SIGNAL) {
 			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-depth(s), 0), p(s.width-1, s.height/2), p(s.width-depth(s), s.height-1), p(0, s.height-1), p(0, 0)));
 		} else if (type == ActionTypeEnum.RECEIVE_SIGNAL) {
+			propConfig.addToLeftBuffer(depth(s));
 			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-1, 0), p(s.width-1, s.height-1), p(0, s.height-1), p(depth(s), s.height/2), p(0, 0)));
 		}
 		propConfig.setFacetResponse(ActionTypeFacet.class, true);
