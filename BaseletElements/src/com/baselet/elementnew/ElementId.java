@@ -6,6 +6,7 @@ import com.baselet.elementnew.element.uml.Action;
 import com.baselet.elementnew.element.uml.ActivityObject;
 import com.baselet.elementnew.element.uml.Actor;
 import com.baselet.elementnew.element.uml.Class;
+import com.baselet.elementnew.element.uml.Frame;
 import com.baselet.elementnew.element.uml.Interface;
 import com.baselet.elementnew.element.uml.Note;
 import com.baselet.elementnew.element.uml.Package;
@@ -20,7 +21,7 @@ import com.baselet.elementnew.element.uml.relation.Relation;
  * these IDs should NEVER be changed, because they are stored in uxf files
  */
 public enum ElementId {
-	UMLClass, UMLUseCase, UMLInterface, UMLActor, UMLAction, UMLObject, UMLTimer, UMLState, UMLNote, UMLSyncBarHorizontal, UMLSyncBarVertical, UMLPackage, Relation, Text, 
+	UMLClass, UMLUseCase, UMLInterface, UMLActor, UMLAction, UMLObject, UMLTimer, UMLState, UMLNote, UMLSyncBarHorizontal, UMLSyncBarVertical, UMLPackage, UMLFrame, Relation, Text, 
 	PlotGrid /*standalone only (at the moment), therefore instantiated in ElementFactory and not here*/;
 	
 	public NewGridElement createAssociatedGridElement() {
@@ -37,6 +38,7 @@ public enum ElementId {
 		else if (this == UMLSyncBarHorizontal) returnObj = new SyncBarHorizontal();
 		else if (this == UMLSyncBarVertical) returnObj = new SyncBarVertical();
 		else if (this == UMLPackage) returnObj = new Package();
+		else if (this == UMLFrame) returnObj = new Frame();
 		else if (this == Relation) returnObj = new Relation();
 		else if (this == Text) returnObj = new Text();
 		else if (this == PlotGrid) returnObj = new PlotGrid();

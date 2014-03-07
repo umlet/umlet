@@ -13,7 +13,6 @@ import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.SeparatorLineFacet;
-import com.baselet.elementnew.facet.specific.TitleFacet;
 import com.baselet.elementnew.settings.Settings;
 import com.baselet.elementnew.settings.SettingsManualresize;
 
@@ -58,7 +57,7 @@ public class UseCase extends NewGridElement {
 			}
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(SeparatorLineFacet.INSTANCE, TitleFacet.INSTANCE);
+				return Arrays.asList(SeparatorLineFacet.INSTANCE);
 			}
 		};
 	}
