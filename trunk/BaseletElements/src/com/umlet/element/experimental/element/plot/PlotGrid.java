@@ -264,7 +264,7 @@ public class PlotGrid extends NewGridElement {
 						return PlotConstants.AUTOCOMPLETION_LIST;
 					}
 					@Override
-					public boolean checkStart(String line) {
+					public boolean checkStart(String line, PropertiesConfig propConfig) {
 						return true;
 					}
 				});

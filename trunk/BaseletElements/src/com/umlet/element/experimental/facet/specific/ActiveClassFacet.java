@@ -19,7 +19,7 @@ public class ActiveClassFacet extends AbstractGlobalFacet {
 	private static final int SPACING = 6;
 
 	@Override
-	public boolean checkStart(String line) {
+	public boolean checkStart(String line, PropertiesConfig propConfig) {
 		return line.equals(KEY);
 	}
 

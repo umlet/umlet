@@ -141,7 +141,7 @@ public class PropertiesParser {
 	private static boolean parseFacets(List<? extends Facet> facets, String line, BaseDrawHandler drawer, PropertiesConfig propCfg) {
 		boolean drawText = true;
 		for (Facet f : facets) {
-			if (f.checkStart(line)) {
+			if (f.checkStart(line, propCfg)) {
 				f.handleLine(line, drawer, propCfg);
 				if (f.replacesText(line)) drawText = false;
 			}

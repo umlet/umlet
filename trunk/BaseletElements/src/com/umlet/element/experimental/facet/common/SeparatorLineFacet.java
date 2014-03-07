@@ -36,7 +36,7 @@ public class SeparatorLineFacet extends AbstractFacet {
 	}
 
 	@Override
-	public boolean checkStart(String line) {
+	public boolean checkStart(String line, PropertiesConfig propConfig) {
 		return line.equals(KEY);
 	}
 

@@ -15,7 +15,7 @@ public interface Facet {
 	 */
 	public enum Priority {HIGHER, HIGH, MEDIUM}
 	
-	boolean checkStart(String line);
+	boolean checkStart(String line, PropertiesConfig propConfig);
 	void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig);
 	boolean replacesText(String line);
 	List<AutocompletionText> getAutocompletionStrings();
