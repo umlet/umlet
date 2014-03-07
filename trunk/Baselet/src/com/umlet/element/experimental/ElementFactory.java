@@ -8,6 +8,9 @@ import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
+import com.baselet.elementnew.DrawHandlerInterface;
+import com.baselet.elementnew.ElementId;
+import com.baselet.elementnew.NewGridElement;
 
 public class ElementFactory {
 

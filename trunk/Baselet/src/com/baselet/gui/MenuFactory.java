@@ -60,10 +60,10 @@ import com.baselet.diagram.command.UnGroup;
 import com.baselet.diagram.io.ClassChooser;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.baselet.elementnew.facet.common.BackgroundColorFacet;
+import com.baselet.elementnew.facet.common.ForegroundColorFacet;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.custom.CustomElement;
-import com.umlet.element.experimental.facet.common.BackgroundColorFacet;
-import com.umlet.element.experimental.facet.common.ForegroundColorFacet;
 import com.umlet.language.ClassDiagramConverter;
 
 public class MenuFactory {

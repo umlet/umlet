@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import com.baselet.control.SharedConstants;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
+import com.baselet.elementnew.ElementId;
 import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.element.ElementFactory;
 import com.google.gwt.http.client.URL;
@@ -18,7 +19,6 @@ import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
-import com.umlet.element.experimental.ElementId;
 
 public class OwnXMLParser {
 

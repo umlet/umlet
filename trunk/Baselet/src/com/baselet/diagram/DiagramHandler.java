@@ -24,6 +24,7 @@ import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.baselet.elementnew.NewGridElement;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.DiagramPopupMenu;
 import com.baselet.gui.listener.DiagramListener;
@@ -32,7 +33,6 @@ import com.baselet.gui.listener.RelationListener;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.element.Relation;
 import com.umlet.element.SequenceDiagram;
-import com.umlet.element.experimental.NewGridElement;
 
 public class DiagramHandler {
 	

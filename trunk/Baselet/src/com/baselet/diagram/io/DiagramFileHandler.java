@@ -40,8 +40,8 @@ import com.baselet.control.SharedConstants.Program;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.baselet.elementnew.NewGridElement;
 import com.umlet.custom.CustomElement;
-import com.umlet.element.experimental.NewGridElement;
 
 public class DiagramFileHandler {
 	

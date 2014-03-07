@@ -10,6 +10,8 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.diagram.draw.swing.Converter;
+import com.baselet.elementnew.Component;
+import com.baselet.elementnew.NewGridElement;
 
 public class ComponentSwing extends JComponent implements Component {
 	private static final long serialVersionUID = 1L;

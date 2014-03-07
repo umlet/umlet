@@ -2,7 +2,7 @@
 package com.baselet.diagram.draw.helper;
 
 import com.baselet.control.enumerations.LineType;
-import com.umlet.element.experimental.facet.common.LineThicknessFacet;
+import com.baselet.elementnew.facet.common.LineThicknessFacet;
 
 public class Style {
 	private LineType lineType;

@@ -35,15 +35,15 @@ import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.StickingPolygon;
+import com.baselet.elementnew.ElementId;
+import com.baselet.elementnew.facet.Facet;
+import com.baselet.elementnew.facet.common.BackgroundColorFacet;
+import com.baselet.elementnew.facet.common.ForegroundColorFacet;
+import com.baselet.elementnew.facet.common.GroupFacet;
+import com.baselet.elementnew.facet.common.LayerFacet;
 import com.baselet.gui.AutocompletionText;
-import com.umlet.element.experimental.ElementId;
-import com.umlet.element.experimental.facet.Facet;
-import com.umlet.element.experimental.facet.common.BackgroundColorFacet;
-import com.umlet.element.experimental.facet.common.ForegroundColorFacet;
-import com.umlet.element.experimental.facet.common.GroupFacet;
-import com.umlet.element.experimental.facet.common.LayerFacet;
 
-public abstract class OldGridElement extends JComponent implements GridElement, com.umlet.element.experimental.Component {
+public abstract class OldGridElement extends JComponent implements GridElement, com.baselet.elementnew.Component {
 
 	private static final long serialVersionUID = 1L;
 
@@ -380,7 +380,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public com.umlet.element.experimental.Component getComponent() {
+	public com.baselet.elementnew.Component getComponent() {
 		return this;
 	}
 

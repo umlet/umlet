@@ -25,8 +25,8 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickingPolygon;
+import com.baselet.elementnew.facet.common.LineThicknessFacet;
 import com.umlet.element.Relation;
-import com.umlet.element.experimental.facet.common.LineThicknessFacet;
 import com.umlet.element.relation.DoubleStroke;
 import com.umlet.element.relation.RelationLinePoint;
 
