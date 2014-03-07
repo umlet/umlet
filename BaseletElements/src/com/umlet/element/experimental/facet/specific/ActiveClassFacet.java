@@ -7,9 +7,9 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facet.AbstractGlobalFacet;
+import com.umlet.element.experimental.facet.GlobalFacet;
 
-public class ActiveClassFacet extends AbstractGlobalFacet {
+public class ActiveClassFacet extends GlobalFacet {
 
 	public static ActiveClassFacet INSTANCE = new ActiveClassFacet();
 	private ActiveClassFacet() {}

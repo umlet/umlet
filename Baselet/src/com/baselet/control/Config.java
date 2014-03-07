@@ -3,8 +3,8 @@ package com.baselet.control;
 import javax.swing.UIManager;
 
 import com.baselet.control.Constants.Os;
-import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Constants.SystemInfo;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
 
 /**

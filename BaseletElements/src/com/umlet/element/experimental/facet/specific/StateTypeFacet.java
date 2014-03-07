@@ -6,9 +6,9 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.diagram.draw.helper.Style;
 import com.umlet.element.experimental.PropertiesConfig;
-import com.umlet.element.experimental.facet.AbstractGlobalKeyValueFacet;
+import com.umlet.element.experimental.facet.KeyValueFacet;
 
-public class StateTypeFacet extends AbstractGlobalKeyValueFacet {
+public class StateTypeFacet extends KeyValueFacet {
 
 	public static StateTypeFacet INSTANCE = new StateTypeFacet();
 	private StateTypeFacet() {}

@@ -28,8 +28,8 @@ import com.umlet.element.experimental.element.plot.parser.ParserResult;
 import com.umlet.element.experimental.element.plot.parser.PlotConstants;
 import com.umlet.element.experimental.element.plot.parser.PlotConstants.PlotType;
 import com.umlet.element.experimental.element.plot.parser.PlotState;
-import com.umlet.element.experimental.facet.AbstractGlobalFacet;
 import com.umlet.element.experimental.facet.Facet;
+import com.umlet.element.experimental.facet.GlobalFacet;
 import com.umlet.element.experimental.settings.Settings;
 import com.umlet.element.experimental.settings.SettingsManualresize;
 
@@ -48,7 +48,7 @@ public class PlotGrid extends NewGridElement {
 	/**
 	 * this facet is only here to show autocompletion and include PlotGrid in the new parser logic which uses facets
 	 */
-	public static AbstractGlobalFacet PSEUDO_PLOT_FACET = new AbstractGlobalFacet() {
+	public static GlobalFacet PSEUDO_PLOT_FACET = new GlobalFacet() {
 			@Override
 			public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
 				// do nothing

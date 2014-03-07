@@ -5,8 +5,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.baselet.control.Constants;
-import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Main;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;

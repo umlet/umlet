@@ -10,9 +10,9 @@ import com.baselet.gui.AutocompletionText;
 import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.element.uml.relation.RelationPoints;
 import com.umlet.element.experimental.element.uml.relation.SettingsRelation;
-import com.umlet.element.experimental.facet.AbstractGlobalFacet;
+import com.umlet.element.experimental.facet.GlobalFacet;
 
-public class LineDescriptionFacet extends AbstractGlobalFacet {
+public class LineDescriptionFacet extends GlobalFacet {
 	
 	public static LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
 	private LineDescriptionFacet() {}
