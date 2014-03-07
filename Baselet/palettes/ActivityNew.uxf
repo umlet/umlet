@@ -399,4 +399,16 @@ is passed}</panel_attributes>
 </panel_attributes>
     <additional_attributes/>
   </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>112</x>
+      <y>192</y>
+      <w>88</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>{joinSpec=date is on or after July 1stand the exam is passed}
+elementstyle=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
 </diagram>
