@@ -8,9 +8,9 @@ import java.util.List;
 
 import com.baselet.element.GridElement;
 import com.baselet.element.HasPanelAttributes;
+import com.baselet.elementnew.element.uml.relation.Relation;
 import com.baselet.gui.AutocompletionText;
 import com.baselet.gwt.client.view.SelectorNew.HasGridElements;
-import com.umlet.element.experimental.element.uml.relation.Relation;
 
 public class Diagram implements HasPanelAttributes, HasGridElements {
 

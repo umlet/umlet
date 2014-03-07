@@ -6,13 +6,13 @@ import com.baselet.control.SharedConstants;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
+import com.baselet.elementnew.ElementId;
 import com.baselet.gwt.client.element.ComponentGwt;
 import com.baselet.gwt.client.element.ElementFactory;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.user.client.ui.FocusWidget;
-import com.umlet.element.experimental.ElementId;
 
 public class DrawCanvas {
 	private Canvas canvas = Canvas.createIfSupported();

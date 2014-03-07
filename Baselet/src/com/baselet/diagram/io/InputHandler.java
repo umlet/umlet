@@ -15,10 +15,10 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.ErrorOccurred;
 import com.baselet.element.GridElement;
 import com.baselet.element.Group;
+import com.baselet.elementnew.ElementId;
+import com.baselet.elementnew.NewGridElement;
 import com.umlet.custom.CustomElementCompiler;
 import com.umlet.element.experimental.ElementFactory;
-import com.umlet.element.experimental.ElementId;
-import com.umlet.element.experimental.NewGridElement;
 
 /**
  * Describes what should happen with parsed elements from the input file

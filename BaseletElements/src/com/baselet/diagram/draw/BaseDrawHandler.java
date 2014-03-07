@@ -14,8 +14,8 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.diagram.draw.helper.StyleException;
-import com.umlet.element.experimental.facet.common.BackgroundColorFacet;
-import com.umlet.element.experimental.facet.common.ForegroundColorFacet;
+import com.baselet.elementnew.facet.common.BackgroundColorFacet;
+import com.baselet.elementnew.facet.common.ForegroundColorFacet;
 
 public abstract class BaseDrawHandler {
 

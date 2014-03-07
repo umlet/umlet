@@ -9,9 +9,9 @@ import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.umlet.element.experimental.DrawHandlerInterface;
-import com.umlet.element.experimental.ElementId;
-import com.umlet.element.experimental.NewGridElement;
+import com.baselet.elementnew.DrawHandlerInterface;
+import com.baselet.elementnew.ElementId;
+import com.baselet.elementnew.NewGridElement;
 
 public class ElementFactory {
 

@@ -3,10 +3,10 @@ package com.baselet.gwt.client.element;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
+import com.baselet.elementnew.Component;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
-import com.umlet.element.experimental.Component;
 
 public class ComponentGwt implements Component {
 
