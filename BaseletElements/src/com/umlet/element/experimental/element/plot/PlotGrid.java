@@ -44,6 +44,24 @@ public class PlotGrid extends NewGridElement {
 	private Integer gridWidth;
 	private Double minValue;
 	private Double maxValue;
+	
+	/**
+	 * this facet is only here to show autocompletion and include PlotGrid in the new parser logic which uses facets
+	 */
+	public static AbstractGlobalFacet PSEUDO_PLOT_FACET = new AbstractGlobalFacet() {
+			@Override
+			public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+				// do nothing
+			}
+			@Override
+			public List<AutocompletionText> getAutocompletionStrings() {
+				return PlotConstants.AUTOCOMPLETION_LIST;
+			}
+			@Override
+			public boolean checkStart(String line, PropertiesConfig propConfig) {
+				return true;
+			}
+	};
 
 	private void fillWithPlots(ArrayList<PlotState> plotStateList) {
 		setOverallMinMaxValue(plotStateList);
@@ -254,20 +272,7 @@ public class PlotGrid extends NewGridElement {
 			}
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(new AbstractGlobalFacet() {
-					@Override
-					public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
-						// do nothing
-					}
-					@Override
-					public List<AutocompletionText> getAutocompletionStrings() {
-						return PlotConstants.AUTOCOMPLETION_LIST;
-					}
-					@Override
-					public boolean checkStart(String line, PropertiesConfig propConfig) {
-						return true;
-					}
-				});
+				return Arrays.asList(PSEUDO_PLOT_FACET);
 			}
 		};
 	}
