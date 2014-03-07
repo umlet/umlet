@@ -31,7 +31,7 @@ public class PropertiesParser {
 
 	private static void autoresizeAnalysis(NewGridElement element, Settings settings, List<String> propertiesText) {
 		BaseDrawHandler pseudoDrawer = element.getDrawer().getPseudoDrawHandler();
-		PropertiesConfig tmpPropCfg = new PropertiesConfig(settings, element.getRealSize()); // we use a tmpPropCfg to parse global facets to see if autoresize is enabled
+		PropertiesConfig tmpPropCfg = new PropertiesConfig(settings, element.getRealSize(), ElementStyleEnum.SIMPLE); // we use a tmpPropCfg to parse global facets to see if autoresize is enabled
 		List<String> tmpPropTextWithoutGlobalFacets = parseGlobalFacets(propertiesText, tmpPropCfg.getSettings().getGlobalFacets(), pseudoDrawer, tmpPropCfg);
 		
 		if (tmpPropCfg.getElementStyle() == ElementStyleEnum.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
@@ -58,7 +58,7 @@ public class PropertiesParser {
 	}
 	
 	private static void drawPropertiesWithoutGlobalFacets(List<String> propertiesTextWithoutGobalFacets, PropertiesConfig propCfg, BaseDrawHandler drawer) {
-		double startPointFromVAlign = calcStartPointFromVAlign(propertiesTextWithoutGobalFacets, propCfg.getvAlign(), propCfg.getGridElementSize(), drawer, propCfg.getSettings());
+		double startPointFromVAlign = calcStartPointFromVAlign(propertiesTextWithoutGobalFacets, propCfg.getvAlign(), propCfg.getGridElementSize(), drawer, propCfg.getSettings(), propCfg.getElementStyle());
 		propCfg.addToYPos(calcTopDisplacementToFitLine(propertiesTextWithoutGobalFacets, startPointFromVAlign, propCfg, drawer));
 		handleWordWrapAndIterate(propertiesTextWithoutGobalFacets, propCfg.getSettings().getLocalFacets(), propCfg, drawer);
 	}
@@ -87,22 +87,22 @@ public class PropertiesParser {
 		return displacement;
 	}
 
-	private static double calcStartPointFromVAlign(List<String> propertiesText, AlignVertical vAlign, Dimension gridElementSize, BaseDrawHandler drawer, Settings settings) {
+	private static double calcStartPointFromVAlign(List<String> propertiesText, AlignVertical vAlign, Dimension gridElementSize, BaseDrawHandler drawer, Settings settings, ElementStyleEnum elementStyle) {
 		double returnVal = drawer.textHeight(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
 		if (vAlign == AlignVertical.TOP) {
-			returnVal += drawer.textHeight()/2;
+			returnVal += drawer.getDistanceHorizontalBorderToText();
 		}
 		else if (vAlign == AlignVertical.CENTER) {
-			returnVal += (gridElementSize.height - getTextBlockHeight(propertiesText, gridElementSize, drawer, settings))/2;
+			returnVal += (gridElementSize.height - getTextBlockHeight(propertiesText, gridElementSize, drawer, settings, elementStyle))/2 - drawer.textHeight()/6; // 1/6 of textheight is a good value for large fontsizes and "deep" characters like "y"
 		}
 		else /*if (propCfg.getvAlign() == AlignVertical.BOTTOM)*/ {
-			returnVal += gridElementSize.height - getTextBlockHeight(propertiesText, gridElementSize, drawer, settings) - drawer.textHeight()/2;
+			returnVal += gridElementSize.height - getTextBlockHeight(propertiesText, gridElementSize, drawer, settings, elementStyle) - drawer.textHeight()/4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
 		}
 		return returnVal;
 	}
 	
-	private static double getTextBlockHeight(List<String> propertiesText, Dimension gridElementSize, BaseDrawHandler drawer, Settings settings) {
-		PropertiesConfig tmpPropCfg = new PropertiesConfig(settings, gridElementSize);
+	private static double getTextBlockHeight(List<String> propertiesText, Dimension gridElementSize, BaseDrawHandler drawer, Settings settings, ElementStyleEnum elementStyle) {
+		PropertiesConfig tmpPropCfg = new PropertiesConfig(settings, gridElementSize, elementStyle);
 		handleWordWrapAndIterate(propertiesText, settings.getLocalFacets(), tmpPropCfg, drawer.getPseudoDrawHandler());
 		return tmpPropCfg.getyPos();
 	}

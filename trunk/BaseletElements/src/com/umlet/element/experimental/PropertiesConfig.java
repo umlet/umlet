@@ -50,9 +50,10 @@ public class PropertiesConfig {
 		facetResponse.clear();
 	}
 
-	public PropertiesConfig(Settings settings, Dimension gridElementSize) {
+	public PropertiesConfig(Settings settings, Dimension gridElementSize, ElementStyleEnum elementStyle) {
 		this(settings);
 		resetValues(gridElementSize);
+		this.elementStyle = elementStyle;
 	}
 
 	public AlignHorizontal gethAlign() {
