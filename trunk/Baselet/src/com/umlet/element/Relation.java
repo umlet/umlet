@@ -7,12 +7,15 @@ import java.awt.Polygon;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.util.Collections;
+import java.util.Set;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
@@ -61,8 +64,8 @@ public class Relation extends OldGridElement {
 
 	// G.Mueller end
 
-	private final float SELECTBOXSIZE = 12;
-	private final float SELECTCIRCLESIZE = 15;
+	private final float SELECTBOXSIZE = 10;
+	private final float SELECTCIRCLESIZE = 12;
 
 	private Vector<String> getStrings() {
 		if (_strings == null) {
@@ -1868,5 +1871,10 @@ public class Relation extends OldGridElement {
 	@Override
 	protected Color getDefaultBackgroundColor() {
 		return Converter.convert(ColorOwn.WHITE);
+	}
+
+	@Override
+	public Set<Direction> getResizeArea(int x, int y) {
+		return Collections.<Direction>emptySet();
 	}
 }
