@@ -88,7 +88,7 @@ public class PropertiesConfig {
 	}
 
 	public double getyPos() {
-		return yPos + topBuffer;
+		return yPos;
 	}
 
 	public void addToYPos(double inc) {

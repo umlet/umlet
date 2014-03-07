@@ -6,6 +6,7 @@ import java.util.List;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
+import com.baselet.element.sticking.PointDoubleStickingPolygonGenerator;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesConfig;
@@ -35,12 +36,11 @@ public class Package extends NewGridElement {
 	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
 		String packageName = propCfg.getFacetResponse(PackageName.class, null);
 		double packageHeight = 20;
-		double packageWidth = 50;
+		double packageWidth = getRealSize().getWidth()/2.5;
+		double txtHeight = drawer.textHeightWithSpace();
 		if (packageName != null) {
-			double txtHeight = drawer.textHeightWithSpace();
 			packageHeight = txtHeight + 5;
-			packageWidth = drawer.textWidth(packageName) + drawer.getDistanceHorizontalBorderToText()*2;
-			drawer.print(packageName, new PointDouble(drawer.getDistanceHorizontalBorderToText(), txtHeight), AlignHorizontal.LEFT); 
+			packageWidth = Math.max(packageWidth, drawer.textWidth(packageName) + drawer.getDistanceHorizontalBorderToText()*2);
 		}
 		int height = getRealSize().getHeight()-1;
 		int width = getRealSize().getWidth()-1;
@@ -52,11 +52,16 @@ public class Package extends NewGridElement {
 				new PointDouble(0, height),
 				new PointDouble(0, 0),
 				new PointDouble(packageWidth, 0),
-				new PointDouble(packageWidth, packageHeight)
+				new PointDouble(packageWidth, packageHeight),
+				new PointDouble(0, packageHeight)
 				);
 		drawer.drawLines(points);
 		propCfg.setMinTopBuffer(packageHeight);
+		if (packageName != null) {
+			drawer.print(packageName, new PointDouble(drawer.getDistanceHorizontalBorderToText(), txtHeight), AlignHorizontal.LEFT); 
+		}
+		propCfg.setStickingPolygonGenerator(new PointDoubleStickingPolygonGenerator(points));
 	}
-	
+
 }
 
