@@ -21,7 +21,7 @@ public class LineDescriptionFacet extends AbstractGlobalFacet {
 	private static final String MESSAGE_END_KEY = "m2";
 	private static final String MESSAGE_MIDDLE_KEY = "mm";
 	@Override
-	public boolean checkStart(String line) {
+	public boolean checkStart(String line, PropertiesConfig propConfig) {
 		return line.startsWith(MESSAGE_START_KEY + SEP) || line.startsWith(MESSAGE_MIDDLE_KEY + SEP) || line.startsWith(MESSAGE_END_KEY + SEP);
 	}
 

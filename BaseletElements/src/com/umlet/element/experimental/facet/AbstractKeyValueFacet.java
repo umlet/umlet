@@ -89,7 +89,7 @@ public abstract class AbstractKeyValueFacet extends AbstractFacet {
 	public abstract void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig);
 
 	@Override
-	public boolean checkStart(String line) {
+	public boolean checkStart(String line, PropertiesConfig propConfig) {
 		return line.startsWith(getKeyWithSep());
 	}
 

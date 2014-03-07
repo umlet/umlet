@@ -17,27 +17,26 @@ public class InnerClassFacet extends AbstractFacet {
 	private static final int BUFFER_PIXEL_PER_INNER = 5;
 	private static final int H_SPACE = 4;
 
-	private Stack<ClassSettings> innerClassStartPoints = new Stack<ClassSettings>();
-
 	private static final String START = "{innerclass";
 	private static final String END = "innerclass}";
 
 	@Override
-	public boolean checkStart(String line) {
-		return line.equals(START) || !innerClassStartPoints.isEmpty();
+	public boolean checkStart(String line, PropertiesConfig propConfig) {
+		return line.equals(START) || !getOrInit(propConfig).isEmpty();
 	}
 
 	@Override
 	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+		Stack<ClassSettings> innerClassStartPoints = getOrInit(propConfig);
+		
 		if (line.equals(START)) {
 			ClassSettings settings = new ClassSettings(propConfig.gethAlign(), propConfig.getvAlign(), propConfig.getDividerPos(drawer));
 			innerClassStartPoints.add(settings);
-			propConfig.addToHorizontalBuffer(innerClassStartPoints.size() * BUFFER_PIXEL_PER_INNER);
+			propConfig.addToHorizontalBuffer(BUFFER_PIXEL_PER_INNER);
 			propConfig.addToYPos(H_SPACE);
 			propConfig.resetAlign();
 		}
 		else if (line.equals(END)) {
-			int depth = innerClassStartPoints.size() * BUFFER_PIXEL_PER_INNER;
 			ClassSettings previousClassSettings = innerClassStartPoints.pop();
 			double start = previousClassSettings.start;
 			double height = propConfig.getDividerPos(drawer) - start;
@@ -46,11 +45,20 @@ public class InnerClassFacet extends AbstractFacet {
 			drawer.drawRectangle(xLimit.getLeft(), start, xLimit.getSpace(), height);
 			
 			propConfig.addToYPos(H_SPACE);
-			propConfig.addToHorizontalBuffer(-depth);
+			propConfig.addToHorizontalBuffer(-BUFFER_PIXEL_PER_INNER);
 			propConfig.sethAlign(previousClassSettings.hAlign);
 			propConfig.setvAlign(previousClassSettings.vAlign);
 		}
 
+	}
+
+	private Stack<ClassSettings> getOrInit(PropertiesConfig propConfig) {
+		Stack<ClassSettings> innerClassStartPoints = propConfig.getFacetResponse(InnerClassFacet.class, null);
+		if (innerClassStartPoints == null) {
+			innerClassStartPoints = new Stack<ClassSettings>();
+			propConfig.setFacetResponse(InnerClassFacet.class, innerClassStartPoints);
+		}
+		return innerClassStartPoints;
 	}
 
 	@Override
