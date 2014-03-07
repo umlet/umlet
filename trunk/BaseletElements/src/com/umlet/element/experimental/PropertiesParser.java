@@ -154,7 +154,7 @@ public class PropertiesParser {
 		if (propCfg.gethAlign() == AlignHorizontal.LEFT) {
 			x = xLimitsForText.getLeft() + drawer.getDistanceHorizontalBorderToText();
 		} else if (propCfg.gethAlign() == AlignHorizontal.CENTER) {
-			x = xLimitsForText.getSpace() / 2.0;
+			x = xLimitsForText.getSpace() / 2.0 + xLimitsForText.getLeft();
 		} else /*if (propCfg.gethAlign() == AlignHorizontal.RIGHT)*/ {
 			x = xLimitsForText.getRight() - drawer.getDistanceHorizontalBorderToText();
 		}
