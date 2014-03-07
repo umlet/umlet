@@ -28,7 +28,7 @@ public class Class extends NewGridElement {
 		return new SettingsClass() {
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(new InnerClassFacet(), SeparatorLineFacet.INSTANCE_WITH_HALIGN_CHANGE, ActiveClassFacet.INSTANCE, TemplateClassFacet.INSTANCE, TitleFacet.INSTANCE);
+				return Arrays.asList(InnerClassFacet.INSTANCE, SeparatorLineFacet.INSTANCE_WITH_HALIGN_CHANGE, ActiveClassFacet.INSTANCE, TemplateClassFacet.INSTANCE, TitleFacet.INSTANCE);
 			}
 		};
 	}

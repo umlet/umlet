@@ -13,6 +13,9 @@ import com.umlet.element.experimental.PropertiesConfig;
 import com.umlet.element.experimental.facet.AbstractFacet;
 
 public class InnerClassFacet extends AbstractFacet {
+	
+	public static InnerClassFacet INSTANCE = new InnerClassFacet();
+	private InnerClassFacet() {}
 
 	private static final int BUFFER_PIXEL_PER_INNER = 5;
 	private static final int H_SPACE = 4;
