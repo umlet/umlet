@@ -114,7 +114,8 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 
 	@Override
 	public void drawCircle(double x, double y, double radius) {
-		drawEllipse((x - radius) * getZoom() + HALF_PX, (y - radius) * getZoom() + HALF_PX, radius * 2 * getZoom(), radius * 2 * getZoom());
+		double widthAndHeight = radius * 2 * getZoom();
+		drawEllipse((x - radius) * getZoom(), (y - radius) * getZoom(), widthAndHeight, widthAndHeight);
 	}
 
 	@Override
