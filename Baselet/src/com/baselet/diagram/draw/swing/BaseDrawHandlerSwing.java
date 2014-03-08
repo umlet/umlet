@@ -87,39 +87,19 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	/*
 	 * DRAW METHODS
 	 */
-//	@Override
-//	public void drawArcOpen(double x, double y, double width, double height, double start, double extent) {
-//		addShape(new Arc2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), start, extent, Arc2D.OPEN));
-//	}
-//
-//	@Override
-//	public void drawArcChord(double x, double y, double width, double height, double start, double extent) {
-//		addShape(new Arc2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), start, extent, Arc2D.CHORD));
-//	}
-
 	@Override
 	public void drawArcPie(double x, double y, double width, double height, double start, double extent) {
-		addShape(new Arc2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), start, extent, Arc2D.PIE));
+		addShape(new Arc2D.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, width * getZoom(), height * getZoom(), start, extent, Arc2D.PIE));
 	}
 
 	@Override
 	public void drawCircle(double x, double y, double radius) {
-		addShape(new Ellipse2D.Double((x - radius) * getZoom(), (y - radius) * getZoom(), radius * 2 * getZoom(), radius * 2 * getZoom()));
+		addShape(new Ellipse2D.Double((x - radius) * getZoom() + HALF_PX, (y - radius) * getZoom() + HALF_PX, radius * 2 * getZoom(), radius * 2 * getZoom()));
 	}
-
-//	@Override
-//	public void drawCurveCubic(double x1, double y1, double ctrlx1, double ctrly1, double ctrlx2, double ctrly2, double x2, double y2) {
-//		addShape(new CubicCurve2D.Double(x1 * getZoom(), y1 * getZoom(), ctrlx1 * getZoom(), ctrly1 * getZoom(), ctrlx2 * getZoom(), ctrly2 * getZoom(), x2 * getZoom(), y2 * getZoom()));
-//	}
-//
-//	@Override
-//	public void drawCurveQuad(double x1, double y1, double ctrlx, double ctrly, double x2, double y2) {
-//		addShape(new QuadCurve2D.Double(x1 * getZoom(), y1 * getZoom(), ctrlx * getZoom(), ctrly * getZoom(), x2 * getZoom(), y2 * getZoom()));
-//	}
 
 	@Override
 	public void drawEllipse(double x, double y, double width, double height) {
-		addShape(new Ellipse2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom()));
+		addShape(new Ellipse2D.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, width * getZoom(), height * getZoom()));
 	}
 
 	@Override
@@ -129,10 +109,10 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 			boolean first = true;
 			for (PointDouble p : points) {
 				if (first) {
-					path.moveTo(Double.valueOf(p.getX() * getZoom()), Double.valueOf(p.getY() * getZoom()));
+					path.moveTo(Double.valueOf(p.getX() * getZoom() + HALF_PX), Double.valueOf(p.getY() * getZoom() + HALF_PX));
 					first = false;
 				} else {
-					path.lineTo(Double.valueOf(p.getX() * getZoom()), Double.valueOf(p.getY() * getZoom()));
+					path.lineTo(Double.valueOf(p.getX() * getZoom() + HALF_PX), Double.valueOf(p.getY() * getZoom() + HALF_PX));
 				}
 			}
 			// only fill if first point == lastpoint
@@ -143,13 +123,13 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 
 	@Override
 	public void drawRectangle(double x, double y, double width, double height) {
-		addShape(new Rectangle.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom()));
+		addShape(new Rectangle.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, width * getZoom(), height * getZoom()));
 	}
 
 	@Override
 	public void drawRectangleRound(double x, double y, double width, double height, double radius) {
 		double rad = radius * 2 * getZoom();
-		addShape(new RoundRectangle2D.Double(x * getZoom(), y * getZoom(), width * getZoom(), height * getZoom(), rad, rad));
+		addShape(new RoundRectangle2D.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, width * getZoom(), height * getZoom(), rad, rad));
 	}
 
 	@Override

@@ -20,8 +20,6 @@ import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 
 public class BaseDrawHandlerGWT extends BaseDrawHandler {
 
-	private double HALF_PX = 0.5f;
-
 	private static final Logger log = Logger.getLogger(BaseDrawHandlerGWT.class);
 
 	private Canvas canvas;
