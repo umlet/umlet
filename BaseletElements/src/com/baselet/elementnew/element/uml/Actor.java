@@ -22,9 +22,9 @@ public class Actor extends NewGridElement {
 		@Override
 		public StickingPolygon generateStickingBorder(Rectangle rect) {
 			double hCenter = getRealSize().width/2;
-			int left = SharedUtils.realignToGrid(false, hCenter-armLength(), false);
-			int right = SharedUtils.realignToGrid(false, hCenter+armLength(), true)-1;
-			int head = (int) headToLegLength();
+			int left = SharedUtils.realignToGrid(false, hCenter-armLength(getDrawer()), false);
+			int right = SharedUtils.realignToGrid(false, hCenter+armLength(getDrawer()), true)-1;
+			int head = (int) headToLegLength(getDrawer());
 			
 			StickingPolygon p = new StickingPolygon(rect.x, rect.y);
 			p.addPoint(left, 0);
@@ -51,41 +51,42 @@ public class Actor extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
-		propCfg.addToYPos(headToLegLength());
-		propCfg.updateCalculatedElementWidth(armLength()*2);
+		// IMPORTANT: drawer must be used as parameter, because sometimes (eg: for autoresize calculation), the commonContent will be drawn by other drawers
+		propCfg.addToYPos(headToLegLength(drawer));
+		propCfg.updateCalculatedElementWidth(armLength(drawer)*2);
 		
 		int hCenter = getRealSize().width/2;
-		drawer.drawCircle(hCenter, headRadius(), headRadius()); // Head
-		drawer.drawLine(hCenter-armLength(), armHeight(), hCenter+armLength(), armHeight()); // Arms
-		drawer.drawLine(hCenter, headRadius()*2, hCenter, headToBodyLength()); // Body
-		drawer.drawLine(hCenter, headToBodyLength(), hCenter-legSpan(), headToLegLength()); // Legs
-		drawer.drawLine(hCenter, headToBodyLength(), hCenter+legSpan(), headToLegLength()); // Legs
+		drawer.drawCircle(hCenter, headRadius(drawer), headRadius(drawer)); // Head
+		drawer.drawLine(hCenter-armLength(drawer), armHeight(drawer), hCenter+armLength(drawer), armHeight(drawer)); // Arms
+		drawer.drawLine(hCenter, headRadius(drawer)*2, hCenter, headToBodyLength(drawer)); // Body
+		drawer.drawLine(hCenter, headToBodyLength(drawer), hCenter-legSpan(drawer), headToLegLength(drawer)); // Legs
+		drawer.drawLine(hCenter, headToBodyLength(drawer), hCenter+legSpan(drawer), headToLegLength(drawer)); // Legs
 
 		propCfg.setStickingPolygonGenerator(actorStickingPolygonGenerator);
 	}
 	
-	private double headToLegLength() {
-		return legSpan()*2+headToBodyLength();
+	private double headToLegLength(BaseDrawHandler drawer) {
+		return legSpan(drawer)*2+headToBodyLength(drawer);
 	}
 
-	private double legSpan() {
-		return getDrawer().getCurrentStyle().getFontSize();
+	private double legSpan(BaseDrawHandler drawer) {
+		return drawer.getCurrentStyle().getFontSize();
 	}
 
-	private double headToBodyLength() {
-		return getDrawer().getCurrentStyle().getFontSize()*2+headRadius()*2;
+	private double headToBodyLength(BaseDrawHandler drawer) {
+		return drawer.getCurrentStyle().getFontSize()*2+headRadius(drawer)*2;
 	}
 
-	private double armHeight() {
-		return armLength();
+	private double armHeight(BaseDrawHandler drawer) {
+		return armLength(drawer);
 	}
 
-	private double armLength() {
-		return getDrawer().getCurrentStyle().getFontSize()*1.5;
+	private double armLength(BaseDrawHandler drawer) {
+		return drawer.getCurrentStyle().getFontSize()*1.5;
 	}
 
-	private double headRadius() {
-		return getDrawer().getCurrentStyle().getFontSize()/2;
+	private double headRadius(BaseDrawHandler drawer) {
+		return drawer.getCurrentStyle().getFontSize()/2;
 	}
 }
 
