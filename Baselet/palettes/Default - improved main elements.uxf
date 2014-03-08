@@ -5,7 +5,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>16</x>
-      <y>112</y>
+      <y>64</y>
       <w>320</w>
       <h>48</h>
     </coordinates>
@@ -20,9 +20,9 @@ elementstyle=autoresize</panel_attributes>
     <id>UMLUseCase</id>
     <coordinates>
       <x>16</x>
-      <y>336</y>
+      <y>288</y>
       <w>168</w>
-      <h>96</h>
+      <h>72</h>
     </coordinates>
     <panel_attributes>This usecase has
 custom colors and linetype
@@ -39,7 +39,7 @@ lt=.</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>16</x>
-      <y>184</y>
+      <y>136</y>
       <w>168</w>
       <h>136</h>
     </coordinates>
@@ -55,53 +55,37 @@ elementstyle=wordwrap</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>16</x>
+      <x>8</x>
       <y>16</y>
-      <w>320</w>
-      <h>80</h>
+      <w>336</w>
+      <h>32</h>
     </coordinates>
-    <panel_attributes>title=new grid elements
-This palette contains the new grid elements UMLet offers since v12 (at the moment Class and UseCase).
-
-Press Ctrl+Space to open the possible settings to customize your elements as you can see below.
-elementstyle=wordwrap</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Text</id>
-    <coordinates>
-      <x>208</x>
-      <y>440</y>
-      <w>152</w>
-      <h>72</h>
-    </coordinates>
-    <panel_attributes>this is a simple text element which supports all of the new settings shown here
-elementstyle=wordwrap</panel_attributes>
+    <panel_attributes>Most elements can be customized with settings like fg=red
+Press Ctrl+Space to see possible settings for the current element
+elementstyle=wordwrap
+fg=red</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
       <x>192</x>
-      <y>336</y>
-      <w>144</w>
-      <h>96</h>
+      <y>288</y>
+      <w>136</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes>this usecase has
 *halign=left*
--
-As you can see the
-text is always within the
-usecase circle
-
-halign=LEFT</panel_attributes>
+*fontsize=16*
+halign=LEFT
+fontsize=16</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>192</x>
-      <y>184</y>
+      <y>136</y>
       <w>144</w>
       <h>136</h>
     </coordinates>
@@ -118,100 +102,10 @@ lth=2.5</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLInterface</id>
-    <coordinates>
-      <x>24</x>
-      <y>448</y>
-      <w>64</w>
-      <h>80</h>
-    </coordinates>
-    <panel_attributes>Interface
---
-Operation1
-Operation2</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLActor</id>
-    <coordinates>
-      <x>96</x>
-      <y>448</y>
-      <w>48</w>
-      <h>104</h>
-    </coordinates>
-    <panel_attributes>Large
-Actor
-lt=..
-fg=gray
-fontsize=20</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLActor</id>
-    <coordinates>
-      <x>152</x>
-      <y>448</y>
-      <w>48</w>
-      <h>80</h>
-    </coordinates>
-    <panel_attributes>Actor2
-bg=red</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLAction</id>
-    <coordinates>
-      <x>208</x>
-      <y>576</y>
-      <w>88</w>
-      <h>32</h>
-    </coordinates>
-    <panel_attributes>activity
-receiver
-type=receive_signal</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLAction</id>
-    <coordinates>
-      <x>208</x>
-      <y>496</y>
-      <w>88</w>
-      <h>32</h>
-    </coordinates>
-    <panel_attributes>activity
-action</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLAction</id>
-    <coordinates>
-      <x>208</x>
-      <y>536</y>
-      <w>88</w>
-      <h>32</h>
-    </coordinates>
-    <panel_attributes>activity
-sender
-type=send_signal</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLTimer</id>
-    <coordinates>
-      <x>208</x>
-      <y>624</y>
-      <w>48</w>
-      <h>56</h>
-    </coordinates>
-    <panel_attributes>Timer</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLState</id>
     <coordinates>
-      <x>56</x>
-      <y>568</y>
+      <x>48</x>
+      <y>408</y>
       <w>16</w>
       <h>16</h>
     </coordinates>
@@ -221,8 +115,8 @@ type=send_signal</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>24</x>
-      <y>568</y>
+      <x>16</x>
+      <y>408</y>
       <w>16</w>
       <h>16</h>
     </coordinates>
@@ -232,8 +126,8 @@ type=send_signal</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>88</x>
-      <y>568</y>
+      <x>80</x>
+      <y>408</y>
       <w>16</w>
       <h>16</h>
     </coordinates>
@@ -243,8 +137,8 @@ type=send_signal</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>120</x>
-      <y>568</y>
+      <x>112</x>
+      <y>408</y>
       <w>16</w>
       <h>16</h>
     </coordinates>
@@ -254,34 +148,12 @@ type=send_signal</panel_attributes>
   <element>
     <id>UMLState</id>
     <coordinates>
-      <x>152</x>
-      <y>568</y>
+      <x>144</x>
+      <y>408</y>
       <w>16</w>
       <h>16</h>
     </coordinates>
     <panel_attributes>type=decision</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLNote</id>
-    <coordinates>
-      <x>64</x>
-      <y>600</y>
-      <w>72</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>text</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLObject</id>
-    <coordinates>
-      <x>264</x>
-      <y>616</y>
-      <w>48</w>
-      <h>32</h>
-    </coordinates>
-    <panel_attributes>Object</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
