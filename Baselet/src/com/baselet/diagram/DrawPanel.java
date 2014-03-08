@@ -459,15 +459,6 @@ public class DrawPanel extends JLayeredPane implements Printable {
 
 	@Override
 	protected void paintChildren(Graphics g) {
-		// Possible Zoom of the drawpanel (not a real zoom because it doesn't resize anything)
-		// Graphics2D g2 = (Graphics2D)g;
-		// AffineTransform t = g2.getTransform();
-		// float scale = 0.5f; //this.getHandler().getGridSize() / 10
-		// t.scale(scale, scale);
-		// g2.setTransform(t);
-
-		// drawDevHelpLines((Graphics2D) g);
-		
 		// check if layers have changed and update them
 		for (GridElement ge : gridElements) {
 			if (!ge.getLayer().equals(getLayer((JComponent) ge.getComponent()))) {
