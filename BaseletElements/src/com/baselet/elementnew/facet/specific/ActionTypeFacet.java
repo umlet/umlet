@@ -30,16 +30,16 @@ public class ActionTypeFacet extends KeyValueFacet {
 		if (type == ActionTypeEnum.ACTION) {
 			drawAction(drawer, s);
 		} else if (type == ActionTypeEnum.SEND_SIGNAL) {
-			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-depth(s), 0), p(s.width-1, s.height/2), p(s.width-depth(s), s.height-1), p(0, s.height-1), p(0, 0)));
+			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-depth(s), 0), p(s.width, s.height/2), p(s.width-depth(s), s.height), p(0, s.height), p(0, 0)));
 		} else if (type == ActionTypeEnum.RECEIVE_SIGNAL) {
 			propConfig.addToLeftBuffer(depth(s));
-			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-1, 0), p(s.width-1, s.height-1), p(0, s.height-1), p(depth(s), s.height/2), p(0, 0)));
+			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width, 0), p(s.width, s.height), p(0, s.height), p(depth(s), s.height/2), p(0, 0)));
 		}
 		propConfig.setFacetResponse(ActionTypeFacet.class, true);
 	}
 
 	public static void drawAction(final BaseDrawHandler drawer, Dimension s) {
-		drawer.drawRectangleRound(0, 0, s.width-1, s.height-1, Math.min(s.width, s.height)/5);
+		drawer.drawRectangleRound(0, 0, s.width, s.height, Math.min(s.width, s.height)/5);
 	}
 
 	private double depth(Dimension s) {

@@ -64,8 +64,8 @@ public class ComponentGwt implements Component {
 			redrawNecessary = false;
 			CanvasElement el = canvas.getCanvasElement();
 			canvas.getContext2d().clearRect(0, 0, el.getWidth(), el.getHeight());
-			canvas.getCanvasElement().setWidth(rect.getWidth());
-			canvas.getCanvasElement().setHeight(rect.getHeight());
+			canvas.getCanvasElement().setWidth(rect.getWidth()+1); //canvas size is +1px to make sure a rectangle with width pixels is still visible (in Swing the bound-checking happens in BaseDrawHandlerSwing because you cannot extend the clipping area)
+			canvas.getCanvasElement().setHeight(rect.getHeight()+1);
 			drawer.drawAll(isSelected);
 			if (isSelected) {
 				metadrawer.drawAll();

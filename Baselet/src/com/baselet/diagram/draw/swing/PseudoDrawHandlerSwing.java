@@ -1,6 +1,7 @@
 package com.baselet.diagram.draw.swing;
 
 import com.baselet.diagram.draw.DrawFunction;
+import com.baselet.elementnew.NewGridElement;
 
 
 
@@ -9,6 +10,10 @@ import com.baselet.diagram.draw.DrawFunction;
  */
 public class PseudoDrawHandlerSwing extends BaseDrawHandlerSwing {
 	
+	public PseudoDrawHandlerSwing(NewGridElement gridElement) {
+		super(gridElement);
+	}
+
 	@Override
 	protected void addDrawable(DrawFunction drawable) {
 		/*do nothing*/

@@ -31,9 +31,9 @@ import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.GlobalFacet;
+import com.baselet.elementnew.facet.common.ElementStyleFacet.ElementStyleEnum;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.elementnew.facet.common.LayerFacet;
-import com.baselet.elementnew.facet.common.ElementStyleFacet.ElementStyleEnum;
 import com.baselet.elementnew.settings.Settings;
 import com.baselet.gui.AutocompletionText;
 
@@ -130,7 +130,7 @@ public abstract class NewGridElement implements GridElement {
 			drawer.setForegroundColor(ColorOwn.RED);
 			drawer.setBackgroundColor(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND));
 			drawer.setLineThickness(0.2);
-			drawer.drawRectangle(0, 0, getRealSize().width-1, getRealSize().height-1); // draw dotted rect (to enforce background color even if element has no border)
+			drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height); // draw dotted rect (to enforce background color even if element has no border)
 			resetMetaDrawer(metaDrawer);
 			drawer.print(e.getLocalizedMessage(), 3, getRealSize().height/2 - drawer.textHeight(), AlignHorizontal.LEFT);
 		}

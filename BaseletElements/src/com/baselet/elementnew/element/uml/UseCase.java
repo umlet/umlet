@@ -25,7 +25,7 @@ public class UseCase extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
-		drawer.drawEllipse(0, 0, getRealSize().width-1, getRealSize().height-1);
+		drawer.drawEllipse(0, 0, getRealSize().width, getRealSize().height);
 		propCfg.setStickingPolygonGenerator(new StickingPolygonGenerator() {
 			@Override
 			public StickingPolygon generateStickingBorder(Rectangle rect) {

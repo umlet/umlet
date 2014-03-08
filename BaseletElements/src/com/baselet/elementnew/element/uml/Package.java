@@ -43,8 +43,8 @@ public class Package extends NewGridElement {
 			packageHeight = txtHeight + 5;
 			packageWidth = Math.max(packageWidth, drawer.textWidth(packageName) + drawer.getDistanceHorizontalBorderToText()*2);
 		}
-		int height = getRealSize().getHeight()-1;
-		int width = getRealSize().getWidth()-1;
+		int height = getRealSize().getHeight();
+		int width = getRealSize().getWidth();
 		List<PointDouble> points = Arrays.asList(
 				new PointDouble(0, packageHeight),
 				new PointDouble(width, packageHeight),

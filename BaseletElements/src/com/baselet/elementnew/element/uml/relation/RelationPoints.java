@@ -211,7 +211,7 @@ public class RelationPoints {
 
 	public void drawPointCircles(BaseDrawHandler drawer) {
 		for (PointDouble p : points) {
-			drawer.drawCircle(p.x, p.y, POINT_SELECTION_RADIUS-1);
+			drawer.drawCircle(p.x, p.y, POINT_SELECTION_RADIUS);
 		}
 	}
 
