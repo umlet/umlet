@@ -8,18 +8,19 @@ import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.facet.Facet;
+import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.elementnew.facet.specific.TitleFacet;
 import com.baselet.elementnew.settings.Settings;
-import com.baselet.elementnew.settings.SettingsManualresize;
+import com.baselet.elementnew.settings.SettingsClass;
 
 public class Frame extends NewGridElement {
 
 	@Override
 	protected Settings createSettings() {
-		return new SettingsManualresize() {
+		return new SettingsClass() {
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(TitleFacet.INSTANCE);
+				return Arrays.asList(TitleFacet.INSTANCE, SeparatorLineFacet.INSTANCE);
 			}
 		};
 	}

@@ -7,11 +7,11 @@
       <x>16</x>
       <y>112</y>
       <w>320</w>
-      <h>56</h>
+      <h>48</h>
     </coordinates>
     <panel_attributes>This class has the setting
 *elementstyle=autoresize*
---
+-
 Write text and watch how the class automatically grows/shrinks
 elementstyle=autoresize</panel_attributes>
     <additional_attributes/>
@@ -26,7 +26,7 @@ elementstyle=autoresize</panel_attributes>
     </coordinates>
     <panel_attributes>This usecase has
 custom colors and linetype
---
+-
 *fg=#5c2b00*
 *bg=orange*
 *lt=.*
@@ -45,7 +45,7 @@ lt=.</panel_attributes>
     </coordinates>
     <panel_attributes>This class has the setting
 *elementstyle=wordwrap*
---
+-
 Write text and watch how the linebreak is added automatically at the expected position to fill the whole class.
 
 You can also resize the class and see that the text will always fit the border
@@ -89,7 +89,7 @@ elementstyle=wordwrap</panel_attributes>
     </coordinates>
     <panel_attributes>this usecase has
 *halign=left*
---
+-
 As you can see the
 text is always within the
 usecase circle
