@@ -11,6 +11,7 @@ import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.facet.Facet;
+import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.elementnew.facet.specific.PackageName;
 import com.baselet.elementnew.settings.Settings;
 import com.baselet.elementnew.settings.SettingsManualresize;
@@ -22,7 +23,7 @@ public class Package extends NewGridElement {
 		return new SettingsManualresize() {
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(PackageName.INSTANCE);
+				return Arrays.asList(PackageName.INSTANCE, SeparatorLineFacet.INSTANCE);
 			}
 		};
 	}
