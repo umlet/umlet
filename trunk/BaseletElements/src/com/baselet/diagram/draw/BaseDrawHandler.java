@@ -19,6 +19,8 @@ import com.baselet.elementnew.facet.common.ForegroundColorFacet;
 
 public abstract class BaseDrawHandler {
 
+	protected double HALF_PX = 0.5f;
+
 	private ColorOwn bgDefaultColor;
 	private ColorOwn fgDefaultColor;
 
