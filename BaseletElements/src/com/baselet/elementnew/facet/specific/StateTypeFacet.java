@@ -4,6 +4,8 @@ import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.XValues;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.facet.KeyValueFacet;
@@ -58,10 +60,14 @@ public class StateTypeFacet extends KeyValueFacet {
 	}
 
 	private void drawBlackEllipse(final BaseDrawHandler drawer, double width, double height, double radius) {
-		Style style = drawer.getCurrentStyle();
-		drawer.setBackgroundColor(style.getFgColor());
+		Style oldStyle = drawer.getCurrentStyle().cloneFromMe();
+		if (drawer.getCurrentStyle().getBgColor() == ColorOwn.DEFAULT_BACKGROUND) {
+			drawer.setBackgroundColor(ColorOwn.BLACK.transparency(Transparency.FOREGROUND));
+		} else {
+			drawer.setBackgroundColor(drawer.getCurrentStyle().getBgColor().transparency(Transparency.FOREGROUND));
+		}
 		drawer.drawEllipse(radius, radius, width-radius*2, height-radius*2);
-		drawer.setStyle(style);
+		drawer.setStyle(oldStyle);
 	}
 
 }
