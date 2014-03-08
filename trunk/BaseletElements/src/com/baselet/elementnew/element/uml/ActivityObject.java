@@ -21,7 +21,7 @@ public class ActivityObject extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
-		drawer.drawRectangle(0, 0, getRealSize().getWidth()-1, getRealSize().getHeight()-1);
+		drawer.drawRectangle(0, 0, getRealSize().getWidth(), getRealSize().getHeight());
 	}
 
 	@Override

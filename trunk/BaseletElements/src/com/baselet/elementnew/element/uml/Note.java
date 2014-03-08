@@ -24,8 +24,8 @@ public class Note extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
-		int w = getRealSize().width-1;
-		int h = getRealSize().height-1;
+		int w = getRealSize().width;
+		int h = getRealSize().height;
 		drawer.drawLines(p(0, 0), p(w-CORNER, 0), p(w, CORNER), p(w, h), p(0, h), p(0, 0));
 		drawer.drawLines(p(w-CORNER, 0), p(w-CORNER, CORNER), p(w, CORNER));
 	}

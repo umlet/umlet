@@ -45,7 +45,7 @@ public class Interface extends NewGridElement {
 
 	private Rectangle circleRect() {
 		int middlePos = getRealSize().getWidth() / 2 - CIRCLE_SIZE/2;
-		return new Rectangle(middlePos, TOP_DISTANCE, CIRCLE_SIZE-1, CIRCLE_SIZE-1);
+		return new Rectangle(middlePos, TOP_DISTANCE, CIRCLE_SIZE, CIRCLE_SIZE);
 	}
 
 	@Override

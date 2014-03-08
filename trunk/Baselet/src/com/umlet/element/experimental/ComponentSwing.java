@@ -16,12 +16,14 @@ import com.baselet.elementnew.NewGridElement;
 public class ComponentSwing extends JComponent implements Component {
 	private static final long serialVersionUID = 1L;
 	
-	private BaseDrawHandlerSwing drawer = new BaseDrawHandlerSwing();
-	private BaseDrawHandlerSwing metaDrawer = new BaseDrawHandlerSwing();
+	private BaseDrawHandlerSwing drawer;
+	private BaseDrawHandlerSwing metaDrawer;
 	private NewGridElement gridElement;
 	
 	public ComponentSwing(NewGridElement gridElement) {
 		this.gridElement = gridElement;
+		drawer = new BaseDrawHandlerSwing(gridElement);
+		metaDrawer = new BaseDrawHandlerSwing(gridElement);
 	}
 
 	private boolean selected = false;

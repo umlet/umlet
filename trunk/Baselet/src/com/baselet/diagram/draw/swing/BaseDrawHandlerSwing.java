@@ -20,6 +20,7 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.diagram.draw.helper.Text;
+import com.baselet.elementnew.NewGridElement;
 
 public class BaseDrawHandlerSwing extends BaseDrawHandler {
 
@@ -29,8 +30,27 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	
 	private boolean translate; //is used because pdf and svg export cut lines if they are drawn at (0,0)
 
-	public BaseDrawHandlerSwing() {
+	private NewGridElement gridElement;
+
+	public BaseDrawHandlerSwing(NewGridElement gridElement) {
 		super();
+		this.gridElement = gridElement;
+	}
+	
+	/**
+	 * Java Swing JComponents have a width of w, but only w-1 pixels are drawable
+	 * Therefore to draw a rectangle around the whole element, you must call g.drawRect(0,0,w-1,h-1)
+	 * To avoid this displacement pixel at every draw method, this method ensures you can never draw outside of the right component border
+	 */
+	private double inBorderHorizontal(double width) {
+		return Math.min(gridElement.getRectangle().getWidth()-1, width);
+	}
+	
+	/**
+	 * same as above but for vertical points
+	 */
+	private double inBorderVertical(double height) {
+		return Math.min(gridElement.getRectangle().getHeight()-1, height);
 	}
 
 	public BaseDrawHandlerSwing(Graphics g, DiagramHandler handler, ColorOwn fgColor, ColorOwn bgColor) {
@@ -78,7 +98,7 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	 */
 	@Override
 	public BaseDrawHandlerSwing getPseudoDrawHandler() {
-		PseudoDrawHandlerSwing counter = new PseudoDrawHandlerSwing();
+		PseudoDrawHandlerSwing counter = new PseudoDrawHandlerSwing(gridElement);
 		counter.setHandler(handler);
 		counter.setStyle(style.cloneFromMe()); // set style to make sure fontsize (and therefore calls like this.textHeight()) work as intended
 		return counter;
@@ -89,17 +109,17 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	 */
 	@Override
 	public void drawArcPie(double x, double y, double width, double height, double start, double extent) {
-		addShape(new Arc2D.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, width * getZoom(), height * getZoom(), start, extent, Arc2D.PIE));
+		addShape(new Arc2D.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, inBorderHorizontal(width * getZoom()), inBorderVertical(height * getZoom()), start, extent, Arc2D.PIE));
 	}
 
 	@Override
 	public void drawCircle(double x, double y, double radius) {
-		addShape(new Ellipse2D.Double((x - radius) * getZoom() + HALF_PX, (y - radius) * getZoom() + HALF_PX, radius * 2 * getZoom(), radius * 2 * getZoom()));
+		drawEllipse((x - radius) * getZoom() + HALF_PX, (y - radius) * getZoom() + HALF_PX, radius * 2 * getZoom(), radius * 2 * getZoom());
 	}
 
 	@Override
 	public void drawEllipse(double x, double y, double width, double height) {
-		addShape(new Ellipse2D.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, width * getZoom(), height * getZoom()));
+		addShape(new Ellipse2D.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, inBorderHorizontal(width * getZoom()), inBorderVertical(height * getZoom())));
 	}
 
 	@Override
@@ -108,11 +128,13 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 			Path2D.Double path = new Path2D.Double();
 			boolean first = true;
 			for (PointDouble p : points) {
+				Double x = inBorderHorizontal(Double.valueOf(p.getX() * getZoom() + HALF_PX));
+				Double y = inBorderVertical(Double.valueOf(p.getY() * getZoom() + HALF_PX));
 				if (first) {
-					path.moveTo(Double.valueOf(p.getX() * getZoom() + HALF_PX), Double.valueOf(p.getY() * getZoom() + HALF_PX));
+					path.moveTo(x, y);
 					first = false;
 				} else {
-					path.lineTo(Double.valueOf(p.getX() * getZoom() + HALF_PX), Double.valueOf(p.getY() * getZoom() + HALF_PX));
+					path.lineTo(x, y);
 				}
 			}
 			// only fill if first point == lastpoint
@@ -123,13 +145,13 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 
 	@Override
 	public void drawRectangle(double x, double y, double width, double height) {
-		addShape(new Rectangle.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, width * getZoom(), height * getZoom()));
+		addShape(new Rectangle.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, inBorderHorizontal(width * getZoom()), inBorderVertical(height * getZoom())));
 	}
 
 	@Override
 	public void drawRectangleRound(double x, double y, double width, double height, double radius) {
 		double rad = radius * 2 * getZoom();
-		addShape(new RoundRectangle2D.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, width * getZoom(), height * getZoom(), rad, rad));
+		addShape(new RoundRectangle2D.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, inBorderHorizontal(width * getZoom()), inBorderVertical(height * getZoom()), rad, rad));
 	}
 
 	@Override

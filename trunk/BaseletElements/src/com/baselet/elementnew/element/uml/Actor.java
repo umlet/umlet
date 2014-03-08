@@ -23,7 +23,7 @@ public class Actor extends NewGridElement {
 		public StickingPolygon generateStickingBorder(Rectangle rect) {
 			double hCenter = getRealSize().width/2;
 			int left = SharedUtils.realignToGrid(false, hCenter-armLength(getDrawer()), false);
-			int right = SharedUtils.realignToGrid(false, hCenter+armLength(getDrawer()), true)-1;
+			int right = SharedUtils.realignToGrid(false, hCenter+armLength(getDrawer()), true);
 			int head = (int) headToLegLength(getDrawer());
 			
 			StickingPolygon p = new StickingPolygon(rect.x, rect.y);

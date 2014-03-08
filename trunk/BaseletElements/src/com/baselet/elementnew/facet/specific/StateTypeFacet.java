@@ -42,8 +42,8 @@ public class StateTypeFacet extends KeyValueFacet {
 			double lowerY = h-yPos;
 			XValues upperXVal = XValues.createForEllipse(yPos, h, w);
 			XValues lowerXVal = XValues.createForEllipse(lowerY, h, w);
-			drawer.drawLine(upperXVal.getLeft(), yPos, lowerXVal.getRight(), lowerY);
-			drawer.drawLine(lowerXVal.getLeft(), lowerY, upperXVal.getRight(), yPos);
+			drawer.drawLine(upperXVal.getLeft(), yPos, lowerXVal.getRight()-1, lowerY);
+			drawer.drawLine(lowerXVal.getLeft(), lowerY, upperXVal.getRight()-1, yPos);
 		} else if (type == StateTypeEnum.TERMINATION) {
 			drawer.drawLine(0, 0, s.getWidth(), s.getHeight());
 			drawer.drawLine(s.getWidth(), 0, 0, s.getHeight());

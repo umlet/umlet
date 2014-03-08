@@ -39,8 +39,8 @@ public class Class extends NewGridElement {
 	@Override
 	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
 		String templateClassValue = propCfg.getFacetResponse(TemplateClassFacet.class, "");
-		int height = getRealSize().getHeight() - 1;
-		int width = getRealSize().getWidth() - 1;
+		int height = getRealSize().getHeight();
+		int width = getRealSize().getWidth();
 		if (templateClassValue.isEmpty()) {
 			drawer.drawRectangle(0, 0, width, height);
 			propCfg.setStickingPolygonGenerator(SimpleStickingPolygonGenerator.INSTANCE);
