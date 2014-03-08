@@ -9,7 +9,6 @@ import com.baselet.control.TextSplitter;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.BaseDrawHandler;
-import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.elementnew.facet.Facet;
@@ -31,9 +30,9 @@ public class PropertiesParser {
 
 	private static void autoresizeAnalysis(NewGridElement element, Settings settings, List<String> propertiesText) {
 		BaseDrawHandler pseudoDrawer = element.getDrawer().getPseudoDrawHandler();
-		PropertiesConfig tmpPropCfg = new PropertiesConfig(settings, element.getRealSize(), ElementStyleEnum.SIMPLE); // we use a tmpPropCfg to parse global facets to see if autoresize is enabled
+		PropertiesConfig tmpPropCfg = new PropertiesConfig(settings, element.getRealSize()); // we use a tmpPropCfg to parse global facets to see if autoresize is enabled
 		List<String> tmpPropTextWithoutGlobalFacets = parseGlobalFacets(propertiesText, tmpPropCfg.getSettings().getGlobalFacets(), pseudoDrawer, tmpPropCfg);
-		
+
 		if (tmpPropCfg.getElementStyle() == ElementStyleEnum.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
 			element.drawCommonContent(pseudoDrawer, tmpPropCfg);
 			drawPropertiesWithoutGlobalFacets(tmpPropTextWithoutGlobalFacets, tmpPropCfg, pseudoDrawer);
@@ -93,17 +92,18 @@ public class PropertiesParser {
 			returnVal += drawer.getDistanceHorizontalBorderToText() + p.getTopBuffer();
 		}
 		else if (p.getvAlign() == AlignVertical.CENTER) {
-			returnVal += (p.getGridElementSize().height - getTextBlockHeight(propertiesText, p.getGridElementSize(), drawer, p.getSettings(), p.getElementStyle()))/2 + p.getTopBuffer()/2 - drawer.textHeight()/6; // 1/6 of textheight is a good value for large fontsizes and "deep" characters like "y"
+			returnVal += (p.getGridElementSize().height - getTextBlockHeight(propertiesText, p, drawer))/2 + p.getTopBuffer()/2 - drawer.textHeight()/6; // 1/6 of textheight is a good value for large fontsizes and "deep" characters like "y"
 		}
 		else /*if (propCfg.getvAlign() == AlignVertical.BOTTOM)*/ {
-			returnVal += p.getGridElementSize().height - getTextBlockHeight(propertiesText, p.getGridElementSize(), drawer, p.getSettings(), p.getElementStyle()) - drawer.textHeight()/4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
+			returnVal += p.getGridElementSize().height - getTextBlockHeight(propertiesText, p, drawer) - drawer.textHeight()/4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
 		}
 		return returnVal;
 	}
 	
-	private static double getTextBlockHeight(List<String> propertiesText, Dimension gridElementSize, BaseDrawHandler drawer, Settings settings, ElementStyleEnum elementStyle) {
-		PropertiesConfig tmpPropCfg = new PropertiesConfig(settings, gridElementSize, elementStyle);
-		handleWordWrapAndIterate(propertiesText, settings.getLocalFacets(), tmpPropCfg, drawer.getPseudoDrawHandler());
+	private static double getTextBlockHeight(List<String> propertiesText, PropertiesConfig originalPropCfg, BaseDrawHandler drawer) {
+		PropertiesConfig tmpPropCfg = new PropertiesConfig(originalPropCfg.getSettings(), originalPropCfg.getGridElementSize());
+		tmpPropCfg.setElementStyle(originalPropCfg.getElementStyle()); // elementstyle is important for calculation (because of wordwrap)
+		handleWordWrapAndIterate(propertiesText, tmpPropCfg.getSettings().getLocalFacets(), tmpPropCfg, drawer.getPseudoDrawHandler());
 		return tmpPropCfg.getyPos();
 	}
 	
