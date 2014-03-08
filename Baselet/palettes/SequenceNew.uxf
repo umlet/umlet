@@ -6,8 +6,8 @@
     <coordinates>
       <x>192</x>
       <y>120</y>
-      <w>40</w>
-      <h>96</h>
+      <w>34</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>24;24;24;80</additional_attributes>
@@ -28,7 +28,7 @@
     <coordinates>
       <x>200</x>
       <y>168</y>
-      <w>144</w>
+      <w>138</w>
       <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;
@@ -40,8 +40,8 @@ async. destroy</panel_attributes>
     <coordinates>
       <x>192</x>
       <y>200</y>
-      <w>40</w>
-      <h>48</h>
+      <w>34</w>
+      <h>42</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>24;24;24;32</additional_attributes>
@@ -51,8 +51,8 @@ async. destroy</panel_attributes>
     <coordinates>
       <x>304</x>
       <y>16</y>
-      <w>40</w>
-      <h>80</h>
+      <w>34</w>
+      <h>74</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>24;24;24;64</additional_attributes>
@@ -62,8 +62,8 @@ async. destroy</panel_attributes>
     <coordinates>
       <x>192</x>
       <y>16</y>
-      <w>40</w>
-      <h>64</h>
+      <w>34</w>
+      <h>58</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>24;24;24;48</additional_attributes>
@@ -73,7 +73,7 @@ async. destroy</panel_attributes>
     <coordinates>
       <x>200</x>
       <y>40</y>
-      <w>136</w>
+      <w>130</w>
       <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
@@ -85,7 +85,7 @@ sync. call</panel_attributes>
     <coordinates>
       <x>200</x>
       <y>88</y>
-      <w>136</w>
+      <w>130</w>
       <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;
@@ -97,7 +97,7 @@ async. return</panel_attributes>
     <coordinates>
       <x>0</x>
       <y>104</y>
-      <w>128</w>
+      <w>122</w>
       <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;
@@ -109,8 +109,8 @@ asyncMsg</panel_attributes>
     <coordinates>
       <x>0</x>
       <y>72</y>
-      <w>128</w>
-      <h>40</h>
+      <w>122</w>
+      <h>34</h>
     </coordinates>
     <panel_attributes>lt=&lt;</panel_attributes>
     <additional_attributes>24;24;112;24</additional_attributes>
@@ -120,7 +120,7 @@ asyncMsg</panel_attributes>
     <coordinates>
       <x>0</x>
       <y>128</y>
-      <w>128</w>
+      <w>122</w>
       <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
@@ -133,8 +133,8 @@ syncMsg
     <coordinates>
       <x>0</x>
       <y>96</y>
-      <w>128</w>
-      <h>40</h>
+      <w>122</w>
+      <h>34</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 </panel_attributes>
@@ -145,8 +145,8 @@ syncMsg
     <coordinates>
       <x>32</x>
       <y>16</y>
-      <w>40</w>
-      <h>72</h>
+      <w>34</w>
+      <h>66</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>24;24;24;56</additional_attributes>
@@ -156,8 +156,8 @@ syncMsg
     <coordinates>
       <x>304</x>
       <y>104</y>
-      <w>40</w>
-      <h>120</h>
+      <w>34</w>
+      <h>114</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
     <additional_attributes>24;24;24;104</additional_attributes>
@@ -196,6 +196,7 @@ syncMsg
  
 with inner frames
 -.
+
  
  
  
