@@ -228,7 +228,7 @@ inner</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLState</id>
+    <id>UMLSpecialState</id>
     <coordinates>
       <x>136</x>
       <y>88</y>
@@ -239,7 +239,7 @@ inner</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLState</id>
+    <id>UMLSpecialState</id>
     <coordinates>
       <x>320</x>
       <y>200</y>
