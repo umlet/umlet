@@ -8,9 +8,11 @@ import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.facet.Facet;
+import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.elementnew.facet.specific.StateTypeFacet;
+import com.baselet.elementnew.facet.specific.SubStateSymbolFacet;
 import com.baselet.elementnew.settings.Settings;
-import com.baselet.elementnew.settings.SettingsNoText;
+import com.baselet.elementnew.settings.SettingsManualresizeCenter;
 
 public class State extends NewGridElement {
 
@@ -21,18 +23,18 @@ public class State extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
-		// if not type is given, throw an error
-		if (!propCfg.getFacetResponse(StateTypeFacet.class, false)) { // default is decision
-			StateTypeFacet.drawDecision(drawer, getRealSize().getWidth(), getRealSize().getHeight());
+		// if not type is given, draw an action type as default
+		if (!propCfg.getFacetResponse(StateTypeFacet.class, false)) {
+			StateTypeFacet.drawDefaultState(drawer, getRealSize());
 		}
 	}
 
 	@Override
 	protected Settings createSettings() {
-		return new SettingsNoText() {
+		return new SettingsManualresizeCenter() {
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(StateTypeFacet.INSTANCE);
+				return Arrays.asList(SeparatorLineFacet.INSTANCE_WITH_HALIGN_CHANGE, StateTypeFacet.INSTANCE, SubStateSymbolFacet.INSTANCE);
 			}
 		};
 	}

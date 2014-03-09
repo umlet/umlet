@@ -36,7 +36,7 @@ self</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLState</id>
+    <id>UMLSpecialState</id>
     <coordinates>
       <x>80</x>
       <y>16</y>
@@ -47,7 +47,7 @@ self</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLState</id>
+    <id>UMLSpecialState</id>
     <coordinates>
       <x>128</x>
       <y>16</y>
@@ -58,7 +58,7 @@ self</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLState</id>
+    <id>UMLSpecialState</id>
     <coordinates>
       <x>56</x>
       <y>16</y>
@@ -69,7 +69,7 @@ self</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLState</id>
+    <id>UMLSpecialState</id>
     <coordinates>
       <x>104</x>
       <y>16</y>
@@ -80,7 +80,7 @@ self</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLState</id>
+    <id>UMLSpecialState</id>
     <coordinates>
       <x>120</x>
       <y>72</y>
@@ -91,7 +91,7 @@ self</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLAction</id>
+    <id>UMLState</id>
     <coordinates>
       <x>24</x>
       <y>72</y>
@@ -102,7 +102,7 @@ self</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLAction</id>
+    <id>UMLState</id>
     <coordinates>
       <x>24</x>
       <y>120</y>
@@ -120,7 +120,7 @@ valign=top
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLAction</id>
+    <id>UMLState</id>
     <coordinates>
       <x>64</x>
       <y>232</y>
@@ -131,7 +131,7 @@ valign=top
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLAction</id>
+    <id>UMLState</id>
     <coordinates>
       <x>32</x>
       <y>304</y>

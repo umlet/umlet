@@ -102,7 +102,7 @@ lth=2.5</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLState</id>
+    <id>UMLSpecialState</id>
     <coordinates>
       <x>48</x>
       <y>408</y>
@@ -113,7 +113,7 @@ lth=2.5</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLState</id>
+    <id>UMLSpecialState</id>
     <coordinates>
       <x>16</x>
       <y>408</y>
@@ -124,7 +124,7 @@ lth=2.5</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLState</id>
+    <id>UMLSpecialState</id>
     <coordinates>
       <x>80</x>
       <y>408</y>
@@ -135,7 +135,7 @@ lth=2.5</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLState</id>
+    <id>UMLSpecialState</id>
     <coordinates>
       <x>112</x>
       <y>408</y>
@@ -146,7 +146,7 @@ lth=2.5</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLState</id>
+    <id>UMLSpecialState</id>
     <coordinates>
       <x>144</x>
       <y>408</y>

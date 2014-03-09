@@ -99,7 +99,7 @@ dashed border</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLState</id>
+    <id>UMLSpecialState</id>
     <coordinates>
       <x>216</x>
       <y>160</y>
