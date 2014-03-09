@@ -14,7 +14,7 @@ import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.elementnew.settings.Settings;
-import com.baselet.elementnew.settings.SettingsManualresize;
+import com.baselet.elementnew.settings.SettingsManualresizeCenter;
 
 public class UseCase extends NewGridElement {
 
@@ -50,7 +50,7 @@ public class UseCase extends NewGridElement {
 
 	@Override
 	protected Settings createSettings() {
-		return new SettingsManualresize() {
+		return new SettingsManualresizeCenter() {
 			@Override
 			public XValues getXValues(double y, int height, int width) {
 				return XValues.createForEllipse(y, height, width);

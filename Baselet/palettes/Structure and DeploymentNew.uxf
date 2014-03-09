@@ -2,29 +2,6 @@
 <diagram program="umlet" version="12.2">
   <zoom_level>8</zoom_level>
   <element>
-    <type>com.umlet.element.custom.Node</type>
-    <coordinates>
-      <x>16</x>
-      <y>8</y>
-      <w>88</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>center:Node</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.custom.Node</type>
-    <coordinates>
-      <x>128</x>
-      <y>8</y>
-      <w>88</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>center:&lt;&lt;device&gt;&gt;
-center:Name</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>0</x>
@@ -35,30 +12,6 @@ center:Name</panel_attributes>
     <panel_attributes>lt=-
 _Link_</panel_attributes>
     <additional_attributes>24;40;208;40</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.custom.Node</type>
-    <coordinates>
-      <x>16</x>
-      <y>80</y>
-      <w>200</w>
-      <h>64</h>
-    </coordinates>
-    <panel_attributes>center:&lt;&lt;execution environment&gt;&gt;
-center:Name</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.custom.Node</type>
-    <coordinates>
-      <x>16</x>
-      <y>152</y>
-      <w>200</w>
-      <h>64</h>
-    </coordinates>
-    <panel_attributes>center:&lt;&lt;Deployment Descriptor&gt;&gt;
-center:Name</panel_attributes>
-    <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.custom.Component</type>
@@ -129,7 +82,65 @@ Name</panel_attributes>
     <panel_attributes>Database</panel_attributes>
     <additional_attributes/>
   </element>
+  <element>
+    <id>UMLDeployment</id>
+    <coordinates>
+      <x>16</x>
+      <y>8</y>
+      <w>88</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>Node</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLDeployment</id>
+    <coordinates>
+      <x>16</x>
+      <y>80</y>
+      <w>200</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;execution environment&gt;&gt;
+Name</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLDeployment</id>
+    <coordinates>
+      <x>128</x>
+      <y>8</y>
+      <w>88</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;device&gt;&gt;
+Name</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLDeployment</id>
+    <coordinates>
+      <x>16</x>
+      <y>152</y>
+      <w>200</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Deployment Descriptor&gt;&gt;
+Name</panel_attributes>
+    <additional_attributes/>
+  </element>
   <group>
+    <element>
+      <id>UMLDeployment</id>
+      <coordinates>
+        <x>16</x>
+        <y>400</y>
+        <w>200</w>
+        <h>72</h>
+      </coordinates>
+      <panel_attributes>Deployment</panel_attributes>
+      <additional_attributes/>
+    </element>
     <element>
       <type>com.umlet.element.Class</type>
       <coordinates>
@@ -140,17 +151,6 @@ Name</panel_attributes>
       </coordinates>
       <panel_attributes>&lt;&lt;artefact&gt;&gt;
 Name</panel_attributes>
-      <additional_attributes/>
-    </element>
-    <element>
-      <type>com.umlet.element.custom.Node</type>
-      <coordinates>
-        <x>16</x>
-        <y>400</y>
-        <w>200</w>
-        <h>72</h>
-      </coordinates>
-      <panel_attributes>center:Deployment</panel_attributes>
       <additional_attributes/>
     </element>
   </group>

@@ -41,16 +41,17 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	 * Java Swing JComponents have a width of w, but only w-1 pixels are drawable
 	 * Therefore to draw a rectangle around the whole element, you must call g.drawRect(0,0,w-1,h-1)
 	 * To avoid this displacement pixel at every draw method, this method ensures you can never draw outside of the right component border
+	 * x is also important for width drawings which don't start at 0 (e.g. Deployment "3-dimensional" Rectangle)
 	 */
-	private double inBorderHorizontal(double width) {
-		return Math.min(gridElement.getRectangle().getWidth()-1, width);
+	private double inBorderHorizontal(double width, double x) {
+		return Math.min(gridElement.getRectangle().getWidth()-x-1, width);
 	}
 	
 	/**
 	 * same as above but for vertical points
 	 */
-	private double inBorderVertical(double height) {
-		return Math.min(gridElement.getRectangle().getHeight()-1, height);
+	private double inBorderVertical(double height, double y) {
+		return Math.min(gridElement.getRectangle().getHeight()-y-1, height);
 	}
 
 	public BaseDrawHandlerSwing(Graphics g, DiagramHandler handler, ColorOwn fgColor, ColorOwn bgColor) {
@@ -109,7 +110,9 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	 */
 	@Override
 	public void drawArcPie(double x, double y, double width, double height, double start, double extent) {
-		addShape(new Arc2D.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, inBorderHorizontal(width * getZoom()), inBorderVertical(height * getZoom()), start, extent, Arc2D.PIE));
+		double xZoomed = x * getZoom() + HALF_PX;
+		double yZoomed = y * getZoom() + HALF_PX;
+		addShape(new Arc2D.Double(xZoomed, yZoomed, inBorderHorizontal(width * getZoom(), xZoomed), inBorderVertical(height * getZoom(), yZoomed), start, extent, Arc2D.PIE));
 	}
 
 	@Override
@@ -120,7 +123,9 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 
 	@Override
 	public void drawEllipse(double x, double y, double width, double height) {
-		addShape(new Ellipse2D.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, inBorderHorizontal(width * getZoom()), inBorderVertical(height * getZoom())));
+		double xZoomed = x * getZoom() + HALF_PX;
+		double yZoomed = y * getZoom() + HALF_PX;
+		addShape(new Ellipse2D.Double(xZoomed, yZoomed, inBorderHorizontal(width * getZoom(), xZoomed), inBorderVertical(height * getZoom(), yZoomed)));
 	}
 
 	@Override
@@ -129,8 +134,8 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 			Path2D.Double path = new Path2D.Double();
 			boolean first = true;
 			for (PointDouble p : points) {
-				Double x = inBorderHorizontal(Double.valueOf(p.getX() * getZoom() + HALF_PX));
-				Double y = inBorderVertical(Double.valueOf(p.getY() * getZoom() + HALF_PX));
+				Double x = inBorderHorizontal(Double.valueOf(p.getX() * getZoom() + HALF_PX), 0);
+				Double y = inBorderVertical(Double.valueOf(p.getY() * getZoom() + HALF_PX), 0);
 				if (first) {
 					path.moveTo(x, y);
 					first = false;
@@ -146,13 +151,17 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 
 	@Override
 	public void drawRectangle(double x, double y, double width, double height) {
-		addShape(new Rectangle.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, inBorderHorizontal(width * getZoom()), inBorderVertical(height * getZoom())));
+		double xZoomed = x * getZoom() + HALF_PX;
+		double yZoomed = y * getZoom() + HALF_PX;
+		addShape(new Rectangle.Double(xZoomed, yZoomed, inBorderHorizontal(width * getZoom(), xZoomed), inBorderVertical(height * getZoom(), yZoomed)));
 	}
 
 	@Override
 	public void drawRectangleRound(double x, double y, double width, double height, double radius) {
 		double rad = radius * 2 * getZoom();
-		addShape(new RoundRectangle2D.Double(x * getZoom() + HALF_PX, y * getZoom() + HALF_PX, inBorderHorizontal(width * getZoom()), inBorderVertical(height * getZoom()), rad, rad));
+		double xZoomed = x * getZoom() + HALF_PX;
+		double yZoomed = y * getZoom() + HALF_PX;
+		addShape(new RoundRectangle2D.Double(xZoomed, yZoomed, inBorderHorizontal(width * getZoom(), xZoomed), inBorderVertical(height * getZoom(), yZoomed), rad, rad));
 	}
 
 	@Override
