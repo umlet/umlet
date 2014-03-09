@@ -9,19 +9,19 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
-public class SymbolFacet extends KeyValueFacet {
+public class UpperRightSymbolFacet extends KeyValueFacet {
 
-	public static SymbolFacet INSTANCE = new SymbolFacet();
-	private SymbolFacet() {}
+	public static UpperRightSymbolFacet INSTANCE = new UpperRightSymbolFacet();
+	private UpperRightSymbolFacet() {}
 
-	private enum SymbolEnum {USECASE, ARTIFACT, COMPONENT}
+	private enum UpperRightSymbolEnum {USECASE, ARTIFACT, COMPONENT}
 
 	@Override
 	public KeyValue getKeyValue() {
 		return new KeyValue("symbol", 
-				new ValueInfo(SymbolEnum.USECASE, "draw a use case symbol"),
-				new ValueInfo(SymbolEnum.ARTIFACT, "draw an artifact symbol"),
-				new ValueInfo(SymbolEnum.COMPONENT, "draw a component symbol"));
+				new ValueInfo(UpperRightSymbolEnum.USECASE, "draw a use case symbol"),
+				new ValueInfo(UpperRightSymbolEnum.ARTIFACT, "draw an artifact symbol"),
+				new ValueInfo(UpperRightSymbolEnum.COMPONENT, "draw a component symbol"));
 	}
 
 	private static final int DISTANCE = 5;
@@ -31,16 +31,16 @@ public class SymbolFacet extends KeyValueFacet {
 		drawer.setDrawDelayed(true);
 		ColorOwn prevBackgroundColor = drawer.getCurrentStyle().getBgColor();
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
-		SymbolEnum symbol = SymbolEnum.valueOf(value.toUpperCase());
+		UpperRightSymbolEnum symbol = UpperRightSymbolEnum.valueOf(value.toUpperCase());
 		double eW = propConfig.getGridElementSize().getWidth();
 		double fs = drawer.getCurrentStyle().getFontSize();
-		if (symbol == SymbolEnum.USECASE) {
+		if (symbol == UpperRightSymbolEnum.USECASE) {
 			double cW = fs*2.5;
 			double cH = fs;
 			drawer.drawEllipse(eW-cW-DISTANCE, DISTANCE, cW, cH);
 			propConfig.addToTopBuffer(DISTANCE);
 		}
-		else if (symbol == SymbolEnum.ARTIFACT) {
+		else if (symbol == UpperRightSymbolEnum.ARTIFACT) {
 			double cW = fs*1.5;
 			double cH = fs*1.8;
 			double corner = fs*0.5;
@@ -56,7 +56,7 @@ public class SymbolFacet extends KeyValueFacet {
 			drawer.drawLines(p.get(1), px, p.get(2));
 			propConfig.addToTopBuffer(DISTANCE + fs*0.3);
 		}
-		else if (symbol == SymbolEnum.COMPONENT) {
+		else if (symbol == UpperRightSymbolEnum.COMPONENT) {
 			double partHeight = fs*0.4;
 			double nonPartHeight = fs*0.3;
 			double partWidth = partHeight*2;
@@ -65,7 +65,7 @@ public class SymbolFacet extends KeyValueFacet {
 			drawer.drawRectangle(eW-cW-partWidth/2-DISTANCE, DISTANCE+nonPartHeight, partWidth, partHeight); // upper small rect
 			drawer.drawRectangle(eW-cW-partWidth/2-DISTANCE, DISTANCE+partHeight+nonPartHeight*2, partWidth, partHeight); // lower small rect
 			drawer.drawLine(eW-cW-DISTANCE, DISTANCE+partHeight+nonPartHeight, eW-cW-DISTANCE, DISTANCE+partHeight+nonPartHeight*2); // connection between 2 rects
-			drawer.drawLines(Arrays.asList(
+			drawer.drawLines(Arrays.asList( // draw large rectangle around
 					new PointDouble(eW-cW-DISTANCE, DISTANCE+nonPartHeight),
 					new PointDouble(eW-cW-DISTANCE, DISTANCE),
 					new PointDouble(eW-DISTANCE, DISTANCE),

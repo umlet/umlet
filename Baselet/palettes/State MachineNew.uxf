@@ -2,18 +2,6 @@
 <diagram program="umlet" version="12.2">
   <zoom_level>8</zoom_level>
   <element>
-    <type>com.umlet.element.custom.StateSubDiagram</type>
-    <coordinates>
-      <x>32</x>
-      <y>304</y>
-      <w>96</w>
-      <h>32</h>
-    </coordinates>
-    <panel_attributes>state with
-substates</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>0</x>
@@ -140,6 +128,19 @@ valign=top
       <h>32</h>
     </coordinates>
     <panel_attributes>state</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLAction</id>
+    <coordinates>
+      <x>32</x>
+      <y>304</y>
+      <w>96</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>state with
+substates
+symbol=substate</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>

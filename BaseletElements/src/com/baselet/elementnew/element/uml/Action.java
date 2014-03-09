@@ -10,6 +10,7 @@ import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.elementnew.facet.specific.ActionTypeFacet;
+import com.baselet.elementnew.facet.specific.SubStateSymbolFacet;
 import com.baselet.elementnew.settings.Settings;
 import com.baselet.elementnew.settings.SettingsManualresizeCenter;
 
@@ -33,7 +34,7 @@ public class Action extends NewGridElement {
 		return new SettingsManualresizeCenter() {
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(SeparatorLineFacet.INSTANCE_WITH_HALIGN_CHANGE, ActionTypeFacet.INSTANCE);
+				return Arrays.asList(SeparatorLineFacet.INSTANCE_WITH_HALIGN_CHANGE, ActionTypeFacet.INSTANCE, SubStateSymbolFacet.INSTANCE);
 			}
 		};
 	}

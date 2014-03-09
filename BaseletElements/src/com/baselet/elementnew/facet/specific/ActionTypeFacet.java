@@ -39,7 +39,8 @@ public class ActionTypeFacet extends KeyValueFacet {
 	}
 
 	public static void drawAction(final BaseDrawHandler drawer, Dimension s) {
-		drawer.drawRectangleRound(0, 0, s.width, s.height, Math.min(s.width, s.height)/5);
+		int radius = Math.min(20, Math.min(s.width, s.height)/5);
+		drawer.drawRectangleRound(0, 0, s.width, s.height, radius);
 	}
 
 	private double depth(Dimension s) {
