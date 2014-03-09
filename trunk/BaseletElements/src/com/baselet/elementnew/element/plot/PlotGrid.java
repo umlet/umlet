@@ -30,7 +30,7 @@ import com.baselet.elementnew.element.plot.parser.PlotConstants.PlotType;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.GlobalFacet;
 import com.baselet.elementnew.settings.Settings;
-import com.baselet.elementnew.settings.SettingsManualresize;
+import com.baselet.elementnew.settings.SettingsManualresizeCenter;
 import com.baselet.gui.AutocompletionText;
 
 
@@ -265,7 +265,7 @@ public class PlotGrid extends NewGridElement {
 
 	@Override
 	protected Settings createSettings() {
-		return new SettingsManualresize() {
+		return new SettingsManualresizeCenter() {
 			@Override
 			protected List<? extends Facet> createDefaultFacets() {
 				return Collections.emptyList();

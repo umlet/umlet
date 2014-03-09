@@ -8,14 +8,14 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.ElementStyleFacet.ElementStyleEnum;
 
-public abstract class SettingsManualresize extends Settings {
+public abstract class SettingsManualResizeTop extends Settings {
 	@Override
 	public XValues getXValues(double y, int height, int width) {
 		return new XValues(0, width);
 	}
 	@Override
 	public AlignVertical getVAlign() {
-		return AlignVertical.CENTER;
+		return AlignVertical.TOP;
 	}
 	@Override
 	public AlignHorizontal getHAlign() {
