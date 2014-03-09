@@ -2,91 +2,10 @@
 <diagram program="umlet" version="12.2">
   <zoom_level>8</zoom_level>
   <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>0</x>
-      <y>24</y>
-      <w>218</w>
-      <h>56</h>
-    </coordinates>
-    <panel_attributes>lt=-
-_Link_</panel_attributes>
-    <additional_attributes>24;40;208;40</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.custom.Component</type>
-    <coordinates>
-      <x>16</x>
-      <y>224</y>
-      <w>104</w>
-      <h>64</h>
-    </coordinates>
-    <panel_attributes> 
-Component</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.custom.Artefact</type>
-    <coordinates>
-      <x>128</x>
-      <y>224</y>
-      <w>88</w>
-      <h>64</h>
-    </coordinates>
-    <panel_attributes>Artifact</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>16</x>
-      <y>296</y>
-      <w>104</w>
-      <h>32</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;component&gt;&gt;
-Name</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>128</x>
-      <y>296</y>
-      <w>88</w>
-      <h>32</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;artifact&gt;&gt;
-Name</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.custom.SimpleComponent</type>
-    <coordinates>
-      <x>16</x>
-      <y>336</y>
-      <w>152</w>
-      <h>56</h>
-    </coordinates>
-    <panel_attributes>Component</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.custom.Database</type>
-    <coordinates>
-      <x>16</x>
-      <y>480</y>
-      <w>88</w>
-      <h>32</h>
-    </coordinates>
-    <panel_attributes>Database</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLDeployment</id>
     <coordinates>
       <x>16</x>
-      <y>8</y>
+      <y>16</y>
       <w>88</w>
       <h>40</h>
     </coordinates>
@@ -97,7 +16,7 @@ Name</panel_attributes>
     <id>UMLDeployment</id>
     <coordinates>
       <x>16</x>
-      <y>80</y>
+      <y>72</y>
       <w>200</w>
       <h>64</h>
     </coordinates>
@@ -109,7 +28,7 @@ Name</panel_attributes>
     <id>UMLDeployment</id>
     <coordinates>
       <x>128</x>
-      <y>8</y>
+      <y>16</y>
       <w>88</w>
       <h>40</h>
     </coordinates>
@@ -121,7 +40,7 @@ Name</panel_attributes>
     <id>UMLDeployment</id>
     <coordinates>
       <x>16</x>
-      <y>152</y>
+      <y>144</y>
       <w>200</w>
       <h>64</h>
     </coordinates>
@@ -129,28 +48,76 @@ Name</panel_attributes>
 Name</panel_attributes>
     <additional_attributes/>
   </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>136</x>
+      <y>216</y>
+      <w>88</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>symbol=artifact
+Artifact</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>16</x>
+      <y>216</y>
+      <w>112</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>symbol=component
+Component</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>16</x>
+      <y>288</y>
+      <w>112</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;component&gt;&gt;
+Name</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>136</x>
+      <y>288</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;artifact&gt;&gt;
+Name</panel_attributes>
+    <additional_attributes/>
+  </element>
   <group>
     <element>
-      <id>UMLDeployment</id>
-      <coordinates>
-        <x>16</x>
-        <y>400</y>
-        <w>200</w>
-        <h>72</h>
-      </coordinates>
-      <panel_attributes>Deployment</panel_attributes>
-      <additional_attributes/>
-    </element>
-    <element>
-      <type>com.umlet.element.Class</type>
+      <id>UMLGeneric</id>
       <coordinates>
         <x>72</x>
-        <y>424</y>
+        <y>352</y>
         <w>88</w>
         <h>40</h>
       </coordinates>
       <panel_attributes>&lt;&lt;artefact&gt;&gt;
 Name</panel_attributes>
+      <additional_attributes/>
+    </element>
+    <element>
+      <id>UMLDeployment</id>
+      <coordinates>
+        <x>16</x>
+        <y>328</y>
+        <w>200</w>
+        <h>72</h>
+      </coordinates>
+      <panel_attributes>Deployment</panel_attributes>
       <additional_attributes/>
     </element>
   </group>

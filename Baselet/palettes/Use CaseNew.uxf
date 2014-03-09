@@ -74,19 +74,6 @@
     <additional_attributes>112;40;24;40</additional_attributes>
   </element>
   <element>
-    <type>com.umlet.element.custom.AlternativeUseCase</type>
-    <coordinates>
-      <x>128</x>
-      <y>256</y>
-      <w>128</w>
-      <h>56</h>
-    </coordinates>
-    <panel_attributes>Alt. Use Case
---
-extension points</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <type>com.umlet.element.custom.Taxonomy_of_Actors</type>
     <coordinates>
       <x>264</x>
@@ -184,6 +171,20 @@ halign=left</panel_attributes>
     </coordinates>
     <panel_attributes>Neighboursystem
 valign=center</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>112</x>
+      <y>256</y>
+      <w>144</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>Alt. Use Case
+--
+extension points
+symbol=usecase</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
