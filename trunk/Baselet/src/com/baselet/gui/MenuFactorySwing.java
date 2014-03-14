@@ -216,7 +216,7 @@ public class MenuFactorySwing extends MenuFactory {
 	public JMenu createSetColor(boolean fg) {
 		String name = (fg ? SET_FOREGROUND_COLOR : SET_BACKGROUND_COLOR);
 		JMenu menu = new JMenu(name);
-		menu.add(createJMenuItem(false, "default", name, "default"));
+		menu.add(createJMenuItem(false, "default", name, null));
 		for (String color : ColorOwn.COLOR_MAP.keySet()) {
 			JMenuItem item = createJMenuItem(false, color, name, color);
 			menu.add(item);
