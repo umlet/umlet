@@ -83,7 +83,6 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 
 		Vector<Command> moveCommands = new Vector<Command>();
 		for (GridElement e : diagram.getAllEntities()) {
-			if (e.isPartOfGroup()) continue;
 			moveCommands.add(new Move(e, diffx, diffy));
 		}
 

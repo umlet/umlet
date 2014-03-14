@@ -23,7 +23,6 @@ import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.GridElement;
-import com.baselet.element.Group;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.DiagramPopupMenu;
@@ -283,9 +282,6 @@ public class DiagramHandler {
 		 */
 
 		for (GridElement entity : selectedEntities) {
-			// Entities in groups are not part of the selectedEntities vector. therefore they must be zoomed explicitely
-			if (entity instanceof Group) zoomEntities(fromFactor, toFactor, ((Group) entity).getMembers());
-
 			int newX = (entity.getRectangle().x * toFactor) / fromFactor;
 			int newY = (entity.getRectangle().y * toFactor) / fromFactor;
 			int newW = (entity.getRectangle().width * toFactor) / fromFactor;
@@ -304,18 +300,6 @@ public class DiagramHandler {
 				}
 			}
 		}
-
-		/**
-		 * After all location and size changes we must adjust the size of the
-		 * top level groups (groups who aren't part of other groups)
-		 */
-
-		for (GridElement entity : selectedEntities) {
-			if ((entity instanceof Group) && !entity.isPartOfGroup()) {
-				((Group) entity).adjustSize(true);
-			}
-		}
-
 	}
 
 	public void setGridAndZoom(int factor) {

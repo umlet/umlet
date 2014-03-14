@@ -5,14 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import com.baselet.control.Constants;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.baselet.element.Group;
 
 public class Align extends Command {
 
@@ -70,12 +68,6 @@ public class Align extends Command {
 					break;
 			}
 
-			// AB: update group members position if group has been adjusted
-			if (e instanceof Group) {
-				Point diff = new Point(x - rectangle.x, y - rectangle.y);
-				moveGroupMembers((Group) e, diff, handler);
-			}
-
 			orgLocations.put(e, new Point(rectangle.x, rectangle.y));
 			e.setLocation(handler.realignToGrid(true, x), handler.realignToGrid(true, y));
 		}
@@ -105,11 +97,6 @@ public class Align extends Command {
 
 			Point orgLocation = orgLocations.get(entity);
 
-			if (entity instanceof Group) {
-				Point diff = new Point(orgLocation.x - entity.getRectangle().x + offsetX, orgLocation.y - entity.getRectangle().y + offsetY);
-				moveGroupMembers((Group) entity, diff, handler);
-			}
-
 			entity.setLocation(handler.realignToGrid(true, orgLocation.x + offsetX), handler.realignToGrid(true, orgLocation.y + offsetY));
 		}
 
@@ -118,12 +105,5 @@ public class Align extends Command {
 
 		handler.getDrawPanel().updatePanelAndScrollbars();
 		handler.getDrawPanel().repaint();
-	}
-
-	private void moveGroupMembers(Group g, Point diff, DiagramHandler handler) {
-		Vector<GridElement> members = g.getMembers();
-		for (GridElement member : members) {
-			member.setLocationDifference(handler.realignToGrid(true, diff.x), handler.realignToGrid(true, diff.y));
-		}
 	}
 }

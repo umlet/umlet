@@ -83,7 +83,7 @@ public abstract class Utils {
 		String compatibleFullString = fullString.replaceAll("\r\n", delimiter); // compatibility to windows \r\n
 
 		for (String line : compatibleFullString.split("\\" + delimiter)) {
-			if (filterComments && (line.matches("((//)|(fg=)|(bg=)|(autoresize=)|(layer=)).*"))) continue;
+			if (filterComments && (line.matches("((//)|(fg=)|(bg=)|(autoresize=)|(layer=)|(group=)).*"))) continue;
 			else if (filterNewLines && line.isEmpty()) continue;
 			else returnVector.add(line);
 		}
@@ -179,7 +179,7 @@ public abstract class Utils {
 		return res;
 	}
 
-	
+
 	/**
 	 * eg: createDoubleArrayFromTo(5, 6, 0.1) = [5, 5.1, 5.2, ..., 5.9, 6] <br/>
 	 * eg: createDoubleArrayFromTo(10, 20, 3) = [10, 13, 16, 19, 22] <br/>
@@ -201,7 +201,7 @@ public abstract class Utils {
 	public static Double[] createDoubleArrayFromTo(Double min, Double max) {
 		return createDoubleArrayFromTo(min, max, 1D);
 	}
-	
+
 	/**
 	 * Must be overwritten because Swing uses this method to tell if 2 elements are overlapping
 	 * It's also used to determine which element gets selected if there are overlapping elements (the smallest one)
@@ -262,16 +262,14 @@ public abstract class Utils {
 		Vector<RelationLinePoint> lpts = new Vector<RelationLinePoint>();
 		Collection<Relation> rels = handler.getDrawPanel().getAllRelations();
 		for (Relation r : rels) {
-			if (!r.isPartOfGroup()) {
-				PointDouble l1 = r.getAbsoluteCoorStart();
-				PointDouble l2 = r.getAbsoluteCoorEnd();
-				int c1 = stickingPolygon.isConnected(l1, handler.getGridSize());
-				int c2 = stickingPolygon.isConnected(l2, handler.getGridSize());
-				if (c1 >= 0) lpts.add(new RelationLinePoint(r, 0, c1));
-				if (c2 >= 0) lpts.add(new RelationLinePoint(r, r.getLinePoints().size() - 1, c2));
-			}
+			PointDouble l1 = r.getAbsoluteCoorStart();
+			PointDouble l2 = r.getAbsoluteCoorEnd();
+			int c1 = stickingPolygon.isConnected(l1, handler.getGridSize());
+			int c2 = stickingPolygon.isConnected(l2, handler.getGridSize());
+			if (c1 >= 0) lpts.add(new RelationLinePoint(r, 0, c1));
+			if (c2 >= 0) lpts.add(new RelationLinePoint(r, r.getLinePoints().size() - 1, c2));
 		}
 		return lpts;
 	}
-	
+
 }

@@ -146,17 +146,23 @@ public abstract class Selector {
 				if (newGroup != null) break;
 			}
 			if (newGroup == null) {
-				Set<Integer> usedGroups = buildGroupMap().keySet();
-				if (usedGroups.isEmpty()) {
-					newGroup = 1;
-				} else {
-					newGroup = Collections.max(usedGroups) + 1;
-				}
+				newGroup = getUnusedGroup();
 			}
 		}
 		for (GridElement ge : getSelectedElements()) {
 			ge.updateProperty(GroupFacet.KEY, newGroup);
 		}
+	}
+
+	public Integer getUnusedGroup() {
+		Integer newGroup;
+		Set<Integer> usedGroups = buildGroupMap().keySet();
+		if (usedGroups.isEmpty()) {
+			newGroup = 1;
+		} else {
+			newGroup = Collections.max(usedGroups) + 1;
+		}
+		return newGroup;
 	}
 
 	public abstract List<GridElement> getAllElements();

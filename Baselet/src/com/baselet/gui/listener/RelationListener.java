@@ -56,17 +56,15 @@ public class RelationListener extends GridElementListener {
 		super.mouseReleased(me);
 		if (IS_DRAGGING_LINEPOINT & (LINEPOINT >= 0)) {
 			Relation rel = (Relation) me.getComponent();
-			if (rel.isPartOfGroup() == false) {
-				if (rel.allPointsOnSamePos()) {
-					// If mousebutton is released and all points of a relation are on the same position,
-					// the command which moved all points to the same position gets undone and the relation gets removed instead
-					this.controller.undo();
-					this.controller.executeCommand(new RemoveElement(rel));
-				}
-				else if (rel.isOnLine(LINEPOINT)) {
-					this.controller.executeCommand(
-							new RemoveLinePoint(rel, LINEPOINT));
-				}
+			if (rel.allPointsOnSamePos()) {
+				// If mousebutton is released and all points of a relation are on the same position,
+				// the command which moved all points to the same position gets undone and the relation gets removed instead
+				this.controller.undo();
+				this.controller.executeCommand(new RemoveElement(rel));
+			}
+			else if (rel.isOnLine(LINEPOINT)) {
+				this.controller.executeCommand(
+						new RemoveLinePoint(rel, LINEPOINT));
 			}
 		}
 		IS_DRAGGING_LINEPOINT = false;

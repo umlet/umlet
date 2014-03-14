@@ -46,8 +46,6 @@ public abstract class NewGridElement implements GridElement {
 	private BaseDrawHandler drawer; // this is the drawer for element specific stuff
 	private BaseDrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
 
-	private GridElement group = null;
-
 	private Component component;
 
 	private DrawHandlerInterface handler;
@@ -104,11 +102,6 @@ public abstract class NewGridElement implements GridElement {
 		this.panelAttributes = Arrays.asList(panelAttributes.split("\n", -1)); // split with -1 to retain empty lines at the end
 	}
 
-	@Override
-	public void setGroupObj(GridElement group) {
-		this.group = group;
-	}
-
 	/**
 	 * ugly workaround to avoid that the Resize().execute() call which calls setSize() on this model updates the model during the
 	 * calculated model update from autoresize. Otherwise the drawer cache would get messed up (it gets cleaned up 2 times in a row and afterwards everything gets drawn 2 times).
@@ -152,7 +145,7 @@ public abstract class NewGridElement implements GridElement {
 		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
 		drawer.resetColorSettings();
-		if (SharedConstants.show_stickingpolygon && !this.isPartOfGroup()) {
+		if (SharedConstants.show_stickingpolygon) {
 			drawStickingPolygon(drawer);
 		}
 	}
@@ -193,12 +186,6 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void setAdditionalAttributes(String additionalAttributes) {
 		// usually GridElements have no additional attributes
-	}
-
-	@Override
-	public boolean isPartOfGroup() {
-		if (this.group != null) return true;
-		return false;
 	}
 
 	@Override

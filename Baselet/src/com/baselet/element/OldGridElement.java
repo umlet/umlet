@@ -55,7 +55,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	private boolean enabled;
 	private boolean stickingBorderActive;
 	private boolean autoresizeandmanualresizeenabled;
-	protected GridElement group = null;
 	protected String panelAttributes = "";
 
 	// deselectedColor and fgColor must be stored separately because selection changes the actual fgColor but not the fgColorBase
@@ -92,10 +91,8 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			enabled = false;
 		}
 		else if (en && !enabled) {
-			if (!this.isPartOfGroup()) {
-				this.addMouseListener(Main.getHandlerForElement(this).getEntityListener(this));
-				this.addMouseMotionListener(Main.getHandlerForElement(this).getEntityListener(this));
-			}
+			this.addMouseListener(Main.getHandlerForElement(this).getEntityListener(this));
+			this.addMouseMotionListener(Main.getHandlerForElement(this).getEntityListener(this));
 			enabled = true;
 		}
 	}
@@ -134,17 +131,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 				if (this.equals(Main.getInstance().getEditedGridElement())) Main.getInstance().setPropertyPanelToGridElement(this);
 			}
 		}
-	}
-
-	@Override
-	public void setGroupObj(GridElement group) {
-		this.group = group;
-	}
-
-	@Override
-	public boolean isPartOfGroup() {
-		if (this.group != null) return true;
-		return false;
 	}
 
 	// Some GridElements need additionalAttributes to be displayed correctly (eg: Relations need exact positions for edges)
@@ -362,7 +348,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		// the selected state stored in GridElements is NOT the same as the selector holds, therefore it must be set explicitly through a setSelected() method.
 		// TODO make sure the selector holds the correct state and a repaint is triggered, then the following line should work:
 		// boolean selected = Main.getHandlerForElement(gridElement).getDrawPanel().getSelector().isSelected(gridElement);
-		if (selected && Constants.show_stickingpolygon && !this.isPartOfGroup()) {
+		if (selected && Constants.show_stickingpolygon) {
 			this.drawStickingPolygon(g2);
 		}
 
