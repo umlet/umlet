@@ -196,7 +196,9 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		for (String line : Utils.decomposeStringsWithComments(this.getPanelAttributes())) {
 			if (!line.startsWith(key.toString())) newState += line + "\n";
 		}
-		newState = newState.substring(0, newState.length() - 1); // remove last linebreak
+		if (!newState.isEmpty()) {
+			newState = newState.substring(0, newState.length() - 1); // remove last linebreak
+		}
 		if (newValue != null && !newValue.toString().isEmpty()) newState += "\n" + key.toString() + "=" + newValue; // null will not be added as a value
 		this.setPanelAttributes(newState);
 		Main.getHandlerForElement(this).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
