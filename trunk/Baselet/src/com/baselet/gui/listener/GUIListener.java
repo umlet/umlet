@@ -68,7 +68,6 @@ public class GUIListener implements KeyListener {
 					// TODO The following code is very similar to EntityListener 96-144 and should be refactored
 					Vector<Command> moveCommands = new Vector<Command>();
 					for (GridElement entity : entitiesToBeMoved) {
-						if (entity.isPartOfGroup()) continue;
 						entity.setStickingBorderActive(true);
 						moveCommands.add(new Move(entity, diffx, diffy));
 					}

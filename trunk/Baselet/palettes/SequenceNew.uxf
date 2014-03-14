@@ -201,7 +201,8 @@ with inner frames
  
  
  
--.</panel_attributes>
+-.
+group=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -212,7 +213,8 @@ with inner frames
       <w>312</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>title=interaction frame</panel_attributes>
+    <panel_attributes>title=interaction frame
+group=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -224,7 +226,8 @@ with inner frames
       <h>72</h>
     </coordinates>
     <panel_attributes>title=interaction frame
-inner</panel_attributes>
+inner
+group=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>

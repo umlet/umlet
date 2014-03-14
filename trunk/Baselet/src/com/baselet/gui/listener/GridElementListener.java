@@ -120,7 +120,6 @@ public class GridElementListener extends UniversalListener {
 
 		Vector<Command> moveCommands = new Vector<Command>();
 		for (GridElement e : diagram.getAllEntities()) {
-			if (e.isPartOfGroup()) continue;
 			moveCommands.add(new Move(e, diffx, diffy));
 		}
 

@@ -39,7 +39,6 @@ import com.baselet.control.Path;
 import com.baselet.control.SharedConstants.Program;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
-import com.baselet.element.Group;
 import com.baselet.elementnew.NewGridElement;
 import com.umlet.custom.CustomElement;
 
@@ -128,19 +127,7 @@ public class DiagramFileHandler {
 	}
 
 	private void appendRecursively(Document doc, Element parentXmlElement, GridElement e) {
-		if (e instanceof Group) {
-			Element el = doc.createElement("group");
-			parentXmlElement.appendChild(el);
-			for (GridElement member : ((Group) e).getMembers()) {
-				if (member instanceof Group) {
-					appendRecursively(doc, el, member);
-				} else {
-					el.appendChild(createXmlElementForGridElement(doc, member));
-				}
-				
-			}
-		}
-		else parentXmlElement.appendChild(createXmlElementForGridElement(doc, e));
+		parentXmlElement.appendChild(createXmlElementForGridElement(doc, e));
 	}
 
 	private Element createXmlElementForGridElement(Document doc, GridElement e) {

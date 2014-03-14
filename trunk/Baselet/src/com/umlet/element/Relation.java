@@ -1182,7 +1182,7 @@ public class Relation extends OldGridElement {
 		}
 
 		g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
-		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this) && !this.isPartOfGroup()) {
+		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
 			for (int i = 0; i < getLinePoints().size(); i++) {
 				Point p = getLinePoints().elementAt(i);
 				int start = (int) ((SELECTCIRCLESIZE / 15 * 10) * zoom);

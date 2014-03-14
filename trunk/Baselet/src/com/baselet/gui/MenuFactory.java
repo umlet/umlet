@@ -52,16 +52,14 @@ import com.baselet.diagram.SelectorOld;
 import com.baselet.diagram.command.Align;
 import com.baselet.diagram.command.ChangeElementSetting;
 import com.baselet.diagram.command.Copy;
-import com.baselet.diagram.command.CreateGroup;
 import com.baselet.diagram.command.Cut;
 import com.baselet.diagram.command.Paste;
 import com.baselet.diagram.command.RemoveElement;
-import com.baselet.diagram.command.UnGroup;
 import com.baselet.diagram.io.ClassChooser;
 import com.baselet.element.GridElement;
-import com.baselet.element.Group;
 import com.baselet.elementnew.facet.common.BackgroundColorFacet;
 import com.baselet.elementnew.facet.common.ForegroundColorFacet;
+import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.custom.CustomElement;
 import com.umlet.language.ClassDiagramConverter;
@@ -78,7 +76,7 @@ public class MenuFactory {
 				DiagramHandler diagramHandler = gui.getCurrentDiagram().getHandler();
 				DiagramHandler actualHandler = main.getDiagramHandler();
 				SelectorOld actualSelector = actualHandler == null ? null : actualHandler.getDrawPanel().getSelector();
-				
+
 				if (menuItem.equals(NEW)) {
 					main.doNew();
 				}
@@ -133,14 +131,11 @@ public class MenuFactory {
 				else if (menuItem.equals(SELECT_ALL) && (actualHandler != null) && (actualSelector != null)) {
 					actualSelector.selectAll();
 				}
-				else if (menuItem.equals(GROUP) && (actualHandler != null)) {
-					Main.getInstance().getDiagramHandler().getController().executeCommand(new CreateGroup());
+				else if (menuItem.equals(GROUP) && (actualHandler != null) && (actualSelector != null)) {
+					actualHandler.getController().executeCommand(new ChangeElementSetting(GroupFacet.KEY, actualSelector.getUnusedGroup().toString()));
 				}
 				else if (menuItem.equals(UNGROUP) && (actualHandler != null) && (actualSelector != null)) {
-					List<GridElement> gridElements = actualSelector.getSelectedElements();
-					for (GridElement gridElement : gridElements) {
-						if (gridElement instanceof Group) actualHandler.getController().executeCommand(new UnGroup((Group) gridElement));
-					}
+					actualHandler.getController().executeCommand(new ChangeElementSetting(GroupFacet.KEY, null));
 				}
 				else if (menuItem.equals(CUT) && (actualHandler != null)) {
 					if (!actualHandler.getDrawPanel().getAllEntities().isEmpty()) actualHandler.getController().executeCommand(new Cut());
@@ -211,7 +206,7 @@ public class MenuFactory {
 			}
 		});
 	}
-	
+
 	// These components should only be enabled if the drawpanel is not empty
 	protected List<JComponent> diagramDependendComponents = new ArrayList<JComponent>();
 	public void updateDiagramDependendComponents() {

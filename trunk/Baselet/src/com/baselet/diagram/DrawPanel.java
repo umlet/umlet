@@ -31,7 +31,6 @@ import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.control.Utils;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.baselet.element.Group;
 import com.baselet.element.OldGridElement;
 import com.baselet.gui.StartUpHelpText;
 import com.baselet.gui.listener.ScrollbarListener;
@@ -209,9 +208,6 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	 */
 	public List<GridElement> getAllEntitiesWithGroupsAsTree() {
 		List<GridElement> elementsToDraw = new ArrayList<GridElement>(gridElements);
-		for (GridElement e : gridElements) {
-			if (e instanceof Group) elementsToDraw.removeAll(((Group) e).getMembers());
-		}
 		return elementsToDraw;
 	}
 
@@ -231,7 +227,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	public List<GridElement> getAllEntitiesNotInGroup() {
 		List<GridElement> entities = new ArrayList<GridElement>();
 		for (GridElement e : getAllEntities()) {
-			if (!e.isPartOfGroup()) entities.add(e);
+			entities.add(e);
 		}
 		return entities;
 	}

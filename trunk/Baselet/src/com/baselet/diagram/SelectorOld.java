@@ -8,7 +8,6 @@ import java.util.Vector;
 import com.baselet.control.Main;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.baselet.element.Group;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.Selector;
 import com.umlet.custom.CustomElement;
@@ -73,11 +72,6 @@ public class SelectorOld extends Selector {
 				}
 			}
 		}
-		if (e instanceof Group) {
-			for (GridElement eInGroup : ((Group) e).getMembers()) {
-				setSelected(eInGroup, value);
-			}
-		}
 	}
 
 	private void setSelectedHelper(GridElement e, boolean value) {
@@ -122,7 +116,10 @@ public class SelectorOld extends Selector {
 	
 	private void updateGUIInformation() {
 		Main.getInstance().getGUI().elementsSelected(selectedElements.size());
-		boolean ungroupEnabled = (selectedElements.size() == 1) && (selectedElements.get(0) instanceof Group);
+		boolean ungroupEnabled = false;
+		for (GridElement e : selectedElements) {
+			if (e.getGroup() != null) ungroupEnabled = true;
+		}
 		Main.getInstance().getGUI().setUngroupEnabled(ungroupEnabled);
 
 		boolean customElementSelected = (selectedElements.size() == 1) && (selectedElements.get(0) instanceof CustomElement);
@@ -162,11 +159,6 @@ public class SelectorOld extends Selector {
 	@Override
 	public boolean isSelected(GridElement ge) {
 		boolean isSelected = super.isSelected(ge);
-		for (GridElement sge : getSelectedElements()) {
-			if (sge instanceof Group) {
-				isSelected = isSelected || ((Group) sge).getMembersRecursive().contains(ge);
-			}
-		}
 		return isSelected;
 	}
 	

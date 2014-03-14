@@ -19,7 +19,6 @@ import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
-import com.baselet.element.Group;
 import com.umlet.custom.CustomElement;
 import com.umlet.custom.CustomElementHandler;
 
@@ -71,7 +70,7 @@ public abstract class BaseGUI {
 
 		JMenuItem ungroup = menuFactory.createUngroup();
 		contextMenu.add(ungroup);
-		if (!(entity instanceof Group)) ungroup.setEnabled(false);
+		if (entity.getGroup() == null) ungroup.setEnabled(false);
 
 		contextMenu.add(menuFactory.createSetColor(true));
 		contextMenu.add(menuFactory.createSetColor(false));

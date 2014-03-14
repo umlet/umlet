@@ -29,7 +29,6 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
-import com.baselet.element.Group;
 import com.baselet.element.OldGridElement;
 import com.itextpdf.awt.DefaultFontMapper;
 import com.itextpdf.awt.FontMapper;
@@ -73,11 +72,7 @@ public class OutputHandler {
 	private static Collection<GridElement> degroupElements(Collection<GridElement> selectedEntities) {
 		Collection<GridElement> resultCol = new ArrayList<GridElement>();
 		for (GridElement selectedElement : selectedEntities) {
-			if (selectedElement instanceof Group) {
-				// if it's a top group, add all members recursively (groups can be part of groups)
-				if (!selectedElement.isPartOfGroup()) resultCol.addAll(((Group) selectedElement).getMembersRecursive());
-			}
-			else resultCol.add(selectedElement);
+			resultCol.add(selectedElement);
 		}
 		return resultCol;
 	}

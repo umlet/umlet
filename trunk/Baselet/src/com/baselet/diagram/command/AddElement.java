@@ -9,7 +9,6 @@ import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
-import com.baselet.element.Group;
 
 public class AddElement extends Command {
 	
@@ -56,20 +55,6 @@ public class AddElement extends Command {
 	private void addentity(GridElement e, DrawPanel panel, int x, int y) {
 		panel.getHandler().setHandlerAndInitListeners(e);
 		panel.addElement(e);
-		if (e instanceof Group) {
-			Group g = (Group) e;
-			for (GridElement ent : g.getMembers()) {
-				// Elements which are not on the panel get added now
-				// usually they are part if this AddElement command was issued by grouping existing elements
-				// and they are not part if this AddElement command was issued by copying an existing group
-				if (!panel.getAllEntities().contains(ent)) {
-					addentity(ent, panel, ent.getRectangle().x - g.getRectangle().x + x, ent.getRectangle().y - g.getRectangle().y + y);
-				}
-			}
-			g.removeMemberListeners(); // remove listeners from submembers of this group
-			if (_zoom) g.adjustSize(false); // Adjust cause problems if _zoom == false because the wrong zoomlevel would be assumed
-		}
-
 		e.setLocation(x, y);
 	}
 
