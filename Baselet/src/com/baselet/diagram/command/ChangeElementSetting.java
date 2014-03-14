@@ -31,6 +31,7 @@ public class ChangeElementSetting extends Command {
 		for (GridElement ent : entities.keySet()) {
 			ent.updateProperty(key, value);
 		}
+		handler.getDrawPanel().repaint();
 	}
 
 	@Override
@@ -39,5 +40,6 @@ public class ChangeElementSetting extends Command {
 		for (GridElement ent : entities.keySet()) {
 			ent.updateProperty(key, this.entities.get(ent));
 		}
+		handler.getDrawPanel().repaint();
 	}
 }
