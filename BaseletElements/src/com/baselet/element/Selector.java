@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.baselet.elementnew.facet.common.GroupFacet;
-
 public abstract class Selector {
 
 	private void selectHelper(boolean applyAfterAction, Collection<GridElement> elements) {
@@ -45,7 +43,7 @@ public abstract class Selector {
 	private List<GridElement> expand(Collection<GridElement> elements) {
 		Map<Integer, Set<GridElement>> map = buildGroupMap();
 		List<GridElement> elemenentsWithGroups = new ArrayList<GridElement>();
-		elemenentsWithGroups.addAll(elements);
+		// add grouped elements BEFORE the really selected elements, to make sure the last element stays the same (because its content will be shown in the property panel)
 		for (GridElement e : elements) {
 			if (e.getGroup() != null) {
 				Set<GridElement> set = map.get(e.getGroup());
@@ -58,6 +56,7 @@ public abstract class Selector {
 				}
 			}
 		}
+		elemenentsWithGroups.addAll(elements);
 		return elemenentsWithGroups;
 	}
 
@@ -136,22 +135,6 @@ public abstract class Selector {
 		List<GridElement> elements = getSelectedElements();
 		elements.remove(element);
 		elements.add(element);
-	}
-
-	public void updateSelectedElementsGroup(boolean setCommonGroup) {
-		Integer newGroup = null;
-		if (setCommonGroup) {
-			for (GridElement ge : getSelectedElements()) {
-				newGroup = ge.getGroup();
-				if (newGroup != null) break;
-			}
-			if (newGroup == null) {
-				newGroup = getUnusedGroup();
-			}
-		}
-		for (GridElement ge : getSelectedElements()) {
-			ge.updateProperty(GroupFacet.KEY, newGroup);
-		}
 	}
 
 	public Integer getUnusedGroup() {

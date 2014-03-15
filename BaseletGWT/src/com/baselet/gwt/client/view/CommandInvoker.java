@@ -78,8 +78,10 @@ public class CommandInvoker extends Controller {
 			ge.getRectangle().move(visible.getX()-rect.getX() + SharedConstants.DEFAULT_GRID_SIZE, visible.getY()-rect.getY() + SharedConstants.DEFAULT_GRID_SIZE);
 		}
 	}
-	public void updateSelectedElementsGroup(DrawPanel target, boolean setCommonGroup) {
-		target.getSelector().updateSelectedElementsGroup(setCommonGroup);
+	public void updateSelectedElementsProperty(DrawPanel target, String key, Object value) {
+		for (GridElement e : target.getSelector().getSelectedElements()) {
+			e.setProperty(key, value);
+		}
 		target.updatePropertiesPanelWithSelectedElement();
 	}
 }

@@ -177,7 +177,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public void updateProperty(String key, Object newValue) {
+	public void setProperty(String key, Object newValue) {
 		String newState = "";
 		for (String line : Utils.decomposeStringsWithComments(this.getPanelAttributes())) {
 			if (!line.startsWith(key.toString())) newState += line + "\n";

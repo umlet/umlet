@@ -65,7 +65,7 @@ public class InputHandler extends DefaultHandler {
 			this.additional_attributes = "";
 			this.code = null;
 		}
-		if (qName.equals("group")) {
+		if (qName.equals("group")) { // TODO remove group-handling in InputHandler. Until UMLet v13, groups used own element-tags in XML. This has changed to the property group=x, so this handling is only for backwards compatibility
 			currentGroup = this.handler.getDrawPanel().getSelector().getUnusedGroup();
 		}
 	}
@@ -89,14 +89,14 @@ public class InputHandler extends DefaultHandler {
 			if (this.id != null) {
 				try {
 					NewGridElement e = ElementFactory.create(ElementId.valueOf(this.id), new Rectangle(x, y, w, h), this.panel_attributes, this.additional_attributes, this.handler);
-					if (this.currentGroup != null) e.updateProperty(GroupFacet.KEY, currentGroup);
+					if (this.currentGroup != null) e.setProperty(GroupFacet.KEY, currentGroup);
 					_p.addElement(e);
 				} catch (Exception e) {
 					log.error("Cannot instantiate element with id: " + this.id, e);
 				}
 				id = null;
 			}
-			else if (!this.ignoreElements.contains(this.entityname)) { // load classes
+			else if (!this.ignoreElements.contains(this.entityname)) { // OldGridElement handling which can be removed as soon as all OldGridElements have been replaced
 				try {
 					if (this.code == null) e =  Main.getInstance().getGridElementFromPath(this.entityname);
 					else e = CustomElementCompiler.getInstance().genEntity(this.code);
@@ -108,7 +108,7 @@ public class InputHandler extends DefaultHandler {
 				e.setAdditionalAttributes(this.additional_attributes);
 				this.handler.setHandlerAndInitListeners(e);
 
-				if (this.currentGroup != null) e.updateProperty(GroupFacet.KEY, currentGroup);
+				if (this.currentGroup != null) e.setProperty(GroupFacet.KEY, currentGroup);
 				_p.addElement(e);
 			}
 		}
