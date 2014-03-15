@@ -72,8 +72,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	private String bgColorString = "";
 	protected float alphaFactor;
 
-	private boolean selected = false;
-
 	public OldGridElement() {
 		this.setSize(100, 100);
 		this.setVisible(true);
@@ -155,18 +153,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public void setPanelAttributes(String panelAttributes) {
 		this.panelAttributes = panelAttributes;
-	}
-
-	public void setSelected(Boolean selected) {
-		this.selected = selected;
-		if (selected) {
-			fgColor = Converter.convert(ColorOwn.SELECTION_FG);
-		}
-		else {
-			fgColor = fgColorBase;
-			this.setStickingBorderActive(true);
-		}
-		this.repaint();
 	}
 
 	@Override
@@ -343,17 +329,18 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		if (translateForExport) {
 			g2.translate(Constants.EXPORT_DISPLACEMENT, Constants.EXPORT_DISPLACEMENT);
 		}
-
-		// TODO (same problem as in @see com.umlet.element.experimental.ComponentSwing#paint(Graphics g))
-		// the selected state stored in GridElements is NOT the same as the selector holds, therefore it must be set explicitly through a setSelected() method.
-		// TODO make sure the selector holds the correct state and a repaint is triggered, then the following line should work:
-		// boolean selected = Main.getHandlerForElement(gridElement).getDrawPanel().getSelector().isSelected(gridElement);
-		if (selected && Constants.show_stickingpolygon) {
-			this.drawStickingPolygon(g2);
+		
+		boolean selected = Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this);
+		if (selected) {
+			fgColor = Converter.convert(ColorOwn.SELECTION_FG);
+			if (Constants.show_stickingpolygon) {
+				this.drawStickingPolygon(g2);
+			}
+		} else {
+			fgColor = fgColorBase;
+			this.setStickingBorderActive(true);
 		}
-
 		updateModelFromText();
-
 		this.paintEntity(g2);
 	}
 

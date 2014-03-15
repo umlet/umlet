@@ -142,7 +142,12 @@ public class GridElementListener extends UniversalListener {
 		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
 		mousePressedPoint = getOffset(me);
 
-		if (!handler.getDrawPanel().equals(Main.getInstance().getPalettePanel())) Main.getInstance().getPalettePanel().getSelector().deselectAllWithoutUpdatePropertyPanel();
+		// deselect elements of all other drawpanels
+		for (DiagramHandler h : Main.getInstance().getDiagramsAndPalettes()) {
+			if (!h.equals(handler)) {
+				h.getDrawPanel().getSelector().deselectAllWithoutUpdatePropertyPanel();
+			}
+		}
 
 		if (me.getButton() == MouseEvent.BUTTON3) {
 			this.showContextMenu(e, me.getX(), me.getY());
