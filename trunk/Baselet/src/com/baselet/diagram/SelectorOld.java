@@ -133,4 +133,16 @@ public class SelectorOld extends Selector {
 		}
 		return Main.getInstance().getDiagramHandler().getDrawPanel().getAllEntities();
 	}
+	
+	@Override
+	public void doAfterSelect(GridElement e) {
+		super.doAfterSelect(e);
+		e.repaint(); // element must be repainted if selection state has changed (for selectioncolor)
+	}
+	
+	@Override
+	public void doAfterDeselect(GridElement e) {
+		super.doAfterDeselect(e);
+		e.repaint(); // element must be repainted if selection state has changed (for selectioncolor)
+	}
 }
