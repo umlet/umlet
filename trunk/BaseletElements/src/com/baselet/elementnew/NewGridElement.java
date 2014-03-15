@@ -151,7 +151,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void updateProperty(String key, Object newValue) {
+	public void setProperty(String key, Object newValue) {
 		updateSetting(key, newValue);
 		handler.updatePropertyPanel();
 		updateModelFromText();

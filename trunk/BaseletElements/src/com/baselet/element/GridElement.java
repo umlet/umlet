@@ -60,7 +60,7 @@ public interface GridElement extends HasPanelAttributes {
 	
 	Component getComponent();
 
-	void updateProperty(String key, Object newValue);
+	void setProperty(String key, Object newValue);
 	
 	void updateModelFromText();
 

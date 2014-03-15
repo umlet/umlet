@@ -29,7 +29,7 @@ public class ChangeElementSetting extends Command {
 				this.entities.put(e, e.getSetting(key));
 		}
 		for (GridElement ent : entities.keySet()) {
-			ent.updateProperty(key, value);
+			ent.setProperty(key, value);
 		}
 		handler.getDrawPanel().repaint();
 	}
@@ -38,7 +38,7 @@ public class ChangeElementSetting extends Command {
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
 		for (GridElement ent : entities.keySet()) {
-			ent.updateProperty(key, this.entities.get(ent));
+			ent.setProperty(key, this.entities.get(ent));
 		}
 		handler.getDrawPanel().repaint();
 	}

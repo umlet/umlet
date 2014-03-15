@@ -19,6 +19,7 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
+import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.keyboard.Shortcut;
@@ -125,12 +126,13 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 				new MenuPopupItem(MenuConstants.GROUP) {
 					@Override
 					public void execute() {
-						commandInvoker.updateSelectedElementsGroup(DrawPanel.this, true);
+						Integer unusedGroup = selector.getUnusedGroup();
+						commandInvoker.updateSelectedElementsProperty(DrawPanel.this, GroupFacet.KEY, unusedGroup);
 					}
 				}, new MenuPopupItem(MenuConstants.UNGROUP) {
 					@Override
 					public void execute() {
-						commandInvoker.updateSelectedElementsGroup(DrawPanel.this, false);
+						commandInvoker.updateSelectedElementsProperty(DrawPanel.this, GroupFacet.KEY, null);
 					}
 				}));
 		diagramContextMenu = new MenuPopup(diagramItems);
