@@ -184,7 +184,9 @@ public class GridElementListener extends UniversalListener {
 			}
 		}
 
-		if (!this.selector.getSelectedElements().contains(e)) this.selector.selectOnly(e);
+		if (!this.selector.getSelectedElements().contains(e)) {
+			this.selector.selectOnly(e);
+		}
 		else this.selector.updateSelectorInformation();
 	}
 
