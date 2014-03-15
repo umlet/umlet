@@ -43,7 +43,7 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 
 		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) {
 			SelectorFrame selframe = this.selector.getSelectorFrame();
-			selframe.setLocation((int) getOffset(me).getX(), (int) getOffset(me).getY());
+			selframe.setLocation(getOffset(me).getX(), getOffset(me).getY());
 			selframe.setSize(1, 1);
 			((JComponent) me.getComponent()).add(selframe, 0);
 			selector.setSelectorFrameActive(true);
