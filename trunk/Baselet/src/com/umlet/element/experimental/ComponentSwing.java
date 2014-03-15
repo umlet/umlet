@@ -4,6 +4,7 @@ import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
+import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.geom.Point;
@@ -26,19 +27,11 @@ public class ComponentSwing extends JComponent implements Component {
 		metaDrawer = new BaseDrawHandlerSwing(gridElement);
 	}
 
-	private boolean selected = false;
-	public void setSelected(boolean selected) {
-		this.selected = selected;
-		repaint();
-	}
-
 	@Override
 	public void paint(Graphics g) {
 		drawer.setGraphics(g);
 		metaDrawer.setGraphics(g);
-		// the selected state stored in GridElements is NOT the same as the selector holds, therefore it must be set explicitly through a setSelected() method.
-		// TODO make sure the selector holds the correct state and a repaint is triggered, then the following line should work:
-//		boolean selected = Main.getHandlerForElement(gridElement).getDrawPanel().getSelector().isSelected(gridElement);
+		boolean selected = Main.getHandlerForElement(gridElement).getDrawPanel().getSelector().isSelected(gridElement);
 		drawer.drawAll(selected);
 		if (selected) {
 			metaDrawer.drawAll();

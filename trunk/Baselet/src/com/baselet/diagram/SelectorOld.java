@@ -8,10 +8,8 @@ import java.util.Vector;
 import com.baselet.control.Main;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.baselet.element.OldGridElement;
 import com.baselet.element.Selector;
 import com.umlet.custom.CustomElement;
-import com.umlet.element.experimental.ComponentSwing;
 
 public class SelectorOld extends Selector {
 
@@ -58,28 +56,8 @@ public class SelectorOld extends Selector {
 	public void singleSelectWithoutUpdatePropertyPanel(GridElement e) {
 		deselectAllWithoutUpdatePropertyPanel();
 		selectedElements.add(e);
-		setSelected(e, true);
 		if (Main.getInstance().getGUI() != null) updateGUIInformation();
 		Main.getInstance().setPropertyPanelToCustomElement(e);
-	}
-
-	private void setSelected(GridElement e, boolean value) {
-		setSelectedHelper(e, value);
-		if (e.getGroup() != null) {
-			for (GridElement other : getAllElements()) {
-				if (other != e && other.getGroup() != null && other.getGroup().equals(e.getGroup())) {
-					setSelectedHelper(other, value);
-				}
-			}
-		}
-	}
-
-	private void setSelectedHelper(GridElement e, boolean value) {
-		if (e instanceof OldGridElement) {
-			((OldGridElement) e).setSelected(value);
-		} else {
-			((ComponentSwing)e.getComponent()).setSelected(value);
-		}
 	}
 
 	public void deselectAllWithoutUpdatePropertyPanel() {
@@ -87,7 +65,6 @@ public class SelectorOld extends Selector {
 		List<GridElement> listCopy = new ArrayList<GridElement>(selectedElements);
 		selectedElements.clear();
 		for (GridElement e : listCopy) {
-			setSelected(e, false);
 			e.repaint(); // repaint to make sure now unselected entities are not drawn as selected anymore
 		}
 		dominantEntity = null;
@@ -100,18 +77,6 @@ public class SelectorOld extends Selector {
 	@Override
 	public void doAfterSelectionChanged() {
 		updateSelectorInformation();
-	}
-	
-	@Override
-	public void doAfterSelect(GridElement e) {
-		super.doAfterSelect(e);
-		setSelected(e, true);
-	}
-	
-	@Override
-	public void doAfterDeselect(GridElement e) {
-		super.doAfterDeselect(e);
-		setSelected(e, false);
 	}
 	
 	private void updateGUIInformation() {
@@ -131,9 +96,7 @@ public class SelectorOld extends Selector {
 		// update the current blue selected elements
 		if (currentSelector == null) currentSelector = this;
 		else if (currentSelector != this) {
-			currentSelector.setElementsSelected(false);
 			currentSelector = this;
-			this.setElementsSelected(true);
 		}
 
 		// every time something is selected - update the current diagram to this element
@@ -143,11 +106,6 @@ public class SelectorOld extends Selector {
 			if (!selectedElements.isEmpty()) Main.getInstance().setPropertyPanelToGridElement(selectedElements.elementAt(0));
 			else Main.getInstance().setPropertyPanelToGridElement(null);
 		}
-	}
-
-	private void setElementsSelected(boolean selected) {
-		for (GridElement e : this.selectedElements)
-			setSelected(e, selected);
 	}
 
 	public void multiSelect(Rectangle rect) {
