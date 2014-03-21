@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
+import com.baselet.control.SharedConstants;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
@@ -97,7 +98,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public boolean isStickingBorderActive() {
-		return stickingBorderActive;
+		return stickingBorderActive && SharedConstants.stickingEnabled;
 	}
 
 	@Override

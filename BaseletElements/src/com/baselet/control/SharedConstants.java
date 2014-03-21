@@ -44,6 +44,8 @@ public class SharedConstants {
 	public static String program = ""; // TODO merge with Constants.Program
 
 	public static String VERSION = "12.2"; // TODO merge with Constants.Program
+	
+	public static boolean stickingEnabled = true; // TODO temporarily implemented as "constant" to make it work for Swing and GWT
 
 
 }
