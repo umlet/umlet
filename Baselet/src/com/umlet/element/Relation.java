@@ -64,8 +64,8 @@ public class Relation extends OldGridElement {
 
 	// G.Mueller end
 
-	private final float SELECTBOXSIZE = 10;
-	private final float SELECTCIRCLESIZE = 12;
+	private final float SELECTBOXSIZE = 12;
+	private final float SELECTCIRCLESIZE = 15;
 
 	private Vector<String> getStrings() {
 		if (_strings == null) {
