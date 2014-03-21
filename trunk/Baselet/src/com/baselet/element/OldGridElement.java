@@ -20,7 +20,6 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
-import com.baselet.control.SharedConstants;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
@@ -54,7 +53,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public static final float ALPHA_FULL_TRANSPARENCY = 0.0f;
 
 	private boolean enabled;
-	private boolean stickingBorderActive;
 	private boolean autoresizeandmanualresizeenabled;
 	protected String panelAttributes = "";
 
@@ -78,7 +76,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		this.setVisible(true);
 		this.enabled = true;
 		this.autoresizeandmanualresizeenabled = false;
-		this.stickingBorderActive = true;
 	}
 
 	@Override
@@ -94,16 +91,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			this.addMouseMotionListener(Main.getHandlerForElement(this).getEntityListener(this));
 			enabled = true;
 		}
-	}
-
-	@Override
-	public boolean isStickingBorderActive() {
-		return stickingBorderActive && SharedConstants.stickingEnabled;
-	}
-
-	@Override
-	public void setStickingBorderActive(boolean stickingBordersActive) {
-		this.stickingBorderActive = stickingBordersActive;
 	}
 
 	public boolean isManualResized() {
@@ -339,7 +326,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			}
 		} else {
 			fgColor = fgColorBase;
-			this.setStickingBorderActive(true);
 		}
 		updateModelFromText();
 		this.paintEntity(g2);

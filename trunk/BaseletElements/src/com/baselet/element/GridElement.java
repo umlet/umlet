@@ -33,10 +33,6 @@ public interface GridElement extends HasPanelAttributes {
 
 	Set<Direction> getResizeArea(int x, int y);
 
-	void setStickingBorderActive(boolean stickingBordersActive);
-
-	boolean isStickingBorderActive();
-
 	StickingPolygon generateStickingBorder(Rectangle rect);
 
 	/**

@@ -9,6 +9,7 @@ import com.baselet.control.Main;
 import com.baselet.control.SharedConstants;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.PaletteHandler;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
@@ -26,7 +27,7 @@ public class GUIListener implements KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 			SharedConstants.stickingEnabled = false;
 		}
-		
+
 		DiagramHandler handler = Main.getInstance().getDiagramHandler();
 
 		if ((handler != null) && !e.isAltDown() && !e.isAltGraphDown() /* && !e.isControlDown() && !e.isMetaDown() */) {
@@ -72,21 +73,20 @@ public class GUIListener implements KeyListener {
 					// TODO The following code is very similar to EntityListener 96-144 and should be refactored
 					Vector<Command> moveCommands = new Vector<Command>();
 					for (GridElement entity : entitiesToBeMoved) {
-						entity.setStickingBorderActive(true);
 						moveCommands.add(new Move(entity, diffx, diffy));
 					}
 					Vector<Command> linepointCommands = new Vector<Command>();
-					for (GridElement tmpEntity : entitiesToBeMoved) {
-						if (tmpEntity instanceof Relation) continue;
-						StickingPolygon stick = null;
-						if (tmpEntity.isStickingBorderActive()) stick = tmpEntity.generateStickingBorder(tmpEntity.getRectangle());
-						else tmpEntity.setStickingBorderActive(true);
-						if (stick != null) {
-							Vector<RelationLinePoint> affectedRelationPoints = Utils.getStickingRelationLinePoints(handler, stick);
-							for (int j = 0; j < affectedRelationPoints.size(); j++) {
-								RelationLinePoint tmpRlp = affectedRelationPoints.elementAt(j);
-								if (entitiesToBeMoved.contains(tmpRlp.getRelation())) continue;
-								linepointCommands.add(new MoveLinePoint(tmpRlp.getRelation(), tmpRlp.getLinePointId(), diffx, diffy));
+					if (SharedConstants.stickingEnabled && !(handler instanceof PaletteHandler)) {
+						for (GridElement tmpEntity : entitiesToBeMoved) {
+							if (tmpEntity instanceof Relation) continue;
+							StickingPolygon stick = tmpEntity.generateStickingBorder(tmpEntity.getRectangle());
+							if (stick != null) {
+								Vector<RelationLinePoint> affectedRelationPoints = Utils.getStickingRelationLinePoints(handler, stick);
+								for (int j = 0; j < affectedRelationPoints.size(); j++) {
+									RelationLinePoint tmpRlp = affectedRelationPoints.elementAt(j);
+									if (entitiesToBeMoved.contains(tmpRlp.getRelation())) continue;
+									linepointCommands.add(new MoveLinePoint(tmpRlp.getRelation(), tmpRlp.getLinePointId(), diffx, diffy));
+								}
 							}
 						}
 					}

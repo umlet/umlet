@@ -15,9 +15,11 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Main;
+import com.baselet.control.SharedConstants;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.PaletteHandler;
 import com.baselet.diagram.SelectorFrame;
 import com.baselet.diagram.command.AddElement;
 import com.baselet.diagram.command.Command;
@@ -199,7 +201,6 @@ public class GridElementListener extends UniversalListener {
 		// this.IS_FIRST_DRAGGING_OVER=true;
 		this.controller.executeCommand(cmd);
 		this.selector.selectOnly(e);
-		e.setStickingBorderActive(false);
 		eListener.IS_FIRST_DRAGGING_OVER = false;
 	}
 
@@ -210,7 +211,6 @@ public class GridElementListener extends UniversalListener {
 		if (this.IS_DRAGGED_FROM_PALETTE) this.IS_DRAGGED_FROM_PALETTE = false;
 
 		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
-		e.setStickingBorderActive(true);
 
 		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) {
 			if (selector.isSelected(e) && DESELECT_MULTISEL) this.selector.deselect(e);
@@ -280,9 +280,9 @@ public class GridElementListener extends UniversalListener {
 		Vector<MoveLinePoint> linepointCommands = new Vector<MoveLinePoint>();
 		for (GridElement e : entitiesToBeMoved) {
 			moveCommands.add(new Move(e, diffx, diffy));
-			if (e instanceof Relation) continue;
-			StickingPolygon stick = null;
-			if (e.isStickingBorderActive()) stick = e.generateStickingBorder(e.getRectangle());
+			boolean stickingDisabled = !SharedConstants.stickingEnabled || diagram.getHandler() instanceof PaletteHandler;
+			if (e instanceof Relation || stickingDisabled) continue;
+			StickingPolygon stick = e.generateStickingBorder(e.getRectangle());
 			if (stick != null) {
 				Vector<RelationLinePoint> affectedRelationPoints = Utils.getStickingRelationLinePoints(this.diagram.getHandler(), stick);
 				for (int j = 0; j < affectedRelationPoints.size(); j++) {

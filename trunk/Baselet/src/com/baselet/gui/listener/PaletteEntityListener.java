@@ -46,7 +46,6 @@ public class PaletteEntityListener extends GridElementListener {
 		super.mousePressed(me);
 		List<GridElement> selectedEntities = handler.getDrawPanel().getSelector().getSelectedElements();
 		for (GridElement currentEntity : selectedEntities) {
-			currentEntity.setStickingBorderActive(false);
 			if (this.IS_DRAGGING) previousDraggingLocation.put(currentEntity, currentEntity.getRectangle());
 		}
 	}
@@ -80,7 +79,6 @@ public class PaletteEntityListener extends GridElementListener {
 		List<GridElement> selectedEntities = handler.getDrawPanel().getSelector().getSelectedElements();
 		for (GridElement currentEntity : selectedEntities) {
 			Rectangle previousLocation = previousDraggingLocation.get(currentEntity);
-			currentEntity.setStickingBorderActive(true);
 			currentEntity.setLocation(previousLocation.x, previousLocation.y);
 		}
 	}
@@ -169,7 +167,6 @@ public class PaletteEntityListener extends GridElementListener {
 				handler.realignToGrid(((upperLeftY / oldZoomDiagram) + Constants.PASTE_DISPLACEMENT_GRIDS) * Constants.DEFAULTGRIDSIZE));
 		currentDiagram.getHandler().getController().executeCommand(cmd);
 		currentDiagram.getSelector().selectOnly(e);
-		e.setStickingBorderActive(false);
 
 		// After inserting the new entity we restore the old zoom level of both diagrams
 		currentDiagram.getHandler().setGridAndZoom(oldZoomDiagram, false);

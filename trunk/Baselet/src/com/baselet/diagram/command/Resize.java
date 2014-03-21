@@ -3,6 +3,7 @@ package com.baselet.diagram.command;
 import java.util.Vector;
 
 import com.baselet.control.Main;
+import com.baselet.control.SharedConstants;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;
@@ -102,7 +103,7 @@ public class Resize extends Command {
 
 		entity.setLocationDifference(getDiffx(), getDiffy());
 		entity.changeSize(getDiffw(), getDiffh());
-		if (entity.isStickingBorderActive()) {
+		if (SharedConstants.stickingEnabled) {
 			for (MoveLinePoint c : this.move_commands) {
 				c.execute(handler);
 			}
