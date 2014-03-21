@@ -41,8 +41,6 @@ public abstract class NewGridElement implements GridElement {
 	
 	private Logger log = Logger.getLogger(NewGridElement.class);
 
-	private boolean stickingBorderActive = true;
-
 	private BaseDrawHandler drawer; // this is the drawer for element specific stuff
 	private BaseDrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
 
@@ -206,16 +204,6 @@ public abstract class NewGridElement implements GridElement {
 		if ((y <= 5) && (y >= 0)) returnSet.add(Direction.UP);
 		else if ((y <= this.getRectangle().height) && (y >= this.getRectangle().height - 5)) returnSet.add(Direction.DOWN);
 		return returnSet;
-	}
-
-	@Override
-	public void setStickingBorderActive(boolean stickingBordersActive) {
-		this.stickingBorderActive = stickingBordersActive;
-	}
-
-	@Override
-	public boolean isStickingBorderActive() {
-		return stickingBorderActive && SharedConstants.stickingEnabled;
 	}
 
 	/*

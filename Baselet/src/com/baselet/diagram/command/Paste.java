@@ -53,7 +53,6 @@ public class Paste extends Command {
 		}
 
 		for (GridElement e : this.entities) {
-			e.setStickingBorderActive(false);
 			e.setLocationDifference(
 					viewpX * handler.getGridSize() - minX + handler.getGridSize() * Constants.PASTE_DISPLACEMENT_GRIDS,
 					viewpY * handler.getGridSize() - minY + handler.getGridSize() * Constants.PASTE_DISPLACEMENT_GRIDS);
