@@ -215,7 +215,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public boolean isStickingBorderActive() {
-		return stickingBorderActive;
+		return stickingBorderActive && SharedConstants.stickingEnabled;
 	}
 
 	/*

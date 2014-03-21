@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import com.baselet.control.Main;
+import com.baselet.control.SharedConstants;
 import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Command;
@@ -22,7 +23,10 @@ public class GUIListener implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-
+		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+			SharedConstants.stickingEnabled = false;
+		}
+		
 		DiagramHandler handler = Main.getInstance().getDiagramHandler();
 
 		if ((handler != null) && !e.isAltDown() && !e.isAltGraphDown() /* && !e.isControlDown() && !e.isMetaDown() */) {
@@ -124,9 +128,13 @@ public class GUIListener implements KeyListener {
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {}
+	public void keyReleased(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+			SharedConstants.stickingEnabled = true;
+		}
+	}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {}
+	public void keyTyped(KeyEvent e) {}
 
 }
