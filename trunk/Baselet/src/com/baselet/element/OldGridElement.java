@@ -161,8 +161,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		}
 		if (newValue != null && !newValue.toString().isEmpty()) newState += "\n" + key.toString() + "=" + newValue; // null will not be added as a value
 		this.setPanelAttributes(newState);
-		Main.getHandlerForElement(this).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
-		this.repaint();
 	}
 
 	public Composite[] colorize(Graphics2D g2) {
