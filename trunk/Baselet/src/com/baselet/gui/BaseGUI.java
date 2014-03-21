@@ -3,6 +3,7 @@ package com.baselet.gui;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Frame;
+import java.util.Collection;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -28,7 +29,7 @@ public abstract class BaseGUI {
 	private static final Logger log = Logger.getLogger(BaseGUI.class);
 
 	protected Main main;
-	protected int selected_elements;
+	protected Collection<GridElement> selected_elements;
 	protected boolean paletteEdited = false;
 
 	public BaseGUI(Main main) {
@@ -66,7 +67,7 @@ public abstract class BaseGUI {
 		}
 		JMenuItem group = menuFactory.createGroup();
 		contextMenu.add(group);
-		if (this.selected_elements < 2) group.setEnabled(false);
+		if (this.selected_elements.size() < 2) group.setEnabled(false);
 
 		JMenuItem ungroup = menuFactory.createUngroup();
 		contextMenu.add(ungroup);
@@ -77,14 +78,14 @@ public abstract class BaseGUI {
 
 		// insert alignment menu
 		JMenu alignmentMenu = menuFactory.createAlign();
-		alignmentMenu.setEnabled(this.selected_elements > 1); // only enable when at least 2 elements are selected
+		alignmentMenu.setEnabled(this.selected_elements.size() > 1); // only enable when at least 2 elements are selected
 		contextMenu.add(alignmentMenu);
 
 		return contextMenu;
 	}
 
-	public void elementsSelected(int count) {
-		this.selected_elements = count;
+	public void elementsSelected(Collection<GridElement> selectedElements) {
+		this.selected_elements = selectedElements;
 	}
 
 	protected void initGUIParameters() {
@@ -134,8 +135,6 @@ public abstract class BaseGUI {
 	public abstract DrawPanel getCurrentDiagram();
 
 	public abstract void enablePasteMenuEntry();
-
-	public abstract void setUngroupEnabled(boolean enabled);
 
 	public abstract void setCustomElementSelected(boolean selected);
 

@@ -77,14 +77,7 @@ public class SelectorOld extends Selector {
 	}
 	
 	private void updateGUIInformation() {
-		Main.getInstance().getGUI().elementsSelected(selectedElements.size());
-		// if one or more selected elements are in a group, ungroup is possible
-		boolean ungroupEnabled = false;
-		for (GridElement e : selectedElements) {
-			if (e.getGroup() != null) ungroupEnabled = true;
-		}
-		Main.getInstance().getGUI().setUngroupEnabled(ungroupEnabled);
-
+		Main.getInstance().getGUI().elementsSelected(selectedElements);
 		boolean customElementSelected = (selectedElements.size() == 1) && (selectedElements.get(0) instanceof CustomElement);
 		Main.getInstance().getGUI().setCustomElementSelected(customElementSelected);
 	}

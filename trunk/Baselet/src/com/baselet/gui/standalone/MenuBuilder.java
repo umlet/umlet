@@ -1,6 +1,7 @@
 package com.baselet.gui.standalone;
 
 import java.awt.event.KeyEvent;
+import java.util.Collection;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -12,6 +13,7 @@ import com.baselet.control.MenuConstants;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.PaletteHandler;
+import com.baselet.element.GridElement;
 import com.baselet.gui.MenuFactorySwing;
 
 public class MenuBuilder {
@@ -112,27 +114,30 @@ public class MenuBuilder {
 		return menu;
 	}
 
-	public void elementsSelected(int count) {
-		if (count > 0) {
-			editDelete.setEnabled(true);
-			editCut.setEnabled(true);
-			if (count > 1) editGroup.setEnabled(true);
-			else editGroup.setEnabled(false);
-		}
-		else {
+	public void elementsSelected(Collection<GridElement> selectedElements) {
+		if (selectedElements.isEmpty()) {
 			editDelete.setEnabled(false);
 			editGroup.setEnabled(false);
 			editCut.setEnabled(false);
 			// menu_edit_copy must remain enabled even if no entity is selected to allow the export of the full diagram to the system clipboard.
 		}
+		else {
+			editDelete.setEnabled(true);
+			editCut.setEnabled(true);
+
+			boolean allElementsInGroup = true;
+			for (GridElement e : selectedElements) {
+				if (e.getGroup() == null) {
+					allElementsInGroup = false;
+				}
+			}
+			editUngroup.setEnabled(allElementsInGroup);
+			editGroup.setEnabled(!allElementsInGroup && selectedElements.size() > 1);
+		}
 	}
 
 	public void enablePasteMenuEntry() {
 		editPaste.setEnabled(true);
-	}
-
-	public void setUngroupEnabled(boolean enabled) {
-		editUngroup.setEnabled(enabled);
 	}
 
 	public void setNewCustomElementMenuItemsEnabled(boolean enable) {

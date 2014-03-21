@@ -5,6 +5,7 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
+import java.util.Collection;
 import java.util.HashMap;
 
 import javax.swing.text.JTextComponent;
@@ -15,6 +16,7 @@ import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
+import com.baselet.element.GridElement;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.plugin.MainPlugin;
@@ -162,11 +164,6 @@ public class EclipseGUI extends BaseGUI {
 	}
 
 	@Override
-	public void setUngroupEnabled(boolean enabled) {
-
-	}
-
-	@Override
 	public void setCursor(Cursor cursor) {
 		if (this.editor != null) this.editor.setCursor(cursor);
 	}
@@ -245,9 +242,9 @@ public class EclipseGUI extends BaseGUI {
 	}
 
 	@Override
-	public void elementsSelected(int count) {
-		super.elementsSelected(count);
-		if (this.contributor != null) this.contributor.setElementsSelected(count);
+	public void elementsSelected(Collection<GridElement> selectedElements) {
+		super.elementsSelected(selectedElements);
+		if (this.contributor != null) this.contributor.setElementsSelected(selectedElements);
 	}
 
 	public void setPaneFocused(Pane pane) {

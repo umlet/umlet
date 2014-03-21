@@ -1,5 +1,6 @@
 package com.baselet.plugin.editor;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jface.action.Action;
@@ -19,6 +20,7 @@ import com.baselet.control.Main;
 import com.baselet.control.MenuConstants;
 import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
+import com.baselet.element.GridElement;
 import com.baselet.gui.eclipse.EclipseGUI;
 import com.baselet.gui.eclipse.EclipseGUI.Pane;
 import com.baselet.gui.eclipse.MenuFactoryEclipse;
@@ -169,14 +171,14 @@ public class Contributor extends EditorActionBarContributor {
 		this.customedit.setEnabled(selected && !this.customPanelEnabled);
 	}
 
-	public void setElementsSelected(int count) {
-		if (count > 0) {
-			this.cutActionDiagram.setEnabled(true);
-			this.deleteActionDiagram.setEnabled(true);
-		}
-		else {
+	public void setElementsSelected(Collection<GridElement> selectedElements) {
+		if (selectedElements.isEmpty()) {
 			this.deleteActionDiagram.setEnabled(false);
 			this.cutActionDiagram.setEnabled(false);
+		}
+		else {
+			this.cutActionDiagram.setEnabled(true);
+			this.deleteActionDiagram.setEnabled(true);
 		}
 	}
 

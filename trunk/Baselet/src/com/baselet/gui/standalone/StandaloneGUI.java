@@ -4,6 +4,7 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Frame;
+import java.util.Collection;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -14,6 +15,7 @@ import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
+import com.baselet.element.GridElement;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.TabComponent;
@@ -124,19 +126,14 @@ public class StandaloneGUI extends BaseGUI {
 	}
 
 	@Override
-	public void elementsSelected(int count) {
-		super.elementsSelected(count);
-		menuBuilder.elementsSelected(count);
+	public void elementsSelected(Collection<GridElement> selectedElements) {
+		super.elementsSelected(selectedElements);
+		menuBuilder.elementsSelected(selectedElements);
 	}
 
 	@Override
 	public void enablePasteMenuEntry() {
 		menuBuilder.enablePasteMenuEntry();
-	}
-
-	@Override
-	public void setUngroupEnabled(boolean enabled) {
-		menuBuilder.setUngroupEnabled(enabled);
 	}
 
 	@Override
