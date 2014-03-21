@@ -7,6 +7,7 @@ import com.baselet.control.ClipBoard;
 import com.baselet.control.Constants;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
+import com.baselet.elementnew.facet.common.GroupFacet;
 import com.umlet.element.experimental.ElementFactory;
 
 public class Paste extends Command {
@@ -27,6 +28,9 @@ public class Paste extends Command {
 				GridElement clone = ElementFactory.createCopy(e);
 				handler.setHandlerAndInitListeners(clone);
 				this.entities.add(clone);
+			}
+			if (GroupFacet.oneOrMoreElementsInGroup(entities)) {
+				GroupFacet.assignGroupId(entities, handler.getDrawPanel().getSelector().getUnusedGroup());
 			}
 		}
 

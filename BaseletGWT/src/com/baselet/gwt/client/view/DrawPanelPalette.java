@@ -7,6 +7,7 @@ import java.util.List;
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
+import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.element.ElementFactory;
@@ -69,7 +70,7 @@ public class DrawPanelPalette extends DrawPanel {
 
 	@Override
 	public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
-		if (lastPoint.getX() < 0) {
+		if (lastPoint.getX() < 0) { // mouse moved from palette to diagram -> insert elements to diagram
 			List<GridElement> elementsToMove = new ArrayList<GridElement>();
 			for (GridElement original : selector.getSelectedElements()) {
 				GridElement copy = ElementFactory.create(original, otherDrawFocusPanel.getDiagram());
@@ -78,6 +79,10 @@ public class DrawPanelPalette extends DrawPanel {
 				copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width + horizontalScrollbarDiff, paletteChooser.getOffsetHeight() + verticalScrollbarDiff);
 				SharedUtils.realignToGrid(false, copy.getRectangle());
 				elementsToMove.add(copy);
+			}
+			if (GroupFacet.oneOrMoreElementsInGroup(selector.getSelectedElements())) {
+				Integer unusedGroup = otherDrawFocusPanel.getSelector().getUnusedGroup();
+				GroupFacet.assignGroupId(elementsToMove, unusedGroup);
 			}
 			commandInvoker.removeSelectedElements(this);
 			commandInvoker.addElements(this, draggedElements);

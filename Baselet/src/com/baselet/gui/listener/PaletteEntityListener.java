@@ -16,6 +16,7 @@ import com.baselet.diagram.command.AddElement;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
+import com.baselet.elementnew.facet.common.GroupFacet;
 import com.umlet.element.experimental.ElementFactory;
 
 public class PaletteEntityListener extends GridElementListener {
@@ -110,6 +111,9 @@ public class PaletteEntityListener extends GridElementListener {
 			x -= (entity.getRectangle().width / 2);
 			y -= (entity.getRectangle().height / 2);
 			copiedEntity.setLocation(x, y);
+		}
+		if (GroupFacet.oneOrMoreElementsInGroup(copiedEntities)) {
+			GroupFacet.assignGroupId(copiedEntities, 66);
 		}
 
 		// After inserting the new entity we restore the old zoom level of both diagrams

@@ -150,12 +150,6 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void setProperty(String key, Object newValue) {
-		updateSetting(key, newValue);
-		handler.updatePropertyPanel();
-		updateModelFromText();
-	}
-
-	private void updateSetting(String key, Object newValue) {
 		String newState = "";
 		for (String line : getPanelAttributesAsList()) {
 			if (!line.startsWith(key)) newState += line + "\n";

@@ -33,6 +33,7 @@ import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
+import com.baselet.elementnew.facet.common.GroupFacet;
 import com.umlet.element.Relation;
 import com.umlet.element.experimental.ElementFactory;
 import com.umlet.element.relation.RelationLinePoint;
@@ -194,6 +195,7 @@ public class GridElementListener extends UniversalListener {
 
 	public void mouseDoubleClicked(GridElement me) {
 		GridElement e = ElementFactory.createCopy(me);
+		e.setProperty(GroupFacet.KEY, null);
 		GridElementListener eListener = handler.getEntityListener(e);
 		Command cmd;
 		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();

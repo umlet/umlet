@@ -1,7 +1,10 @@
 package com.baselet.elementnew.facet.common;
 
+import java.util.Collection;
+
 import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
+import com.baselet.element.GridElement;
 import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
@@ -25,4 +28,18 @@ public class GroupFacet extends KeyValueFacet {
 		}
 	}
 
+	public static boolean oneOrMoreElementsInGroup(Collection<GridElement> elements) {
+		for (GridElement e : elements) {
+			if (e.getGroup() != null) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static void assignGroupId(Collection<GridElement> elements, Integer groupId) {
+		for (GridElement e : elements) {
+			e.setProperty(KEY, groupId);
+		}
+	}
 }
