@@ -115,11 +115,6 @@ public class DiagramFileHandler {
 		Main.getInstance().getGUI().updateDiagramName(this.handler, this.handler.getName());
 	}
 
-	/**
-	 * A group acts as a parent XML Element for all of its members.
-	 * A group member which is a group itself creates a group-tag withing the other group-tag etc.
-	 * Only elements which are not part of groups are added directly to the top of the tree
-	 */
 	private void createXMLOutputDoc(Document doc, Collection<GridElement> elements, Element current) {
 		for (GridElement e : elements) {
 			appendRecursively(doc, current, e);
@@ -211,8 +206,7 @@ public class DiagramFileHandler {
 			zoom.appendChild(doc.createTextNode(String.valueOf(this.handler.getGridSize())));
 			root.appendChild(zoom);
 
-			// save elements (group = null = rootlayer)
-			this.createXMLOutputDoc(doc, handler.getDrawPanel().getAllEntitiesWithGroupsAsTree(), root);
+			this.createXMLOutputDoc(doc, handler.getDrawPanel().getAllEntities(), root);
 
 			// output the stuff...
 			DOMSource source = new DOMSource(doc);

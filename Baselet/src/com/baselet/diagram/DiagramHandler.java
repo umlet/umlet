@@ -201,8 +201,6 @@ public class DiagramHandler {
 		return this.fileHandler.getFullPathName();
 	}
 
-	// function to be able to controll the entitylistener + diagramlistener from the handler
-	// they must be lazy initialized, otherwise they won't work everytime (eg: if a group is opened)
 	public GridElementListener getEntityListener(GridElement e) {
 		if (e instanceof Relation) {
 			if (relationListener == null) relationListener = new RelationListener(this);
@@ -323,7 +321,7 @@ public class DiagramHandler {
 		 * Zoom entities to the new gridsize
 		 */
 
-		zoomEntities(oldGridSize, gridSize, getDrawPanel().getAllEntitiesNotInGroup());
+		zoomEntities(oldGridSize, gridSize, getDrawPanel().getAllEntities());
 
 		// AB: Zoom origin
 		getDrawPanel().zoomOrigin(oldGridSize, gridSize);
@@ -355,7 +353,7 @@ public class DiagramHandler {
 			log.debug("Manual Zoom Delta: " + realignToGrid(false, diffx) + "/" + realignToGrid(false, diffy));
 			getDrawPanel().moveOrigin(realignToGrid(false, -diffx), realignToGrid(false, - diffy));
 
-			for (GridElement e : getDrawPanel().getAllEntitiesNotInGroup()) {
+			for (GridElement e : getDrawPanel().getAllEntities()) {
 				e.setLocationDifference(realignToGrid(false, diffx), realignToGrid(false, diffy));
 			}
 

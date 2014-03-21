@@ -54,7 +54,6 @@ public class Paste extends Command {
 
 		for (GridElement e : this.entities) {
 			e.setStickingBorderActive(false);
-			// Must use changeLocation instead of setLocation to make sure that groups are placed correctly
 			e.setLocationDifference(
 					viewpX * handler.getGridSize() - minX + handler.getGridSize() * Constants.PASTE_DISPLACEMENT_GRIDS,
 					viewpY * handler.getGridSize() - minY + handler.getGridSize() * Constants.PASTE_DISPLACEMENT_GRIDS);
