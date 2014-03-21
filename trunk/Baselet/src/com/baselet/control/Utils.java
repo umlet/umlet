@@ -212,7 +212,7 @@ public abstract class Utils {
 		java.awt.Rectangle rectangle = component.getVisibleRect();
 		if (!rectangle.contains(p.x, p.y)) return false;
 
-		for (GridElement other : Main.getHandlerForElement(gridElement).getDrawPanel().getAllEntitiesNotInGroup()) {
+		for (GridElement other : Main.getHandlerForElement(gridElement).getDrawPanel().getAllEntities()) {
 			JComponent otherComponent = ((JComponent) other.getComponent());
 			if (other instanceof Relation) { // a relation is always on top
 				// move point to coordinate system of other entity

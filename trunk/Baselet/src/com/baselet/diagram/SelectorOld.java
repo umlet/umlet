@@ -27,14 +27,11 @@ public class SelectorOld extends Selector {
 		this._selectorframe = new SelectorFrame();
 	}
 
-	// AB: usually this is the first selected entity
-	// If a group has been selected this entity can be set explicitly
 	public GridElement getDominantEntity() {
 		if ((dominantEntity == null) && !selectedElements.isEmpty()) { return selectedElements.firstElement(); }
 		return dominantEntity;
 	}
 
-	// AB: if you set this entity, make sure the selectedEntities Vector contains a group entity that contains the dominantEntity.
 	public void setDominantEntity(GridElement dominantEntity) {
 		this.dominantEntity = dominantEntity;
 	}
@@ -71,7 +68,7 @@ public class SelectorOld extends Selector {
 	}
 
 	public void selectAll() {
-		select(panel.getAllEntitiesNotInGroup());
+		select(panel.getAllEntities());
 	}
 
 	@Override
@@ -81,6 +78,7 @@ public class SelectorOld extends Selector {
 	
 	private void updateGUIInformation() {
 		Main.getInstance().getGUI().elementsSelected(selectedElements.size());
+		// if one or more selected elements are in a group, ungroup is possible
 		boolean ungroupEnabled = false;
 		for (GridElement e : selectedElements) {
 			if (e.getGroup() != null) ungroupEnabled = true;

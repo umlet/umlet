@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.imageio.ImageIO;
@@ -55,7 +54,7 @@ public class OutputHandler {
 		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
 
 		// if some GridElements are selected, only export them
-		Collection<GridElement> elementsToDraw = degroupElements(handler.getDrawPanel().getSelector().getSelectedElements());
+		Collection<GridElement> elementsToDraw = handler.getDrawPanel().getSelector().getSelectedElements();
 		// if nothing is selected, draw everything
 		if (elementsToDraw.isEmpty()) {
 			elementsToDraw = handler.getDrawPanel().getAllEntities();
@@ -66,27 +65,15 @@ public class OutputHandler {
 		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
 	}
 
-	/**
-	 * helper method to degroup elements (because a paint-call on a group does not paint every contained member element)
-	 */
-	private static Collection<GridElement> degroupElements(Collection<GridElement> selectedEntities) {
-		Collection<GridElement> resultCol = new ArrayList<GridElement>();
-		for (GridElement selectedElement : selectedEntities) {
-			resultCol.add(selectedElement);
-		}
-		return resultCol;
-	}
-
 	public static BufferedImage createImageForClipboard(DiagramHandler handler, Collection<GridElement> entities) {
 
 		int oldZoom = handler.getGridSize();
 		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
 
-		Collection<GridElement> elementsToDraw = degroupElements(entities);
-		if (elementsToDraw.isEmpty()) {
-			elementsToDraw = handler.getDrawPanel().getAllEntities();
+		if (entities.isEmpty()) {
+			entities = handler.getDrawPanel().getAllEntities();
 		}
-		BufferedImage returnImg = OutputHandler.getImageFromDiagram(handler, elementsToDraw);
+		BufferedImage returnImg = OutputHandler.getImageFromDiagram(handler, entities);
 
 		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
 

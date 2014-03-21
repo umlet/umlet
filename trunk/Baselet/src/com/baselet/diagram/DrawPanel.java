@@ -201,15 +201,6 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	public List<GridElement> getAllEntities() {
 		return gridElements;
 	}
-	
-	/**
-	 * Groups form a tree structure, therefore this method returns only elements which are not part of the group.
-	 * Elements which are part of a group must be retrieved from the group using {@link Group#getMembers()}
-	 */
-	public List<GridElement> getAllEntitiesWithGroupsAsTree() {
-		List<GridElement> elementsToDraw = new ArrayList<GridElement>(gridElements);
-		return elementsToDraw;
-	}
 
 	public List<Relation> getAllRelations() {
 		return getAll(Relation.class);
@@ -222,14 +213,6 @@ public class DrawPanel extends JLayeredPane implements Printable {
 				if (e.getClass().equals(filtered)) gridElementsToReturn.add((T) e);
 		}
 		return gridElementsToReturn;
-	}
-
-	public List<GridElement> getAllEntitiesNotInGroup() {
-		List<GridElement> entities = new ArrayList<GridElement>();
-		for (GridElement e : getAllEntities()) {
-			entities.add(e);
-		}
-		return entities;
 	}
 
 	public SelectorOld getSelector() {
