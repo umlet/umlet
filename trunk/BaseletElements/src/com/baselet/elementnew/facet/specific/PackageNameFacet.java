@@ -4,10 +4,10 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
-public class PackageName extends KeyValueFacet {
+public class PackageNameFacet extends KeyValueFacet {
 
-	public static PackageName INSTANCE = new PackageName();
-	private PackageName() {}
+	public static PackageNameFacet INSTANCE = new PackageNameFacet();
+	private PackageNameFacet() {}
 
 	@Override
 	public KeyValue getKeyValue() {
@@ -16,7 +16,7 @@ public class PackageName extends KeyValueFacet {
 
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
-		state.setFacetResponse(PackageName.class, value);
+		state.setFacetResponse(PackageNameFacet.class, value);
 	}
 
 }
