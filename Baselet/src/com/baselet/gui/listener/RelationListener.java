@@ -118,7 +118,7 @@ public class RelationListener extends GridElementListener {
 			return;
 		}
 		else if (IS_DRAGGING_LINE) {
-			this.controller.executeCommand(new Move(r, diffx, diffy));
+			this.controller.executeCommand(new Move(r, diffx, diffy, oldp, true));
 			return;
 		}
 
