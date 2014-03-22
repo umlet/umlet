@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.control.enumerations.ValueHolder;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.element.uml.relation.RelationPoints;
 import com.baselet.elementnew.element.uml.relation.SettingsRelation;
 import com.baselet.elementnew.facet.KeyValueFacet;
@@ -27,15 +27,15 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 	private static final List<ArrowEnd> RIGHT_ARROW_STRINGS = Arrays.asList(ArrowEnd.RIGHT_CLOSED, ArrowEnd.RIGHT_NORMAL);
 	private static final List<LineType> LINE_TYPES = Arrays.asList(LineType.SOLID, LineType.DOTTED, LineType.DASHED, LineType.BOLD);
 
-	public RelationPoints getRelationPoints(PropertiesConfig config) {
+	public RelationPoints getRelationPoints(PropertiesParserState config) {
 		return ((SettingsRelation) config.getSettings()).getRelationPoints();
 	}
 
 	private String remainingValue;
 
 	@Override
-	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
-		RelationPoints relationPoints = ((SettingsRelation) propConfig.getSettings()).getRelationPoints();
+	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
+		RelationPoints relationPoints = ((SettingsRelation) state.getSettings()).getRelationPoints();
 		remainingValue = value;
 
 		ArrowEnd leftArrow = extractPart(LEFT_ARROW_STRINGS, null);

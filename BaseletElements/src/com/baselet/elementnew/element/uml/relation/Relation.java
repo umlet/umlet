@@ -15,7 +15,7 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.sticking.Stickable;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.element.uml.relation.RelationPoints.Selection;
 import com.baselet.elementnew.settings.Settings;
 
@@ -29,7 +29,7 @@ public class Relation extends NewGridElement implements Stickable {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		relationPoints.drawLinesBetweenPoints(drawer);
 	}
 

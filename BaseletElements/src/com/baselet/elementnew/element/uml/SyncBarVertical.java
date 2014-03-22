@@ -12,7 +12,7 @@ import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.element.sticking.StickingPolygonGenerator;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.LineThicknessFacet;
 import com.baselet.elementnew.settings.Settings;
@@ -37,13 +37,13 @@ public class SyncBarVertical extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		if (drawer.getCurrentStyle().getLineThickness() == LineThicknessFacet.DEFAULT_LINE_THICKNESS) {
 			drawer.setLineThickness(5);
 		}
 		Dimension s = getRealSize();
 		drawer.drawLine(s.getWidth()/2, 0, s.getWidth()/2, s.getHeight());
-		propCfg.setStickingPolygonGenerator(syncBarStickingPolygonGenerator);
+		state.setStickingPolygonGenerator(syncBarStickingPolygonGenerator);
 	}
 
 	@Override

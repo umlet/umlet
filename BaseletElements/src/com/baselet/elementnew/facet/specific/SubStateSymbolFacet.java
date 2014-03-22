@@ -2,7 +2,7 @@ package com.baselet.elementnew.facet.specific;
 
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
 public class SubStateSymbolFacet extends KeyValueFacet {
@@ -22,13 +22,13 @@ public class SubStateSymbolFacet extends KeyValueFacet {
 	private static final int DIST_BOTTOM = 5;
 
 	@Override
-	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
 		drawer.setDrawDelayed(true);
 		ColorOwn prevBackgroundColor = drawer.getCurrentStyle().getBgColor();
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 		SubStateSymbolEnum symbol = SubStateSymbolEnum.valueOf(value.toUpperCase());
-		final double w = propConfig.getGridElementSize().getWidth();
-		final double h = propConfig.getGridElementSize().getHeight();
+		final double w = state.getGridElementSize().getWidth();
+		final double h = state.getGridElementSize().getHeight();
 		if (symbol == SubStateSymbolEnum.SUBSTATE) {
 			double cW = drawer.getCurrentStyle().getFontSize() * 1.6;
 			double cH = cW * 0.4;

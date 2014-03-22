@@ -11,7 +11,7 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
 public class TemplateClassFacet extends KeyValueFacet {
@@ -29,8 +29,8 @@ public class TemplateClassFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
-		propConfig.setFacetResponse(TemplateClassFacet.class, value);
+	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
+		state.setFacetResponse(TemplateClassFacet.class, value);
 	}
 	
 	private static int round(double val) {
@@ -38,7 +38,7 @@ public class TemplateClassFacet extends KeyValueFacet {
 	}
 
 
-	public static List<PointDouble> drawTemplateClass(String templateClassText, DrawHandler drawer, PropertiesConfig propConfig, int height, int width) {
+	public static List<PointDouble> drawTemplateClass(String templateClassText, DrawHandler drawer, PropertiesParserState state, int height, int width) {
 		Rectangle tR = calcTemplateRect(templateClassText, drawer, width);
 		int classTopEnd = round(tR.getHeight()/2);
 		int classWidth = width-round(tR.getWidth()/2);
@@ -52,8 +52,8 @@ public class TemplateClassFacet extends KeyValueFacet {
 				new PointDouble(classWidth, height),
 				new PointDouble(0, height));
 		// SET BUFFERS FOR REDUCED CLASS BORDER
-		propConfig.setMinTopBuffer(tR.getHeight());
-		propConfig.addToRightBuffer(width-classWidth);
+		state.setMinTopBuffer(tR.getHeight());
+		state.addToRightBuffer(width-classWidth);
 		// DRAW BACKGROUND RECT
 		Style style = drawer.getCurrentStyle();
 		drawer.setForegroundColor(ColorOwn.TRANSPARENT);

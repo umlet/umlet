@@ -7,7 +7,7 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Style;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
 public class SpecialStateTypeFacet extends KeyValueFacet {
@@ -28,9 +28,9 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(final String value, final DrawHandler drawer, final PropertiesConfig propConfig) {
+	public void handleValue(final String value, final DrawHandler drawer, final PropertiesParserState state) {
 		StateTypeEnum type = StateTypeEnum.valueOf(value.toUpperCase());
-		Dimension s = propConfig.getGridElementSize();
+		Dimension s = state.getGridElementSize();
 		final double w = s.getWidth();
 		final double h = s.getHeight();
 		if (type == StateTypeEnum.INITIAL) {
@@ -52,7 +52,7 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 		} else if (type == StateTypeEnum.DECISION) {
 			drawDecision(drawer, w, h);
 		}
-		propConfig.setFacetResponse(SpecialStateTypeFacet.class, true);
+		state.setFacetResponse(SpecialStateTypeFacet.class, true);
 	}
 
 	public static void drawDecision(final DrawHandler drawer, final double w, final double h) {

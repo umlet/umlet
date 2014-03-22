@@ -9,7 +9,7 @@ import com.baselet.element.sticking.PointDoubleStickingPolygonGenerator;
 import com.baselet.element.sticking.SimpleStickingPolygonGenerator;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.elementnew.facet.specific.ActiveClassFacet;
@@ -37,17 +37,17 @@ public class Class extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
-		String templateClassValue = propCfg.getFacetResponse(TemplateClassFacet.class, "");
+	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+		String templateClassValue = state.getFacetResponse(TemplateClassFacet.class, "");
 		int height = getRealSize().getHeight();
 		int width = getRealSize().getWidth();
 		if (templateClassValue.isEmpty()) {
 			drawer.drawRectangle(0, 0, width, height);
-			propCfg.setStickingPolygonGenerator(SimpleStickingPolygonGenerator.INSTANCE);
+			state.setStickingPolygonGenerator(SimpleStickingPolygonGenerator.INSTANCE);
 		}
 		else {
-			List<PointDouble> points = TemplateClassFacet.drawTemplateClass(templateClassValue, drawer, propCfg, height, width);
-			propCfg.setStickingPolygonGenerator(new PointDoubleStickingPolygonGenerator(points));
+			List<PointDouble> points = TemplateClassFacet.drawTemplateClass(templateClassValue, drawer, state, height, width);
+			state.setStickingPolygonGenerator(new PointDoubleStickingPolygonGenerator(points));
 		}
 	}
 

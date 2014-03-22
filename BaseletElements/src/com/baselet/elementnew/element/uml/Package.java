@@ -9,7 +9,7 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.element.sticking.PointDoubleStickingPolygonGenerator;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.elementnew.facet.specific.PackageName;
@@ -34,8 +34,8 @@ public class Package extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
-		String packageName = propCfg.getFacetResponse(PackageName.class, null);
+	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+		String packageName = state.getFacetResponse(PackageName.class, null);
 		double packageHeight = 20;
 		double packageWidth = getRealSize().getWidth()/2.5;
 		double txtHeight = drawer.textHeightWithSpace();
@@ -57,11 +57,11 @@ public class Package extends NewGridElement {
 				new PointDouble(0, packageHeight)
 				);
 		drawer.drawLines(points);
-		propCfg.setMinTopBuffer(packageHeight);
+		state.setMinTopBuffer(packageHeight);
 		if (packageName != null) {
 			drawer.print(packageName, new PointDouble(drawer.getDistanceHorizontalBorderToText(), txtHeight), AlignHorizontal.LEFT); 
 		}
-		propCfg.setStickingPolygonGenerator(new PointDoubleStickingPolygonGenerator(points));
+		state.setStickingPolygonGenerator(new PointDoubleStickingPolygonGenerator(points));
 	}
 
 }

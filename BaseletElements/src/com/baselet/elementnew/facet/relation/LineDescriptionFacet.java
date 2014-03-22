@@ -6,7 +6,7 @@ import java.util.List;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.element.uml.relation.RelationPoints;
 import com.baselet.elementnew.element.uml.relation.SettingsRelation;
 import com.baselet.elementnew.facet.GlobalFacet;
@@ -21,7 +21,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 	private static final String MESSAGE_END_KEY = "m2";
 	private static final String MESSAGE_MIDDLE_KEY = "mm";
 	@Override
-	public boolean checkStart(String line, PropertiesConfig propConfig) {
+	public boolean checkStart(String line, PropertiesParserState state) {
 		return line.startsWith(MESSAGE_START_KEY + SEP) || line.startsWith(MESSAGE_MIDDLE_KEY + SEP) || line.startsWith(MESSAGE_END_KEY + SEP);
 	}
 
@@ -35,8 +35,8 @@ public class LineDescriptionFacet extends GlobalFacet {
 	}
 
 	@Override
-	public void handleLine(String line, DrawHandler drawer, PropertiesConfig propConfig) {
-		RelationPoints relationPoints = ((SettingsRelation) propConfig.getSettings()).getRelationPoints();
+	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
+		RelationPoints relationPoints = ((SettingsRelation) state.getSettings()).getRelationPoints();
 		String[] split = line.split(SEP, -1);
 		String key = split[0];
 		String text = split[1];

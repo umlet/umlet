@@ -6,7 +6,7 @@ import java.util.List;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.elementnew.facet.specific.UpperRightSymbolFacet;
@@ -31,7 +31,7 @@ public class Generic extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		drawer.drawRectangle(0, 0, getRealSize().getWidth(), getRealSize().getHeight());
 	}
 

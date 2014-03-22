@@ -1,7 +1,7 @@
 package com.baselet.elementnew.facet.common;
 
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
 public class ElementStyleFacet extends KeyValueFacet {
@@ -20,8 +20,8 @@ public class ElementStyleFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
-		propConfig.setElementStyle(ElementStyleEnum.valueOf(value.toUpperCase()));
+	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
+		state.setElementStyle(ElementStyleEnum.valueOf(value.toUpperCase()));
 	}
 
 	public Priority getPriority() {

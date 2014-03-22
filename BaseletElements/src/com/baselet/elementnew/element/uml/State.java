@@ -6,7 +6,7 @@ import java.util.List;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.elementnew.facet.specific.StateTypeFacet;
@@ -22,9 +22,9 @@ public class State extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		// if not type is given, draw an action type as default
-		if (!propCfg.getFacetResponse(StateTypeFacet.class, false)) {
+		if (!state.getFacetResponse(StateTypeFacet.class, false)) {
 			StateTypeFacet.drawDefaultState(drawer, getRealSize());
 		}
 	}

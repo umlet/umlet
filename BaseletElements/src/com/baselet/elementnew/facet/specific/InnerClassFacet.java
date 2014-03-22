@@ -8,7 +8,7 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.gui.AutocompletionText;
 
@@ -24,42 +24,42 @@ public class InnerClassFacet extends Facet {
 	private static final String END = "innerclass}";
 
 	@Override
-	public boolean checkStart(String line, PropertiesConfig propConfig) {
-		return line.equals(START) || !getOrInit(propConfig).isEmpty();
+	public boolean checkStart(String line, PropertiesParserState state) {
+		return line.equals(START) || !getOrInit(state).isEmpty();
 	}
 
 	@Override
-	public void handleLine(String line, DrawHandler drawer, PropertiesConfig propConfig) {
-		Stack<ClassSettings> innerClassStartPoints = getOrInit(propConfig);
+	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
+		Stack<ClassSettings> innerClassStartPoints = getOrInit(state);
 		
 		if (line.equals(START)) {
-			ClassSettings settings = new ClassSettings(propConfig.gethAlign(), propConfig.getvAlign(), propConfig.getDividerPos(drawer));
+			ClassSettings settings = new ClassSettings(state.gethAlign(), state.getvAlign(), state.getDividerPos(drawer));
 			innerClassStartPoints.add(settings);
-			propConfig.addToHorizontalBuffer(BUFFER_PIXEL_PER_INNER);
-			propConfig.addToYPos(H_SPACE);
-			propConfig.resetAlign();
+			state.addToHorizontalBuffer(BUFFER_PIXEL_PER_INNER);
+			state.addToYPos(H_SPACE);
+			state.resetAlign();
 		}
 		else if (line.equals(END)) {
 			ClassSettings previousClassSettings = innerClassStartPoints.pop();
 			double start = previousClassSettings.start;
-			double height = propConfig.getDividerPos(drawer) - start;
-			XValues xLimit = propConfig.getXLimits(height);
+			double height = state.getDividerPos(drawer) - start;
+			XValues xLimit = state.getXLimits(height);
 			
 			drawer.drawRectangle(xLimit.getLeft(), start, xLimit.getSpace(), height);
 			
-			propConfig.addToYPos(H_SPACE);
-			propConfig.addToHorizontalBuffer(-BUFFER_PIXEL_PER_INNER);
-			propConfig.sethAlign(previousClassSettings.hAlign);
-			propConfig.setvAlign(previousClassSettings.vAlign);
+			state.addToYPos(H_SPACE);
+			state.addToHorizontalBuffer(-BUFFER_PIXEL_PER_INNER);
+			state.sethAlign(previousClassSettings.hAlign);
+			state.setvAlign(previousClassSettings.vAlign);
 		}
 
 	}
 
-	private Stack<ClassSettings> getOrInit(PropertiesConfig propConfig) {
-		Stack<ClassSettings> innerClassStartPoints = propConfig.getFacetResponse(InnerClassFacet.class, null);
+	private Stack<ClassSettings> getOrInit(PropertiesParserState state) {
+		Stack<ClassSettings> innerClassStartPoints = state.getFacetResponse(InnerClassFacet.class, null);
 		if (innerClassStartPoints == null) {
 			innerClassStartPoints = new Stack<ClassSettings>();
-			propConfig.setFacetResponse(InnerClassFacet.class, innerClassStartPoints);
+			state.setFacetResponse(InnerClassFacet.class, innerClassStartPoints);
 		}
 		return innerClassStartPoints;
 	}

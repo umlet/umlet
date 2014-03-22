@@ -7,7 +7,7 @@ import java.util.List;
 import com.baselet.control.enumerations.FormatLabels;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.gui.AutocompletionText;
 
 public abstract class KeyValueFacet extends GlobalFacet {
@@ -86,18 +86,18 @@ public abstract class KeyValueFacet extends GlobalFacet {
 
 	public abstract KeyValue getKeyValue();
 
-	public abstract void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig);
+	public abstract void handleValue(String value, DrawHandler drawer, PropertiesParserState state);
 
 	@Override
-	public boolean checkStart(String line, PropertiesConfig propConfig) {
+	public boolean checkStart(String line, PropertiesParserState state) {
 		return line.startsWith(getKeyWithSep());
 	}
 
 	@Override
-	public void handleLine(String line, DrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
 		String value = line.substring(getKeyWithSep().length());
 		try {
-			handleValue(value, drawer, propConfig);
+			handleValue(value, drawer, state);
 		} catch (Exception e) {
 			log.debug("KeyValue Error", e);
 			String errorMessage = getKeyValue().getValueString();
