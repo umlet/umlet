@@ -20,7 +20,7 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.diagram.draw.helper.Text;
-import com.baselet.elementnew.NewGridElement;
+import com.baselet.element.GridElement;
 
 public class BaseDrawHandlerSwing extends BaseDrawHandler {
 
@@ -30,9 +30,9 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	
 	private boolean translate; //is used because pdf and svg export cut lines if they are drawn at (0,0)
 
-	private NewGridElement gridElement;
+	private GridElement gridElement;
 
-	public BaseDrawHandlerSwing(NewGridElement gridElement) {
+	public BaseDrawHandlerSwing(GridElement gridElement) {
 		super();
 		this.gridElement = gridElement;
 	}
@@ -54,14 +54,6 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 		return Math.min(gridElement.getRectangle().getHeight()-y-1, height);
 	}
 
-	public BaseDrawHandlerSwing(Graphics g, DiagramHandler handler, ColorOwn fgColor, ColorOwn bgColor) {
-		super();
-		setFgDefaultColor(fgColor);
-		setBgDefaultColor(bgColor);
-		setHandler(handler);
-		setGraphics(g);
-	}
-	
 	public void setHandler(DiagramHandler handler) {
 		this.handler = handler;
 		this.style = new Style();
