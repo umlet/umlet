@@ -39,7 +39,7 @@ public class SharedConstants {
 	
 	public static boolean show_stickingpolygon = true;
 	
-	public static boolean isDevMode = false;
+	public static boolean dev_mode = false;
 	
 	public static String program = ""; // TODO merge with Constants.Program
 
