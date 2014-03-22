@@ -3,7 +3,7 @@ package com.baselet.elementnew.element.uml;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.StickingPolygon;
@@ -38,7 +38,7 @@ public class Timer extends NewGridElement {
 	}
 	
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
 		propCfg.addToYPos(CLOCK_DIM);
 		propCfg.updateCalculatedElementWidth(CLOCK_DIM);
 		drawer.drawLines(Arrays.asList(new PointDouble(xClock(), 0), new PointDouble(x2Clock(), CLOCK_DIM), new PointDouble(xClock(), CLOCK_DIM), new PointDouble(x2Clock(), 0), new PointDouble(xClock(), 0)));

@@ -1,6 +1,6 @@
 package com.baselet.elementnew.element.uml;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
@@ -23,7 +23,7 @@ public class Note extends NewGridElement {
 	private static final int CORNER = 12;
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
 		int w = getRealSize().width;
 		int h = getRealSize().height;
 		drawer.drawLines(p(0, 0), p(w-CORNER, 0), p(w, CORNER), p(w, h), p(0, h), p(0, 0));

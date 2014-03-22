@@ -6,7 +6,7 @@ import com.baselet.control.StringStyle;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.FormatLabels;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.DrawFunction;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.PointDouble;
@@ -18,14 +18,14 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 
-public class BaseDrawHandlerGWT extends BaseDrawHandler {
+public class DrawHandlerGWT extends DrawHandler {
 
-	private static final Logger log = Logger.getLogger(BaseDrawHandlerGWT.class);
+	private static final Logger log = Logger.getLogger(DrawHandlerGWT.class);
 
 	private Canvas canvas;
 	private Context2d ctx;
 
-	public BaseDrawHandlerGWT(Canvas canvas) {
+	public DrawHandlerGWT(Canvas canvas) {
 		this.canvas = canvas;
 		this.ctx = canvas.getContext2d();
 	}

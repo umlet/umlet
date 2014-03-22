@@ -1,6 +1,6 @@
 package com.baselet.elementnew.element;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesConfig;
@@ -20,7 +20,7 @@ public class Text extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
 	}
 
 }

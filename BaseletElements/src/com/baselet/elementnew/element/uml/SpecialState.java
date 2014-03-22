@@ -3,7 +3,7 @@ package com.baselet.elementnew.element.uml;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesConfig;
@@ -20,7 +20,7 @@ public class SpecialState extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
 		// if not type is given, throw an error
 		if (!propCfg.getFacetResponse(SpecialStateTypeFacet.class, false)) { // default is decision
 			SpecialStateTypeFacet.drawDecision(drawer, getRealSize().getWidth(), getRealSize().getHeight());

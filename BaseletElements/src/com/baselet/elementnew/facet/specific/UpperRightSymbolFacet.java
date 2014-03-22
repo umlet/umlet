@@ -3,7 +3,7 @@ package com.baselet.elementnew.facet.specific;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.elementnew.PropertiesConfig;
@@ -27,7 +27,7 @@ public class UpperRightSymbolFacet extends KeyValueFacet {
 	private static final int DISTANCE = 5;
 
 	@Override
-	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
 		drawer.setDrawDelayed(true);
 		ColorOwn prevBackgroundColor = drawer.getCurrentStyle().getBgColor();
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);

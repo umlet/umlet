@@ -3,7 +3,7 @@ package com.baselet.elementnew.element.uml;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.element.sticking.PointDoubleStickingPolygonGenerator;
 import com.baselet.element.sticking.SimpleStickingPolygonGenerator;
@@ -37,7 +37,7 @@ public class Class extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
 		String templateClassValue = propCfg.getFacetResponse(TemplateClassFacet.class, "");
 		int height = getRealSize().getHeight();
 		int width = getRealSize().getWidth();

@@ -8,7 +8,7 @@ import java.util.Set;
 
 import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.Direction;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
@@ -29,12 +29,12 @@ public class Relation extends NewGridElement implements Stickable {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
 		relationPoints.drawLinesBetweenPoints(drawer);
 	}
 
 	@Override
-	protected void resetMetaDrawer(BaseDrawHandler drawer) {
+	protected void resetMetaDrawer(DrawHandler drawer) {
 		drawer.clearCache();
 		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 

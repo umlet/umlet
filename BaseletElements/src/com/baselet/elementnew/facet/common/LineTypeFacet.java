@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
@@ -24,7 +24,7 @@ public class LineTypeFacet extends KeyValueFacet {
 	private static final List<LineType> supportedTypes = Arrays.asList(LineType.DASHED, LineType.DOTTED, LineType.BOLD);
 	
 	@Override
-	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
 		LineType lt = null;
 		for (LineType s : supportedTypes) {
 			if (s.getValue().equals(value)) lt = s;

@@ -3,7 +3,7 @@ package com.baselet.elementnew.element.uml;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesConfig;
@@ -31,7 +31,7 @@ public class Frame extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
 		drawer.drawRectangle(0, 0, getRealSize().getWidth(), getRealSize().getHeight());
 	}
 

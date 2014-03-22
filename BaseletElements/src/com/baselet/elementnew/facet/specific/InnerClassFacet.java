@@ -6,7 +6,7 @@ import java.util.Stack;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.facet.Facet;
@@ -29,7 +29,7 @@ public class InnerClassFacet extends Facet {
 	}
 
 	@Override
-	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleLine(String line, DrawHandler drawer, PropertiesConfig propConfig) {
 		Stack<ClassSettings> innerClassStartPoints = getOrInit(propConfig);
 		
 		if (line.equals(START)) {

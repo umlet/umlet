@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.element.sticking.PointDoubleStickingPolygonGenerator;
 import com.baselet.elementnew.ElementId;
@@ -34,7 +34,7 @@ public class Package extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
 		String packageName = propCfg.getFacetResponse(PackageName.class, null);
 		double packageHeight = 20;
 		double packageWidth = getRealSize().getWidth()/2.5;

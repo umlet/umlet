@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.baselet.control.SharedUtils;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
@@ -195,7 +195,7 @@ public class RelationPoints {
 
 	// DRAW METHODS
 
-	public void drawLinesBetweenPoints(BaseDrawHandler drawer) {
+	public void drawLinesBetweenPoints(DrawHandler drawer) {
 		for (Line line : getRelationPointLines()) {
 			drawer.drawLine(line);
 		}
@@ -209,13 +209,13 @@ public class RelationPoints {
 		return ret;
 	}
 
-	public void drawPointCircles(BaseDrawHandler drawer) {
+	public void drawPointCircles(DrawHandler drawer) {
 		for (PointDouble p : points) {
 			drawer.drawCircle(p.x, p.y, POINT_SELECTION_RADIUS);
 		}
 	}
 
-	public void drawDragBox(BaseDrawHandler drawer) {
+	public void drawDragBox(DrawHandler drawer) {
 		drawer.drawRectangle(getDragBox());
 	}
 

@@ -3,7 +3,7 @@ package com.baselet.elementnew.element.uml;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.element.sticking.StickingPolygonGenerator;
@@ -35,7 +35,7 @@ public class Interface extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
 		propCfg.addToYPos(TOP_DISTANCE + CIRCLE_SIZE);// space reserved for the top circle
 		Rectangle circleRect = circleRect();
 		drawer.drawCircle(circleRect.x + CIRCLE_SIZE/2, circleRect.y + CIRCLE_SIZE/2, CIRCLE_SIZE/2);

@@ -1,6 +1,6 @@
 package com.baselet.gwt.client.element;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.Component;
@@ -13,8 +13,8 @@ public class ComponentGwt implements Component {
 	boolean redrawNecessary = true;
 	
 	private Canvas canvas = Canvas.createIfSupported();
-	private BaseDrawHandlerGWT drawer = new BaseDrawHandlerGWT(canvas);
-	private BaseDrawHandlerGWT metadrawer = new BaseDrawHandlerGWT(canvas);
+	private DrawHandlerGWT drawer = new DrawHandlerGWT(canvas);
+	private DrawHandlerGWT metadrawer = new DrawHandlerGWT(canvas);
 
 	private GridElement element;
 	
@@ -45,12 +45,12 @@ public class ComponentGwt implements Component {
 	}
 
 	@Override
-	public BaseDrawHandler getDrawHandler() {
+	public DrawHandler getDrawHandler() {
 		return drawer;
 	}
 
 	@Override
-	public BaseDrawHandler getMetaDrawHandler() {
+	public DrawHandler getMetaDrawHandler() {
 		return metadrawer;
 	}
 

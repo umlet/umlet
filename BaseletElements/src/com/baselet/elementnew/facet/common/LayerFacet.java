@@ -1,6 +1,6 @@
 package com.baselet.elementnew.facet.common;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.facet.KeyValueFacet;
@@ -18,7 +18,7 @@ public class LayerFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
 		try {
 			propConfig.setFacetResponse(LayerFacet.class, Integer.valueOf(value));
 		} catch (NumberFormatException e) {

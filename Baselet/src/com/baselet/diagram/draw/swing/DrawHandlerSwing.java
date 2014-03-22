@@ -13,8 +13,8 @@ import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.BaseDrawHandler;
 import com.baselet.diagram.draw.DrawFunction;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
@@ -22,7 +22,7 @@ import com.baselet.diagram.draw.helper.Style;
 import com.baselet.diagram.draw.helper.Text;
 import com.baselet.element.GridElement;
 
-public class BaseDrawHandlerSwing extends BaseDrawHandler {
+public class DrawHandlerSwing extends DrawHandler {
 
 	private Graphics2D g2;
 
@@ -32,7 +32,7 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 
 	private GridElement gridElement;
 
-	public BaseDrawHandlerSwing(GridElement gridElement) {
+	public DrawHandlerSwing(GridElement gridElement) {
 		super();
 		this.gridElement = gridElement;
 	}
@@ -90,7 +90,7 @@ public class BaseDrawHandlerSwing extends BaseDrawHandler {
 	 * exists to apply all facet operations without real drawing (eg: necessary to calculate space which is needed for autoresize)
 	 */
 	@Override
-	public BaseDrawHandlerSwing getPseudoDrawHandler() {
+	public DrawHandlerSwing getPseudoDrawHandler() {
 		PseudoDrawHandlerSwing counter = new PseudoDrawHandlerSwing(gridElement);
 		counter.setHandler(handler);
 		counter.setStyle(style.cloneFromMe()); // set style to make sure fontsize (and therefore calls like this.textHeight()) work as intended

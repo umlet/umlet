@@ -1,6 +1,6 @@
 package com.baselet.elementnew.facet.specific;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.XValues;
@@ -28,7 +28,7 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(final String value, final BaseDrawHandler drawer, final PropertiesConfig propConfig) {
+	public void handleValue(final String value, final DrawHandler drawer, final PropertiesConfig propConfig) {
 		StateTypeEnum type = StateTypeEnum.valueOf(value.toUpperCase());
 		Dimension s = propConfig.getGridElementSize();
 		final double w = s.getWidth();
@@ -55,11 +55,11 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 		propConfig.setFacetResponse(SpecialStateTypeFacet.class, true);
 	}
 
-	public static void drawDecision(final BaseDrawHandler drawer, final double w, final double h) {
+	public static void drawDecision(final DrawHandler drawer, final double w, final double h) {
 		drawer.drawLines(new PointDouble(w/2, 0), new PointDouble(w, h/2), new PointDouble(w/2, h), new PointDouble(0, h/2), new PointDouble(w/2, 0));
 	}
 
-	private void drawBlackEllipse(final BaseDrawHandler drawer, double width, double height, double radius) {
+	private void drawBlackEllipse(final DrawHandler drawer, double width, double height, double radius) {
 		Style oldStyle = drawer.getCurrentStyle().cloneFromMe();
 		if (drawer.getCurrentStyle().getBgColor() == ColorOwn.DEFAULT_BACKGROUND) {
 			drawer.setBackgroundColor(ColorOwn.BLACK.transparency(Transparency.FOREGROUND));

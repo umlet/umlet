@@ -24,7 +24,7 @@ import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Line;
@@ -408,12 +408,12 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public BaseDrawHandler getDrawHandler() {
+	public DrawHandler getDrawHandler() {
 		return null;
 	}
 
 	@Override
-	public BaseDrawHandler getMetaDrawHandler() {
+	public DrawHandler getMetaDrawHandler() {
 		return null;
 	}
 

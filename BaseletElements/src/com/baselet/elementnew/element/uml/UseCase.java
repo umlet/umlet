@@ -3,7 +3,7 @@ package com.baselet.elementnew.element.uml;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.element.sticking.StickingPolygon;
@@ -24,7 +24,7 @@ public class UseCase extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
 		drawer.drawEllipse(0, 0, getRealSize().width, getRealSize().height);
 		propCfg.setStickingPolygonGenerator(new StickingPolygonGenerator() {
 			@Override

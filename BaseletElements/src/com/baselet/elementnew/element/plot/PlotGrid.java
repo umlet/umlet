@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Matrix;
 import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.elementnew.ElementId;
@@ -50,7 +50,7 @@ public class PlotGrid extends NewGridElement {
 	 */
 	public static GlobalFacet PSEUDO_PLOT_FACET = new GlobalFacet() {
 			@Override
-			public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+			public void handleLine(String line, DrawHandler drawer, PropertiesConfig propConfig) {
 				// do nothing
 			}
 			@Override
@@ -242,7 +242,7 @@ public class PlotGrid extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
 		try {
 			matrix = new Matrix<List<AbstractPlot>>();
 			ParserResult parserState = new Parser().parse(getPanelAttributes());
