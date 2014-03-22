@@ -1,11 +1,17 @@
 package com.baselet.diagram.command;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Main;
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
+import com.baselet.element.sticking.Stickable;
 
 public class Move extends Command {
 	
@@ -41,13 +47,13 @@ public class Move extends Command {
 	@Override
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
-		this.entity.setLocationDifference(getX(), getY());
+		this.entity.drag(Collections.<Direction> emptySet(), getX(), getY(), new Point(0, 0), false, true, new ArrayList<Stickable>());
 	}
 
 	@Override
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
-		this.entity.setLocationDifference(-getX(), -getY());
+		this.entity.drag(Collections.<Direction> emptySet(), -getX(), -getY(), new Point(0, 0), false, true, new ArrayList<Stickable>());
 		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 	}
 

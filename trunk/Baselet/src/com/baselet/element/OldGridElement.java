@@ -429,8 +429,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
-		// TODO Auto-generated method stub
-
+		setLocationDifference(diffX, diffY);
 	}
 
 	@Override
