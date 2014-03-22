@@ -7,11 +7,9 @@ import java.awt.Stroke;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.io.File;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -89,35 +87,6 @@ public abstract class Utils {
 		}
 
 		return returnVector;
-	}
-
-	@Deprecated //TODO remove after CustomElements are converted to NewGridElement
-	public static List<String> splitString(String text, float width, DiagramHandler handler) {
-		StringBuilder stringBuilder = new StringBuilder(text);
-		int lastEmptyChar = -1; // is -1 if there was no ' ' in this line
-		int firstCharInLine = 0;
-
-		for (int i = 0; i < text.length(); i++) {
-			if (stringBuilder.charAt(i) == ' ') {
-				lastEmptyChar = i;
-			}
-			else if (stringBuilder.charAt(i) == '\n') {
-				lastEmptyChar = -1;
-				firstCharInLine = i + 1;
-			}
-			if ((handler.getFontHandler().getTextWidth(text.substring(firstCharInLine, i), false)) + 15 > width) {
-				if (lastEmptyChar != -1) {
-					stringBuilder.setCharAt(lastEmptyChar, '\n');
-					firstCharInLine = lastEmptyChar + 1;
-					lastEmptyChar = -1;
-				}
-				else {
-					stringBuilder.insert(i, '\n');
-					firstCharInLine = i+1;
-				}
-			}
-		}
-		return Arrays.asList(stringBuilder.toString().split("\\n"));
 	}
 
 	public static String composeStrings(Vector<String> v, String delimiter) {
