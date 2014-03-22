@@ -26,7 +26,10 @@ public class CustomElementWithErrors extends CustomElement {
 
 	@Override
 	public void paint() {
-		BaseDrawHandlerSwing drawer = new BaseDrawHandlerSwing(g2, Main.getHandlerForElement(this), ColorOwn.RED, ColorOwn.DEFAULT_BACKGROUND);
+		BaseDrawHandlerSwing drawer = new BaseDrawHandlerSwing(this);
+		drawer.setGraphics(g2);
+		drawer.setHandler(Main.getHandlerForElement(this));
+		drawer.getCurrentStyle().setFgColor(ColorOwn.RED);
 		drawer.drawRectangle(0, 0, this.getRealSize().width, this.getRealSize().height);
 		if (errors != null) {
 			double y = textHeight();
