@@ -138,10 +138,10 @@ public class MenuFactory {
 					actualHandler.getController().executeCommand(new ChangeElementSetting(GroupFacet.KEY, null));
 				}
 				else if (menuItem.equals(CUT) && (actualHandler != null)) {
-					if (!actualHandler.getDrawPanel().getAllEntities().isEmpty()) actualHandler.getController().executeCommand(new Cut());
+					if (!actualHandler.getDrawPanel().getGridElements().isEmpty()) actualHandler.getController().executeCommand(new Cut());
 				}
 				else if (menuItem.equals(COPY) && (actualHandler != null)) {
-					if (!actualHandler.getDrawPanel().getAllEntities().isEmpty()) actualHandler.getController().executeCommand(new Copy());
+					if (!actualHandler.getDrawPanel().getGridElements().isEmpty()) actualHandler.getController().executeCommand(new Copy());
 				}
 				else if (menuItem.equals(PASTE) && (actualHandler != null)) {
 					actualHandler.getController().executeCommand(new Paste());
@@ -213,7 +213,7 @@ public class MenuFactory {
 		DrawPanel currentDiagram = Main.getInstance().getGUI().getCurrentDiagram();
 		if (currentDiagram == null) return; //Possible if method is called at loading a palette
 		DiagramHandler handler = currentDiagram.getHandler();
-		boolean enable = !((handler == null) || handler.getDrawPanel().getAllEntities().isEmpty());
+		boolean enable = !((handler == null) || handler.getDrawPanel().getGridElements().isEmpty());
 		for (JComponent component : diagramDependendComponents) {
 			component.setEnabled(enable);
 		}

@@ -122,7 +122,7 @@ public class CustomElementHandler {
 
 	private void updatePreview(GridElement e) {
 		if (e != null) {
-			Iterator<GridElement> iter = this.preview.getDrawPanel().getAllEntities().iterator();
+			Iterator<GridElement> iter = this.preview.getDrawPanel().getGridElements().iterator();
 			if (iter.hasNext()) {
 				GridElement element = iter.next();
 				e.setRectangle(element.getRectangle());
@@ -194,7 +194,7 @@ public class CustomElementHandler {
 
 			// set location for element
 			int x = 10, y = 10;
-			for (GridElement e : current.getDrawPanel().getAllEntities()) {
+			for (GridElement e : current.getDrawPanel().getGridElements()) {
 				if (e.getRectangle().y + e.getRectangle().height + 10 > y) y = e.getRectangle().y + e.getRectangle().height + 10;
 			}
 

@@ -122,7 +122,7 @@ public class GridElementListener extends UniversalListener {
 		int diffy = newp.y - oldp.y;
 
 		Vector<Command> moveCommands = new Vector<Command>();
-		for (GridElement e : diagram.getAllEntities()) {
+		for (GridElement e : diagram.getGridElements()) {
 			moveCommands.add(new Move(e, diffx, diffy, oldp, true));
 		}
 

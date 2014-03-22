@@ -206,7 +206,7 @@ public class DiagramFileHandler {
 			zoom.appendChild(doc.createTextNode(String.valueOf(this.handler.getGridSize())));
 			root.appendChild(zoom);
 
-			this.createXMLOutputDoc(doc, handler.getDrawPanel().getAllEntities(), root);
+			this.createXMLOutputDoc(doc, handler.getDrawPanel().getGridElements(), root);
 
 			// output the stuff...
 			DOMSource source = new DOMSource(doc);

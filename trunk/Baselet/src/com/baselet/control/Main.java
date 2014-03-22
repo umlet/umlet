@@ -385,7 +385,7 @@ public class Main {
 	private boolean lastTabIsEmpty() {
 		if (!this.diagrams.isEmpty()) {
 			DiagramHandler lastDiagram = this.diagrams.get(diagrams.size() - 1);
-			if (lastDiagram.getController().isEmpty() && lastDiagram.getDrawPanel().getAllEntities().isEmpty()) { return true; }
+			if (lastDiagram.getController().isEmpty() && lastDiagram.getDrawPanel().getGridElements().isEmpty()) { return true; }
 		}
 		return false;
 	}

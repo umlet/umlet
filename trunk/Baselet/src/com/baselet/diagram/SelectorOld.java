@@ -68,7 +68,7 @@ public class SelectorOld extends Selector {
 	}
 
 	public void selectAll() {
-		select(panel.getAllEntities());
+		select(panel.getGridElements());
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class SelectorOld extends Selector {
 	}
 
 	public void multiSelect(Rectangle rect) {
-		for (GridElement e : panel.getAllEntities()) {
+		for (GridElement e : panel.getGridElements()) {
 			if (e.isInRange(rect)) select(e);
 		}
 	}
@@ -121,7 +121,7 @@ public class SelectorOld extends Selector {
 		if (Main.getInstance().getDiagramHandler() == null) {
 			return Collections.<GridElement>emptyList();
 		}
-		return Main.getInstance().getDiagramHandler().getDrawPanel().getAllEntities();
+		return Main.getInstance().getDiagramHandler().getDrawPanel().getGridElements();
 	}
 	
 	@Override

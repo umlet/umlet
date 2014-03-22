@@ -58,7 +58,7 @@ public class EclipseGUI extends BaseGUI {
 		//AB: just update the export menu	
 		DrawPanel currentDiagram = Main.getInstance().getGUI().getCurrentDiagram();
 		if (currentDiagram == null) return; //Possible if method is called at loading a palette
-		boolean enable = (handler != null) && !currentDiagram.getAllEntities().isEmpty();
+		boolean enable = (handler != null) && !currentDiagram.getGridElements().isEmpty();
 		contributor.setExportAsEnabled(enable);
 	}
 

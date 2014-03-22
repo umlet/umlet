@@ -55,7 +55,7 @@ public class TemplateClassFacet extends KeyValueFacet {
 		state.setMinTopBuffer(tR.getHeight());
 		state.addToRightBuffer(width-classWidth);
 		// DRAW BACKGROUND RECT
-		Style style = drawer.getCurrentStyle();
+		Style style = drawer.getStyle();
 		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 		int i = 0;
 		drawer.drawLines(p.get(i++), p.get(i++), p.get(i++), p.get(i++), p.get(i++), p.get(i++), p.get(i++), p.get(i++), p.get(0));

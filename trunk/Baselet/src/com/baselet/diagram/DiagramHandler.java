@@ -140,7 +140,7 @@ public class DiagramHandler {
 	}
 
 	public void doSaveAs(String extension) {
-		if (this.drawpanel.getAllEntities().isEmpty()) Main.displayError(Constants.ERROR_SAVING_EMPTY_DIAGRAM);
+		if (this.drawpanel.getGridElements().isEmpty()) Main.displayError(Constants.ERROR_SAVING_EMPTY_DIAGRAM);
 		else {
 			try {
 				this.fileHandler.doSaveAs(extension);
@@ -321,7 +321,7 @@ public class DiagramHandler {
 		 * Zoom entities to the new gridsize
 		 */
 
-		zoomEntities(oldGridSize, gridSize, getDrawPanel().getAllEntities());
+		zoomEntities(oldGridSize, gridSize, getDrawPanel().getGridElements());
 
 		// AB: Zoom origin
 		getDrawPanel().zoomOrigin(oldGridSize, gridSize);
@@ -353,7 +353,7 @@ public class DiagramHandler {
 			log.debug("Manual Zoom Delta: " + realignToGrid(false, diffx) + "/" + realignToGrid(false, diffy));
 			getDrawPanel().moveOrigin(realignToGrid(false, -diffx), realignToGrid(false, - diffy));
 
-			for (GridElement e : getDrawPanel().getAllEntities()) {
+			for (GridElement e : getDrawPanel().getGridElements()) {
 				e.setLocationDifference(realignToGrid(false, diffx), realignToGrid(false, diffy));
 			}
 
@@ -364,7 +364,7 @@ public class DiagramHandler {
 			getDrawPanel().updatePanelAndScrollbars();
 
 			// Set changed only if diagram is not empty (otherwise no element has been changed)
-			if (!drawpanel.getAllEntities().isEmpty()) {
+			if (!drawpanel.getGridElements().isEmpty()) {
 				setChanged(true);
 			}
 

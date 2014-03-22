@@ -29,7 +29,7 @@ public class TitleFacet extends KeyValueFacet {
 		double rightSpace = corner * 1.5;
 		double lowerLeftSpace = state.getXLimits(height).getLeft();
 		double width = drawer.textWidth(value) + rightSpace + lowerLeftSpace;
-		Style style = drawer.getCurrentStyle();
+		Style style = drawer.getStyle();
 		drawer.setDrawDelayed(true);
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 		drawer.drawLines(new PointDouble(width, top), new PointDouble(width, height-corner), new PointDouble(width-corner, height), new PointDouble(lowerLeftSpace, height));

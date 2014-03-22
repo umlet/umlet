@@ -181,7 +181,7 @@ public abstract class Utils {
 		java.awt.Rectangle rectangle = component.getVisibleRect();
 		if (!rectangle.contains(p.x, p.y)) return false;
 
-		for (GridElement other : Main.getHandlerForElement(gridElement).getDrawPanel().getAllEntities()) {
+		for (GridElement other : Main.getHandlerForElement(gridElement).getDrawPanel().getGridElements()) {
 			JComponent otherComponent = ((JComponent) other.getComponent());
 			if (other instanceof Relation) { // a relation is always on top
 				// move point to coordinate system of other entity
@@ -229,7 +229,7 @@ public abstract class Utils {
 
 	public static Vector<RelationLinePoint> getStickingRelationLinePoints(DiagramHandler handler, StickingPolygon stickingPolygon) {
 		Vector<RelationLinePoint> lpts = new Vector<RelationLinePoint>();
-		Collection<Relation> rels = handler.getDrawPanel().getAllRelations();
+		Collection<Relation> rels = handler.getDrawPanel().getOldRelations();
 		for (Relation r : rels) {
 			PointDouble l1 = r.getAbsoluteCoorStart();
 			PointDouble l2 = r.getAbsoluteCoorEnd();

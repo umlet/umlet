@@ -48,7 +48,7 @@ public class Deployment extends NewGridElement {
 				);
 		PointDouble pLine = new PointDouble(w-BORDER, BORDER);
 		// Fill 3d-rectangle
-		Style oldStyle = drawer.getCurrentStyle().cloneFromMe();
+		Style oldStyle = drawer.getStyle().cloneFromMe();
 		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 		if (oldStyle.getBgColor() == ColorOwn.DEFAULT_BACKGROUND) {
 			drawer.setBackgroundColor(ColorOwn.WHITE.transparency(Transparency.BACKGROUND).darken(80));

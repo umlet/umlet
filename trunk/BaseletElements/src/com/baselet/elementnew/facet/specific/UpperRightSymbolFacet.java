@@ -29,11 +29,11 @@ public class UpperRightSymbolFacet extends KeyValueFacet {
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
 		drawer.setDrawDelayed(true);
-		ColorOwn prevBackgroundColor = drawer.getCurrentStyle().getBgColor();
+		ColorOwn prevBackgroundColor = drawer.getStyle().getBgColor();
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 		UpperRightSymbolEnum symbol = UpperRightSymbolEnum.valueOf(value.toUpperCase());
 		double eW = state.getGridElementSize().getWidth();
-		double fs = drawer.getCurrentStyle().getFontSize();
+		double fs = drawer.getStyle().getFontSize();
 		if (symbol == UpperRightSymbolEnum.USECASE) {
 			double cW = fs*2.5;
 			double cH = fs;

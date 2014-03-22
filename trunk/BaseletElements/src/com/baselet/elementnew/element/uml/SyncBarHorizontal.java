@@ -24,7 +24,7 @@ public class SyncBarHorizontal extends NewGridElement {
 		@Override
 		public StickingPolygon generateStickingBorder(Rectangle rect) {
 			StickingPolygon p = new StickingPolygon(rect.x, rect.y);
-			double lt = getDrawer().getCurrentStyle().getLineThickness();
+			double lt = getDrawer().getStyle().getLineThickness();
 			double halfHeight = getRealSize().getHeight()/2;
 			p.addRectangle(new Rectangle(0.0, halfHeight-lt/2, (double) getRealSize().getWidth(), lt));
 			return p;
@@ -38,7 +38,7 @@ public class SyncBarHorizontal extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
-		if (drawer.getCurrentStyle().getLineThickness() == LineThicknessFacet.DEFAULT_LINE_THICKNESS) {
+		if (drawer.getStyle().getLineThickness() == LineThicknessFacet.DEFAULT_LINE_THICKNESS) {
 			drawer.setLineThickness(5);
 		}
 		Dimension s = getRealSize();

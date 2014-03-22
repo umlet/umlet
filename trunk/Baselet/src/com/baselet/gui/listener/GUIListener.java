@@ -69,7 +69,7 @@ public class GUIListener implements KeyListener {
 					Collection<GridElement> entitiesToBeMoved;
 					// Move only selected entities or all if no entity is selected
 					entitiesToBeMoved = handler.getDrawPanel().getSelector().getSelectedElements();
-					if (entitiesToBeMoved.isEmpty()) entitiesToBeMoved = handler.getDrawPanel().getAllEntities();
+					if (entitiesToBeMoved.isEmpty()) entitiesToBeMoved = handler.getDrawPanel().getGridElements();
 
 					// TODO The following code is very similar to EntityListener 96-144 and should be refactored
 					Vector<Move> moveCommands = new Vector<Move>();

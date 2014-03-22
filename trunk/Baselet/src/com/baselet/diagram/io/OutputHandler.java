@@ -57,7 +57,7 @@ public class OutputHandler {
 		Collection<GridElement> elementsToDraw = handler.getDrawPanel().getSelector().getSelectedElements();
 		// if nothing is selected, draw everything
 		if (elementsToDraw.isEmpty()) {
-			elementsToDraw = handler.getDrawPanel().getAllEntities();
+			elementsToDraw = handler.getDrawPanel().getGridElements();
 		}
 
 		OutputHandler.exportToOutputStream(extension, ostream, handler, elementsToDraw);
@@ -71,7 +71,7 @@ public class OutputHandler {
 		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
 
 		if (entities.isEmpty()) {
-			entities = handler.getDrawPanel().getAllEntities();
+			entities = handler.getDrawPanel().getGridElements();
 		}
 		BufferedImage returnImg = OutputHandler.getImageFromDiagram(handler, entities);
 

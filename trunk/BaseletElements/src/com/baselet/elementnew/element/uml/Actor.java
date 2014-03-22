@@ -70,11 +70,11 @@ public class Actor extends NewGridElement {
 	}
 
 	private double legSpan(DrawHandler drawer) {
-		return drawer.getCurrentStyle().getFontSize();
+		return drawer.getStyle().getFontSize();
 	}
 
 	private double headToBodyLength(DrawHandler drawer) {
-		return drawer.getCurrentStyle().getFontSize()*2+headRadius(drawer)*2;
+		return drawer.getStyle().getFontSize()*2+headRadius(drawer)*2;
 	}
 
 	private double armHeight(DrawHandler drawer) {
@@ -82,11 +82,11 @@ public class Actor extends NewGridElement {
 	}
 
 	private double armLength(DrawHandler drawer) {
-		return drawer.getCurrentStyle().getFontSize()*1.5;
+		return drawer.getStyle().getFontSize()*1.5;
 	}
 
 	private double headRadius(DrawHandler drawer) {
-		return drawer.getCurrentStyle().getFontSize()/2;
+		return drawer.getStyle().getFontSize()/2;
 	}
 }
 

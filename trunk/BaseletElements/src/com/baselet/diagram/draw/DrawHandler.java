@@ -139,7 +139,7 @@ public abstract class DrawHandler {
 		style.setLineThickness(1);
 	}
 
-	public Style getCurrentStyle() {
+	public Style getStyle() {
 		return style.cloneFromMe();
 	}
 

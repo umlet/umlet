@@ -430,7 +430,7 @@ public class PlotDrawHandler {
 
 		for (int i = 0; i < values.length; i++) {
 			if (cIndex >= colors.size()) cIndex = 0; // Restart with first color if all colors in the array has been used
-			ColorOwn currentFg = base.getCurrentStyle().getFgColor();
+			ColorOwn currentFg = base.getStyle().getFgColor();
 			base.setForegroundColor(ColorOwn.TRANSPARENT);
 			base.setBackgroundColor(colors.get(cIndex));
 

@@ -34,7 +34,7 @@ public class SeparatorLineFacet extends Facet {
 		}
 		double linePos = state.getDividerPos(drawer);
 		XValues xPos = state.getXLimits(linePos);
-		LineType previousLt = drawer.getCurrentStyle().getLineType();
+		LineType previousLt = drawer.getStyle().getLineType();
 		for (LineType lt : okLineTypes) {
 			if (line.equals(KEY + lt.getValue())) {
 				drawer.setLineType(lt);
