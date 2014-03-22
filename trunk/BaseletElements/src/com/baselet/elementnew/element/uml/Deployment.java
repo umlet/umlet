@@ -10,7 +10,7 @@ import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.elementnew.settings.Settings;
@@ -36,7 +36,7 @@ public class Deployment extends NewGridElement {
 	private static final int BORDER = 10;
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		double w = getRealSize().getWidth();
 		double h = getRealSize().getHeight();
 		List<PointDouble> p = Arrays.asList(
@@ -62,8 +62,8 @@ public class Deployment extends NewGridElement {
 		drawer.drawLines(pLine, p.get(2));
 		// Draw Content-Rectangle
 		drawer.drawRectangle(0, BORDER, w-BORDER, h-BORDER);
-		propCfg.addToTopBuffer(BORDER);
-		propCfg.addToRightBuffer(BORDER);
+		state.addToTopBuffer(BORDER);
+		state.addToRightBuffer(BORDER);
 	}
 
 }

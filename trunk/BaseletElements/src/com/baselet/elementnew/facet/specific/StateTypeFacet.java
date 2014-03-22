@@ -5,7 +5,7 @@ import java.util.Arrays;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.PointDouble;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
 public class StateTypeFacet extends KeyValueFacet {
@@ -23,16 +23,16 @@ public class StateTypeFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(final String value, final DrawHandler drawer, final PropertiesConfig propConfig) {
+	public void handleValue(final String value, final DrawHandler drawer, final PropertiesParserState state) {
 		ActionTypeEnum type = ActionTypeEnum.valueOf(value.toUpperCase());
-		Dimension s = propConfig.getGridElementSize();
+		Dimension s = state.getGridElementSize();
 		 if (type == ActionTypeEnum.SENDER) {
 			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-depth(s), 0), p(s.width, s.height/2), p(s.width-depth(s), s.height), p(0, s.height), p(0, 0)));
 		} else if (type == ActionTypeEnum.RECEIVER) {
-			propConfig.addToLeftBuffer(depth(s));
+			state.addToLeftBuffer(depth(s));
 			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width, 0), p(s.width, s.height), p(0, s.height), p(depth(s), s.height/2), p(0, 0)));
 		}
-		propConfig.setFacetResponse(StateTypeFacet.class, true);
+		state.setFacetResponse(StateTypeFacet.class, true);
 	}
 
 	public static void drawDefaultState(final DrawHandler drawer, Dimension s) {

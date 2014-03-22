@@ -5,7 +5,7 @@ import java.util.Collection;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.GridElement;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
 public class GroupFacet extends KeyValueFacet {
@@ -20,9 +20,9 @@ public class GroupFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
 		try {
-			propConfig.setFacetResponse(GroupFacet.class, Integer.valueOf(value));
+			state.setFacetResponse(GroupFacet.class, Integer.valueOf(value));
 		} catch (NumberFormatException e) {
 			throw new StyleException("value must be a positive or negative integer");
 		}

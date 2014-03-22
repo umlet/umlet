@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.gui.AutocompletionText;
 
 public abstract class Facet {
@@ -14,8 +14,8 @@ public abstract class Facet {
 	
 	protected Logger log = Logger.getLogger(Facet.class);
 
-	public abstract boolean checkStart(String line, PropertiesConfig propConfig);
-	public abstract void handleLine(String line, DrawHandler drawer, PropertiesConfig propConfig);
+	public abstract boolean checkStart(String line, PropertiesParserState state);
+	public abstract void handleLine(String line, DrawHandler drawer, PropertiesParserState state);
 	public abstract List<AutocompletionText> getAutocompletionStrings();
 
 	public boolean replacesText(String line) {

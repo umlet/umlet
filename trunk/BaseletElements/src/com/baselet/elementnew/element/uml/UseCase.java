@@ -10,7 +10,7 @@ import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.element.sticking.StickingPolygonGenerator;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.elementnew.settings.Settings;
@@ -24,9 +24,9 @@ public class UseCase extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		drawer.drawEllipse(0, 0, getRealSize().width, getRealSize().height);
-		propCfg.setStickingPolygonGenerator(new StickingPolygonGenerator() {
+		state.setStickingPolygonGenerator(new StickingPolygonGenerator() {
 			@Override
 			public StickingPolygon generateStickingBorder(Rectangle rect) {
 				StickingPolygon p = new StickingPolygon(rect.x, rect.y);

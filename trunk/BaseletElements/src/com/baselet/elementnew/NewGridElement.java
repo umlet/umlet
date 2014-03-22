@@ -50,7 +50,7 @@ public abstract class NewGridElement implements GridElement {
 
 	private List<String> panelAttributes;
 
-	private PropertiesConfig propCfg;
+	private PropertiesParserState state;
 
 	private static final int MINIMAL_SIZE = SharedConstants.DEFAULT_GRID_SIZE * 2;
 
@@ -62,7 +62,7 @@ public abstract class NewGridElement implements GridElement {
 		setRectangle(bounds);
 		setAdditionalAttributes(additionalAttributes);
 		this.handler = handler;
-		propCfg = new PropertiesConfig(createSettings());
+		state = new PropertiesParserState(createSettings());
 	}
 
 	public DrawHandler getDrawer() {
@@ -114,7 +114,7 @@ public abstract class NewGridElement implements GridElement {
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
 		try {
-			PropertiesParser.drawPropertiesText(this, propCfg);
+			PropertiesParser.drawPropertiesText(this, state);
 		} catch (Exception e) {
 			log.debug("Cannot parse Properties Text", e);
 			drawer.resetStyle();
@@ -131,11 +131,11 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	void resetMetaDrawerAndDrawCommonContent() {
-		drawCommonContent(drawer, propCfg); // must be before properties.drawPropertiesText (to make sure a possible background color is behind the text)
+		drawCommonContent(drawer, state); // must be before properties.drawPropertiesText (to make sure a possible background color is behind the text)
 		resetMetaDrawer(metaDrawer); // must be after properties.initSettingsFromText() because stickingpolygon size can be based on some settings (eg: Actor uses this)
 	}
 
-	protected abstract void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg);
+	protected abstract void drawCommonContent(DrawHandler drawer, PropertiesParserState state);
 
 	protected void resetMetaDrawer(DrawHandler drawer) {
 		drawer.clearCache();
@@ -188,7 +188,7 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public Set<Direction> getResizeArea(int x, int y) {
 		Set<Direction> returnSet = new HashSet<Direction>();
-		if (propCfg.getElementStyle() == ElementStyleEnum.NORESIZE || propCfg.getElementStyle() == ElementStyleEnum.AUTORESIZE) {
+		if (state.getElementStyle() == ElementStyleEnum.NORESIZE || state.getElementStyle() == ElementStyleEnum.AUTORESIZE) {
 			return returnSet;
 		}
 
@@ -206,7 +206,7 @@ public abstract class NewGridElement implements GridElement {
 	 */
 	@Override
 	public final StickingPolygon generateStickingBorder(Rectangle rect) {
-		return propCfg.getStickingPolygonGenerator().generateStickingBorder(rect);
+		return state.getStickingPolygonGenerator().generateStickingBorder(rect);
 	}
 
 	private StickingPolygon generateStickingBorder() {
@@ -288,10 +288,10 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public List<AutocompletionText> getAutocompletionList() {
 		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
-		for (List<? extends Facet> f : propCfg.getSettings().getGlobalFacets().values()) {
+		for (List<? extends Facet> f : state.getSettings().getGlobalFacets().values()) {
 			addAutocompletionTexts(returnList, f);
 		}
-		addAutocompletionTexts(returnList, propCfg.getSettings().getLocalFacets());
+		addAutocompletionTexts(returnList, state.getSettings().getLocalFacets());
 		return returnList;
 	}
 
@@ -306,12 +306,12 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public Integer getLayer() {
-		return propCfg.getFacetResponse(LayerFacet.class, LayerFacet.DEFAULT_VALUE);
+		return state.getFacetResponse(LayerFacet.class, LayerFacet.DEFAULT_VALUE);
 	}
 	
 	@Override
 	public Integer getGroup() {
-		return propCfg.getFacetResponse(GroupFacet.class, null);
+		return state.getFacetResponse(GroupFacet.class, null);
 	}
 	
 	public abstract ElementId getId();

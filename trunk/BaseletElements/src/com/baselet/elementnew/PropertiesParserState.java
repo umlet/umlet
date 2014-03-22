@@ -14,7 +14,7 @@ import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.ElementStyleFacet.ElementStyleEnum;
 import com.baselet.elementnew.settings.Settings;
 
-public class PropertiesConfig {
+public class PropertiesParserState {
 	
 	private Settings settings;
 	
@@ -31,7 +31,7 @@ public class PropertiesConfig {
 	private ElementStyleEnum elementStyle;
 	private Map<Class<? extends Facet>, Object> facetResponse = new HashMap<Class<? extends Facet>, Object>();
 
-	public PropertiesConfig(Settings settings) {
+	public PropertiesParserState(Settings settings) {
 		this.settings = settings;
 	}
 
@@ -50,7 +50,7 @@ public class PropertiesConfig {
 		facetResponse.clear();
 	}
 
-	public PropertiesConfig(Settings settings, Dimension gridElementSize) {
+	public PropertiesParserState(Settings settings, Dimension gridElementSize) {
 		this(settings);
 		resetValues(gridElementSize);
 	}

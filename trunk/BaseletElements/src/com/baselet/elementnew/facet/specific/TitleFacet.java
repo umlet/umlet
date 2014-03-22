@@ -5,7 +5,7 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
 public class TitleFacet extends KeyValueFacet {
@@ -22,12 +22,12 @@ public class TitleFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
-		double top = propConfig.getTopBuffer();
+	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
+		double top = state.getTopBuffer();
 		double height = drawer.textHeight() + UPPER_SPACE + LOWER_SPACE + top;
 		double corner = height * 0.4;
 		double rightSpace = corner * 1.5;
-		double lowerLeftSpace = propConfig.getXLimits(height).getLeft();
+		double lowerLeftSpace = state.getXLimits(height).getLeft();
 		double width = drawer.textWidth(value) + rightSpace + lowerLeftSpace;
 		Style style = drawer.getCurrentStyle();
 		drawer.setDrawDelayed(true);
@@ -36,7 +36,7 @@ public class TitleFacet extends KeyValueFacet {
 		drawer.print(value, lowerLeftSpace + drawer.getDistanceHorizontalBorderToText(), height-LOWER_SPACE, AlignHorizontal.LEFT);
 		drawer.setStyle(style); // reset style to state before manipulations for drawing the template class
 		drawer.setDrawDelayed(false);
-		propConfig.setMinTopBuffer(height);
+		state.setMinTopBuffer(height);
 	}
 
 }

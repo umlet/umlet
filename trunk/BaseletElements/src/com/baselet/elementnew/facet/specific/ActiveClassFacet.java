@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.GlobalFacet;
 import com.baselet.gui.AutocompletionText;
 
@@ -19,16 +19,16 @@ public class ActiveClassFacet extends GlobalFacet {
 	private static final int SPACING = 6;
 
 	@Override
-	public boolean checkStart(String line, PropertiesConfig propConfig) {
+	public boolean checkStart(String line, PropertiesParserState state) {
 		return line.equals(KEY);
 	}
 
 	@Override
-	public void handleLine(String line, DrawHandler drawer, PropertiesConfig propConfig) {
-		propConfig.addToHorizontalBuffer(SPACING);
-		XValues xLimits = propConfig.getXLimits(propConfig.getyPos());
-		drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), propConfig.getGridElementSize().getHeight());
-		drawer.drawLine(xLimits.getRight(), 0, xLimits.getRight(), propConfig.getGridElementSize().getHeight());
+	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
+		state.addToHorizontalBuffer(SPACING);
+		XValues xLimits = state.getXLimits(state.getyPos());
+		drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), state.getGridElementSize().getHeight());
+		drawer.drawLine(xLimits.getRight(), 0, xLimits.getRight(), state.getGridElementSize().getHeight());
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.element.sticking.StickingPolygonGenerator;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.elementnew.settings.Settings;
@@ -38,12 +38,12 @@ public class Timer extends NewGridElement {
 	}
 	
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
-		propCfg.addToYPos(CLOCK_DIM);
-		propCfg.updateCalculatedElementWidth(CLOCK_DIM);
+	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+		state.addToYPos(CLOCK_DIM);
+		state.updateCalculatedElementWidth(CLOCK_DIM);
 		drawer.drawLines(Arrays.asList(new PointDouble(xClock(), 0), new PointDouble(x2Clock(), CLOCK_DIM), new PointDouble(xClock(), CLOCK_DIM), new PointDouble(x2Clock(), 0), new PointDouble(xClock(), 0)));
 
-		propCfg.setStickingPolygonGenerator(timerStickingPolygonGenerator);
+		state.setStickingPolygonGenerator(timerStickingPolygonGenerator);
 	}
 
 	private int x2Clock() {

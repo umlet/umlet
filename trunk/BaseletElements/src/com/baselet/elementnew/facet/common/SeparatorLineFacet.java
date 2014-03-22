@@ -8,7 +8,7 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.gui.AutocompletionText;
 
@@ -28,12 +28,12 @@ public class SeparatorLineFacet extends Facet {
 	}
 	
 	@Override
-	public void handleLine(String line, DrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
 		if (setHAlignToLeftAfterLine) {
-			propConfig.sethAlign(AlignHorizontal.LEFT);
+			state.sethAlign(AlignHorizontal.LEFT);
 		}
-		double linePos = propConfig.getDividerPos(drawer);
-		XValues xPos = propConfig.getXLimits(linePos);
+		double linePos = state.getDividerPos(drawer);
+		XValues xPos = state.getXLimits(linePos);
 		LineType previousLt = drawer.getCurrentStyle().getLineType();
 		for (LineType lt : okLineTypes) {
 			if (line.equals(KEY + lt.getValue())) {
@@ -42,11 +42,11 @@ public class SeparatorLineFacet extends Facet {
 		}
 		drawer.drawLine(xPos.getLeft()+0.5, linePos, xPos.getRight()-1, linePos);
 		drawer.setLineType(previousLt);
-		propConfig.addToYPos(H_SPACE);
+		state.addToYPos(H_SPACE);
 	}
 
 	@Override
-	public boolean checkStart(String line, PropertiesConfig propConfig) {
+	public boolean checkStart(String line, PropertiesParserState state) {
 		if (line.equals(KEY)) return true;
 		for (LineType lt : okLineTypes) {
 			if (line.equals(KEY + lt.getValue())) return true;

@@ -3,7 +3,7 @@ package com.baselet.elementnew.element;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.settings.Settings;
 import com.baselet.elementnew.settings.SettingsText;
 
@@ -20,7 +20,7 @@ public class Text extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 	}
 
 }

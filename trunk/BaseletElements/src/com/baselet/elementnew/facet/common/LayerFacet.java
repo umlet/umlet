@@ -2,7 +2,7 @@ package com.baselet.elementnew.facet.common;
 
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
 public class LayerFacet extends KeyValueFacet {
@@ -18,9 +18,9 @@ public class LayerFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
 		try {
-			propConfig.setFacetResponse(LayerFacet.class, Integer.valueOf(value));
+			state.setFacetResponse(LayerFacet.class, Integer.valueOf(value));
 		} catch (NumberFormatException e) {
 			throw new StyleException("value must be a positive or negative integer");
 		}

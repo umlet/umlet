@@ -14,7 +14,7 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.element.plot.drawer.PlotGridDrawConfig;
 import com.baselet.elementnew.element.plot.elements.AbstractPlot;
 import com.baselet.elementnew.element.plot.elements.BarPlot;
@@ -25,15 +25,13 @@ import com.baselet.elementnew.element.plot.parser.Parser;
 import com.baselet.elementnew.element.plot.parser.ParserException;
 import com.baselet.elementnew.element.plot.parser.ParserResult;
 import com.baselet.elementnew.element.plot.parser.PlotConstants;
-import com.baselet.elementnew.element.plot.parser.PlotState;
 import com.baselet.elementnew.element.plot.parser.PlotConstants.PlotType;
+import com.baselet.elementnew.element.plot.parser.PlotState;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.GlobalFacet;
 import com.baselet.elementnew.settings.Settings;
 import com.baselet.elementnew.settings.SettingsManualresizeCenter;
 import com.baselet.gui.AutocompletionText;
-
-
 
 public class PlotGrid extends NewGridElement {
 
@@ -50,7 +48,7 @@ public class PlotGrid extends NewGridElement {
 	 */
 	public static GlobalFacet PSEUDO_PLOT_FACET = new GlobalFacet() {
 			@Override
-			public void handleLine(String line, DrawHandler drawer, PropertiesConfig propConfig) {
+			public void handleLine(String line, DrawHandler drawer, PropertiesParserState propConfig) {
 				// do nothing
 			}
 			@Override
@@ -58,7 +56,7 @@ public class PlotGrid extends NewGridElement {
 				return PlotConstants.AUTOCOMPLETION_LIST;
 			}
 			@Override
-			public boolean checkStart(String line, PropertiesConfig propConfig) {
+			public boolean checkStart(String line, PropertiesParserState propConfig) {
 				return true;
 			}
 	};
@@ -242,7 +240,7 @@ public class PlotGrid extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		try {
 			matrix = new Matrix<List<AbstractPlot>>();
 			ParserResult parserState = new Parser().parse(getPanelAttributes());

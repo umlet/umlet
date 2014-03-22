@@ -10,7 +10,7 @@ import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.element.sticking.StickingPolygonGenerator;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.PropertiesConfig;
+import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.elementnew.settings.Settings;
@@ -50,10 +50,10 @@ public class Actor extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		// IMPORTANT: drawer must be used as parameter, because sometimes (eg: for autoresize calculation), the commonContent will be drawn by other drawers
-		propCfg.addToYPos(headToLegLength(drawer));
-		propCfg.updateCalculatedElementWidth(armLength(drawer)*2);
+		state.addToYPos(headToLegLength(drawer));
+		state.updateCalculatedElementWidth(armLength(drawer)*2);
 		
 		int hCenter = getRealSize().width/2;
 		drawer.drawCircle(hCenter, headRadius(drawer), headRadius(drawer)); // Head
@@ -62,7 +62,7 @@ public class Actor extends NewGridElement {
 		drawer.drawLine(hCenter, headToBodyLength(drawer), hCenter-legSpan(drawer), headToLegLength(drawer)); // Legs
 		drawer.drawLine(hCenter, headToBodyLength(drawer), hCenter+legSpan(drawer), headToLegLength(drawer)); // Legs
 
-		propCfg.setStickingPolygonGenerator(actorStickingPolygonGenerator);
+		state.setStickingPolygonGenerator(actorStickingPolygonGenerator);
 	}
 	
 	private double headToLegLength(DrawHandler drawer) {
