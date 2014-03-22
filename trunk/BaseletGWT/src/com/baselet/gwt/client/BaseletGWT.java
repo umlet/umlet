@@ -7,6 +7,7 @@ import com.baselet.control.SharedConstants;
 import com.baselet.gwt.client.view.MainView;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
@@ -26,7 +27,18 @@ public class BaseletGWT implements EntryPoint {
 				Notification.showFeatureNotSupported("Sorry, but your browser does not support all necessary features<br/>Suggested browsers are Firefox, Chrome, Opera, Internet Explorer 10+", false);
 			}
 		} else {
-			RootLayoutPanel.get().add(new MainView());
+			Notification.showInfo("Loading application ... please wait ...");
+			GWT.runAsync(new RunAsyncCallback() {
+				@Override
+				public void onSuccess() {
+					Notification.showInfo("");
+					RootLayoutPanel.get().add(new MainView());
+				}
+				@Override
+				public void onFailure(Throwable reason) {
+					Notification.showFeatureNotSupported("Cannot load application from server", false);
+				}
+			});
 		}
 	}
 
