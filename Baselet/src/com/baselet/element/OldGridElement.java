@@ -9,8 +9,10 @@ import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -29,11 +31,13 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.sticking.Stickable;
+import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.facet.Facet;
@@ -429,7 +433,25 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
+		StickingPolygon stickingPolygonBeforeLocationChange = generateStickingBorder(getRectangle());
 		setLocationDifference(diffX, diffY);
+		moveStickables(firstDrag, stickables, stickingPolygonBeforeLocationChange);
+	}
+	
+	private Map<Stickable, Set<PointDouble>> stickablesFromFirstDrag = new HashMap<Stickable, Set<PointDouble>>();
+
+	private void moveStickables(boolean firstDrag, Collection<? extends Stickable> stickables, StickingPolygon oldStickingPolygon) {
+		// the first drag determines which stickables and which points of them will stick (eg: moving through other relations should NOT "collect" their stickingpoints)
+		if (firstDrag) {
+			stickablesFromFirstDrag = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(oldStickingPolygon, stickables, getGridSize());
+		}
+		if (!stickablesFromFirstDrag.isEmpty()) {
+			Stickables.moveStickPointsBasedOnPolygonChanges(oldStickingPolygon, generateStickingBorder(getRectangle()), stickablesFromFirstDrag, getGridSize());
+		}
+	}
+	
+	public int getGridSize() {
+		return Main.getHandlerForElement(this).getGridSize();
 	}
 
 	@Override

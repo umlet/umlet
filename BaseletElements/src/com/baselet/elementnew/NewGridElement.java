@@ -327,8 +327,6 @@ public abstract class NewGridElement implements GridElement {
 		handler.resize(diffw, diffh, alignHorizontal);
 	}
 
-	private Map<Stickable, Set<PointDouble>> stickablesFromFirstDrag = new HashMap<Stickable, Set<PointDouble>>();
-
 	@Override
 	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, Collection<? extends Stickable> stickables) {
 		StickingPolygon oldStickingPolygon = generateStickingBorder();
@@ -337,7 +335,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
-		StickingPolygon oldStickingPolygon = generateStickingBorder();
+		StickingPolygon stickingPolygonBeforeLocationChange = generateStickingBorder();
 		if (resizeDirection.isEmpty()) { // Move GridElement
 			setLocationDifference(diffX, diffY);
 		} else { // Resize GridElement
@@ -371,8 +369,10 @@ public abstract class NewGridElement implements GridElement {
 			}
 		}
 
-		moveStickables(firstDrag, stickables, oldStickingPolygon);
+		moveStickables(firstDrag, stickables, stickingPolygonBeforeLocationChange);
 	}
+
+	private Map<Stickable, Set<PointDouble>> stickablesFromFirstDrag = new HashMap<Stickable, Set<PointDouble>>();
 
 	private void moveStickables(boolean firstDrag, Collection<? extends Stickable> stickables, StickingPolygon oldStickingPolygon) {
 		// the first drag determines which stickables and which points of them will stick (eg: moving through other relations should NOT "collect" their stickingpoints)
