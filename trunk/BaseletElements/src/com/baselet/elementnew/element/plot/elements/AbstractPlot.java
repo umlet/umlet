@@ -2,7 +2,7 @@ package com.baselet.elementnew.element.plot.elements;
 
 import java.util.List;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.elementnew.element.plot.drawer.AxisConfig;
@@ -27,7 +27,7 @@ public abstract class AbstractPlot {
 
 	protected Integer maxDatasetRows = Integer.MAX_VALUE;
 
-	public AbstractPlot(BaseDrawHandler drawer, PlotGridDrawConfig plotDrawConfig, PlotState plotState, int xPosition, int yPosition) {
+	public AbstractPlot(DrawHandler drawer, PlotGridDrawConfig plotDrawConfig, PlotState plotState, int xPosition, int yPosition) {
 		this.plotDrawConfig = plotDrawConfig;
 		this.plotState = plotState;
 		this.xPosition = xPosition;

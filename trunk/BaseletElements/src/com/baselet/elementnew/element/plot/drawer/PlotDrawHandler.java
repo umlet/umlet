@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.TreeSet;
 
 import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.helper.ColorOwn;
@@ -25,7 +25,7 @@ public class PlotDrawHandler {
 	private TreeSet<Double> valuesShownOnAxisSorted;
 	//	private Double[][] valuesMinMaxCorrected; // if all values are >0 or all values are <0 the distance from 0 to the first real value will be subtracted
 
-	protected BaseDrawHandler base;
+	protected DrawHandler base;
 	
 	private Double minVal = null;
 	private Double maxVal = null;
@@ -33,7 +33,7 @@ public class PlotDrawHandler {
 	private Canvas canvas;
 	private AxisConfig axisConfig;
 
-	public PlotDrawHandler(BaseDrawHandler baseDrawHandler, Dimension size) {
+	public PlotDrawHandler(DrawHandler baseDrawHandler, Dimension size) {
 		base = baseDrawHandler;
 //		drawLegend = false;
 		axisConfig = new AxisConfig();

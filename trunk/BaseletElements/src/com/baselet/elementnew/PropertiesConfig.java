@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.element.sticking.SimpleStickingPolygonGenerator;
@@ -136,7 +136,7 @@ public class PropertiesConfig {
 		return xLimitsTop.intersect(xLimitsBottom);
 	}
 
-	public double getDividerPos(BaseDrawHandler drawer) {
+	public double getDividerPos(DrawHandler drawer) {
 		return getyPos() - drawer.textHeight() + 2;
 	}
 

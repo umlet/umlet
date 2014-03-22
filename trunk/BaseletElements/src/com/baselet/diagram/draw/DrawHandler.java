@@ -17,7 +17,7 @@ import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.elementnew.facet.common.BackgroundColorFacet;
 import com.baselet.elementnew.facet.common.ForegroundColorFacet;
 
-public abstract class BaseDrawHandler {
+public abstract class DrawHandler {
 
 	protected double HALF_PX = 0.5f;
 
@@ -36,7 +36,7 @@ public abstract class BaseDrawHandler {
 		this.drawDelayed = drawDelayed;
 	}
 
-	public BaseDrawHandler() {
+	public DrawHandler() {
 		this.fgDefaultColor = ColorOwn.DEFAULT_FOREGROUND;
 		this.bgDefaultColor = ColorOwn.DEFAULT_BACKGROUND;
 	}
@@ -166,7 +166,7 @@ public abstract class BaseDrawHandler {
 
 	protected abstract DimensionDouble textDimension(String string);
 	protected abstract double getDefaultFontSize();
-	public abstract BaseDrawHandler getPseudoDrawHandler();
+	public abstract DrawHandler getPseudoDrawHandler();
 
 	/*
 	 * DRAW METHODS

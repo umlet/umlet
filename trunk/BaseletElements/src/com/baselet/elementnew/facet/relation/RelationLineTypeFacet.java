@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.enumerations.LineType;
 import com.baselet.control.enumerations.ValueHolder;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.element.uml.relation.RelationPoints;
 import com.baselet.elementnew.element.uml.relation.SettingsRelation;
@@ -34,7 +34,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 	private String remainingValue;
 
 	@Override
-	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
 		RelationPoints relationPoints = ((SettingsRelation) propConfig.getSettings()).getRelationPoints();
 		remainingValue = value;
 

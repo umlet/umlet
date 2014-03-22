@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.element.plot.drawer.PlotGridDrawConfig;
 import com.baselet.elementnew.element.plot.parser.PlotConstants;
 import com.baselet.elementnew.element.plot.parser.PlotState;
@@ -13,7 +13,7 @@ import com.baselet.elementnew.element.plot.parser.PlotConstants.AxisShow;
 
 public class BarPlot extends AbstractPlot {
 
-	public BarPlot(BaseDrawHandler drawer, PlotGridDrawConfig plotDrawConfig, PlotState plotState, int xPos, int yPos) {
+	public BarPlot(DrawHandler drawer, PlotGridDrawConfig plotDrawConfig, PlotState plotState, int xPos, int yPos) {
 		super(drawer, plotDrawConfig, plotState, xPos, yPos);
 	}
 

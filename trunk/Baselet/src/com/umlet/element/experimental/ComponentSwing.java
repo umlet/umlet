@@ -6,25 +6,25 @@ import javax.swing.JComponent;
 
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
 import com.baselet.diagram.draw.swing.Converter;
+import com.baselet.diagram.draw.swing.DrawHandlerSwing;
 import com.baselet.elementnew.Component;
 import com.baselet.elementnew.NewGridElement;
 
 public class ComponentSwing extends JComponent implements Component {
 	private static final long serialVersionUID = 1L;
 	
-	private BaseDrawHandlerSwing drawer;
-	private BaseDrawHandlerSwing metaDrawer;
+	private DrawHandlerSwing drawer;
+	private DrawHandlerSwing metaDrawer;
 	private NewGridElement gridElement;
 	
 	public ComponentSwing(NewGridElement gridElement) {
 		this.gridElement = gridElement;
-		drawer = new BaseDrawHandlerSwing(gridElement);
-		metaDrawer = new BaseDrawHandlerSwing(gridElement);
+		drawer = new DrawHandlerSwing(gridElement);
+		metaDrawer = new DrawHandlerSwing(gridElement);
 	}
 
 	@Override
@@ -44,12 +44,12 @@ public class ComponentSwing extends JComponent implements Component {
 	}
 
 	@Override
-	public BaseDrawHandler getDrawHandler() {
+	public DrawHandler getDrawHandler() {
 		return drawer;
 	}
 
 	@Override
-	public BaseDrawHandler getMetaDrawHandler() {
+	public DrawHandler getMetaDrawHandler() {
 		return metaDrawer;
 	}
 

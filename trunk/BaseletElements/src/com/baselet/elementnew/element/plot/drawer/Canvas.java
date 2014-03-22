@@ -1,6 +1,6 @@
 package com.baselet.elementnew.element.plot.drawer;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
@@ -172,7 +172,7 @@ public class Canvas {
 		return (gridElementSize.width > getOuterHorizontalSum());
 	}
 
-	public void draw(BaseDrawHandler baseDrawHandler) {
+	public void draw(DrawHandler baseDrawHandler) {
 		baseDrawHandler.setBackgroundColor(ColorOwn.TRANSPARENT);
 		baseDrawHandler.setForegroundColor(ColorOwn.RED.transparency(Transparency.BACKGROUND));
 		baseDrawHandler.drawRectangle(getOuterLeftPos(), getOuterUpPos(), getOuterRightPos() - getOuterLeftPos() -1, getOuterDownPos() - getOuterUpPos());

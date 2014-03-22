@@ -2,7 +2,7 @@ package com.baselet.elementnew.facet.specific;
 
 import java.util.Arrays;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.elementnew.PropertiesConfig;
@@ -23,7 +23,7 @@ public class StateTypeFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(final String value, final BaseDrawHandler drawer, final PropertiesConfig propConfig) {
+	public void handleValue(final String value, final DrawHandler drawer, final PropertiesConfig propConfig) {
 		ActionTypeEnum type = ActionTypeEnum.valueOf(value.toUpperCase());
 		Dimension s = propConfig.getGridElementSize();
 		 if (type == ActionTypeEnum.SENDER) {
@@ -35,7 +35,7 @@ public class StateTypeFacet extends KeyValueFacet {
 		propConfig.setFacetResponse(StateTypeFacet.class, true);
 	}
 
-	public static void drawDefaultState(final BaseDrawHandler drawer, Dimension s) {
+	public static void drawDefaultState(final DrawHandler drawer, Dimension s) {
 		int radius = Math.min(20, Math.min(s.width, s.height)/5);
 		drawer.drawRectangleRound(0, 0, s.width, s.height, radius);
 	}

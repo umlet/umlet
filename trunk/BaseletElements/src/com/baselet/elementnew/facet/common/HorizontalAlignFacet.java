@@ -1,7 +1,7 @@
 package com.baselet.elementnew.facet.common;
 
 import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
@@ -19,7 +19,7 @@ public class HorizontalAlignFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
 		propConfig.sethAlignGlobally(AlignHorizontal.valueOf(value.toUpperCase()));
 	}
 

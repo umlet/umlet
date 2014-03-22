@@ -5,7 +5,7 @@ import java.util.List;
 import com.baselet.control.Main;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
+import com.baselet.diagram.draw.swing.DrawHandlerSwing;
 import com.baselet.element.GridElement;
 
 
@@ -26,7 +26,7 @@ public class CustomElementWithErrors extends CustomElement {
 
 	@Override
 	public void paint() {
-		BaseDrawHandlerSwing drawer = new BaseDrawHandlerSwing(this);
+		DrawHandlerSwing drawer = new DrawHandlerSwing(this);
 		drawer.setGraphics(g2);
 		drawer.setHandler(Main.getHandlerForElement(this));
 		drawer.getCurrentStyle().setFgColor(ColorOwn.RED);

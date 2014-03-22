@@ -16,7 +16,7 @@ import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Line;
@@ -41,8 +41,8 @@ public abstract class NewGridElement implements GridElement {
 	
 	private Logger log = Logger.getLogger(NewGridElement.class);
 
-	private BaseDrawHandler drawer; // this is the drawer for element specific stuff
-	private BaseDrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
+	private DrawHandler drawer; // this is the drawer for element specific stuff
+	private DrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
 
 	private Component component;
 
@@ -65,11 +65,11 @@ public abstract class NewGridElement implements GridElement {
 		propCfg = new PropertiesConfig(createSettings());
 	}
 
-	public BaseDrawHandler getDrawer() {
+	public DrawHandler getDrawer() {
 		return drawer;
 	}
 
-	public BaseDrawHandler getMetaDrawer() {
+	public DrawHandler getMetaDrawer() {
 		return metaDrawer;
 	}
 
@@ -135,9 +135,9 @@ public abstract class NewGridElement implements GridElement {
 		resetMetaDrawer(metaDrawer); // must be after properties.initSettingsFromText() because stickingpolygon size can be based on some settings (eg: Actor uses this)
 	}
 
-	protected abstract void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg);
+	protected abstract void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg);
 
-	protected void resetMetaDrawer(BaseDrawHandler drawer) {
+	protected void resetMetaDrawer(DrawHandler drawer) {
 		drawer.clearCache();
 		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
@@ -213,7 +213,7 @@ public abstract class NewGridElement implements GridElement {
 		return generateStickingBorder(getRectangle());
 	}
 
-	private final void drawStickingPolygon(BaseDrawHandler drawer) {
+	private final void drawStickingPolygon(DrawHandler drawer) {
 		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
 		int start = handler.displaceDrawingByOnePixel() ? 1 : 0;
 		Rectangle rect = new Rectangle(start, start, getRealSize().width, getRealSize().height);

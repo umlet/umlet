@@ -1,6 +1,6 @@
 package com.baselet.elementnew.facet.specific;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
@@ -15,7 +15,7 @@ public class PackageName extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
 		propConfig.setFacetResponse(PackageName.class, value);
 	}
 

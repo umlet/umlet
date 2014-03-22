@@ -8,7 +8,7 @@ import java.util.Map;
 import com.baselet.control.TextSplitter;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.elementnew.facet.Facet;
@@ -29,7 +29,7 @@ public class PropertiesParser {
 	}
 
 	private static void autoresizeAnalysis(NewGridElement element, Settings settings, List<String> propertiesText) {
-		BaseDrawHandler pseudoDrawer = element.getDrawer().getPseudoDrawHandler();
+		DrawHandler pseudoDrawer = element.getDrawer().getPseudoDrawHandler();
 		PropertiesConfig tmpPropCfg = new PropertiesConfig(settings, element.getRealSize()); // we use a tmpPropCfg to parse global facets to see if autoresize is enabled
 		List<String> tmpPropTextWithoutGlobalFacets = parseGlobalFacets(propertiesText, tmpPropCfg.getSettings().getGlobalFacets(), pseudoDrawer, tmpPropCfg);
 
@@ -42,7 +42,7 @@ public class PropertiesParser {
 		}
 	}
 
-	private static List<String> parseGlobalFacets(List<String> propertiesText, Map<Priority, List<GlobalFacet>> globalFacetMap, BaseDrawHandler drawer, PropertiesConfig propCfg) {
+	private static List<String> parseGlobalFacets(List<String> propertiesText, Map<Priority, List<GlobalFacet>> globalFacetMap, DrawHandler drawer, PropertiesConfig propCfg) {
 		List<String> propertiesCopy = new ArrayList<String>(propertiesText);
 		for (Priority priority : Priority.values()) {
 			List<GlobalFacet> facets = globalFacetMap.get(priority);
@@ -56,13 +56,13 @@ public class PropertiesParser {
 		return propertiesCopy;
 	}
 	
-	private static void drawPropertiesWithoutGlobalFacets(List<String> propertiesTextWithoutGobalFacets, PropertiesConfig propCfg, BaseDrawHandler drawer) {
+	private static void drawPropertiesWithoutGlobalFacets(List<String> propertiesTextWithoutGobalFacets, PropertiesConfig propCfg, DrawHandler drawer) {
 		double startPointFromVAlign = calcStartPointFromVAlign(propertiesTextWithoutGobalFacets, propCfg, drawer);
 		propCfg.addToYPos(calcTopDisplacementToFitLine(propertiesTextWithoutGobalFacets, startPointFromVAlign, propCfg, drawer));
 		handleWordWrapAndIterate(propertiesTextWithoutGobalFacets, propCfg.getSettings().getLocalFacets(), propCfg, drawer);
 	}
 
-	private static double calcTopDisplacementToFitLine(List<String> propertiesText, double startPoint, PropertiesConfig propCfg, BaseDrawHandler drawer) {
+	private static double calcTopDisplacementToFitLine(List<String> propertiesText, double startPoint, PropertiesConfig propCfg, DrawHandler drawer) {
 		double displacement = startPoint;
 		boolean wordwrap = propCfg.getElementStyle() == ElementStyleEnum.WORDWRAP;
 		if (!wordwrap && !propertiesText.isEmpty()) { // in case of wordwrap or no text, there is no top displacement
@@ -86,7 +86,7 @@ public class PropertiesParser {
 		return displacement;
 	}
 
-	private static double calcStartPointFromVAlign(List<String> propertiesText, PropertiesConfig p, BaseDrawHandler drawer) {
+	private static double calcStartPointFromVAlign(List<String> propertiesText, PropertiesConfig p, DrawHandler drawer) {
 		double returnVal = drawer.textHeight(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
 		if (p.getvAlign() == AlignVertical.TOP) {
 			returnVal += drawer.getDistanceHorizontalBorderToText() + p.getTopBuffer();
@@ -100,14 +100,14 @@ public class PropertiesParser {
 		return returnVal;
 	}
 	
-	private static double getTextBlockHeight(List<String> propertiesText, PropertiesConfig originalPropCfg, BaseDrawHandler drawer) {
+	private static double getTextBlockHeight(List<String> propertiesText, PropertiesConfig originalPropCfg, DrawHandler drawer) {
 		PropertiesConfig tmpPropCfg = new PropertiesConfig(originalPropCfg.getSettings(), originalPropCfg.getGridElementSize());
 		tmpPropCfg.setElementStyle(originalPropCfg.getElementStyle()); // elementstyle is important for calculation (because of wordwrap)
 		handleWordWrapAndIterate(propertiesText, tmpPropCfg.getSettings().getLocalFacets(), tmpPropCfg, drawer.getPseudoDrawHandler());
 		return tmpPropCfg.getyPos();
 	}
 	
-	private static void handleWordWrapAndIterate(List<String> propertiesText, List<Facet> facets, PropertiesConfig propCfg, BaseDrawHandler drawer) {
+	private static void handleWordWrapAndIterate(List<String> propertiesText, List<Facet> facets, PropertiesConfig propCfg, DrawHandler drawer) {
 		boolean wordwrap = propCfg.getElementStyle() == ElementStyleEnum.WORDWRAP;
 		for (String line : propertiesText) {
 			if (wordwrap && !line.trim().isEmpty()) { // empty lines are skipped (otherwise they would get lost)
@@ -123,7 +123,7 @@ public class PropertiesParser {
 		}
 	}
 
-	private static void handleLine(List<Facet> facets, String line, PropertiesConfig propCfg, BaseDrawHandler drawer) {
+	private static void handleLine(List<Facet> facets, String line, PropertiesConfig propCfg, DrawHandler drawer) {
 		boolean drawText = parseFacets(facets, line, drawer, propCfg);
 		if (drawText) {
 			XValues xLimitsForText = propCfg.getXLimitsForArea(propCfg.getyPos(), drawer.textHeight());
@@ -138,7 +138,7 @@ public class PropertiesParser {
 		}
 	}
 	
-	private static boolean parseFacets(List<? extends Facet> facets, String line, BaseDrawHandler drawer, PropertiesConfig propCfg) {
+	private static boolean parseFacets(List<? extends Facet> facets, String line, DrawHandler drawer, PropertiesConfig propCfg) {
 		boolean drawText = true;
 		for (Facet f : facets) {
 			if (f.checkStart(line, propCfg)) {
@@ -149,7 +149,7 @@ public class PropertiesParser {
 		return drawText;
 	}
 	
-	private static double calcHorizontalTextBoundaries(XValues xLimitsForText, PropertiesConfig propCfg, BaseDrawHandler drawer) {
+	private static double calcHorizontalTextBoundaries(XValues xLimitsForText, PropertiesConfig propCfg, DrawHandler drawer) {
 		double x;
 		if (propCfg.gethAlign() == AlignHorizontal.LEFT) {
 			x = xLimitsForText.getLeft() + drawer.getDistanceHorizontalBorderToText();

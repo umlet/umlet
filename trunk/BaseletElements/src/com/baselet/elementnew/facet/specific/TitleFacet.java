@@ -1,7 +1,7 @@
 package com.baselet.elementnew.facet.specific;
 
 import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
@@ -22,7 +22,7 @@ public class TitleFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
 		double top = propConfig.getTopBuffer();
 		double height = drawer.textHeight() + UPPER_SPACE + LOWER_SPACE + top;
 		double corner = height * 0.4;

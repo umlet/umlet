@@ -2,7 +2,7 @@ package com.baselet.elementnew.facet.common;
 
 import java.util.Collection;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.PropertiesConfig;
@@ -20,7 +20,7 @@ public class GroupFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
 		try {
 			propConfig.setFacetResponse(GroupFacet.class, Integer.valueOf(value));
 		} catch (NumberFormatException e) {

@@ -19,7 +19,7 @@ import com.baselet.control.Notifier;
 import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.swing.BaseDrawHandlerSwing;
+import com.baselet.diagram.draw.swing.DrawHandlerSwing;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.GridElement;
@@ -388,8 +388,8 @@ public class DiagramHandler {
 		((Component) element.getComponent()).addMouseListener(Main.getHandlerForElement(element).getEntityListener(element));
 		((Component) element.getComponent()).addMouseMotionListener(Main.getHandlerForElement(element).getEntityListener(element));
 		if (element instanceof NewGridElement) {
-			((BaseDrawHandlerSwing) ((NewGridElement) element).getDrawer()).setHandler(this);
-			((BaseDrawHandlerSwing) ((NewGridElement) element).getMetaDrawer()).setHandler(this);
+			((DrawHandlerSwing) ((NewGridElement) element).getDrawer()).setHandler(this);
+			((DrawHandlerSwing) ((NewGridElement) element).getMetaDrawer()).setHandler(this);
 		}
 		if (element instanceof SequenceDiagram) {
 			((SequenceDiagram) element).zoomValues();

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.element.uml.relation.RelationPoints;
@@ -35,7 +35,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 	}
 
 	@Override
-	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleLine(String line, DrawHandler drawer, PropertiesConfig propConfig) {
 		RelationPoints relationPoints = ((SettingsRelation) propConfig.getSettings()).getRelationPoints();
 		String[] split = line.split(SEP, -1);
 		String key = split[0];

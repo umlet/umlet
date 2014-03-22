@@ -3,7 +3,7 @@ package com.baselet.elementnew.facet.specific;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.elementnew.PropertiesConfig;
 import com.baselet.elementnew.facet.GlobalFacet;
@@ -24,7 +24,7 @@ public class ActiveClassFacet extends GlobalFacet {
 	}
 
 	@Override
-	public void handleLine(String line, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleLine(String line, DrawHandler drawer, PropertiesConfig propConfig) {
 		propConfig.addToHorizontalBuffer(SPACING);
 		XValues xLimits = propConfig.getXLimits(propConfig.getyPos());
 		drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), propConfig.getGridElementSize().getHeight());

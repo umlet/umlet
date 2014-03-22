@@ -6,7 +6,7 @@ import java.util.List;
 import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
@@ -29,7 +29,7 @@ public class TemplateClassFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(String value, BaseDrawHandler drawer, PropertiesConfig propConfig) {
+	public void handleValue(String value, DrawHandler drawer, PropertiesConfig propConfig) {
 		propConfig.setFacetResponse(TemplateClassFacet.class, value);
 	}
 	
@@ -38,7 +38,7 @@ public class TemplateClassFacet extends KeyValueFacet {
 	}
 
 
-	public static List<PointDouble> drawTemplateClass(String templateClassText, BaseDrawHandler drawer, PropertiesConfig propConfig, int height, int width) {
+	public static List<PointDouble> drawTemplateClass(String templateClassText, DrawHandler drawer, PropertiesConfig propConfig, int height, int width) {
 		Rectangle tR = calcTemplateRect(templateClassText, drawer, width);
 		int classTopEnd = round(tR.getHeight()/2);
 		int classWidth = width-round(tR.getWidth()/2);
@@ -72,7 +72,7 @@ public class TemplateClassFacet extends KeyValueFacet {
 		return p;
 	}
 
-	private static Rectangle calcTemplateRect(String templateClassText, BaseDrawHandler drawer, int width) {
+	private static Rectangle calcTemplateRect(String templateClassText, DrawHandler drawer, int width) {
 		double templateHeight = drawer.textHeight() + UPPER_SPACE + LOWER_SPACE;
 		double templateWidth = drawer.textWidth(templateClassText) + LEFT_SPACE;
 		Rectangle tR = new Rectangle(width - templateWidth, 0.0, templateWidth, templateHeight);

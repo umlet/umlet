@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.SharedUtils;
-import com.baselet.diagram.draw.BaseDrawHandler;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.element.sticking.StickingPolygonGenerator;
@@ -50,7 +50,7 @@ public class Actor extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(BaseDrawHandler drawer, PropertiesConfig propCfg) {
+	protected void drawCommonContent(DrawHandler drawer, PropertiesConfig propCfg) {
 		// IMPORTANT: drawer must be used as parameter, because sometimes (eg: for autoresize calculation), the commonContent will be drawn by other drawers
 		propCfg.addToYPos(headToLegLength(drawer));
 		propCfg.updateCalculatedElementWidth(armLength(drawer)*2);
@@ -65,27 +65,27 @@ public class Actor extends NewGridElement {
 		propCfg.setStickingPolygonGenerator(actorStickingPolygonGenerator);
 	}
 	
-	private double headToLegLength(BaseDrawHandler drawer) {
+	private double headToLegLength(DrawHandler drawer) {
 		return legSpan(drawer)*2+headToBodyLength(drawer);
 	}
 
-	private double legSpan(BaseDrawHandler drawer) {
+	private double legSpan(DrawHandler drawer) {
 		return drawer.getCurrentStyle().getFontSize();
 	}
 
-	private double headToBodyLength(BaseDrawHandler drawer) {
+	private double headToBodyLength(DrawHandler drawer) {
 		return drawer.getCurrentStyle().getFontSize()*2+headRadius(drawer)*2;
 	}
 
-	private double armHeight(BaseDrawHandler drawer) {
+	private double armHeight(DrawHandler drawer) {
 		return armLength(drawer);
 	}
 
-	private double armLength(BaseDrawHandler drawer) {
+	private double armLength(DrawHandler drawer) {
 		return drawer.getCurrentStyle().getFontSize()*1.5;
 	}
 
-	private double headRadius(BaseDrawHandler drawer) {
+	private double headRadius(DrawHandler drawer) {
 		return drawer.getCurrentStyle().getFontSize()/2;
 	}
 }
