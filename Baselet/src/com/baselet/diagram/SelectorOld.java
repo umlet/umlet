@@ -87,7 +87,6 @@ public class SelectorOld extends Selector {
 		// update the current blue selected elements
 		if (currentSelector == null) currentSelector = this;
 		else if (currentSelector != this) {
-			currentSelector.deselectAll();
 			currentSelector = this;
 		}
 
