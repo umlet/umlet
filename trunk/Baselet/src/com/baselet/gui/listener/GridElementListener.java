@@ -123,7 +123,7 @@ public class GridElementListener extends UniversalListener {
 
 		Vector<Command> moveCommands = new Vector<Command>();
 		for (GridElement e : diagram.getAllEntities()) {
-			moveCommands.add(new Move(e, diffx, diffy));
+			moveCommands.add(new Move(e, diffx, diffy, oldp, true));
 		}
 
 		this.controller.executeCommand(new Macro(moveCommands));
@@ -264,10 +264,10 @@ public class GridElementListener extends UniversalListener {
 		int diffx = newp.x - oldp.x;
 		int diffy = newp.y - oldp.y;
 		if (!IS_FIRST_DRAGGING_OVER) {
-			firstDragging(diffx, diffy);
+			firstDragging(diffx, diffy, oldp);
 		}
 		else {
-			continueDragging(diffx, diffy);
+			continueDragging(diffx, diffy, oldp);
 		}
 		this.controller.executeCommand(new Macro(ALL_MOVE_COMMANDS));
 	}
@@ -275,16 +275,16 @@ public class GridElementListener extends UniversalListener {
 	/**
 	 * At the beginning of dragging entities sticking relations must be calculated (and also moved from now on)
 	 */
-	private void firstDragging(int diffx, int diffy) {
+	private void firstDragging(int diffx, int diffy, Point oldp) {
 		List<GridElement> entitiesToBeMoved = this.selector.getSelectedElements();
 
 		Vector<Move> moveCommands = new Vector<Move>();
 		Vector<MoveLinePoint> linepointCommands = new Vector<MoveLinePoint>();
-		for (GridElement e : entitiesToBeMoved) {
-			moveCommands.add(new Move(e, diffx, diffy));
+		for (GridElement ge : entitiesToBeMoved) {
+			moveCommands.add(new Move(ge, diffx, diffy, oldp, true));
 			boolean stickingDisabled = !SharedConstants.stickingEnabled || diagram.getHandler() instanceof PaletteHandler;
-			if (e instanceof Relation || stickingDisabled) continue;
-			StickingPolygon stick = e.generateStickingBorder(e.getRectangle());
+			if (ge instanceof Relation || stickingDisabled) continue;
+			StickingPolygon stick = ge.generateStickingBorder(ge.getRectangle());
 			if (stick != null) {
 				Vector<RelationLinePoint> affectedRelationPoints = Utils.getStickingRelationLinePoints(this.diagram.getHandler(), stick);
 				for (int j = 0; j < affectedRelationPoints.size(); j++) {
@@ -304,14 +304,15 @@ public class GridElementListener extends UniversalListener {
 
 	/**
 	 * After the firstDragging is over, the vector of entities which should be dragged doesn't change (nothing starts sticking during dragging)
+	 * @param oldp 
 	 */
-	private void continueDragging(int diffx, int diffy) {
+	private void continueDragging(int diffx, int diffy, Point oldp) {
 		Vector<Command> tmpVector = new Vector<Command>();
 		for (int i = 0; i < ALL_MOVE_COMMANDS.size(); i++) {
 			Command tmpCommand = ALL_MOVE_COMMANDS.elementAt(i);
 			if (tmpCommand instanceof Move) {
 				Move m = (Move) tmpCommand;
-				tmpVector.add(new Move(m.getEntity(), diffx, diffy));
+				tmpVector.add(new Move(m.getEntity(), diffx, diffy, oldp, false));
 			}
 			else if (tmpCommand instanceof MoveLinePoint) {
 				MoveLinePoint m = (MoveLinePoint) tmpCommand;

@@ -14,6 +14,7 @@ import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveLinePoint;
+import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.Relation;
@@ -71,15 +72,15 @@ public class GUIListener implements KeyListener {
 					if (entitiesToBeMoved.isEmpty()) entitiesToBeMoved = handler.getDrawPanel().getAllEntities();
 
 					// TODO The following code is very similar to EntityListener 96-144 and should be refactored
-					Vector<Command> moveCommands = new Vector<Command>();
-					for (GridElement entity : entitiesToBeMoved) {
-						moveCommands.add(new Move(entity, diffx, diffy));
+					Vector<Move> moveCommands = new Vector<Move>();
+					for (GridElement ge : entitiesToBeMoved) {
+						moveCommands.add(new Move(ge, diffx, diffy, getOriginalPos(diffx, diffy, ge), true));
 					}
 					Vector<Command> linepointCommands = new Vector<Command>();
 					if (SharedConstants.stickingEnabled && !(handler instanceof PaletteHandler)) {
-						for (GridElement tmpEntity : entitiesToBeMoved) {
-							if (tmpEntity instanceof Relation) continue;
-							StickingPolygon stick = tmpEntity.generateStickingBorder(tmpEntity.getRectangle());
+						for (GridElement ge : entitiesToBeMoved) {
+							if (ge instanceof Relation) continue;
+							StickingPolygon stick = ge.generateStickingBorder(ge.getRectangle());
 							if (stick != null) {
 								Vector<RelationLinePoint> affectedRelationPoints = Utils.getStickingRelationLinePoints(handler, stick);
 								for (int j = 0; j < affectedRelationPoints.size(); j++) {
@@ -99,7 +100,7 @@ public class GUIListener implements KeyListener {
 						Command tmpCommand = ALL_MOVE_COMMANDS.elementAt(i);
 						if (tmpCommand instanceof Move) {
 							Move m = (Move) tmpCommand;
-							tmpVector.add(new Move(m.getEntity(), diffx, diffy));
+							tmpVector.add(new Move(m.getEntity(), diffx, diffy, getOriginalPos(diffx, diffy, m.getEntity()), true));
 						}
 						else if (tmpCommand instanceof MoveLinePoint) {
 							MoveLinePoint m = (MoveLinePoint) tmpCommand;
@@ -125,6 +126,10 @@ public class GUIListener implements KeyListener {
 		// }
 		// }
 
+	}
+
+	private Point getOriginalPos(int diffx, int diffy, GridElement ge) {
+		return new Point(ge.getRectangle().x-diffx, ge.getRectangle().y-diffy);
 	}
 
 	@Override
