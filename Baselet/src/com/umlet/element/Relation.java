@@ -669,7 +669,7 @@ public class Relation extends OldGridElement {
 	@Override
 	public boolean contains(java.awt.Point p) {
 		// other relations which are selected are prioritized
-		for (GridElement other : Main.getHandlerForElement(this).getDrawPanel().getAllEntities()) {
+		for (GridElement other : Main.getHandlerForElement(this).getDrawPanel().getGridElements()) {
 			Selector s = Main.getHandlerForElement(other).getDrawPanel().getSelector();
 			if (other != this && other instanceof Relation && s.isSelected(other)) {
 				int xDist = getRectangle().x - other.getRectangle().x;

@@ -32,7 +32,7 @@ public class Search extends Command {
 		DrawPanel d = handler.getDrawPanel();
 		pattern = Pattern.compile(regex);
 		Matcher m;
-		for (GridElement e : d.getAllEntities()) {
+		for (GridElement e : d.getGridElements()) {
 			m = pattern.matcher(e.getPanelAttributes().toLowerCase());
 			if (m.find()) {
 				s.select(e);

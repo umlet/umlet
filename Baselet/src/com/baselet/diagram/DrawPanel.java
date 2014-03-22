@@ -181,7 +181,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 			Graphics2D g2d = (Graphics2D) g;
 			RepaintManager currentManager = RepaintManager.currentManager(this);
 			currentManager.setDoubleBufferingEnabled(false);
-			Rectangle bounds = this.getContentBounds(Constants.printPadding, getAllEntities());
+			Rectangle bounds = this.getContentBounds(Constants.printPadding, getGridElements());
 			g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 			AffineTransform t = g2d.getTransform();
 			double scale = Math.min(pageFormat.getImageableWidth() / bounds.width,
@@ -198,22 +198,22 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		}
 	}
 
-	public List<GridElement> getAllEntities() {
+	public List<GridElement> getGridElements() {
 		return gridElements;
 	}
 
-	public List<Relation> getAllRelations() {
-		return getAll(Relation.class);
+	public List<Relation> getOldRelations() {
+		return getHelper(Relation.class);
 	}
 
-	public List<com.baselet.elementnew.element.uml.relation.Relation> getAllNewRelations() {
-		return getAll(com.baselet.elementnew.element.uml.relation.Relation.class);
+	public List<com.baselet.elementnew.element.uml.relation.Relation> getNewRelations() {
+		return getHelper(com.baselet.elementnew.element.uml.relation.Relation.class);
 	}
 	
 	@SuppressWarnings("unchecked")
-	private <T extends GridElement> List<T> getAll(Class<T> filtered) {
+	private <T extends GridElement> List<T> getHelper(Class<T> filtered) {
 		List<T> gridElementsToReturn = new ArrayList<T>();
-		for (GridElement e : getAllEntities()) {
+		for (GridElement e : getGridElements()) {
 				if (e.getClass().equals(filtered)) gridElementsToReturn.add((T) e);
 		}
 		return gridElementsToReturn;
@@ -241,7 +241,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	 */
 	private void insertUpperLeftWhitespaceIfNeeded() {
 
-		Rectangle diaWithoutWhite = getContentBounds(0, getAllEntities());
+		Rectangle diaWithoutWhite = getContentBounds(0, getGridElements());
 		// We must adjust the components and the view by a certain factor
 		int adjustWidth = 0;
 		if (diaWithoutWhite.getX() < 0) adjustWidth = diaWithoutWhite.getX();
@@ -284,7 +284,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	 */
 	private void removeUnnecessaryWhitespaceAroundDiagram() {
 
-		Rectangle diaWithoutWhite = getContentBounds(0, getAllEntities());
+		Rectangle diaWithoutWhite = getContentBounds(0, getGridElements());
 		Dimension viewSize = getViewableDiagrampanelSize();
 		int horSbPos = _scr.getHorizontalScrollBar().getValue();
 		int verSbPos = _scr.getVerticalScrollBar().getValue();
@@ -326,7 +326,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 
 		moveOrigin(newX, newY);
 
-		for (GridElement ge : getAllEntities()) {
+		for (GridElement ge : getGridElements()) {
 			ge.setLocation(handler.realignToGrid(false, ge.getRectangle().x - newX), handler.realignToGrid(false, ge.getRectangle().y - newY));
 		}
 
@@ -349,7 +349,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		 * This is needed to avoid appearing scrollbars if the diagramm is on the bottom right
 		 */
 
-		Rectangle diaWithoutWhite = getContentBounds(0, getAllEntities());
+		Rectangle diaWithoutWhite = getContentBounds(0, getGridElements());
 		Dimension viewSize = getViewableDiagrampanelSize();
 
 		boolean vertWasVisible = isVerticalScrollbarVisible();

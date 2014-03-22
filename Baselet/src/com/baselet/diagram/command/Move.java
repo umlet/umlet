@@ -62,13 +62,13 @@ public class Move extends Command {
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
 		// resize directions is empty and shift-key is always false, because standalone UMLet has a separate Resize-Command
-		this.entity.drag(Collections.<Direction> emptySet(), getX(), getY(), getMousePosBeforeDrag(), false, firstDrag, Main.getHandlerForElement(entity).getDrawPanel().getAllNewRelations());
+		this.entity.drag(Collections.<Direction> emptySet(), getX(), getY(), getMousePosBeforeDrag(), false, firstDrag, Main.getHandlerForElement(entity).getDrawPanel().getNewRelations());
 	}
 
 	@Override
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
-		this.entity.drag(Collections.<Direction> emptySet(), -getX(), -getY(), getMousePosBeforeDrag(), false, firstDrag, Main.getHandlerForElement(entity).getDrawPanel().getAllNewRelations());
+		this.entity.drag(Collections.<Direction> emptySet(), -getX(), -getY(), getMousePosBeforeDrag(), false, firstDrag, Main.getHandlerForElement(entity).getDrawPanel().getNewRelations());
 		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 	}
 

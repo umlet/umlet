@@ -60,11 +60,11 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 	}
 
 	private void drawBlackEllipse(final DrawHandler drawer, double width, double height, double radius) {
-		Style oldStyle = drawer.getCurrentStyle().cloneFromMe();
-		if (drawer.getCurrentStyle().getBgColor() == ColorOwn.DEFAULT_BACKGROUND) {
+		Style oldStyle = drawer.getStyle().cloneFromMe();
+		if (drawer.getStyle().getBgColor() == ColorOwn.DEFAULT_BACKGROUND) {
 			drawer.setBackgroundColor(ColorOwn.BLACK.transparency(Transparency.FOREGROUND));
 		} else {
-			drawer.setBackgroundColor(drawer.getCurrentStyle().getBgColor().transparency(Transparency.FOREGROUND));
+			drawer.setBackgroundColor(drawer.getStyle().getBgColor().transparency(Transparency.FOREGROUND));
 		}
 		drawer.drawEllipse(radius, radius, width-radius*2, height-radius*2);
 		drawer.setStyle(oldStyle);

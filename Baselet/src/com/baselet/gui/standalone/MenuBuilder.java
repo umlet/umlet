@@ -164,7 +164,7 @@ public class MenuBuilder {
 		if (!(handler instanceof PaletteHandler) && !(handler instanceof CustomPreviewHandler)) {
 			menuFactory.updateDiagramDependendComponents();
 
-			if ((handler == null) || handler.getDrawPanel().getAllEntities().isEmpty()) {
+			if ((handler == null) || handler.getDrawPanel().getGridElements().isEmpty()) {
 				mailButton.setEnabled(false);
 			}
 			else {
@@ -173,7 +173,7 @@ public class MenuBuilder {
 		}
 
 		// The menu_edit menuitems always work with the actual selected diagram (diagram, palette or custompreview), therefore we change it everytime
-		if ((handler == null) || handler.getDrawPanel().getAllEntities().isEmpty()) {
+		if ((handler == null) || handler.getDrawPanel().getGridElements().isEmpty()) {
 			editCopy.setEnabled(false);
 			editSelectAll.setEnabled(false);
 		}

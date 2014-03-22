@@ -78,7 +78,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 	public void setEnabled(boolean en) {
 		super.setEnabled(en);
 		if (en && this.visible) {
-			if (this.panel.getAllEntities().size() == 0) this.setVisible(true);
+			if (this.panel.getGridElements().size() == 0) this.setVisible(true);
 			else this.visible = false;
 		}
 		else {
