@@ -32,6 +32,7 @@ public class ConfigHandler {
 	private static final String PDF_EXPORT_FONT = "pdf_export_font";
 	private static final String CHECK_FOR_UPDATES = "check_for_updates";
 	private static final String OPEN_FILE_HOME = "open_file_home";
+	private static final String DEV_MODE = "dev_mode";
 	private static final String LAST_USED_PALETTE = "last_used_palette";
 	private static final String MAIN_SPLIT_POSITION = "main_split_position";
 	private static final String RIGHT_SPLIT_POSITION = "right_split_position";
@@ -92,6 +93,7 @@ public class ConfigHandler {
 		Constants.pdfExportFont = getStringProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
 		Constants.checkForUpdates = getBoolProperty(CHECK_FOR_UPDATES, Constants.checkForUpdates);
 		Constants.openFileHome = getStringProperty(OPEN_FILE_HOME, Constants.openFileHome);
+		Constants.dev_mode = getBoolProperty(DEV_MODE, Constants.dev_mode);
 		
 		// only set last used palette if its a valid palette, otherwise leave the default value
 		String tempVal = getStringProperty(LAST_USED_PALETTE, null);
@@ -159,6 +161,7 @@ public class ConfigHandler {
 			props.setProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
 			props.setProperty(CHECK_FOR_UPDATES, Boolean.toString(Constants.checkForUpdates));
 			props.setProperty(OPEN_FILE_HOME, Constants.openFileHome);
+			props.setProperty(DEV_MODE, Boolean.toString(Constants.dev_mode));
 			props.setProperty(LAST_USED_PALETTE, Constants.lastUsedPalette);
 			
 			BaseGUI gui = Main.getInstance().getGUI();

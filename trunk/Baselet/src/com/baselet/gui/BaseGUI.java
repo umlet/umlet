@@ -16,10 +16,12 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Config;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
+import com.baselet.control.SharedConstants;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
+import com.baselet.elementnew.NewGridElement;
 import com.umlet.custom.CustomElement;
 import com.umlet.custom.CustomElementHandler;
 
@@ -52,15 +54,15 @@ public abstract class BaseGUI {
 
 	public abstract void focusPropertyPane();
 
-	public JPopupMenu getContextMenu(GridElement entity) {
+	public JPopupMenu getContextMenu(GridElement e) {
 		MenuFactorySwing menuFactory = MenuFactorySwing.getInstance();
 
 		JPopupMenu contextMenu = new JPopupMenu();
-		if (entity instanceof CustomElement) {
+		if (e instanceof CustomElement) {
 			contextMenu.add(menuFactory.createEditSelected());
 		}
 
-		if (!(Main.getHandlerForElement(entity) instanceof CustomPreviewHandler)) {
+		if (!(Main.getHandlerForElement(e) instanceof CustomPreviewHandler)) {
 			contextMenu.add(menuFactory.createDelete());
 			contextMenu.add(menuFactory.createCopy());
 			contextMenu.add(menuFactory.createCut());
@@ -71,7 +73,7 @@ public abstract class BaseGUI {
 
 		JMenuItem ungroup = menuFactory.createUngroup();
 		contextMenu.add(ungroup);
-		if (entity.getGroup() == null) ungroup.setEnabled(false);
+		if (e.getGroup() == null) ungroup.setEnabled(false);
 
 		contextMenu.add(menuFactory.createSetColor(true));
 		contextMenu.add(menuFactory.createSetColor(false));
@@ -80,6 +82,11 @@ public abstract class BaseGUI {
 		JMenu alignmentMenu = menuFactory.createAlign();
 		alignmentMenu.setEnabled(this.selected_elements.size() > 1); // only enable when at least 2 elements are selected
 		contextMenu.add(alignmentMenu);
+
+		// as help for developers, the contextmenu shows the element id for NewGridElements
+		if (SharedConstants.dev_mode && e instanceof NewGridElement) {
+			contextMenu.add(new JMenuItem("ElementId: " + e.getId()));
+		}
 
 		return contextMenu;
 	}
