@@ -82,6 +82,7 @@ public class Relation extends NewGridElement implements Stickable {
 	@Override
 	public void dragEnd() {
 		boolean updateNecessary = relationPoints.removeRelationPointOfCurrentDragIfItOverlaps();
+		updateNecessary = updateNecessary || relationPoints.removeRelationPointIfOnLineBetweenNeighbourPoints();
 		if (updateNecessary) {
 			updateModelFromText();
 		}
