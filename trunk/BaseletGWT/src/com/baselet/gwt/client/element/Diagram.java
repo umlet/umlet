@@ -3,9 +3,9 @@ package com.baselet.gwt.client.element;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
+import com.baselet.control.SharedConstants;
 import com.baselet.element.GridElement;
 import com.baselet.element.HasPanelAttributes;
 import com.baselet.elementnew.element.uml.relation.Relation;
@@ -49,11 +49,13 @@ public class Diagram implements HasPanelAttributes, HasGridElements {
 		}
 
 		public void moveGridElements(int diffX, int diffY, boolean firstDrag, List<GridElement> elements) {
-			// only stickables which are not moved themselves must be used for sticking-checks (otherwise a stickable can be moved itself and by "sticking" to a stickingpolygon afterwards)
-			List<Relation> stickablesToCheck = getRelations();
-			for (Iterator<Relation> iter = stickablesToCheck.iterator(); iter.hasNext();) {
-				if (elements.contains(iter.next())) {
-					iter.remove();
+			List<Relation> stickablesToCheck = new ArrayList<Relation>();
+			if (SharedConstants.stickingEnabled) {
+				// only stickables which are not moved themselves must be used for sticking-checks (otherwise a stickable can be moved itself and by "sticking" to a stickingpolygon afterwards)
+				for (Relation r : getRelations()) {
+					if (!elements.contains(r)) {
+						stickablesToCheck.add(r);
+					}
 				}
 			}
 			for (GridElement ge : elements) {
