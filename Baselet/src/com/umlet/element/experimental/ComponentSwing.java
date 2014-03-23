@@ -88,7 +88,7 @@ public class ComponentSwing extends JComponent implements Component {
 	
 	@Override
 	public void afterModelUpdate() {
-		// do nothing special
+		repaint(); // necessary e.g. for NewGridElement Relation to make sure it gets redrawn correctly when a sticking element is moved around
 	}
 
 }
