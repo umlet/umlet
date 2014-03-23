@@ -98,7 +98,10 @@ public class GridElementListener extends UniversalListener {
 			e.setLocation(me.getX() - 100, me.getY() - 20);
 		}
 		resizeDirection = e.getResizeArea(me.getX(), me.getY());
-		if (resizeDirection.isEmpty()) {
+		Point point = new Point(me.getX() + e.getRectangle().getX(), me.getY() + e.getRectangle().getY());
+		if (!e.isSelectableOn(point)) {
+			Main.getInstance().getGUI().setCursor(Constants.DEFAULT_CURSOR);
+		} else if (resizeDirection.isEmpty()) {
 			Main.getInstance().getGUI().setCursor(Constants.HAND_CURSOR);
 		} else if ((resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) || (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT))) {
 			Main.getInstance().getGUI().setCursor(Constants.NE_CURSOR);
