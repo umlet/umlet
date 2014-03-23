@@ -32,6 +32,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
 import com.google.gwt.event.dom.client.HasMouseOverHandlers;
 import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
@@ -365,11 +366,6 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 	}
 
 	public void handleKeyDown(KeyDownEvent event) {
-		//		boolean isZoomKey = Shortcut.ZOOM_IN.matches(event) || Shortcut.ZOOM_OUT.matches(event) ||Shortcut.ZOOM_RESET.matches(event);
-		//		if (!isZoomKey && !Shortcut.FULLSCREEN.matches(event)) {
-		//			event.preventDefault(); // avoid most browser key handlings
-		//		}
-
 		boolean avoidBrowserDefault = true;
 		if (Shortcut.DELETE_ELEMENT.matches(event)) {
 			commandInvoker.removeSelectedElements(DrawPanel.this);
@@ -407,13 +403,23 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		else if (Shortcut.MOVE_RIGHT.matches(event)) {
 			moveSelectedElements(SharedConstants.DEFAULT_GRID_SIZE, 0, true);
 			redraw();
-		} else {
+		}
+		else if (Shortcut.DISABLE_STICKING.matches(event)) {
+			SharedConstants.stickingEnabled = false;
+		}
+		else {
 			avoidBrowserDefault = false;
 		}
 
 		// avoid browser default key handling for all overwritten keys, but not for others (like F5 for refresh or the zoom controls)
 		if (avoidBrowserDefault) {
 			event.preventDefault();
+		}
+	}
+	
+	public void handleKeyUp(KeyUpEvent event) {
+		if (Shortcut.DISABLE_STICKING.matches(event)) {
+			SharedConstants.stickingEnabled = true;
 		}
 	}
 

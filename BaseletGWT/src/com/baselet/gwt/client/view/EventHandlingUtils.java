@@ -17,6 +17,8 @@ import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseEvent;
@@ -195,6 +197,14 @@ public class EventHandlingUtils {
 			public void onKeyDown(KeyDownEvent event) {
 				if (storage.activePanel != null) {
 					storage.activePanel.handleKeyDown(event);
+				}
+			}
+		}));
+		storage.nonTouchHandlers.add(handlerTarget.addKeyUpHandler(new KeyUpHandler() {
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if (storage.activePanel != null) {
+					storage.activePanel.handleKeyUp(event);
 				}
 			}
 		}));
