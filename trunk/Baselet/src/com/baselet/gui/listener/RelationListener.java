@@ -8,6 +8,7 @@ import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.AddLinePoint;
 import com.baselet.diagram.command.Move;
+import com.baselet.diagram.command.Move.MoveType;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.RemoveElement;
 import com.baselet.diagram.command.RemoveLinePoint;
@@ -118,7 +119,7 @@ public class RelationListener extends GridElementListener {
 			return;
 		}
 		else if (IS_DRAGGING_LINE) {
-			this.controller.executeCommand(new Move(r, diffx, diffy, oldp, true));
+			this.controller.executeCommand(new Move(r, diffx, diffy, oldp, MoveType.SET_LOCATION)); // MoveType.SET_LOCATION because it's an old class and does only set location in its drag() method
 			return;
 		}
 

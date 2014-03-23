@@ -25,6 +25,7 @@ import com.baselet.diagram.command.AddElement;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
+import com.baselet.diagram.command.Move.MoveType;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.geom.Point;
@@ -126,7 +127,7 @@ public class GridElementListener extends UniversalListener {
 
 		Vector<Command> moveCommands = new Vector<Command>();
 		for (GridElement e : diagram.getGridElements()) {
-			moveCommands.add(new Move(e, diffx, diffy, oldp, true));
+			moveCommands.add(new Move(e, diffx, diffy, oldp, MoveType.CONTINUE_DRAG));
 		}
 
 		this.controller.executeCommand(new Macro(moveCommands));
@@ -287,7 +288,7 @@ public class GridElementListener extends UniversalListener {
 		Vector<Move> moveCommands = new Vector<Move>();
 		Vector<MoveLinePoint> linepointCommands = new Vector<MoveLinePoint>();
 		for (GridElement ge : entitiesToBeMoved) {
-			moveCommands.add(new Move(ge, diffx, diffy, oldp, true));
+			moveCommands.add(new Move(ge, diffx, diffy, oldp, MoveType.FIRST_DRAG));
 			boolean stickingDisabled = !SharedConstants.stickingEnabled || diagram.getHandler() instanceof PaletteHandler;
 			if (ge instanceof Relation || stickingDisabled) continue;
 			StickingPolygon stick = ge.generateStickingBorder(ge.getRectangle());
@@ -318,7 +319,7 @@ public class GridElementListener extends UniversalListener {
 			Command tmpCommand = ALL_MOVE_COMMANDS.elementAt(i);
 			if (tmpCommand instanceof Move) {
 				Move m = (Move) tmpCommand;
-				tmpVector.add(new Move(m.getEntity(), diffx, diffy, oldp, false));
+				tmpVector.add(new Move(m.getEntity(), diffx, diffy, oldp, MoveType.CONTINUE_DRAG));
 			}
 			else if (tmpCommand instanceof MoveLinePoint) {
 				MoveLinePoint m = (MoveLinePoint) tmpCommand;
