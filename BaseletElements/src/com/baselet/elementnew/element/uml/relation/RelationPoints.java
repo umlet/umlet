@@ -103,26 +103,6 @@ public class RelationPoints {
 		repositionRelationAndPointsBasedOnPoints();
 	}
 
-	/**
-	 * if a relation-point was dragged and there are more than 2 relation-points and the last dragged relation-point overlaps
-	 * a neighbour relation-point, they get merged into one point.
-	 * @return relation points have been merged
-	 */
-	public boolean removeRelationPointOfCurrentDragIfItOverlaps() {
-		if (relationPointOfCurrentDrag != null && points.size() > 2) {
-			PointDouble lastPoint = points.get(0);
-			for (int i = 1; i < points.size(); i++) {
-				if (points.get(i).equals(lastPoint)) {
-					points.remove(i);
-					return true;
-				} else {
-					lastPoint = points.get(i);
-				}
-			}
-		}
-		return false;
-	}
-
 	public boolean removeRelationPointIfOnLineBetweenNeighbourPoints() {
 		boolean updateNecessary = false;
 		if (relationPointOfCurrentDrag != null && points.size() > 2) {
