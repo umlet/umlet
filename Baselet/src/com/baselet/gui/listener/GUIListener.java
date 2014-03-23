@@ -13,6 +13,7 @@ import com.baselet.diagram.PaletteHandler;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
+import com.baselet.diagram.command.Move.MoveType;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
@@ -74,7 +75,7 @@ public class GUIListener implements KeyListener {
 					// TODO The following code is very similar to EntityListener 96-144 and should be refactored
 					Vector<Move> moveCommands = new Vector<Move>();
 					for (GridElement ge : entitiesToBeMoved) {
-						moveCommands.add(new Move(ge, diffx, diffy, getOriginalPos(diffx, diffy, ge), true));
+						moveCommands.add(new Move(ge, diffx, diffy, getOriginalPos(diffx, diffy, ge), MoveType.SET_LOCATION));
 					}
 					Vector<Command> linepointCommands = new Vector<Command>();
 					if (SharedConstants.stickingEnabled && !(handler instanceof PaletteHandler)) {
@@ -100,7 +101,7 @@ public class GUIListener implements KeyListener {
 						Command tmpCommand = ALL_MOVE_COMMANDS.elementAt(i);
 						if (tmpCommand instanceof Move) {
 							Move m = (Move) tmpCommand;
-							tmpVector.add(new Move(m.getEntity(), diffx, diffy, getOriginalPos(diffx, diffy, m.getEntity()), true));
+							tmpVector.add(new Move(m.getEntity(), diffx, diffy, getOriginalPos(diffx, diffy, m.getEntity()), MoveType.SET_LOCATION));
 						}
 						else if (tmpCommand instanceof MoveLinePoint) {
 							MoveLinePoint m = (MoveLinePoint) tmpCommand;
@@ -113,18 +114,6 @@ public class GUIListener implements KeyListener {
 				}
 			}
 		}
-
-		// TODO implement ESC Overview
-		// if ((e.getModifiersEx() == 0) && (e.getKeyCode() == KeyEvent.VK_ESCAPE)) {
-		// if ((handler != null) && (handler.getDrawPanel() != null)) {
-		// // As long as the horizontal or vertical scrollbar is visible we must zoom 1 step out
-		// while (handler.getDrawPanel().getScrollPanel().getHorizontalScrollBar().isVisible() ||
-		// handler.getDrawPanel().getScrollPanel().getVerticalScrollBar().isVisible()) {
-		// int actualZoom = handler.getGridSize();
-		// handler.setGridAndZoom(actualZoom - 1);
-		// }
-		// }
-		// }
 
 	}
 

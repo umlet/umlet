@@ -13,6 +13,10 @@ import com.baselet.element.GridElement;
 
 public class Move extends Command {
 	
+	public static enum MoveType {
+		FIRST_DRAG, CONTINUE_DRAG, SET_LOCATION;
+	}
+	
 	private static final Logger log = Logger.getLogger(Move.class);
 	
 	private GridElement entity;
@@ -21,7 +25,7 @@ public class Move extends Command {
 
 	private int _xbeforeDrag, _ybeforeDrag;
 
-	private boolean firstDrag;
+	private MoveType moveType;
 
 	public GridElement getEntity() {
 		return entity;
@@ -47,28 +51,37 @@ public class Move extends Command {
 		return p;
 	}
 
-	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag) {
+	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, MoveType moveType) {
 		entity = e;
 		int gridSize = Main.getHandlerForElement(e).getGridSize();
 		_x = x / gridSize;
 		_y = y / gridSize;
 		_xbeforeDrag = mousePosBeforeDrag.getX() / gridSize;
 		_ybeforeDrag = mousePosBeforeDrag.getY() / gridSize;
-		this.firstDrag = firstDrag;
+		this.moveType = moveType;
 		log.debug("Base for (x,y): (" + _x + "," + _y + ")");
 	}
 
 	@Override
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
-		// resize directions is empty and shift-key is always false, because standalone UMLet has a separate Resize-Command
-		this.entity.drag(Collections.<Direction> emptySet(), getX(), getY(), getMousePosBeforeDrag(), false, firstDrag, Main.getHandlerForElement(entity).getDrawPanel().getNewRelations());
+		if (moveType == MoveType.SET_LOCATION) {
+			this.entity.setLocationDifference(getX(), getY());
+		} else {
+			// resize directions is empty and shift-key is always false, because standalone UMLet has a separate Resize-Command
+			this.entity.drag(Collections.<Direction> emptySet(), getX(), getY(), getMousePosBeforeDrag(), false, moveType == MoveType.FIRST_DRAG, Main.getHandlerForElement(entity).getDrawPanel().getNewRelations());
+		}
 	}
 
 	@Override
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
-		this.entity.drag(Collections.<Direction> emptySet(), -getX(), -getY(), getMousePosBeforeDrag(), false, firstDrag, Main.getHandlerForElement(entity).getDrawPanel().getNewRelations());
+		if (moveType == MoveType.SET_LOCATION) {
+			this.entity.setLocationDifference(-getX(), -getY());
+		} else {
+		this.entity.drag(Collections.<Direction> emptySet(), -getX(), -getY(), getMousePosBeforeDrag(), false, moveType == MoveType.FIRST_DRAG, Main.getHandlerForElement(entity).getDrawPanel().getNewRelations());
+		}
+		this.entity.dragEnd();
 		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 	}
 
@@ -77,14 +90,14 @@ public class Move extends Command {
 		if (!(c instanceof Move)) return false;
 		Move m = (Move) c;
 		// if the mousePosBeforeDrag is different, the user has released the mousebutton inbetween and the commands should not be merged
-		if (!this.getMousePosBeforeDrag().equals(m.getMousePosBeforeDrag()) || this.firstDrag != m.firstDrag) return false;
+		if (!this.getMousePosBeforeDrag().equals(m.getMousePosBeforeDrag()) || this.moveType != m.moveType) return false;
 		return this.entity == m.entity;
 	}
 
 	@Override
 	public Command mergeTo(Command c) {
 		Move m = (Move) c;
-		Move ret = new Move(this.entity, this.getX() + m.getX(), this.getY() + m.getY(), getMousePosBeforeDrag(), firstDrag);
+		Move ret = new Move(this.entity, this.getX() + m.getX(), this.getY() + m.getY(), getMousePosBeforeDrag(), moveType);
 		return ret;
 	}
 }
