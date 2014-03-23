@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.baselet.control.SharedConstants;
 import com.baselet.element.GridElement;
 import com.baselet.element.HasPanelAttributes;
 import com.baselet.elementnew.element.uml.relation.Relation;
@@ -50,12 +49,10 @@ public class Diagram implements HasPanelAttributes, HasGridElements {
 
 		public void moveGridElements(int diffX, int diffY, boolean firstDrag, List<GridElement> elements) {
 			List<Relation> stickablesToCheck = new ArrayList<Relation>();
-			if (SharedConstants.stickingEnabled) {
-				// only stickables which are not moved themselves must be used for sticking-checks (otherwise a stickable can be moved itself and by "sticking" to a stickingpolygon afterwards)
-				for (Relation r : getRelations()) {
-					if (!elements.contains(r)) {
-						stickablesToCheck.add(r);
-					}
+			// only stickables which are not moved themselves must be used for sticking-checks (otherwise a stickable can be moved itself and by "sticking" to a stickingpolygon afterwards)
+			for (Relation r : getRelations()) {
+				if (!elements.contains(r)) {
+					stickablesToCheck.add(r);
 				}
 			}
 			for (GridElement ge : elements) {
@@ -67,7 +64,7 @@ public class Diagram implements HasPanelAttributes, HasGridElements {
 			Collections.sort(gridElements, LAYER_COMPARATOR);
 			return getGridElements();
 		}
-		
+
 		@Override
 		public void setPanelAttributes(String panelAttributes) {
 			this.helpText = panelAttributes;

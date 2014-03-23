@@ -12,6 +12,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.element.sticking.StickingPolygon.StickLine;
@@ -23,17 +24,19 @@ public class Stickables {
 	public static Map<Stickable, Set<PointDouble>> getStickingPointsWhichAreConnectedToStickingPolygon(StickingPolygon oldStickingPolygon, Collection<? extends Stickable> stickables, int maxDistance) {
 		log.debug("Polygon to check: " + oldStickingPolygon);
 		Map<Stickable, Set<PointDouble>> returnMap = new HashMap<Stickable, Set<PointDouble>>();
-		for (final Stickable stickable : stickables) {
-			for (final PointDouble p : stickable.getStickablePoints()) {
-				PointDouble absolutePointPosition = getAbsolutePosition(stickable, p);
-				log.debug("Check if sticks: " + absolutePointPosition);
-				for (StickLine sl : oldStickingPolygon.getStickLines()) {
-					if (sl.isConnected(absolutePointPosition, maxDistance)) {
-						Set<PointDouble> points = returnMap.get(stickable);
-						if (points == null) {
-							returnMap.put(stickable, new HashSet<PointDouble>(Arrays.asList(p)));
-						} else {
-							points.add(p);
+		if (SharedConstants.stickingEnabled) {
+			for (final Stickable stickable : stickables) {
+				for (final PointDouble p : stickable.getStickablePoints()) {
+					PointDouble absolutePointPosition = getAbsolutePosition(stickable, p);
+					log.debug("Check if sticks: " + absolutePointPosition);
+					for (StickLine sl : oldStickingPolygon.getStickLines()) {
+						if (sl.isConnected(absolutePointPosition, maxDistance)) {
+							Set<PointDouble> points = returnMap.get(stickable);
+							if (points == null) {
+								returnMap.put(stickable, new HashSet<PointDouble>(Arrays.asList(p)));
+							} else {
+								points.add(p);
+							}
 						}
 					}
 				}
