@@ -217,6 +217,9 @@ public class GridElementListener extends UniversalListener {
 		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) {
 			if (selector.isSelected(e) && DESELECT_MULTISEL) this.selector.deselect(e);
 		}
+		if (IS_DRAGGING) {
+			e.dragEnd();
+		}
 
 		DESELECT_MULTISEL = false;
 		IS_DRAGGING = false;
