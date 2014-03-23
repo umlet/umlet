@@ -49,6 +49,12 @@ public enum Shortcut {
 			return event.isControlKeyDown() && code == 'S';
 		}
 	}),
+	DISABLE_STICKING("SHIFT", "hold to disable sticking of elements", Category.DIAGRAM, new Check() {
+		@Override
+		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
+			return code == KeyCodes.KEY_SHIFT;
+		}
+	}),
 	MOVE_UP("Cursor ↑", "moves selected element(s) up", Category.DIAGRAM, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
@@ -71,12 +77,6 @@ public enum Shortcut {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return code == KeyCodes.KEY_RIGHT;
-		}
-	}),
-	DISABLE_STICKING("SHIFT", "save current diagram in browser storage", Category.DIAGRAM, new Check() {
-		@Override
-		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
-			return code == KeyCodes.KEY_SHIFT;
 		}
 	}),
 	
