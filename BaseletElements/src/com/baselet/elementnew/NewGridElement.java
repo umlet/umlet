@@ -314,8 +314,6 @@ public abstract class NewGridElement implements GridElement {
 		return state.getFacetResponse(GroupFacet.class, null);
 	}
 	
-	public abstract ElementId getId();
-
 	@Override
 	public void handleAutoresize(DimensionDouble necessaryElementDimension, AlignHorizontal alignHorizontal) {
 		double hSpaceLeftAndRight = drawer.getDistanceHorizontalBorderToText() * 2;
@@ -333,6 +331,7 @@ public abstract class NewGridElement implements GridElement {
 		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
 		moveStickables(firstDrag, stickables, oldStickingPolygon);
 	}
+	
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
 		StickingPolygon stickingPolygonBeforeLocationChange = generateStickingBorder();
