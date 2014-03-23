@@ -39,7 +39,7 @@ public class Line {
 	}
 	
 	public double getLength() {
-		return distanceBetweenTwoPoints(start, end);
+		return GeometricFunctions.distanceBetweenTwoPoints(start, end);
 	}
 
 	public double getAngleOfSlope() {
@@ -58,41 +58,11 @@ public class Line {
 	 * @return minimal distance from point to line as double value
 	 */
 	public double getDistanceToPoint(PointDouble pointToCheck) {
-		double dist = distanceHelper(start.x, start.y, end.x, end.y, pointToCheck.x, pointToCheck.y);
+		double dist = GeometricFunctions.getDistanceBetweenLineAndPoint(start, end, pointToCheck);
 		log.trace("Minimal distance between " + this + " and " + pointToCheck + " is " + dist);
 		return dist;
 	}
 
-	/**
-	 * implementation is based on http://stackoverflow.com/questions/849211/shortest-distance-between-a-point-and-a-line-segment/2233538#2233538
-	 */
-	private static double distanceHelper(double x1, double y1, double x2, double y2, double checkX, double checkY) {
-		double px = x2 - x1;
-		double py = y2 - y1;
-
-		double mult = px * px + py * py;
-		double u = ((checkX - x1) * px + (checkY - y1) * py) / mult;
-
-		if (u > 1) u = 1;
-		else if (u < 0) u = 0;
-
-		double x = x1 + u * px;
-		double y = y1 + u * py;
-		
-		return distanceBetweenTwoPoints(x, y, checkX, checkY);
-	}
-
-	public static double distanceBetweenTwoPoints(PointDouble p1, PointDouble p2) {
-		return distanceBetweenTwoPoints(p1.x,  p1.y, p2.x, p2.y);
-	}
-	
-	public static double distanceBetweenTwoPoints(double x1, double y1, double x2, double y2) {
-		double xDist = x1-x2;
-		double yDist = y1-y2;
-		return Math.sqrt(xDist * xDist + yDist * yDist);
-	}
-
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

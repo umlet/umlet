@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.geom.GeometricFunctions;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
@@ -119,6 +121,30 @@ public class RelationPoints {
 			}
 		}
 		return false;
+	}
+
+	public boolean removeRelationPointIfOnLineBetweenNeighbourPoints() {
+		boolean updateNecessary = false;
+		if (relationPointOfCurrentDrag != null && points.size() > 2) {
+			ListIterator<PointDouble> iter = points.listIterator();
+			PointDouble leftNeighbour = iter.next();
+			PointDouble pointToCheck = iter.next();
+			while (iter.hasNext()) {
+				PointDouble rightNeighbour = iter.next();
+				// if a point lies on the line between its 2 neighbourpoints, it will be removed
+				if (GeometricFunctions.getDistanceBetweenLineAndPoint(leftNeighbour, rightNeighbour, pointToCheck) < 5) {
+					updateNecessary = true;
+					iter.previous();
+					iter.previous();
+					iter.remove();
+					pointToCheck = iter.next();
+				} else {
+					leftNeighbour = pointToCheck;
+					pointToCheck = rightNeighbour;
+				}
+			}
+		}
+		return updateNecessary;
 	}
 
 	void repositionRelationAndPointsBasedOnPoints() {
