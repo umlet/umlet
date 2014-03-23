@@ -25,7 +25,6 @@ import com.baselet.diagram.command.AddElement;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
-import com.baselet.diagram.command.Move.MoveType;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.geom.Point;
@@ -127,7 +126,7 @@ public class GridElementListener extends UniversalListener {
 
 		Vector<Command> moveCommands = new Vector<Command>();
 		for (GridElement e : diagram.getGridElements()) {
-			moveCommands.add(new Move(e, diffx, diffy, oldp, MoveType.CONTINUE_DRAG));
+			moveCommands.add(new Move(e, diffx, diffy, oldp, false, true));
 		}
 
 		this.controller.executeCommand(new Macro(moveCommands));
@@ -287,8 +286,9 @@ public class GridElementListener extends UniversalListener {
 
 		Vector<Move> moveCommands = new Vector<Move>();
 		Vector<MoveLinePoint> linepointCommands = new Vector<MoveLinePoint>();
+		boolean useSetLocation = entitiesToBeMoved.size() != 1; // if >1 elements are selected they will be moved
 		for (GridElement ge : entitiesToBeMoved) {
-			moveCommands.add(new Move(ge, diffx, diffy, oldp, MoveType.FIRST_DRAG));
+			moveCommands.add(new Move(ge, diffx, diffy, oldp, true, useSetLocation));
 			boolean stickingDisabled = !SharedConstants.stickingEnabled || diagram.getHandler() instanceof PaletteHandler;
 			if (ge instanceof Relation || stickingDisabled) continue;
 			StickingPolygon stick = ge.generateStickingBorder(ge.getRectangle());
@@ -314,12 +314,13 @@ public class GridElementListener extends UniversalListener {
 	 * @param oldp 
 	 */
 	private void continueDragging(int diffx, int diffy, Point oldp) {
+		boolean useSetLocation =  this.selector.getSelectedElements().size() != 1; // if >1 elements are selected they will be moved
 		Vector<Command> tmpVector = new Vector<Command>();
 		for (int i = 0; i < ALL_MOVE_COMMANDS.size(); i++) {
 			Command tmpCommand = ALL_MOVE_COMMANDS.elementAt(i);
 			if (tmpCommand instanceof Move) {
 				Move m = (Move) tmpCommand;
-				tmpVector.add(new Move(m.getEntity(), diffx, diffy, oldp, MoveType.CONTINUE_DRAG));
+				tmpVector.add(new Move(m.getEntity(), diffx, diffy, oldp, false, useSetLocation));
 			}
 			else if (tmpCommand instanceof MoveLinePoint) {
 				MoveLinePoint m = (MoveLinePoint) tmpCommand;

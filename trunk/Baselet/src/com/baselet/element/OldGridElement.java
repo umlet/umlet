@@ -433,7 +433,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
-		StickingPolygon stickingPolygonBeforeLocationChange = generateStickingBorder(getRectangle());
+		StickingPolygon stickingPolygonBeforeLocationChange = generateStickingBorder();
 		setLocationDifference(diffX, diffY);
 		moveStickables(firstDrag, stickables, stickingPolygonBeforeLocationChange);
 	}
@@ -446,7 +446,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			stickablesFromFirstDrag = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(oldStickingPolygon, stickables, getGridSize());
 		}
 		if (!stickablesFromFirstDrag.isEmpty()) {
-			Stickables.moveStickPointsBasedOnPolygonChanges(oldStickingPolygon, generateStickingBorder(getRectangle()), stickablesFromFirstDrag, getGridSize());
+			Stickables.moveStickPointsBasedOnPolygonChanges(oldStickingPolygon, generateStickingBorder(), stickablesFromFirstDrag, getGridSize());
 		}
 	}
 	
@@ -473,8 +473,13 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, Collection<? extends Stickable> stickables) {
-		// TODO Auto-generated method stub
+		StickingPolygon oldStickingPolygon = generateStickingBorder();
+		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
+		moveStickables(firstDrag, stickables, oldStickingPolygon);
+	}
 
+	private StickingPolygon generateStickingBorder() {
+		return generateStickingBorder(getRectangle());
 	}
 
 }

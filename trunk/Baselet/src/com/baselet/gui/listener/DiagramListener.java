@@ -17,7 +17,6 @@ import com.baselet.diagram.SelectorFrame;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
-import com.baselet.diagram.command.Move.MoveType;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
 
@@ -73,7 +72,7 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 
 		Vector<Command> moveCommands = new Vector<Command>();
 		for (GridElement e : diagram.getGridElements()) {
-			moveCommands.add(new Move(e, diffx, diffy, oldp, MoveType.SET_LOCATION));
+			moveCommands.add(new Move(e, diffx, diffy, oldp, false, true));
 		}
 
 		this.controller.executeCommand(new Macro(moveCommands));
