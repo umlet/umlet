@@ -386,6 +386,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void dragEnd() {
+		// although this clearing is not really necessary, some subclasses like Relation need to know when dragging ends (eg to merge relation-endings)
 		stickablesFromFirstDrag.clear();
 	}
 
