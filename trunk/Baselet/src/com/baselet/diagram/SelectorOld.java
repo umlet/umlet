@@ -82,7 +82,7 @@ public class SelectorOld extends Selector {
 		Main.getInstance().getGUI().setCustomElementSelected(customElementSelected);
 	}
 
-	// updates the GUI with the current selector information (that includes the propertypanel
+	// updates the GUI with the current selector information (that includes the propertypanel)
 	public void updateSelectorInformation() {
 		// update the current blue selected elements
 		if (currentSelector == null) currentSelector = this;
