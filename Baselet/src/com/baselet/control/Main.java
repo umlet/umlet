@@ -360,6 +360,7 @@ public class Main {
 		}
 		else {
 			if (lastTabIsEmpty()) (diagrams.get(diagrams.size() - 1)).doClose(); // If the last tab is empty close it (the opened diagram replaces the new one)
+			editedGridElement = null; // must be set to null here, otherwise the change listener of the property panel will change element text to help_text of diagram (see issue 
 			DiagramHandler diagram = new DiagramHandler(file);
 			this.diagrams.add(diagram);
 			this.gui.open(diagram);
