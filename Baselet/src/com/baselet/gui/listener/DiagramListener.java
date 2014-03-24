@@ -39,7 +39,7 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 		for (DiagramHandler h : Main.getInstance().getDiagramsAndPalettes()) {
 				h.getDrawPanel().getSelector().deselectAllWithoutUpdatePropertyPanel();
 		}
-		log.debug("mousePressed!!");
+		selector.updateSelectorInformation(); // after everything is deselected updateSelectorInformation (to update property panel content)
 
 		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) {
 			SelectorFrame selframe = this.selector.getSelectorFrame();
