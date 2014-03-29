@@ -6,7 +6,6 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.diagram.draw.helper.Style;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
@@ -37,7 +36,10 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 			drawBlackEllipse(drawer, w, h, 0);
 		} else if (type == StateTypeEnum.FINAL) {
 			drawer.drawEllipse(0, 0, w, h);
-			drawBlackEllipse(drawer, w, h, Math.max(w, h)/5);
+			ColorOwn oldFg = drawer.getStyle().getFgColor();
+			drawer.setForegroundColor(ColorOwn.TRANSPARENT); // don't use foregroundcolor for the inner circle, because otherwise in Swing it would look very ugly
+			drawBlackEllipse(drawer, w-1, h-1, Math.max(w-1, h-1)/5.5);
+			drawer.setForegroundColor(oldFg);
 		} else if (type == StateTypeEnum.FLOW_FINAL) {
 			drawer.drawEllipse(0, 0, w, h);
 			double yPos = h / 6;
@@ -60,14 +62,14 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 	}
 
 	private void drawBlackEllipse(final DrawHandler drawer, double width, double height, double radius) {
-		Style oldStyle = drawer.getStyle().cloneFromMe();
+		ColorOwn oldBg = drawer.getStyle().getBgColor();
 		if (drawer.getStyle().getBgColor() == ColorOwn.DEFAULT_BACKGROUND) {
 			drawer.setBackgroundColor(ColorOwn.BLACK.transparency(Transparency.FOREGROUND));
 		} else {
 			drawer.setBackgroundColor(drawer.getStyle().getBgColor().transparency(Transparency.FOREGROUND));
 		}
 		drawer.drawEllipse(radius, radius, width-radius*2, height-radius*2);
-		drawer.setStyle(oldStyle);
+		drawer.setBackgroundColor(oldBg);
 	}
 
 }
