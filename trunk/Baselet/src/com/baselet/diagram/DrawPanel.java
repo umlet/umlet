@@ -206,8 +206,10 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		return getHelper(Relation.class);
 	}
 
-	public List<com.baselet.elementnew.element.uml.relation.Relation> getNewRelations() {
-		return getHelper(com.baselet.elementnew.element.uml.relation.Relation.class);
+	public List<com.baselet.elementnew.element.uml.relation.Relation> getNewRelations(Collection<GridElement> excludeList) {
+		List<com.baselet.elementnew.element.uml.relation.Relation> returnList = getHelper(com.baselet.elementnew.element.uml.relation.Relation.class);
+		returnList.removeAll(excludeList);
+		return returnList;
 	}
 	
 	@SuppressWarnings("unchecked")
