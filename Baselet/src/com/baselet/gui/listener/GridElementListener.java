@@ -2,6 +2,7 @@ package com.baselet.gui.listener;
 
 import java.awt.Component;
 import java.awt.event.MouseEvent;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -286,17 +287,23 @@ public class GridElementListener extends UniversalListener {
 	private void firstDragging(int diffx, int diffy, Point oldp) {
 		List<GridElement> entitiesToBeMoved = this.selector.getSelectedElements();
 
+		boolean useSetLocation = entitiesToBeMoved.size() != 1; // if >1 elements are selected they will be moved
+
+		ALL_MOVE_COMMANDS = calculateMoveCommands(diffx, diffy, oldp, entitiesToBeMoved, useSetLocation, handler);
+		this.IS_FIRST_DRAGGING_OVER = true;
+	}
+
+	static Vector<Command> calculateMoveCommands(int diffx, int diffy, Point oldp, Collection<GridElement> entitiesToBeMoved, boolean useSetLocation, DiagramHandler handler) {
 		Vector<Move> moveCommands = new Vector<Move>();
 		Vector<MoveLinePoint> linepointCommands = new Vector<MoveLinePoint>();
-		boolean useSetLocation = entitiesToBeMoved.size() != 1; // if >1 elements are selected they will be moved
 		List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getNewRelations(entitiesToBeMoved);
 		for (GridElement ge : entitiesToBeMoved) {
 			moveCommands.add(new Move(ge, diffx, diffy, oldp, true, useSetLocation, stickables));
-			boolean stickingDisabled = !SharedConstants.stickingEnabled || diagram.getHandler() instanceof PaletteHandler;
+			boolean stickingDisabled = !SharedConstants.stickingEnabled || handler instanceof PaletteHandler;
 			if (ge instanceof Relation || stickingDisabled) continue;
 			StickingPolygon stick = ge.generateStickingBorder(ge.getRectangle());
 			if (stick != null) {
-				Vector<RelationLinePoint> affectedRelationPoints = Utils.getStickingRelationLinePoints(this.diagram.getHandler(), stick);
+				Vector<RelationLinePoint> affectedRelationPoints = Utils.getStickingRelationLinePoints(handler, stick);
 				for (int j = 0; j < affectedRelationPoints.size(); j++) {
 					RelationLinePoint tmpRlp = affectedRelationPoints.elementAt(j);
 					if (entitiesToBeMoved.contains(tmpRlp.getRelation())) continue;
@@ -307,9 +314,7 @@ public class GridElementListener extends UniversalListener {
 		Vector<Command> allCommands = new Vector<Command>();
 		allCommands.addAll(moveCommands);
 		allCommands.addAll(linepointCommands);
-
-		ALL_MOVE_COMMANDS = allCommands;
-		this.IS_FIRST_DRAGGING_OVER = true;
+		return allCommands;
 	}
 
 	/**
