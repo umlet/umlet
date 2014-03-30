@@ -82,20 +82,24 @@ public class SelectorOld extends Selector {
 		Main.getInstance().getGUI().setCustomElementSelected(customElementSelected);
 	}
 
-	// updates the GUI with the current selector information (that includes the propertypanel)
 	public void updateSelectorInformation() {
-		// update the current blue selected elements
-		if (currentSelector == null) currentSelector = this;
-		else if (currentSelector != this) {
-			currentSelector = this;
+		GridElement elementForPropPanel = null;
+		if (!selectedElements.isEmpty()) {
+			elementForPropPanel = selectedElements.elementAt(selectedElements.size()-1);
 		}
+		updateSelectorInformation(elementForPropPanel);
+	}
+	
+	// updates the GUI with the current selector information (that includes the propertypanel)
+	public void updateSelectorInformation(GridElement elementForPropPanel) {
+		// update the current blue selected elements
+		currentSelector = this;
 
 		// every time something is selected - update the current diagram to this element
 		Main.getInstance().setCurrentDiagramHandler(this.panel.getHandler());
 		if (Main.getInstance().getGUI() != null) {
 			updateGUIInformation();
-			if (!selectedElements.isEmpty()) Main.getInstance().setPropertyPanelToGridElement(selectedElements.elementAt(0));
-			else Main.getInstance().setPropertyPanelToGridElement(null);
+			Main.getInstance().setPropertyPanelToGridElement(elementForPropPanel);
 		}
 	}
 
