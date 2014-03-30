@@ -3,23 +3,15 @@ package com.baselet.gui.listener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Collection;
-import java.util.List;
 import java.util.Vector;
 
 import com.baselet.control.Main;
 import com.baselet.control.SharedConstants;
-import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.PaletteHandler;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
-import com.baselet.diagram.command.Move;
-import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
-import com.baselet.element.sticking.StickingPolygon;
-import com.umlet.element.Relation;
-import com.umlet.element.relation.RelationLinePoint;
 
 
 public class GUIListener implements KeyListener {
@@ -67,49 +59,12 @@ public class GUIListener implements KeyListener {
 				if ((e.getKeyCode() == KeyEvent.VK_RIGHT) || (e.getKeyCode() == KeyEvent.VK_KP_RIGHT)) diffx = handler.getGridSize();
 
 				if ((diffx != 0) || (diffy != 0)) {
-					Collection<GridElement> entitiesToBeMoved;
 					// Move only selected entities or all if no entity is selected
-					entitiesToBeMoved = handler.getDrawPanel().getSelector().getSelectedElements();
+					Collection<GridElement> entitiesToBeMoved = handler.getDrawPanel().getSelector().getSelectedElements();
 					if (entitiesToBeMoved.isEmpty()) entitiesToBeMoved = handler.getDrawPanel().getGridElements();
 
-					// TODO The following code is very similar to EntityListener 96-144 and should be refactored
-					Vector<Move> moveCommands = new Vector<Move>();
-					List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getNewRelations(entitiesToBeMoved);
-					for (GridElement ge : entitiesToBeMoved) {
-						moveCommands.add(new Move(ge, diffx, diffy, getOriginalPos(diffx, diffy, ge), true, true, stickables));
-					}
-					Vector<Command> linepointCommands = new Vector<Command>();
-					if (SharedConstants.stickingEnabled && !(handler instanceof PaletteHandler)) {
-						for (GridElement ge : entitiesToBeMoved) {
-							if (ge instanceof Relation) continue;
-							StickingPolygon stick = ge.generateStickingBorder(ge.getRectangle());
-							if (stick != null) {
-								Vector<RelationLinePoint> affectedRelationPoints = Utils.getStickingRelationLinePoints(handler, stick);
-								for (int j = 0; j < affectedRelationPoints.size(); j++) {
-									RelationLinePoint tmpRlp = affectedRelationPoints.elementAt(j);
-									if (entitiesToBeMoved.contains(tmpRlp.getRelation())) continue;
-									linepointCommands.add(new MoveLinePoint(tmpRlp.getRelation(), tmpRlp.getLinePointId(), diffx, diffy));
-								}
-							}
-						}
-					}
-					Vector<Command> ALL_MOVE_COMMANDS = new Vector<Command>();
-					ALL_MOVE_COMMANDS.addAll(moveCommands);
-					ALL_MOVE_COMMANDS.addAll(linepointCommands);
-
-					Vector<Command> tmpVector = new Vector<Command>();
-					for (int i = 0; i < ALL_MOVE_COMMANDS.size(); i++) {
-						Command tmpCommand = ALL_MOVE_COMMANDS.elementAt(i);
-						if (tmpCommand instanceof Move) {
-							Move m = (Move) tmpCommand;
-							tmpVector.add(new Move(m.getEntity(), diffx, diffy, getOriginalPos(diffx, diffy, m.getEntity()), true, true, m.getStickables()));
-						}
-						else if (tmpCommand instanceof MoveLinePoint) {
-							MoveLinePoint m = (MoveLinePoint) tmpCommand;
-							tmpVector.add(new MoveLinePoint(m.getRelation(), m.getLinePointId(), diffx, diffy));
-						}
-					}
-					ALL_MOVE_COMMANDS = tmpVector;
+					Point opos = getOriginalPos(diffx, diffy, entitiesToBeMoved.iterator().next());
+					Vector<Command> ALL_MOVE_COMMANDS = GridElementListener.calculateMoveCommands(diffx, diffy, opos, entitiesToBeMoved, true, handler);
 					handler.getController().executeCommand(new Macro(ALL_MOVE_COMMANDS));
 					Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 				}
