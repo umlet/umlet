@@ -76,7 +76,7 @@ public class GUIListener implements KeyListener {
 					Vector<Move> moveCommands = new Vector<Move>();
 					List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getNewRelations(entitiesToBeMoved);
 					for (GridElement ge : entitiesToBeMoved) {
-						moveCommands.add(new Move(ge, diffx, diffy, getOriginalPos(diffx, diffy, ge), true, false, stickables));
+						moveCommands.add(new Move(ge, diffx, diffy, getOriginalPos(diffx, diffy, ge), true, true, stickables));
 					}
 					Vector<Command> linepointCommands = new Vector<Command>();
 					if (SharedConstants.stickingEnabled && !(handler instanceof PaletteHandler)) {
@@ -102,7 +102,7 @@ public class GUIListener implements KeyListener {
 						Command tmpCommand = ALL_MOVE_COMMANDS.elementAt(i);
 						if (tmpCommand instanceof Move) {
 							Move m = (Move) tmpCommand;
-							tmpVector.add(new Move(m.getEntity(), diffx, diffy, getOriginalPos(diffx, diffy, m.getEntity()), true, false, m.getStickables()));
+							tmpVector.add(new Move(m.getEntity(), diffx, diffy, getOriginalPos(diffx, diffy, m.getEntity()), true, true, m.getStickables()));
 						}
 						else if (tmpCommand instanceof MoveLinePoint) {
 							MoveLinePoint m = (MoveLinePoint) tmpCommand;
