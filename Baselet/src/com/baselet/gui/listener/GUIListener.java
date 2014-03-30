@@ -3,6 +3,7 @@ package com.baselet.gui.listener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
 
 import com.baselet.control.Main;
@@ -73,8 +74,9 @@ public class GUIListener implements KeyListener {
 
 					// TODO The following code is very similar to EntityListener 96-144 and should be refactored
 					Vector<Move> moveCommands = new Vector<Move>();
+					List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getNewRelations(entitiesToBeMoved);
 					for (GridElement ge : entitiesToBeMoved) {
-						moveCommands.add(new Move(ge, diffx, diffy, getOriginalPos(diffx, diffy, ge), false, true));
+						moveCommands.add(new Move(ge, diffx, diffy, getOriginalPos(diffx, diffy, ge), false, true, stickables));
 					}
 					Vector<Command> linepointCommands = new Vector<Command>();
 					if (SharedConstants.stickingEnabled && !(handler instanceof PaletteHandler)) {
@@ -100,7 +102,7 @@ public class GUIListener implements KeyListener {
 						Command tmpCommand = ALL_MOVE_COMMANDS.elementAt(i);
 						if (tmpCommand instanceof Move) {
 							Move m = (Move) tmpCommand;
-							tmpVector.add(new Move(m.getEntity(), diffx, diffy, getOriginalPos(diffx, diffy, m.getEntity()), false, true));
+							tmpVector.add(new Move(m.getEntity(), diffx, diffy, getOriginalPos(diffx, diffy, m.getEntity()), false, true, m.getStickables()));
 						}
 						else if (tmpCommand instanceof MoveLinePoint) {
 							MoveLinePoint m = (MoveLinePoint) tmpCommand;

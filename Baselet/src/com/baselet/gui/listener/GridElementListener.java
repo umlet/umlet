@@ -2,6 +2,7 @@ package com.baselet.gui.listener;
 
 import java.awt.Component;
 import java.awt.event.MouseEvent;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,7 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
+import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.umlet.element.Relation;
@@ -126,7 +128,7 @@ public class GridElementListener extends UniversalListener {
 
 		Vector<Command> moveCommands = new Vector<Command>();
 		for (GridElement e : diagram.getGridElements()) {
-			moveCommands.add(new Move(e, diffx, diffy, oldp, false, true));
+			moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, Collections.<Stickable>emptyList()));
 		}
 
 		this.controller.executeCommand(new Macro(moveCommands));
@@ -287,8 +289,9 @@ public class GridElementListener extends UniversalListener {
 		Vector<Move> moveCommands = new Vector<Move>();
 		Vector<MoveLinePoint> linepointCommands = new Vector<MoveLinePoint>();
 		boolean useSetLocation = entitiesToBeMoved.size() != 1; // if >1 elements are selected they will be moved
+		List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getNewRelations(entitiesToBeMoved);
 		for (GridElement ge : entitiesToBeMoved) {
-			moveCommands.add(new Move(ge, diffx, diffy, oldp, true, useSetLocation));
+			moveCommands.add(new Move(ge, diffx, diffy, oldp, true, useSetLocation, stickables));
 			boolean stickingDisabled = !SharedConstants.stickingEnabled || diagram.getHandler() instanceof PaletteHandler;
 			if (ge instanceof Relation || stickingDisabled) continue;
 			StickingPolygon stick = ge.generateStickingBorder(ge.getRectangle());
@@ -320,7 +323,7 @@ public class GridElementListener extends UniversalListener {
 			Command tmpCommand = ALL_MOVE_COMMANDS.elementAt(i);
 			if (tmpCommand instanceof Move) {
 				Move m = (Move) tmpCommand;
-				tmpVector.add(new Move(m.getEntity(), diffx, diffy, oldp, false, useSetLocation));
+				tmpVector.add(new Move(m.getEntity(), diffx, diffy, oldp, false, useSetLocation, m.getStickables()));
 			}
 			else if (tmpCommand instanceof MoveLinePoint) {
 				MoveLinePoint m = (MoveLinePoint) tmpCommand;
