@@ -81,10 +81,11 @@ public class Move extends Command {
 	@Override
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
+		boolean firstDragUndo = true; // undo is always considered a firstdrag (to calculate stickables)
 		if (useSetLocation) {
-			this.entity.setLocationDifference(-getX(), -getY(), firstDrag, getStickables());
+			this.entity.setLocationDifference(-getX(), -getY(), firstDragUndo, getStickables());
 		} else {
-		this.entity.drag(Collections.<Direction> emptySet(), -getX(), -getY(), getMousePosBeforeDrag(), false, firstDrag, getStickables());
+		this.entity.drag(Collections.<Direction> emptySet(), -getX(), -getY(), getMousePosBeforeDrag(), false, firstDragUndo, getStickables());
 		}
 		this.entity.dragEnd();
 		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
@@ -94,15 +95,13 @@ public class Move extends Command {
 	public boolean isMergeableTo(Command c) {
 		if (!(c instanceof Move)) return false;
 		Move m = (Move) c;
-		// if the mousePosBeforeDrag is different, the user has released the mousebutton inbetween and the commands should not be merged
-		if (!this.getMousePosBeforeDrag().equals(m.getMousePosBeforeDrag()) || this.firstDrag != m.firstDrag || this.useSetLocation != m.useSetLocation) return false;
-		return this.entity == m.entity;
+		return this.entity == m.entity && this.useSetLocation == m.useSetLocation;
 	}
 
 	@Override
 	public Command mergeTo(Command c) {
 		Move m = (Move) c;
-		Move ret = new Move(this.entity, this.getX() + m.getX(), this.getY() + m.getY(), getMousePosBeforeDrag(), firstDrag, useSetLocation);
+		Move ret = new Move(this.entity, this.getX() + m.getX(), this.getY() + m.getY(), getMousePosBeforeDrag(), this.firstDrag || m.firstDrag, useSetLocation);
 		return ret;
 	}
 }
