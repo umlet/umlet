@@ -196,7 +196,7 @@ public class GridElementListener extends UniversalListener {
 		if (!this.selector.getSelectedElements().contains(e)) {
 			this.selector.selectOnly(e);
 		}
-		else this.selector.updateSelectorInformation();
+		else this.selector.updateSelectorInformation(e);
 	}
 
 	public void mouseDoubleClicked(GridElement me) {
