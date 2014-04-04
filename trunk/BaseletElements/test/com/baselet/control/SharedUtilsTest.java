@@ -7,13 +7,13 @@ import org.junit.Test;
 public class SharedUtilsTest {
 
 	@Test
-	public void testrealignToRoundToNearest() {
-		assertEquals(10, SharedUtils.realignToRoundToNearest(false, 5.0, SharedConstants.DEFAULT_GRID_SIZE));
-		assertEquals(10, SharedUtils.realignToRoundToNearest(false, 9.0, SharedConstants.DEFAULT_GRID_SIZE));
-		assertEquals(0, SharedUtils.realignToRoundToNearest(false, 4.0, SharedConstants.DEFAULT_GRID_SIZE));
-		assertEquals(-10, SharedUtils.realignToRoundToNearest(false, -5.0, SharedConstants.DEFAULT_GRID_SIZE));
-		assertEquals(-10, SharedUtils.realignToRoundToNearest(false, -9.0, SharedConstants.DEFAULT_GRID_SIZE));
-		assertEquals(0, SharedUtils.realignToRoundToNearest(false, -3.0, SharedConstants.DEFAULT_GRID_SIZE));
-		assertEquals(0, SharedUtils.realignToRoundToNearest(false, 0, SharedConstants.DEFAULT_GRID_SIZE));
+	public void testRealignToGridRoundToNearest() {
+		assertEquals(10, SharedUtils.realignToGridRoundToNearest(false, 5.0));
+		assertEquals(10, SharedUtils.realignToGridRoundToNearest(false, 9.0));
+		assertEquals(0, SharedUtils.realignToGridRoundToNearest(false, 4.0));
+		assertEquals(-10, SharedUtils.realignToGridRoundToNearest(false, -5.0));
+		assertEquals(-10, SharedUtils.realignToGridRoundToNearest(false, -9.0));
+		assertEquals(0, SharedUtils.realignToGridRoundToNearest(false, -3.0));
+		assertEquals(0, SharedUtils.realignToGridRoundToNearest(false, 0));
 	}
 }

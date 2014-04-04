@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.baselet.control.SharedConstants;
+import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Point;
@@ -73,10 +74,23 @@ public class Relation extends NewGridElement implements Stickable {
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
 		Point mousePosBeforeDragRelative = new Point(mousePosBeforeDrag.getX() - getRectangle().getX(), mousePosBeforeDrag.getY() - getRectangle().getY());
-		Selection returnSelection = relationPoints.getSelectionAndApplyChanges(mousePosBeforeDragRelative, diffX, diffY, this, firstDrag);
+		int diffX2 = toDefaultZoom(diffX);
+		int diffY2 = toDefaultZoom(diffY);
+		Selection returnSelection = relationPoints.getSelectionAndApplyChanges(pointAtDefaultZoom(mousePosBeforeDragRelative), diffX2, diffY2, this, firstDrag);
 		if (returnSelection != Selection.NOTHING) {
 			updateModelFromText();
 		}
+	}
+
+	/**
+	 * Calculate the point for DEFAULT_ZOOM to allow ignoring zoom-level from now on
+	 */
+	private Point pointAtDefaultZoom(Point p) {
+		return new Point(toDefaultZoom(p.getX()), toDefaultZoom(p.getY()));
+	}
+
+	private int toDefaultZoom(double input) {
+		return SharedUtils.realignTo(false, input / getHandler().getZoomFactor(), false, getGridSize());
 	}
 
 	@Override
@@ -95,9 +109,10 @@ public class Relation extends NewGridElement implements Stickable {
 	@Override
 	public boolean isSelectableOn(Point point) {
 		Point relativePoint = new Point(point.getX() - getRectangle().getX(), point.getY() - getRectangle().getY());
-		return relationPoints.getSelection(relativePoint) != Selection.NOTHING;
+		return relationPoints.getSelection(pointAtDefaultZoom(relativePoint)) != Selection.NOTHING;
 	}
 
+	@Override
 	public Collection<PointDouble> getStickablePoints() {
 		return relationPoints.getStickablePoints();
 	}
@@ -108,5 +123,9 @@ public class Relation extends NewGridElement implements Stickable {
 		updateModelFromText();
 	}
 
+	@Override
+	public float getZoomFactor() {
+		return getHandler().getZoomFactor();
+	}
 }
 
