@@ -47,13 +47,13 @@ public class Stickables {
 	}
 
 
-	public static void moveStickPointsBasedOnPolygonChanges(StickingPolygon oldStickingPolygon, StickingPolygon newStickingPolygon, Map<Stickable, Set<PointDouble>> stickablePointsToCheck, int gridSize) {
+	public static void moveStickPointsBasedOnPolygonChanges(StickingPolygon oldStickingPolygon, StickingPolygon newStickingPolygon, Map<Stickable, Set<PointDouble>> stickablePointsToCheck, int maxDistance) {
 		// determine which sticklines have changed and only check sticks for them
 		List<StickLineChange> changedStickLines = getChangedStickLines(oldStickingPolygon, newStickingPolygon);
 		// go through all stickpoints and handle the stickline-change
 		for (final Stickable stickable : stickablePointsToCheck.keySet()) {
 			for (final PointDouble pd : stickablePointsToCheck.get(stickable)) {
-				handleStickLineChange(stickable, pd, changedStickLines, gridSize);
+				handleStickLineChange(stickable, pd, changedStickLines, maxDistance);
 			}
 		}
 	}
@@ -72,14 +72,14 @@ public class Stickables {
 		return changedStickLines;
 	}
 
-	private static void handleStickLineChange(Stickable stickable, PointDouble pd, List<StickLineChange> changedStickLines, int gridSize) {
+	private static void handleStickLineChange(Stickable stickable, PointDouble pd, List<StickLineChange> changedStickLines, int maxDistance) {
 		PointDouble absolutePositionOfStickablePoint = getAbsolutePosition(stickable, pd);
 
-		StickLineChange change = getNearestStickLineChangeWhichWilLChangeTheStickPoint(changedStickLines, absolutePositionOfStickablePoint, gridSize);
+		StickLineChange change = getNearestStickLineChangeWhichWilLChangeTheStickPoint(changedStickLines, absolutePositionOfStickablePoint, maxDistance);
 		
 		if (change != null) {
 			PointDouble newPointToUse, oldPointToUse;
-			if (change.getNew().isConnected(absolutePositionOfStickablePoint, gridSize)) {
+			if (change.getNew().isConnected(absolutePositionOfStickablePoint, maxDistance)) {
 				newPointToUse = change.getNew().getStart();
 				oldPointToUse = change.getOld().getStart();
 			} else {
@@ -87,8 +87,8 @@ public class Stickables {
 				oldPointToUse = change.getOld().getEnd();
 			}
 			
-			final int stickLineDiffX = SharedUtils.realignToRoundToNearest(true, newPointToUse.getX()-oldPointToUse.getX(), gridSize);
-			final int stickLineDiffY = SharedUtils.realignToRoundToNearest(true, newPointToUse.getY()-oldPointToUse.getY(), gridSize);
+			final int stickLineDiffX = SharedUtils.realignToGridRoundToNearest(true, newPointToUse.getX()-oldPointToUse.getX());
+			final int stickLineDiffY = SharedUtils.realignToGridRoundToNearest(true, newPointToUse.getY()-oldPointToUse.getY());
 			stickable.movePoint(pd, stickLineDiffX, stickLineDiffY);
 		}
 	}
@@ -115,7 +115,9 @@ public class Stickables {
 
 	private static PointDouble getAbsolutePosition(Stickable stickable, PointDouble pd) {
 		// the points are located relative to the upper left corner of the relation, therefore add this corner to have it located to the upper left corner of the diagram
-		return new PointDouble(stickable.getRectangle().getX() + (int) pd.x, stickable.getRectangle().getY() + (int) pd.y);
+		int x = stickable.getRectangle().getX() + (int) (pd.x * stickable.getZoomFactor());
+		int y = stickable.getRectangle().getY() + (int) (pd.y * stickable.getZoomFactor());
+		return new PointDouble(x, y);
 	}
 
 }

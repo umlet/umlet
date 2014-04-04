@@ -12,4 +12,6 @@ public interface Stickable {
 	void movePoint(PointDouble pointToMove, int diffX, int diffY);
 
 	Rectangle getRectangle();
+	
+	float getZoomFactor();
 }

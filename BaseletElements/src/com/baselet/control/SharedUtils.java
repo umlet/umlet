@@ -22,14 +22,14 @@ public class SharedUtils {
 	/**
 	 * rounds eg: 5 to 10, 4 to 0, -5 to -10, -4 to 0
 	 */
-	public static int realignToRoundToNearest(boolean logRealign, double val, int gridSize) {
+	public static int realignToGridRoundToNearest(boolean logRealign, double val) {
 		boolean roundUp;
-		if (Math.abs(val % gridSize) < gridSize / 2) {
+		if (Math.abs(val % SharedConstants.DEFAULT_GRID_SIZE) < SharedConstants.DEFAULT_GRID_SIZE / 2) {
 			roundUp = val < 0;
 		} else {
 			roundUp = val >= 0;
 		}
-		return realignTo(logRealign, val, roundUp, gridSize);
+		return realignTo(logRealign, val, roundUp, SharedConstants.DEFAULT_GRID_SIZE);
 	}
 
 	public static int realignToGrid(boolean logRealign, double val, boolean roundUp) {
