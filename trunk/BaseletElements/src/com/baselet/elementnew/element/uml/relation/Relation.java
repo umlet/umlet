@@ -42,7 +42,7 @@ public class Relation extends NewGridElement implements Stickable {
 		// draw rectangle around whole element (basically a helper for developers to make sure the (invisible) size of the element is correct)
 		if (SharedConstants.dev_mode) {
 			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
-			drawer.drawRectangle(0, 0, getRectangle().getWidth(), getRectangle().getHeight());
+			drawer.drawRectangle(0, 0, getRealSize().getWidth(), getRealSize().getHeight());
 		}
 
 		drawer.setForegroundColor(ColorOwn.SELECTION_FG);
