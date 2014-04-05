@@ -13,7 +13,6 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.SharedConstants;
-import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.element.sticking.StickingPolygon.StickLine;
 
@@ -86,10 +85,13 @@ public class Stickables {
 				newPointToUse = change.getNew().getEnd();
 				oldPointToUse = change.getOld().getEnd();
 			}
-			
-			final int stickLineDiffX = SharedUtils.realignToGridRoundToNearest(true, newPointToUse.getX()-oldPointToUse.getX());
-			final int stickLineDiffY = SharedUtils.realignToGridRoundToNearest(true, newPointToUse.getY()-oldPointToUse.getY());
-			stickable.movePoint(pd, stickLineDiffX, stickLineDiffY);
+
+			int diffX = newPointToUse.getX().intValue() - oldPointToUse.getX().intValue();
+			int diffY = newPointToUse.getY().intValue() - oldPointToUse.getY().intValue();
+			// the diff values are in current zoom, therefore normalize them (invert operation done in getAbsolutePosition())
+			int diffXdefaultZoom = diffX / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
+			int diffYdefaultZoom = diffY / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
+			stickable.movePoint(pd, diffXdefaultZoom, diffYdefaultZoom);
 		}
 	}
 
