@@ -299,7 +299,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
 			g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
 			for (Line line : poly.getStickLines()) {
-				g2.drawLine((int) line.getStart().getX(), (int) line.getStart().getY(), (int) line.getEnd().getX(), (int) line.getEnd().getY());
+				g2.drawLine(line.getStart().getX().intValue(), line.getStart().getY().intValue(), line.getEnd().getX().intValue(), line.getEnd().getY().intValue());
 			}
 			g2.setColor(c);
 			g2.setStroke(s);

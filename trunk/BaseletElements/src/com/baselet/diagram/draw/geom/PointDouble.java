@@ -3,8 +3,8 @@ package com.baselet.diagram.draw.geom;
 
 public class PointDouble {
 
-	public double x;
-	public double y;
+	public Double x;
+	public Double y;
 	
 	public PointDouble() {
 	}
@@ -15,13 +15,13 @@ public class PointDouble {
 		this.y = y;
 	}
 	
-	public double getX() {
+	public Double getX() {
 		return x;
 	}
 	public void setX(double x) {
 		this.x = x;
 	}
-	public double getY() {
+	public Double getY() {
 		return y;
 	}
 	public void setY(double y) {

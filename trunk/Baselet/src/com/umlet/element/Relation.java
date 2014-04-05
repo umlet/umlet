@@ -1796,15 +1796,15 @@ public class Relation extends OldGridElement {
 
 	public PointDouble getAbsoluteCoorStart() {
 		PointDouble ret = new PointDouble();
-		ret.x = this.getRectangle().x + this.getStartPoint().x;
-		ret.y = this.getRectangle().y + this.getStartPoint().y;
+		ret.setX(this.getRectangle().x + this.getStartPoint().x);
+		ret.setY(this.getRectangle().y + this.getStartPoint().y);
 		return ret;
 	}
 
 	public PointDouble getAbsoluteCoorEnd() {
 		PointDouble ret = new PointDouble();
-		ret.x = this.getRectangle().x + this.getEndPoint().x;
-		ret.y = this.getRectangle().y + this.getEndPoint().y;
+		ret.setX(this.getRectangle().x + this.getEndPoint().x);
+		ret.setY(this.getRectangle().y + this.getEndPoint().y);
 		return ret;
 	}
 
