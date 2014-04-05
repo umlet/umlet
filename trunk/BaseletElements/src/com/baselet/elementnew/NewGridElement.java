@@ -374,6 +374,7 @@ public abstract class NewGridElement implements GridElement {
 	private Map<Stickable, Set<PointDouble>> stickablesFromFirstDrag = new HashMap<Stickable, Set<PointDouble>>();
 
 	private void moveStickables(boolean firstDrag, Collection<? extends Stickable> stickables, StickingPolygon oldStickingPolygon) {
+		if (oldStickingPolygon == null) return; // if element has no stickingPolygon nothing has to be checked
 		// the first drag determines which stickables and which points of them will stick (eg: moving through other relations should NOT "collect" their stickingpoints)
 		if (firstDrag) {
 			stickablesFromFirstDrag = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(oldStickingPolygon, stickables, getGridSize());

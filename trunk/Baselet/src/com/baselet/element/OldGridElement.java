@@ -319,7 +319,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		if (translateForExport) {
 			g2.translate(Constants.EXPORT_DISPLACEMENT, Constants.EXPORT_DISPLACEMENT);
 		}
-		
+
 		boolean selected = Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this);
 		if (selected) {
 			fgColor = Converter.convert(ColorOwn.SELECTION_FG);
@@ -437,10 +437,11 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		setLocationDifference(diffX, diffY);
 		moveStickables(firstDrag, stickables, stickingPolygonBeforeLocationChange);
 	}
-	
+
 	private Map<Stickable, Set<PointDouble>> stickablesFromFirstDrag = new HashMap<Stickable, Set<PointDouble>>();
 
 	private void moveStickables(boolean firstDrag, Collection<? extends Stickable> stickables, StickingPolygon oldStickingPolygon) {
+		if (oldStickingPolygon == null) return; // if element has no stickingPolygon nothing has to be checked
 		// the first drag determines which stickables and which points of them will stick (eg: moving through other relations should NOT "collect" their stickingpoints)
 		if (firstDrag) {
 			stickablesFromFirstDrag = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(oldStickingPolygon, stickables, getGridSize());
@@ -449,7 +450,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			Stickables.moveStickPointsBasedOnPolygonChanges(oldStickingPolygon, generateStickingBorder(), stickablesFromFirstDrag, getGridSize());
 		}
 	}
-	
+
 	public int getGridSize() {
 		return Main.getHandlerForElement(this).getGridSize();
 	}
