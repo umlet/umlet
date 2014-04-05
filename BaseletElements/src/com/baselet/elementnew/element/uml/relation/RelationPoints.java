@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
+import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.GeometricFunctions;
@@ -130,16 +131,10 @@ public class RelationPoints {
 	void repositionRelationAndPointsBasedOnPoints() {
 		PointDouble elementStart = relation.getRectangle().getUpperLeftCorner();
 		// Calculate new Relation position and size
-		Rectangle newSize = null;
-		for (PointDouble p : points) {
-			Rectangle absoluteRectangle = toCircleRectangle(new PointDouble(p.x + elementStart.getX(), p.y + elementStart.getY()));
-			if (newSize == null) {
-				newSize = absoluteRectangle;
-			} else {
-				newSize.merge(absoluteRectangle);
-			}
-		}
+		Rectangle newSize = createRectangleContainingAllPoints(elementStart);
 		if (newSize == null) throw new RuntimeException("This relation has no points: " + points);
+		newSize.scale(relation.getZoomFactor()); // scale with zoom factor
+		newSize.move(elementStart.getX().intValue(), elementStart.getY().intValue()); // and move to correct place of Relation
 		// Realign new size to grid (should not be necessary as long as SELECTCIRCLERADIUS == DefaultGridSize)
 		newSize.setLocation(SharedUtils.realignTo(false, newSize.getX(), false, relation.getGridSize()), SharedUtils.realignTo(false, newSize.getY(), false, relation.getGridSize()));
 		newSize.setSize(SharedUtils.realignTo(false, newSize.getWidth(), true, relation.getGridSize()), SharedUtils.realignTo(false, newSize.getHeight(), true, relation.getGridSize()));
@@ -154,11 +149,24 @@ public class RelationPoints {
 		}
 		for (PointDouble p : points) {
 			// p.move(-displacementX, -displacementY) would be sufficient, but it is realigned to make sure displaced points are corrected here
-			p.setX(SharedUtils.realignTo(true, p.getX()-displacementX, false, relation.getGridSize()));
-			p.setY(SharedUtils.realignTo(true, p.getY()-displacementY, false, relation.getGridSize()));
+			p.setX(SharedUtils.realignTo(true, p.getX()-displacementX, false, SharedConstants.DEFAULT_GRID_SIZE));
+			p.setY(SharedUtils.realignTo(true, p.getY()-displacementY, false, SharedConstants.DEFAULT_GRID_SIZE));
 		}
-		
+
 		relation.setRectangle(newSize);
+	}
+
+	private Rectangle createRectangleContainingAllPoints(PointDouble elementStart) {
+		Rectangle rectangleContainingAllPoints = null;
+		for (PointDouble p : points) {
+			Rectangle absoluteRectangle = toRectangle(new PointDouble(p.x, p.y), POINT_SELECTION_RADIUS);
+			if (rectangleContainingAllPoints == null) {
+				rectangleContainingAllPoints = absoluteRectangle;
+			} else {
+				rectangleContainingAllPoints.merge(absoluteRectangle);
+			}
+		}
+		return rectangleContainingAllPoints;
 	}
 
 	private Rectangle toCircleRectangle(PointDouble p) {

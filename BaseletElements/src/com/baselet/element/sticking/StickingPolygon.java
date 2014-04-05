@@ -28,7 +28,7 @@ public class StickingPolygon {
 
 				if (s.getEnd().x == s.getStart().x) {
 					// vertical lines - no y difference except the line is at an end
-					diff.y = 0;
+					diff.setY(0);
 					if (s.getStart().y > s.getEnd().y) {
 						if (s.getStart().y < y) diff.y = s.getStart().y - y;
 						else if (s.getEnd().y > y) diff.y = s.getEnd().y - y;
@@ -48,7 +48,7 @@ public class StickingPolygon {
 
 				if (s.getEnd().y == s.getStart().y) {
 					// horizontal lines - no x difference except the line is at an end
-					diff.x = 0;
+					diff.setX(0);
 					if (s.getStart().x > s.getEnd().x) {
 						if (s.getStart().x < x) diff.x = s.getStart().x - x;
 						else if (s.getEnd().x > x) diff.x = s.getEnd().x - x;
