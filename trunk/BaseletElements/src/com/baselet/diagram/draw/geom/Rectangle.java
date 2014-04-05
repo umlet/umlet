@@ -88,13 +88,6 @@ public class Rectangle {
 		this.y += diffY;
 	}
 
-	public void scale(double zoomFactor) {
-		x = (int) (x * zoomFactor);
-		y = (int) (y * zoomFactor);
-		width = (int) (width * zoomFactor);
-		height = (int) (height * zoomFactor);
-	}
-
 	public void addBorder(int border) {
 		x -= border;
 		y -= border;

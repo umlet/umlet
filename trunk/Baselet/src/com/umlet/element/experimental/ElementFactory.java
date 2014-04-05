@@ -1,6 +1,7 @@
 package com.umlet.element.experimental;
 
 import com.baselet.control.Main;
+import com.baselet.control.SharedConstants;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.DiagramHandler;
@@ -28,8 +29,8 @@ public class ElementFactory {
 				Main.getHandlerForElement(returnObj).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 			}
 			@Override
-			public float getZoomFactor() {
-				return Main.getHandlerForElement(returnObj).getZoomFactor();
+			public int getGridSize() {
+				return Main.getHandlerForElement(returnObj).getGridSize();
 			}
 			@Override
 			public boolean displaceDrawingByOnePixel() {
@@ -37,8 +38,8 @@ public class ElementFactory {
 			}
 			@Override
 			public void resize(double diffw, double diffh, AlignHorizontal alignHorizontal) {
-				double diffwInCurrentZoom = diffw * getZoomFactor();
-				double diffhInCurrentZoom = diffh * getZoomFactor();
+				double diffwInCurrentZoom = diffw * getGridSize() / SharedConstants.DEFAULT_GRID_SIZE;
+				double diffhInCurrentZoom = diffh * getGridSize() / SharedConstants.DEFAULT_GRID_SIZE;
 				DiagramHandler h = Main.getHandlerForElement(returnObj);
 				int diffhRealigned = h.realignToGrid(false, diffhInCurrentZoom, true);
 

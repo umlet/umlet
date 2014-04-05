@@ -13,5 +13,5 @@ public interface Stickable {
 
 	Rectangle getRectangle();
 	
-	float getZoomFactor();
+	int getGridSize();
 }

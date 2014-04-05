@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.baselet.control.SharedConstants;
-import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Point;
@@ -89,8 +88,8 @@ public class Relation extends NewGridElement implements Stickable {
 		return new Point(toDefaultZoom(p.getX()), toDefaultZoom(p.getY()));
 	}
 
-	private int toDefaultZoom(double input) {
-		return SharedUtils.realignTo(false, input / getHandler().getZoomFactor(), false, getGridSize());
+	private int toDefaultZoom(int input) {
+		return input * SharedConstants.DEFAULT_GRID_SIZE / getGridSize();
 	}
 
 	@Override
@@ -121,11 +120,6 @@ public class Relation extends NewGridElement implements Stickable {
 	public void movePoint(PointDouble pointToMove, int diffX, int diffY) {
 		relationPoints.movePointAndResizeRectangle(pointToMove, diffX, diffY);
 		updateModelFromText();
-	}
-
-	@Override
-	public float getZoomFactor() {
-		return getHandler().getZoomFactor();
 	}
 }
 

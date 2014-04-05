@@ -3,6 +3,7 @@ package com.baselet.gwt.client.element;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
@@ -22,7 +23,7 @@ public class ElementFactory {
 			@Override
 			public void updatePropertyPanel() { }
 			@Override
-			public float getZoomFactor() { return 1.0f; }
+			public int getGridSize() { return SharedConstants.DEFAULT_GRID_SIZE; } // GWT doesnt use own zoom implementation but relies on browser zoom
 			@Override
 			public boolean displaceDrawingByOnePixel() { return false; }
 			@Override

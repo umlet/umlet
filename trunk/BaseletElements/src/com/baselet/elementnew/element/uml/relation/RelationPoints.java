@@ -26,7 +26,7 @@ public class RelationPoints {
 	 */
 	private List<PointDouble> points = new ArrayList<PointDouble>();
 	private Relation relation;
-	
+
 	public RelationPoints(Relation relation, List<PointDouble> points) {
 		super();
 		this.relation = relation;
@@ -133,8 +133,14 @@ public class RelationPoints {
 		// Calculate new Relation position and size
 		Rectangle newSize = createRectangleContainingAllPoints(elementStart);
 		if (newSize == null) throw new RuntimeException("This relation has no points: " + points);
-		newSize.scale(relation.getZoomFactor()); // scale with zoom factor
-		newSize.move(elementStart.getX().intValue(), elementStart.getY().intValue()); // and move to correct place of Relation
+		// scale with zoom factor
+		newSize.setBounds(
+				newSize.getX() * relation.getGridSize() / SharedConstants.DEFAULT_GRID_SIZE,
+				newSize.getY() * relation.getGridSize() / SharedConstants.DEFAULT_GRID_SIZE,
+				newSize.getWidth() * relation.getGridSize() / SharedConstants.DEFAULT_GRID_SIZE,
+				newSize.getHeight() * relation.getGridSize() / SharedConstants.DEFAULT_GRID_SIZE);
+		// and move to correct place of Relation
+		newSize.move(elementStart.getX().intValue(), elementStart.getY().intValue());
 		// Realign new size to grid (should not be necessary as long as SELECTCIRCLERADIUS == DefaultGridSize)
 		newSize.setLocation(SharedUtils.realignTo(false, newSize.getX(), false, relation.getGridSize()), SharedUtils.realignTo(false, newSize.getY(), false, relation.getGridSize()));
 		newSize.setSize(SharedUtils.realignTo(false, newSize.getWidth(), true, relation.getGridSize()), SharedUtils.realignTo(false, newSize.getHeight(), true, relation.getGridSize()));
@@ -194,7 +200,7 @@ public class RelationPoints {
 	public Line getLastLine() {
 		return new Line(points.get(points.size()-2), points.get(points.size()-1));
 	}
-	
+
 	public Collection<PointDouble> getStickablePoints() {
 		return Arrays.asList(points.get(0), points.get(points.size()-1));
 	}
