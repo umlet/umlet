@@ -115,8 +115,8 @@ public class Stickables {
 
 	private static PointDouble getAbsolutePosition(Stickable stickable, PointDouble pd) {
 		// the points are located relative to the upper left corner of the relation, therefore add this corner to have it located to the upper left corner of the diagram
-		int x = stickable.getRectangle().getX() + (int) (pd.x * stickable.getZoomFactor());
-		int y = stickable.getRectangle().getY() + (int) (pd.y * stickable.getZoomFactor());
+		int x = stickable.getRectangle().getX() + pd.getX().intValue() * stickable.getGridSize() / SharedConstants.DEFAULT_GRID_SIZE;
+		int y = stickable.getRectangle().getY() + pd.getY().intValue() * stickable.getGridSize() / SharedConstants.DEFAULT_GRID_SIZE;
 		return new PointDouble(x, y);
 	}
 

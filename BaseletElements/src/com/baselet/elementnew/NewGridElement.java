@@ -275,7 +275,7 @@ public abstract class NewGridElement implements GridElement {
 	 */
 	@Override
 	public Dimension getRealSize() {
-		return new Dimension((int) (getRectangle().width / handler.getZoomFactor()), (int) (getRectangle().height / handler.getZoomFactor()));
+		return new Dimension(getRectangle().width * SharedConstants.DEFAULT_GRID_SIZE / handler.getGridSize(), getRectangle().height * SharedConstants.DEFAULT_GRID_SIZE / handler.getGridSize());
 	}
 
 	@Override
@@ -406,7 +406,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	public int getGridSize() {
-		return (int) (getHandler().getZoomFactor() * SharedConstants.DEFAULT_GRID_SIZE);
+		return getHandler().getGridSize();
 	}
 
 }
