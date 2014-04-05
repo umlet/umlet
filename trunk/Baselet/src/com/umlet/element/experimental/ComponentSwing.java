@@ -68,7 +68,13 @@ public class ComponentSwing extends JComponent implements Component {
 	 */
 	@Override
 	public boolean contains(int x, int y) {
-		return Utils.contains(gridElement, new Point(x, y));
+		Rectangle r = gridElement.getRectangle();
+		// only check if element selectable on the position, because some elements are not everywhere selectable (eg: Relation)
+		if (gridElement.isSelectableOn(new Point(r.getX() + x, r.getY() + y))) {
+			return Utils.contains(gridElement, new Point(x, y));
+		} else {
+			return false;
+		}
 	}
 
 	@Override

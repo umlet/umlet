@@ -1,9 +1,6 @@
 package com.baselet.diagram.draw.geom;
 
 
-/**
- * should be removed after every Point has been replaced by PointDouble
- */
 public class Point {
 
 	public int x;

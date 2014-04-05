@@ -72,7 +72,7 @@ public class GridElementListener extends UniversalListener {
 		super.mouseDragged(me);
 		log.debug("Entity dragged");
 
-		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
+		GridElement e = getGridElement(me);
 
 		// Lasso selection is only activated if mouse is moved more than lasso_tolerance to avoid accidential activation instead of selecting the entity
 		if (LASSO_ACTIVE && (lassoToleranceRectangle != null) && !lassoToleranceRectangle.contains(getOffset(me))) {
@@ -87,6 +87,10 @@ public class GridElementListener extends UniversalListener {
 		if (IS_RESIZING) resizeEntity(e, me);
 	}
 
+	private GridElement getGridElement(MouseEvent me) {
+		return handler.getDrawPanel().getElementToComponent(me.getComponent());
+	}
+
 	@Override
 	protected Point getOffset(MouseEvent me) {
 		return new Point(me.getX() + me.getComponent().getX(), me.getY() + me.getComponent().getY());
@@ -95,7 +99,7 @@ public class GridElementListener extends UniversalListener {
 	@Override
 	public void mouseMoved(MouseEvent me) {
 		super.mouseMoved(me);
-		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
+		GridElement e = getGridElement(me);
 		if (this.IS_DRAGGED_FROM_PALETTE) {
 			log.debug("mouseMoved with dragged");
 			e.setLocation(me.getX() - 100, me.getY() - 20);
@@ -148,7 +152,7 @@ public class GridElementListener extends UniversalListener {
 	@Override
 	public void mousePressed(MouseEvent me) {
 		super.mousePressed(me);
-		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
+		GridElement e = getGridElement(me);
 		mousePressedPoint = getOffset(me);
 
 		// deselect elements of all other drawpanels
@@ -175,7 +179,7 @@ public class GridElementListener extends UniversalListener {
 	}
 
 	private void pressedLeftButton(MouseEvent me) {
-		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
+		GridElement e = getGridElement(me);
 
 		// Ctrl + Mouseclick initializes the lasso
 		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) initializeLasso();
@@ -218,7 +222,7 @@ public class GridElementListener extends UniversalListener {
 		// log.debug("Entity mouse released");
 		if (this.IS_DRAGGED_FROM_PALETTE) this.IS_DRAGGED_FROM_PALETTE = false;
 
-		GridElement e = handler.getDrawPanel().getElementToComponent(me.getComponent());
+		GridElement e = getGridElement(me);
 
 		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) {
 			if (selector.isSelected(e) && DESELECT_MULTISEL) this.selector.deselect(e);
