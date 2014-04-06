@@ -276,11 +276,12 @@ public class GridElementListener extends UniversalListener {
 		Point oldp = this.getOldCoordinate();
 		int diffx = newp.x - oldp.x;
 		int diffy = newp.y - oldp.y;
+		Point oldpNotRounded = getOldCoordinateNotRounded(); // must use exact coordinates eg for Relation which calculates distances from lines (to possibly drag new points out of it)
 		if (!IS_FIRST_DRAGGING_OVER) {
-			firstDragging(diffx, diffy, oldp);
+			firstDragging(diffx, diffy, oldpNotRounded);
 		}
 		else {
-			continueDragging(diffx, diffy, oldp);
+			continueDragging(diffx, diffy, oldpNotRounded);
 		}
 		this.controller.executeCommand(new Macro(ALL_MOVE_COMMANDS));
 	}
