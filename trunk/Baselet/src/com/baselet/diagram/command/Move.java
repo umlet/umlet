@@ -19,9 +19,11 @@ public class Move extends Command {
 	
 	private GridElement entity;
 
+	private int _gridSize;
+	
 	private int _x, _y;
 
-	private int _xbeforeDrag, _ybeforeDrag;
+	private Point _mousePointBeforeDrag;
 
 	private boolean firstDrag;
 
@@ -34,20 +36,20 @@ public class Move extends Command {
 	}
 
 	private int getX() {
-		int zoomedX = _x * Main.getHandlerForElement(entity).getGridSize();
+		int zoomedX = _x * Main.getHandlerForElement(entity).getGridSize() / _gridSize;
 		log.debug("Zoomed x: " + zoomedX);
 		return zoomedX;
 	}
 
 	private int getY() {
-		int zoomedY = _y * Main.getHandlerForElement(entity).getGridSize();
+		int zoomedY = _y * Main.getHandlerForElement(entity).getGridSize() / _gridSize;
 		log.debug("Zoomed y: " + zoomedY);
 		return zoomedY;
 	}
 	
 	private Point getMousePosBeforeDrag() {
-		int zoomedX = _xbeforeDrag * Main.getHandlerForElement(entity).getGridSize();
-		int zoomedY = _ybeforeDrag * Main.getHandlerForElement(entity).getGridSize();
+		int zoomedX = _mousePointBeforeDrag.getX() * Main.getHandlerForElement(entity).getGridSize() / _gridSize;
+		int zoomedY = _mousePointBeforeDrag.getY() * Main.getHandlerForElement(entity).getGridSize() / _gridSize;
 		Point p = new Point(zoomedX, zoomedY);
 		log.debug("Zoomed point: " + p);
 		return p;
@@ -59,11 +61,10 @@ public class Move extends Command {
 
 	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, List<? extends Stickable> stickables) {
 		entity = e;
-		int gridSize = Main.getHandlerForElement(e).getGridSize();
-		_x = x / gridSize;
-		_y = y / gridSize;
-		_xbeforeDrag = mousePosBeforeDrag.getX() / gridSize;
-		_ybeforeDrag = mousePosBeforeDrag.getY() / gridSize;
+		_gridSize = Main.getHandlerForElement(e).getGridSize();
+		_x = x;
+		_y = y;
+		_mousePointBeforeDrag = mousePosBeforeDrag;
 		this.firstDrag = firstDrag;
 		this.useSetLocation = useSetLocation;
 		this.stickables = stickables;
