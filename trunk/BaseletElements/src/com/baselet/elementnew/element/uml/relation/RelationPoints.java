@@ -40,59 +40,73 @@ public class RelationPoints {
 		NOTHING;
 	}
 
-	/**
-	 * because of the complex selection logic, the other method (which applies changes usually) is reused to make sure the result of this method is correct
-	 */
 	public Selection getSelection(Point point) {
-		return getSelectionAndMaybeApplyChangesHelper(point, null, null, null, true, false);
-	}
-
-	public Selection getSelectionAndApplyChanges(Point point, Integer diffX, Integer diffY, Relation relation, boolean firstDrag) {
-		return getSelectionAndMaybeApplyChangesHelper(point, diffX, diffY, relation, firstDrag, true);
+		if (isPointOverDragBox(point)) {
+			return Selection.DRAG_BOX;
+		} else if (getRelationPointContaining(point) != null) {
+			return Selection.RELATION_POINT;
+		} else if (getLineContaining(point) != null) {
+			return Selection.LINE;
+		} else {
+			return Selection.NOTHING;
+		}
 	}
 
 	private PointDouble relationPointOfCurrentDrag = null;
-	private Selection getSelectionAndMaybeApplyChangesHelper(Point point, Integer diffX, Integer diffY, Relation relation, boolean firstDrag, boolean applyChanges) {
+	/**
+	 * this method is basically the same as {@link #getSelection(Point)}, but also applies changes to the relationpoints
+	 * (the order of checks is the same, but they do different things, therefore they are separated)
+	 */
+	public Selection getSelectionAndApplyChanges(Point point, Integer diffX, Integer diffY, Relation relation, boolean firstDrag) {
 		// Special case: if this is not the first drag and a relation-point is currently dragged, it has preference
 		// Necessary to avoid changing the currently moved point if moving over another point and to avoid losing the current point if it's a new line point and the mouse is dragged very fast
 		if (!firstDrag && relationPointOfCurrentDrag != null) {
-			if (applyChanges) {
-				movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY);
-			}
+			movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY);
 			return Selection.RELATION_POINT;
 		}
-
 		// If the special case doesn't apply, forget the relationPointOfFirstDrag, because its a new first drag
-		if (applyChanges) {
-			relationPointOfCurrentDrag = null;
-		}
-		if (getDragBox().contains(point)) {
-			if (applyChanges) {
-				relation.setLocationDifference(diffX, diffY);
-			}
+		relationPointOfCurrentDrag = null;
+		if (isPointOverDragBox(point)) {
+			relation.setLocationDifference(diffX, diffY);
 			return Selection.DRAG_BOX;
 		}
-		for (PointDouble relationPoint : points) {
-			if (toCircleRectangle(relationPoint).contains(point)) {
-				if (applyChanges) {
-					relationPointOfCurrentDrag = relationPoint;
-					movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY);
-
-				}
-				return Selection.RELATION_POINT;
-			}
+		PointDouble pointOverRelationPoint = getRelationPointContaining(point);
+		if (pointOverRelationPoint != null) {
+			relationPointOfCurrentDrag = pointOverRelationPoint;
+			movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY);
+			return Selection.RELATION_POINT;
 		}
-		for (Line line : getRelationPointLines()) {
-			if (line.getDistanceToPoint(point.toPointDouble()) < NEW_POINT_DISTANCE) {
-				if (applyChanges) {
-					PointDouble roundedPoint = new PointDouble(SharedUtils.realignToGridRoundToNearest(false, point.x), SharedUtils.realignToGridRoundToNearest(false, point.y));
-					points.add(points.indexOf(line.getEnd()), roundedPoint);
-					relationPointOfCurrentDrag = roundedPoint;
-				}
-				return Selection.LINE;
-			}
+		Line lineOnPoint = getLineContaining(point);
+		if (lineOnPoint != null) {
+			PointDouble roundedPoint = new PointDouble(SharedUtils.realignToGridRoundToNearest(false, point.x), SharedUtils.realignToGridRoundToNearest(false, point.y));
+			points.add(points.indexOf(lineOnPoint.getEnd()), roundedPoint);
+			relationPointOfCurrentDrag = roundedPoint;
+			return Selection.LINE;
 		}
 		return Selection.NOTHING;
+	}
+
+	private boolean isPointOverDragBox(Point point) {
+		return getDragBox().contains(point);
+	}
+
+	private PointDouble getRelationPointContaining(Point point) {
+		for (PointDouble relationPoint : points) {
+			if (toCircleRectangle(relationPoint).contains(point)) {
+				return relationPoint;
+			}
+		}
+		return null;
+	}
+
+	private Line getLineContaining(Point point) {
+		for (Line line : getRelationPointLines()) {
+			double distanceToPoint = line.getDistanceToPoint(point.toPointDouble());
+			if (distanceToPoint < NEW_POINT_DISTANCE) {
+				return line;
+			}
+		}
+		return null;
 	}
 
 	void movePointAndResizeRectangle(PointDouble point, Integer diffX, Integer diffY) {
