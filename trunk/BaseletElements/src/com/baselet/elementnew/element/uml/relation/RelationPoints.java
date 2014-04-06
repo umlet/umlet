@@ -63,7 +63,9 @@ public class RelationPoints {
 		}
 
 		// If the special case doesn't apply, forget the relationPointOfFirstDrag, because its a new first drag
-		relationPointOfCurrentDrag = null;
+		if (applyChanges) {
+			relationPointOfCurrentDrag = null;
+		}
 		if (getDragBox().contains(point)) {
 			if (applyChanges) {
 				relation.setLocationDifference(diffX, diffY);
