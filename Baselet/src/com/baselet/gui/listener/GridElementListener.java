@@ -282,7 +282,7 @@ public class GridElementListener extends UniversalListener {
 		}
 		else if (diffx != 0 || diffy != 0) {
 			Vector<Command> commands = continueDragging(diffx, diffy, POINT_BEFORE_MOVE);
-			POINT_BEFORE_MOVE = getOldCoordinateNotRounded(); // after the move the initial point must be renewed for the next move
+			POINT_BEFORE_MOVE = new Point(POINT_BEFORE_MOVE.getX() + diffx, POINT_BEFORE_MOVE.getY() + diffy);
 			this.controller.executeCommand(new Macro(commands));
 			FIRST_DRAG = false;
 		}
