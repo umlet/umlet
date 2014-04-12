@@ -180,10 +180,15 @@ public abstract class Utils {
 		JComponent component = ((JComponent) gridElement.getComponent());
 		java.awt.Rectangle rectangle = component.getVisibleRect();
 		if (!rectangle.contains(p.x, p.y)) return false;
+		
+		// new relations only make the contains check because they have priority over other elements
+		if (gridElement instanceof com.baselet.elementnew.element.uml.relation.Relation) {
+			return true;
+		}
 
 		for (GridElement other : Main.getHandlerForElement(gridElement).getDrawPanel().getGridElements()) {
 			JComponent otherComponent = ((JComponent) other.getComponent());
-			if (other instanceof Relation) { // a relation is always on top
+			if (other instanceof Relation || other instanceof com.baselet.elementnew.element.uml.relation.Relation) { // a relation is always on top
 				// move point to coordinate system of other entity
 				Point other_p = new Point(p.x + gridElement.getRectangle().x - other.getRectangle().x, p.y + gridElement.getRectangle().y - other.getRectangle().y);
 				if (otherComponent.contains(Converter.convert(other_p))) return false;
