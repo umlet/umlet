@@ -17,6 +17,7 @@ import javax.swing.JComponent;
 
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
@@ -180,10 +181,13 @@ public abstract class Utils {
 		JComponent component = ((JComponent) gridElement.getComponent());
 		java.awt.Rectangle rectangle = component.getVisibleRect();
 		if (!rectangle.contains(p.x, p.y)) return false;
-		
-		for (GridElement other : Main.getHandlerForElement(gridElement).getDrawPanel().getGridElements()) {
+
+		DrawPanel drawPanel = Main.getHandlerForElement(gridElement).getDrawPanel();
+//		Selector selector = drawPanel.getSelector();
+		for (GridElement other : drawPanel.getGridElements()) {
+			if (other == gridElement) continue;
 			if (other.getLayer() < gridElement.getLayer()) continue; // elements with lower layer are ignored
-			
+
 			JComponent otherComponent = ((JComponent) other.getComponent());
 			if (other.getLayer() > gridElement.getLayer()) { // elements with higher layer can "overwrite" contains-value of this
 				// move point to coordinate system of other entity
@@ -191,17 +195,23 @@ public abstract class Utils {
 				if (otherComponent.contains(Converter.convert(other_p))) return false;
 			}
 
-			// If the this visibleRect is equal to the other VisibleRect, true will be returned. Otherwise we need to check further
-			else if (!component.getVisibleRect().equals(otherComponent.getVisibleRect())) {
-				java.awt.Rectangle other_rectangle = otherComponent.getVisibleRect();
-				// move bounds to coordinate system of this component
-				other_rectangle.x += other.getRectangle().x - gridElement.getRectangle().x;
-				other_rectangle.y += other.getRectangle().y - gridElement.getRectangle().y;
-				if (other_rectangle.contains(p.x, p.y)) { 
-					// when elements intersect, select the smaller element
-					if (rectangle.intersects(other_rectangle) && smaller(other_rectangle, rectangle)) return false; 
+			java.awt.Rectangle other_rectangle = otherComponent.getVisibleRect();
+			// move bounds to coordinate system of this component
+			other_rectangle.x += other.getRectangle().x - gridElement.getRectangle().x;
+			other_rectangle.y += other.getRectangle().y - gridElement.getRectangle().y;
+			if (other_rectangle.contains(p.x, p.y)) {
+				// when elements intersect, select the smaller element except if it is an old relation (because they have a larger rectangle than they use)
+				if (rectangle.intersects(other_rectangle)
+						&& smaller(other_rectangle, rectangle)
+						&& !(other instanceof Relation)) {
+					return false; 
 				}
 			}
+
+			//			boolean newIsSelectedOldNot = !selector.isSelected(gridElement) && selector.isSelected(other);
+			//			if (newIsSelectedOldNot) {
+			//				return false;
+			//			}
 		}
 		return true;
 	}
