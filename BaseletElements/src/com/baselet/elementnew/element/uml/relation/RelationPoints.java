@@ -81,6 +81,7 @@ public class RelationPoints {
 			PointDouble roundedPoint = new PointDouble(SharedUtils.realignToGridRoundToNearest(false, point.x), SharedUtils.realignToGridRoundToNearest(false, point.y));
 			points.add(points.indexOf(lineOnPoint.getEnd()), roundedPoint);
 			relationPointOfCurrentDrag = roundedPoint;
+			movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY);
 			return Selection.LINE;
 		}
 		return Selection.NOTHING;
