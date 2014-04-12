@@ -49,11 +49,11 @@ public class GridElementListener extends UniversalListener {
 	protected boolean IS_DRAGGING_DIAGRAM = false;
 	protected boolean IS_RESIZING = false;
 	protected boolean IS_DRAGGED_FROM_PALETTE = false;
-	protected boolean IS_FIRST_MOVE = false;
-	protected boolean IS_FIRST_DRAGGING_OVER = false;
+	private boolean FIRST_DRAG = true;
 	private Set<Direction> RESIZE_DIRECTION = new HashSet<Direction>();
 	private Resize FIRST_RESIZE = null;
 	private Vector<Command> FIRST_MOVE_COMMANDS = null;
+	private Point POINT_BEFORE_MOVE = null;
 	protected boolean DESELECT_MULTISEL = false;
 	private boolean LASSO_ACTIVE = false;
 
@@ -210,10 +210,9 @@ public class GridElementListener extends UniversalListener {
 		Command cmd;
 		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
 		cmd = new AddElement(e, me.getRectangle().x + gridSize * 2, me.getRectangle().y + gridSize * 2);
-		// this.IS_FIRST_DRAGGING_OVER=true;
 		this.controller.executeCommand(cmd);
 		this.selector.selectOnly(e);
-		eListener.IS_FIRST_DRAGGING_OVER = false;
+		eListener.FIRST_DRAG = true;
 	}
 
 	@Override
@@ -235,9 +234,10 @@ public class GridElementListener extends UniversalListener {
 		IS_DRAGGING = false;
 		IS_DRAGGING_DIAGRAM = false;
 		IS_RESIZING = false;
-		IS_FIRST_DRAGGING_OVER = false;
+		FIRST_DRAG = true;
 		FIRST_RESIZE = null;
 		FIRST_MOVE_COMMANDS = null;
+		POINT_BEFORE_MOVE = null;
 
 		if (LASSO_ACTIVE) {
 			LASSO_ACTIVE = false;
@@ -276,27 +276,16 @@ public class GridElementListener extends UniversalListener {
 		Point oldp = this.getOldCoordinate();
 		int diffx = newp.x - oldp.x;
 		int diffy = newp.y - oldp.y;
-		Point oldpNotRounded = getOldCoordinateNotRounded(); // must use exact coordinates eg for Relation which calculates distances from lines (to possibly drag new points out of it)
-		if (!IS_FIRST_DRAGGING_OVER) {
-			firstDragging(diffx, diffy, oldpNotRounded);
-			this.controller.executeCommand(new Macro(FIRST_MOVE_COMMANDS));
+		if (FIRST_MOVE_COMMANDS == null) {
+			POINT_BEFORE_MOVE = getOldCoordinateNotRounded(); // must use exact coordinates eg for Relation which calculates distances from lines (to possibly drag new points out of it)
+			FIRST_MOVE_COMMANDS = calculateMoveCommands(diffx, diffy, oldp, selector.getSelectedElements(), false, handler);
 		}
 		else if (diffx != 0 || diffy != 0) {
-			Vector<Command> commands = continueDragging(diffx, diffy, oldpNotRounded);
+			Vector<Command> commands = continueDragging(diffx, diffy, POINT_BEFORE_MOVE);
+			POINT_BEFORE_MOVE = getOldCoordinateNotRounded(); // after the move the initial point must be renewed for the next move
 			this.controller.executeCommand(new Macro(commands));
+			FIRST_DRAG = false;
 		}
-	}
-
-	/**
-	 * At the beginning of dragging entities sticking relations must be calculated (and also moved from now on)
-	 */
-	private void firstDragging(int diffx, int diffy, Point oldp) {
-		List<GridElement> entitiesToBeMoved = this.selector.getSelectedElements();
-
-		boolean useSetLocation = entitiesToBeMoved.size() != 1; // if >1 elements are selected they will be moved
-
-		FIRST_MOVE_COMMANDS = calculateMoveCommands(diffx, diffy, oldp, entitiesToBeMoved, useSetLocation, handler);
-		this.IS_FIRST_DRAGGING_OVER = true;
 	}
 
 	static Vector<Command> calculateMoveCommands(int diffx, int diffy, Point oldp, Collection<GridElement> entitiesToBeMoved, boolean useSetLocation, DiagramHandler handler) {
@@ -334,7 +323,7 @@ public class GridElementListener extends UniversalListener {
 		for (Command command : FIRST_MOVE_COMMANDS) { // use first move commands to identify the necessary commands and moved entities
 			if (command instanceof Move) {
 				Move m = (Move) command;
-				tmpVector.add(new Move(m.getEntity(), diffx, diffy, oldp, false, useSetLocation, m.getStickables()));
+				tmpVector.add(new Move(m.getEntity(), diffx, diffy, oldp, FIRST_DRAG, useSetLocation, m.getStickables()));
 			}
 			else if (command instanceof MoveLinePoint) {
 				MoveLinePoint m = (MoveLinePoint) command;
