@@ -1,6 +1,7 @@
 package com.baselet.gwt.client.element;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.baselet.control.SharedConstants;
@@ -41,7 +42,7 @@ public class ElementFactory {
 					diffwInt = SharedUtils.realignToGrid(false, diffwInt/2, true) * 2;
 					directions = Arrays.asList(Direction.RIGHT, Direction.LEFT, Direction.DOWN);
 				}
-				element.drag(directions, diffwInt, diffhInt, new Point(0,0), false, true, diagram.getRelations());
+				element.drag(directions, diffwInt, diffhInt, new Point(0,0), false, true, diagram.getStickables(Collections.<GridElement>emptyList()));
 			}
 		};
 

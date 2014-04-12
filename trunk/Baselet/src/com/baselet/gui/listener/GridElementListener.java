@@ -301,7 +301,7 @@ public class GridElementListener extends UniversalListener {
 	static Vector<Command> calculateMoveCommands(int diffx, int diffy, Point oldp, Collection<GridElement> entitiesToBeMoved, boolean useSetLocation, DiagramHandler handler) {
 		Vector<Move> moveCommands = new Vector<Move>();
 		Vector<MoveLinePoint> linepointCommands = new Vector<MoveLinePoint>();
-		List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getNewRelations(entitiesToBeMoved);
+		List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getStickables(entitiesToBeMoved);
 		for (GridElement ge : entitiesToBeMoved) {
 			moveCommands.add(new Move(ge, diffx, diffy, oldp, true, useSetLocation, stickables));
 			boolean stickingDisabled = !SharedConstants.stickingEnabled || handler instanceof PaletteHandler;

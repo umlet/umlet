@@ -316,11 +316,11 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		}
 		// if cursorpos determines a resizedirection, resize the element from where the mouse is dragging (eg: if 2 elements are selected, you can resize any of them without losing your selection)
 		else if (!resizeDirection.isEmpty()) {
-			draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
+			draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getStickables(Collections.<GridElement>emptyList()));
 		}
 		// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
 		else if (selector.getSelectedElements().size() == 1) {
-			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getRelations());
+			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getStickables(Collections.<GridElement>emptyList()));
 		} else { // if != 1 elements are selected, move them
 			moveSelectedElements(diffX, diffY, firstDrag);
 		}

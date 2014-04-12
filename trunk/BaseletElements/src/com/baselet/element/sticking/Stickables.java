@@ -23,7 +23,6 @@ public class Stickables {
 	public static Map<Stickable, Set<PointDouble>> getStickingPointsWhichAreConnectedToStickingPolygon(StickingPolygon oldStickingPolygon, Collection<? extends Stickable> stickables, int maxDistance) {
 		log.debug("Polygon to check: " + oldStickingPolygon);
 		Map<Stickable, Set<PointDouble>> returnMap = new HashMap<Stickable, Set<PointDouble>>();
-		if (SharedConstants.stickingEnabled) {
 			for (final Stickable stickable : stickables) {
 				for (final PointDouble p : stickable.getStickablePoints()) {
 					PointDouble absolutePointPosition = getAbsolutePosition(stickable, p);
@@ -40,7 +39,6 @@ public class Stickables {
 					}
 				}
 			}
-		}
 		log.debug(returnMap.size() + "point sticks to polygon");
 		return returnMap;
 	}
