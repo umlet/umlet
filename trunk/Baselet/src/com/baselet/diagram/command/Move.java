@@ -18,12 +18,10 @@ public class Move extends Command {
 	private static final Logger log = Logger.getLogger(Move.class);
 	
 	private GridElement entity;
-
-	private int _gridSize;
 	
-	private int _x, _y;
+	private int x, y;
 
-	private Point _mousePointBeforeDrag;
+	private double xBeforeDrag, yBeforeDrag;
 
 	private boolean firstDrag;
 
@@ -36,21 +34,21 @@ public class Move extends Command {
 	}
 
 	private int getX() {
-		int zoomedX = _x * Main.getHandlerForElement(entity).getGridSize() / _gridSize;
+		int zoomedX = x * Main.getHandlerForElement(entity).getGridSize();
 		log.debug("Zoomed x: " + zoomedX);
 		return zoomedX;
 	}
 
 	private int getY() {
-		int zoomedY = _y * Main.getHandlerForElement(entity).getGridSize() / _gridSize;
+		int zoomedY = y * Main.getHandlerForElement(entity).getGridSize();
 		log.debug("Zoomed y: " + zoomedY);
 		return zoomedY;
 	}
 	
 	private Point getMousePosBeforeDrag() {
-		int zoomedX = _mousePointBeforeDrag.getX() * Main.getHandlerForElement(entity).getGridSize() / _gridSize;
-		int zoomedY = _mousePointBeforeDrag.getY() * Main.getHandlerForElement(entity).getGridSize() / _gridSize;
-		Point p = new Point(zoomedX, zoomedY);
+		Double zoomedX = xBeforeDrag * Main.getHandlerForElement(entity).getGridSize();
+		Double zoomedY = yBeforeDrag * Main.getHandlerForElement(entity).getGridSize();
+		Point p = new Point((int)Math.round(zoomedX), (int)Math.round(zoomedY));
 		log.debug("Zoomed point: " + p);
 		return p;
 	}
@@ -61,14 +59,14 @@ public class Move extends Command {
 
 	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, List<? extends Stickable> stickables) {
 		entity = e;
-		_gridSize = Main.getHandlerForElement(e).getGridSize();
-		_x = x;
-		_y = y;
-		_mousePointBeforeDrag = mousePosBeforeDrag;
+		int gridSize = Main.getHandlerForElement(e).getGridSize();
+		this.x = x / gridSize;
+		this.y = y / gridSize;
+		this.xBeforeDrag = mousePosBeforeDrag.getX() * 1.0 / gridSize;
+		this.yBeforeDrag = mousePosBeforeDrag.getY() * 1.0 / gridSize;
 		this.firstDrag = firstDrag;
 		this.useSetLocation = useSetLocation;
 		this.stickables = stickables;
-		log.debug("Base for (x,y): (" + _x + "," + _y + ")");
 	}
 
 	@Override
