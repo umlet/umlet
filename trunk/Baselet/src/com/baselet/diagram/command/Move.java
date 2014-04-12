@@ -14,11 +14,11 @@ import com.baselet.element.GridElement;
 import com.baselet.element.sticking.Stickable;
 
 public class Move extends Command {
-	
+
 	private static final Logger log = Logger.getLogger(Move.class);
-	
+
 	private GridElement entity;
-	
+
 	private int x, y;
 
 	private double xBeforeDrag, yBeforeDrag;
@@ -44,7 +44,7 @@ public class Move extends Command {
 		log.debug("Zoomed y: " + zoomedY);
 		return zoomedY;
 	}
-	
+
 	private Point getMousePosBeforeDrag() {
 		Double zoomedX = xBeforeDrag * Main.getHandlerForElement(entity).getGridSize();
 		Double zoomedY = yBeforeDrag * Main.getHandlerForElement(entity).getGridSize();
@@ -52,7 +52,7 @@ public class Move extends Command {
 		log.debug("Zoomed point: " + p);
 		return p;
 	}
-	
+
 	public List<? extends Stickable> getStickables() {
 		return stickables;
 	}
@@ -87,7 +87,8 @@ public class Move extends Command {
 		if (useSetLocation) {
 			this.entity.setLocationDifference(-getX(), -getY(), firstDragUndo, stickables);
 		} else {
-		this.entity.drag(Collections.<Direction> emptySet(), -getX(), -getY(), getMousePosBeforeDrag(), false, firstDragUndo, stickables);
+			Point mousePosBeforeDrag = new Point(getMousePosBeforeDrag().getX()+getX(), getMousePosBeforeDrag().getY()+getY());
+			this.entity.drag(Collections.<Direction> emptySet(), -getX(), -getY(), mousePosBeforeDrag, false, firstDragUndo, stickables);
 		}
 		this.entity.dragEnd();
 		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
@@ -98,13 +99,15 @@ public class Move extends Command {
 		if (!(c instanceof Move)) return false;
 		Move m = (Move) c;
 		boolean stickablesEqual = this.stickables.containsAll(m.stickables) && m.stickables.containsAll(this.stickables);
-		return this.entity == m.entity && this.useSetLocation == m.useSetLocation && stickablesEqual;
+		boolean notBothFirstDrag = !(this.firstDrag && m.firstDrag); // every firstDrag move is considered a separate move (i.e. the user released the mouse-button)
+		return this.entity == m.entity && this.useSetLocation == m.useSetLocation && stickablesEqual && notBothFirstDrag;
 	}
 
 	@Override
 	public Command mergeTo(Command c) {
 		Move m = (Move) c;
-		Move ret = new Move(this.entity, this.getX() + m.getX(), this.getY() + m.getY(), getMousePosBeforeDrag(), this.firstDrag || m.firstDrag, useSetLocation, stickables);
+		Point mousePosBeforeDrag = this.firstDrag ? this.getMousePosBeforeDrag() : m.getMousePosBeforeDrag();
+		Move ret = new Move(this.entity, this.getX() + m.getX(), this.getY() + m.getY(), mousePosBeforeDrag, this.firstDrag || m.firstDrag, useSetLocation, stickables);
 		return ret;
 	}
 }
