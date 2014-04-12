@@ -53,7 +53,7 @@ public class GridElementListener extends UniversalListener {
 	protected boolean IS_FIRST_DRAGGING_OVER = false;
 	private Set<Direction> RESIZE_DIRECTION = new HashSet<Direction>();
 	private Resize FIRST_RESIZE = null;
-	private Vector<Command> ALL_MOVE_COMMANDS = null;
+	private Vector<Command> FIRST_MOVE_COMMANDS = null;
 	protected boolean DESELECT_MULTISEL = false;
 	private boolean LASSO_ACTIVE = false;
 
@@ -237,7 +237,7 @@ public class GridElementListener extends UniversalListener {
 		IS_RESIZING = false;
 		IS_FIRST_DRAGGING_OVER = false;
 		FIRST_RESIZE = null;
-		ALL_MOVE_COMMANDS = null;
+		FIRST_MOVE_COMMANDS = null;
 
 		if (LASSO_ACTIVE) {
 			LASSO_ACTIVE = false;
@@ -279,11 +279,12 @@ public class GridElementListener extends UniversalListener {
 		Point oldpNotRounded = getOldCoordinateNotRounded(); // must use exact coordinates eg for Relation which calculates distances from lines (to possibly drag new points out of it)
 		if (!IS_FIRST_DRAGGING_OVER) {
 			firstDragging(diffx, diffy, oldpNotRounded);
+			this.controller.executeCommand(new Macro(FIRST_MOVE_COMMANDS));
 		}
-		else {
-			continueDragging(diffx, diffy, oldpNotRounded);
+		else if (diffx != 0 || diffy != 0) {
+			Vector<Command> commands = continueDragging(diffx, diffy, oldpNotRounded);
+			this.controller.executeCommand(new Macro(commands));
 		}
-		this.controller.executeCommand(new Macro(ALL_MOVE_COMMANDS));
 	}
 
 	/**
@@ -294,7 +295,7 @@ public class GridElementListener extends UniversalListener {
 
 		boolean useSetLocation = entitiesToBeMoved.size() != 1; // if >1 elements are selected they will be moved
 
-		ALL_MOVE_COMMANDS = calculateMoveCommands(diffx, diffy, oldp, entitiesToBeMoved, useSetLocation, handler);
+		FIRST_MOVE_COMMANDS = calculateMoveCommands(diffx, diffy, oldp, entitiesToBeMoved, useSetLocation, handler);
 		this.IS_FIRST_DRAGGING_OVER = true;
 	}
 
@@ -325,22 +326,22 @@ public class GridElementListener extends UniversalListener {
 	/**
 	 * After the firstDragging is over, the vector of entities which should be dragged doesn't change (nothing starts sticking during dragging)
 	 * @param oldp 
+	 * @return 
 	 */
-	private void continueDragging(int diffx, int diffy, Point oldp) {
+	private Vector<Command> continueDragging(int diffx, int diffy, Point oldp) {
 		boolean useSetLocation =  this.selector.getSelectedElements().size() != 1; // if >1 elements are selected they will be moved
 		Vector<Command> tmpVector = new Vector<Command>();
-		for (int i = 0; i < ALL_MOVE_COMMANDS.size(); i++) {
-			Command tmpCommand = ALL_MOVE_COMMANDS.elementAt(i);
-			if (tmpCommand instanceof Move) {
-				Move m = (Move) tmpCommand;
+		for (Command command : FIRST_MOVE_COMMANDS) { // use first move commands to identify the necessary commands and moved entities
+			if (command instanceof Move) {
+				Move m = (Move) command;
 				tmpVector.add(new Move(m.getEntity(), diffx, diffy, oldp, false, useSetLocation, m.getStickables()));
 			}
-			else if (tmpCommand instanceof MoveLinePoint) {
-				MoveLinePoint m = (MoveLinePoint) tmpCommand;
+			else if (command instanceof MoveLinePoint) {
+				MoveLinePoint m = (MoveLinePoint) command;
 				tmpVector.add(new MoveLinePoint(m.getRelation(), m.getLinePointId(), diffx, diffy));
 			}
 		}
-		ALL_MOVE_COMMANDS = tmpVector;
+		return tmpVector;
 	}
 
 	private void resizeEntity(GridElement e, MouseEvent me) {
