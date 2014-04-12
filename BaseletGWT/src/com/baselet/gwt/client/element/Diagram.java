@@ -1,12 +1,15 @@
 package com.baselet.gwt.client.element;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.baselet.control.SharedConstants;
 import com.baselet.element.GridElement;
 import com.baselet.element.HasPanelAttributes;
+import com.baselet.element.sticking.Stickable;
 import com.baselet.elementnew.element.uml.relation.Relation;
 import com.baselet.gui.AutocompletionText;
 import com.baselet.gwt.client.view.SelectorNew.HasGridElements;
@@ -46,13 +49,20 @@ public class Diagram implements HasPanelAttributes, HasGridElements {
 			}
 			return returnList;
 		}
+		
+		public List<? extends Stickable> getStickables(Collection<GridElement> excludeList) {
+			if (!SharedConstants.stickingEnabled) {
+				return Collections.<Stickable>emptyList();
+			}
+			List<Relation> stickables = getRelations();
+			stickables.removeAll(excludeList);
+			return stickables;
+		}
 
 		public void moveGridElements(int diffX, int diffY, boolean firstDrag, List<GridElement> elements) {
-			// only stickables which are not moved themselves must be used for sticking-checks (otherwise a stickable can be moved itself and by "sticking" to a stickingpolygon afterwards)
-			List<Relation> stickablesToCheck = getRelations();
-			stickablesToCheck.removeAll(elements);
 			for (GridElement ge : elements) {
-				ge.setLocationDifference(diffX, diffY, firstDrag, stickablesToCheck); //uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
+				// only stickables which are not moved themselves must be used for sticking-checks (otherwise a stickable can be moved itself and by "sticking" to a stickingpolygon afterwards)
+				ge.setLocationDifference(diffX, diffY, firstDrag, getStickables(elements)); //uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
 			}
 		}
 

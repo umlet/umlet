@@ -11,6 +11,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,6 +27,7 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
 import com.baselet.control.DiagramNotification;
+import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.control.Utils;
@@ -206,7 +208,10 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		return getHelper(Relation.class);
 	}
 
-	public List<com.baselet.elementnew.element.uml.relation.Relation> getNewRelations(Collection<GridElement> excludeList) {
+	public List<com.baselet.elementnew.element.uml.relation.Relation> getStickables(Collection<GridElement> excludeList) {
+		if (!SharedConstants.stickingEnabled) {
+			return Collections.<com.baselet.elementnew.element.uml.relation.Relation>emptyList();
+		}
 		List<com.baselet.elementnew.element.uml.relation.Relation> returnList = getHelper(com.baselet.elementnew.element.uml.relation.Relation.class);
 		returnList.removeAll(excludeList);
 		return returnList;
