@@ -16,11 +16,17 @@ import com.baselet.gwt.client.view.SelectorNew.HasGridElements;
 
 public class Diagram implements HasPanelAttributes, HasGridElements {
 
-	private static final Comparator<GridElement> LAYER_COMPARATOR = new Comparator<GridElement>() {
+	private static final Comparator<GridElement> LAYER_COMPARATOR_ASCENDING = new Comparator<GridElement>() {
 		@Override
 		public int compare(GridElement o1, GridElement o2) {
 			return o1.getLayer().compareTo(o2.getLayer());
 		}};
+
+		private static final Comparator<GridElement> LAYER_COMPARATOR_DESCENDING = new Comparator<GridElement>() {
+			@Override
+			public int compare(GridElement o1, GridElement o2) {
+				return o2.getLayer().compareTo(o1.getLayer());
+			}};
 
 		private String helpText;
 		private List<GridElement> gridElements;
@@ -66,9 +72,18 @@ public class Diagram implements HasPanelAttributes, HasGridElements {
 			}
 		}
 
-		public List<GridElement> getGridElementsSortedByLayer() {
-			Collections.sort(gridElements, LAYER_COMPARATOR);
-			return getGridElements();
+		public List<GridElement> getGridElementsByLayerLowestToHighest() {
+			return getGridElementsByLayer(true);
+		}
+
+		public List<GridElement> getGridElementsByLayer(boolean ascending) {
+			ArrayList<GridElement> list = new ArrayList<>(gridElements);
+			if (ascending) {
+				Collections.sort(list, LAYER_COMPARATOR_ASCENDING);
+			} else {
+				Collections.sort(list, LAYER_COMPARATOR_DESCENDING);
+			}
+			return list;
 		}
 
 		@Override

@@ -26,6 +26,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.Selector;
 import com.baselet.element.sticking.StickingPolygon;
+import com.baselet.elementnew.facet.common.LayerFacet;
 import com.umlet.element.relation.Arrow;
 import com.umlet.element.relation.EmptyShape;
 import com.umlet.element.relation.Multiplicity;
@@ -1876,5 +1877,10 @@ public class Relation extends OldGridElement {
 	@Override
 	public Set<Direction> getResizeArea(int x, int y) {
 		return Collections.<Direction>emptySet();
+	}
+
+	@Override
+	public Integer getLayer() {
+		return getLayerHelper(LayerFacet.DEFAULT_VALUE_RELATION);
 	}
 }

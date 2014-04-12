@@ -17,6 +17,7 @@ import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.element.uml.relation.RelationPoints.Selection;
+import com.baselet.elementnew.facet.common.LayerFacet;
 import com.baselet.elementnew.settings.Settings;
 
 public class Relation extends NewGridElement implements Stickable {
@@ -120,6 +121,11 @@ public class Relation extends NewGridElement implements Stickable {
 	public void movePoint(PointDouble pointToMove, int diffX, int diffY) {
 		relationPoints.movePointAndResizeRectangle(pointToMove, diffX, diffY);
 		updateModelFromText();
+	}
+
+	@Override
+	public Integer getLayer() {
+		return state.getFacetResponse(LayerFacet.class, LayerFacet.DEFAULT_VALUE_RELATION);
 	}
 }
 
