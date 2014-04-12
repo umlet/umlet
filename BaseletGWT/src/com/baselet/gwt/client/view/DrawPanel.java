@@ -2,7 +2,6 @@ package com.baselet.gwt.client.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -169,7 +168,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 	}
 
 	void redraw(boolean recalcSize) {
-		List<GridElement> gridElements = diagram.getGridElementsSortedByLayer();
+		List<GridElement> gridElements = diagram.getGridElementsByLayerLowestToHighest();
 		if (recalcSize) {
 			if (scrollPanel == null) return;
 
@@ -201,16 +200,10 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 
 	public GridElement getGridElementOnPosition(Point point) {
 		GridElement returnGe = null;
-		returnGe = getGridElementOnPositionHelper(point, diagram.getRelations());
-		if (returnGe == null) { // if no relation, search all elements
-			returnGe = getGridElementOnPositionHelper(point, diagram.getGridElements());
-		}
-		return returnGe;
-	}
-
-	private GridElement getGridElementOnPositionHelper(Point point, Collection<? extends GridElement> elements) {
-		GridElement returnGe = null;
-		for (GridElement ge : elements) {
+		for (GridElement ge : diagram.getGridElementsByLayer(false)) { // get elements, highest layer first
+			if (returnGe != null && returnGe.getLayer() > ge.getLayer()) {
+				break; // because the following elements have lower layers, break if a valid higher layered element has been found
+			}
 			if (ge.isSelectableOn(point)) {
 				if (returnGe == null) {
 					returnGe = ge;

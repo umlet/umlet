@@ -360,10 +360,14 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public Integer getLayer() {
+		return getLayerHelper(LayerFacet.DEFAULT_VALUE);
+	}
+
+	protected Integer getLayerHelper(Integer defaultLayer) {
 		try {
-			return Integer.valueOf(getSettingHelper(LayerFacet.KEY, LayerFacet.DEFAULT_VALUE.toString()));
+			return Integer.valueOf(getSettingHelper(LayerFacet.KEY, defaultLayer.toString()));
 		} catch (NumberFormatException e) {/* default value applies */}
-		return LayerFacet.DEFAULT_VALUE;
+		return defaultLayer;
 	}
 
 	private String getSettingHelper(String key, String defaultValue) {

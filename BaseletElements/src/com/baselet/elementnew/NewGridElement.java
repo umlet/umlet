@@ -50,7 +50,7 @@ public abstract class NewGridElement implements GridElement {
 
 	private List<String> panelAttributes;
 
-	private PropertiesParserState state;
+	protected PropertiesParserState state;
 
 	private static final int MINIMAL_SIZE = SharedConstants.DEFAULT_GRID_SIZE * 2;
 
