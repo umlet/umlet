@@ -46,8 +46,7 @@ public class Relation extends NewGridElement implements Stickable {
 		}
 
 		drawer.setForegroundColor(ColorOwn.SELECTION_FG);
-		relationPoints.drawPointCircles(drawer);
-		relationPoints.drawDragBox(drawer);
+		relationPoints.drawCirclesAndDragBox(drawer);
 	}
 
 	@Override
