@@ -67,11 +67,6 @@ public class Relation extends NewGridElement implements Stickable {
 	}
 
 	@Override
-	protected Settings createSettings() {
-		return new SettingsRelation(relationPoints);
-	}
-
-	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
 		Point mousePosBeforeDragRelative = new Point(mousePosBeforeDrag.getX() - getRectangle().getX(), mousePosBeforeDrag.getY() - getRectangle().getY());
 		Selection returnSelection = relationPoints.getSelectionAndMovePointsIfNecessary(pointAtDefaultZoom(mousePosBeforeDragRelative), toDefaultZoom(diffX), toDefaultZoom(diffY), firstDrag);
@@ -127,6 +122,16 @@ public class Relation extends NewGridElement implements Stickable {
 	@Override
 	public Integer getLayer() {
 		return state.getFacetResponse(LayerFacet.class, LayerFacet.DEFAULT_VALUE_RELATION);
+	}
+
+	@Override
+	protected Settings createSettings() {
+		return new SettingsRelation() {
+			@Override
+			public RelationPoints getRelationPoints() {
+				return relationPoints;
+			}
+		};
 	}
 }
 
