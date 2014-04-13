@@ -227,7 +227,7 @@ public class GridElementListener extends UniversalListener {
 		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) {
 			if (selector.isSelected(e) && DESELECT_MULTISEL) this.selector.deselect(e);
 		}
-		if (IS_DRAGGING) {
+		if (IS_DRAGGING && !FIRST_DRAG) { // if mouse is dragged and element really has been dragged around execute moveend
 			this.controller.executeCommand(new MoveEnd(e));
 		}
 
