@@ -10,6 +10,7 @@ import com.baselet.control.Main;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.Stickable;
 
@@ -28,26 +29,34 @@ public class Move extends Command {
 	private boolean useSetLocation;
 
 	private List<? extends Stickable> stickables;
+	
+	String additionalAttributesBefore;
+
+	private Rectangle boundsBefore;
 
 	public GridElement getEntity() {
 		return entity;
 	}
 
 	private int getX() {
-		int zoomedX = x * Main.getHandlerForElement(entity).getGridSize();
+		int zoomedX = x * gridSize();
 		log.debug("Zoomed x: " + zoomedX);
 		return zoomedX;
 	}
 
+	private int gridSize() {
+		return Main.getHandlerForElement(entity).getGridSize();
+	}
+
 	private int getY() {
-		int zoomedY = y * Main.getHandlerForElement(entity).getGridSize();
+		int zoomedY = y * gridSize();
 		log.debug("Zoomed y: " + zoomedY);
 		return zoomedY;
 	}
 
 	private Point getMousePosBeforeDrag() {
-		Double zoomedX = xBeforeDrag * Main.getHandlerForElement(entity).getGridSize();
-		Double zoomedY = yBeforeDrag * Main.getHandlerForElement(entity).getGridSize();
+		Double zoomedX = xBeforeDrag * gridSize();
+		Double zoomedY = yBeforeDrag * gridSize();
 		Point p = new Point((int)Math.round(zoomedX), (int)Math.round(zoomedY));
 		log.debug("Zoomed point: " + p);
 		return p;
@@ -71,6 +80,8 @@ public class Move extends Command {
 
 	@Override
 	public void execute(DiagramHandler handler) {
+		boundsBefore = calcAtMinZoom(entity.getRectangle());
+		additionalAttributesBefore = entity.getAdditionalAttributes();
 		super.execute(handler);
 		if (useSetLocation) {
 			this.entity.setLocationDifference(getX(), getY(), firstDrag, stickables);
@@ -83,14 +94,10 @@ public class Move extends Command {
 	@Override
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
-		boolean firstDragUndo = true; // undo is always considered a firstdrag (to calculate stickables)
-		if (useSetLocation) {
-			this.entity.setLocationDifference(-getX(), -getY(), firstDragUndo, stickables);
-		} else {
-			Point mousePosBeforeDrag = new Point(getMousePosBeforeDrag().getX()+getX(), getMousePosBeforeDrag().getY()+getY());
-			this.entity.drag(Collections.<Direction> emptySet(), -getX(), -getY(), mousePosBeforeDrag, false, firstDragUndo, stickables);
-		}
-		this.entity.dragEnd();
+		entity.setLocationDifference(-getX(), -getY(), true, stickables); // use to make sure stickables are moved
+		entity.setAdditionalAttributes(additionalAttributesBefore);
+		entity.setRectangle(applyCurrentZoom(boundsBefore));
+		entity.updateModelFromText();
 		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 	}
 
@@ -99,7 +106,7 @@ public class Move extends Command {
 		if (!(c instanceof Move)) return false;
 		Move m = (Move) c;
 		boolean stickablesEqual = this.stickables.containsAll(m.stickables) && m.stickables.containsAll(this.stickables);
-		boolean notBothFirstDrag = !(this.firstDrag && m.firstDrag); // every firstDrag move is considered a separate move (i.e. the user released the mouse-button)
+		boolean notBothFirstDrag = !(this.firstDrag && m.firstDrag);
 		return this.entity == m.entity && this.useSetLocation == m.useSetLocation && stickablesEqual && notBothFirstDrag;
 	}
 
@@ -108,6 +115,24 @@ public class Move extends Command {
 		Move m = (Move) c;
 		Point mousePosBeforeDrag = this.firstDrag ? this.getMousePosBeforeDrag() : m.getMousePosBeforeDrag();
 		Move ret = new Move(this.entity, this.getX() + m.getX(), this.getY() + m.getY(), mousePosBeforeDrag, this.firstDrag || m.firstDrag, useSetLocation, stickables);
+		ret.boundsBefore = m.boundsBefore;
+		ret.additionalAttributesBefore = m.additionalAttributesBefore;
 		return ret;
+	}
+
+	private Rectangle calcAtMinZoom(Rectangle rectangle) {
+		int xBefore = rectangle.getX() / gridSize();
+		int yBefore = rectangle.getY() / gridSize();
+		int wBefore = rectangle.getWidth() / gridSize();
+		int hBefore = rectangle.getHeight() / gridSize();
+		return new Rectangle(xBefore, yBefore, wBefore, hBefore);
+	}
+
+	private Rectangle applyCurrentZoom(Rectangle rectangle) {
+		int xBefore = rectangle.getX() * gridSize();
+		int yBefore = rectangle.getY() * gridSize();
+		int wBefore = rectangle.getWidth() * gridSize();
+		int hBefore = rectangle.getHeight() * gridSize();
+		return new Rectangle(xBefore, yBefore, wBefore, hBefore);
 	}
 }

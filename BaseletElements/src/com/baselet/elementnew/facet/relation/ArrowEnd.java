@@ -4,8 +4,8 @@ import com.baselet.control.enumerations.ValueHolder;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.element.uml.relation.RelationPoints;
 
-public interface ArrowEnd extends ValueHolder {
-	public void print(DrawHandler drawer, RelationPoints points);
+interface ArrowEnd extends ValueHolder {
+	void print(DrawHandler drawer, RelationPoints points);
 
 	static ArrowEnd LEFT_NORMAL = new ArrowEnd() {
 		@Override
