@@ -14,13 +14,14 @@ import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
+import com.baselet.control.ErrorMessages;
 import com.baselet.control.Main;
 import com.baselet.control.Notifier;
 import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.swing.DrawHandlerSwing;
 import com.baselet.diagram.draw.swing.Converter;
+import com.baselet.diagram.draw.swing.DrawHandlerSwing;
 import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.NewGridElement;
@@ -134,13 +135,13 @@ public class DiagramHandler {
 			return true;
 		} catch (IOException e) {
 			log.error(e);
-			Main.displayError(Constants.ERROR_SAVING_FILE + e.getMessage());
+			Main.displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
 			return false;
 		}
 	}
 
 	public void doSaveAs(String extension) {
-		if (this.drawpanel.getGridElements().isEmpty()) Main.displayError(Constants.ERROR_SAVING_EMPTY_DIAGRAM);
+		if (this.drawpanel.getGridElements().isEmpty()) Main.displayError(ErrorMessages.ERROR_SAVING_EMPTY_DIAGRAM);
 		else {
 			try {
 				this.fileHandler.doSaveAs(extension);
@@ -148,7 +149,7 @@ public class DiagramHandler {
 				Main.getInstance().getGUI().afterSaving();
 			} catch (IOException e) {
 				log.error(e);
-				Main.displayError(Constants.ERROR_SAVING_FILE + e.getMessage());
+				Main.displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
 			}
 		}
 	}
@@ -159,7 +160,7 @@ public class DiagramHandler {
 		if (printJob.printDialog()) try {
 			printJob.print();
 		} catch (PrinterException pe) {
-			Main.displayError(Constants.ERROR_PRINTING);
+			Main.displayError(ErrorMessages.ERROR_PRINTING);
 		}
 	}
 

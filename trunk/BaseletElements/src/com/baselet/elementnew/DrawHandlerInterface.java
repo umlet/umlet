@@ -12,5 +12,7 @@ public interface DrawHandlerInterface {
 	boolean displaceDrawingByOnePixel();
 	
 	void resize(double diffw, double diffh, AlignHorizontal alignHorizontal);
+	
+	boolean isInitialized();
 
 }

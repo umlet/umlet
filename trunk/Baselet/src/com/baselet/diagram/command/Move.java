@@ -80,23 +80,33 @@ public class Move extends Command {
 
 	@Override
 	public void execute(DiagramHandler handler) {
-		boundsBefore = calcAtMinZoom(entity.getRectangle());
-		additionalAttributesBefore = entity.getAdditionalAttributes();
 		super.execute(handler);
+		Rectangle b = calcAtMinZoom(entity.getRectangle());
+		additionalAttributesBefore = entity.getAdditionalAttributes();
 		if (useSetLocation) {
 			this.entity.setLocationDifference(getX(), getY(), firstDrag, stickables);
 		} else {
 			// resize directions is empty and shift-key is always false, because standalone UMLet has a separate Resize-Command
 			this.entity.drag(Collections.<Direction> emptySet(), getX(), getY(), getMousePosBeforeDrag(), false, firstDrag, stickables);
 		}
+		Rectangle a = calcAtMinZoom(entity.getRectangle());
+		boundsBefore = subtract(b, a);
+	}
+
+	private Rectangle subtract(Rectangle b, Rectangle a) {
+		return new Rectangle(b.x-a.x, b.y-a.y, b.width-a.width, b.height-a.height);
+	}
+
+	private Rectangle add(Rectangle b, Rectangle a) {
+		return new Rectangle(b.x+a.x, b.y+a.y, b.width+a.width, b.height+a.height);
 	}
 
 	@Override
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
-		entity.setLocationDifference(-getX(), -getY(), true, stickables); // use to make sure stickables are moved
+		Rectangle xxx = boundsBefore = applyCurrentZoom(boundsBefore);
+		entity.setLocationDifference(xxx.getX(), xxx.getY(), true, stickables); // use to make sure stickables are moved - TODO refactor Stickable-Implementations to use move-commands, then they would undo on their own
 		entity.setAdditionalAttributes(additionalAttributesBefore);
-		entity.setRectangle(applyCurrentZoom(boundsBefore));
 		entity.updateModelFromText();
 		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 	}
@@ -115,7 +125,7 @@ public class Move extends Command {
 		Move m = (Move) c;
 		Point mousePosBeforeDrag = this.firstDrag ? this.getMousePosBeforeDrag() : m.getMousePosBeforeDrag();
 		Move ret = new Move(this.entity, this.getX() + m.getX(), this.getY() + m.getY(), mousePosBeforeDrag, this.firstDrag || m.firstDrag, useSetLocation, stickables);
-		ret.boundsBefore = m.boundsBefore;
+		ret.boundsBefore = add(this.boundsBefore, m.boundsBefore);
 		ret.additionalAttributesBefore = m.additionalAttributesBefore;
 		return ret;
 	}

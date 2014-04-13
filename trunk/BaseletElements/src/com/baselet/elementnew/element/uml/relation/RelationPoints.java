@@ -106,14 +106,16 @@ public class RelationPoints {
 		if (points.size() == 2 && points.get(0).equals(points.get(1))) {
 			point.move(-diffX, -diffY);
 		}
-		
+		resizeRectAndReposPoints();
+	}
+
+	void resizeRectAndReposPoints() {
 		// now rebuild width and height of the relation, based on the new positions of the relation-points
 		Rectangle newRect = RelationPointsUtils.calculateRelationRectangleBasedOnPoints(relation.getRectangle().getUpperLeftCorner(), relation.getGridSize(), points);
 		relation.setRectangle(newRect);
 
 		// move relation points to their new position (their position is relative to the relation-position)
 		RelationPointsUtils.moveRelationPointsOriginToUpperLeftCorner(points);
-
 	}
 
 	public boolean removeRelationPointIfOnLineBetweenNeighbourPoints() {

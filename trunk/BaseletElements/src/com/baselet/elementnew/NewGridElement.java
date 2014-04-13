@@ -61,9 +61,9 @@ public abstract class NewGridElement implements GridElement {
 		this.metaDrawer = component.getMetaDrawHandler();
 		setPanelAttributesHelper(panelAttributes);
 		setRectangle(bounds);
-		setAdditionalAttributes(additionalAttributes);
 		this.handler = handler;
 		state = new PropertiesParserState(createSettings());
+		setAdditionalAttributes(additionalAttributes);
 	}
 
 	public DrawHandler getDrawer() {
