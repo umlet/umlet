@@ -13,6 +13,7 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.SharedConstants;
+import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
@@ -75,14 +76,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public String getPanelAttributes() {
-		StringBuilder sb = new StringBuilder();
-		for (String line : panelAttributes) {
-			sb.append(line).append("\n");
-		}
-		if (sb.length() > 0) {
-			sb.setLength(sb.length() - 1);
-		}
-		return sb.toString();
+		return SharedUtils.listToString("\n", panelAttributes);
 	}
 
 	@Override
