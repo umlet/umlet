@@ -71,13 +71,15 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 
 		int diffx = newp.x - oldp.x;
 		int diffy = newp.y - oldp.y;
+		
+		if (diffx != 0 || diffy != 0) {
+			Vector<Command> moveCommands = new Vector<Command>();
+			for (GridElement e : diagram.getGridElements()) {
+				moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, Collections.<Stickable>emptyList()));
+			}
 
-		Vector<Command> moveCommands = new Vector<Command>();
-		for (GridElement e : diagram.getGridElements()) {
-			moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, Collections.<Stickable>emptyList()));
+			this.controller.executeCommand(new Macro(moveCommands));
 		}
-
-		this.controller.executeCommand(new Macro(moveCommands));
 	}
 
 	@Override
