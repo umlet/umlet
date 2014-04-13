@@ -27,6 +27,7 @@ import com.baselet.diagram.command.AddElement;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
+import com.baselet.diagram.command.MoveEnd;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.geom.Point;
@@ -227,7 +228,7 @@ public class GridElementListener extends UniversalListener {
 			if (selector.isSelected(e) && DESELECT_MULTISEL) this.selector.deselect(e);
 		}
 		if (IS_DRAGGING) {
-			e.dragEnd();
+			this.controller.executeCommand(new MoveEnd(e));
 		}
 
 		DESELECT_MULTISEL = false;
