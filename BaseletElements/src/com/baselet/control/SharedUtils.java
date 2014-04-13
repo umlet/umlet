@@ -1,6 +1,7 @@
 package com.baselet.control;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -77,6 +78,17 @@ public class SharedUtils {
 			y2 = Math.max(ge.getRectangle().getY2(), y2);
 		}
 		return new Rectangle(x, y, x2-x, y2-y);
+	}
+	
+	public static String listToString(String sep, List<?> list) {
+		StringBuilder sb = new StringBuilder();
+		for (Object line : list) {
+			sb.append(line).append(sep);
+		}
+		if (sb.length() > 0) {
+			sb.setLength(sb.length() - sep.length());
+		}
+		return sb.toString();
 	}
 
 }

@@ -274,4 +274,9 @@ public class RelationPoints {
 			relation.getRectangle().setHeight((int) textHeight);
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "Relationpoints: " + SharedUtils.listToString(",", points);
+	}
 }
