@@ -12,16 +12,8 @@ import com.baselet.elementnew.facet.relation.LineDescriptionFacet;
 import com.baselet.elementnew.facet.relation.RelationLineTypeFacet;
 import com.baselet.elementnew.settings.Settings;
 
-public class SettingsRelation extends Settings {
+public abstract class SettingsRelation extends Settings {
 
-	private RelationPoints relationPoints;
-
-	public SettingsRelation(RelationPoints relationPoints) {
-		this.relationPoints = relationPoints;
-	}
-	public RelationPoints getRelationPoints() {
-		return relationPoints;
-	}
 	@Override
 	public XValues getXValues(double y, int height, int width) {
 		return new XValues(0, width);
@@ -50,5 +42,7 @@ public class SettingsRelation extends Settings {
 	public boolean printText() {
 		return false;
 	}
+	
+	public abstract RelationPoints getRelationPoints();
 
 }
