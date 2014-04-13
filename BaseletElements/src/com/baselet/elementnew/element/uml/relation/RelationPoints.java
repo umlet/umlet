@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
-import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.GeometricFunctions;
@@ -43,7 +42,7 @@ public class RelationPoints {
 	public Selection getSelection(Point point) {
 		if (isPointOverDragBox(point)) {
 			return Selection.DRAG_BOX;
-		} else if (getRelationPointContaining(point) != null) {
+		} else if (RelationPointsUtils.getRelationPointContaining(point, points) != null) {
 			return Selection.RELATION_POINT;
 		} else if (getLineContaining(point) != null) {
 			return Selection.LINE;
@@ -69,7 +68,7 @@ public class RelationPoints {
 		if (isPointOverDragBox(point)) {
 			return Selection.DRAG_BOX;
 		}
-		PointDouble pointOverRelationPoint = getRelationPointContaining(point);
+		PointDouble pointOverRelationPoint = RelationPointsUtils.getRelationPointContaining(point, points);
 		if (pointOverRelationPoint != null) {
 			relationPointOfCurrentDrag = pointOverRelationPoint;
 			movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY);
@@ -90,15 +89,6 @@ public class RelationPoints {
 		return getDragBox().contains(point);
 	}
 
-	private PointDouble getRelationPointContaining(Point point) {
-		for (PointDouble relationPoint : points) {
-			if (toCircleRectangle(relationPoint).contains(point)) {
-				return relationPoint;
-			}
-		}
-		return null;
-	}
-
 	private Line getLineContaining(Point point) {
 		for (Line line : getRelationPointLines()) {
 			double distanceToPoint = line.getDistanceToPoint(point.toPointDouble());
@@ -116,13 +106,19 @@ public class RelationPoints {
 		if (points.size() == 2 && points.get(0).equals(points.get(1))) {
 			point.move(-diffX, -diffY);
 		}
+		
 		// now rebuild width and height of the relation, based on the new positions of the relation-points
-		repositionRelationAndPointsBasedOnPoints();
+		Rectangle newRect = RelationPointsUtils.calculateRelationRectangleBasedOnPoints(relation.getRectangle().getUpperLeftCorner(), relation.getGridSize(), points);
+		relation.setRectangle(newRect);
+
+		// move relation points to their new position (their position is relative to the relation-position)
+		RelationPointsUtils.moveRelationPointsOriginToUpperLeftCorner(points);
+
 	}
 
 	public boolean removeRelationPointIfOnLineBetweenNeighbourPoints() {
 		boolean updateNecessary = false;
-		if (relationPointOfCurrentDrag != null && points.size() > 2) {
+		if (points.size() > 2) {
 			ListIterator<PointDouble> iter = points.listIterator();
 			PointDouble leftNeighbour = iter.next();
 			PointDouble pointToCheck = iter.next();
@@ -142,61 +138,6 @@ public class RelationPoints {
 			}
 		}
 		return updateNecessary;
-	}
-
-	void repositionRelationAndPointsBasedOnPoints() {
-		PointDouble elementStart = relation.getRectangle().getUpperLeftCorner();
-		// Calculate new Relation position and size
-		Rectangle newSize = createRectangleContainingAllPoints(elementStart);
-		if (newSize == null) throw new RuntimeException("This relation has no points: " + points);
-		// scale with zoom factor
-		newSize.setBounds(
-				newSize.getX() * relation.getGridSize() / SharedConstants.DEFAULT_GRID_SIZE,
-				newSize.getY() * relation.getGridSize() / SharedConstants.DEFAULT_GRID_SIZE,
-				newSize.getWidth() * relation.getGridSize() / SharedConstants.DEFAULT_GRID_SIZE,
-				newSize.getHeight() * relation.getGridSize() / SharedConstants.DEFAULT_GRID_SIZE);
-		// and move to correct place of Relation
-		newSize.move(elementStart.getX().intValue(), elementStart.getY().intValue());
-		// Realign new size to grid (should not be necessary as long as SELECTCIRCLERADIUS == DefaultGridSize)
-		newSize.setLocation(SharedUtils.realignTo(false, newSize.getX(), false, relation.getGridSize()), SharedUtils.realignTo(false, newSize.getY(), false, relation.getGridSize()));
-		newSize.setSize(SharedUtils.realignTo(false, newSize.getWidth(), true, relation.getGridSize()), SharedUtils.realignTo(false, newSize.getHeight(), true, relation.getGridSize()));
-
-		// move relation points to their new position (their position is relative to the relation-position)
-		int displacementX = Integer.MAX_VALUE;
-		int displacementY = Integer.MAX_VALUE;
-		for (PointDouble p : points) {
-			Rectangle r = toCircleRectangle(p);
-			displacementX = Math.min(displacementX, r.getX());
-			displacementY = Math.min(displacementY, r.getY());
-		}
-		for (PointDouble p : points) {
-			// p.move(-displacementX, -displacementY) would be sufficient, but it is realigned to make sure displaced points are corrected here
-			p.setX(SharedUtils.realignTo(true, p.getX()-displacementX, false, SharedConstants.DEFAULT_GRID_SIZE));
-			p.setY(SharedUtils.realignTo(true, p.getY()-displacementY, false, SharedConstants.DEFAULT_GRID_SIZE));
-		}
-
-		relation.setRectangle(newSize);
-	}
-
-	private Rectangle createRectangleContainingAllPoints(PointDouble elementStart) {
-		Rectangle rectangleContainingAllPoints = null;
-		for (PointDouble p : points) {
-			Rectangle absoluteRectangle = toRectangle(new PointDouble(p.x, p.y), POINT_SELECTION_RADIUS);
-			if (rectangleContainingAllPoints == null) {
-				rectangleContainingAllPoints = absoluteRectangle;
-			} else {
-				rectangleContainingAllPoints.merge(absoluteRectangle);
-			}
-		}
-		return rectangleContainingAllPoints;
-	}
-
-	private Rectangle toCircleRectangle(PointDouble p) {
-		return toRectangle(p, POINT_SELECTION_RADIUS);
-	}
-
-	private Rectangle toRectangle(PointDouble p, double size) {
-		return new Rectangle(p.x-size, p.y-size, size*2, size*2);
 	}
 
 	// HELPER METHODS
@@ -225,7 +166,7 @@ public class RelationPoints {
 		PointDouble begin = points.get(points.size() / 2);
 		PointDouble end = points.get(points.size() / 2 - 1);
 		PointDouble center = new Line(begin, end).getCenter();
-		Rectangle rectangle = toRectangle(center, DRAG_BOX_SIZE/2);
+		Rectangle rectangle = RelationPointsUtils.toRectangle(center, DRAG_BOX_SIZE/2);
 		return rectangle;
 	}
 
@@ -237,21 +178,11 @@ public class RelationPoints {
 		}
 	}
 
-	public static Point normalize(Point p, int pixels) {
-		Point ret = new Point();
-		double d = Math.sqrt(p.x * p.x + p.y * p.y);
-		ret.x = (int) (p.x / d * pixels);
-		ret.y = (int) (p.y / d * pixels);
-		return ret;
-	}
-
-	public void drawPointCircles(DrawHandler drawer) {
+	public void drawCirclesAndDragBox(DrawHandler drawer) {
 		for (PointDouble p : points) {
 			drawer.drawCircle(p.x, p.y, POINT_SELECTION_RADIUS);
 		}
-	}
-
-	public void drawDragBox(DrawHandler drawer) {
+	
 		drawer.drawRectangle(getDragBox());
 	}
 
