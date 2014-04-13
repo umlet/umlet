@@ -18,8 +18,8 @@ public class RelationDrawer {
 			drawOnStart = !drawOnStart;
 		}
 		int angle = drawOnStart ? 150 : 30;
-		PointDouble p1 = drawArrowLine(drawer, point, angleOfSlopeOfLine, true, angle);
-		PointDouble p2 = drawArrowLine(drawer, point, angleOfSlopeOfLine, false, angle);
+		PointDouble p1 = calcPoint(point, angleOfSlopeOfLine, true, angle);
+		PointDouble p2 = calcPoint(point, angleOfSlopeOfLine, false, angle);
 		List<PointDouble> points = new ArrayList<PointDouble>(Arrays.asList(p1, point, p2));
 		if (closeArrow) {
 			points.add(p1);
@@ -27,7 +27,7 @@ public class RelationDrawer {
 		drawer.drawLines(points);
 	}
 
-	private static PointDouble drawArrowLine(DrawHandler drawer, PointDouble point, double angleOfSlopeOfLine, boolean first, int angle) {
+	private static PointDouble calcPoint(PointDouble point, double angleOfSlopeOfLine, boolean first, int angle) {
 		int arrowLength = RelationPoints.POINT_SELECTION_RADIUS;
 		int arrowAngle = angle;
 		double angleTotal = first ? angleOfSlopeOfLine-arrowAngle : angleOfSlopeOfLine+arrowAngle;
