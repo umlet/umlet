@@ -57,7 +57,7 @@ public class RelationPoints {
 	 * this method is basically the same as {@link #getSelection(Point)}, but also applies changes to the relationpoints
 	 * (the order of checks is the same, but they do different things, therefore they are separated)
 	 */
-	public Selection getSelectionAndApplyChanges(Point point, Integer diffX, Integer diffY, Relation relation, boolean firstDrag) {
+	public Selection getSelectionAndMovePointsIfNecessary(Point point, Integer diffX, Integer diffY, boolean firstDrag) {
 		// Special case: if this is not the first drag and a relation-point is currently dragged, it has preference
 		// Necessary to avoid changing the currently moved point if moving over another point and to avoid losing the current point if it's a new line point and the mouse is dragged very fast
 		if (!firstDrag && relationPointOfCurrentDrag != null) {
@@ -67,7 +67,6 @@ public class RelationPoints {
 		// If the special case doesn't apply, forget the relationPointOfFirstDrag, because its a new first drag
 		relationPointOfCurrentDrag = null;
 		if (isPointOverDragBox(point)) {
-			relation.setLocationDifference(diffX, diffY);
 			return Selection.DRAG_BOX;
 		}
 		PointDouble pointOverRelationPoint = getRelationPointContaining(point);
