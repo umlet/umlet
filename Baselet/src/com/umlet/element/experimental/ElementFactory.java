@@ -56,6 +56,10 @@ public class ElementFactory {
 				}
 				new Resize(returnObj, xDiff, 0, wDiff, diffhRealigned).execute(h);
 			}
+			@Override
+			public boolean isInitialized() {
+				return Main.getHandlerForElement(returnObj) != null;
+			}
 		};
 
 		returnObj.init(bounds, panelAttributes, additionalAttributes, component, panel);

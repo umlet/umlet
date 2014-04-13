@@ -44,10 +44,13 @@ public class ElementFactory {
 				}
 				element.drag(directions, diffwInt, diffhInt, new Point(0,0), false, true, diagram.getStickables(Collections.<GridElement>emptyList()));
 			}
+			@Override
+			public boolean isInitialized() {
+				return true; // GWT initializes elements at once, therefore it's always initialized
+			}
 		};
 
 		element.init(rect, panelAttributes, additionalPanelAttributes, new ComponentGwt(element), handler);
-		element.setPanelAttributes(panelAttributes);
 		return element;
 	}
 

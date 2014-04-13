@@ -58,6 +58,9 @@ public class Relation extends NewGridElement implements Stickable {
 			pointList.add(new PointDouble(Double.valueOf(split[i]), Double.valueOf(split[i+1])));
 		}
 		relationPoints = new RelationPoints(this, pointList);
+		if (getHandler().isInitialized()) {
+			relationPoints.resizeRectAndReposPoints();
+		}
 	}
 
 	@Override

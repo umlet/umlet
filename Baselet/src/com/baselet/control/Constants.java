@@ -235,10 +235,4 @@ public abstract class Constants extends SharedConstants {
 	public static boolean mail_gif = true;
 	public static boolean mail_pdf = false;
 
-	/**** ERROR MESSAGES ****/
-
-	public static final String ERROR_SAVING_FILE = "An error occured during saving: ";
-	public static final String ERROR_SAVING_EMPTY_DIAGRAM = "You cannot save or export an empty diagram.";
-	public static final String ERROR_PRINTING = "An error occured during printing.";
-
 }
