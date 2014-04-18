@@ -53,6 +53,9 @@ public class MenuConstants {
 	public static final String SET_FOREGROUND_COLOR = "Set foreground color";
 	public static final String SET_BACKGROUND_COLOR = "Set background color";
 	public static final String ALIGN = "Align";
+	public static final String LAYER = "Layer";
+	public static final String LAYER_UP = "to front (z-order +1)";
+	public static final String LAYER_DOWN = "to back (z-order -1)";
 
 	// OTHERS
 	public static final String SEARCH = "Search";

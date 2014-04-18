@@ -78,10 +78,8 @@ public abstract class BaseGUI {
 		contextMenu.add(menuFactory.createSetColor(true));
 		contextMenu.add(menuFactory.createSetColor(false));
 
-		// insert alignment menu
-		JMenu alignmentMenu = menuFactory.createAlign();
-		alignmentMenu.setEnabled(this.selected_elements.size() > 1); // only enable when at least 2 elements are selected
-		contextMenu.add(alignmentMenu);
+		contextMenu.add(createAlignmentMenu(menuFactory));
+		contextMenu.add(createLayerMenu(menuFactory));
 
 		// as help for developers, the contextmenu shows the element id for NewGridElements
 		if (SharedConstants.dev_mode && e instanceof NewGridElement) {
@@ -89,6 +87,18 @@ public abstract class BaseGUI {
 		}
 
 		return contextMenu;
+	}
+
+	private JMenu createLayerMenu(MenuFactorySwing menuFactory) {
+		JMenu layerMenu = menuFactory.createLayerUp();
+		layerMenu.setEnabled(!this.selected_elements.isEmpty());
+		return layerMenu;
+	}
+
+	private JMenu createAlignmentMenu(MenuFactorySwing menuFactory) {
+		JMenu alignmentMenu = menuFactory.createAlign();
+		alignmentMenu.setEnabled(this.selected_elements.size() > 1); // only enable when at least 2 elements are selected
+		return alignmentMenu;
 	}
 
 	public void elementsSelected(Collection<GridElement> selectedElements) {
