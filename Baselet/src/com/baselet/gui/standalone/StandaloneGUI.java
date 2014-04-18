@@ -235,7 +235,9 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public void setCursor(Cursor cursor) {
-		mainFrame.setCursor(cursor);
+		if (mainFrame != null) {
+			mainFrame.setCursor(cursor);
+		}
 	}
 
 	@Override

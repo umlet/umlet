@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="12.2">
+<diagram program="umlet" version="13.0">
   <zoom_level>8</zoom_level>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>0</x>
       <y>224</y>
-      <w>114</w>
+      <w>120</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
@@ -18,8 +18,8 @@ self</panel_attributes>
     <coordinates>
       <x>0</x>
       <y>32</y>
-      <w>162</w>
-      <h>34</h>
+      <w>168</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>152;24;24;24</additional_attributes>
@@ -114,7 +114,7 @@ state
 --
 some more...
 
--.
+--
 valign=top
 </panel_attributes>
     <additional_attributes/>
