@@ -39,7 +39,7 @@ public class SyncBarHorizontal extends NewGridElement {
 	@Override
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		if (drawer.getStyle().getLineWidth() == LineWidthFacet.DEFAULT_LINE_WIDTH) {
-			drawer.setLineThickness(5);
+			drawer.setLineWidth(5);
 		}
 		Dimension s = getRealSize();
 		drawer.drawLine(0, s.getHeight()/2, s.getWidth(), s.getHeight()/2);

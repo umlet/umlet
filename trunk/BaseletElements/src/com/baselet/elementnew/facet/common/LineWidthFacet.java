@@ -18,7 +18,7 @@ public class LineWidthFacet extends KeyValueFacet {
 
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
-		drawer.setLineThickness(Float.valueOf(value));
+		drawer.setLineWidth(Float.valueOf(value));
 	}
 
 	public Priority getPriority() {

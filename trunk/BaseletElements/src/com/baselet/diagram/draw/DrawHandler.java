@@ -121,9 +121,9 @@ public abstract class DrawHandler {
 		style.setLineType(type);
 	}
 
-	public final void setLineThickness(double lineThickness) {
-		assertDoubleRange(lineThickness);
-		style.setLineWidth(lineThickness);
+	public final void setLineWidth(double lineWidth) {
+		assertDoubleRange(lineWidth);
+		style.setLineWidth(lineWidth);
 	}
 
 	private void assertDoubleRange(double doubleValue) {
