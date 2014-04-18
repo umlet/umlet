@@ -25,7 +25,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 	 */
 	private static final List<ArrowEnd> LEFT_ARROW_STRINGS = Arrays.asList(ArrowEnd.LEFT_CLOSED, ArrowEnd.LEFT_NORMAL);
 	private static final List<ArrowEnd> RIGHT_ARROW_STRINGS = Arrays.asList(ArrowEnd.RIGHT_CLOSED, ArrowEnd.RIGHT_NORMAL);
-	private static final List<LineType> LINE_TYPES = Arrays.asList(LineType.SOLID, LineType.DOTTED, LineType.DASHED, LineType.BOLD);
+	private static final List<LineType> LINE_TYPES = Arrays.asList(LineType.SOLID, LineType.DOTTED, LineType.DASHED);
 
 	public RelationPoints getRelationPoints(PropertiesParserState config) {
 		return ((SettingsRelation) config.getSettings()).getRelationPoints();
