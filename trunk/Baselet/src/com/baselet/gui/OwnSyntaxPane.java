@@ -29,10 +29,12 @@ import com.baselet.element.GridElement;
 
 public class OwnSyntaxPane {
 
+	private static final String SEPARATOR = "    ";
+	
 	private static final int SPECIFIC_SETTING = 1;
 	private static final int GLOBAL_SETTING = 2;
 
-	private DefaultCompletionProvider provider = new DefaultCompletionProvider();
+	private DefaultCompletionProvider provider = new DefaultCompletionProvider() ;
 
 	List<AutocompletionText> words = new ArrayList<AutocompletionText>();
 
@@ -85,7 +87,15 @@ public class OwnSyntaxPane {
 	private void createAutocompletionCompletionProvider() {
 		provider.clear();
 		for (AutocompletionText word : words) {
-			provider.addCompletion(new BasicCompletion(provider, word.getText(), word.getInfo()));
+			provider.addCompletion(new BasicCompletion(provider, word.getText(), word.getInfo()) {
+				@Override
+				public String toString() {
+					if (getShortDescription()==null) {
+						return getInputText();
+					}
+					return getInputText() + SEPARATOR + getShortDescription();
+				}
+			});
 		}
 
 	}
