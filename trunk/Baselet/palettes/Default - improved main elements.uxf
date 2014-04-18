@@ -10,10 +10,10 @@
       <h>48</h>
     </coordinates>
     <panel_attributes>This class has the setting
-*elementstyle=autoresize*
+*style=autoresize*
 --
 Write text and watch how the class automatically grows/shrinks
-elementstyle=autoresize</panel_attributes>
+style=autoresize</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -44,12 +44,12 @@ lt=.</panel_attributes>
       <h>136</h>
     </coordinates>
     <panel_attributes>This class has the setting
-*elementstyle=wordwrap*
+*style=wordwrap*
 --
 Write text and watch how the linebreak is added automatically at the expected position to fill the whole class.
 
 You can also resize the class and see that the text will always fit the border
-elementstyle=wordwrap</panel_attributes>
+style=wordwrap</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -62,7 +62,7 @@ elementstyle=wordwrap</panel_attributes>
     </coordinates>
     <panel_attributes>Most elements can be customized with settings like fg=red
 Press Ctrl+Space to see possible settings for the current element
-elementstyle=wordwrap
+style=wordwrap
 fg=red</panel_attributes>
     <additional_attributes/>
   </element>

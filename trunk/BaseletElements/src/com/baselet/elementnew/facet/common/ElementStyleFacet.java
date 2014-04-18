@@ -13,7 +13,7 @@ public class ElementStyleFacet extends KeyValueFacet {
 
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue("elementstyle", 
+		return new KeyValue("style", 
 				new ValueInfo(ElementStyleEnum.AUTORESIZE, "resizes element as text grows"),
 				new ValueInfo(ElementStyleEnum.WORDWRAP, "wrap lines at the end of the line"),
 				new ValueInfo(ElementStyleEnum.NORESIZE, "disable manual resizing"));
