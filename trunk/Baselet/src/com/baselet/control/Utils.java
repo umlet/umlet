@@ -24,7 +24,7 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickingPolygon;
-import com.baselet.elementnew.facet.common.LineThicknessFacet;
+import com.baselet.elementnew.facet.common.LineWidthFacet;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.DoubleStroke;
 import com.umlet.element.relation.RelationLinePoint;
@@ -108,7 +108,7 @@ public abstract class Utils {
 
 	public static Stroke getStroke(LineType lineType, float lineThickness) {
 		// If the lineThickness is not supported, the default type is used
-		if (lineThickness < 0) lineThickness = (float)LineThicknessFacet.DEFAULT_LINE_THICKNESS;
+		if (lineThickness < 0) lineThickness = (float)LineWidthFacet.DEFAULT_LINE_WIDTH;
 
 		Stroke stroke = null;
 		if (lineType == LineType.SOLID) stroke = new BasicStroke(lineThickness);

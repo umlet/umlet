@@ -16,11 +16,12 @@ public class LineTypeFacet extends KeyValueFacet {
 	@Override
 	public KeyValue getKeyValue() {
 		return new KeyValue("lt", 
+				new ValueInfo(LineType.SOLID.getValue(), "solid lines"),
 				new ValueInfo(LineType.DASHED.getValue(), "dashed lines"),
 				new ValueInfo(LineType.DOTTED.getValue(), "dotted lines"));
 	}
 	
-	private static final List<LineType> supportedTypes = Arrays.asList(LineType.DASHED, LineType.DOTTED);
+	private static final List<LineType> supportedTypes = Arrays.asList(LineType.SOLID, LineType.DASHED, LineType.DOTTED);
 	
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {

@@ -355,7 +355,7 @@ bg=green</panel_attributes>
       <w>64</w>
       <h>16</h>
     </coordinates>
-    <panel_attributes>lth=5
+    <panel_attributes>lw=5
 </panel_attributes>
     <additional_attributes/>
   </element>
@@ -395,7 +395,7 @@ is passed}</panel_attributes>
       <w>64</w>
       <h>16</h>
     </coordinates>
-    <panel_attributes>lth=5
+    <panel_attributes>lw=5
 </panel_attributes>
     <additional_attributes/>
   </element>

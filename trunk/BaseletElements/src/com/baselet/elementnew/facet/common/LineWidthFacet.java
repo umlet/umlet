@@ -4,16 +4,16 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
-public class LineThicknessFacet extends KeyValueFacet {
+public class LineWidthFacet extends KeyValueFacet {
 
-	public static final double DEFAULT_LINE_THICKNESS = 1.0;
+	public static final double DEFAULT_LINE_WIDTH = 1.0;
 	
-	public static LineThicknessFacet INSTANCE = new LineThicknessFacet();
-	private LineThicknessFacet() {}
+	public static LineWidthFacet INSTANCE = new LineWidthFacet();
+	private LineWidthFacet() {}
 
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue("lth", false, DEFAULT_LINE_THICKNESS+"", "thickness of lines as decimal number (1.5, 2.0, ...)");
+		return new KeyValue("lw", false, DEFAULT_LINE_WIDTH+"", "linewidth as decimal number (1.5, 2, ...)");
 	}
 
 	@Override

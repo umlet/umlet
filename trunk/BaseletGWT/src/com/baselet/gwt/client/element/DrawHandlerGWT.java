@@ -272,8 +272,8 @@ public class DrawHandlerGWT extends DrawHandler {
 		if (fgColor != null) {
 			ctx.setStrokeStyle(Converter.convert(fgColor));
 		}
-		ctx.setLineWidth(style.getLineThickness());
-		setLineDash(ctx, style.getLineType(), style.getLineThickness());
+		ctx.setLineWidth(style.getLineWidth());
+		setLineDash(ctx, style.getLineType(), style.getLineWidth());
 
 	}
 

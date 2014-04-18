@@ -31,7 +31,7 @@ import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
-import com.baselet.elementnew.facet.common.LineThicknessFacet;
+import com.baselet.elementnew.facet.common.LineWidthFacet;
 
 
 @SuppressWarnings("serial")
@@ -121,7 +121,7 @@ public abstract class CustomElement extends OldGridElement {
 		g2.setColor(fgColor);
 
 		for (StyleShape s : this.shapes) {
-			specialLine = ((s.getLineType() != LineType.SOLID) || (s.getLineThickness() != LineThicknessFacet.DEFAULT_LINE_THICKNESS));
+			specialLine = ((s.getLineType() != LineType.SOLID) || (s.getLineThickness() != LineWidthFacet.DEFAULT_LINE_WIDTH));
 			specialFgColor = !s.getFgColor().equals(Converter.convert(ColorOwn.DEFAULT_FOREGROUND));
 
 			if (specialLine) g2.setStroke(Utils.getStroke(s.getLineType(), s.getLineThickness()));
@@ -130,7 +130,7 @@ public abstract class CustomElement extends OldGridElement {
 				else g2.setColor(s.getFgColor());
 			}
 			this.g2.draw(s.getShape());
-			if (specialLine) g2.setStroke(Utils.getStroke(LineType.SOLID, (float)LineThicknessFacet.DEFAULT_LINE_THICKNESS));
+			if (specialLine) g2.setStroke(Utils.getStroke(LineType.SOLID, (float)LineWidthFacet.DEFAULT_LINE_WIDTH));
 			if (specialFgColor) g2.setColor(fgColor);
 		}
 
@@ -436,7 +436,7 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "")
 	protected final void resetAll() {
-		tmpLineThickness = (int)LineThicknessFacet.DEFAULT_LINE_THICKNESS;
+		tmpLineThickness = (int)LineWidthFacet.DEFAULT_LINE_WIDTH;
 		tmpLineType = LineType.SOLID;
 		tmpFgColor = fgColor;
 		tmpBgColor = bgColor;

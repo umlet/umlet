@@ -14,7 +14,7 @@ import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
-import com.baselet.elementnew.facet.common.LineThicknessFacet;
+import com.baselet.elementnew.facet.common.LineWidthFacet;
 import com.baselet.elementnew.settings.Settings;
 import com.baselet.elementnew.settings.SettingsNoText;
 
@@ -24,7 +24,7 @@ public class SyncBarHorizontal extends NewGridElement {
 		@Override
 		public StickingPolygon generateStickingBorder(Rectangle rect) {
 			StickingPolygon p = new StickingPolygon(rect.x, rect.y);
-			double lt = getDrawer().getStyle().getLineThickness();
+			double lt = getDrawer().getStyle().getLineWidth();
 			double halfHeight = getRealSize().getHeight()/2;
 			p.addRectangle(new Rectangle(0.0, halfHeight-lt/2, (double) getRealSize().getWidth(), lt));
 			return p;
@@ -38,7 +38,7 @@ public class SyncBarHorizontal extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
-		if (drawer.getStyle().getLineThickness() == LineThicknessFacet.DEFAULT_LINE_THICKNESS) {
+		if (drawer.getStyle().getLineWidth() == LineWidthFacet.DEFAULT_LINE_WIDTH) {
 			drawer.setLineThickness(5);
 		}
 		Dimension s = getRealSize();
