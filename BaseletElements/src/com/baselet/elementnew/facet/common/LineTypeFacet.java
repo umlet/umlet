@@ -17,11 +17,10 @@ public class LineTypeFacet extends KeyValueFacet {
 	public KeyValue getKeyValue() {
 		return new KeyValue("lt", 
 				new ValueInfo(LineType.DASHED.getValue(), "dashed lines"),
-				new ValueInfo(LineType.DOTTED.getValue(), "dotted lines"),
-				new ValueInfo(LineType.BOLD.getValue(), "bold lines"));
+				new ValueInfo(LineType.DOTTED.getValue(), "dotted lines"));
 	}
 	
-	private static final List<LineType> supportedTypes = Arrays.asList(LineType.DASHED, LineType.DOTTED, LineType.BOLD);
+	private static final List<LineType> supportedTypes = Arrays.asList(LineType.DASHED, LineType.DOTTED);
 	
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
@@ -33,7 +32,6 @@ public class LineTypeFacet extends KeyValueFacet {
 			throw new RuntimeException(); // will be translated to usage message
 		}
 		drawer.setLineType(lt);
-		if (lt == LineType.BOLD) drawer.setLineThickness(2);
 	}
 
 	public Priority getPriority() {
