@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="12.2">
+<diagram program="umlet" version="13.0">
   <zoom_level>8</zoom_level>
   <element>
     <id>UMLClass</id>
@@ -11,7 +11,7 @@
     </coordinates>
     <panel_attributes>This class has the setting
 *elementstyle=autoresize*
--
+--
 Write text and watch how the class automatically grows/shrinks
 elementstyle=autoresize</panel_attributes>
     <additional_attributes/>
@@ -26,7 +26,7 @@ elementstyle=autoresize</panel_attributes>
     </coordinates>
     <panel_attributes>This usecase has
 custom colors and linetype
--
+--
 *fg=#5c2b00*
 *bg=orange*
 *lt=.*
@@ -45,7 +45,7 @@ lt=.</panel_attributes>
     </coordinates>
     <panel_attributes>This class has the setting
 *elementstyle=wordwrap*
--
+--
 Write text and watch how the linebreak is added automatically at the expected position to fill the whole class.
 
 You can also resize the class and see that the text will always fit the border
