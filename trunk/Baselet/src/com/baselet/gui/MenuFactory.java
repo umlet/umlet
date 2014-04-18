@@ -14,6 +14,8 @@ import static com.baselet.control.MenuConstants.EXPORT_AS;
 import static com.baselet.control.MenuConstants.GENERATE_CLASS;
 import static com.baselet.control.MenuConstants.GENERATE_CLASS_OPTIONS;
 import static com.baselet.control.MenuConstants.GROUP;
+import static com.baselet.control.MenuConstants.LAYER;
+import static com.baselet.control.MenuConstants.LAYER_DOWN;
 import static com.baselet.control.MenuConstants.MAIL_TO;
 import static com.baselet.control.MenuConstants.NEW;
 import static com.baselet.control.MenuConstants.NEW_CE;
@@ -60,6 +62,7 @@ import com.baselet.element.GridElement;
 import com.baselet.elementnew.facet.common.BackgroundColorFacet;
 import com.baselet.elementnew.facet.common.ForegroundColorFacet;
 import com.baselet.elementnew.facet.common.GroupFacet;
+import com.baselet.elementnew.facet.common.LayerFacet;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.custom.CustomElement;
 import com.umlet.language.ClassDiagramConverter;
@@ -201,6 +204,12 @@ public class MenuFactory {
 					List<GridElement> v = actualSelector.getSelectedElements();
 					if (v.size() > 0) {
 						actualHandler.getController().executeCommand(new Align(v, actualSelector.getDominantEntity(), (String) param));
+					}
+				}
+				else if (menuItem.equals(LAYER) && (actualHandler != null) && (actualSelector != null)) {
+					for (GridElement e : actualSelector.getSelectedElements()) {
+						int change = param.equals(LAYER_DOWN) ? -1 : +1;
+						actualHandler.getController().executeCommand(new ChangeElementSetting(LayerFacet.KEY, Integer.toString(e.getLayer()+change)));
 					}
 				}
 			}
