@@ -39,7 +39,7 @@ public class SyncBarVertical extends NewGridElement {
 	@Override
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		if (drawer.getStyle().getLineWidth() == LineWidthFacet.DEFAULT_LINE_WIDTH) {
-			drawer.setLineThickness(5);
+			drawer.setLineWidth(5);
 		}
 		Dimension s = getRealSize();
 		drawer.drawLine(s.getWidth()/2, 0, s.getWidth()/2, s.getHeight());
