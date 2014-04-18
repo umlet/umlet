@@ -151,7 +151,14 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public String getSetting(String key) {
 		if (key == ForegroundColorFacet.KEY) return fgColorString;
 		else if (key == BackgroundColorFacet.KEY) return bgColorString;
-		else return "";
+		for (String line : getPanelAttributesAsList()) {
+			if (line.startsWith(key + Facet.SEP)) {
+				String[] split = line.split(Facet.SEP, 2);
+				if (split.length > 1) return split[1];
+			}
+		}
+		return null;
+	
 	}
 
 	@Override

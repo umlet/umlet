@@ -40,8 +40,9 @@ import static com.baselet.control.MenuConstants.UNGROUP;
 import static com.baselet.control.MenuConstants.VIDEO_TUTORIAL;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
@@ -208,10 +209,12 @@ public class MenuFactory {
 					}
 				}
 				else if (menuItem.equals(LAYER) && actualHandler != null && actualSelector != null) {
+					int change = param.equals(LAYER_DOWN) ? -1 : +1;
+					Map<GridElement, String> valueMap = new HashMap<GridElement, String>();
 					for (GridElement e : actualSelector.getSelectedElements()) {
-						int change = param.equals(LAYER_DOWN) ? -1 : +1;
-						actualHandler.getController().executeCommand(new ChangeElementSetting(LayerFacet.KEY, Integer.toString(e.getLayer()+change), Arrays.asList(e)));
+						valueMap.put(e, Integer.toString(e.getLayer()+change));
 					}
+					actualHandler.getController().executeCommand(new ChangeElementSetting(LayerFacet.KEY, valueMap));
 				}
 			}
 		});
