@@ -123,7 +123,7 @@ public abstract class DrawHandler {
 
 	public final void setLineThickness(double lineThickness) {
 		assertDoubleRange(lineThickness);
-		style.setLineThickness(lineThickness);
+		style.setLineWidth(lineThickness);
 	}
 
 	private void assertDoubleRange(double doubleValue) {
@@ -136,7 +136,7 @@ public abstract class DrawHandler {
 		resetColorSettings();
 		style.setFontSize(getDefaultFontSize());
 		style.setLineType(LineType.SOLID);
-		style.setLineThickness(1);
+		style.setLineWidth(1);
 	}
 
 	public Style getStyle() {

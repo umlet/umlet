@@ -94,11 +94,11 @@ the settings
 *valign=center*
 *halign=center*
 *fontsize=18*
-*lth=2.5*
+*lw=2.5*
 valign=center
 halign=center
 fontsize=18
-lth=2.5</panel_attributes>
+lw=2.5</panel_attributes>
     <additional_attributes/>
   </element>
   <element>

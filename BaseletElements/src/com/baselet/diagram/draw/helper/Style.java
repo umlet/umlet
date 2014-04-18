@@ -2,11 +2,11 @@
 package com.baselet.diagram.draw.helper;
 
 import com.baselet.control.enumerations.LineType;
-import com.baselet.elementnew.facet.common.LineThicknessFacet;
+import com.baselet.elementnew.facet.common.LineWidthFacet;
 
 public class Style {
 	private LineType lineType;
-	private double lineThickness;
+	private double lineWidth;
 	private ColorOwn fgColor;
 	private ColorOwn bgColor;
 
@@ -14,14 +14,14 @@ public class Style {
 	private boolean applyZoom;
 	
 	public Style() {
-		this.lineThickness = LineThicknessFacet.DEFAULT_LINE_THICKNESS;
+		this.lineWidth = LineWidthFacet.DEFAULT_LINE_WIDTH;
 		this.lineType = LineType.SOLID;
 		this.applyZoom = true;
 	}
 	
 	public Style cloneFromMe() {
 		Style clone = new Style();
-		clone.lineThickness = this.lineThickness;
+		clone.lineWidth = this.lineWidth;
 		clone.lineType = this.lineType;
 		clone.fgColor = this.fgColor;
 		clone.bgColor = this.bgColor;
@@ -36,11 +36,11 @@ public class Style {
 	public LineType getLineType() {
 		return lineType;
 	}
-	public void setLineThickness(double lineThickness) {
-		this.lineThickness = lineThickness;
+	public void setLineWidth(double lineWidth) {
+		this.lineWidth = lineWidth;
 	}
-	public double getLineThickness() {
-		return lineThickness;
+	public double getLineWidth() {
+		return lineWidth;
 	}
 	public void setFgColor(ColorOwn fgColor) {
 		this.fgColor = fgColor;
@@ -77,7 +77,7 @@ public class Style {
 		long temp;
 		temp = Double.doubleToLongBits(fontSize);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(lineThickness);
+		temp = Double.doubleToLongBits(lineWidth);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((lineType == null) ? 0 : lineType.hashCode());
 		return result;
@@ -99,7 +99,7 @@ public class Style {
 		}
 		else if (!fgColor.equals(other.fgColor)) return false;
 		if (Double.doubleToLongBits(fontSize) != Double.doubleToLongBits(other.fontSize)) return false;
-		if (Double.doubleToLongBits(lineThickness) != Double.doubleToLongBits(other.lineThickness)) return false;
+		if (Double.doubleToLongBits(lineWidth) != Double.doubleToLongBits(other.lineWidth)) return false;
 		if (lineType != other.lineType) return false;
 		return true;
 	}

@@ -184,7 +184,7 @@ public class DrawHandlerSwing extends DrawHandler {
 		// Shapes Foreground
 		ColorOwn colOwn = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
 		g2.setColor(Converter.convert(colOwn));
-		g2.setStroke(Utils.getStroke(style.getLineType(), (float) style.getLineThickness()));
+		g2.setStroke(Utils.getStroke(style.getLineType(), (float) style.getLineWidth()));
 		if (translate) {
 			double xTranslation = s.getBounds().x == 0 ? Constants.EXPORT_DISPLACEMENT : 0;
 			double yTranslation = s.getBounds().y == 0 ? Constants.EXPORT_DISPLACEMENT : 0;
