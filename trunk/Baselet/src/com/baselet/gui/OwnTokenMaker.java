@@ -31,11 +31,14 @@ public class OwnTokenMaker extends AbstractTokenMaker {
 	public void addToken(char[] array, int start, int end, int tokenType, int startOffset) {
 		int value = wordsToHighlight.get(array, start, end);
 		// only highlight if keyword is on its own line
-		boolean isOnOwnLine = (start == 0 || array[start - 1] == '\n');
-		if (value != -1 && isOnOwnLine) {
+		boolean isAtBeginningOfLine = (start == 0 || array[start - 1] == '\n');
+		boolean nextCharSwitchesLine;
+			nextCharSwitchesLine = (array.length == end+1 || array[end+1] == '\n');
+		if (value != -1 && isAtBeginningOfLine && nextCharSwitchesLine) {
 			tokenType = value;
+		} else {
+			tokenType = TokenTypes.IDENTIFIER; // default type is IDENTIFIER (which is just black)
 		}
-		else tokenType = TokenTypes.IDENTIFIER; // default type is IDENTIFIER (which is just black)
 		super.addToken(array, start, end, tokenType, startOffset);
 	}
 

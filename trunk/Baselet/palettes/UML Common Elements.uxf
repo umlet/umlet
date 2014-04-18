@@ -6,8 +6,8 @@
     <coordinates>
       <x>176</x>
       <y>128</y>
-      <w>162</w>
-      <h>34</h>
+      <w>168</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
     <additional_attributes>24;24;152;24</additional_attributes>
@@ -17,8 +17,8 @@
     <coordinates>
       <x>176</x>
       <y>112</y>
-      <w>162</w>
-      <h>34</h>
+      <w>168</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>24;24;152;24</additional_attributes>
@@ -28,8 +28,8 @@
     <coordinates>
       <x>176</x>
       <y>96</y>
-      <w>162</w>
-      <h>34</h>
+      <w>168</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>24;24;152;24</additional_attributes>
@@ -39,7 +39,7 @@
     <coordinates>
       <x>176</x>
       <y>128</y>
-      <w>162</w>
+      <w>168</w>
       <h>56</h>
     </coordinates>
     <panel_attributes>lt=-
@@ -53,7 +53,7 @@ teaches to&gt;</panel_attributes>
     <coordinates>
       <x>176</x>
       <y>152</y>
-      <w>162</w>
+      <w>168</w>
       <h>56</h>
     </coordinates>
     <panel_attributes>lt=&lt;.&gt;
@@ -65,8 +65,8 @@ teaches to&gt;</panel_attributes>
     <coordinates>
       <x>176</x>
       <y>184</y>
-      <w>162</w>
-      <h>34</h>
+      <w>168</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=0..n
@@ -78,8 +78,8 @@ r1=Role</panel_attributes>
     <coordinates>
       <x>176</x>
       <y>248</y>
-      <w>162</w>
-      <h>34</h>
+      <w>168</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 q1=Qualification
@@ -92,8 +92,8 @@ m1=1..5,6,7
     <coordinates>
       <x>176</x>
       <y>224</y>
-      <w>162</w>
-      <h>34</h>
+      <w>168</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>24;24;152;24</additional_attributes>
@@ -103,8 +103,8 @@ m1=1..5,6,7
     <coordinates>
       <x>176</x>
       <y>208</y>
-      <w>162</w>
-      <h>34</h>
+      <w>168</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>24;24;152;24</additional_attributes>
@@ -115,7 +115,7 @@ m1=1..5,6,7
       <x>72</x>
       <y>336</y>
       <w>110</w>
-      <h>66</h>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;extends&gt;&gt;</panel_attributes>
@@ -127,7 +127,7 @@ m1=1..5,6,7
       <x>296</x>
       <y>0</y>
       <w>130</w>
-      <h>74</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&gt;&gt;
 a rose is a rose
@@ -140,7 +140,7 @@ is a rose</panel_attributes>
       <x>32</x>
       <y>176</y>
       <w>124</w>
-      <h>74</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;instanceOf&gt;&gt;</panel_attributes>
@@ -151,8 +151,8 @@ is a rose</panel_attributes>
     <coordinates>
       <x>72</x>
       <y>384</y>
-      <w>82</w>
-      <h>58</h>
+      <w>88</w>
+      <h>64</h>
     </coordinates>
     <panel_attributes/>
     <additional_attributes>24;24;72;48</additional_attributes>
@@ -162,8 +162,8 @@ is a rose</panel_attributes>
     <coordinates>
       <x>40</x>
       <y>384</y>
-      <w>34</w>
-      <h>74</h>
+      <w>40</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>24;24;24;64</additional_attributes>
@@ -174,7 +174,7 @@ is a rose</panel_attributes>
       <x>8</x>
       <y>312</y>
       <w>106</w>
-      <h>74</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
 &lt;&lt;include&gt;&gt;</panel_attributes>
@@ -185,8 +185,8 @@ is a rose</panel_attributes>
     <coordinates>
       <x>176</x>
       <y>80</y>
-      <w>162</w>
-      <h>34</h>
+      <w>168</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>24;24;152;24</additional_attributes>
@@ -196,8 +196,8 @@ is a rose</panel_attributes>
     <coordinates>
       <x>184</x>
       <y>280</y>
-      <w>154</w>
-      <h>34</h>
+      <w>160</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt==</panel_attributes>
     <additional_attributes>24;24;144;24</additional_attributes>
@@ -207,8 +207,8 @@ is a rose</panel_attributes>
     <coordinates>
       <x>184</x>
       <y>296</y>
-      <w>154</w>
-      <h>34</h>
+      <w>160</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=:</panel_attributes>
     <additional_attributes>24;24;144;24</additional_attributes>
@@ -331,8 +331,7 @@ bg=yellow</panel_attributes>
       <w>48</w>
       <h>80</h>
     </coordinates>
-    <panel_attributes>Actor
-bg=green</panel_attributes>
+    <panel_attributes>Actor</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -380,7 +379,7 @@ fg=red</panel_attributes>
       <x>200</x>
       <y>8</y>
       <w>64</w>
-      <h>80</h>
+      <h>72</h>
     </coordinates>
     <panel_attributes>Interface
 --
