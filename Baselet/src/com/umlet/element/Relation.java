@@ -353,6 +353,9 @@ public class Relation extends OldGridElement {
 				else if ((s.indexOf("-") >= 0) & (s.indexOf(".") >= s.indexOf("-"))) {
 					lineType = "-.";
 				}
+				else if (s.indexOf(LineType.DOTTED.getValue()) >= 0) {
+					lineType = LineType.DOTTED.getValue();
+				}
 				else if (s.indexOf(LineType.DASHED.getValue()) >= 0) {
 					lineType = LineType.DASHED.getValue();
 				}
@@ -975,6 +978,7 @@ public class Relation extends OldGridElement {
 		else if (lineType.equals(".-")) g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
 		else if (lineType.equals(LineType.SOLID.getValue())) g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
 		else if (lineType.equals(LineType.DASHED.getValue())) g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
+		else if (lineType.equals(LineType.DOTTED.getValue())) g2.setStroke(Utils.getStroke(LineType.DOTTED, 1));
 		else if (lineType.equals(LineType.DOUBLE.getValue())) g2.setStroke(Utils.getStroke(LineType.DOUBLE, 1));
 		else if (lineType.equals(LineType.DOUBLE_DASHED.getValue())) g2.setStroke(Utils.getStroke(LineType.DOUBLE_DASHED, 1));
 		else if (lineType.equals(LineType.DOUBLE_DOTTED.getValue())) g2.setStroke(Utils.getStroke(LineType.DOUBLE_DOTTED, 1));

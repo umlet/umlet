@@ -171,11 +171,15 @@ public abstract class Constants extends SharedConstants {
 
 	public static final List<LookAndFeelInfo> lookAndFeels = Arrays.asList(UIManager.getInstalledLookAndFeels());
 
+	protected static final String FIRST_PALETTE_STRING = "UML Common Elements";
 	protected static final String DEFAULT_STRING = "Default";
 	protected static final String PLOTS_STRING = "Plots";
 	public static final Comparator<String> DEFAULT_FIRST_COMPARATOR = new Comparator<String>() {
 		@Override
 		public int compare(String s1, String s2) {
+			// Anything which starts with "Default" is always first
+			if (s1.startsWith(Constants.FIRST_PALETTE_STRING) && !s2.startsWith(Constants.FIRST_PALETTE_STRING)) return -1;
+			if (s2.startsWith(Constants.FIRST_PALETTE_STRING) && !s1.startsWith(Constants.FIRST_PALETTE_STRING)) return 1;
 			// Anything which starts with "Default" is always first
 			if (s1.startsWith(Constants.DEFAULT_STRING) && !s2.startsWith(Constants.DEFAULT_STRING)) return -1;
 			if (s2.startsWith(Constants.DEFAULT_STRING) && !s1.startsWith(Constants.DEFAULT_STRING)) return 1;
