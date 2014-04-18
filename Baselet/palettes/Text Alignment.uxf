@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.3">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>24</x>
+      <y>24</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Top left
+
+bla
+bla bla
+
+halign=left</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>128</x>
+      <y>24</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Top center
+
+bla
+bla bla
+
+halign=center</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>232</x>
+      <y>24</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Top right
+
+bla
+bla bla
+
+halign=right</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>24</x>
+      <y>128</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Middle left
+
+bla
+bla bla
+
+valign=center
+halign=left</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>128</x>
+      <y>128</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Middle center
+
+bla
+bla bla
+
+valign=center
+halign=center</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>232</x>
+      <y>128</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Middle right
+
+bla
+bla bla
+
+valign=center
+halign=right</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>24</x>
+      <y>232</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Bottom left
+
+bla
+bla bla
+
+valign=bottom
+halign=left</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>128</x>
+      <y>232</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Bottom center
+
+bla
+bla bla
+
+valign=bottom
+halign=center</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>232</x>
+      <y>232</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>Bottom right
+
+bla
+bla bla
+
+valign=bottom
+halign=right</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>24</x>
+      <y>352</y>
+      <w>296</w>
+      <h>128</h>
+    </coordinates>
+    <panel_attributes>This class has the setting
+*elementstyle=wordwrap*
+--
+Write text and watch how the linebreak is added automatically at the expected position to fill the whole class.
+
+You can also resize the class and see that the text will always fit the border
+
+elementstyle=wordwrap
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>24</x>
+      <y>504</y>
+      <w>296</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes>This class has the setting
+*elementstyle=autoresize*
+--
+Write text &lt;here&gt;, and see how the class grows/shrinks....
+elementstyle=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
