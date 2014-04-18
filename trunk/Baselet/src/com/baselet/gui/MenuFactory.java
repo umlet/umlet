@@ -40,6 +40,7 @@ import static com.baselet.control.MenuConstants.UNGROUP;
 import static com.baselet.control.MenuConstants.VIDEO_TUTORIAL;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JComponent;
@@ -135,10 +136,10 @@ public class MenuFactory {
 					actualSelector.selectAll();
 				}
 				else if (menuItem.equals(GROUP) && (actualHandler != null) && (actualSelector != null)) {
-					actualHandler.getController().executeCommand(new ChangeElementSetting(GroupFacet.KEY, actualSelector.getUnusedGroup().toString()));
+					actualHandler.getController().executeCommand(new ChangeElementSetting(GroupFacet.KEY, actualSelector.getUnusedGroup().toString(), actualSelector.getSelectedElements()));
 				}
 				else if (menuItem.equals(UNGROUP) && (actualHandler != null) && (actualSelector != null)) {
-					actualHandler.getController().executeCommand(new ChangeElementSetting(GroupFacet.KEY, null));
+					actualHandler.getController().executeCommand(new ChangeElementSetting(GroupFacet.KEY, null, actualSelector.getSelectedElements()));
 				}
 				else if (menuItem.equals(CUT) && (actualHandler != null)) {
 					if (!actualHandler.getDrawPanel().getGridElements().isEmpty()) actualHandler.getController().executeCommand(new Cut());
@@ -194,22 +195,22 @@ public class MenuFactory {
 				else if (menuItem.equals(ABOUT_PROGRAM)) {
 					AboutDialog.show();
 				}
-				else if (menuItem.equals(SET_FOREGROUND_COLOR) && (actualHandler != null)) {
-					actualHandler.getController().executeCommand(new ChangeElementSetting(ForegroundColorFacet.KEY, (String) param));
+				else if (menuItem.equals(SET_FOREGROUND_COLOR) && actualHandler != null && actualSelector != null) {
+					actualHandler.getController().executeCommand(new ChangeElementSetting(ForegroundColorFacet.KEY, (String) param, actualSelector.getSelectedElements()));
 				}
-				else if (menuItem.equals(SET_BACKGROUND_COLOR) && (actualHandler != null)) {
-					actualHandler.getController().executeCommand(new ChangeElementSetting(BackgroundColorFacet.KEY, (String) param));
+				else if (menuItem.equals(SET_BACKGROUND_COLOR) && actualHandler != null && actualSelector != null) {
+					actualHandler.getController().executeCommand(new ChangeElementSetting(BackgroundColorFacet.KEY, (String) param, actualSelector.getSelectedElements()));
 				}
-				else if (menuItem.equals(ALIGN) && (actualHandler != null) && (actualSelector != null)) {
+				else if (menuItem.equals(ALIGN) && actualHandler != null && actualSelector != null) {
 					List<GridElement> v = actualSelector.getSelectedElements();
 					if (v.size() > 0) {
 						actualHandler.getController().executeCommand(new Align(v, actualSelector.getDominantEntity(), (String) param));
 					}
 				}
-				else if (menuItem.equals(LAYER) && (actualHandler != null) && (actualSelector != null)) {
+				else if (menuItem.equals(LAYER) && actualHandler != null && actualSelector != null) {
 					for (GridElement e : actualSelector.getSelectedElements()) {
 						int change = param.equals(LAYER_DOWN) ? -1 : +1;
-						actualHandler.getController().executeCommand(new ChangeElementSetting(LayerFacet.KEY, Integer.toString(e.getLayer()+change)));
+						actualHandler.getController().executeCommand(new ChangeElementSetting(LayerFacet.KEY, Integer.toString(e.getLayer()+change), Arrays.asList(e)));
 					}
 				}
 			}
