@@ -55,6 +55,10 @@ public class Diagram implements HasPanelAttributes, HasGridElements {
 			}
 			return returnList;
 		}
+
+		public List<? extends Stickable> getStickables() {
+			return getStickables(Collections.<GridElement>emptyList());
+		}
 		
 		public List<? extends Stickable> getStickables(Collection<GridElement> excludeList) {
 			if (!SharedConstants.stickingEnabled) {
@@ -65,10 +69,10 @@ public class Diagram implements HasPanelAttributes, HasGridElements {
 			return stickables;
 		}
 
-		public void moveGridElements(int diffX, int diffY, boolean firstDrag, List<GridElement> elements) {
+		public void moveGridElements(int diffX, int diffY, boolean firstDrag, List<GridElement> elements, List<? extends Stickable> stickables) {
 			for (GridElement ge : elements) {
 				// only stickables which are not moved themselves must be used for sticking-checks (otherwise a stickable can be moved itself and by "sticking" to a stickingpolygon afterwards)
-				ge.setLocationDifference(diffX, diffY, firstDrag, getStickables(elements)); //uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
+				ge.setLocationDifference(diffX, diffY, firstDrag, stickables); //uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
 			}
 		}
 

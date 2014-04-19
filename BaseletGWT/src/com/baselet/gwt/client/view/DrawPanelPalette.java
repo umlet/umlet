@@ -2,11 +2,13 @@ package com.baselet.gwt.client.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
+import com.baselet.element.sticking.Stickable;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.element.Diagram;
@@ -93,13 +95,11 @@ public class DrawPanelPalette extends DrawPanel {
 		super.onMouseDragEnd(gridElement, lastPoint);
 	}
 
-	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
-		if (isCtrlKeyDown) {
-			return; // TODO implement Lasso
-		} else { // palette always moves items (instead of dragging relation points etc.
-			moveSelectedElements(diffX, diffY, firstDrag);
-		}
-		redraw(false);
+
+	@Override
+	protected List<? extends Stickable> getStickablesToMoveWhenElementsMove(List<GridElement> elements) {
+		// Moves at the palette NEVER stick
+		return Collections.<Stickable>emptyList();
 	}
 
 }

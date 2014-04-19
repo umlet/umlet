@@ -18,6 +18,7 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
+import com.baselet.element.sticking.Stickable;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.Diagram;
@@ -156,7 +157,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		if (elements.isEmpty()) { // if nothing is selected, move whole diagram
 			elements = diagram.getGridElements();
 		}
-		diagram.moveGridElements(diffX, diffY, firstDrag, elements);
+		diagram.moveGridElements(diffX, diffY, firstDrag, elements, getStickablesToMoveWhenElementsMove(elements));
 	}
 
 	Rectangle getVisibleBounds() {
@@ -309,15 +310,19 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		}
 		// if cursorpos determines a resizedirection, resize the element from where the mouse is dragging (eg: if 2 elements are selected, you can resize any of them without losing your selection)
 		else if (!resizeDirection.isEmpty()) {
-			draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getStickables(Collections.<GridElement>emptyList()));
+			draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag, getStickablesToMoveWhenElementsMove(Collections.<GridElement>emptyList()));
 		}
 		// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
 		else if (selector.getSelectedElements().size() == 1) {
-			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag, diagram.getStickables(Collections.<GridElement>emptyList()));
+			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag, getStickablesToMoveWhenElementsMove(Collections.<GridElement>emptyList()));
 		} else { // if != 1 elements are selected, move them
 			moveSelectedElements(diffX, diffY, firstDrag);
 		}
 		redraw(false);
+	}
+
+	protected List<? extends Stickable> getStickablesToMoveWhenElementsMove(List<GridElement> elements) {
+		return diagram.getStickables(elements);
 	}
 
 	public void onMouseMove(Point absolute) {
