@@ -1247,8 +1247,6 @@ public class Relation extends OldGridElement {
 				}
 				// A.Mueller end
 
-				// System.out.println(arrow.getString());
-
 				if (arrow.getString().equals("<<<")) { // LME
 					// filled arrow head
 					int[] ax = new int[3];
@@ -1800,16 +1798,12 @@ public class Relation extends OldGridElement {
 	}
 
 	public PointDouble getAbsoluteCoorStart() {
-		PointDouble ret = new PointDouble();
-		ret.setX(this.getRectangle().x + this.getStartPoint().x);
-		ret.setY(this.getRectangle().y + this.getStartPoint().y);
+		PointDouble ret = new PointDouble(getRectangle().x + getStartPoint().x, getRectangle().y + getStartPoint().y);
 		return ret;
 	}
 
 	public PointDouble getAbsoluteCoorEnd() {
-		PointDouble ret = new PointDouble();
-		ret.setX(this.getRectangle().x + this.getEndPoint().x);
-		ret.setY(this.getRectangle().y + this.getEndPoint().y);
+		PointDouble ret = new PointDouble(getRectangle().x + getEndPoint().x, getRectangle().y + getEndPoint().y);
 		return ret;
 	}
 
@@ -1865,7 +1859,6 @@ public class Relation extends OldGridElement {
 			}
 			else {
 				if (first.x != p.x || first.y != p.y) {
-//					System.out.println(first + " // " + p);
 					return false;
 				}
 			}

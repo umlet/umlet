@@ -67,11 +67,11 @@ public class Line {
 		if (end == null) {
 			if (other.end != null) return false;
 		}
-		else if (!end.equalsContent(other.end)) return false;
+		else if (!end.equals(other.end)) return false;
 		if (start == null) {
 			if (other.start != null) return false;
 		}
-		else if (!start.equalsContent(other.start)) return false;
+		else if (!start.equals(other.start)) return false;
 		return true;
 	}
 

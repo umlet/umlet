@@ -1,10 +1,11 @@
 package com.baselet.diagram.command;
 
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -31,7 +32,7 @@ public class Move extends Command {
 
 	private boolean useSetLocation;
 
-	private Map<Stickable, Set<PointDouble>> stickables;
+	private Map<Stickable, List<PointDouble>> stickables;
 	
 	private String additionalAttributesBefore;
 
@@ -65,11 +66,11 @@ public class Move extends Command {
 		return p;
 	}
 
-	public Map<Stickable, Set<PointDouble>> getStickables() {
+	public Map<Stickable, List<PointDouble>> getStickables() {
 		return stickables;
 	}
 
-	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, Map<Stickable, Set<PointDouble>> stickingStickables) {
+	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, Map<Stickable, List<PointDouble>> stickingStickables) {
 		entity = e;
 		int gridSize = Main.getHandlerForElement(e).getGridSize();
 		this.x = x / gridSize;
@@ -123,12 +124,12 @@ public class Move extends Command {
 		return this.entity == m.entity && this.useSetLocation == m.useSetLocation && stickablesEqual && notBothFirstDrag;
 	}
 	
-	private boolean checkMapsEqual(Map<Stickable, Set<PointDouble>> mapA, Map<Stickable, Set<PointDouble>> mapB) {
+	private static boolean checkMapsEqual(Map<Stickable, List<PointDouble>> mapA, Map<Stickable, List<PointDouble>> mapB) {
 		if (!containSameElements(mapA.keySet(), mapB.keySet())) return false; // keys are not equal
 
-		for (Entry<Stickable, Set<PointDouble>> entry : mapA.entrySet()) {
-			Set<PointDouble> setA = entry.getValue();
-			Set<PointDouble> setB = mapB.get(entry.getKey());
+		for (Entry<Stickable, List<PointDouble>> entry : mapA.entrySet()) {
+			List<PointDouble> setA = entry.getValue();
+			List<PointDouble> setB = mapB.get(entry.getKey());
 			if (!containSameElements(setA, setB)) {
 				return false; // values for this key are not equal
 			}
@@ -137,7 +138,7 @@ public class Move extends Command {
 		return true; // all keys and values are equal
 	}
 
-	private boolean containSameElements(Set<?> setA, Set<?> setB) {
+	private static boolean containSameElements(Collection<?> setA, Collection<?> setB) {
 		return setA.containsAll(setB) && setB.containsAll(setA);
 	}
 

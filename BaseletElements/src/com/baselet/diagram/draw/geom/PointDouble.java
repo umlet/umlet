@@ -1,13 +1,14 @@
 package com.baselet.diagram.draw.geom;
 
 
+/**
+ * an immutable point with double coordinates
+ * must be immutable because equals and hashcode is overwritten and sets and maps can contain PointDouble as keys
+ */
 public class PointDouble {
 
-	public Double x;
-	public Double y;
-	
-	public PointDouble() {
-	}
+	public final Double x;
+	public final Double y;
 	
 	public PointDouble(double x, double y) {
 		super();
@@ -18,19 +19,8 @@ public class PointDouble {
 	public Double getX() {
 		return x;
 	}
-	public void setX(double x) {
-		this.x = x;
-	}
 	public Double getY() {
 		return y;
-	}
-	public void setY(double y) {
-		this.y = y;
-	}
-
-	public void move(double diffX, double diffY) {
-		this.x += diffX;
-		this.y += diffY;
 	}
 
     public double distance(PointDouble o) {
@@ -42,9 +32,29 @@ public class PointDouble {
 		return new PointDouble(x, y);
 	}
 
-	public boolean equalsContent(PointDouble other) {
-		if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x)) return false;
-		if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y)) return false;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((x == null) ? 0 : x.hashCode());
+		result = prime * result + ((y == null) ? 0 : y.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		PointDouble other = (PointDouble) obj;
+		if (x == null) {
+			if (other.x != null) return false;
+		}
+		else if (!x.equals(other.x)) return false;
+		if (y == null) {
+			if (other.y != null) return false;
+		}
+		else if (!y.equals(other.y)) return false;
 		return true;
 	}
 

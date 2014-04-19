@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -20,18 +19,18 @@ public class Stickables {
 	
 	private static Logger log = Logger.getLogger(Stickables.class);
 
-	public static Map<Stickable, Set<PointDouble>> getStickingPointsWhichAreConnectedToStickingPolygon(StickingPolygon oldStickingPolygon, Collection<? extends Stickable> stickables, int maxDistance) {
+	public static Map<Stickable, List<PointDouble>> getStickingPointsWhichAreConnectedToStickingPolygon(StickingPolygon oldStickingPolygon, Collection<? extends Stickable> stickables, int maxDistance) {
 		log.debug("Polygon to check: " + oldStickingPolygon);
-		Map<Stickable, Set<PointDouble>> returnMap = new HashMap<Stickable, Set<PointDouble>>();
+		Map<Stickable, List<PointDouble>> returnMap = new HashMap<Stickable, List<PointDouble>>();
 			for (final Stickable stickable : stickables) {
 				for (final PointDouble p : stickable.getStickablePoints()) {
 					PointDouble absolutePointPosition = getAbsolutePosition(stickable, p);
 					log.debug("Check if sticks: " + absolutePointPosition);
 					for (StickLine sl : oldStickingPolygon.getStickLines()) {
 						if (sl.isConnected(absolutePointPosition, maxDistance)) {
-							Set<PointDouble> points = returnMap.get(stickable);
+							List<PointDouble> points = returnMap.get(stickable);
 							if (points == null) {
-								returnMap.put(stickable, new HashSet<PointDouble>(Arrays.asList(p)));
+								returnMap.put(stickable, new ArrayList<PointDouble>(Arrays.asList(p)));
 							} else {
 								points.add(p);
 							}
@@ -44,13 +43,15 @@ public class Stickables {
 	}
 
 
-	public static void moveStickPointsBasedOnPolygonChanges(StickingPolygon oldStickingPolygon, StickingPolygon newStickingPolygon, Map<Stickable, Set<PointDouble>> stickablePointsToCheck, int maxDistance) {
+	public static void moveStickPointsBasedOnPolygonChanges(StickingPolygon oldStickingPolygon, StickingPolygon newStickingPolygon, Map<Stickable, List<PointDouble>> stickablePointsToCheck, int maxDistance) {
 		// determine which sticklines have changed and only check sticks for them
 		List<StickLineChange> changedStickLines = getChangedStickLines(oldStickingPolygon, newStickingPolygon);
 		// go through all stickpoints and handle the stickline-change
 		for (final Stickable stickable : stickablePointsToCheck.keySet()) {
-			for (final PointDouble pd : stickablePointsToCheck.get(stickable)) {
-				handleStickLineChange(stickable, pd, changedStickLines, maxDistance);
+			for (ListIterator<PointDouble> iter = stickablePointsToCheck.get(stickable).listIterator(); iter.hasNext();) {
+				PointDouble pd = iter.next();
+				PointDouble handleStickLineChange = handleStickLineChange(stickable, pd, changedStickLines, maxDistance);
+				iter.set(handleStickLineChange);
 			}
 		}
 	}
@@ -69,7 +70,7 @@ public class Stickables {
 		return changedStickLines;
 	}
 
-	private static void handleStickLineChange(Stickable stickable, PointDouble pd, List<StickLineChange> changedStickLines, int maxDistance) {
+	private static PointDouble handleStickLineChange(Stickable stickable, PointDouble pd, List<StickLineChange> changedStickLines, int maxDistance) {
 		PointDouble absolutePositionOfStickablePoint = getAbsolutePosition(stickable, pd);
 
 		StickLineChange change = getNearestStickLineChangeWhichWilLChangeTheStickPoint(changedStickLines, absolutePositionOfStickablePoint, maxDistance);
@@ -89,8 +90,9 @@ public class Stickables {
 			// the diff values are in current zoom, therefore normalize them (invert operation done in getAbsolutePosition())
 			int diffXdefaultZoom = diffX / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
 			int diffYdefaultZoom = diffY / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
-			stickable.movePoint(pd, diffXdefaultZoom, diffYdefaultZoom);
+			return stickable.movePoint(pd, diffXdefaultZoom, diffYdefaultZoom);
 		}
+		return pd;
 	}
 
 	private static StickLineChange getNearestStickLineChangeWhichWilLChangeTheStickPoint(List<StickLineChange> changedStickLines, PointDouble absolutePositionOfStickablePoint, int maxDistance) {

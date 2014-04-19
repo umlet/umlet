@@ -9,7 +9,7 @@ public interface Stickable {
 
 	Collection<PointDouble> getStickablePoints();
 
-	void movePoint(PointDouble pointToMove, int diffX, int diffY);
+	PointDouble movePoint(PointDouble pointToMove, int diffX, int diffY);
 
 	Rectangle getRectangle();
 	
