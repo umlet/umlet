@@ -1,8 +1,8 @@
 package com.baselet.diagram.command;
 
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -28,9 +28,9 @@ public class Move extends Command {
 
 	private boolean useSetLocation;
 
-	private List<? extends Stickable> stickables;
+	private Collection<? extends Stickable> stickables;
 	
-	String additionalAttributesBefore;
+	private String additionalAttributesBefore;
 
 	private Rectangle boundsBefore;
 
@@ -62,11 +62,11 @@ public class Move extends Command {
 		return p;
 	}
 
-	public List<? extends Stickable> getStickables() {
+	public Collection<? extends Stickable> getStickables() {
 		return stickables;
 	}
 
-	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, List<? extends Stickable> stickables) {
+	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, Collection<? extends Stickable> stickables) {
 		entity = e;
 		int gridSize = Main.getHandlerForElement(e).getGridSize();
 		this.x = x / gridSize;
