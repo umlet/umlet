@@ -8,7 +8,7 @@ public class Lines {
 		List<PointDouble> points = new ArrayList<PointDouble>();
 		for (Line line : lines) {
 			for (PointDouble p : line.toPoints()) {
-				if (points.isEmpty() || !points.get(points.size()-1).equals(p)) {
+				if (points.isEmpty() || !points.get(points.size()-1).equalsContent(p)) {
 					points.add(p);
 				}
 			}

@@ -2,6 +2,7 @@ package com.baselet.element;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -9,6 +10,7 @@ import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.StickingPolygon;
@@ -68,7 +70,7 @@ public interface GridElement extends HasPanelAttributes {
 	
 	ElementId getId();
 	
-	void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables);
+	void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Map<Stickable, Set<PointDouble>> stickables);
 
 	boolean isSelectableOn(Point point);
 
@@ -76,5 +78,5 @@ public interface GridElement extends HasPanelAttributes {
 
 	List<String> getPanelAttributesAsList();
 
-	void setLocationDifference(int diffx, int diffy, boolean firstDrag, Collection<? extends Stickable> stickables);
+	void setLocationDifference(int diffx, int diffy, boolean firstDrag, Map<Stickable, Set<PointDouble>> stickables);
 }

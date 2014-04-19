@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -31,6 +32,7 @@ import com.baselet.diagram.command.MoveEnd;
 import com.baselet.diagram.command.MoveLinePoint;
 import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
@@ -135,7 +137,7 @@ public class GridElementListener extends UniversalListener {
 
 		Vector<Command> moveCommands = new Vector<Command>();
 		for (GridElement e : diagram.getGridElements()) {
-			moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, Collections.<Stickable>emptyList()));
+			moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, Collections.<Stickable, Set<PointDouble>>emptyMap()));
 		}
 
 		this.controller.executeCommand(new Macro(moveCommands));
@@ -296,7 +298,7 @@ public class GridElementListener extends UniversalListener {
 		List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getStickables(entitiesToBeMoved);
 		for (GridElement ge : entitiesToBeMoved) {
 			// reduce stickables to those which really stick at the element at move-start
-			Set<Stickable> stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(ge.getRectangle()), stickables, handler.getGridSize()).keySet();
+			Map<Stickable, Set<PointDouble>> stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(ge.getRectangle()), stickables, handler.getGridSize());
 			moveCommands.add(new Move(ge, diffx, diffy, oldp, true, useSetLocation, stickingStickables));
 			boolean stickingDisabled = !SharedConstants.stickingEnabled || handler instanceof PaletteHandler;
 			if (ge instanceof Relation || stickingDisabled) continue;

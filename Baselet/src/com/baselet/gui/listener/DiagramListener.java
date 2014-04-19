@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.Collections;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.JComponent;
@@ -19,6 +20,7 @@ import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.Stickable;
 
@@ -75,7 +77,7 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 		if (diffx != 0 || diffy != 0) {
 			Vector<Command> moveCommands = new Vector<Command>();
 			for (GridElement e : diagram.getGridElements()) {
-				moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, Collections.<Stickable>emptyList()));
+				moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, Collections.<Stickable, Set<PointDouble>>emptyMap()));
 			}
 
 			this.controller.executeCommand(new Macro(moveCommands));

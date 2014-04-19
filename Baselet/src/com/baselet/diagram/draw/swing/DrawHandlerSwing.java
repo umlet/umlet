@@ -136,7 +136,7 @@ public class DrawHandlerSwing extends DrawHandler {
 				}
 			}
 			// only fill if first point == lastpoint
-			boolean fillShape = points[0].equals(points[points.length-1]);
+			boolean fillShape = points[0].equalsContent(points[points.length-1]);
 			addShape(path, fillShape);
 		}
 	}

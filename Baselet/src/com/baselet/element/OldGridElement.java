@@ -9,7 +9,6 @@ import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -443,22 +442,17 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Map<Stickable, Set<PointDouble>> stickables) {
 		StickingPolygon stickingPolygonBeforeLocationChange = generateStickingBorder();
 		setLocationDifference(diffX, diffY);
 		moveStickables(firstDrag, stickables, stickingPolygonBeforeLocationChange);
 	}
 
-	private Map<Stickable, Set<PointDouble>> stickablesFromFirstDrag = new HashMap<Stickable, Set<PointDouble>>();
-
-	private void moveStickables(boolean firstDrag, Collection<? extends Stickable> stickables, StickingPolygon oldStickingPolygon) {
+	private void moveStickables(boolean firstDrag, Map<Stickable, Set<PointDouble>> stickables, StickingPolygon oldStickingPolygon) {
 		if (oldStickingPolygon == null) return; // if element has no stickingPolygon nothing has to be checked
 		// the first drag determines which stickables and which points of them will stick (eg: moving through other relations should NOT "collect" their stickingpoints)
-		if (firstDrag) {
-			stickablesFromFirstDrag = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(oldStickingPolygon, stickables, getGridSize());
-		}
-		if (!stickablesFromFirstDrag.isEmpty()) {
-			Stickables.moveStickPointsBasedOnPolygonChanges(oldStickingPolygon, generateStickingBorder(), stickablesFromFirstDrag, getGridSize());
+		if (!stickables.isEmpty()) {
+			Stickables.moveStickPointsBasedOnPolygonChanges(oldStickingPolygon, generateStickingBorder(), stickables, getGridSize());
 		}
 	}
 
@@ -484,7 +478,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, Collection<? extends Stickable> stickables) {
+	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, Map<Stickable, Set<PointDouble>> stickables) {
 		StickingPolygon oldStickingPolygon = generateStickingBorder();
 		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
 		moveStickables(firstDrag, stickables, oldStickingPolygon);

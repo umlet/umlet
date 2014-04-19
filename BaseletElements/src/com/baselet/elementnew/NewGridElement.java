@@ -3,7 +3,6 @@ package com.baselet.elementnew;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -320,14 +319,14 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, Collection<? extends Stickable> stickables) {
+	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, Map<Stickable, Set<PointDouble>> stickables) {
 		StickingPolygon oldStickingPolygon = generateStickingBorder();
 		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
 		moveStickables(firstDrag, stickables, oldStickingPolygon);
 	}
 	
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Collection<? extends Stickable> stickables) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Map<Stickable, Set<PointDouble>> stickables) {
 		StickingPolygon stickingPolygonBeforeLocationChange = generateStickingBorder();
 		if (resizeDirection.isEmpty()) { // Move GridElement
 			setLocationDifference(diffX, diffY);
@@ -365,23 +364,17 @@ public abstract class NewGridElement implements GridElement {
 		moveStickables(firstDrag, stickables, stickingPolygonBeforeLocationChange);
 	}
 
-	private Map<Stickable, Set<PointDouble>> stickablesFromFirstDrag = new HashMap<Stickable, Set<PointDouble>>();
-
-	private void moveStickables(boolean firstDrag, Collection<? extends Stickable> stickables, StickingPolygon oldStickingPolygon) {
+	private void moveStickables(boolean firstDrag, Map<Stickable, Set<PointDouble>> stickables, StickingPolygon oldStickingPolygon) {
 		if (oldStickingPolygon == null) return; // if element has no stickingPolygon nothing has to be checked
 		// the first drag determines which stickables and which points of them will stick (eg: moving through other relations should NOT "collect" their stickingpoints)
-		if (firstDrag) {
-			stickablesFromFirstDrag = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(oldStickingPolygon, stickables, getGridSize());
-		}
-		if (!stickablesFromFirstDrag.isEmpty()) {
-			Stickables.moveStickPointsBasedOnPolygonChanges(oldStickingPolygon, generateStickingBorder(), stickablesFromFirstDrag, getGridSize());
+		if (!stickables.isEmpty()) {
+			Stickables.moveStickPointsBasedOnPolygonChanges(oldStickingPolygon, generateStickingBorder(), stickables, getGridSize());
 		}
 	}
 
 	@Override
 	public void dragEnd() {
 		// although this clearing is not really necessary, some subclasses like Relation need to know when dragging ends (eg to merge relation-endings)
-		stickablesFromFirstDrag.clear();
 	}
 
 	@Override

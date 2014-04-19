@@ -1,8 +1,10 @@
 package com.baselet.diagram.command;
 
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -10,6 +12,7 @@ import com.baselet.control.Main;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.Stickable;
@@ -28,7 +31,7 @@ public class Move extends Command {
 
 	private boolean useSetLocation;
 
-	private Collection<? extends Stickable> stickables;
+	private Map<Stickable, Set<PointDouble>> stickables;
 	
 	private String additionalAttributesBefore;
 
@@ -62,11 +65,11 @@ public class Move extends Command {
 		return p;
 	}
 
-	public Collection<? extends Stickable> getStickables() {
+	public Map<Stickable, Set<PointDouble>> getStickables() {
 		return stickables;
 	}
 
-	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, Collection<? extends Stickable> stickables) {
+	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, Map<Stickable, Set<PointDouble>> stickingStickables) {
 		entity = e;
 		int gridSize = Main.getHandlerForElement(e).getGridSize();
 		this.x = x / gridSize;
@@ -75,7 +78,7 @@ public class Move extends Command {
 		this.yBeforeDrag = mousePosBeforeDrag.getY() * 1.0 / gridSize;
 		this.firstDrag = firstDrag;
 		this.useSetLocation = useSetLocation;
-		this.stickables = stickables;
+		this.stickables = stickingStickables;
 	}
 
 	@Override
@@ -115,9 +118,27 @@ public class Move extends Command {
 	public boolean isMergeableTo(Command c) {
 		if (!(c instanceof Move)) return false;
 		Move m = (Move) c;
-		boolean stickablesEqual = this.stickables.containsAll(m.stickables) && m.stickables.containsAll(this.stickables);
+		boolean stickablesEqual = checkMapsEqual(this.stickables, m.stickables);
 		boolean notBothFirstDrag = !(this.firstDrag && m.firstDrag);
 		return this.entity == m.entity && this.useSetLocation == m.useSetLocation && stickablesEqual && notBothFirstDrag;
+	}
+	
+	private boolean checkMapsEqual(Map<Stickable, Set<PointDouble>> mapA, Map<Stickable, Set<PointDouble>> mapB) {
+		if (!containSameElements(mapA.keySet(), mapB.keySet())) return false; // keys are not equal
+
+		for (Entry<Stickable, Set<PointDouble>> entry : mapA.entrySet()) {
+			Set<PointDouble> setA = entry.getValue();
+			Set<PointDouble> setB = mapB.get(entry.getKey());
+			if (!containSameElements(setA, setB)) {
+				return false; // values for this key are not equal
+			}
+		}
+		
+		return true; // all keys and values are equal
+	}
+
+	private boolean containSameElements(Set<?> setA, Set<?> setB) {
+		return setA.containsAll(setB) && setB.containsAll(setA);
 	}
 
 	@Override
