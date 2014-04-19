@@ -36,6 +36,7 @@ import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.Stickable;
+import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.umlet.element.Relation;
@@ -279,7 +280,7 @@ public class GridElementListener extends UniversalListener {
 		int diffy = newp.y - oldp.y;
 		if (FIRST_MOVE_COMMANDS == null) {
 			POINT_BEFORE_MOVE = getOldCoordinateNotRounded(); // must use exact coordinates eg for Relation which calculates distances from lines (to possibly drag new points out of it)
-			FIRST_MOVE_COMMANDS = calculateMoveCommands(diffx, diffy, oldp, selector.getSelectedElements(), false, handler);
+			FIRST_MOVE_COMMANDS = calculateFirstMoveCommands(diffx, diffy, oldp, selector.getSelectedElements(), false, handler);
 		}
 		else if (diffx != 0 || diffy != 0) {
 			Vector<Command> commands = continueDragging(diffx, diffy, POINT_BEFORE_MOVE);
@@ -289,12 +290,14 @@ public class GridElementListener extends UniversalListener {
 		}
 	}
 
-	static Vector<Command> calculateMoveCommands(int diffx, int diffy, Point oldp, Collection<GridElement> entitiesToBeMoved, boolean useSetLocation, DiagramHandler handler) {
+	static Vector<Command> calculateFirstMoveCommands(int diffx, int diffy, Point oldp, Collection<GridElement> entitiesToBeMoved, boolean useSetLocation, DiagramHandler handler) {
 		Vector<Move> moveCommands = new Vector<Move>();
 		Vector<MoveLinePoint> linepointCommands = new Vector<MoveLinePoint>();
 		List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getStickables(entitiesToBeMoved);
 		for (GridElement ge : entitiesToBeMoved) {
-			moveCommands.add(new Move(ge, diffx, diffy, oldp, true, useSetLocation, stickables));
+			// reduce stickables to those which really stick at the element at move-start
+			Set<Stickable> stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(ge.getRectangle()), stickables, handler.getGridSize()).keySet();
+			moveCommands.add(new Move(ge, diffx, diffy, oldp, true, useSetLocation, stickingStickables));
 			boolean stickingDisabled = !SharedConstants.stickingEnabled || handler instanceof PaletteHandler;
 			if (ge instanceof Relation || stickingDisabled) continue;
 			StickingPolygon stick = ge.generateStickingBorder(ge.getRectangle());
