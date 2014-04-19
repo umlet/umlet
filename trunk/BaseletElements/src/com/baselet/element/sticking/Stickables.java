@@ -62,7 +62,7 @@ public class Stickables {
 		while (oldLineIter.hasNext()) {
 			StickLine oldLine = oldLineIter.next();
 			StickLine newLine = newLineIter.next();
-			if (!oldLine.equals(newLine)) {
+			if (!oldLine.equalsContent(newLine)) {
 				changedStickLines.add(new StickLineChange(oldLine, newLine));
 			}
 		}

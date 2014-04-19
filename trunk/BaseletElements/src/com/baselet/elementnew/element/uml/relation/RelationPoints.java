@@ -103,7 +103,7 @@ public class RelationPoints {
 		// move the point
 		point.move(diffX, diffY);
 		// if there are only 2 points and they would overlap now (therefore the relation would have a size of 0x0px), revert the move
-		if (points.size() == 2 && points.get(0).equals(points.get(1))) {
+		if (points.size() == 2 && points.get(0).equalsContent(points.get(1))) {
 			point.move(-diffX, -diffY);
 		}
 		resizeRectAndReposPoints();
