@@ -1,6 +1,7 @@
 package com.baselet.elementnew.element.uml.relation;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
@@ -61,19 +62,32 @@ public class RelationPointsUtils {
 		return null;
 	}
 
-	static void moveRelationPointsOriginToUpperLeftCorner(List<PointDouble> relationPoints) {
+	static void moveRelationPointsOriginToUpperLeftCorner(List<PointDouble> points) {
 		int displacementX = Integer.MAX_VALUE;
 		int displacementY = Integer.MAX_VALUE;
-		for (PointDouble p : relationPoints) {
+		for (PointDouble p : points) {
 			Rectangle r = toCircleRectangle(p);
 			displacementX = Math.min(displacementX, r.getX());
 			displacementY = Math.min(displacementY, r.getY());
 		}
-		for (PointDouble p : relationPoints) {
-			 p.move(-displacementX, -displacementY);
-			 // If points are off the grid they can be realigned here (use the following 2 lines instead of move())
-//			p.setX(SharedUtils.realignTo(true, p.getX()-displacementX, false, SharedConstants.DEFAULT_GRID_SIZE));
-//			p.setY(SharedUtils.realignTo(true, p.getY()-displacementY, false, SharedConstants.DEFAULT_GRID_SIZE));
+		for (ListIterator<PointDouble> iter = points.listIterator(); iter.hasNext();) {
+			PointDouble p = iter.next();
+			iter.set(new PointDouble(p.getX() - displacementX, p.getY() - displacementY));
+			// If points are off the grid they can be realigned here (use the following 2 lines instead of move())
+			//			p.setX(SharedUtils.realignTo(true, p.getX()-displacementX, false, SharedConstants.DEFAULT_GRID_SIZE));
+			//			p.setY(SharedUtils.realignTo(true, p.getY()-displacementY, false, SharedConstants.DEFAULT_GRID_SIZE));
 		}
+	}
+
+	static PointDouble movePointOnPosition(List<PointDouble> points, PointDouble position, Integer diffX, Integer diffY) {
+		for (ListIterator<PointDouble> iter = points.listIterator(); iter.hasNext();) {
+			PointDouble p = iter.next();
+			if (p.equals(position)) {
+				PointDouble movedPoint = new PointDouble(p.getX() + diffX, p.getY() + diffY);
+				iter.set(movedPoint);
+				return movedPoint;
+			}
+		}
+		throw new RuntimeException("Point to move not found");
 	}
 }

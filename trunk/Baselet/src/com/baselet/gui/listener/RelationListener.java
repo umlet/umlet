@@ -2,7 +2,7 @@ package com.baselet.gui.listener;
 
 import java.awt.event.MouseEvent;
 import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
@@ -122,7 +122,7 @@ public class RelationListener extends GridElementListener {
 			return;
 		}
 		else if (IS_DRAGGING_LINE) {
-			this.controller.executeCommand(new Move(r, diffx, diffy, oldp, false, true, Collections.<Stickable, Set<PointDouble>>emptyMap()));
+			this.controller.executeCommand(new Move(r, diffx, diffy, oldp, false, true, Collections.<Stickable, List<PointDouble>>emptyMap()));
 			return;
 		}
 

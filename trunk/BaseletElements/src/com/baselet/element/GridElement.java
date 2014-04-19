@@ -70,7 +70,7 @@ public interface GridElement extends HasPanelAttributes {
 	
 	ElementId getId();
 	
-	void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Map<Stickable, Set<PointDouble>> stickables);
+	void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Map<Stickable, List<PointDouble>> stickables);
 
 	boolean isSelectableOn(Point point);
 
@@ -78,5 +78,5 @@ public interface GridElement extends HasPanelAttributes {
 
 	List<String> getPanelAttributesAsList();
 
-	void setLocationDifference(int diffx, int diffy, boolean firstDrag, Map<Stickable, Set<PointDouble>> stickables);
+	void setLocationDifference(int diffx, int diffy, boolean firstDrag, Map<Stickable, List<PointDouble>> stickables);
 }

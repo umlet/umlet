@@ -20,48 +20,49 @@ public class StickingPolygon {
 		}
 
 		// calculates the difference between this line and the other line at the specified x or y coordinate (whichever fits better)
-		public PointDouble diffToLine(StickLine s, int x, int y) {
-			PointDouble diff = new PointDouble(0, 0);
+		public PointDouble diffToLine(StickLine s, int inX, int inY) {
+			double x = 0;
+			double y = 0;
 			if (getEnd().x == getStart().x) {
 				// AB: Fixed: use s.getStart().x instead of getStart().x
-				diff.x = s.getStart().x - (s.getEnd().x - s.getStart().x) - x; // mitte der neuen linie
+				x = s.getStart().x - (s.getEnd().x - s.getStart().x) - inX; // mitte der neuen linie
 
 				if (s.getEnd().x == s.getStart().x) {
 					// vertical lines - no y difference except the line is at an end
-					diff.setY(0);
+					y = 0;
 					if (s.getStart().y > s.getEnd().y) {
-						if (s.getStart().y < y) diff.y = s.getStart().y - y;
-						else if (s.getEnd().y > y) diff.y = s.getEnd().y - y;
+						if (s.getStart().y < inY) y = s.getStart().y - inY;
+						else if (s.getEnd().y > inY) y = s.getEnd().y - inY;
 					}
 					else {
-						if (s.getEnd().y < y) diff.y = s.getEnd().y - y;
-						else if (s.getStart().y > y) diff.y = s.getStart().y - y;
+						if (s.getEnd().y < inY) y = s.getEnd().y - inY;
+						else if (s.getStart().y > inY) y = s.getStart().y - inY;
 					}
-					return diff;
+					return new PointDouble(x, y);
 				}
 			}
-			else diff.x = (x - getStart().x) * (s.getEnd().x - s.getStart().x) / (getEnd().x - getStart().x) + s.getStart().x - x;
+			else x = (inX - getStart().x) * (s.getEnd().x - s.getStart().x) / (getEnd().x - getStart().x) + s.getStart().x - inX;
 
 			if (getEnd().y == getStart().y) {
 				// AB: Fixed: use s.getStart().x instead of getStart().x
-				diff.y = s.getStart().y - (s.getEnd().y - s.getStart().y) - y;
+				y = s.getStart().y - (s.getEnd().y - s.getStart().y) - inY;
 
 				if (s.getEnd().y == s.getStart().y) {
 					// horizontal lines - no x difference except the line is at an end
-					diff.setX(0);
+					x = 0;
 					if (s.getStart().x > s.getEnd().x) {
-						if (s.getStart().x < x) diff.x = s.getStart().x - x;
-						else if (s.getEnd().x > x) diff.x = s.getEnd().x - x;
+						if (s.getStart().x < inX) x = s.getStart().x - inX;
+						else if (s.getEnd().x > inX) x = s.getEnd().x - inX;
 					}
 					else {
-						if (s.getEnd().x < x) diff.x = s.getEnd().x - x;
-						else if (s.getStart().x > x) diff.x = s.getStart().x - x;
+						if (s.getEnd().x < inX) x = s.getEnd().x - inX;
+						else if (s.getStart().x > inX) x = s.getStart().x - inX;
 					}
 				}
 			}
-			else diff.y = (y - getStart().y) * (s.getEnd().y - s.getStart().y) / (getEnd().y - getStart().y) + s.getStart().y - y;
+			else y = (inY - getStart().y) * (s.getEnd().y - s.getStart().y) / (getEnd().y - getStart().y) + s.getStart().y - inY;
 
-			return diff;
+			return new PointDouble(x, y);
 		}
 
 		public boolean isConnected(PointDouble p, int maxDistance) {

@@ -319,14 +319,14 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, Map<Stickable, Set<PointDouble>> stickables) {
+	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, Map<Stickable, List<PointDouble>> stickables) {
 		StickingPolygon oldStickingPolygon = generateStickingBorder();
 		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
 		moveStickables(firstDrag, stickables, oldStickingPolygon);
 	}
 	
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Map<Stickable, Set<PointDouble>> stickables) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Map<Stickable, List<PointDouble>> stickables) {
 		StickingPolygon stickingPolygonBeforeLocationChange = generateStickingBorder();
 		if (resizeDirection.isEmpty()) { // Move GridElement
 			setLocationDifference(diffX, diffY);
@@ -364,7 +364,7 @@ public abstract class NewGridElement implements GridElement {
 		moveStickables(firstDrag, stickables, stickingPolygonBeforeLocationChange);
 	}
 
-	private void moveStickables(boolean firstDrag, Map<Stickable, Set<PointDouble>> stickables, StickingPolygon oldStickingPolygon) {
+	private void moveStickables(boolean firstDrag, Map<Stickable, List<PointDouble>> stickables, StickingPolygon oldStickingPolygon) {
 		if (oldStickingPolygon == null) return; // if element has no stickingPolygon nothing has to be checked
 		// the first drag determines which stickables and which points of them will stick (eg: moving through other relations should NOT "collect" their stickingpoints)
 		if (!stickables.isEmpty()) {

@@ -137,7 +137,7 @@ public class GridElementListener extends UniversalListener {
 
 		Vector<Command> moveCommands = new Vector<Command>();
 		for (GridElement e : diagram.getGridElements()) {
-			moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, Collections.<Stickable, Set<PointDouble>>emptyMap()));
+			moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, Collections.<Stickable, List<PointDouble>>emptyMap()));
 		}
 
 		this.controller.executeCommand(new Macro(moveCommands));
@@ -298,7 +298,7 @@ public class GridElementListener extends UniversalListener {
 		List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getStickables(entitiesToBeMoved);
 		for (GridElement ge : entitiesToBeMoved) {
 			// reduce stickables to those which really stick at the element at move-start
-			Map<Stickable, Set<PointDouble>> stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(ge.getRectangle()), stickables, handler.getGridSize());
+			Map<Stickable, List<PointDouble>> stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(ge.getRectangle()), stickables, handler.getGridSize());
 			moveCommands.add(new Move(ge, diffx, diffy, oldp, true, useSetLocation, stickingStickables));
 			boolean stickingDisabled = !SharedConstants.stickingEnabled || handler instanceof PaletteHandler;
 			if (ge instanceof Relation || stickingDisabled) continue;
