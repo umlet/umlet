@@ -58,7 +58,7 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 	}
 
 	public static void drawDecision(final DrawHandler drawer, final double w, final double h) {
-		drawer.drawLines(new PointDouble(w/2, 0), new PointDouble(w, h/2), new PointDouble(w/2, h), new PointDouble(0, h/2), new PointDouble(w/2, 0));
+		drawer.drawLines(new PointDouble(w/2, 1), new PointDouble(w-1, h/2), new PointDouble(w/2, h-1), new PointDouble(1, h/2), new PointDouble(w/2, 1));
 	}
 
 	private void drawBlackEllipse(final DrawHandler drawer, double width, double height, double radius) {
