@@ -1,17 +1,17 @@
 package com.baselet.elementnew.element.uml.relation;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.element.sticking.PointChange;
 
 public class RelationPointsUtils {
 
-	static Rectangle calculateRelationRectangleBasedOnPoints(PointDouble upperLeftCorner, int gridSize, List<PointDouble> relationPoints) {
+	static Rectangle calculateRelationRectangleBasedOnPoints(PointDouble upperLeftCorner, int gridSize, List<PointDoubleHolder> relationPoints) {
 		PointDouble elementStart = upperLeftCorner;
 		// Calculate new Relation position and size
 		Rectangle newSize = createRectangleContainingAllPoints(elementStart, relationPoints);
@@ -31,10 +31,10 @@ public class RelationPointsUtils {
 		return newSize;
 	}
 
-	private static Rectangle createRectangleContainingAllPoints(PointDouble elementStart, List<PointDouble> relationPoints) {
+	private static Rectangle createRectangleContainingAllPoints(PointDouble elementStart, List<PointDoubleHolder> relationPoints) {
 		Rectangle rectangleContainingAllPoints = null;
-		for (PointDouble p : relationPoints) {
-			Rectangle absoluteRectangle = toRectangle(new PointDouble(p.x, p.y), RelationPoints.POINT_SELECTION_RADIUS);
+		for (PointDoubleHolder p : relationPoints) {
+			Rectangle absoluteRectangle = toRectangle(p.getPoint(), RelationPoints.POINT_SELECTION_RADIUS);
 			if (rectangleContainingAllPoints == null) {
 				rectangleContainingAllPoints = absoluteRectangle;
 			} else {
@@ -53,41 +53,39 @@ public class RelationPointsUtils {
 		return toRectangle(p, RelationPoints.POINT_SELECTION_RADIUS);
 	}
 
-	static PointDouble getRelationPointContaining(Point point, List<PointDouble> relationPoints) {
-		for (PointDouble relationPoint : relationPoints) {
-			if (toCircleRectangle(relationPoint).contains(point)) {
+	static PointDoubleHolder getRelationPointContaining(Point point, List<PointDoubleHolder> points) {
+		for (PointDoubleHolder relationPoint : points) {
+			if (toCircleRectangle(relationPoint.getPoint()).contains(point)) {
 				return relationPoint;
 			}
 		}
 		return null;
 	}
 
-	static void moveRelationPointsOriginToUpperLeftCorner(List<PointDouble> points) {
+	static void moveRelationPointsOriginToUpperLeftCorner(List<PointDoubleHolder> points) {
 		int displacementX = Integer.MAX_VALUE;
 		int displacementY = Integer.MAX_VALUE;
-		for (PointDouble p : points) {
-			Rectangle r = toCircleRectangle(p);
+		for (PointDoubleHolder p : points) {
+			Rectangle r = toCircleRectangle(p.getPoint());
 			displacementX = Math.min(displacementX, r.getX());
 			displacementY = Math.min(displacementY, r.getY());
 		}
-		for (ListIterator<PointDouble> iter = points.listIterator(); iter.hasNext();) {
-			PointDouble p = iter.next();
-			iter.set(new PointDouble(p.getX() - displacementX, p.getY() - displacementY));
+		for (PointDoubleHolder pointWithId : points) {
+			PointDouble p = pointWithId.getPoint();
+			pointWithId.setPoint(new PointDouble(p.getX() - displacementX, p.getY() - displacementY));
 			// If points are off the grid they can be realigned here (use the following 2 lines instead of move())
 			//			p.setX(SharedUtils.realignTo(true, p.getX()-displacementX, false, SharedConstants.DEFAULT_GRID_SIZE));
 			//			p.setY(SharedUtils.realignTo(true, p.getY()-displacementY, false, SharedConstants.DEFAULT_GRID_SIZE));
 		}
 	}
 
-	static PointDouble movePointOnPosition(List<PointDouble> points, PointDouble position, Integer diffX, Integer diffY) {
-		for (ListIterator<PointDouble> iter = points.listIterator(); iter.hasNext();) {
-			PointDouble p = iter.next();
-			if (p.equals(position)) {
-				PointDouble movedPoint = new PointDouble(p.getX() + diffX, p.getY() + diffY);
-				iter.set(movedPoint);
-				return movedPoint;
+	public static void applyChangesToPoints(List<PointDoubleHolder> points, List<PointChange> changes) {
+		for (PointDoubleHolder p : points) {
+			for (PointChange change : changes) {
+				if (p.equals(change.getPoint())) {
+					p.setPoint(new PointDouble(p.getPoint().getX() + change.getDiffX(), p.getPoint().getY() + change.getDiffY()));
+				}
 			}
 		}
-		throw new RuntimeException("Point to move not found");
 	}
 }

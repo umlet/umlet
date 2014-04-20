@@ -17,11 +17,11 @@ import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
 import com.baselet.element.sticking.Stickable;
+import com.baselet.elementnew.element.uml.relation.PointDoubleHolder;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.Diagram;
@@ -69,7 +69,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 
 	private Set<Direction> resizeDirection = new HashSet<Direction>();
 
-	private Map<GridElement, Map<Stickable, List<PointDouble>>> stickablesToMove = new HashMap<GridElement, Map<Stickable, List<PointDouble>>>();
+	private Map<GridElement, Map<Stickable, List<PointDoubleHolder>>> stickablesToMove = new HashMap<GridElement, Map<Stickable, List<PointDoubleHolder>>>();
 
 	public void setOtherDrawFocusPanel(DrawPanel otherDrawFocusPanel) {
 		this.otherDrawFocusPanel = otherDrawFocusPanel;
@@ -345,7 +345,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		redraw(false);
 	}
 
-	protected Map<Stickable, List<PointDouble>> getStickablesToMoveWhenElementsMove(GridElement draggedElement, List<GridElement> elements) {
+	protected Map<Stickable, List<PointDoubleHolder>> getStickablesToMoveWhenElementsMove(GridElement draggedElement, List<GridElement> elements) {
 		return diagram.getStickables(draggedElement, elements);
 	}
 
