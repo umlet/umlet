@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.Stickable;
 import com.baselet.elementnew.facet.common.GroupFacet;
@@ -95,11 +97,10 @@ public class DrawPanelPalette extends DrawPanel {
 		super.onMouseDragEnd(gridElement, lastPoint);
 	}
 
-
 	@Override
-	protected List<? extends Stickable> getStickablesToMoveWhenElementsMove(List<GridElement> elements) {
+	protected Map<Stickable, List<PointDouble>> getStickablesToMoveWhenElementsMove(GridElement draggedElement, List<GridElement> elements) {
 		// Moves at the palette NEVER stick
-		return Collections.<Stickable>emptyList();
+		return Collections.<Stickable, List<PointDouble>>emptyMap();
 	}
 
 }

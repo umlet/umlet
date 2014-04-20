@@ -6,8 +6,8 @@ import com.baselet.control.StringStyle;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.FormatLabels;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.DrawFunction;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
@@ -144,12 +144,12 @@ public class DrawHandlerGWT extends DrawHandler {
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
-				PointDouble pToDraw = point.copy(); // must use copy to avoid modification of initial point for future drawings (testcase: set invalid key-value setting to get the error message (which has 2 lines) and then click multiple times on the element and anywhere else (to trigger redraw))
+				PointDouble pToDraw = point;
 				ColorOwn fgColor = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : styleAtDrawingCall.getFgColor();
 				ctx.setFillStyle(Converter.convert(fgColor));
 				for (String line : text.split("\n")) {
 					drawTextHelper(line, pToDraw, align, styleAtDrawingCall.getFontSize());
-					pToDraw.move(0, textHeight());
+					pToDraw = new PointDouble(pToDraw.getX(), pToDraw.getY()+textHeight());
 				}
 			}
 		});

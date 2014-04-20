@@ -3,8 +3,10 @@ package com.baselet.gwt.client.view;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -15,6 +17,7 @@ import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
@@ -23,6 +26,7 @@ import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.Utils;
 import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.keyboard.Shortcut;
+import com.baselet.gwt.client.view.EventHandlingUtils.EventHandlingTarget;
 import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
 import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
@@ -40,7 +44,7 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGridElement, HasMouseOutHandlers, HasMouseOverHandlers {
+public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGridElement, HasMouseOutHandlers, HasMouseOverHandlers, EventHandlingTarget {
 
 	private static final Logger log = Logger.getLogger(DrawPanel.class);
 
@@ -62,6 +66,10 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 
 	private MenuPopup elementContextMenu;
 	private MenuPopup diagramContextMenu;
+
+	private Set<Direction> resizeDirection = new HashSet<Direction>();
+
+	private Map<GridElement, Map<Stickable, List<PointDouble>>> stickablesToMove = new HashMap<GridElement, Map<Stickable, List<PointDouble>>>();
 
 	public void setOtherDrawFocusPanel(DrawPanel otherDrawFocusPanel) {
 		this.otherDrawFocusPanel = otherDrawFocusPanel;
@@ -152,15 +160,25 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		redraw();
 	}
 
-	void moveSelectedElements(int diffX, int diffY, boolean firstDrag) {
-		List<GridElement> elements = selector.getSelectedElements();
+	void keyboardMoveSelectedElements(int diffX, int diffY) {
+		List<GridElement> gridElements = selector.getSelectedElements();
+		moveElements(diffX, diffY, true, gridElements);
+		dragEndAndRedraw(gridElements);
+	}
+
+	void moveElements(int diffX, int diffY, boolean firstDrag, List<GridElement> elements) {
 		if (elements.isEmpty()) { // if nothing is selected, move whole diagram
 			elements = diagram.getGridElements();
 		}
-		diagram.moveGridElements(diffX, diffY, firstDrag, elements, getStickablesToMoveWhenElementsMove(elements));
+		for (GridElement ge : elements) {
+			if (firstDrag) {
+				stickablesToMove.put(ge, getStickablesToMoveWhenElementsMove(ge, Collections.<GridElement>emptyList()));
+			}
+			ge.setLocationDifference(diffX, diffY, firstDrag, stickablesToMove.get(ge)); //uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
+		}
 	}
 
-	Rectangle getVisibleBounds() {
+	public Rectangle getVisibleBounds() {
 		return scrollPanel.getVisibleBounds();
 	}
 
@@ -255,7 +273,12 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 	public abstract void onDoubleClick(GridElement ge);
 
 	public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
-		for (GridElement ge : selector.getSelectedElements()) {
+		dragEndAndRedraw(selector.getSelectedElements());
+	}
+
+	private void dragEndAndRedraw(List<GridElement> selectedElements) {
+		for (GridElement ge : selectedElements) {
+			stickablesToMove.remove(ge);
 			ge.dragEnd();
 		}
 		redraw();
@@ -293,8 +316,6 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		}
 	}
 
-	private Set<Direction> resizeDirection = new HashSet<Direction>();
-
 	public void onMouseMoveDraggingScheduleDeferred(final Point dragStart, final int diffX, final int diffY, final GridElement draggedGridElement, final boolean isShiftKeyDown, final boolean isCtrlKeyDown, final boolean firstDrag) {
 		Scheduler.get().scheduleFinally(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
 			@Override
@@ -305,24 +326,27 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 	}
 
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
+		if (firstDrag) {
+			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement>emptyList()));
+		}
 		if (isCtrlKeyDown) {
 			return; // TODO implement Lasso
 		}
 		// if cursorpos determines a resizedirection, resize the element from where the mouse is dragging (eg: if 2 elements are selected, you can resize any of them without losing your selection)
 		else if (!resizeDirection.isEmpty()) {
-			draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag, getStickablesToMoveWhenElementsMove(Collections.<GridElement>emptyList()));
+			draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement));
 		}
 		// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
 		else if (selector.getSelectedElements().size() == 1) {
-			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag, getStickablesToMoveWhenElementsMove(Collections.<GridElement>emptyList()));
+			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement));
 		} else { // if != 1 elements are selected, move them
-			moveSelectedElements(diffX, diffY, firstDrag);
+			moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
 		}
 		redraw(false);
 	}
 
-	protected List<? extends Stickable> getStickablesToMoveWhenElementsMove(List<GridElement> elements) {
-		return diagram.getStickables(elements);
+	protected Map<Stickable, List<PointDouble>> getStickablesToMoveWhenElementsMove(GridElement draggedElement, List<GridElement> elements) {
+		return diagram.getStickables(draggedElement, elements);
 	}
 
 	public void onMouseMove(Point absolute) {
@@ -387,19 +411,19 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 			mainView.getSaveCommand().execute();
 		}
 		else if (Shortcut.MOVE_UP.matches(event)) {
-			moveSelectedElements(0, -SharedConstants.DEFAULT_GRID_SIZE, true);
+			keyboardMoveSelectedElements(0, -SharedConstants.DEFAULT_GRID_SIZE);
 			redraw();
 		}
 		else if (Shortcut.MOVE_DOWN.matches(event)) {
-			moveSelectedElements(0, SharedConstants.DEFAULT_GRID_SIZE, true);
+			keyboardMoveSelectedElements(0, SharedConstants.DEFAULT_GRID_SIZE);
 			redraw();
 		}
 		else if (Shortcut.MOVE_LEFT.matches(event)) {
-			moveSelectedElements(-SharedConstants.DEFAULT_GRID_SIZE, 0, true);
+			keyboardMoveSelectedElements(-SharedConstants.DEFAULT_GRID_SIZE, 0);
 			redraw();
 		}
 		else if (Shortcut.MOVE_RIGHT.matches(event)) {
-			moveSelectedElements(SharedConstants.DEFAULT_GRID_SIZE, 0, true);
+			keyboardMoveSelectedElements(SharedConstants.DEFAULT_GRID_SIZE, 0);
 			redraw();
 		}
 		else if (Shortcut.DISABLE_STICKING.matches(event)) {
@@ -414,7 +438,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 			event.preventDefault();
 		}
 	}
-	
+
 	public void handleKeyUp(KeyUpEvent event) {
 		if (Shortcut.DISABLE_STICKING.matches(event)) {
 			SharedConstants.stickingEnabled = true;

@@ -41,7 +41,7 @@ public class ElementFactory {
 					diffwInt = SharedUtils.realignToGrid(false, diffwInt/2, true) * 2;
 					directions = Arrays.asList(Direction.RIGHT, Direction.LEFT, Direction.DOWN);
 				}
-				element.drag(directions, diffwInt, diffhInt, new Point(0,0), false, true, diagram.getStickables());
+				element.drag(directions, diffwInt, diffhInt, new Point(0,0), false, true, diagram.getStickables(element));
 			}
 			@Override
 			public boolean isInitialized() {
