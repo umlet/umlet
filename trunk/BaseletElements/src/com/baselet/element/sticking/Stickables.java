@@ -1,12 +1,9 @@
 package com.baselet.element.sticking;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -19,36 +16,30 @@ public class Stickables {
 	
 	private static Logger log = Logger.getLogger(Stickables.class);
 
-	public static Map<Stickable, List<PointDoubleHolder>> getStickingPointsWhichAreConnectedToStickingPolygon(StickingPolygon oldStickingPolygon, Collection<? extends Stickable> stickables, int maxDistance) {
+	public static StickableMap getStickingPointsWhichAreConnectedToStickingPolygon(StickingPolygon oldStickingPolygon, Collection<? extends Stickable> stickables, int maxDistance) {
 		log.debug("Polygon to check: " + oldStickingPolygon);
-		Map<Stickable, List<PointDoubleHolder>> returnMap = new HashMap<Stickable, List<PointDoubleHolder>>();
+		StickableMap returnMap = new StickableMap();
 			for (final Stickable stickable : stickables) {
 				for (final PointDoubleHolder p : stickable.getStickablePoints()) {
 					PointDouble absolutePointPosition = getAbsolutePosition(stickable, p.getPoint());
 					log.debug("Check if sticks: " + absolutePointPosition);
 					for (StickLine sl : oldStickingPolygon.getStickLines()) {
 						if (sl.isConnected(absolutePointPosition, maxDistance)) {
-							List<PointDoubleHolder> points = returnMap.get(stickable);
-							if (points == null) {
-								returnMap.put(stickable, new ArrayList<PointDoubleHolder>(Arrays.asList(p)));
-							} else {
-								points.add(p);
-							}
+							returnMap.add(stickable, p);
 						}
 					}
 				}
 			}
-		log.debug(returnMap.size() + "point sticks to polygon");
 		return returnMap;
 	}
 
 
-	public static void moveStickPointsBasedOnPolygonChanges(StickingPolygon oldStickingPolygon, StickingPolygon newStickingPolygon, Map<Stickable, List<PointDoubleHolder>> stickablePointsToCheck, int maxDistance) {
+	public static void moveStickPointsBasedOnPolygonChanges(StickingPolygon oldStickingPolygon, StickingPolygon newStickingPolygon, StickableMap stickablePointsToCheck, int maxDistance) {
 		// determine which sticklines have changed and only check sticks for them
 		List<StickLineChange> changedStickLines = getChangedStickLines(oldStickingPolygon, newStickingPolygon);
 		// go through all stickpoints and handle the stickline-change
-		for (final Stickable stickable : stickablePointsToCheck.keySet()) {
-				List<PointChange> calculatedChanges = handleStickLineChange(stickable, stickablePointsToCheck.get(stickable), changedStickLines, maxDistance);
+		for (final Stickable stickable : stickablePointsToCheck.getStickables()) {
+				List<PointChange> calculatedChanges = handleStickLineChange(stickable, stickablePointsToCheck.getStickablePoints(stickable), changedStickLines, maxDistance);
 				stickable.movePoints(calculatedChanges);
 		}
 	}

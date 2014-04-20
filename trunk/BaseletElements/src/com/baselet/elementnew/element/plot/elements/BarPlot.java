@@ -7,9 +7,9 @@ import java.util.List;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.element.plot.drawer.PlotGridDrawConfig;
 import com.baselet.elementnew.element.plot.parser.PlotConstants;
-import com.baselet.elementnew.element.plot.parser.PlotState;
 import com.baselet.elementnew.element.plot.parser.PlotConstants.AxisList;
 import com.baselet.elementnew.element.plot.parser.PlotConstants.AxisShow;
+import com.baselet.elementnew.element.plot.parser.PlotState;
 
 public class BarPlot extends AbstractPlot {
 

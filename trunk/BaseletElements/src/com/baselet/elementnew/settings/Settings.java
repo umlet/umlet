@@ -10,19 +10,19 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.elementnew.facet.Facet;
-import com.baselet.elementnew.facet.GlobalFacet;
 import com.baselet.elementnew.facet.Facet.Priority;
+import com.baselet.elementnew.facet.GlobalFacet;
 import com.baselet.elementnew.facet.common.BackgroundColorFacet;
 import com.baselet.elementnew.facet.common.ElementStyleFacet;
+import com.baselet.elementnew.facet.common.ElementStyleFacet.ElementStyleEnum;
 import com.baselet.elementnew.facet.common.FontSizeFacet;
 import com.baselet.elementnew.facet.common.ForegroundColorFacet;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.elementnew.facet.common.HorizontalAlignFacet;
 import com.baselet.elementnew.facet.common.LayerFacet;
-import com.baselet.elementnew.facet.common.LineWidthFacet;
 import com.baselet.elementnew.facet.common.LineTypeFacet;
+import com.baselet.elementnew.facet.common.LineWidthFacet;
 import com.baselet.elementnew.facet.common.VerticalAlignFacet;
-import com.baselet.elementnew.facet.common.ElementStyleFacet.ElementStyleEnum;
 
 public abstract class Settings {
 	protected static final List<? extends Facet> NOTEXT =     Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE);

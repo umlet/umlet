@@ -3,10 +3,8 @@ package com.baselet.gui.listener;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -36,10 +34,9 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
-import com.baselet.element.sticking.Stickable;
+import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
-import com.baselet.elementnew.element.uml.relation.PointDoubleHolder;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.umlet.element.Relation;
 import com.umlet.element.experimental.ElementFactory;
@@ -137,7 +134,7 @@ public class GridElementListener extends UniversalListener {
 
 		Vector<Command> moveCommands = new Vector<Command>();
 		for (GridElement e : diagram.getGridElements()) {
-			moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, Collections.<Stickable, List<PointDoubleHolder>>emptyMap()));
+			moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, StickableMap.EMPTY_MAP));
 		}
 
 		this.controller.executeCommand(new Macro(moveCommands));
@@ -298,7 +295,7 @@ public class GridElementListener extends UniversalListener {
 		List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getStickables(entitiesToBeMoved);
 		for (GridElement ge : entitiesToBeMoved) {
 			// reduce stickables to those which really stick at the element at move-start
-			Map<Stickable, List<PointDoubleHolder>> stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(ge.getRectangle()), stickables, handler.getGridSize());
+			StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(ge.getRectangle()), stickables, handler.getGridSize());
 			moveCommands.add(new Move(ge, diffx, diffy, oldp, true, useSetLocation, stickingStickables));
 			boolean stickingDisabled = !SharedConstants.stickingEnabled || handler instanceof PaletteHandler;
 			if (ge instanceof Relation || stickingDisabled) continue;

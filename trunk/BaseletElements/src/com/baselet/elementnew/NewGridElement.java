@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -25,10 +24,9 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.GridElement;
-import com.baselet.element.sticking.Stickable;
+import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
-import com.baselet.elementnew.element.uml.relation.PointDoubleHolder;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.GlobalFacet;
 import com.baselet.elementnew.facet.common.ElementStyleFacet.ElementStyleEnum;
@@ -319,14 +317,14 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, Map<Stickable, List<PointDoubleHolder>> stickables) {
+	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, StickableMap stickables) {
 		StickingPolygon oldStickingPolygon = generateStickingBorder();
 		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
 		moveStickables(stickables, oldStickingPolygon);
 	}
 	
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Map<Stickable, List<PointDoubleHolder>> stickables) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, StickableMap stickables) {
 		StickingPolygon stickingPolygonBeforeLocationChange = generateStickingBorder();
 		if (resizeDirection.isEmpty()) { // Move GridElement
 			setLocationDifference(diffX, diffY);
@@ -364,7 +362,7 @@ public abstract class NewGridElement implements GridElement {
 		moveStickables(stickables, stickingPolygonBeforeLocationChange);
 	}
 
-	private void moveStickables(Map<Stickable, List<PointDoubleHolder>> stickables, StickingPolygon oldStickingPolygon) {
+	private void moveStickables(StickableMap stickables, StickingPolygon oldStickingPolygon) {
 		if (oldStickingPolygon == null) return; // if element has no stickingPolygon nothing has to be checked
 		// the first drag determines which stickables and which points of them will stick (eg: moving through other relations should NOT "collect" their stickingpoints)
 		if (!stickables.isEmpty()) {
