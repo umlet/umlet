@@ -180,10 +180,11 @@ public abstract class Utils {
 	public static boolean contains(GridElement gridElement, Point p) {
 		JComponent component = ((JComponent) gridElement.getComponent());
 		java.awt.Rectangle rectangle = component.getVisibleRect();
+		Point absolute = new Point(gridElement.getRectangle().getX() + p.getX(), gridElement.getRectangle().getY() + p.getY());
 		if (!rectangle.contains(p.x, p.y)) return false;
 
 		DrawPanel drawPanel = Main.getHandlerForElement(gridElement).getDrawPanel();
-//		Selector selector = drawPanel.getSelector();
+		//		Selector selector = drawPanel.getSelector();
 		for (GridElement other : drawPanel.getGridElements()) {
 			if (other == gridElement) continue;
 			if (other.getLayer() < gridElement.getLayer()) continue; // elements with lower layer are ignored
@@ -199,19 +200,10 @@ public abstract class Utils {
 			// move bounds to coordinate system of this component
 			other_rectangle.x += other.getRectangle().x - gridElement.getRectangle().x;
 			other_rectangle.y += other.getRectangle().y - gridElement.getRectangle().y;
-			if (other_rectangle.contains(p.x, p.y)) {
-				// when elements intersect, select the smaller element except if it is an old relation (because they have a larger rectangle than they use)
-				if (rectangle.intersects(other_rectangle)
-						&& smaller(other_rectangle, rectangle)
-						&& !(other instanceof Relation)) {
-					return false; 
-				}
+			// when elements intersect, select the smaller element except if it is an old relation (because they have a larger rectangle than they use)
+			if (other.isSelectableOn(absolute) && rectangle.intersects(other_rectangle) && smaller(other_rectangle, rectangle)) {
+				return false; 
 			}
-
-			//			boolean newIsSelectedOldNot = !selector.isSelected(gridElement) && selector.isSelected(other);
-			//			if (newIsSelectedOldNot) {
-			//				return false;
-			//			}
 		}
 		return true;
 	}
