@@ -112,13 +112,13 @@ public class Relation extends NewGridElement implements Stickable {
 	}
 
 	@Override
-	public Collection<PointDoubleHolder> getStickablePoints() {
+	public Collection<PointDoubleIndexed> getStickablePoints() {
 		return relationPoints.getStickablePoints();
 	}
 
 	@Override
-	public List<PointDoubleHolder> movePoints(List<PointChange> changedStickPoints) {
-		List<PointDoubleHolder> updatedChangedList = relationPoints.movePointAndResizeRectangle(changedStickPoints);
+	public List<PointDoubleIndexed> movePoints(List<PointChange> changedStickPoints) {
+		List<PointDoubleIndexed> updatedChangedList = relationPoints.movePointAndResizeRectangle(changedStickPoints);
 		updateModelFromText();
 		return updatedChangedList;
 	}

@@ -30,8 +30,8 @@ public class RelationPointsUtils {
 
 	private static Rectangle createRectangleContainingAllPoints(PointDouble elementStart, PointDoubleHolderList relationPoints) {
 		Rectangle rectangleContainingAllPoints = null;
-		for (PointDoubleHolder p : relationPoints.getPointHolders()) {
-			Rectangle absoluteRectangle = toRectangle(p.getPoint(), RelationPoints.POINT_SELECTION_RADIUS);
+		for (PointDoubleIndexed p : relationPoints.getPointHolders()) {
+			Rectangle absoluteRectangle = toRectangle(p, RelationPoints.POINT_SELECTION_RADIUS);
 			if (rectangleContainingAllPoints == null) {
 				rectangleContainingAllPoints = absoluteRectangle;
 			} else {
@@ -50,9 +50,9 @@ public class RelationPointsUtils {
 		return toRectangle(p, RelationPoints.POINT_SELECTION_RADIUS);
 	}
 
-	static PointDoubleHolder getRelationPointContaining(Point point, PointDoubleHolderList points) {
-		for (PointDoubleHolder relationPoint : points.getPointHolders()) {
-			if (toCircleRectangle(relationPoint.getPoint()).contains(point)) {
+	static PointDoubleIndexed getRelationPointContaining(Point point, PointDoubleHolderList points) {
+		for (PointDoubleIndexed relationPoint : points.getPointHolders()) {
+			if (toCircleRectangle(relationPoint).contains(point)) {
 				return relationPoint;
 			}
 		}

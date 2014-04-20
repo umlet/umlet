@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import com.baselet.control.SharedConstants;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.element.sticking.StickingPolygon.StickLine;
-import com.baselet.elementnew.element.uml.relation.PointDoubleHolder;
+import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
 
 public class Stickables {
 	
@@ -20,8 +20,8 @@ public class Stickables {
 		log.debug("Polygon to check: " + oldStickingPolygon);
 		StickableMap returnMap = new StickableMap();
 			for (final Stickable stickable : stickables) {
-				for (final PointDoubleHolder p : stickable.getStickablePoints()) {
-					PointDouble absolutePointPosition = getAbsolutePosition(stickable, p.getPoint());
+				for (final PointDoubleIndexed p : stickable.getStickablePoints()) {
+					PointDouble absolutePointPosition = getAbsolutePosition(stickable, p);
 					log.debug("Check if sticks: " + absolutePointPosition);
 					for (StickLine sl : oldStickingPolygon.getStickLines()) {
 						if (sl.isConnected(absolutePointPosition, maxDistance)) {
@@ -41,7 +41,7 @@ public class Stickables {
 		for (final Stickable stickable : stickablePointsToCheck.getStickables()) {
 				List<PointChange> calculatedChanges = handleStickLineChange(stickable, stickablePointsToCheck.getStickablePoints(stickable), changedStickLines, maxDistance);
 				if (!calculatedChanges.isEmpty()) {
-					List<PointDoubleHolder> updatedChangedPoints = stickable.movePoints(calculatedChanges);
+					List<PointDoubleIndexed> updatedChangedPoints = stickable.movePoints(calculatedChanges);
 					stickablePointsToCheck.setStickablePoints(stickable, updatedChangedPoints);
 				}
 		}
@@ -61,10 +61,10 @@ public class Stickables {
 		return changedStickLines;
 	}
 
-	private static List<PointChange> handleStickLineChange(Stickable stickable, List<PointDoubleHolder> points, List<StickLineChange> changedStickLines, int maxDistance) {
+	private static List<PointChange> handleStickLineChange(Stickable stickable, List<PointDoubleIndexed> points, List<StickLineChange> changedStickLines, int maxDistance) {
 		List<PointChange> changedPoints = new ArrayList<PointChange>();
-		for (PointDoubleHolder pd : points) {
-			PointDouble absolutePositionOfStickablePoint = getAbsolutePosition(stickable, pd.getPoint());
+		for (PointDoubleIndexed pd : points) {
+			PointDouble absolutePositionOfStickablePoint = getAbsolutePosition(stickable, pd);
 
 			StickLineChange change = getNearestStickLineChangeWhichWilLChangeTheStickPoint(changedStickLines, absolutePositionOfStickablePoint, maxDistance);
 			

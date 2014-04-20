@@ -4,13 +4,13 @@ import java.util.Collection;
 import java.util.List;
 
 import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.elementnew.element.uml.relation.PointDoubleHolder;
+import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
 
 public interface Stickable {
 
-	Collection<PointDoubleHolder> getStickablePoints();
+	Collection<PointDoubleIndexed> getStickablePoints();
 
-	List<PointDoubleHolder> movePoints(List<PointChange> changedStickPoints);
+	List<PointDoubleIndexed> movePoints(List<PointChange> changedStickPoints);
 
 	Rectangle getRectangle();
 	
