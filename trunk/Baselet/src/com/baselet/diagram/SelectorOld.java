@@ -13,8 +13,6 @@ import com.umlet.custom.CustomElement;
 
 public class SelectorOld extends Selector {
 
-	private static SelectorOld currentSelector;// to determin what selector is active right now (to set that element blue)
-
 	private GridElement dominantEntity;
 	private Vector<GridElement> selectedElements = new Vector<GridElement>();
 	private DrawPanel panel;
@@ -92,9 +90,6 @@ public class SelectorOld extends Selector {
 	
 	// updates the GUI with the current selector information (that includes the propertypanel)
 	public void updateSelectorInformation(GridElement elementForPropPanel) {
-		// update the current blue selected elements
-		currentSelector = this;
-
 		// every time something is selected - update the current diagram to this element
 		Main.getInstance().setCurrentDiagramHandler(this.panel.getHandler());
 		if (Main.getInstance().getGUI() != null) {

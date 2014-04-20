@@ -108,7 +108,8 @@ public class Relation extends NewGridElement implements Stickable {
 	@Override
 	public boolean isSelectableOn(Point point) {
 		Point relativePoint = new Point(point.getX() - getRectangle().getX(), point.getY() - getRectangle().getY());
-		return relationPoints.getSelection(pointAtDefaultZoom(relativePoint)) != Selection.NOTHING;
+		boolean isSelectableOn = relationPoints.getSelection(pointAtDefaultZoom(relativePoint)) != Selection.NOTHING;
+		return isSelectableOn;
 	}
 
 	@Override
