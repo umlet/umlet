@@ -9,7 +9,6 @@ import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.PointChange;
 
@@ -50,7 +49,7 @@ public class RelationPoints {
 		}
 	}
 
-	private PointDoubleHolder relationPointOfCurrentDrag = null;
+	private PointDoubleIndexed relationPointOfCurrentDrag = null;
 	/**
 	 * this method is basically the same as {@link #getSelection(Point)}, but also applies changes to the relationpoints
 	 * (the order of checks is the same, but they do different things, therefore they are separated)
@@ -67,7 +66,7 @@ public class RelationPoints {
 		if (isPointOverDragBox(point)) {
 			return Selection.DRAG_BOX;
 		}
-		PointDoubleHolder pointOverRelationPoint = RelationPointsUtils.getRelationPointContaining(point, points);
+		PointDoubleIndexed pointOverRelationPoint = RelationPointsUtils.getRelationPointContaining(point, points);
 		if (pointOverRelationPoint != null) {
 			relationPointOfCurrentDrag = pointOverRelationPoint;
 			movePointAndResizeRectangle(pointOverRelationPoint, diffX, diffY);
@@ -75,7 +74,7 @@ public class RelationPoints {
 		}
 		Line lineOnPoint = getLineContaining(point);
 		if (lineOnPoint != null) {
-			PointDoubleHolder newPoint = points.addPointOnLine(lineOnPoint, new PointDouble(SharedUtils.realignToGridRoundToNearest(false, point.x), SharedUtils.realignToGridRoundToNearest(false, point.y)));
+			PointDoubleIndexed newPoint = points.addPointOnLine(lineOnPoint, SharedUtils.realignToGridRoundToNearest(false, point.x), SharedUtils.realignToGridRoundToNearest(false, point.y));
 			relationPointOfCurrentDrag = newPoint;
 			movePointAndResizeRectangle(newPoint, diffX, diffY);
 			return Selection.LINE;
@@ -97,17 +96,17 @@ public class RelationPoints {
 		return null;
 	}
 
-	List<PointDoubleHolder> movePointAndResizeRectangle(List<PointChange> changedStickPoints) {
+	List<PointDoubleIndexed> movePointAndResizeRectangle(List<PointChange> changedStickPoints) {
 		points.applyChangesToPoints(changedStickPoints);
 		resizeRectAndReposPoints();
-		List<PointDoubleHolder> updatedChangedPoint = new ArrayList<PointDoubleHolder>();
+		List<PointDoubleIndexed> updatedChangedPoint = new ArrayList<PointDoubleIndexed>();
 		for (PointChange c : changedStickPoints) {
 			updatedChangedPoint.add(points.get(c.getPointHolder().getIndex()));
 		}
 		return updatedChangedPoint;
 	}
 
-	private void movePointAndResizeRectangle(PointDoubleHolder point, Integer diffX, Integer diffY) {
+	private void movePointAndResizeRectangle(PointDoubleIndexed point, Integer diffX, Integer diffY) {
 		movePointAndResizeRectangle(Arrays.asList(new PointChange(point, diffX, diffY)));
 	}
 	
@@ -135,7 +134,7 @@ public class RelationPoints {
 		return points.getLastLine();
 	}
 
-	public Collection<PointDoubleHolder> getStickablePoints() {
+	public Collection<PointDoubleIndexed> getStickablePoints() {
 		return points.getStickablePoints();
 	}
 
@@ -152,8 +151,8 @@ public class RelationPoints {
 	}
 
 	public void drawCirclesAndDragBox(DrawHandler drawer) {
-		for (PointDoubleHolder p : points.getPointHolders()) {
-			drawer.drawCircle(p.getPoint().getX(), p.getPoint().getY(), POINT_SELECTION_RADIUS);
+		for (PointDoubleIndexed p : points.getPointHolders()) {
+			drawer.drawCircle(p.getX(), p.getY(), POINT_SELECTION_RADIUS);
 		}
 		drawer.drawRectangle(getDragBox());
 	}

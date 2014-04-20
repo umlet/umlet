@@ -8,13 +8,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.baselet.elementnew.element.uml.relation.PointDoubleHolder;
+import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
 
 
 public class StickableMap {
 	public static final StickableMap EMPTY_MAP = new StickableMap();
 
-	Map<Stickable, List<PointDoubleHolder>> map = new HashMap<Stickable, List<PointDoubleHolder>>();
+	Map<Stickable, List<PointDoubleIndexed>> map = new HashMap<Stickable, List<PointDoubleIndexed>>();
 	
 	public StickableMap() {
 	}
@@ -23,12 +23,12 @@ public class StickableMap {
 		return checkMapsEqual(this.map, other.map);
 	}
 
-	private static boolean checkMapsEqual(Map<Stickable, List<PointDoubleHolder>> mapA, Map<Stickable, List<PointDoubleHolder>> mapB) {
+	private static boolean checkMapsEqual(Map<Stickable, List<PointDoubleIndexed>> mapA, Map<Stickable, List<PointDoubleIndexed>> mapB) {
 		if (!containSameElements(mapA.keySet(), mapB.keySet())) return false; // keys are not equal
 
-		for (Entry<Stickable, List<PointDoubleHolder>> entry : mapA.entrySet()) {
-			List<PointDoubleHolder> setA = entry.getValue();
-			List<PointDoubleHolder> setB = mapB.get(entry.getKey());
+		for (Entry<Stickable, List<PointDoubleIndexed>> entry : mapA.entrySet()) {
+			List<PointDoubleIndexed> setA = entry.getValue();
+			List<PointDoubleIndexed> setB = mapB.get(entry.getKey());
 			if (!containSameElements(setA, setB)) {
 				return false; // values for this key are not equal
 			}
@@ -42,16 +42,16 @@ public class StickableMap {
 	}
 
 	public boolean isEmpty() {
-		for (List<PointDoubleHolder> valueList : map.values()) {
+		for (List<PointDoubleIndexed> valueList : map.values()) {
 			if (!valueList.isEmpty()) return false;
 		}
 		return true;
 	}
 
-	public void add(Stickable stickable, PointDoubleHolder p) {
-		List<PointDoubleHolder> points = map.get(stickable);
+	public void add(Stickable stickable, PointDoubleIndexed p) {
+		List<PointDoubleIndexed> points = map.get(stickable);
 		if (points == null) {
-			points = new ArrayList<PointDoubleHolder>();
+			points = new ArrayList<PointDoubleIndexed>();
 			map.put(stickable, points);
 		}
 		points.add(p);
@@ -61,11 +61,11 @@ public class StickableMap {
 		return map.keySet();
 	}
 	
-	public List<PointDoubleHolder> getStickablePoints(Stickable stickable) {
+	public List<PointDoubleIndexed> getStickablePoints(Stickable stickable) {
 		return map.get(stickable);
 	}
 
-	public void setStickablePoints(Stickable stickable, List<PointDoubleHolder> updatedChangedPoints) {
+	public void setStickablePoints(Stickable stickable, List<PointDoubleIndexed> updatedChangedPoints) {
 		map.put(stickable, updatedChangedPoints);
 	}
 }
