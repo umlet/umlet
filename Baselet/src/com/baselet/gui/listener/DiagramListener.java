@@ -3,8 +3,6 @@ package com.baselet.gui.listener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.util.Collections;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JComponent;
@@ -21,8 +19,7 @@ import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
-import com.baselet.element.sticking.Stickable;
-import com.baselet.elementnew.element.uml.relation.PointDoubleHolder;
+import com.baselet.element.sticking.StickableMap;
 
 public class DiagramListener extends UniversalListener implements MouseWheelListener {
 	
@@ -77,7 +74,7 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 		if (diffx != 0 || diffy != 0) {
 			Vector<Command> moveCommands = new Vector<Command>();
 			for (GridElement e : diagram.getGridElements()) {
-				moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, Collections.<Stickable, List<PointDoubleHolder>>emptyMap()));
+				moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, StickableMap.EMPTY_MAP));
 			}
 
 			this.controller.executeCommand(new Macro(moveCommands));

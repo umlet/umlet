@@ -3,7 +3,6 @@ package com.baselet.elementnew.element.uml.relation;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.baselet.control.SharedConstants;
@@ -13,6 +12,7 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.Stickable;
+import com.baselet.element.sticking.StickableMap;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesParserState;
@@ -69,7 +69,7 @@ public class Relation extends NewGridElement implements Stickable {
 	}
 
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Map<Stickable, List<PointDoubleHolder>> stickables) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, StickableMap stickables) {
 		Point mousePosBeforeDragRelative = new Point(mousePosBeforeDrag.getX() - getRectangle().getX(), mousePosBeforeDrag.getY() - getRectangle().getY());
 		Selection returnSelection = relationPoints.getSelectionAndMovePointsIfNecessary(pointAtDefaultZoom(mousePosBeforeDragRelative), toDefaultZoom(diffX), toDefaultZoom(diffY), firstDrag);
 		if (returnSelection == Selection.DRAG_BOX) {

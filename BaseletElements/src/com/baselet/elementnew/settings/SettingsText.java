@@ -7,8 +7,8 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.elementnew.facet.Facet;
-import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.elementnew.facet.common.ElementStyleFacet.ElementStyleEnum;
+import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 
 public class SettingsText extends Settings {
 	@Override

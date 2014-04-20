@@ -2,7 +2,6 @@ package com.baselet.elementnew;
 
 import com.baselet.elementnew.element.Text;
 import com.baselet.elementnew.element.plot.PlotGrid;
-import com.baselet.elementnew.element.uml.State;
 import com.baselet.elementnew.element.uml.ActivityObject;
 import com.baselet.elementnew.element.uml.Actor;
 import com.baselet.elementnew.element.uml.Class;
@@ -13,6 +12,7 @@ import com.baselet.elementnew.element.uml.Interface;
 import com.baselet.elementnew.element.uml.Note;
 import com.baselet.elementnew.element.uml.Package;
 import com.baselet.elementnew.element.uml.SpecialState;
+import com.baselet.elementnew.element.uml.State;
 import com.baselet.elementnew.element.uml.SyncBarHorizontal;
 import com.baselet.elementnew.element.uml.SyncBarVertical;
 import com.baselet.elementnew.element.uml.Timer;

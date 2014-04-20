@@ -2,15 +2,12 @@ package com.baselet.gwt.client.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
-import com.baselet.element.sticking.Stickable;
-import com.baselet.elementnew.element.uml.relation.PointDoubleHolder;
+import com.baselet.element.sticking.StickableMap;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.element.Diagram;
@@ -98,9 +95,9 @@ public class DrawPanelPalette extends DrawPanel {
 	}
 
 	@Override
-	protected Map<Stickable, List<PointDoubleHolder>> getStickablesToMoveWhenElementsMove(GridElement draggedElement, List<GridElement> elements) {
+	protected StickableMap getStickablesToMoveWhenElementsMove(GridElement draggedElement, List<GridElement> elements) {
 		// Moves at the palette NEVER stick
-		return Collections.<Stickable, List<PointDoubleHolder>>emptyMap();
+		return StickableMap.EMPTY_MAP;
 	}
 
 }

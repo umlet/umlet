@@ -1,11 +1,7 @@
 package com.baselet.diagram.command;
 
 
-import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
@@ -15,8 +11,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.baselet.element.sticking.Stickable;
-import com.baselet.elementnew.element.uml.relation.PointDoubleHolder;
+import com.baselet.element.sticking.StickableMap;
 
 public class Move extends Command {
 
@@ -32,7 +27,7 @@ public class Move extends Command {
 
 	private boolean useSetLocation;
 
-	private Map<Stickable, List<PointDoubleHolder>> stickables;
+	private StickableMap stickables;
 	
 	private String additionalAttributesBefore;
 
@@ -66,11 +61,11 @@ public class Move extends Command {
 		return p;
 	}
 
-	public Map<Stickable, List<PointDoubleHolder>> getStickables() {
+	public StickableMap getStickables() {
 		return stickables;
 	}
 
-	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, Map<Stickable, List<PointDoubleHolder>> stickingStickables) {
+	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, StickableMap stickingStickables) {
 		entity = e;
 		int gridSize = Main.getHandlerForElement(e).getGridSize();
 		this.x = x / gridSize;
@@ -119,27 +114,9 @@ public class Move extends Command {
 	public boolean isMergeableTo(Command c) {
 		if (!(c instanceof Move)) return false;
 		Move m = (Move) c;
-		boolean stickablesEqual = checkMapsEqual(this.stickables, m.stickables);
+		boolean stickablesEqual = this.stickables.equalsMap(m.stickables);
 		boolean notBothFirstDrag = !(this.firstDrag && m.firstDrag);
 		return this.entity == m.entity && this.useSetLocation == m.useSetLocation && stickablesEqual && notBothFirstDrag;
-	}
-	
-	private static boolean checkMapsEqual(Map<Stickable, List<PointDoubleHolder>> mapA, Map<Stickable, List<PointDoubleHolder>> mapB) {
-		if (!containSameElements(mapA.keySet(), mapB.keySet())) return false; // keys are not equal
-
-		for (Entry<Stickable, List<PointDoubleHolder>> entry : mapA.entrySet()) {
-			List<PointDoubleHolder> setA = entry.getValue();
-			List<PointDoubleHolder> setB = mapB.get(entry.getKey());
-			if (!containSameElements(setA, setB)) {
-				return false; // values for this key are not equal
-			}
-		}
-		
-		return true; // all keys and values are equal
-	}
-
-	private static boolean containSameElements(Collection<?> setA, Collection<?> setB) {
-		return setA.containsAll(setB) && setB.containsAll(setA);
 	}
 
 	@Override

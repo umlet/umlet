@@ -5,15 +5,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import com.baselet.control.SharedConstants;
 import com.baselet.element.GridElement;
 import com.baselet.element.HasPanelAttributes;
-import com.baselet.element.sticking.Stickable;
+import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
-import com.baselet.elementnew.element.uml.relation.PointDoubleHolder;
 import com.baselet.elementnew.element.uml.relation.Relation;
 import com.baselet.gui.AutocompletionText;
 import com.baselet.gwt.client.view.SelectorNew.HasGridElements;
@@ -60,19 +58,19 @@ public class Diagram implements HasPanelAttributes, HasGridElements {
 			return returnList;
 		}
 
-		public Map<Stickable, List<PointDoubleHolder>> getStickables(GridElement draggedElement) {
+		public StickableMap getStickables(GridElement draggedElement) {
 			return getStickables(draggedElement, Collections.<GridElement>emptyList());
 		}
 		
-		public Map<Stickable, List<PointDoubleHolder>> getStickables(GridElement draggedElement, Collection<GridElement> excludeList) {
+		public StickableMap getStickables(GridElement draggedElement, Collection<GridElement> excludeList) {
 			if (!SharedConstants.stickingEnabled) {
-				return Collections.<Stickable, List<PointDoubleHolder>>emptyMap();
+				return StickableMap.EMPTY_MAP;
 			}
 			List<Relation> stickables = getRelations();
 			stickables.removeAll(excludeList);
 
 			StickingPolygon stickingBorder = draggedElement.generateStickingBorder(draggedElement.getRectangle());
-			Map<Stickable, List<PointDoubleHolder>> stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(stickingBorder, stickables, SharedConstants.DEFAULT_GRID_SIZE);
+			StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(stickingBorder, stickables, SharedConstants.DEFAULT_GRID_SIZE);
 			return stickingStickables;
 		}
 
