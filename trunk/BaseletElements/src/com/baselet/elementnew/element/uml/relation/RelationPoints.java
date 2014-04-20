@@ -1,17 +1,13 @@
 package com.baselet.elementnew.element.uml.relation;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.ListIterator;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.GeometricFunctions;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.PointChange;
 
@@ -24,10 +20,10 @@ public class RelationPoints {
 	/**
 	 * Points of this relation (point of origin is the upper left corner of the relation element (not the drawpanel!))
 	 */
-	private List<PointDoubleHolder> points = new ArrayList<PointDoubleHolder>();
+	private PointDoubleHolderList points = new PointDoubleHolderList();
 	private Relation relation;
 
-	public RelationPoints(Relation relation, List<PointDoubleHolder> points) {
+	public RelationPoints(Relation relation, PointDoubleHolderList points) {
 		super();
 		this.relation = relation;
 		this.points = points;
@@ -78,19 +74,12 @@ public class RelationPoints {
 		Line lineOnPoint = getLineContaining(point);
 		if (lineOnPoint != null) {
 			PointDoubleHolder roundedPoint = new PointDoubleHolder(SharedUtils.realignToGridRoundToNearest(false, point.x), SharedUtils.realignToGridRoundToNearest(false, point.y));
-			points.add(points.indexOf(getPointFor(lineOnPoint.getEnd())), roundedPoint);
+			points.addPointOnLine(lineOnPoint, roundedPoint);
 			relationPointOfCurrentDrag = roundedPoint;
 			movePointAndResizeRectangle(roundedPoint, diffX, diffY);
 			return Selection.LINE;
 		}
 		return Selection.NOTHING;
-	}
-	
-	private PointDoubleHolder getPointFor(PointDouble searchPoint) {
-		for (PointDoubleHolder point : points) {
-			if (point.getPoint().equals(searchPoint)) return point;
-		}
-		throw new RuntimeException("Point " + searchPoint + " not found in list " + points);
 	}
 
 	private boolean isPointOverDragBox(Point point) {
@@ -98,7 +87,7 @@ public class RelationPoints {
 	}
 
 	private Line getLineContaining(Point point) {
-		for (Line line : getRelationPointLines()) {
+		for (Line line : points.getRelationPointLines()) {
 			double distanceToPoint = line.getDistanceToPoint(point.toPointDouble());
 			if (distanceToPoint < NEW_POINT_DISTANCE) {
 				return line;
@@ -108,16 +97,7 @@ public class RelationPoints {
 	}
 
 	void movePointAndResizeRectangle(List<PointChange> changedStickPoints) {
-		// move the point
-		RelationPointsUtils.applyChangesToPoints(points, changedStickPoints);
-		// if there are only 2 points and they would overlap now (therefore the relation would have a size of 0x0px), revert the move
-		if (points.size() == 2 && points.get(0).getPoint().equals(points.get(1).getPoint())) {
-			List<PointChange> inverse = new ArrayList<PointChange>();
-			for (PointChange change : changedStickPoints) {
-				inverse.add(new PointChange(change.getPoint(), -change.getDiffX(), -change.getDiffY()));
-			}
-			RelationPointsUtils.applyChangesToPoints(points, inverse);
-		}
+		points.applyChangesToPoints(changedStickPoints);
 		resizeRectAndReposPoints();
 	}
 
@@ -131,88 +111,49 @@ public class RelationPoints {
 		relation.setRectangle(newRect);
 
 		// move relation points to their new position (their position is relative to the relation-position)
-		RelationPointsUtils.moveRelationPointsOriginToUpperLeftCorner(points);
+		points.moveRelationPointsOriginToUpperLeftCorner();
 	}
 
 	public boolean removeRelationPointIfOnLineBetweenNeighbourPoints() {
-		boolean updateNecessary = false;
-		if (points.size() > 2) {
-			ListIterator<PointDoubleHolder> iter = points.listIterator();
-			PointDoubleHolder leftNeighbour = iter.next();
-			PointDoubleHolder pointToCheck = iter.next();
-			while (iter.hasNext()) {
-				PointDoubleHolder rightNeighbour = iter.next();
-				// if a point lies on the line between its 2 neighbourpoints, it will be removed
-				if (GeometricFunctions.getDistanceBetweenLineAndPoint(leftNeighbour.getPoint(), rightNeighbour.getPoint(), pointToCheck.getPoint()) < 5) {
-					updateNecessary = true;
-					iter.previous();
-					iter.previous();
-					iter.remove();
-					pointToCheck = iter.next();
-				} else {
-					leftNeighbour = pointToCheck;
-					pointToCheck = rightNeighbour;
-				}
-			}
-		}
-		return updateNecessary;
+		return points.removeRelationPointIfOnLineBetweenNeighbourPoints();
 	}
 
 	// HELPER METHODS
 
-	public List<Line> getRelationPointLines() {
-		List<Line> lines = new ArrayList<Line>();
-		for (int i = 1; i < points.size(); i++) {
-			lines.add(new Line(points.get(i - 1).getPoint(), points.get(i).getPoint()));
-		}
-		return lines;
-	}
 
 	public Line getFirstLine() {
-		return new Line(points.get(0).getPoint(), points.get(1).getPoint());
+		return points.getFirstLine();
 	}
 
 	public Line getLastLine() {
-		return new Line(points.get(points.size()-2).getPoint(), points.get(points.size()-1).getPoint());
+		return points.getLastLine();
 	}
 
 	public Collection<PointDoubleHolder> getStickablePoints() {
-		return Arrays.asList(points.get(0), points.get(points.size()-1));
+		return points.getStickablePoints();
 	}
 
 	public Rectangle getDragBox() {
-		PointDoubleHolder begin = points.get(points.size() / 2);
-		PointDoubleHolder end = points.get(points.size() / 2 - 1);
-		PointDouble center = new Line(begin.getPoint(), end.getPoint()).getCenter();
-		Rectangle rectangle = RelationPointsUtils.toRectangle(center, DRAG_BOX_SIZE/2);
-		return rectangle;
+		return points.getDragBox();
 	}
 
 	// DRAW METHODS
 
 	public void drawLinesBetweenPoints(DrawHandler drawer) {
-		for (Line line : getRelationPointLines()) {
+		for (Line line : points.getRelationPointLines()) {
 			drawer.drawLine(line);
 		}
 	}
 
 	public void drawCirclesAndDragBox(DrawHandler drawer) {
-		for (PointDoubleHolder p : points) {
+		for (PointDoubleHolder p : points.getPointHolders()) {
 			drawer.drawCircle(p.getPoint().getX(), p.getPoint().getY(), POINT_SELECTION_RADIUS);
 		}
-	
 		drawer.drawRectangle(getDragBox());
 	}
 
 	public String toAdditionalAttributesString() {
-		String returnString = "";
-		for (PointDoubleHolder p : points) {
-			returnString += p.getPoint().getX() + ";" + p.getPoint().getY() + ";";
-		}
-		if (!returnString.isEmpty()) {
-			returnString = returnString.substring(0, returnString.length()-1);
-		}
-		return returnString;
+		return points.toAdditionalAttributesString();
 	}
 
 	public void resizeRelationSpaceToMakeTextVisible(double textWidth, double textHeight) {
@@ -226,6 +167,6 @@ public class RelationPoints {
 	
 	@Override
 	public String toString() {
-		return "Relationpoints: " + SharedUtils.listToString(",", points);
+		return points.toString();
 	}
 }

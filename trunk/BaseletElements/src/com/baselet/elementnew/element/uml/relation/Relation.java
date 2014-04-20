@@ -1,6 +1,5 @@
 package com.baselet.elementnew.element.uml.relation;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -53,7 +52,7 @@ public class Relation extends NewGridElement implements Stickable {
 	@Override
 	public void setAdditionalAttributes(String additionalAttributes) {
 		super.setAdditionalAttributes(additionalAttributes);
-		List<PointDoubleHolder> pointList = new ArrayList<PointDoubleHolder>();
+		PointDoubleHolderList pointList = new PointDoubleHolderList();
 		String[] split = additionalAttributes.split(";");
 		for (int i = 0; i < split.length; i += 2) {
 			pointList.add(new PointDoubleHolder(Double.valueOf(split[i]), Double.valueOf(split[i+1])));
