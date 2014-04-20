@@ -1,5 +1,6 @@
 package com.baselet.elementnew.element.uml.relation;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -8,6 +9,7 @@ import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.PointChange;
 
@@ -73,10 +75,9 @@ public class RelationPoints {
 		}
 		Line lineOnPoint = getLineContaining(point);
 		if (lineOnPoint != null) {
-			PointDoubleHolder roundedPoint = new PointDoubleHolder(SharedUtils.realignToGridRoundToNearest(false, point.x), SharedUtils.realignToGridRoundToNearest(false, point.y));
-			points.addPointOnLine(lineOnPoint, roundedPoint);
-			relationPointOfCurrentDrag = roundedPoint;
-			movePointAndResizeRectangle(roundedPoint, diffX, diffY);
+			PointDoubleHolder newPoint = points.addPointOnLine(lineOnPoint, new PointDouble(SharedUtils.realignToGridRoundToNearest(false, point.x), SharedUtils.realignToGridRoundToNearest(false, point.y)));
+			relationPointOfCurrentDrag = newPoint;
+			movePointAndResizeRectangle(newPoint, diffX, diffY);
 			return Selection.LINE;
 		}
 		return Selection.NOTHING;
@@ -96,9 +97,14 @@ public class RelationPoints {
 		return null;
 	}
 
-	void movePointAndResizeRectangle(List<PointChange> changedStickPoints) {
+	List<PointDoubleHolder> movePointAndResizeRectangle(List<PointChange> changedStickPoints) {
 		points.applyChangesToPoints(changedStickPoints);
 		resizeRectAndReposPoints();
+		List<PointDoubleHolder> updatedChangedPoint = new ArrayList<PointDoubleHolder>();
+		for (PointChange c : changedStickPoints) {
+			updatedChangedPoint.add(points.get(c.getPointHolder().getIndex()));
+		}
+		return updatedChangedPoint;
 	}
 
 	private void movePointAndResizeRectangle(PointDoubleHolder point, Integer diffX, Integer diffY) {

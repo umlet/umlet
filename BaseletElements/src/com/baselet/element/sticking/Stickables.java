@@ -40,7 +40,10 @@ public class Stickables {
 		// go through all stickpoints and handle the stickline-change
 		for (final Stickable stickable : stickablePointsToCheck.getStickables()) {
 				List<PointChange> calculatedChanges = handleStickLineChange(stickable, stickablePointsToCheck.getStickablePoints(stickable), changedStickLines, maxDistance);
-				stickable.movePoints(calculatedChanges);
+				if (!calculatedChanges.isEmpty()) {
+					List<PointDoubleHolder> updatedChangedPoints = stickable.movePoints(calculatedChanges);
+					stickablePointsToCheck.setStickablePoints(stickable, updatedChangedPoints);
+				}
 		}
 	}
 

@@ -55,7 +55,7 @@ public class Relation extends NewGridElement implements Stickable {
 		PointDoubleHolderList pointList = new PointDoubleHolderList();
 		String[] split = additionalAttributes.split(";");
 		for (int i = 0; i < split.length; i += 2) {
-			pointList.add(new PointDoubleHolder(Double.valueOf(split[i]), Double.valueOf(split[i+1])));
+			pointList.add(Double.valueOf(split[i]), Double.valueOf(split[i+1]));
 		}
 		relationPoints = new RelationPoints(this, pointList);
 		if (getHandler().isInitialized()) {
@@ -117,9 +117,10 @@ public class Relation extends NewGridElement implements Stickable {
 	}
 
 	@Override
-	public void movePoints(List<PointChange> changedStickPoints) {
-		relationPoints.movePointAndResizeRectangle(changedStickPoints);
+	public List<PointDoubleHolder> movePoints(List<PointChange> changedStickPoints) {
+		List<PointDoubleHolder> updatedChangedList = relationPoints.movePointAndResizeRectangle(changedStickPoints);
 		updateModelFromText();
+		return updatedChangedList;
 	}
 
 	@Override

@@ -15,6 +15,9 @@ public class StickableMap {
 	public static final StickableMap EMPTY_MAP = new StickableMap();
 
 	Map<Stickable, List<PointDoubleHolder>> map = new HashMap<Stickable, List<PointDoubleHolder>>();
+	
+	public StickableMap() {
+	}
 
 	public boolean equalsMap(StickableMap other) {
 		return checkMapsEqual(this.map, other.map);
@@ -39,7 +42,10 @@ public class StickableMap {
 	}
 
 	public boolean isEmpty() {
-		return map.isEmpty();
+		for (List<PointDoubleHolder> valueList : map.values()) {
+			if (!valueList.isEmpty()) return false;
+		}
+		return true;
 	}
 
 	public void add(Stickable stickable, PointDoubleHolder p) {
@@ -57,5 +63,9 @@ public class StickableMap {
 	
 	public List<PointDoubleHolder> getStickablePoints(Stickable stickable) {
 		return map.get(stickable);
+	}
+
+	public void setStickablePoints(Stickable stickable, List<PointDoubleHolder> updatedChangedPoints) {
+		map.put(stickable, updatedChangedPoints);
 	}
 }

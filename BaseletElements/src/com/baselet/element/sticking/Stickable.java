@@ -10,7 +10,7 @@ public interface Stickable {
 
 	Collection<PointDoubleHolder> getStickablePoints();
 
-	void movePoints(List<PointChange> changedStickPoints);
+	List<PointDoubleHolder> movePoints(List<PointChange> changedStickPoints);
 
 	Rectangle getRectangle();
 	

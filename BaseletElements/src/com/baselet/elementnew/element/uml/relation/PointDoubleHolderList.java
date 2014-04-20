@@ -17,24 +17,38 @@ import com.baselet.element.sticking.PointChange;
 public class PointDoubleHolderList {
 	List<PointDoubleHolder> points = new ArrayList<PointDoubleHolder>();
 
-	public void add(PointDoubleHolder pointDoubleHolder) {
-		points.add(pointDoubleHolder);
+	public void add(double x, double y) {
+		points.add(new PointDoubleHolder(points.size(), new PointDouble(x, y)));
 	}
 
 	public List<PointDoubleHolder> getPointHolders() {
 		return Collections.unmodifiableList(points);
 	}
 
-	public void addPointOnLine(Line line, PointDoubleHolder roundedPoint) {
+	public PointDoubleHolder addPointOnLine(Line line, PointDouble roundedPoint) {
+		PointDoubleHolder newPoint = null;
 		PointDouble endOfLine = line.getStart();
 		for (ListIterator<PointDoubleHolder> iter = points.listIterator(); iter.hasNext();) {
 			PointDoubleHolder point = iter.next();
 			if (point.getPoint().equals(endOfLine)) {
-				iter.add(roundedPoint);
-				return;
+				newPoint = new PointDoubleHolder(-1, roundedPoint);
+				iter.add(newPoint);
 			}
 		}
-		throw new RuntimeException("Point " + endOfLine + " not found in list " + points);
+		rebuildpointIndexes();
+		if (newPoint == null) {
+			throw new RuntimeException("Point " + endOfLine + " not found in list " + points);
+		}
+		return newPoint;
+	}
+
+	private void rebuildpointIndexes() {
+		List<PointDoubleHolder> rebuiltList = new ArrayList<PointDoubleHolder>();
+		for (int i = 0; i < points.size(); i++) {
+			rebuiltList.add(new PointDoubleHolder(i, points.get(i).getPoint()));
+		}
+		points.clear();
+		points.addAll(rebuiltList);
 	}
 
 	public void applyChangesToPoints(List<PointChange> changes) {
@@ -47,17 +61,18 @@ public class PointDoubleHolderList {
 		if (points.size() == 2 && points.get(0).getPoint().equals(points.get(1).getPoint())) {
 			List<PointChange> inverse = new ArrayList<PointChange>();
 			for (PointChange change : changes) {
-				inverse.add(new PointChange(change.getPoint(), -change.getDiffX(), -change.getDiffY()));
+				inverse.add(new PointChange(change.getPointHolder(), -change.getDiffX(), -change.getDiffY()));
 			}
 			applyPointChange(inverse);
 		}
 	}
 
 	private void applyPointChange(List<PointChange> changes) {
-		for (PointDoubleHolder p : points) {
+		for (ListIterator<PointDoubleHolder> iter = points.listIterator(); iter.hasNext();) {
+			PointDoubleHolder p = iter.next();
 			for (PointChange change : changes) {
-				if (p.equals(change.getPoint())) {
-					p.setPoint(new PointDouble(p.getPoint().getX() + change.getDiffX(), p.getPoint().getY() + change.getDiffY()));
+				if (p.equals(change.getPointHolder())) {
+					iter.set(new PointDoubleHolder(p.getIndex(), new PointDouble(p.getPoint().getX() + change.getDiffX(), p.getPoint().getY() + change.getDiffY())));
 				}
 			}
 		}
@@ -71,9 +86,9 @@ public class PointDoubleHolderList {
 			displacementX = Math.min(displacementX, r.getX());
 			displacementY = Math.min(displacementY, r.getY());
 		}
-		for (PointDoubleHolder pointHolder : points) {
-			PointDouble p = pointHolder.getPoint();
-			pointHolder.setPoint(new PointDouble(p.getX() - displacementX, p.getY() - displacementY));
+		for (ListIterator<PointDoubleHolder> iter = points.listIterator(); iter.hasNext();) {
+			PointDoubleHolder p = iter.next();
+			iter.set(new PointDoubleHolder(p.getIndex(), new PointDouble(p.getPoint().getX() - displacementX, p.getPoint().getY() - displacementY)));
 			// If points are off the grid they can be realigned here (use the following 2 lines instead of move())
 			//			p.setX(SharedUtils.realignTo(true, p.getX()-displacementX, false, SharedConstants.DEFAULT_GRID_SIZE));
 			//			p.setY(SharedUtils.realignTo(true, p.getY()-displacementY, false, SharedConstants.DEFAULT_GRID_SIZE));
@@ -146,5 +161,9 @@ public class PointDoubleHolderList {
 	@Override
 	public String toString() {
 		return "Relationpoints: " + SharedUtils.listToString(",", points);
+	}
+
+	public PointDoubleHolder get(int index) {
+		return points.get(index);
 	}
 }
