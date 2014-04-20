@@ -58,7 +58,7 @@ public class RelationPoints {
 		// Special case: if this is not the first drag and a relation-point is currently dragged, it has preference
 		// Necessary to avoid changing the currently moved point if moving over another point and to avoid losing the current point if it's a new line point and the mouse is dragged very fast
 		if (!firstDrag && relationPointOfCurrentDrag != null) {
-			movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY);
+			relationPointOfCurrentDrag = movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY);
 			return Selection.RELATION_POINT;
 		}
 		// If the special case doesn't apply, forget the relationPointOfFirstDrag, because its a new first drag
@@ -68,15 +68,13 @@ public class RelationPoints {
 		}
 		PointDoubleIndexed pointOverRelationPoint = RelationPointsUtils.getRelationPointContaining(point, points);
 		if (pointOverRelationPoint != null) {
-			relationPointOfCurrentDrag = pointOverRelationPoint;
-			movePointAndResizeRectangle(pointOverRelationPoint, diffX, diffY);
+			relationPointOfCurrentDrag = movePointAndResizeRectangle(pointOverRelationPoint, diffX, diffY);
 			return Selection.RELATION_POINT;
 		}
 		Line lineOnPoint = getLineContaining(point);
 		if (lineOnPoint != null) {
-			PointDoubleIndexed newPoint = points.addPointOnLine(lineOnPoint, SharedUtils.realignToGridRoundToNearest(false, point.x), SharedUtils.realignToGridRoundToNearest(false, point.y));
-			relationPointOfCurrentDrag = newPoint;
-			movePointAndResizeRectangle(newPoint, diffX, diffY);
+			relationPointOfCurrentDrag = points.addPointOnLine(lineOnPoint, SharedUtils.realignToGridRoundToNearest(false, point.x), SharedUtils.realignToGridRoundToNearest(false, point.y));;
+			relationPointOfCurrentDrag = movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY);
 			return Selection.LINE;
 		}
 		return Selection.NOTHING;
@@ -106,8 +104,8 @@ public class RelationPoints {
 		return updatedChangedPoint;
 	}
 
-	private void movePointAndResizeRectangle(PointDoubleIndexed point, Integer diffX, Integer diffY) {
-		movePointAndResizeRectangle(Arrays.asList(new PointChange(point, diffX, diffY)));
+	private PointDoubleIndexed movePointAndResizeRectangle(PointDoubleIndexed point, Integer diffX, Integer diffY) {
+		return movePointAndResizeRectangle(Arrays.asList(new PointChange(point, diffX, diffY))).get(0);
 	}
 	
 	void resizeRectAndReposPoints() {
