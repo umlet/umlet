@@ -11,8 +11,8 @@ import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.Stickable;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
@@ -53,10 +53,10 @@ public class Relation extends NewGridElement implements Stickable {
 	@Override
 	public void setAdditionalAttributes(String additionalAttributes) {
 		super.setAdditionalAttributes(additionalAttributes);
-		List<PointDouble> pointList = new ArrayList<PointDouble>();
+		List<PointDoubleHolder> pointList = new ArrayList<PointDoubleHolder>();
 		String[] split = additionalAttributes.split(";");
 		for (int i = 0; i < split.length; i += 2) {
-			pointList.add(new PointDouble(Double.valueOf(split[i]), Double.valueOf(split[i+1])));
+			pointList.add(new PointDoubleHolder(Double.valueOf(split[i]), Double.valueOf(split[i+1])));
 		}
 		relationPoints = new RelationPoints(this, pointList);
 		if (getHandler().isInitialized()) {
@@ -70,7 +70,7 @@ public class Relation extends NewGridElement implements Stickable {
 	}
 
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Map<Stickable, List<PointDouble>> stickables) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, Map<Stickable, List<PointDoubleHolder>> stickables) {
 		Point mousePosBeforeDragRelative = new Point(mousePosBeforeDrag.getX() - getRectangle().getX(), mousePosBeforeDrag.getY() - getRectangle().getY());
 		Selection returnSelection = relationPoints.getSelectionAndMovePointsIfNecessary(pointAtDefaultZoom(mousePosBeforeDragRelative), toDefaultZoom(diffX), toDefaultZoom(diffY), firstDrag);
 		if (returnSelection == Selection.DRAG_BOX) {
@@ -113,15 +113,14 @@ public class Relation extends NewGridElement implements Stickable {
 	}
 
 	@Override
-	public Collection<PointDouble> getStickablePoints() {
+	public Collection<PointDoubleHolder> getStickablePoints() {
 		return relationPoints.getStickablePoints();
 	}
 
 	@Override
-	public PointDouble movePoint(PointDouble pointToMove, int diffX, int diffY) {
-		PointDouble returnPoint = relationPoints.movePointAndResizeRectangle(pointToMove, diffX, diffY);
+	public void movePoints(List<PointChange> changedStickPoints) {
+		relationPoints.movePointAndResizeRectangle(changedStickPoints);
 		updateModelFromText();
-		return returnPoint;
 	}
 
 	@Override

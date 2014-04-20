@@ -8,9 +8,9 @@ import java.util.Map;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.Stickable;
+import com.baselet.elementnew.element.uml.relation.PointDoubleHolder;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.element.Diagram;
@@ -98,9 +98,9 @@ public class DrawPanelPalette extends DrawPanel {
 	}
 
 	@Override
-	protected Map<Stickable, List<PointDouble>> getStickablesToMoveWhenElementsMove(GridElement draggedElement, List<GridElement> elements) {
+	protected Map<Stickable, List<PointDoubleHolder>> getStickablesToMoveWhenElementsMove(GridElement draggedElement, List<GridElement> elements) {
 		// Moves at the palette NEVER stick
-		return Collections.<Stickable, List<PointDouble>>emptyMap();
+		return Collections.<Stickable, List<PointDoubleHolder>>emptyMap();
 	}
 
 }

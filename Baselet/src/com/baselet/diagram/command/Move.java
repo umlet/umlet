@@ -13,10 +13,10 @@ import com.baselet.control.Main;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.Stickable;
+import com.baselet.elementnew.element.uml.relation.PointDoubleHolder;
 
 public class Move extends Command {
 
@@ -32,7 +32,7 @@ public class Move extends Command {
 
 	private boolean useSetLocation;
 
-	private Map<Stickable, List<PointDouble>> stickables;
+	private Map<Stickable, List<PointDoubleHolder>> stickables;
 	
 	private String additionalAttributesBefore;
 
@@ -66,11 +66,11 @@ public class Move extends Command {
 		return p;
 	}
 
-	public Map<Stickable, List<PointDouble>> getStickables() {
+	public Map<Stickable, List<PointDoubleHolder>> getStickables() {
 		return stickables;
 	}
 
-	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, Map<Stickable, List<PointDouble>> stickingStickables) {
+	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, Map<Stickable, List<PointDoubleHolder>> stickingStickables) {
 		entity = e;
 		int gridSize = Main.getHandlerForElement(e).getGridSize();
 		this.x = x / gridSize;
@@ -124,12 +124,12 @@ public class Move extends Command {
 		return this.entity == m.entity && this.useSetLocation == m.useSetLocation && stickablesEqual && notBothFirstDrag;
 	}
 	
-	private static boolean checkMapsEqual(Map<Stickable, List<PointDouble>> mapA, Map<Stickable, List<PointDouble>> mapB) {
+	private static boolean checkMapsEqual(Map<Stickable, List<PointDoubleHolder>> mapA, Map<Stickable, List<PointDoubleHolder>> mapB) {
 		if (!containSameElements(mapA.keySet(), mapB.keySet())) return false; // keys are not equal
 
-		for (Entry<Stickable, List<PointDouble>> entry : mapA.entrySet()) {
-			List<PointDouble> setA = entry.getValue();
-			List<PointDouble> setB = mapB.get(entry.getKey());
+		for (Entry<Stickable, List<PointDoubleHolder>> entry : mapA.entrySet()) {
+			List<PointDoubleHolder> setA = entry.getValue();
+			List<PointDoubleHolder> setB = mapB.get(entry.getKey());
 			if (!containSameElements(setA, setB)) {
 				return false; // values for this key are not equal
 			}

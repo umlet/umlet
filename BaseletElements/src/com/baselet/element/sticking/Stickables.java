@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -14,23 +13,24 @@ import org.apache.log4j.Logger;
 import com.baselet.control.SharedConstants;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.element.sticking.StickingPolygon.StickLine;
+import com.baselet.elementnew.element.uml.relation.PointDoubleHolder;
 
 public class Stickables {
 	
 	private static Logger log = Logger.getLogger(Stickables.class);
 
-	public static Map<Stickable, List<PointDouble>> getStickingPointsWhichAreConnectedToStickingPolygon(StickingPolygon oldStickingPolygon, Collection<? extends Stickable> stickables, int maxDistance) {
+	public static Map<Stickable, List<PointDoubleHolder>> getStickingPointsWhichAreConnectedToStickingPolygon(StickingPolygon oldStickingPolygon, Collection<? extends Stickable> stickables, int maxDistance) {
 		log.debug("Polygon to check: " + oldStickingPolygon);
-		Map<Stickable, List<PointDouble>> returnMap = new HashMap<Stickable, List<PointDouble>>();
+		Map<Stickable, List<PointDoubleHolder>> returnMap = new HashMap<Stickable, List<PointDoubleHolder>>();
 			for (final Stickable stickable : stickables) {
-				for (final PointDouble p : stickable.getStickablePoints()) {
-					PointDouble absolutePointPosition = getAbsolutePosition(stickable, p);
+				for (final PointDoubleHolder p : stickable.getStickablePoints()) {
+					PointDouble absolutePointPosition = getAbsolutePosition(stickable, p.getPoint());
 					log.debug("Check if sticks: " + absolutePointPosition);
 					for (StickLine sl : oldStickingPolygon.getStickLines()) {
 						if (sl.isConnected(absolutePointPosition, maxDistance)) {
-							List<PointDouble> points = returnMap.get(stickable);
+							List<PointDoubleHolder> points = returnMap.get(stickable);
 							if (points == null) {
-								returnMap.put(stickable, new ArrayList<PointDouble>(Arrays.asList(p)));
+								returnMap.put(stickable, new ArrayList<PointDoubleHolder>(Arrays.asList(p)));
 							} else {
 								points.add(p);
 							}
@@ -43,16 +43,13 @@ public class Stickables {
 	}
 
 
-	public static void moveStickPointsBasedOnPolygonChanges(StickingPolygon oldStickingPolygon, StickingPolygon newStickingPolygon, Map<Stickable, List<PointDouble>> stickablePointsToCheck, int maxDistance) {
+	public static void moveStickPointsBasedOnPolygonChanges(StickingPolygon oldStickingPolygon, StickingPolygon newStickingPolygon, Map<Stickable, List<PointDoubleHolder>> stickablePointsToCheck, int maxDistance) {
 		// determine which sticklines have changed and only check sticks for them
 		List<StickLineChange> changedStickLines = getChangedStickLines(oldStickingPolygon, newStickingPolygon);
 		// go through all stickpoints and handle the stickline-change
 		for (final Stickable stickable : stickablePointsToCheck.keySet()) {
-			for (ListIterator<PointDouble> iter = stickablePointsToCheck.get(stickable).listIterator(); iter.hasNext();) {
-				PointDouble pd = iter.next();
-				PointDouble handleStickLineChange = handleStickLineChange(stickable, pd, changedStickLines, maxDistance);
-				iter.set(handleStickLineChange);
-			}
+				List<PointChange> calculatedChanges = handleStickLineChange(stickable, stickablePointsToCheck.get(stickable), changedStickLines, maxDistance);
+				stickable.movePoints(calculatedChanges);
 		}
 	}
 
@@ -70,29 +67,32 @@ public class Stickables {
 		return changedStickLines;
 	}
 
-	private static PointDouble handleStickLineChange(Stickable stickable, PointDouble pd, List<StickLineChange> changedStickLines, int maxDistance) {
-		PointDouble absolutePositionOfStickablePoint = getAbsolutePosition(stickable, pd);
+	private static List<PointChange> handleStickLineChange(Stickable stickable, List<PointDoubleHolder> points, List<StickLineChange> changedStickLines, int maxDistance) {
+		List<PointChange> changedPoints = new ArrayList<PointChange>();
+		for (PointDoubleHolder pd : points) {
+			PointDouble absolutePositionOfStickablePoint = getAbsolutePosition(stickable, pd.getPoint());
 
-		StickLineChange change = getNearestStickLineChangeWhichWilLChangeTheStickPoint(changedStickLines, absolutePositionOfStickablePoint, maxDistance);
-		
-		if (change != null) {
-			PointDouble newPointToUse, oldPointToUse;
-			if (change.getNew().isConnected(absolutePositionOfStickablePoint, maxDistance)) {
-				newPointToUse = change.getNew().getStart();
-				oldPointToUse = change.getOld().getStart();
-			} else {
-				newPointToUse = change.getNew().getEnd();
-				oldPointToUse = change.getOld().getEnd();
+			StickLineChange change = getNearestStickLineChangeWhichWilLChangeTheStickPoint(changedStickLines, absolutePositionOfStickablePoint, maxDistance);
+			
+			if (change != null) {
+				PointDouble newPointToUse, oldPointToUse;
+				if (change.getNew().isConnected(absolutePositionOfStickablePoint, maxDistance)) {
+					newPointToUse = change.getNew().getStart();
+					oldPointToUse = change.getOld().getStart();
+				} else {
+					newPointToUse = change.getNew().getEnd();
+					oldPointToUse = change.getOld().getEnd();
+				}
+
+				int diffX = newPointToUse.getX().intValue() - oldPointToUse.getX().intValue();
+				int diffY = newPointToUse.getY().intValue() - oldPointToUse.getY().intValue();
+				// the diff values are in current zoom, therefore normalize them (invert operation done in getAbsolutePosition())
+				int diffXdefaultZoom = diffX / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
+				int diffYdefaultZoom = diffY / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
+				changedPoints.add(new PointChange(pd, diffXdefaultZoom, diffYdefaultZoom));
 			}
-
-			int diffX = newPointToUse.getX().intValue() - oldPointToUse.getX().intValue();
-			int diffY = newPointToUse.getY().intValue() - oldPointToUse.getY().intValue();
-			// the diff values are in current zoom, therefore normalize them (invert operation done in getAbsolutePosition())
-			int diffXdefaultZoom = diffX / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
-			int diffYdefaultZoom = diffY / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
-			return stickable.movePoint(pd, diffXdefaultZoom, diffYdefaultZoom);
 		}
-		return pd;
+		return changedPoints;
 	}
 
 	private static StickLineChange getNearestStickLineChangeWhichWilLChangeTheStickPoint(List<StickLineChange> changedStickLines, PointDouble absolutePositionOfStickablePoint, int maxDistance) {
