@@ -4,21 +4,21 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.elementnew.element.uml.relation.PointDoubleHolder;
 
 public class PointChange {
-	private PointDoubleHolder point;
+	private PointDoubleHolder pointHolder;
 	private int diffX;
 	private int diffY;
 	
 	public PointChange(PointDoubleHolder point, int diffX, int diffY) {
 		super();
-		this.point = point;
+		this.pointHolder = point;
 		this.diffX = diffX;
 		this.diffY = diffY;
 	}
 
-	public PointDoubleHolder getPoint() {
-		return point;
+	public PointDoubleHolder getPointHolder() {
+		return pointHolder;
 	}
-
+	
 	public int getDiffX() {
 		return diffX;
 	}
@@ -28,12 +28,12 @@ public class PointChange {
 	}
 	
 	public PointDouble getChangedPoint() {
-		return new PointDouble(point.getPoint().getX()+diffX, point.getPoint().getY()+diffY);
+		return new PointDouble(pointHolder.getPoint().getX()+diffX, pointHolder.getPoint().getY()+diffY);
 	}
 
 	@Override
 	public String toString() {
-		return "PointChange [point=" + point + ", diffX=" + diffX + ", diffY=" + diffY + "]";
+		return "PointChange [point=" + pointHolder + ", diffX=" + diffX + ", diffY=" + diffY + "]";
 	}
 	
 }
