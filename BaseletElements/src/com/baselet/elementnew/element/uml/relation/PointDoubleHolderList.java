@@ -31,7 +31,7 @@ public class PointDoubleHolderList {
 		for (ListIterator<PointDoubleIndexed> iter = points.listIterator(); iter.hasNext();) {
 			PointDoubleIndexed point = iter.next();
 			if (point.equals(endOfLine)) {
-				newPoint = new PointDoubleIndexed(-1, x, y);
+				newPoint = new PointDoubleIndexed(iter.nextIndex(), x, y);
 				iter.add(newPoint);
 			}
 		}

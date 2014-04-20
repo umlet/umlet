@@ -35,7 +35,7 @@ public class PointDoubleIndexed extends PointDouble {
 
 	@Override
 	public String toString() {
-		return "PointDoubleIndexed [index=" + index + "]";
+		return "PointDoubleIndexed [index=" + index + ", x=" + x + ", y=" + y + "]";
 	}
 
 }
