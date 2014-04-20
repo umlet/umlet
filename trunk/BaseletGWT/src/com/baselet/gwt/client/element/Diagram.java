@@ -5,11 +5,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import com.baselet.control.SharedConstants;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.element.GridElement;
 import com.baselet.element.HasPanelAttributes;
 import com.baselet.element.sticking.Stickable;
+import com.baselet.element.sticking.Stickables;
+import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.elementnew.element.uml.relation.Relation;
 import com.baselet.gui.AutocompletionText;
 import com.baselet.gwt.client.view.SelectorNew.HasGridElements;
@@ -56,24 +60,20 @@ public class Diagram implements HasPanelAttributes, HasGridElements {
 			return returnList;
 		}
 
-		public List<? extends Stickable> getStickables() {
-			return getStickables(Collections.<GridElement>emptyList());
+		public Map<Stickable, List<PointDouble>> getStickables(GridElement draggedElement) {
+			return getStickables(draggedElement, Collections.<GridElement>emptyList());
 		}
 		
-		public List<? extends Stickable> getStickables(Collection<GridElement> excludeList) {
+		public Map<Stickable, List<PointDouble>> getStickables(GridElement draggedElement, Collection<GridElement> excludeList) {
 			if (!SharedConstants.stickingEnabled) {
-				return Collections.<Stickable>emptyList();
+				return Collections.<Stickable, List<PointDouble>>emptyMap();
 			}
 			List<Relation> stickables = getRelations();
 			stickables.removeAll(excludeList);
-			return stickables;
-		}
 
-		public void moveGridElements(int diffX, int diffY, boolean firstDrag, List<GridElement> elements, List<? extends Stickable> stickables) {
-			for (GridElement ge : elements) {
-				// only stickables which are not moved themselves must be used for sticking-checks (otherwise a stickable can be moved itself and by "sticking" to a stickingpolygon afterwards)
-				ge.setLocationDifference(diffX, diffY, firstDrag, stickables); //uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
-			}
+			StickingPolygon stickingBorder = draggedElement.generateStickingBorder(draggedElement.getRectangle());
+			Map<Stickable, List<PointDouble>> stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(stickingBorder, stickables, SharedConstants.DEFAULT_GRID_SIZE);
+			return stickingStickables;
 		}
 
 		public List<GridElement> getGridElementsByLayerLowestToHighest() {
