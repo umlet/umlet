@@ -106,7 +106,9 @@ public class SharedUtils {
 			}
 			sb.append(mapSep);
 		}
-		sb.setLength(sb.length() - mapSep.length());
+		if (sb.length() > 0) {
+			sb.setLength(sb.length() - mapSep.length());
+		}
 		return sb.toString();
 	}
 
