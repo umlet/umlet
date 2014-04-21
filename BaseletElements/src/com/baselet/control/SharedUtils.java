@@ -1,7 +1,8 @@
 package com.baselet.control;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
@@ -80,14 +81,32 @@ public class SharedUtils {
 		return new Rectangle(x, y, x2-x, y2-y);
 	}
 	
-	public static String listToString(String sep, List<?> list) {
-		StringBuilder sb = new StringBuilder();
+	public static String listToString(String sep, Collection<?> list) {
+		return listToStringHelper(new StringBuilder(), sep, list).toString();
+	}
+
+	private static StringBuilder listToStringHelper(StringBuilder sb, String sep, Collection<?> list) {
 		for (Object line : list) {
 			sb.append(line).append(sep);
 		}
 		if (sb.length() > 0) {
 			sb.setLength(sb.length() - sep.length());
 		}
+		return sb;
+	}
+	
+	public static String mapToString(String mapSep, String listSep, Map<?, ?> map) {
+		StringBuilder sb = new StringBuilder();
+		for (Entry<?, ?> e : map.entrySet()) {
+			sb.append(e.getKey()).append(": ");
+			if (e.getValue() instanceof Collection<?>) {
+				listToStringHelper(sb, listSep, (Collection<?>) e.getValue());
+			} else {
+				sb.append(e.getValue().toString());
+			}
+			sb.append(mapSep);
+		}
+		sb.setLength(sb.length() - mapSep.length());
 		return sb.toString();
 	}
 
