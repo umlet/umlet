@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.baselet.control.SharedUtils;
 import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
 
 
@@ -68,4 +69,11 @@ public class StickableMap {
 	public void setStickablePoints(Stickable stickable, List<PointDoubleIndexed> updatedChangedPoints) {
 		map.put(stickable, updatedChangedPoints);
 	}
+
+	@Override
+	public String toString() {
+		return "StickableMap [map=" + SharedUtils.mapToString("\n", ",", map) + "]";
+	}
+	
+	
 }
