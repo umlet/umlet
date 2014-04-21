@@ -20,15 +20,16 @@ public class Move extends Command {
 	private GridElement entity;
 
 	private int x, y;
-	
-	private Point mousePosBeforeDrag;
+
+	private double xBeforeDrag;
+	private double yBeforeDrag;
 
 	private boolean firstDrag;
 
 	private boolean useSetLocation;
 
 	private StickableMap stickables;
-	
+
 	private String additionalAttributesBefore;
 
 	private Rectangle boundsBefore;
@@ -57,19 +58,49 @@ public class Move extends Command {
 		return stickables;
 	}
 
-	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, StickableMap stickingStickables) {
+	private Point getMousePosBeforeDrag() {
+		Double zoomedX = xBeforeDrag * gridSize();
+		Double zoomedY = yBeforeDrag * gridSize();
+		Point p = new Point((int)Math.round(zoomedX), (int)Math.round(zoomedY));
+		log.debug("Zoomed point: " + p);
+		return p;
+	}
+
+	public Move(boolean absoluteMousePos, GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, StickableMap stickingStickables) {
 		entity = e;
 		int gridSize = Main.getHandlerForElement(e).getGridSize();
 		this.x = x / gridSize;
 		this.y = y / gridSize;
-		this.mousePosBeforeDrag = mousePosBeforeDrag;
+		this.xBeforeDrag = calcRelativePos(absoluteMousePos, mousePosBeforeDrag.getX(), entity.getRectangle().getX(), gridSize);
+		this.yBeforeDrag = calcRelativePos(absoluteMousePos, mousePosBeforeDrag.getY(), entity.getRectangle().getY(), gridSize);
 		this.firstDrag = firstDrag;
 		this.useSetLocation = useSetLocation;
 		this.stickables = stickingStickables;
 	}
 
+	/**
+	 * Calculates the mouse position
+	 * @param absoluteMousePos 	if true then the element location must be subtracted to get a relative position instead of an absolute, otherwise it's already relative
+	 * @param mousePos			the absolute mouse position
+	 * @param entityLocation	the location of the entity
+	 * @param gridSize 			the result is divided by the gridsize because it can be (re)executed on different gridSizes (eg do on 100% zoom, change to 50% zoom and undo/redo)
+	 * @return					the mouse position relative to the element, independend from gridSize
+	 */
+	private double calcRelativePos(boolean absoluteMousePos, int mousePos, int entityLocation, double gridSize) {
+		double xCalcBase = mousePos * 1.0;
+		if (absoluteMousePos) {
+			xCalcBase -= entityLocation;
+		}
+		return xCalcBase / gridSize;
+	}
+
+	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, StickableMap stickingStickables) {
+		this(true, e, x, y, mousePosBeforeDrag, firstDrag, useSetLocation, stickingStickables);
+	}
+
 	@Override
 	public void execute(DiagramHandler handler) {
+		//		System.out.println("DRAG " + mousePosBeforeDrag);
 		super.execute(handler);
 		Rectangle b = calcAtMinZoom(entity.getRectangle());
 		additionalAttributesBefore = entity.getAdditionalAttributes();
@@ -77,7 +108,7 @@ public class Move extends Command {
 			this.entity.setLocationDifference(getX(), getY(), firstDrag, stickables);
 		} else {
 			// resize directions is empty and shift-key is always false, because standalone UMLet has a separate Resize-Command
-			this.entity.drag(Collections.<Direction> emptySet(), getX(), getY(), mousePosBeforeDrag, false, firstDrag, stickables);
+			this.entity.drag(Collections.<Direction> emptySet(), getX(), getY(), getMousePosBeforeDrag(), false, firstDrag, stickables);
 		}
 		Rectangle a = calcAtMinZoom(entity.getRectangle());
 		boundsBefore = subtract(b, a);
@@ -113,8 +144,9 @@ public class Move extends Command {
 	@Override
 	public Command mergeTo(Command c) {
 		Move m = (Move) c;
-		Point mousePosBeforeDrag = this.firstDrag ? this.mousePosBeforeDrag : m.mousePosBeforeDrag;
-		Move ret = new Move(this.entity, this.getX() + m.getX(), this.getY() + m.getY(), mousePosBeforeDrag, this.firstDrag || m.firstDrag, useSetLocation, stickables);
+		Point mousePosBeforeDrag = this.firstDrag ? this.getMousePosBeforeDrag() : m.getMousePosBeforeDrag();
+		// Important: absoluteMousePos=false, because the mousePos is already relative from the first constructor call!
+		Move ret = new Move(false, this.entity, this.getX() + m.getX(), this.getY() + m.getY(), mousePosBeforeDrag, this.firstDrag || m.firstDrag, useSetLocation, stickables);
 		ret.boundsBefore = add(this.boundsBefore, m.boundsBefore);
 		ret.additionalAttributesBefore = m.additionalAttributesBefore;
 		return ret;

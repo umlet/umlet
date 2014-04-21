@@ -69,8 +69,7 @@ public class Relation extends NewGridElement implements Stickable {
 	}
 
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, StickableMap stickables) {
-		Point mousePosBeforeDragRelative = new Point(mousePosBeforeDrag.getX() - getRectangle().getX(), mousePosBeforeDrag.getY() - getRectangle().getY());
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDragRelative, boolean isShiftKeyDown, boolean firstDrag, StickableMap stickables) {
 		Selection returnSelection = relationPoints.getSelectionAndMovePointsIfNecessary(pointAtDefaultZoom(mousePosBeforeDragRelative), toDefaultZoom(diffX), toDefaultZoom(diffY), firstDrag);
 		if (returnSelection == Selection.DRAG_BOX) {
 			setLocationDifference(diffX, diffY);
