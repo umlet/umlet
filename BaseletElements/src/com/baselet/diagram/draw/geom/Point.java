@@ -65,7 +65,7 @@ public class Point {
 
 	@Override
 	public String toString() {
-		return "Point [x=" + x + ", y=" + y + "]";
+		return "p(x=" + x + ", y=" + y + ")";
 	}
 
 	public PointDouble toPointDouble() {
