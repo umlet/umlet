@@ -20,8 +20,8 @@ public class Move extends Command {
 	private GridElement entity;
 
 	private int x, y;
-
-	private double xBeforeDrag, yBeforeDrag;
+	
+	private Point mousePosBeforeDrag;
 
 	private boolean firstDrag;
 
@@ -53,14 +53,6 @@ public class Move extends Command {
 		return zoomedY;
 	}
 
-	private Point getMousePosBeforeDrag() {
-		Double zoomedX = xBeforeDrag * gridSize();
-		Double zoomedY = yBeforeDrag * gridSize();
-		Point p = new Point((int)Math.round(zoomedX), (int)Math.round(zoomedY));
-		log.debug("Zoomed point: " + p);
-		return p;
-	}
-
 	public StickableMap getStickables() {
 		return stickables;
 	}
@@ -70,8 +62,7 @@ public class Move extends Command {
 		int gridSize = Main.getHandlerForElement(e).getGridSize();
 		this.x = x / gridSize;
 		this.y = y / gridSize;
-		this.xBeforeDrag = mousePosBeforeDrag.getX() * 1.0 / gridSize;
-		this.yBeforeDrag = mousePosBeforeDrag.getY() * 1.0 / gridSize;
+		this.mousePosBeforeDrag = mousePosBeforeDrag;
 		this.firstDrag = firstDrag;
 		this.useSetLocation = useSetLocation;
 		this.stickables = stickingStickables;
@@ -86,7 +77,7 @@ public class Move extends Command {
 			this.entity.setLocationDifference(getX(), getY(), firstDrag, stickables);
 		} else {
 			// resize directions is empty and shift-key is always false, because standalone UMLet has a separate Resize-Command
-			this.entity.drag(Collections.<Direction> emptySet(), getX(), getY(), getMousePosBeforeDrag(), false, firstDrag, stickables);
+			this.entity.drag(Collections.<Direction> emptySet(), getX(), getY(), mousePosBeforeDrag, false, firstDrag, stickables);
 		}
 		Rectangle a = calcAtMinZoom(entity.getRectangle());
 		boundsBefore = subtract(b, a);
@@ -103,8 +94,8 @@ public class Move extends Command {
 	@Override
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
-		Rectangle xxx = boundsBefore = applyCurrentZoom(boundsBefore);
-		entity.setLocationDifference(xxx.getX(), xxx.getY(), true, stickables); // use to make sure stickables are moved - TODO refactor Stickable-Implementations to use move-commands, then they would undo on their own
+		Rectangle boundsBeforeZoomed = applyCurrentZoom(boundsBefore);
+		entity.setLocationDifference(boundsBeforeZoomed.getX(), boundsBeforeZoomed.getY(), true, stickables); // use to make sure stickables are moved - TODO refactor Stickable-Implementations to use move-commands, then they would undo on their own
 		entity.setAdditionalAttributes(additionalAttributesBefore);
 		entity.updateModelFromText();
 		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
@@ -122,7 +113,7 @@ public class Move extends Command {
 	@Override
 	public Command mergeTo(Command c) {
 		Move m = (Move) c;
-		Point mousePosBeforeDrag = this.firstDrag ? this.getMousePosBeforeDrag() : m.getMousePosBeforeDrag();
+		Point mousePosBeforeDrag = this.firstDrag ? this.mousePosBeforeDrag : m.mousePosBeforeDrag;
 		Move ret = new Move(this.entity, this.getX() + m.getX(), this.getY() + m.getY(), mousePosBeforeDrag, this.firstDrag || m.firstDrag, useSetLocation, stickables);
 		ret.boundsBefore = add(this.boundsBefore, m.boundsBefore);
 		ret.additionalAttributesBefore = m.additionalAttributesBefore;
