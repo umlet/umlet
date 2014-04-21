@@ -116,6 +116,9 @@ public class PointDoubleHolderList {
 				}
 			}
 		}
+		if (updateNecessary) {
+			rebuildpointIndexes();
+		}
 		return updateNecessary;
 	}
 
@@ -146,7 +149,7 @@ public class PointDoubleHolderList {
 		Rectangle rectangle = RelationPointsUtils.toRectangle(center, RelationPoints.DRAG_BOX_SIZE/2);
 		return rectangle;
 	}
-	
+
 	public String toAdditionalAttributesString() {
 		String returnString = "";
 		for (PointDoubleIndexed p : points) {
