@@ -325,6 +325,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 	}
 
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
+		Point dragStartRelative = new Point(dragStart.getX()-draggedGridElement.getRectangle().getX(), dragStart.getY()-draggedGridElement.getRectangle().getY());
 		if (firstDrag) {
 			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement>emptyList()));
 		}
@@ -333,11 +334,11 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		}
 		// if cursorpos determines a resizedirection, resize the element from where the mouse is dragging (eg: if 2 elements are selected, you can resize any of them without losing your selection)
 		else if (!resizeDirection.isEmpty()) {
-			draggedGridElement.drag(resizeDirection, diffX, diffY, dragStart, isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement));
+			draggedGridElement.drag(resizeDirection, diffX, diffY, dragStartRelative, isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement));
 		}
 		// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
 		else if (selector.getSelectedElements().size() == 1) {
-			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStart, isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement));
+			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, dragStartRelative, isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement));
 		} else { // if != 1 elements are selected, move them
 			moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
 		}
