@@ -200,8 +200,8 @@ public abstract class Utils {
 			// move bounds to coordinate system of this component
 			other_rectangle.x += other.getRectangle().x - gridElement.getRectangle().x;
 			other_rectangle.y += other.getRectangle().y - gridElement.getRectangle().y;
-			// when elements intersect, select the smaller element except if it is an old relation (because they have a larger rectangle than they use)
-			if (other.isSelectableOn(absolute) && rectangle.intersects(other_rectangle) && smaller(other_rectangle, rectangle)) {
+			// when elements intersect, select the smaller element except if it is an old relation (because they have a larger rectangle than they use). NOTE: Old Relations are not checked because they do not properly implement isSelectableOn
+			if (!(other instanceof Relation) && other.isSelectableOn(absolute) && rectangle.intersects(other_rectangle) && smaller(other_rectangle, rectangle)) {
 				return false; 
 			}
 		}
