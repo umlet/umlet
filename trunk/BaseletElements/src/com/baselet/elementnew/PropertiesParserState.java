@@ -130,10 +130,11 @@ public class PropertiesParserState {
 		return xLimits;
 	}
 
-	public XValues getXLimitsForArea(double bottomYPos, double areaHeight) {
-		XValues xLimitsTop = getXLimits(bottomYPos);
-		XValues xLimitsBottom = getXLimits(bottomYPos - areaHeight);
-		return xLimitsTop.intersect(xLimitsBottom);
+	public XValues getXLimitsForArea(double bottomYPos, double areaHeight, boolean nanPriority) {
+		XValues xLimitsTop = getXLimits(bottomYPos - areaHeight);
+		XValues xLimitsBottom = getXLimits(bottomYPos);
+		XValues xLimits = xLimitsTop.intersect(xLimitsBottom, nanPriority);
+		return xLimits;
 	}
 
 	public double getDividerPos(DrawHandler drawer) {

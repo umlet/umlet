@@ -69,7 +69,7 @@ public class PropertiesParser {
 			int BUFFER = 2; // a small buffer between text and outer border
 			double textHeight = drawer.textHeight();
 			String firstLine = propertiesText.iterator().next();
-			double availableWidthSpace = state.getXLimitsForArea(displacement, textHeight).getSpace() - BUFFER;
+			double availableWidthSpace = state.getXLimitsForArea(displacement, textHeight, true).getSpace() - BUFFER;
 			double accumulator = displacement;
 			int maxLoops = 1000;
 			while(accumulator < state.getGridElementSize().height && !TextSplitter.checkifStringFits(firstLine, availableWidthSpace, drawer)) {
@@ -78,9 +78,11 @@ public class PropertiesParser {
 				}
 				accumulator += textHeight / 2;
 				double previousWidthSpace = availableWidthSpace;
-				availableWidthSpace = state.getXLimitsForArea(accumulator, textHeight).getSpace() - BUFFER;
+				availableWidthSpace = state.getXLimitsForArea(accumulator, textHeight, true).getSpace() - BUFFER;
 				// only set displacement if the last iteration resulted in a space gain (eg: for UseCase until the middle, for Class: stays on top because on a rectangle there is never a width-space gain)
-				if (availableWidthSpace > previousWidthSpace) displacement = accumulator;
+				if (availableWidthSpace > previousWidthSpace) {
+					displacement = accumulator;
+				}
 			}
 		}
 		return displacement;
@@ -113,7 +115,7 @@ public class PropertiesParser {
 			if (wordwrap && !line.trim().isEmpty()) { // empty lines are skipped (otherwise they would get lost)
 				String wrappedLine;
 				while (state.getyPos() < state.getGridElementSize().height && !line.trim().isEmpty()) {
-					double spaceForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeight()).getSpace() - drawer.getDistanceHorizontalBorderToText() * 2;
+					double spaceForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeight(), false).getSpace() - drawer.getDistanceHorizontalBorderToText() * 2;
 					wrappedLine = TextSplitter.splitString(line, spaceForText, drawer);
 					handleLine(facets, wrappedLine, state, drawer);
 					line = line.substring(wrappedLine.length()).trim();
@@ -126,7 +128,7 @@ public class PropertiesParser {
 	private static void handleLine(List<Facet> facets, String line, PropertiesParserState state, DrawHandler drawer) {
 		boolean drawText = parseFacets(facets, line, drawer, state);
 		if (drawText) {
-			XValues xLimitsForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeight());
+			XValues xLimitsForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeight(), false);
 			Double spaceNotUsedForText = state.getGridElementSize().width - xLimitsForText.getSpace();
 			if (!spaceNotUsedForText.equals(Double.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
 				state.updateCalculatedElementWidth(spaceNotUsedForText + drawer.textWidth(line));
