@@ -99,17 +99,6 @@ dashed border</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLSpecialState</id>
-    <coordinates>
-      <x>216</x>
-      <y>160</y>
-      <w>48</w>
-      <h>32</h>
-    </coordinates>
-    <panel_attributes>type=decision</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLClass</id>
     <coordinates>
       <x>160</x>
@@ -339,7 +328,7 @@ teaches to&gt;</panel_attributes>
       <x>288</x>
       <y>120</y>
       <w>64</w>
-      <h>72</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>Interface
 --
