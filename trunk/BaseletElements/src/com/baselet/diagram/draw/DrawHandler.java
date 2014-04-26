@@ -76,7 +76,7 @@ public abstract class DrawHandler {
 	}
 
 	public final double textHeightWithSpace() {
-		return textHeight() + 2;
+		return textHeight() + 3;
 	}
 
 	public final double textHeight() {
@@ -157,7 +157,7 @@ public abstract class DrawHandler {
 	}
 
 	public double getDistanceHorizontalBorderToText() {
-		return 3;
+		return 5;
 	}
 
 	/*
