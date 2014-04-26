@@ -137,10 +137,8 @@ public class OwnSyntaxPane {
 	}
 
 	private void setText(String text) {
-		if (!textArea.getText().equals(text)) {
-			textArea.setText(text);
-			textArea.setCaretPosition(0);
-		}
+		textArea.setText(text); // Always set text even if they are equal to trigger correct syntax highlighting (if words to highlight have changed but text not)
+		textArea.setCaretPosition(0);
 		createHightLightMap();
 		createAutocompletionCompletionProvider();
 	}
