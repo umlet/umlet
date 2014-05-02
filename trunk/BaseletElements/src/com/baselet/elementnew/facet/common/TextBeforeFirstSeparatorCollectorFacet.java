@@ -1,4 +1,4 @@
-package com.baselet.elementnew.facet.specific;
+package com.baselet.elementnew.facet.common;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,7 +7,6 @@ import java.util.List;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.GlobalFacet;
-import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.gui.AutocompletionText;
 
 public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {

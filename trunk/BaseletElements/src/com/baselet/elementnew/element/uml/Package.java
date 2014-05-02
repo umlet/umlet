@@ -12,8 +12,8 @@ import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.SeparatorLineFacet;
-import com.baselet.elementnew.facet.specific.TextBeforeFirstSeparatorCollectorFacet;
-import com.baselet.elementnew.facet.specific.TextBeforeFirstSeparatorCollectorFacet.PackageTitleFacetResponse;
+import com.baselet.elementnew.facet.common.TextBeforeFirstSeparatorCollectorFacet;
+import com.baselet.elementnew.facet.common.TextBeforeFirstSeparatorCollectorFacet.PackageTitleFacetResponse;
 import com.baselet.elementnew.settings.Settings;
 import com.baselet.elementnew.settings.SettingsManualresizeCenter;
 
@@ -36,14 +36,16 @@ public class Package extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
-		List<String> packageTitle = lll(state);
+		List<String> packageTitle = getTitleLines(state);
 		double packageHeight = 0;
 		double packageWidth = getRealSize().getWidth()/2.5;
 		double txtHeight = drawer.textHeightWithSpace();
 		for (String line : packageTitle) {
 			packageHeight += txtHeight;
 			packageWidth = Math.max(packageWidth, drawer.textWidth(line) + drawer.getDistanceHorizontalBorderToText()*2);
+			drawer.setDrawDelayed(true); // text should be in front of the package-border
 			drawer.print(line, new PointDouble(drawer.getDistanceHorizontalBorderToText(), packageHeight), AlignHorizontal.LEFT);
+			drawer.setDrawDelayed(false);
 			packageHeight += drawer.getDistanceBetweenTextLines();
 		}
 		int height = getRealSize().getHeight();
@@ -64,7 +66,7 @@ public class Package extends NewGridElement {
 		state.setStickingPolygonGenerator(new PointDoubleStickingPolygonGenerator(points));
 	}
 
-	private List<String> lll(PropertiesParserState state) {
+	private static List<String> getTitleLines(PropertiesParserState state) {
 		List<String> packageTitle;
 		PackageTitleFacetResponse packageTitleResponse = state.getFacetResponse(TextBeforeFirstSeparatorCollectorFacet.class, null);
 		if (packageTitleResponse != null) {

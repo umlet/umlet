@@ -10,7 +10,7 @@
       <h>96</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>24;24;24;80</additional_attributes>
+    <additional_attributes>24;24;24;80;24;24;24;80;24;24;24;80;24;24;24;80;24;24;24;80;24;24;24;80;24;24;24;80;24;24;24;80</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.custom.SeqObjectActive</type>
@@ -33,7 +33,7 @@
     </coordinates>
     <panel_attributes>lt=&lt;
 async. destroy</panel_attributes>
-    <additional_attributes>128;40;24;40</additional_attributes>
+    <additional_attributes>128;40;24;40;128;40;24;40;128;40;24;40;128;40;24;40;128;40;24;40;128;40;24;40;128;40;24;40;128;40;24;40</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -44,7 +44,7 @@ async. destroy</panel_attributes>
       <h>48</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>24;24;24;32</additional_attributes>
+    <additional_attributes>24;24;24;32;24;24;24;32;24;24;24;32;24;24;24;32;24;24;24;32;24;24;24;32;24;24;24;32;24;24;24;32</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -55,7 +55,7 @@ async. destroy</panel_attributes>
       <h>80</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>24;24;24;64</additional_attributes>
+    <additional_attributes>24;24;24;64;24;24;24;64;24;24;24;64;24;24;24;64;24;24;24;64;24;24;24;64;24;24;24;64;24;24;24;64</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -66,7 +66,7 @@ async. destroy</panel_attributes>
       <h>64</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>24;24;24;48</additional_attributes>
+    <additional_attributes>24;24;24;48;24;24;24;48;24;24;24;48;24;24;24;48;24;24;24;48;24;24;24;48;24;24;24;48;24;24;24;48</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -78,19 +78,7 @@ async. destroy</panel_attributes>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
 sync. call</panel_attributes>
-    <additional_attributes>120;40;24;40</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>200</x>
-      <y>88</y>
-      <w>136</w>
-      <h>56</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;
-async. return</panel_attributes>
-    <additional_attributes>24;40;120;40</additional_attributes>
+    <additional_attributes>120;40;24;40;120;40;24;40;120;40;24;40;120;40;24;40;120;40;24;40;120;40;24;40;120;40;24;40;120;40;24;40</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -102,7 +90,7 @@ async. return</panel_attributes>
     </coordinates>
     <panel_attributes>lt=&lt;
 asyncMsg</panel_attributes>
-    <additional_attributes>24;40;112;40</additional_attributes>
+    <additional_attributes>24;40;112;40;24;40;112;40;24;40;112;40;24;40;112;40;24;40;112;40;24;40;112;40;24;40;112;40;24;40;112;40</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -113,7 +101,7 @@ asyncMsg</panel_attributes>
       <h>40</h>
     </coordinates>
     <panel_attributes>lt=&lt;</panel_attributes>
-    <additional_attributes>24;24;112;24</additional_attributes>
+    <additional_attributes>24;24;112;24;24;24;112;24;24;24;112;24;24;24;112;24;24;24;112;24;24;24;112;24;24;24;112;24;24;24;112;24</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -126,7 +114,7 @@ asyncMsg</panel_attributes>
     <panel_attributes>lt=&lt;&lt;-
 syncMsg
 </panel_attributes>
-    <additional_attributes>24;40;112;40</additional_attributes>
+    <additional_attributes>24;40;112;40;24;40;112;40;24;40;112;40;24;40;112;40;24;40;112;40;24;40;112;40;24;40;112;40;24;40;112;40</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -138,7 +126,7 @@ syncMsg
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
 </panel_attributes>
-    <additional_attributes>24;24;112;24</additional_attributes>
+    <additional_attributes>24;24;112;24;24;24;112;24;24;24;112;24;24;24;112;24;24;24;112;24;24;24;112;24;24;24;112;24;24;24;112;24</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -149,7 +137,7 @@ syncMsg
       <h>72</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>24;24;24;56</additional_attributes>
+    <additional_attributes>24;24;24;56;24;24;24;56;24;24;24;56;24;24;24;56;24;24;24;56;24;24;24;56;24;24;24;56;24;24;24;56</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -160,7 +148,7 @@ syncMsg
       <h>120</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>24;24;24;104</additional_attributes>
+    <additional_attributes>24;24;24;104;24;24;24;104;24;24;24;104;24;24;24;104;24;24;24;104;24;24;24;104;24;24;24;104;24;24;24;104</additional_attributes>
   </element>
   <element>
     <id>UMLFrame</id>
@@ -170,7 +158,7 @@ syncMsg
       <w>144</w>
       <h>56</h>
     </coordinates>
-    <panel_attributes>title=interaction frame</panel_attributes>
+    <panel_attributes>interaction frame</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -181,7 +169,7 @@ syncMsg
       <w>184</w>
       <h>80</h>
     </coordinates>
-    <panel_attributes>title=optional</panel_attributes>
+    <panel_attributes>optional</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -192,8 +180,8 @@ syncMsg
       <w>360</w>
       <h>200</h>
     </coordinates>
-    <panel_attributes>title=interaction frame
- 
+    <panel_attributes>interaction frame
+--
 with inner frames
 --
 
@@ -213,7 +201,7 @@ group=1</panel_attributes>
       <w>312</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>title=interaction frame
+    <panel_attributes>interaction frame
 group=1</panel_attributes>
     <additional_attributes/>
   </element>
@@ -225,7 +213,8 @@ group=1</panel_attributes>
       <w>312</w>
       <h>72</h>
     </coordinates>
-    <panel_attributes>title=interaction frame
+    <panel_attributes>interaction frame
+--
 inner
 group=1</panel_attributes>
     <additional_attributes/>
@@ -253,7 +242,18 @@ group=1</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLFrame</id>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>136</x>
+      <y>16</y>
+      <w>16</w>
+      <h>48</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
     <coordinates>
       <x>176</x>
       <y>16</y>
@@ -265,18 +265,7 @@ bg=orange</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLFrame</id>
-    <coordinates>
-      <x>16</x>
-      <y>16</y>
-      <w>80</w>
-      <h>24</h>
-    </coordinates>
-    <panel_attributes>_:Instance_</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLFrame</id>
+    <id>UMLGeneric</id>
     <coordinates>
       <x>288</x>
       <y>16</y>
@@ -288,18 +277,7 @@ bg=red</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLFrame</id>
-    <coordinates>
-      <x>136</x>
-      <y>16</y>
-      <w>16</w>
-      <h>48</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLFrame</id>
+    <id>UMLGeneric</id>
     <coordinates>
       <x>208</x>
       <y>64</y>
@@ -311,7 +289,7 @@ bg=yellow</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>UMLFrame</id>
+    <id>UMLGeneric</id>
     <coordinates>
       <x>320</x>
       <y>80</y>
@@ -320,6 +298,30 @@ bg=yellow</panel_attributes>
     </coordinates>
     <panel_attributes>
 bg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>200</x>
+      <y>88</y>
+      <w>136</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;
+async. return
+bg=yellow</panel_attributes>
+    <additional_attributes>24;40;120;40;24;40;120;40;24;40;120;40;24;40;120;40</additional_attributes>
+  </element>
+  <element>
+    <id>UMLGeneric</id>
+    <coordinates>
+      <x>16</x>
+      <y>16</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>_:Instance_</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
