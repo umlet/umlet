@@ -31,7 +31,7 @@ public class ComponentGwt implements Component {
 
 	@Override
 	public Rectangle getBoundsRect() {
-		return rect;
+		return rect.copy();
 		}
 
 	@Override
