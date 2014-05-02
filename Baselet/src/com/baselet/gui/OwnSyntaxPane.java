@@ -23,6 +23,7 @@ import org.fife.ui.rsyntaxtextarea.TokenTypes;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.baselet.control.Constants;
+import com.baselet.control.MenuConstants;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
@@ -43,7 +44,16 @@ public class OwnSyntaxPane {
 
 		panel = new JPanel(new FlowLayout());
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		textArea = new RSyntaxTextArea();
+		textArea = new RSyntaxTextArea() {
+			@Override
+			public void undoLastAction() {
+				MenuFactorySwing.getInstance().doAction(MenuConstants.UNDO, null);
+			}
+			@Override
+			public void redoLastAction() {
+				MenuFactorySwing.getInstance().doAction(MenuConstants.REDO, null);
+			}
+		};
 
 		// Setup highlighting
 		createHightLightMap();
