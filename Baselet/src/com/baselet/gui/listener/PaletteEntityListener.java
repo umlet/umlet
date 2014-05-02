@@ -40,6 +40,7 @@ public class PaletteEntityListener extends GridElementListener {
 	@Override
 	public void mouseDoubleClicked(GridElement me) {
 		copyEntity(me);
+		selector.deselectAll(); // deselect elements in palette
 	}
 
 	@Override
@@ -169,9 +170,6 @@ public class PaletteEntityListener extends GridElementListener {
 				handler.realignToGrid(((upperLeftX / oldZoomDiagram) + Constants.PASTE_DISPLACEMENT_GRIDS) * Constants.DEFAULTGRIDSIZE),
 				handler.realignToGrid(((upperLeftY / oldZoomDiagram) + Constants.PASTE_DISPLACEMENT_GRIDS) * Constants.DEFAULTGRIDSIZE));
 		currentDiagram.getHandler().getController().executeCommand(cmd);
-		
-		// only select element in diagram and deselect all entities of palette
-		selector.deselectAll();
 		currentDiagram.getSelector().selectOnly(e);
 
 		// After inserting the new entity we restore the old zoom level of both diagrams
