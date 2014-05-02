@@ -354,7 +354,8 @@ bg=blue</panel_attributes>
       <w>112</w>
       <h>56</h>
     </coordinates>
-    <panel_attributes>name=EmptyPackage
+    <panel_attributes>EmptyPackage
+--
 bg=orange</panel_attributes>
     <additional_attributes/>
   </element>
@@ -366,7 +367,8 @@ bg=orange</panel_attributes>
       <w>112</w>
       <h>56</h>
     </coordinates>
-    <panel_attributes>name=Package 1
+    <panel_attributes>Package 1
+--
 -Content 1
 +Content 2
 bg=gray
@@ -379,7 +381,7 @@ fg=red</panel_attributes>
       <x>200</x>
       <y>8</y>
       <w>64</w>
-      <h>72</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes>Interface
 --

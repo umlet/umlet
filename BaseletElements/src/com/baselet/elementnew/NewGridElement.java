@@ -20,6 +20,7 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
@@ -133,6 +134,11 @@ public abstract class NewGridElement implements GridElement {
 		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
+		if (SharedConstants.dev_mode) {
+			drawer.setForegroundColor(ColorOwn.BLACK);
+			drawer.setFontSize(10.5);
+			drawer.print(getId().toString(), new PointDouble(getRealSize().width-3, getRealSize().height-2), AlignHorizontal.RIGHT);
+		}
 		drawer.resetColorSettings();
 		if (SharedConstants.show_stickingpolygon) {
 			drawStickingPolygon(drawer);
