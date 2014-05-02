@@ -1,7 +1,6 @@
 package com.baselet.elementnew.element.uml;
 
 import java.util.Arrays;
-import java.util.List;
 
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
@@ -11,8 +10,6 @@ import com.baselet.element.sticking.StickingPolygonGenerator;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesParserState;
-import com.baselet.elementnew.facet.Facet;
-import com.baselet.elementnew.facet.common.SeparatorLineFacet;
 import com.baselet.elementnew.settings.Settings;
 import com.baselet.elementnew.settings.SettingsAutoresize;
 
@@ -56,11 +53,6 @@ public class Timer extends NewGridElement {
 
 	@Override
 	protected Settings createSettings() {
-		return new SettingsAutoresize() {
-			@Override
-			public List<? extends Facet> createFacets() {
-				return Arrays.asList(SeparatorLineFacet.INSTANCE);
-			}
-		};
+		return new SettingsAutoresize();
 	}
 }

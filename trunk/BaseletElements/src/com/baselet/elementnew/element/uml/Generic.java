@@ -16,16 +16,6 @@ import com.baselet.elementnew.settings.SettingsManualResizeTop;
 public class Generic extends NewGridElement {
 
 	@Override
-	protected Settings createSettings() {
-		return new SettingsManualResizeTop() {
-			@Override
-			public List<? extends Facet> createFacets() {
-				return Arrays.asList(UpperRightSymbolFacet.INSTANCE, SeparatorLineWithHalignChangeFacet.INSTANCE);
-			}
-		};
-	}
-
-	@Override
 	public ElementId getId() {
 		return ElementId.UMLGeneric;
 	}
@@ -33,6 +23,16 @@ public class Generic extends NewGridElement {
 	@Override
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		drawer.drawRectangle(0, 0, getRealSize().getWidth(), getRealSize().getHeight());
+	}
+
+	@Override
+	protected Settings createSettings() {
+		return new SettingsManualResizeTop() {
+			@Override
+			public List<? extends Facet> createFacets() {
+				return Arrays.asList(UpperRightSymbolFacet.INSTANCE, SeparatorLineWithHalignChangeFacet.INSTANCE);
+			}
+		};
 	}
 
 }
