@@ -13,11 +13,12 @@ public class StateTypeFacet extends KeyValueFacet {
 	public static StateTypeFacet INSTANCE = new StateTypeFacet();
 	private StateTypeFacet() {}
 
-	private enum ActionTypeEnum {SENDER, RECEIVER}
+	private enum ActionTypeEnum {STATE, SENDER, RECEIVER}
 
 	@Override
 	public KeyValue getKeyValue() {
 		return new KeyValue("type",
+				new ValueInfo(ActionTypeEnum.STATE, "a default state"),
 				new ValueInfo(ActionTypeEnum.SENDER, "an action which sends a signal"),
 				new ValueInfo(ActionTypeEnum.RECEIVER, "an action which receives a signal"));
 	}
@@ -26,7 +27,9 @@ public class StateTypeFacet extends KeyValueFacet {
 	public void handleValue(final String value, final DrawHandler drawer, final PropertiesParserState state) {
 		ActionTypeEnum type = ActionTypeEnum.valueOf(value.toUpperCase());
 		Dimension s = state.getGridElementSize();
-		 if (type == ActionTypeEnum.SENDER) {
+		if (type == ActionTypeEnum.STATE) {
+			return; // default
+		} else if (type == ActionTypeEnum.SENDER) {
 			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width-depth(s), 0), p(s.width, s.height/2), p(s.width-depth(s), s.height), p(0, s.height), p(0, 0)));
 		} else if (type == ActionTypeEnum.RECEIVER) {
 			state.addToLeftBuffer(depth(s));
