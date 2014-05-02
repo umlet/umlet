@@ -25,13 +25,13 @@ public abstract class Facet {
 	/**
 	 * priority enum, must be ordered from highest to lowest priority!
 	 */
-	public enum Priority {HIGHER, HIGH, MEDIUM}
+	public enum Priority {HIGHEST, HIGH, DEFAULT, LOWER, LOWEST}
 	
 	/**
 	 * facets with higher priority will be applied before facets with lower priority
 	 */
 	public Priority getPriority() {
-		return Priority.MEDIUM;
+		return Priority.DEFAULT;
 	}
 
 }

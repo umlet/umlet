@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="12.2">
+<diagram program="umlet" version="13.0">
   <zoom_level>8</zoom_level>
   <element>
     <id>UMLPackage</id>
@@ -85,7 +85,8 @@ root
       <w>80</w>
       <h>56</h>
     </coordinates>
-    <panel_attributes>name=Name
+    <panel_attributes>Name
+--
 Text
 Text
 halign=left</panel_attributes>
@@ -99,7 +100,8 @@ halign=left</panel_attributes>
       <w>80</w>
       <h>56</h>
     </coordinates>
-    <panel_attributes>name=Name
+    <panel_attributes>Name
+--
 Text
 Text
 bg=blue</panel_attributes>
@@ -113,7 +115,7 @@ bg=blue</panel_attributes>
       <w>80</w>
       <h>56</h>
     </coordinates>
-    <panel_attributes>name=Name</panel_attributes>
+    <panel_attributes>Name</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -124,34 +126,33 @@ bg=blue</panel_attributes>
       <w>80</w>
       <h>56</h>
     </coordinates>
-    <panel_attributes>name=Name
+    <panel_attributes>Name
+--
 Text
 Text
 bg=green</panel_attributes>
     <additional_attributes/>
   </element>
-  <group>
-    <element>
-      <id>UMLPackage</id>
-      <coordinates>
-        <x>40</x>
-        <y>232</y>
-        <w>80</w>
-        <h>56</h>
-      </coordinates>
-      <panel_attributes/>
-      <additional_attributes/>
-    </element>
-    <element>
-      <id>UMLPackage</id>
-      <coordinates>
-        <x>16</x>
-        <y>208</y>
-        <w>120</w>
-        <h>88</h>
-      </coordinates>
-      <panel_attributes/>
-      <additional_attributes/>
-    </element>
-  </group>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>40</x>
+      <y>232</y>
+      <w>80</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>group=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>16</x>
+      <y>208</y>
+      <w>120</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>group=1</panel_attributes>
+    <additional_attributes/>
+  </element>
 </diagram>

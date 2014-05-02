@@ -24,7 +24,7 @@ public class HorizontalAlignFacet extends KeyValueFacet {
 	}
 
 	public Priority getPriority() {
-		return Priority.HIGHER;
+		return Priority.HIGHEST;
 	}
 
 }

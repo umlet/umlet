@@ -26,7 +26,7 @@ public class FontSizeFacet extends KeyValueFacet {
 	}
 
 	public Priority getPriority() {
-		return Priority.HIGHER;
+		return Priority.HIGHEST;
 	}
 
 }
