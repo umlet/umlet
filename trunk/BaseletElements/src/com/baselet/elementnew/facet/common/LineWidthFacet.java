@@ -22,7 +22,7 @@ public class LineWidthFacet extends KeyValueFacet {
 	}
 
 	public Priority getPriority() {
-		return Priority.HIGHER;
+		return Priority.HIGHEST;
 	}
 
 }

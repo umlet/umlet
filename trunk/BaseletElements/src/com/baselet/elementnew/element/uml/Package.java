@@ -12,7 +12,8 @@ import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.SeparatorLineFacet;
-import com.baselet.elementnew.facet.specific.PackageNameFacet;
+import com.baselet.elementnew.facet.specific.TextBeforeFirstSeparatorCollectorFacet;
+import com.baselet.elementnew.facet.specific.TextBeforeFirstSeparatorCollectorFacet.PackageTitleFacetResponse;
 import com.baselet.elementnew.settings.Settings;
 import com.baselet.elementnew.settings.SettingsManualresizeCenter;
 
@@ -23,7 +24,7 @@ public class Package extends NewGridElement {
 		return new SettingsManualresizeCenter() {
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(PackageNameFacet.INSTANCE, SeparatorLineFacet.INSTANCE);
+				return Arrays.asList(TextBeforeFirstSeparatorCollectorFacet.INSTANCE, SeparatorLineFacet.INSTANCE);
 			}
 		};
 	}
@@ -35,13 +36,15 @@ public class Package extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
-		String packageName = state.getFacetResponse(PackageNameFacet.class, null);
-		double packageHeight = 20;
+		List<String> packageTitle = lll(state);
+		double packageHeight = 0;
 		double packageWidth = getRealSize().getWidth()/2.5;
 		double txtHeight = drawer.textHeightWithSpace();
-		if (packageName != null) {
-			packageHeight = txtHeight + 5;
-			packageWidth = Math.max(packageWidth, drawer.textWidth(packageName) + drawer.getDistanceHorizontalBorderToText()*2);
+		for (String line : packageTitle) {
+			packageHeight += txtHeight;
+			packageWidth = Math.max(packageWidth, drawer.textWidth(line) + drawer.getDistanceHorizontalBorderToText()*2);
+			drawer.print(line, new PointDouble(drawer.getDistanceHorizontalBorderToText(), packageHeight), AlignHorizontal.LEFT);
+			packageHeight += drawer.getDistanceBetweenTextLines();
 		}
 		int height = getRealSize().getHeight();
 		int width = getRealSize().getWidth();
@@ -58,10 +61,18 @@ public class Package extends NewGridElement {
 				);
 		drawer.drawLines(points);
 		state.setMinTopBuffer(packageHeight);
-		if (packageName != null) {
-			drawer.print(packageName, new PointDouble(drawer.getDistanceHorizontalBorderToText(), txtHeight), AlignHorizontal.LEFT); 
-		}
 		state.setStickingPolygonGenerator(new PointDoubleStickingPolygonGenerator(points));
+	}
+
+	private List<String> lll(PropertiesParserState state) {
+		List<String> packageTitle;
+		PackageTitleFacetResponse packageTitleResponse = state.getFacetResponse(TextBeforeFirstSeparatorCollectorFacet.class, null);
+		if (packageTitleResponse != null) {
+			packageTitle = packageTitleResponse.getLines();
+		} else {
+			packageTitle = Arrays.asList("");
+		}
+		return packageTitle;
 	}
 
 }

@@ -14,7 +14,7 @@ public class SeparatorLineFacet extends Facet {
 	public static SeparatorLineFacet INSTANCE = new SeparatorLineFacet();
 	protected SeparatorLineFacet() {}
 
-	private static final String KEY = "--";
+	public static final String KEY = "--";
 	
 	private static final int H_SPACE = 4;
 
