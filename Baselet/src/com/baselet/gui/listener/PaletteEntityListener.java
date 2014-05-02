@@ -112,9 +112,7 @@ public class PaletteEntityListener extends GridElementListener {
 			y -= (entity.getRectangle().height / 2);
 			copiedEntity.setLocation(x, y);
 		}
-		if (GroupFacet.oneOrMoreElementsInGroup(copiedEntities)) {
-			GroupFacet.assignGroupId(copiedEntities, selector.getUnusedGroup());
-		}
+		GroupFacet.replaceGroupsWithNewGroups(copiedEntities, selector);
 
 		// After inserting the new entity we restore the old zoom level of both diagrams
 		currentDiagram.getHandler().setGridAndZoom(oldZoomDiagram, false);

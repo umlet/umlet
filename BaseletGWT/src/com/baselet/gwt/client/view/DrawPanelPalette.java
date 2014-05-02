@@ -81,10 +81,7 @@ public class DrawPanelPalette extends DrawPanel {
 				SharedUtils.realignToGrid(false, copy.getRectangle());
 				elementsToMove.add(copy);
 			}
-			if (GroupFacet.oneOrMoreElementsInGroup(selector.getSelectedElements())) {
-				Integer unusedGroup = otherDrawFocusPanel.getSelector().getUnusedGroup();
-				GroupFacet.assignGroupId(elementsToMove, unusedGroup);
-			}
+			GroupFacet.replaceGroupsWithNewGroups(elementsToMove, otherDrawFocusPanel.getSelector());
 			commandInvoker.removeSelectedElements(this);
 			commandInvoker.addElements(this, draggedElements);
 			selector.deselectAll();
