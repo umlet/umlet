@@ -159,6 +159,7 @@ public class PaletteEntityListener extends GridElementListener {
 		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false);
 
 		GridElement e = ElementFactory.createCopy(me);
+		e.setProperty(GroupFacet.KEY, null);
 
 		Command cmd;
 		Point viewp = currentDiagram.getScrollPane().getViewport().getViewPosition();
