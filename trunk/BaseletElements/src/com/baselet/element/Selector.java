@@ -3,13 +3,11 @@ package com.baselet.element;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import com.baselet.elementnew.facet.common.GroupFacet;
 
 public abstract class Selector {
 
@@ -41,12 +39,12 @@ public abstract class Selector {
 	}
 
 	private List<GridElement> expand(Collection<GridElement> elements) {
-		Map<Integer, Set<GridElement>> map = buildGroupMap();
+		Map<Integer, Collection<GridElement>> map = GroupFacet.createGroupElementMap(getAllElements());
 		List<GridElement> elemenentsWithGroups = new ArrayList<GridElement>();
 		// add grouped elements BEFORE the really selected elements, to make sure the last element stays the same (because its content will be shown in the property panel)
 		for (GridElement e : elements) {
 			if (e.getGroup() != null) {
-				Set<GridElement> set = map.get(e.getGroup());
+				Collection<GridElement> set = map.get(e.getGroup());
 				if (set != null) { // TODO set can be null in standalone version because getAllElements is empty (eg if grouped elements are selected when diagram is closed)
 					for (GridElement g : set) {
 						if (g != e) {
@@ -58,21 +56,6 @@ public abstract class Selector {
 		}
 		elemenentsWithGroups.addAll(elements);
 		return elemenentsWithGroups;
-	}
-
-	private Map<Integer, Set<GridElement>> buildGroupMap() {
-		Map<Integer, Set<GridElement>> groupMap = new HashMap<Integer, Set<GridElement>>();
-		for (GridElement e : getAllElements()) {
-			if (e.getGroup() != null) {
-				Set<GridElement> set = groupMap.get(e.getGroup());
-				if (set == null) {
-					set = new HashSet<GridElement>();
-					groupMap.put(e.getGroup(), set);
-				}
-				set.add(e);
-			}
-		}
-		return groupMap;
 	}
 
 	public void select(GridElement element) {
@@ -138,14 +121,7 @@ public abstract class Selector {
 	}
 
 	public Integer getUnusedGroup() {
-		Integer newGroup;
-		Set<Integer> usedGroups = buildGroupMap().keySet();
-		if (usedGroups.isEmpty()) {
-			newGroup = 1;
-		} else {
-			newGroup = Collections.max(usedGroups) + 1;
-		}
-		return newGroup;
+		return GroupFacet.getUnusedGroupId(GroupFacet.createGroupElementMap(getAllElements()).keySet());
 	}
 
 	public abstract List<GridElement> getAllElements();

@@ -59,9 +59,7 @@ public class CommandInvoker extends Controller {
 
 	void pasteElements(DrawPanel target) {
 		List<GridElement> copyOfElements = copyElementsInList(BrowserStorage.getClipboard(), target.getDiagram());
-		if(GroupFacet.oneOrMoreElementsInGroup(copyOfElements)) {
-			GroupFacet.assignGroupId(copyOfElements, target.getSelector().getUnusedGroup());
-		}
+		GroupFacet.replaceGroupsWithNewGroups(copyOfElements, target.getSelector());
 		realignElementsToVisibleRect(target, copyOfElements);
 		addElements(target, copyOfElements); // copy here to make sure it can be pasted multiple times
 	}

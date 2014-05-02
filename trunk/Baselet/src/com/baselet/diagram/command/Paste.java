@@ -29,9 +29,7 @@ public class Paste extends Command {
 				handler.setHandlerAndInitListeners(clone);
 				this.entities.add(clone);
 			}
-			if (GroupFacet.oneOrMoreElementsInGroup(entities)) {
-				GroupFacet.assignGroupId(entities, handler.getDrawPanel().getSelector().getUnusedGroup());
-			}
+			GroupFacet.replaceGroupsWithNewGroups(entities, handler.getDrawPanel().getSelector());
 		}
 
 		// AB: first execution of paste
