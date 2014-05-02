@@ -68,7 +68,7 @@ Responsibilities
       <w>88</w>
       <h>32</h>
     </coordinates>
-    <panel_attributes>{active}
+    <panel_attributes>type=actclass
 ActiveClass
 </panel_attributes>
     <additional_attributes/>

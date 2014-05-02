@@ -81,7 +81,8 @@ public class ConfigHandler {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-			
+
+		String cfgVersion = getStringProperty(PROGRAM_VERSION, Program.VERSION);
 		Constants.defaultFontsize = getIntProperty(DEFAULT_FONTSIZE, Constants.defaultFontsize);
 		Constants.propertiesPanelFontsize = getIntProperty(PROPERTIES_PANEL_FONTSIZE, Constants.propertiesPanelFontsize);
 		Constants.defaultFontFamily = getStringProperty(DEFAULT_FONTFAMILY, Constants.defaultFontFamily);
@@ -95,9 +96,11 @@ public class ConfigHandler {
 		Constants.openFileHome = getStringProperty(OPEN_FILE_HOME, Constants.openFileHome);
 		Constants.dev_mode = getBoolProperty(DEV_MODE, Constants.dev_mode);
 		
-		// only set last used palette if its a valid palette, otherwise leave the default value
+		// only set last used palette if its a valid palette and if the program version has not changed, otherwise leave the default value
 		String tempVal = getStringProperty(LAST_USED_PALETTE, null);
-		if (Main.getInstance().getPaletteNames().contains(tempVal)) Constants.lastUsedPalette = tempVal;
+		if (Main.getInstance().getPaletteNames().contains(tempVal) && Program.VERSION.equals(cfgVersion)) {
+			Constants.lastUsedPalette = tempVal;
+		}
 		
 		Constants.main_split_position = getIntProperty(MAIN_SPLIT_POSITION, Constants.main_split_position);
 		Constants.right_split_position = getIntProperty(RIGHT_SPLIT_POSITION, Constants.right_split_position);
