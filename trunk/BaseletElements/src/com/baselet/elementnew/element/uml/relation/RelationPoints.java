@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Line;
@@ -159,13 +160,19 @@ public class RelationPoints {
 		return points.toAdditionalAttributesString();
 	}
 
+	private static final int BUFFER = 2; // a small buffer to make sure full description text is visible
 	public void resizeRelationSpaceToMakeTextVisible(double textWidth, double textHeight) {
-		if (relation.getRectangle().getWidth() < textWidth) {
-			relation.getRectangle().setWidth((int) textWidth);
+		Rectangle rectangle = relation.getRectangle();
+		int zoomedTextWidth = (int) (relation.getGridSize() * (textWidth+BUFFER) / SharedConstants.DEFAULT_GRID_SIZE);
+		int zoomedTextHeight = (int) (relation.getGridSize() * (textHeight+BUFFER) / SharedConstants.DEFAULT_GRID_SIZE);
+		if (rectangle.getWidth() < zoomedTextWidth) {
+			rectangle.setWidth(zoomedTextWidth);
 		}
-		if (relation.getRectangle().getHeight() < textHeight) {
-			relation.getRectangle().setHeight((int) textHeight);
+		if (rectangle.getHeight() < zoomedTextHeight) {
+			rectangle.setHeight(zoomedTextHeight);
 		}
+		relation.setRectangle(rectangle);
+		System.out.println(textHeight);
 	}
 	
 	@Override
