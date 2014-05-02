@@ -23,8 +23,7 @@ import com.baselet.elementnew.element.uml.relation.Relation;
  * these IDs should NEVER be changed, because they are stored in uxf files
  */
 public enum ElementId {
-	UMLClass, UMLUseCase, UMLInterface, UMLActor, UMLState, UMLObject, UMLTimer, UMLSpecialState, UMLNote, UMLSyncBarHorizontal, UMLSyncBarVertical, UMLPackage, UMLFrame, UMLDeployment, UMLGeneric, Relation, Text, 
-	PlotGrid /*standalone only (at the moment), therefore instantiated in ElementFactory and not here*/;
+	UMLClass, UMLUseCase, UMLInterface, UMLActor, UMLState, UMLObject, UMLTimer, UMLSpecialState, UMLNote, UMLSyncBarHorizontal, UMLSyncBarVertical, UMLPackage, UMLFrame, UMLDeployment, UMLGeneric, Relation, Text, PlotGrid;
 	
 	public NewGridElement createAssociatedGridElement() {
 		final NewGridElement returnObj;
