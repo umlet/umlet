@@ -16,12 +16,10 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Config;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
-import com.baselet.control.SharedConstants;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
-import com.baselet.elementnew.NewGridElement;
 import com.umlet.custom.CustomElement;
 import com.umlet.custom.CustomElementHandler;
 
@@ -80,11 +78,6 @@ public abstract class BaseGUI {
 
 		contextMenu.add(createAlignmentMenu(menuFactory));
 		contextMenu.add(createLayerMenu(menuFactory));
-
-		// as help for developers, the contextmenu shows the element id for NewGridElements
-		if (SharedConstants.dev_mode && e instanceof NewGridElement) {
-			contextMenu.add(new JMenuItem("ElementId: " + e.getId()));
-		}
 
 		return contextMenu;
 	}
