@@ -360,6 +360,7 @@ public abstract class NewGridElement implements GridElement {
 				rect.setHeight(Math.max(rect.getHeight() + diffY, MINIMAL_SIZE));
 			}
 
+			setRectangle(rect);
 			if (!this.autoresizePossiblyInProgress) {
 				updateModelFromText();
 			}
