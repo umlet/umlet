@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="12.3">
+<diagram program="umlet" version="13.0">
   <zoom_level>8</zoom_level>
   <element>
     <id>UMLClass</id>
@@ -9,12 +9,13 @@
       <w>88</w>
       <h>96</h>
     </coordinates>
-    <panel_attributes>Top left
+    <panel_attributes>halign=left
+Top left
 
 bla
 bla bla
 
-halign=left</panel_attributes>
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -25,12 +26,13 @@ halign=left</panel_attributes>
       <w>88</w>
       <h>96</h>
     </coordinates>
-    <panel_attributes>Top center
+    <panel_attributes>halign=center
+Top center
 
 bla
 bla bla
 
-halign=center</panel_attributes>
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -41,12 +43,13 @@ halign=center</panel_attributes>
       <w>88</w>
       <h>96</h>
     </coordinates>
-    <panel_attributes>Top right
+    <panel_attributes>halign=right
+Top right
 
 bla
 bla bla
 
-halign=right</panel_attributes>
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -57,13 +60,12 @@ halign=right</panel_attributes>
       <w>88</w>
       <h>96</h>
     </coordinates>
-    <panel_attributes>Middle left
+    <panel_attributes>valign=center
+halign=left
+Middle left
 
 bla
-bla bla
-
-valign=center
-halign=left</panel_attributes>
+bla bla</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -74,13 +76,12 @@ halign=left</panel_attributes>
       <w>88</w>
       <h>96</h>
     </coordinates>
-    <panel_attributes>Middle center
+    <panel_attributes>valign=center
+halign=center
+Middle center
 
 bla
-bla bla
-
-valign=center
-halign=center</panel_attributes>
+bla bla</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -91,13 +92,12 @@ halign=center</panel_attributes>
       <w>88</w>
       <h>96</h>
     </coordinates>
-    <panel_attributes>Middle right
+    <panel_attributes>valign=center
+halign=right
+Middle right
 
 bla
-bla bla
-
-valign=center
-halign=right</panel_attributes>
+bla bla</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -108,13 +108,12 @@ halign=right</panel_attributes>
       <w>88</w>
       <h>96</h>
     </coordinates>
-    <panel_attributes>Bottom left
+    <panel_attributes>valign=bottom
+halign=left
+Bottom left
 
 bla
-bla bla
-
-valign=bottom
-halign=left</panel_attributes>
+bla bla</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -125,13 +124,12 @@ halign=left</panel_attributes>
       <w>88</w>
       <h>96</h>
     </coordinates>
-    <panel_attributes>Bottom center
+    <panel_attributes>valign=bottom
+halign=center
+Bottom center
 
 bla
-bla bla
-
-valign=bottom
-halign=center</panel_attributes>
+bla bla</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -142,13 +140,12 @@ halign=center</panel_attributes>
       <w>88</w>
       <h>96</h>
     </coordinates>
-    <panel_attributes>Bottom right
+    <panel_attributes>valign=bottom
+halign=right
+Bottom right
 
 bla
-bla bla
-
-valign=bottom
-halign=right</panel_attributes>
+bla bla</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -176,13 +173,14 @@ style=wordwrap
       <x>24</x>
       <y>504</y>
       <w>296</w>
-      <h>48</h>
+      <h>64</h>
     </coordinates>
     <panel_attributes>This class has the setting
 *style=autoresize*
 --
 Write text &lt;here&gt;, and see how the class grows/shrinks....
-style=autoresize</panel_attributes>
+style=autoresize
+</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>

@@ -11,7 +11,7 @@ import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
-import com.baselet.elementnew.facet.common.SeparatorLineFacet;
+import com.baselet.elementnew.facet.common.SeparatorLineWithHalignChangeFacet;
 import com.baselet.elementnew.facet.specific.ActiveClassFacet;
 import com.baselet.elementnew.facet.specific.InnerClassFacet;
 import com.baselet.elementnew.facet.specific.TemplateClassFacet;
@@ -26,7 +26,7 @@ public class Class extends NewGridElement {
 		return new SettingsManualResizeTop() {
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Arrays.asList(InnerClassFacet.INSTANCE, SeparatorLineFacet.INSTANCE_WITH_HALIGN_CHANGE, ActiveClassFacet.INSTANCE, TemplateClassFacet.INSTANCE, TitleFacet.INSTANCE);
+				return Arrays.asList(InnerClassFacet.INSTANCE, SeparatorLineWithHalignChangeFacet.INSTANCE, ActiveClassFacet.INSTANCE, TemplateClassFacet.INSTANCE, TitleFacet.INSTANCE);
 			}
 		};
 	}

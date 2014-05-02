@@ -17,9 +17,9 @@ import org.fife.ui.autocomplete.BasicCompletion;
 import org.fife.ui.autocomplete.DefaultCompletionProvider;
 import org.fife.ui.rsyntaxtextarea.AbstractTokenMakerFactory;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
 import org.fife.ui.rsyntaxtextarea.TokenMakerFactory;
 import org.fife.ui.rsyntaxtextarea.TokenMap;
+import org.fife.ui.rsyntaxtextarea.TokenTypes;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.baselet.control.Constants;
@@ -31,9 +31,6 @@ public class OwnSyntaxPane {
 
 	private static final String SEPARATOR = "    ";
 	
-	private static final int SPECIFIC_SETTING = 1;
-	private static final int GLOBAL_SETTING = 2;
-
 	private DefaultCompletionProvider provider = new DefaultCompletionProvider() ;
 
 	List<AutocompletionText> words = new ArrayList<AutocompletionText>();
@@ -54,9 +51,7 @@ public class OwnSyntaxPane {
 		atmf.putMapping(OwnTokenMaker.ID, OwnTokenMaker.class.getName());
 		textArea.setSyntaxEditingStyle(OwnTokenMaker.ID);
 
-		SyntaxScheme scheme = textArea.getSyntaxScheme();
-		scheme.getStyle(SPECIFIC_SETTING).foreground = Converter.convert(ColorOwn.SYNTAX_HIGHLIGHTING);
-		scheme.getStyle(GLOBAL_SETTING).foreground = Converter.convert(ColorOwn.SYNTAX_HIGHLIGHTING);
+		textArea.getSyntaxScheme().getStyle(TokenTypes.RESERVED_WORD).foreground = Converter.convert(ColorOwn.SYNTAX_HIGHLIGHTING);
 
 		// Setup autocompletion
 		createAutocompletionCompletionProvider();
@@ -103,7 +98,7 @@ public class OwnSyntaxPane {
 	private void createHightLightMap() {
 		TokenMap myWordsToHighlight = new TokenMap();
 		for (AutocompletionText word : words) {
-			myWordsToHighlight.put(word.getText(), word.isGlobal() ? GLOBAL_SETTING : SPECIFIC_SETTING);
+			myWordsToHighlight.put(word.getText(), TokenTypes.RESERVED_WORD);
 		}
 		// use ugly static setter because OwnTokenMaker is unfortunately not instantiated by us
 		OwnTokenMaker.setMyWordsToHighlight(myWordsToHighlight);
