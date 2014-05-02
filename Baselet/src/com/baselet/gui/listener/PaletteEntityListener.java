@@ -39,8 +39,8 @@ public class PaletteEntityListener extends GridElementListener {
 
 	@Override
 	public void mouseDoubleClicked(GridElement me) {
-		copyEntity(me);
 		selector.deselectAll(); // deselect elements in palette
+		copyEntity(me);
 	}
 
 	@Override
