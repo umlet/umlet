@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Path;
 import com.baselet.element.ErrorOccurred;
 import com.baselet.element.GridElement;
@@ -75,7 +74,7 @@ public class CustomElementCompiler {
 			PrintWriter compilerErrorMessagePW = new PrintWriter(compilerErrorMessageSW);
 			String path = Path.executable();
 
-			String javaVersion = "-\"" + SystemInfo.JAVA_VERSION + "\"";
+			String javaVersion = "-\"1.7\""; // custom elements use Java7 (previously SystemInfo.JAVA_VERSION, but this only works if the compiler.jar supports the system java version which is not guaranteed
 			String classpath = "-classpath \"" + path + "\"" + File.pathSeparator + "\"" + path + "bin/\"";
 			String sourcefile = "\"" + this.sourcefile.getAbsolutePath() + "\"";
 
