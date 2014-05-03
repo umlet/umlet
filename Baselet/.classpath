@@ -19,8 +19,8 @@
 	<classpathentry kind="lib" path="lib/jlibeps-0.1.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="lib/mailapi.jar"/>
-	<classpathentry kind="lib" path="lib/org.eclipse.jdt.core_3.5.1.v_972_R35x.jar"/>
 	<classpathentry kind="lib" path="lib/smtp.jar"/>
 	<classpathentry kind="lib" path="lib/rsyntaxtextarea-2.5.2.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.jdt.core.compiler.ecj-4.3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
