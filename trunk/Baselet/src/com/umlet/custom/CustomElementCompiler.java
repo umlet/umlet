@@ -74,7 +74,7 @@ public class CustomElementCompiler {
 			PrintWriter compilerErrorMessagePW = new PrintWriter(compilerErrorMessageSW);
 			String path = Path.executable();
 
-			String javaVersion = "-\"1.7\""; // custom elements use Java7 (previously SystemInfo.JAVA_VERSION, but this only works if the compiler.jar supports the system java version which is not guaranteed
+			String javaVersion = "-\"1.6\""; // custom elements use Java6 (previously SystemInfo.JAVA_VERSION, but this only works if the compiler.jar supports the system java version which is not guaranteed)
 			String classpath = "-classpath \"" + path + "\"" + File.pathSeparator + "\"" + path + "bin/\"";
 			String sourcefile = "\"" + this.sourcefile.getAbsolutePath() + "\"";
 
