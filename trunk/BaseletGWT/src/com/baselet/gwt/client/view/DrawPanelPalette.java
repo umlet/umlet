@@ -12,7 +12,7 @@ import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.OwnXMLParser;
 import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.element.ElementFactory;
-import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
+import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;

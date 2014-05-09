@@ -6,7 +6,7 @@ import com.baselet.control.SharedConstants;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.element.ElementFactory;
-import com.baselet.gwt.client.view.widgets.PropertiesTextArea;
+import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 
 public class DrawPanelDiagram extends DrawPanel {
 

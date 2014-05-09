@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:o='urn:import:com.baselet.gwt.client.view.widgets'>
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:o='urn:import:com.baselet.gwt.client.view.widgets.propertiespanel'>
 	<ui:with type="com.baselet.gwt.client.version.BuildProperties" field="prop" />
 	<ui:style type='com.baselet.gwt.client.view.MainView.MyStyle'>
 		.image {
