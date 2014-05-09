@@ -172,7 +172,6 @@ public class RelationPoints {
 			rectangle.setHeight(zoomedTextHeight);
 		}
 		relation.setRectangle(rectangle);
-		System.out.println(textHeight);
 	}
 	
 	@Override
