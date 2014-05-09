@@ -32,7 +32,12 @@ public class OwnSyntaxPane {
 
 	private static final String SEPARATOR = "    ";
 	
-	private DefaultCompletionProvider provider = new DefaultCompletionProvider() ;
+	private DefaultCompletionProvider provider = new DefaultCompletionProvider() {
+		@Override
+		protected boolean isValidChar(char ch) {
+			return ch != ' '; // every character except space can be part of an autocompletion
+		}
+	};
 
 	List<AutocompletionText> words = new ArrayList<AutocompletionText>();
 
