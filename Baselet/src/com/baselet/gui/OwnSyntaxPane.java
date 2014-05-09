@@ -117,6 +117,9 @@ public class OwnSyntaxPane {
 		}
 		// use ugly static setter because OwnTokenMaker is unfortunately not instantiated by us
 		OwnTokenMaker.setMyWordsToHighlight(myWordsToHighlight);
+		// switch syntaxstyle to null and back to OwnTokenMaker to make sure the wordsToHighlight are reset!
+		textArea.setSyntaxEditingStyle(null);
+		textArea.setSyntaxEditingStyle(OwnTokenMaker.ID);
 	}
 
 	public String getText() {
