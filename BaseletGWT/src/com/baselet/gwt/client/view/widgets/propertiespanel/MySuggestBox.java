@@ -1,4 +1,4 @@
-package com.baselet.gwt.client.view.widgets;
+package com.baselet.gwt.client.view.widgets.propertiespanel;
 
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -12,6 +12,10 @@ import com.google.gwt.user.client.ui.ValueBoxBase;
 public class MySuggestBox extends SuggestBox {
 
 	private String lastRequestLine;
+
+	public MySuggestBox(final MySuggestOracle oracle, ValueBoxBase<String> textArea) {
+		this(oracle, textArea, new DefaultSuggestionDisplay());
+	}
 
 	public MySuggestBox(final MySuggestOracle oracle, ValueBoxBase<String> textArea, final DefaultSuggestionDisplay display) {
 		super(oracle, textArea, display);

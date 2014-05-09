@@ -1,7 +1,8 @@
-package com.baselet.gwt.client.view.widgets;
+package com.baselet.gwt.client.view.widgets.propertiespanel;
 
 import com.baselet.element.HasPanelAttributes;
 import com.baselet.gwt.client.view.DrawPanel;
+import com.baselet.gwt.client.view.widgets.OwnTextArea;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
 import com.google.gwt.uibinder.client.UiConstructor;
 
@@ -19,7 +20,7 @@ public class PropertiesTextArea extends MySuggestBox {
 
 	@UiConstructor
 	public PropertiesTextArea() {
-		this(new MySuggestOracle(), new OwnTextArea(), new DefaultSuggestionDisplay());
+		this(new MySuggestOracle(), new OwnTextArea());
 
 		textArea.setInstantValueChangeHandler(new InstantValueChangeHandler() {
 			@Override
@@ -32,8 +33,8 @@ public class PropertiesTextArea extends MySuggestBox {
 		});
 	}
 	
-	public PropertiesTextArea(final MySuggestOracle oracle, OwnTextArea textArea, final DefaultSuggestionDisplay display) {
-		super(oracle, textArea, display);
+	public PropertiesTextArea(final MySuggestOracle oracle, OwnTextArea textArea) {
+		super(oracle, textArea);
 		this.oracle = oracle;
 		this.textArea = textArea;
 	}

@@ -1,4 +1,4 @@
-package com.baselet.gwt.client.view.widgets;
+package com.baselet.gwt.client.view.widgets.propertiespanel;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,26 +10,6 @@ import com.google.gwt.user.client.ui.SuggestOracle;
 
 public class MySuggestOracle extends SuggestOracle {
 
-	private static class MySuggestion implements Suggestion {
-		
-		private AutocompletionText autoCompletionText;
-		
-		public MySuggestion(AutocompletionText autoCompletionText) {
-			this.autoCompletionText = autoCompletionText;
-		}
-
-		@Override
-		public String getDisplayString() {
-			return autoCompletionText.getHtmlInfo();
-		}
-
-		@Override
-		public String getReplacementString() {
-			return autoCompletionText.getText();
-		}
-
-	}
-
 	@Override
 	public boolean isDisplayStringHTML() {
 		return true;
@@ -37,6 +17,7 @@ public class MySuggestOracle extends SuggestOracle {
 	
 	private List<Suggestion> suggestions = new ArrayList<Suggestion>();
 
+	@Override
 	public void requestSuggestions(final Request request, final Callback callback) {
 		Collection<Suggestion> result = getSuggestionsForText(request.getQuery());
 		Response response = new Response(result);
