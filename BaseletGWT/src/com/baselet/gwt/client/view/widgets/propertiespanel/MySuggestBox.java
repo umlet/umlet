@@ -12,21 +12,23 @@ import com.google.gwt.user.client.ui.ValueBoxBase;
 public class MySuggestBox extends SuggestBox {
 
 	private String lastRequestLine;
-
+	private MySuggestionDisplay display;
+	
 	public MySuggestBox(final MySuggestOracle oracle, ValueBoxBase<String> textArea) {
-		this(oracle, textArea, new DefaultSuggestionDisplay());
+		this(oracle, textArea, new MySuggestionDisplay());
 	}
 
-	public MySuggestBox(final MySuggestOracle oracle, ValueBoxBase<String> textArea, final DefaultSuggestionDisplay display) {
+	public MySuggestBox(final MySuggestOracle oracle, ValueBoxBase<String> textArea, final MySuggestionDisplay display) {
 		super(oracle, textArea, display);
-
+		this.display = display;
+	
 		getValueBox().addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
 				showSuggestionList(); // switching line of textarea by click should also trigger the suggestbox
 			}
 		});
-
+	
 		textArea.addKeyDownHandler(new KeyDownHandler() { // CTRL+Space shows all suggestions
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
@@ -48,7 +50,7 @@ public class MySuggestBox extends SuggestBox {
 			}
 		});
 	}
-
+	
 	@Override
 	public void setText(String text) {
 		super.setText(replaceTextOfCurrentLine(text));
@@ -101,5 +103,9 @@ public class MySuggestBox extends SuggestBox {
 			returnText = returnText.substring(0, returnText.length()-1);
 		}
 		return returnText;
+	}
+	
+	public boolean getPaletteShouldIgnoreMouseClicks() {
+		return display.getPaletteShouldIgnoreMouseClicks();
 	}
 }

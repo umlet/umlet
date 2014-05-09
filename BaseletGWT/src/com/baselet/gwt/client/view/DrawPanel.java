@@ -61,7 +61,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 
 	private MainView mainView;
 
-	private PropertiesTextArea propertiesPanel;
+	PropertiesTextArea propertiesPanel;
 
 	private MenuPopup elementContextMenu;
 	private MenuPopup diagramContextMenu;
