@@ -53,7 +53,7 @@ public class DrawPanelPalette extends DrawPanel {
 
 	@Override
 	public void onDoubleClick(GridElement ge) {
-		if (ge != null) {
+		if (ge != null && !propertiesPanel.getPaletteShouldIgnoreMouseClicks()) {
 			otherDrawFocusPanel.setFocus(true);
 			GridElement e = ElementFactory.create(ge, otherDrawFocusPanel.getDiagram());
 			e.setProperty(GroupFacet.KEY, null);
