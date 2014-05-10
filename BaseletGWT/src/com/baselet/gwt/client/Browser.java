@@ -17,14 +17,18 @@ public enum Browser {
 	public static Browser get() {
 		String currentAgent = getUserAgent();
 		for (Browser b : Browser.values()) {
-			if (browserFiltersMatch(currentAgent, b)) return b;
+			if (browserFiltersMatch(currentAgent, b)) {
+				return b;
+			}
 		}
 		return UNKNOWN;
 	}
 
 	private static boolean browserFiltersMatch(String currentAgent, Browser b) {
 		for (String filterString : b.browserFilters) {
-			if (!currentAgent.contains(filterString)) return false;
+			if (!currentAgent.contains(filterString)) {
+				return false;
+			}
 		}
 		return true;
 	}

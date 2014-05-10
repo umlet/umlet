@@ -11,7 +11,9 @@ public class Notification {
 	private static Element element = RootPanel.get("featurewarning").getElement();
 
 	public static void showFeatureNotSupported(String text, boolean fadeOut) {
-		if (text.equals(lastShownFeatureNotSupportedText)) return; // don't repeat the last warning
+		if (text.equals(lastShownFeatureNotSupportedText)) {
+			return; // don't repeat the last warning
+		}
 		lastShownFeatureNotSupportedText = text;
 		element.getStyle().setColor("red");
 		element.setInnerHTML(text);
