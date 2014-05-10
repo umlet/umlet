@@ -27,7 +27,8 @@ public class SelectorNew extends Selector {
 	public GridElement getSingleSelected() {
 		if (selectedElements.size() == 1) {
 			return selectedElements.get(0);
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
