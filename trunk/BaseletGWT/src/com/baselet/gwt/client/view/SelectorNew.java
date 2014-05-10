@@ -25,8 +25,11 @@ public class SelectorNew extends Selector {
 	private List<GridElement> selectedElements = new ArrayList<GridElement>();
 
 	public GridElement getSingleSelected() {
-		if (selectedElements.size() == 1) return selectedElements.get(0);
-		else return null;
+		if (selectedElements.size() == 1) {
+			return selectedElements.get(0);
+		} else {
+			return null;
+		}
 	}
 
 	@Override

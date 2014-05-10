@@ -78,7 +78,9 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 
 	@Override
 	public void setFocus(boolean focus) {
-		if (this.focus == focus) return;
+		if (this.focus == focus) {
+			return;
+		}
 		if (focus) { // if focus has switched from diagram <-> palette, reset other selector and redraw
 			otherDrawFocusPanel.getSelector().deselectAllWithoutAfterAction();
 			otherDrawFocusPanel.redraw(); // redraw is necessary even if other afteractions (properties panel update) are not
@@ -192,7 +194,9 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 	void redraw(boolean recalcSize) {
 		List<GridElement> gridElements = diagram.getGridElementsByLayerLowestToHighest();
 		if (recalcSize) {
-			if (scrollPanel == null) return;
+			if (scrollPanel == null) {
+				return;
+			}
 
 			Rectangle diagramRect = SharedUtils.getGridElementsRectangle(gridElements);
 			Rectangle visibleRect = getVisibleBounds();
@@ -342,7 +346,9 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
 			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
 		}
-		if (isCtrlKeyDown) return; // TODO implement Lasso
+		if (isCtrlKeyDown) {
+			return; // TODO implement Lasso
+		}
 		else if (!resizeDirection.isEmpty()) {
 			draggedGridElement.drag(resizeDirection, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement));
 		}

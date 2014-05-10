@@ -45,17 +45,23 @@ public class BrowserStorage {
 	}
 
 	private static String get(String id) {
-		if (localStorage == null) throw new RuntimeException(NO_STORAGE_ERROR);
+		if (localStorage == null) {
+			throw new RuntimeException(NO_STORAGE_ERROR);
+		}
 		return localStorage.getItem(id);
 	}
 
 	private static void remove(String id) {
-		if (localStorage == null) throw new RuntimeException(NO_STORAGE_ERROR);
+		if (localStorage == null) {
+			throw new RuntimeException(NO_STORAGE_ERROR);
+		}
 		localStorage.removeItem(id);
 	}
 
 	private static Map<String, String> getWithPrefix(String prefix, boolean removePrefixFromKey) {
-		if (localStorage == null) throw new RuntimeException(NO_STORAGE_ERROR);
+		if (localStorage == null) {
+			throw new RuntimeException(NO_STORAGE_ERROR);
+		}
 		Map<String, String> returnList = new HashMap<String, String>();
 		for (int i = 0; i < localStorage.getLength(); i++) {
 			String key = localStorage.key(i);
@@ -70,7 +76,9 @@ public class BrowserStorage {
 	}
 
 	private static void set(String id, String value) {
-		if (localStorage == null) throw new RuntimeException(NO_STORAGE_ERROR);
+		if (localStorage == null) {
+			throw new RuntimeException(NO_STORAGE_ERROR);
+		}
 		localStorage.setItem(id, value);
 	}
 }

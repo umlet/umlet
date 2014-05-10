@@ -160,7 +160,9 @@ public class DrawHandlerGWT extends DrawHandler {
 		ctxSetFont(fontSize, stringStyle);
 
 		String textToDraw = stringStyle.getStringWithoutMarkup();
-		if (textToDraw == null || textToDraw.isEmpty()) return; // if nothing should be drawn return (some browsers like Opera have problems with ctx.fillText calls on empty strings)
+		if (textToDraw == null || textToDraw.isEmpty()) {
+			return; // if nothing should be drawn return (some browsers like Opera have problems with ctx.fillText calls on empty strings)
+		}
 
 		if (stringStyle.getFormat().contains(FormatLabels.UNDERLINE)) {
 			ctx.setLineWidth(1.0f);
