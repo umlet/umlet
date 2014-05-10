@@ -65,7 +65,7 @@ public class Diagram implements HasPanelAttributes, HasGridElements {
 	}
 
 	public StickableMap getStickables(GridElement draggedElement, Collection<GridElement> excludeList) {
-		if (!SharedConstants.stickingEnabled) { return StickableMap.EMPTY_MAP; }
+		if (!SharedConstants.stickingEnabled) return StickableMap.EMPTY_MAP;
 		List<Relation> stickables = getRelations();
 		stickables.removeAll(excludeList);
 
@@ -91,7 +91,7 @@ public class Diagram implements HasPanelAttributes, HasGridElements {
 
 	@Override
 	public void setPanelAttributes(String panelAttributes) {
-		this.helpText = panelAttributes;
+		helpText = panelAttributes;
 	}
 
 	@Override

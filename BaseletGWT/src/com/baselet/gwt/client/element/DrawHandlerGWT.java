@@ -27,7 +27,7 @@ public class DrawHandlerGWT extends DrawHandler {
 
 	public DrawHandlerGWT(Canvas canvas) {
 		this.canvas = canvas;
-		this.ctx = canvas.getContext2d();
+		ctx = canvas.getContext2d();
 	}
 
 	@Override
@@ -160,8 +160,7 @@ public class DrawHandlerGWT extends DrawHandler {
 		ctxSetFont(fontSize, stringStyle);
 
 		String textToDraw = stringStyle.getStringWithoutMarkup();
-		if (textToDraw == null || textToDraw.isEmpty()) { return; // if nothing should be drawn return (some browsers like Opera have problems with ctx.fillText calls on empty strings)
-		}
+		if (textToDraw == null || textToDraw.isEmpty()) return; // if nothing should be drawn return (some browsers like Opera have problems with ctx.fillText calls on empty strings)
 
 		if (stringStyle.getFormat().contains(FormatLabels.UNDERLINE)) {
 			ctx.setLineWidth(1.0f);
@@ -216,8 +215,8 @@ public class DrawHandlerGWT extends DrawHandler {
 	 */
 	private static void drawEllipseHelper(Context2d ctx, double x, double y, double w, double h) {
 		double kappa = .5522848f;
-		double ox = (w / 2) * kappa; // control point offset horizontal
-		double oy = (h / 2) * kappa; // control point offset vertical
+		double ox = w / 2 * kappa; // control point offset horizontal
+		double oy = h / 2 * kappa; // control point offset vertical
 		double xe = x + w; // x-end
 		double ye = y + h; // y-end
 		double xm = x + w / 2; // x-middle
@@ -304,17 +303,17 @@ public class DrawHandlerGWT extends DrawHandler {
 	 * Firefox supports mozDash()
 	 */
 	public final native void setLineDash(Context2d ctx, double dash) /*-{
-	    if (ctx.setLineDash !== undefined) {
-	    	ctx.setLineDash([dash]);
-	    } else if (ctx.mozDash !== undefined) {
+		if (ctx.setLineDash !== undefined) {
+			ctx.setLineDash([ dash ]);
+		} else if (ctx.mozDash !== undefined) {
 			if (dash != 0) {
-				ctx.mozDash = [dash];
+				ctx.mozDash = [ dash ];
 			} else { // default is null
 				ctx.mozDash = null;
 			}
 		} else if (dash != 0) { // if another line than a solid one should be set and the browser doesn't support it throw an Exception
 			throw new Exception();
-	    }
+		}
 	}-*/;
 
 }

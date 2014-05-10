@@ -54,7 +54,7 @@ public class MySuggestBox extends SuggestBox {
 	@Override
 	public void setText(String text) {
 		super.setText(replaceTextOfCurrentLine(text));
-		this.setFocus(true); // after choosing one of the suggestions, refocus the textarea
+		setFocus(true); // after choosing one of the suggestions, refocus the textarea
 	}
 
 	@Override

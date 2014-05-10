@@ -295,10 +295,10 @@ public class EventHandlingUtils {
 			Point p = getPoint(storage.activePanel, event);
 			int diffX = p.x - storage.moveStart.getX();
 			int diffY = p.y - storage.moveStart.getY();
-			diffX -= (diffX % SharedConstants.DEFAULT_GRID_SIZE);
-			diffY -= (diffY % SharedConstants.DEFAULT_GRID_SIZE);
+			diffX -= diffX % SharedConstants.DEFAULT_GRID_SIZE;
+			diffY -= diffY % SharedConstants.DEFAULT_GRID_SIZE;
 			if (diffX != 0 || diffY != 0) {
-				drawPanelCanvas.onMouseMoveDraggingScheduleDeferred(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), event.isControlKeyDown(), (storage.dragging == DragStatus.FIRST));
+				drawPanelCanvas.onMouseMoveDraggingScheduleDeferred(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), event.isControlKeyDown(), storage.dragging == DragStatus.FIRST);
 				storage.dragging = DragStatus.CONTINUOUS; // after FIRST real drag switch to CONTINUOUS
 				storage.moveStart = storage.moveStart.copy().move(diffX, diffY); // make copy because otherwise deferred action will act on wrong position
 			}
@@ -318,32 +318,16 @@ public class EventHandlingUtils {
 
 	private static Point getPoint(EventHandlingTarget drawPanelCanvas, HumanInputEvent<?> event) {
 		Element e = drawPanelCanvas.getElement();
-		if (event instanceof MouseEvent<?>) {
-			return new Point(((MouseEvent<?>) event).getRelativeX(e), ((MouseEvent<?>) event).getRelativeY(e));
-		}
-		else if (event instanceof TouchEndEvent) {
-			return new Point(((TouchEvent<?>) event).getChangedTouches().get(0).getRelativeX(e), ((TouchEvent<?>) event).getChangedTouches().get(0).getRelativeY(e));
-		}
-		else if (event instanceof TouchEvent<?>) {
-			return new Point(((TouchEvent<?>) event).getTouches().get(0).getRelativeX(e), ((TouchEvent<?>) event).getTouches().get(0).getRelativeY(e));
-		}
-		else {
-			throw new RuntimeException("Unknown Event Type: " + event);
-		}
+		if (event instanceof MouseEvent<?>) return new Point(((MouseEvent<?>) event).getRelativeX(e), ((MouseEvent<?>) event).getRelativeY(e));
+		else if (event instanceof TouchEndEvent) return new Point(((TouchEvent<?>) event).getChangedTouches().get(0).getRelativeX(e), ((TouchEvent<?>) event).getChangedTouches().get(0).getRelativeY(e));
+		else if (event instanceof TouchEvent<?>) return new Point(((TouchEvent<?>) event).getTouches().get(0).getRelativeX(e), ((TouchEvent<?>) event).getTouches().get(0).getRelativeY(e));
+		else throw new RuntimeException("Unknown Event Type: " + event);
 	}
 
 	private static Point getPointAbsolute(HumanInputEvent<?> event) {
-		if (event instanceof MouseEvent<?>) {
-			return new Point(((MouseEvent<?>) event).getClientX(), ((MouseEvent<?>) event).getClientY());
-		}
-		else if (event instanceof TouchEndEvent) {
-			return new Point(((TouchEvent<?>) event).getChangedTouches().get(0).getPageX(), ((TouchEvent<?>) event).getChangedTouches().get(0).getPageY());
-		}
-		else if (event instanceof TouchEvent<?>) {
-			return new Point(((TouchEvent<?>) event).getTouches().get(0).getPageX(), ((TouchEvent<?>) event).getTouches().get(0).getPageY());
-		}
-		else {
-			throw new RuntimeException("Unknown Event Type: " + event);
-		}
+		if (event instanceof MouseEvent<?>) return new Point(((MouseEvent<?>) event).getClientX(), ((MouseEvent<?>) event).getClientY());
+		else if (event instanceof TouchEndEvent) return new Point(((TouchEvent<?>) event).getChangedTouches().get(0).getPageX(), ((TouchEvent<?>) event).getChangedTouches().get(0).getPageY());
+		else if (event instanceof TouchEvent<?>) return new Point(((TouchEvent<?>) event).getTouches().get(0).getPageX(), ((TouchEvent<?>) event).getTouches().get(0).getPageY());
+		else throw new RuntimeException("Unknown Event Type: " + event);
 	}
 }

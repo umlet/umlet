@@ -13,11 +13,11 @@ public class Utils {
 	}
 
 	public static native String b64encode(String a) /*-{
-	  return window.btoa(a);
+		return window.btoa(a);
 	}-*/;
 
 	public static native String b64decode(String a) /*-{
-	  return window.atob(a);
+		return window.atob(a);
 	}-*/;
 
 }

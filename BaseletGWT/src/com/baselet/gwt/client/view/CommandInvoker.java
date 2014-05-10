@@ -30,7 +30,7 @@ public class CommandInvoker extends Controller {
 	}
 
 	void addElements(CanAddAndRemoveGridElement target, List<GridElement> elements) {
-		this.executeCommand(new AddGridElementCommand(target, elements));
+		executeCommand(new AddGridElementCommand(target, elements));
 	}
 
 	void addElements(CanAddAndRemoveGridElement target, Collection<GridElement> elements) {
@@ -38,7 +38,7 @@ public class CommandInvoker extends Controller {
 	}
 
 	void removeElements(DrawPanel target, List<GridElement> elements) {
-		this.executeCommand(new RemoveGridElementCommand(target, elements));
+		executeCommand(new RemoveGridElementCommand(target, elements));
 	}
 
 	void removeSelectedElements(DrawPanel target) {

@@ -41,7 +41,7 @@ public class PropertiesTextArea extends MySuggestBox {
 
 	public void setGridElement(HasPanelAttributes panelAttributeProvider, DrawPanel panel) {
 		activePanel = panel;
-		this.gridElement = panelAttributeProvider;
+		gridElement = panelAttributeProvider;
 		String panelAttributes = panelAttributeProvider.getPanelAttributes();
 		if (panelAttributes == null) {
 			panelAttributes = DEFAULT_HELPTEXT;

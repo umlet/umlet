@@ -15,7 +15,7 @@ public class OwnTextArea extends TextArea {
 	public OwnTextArea() {
 		super();
 		sinkEvents(Event.ONPASTE);
-		this.addKeyUpHandler(new KeyUpHandler() {
+		addKeyUpHandler(new KeyUpHandler() {
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
 				fireHandler();
