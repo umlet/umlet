@@ -36,7 +36,9 @@ public class PointDoubleHolderList {
 			}
 		}
 		rebuildpointIndexes();
-		if (newPoint == null) throw new RuntimeException("Point " + endOfLine + " not found in list " + points);
+		if (newPoint == null) {
+			throw new RuntimeException("Point " + endOfLine + " not found in list " + points);
+		}
 		return newPoint;
 	}
 

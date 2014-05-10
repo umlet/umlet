@@ -39,10 +39,18 @@ public class RelationPoints {
 	}
 
 	public Selection getSelection(Point point) {
-		if (isPointOverDragBox(point)) return Selection.DRAG_BOX;
-		else if (RelationPointsUtils.getRelationPointContaining(point, points) != null) return Selection.RELATION_POINT;
-		else if (getLineContaining(point) != null) return Selection.LINE;
-		else return Selection.NOTHING;
+		if (isPointOverDragBox(point)) {
+			return Selection.DRAG_BOX;
+		}
+		else if (RelationPointsUtils.getRelationPointContaining(point, points) != null) {
+			return Selection.RELATION_POINT;
+		}
+		else if (getLineContaining(point) != null) {
+			return Selection.LINE;
+		}
+		else {
+			return Selection.NOTHING;
+		}
 	}
 
 	private PointDoubleIndexed relationPointOfCurrentDrag = null;
@@ -60,7 +68,9 @@ public class RelationPoints {
 		}
 		// If the special case doesn't apply, forget the relationPointOfFirstDrag, because its a new first drag
 		relationPointOfCurrentDrag = null;
-		if (isPointOverDragBox(point)) return Selection.DRAG_BOX;
+		if (isPointOverDragBox(point)) {
+			return Selection.DRAG_BOX;
+		}
 		PointDoubleIndexed pointOverRelationPoint = RelationPointsUtils.getRelationPointContaining(point, points);
 		if (pointOverRelationPoint != null) {
 			relationPointOfCurrentDrag = movePointAndResizeRectangle(pointOverRelationPoint, diffX, diffY);
@@ -82,7 +92,9 @@ public class RelationPoints {
 	private Line getLineContaining(Point point) {
 		for (Line line : points.getRelationPointLines()) {
 			double distanceToPoint = line.getDistanceToPoint(point.toPointDouble());
-			if (distanceToPoint < NEW_POINT_DISTANCE) return line;
+			if (distanceToPoint < NEW_POINT_DISTANCE) {
+				return line;
+			}
 		}
 		return null;
 	}

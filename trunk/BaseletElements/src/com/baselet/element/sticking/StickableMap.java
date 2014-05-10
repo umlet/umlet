@@ -23,12 +23,16 @@ public class StickableMap {
 	}
 
 	private static boolean checkMapsEqual(Map<Stickable, List<PointDoubleIndexed>> mapA, Map<Stickable, List<PointDoubleIndexed>> mapB) {
-		if (!containSameElements(mapA.keySet(), mapB.keySet())) return false; // keys are not equal
+		if (!containSameElements(mapA.keySet(), mapB.keySet())) {
+			return false; // keys are not equal
+		}
 
 		for (Entry<Stickable, List<PointDoubleIndexed>> entry : mapA.entrySet()) {
 			List<PointDoubleIndexed> setA = entry.getValue();
 			List<PointDoubleIndexed> setB = mapB.get(entry.getKey());
-			if (!containSameElements(setA, setB)) return false; // values for this key are not equal
+			if (!containSameElements(setA, setB)) {
+				return false; // values for this key are not equal
+			}
 		}
 
 		return true; // all keys and values are equal
@@ -40,7 +44,9 @@ public class StickableMap {
 
 	public boolean isEmpty() {
 		for (List<PointDoubleIndexed> valueList : map.values()) {
-			if (!valueList.isEmpty()) return false;
+			if (!valueList.isEmpty()) {
+				return false;
+			}
 		}
 		return true;
 	}

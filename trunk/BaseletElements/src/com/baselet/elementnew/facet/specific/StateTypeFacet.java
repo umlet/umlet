@@ -30,7 +30,9 @@ public class StateTypeFacet extends KeyValueFacet {
 	public void handleValue(final String value, final DrawHandler drawer, final PropertiesParserState state) {
 		ActionTypeEnum type = ActionTypeEnum.valueOf(value.toUpperCase());
 		Dimension s = state.getGridElementSize();
-		if (type == ActionTypeEnum.STATE) return; // default
+		if (type == ActionTypeEnum.STATE) {
+			return; // default
+		}
 		else if (type == ActionTypeEnum.SENDER) {
 			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width - depth(s), 0), p(s.width, s.height / 2), p(s.width - depth(s), s.height), p(0, s.height), p(0, 0)));
 		}

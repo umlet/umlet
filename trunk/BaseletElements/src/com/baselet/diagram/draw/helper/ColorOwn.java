@@ -161,7 +161,9 @@ public class ColorOwn {
 				returnColor = returnColor.transparency(transparency);
 			}
 		}
-		if (error) throw new StyleException("value must be a " + EXAMPLE_TEXT);
+		if (error) {
+			throw new StyleException("value must be a " + EXAMPLE_TEXT);
+		}
 		return returnColor;
 	}
 
@@ -178,14 +180,28 @@ public class ColorOwn {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
 		ColorOwn other = (ColorOwn) obj;
-		if (alpha != other.alpha) return false;
-		if (blue != other.blue) return false;
-		if (green != other.green) return false;
-		if (red != other.red) return false;
+		if (alpha != other.alpha) {
+			return false;
+		}
+		if (blue != other.blue) {
+			return false;
+		}
+		if (green != other.green) {
+			return false;
+		}
+		if (red != other.red) {
+			return false;
+		}
 		return true;
 	}
 

@@ -155,8 +155,11 @@ public class StickingPolygon {
 
 	public int isConnected(PointDouble p, int gridSize) {
 		int con = -1;
-		for (int i = 0; i < stick.size(); i++)
-			if (stick.get(i).isConnected(p, gridSize)) return i;
+		for (int i = 0; i < stick.size(); i++) {
+			if (stick.get(i).isConnected(p, gridSize)) {
+				return i;
+			}
+		}
 
 		return con;
 	}

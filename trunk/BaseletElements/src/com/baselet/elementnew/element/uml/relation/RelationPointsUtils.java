@@ -12,7 +12,9 @@ public class RelationPointsUtils {
 		PointDouble elementStart = upperLeftCorner;
 		// Calculate new Relation position and size
 		Rectangle newSize = createRectangleContainingAllPoints(elementStart, relationPoints);
-		if (newSize == null) throw new RuntimeException("This relation has no points: " + relationPoints);
+		if (newSize == null) {
+			throw new RuntimeException("This relation has no points: " + relationPoints);
+		}
 		// scale with zoom factor
 		newSize.setBounds(
 				newSize.getX() * gridSize / SharedConstants.DEFAULT_GRID_SIZE,
@@ -52,7 +54,9 @@ public class RelationPointsUtils {
 
 	static PointDoubleIndexed getRelationPointContaining(Point point, PointDoubleHolderList points) {
 		for (PointDoubleIndexed relationPoint : points.getPointHolders()) {
-			if (toCircleRectangle(relationPoint).contains(point)) return relationPoint;
+			if (toCircleRectangle(relationPoint).contains(point)) {
+				return relationPoint;
+			}
 		}
 		return null;
 	}

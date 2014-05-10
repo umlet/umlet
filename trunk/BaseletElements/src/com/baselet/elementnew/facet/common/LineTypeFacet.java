@@ -32,7 +32,10 @@ public class LineTypeFacet extends KeyValueFacet {
 				lt = s;
 			}
 		}
-		if (lt == null) throw new RuntimeException(); // will be translated to usage message
+		if (lt == null)
+		{
+			throw new RuntimeException(); // will be translated to usage message
+		}
 		drawer.setLineType(lt);
 	}
 

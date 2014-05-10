@@ -22,7 +22,9 @@ public class TextSplitter {
 	public static String splitString(String text, double width, DrawHandler drawer) {
 		SplitStringCacheKey key = new SplitStringCacheKey(text, width, drawer.getStyle());
 		String result = splitStringCache.get(key);
-		if (result != null) return result;
+		if (result != null) {
+			return result;
+		}
 
 		result = splitStringAlgorithm(text, width, drawer);
 
@@ -84,19 +86,35 @@ public class TextSplitter {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (this == obj) return true;
-			if (obj == null) return false;
-			if (getClass() != obj.getClass()) return false;
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (getClass() != obj.getClass()) {
+				return false;
+			}
 			SplitStringCacheKey other = (SplitStringCacheKey) obj;
 			if (input == null) {
-				if (other.input != null) return false;
+				if (other.input != null) {
+					return false;
+				}
 			}
-			else if (!input.equals(other.input)) return false;
+			else if (!input.equals(other.input)) {
+				return false;
+			}
 			if (style == null) {
-				if (other.style != null) return false;
+				if (other.style != null) {
+					return false;
+				}
 			}
-			else if (!style.equals(other.style)) return false;
-			if (Double.doubleToLongBits(width) != Double.doubleToLongBits(other.width)) return false;
+			else if (!style.equals(other.style)) {
+				return false;
+			}
+			if (Double.doubleToLongBits(width) != Double.doubleToLongBits(other.width)) {
+				return false;
+			}
 			return true;
 		}
 

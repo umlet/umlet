@@ -95,22 +95,44 @@ public class Style {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
 		Style other = (Style) obj;
-		if (applyZoom != other.applyZoom) return false;
+		if (applyZoom != other.applyZoom) {
+			return false;
+		}
 		if (bgColor == null) {
-			if (other.bgColor != null) return false;
+			if (other.bgColor != null) {
+				return false;
+			}
 		}
-		else if (!bgColor.equals(other.bgColor)) return false;
+		else if (!bgColor.equals(other.bgColor)) {
+			return false;
+		}
 		if (fgColor == null) {
-			if (other.fgColor != null) return false;
+			if (other.fgColor != null) {
+				return false;
+			}
 		}
-		else if (!fgColor.equals(other.fgColor)) return false;
-		if (Double.doubleToLongBits(fontSize) != Double.doubleToLongBits(other.fontSize)) return false;
-		if (Double.doubleToLongBits(lineWidth) != Double.doubleToLongBits(other.lineWidth)) return false;
-		if (lineType != other.lineType) return false;
+		else if (!fgColor.equals(other.fgColor)) {
+			return false;
+		}
+		if (Double.doubleToLongBits(fontSize) != Double.doubleToLongBits(other.fontSize)) {
+			return false;
+		}
+		if (Double.doubleToLongBits(lineWidth) != Double.doubleToLongBits(other.lineWidth)) {
+			return false;
+		}
+		if (lineType != other.lineType) {
+			return false;
+		}
 		return true;
 	}
 

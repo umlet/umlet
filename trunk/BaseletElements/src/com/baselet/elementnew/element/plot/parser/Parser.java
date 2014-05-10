@@ -62,7 +62,9 @@ public class Parser {
 			else if (line.matches(PlotConstants.REGEX_VALUE_ASSIGNMENT)) {
 				createKeyValueAssignment(line, inputIterator.nextIndex());
 			}
-			else throw new ParserException("Invalid line: " + line + "(line: " + inputIterator.nextIndex() + ")");
+			else {
+				throw new ParserException("Invalid line: " + line + "(line: " + inputIterator.nextIndex() + ")");
+			}
 		}
 
 		analyseDatasets();
@@ -83,7 +85,9 @@ public class Parser {
 	 * Is called after parsing everything to fill datasets in each plotState Object
 	 */
 	private void addDatasetsToPlotStates() {
-		if (datasetList.isEmpty()) throw new ParserException("You must specify at least one dataset.");
+		if (datasetList.isEmpty()) {
+			throw new ParserException("You must specify at least one dataset.");
+		}
 		int actualAutoDatasetNr = 0;
 		for (PlotState plotState : parserResult.getPlotStateList()) {
 			actualAutoDatasetNr = addDataset(plotState, actualAutoDatasetNr);
@@ -123,7 +127,9 @@ public class Parser {
 			if (dataset != null) {
 				plotState.setDataSet(dataset);
 			}
-			else throw new ParserException(PlotConstants.DATA, datasetId, plotState.getLine(PlotConstants.DATA));
+			else {
+				throw new ParserException(PlotConstants.DATA, datasetId, plotState.getLine(PlotConstants.DATA));
+			}
 		}
 
 		return actualAutoDatasetNr;
@@ -161,7 +167,9 @@ public class Parser {
 
 		if (datasetId != null) {
 			for (DataSet ds : datasetList) {
-				if (datasetId.equals(ds.getId())) throw new ParserException("The dataset name \"" + datasetId + "\" (line: " + lineNr + ") already exists");
+				if (datasetId.equals(ds.getId())) {
+					throw new ParserException("The dataset name \"" + datasetId + "\" (line: " + lineNr + ") already exists");
+				}
 			}
 		}
 		datasetList.add(newDataset);

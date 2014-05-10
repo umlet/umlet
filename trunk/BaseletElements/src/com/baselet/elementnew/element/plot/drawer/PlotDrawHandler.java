@@ -574,7 +574,9 @@ public class PlotDrawHandler {
 
 	public void setMinValue(Double minVal) throws IOException {
 		Double limit = Math.min(minRealOrShownValue(), maxVal);
-		if (minVal > limit) throw new IOException("minValue must be <= " + limit);
+		if (minVal > limit) {
+			throw new IOException("minValue must be <= " + limit);
+		}
 		else {
 			this.minVal = minVal;
 		}
@@ -582,20 +584,30 @@ public class PlotDrawHandler {
 
 	public void setMaxValue(Double maxVal) throws IOException {
 		Double limit = Math.max(maxRealOrShownValue(), minVal);
-		if (maxVal < limit) throw new IOException("maxValue must be >= " + limit);
+		if (maxVal < limit) {
+			throw new IOException("maxValue must be >= " + limit);
+		}
 		else {
 			this.maxVal = maxVal;
 		}
 	}
 
 	private double minRealOrShownValue() {
-		if (valuesShownOnAxisSorted.isEmpty()) return valuesSorted.first();
-		else return Math.min(valuesSorted.first(), valuesShownOnAxisSorted.first());
+		if (valuesShownOnAxisSorted.isEmpty()) {
+			return valuesSorted.first();
+		}
+		else {
+			return Math.min(valuesSorted.first(), valuesShownOnAxisSorted.first());
+		}
 	}
 
 	private double maxRealOrShownValue() {
-		if (valuesShownOnAxisSorted.isEmpty()) return valuesSorted.last();
-		else return Math.max(valuesSorted.last(), valuesShownOnAxisSorted.last());
+		if (valuesShownOnAxisSorted.isEmpty()) {
+			return valuesSorted.last();
+		}
+		else {
+			return Math.max(valuesSorted.last(), valuesShownOnAxisSorted.last());
+		}
 	}
 
 	public Canvas getCanvas() {
