@@ -21,7 +21,7 @@ public enum Shortcut {
 	DESELECT_ALL("Ctrl+Shift+A Ctrl+D", "deselect all elements", Category.DIAGRAM, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
-			return (event.isControlKeyDown() && code == 'D') || 
+			return (event.isControlKeyDown() && code == 'D') ||
 					(event.isControlKeyDown() && event.isShiftKeyDown() && code == 'A');
 		}
 	}),
@@ -79,7 +79,7 @@ public enum Shortcut {
 			return code == KeyCodes.KEY_RIGHT;
 		}
 	}),
-	
+
 	// BROWSER SHORTCUTS
 	FULLSCREEN("F11", "switch to fullscreen", Category.BROWSER, new Check() {
 		@Override
@@ -105,36 +105,35 @@ public enum Shortcut {
 			return event.isControlKeyDown() && KeyCodesExt.isZero(code);
 		}
 	}),
-	
+
 	// PROPERTIES PANEL SHORTCUTS
 	SHOW_AUTOCOMPLETION("Ctrl+SPACE", "Show all autocompletion suggestions", Category.PROPERTIES, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
 			return event.isControlKeyDown() && KeyCodesExt.isSpace(code);
 		}
-	}),
-	;
-	
+	}), ;
+
 	private static interface Check {
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event);
 	}
-	
+
 	public enum Category {
 		DIAGRAM("DIAGRAM"),
 		BROWSER("BROWSER (only if browser supports them)"),
 		PROPERTIES("PROPERTIES PANEL");
-		
+
 		private String header;
 
 		private Category(String header) {
 			this.header = header;
 		}
-		
+
 		public String getHeader() {
 			return header;
 		}
 	}
-	
+
 	private String shortcut;
 	private String description;
 	private Category category;
@@ -150,15 +149,15 @@ public enum Shortcut {
 	public boolean matches(KeyCodeEvent<? extends EventHandler> event) {
 		return check.check(event.getNativeKeyCode(), event);
 	}
-	
+
 	public String getShortcut() {
 		return shortcut;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public Category getCategory() {
 		return category;
 	}

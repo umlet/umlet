@@ -21,28 +21,38 @@ public class ElementFactory {
 
 		DrawHandlerInterface handler = new DrawHandlerInterface() {
 			@Override
-			public void updatePropertyPanel() { }
+			public void updatePropertyPanel() {}
+
 			@Override
-			public int getGridSize() { return SharedConstants.DEFAULT_GRID_SIZE; } // GWT doesnt use own zoom implementation but relies on browser zoom
+			public int getGridSize() {
+				return SharedConstants.DEFAULT_GRID_SIZE; // GWT doesnt use own zoom implementation but relies on browser zoom
+			}
+
 			@Override
-			public boolean displaceDrawingByOnePixel() { return false; }
+			public boolean displaceDrawingByOnePixel() {
+				return false;
+			}
+
 			@Override
 			public void resize(double diffw, double diffh, AlignHorizontal alignHorizontal) {
 				int diffwInt = SharedUtils.realignToGrid(false, diffw, true);
 				int diffhInt = SharedUtils.realignToGrid(false, diffh, true);
-				
+
 				List<Direction> directions = null;
 				if (alignHorizontal == AlignHorizontal.LEFT) {
 					directions = Arrays.asList(Direction.RIGHT, Direction.DOWN);
-				} else if (alignHorizontal == AlignHorizontal.RIGHT) {
+				}
+				else if (alignHorizontal == AlignHorizontal.RIGHT) {
 					diffwInt = -diffwInt;
 					directions = Arrays.asList(Direction.LEFT, Direction.DOWN);
-				}else if (alignHorizontal == AlignHorizontal.CENTER) {
-					diffwInt = SharedUtils.realignToGrid(false, diffwInt/2, true) * 2;
+				}
+				else if (alignHorizontal == AlignHorizontal.CENTER) {
+					diffwInt = SharedUtils.realignToGrid(false, diffwInt / 2, true) * 2;
 					directions = Arrays.asList(Direction.RIGHT, Direction.LEFT, Direction.DOWN);
 				}
-				element.drag(directions, diffwInt, diffhInt, new Point(0,0), false, true, diagram.getStickables(element));
+				element.drag(directions, diffwInt, diffhInt, new Point(0, 0), false, true, diagram.getStickables(element));
 			}
+
 			@Override
 			public boolean isInitialized() {
 				return true; // GWT initializes elements at once, therefore it's always initialized

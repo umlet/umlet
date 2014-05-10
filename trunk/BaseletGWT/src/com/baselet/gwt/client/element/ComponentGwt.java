@@ -11,13 +11,13 @@ import com.google.gwt.dom.client.CanvasElement;
 public class ComponentGwt implements Component {
 
 	boolean redrawNecessary = true;
-	
+
 	private Canvas canvas = Canvas.createIfSupported();
 	private DrawHandlerGWT drawer = new DrawHandlerGWT(canvas);
 	private DrawHandlerGWT metadrawer = new DrawHandlerGWT(canvas);
 
 	private GridElement element;
-	
+
 	private Rectangle rect;
 
 	public ComponentGwt(GridElement element) {
@@ -27,18 +27,18 @@ public class ComponentGwt implements Component {
 	@Override
 	public void setBoundsRect(Rectangle rect) {
 		this.rect = rect;
-		}
+	}
 
 	@Override
 	public Rectangle getBoundsRect() {
 		return rect.copy();
-		}
+	}
 
 	@Override
 	public void repaintComponent() {
 		// repainting is currently not controlled by the gridelement itself
 	}
-	
+
 	@Override
 	public void afterModelUpdate() {
 		redrawNecessary = true;
@@ -54,18 +54,15 @@ public class ComponentGwt implements Component {
 		return metadrawer;
 	}
 
-//	public boolean isRedrawNecessary() {
-//		return redrawNecessary;
-//	}
-
 	private boolean lastSelected = false;
+
 	public void drawOn(Context2d context, boolean isSelected) {
 		if (redrawNecessary || lastSelected != isSelected) {
 			redrawNecessary = false;
 			CanvasElement el = canvas.getCanvasElement();
 			canvas.getContext2d().clearRect(0, 0, el.getWidth(), el.getHeight());
-			canvas.getCanvasElement().setWidth(rect.getWidth()+1); //canvas size is +1px to make sure a rectangle with width pixels is still visible (in Swing the bound-checking happens in BaseDrawHandlerSwing because you cannot extend the clipping area)
-			canvas.getCanvasElement().setHeight(rect.getHeight()+1);
+			canvas.getCanvasElement().setWidth(rect.getWidth() + 1); // canvas size is +1px to make sure a rectangle with width pixels is still visible (in Swing the bound-checking happens in BaseDrawHandlerSwing because you cannot extend the clipping area)
+			canvas.getCanvasElement().setHeight(rect.getHeight() + 1);
 			drawer.drawAll(isSelected);
 			if (isSelected) {
 				metadrawer.drawAll();

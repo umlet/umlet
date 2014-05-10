@@ -52,17 +52,17 @@ public class DrawHandlerGWT extends DrawHandler {
 	@Override
 	public void drawArcPie(final double x, final double y, final double width, final double height, final double start, final double extent) {
 		final Style styleAtDrawingCall = style.cloneFromMe();
-		addDrawable(new DrawFunction() { //start = alles bisherige, extends = currentval
+		addDrawable(new DrawFunction() { // start = alles bisherige, extends = currentval
 			@Override
 			public void run() {
 				setStyle(ctx, styleAtDrawingCall);
-				
-			    double centerX = x+ width/2 + HALF_PX;
-			    double centerY = y + height/2 + HALF_PX;
-			    ctx.beginPath();
-			    ctx.moveTo(centerX, centerY);
-			    ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
-			    ctx.closePath();
+
+				double centerX = x + width / 2 + HALF_PX;
+				double centerY = y + height / 2 + HALF_PX;
+				ctx.beginPath();
+				ctx.moveTo(centerX, centerY);
+				ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
+				ctx.closePath();
 				ctx.fill();
 				ctx.stroke();
 			}
@@ -77,7 +77,7 @@ public class DrawHandlerGWT extends DrawHandler {
 			public void run() {
 				setStyle(ctx, styleAtDrawingCall);
 				ctx.beginPath();
-				ctx.arc(x + HALF_PX, y + HALF_PX, radius, 0, 2*Math.PI);
+				ctx.arc(x + HALF_PX, y + HALF_PX, radius, 0, 2 * Math.PI);
 				ctx.fill();
 				ctx.stroke();
 			}
@@ -91,13 +91,13 @@ public class DrawHandlerGWT extends DrawHandler {
 			@Override
 			public void run() {
 				setStyle(ctx, styleAtDrawingCall);
-				drawEllipseHelper(ctx, x+HALF_PX, y+HALF_PX, width, height);
+				drawEllipseHelper(ctx, x + HALF_PX, y + HALF_PX, width, height);
 			}
 		});
 	}
 
 	@Override
-	public void drawLines(final PointDouble ... points) {
+	public void drawLines(final PointDouble... points) {
 		if (points.length > 1) {
 			final Style styleAtDrawingCall = style.cloneFromMe();
 			addDrawable(new DrawFunction() {
@@ -124,7 +124,7 @@ public class DrawHandlerGWT extends DrawHandler {
 			}
 		});
 	}
-	
+
 	@Override
 	public void drawRectangleRound(final double x, final double y, final double width, final double height, final double radius) {
 		final Style styleAtDrawingCall = style.cloneFromMe();
@@ -137,7 +137,6 @@ public class DrawHandlerGWT extends DrawHandler {
 		});
 	}
 
-
 	@Override
 	public void print(final String text, final PointDouble point, final AlignHorizontal align) {
 		final Style styleAtDrawingCall = style.cloneFromMe();
@@ -149,7 +148,7 @@ public class DrawHandlerGWT extends DrawHandler {
 				ctx.setFillStyle(Converter.convert(fgColor));
 				for (String line : text.split("\n")) {
 					drawTextHelper(line, pToDraw, align, styleAtDrawingCall.getFontSize());
-					pToDraw = new PointDouble(pToDraw.getX(), pToDraw.getY()+textHeight());
+					pToDraw = new PointDouble(pToDraw.getX(), pToDraw.getY() + textHeight());
 				}
 			}
 		});
@@ -161,8 +160,7 @@ public class DrawHandlerGWT extends DrawHandler {
 		ctxSetFont(fontSize, stringStyle);
 
 		String textToDraw = stringStyle.getStringWithoutMarkup();
-		if (textToDraw == null || textToDraw.isEmpty()) {
-			return; // if nothing should be drawn return (some browsers like Opera have problems with ctx.fillText calls on empty strings)
+		if (textToDraw == null || textToDraw.isEmpty()) { return; // if nothing should be drawn return (some browsers like Opera have problems with ctx.fillText calls on empty strings)
 		}
 
 		if (stringStyle.getFormat().contains(FormatLabels.UNDERLINE)) {
@@ -171,11 +169,14 @@ public class DrawHandlerGWT extends DrawHandler {
 			double textWidth = textWidth(textToDraw);
 			switch (align) {
 				case LEFT:
-					drawLineHelper(p, new PointDouble(p.x + textWidth, p.y)); break;
+					drawLineHelper(p, new PointDouble(p.x + textWidth, p.y));
+					break;
 				case CENTER:
-					drawLineHelper(new PointDouble(p.x - textWidth/2, p.y), new PointDouble(p.x + textWidth/2, p.y)); break;
+					drawLineHelper(new PointDouble(p.x - textWidth / 2, p.y), new PointDouble(p.x + textWidth / 2, p.y));
+					break;
 				case RIGHT:
-					drawLineHelper(new PointDouble(p.x - textWidth, p.y), p); break;
+					drawLineHelper(new PointDouble(p.x - textWidth, p.y), p);
+					break;
 			}
 		}
 
@@ -198,11 +199,14 @@ public class DrawHandlerGWT extends DrawHandler {
 		TextAlign ctxAlign = null;
 		switch (align) {
 			case LEFT:
-				ctxAlign = TextAlign.LEFT; break;
+				ctxAlign = TextAlign.LEFT;
+				break;
 			case CENTER:
-				ctxAlign = TextAlign.CENTER; break;
+				ctxAlign = TextAlign.CENTER;
+				break;
 			case RIGHT:
-				ctxAlign = TextAlign.RIGHT; break;
+				ctxAlign = TextAlign.RIGHT;
+				break;
 		}
 		ctx.setTextAlign(ctxAlign);
 	}
@@ -214,10 +218,10 @@ public class DrawHandlerGWT extends DrawHandler {
 		double kappa = .5522848f;
 		double ox = (w / 2) * kappa; // control point offset horizontal
 		double oy = (h / 2) * kappa; // control point offset vertical
-		double xe = x + w;           // x-end
-		double ye = y + h;           // y-end
-		double xm = x + w / 2;       // x-middle
-		double ym = y + h / 2;       // y-middle
+		double xe = x + w; // x-end
+		double ye = y + h; // y-end
+		double xm = x + w / 2; // x-middle
+		double ym = y + h / 2; // y-middle
 
 		ctx.beginPath();
 		ctx.moveTo(x, ym);
@@ -243,12 +247,12 @@ public class DrawHandlerGWT extends DrawHandler {
 		ctx.quadraticCurveTo(x, height, x, height - radius);
 		ctx.lineTo(x, y + radius);
 		ctx.quadraticCurveTo(x, y, x + radius, y);
-	    ctx.closePath();
+		ctx.closePath();
 		ctx.fill();
 		ctx.stroke();
 	}
 
-	private void drawLineHelper(PointDouble ... points) {
+	private void drawLineHelper(PointDouble... points) {
 		ctx.beginPath();
 		boolean first = true;
 		for (PointDouble point : points) {
@@ -258,7 +262,7 @@ public class DrawHandlerGWT extends DrawHandler {
 			}
 			ctx.lineTo(point.x + HALF_PX, point.y + HALF_PX);
 		}
-		if (points[0].equals(points[points.length-1])) {
+		if (points[0].equals(points[points.length - 1])) {
 			ctx.fill(); // only fill if first point == lastpoint
 		}
 		ctx.stroke();
@@ -281,7 +285,7 @@ public class DrawHandlerGWT extends DrawHandler {
 		try {
 			switch (lineType) {
 				case DASHED: // large linethickness values need longer dashes
-					setLineDash(ctx, 6 * Math.max(1, lineThickness/2));
+					setLineDash(ctx, 6 * Math.max(1, lineThickness / 2));
 					break;
 				case DOTTED: // minimum must be 2, otherwise the dotting is not really visible
 					setLineDash(ctx, Math.max(2, lineThickness));
@@ -311,6 +315,6 @@ public class DrawHandlerGWT extends DrawHandler {
 		} else if (dash != 0) { // if another line than a solid one should be set and the browser doesn't support it throw an Exception
 			throw new Exception();
 	    }
-  	}-*/;
+	}-*/;
 
 }

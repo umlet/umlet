@@ -59,7 +59,8 @@ public class SaveDialogBox extends MyPopupPanel {
 	private void submitDialog(final Callback callback) {
 		if (textBox.getText().isEmpty()) {
 			Window.alert("You must enter a name to save the diagram");
-		} else {
+		}
+		else {
 			hide();
 			callback.callback(textBox.getText());
 		}
@@ -77,9 +78,8 @@ public class SaveDialogBox extends MyPopupPanel {
 	@Override
 	protected void onPreviewNativeEvent(NativePreviewEvent event) {
 		super.onPreviewNativeEvent(event);
-		if (
-				event.getTypeInt() == Event.ONKEYDOWN && 
-				event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
+		if (event.getTypeInt() == Event.ONKEYDOWN &&
+			event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
 			hide();
 		}
 	}

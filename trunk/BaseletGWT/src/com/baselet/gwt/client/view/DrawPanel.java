@@ -152,8 +152,9 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 	public void updatePropertiesPanelWithSelectedElement() {
 		List<GridElement> elements = selector.getSelectedElements();
 		if (!elements.isEmpty()) { // always set properties text of latest selected element (so you also have an element in the prop panel even if you have an active multiselect)
-			propertiesPanel.setGridElement(elements.get(elements.size()-1), DrawPanel.this);
-		} else {
+			propertiesPanel.setGridElement(elements.get(elements.size() - 1), DrawPanel.this);
+		}
+		else {
 			propertiesPanel.setGridElement(diagram, DrawPanel.this);
 		}
 		redraw();
@@ -171,9 +172,9 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		}
 		for (GridElement ge : elements) {
 			if (firstDrag) {
-				stickablesToMove.put(ge, getStickablesToMoveWhenElementsMove(ge, Collections.<GridElement>emptyList()));
+				stickablesToMove.put(ge, getStickablesToMoveWhenElementsMove(ge, Collections.<GridElement> emptyList()));
 			}
-			ge.setLocationDifference(diffX, diffY, firstDrag, stickablesToMove.get(ge)); //uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
+			ge.setLocationDifference(diffX, diffY, firstDrag, stickablesToMove.get(ge)); // uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
 		}
 	}
 
@@ -207,10 +208,11 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 				}
 			}
 			// now realign bottom right corner to include the translate-factor and the changed visible and diagram rect
-			int width = Math.max(visibleRect.getX2(), diagramRect.getX2())-xTranslate;
-			int height = Math.max(visibleRect.getY2(), diagramRect.getY2())-yTranslate;
+			int width = Math.max(visibleRect.getX2(), diagramRect.getX2()) - xTranslate;
+			int height = Math.max(visibleRect.getY2(), diagramRect.getY2()) - yTranslate;
 			canvas.clearAndSetSize(width, height);
-		} else {
+		}
+		else {
 			canvas.clearAndSetSize(canvas.getWidth(), canvas.getHeight());
 		}
 		canvas.draw(true, gridElements, selector);
@@ -225,11 +227,12 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 			if (ge.isSelectableOn(point)) {
 				if (returnGe == null) {
 					returnGe = ge;
-				} else {
+				}
+				else {
 					boolean newIsSelectedOldNot = selector.isSelected(ge) && !selector.isSelected(returnGe);
 					boolean oldContainsNew = returnGe.getRectangle().contains(ge.getRectangle());
 					if (newIsSelectedOldNot || oldContainsNew) {
-						returnGe = ge; 
+						returnGe = ge;
 					}
 				}
 			}
@@ -255,7 +258,6 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		diagram.getGridElements().removeAll(elements);
 		selector.deselect(elements);
 	}
-
 
 	public Diagram getDiagram() {
 		return diagram;
@@ -285,11 +287,11 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 
 	public void onMouseDownScheduleDeferred(final GridElement element, final boolean isControlKeyDown) {
 		Scheduler.get().scheduleFinally(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
-			@Override
-			public void execute() {
-				onMouseDown(element, isControlKeyDown);
-			}
-		});
+					@Override
+					public void execute() {
+						onMouseDown(element, isControlKeyDown);
+					}
+				});
 	}
 
 	void onMouseDown(final GridElement element, final boolean isControlKeyDown) {
@@ -297,19 +299,23 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 			if (element != null) {
 				if (selector.isSelected(element)) {
 					selector.deselect(element);
-				} else {
+				}
+				else {
 					selector.select(element);
 				}
 			}
-		} else {
+		}
+		else {
 			if (element != null) {
 				if (selector.isSelected(element)) {
 					selector.moveToLastPosInList(element);
 					propertiesPanel.setGridElement(element, DrawPanel.this);
-				} else {
+				}
+				else {
 					selector.selectOnly(element);
 				}
-			} else {
+			}
+			else {
 				selector.deselectAll();
 			}
 		}
@@ -317,16 +323,16 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 
 	public void onMouseMoveDraggingScheduleDeferred(final Point dragStart, final int diffX, final int diffY, final GridElement draggedGridElement, final boolean isShiftKeyDown, final boolean isCtrlKeyDown, final boolean firstDrag) {
 		Scheduler.get().scheduleFinally(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
-			@Override
-			public void execute() {
-				onMouseMoveDragging(dragStart, diffX, diffY, draggedGridElement, isShiftKeyDown, isCtrlKeyDown, firstDrag);
-			}
-		});
+					@Override
+					public void execute() {
+						onMouseMoveDragging(dragStart, diffX, diffY, draggedGridElement, isShiftKeyDown, isCtrlKeyDown, firstDrag);
+					}
+				});
 	}
 
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
 		if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
-			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement>emptyList()));
+			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
 		}
 		if (isCtrlKeyDown) {
 			return; // TODO implement Lasso
@@ -338,14 +344,15 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
 		else if (selector.getSelectedElements().size() == 1) {
 			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement));
-		} else { // if != 1 elements are selected, move them
+		}
+		else { // if != 1 elements are selected, move them
 			moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
 		}
 		redraw(false);
 	}
 
 	private Point getRelativePoint(Point dragStart, GridElement draggedGridElement) {
-		return new Point(dragStart.getX()-draggedGridElement.getRectangle().getX(), dragStart.getY()-draggedGridElement.getRectangle().getY());
+		return new Point(dragStart.getX() - draggedGridElement.getRectangle().getX(), dragStart.getY() - draggedGridElement.getRectangle().getY());
 	}
 
 	protected StickableMap getStickablesToMoveWhenElementsMove(GridElement draggedElement, List<GridElement> elements) {
@@ -358,24 +365,33 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 			resizeDirection = geOnPosition.getResizeArea(absolute.getX() - geOnPosition.getRectangle().getX(), absolute.getY() - geOnPosition.getRectangle().getY());
 			if (resizeDirection.isEmpty()) {
 				Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
-			} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) {
+			}
+			else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) {
 				Utils.showCursor(Style.Cursor.NE_RESIZE);
-			} else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) {
+			}
+			else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) {
 				Utils.showCursor(Style.Cursor.NW_RESIZE);
-			} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) {
+			}
+			else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) {
 				Utils.showCursor(Style.Cursor.SW_RESIZE);
-			} else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)) {
+			}
+			else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)) {
 				Utils.showCursor(Style.Cursor.SE_RESIZE);
-			} else if (resizeDirection.contains(Direction.UP)) {
+			}
+			else if (resizeDirection.contains(Direction.UP)) {
 				Utils.showCursor(Style.Cursor.N_RESIZE);
-			} else if (resizeDirection.contains(Direction.RIGHT)) {
+			}
+			else if (resizeDirection.contains(Direction.RIGHT)) {
 				Utils.showCursor(Style.Cursor.E_RESIZE);
-			} else if (resizeDirection.contains(Direction.DOWN)) {
+			}
+			else if (resizeDirection.contains(Direction.DOWN)) {
 				Utils.showCursor(Style.Cursor.S_RESIZE);
-			} else if (resizeDirection.contains(Direction.LEFT)) {
+			}
+			else if (resizeDirection.contains(Direction.LEFT)) {
 				Utils.showCursor(Style.Cursor.W_RESIZE);
 			}
-		} else {
+		}
+		else {
 			resizeDirection.clear();
 			Utils.showCursor(Style.Cursor.MOVE);
 		}
@@ -385,7 +401,8 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		Point relativePoint = new Point(point.x - getAbsoluteLeft(), point.y - getAbsoluteTop());
 		if (getGridElementOnPosition(relativePoint) == null) { // gridelement check must be made with relative coordinates
 			diagramContextMenu.show(point);
-		} else {
+		}
+		else {
 			elementContextMenu.show(point);
 		}
 	}

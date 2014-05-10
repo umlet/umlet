@@ -14,25 +14,28 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 
 public class ShortcutDialogBox extends MyPopupPanel {
-	
+
 	private static class TableBuilder {
 		SafeHtmlBuilder builder = new SafeHtmlBuilder();
 		int i = 0;
+
 		public TableBuilder() {
 			builder.appendHtmlConstant("<table style='border-spacing: 0px;'><tbody>");
 		}
+
 		public void append(Shortcut shortcut) {
 			String color = (i++ % 2 != 0) ? "white" : "#E5E4E2";
 			builder.appendHtmlConstant("<tr style='background-color:" + color + "'><td style='padding-right:0.7em'>" + shortcut.getShortcut() + "</td><td style='width:100%'>" + shortcut.getDescription() + "</td></tr>");
 		}
+
 		public HTML toHTML() {
 			builder.appendHtmlConstant("</tbody></table>");
 			return new HTML(builder.toSafeHtml());
 		}
 	}
-	
+
 	private static ShortcutDialogBox instance = new ShortcutDialogBox();
-	
+
 	public static ShortcutDialogBox getInstance() {
 		return instance;
 	}
@@ -40,7 +43,7 @@ public class ShortcutDialogBox extends MyPopupPanel {
 	public ShortcutDialogBox() {
 		super(true, Type.POPUP);
 		setHeader("Keyboard Shortcuts");
-		
+
 		Shortcut[] values = Shortcut.values();
 		Map<Shortcut.Category, TableBuilder> map = new HashMap<Shortcut.Category, TableBuilder>();
 		for (Shortcut.Category c : Shortcut.Category.values()) {
@@ -50,7 +53,7 @@ public class ShortcutDialogBox extends MyPopupPanel {
 			Shortcut shortcut = values[i];
 			map.get(shortcut.getCategory()).append(values[i]);
 		}
-		
+
 		FlowPanel panel = new FlowPanel();
 		boolean first = true;
 		for (Shortcut.Category c : Arrays.asList(Category.values())) {
@@ -72,9 +75,8 @@ public class ShortcutDialogBox extends MyPopupPanel {
 	@Override
 	protected void onPreviewNativeEvent(NativePreviewEvent event) {
 		super.onPreviewNativeEvent(event);
-		if (
-				event.getTypeInt() == Event.ONKEYDOWN && 
-				event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
+		if (event.getTypeInt() == Event.ONKEYDOWN &&
+			event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
 			hide();
 		}
 	}

@@ -11,7 +11,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 
 public class CanvasUtils {
-	
+
 	private static final int EXPORT_BORDER = 10;
 
 	public static String createPngCanvasDataUrl(Diagram diagram) {
@@ -25,7 +25,7 @@ public class CanvasUtils {
 		pngCanvas.getContext2d().fillRect(0, 0, pngCanvas.getWidth(), pngCanvas.getHeight());
 		// Draw Elements on Canvas and translate their position
 		pngCanvas.getContext2d().translate(-geRect.getX(), -geRect.getY());
-		pngCanvas.draw(false, diagram.getGridElementsByLayerLowestToHighest(), new SelectorNew(diagram)); //use a new selector which has nothing selected
+		pngCanvas.draw(false, diagram.getGridElementsByLayerLowestToHighest(), new SelectorNew(diagram)); // use a new selector which has nothing selected
 		return pngCanvas.toDataUrl("image/png");
 	}
 
@@ -49,7 +49,7 @@ public class CanvasUtils {
 		}
 		context2d.drawImage(gridCanvas.getCanvasElement(), 0, 0);
 	}
-	
+
 	private static void drawLine(Context2d context, int x, int y, int x2, int y2) {
 		context.beginPath();
 		context.moveTo(x + 0.5, y + 0.5); // +0.5 because a line of thickness 1.0 spans 50% left and 50% right (therefore it would not be on the 1 pixel - see https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors)

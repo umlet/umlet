@@ -14,7 +14,7 @@ public class MySuggestOracle extends SuggestOracle {
 	public boolean isDisplayStringHTML() {
 		return true;
 	}
-	
+
 	private List<Suggestion> suggestions = new ArrayList<Suggestion>();
 
 	@Override
@@ -41,6 +41,7 @@ public class MySuggestOracle extends SuggestOracle {
 			public String getReplacementString() {
 				return suggestion.getReplacementString();
 			}
+
 			@Override
 			public String getDisplayString() {
 				return "<strong>" + userInput + "</strong>" + suggestion.getDisplayString().substring(userInput.length());
@@ -56,16 +57,17 @@ public class MySuggestOracle extends SuggestOracle {
 	}
 
 	private boolean showAllAsDefault = false;
-	
+
 	public void setShowAllAsDefault(boolean showAllAsDefault) {
 		this.showAllAsDefault = showAllAsDefault;
 	}
-	
+
 	@Override
 	public void requestDefaultSuggestions(final Request request, final Callback callback) {
 		if (showAllAsDefault) {
 			callback.onSuggestionsReady(request, new Response(suggestions));
-		} else {
+		}
+		else {
 			super.requestDefaultSuggestions(request, callback);
 		}
 	}

@@ -63,6 +63,7 @@ public class DrawPanelPalette extends DrawPanel {
 	}
 
 	private List<GridElement> draggedElements = new ArrayList<GridElement>();
+
 	void onMouseDown(GridElement element, boolean isControlKeyDown) {
 		super.onMouseDown(element, isControlKeyDown);
 		for (GridElement original : selector.getSelectedElements()) {

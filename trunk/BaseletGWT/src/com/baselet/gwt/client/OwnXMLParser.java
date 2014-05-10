@@ -132,16 +132,16 @@ public class OwnXMLParser {
 
 		for (GridElement ge : diagram.getGridElements()) {
 			diagramElement.appendChild(
-					create(doc, ELEMENT, 
-							create(doc, ID, doc.createTextNode(ge.getId().toString())), 
-							create(doc, COORDINATES, 
-									create(doc, X, doc.createTextNode(ge.getRectangle().getX()+"")), 
-									create(doc, Y, doc.createTextNode(ge.getRectangle().getY()+"")), 
-									create(doc, W, doc.createTextNode(ge.getRectangle().getWidth()+"")), 
-									create(doc, H, doc.createTextNode(ge.getRectangle().getHeight()+""))), 
-									create(doc, PANEL_ATTRIBUTES, doc.createTextNode(ge.getPanelAttributes().replace(LT, LT_ENCODED).replace(GT, GT_ENCODED))), 
-									create(doc, ADDITIONAL_ATTRIBUTES, doc.createTextNode(ge.getAdditionalAttributes()))
-							));
+					create(doc, ELEMENT,
+							create(doc, ID, doc.createTextNode(ge.getId().toString())),
+							create(doc, COORDINATES,
+									create(doc, X, doc.createTextNode(ge.getRectangle().getX() + "")),
+									create(doc, Y, doc.createTextNode(ge.getRectangle().getY() + "")),
+									create(doc, W, doc.createTextNode(ge.getRectangle().getWidth() + "")),
+									create(doc, H, doc.createTextNode(ge.getRectangle().getHeight() + ""))),
+							create(doc, PANEL_ATTRIBUTES, doc.createTextNode(ge.getPanelAttributes().replace(LT, LT_ENCODED).replace(GT, GT_ENCODED))),
+							create(doc, ADDITIONAL_ATTRIBUTES, doc.createTextNode(ge.getAdditionalAttributes()))
+					));
 		}
 		return doc.toString();
 	}
@@ -154,7 +154,7 @@ public class OwnXMLParser {
 		return xml;
 	}
 
-	private static Element create(Document doc, String name, Node ... children) {
+	private static Element create(Document doc, String name, Node... children) {
 		Element element = doc.createElement(name);
 		for (Node c : children) {
 			element.appendChild(c);

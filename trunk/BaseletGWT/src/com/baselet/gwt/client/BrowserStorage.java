@@ -17,7 +17,7 @@ public class BrowserStorage {
 	private static final String NO_STORAGE_ERROR = "The Browser doesn't support local storage";
 	private static final String CLIPBOARD = "Clipboard";
 	private static final String SAVE_PREFIX = "s_";
-	
+
 	private static Storage localStorage = Storage.getLocalStorageIfSupported();
 
 	public static void addSavedDiagram(String name, String diagramXml) {
@@ -27,7 +27,7 @@ public class BrowserStorage {
 	public static void removeSavedDiagram(String chosenName) {
 		remove(SAVE_PREFIX + chosenName);
 	}
-	
+
 	public static String getSavedDiagram(String name) {
 		return get(SAVE_PREFIX + name);
 	}
@@ -35,25 +35,25 @@ public class BrowserStorage {
 	public static Collection<String> getSavedDiagramKeys() {
 		return getWithPrefix(SAVE_PREFIX, true).keySet();
 	}
-	
+
 	public static void setClipboard(List<GridElement> gridelements) {
 		set(CLIPBOARD, OwnXMLParser.gridElementsToXml(gridelements));
 	}
-	
+
 	public static List<GridElement> getClipboard() {
 		return OwnXMLParser.xmlToGridElements(get(CLIPBOARD));
 	}
-	
+
 	private static String get(String id) {
 		if (localStorage == null) throw new RuntimeException(NO_STORAGE_ERROR);
 		return localStorage.getItem(id);
 	}
-	
+
 	private static void remove(String id) {
 		if (localStorage == null) throw new RuntimeException(NO_STORAGE_ERROR);
 		localStorage.removeItem(id);
 	}
-	
+
 	private static Map<String, String> getWithPrefix(String prefix, boolean removePrefixFromKey) {
 		if (localStorage == null) throw new RuntimeException(NO_STORAGE_ERROR);
 		Map<String, String> returnList = new HashMap<String, String>();
@@ -68,7 +68,7 @@ public class BrowserStorage {
 		}
 		return returnList;
 	}
-	
+
 	private static void set(String id, String value) {
 		if (localStorage == null) throw new RuntimeException(NO_STORAGE_ERROR);
 		localStorage.setItem(id, value);
