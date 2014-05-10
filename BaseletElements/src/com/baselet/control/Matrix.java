@@ -66,7 +66,9 @@ public class Matrix<T> {
 
 	public boolean isEmpty() {
 		for (List<T> row : matrix) {
-			if (!row.isEmpty()) return false;
+			if (!row.isEmpty()) {
+				return false;
+			}
 		}
 		return true;
 	}

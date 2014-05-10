@@ -23,8 +23,12 @@ public class ParserResult {
 		if (keyValue != null) {
 			keyValue.setUsed(true);
 		}
-		if (keyValue == null || keyValue.getValue().equals(PlotConstants.DEFAULT_VALUE)) return defaultValue;
-		else return keyValue.getValue();
+		if (keyValue == null || keyValue.getValue().equals(PlotConstants.DEFAULT_VALUE)) {
+			return defaultValue;
+		}
+		else {
+			return keyValue.getValue();
+		}
 	}
 
 	protected void addPlotState(PlotState plotState) {

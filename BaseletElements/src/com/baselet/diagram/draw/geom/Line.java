@@ -64,13 +64,21 @@ public class Line {
 
 	public boolean equalsContent(Line other) {
 		if (end == null) {
-			if (other.end != null) return false;
+			if (other.end != null) {
+				return false;
+			}
 		}
-		else if (!end.equals(other.end)) return false;
+		else if (!end.equals(other.end)) {
+			return false;
+		}
 		if (start == null) {
-			if (other.start != null) return false;
+			if (other.start != null) {
+				return false;
+			}
 		}
-		else if (!start.equals(other.start)) return false;
+		else if (!start.equals(other.start)) {
+			return false;
+		}
 		return true;
 	}
 

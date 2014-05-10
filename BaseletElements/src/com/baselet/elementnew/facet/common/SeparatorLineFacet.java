@@ -29,7 +29,9 @@ public class SeparatorLineFacet extends Facet {
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
-		if (line.equals(KEY)) return true;
+		if (line.equals(KEY)) {
+			return true;
+		}
 		return false;
 	}
 

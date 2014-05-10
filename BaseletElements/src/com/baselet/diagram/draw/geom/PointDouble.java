@@ -44,18 +44,32 @@ public class PointDouble {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
 		PointDouble other = (PointDouble) obj;
 		if (x == null) {
-			if (other.x != null) return false;
+			if (other.x != null) {
+				return false;
+			}
 		}
-		else if (!x.equals(other.x)) return false;
+		else if (!x.equals(other.x)) {
+			return false;
+		}
 		if (y == null) {
-			if (other.y != null) return false;
+			if (other.y != null) {
+				return false;
+			}
 		}
-		else if (!y.equals(other.y)) return false;
+		else if (!y.equals(other.y)) {
+			return false;
+		}
 		return true;
 	}
 

@@ -113,10 +113,18 @@ public class Rectangle {
 	}
 
 	public boolean intersects(Rectangle other) {
-		if (getY2() < other.getY()) return false;
-		if (getY() > other.getY2()) return false;
-		if (getX2() < other.getX()) return false;
-		if (getX() > other.getX2()) return false;
+		if (getY2() < other.getY()) {
+			return false;
+		}
+		if (getY() > other.getY2()) {
+			return false;
+		}
+		if (getX2() < other.getX()) {
+			return false;
+		}
+		if (getX() > other.getX2()) {
+			return false;
+		}
 		return true;
 	}
 
@@ -152,14 +160,28 @@ public class Rectangle {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
 		Rectangle other = (Rectangle) obj;
-		if (height != other.height) return false;
-		if (width != other.width) return false;
-		if (x != other.x) return false;
-		if (y != other.y) return false;
+		if (height != other.height) {
+			return false;
+		}
+		if (width != other.width) {
+			return false;
+		}
+		if (x != other.x) {
+			return false;
+		}
+		if (y != other.y) {
+			return false;
+		}
 		return true;
 	}
 

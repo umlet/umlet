@@ -66,8 +66,12 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 	}
 
 	private String getValueNotNull(ValueHolder valueHolder) {
-		if (valueHolder == null) return "";
-		else return valueHolder.getValue();
+		if (valueHolder == null) {
+			return "";
+		}
+		else {
+			return valueHolder.getValue();
+		}
 	}
 
 	@Override

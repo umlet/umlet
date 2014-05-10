@@ -43,8 +43,12 @@ public class PlotState {
 	}
 
 	public int getLine(String key) {
-		if (values.get(key) != null) return values.get(key).getLine();
-		else return -1;
+		if (values.get(key) != null) {
+			return values.get(key).getLine();
+		}
+		else {
+			return -1;
+		}
 	}
 
 	public int getPlotLineNr() {
@@ -56,21 +60,31 @@ public class PlotState {
 		if (keyValue != null) {
 			keyValue.setUsed(true);
 		}
-		if (keyValue == null || keyValue.getValue().equals(PlotConstants.DEFAULT_VALUE)) return defaultValue;
-		else return keyValue.getValue();
+		if (keyValue == null || keyValue.getValue().equals(PlotConstants.DEFAULT_VALUE)) {
+			return defaultValue;
+		}
+		else {
+			return keyValue.getValue();
+		}
 	}
 
 	public String getValueValidated(String key, String defaultValue, List<String> validValues) {
 		String value = getValue(key, defaultValue);
-		if (!validValues.contains(value)) throw new ParserException(key, value, getLine(key));
+		if (!validValues.contains(value)) {
+			throw new ParserException(key, value, getLine(key));
+		}
 		return value;
 	}
 
 	public Double getValueAsDouble(String key, Double defaultValue) {
 		try {
 			String value = getValue(key, null);
-			if (value == null) return defaultValue;
-			else return Double.parseDouble(value);
+			if (value == null) {
+				return defaultValue;
+			}
+			else {
+				return Double.parseDouble(value);
+			}
 		} catch (Exception e) {
 			throw new ParserException(key, values.get(key).getValue(), values.get(key).getLine());
 		}
@@ -79,8 +93,12 @@ public class PlotState {
 	public Integer getValueAsInt(String key, Integer defaultValue) {
 		try {
 			String value = getValue(key, null);
-			if (value == null) return defaultValue;
-			else return Integer.parseInt(value);
+			if (value == null) {
+				return defaultValue;
+			}
+			else {
+				return Integer.parseInt(value);
+			}
 		} catch (Exception e) {
 			throw new ParserException(key, values.get(key).getValue(), values.get(key).getLine());
 		}
@@ -88,11 +106,18 @@ public class PlotState {
 
 	public Boolean getValueAsBoolean(String key, Boolean defaultValue) {
 		String value = getValue(key, null);
-		if (value == null) return defaultValue;
-		// Boolean.parseBoolean() cannot be used because it doesn't throw an Exception
-		else if (value.equals("true")) return true;
-		else if (value.equals("false")) return false;
-		else throw new ParserException(key, values.get(key).getValue(), values.get(key).getLine());
+		if (value == null) {
+			return defaultValue;
+		}
+		else if (value.equals("true")) {
+			return true;
+		}
+		else if (value.equals("false")) {
+			return false;
+		}
+		else {
+			throw new ParserException(key, values.get(key).getValue(), values.get(key).getLine());
+		}
 	}
 
 	public List<String> getValueList(String key, List<String> defaultValue) {
@@ -111,7 +136,9 @@ public class PlotState {
 		List<String> valueList = getValueList(key, defaultValue);
 		for (String value : valueList) {
 			boolean intAllowedAndValueIsInt = doubleValuesAllowed && isDoubleValue(value);
-			if (!validValues.contains(value) && !intAllowedAndValueIsInt) throw new ParserException(key, value, getLine(key));
+			if (!validValues.contains(value) && !intAllowedAndValueIsInt) {
+				throw new ParserException(key, value, getLine(key));
+			}
 		}
 		return valueList;
 	}
@@ -135,7 +162,9 @@ public class PlotState {
 				unusedVariables += "\"" + keyValue.getKey() + "=" + keyValue.getValue() + "\" (line " + keyValue.getLine() + ") ";
 			}
 		}
-		if (!unusedVariables.isEmpty()) throw new ParserException("Invalid variables: " + unusedVariables);
+		if (!unusedVariables.isEmpty()) {
+			throw new ParserException("Invalid variables: " + unusedVariables);
+		}
 	}
 
 	@Override

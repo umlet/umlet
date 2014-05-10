@@ -77,7 +77,9 @@ public class PropertiesParser {
 			double accumulator = displacement;
 			int maxLoops = 1000;
 			while (accumulator < state.getGridElementSize().height && !TextSplitter.checkifStringFits(firstLine, availableWidthSpace, drawer)) {
-				if (maxLoops-- < 0) throw new RuntimeException("Endless loop during calculation of top displacement");
+				if (maxLoops-- < 0) {
+					throw new RuntimeException("Endless loop during calculation of top displacement");
+				}
 				accumulator += textHeight / 2;
 				double previousWidthSpace = availableWidthSpace;
 				availableWidthSpace = state.getXLimitsForArea(accumulator, textHeight, true).getSpace() - BUFFER;

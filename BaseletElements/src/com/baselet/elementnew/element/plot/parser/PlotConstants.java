@@ -38,8 +38,7 @@ public class PlotConstants {
 	// The following line is needed to color everything which doesn't match another RegEx
 	// public static final String REGEX_COLOR_BASE = "(?!((" + REGEX_COMMENT + ")|(" + PLOT + ")|(" + REGEX_VALUE_ASSIGNMENT + "))).*";
 
-	/*
-	 * The following variables are automatically parsed for the autocompletion. Therefore some conventions must be made: 1.) The possible values of a key must be listed in the following lines or they will not be recognized by the autocompletion 2.) Every key is separated in 3 parts: KEY_<type>_<name>. <type> can be STRING,INT,LIST,BOOL (in future there may be more types) 3.) If there is a limited number of possible values it must be named: <name>_<value> where <name> must match the <name> tag in the key 4.) values with _DEFAULT at the end are ignored by the autocompletion. */
+	/* The following variables are automatically parsed for the autocompletion. Therefore some conventions must be made: 1.) The possible values of a key must be listed in the following lines or they will not be recognized by the autocompletion 2.) Every key is separated in 3 parts: KEY_<type>_<name>. <type> can be STRING,INT,LIST,BOOL (in future there may be more types) 3.) If there is a limited number of possible values it must be named: <name>_<value> where <name> must match the <name> tag in the key 4.) values with _DEFAULT at the end are ignored by the autocompletion. */
 
 	/** Plotgrid Value Constants **/
 

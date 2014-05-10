@@ -25,11 +25,19 @@ public class PointDoubleIndexed extends PointDouble {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (!super.equals(obj)) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
 		PointDoubleIndexed other = (PointDoubleIndexed) obj;
-		if (index != other.index) return false;
+		if (index != other.index) {
+			return false;
+		}
 		return true;
 	}
 

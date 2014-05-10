@@ -68,7 +68,9 @@ public class DataSet {
 	}
 
 	public Double[][] data() {
-		if (valueMatrix.isEmpty()) throw new ParserException("The dataset (line: " + getLineNr() + ") has no values");
+		if (valueMatrix.isEmpty()) {
+			throw new ParserException("The dataset (line: " + getLineNr() + ") has no values");
+		}
 		Double[][] returnArray = new Double[rows()][];
 		for (int i = 0; i < rows(); i++) {
 			returnArray[i] = row(i);
@@ -113,14 +115,18 @@ public class DataSet {
 	}
 
 	private void separateTitleRowColFromContent() {
-		if (analyseMatrix.isEmpty()) throw new ParserException("The dataset (line: " + getLineNr() + ") has no content");
+		if (analyseMatrix.isEmpty()) {
+			throw new ParserException("The dataset (line: " + getLineNr() + ") has no content");
+		}
 		List<String> firstRow = analyseMatrix.row(0);
 		List<String> firstCol = analyseMatrix.col(0);
 		boolean hasTitleRow = isTitleLine(firstRow);
 		boolean hasTitleCol = isTitleLine(firstCol);
 
 		if (hasTitleRow && hasTitleCol) {
-			if (!firstRow.get(0).isEmpty() || !firstCol.get(0).isEmpty()) throw new ParserException("If a dataset has a title row and column, the upper left space must be empty");
+			if (!firstRow.get(0).isEmpty() || !firstCol.get(0).isEmpty()) {
+				throw new ParserException("If a dataset has a title row and column, the upper left space must be empty");
+			}
 			titleRow = firstRow.subList(1, firstRow.size()); // ignore first cell
 			titleCol = firstCol.subList(1, firstCol.size()); // ignore first cell
 		}
@@ -145,7 +151,9 @@ public class DataSet {
 			for (int c = hasTitleCol ? 1 : 0; c < row.size(); c++) {
 				String val = row.get(c);
 				try {
-					if (val == null) throw new NumberFormatException();
+					if (val == null) {
+						throw new NumberFormatException();
+					}
 					else {
 						rowDouble.add(Double.parseDouble(val));
 					}

@@ -172,7 +172,9 @@ public class PropertiesParserState {
 	@SuppressWarnings("unchecked")
 	public <T> T getFacetResponse(Class<? extends Facet> facetClass, T defaultValue) {
 		T mapValue = (T) facetResponse.get(facetClass);
-		if (mapValue == null) return defaultValue;
+		if (mapValue == null) {
+			return defaultValue;
+		}
 		return mapValue;
 	}
 

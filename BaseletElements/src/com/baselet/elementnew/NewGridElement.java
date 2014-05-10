@@ -164,7 +164,9 @@ public abstract class NewGridElement implements GridElement {
 		for (String line : getPanelAttributesAsList()) {
 			if (line.startsWith(key + Facet.SEP)) {
 				String[] split = line.split(Facet.SEP, 2);
-				if (split.length > 1) return split[1];
+				if (split.length > 1) {
+					return split[1];
+				}
 			}
 		}
 		return null;
@@ -188,7 +190,9 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public Set<Direction> getResizeArea(int x, int y) {
 		Set<Direction> returnSet = new HashSet<Direction>();
-		if (state.getElementStyle() == ElementStyleEnum.NORESIZE || state.getElementStyle() == ElementStyleEnum.AUTORESIZE) return returnSet;
+		if (state.getElementStyle() == ElementStyleEnum.NORESIZE || state.getElementStyle() == ElementStyleEnum.AUTORESIZE) {
+			return returnSet;
+		}
 
 		if (x <= 5 && x >= 0) {
 			returnSet.add(Direction.LEFT);
@@ -381,7 +385,9 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	private void moveStickables(StickableMap stickables, StickingPolygon oldStickingPolygon) {
-		if (oldStickingPolygon == null) return; // if element has no stickingPolygon nothing has to be checked
+		if (oldStickingPolygon == null) {
+			return; // if element has no stickingPolygon nothing has to be checked
+		}
 		// the first drag determines which stickables and which points of them will stick (eg: moving through other relations should NOT "collect" their stickingpoints)
 		if (!stickables.isEmpty()) {
 			Stickables.moveStickPointsBasedOnPolygonChanges(oldStickingPolygon, generateStickingBorder(), stickables, getGridSize());

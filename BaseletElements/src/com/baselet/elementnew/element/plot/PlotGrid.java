@@ -212,10 +212,18 @@ public class PlotGrid extends NewGridElement {
 		String type = plotState.getValueValidated(PlotType.getKey(), PlotType.Bar.getValue(), PlotConstants.toStringList(PlotType.values()));
 		log.debug("PlotGrid insert : " + type + " (" + xPos + ";" + yPos + ") " + info);
 		PlotGridDrawConfig plotDrawConfig = new PlotGridDrawConfig(getRealSize(), new Dimension(getRectangle().width, getRectangle().height), minValue, maxValue);
-		if (PlotType.Pie.getValue().equals(type)) return new PiePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
-		else if (PlotType.Line.getValue().equals(type)) return new LinePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
-		else if (PlotType.Scatter.getValue().equals(type)) return new ScatterPlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
-		else return new BarPlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
+		if (PlotType.Pie.getValue().equals(type)) {
+			return new PiePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
+		}
+		else if (PlotType.Line.getValue().equals(type)) {
+			return new LinePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
+		}
+		else if (PlotType.Scatter.getValue().equals(type)) {
+			return new ScatterPlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
+		}
+		else {
+			return new BarPlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
+		}
 	}
 
 	public void drawPlots() {

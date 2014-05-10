@@ -67,9 +67,13 @@ public abstract class AbstractPlot {
 		Double[][] values = ds.data();
 		List<String> colors = plotState.getValueList(PlotConstants.KEY_LIST_COLORS, PlotConstants.COLORS_DEFAULT);
 		for (String color : colors) {
-			if (ColorOwn.forStringOrNull(color, Transparency.FOREGROUND) == null) throw new ParserException("Unknown color: " + color + "(line: " + plotState.getLine(PlotConstants.KEY_LIST_COLORS) + ")");
+			if (ColorOwn.forStringOrNull(color, Transparency.FOREGROUND) == null) {
+				throw new ParserException("Unknown color: " + color + "(line: " + plotState.getLine(PlotConstants.KEY_LIST_COLORS) + ")");
+			}
 		}
-		if (values.length > getMaxAllowedValueRows()) throw new ParserException("The dataset (line: " + plotState.getDataSet().getLineNr() + ") has too many rows for the plot (line: " + plotState.getPlotLineNr() + ")");
+		if (values.length > getMaxAllowedValueRows()) {
+			throw new ParserException("The dataset (line: " + plotState.getDataSet().getLineNr() + ") has too many rows for the plot (line: " + plotState.getPlotLineNr() + ")");
+		}
 
 		plot.setValues(desc, title, values, colors);
 		setMinMaxValue(PlotConstants.KEY_INT_MIN_VALUE);
@@ -103,8 +107,12 @@ public abstract class AbstractPlot {
 	}
 
 	protected void setPlotPosition(int columnCount, int rowCount) {
-		if (xPosition > columnCount) throw new ParserException("The x coordinate is invalid. PlotGrid width is too small");
-		if (yPosition > rowCount) throw new ParserException("The y coordinate is invalid. PlotGrid height is too small");
+		if (xPosition > columnCount) {
+			throw new ParserException("The x coordinate is invalid. PlotGrid width is too small");
+		}
+		if (yPosition > rowCount) {
+			throw new ParserException("The y coordinate is invalid. PlotGrid height is too small");
+		}
 
 		double segmentWidth = (double) plotDrawConfig.getRealSize().width / columnCount;
 		double segmentHeight = (double) plotDrawConfig.getRealSize().height / rowCount;
