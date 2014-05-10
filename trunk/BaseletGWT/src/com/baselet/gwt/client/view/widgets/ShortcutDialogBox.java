@@ -24,7 +24,7 @@ public class ShortcutDialogBox extends MyPopupPanel {
 		}
 
 		public void append(Shortcut shortcut) {
-			String color = (i++ % 2 != 0) ? "white" : "#E5E4E2";
+			String color = i++ % 2 != 0 ? "white" : "#E5E4E2";
 			builder.appendHtmlConstant("<tr style='background-color:" + color + "'><td style='padding-right:0.7em'>" + shortcut.getShortcut() + "</td><td style='width:100%'>" + shortcut.getDescription() + "</td></tr>");
 		}
 
@@ -49,9 +49,8 @@ public class ShortcutDialogBox extends MyPopupPanel {
 		for (Shortcut.Category c : Shortcut.Category.values()) {
 			map.put(c, new TableBuilder());
 		}
-		for (int i = 0; i < values.length; i++) {
-			Shortcut shortcut = values[i];
-			map.get(shortcut.getCategory()).append(values[i]);
+		for (Shortcut shortcut : values) {
+			map.get(shortcut.getCategory()).append(shortcut);
 		}
 
 		FlowPanel panel = new FlowPanel();

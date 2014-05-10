@@ -21,8 +21,8 @@ public enum Shortcut {
 	DESELECT_ALL("Ctrl+Shift+A Ctrl+D", "deselect all elements", Category.DIAGRAM, new Check() {
 		@Override
 		public boolean check(int code, KeyCodeEvent<? extends EventHandler> event) {
-			return (event.isControlKeyDown() && code == 'D') ||
-					(event.isControlKeyDown() && event.isShiftKeyDown() && code == 'A');
+			return event.isControlKeyDown() && code == 'D' ||
+					event.isControlKeyDown() && event.isShiftKeyDown() && code == 'A';
 		}
 	}),
 	COPY("Ctrl+C", "copy selected elements", Category.DIAGRAM, new Check() {

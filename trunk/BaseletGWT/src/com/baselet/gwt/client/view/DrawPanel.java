@@ -342,10 +342,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
 			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
 		}
-		if (isCtrlKeyDown) {
-			return; // TODO implement Lasso
-		}
-		// if cursorpos determines a resizedirection, resize the element from where the mouse is dragging (eg: if 2 elements are selected, you can resize any of them without losing your selection)
+		if (isCtrlKeyDown) return; // TODO implement Lasso
 		else if (!resizeDirection.isEmpty()) {
 			draggedGridElement.drag(resizeDirection, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement));
 		}

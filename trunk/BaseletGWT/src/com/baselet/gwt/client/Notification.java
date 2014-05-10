@@ -11,9 +11,7 @@ public class Notification {
 	private static Element element = RootPanel.get("featurewarning").getElement();
 
 	public static void showFeatureNotSupported(String text, boolean fadeOut) {
-		if (text.equals(lastShownFeatureNotSupportedText)) {
-			return; // don't repeat the last warning
-		}
+		if (text.equals(lastShownFeatureNotSupportedText)) return; // don't repeat the last warning
 		lastShownFeatureNotSupportedText = text;
 		element.getStyle().setColor("red");
 		element.setInnerHTML(text);
@@ -34,8 +32,12 @@ public class Notification {
 		private static Timer timerFader;
 
 		public static void fade(final Element element, final float startOpacity, final float endOpacity, final int delay, final int totalTimeMillis) {
-			if (timer != null) timer.cancel();
-			if (timerFader != null) timerFader.cancel();
+			if (timer != null) {
+				timer.cancel();
+			}
+			if (timerFader != null) {
+				timerFader.cancel();
+			}
 			DOM.setStyleAttribute(element, "opacity", Float.toString(startOpacity));// set start opacity now to make sure the opacity of an interrupted previous timer is overwritten
 			timer = new Timer() {
 				@Override

@@ -19,7 +19,7 @@ public class MyPopupPanel extends PopupPanel {
 
 	public MyPopupPanel(boolean glassEnabled, Type type) {
 		super(true);
-		this.setGlassEnabled(glassEnabled);
+		setGlassEnabled(glassEnabled);
 		this.type = type;
 
 	}

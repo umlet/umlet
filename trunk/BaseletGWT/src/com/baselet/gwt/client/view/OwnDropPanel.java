@@ -23,25 +23,25 @@ public class OwnDropPanel extends DropPanel {
 		this.add(diagramCanvas);
 		handler = new FileOpenHandler(diagramCanvas);
 
-		this.addDragOverHandler(new DragOverHandler() {
+		addDragOverHandler(new DragOverHandler() {
 			@Override
 			public void onDragOver(DragOverEvent event) {
 				avoidDefaultHandling(event);
 			}
 		});
-		this.addDragEnterHandler(new DragEnterHandler() {
+		addDragEnterHandler(new DragEnterHandler() {
 			@Override
 			public void onDragEnter(DragEnterEvent event) {
 				avoidDefaultHandling(event);
 			}
 		});
-		this.addDragLeaveHandler(new DragLeaveHandler() {
+		addDragLeaveHandler(new DragLeaveHandler() {
 			@Override
 			public void onDragLeave(DragLeaveEvent event) {
 				avoidDefaultHandling(event);
 			}
 		});
-		this.addDropHandler(new DropHandler() {
+		addDropHandler(new DropHandler() {
 			@Override
 			public void onDrop(DropEvent event) {
 				FileList files = event.getDataTransfer().<DataTransferExt> cast().getFiles();

@@ -14,7 +14,7 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 	private OwnDropPanel dropPanel;
 
 	public AutoResizeScrollDropPanel(final DrawPanel diagram) {
-		this.setAlwaysShowScrollBars(true); // must be set otherwise elements can "jump around" (eg: empty diagram, class outside of top of diagram, click multiple times on diagram -> class jumps back to diagram)
+		setAlwaysShowScrollBars(true); // must be set otherwise elements can "jump around" (eg: empty diagram, class outside of top of diagram, click multiple times on diagram -> class jumps back to diagram)
 		diagram.setScrollPanel(this);
 		dropPanel = new OwnDropPanel(diagram);
 		this.add(dropPanel);
@@ -81,33 +81,34 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 	}
 
 	private final native static String getScrollbarSizeHelper() /*-{
-	   var inner = document.createElement('p');
-	   inner.style.width = "100%";
-	   inner.style.height = "100%";  
+		var inner = document.createElement('p');
+		inner.style.width = "100%";
+		inner.style.height = "100%";
 
-	   var outer = document.createElement('div');
-	   outer.style.position = "absolute";
-	   outer.style.top = "0px";
-	   outer.style.left = "0px";
-	   outer.style.visibility = "hidden";
-	   outer.style.width = "100px";
-	   outer.style.height = "100px";
-	   outer.style.overflow = "hidden";
-	   outer.appendChild (inner);
+		var outer = document.createElement('div');
+		outer.style.position = "absolute";
+		outer.style.top = "0px";
+		outer.style.left = "0px";
+		outer.style.visibility = "hidden";
+		outer.style.width = "100px";
+		outer.style.height = "100px";
+		outer.style.overflow = "hidden";
+		outer.appendChild(inner);
 
-	   document.body.appendChild (outer);  
+		document.body.appendChild(outer);
 
-	   var w1 = inner.offsetWidth;
-	   var h1 = inner.offsetHeight;
-	   outer.style.overflow = 'scroll';
-	   var w2 = inner.offsetWidth;
-	   var h2 = inner.offsetHeight;
-	   if (w1 == w2) w2 = outer.clientWidth;
-	   if (h1 == h2) h2 = outer.clientHeight;
+		var w1 = inner.offsetWidth;
+		var h1 = inner.offsetHeight;
+		outer.style.overflow = 'scroll';
+		var w2 = inner.offsetWidth;
+		var h2 = inner.offsetHeight;
+		if (w1 == w2)
+			w2 = outer.clientWidth;
+		if (h1 == h2)
+			h2 = outer.clientHeight;
 
-	   document.body.removeChild (outer);  
+		document.body.removeChild(outer);
 
-	   return (w1 - w2) + " " + (h1 - h2);
+		return (w1 - w2) + " " + (h1 - h2);
 	}-*/;
 }
-
