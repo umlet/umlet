@@ -3,15 +3,14 @@ package com.baselet.diagram.draw.geom;
 import org.apache.log4j.Logger;
 
 public class Line {
-	
+
 	private static final Logger log = Logger.getLogger(Line.class);
 
 	PointDouble start;
 	PointDouble end;
-	
-	public Line() {
-	}
-	
+
+	public Line() {}
+
 	public Line(PointDouble start, PointDouble end) {
 		super();
 		this.start = start;
@@ -33,21 +32,21 @@ public class Line {
 	public void setEnd(PointDouble end) {
 		this.end = end;
 	}
-	
+
 	public PointDouble getCenter() {
-	    return new PointDouble((start.getX() + end.getX()) / 2, (start.getY() + end.getY()) / 2);
+		return new PointDouble((start.getX() + end.getX()) / 2, (start.getY() + end.getY()) / 2);
 	}
-	
+
 	public double getLength() {
 		return GeometricFunctions.distanceBetweenTwoPoints(start, end);
 	}
 
 	public double getAngleOfSlope() {
 		double radius = getLength();
-		double rad = Math.acos((start.x-end.x)/radius);
+		double rad = Math.acos((start.x - end.x) / radius);
 		double radDeg = Math.toDegrees(rad);
-		if (start.y < end.y){
-			radDeg = 360- radDeg;
+		if (start.y < end.y) {
+			radDeg = 360 - radDeg;
 		}
 		return radDeg;
 	}
@@ -81,7 +80,7 @@ public class Line {
 	}
 
 	public PointDouble[] toPoints() {
-		return new PointDouble[] {start, end};
+		return new PointDouble[] { start, end };
 	}
-	
+
 }

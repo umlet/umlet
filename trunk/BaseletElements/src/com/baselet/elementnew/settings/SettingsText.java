@@ -15,22 +15,27 @@ public class SettingsText extends Settings {
 	public XValues getXValues(double y, int height, int width) {
 		return new XValues(0, width);
 	}
+
 	@Override
 	public AlignVertical getVAlign() {
 		return AlignVertical.TOP;
 	}
+
 	@Override
 	public AlignHorizontal getHAlign() {
 		return AlignHorizontal.LEFT;
 	}
+
 	@Override
 	public ElementStyleEnum getElementStyle() {
 		return ElementStyleEnum.WORDWRAP;
 	}
+
 	@Override
 	public List<? extends Facet> createFacets() {
 		return Arrays.asList(SeparatorLineFacet.INSTANCE);
 	}
+
 	@Override
 	protected List<? extends Facet> createDefaultFacets() {
 		return Settings.ALL;

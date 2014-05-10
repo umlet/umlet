@@ -1,4 +1,3 @@
-
 package com.baselet.diagram.draw.helper;
 
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -13,7 +12,7 @@ public class Text {
 		this.text = text;
 		this.x = x;
 		this.y = y;
-		this.horizontalAlignment = align;
+		horizontalAlignment = align;
 	}
 
 	public String getText() {

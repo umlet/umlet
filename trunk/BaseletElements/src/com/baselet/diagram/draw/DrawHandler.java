@@ -29,16 +29,16 @@ public abstract class DrawHandler {
 	private ArrayList<DrawFunction> drawables = new ArrayList<DrawFunction>();
 	private ArrayList<DrawFunction> drawablesDelayed = new ArrayList<DrawFunction>();
 	private Style overlay = new Style();
-	
+
 	private boolean drawDelayed = false;
-	
+
 	public void setDrawDelayed(boolean drawDelayed) {
 		this.drawDelayed = drawDelayed;
 	}
 
 	public DrawHandler() {
-		this.fgDefaultColor = ColorOwn.DEFAULT_FOREGROUND;
-		this.bgDefaultColor = ColorOwn.DEFAULT_BACKGROUND;
+		fgDefaultColor = ColorOwn.DEFAULT_FOREGROUND;
+		bgDefaultColor = ColorOwn.DEFAULT_BACKGROUND;
 	}
 
 	public void setFgDefaultColor(ColorOwn fgDefaultColor) {
@@ -56,7 +56,8 @@ public abstract class DrawHandler {
 	protected void addDrawable(DrawFunction drawable) {
 		if (drawDelayed) {
 			drawablesDelayed.add(drawable);
-		} else {
+		}
+		else {
 			drawables.add(drawable);
 		}
 	}
@@ -64,7 +65,8 @@ public abstract class DrawHandler {
 	public void drawAll(boolean isSelected) {
 		if (isSelected) {
 			overlay.setFgColor(ColorOwn.SELECTION_FG);
-		} else {
+		}
+		else {
 			overlay.setFgColor(null);
 		}
 		drawAll();
@@ -88,23 +90,39 @@ public abstract class DrawHandler {
 	}
 
 	public final void setForegroundColor(String color) {
-		if (color.equals(ForegroundColorFacet.KEY)) setForegroundColor(fgDefaultColor);
-		else setForegroundColor(ColorOwn.forString(color, Transparency.FOREGROUND)); // if fgColor is not a valid string null will be set
+		if (color.equals(ForegroundColorFacet.KEY)) {
+			setForegroundColor(fgDefaultColor);
+		}
+		else {
+			setForegroundColor(ColorOwn.forString(color, Transparency.FOREGROUND)); // if fgColor is not a valid string null will be set
+		}
 	}
 
 	public final void setForegroundColor(ColorOwn color) {
-		if (color == null) style.setFgColor(ColorOwn.DEFAULT_FOREGROUND);
-		else style.setFgColor(color);
+		if (color == null) {
+			style.setFgColor(ColorOwn.DEFAULT_FOREGROUND);
+		}
+		else {
+			style.setFgColor(color);
+		}
 	}
 
 	public final void setBackgroundColor(String color) {
-		if (color.equals(BackgroundColorFacet.KEY)) setBackgroundColor(bgDefaultColor);
-		else setBackgroundColor(ColorOwn.forString(color, Transparency.BACKGROUND));
+		if (color.equals(BackgroundColorFacet.KEY)) {
+			setBackgroundColor(bgDefaultColor);
+		}
+		else {
+			setBackgroundColor(ColorOwn.forString(color, Transparency.BACKGROUND));
+		}
 	}
 
 	public final void setBackgroundColor(ColorOwn color) {
-		if (color == null) style.setBgColor(ColorOwn.DEFAULT_BACKGROUND);
-		else style.setBgColor(color);
+		if (color == null) {
+			style.setBgColor(ColorOwn.DEFAULT_BACKGROUND);
+		}
+		else {
+			style.setBgColor(color);
+		}
 	}
 
 	public void resetColorSettings() {
@@ -127,9 +145,7 @@ public abstract class DrawHandler {
 	}
 
 	private void assertDoubleRange(double doubleValue) {
-		if (doubleValue <= 0 || doubleValue > 100) {
-			throw new StyleException("value must be >0 and <=100");
-		}
+		if (doubleValue <= 0 || doubleValue > 100) throw new StyleException("value must be >0 and <=100");
 	}
 
 	public void resetStyle() {
@@ -164,40 +180,50 @@ public abstract class DrawHandler {
 		return 3;
 	}
 
-	/*
-	 * HELPER METHODS
-	 */
+	/* HELPER METHODS */
 
 	protected abstract DimensionDouble textDimension(String string);
+
 	protected abstract double getDefaultFontSize();
+
 	public abstract DrawHandler getPseudoDrawHandler();
 
-	/*
-	 * DRAW METHODS
-	 */
+	/* DRAW METHODS */
 	public void drawRectangle(Rectangle rect) {
 		drawRectangle(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
 	}
+
 	public void drawLine(Line line) {
 		drawLine(line.getStart().getX(), line.getStart().getY(), line.getEnd().getX(), line.getEnd().getY());
 	}
+
 	public void drawLine(double x1, double y1, double x2, double y2) {
 		drawLines(new PointDouble(x1, y1), new PointDouble(x2, y2));
 	}
+
 	public void drawLines(Collection<PointDouble> points) {
 		drawLines(points.toArray(new PointDouble[points.size()]));
 	}
-	public void drawLines(Line ... lines) {
+
+	public void drawLines(Line... lines) {
 		drawLines(Lines.toPoints(lines));
 	}
+
 	public void print(String text, double x, double y, AlignHorizontal align) {
-		print(text, new PointDouble(x,y), align);
+		print(text, new PointDouble(x, y), align);
 	}
+
 	public abstract void drawArcPie(double x, double y, double width, double height, double start, double extent);
+
 	public abstract void drawCircle(double x, double y, double radius);
+
 	public abstract void drawEllipse(double x, double y, double width, double height);
-	public abstract void drawLines(PointDouble ... points);
+
+	public abstract void drawLines(PointDouble... points);
+
 	public abstract void drawRectangle(double x, double y, double width, double height);
+
 	public abstract void drawRectangleRound(double x, double y, double width, double height, double radius);
+
 	public abstract void print(String text, PointDouble point, AlignHorizontal align);
 }

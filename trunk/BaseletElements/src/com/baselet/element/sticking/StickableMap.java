@@ -11,17 +11,15 @@ import java.util.Set;
 import com.baselet.control.SharedUtils;
 import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
 
-
 public class StickableMap {
 	public static final StickableMap EMPTY_MAP = new StickableMap();
 
 	Map<Stickable, List<PointDoubleIndexed>> map = new HashMap<Stickable, List<PointDoubleIndexed>>();
-	
-	public StickableMap() {
-	}
+
+	public StickableMap() {}
 
 	public boolean equalsMap(StickableMap other) {
-		return checkMapsEqual(this.map, other.map);
+		return checkMapsEqual(map, other.map);
 	}
 
 	private static boolean checkMapsEqual(Map<Stickable, List<PointDoubleIndexed>> mapA, Map<Stickable, List<PointDoubleIndexed>> mapB) {
@@ -30,9 +28,7 @@ public class StickableMap {
 		for (Entry<Stickable, List<PointDoubleIndexed>> entry : mapA.entrySet()) {
 			List<PointDoubleIndexed> setA = entry.getValue();
 			List<PointDoubleIndexed> setB = mapB.get(entry.getKey());
-			if (!containSameElements(setA, setB)) {
-				return false; // values for this key are not equal
-			}
+			if (!containSameElements(setA, setB)) return false; // values for this key are not equal
 		}
 
 		return true; // all keys and values are equal
@@ -61,7 +57,7 @@ public class StickableMap {
 	public Set<Stickable> getStickables() {
 		return map.keySet();
 	}
-	
+
 	public List<PointDoubleIndexed> getStickablePoints(Stickable stickable) {
 		return map.get(stickable);
 	}
@@ -74,6 +70,5 @@ public class StickableMap {
 	public String toString() {
 		return "StickableMap [map=" + SharedUtils.mapToString("\n", ",", map) + "]";
 	}
-	
-	
+
 }

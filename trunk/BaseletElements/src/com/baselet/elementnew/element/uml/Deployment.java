@@ -32,7 +32,7 @@ public class Deployment extends NewGridElement {
 	public ElementId getId() {
 		return ElementId.UMLDeployment;
 	}
-	
+
 	private static final int BORDER = 10;
 
 	@Override
@@ -43,16 +43,17 @@ public class Deployment extends NewGridElement {
 				new PointDouble(0, BORDER),
 				new PointDouble(BORDER, 0),
 				new PointDouble(w, 0),
-				new PointDouble(w, h-BORDER),
-				new PointDouble(w-BORDER, h)
+				new PointDouble(w, h - BORDER),
+				new PointDouble(w - BORDER, h)
 				);
-		PointDouble pLine = new PointDouble(w-BORDER, BORDER);
+		PointDouble pLine = new PointDouble(w - BORDER, BORDER);
 		// Fill 3d-rectangle
 		Style oldStyle = drawer.getStyle().cloneFromMe();
 		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 		if (oldStyle.getBgColor() == ColorOwn.DEFAULT_BACKGROUND) {
 			drawer.setBackgroundColor(ColorOwn.WHITE.transparency(Transparency.BACKGROUND).darken(80));
-		} else {
+		}
+		else {
 			drawer.setBackgroundColor(oldStyle.getBgColor().darken(80));
 		}
 		drawer.drawLines(p.get(0), p.get(1), p.get(2), p.get(3), p.get(4), pLine, p.get(0));
@@ -61,10 +62,9 @@ public class Deployment extends NewGridElement {
 		drawer.drawLines(p);
 		drawer.drawLines(pLine, p.get(2));
 		// Draw Content-Rectangle
-		drawer.drawRectangle(0, BORDER, w-BORDER, h-BORDER);
+		drawer.drawRectangle(0, BORDER, w - BORDER, h - BORDER);
 		state.addToTopBuffer(BORDER);
 		state.addToRightBuffer(BORDER);
 	}
 
 }
-

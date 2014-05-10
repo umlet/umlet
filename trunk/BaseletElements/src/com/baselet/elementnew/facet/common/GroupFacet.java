@@ -19,9 +19,11 @@ import com.baselet.elementnew.facet.KeyValueFacet;
 public class GroupFacet extends KeyValueFacet {
 
 	public static GroupFacet INSTANCE = new GroupFacet();
+
 	private GroupFacet() {}
 
 	public static final String KEY = "group";
+
 	@Override
 	public KeyValue getKeyValue() {
 		return new KeyValue(KEY, false, "1", "grouped elements are selected at once");
@@ -62,12 +64,13 @@ public class GroupFacet extends KeyValueFacet {
 			}
 		}
 	}
-	
+
 	public static Integer getUnusedGroupId(Collection<Integer> usedGroups) {
 		Integer newGroup;
 		if (usedGroups.isEmpty()) {
 			newGroup = 1;
-		} else {
+		}
+		else {
 			newGroup = Collections.max(usedGroups) + 1;
 		}
 		return newGroup;

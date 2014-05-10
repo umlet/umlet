@@ -85,10 +85,10 @@ public class ColorOwn {
 
 	public ColorOwn(String hex) {
 		int i = Integer.decode(hex);
-		this.red = (i >> 16) & 0xFF;
-		this.green = (i >> 8) & 0xFF;
-		this.blue = i & 0xFF;
-		this.alpha = Transparency.FOREGROUND.getAlpha();
+		red = i >> 16 & 0xFF;
+		green = i >> 8 & 0xFF;
+		blue = i & 0xFF;
+		alpha = Transparency.FOREGROUND.getAlpha();
 	}
 
 	public int getRed() {
@@ -112,7 +112,7 @@ public class ColorOwn {
 	}
 
 	public ColorOwn darken(int factor) {
-		return new ColorOwn(Math.max(0, getRed()-factor), Math.max(0, getGreen()-factor), Math.max(0, getBlue()-factor), getAlpha());
+		return new ColorOwn(Math.max(0, getRed() - factor), Math.max(0, getGreen() - factor), Math.max(0, getBlue() - factor), getAlpha());
 	}
 
 	/**
@@ -142,7 +142,8 @@ public class ColorOwn {
 		ColorOwn returnColor = null;
 		if (colorString == null) {
 			error = true;
-		} else {
+		}
+		else {
 			for (String color : COLOR_MAP.keySet()) {
 				if (colorString.equalsIgnoreCase(color)) {
 					returnColor = COLOR_MAP.get(color);
@@ -156,11 +157,11 @@ public class ColorOwn {
 					error = true;
 				}
 			}
-			if (returnColor != null) returnColor = returnColor.transparency(transparency);
+			if (returnColor != null) {
+				returnColor = returnColor.transparency(transparency);
+			}
 		}
-		if (error) {
-			throw new StyleException("value must be a " + EXAMPLE_TEXT);
-		}
+		if (error) throw new StyleException("value must be a " + EXAMPLE_TEXT);
 		return returnColor;
 	}
 
@@ -192,7 +193,5 @@ public class ColorOwn {
 	public String toString() {
 		return "ColorOwn [red=" + red + ", green=" + green + ", blue=" + blue + ", alpha=" + alpha + "]";
 	}
-
-
 
 }

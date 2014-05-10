@@ -13,37 +13,36 @@ import com.baselet.element.sticking.StickingPolygon.StickLine;
 import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
 
 public class Stickables {
-	
+
 	private static Logger log = Logger.getLogger(Stickables.class);
 
 	public static StickableMap getStickingPointsWhichAreConnectedToStickingPolygon(StickingPolygon oldStickingPolygon, Collection<? extends Stickable> stickables, int maxDistance) {
 		log.debug("Polygon to check: " + oldStickingPolygon);
 		StickableMap returnMap = new StickableMap();
-			for (final Stickable stickable : stickables) {
-				for (final PointDoubleIndexed p : stickable.getStickablePoints()) {
-					PointDouble absolutePointPosition = getAbsolutePosition(stickable, p);
-					log.debug("Check if sticks: " + absolutePointPosition);
-					for (StickLine sl : oldStickingPolygon.getStickLines()) {
-						if (sl.isConnected(absolutePointPosition, maxDistance)) {
-							returnMap.add(stickable, p);
-						}
+		for (final Stickable stickable : stickables) {
+			for (final PointDoubleIndexed p : stickable.getStickablePoints()) {
+				PointDouble absolutePointPosition = getAbsolutePosition(stickable, p);
+				log.debug("Check if sticks: " + absolutePointPosition);
+				for (StickLine sl : oldStickingPolygon.getStickLines()) {
+					if (sl.isConnected(absolutePointPosition, maxDistance)) {
+						returnMap.add(stickable, p);
 					}
 				}
 			}
+		}
 		return returnMap;
 	}
-
 
 	public static void moveStickPointsBasedOnPolygonChanges(StickingPolygon oldStickingPolygon, StickingPolygon newStickingPolygon, StickableMap stickablePointsToCheck, int maxDistance) {
 		// determine which sticklines have changed and only check sticks for them
 		List<StickLineChange> changedStickLines = getChangedStickLines(oldStickingPolygon, newStickingPolygon);
 		// go through all stickpoints and handle the stickline-change
 		for (final Stickable stickable : stickablePointsToCheck.getStickables()) {
-				List<PointChange> calculatedChanges = handleStickLineChange(stickable, stickablePointsToCheck.getStickablePoints(stickable), changedStickLines, maxDistance);
-				if (!calculatedChanges.isEmpty()) {
-					List<PointDoubleIndexed> updatedChangedPoints = stickable.movePoints(calculatedChanges);
-					stickablePointsToCheck.setStickablePoints(stickable, updatedChangedPoints);
-				}
+			List<PointChange> calculatedChanges = handleStickLineChange(stickable, stickablePointsToCheck.getStickablePoints(stickable), changedStickLines, maxDistance);
+			if (!calculatedChanges.isEmpty()) {
+				List<PointDoubleIndexed> updatedChangedPoints = stickable.movePoints(calculatedChanges);
+				stickablePointsToCheck.setStickablePoints(stickable, updatedChangedPoints);
+			}
 		}
 	}
 
@@ -67,13 +66,14 @@ public class Stickables {
 			PointDouble absolutePositionOfStickablePoint = getAbsolutePosition(stickable, pd);
 
 			StickLineChange change = getNearestStickLineChangeWhichWilLChangeTheStickPoint(changedStickLines, absolutePositionOfStickablePoint, maxDistance);
-			
+
 			if (change != null) {
 				PointDouble newPointToUse, oldPointToUse;
 				if (change.getNew().isConnected(absolutePositionOfStickablePoint, maxDistance)) {
 					newPointToUse = change.getNew().getStart();
 					oldPointToUse = change.getOld().getStart();
-				} else {
+				}
+				else {
 					newPointToUse = change.getNew().getEnd();
 					oldPointToUse = change.getOld().getEnd();
 				}
@@ -98,11 +98,11 @@ public class Stickables {
 			// update best match if this distance is in range and better than the old best match
 			if (distance < maxDistance && (lowestDistance == null || distance < lowestDistance)) {
 				// if distance to start end end of the stickable line has changed, move the stickable point (avoids unwanted moves (eg stickablepoint in middle and resizing top or bottom -> no move necessary))
-//				if ((Line.distanceBetweenTwoPoints(change.getOld().getStart(), absolutePositionOfStickablePoint) != Line.distanceBetweenTwoPoints(change.getNew().getStart(), absolutePositionOfStickablePoint)) &&
-//						(Line.distanceBetweenTwoPoints(change.getOld().getEnd(), absolutePositionOfStickablePoint) != Line.distanceBetweenTwoPoints(change.getNew().getEnd(), absolutePositionOfStickablePoint))) {
-					lowestDistance = distance;
-					changeMatchingLowestDistance = change;
-//				}
+				// if ((Line.distanceBetweenTwoPoints(change.getOld().getStart(), absolutePositionOfStickablePoint) != Line.distanceBetweenTwoPoints(change.getNew().getStart(), absolutePositionOfStickablePoint)) &&
+				// (Line.distanceBetweenTwoPoints(change.getOld().getEnd(), absolutePositionOfStickablePoint) != Line.distanceBetweenTwoPoints(change.getNew().getEnd(), absolutePositionOfStickablePoint))) {
+				lowestDistance = distance;
+				changeMatchingLowestDistance = change;
+				// }
 			}
 
 		}

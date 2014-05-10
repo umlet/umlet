@@ -12,17 +12,18 @@ import com.baselet.gui.AutocompletionText;
 public class SeparatorLineFacet extends Facet {
 
 	public static SeparatorLineFacet INSTANCE = new SeparatorLineFacet();
+
 	protected SeparatorLineFacet() {}
 
 	public static final String KEY = "--";
-	
+
 	private static final int H_SPACE = 4;
 
 	@Override
 	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
 		double linePos = state.getDividerPos(drawer);
 		XValues xPos = state.getXLimits(linePos);
-		drawer.drawLine(xPos.getLeft()+0.5, linePos, xPos.getRight()-1, linePos);
+		drawer.drawLine(xPos.getLeft() + 0.5, linePos, xPos.getRight() - 1, linePos);
 		state.addToYPos(H_SPACE);
 	}
 

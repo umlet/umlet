@@ -13,13 +13,15 @@ import com.baselet.elementnew.facet.GlobalFacet;
 import com.baselet.gui.AutocompletionText;
 
 public class LineDescriptionFacet extends GlobalFacet {
-	
+
 	public static LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
+
 	private LineDescriptionFacet() {}
 
 	private static final String MESSAGE_START_KEY = "m1";
 	private static final String MESSAGE_END_KEY = "m2";
 	private static final String MESSAGE_MIDDLE_KEY = "mm";
+
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
 		return line.startsWith(MESSAGE_START_KEY + SEP) || line.startsWith(MESSAGE_MIDDLE_KEY + SEP) || line.startsWith(MESSAGE_END_KEY + SEP);
@@ -46,29 +48,31 @@ public class LineDescriptionFacet extends GlobalFacet {
 		if (!text.isEmpty()) {
 			if (key.equals(MESSAGE_START_KEY)) {
 				pointText = calcPosOfArrowText(relationPoints.getFirstLine().getStart(), textWidth, textHeight);
-			} else if (key.equals(MESSAGE_END_KEY)) {
+			}
+			else if (key.equals(MESSAGE_END_KEY)) {
 				pointText = calcPosOfArrowText(relationPoints.getLastLine().getEnd(), textWidth, textHeight);
-			} else /*if (key.equals(MESSAGE_MIDDLE_KEY))*/ {
+			}
+			else /* if (key.equals(MESSAGE_MIDDLE_KEY)) */{
 				pointText = calcPosOfMiddleText(relationPoints.getDragBox().getCenter(), textWidth, textHeight);
 			}
 			drawer.print(text, pointText, AlignHorizontal.LEFT);
-			
+
 			// to make sure text is printed (and therefore withing relation-element-borders, resize relation according to text
-			relationPoints.resizeRelationSpaceToMakeTextVisible(textWidth+pointText.getX(), pointText.getY());
+			relationPoints.resizeRelationSpaceToMakeTextVisible(textWidth + pointText.getX(), pointText.getY());
 		}
 	}
 
 	private PointDouble calcPosOfArrowText(PointDouble pointArrow, double textWidth, double textHeight) {
 		double textX = pointArrow.getX() + RelationPoints.POINT_SELECTION_RADIUS; // default x-pos is at the right end of selectionradius
 		double textY = pointArrow.getY();
-		
+
 		// if text would be placed on the right outside of the relation and there is enough space to place it inside, do so
-		double selectionDiameter = RelationPoints.POINT_SELECTION_RADIUS*2;
+		double selectionDiameter = RelationPoints.POINT_SELECTION_RADIUS * 2;
 		double textXWithinRelationSpace = textX - textWidth - selectionDiameter;
 		if (textXWithinRelationSpace > selectionDiameter) {
 			textX = textXWithinRelationSpace;
 		}
-		
+
 		// if text wouldn't fit on top of the relation (normally for arrow points which are on the upper most position of the relation), place it on bottom of it
 		if (textY < textHeight) {
 			textY += textHeight; // make sure larger fontsizes will still fit
@@ -77,12 +81,12 @@ public class LineDescriptionFacet extends GlobalFacet {
 	}
 
 	private PointDouble calcPosOfMiddleText(PointDouble center, double textWidth, double textHeight) {
-		double textX = center.getX() - textWidth/2;
+		double textX = center.getX() - textWidth / 2;
 		double textY = center.getY();
 
 		// if text would not be visible at the left relation part, move it to visible area
 		if (textX < 0) {
-			textX += textWidth/2 + RelationPoints.DRAG_BOX_SIZE;
+			textX += textWidth / 2 + RelationPoints.DRAG_BOX_SIZE;
 		}
 
 		return new PointDouble(textX, textY);

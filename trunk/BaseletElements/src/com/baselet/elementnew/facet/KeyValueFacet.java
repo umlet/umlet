@@ -21,13 +21,13 @@ public abstract class KeyValueFacet extends GlobalFacet {
 			super();
 			this.key = key.toLowerCase();
 			this.allValuesListed = allValuesListed;
-			this.valueInfos = Arrays.asList(new ValueInfo(value, info));
+			valueInfos = Arrays.asList(new ValueInfo(value, info));
 		}
 
-		public KeyValue(String key, ValueInfo ... valueInfos) {
+		public KeyValue(String key, ValueInfo... valueInfos) {
 			super();
 			this.key = key;
-			this.allValuesListed = true;
+			allValuesListed = true;
 			this.valueInfos = Arrays.asList(valueInfos);
 		}
 
@@ -43,13 +43,14 @@ public abstract class KeyValueFacet extends GlobalFacet {
 			StringBuilder sb = new StringBuilder();
 			if (allValuesListed) {
 				sb.append("Valid are: ");
-			for (ValueInfo vi : valueInfos) {
-				sb.append(vi.value.toString().toLowerCase()).append(",");
-			}
-				sb.deleteCharAt(sb.length()-1);
-			} else {
 				for (ValueInfo vi : valueInfos) {
-				sb.append(vi.info);
+					sb.append(vi.value.toString().toLowerCase()).append(",");
+				}
+				sb.deleteCharAt(sb.length() - 1);
+			}
+			else {
+				for (ValueInfo vi : valueInfos) {
+					sb.append(vi.info);
 				}
 			}
 			return sb.toString();
@@ -71,18 +72,20 @@ public abstract class KeyValueFacet extends GlobalFacet {
 			this.info = info;
 			this.base64Img = base64Img;
 		}
+
 		public Object getValue() {
 			return value;
 		}
+
 		private String getInfo() {
 			return info;
 		}
+
 		private String getBase64Img() {
 			return base64Img;
 		}
 
 	}
-
 
 	public abstract KeyValue getKeyValue();
 

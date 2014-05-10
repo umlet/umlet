@@ -11,7 +11,7 @@ public class AutocompletionText {
 		this.text = text;
 		this.info = info;
 	}
-	
+
 	public AutocompletionText(String text, String info, String base64Img) {
 		super();
 		this.text = text;
@@ -22,7 +22,7 @@ public class AutocompletionText {
 	public String getText() {
 		return text;
 	}
-	
+
 	public void setText(String text) {
 		this.text = text;
 	}
@@ -30,7 +30,7 @@ public class AutocompletionText {
 	public String getInfo() {
 		return info;
 	}
-	
+
 	public void setGlobal(boolean global) {
 		this.global = global;
 	}
@@ -40,11 +40,8 @@ public class AutocompletionText {
 	}
 
 	public String getHtmlInfo() {
-		if (base64Img == null) {
-			return getText() + " <span style='font-style:italic;color:gray'>" + getInfo() + "</span>";
-		} else {
-			return getText() + " <img src='data:image/gif;base64," + base64Img + "'>";
-		}
+		if (base64Img == null) return getText() + " <span style='font-style:italic;color:gray'>" + getInfo() + "</span>";
+		else return getText() + " <img src='data:image/gif;base64," + base64Img + "'>";
 	}
-	
+
 }

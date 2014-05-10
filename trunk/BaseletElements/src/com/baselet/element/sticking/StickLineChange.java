@@ -15,7 +15,7 @@ public class StickLineChange {
 	public StickLine getNew() {
 		return newLine;
 	}
-	
+
 	public StickLine getOld() {
 		return oldLine;
 	}

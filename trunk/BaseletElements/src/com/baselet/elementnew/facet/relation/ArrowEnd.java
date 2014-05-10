@@ -12,6 +12,7 @@ interface ArrowEnd extends ValueHolder {
 		public void print(DrawHandler drawer, RelationPoints points) {
 			RelationDrawer.drawArrowToLine(drawer, points.getFirstLine(), true, false, false);
 		}
+
 		@Override
 		public String getValue() {
 			return "<";
@@ -23,6 +24,7 @@ interface ArrowEnd extends ValueHolder {
 		public void print(DrawHandler drawer, RelationPoints points) {
 			RelationDrawer.drawArrowToLine(drawer, points.getLastLine(), false, false, false);
 		}
+
 		@Override
 		public String getValue() {
 			return ">";
@@ -34,6 +36,7 @@ interface ArrowEnd extends ValueHolder {
 		public void print(DrawHandler drawer, RelationPoints points) {
 			RelationDrawer.drawArrowToLine(drawer, points.getFirstLine(), true, false, true);
 		}
+
 		@Override
 		public String getValue() {
 			return "<<";
@@ -45,6 +48,7 @@ interface ArrowEnd extends ValueHolder {
 		public void print(DrawHandler drawer, RelationPoints points) {
 			RelationDrawer.drawArrowToLine(drawer, points.getLastLine(), false, false, true);
 		}
+
 		@Override
 		public String getValue() {
 			return ">>";

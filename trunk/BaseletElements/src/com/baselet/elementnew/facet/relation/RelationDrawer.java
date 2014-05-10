@@ -30,7 +30,7 @@ public class RelationDrawer {
 	private static PointDouble calcPoint(PointDouble point, double angleOfSlopeOfLine, boolean first, int angle) {
 		int arrowLength = RelationPoints.POINT_SELECTION_RADIUS;
 		int arrowAngle = angle;
-		double angleTotal = first ? angleOfSlopeOfLine-arrowAngle : angleOfSlopeOfLine+arrowAngle;
+		double angleTotal = first ? angleOfSlopeOfLine - arrowAngle : angleOfSlopeOfLine + arrowAngle;
 		double x = point.x + arrowLength * Math.cos(Math.toRadians(angleTotal));
 		double y = point.y + arrowLength * Math.sin(Math.toRadians(angleTotal));
 		return new PointDouble(x, y);

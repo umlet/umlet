@@ -12,7 +12,7 @@ import com.baselet.elementnew.element.plot.parser.PlotState;
 public class PiePlot extends AbstractPlot {
 
 	public PiePlot(DrawHandler drawer, PlotGridDrawConfig plotDrawConfig, PlotState plotState, int xPos, int yPos) {
-		super(drawer, plotDrawConfig, plotState, xPos, yPos); 
+		super(drawer, plotDrawConfig, plotState, xPos, yPos);
 	}
 
 	@Override
@@ -41,6 +41,5 @@ public class PiePlot extends AbstractPlot {
 	protected int getMaxAllowedValueRows() {
 		return 1;
 	}
-
 
 }

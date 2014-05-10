@@ -37,7 +37,7 @@ import com.baselet.elementnew.settings.Settings;
 import com.baselet.gui.AutocompletionText;
 
 public abstract class NewGridElement implements GridElement {
-	
+
 	private Logger log = Logger.getLogger(NewGridElement.class);
 
 	private DrawHandler drawer; // this is the drawer for element specific stuff
@@ -55,8 +55,8 @@ public abstract class NewGridElement implements GridElement {
 
 	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, Component component, DrawHandlerInterface handler) {
 		this.component = component;
-		this.drawer = component.getDrawHandler();
-		this.metaDrawer = component.getMetaDrawHandler();
+		drawer = component.getDrawHandler();
+		metaDrawer = component.getMetaDrawHandler();
 		setPanelAttributesHelper(panelAttributes);
 		setRectangle(bounds);
 		this.handler = handler;
@@ -85,9 +85,9 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public void setPanelAttributes(String panelAttributes) {
 		setPanelAttributesHelper(panelAttributes);
-		this.updateModelFromText();
+		updateModelFromText();
 	}
-	
+
 	public void setPanelAttributesHelper(String panelAttributes) {
 		this.panelAttributes = Arrays.asList(panelAttributes.split("\n", -1)); // split with -1 to retain empty lines at the end
 	}
@@ -99,10 +99,9 @@ public abstract class NewGridElement implements GridElement {
 	 */
 	private boolean autoresizePossiblyInProgress = false;
 
-
 	@Override
 	public void updateModelFromText() {
-		this.autoresizePossiblyInProgress = true;
+		autoresizePossiblyInProgress = true;
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
 		try {
@@ -115,9 +114,9 @@ public abstract class NewGridElement implements GridElement {
 			drawer.setLineWidth(0.2);
 			drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height); // draw dotted rect (to enforce background color even if element has no border)
 			resetMetaDrawer(metaDrawer);
-			drawer.print(e.getLocalizedMessage(), 3, getRealSize().height/2 - drawer.textHeight(), AlignHorizontal.LEFT);
+			drawer.print(e.getLocalizedMessage(), 3, getRealSize().height / 2 - drawer.textHeight(), AlignHorizontal.LEFT);
 		}
-		this.autoresizePossiblyInProgress = false;
+		autoresizePossiblyInProgress = false;
 
 		component.afterModelUpdate();
 	}
@@ -137,7 +136,7 @@ public abstract class NewGridElement implements GridElement {
 		if (SharedConstants.dev_mode) {
 			drawer.setForegroundColor(ColorOwn.BLACK);
 			drawer.setFontSize(10.5);
-			drawer.print(getId().toString(), new PointDouble(getRealSize().width-3, getRealSize().height-2), AlignHorizontal.RIGHT);
+			drawer.print(getId().toString(), new PointDouble(getRealSize().width - 3, getRealSize().height - 2), AlignHorizontal.RIGHT);
 		}
 		drawer.resetColorSettings();
 		if (SharedConstants.show_stickingpolygon) {
@@ -149,11 +148,15 @@ public abstract class NewGridElement implements GridElement {
 	public void setProperty(String key, Object newValue) {
 		String newState = "";
 		for (String line : getPanelAttributesAsList()) {
-			if (!line.startsWith(key)) newState += line + "\n";
+			if (!line.startsWith(key)) {
+				newState += line + "\n";
+			}
 		}
-		newState = newState.substring(0, newState.length()-1); //remove last linebreak
-		if (newValue != null) newState += "\n" + key + Facet.SEP + newValue.toString(); // null will not be added as a value
-		this.setPanelAttributes(newState);
+		newState = newState.substring(0, newState.length() - 1); // remove last linebreak
+		if (newValue != null) {
+			newState += "\n" + key + Facet.SEP + newValue.toString(); // null will not be added as a value
+		}
+		setPanelAttributes(newState);
 	}
 
 	@Override
@@ -179,28 +182,31 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public boolean isInRange(Rectangle rect1) {
-		return (rect1.contains(getRectangle()));
+		return rect1.contains(getRectangle());
 	}
 
 	@Override
 	public Set<Direction> getResizeArea(int x, int y) {
 		Set<Direction> returnSet = new HashSet<Direction>();
-		if (state.getElementStyle() == ElementStyleEnum.NORESIZE || state.getElementStyle() == ElementStyleEnum.AUTORESIZE) {
-			return returnSet;
+		if (state.getElementStyle() == ElementStyleEnum.NORESIZE || state.getElementStyle() == ElementStyleEnum.AUTORESIZE) return returnSet;
+
+		if (x <= 5 && x >= 0) {
+			returnSet.add(Direction.LEFT);
+		}
+		else if (x <= getRectangle().width && x >= getRectangle().width - 5) {
+			returnSet.add(Direction.RIGHT);
 		}
 
-		if ((x <= 5) && (x >= 0)) returnSet.add(Direction.LEFT);
-		else if ((x <= this.getRectangle().width) && (x >= this.getRectangle().width - 5)) returnSet.add(Direction.RIGHT);
-
-		if ((y <= 5) && (y >= 0)) returnSet.add(Direction.UP);
-		else if ((y <= this.getRectangle().height) && (y >= this.getRectangle().height - 5)) returnSet.add(Direction.DOWN);
+		if (y <= 5 && y >= 0) {
+			returnSet.add(Direction.UP);
+		}
+		else if (y <= getRectangle().height && y >= getRectangle().height - 5) {
+			returnSet.add(Direction.DOWN);
+		}
 		return returnSet;
 	}
 
-	/*
-	 * method is final because it's not flexible enough. instead overwrite StickingPolygonGenerator in PropertiesConfig
-	 * eg: Class uses this to change the stickingpolygon based on which facets are active (see Class.java)
-	 */
+	/* method is final because it's not flexible enough. instead overwrite StickingPolygonGenerator in PropertiesConfig eg: Class uses this to change the stickingpolygon based on which facets are active (see Class.java) */
 	@Override
 	public final StickingPolygon generateStickingBorder(Rectangle rect) {
 		return state.getStickingPolygonGenerator().generateStickingBorder(rect);
@@ -225,7 +231,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void changeSize(int diffx, int diffy) {
-		this.setSize(this.getRectangle().width + diffx, this.getRectangle().height + diffy);
+		setSize(getRectangle().width + diffx, getRectangle().height + diffy);
 	}
 
 	@Override
@@ -235,7 +241,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void setLocationDifference(int diffx, int diffy) {
-		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
+		setLocation(getRectangle().x + diffx, getRectangle().y + diffy);
 	}
 
 	@Override
@@ -251,7 +257,7 @@ public abstract class NewGridElement implements GridElement {
 			Rectangle rect = getRectangle();
 			rect.setSize(width, height);
 			setRectangle(rect);
-			if (!this.autoresizePossiblyInProgress) {
+			if (!autoresizePossiblyInProgress) {
 				updateModelFromText();
 			}
 		}
@@ -281,7 +287,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	protected abstract Settings createSettings();
-	
+
 	@Override
 	public List<AutocompletionText> getAutocompletionList() {
 		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
@@ -305,43 +311,48 @@ public abstract class NewGridElement implements GridElement {
 	public Integer getLayer() {
 		return state.getFacetResponse(LayerFacet.class, LayerFacet.DEFAULT_VALUE);
 	}
-	
+
 	@Override
 	public Integer getGroup() {
 		return state.getFacetResponse(GroupFacet.class, null);
 	}
-	
+
 	@Override
 	public void handleAutoresize(DimensionDouble necessaryElementDimension, AlignHorizontal alignHorizontal) {
 		double hSpaceLeftAndRight = drawer.getDistanceHorizontalBorderToText() * 2;
 		double width = necessaryElementDimension.getWidth() + hSpaceLeftAndRight;
-		double height = necessaryElementDimension.getHeight() + drawer.textHeight()/2;
+		double height = necessaryElementDimension.getHeight() + drawer.textHeight() / 2;
 		Dimension realSize = getRealSize();
-		double diffw = width-realSize.width;
-		double diffh = height-realSize.height;
+		double diffw = width - realSize.width;
+		double diffh = height - realSize.height;
 		handler.resize(diffw, diffh, alignHorizontal);
 	}
 
 	@Override
 	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, StickableMap stickables) {
 		StickingPolygon oldStickingPolygon = generateStickingBorder();
-		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
+		setLocation(getRectangle().x + diffx, getRectangle().y + diffy);
 		moveStickables(stickables, oldStickingPolygon);
 	}
-	
+
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, StickableMap stickables) {
 		StickingPolygon stickingPolygonBeforeLocationChange = generateStickingBorder();
 		if (resizeDirection.isEmpty()) { // Move GridElement
 			setLocationDifference(diffX, diffY);
-		} else { // Resize GridElement
+		}
+		else { // Resize GridElement
 			Rectangle rect = getRectangle();
 			if (isShiftKeyDown && diagonalResize(resizeDirection)) { // Proportional Resize
-				if (diffX > diffY) diffX = diffY;
-				if (diffY > diffX) diffY = diffX;
+				if (diffX > diffY) {
+					diffX = diffY;
+				}
+				if (diffY > diffX) {
+					diffY = diffX;
+				}
 			}
 			if (resizeDirection.contains(Direction.LEFT) && resizeDirection.contains(Direction.RIGHT)) {
-				rect.setX(rect.getX() - diffX/2);
+				rect.setX(rect.getX() - diffX / 2);
 				rect.setWidth(Math.max(rect.getWidth() + diffX, MINIMAL_SIZE));
 			}
 			else if (resizeDirection.contains(Direction.LEFT)) {
@@ -361,7 +372,7 @@ public abstract class NewGridElement implements GridElement {
 			}
 
 			setRectangle(rect);
-			if (!this.autoresizePossiblyInProgress) {
+			if (!autoresizePossiblyInProgress) {
 				updateModelFromText();
 			}
 		}
@@ -388,10 +399,10 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	private boolean diagonalResize(Collection<Direction> resizeDirection) {
-		return (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) ||
-				(resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) ||
-				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) ||
-				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT));
+		return resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT) ||
+				resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT) ||
+				resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT) ||
+				resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT);
 	}
 
 	protected DrawHandlerInterface getHandler() {

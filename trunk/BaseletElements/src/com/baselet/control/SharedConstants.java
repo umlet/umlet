@@ -1,8 +1,5 @@
 package com.baselet.control;
 
-
-
-
 /**
  * temporary separation of constants which are used by NewGridElement class (for an easier migration to a non-awt based gui)
  */
@@ -27,25 +24,28 @@ public class SharedConstants {
 		public static void init(String version) {
 			WEBSITE = "http://www." + NAME.toLowerCase() + ".com";
 
-			if (Program.RUNTIME_TYPE == RuntimeType.STANDALONE) CONFIG_NAME = NAME.toLowerCase() + ".cfg";
-			else CONFIG_NAME = NAME.toLowerCase() + "plugin.cfg";
+			if (Program.RUNTIME_TYPE == RuntimeType.STANDALONE) {
+				CONFIG_NAME = NAME.toLowerCase() + ".cfg";
+			}
+			else {
+				CONFIG_NAME = NAME.toLowerCase() + "plugin.cfg";
+			}
 
 			VERSION = version;
 		}
 
 	}
-	
+
 	public static final int DEFAULT_GRID_SIZE = 10;
-	
+
 	public static boolean show_stickingpolygon = true;
-	
+
 	public static boolean dev_mode = false;
-	
+
 	public static String program = ""; // TODO merge with Constants.Program
 
 	public static String VERSION = "12.2"; // TODO merge with Constants.Program
-	
-	public static boolean stickingEnabled = true; // TODO temporarily implemented as "constant" to make it work for Swing and GWT
 
+	public static boolean stickingEnabled = true; // TODO temporarily implemented as "constant" to make it work for Swing and GWT
 
 }

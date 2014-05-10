@@ -1,6 +1,5 @@
 package com.baselet.diagram.commandnew;
 
-
 public abstract class Command {
 
 	public abstract void execute();
@@ -14,6 +13,7 @@ public abstract class Command {
 	public Command mergeTo(Command c) {
 		return null;
 	}
+
 	public boolean isChangingDiagram() {
 		return true;
 	}

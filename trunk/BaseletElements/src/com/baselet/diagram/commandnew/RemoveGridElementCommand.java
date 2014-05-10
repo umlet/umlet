@@ -23,5 +23,5 @@ public class RemoveGridElementCommand extends Command {
 	public void undo() {
 		target.addGridElements(elements);
 	}
-	
+
 }

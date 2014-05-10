@@ -36,4 +36,3 @@ public class Generic extends NewGridElement {
 	}
 
 }
-

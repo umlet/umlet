@@ -36,9 +36,7 @@ public class PointDoubleHolderList {
 			}
 		}
 		rebuildpointIndexes();
-		if (newPoint == null) {
-			throw new RuntimeException("Point " + endOfLine + " not found in list " + points);
-		}
+		if (newPoint == null) throw new RuntimeException("Point " + endOfLine + " not found in list " + points);
 		return newPoint;
 	}
 
@@ -90,8 +88,8 @@ public class PointDoubleHolderList {
 			PointDoubleIndexed p = iter.next();
 			iter.set(new PointDoubleIndexed(p.getIndex(), p.getX() - displacementX, p.getY() - displacementY));
 			// If points are off the grid they can be realigned here (use the following 2 lines instead of move())
-			//			p.setX(SharedUtils.realignTo(true, p.getX()-displacementX, false, SharedConstants.DEFAULT_GRID_SIZE));
-			//			p.setY(SharedUtils.realignTo(true, p.getY()-displacementY, false, SharedConstants.DEFAULT_GRID_SIZE));
+			// p.setX(SharedUtils.realignTo(true, p.getX()-displacementX, false, SharedConstants.DEFAULT_GRID_SIZE));
+			// p.setY(SharedUtils.realignTo(true, p.getY()-displacementY, false, SharedConstants.DEFAULT_GRID_SIZE));
 		}
 	}
 
@@ -110,7 +108,8 @@ public class PointDoubleHolderList {
 					iter.previous();
 					iter.remove();
 					pointToCheck = iter.next();
-				} else {
+				}
+				else {
 					leftNeighbour = pointToCheck;
 					pointToCheck = rightNeighbour;
 				}
@@ -135,18 +134,18 @@ public class PointDoubleHolderList {
 	}
 
 	public Line getLastLine() {
-		return new Line(points.get(points.size()-2), points.get(points.size()-1));
+		return new Line(points.get(points.size() - 2), points.get(points.size() - 1));
 	}
 
 	public Collection<PointDoubleIndexed> getStickablePoints() {
-		return Arrays.asList(points.get(0), points.get(points.size()-1));
+		return Arrays.asList(points.get(0), points.get(points.size() - 1));
 	}
 
 	public Rectangle getDragBox() {
 		PointDoubleIndexed begin = points.get(points.size() / 2);
 		PointDoubleIndexed end = points.get(points.size() / 2 - 1);
 		PointDouble center = new Line(begin, end).getCenter();
-		Rectangle rectangle = RelationPointsUtils.toRectangle(center, RelationPoints.DRAG_BOX_SIZE/2);
+		Rectangle rectangle = RelationPointsUtils.toRectangle(center, RelationPoints.DRAG_BOX_SIZE / 2);
 		return rectangle;
 	}
 
@@ -156,7 +155,7 @@ public class PointDoubleHolderList {
 			returnString += p.getX() + ";" + p.getY() + ";";
 		}
 		if (!returnString.isEmpty()) {
-			returnString = returnString.substring(0, returnString.length()-1);
+			returnString = returnString.substring(0, returnString.length() - 1);
 		}
 		return returnString;
 	}

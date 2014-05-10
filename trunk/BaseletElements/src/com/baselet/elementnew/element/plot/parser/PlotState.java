@@ -14,7 +14,7 @@ public class PlotState {
 	private int plotLineNr;
 
 	protected PlotState(int plotLineNr, HashMap<String, KeyValue> values) {
-		this.subPlots = new ArrayList<PlotState>();
+		subPlots = new ArrayList<PlotState>();
 		this.plotLineNr = plotLineNr;
 		this.values = values;
 	}
@@ -26,12 +26,12 @@ public class PlotState {
 		this.dataset = dataset;
 	}
 
-	public void addSubPlot(PlotState plotState)	{
+	public void addSubPlot(PlotState plotState) {
 		subPlots.add(plotState);
 	}
 
 	public List<PlotState> getSubplots() {
-		return subPlots;		
+		return subPlots;
 	}
 
 	public DataSet getDataSet() {
@@ -53,7 +53,9 @@ public class PlotState {
 
 	public String getValue(String key, String defaultValue) {
 		KeyValue keyValue = values.get(key);
-		if (keyValue != null) keyValue.setUsed(true);
+		if (keyValue != null) {
+			keyValue.setUsed(true);
+		}
 		if (keyValue == null || keyValue.getValue().equals(PlotConstants.DEFAULT_VALUE)) return defaultValue;
 		else return keyValue.getValue();
 	}
@@ -66,7 +68,7 @@ public class PlotState {
 
 	public Double getValueAsDouble(String key, Double defaultValue) {
 		try {
-			String value = this.getValue(key, null);
+			String value = getValue(key, null);
 			if (value == null) return defaultValue;
 			else return Double.parseDouble(value);
 		} catch (Exception e) {
@@ -76,7 +78,7 @@ public class PlotState {
 
 	public Integer getValueAsInt(String key, Integer defaultValue) {
 		try {
-			String value = this.getValue(key, null);
+			String value = getValue(key, null);
 			if (value == null) return defaultValue;
 			else return Integer.parseInt(value);
 		} catch (Exception e) {
@@ -85,9 +87,9 @@ public class PlotState {
 	}
 
 	public Boolean getValueAsBoolean(String key, Boolean defaultValue) {
-		String value = this.getValue(key, null);
+		String value = getValue(key, null);
 		if (value == null) return defaultValue;
-		//Boolean.parseBoolean() cannot be used because it doesn't throw an Exception
+		// Boolean.parseBoolean() cannot be used because it doesn't throw an Exception
 		else if (value.equals("true")) return true;
 		else if (value.equals("false")) return false;
 		else throw new ParserException(key, values.get(key).getValue(), values.get(key).getLine());
@@ -95,9 +97,13 @@ public class PlotState {
 
 	public List<String> getValueList(String key, List<String> defaultValue) {
 		List<String> returnArray;
-		String value = this.getValue(key, null);
-		if (value == null) returnArray = defaultValue;
-		else returnArray = Arrays.asList(value.split(PlotConstants.VALUE_LIST_SEPARATOR));
+		String value = getValue(key, null);
+		if (value == null) {
+			returnArray = defaultValue;
+		}
+		else {
+			returnArray = Arrays.asList(value.split(PlotConstants.VALUE_LIST_SEPARATOR));
+		}
 		return returnArray;
 	}
 
@@ -114,8 +120,9 @@ public class PlotState {
 		try {
 			Double.parseDouble(value);
 			return true;
-		} 
-		catch (Exception e) { return false; }
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**
@@ -124,7 +131,9 @@ public class PlotState {
 	public void checkIfAllValuesUsed() {
 		String unusedVariables = "";
 		for (KeyValue keyValue : values.values()) {
-			if (!keyValue.isUsed()) unusedVariables += "\"" + keyValue.getKey() + "=" + keyValue.getValue() + "\" (line " + keyValue.getLine() + ") ";
+			if (!keyValue.isUsed()) {
+				unusedVariables += "\"" + keyValue.getKey() + "=" + keyValue.getValue() + "\" (line " + keyValue.getLine() + ") ";
+			}
 		}
 		if (!unusedVariables.isEmpty()) throw new ParserException("Invalid variables: " + unusedVariables);
 	}
@@ -133,15 +142,17 @@ public class PlotState {
 	public String toString() {
 		String returnString = "";
 		returnString += "PlotState (" + plotLineNr + ")\n";
-		if (dataset != null) returnString += "\tdataset -> " + dataset.getLineNr() + "\n";
+		if (dataset != null) {
+			returnString += "\tdataset -> " + dataset.getLineNr() + "\n";
+		}
 		for (KeyValue keyValue : values.values()) {
 			returnString += "\t" + keyValue + "\n";
 		}
 
 		if (!subPlots.isEmpty()) {
 			returnString += "---Begin Subplots---\n";
-			for (PlotState subPlot: subPlots) {
-				returnString += subPlot.toString();  
+			for (PlotState subPlot : subPlots) {
+				returnString += subPlot.toString();
 			}
 			returnString += "---End Subplots---\n";
 		}

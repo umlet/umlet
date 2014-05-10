@@ -23,7 +23,7 @@ public class Interface extends NewGridElement {
 			return p;
 		}
 	};
-	
+
 	@Override
 	public ElementId getId() {
 		return ElementId.UMLInterface;
@@ -33,13 +33,13 @@ public class Interface extends NewGridElement {
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		state.addToYPos(TOP_DISTANCE + CIRCLE_SIZE);// space reserved for the top circle
 		Rectangle circleRect = circleRect();
-		drawer.drawCircle(circleRect.x + CIRCLE_SIZE/2, circleRect.y + CIRCLE_SIZE/2, CIRCLE_SIZE/2);
-		
+		drawer.drawCircle(circleRect.x + CIRCLE_SIZE / 2, circleRect.y + CIRCLE_SIZE / 2, CIRCLE_SIZE / 2);
+
 		state.setStickingPolygonGenerator(interfacePolygonGenerator);
 	}
 
 	private Rectangle circleRect() {
-		int middlePos = getRealSize().getWidth() / 2 - CIRCLE_SIZE/2;
+		int middlePos = getRealSize().getWidth() / 2 - CIRCLE_SIZE / 2;
 		return new Rectangle(middlePos, TOP_DISTANCE, CIRCLE_SIZE, CIRCLE_SIZE);
 	}
 

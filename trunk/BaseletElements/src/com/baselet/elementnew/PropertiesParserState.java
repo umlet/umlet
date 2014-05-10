@@ -15,9 +15,9 @@ import com.baselet.elementnew.facet.common.ElementStyleFacet.ElementStyleEnum;
 import com.baselet.elementnew.settings.Settings;
 
 public class PropertiesParserState {
-	
+
 	private Settings settings;
-	
+
 	private AlignHorizontal hAlign;
 	private boolean hAlignGloballySet;
 	private AlignVertical vAlign;
@@ -60,7 +60,9 @@ public class PropertiesParserState {
 	}
 
 	public void sethAlign(AlignHorizontal hAlign) {
-		if (!hAlignGloballySet) this.hAlign = hAlign;
+		if (!hAlignGloballySet) {
+			this.hAlign = hAlign;
+		}
 	}
 
 	public void sethAlignGlobally(AlignHorizontal hAlign) {
@@ -74,8 +76,12 @@ public class PropertiesParserState {
 	}
 
 	public void resetAlign() {
-		if (!hAlignGloballySet) this.hAlign = settings.getHAlign();
-		if (!vAlignGloballySet) this.vAlign = settings.getVAlign();
+		if (!hAlignGloballySet) {
+			hAlign = settings.getHAlign();
+		}
+		if (!vAlignGloballySet) {
+			vAlign = settings.getVAlign();
+		}
 	}
 
 	public AlignVertical getvAlign() {
@@ -83,7 +89,9 @@ public class PropertiesParserState {
 	}
 
 	public void setvAlign(AlignVertical vAlign) {
-		if (!vAlignGloballySet) this.vAlign = vAlign;
+		if (!vAlignGloballySet) {
+			this.vAlign = vAlign;
+		}
 	}
 
 	public double getyPos() {
@@ -95,19 +103,19 @@ public class PropertiesParserState {
 	}
 
 	public void addToTopBuffer(double inc) {
-		this.topBuffer += inc;
+		topBuffer += inc;
 	}
 
 	public void setMinTopBuffer(double minimum) {
-		this.topBuffer = Math.max(this.topBuffer, minimum);
+		topBuffer = Math.max(topBuffer, minimum);
 	}
 
 	public void addToLeftBuffer(double inc) {
-		this.leftBuffer += inc;
+		leftBuffer += inc;
 	}
 
 	public void addToRightBuffer(double inc) {
-		this.rightBuffer += inc;
+		rightBuffer += inc;
 	}
 
 	public void addToHorizontalBuffer(double inc) {
@@ -118,7 +126,7 @@ public class PropertiesParserState {
 	public Dimension getGridElementSize() {
 		return gridElementSize;
 	}
-	
+
 	public double getTopBuffer() {
 		return topBuffer;
 	}
@@ -156,11 +164,11 @@ public class PropertiesParserState {
 	public void setElementStyle(ElementStyleEnum elementStyle) {
 		this.elementStyle = elementStyle;
 	}
-	
+
 	public Settings getSettings() {
 		return settings;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public <T> T getFacetResponse(Class<? extends Facet> facetClass, T defaultValue) {
 		T mapValue = (T) facetResponse.get(facetClass);
@@ -173,11 +181,11 @@ public class PropertiesParserState {
 	}
 
 	private StickingPolygonGenerator stickingPolygonGenerator = SimpleStickingPolygonGenerator.INSTANCE;
-	
+
 	public StickingPolygonGenerator getStickingPolygonGenerator() {
 		return stickingPolygonGenerator;
 	}
-	
+
 	public void setStickingPolygonGenerator(StickingPolygonGenerator stickingPolygonGenerator) {
 		this.stickingPolygonGenerator = stickingPolygonGenerator;
 	}

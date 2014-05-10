@@ -55,6 +55,7 @@ public class UseCase extends NewGridElement {
 			public XValues getXValues(double y, int height, int width) {
 				return XValues.createForEllipse(y, height, width);
 			}
+
 			@Override
 			public List<? extends Facet> createFacets() {
 				return Arrays.asList(SeparatorLineFacet.INSTANCE);
@@ -62,4 +63,3 @@ public class UseCase extends NewGridElement {
 		};
 	}
 }
-

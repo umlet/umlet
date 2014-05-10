@@ -6,12 +6,13 @@ import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
 public class BackgroundColorFacet extends KeyValueFacet {
-	
+
 	public static BackgroundColorFacet INSTANCE = new BackgroundColorFacet();
+
 	private BackgroundColorFacet() {}
 
 	public static final String KEY = "bg";
-	
+
 	@Override
 	public KeyValue getKeyValue() {
 		return new KeyValue(KEY, false, "red", "background " + ColorOwn.EXAMPLE_TEXT);
@@ -22,6 +23,7 @@ public class BackgroundColorFacet extends KeyValueFacet {
 		drawer.setBackgroundColor(value);
 	}
 
+	@Override
 	public Priority getPriority() {
 		return Priority.HIGHEST;
 	}

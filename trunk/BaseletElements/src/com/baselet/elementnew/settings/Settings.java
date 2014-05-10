@@ -25,11 +25,11 @@ import com.baselet.elementnew.facet.common.LineWidthFacet;
 import com.baselet.elementnew.facet.common.VerticalAlignFacet;
 
 public abstract class Settings {
-	protected static final List<? extends Facet> NOTEXT =     Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE);
-	protected static final List<? extends Facet> RELATION =   Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE);
+	protected static final List<? extends Facet> NOTEXT = Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE);
+	protected static final List<? extends Facet> RELATION = Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE);
 	protected static final List<? extends Facet> AUTORESIZE = Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE);
-	protected static final List<? extends Facet> ALL =        Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, VerticalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
-	
+	protected static final List<? extends Facet> ALL = Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, VerticalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
+
 	/**
 	 * calculates the left and right x value for a certain y value
 	 */
@@ -50,11 +50,12 @@ public abstract class Settings {
 	 * e.g. fg=red could be located at the bottom, but will still be applied to the whole text
 	 */
 	public abstract List<? extends Facet> createFacets();
-	
+
 	protected abstract List<? extends Facet> createDefaultFacets();
-	
+
 	private List<Facet> localFacets;
 	Map<Priority, List<GlobalFacet>> globalFacets;
+
 	private void initFacets() {
 		if (localFacets == null) {
 			localFacets = new ArrayList<Facet>();
@@ -68,7 +69,8 @@ public abstract class Settings {
 		for (Facet f : facets) {
 			if (f instanceof GlobalFacet) {
 				addGlobalFacet((GlobalFacet) f);
-			} else {
+			}
+			else {
 				localFacets.add(f);
 			}
 		}
@@ -92,7 +94,7 @@ public abstract class Settings {
 		initFacets();
 		return globalFacets;
 	}
-	
+
 	public boolean printText() {
 		return true;
 	}

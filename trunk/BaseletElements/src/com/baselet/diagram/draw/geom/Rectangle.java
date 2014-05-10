@@ -1,6 +1,5 @@
 package com.baselet.diagram.draw.geom;
 
-
 public class Rectangle {
 
 	public int x;
@@ -52,11 +51,11 @@ public class Rectangle {
 	}
 
 	public PointDouble getUpperLeftCorner() {
-		return new PointDouble(x,y);
+		return new PointDouble(x, y);
 	}
 
 	public PointDouble getCenter() {
-		return new PointDouble(x + width/2,y + height/2);
+		return new PointDouble(x + width / 2, y + height / 2);
 	}
 
 	public void setY(int y) {
@@ -84,15 +83,15 @@ public class Rectangle {
 	}
 
 	public void move(int diffX, int diffY) {
-		this.x += diffX;
-		this.y += diffY;
+		x += diffX;
+		y += diffY;
 	}
 
 	public void addBorder(int border) {
 		x -= border;
 		y -= border;
-		width += border*2;
-		height += border*2;
+		width += border * 2;
+		height += border * 2;
 	}
 
 	public boolean contains(Point p) {
@@ -128,10 +127,10 @@ public class Rectangle {
 	public void merge(Rectangle other) {
 		// must store X2 and Y2 before changing this X and Y, otherwise information can be lost
 		// eg: this(y=100,h=10) and other(y=50,h=10) -> this.y2 is 110 but would be changed to 60)
-		int oldX2 = this.getX2();
-		int oldY2 = this.getY2();
-		setX(Math.min(this.getX(), other.getX()));
-		setY(Math.min(this.getY(), other.getY()));
+		int oldX2 = getX2();
+		int oldY2 = getY2();
+		setX(Math.min(getX(), other.getX()));
+		setY(Math.min(getY(), other.getY()));
 		setWidth(Math.max(oldX2, other.getX2()) - getX());
 		setHeight(Math.max(oldY2, other.getY2()) - getY());
 	}

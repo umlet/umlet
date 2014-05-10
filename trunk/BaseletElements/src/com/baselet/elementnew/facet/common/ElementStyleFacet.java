@@ -5,15 +5,18 @@ import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
 public class ElementStyleFacet extends KeyValueFacet {
-	
+
 	public static ElementStyleFacet INSTANCE = new ElementStyleFacet();
+
 	private ElementStyleFacet() {}
 
-	public enum ElementStyleEnum {AUTORESIZE, SIMPLE, NORESIZE, WORDWRAP}
+	public enum ElementStyleEnum {
+		AUTORESIZE, SIMPLE, NORESIZE, WORDWRAP
+	}
 
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue("style", 
+		return new KeyValue("style",
 				new ValueInfo(ElementStyleEnum.AUTORESIZE, "resizes element as text grows"),
 				new ValueInfo(ElementStyleEnum.WORDWRAP, "wrap lines at the end of the line"),
 				new ValueInfo(ElementStyleEnum.NORESIZE, "disable manual resizing"));
@@ -24,6 +27,7 @@ public class ElementStyleFacet extends KeyValueFacet {
 		state.setElementStyle(ElementStyleEnum.valueOf(value.toUpperCase()));
 	}
 
+	@Override
 	public Priority getPriority() {
 		return Priority.HIGHEST;
 	}

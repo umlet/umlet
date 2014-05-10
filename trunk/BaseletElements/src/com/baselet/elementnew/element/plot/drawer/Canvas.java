@@ -6,7 +6,6 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 
-
 /**
  * GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
  * G                                G
@@ -37,9 +36,9 @@ public class Canvas {
 	public Canvas(Dimension gridElementSize) {
 		super();
 		this.gridElementSize = gridElementSize;
-		this.outerBorder = new Rectangle();
-		this.innerBorder = new Rectangle();
-		setBorder(0,0,0,0,0);
+		outerBorder = new Rectangle();
+		innerBorder = new Rectangle();
+		setBorder(0, 0, 0, 0, 0);
 	}
 
 	public void setBorder(int x, int y, int width, int height, int borderspace) {
@@ -47,27 +46,27 @@ public class Canvas {
 		outerBorder.setBounds(x, y, width, height);
 		updateInnerBorder();
 	}
-	
+
 	public void setBorderX(int x) {
 		outerBorder.setBounds(x, outerBorder.y, outerBorder.width, outerBorder.height);
 		updateInnerBorder();
 	}
-	
+
 	public void setBorderY(int y) {
 		outerBorder.setBounds(outerBorder.x, y, outerBorder.width, outerBorder.height);
 		updateInnerBorder();
 	}
-	
+
 	public void setBorderWidth(int width) {
 		outerBorder.setBounds(outerBorder.x, outerBorder.y, width, outerBorder.height);
 		updateInnerBorder();
 	}
-	
+
 	public void setBorderHeight(int height) {
 		outerBorder.setBounds(outerBorder.x, outerBorder.y, outerBorder.width, height);
 		updateInnerBorder();
 	}
-	
+
 	private void updateInnerBorder() {
 		innerBorder.setBounds(outerBorder.x + borderspace, outerBorder.y + borderspace, outerBorder.width + borderspace, outerBorder.height + borderspace);
 	}
@@ -165,17 +164,17 @@ public class Canvas {
 	}
 
 	public boolean hasHorizontalDrawspace() {
-		return (gridElementSize.width > getOuterHorizontalSum());
+		return gridElementSize.width > getOuterHorizontalSum();
 	}
 
 	public boolean hasVerticalDrawspace() {
-		return (gridElementSize.width > getOuterHorizontalSum());
+		return gridElementSize.width > getOuterHorizontalSum();
 	}
 
 	public void draw(DrawHandler baseDrawHandler) {
 		baseDrawHandler.setBackgroundColor(ColorOwn.TRANSPARENT);
 		baseDrawHandler.setForegroundColor(ColorOwn.RED.transparency(Transparency.BACKGROUND));
-		baseDrawHandler.drawRectangle(getOuterLeftPos(), getOuterUpPos(), getOuterRightPos() - getOuterLeftPos() -1, getOuterDownPos() - getOuterUpPos());
+		baseDrawHandler.drawRectangle(getOuterLeftPos(), getOuterUpPos(), getOuterRightPos() - getOuterLeftPos() - 1, getOuterDownPos() - getOuterUpPos());
 		baseDrawHandler.setForegroundColor(ColorOwn.BLUE);
 		baseDrawHandler.drawRectangle(getInnerLeftPos(), getInnerUpPos(), getInnerRightPos() - getInnerLeftPos(), getInnerDownPos() - getInnerUpPos());
 	}

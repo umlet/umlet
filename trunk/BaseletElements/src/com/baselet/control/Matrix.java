@@ -20,7 +20,9 @@ public class Matrix<T> {
 	public int cols() {
 		int longestCol = 0;
 		for (List<T> row : matrix) {
-			if (row.size() > longestCol) longestCol = row.size();
+			if (row.size() > longestCol) {
+				longestCol = row.size();
+			}
 		}
 		return longestCol;
 	}
@@ -32,8 +34,12 @@ public class Matrix<T> {
 	public List<T> col(int index) {
 		List<T> result = new ArrayList<T>(cols());
 		for (List<T> row : matrix) {
-			if (index < row.size()) result.add(row.get(index));
-			else result.add(null);
+			if (index < row.size()) {
+				result.add(row.get(index));
+			}
+			else {
+				result.add(null);
+			}
 		}
 		return result;
 	}

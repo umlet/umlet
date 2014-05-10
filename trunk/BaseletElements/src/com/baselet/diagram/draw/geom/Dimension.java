@@ -6,10 +6,9 @@ package com.baselet.diagram.draw.geom;
 public class Dimension {
 	public int width;
 	public int height;
-	
-	public Dimension() {
-	}
-	
+
+	public Dimension() {}
+
 	public Dimension(int width, int height) {
 		super();
 		this.width = width;
@@ -19,15 +18,15 @@ public class Dimension {
 	public int getHeight() {
 		return height;
 	}
-	
+
 	public int getWidth() {
 		return width;
 	}
-	
+
 	public void setHeight(int height) {
 		this.height = height;
 	}
-	
+
 	public void setWidth(int width) {
 		this.width = width;
 	}
@@ -56,5 +55,5 @@ public class Dimension {
 	public String toString() {
 		return "Dimension [width=" + width + ", height=" + height + "]";
 	}
-	
+
 }

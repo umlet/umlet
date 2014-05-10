@@ -2,14 +2,13 @@ package com.baselet.elementnew.element.plot.drawer;
 
 import com.baselet.diagram.draw.geom.Dimension;
 
-
 public class PlotGridDrawConfig {
-	
+
 	private final Dimension realSize;
 	private final Dimension size;
 	private final Double minValue;
 	private final Double maxValue;
-	
+
 	public PlotGridDrawConfig(Dimension realSize, Dimension size, Double minValue, Double maxValue) {
 		super();
 		this.realSize = realSize;

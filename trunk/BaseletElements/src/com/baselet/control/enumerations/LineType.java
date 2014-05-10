@@ -9,8 +9,9 @@ public enum LineType implements ValueHolder {
 		this.value = value;
 	}
 
+	@Override
 	public String getValue() {
 		return value;
 	}
-	
+
 }

@@ -28,7 +28,8 @@ public class SharedUtils {
 		boolean roundUp;
 		if (Math.abs(val % SharedConstants.DEFAULT_GRID_SIZE) < SharedConstants.DEFAULT_GRID_SIZE / 2) {
 			roundUp = val < 0;
-		} else {
+		}
+		else {
 			roundUp = val >= 0;
 		}
 		return realignTo(logRealign, val, roundUp, SharedConstants.DEFAULT_GRID_SIZE);
@@ -53,11 +54,11 @@ public class SharedUtils {
 		double alignedVal = val;
 		double mod = val % gridSize;
 		if (mod != 0) {
-			alignedVal -= mod; //ExampleA: 14 - 4 = 10 // ExampleB: -14 - -4 = -10 // (positive vals get round down, negative vals get round up)
-			if (val > 0 && roundUp) { //eg ExampleA: 10 + 10 = 20 (for positive vals roundUp must be specifically handled by adding gridSize)
+			alignedVal -= mod; // ExampleA: 14 - 4 = 10 // ExampleB: -14 - -4 = -10 // (positive vals get round down, negative vals get round up)
+			if (val > 0 && roundUp) { // eg ExampleA: 10 + 10 = 20 (for positive vals roundUp must be specifically handled by adding gridSize)
 				alignedVal += gridSize;
 			}
-			if (val < 0 && !roundUp) { //eg ExampleB: -10 - 10 = -20 (for negative vals roundDown must be specifically handled by subtracting gridSize)
+			if (val < 0 && !roundUp) { // eg ExampleB: -10 - 10 = -20 (for negative vals roundDown must be specifically handled by subtracting gridSize)
 				alignedVal -= gridSize;
 			}
 			if (logRealign) {
@@ -78,9 +79,9 @@ public class SharedUtils {
 			x2 = Math.max(ge.getRectangle().getX2(), x2);
 			y2 = Math.max(ge.getRectangle().getY2(), y2);
 		}
-		return new Rectangle(x, y, x2-x, y2-y);
+		return new Rectangle(x, y, x2 - x, y2 - y);
 	}
-	
+
 	public static String listToString(String sep, Collection<?> list) {
 		return listToStringHelper(new StringBuilder(), sep, list).toString();
 	}
@@ -94,14 +95,15 @@ public class SharedUtils {
 		}
 		return sb;
 	}
-	
+
 	public static String mapToString(String mapSep, String listSep, Map<?, ?> map) {
 		StringBuilder sb = new StringBuilder();
 		for (Entry<?, ?> e : map.entrySet()) {
 			sb.append(e.getKey()).append(": ");
 			if (e.getValue() instanceof Collection<?>) {
 				listToStringHelper(sb, listSep, (Collection<?>) e.getValue());
-			} else {
+			}
+			else {
 				sb.append(e.getValue().toString());
 			}
 			sb.append(mapSep);

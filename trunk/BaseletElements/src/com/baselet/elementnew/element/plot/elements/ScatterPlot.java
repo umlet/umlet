@@ -13,7 +13,7 @@ import com.baselet.elementnew.element.plot.parser.PlotState;
 public class ScatterPlot extends AbstractPlot {
 
 	public ScatterPlot(DrawHandler drawer, PlotGridDrawConfig plotDrawConfig, PlotState plotState, int xPos, int yPos) {
-		super(drawer, plotDrawConfig, plotState, xPos, yPos); 
+		super(drawer, plotDrawConfig, plotState, xPos, yPos);
 	}
 
 	@Override

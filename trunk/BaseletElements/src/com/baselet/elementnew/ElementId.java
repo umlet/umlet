@@ -24,28 +24,47 @@ import com.baselet.elementnew.element.uml.relation.Relation;
  */
 public enum ElementId {
 	UMLClass, UMLUseCase, UMLInterface, UMLActor, UMLState, UMLObject, UMLTimer, UMLSpecialState, UMLNote, UMLSyncBarHorizontal, UMLSyncBarVertical, UMLPackage, UMLFrame, UMLDeployment, UMLGeneric, Relation, Text, PlotGrid;
-	
+
 	public NewGridElement createAssociatedGridElement() {
-		final NewGridElement returnObj;
-		if (this == UMLClass) returnObj = new Class();
-		else if (this == UMLUseCase) returnObj = new UseCase();
-		else if (this == UMLInterface) returnObj = new Interface();
-		else if (this == UMLActor) returnObj = new Actor();
-		else if (this == UMLState) returnObj = new State();
-		else if (this == UMLObject) returnObj = new ActivityObject();
-		else if (this == UMLTimer) returnObj = new Timer();
-		else if (this == UMLSpecialState) returnObj = new SpecialState();
-		else if (this == UMLNote) returnObj = new Note();
-		else if (this == UMLSyncBarHorizontal) returnObj = new SyncBarHorizontal();
-		else if (this == UMLSyncBarVertical) returnObj = new SyncBarVertical();
-		else if (this == UMLPackage) returnObj = new Package();
-		else if (this == UMLFrame) returnObj = new Frame();
-		else if (this == UMLDeployment) returnObj = new Deployment();
-		else if (this == UMLGeneric) returnObj = new Generic();
-		else if (this == Relation) returnObj = new Relation();
-		else if (this == Text) returnObj = new Text();
-		else if (this == PlotGrid) returnObj = new PlotGrid();
-		else throw new RuntimeException("Unknown class id: " + this);
-		return returnObj;
+		switch (this) {
+			case PlotGrid:
+				return new PlotGrid();
+			case Relation:
+				return new Relation();
+			case Text:
+				return new Text();
+			case UMLActor:
+				return new Actor();
+			case UMLClass:
+				return new Class();
+			case UMLDeployment:
+				return new Deployment();
+			case UMLFrame:
+				return new Frame();
+			case UMLGeneric:
+				return new Generic();
+			case UMLInterface:
+				return new Interface();
+			case UMLNote:
+				return new Note();
+			case UMLObject:
+				return new ActivityObject();
+			case UMLPackage:
+				return new Package();
+			case UMLSpecialState:
+				return new SpecialState();
+			case UMLState:
+				return new State();
+			case UMLSyncBarHorizontal:
+				return new SyncBarHorizontal();
+			case UMLSyncBarVertical:
+				return new SyncBarVertical();
+			case UMLTimer:
+				return new Timer();
+			case UMLUseCase:
+				return new UseCase();
+			default:
+				throw new RuntimeException("Unknown class id: " + this);
+		}
 	}
 }

@@ -107,7 +107,7 @@ public abstract class Selector {
 	}
 
 	public void doAfterSelectionChanged() {
-		//hook method
+		// hook method
 	}
 
 	public void doAfterSelect(GridElement e) {

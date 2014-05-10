@@ -45,13 +45,13 @@ public class TextSplitter {
 			inputIter.remove();
 		}
 		if (!line.isEmpty()) { // cut the last splitChar
-			line = line.substring(0, line.length()-1);
+			line = line.substring(0, line.length() - 1);
 		}
 		if (inputIter.hasNext() && line.isEmpty()) { // if the line has no space and would be to wide for one line
 			String nextEl = inputIter.next();
 			String possibleLine = nextEl;
 			while (!possibleLine.isEmpty() && drawer.textWidth(possibleLine) > width) {
-				possibleLine = possibleLine.substring(0, possibleLine.length()-1);
+				possibleLine = possibleLine.substring(0, possibleLine.length() - 1);
 			}
 			line = possibleLine;
 		}
@@ -74,11 +74,11 @@ public class TextSplitter {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((input == null) ? 0 : input.hashCode());
-			result = prime * result + ((style == null) ? 0 : style.hashCode());
+			result = prime * result + (input == null ? 0 : input.hashCode());
+			result = prime * result + (style == null ? 0 : style.hashCode());
 			long temp;
 			temp = Double.doubleToLongBits(width);
-			result = prime * result + (int) (temp ^ (temp >>> 32));
+			result = prime * result + (int) (temp ^ temp >>> 32);
 			return result;
 		}
 
