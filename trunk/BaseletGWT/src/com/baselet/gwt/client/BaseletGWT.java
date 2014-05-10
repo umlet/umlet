@@ -15,6 +15,7 @@ public class BaseletGWT implements EntryPoint {
 
 	Logger log = Logger.getLogger(BaseletGWT.class);
 
+	@Override
 	public void onModuleLoad() {
 		SharedConstants.dev_mode = Location.getParameter("dev") != null;
 		SharedConstants.program = "umlet_web";

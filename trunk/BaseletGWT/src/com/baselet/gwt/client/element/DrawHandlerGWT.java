@@ -33,7 +33,7 @@ public class DrawHandlerGWT extends DrawHandler {
 	@Override
 	protected DimensionDouble textDimension(String string) {
 		ctxSetFont(style.getFontSize(), StringStyle.analyseStyle(string));
-		DimensionDouble dim = new DimensionDouble((double) ctx.measureText(string).getWidth(), style.getFontSize());
+		DimensionDouble dim = new DimensionDouble(ctx.measureText(string).getWidth(), style.getFontSize());
 		return dim;
 	}
 

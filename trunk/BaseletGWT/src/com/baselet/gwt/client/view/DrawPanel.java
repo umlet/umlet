@@ -76,6 +76,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 
 	private Boolean focus = false;
 
+	@Override
 	public void setFocus(boolean focus) {
 		if (this.focus == focus) return;
 		if (focus) { // if focus has switched from diagram <-> palette, reset other selector and redraw
@@ -97,6 +98,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		this.propertiesPanel = propertiesPanel;
 
 		selector = new SelectorNew(diagram) {
+			@Override
 			public void doAfterSelectionChanged() {
 				updatePropertiesPanelWithSelectedElement();
 			}
@@ -178,6 +180,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		}
 	}
 
+	@Override
 	public Rectangle getVisibleBounds() {
 		return scrollPanel.getVisibleBounds();
 	}
@@ -218,6 +221,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		canvas.draw(true, gridElements, selector);
 	}
 
+	@Override
 	public GridElement getGridElementOnPosition(Point point) {
 		GridElement returnGe = null;
 		for (GridElement ge : diagram.getGridElementsByLayer(false)) { // get elements, highest layer first
@@ -271,8 +275,10 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		this.scrollPanel = scrollPanel;
 	}
 
+	@Override
 	public abstract void onDoubleClick(GridElement ge);
 
+	@Override
 	public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
 		dragEndAndRedraw(selector.getSelectedElements());
 	}
@@ -285,6 +291,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		redraw();
 	}
 
+	@Override
 	public void onMouseDownScheduleDeferred(final GridElement element, final boolean isControlKeyDown) {
 		Scheduler.get().scheduleFinally(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
 					@Override
@@ -321,6 +328,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		}
 	}
 
+	@Override
 	public void onMouseMoveDraggingScheduleDeferred(final Point dragStart, final int diffX, final int diffY, final GridElement draggedGridElement, final boolean isShiftKeyDown, final boolean isCtrlKeyDown, final boolean firstDrag) {
 		Scheduler.get().scheduleFinally(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
 					@Override
@@ -359,6 +367,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		return diagram.getStickables(draggedElement, elements);
 	}
 
+	@Override
 	public void onMouseMove(Point absolute) {
 		GridElement geOnPosition = getGridElementOnPosition(absolute);
 		if (geOnPosition != null) { // exactly one gridelement selected which is at the mouseposition
@@ -397,6 +406,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		}
 	}
 
+	@Override
 	public void onShowMenu(Point point) {
 		Point relativePoint = new Point(point.x - getAbsoluteLeft(), point.y - getAbsoluteTop());
 		if (getGridElementOnPosition(relativePoint) == null) { // gridelement check must be made with relative coordinates
@@ -407,6 +417,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		}
 	}
 
+	@Override
 	public void handleKeyDown(KeyDownEvent event) {
 		boolean avoidBrowserDefault = true;
 		if (Shortcut.DELETE_ELEMENT.matches(event)) {
@@ -459,6 +470,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		}
 	}
 
+	@Override
 	public void handleKeyUp(KeyUpEvent event) {
 		if (Shortcut.DISABLE_STICKING.matches(event)) {
 			SharedConstants.stickingEnabled = true;

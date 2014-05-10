@@ -38,6 +38,7 @@ public class Notification {
 			if (timerFader != null) timerFader.cancel();
 			DOM.setStyleAttribute(element, "opacity", Float.toString(startOpacity));// set start opacity now to make sure the opacity of an interrupted previous timer is overwritten
 			timer = new Timer() {
+				@Override
 				public void run() {
 					fade(element, startOpacity, endOpacity, totalTimeMillis);
 				}
@@ -51,6 +52,7 @@ public class Notification {
 			stepCount = 0;
 			final float deltaOpacity = (endOpacity - startOpacity) / numberOfSteps;
 			timerFader = new Timer() {
+				@Override
 				public void run() {
 					float opacity = startOpacity + stepCount * deltaOpacity;
 					DOM.setStyleAttribute(element, "opacity", Float.toString(opacity));
