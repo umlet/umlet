@@ -59,6 +59,7 @@ public class MainView extends Composite {
 
 	@UiField(provided = true)
 	SplitLayoutPanel diagramPaletteSplitter = new SplitLayoutPanel(4) {
+		@Override
 		public void onResize() {
 			super.onResize();
 			updateNotificationPosition();
@@ -73,6 +74,7 @@ public class MainView extends Composite {
 
 	@UiField(provided = true)
 	SplitLayoutPanel palettePropertiesSplitter = new SplitLayoutPanel() {
+		@Override
 		public void onResize() {
 			diagramPanel.redraw();
 			palettePanel.redraw();

@@ -21,6 +21,7 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 
 		// update size after initialization of gui has finished
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
 			public void execute() {
 				diagram.redraw();
 			}
