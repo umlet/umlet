@@ -29,19 +29,23 @@ public class ClipBoard implements Transferable {
 	}
 
 	private ClipBoard() {
-		this.entities = new Vector<GridElement>();
-		if (Float.parseFloat(SystemInfo.JAVA_VERSION) < 1.4) return;
+		entities = new Vector<GridElement>();
+		if (Float.parseFloat(SystemInfo.JAVA_VERSION) < 1.4) {
+			return;
+		}
 		clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 	}
 
 	public DiagramHandler copiedFrom() {
-		return this.copiedfrom;
+		return copiedfrom;
 	}
 
 	public void copy(Vector<GridElement> entities, DiagramHandler handler) {
-		this.copiedfrom = handler;
+		copiedfrom = handler;
 		this.entities = new Vector<GridElement>(entities);
-		if (clipboard != null) clipboard.setContents(this, null);
+		if (clipboard != null) {
+			clipboard.setContents(this, null);
+		}
 		// AB: clipboard zooms entities to 100%
 		// NOTE has to be done here because it doesn't fit with cut/copy and GenPic.getImageFromDiagram otherwise)
 		DiagramHandler.zoomEntities(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, this.entities);
@@ -49,7 +53,7 @@ public class ClipBoard implements Transferable {
 	}
 
 	public Vector<GridElement> paste() {
-		return this.entities;
+		return entities;
 	}
 
 	@Override
@@ -64,7 +68,9 @@ public class ClipBoard implements Transferable {
 
 	@Override
 	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
-		if (!isDataFlavorSupported(flavor)) throw new UnsupportedFlavorException(flavor);
+		if (!isDataFlavorSupported(flavor)) {
+			throw new UnsupportedFlavorException(flavor);
+		}
 		return OutputHandler.createImageForClipboard(copiedfrom, entities);
 	}
 

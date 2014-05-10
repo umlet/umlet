@@ -6,13 +6,12 @@ import java.awt.Point;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 
-
 public class LineSpacer extends WhileElement {
 
 	public LineSpacer(DiagramHandler handler, Graphics2D g) {
 		super(handler, g, 0, null);
-		this.setHeight((int) (Const.PAD * 2 * getZoom()));
-		this.setWidth((int) (Const.PAD * 6 * getZoom()));
+		setHeight((int) (Const.PAD * 2 * getZoom()));
+		setWidth((int) (Const.PAD * 6 * getZoom()));
 	}
 
 	@Override
@@ -22,13 +21,13 @@ public class LineSpacer extends WhileElement {
 
 	@Override
 	protected Point getNonStdConnectOut(Direction dir) {
-		return this.getConnect(Direction.DOWN);
+		return getConnect(Direction.DOWN);
 	}
 
 	@Override
 	public void paint() {
-		int h = this.getHeight() / 2;
-		Point cord = this.getPosition();
-		this.getGraphics().drawLine(cord.x, cord.y - h, cord.x, cord.y + h);
+		int h = getHeight() / 2;
+		Point cord = getPosition();
+		getGraphics().drawLine(cord.x, cord.y - h, cord.x, cord.y + h);
 	}
 }

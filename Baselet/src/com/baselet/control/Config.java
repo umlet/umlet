@@ -12,9 +12,9 @@ import com.baselet.control.SharedConstants.RuntimeType;
  * TODO move missing configuration entries from Constants class to this class
  */
 public class Config {
-	
+
 	private static Config instance;
-	
+
 	public synchronized static Config getInstance() {
 		if (instance == null) {
 			instance = new Config();
@@ -23,21 +23,24 @@ public class Config {
 	}
 
 	private String uiManager;
-	
+
 	public Config() {
 		// The default MacOS theme looks ugly, therefore we set metal
-		if (SystemInfo.OS == Os.MAC) uiManager = "javax.swing.plaf.metal.MetalLookAndFeel";
-		// The GTKLookAndFeel crashes the eclipse plugin therefore we set metal as default instead
-		else if ((Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) && UIManager.getSystemLookAndFeelClassName().equals("com.sun.java.swing.plaf.gtk.GTKLookAndFeel")) {
+		if (SystemInfo.OS == Os.MAC) {
 			uiManager = "javax.swing.plaf.metal.MetalLookAndFeel";
 		}
-		else uiManager = UIManager.getSystemLookAndFeelClassName();
+		else if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN && UIManager.getSystemLookAndFeelClassName().equals("com.sun.java.swing.plaf.gtk.GTKLookAndFeel")) {
+			uiManager = "javax.swing.plaf.metal.MetalLookAndFeel";
+		}
+		else {
+			uiManager = UIManager.getSystemLookAndFeelClassName();
+		}
 	}
-	
+
 	public String getUiManager() {
 		return uiManager;
 	}
-	
+
 	public void setUiManager(String uiManager) {
 		this.uiManager = uiManager;
 	}

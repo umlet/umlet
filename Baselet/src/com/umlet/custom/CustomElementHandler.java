@@ -16,7 +16,6 @@ import com.umlet.element.experimental.ElementFactory;
 import com.umlet.gui.CustomCodeSyntaxPane;
 import com.umlet.gui.CustomElementPanel;
 
-
 public class CustomElementHandler {
 
 	private Timer timer;
@@ -33,19 +32,19 @@ public class CustomElementHandler {
 	private String old_text;
 
 	public CustomElementHandler() {
-		this.codepane = new CustomCodeSyntaxPane();
-		this.errorhandler = new ErrorHandler(this.codepane);
-		this.codepane.getTextComponent().addMouseMotionListener(this.errorhandler);
-		this.preview = new CustomPreviewHandler();
-		this.timer = new Timer(true);
-		this.changed = false;
-		this.compilation_running = false;
-		this.old_text = null;
-		this.panel = new CustomElementPanel(this);
+		codepane = new CustomCodeSyntaxPane();
+		errorhandler = new ErrorHandler(codepane);
+		codepane.getTextComponent().addMouseMotionListener(errorhandler);
+		preview = new CustomPreviewHandler();
+		timer = new Timer(true);
+		changed = false;
+		compilation_running = false;
+		old_text = null;
+		panel = new CustomElementPanel(this);
 	}
 
 	public CustomElementPanel getPanel() {
-		return this.panel;
+		return panel;
 	}
 
 	public void newEntity() {
@@ -53,123 +52,133 @@ public class CustomElementHandler {
 	}
 
 	public void newEntity(String template) {
-		this.preview.closePreview();
-		this.originalElement = null;
-		this.editedEntity = CustomElementCompiler.getInstance().genEntityFromTemplate(template, this.errorhandler);
-		if (editedEntity instanceof CustomElement) this.codepane.setCode(((CustomElement) this.editedEntity).getCode());
-		else {
-			this.codepane.setCode("");
+		preview.closePreview();
+		originalElement = null;
+		editedEntity = CustomElementCompiler.getInstance().genEntityFromTemplate(template, errorhandler);
+		if (editedEntity instanceof CustomElement) {
+			codepane.setCode(((CustomElement) editedEntity).getCode());
 		}
-		this.editedEntity.setPanelAttributes("// Modify the text below and" +
-				Constants.NEWLINE +
-				"// observe the element preview." +
-				Constants.NEWLINE + Constants.NEWLINE +
-				"Hello, World! " +
-				Constants.NEWLINE +
-				"Enjoy " + Program.NAME + "!");
-		this.editedEntity.setRectangle(new Rectangle(20, 20, 200, 200));
-		this.updatePreview(editedEntity);
-		this.getPreviewHandler().getDrawPanel().getSelector().select(editedEntity);
-		this.setChanged(false);
-		this.start();
+		else {
+			codepane.setCode("");
+		}
+		editedEntity.setPanelAttributes("// Modify the text below and" +
+										Constants.NEWLINE +
+										"// observe the element preview." +
+										Constants.NEWLINE + Constants.NEWLINE +
+										"Hello, World! " +
+										Constants.NEWLINE +
+										"Enjoy " + Program.NAME + "!");
+		editedEntity.setRectangle(new Rectangle(20, 20, 200, 200));
+		updatePreview(editedEntity);
+		getPreviewHandler().getDrawPanel().getSelector().select(editedEntity);
+		setChanged(false);
+		start();
 	}
 
 	public void editEntity(CustomElement e) {
-		this.preview.closePreview();
-		this.originalElement = e;
-		this.editedEntity = e.CloneFromMe();
-		this.editedEntity.setLocation(20, 20);
-		this.codepane.setCode(e.getCode());
-		this.updatePreview(this.editedEntity);
-		this.getPreviewHandler().getDrawPanel().getSelector().select(editedEntity);
-		this.setChanged(false);
+		preview.closePreview();
+		originalElement = e;
+		editedEntity = e.CloneFromMe();
+		editedEntity.setLocation(20, 20);
+		codepane.setCode(e.getCode());
+		updatePreview(editedEntity);
+		getPreviewHandler().getDrawPanel().getSelector().select(editedEntity);
+		setChanged(false);
 
-		this.start();
+		start();
 	}
 
 	public void saveEntity() {
-		GridElement e = CustomElementCompiler.getInstance().genEntity(this.codepane.getText(), errorhandler);
-		this.editedEntity = e;
-		this.updatePreview(e); // update preview panel to set the entities bounds...
-		this.updateElement(e);
-		this.setChanged(false);
+		GridElement e = CustomElementCompiler.getInstance().genEntity(codepane.getText(), errorhandler);
+		editedEntity = e;
+		updatePreview(e); // update preview panel to set the entities bounds...
+		updateElement(e);
+		setChanged(false);
 	}
 
 	public boolean closeEntity() {
-		if (this.changed) {
-			this.setChanged(false);
+		if (changed) {
+			setChanged(false);
 		}
-		this.stop();
-		this.preview.closePreview();
-		this.preview.getDrawPanel().getSelector().deselectAll();
+		stop();
+		preview.closePreview();
+		preview.getDrawPanel().getSelector().deselectAll();
 
-		//clear controller before editing new custom element
+		// clear controller before editing new custom element
 		Main.getInstance().getDiagramHandler().getController().clear();
-		
+
 		DrawPanel dia = Main.getInstance().getGUI().getCurrentDiagram();
-		if (dia != null) dia.getSelector().updateSelectorInformation();
-		else Main.getInstance().setPropertyPanelToGridElement(null);
+		if (dia != null) {
+			dia.getSelector().updateSelectorInformation();
+		}
+		else {
+			Main.getInstance().setPropertyPanelToGridElement(null);
+		}
 		return true;
 	}
 
 	public CustomPreviewHandler getPreviewHandler() {
-		return this.preview;
+		return preview;
 	}
 
 	public CustomCodeSyntaxPane getCodePane() {
-		return this.codepane;
+		return codepane;
 	}
 
 	private void updatePreview(GridElement e) {
 		if (e != null) {
-			Iterator<GridElement> iter = this.preview.getDrawPanel().getGridElements().iterator();
+			Iterator<GridElement> iter = preview.getDrawPanel().getGridElements().iterator();
 			if (iter.hasNext()) {
 				GridElement element = iter.next();
 				e.setRectangle(element.getRectangle());
 				e.setPanelAttributes(element.getPanelAttributes());
-				if (this.preview.getDrawPanel().getSelector().getSelectedElements().size() > 0) this.preview.getDrawPanel().getSelector().singleSelectWithoutUpdatePropertyPanel(e);
-				this.preview.getDrawPanel().removeElement(element);
+				if (preview.getDrawPanel().getSelector().getSelectedElements().size() > 0) {
+					preview.getDrawPanel().getSelector().singleSelectWithoutUpdatePropertyPanel(e);
+				}
+				preview.getDrawPanel().removeElement(element);
 			}
 
-			this.preview.setHandlerAndInitListeners(e);
-			this.preview.getDrawPanel().addElement(e);
+			preview.setHandlerAndInitListeners(e);
+			preview.getDrawPanel().addElement(e);
 			e.repaint();
 		}
 	}
 
 	// starts the task
 	private void start() {
-		this.compiletask = new CustomElementCompileTask(this);
-		this.timer.schedule(compiletask, Constants.CUSTOM_ELEMENT_COMPILE_INTERVAL,
+		compiletask = new CustomElementCompileTask(this);
+		timer.schedule(compiletask, Constants.CUSTOM_ELEMENT_COMPILE_INTERVAL,
 				Constants.CUSTOM_ELEMENT_COMPILE_INTERVAL);
 	}
 
 	// stops the task
 	private void stop() {
-		if (this.compiletask != null) this.compiletask.cancel();
+		if (compiletask != null) {
+			compiletask.cancel();
+		}
 	}
 
 	// runs compilation every 1 seconds and updates gui/errors...
 	protected void runCompilation() {
-		if (!this.compilation_running && !keypressed) // prevent 2 compilations to run at the same time (if compilation takes more then 1sec)
+		if (!compilation_running && !keypressed) // prevent 2 compilations to run at the same time (if compilation takes more then 1sec)
 		{
-			this.compilation_running = true;
-			String txt = this.codepane.getText();
-			if (!txt.equals(this.old_text)) {
-				this.setChanged(true);
-				this.errorhandler.clearErrors();
-				this.old_text = txt;
+			compilation_running = true;
+			String txt = codepane.getText();
+			if (!txt.equals(old_text)) {
+				setChanged(true);
+				errorhandler.clearErrors();
+				old_text = txt;
 				GridElement e = CustomElementCompiler.getInstance().genEntity(txt, errorhandler);
 				if (e != null) {
-					this.editedEntity = e;
-					this.panel.setCustomElementSaveable(true);
-					this.updatePreview(e);
+					editedEntity = e;
+					panel.setCustomElementSaveable(true);
+					updatePreview(e);
 				}
 				else {
-					this.panel.setCustomElementSaveable(false);
+					panel.setCustomElementSaveable(false);
 				}
 			}
-			this.compilation_running = false;
+			compilation_running = false;
 		}
 		keypressed = false;
 	}
@@ -183,28 +192,32 @@ public class CustomElementHandler {
 	private void updateElement(GridElement element) {
 
 		// if a new element has been created add it to current diagram
-		if (this.originalElement == null) {
+		if (originalElement == null) {
 			DiagramHandler current = null;
 			DrawPanel c = Main.getInstance().getGUI().getCurrentDiagram();
 			if (c == null) {
 				Main.getInstance().doNew();
 				current = Main.getInstance().getGUI().getCurrentDiagram().getHandler();
 			}
-			else current = c.getHandler();
+			else {
+				current = c.getHandler();
+			}
 
 			// set location for element
 			int x = 10, y = 10;
 			for (GridElement e : current.getDrawPanel().getGridElements()) {
-				if (e.getRectangle().y + e.getRectangle().height + 10 > y) y = e.getRectangle().y + e.getRectangle().height + 10;
+				if (e.getRectangle().y + e.getRectangle().height + 10 > y) {
+					y = e.getRectangle().y + e.getRectangle().height + 10;
+				}
 			}
 
 			Rectangle bounds = new Rectangle(x, y, element.getRectangle().width, element.getRectangle().height);
-			this.addElementToDiagram(element, current, true, bounds, element.getPanelAttributes());
+			addElementToDiagram(element, current, true, bounds, element.getPanelAttributes());
 		}
 		else { // replace edited element (and ONLY edited element)
-			Main.getHandlerForElement(this.originalElement).getDrawPanel().removeElement(this.originalElement);
-			this.addElementToDiagram(element, Main.getHandlerForElement(this.originalElement), true,
-					this.originalElement.getRectangle(), this.originalElement.getPanelAttributes());
+			Main.getHandlerForElement(originalElement).getDrawPanel().removeElement(originalElement);
+			addElementToDiagram(element, Main.getHandlerForElement(originalElement), true,
+					originalElement.getRectangle(), originalElement.getPanelAttributes());
 		}
 	}
 
@@ -221,7 +234,9 @@ public class CustomElementHandler {
 		e2.setPanelAttributes(state);
 		e2.setRectangle(bounds);
 		d.getDrawPanel().addElement(e2);
-		if (setchanged) d.setChanged(true);
+		if (setchanged) {
+			d.setChanged(true);
+		}
 
 		// And zoom back to the oldGridsize after execution
 		// d.setGridAndZoom(oldZoom, false);

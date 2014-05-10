@@ -20,7 +20,7 @@ import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.plugin.MainPlugin;
 
 public class Path {
-	
+
 	private static final Logger log = Logger.getLogger(Path.class);
 
 	private static String tempDir;
@@ -32,17 +32,23 @@ public class Path {
 
 	private static String userHome() {
 		String homeDir = userHomeBase();
-		if (!homeDir.endsWith(File.separator)) homeDir += File.separator;
+		if (!homeDir.endsWith(File.separator)) {
+			homeDir += File.separator;
+		}
 		File homeDirFile = new File(homeDir + Program.NAME);
-		if (!homeDirFile.exists()) homeDirFile.mkdir();
+		if (!homeDirFile.exists()) {
+			homeDirFile.mkdir();
+		}
 		return homeDirFile.getAbsolutePath();
 	}
 
 	private static String userHomeBase() {
 		try {
 			String xdgConfigHome = System.getenv("XDG_CONFIG_HOME"); // use env variable $XDG_CONFIG_HOME if it's set
-			if (xdgConfigHome != null) return xdgConfigHome;
-		} catch (Exception e) { /* if env variable cannot be read, ignore it */ }
+			if (xdgConfigHome != null) {
+				return xdgConfigHome;
+			}
+		} catch (Exception e) { /* if env variable cannot be read, ignore it */}
 
 		return System.getProperty("user.home");
 	}
@@ -54,7 +60,9 @@ public class Path {
 	public static String temp() {
 		if (tempDir == null) {
 			String tmp = System.getProperty("java.io.tmpdir");
-			if (!(tmp.endsWith(File.separator))) tmp = tmp + File.separator;
+			if (!tmp.endsWith(File.separator)) {
+				tmp = tmp + File.separator;
+			}
 			tempDir = tmp;
 		}
 		return tempDir;
@@ -73,7 +81,9 @@ public class Path {
 				try {
 					URL homeURL = MainPlugin.getURL();
 					path = FileLocator.toFileURL(homeURL).toString().substring("file:/".length());
-					if (File.separator.equals("/")) path = "/" + path;
+					if (File.separator.equals("/")) {
+						path = "/" + path;
+					}
 				} catch (IOException e) {
 					log.error("Cannot find location of Eclipse Plugin jar", e);
 				}
@@ -100,9 +110,9 @@ public class Path {
 	public static String executable() {
 		String path = null;
 		URL codeSourceUrl = Main.class.getProtectionDomain().getCodeSource().getLocation();
-		try { //Convert URL to URI to avoid HTML problems with special characters like space,ä,ö,ü,...
+		try { // Convert URL to URI to avoid HTML problems with special characters like space,ä,ö,ü,...
 			path = codeSourceUrl.toURI().getPath();
-		} catch (URISyntaxException e) {/*path stays null*/}
+		} catch (URISyntaxException e) {/* path stays null */}
 
 		if (path == null) { // URI2URL Conversion failed, because URI.getPath() returned null OR because of an URISyntaxException
 			// In this case use the URL and replace special characters manually (for now only space)
@@ -115,17 +125,18 @@ public class Path {
 	public static List<Class<?>> getAllClassesInPackage(String filterString) throws IOException, ClassNotFoundException {
 		List<Class<?>> list = new ArrayList<Class<?>>();
 		String path = Path.executable();
-		if (!Path.executable().endsWith(".jar")) list = getNewGridElementList(path, filterString);
+		if (!Path.executable().endsWith(".jar")) {
+			list = getNewGridElementList(path, filterString);
+		}
 		else {
 			Enumeration<JarEntry> jarEntries = new JarFile(Path.executable()).entries();
-			while(jarEntries.hasMoreElements()) {
+			while (jarEntries.hasMoreElements()) {
 				JarEntry jarEntry = jarEntries.nextElement();
 				add(list, jarEntry.getName(), filterString);
 			}
 		}
 		return list;
 	}
-
 
 	private static List<Class<?>> getNewGridElementList(String path, String filterString) throws ClassNotFoundException {
 		List<File> fileList = new ArrayList<File>();
@@ -151,9 +162,11 @@ public class Path {
 	private static void getFiles(File folder, List<File> list) {
 		folder.setReadOnly();
 		File[] files = folder.listFiles();
-		for(File file : files) {
+		for (File file : files) {
 			list.add(file);
-			if(file.isDirectory()) getFiles(file, list);
+			if (file.isDirectory()) {
+				getFiles(file, list);
+			}
 		}
 	}
 

@@ -6,7 +6,6 @@ import java.awt.Point;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 
-
 public abstract class Element {
 
 	private Graphics2D graphics;
@@ -23,14 +22,14 @@ public abstract class Element {
 
 	public Element(DiagramHandler handler, Graphics2D g, int padding, String id) {
 		this.handler = handler;
-		this.graphics = g;
+		graphics = g;
 		this.padding = padding;
 		this.id = id;
-		this.leftwidth = 0;
-		this.rightwidth = 0;
-		this.height = 0;
-		this.cord = new Point(0, 0);
-		this.zoom = handler.getZoomFactor();
+		leftwidth = 0;
+		rightwidth = 0;
+		height = 0;
+		cord = new Point(0, 0);
+		zoom = handler.getZoomFactor();
 	}
 
 	public void setRow(Row row) {
@@ -38,27 +37,27 @@ public abstract class Element {
 	}
 
 	public Row getRow() {
-		return this.row;
+		return row;
 	}
 
 	public final void setTerminated() {
-		this.terminated = true;
+		terminated = true;
 	}
 
 	public final void setNotTerminated() {
-		this.terminated = false;
+		terminated = false;
 	}
 
 	public Point getPosition() {
-		return this.cord;
+		return cord;
 	}
 
 	public void setY(int y) {
-		this.cord.y = y;
+		cord.y = y;
 	}
 
 	public void setX(int x) {
-		this.cord.x = x;
+		cord.x = x;
 	}
 
 	protected Graphics2D getGraphics() {
@@ -66,7 +65,7 @@ public abstract class Element {
 	}
 
 	public String getId() {
-		return this.id;
+		return id;
 	}
 
 	protected int getHeight() {
@@ -86,24 +85,24 @@ public abstract class Element {
 	}
 
 	protected int getWidth() {
-		return this.getLeftWidth() + this.getRightWidth();
+		return getLeftWidth() + getRightWidth();
 	}
 
 	protected void setWidth(int width) {
-		this.setLeftWidth(width / 2);
-		this.setRightWidth(width - width / 2);
+		setLeftWidth(width / 2);
+		setRightWidth(width - width / 2);
 	}
 
 	protected void setLeftWidth(int width) {
-		this.leftwidth = width;
+		leftwidth = width;
 	}
 
 	protected void setRightWidth(int width) {
-		this.rightwidth = width;
+		rightwidth = width;
 	}
 
 	protected int getPadding() {
-		return this.padding;
+		return padding;
 	}
 
 	public abstract void paint();
@@ -117,7 +116,7 @@ public abstract class Element {
 	}
 
 	public final boolean connectOut() {
-		return this.connectOut_overrideable() && !this.terminated;
+		return connectOut_overrideable() && !terminated;
 	}
 
 	public boolean arrowOut() {
@@ -134,19 +133,27 @@ public abstract class Element {
 
 	// get connect for GOTO element
 	protected Point getNonStdConnectIn(Direction dir) {
-		return this.getConnect(dir);
+		return getConnect(dir);
 	}
 
 	protected Point getNonStdConnectOut(Direction dir) {
-		return this.getConnect(dir);
+		return getConnect(dir);
 	}
 
 	protected Point getConnect(Direction dir) {
-		Point c = (Point) this.cord.clone();
-		if (dir == Direction.UP) c.y -= this.getHeight() / 2;
-		else if (dir == Direction.DOWN) c.y += this.getHeight() - this.getHeight() / 2;
-		else if (dir == Direction.LEFT) c.x -= this.getLeftWidth();
-		else if (dir == Direction.RIGHT) c.x += this.getRightWidth();
+		Point c = (Point) cord.clone();
+		if (dir == Direction.UP) {
+			c.y -= getHeight() / 2;
+		}
+		else if (dir == Direction.DOWN) {
+			c.y += getHeight() - getHeight() / 2;
+		}
+		else if (dir == Direction.LEFT) {
+			c.x -= getLeftWidth();
+		}
+		else if (dir == Direction.RIGHT) {
+			c.x += getRightWidth();
+		}
 		return c;
 	}
 

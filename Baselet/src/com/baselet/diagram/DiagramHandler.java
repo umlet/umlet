@@ -35,7 +35,7 @@ import com.umlet.element.Relation;
 import com.umlet.element.SequenceDiagram;
 
 public class DiagramHandler {
-	
+
 	private static final Logger log = Logger.getLogger(DiagramHandler.class);
 
 	private boolean isChanged;
@@ -48,7 +48,7 @@ public class DiagramHandler {
 	private String helptext;
 	private boolean enabled;
 	private int gridSize;
-	
+
 	private RelationListener relationListener;
 	private GridElementListener gridElementListener;
 
@@ -58,79 +58,90 @@ public class DiagramHandler {
 
 	protected DiagramHandler(File diagram, boolean nolistener) {
 		gridSize = Constants.DEFAULTGRIDSIZE;
-		this.isChanged = false;
-		this.enabled = true;
-		this.drawpanel = new DrawPanel(this);
-		this.controller = new Controller(this);
-		this.fontHandler = new FontHandler(this);
-		this.fileHandler = DiagramFileHandler.createInstance(this, diagram);
-		if (!nolistener) this.setListener(new DiagramListener(this));
-		if (diagram != null) this.fileHandler.doOpen();
+		isChanged = false;
+		enabled = true;
+		drawpanel = new DrawPanel(this);
+		controller = new Controller(this);
+		fontHandler = new FontHandler(this);
+		fileHandler = DiagramFileHandler.createInstance(this, diagram);
+		if (!nolistener) {
+			setListener(new DiagramListener(this));
+		}
+		if (diagram != null) {
+			fileHandler.doOpen();
+		}
 
 		boolean extendedPopupMenu = false;
 		BaseGUI gui = Main.getInstance().getGUI();
 		if (gui != null) {
 			gui.setValueOfZoomDisplay(getGridSize());
-			if (gui instanceof StandaloneGUI) extendedPopupMenu = true; // AB: use extended popup menu on standalone gui only
+			if (gui instanceof StandaloneGUI)
+			{
+				extendedPopupMenu = true; // AB: use extended popup menu on standalone gui only
+			}
 		}
 
-		if (!(this instanceof PaletteHandler)) drawpanel.setComponentPopupMenu(new DiagramPopupMenu(extendedPopupMenu));
+		if (!(this instanceof PaletteHandler)) {
+			drawpanel.setComponentPopupMenu(new DiagramPopupMenu(extendedPopupMenu));
+		}
 	}
 
 	public void setEnabled(boolean en) {
 		if (!en && enabled) {
-			this.drawpanel.removeMouseListener(this.listener);
-			this.drawpanel.removeMouseMotionListener(this.listener);
+			drawpanel.removeMouseListener(listener);
+			drawpanel.removeMouseMotionListener(listener);
 			enabled = false;
 		}
 		else if (en && !enabled) {
-			this.drawpanel.addMouseListener(this.listener);
-			this.drawpanel.addMouseMotionListener(this.listener);
+			drawpanel.addMouseListener(listener);
+			drawpanel.addMouseMotionListener(listener);
 			enabled = true;
 		}
 	}
 
 	protected void setListener(DiagramListener listener) {
 		this.listener = listener;
-		this.drawpanel.addMouseListener(this.listener);
-		this.drawpanel.addMouseMotionListener(this.listener);
-		this.drawpanel.addMouseWheelListener(this.listener);
+		drawpanel.addMouseListener(this.listener);
+		drawpanel.addMouseMotionListener(this.listener);
+		drawpanel.addMouseWheelListener(this.listener);
 	}
 
 	public DiagramListener getListener() {
-		return this.listener;
+		return listener;
 	}
 
 	public void setChanged(boolean changed) {
-		if (this.isChanged != changed) {
-			this.isChanged = changed;
+		if (isChanged != changed) {
+			isChanged = changed;
 			BaseGUI gui = Main.getInstance().getGUI();
-			if (gui != null) gui.setDiagramChanged(this, changed);
+			if (gui != null) {
+				gui.setDiagramChanged(this, changed);
+			}
 		}
 	}
 
 	public DrawPanel getDrawPanel() {
-		return this.drawpanel;
+		return drawpanel;
 	}
 
 	public DiagramFileHandler getFileHandler() {
-		return this.fileHandler;
+		return fileHandler;
 	}
 
 	public FontHandler getFontHandler() {
-		return this.fontHandler;
+		return fontHandler;
 	}
 
 	public Controller getController() {
-		return this.controller;
+		return controller;
 	}
 
 	// returnvalue needed for eclipse plugin
 	// returns true if the file is saved, else returns false
 	public boolean doSave() {
 		try {
-			this.fileHandler.doSave();
-			this.reloadPalettes();
+			fileHandler.doSave();
+			reloadPalettes();
 			Main.getInstance().getGUI().afterSaving();
 			return true;
 		} catch (IOException e) {
@@ -141,11 +152,13 @@ public class DiagramHandler {
 	}
 
 	public void doSaveAs(String extension) {
-		if (this.drawpanel.getGridElements().isEmpty()) Main.displayError(ErrorMessages.ERROR_SAVING_EMPTY_DIAGRAM);
+		if (drawpanel.getGridElements().isEmpty()) {
+			Main.displayError(ErrorMessages.ERROR_SAVING_EMPTY_DIAGRAM);
+		}
 		else {
 			try {
-				this.fileHandler.doSaveAs(extension);
-				this.reloadPalettes();
+				fileHandler.doSaveAs(extension);
+				reloadPalettes();
 				Main.getInstance().getGUI().afterSaving();
 			} catch (IOException e) {
 				log.error(e);
@@ -156,11 +169,13 @@ public class DiagramHandler {
 
 	public void doPrint() {
 		PrinterJob printJob = PrinterJob.getPrinterJob();
-		printJob.setPrintable(this.getDrawPanel());
-		if (printJob.printDialog()) try {
-			printJob.print();
-		} catch (PrinterException pe) {
-			Main.displayError(ErrorMessages.ERROR_PRINTING);
+		printJob.setPrintable(getDrawPanel());
+		if (printJob.printDialog()) {
+			try {
+				printJob.print();
+			} catch (PrinterException pe) {
+				Main.displayError(ErrorMessages.ERROR_PRINTING);
+			}
 		}
 	}
 
@@ -174,52 +189,67 @@ public class DiagramHandler {
 	// reloads palettes if the palette has been changed.
 	private void reloadPalettes() {
 		for (DiagramHandler d : Main.getInstance().getPalettes().values()) {
-			if (d.getFileHandler().equals(this.getFileHandler()) && !d.equals(this)) d.reload();
+			if (d.getFileHandler().equals(getFileHandler()) && !d.equals(this)) {
+				d.reload();
+			}
 		}
-		this.getDrawPanel().getSelector().updateSelectorInformation(); // Must be updated to remain in the current Property Panel
+		getDrawPanel().getSelector().updateSelectorInformation(); // Must be updated to remain in the current Property Panel
 	}
 
 	public void doClose() {
-		if (this.askSaveIfDirty()) {
+		if (askSaveIfDirty()) {
 			Main.getInstance().getDiagrams().remove(this);
 			Main.getInstance().getGUI().close(this);
-			this.drawpanel.getSelector().deselectAll();
+			drawpanel.getSelector().deselectAll();
 
 			// update property panel to now selected diagram (or to empty if no diagram exists)
-			DiagramHandler newhandler = Main.getInstance().getDiagramHandler(); // 
-			if (newhandler != null) newhandler.getDrawPanel().getSelector().updateSelectorInformation();
-			else Main.getInstance().setPropertyPanelToGridElement(null);
+			DiagramHandler newhandler = Main.getInstance().getDiagramHandler(); //
+			if (newhandler != null) {
+				newhandler.getDrawPanel().getSelector().updateSelectorInformation();
+			}
+			else {
+				Main.getInstance().setPropertyPanelToGridElement(null);
+			}
 		}
 	}
 
 	public String getName() {
-		String name = this.fileHandler.getFileName();
-		if (name.contains(".")) name = name.substring(0, name.lastIndexOf("."));
+		String name = fileHandler.getFileName();
+		if (name.contains(".")) {
+			name = name.substring(0, name.lastIndexOf("."));
+		}
 		return name;
 	}
 
 	public String getFullPathName() {
-		return this.fileHandler.getFullPathName();
+		return fileHandler.getFullPathName();
 	}
 
 	public GridElementListener getEntityListener(GridElement e) {
 		if (e instanceof Relation) {
-			if (relationListener == null) relationListener = new RelationListener(this);
+			if (relationListener == null) {
+				relationListener = new RelationListener(this);
+			}
 			return relationListener;
-		} else {
-			if (gridElementListener == null) gridElementListener = new GridElementListener(this);
+		}
+		else {
+			if (gridElementListener == null) {
+				gridElementListener = new GridElementListener(this);
+			}
 			return gridElementListener;
 		}
 	}
 
 	public boolean askSaveIfDirty() {
-		if (this.isChanged) {
-			int ch = JOptionPane.showOptionDialog(Main.getInstance().getGUI().getMainFrame(), "Save changes?", Program.NAME + " - " + this.getName(), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+		if (isChanged) {
+			int ch = JOptionPane.showOptionDialog(Main.getInstance().getGUI().getMainFrame(), "Save changes?", Program.NAME + " - " + getName(), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
 			if (ch == JOptionPane.YES_OPTION) {
-				this.doSave();
+				doSave();
 				return true;
 			}
-			else if (ch == JOptionPane.NO_OPTION) { return true; }
+			else if (ch == JOptionPane.NO_OPTION) {
+				return true;
+			}
 			return false;
 		}
 		return true;
@@ -228,16 +258,22 @@ public class DiagramHandler {
 	public void setHelpText(String helptext) {
 		this.helptext = helptext;
 		BaseGUI gui = Main.getInstance().getGUI();
-		if (gui != null && gui.getPropertyPane() != null) gui.getPropertyPane().switchToNonElement(this.helptext);
+		if (gui != null && gui.getPropertyPane() != null) {
+			gui.getPropertyPane().switchToNonElement(this.helptext);
+		}
 	}
 
 	public String getHelpText() {
-		if (this.helptext == null) return Constants.getDefaultHelptext();
-		else return this.helptext;
+		if (helptext == null) {
+			return Constants.getDefaultHelptext();
+		}
+		else {
+			return helptext;
+		}
 	}
 
 	public boolean isChanged() {
-		return this.isChanged;
+		return isChanged;
 	}
 
 	public int getGridSize() {
@@ -281,10 +317,10 @@ public class DiagramHandler {
 		 */
 
 		for (GridElement entity : selectedEntities) {
-			int newX = (entity.getRectangle().x * toFactor) / fromFactor;
-			int newY = (entity.getRectangle().y * toFactor) / fromFactor;
-			int newW = (entity.getRectangle().width * toFactor) / fromFactor;
-			int newH = (entity.getRectangle().height * toFactor) / fromFactor;
+			int newX = entity.getRectangle().x * toFactor / fromFactor;
+			int newY = entity.getRectangle().y * toFactor / fromFactor;
+			int newW = entity.getRectangle().width * toFactor / fromFactor;
+			int newH = entity.getRectangle().height * toFactor / fromFactor;
 			entity.setLocation(realignTo(newX, toFactor), realignTo(newY, toFactor));
 			// Normally there should be no realign here but relations and custom elements sometimes must be realigned therefore we don't log it as an error
 			entity.setSize(realignTo(newW, toFactor), realignTo(newH, toFactor));
@@ -292,8 +328,8 @@ public class DiagramHandler {
 			// Resize the coordinates of the points of the relations
 			if (entity instanceof Relation) {
 				for (Point point : ((Relation) entity).getLinePoints()) {
-					newX = (point.getX() * toFactor) / fromFactor;
-					newY = (point.getY() * toFactor) / fromFactor;
+					newX = point.getX() * toFactor / fromFactor;
+					newY = point.getY() * toFactor / fromFactor;
 					point.setX(realignTo(newX, toFactor));
 					point.setY(realignTo(newY, toFactor));
 				}
@@ -313,8 +349,14 @@ public class DiagramHandler {
 
 		int oldGridSize = getGridSize();
 
-		if ((factor < 1) || (factor > 20)) return; // Only zoom between 10% and 200% is allowed
-		if (factor == oldGridSize) return; // Only zoom if gridsize has changed
+		if (factor < 1 || factor > 20)
+		{
+			return; // Only zoom between 10% and 200% is allowed
+		}
+		if (factor == oldGridSize)
+		{
+			return; // Only zoom if gridsize has changed
+		}
 
 		setGridSize(factor);
 
@@ -337,22 +379,22 @@ public class DiagramHandler {
 			// calculate mouse position relative to UMLet scrollpane
 			Point mouseLocation = Converter.convert(MouseInfo.getPointerInfo().getLocation());
 			Point viewportLocation = Converter.convert(getDrawPanel().getScrollPane().getViewport().getLocationOnScreen());
-			float x  = mouseLocation.x - viewportLocation.x;
-			float y  = mouseLocation.y - viewportLocation.y;
-			
+			float x = mouseLocation.x - viewportLocation.x;
+			float y = mouseLocation.y - viewportLocation.y;
+
 			// And add any space on the upper left corner which is not visible but reachable by scrollbar
 			x += getDrawPanel().getScrollPane().getViewport().getViewPosition().getX();
 			y += getDrawPanel().getScrollPane().getViewport().getViewPosition().getY();
 
 			// The result is the point where we want to center the zoom of the diagram
 			float diffx, diffy;
-			diffx = x - (x * gridSize / oldGridSize);
-			diffy = y - (y * gridSize / oldGridSize);
+			diffx = x - x * gridSize / oldGridSize;
+			diffy = y - y * gridSize / oldGridSize;
 
 			// AB: Move origin in opposite direction
 			log.debug("diffX/diffY: " + diffx + "/" + diffy);
 			log.debug("Manual Zoom Delta: " + realignToGrid(false, diffx) + "/" + realignToGrid(false, diffy));
-			getDrawPanel().moveOrigin(realignToGrid(false, -diffx), realignToGrid(false, - diffy));
+			getDrawPanel().moveOrigin(realignToGrid(false, -diffx), realignToGrid(false, -diffy));
 
 			for (GridElement e : getDrawPanel().getGridElements()) {
 				e.setLocationDifference(realignToGrid(false, diffx), realignToGrid(false, diffy));
@@ -370,16 +412,22 @@ public class DiagramHandler {
 			}
 
 			BaseGUI gui = Main.getInstance().getGUI();
-			if (gui != null) gui.setValueOfZoomDisplay(factor);
+			if (gui != null) {
+				gui.setValueOfZoomDisplay(factor);
+			}
 
 			float zoomFactor = Main.getInstance().getDiagramHandler().getZoomFactor() * 100;
 			String zoomtext;
-			if (Main.getInstance().getDiagramHandler() instanceof PaletteHandler) zoomtext = "Palette zoomed to " + (Integer.toString((int) zoomFactor)) + "%";
-			else zoomtext = "Diagram zoomed to " + (Integer.toString((int) zoomFactor)) + "%";
+			if (Main.getInstance().getDiagramHandler() instanceof PaletteHandler) {
+				zoomtext = "Palette zoomed to " + Integer.toString((int) zoomFactor) + "%";
+			}
+			else {
+				zoomtext = "Diagram zoomed to " + Integer.toString((int) zoomFactor) + "%";
+			}
 			Notifier.getInstance().showNotification(zoomtext);
 		}
 	}
-	
+
 	public void setHandlerAndInitListeners(GridElement element) {
 		if (Main.getHandlerForElement(element) != null) {
 			((Component) element.getComponent()).removeMouseListener(Main.getHandlerForElement(element).getEntityListener(element));

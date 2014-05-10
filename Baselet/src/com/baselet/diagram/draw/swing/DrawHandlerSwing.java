@@ -27,8 +27,8 @@ public class DrawHandlerSwing extends DrawHandler {
 	private Graphics2D g2;
 
 	protected DiagramHandler handler;
-	
-	private boolean translate; //is used because pdf and svg export cut lines if they are drawn at (0,0)
+
+	private boolean translate; // is used because pdf and svg export cut lines if they are drawn at (0,0)
 
 	private GridElement gridElement;
 
@@ -36,7 +36,7 @@ public class DrawHandlerSwing extends DrawHandler {
 		super();
 		this.gridElement = gridElement;
 	}
-	
+
 	/**
 	 * Java Swing JComponents have a width of w, but only w-1 pixels are drawable
 	 * Therefore to draw a rectangle around the whole element, you must call g.drawRect(0,0,w-1,h-1)
@@ -44,24 +44,24 @@ public class DrawHandlerSwing extends DrawHandler {
 	 * x is also important for width drawings which don't start at 0 (e.g. Deployment "3-dimensional" Rectangle)
 	 */
 	private double inBorderHorizontal(double width, double x) {
-		return Math.min(gridElement.getRectangle().getWidth()-x-1, width);
+		return Math.min(gridElement.getRectangle().getWidth() - x - 1, width);
 	}
-	
+
 	/**
 	 * same as above but for vertical points
 	 */
 	private double inBorderVertical(double height, double y) {
-		return Math.min(gridElement.getRectangle().getHeight()-y-1, height);
+		return Math.min(gridElement.getRectangle().getHeight() - y - 1, height);
 	}
 
 	public void setHandler(DiagramHandler handler) {
 		this.handler = handler;
-		this.style = new Style();
+		style = new Style();
 		resetStyle();
 	}
 
 	public void setGraphics(Graphics g) {
-		this.g2 = (Graphics2D) g;
+		g2 = (Graphics2D) g;
 	}
 
 	private double getZoom() {
@@ -70,7 +70,7 @@ public class DrawHandlerSwing extends DrawHandler {
 
 	@Override
 	public DimensionDouble textDimension(String text) {
-		boolean specialFontSize = (style.getFontSize() != getDefaultFontSize());
+		boolean specialFontSize = style.getFontSize() != getDefaultFontSize();
 		if (specialFontSize) {
 			handler.getFontHandler().setFontSize(style.getFontSize());
 		}
@@ -97,9 +97,7 @@ public class DrawHandlerSwing extends DrawHandler {
 		return counter;
 	}
 
-	/*
-	 * DRAW METHODS
-	 */
+	/* DRAW METHODS */
 	@Override
 	public void drawArcPie(double x, double y, double width, double height, double start, double extent) {
 		double xZoomed = x * getZoom() + HALF_PX;
@@ -110,7 +108,7 @@ public class DrawHandlerSwing extends DrawHandler {
 	@Override
 	public void drawCircle(double x, double y, double radius) {
 		double widthAndHeight = radius * 2;
-		drawEllipse(x - radius,y - radius, widthAndHeight, widthAndHeight);
+		drawEllipse(x - radius, y - radius, widthAndHeight, widthAndHeight);
 	}
 
 	@Override
@@ -121,7 +119,7 @@ public class DrawHandlerSwing extends DrawHandler {
 	}
 
 	@Override
-	public void drawLines(PointDouble ... points) {
+	public void drawLines(PointDouble... points) {
 		if (points.length > 0) {
 			Path2D.Double path = new Path2D.Double();
 			boolean first = true;
@@ -131,12 +129,13 @@ public class DrawHandlerSwing extends DrawHandler {
 				if (first) {
 					path.moveTo(x, y);
 					first = false;
-				} else {
+				}
+				else {
 					path.lineTo(x, y);
 				}
 			}
 			// only fill if first point == lastpoint
-			boolean fillShape = points[0].equals(points[points.length-1]);
+			boolean fillShape = points[0].equals(points[points.length - 1]);
 			addShape(path, fillShape);
 		}
 	}
@@ -160,7 +159,7 @@ public class DrawHandlerSwing extends DrawHandler {
 	public void print(String text, PointDouble point, AlignHorizontal align) {
 		addText(new Text(text, point.x * getZoom(), point.y * getZoom(), align));
 	}
-	
+
 	protected void addShape(final Shape s) {
 		addShape(s, true);
 	}
@@ -211,7 +210,7 @@ public class DrawHandlerSwing extends DrawHandler {
 		handler.getFontHandler().writeText(g2, t.getText(), t.getX(), t.getY(), t.getHorizontalAlignment());
 		handler.getFontHandler().resetFontSize();
 	}
-	
+
 	public void setTranslate(boolean translate) {
 		this.translate = translate;
 	}

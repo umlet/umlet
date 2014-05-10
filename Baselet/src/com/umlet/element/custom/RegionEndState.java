@@ -10,7 +10,6 @@ import com.baselet.control.Main;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.element.OldGridElement;
 
-
 @SuppressWarnings("serial")
 public class RegionEndState extends OldGridElement {
 
@@ -20,15 +19,14 @@ public class RegionEndState extends OldGridElement {
 		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
-		
 
-		g2.drawOval(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
+		g2.drawOval(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 		AffineTransform at = g2.getTransform();
 		AffineTransform at2 = (AffineTransform) at.clone();
 		at2.rotate(Math.toRadians(45), getRectangle().width / 2, getRectangle().height / 2);
 		g2.setTransform(at2);
-		g2.drawLine(0, this.getRectangle().height / 2, this.getRectangle().width, this.getRectangle().height / 2);
-		g2.drawLine(this.getRectangle().width / 2, 0, this.getRectangle().width / 2, this.getRectangle().height);
+		g2.drawLine(0, getRectangle().height / 2, getRectangle().width, getRectangle().height / 2);
+		g2.drawLine(getRectangle().width / 2, 0, getRectangle().width / 2, getRectangle().height);
 		g2.setTransform(at);
 
 	}

@@ -20,7 +20,6 @@ import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.standalone.TabListener;
 
-
 @SuppressWarnings("serial")
 public class TabComponent extends JPanel {
 	private DiagramHandler handler;
@@ -39,7 +38,9 @@ public class TabComponent extends JPanel {
 			@Override
 			public String getText() {
 				int i = pane.indexOfTabComponent(TabComponent.this);
-				if (i != -1) { return pane.getTitleAt(i); }
+				if (i != -1) {
+					return pane.getTitleAt(i);
+				}
 				return null;
 			}
 		};
@@ -48,23 +49,23 @@ public class TabComponent extends JPanel {
 		add(label);
 		button = new TabButton();
 		add(button);
-		this.listener = new TabListener(handler, pane);
-		this.addMouseListener(this.listener);
-		this.background = this.getBackground();
+		listener = new TabListener(handler, pane);
+		addMouseListener(listener);
+		background = getBackground();
 	}
 
 	@Override
 	public void setEnabled(boolean en) {
 		super.setEnabled(en);
 		if (en) {
-			this.setBackground(this.background);
-			this.addMouseListener(this.listener);
+			setBackground(background);
+			addMouseListener(listener);
 		}
 		else {
-			this.setBackground(Color.lightGray);
-			this.removeMouseListener(this.listener);
+			setBackground(Color.lightGray);
+			removeMouseListener(listener);
 		}
-		this.button.setEnabled(en);
+		button.setEnabled(en);
 	}
 
 	private class TabButton extends JButton implements MouseListener {
@@ -88,12 +89,12 @@ public class TabComponent extends JPanel {
 		public void setEnabled(boolean en) {
 			super.setEnabled(en);
 			if (en) {
-				this.addMouseListener(this);
-				this.setToolTipText("close this tab");
+				addMouseListener(this);
+				setToolTipText("close this tab");
 			}
 			else {
-				this.removeMouseListener(this);
-				this.setToolTipText(null);
+				removeMouseListener(this);
+				setToolTipText(null);
 			}
 		}
 
@@ -123,7 +124,9 @@ public class TabComponent extends JPanel {
 		@Override
 		public void mousePressed(MouseEvent arg0) {
 			handler.doClose();
-			if (Main.getInstance().getDiagrams().size() == 0) Main.getInstance().doNew();
+			if (Main.getInstance().getDiagrams().size() == 0) {
+				Main.getInstance().doNew();
+			}
 		}
 
 		@Override

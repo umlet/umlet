@@ -8,17 +8,20 @@ import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.gui.eclipse.EclipseGUI.Pane;
 
-
 public class CustomCodePaneFocusListener implements FocusListener {
 
 	@Override
 	public void focusGained(FocusEvent e) {
-		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) ((EclipseGUI) Main.getInstance().getGUI()).setPaneFocused(Pane.CUSTOMCODE);
+		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) {
+			((EclipseGUI) Main.getInstance().getGUI()).setPaneFocused(Pane.CUSTOMCODE);
+		}
 	}
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) ((EclipseGUI) Main.getInstance().getGUI()).setPaneFocused(Pane.DIAGRAM);
+		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) {
+			((EclipseGUI) Main.getInstance().getGUI()).setPaneFocused(Pane.DIAGRAM);
+		}
 	}
 
 }

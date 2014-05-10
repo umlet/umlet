@@ -10,13 +10,14 @@ import javax.swing.JLabel;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
 
-
 public class MenuListener implements MouseListener, MouseMotionListener {
 
 	private static MenuListener _menulistener;
 
 	public static MenuListener getInstance() {
-		if (_menulistener == null) _menulistener = new MenuListener();
+		if (_menulistener == null) {
+			_menulistener = new MenuListener();
+		}
 		return _menulistener;
 	}
 
@@ -44,7 +45,9 @@ public class MenuListener implements MouseListener, MouseMotionListener {
 	@Override
 	public void mousePressed(MouseEvent me) {
 		JLabel label = (JLabel) me.getComponent();
-		if (!label.getText().startsWith("Discard")) Main.getInstance().getGUI().getCurrentCustomHandler().saveEntity();
+		if (!label.getText().startsWith("Discard")) {
+			Main.getInstance().getGUI().getCurrentCustomHandler().saveEntity();
+		}
 		if (Main.getInstance().getGUI().getCurrentCustomHandler().closeEntity()) {
 			Main.getInstance().getGUI().setCustomPanelEnabled(false);
 		}

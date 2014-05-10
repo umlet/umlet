@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import com.baselet.control.Path;
 
-
 public class FileClassLoader extends ClassLoader {
 
 	public FileClassLoader() {
@@ -24,7 +23,9 @@ public class FileClassLoader extends ClassLoader {
 		try {
 			byte[] data = loadClassData(className);
 			c = defineClass(className, data, 0, data.length);
-			if (c == null) throw new ClassNotFoundException(className);
+			if (c == null) {
+				throw new ClassNotFoundException(className);
+			}
 		} catch (IOException e) {
 			throw new ClassNotFoundException(className, e);
 		}

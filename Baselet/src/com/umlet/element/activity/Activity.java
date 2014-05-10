@@ -4,7 +4,6 @@ import java.awt.Graphics2D;
 
 import com.baselet.diagram.DiagramHandler;
 
-
 public class Activity extends Element {
 
 	protected Label label;
@@ -16,36 +15,36 @@ public class Activity extends Element {
 
 	@Override
 	protected int getHeight() {
-		return this.label.getHeight() + this.label.getPadding() * 2 + super.getHeight();
+		return label.getHeight() + label.getPadding() * 2 + super.getHeight();
 	}
 
 	@Override
 	protected int getLeftWidth() {
-		return this.label.getLeftWidth() + this.label.getPadding() + super.getLeftWidth();
+		return label.getLeftWidth() + label.getPadding() + super.getLeftWidth();
 	}
 
 	@Override
 	protected int getRightWidth() {
-		return this.label.getRightWidth() + this.label.getPadding() + super.getRightWidth();
+		return label.getRightWidth() + label.getPadding() + super.getRightWidth();
 	}
 
 	@Override
 	public void setY(int y) {
 		super.setY(y);
-		this.label.setY(y);
+		label.setY(y);
 	}
 
 	@Override
 	public void setX(int x) {
 		super.setX(x);
-		this.label.setX(x);
+		label.setX(x);
 	}
 
 	@Override
 	public void paint() {
-		int h = this.getHeight();
-		this.label.paint();
-		this.getGraphics().drawRoundRect(this.getPosition().x - this.label.getLeftWidth() - this.label.getPadding(),
-				this.getPosition().y - h / 2, this.label.getWidth() + this.label.getPadding() * 2, h, (int) (20 * getZoom()), (int) (20 * getZoom()));
+		int h = getHeight();
+		label.paint();
+		getGraphics().drawRoundRect(getPosition().x - label.getLeftWidth() - label.getPadding(),
+				getPosition().y - h / 2, label.getWidth() + label.getPadding() * 2, h, (int) (20 * getZoom()), (int) (20 * getZoom()));
 	}
 }

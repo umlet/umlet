@@ -1,9 +1,4 @@
-/*
- * Based on WindowsBatchTokenMaker.java - Scanner for Windows batch files.
- * 
- * This library is distributed under a modified BSD license.  See the included
- * RSyntaxTextArea.License.txt file for details.
- */
+/* Based on WindowsBatchTokenMaker.java - Scanner for Windows batch files. This library is distributed under a modified BSD license. See the included RSyntaxTextArea.License.txt file for details. */
 package com.baselet.gui;
 
 import javax.swing.text.Segment;
@@ -62,9 +57,9 @@ public class OwnTokenMaker extends AbstractTokenMaker {
 		int newStartOffset = startOffset - offset;
 
 		int currentTokenStart = offset;
-		int currentTokenType  = startTokenType;
+		int currentTokenType = startTokenType;
 
-		for (int i=offset; i<end; i++) {
+		for (int i = offset; i < end; i++) {
 			switch (currentTokenType) {
 				case TokenTypes.NULL:
 					currentTokenType = TokenTypes.IDENTIFIER;
@@ -73,7 +68,7 @@ public class OwnTokenMaker extends AbstractTokenMaker {
 
 		}
 
-		addToken(text, currentTokenStart,end-1, currentTokenType, newStartOffset+currentTokenStart);
+		addToken(text, currentTokenStart, end - 1, currentTokenType, newStartOffset + currentTokenStart);
 		addNullToken();
 
 		return firstToken;

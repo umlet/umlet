@@ -12,7 +12,6 @@ import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Search;
 
-
 public class SearchListener implements KeyListener, MouseMotionListener {
 
 	public SearchListener() {}
@@ -27,12 +26,14 @@ public class SearchListener implements KeyListener, MouseMotionListener {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			JTextField search = (JTextField) e.getComponent();
 			DiagramHandler h = Main.getInstance().getDiagramHandler();
-			if ((h != null) && search != null && ! "".equals(search.getText())) {
+			if (h != null && search != null && !"".equals(search.getText())) {
 				h.getController().executeCommand(new Search(search.getText()));
 			}
 			Main.getInstance().getGUI().enableSearch(false);
 		}
-		else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) Main.getInstance().getGUI().enableSearch(false);
+		else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			Main.getInstance().getGUI().enableSearch(false);
+		}
 	}
 
 	@Override

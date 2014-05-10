@@ -17,10 +17,10 @@ import com.baselet.element.GridElement;
 
 public class PropertyPanelListener implements KeyListener, DocumentListener {
 
-	public PropertyPanelListener() {
-	}
+	public PropertyPanelListener() {}
 
-	@Override public void keyTyped(KeyEvent e) {
+	@Override
+	public void keyTyped(KeyEvent e) {
 		if (e.getKeyChar() == '\u001b') { // ESC Key: Leaves the Property Panel
 			Main.getInstance().getGUI().requestFocus();
 		}
@@ -29,7 +29,8 @@ public class PropertyPanelListener implements KeyListener, DocumentListener {
 	@Override
 	public void changedUpdate(DocumentEvent e) {
 		SwingUtilities.invokeLater(new Runnable() {
-			@Override public void run() {
+			@Override
+			public void run() {
 				updateGridElement();
 			}
 		});
@@ -41,14 +42,15 @@ public class PropertyPanelListener implements KeyListener, DocumentListener {
 		DiagramHandler handler = Main.getInstance().getDiagramHandler();
 
 		if (gridElement != null) {
-			//only create command if changes were made
+			// only create command if changes were made
 			if (!s.equals(gridElement.getPanelAttributes())) {
 				int newCaretPos = Main.getInstance().getGUI().getPropertyPane().getTextComponent().getCaretPosition();
-				int oldCaretPos = newCaretPos - (s.length()-gridElement.getPanelAttributes().length());		
+				int oldCaretPos = newCaretPos - (s.length() - gridElement.getPanelAttributes().length());
 
 				if (Main.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {
 					Main.getHandlerForElement(gridElement).getController().executeCommand(new CustomCodePropertyChanged(gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
-				} else {
+				}
+				else {
 					Main.getHandlerForElement(gridElement).getController().executeCommand(new ChangeState(gridElement, gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
 				}
 			}
@@ -58,11 +60,20 @@ public class PropertyPanelListener implements KeyListener, DocumentListener {
 		}
 
 		// Scrollbars must be updated cause some entities can grow out of screen border by typing text inside (eg: autoresize custom elements)
-		if (handler != null) handler.getDrawPanel().updatePanelAndScrollbars();
+		if (handler != null) {
+			handler.getDrawPanel().updatePanelAndScrollbars();
+		}
 	}
 
-	@Override public void keyReleased(KeyEvent e) {}
-	@Override public void keyPressed(KeyEvent e) {}
-	@Override public void insertUpdate(DocumentEvent e) {}
-	@Override public void removeUpdate(DocumentEvent e) {}
+	@Override
+	public void keyReleased(KeyEvent e) {}
+
+	@Override
+	public void keyPressed(KeyEvent e) {}
+
+	@Override
+	public void insertUpdate(DocumentEvent e) {}
+
+	@Override
+	public void removeUpdate(DocumentEvent e) {}
 }

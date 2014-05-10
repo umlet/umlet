@@ -35,7 +35,7 @@ import com.baselet.plugin.MainPlugin;
 import com.umlet.custom.CustomElementHandler;
 
 public class Editor extends EditorPart {
-	
+
 	private static final Logger log = Logger.getLogger(Editor.class);
 
 	private DiagramHandler handler;
@@ -65,7 +65,7 @@ public class Editor extends EditorPart {
 	public boolean isSaveAsAllowed() {
 		return true;
 	}
-	
+
 	File diagramFile;
 
 	private Frame mainFrame;
@@ -73,11 +73,11 @@ public class Editor extends EditorPart {
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		log.info("Call editor.init() " + uuid.toString());
-		this.setSite(site);
-		this.setInput(input);
-		this.setPartName(input.getName());
+		setSite(site);
+		setInput(input);
+		setPartName(input.getName());
 		diagramFile = getFile(input);
-		try { //use invokeAndWait to make sure the initialization is finished before SWT proceeds
+		try { // use invokeAndWait to make sure the initialization is finished before SWT proceeds
 			SwingUtilities.invokeAndWait(new Runnable() {
 				@Override
 				public void run() { // initialize embedded panel here (and not in createPartControl) to avoid ugly scrollbars
@@ -98,12 +98,14 @@ public class Editor extends EditorPart {
 		else if (input instanceof org.eclipse.ui.ide.FileStoreEditorInput) { // Files from outside of the workspace (eg: edit current palette)
 			return new File(((org.eclipse.ui.ide.FileStoreEditorInput) input).getURI());
 		}
-		else throw new PartInitException("Editor input not supported.");
+		else {
+			throw new PartInitException("Editor input not supported.");
+		}
 	}
 
 	@Override
 	public boolean isDirty() {
-		return this.handler.isChanged();
+		return handler.isChanged();
 	}
 
 	@Override
@@ -125,16 +127,18 @@ public class Editor extends EditorPart {
 
 		MainPlugin.getGUI().setCurrentEditor(this);
 		MainPlugin.getGUI().setCurrentDiagramHandler(handler);
-		if (handler != null) handler.getDrawPanel().getSelector().updateSelectorInformation();
+		if (handler != null) {
+			handler.getDrawPanel().getSelector().updateSelectorInformation();
+		}
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
-			public void run() {	
+			public void run() {
 				/**
 				 * usually the palettes get lost (for unknown reasons) after switching the editor, therefore recreate them.
 				 * also reselect the current palette and repaint every element with scrollbars (otherwise they have a visual error)
 				 */
-				if (guiComponents.getPalettePanel().getComponentCount()==0) {
+				if (guiComponents.getPalettePanel().getComponentCount() == 0) {
 					for (PaletteHandler palette : Main.getInstance().getPalettes().values()) {
 						guiComponents.getPalettePanel().add(palette.getDrawPanel().getScrollPane(), palette.getName());
 					}
@@ -147,26 +151,30 @@ public class Editor extends EditorPart {
 	}
 
 	public DrawPanel getDiagram() {
-		if (handler == null) return null;
-		return this.handler.getDrawPanel();
+		if (handler == null) {
+			return null;
+		}
+		return handler.getDrawPanel();
 	}
 
 	@Override
 	public void dispose() {
 		super.dispose();
 		log.info("Call editor.dispose( )" + uuid.toString());
-		//AB: The eclipse plugin might hang sometimes if this section is not placed into an event queue, since swing or swt is not thread safe!
+		// AB: The eclipse plugin might hang sometimes if this section is not placed into an event queue, since swing or swt is not thread safe!
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				if (guiComponents.getMailPanel().isVisible()) guiComponents.getMailPanel().closePanel();
+				if (guiComponents.getMailPanel().isVisible()) {
+					guiComponents.getMailPanel().closePanel();
+				}
 				MainPlugin.getGUI().editorRemoved(Editor.this);
 			}
 		});
 	}
 
 	public void setCursor(Cursor cursor) {
-		this.embeddedPanel.setCursor(cursor);
+		embeddedPanel.setCursor(cursor);
 	}
 
 	public OwnSyntaxPane getPropertyPane() {
@@ -178,9 +186,9 @@ public class Editor extends EditorPart {
 	}
 
 	public void requestFocus() {
-		this.embeddedPanel.requestFocus();
+		embeddedPanel.requestFocus();
 	}
-	
+
 	public Frame getMainFrame() {
 		return mainFrame;
 	}
@@ -216,7 +224,7 @@ public class Editor extends EditorPart {
 	}
 
 	public String getSelectedPaletteName() {
-		return this.guiComponents.getPaletteList().getSelectedItem().toString();
+		return guiComponents.getPaletteList().getSelectedItem().toString();
 	}
 
 	public int getMainSplitLocation() {

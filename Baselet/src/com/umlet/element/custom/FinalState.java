@@ -9,7 +9,6 @@ import com.baselet.control.Main;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.element.OldGridElement;
 
-
 /**
  * @author Ludwig
  */
@@ -24,10 +23,9 @@ public class FinalState extends OldGridElement {
 		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
-		
 
-		g2.drawOval(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
-		g2.fillOval((int) (4 * zoom), (int) (4 * zoom), this.getRectangle().width - (int) (8 * zoom), this.getRectangle().height - (int) (8 * zoom));
+		g2.drawOval(0, 0, getRectangle().width - 1, getRectangle().height - 1);
+		g2.fillOval((int) (4 * zoom), (int) (4 * zoom), getRectangle().width - (int) (8 * zoom), getRectangle().height - (int) (8 * zoom));
 	}
 
 	@Override

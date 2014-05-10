@@ -23,7 +23,6 @@ import com.baselet.element.GridElement;
 import com.umlet.custom.CustomElement;
 import com.umlet.custom.CustomElementHandler;
 
-
 public abstract class BaseGUI {
 
 	private static final Logger log = Logger.getLogger(BaseGUI.class);
@@ -43,11 +42,11 @@ public abstract class BaseGUI {
 			log.error(e.getMessage());
 		}
 
-		this.initGUIParameters();
-		//		this.setLayout(new BorderLayout());
+		initGUIParameters();
+		// this.setLayout(new BorderLayout());
 
-		this.init();
-		//		this.requestFocus();
+		init();
+		// this.requestFocus();
 	}
 
 	public abstract void focusPropertyPane();
@@ -67,11 +66,15 @@ public abstract class BaseGUI {
 		}
 		JMenuItem group = menuFactory.createGroup();
 		contextMenu.add(group);
-		if (this.selected_elements.size() < 2) group.setEnabled(false);
+		if (selected_elements.size() < 2) {
+			group.setEnabled(false);
+		}
 
 		JMenuItem ungroup = menuFactory.createUngroup();
 		contextMenu.add(ungroup);
-		if (e.getGroup() == null) ungroup.setEnabled(false);
+		if (e.getGroup() == null) {
+			ungroup.setEnabled(false);
+		}
 
 		contextMenu.add(menuFactory.createSetColor(true));
 		contextMenu.add(menuFactory.createSetColor(false));
@@ -84,18 +87,18 @@ public abstract class BaseGUI {
 
 	private JMenu createLayerMenu(MenuFactorySwing menuFactory) {
 		JMenu layerMenu = menuFactory.createLayerUp();
-		layerMenu.setEnabled(!this.selected_elements.isEmpty());
+		layerMenu.setEnabled(!selected_elements.isEmpty());
 		return layerMenu;
 	}
 
 	private JMenu createAlignmentMenu(MenuFactorySwing menuFactory) {
 		JMenu alignmentMenu = menuFactory.createAlign();
-		alignmentMenu.setEnabled(this.selected_elements.size() > 1); // only enable when at least 2 elements are selected
+		alignmentMenu.setEnabled(selected_elements.size() > 1); // only enable when at least 2 elements are selected
 		return alignmentMenu;
 	}
 
 	public void elementsSelected(Collection<GridElement> selectedElements) {
-		this.selected_elements = selectedElements;
+		selected_elements = selectedElements;
 	}
 
 	protected void initGUIParameters() {
@@ -105,11 +108,11 @@ public abstract class BaseGUI {
 	}
 
 	public void setPaletteEdited(boolean isEdited) {
-		this.paletteEdited = isEdited;
+		paletteEdited = isEdited;
 	}
 
 	public boolean getPaletteEdited() {
-		return this.paletteEdited;
+		return paletteEdited;
 	}
 
 	public abstract CustomElementHandler getCurrentCustomHandler();
@@ -151,7 +154,7 @@ public abstract class BaseGUI {
 	public abstract void diagramSelected(DiagramHandler handler);
 
 	public void enableSearch(@SuppressWarnings("unused") boolean enable) {
-		/* do nothing*/
+		/* do nothing */
 	}
 
 	public abstract int getMainSplitPosition();
@@ -165,7 +168,7 @@ public abstract class BaseGUI {
 	public abstract void setValueOfZoomDisplay(int i);
 
 	public void afterSaving() {
-		/* do nothing*/
+		/* do nothing */
 	}
 
 	public abstract void setCursor(Cursor cursor);
@@ -173,7 +176,7 @@ public abstract class BaseGUI {
 	public abstract void requestFocus();
 
 	public void updateGrayedOutMenuItems(@SuppressWarnings("unused") DiagramHandler handler) {
-		/* do nothing*/
+		/* do nothing */
 	}
 
 	public abstract Frame getMainFrame();

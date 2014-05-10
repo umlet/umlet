@@ -19,7 +19,7 @@ public class JMultiLineToolTip extends JToolTip {
 
 	public void setColumns(int columns) {
 		this.columns = columns;
-		this.fixedwidth = 0;
+		fixedwidth = 0;
 	}
 
 	public int getColumns() {
@@ -27,8 +27,8 @@ public class JMultiLineToolTip extends JToolTip {
 	}
 
 	public void setFixedWidth(int width) {
-		this.fixedwidth = width;
-		this.columns = 0;
+		fixedwidth = width;
+		columns = 0;
 	}
 
 	public int getFixedWidth() {

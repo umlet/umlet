@@ -23,8 +23,8 @@ public class Notifier {
 			public void run() {
 				showNotificationHelper(message);
 			}
-		});}
-
+		});
+	}
 
 	private void showNotificationHelper(String message) {
 		final DrawPanel notifierPanel = Main.getInstance().getDiagramHandler().getDrawPanel();

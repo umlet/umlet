@@ -1,4 +1,3 @@
-
 package com.baselet.diagram;
 
 import java.awt.Color;
@@ -19,7 +18,7 @@ import com.baselet.control.enumerations.LineType;
  */
 @SuppressWarnings("serial")
 public class SelectorFrame extends JComponent {
-	
+
 	private static final Logger log = Logger.getLogger(SelectorFrame.class);
 
 	// If the frame is drawn from the right to the left or from bottom to top the offset is
@@ -53,41 +52,45 @@ public class SelectorFrame extends JComponent {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.black);
 		g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
-		if (Utils.displaceDrawingByOnePixel()) g2.drawRect(1, 1, getWidth() - 1, getHeight() - 1);
-		else g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+		if (Utils.displaceDrawingByOnePixel()) {
+			g2.drawRect(1, 1, getWidth() - 1, getHeight() - 1);
+		}
+		else {
+			g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+		}
 		g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
 	}
 
 	public void resizeTo(int x, int y) {
 
-		int locx = this.getX();
-		int locy = this.getY();
-		int sizx = entity_displacement_x + x - this.getX();
-		int sizy = entity_displacement_y + y - this.getY();
+		int locx = getX();
+		int locy = getY();
+		int sizx = entity_displacement_x + x - getX();
+		int sizy = entity_displacement_y + y - getY();
 
-		if (sizx - this.offset_left < 0) {
+		if (sizx - offset_left < 0) {
 			locx += sizx;
-			sizx = sizx * (-1) + this.offset_left;
-			this.offset_left = sizx;
+			sizx = sizx * -1 + offset_left;
+			offset_left = sizx;
 			log.info("LEFT (offset: " + offset_left + "px)");
 		}
 		else {
-			sizx -= this.offset_left;
-			locx += this.offset_left;
-			this.offset_left = 0;
+			sizx -= offset_left;
+			locx += offset_left;
+			offset_left = 0;
 			log.info("RIGHT");
 		}
 
-		if (sizy - this.offset_top < 0) {
+		if (sizy - offset_top < 0) {
 			locy += sizy;
-			sizy = sizy * (-1) + this.offset_top;
-			this.offset_top = sizy;
+			sizy = sizy * -1 + offset_top;
+			offset_top = sizy;
 			log.info("UP (offset: " + offset_top + "px)");
 		}
 		else {
-			sizy -= this.offset_top;
-			locy += this.offset_top;
-			this.offset_top = 0;
+			sizy -= offset_top;
+			locy += offset_top;
+			offset_top = 0;
 			log.info("DOWN");
 		}
 

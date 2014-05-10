@@ -16,9 +16,9 @@ public class GoTo {
 	private Direction dir;
 
 	public GoTo(Graphics2D g, Element from, String to) {
-		this.graphics = g;
-		this.to_id = to;
-		this.from_element = from;
+		graphics = g;
+		to_id = to;
+		from_element = from;
 	}
 
 	public void setDirection(Direction dir) {
@@ -26,37 +26,39 @@ public class GoTo {
 	}
 
 	public Element getFromElement() {
-		return this.from_element;
+		return from_element;
 	}
 
 	public Element getToElement() {
-		return this.to_element;
+		return to_element;
 	}
 
 	public String getToElementId() {
-		return this.to_id;
+		return to_id;
 	}
 
 	public void setToElement(Element e) {
-		this.to_element = e;
+		to_element = e;
 	}
 
 	public void paint(ActivityDiagramText dia) {
-		if (this.from_element.connectOut_overrideable() && this.to_element.connectIn()
-				&& this.to_element.arrowIn()) {
-			Point from = this.from_element.getNonStdConnectOut(dir);
-			Point to = this.to_element.getNonStdConnectIn(dir);
-			Point to_origin = this.to_element.getConnect(dir);
+		if (from_element.connectOut_overrideable() && to_element.connectIn()
+			&& to_element.arrowIn()) {
+			Point from = from_element.getNonStdConnectOut(dir);
+			Point to = to_element.getNonStdConnectIn(dir);
+			Point to_origin = to_element.getConnect(dir);
 
 			int x = dia.getGotoPosition(dir);
-			this.graphics.drawLine(from.x, from.y, x, from.y);
-			this.graphics.drawLine(x, from.y, x, to.y);
+			graphics.drawLine(from.x, from.y, x, from.y);
+			graphics.drawLine(x, from.y, x, to.y);
 
-			if ((to.x == to_origin.x) && (to.y == to_origin.y)) {
+			if (to.x == to_origin.x && to.y == to_origin.y) {
 				float zoom = Main.getHandlerForElement(dia).getZoomFactor();
-				Connector.drawArrow(this.graphics, zoom, x, to.y, to.x, to.y);
+				Connector.drawArrow(graphics, zoom, x, to.y, to.x, to.y);
 			}
-			else this.graphics.drawLine(x, to.y, to.x, to.y);
+			else {
+				graphics.drawLine(x, to.y, to.x, to.y);
+			}
 		}
 	}
 }

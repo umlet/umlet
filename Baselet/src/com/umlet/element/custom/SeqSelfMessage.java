@@ -15,7 +15,6 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
 
-
 @SuppressWarnings("serial")
 public class SeqSelfMessage extends OldGridElement {
 
@@ -34,19 +33,19 @@ public class SeqSelfMessage extends OldGridElement {
 		int size_3d = (int) (10 * zoom);
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillRect(0, size_3d, this.getRectangle().width - size_3d - 1, this.getRectangle().height - size_3d - 1);
+		g2.fillRect(0, size_3d, getRectangle().width - size_3d - 1, getRectangle().height - size_3d - 1);
 
 		Polygon p = new Polygon();
-		p.addPoint(this.getRectangle().width - size_3d - 1, this.getRectangle().height - 1);
-		p.addPoint(this.getRectangle().width - size_3d - 1, size_3d);
-		p.addPoint(this.getRectangle().width - 1, 0);
-		p.addPoint(this.getRectangle().width - 1, this.getRectangle().height - size_3d - 1);
+		p.addPoint(getRectangle().width - size_3d - 1, getRectangle().height - 1);
+		p.addPoint(getRectangle().width - size_3d - 1, size_3d);
+		p.addPoint(getRectangle().width - 1, 0);
+		p.addPoint(getRectangle().width - 1, getRectangle().height - size_3d - 1);
 
 		Polygon p1 = new Polygon();
 		p1.addPoint(0, size_3d);
 		p1.addPoint(size_3d, 0);
-		p1.addPoint(this.getRectangle().width - 1, 0);
-		p1.addPoint(this.getRectangle().width - size_3d - 1, size_3d);
+		p1.addPoint(getRectangle().width - 1, 0);
+		p1.addPoint(getRectangle().width - size_3d - 1, size_3d);
 
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 		g2.setColor(new Color(230, 230, 230));
@@ -55,18 +54,22 @@ public class SeqSelfMessage extends OldGridElement {
 		g2.setComposite(composites[0]);
 		g2.setColor(fgColor);
 
-		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
-		else g2.setColor(fgColorBase);
+		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
+			g2.setColor(fgColor);
+		}
+		else {
+			g2.setColor(fgColorBase);
+		}
 
-		g2.drawRect(0, size_3d, this.getRectangle().width - size_3d - 1, this.getRectangle().height - size_3d - 1);
+		g2.drawRect(0, size_3d, getRectangle().width - size_3d - 1, getRectangle().height - size_3d - 1);
 		// draw polygons by hand to avoid double painted line
 		g2.drawLine(0, size_3d, size_3d, 0);
-		g2.drawLine(size_3d, 0, this.getRectangle().width - 1, 0);
-		g2.drawLine(this.getRectangle().width - 1, 0, this.getRectangle().width - 1, this.getRectangle().height - size_3d - 1);
-		g2.drawLine(this.getRectangle().width - 1, this.getRectangle().height - size_3d - 1, this.getRectangle().width - size_3d - 1, this.getRectangle().height - 1);
-		g2.drawLine(this.getRectangle().width - size_3d - 1, size_3d, this.getRectangle().width - 1, 0);
+		g2.drawLine(size_3d, 0, getRectangle().width - 1, 0);
+		g2.drawLine(getRectangle().width - 1, 0, getRectangle().width - 1, getRectangle().height - size_3d - 1);
+		g2.drawLine(getRectangle().width - 1, getRectangle().height - size_3d - 1, getRectangle().width - size_3d - 1, getRectangle().height - 1);
+		g2.drawLine(getRectangle().width - size_3d - 1, size_3d, getRectangle().width - 1, 0);
 
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
+		Vector<String> tmp = Utils.decomposeStrings(getPanelAttributes());
 		int yPos = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		yPos = yPos + size_3d;
 		for (int i = 0; i < tmp.size(); i++) {
@@ -74,9 +77,11 @@ public class SeqSelfMessage extends OldGridElement {
 			yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 			if (s.startsWith("center:")) {
 				s = s.substring(7);
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (this.getRectangle().width - size_3d - 1) / 2, yPos, AlignHorizontal.CENTER);
-			} else
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getRectangle().width - size_3d - 1) / 2, yPos, AlignHorizontal.CENTER);
+			}
+			else {
 				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+			}
 
 			yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		}

@@ -30,13 +30,13 @@ import com.umlet.language.sorting.RelationLayout;
  *
  */
 public class ClassDiagramConverter {
-	
+
 	private final int GRIDSIZE;
-	
+
 	public ClassDiagramConverter() {
-		 GRIDSIZE = Main.getInstance().getDiagramHandler().getGridSize();
+		GRIDSIZE = Main.getInstance().getDiagramHandler().getGridSize();
 	}
-	
+
 	public void createClassDiagram(String filename) {
 		List<String> fileNames = new ArrayList<String>();
 		fileNames.add(filename);
@@ -45,20 +45,27 @@ public class ClassDiagramConverter {
 
 	public void createClassDiagrams(List<String> filesToOpen) {
 		List<SortableElement> elements = new ArrayList<SortableElement>();
-		for (String filename: filesToOpen) {
+		for (String filename : filesToOpen) {
 			SortableElement element = createElement(filename);
 			if (element != null) {
 				elements.add(element);
 			}
 		}
-		
-		switch(Constants.generateClassSortings) {
-			case PACKAGE: new PackageLayout().layout(elements); break;
-			case ALPHABET: new AlphabetLayout().layout(elements); break;
-			case RELATIONS: new RelationLayout().layout(elements); break;
-			default: new HeightLayout().layout(elements); // by height
+
+		switch (Constants.generateClassSortings) {
+			case PACKAGE:
+				new PackageLayout().layout(elements);
+				break;
+			case ALPHABET:
+				new AlphabetLayout().layout(elements);
+				break;
+			case RELATIONS:
+				new RelationLayout().layout(elements);
+				break;
+			default:
+				new HeightLayout().layout(elements); // by height
 		}
-		
+
 		addElementsToDiagram(elements);
 	}
 
@@ -77,14 +84,14 @@ public class ClassDiagramConverter {
 	private void addElementsToDiagram(List<SortableElement> elements) {
 		DiagramHandler handler = Main.getInstance().getDiagramHandler();
 
-		for (SortableElement e: elements) {
-			new AddElement(e.getElement(), 
+		for (SortableElement e : elements) {
+			new AddElement(e.getElement(),
 					handler.realignToGrid(e.getElement().getRectangle().x),
 					handler.realignToGrid(e.getElement().getRectangle().y), false).execute(handler);
 		}
-		handler.setChanged(true);		
+		handler.setChanged(true);
 	}
-	
+
 	/**
 	 * Adjusts a Class GridElement to the minimum size where all text is visible.
 	 * 
@@ -92,73 +99,78 @@ public class ClassDiagramConverter {
 	 */
 	private void adjustSize(GridElement clazz) {
 		List<String> strings = clazz.getPanelAttributesAsList();
-		//GridElement clazz not yet fully initialized, cannot call clazz.getHandler();  
-		FontHandler fontHandler = Main.getInstance().getDiagramHandler().getFontHandler(); 
-		
+		// GridElement clazz not yet fully initialized, cannot call clazz.getHandler();
+		FontHandler fontHandler = Main.getInstance().getDiagramHandler().getFontHandler();
+
 		int width = 0;
 		int height = strings.size();
 		double heightTweaker = 0.1;
-		for (String string: strings) {
+		for (String string : strings) {
 			if (string.isEmpty()) {
 				heightTweaker += 1;
-			} else if (string.equals("--")) {
+			}
+			else if (string.equals("--")) {
 				heightTweaker += 0.5;
 			}
 			if (fontHandler.getTextWidth(string) > width) {
 				width = (int) (fontHandler.getTextWidth(string) + fontHandler.getDistanceBetweenTexts()) + 10;
 			}
 		}
-		height = (int) (fontHandler.getFontSize() + fontHandler.getDistanceBetweenTexts()) * (height - (int)heightTweaker);
-		
+		height = (int) (fontHandler.getFontSize() + fontHandler.getDistanceBetweenTexts()) * (height - (int) heightTweaker);
+
 		clazz.setSize(align(width), align(height)); // width&height must be multiples of grid size
 		clazz.repaint();
 	}
-	
+
 	private int align(int n) {
-		return n - (n % GRIDSIZE) + GRIDSIZE;
+		return n - n % GRIDSIZE + GRIDSIZE;
 	}
-	
+
 	private String getElementProperties(JavaClass parsedClass) {
 		String attributes = "";
-		
+
 		attributes = createTopSection(parsedClass, attributes);
 		attributes += "--\n";
-		
+
 		attributes = createFieldSection(parsedClass, attributes);
 		attributes += "--\n";
-		
+
 		attributes = createMethodSection(parsedClass, attributes);
 		attributes += "--\n";
-		
+
 		return attributes;
 	}
 
 	private String createMethodSection(JavaClass parsedClass, String attributes) {
-		for (Method method: parsedClass.getMethods()) {
+		for (Method method : parsedClass.getMethods()) {
 			if (Constants.generateClassMethods == MethodOptions.PUBLIC && method.getAccess() == AccessFlag.PUBLIC) {
 				attributes += getMethodString(method);
-			} else if (Constants.generateClassMethods == MethodOptions.ALL) {
+			}
+			else if (Constants.generateClassMethods == MethodOptions.ALL) {
 				attributes += getMethodString(method);
 			}
 		}
 		return attributes;
 	}
-	
+
 	private String getMethodString(Method method) {
 		if (Constants.generateClassSignatures == SignatureOptions.PARAMS_ONLY) {
 			return method.getAccess() + method.getName() + "(" + method.getSignature() + ")\n";
-		} else if (Constants.generateClassSignatures == SignatureOptions.RETURN_ONLY) {
-			return method.getAccess() + method.getName() + ": " + method.getReturnType() +"\n";
-		} else {
-			return method.getAccess() + method.getName() + "("+ method.getSignature()+ "): " + method.getReturnType() + "\n";
+		}
+		else if (Constants.generateClassSignatures == SignatureOptions.RETURN_ONLY) {
+			return method.getAccess() + method.getName() + ": " + method.getReturnType() + "\n";
+		}
+		else {
+			return method.getAccess() + method.getName() + "(" + method.getSignature() + "): " + method.getReturnType() + "\n";
 		}
 	}
 
 	private String createFieldSection(JavaClass parsedClass, String attributes) {
-		for (Field field: parsedClass.getFields()) {
+		for (Field field : parsedClass.getFields()) {
 			if (Constants.generateClassFields == FieldOptions.PUBLIC && field.getAccess() == AccessFlag.PUBLIC) {
 				attributes += field.getAccess() + field.getName() + ": " + field.getType() + "\n";
-			} else if (Constants.generateClassFields == FieldOptions.ALL) {
+			}
+			else if (Constants.generateClassFields == FieldOptions.ALL) {
 				attributes += field.getAccess() + field.getName() + ": " + field.getType() + "\n";
 			}
 		}
@@ -168,21 +180,23 @@ public class ClassDiagramConverter {
 	private String createTopSection(JavaClass parsedClass, String attributes) {
 		ClassRole role = parsedClass.getRole();
 		if (role == ClassRole.INTERFACE) {
-			attributes += "<<"+role+">>\n";
-			attributes += getClassName(parsedClass);
-		} else if (role == ClassRole.ABSTRACT){
-			attributes += "/"+getClassName(parsedClass)+"/";
-		} else {
+			attributes += "<<" + role + ">>\n";
 			attributes += getClassName(parsedClass);
 		}
-		return attributes+="\n";
+		else if (role == ClassRole.ABSTRACT) {
+			attributes += "/" + getClassName(parsedClass) + "/";
+		}
+		else {
+			attributes += getClassName(parsedClass);
+		}
+		return attributes += "\n";
 	}
-	
+
 	public static String getClassName(JavaClass parsedClass) {
 		String result = "";
 		if (Constants.generateClassPackage) {
-			result += parsedClass.getPackage()+"::";
-		} 
+			result += parsedClass.getPackage() + "::";
+		}
 		result += parsedClass.getName();
 		return result;
 	}
@@ -191,13 +205,14 @@ public class ClassDiagramConverter {
 		try {
 			if (getExtension(filename).equals("java")) {
 				return parseJavaFile(filename);
-			} else if (getExtension(filename).equals("class")) {
+			}
+			else if (getExtension(filename).equals("class")) {
 				return parseClassFile(filename);
 			}
 		} catch (Exception ignored) {}
 		return null;
 	}
-	
+
 	private JavaClass parseJavaFile(String filename) {
 		try {
 			return new JpJavaClass(filename);
@@ -205,13 +220,13 @@ public class ClassDiagramConverter {
 			return null;
 		}
 	}
-	
+
 	private JavaClass parseClassFile(String filename) {
 		return new BcelJavaClass(filename);
 	}
-	
+
 	private String getExtension(String filename) {
 		int dotPosition = filename.lastIndexOf(".");
-		return filename.substring(dotPosition + 1, filename.length()); 
+		return filename.substring(dotPosition + 1, filename.length());
 	}
 }

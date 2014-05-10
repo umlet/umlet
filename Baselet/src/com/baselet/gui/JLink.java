@@ -8,7 +8,6 @@ import javax.swing.JLabel;
 
 import com.baselet.control.BrowserLauncher;
 
-
 public class JLink extends JLabel {
 
 	/**
@@ -29,7 +28,9 @@ public class JLink extends JLabel {
 	private class LinkMouseAdapter extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			if (e.getClickCount() > 0) BrowserLauncher.openURL(url);
+			if (e.getClickCount() > 0) {
+				BrowserLauncher.openURL(url);
+			}
 		}
 	}
 }

@@ -15,12 +15,12 @@ public class FormattedFont {
 	private static Integer underline;
 	private static Float bold;
 	private static Float italic;
-	
+
 	private String string;
 	private AttributedString atrString;
-	
+
 	private TextLayout textLayout;
-	
+
 	public FormattedFont(String text, double fontSize, Font font, FontRenderContext fontRenderContext) {
 		string = setFormatAndRemoveLabels(text);
 
@@ -34,36 +34,39 @@ public class FormattedFont {
 
 		textLayout = new TextLayout(getAttributedCharacterIterator(), fontRenderContext);
 	}
-	
+
 	public String getString() {
 		return string;
 	}
-	
+
 	public AttributedCharacterIterator getAttributedCharacterIterator() {
 		return atrString.getIterator();
 	}
 
 	private static String setFormatAndRemoveLabels(String s) {
 		StringStyle style = StringStyle.analyseStyle(s);
-		
+
 		if (style.getFormat().contains(FormatLabels.UNDERLINE)) {
 			underline = TextAttribute.UNDERLINE_ON;
-		} else {
+		}
+		else {
 			underline = -1; // UNDERLINE_OFF
 		}
-		
+
 		if (style.getFormat().contains(FormatLabels.BOLD)) {
 			bold = TextAttribute.WEIGHT_BOLD;
-		} else {
+		}
+		else {
 			bold = TextAttribute.WEIGHT_REGULAR;
 		}
-		
+
 		if (style.getFormat().contains(FormatLabels.ITALIC)) {
 			italic = TextAttribute.POSTURE_OBLIQUE;
-		} else {
+		}
+		else {
 			italic = TextAttribute.POSTURE_REGULAR;
 		}
-		
+
 		return style.getStringWithoutMarkup();
 	}
 

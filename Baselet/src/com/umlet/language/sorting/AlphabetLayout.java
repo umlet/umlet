@@ -12,7 +12,7 @@ public class AlphabetLayout extends Layout {
 	public void layout(List<SortableElement> elements) {
 		super.simpleLayout(new AlphabetSorter(), elements);
 	}
-	
+
 	private class AlphabetSorter implements Comparator<SortableElement> {
 
 		@Override

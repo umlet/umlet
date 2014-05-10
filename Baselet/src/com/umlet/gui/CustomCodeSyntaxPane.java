@@ -21,7 +21,7 @@ import com.umlet.custom.CustomElement;
 import com.umlet.custom.CustomFunction;
 
 public class CustomCodeSyntaxPane {
-	
+
 	private JPanel panel;
 	private RTextScrollPane scrollPane;
 	private RSyntaxTextArea textArea;
@@ -31,23 +31,23 @@ public class CustomCodeSyntaxPane {
 
 		panel = new JPanel(new BorderLayout());
 		textArea = new RSyntaxTextArea();
-	    textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+		textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
 		textArea.setAntiAliasingEnabled(true);
 		textArea.setCodeFoldingEnabled(true);
 		textArea.setFont(Constants.getPanelContentFont());
-		
+
 		// setup autocompletion
 		for (String word : getAutocompletionStrings()) {
 			provider.addCompletion(new BasicCompletion(provider, word));
 		}
 		new AutoCompletion(provider).install(textArea);
-	    
+
 		scrollPane = new RTextScrollPane(textArea);
-	    scrollPane.setFoldIndicatorEnabled(true);
+		scrollPane.setFoldIndicatorEnabled(true);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-	    panel.add(scrollPane);
-		textArea.getDocument().putProperty(PlainDocument.tabSizeAttribute, 3); //Reduce tab size
+		panel.add(scrollPane);
+		textArea.getDocument().putProperty(PlainDocument.tabSizeAttribute, 3); // Reduce tab size
 	}
 
 	public String getText() {
@@ -59,28 +59,30 @@ public class CustomCodeSyntaxPane {
 	}
 
 	public JPanel getPanel() {
-		return this.panel;
+		return panel;
 	}
 
 	public void setCode(String text) {
 		textArea.setText(text);
 	}
-	
+
 	private String getStringForCustomElementMethod(Method m) {
 		CustomFunction cm = m.getAnnotation(CustomFunction.class);
 		String description = m.getName() + "(";
 		String[] params = cm.param_defaults().split(",");
 		Class<?>[] types = m.getParameterTypes();
-		for (int i = 0; (i < params.length) && (i < types.length); i++) {
-			if (i != 0) description += ", ";
+		for (int i = 0; i < params.length && i < types.length; i++) {
+			if (i != 0) {
+				description += ", ";
+			}
 			description += types[i].getSimpleName() + " " + params[i].trim();
 		}
 		return description + ");";
 	}
-	
+
 	private ArrayList<String> getAutocompletionStrings() {
 		ArrayList<String> descriptors = new ArrayList<String>();
-		for (Method m : (CustomElement.class).getDeclaredMethods()) {
+		for (Method m : CustomElement.class.getDeclaredMethods()) {
 			if (m.isAnnotationPresent(CustomFunction.class)) {
 				descriptors.add(getStringForCustomElementMethod(m));
 			}
@@ -89,7 +91,9 @@ public class CustomCodeSyntaxPane {
 	}
 
 	public void repaint() {
-		if (scrollPane != null) scrollPane.repaint();
+		if (scrollPane != null) {
+			scrollPane.repaint();
+		}
 	}
 
 }

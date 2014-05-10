@@ -5,14 +5,13 @@ import java.awt.Point;
 
 import com.baselet.diagram.DiagramHandler;
 
-
 public class EventRaise extends Activity {
 
 	private int width = (int) (15 * getZoom());
 
 	public EventRaise(DiagramHandler handler, Graphics2D g, String label, String id) {
 		super(handler, label, g, id == null ? label : id);
-		this.setRightWidth(width);
+		setRightWidth(width);
 	}
 
 	@Override
@@ -22,16 +21,16 @@ public class EventRaise extends Activity {
 
 	@Override
 	public void paint() {
-		int bh = this.getHeight() / 2;
-		Point cord = this.getPosition();
-		int uh = cord.y - (this.getHeight() - bh);
+		int bh = getHeight() / 2;
+		Point cord = getPosition();
+		int uh = cord.y - (getHeight() - bh);
 		bh += cord.y;
-		this.label.paint();
-		int[] xPoints = { cord.x - this.getLeftWidth(), cord.x + this.getRightWidth() - width,
-				cord.x + this.getRightWidth(), cord.x + this.getRightWidth() - width,
-				cord.x - this.getLeftWidth() };
+		label.paint();
+		int[] xPoints = { cord.x - getLeftWidth(), cord.x + getRightWidth() - width,
+				cord.x + getRightWidth(), cord.x + getRightWidth() - width,
+				cord.x - getLeftWidth() };
 		int[] yPoints = { uh, uh, cord.y, bh, bh };
-		this.getGraphics().drawPolygon(xPoints, yPoints, xPoints.length);
+		getGraphics().drawPolygon(xPoints, yPoints, xPoints.length);
 	}
 
 }

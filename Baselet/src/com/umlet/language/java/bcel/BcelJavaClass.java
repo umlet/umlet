@@ -8,25 +8,25 @@ import com.sun.org.apache.bcel.internal.classfile.JavaClass;
 import com.sun.org.apache.bcel.internal.classfile.Method;
 
 public class BcelJavaClass implements com.umlet.language.java.JavaClass {
-	
+
 	private static final Logger log = Logger.getLogger(BcelJavaClass.class);
-	
+
 	private JavaClass clazz;
 	private String className;
 
 	public BcelJavaClass(String filename) {
 		try {
 			ClassParser parser = new ClassParser(filename);
-			this.clazz = parser.parse();
+			clazz = parser.parse();
 		} catch (Exception e) {
-			log.error("BCEL library failed to parse "+filename, e);
+			log.error("BCEL library failed to parse " + filename, e);
 		}
 	}
 
 	@Override
 	public String getName() {
 		String nameWithPackage = clazz.getClassName();
-		className = nameWithPackage.substring(nameWithPackage.lastIndexOf(".")+1, nameWithPackage.length());
+		className = nameWithPackage.substring(nameWithPackage.lastIndexOf(".") + 1, nameWithPackage.length());
 		return className;
 	}
 
@@ -54,9 +54,13 @@ public class BcelJavaClass implements com.umlet.language.java.JavaClass {
 	public ClassRole getRole() {
 		if (clazz.isInterface()) {
 			return ClassRole.INTERFACE;
-		} else if (clazz.isAbstract()) {
+		}
+		else if (clazz.isAbstract()) {
 			return ClassRole.ABSTRACT;
-		} else return ClassRole.CLASS;
+		}
+		else {
+			return ClassRole.CLASS;
+		}
 	}
 
 	@Override

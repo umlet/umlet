@@ -9,7 +9,6 @@ import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
 
-
 @SuppressWarnings("serial")
 public class Database extends OldGridElement {
 
@@ -24,7 +23,6 @@ public class Database extends OldGridElement {
 		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
-		
 
 		int inset = (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 
@@ -36,20 +34,20 @@ public class Database extends OldGridElement {
 		// Change this to modify this default text printing and to react
 		// to special strings
 		// (like the "--" string in the UML class elements which draw a line).
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
+		Vector<String> tmp = Utils.decomposeStrings(getPanelAttributes());
 		int yPos = inset + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		boolean CENTER = true;
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
 				CENTER = false;
-				g2.drawLine(0, yPos, this.getRectangle().width, yPos);
+				g2.drawLine(0, yPos, getRectangle().width, yPos);
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 				if (CENTER) {
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getRectangle().width / 2, yPos, AlignHorizontal.CENTER);
+					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, getRectangle().width / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
 					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
@@ -60,10 +58,10 @@ public class Database extends OldGridElement {
 
 		// Finally, change other graphical attributes using
 		// drawLine, getWidth, getHeight..
-		g2.drawLine(0, this.getRectangle().height - 1 - inset / 2, 0, inset / 2);
-		g2.drawOval(0, 0, this.getRectangle().width, inset);
-		g2.drawArc(0, this.getRectangle().height - 1 - inset, this.getRectangle().width, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 180, 180);
-		g2.drawLine(this.getRectangle().width - 1, inset / 2, this.getRectangle().width - 1, this.getRectangle().height - 1 - inset / 2);
+		g2.drawLine(0, getRectangle().height - 1 - inset / 2, 0, inset / 2);
+		g2.drawOval(0, 0, getRectangle().width, inset);
+		g2.drawArc(0, getRectangle().height - 1 - inset, getRectangle().width, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 180, 180);
+		g2.drawLine(getRectangle().width - 1, inset / 2, getRectangle().width - 1, getRectangle().height - 1 - inset / 2);
 	}
 
 }

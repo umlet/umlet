@@ -33,69 +33,69 @@ import com.umlet.language.sorting.SortOptions;
 public class GenerateOptionPanel extends JDialog {
 
 	private static GenerateOptionPanel optionpanel;
-	
+
 	private JCheckBox packageInfo;
 	private ButtonGroup fields;
 	private ButtonGroup methods;
 	private ButtonGroup signatures;
 	private ButtonGroup sortings;
-	
+
 	private static final String okButton = "Ok";
 	private static final String cancelButton = "Cancel";
-	
+
 	private GenerateOptionPanel() {
-		Container content = this.getContentPane();
-		
+		Container content = getContentPane();
+
 		content.add(createOptionPanel(), BorderLayout.CENTER);
 		content.add(createButtonPanel(), BorderLayout.SOUTH);
-		this.setTitle("Import Details");
-		this.pack();
+		setTitle("Import Details");
+		pack();
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation(screenSize.width/2 - this.getWidth()/2, screenSize.height/2 - this.getWidth()/2);
+		this.setLocation(screenSize.width / 2 - getWidth() / 2, screenSize.height / 2 - getWidth() / 2);
 	}
 
 	private JPanel createOptionPanel() {
 		JPanel optionPanel = new JPanel();
 		optionPanel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		
+
 		packageInfo = new JCheckBox("Show package");
 		packageInfo.setSelected(true);
 		optionPanel.add(packageInfo, layout(c, 0, 0));
-		
+
 		fields = createButtonGroup(FieldOptions.values());
 		optionPanel.add(createSubPanel("Show fields", fields), layout(c, 0, 1));
-		
+
 		methods = createButtonGroup(MethodOptions.values());
 		optionPanel.add(createSubPanel("Show methods", methods), layout(c, 1, 1));
-		
+
 		signatures = createButtonGroup(SignatureOptions.values());
 		optionPanel.add(createSubPanel("Show signatures", signatures), layout(c, 0, 2));
-		
+
 		sortings = createButtonGroup(SortOptions.values());
 		optionPanel.add(createSubPanel("Sorting", sortings), layout(c, 1, 2));
-		
+
 		optionPanel.validate();
 		return optionPanel;
 	}
 
 	private <E extends Enum<E>> ButtonGroup createButtonGroup(E[] values) {
 		ButtonGroup group = new ButtonGroup();
-		for (E value: values) {
+		for (E value : values) {
 			JRadioButton button = new JRadioButton(value.toString());
 			button.setActionCommand(value.toString());
 			group.add(button);
 		}
 		return group;
 	}
-	
+
 	private GridBagConstraints layout(GridBagConstraints c, int gridx, int gridy) {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = gridx;
 		c.gridy = gridy;
 		return c;
 	}
-	
+
 	private JPanel createSubPanel(String title, ButtonGroup group) {
 		Enumeration<AbstractButton> e = group.getElements();
 		JPanel panel = new JPanel();
@@ -124,15 +124,17 @@ public class GenerateOptionPanel extends JDialog {
 		buttonPanel.add(button_ok);
 		buttonPanel.add(Box.createHorizontalGlue());
 		buttonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-		
+
 		return buttonPanel;
 	}
 
 	public static GenerateOptionPanel getInstance() {
-		if (optionpanel == null) optionpanel = new GenerateOptionPanel();
+		if (optionpanel == null) {
+			optionpanel = new GenerateOptionPanel();
+		}
 		return optionpanel;
 	}
-	
+
 	private class CancelOkListener implements ActionListener {
 
 		@Override
@@ -154,13 +156,13 @@ public class GenerateOptionPanel extends JDialog {
 		setSelectedRadioButton(methods, Constants.generateClassMethods);
 		setSelectedRadioButton(signatures, Constants.generateClassSignatures);
 		setSelectedRadioButton(sortings, Constants.generateClassSortings);
-		this.setVisible(true);
-		this.toFront();
+		setVisible(true);
+		toFront();
 	}
 
 	private <E extends Enum<E>> void setSelectedRadioButton(ButtonGroup group, E value) {
 		Enumeration<AbstractButton> buttons = group.getElements();
-		while(buttons.hasMoreElements()) {
+		while (buttons.hasMoreElements()) {
 			AbstractButton button = buttons.nextElement();
 			if (button.getActionCommand().equals(value.toString())) {
 				button.setSelected(true);

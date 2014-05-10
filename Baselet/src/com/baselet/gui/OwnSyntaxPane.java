@@ -31,7 +31,7 @@ import com.baselet.element.GridElement;
 public class OwnSyntaxPane {
 
 	private static final String SEPARATOR = "    ";
-	
+
 	private DefaultCompletionProvider provider = new DefaultCompletionProvider() {
 		@Override
 		protected boolean isValidChar(char ch) {
@@ -54,6 +54,7 @@ public class OwnSyntaxPane {
 			public void undoLastAction() {
 				MenuFactorySwing.getInstance().doAction(MenuConstants.UNDO, null);
 			}
+
 			@Override
 			public void redoLastAction() {
 				MenuFactorySwing.getInstance().doAction(MenuConstants.REDO, null);
@@ -100,7 +101,7 @@ public class OwnSyntaxPane {
 			provider.addCompletion(new BasicCompletion(provider, word.getText(), word.getInfo()) {
 				@Override
 				public String toString() {
-					if (getShortDescription()==null) {
+					if (getShortDescription() == null) {
 						return getInputText();
 					}
 					return getInputText() + SEPARATOR + getShortDescription();
@@ -127,11 +128,13 @@ public class OwnSyntaxPane {
 	}
 
 	public JPanel getPanel() {
-		return this.panel;
+		return panel;
 	}
 
 	public void revalidate() {
-		if (scrollPane != null) scrollPane.revalidate();
+		if (scrollPane != null) {
+			scrollPane.revalidate();
+		}
 	}
 
 	public JTextComponent getTextComponent() {

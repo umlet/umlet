@@ -22,12 +22,12 @@ public class Paste extends Command {
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
 
-		if (this.entities == null) {
-			this.entities = new Vector<GridElement>();
+		if (entities == null) {
+			entities = new Vector<GridElement>();
 			for (GridElement e : ClipBoard.getInstance().paste()) {
 				GridElement clone = ElementFactory.createCopy(e);
 				handler.setHandlerAndInitListeners(clone);
-				this.entities.add(clone);
+				entities.add(clone);
 			}
 			GroupFacet.replaceGroupsWithNewGroups(entities, handler.getDrawPanel().getSelector());
 		}
@@ -42,19 +42,21 @@ public class Paste extends Command {
 			viewpY = handler.realignToGrid(false, (int) viewp.getY()) / handler.getGridSize();
 		}
 
-		if (this.entities.isEmpty()) return;
+		if (entities.isEmpty()) {
+			return;
+		}
 		DiagramHandler.zoomEntities(Constants.DEFAULTGRIDSIZE, handler.getGridSize(), entities);
 
 		// Calculate the rectangle around the copied entities
 		int minX = Integer.MAX_VALUE;
 		int minY = Integer.MAX_VALUE;
 
-		for (GridElement e : this.entities) {
+		for (GridElement e : entities) {
 			minX = Math.min(e.getRectangle().x, minX);
 			minY = Math.min(e.getRectangle().y, minY);
 		}
 
-		for (GridElement e : this.entities) {
+		for (GridElement e : entities) {
 			e.setLocationDifference(
 					viewpX * handler.getGridSize() - minX + handler.getGridSize() * Constants.PASTE_DISPLACEMENT_GRIDS,
 					viewpY * handler.getGridSize() - minY + handler.getGridSize() * Constants.PASTE_DISPLACEMENT_GRIDS);
@@ -66,15 +68,16 @@ public class Paste extends Command {
 		offsetX = offsetX * handler.getGridSize() / Constants.DEFAULTGRIDSIZE;
 		offsetY = offsetY * handler.getGridSize() / Constants.DEFAULTGRIDSIZE;
 
-		for (GridElement e : this.entities) {
-			(new AddElement(e,
+		for (GridElement e : entities) {
+			new AddElement(e,
 					handler.realignToGrid(e.getRectangle().x + offsetX),
-					handler.realignToGrid(e.getRectangle().y + offsetY), false)).execute(handler);
+					handler.realignToGrid(e.getRectangle().y + offsetY), false).execute(handler);
 		}
 
 		handler.getDrawPanel().getSelector().deselectAll();
-		for (GridElement e : this.entities)
+		for (GridElement e : entities) {
 			handler.getDrawPanel().getSelector().select(e);
+		}
 
 		handler.getDrawPanel().updatePanelAndScrollbars();
 
@@ -84,7 +87,7 @@ public class Paste extends Command {
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
 		DiagramHandler.zoomEntities(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, entities);
-		(new RemoveElement(this.entities, false)).execute(handler);
+		new RemoveElement(entities, false).execute(handler);
 
 		handler.getDrawPanel().updatePanelAndScrollbars();
 	}

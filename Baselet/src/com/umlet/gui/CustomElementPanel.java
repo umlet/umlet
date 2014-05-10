@@ -17,7 +17,6 @@ import com.baselet.gui.listener.DividerListener;
 import com.baselet.gui.standalone.MenuListener;
 import com.umlet.custom.CustomElementHandler;
 
-
 @SuppressWarnings("serial")
 public class CustomElementPanel extends JPanel {
 
@@ -30,7 +29,7 @@ public class CustomElementPanel extends JPanel {
 
 	public CustomElementPanel(CustomElementHandler customhandler) {
 		this.customhandler = customhandler;
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
 		JPanel custompanel2 = new JPanel();
 		custompanel2.setLayout(new BoxLayout(custompanel2, BoxLayout.Y_AXIS));
@@ -61,14 +60,14 @@ public class CustomElementPanel extends JPanel {
 			@Override
 			public void setEnabled(boolean en) {
 				if (!enabled && en) {
-					this.enabled = en;
-					this.addMouseListener(MenuListener.getInstance());
-					this.addMouseMotionListener(MenuListener.getInstance());
+					enabled = en;
+					addMouseListener(MenuListener.getInstance());
+					addMouseMotionListener(MenuListener.getInstance());
 				}
 				else if (enabled && !en) {
-					this.enabled = en;
-					this.removeMouseListener(MenuListener.getInstance());
-					this.removeMouseMotionListener(MenuListener.getInstance());
+					enabled = en;
+					removeMouseListener(MenuListener.getInstance());
+					removeMouseMotionListener(MenuListener.getInstance());
 				}
 			}
 		};
@@ -103,34 +102,46 @@ public class CustomElementPanel extends JPanel {
 	}
 
 	public void setCustomElementSaveable(boolean enable) {
-		this.customhandler.getPreviewHandler().getDrawPanel().setEnabled(enable);
-		this.savelabel.setEnabled(enable);
-		if (enable) this.savelabel.setForeground(Color.black);
-		else this.savelabel.setForeground(Color.gray);
+		customhandler.getPreviewHandler().getDrawPanel().setEnabled(enable);
+		savelabel.setEnabled(enable);
+		if (enable) {
+			savelabel.setForeground(Color.black);
+		}
+		else {
+			savelabel.setForeground(Color.gray);
+		}
 	}
 
 	// specifies if the custom element is opened as new element or as edited element
 	public void setCustomElementIsNew(boolean isnew) {
-		if (isnew) this.savelabel.setText("Add to diagram and close editor");
-		else this.savelabel.setText("Update in diagram and close editor");
+		if (isnew) {
+			savelabel.setText("Add to diagram and close editor");
+		}
+		else {
+			savelabel.setText("Update in diagram and close editor");
+		}
 	}
 
 	public JSplitPane getLeftSplit() {
-		return this.custompanelsplitleft;
+		return custompanelsplitleft;
 	}
 
 	public JSplitPane getRightSplit() {
-		return this.custompanelsplitright;
+		return custompanelsplitright;
 	}
 
 	public JTextComponent getTextPane() {
 		return customcodepane.getTextComponent();
 	}
-	
+
 	@Override
 	public void repaint() {
 		super.repaint();
-		if (customcodepane != null) customcodepane.repaint();
-		if (custompreviewpanel != null && custompreviewpanel.getScrollPane() != null) custompreviewpanel.getScrollPane().repaint();
+		if (customcodepane != null) {
+			customcodepane.repaint();
+		}
+		if (custompreviewpanel != null && custompreviewpanel.getScrollPane() != null) {
+			custompreviewpanel.getScrollPane().repaint();
+		}
 	}
 }

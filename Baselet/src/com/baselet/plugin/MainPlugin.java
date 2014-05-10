@@ -23,7 +23,7 @@ import com.baselet.gui.eclipse.EclipseGUI;
  * The activator class controls the plug-in life cycle
  */
 public class MainPlugin extends AbstractUIPlugin {
-	
+
 	private static final Logger log = Logger.getLogger(MainPlugin.class);
 
 	// The plug-in ID
@@ -44,10 +44,8 @@ public class MainPlugin extends AbstractUIPlugin {
 		plugin = this;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-	 */
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext) */
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
@@ -66,13 +64,11 @@ public class MainPlugin extends AbstractUIPlugin {
 		Dictionary<String, String> headers = MainPlugin.getDefault().getBundle().getHeaders();
 		PLUGIN_ID = MainPlugin.getDefault().getBundle().getSymbolicName();
 		Program.init(headers.get(Constants.MANIFEST_BUNDLE_VERSION));
-		
+
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-	 */
+	/* (non-Javadoc)
+	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext) */
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		Main.getInstance().getGUI().closeWindow();

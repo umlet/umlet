@@ -14,7 +14,6 @@ import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
 
-
 public class Resize extends Command {
 	private static int current_id = 0;
 
@@ -59,7 +58,7 @@ public class Resize extends Command {
 
 	public Resize(GridElement entity, int diffx, int diffy, int diffw, int diffh, Resize first) {
 		this.entity = entity;
-		this.move_commands = new Vector<MoveLinePoint>();
+		move_commands = new Vector<MoveLinePoint>();
 		this.diffx = diffx / Main.getHandlerForElement(entity).getGridSize();
 		this.diffy = diffy / Main.getHandlerForElement(entity).getGridSize();
 		this.diffw = (diffw - diffx) / Main.getHandlerForElement(entity).getGridSize();
@@ -73,26 +72,26 @@ public class Resize extends Command {
 		StickingPolygon to = this.entity.generateStickingBorder(newRect);
 
 		if (first != null) {
-			this.id = first.id;
-			this.linepoints = first.linepoints;
+			id = first.id;
+			linepoints = first.linepoints;
 		}
 		else {
-			this.id = current_id;
+			id = current_id;
 			current_id++;
-			this.linepoints = Utils.getStickingRelationLinePoints(Main.getHandlerForElement(this.entity), from);
+			linepoints = Utils.getStickingRelationLinePoints(Main.getHandlerForElement(this.entity), from);
 		}
 
 		PointDouble diff;
 		Point p;
 		Relation r;
-		for (RelationLinePoint lp : this.linepoints) {
+		for (RelationLinePoint lp : linepoints) {
 			r = lp.getRelation();
 			p = r.getLinePoints().get(lp.getLinePointId());
 
 			diff = from.getLine(lp.getStickingLineId()).diffToLine(to.getLine(lp.getStickingLineId()), p.x + r.getRectangle().x, p.y + r.getRectangle().y);
 
 			DiagramHandler handler = Main.getHandlerForElement(entity);
-			this.move_commands.add(new MoveLinePoint(lp.getRelation(), lp.getLinePointId(), handler.realignToGrid(diff.x), handler.realignToGrid(diff.y)));
+			move_commands.add(new MoveLinePoint(lp.getRelation(), lp.getLinePointId(), handler.realignToGrid(diff.x), handler.realignToGrid(diff.y)));
 		}
 
 	}
@@ -104,7 +103,7 @@ public class Resize extends Command {
 		entity.setLocationDifference(getDiffx(), getDiffy());
 		entity.changeSize(getDiffw(), getDiffh());
 		if (SharedConstants.stickingEnabled) {
-			for (MoveLinePoint c : this.move_commands) {
+			for (MoveLinePoint c : move_commands) {
 				c.execute(handler);
 			}
 		}
@@ -115,23 +114,28 @@ public class Resize extends Command {
 		super.undo(handler);
 		entity.setLocationDifference(-getDiffx(), -getDiffy());
 		entity.changeSize(-getDiffw(), -getDiffh());
-		for (MoveLinePoint c : this.move_commands)
+		for (MoveLinePoint c : move_commands) {
 			c.undo(handler);
+		}
 		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 	}
 
 	@Override
 	public boolean isMergeableTo(Command c) {
-		if (!(c instanceof Resize)) return false;
+		if (!(c instanceof Resize)) {
+			return false;
+		}
 		Resize r = (Resize) c;
-		if (this.id == r.id) return true;
+		if (id == r.id) {
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public Command mergeTo(Command c) {
 		Resize tmp = (Resize) c;
-		return new Resize(this.entity, Math.max(this.id, tmp.id), this.getDiffx() + tmp.getDiffx(), this.getDiffy() + tmp.getDiffy(),
-				this.getDiffw() + tmp.getDiffw(), this.getDiffh() + tmp.getDiffh(), this.move_commands, tmp.move_commands);
+		return new Resize(entity, Math.max(id, tmp.id), getDiffx() + tmp.getDiffx(), getDiffy() + tmp.getDiffy(),
+				getDiffw() + tmp.getDiffw(), getDiffh() + tmp.getDiffh(), move_commands, tmp.move_commands);
 	}
 }

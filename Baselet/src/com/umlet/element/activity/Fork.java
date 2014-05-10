@@ -6,7 +6,6 @@ import java.awt.Point;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 
-
 public class Fork extends StartElement {
 
 	private int h = (int) (4 * getZoom());
@@ -22,15 +21,15 @@ public class Fork extends StartElement {
 
 	public Fork(DiagramHandler handler, Graphics2D g, String id) {
 		super(handler, g, (int) (Const.PAD * handler.getZoomFactor()), id == null ? "Fork" : id);
-		this.setHeight(h + pad);
-		this.setWidth(w);
+		setHeight(h + pad);
+		setWidth(w);
 	}
 
 	@Override
 	public void paint() {
-		int x = this.getPosition().x;
-		int y = this.getPosition().y;
-		this.getGraphics().fillRect(x - w / 2, y - (h + pad) / 2, w, (int) (4 * getZoom()));
+		int x = getPosition().x;
+		int y = getPosition().y;
+		getGraphics().fillRect(x - w / 2, y - (h + pad) / 2, w, (int) (4 * getZoom()));
 	}
 
 	@Override
@@ -40,27 +39,35 @@ public class Fork extends StartElement {
 
 	@Override
 	protected Point getNonStdConnectIn(Direction dir) {
-		Point c = this.getConnect(Direction.UP);
+		Point c = getConnect(Direction.UP);
 
-		if (dir.equals(Direction.LEFT)) c.x -= (int) (10 * getZoom());
-		else if (dir.equals(Direction.RIGHT)) c.x += (int) (10 * getZoom());
+		if (dir.equals(Direction.LEFT)) {
+			c.x -= (int) (10 * getZoom());
+		}
+		else if (dir.equals(Direction.RIGHT)) {
+			c.x += (int) (10 * getZoom());
+		}
 
-		if (this.arrowIn()) Connector.drawArrow(this.getGraphics(), getZoom(), c.x, c.y - (int) (10 * getZoom()), c.x, c.y);
-		else this.getGraphics().drawLine(c.x, c.y - (int) (10 * getZoom()), c.x, c.y);
+		if (arrowIn()) {
+			Connector.drawArrow(getGraphics(), getZoom(), c.x, c.y - (int) (10 * getZoom()), c.x, c.y);
+		}
+		else {
+			getGraphics().drawLine(c.x, c.y - (int) (10 * getZoom()), c.x, c.y);
+		}
 		c.y -= (int) (10 * getZoom());
 		return c;
 	}
 
 	@Override
 	protected Point getNonStdConnectOut(Direction dir) {
-		Point c = this.getConnect(dir);
+		Point c = getConnect(dir);
 		if (dir.equals(Direction.LEFT)) {
-			this.getGraphics().drawLine(c.x - (int) (10 * getZoom()), c.y + (int) (3 * getZoom()), c.x, c.y);
+			getGraphics().drawLine(c.x - (int) (10 * getZoom()), c.y + (int) (3 * getZoom()), c.x, c.y);
 			c.x -= (int) (10 * getZoom());
 			c.y += (int) (3 * getZoom());
 		}
 		else if (dir.equals(Direction.RIGHT)) {
-			this.getGraphics().drawLine(c.x + (int) (10 * getZoom()), c.y + (int) (3 * getZoom()), c.x, c.y);
+			getGraphics().drawLine(c.x + (int) (10 * getZoom()), c.y + (int) (3 * getZoom()), c.x, c.y);
 			c.x += (int) (10 * getZoom());
 			c.y += (int) (3 * getZoom());
 		}
@@ -70,23 +77,31 @@ public class Fork extends StartElement {
 
 	@Override
 	protected Point getConnect(Direction dir) {
-		Point c = (Point) this.getPosition().clone();
+		Point c = (Point) getPosition().clone();
 
-		if (this.current_left_x == null) {
-			this.current_left_x = this.getPosition().x;
-			this.current_right_x = this.current_left_x;
+		if (current_left_x == null) {
+			current_left_x = getPosition().x;
+			current_right_x = current_left_x;
 		}
 
-		if (dir == Direction.UP) c.y -= (pad + h) / 2;
-		else if (dir == Direction.DOWN) c.y += (h - pad) / 2;
+		if (dir == Direction.UP) {
+			c.y -= (pad + h) / 2;
+		}
+		else if (dir == Direction.DOWN) {
+			c.y += (h - pad) / 2;
+		}
 		else if (dir == Direction.LEFT) {
-			if (c.x - this.current_left_x < w / 2 - this.con_pad) this.current_left_x -= this.con_pad;
-			c.x = this.current_left_x;
+			if (c.x - current_left_x < w / 2 - con_pad) {
+				current_left_x -= con_pad;
+			}
+			c.x = current_left_x;
 			c.y += (h - pad) / 2;
 		}
 		else if (dir == Direction.RIGHT) {
-			if (this.current_right_x - c.x < w / 2 - this.con_pad) this.current_right_x += this.con_pad;
-			c.x = this.current_right_x;
+			if (current_right_x - c.x < w / 2 - con_pad) {
+				current_right_x += con_pad;
+			}
+			c.x = current_right_x;
 			c.y += (h - pad) / 2;
 		}
 		return c;
@@ -95,21 +110,31 @@ public class Fork extends StartElement {
 	@Override
 	public void connectTo(Element e) {
 		if (e != null) {
-			if (this.connectOut_overrideable() && e.connectIn()) {
-				Point from = this.getPosition();
+			if (connectOut_overrideable() && e.connectIn()) {
+				Point from = getPosition();
 				Point to = e.getConnect(Direction.UP);
-				if (from.x == to.x) from = this.getConnect(Direction.DOWN);
-				else if (from.x < to.x) from = this.getConnect(Direction.RIGHT);
-				else if (from.x > to.x) from = this.getConnect(Direction.LEFT);
+				if (from.x == to.x) {
+					from = getConnect(Direction.DOWN);
+				}
+				else if (from.x < to.x) {
+					from = getConnect(Direction.RIGHT);
+				}
+				else if (from.x > to.x) {
+					from = getConnect(Direction.LEFT);
+				}
 
 				if (from.x != to.x) {
-					this.getGraphics().drawLine(from.x, from.y, to.x, to.y - (int) (Const.PAD * getZoom()) * 2);
+					getGraphics().drawLine(from.x, from.y, to.x, to.y - (int) (Const.PAD * getZoom()) * 2);
 					from.x = to.x;
 					from.y = (int) (to.y - Const.PAD * getZoom() * 2);
 				}
 
-				if (this.arrowOut() && e.arrowIn()) Connector.drawArrow(this.getGraphics(), getZoom(), from.x, from.y, to.x, to.y);
-				else this.getGraphics().drawLine(from.x, from.y, to.x, to.y);
+				if (arrowOut() && e.arrowIn()) {
+					Connector.drawArrow(getGraphics(), getZoom(), from.x, from.y, to.x, to.y);
+				}
+				else {
+					getGraphics().drawLine(from.x, from.y, to.x, to.y);
+				}
 			}
 		}
 	}

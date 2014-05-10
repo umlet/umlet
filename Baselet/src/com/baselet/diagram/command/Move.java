@@ -1,6 +1,5 @@
 package com.baselet.diagram.command;
 
-
 import java.util.Collections;
 
 import org.apache.log4j.Logger;
@@ -61,7 +60,7 @@ public class Move extends Command {
 	private Point getMousePosBeforeDrag() {
 		Double zoomedX = xBeforeDrag * gridSize();
 		Double zoomedY = yBeforeDrag * gridSize();
-		Point p = new Point((int)Math.round(zoomedX), (int)Math.round(zoomedY));
+		Point p = new Point((int) Math.round(zoomedX), (int) Math.round(zoomedY));
 		log.debug("Zoomed point: " + p);
 		return p;
 	}
@@ -71,11 +70,11 @@ public class Move extends Command {
 		int gridSize = Main.getHandlerForElement(e).getGridSize();
 		this.x = x / gridSize;
 		this.y = y / gridSize;
-		this.xBeforeDrag = calcRelativePos(absoluteMousePos, mousePosBeforeDrag.getX(), entity.getRectangle().getX(), gridSize);
-		this.yBeforeDrag = calcRelativePos(absoluteMousePos, mousePosBeforeDrag.getY(), entity.getRectangle().getY(), gridSize);
+		xBeforeDrag = calcRelativePos(absoluteMousePos, mousePosBeforeDrag.getX(), entity.getRectangle().getX(), gridSize);
+		yBeforeDrag = calcRelativePos(absoluteMousePos, mousePosBeforeDrag.getY(), entity.getRectangle().getY(), gridSize);
 		this.firstDrag = firstDrag;
 		this.useSetLocation = useSetLocation;
-		this.stickables = stickingStickables;
+		stickables = stickingStickables;
 	}
 
 	/**
@@ -100,26 +99,27 @@ public class Move extends Command {
 
 	@Override
 	public void execute(DiagramHandler handler) {
-		//		System.out.println("DRAG " + mousePosBeforeDrag);
+		// System.out.println("DRAG " + mousePosBeforeDrag);
 		super.execute(handler);
 		Rectangle b = calcAtMinZoom(entity.getRectangle());
 		additionalAttributesBefore = entity.getAdditionalAttributes();
 		if (useSetLocation) {
-			this.entity.setLocationDifference(getX(), getY(), firstDrag, stickables);
-		} else {
+			entity.setLocationDifference(getX(), getY(), firstDrag, stickables);
+		}
+		else {
 			// resize directions is empty and shift-key is always false, because standalone UMLet has a separate Resize-Command
-			this.entity.drag(Collections.<Direction> emptySet(), getX(), getY(), getMousePosBeforeDrag(), false, firstDrag, stickables);
+			entity.drag(Collections.<Direction> emptySet(), getX(), getY(), getMousePosBeforeDrag(), false, firstDrag, stickables);
 		}
 		Rectangle a = calcAtMinZoom(entity.getRectangle());
 		boundsBefore = subtract(b, a);
 	}
 
 	private Rectangle subtract(Rectangle b, Rectangle a) {
-		return new Rectangle(b.x-a.x, b.y-a.y, b.width-a.width, b.height-a.height);
+		return new Rectangle(b.x - a.x, b.y - a.y, b.width - a.width, b.height - a.height);
 	}
 
 	private Rectangle add(Rectangle b, Rectangle a) {
-		return new Rectangle(b.x+a.x, b.y+a.y, b.width+a.width, b.height+a.height);
+		return new Rectangle(b.x + a.x, b.y + a.y, b.width + a.width, b.height + a.height);
 	}
 
 	@Override
@@ -134,20 +134,22 @@ public class Move extends Command {
 
 	@Override
 	public boolean isMergeableTo(Command c) {
-		if (!(c instanceof Move)) return false;
+		if (!(c instanceof Move)) {
+			return false;
+		}
 		Move m = (Move) c;
-		boolean stickablesEqual = this.stickables.equalsMap(m.stickables);
-		boolean notBothFirstDrag = !(this.firstDrag && m.firstDrag);
-		return this.entity == m.entity && this.useSetLocation == m.useSetLocation && stickablesEqual && notBothFirstDrag;
+		boolean stickablesEqual = stickables.equalsMap(m.stickables);
+		boolean notBothFirstDrag = !(firstDrag && m.firstDrag);
+		return entity == m.entity && useSetLocation == m.useSetLocation && stickablesEqual && notBothFirstDrag;
 	}
 
 	@Override
 	public Command mergeTo(Command c) {
 		Move m = (Move) c;
-		Point mousePosBeforeDrag = this.firstDrag ? this.getMousePosBeforeDrag() : m.getMousePosBeforeDrag();
+		Point mousePosBeforeDrag = firstDrag ? getMousePosBeforeDrag() : m.getMousePosBeforeDrag();
 		// Important: absoluteMousePos=false, because the mousePos is already relative from the first constructor call!
-		Move ret = new Move(false, this.entity, this.getX() + m.getX(), this.getY() + m.getY(), mousePosBeforeDrag, this.firstDrag || m.firstDrag, useSetLocation, stickables);
-		ret.boundsBefore = add(this.boundsBefore, m.boundsBefore);
+		Move ret = new Move(false, entity, getX() + m.getX(), getY() + m.getY(), mousePosBeforeDrag, firstDrag || m.firstDrag, useSetLocation, stickables);
+		ret.boundsBefore = add(boundsBefore, m.boundsBefore);
 		ret.additionalAttributesBefore = m.additionalAttributesBefore;
 		return ret;
 	}

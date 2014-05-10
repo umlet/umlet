@@ -1,11 +1,14 @@
 package com.baselet.gui.standalone;
 
+import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Reader;
+
+import com.baselet.gui.standalone.FileDrop.TransferableObject;
 
 /**
  * This class makes it easy to drag and drop files from the operating
@@ -326,48 +329,50 @@ public class FileDrop {
 							final java.io.File[] files = filesTemp;
 
 							// Alert listener to drop.
-							if (listener != null)
+							if (listener != null) {
 								listener.filesDropped(files);
+							}
 
-								// Mark that drop is completed.
-								evt.getDropTargetContext().dropComplete(true);
-								log(out, "FileDrop: drop complete.");
-							} // end if: file list
-							else // this section will check for a reader flavor.
-							{
-								// Thanks, Nathan!
-								// BEGIN 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
-								DataFlavor[] flavors = tr.getTransferDataFlavors();
-								boolean handled = false;
-								for (int zz = 0; zz < flavors.length; zz++) {
-									if (flavors[zz].isRepresentationClassReader()) {
-										// Say we'll take it.
-										// evt.acceptDrop ( java.awt.dnd.DnDConstants.ACTION_COPY_OR_MOVE );
-										evt.acceptDrop(java.awt.dnd.DnDConstants.ACTION_COPY);
-										log(out, "FileDrop: reader accepted.");
+							// Mark that drop is completed.
+							evt.getDropTargetContext().dropComplete(true);
+							log(out, "FileDrop: drop complete.");
+						} // end if: file list
+						else // this section will check for a reader flavor.
+						{
+							// Thanks, Nathan!
+							// BEGIN 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
+							DataFlavor[] flavors = tr.getTransferDataFlavors();
+							boolean handled = false;
+							for (DataFlavor flavor : flavors) {
+								if (flavor.isRepresentationClassReader()) {
+									// Say we'll take it.
+									// evt.acceptDrop ( java.awt.dnd.DnDConstants.ACTION_COPY_OR_MOVE );
+									evt.acceptDrop(java.awt.dnd.DnDConstants.ACTION_COPY);
+									log(out, "FileDrop: reader accepted.");
 
-										Reader reader = flavors[zz].getReaderForText(tr);
+									Reader reader = flavor.getReaderForText(tr);
 
-										BufferedReader br = new BufferedReader(reader);
+									BufferedReader br = new BufferedReader(reader);
 
-										if (listener != null)
+									if (listener != null) {
 										listener.filesDropped(createFileArray(br, out));
-
-										// Mark that drop is completed.
-										evt.getDropTargetContext().dropComplete(true);
-										log(out, "FileDrop: drop complete.");
-										handled = true;
-										break;
 									}
+
+									// Mark that drop is completed.
+									evt.getDropTargetContext().dropComplete(true);
+									log(out, "FileDrop: drop complete.");
+									handled = true;
+									break;
 								}
-								if (!handled) {
-									log(out, "FileDrop: not a file list or reader - abort.");
-									evt.rejectDrop();
-								}
-								// END 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
-							} // end else: not a file list
-						} // end try
-						catch (java.io.IOException io)
+							}
+							if (!handled) {
+								log(out, "FileDrop: not a file list or reader - abort.");
+								evt.rejectDrop();
+							}
+							// END 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
+						} // end else: not a file list
+					} // end try
+					catch (java.io.IOException io)
 					{
 						log(out, "FileDrop: IOException - abort:");
 						io.printStackTrace(out);
@@ -455,7 +460,9 @@ public class FileDrop {
 			while ((line = bReader.readLine()) != null) {
 				try {
 					// kde seems to append a 0 char to the end of the reader
-					if (ZERO_CHAR_STRING.equals(line)) continue;
+					if (ZERO_CHAR_STRING.equals(line)) {
+						continue;
+					}
 
 					java.io.File file = new java.io.File(new java.net.URI(line));
 					list.add(file);
@@ -504,9 +511,11 @@ public class FileDrop {
 				} // end else: parent not null
 			} // end hierarchyChanged
 		}); // end hierarchy listener
-		if (c.getParent() != null) new java.awt.dnd.DropTarget(c, dropListener);
+		if (c.getParent() != null) {
+			new java.awt.dnd.DropTarget(c, dropListener);
+		}
 
-		if (recursive && (c instanceof java.awt.Container)) {
+		if (recursive && c instanceof java.awt.Container) {
 			// Get the container
 			java.awt.Container cont = (java.awt.Container) c;
 
@@ -514,8 +523,9 @@ public class FileDrop {
 			java.awt.Component[] comps = cont.getComponents();
 
 			// Set it's components as listeners also
-			for (int i = 0; i < comps.length; i++)
-				makeDropTarget(out, comps[i], recursive);
+			for (Component comp : comps) {
+				makeDropTarget(out, comp, recursive);
+			}
 		} // end if: recursively set components as listener
 	} // end dropListener
 
@@ -528,12 +538,12 @@ public class FileDrop {
 
 		// See if any of the flavors are a file list
 		int i = 0;
-		while (!ok && (i < flavors.length)) {
+		while (!ok && i < flavors.length) {
 			// BEGIN 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
 			// Is the flavor a file list?
 			final DataFlavor curFlavor = flavors[i];
 			if (curFlavor.equals(java.awt.datatransfer.DataFlavor.javaFileListFlavor) ||
-					curFlavor.isRepresentationClassReader()) {
+				curFlavor.isRepresentationClassReader()) {
 				ok = true;
 			}
 			// END 2007-09-12 Nathan Blomquist -- Linux (KDE/Gnome) support added.
@@ -542,9 +552,12 @@ public class FileDrop {
 
 		// If logging is enabled, show data flavors
 		if (out != null) {
-			if (flavors.length == 0) log(out, "FileDrop: no data flavors.");
-			for (i = 0; i < flavors.length; i++)
+			if (flavors.length == 0) {
+				log(out, "FileDrop: no data flavors.");
+			}
+			for (i = 0; i < flavors.length; i++) {
 				log(out, flavors[i].toString());
+			}
 		} // end if: logging enabled
 
 		return ok;
@@ -552,7 +565,9 @@ public class FileDrop {
 
 	/** Outputs <tt>message</tt> to <tt>out</tt> if it's not null. */
 	private static void log(java.io.PrintStream out, String message) { // Log message if requested
-		if (out != null) out.println(message);
+		if (out != null) {
+			out.println(message);
+		}
 	} // end log
 
 	/**
@@ -587,15 +602,20 @@ public class FileDrop {
 		if (supportsDnD()) {
 			log(out, "FileDrop: Removing drag-and-drop hooks.");
 			c.setDropTarget(null);
-			if (recursive && (c instanceof java.awt.Container)) {
+			if (recursive && c instanceof java.awt.Container) {
 				java.awt.Component[] comps = ((java.awt.Container) c).getComponents();
-				for (int i = 0; i < comps.length; i++)
-					remove(out, comps[i], recursive);
+				for (Component comp : comps) {
+					remove(out, comp, recursive);
+				}
 				return true;
 			} // end if: recursive
-			else return false;
+			else {
+				return false;
+			}
 		} // end if: supports DnD
-		else return false;
+		else {
+			return false;
+		}
 	} // end remove
 
 	/* ******** I N N E R I N T E R F A C E L I S T E N E R ******** */
@@ -755,7 +775,7 @@ public class FileDrop {
 		 */
 		public TransferableObject(Object data) {
 			this.data = data;
-			this.customFlavor = new java.awt.datatransfer.DataFlavor(data.getClass(), MIME_TYPE);
+			customFlavor = new java.awt.datatransfer.DataFlavor(data.getClass(), MIME_TYPE);
 		} // end constructor
 
 		/**
@@ -788,7 +808,7 @@ public class FileDrop {
 		 */
 		public TransferableObject(Class dataClass, Fetcher fetcher) {
 			this.fetcher = fetcher;
-			this.customFlavor = new java.awt.datatransfer.DataFlavor(dataClass, MIME_TYPE);
+			customFlavor = new java.awt.datatransfer.DataFlavor(dataClass, MIME_TYPE);
 		} // end constructor
 
 		/**
@@ -814,11 +834,15 @@ public class FileDrop {
 		 */
 		@Override
 		public java.awt.datatransfer.DataFlavor[] getTransferDataFlavors() {
-			if (customFlavor != null) return new java.awt.datatransfer.DataFlavor[] { customFlavor,
-					DATA_FLAVOR,
-					java.awt.datatransfer.DataFlavor.stringFlavor }; // end flavors array
-			else return new java.awt.datatransfer.DataFlavor[] { DATA_FLAVOR,
-					java.awt.datatransfer.DataFlavor.stringFlavor }; // end flavors array
+			if (customFlavor != null) {
+				return new java.awt.datatransfer.DataFlavor[] { customFlavor,
+						DATA_FLAVOR,
+						java.awt.datatransfer.DataFlavor.stringFlavor }; // end flavors array
+			}
+			else {
+				return new java.awt.datatransfer.DataFlavor[] { DATA_FLAVOR,
+						java.awt.datatransfer.DataFlavor.stringFlavor }; // end flavors array
+			}
 		} // end getTransferDataFlavors
 
 		/**
@@ -836,10 +860,14 @@ public class FileDrop {
 		public Object getTransferData(java.awt.datatransfer.DataFlavor flavor)
 				throws java.awt.datatransfer.UnsupportedFlavorException, java.io.IOException {
 			// Native object
-			if (flavor.equals(DATA_FLAVOR)) return fetcher == null ? data : fetcher.getObject();
+			if (flavor.equals(DATA_FLAVOR)) {
+				return fetcher == null ? data : fetcher.getObject();
+			}
 
 			// String
-			if (flavor.equals(java.awt.datatransfer.DataFlavor.stringFlavor)) return fetcher == null ? data.toString() : fetcher.getObject().toString();
+			if (flavor.equals(java.awt.datatransfer.DataFlavor.stringFlavor)) {
+				return fetcher == null ? data.toString() : fetcher.getObject().toString();
+			}
 
 			// We can't do anything else
 			throw new java.awt.datatransfer.UnsupportedFlavorException(flavor);
@@ -857,10 +885,14 @@ public class FileDrop {
 		@Override
 		public boolean isDataFlavorSupported(java.awt.datatransfer.DataFlavor flavor) {
 			// Native object
-			if (flavor.equals(DATA_FLAVOR)) return true;
+			if (flavor.equals(DATA_FLAVOR)) {
+				return true;
+			}
 
 			// String
-			if (flavor.equals(java.awt.datatransfer.DataFlavor.stringFlavor)) return true;
+			if (flavor.equals(java.awt.datatransfer.DataFlavor.stringFlavor)) {
+				return true;
+			}
 
 			// We can't do anything else
 			return false;

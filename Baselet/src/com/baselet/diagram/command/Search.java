@@ -12,7 +12,6 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 
-
 public class Search extends Command {
 
 	static Color _failed = new Color(227, 127, 127);
@@ -39,7 +38,9 @@ public class Search extends Command {
 			}
 		}
 
-		if (s.getSelectedElements().size() == 0) return;
+		if (s.getSelectedElements().size() == 0) {
+			return;
+		}
 
 		Rectangle panelview = Converter.convert(d.getVisibleRect());
 		Point p = null;
@@ -48,10 +49,14 @@ public class Search extends Command {
 				p = new Point(0, 0);
 				break;
 			}
-			else if (p == null) p = new Point(e.getRectangle().x - panelview.x - 10, e.getRectangle().y - panelview.y - 10);
+			else if (p == null) {
+				p = new Point(e.getRectangle().x - panelview.x - 10, e.getRectangle().y - panelview.y - 10);
+			}
 		}
 
-		if (p != null) d.changeViewPosition(p.x, p.y);
+		if (p != null) {
+			d.changeViewPosition(p.x, p.y);
+		}
 	}
 
 	@Override

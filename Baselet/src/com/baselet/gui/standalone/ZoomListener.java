@@ -23,16 +23,20 @@ public class ZoomListener implements ActionListener, MouseWheelListener {
 	}
 
 	private void handleEvent(AWTEvent e) {
-		if ((Main.getInstance().getGUI() instanceof StandaloneGUI) && (Main.getInstance().getDiagramHandler() != null)) {
+		if (Main.getInstance().getGUI() instanceof StandaloneGUI && Main.getInstance().getDiagramHandler() != null) {
 			// The offset is -1 (wheel up) or +1 (wheel down) or 0 (no wheel used)
 			int offset = 0;
-			if (e instanceof MouseWheelEvent) offset = ((MouseWheelEvent) e).getWheelRotation();
+			if (e instanceof MouseWheelEvent) {
+				offset = ((MouseWheelEvent) e).getWheelRotation();
+			}
 
 			String zoomFactor = ((JComboBox) e.getSource()).getSelectedItem().toString();
 			zoomFactor = zoomFactor.substring(0, zoomFactor.length() - 2); // Cut the zoomvalue eg: "120%" to "12"
 			int newZoomFactor = Integer.parseInt(zoomFactor) + offset;
 
-			if ((newZoomFactor > 0) && (newZoomFactor < 21)) Main.getInstance().getDiagramHandler().setGridAndZoom(newZoomFactor);
+			if (newZoomFactor > 0 && newZoomFactor < 21) {
+				Main.getInstance().getDiagramHandler().setGridAndZoom(newZoomFactor);
+			}
 		}
 	}
 }

@@ -54,24 +54,27 @@ import com.baselet.plugin.editor.Contributor;
 
 public class MenuFactoryEclipse extends MenuFactory {
 
-	private static final Logger log = Logger.getLogger(MenuFactoryEclipse.class);	
+	private static final Logger log = Logger.getLogger(MenuFactoryEclipse.class);
 
 	private static MenuFactoryEclipse instance = null;
+
 	public static MenuFactoryEclipse getInstance() {
-		if (instance == null) instance = new MenuFactoryEclipse();
+		if (instance == null) {
+			instance = new MenuFactoryEclipse();
+		}
 		return instance;
 	}
 
 	@Override
 	protected void doAction(final String menuItem, final Object param) {
-		log.info("doAction " + menuItem);	
+		log.info("doAction " + menuItem);
 		DiagramHandler actualHandler = Main.getInstance().getDiagramHandler();
 		// Edit Palette cannot be put in a separate invokeLater thread, or otherwise getActivePage() will be null!
 		if (menuItem.equals(EDIT_CURRENT_PALETTE)) {
 			String paletteName = Main.getInstance().getPalette().getFileHandler().getFullPathName();
 			IFileStore fileStore = EFS.getLocalFileSystem().getStore(new File(paletteName).toURI());
 			if (!fileStore.fetchInfo().isDirectory() && fileStore.fetchInfo().exists()) {
-				IWorkbenchPage page= PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				try {
 					IDE.openEditorOnFileStore(page, fileStore);
 				} catch (PartInitException e) {
@@ -82,27 +85,27 @@ public class MenuFactoryEclipse extends MenuFactory {
 		else if (menuItem.equals(SEARCH)) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
-				public void run() {			
+				public void run() {
 					Main.getInstance().getGUI().enableSearch(true);
 				}
-			});				
+			});
 		}
-		else if (menuItem.equals(ZOOM) && (actualHandler != null)) {
+		else if (menuItem.equals(ZOOM) && actualHandler != null) {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
-				public void run() {			
+				public void run() {
 					Main.getInstance().getDiagramHandler().setGridAndZoom((Integer) param);
 				}
-			});							
+			});
 		}
 		// If the action is not overwritten, it is part of the default actions
-		else 
+		else
 		{
 			log.debug("super.doAction");
 			super.doAction(menuItem, param);
 			log.debug("super.doAction complete");
 		}
-		log.debug("doAction complete");			
+		log.debug("doAction complete");
 	}
 
 	public Action createOptions() {
@@ -194,15 +197,15 @@ public class MenuFactoryEclipse extends MenuFactory {
 
 		for (final String format : Constants.exportFormatList) {
 			actions.add(createAction(format.toUpperCase() + "...", EXPORT_AS, format));
-		}	
+		}
 
 		return actions;
 	}
-	
+
 	public IAction createGenerate() {
 		return createAction(GENERATE_CLASS, null);
 	}
-	
+
 	public IAction createGenerateOptions() {
 		return createAction(GENERATE_CLASS_OPTIONS, null);
 	}
@@ -210,12 +213,13 @@ public class MenuFactoryEclipse extends MenuFactory {
 	public IMenuManager createZoom() {
 		final IMenuManager zoom = new MenuManager(ZOOM);
 		for (String z : Constants.zoomValueList) {
-			zoom.add(createAction(z, ZOOM, Integer.parseInt(z.substring(0, z.length() - 2)),  IAction.AS_RADIO_BUTTON));
+			zoom.add(createAction(z, ZOOM, Integer.parseInt(z.substring(0, z.length() - 2)), IAction.AS_RADIO_BUTTON));
 		}
 		return zoom;
 	}
 
 	private List<Action> aList = new ArrayList<Action>();
+
 	public IMenuManager createNewCustomElementFromTemplate(final Contributor con) {
 		IMenuManager menu = new MenuManager(NEW_FROM_TEMPLATE);
 		for (String template : Main.getInstance().getTemplateNames()) {
@@ -239,7 +243,7 @@ public class MenuFactoryEclipse extends MenuFactory {
 	}
 
 	private Action createAction(final String menuName, final String actionName, final Object param) {
-		return createAction(menuName, actionName, param,  IAction.AS_UNSPECIFIED);
+		return createAction(menuName, actionName, param, IAction.AS_UNSPECIFIED);
 	}
 
 	private Action createAction(final String menuName, final String actionName, final Object param, int style) {

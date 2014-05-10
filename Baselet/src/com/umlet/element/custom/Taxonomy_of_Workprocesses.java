@@ -14,7 +14,6 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
 
-
 @SuppressWarnings("serial")
 public class Taxonomy_of_Workprocesses extends OldGridElement {
 
@@ -27,17 +26,20 @@ public class Taxonomy_of_Workprocesses extends OldGridElement {
 		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
-		
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillRect(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
+		g2.fillRect(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 		g2.setComposite(composites[0]);
-		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
-		else g2.setColor(fgColorBase);
-		g2.drawRect(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
+		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
+			g2.setColor(fgColor);
+		}
+		else {
+			g2.setColor(fgColorBase);
+		}
+		g2.drawRect(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
+		Vector<String> tmp = Utils.decomposeStrings(getPanelAttributes());
 
 		int level = 0;
 		double yPos = 10 * zoom;
@@ -54,7 +56,7 @@ public class Taxonomy_of_Workprocesses extends OldGridElement {
 			int currentLineLevel = calculateLevel(s);
 			s = s.replaceAll("\t", "");
 
-			if ((currentLineLevel > level) && (i > 0)) {
+			if (currentLineLevel > level && i > 0) {
 				level++;
 
 				nextDock = new Point((int) (xPos + ovalWidth / 2 + 0.5), (int) (ovalHeight + yPos + 0.5));
@@ -64,7 +66,7 @@ public class Taxonomy_of_Workprocesses extends OldGridElement {
 				drawDockAnchor(g2, nextDock);
 			}
 
-			if ((currentLineLevel < level)) {
+			if (currentLineLevel < level) {
 				level = currentLineLevel;
 			}
 
@@ -74,7 +76,9 @@ public class Taxonomy_of_Workprocesses extends OldGridElement {
 			if (level > 0) {
 				// change dock color to red if too much tabs occur
 				Color color = g2.getColor();
-				if (currentLineLevel > level) g2.setColor(Color.red);
+				if (currentLineLevel > level) {
+					g2.setColor(Color.red);
+				}
 
 				nextDock = dock.elementAt(level - 1);
 				drawDock(g2, nextDock, xPos, yPos);
@@ -123,7 +127,7 @@ public class Taxonomy_of_Workprocesses extends OldGridElement {
 	// calculates the hierarchy level according to tab count in the string
 	protected int calculateLevel(String s) {
 		int level = 0;
-		while ((s.length() > 0) && (s.charAt(0) == '\t')) {
+		while (s.length() > 0 && s.charAt(0) == '\t') {
 			level++;
 			s = s.substring(1);
 		}

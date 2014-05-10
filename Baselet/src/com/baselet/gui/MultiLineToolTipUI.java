@@ -55,7 +55,9 @@ public class MultiLineToolTipUI extends BasicToolTipUI {
 	@Override
 	public Dimension getPreferredSize(JComponent c) {
 		String tipText = ((JToolTip) c).getTipText();
-		if (tipText == null) return new Dimension(0, 0);
+		if (tipText == null) {
+			return new Dimension(0, 0);
+		}
 		textArea = new JTextArea(tipText);
 		textArea.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
 		rendererPane.removeAll();
@@ -77,7 +79,9 @@ public class MultiLineToolTipUI extends BasicToolTipUI {
 			d.height++;
 			textArea.setSize(d);
 		}
-		else textArea.setLineWrap(false);
+		else {
+			textArea.setLineWrap(false);
+		}
 
 		Dimension dim = textArea.getPreferredSize();
 

@@ -7,7 +7,6 @@ import java.awt.event.MouseWheelListener;
 
 import com.baselet.diagram.DrawPanel;
 
-
 public class ScrollbarListener implements MouseListener, MouseWheelListener {
 
 	private DrawPanel drawpanel;

@@ -33,7 +33,9 @@ public class Align extends Command {
 	@Override
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
-		if ((this.entities.size() == 0) || (dominantEntity == null)) return;
+		if (entities.size() == 0 || dominantEntity == null) {
+			return;
+		}
 
 		// We must zoom to the defaultGridsize before execution
 		int oldZoom = handler.getGridSize();
@@ -48,7 +50,7 @@ public class Align extends Command {
 		int bottom = top + entity.getRectangle().height;
 
 		DrawPanel p = handler.getDrawPanel();
-		for (GridElement e : this.entities) {
+		for (GridElement e : entities) {
 			Rectangle rectangle = e.getRectangle();
 			int x = rectangle.x;
 			int y = rectangle.y;

@@ -12,10 +12,10 @@ public class CompileError {
 	// Pattern for error messages from custom element compiler (1. Group = LineNr, 2. Group = line, 3. Group = error)
 	private static final Pattern error_pattern = Pattern.compile(".*ERROR.*at line ([0-9]+).*\\n(.*)\\n.*\\n(.*)");
 	// EXAMPLE:
-	//	1. ERROR in C:\Users\Andi\AppData\Local\Temp\CustomElementImpl.java (at line 27)
-	//	int y=textHeight();
-	//	      ^^^^^^^^^^^^
-	//Type mismatch: cannot convert from float to int
+	// 1. ERROR in C:\Users\Andi\AppData\Local\Temp\CustomElementImpl.java (at line 27)
+	// int y=textHeight();
+	// ^^^^^^^^^^^^
+	// Type mismatch: cannot convert from float to int
 
 	private int lineNr;
 	private String line;

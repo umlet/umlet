@@ -60,11 +60,14 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 public class MenuFactorySwing extends MenuFactory {
 
 	private static MenuFactorySwing instance = null;
+
 	public static MenuFactorySwing getInstance() {
-		if (instance == null) instance = new MenuFactorySwing();
+		if (instance == null) {
+			instance = new MenuFactorySwing();
+		}
 		return instance;
 	}
-	
+
 	public JMenuItem createNew() {
 		return createJMenuItem(false, NEW, KeyEvent.VK_N, true, null);
 	}
@@ -77,9 +80,14 @@ public class MenuFactorySwing extends MenuFactory {
 		final JMenu recentFiles = new JMenu();
 		recentFiles.setText(RECENT_FILES);
 		recentFiles.addMenuListener(new MenuListener() {
-			@Override public void menuDeselected(MenuEvent e) {}
-			@Override public void menuCanceled(MenuEvent e) {}
-			@Override public void menuSelected(MenuEvent e) {
+			@Override
+			public void menuDeselected(MenuEvent e) {}
+
+			@Override
+			public void menuCanceled(MenuEvent e) {}
+
+			@Override
+			public void menuSelected(MenuEvent e) {
 				recentFiles.removeAll();
 				for (String file : Constants.recentlyUsedFilesList) {
 					recentFiles.add(createJMenuItem(false, file, RECENT_FILES, file));
@@ -88,11 +96,11 @@ public class MenuFactorySwing extends MenuFactory {
 		});
 		return recentFiles;
 	}
-	
+
 	public JMenuItem createGenerate() {
 		return createJMenuItem(false, GENERATE_CLASS, null);
 	}
-	
+
 	public JMenuItem createGenerateOptions() {
 		return createJMenuItem(false, GENERATE_CLASS_OPTIONS, null);
 	}
@@ -144,10 +152,11 @@ public class MenuFactorySwing extends MenuFactory {
 	}
 
 	public JMenuItem createDelete() {
-		int[] keys = new int[]{KeyEvent.VK_BACK_SPACE, KeyEvent.VK_DELETE}; // backspace AND delete both work for deleting elements
+		int[] keys = new int[] { KeyEvent.VK_BACK_SPACE, KeyEvent.VK_DELETE }; // backspace AND delete both work for deleting elements
 		if (SystemInfo.OS == Os.MAC) { // MacOS shows the backspace key mapping because it's the only one working - see http://stackoverflow.com/questions/4881262/java-keystroke-for-delete/4881606#4881606
 			return createJMenuItem(false, DELETE, keys, KeyEvent.VK_BACK_SPACE);
-		} else {
+		}
+		else {
 			return createJMenuItem(false, DELETE, keys, KeyEvent.VK_DELETE);
 		}
 	}
@@ -217,7 +226,7 @@ public class MenuFactorySwing extends MenuFactory {
 	}
 
 	public JMenu createSetColor(boolean fg) {
-		String name = (fg ? SET_FOREGROUND_COLOR : SET_BACKGROUND_COLOR);
+		String name = fg ? SET_FOREGROUND_COLOR : SET_BACKGROUND_COLOR;
 		JMenu menu = new JMenu(name);
 		menu.add(createJMenuItem(false, "default", name, null));
 		for (String color : ColorOwn.COLOR_MAP.keySet()) {
@@ -227,14 +236,14 @@ public class MenuFactorySwing extends MenuFactory {
 		}
 		return menu;
 	}
-	
+
 	public JMenuItem createAboutProgram() {
 		return createJMenuItem(false, ABOUT_PROGRAM, null);
 	}
 
 	public JMenu createAlign() {
 		JMenu alignMenu = new JMenu(ALIGN);
-		for (String direction : new String[]{"Left", "Right", "Top", "Bottom"}) {
+		for (String direction : new String[] { "Left", "Right", "Top", "Bottom" }) {
 			alignMenu.add(createJMenuItem(false, direction, ALIGN, direction));
 		}
 		return alignMenu;
@@ -242,16 +251,16 @@ public class MenuFactorySwing extends MenuFactory {
 
 	public JMenu createLayerUp() {
 		JMenu alignMenu = new JMenu(LAYER);
-		for (String direction : new String[]{LAYER_DOWN, LAYER_UP}) {
+		for (String direction : new String[] { LAYER_DOWN, LAYER_UP }) {
 			alignMenu.add(createJMenuItem(false, direction, LAYER, direction));
 		}
-			return alignMenu;
+		return alignMenu;
 	}
 
 	private JMenuItem createJMenuItem(boolean grayWithoutDiagram, final String name, Object param) {
 		return createJMenuItem(grayWithoutDiagram, name, name, null, null, param);
 	}
-	
+
 	private JMenuItem createJMenuItem(boolean grayWithoutDiagram, final String name, Integer mnemonic, Boolean meta, Object param) {
 		return createJMenuItem(grayWithoutDiagram, name, name, mnemonic, meta, param);
 	}
@@ -264,7 +273,7 @@ public class MenuFactorySwing extends MenuFactory {
 		JMenuItem menuItem = new JMenuItem(menuName);
 		if (mnemonic != null) {
 			menuItem.setMnemonic(mnemonic);
-			menuItem.setAccelerator(KeyStroke.getKeyStroke(mnemonic, (!meta ? 0 : SystemInfo.META_KEY.getMask())));
+			menuItem.setAccelerator(KeyStroke.getKeyStroke(mnemonic, !meta ? 0 : SystemInfo.META_KEY.getMask()));
 		}
 		menuItem.addActionListener(new ActionListener() {
 			@Override
@@ -272,43 +281,47 @@ public class MenuFactorySwing extends MenuFactory {
 				doAction(actionName, param);
 			}
 		});
-		if (grayWithoutDiagram) diagramDependendComponents.add(menuItem);
+		if (grayWithoutDiagram) {
+			diagramDependendComponents.add(menuItem);
+		}
 		return menuItem;
 	}
-	
+
 	/**
 	 * Create a JMenuItem with multiple key bindings (only one mnemonic can be set at any time).
 	 * @see "http://docs.oracle.com/javase/tutorial/uiswing/misc/action.html"
 	 */
 	private JMenuItem createJMenuItem(boolean grayWithoutDiagram, final String name, int[] keyEvents, int preferredMnemonic) {
 		JMenuItem menuItem = new JMenuItem(name);
-		
+
 		MultipleKeyBindingsAction action = new MultipleKeyBindingsAction(name, preferredMnemonic);
-		for (int keyEvent: keyEvents) {
+		for (int keyEvent : keyEvents) {
 			addKeyBinding(menuItem, keyEvent, name);
 		}
 		menuItem.getActionMap().put(name, action);
 		menuItem.setAction(action);
-		
-		if (grayWithoutDiagram) diagramDependendComponents.add(menuItem);
+
+		if (grayWithoutDiagram) {
+			diagramDependendComponents.add(menuItem);
+		}
 		return menuItem;
 	}
-	
+
 	private void addKeyBinding(JMenuItem menuItem, int keyEvent, String actionName) {
 		menuItem.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(keyEvent, 0), actionName);
 	}
-	
+
 	@SuppressWarnings("serial")
 	private class MultipleKeyBindingsAction extends AbstractAction {
-		
+
 		public MultipleKeyBindingsAction(String menuName, int preferredMnemonic) {
 			super(menuName);
 			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(preferredMnemonic, 0));
 		}
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			doAction(this.getValue(NAME).toString(), null);	
+			doAction(getValue(NAME).toString(), null);
 		}
 	}
 }

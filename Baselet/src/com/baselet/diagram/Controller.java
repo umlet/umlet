@@ -22,7 +22,7 @@ public class Controller {
 			commands.removeElementAt(i);
 		}
 		commands.add(newCommand);
-		newCommand.execute(this.handler);
+		newCommand.execute(handler);
 
 		if (commands.size() >= 2) {
 			Command c_n, c_nMinus1;
@@ -39,25 +39,25 @@ public class Controller {
 		_cursor = commands.size() - 1;
 
 		if (newCommand.isChangingDiagram()) {
-			this.handler.setChanged(true);
+			handler.setChanged(true);
 		}
 
-		Main.getInstance().getGUI().updateGrayedOutMenuItems(this.handler);
+		Main.getInstance().getGUI().updateGrayedOutMenuItems(handler);
 	}
 
 	public void undo() {
 		if (isUndoable()) {
 			Command c = commands.elementAt(_cursor);
-			c.undo(this.handler);
+			c.undo(handler);
 			_cursor--;
-			this.handler.setChanged(true);
+			handler.setChanged(true);
 		}
 	}
 
 	public void redo() {
 		if (isRedoable()) {
 			Command c = commands.elementAt(_cursor + 1);
-			c.execute(this.handler);
+			c.execute(handler);
 			_cursor++;
 		}
 	}

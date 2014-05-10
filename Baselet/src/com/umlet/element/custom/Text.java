@@ -9,7 +9,6 @@ import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
 
-
 @SuppressWarnings("serial")
 public class Text extends OldGridElement {
 
@@ -20,8 +19,8 @@ public class Text extends OldGridElement {
 		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		colorize(g2);
 		g2.setColor(fgColor);
-		
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
+
+		Vector<String> tmp = Utils.decomposeStrings(getPanelAttributes());
 		int yPos = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);

@@ -29,7 +29,6 @@ import com.umlet.element.Relation;
 import com.umlet.element.relation.DoubleStroke;
 import com.umlet.element.relation.RelationLinePoint;
 
-
 public abstract class Utils {
 
 	private Utils() {} // private constructor to avoid instantiation
@@ -76,15 +75,21 @@ public abstract class Utils {
 		return decomposeStrings(s, Constants.NEWLINE);
 	}
 
-	//TODO: Decomposing should be moved to Properties.class. At the moment OldGridElement uses this method and NewGridElement the one in Properties.class
+	// TODO: Decomposing should be moved to Properties.class. At the moment OldGridElement uses this method and NewGridElement the one in Properties.class
 	private static Vector<String> decomposeStringsWFilter(String fullString, String delimiter, boolean filterComments, boolean filterNewLines) {
 		Vector<String> returnVector = new Vector<String>();
 		String compatibleFullString = fullString.replaceAll("\r\n", delimiter); // compatibility to windows \r\n
 
 		for (String line : compatibleFullString.split("\\" + delimiter)) {
-			if (filterComments && (line.matches("((//)|(fg=)|(bg=)|(autoresize=)|(layer=)|(group=)).*"))) continue;
-			else if (filterNewLines && line.isEmpty()) continue;
-			else returnVector.add(line);
+			if (filterComments && line.matches("((//)|(fg=)|(bg=)|(autoresize=)|(layer=)|(group=)).*")) {
+				continue;
+			}
+			else if (filterNewLines && line.isEmpty()) {
+				continue;
+			}
+			else {
+				returnVector.add(line);
+			}
 		}
 
 		return returnVector;
@@ -102,21 +107,37 @@ public abstract class Utils {
 				}
 			}
 		}
-		if (ret == null) ret = "";
+		if (ret == null) {
+			ret = "";
+		}
 		return ret;
 	}
 
 	public static Stroke getStroke(LineType lineType, float lineThickness) {
 		// If the lineThickness is not supported, the default type is used
-		if (lineThickness < 0) lineThickness = (float)LineWidthFacet.DEFAULT_LINE_WIDTH;
+		if (lineThickness < 0) {
+			lineThickness = (float) LineWidthFacet.DEFAULT_LINE_WIDTH;
+		}
 
 		Stroke stroke = null;
-		if (lineType == LineType.SOLID) stroke = new BasicStroke(lineThickness);
-		else if (lineType == LineType.DASHED) stroke = new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 8.0f, 5.0f }, 0.0f);
-		else if (lineType == LineType.DOTTED) stroke = new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 1.0f, 2.0f }, 0.0f);
-		else if (lineType == LineType.DOUBLE) stroke = new DoubleStroke(lineThickness, 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, null, 0.0f);
-		else if (lineType == LineType.DOUBLE_DASHED) stroke = new DoubleStroke(lineThickness, 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 8.0f, 5.0f }, 0.0f);
-		else if (lineType == LineType.DOUBLE_DOTTED) stroke = new DoubleStroke(lineThickness, 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 1.0f, 2.0f }, 0.0f);
+		if (lineType == LineType.SOLID) {
+			stroke = new BasicStroke(lineThickness);
+		}
+		else if (lineType == LineType.DASHED) {
+			stroke = new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 8.0f, 5.0f }, 0.0f);
+		}
+		else if (lineType == LineType.DOTTED) {
+			stroke = new BasicStroke(lineThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 1.0f, 2.0f }, 0.0f);
+		}
+		else if (lineType == LineType.DOUBLE) {
+			stroke = new DoubleStroke(lineThickness, 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, null, 0.0f);
+		}
+		else if (lineType == LineType.DOUBLE_DASHED) {
+			stroke = new DoubleStroke(lineThickness, 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 8.0f, 5.0f }, 0.0f);
+		}
+		else if (lineType == LineType.DOUBLE_DOTTED) {
+			stroke = new DoubleStroke(lineThickness, 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 5.0f, new float[] { 1.0f, 2.0f }, 0.0f);
+		}
 		return stroke;
 	}
 
@@ -126,8 +147,12 @@ public abstract class Utils {
 		renderingHints.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		renderingHints.put(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
 		renderingHints.put(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
-		if (subpixelRendering) renderingHints.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-		else renderingHints.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+		if (subpixelRendering) {
+			renderingHints.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+		}
+		else {
+			renderingHints.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+		}
 		renderingHints.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 		renderingHints.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		renderingHints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -142,13 +167,20 @@ public abstract class Utils {
 		double x = x2 - x1;
 		double y = y2 - y1;
 		res = Math.atan(y / x);
-		if ((x >= 0.0) && (y >= 0.0)) res += 0.0;
-		else if ((x < 0.0) && (y >= 0.0)) res += Math.PI;
-		else if ((x < 0.0) && (y < 0.0)) res += Math.PI;
-		else if ((x >= 0.0) && (y < 0.0)) res += 2.0 * Math.PI;
+		if (x >= 0.0 && y >= 0.0) {
+			res += 0.0;
+		}
+		else if (x < 0.0 && y >= 0.0) {
+			res += Math.PI;
+		}
+		else if (x < 0.0 && y < 0.0) {
+			res += Math.PI;
+		}
+		else if (x >= 0.0 && y < 0.0) {
+			res += 2.0 * Math.PI;
+		}
 		return res;
 	}
-
 
 	/**
 	 * eg: createDoubleArrayFromTo(5, 6, 0.1) = [5, 5.1, 5.2, ..., 5.9, 6] <br/>
@@ -159,11 +191,13 @@ public abstract class Utils {
 	 * @param step	the stepsize of the array
 	 */
 	public static Double[] createDoubleArrayFromTo(Double min, Double max, Double step) {
-		if (min > max) return null;
-		int range = (int) Math.ceil(((max-min)/step)+1);
+		if (min > max) {
+			return null;
+		}
+		int range = (int) Math.ceil((max - min) / step + 1);
 		Double[] returnArray = new Double[range];
 		for (int i = 0; i < range; i++) {
-			returnArray[i] = min + i*step;
+			returnArray[i] = min + i * step;
 		}
 		return returnArray;
 	}
@@ -178,22 +212,31 @@ public abstract class Utils {
 	 * IMPORTANT: on overlapping elements, contains is called for all elements until the first one returns true, then the others contain methods are not called
 	 */
 	public static boolean contains(GridElement gridElement, Point p) {
-		JComponent component = ((JComponent) gridElement.getComponent());
+		JComponent component = (JComponent) gridElement.getComponent();
 		java.awt.Rectangle rectangle = component.getVisibleRect();
 		Point absolute = new Point(gridElement.getRectangle().getX() + p.getX(), gridElement.getRectangle().getY() + p.getY());
-		if (!rectangle.contains(p.x, p.y)) return false;
+		if (!rectangle.contains(p.x, p.y)) {
+			return false;
+		}
 
 		DrawPanel drawPanel = Main.getHandlerForElement(gridElement).getDrawPanel();
-		//		Selector selector = drawPanel.getSelector();
+		// Selector selector = drawPanel.getSelector();
 		for (GridElement other : drawPanel.getGridElements()) {
-			if (other == gridElement) continue;
-			if (other.getLayer() < gridElement.getLayer()) continue; // elements with lower layer are ignored
+			if (other == gridElement) {
+				continue;
+			}
+			if (other.getLayer() < gridElement.getLayer())
+			{
+				continue; // elements with lower layer are ignored
+			}
 
-			JComponent otherComponent = ((JComponent) other.getComponent());
+			JComponent otherComponent = (JComponent) other.getComponent();
 			if (other.getLayer() > gridElement.getLayer()) { // elements with higher layer can "overwrite" contains-value of this
 				// move point to coordinate system of other entity
 				Point other_p = new Point(p.x + gridElement.getRectangle().x - other.getRectangle().x, p.y + gridElement.getRectangle().y - other.getRectangle().y);
-				if (otherComponent.contains(Converter.convert(other_p))) return false;
+				if (otherComponent.contains(Converter.convert(other_p))) {
+					return false;
+				}
 			}
 
 			java.awt.Rectangle other_rectangle = otherComponent.getVisibleRect();
@@ -202,7 +245,7 @@ public abstract class Utils {
 			other_rectangle.y += other.getRectangle().y - gridElement.getRectangle().y;
 			// when elements intersect, select the smaller element except if it is an old relation (because they have a larger rectangle than they use). NOTE: Old Relations are not checked because they do not properly implement isSelectableOn
 			if (!(other instanceof Relation) && other.isSelectableOn(absolute) && rectangle.intersects(other_rectangle) && smaller(other_rectangle, rectangle)) {
-				return false; 
+				return false;
 			}
 		}
 		return true;
@@ -211,14 +254,17 @@ public abstract class Utils {
 	private static boolean smaller(java.awt.Rectangle a, java.awt.Rectangle b) {
 		int areaA = a.getSize().height * a.getSize().width;
 		int areaB = b.getSize().height * b.getSize().width;
-		if (areaA < areaB) return true;
+		if (areaA < areaB) {
+			return true;
+		}
 		return false;
 	}
 
 	public static DimensionDouble getTextSize(String s, Font font, FontRenderContext frc) {
 		if (s == null) {
 			return null;
-		} else if (s.isEmpty()) {
+		}
+		else if (s.isEmpty()) {
 			return new DimensionDouble(0, 0);
 		}
 
@@ -230,7 +276,6 @@ public abstract class Utils {
 		return new DimensionDouble(tl.getBounds().getWidth(), tl.getBounds().getHeight());
 	}
 
-
 	public static Vector<RelationLinePoint> getStickingRelationLinePoints(DiagramHandler handler, StickingPolygon stickingPolygon) {
 		Vector<RelationLinePoint> lpts = new Vector<RelationLinePoint>();
 		Collection<Relation> rels = handler.getDrawPanel().getOldRelations();
@@ -239,8 +284,12 @@ public abstract class Utils {
 			PointDouble l2 = r.getAbsoluteCoorEnd();
 			int c1 = stickingPolygon.isConnected(l1, handler.getGridSize());
 			int c2 = stickingPolygon.isConnected(l2, handler.getGridSize());
-			if (c1 >= 0) lpts.add(new RelationLinePoint(r, 0, c1));
-			if (c2 >= 0) lpts.add(new RelationLinePoint(r, r.getLinePoints().size() - 1, c2));
+			if (c1 >= 0) {
+				lpts.add(new RelationLinePoint(r, 0, c1));
+			}
+			if (c2 >= 0) {
+				lpts.add(new RelationLinePoint(r, r.getLinePoints().size() - 1, c2));
+			}
 		}
 		return lpts;
 	}

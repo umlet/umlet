@@ -9,7 +9,6 @@ import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 
-
 public class ChangeElementSetting extends Command {
 
 	private String key;
@@ -19,7 +18,7 @@ public class ChangeElementSetting extends Command {
 	public ChangeElementSetting(String key, String value, Collection<GridElement> element) {
 		this(key, createSingleValueMap(value, element));
 	}
-	
+
 	public ChangeElementSetting(String key, Map<GridElement, String> elementValueMap) {
 		this.key = key;
 		this.elementValueMap = elementValueMap;

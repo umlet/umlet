@@ -7,7 +7,6 @@ import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.PaletteHandler;
 
-
 public class DividerListener implements ComponentListener {
 
 	@Override
@@ -19,9 +18,13 @@ public class DividerListener implements ComponentListener {
 	@Override
 	public void componentResized(ComponentEvent e) {
 		PaletteHandler p = Main.getInstance().getPalette();
-		if ((p != null) && (p.getDrawPanel() != null)) p.getDrawPanel().updatePanelAndScrollbars();
+		if (p != null && p.getDrawPanel() != null) {
+			p.getDrawPanel().updatePanelAndScrollbars();
+		}
 		DiagramHandler h = Main.getInstance().getDiagramHandler();
-		if ((h != null) && (h.getDrawPanel() != null)) h.getDrawPanel().updatePanelAndScrollbars();
+		if (h != null && h.getDrawPanel() != null) {
+			h.getDrawPanel().updatePanelAndScrollbars();
+		}
 	}
 
 	@Override

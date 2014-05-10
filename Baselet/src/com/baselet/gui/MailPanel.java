@@ -45,7 +45,7 @@ import com.baselet.diagram.io.DiagramFileHandler;
 public class MailPanel extends JPanel {
 
 	private static final Logger log = Logger.getLogger(MailPanel.class);
-	
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -227,7 +227,9 @@ public class MailPanel extends JPanel {
 		int nrOfAttachments = 0;
 
 		// Set SMTP Authentication if the user or password field isn't empty
-		if (!smtpUser.isEmpty() || !smtpPW.isEmpty()) useSmtpAuthentication = true;
+		if (!smtpUser.isEmpty() || !smtpPW.isEmpty()) {
+			useSmtpAuthentication = true;
+		}
 
 		// Create the temp diagrams to send
 		try {
@@ -255,9 +257,15 @@ public class MailPanel extends JPanel {
 		 */
 
 		String errorMsg = null;
-		if (smtpHost.isEmpty()) errorMsg = "The SMTP field must not be empty";
-		else if (from.isEmpty()) errorMsg = "The FROM field must not be empty";
-		else if (to.length == 0) errorMsg = "The TO field must not be empty";
+		if (smtpHost.isEmpty()) {
+			errorMsg = "The SMTP field must not be empty";
+		}
+		else if (from.isEmpty()) {
+			errorMsg = "The FROM field must not be empty";
+		}
+		else if (to.length == 0) {
+			errorMsg = "The TO field must not be empty";
+		}
 
 		if (errorMsg != null) {
 			JOptionPane.showMessageDialog(this, errorMsg, "Error", JOptionPane.ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
@@ -277,14 +285,16 @@ public class MailPanel extends JPanel {
 			MimeMessage message = new MimeMessage(session);
 			MimeBodyPart textPart = new MimeBodyPart();
 			MimeBodyPart[] attachmentPart = new MimeBodyPart[nrOfAttachments];
-			for (int i = 0; i < nrOfAttachments; i++)
+			for (int i = 0; i < nrOfAttachments; i++) {
 				attachmentPart[i] = new MimeBodyPart();
+			}
 
 			// Build multipart message
 			Multipart multipart = new MimeMultipart();
 			multipart.addBodyPart(textPart);
-			for (int i = 0; i < nrOfAttachments; i++)
+			for (int i = 0; i < nrOfAttachments; i++) {
 				multipart.addBodyPart(attachmentPart[i]);
+			}
 			message.setContent(multipart);
 
 			/**
@@ -302,19 +312,23 @@ public class MailPanel extends JPanel {
 			props.put("mail.smtp.ssl.protocols", "SSLv3 TLSv1");
 
 			// If authentication is needed we set it to true
-			if (useSmtpAuthentication) props.put("mail.smtp.auth", "true");
-			else props.put("mail.smtp.auth", "false");
+			if (useSmtpAuthentication) {
+				props.put("mail.smtp.auth", "true");
+			}
+			else {
+				props.put("mail.smtp.auth", "false");
+			}
 
 			// Set all recipients of any kind (TO, CC, BCC)
 			message.setFrom(new InternetAddress(from));
-			for (int i = 0; i < to.length; i++) {
-				message.addRecipient(Message.RecipientType.TO, new InternetAddress(to[i]));
+			for (String element : to) {
+				message.addRecipient(Message.RecipientType.TO, new InternetAddress(element));
 			}
-			for (int i = 0; i < cc.length; i++) {
-				message.addRecipient(Message.RecipientType.CC, new InternetAddress(cc[i]));
+			for (String element : cc) {
+				message.addRecipient(Message.RecipientType.CC, new InternetAddress(element));
 			}
-			for (int i = 0; i < bcc.length; i++) {
-				message.addRecipient(Message.RecipientType.BCC, new InternetAddress(bcc[i]));
+			for (String element : bcc) {
+				message.addRecipient(Message.RecipientType.BCC, new InternetAddress(element));
 			}
 
 			// Set subject, text and attachment
@@ -322,9 +336,15 @@ public class MailPanel extends JPanel {
 			textPart.setText(text);
 
 			int i = 0;
-			if (cb_attachXml.isSelected()) attachmentPart[i++].attachFile(diagramXml);
-			if (cb_attachGif.isSelected()) attachmentPart[i++].attachFile(diagramGif);
-			if (cb_attachPdf.isSelected()) attachmentPart[i++].attachFile(diagramPdf);
+			if (cb_attachXml.isSelected()) {
+				attachmentPart[i++].attachFile(diagramXml);
+			}
+			if (cb_attachGif.isSelected()) {
+				attachmentPart[i++].attachFile(diagramGif);
+			}
+			if (cb_attachPdf.isSelected()) {
+				attachmentPart[i++].attachFile(diagramPdf);
+			}
 
 			/**
 			 * Send message (if no authentication is used, we use the short variant to send a mail
@@ -335,8 +355,7 @@ public class MailPanel extends JPanel {
 				try {
 					transport.connect(smtpHost, smtpUser, smtpPW);
 					transport.sendMessage(message, message.getAllRecipients());
-				}
-				finally {
+				} finally {
 					transport.close();
 				}
 			}
@@ -355,11 +374,16 @@ public class MailPanel extends JPanel {
 			else { // Other Error
 				JOptionPane.showMessageDialog(this, "There has been an error sending your mail." + Constants.NEWLINE + "Please recheck your input data.", "Sending Error", JOptionPane.ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
 			}
-		}
-		finally {
-			if (diagramXml != null) diagramXml.delete();
-			if (diagramGif != null) diagramGif.delete();
-			if (diagramPdf != null) diagramPdf.delete();
+		} finally {
+			if (diagramXml != null) {
+				diagramXml.delete();
+			}
+			if (diagramGif != null) {
+				diagramGif.delete();
+			}
+			if (diagramPdf != null) {
+				diagramPdf.delete();
+			}
 		}
 	}
 
@@ -402,10 +426,14 @@ public class MailPanel extends JPanel {
 	}
 
 	private String[] removeWhitespaceAndSplitAt(String inputString) {
-		if (inputString.isEmpty()) return new String[] {};
+		if (inputString.isEmpty()) {
+			return new String[] {};
+		}
 		String returnString = "";
 		for (int i = 0; i < inputString.length(); i++) {
-			if (inputString.charAt(i) != ' ') returnString += inputString.charAt(i);
+			if (inputString.charAt(i) != ' ') {
+				returnString += inputString.charAt(i);
+			}
 		}
 		return returnString.split(",");
 	}
@@ -415,8 +443,12 @@ public class MailPanel extends JPanel {
 		Constants.mail_smtp_auth = cb_smtp_auth.isSelected();
 		Constants.mail_smtp_user = tf_smtpUser.getText();
 		Constants.mail_smtp_pw_store = cb_pwSave.isSelected();
-		if (cb_pwSave.isSelected()) Constants.mail_smtp_pw = String.valueOf(pf_smtpPW.getPassword());
-		else Constants.mail_smtp_pw = "";
+		if (cb_pwSave.isSelected()) {
+			Constants.mail_smtp_pw = String.valueOf(pf_smtpPW.getPassword());
+		}
+		else {
+			Constants.mail_smtp_pw = "";
+		}
 		Constants.mail_from = tf_from.getText();
 		Constants.mail_to = tf_to.getText();
 		Constants.mail_cc = tf_cc.getText();

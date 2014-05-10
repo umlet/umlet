@@ -55,7 +55,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 	public JTextField getSearchField() {
 		return searchField;
 	}
-	
+
 	public JFrame initSwingGui(MenuBuilder menuBuilder) {
 		JFrame mainFrame = new JFrame();
 		mainFrame.addKeyListener(new GUIListener());
@@ -77,20 +77,20 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		mainFrame.setJMenuBar(menuBuilder.createMenu(createSearchPanel(), createZoomPanel(), createMailButton()));
 
 		JPanel diagramTabPanel = createDiagramTabPanel();
-		int mainDividerLoc = Math.min(mainFrame.getSize().width-Constants.MIN_MAIN_SPLITPANEL_SIZE, Constants.main_split_position);
+		int mainDividerLoc = Math.min(mainFrame.getSize().width - Constants.MIN_MAIN_SPLITPANEL_SIZE, Constants.main_split_position);
 		JSplitPane baseSplitPane = initBase(diagramTabPanel, mainDividerLoc);
 		mainFrame.add(baseSplitPane);
-		
+
 		ToolTipManager.sharedInstance().setInitialDelay(100);
 		mainFrame.setVisible(true);
-		
+
 		return mainFrame;
 	}
 
 	private void setImage(JFrame mainFrame) {
 		try {
 			ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
-			for (Integer i : new int[] {16, 20, 24, 32, 40, 48, 64}) {
+			for (Integer i : new int[] { 16, 20, 24, 32, 40, 48, 64 }) {
 				File file = new File(Path.homeProgram() + "img/" + Program.NAME.toLowerCase() + "_logo" + i + ".png");
 				images.add(ImageIO.read(file));
 			}
@@ -170,7 +170,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		});
 		return mailButton;
 	}
-	
+
 	@Override
 	public void setMailPanelEnabled(boolean enable) {
 		super.setMailPanelEnabled(enable);
