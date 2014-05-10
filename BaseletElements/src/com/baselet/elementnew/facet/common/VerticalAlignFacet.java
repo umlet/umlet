@@ -6,13 +6,14 @@ import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
 public class VerticalAlignFacet extends KeyValueFacet {
-	
+
 	public static VerticalAlignFacet INSTANCE = new VerticalAlignFacet();
+
 	private VerticalAlignFacet() {}
 
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue("valign", 
+		return new KeyValue("valign",
 				new ValueInfo(AlignVertical.TOP, "vertical text alignment"),
 				new ValueInfo(AlignVertical.CENTER, "vertical text alignment"),
 				new ValueInfo(AlignVertical.BOTTOM, "vertical text alignment"));
@@ -23,6 +24,7 @@ public class VerticalAlignFacet extends KeyValueFacet {
 		state.setvAlignGlobally(AlignVertical.valueOf(value.toUpperCase()));
 	}
 
+	@Override
 	public Priority getPriority() {
 		return Priority.HIGHEST;
 	}

@@ -13,7 +13,7 @@ import com.baselet.elementnew.element.plot.parser.PlotState;
 public class LinePlot extends AbstractPlot {
 
 	public LinePlot(DrawHandler drawer, PlotGridDrawConfig plotDrawConfig, PlotState plotState, int xPos, int yPos) {
-		super(drawer, plotDrawConfig, plotState, xPos, yPos); 
+		super(drawer, plotDrawConfig, plotState, xPos, yPos);
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class LinePlot extends AbstractPlot {
 		plotState.checkIfAllValuesUsed();
 		plot.drawPlotAndDescValueAxis(!tilt, false, true, false);
 	}
-	
+
 	@Override
 	protected List<AxisShow> defaultDescAxisShow() {
 		return Arrays.asList(AxisShow.Axis, AxisShow.Line, AxisShow.Marker, AxisShow.Text);

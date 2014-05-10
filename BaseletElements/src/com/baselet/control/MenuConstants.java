@@ -4,7 +4,7 @@ import com.baselet.control.SharedConstants.Program;
 
 public class MenuConstants {
 
-	//FILE
+	// FILE
 	public static final String FILE = "File";
 	public static final String NEW = "New";
 	public static final String OPEN = "Open...";
@@ -20,7 +20,7 @@ public class MenuConstants {
 	public static final String PRINT = "Print...";
 	public static final String EXIT = "Exit";
 
-	//EDIT
+	// EDIT
 	public static final String EDIT = "Edit";
 	public static final String UNDO = "Undo";
 	public static final String REDO = "Redo";
@@ -32,7 +32,7 @@ public class MenuConstants {
 	public static final String COPY = "Copy";
 	public static final String PASTE = "Paste";
 
-	//CUSTOM ELEMENTS
+	// CUSTOM ELEMENTS
 	public static final String CUSTOM_ELEMENTS = "Custom Elements";
 	public static final String NEW_CE = "New...";
 	public static final String NEW_FROM_TEMPLATE = "New from Template";

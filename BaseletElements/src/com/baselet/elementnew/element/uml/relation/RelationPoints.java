@@ -39,18 +39,14 @@ public class RelationPoints {
 	}
 
 	public Selection getSelection(Point point) {
-		if (isPointOverDragBox(point)) {
-			return Selection.DRAG_BOX;
-		} else if (RelationPointsUtils.getRelationPointContaining(point, points) != null) {
-			return Selection.RELATION_POINT;
-		} else if (getLineContaining(point) != null) {
-			return Selection.LINE;
-		} else {
-			return Selection.NOTHING;
-		}
+		if (isPointOverDragBox(point)) return Selection.DRAG_BOX;
+		else if (RelationPointsUtils.getRelationPointContaining(point, points) != null) return Selection.RELATION_POINT;
+		else if (getLineContaining(point) != null) return Selection.LINE;
+		else return Selection.NOTHING;
 	}
 
 	private PointDoubleIndexed relationPointOfCurrentDrag = null;
+
 	/**
 	 * this method is basically the same as {@link #getSelection(Point)}, but also applies changes to the relationpoints
 	 * (the order of checks is the same, but they do different things, therefore they are separated)
@@ -64,9 +60,7 @@ public class RelationPoints {
 		}
 		// If the special case doesn't apply, forget the relationPointOfFirstDrag, because its a new first drag
 		relationPointOfCurrentDrag = null;
-		if (isPointOverDragBox(point)) {
-			return Selection.DRAG_BOX;
-		}
+		if (isPointOverDragBox(point)) return Selection.DRAG_BOX;
 		PointDoubleIndexed pointOverRelationPoint = RelationPointsUtils.getRelationPointContaining(point, points);
 		if (pointOverRelationPoint != null) {
 			relationPointOfCurrentDrag = movePointAndResizeRectangle(pointOverRelationPoint, diffX, diffY);
@@ -88,9 +82,7 @@ public class RelationPoints {
 	private Line getLineContaining(Point point) {
 		for (Line line : points.getRelationPointLines()) {
 			double distanceToPoint = line.getDistanceToPoint(point.toPointDouble());
-			if (distanceToPoint < NEW_POINT_DISTANCE) {
-				return line;
-			}
+			if (distanceToPoint < NEW_POINT_DISTANCE) return line;
 		}
 		return null;
 	}
@@ -108,7 +100,7 @@ public class RelationPoints {
 	private PointDoubleIndexed movePointAndResizeRectangle(PointDoubleIndexed point, Integer diffX, Integer diffY) {
 		return movePointAndResizeRectangle(Arrays.asList(new PointChange(point, diffX, diffY))).get(0);
 	}
-	
+
 	void resizeRectAndReposPoints() {
 		// now rebuild width and height of the relation, based on the new positions of the relation-points
 		Rectangle newRect = RelationPointsUtils.calculateRelationRectangleBasedOnPoints(relation.getRectangle().getUpperLeftCorner(), relation.getGridSize(), points);
@@ -123,7 +115,6 @@ public class RelationPoints {
 	}
 
 	// HELPER METHODS
-
 
 	public Line getFirstLine() {
 		return points.getFirstLine();
@@ -161,10 +152,11 @@ public class RelationPoints {
 	}
 
 	private static final int BUFFER = 2; // a small buffer to make sure full description text is visible
+
 	public void resizeRelationSpaceToMakeTextVisible(double textWidth, double textHeight) {
 		Rectangle rectangle = relation.getRectangle();
-		int zoomedTextWidth = (int) (relation.getGridSize() * (textWidth+BUFFER) / SharedConstants.DEFAULT_GRID_SIZE);
-		int zoomedTextHeight = (int) (relation.getGridSize() * (textHeight+BUFFER) / SharedConstants.DEFAULT_GRID_SIZE);
+		int zoomedTextWidth = (int) (relation.getGridSize() * (textWidth + BUFFER) / SharedConstants.DEFAULT_GRID_SIZE);
+		int zoomedTextHeight = (int) (relation.getGridSize() * (textHeight + BUFFER) / SharedConstants.DEFAULT_GRID_SIZE);
 		if (rectangle.getWidth() < zoomedTextWidth) {
 			rectangle.setWidth(zoomedTextWidth);
 		}
@@ -173,7 +165,7 @@ public class RelationPoints {
 		}
 		relation.setRectangle(rectangle);
 	}
-	
+
 	@Override
 	public String toString() {
 		return points.toString();

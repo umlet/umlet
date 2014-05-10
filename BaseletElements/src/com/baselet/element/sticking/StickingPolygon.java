@@ -1,4 +1,3 @@
-
 package com.baselet.element.sticking;
 
 import java.util.Arrays;
@@ -9,7 +8,6 @@ import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
-
 
 public class StickingPolygon {
 
@@ -31,17 +29,27 @@ public class StickingPolygon {
 					// vertical lines - no y difference except the line is at an end
 					y = 0;
 					if (s.getStart().y > s.getEnd().y) {
-						if (s.getStart().y < inY) y = s.getStart().y - inY;
-						else if (s.getEnd().y > inY) y = s.getEnd().y - inY;
+						if (s.getStart().y < inY) {
+							y = s.getStart().y - inY;
+						}
+						else if (s.getEnd().y > inY) {
+							y = s.getEnd().y - inY;
+						}
 					}
 					else {
-						if (s.getEnd().y < inY) y = s.getEnd().y - inY;
-						else if (s.getStart().y > inY) y = s.getStart().y - inY;
+						if (s.getEnd().y < inY) {
+							y = s.getEnd().y - inY;
+						}
+						else if (s.getStart().y > inY) {
+							y = s.getStart().y - inY;
+						}
 					}
 					return new PointDouble(x, y);
 				}
 			}
-			else x = (inX - getStart().x) * (s.getEnd().x - s.getStart().x) / (getEnd().x - getStart().x) + s.getStart().x - inX;
+			else {
+				x = (inX - getStart().x) * (s.getEnd().x - s.getStart().x) / (getEnd().x - getStart().x) + s.getStart().x - inX;
+			}
 
 			if (getEnd().y == getStart().y) {
 				// AB: Fixed: use s.getStart().x instead of getStart().x
@@ -51,23 +59,33 @@ public class StickingPolygon {
 					// horizontal lines - no x difference except the line is at an end
 					x = 0;
 					if (s.getStart().x > s.getEnd().x) {
-						if (s.getStart().x < inX) x = s.getStart().x - inX;
-						else if (s.getEnd().x > inX) x = s.getEnd().x - inX;
+						if (s.getStart().x < inX) {
+							x = s.getStart().x - inX;
+						}
+						else if (s.getEnd().x > inX) {
+							x = s.getEnd().x - inX;
+						}
 					}
 					else {
-						if (s.getEnd().x < inX) x = s.getEnd().x - inX;
-						else if (s.getStart().x > inX) x = s.getStart().x - inX;
+						if (s.getEnd().x < inX) {
+							x = s.getEnd().x - inX;
+						}
+						else if (s.getStart().x > inX) {
+							x = s.getStart().x - inX;
+						}
 					}
 				}
 			}
-			else y = (inY - getStart().y) * (s.getEnd().y - s.getStart().y) / (getEnd().y - getStart().y) + s.getStart().y - inY;
+			else {
+				y = (inY - getStart().y) * (s.getEnd().y - s.getStart().y) / (getEnd().y - getStart().y) + s.getStart().y - inY;
+			}
 
 			return new PointDouble(x, y);
 		}
 
 		public boolean isConnected(PointDouble p, int maxDistance) {
-			double distance = this.getDistanceToPoint(p);
-			return (distance < maxDistance);
+			double distance = getDistanceToPoint(p);
+			return distance < maxDistance;
 		}
 	}
 
@@ -97,16 +115,18 @@ public class StickingPolygon {
 			addPoint(p.getX(), p.getY());
 		}
 	}
-	
+
 	public void addPoint(double x, double y) {
 		PointDouble p = new PointDouble(elementX + x, elementY + y);
 		if (firstpoint == null) {
 			firstpoint = p;
-		} else {
+		}
+		else {
 			stick.add(new StickLine(lastpoint, p));
 		}
 		lastpoint = p;
 	}
+
 	public void addPoint(int x, int y, boolean connectToFirst) {
 		this.addPoint(x, y);
 		if (connectToFirst) {
@@ -116,9 +136,9 @@ public class StickingPolygon {
 
 	public void addRectangle(int x, int y, int width, int height) {
 		addPoint(x, y);
-		addPoint(x+width, y);
-		addPoint(x+width, y+height);
-		addPoint(x, y+height, true);
+		addPoint(x + width, y);
+		addPoint(x + width, y + height);
+		addPoint(x, y + height, true);
 	}
 
 	public void addRectangle(Rectangle rect) {
@@ -126,17 +146,17 @@ public class StickingPolygon {
 	}
 
 	public StickLine getLine(int index) {
-		return this.stick.get(index);
+		return stick.get(index);
 	}
 
 	public Vector<StickLine> getStickLines() {
-		return this.stick;
+		return stick;
 	}
 
 	public int isConnected(PointDouble p, int gridSize) {
 		int con = -1;
-		for (int i = 0; i < this.stick.size(); i++)
-			if (this.stick.get(i).isConnected(p, gridSize)) return i;
+		for (int i = 0; i < stick.size(); i++)
+			if (stick.get(i).isConnected(p, gridSize)) return i;
 
 		return con;
 	}
@@ -145,5 +165,5 @@ public class StickingPolygon {
 	public String toString() {
 		return "StickingPolygon [stick=" + Arrays.toString(stick.toArray(new StickLine[stick.size()])) + "]";
 	}
-	
+
 }

@@ -9,7 +9,7 @@ public class StringStyle {
 
 	public static final String ESCAPE_CHARACTER = "\\";
 	private static final String TEMP_REPLACEMENT = "§$§ä%§%ü/,";
-	
+
 	private final Set<FormatLabels> format;
 	private final String stringWithoutMarkup;
 
@@ -45,7 +45,7 @@ public class StringStyle {
 				matchFound = false;
 				for (FormatLabels formatLabel : FormatLabels.values()) {
 					String markup = formatLabel.getValue();
-					if (s.startsWith(markup) && s.endsWith(markup) && s.length() > markup.length()*2) {
+					if (s.startsWith(markup) && s.endsWith(markup) && s.length() > markup.length() * 2) {
 						format.add(formatLabel);
 						s = s.substring(markup.length(), s.length() - markup.length());
 						matchFound = true;

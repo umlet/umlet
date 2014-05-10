@@ -38,11 +38,11 @@ public class Package extends NewGridElement {
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		List<String> packageTitle = getTitleLines(state);
 		double packageHeight = 0;
-		double packageWidth = getRealSize().getWidth()/2.5;
+		double packageWidth = getRealSize().getWidth() / 2.5;
 		double txtHeight = drawer.textHeightWithSpace();
 		for (String line : packageTitle) {
 			packageHeight += txtHeight;
-			packageWidth = Math.max(packageWidth, drawer.textWidth(line) + drawer.getDistanceHorizontalBorderToText()*2);
+			packageWidth = Math.max(packageWidth, drawer.textWidth(line) + drawer.getDistanceHorizontalBorderToText() * 2);
 			drawer.setDrawDelayed(true); // text should be in front of the package-border
 			drawer.print(line, new PointDouble(drawer.getDistanceHorizontalBorderToText(), packageHeight), AlignHorizontal.LEFT);
 			drawer.setDrawDelayed(false);
@@ -71,11 +71,11 @@ public class Package extends NewGridElement {
 		PackageTitleFacetResponse packageTitleResponse = state.getFacetResponse(TextBeforeFirstSeparatorCollectorFacet.class, null);
 		if (packageTitleResponse != null) {
 			packageTitle = packageTitleResponse.getLines();
-		} else {
+		}
+		else {
 			packageTitle = Arrays.asList("");
 		}
 		return packageTitle;
 	}
 
 }
-

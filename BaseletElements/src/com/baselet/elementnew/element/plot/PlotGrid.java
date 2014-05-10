@@ -36,29 +36,31 @@ import com.baselet.gui.AutocompletionText;
 public class PlotGrid extends NewGridElement {
 
 	private static final Logger log = Logger.getLogger(PlotGrid.class);
-	
+
 	private Matrix<List<AbstractPlot>> matrix;
 
 	private Integer gridWidth;
 	private Double minValue;
 	private Double maxValue;
-	
+
 	/**
 	 * this facet is only here to show autocompletion and include PlotGrid in the new parser logic which uses facets
 	 */
 	public static GlobalFacet PSEUDO_PLOT_FACET = new GlobalFacet() {
-			@Override
-			public void handleLine(String line, DrawHandler drawer, PropertiesParserState propConfig) {
-				// do nothing
-			}
-			@Override
-			public List<AutocompletionText> getAutocompletionStrings() {
-				return PlotConstants.AUTOCOMPLETION_LIST;
-			}
-			@Override
-			public boolean checkStart(String line, PropertiesParserState propConfig) {
-				return true;
-			}
+		@Override
+		public void handleLine(String line, DrawHandler drawer, PropertiesParserState propConfig) {
+			// do nothing
+		}
+
+		@Override
+		public List<AutocompletionText> getAutocompletionStrings() {
+			return PlotConstants.AUTOCOMPLETION_LIST;
+		}
+
+		@Override
+		public boolean checkStart(String line, PropertiesParserState propConfig) {
+			return true;
+		}
 	};
 
 	private void fillWithPlots(ArrayList<PlotState> plotStateList) {
@@ -67,8 +69,12 @@ public class PlotGrid extends NewGridElement {
 			Integer xPos = plotState.getValueAsInt(PlotConstants.KEY_INT_X_POSITION, null);
 			Integer yPos = plotState.getValueAsInt(PlotConstants.KEY_INT_Y_POSITION, null);
 			// 1 is subtracted from the values because the user counts from 1 to x; java counts from 0 to x-1
-			if (xPos != null) xPos -= 1;
-			if (yPos != null) yPos -= 1;
+			if (xPos != null) {
+				xPos -= 1;
+			}
+			if (yPos != null) {
+				yPos -= 1;
+			}
 
 			// case1: x and y are specified
 			if (xPos != null && yPos != null) {
@@ -93,7 +99,7 @@ public class PlotGrid extends NewGridElement {
 			}
 		}
 		gridWidth = matrix.cols(); // Recalculate grid width
-		log.debug("\n" + this.toString() + "\n");
+		log.debug("\n" + toString() + "\n");
 	}
 
 	private void setOverallMinMaxValue(List<PlotState> plotStateList) {
@@ -104,30 +110,36 @@ public class PlotGrid extends NewGridElement {
 			data = state.getDataSet().data();
 			for (Double[] dArray : data) {
 				for (Double d : dArray) {
-					if (d > maxValue) maxValue = d;
-					if (d < minValue) minValue = d;
+					if (d > maxValue) {
+						maxValue = d;
+					}
+					if (d < minValue) {
+						minValue = d;
+					}
 				}
 			}
 		}
 	}
 
 	private void setMatrixHeightMinimum(Integer minHeight) {
-		while (minHeight > matrix.rows()-1) {
+		while (minHeight > matrix.rows() - 1) {
 			matrix.addLine(new ArrayList<List<AbstractPlot>>());
 		}
 	}
 
 	private void setMinimumListSize(Integer minWidth, List<List<AbstractPlot>> lineToSet) {
-		while (minWidth > lineToSet.size()-1) {
+		while (minWidth > lineToSet.size() - 1) {
 			lineToSet.add(null);
 		}
 	}
-	
+
 	private void putPlotInFirstFreeVerticalSpaceOrAddPlot(Integer xFix, PlotState plotState, String info) {
 		boolean plotFilledInFreeSpace = false;
 		for (int ySeq = 0; ySeq < matrix.rows(); ySeq++) {
-			List<List<AbstractPlot>> xCoordinateList  = matrix.row(ySeq);
-			if (xFix >= xCoordinateList.size()) setMinimumListSize(xFix, xCoordinateList);
+			List<List<AbstractPlot>> xCoordinateList = matrix.row(ySeq);
+			if (xFix >= xCoordinateList.size()) {
+				setMinimumListSize(xFix, xCoordinateList);
+			}
 			if (xCoordinateList.get(xFix) == null) {
 				xCoordinateList.set(xFix, createPlots(plotState, xFix, ySeq, info));
 				plotFilledInFreeSpace = true;
@@ -184,37 +196,41 @@ public class PlotGrid extends NewGridElement {
 	private List<AbstractPlot> createPlots(PlotState plotState, Integer xPos, Integer yPos, String info)
 	{
 		List<AbstractPlot> plotList = new ArrayList<AbstractPlot>();
-		
-		//create and add base plot
+
+		// create and add base plot
 		plotList.add(createPlot(plotState, xPos, yPos, info));
-		
-		//create and add sub plots
-		for (PlotState subPlotState: plotState.getSubplots()) {
+
+		// create and add sub plots
+		for (PlotState subPlotState : plotState.getSubplots()) {
 			plotList.add(createPlot(subPlotState, xPos, yPos, info));
 		}
-		
+
 		return plotList;
-	}	
-	
+	}
+
 	private AbstractPlot createPlot(PlotState plotState, int xPos, int yPos, String info) {
 		String type = plotState.getValueValidated(PlotType.getKey(), PlotType.Bar.getValue(), PlotConstants.toStringList(PlotType.values()));
 		log.debug("PlotGrid insert : " + type + " (" + xPos + ";" + yPos + ") " + info);
-		PlotGridDrawConfig plotDrawConfig = new PlotGridDrawConfig(getRealSize(), new Dimension(getRectangle().width, getRectangle().height), this.minValue, this.maxValue);
-		if (PlotType.Pie.getValue().equals(type)) return  new PiePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
-		else if (PlotType.Line.getValue().equals(type)) return  new LinePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
-		else if (PlotType.Scatter.getValue().equals(type)) return  new ScatterPlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
+		PlotGridDrawConfig plotDrawConfig = new PlotGridDrawConfig(getRealSize(), new Dimension(getRectangle().width, getRectangle().height), minValue, maxValue);
+		if (PlotType.Pie.getValue().equals(type)) return new PiePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
+		else if (PlotType.Line.getValue().equals(type)) return new LinePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
+		else if (PlotType.Scatter.getValue().equals(type)) return new ScatterPlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
 		else return new BarPlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
 	}
 
 	public void drawPlots() {
 		for (int row = 0; row < matrix.rows(); row++) {
 			for (int col = 0; col < matrix.row(row).size(); col++) {
-				List<AbstractPlot> oneCell = matrix.cell(row,col);
-				for (AbstractPlot onePlot: oneCell)
+				List<AbstractPlot> oneCell = matrix.cell(row, col);
+				for (AbstractPlot onePlot : oneCell)
 				{
 					if (onePlot != null) {
-						if (col != onePlot.getXPosition()) log.error("Plot contains wrong coordinates: " + col + " != " + onePlot.getXPosition());
-						if (row != onePlot.getYPosition()) log.error("Plot contains wrong coordinates: " + row + " != " + onePlot.getYPosition());
+						if (col != onePlot.getXPosition()) {
+							log.error("Plot contains wrong coordinates: " + col + " != " + onePlot.getXPosition());
+						}
+						if (row != onePlot.getYPosition()) {
+							log.error("Plot contains wrong coordinates: " + row + " != " + onePlot.getYPosition());
+						}
 						onePlot.plot(matrix.cols(), matrix.rows());
 					}
 				}
@@ -227,11 +243,15 @@ public class PlotGrid extends NewGridElement {
 		String returnString = "------------------------------\n";
 		for (int i = 0; i < matrix.rows(); i++) {
 			List<List<AbstractPlot>> row = matrix.row(i);
-			for (List<AbstractPlot> oneCell: row)
+			for (List<AbstractPlot> oneCell : row)
 			{
 				for (AbstractPlot onePlot : oneCell) {
-					if (onePlot == null) returnString += "null" + "\t";
-					else returnString += onePlot.getPlotLineNr() + "\t";
+					if (onePlot == null) {
+						returnString += "null" + "\t";
+					}
+					else {
+						returnString += onePlot.getPlotLineNr() + "\t";
+					}
 				}
 			}
 			returnString += "\n";
@@ -245,9 +265,9 @@ public class PlotGrid extends NewGridElement {
 			matrix = new Matrix<List<AbstractPlot>>();
 			ParserResult parserState = new Parser().parse(getPanelAttributes());
 			log.debug(parserState.toString());
-		
-			gridWidth = Integer.parseInt(parserState.getPlotGridValue(PlotConstants.KEY_INT_GRID_WIDTH, PlotConstants.GRID_WIDTH_DEFAULT));			
-		
+
+			gridWidth = Integer.parseInt(parserState.getPlotGridValue(PlotConstants.KEY_INT_GRID_WIDTH, PlotConstants.GRID_WIDTH_DEFAULT));
+
 			fillWithPlots(parserState.getPlotStateList());
 
 			drawPlots();
@@ -255,9 +275,9 @@ public class PlotGrid extends NewGridElement {
 		} catch (ParserException e) {
 			drawer.setForegroundColor(ColorOwn.RED);
 			drawer.setBackgroundColor(ColorOwn.WHITE);
-			drawer.drawRectangle(0, 0, getRectangle().width-1, getRectangle().height-1);
+			drawer.drawRectangle(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 			float x = getRectangle().getWidth() / 2;
-			drawer.print(e.getMessage(), x, getRealSize().height/2, AlignHorizontal.CENTER);
+			drawer.print(e.getMessage(), x, getRealSize().height / 2, AlignHorizontal.CENTER);
 		}
 	}
 
@@ -268,6 +288,7 @@ public class PlotGrid extends NewGridElement {
 			protected List<? extends Facet> createDefaultFacets() {
 				return Collections.emptyList();
 			}
+
 			@Override
 			public List<? extends Facet> createFacets() {
 				return Arrays.asList(PSEUDO_PLOT_FACET);

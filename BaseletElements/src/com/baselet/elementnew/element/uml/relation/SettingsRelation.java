@@ -18,31 +18,37 @@ public abstract class SettingsRelation extends Settings {
 	public XValues getXValues(double y, int height, int width) {
 		return new XValues(0, width);
 	}
+
 	@Override
 	public AlignVertical getVAlign() {
 		return AlignVertical.TOP;
 	}
+
 	@Override
 	public AlignHorizontal getHAlign() {
 		return AlignHorizontal.CENTER;
 	}
+
 	@Override
 	public ElementStyleEnum getElementStyle() {
 		return ElementStyleEnum.NORESIZE;
 	}
+
 	@Override
 	public List<? extends Facet> createFacets() {
 		return Arrays.asList(RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE);
 	}
+
 	@Override
 	protected List<? extends Facet> createDefaultFacets() {
 		return Settings.RELATION;
 	}
+
 	@Override
 	public boolean printText() {
 		return false;
 	}
-	
+
 	public abstract RelationPoints getRelationPoints();
 
 }

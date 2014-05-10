@@ -55,7 +55,7 @@ public class Relation extends NewGridElement implements Stickable {
 		PointDoubleHolderList pointList = new PointDoubleHolderList();
 		String[] split = additionalAttributes.split(";");
 		for (int i = 0; i < split.length; i += 2) {
-			pointList.add(Double.valueOf(split[i]), Double.valueOf(split[i+1]));
+			pointList.add(Double.valueOf(split[i]), Double.valueOf(split[i + 1]));
 		}
 		relationPoints = new RelationPoints(this, pointList);
 		if (getHandler().isInitialized()) {
@@ -137,4 +137,3 @@ public class Relation extends NewGridElement implements Stickable {
 		};
 	}
 }
-

@@ -34,16 +34,16 @@ public class RelationPointsUtils {
 			Rectangle absoluteRectangle = toRectangle(p, RelationPoints.POINT_SELECTION_RADIUS);
 			if (rectangleContainingAllPoints == null) {
 				rectangleContainingAllPoints = absoluteRectangle;
-			} else {
+			}
+			else {
 				rectangleContainingAllPoints.merge(absoluteRectangle);
 			}
 		}
 		return rectangleContainingAllPoints;
 	}
 
-
 	static Rectangle toRectangle(PointDouble p, double size) {
-		return new Rectangle(p.x-size, p.y-size, size*2, size*2);
+		return new Rectangle(p.x - size, p.y - size, size * 2, size * 2);
 	}
 
 	static Rectangle toCircleRectangle(PointDouble p) {
@@ -52,9 +52,7 @@ public class RelationPointsUtils {
 
 	static PointDoubleIndexed getRelationPointContaining(Point point, PointDoubleHolderList points) {
 		for (PointDoubleIndexed relationPoint : points.getPointHolders()) {
-			if (toCircleRectangle(relationPoint).contains(point)) {
-				return relationPoint;
-			}
+			if (toCircleRectangle(relationPoint).contains(point)) return relationPoint;
 		}
 		return null;
 	}

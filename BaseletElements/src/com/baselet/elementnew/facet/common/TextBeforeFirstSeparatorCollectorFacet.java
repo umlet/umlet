@@ -12,16 +12,17 @@ import com.baselet.gui.AutocompletionText;
 public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 
 	public static TextBeforeFirstSeparatorCollectorFacet INSTANCE = new TextBeforeFirstSeparatorCollectorFacet();
+
 	protected TextBeforeFirstSeparatorCollectorFacet() {}
-	
+
 	public static class PackageTitleFacetResponse {
 		private boolean firstSepFound = false;
 		private List<String> lines = new ArrayList<String>();
+
 		public List<String> getLines() {
 			return lines;
 		}
 	}
-	
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
@@ -33,7 +34,8 @@ public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 		if (line.equals(SeparatorLineFacet.KEY)) {
 			getOrInit(state).firstSepFound = true;
 			return;
-		} else {
+		}
+		else {
 			getOrInit(state).getLines().add(line);
 		}
 	}
@@ -47,7 +49,7 @@ public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 	public Priority getPriority() {
 		return Priority.LOWEST; // the collector should only collect lines which are not parsed by any other facet
 	}
-	
+
 	private PackageTitleFacetResponse getOrInit(PropertiesParserState state) {
 		PackageTitleFacetResponse packageTitleResponse = state.getFacetResponse(TextBeforeFirstSeparatorCollectorFacet.class, null);
 		if (packageTitleResponse == null) {

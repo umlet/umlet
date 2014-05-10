@@ -37,28 +37,31 @@ public class Parser {
 		while (inputIterator.hasNext()) {
 			String line = inputIterator.next();
 			if (line.isEmpty() || line.matches(PlotConstants.REGEX_COMMENT)) {/* ignore empty lines and comments */}
-			else if (line.matches(PlotConstants.REGEX_PLOT)) parserResult.addPlotState(createPlotStateObject(line.split(" "), inputIterator));
-			else if (line.matches(PlotConstants.REGEX_PLOT_ADD)) {			
+			else if (line.matches(PlotConstants.REGEX_PLOT)) {
+				parserResult.addPlotState(createPlotStateObject(line.split(" "), inputIterator));
+			}
+			else if (line.matches(PlotConstants.REGEX_PLOT_ADD)) {
 				List<PlotState> plotStates = parserResult.getPlotStateList();
 				if (plotStates.isEmpty()) {
-					//if no plotStates, create a new one
+					// if no plotStates, create a new one
 					parserResult.addPlotState(createPlotStateObject(line.split(" "), inputIterator));
-				} else { 
-					//if plots exist, add new plotState to last plotState
-					PlotState last = plotStates.get(plotStates.size()-1);
+				}
+				else {
+					// if plots exist, add new plotState to last plotState
+					PlotState last = plotStates.get(plotStates.size() - 1);
 					last.addSubPlot(createPlotStateObject(line.split(" "), inputIterator));
 				}
 			}
-			else if (line.matches(PlotConstants.REGEX_DATA)) createDatasetObject(line.split(" "), inputIterator);
-			//			else if (line.matches(PlotConstants.REGEX_KEY + "=?") && inputIterator.next().isEmpty()) {
-			//				// A single key (with or without following =) with an empty line afterwards should not be guessed as a dataset
-			//				throw new ParserException("The key \"" + line + "\" needs an associated value (line: " + inputIterator.previousIndex() + ")");
-			//			}
+			else if (line.matches(PlotConstants.REGEX_DATA)) {
+				createDatasetObject(line.split(" "), inputIterator);
+			}
 			else if (line.matches(PlotConstants.REGEX_DATA_GUESS)) {
 				inputIterator.previous(); // Must go 1 step back to avoid skipping the first line in createDatasetObject
-				createDatasetObject(new String[] {PlotConstants.DATA}, inputIterator);
+				createDatasetObject(new String[] { PlotConstants.DATA }, inputIterator);
 			}
-			else if (line.matches(PlotConstants.REGEX_VALUE_ASSIGNMENT)) createKeyValueAssignment(line, inputIterator.nextIndex());
+			else if (line.matches(PlotConstants.REGEX_VALUE_ASSIGNMENT)) {
+				createKeyValueAssignment(line, inputIterator.nextIndex());
+			}
 			else throw new ParserException("Invalid line: " + line + "(line: " + inputIterator.nextIndex() + ")");
 		}
 
@@ -84,8 +87,8 @@ public class Parser {
 		int actualAutoDatasetNr = 0;
 		for (PlotState plotState : parserResult.getPlotStateList()) {
 			actualAutoDatasetNr = addDataset(plotState, actualAutoDatasetNr);
-			//also add datasets to subplots
-			for (PlotState subPlotState: plotState.getSubplots()) {
+			// also add datasets to subplots
+			for (PlotState subPlotState : plotState.getSubplots()) {
 				log.info("Add dataset for subplot");
 				actualAutoDatasetNr = addDataset(subPlotState, actualAutoDatasetNr);
 			}
@@ -95,7 +98,9 @@ public class Parser {
 	private int addDataset(PlotState plotState, int actualAutoDatasetNr) {
 		String datasetId = plotState.getValue(PlotConstants.DATA, null);
 		if (datasetId == null) {
-			if (actualAutoDatasetNr >= datasetList.size()) actualAutoDatasetNr = 0;
+			if (actualAutoDatasetNr >= datasetList.size()) {
+				actualAutoDatasetNr = 0;
+			}
 			plotState.setDataSet(datasetList.get(actualAutoDatasetNr++));
 		}
 		else {
@@ -103,17 +108,23 @@ public class Parser {
 			if (datasetId.startsWith("#")) {
 				String datasetNr = datasetId.substring(1);
 				for (DataSet tempDataset : datasetList) {
-					if (datasetNr.equals(String.valueOf(tempDataset.getNr()))) dataset = tempDataset;
+					if (datasetNr.equals(String.valueOf(tempDataset.getNr()))) {
+						dataset = tempDataset;
+					}
 				}
 			}
 			else {
 				for (DataSet tempDataset : datasetList) {
-					if (datasetId.equals(tempDataset.getId())) dataset = tempDataset;
+					if (datasetId.equals(tempDataset.getId())) {
+						dataset = tempDataset;
+					}
 				}
 			}
-			if (dataset != null) plotState.setDataSet(dataset);
+			if (dataset != null) {
+				plotState.setDataSet(dataset);
+			}
 			else throw new ParserException(PlotConstants.DATA, datasetId, plotState.getLine(PlotConstants.DATA));
-		}		
+		}
 
 		return actualAutoDatasetNr;
 	}
@@ -129,15 +140,23 @@ public class Parser {
 		int lineNr = inputIterator.nextIndex();
 		String datasetId = null;
 		if (args != null) {
-			if (args.length > 1) datasetId = args[1];
-			/* handle further parameters here */
+			if (args.length > 1) {
+				datasetId = args[1];
+				/* handle further parameters here */
+			}
 		}
 		DataSet newDataset = new DataSet(datasetId, datasetNr++, lineNr);
-		while(inputIterator.hasNext()) {
+		while (inputIterator.hasNext()) {
 			String nextLine = inputIterator.next();
-			if (nextLine.matches(PlotConstants.REGEX_COMMENT)) continue;
-			else if (nextLine.trim().isEmpty()) break;
-			else newDataset.addLine(nextLine.split(PlotConstants.REGEX_DATA_SEPARATOR));
+			if (nextLine.matches(PlotConstants.REGEX_COMMENT)) {
+				continue;
+			}
+			else if (nextLine.trim().isEmpty()) {
+				break;
+			}
+			else {
+				newDataset.addLine(nextLine.split(PlotConstants.REGEX_DATA_SEPARATOR));
+			}
 		}
 
 		if (datasetId != null) {
@@ -161,7 +180,9 @@ public class Parser {
 			// Arguments are handled as any other key->value assignment but are only valid for this plot
 			for (int i = 1; i < args.length; i++) {
 				String[] split = args[i].split("=");
-				if (split.length == 1) split = new String[] {split[0], ""};
+				if (split.length == 1) {
+					split = new String[] { split[0], "" };
+				}
 				localCopyOfValuesCache.put(split[0], new KeyValue(split[0], split[1], lineNr));
 			}
 		}
@@ -179,17 +200,19 @@ public class Parser {
 	 */
 	private void createKeyValueAssignment(String line, int lineNr) {
 		String[] split = line.split("=");
-		if (split.length == 1) split = new String[] {split[0], ""};
+		if (split.length == 1) {
+			split = new String[] { split[0], "" };
+		}
 		if (split[0].matches(PlotConstants.KEY_INT_GRID_WIDTH)) {
-			parserResult.addPlotGridValue(split[0], new KeyValue(split[0],split[1],lineNr));
+			parserResult.addPlotGridValue(split[0], new KeyValue(split[0], split[1], lineNr));
 		}
 		else {
-			tempPlotValuesCache.put(split[0], new KeyValue(split[0],split[1],lineNr));
+			tempPlotValuesCache.put(split[0], new KeyValue(split[0], split[1], lineNr));
 		}
 	}
 
-	private HashMap<String,KeyValue> copyHashMap(HashMap<String,KeyValue> inputHashMap) {
-		HashMap<String,KeyValue> returnHashMap = new HashMap<String,KeyValue>();
+	private HashMap<String, KeyValue> copyHashMap(HashMap<String, KeyValue> inputHashMap) {
+		HashMap<String, KeyValue> returnHashMap = new HashMap<String, KeyValue>();
 		for (String key : inputHashMap.keySet()) {
 			returnHashMap.put(key, inputHashMap.get(key));
 		}

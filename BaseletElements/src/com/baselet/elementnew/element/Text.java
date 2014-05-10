@@ -13,15 +13,13 @@ public class Text extends NewGridElement {
 	protected Settings createSettings() {
 		return new SettingsText();
 	}
-	
+
 	@Override
 	public ElementId getId() {
 		return ElementId.Text;
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
-	}
+	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {}
 
 }
-

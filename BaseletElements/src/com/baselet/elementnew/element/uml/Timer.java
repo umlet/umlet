@@ -28,12 +28,12 @@ public class Timer extends NewGridElement {
 			return p;
 		}
 	};
-	
+
 	@Override
 	public ElementId getId() {
 		return ElementId.UMLTimer;
 	}
-	
+
 	@Override
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		state.addToYPos(CLOCK_DIM);
@@ -44,11 +44,11 @@ public class Timer extends NewGridElement {
 	}
 
 	private int x2Clock() {
-		return xClock()+CLOCK_DIM;
+		return xClock() + CLOCK_DIM;
 	}
 
 	private int xClock() {
-		return (getRealSize().width-CLOCK_DIM)/2;
+		return (getRealSize().width - CLOCK_DIM) / 2;
 	}
 
 	@Override

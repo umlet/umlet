@@ -8,13 +8,16 @@ import com.baselet.elementnew.facet.KeyValueFacet;
 public class SubStateSymbolFacet extends KeyValueFacet {
 
 	public static SubStateSymbolFacet INSTANCE = new SubStateSymbolFacet();
+
 	private SubStateSymbolFacet() {}
 
-	private enum SubStateSymbolEnum {SUBSTATE}
+	private enum SubStateSymbolEnum {
+		SUBSTATE
+	}
 
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue("symbol", 
+		return new KeyValue("symbol",
 				new ValueInfo(SubStateSymbolEnum.SUBSTATE, "draw a substate symbol in the lower right corner"));
 	}
 
@@ -34,9 +37,9 @@ public class SubStateSymbolFacet extends KeyValueFacet {
 			double cH = cW * 0.4;
 			double cR = cW * 0.15;
 			double connectorW = cH;
-			drawer.drawRectangleRound(w-DIST_RIGHT-cW, h-DIST_BOTTOM-cH, cW, cH, cR);
-			drawer.drawRectangleRound(w-DIST_RIGHT-cW-cW-connectorW, h-DIST_BOTTOM-cH, cW, cH, cR);
-			drawer.drawLine(w-DIST_RIGHT-cW-connectorW, h-DIST_BOTTOM-cH/2, w-DIST_RIGHT-cW, h-DIST_BOTTOM-cH/2);
+			drawer.drawRectangleRound(w - DIST_RIGHT - cW, h - DIST_BOTTOM - cH, cW, cH, cR);
+			drawer.drawRectangleRound(w - DIST_RIGHT - cW - cW - connectorW, h - DIST_BOTTOM - cH, cW, cH, cR);
+			drawer.drawLine(w - DIST_RIGHT - cW - connectorW, h - DIST_BOTTOM - cH / 2, w - DIST_RIGHT - cW, h - DIST_BOTTOM - cH / 2);
 			drawer.setDrawDelayed(false);
 			drawer.setBackgroundColor(prevBackgroundColor);
 		}

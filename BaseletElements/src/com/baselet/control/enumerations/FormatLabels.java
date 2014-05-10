@@ -14,5 +14,5 @@ public enum FormatLabels {
 	public String getValue() {
 		return value;
 	}
-	
+
 }

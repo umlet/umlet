@@ -36,7 +36,7 @@ public class PropertiesParser {
 		if (tmpstate.getElementStyle() == ElementStyleEnum.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
 			element.drawCommonContent(pseudoDrawer, tmpstate);
 			drawPropertiesWithoutGlobalFacets(tmpPropTextWithoutGlobalFacets, tmpstate, pseudoDrawer);
-			double textHeight = tmpstate.getyPos()-pseudoDrawer.textHeight(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
+			double textHeight = tmpstate.getyPos() - pseudoDrawer.textHeight(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
 			double width = tmpstate.getCalculatedElementWidth();
 			element.handleAutoresize(new DimensionDouble(width, textHeight), tmpstate.gethAlign());
 		}
@@ -46,16 +46,20 @@ public class PropertiesParser {
 		List<String> propertiesCopy = new ArrayList<String>(propertiesText);
 		for (Priority priority : Priority.values()) {
 			List<GlobalFacet> facets = globalFacetMap.get(priority);
-			if (facets == null) continue; // skip priorities without facets
+			if (facets == null) {
+				continue; // skip priorities without facets
+			}
 			for (Iterator<String> iter = propertiesCopy.iterator(); iter.hasNext();) {
 				String line = iter.next();
 				boolean drawText = parseFacets(facets, line, drawer, state);
-				if (!drawText || line.startsWith("//")) iter.remove();
+				if (!drawText || line.startsWith("//")) {
+					iter.remove();
+				}
 			}
 		}
 		return propertiesCopy;
 	}
-	
+
 	private static void drawPropertiesWithoutGlobalFacets(List<String> propertiesTextWithoutGobalFacets, PropertiesParserState state, DrawHandler drawer) {
 		double startPointFromVAlign = calcStartPointFromVAlign(propertiesTextWithoutGobalFacets, state, drawer);
 		state.addToYPos(calcTopDisplacementToFitLine(propertiesTextWithoutGobalFacets, startPointFromVAlign, state, drawer));
@@ -72,10 +76,8 @@ public class PropertiesParser {
 			double availableWidthSpace = state.getXLimitsForArea(displacement, textHeight, true).getSpace() - BUFFER;
 			double accumulator = displacement;
 			int maxLoops = 1000;
-			while(accumulator < state.getGridElementSize().height && !TextSplitter.checkifStringFits(firstLine, availableWidthSpace, drawer)) {
-				if (maxLoops-- < 0) {
-					throw new RuntimeException("Endless loop during calculation of top displacement");
-				}
+			while (accumulator < state.getGridElementSize().height && !TextSplitter.checkifStringFits(firstLine, availableWidthSpace, drawer)) {
+				if (maxLoops-- < 0) throw new RuntimeException("Endless loop during calculation of top displacement");
 				accumulator += textHeight / 2;
 				double previousWidthSpace = availableWidthSpace;
 				availableWidthSpace = state.getXLimitsForArea(accumulator, textHeight, true).getSpace() - BUFFER;
@@ -94,21 +96,21 @@ public class PropertiesParser {
 			returnVal += drawer.getDistanceHorizontalBorderToText() + p.getTopBuffer();
 		}
 		else if (p.getvAlign() == AlignVertical.CENTER) {
-			returnVal += (p.getGridElementSize().height - getTextBlockHeight(propertiesText, p, drawer))/2 + p.getTopBuffer()/2 - drawer.textHeight()/6; // 1/6 of textheight is a good value for large fontsizes and "deep" characters like "y"
+			returnVal += (p.getGridElementSize().height - getTextBlockHeight(propertiesText, p, drawer)) / 2 + p.getTopBuffer() / 2 - drawer.textHeight() / 6; // 1/6 of textheight is a good value for large fontsizes and "deep" characters like "y"
 		}
-		else /*if (state.getvAlign() == AlignVertical.BOTTOM)*/ {
-			returnVal += p.getGridElementSize().height - getTextBlockHeight(propertiesText, p, drawer) - drawer.textHeight()/4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
+		else /* if (state.getvAlign() == AlignVertical.BOTTOM) */{
+			returnVal += p.getGridElementSize().height - getTextBlockHeight(propertiesText, p, drawer) - drawer.textHeight() / 4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
 		}
 		return returnVal;
 	}
-	
+
 	private static double getTextBlockHeight(List<String> propertiesText, PropertiesParserState originalstate, DrawHandler drawer) {
 		PropertiesParserState tmpstate = new PropertiesParserState(originalstate.getSettings(), originalstate.getGridElementSize());
 		tmpstate.setElementStyle(originalstate.getElementStyle()); // elementstyle is important for calculation (because of wordwrap)
 		handleWordWrapAndIterate(propertiesText, tmpstate.getSettings().getLocalFacets(), tmpstate, drawer.getPseudoDrawHandler());
 		return tmpstate.getyPos();
 	}
-	
+
 	private static void handleWordWrapAndIterate(List<String> propertiesText, List<Facet> facets, PropertiesParserState state, DrawHandler drawer) {
 		boolean wordwrap = state.getElementStyle() == ElementStyleEnum.WORDWRAP;
 		for (String line : propertiesText) {
@@ -121,7 +123,9 @@ public class PropertiesParser {
 					line = line.substring(wrappedLine.length()).trim();
 				}
 			}
-			else handleLine(facets, line, state, drawer);
+			else {
+				handleLine(facets, line, state, drawer);
+			}
 		}
 	}
 
@@ -139,25 +143,29 @@ public class PropertiesParser {
 			state.addToYPos(drawer.textHeightWithSpace());
 		}
 	}
-	
+
 	private static boolean parseFacets(List<? extends Facet> facets, String line, DrawHandler drawer, PropertiesParserState state) {
 		boolean drawText = true;
 		for (Facet f : facets) {
 			if (f.checkStart(line, state)) {
 				f.handleLine(line, drawer, state);
-				if (f.replacesText(line)) drawText = false;
+				if (f.replacesText(line)) {
+					drawText = false;
+				}
 			}
 		}
 		return drawText;
 	}
-	
+
 	private static double calcHorizontalTextBoundaries(XValues xLimitsForText, PropertiesParserState state, DrawHandler drawer) {
 		double x;
 		if (state.gethAlign() == AlignHorizontal.LEFT) {
 			x = xLimitsForText.getLeft() + drawer.getDistanceHorizontalBorderToText();
-		} else if (state.gethAlign() == AlignHorizontal.CENTER) {
+		}
+		else if (state.gethAlign() == AlignHorizontal.CENTER) {
 			x = xLimitsForText.getSpace() / 2.0 + xLimitsForText.getLeft();
-		} else /*if (state.gethAlign() == AlignHorizontal.RIGHT)*/ {
+		}
+		else /* if (state.gethAlign() == AlignHorizontal.RIGHT) */{
 			x = xLimitsForText.getRight() - drawer.getDistanceHorizontalBorderToText();
 		}
 		return x;

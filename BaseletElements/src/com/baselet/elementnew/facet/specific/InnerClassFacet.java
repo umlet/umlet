@@ -14,8 +14,9 @@ import com.baselet.elementnew.facet.Facet;
 import com.baselet.gui.AutocompletionText;
 
 public class InnerClassFacet extends Facet {
-	
+
 	public static InnerClassFacet INSTANCE = new InnerClassFacet();
+
 	private InnerClassFacet() {}
 
 	private static final int BUFFER_PIXEL_PER_INNER = 5;
@@ -32,7 +33,7 @@ public class InnerClassFacet extends Facet {
 	@Override
 	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
 		Stack<ClassSettings> innerClassStartPoints = getOrInit(state);
-		
+
 		if (line.equals(START)) {
 			ClassSettings settings = new ClassSettings(state.gethAlign(), state.getvAlign(), state.getDividerPos(drawer));
 			innerClassStartPoints.add(settings);
@@ -45,12 +46,12 @@ public class InnerClassFacet extends Facet {
 			double start = previousClassSettings.start;
 			double height = state.getDividerPos(drawer) - start;
 			XValues xLimit = state.getXLimits(height);
-			
+
 			ColorOwn oldColor = drawer.getStyle().getBgColor();
 			drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 			drawer.drawRectangle(xLimit.getLeft(), start, xLimit.getSpace(), height);
 			drawer.setBackgroundColor(oldColor);
-			
+
 			state.addToYPos(H_SPACE);
 			state.addToHorizontalBuffer(-BUFFER_PIXEL_PER_INNER);
 			state.sethAlign(previousClassSettings.hAlign);
@@ -70,7 +71,7 @@ public class InnerClassFacet extends Facet {
 
 	@Override
 	public boolean replacesText(String line) {
-		return line.equals(START) || line.equals(END); //only these 2 lines should not be printed
+		return line.equals(START) || line.equals(END); // only these 2 lines should not be printed
 	}
 
 	private static class ClassSettings {
@@ -82,7 +83,7 @@ public class InnerClassFacet extends Facet {
 			super();
 			this.hAlign = hAlign;
 			this.vAlign = vAlign;
-			this.start = startpoint;
+			start = startpoint;
 		}
 
 	}

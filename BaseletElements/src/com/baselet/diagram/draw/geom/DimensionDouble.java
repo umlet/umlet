@@ -23,5 +23,5 @@ public class DimensionDouble {
 	public String toString() {
 		return "Dimension [height=" + height + ", width=" + width + "]";
 	}
-	
+
 }

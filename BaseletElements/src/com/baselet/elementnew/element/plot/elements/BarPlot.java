@@ -22,8 +22,16 @@ public class BarPlot extends AbstractPlot {
 		setPlotPosition(columnCount, rowCount);
 
 		// The barplot should always start at 0 even if there are only values which are > 0 or only values < 0
-		try { if (!plotState.containsKey(PlotConstants.KEY_INT_MIN_VALUE)) plot.setMinValue(0.0); } catch (IOException e) { }
-		try { if (!plotState.containsKey(PlotConstants.KEY_INT_MAX_VALUE)) plot.setMaxValue(0.0); } catch (IOException e) { }
+		try {
+			if (!plotState.containsKey(PlotConstants.KEY_INT_MIN_VALUE)) {
+				plot.setMinValue(0.0);
+			}
+		} catch (IOException e) {}
+		try {
+			if (!plotState.containsKey(PlotConstants.KEY_INT_MAX_VALUE)) {
+				plot.setMaxValue(0.0);
+			}
+		} catch (IOException e) {}
 
 		Boolean tilt = plotState.getValueAsBoolean(PlotConstants.KEY_BOOL_PLOT_TILT, PlotConstants.PLOT_TILT_DEFAULT);
 		plotState.checkIfAllValuesUsed();

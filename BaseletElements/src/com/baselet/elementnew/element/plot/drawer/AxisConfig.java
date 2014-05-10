@@ -17,12 +17,12 @@ public class AxisConfig {
 	private boolean showRelevantValues;
 
 	public static final int ARROW_SIZE = (int) (5 * 1f); // arrowLength * arrowEndAngle
-	public static final int ARROW_DISTANCE = ARROW_SIZE*3; // Distance between outerBorder and innerBorder; plotarea where only axis are allowed to draw
+	public static final int ARROW_DISTANCE = ARROW_SIZE * 3; // Distance between outerBorder and innerBorder; plotarea where only axis are allowed to draw
 
 	private boolean xIsDescription;
 	private boolean drawAxis;
 
-	private int  descSegment; // The width of a bar (always the "shorter" side of the bar)
+	private int descSegment; // The width of a bar (always the "shorter" side of the bar)
 	private Double valueSegment; // How many pixels equal one valuesegment (eg: if values reach from 1 to 100000 it's very small, if they reach from 1 to 5 it's very high)
 
 	private int descAxisPos; // If horizontal sourceAxisPos is the x value of the vertical axis, else it's the y value of the horizontal axis
@@ -35,27 +35,27 @@ public class AxisConfig {
 		drawAxis = false;
 	}
 
-	public final void enableDescAxis(List<String> showList/*, List<String> valueList*/) {
-		this.drawAxis = true;
-		this.descAxisLine = showList.contains(AxisShow.Axis.getValue());
-		this.descAxisGray = showList.contains(AxisShow.Line.getValue());
-		this.descAxisMarkers = showList.contains(AxisShow.Marker.getValue());
-		this.descAxisText = showList.contains(AxisShow.Text.getValue());
+	public final void enableDescAxis(List<String> showList/* , List<String> valueList */) {
+		drawAxis = true;
+		descAxisLine = showList.contains(AxisShow.Axis.getValue());
+		descAxisGray = showList.contains(AxisShow.Line.getValue());
+		descAxisMarkers = showList.contains(AxisShow.Marker.getValue());
+		descAxisText = showList.contains(AxisShow.Text.getValue());
 	}
 
 	public final void enableValueAxis(List<String> showList, List<String> valueList) {
-		this.drawAxis = true;
-		this.valueAxisLine = showList.contains(AxisShow.Axis.getValue());
-		this.valueAxisGray = showList.contains(AxisShow.Line.getValue());
-		this.valueAxisMarkers = showList.contains(AxisShow.Marker.getValue());
-		this.valueAxisText = showList.contains(AxisShow.Text.getValue());
+		drawAxis = true;
+		valueAxisLine = showList.contains(AxisShow.Axis.getValue());
+		valueAxisGray = showList.contains(AxisShow.Line.getValue());
+		valueAxisMarkers = showList.contains(AxisShow.Marker.getValue());
+		valueAxisText = showList.contains(AxisShow.Text.getValue());
 
-		this.showRelevantValues = valueList.contains(AxisList.Relevant.getValue());
-		this.valueAxisList = new TreeSet<Double>();
+		showRelevantValues = valueList.contains(AxisList.Relevant.getValue());
+		valueAxisList = new TreeSet<Double>();
 		for (String v : valueList) {
 			try {
 				valueAxisList.add(Double.parseDouble(v));
-			} catch(Exception e) { }
+			} catch (Exception e) {}
 		}
 	}
 
@@ -108,9 +108,13 @@ public class AxisConfig {
 	}
 
 	public void setDescAxisPos(int pos) {
-		this.descAxisPos = pos;
-		if (xIsDescription) this.xAxisPos = pos;
-		else this.yAxisPos = pos;
+		descAxisPos = pos;
+		if (xIsDescription) {
+			xAxisPos = pos;
+		}
+		else {
+			yAxisPos = pos;
+		}
 	}
 
 	public int getxAxisPos() {
@@ -118,9 +122,13 @@ public class AxisConfig {
 	}
 
 	public void setValueAxisPos(int pos) {
-		this.valueAxisPos = pos;
-		if (!xIsDescription) this.xAxisPos = pos;
-		else this.yAxisPos = pos;
+		valueAxisPos = pos;
+		if (!xIsDescription) {
+			xAxisPos = pos;
+		}
+		else {
+			yAxisPos = pos;
+		}
 	}
 
 	public int getyAxisPos() {
@@ -153,9 +161,9 @@ public class AxisConfig {
 
 	public TreeSet<Double> setValueAxisList(TreeSet<Double> valuesSorted) {
 		if (showRelevantValues) {
-			this.valueAxisList.addAll(valuesSorted);
+			valueAxisList.addAll(valuesSorted);
 		}
-		return this.valueAxisList;
+		return valueAxisList;
 	}
 
 }

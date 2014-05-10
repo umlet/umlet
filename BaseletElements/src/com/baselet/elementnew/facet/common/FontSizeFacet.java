@@ -8,6 +8,7 @@ import com.baselet.elementnew.facet.KeyValueFacet;
 public class FontSizeFacet extends KeyValueFacet {
 
 	public static FontSizeFacet INSTANCE = new FontSizeFacet();
+
 	private FontSizeFacet() {}
 
 	@Override
@@ -25,6 +26,7 @@ public class FontSizeFacet extends KeyValueFacet {
 
 	}
 
+	@Override
 	public Priority getPriority() {
 		return Priority.HIGHEST;
 	}

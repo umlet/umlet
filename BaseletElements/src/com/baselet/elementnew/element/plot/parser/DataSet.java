@@ -81,7 +81,7 @@ public class DataSet {
 	 * it is only referenced from plots, therefore the last inversion will be dragged to further plot-calls without a problem
 	 */
 	public void setInvert(boolean shouldBeInverted) {
-		if (isInverted  == !shouldBeInverted) {
+		if (isInverted == !shouldBeInverted) {
 			analyseMatrix.invert();
 			separateTitleRowColFromContent();
 			isInverted = shouldBeInverted;
@@ -95,7 +95,7 @@ public class DataSet {
 	public String[] titleCol() {
 		return titleCol.toArray(new String[titleCol.size()]);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Dataset (" + id + ")\n" + analyseMatrix;
@@ -108,8 +108,8 @@ public class DataSet {
 	protected void analyseMatrix() {
 		separateTitleRowColFromContent();
 		// If the valuematrix has more rows than cols the analyseMatrix must be inverted and analysed again
-//		if (!valueMatrix.isEmpty() && valueMatrix.hasMoreRowsThanCols()) analyseMatrix.invert();
-//		separateTitleRowColFromContent();
+		// if (!valueMatrix.isEmpty() && valueMatrix.hasMoreRowsThanCols()) analyseMatrix.invert();
+		// separateTitleRowColFromContent();
 	}
 
 	private void separateTitleRowColFromContent() {
@@ -120,37 +120,36 @@ public class DataSet {
 		boolean hasTitleCol = isTitleLine(firstCol);
 
 		if (hasTitleRow && hasTitleCol) {
-			if (!firstRow.get(0).isEmpty() || !firstCol.get(0).isEmpty()) {
-				throw new ParserException("If a dataset has a title row and column, the upper left space must be empty");
-			}
+			if (!firstRow.get(0).isEmpty() || !firstCol.get(0).isEmpty()) throw new ParserException("If a dataset has a title row and column, the upper left space must be empty");
 			titleRow = firstRow.subList(1, firstRow.size()); // ignore first cell
 			titleCol = firstCol.subList(1, firstCol.size()); // ignore first cell
 		}
 		else if (hasTitleRow && !hasTitleCol) {
 			titleRow = firstRow;
-			titleCol = createEmptyList(firstCol.size()-1);
-			
+			titleCol = createEmptyList(firstCol.size() - 1);
+
 		}
 		else if (!hasTitleRow && hasTitleCol) {
-			titleRow = createEmptyList(firstRow.size()-1);
+			titleRow = createEmptyList(firstRow.size() - 1);
 			titleCol = firstCol;
 		}
-		else /*if (!hasTitleRow && !hasTitleCol)*/ {
+		else /* if (!hasTitleRow && !hasTitleCol) */{
 			titleRow = createEmptyList(firstRow.size());
 			titleCol = createEmptyList(firstCol.size());
 		}
-		
+
 		valueMatrix = new Matrix<Double>();
-		for (int r = (hasTitleRow ? 1 : 0); r < analyseMatrix.rows(); r++) {
+		for (int r = hasTitleRow ? 1 : 0; r < analyseMatrix.rows(); r++) {
 			List<String> row = analyseMatrix.row(r);
 			List<Double> rowDouble = new ArrayList<Double>();
-			for (int c = (hasTitleCol ? 1 : 0); c < row.size(); c++) {
+			for (int c = hasTitleCol ? 1 : 0; c < row.size(); c++) {
 				String val = row.get(c);
 				try {
 					if (val == null) throw new NumberFormatException();
-					else rowDouble.add(Double.parseDouble(val));
-				}
-				catch (NumberFormatException ex) {
+					else {
+						rowDouble.add(Double.parseDouble(val));
+					}
+				} catch (NumberFormatException ex) {
 					throw new ParserException("The Dataset (line: " + getLineNr() + ") contains invalid values");
 				}
 			}
@@ -161,14 +160,16 @@ public class DataSet {
 	private boolean isTitleLine(List<String> row) {
 		int numbersInRow = 0;
 		for (String cell : row) {
-			if (cell == null) continue;
+			if (cell == null) {
+				continue;
+			}
 			try {
 				Double.parseDouble(cell);
 				numbersInRow++;
-			} catch (NumberFormatException ex) {/*do nothing*/}
+			} catch (NumberFormatException ex) {/* do nothing */}
 		}
 
-		return (row.size()-numbersInRow) > numbersInRow;
+		return row.size() - numbersInRow > numbersInRow;
 	}
 
 	private List<String> createEmptyList(int size) {
@@ -179,4 +180,3 @@ public class DataSet {
 		return returnList;
 	}
 }
-

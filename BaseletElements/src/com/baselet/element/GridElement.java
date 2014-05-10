@@ -20,7 +20,7 @@ public interface GridElement extends HasPanelAttributes {
 	void setRectangle(Rectangle bounds);
 
 	Integer getGroup();
-	
+
 	void setLocationDifference(int diffx, int diffy);
 
 	String getAdditionalAttributes();
@@ -53,21 +53,21 @@ public interface GridElement extends HasPanelAttributes {
 	Dimension getRealSize();
 
 	boolean isInRange(Rectangle rectangle);
-	
+
 	Component getComponent();
 
 	void setProperty(String key, Object newValue);
-	
+
 	void updateModelFromText();
 
 	String getSetting(String key);
-	
+
 	Integer getLayer();
 
 	void handleAutoresize(DimensionDouble necessaryElementDimension, AlignHorizontal alignHorizontal);
-	
+
 	ElementId getId();
-	
+
 	void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, StickableMap stickables);
 
 	boolean isSelectableOn(Point point);

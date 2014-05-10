@@ -25,8 +25,8 @@ public class SyncBarVertical extends NewGridElement {
 		public StickingPolygon generateStickingBorder(Rectangle rect) {
 			StickingPolygon p = new StickingPolygon(rect.x, rect.y);
 			double lt = getDrawer().getStyle().getLineWidth();
-			double halfWidth = getRealSize().getWidth()/2;
-			p.addRectangle(new Rectangle(halfWidth-lt/2, 0.0, lt, (double) getRealSize().getHeight()));
+			double halfWidth = getRealSize().getWidth() / 2;
+			p.addRectangle(new Rectangle(halfWidth - lt / 2, 0.0, lt, (double) getRealSize().getHeight()));
 			return p;
 		}
 	};
@@ -42,7 +42,7 @@ public class SyncBarVertical extends NewGridElement {
 			drawer.setLineWidth(5);
 		}
 		Dimension s = getRealSize();
-		drawer.drawLine(s.getWidth()/2, 0, s.getWidth()/2, s.getHeight());
+		drawer.drawLine(s.getWidth() / 2, 0, s.getWidth() / 2, s.getHeight());
 		state.setStickingPolygonGenerator(syncBarStickingPolygonGenerator);
 	}
 
@@ -51,7 +51,7 @@ public class SyncBarVertical extends NewGridElement {
 		return new SettingsNoText() {
 			@Override
 			public List<? extends Facet> createFacets() {
-				return Collections.<Facet>emptyList();
+				return Collections.<Facet> emptyList();
 			}
 		};
 	}
