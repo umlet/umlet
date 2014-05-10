@@ -10,7 +10,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class AutoResizeScrollDropPanel extends ScrollPanel {
-	
+
 	private OwnDropPanel dropPanel;
 
 	public AutoResizeScrollDropPanel(final DrawPanel diagram) {
@@ -18,23 +18,23 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 		diagram.setScrollPanel(this);
 		dropPanel = new OwnDropPanel(diagram);
 		this.add(dropPanel);
-		
+
 		// update size after initialization of gui has finished
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-            public void execute() {
-            	diagram.redraw();
-           }
-        }); 
-		
+			public void execute() {
+				diagram.redraw();
+			}
+		});
+
 		// also update size everytime the mouse has been released on the scrollbar or the window has been resized
-//		MouseUpHandler handler = new MouseUpHandler() {
-//			@Override
-//			public void onMouseUp(MouseUpEvent event) {
-//				diagram.redraw();
-//			}
-//		};
-//		getHorizontalScrollbar().asWidget().addDomHandler(handler, MouseUpEvent.getType());
-//		getVerticalScrollbar().asWidget().addDomHandler(handler, MouseUpEvent.getType());
+		// MouseUpHandler handler = new MouseUpHandler() {
+		// @Override
+		// public void onMouseUp(MouseUpEvent event) {
+		// diagram.redraw();
+		// }
+		// };
+		// getHorizontalScrollbar().asWidget().addDomHandler(handler, MouseUpEvent.getType());
+		// getVerticalScrollbar().asWidget().addDomHandler(handler, MouseUpEvent.getType());
 
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
@@ -42,7 +42,7 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 				diagram.redraw();
 			}
 		});
-		
+
 	}
 
 	public Rectangle getVisibleBounds() {
@@ -56,18 +56,17 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 		}
 		return new Rectangle(getHorizontalScrollPosition(), getVerticalScrollPosition(), width, height);
 	}
-	
+
 	public void moveHorizontalScrollbar(int diff) {
 		setHorizontalScrollPosition(getHorizontalScrollPosition() + diff);
 	}
-	
+
 	public void moveVerticalScrollbar(int diff) {
 		setVerticalScrollPosition(getVerticalScrollPosition() + diff);
 	}
-	
-	
 
 	private static Integer[] scrollbarSize;
+
 	/**
 	 * returns vertical scrollbar width and horizontal scrollbar height
 	 * IGNORES ZOOM LEVEL AT THE MOMENT!!
@@ -75,38 +74,39 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 	public Integer[] getScrollbarSize() {
 		if (scrollbarSize == null) {
 			String[] split = getScrollbarSizeHelper().split(" ");
-			scrollbarSize = new Integer[] {Integer.valueOf(split[0]), Integer.valueOf(split[1])};
+			scrollbarSize = new Integer[] { Integer.valueOf(split[0]), Integer.valueOf(split[1]) };
 		}
 		return scrollbarSize;
 	}
-	
+
 	private final native static String getScrollbarSizeHelper() /*-{
- 		   var inner = document.createElement('p');  
-		   inner.style.width = "100%";  
-		   inner.style.height = "100%";  
+	   var inner = document.createElement('p');
+	   inner.style.width = "100%";
+	   inner.style.height = "100%";  
 
-		   var outer = document.createElement('div');  
-		   outer.style.position = "absolute";  
-		   outer.style.top = "0px";  
-		   outer.style.left = "0px";  
-		   outer.style.visibility = "hidden";  
-		   outer.style.width = "100px";  
-		   outer.style.height = "100px";  
-		   outer.style.overflow = "hidden";  
-		   outer.appendChild (inner);  
+	   var outer = document.createElement('div');
+	   outer.style.position = "absolute";
+	   outer.style.top = "0px";
+	   outer.style.left = "0px";
+	   outer.style.visibility = "hidden";
+	   outer.style.width = "100px";
+	   outer.style.height = "100px";
+	   outer.style.overflow = "hidden";
+	   outer.appendChild (inner);
 
-		   document.body.appendChild (outer);  
+	   document.body.appendChild (outer);  
 
-		   var w1 = inner.offsetWidth;  
-		   var h1 = inner.offsetHeight;
-		   outer.style.overflow = 'scroll';  
-		   var w2 = inner.offsetWidth;  
-		   var h2 = inner.offsetHeight;
-		   if (w1 == w2) w2 = outer.clientWidth;
-		   if (h1 == h2) h2 = outer.clientHeight;   
+	   var w1 = inner.offsetWidth;
+	   var h1 = inner.offsetHeight;
+	   outer.style.overflow = 'scroll';
+	   var w2 = inner.offsetWidth;
+	   var h2 = inner.offsetHeight;
+	   if (w1 == w2) w2 = outer.clientWidth;
+	   if (h1 == h2) h2 = outer.clientHeight;
 
-		   document.body.removeChild (outer);  
+	   document.body.removeChild (outer);  
 
-		   return (w1 - w2) + " " + (h1 - h2);  
+	   return (w1 - w2) + " " + (h1 - h2);
 	}-*/;
 }
+

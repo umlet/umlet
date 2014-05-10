@@ -1,6 +1,5 @@
 package com.baselet.gwt.client.view;
 
-
 import org.apache.log4j.Logger;
 import org.vectomatic.file.FileUploadExt;
 
@@ -58,7 +57,7 @@ public class MainView extends Composite {
 	@UiField
 	FocusPanel mainPanel;
 
-	@UiField(provided=true)
+	@UiField(provided = true)
 	SplitLayoutPanel diagramPaletteSplitter = new SplitLayoutPanel(4) {
 		public void onResize() {
 			super.onResize();
@@ -72,7 +71,7 @@ public class MainView extends Composite {
 	@UiField
 	FlowPanel restoreMenuPanel;
 
-	@UiField(provided=true)
+	@UiField(provided = true)
 	SplitLayoutPanel palettePropertiesSplitter = new SplitLayoutPanel() {
 		public void onResize() {
 			diagramPanel.redraw();
@@ -118,6 +117,7 @@ public class MainView extends Composite {
 				Notification.showInfo("Diagram saved as: " + chosenName);
 			}
 		});
+
 		@Override
 		public void execute() {
 			saveDialogBox.clearAndCenter();
@@ -223,13 +223,15 @@ public class MainView extends Composite {
 	void onHelpMenuItemClick(ClickEvent event) {
 		ShortcutDialogBox.getInstance().center();
 	}
+
 	@UiHandler("paletteChooser")
 	void onPaletteChooserMouseWheel(MouseWheelEvent event) {
 		// determine new index based on scroll direction
 		int newIndex = paletteChooser.getSelectedIndex();
 		if (event.getDeltaY() < 0) {
 			newIndex--;
-		} else {
+		}
+		else {
 			newIndex++;
 		}
 

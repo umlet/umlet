@@ -54,8 +54,9 @@ public class DrawCanvas {
 
 		if (drawEmptyInfo && gridElements.isEmpty()) {
 			drawEmptyInfoText();
-		} else {
-			//		if (tryOptimizedDrawing()) return;
+		}
+		else {
+			// if (tryOptimizedDrawing()) return;
 			for (GridElement ge : gridElements) {
 				((ComponentGwt) ge.getComponent()).drawOn(canvas.getContext2d(), selector.isSelected(ge));
 			}
@@ -65,31 +66,31 @@ public class DrawCanvas {
 	private void drawEmptyInfoText() {
 		double elWidth = 440;
 		double elHeight = 150;
-		double elXPos = getWidth()/2 - elWidth/2;
-		double elYPos = getHeight()/2 - elHeight;
+		double elXPos = getWidth() / 2 - elWidth / 2;
+		double elYPos = getHeight() / 2 - elHeight;
 		GridElement emptyElement = ElementFactory.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), "halign=center\nDouble-click on an element to add it to the diagram (or use drag&drop)\n\n<Import> uxf Files using the Menu or simply drag them into the diagram\n<Export> diagrams to Standalone-UMLet-compatible uxf or png \n<Save> diagrams to persistent browser storage\n\nOnly Improved Elements work in standalone and web umlet\nWeb-Umlet Relations currently don't work in Standalone and vica versa\n\nPlease report bugs at http://code.google.com/p/umlet/", "", null);
 		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false);
 
 	}
 
-	//TODO would not work because canvas gets always resized and therefore cleaned -> so everything must be redrawn
-	//	private boolean tryOptimizedDrawing() {
-	//		List<GridElement> geToRedraw = new ArrayList<GridElement>();
-	//		for (GridElement ge : gridElements) {
-	//			if(((GwtComponent) ge.getComponent()).isRedrawNecessary()) {
-	//				for (GridElement geRedraw : geToRedraw) {
-	//					if (geRedraw.getRectangle().intersects(ge.getRectangle())) {
-	//						return false;
-	//					}
-	//				}
-	//				geToRedraw.add(ge);
-	//			}
-	//		}
+	// TODO would not work because canvas gets always resized and therefore cleaned -> so everything must be redrawn
+	// private boolean tryOptimizedDrawing() {
+	// List<GridElement> geToRedraw = new ArrayList<GridElement>();
+	// for (GridElement ge : gridElements) {
+	// if(((GwtComponent) ge.getComponent()).isRedrawNecessary()) {
+	// for (GridElement geRedraw : geToRedraw) {
+	// if (geRedraw.getRectangle().intersects(ge.getRectangle())) {
+	// return false;
+	// }
+	// }
+	// geToRedraw.add(ge);
+	// }
+	// }
 	//
-	//		for (GridElement ge : gridElements) {
-	//			elementCanvas.getContext2d().clearRect(0, 0, ge.getRectangle().getWidth(), ge.getRectangle().getHeight());
-	//			((GwtComponent) ge.getComponent()).drawOn(elementCanvas.getContext2d());
-	//		}
-	//		return true;
-	//	}
+	// for (GridElement ge : gridElements) {
+	// elementCanvas.getContext2d().clearRect(0, 0, ge.getRectangle().getWidth(), ge.getRectangle().getHeight());
+	// ((GwtComponent) ge.getComponent()).drawOn(elementCanvas.getContext2d());
+	// }
+	// return true;
+	// }
 }

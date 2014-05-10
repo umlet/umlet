@@ -14,6 +14,6 @@ public class PseudoDrawHandlerGWT extends DrawHandlerGWT {
 
 	@Override
 	protected void addDrawable(DrawFunction drawable) {
-		/*do nothing*/
+		/* do nothing */
 	}
 }

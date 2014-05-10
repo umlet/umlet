@@ -10,12 +10,12 @@ import com.google.gwt.user.client.ui.MenuItem;
 public class MenuPopup extends MyPopupPanel {
 	public static abstract class MenuPopupItem {
 		private String text;
-		
+
 		public MenuPopupItem(String text) {
 			super();
 			this.text = text;
 		}
-		
+
 		public String getText() {
 			return text;
 		}

@@ -42,7 +42,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FocusPanel;
 
 public class EventHandlingUtils {
-	
+
 	public static interface EventHandlingTarget {
 
 		HandlerRegistration addMouseOutHandler(MouseOutHandler mouseOutHandler);
@@ -76,7 +76,7 @@ public class EventHandlingUtils {
 		GridElement getGridElementOnPosition(Point p);
 
 		Element getElement();
-		
+
 	}
 
 	private static enum DragStatus {
@@ -97,10 +97,10 @@ public class EventHandlingUtils {
 		 */
 		private boolean doubleClickEnabled = true;
 
-//		private Timer menuShowTimer; //TODO doesn't really work at the moment (because some move and end events are not processed, therefore it's shown even if not wanted)
+		// private Timer menuShowTimer; //TODO doesn't really work at the moment (because some move and end events are not processed, therefore it's shown even if not wanted)
 	}
 
-	public static void addEventHandler(final FocusPanel handlerTarget, final EventHandlingTarget ... panels) {
+	public static void addEventHandler(final FocusPanel handlerTarget, final EventHandlingTarget... panels) {
 		final DragCache storage = new DragCache();
 
 		for (final EventHandlingTarget panel : panels) {
@@ -121,7 +121,7 @@ public class EventHandlingUtils {
 		handlerTarget.addTouchStartHandler(new TouchStartHandler() {
 			@Override
 			public void onTouchStart(final TouchStartEvent event) {
-				 // some mouseevents are interfering with touch events (eg: mousemove is triggered on each touchdown event) therefore they are removed as soon as a touch event is detected
+				// some mouseevents are interfering with touch events (eg: mousemove is triggered on each touchdown event) therefore they are removed as soon as a touch event is detected
 				if (storage.nonTouchHandlers != null) {
 					for (HandlerRegistration h : storage.nonTouchHandlers) {
 						h.removeHandler();
@@ -134,13 +134,13 @@ public class EventHandlingUtils {
 					if (storage.activePanel != null) {
 						handleStart(handlerTarget, panels, storage, event, getPoint(storage.activePanel, event));
 					}
-//					storage.menuShowTimer = new Timer() {
-//						@Override
-//						public void run() {
-//							handleShowMenu(storage.activePanel, absolutePos);
-//						}
-//					};
-//					storage.menuShowTimer.schedule(1000);
+					// storage.menuShowTimer = new Timer() {
+					// @Override
+					// public void run() {
+					// handleShowMenu(storage.activePanel, absolutePos);
+					// }
+					// };
+					// storage.menuShowTimer.schedule(1000);
 				}
 			}
 		});
@@ -148,7 +148,7 @@ public class EventHandlingUtils {
 		handlerTarget.addTouchEndHandler(new TouchEndHandler() {
 			@Override
 			public void onTouchEnd(TouchEndEvent event) {
-//				storage.menuShowTimer.cancel();
+				// storage.menuShowTimer.cancel();
 				if (storage.activePanel != null) {
 					handleEnd(storage, storage.activePanel, getPoint(storage.activePanel, event));
 				}
@@ -157,7 +157,7 @@ public class EventHandlingUtils {
 		handlerTarget.addTouchMoveHandler(new TouchMoveHandler() {
 			@Override
 			public void onTouchMove(TouchMoveEvent event) {
-//				storage.menuShowTimer.cancel();
+				// storage.menuShowTimer.cancel();
 				if (event.getTouches().length() == 1) { // only handle single finger touches (to allow zooming with 2 fingers)
 					handleMove(storage.activePanel, storage, event);
 				}
@@ -244,7 +244,7 @@ public class EventHandlingUtils {
 				}
 			}
 		}));
-		
+
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -255,7 +255,7 @@ public class EventHandlingUtils {
 	}
 
 	private static void handleEnd(final DragCache storage, EventHandlingTarget drawPanelCanvas, Point point) {
-		//		Notification.showInfo("UP");
+		// Notification.showInfo("UP");
 		if (Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS).contains(storage.dragging)) {
 			drawPanelCanvas.onMouseDragEnd(storage.elementToDrag, point);
 		}
@@ -263,7 +263,7 @@ public class EventHandlingUtils {
 	}
 
 	private static void handleStart(FocusPanel handlerTarget, EventHandlingTarget[] panels, final DragCache storage, HumanInputEvent<?> event, Point p) {
-		//		Notification.showInfo("DOWN " + p.x);
+		// Notification.showInfo("DOWN " + p.x);
 		handlerTarget.setFocus(true);
 
 		event.preventDefault(); // necessary to avoid showing textcursor and selecting proppanel in chrome AND to avoid scrolling with touch move (problem is it also avoids scrolling with 2 fingers)
@@ -281,7 +281,8 @@ public class EventHandlingUtils {
 			if (visibleBounds.contains(p)) {
 				panel.setFocus(true);
 				returnPanel = panel;
-			} else {
+			}
+			else {
 				panel.setFocus(false);
 			}
 		}
@@ -289,7 +290,7 @@ public class EventHandlingUtils {
 	}
 
 	private static void handleMove(final EventHandlingTarget drawPanelCanvas, final DragCache storage, HumanInputEvent<?> event) {
-		//		Notification.showInfo("MOVE " + getPointAbsolute(event));
+		// Notification.showInfo("MOVE " + getPointAbsolute(event));
 		if (storage.activePanel != null && Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS).contains(storage.dragging)) {
 			Point p = getPoint(storage.activePanel, event);
 			int diffX = p.x - storage.moveStart.getX();
@@ -319,11 +320,14 @@ public class EventHandlingUtils {
 		Element e = drawPanelCanvas.getElement();
 		if (event instanceof MouseEvent<?>) {
 			return new Point(((MouseEvent<?>) event).getRelativeX(e), ((MouseEvent<?>) event).getRelativeY(e));
-		} else if (event instanceof TouchEndEvent) {
+		}
+		else if (event instanceof TouchEndEvent) {
 			return new Point(((TouchEvent<?>) event).getChangedTouches().get(0).getRelativeX(e), ((TouchEvent<?>) event).getChangedTouches().get(0).getRelativeY(e));
-		} else if (event instanceof TouchEvent<?>) {
+		}
+		else if (event instanceof TouchEvent<?>) {
 			return new Point(((TouchEvent<?>) event).getTouches().get(0).getRelativeX(e), ((TouchEvent<?>) event).getTouches().get(0).getRelativeY(e));
-		} else {
+		}
+		else {
 			throw new RuntimeException("Unknown Event Type: " + event);
 		}
 	}
@@ -331,11 +335,14 @@ public class EventHandlingUtils {
 	private static Point getPointAbsolute(HumanInputEvent<?> event) {
 		if (event instanceof MouseEvent<?>) {
 			return new Point(((MouseEvent<?>) event).getClientX(), ((MouseEvent<?>) event).getClientY());
-		} else if (event instanceof TouchEndEvent) {
+		}
+		else if (event instanceof TouchEndEvent) {
 			return new Point(((TouchEvent<?>) event).getChangedTouches().get(0).getPageX(), ((TouchEvent<?>) event).getChangedTouches().get(0).getPageY());
-		} else if (event instanceof TouchEvent<?>) {
+		}
+		else if (event instanceof TouchEvent<?>) {
 			return new Point(((TouchEvent<?>) event).getTouches().get(0).getPageX(), ((TouchEvent<?>) event).getTouches().get(0).getPageY());
-		} else {
+		}
+		else {
 			throw new RuntimeException("Unknown Event Type: " + event);
 		}
 	}

@@ -17,12 +17,12 @@ import com.google.gwt.event.dom.client.DropHandler;
 public class OwnDropPanel extends DropPanel {
 
 	private FileOpenHandler handler;
-	
+
 	public OwnDropPanel(final DrawPanel diagramCanvas) {
 
 		this.add(diagramCanvas);
-		 handler = new FileOpenHandler(diagramCanvas);
-		
+		handler = new FileOpenHandler(diagramCanvas);
+
 		this.addDragOverHandler(new DragOverHandler() {
 			@Override
 			public void onDragOver(DragOverEvent event) {
@@ -44,7 +44,7 @@ public class OwnDropPanel extends DropPanel {
 		this.addDropHandler(new DropHandler() {
 			@Override
 			public void onDrop(DropEvent event) {
-				FileList files = event.getDataTransfer().<DataTransferExt>cast().getFiles();
+				FileList files = event.getDataTransfer().<DataTransferExt> cast().getFiles();
 				handler.processFiles(files);
 				avoidDefaultHandling(event);
 			}

@@ -20,9 +20,11 @@ import com.baselet.gwt.client.element.ElementFactory;
 public class CommandInvoker extends Controller {
 
 	private static final CommandInvoker instance = new CommandInvoker();
+
 	public static CommandInvoker getInstance() {
 		return instance;
 	}
+
 	private CommandInvoker() {
 		super();
 	}
@@ -34,6 +36,7 @@ public class CommandInvoker extends Controller {
 	void addElements(CanAddAndRemoveGridElement target, Collection<GridElement> elements) {
 		addElements(target, elements);
 	}
+
 	void removeElements(DrawPanel target, List<GridElement> elements) {
 		this.executeCommand(new RemoveGridElementCommand(target, elements));
 	}
@@ -42,11 +45,7 @@ public class CommandInvoker extends Controller {
 		removeElements(target, target.getSelector().getSelectedElements());
 	}
 
-
-
-
-
-	//TODO implement copy & paste as commands
+	// TODO implement copy & paste as commands
 
 	void copySelectedElements(DrawPanel target) {
 		BrowserStorage.setClipboard(copyElementsInList(target.getSelector().getSelectedElements(), target.getDiagram())); // must be copied here to ensure location etc. will not be changed
@@ -77,9 +76,10 @@ public class CommandInvoker extends Controller {
 		Rectangle rect = SharedUtils.getGridElementsRectangle(gridElements);
 		Rectangle visible = target.getVisibleBounds();
 		for (GridElement ge : gridElements) {
-			ge.getRectangle().move(visible.getX()-rect.getX() + SharedConstants.DEFAULT_GRID_SIZE, visible.getY()-rect.getY() + SharedConstants.DEFAULT_GRID_SIZE);
+			ge.getRectangle().move(visible.getX() - rect.getX() + SharedConstants.DEFAULT_GRID_SIZE, visible.getY() - rect.getY() + SharedConstants.DEFAULT_GRID_SIZE);
 		}
 	}
+
 	public void updateSelectedElementsProperty(DrawPanel target, String key, Object value) {
 		for (GridElement e : target.getSelector().getSelectedElements()) {
 			e.setProperty(key, value);

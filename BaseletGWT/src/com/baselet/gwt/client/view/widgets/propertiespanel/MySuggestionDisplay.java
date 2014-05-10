@@ -27,7 +27,7 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 			paletteShouldIgnoreMouseClicks = false;
 		}
 	};
-	
+
 	@Override
 	protected PopupPanel createPopup() {
 		PopupPanel p = super.createPopup();
@@ -39,6 +39,7 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 		});
 		return p;
 	}
+
 	@Override
 	protected void showSuggestions(SuggestBox suggestBox, Collection<? extends Suggestion> suggestions, boolean isDisplayStringHTML, boolean isAutoSelectEnabled, SuggestionCallback callback) {
 		super.showSuggestions(suggestBox, suggestions, isDisplayStringHTML, isAutoSelectEnabled, callback);

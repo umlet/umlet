@@ -35,7 +35,7 @@ public class OwnTextArea extends TextArea {
 			});
 		}
 	}
-	
+
 	public void setInstantValueChangeHandler(InstantValueChangeHandler handler) {
 		this.handler = handler;
 	}

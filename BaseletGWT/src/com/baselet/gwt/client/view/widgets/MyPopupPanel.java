@@ -9,23 +9,25 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MyPopupPanel extends PopupPanel {
-	
-	public enum Type {POPUP, MENU}
+
+	public enum Type {
+		POPUP, MENU
+	}
 
 	private String header;
 	private Type type;
-	
+
 	public MyPopupPanel(boolean glassEnabled, Type type) {
 		super(true);
 		this.setGlassEnabled(glassEnabled);
 		this.type = type;
-		
+
 	}
 
 	public void setHeader(String header) {
 		this.header = header;
 	}
-	
+
 	@Override
 	public void setWidget(Widget w) {
 		switch (type) {
@@ -37,10 +39,11 @@ public class MyPopupPanel extends PopupPanel {
 				addStyleName("menuPopup");
 				break;
 		}
-	
+
 		if (header == null) {
 			super.setWidget(w);
-		} else {
+		}
+		else {
 			FlowPanel fp = new FlowPanel();
 			fp.add(new HTML("<div class=\"popupHeader\">" + header + "</div>"));
 			fp.add(w);
@@ -54,9 +57,8 @@ public class MyPopupPanel extends PopupPanel {
 	@Override
 	protected void onPreviewNativeEvent(NativePreviewEvent event) {
 		super.onPreviewNativeEvent(event);
-		if (
-				event.getTypeInt() == Event.ONKEYDOWN && 
-				event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
+		if (event.getTypeInt() == Event.ONKEYDOWN &&
+			event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
 			hide();
 		}
 	}

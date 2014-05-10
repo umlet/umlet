@@ -17,12 +17,12 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
 public class FileOpenHandler {
-	
+
 	private Logger log = Logger.getLogger(FileOpenHandler.class);
 
 	protected FileReader reader;
 	protected List<File> readQueue = new ArrayList<File>();
-	
+
 	public FileOpenHandler(final DrawPanel diagramHandler) {
 		reader = new FileReader();
 		reader.addLoadEndHandler(new LoadEndHandler() {
@@ -58,7 +58,7 @@ public class FileOpenHandler {
 			File file = readQueue.get(0);
 			try {
 				reader.readAsText(file);
-			} catch(Throwable t) {
+			} catch (Throwable t) {
 				// Necessary for FF (see bug https://bugzilla.mozilla.org/show_bug.cgi?id=701154)
 				// Standard-complying browsers will to go in this branch
 				handleError(file);
