@@ -21,12 +21,14 @@ public class SelectorOld extends Selector {
 
 	public SelectorOld(DrawPanel panel) {
 		this.panel = panel;
-		this._selectorframeactive = false;
-		this._selectorframe = new SelectorFrame();
+		_selectorframeactive = false;
+		_selectorframe = new SelectorFrame();
 	}
 
 	public GridElement getDominantEntity() {
-		if ((dominantEntity == null) && !selectedElements.isEmpty()) { return selectedElements.firstElement(); }
+		if (dominantEntity == null && !selectedElements.isEmpty()) {
+			return selectedElements.firstElement();
+		}
 		return dominantEntity;
 	}
 
@@ -35,23 +37,27 @@ public class SelectorOld extends Selector {
 	}
 
 	public SelectorFrame getSelectorFrame() {
-		return this._selectorframe;
+		return _selectorframe;
 	}
 
 	public void setSelectorFrameActive(boolean active) {
-		this._selectorframeactive = active;
-		if (!active) this._selectorframe.reset();
+		_selectorframeactive = active;
+		if (!active) {
+			_selectorframe.reset();
+		}
 	}
 
 	public boolean isSelectorFrameActive() {
-		return this._selectorframeactive;
+		return _selectorframeactive;
 	}
 
 	// needed for custom element exchange
 	public void singleSelectWithoutUpdatePropertyPanel(GridElement e) {
 		deselectAllWithoutUpdatePropertyPanel();
 		selectedElements.add(e);
-		if (Main.getInstance().getGUI() != null) updateGUIInformation();
+		if (Main.getInstance().getGUI() != null) {
+			updateGUIInformation();
+		}
 		Main.getInstance().setPropertyPanelToCustomElement(e);
 	}
 
@@ -73,25 +79,25 @@ public class SelectorOld extends Selector {
 	public void doAfterSelectionChanged() {
 		updateSelectorInformation();
 	}
-	
+
 	private void updateGUIInformation() {
 		Main.getInstance().getGUI().elementsSelected(selectedElements);
-		boolean customElementSelected = (selectedElements.size() == 1) && (selectedElements.get(0) instanceof CustomElement);
+		boolean customElementSelected = selectedElements.size() == 1 && selectedElements.get(0) instanceof CustomElement;
 		Main.getInstance().getGUI().setCustomElementSelected(customElementSelected);
 	}
 
 	public void updateSelectorInformation() {
 		GridElement elementForPropPanel = null;
 		if (!selectedElements.isEmpty()) {
-			elementForPropPanel = selectedElements.elementAt(selectedElements.size()-1);
+			elementForPropPanel = selectedElements.elementAt(selectedElements.size() - 1);
 		}
 		updateSelectorInformation(elementForPropPanel);
 	}
-	
+
 	// updates the GUI with the current selector information (that includes the propertypanel)
 	public void updateSelectorInformation(GridElement elementForPropPanel) {
 		// every time something is selected - update the current diagram to this element
-		Main.getInstance().setCurrentDiagramHandler(this.panel.getHandler());
+		Main.getInstance().setCurrentDiagramHandler(panel.getHandler());
 		if (Main.getInstance().getGUI() != null) {
 			updateGUIInformation();
 			Main.getInstance().setPropertyPanelToGridElement(elementForPropPanel);
@@ -100,7 +106,9 @@ public class SelectorOld extends Selector {
 
 	public void multiSelect(Rectangle rect) {
 		for (GridElement e : panel.getGridElements()) {
-			if (e.isInRange(rect)) select(e);
+			if (e.isInRange(rect)) {
+				select(e);
+			}
 		}
 	}
 
@@ -109,7 +117,7 @@ public class SelectorOld extends Selector {
 		boolean isSelected = super.isSelected(ge);
 		return isSelected;
 	}
-	
+
 	@Override
 	public List<GridElement> getSelectedElements() {
 		return selectedElements;
@@ -118,17 +126,17 @@ public class SelectorOld extends Selector {
 	@Override
 	public List<GridElement> getAllElements() {
 		if (Main.getInstance().getDiagramHandler() == null) {
-			return Collections.<GridElement>emptyList();
+			return Collections.<GridElement> emptyList();
 		}
 		return Main.getInstance().getDiagramHandler().getDrawPanel().getGridElements();
 	}
-	
+
 	@Override
 	public void doAfterSelect(GridElement e) {
 		super.doAfterSelect(e);
 		e.repaint(); // element must be repainted if selection state has changed (for selectioncolor)
 	}
-	
+
 	@Override
 	public void doAfterDeselect(GridElement e) {
 		super.doAfterDeselect(e);

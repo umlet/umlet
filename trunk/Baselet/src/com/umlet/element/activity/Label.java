@@ -6,7 +6,6 @@ import java.awt.geom.Rectangle2D;
 
 import com.baselet.diagram.DiagramHandler;
 
-
 public class Label extends Element {
 
 	private String[] label;
@@ -17,15 +16,15 @@ public class Label extends Element {
 		this.label = label.split("\\\\");
 
 		int w = 0, h = 0;
-		for (int i = 0; i < this.label.length; i++) {
-			Rectangle2D rect = g.getFont().getStringBounds(this.label[i], g.getFontRenderContext());
+		for (String element : this.label) {
+			Rectangle2D rect = g.getFont().getStringBounds(element, g.getFontRenderContext());
 			w = w < (int) (rect.getMaxX() - rect.getMinX()) ? (int) (rect.getMaxX() - rect.getMinX()) : w;
 			h += (int) (rect.getMaxY() - rect.getMinY());
-			this.line_height = (int) (rect.getMaxY() - rect.getMinY());
+			line_height = (int) (rect.getMaxY() - rect.getMinY());
 		}
 
-		this.setWidth(w);
-		this.setHeight(h);
+		setWidth(w);
+		setHeight(h);
 	}
 
 	@Override
@@ -40,10 +39,11 @@ public class Label extends Element {
 
 	@Override
 	public void paint() {
-		Point cord = this.getPosition();
-		int y = cord.y - this.getHeight() / 2 - this.getPadding();
-		for (int i = 0; i < this.label.length; i++)
-			this.getGraphics().drawString(this.label[i], cord.x - this.getWidth() / 2,
-					y + this.getHeight() - (this.label.length - i - 1) * this.line_height - 1);
+		Point cord = getPosition();
+		int y = cord.y - getHeight() / 2 - getPadding();
+		for (int i = 0; i < label.length; i++) {
+			getGraphics().drawString(label[i], cord.x - getWidth() / 2,
+					y + getHeight() - (label.length - i - 1) * line_height - 1);
+		}
 	}
 }

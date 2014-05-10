@@ -63,8 +63,8 @@ public class Contributor extends EditorActionBarContributor {
 	private IMenuManager zoomMenu;
 
 	public Contributor() {
-		this.customPanelEnabled = false;
-		this.custom_element_selected = false;
+		customPanelEnabled = false;
+		custom_element_selected = false;
 	}
 
 	private Action createPanelAction(final Pane pane, final ActionName action) {
@@ -113,7 +113,9 @@ public class Contributor extends EditorActionBarContributor {
 
 	@Override
 	public void contributeToMenu(IMenuManager manager) {
-		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) MainPlugin.getGUI().setContributor(this);
+		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) {
+			MainPlugin.getGUI().setContributor(this);
+		}
 
 		IMenuManager menu = new MenuManager(Program.NAME.toString());
 		IMenuManager custom = new MenuManager(MenuConstants.CUSTOM_ELEMENTS);
@@ -142,7 +144,7 @@ public class Contributor extends EditorActionBarContributor {
 
 		exportAsActionList = menuFactory.createExportAsActions();
 		IMenuManager export = new MenuManager("Export as");
-		for (IAction action: exportAsActionList) {
+		for (IAction action : exportAsActionList) {
 			export.add(action);
 		}
 		menu.add(export);
@@ -156,29 +158,29 @@ public class Contributor extends EditorActionBarContributor {
 	}
 
 	public void setExportAsEnabled(boolean enabled) {
-		//AB: We cannot disable the MenuManager, so we have to disable every entry in the export menu :P
-		for (IAction action: exportAsActionList) {
+		// AB: We cannot disable the MenuManager, so we have to disable every entry in the export menu :P
+		for (IAction action : exportAsActionList) {
 			action.setEnabled(enabled);
 		}
 	}
 
 	public void setPaste(boolean value) {
-		this.pasteActionDiagram.setEnabled(value);
+		pasteActionDiagram.setEnabled(value);
 	}
 
 	public void setCustomElementSelected(boolean selected) {
-		this.custom_element_selected = selected;
-		this.customedit.setEnabled(selected && !this.customPanelEnabled);
+		custom_element_selected = selected;
+		customedit.setEnabled(selected && !customPanelEnabled);
 	}
 
 	public void setElementsSelected(Collection<GridElement> selectedElements) {
 		if (selectedElements.isEmpty()) {
-			this.deleteActionDiagram.setEnabled(false);
-			this.cutActionDiagram.setEnabled(false);
+			deleteActionDiagram.setEnabled(false);
+			cutActionDiagram.setEnabled(false);
 		}
 		else {
-			this.cutActionDiagram.setEnabled(true);
-			this.deleteActionDiagram.setEnabled(true);
+			cutActionDiagram.setEnabled(true);
+			deleteActionDiagram.setEnabled(true);
 		}
 	}
 
@@ -187,10 +189,10 @@ public class Contributor extends EditorActionBarContributor {
 	}
 
 	public void setCustomPanelEnabled(boolean enable) {
-		this.customPanelEnabled = enable;
-		this.customedit.setEnabled(!enable && this.custom_element_selected);
-		this.customnew.setEnabled(!enable);
-		this.searchActionDiagram.setEnabled(!enable);
+		customPanelEnabled = enable;
+		customedit.setEnabled(!enable && custom_element_selected);
+		customnew.setEnabled(!enable);
+		searchActionDiagram.setEnabled(!enable);
 	}
 
 	public void setGlobalActionHandlers(Pane focusedPane) {
@@ -226,15 +228,19 @@ public class Contributor extends EditorActionBarContributor {
 			getActionBars().setGlobalActionHandler(ActionFactory.FIND.getId(), null);
 		}
 
-		Display.getDefault().asyncExec(new UpdateActionBars(this.getActionBars()));
+		Display.getDefault().asyncExec(new UpdateActionBars(getActionBars()));
 	}
 
 	public void updateZoomMenuRadioButton(int newGridSize) {
 		for (IContributionItem item : zoomMenu.getItems()) {
 			IAction action = ((ActionContributionItem) item).getAction();
 			int actionGridSize = Integer.parseInt(action.getText().substring(0, action.getText().length() - 2));
-			if (actionGridSize == newGridSize) action.setChecked(true);
-			else action.setChecked(false);
+			if (actionGridSize == newGridSize) {
+				action.setChecked(true);
+			}
+			else {
+				action.setChecked(false);
+			}
 		}
 	}
 }

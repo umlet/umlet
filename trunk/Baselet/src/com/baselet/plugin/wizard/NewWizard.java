@@ -74,7 +74,9 @@ public class NewWizard extends Wizard implements INewWizard {
 		final String containerName = page.getContainerName();
 		String fn = page.getFileName();
 		int dotLoc = fn.lastIndexOf('.');
-		if (dotLoc == -1) fn += "." + Program.EXTENSION;
+		if (dotLoc == -1) {
+			fn += "." + Program.EXTENSION;
+		}
 		final String fileName = fn;
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 			@Override
@@ -140,8 +142,7 @@ public class NewWizard extends Wizard implements INewWizard {
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				try {
 					IDE.openEditor(page, file, true);
-				} catch (PartInitException e) {
-				}
+				} catch (PartInitException e) {}
 			}
 		});
 		monitor.worked(1);

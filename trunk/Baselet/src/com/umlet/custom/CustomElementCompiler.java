@@ -21,7 +21,7 @@ import com.baselet.element.ErrorOccurred;
 import com.baselet.element.GridElement;
 
 public class CustomElementCompiler {
-	
+
 	private static final Logger log = Logger.getLogger(CustomElementCompiler.class);
 
 	private static CustomElementCompiler compiler;
@@ -35,40 +35,48 @@ public class CustomElementCompiler {
 	private boolean global_error;
 
 	public static CustomElementCompiler getInstance() {
-		if (compiler == null) compiler = new CustomElementCompiler();
+		if (compiler == null) {
+			compiler = new CustomElementCompiler();
+		}
 		return compiler;
 	}
 
 	private File sourcefile;
 
 	private CustomElementCompiler() {
-		this.global_error = false;
-		this.compilation_errors = new ArrayList<CompileError>();
-		this.beforecodelines = 0;
-		this.template_pattern = Pattern.compile("(.*)(/\\*\\*\\*\\*CUSTOM_CODE START\\*\\*\\*\\*/\n)(.*)(\n\\s\\s/\\*\\*\\*\\*CUSTOM_CODE END\\*\\*\\*\\*/)(.*)", Pattern.DOTALL);
-		this.template = this.loadJavaSource(new File(Path.customElements() + templatefile));
-		if (!"".equals(this.template)) {
-			this.template_match = this.template_pattern.matcher(this.template);
+		global_error = false;
+		compilation_errors = new ArrayList<CompileError>();
+		beforecodelines = 0;
+		template_pattern = Pattern.compile("(.*)(/\\*\\*\\*\\*CUSTOM_CODE START\\*\\*\\*\\*/\n)(.*)(\n\\s\\s/\\*\\*\\*\\*CUSTOM_CODE END\\*\\*\\*\\*/)(.*)", Pattern.DOTALL);
+		template = loadJavaSource(new File(Path.customElements() + templatefile));
+		if (!"".equals(template)) {
+			template_match = template_pattern.matcher(template);
 			try {
-				if (template_match.matches()) beforecodelines = this.template_match.group(1).split(Constants.NEWLINE).length;
-				else this.global_error = true;
+				if (template_match.matches()) {
+					beforecodelines = template_match.group(1).split(Constants.NEWLINE).length;
+				}
+				else {
+					global_error = true;
+				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		}
-		else global_error = true;
+		else {
+			global_error = true;
+		}
 
-		this.classname = Constants.CUSTOM_ELEMENT_CLASSNAME;
-		this.sourcefile = new File(Path.temp() + this.classname + ".java");
+		classname = Constants.CUSTOM_ELEMENT_CLASSNAME;
+		sourcefile = new File(Path.temp() + classname + ".java");
 		sourcefile.deleteOnExit();
-		new File(Path.temp() + this.classname + ".class").deleteOnExit();
+		new File(Path.temp() + classname + ".class").deleteOnExit();
 	}
 
 	// compiles the element and returns the new entity if successful
 	private CustomElement compile(String code) {
-		this.saveJavaSource(code);
+		saveJavaSource(code);
 		CustomElement entity = null;
-		this.compilation_errors.clear();
+		compilation_errors.clear();
 		try {
 			StringWriter compilerErrorMessageSW = new StringWriter(); // catch compiler messages
 			PrintWriter compilerErrorMessagePW = new PrintWriter(compilerErrorMessageSW);
@@ -87,23 +95,27 @@ public class CustomElementCompiler {
 
 			if (compilationSuccessful) {
 				FileClassLoader fcl = new FileClassLoader(Thread.currentThread().getContextClassLoader());
-				Class<?> c = fcl.findClass(this.classname); // load class by type name
-				if (c != null) entity = (CustomElement) c.newInstance();
+				Class<?> c = fcl.findClass(classname); // load class by type name
+				if (c != null) {
+					entity = (CustomElement) c.newInstance();
+				}
 			}
 			else {
-				this.compilation_errors = CompileError.getListFromString(compilerErrorMessageSW.toString(), beforecodelines);
+				compilation_errors = CompileError.getListFromString(compilerErrorMessageSW.toString(), beforecodelines);
 			}
 		} catch (Exception e) {
 			log.error(null, e);
 		}
-		if (entity == null) entity = new CustomElementWithErrors(compilation_errors);
+		if (entity == null) {
+			entity = new CustomElementWithErrors(compilation_errors);
+		}
 		return entity;
 	}
 
 	// loads the source from a file
 	private String loadJavaSource(File sourceFile) { // LME3
 		String _javaSource = "";
-		if ((sourceFile != null) && (sourceFile.getName().endsWith(".java"))) {
+		if (sourceFile != null && sourceFile.getName().endsWith(".java")) {
 			try {
 				BufferedReader br = new BufferedReader(new FileReader(sourceFile));
 				String line;
@@ -123,27 +135,33 @@ public class CustomElementCompiler {
 		BufferedWriter bw = null;
 		try {
 			bw = new BufferedWriter(new FileWriter(sourcefile, false));
-			bw.write(this.parseCodeIntoTemplate(code));
+			bw.write(parseCodeIntoTemplate(code));
 			bw.flush();
 		} catch (IOException e) {
 			log.error(null, e);
 		} finally {
-			if (bw != null) try {
-				bw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			if (bw != null) {
+				try {
+					bw.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
 	private String parseCodeFromTemplate(String template) {
-		Matcher m = this.template_pattern.matcher(template);
-		if (m.matches()) return m.group(3);
-		else return "";
+		Matcher m = template_pattern.matcher(template);
+		if (m.matches()) {
+			return m.group(3);
+		}
+		else {
+			return "";
+		}
 	}
 
 	private String parseCodeIntoTemplate(String code) {
-		return template_match.group(1).replaceFirst("<!CLASSNAME!>", this.classname) +
+		return template_match.group(1).replaceFirst("<!CLASSNAME!>", classname) +
 				template_match.group(2) +
 				code +
 				template_match.group(4) +
@@ -151,13 +169,21 @@ public class CustomElementCompiler {
 	}
 
 	public GridElement genEntity(String code, ErrorHandler errorhandler) {
-		if (!Constants.enable_custom_elements) return new ErrorOccurred("Custom Elements are disabled\nEnable them in the Options\nOnly open Custom Elements\nfrom trusted sources!");
-		if (this.global_error) return new ErrorOccurred();
+		if (!Constants.enable_custom_elements) {
+			return new ErrorOccurred("Custom Elements are disabled\nEnable them in the Options\nOnly open Custom Elements\nfrom trusted sources!");
+		}
+		if (global_error) {
+			return new ErrorOccurred();
+		}
 
-		if (code == null) code = this.parseCodeFromTemplate(this.template);
+		if (code == null) {
+			code = parseCodeFromTemplate(template);
+		}
 
-		CustomElement element = this.compile(code);
-		if (errorhandler != null) errorhandler.addErrors(compilation_errors);
+		CustomElement element = compile(code);
+		if (errorhandler != null) {
+			errorhandler.addErrors(compilation_errors);
+		}
 		element.setCode(code);
 		return element;
 	}
@@ -167,8 +193,10 @@ public class CustomElementCompiler {
 	}
 
 	public GridElement genEntityFromTemplate(String templatename, ErrorHandler errorhandler) {
-		String template = this.loadJavaSource(new File(Path.customElements() + templatename + ".java"));
-		if (!"".equals(template)) return this.genEntity(this.parseCodeFromTemplate(template), errorhandler);
+		String template = loadJavaSource(new File(Path.customElements() + templatename + ".java"));
+		if (!"".equals(template)) {
+			return this.genEntity(parseCodeFromTemplate(template), errorhandler);
+		}
 
 		return null;
 	}

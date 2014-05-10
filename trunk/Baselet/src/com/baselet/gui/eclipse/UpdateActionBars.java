@@ -12,7 +12,7 @@ public class UpdateActionBars implements Runnable {
 
 	@Override
 	public void run() {
-		this.bars.updateActionBars();
+		bars.updateActionBars();
 	}
 
 }

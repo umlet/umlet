@@ -10,7 +10,6 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.OldGridElement;
 
-
 @SuppressWarnings("serial")
 public class TemplateClass extends OldGridElement {
 
@@ -19,7 +18,7 @@ public class TemplateClass extends OldGridElement {
 	}
 
 	private Vector<String> getStringVector() {
-		return Utils.decomposeStrings(this.getPanelAttributes());
+		return Utils.decomposeStrings(getPanelAttributes());
 	}
 
 	@Override
@@ -40,13 +39,13 @@ public class TemplateClass extends OldGridElement {
 			String s = tmp.elementAt(i);
 			if (s.equals("--")) {
 				CENTER = false;
-				g2.drawLine(0, yPos, this.getRectangle().width, yPos);
+				g2.drawLine(0, yPos, getRectangle().width, yPos);
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 				if (CENTER) {
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, this.getRectangle().width / 2, yPos, AlignHorizontal.CENTER);
+					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, getRectangle().width / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
 					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
@@ -55,13 +54,9 @@ public class TemplateClass extends OldGridElement {
 			}
 		}
 
-		Rectangle r = this.getRectangle();
-		g.drawRect(0, 0, (int) r.getWidth() - 1, (int) r.getHeight() - 1);
-		/*
-		 * if (_selected) {
-		 * g.drawRect(1,1,(int)r.getWidth()-3,(int)r.getHeight()-3);
-		 * }
-		 */
+		Rectangle r = getRectangle();
+		g.drawRect(0, 0, r.getWidth() - 1, r.getHeight() - 1);
+		/* if (_selected) { g.drawRect(1,1,(int)r.getWidth()-3,(int)r.getHeight()-3); } */
 	}
 
 }

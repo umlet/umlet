@@ -5,7 +5,6 @@ import javax.swing.event.HyperlinkListener;
 
 import com.baselet.control.BrowserLauncher;
 
-
 public class HyperLinkActiveListener implements HyperlinkListener {
 	@Override
 	public void hyperlinkUpdate(HyperlinkEvent e) {

@@ -9,7 +9,6 @@ import com.baselet.control.Main;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.element.OldGridElement;
 
-
 @SuppressWarnings("serial")
 public class SeqObjectActive extends OldGridElement {
 	@Override
@@ -17,16 +16,19 @@ public class SeqObjectActive extends OldGridElement {
 		Graphics2D g2 = (Graphics2D) g;
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
-		
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
-		g2.fillRect(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
+		g2.fillRect(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 		g2.setComposite(composites[0]);
-		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
-		else g2.setColor(fgColorBase);
+		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
+			g2.setColor(fgColor);
+		}
+		else {
+			g2.setColor(fgColorBase);
+		}
 
-		g2.drawRect(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
+		g2.drawRect(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 
 	}
 

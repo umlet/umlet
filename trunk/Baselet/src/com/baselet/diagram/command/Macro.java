@@ -4,7 +4,6 @@ import java.util.Vector;
 
 import com.baselet.diagram.DiagramHandler;
 
-
 public class Macro extends Command {
 	private Vector<Command> _commands;
 
@@ -36,14 +35,20 @@ public class Macro extends Command {
 
 	@Override
 	public boolean isMergeableTo(Command c) {
-		if (!(c instanceof Macro)) return false;
+		if (!(c instanceof Macro)) {
+			return false;
+		}
 		Macro m = (Macro) c;
 		Vector<Command> v = m.getCommands();
-		if (this.getCommands().size() != v.size()) return false;
-		for (int i = 0; i < this.getCommands().size(); i++) {
-			Command c1 = this.getCommands().elementAt(i);
+		if (getCommands().size() != v.size()) {
+			return false;
+		}
+		for (int i = 0; i < getCommands().size(); i++) {
+			Command c1 = getCommands().elementAt(i);
 			Command c2 = v.elementAt(i);
-			if (!(c1.isMergeableTo(c2))) return false;
+			if (!c1.isMergeableTo(c2)) {
+				return false;
+			}
 		}
 		return true;
 	}
@@ -56,8 +61,8 @@ public class Macro extends Command {
 		Vector<Command> vectorOfCommands = new Vector<Command>();
 		Command ret = new Macro(vectorOfCommands);
 
-		for (int i = 0; i < this.getCommands().size(); i++) {
-			Command c1 = this.getCommands().elementAt(i);
+		for (int i = 0; i < getCommands().size(); i++) {
+			Command c1 = getCommands().elementAt(i);
 			Command c2 = v.elementAt(i);
 			Command c3 = c1.mergeTo(c2);
 			vectorOfCommands.add(c3);

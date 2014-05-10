@@ -9,8 +9,8 @@ public class DoubleStroke implements Stroke {
 	private Stroke innerStroke;
 
 	public DoubleStroke(float lineWidth, float distanceBetweenLines, int cap, int join, float miterlimit, float[] dash, float dash_phase) {
-		this.outerStroke = new BasicStroke(lineWidth + distanceBetweenLines, cap, join, miterlimit, dash, dash_phase);
-		this.innerStroke = new BasicStroke(lineWidth, cap, join, miterlimit, dash, dash_phase);
+		outerStroke = new BasicStroke(lineWidth + distanceBetweenLines, cap, join, miterlimit, dash, dash_phase);
+		innerStroke = new BasicStroke(lineWidth, cap, join, miterlimit, dash, dash_phase);
 	}
 
 	@Override

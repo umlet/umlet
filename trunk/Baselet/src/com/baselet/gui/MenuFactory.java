@@ -72,10 +72,10 @@ import com.umlet.language.ClassDiagramConverter;
 public class MenuFactory {
 
 	protected void doAction(final String menuItem, final Object param) {
-		//AB: Hopefully this will resolve threading issues and work for eclipse AND standalone
+		// AB: Hopefully this will resolve threading issues and work for eclipse AND standalone
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
-			public void run() {			
+			public void run() {
 				Main main = Main.getInstance();
 				BaseGUI gui = main.getGUI();
 				DiagramHandler diagramHandler = gui.getCurrentDiagram().getHandler();
@@ -91,7 +91,7 @@ public class MenuFactory {
 				else if (menuItem.equals(RECENT_FILES)) {
 					main.doOpen((String) param);
 				}
-				else if (menuItem.equals(GENERATE_CLASS)) {	
+				else if (menuItem.equals(GENERATE_CLASS)) {
 					new ClassDiagramConverter().createClassDiagrams(ClassChooser.getFilesToOpen());
 				}
 				else if (menuItem.equals(GENERATE_CLASS_OPTIONS)) {
@@ -121,34 +121,44 @@ public class MenuFactory {
 				else if (menuItem.equals(EXIT)) {
 					main.getGUI().closeWindow();
 				}
-				else if (menuItem.equals(UNDO) && (actualHandler != null) && (actualSelector != null)) {
+				else if (menuItem.equals(UNDO) && actualHandler != null && actualSelector != null) {
 					actualHandler.getController().undo();
-					if (gui instanceof StandaloneGUI) ((StandaloneGUI) gui).updateGrayedOutMenuItems(actualHandler);
+					if (gui instanceof StandaloneGUI) {
+						((StandaloneGUI) gui).updateGrayedOutMenuItems(actualHandler);
+					}
 				}
-				else if (menuItem.equals(REDO) && (actualHandler != null)) {
+				else if (menuItem.equals(REDO) && actualHandler != null) {
 					actualHandler.getController().redo();
-					if (gui instanceof StandaloneGUI) ((StandaloneGUI) gui).updateGrayedOutMenuItems(actualHandler);
+					if (gui instanceof StandaloneGUI) {
+						((StandaloneGUI) gui).updateGrayedOutMenuItems(actualHandler);
+					}
 				}
-				else if (menuItem.equals(DELETE) && (actualHandler != null) && (actualSelector != null)) {
+				else if (menuItem.equals(DELETE) && actualHandler != null && actualSelector != null) {
 					List<GridElement> v = actualSelector.getSelectedElements();
-					if (v.size() > 0) actualHandler.getController().executeCommand(new RemoveElement(v));
+					if (v.size() > 0) {
+						actualHandler.getController().executeCommand(new RemoveElement(v));
+					}
 				}
-				else if (menuItem.equals(SELECT_ALL) && (actualHandler != null) && (actualSelector != null)) {
+				else if (menuItem.equals(SELECT_ALL) && actualHandler != null && actualSelector != null) {
 					actualSelector.selectAll();
 				}
-				else if (menuItem.equals(GROUP) && (actualHandler != null) && (actualSelector != null)) {
+				else if (menuItem.equals(GROUP) && actualHandler != null && actualSelector != null) {
 					actualHandler.getController().executeCommand(new ChangeElementSetting(GroupFacet.KEY, actualSelector.getUnusedGroup().toString(), actualSelector.getSelectedElements()));
 				}
-				else if (menuItem.equals(UNGROUP) && (actualHandler != null) && (actualSelector != null)) {
+				else if (menuItem.equals(UNGROUP) && actualHandler != null && actualSelector != null) {
 					actualHandler.getController().executeCommand(new ChangeElementSetting(GroupFacet.KEY, null, actualSelector.getSelectedElements()));
 				}
-				else if (menuItem.equals(CUT) && (actualHandler != null)) {
-					if (!actualHandler.getDrawPanel().getGridElements().isEmpty()) actualHandler.getController().executeCommand(new Cut());
+				else if (menuItem.equals(CUT) && actualHandler != null) {
+					if (!actualHandler.getDrawPanel().getGridElements().isEmpty()) {
+						actualHandler.getController().executeCommand(new Cut());
+					}
 				}
-				else if (menuItem.equals(COPY) && (actualHandler != null)) {
-					if (!actualHandler.getDrawPanel().getGridElements().isEmpty()) actualHandler.getController().executeCommand(new Copy());
+				else if (menuItem.equals(COPY) && actualHandler != null) {
+					if (!actualHandler.getDrawPanel().getGridElements().isEmpty()) {
+						actualHandler.getController().executeCommand(new Copy());
+					}
 				}
-				else if (menuItem.equals(PASTE) && (actualHandler != null)) {
+				else if (menuItem.equals(PASTE) && actualHandler != null) {
 					actualHandler.getController().executeCommand(new Paste());
 				}
 				else if (menuItem.equals(NEW_CE)) {
@@ -167,7 +177,7 @@ public class MenuFactory {
 				}
 				else if (menuItem.equals(EDIT_SELECTED)) {
 					GridElement entity = main.getEditedGridElement();
-					if ((entity != null) && (entity instanceof CustomElement)) {
+					if (entity != null && entity instanceof CustomElement) {
 						if (gui.getCurrentCustomHandler().closeEntity()) {
 							gui.setCustomPanelEnabled(true);
 							gui.getCurrentCustomHandler().getPanel().setCustomElementIsNew(false);
@@ -212,7 +222,7 @@ public class MenuFactory {
 					int change = param.equals(LAYER_DOWN) ? -1 : +1;
 					Map<GridElement, String> valueMap = new HashMap<GridElement, String>();
 					for (GridElement e : actualSelector.getSelectedElements()) {
-						valueMap.put(e, Integer.toString(e.getLayer()+change));
+						valueMap.put(e, Integer.toString(e.getLayer() + change));
 					}
 					actualHandler.getController().executeCommand(new ChangeElementSetting(LayerFacet.KEY, valueMap));
 				}
@@ -222,11 +232,15 @@ public class MenuFactory {
 
 	// These components should only be enabled if the drawpanel is not empty
 	protected List<JComponent> diagramDependendComponents = new ArrayList<JComponent>();
+
 	public void updateDiagramDependendComponents() {
 		DrawPanel currentDiagram = Main.getInstance().getGUI().getCurrentDiagram();
-		if (currentDiagram == null) return; //Possible if method is called at loading a palette
+		if (currentDiagram == null)
+		{
+			return; // Possible if method is called at loading a palette
+		}
 		DiagramHandler handler = currentDiagram.getHandler();
-		boolean enable = !((handler == null) || handler.getDrawPanel().getGridElements().isEmpty());
+		boolean enable = !(handler == null || handler.getDrawPanel().getGridElements().isEmpty());
 		for (JComponent component : diagramDependendComponents) {
 			component.setEnabled(enable);
 		}
@@ -234,4 +248,3 @@ public class MenuFactory {
 	}
 
 }
-

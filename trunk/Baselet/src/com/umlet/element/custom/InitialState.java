@@ -9,7 +9,6 @@ import com.baselet.control.Main;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.element.OldGridElement;
 
-
 @SuppressWarnings("serial")
 public class InitialState extends OldGridElement {
 	@Override
@@ -18,9 +17,8 @@ public class InitialState extends OldGridElement {
 		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
-		
 
-		g2.fillOval(0, 0, this.getRectangle().width, this.getRectangle().height);
+		g2.fillOval(0, 0, getRectangle().width, getRectangle().height);
 	}
 
 	@Override

@@ -9,9 +9,13 @@ public class RecentlyUsedFilesList implements Iterable<String> {
 	private List<String> recentFiles = new ArrayList<String>();
 
 	public void add(String filename) {
-		if (recentFiles.contains(filename)) recentFiles.remove(filename);
+		if (recentFiles.contains(filename)) {
+			recentFiles.remove(filename);
+		}
 		recentFiles.add(0, filename);
-		if (recentFiles.size() > Constants.RECENT_FILES_LIST_LENGTH) recentFiles.remove(Constants.RECENT_FILES_LIST_LENGTH);
+		if (recentFiles.size() > Constants.RECENT_FILES_LIST_LENGTH) {
+			recentFiles.remove(Constants.RECENT_FILES_LIST_LENGTH);
+		}
 	}
 
 	public List<String> getList() {

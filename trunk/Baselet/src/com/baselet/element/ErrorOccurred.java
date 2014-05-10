@@ -32,21 +32,25 @@ public class ErrorOccurred extends OldGridElement {
 		float zoom = handlerForElement.getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.drawRect(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
-		if (handlerForElement.getDrawPanel().getSelector().isSelected(this)) g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
-		else g2.setColor(Color.red);
+		g2.drawRect(0, 0, getRectangle().width - 1, getRectangle().height - 1);
+		if (handlerForElement.getDrawPanel().getSelector().isSelected(this)) {
+			g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
+		}
+		else {
+			g2.setColor(Color.red);
+		}
 		g2.setFont(handlerForElement.getFontHandler().getFont());
-		handlerForElement.getFontHandler().writeText(g2, errorMessage, this.getRectangle().width / 2, this.getRectangle().height / 2 - (int) (10 * zoom), AlignHorizontal.CENTER);
+		handlerForElement.getFontHandler().writeText(g2, errorMessage, getRectangle().width / 2, getRectangle().height / 2 - (int) (10 * zoom), AlignHorizontal.CENTER);
 		g2.setColor(fgColor);
 	}
 
 	@Override
 	public GridElement CloneFromMe() {
 		try {
-			Constructor<ErrorOccurred> c = ErrorOccurred.class.getConstructor(new Class[]{String.class});
-			GridElement ge = c.newInstance(new Object[]{errorMessage});
-			ge.setPanelAttributes(this.getPanelAttributes()); // copy states
-			ge.setRectangle(this.getRectangle());
+			Constructor<ErrorOccurred> c = ErrorOccurred.class.getConstructor(new Class[] { String.class });
+			GridElement ge = c.newInstance(new Object[] { errorMessage });
+			ge.setPanelAttributes(getPanelAttributes()); // copy states
+			ge.setRectangle(getRectangle());
 			Main.getHandlerForElement(this).setHandlerAndInitListeners(ge);
 			return ge;
 		} catch (Exception e) {

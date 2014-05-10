@@ -31,23 +31,25 @@ public class Connector {
 	}
 
 	public Connector(Graphics2D g, Element e1, Element e2) {
-		this.graphics = g;
+		graphics = g;
 		this.e1 = e1;
 		this.e2 = e2;
 	}
 
 	public void paint() {
 		if (e1.connectOut() && e2.connectIn()) {
-			Point c2 = this.e2.getConnect(Direction.UP);
-			Point c1 = this.e1.getConnect(Direction.DOWN);
+			Point c2 = e2.getConnect(Direction.UP);
+			Point c1 = e1.getConnect(Direction.DOWN);
 
-			if ((c1 != null) && (c2 != null)) {
+			if (c1 != null && c2 != null) {
 				if (!c1.equals(c2)) {
 					if (e1.arrowOut() && e2.arrowIn()) {
 						float zoom = e1.getHandler().getZoomFactor();
-						Connector.drawArrow(this.graphics, zoom, c1.x, c1.y, c2.x, c2.y);
+						Connector.drawArrow(graphics, zoom, c1.x, c1.y, c2.x, c2.y);
 					}
-					else this.graphics.drawLine(c1.x, c1.y, c2.x, c2.y);
+					else {
+						graphics.drawLine(c1.x, c1.y, c2.x, c2.y);
+					}
 				}
 			}
 		}

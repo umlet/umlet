@@ -12,7 +12,6 @@ import com.baselet.control.Main;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.element.OldGridElement;
 
-
 @SuppressWarnings("serial")
 public class HistoryState extends OldGridElement {
 
@@ -22,9 +21,8 @@ public class HistoryState extends OldGridElement {
 		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
-		
 
-		g2.fillOval(0, 0, this.getRectangle().width, this.getRectangle().height);
+		g2.fillOval(0, 0, getRectangle().width, getRectangle().height);
 		// Measure the font and the message
 		Rectangle2D bounds = Main.getHandlerForElement(this).getFontHandler().getFont().getStringBounds("H", g2.getFontRenderContext());
 		LineMetrics metrics = Main.getHandlerForElement(this).getFontHandler().getFont().getLineMetrics("H", g2.getFontRenderContext());
@@ -33,8 +31,8 @@ public class HistoryState extends OldGridElement {
 		float ascent = metrics.getAscent(); // Top of text to baseline
 
 		// Now display the message centered horizontally and vertically in this
-		float x0 = ((this.getRectangle().width - width) / 2);
-		float y0 = ((this.getRectangle().height - lineheight) / 2 + ascent);
+		float x0 = (getRectangle().width - width) / 2;
+		float y0 = (getRectangle().height - lineheight) / 2 + ascent;
 		g2.setColor(Color.WHITE);
 		g2.drawString("H", x0, y0);
 		g2.setColor(fgColor);

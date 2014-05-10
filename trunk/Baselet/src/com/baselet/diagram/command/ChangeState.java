@@ -24,14 +24,14 @@ public class ChangeState extends Command {
 	public String getOldState() {
 		return _oldState;
 	}
-	
+
 	public int getOldCaret() {
 		return _oldCaret;
 	}
-	
+
 	public int getNewCaret() {
 		return _newCaret;
-	}	
+	}
 
 	public ChangeState(GridElement e, String oldState, String newState, int oldCaret, int newCaret) {
 		_entity = e;
@@ -51,7 +51,7 @@ public class ChangeState extends Command {
 		if (gridElement != null && gridElement.equals(_entity)) {
 			OwnSyntaxPane pane = Main.getInstance().getGUI().getPropertyPane();
 			pane.switchToElement(gridElement);
-			
+
 			if (pane.getText().length() >= _newCaret) {
 				pane.getTextComponent().setCaretPosition(_newCaret);
 			}
@@ -60,38 +60,38 @@ public class ChangeState extends Command {
 
 	@Override
 	public void undo(DiagramHandler handler) {
-		//AB: Do not call super.undo() which would deselect the entity
-		//super.undo(handler);
+		// AB: Do not call super.undo() which would deselect the entity
+		// super.undo(handler);
 		_entity.setPanelAttributes(_oldState);
 		_entity.repaint();
-	
+
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
 		if (gridElement != null && gridElement.equals(_entity)) {
 			OwnSyntaxPane pane = Main.getInstance().getGUI().getPropertyPane();
 			pane.switchToElement(gridElement);
-			
+
 			if (pane.getText().length() >= _oldCaret) {
 				pane.getTextComponent().setCaretPosition(_oldCaret);
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean isMergeableTo(Command c) {
-		//method is not mergeable (to allow undo of property changes)
+		// method is not mergeable (to allow undo of property changes)
 		return false;
 	}
 
 	@Override
 	public Command mergeTo(Command c) {
 		ChangeState tmp = (ChangeState) c;
-		ChangeState ret = new ChangeState(this.getEntity(), tmp.getOldState(), this.getNewState(), tmp.getOldCaret(), this.getNewCaret());
+		ChangeState ret = new ChangeState(getEntity(), tmp.getOldState(), getNewState(), tmp.getOldCaret(), getNewCaret());
 		return ret;
 	}
-	
+
 	@Override
 	public String toString()
 	{
-		return "Changestate from " + getOldState() + " to " + getNewState();		
+		return "Changestate from " + getOldState() + " to " + getNewState();
 	}
 }

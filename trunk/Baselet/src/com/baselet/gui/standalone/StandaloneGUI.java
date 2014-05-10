@@ -39,16 +39,18 @@ public class StandaloneGUI extends BaseGUI {
 		if (index != -1) {
 			diagramtabs.setTitleAt(index, name);
 			// update only selected tab to keep scrolling tab position
-			((TabComponent)diagramtabs.getTabComponentAt(index)).updateUI();
+			((TabComponent) diagramtabs.getTabComponentAt(index)).updateUI();
 		}
 	}
 
 	@Override
 	public void setDiagramChanged(DiagramHandler diagram, boolean changed) {
 		String change_string = "";
-		if (changed) change_string = " *";
+		if (changed) {
+			change_string = " *";
+		}
 
-		this.updateDiagramName(diagram, diagram.getName() + change_string);
+		updateDiagramName(diagram, diagram.getName() + change_string);
 	}
 
 	@Override
@@ -59,9 +61,9 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public void closeWindow() {
 		guiBuilder.getMailPanel().closePanel(); // We must close the mailpanel to save the input date
-		if (this.askSaveForAllDirtyDiagrams()) {
-			this.main.closeProgram();
-			this.mainFrame.dispose();
+		if (askSaveForAllDirtyDiagrams()) {
+			main.closeProgram();
+			mainFrame.dispose();
 			System.exit(0);
 		}
 	}
@@ -69,10 +71,14 @@ public class StandaloneGUI extends BaseGUI {
 	private boolean askSaveForAllDirtyDiagrams() {
 		boolean ok = true;
 		for (DiagramHandler d : Main.getInstance().getDiagrams()) {
-			if (!d.askSaveIfDirty()) ok = false;
+			if (!d.askSaveIfDirty()) {
+				ok = false;
+			}
 		}
 
-		if (!getCurrentCustomHandler().closeEntity()) ok = false;
+		if (!getCurrentCustomHandler().closeEntity()) {
+			ok = false;
+		}
 		return ok;
 	}
 
@@ -84,21 +90,25 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public void showPalette(String palette) {
 		super.showPalette(palette);
-		CardLayout cl = (CardLayout) (this.guiBuilder.getPalettePanel().getLayout());
-		cl.show(this.guiBuilder.getPalettePanel(), palette);
+		CardLayout cl = (CardLayout) guiBuilder.getPalettePanel().getLayout();
+		cl.show(guiBuilder.getPalettePanel(), palette);
 	}
 
 	@Override
 	public String getSelectedPalette() {
-		return this.guiBuilder.getPaletteList().getSelectedItem().toString();
+		return guiBuilder.getPaletteList().getSelectedItem().toString();
 	}
 
 	@Override
 	public void close(DiagramHandler diagram) {
 		guiBuilder.getDiagramtabs().remove(diagram.getDrawPanel().getScrollPane());
-		DrawPanel p = this.getCurrentDiagram();
-		if (p != null) Main.getInstance().setCurrentDiagramHandler(p.getHandler());
-		else Main.getInstance().setCurrentDiagramHandler(null);
+		DrawPanel p = getCurrentDiagram();
+		if (p != null) {
+			Main.getInstance().setCurrentDiagramHandler(p.getHandler());
+		}
+		else {
+			Main.getInstance().setCurrentDiagramHandler(null);
+		}
 	}
 
 	@Override
@@ -111,18 +121,26 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public void jumpTo(DiagramHandler diagram) {
-		guiBuilder.getDiagramtabs().setSelectedComponent(diagram.getDrawPanel().getScrollPane());		
+		guiBuilder.getDiagramtabs().setSelectedComponent(diagram.getDrawPanel().getScrollPane());
 		diagram.getDrawPanel().getSelector().updateSelectorInformation();
-		DrawPanel p = this.getCurrentDiagram();
-		if (p != null) Main.getInstance().setCurrentDiagramHandler(p.getHandler());
-		else Main.getInstance().setCurrentDiagramHandler(null);
+		DrawPanel p = getCurrentDiagram();
+		if (p != null) {
+			Main.getInstance().setCurrentDiagramHandler(p.getHandler());
+		}
+		else {
+			Main.getInstance().setCurrentDiagramHandler(null);
+		}
 	}
 
 	@Override
 	public DrawPanel getCurrentDiagram() {
 		JScrollPane scr = (JScrollPane) guiBuilder.getDiagramtabs().getSelectedComponent();
-		if (scr != null) return (DrawPanel) scr.getViewport().getView();
-		else return null;
+		if (scr != null) {
+			return (DrawPanel) scr.getViewport().getView();
+		}
+		else {
+			return null;
+		}
 	}
 
 	@Override
@@ -145,15 +163,18 @@ public class StandaloneGUI extends BaseGUI {
 
 	private void setDrawPanelEnabled(boolean enable) {
 		JTabbedPane diagramtabs = guiBuilder.getDiagramtabs();
-		this.guiBuilder.getPalettePanel().setEnabled(enable);
-		for (Component c : guiBuilder.getPalettePanel().getComponents())
+		guiBuilder.getPalettePanel().setEnabled(enable);
+		for (Component c : guiBuilder.getPalettePanel().getComponents()) {
 			c.setEnabled(enable);
+		}
 		diagramtabs.setEnabled(enable);
-		for (Component c : diagramtabs.getComponents())
+		for (Component c : diagramtabs.getComponents()) {
 			c.setEnabled(enable);
-		for (int i = 0; i < diagramtabs.getTabCount(); i++)
+		}
+		for (int i = 0; i < diagramtabs.getTabCount(); i++) {
 			diagramtabs.getTabComponentAt(i).setEnabled(enable);
-		this.guiBuilder.getSearchField().setEnabled(enable);
+		}
+		guiBuilder.getSearchField().setEnabled(enable);
 	}
 
 	@Override
@@ -189,12 +210,12 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public int getMainSplitPosition() {
-		return this.guiBuilder.getMainSplit().getDividerLocation();
+		return guiBuilder.getMainSplit().getDividerLocation();
 	}
 
 	@Override
 	public int getRightSplitPosition() {
-		return this.guiBuilder.getRightSplit().getDividerLocation();
+		return guiBuilder.getRightSplit().getDividerLocation();
 	}
 
 	@Override
@@ -204,7 +225,7 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public Frame getMainFrame() {
-		return this.mainFrame;
+		return mainFrame;
 	}
 
 	@Override

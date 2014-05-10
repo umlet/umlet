@@ -1,6 +1,5 @@
 package com.baselet.plugin.wizard;
 
-
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -59,7 +58,7 @@ public class NewWizardPage extends WizardPage {
 		container.setLayout(layout);
 		layout.numColumns = 3;
 		layout.verticalSpacing = 9;
-		
+
 		// Input for the container where the new diagram should be placed
 		Label label = new Label(container, SWT.NULL);
 		label.setText("&Container:");
@@ -83,7 +82,7 @@ public class NewWizardPage extends WizardPage {
 				handleBrowse();
 			}
 		});
-		
+
 		// name of the diagram
 		label = new Label(container, SWT.NULL);
 		label.setText("&Diagram name:");
@@ -107,27 +106,33 @@ public class NewWizardPage extends WizardPage {
 	 */
 
 	private void initialize() {
-		if ((selection != null) && (selection.isEmpty() == false)
-				&& (selection instanceof IStructuredSelection)) {
+		if (selection != null && selection.isEmpty() == false
+			&& selection instanceof IStructuredSelection) {
 			IStructuredSelection ssel = (IStructuredSelection) selection;
-			if (ssel.size() > 1) return;
-			Object obj = ssel.getFirstElement();
-			
-			// try to find a resource for the selected object
-			IResource resource=null;
-			if (obj instanceof IResource) {
-				resource=(IResource) obj;
+			if (ssel.size() > 1) {
+				return;
 			}
-			else if (obj instanceof IJavaElement){
+			Object obj = ssel.getFirstElement();
+
+			// try to find a resource for the selected object
+			IResource resource = null;
+			if (obj instanceof IResource) {
+				resource = (IResource) obj;
+			}
+			else if (obj instanceof IJavaElement) {
 				resource = ((IJavaElement) obj).getResource();
 			}
-			
-			if (resource!=null){
-				// convert the resource to a container and 
+
+			if (resource != null) {
+				// convert the resource to a container and
 				// initalize the container text with it
-				IContainer container=null;
-				if (resource instanceof IContainer) container = (IContainer) resource;
-				else container = (resource).getParent();
+				IContainer container = null;
+				if (resource instanceof IContainer) {
+					container = (IContainer) resource;
+				}
+				else {
+					container = resource.getParent();
+				}
 				containerText.setText(container.getFullPath().toString());
 			}
 		}
@@ -142,7 +147,7 @@ public class NewWizardPage extends WizardPage {
 	private void handleBrowse() {
 		ContainerSelectionDialog dialog = new ContainerSelectionDialog(
 				getShell(), ResourcesPlugin.getWorkspace().getRoot(), false,
-		"Select new file container");
+				"Select new file container");
 		if (dialog.open() == Window.OK) {
 			Object[] result = dialog.getResult();
 			if (result.length == 1) {
@@ -157,15 +162,15 @@ public class NewWizardPage extends WizardPage {
 
 	private void dialogChanged() {
 		IResource container = ResourcesPlugin.getWorkspace().getRoot()
-		.findMember(new Path(getContainerName()));
+				.findMember(new Path(getContainerName()));
 		String fileName = getFileName();
 
 		if (getContainerName().length() == 0) {
 			updateStatus("File container must be specified");
 			return;
 		}
-		if ((container == null)
-				|| ((container.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0)) {
+		if (container == null
+			|| (container.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
 			updateStatus("File container must exist");
 			return;
 		}

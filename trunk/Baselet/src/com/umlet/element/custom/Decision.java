@@ -13,7 +13,6 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
 
-
 @SuppressWarnings("serial")
 public class Decision extends OldGridElement {
 	@Override
@@ -22,20 +21,23 @@ public class Decision extends OldGridElement {
 		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
-		
 
 		Polygon poly = new Polygon();
-		poly.addPoint(this.getRectangle().width / 2, 0);
-		poly.addPoint(this.getRectangle().width, this.getRectangle().height / 2);
-		poly.addPoint(this.getRectangle().width / 2, this.getRectangle().height);
-		poly.addPoint(0, this.getRectangle().height / 2);
+		poly.addPoint(getRectangle().width / 2, 0);
+		poly.addPoint(getRectangle().width, getRectangle().height / 2);
+		poly.addPoint(getRectangle().width / 2, getRectangle().height);
+		poly.addPoint(0, getRectangle().height / 2);
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
 		g2.fillPolygon(poly);
 		g2.setComposite(composites[0]);
-		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
-		else g2.setColor(fgColorBase);
+		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
+			g2.setColor(fgColor);
+		}
+		else {
+			g2.setColor(fgColorBase);
+		}
 
 		g2.drawPolygon(poly);
 	}

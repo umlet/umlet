@@ -9,7 +9,6 @@ import javax.swing.JComboBox;
 
 import com.baselet.control.Main;
 
-
 public class PaletteComboBoxListener implements ActionListener, MouseWheelListener {
 
 	@Override
@@ -24,7 +23,7 @@ public class PaletteComboBoxListener implements ActionListener, MouseWheelListen
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		if (e.getSource() instanceof JComboBox) {
-			JComboBox comboBox = ((JComboBox) e.getSource());
+			JComboBox comboBox = (JComboBox) e.getSource();
 			int newIndex = comboBox.getSelectedIndex() + e.getWheelRotation(); // wheelrotation is -1 (up) or +1 (down)
 			if (comboBox.getItemAt(newIndex) != null) {
 				String newSelectedItem = comboBox.getItemAt(newIndex).toString();
@@ -36,7 +35,7 @@ public class PaletteComboBoxListener implements ActionListener, MouseWheelListen
 	}
 
 	private void setZoom() {
-		if ((Main.getInstance().getPalette() != null)) {
+		if (Main.getInstance().getPalette() != null) {
 			int factor = Main.getInstance().getPalette().getGridSize();
 			Main.getInstance().getGUI().setValueOfZoomDisplay(factor);
 		}

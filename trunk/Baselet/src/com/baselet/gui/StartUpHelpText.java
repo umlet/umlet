@@ -35,7 +35,7 @@ import com.baselet.gui.listener.HyperLinkActiveListener;
 public class StartUpHelpText extends JEditorPane implements ContainerListener, ComponentListener {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final Logger log = Logger.getLogger(StartUpHelpText.class);
 
 	private DrawPanel panel;
@@ -49,11 +49,13 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		this.panel = panel;
 
 		// If the GUI is null (e.g.: if main is used in batch mode) the startup help text is not required
-		if (Main.getInstance().getGUI() == null) return;
+		if (Main.getInstance().getGUI() == null) {
+			return;
+		}
 
 		panel.addContainerListener(this);
 		panel.addComponentListener(this);
-		this.addMouseListener(new DelegatingMouseListener());
+		addMouseListener(new DelegatingMouseListener());
 
 		startUpdatechecker();
 		try {
@@ -77,13 +79,17 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 	@Override
 	public void setEnabled(boolean en) {
 		super.setEnabled(en);
-		if (en && this.visible) {
-			if (this.panel.getGridElements().size() == 0) this.setVisible(true);
-			else this.visible = false;
+		if (en && visible) {
+			if (panel.getGridElements().size() == 0) {
+				setVisible(true);
+			}
+			else {
+				visible = false;
+			}
 		}
 		else {
-			this.visible = this.isVisible();
-			this.setVisible(false);
+			visible = isVisible();
+			setVisible(false);
 		}
 	}
 
@@ -93,11 +99,11 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 
 	private void showHTML() throws Exception {
 		this.setPage(new URL("file:///" + filename));
-		this.addHyperlinkListener(new HyperLinkActiveListener());
-		this.setEditable(false);
-		this.setBackground(Color.WHITE);
-		this.setSelectionColor(this.getBackground());
-		this.setSelectedTextColor(this.getForeground());
+		addHyperlinkListener(new HyperLinkActiveListener());
+		setEditable(false);
+		setBackground(Color.WHITE);
+		setSelectionColor(getBackground());
+		setSelectedTextColor(getForeground());
 	}
 
 	private static String createTempFileWithText(String textToWriteIntoFile) throws IOException {
@@ -112,10 +118,14 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 	private String getDefaultTextWithReplacedSystemspecificMetakeys() throws FileNotFoundException {
 		String text = "";
 		Scanner sc = new Scanner(new File(getStartUpFileName()));
-		while(sc.hasNextLine()) {
+		while (sc.hasNextLine()) {
 			String line = sc.nextLine();
-			if (SystemInfo.META_KEY == Metakey.CTRL) line = line.replace(Metakey.CMD.toString(), Metakey.CTRL.toString());
-			else if (SystemInfo.META_KEY == Metakey.CMD) line = line.replace(Metakey.CTRL.toString(), Metakey.CMD.toString());
+			if (SystemInfo.META_KEY == Metakey.CTRL) {
+				line = line.replace(Metakey.CMD.toString(), Metakey.CTRL.toString());
+			}
+			else if (SystemInfo.META_KEY == Metakey.CMD) {
+				line = line.replace(Metakey.CTRL.toString(), Metakey.CMD.toString());
+			}
 			text += line + "\n";
 		}
 		return text;
@@ -124,29 +134,31 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 	@Override
 	public void componentAdded(ContainerEvent e) {
 		boolean gridElementAdded = panel.getElementToComponent(e.getChild()) != null;
-		if (gridElementAdded) this.setVisible(false);
+		if (gridElementAdded) {
+			setVisible(false);
+		}
 	}
 
 	@Override
 	public void componentRemoved(ContainerEvent e) {
-		if ((e.getContainer().getComponentCount() <= 1) && !this.equals(e.getChild())) this.setVisible(true);
+		if (e.getContainer().getComponentCount() <= 1 && !equals(e.getChild())) {
+			setVisible(true);
+		}
 	}
 
 	@Override
 	public void componentResized(ComponentEvent arg0) {
-		Dimension size = this.panel.getSize();
-		Dimension labelSize = this.getPreferredSize();
+		Dimension size = panel.getSize();
+		Dimension labelSize = getPreferredSize();
 		this.setSize(labelSize);
 		int minDistanceFromTop = 25;
 		int labelSizeToSubtract = Math.max(150, labelSize.height); // the upper border of the startup panel is at least 200px over the middle of the screen (necessary to have a good position for small update info windows)
-		this.setLocation(size.width / 2 - (labelSize.width / 2), Math.max(minDistanceFromTop, size.height / 2 - labelSizeToSubtract));
+		this.setLocation(size.width / 2 - labelSize.width / 2, Math.max(minDistanceFromTop, size.height / 2 - labelSizeToSubtract));
 	}
-
-
 
 	@Override
 	public void paint(Graphics g) {
-		//Subpixel rendering must be disabled for the startuphelp (looks bad)
+		// Subpixel rendering must be disabled for the startuphelp (looks bad)
 		((Graphics2D) g).setRenderingHints(Utils.getUxRenderingQualityHigh(false));
 		super.paint(g);
 		((Graphics2D) g).setRenderingHints(Utils.getUxRenderingQualityHigh(true));
@@ -193,7 +205,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		}
 	}
 
-	//TODO: If the thread takes too much time, the update message is only shown if a new panel is opened
+	// TODO: If the thread takes too much time, the update message is only shown if a new panel is opened
 	private class Updater implements Runnable {
 		@Override
 		public void run() {
@@ -209,13 +221,17 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 
 		private String getNewVersionTextWithStartupHtmlFormat(String startupFileName) throws IOException {
 			String textFromURL = getNewVersionTextFromURL();
-			if (textFromURL == null) return null;
+			if (textFromURL == null) {
+				return null;
+			}
 
 			String returnText = "";
 			Scanner sc = new Scanner(new File(startupFileName));
-			while(sc.hasNextLine()) {
+			while (sc.hasNextLine()) {
 				String line = sc.nextLine();
-				if (line.contains("<body>")) break;
+				if (line.contains("<body>")) {
+					break;
+				}
 				returnText += line + "\n";
 			}
 			returnText += textFromURL + "</body></html>";
@@ -224,13 +240,16 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 
 		private String getNewVersionTextFromURL() throws IOException {
 			String versionText = BrowserLauncher.readURL(Program.WEBSITE + "/current_umlet_version_changes.txt");
-			versionText = versionText.replace("<", "&lt;").replace(">", "&gt;").replace("&", "&amp;").replace("\"", "&quot;"); //escape html characters for safety
+			versionText = versionText.replace("<", "&lt;").replace(">", "&gt;").replace("&", "&amp;").replace("\"", "&quot;"); // escape html characters for safety
 			String[] splitString = versionText.split("\n");
 			String actualVersion = splitString[0];
-			if (Program.VERSION.compareTo(actualVersion) > 0) return null; // no newer version found
+			if (Program.VERSION.compareTo(actualVersion) > 0)
+			{
+				return null; // no newer version found
+			}
 
 			String returnText = "<p><b>A new version of " + Program.NAME + " (" + actualVersion + ") is available at <a href=\"" + Program.WEBSITE + "\">" + Program.WEBSITE.substring("http://".length()) + "</a></b></p>";
-			//Every line after the first one describes a feature of the new version and will be listed
+			// Every line after the first one describes a feature of the new version and will be listed
 			for (int i = 1; i < splitString.length; i++) {
 				returnText += "<p>" + splitString[i] + "</p>";
 			}

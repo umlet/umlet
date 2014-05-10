@@ -25,7 +25,7 @@ public abstract class BaseGUIBuilder {
 	private JPanel palettePanel;
 	private JSplitPane rightSplit;
 	private JComboBox paletteList;
-	
+
 	private CustomElementHandler customHandler;
 	private JSplitPane mainSplit;
 	private MailPanel mailPanel;
@@ -33,7 +33,7 @@ public abstract class BaseGUIBuilder {
 	private JSplitPane mailSplit;
 	private JPanel rightPanel;
 	private OwnSyntaxPane propertyTextPane;
-	
+
 	protected JSplitPane initBase(Component mainComponent, final int mainDividerLoc) {
 		propertyTextPane = createPropertyTextPane(); // must be initialized before palettePanel because it could be accessed during palette initialization (eg in case of different default fontsize)
 		palettePanel = newPalettePanel();
@@ -42,7 +42,7 @@ public abstract class BaseGUIBuilder {
 
 		mainSplit = newGenericSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainComponent, rightPanel, 2, mainDividerLoc, true);
 		// hide mainSplit on doubleclick
-		((BasicSplitPaneUI)mainSplit.getUI()).getDivider().addMouseListener(new MouseAdapter() {
+		((BasicSplitPaneUI) mainSplit.getUI()).getDivider().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
@@ -59,43 +59,43 @@ public abstract class BaseGUIBuilder {
 		mailSplit = newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, mailPanel, customSplit, 0, 0, true);
 		return mailSplit;
 	}
-	
+
 	public JSplitPane getMailSplit() {
 		return mailSplit;
 	}
-	
+
 	public JSplitPane getCustomSplit() {
 		return customSplit;
 	}
-	
+
 	public MailPanel getMailPanel() {
 		return mailPanel;
 	}
-	
+
 	public JSplitPane getMainSplit() {
 		return mainSplit;
 	}
-	
+
 	public JPanel getPalettePanel() {
 		return palettePanel;
 	}
-	
+
 	public JComboBox getPaletteList() {
 		return paletteList;
 	}
-	
+
 	public JSplitPane getRightSplit() {
 		return rightSplit;
 	}
-	
+
 	public CustomElementHandler getCustomHandler() {
 		return customHandler;
 	}
-	
+
 	public CustomElementPanel getCustomPanel() {
 		return customHandler.getPanel();
 	}
-	
+
 	public JPanel newPalettePanel() {
 		JPanel palettePanel = new JPanel(new CardLayout());
 		palettePanel.addComponentListener(new DividerListener()); // Adding the DividerListener which refreshes Scrollbars here is enough for all dividers
@@ -127,7 +127,7 @@ public abstract class BaseGUIBuilder {
 
 	private JPanel newPaletteControlsPanel() {
 		createPaletteList();
-		
+
 		JPanel paletteControlsPanel = new JPanel();
 		paletteControlsPanel.setLayout(new BoxLayout(paletteControlsPanel, BoxLayout.X_AXIS));
 		paletteControlsPanel.add(paletteList);
@@ -154,15 +154,15 @@ public abstract class BaseGUIBuilder {
 		propertyTextPane.getTextComponent().getDocument().addDocumentListener(pListener);
 		return propertyTextPane;
 	}
-	
+
 	public OwnSyntaxPane getPropertyTextPane() {
 		return propertyTextPane;
 	}
-	
+
 	public void setMailPanelEnabled(boolean enable) {
 		getMailPanel().setVisible(enable);
 		if (enable) {
-			int mailDividerLoc= Math.max(Constants.MIN_MAIL_SPLITPANEL_SIZE, Constants.mail_split_position);
+			int mailDividerLoc = Math.max(Constants.MIN_MAIL_SPLITPANEL_SIZE, Constants.mail_split_position);
 			mailSplit.setDividerLocation(mailDividerLoc);
 			mailSplit.setDividerSize(2);
 		}
@@ -185,7 +185,7 @@ public abstract class BaseGUIBuilder {
 
 				customPanel.getLeftSplit().setLeftComponent(propertyTextPane.getPanel());
 				getCustomSplit().setDividerLocation(rightloc);
-				
+
 				customPanel.getRightSplit().setDividerLocation(loc);
 				customPanel.getLeftSplit().setDividerLocation(Main.getInstance().getDiagramHandler().getDrawPanel().getWidth() / 2);
 				customPanel.getLeftSplit().updateUI();

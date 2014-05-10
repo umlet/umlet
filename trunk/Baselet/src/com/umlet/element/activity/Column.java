@@ -9,73 +9,86 @@ public class Column {
 	private Graphics2D graphics;
 
 	public Column(Graphics2D graphics) {
-		this.elements = new ArrayList<Element>();
+		elements = new ArrayList<Element>();
 		this.graphics = graphics;
 	}
 
 	public boolean isEmpty() {
-		return this.elements.isEmpty();
+		return elements.isEmpty();
 	}
 
 	public Element getFirstElement() {
-		if (!this.elements.isEmpty()) return this.elements.get(0);
+		if (!elements.isEmpty()) {
+			return elements.get(0);
+		}
 		return null;
 	}
 
 	public Element getLastElement() {
-		if (!this.elements.isEmpty()) return this.elements.get(this.elements.size() - 1);
+		if (!elements.isEmpty()) {
+			return elements.get(elements.size() - 1);
+		}
 		return null;
 	}
 
 	public void addElement(Element e) {
-		this.elements.add(e);
+		elements.add(e);
 	}
 
 	public int getHeight() {
 		int height = 0;
-		for (Element e : this.elements)
+		for (Element e : elements) {
 			height += e.getHeight() + e.getPadding() * 2;
+		}
 		return height;
 	}
 
 	public int getLeftWidth() {
 		int width = 0;
-		for (Element e : this.elements) {
+		for (Element e : elements) {
 			int w = e.getLeftWidth();
-			if (w > width) width = w;
+			if (w > width) {
+				width = w;
+			}
 		}
 		return width;
 	}
 
 	public int getRightWidth() {
 		int width = 0;
-		for (Element e : this.elements) {
+		for (Element e : elements) {
 			int w = e.getRightWidth();
-			if (w > width) width = w;
+			if (w > width) {
+				width = w;
+			}
 		}
 		return width;
 	}
 
 	public int getWidth() {
-		return this.getLeftWidth() + this.getRightWidth();
+		return getLeftWidth() + getRightWidth();
 	}
 
 	public void setX(int x) {
-		for (Element e : this.elements)
+		for (Element e : elements) {
 			e.setX(x);
+		}
 	}
 
 	public void paint() {
 		Element current = null;
-		for (Element e : this.elements) {
-			if (current != null) (new Connector(this.graphics, current, e)).paint();
+		for (Element e : elements) {
+			if (current != null) {
+				new Connector(graphics, current, e).paint();
+			}
 			e.paint();
 			current = e;
 		}
 	}
 
 	public void printData(String prefix) {
-		for (Element e : this.elements)
+		for (Element e : elements) {
 			e.printData(prefix);
+		}
 	}
 }

@@ -43,7 +43,7 @@ import com.baselet.elementnew.NewGridElement;
 import com.umlet.custom.CustomElement;
 
 public class DiagramFileHandler {
-	
+
 	private static final Logger log = Logger.getLogger(DiagramFileHandler.class);
 
 	private static JFileChooser saveFileChooser;
@@ -69,17 +69,21 @@ public class DiagramFileHandler {
 	private List<OwnFileFilter> allFileFilters = new ArrayList<OwnFileFilter>();
 
 	protected DiagramFileHandler(DiagramHandler diagramHandler, File file) {
-		this.handler = diagramHandler;
-		if (file != null) this.fileName = file.getName();
-		else this.fileName = "new." + Program.EXTENSION;
+		handler = diagramHandler;
+		if (file != null) {
+			fileName = file.getName();
+		}
+		else {
+			fileName = "new." + Program.EXTENSION;
+		}
 		this.file = file;
-		this.exportFile = file;
+		exportFile = file;
 
 		allFileFilters.addAll(Arrays.asList(saveFileFilter));
 		allFileFilters.addAll(Arrays.asList(exportFileFilter));
 		for (OwnFileFilter filter : allFileFilters) {
-			this.filters.put(filter.getFormat(), filter);
-			this.fileextensions.put(filter, filter.getFormat());
+			filters.put(filter.getFormat(), filter);
+			fileextensions.put(filter, filter.getFormat());
 		}
 	}
 
@@ -89,11 +93,17 @@ public class DiagramFileHandler {
 
 	private JFileChooser reloadSaveFileChooser(boolean ownXmlFormat) {
 		// Set the initial target location for the fileChooser
-		if (this.file != null) {
-			if (ownXmlFormat) saveFileChooser = new JFileChooser(this.file);
-			else saveFileChooser = new JFileChooser(this.exportFile);
+		if (file != null) {
+			if (ownXmlFormat) {
+				saveFileChooser = new JFileChooser(file);
+			}
+			else {
+				saveFileChooser = new JFileChooser(exportFile);
+			}
 		}
-		else saveFileChooser = new JFileChooser(System.getProperty("user.dir"));
+		else {
+			saveFileChooser = new JFileChooser(System.getProperty("user.dir"));
+		}
 
 		saveFileChooser.setAcceptAllFileFilterUsed(false); // We don't want "all files" as a choice
 		// The input field should show the diagram name as preset
@@ -102,17 +112,19 @@ public class DiagramFileHandler {
 	}
 
 	public String getFileName() {
-		return this.fileName;
+		return fileName;
 	}
 
 	public String getFullPathName() {
-		if (this.file != null) return this.file.getAbsolutePath();
+		if (file != null) {
+			return file.getAbsolutePath();
+		}
 		return "";
 	}
 
 	private void setFileName(String fileName) {
 		this.fileName = fileName;
-		Main.getInstance().getGUI().updateDiagramName(this.handler, this.handler.getName());
+		Main.getInstance().getGUI().updateDiagramName(handler, handler.getName());
 	}
 
 	private void createXMLOutputDoc(Document doc, Collection<GridElement> elements, Element current) {
@@ -127,56 +139,57 @@ public class DiagramFileHandler {
 
 	private Element createXmlElementForGridElement(Document doc, GridElement e) {
 		// insert normal entity element
-			java.lang.Class<? extends GridElement> c = e.getClass();
-			String sElType = c.getName();
-			String sElPanelAttributes = e.getPanelAttributes();
-			String sElAdditionalAttributes = e.getAdditionalAttributes();
+		java.lang.Class<? extends GridElement> c = e.getClass();
+		String sElType = c.getName();
+		String sElPanelAttributes = e.getPanelAttributes();
+		String sElAdditionalAttributes = e.getAdditionalAttributes();
 
-			Element el = doc.createElement("element");
+		Element el = doc.createElement("element");
 
-			if (e instanceof NewGridElement){
-				Element elType = doc.createElement("id");
-				elType.appendChild(doc.createTextNode(((NewGridElement) e).getId().toString()));
-				el.appendChild(elType);
-			} else { // OldGridElement
-				Element elType = doc.createElement("type");
-				elType.appendChild(doc.createTextNode(sElType));
-				el.appendChild(elType);
-			}
+		if (e instanceof NewGridElement) {
+			Element elType = doc.createElement("id");
+			elType.appendChild(doc.createTextNode(((NewGridElement) e).getId().toString()));
+			el.appendChild(elType);
+		}
+		else { // OldGridElement
+			Element elType = doc.createElement("type");
+			elType.appendChild(doc.createTextNode(sElType));
+			el.appendChild(elType);
+		}
 
-			Element elCoor = doc.createElement("coordinates");
-			el.appendChild(elCoor);
+		Element elCoor = doc.createElement("coordinates");
+		el.appendChild(elCoor);
 
-			Element elX = doc.createElement("x");
-			elX.appendChild(doc.createTextNode("" + e.getRectangle().x));
-			elCoor.appendChild(elX);
+		Element elX = doc.createElement("x");
+		elX.appendChild(doc.createTextNode("" + e.getRectangle().x));
+		elCoor.appendChild(elX);
 
-			Element elY = doc.createElement("y");
-			elY.appendChild(doc.createTextNode("" + e.getRectangle().y));
-			elCoor.appendChild(elY);
+		Element elY = doc.createElement("y");
+		elY.appendChild(doc.createTextNode("" + e.getRectangle().y));
+		elCoor.appendChild(elY);
 
-			Element elW = doc.createElement("w");
-			elW.appendChild(doc.createTextNode("" + e.getRectangle().width));
-			elCoor.appendChild(elW);
+		Element elW = doc.createElement("w");
+		elW.appendChild(doc.createTextNode("" + e.getRectangle().width));
+		elCoor.appendChild(elW);
 
-			Element elH = doc.createElement("h");
-			elH.appendChild(doc.createTextNode("" + e.getRectangle().height));
-			elCoor.appendChild(elH);
+		Element elH = doc.createElement("h");
+		elH.appendChild(doc.createTextNode("" + e.getRectangle().height));
+		elCoor.appendChild(elH);
 
-			Element elPA = doc.createElement("panel_attributes");
-			elPA.appendChild(doc.createTextNode(sElPanelAttributes));
-			el.appendChild(elPA);
+		Element elPA = doc.createElement("panel_attributes");
+		elPA.appendChild(doc.createTextNode(sElPanelAttributes));
+		el.appendChild(elPA);
 
-			Element elAA = doc.createElement("additional_attributes");
-			elAA.appendChild(doc.createTextNode(sElAdditionalAttributes));
-			el.appendChild(elAA);
+		Element elAA = doc.createElement("additional_attributes");
+		elAA.appendChild(doc.createTextNode(sElAdditionalAttributes));
+		el.appendChild(elAA);
 
-			if (e instanceof CustomElement) {
-				Element elCO = doc.createElement("custom_code");
-				elCO.appendChild(doc.createTextNode(((CustomElement) e).getCode()));
-				el.appendChild(elCO);
-			}
-			return el;
+		if (e instanceof CustomElement) {
+			Element elCO = doc.createElement("custom_code");
+			elCO.appendChild(doc.createTextNode(((CustomElement) e).getCode()));
+			el.appendChild(elCO);
+		}
+		return el;
 	}
 
 	protected String createStringToBeSaved() {
@@ -194,7 +207,7 @@ public class DiagramFileHandler {
 			doc.appendChild(root);
 
 			// save helptext
-			String helptext = this.handler.getHelpText();
+			String helptext = handler.getHelpText();
 			if (!helptext.equals(Constants.getDefaultHelptext())) {
 				Element help = doc.createElement("help_text");
 				help.appendChild(doc.createTextNode(helptext));
@@ -203,10 +216,10 @@ public class DiagramFileHandler {
 
 			// save zoom
 			Element zoom = doc.createElement("zoom_level");
-			zoom.appendChild(doc.createTextNode(String.valueOf(this.handler.getGridSize())));
+			zoom.appendChild(doc.createTextNode(String.valueOf(handler.getGridSize())));
 			root.appendChild(zoom);
 
-			this.createXMLOutputDoc(doc, handler.getDrawPanel().getGridElements(), root);
+			createXMLOutputDoc(doc, handler.getDrawPanel().getGridElements(), root);
 
 			// output the stuff...
 			DOMSource source = new DOMSource(doc);
@@ -232,29 +245,35 @@ public class DiagramFileHandler {
 	public void doOpen() {
 		try {
 			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
-			FileInputStream input = new FileInputStream(this.file);
-			InputHandler xmlhandler = new InputHandler(this.handler);
+			FileInputStream input = new FileInputStream(file);
+			InputHandler xmlhandler = new InputHandler(handler);
 			parser.parse(input, xmlhandler);
 			input.close();
 		} catch (Exception e) {
-			log.error("Cannot open the file: " + this.file.getAbsolutePath(), e);
+			log.error("Cannot open the file: " + file.getAbsolutePath(), e);
 
 		}
 	}
 
 	public void doSaveAs(String fileextension) throws IOException {
-		String fileName = this.chooseFileName(fileextension.equals(Program.EXTENSION), filters.get(fileextension));
-		String extension = this.fileextensions.get(saveFileChooser.getFileFilter());
-		if (fileName == null) return; // If the filechooser has been closed without saving
-		if (!fileName.endsWith("." + extension)) fileName += "." + extension;
+		String fileName = chooseFileName(fileextension.equals(Program.EXTENSION), filters.get(fileextension));
+		String extension = fileextensions.get(saveFileChooser.getFileFilter());
+		if (fileName == null)
+		{
+			return; // If the filechooser has been closed without saving
+		}
+		if (!fileName.endsWith("." + extension)) {
+			fileName += "." + extension;
+		}
 
 		File fileToSave = new File(fileName);
 		if (extension.equals(Program.EXTENSION)) {
-			this.file = fileToSave;
-			this.setFileName(this.file.getName());
+			file = fileToSave;
+			setFileName(file.getName());
 			save();
-		} else {
-			this.exportFile = fileToSave;
+		}
+		else {
+			exportFile = fileToSave;
 			doExportAs(extension, fileToSave);
 		}
 	}
@@ -263,21 +282,29 @@ public class DiagramFileHandler {
 		File tempFile = new File(Path.temp() + filename + "." + fileextension);
 		tempFile.deleteOnExit();
 
-		if (fileextension.equals(Program.EXTENSION)) save(tempFile, true);
-		else doExportAs(fileextension, tempFile);
+		if (fileextension.equals(Program.EXTENSION)) {
+			save(tempFile, true);
+		}
+		else {
+			doExportAs(fileextension, tempFile);
+		}
 
 		return tempFile;
 	}
 
 	public void doSave() throws IOException {
-		if ((file == null) || !file.exists()) doSaveAs(Program.EXTENSION);
-		else save();
+		if (file == null || !file.exists()) {
+			doSaveAs(Program.EXTENSION);
+		}
+		else {
+			save();
+		}
 	}
 
 	public void doExportAs(String extension, File file) throws IOException {
 		// CustomElementSecurityManager.addThreadPrivileges(Thread.currentThread(), fileName);
 		try {
-			OutputHandler.createAndOutputToFile(extension, file, this.handler);
+			OutputHandler.createAndOutputToFile(extension, file, handler);
 		} catch (Exception e) {
 			throw new IOException(e.getMessage());
 		}
@@ -289,7 +316,7 @@ public class DiagramFileHandler {
 	}
 
 	private void save(File saveToFile, boolean tempFile) throws UnsupportedEncodingException, FileNotFoundException {
-		String tmp = this.createStringToBeSaved();
+		String tmp = createStringToBeSaved();
 		PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(saveToFile), "UTF-8"));
 		out.print(tmp);
 		out.close();
@@ -314,7 +341,9 @@ public class DiagramFileHandler {
 			File selectedFileWithExt = getFileWithExtension();
 			if (selectedFileWithExt.exists()) {
 				int overwriteQuestionResult = JOptionPane.showConfirmDialog(Main.getInstance().getGUI().getMainFrame(), "File already exists! Overwrite?", "Overwrite File", JOptionPane.YES_NO_OPTION);
-				if (overwriteQuestionResult == JOptionPane.NO_OPTION) return chooseFileName(ownXmlFormat, filefilter);
+				if (overwriteQuestionResult == JOptionPane.NO_OPTION) {
+					return chooseFileName(ownXmlFormat, filefilter);
+				}
 			}
 			fileName = selectedFileWithExt.getAbsolutePath();
 		}
@@ -327,7 +356,9 @@ public class DiagramFileHandler {
 	private File getFileWithExtension() {
 		String extension = "." + fileextensions.get(saveFileChooser.getFileFilter());
 		String filename = saveFileChooser.getSelectedFile().getAbsolutePath();
-		if (!filename.endsWith(extension)) filename += extension;
+		if (!filename.endsWith(extension)) {
+			filename += extension;
+		}
 		File selectedFileWithExt = new File(filename);
 		return selectedFileWithExt;
 	}
@@ -366,12 +397,12 @@ public class DiagramFileHandler {
 
 		@Override
 		public boolean accept(File f) {
-			return (f.getName().endsWith("." + this.format) || f.isDirectory());
+			return f.getName().endsWith("." + format) || f.isDirectory();
 		}
 
 		@Override
 		public String getDescription() {
-			return this.description + " (*." + this.format + ")";
+			return description + " (*." + format + ")";
 		}
 
 		public String getFormat() {
@@ -383,20 +414,30 @@ public class DiagramFileHandler {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((file == null) ? 0 : file.hashCode());
+		result = prime * result + (file == null ? 0 : file.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
 		DiagramFileHandler other = (DiagramFileHandler) obj;
 		if (file == null) {
-			if (other.file != null) return false;
+			if (other.file != null) {
+				return false;
+			}
 		}
-		else if (!file.equals(other.file)) return false;
+		else if (!file.equals(other.file)) {
+			return false;
+		}
 		return true;
 	}
 

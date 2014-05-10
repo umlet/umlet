@@ -18,7 +18,9 @@ public class RunningFileChecker extends TimerTask {
 	@Override
 	public void run() {
 		try {
-			if (!file.exists()) file.createNewFile();
+			if (!file.exists()) {
+				file.createNewFile();
+			}
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String filename = reader.readLine();
 			reader.close();

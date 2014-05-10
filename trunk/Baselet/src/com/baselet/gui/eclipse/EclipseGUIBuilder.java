@@ -22,13 +22,13 @@ public class EclipseGUIBuilder extends BaseGUIBuilder {
 
 		getCustomHandler().getPanel().getTextPane().addFocusListener(new CustomCodePaneFocusListener());
 		getPropertyTextPane().getTextComponent().addFocusListener(new TextPaneFocusListener());
-		
+
 		return embedded_panel;
 	}
-	
+
 	public void setContent(JScrollPane scrollPane) {
 		contentPlaceHolder.removeAll();
 		contentPlaceHolder.add(scrollPane);
 	}
-	
+
 }

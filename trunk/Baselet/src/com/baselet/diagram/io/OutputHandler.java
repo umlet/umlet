@@ -37,7 +37,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.umlet.element.ActivityDiagramText;
 import com.umlet.element.SequenceDiagram;
 
-
 public class OutputHandler {
 
 	private OutputHandler() {} // private constructor to avoid instantiation
@@ -87,11 +86,21 @@ public class OutputHandler {
 				((OldGridElement) ge).paint(new EpsGraphics2D());
 			}
 		}
-		if (extension.equals("eps")) exportEps(ostream, handler, entities);
-		else if (extension.equals("pdf")) exportPdf(ostream, handler, entities);
-		else if (extension.equals("svg")) exportSvg(ostream, handler, entities);
-		else if (isImageExtension(extension)) exportImg(extension, ostream, handler, entities);
-		else throw new IllegalArgumentException(extension + " is an invalid format");
+		if (extension.equals("eps")) {
+			exportEps(ostream, handler, entities);
+		}
+		else if (extension.equals("pdf")) {
+			exportPdf(ostream, handler, entities);
+		}
+		else if (extension.equals("svg")) {
+			exportSvg(ostream, handler, entities);
+		}
+		else if (isImageExtension(extension)) {
+			exportImg(extension, ostream, handler, entities);
+		}
+		else {
+			throw new IllegalArgumentException(extension + " is an invalid format");
+		}
 	}
 
 	private static void exportEps(OutputStream ostream, DiagramHandler handler, Collection<GridElement> entities) throws IOException {
@@ -115,12 +124,15 @@ public class OutputHandler {
 						return null;
 					}
 				}
+
 				@Override
 				public Font pdfToAwt(BaseFont font, int size) {
 					return null;
 				}
 			};
-			if (mapper.awtToPdf(null) == null) mapper = new DefaultFontMapper();
+			if (mapper.awtToPdf(null) == null) {
+				mapper = new DefaultFontMapper();
+			}
 
 			Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
 			com.itextpdf.text.Document document = new com.itextpdf.text.Document(new com.itextpdf.text.Rectangle(bounds.getWidth(), bounds.getHeight()));

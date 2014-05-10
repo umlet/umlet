@@ -4,7 +4,6 @@ import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.umlet.element.Relation;
 
-
 public class MoveLinePoint extends Command {
 	private Relation _relation;
 	private int _linePointId, _diffx, _diffy;
@@ -46,17 +45,23 @@ public class MoveLinePoint extends Command {
 
 	@Override
 	public boolean isMergeableTo(Command c) {
-		if (!(c instanceof MoveLinePoint)) return false;
+		if (!(c instanceof MoveLinePoint)) {
+			return false;
+		}
 		MoveLinePoint mlp = (MoveLinePoint) c;
-		if (this.getRelation() != mlp.getRelation()) return false;
-		if (this.getLinePointId() != mlp.getLinePointId()) return false;
+		if (getRelation() != mlp.getRelation()) {
+			return false;
+		}
+		if (getLinePointId() != mlp.getLinePointId()) {
+			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public Command mergeTo(Command c) {
 		MoveLinePoint tmp = (MoveLinePoint) c;
-		MoveLinePoint ret = new MoveLinePoint(this.getRelation(), this.getLinePointId(), this.getDiffX() + tmp.getDiffX(), this.getDiffY() + tmp.getDiffY());
+		MoveLinePoint ret = new MoveLinePoint(getRelation(), getLinePointId(), getDiffX() + tmp.getDiffX(), getDiffY() + tmp.getDiffY());
 		return ret;
 	}
 }

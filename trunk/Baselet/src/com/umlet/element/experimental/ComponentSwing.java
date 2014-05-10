@@ -16,11 +16,11 @@ import com.baselet.elementnew.NewGridElement;
 
 public class ComponentSwing extends JComponent implements Component {
 	private static final long serialVersionUID = 1L;
-	
+
 	private DrawHandlerSwing drawer;
 	private DrawHandlerSwing metaDrawer;
 	private NewGridElement gridElement;
-	
+
 	public ComponentSwing(NewGridElement gridElement) {
 		this.gridElement = gridElement;
 		drawer = new DrawHandlerSwing(gridElement);
@@ -72,7 +72,8 @@ public class ComponentSwing extends JComponent implements Component {
 		// only check if element selectable on the position, because some elements are not everywhere selectable (eg: Relation)
 		if (gridElement.isSelectableOn(new Point(r.getX() + x, r.getY() + y))) {
 			return Utils.contains(gridElement, new Point(x, y));
-		} else {
+		}
+		else {
 			return false;
 		}
 	}
@@ -91,7 +92,7 @@ public class ComponentSwing extends JComponent implements Component {
 	public void setBoundsRect(Rectangle rect) {
 		this.setBounds(rect.x, rect.y, rect.width, rect.height);
 	}
-	
+
 	@Override
 	public void afterModelUpdate() {
 		repaint(); // necessary e.g. for NewGridElement Relation to make sure it gets redrawn correctly when a sticking element is moved around

@@ -6,7 +6,7 @@ import japa.parser.ast.body.ModifierSet;
 import com.umlet.language.java.Field;
 
 public class JpField implements Field {
-	
+
 	private FieldDeclaration field;
 
 	public JpField(FieldDeclaration field) {
@@ -22,11 +22,14 @@ public class JpField implements Field {
 		int modifiers = field.getModifiers();
 		if ((modifiers & ModifierSet.PUBLIC) != 0) {
 			return AccessFlag.PUBLIC;
-		} else if ((modifiers & ModifierSet.PROTECTED) != 0) {
-			return AccessFlag.PROTECTED; 
-		} else if ((modifiers & ModifierSet.PRIVATE) != 0) {
-			return AccessFlag.PRIVATE; 
-		} else {
+		}
+		else if ((modifiers & ModifierSet.PROTECTED) != 0) {
+			return AccessFlag.PROTECTED;
+		}
+		else if ((modifiers & ModifierSet.PRIVATE) != 0) {
+			return AccessFlag.PRIVATE;
+		}
+		else {
 			return AccessFlag.PACKAGE;
 		}
 	}
@@ -34,7 +37,7 @@ public class JpField implements Field {
 	@Override
 	public String getName() {
 		String varWithBraces = field.getVariables().toString();
-		return varWithBraces.substring(1, varWithBraces.length()-1);
+		return varWithBraces.substring(1, varWithBraces.length() - 1);
 	}
 
 	@Override

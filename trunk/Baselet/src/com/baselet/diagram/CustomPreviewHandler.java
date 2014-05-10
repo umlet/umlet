@@ -8,7 +8,7 @@ import com.baselet.gui.listener.GridElementListener;
 public class CustomPreviewHandler extends DiagramHandler {
 	public CustomPreviewHandler() {
 		super(null, true);
-		this.setListener(new DiagramListener(this));
+		setListener(new DiagramListener(this));
 	}
 
 	@Override
@@ -17,7 +17,7 @@ public class CustomPreviewHandler extends DiagramHandler {
 	}
 
 	public void closePreview() {
-		this.getDrawPanel().getGridElements().clear();
-		this.getDrawPanel().removeAll();
+		getDrawPanel().getGridElements().clear();
+		getDrawPanel().removeAll();
 	}
 }

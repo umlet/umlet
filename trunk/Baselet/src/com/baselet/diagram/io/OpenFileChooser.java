@@ -22,7 +22,7 @@ public class OpenFileChooser {
 			instance.setFileFilter(new FileFilter() {
 				@Override
 				public boolean accept(File f) {
-					return (f.getName().endsWith("." + Program.EXTENSION) || f.isDirectory());
+					return f.getName().endsWith("." + Program.EXTENSION) || f.isDirectory();
 				}
 
 				@Override
@@ -34,7 +34,7 @@ public class OpenFileChooser {
 		}
 		return instance;
 	}
-	
+
 	public static List<String> getFilesToOpen() {
 		List<String> fileNames = new ArrayList<String>();
 		int returnVal = getInstance().showOpenDialog(Main.getInstance().getGUI().getMainFrame());
@@ -47,5 +47,5 @@ public class OpenFileChooser {
 		}
 		return fileNames;
 	}
-	
+
 }

@@ -76,16 +76,24 @@ public class GridElementListener extends UniversalListener {
 		GridElement e = getGridElement(me);
 
 		// Lasso selection is only activated if mouse is moved more than lasso_tolerance to avoid accidential activation instead of selecting the entity
-		if (LASSO_ACTIVE && (lassoToleranceRectangle != null) && !lassoToleranceRectangle.contains(getOffset(me))) {
+		if (LASSO_ACTIVE && lassoToleranceRectangle != null && !lassoToleranceRectangle.contains(getOffset(me))) {
 			dragLasso(me, e);
 			return;
 		}
 
-		if (this.doReturn()) return;
+		if (doReturn()) {
+			return;
+		}
 
-		if (IS_DRAGGING_DIAGRAM) dragDiagram();
-		if (IS_DRAGGING) dragEntity();
-		if (IS_RESIZING) resizeEntity(e, me);
+		if (IS_DRAGGING_DIAGRAM) {
+			dragDiagram();
+		}
+		if (IS_DRAGGING) {
+			dragEntity();
+		}
+		if (IS_RESIZING) {
+			resizeEntity(e, me);
+		}
 	}
 
 	private GridElement getGridElement(MouseEvent me) {
@@ -101,7 +109,7 @@ public class GridElementListener extends UniversalListener {
 	public void mouseMoved(MouseEvent me) {
 		super.mouseMoved(me);
 		GridElement e = getGridElement(me);
-		if (this.IS_DRAGGED_FROM_PALETTE) {
+		if (IS_DRAGGED_FROM_PALETTE) {
 			log.debug("mouseMoved with dragged");
 			e.setLocation(me.getX() - 100, me.getY() - 20);
 		}
@@ -109,25 +117,32 @@ public class GridElementListener extends UniversalListener {
 		Point point = new Point(me.getX() + e.getRectangle().getX(), me.getY() + e.getRectangle().getY());
 		if (!e.isSelectableOn(point)) {
 			Main.getInstance().getGUI().setCursor(Constants.DEFAULT_CURSOR);
-		} else if (resizeDirection.isEmpty()) {
+		}
+		else if (resizeDirection.isEmpty()) {
 			Main.getInstance().getGUI().setCursor(Constants.HAND_CURSOR);
-		} else if ((resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) || (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT))) {
+		}
+		else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT) || resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) {
 			Main.getInstance().getGUI().setCursor(Constants.NE_CURSOR);
-		} else if ((resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)) || (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT))) {
+		}
+		else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT) || resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) {
 			Main.getInstance().getGUI().setCursor(Constants.NW_CURSOR);
-		} else if (resizeDirection.contains(Direction.UP) || resizeDirection.contains(Direction.DOWN)) {
+		}
+		else if (resizeDirection.contains(Direction.UP) || resizeDirection.contains(Direction.DOWN)) {
 			Main.getInstance().getGUI().setCursor(Constants.TB_CURSOR);
-		} else if (resizeDirection.contains(Direction.LEFT) || resizeDirection.contains(Direction.RIGHT)) {
+		}
+		else if (resizeDirection.contains(Direction.LEFT) || resizeDirection.contains(Direction.RIGHT)) {
 			Main.getInstance().getGUI().setCursor(Constants.LR_CURSOR);
 		}
 	}
 
 	private void dragDiagram() {
-		if (this.doReturn()) return;
+		if (doReturn()) {
+			return;
+		}
 		log.debug("dragDiagram()");
 
-		Point newp = this.getNewCoordinate();
-		Point oldp = this.getOldCoordinate();
+		Point newp = getNewCoordinate();
+		Point oldp = getOldCoordinate();
 
 		int diffx = newp.x - oldp.x;
 		int diffy = newp.y - oldp.y;
@@ -137,17 +152,21 @@ public class GridElementListener extends UniversalListener {
 			moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, StickableMap.EMPTY_MAP));
 		}
 
-		this.controller.executeCommand(new Macro(moveCommands));
+		controller.executeCommand(new Macro(moveCommands));
 	}
 
 	private void showContextMenu(GridElement ge, int x, int y) {
 
-		if (!this.selector.getSelectedElements().contains(ge)) this.selector.selectOnly(ge);
+		if (!selector.getSelectedElements().contains(ge)) {
+			selector.selectOnly(ge);
+		}
 
 		selector.setDominantEntity(ge);
 
 		JPopupMenu contextMenu = Main.getInstance().getGUI().getContextMenu(ge);
-		if (contextMenu != null) contextMenu.show((Component) ge.getComponent(), x, y);
+		if (contextMenu != null) {
+			contextMenu.show((Component) ge.getComponent(), x, y);
+		}
 	}
 
 	@Override
@@ -164,7 +183,7 @@ public class GridElementListener extends UniversalListener {
 		}
 
 		if (me.getButton() == MouseEvent.BUTTON3) {
-			this.showContextMenu(e, me.getX(), me.getY());
+			showContextMenu(e, me.getX(), me.getY());
 		}
 		else if (me.getButton() == MouseEvent.BUTTON2) {
 			IS_DRAGGING_DIAGRAM = true;
@@ -174,7 +193,7 @@ public class GridElementListener extends UniversalListener {
 				pressedLeftButton(me);
 			}
 			if (me.getClickCount() == 2) {
-				this.mouseDoubleClicked(e);
+				mouseDoubleClicked(e);
 			}
 		}
 	}
@@ -183,7 +202,9 @@ public class GridElementListener extends UniversalListener {
 		GridElement e = getGridElement(me);
 
 		// Ctrl + Mouseclick initializes the lasso
-		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) initializeLasso();
+		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) {
+			initializeLasso();
+		}
 
 		Set<Direction> resizeArea = e.getResizeArea(me.getX(), me.getY());
 		if (!resizeArea.isEmpty()) {
@@ -193,15 +214,21 @@ public class GridElementListener extends UniversalListener {
 		else {
 			IS_DRAGGING = true;
 			if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) {
-				if (selector.isSelected(e)) DESELECT_MULTISEL = true;
-				else this.selector.select(e);
+				if (selector.isSelected(e)) {
+					DESELECT_MULTISEL = true;
+				}
+				else {
+					selector.select(e);
+				}
 			}
 		}
 
-		if (!this.selector.getSelectedElements().contains(e)) {
-			this.selector.selectOnly(e);
+		if (!selector.getSelectedElements().contains(e)) {
+			selector.selectOnly(e);
 		}
-		else this.selector.updateSelectorInformation(e);
+		else {
+			selector.updateSelectorInformation(e);
+		}
 	}
 
 	public void mouseDoubleClicked(GridElement me) {
@@ -211,8 +238,8 @@ public class GridElementListener extends UniversalListener {
 		Command cmd;
 		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
 		cmd = new AddElement(e, me.getRectangle().x + gridSize * 2, me.getRectangle().y + gridSize * 2);
-		this.controller.executeCommand(cmd);
-		this.selector.selectOnly(e);
+		controller.executeCommand(cmd);
+		selector.selectOnly(e);
 		eListener.FIRST_DRAG = true;
 	}
 
@@ -220,15 +247,19 @@ public class GridElementListener extends UniversalListener {
 	public void mouseReleased(MouseEvent me) {
 		super.mouseReleased(me);
 		// log.debug("Entity mouse released");
-		if (this.IS_DRAGGED_FROM_PALETTE) this.IS_DRAGGED_FROM_PALETTE = false;
+		if (IS_DRAGGED_FROM_PALETTE) {
+			IS_DRAGGED_FROM_PALETTE = false;
+		}
 
 		GridElement e = getGridElement(me);
 
 		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) {
-			if (selector.isSelected(e) && DESELECT_MULTISEL) this.selector.deselect(e);
+			if (selector.isSelected(e) && DESELECT_MULTISEL) {
+				selector.deselect(e);
+			}
 		}
 		if (IS_DRAGGING && !FIRST_DRAG) { // if mouse is dragged and element really has been dragged around execute moveend
-			this.controller.executeCommand(new MoveEnd(e));
+			controller.executeCommand(new MoveEnd(e));
 		}
 
 		DESELECT_MULTISEL = false;
@@ -273,8 +304,8 @@ public class GridElementListener extends UniversalListener {
 
 		DESELECT_MULTISEL = false;
 
-		Point newp = this.getNewCoordinate();
-		Point oldp = this.getOldCoordinate();
+		Point newp = getNewCoordinate();
+		Point oldp = getOldCoordinate();
 		int diffx = newp.x - oldp.x;
 		int diffy = newp.y - oldp.y;
 		if (FIRST_MOVE_COMMANDS == null) {
@@ -284,7 +315,7 @@ public class GridElementListener extends UniversalListener {
 		else if (diffx != 0 || diffy != 0) {
 			Vector<Command> commands = continueDragging(diffx, diffy, POINT_BEFORE_MOVE);
 			POINT_BEFORE_MOVE = new Point(POINT_BEFORE_MOVE.getX() + diffx, POINT_BEFORE_MOVE.getY() + diffy);
-			this.controller.executeCommand(new Macro(commands));
+			controller.executeCommand(new Macro(commands));
 			FIRST_DRAG = false;
 		}
 	}
@@ -298,13 +329,17 @@ public class GridElementListener extends UniversalListener {
 			StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(ge.getRectangle()), stickables, handler.getGridSize());
 			moveCommands.add(new Move(ge, diffx, diffy, oldp, true, useSetLocation, stickingStickables));
 			boolean stickingDisabled = !SharedConstants.stickingEnabled || handler instanceof PaletteHandler;
-			if (ge instanceof Relation || stickingDisabled) continue;
+			if (ge instanceof Relation || stickingDisabled) {
+				continue;
+			}
 			StickingPolygon stick = ge.generateStickingBorder(ge.getRectangle());
 			if (stick != null) {
 				Vector<RelationLinePoint> affectedRelationPoints = Utils.getStickingRelationLinePoints(handler, stick);
 				for (int j = 0; j < affectedRelationPoints.size(); j++) {
 					RelationLinePoint tmpRlp = affectedRelationPoints.elementAt(j);
-					if (entitiesToBeMoved.contains(tmpRlp.getRelation())) continue;
+					if (entitiesToBeMoved.contains(tmpRlp.getRelation())) {
+						continue;
+					}
 					linepointCommands.add(new MoveLinePoint(tmpRlp.getRelation(), tmpRlp.getLinePointId(), diffx, diffy));
 				}
 			}
@@ -321,7 +356,7 @@ public class GridElementListener extends UniversalListener {
 	 * @return 
 	 */
 	private Vector<Command> continueDragging(int diffx, int diffy, Point oldp) {
-		boolean useSetLocation =  this.selector.getSelectedElements().size() != 1; // if >1 elements are selected they will be moved
+		boolean useSetLocation = selector.getSelectedElements().size() != 1; // if >1 elements are selected they will be moved
 		Vector<Command> tmpVector = new Vector<Command>();
 		for (Command command : FIRST_MOVE_COMMANDS) { // use first move commands to identify the necessary commands and moved entities
 			if (command instanceof Move) {
@@ -340,23 +375,23 @@ public class GridElementListener extends UniversalListener {
 		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
 		int delta_x = 0;
 		int delta_y = 0;
-		final Point newp = this.getNewCoordinate();
-		final Point oldp = this.getOldCoordinate();
+		final Point newp = getNewCoordinate();
+		final Point oldp = getOldCoordinate();
 
 		// If Shift is pressed and the resize direction is any diagonal direction, both axis are resized proportional
 		if (me.isShiftDown() && (
-				(resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) ||
-				(resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) ||
-				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) ||
-				(resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)))) {
+			resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT) ||
+					resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT) ||
+					resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT) ||
+			resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT))) {
 			if (e.getRectangle().width > e.getRectangle().height) {
 				float proportion = (float) newp.x / mousePressedPoint.x;
 				newp.setX(newp.x);
-				newp.setY((int) (mousePressedPoint.y*proportion));
+				newp.setY((int) (mousePressedPoint.y * proportion));
 			}
 			else {
 				float proportion = (float) newp.y / mousePressedPoint.y;
-				newp.setX((int) (mousePressedPoint.x*proportion));
+				newp.setX((int) (mousePressedPoint.x * proportion));
 				newp.setY(newp.y);
 			}
 		}
@@ -372,11 +407,13 @@ public class GridElementListener extends UniversalListener {
 		int diffy = newp.y - oldp.y - delta_y;
 		int diffw = 0;
 		int diffh = 0;
-		if (e instanceof OldGridElement) ((OldGridElement) e).setManualResized();
+		if (e instanceof OldGridElement) {
+			((OldGridElement) e).setManualResized();
+		}
 
 		// AB: get minsize; add 0.5 to round float at typecast; then add rest to stick on grid
 		// AB: Would be better if this is defined in the Entity class
-		int minSize = (int) (2 * this.handler.getFontHandler().getFontSize() + 0.5);
+		int minSize = (int) (2 * handler.getFontHandler().getFontSize() + 0.5);
 		minSize = minSize - minSize % gridSize;
 
 		if (RESIZE_DIRECTION.contains(Direction.LEFT)) {
@@ -451,7 +488,7 @@ public class GridElementListener extends UniversalListener {
 			resize = new Resize(e, diffx, diffy, diffw, diffh, FIRST_RESIZE);
 		}
 
-		this.controller.executeCommand(resize);
+		controller.executeCommand(resize);
 	}
 
 }

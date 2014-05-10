@@ -14,7 +14,6 @@ import com.baselet.diagram.SelectorOld;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.swing.Converter;
 
-
 public abstract class UniversalListener extends ComponentAdapter implements MouseListener, MouseMotionListener {
 
 	protected DiagramHandler handler;
@@ -25,9 +24,9 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 	protected UniversalListener(DiagramHandler handler) {
 		_return = false;
 		this.handler = handler;
-		this.diagram = handler.getDrawPanel();
-		this.selector = diagram.getSelector();
-		this.controller = handler.getController();
+		diagram = handler.getDrawPanel();
+		selector = diagram.getSelector();
+		controller = handler.getController();
 	}
 
 	private int _xOffset, _yOffset;
@@ -44,14 +43,14 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 	@Override
 	public void mousePressed(MouseEvent me) {
 		Main.getInstance().getGUI().requestFocus(); // to avoid beeing stuck in the propertyPanel
-		Point off = this.getOffset(me);
+		Point off = getOffset(me);
 		_xOffset = off.x;
 		_yOffset = off.y;
 
 		// everytime a mouse is pressed within a listener the gui gets the current diagram!
-		Main.getInstance().setCurrentDiagramHandler(this.handler);
+		Main.getInstance().setCurrentDiagramHandler(handler);
 
-		if ((Main.getInstance().getDiagramHandler() != null)) {
+		if (Main.getInstance().getDiagramHandler() != null) {
 			int factor = Main.getInstance().getDiagramHandler().getGridSize();
 			Main.getInstance().getGUI().setValueOfZoomDisplay(factor);
 		}
@@ -60,13 +59,13 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 	@Override
 	public void mouseReleased(MouseEvent me) {
 		_return = false;
-		if (this.selector.isSelectorFrameActive()) {
-			SelectorFrame selframe = this.selector.getSelectorFrame();
-			this.diagram.remove(selframe);
-			this.selector.deselectAll();
-			this.selector.multiSelect(Converter.convert(selframe.getBounds()));
-			this.selector.setSelectorFrameActive(false);
-			this.diagram.repaint();
+		if (selector.isSelectorFrameActive()) {
+			SelectorFrame selframe = selector.getSelectorFrame();
+			diagram.remove(selframe);
+			selector.deselectAll();
+			selector.multiSelect(Converter.convert(selframe.getBounds()));
+			selector.setSelectorFrameActive(false);
+			diagram.repaint();
 		}
 
 		diagram.updatePanelAndScrollbars();
@@ -85,15 +84,15 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 	@Override
 	public void mouseDragged(MouseEvent me) {
 		// Get new mouse coordinates
-		if (this.selector.isSelectorFrameActive()) {
+		if (selector.isSelectorFrameActive()) {
 			// TODO
-			this.selector.getSelectorFrame().resizeTo((int) getOffset(me).getX(), (int) getOffset(me).getY());
+			selector.getSelectorFrame().resizeTo(getOffset(me).getX(), getOffset(me).getY());
 			_return = true;
 			return;
 		}
 		_return = false;
 
-		Point off = this.getOffset(me);
+		Point off = getOffset(me);
 		int xNewOffset = off.x;
 		int yNewOffset = off.y;
 		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();

@@ -30,7 +30,7 @@ public class EclipseGUI extends BaseGUI {
 	public enum Pane {
 		PROPERTY, CUSTOMCODE, DIAGRAM
 	}
-	
+
 	private static final Logger log = Logger.getLogger(EclipseGUI.class);
 
 	private Editor editor;
@@ -39,7 +39,7 @@ public class EclipseGUI extends BaseGUI {
 
 	public EclipseGUI(Main main) {
 		super(main);
-		this.diagrams = new HashMap<DiagramHandler, Editor>();
+		diagrams = new HashMap<DiagramHandler, Editor>();
 	}
 
 	@Override
@@ -49,34 +49,43 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public void closeWindow() {
-		this.main.closeProgram();
+		main.closeProgram();
 	}
 
 	@Override
 	public void diagramSelected(DiagramHandler handler) {
 		// the menues are only visible if a diagram is selected. (contributor manages this)
-		//AB: just update the export menu	
+		// AB: just update the export menu
 		DrawPanel currentDiagram = Main.getInstance().getGUI().getCurrentDiagram();
-		if (currentDiagram == null) return; //Possible if method is called at loading a palette
-		boolean enable = (handler != null) && !currentDiagram.getGridElements().isEmpty();
+		if (currentDiagram == null)
+		{
+			return; // Possible if method is called at loading a palette
+		}
+		boolean enable = handler != null && !currentDiagram.getGridElements().isEmpty();
 		contributor.setExportAsEnabled(enable);
 	}
 
 	@Override
 	public void enablePasteMenuEntry() {
-		if (this.contributor != null) this.contributor.setPaste(true);
+		if (contributor != null) {
+			contributor.setPaste(true);
+		}
 	}
 
 	@Override
 	public CustomElementHandler getCurrentCustomHandler() {
-		if (this.editor == null) return null;
-		return this.editor.getCustomElementHandler();
+		if (editor == null) {
+			return null;
+		}
+		return editor.getCustomElementHandler();
 	}
 
 	@Override
 	public DrawPanel getCurrentDiagram() {
-		if (this.editor == null) return null;
-		return this.editor.getDiagram();
+		if (editor == null) {
+			return null;
+		}
+		return editor.getDiagram();
 	}
 
 	@Override
@@ -96,17 +105,20 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public String getSelectedPalette() {
-		if (this.editor != null) return this.editor.getSelectedPaletteName();
+		if (editor != null) {
+			return editor.getSelectedPaletteName();
+		}
 		return null;
 	}
 
 	@Override
-	protected void init() {
-	}
+	protected void init() {}
 
 	@Override
 	public void open(DiagramHandler diagram) {
-		if (editor != null) editor.open(diagram);
+		if (editor != null) {
+			editor.open(diagram);
+		}
 	}
 
 	@Override
@@ -117,7 +129,9 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public void showPalette(String palette) {
 		super.showPalette(palette);
-		if (editor != null) editor.showPalette(palette);
+		if (editor != null) {
+			editor.showPalette(palette);
+		}
 	}
 
 	@Override
@@ -128,21 +142,25 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public void setCustomElementSelected(boolean selected) {
-		if ((this.editor != null) && (this.contributor != null)) this.contributor.setCustomElementSelected(selected);
+		if (editor != null && contributor != null) {
+			contributor.setCustomElementSelected(selected);
+		}
 	}
 
 	@Override
 	public void setCustomPanelEnabled(boolean enable) {
-		if (this.editor != null) {
+		if (editor != null) {
 			editor.setCustomPanelEnabled(enable);
-			if (this.contributor != null) this.contributor.setCustomPanelEnabled(enable);
+			if (contributor != null) {
+				contributor.setCustomPanelEnabled(enable);
+			}
 		}
 	}
 
 	@Override
 	public void setMailPanelEnabled(boolean enable) {
-		if (this.editor != null) {
-			this.editor.setMailPanelEnabled(enable);
+		if (editor != null) {
+			editor.setMailPanelEnabled(enable);
 		}
 	}
 
@@ -153,27 +171,33 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public void updateDiagramName(DiagramHandler diagram, String name) {
-		Editor editor = this.diagrams.get(diagram);
-		if (editor != null) editor.diagramNameChanged();
+		Editor editor = diagrams.get(diagram);
+		if (editor != null) {
+			editor.diagramNameChanged();
+		}
 	}
 
 	@Override
 	public void setDiagramChanged(DiagramHandler diagram, boolean changed) {
-		Editor editor = this.diagrams.get(diagram);
-		if (editor != null) editor.dirtyChanged();
+		Editor editor = diagrams.get(diagram);
+		if (editor != null) {
+			editor.dirtyChanged();
+		}
 	}
 
 	@Override
 	public void setCursor(Cursor cursor) {
-		if (this.editor != null) this.editor.setCursor(cursor);
+		if (editor != null) {
+			editor.setCursor(cursor);
+		}
 	}
-	
+
 	public void registerEditorForDiagramHandler(Editor editor, DiagramHandler handler) {
-		this.diagrams.put(handler, editor);
+		diagrams.put(handler, editor);
 	}
 
 	public void setCurrentDiagramHandler(DiagramHandler handler) {
-		Main.getInstance().setCurrentDiagramHandler(handler);	
+		Main.getInstance().setCurrentDiagramHandler(handler);
 	}
 
 	public void setCurrentEditor(Editor editor) {
@@ -185,22 +209,30 @@ public class EclipseGUI extends BaseGUI {
 		Constants.main_split_position = editor.getMainSplitLocation();
 		Constants.right_split_position = editor.getRightSplitLocation();
 		Constants.lastUsedPalette = getSelectedPalette();
-		this.diagrams.remove(editor.getDiagram().getHandler());
+		diagrams.remove(editor.getDiagram().getHandler());
 		if (editor.equals(this.editor)) {
 			this.editor = null;
 		}
 	}
 
-	@Override 
+	@Override
 	public OwnSyntaxPane getPropertyPane() {
-		if (editor != null) return editor.getPropertyPane();
-		else return null;
+		if (editor != null) {
+			return editor.getPropertyPane();
+		}
+		else {
+			return null;
+		}
 	}
 
 	public void panelDoAction(Pane pane, ActionName actionName) {
 		JTextComponent textpane = null;
-		if (pane == Pane.PROPERTY) textpane = editor.getPropertyPane().getTextComponent();
-		else if (pane == Pane.CUSTOMCODE) textpane = editor.getCustomPane();
+		if (pane == Pane.PROPERTY) {
+			textpane = editor.getPropertyPane().getTextComponent();
+		}
+		else if (pane == Pane.CUSTOMCODE) {
+			textpane = editor.getCustomPane();
+		}
 
 		if (textpane != null) {
 			if (actionName == ActionName.COPY) {
@@ -234,7 +266,9 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public void requestFocus() {
-		if (this.editor != null) this.editor.requestFocus();
+		if (editor != null) {
+			editor.requestFocus();
+		}
 	}
 
 	public void setContributor(Contributor contributor) {
@@ -244,16 +278,22 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public void elementsSelected(Collection<GridElement> selectedElements) {
 		super.elementsSelected(selectedElements);
-		if (this.contributor != null) this.contributor.setElementsSelected(selectedElements);
+		if (contributor != null) {
+			contributor.setElementsSelected(selectedElements);
+		}
 	}
 
 	public void setPaneFocused(Pane pane) {
-		if (this.contributor != null) this.contributor.setGlobalActionHandlers(pane);
+		if (contributor != null) {
+			contributor.setGlobalActionHandlers(pane);
+		}
 	}
 
 	@Override
 	public void setValueOfZoomDisplay(int i) {
-		if (contributor != null) contributor.updateZoomMenuRadioButton(i);
+		if (contributor != null) {
+			contributor.updateZoomMenuRadioButton(i);
+		}
 	}
 
 	@Override
@@ -266,7 +306,7 @@ public class EclipseGUI extends BaseGUI {
 	public void focusPropertyPane() {
 		editor.focusPropertyPane();
 	}
-	
+
 	@Override
 	public Frame getMainFrame() {
 		return editor.getMainFrame();

@@ -4,7 +4,6 @@ import javax.swing.JPopupMenu;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
-
 @SuppressWarnings("serial")
 public class DiagramPopupMenu extends JPopupMenu {
 
@@ -22,11 +21,16 @@ public class DiagramPopupMenu extends JPopupMenu {
 		add(menuFactory.createExportAs());
 		add(menuFactory.createMailTo());
 		add(menuFactory.createPrint());
-		
+
 		addPopupMenuListener(new PopupMenuListener() {
-			@Override public void popupMenuCanceled(PopupMenuEvent e) {}
-			@Override public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
-			@Override public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+			@Override
+			public void popupMenuCanceled(PopupMenuEvent e) {}
+
+			@Override
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
+
+			@Override
+			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 				menuFactory.updateDiagramDependendComponents();
 			}
 		});

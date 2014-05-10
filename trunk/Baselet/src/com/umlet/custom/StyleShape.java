@@ -80,34 +80,58 @@ public class StyleShape {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Float.floatToIntBits(alpha);
-		result = prime * result + ((bgColor == null) ? 0 : bgColor.hashCode());
-		result = prime * result + ((fgColor == null) ? 0 : fgColor.hashCode());
+		result = prime * result + (bgColor == null ? 0 : bgColor.hashCode());
+		result = prime * result + (fgColor == null ? 0 : fgColor.hashCode());
 		result = prime * result + lineThickness;
-		result = prime * result + ((shape == null) ? 0 : shape.hashCode());
+		result = prime * result + (shape == null ? 0 : shape.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
 		StyleShape other = (StyleShape) obj;
-		if (Float.floatToIntBits(alpha) != Float.floatToIntBits(other.alpha)) return false;
+		if (Float.floatToIntBits(alpha) != Float.floatToIntBits(other.alpha)) {
+			return false;
+		}
 		if (bgColor == null) {
-			if (other.bgColor != null) return false;
+			if (other.bgColor != null) {
+				return false;
+			}
 		}
-		else if (!bgColor.equals(other.bgColor)) return false;
+		else if (!bgColor.equals(other.bgColor)) {
+			return false;
+		}
 		if (fgColor == null) {
-			if (other.fgColor != null) return false;
+			if (other.fgColor != null) {
+				return false;
+			}
 		}
-		else if (!fgColor.equals(other.fgColor)) return false;
-		if (lineThickness != other.lineThickness) return false;
-		if (lineType != other.lineType) return false;
+		else if (!fgColor.equals(other.fgColor)) {
+			return false;
+		}
+		if (lineThickness != other.lineThickness) {
+			return false;
+		}
+		if (lineType != other.lineType) {
+			return false;
+		}
 		if (shape == null) {
-			if (other.shape != null) return false;
+			if (other.shape != null) {
+				return false;
+			}
 		}
-		else if (!shape.equals(other.shape)) return false;
+		else if (!shape.equals(other.shape)) {
+			return false;
+		}
 		return true;
 	}
 

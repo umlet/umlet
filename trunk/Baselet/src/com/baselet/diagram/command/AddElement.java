@@ -11,9 +11,9 @@ import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
 
 public class AddElement extends Command {
-	
+
 	private static final Logger log = Logger.getLogger(AddElement.class);
-	
+
 	// AB: checked false after first execution
 	private boolean firstCall = true;
 	private Point origin;
@@ -24,14 +24,22 @@ public class AddElement extends Command {
 
 	private int getX() {
 		// AB: use default grid size since we zoom the whole entity on execution
-		if (_zoom) return _x * Constants.DEFAULTGRIDSIZE;// _entity.getHandler().getGridSize();
-		else return _x;
+		if (_zoom) {
+			return _x * Constants.DEFAULTGRIDSIZE;// _entity.getHandler().getGridSize();
+		}
+		else {
+			return _x;
+		}
 	}
 
 	private int getY() {
 		// AB: use default grid size since we zoom the whole entity on execution
-		if (_zoom) return _y * Constants.DEFAULTGRIDSIZE;// _entity.getHandler().getGridSize();
-		else return _y;
+		if (_zoom) {
+			return _y * Constants.DEFAULTGRIDSIZE;// _entity.getHandler().getGridSize();
+		}
+		else {
+			return _y;
+		}
 	}
 
 	public AddElement(GridElement e, int x, int y) {
@@ -76,7 +84,9 @@ public class AddElement extends Command {
 		log.debug("Add Entity at " + getX() + "/" + getY());
 		addentity(_entity, handler.getDrawPanel(), getX() + offsetX, getY() + offsetY);
 
-		if (_zoom) DiagramHandler.zoomEntity(Constants.DEFAULTGRIDSIZE, handler.getGridSize(), _entity);
+		if (_zoom) {
+			DiagramHandler.zoomEntity(Constants.DEFAULTGRIDSIZE, handler.getGridSize(), _entity);
+		}
 		handler.getDrawPanel().getSelector().selectOnly(_entity);
 
 		// AB: do this because updatePanelAndScrollbars messes up frequent calls of AddEntity in a loop
@@ -90,9 +100,11 @@ public class AddElement extends Command {
 	@Override
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
-		if (_zoom) DiagramHandler.zoomEntity(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, _entity);
+		if (_zoom) {
+			DiagramHandler.zoomEntity(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, _entity);
+		}
 		handler.getDrawPanel().removeElement(_entity);
-		(new RemoveElement(_entity, false)).execute(handler); // zoom must be false otherwise groups don't work correctly
+		new RemoveElement(_entity, false).execute(handler); // zoom must be false otherwise groups don't work correctly
 		handler.getDrawPanel().repaint();
 		handler.getDrawPanel().updatePanelAndScrollbars();
 	}

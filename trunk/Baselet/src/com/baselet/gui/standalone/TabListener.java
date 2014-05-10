@@ -9,7 +9,6 @@ import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.BaseGUI;
 
-
 public class TabListener implements MouseListener {
 
 	private DiagramHandler handler;
@@ -37,11 +36,13 @@ public class TabListener implements MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		this.pane.setSelectedComponent(handler.getDrawPanel().getScrollPane());
-		this.handler.getDrawPanel().getSelector().updateSelectorInformation();
+		pane.setSelectedComponent(handler.getDrawPanel().getScrollPane());
+		handler.getDrawPanel().getSelector().updateSelectorInformation();
 
 		BaseGUI gui = Main.getInstance().getGUI();
-		if (gui != null) gui.setValueOfZoomDisplay(handler.getGridSize());
+		if (gui != null) {
+			gui.setValueOfZoomDisplay(handler.getGridSize());
+		}
 	}
 
 	@Override

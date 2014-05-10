@@ -5,13 +5,14 @@ import java.util.HashMap;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 
-
 public class CustomPreviewEntityListener extends GridElementListener {
 
 	private static HashMap<DiagramHandler, CustomPreviewEntityListener> entitylistener = new HashMap<DiagramHandler, CustomPreviewEntityListener>();
 
 	public static CustomPreviewEntityListener getInstance(DiagramHandler handler) {
-		if (!entitylistener.containsKey(handler)) entitylistener.put(handler, new CustomPreviewEntityListener(handler));
+		if (!entitylistener.containsKey(handler)) {
+			entitylistener.put(handler, new CustomPreviewEntityListener(handler));
+		}
 		return entitylistener.get(handler);
 	}
 

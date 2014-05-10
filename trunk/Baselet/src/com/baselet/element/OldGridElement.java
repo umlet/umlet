@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
+import com.baselet.control.SharedConstants;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
@@ -74,35 +75,37 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	public OldGridElement() {
 		this.setSize(100, 100);
-		this.setVisible(true);
-		this.enabled = true;
-		this.autoresizeandmanualresizeenabled = false;
+		setVisible(true);
+		enabled = true;
+		autoresizeandmanualresizeenabled = false;
 	}
 
 	@Override
 	public void setEnabled(boolean en) {
 		super.setEnabled(en);
 		if (!en && enabled) {
-			this.removeMouseListener(Main.getHandlerForElement(this).getEntityListener(this));
-			this.removeMouseMotionListener(Main.getHandlerForElement(this).getEntityListener(this));
+			removeMouseListener(Main.getHandlerForElement(this).getEntityListener(this));
+			removeMouseMotionListener(Main.getHandlerForElement(this).getEntityListener(this));
 			enabled = false;
 		}
 		else if (en && !enabled) {
-			this.addMouseListener(Main.getHandlerForElement(this).getEntityListener(this));
-			this.addMouseMotionListener(Main.getHandlerForElement(this).getEntityListener(this));
+			addMouseListener(Main.getHandlerForElement(this).getEntityListener(this));
+			addMouseMotionListener(Main.getHandlerForElement(this).getEntityListener(this));
 			enabled = true;
 		}
 	}
 
 	public boolean isManualResized() {
 		autoresizeandmanualresizeenabled = true;
-		return this.isManResized();
+		return isManResized();
 	}
 
 	private boolean isManResized() {
-		Vector<String> lines = Utils.decomposeStringsWithComments(this.getPanelAttributes());
+		Vector<String> lines = Utils.decomposeStringsWithComments(getPanelAttributes());
 		for (String line : lines) {
-			if (line.startsWith("autoresize=false")) return true;
+			if (line.startsWith("autoresize=false")) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -113,9 +116,11 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	public void setManualResized() {
 		if (autoresizeandmanualresizeenabled) {
-			if (!this.isManResized()) {
-				this.setPanelAttributes(this.getPanelAttributes() + Constants.NEWLINE + "autoresize=false");
-				if (this.equals(Main.getInstance().getEditedGridElement())) Main.getInstance().setPropertyPanelToGridElement(this);
+			if (!isManResized()) {
+				setPanelAttributes(getPanelAttributes() + Constants.NEWLINE + "autoresize=false");
+				if (equals(Main.getInstance().getEditedGridElement())) {
+					Main.getInstance().setPropertyPanelToGridElement(this);
+				}
 			}
 		}
 	}
@@ -146,29 +151,40 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public String getSetting(String key) {
-		if (key == ForegroundColorFacet.KEY) return fgColorString;
-		else if (key == BackgroundColorFacet.KEY) return bgColorString;
+		if (key == ForegroundColorFacet.KEY) {
+			return fgColorString;
+		}
+		else if (key == BackgroundColorFacet.KEY) {
+			return bgColorString;
+		}
 		for (String line : getPanelAttributesAsList()) {
 			if (line.startsWith(key + Facet.SEP)) {
 				String[] split = line.split(Facet.SEP, 2);
-				if (split.length > 1) return split[1];
+				if (split.length > 1) {
+					return split[1];
+				}
 			}
 		}
 		return null;
-	
+
 	}
 
 	@Override
 	public void setProperty(String key, Object newValue) {
 		String newState = "";
-		for (String line : Utils.decomposeStringsWithComments(this.getPanelAttributes())) {
-			if (!line.startsWith(key.toString())) newState += line + "\n";
+		for (String line : Utils.decomposeStringsWithComments(getPanelAttributes())) {
+			if (!line.startsWith(key.toString())) {
+				newState += line + "\n";
+			}
 		}
 		if (!newState.isEmpty()) {
 			newState = newState.substring(0, newState.length() - 1); // remove last linebreak
 		}
-		if (newValue != null && !newValue.toString().isEmpty()) newState += "\n" + key.toString() + "=" + newValue; // null will not be added as a value
-		this.setPanelAttributes(newState);
+		if (newValue != null && !newValue.toString().isEmpty())
+		{
+			newState += "\n" + key.toString() + "=" + newValue; // null will not be added as a value
+		}
+		setPanelAttributes(newState);
 	}
 
 	public Composite[] colorize(Graphics2D g2) {
@@ -183,18 +199,26 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 				bgColorString = line.substring("bg=".length());
 				// OldGridElements apply transparency for background explicitly, therefore don't apply it here
 				bgColor = Converter.convert(ColorOwn.forStringOrNull(bgColorString, Transparency.FOREGROUND));
-				if (bgColor == null) bgColor = getDefaultBackgroundColor();
+				if (bgColor == null) {
+					bgColor = getDefaultBackgroundColor();
+				}
 			}
 			else if (line.indexOf("fg=") >= 0) {
 				fgColorString = line.substring("fg=".length());
 				fgColorBase = Converter.convert(ColorOwn.forStringOrNull(fgColorString, Transparency.FOREGROUND));
-				if (fgColorBase == null) fgColorBase = Converter.convert(ColorOwn.DEFAULT_FOREGROUND);
-				if (!Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) fgColor = fgColorBase;
+				if (fgColorBase == null) {
+					fgColorBase = Converter.convert(ColorOwn.DEFAULT_FOREGROUND);
+				}
+				if (!Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
+					fgColor = fgColorBase;
+				}
 			}
 		}
 
 		alphaFactor = ALPHA_MIDDLE_TRANSPARENCY;
-		if (bgColorString.equals("") || bgColorString.equals("default")) alphaFactor = ALPHA_FULL_TRANSPARENCY;
+		if (bgColorString.equals("") || bgColorString.equals("default")) {
+			alphaFactor = ALPHA_FULL_TRANSPARENCY;
+		}
 
 		Composite old = g2.getComposite();
 		AlphaComposite alpha = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alphaFactor);
@@ -214,22 +238,30 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public Set<Direction> getResizeArea(int x, int y) {
 		Set<Direction> returnSet = new HashSet<Direction>();
-		if ((x <= 5) && (x >= 0)) returnSet.add(Direction.LEFT);
-		else if ((x <= this.getRectangle().width) && (x >= this.getRectangle().width - 5)) returnSet.add(Direction.RIGHT);
+		if (x <= 5 && x >= 0) {
+			returnSet.add(Direction.LEFT);
+		}
+		else if (x <= getRectangle().width && x >= getRectangle().width - 5) {
+			returnSet.add(Direction.RIGHT);
+		}
 
-		if ((y <= 5) && (y >= 0)) returnSet.add(Direction.UP);
-		else if ((y <= this.getRectangle().height) && (y >= this.getRectangle().height - 5)) returnSet.add(Direction.DOWN);
+		if (y <= 5 && y >= 0) {
+			returnSet.add(Direction.UP);
+		}
+		else if (y <= getRectangle().height && y >= getRectangle().height - 5) {
+			returnSet.add(Direction.DOWN);
+		}
 		return returnSet;
 	}
 
 	@Override
 	public void changeSize(int diffx, int diffy) {
-		this.setSize(this.getRectangle().width + diffx, this.getRectangle().height + diffy);
+		this.setSize(getRectangle().width + diffx, getRectangle().height + diffy);
 	}
 
 	@Override
 	public void setLocationDifference(int diffx, int diffy) {
-		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
+		this.setLocation(getRectangle().x + diffx, getRectangle().y + diffy);
 	}
 
 	/**
@@ -252,7 +284,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public boolean isInRange(Rectangle rect1) {
-		return (rect1.contains(getRectangle()));
+		return rect1.contains(getRectangle());
 	}
 
 	public void setInProgress(Graphics g, boolean flag) {
@@ -260,7 +292,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 			g2.setColor(Color.red);
-			Main.getHandlerForElement(this).getFontHandler().writeText(g2, "in progress...", this.getRectangle().width / 2 - 40, this.getRectangle().height / 2 + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
+			Main.getHandlerForElement(this).getFontHandler().writeText(g2, "in progress...", getRectangle().width / 2 - 40, getRectangle().height / 2 + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
 		}
 		else {
 			repaint();
@@ -271,8 +303,8 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		try {
 			java.lang.Class<? extends GridElement> cx = this.getClass(); // get class of dynamic object
 			GridElement c = cx.newInstance();
-			c.setPanelAttributes(this.getPanelAttributes()); // copy states
-			c.setRectangle(this.getRectangle());
+			c.setPanelAttributes(getPanelAttributes()); // copy states
+			c.setRectangle(getRectangle());
 			Main.getHandlerForElement(this).setHandlerAndInitListeners(c);
 			return c;
 		} catch (Exception e) {
@@ -295,7 +327,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public final void drawStickingPolygon(Graphics2D g2) {
 		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
 		int start = Utils.displaceDrawingByOnePixel() ? 1 : 0;
-		Rectangle rect = new Rectangle(start, start, this.getRectangle().width - 1, this.getRectangle().height - 1);
+		Rectangle rect = new Rectangle(start, start, getRectangle().width - 1, getRectangle().height - 1);
 		StickingPolygon poly = this.generateStickingBorder(rect);
 		if (poly != null) {
 			Color c = g2.getColor();
@@ -327,14 +359,15 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		boolean selected = Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this);
 		if (selected) {
 			fgColor = Converter.convert(ColorOwn.SELECTION_FG);
-			if (Constants.show_stickingpolygon) {
-				this.drawStickingPolygon(g2);
+			if (SharedConstants.show_stickingpolygon) {
+				drawStickingPolygon(g2);
 			}
-		} else {
+		}
+		else {
 			fgColor = fgColorBase;
 		}
 		updateModelFromText();
-		this.paintEntity(g2);
+		paintEntity(g2);
 	}
 
 	public abstract void paintEntity(Graphics g);
@@ -379,7 +412,9 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		for (String s : Utils.decomposeStringsWithComments(panelAttributes)) {
 			if (s.startsWith(key)) {
 				String[] value = s.split(key);
-				if (value.length == 0) return "";
+				if (value.length == 0) {
+					return "";
+				}
 				return value[1];
 			}
 		}
@@ -447,7 +482,10 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	private void moveStickables(StickableMap stickables, StickingPolygon oldStickingPolygon) {
-		if (oldStickingPolygon == null) return; // if element has no stickingPolygon nothing has to be checked
+		if (oldStickingPolygon == null)
+		{
+			return; // if element has no stickingPolygon nothing has to be checked
+		}
 		// the first drag determines which stickables and which points of them will stick (eg: moving through other relations should NOT "collect" their stickingpoints)
 		if (!stickables.isEmpty()) {
 			Stickables.moveStickPointsBasedOnPolygonChanges(oldStickingPolygon, generateStickingBorder(), stickables, getGridSize());
@@ -478,7 +516,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, StickableMap stickables) {
 		StickingPolygon oldStickingPolygon = generateStickingBorder();
-		this.setLocation(this.getRectangle().x + diffx, this.getRectangle().y + diffy);
+		this.setLocation(getRectangle().x + diffx, getRectangle().y + diffy);
 		moveStickables(stickables, oldStickingPolygon);
 	}
 

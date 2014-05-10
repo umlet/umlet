@@ -25,7 +25,6 @@ import com.baselet.control.enumerations.FormatLabels;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.element.OldGridElement;
 
-
 // An interaction represents a synchronous/asynchronous message
 // that is sent between two objects.
 class Interaction {
@@ -50,19 +49,21 @@ class Interaction {
 	}
 
 	public boolean hasControl(int objNum) {
-		return (srcObjHasControl && (srcObj == objNum)) ||
-				(destObjHasControl && (destObj == objNum));
+		return srcObjHasControl && srcObj == objNum ||
+				destObjHasControl && destObj == objNum;
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof Interaction)) return false;
+		if (!(o instanceof Interaction)) {
+			return false;
+		}
 		Interaction i = (Interaction) o;
 
-		return (srcObj == i.srcObj) && (srcObjHasControl == i.srcObjHasControl) &&
-				(arrowKind == i.arrowKind) && (destObj == i.destObj) &&
-				(destObjHasControl == i.destObjHasControl) &&
-				((methodName == null) | methodName.equals(i.methodName));
+		return srcObj == i.srcObj && srcObjHasControl == i.srcObjHasControl &&
+				arrowKind == i.arrowKind && destObj == i.destObj &&
+				destObjHasControl == i.destObjHasControl &&
+				methodName == null | methodName.equals(i.methodName);
 	}
 
 	@Override
@@ -120,7 +121,9 @@ class InteractionManagement {
 		Iterator<Interaction> it = level[levelNum - 1].iterator();
 		while (it.hasNext()) {
 			Interaction ia = it.next();
-			if (ia.hasControl(objNum)) return true;
+			if (ia.hasControl(objNum)) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -185,19 +188,20 @@ public class SequenceDiagram extends OldGridElement {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		g2.setColor(fgColor);
-		
 
 		// draw the border
-		g2.drawRect(0, 0, this.getRectangle().width - 1, this.getRectangle().height - 1);
+		g2.drawRect(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 
 		levelNum = 1;
 
-		Vector<String> lines = Utils.decomposeStrings(this.getPanelAttributes());
+		Vector<String> lines = Utils.decomposeStrings(getPanelAttributes());
 
-		if (lines.size() == 0) return;
+		if (lines.size() == 0) {
+			return;
+		}
 		if (lines.elementAt(0).startsWith("title:")) {
 			String title = lines.elementAt(0).substring("title:".length());
-			if ((title != null) && (title.length() > 0)) {
+			if (title != null && title.length() > 0) {
 				Main.getHandlerForElement(this).getFontHandler().writeText(g2, title, (int) (5 * zoom), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
 				int titlewidth = (int) Main.getHandlerForElement(this).getFontHandler().getTextWidth(title);
 				int ty = (int) (8 * zoom) + (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts());
@@ -207,7 +211,9 @@ public class SequenceDiagram extends OldGridElement {
 				yOffsetforTitle = (int) (25 * zoom);
 			}
 		}
-		else yOffsetforTitle = 0;
+		else {
+			yOffsetforTitle = 0;
+		}
 
 		for (int i = 1; i < lines.size(); i++) {
 			String element = lines.elementAt(i);
@@ -220,12 +226,17 @@ public class SequenceDiagram extends OldGridElement {
 				lines.set(i, element);
 			}
 			// AB: match whitespace characters from the beginning to the end of the line
-			if (lines.elementAt(i).matches("\\A\\s*\\z")) continue;
+			if (lines.elementAt(i).matches("\\A\\s*\\z")) {
+				continue;
+			}
 			levelNum++;
 		}
 
-		if (lines.size() == 0) return; // return if it only has the title line (Issue 146)
-		
+		if (lines.size() == 0)
+		{
+			return; // return if it only has the title line (Issue 146)
+		}
+
 		String firstLine = lines.elementAt(0);
 		Vector<String> obj = Utils.decomposeStrings(firstLine, "|");
 		int numObjects = obj.size();
@@ -233,21 +244,21 @@ public class SequenceDiagram extends OldGridElement {
 		// LABEL ADDING
 		// get the labels of the Sequencediagram
 		String newhead = ""; // delete the ids from the header
-		this.labeltonumber = new HashMap<String, Integer>();
+		labeltonumber = new HashMap<String, Integer>();
 
 		Pattern p_label = Pattern.compile("([^\\~]+)(\\~([a-zA-Z0-9]+))?(\\_)?");
 		for (int i = 1; i <= numObjects; i++) {
 			Matcher m = p_label.matcher(obj.get(i - 1));
-			if (m.matches() && (m.group(2) != null)) {
-				this.labeltonumber.put(m.group(3), i);
+			if (m.matches() && m.group(2) != null) {
+				labeltonumber.put(m.group(3), i);
 				newhead += "|" + m.group(1) + (m.group(4) == null ? "" : m.group(4));
 			}
 			else {
 				newhead += "|" + obj.get(i - 1);
 			}
-			if (!this.labeltonumber.containsKey(Integer.toString(i))) // only write number if no other label has this number
+			if (!labeltonumber.containsKey(Integer.toString(i))) // only write number if no other label has this number
 			{
-				this.labeltonumber.put(Integer.toString(i), i); // columnnumber as label for backward compatibility
+				labeltonumber.put(Integer.toString(i), i); // columnnumber as label for backward compatibility
 			}
 		}
 		obj = Utils.decomposeStrings(newhead.length() > 0 ? newhead.substring(1) : "", "|");
@@ -259,7 +270,9 @@ public class SequenceDiagram extends OldGridElement {
 		String boxStrings = "";
 		for (int i = 1; i < lines.size(); i++) {
 			String methodName = "";
-			if (lines.elementAt(i).matches("\\A\\s*\\z")) continue;
+			if (lines.elementAt(i).matches("\\A\\s*\\z")) {
+				continue;
+			}
 			curLevel++;
 			Vector<String> interactions = Utils.decomposeStrings(lines.elementAt(i), ";");
 
@@ -271,10 +284,12 @@ public class SequenceDiagram extends OldGridElement {
 				// 1->2:abc
 				Matcher m = p.matcher(interactions.elementAt(j));
 
-				if (!m.matches()) continue;
+				if (!m.matches()) {
+					continue;
+				}
 
-				Integer srcObj = this.labeltonumber.get(m.group(1));
-				Integer destObj = this.labeltonumber.get(m.group(3));
+				Integer srcObj = labeltonumber.get(m.group(1));
+				Integer destObj = labeltonumber.get(m.group(3));
 
 				int arrowKind = -1;
 				int lineKind = -1;
@@ -356,15 +371,20 @@ public class SequenceDiagram extends OldGridElement {
 				if (group == null) {
 					group = "#";
 					String element = interactions.elementAt(j);
-					if (element.indexOf("iframe") >= 0) group += element.substring(element.indexOf("iframe")); // append info for interactionframe
+					if (element.indexOf("iframe") >= 0)
+					{
+						group += element.substring(element.indexOf("iframe")); // append info for interactionframe
+					}
 				}
 				else // LABLING ADD
 				{
 					String[] grouparray = group.split(",");
 					group = "";
 					for (String tmp : grouparray) {
-						Integer tempgroup = this.labeltonumber.get(tmp);
-						if (tempgroup != null) group += "," + tempgroup;
+						Integer tempgroup = labeltonumber.get(tmp);
+						if (tempgroup != null) {
+							group += "," + tempgroup;
+						}
 					}
 					if (group.length() > 0) {
 						group = group.substring(1);
@@ -388,10 +408,16 @@ public class SequenceDiagram extends OldGridElement {
 				// LME: removed (in V6) since not necessary
 				// if(destObj==srcObj) levelNum++; //LME: expand the Entity's size
 
-				if ((srcObj == null) || (destObj == null)) continue;
+				if (srcObj == null || destObj == null) {
+					continue;
+				}
 
-				if (!reverse) im.add(curLevel, new Interaction(srcObj, srcObjHasControl, arrowKind, lineKind, destObj, destObjHasControl, methodName)); // normal arrow direction 1->2
-				else im.add(curLevel, new Interaction(destObj, destObjHasControl, arrowKind, lineKind, srcObj, srcObjHasControl, methodName)); // reverse arrow direction 1<-2
+				if (!reverse) {
+					im.add(curLevel, new Interaction(srcObj, srcObjHasControl, arrowKind, lineKind, destObj, destObjHasControl, methodName)); // normal arrow direction 1->2
+				}
+				else {
+					im.add(curLevel, new Interaction(destObj, destObjHasControl, arrowKind, lineKind, srcObj, srcObjHasControl, methodName)); // reverse arrow direction 1<-2
+				}
 			} // #for
 		}
 		// end message parsing
@@ -401,7 +427,7 @@ public class SequenceDiagram extends OldGridElement {
 		double maxHeight = 0;
 		for (int i = 0; i < numObjects; i++) {
 			String s = obj.elementAt(i);
-			if (s.startsWith(FormatLabels.UNDERLINE.getValue()) && s.endsWith(FormatLabels.UNDERLINE.getValue()) && (s.length() > 2)) {
+			if (s.startsWith(FormatLabels.UNDERLINE.getValue()) && s.endsWith(FormatLabels.UNDERLINE.getValue()) && s.length() > 2) {
 				s = s.substring(1, s.length() - 1);
 			}
 			TextLayout layout = new TextLayout(s, Main.getHandlerForElement(this).getFontHandler().getFont(), g2.getFontRenderContext());
@@ -418,7 +444,7 @@ public class SequenceDiagram extends OldGridElement {
 		for (int i = 0; i < numObjects; i++) {
 			boolean underline = false;
 			String s = obj.elementAt(i);
-			if (s.startsWith(FormatLabels.UNDERLINE.getValue()) && s.endsWith(FormatLabels.UNDERLINE.getValue()) && (s.length() > 2)) {
+			if (s.startsWith(FormatLabels.UNDERLINE.getValue()) && s.endsWith(FormatLabels.UNDERLINE.getValue()) && s.length() > 2) {
 				underline = true;
 				s = s.substring(1, s.length() - 1);
 			}
@@ -434,10 +460,12 @@ public class SequenceDiagram extends OldGridElement {
 
 			layout.draw(g2, tx, ty);
 
-			if (underline) g2.drawLine(tx,
-					ty + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() / 2,
-					tx + (int) layout.getBounds().getWidth(),
-					ty + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() / 2);
+			if (underline) {
+				g2.drawLine(tx,
+						ty + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() / 2,
+						tx + (int) layout.getBounds().getWidth(),
+						ty + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() / 2);
+			}
 
 			xpos += rectWidth + rectDistance;
 		}
@@ -457,7 +485,7 @@ public class SequenceDiagram extends OldGridElement {
 		// set our component to the correct size
 		int rWidth = rectWidth * numObjects + rectDistance * (numObjects - 1) + 2 * borderDistance;
 		int rHeight = 2 * borderDistance + yOffsetforTitle + rectHeight + rectToFirstLevelDistance + levelNum * levelHeight;
-		rWidth = (rWidth > maxTextXpos ? rWidth : maxTextXpos);
+		rWidth = rWidth > maxTextXpos ? rWidth : maxTextXpos;
 		// align the borders to the grid
 		rWidth += Main.getHandlerForElement(this).getGridSize() - rWidth % Main.getHandlerForElement(this).getGridSize();
 		rHeight += Main.getHandlerForElement(this).getGridSize() - rHeight % Main.getHandlerForElement(this).getGridSize();
@@ -481,7 +509,7 @@ public class SequenceDiagram extends OldGridElement {
 					int h = (int) (levelHeight * 0.66);
 					int x = hCenterForObj(ia.getSrcObj()) - w / 2;
 					// nt y= vCenterForLevel(i+1) - h/2;
-					int ay = (vCenterForLevel(i + 1) + (int) (5 * zoom)); // + levelHeight/2 -1;
+					int ay = vCenterForLevel(i + 1) + (int) (5 * zoom); // + levelHeight/2 -1;
 					if (im.controlBoxExists(i + 1, ia.getSrcObj())) {
 						x += controlFlowBoxWidth / 2;
 						xTextOffset = controlFlowBoxWidth / 2;
@@ -516,7 +544,7 @@ public class SequenceDiagram extends OldGridElement {
 					}
 
 					// print the methodname
-					if ((ia.getMethodName() != null) && !ia.getMethodName().equals("")) {
+					if (ia.getMethodName() != null && !ia.getMethodName().equals("")) {
 						int fx1 = x + w + 2;
 						int fy1 = ay;
 						int fx2 = hCenterForObj(ia.getSrcObj()) + rectWidth / 2;
@@ -530,19 +558,19 @@ public class SequenceDiagram extends OldGridElement {
 				else {
 					// draw an arrow from the source-object to the destination object
 					int begX = hCenterForObj(ia.getSrcObj());
-					int endX = (ia.getSrcObj() < ia.getDestObj()) ? hCenterForObj(ia.getDestObj()) - 1 : hCenterForObj(ia.getDestObj()) + 1;
+					int endX = ia.getSrcObj() < ia.getDestObj() ? hCenterForObj(ia.getDestObj()) - 1 : hCenterForObj(ia.getDestObj()) + 1;
 					int arrowY = vCenterForLevel(i + 1) + levelHeight / 2 - 1;
 
 					if (ia.getSrcObjHasControl()) { // LME: shrink arrow if box exists
-						begX += (ia.getSrcObj() < ia.getDestObj()) ? (controlFlowBoxWidth / 2) : (-controlFlowBoxWidth / 2);
+						begX += ia.getSrcObj() < ia.getDestObj() ? controlFlowBoxWidth / 2 : -controlFlowBoxWidth / 2;
 					}
 					if (ia.getDestObjHasControl()) { // LME: shrink arrow if box exists
-						endX += (ia.getSrcObj() < ia.getDestObj()) ? (-controlFlowBoxWidth / 2) : (controlFlowBoxWidth / 2);
+						endX += ia.getSrcObj() < ia.getDestObj() ? -controlFlowBoxWidth / 2 : controlFlowBoxWidth / 2;
 					}
 
 					drawArrow(g2, new Point(begX, arrowY), new Point(endX, arrowY), ia.getArrowKind(), ia.getLineKind());
 
-					if ((ia.getMethodName() != null) && !ia.getMethodName().equals("")) {
+					if (ia.getMethodName() != null && !ia.getMethodName().equals("")) {
 						final int b = 2;
 						if (ia.getSrcObj() < ia.getDestObj()) {
 							int tx = printMethodName(g2, ia.getMethodName(), begX + b, endX - arrowX - b, arrowY - 1 - levelHeight / 1, arrowY - 1, false, true);
@@ -569,7 +597,7 @@ public class SequenceDiagram extends OldGridElement {
 			int begX, int endX, int begY, int endY,
 			boolean centerVertically, boolean centerHorizontically) {
 
-		if ((methodName == null) || methodName.equals("")) {
+		if (methodName == null || methodName.equals("")) {
 			log.error("SequenceDiagram->printMethodName was called with an invalid argument.");
 			return 0;
 		}
@@ -578,8 +606,8 @@ public class SequenceDiagram extends OldGridElement {
 		TextLayout layout = new TextLayout(methodName, font, g2.getFontRenderContext());
 
 		// draw it horizontally centered
-		int dx = (centerHorizontically) ? (endX - begX - (int) layout.getBounds().getWidth()) / 2 : 0;
-		int dy = (centerVertically) ?
+		int dx = centerHorizontically ? (endX - begX - (int) layout.getBounds().getWidth()) / 2 : 0;
+		int dy = centerVertically ?
 				(endY - begY - (int) layout.getBounds().getHeight()) / 2 : 1;
 
 		layout.draw(g2, begX + dx, endY - dy);
@@ -609,10 +637,16 @@ public class SequenceDiagram extends OldGridElement {
 			String main = mainTokens.nextToken();
 			if (main.indexOf("#") >= 0) { // if no box, clear entire row
 				for (int i = 0; i < numObjects; i++)
+				{
 					tField[i][level - 1] = 0; // clear
-				if ((main.indexOf("#iframe{") >= 0) || (main.indexOf("#iframe}") >= 0)) {
-					if (main.indexOf("#iframe{") >= 0) interactionframes.add(new Integer(level));
-					else interactionframes.add(new Integer(level * (-1))); // distinguish betweeen start and end of the iframe
+				}
+				if (main.indexOf("#iframe{") >= 0 || main.indexOf("#iframe}") >= 0) {
+					if (main.indexOf("#iframe{") >= 0) {
+						interactionframes.add(new Integer(level));
+					}
+					else {
+						interactionframes.add(new Integer(level * -1)); // distinguish betweeen start and end of the iframe
+					}
 					if (main.indexOf("iframe{:") >= 0) {
 						interactionframesText.put("" + level, main.substring(main.indexOf("iframe{:") + 8)); // put text into hashmap
 					}
@@ -622,7 +656,9 @@ public class SequenceDiagram extends OldGridElement {
 			else {
 				StringTokenizer innerT = new StringTokenizer(main, ",");
 				for (int i = 0; i < numObjects; i++)
+				{
 					tField[i][level - 1] = 0; // clear
+				}
 				while (innerT.hasMoreTokens()) {
 					String is = innerT.nextToken();
 					int objNum = Integer.parseInt(is);
@@ -647,10 +683,12 @@ public class SequenceDiagram extends OldGridElement {
 
 			for (int i = 0; i < tokNum + 1; i++) {
 				if (tField[actObjNum][i] == 1) {
-					if (startLevel == -1) startLevel = i;
+					if (startLevel == -1) {
+						startLevel = i;
+					}
 					boxSize++;
 				}
-				if ((tField[actObjNum][i] == 0) && (startLevel != -1)) {
+				if (tField[actObjNum][i] == 0 && startLevel != -1) {
 					int y1 = vCenterForLevel(startLevel + offset) - levelHeight - 1;
 					g2.drawRect(x1, y1, controlFlowBoxWidth - 1, levelHeight * boxSize); // draw the box
 
@@ -662,7 +700,7 @@ public class SequenceDiagram extends OldGridElement {
 					boxSize = 0;
 				}
 			} // #for(int i
-			// LME: draw the tail
+				// LME: draw the tail
 			int lineY2 = borderDistance + yOffsetforTitle + rectHeight + levelNum * levelHeight + rectToFirstLevelDistance;
 			g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
 			g2.drawLine(lineX, lineY1, lineX, lineY2);
@@ -670,7 +708,7 @@ public class SequenceDiagram extends OldGridElement {
 		} // #for(int actObjNum
 
 		// LME: draw the interaction frames
-		int fullSets = interactionframes.size() - (interactionframes.size() % 2);
+		int fullSets = interactionframes.size() - interactionframes.size() % 2;
 		if (fullSets >= 2) {
 			int pos = 0;
 			while (pos < fullSets) {
@@ -693,12 +731,14 @@ public class SequenceDiagram extends OldGridElement {
 	public int recurseInteractionFrames(Graphics2D g2, Vector<Integer> interactionframes, HashMap<String, String> interactionframesText, int pos, int recursionLevel) {
 		int pos1 = interactionframes.elementAt(pos);
 		int posX;
-		while ((pos < interactionframes.size()) && ((posX = interactionframes.elementAt(pos)) > 0)) { // traverse through iframes an same level
+		while (pos < interactionframes.size() && (posX = interactionframes.elementAt(pos)) > 0) { // traverse through iframes an same level
 			pos1 = posX;
 			pos++;
 			pos = recurseInteractionFrames(g2, interactionframes, interactionframesText, pos, recursionLevel + 1); // step on level deeper into recursion
-			if (pos1 <= 0) return pos;
-			int pos2 = interactionframes.elementAt(pos) * (-1);
+			if (pos1 <= 0) {
+				return pos;
+			}
+			int pos2 = interactionframes.elementAt(pos) * -1;
 			drawInteractionFrame(g2, pos1, pos2, recursionLevel, interactionframesText.get("" + pos1));
 			pos++;
 		}
@@ -712,15 +752,17 @@ public class SequenceDiagram extends OldGridElement {
 		int pos11 = (pos1 + 1) * levelHeight + yOffsetforTitle;
 		int h = (pos2 - pos1) * levelHeight;
 		int x = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 2 + recursionLevel * 4;
-		g2.drawRect(x, pos11, this.getRectangle().width - (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 4 - 1 - recursionLevel * 8, h);
+		g2.drawRect(x, pos11, getRectangle().width - (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 4 - 1 - recursionLevel * 8, h);
 		int uLinePos = pos11 + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts());
 		int textPos = pos11 + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 
 		int textWidth = 0;
-		if ((text == null) || text.equals("")) text = " ";
+		if (text == null || text.equals("")) {
+			text = " ";
+		}
 		g2.drawString(text, x + (int) (10 * zoom), textPos);
 		int pW = (int) Main.getHandlerForElement(this).getFontHandler().getTextWidth(text);
-		textWidth = (pW > textWidth) ? (pW) : (textWidth);
+		textWidth = pW > textWidth ? pW : textWidth;
 
 		g2.drawLine(x, uLinePos, x + textWidth + (int) (15 * zoom), uLinePos);
 		g2.drawLine(x + textWidth + (int) (15 * zoom), uLinePos, x + textWidth + (int) (25 * zoom), pos11 + (int) (10 * zoom));
@@ -743,20 +785,26 @@ public class SequenceDiagram extends OldGridElement {
 			g2.drawLine(destObj.x, destObj.y, p1.x, p1.y);
 			g2.drawLine(destObj.x, destObj.y, p2.x, p2.y);
 
-			if (lineKind == DOTTED) g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
+			if (lineKind == DOTTED) {
+				g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
+			}
 			g2.drawLine(srcObj.x, srcObj.y, p1.x, destObj.y);
 		}
 		else if (arrowKind == ASYNC) {
 			g2.drawLine(destObj.x, destObj.y, p1.x, p1.y);
 			g2.drawLine(destObj.x, destObj.y, p2.x, p2.y);
 
-			if (lineKind == DOTTED) g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
+			if (lineKind == DOTTED) {
+				g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
+			}
 			g2.drawLine(srcObj.x, srcObj.y, destObj.x, destObj.y);
 		}
 		else if (arrowKind == EDGE) {
 			g2.drawLine(destObj.x, destObj.y, p2.x, p2.y);
 
-			if (lineKind == DOTTED) g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
+			if (lineKind == DOTTED) {
+				g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
+			}
 			g2.drawLine(srcObj.x, srcObj.y, destObj.x, destObj.y);
 		}
 		else if (arrowKind == FILLED) {
@@ -766,19 +814,21 @@ public class SequenceDiagram extends OldGridElement {
 			p.addPoint(destObj.x, destObj.y);
 			g2.fillPolygon(p);
 
-			if (lineKind == DOTTED) g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
+			if (lineKind == DOTTED) {
+				g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
+			}
 			g2.drawLine(srcObj.x, srcObj.y, p1.x, destObj.y);
 		}
 		g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
 	}
 
 	protected int hCenterForObj(int objNum) {
-		return (objNum * rectWidth + (objNum - 1) * rectDistance + borderDistance - rectWidth / 2);
+		return objNum * rectWidth + (objNum - 1) * rectDistance + borderDistance - rectWidth / 2;
 	}
 
 	protected int vCenterForLevel(int level) {
-		return (level * levelHeight + rectToFirstLevelDistance +
-				rectHeight + borderDistance + yOffsetforTitle - levelHeight / 2);
+		return level * levelHeight + rectToFirstLevelDistance +
+				rectHeight + borderDistance + yOffsetforTitle - levelHeight / 2;
 	}
 
 	@Override

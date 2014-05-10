@@ -16,12 +16,12 @@ public class RelationLinePoint {
 	}
 
 	public int getStickingLineId() {
-		return this.stickingLineId;
+		return stickingLineId;
 	}
 
 	public RelationLinePoint(Relation r, int lp, int stick) {
 		_relation = r;
 		_linePointId = lp;
-		this.stickingLineId = stick;
+		stickingLineId = stick;
 	}
 }

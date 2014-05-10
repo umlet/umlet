@@ -11,14 +11,13 @@ import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
 
-
 @SuppressWarnings("serial")
 public class EER_Entity extends OldGridElement {
 	int ySave = 0;
 	boolean hasAttributes = false;
 
 	private Vector<String> getStringVector() {
-		Vector<String> ret = Utils.decomposeStrings(this.getPanelAttributes());
+		Vector<String> ret = Utils.decomposeStrings(getPanelAttributes());
 		return ret;
 	}
 
@@ -48,23 +47,27 @@ public class EER_Entity extends OldGridElement {
 			}
 			else {
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-				if (CENTER && s.startsWith("##")) drawInnerRect = true;
+				if (CENTER && s.startsWith("##")) {
+					drawInnerRect = true;
+				}
 				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
-				if (CENTER) ySave = yPos;
+				if (CENTER) {
+					ySave = yPos;
+				}
 			}
 		}
 		poly.addPoint(0, 0);
-		poly.addPoint(this.getRectangle().width - 1, 0);
+		poly.addPoint(getRectangle().width - 1, 0);
 		if (CENTER) {
 			hasAttributes = false; // see getStickingBorder()
-			ySave = this.getRectangle().height;
-			poly.addPoint(this.getRectangle().width - 1, this.getRectangle().height - 1);
-			poly.addPoint(0, this.getRectangle().height - 1);
+			ySave = getRectangle().height;
+			poly.addPoint(getRectangle().width - 1, getRectangle().height - 1);
+			poly.addPoint(0, getRectangle().height - 1);
 		}
 		else {
 			hasAttributes = true; // see getStickingBorder()
 			g.drawLine((int) (10 * zoom), ySave, (int) (10 * zoom), yPos + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() - (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts());
-			poly.addPoint(this.getRectangle().width - 1, ySave);
+			poly.addPoint(getRectangle().width - 1, ySave);
 			poly.addPoint(0, ySave);
 		}
 
@@ -72,13 +75,21 @@ public class EER_Entity extends OldGridElement {
 		g2.setColor(bgColor);
 		g2.fillPolygon(poly);
 		g2.setComposite(composites[0]);
-		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) g2.setColor(fgColor);
-		else g2.setColor(fgColorBase);
+		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
+			g2.setColor(fgColor);
+		}
+		else {
+			g2.setColor(fgColorBase);
+		}
 		g2.drawPolygon(poly);
 
 		if (drawInnerRect) {
-			if (CENTER) g.drawRect((int) (3 * zoom), (int) (3 * zoom), this.getRectangle().width - (int) (7 * zoom), this.getRectangle().height - (int) (7 * zoom));
-			else g.drawRect((int) (3 * zoom), (int) (3 * zoom), this.getRectangle().width - (int) (7 * zoom), ySave - (int) (6 * zoom));
+			if (CENTER) {
+				g.drawRect((int) (3 * zoom), (int) (3 * zoom), getRectangle().width - (int) (7 * zoom), getRectangle().height - (int) (7 * zoom));
+			}
+			else {
+				g.drawRect((int) (3 * zoom), (int) (3 * zoom), getRectangle().width - (int) (7 * zoom), ySave - (int) (6 * zoom));
+			}
 		}
 
 		// #### draw text
@@ -100,13 +111,15 @@ public class EER_Entity extends OldGridElement {
 						drawInnerRect = true;
 						s1 = s1.substring(2);
 					}
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s1, this.getRectangle().width / 2, yPos, AlignHorizontal.CENTER);
+					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s1, getRectangle().width / 2, yPos, AlignHorizontal.CENTER);
 				}
 				else {
 					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), yPos, AlignHorizontal.LEFT);
 				}
 				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
-				if (CENTER) ySave = yPos;
+				if (CENTER) {
+					ySave = yPos;
+				}
 			}
 		}
 	}

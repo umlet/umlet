@@ -9,12 +9,13 @@ import java.util.List;
 import com.umlet.language.java.Method;
 
 public class JpMethod implements Method {
-	
+
 	private MethodDeclaration method;
 
 	public JpMethod(MethodDeclaration method) {
 		this.method = method;
 	}
+
 	@Override
 	public String getName() {
 		return method.getName();
@@ -33,12 +34,13 @@ public class JpMethod implements Method {
 		}
 		String result = "";
 		boolean first = true;
-		for (Parameter param: params) {
-			if (first)  {
+		for (Parameter param : params) {
+			if (first) {
 				first = false;
 				result += param.toString();
-			} else  {
-				result += ", "+param.toString();
+			}
+			else {
+				result += ", " + param.toString();
 			}
 		}
 		return result;
@@ -53,11 +55,14 @@ public class JpMethod implements Method {
 		int modifiers = method.getModifiers();
 		if ((modifiers & ModifierSet.PUBLIC) != 0) {
 			return AccessFlag.PUBLIC;
-		} else if ((modifiers & ModifierSet.PROTECTED) != 0) {
-			return AccessFlag.PROTECTED; 
-		} else if ((modifiers & ModifierSet.PRIVATE) != 0) {
-			return AccessFlag.PRIVATE; 
-		} else {
+		}
+		else if ((modifiers & ModifierSet.PROTECTED) != 0) {
+			return AccessFlag.PROTECTED;
+		}
+		else if ((modifiers & ModifierSet.PRIVATE) != 0) {
+			return AccessFlag.PRIVATE;
+		}
+		else {
 			return AccessFlag.PACKAGE;
 		}
 	}

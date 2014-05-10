@@ -10,7 +10,6 @@ import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.element.OldGridElement;
 
-
 @SuppressWarnings("serial")
 public class SimpleComponent extends OldGridElement {
 
@@ -25,7 +24,6 @@ public class SimpleComponent extends OldGridElement {
 		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
-		
 
 		// It's getting interesting here:
 		// First, the strings you type in the element editor are read and
@@ -35,7 +33,7 @@ public class SimpleComponent extends OldGridElement {
 		// Change this to modify this default text printing and to react
 		// to special strings
 		// (like the "--" string in the UML class elements which draw a line).
-		Vector<String> tmp = Utils.decomposeStrings(this.getPanelAttributes());
+		Vector<String> tmp = Utils.decomposeStrings(getPanelAttributes());
 		int yPos = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
@@ -51,7 +49,7 @@ public class SimpleComponent extends OldGridElement {
 
 		int fnt = (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 
-		g2.drawLine((int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0, this.getRectangle().width - 1, 0);
+		g2.drawLine((int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0, getRectangle().width - 1, 0);
 		// top
 		g2.drawLine((int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), getRectangle().height - 1, getRectangle().width - 1, getRectangle().height - 1); // bottom
 

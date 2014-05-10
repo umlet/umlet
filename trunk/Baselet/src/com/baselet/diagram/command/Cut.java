@@ -21,16 +21,18 @@ public class Cut extends Command {
 	public void execute(DiagramHandler handler) {
 
 		super.execute(handler);
-		if (this.entities == null) {
-			this.entities = new Vector<GridElement>();
-			this.entities.addAll(handler.getDrawPanel().getSelector().getSelectedElements());
+		if (entities == null) {
+			entities = new Vector<GridElement>();
+			entities.addAll(handler.getDrawPanel().getSelector().getSelectedElements());
 		}
 
-		if (this.entities.isEmpty()) return;
+		if (entities.isEmpty()) {
+			return;
+		}
 
 		// AB: clipboard copy scales the entities to 100%, so we don't have to do it manually
-		ClipBoard.getInstance().copy(this.entities, handler);
-		(new RemoveElement(this.entities, false)).execute(handler);
+		ClipBoard.getInstance().copy(entities, handler);
+		new RemoveElement(entities, false).execute(handler);
 
 		// AB: copy origin and zoom it to 100%
 		origin = handler.getDrawPanel().getOriginAtDefaultZoom();
@@ -49,8 +51,8 @@ public class Cut extends Command {
 		int offsetX = origin.x - handler.getDrawPanel().getOriginAtDefaultZoom().x;
 		int offsetY = origin.y - handler.getDrawPanel().getOriginAtDefaultZoom().y;
 
-		for (GridElement e : this.entities) {
-			(new AddElement(e, handler.realignToGrid(true, e.getRectangle().x + offsetX), handler.realignToGrid(true, e.getRectangle().y + offsetY))).execute(handler);
+		for (GridElement e : entities) {
+			new AddElement(e, handler.realignToGrid(true, e.getRectangle().x + offsetX), handler.realignToGrid(true, e.getRectangle().y + offsetY)).execute(handler);
 		}
 		handler.getDrawPanel().repaint();
 

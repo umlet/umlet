@@ -12,13 +12,12 @@ import javax.swing.JComponent;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 
-
 public class DiagramNotification extends JComponent {
 
 	private static final long serialVersionUID = 1L;
 	private String message;
 	private Rectangle drawPanelSize;
-	
+
 	private static final Font notificationFont = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
 	private static final FontRenderContext frc = new FontRenderContext(null, true, true);
 
@@ -26,7 +25,7 @@ public class DiagramNotification extends JComponent {
 		this.message = message;
 		this.drawPanelSize = drawPanelSize;
 		this.setSize(100, 20);
-		this.adaptDimensions();
+		adaptDimensions();
 	}
 
 	@Override
@@ -44,13 +43,13 @@ public class DiagramNotification extends JComponent {
 		adaptDimensions();
 
 		int textX = 5;
-		int textY = (getHeight() / 2 + 3);
+		int textY = getHeight() / 2 + 3;
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f)); // 70% transparency
 		g2.drawString(message, textX, textY);
 
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.05f)); // 5% transparency
 		g2.setColor(java.awt.Color.blue);
-		g2.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
+		g2.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
 		g2.setComposite(old);
 		g2.setFont(drawFont);
 	}
@@ -58,7 +57,7 @@ public class DiagramNotification extends JComponent {
 	private void adaptDimensions() {
 		DimensionDouble textSize = Utils.getTextSize(message, notificationFont, frc);
 		int x = (int) (drawPanelSize.getX2() - textSize.getWidth() - 20);
-		int y = (int) (drawPanelSize.getY() + 10);
+		int y = drawPanelSize.getY() + 10;
 		this.setLocation(x, y);
 		this.setSize((int) textSize.getWidth() + 10, (int) textSize.getHeight() + 10);
 	}

@@ -37,19 +37,31 @@ public abstract class Constants extends SharedConstants {
 
 		@Override
 		public String toString() {
-			if (this == CTRL) return "Ctrl";
-			else return "Cmd";
+			if (this == CTRL) {
+				return "Ctrl";
+			}
+			else {
+				return "Cmd";
+			}
 		}
 
 		// Use these masks as modifiers if you want to enforce ctrl or meta in addition to a keyevent
 		public int getMask() {
-			if (this == CTRL) return ActionEvent.CTRL_MASK;
-			else return ActionEvent.META_MASK;
+			if (this == CTRL) {
+				return ActionEvent.CTRL_MASK;
+			}
+			else {
+				return ActionEvent.META_MASK;
+			}
 		}
 
 		public int getMaskDown() {
-			if (this == CTRL) return InputEvent.CTRL_DOWN_MASK;
-			else return InputEvent.META_DOWN_MASK;
+			if (this == CTRL) {
+				return InputEvent.CTRL_DOWN_MASK;
+			}
+			else {
+				return InputEvent.META_DOWN_MASK;
+			}
 		}
 	}
 
@@ -62,17 +74,35 @@ public abstract class Constants extends SharedConstants {
 
 		static {
 			String os = java.lang.System.getProperty("os.name").toUpperCase();
-			if (os.startsWith("WINDOWS")) OS = Os.WINDOWS;
-			else if (os.startsWith("MAC")) OS = Os.MAC;
-			else if (os.startsWith("LINUX")) OS = Os.LINUX;
-			else if (os.contains("UNIX") || os.contains("BSD")) OS = Os.UNIX;
-			else OS = Os.UNKNOWN;
+			if (os.startsWith("WINDOWS")) {
+				OS = Os.WINDOWS;
+			}
+			else if (os.startsWith("MAC")) {
+				OS = Os.MAC;
+			}
+			else if (os.startsWith("LINUX")) {
+				OS = Os.LINUX;
+			}
+			else if (os.contains("UNIX") || os.contains("BSD")) {
+				OS = Os.UNIX;
+			}
+			else {
+				OS = Os.UNKNOWN;
+			}
 
-			if (java.lang.System.getProperty("java.runtime.name").toUpperCase().contains("OPEN")) JAVA_IMPL = JavaImplementation.OPEN;
-			else JAVA_IMPL = JavaImplementation.SUN;
+			if (java.lang.System.getProperty("java.runtime.name").toUpperCase().contains("OPEN")) {
+				JAVA_IMPL = JavaImplementation.OPEN;
+			}
+			else {
+				JAVA_IMPL = JavaImplementation.SUN;
+			}
 
-			if (SystemInfo.OS == Os.MAC) META_KEY = Metakey.CMD;
-			else META_KEY = Metakey.CTRL;
+			if (SystemInfo.OS == Os.MAC) {
+				META_KEY = Metakey.CMD;
+			}
+			else {
+				META_KEY = Metakey.CTRL;
+			}
 		}
 	}
 
@@ -118,7 +148,6 @@ public abstract class Constants extends SharedConstants {
 	}
 	//@formatter:on
 
-
 	/**** EXPORT FORMATS ****/
 	public static final List<String> exportFormatList = Arrays.asList(new String[] { "bmp", "eps", "gif", "jpg", "pdf", "png", "svg" });
 
@@ -135,7 +164,7 @@ public abstract class Constants extends SharedConstants {
 	public static final String REGEX_FLOAT = "(\\d+(\\.\\d+)?)";
 
 	/**** OTHER CONSTANTS ****/
-	
+
 	public static final double EXPORT_DISPLACEMENT = 0.5;
 
 	public static final String MANIFEST_BUNDLE_NAME = "Bundle-Name";
@@ -178,15 +207,29 @@ public abstract class Constants extends SharedConstants {
 		@Override
 		public int compare(String s1, String s2) {
 			// Anything which starts with "Default" is always first
-			if (s1.startsWith(Constants.FIRST_PALETTE_STRING) && !s2.startsWith(Constants.FIRST_PALETTE_STRING)) return -1;
-			if (s2.startsWith(Constants.FIRST_PALETTE_STRING) && !s1.startsWith(Constants.FIRST_PALETTE_STRING)) return 1;
+			if (s1.startsWith(Constants.FIRST_PALETTE_STRING) && !s2.startsWith(Constants.FIRST_PALETTE_STRING)) {
+				return -1;
+			}
+			if (s2.startsWith(Constants.FIRST_PALETTE_STRING) && !s1.startsWith(Constants.FIRST_PALETTE_STRING)) {
+				return 1;
+			}
 			// Anything which starts with "Default" is always first
-			if (s1.startsWith(Constants.DEFAULT_STRING) && !s2.startsWith(Constants.DEFAULT_STRING)) return -1;
-			if (s2.startsWith(Constants.DEFAULT_STRING) && !s1.startsWith(Constants.DEFAULT_STRING)) return 1;
+			if (s1.startsWith(Constants.DEFAULT_STRING) && !s2.startsWith(Constants.DEFAULT_STRING)) {
+				return -1;
+			}
+			if (s2.startsWith(Constants.DEFAULT_STRING) && !s1.startsWith(Constants.DEFAULT_STRING)) {
+				return 1;
+			}
 			// Anything which starts with "Plot" is always last
-			if (s1.startsWith(Constants.PLOTS_STRING) && !s2.startsWith(Constants.PLOTS_STRING)) return 1;
-			if (s2.startsWith(Constants.PLOTS_STRING) && !s1.startsWith(Constants.PLOTS_STRING)) return -1;
-			else return s1.compareTo(s2);
+			if (s1.startsWith(Constants.PLOTS_STRING) && !s2.startsWith(Constants.PLOTS_STRING)) {
+				return 1;
+			}
+			if (s2.startsWith(Constants.PLOTS_STRING) && !s1.startsWith(Constants.PLOTS_STRING)) {
+				return -1;
+			}
+			else {
+				return s1.compareTo(s2);
+			}
 		}
 	};
 
@@ -197,13 +240,15 @@ public abstract class Constants extends SharedConstants {
 	public static final int MIN_MAIL_SPLITPANEL_SIZE = 250;
 
 	public static Integer propertiesPanelFontsize = 11;
+
 	public static Font getPanelHeaderFont() {
 		return new Font(Font.SANS_SERIF, Font.BOLD, propertiesPanelFontsize);
 	}
+
 	public static Font getPanelContentFont() {
 		return new Font(Font.MONOSPACED, Font.PLAIN, propertiesPanelFontsize);
 	}
-	
+
 	/**** VALUES LOADED FROM CONFIG ****/
 	public static Integer defaultFontsize = 14;
 	public static String defaultFontFamily = Font.SANS_SERIF;

@@ -20,22 +20,25 @@ public class ElementFactory {
 	 */
 	public static NewGridElement create(ElementId id, Rectangle bounds, String panelAttributes, String additionalAttributes, DiagramHandler handler) {
 		final NewGridElement returnObj = id.createAssociatedGridElement();
-		
+
 		ComponentSwing component = new ComponentSwing(returnObj);
-		
+
 		DrawHandlerInterface panel = new DrawHandlerInterface() {
 			@Override
 			public void updatePropertyPanel() {
 				Main.getHandlerForElement(returnObj).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 			}
+
 			@Override
 			public int getGridSize() {
 				return Main.getHandlerForElement(returnObj).getGridSize();
 			}
+
 			@Override
 			public boolean displaceDrawingByOnePixel() {
 				return Utils.displaceDrawingByOnePixel();
 			}
+
 			@Override
 			public void resize(double diffw, double diffh, AlignHorizontal alignHorizontal) {
 				double diffwInCurrentZoom = diffw * getGridSize() / SharedConstants.DEFAULT_GRID_SIZE;
@@ -48,14 +51,17 @@ public class ElementFactory {
 				int wDiff = 0;
 				if (alignHorizontal == AlignHorizontal.LEFT) {
 					wDiff = h.realignToGrid(false, diffwInCurrentZoom, true);
-				} else if (alignHorizontal == AlignHorizontal.RIGHT) {
+				}
+				else if (alignHorizontal == AlignHorizontal.RIGHT) {
 					xDiff = -h.realignToGrid(false, diffwInCurrentZoom, true);
-				} else if (alignHorizontal == AlignHorizontal.CENTER) {
-					wDiff = h.realignToGrid(false, diffwInCurrentZoom/2, true);
-					xDiff = -h.realignToGrid(false, diffwInCurrentZoom/2, true);
+				}
+				else if (alignHorizontal == AlignHorizontal.CENTER) {
+					wDiff = h.realignToGrid(false, diffwInCurrentZoom / 2, true);
+					xDiff = -h.realignToGrid(false, diffwInCurrentZoom / 2, true);
 				}
 				new Resize(returnObj, xDiff, 0, wDiff, diffhRealigned).execute(h);
 			}
+
 			@Override
 			public boolean isInitialized() {
 				return Main.getHandlerForElement(returnObj) != null;
@@ -70,7 +76,8 @@ public class ElementFactory {
 	public static GridElement createCopy(GridElement old) {
 		if (old instanceof OldGridElement) {
 			return ((OldGridElement) old).CloneFromMe();
-		} else {
+		}
+		else {
 			return create(old.getId(), old.getRectangle().copy(), old.getPanelAttributes(), old.getAdditionalAttributes(), Main.getHandlerForElement(old));
 		}
 	}

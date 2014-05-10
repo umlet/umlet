@@ -8,17 +8,16 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.swing.DrawHandlerSwing;
 import com.baselet.element.GridElement;
 
-
 public class CustomElementWithErrors extends CustomElement {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<CompileError> errors;
 
 	public CustomElementWithErrors() {
 		super();
 	}
-	
+
 	public CustomElementWithErrors(List<CompileError> errors) {
 		super();
 		this.errors = errors;
@@ -30,7 +29,7 @@ public class CustomElementWithErrors extends CustomElement {
 		drawer.setGraphics(g2);
 		drawer.setHandler(Main.getHandlerForElement(this));
 		drawer.getStyle().setFgColor(ColorOwn.RED);
-		drawer.drawRectangle(0, 0, this.getRealSize().width, this.getRealSize().height);
+		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
 		if (errors != null) {
 			double y = textHeight();
 			double x = Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(false);
@@ -47,8 +46,8 @@ public class CustomElementWithErrors extends CustomElement {
 	@Override
 	public final GridElement CloneFromMe() {
 		CustomElementWithErrors e = (CustomElementWithErrors) super.CloneFromMe();
-		e.setCode(this.getCode());
-		e.errors = this.errors;
+		e.setCode(getCode());
+		e.errors = errors;
 		return e;
 	}
 }

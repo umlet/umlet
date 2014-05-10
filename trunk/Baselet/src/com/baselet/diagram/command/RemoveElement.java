@@ -9,7 +9,6 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
 
-
 public class RemoveElement extends Command {
 
 	private List<GridElement> _entities;
@@ -39,14 +38,19 @@ public class RemoveElement extends Command {
 	@Override
 	public void execute(DiagramHandler handler) {
 		super.execute(handler);
-		if (this._entities.size() == 0) return;
+		if (_entities.size() == 0) {
+			return;
+		}
 
 		DrawPanel p = handler.getDrawPanel();
-		for (GridElement e : this._entities)
+		for (GridElement e : _entities) {
 			handler.getDrawPanel().removeElement(e);
+		}
 
 		origin = handler.getDrawPanel().getOriginAtDefaultZoom();
-		if (_zoom) DiagramHandler.zoomEntities(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, _entities);
+		if (_zoom) {
+			DiagramHandler.zoomEntities(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, _entities);
+		}
 
 		p.updatePanelAndScrollbars();
 		p.repaint();
@@ -57,7 +61,9 @@ public class RemoveElement extends Command {
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
 
-		if (_zoom) DiagramHandler.zoomEntities(Constants.DEFAULTGRIDSIZE, handler.getGridSize(), _entities);
+		if (_zoom) {
+			DiagramHandler.zoomEntities(Constants.DEFAULTGRIDSIZE, handler.getGridSize(), _entities);
+		}
 
 		int offsetX = origin.x - handler.getDrawPanel().getOriginAtDefaultZoom().x;
 		int offsetY = origin.y - handler.getDrawPanel().getOriginAtDefaultZoom().y;
@@ -65,10 +71,10 @@ public class RemoveElement extends Command {
 		offsetX = offsetX * handler.getGridSize() / Constants.DEFAULTGRIDSIZE;
 		offsetY = offsetY * handler.getGridSize() / Constants.DEFAULTGRIDSIZE;
 
-		for (GridElement e : this._entities) {
-			(new AddElement(e,
+		for (GridElement e : _entities) {
+			new AddElement(e,
 					handler.realignToGrid(e.getRectangle().x + offsetX),
-					handler.realignToGrid(e.getRectangle().y + offsetY), _zoom)).execute(handler);
+					handler.realignToGrid(e.getRectangle().y + offsetY), _zoom).execute(handler);
 		}
 
 		handler.getDrawPanel().updatePanelAndScrollbars();

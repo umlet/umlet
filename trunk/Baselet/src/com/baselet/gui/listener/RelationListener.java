@@ -15,7 +15,6 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.sticking.StickableMap;
 import com.umlet.element.Relation;
 
-
 public class RelationListener extends GridElementListener {
 
 	private boolean IS_DRAGGING_LINEPOINT = false;
@@ -30,8 +29,8 @@ public class RelationListener extends GridElementListener {
 	public void mousePressed(MouseEvent me) {
 		super.mousePressed(me);
 		if (me.getButton() == MouseEvent.BUTTON1) {
-			this.IS_DRAGGING = false;
-			this.IS_RESIZING = false;
+			IS_DRAGGING = false;
+			IS_RESIZING = false;
 			Relation rel = (Relation) me.getComponent();
 
 			int where = rel.getLinePoint(new Point(me.getX(), me.getY()));
@@ -55,16 +54,16 @@ public class RelationListener extends GridElementListener {
 	@Override
 	public void mouseReleased(MouseEvent me) {
 		super.mouseReleased(me);
-		if (IS_DRAGGING_LINEPOINT & (LINEPOINT >= 0)) {
+		if (IS_DRAGGING_LINEPOINT & LINEPOINT >= 0) {
 			Relation rel = (Relation) me.getComponent();
 			if (rel.allPointsOnSamePos()) {
 				// If mousebutton is released and all points of a relation are on the same position,
 				// the command which moved all points to the same position gets undone and the relation gets removed instead
-				this.controller.undo();
-				this.controller.executeCommand(new RemoveElement(rel));
+				controller.undo();
+				controller.executeCommand(new RemoveElement(rel));
 			}
 			else if (rel.isOnLine(LINEPOINT)) {
-				this.controller.executeCommand(
+				controller.executeCommand(
 						new RemoveLinePoint(rel, LINEPOINT));
 			}
 		}
@@ -83,16 +82,24 @@ public class RelationListener extends GridElementListener {
 		else if (rel.isWholeLine(me.getX(), me.getY())) {
 			Main.getInstance().getGUI().setCursor(Constants.MOVE_CURSOR);
 		}
-		else Main.getInstance().getGUI().setCursor(Constants.CROSS_CURSOR);
+		else {
+			Main.getInstance().getGUI().setCursor(Constants.CROSS_CURSOR);
+		}
 		return;
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent me) {
 		super.mouseDragged(me);
-		if (this.doReturn()) return;
-		if (this.IS_DRAGGING) return;
-		if (this.IS_DRAGGING_DIAGRAM) return;
+		if (doReturn()) {
+			return;
+		}
+		if (IS_DRAGGING) {
+			return;
+		}
+		if (IS_DRAGGING_DIAGRAM) {
+			return;
+		}
 
 		Relation r = (Relation) me.getComponent();
 		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
@@ -107,19 +114,19 @@ public class RelationListener extends GridElementListener {
 			delta_y = (r.getRectangle().y + p.y) % gridSize;
 		}
 
-		Point newp = this.getNewCoordinate();
-		Point oldp = this.getOldCoordinate();
+		Point newp = getNewCoordinate();
+		Point oldp = getOldCoordinate();
 
 		int diffx = newp.x - oldp.x - delta_x;
 		int diffy = newp.y - oldp.y - delta_y;
 
-		if (IS_DRAGGING_LINEPOINT & (LINEPOINT >= 0)) {
-			this.controller.executeCommand(
+		if (IS_DRAGGING_LINEPOINT & LINEPOINT >= 0) {
+			controller.executeCommand(
 					new MoveLinePoint(r, LINEPOINT, diffx, diffy));
 			return;
 		}
 		else if (IS_DRAGGING_LINE) {
-			this.controller.executeCommand(new Move(r, diffx, diffy, oldp, false, true, StickableMap.EMPTY_MAP));
+			controller.executeCommand(new Move(r, diffx, diffy, oldp, false, true, StickableMap.EMPTY_MAP));
 			return;
 		}
 
@@ -127,7 +134,7 @@ public class RelationListener extends GridElementListener {
 		if (where >= 0) {
 			IS_DRAGGING_LINEPOINT = true;
 			LINEPOINT = where;
-			this.controller.executeCommand(
+			controller.executeCommand(
 					new MoveLinePoint(r, where, diffx, diffy));
 			return;
 		}
@@ -137,7 +144,7 @@ public class RelationListener extends GridElementListener {
 			if (ins > 0) {
 				IS_DRAGGING_LINEPOINT = true;
 				LINEPOINT = ins;
-				this.controller.executeCommand(
+				controller.executeCommand(
 						new AddLinePoint(r, ins, me.getX(), me.getY()));
 				return;
 			}

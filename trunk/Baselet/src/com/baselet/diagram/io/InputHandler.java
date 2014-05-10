@@ -61,12 +61,12 @@ public class InputHandler extends DefaultHandler {
 	public void startElement(String uri, String localName, String qName, Attributes attributes) {
 		elementtext = "";
 		if (qName.equals("element")) {
-			this.panel_attributes = "";
-			this.additional_attributes = "";
-			this.code = null;
+			panel_attributes = "";
+			additional_attributes = "";
+			code = null;
 		}
 		if (qName.equals("group")) { // TODO remove group-handling in InputHandler. Until UMLet v13, groups used own element-tags in XML. This has changed to the property group=x, so this handling is only for backwards compatibility
-			currentGroup = this.handler.getDrawPanel().getSelector().getUnusedGroup();
+			currentGroup = handler.getDrawPanel().getSelector().getUnusedGroup();
 		}
 	}
 
@@ -80,43 +80,53 @@ public class InputHandler extends DefaultHandler {
 			handler.getFontHandler().setDiagramDefaultFontFamily(HelpPanelChanged.getFontfamily(elementtext));
 		}
 		else if (elementname.equals("zoom_level")) {
-			if (handler != null) handler.setGridSize(Integer.parseInt(elementtext));
+			if (handler != null) {
+				handler.setGridSize(Integer.parseInt(elementtext));
+			}
 		}
 		else if (elementname.equals("group")) {
-			this.currentGroup = null;
+			currentGroup = null;
 		}
 		else if (elementname.equals("element")) {
-			if (this.id != null) {
+			if (id != null) {
 				try {
-					NewGridElement e = ElementFactory.create(ElementId.valueOf(this.id), new Rectangle(x, y, w, h), this.panel_attributes, this.additional_attributes, this.handler);
-					if (this.currentGroup != null) e.setProperty(GroupFacet.KEY, currentGroup);
+					NewGridElement e = ElementFactory.create(ElementId.valueOf(id), new Rectangle(x, y, w, h), panel_attributes, additional_attributes, handler);
+					if (currentGroup != null) {
+						e.setProperty(GroupFacet.KEY, currentGroup);
+					}
 					_p.addElement(e);
 				} catch (Exception e) {
-					log.error("Cannot instantiate element with id: " + this.id, e);
+					log.error("Cannot instantiate element with id: " + id, e);
 				}
 				id = null;
 			}
-			else if (!this.ignoreElements.contains(this.entityname)) { // OldGridElement handling which can be removed as soon as all OldGridElements have been replaced
+			else if (!ignoreElements.contains(entityname)) { // OldGridElement handling which can be removed as soon as all OldGridElements have been replaced
 				try {
-					if (this.code == null) e =  Main.getInstance().getGridElementFromPath(this.entityname);
-					else e = CustomElementCompiler.getInstance().genEntity(this.code);
+					if (code == null) {
+						e = Main.getInstance().getGridElementFromPath(entityname);
+					}
+					else {
+						e = CustomElementCompiler.getInstance().genEntity(code);
+					}
 				} catch (Exception ex) {
 					e = new ErrorOccurred();
 				}
 				e.setRectangle(new Rectangle(x, y, w, h));
-				e.setPanelAttributes(this.panel_attributes);
-				e.setAdditionalAttributes(this.additional_attributes);
-				this.handler.setHandlerAndInitListeners(e);
+				e.setPanelAttributes(panel_attributes);
+				e.setAdditionalAttributes(additional_attributes);
+				handler.setHandlerAndInitListeners(e);
 
-				if (this.currentGroup != null) e.setProperty(GroupFacet.KEY, currentGroup);
+				if (currentGroup != null) {
+					e.setProperty(GroupFacet.KEY, currentGroup);
+				}
 				_p.addElement(e);
 			}
 		}
 		else if (elementname.equals("type")) {
-			this.entityname = elementtext;
+			entityname = elementtext;
 		}
 		else if (elementname.equals("id")) { // new elements have an id
-			this.id = elementtext;
+			id = elementtext;
 		}
 		else if (elementname.equals("x")) {
 			Integer i = new Integer(elementtext);
@@ -134,14 +144,20 @@ public class InputHandler extends DefaultHandler {
 			Integer i = new Integer(elementtext);
 			h = i.intValue();
 		}
-		else if (elementname.equals("panel_attributes")) this.panel_attributes = elementtext;
-		else if (elementname.equals("additional_attributes")) this.additional_attributes = elementtext;
-		else if (elementname.equals("custom_code")) this.code = elementtext;
+		else if (elementname.equals("panel_attributes")) {
+			panel_attributes = elementtext;
+		}
+		else if (elementname.equals("additional_attributes")) {
+			additional_attributes = elementtext;
+		}
+		else if (elementname.equals("custom_code")) {
+			code = elementtext;
+		}
 	}
 
 	@Override
 	public void characters(char[] ch, int start, int length) {
-		elementtext += (new String(ch)).substring(start, start + length);
+		elementtext += new String(ch).substring(start, start + length);
 	}
 
 }

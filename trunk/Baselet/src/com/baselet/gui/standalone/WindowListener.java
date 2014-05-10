@@ -4,7 +4,6 @@ import java.awt.event.WindowEvent;
 
 import com.baselet.control.Main;
 
-
 public class WindowListener implements java.awt.event.WindowListener {
 
 	public WindowListener() {}

@@ -6,7 +6,6 @@ import java.awt.Point;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 
-
 public abstract class WhileElement extends Element {
 
 	public WhileElement(DiagramHandler handler, Graphics2D g, int padding, String id) {
@@ -14,22 +13,30 @@ public abstract class WhileElement extends Element {
 	}
 
 	public void connectTo(StartElement start, StopElement stop) {
-		if (this.connectOut() && start.connectIn()) {
-			Point from = this.getConnect(Direction.UP);
+		if (connectOut() && start.connectIn()) {
+			Point from = getConnect(Direction.UP);
 			Point to = start.getConnect(Direction.LEFT);
 
-			this.getGraphics().drawLine(from.x, from.y, from.x, to.y);
-			if (this.arrowOut() && start.arrowIn()) Connector.drawArrow(this.getGraphics(), getZoom(), from.x, to.y, to.x, to.y);
-			else this.getGraphics().drawLine(from.x, to.y, to.x, to.y);
+			getGraphics().drawLine(from.x, from.y, from.x, to.y);
+			if (arrowOut() && start.arrowIn()) {
+				Connector.drawArrow(getGraphics(), getZoom(), from.x, to.y, to.x, to.y);
+			}
+			else {
+				getGraphics().drawLine(from.x, to.y, to.x, to.y);
+			}
 		}
 
-		if (this.connectIn() && stop.connectOut()) {
-			Point to = this.getConnect(Direction.DOWN);
+		if (connectIn() && stop.connectOut()) {
+			Point to = getConnect(Direction.DOWN);
 			Point from = stop.getConnect(Direction.LEFT);
 
-			this.getGraphics().drawLine(from.x, from.y, to.x, from.y);
-			if (this.arrowIn() && stop.arrowOut()) Connector.drawArrow(this.getGraphics(), getZoom(), to.x, from.y, to.x, to.y);
-			else this.getGraphics().drawLine(to.x, from.y, to.x, to.y);
+			getGraphics().drawLine(from.x, from.y, to.x, from.y);
+			if (arrowIn() && stop.arrowOut()) {
+				Connector.drawArrow(getGraphics(), getZoom(), to.x, from.y, to.x, to.y);
+			}
+			else {
+				getGraphics().drawLine(to.x, from.y, to.x, to.y);
+			}
 		}
 	}
 }

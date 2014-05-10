@@ -11,7 +11,6 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
 
-
 @SuppressWarnings("serial")
 public class SeqDestroyMark extends OldGridElement {
 	@Override
@@ -19,11 +18,10 @@ public class SeqDestroyMark extends OldGridElement {
 		Graphics2D g2 = (Graphics2D) g;
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
-		
 
-		Rectangle r = this.getRectangle();
-		g2.drawLine(0, 0, (int) r.getWidth() - 1, (int) r.getHeight() - 1);
-		g2.drawLine((int) r.getWidth() - 1, 0, 0, (int) r.getHeight() - 1);
+		Rectangle r = getRectangle();
+		g2.drawLine(0, 0, r.getWidth() - 1, r.getHeight() - 1);
+		g2.drawLine(r.getWidth() - 1, 0, 0, r.getHeight() - 1);
 	}
 
 	@Override
