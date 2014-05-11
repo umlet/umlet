@@ -8,7 +8,7 @@
 	<property name="build.dir" location="compile_out" />
 	<property name="lib.dir" location="war/WEB-INF/lib" />
 	<property name="gwt.module.name" value="com.baselet.gwt.BaseletGWT" />
-	<property name="gwt.sdk.location" value="C:/Program Files/Eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.5.1/gwt-2.5.1" />
+	<property name="gwt.sdk.location" value="C:/Program Files/Eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.6.0/gwt-2.6.0" />
 	<property name="elements.src.dir" location="../BaseletElements/src" />
 
 	<path id="project.classpath">
