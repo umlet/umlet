@@ -11,6 +11,13 @@ import com.baselet.elementnew.element.uml.relation.RelationPoints;
 
 public class RelationDrawer {
 
+	public static void drawBoxArrow(DrawHandler drawer, Line line, boolean drawOnStart) {
+		int size = 20;
+		PointDouble point = drawOnStart ? line.getStart() : line.getEnd();
+		System.out.println("DRAW " + point);
+		drawer.drawRectangle(point.getX() - size / 2, point.getY() - size / 2, size, size);
+	}
+
 	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, boolean inverseArrow, boolean closeArrow) {
 		PointDouble point = drawOnStart ? line.getStart() : line.getEnd();
 		double angleOfSlopeOfLine = line.getAngleOfSlope();

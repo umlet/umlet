@@ -31,7 +31,7 @@ public class Relation extends NewGridElement implements Stickable {
 
 	@Override
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
-		relationPoints.drawLinesBetweenPoints(drawer);
+		// relationPoints.drawLinesBetweenPoints(drawer);
 	}
 
 	@Override
