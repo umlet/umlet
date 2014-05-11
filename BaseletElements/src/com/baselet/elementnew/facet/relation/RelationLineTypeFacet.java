@@ -8,6 +8,8 @@ import org.apache.log4j.Logger;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.control.enumerations.ValueHolder;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.element.uml.relation.RelationPoints;
 import com.baselet.elementnew.element.uml.relation.SettingsRelation;
@@ -19,13 +21,13 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 
 	private RelationLineTypeFacet() {}
 
-	private Logger log = Logger.getLogger(RelationLineTypeFacet.class);
+	private final Logger log = Logger.getLogger(RelationLineTypeFacet.class);
 
 	/**
 	 * all arrowtypes and linetypes to expect (order is important because eg << must be before < to be recognized correctly / also linetype .. must be before .)
 	 */
-	private static final List<ArrowEnd> LEFT_ARROW_STRINGS = Arrays.asList(ArrowEnd.LEFT_CLOSED, ArrowEnd.LEFT_NORMAL);
-	private static final List<ArrowEnd> RIGHT_ARROW_STRINGS = Arrays.asList(ArrowEnd.RIGHT_CLOSED, ArrowEnd.RIGHT_NORMAL);
+	private static final List<ArrowEnd> LEFT_ARROW_STRINGS = Arrays.asList(ArrowEnd.LEFT_CLOSED, ArrowEnd.LEFT_NORMAL, ArrowEnd.LEFT_BOX);
+	private static final List<ArrowEnd> RIGHT_ARROW_STRINGS = Arrays.asList(ArrowEnd.RIGHT_CLOSED, ArrowEnd.RIGHT_NORMAL, ArrowEnd.RIGHT_BOX);
 	private static final List<LineType> LINE_TYPES = Arrays.asList(LineType.SOLID, LineType.DOTTED, LineType.DASHED);
 
 	public RelationPoints getRelationPoints(PropertiesParserState config) {
@@ -42,16 +44,29 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		ArrowEnd leftArrow = extractPart(LEFT_ARROW_STRINGS, null);
 		LineType lineType = extractPart(LINE_TYPES, LineType.SOLID);
 		ArrowEnd rightArrow = extractPart(RIGHT_ARROW_STRINGS, null);
+		log.debug("Split Relation " + value + " into following parts: " + getValueNotNull(leftArrow) + " | " + getValueNotNull(lineType) + " | " + getValueNotNull(rightArrow));
 
+		drawLine(drawer, relationPoints, lineType);
+		drawArrowEnds(drawer, relationPoints, leftArrow, rightArrow);
+	}
+
+	private void drawArrowEnds(DrawHandler drawer, RelationPoints relationPoints, ArrowEnd leftArrow, ArrowEnd rightArrow) {
+		ColorOwn oldBgColor = drawer.getStyle().getBgColor();
+		drawer.setBackgroundColor(oldBgColor.transparency(Transparency.FOREGROUND)); // arrow background is not transparent
 		if (leftArrow != null) {
 			leftArrow.print(drawer, relationPoints);
 		}
 		if (rightArrow != null) {
 			rightArrow.print(drawer, relationPoints);
 		}
-		drawer.setLineType(lineType);
+		drawer.setBackgroundColor(oldBgColor); // reset background
+	}
 
-		log.debug("Split Relation " + value + " into following parts: " + getValueNotNull(leftArrow) + " | " + getValueNotNull(lineType) + " | " + getValueNotNull(rightArrow));
+	private void drawLine(DrawHandler drawer, RelationPoints relationPoints, LineType lineType) {
+		LineType oldLt = drawer.getStyle().getLineType();
+		drawer.setLineType(lineType);
+		relationPoints.drawLinesBetweenPoints(drawer);
+		drawer.setLineType(oldLt);
 	}
 
 	private <T extends ValueHolder> T extractPart(List<T> valueHolderList, T defaultValue) {

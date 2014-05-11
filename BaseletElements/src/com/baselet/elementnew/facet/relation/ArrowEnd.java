@@ -54,4 +54,28 @@ interface ArrowEnd extends ValueHolder {
 			return ">>";
 		}
 	};
+
+	static ArrowEnd LEFT_BOX = new ArrowEnd() {
+		@Override
+		public void print(DrawHandler drawer, RelationPoints points) {
+			RelationDrawer.drawBoxArrow(drawer, points.getFirstLine(), true);
+		}
+
+		@Override
+		public String getValue() {
+			return "[]";
+		}
+	};
+
+	static ArrowEnd RIGHT_BOX = new ArrowEnd() {
+		@Override
+		public void print(DrawHandler drawer, RelationPoints points) {
+			RelationDrawer.drawBoxArrow(drawer, points.getLastLine(), false);
+		}
+
+		@Override
+		public String getValue() {
+			return "[]";
+		}
+	};
 }
