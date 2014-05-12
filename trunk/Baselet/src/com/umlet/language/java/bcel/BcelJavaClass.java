@@ -2,10 +2,10 @@ package com.umlet.language.java.bcel;
 
 import org.apache.log4j.Logger;
 
-import com.sun.org.apache.bcel.internal.classfile.ClassParser;
-import com.sun.org.apache.bcel.internal.classfile.Field;
-import com.sun.org.apache.bcel.internal.classfile.JavaClass;
-import com.sun.org.apache.bcel.internal.classfile.Method;
+import org.apache.bcel.classfile.ClassParser;
+import org.apache.bcel.classfile.Field;
+import org.apache.bcel.classfile.JavaClass;
+import org.apache.bcel.classfile.Method;
 
 public class BcelJavaClass implements com.umlet.language.java.JavaClass {
 

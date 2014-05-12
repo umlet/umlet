@@ -1,6 +1,7 @@
 package com.umlet.language;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.Constants;
@@ -8,8 +9,10 @@ import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler;
 import com.baselet.diagram.command.AddElement;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.umlet.element.Class;
+import com.baselet.elementnew.ElementId;
+import com.umlet.element.experimental.ElementFactory;
 import com.umlet.language.java.Accessible.AccessFlag;
 import com.umlet.language.java.Field;
 import com.umlet.language.java.JavaClass;
@@ -75,9 +78,11 @@ public class ClassDiagramConverter {
 			return null;
 		}
 
-		GridElement clazz = new Class();
-		clazz.setPanelAttributes(getElementProperties(parsedClass));
-		adjustSize(clazz);
+		String propertiesText = getElementProperties(parsedClass);
+		propertiesText.split("\n");
+		List<String> propList = Arrays.asList(propertiesText.split("\n"));
+		Rectangle initialSize = adjustSize(propList);
+		GridElement clazz = ElementFactory.create(ElementId.UMLClass, initialSize, propertiesText, null, Main.getInstance().getDiagramHandler());
 		return new SortableElement(clazz, parsedClass);
 	}
 
@@ -96,9 +101,9 @@ public class ClassDiagramConverter {
 	 * Adjusts a Class GridElement to the minimum size where all text is visible.
 	 * 
 	 * @param clazz
+	 * @return 
 	 */
-	private void adjustSize(GridElement clazz) {
-		List<String> strings = clazz.getPanelAttributesAsList();
+	private Rectangle adjustSize(List<String> strings) {
 		// GridElement clazz not yet fully initialized, cannot call clazz.getHandler();
 		FontHandler fontHandler = Main.getInstance().getDiagramHandler().getFontHandler();
 
@@ -118,8 +123,7 @@ public class ClassDiagramConverter {
 		}
 		height = (int) (fontHandler.getFontSize() + fontHandler.getDistanceBetweenTexts()) * (height - (int) heightTweaker);
 
-		clazz.setSize(align(width), align(height)); // width&height must be multiples of grid size
-		clazz.repaint();
+		return new Rectangle(0, 0, align(width), align(height)); // width&height must be multiples of grid size
 	}
 
 	private int align(int n) {

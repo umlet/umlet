@@ -1,6 +1,6 @@
 package com.umlet.language.java.bcel;
 
-import com.sun.org.apache.bcel.internal.classfile.Field;
+import org.apache.bcel.classfile.Field;
 
 public class BcelField extends BcelAccessible implements com.umlet.language.java.Field {
 
