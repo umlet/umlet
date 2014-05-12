@@ -32,7 +32,7 @@ public class OwnSyntaxPane {
 
 	private static final String SEPARATOR = "    ";
 
-	private DefaultCompletionProvider provider = new DefaultCompletionProvider() {
+	private final DefaultCompletionProvider provider = new DefaultCompletionProvider() {
 		@Override
 		protected boolean isValidChar(char ch) {
 			return ch != ' '; // every character except space can be part of an autocompletion
@@ -50,6 +50,8 @@ public class OwnSyntaxPane {
 		panel = new JPanel(new FlowLayout());
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		textArea = new RSyntaxTextArea() {
+			private static final long serialVersionUID = 7431070002967577129L;
+
 			@Override
 			public void undoLastAction() {
 				MenuFactorySwing.getInstance().doAction(MenuConstants.UNDO, null);

@@ -10,7 +10,6 @@ import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
 
@@ -92,17 +91,17 @@ public class UseCase extends OldGridElement {
 		StickingPolygon p = new StickingPolygon(0, 0);
 
 		// First point is the top left then the points are added clockwise
-		p.addPoint(new Point(x + width / 4, y));
-		p.addPoint(new Point(x + width * 3 / 4, y));
+		p.addPoint(x + width / 4, y);
+		p.addPoint(x + width * 3 / 4, y);
 
-		p.addPoint(new Point(x + width, y + height / 4));
-		p.addPoint(new Point(x + width, y + height * 3 / 4));
+		p.addPoint(x + width, y + height / 4);
+		p.addPoint(x + width, y + height * 3 / 4);
 
-		p.addPoint(new Point(x + width * 3 / 4, y + height));
-		p.addPoint(new Point(x + width / 4, y + height));
+		p.addPoint(x + width * 3 / 4, y + height);
+		p.addPoint(x + width / 4, y + height);
 
-		p.addPoint(new Point(x, y + height * 3 / 4));
-		p.addPoint(new Point(x, y + height / 4), true);
+		p.addPoint(x, y + height * 3 / 4);
+		p.addPoint(x, y + height / 4, true);
 
 		return p;
 	}

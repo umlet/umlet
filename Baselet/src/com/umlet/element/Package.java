@@ -9,7 +9,6 @@ import java.util.Vector;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
 
@@ -172,12 +171,12 @@ public class Package extends OldGridElement {
 				yPos += (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts());
 			}
 		}
-		p.addPoint(new Point(x, y));
-		p.addPoint(new Point(x + maxUpperBox, y));
-		p.addPoint(new Point(x + maxUpperBox, y + yPos));
-		p.addPoint(new Point(x + width, y + yPos));
-		p.addPoint(new Point(x + width, y + height));
-		p.addPoint(new Point(x, y + height), true);
+		p.addPoint(x, y);
+		p.addPoint(x + maxUpperBox, y);
+		p.addPoint(x + maxUpperBox, y + yPos);
+		p.addPoint(x + width, y + yPos);
+		p.addPoint(x + width, y + height);
+		p.addPoint(x, y + height, true);
 		return p;
 	}
 }

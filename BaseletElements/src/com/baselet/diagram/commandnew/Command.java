@@ -6,11 +6,11 @@ public abstract class Command {
 
 	public abstract void undo();
 
-	public boolean isMergeableTo(Command c) {
+	public boolean isMergeableTo(@SuppressWarnings("unused") Command c) {
 		return false;
 	}
 
-	public Command mergeTo(Command c) {
+	public Command mergeTo(@SuppressWarnings("unused") Command c) {
 		return null;
 	}
 

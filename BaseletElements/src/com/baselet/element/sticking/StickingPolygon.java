@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Vector;
 
 import com.baselet.diagram.draw.geom.Line;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 
@@ -89,25 +88,15 @@ public class StickingPolygon {
 		}
 	}
 
-	private Vector<StickLine> stick = new Vector<StickLine>();
+	private final Vector<StickLine> stick = new Vector<StickLine>();
 	private PointDouble lastpoint = null;
 	private PointDouble firstpoint = null;
-	private int elementX;
-	private int elementY;
+	private final int elementX;
+	private final int elementY;
 
 	public StickingPolygon(int elementX, int elementY) {
 		this.elementX = elementX;
 		this.elementY = elementY;
-	}
-
-	@Deprecated
-	public void addPoint(Point p) {
-		addPoint(p.x, p.y);
-	}
-
-	@Deprecated
-	public void addPoint(Point p, boolean connect_to_first) {
-		addPoint(p.x, p.y, connect_to_first);
 	}
 
 	public void addPoint(List<PointDouble> points) {

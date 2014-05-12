@@ -53,7 +53,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 				pointText = calcPosOfArrowText(relationPoints.getLastLine().getEnd(), textWidth, textHeight);
 			}
 			else /* if (key.equals(MESSAGE_MIDDLE_KEY)) */{
-				pointText = calcPosOfMiddleText(relationPoints.getDragBox().getCenter(), textWidth, textHeight);
+				pointText = calcPosOfMiddleText(relationPoints.getDragBox().getCenter(), textWidth);
 			}
 			drawer.print(text, pointText, AlignHorizontal.LEFT);
 
@@ -80,7 +80,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 		return new PointDouble(textX, textY);
 	}
 
-	private PointDouble calcPosOfMiddleText(PointDouble center, double textWidth, double textHeight) {
+	private PointDouble calcPosOfMiddleText(PointDouble center, double textWidth) {
 		double textX = center.getX() - textWidth / 2;
 		double textY = center.getY();
 

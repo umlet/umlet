@@ -14,7 +14,6 @@ import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.command.Resize;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
 
@@ -106,11 +105,11 @@ public class Interface extends OldGridElement {
 		int oben = y;
 		int unten = y + (int) (20 * zoom);
 		StickingPolygon p = new StickingPolygon(0, 0);
-		p.addPoint(new Point(links, oben));
-		p.addPoint(new Point(rechts, oben));
-		p.addPoint(new Point(rechts, unten));
-		p.addPoint(new Point(links, unten));
-		p.addPoint(new Point(links, oben));
+		p.addPoint(links, oben);
+		p.addPoint(rechts, oben);
+		p.addPoint(rechts, unten);
+		p.addPoint(links, unten);
+		p.addPoint(links, oben);
 		return p;
 	}
 

@@ -23,7 +23,7 @@ public class RelationPoints {
 	 * Points of this relation (point of origin is the upper left corner of the relation element (not the drawpanel!))
 	 */
 	private PointDoubleHolderList points = new PointDoubleHolderList();
-	private Relation relation;
+	private final Relation relation;
 
 	public RelationPoints(Relation relation, PointDoubleHolderList points) {
 		super();
@@ -78,7 +78,7 @@ public class RelationPoints {
 		}
 		Line lineOnPoint = getLineContaining(point);
 		if (lineOnPoint != null) {
-			relationPointOfCurrentDrag = points.addPointOnLine(lineOnPoint, SharedUtils.realignToGridRoundToNearest(false, point.x), SharedUtils.realignToGridRoundToNearest(false, point.y));;
+			relationPointOfCurrentDrag = points.addPointOnLine(lineOnPoint, SharedUtils.realignToGridRoundToNearest(false, point.x), SharedUtils.realignToGridRoundToNearest(false, point.y));
 			relationPointOfCurrentDrag = movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY);
 			return Selection.LINE;
 		}

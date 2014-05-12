@@ -3,7 +3,6 @@ package com.umlet.element.relation;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 
-@SuppressWarnings("serial")
 public class Arrow extends Rectangle {
 	private Point _arrowEndA;
 	private Point _arrowEndB;

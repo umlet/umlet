@@ -129,10 +129,18 @@ public class Path {
 			list = getNewGridElementList(path, filterString);
 		}
 		else {
-			Enumeration<JarEntry> jarEntries = new JarFile(Path.executable()).entries();
-			while (jarEntries.hasMoreElements()) {
-				JarEntry jarEntry = jarEntries.nextElement();
-				add(list, jarEntry.getName(), filterString);
+			JarFile jarFile = null;
+			try {
+				jarFile = new JarFile(Path.executable());
+				Enumeration<JarEntry> jarEntries = jarFile.entries();
+				while (jarEntries.hasMoreElements()) {
+					JarEntry jarEntry = jarEntries.nextElement();
+					add(list, jarEntry.getName(), filterString);
+				}
+			} finally {
+				if (jarFile != null) {
+					jarFile.close();
+				}
 			}
 		}
 		return list;
@@ -173,7 +181,15 @@ public class Path {
 	public static Manifest manifest() throws IOException {
 		Manifest manifest;
 		if (Path.executable().endsWith(".jar")) {
-			manifest = new JarFile(Path.executable()).getManifest();
+			JarFile jarFile = null;
+			try {
+				jarFile = new JarFile(Path.executable());
+				manifest = jarFile.getManifest();
+			} finally {
+				if (jarFile != null) {
+					jarFile.close();
+				}
+			}
 		}
 		else {
 			FileInputStream is = new FileInputStream(Path.homeProgram() + "META-INF" + File.separator + "MANIFEST.MF");

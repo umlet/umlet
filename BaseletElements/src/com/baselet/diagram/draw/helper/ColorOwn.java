@@ -2,13 +2,9 @@ package com.baselet.diagram.draw.helper;
 
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
-
 public class ColorOwn {
 
 	public static final String EXAMPLE_TEXT = "color string (green,...) or code (#3c7a00,...)";
-
-	private static final Logger log = Logger.getLogger(ColorOwn.class);
 
 	public static enum Transparency {
 		FOREGROUND(255),
