@@ -2,7 +2,6 @@ package com.umlet.element.relation;
 
 import com.baselet.diagram.draw.geom.Rectangle;
 
-@SuppressWarnings("serial")
 public class Qualifier extends Rectangle {
 	String _string;
 

@@ -11,7 +11,7 @@ public class RelationPointsUtils {
 	static Rectangle calculateRelationRectangleBasedOnPoints(PointDouble upperLeftCorner, int gridSize, PointDoubleHolderList relationPoints) {
 		PointDouble elementStart = upperLeftCorner;
 		// Calculate new Relation position and size
-		Rectangle newSize = createRectangleContainingAllPoints(elementStart, relationPoints);
+		Rectangle newSize = createRectangleContainingAllPoints(relationPoints);
 		if (newSize == null) {
 			throw new RuntimeException("This relation has no points: " + relationPoints);
 		}
@@ -30,7 +30,7 @@ public class RelationPointsUtils {
 		return newSize;
 	}
 
-	private static Rectangle createRectangleContainingAllPoints(PointDouble elementStart, PointDoubleHolderList relationPoints) {
+	private static Rectangle createRectangleContainingAllPoints(PointDoubleHolderList relationPoints) {
 		Rectangle rectangleContainingAllPoints = null;
 		for (PointDoubleIndexed p : relationPoints.getPointHolders()) {
 			Rectangle absoluteRectangle = toRectangle(p, RelationPoints.POINT_SELECTION_RADIUS);

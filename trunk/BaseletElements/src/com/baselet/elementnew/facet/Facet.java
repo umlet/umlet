@@ -20,7 +20,7 @@ public abstract class Facet {
 
 	public abstract List<AutocompletionText> getAutocompletionStrings();
 
-	public boolean replacesText(String line) {
+	public boolean replacesText(@SuppressWarnings("unused") String line) {
 		return true;
 	}
 

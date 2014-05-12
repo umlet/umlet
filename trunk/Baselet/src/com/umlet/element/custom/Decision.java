@@ -9,7 +9,6 @@ import java.util.Set;
 
 import com.baselet.control.Main;
 import com.baselet.control.enumerations.Direction;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
 
@@ -47,10 +46,10 @@ public class Decision extends OldGridElement {
 		StickingPolygon p = new StickingPolygon(0, 0);
 		y += 1;
 		width += 1;
-		p.addPoint(new Point(x + width / 2, y));
-		p.addPoint(new Point(x + width, y + height / 2));
-		p.addPoint(new Point(x + width / 2, y + height));
-		p.addPoint(new Point(x, y + height / 2), true);
+		p.addPoint(x + width / 2, y);
+		p.addPoint(x + width, y + height / 2);
+		p.addPoint(x + width / 2, y + height);
+		p.addPoint(x, y + height / 2, true);
 		return p;
 	}
 

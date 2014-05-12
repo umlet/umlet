@@ -9,7 +9,6 @@ import java.util.Vector;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
 
@@ -55,11 +54,11 @@ public class ReceiveSignal extends OldGridElement {
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
 		StickingPolygon p = new StickingPolygon(0, 0);
-		p.addPoint(new Point(x, y));
-		p.addPoint(new Point(x + width, y));
-		p.addPoint(new Point(x + width, y + height));
-		p.addPoint(new Point(x, y + height));
-		p.addPoint(new Point(x + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() - 2, y + height / 2), true);
+		p.addPoint(x, y);
+		p.addPoint(x + width, y);
+		p.addPoint(x + width, y + height);
+		p.addPoint(x, y + height);
+		p.addPoint(x + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() - 2, y + height / 2, true);
 		return p;
 	}
 }

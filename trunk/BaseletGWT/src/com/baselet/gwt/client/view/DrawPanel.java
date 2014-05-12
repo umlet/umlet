@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
-
 import com.baselet.control.MenuConstants;
 import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
@@ -45,8 +43,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGridElement, HasMouseOutHandlers, HasMouseOverHandlers, EventHandlingTarget {
 
-	private static final Logger log = Logger.getLogger(DrawPanel.class);
-
 	private Diagram diagram = new Diagram(new ArrayList<GridElement>());
 
 	protected DrawCanvas canvas = new DrawCanvas();
@@ -59,16 +55,16 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 
 	AutoResizeScrollDropPanel scrollPanel;
 
-	private MainView mainView;
+	private final MainView mainView;
 
 	PropertiesTextArea propertiesPanel;
 
-	private MenuPopup elementContextMenu;
-	private MenuPopup diagramContextMenu;
+	private final MenuPopup elementContextMenu;
+	private final MenuPopup diagramContextMenu;
 
 	private Set<Direction> resizeDirection = new HashSet<Direction>();
 
-	private Map<GridElement, StickableMap> stickablesToMove = new HashMap<GridElement, StickableMap>();
+	private final Map<GridElement, StickableMap> stickablesToMove = new HashMap<GridElement, StickableMap>();
 
 	public void setOtherDrawFocusPanel(DrawPanel otherDrawFocusPanel) {
 		this.otherDrawFocusPanel = otherDrawFocusPanel;

@@ -117,16 +117,23 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 
 	private String getDefaultTextWithReplacedSystemspecificMetakeys() throws FileNotFoundException {
 		String text = "";
-		Scanner sc = new Scanner(new File(getStartUpFileName()));
-		while (sc.hasNextLine()) {
-			String line = sc.nextLine();
-			if (SystemInfo.META_KEY == Metakey.CTRL) {
-				line = line.replace(Metakey.CMD.toString(), Metakey.CTRL.toString());
+		Scanner sc = null;
+		try {
+			sc = new Scanner(new File(getStartUpFileName()));
+			while (sc.hasNextLine()) {
+				String line = sc.nextLine();
+				if (SystemInfo.META_KEY == Metakey.CTRL) {
+					line = line.replace(Metakey.CMD.toString(), Metakey.CTRL.toString());
+				}
+				else if (SystemInfo.META_KEY == Metakey.CMD) {
+					line = line.replace(Metakey.CTRL.toString(), Metakey.CMD.toString());
+				}
+				text += line + "\n";
 			}
-			else if (SystemInfo.META_KEY == Metakey.CMD) {
-				line = line.replace(Metakey.CTRL.toString(), Metakey.CMD.toString());
+		} finally {
+			if (sc != null) {
+				sc.close();
 			}
-			text += line + "\n";
 		}
 		return text;
 	}
@@ -226,15 +233,22 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 			}
 
 			String returnText = "";
-			Scanner sc = new Scanner(new File(startupFileName));
-			while (sc.hasNextLine()) {
-				String line = sc.nextLine();
-				if (line.contains("<body>")) {
-					break;
+			Scanner sc = null;
+			try {
+				sc = new Scanner(new File(startupFileName));
+				while (sc.hasNextLine()) {
+					String line = sc.nextLine();
+					if (line.contains("<body>")) {
+						break;
+					}
+					returnText += line + "\n";
 				}
-				returnText += line + "\n";
+				returnText += textFromURL + "</body></html>";
+			} finally {
+				if (sc != null) {
+					sc.close();
+				}
 			}
-			returnText += textFromURL + "</body></html>";
 			return returnText;
 		}
 

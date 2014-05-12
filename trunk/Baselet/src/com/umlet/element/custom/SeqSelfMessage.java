@@ -11,7 +11,6 @@ import java.util.Vector;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
 
@@ -93,12 +92,12 @@ public class SeqSelfMessage extends OldGridElement {
 		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 		int size_3d = (int) (10 * zoom);
 		StickingPolygon p = new StickingPolygon(0, 0);
-		p.addPoint(new Point(x, y + size_3d));
-		p.addPoint(new Point(x, y + height));
-		p.addPoint(new Point(x + width - size_3d, y + height));
-		p.addPoint(new Point(x + width, y + height - size_3d));
-		p.addPoint(new Point(x + width, y));
-		p.addPoint(new Point(x + size_3d, y), true);
+		p.addPoint(x, y + size_3d);
+		p.addPoint(x, y + height);
+		p.addPoint(x + width - size_3d, y + height);
+		p.addPoint(x + width, y + height - size_3d);
+		p.addPoint(x + width, y);
+		p.addPoint(x + size_3d, y, true);
 		return p;
 	}
 }

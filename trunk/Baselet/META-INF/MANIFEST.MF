@@ -13,8 +13,8 @@ Bundle-ClassPath: ., lib/autocomplete.jar, lib/batik-awt-util.jar, lib
  /batik-dom.jar, lib/batik-ext.jar, lib/batik-svggen.jar, lib/batik-ut
  il.jar, lib/batik-xml.jar, lib/commons-io-2.4.jar, lib/itextpdf-5.4.1
  .jar, lib/javaparser-1.0.8.jar, lib/jlibeps-0.1.jar, lib/log4j-1.2.15
- .jar, lib/mailapi.jar, lib/org.eclipse.jdt.core_3.5.1.v_972_R35x.jar,
-  lib/rsyntaxtextarea-2.5.2.jar, lib/smtp.jar
+ .jar, lib/mailapi.jar, lib/org.eclipse.jdt.core.compiler.ecj-4.3.1.ja
+ r, lib/rsyntaxtextarea-2.5.2.jar, lib/smtp.jar
 Main-Class: com.baselet.control.Main
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
@@ -24,6 +24,6 @@ Class-Path: lib/autocomplete.jar lib/batik-awt-util.jar lib/batik-dom.
  jar lib/batik-ext.jar lib/batik-svggen.jar lib/batik-util.jar lib/bat
  ik-xml.jar lib/commons-io-2.4.jar lib/itextpdf-5.4.1.jar lib/javapars
  er-1.0.8.jar lib/jlibeps-0.1.jar lib/log4j-1.2.15.jar lib/mailapi.jar
-  lib/org.eclipse.jdt.core_3.5.1.v_972_R35x.jar lib/rsyntaxtextarea-2.
- 5.2.jar lib/smtp.jar
+  lib/org.eclipse.jdt.core.compiler.ecj-4.3.1.jar lib/rsyntaxtextarea-
+ 2.5.2.jar lib/smtp.jar
 

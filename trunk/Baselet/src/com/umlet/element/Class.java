@@ -10,7 +10,6 @@ import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
@@ -19,7 +18,7 @@ import com.baselet.element.sticking.StickingPolygon;
 public class Class extends OldGridElement {
 
 	// A.Mueller start
-	private Vector<Class> innerClasses;
+	private final Vector<Class> innerClasses;
 	private boolean _isTemplate = false;
 	private boolean _isInnerClass = false;
 	private String _panelString = "";
@@ -286,10 +285,10 @@ public class Class extends OldGridElement {
 			return super.generateStickingBorder(x, y, width, height);
 		}
 		StickingPolygon p = new StickingPolygon(0, 0);
-		p.addPoint(new Point(x, y + _templateHeight / 2));
-		p.addPoint(new Point(x + 9 * width / 10 + 1, y + _templateHeight / 2));
-		p.addPoint(new Point(x + 9 * width / 10 + 1, y + height));
-		p.addPoint(new Point(x, y + height), true);
+		p.addPoint(x, y + _templateHeight / 2);
+		p.addPoint(x + 9 * width / 10 + 1, y + _templateHeight / 2);
+		p.addPoint(x + 9 * width / 10 + 1, y + height);
+		p.addPoint(x, y + height, true);
 		return p;
 	}
 

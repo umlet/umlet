@@ -15,7 +15,6 @@ import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.command.Resize;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
 
@@ -111,10 +110,10 @@ public class TimeSignal extends OldGridElement {
 		StickingPolygon p = new StickingPolygon(0, 0);
 		int px = x + width / 2;
 		int py = (int) (y + 40 * zoom / 2);
-		p.addPoint(new Point(px - 4, py - 4));
-		p.addPoint(new Point(px + 4, py - 4));
-		p.addPoint(new Point(px + 4, py + 4));
-		p.addPoint(new Point(px - 4, py + 4), true);
+		p.addPoint(px - 4, py - 4);
+		p.addPoint(px + 4, py - 4);
+		p.addPoint(px + 4, py + 4);
+		p.addPoint(px - 4, py + 4, true);
 		return p;
 	}
 
