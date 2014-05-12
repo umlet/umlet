@@ -1,7 +1,7 @@
 package com.umlet.language.java.bcel;
 
-import com.sun.org.apache.bcel.internal.classfile.Method;
-import com.sun.org.apache.bcel.internal.generic.Type;
+import org.apache.bcel.classfile.Method;
+import org.apache.bcel.generic.Type;
 
 public class BcelMethod extends BcelAccessible implements com.umlet.language.java.Method {
 

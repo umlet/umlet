@@ -25,6 +25,10 @@ Used for: TextArea with syntax highlighting and autocompletion (replacement for 
 URL:      http://fifesoft.com/rsyntaxtextarea/
           http://fifesoft.com/autocomplete/
 
+Apache Commons Bcel (bcel.jar)
+Licence:  Apache License 2.0
+Used for: Class diagram generation
+
 Apache Commons IO
 Licence:  Apache Licence 2.0
 Used for: Reading wildcard input files in batch mode
