@@ -1,81 +1,93 @@
 package com.baselet.elementnew.facet.relation;
 
-import com.baselet.control.enumerations.ValueHolder;
+import com.baselet.control.enumerations.Direction;
+import com.baselet.control.enumerations.RegexValueHolder;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.geom.Line;
 import com.baselet.elementnew.element.uml.relation.RelationPoints;
 
-interface ArrowEnd extends ValueHolder {
-	void print(DrawHandler drawer, RelationPoints points);
+abstract class ArrowEnd implements RegexValueHolder {
+	private final String regexValue;
 
-	static ArrowEnd LEFT_NORMAL = new ArrowEnd() {
-		@Override
-		public void print(DrawHandler drawer, RelationPoints points) {
-			RelationDrawer.drawArrowToLine(drawer, points.getFirstLine(), true, false, false);
-		}
+	public ArrowEnd(String regexValue) {
+		super();
+		this.regexValue = regexValue;
+	}
 
-		@Override
-		public String getValue() {
-			return "<";
-		}
-	};
+	@Override
+	public String getRegexValue() {
+		return regexValue;
+	}
 
-	static ArrowEnd RIGHT_NORMAL = new ArrowEnd() {
-		@Override
-		public void print(DrawHandler drawer, RelationPoints points) {
-			RelationDrawer.drawArrowToLine(drawer, points.getLastLine(), false, false, false);
-		}
+	abstract void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart);
 
+	static ArrowEnd LEFT_NORMAL = new ArrowEnd("<") {
 		@Override
-		public String getValue() {
-			return ">";
+		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, false);
 		}
 	};
 
-	static ArrowEnd LEFT_CLOSED = new ArrowEnd() {
+	static ArrowEnd RIGHT_NORMAL = new ArrowEnd(">") {
 		@Override
-		public void print(DrawHandler drawer, RelationPoints points) {
-			RelationDrawer.drawArrowToLine(drawer, points.getFirstLine(), true, false, true);
-		}
-
-		@Override
-		public String getValue() {
-			return "<<";
+		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, false);
 		}
 	};
 
-	static ArrowEnd RIGHT_CLOSED = new ArrowEnd() {
+	static ArrowEnd LEFT_CLOSED = new ArrowEnd("<<") {
 		@Override
-		public void print(DrawHandler drawer, RelationPoints points) {
-			RelationDrawer.drawArrowToLine(drawer, points.getLastLine(), false, false, true);
-		}
-
-		@Override
-		public String getValue() {
-			return ">>";
+		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, true);
 		}
 	};
 
-	static ArrowEnd LEFT_BOX = new ArrowEnd() {
+	static ArrowEnd RIGHT_CLOSED = new ArrowEnd(">>") {
 		@Override
-		public void print(DrawHandler drawer, RelationPoints points) {
-			RelationDrawer.drawBoxArrow(drawer, points.getFirstLine(), true);
-		}
-
-		@Override
-		public String getValue() {
-			return "[]";
+		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, true);
 		}
 	};
 
-	static ArrowEnd RIGHT_BOX = new ArrowEnd() {
+	static ArrowEnd BOX_EMPTY = new ArrowEnd("\\[\\]") {
 		@Override
-		public void print(DrawHandler drawer, RelationPoints points) {
-			RelationDrawer.drawBoxArrow(drawer, points.getLastLine(), false);
+		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
+			RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, null);
 		}
+	};
 
+	static ArrowEnd BOX_DOWN_ARROW = new ArrowEnd("\\[v\\]") {
 		@Override
-		public String getValue() {
-			return "[]";
+		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
+			RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, Direction.DOWN);
+		}
+	};
+
+	static ArrowEnd BOX_LEFT_ARROW = new ArrowEnd("\\[<\\]") {
+		@Override
+		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
+			RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, Direction.LEFT);
+		}
+	};
+
+	static ArrowEnd BOX_RIGHT_ARROW = new ArrowEnd("\\[>\\]") {
+		@Override
+		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
+			RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, Direction.RIGHT);
+		}
+	};
+
+	static ArrowEnd BOX_UP_ARROW = new ArrowEnd("\\[\\^\\]") {
+		@Override
+		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
+			RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, Direction.UP);
+		}
+	};
+
+	static ArrowEnd BOX_EQUALS = new ArrowEnd("\\[=\\]") {
+		@Override
+		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
+			RelationDrawer.drawBoxArrowEquals(drawer, lineToDraw, drawOnLineStart);
 		}
 	};
 }

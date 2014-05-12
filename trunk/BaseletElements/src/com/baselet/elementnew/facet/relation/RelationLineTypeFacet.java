@@ -5,8 +5,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.control.enumerations.ValueHolder;
+import com.baselet.control.enumerations.RegexValueHolder;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
@@ -26,8 +27,9 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 	/**
 	 * all arrowtypes and linetypes to expect (order is important because eg << must be before < to be recognized correctly / also linetype .. must be before .)
 	 */
-	private static final List<ArrowEnd> LEFT_ARROW_STRINGS = Arrays.asList(ArrowEnd.LEFT_CLOSED, ArrowEnd.LEFT_NORMAL, ArrowEnd.LEFT_BOX);
-	private static final List<ArrowEnd> RIGHT_ARROW_STRINGS = Arrays.asList(ArrowEnd.RIGHT_CLOSED, ArrowEnd.RIGHT_NORMAL, ArrowEnd.RIGHT_BOX);
+	private static final List<ArrowEnd> SHARED_ARROW_STRINGS = Arrays.asList(ArrowEnd.BOX_EMPTY, ArrowEnd.BOX_DOWN_ARROW, ArrowEnd.BOX_LEFT_ARROW, ArrowEnd.BOX_RIGHT_ARROW, ArrowEnd.BOX_UP_ARROW, ArrowEnd.BOX_EQUALS);
+	private static final List<ArrowEnd> LEFT_ARROW_STRINGS = SharedUtils.mergeLists(Arrays.asList(ArrowEnd.LEFT_CLOSED, ArrowEnd.LEFT_NORMAL), SHARED_ARROW_STRINGS);
+	private static final List<ArrowEnd> RIGHT_ARROW_STRINGS = SharedUtils.mergeLists(Arrays.asList(ArrowEnd.RIGHT_CLOSED, ArrowEnd.RIGHT_NORMAL), SHARED_ARROW_STRINGS);
 	private static final List<LineType> LINE_TYPES = Arrays.asList(LineType.SOLID, LineType.DOTTED, LineType.DASHED);
 
 	public RelationPoints getRelationPoints(PropertiesParserState config) {
@@ -54,10 +56,10 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		ColorOwn oldBgColor = drawer.getStyle().getBgColor();
 		drawer.setBackgroundColor(oldBgColor.transparency(Transparency.FOREGROUND)); // arrow background is not transparent
 		if (leftArrow != null) {
-			leftArrow.print(drawer, relationPoints);
+			leftArrow.print(drawer, relationPoints, relationPoints.getFirstLine(), true);
 		}
 		if (rightArrow != null) {
-			rightArrow.print(drawer, relationPoints);
+			rightArrow.print(drawer, relationPoints, relationPoints.getLastLine(), false);
 		}
 		drawer.setBackgroundColor(oldBgColor); // reset background
 	}
@@ -69,23 +71,24 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		drawer.setLineType(oldLt);
 	}
 
-	private <T extends ValueHolder> T extractPart(List<T> valueHolderList, T defaultValue) {
+	private <T extends RegexValueHolder> T extractPart(List<T> valueHolderList, T defaultValue) {
 		for (T valueHolder : valueHolderList) {
-			String s = valueHolder.getValue();
-			if (remainingValue.startsWith(s)) {
-				remainingValue = remainingValue.substring(s.length());
+			String regex = "^" + valueHolder.getRegexValue(); // only match from start of the line (left to right)
+			String newRemainingValue = remainingValue.replaceFirst(regex, "");
+			if (!remainingValue.equals(newRemainingValue)) {
+				remainingValue = newRemainingValue;
 				return valueHolder;
 			}
 		}
 		return defaultValue;
 	}
 
-	private String getValueNotNull(ValueHolder valueHolder) {
+	private String getValueNotNull(RegexValueHolder valueHolder) {
 		if (valueHolder == null) {
 			return "";
 		}
 		else {
-			return valueHolder.getValue();
+			return valueHolder.getRegexValue();
 		}
 	}
 

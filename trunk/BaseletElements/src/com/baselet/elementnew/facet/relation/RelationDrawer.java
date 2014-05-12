@@ -4,18 +4,55 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.PointDouble;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.elementnew.element.uml.relation.RelationPoints;
 
 public class RelationDrawer {
 
-	public static void drawBoxArrow(DrawHandler drawer, Line line, boolean drawOnStart) {
-		int size = 20;
+	public static void drawBoxArrowEquals(DrawHandler drawer, Line line, boolean drawOnStart) {
+		PointDouble point = drawBox(drawer, line, drawOnStart);
+
+		int dist = 2;
+		int size = 6;
+		drawer.drawLines(new PointDouble(point.getX() - size, point.getY() - dist), new PointDouble(point.getX() + size, point.getY() - dist), new PointDouble(point.getX(), point.getY() - size));
+		drawer.drawLines(new PointDouble(point.getX() + size, point.getY() + dist), new PointDouble(point.getX() - size, point.getY() + dist), new PointDouble(point.getX(), point.getY() + size));
+	}
+
+	public static void drawBoxArrow(DrawHandler drawer, Line line, boolean drawOnStart, Direction arrowDirection) {
+		PointDouble point = drawBox(drawer, line, drawOnStart);
+
+		int arrow = 4;
+		ColorOwn bgColorOld = drawer.getStyle().getBgColor();
+		drawer.setBackgroundColor(drawer.getStyle().getFgColor());
+		if (arrowDirection == Direction.UP) {
+			PointDouble start = new PointDouble(point.getX(), point.getY() - arrow);
+			drawer.drawLines(start, new PointDouble(point.getX() + arrow, point.getY() + arrow), new PointDouble(point.getX() - arrow, point.getY() + arrow), start);
+		}
+		else if (arrowDirection == Direction.LEFT) {
+			PointDouble start = new PointDouble(point.getX() - arrow, point.getY());
+			drawer.drawLines(start, new PointDouble(point.getX() + arrow, point.getY() - arrow), new PointDouble(point.getX() + arrow, point.getY() + arrow), start);
+		}
+		else if (arrowDirection == Direction.RIGHT) {
+			PointDouble start = new PointDouble(point.getX() + arrow, point.getY());
+			drawer.drawLines(start, new PointDouble(point.getX() - arrow, point.getY() - arrow), new PointDouble(point.getX() - arrow, point.getY() + arrow), start);
+		}
+		else if (arrowDirection == Direction.DOWN) {
+			PointDouble start = new PointDouble(point.getX() - arrow, point.getY() - arrow);
+			drawer.drawLines(start, new PointDouble(point.getX() + arrow, point.getY() - arrow), new PointDouble(point.getX(), point.getY() + arrow), start);
+		}
+		drawer.setBackgroundColor(bgColorOld);
+
+	}
+
+	private static PointDouble drawBox(DrawHandler drawer, Line line, boolean drawOnStart) {
+		int box = 20;
 		PointDouble point = drawOnStart ? line.getStart() : line.getEnd();
-		System.out.println("DRAW " + point);
-		drawer.drawRectangle(point.getX() - size / 2, point.getY() - size / 2, size, size);
+		drawer.drawRectangle(point.getX() - box / 2, point.getY() - box / 2, box, box);
+		return point;
 	}
 
 	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, boolean inverseArrow, boolean closeArrow) {

@@ -1,6 +1,9 @@
 package com.baselet.control;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -112,6 +115,12 @@ public class SharedUtils {
 			sb.setLength(sb.length() - mapSep.length());
 		}
 		return sb.toString();
+	}
+
+	public static <T> List<T> mergeLists(List<T> listA, List<T> listB) {
+		List<T> returnList = new ArrayList<T>(listA);
+		returnList.addAll(listB);
+		return Collections.unmodifiableList(returnList);
 	}
 
 }
