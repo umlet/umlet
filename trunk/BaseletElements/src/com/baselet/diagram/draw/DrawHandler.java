@@ -64,10 +64,10 @@ public abstract class DrawHandler {
 
 	public void drawAll(boolean isSelected) {
 		if (isSelected) {
-			overlay.setFgColor(ColorOwn.SELECTION_FG);
+			overlay.setForegroundColor(ColorOwn.SELECTION_FG);
 		}
 		else {
-			overlay.setFgColor(null);
+			overlay.setForegroundColor(null);
 		}
 		drawAll();
 	}
@@ -100,10 +100,10 @@ public abstract class DrawHandler {
 
 	public final void setForegroundColor(ColorOwn color) {
 		if (color == null) {
-			style.setFgColor(ColorOwn.DEFAULT_FOREGROUND);
+			style.setForegroundColor(ColorOwn.DEFAULT_FOREGROUND);
 		}
 		else {
-			style.setFgColor(color);
+			style.setForegroundColor(color);
 		}
 	}
 
@@ -118,10 +118,10 @@ public abstract class DrawHandler {
 
 	public final void setBackgroundColor(ColorOwn color) {
 		if (color == null) {
-			style.setBgColor(ColorOwn.DEFAULT_BACKGROUND);
+			style.setBackgroundColor(ColorOwn.DEFAULT_BACKGROUND);
 		}
 		else {
-			style.setBgColor(color);
+			style.setBackgroundColor(color);
 		}
 	}
 

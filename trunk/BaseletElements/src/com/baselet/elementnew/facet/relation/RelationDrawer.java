@@ -26,8 +26,8 @@ public class RelationDrawer {
 		PointDouble point = drawBox(drawer, line, drawOnStart);
 
 		int arrow = 4;
-		ColorOwn bgColorOld = drawer.getStyle().getBgColor();
-		drawer.setBackgroundColor(drawer.getStyle().getFgColor());
+		ColorOwn bgColorOld = drawer.getStyle().getBackgroundColor();
+		drawer.setBackgroundColor(drawer.getStyle().getForegroundColor());
 		if (arrowDirection == Direction.UP) {
 			PointDouble start = new PointDouble(point.getX(), point.getY() - arrow);
 			drawer.drawLines(start, new PointDouble(point.getX() + arrow, point.getY() + arrow), new PointDouble(point.getX() - arrow, point.getY() + arrow), start);

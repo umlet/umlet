@@ -22,8 +22,8 @@ public class DrawHandlerGWT extends DrawHandler {
 
 	private static final Logger log = Logger.getLogger(DrawHandlerGWT.class);
 
-	private Canvas canvas;
-	private Context2d ctx;
+	private final Canvas canvas;
+	private final Context2d ctx;
 
 	public DrawHandlerGWT(Canvas canvas) {
 		this.canvas = canvas;
@@ -144,7 +144,7 @@ public class DrawHandlerGWT extends DrawHandler {
 			@Override
 			public void run() {
 				PointDouble pToDraw = point;
-				ColorOwn fgColor = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : styleAtDrawingCall.getFgColor();
+				ColorOwn fgColor = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : styleAtDrawingCall.getForegroundColor();
 				ctx.setFillStyle(Converter.convert(fgColor));
 				for (String line : text.split("\n")) {
 					drawTextHelper(line, pToDraw, align, styleAtDrawingCall.getFontSize());
@@ -270,16 +270,15 @@ public class DrawHandlerGWT extends DrawHandler {
 	}
 
 	private void setStyle(Context2d ctx, Style style) {
-		if (style.getBgColor() != null) {
-			ctx.setFillStyle(Converter.convert(style.getBgColor()));
+		if (style.getBackgroundColor() != null) {
+			ctx.setFillStyle(Converter.convert(style.getBackgroundColor()));
 		}
-		ColorOwn fgColor = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
+		ColorOwn fgColor = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : style.getForegroundColor();
 		if (fgColor != null) {
 			ctx.setStrokeStyle(Converter.convert(fgColor));
 		}
 		ctx.setLineWidth(style.getLineWidth());
 		setLineDash(ctx, style.getLineType(), style.getLineWidth());
-
 	}
 
 	private void setLineDash(Context2d ctx, LineType lineType, double lineThickness) {

@@ -177,11 +177,11 @@ public class DrawHandlerSwing extends DrawHandler {
 	private void drawShape(Style style, Shape s, boolean fillShape) {
 		if (fillShape) {
 			// Shapes Background
-			g2.setColor(Converter.convert(style.getBgColor()));
+			g2.setColor(Converter.convert(style.getBackgroundColor()));
 			g2.fill(s);
 		}
 		// Shapes Foreground
-		ColorOwn colOwn = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
+		ColorOwn colOwn = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : style.getForegroundColor();
 		g2.setColor(Converter.convert(colOwn));
 		g2.setStroke(Utils.getStroke(style.getLineType(), (float) style.getLineWidth()));
 		if (translate) {
@@ -203,7 +203,7 @@ public class DrawHandlerSwing extends DrawHandler {
 	}
 
 	private void drawText(Style style, Text t) {
-		ColorOwn col = getOverlay().getFgColor() != null ? getOverlay().getFgColor() : style.getFgColor();
+		ColorOwn col = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : style.getForegroundColor();
 		g2.setColor(Converter.convert(col));
 		handler.getFontHandler().setFontSize(style.getFontSize());
 		g2.setFont(handler.getFontHandler().getFont());

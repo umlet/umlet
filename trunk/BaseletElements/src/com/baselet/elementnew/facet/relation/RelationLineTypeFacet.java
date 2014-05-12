@@ -53,7 +53,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 	}
 
 	private void drawArrowEnds(DrawHandler drawer, RelationPoints relationPoints, ArrowEnd leftArrow, ArrowEnd rightArrow) {
-		ColorOwn oldBgColor = drawer.getStyle().getBgColor();
+		ColorOwn oldBgColor = drawer.getStyle().getBackgroundColor();
 		drawer.setBackgroundColor(oldBgColor.transparency(Transparency.FOREGROUND)); // arrow background is not transparent
 		if (leftArrow != null) {
 			leftArrow.print(drawer, relationPoints, relationPoints.getFirstLine(), true);
