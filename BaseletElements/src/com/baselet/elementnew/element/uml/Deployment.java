@@ -50,11 +50,11 @@ public class Deployment extends NewGridElement {
 		// Fill 3d-rectangle
 		Style oldStyle = drawer.getStyle().cloneFromMe();
 		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
-		if (oldStyle.getBgColor() == ColorOwn.DEFAULT_BACKGROUND) {
+		if (oldStyle.getBackgroundColor() == ColorOwn.DEFAULT_BACKGROUND) {
 			drawer.setBackgroundColor(ColorOwn.WHITE.transparency(Transparency.BACKGROUND).darken(80));
 		}
 		else {
-			drawer.setBackgroundColor(oldStyle.getBgColor().darken(80));
+			drawer.setBackgroundColor(oldStyle.getBackgroundColor().darken(80));
 		}
 		drawer.drawLines(p.get(0), p.get(1), p.get(2), p.get(3), p.get(4), pLine, p.get(0));
 		drawer.setStyle(oldStyle);

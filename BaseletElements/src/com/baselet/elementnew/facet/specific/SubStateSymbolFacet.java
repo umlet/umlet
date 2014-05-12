@@ -27,7 +27,7 @@ public class SubStateSymbolFacet extends KeyValueFacet {
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
 		drawer.setDrawDelayed(true);
-		ColorOwn prevBackgroundColor = drawer.getStyle().getBgColor();
+		ColorOwn prevBackgroundColor = drawer.getStyle().getBackgroundColor();
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 		SubStateSymbolEnum symbol = SubStateSymbolEnum.valueOf(value.toUpperCase());
 		final double w = state.getGridElementSize().getWidth();

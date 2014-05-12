@@ -6,8 +6,8 @@ import com.baselet.elementnew.facet.common.LineWidthFacet;
 public class Style {
 	private LineType lineType;
 	private double lineWidth;
-	private ColorOwn fgColor;
-	private ColorOwn bgColor;
+	private ColorOwn foregroundColor;
+	private ColorOwn backgroundColor;
 
 	private double fontSize;
 	private boolean applyZoom;
@@ -22,8 +22,8 @@ public class Style {
 		Style clone = new Style();
 		clone.lineWidth = lineWidth;
 		clone.lineType = lineType;
-		clone.fgColor = fgColor;
-		clone.bgColor = bgColor;
+		clone.foregroundColor = foregroundColor;
+		clone.backgroundColor = backgroundColor;
 		clone.fontSize = fontSize;
 		clone.applyZoom = applyZoom;
 		return clone;
@@ -45,20 +45,20 @@ public class Style {
 		return lineWidth;
 	}
 
-	public void setFgColor(ColorOwn fgColor) {
-		this.fgColor = fgColor;
+	public void setForegroundColor(ColorOwn fgColor) {
+		this.foregroundColor = fgColor;
 	}
 
-	public ColorOwn getFgColor() {
-		return fgColor;
+	public ColorOwn getForegroundColor() {
+		return foregroundColor;
 	}
 
-	public void setBgColor(ColorOwn bgColor) {
-		this.bgColor = bgColor;
+	public void setBackgroundColor(ColorOwn bgColor) {
+		this.backgroundColor = bgColor;
 	}
 
-	public ColorOwn getBgColor() {
-		return bgColor;
+	public ColorOwn getBackgroundColor() {
+		return backgroundColor;
 	}
 
 	public void setFontSize(double fontSize) {
@@ -82,8 +82,8 @@ public class Style {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (applyZoom ? 1231 : 1237);
-		result = prime * result + (bgColor == null ? 0 : bgColor.hashCode());
-		result = prime * result + (fgColor == null ? 0 : fgColor.hashCode());
+		result = prime * result + (backgroundColor == null ? 0 : backgroundColor.hashCode());
+		result = prime * result + (foregroundColor == null ? 0 : foregroundColor.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(fontSize);
 		result = prime * result + (int) (temp ^ temp >>> 32);
@@ -108,20 +108,20 @@ public class Style {
 		if (applyZoom != other.applyZoom) {
 			return false;
 		}
-		if (bgColor == null) {
-			if (other.bgColor != null) {
+		if (backgroundColor == null) {
+			if (other.backgroundColor != null) {
 				return false;
 			}
 		}
-		else if (!bgColor.equals(other.bgColor)) {
+		else if (!backgroundColor.equals(other.backgroundColor)) {
 			return false;
 		}
-		if (fgColor == null) {
-			if (other.fgColor != null) {
+		if (foregroundColor == null) {
+			if (other.foregroundColor != null) {
 				return false;
 			}
 		}
-		else if (!fgColor.equals(other.fgColor)) {
+		else if (!foregroundColor.equals(other.foregroundColor)) {
 			return false;
 		}
 		if (Double.doubleToLongBits(fontSize) != Double.doubleToLongBits(other.fontSize)) {

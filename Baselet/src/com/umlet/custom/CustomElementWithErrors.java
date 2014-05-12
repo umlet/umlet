@@ -28,7 +28,7 @@ public class CustomElementWithErrors extends CustomElement {
 		DrawHandlerSwing drawer = new DrawHandlerSwing(this);
 		drawer.setGraphics(g2);
 		drawer.setHandler(Main.getHandlerForElement(this));
-		drawer.getStyle().setFgColor(ColorOwn.RED);
+		drawer.getStyle().setForegroundColor(ColorOwn.RED);
 		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
 		if (errors != null) {
 			double y = textHeight();
