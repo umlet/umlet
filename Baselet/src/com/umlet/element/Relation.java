@@ -26,6 +26,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.Selector;
 import com.baselet.element.sticking.StickingPolygon;
+import com.baselet.element.sticking.polygon.NoStickingPolygonGenerator;
 import com.baselet.elementnew.facet.common.LayerFacet;
 import com.umlet.element.relation.Arrow;
 import com.umlet.element.relation.EmptyShape;
@@ -1911,12 +1912,12 @@ public class Relation extends OldGridElement {
 	// G.Mueller end
 
 	public StickingPolygon generateStickingBorder() { // LME
-		return null;
+		return NoStickingPolygonGenerator.INSTANCE.generateStickingBorder(getRectangle());
 	}
 
 	@Override
 	public StickingPolygon generateStickingBorder(int x, int y, int width, int height) {
-		return null;
+		return NoStickingPolygonGenerator.INSTANCE.generateStickingBorder(getRectangle());
 	}
 
 	public boolean allPointsOnSamePos() {
