@@ -39,4 +39,15 @@ public class GeometricFunctions {
 		return GeometricFunctions.distanceBetweenTwoPoints(x, y, checkX, checkY);
 	}
 
+	/**
+	 * for math information see http://www.mathisfunforum.com/viewtopic.php?id=9657
+	 */
+	public static PointDouble getPointOnLineWithDistanceFromStart(PointDouble start, PointDouble end, double distance) {
+		double xDiff = end.getX() - start.getX();
+		double yDiff = end.getY() - start.getY();
+		double length = distanceBetweenTwoPoints(start, end);
+		double distanceToGo = distance / length;
+		return new PointDouble(start.getX() + xDiff * distanceToGo, start.getY() + yDiff * distanceToGo);
+	}
+
 }

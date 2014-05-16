@@ -24,28 +24,42 @@ abstract class ArrowEnd implements RegexValueHolder {
 	static ArrowEnd LEFT_NORMAL = new ArrowEnd("<") {
 		@Override
 		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, false);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, false, false);
 		}
 	};
 
 	static ArrowEnd RIGHT_NORMAL = new ArrowEnd(">") {
 		@Override
 		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, false);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, false, false);
 		}
 	};
 
 	static ArrowEnd LEFT_CLOSED = new ArrowEnd("<<") {
 		@Override
 		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, true);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, true, false);
+		}
+	};
+
+	static ArrowEnd LEFT_DIAMOND = new ArrowEnd("<<<") {
+		@Override
+		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, false, true);
 		}
 	};
 
 	static ArrowEnd RIGHT_CLOSED = new ArrowEnd(">>") {
 		@Override
 		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, true);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, true, false);
+		}
+	};
+
+	static ArrowEnd RIGHT_DIAMOND = new ArrowEnd(">>>") {
+		@Override
+		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, false, true);
 		}
 	};
 

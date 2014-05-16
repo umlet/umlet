@@ -13,6 +13,8 @@ import com.baselet.elementnew.element.uml.relation.RelationPoints;
 
 public class RelationDrawer {
 
+	private static final double ARROW_LENGTH = RelationPoints.POINT_SELECTION_RADIUS * 1.3;
+
 	public static void drawBoxArrowEquals(DrawHandler drawer, Line line, boolean drawOnStart) {
 		PointDouble point = drawBox(drawer, line, drawOnStart);
 
@@ -55,7 +57,7 @@ public class RelationDrawer {
 		return point;
 	}
 
-	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, boolean inverseArrow, boolean closeArrow) {
+	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, boolean inverseArrow, boolean closeArrow, boolean diamond) {
 		PointDouble point = drawOnStart ? line.getStart() : line.getEnd();
 		double angleOfSlopeOfLine = line.getAngleOfSlope();
 		if (inverseArrow) {
@@ -68,15 +70,19 @@ public class RelationDrawer {
 		if (closeArrow) {
 			points.add(p1);
 		}
+		else if (diamond) {
+			PointDouble pxx = drawOnStart ? line.getPointOnLineWithDistanceFromStart(ARROW_LENGTH * 2) : line.getPointOnLineWithDistanceFromEnd(ARROW_LENGTH * 2);
+			points.add(pxx);
+			points.add(p1);
+		}
 		drawer.drawLines(points);
 	}
 
 	private static PointDouble calcPoint(PointDouble point, double angleOfSlopeOfLine, boolean first, int angle) {
-		int arrowLength = RelationPoints.POINT_SELECTION_RADIUS;
 		int arrowAngle = angle;
 		double angleTotal = first ? angleOfSlopeOfLine - arrowAngle : angleOfSlopeOfLine + arrowAngle;
-		double x = point.x + arrowLength * Math.cos(Math.toRadians(angleTotal));
-		double y = point.y + arrowLength * Math.sin(Math.toRadians(angleTotal));
+		double x = point.x + ARROW_LENGTH * Math.cos(Math.toRadians(angleTotal));
+		double y = point.y + ARROW_LENGTH * Math.sin(Math.toRadians(angleTotal));
 		return new PointDouble(x, y);
 	}
 }
