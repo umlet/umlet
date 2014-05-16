@@ -13,6 +13,7 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.StickableMap;
+import com.baselet.element.sticking.polygon.NoStickingPolygonGenerator;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesParserState;
@@ -31,6 +32,7 @@ public class Relation extends NewGridElement implements Stickable {
 
 	@Override
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+		state.setStickingPolygonGenerator(NoStickingPolygonGenerator.INSTANCE);
 		// relationPoints.drawLinesBetweenPoints(drawer);
 	}
 
