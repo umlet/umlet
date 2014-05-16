@@ -5,6 +5,7 @@ import com.baselet.control.enumerations.RegexValueHolder;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.elementnew.element.uml.relation.RelationPoints;
+import com.baselet.elementnew.facet.relation.RelationDrawer.ArrowEndType;
 
 abstract class ArrowEnd implements RegexValueHolder {
 	private final String regexValue;
@@ -24,70 +25,70 @@ abstract class ArrowEnd implements RegexValueHolder {
 	static ArrowEnd LEFT_NORMAL = new ArrowEnd("<") {
 		@Override
 		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, false, false, false);
-		}
-	};
-
-	static ArrowEnd RIGHT_NORMAL = new ArrowEnd(">") {
-		@Override
-		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, false, false, false);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false);
 		}
 	};
 
 	static ArrowEnd LEFT_CLOSED = new ArrowEnd("<<") {
 		@Override
 		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, true, false, false);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.CLOSED, false);
 		}
 	};
 
 	static ArrowEnd LEFT_FILLED_CLOSED = new ArrowEnd("<<<<<") {
 		@Override
 		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, true, false, true);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.CLOSED, true);
 		}
 	};
 
 	static ArrowEnd LEFT_DIAMOND = new ArrowEnd("<<<") {
 		@Override
 		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, false, true, false);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, false);
 		}
 	};
 
 	static ArrowEnd LEFT_FILLED_DIAMOND = new ArrowEnd("<<<<") {
 		@Override
 		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, false, true, true);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, true);
+		}
+	};
+
+	static ArrowEnd RIGHT_NORMAL = new ArrowEnd(">") {
+		@Override
+		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false);
 		}
 	};
 
 	static ArrowEnd RIGHT_CLOSED = new ArrowEnd(">>") {
 		@Override
 		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, true, false, false);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.CLOSED, false);
 		}
 	};
 
 	static ArrowEnd RIGHT_FILLED_CLOSED = new ArrowEnd(">>>>>") {
 		@Override
 		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, true, false, true);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.CLOSED, true);
 		}
 	};
 
 	static ArrowEnd RIGHT_DIAMOND = new ArrowEnd(">>>") {
 		@Override
 		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, false, true, false);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, false);
 		}
 	};
 
 	static ArrowEnd RIGHT_FILLED_DIAMOND = new ArrowEnd(">>>>") {
 		@Override
 		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, false, false, true, true);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, true);
 		}
 	};
 

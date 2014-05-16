@@ -58,20 +58,24 @@ public class RelationDrawer {
 		return point;
 	}
 
-	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, boolean inverseArrow, boolean closeArrow, boolean diamond, boolean fillBody) {
+	public static enum ArrowEndType {
+		NORMAL, INVERSE, CLOSED, DIAMOND
+	}
+
+	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, ArrowEndType arrowEndType, boolean fillBody) {
 		PointDouble point = drawOnStart ? line.getStart() : line.getEnd();
 		double angleOfSlopeOfLine = line.getAngleOfSlope();
-		if (inverseArrow) {
+		if (arrowEndType == ArrowEndType.INVERSE) {
 			drawOnStart = !drawOnStart;
 		}
 		int arrowAngle = drawOnStart ? 150 : 30;
 		PointDouble p1 = calcPoint(point, angleOfSlopeOfLine - arrowAngle);
 		PointDouble p2 = calcPoint(point, angleOfSlopeOfLine + arrowAngle);
 		List<PointDouble> points = new ArrayList<PointDouble>(Arrays.asList(p1, point, p2));
-		if (closeArrow) {
+		if (arrowEndType == ArrowEndType.CLOSED) {
 			points.add(p1);
 		}
-		else if (diamond) {
+		else if (arrowEndType == ArrowEndType.DIAMOND) {
 			double lengthDiamond = GeometricFunctions.getDistanceBetweenLineAndPoint(p1, p2, point) * 2;
 			PointDouble pDiamond = drawOnStart ? line.getPointOnLineWithDistanceFromStart(lengthDiamond) : line.getPointOnLineWithDistanceFromEnd(lengthDiamond);
 			points.add(pDiamond);
