@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.GeometricFunctions;
@@ -15,9 +16,21 @@ import com.baselet.elementnew.element.uml.relation.RelationPoints;
 public class RelationDrawer {
 
 	private static final double ARROW_LENGTH = RelationPoints.POINT_SELECTION_RADIUS * 1.3;
+	private static final double BOX_SIZE = 20;
+
+	public static void drawBoxArrowText(DrawHandler drawer, Line line, boolean drawOnStart, String matchedText) {
+		double oldFontsize = drawer.getStyle().getFontSize();
+		drawer.setFontSize(10);
+
+		double width = drawer.textWidth(matchedText) + drawer.getDistanceHorizontalBorderToText();
+		PointDouble point = drawBox(drawer, line, drawOnStart, width, BOX_SIZE);
+
+		drawer.print(matchedText, new PointDouble(point.getX(), point.getY() + drawer.textHeight() / 2), AlignHorizontal.CENTER);
+		drawer.setFontSize(oldFontsize);
+	}
 
 	public static void drawBoxArrowEquals(DrawHandler drawer, Line line, boolean drawOnStart) {
-		PointDouble point = drawBox(drawer, line, drawOnStart);
+		PointDouble point = drawBox(drawer, line, drawOnStart, BOX_SIZE, BOX_SIZE);
 
 		int dist = 2;
 		int size = 6;
@@ -26,7 +39,7 @@ public class RelationDrawer {
 	}
 
 	public static void drawBoxArrow(DrawHandler drawer, Line line, boolean drawOnStart, Direction arrowDirection) {
-		PointDouble point = drawBox(drawer, line, drawOnStart);
+		PointDouble point = drawBox(drawer, line, drawOnStart, BOX_SIZE, BOX_SIZE);
 
 		int arrow = 4;
 		ColorOwn bgColorOld = drawer.getStyle().getBackgroundColor();
@@ -51,10 +64,9 @@ public class RelationDrawer {
 
 	}
 
-	private static PointDouble drawBox(DrawHandler drawer, Line line, boolean drawOnStart) {
-		int box = 20;
+	private static PointDouble drawBox(DrawHandler drawer, Line line, boolean drawOnStart, double width, double height) {
 		PointDouble point = drawOnStart ? line.getStart() : line.getEnd();
-		drawer.drawRectangle(point.getX() - box / 2, point.getY() - box / 2, box, box);
+		drawer.drawRectangle(point.getX() - width / 2, point.getY() - height / 2, width, height);
 		return point;
 	}
 

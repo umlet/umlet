@@ -18,6 +18,18 @@ import com.baselet.elementnew.facet.KeyValueFacet;
 
 public class RelationLineTypeFacet extends KeyValueFacet {
 
+	private static class Match<T extends RegexValueHolder> {
+		private final String text;
+		private final T type;
+
+		public Match(String matchedText, T matchedObject) {
+			super();
+			this.text = matchedText;
+			this.type = matchedObject;
+		}
+
+	}
+
 	public static RelationLineTypeFacet INSTANCE = new RelationLineTypeFacet();
 
 	private RelationLineTypeFacet() {}
@@ -27,7 +39,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 	/**
 	 * all arrowtypes and linetypes to expect (order is important because eg << must be before < to be recognized correctly / also linetype .. must be before .)
 	 */
-	private static final List<ArrowEnd> SHARED_ARROW_STRINGS = Arrays.asList(ArrowEnd.BOX_EMPTY, ArrowEnd.BOX_DOWN_ARROW, ArrowEnd.BOX_LEFT_ARROW, ArrowEnd.BOX_RIGHT_ARROW, ArrowEnd.BOX_UP_ARROW, ArrowEnd.BOX_EQUALS);
+	private static final List<ArrowEnd> SHARED_ARROW_STRINGS = Arrays.asList(ArrowEnd.BOX_EMPTY, ArrowEnd.BOX_DOWN_ARROW, ArrowEnd.BOX_LEFT_ARROW, ArrowEnd.BOX_RIGHT_ARROW, ArrowEnd.BOX_UP_ARROW, ArrowEnd.BOX_EQUALS, ArrowEnd.BOX_TEXT);
 	private static final List<ArrowEnd> LEFT_ARROW_STRINGS = SharedUtils.mergeLists(Arrays.asList(ArrowEnd.LEFT_FILLED_CLOSED, ArrowEnd.LEFT_FILLED_DIAMOND, ArrowEnd.LEFT_DIAMOND, ArrowEnd.LEFT_CLOSED, ArrowEnd.LEFT_NORMAL), SHARED_ARROW_STRINGS);
 	private static final List<ArrowEnd> RIGHT_ARROW_STRINGS = SharedUtils.mergeLists(Arrays.asList(ArrowEnd.RIGHT_FILLED_CLOSED, ArrowEnd.RIGHT_FILLED_DIAMOND, ArrowEnd.RIGHT_DIAMOND, ArrowEnd.RIGHT_CLOSED, ArrowEnd.RIGHT_NORMAL), SHARED_ARROW_STRINGS);
 	private static final List<LineType> LINE_TYPES = Arrays.asList(LineType.SOLID, LineType.DOTTED, LineType.DASHED);
@@ -43,23 +55,23 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		RelationPoints relationPoints = ((SettingsRelation) state.getSettings()).getRelationPoints();
 		remainingValue = value;
 
-		ArrowEnd leftArrow = extractPart(LEFT_ARROW_STRINGS, null);
-		LineType lineType = extractPart(LINE_TYPES, LineType.SOLID);
-		ArrowEnd rightArrow = extractPart(RIGHT_ARROW_STRINGS, null);
+		Match<ArrowEnd> leftArrow = extractPart(LEFT_ARROW_STRINGS, null);
+		Match<LineType> lineType = extractPart(LINE_TYPES, LineType.SOLID);
+		Match<ArrowEnd> rightArrow = extractPart(RIGHT_ARROW_STRINGS, null);
 		log.debug("Split Relation " + value + " into following parts: " + getValueNotNull(leftArrow) + " | " + getValueNotNull(lineType) + " | " + getValueNotNull(rightArrow));
 
-		drawLine(drawer, relationPoints, lineType);
+		drawLine(drawer, relationPoints, lineType.type);
 		drawArrowEnds(drawer, relationPoints, leftArrow, rightArrow);
 	}
 
-	private void drawArrowEnds(DrawHandler drawer, RelationPoints relationPoints, ArrowEnd leftArrow, ArrowEnd rightArrow) {
+	private void drawArrowEnds(DrawHandler drawer, RelationPoints relationPoints, Match<ArrowEnd> leftArrow, Match<ArrowEnd> rightArrow) {
 		ColorOwn oldBgColor = drawer.getStyle().getBackgroundColor();
 		drawer.setBackgroundColor(oldBgColor.transparency(Transparency.FOREGROUND)); // arrow background is not transparent
-		if (leftArrow != null) {
-			leftArrow.print(drawer, relationPoints, relationPoints.getFirstLine(), true);
+		if (leftArrow.type != null) {
+			leftArrow.type.print(drawer, relationPoints, relationPoints.getFirstLine(), true, leftArrow.text);
 		}
-		if (rightArrow != null) {
-			rightArrow.print(drawer, relationPoints, relationPoints.getLastLine(), false);
+		if (rightArrow.type != null) {
+			rightArrow.type.print(drawer, relationPoints, relationPoints.getLastLine(), false, rightArrow.text);
 		}
 		drawer.setBackgroundColor(oldBgColor); // reset background
 	}
@@ -71,24 +83,25 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		drawer.setLineType(oldLt);
 	}
 
-	private <T extends RegexValueHolder> T extractPart(List<T> valueHolderList, T defaultValue) {
+	private <T extends RegexValueHolder> Match<T> extractPart(List<T> valueHolderList, T defaultValue) {
 		for (T valueHolder : valueHolderList) {
 			String regex = "^" + valueHolder.getRegexValue(); // only match from start of the line (left to right)
 			String newRemainingValue = remainingValue.replaceFirst(regex, "");
 			if (!remainingValue.equals(newRemainingValue)) {
+				String removedPart = remainingValue.substring(0, remainingValue.length() - newRemainingValue.length());
 				remainingValue = newRemainingValue;
-				return valueHolder;
+				return new Match<T>(removedPart, valueHolder);
 			}
 		}
-		return defaultValue;
+		return new Match<T>("", defaultValue);
 	}
 
-	private String getValueNotNull(RegexValueHolder valueHolder) {
-		if (valueHolder == null) {
+	private String getValueNotNull(Match<? extends RegexValueHolder> valueHolder) {
+		if (valueHolder.type == null) {
 			return "";
 		}
 		else {
-			return valueHolder.getRegexValue();
+			return valueHolder.type.getRegexValue();
 		}
 	}
 
