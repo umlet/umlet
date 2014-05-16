@@ -68,10 +68,10 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		ColorOwn oldBgColor = drawer.getStyle().getBackgroundColor();
 		drawer.setBackgroundColor(oldBgColor.transparency(Transparency.FOREGROUND)); // arrow background is not transparent
 		if (leftArrow.type != null) {
-			leftArrow.type.print(drawer, relationPoints, relationPoints.getFirstLine(), true, leftArrow.text);
+			leftArrow.type.print(drawer, relationPoints, relationPoints.getFirstLine(), true, leftArrow.text, relationPoints);
 		}
 		if (rightArrow.type != null) {
-			rightArrow.type.print(drawer, relationPoints, relationPoints.getLastLine(), false, rightArrow.text);
+			rightArrow.type.print(drawer, relationPoints, relationPoints.getLastLine(), false, rightArrow.text, relationPoints);
 		}
 		drawer.setBackgroundColor(oldBgColor); // reset background
 	}
