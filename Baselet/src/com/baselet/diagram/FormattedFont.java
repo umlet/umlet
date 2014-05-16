@@ -16,10 +16,10 @@ public class FormattedFont {
 	private static Float bold;
 	private static Float italic;
 
-	private String string;
-	private AttributedString atrString;
+	private final String string;
+	private final AttributedString atrString;
 
-	private TextLayout textLayout;
+	private final TextLayout textLayout;
 
 	public FormattedFont(String text, double fontSize, Font font, FontRenderContext fontRenderContext) {
 		string = setFormatAndRemoveLabels(text);
@@ -71,7 +71,7 @@ public class FormattedFont {
 	}
 
 	public double getWidth() {
-		return textLayout.getBounds().getWidth();
+		return textLayout.getVisibleAdvance();
 	}
 
 	public double getHeight() {
