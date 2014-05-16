@@ -8,12 +8,13 @@ import java.util.List;
 import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.PointChange;
 
-public class RelationPoints {
+public class RelationPoints implements ResizableObject {
 
 	public static final int DRAG_BOX_SIZE = 10; // size of the box to drag the whole relation
 	public static final int POINT_SELECTION_RADIUS = 10; // radius of the selection circle of relation-points
@@ -165,15 +166,16 @@ public class RelationPoints {
 
 	private static final int BUFFER = 2; // a small buffer to make sure full description text is visible
 
-	public void resizeRelationSpaceToMakeTextVisible(double textWidth, double textHeight) {
+	@Override
+	public void resizeToMatchMinSize(DimensionDouble minDimension) {
 		Rectangle rectangle = relation.getRectangle();
-		int zoomedTextWidth = (int) (relation.getGridSize() * (textWidth + BUFFER) / SharedConstants.DEFAULT_GRID_SIZE);
-		int zoomedTextHeight = (int) (relation.getGridSize() * (textHeight + BUFFER) / SharedConstants.DEFAULT_GRID_SIZE);
-		if (rectangle.getWidth() < zoomedTextWidth) {
-			rectangle.setWidth(zoomedTextWidth);
+		int zoomedMinWidth = (int) (relation.getGridSize() * (minDimension.getWidth() + BUFFER) / SharedConstants.DEFAULT_GRID_SIZE);
+		int zoomedMinHeight = (int) (relation.getGridSize() * (minDimension.getHeight() + BUFFER) / SharedConstants.DEFAULT_GRID_SIZE);
+		if (rectangle.getWidth() < zoomedMinWidth) {
+			rectangle.setWidth(zoomedMinWidth);
 		}
-		if (rectangle.getHeight() < zoomedTextHeight) {
-			rectangle.setHeight(zoomedTextHeight);
+		if (rectangle.getHeight() < zoomedMinHeight) {
+			rectangle.setHeight(zoomedMinHeight);
 		}
 		relation.setRectangle(rectangle);
 	}

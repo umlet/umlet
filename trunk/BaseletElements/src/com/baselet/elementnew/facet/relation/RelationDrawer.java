@@ -7,18 +7,20 @@ import java.util.List;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.GeometricFunctions;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.elementnew.element.uml.relation.RelationPoints;
+import com.baselet.elementnew.element.uml.relation.ResizableObject;
 
 public class RelationDrawer {
 
 	private static final double ARROW_LENGTH = RelationPoints.POINT_SELECTION_RADIUS * 1.3;
 	private static final double BOX_SIZE = 20;
 
-	public static void drawBoxArrowText(DrawHandler drawer, Line line, boolean drawOnStart, String matchedText) {
+	public static void drawBoxArrowText(DrawHandler drawer, Line line, boolean drawOnStart, String matchedText, ResizableObject resizableObject) {
 		double oldFontsize = drawer.getStyle().getFontSize();
 		drawer.setFontSize(10);
 
@@ -27,6 +29,7 @@ public class RelationDrawer {
 
 		drawer.print(matchedText, new PointDouble(point.getX(), point.getY() + drawer.textHeight() / 2), AlignHorizontal.CENTER);
 		drawer.setFontSize(oldFontsize);
+		resizableObject.resizeToMatchMinSize(new DimensionDouble(point.getX() + width / 2, 0));
 	}
 
 	public static void drawBoxArrowEquals(DrawHandler drawer, Line line, boolean drawOnStart) {
