@@ -29,7 +29,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 	 */
 	private static final List<ArrowEnd> SHARED_ARROW_STRINGS = Arrays.asList(ArrowEnd.BOX_EMPTY, ArrowEnd.BOX_DOWN_ARROW, ArrowEnd.BOX_LEFT_ARROW, ArrowEnd.BOX_RIGHT_ARROW, ArrowEnd.BOX_UP_ARROW, ArrowEnd.BOX_EQUALS);
 	private static final List<ArrowEnd> LEFT_ARROW_STRINGS = SharedUtils.mergeLists(Arrays.asList(ArrowEnd.LEFT_FILLED_CLOSED, ArrowEnd.LEFT_FILLED_DIAMOND, ArrowEnd.LEFT_DIAMOND, ArrowEnd.LEFT_CLOSED, ArrowEnd.LEFT_NORMAL), SHARED_ARROW_STRINGS);
-	private static final List<ArrowEnd> RIGHT_ARROW_STRINGS = SharedUtils.mergeLists(Arrays.asList(ArrowEnd.RIGHT_FILLED_CLOSED, ArrowEnd.RIGHT_FILLED_DIAMOND, ArrowEnd.RIGHT_CLOSED, ArrowEnd.RIGHT_NORMAL), SHARED_ARROW_STRINGS);
+	private static final List<ArrowEnd> RIGHT_ARROW_STRINGS = SharedUtils.mergeLists(Arrays.asList(ArrowEnd.RIGHT_FILLED_CLOSED, ArrowEnd.RIGHT_FILLED_DIAMOND, ArrowEnd.RIGHT_DIAMOND, ArrowEnd.RIGHT_CLOSED, ArrowEnd.RIGHT_NORMAL), SHARED_ARROW_STRINGS);
 	private static final List<LineType> LINE_TYPES = Arrays.asList(LineType.SOLID, LineType.DOTTED, LineType.DASHED);
 
 	public RelationPoints getRelationPoints(PropertiesParserState config) {
