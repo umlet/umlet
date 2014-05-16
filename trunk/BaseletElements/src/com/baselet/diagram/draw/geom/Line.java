@@ -6,10 +6,8 @@ public class Line {
 
 	private static final Logger log = Logger.getLogger(Line.class);
 
-	PointDouble start;
-	PointDouble end;
-
-	public Line() {}
+	private final PointDouble start;
+	private final PointDouble end;
 
 	public Line(PointDouble start, PointDouble end) {
 		super();
@@ -21,16 +19,8 @@ public class Line {
 		return start;
 	}
 
-	public void setStart(PointDouble start) {
-		this.start = start;
-	}
-
 	public PointDouble getEnd() {
 		return end;
-	}
-
-	public void setEnd(PointDouble end) {
-		this.end = end;
 	}
 
 	public PointDouble getCenter() {
@@ -39,6 +29,16 @@ public class Line {
 
 	public double getLength() {
 		return GeometricFunctions.distanceBetweenTwoPoints(start, end);
+	}
+
+	public PointDouble getPointOnLineWithDistanceFromStart(double distance) {
+		PointDouble pointOnLineWithDistanceFromStart = GeometricFunctions.getPointOnLineWithDistanceFromStart(start, end, distance);
+		System.out.println(start + "/" + end + "/" + distance + "/" + pointOnLineWithDistanceFromStart);
+		return pointOnLineWithDistanceFromStart;
+	}
+
+	public PointDouble getPointOnLineWithDistanceFromEnd(double distance) {
+		return GeometricFunctions.getPointOnLineWithDistanceFromStart(end, start, distance);
 	}
 
 	public double getAngleOfSlope() {
@@ -62,7 +62,31 @@ public class Line {
 		return dist;
 	}
 
-	public boolean equalsContent(Line other) {
+	public PointDouble[] toPoints() {
+		return new PointDouble[] { start, end };
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (end == null ? 0 : end.hashCode());
+		result = prime * result + (start == null ? 0 : start.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Line other = (Line) obj;
 		if (end == null) {
 			if (other.end != null) {
 				return false;
@@ -85,10 +109,6 @@ public class Line {
 	@Override
 	public String toString() {
 		return "Line [start=" + start + ", end=" + end + "]";
-	}
-
-	public PointDouble[] toPoints() {
-		return new PointDouble[] { start, end };
 	}
 
 }
