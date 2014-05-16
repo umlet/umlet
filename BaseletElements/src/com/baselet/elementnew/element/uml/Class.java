@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
-import com.baselet.element.sticking.PointDoubleStickingPolygonGenerator;
-import com.baselet.element.sticking.SimpleStickingPolygonGenerator;
+import com.baselet.element.sticking.polygon.PointDoubleStickingPolygonGenerator;
+import com.baselet.element.sticking.polygon.SimpleStickingPolygonGenerator;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesParserState;

@@ -4,7 +4,7 @@ import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.StickingPolygon;
-import com.baselet.element.sticking.StickingPolygonGenerator;
+import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesParserState;

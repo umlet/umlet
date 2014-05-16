@@ -6,7 +6,7 @@ import java.util.List;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.PointDouble;
-import com.baselet.element.sticking.PointDoubleStickingPolygonGenerator;
+import com.baselet.element.sticking.polygon.PointDoubleStickingPolygonGenerator;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesParserState;
