@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.geom.GeometricFunctions;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
@@ -63,24 +64,23 @@ public class RelationDrawer {
 		if (inverseArrow) {
 			drawOnStart = !drawOnStart;
 		}
-		int angle = drawOnStart ? 150 : 30;
-		PointDouble p1 = calcPoint(point, angleOfSlopeOfLine, true, angle);
-		PointDouble p2 = calcPoint(point, angleOfSlopeOfLine, false, angle);
+		int arrowAngle = drawOnStart ? 150 : 30;
+		PointDouble p1 = calcPoint(point, angleOfSlopeOfLine - arrowAngle);
+		PointDouble p2 = calcPoint(point, angleOfSlopeOfLine + arrowAngle);
 		List<PointDouble> points = new ArrayList<PointDouble>(Arrays.asList(p1, point, p2));
 		if (closeArrow) {
 			points.add(p1);
 		}
 		else if (diamond) {
-			PointDouble pxx = drawOnStart ? line.getPointOnLineWithDistanceFromStart(ARROW_LENGTH * 2) : line.getPointOnLineWithDistanceFromEnd(ARROW_LENGTH * 2);
-			points.add(pxx);
+			double lengthDiamond = GeometricFunctions.getDistanceBetweenLineAndPoint(p1, p2, point) * 2;
+			PointDouble pDiamond = drawOnStart ? line.getPointOnLineWithDistanceFromStart(lengthDiamond) : line.getPointOnLineWithDistanceFromEnd(lengthDiamond);
+			points.add(pDiamond);
 			points.add(p1);
 		}
 		drawer.drawLines(points);
 	}
 
-	private static PointDouble calcPoint(PointDouble point, double angleOfSlopeOfLine, boolean first, int angle) {
-		int arrowAngle = angle;
-		double angleTotal = first ? angleOfSlopeOfLine - arrowAngle : angleOfSlopeOfLine + arrowAngle;
+	private static PointDouble calcPoint(PointDouble point, double angleTotal) {
 		double x = point.x + ARROW_LENGTH * Math.cos(Math.toRadians(angleTotal));
 		double y = point.y + ARROW_LENGTH * Math.sin(Math.toRadians(angleTotal));
 		return new PointDouble(x, y);
