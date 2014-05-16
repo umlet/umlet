@@ -58,7 +58,7 @@ public class RelationDrawer {
 		return point;
 	}
 
-	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, boolean inverseArrow, boolean closeArrow, boolean diamond) {
+	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, boolean inverseArrow, boolean closeArrow, boolean diamond, boolean fillBody) {
 		PointDouble point = drawOnStart ? line.getStart() : line.getEnd();
 		double angleOfSlopeOfLine = line.getAngleOfSlope();
 		if (inverseArrow) {
@@ -77,7 +77,16 @@ public class RelationDrawer {
 			points.add(pDiamond);
 			points.add(p1);
 		}
-		drawer.drawLines(points);
+
+		if (fillBody) {
+			ColorOwn bgColor = drawer.getStyle().getBackgroundColor();
+			drawer.setBackgroundColor(drawer.getStyle().getForegroundColor());
+			drawer.drawLines(points);
+			drawer.setBackgroundColor(bgColor);
+		}
+		else {
+			drawer.drawLines(points);
+		}
 	}
 
 	private static PointDouble calcPoint(PointDouble point, double angleTotal) {
