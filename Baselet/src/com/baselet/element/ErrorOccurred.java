@@ -14,7 +14,7 @@ import com.baselet.diagram.draw.swing.Converter;
 @SuppressWarnings("serial")
 public class ErrorOccurred extends OldGridElement {
 
-	private String errorMessage;
+	private final String errorMessage;
 
 	public ErrorOccurred() {
 		errorMessage = "This Element has an Error!";
@@ -40,7 +40,7 @@ public class ErrorOccurred extends OldGridElement {
 			g2.setColor(Color.red);
 		}
 		g2.setFont(handlerForElement.getFontHandler().getFont());
-		handlerForElement.getFontHandler().writeText(g2, errorMessage, getRectangle().width / 2, getRectangle().height / 2 - (int) (10 * zoom), AlignHorizontal.CENTER);
+		handlerForElement.getFontHandler().writeText(g2, errorMessage, 0, 20, AlignHorizontal.LEFT);
 		g2.setColor(fgColor);
 	}
 
