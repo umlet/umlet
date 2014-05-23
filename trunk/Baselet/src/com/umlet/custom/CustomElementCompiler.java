@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Path;
+import com.baselet.control.SharedConstants;
 import com.baselet.element.ErrorOccurred;
 import com.baselet.element.GridElement;
 
@@ -26,10 +27,10 @@ public class CustomElementCompiler {
 
 	private static CustomElementCompiler compiler;
 	private static final String templatefile = "Default.java";
-	private String template;
-	private Pattern template_pattern;
+	private final String template;
+	private final Pattern template_pattern;
 	private Matcher template_match;
-	private String classname;
+	private final String classname;
 	private int beforecodelines; // lines of code before the custom code begins (for error processing)
 	private List<CompileError> compilation_errors;
 	private boolean global_error;
@@ -41,7 +42,7 @@ public class CustomElementCompiler {
 		return compiler;
 	}
 
-	private File sourcefile;
+	private final File sourcefile;
 
 	private CustomElementCompiler() {
 		global_error = false;
@@ -170,7 +171,11 @@ public class CustomElementCompiler {
 
 	public GridElement genEntity(String code, ErrorHandler errorhandler) {
 		if (!Constants.enable_custom_elements) {
-			return new ErrorOccurred("Custom Elements are disabled\nEnable them in the Options\nOnly open Custom Elements\nfrom trusted sources!");
+			String errorMessage = "Custom Elements are disabled\nEnabled them in the Options\nOnly open them from trusted\nsources to avoid malicious code execution!";
+			if (SharedConstants.dev_mode) {
+				errorMessage += "\n------------------------------------\n" + code;
+			}
+			return new ErrorOccurred(errorMessage);
 		}
 		if (global_error) {
 			return new ErrorOccurred();
