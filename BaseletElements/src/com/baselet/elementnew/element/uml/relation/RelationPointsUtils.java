@@ -20,9 +20,9 @@ public class RelationPointsUtils {
 				newSize.getY() * gridSize / SharedConstants.DEFAULT_GRID_SIZE,
 				newSize.getWidth() * gridSize / SharedConstants.DEFAULT_GRID_SIZE,
 				newSize.getHeight() * gridSize / SharedConstants.DEFAULT_GRID_SIZE);
-		// Realign new size to grid (should not be necessary as long as SELECTCIRCLERADIUS == DefaultGridSize)
+		// Realign new size to grid (should not be necessary as long as SELECTCIRCLERADIUS == DefaultGridSize) and add 1x gridSize to the right end (otherwise the selection-circles would change by 1px because Swing draws only to width-1 instead of width)
 		newSize.setLocation(SharedUtils.realignTo(false, newSize.getX(), false, gridSize), SharedUtils.realignTo(false, newSize.getY(), false, gridSize));
-		newSize.setSize(SharedUtils.realignTo(false, newSize.getWidth(), true, gridSize), SharedUtils.realignTo(false, newSize.getHeight(), true, gridSize));
+		newSize.setSize(SharedUtils.realignTo(false, newSize.getWidth(), true, gridSize) + gridSize, SharedUtils.realignTo(false, newSize.getHeight(), true, gridSize) + gridSize);
 		// and move to correct place of Relation
 		newSize.move(upperLeftCorner.getX().intValue(), upperLeftCorner.getY().intValue());
 
