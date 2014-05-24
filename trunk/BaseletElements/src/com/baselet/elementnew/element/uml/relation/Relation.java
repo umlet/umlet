@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.Direction;
+import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.helper.ColorOwn;
@@ -19,6 +20,7 @@ import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.element.uml.relation.RelationPoints.Selection;
 import com.baselet.elementnew.facet.common.LayerFacet;
+import com.baselet.elementnew.facet.relation.RelationLineTypeFacet;
 import com.baselet.elementnew.settings.Settings;
 
 public class Relation extends NewGridElement implements Stickable {
@@ -34,6 +36,9 @@ public class Relation extends NewGridElement implements Stickable {
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		state.setStickingPolygonGenerator(NoStickingPolygonGenerator.INSTANCE);
 		// relationPoints.drawLinesBetweenPoints(drawer);
+		if (!state.getFacetResponse(RelationLineTypeFacet.class, false)) {
+			RelationLineTypeFacet.drawLineBetweenPoints(drawer, relationPoints, LineType.SOLID);
+		}
 	}
 
 	@Override
