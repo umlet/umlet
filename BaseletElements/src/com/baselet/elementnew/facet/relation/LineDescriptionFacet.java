@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.PointDouble;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.element.uml.relation.RelationPoints;
 import com.baselet.elementnew.element.uml.relation.SettingsRelation;
@@ -59,7 +59,10 @@ public class LineDescriptionFacet extends GlobalFacet {
 			drawer.print(text, pointText, AlignHorizontal.LEFT);
 
 			// to make sure text is printed (and therefore withing relation-element-borders, resize relation according to text
-			relationPoints.resizeToMatchMinSize(new DimensionDouble(textWidth + pointText.getX(), pointText.getY()));
+			int index = key.equals(MESSAGE_START_KEY) ? 0 : key.equals(MESSAGE_MIDDLE_KEY) ? 1 : key.equals(MESSAGE_END_KEY) ? 2 : -1;
+			if (index != -1) {
+				relationPoints.setTextBox(index, new Rectangle(pointText.getX(), pointText.getY(), textWidth, textHeight));
+			}
 		}
 	}
 

@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.GeometricFunctions;
@@ -14,8 +16,9 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.PointChange;
 
-public class PointDoubleHolderList {
+public class RelationPointList {
 	List<RelationPoint> points = new ArrayList<RelationPoint>();
+	Map<Integer, Rectangle> textBoxSpace = new HashMap<Integer, Rectangle>();
 
 	public void add(double x, double y) {
 		points.add(new RelationPoint(points.size(), x, y));
@@ -184,5 +187,30 @@ public class PointDoubleHolderList {
 			}
 		}
 		throw new RuntimeException("Unknown Point Index " + index);
+	}
+
+	public void setTextBox(int index, Rectangle rect) {
+		textBoxSpace.put(index, rect);
+	}
+
+	public Rectangle createRectangleContainingAllPointsAndTextSpace() {
+		Rectangle rectangleContainingAllPointsAndTextSpace = null;
+		for (RelationPoint p : points) {
+			rectangleContainingAllPointsAndTextSpace = addWithNullCheck(rectangleContainingAllPointsAndTextSpace, p.toRectangle());
+		}
+		for (Rectangle textSpace : textBoxSpace.values()) {
+			rectangleContainingAllPointsAndTextSpace = addWithNullCheck(rectangleContainingAllPointsAndTextSpace, textSpace);
+		}
+		return rectangleContainingAllPointsAndTextSpace;
+	}
+
+	private Rectangle addWithNullCheck(Rectangle rectangleContainingAllPointsAndTextSpace, Rectangle rectangle) {
+		if (rectangleContainingAllPointsAndTextSpace == null) {
+			rectangleContainingAllPointsAndTextSpace = rectangle;
+		}
+		else {
+			rectangleContainingAllPointsAndTextSpace.merge(rectangle);
+		}
+		return rectangleContainingAllPointsAndTextSpace;
 	}
 }
