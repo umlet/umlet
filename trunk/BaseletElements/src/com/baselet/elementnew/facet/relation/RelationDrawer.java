@@ -7,11 +7,12 @@ import java.util.List;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.GeometricFunctions;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.PointDouble;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
 import com.baselet.elementnew.element.uml.relation.RelationPoints;
 import com.baselet.elementnew.element.uml.relation.ResizableObject;
 
@@ -20,16 +21,19 @@ public class RelationDrawer {
 	private static final double ARROW_LENGTH = RelationPoints.POINT_SELECTION_RADIUS * 1.3;
 	private static final double BOX_SIZE = 20;
 
-	public static void drawBoxArrowText(DrawHandler drawer, Line line, boolean drawOnStart, String matchedText, ResizableObject resizableObject) {
+	public static void drawBoxText(DrawHandler drawer, Line line, boolean drawOnStart, String matchedText, ResizableObject resizableObject) {
 		double oldFontsize = drawer.getStyle().getFontSize();
 		drawer.setFontSize(10);
 
+		double height = BOX_SIZE;
 		double width = drawer.textWidth(matchedText) + drawer.getDistanceHorizontalBorderToText();
-		PointDouble point = drawBox(drawer, line, drawOnStart, width, BOX_SIZE);
+		PointDoubleIndexed point = drawBox(drawer, line, drawOnStart, width, height);
 
 		drawer.print(matchedText, new PointDouble(point.getX(), point.getY() + drawer.textHeight() / 2), AlignHorizontal.CENTER);
 		drawer.setFontSize(oldFontsize);
-		resizableObject.resizeToMatchMinSize(new DimensionDouble(point.getX() + width / 2, 0));
+
+		resizableObject.setPointMinSize(point.getIndex(), new Rectangle(-width / 2, -height / 2, width, height));
+
 	}
 
 	public static void drawBoxArrowEquals(DrawHandler drawer, Line line, boolean drawOnStart) {
@@ -67,8 +71,8 @@ public class RelationDrawer {
 
 	}
 
-	private static PointDouble drawBox(DrawHandler drawer, Line line, boolean drawOnStart, double width, double height) {
-		PointDouble point = drawOnStart ? line.getStart() : line.getEnd();
+	private static PointDoubleIndexed drawBox(DrawHandler drawer, Line line, boolean drawOnStart, double width, double height) {
+		PointDoubleIndexed point = (PointDoubleIndexed) (drawOnStart ? line.getStart() : line.getEnd());
 		drawer.drawRectangle(point.getX() - width / 2, point.getY() - height / 2, width, height);
 		return point;
 	}

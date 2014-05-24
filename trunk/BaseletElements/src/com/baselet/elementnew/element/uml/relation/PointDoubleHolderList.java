@@ -15,23 +15,23 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.PointChange;
 
 public class PointDoubleHolderList {
-	List<PointDoubleIndexed> points = new ArrayList<PointDoubleIndexed>();
+	List<RelationPoint> points = new ArrayList<RelationPoint>();
 
 	public void add(double x, double y) {
-		points.add(new PointDoubleIndexed(points.size(), x, y));
+		points.add(new RelationPoint(points.size(), x, y));
 	}
 
-	public List<PointDoubleIndexed> getPointHolders() {
+	public List<RelationPoint> getPointHolders() {
 		return Collections.unmodifiableList(points);
 	}
 
 	public PointDoubleIndexed addPointOnLine(Line line, double x, double y) {
-		PointDoubleIndexed newPoint = null;
+		RelationPoint newPoint = null;
 		PointDouble endOfLine = line.getStart();
-		for (ListIterator<PointDoubleIndexed> iter = points.listIterator(); iter.hasNext();) {
-			PointDoubleIndexed point = iter.next();
+		for (ListIterator<RelationPoint> iter = points.listIterator(); iter.hasNext();) {
+			PointDoubleIndexed point = iter.next().getPoint();
 			if (point.equals(endOfLine)) {
-				newPoint = new PointDoubleIndexed(iter.nextIndex(), x, y);
+				newPoint = new RelationPoint(iter.nextIndex(), x, y);
 				iter.add(newPoint);
 			}
 		}
@@ -39,13 +39,13 @@ public class PointDoubleHolderList {
 		if (newPoint == null) {
 			throw new RuntimeException("Point " + endOfLine + " not found in list " + points);
 		}
-		return newPoint;
+		return newPoint.getPoint();
 	}
 
 	private void rebuildpointIndexes() {
-		List<PointDoubleIndexed> rebuiltList = new ArrayList<PointDoubleIndexed>();
+		List<RelationPoint> rebuiltList = new ArrayList<RelationPoint>();
 		for (int i = 0; i < points.size(); i++) {
-			rebuiltList.add(new PointDoubleIndexed(i, points.get(i).getX(), points.get(i).getY()));
+			rebuiltList.add(new RelationPoint(i, points.get(i).getPoint().getX(), points.get(i).getPoint().getY()));
 		}
 		points.clear();
 		points.addAll(rebuiltList);
@@ -68,11 +68,12 @@ public class PointDoubleHolderList {
 	}
 
 	private void applyPointChange(List<PointChange> changes) {
-		for (ListIterator<PointDoubleIndexed> iter = points.listIterator(); iter.hasNext();) {
-			PointDoubleIndexed p = iter.next();
+		for (ListIterator<RelationPoint> iter = points.listIterator(); iter.hasNext();) {
+			RelationPoint p = iter.next();
+			PointDoubleIndexed pt = p.getPoint();
 			for (PointChange change : changes) {
-				if (p.equals(change.getPointHolder())) {
-					iter.set(new PointDoubleIndexed(p.getIndex(), p.getX() + change.getDiffX(), p.getY() + change.getDiffY()));
+				if (pt.equals(change.getPointHolder())) {
+					iter.set(new RelationPoint(pt.getIndex(), pt.getX() + change.getDiffX(), pt.getY() + change.getDiffY(), p.getSize()));
 				}
 			}
 		}
@@ -81,14 +82,18 @@ public class PointDoubleHolderList {
 	void moveRelationPointsOriginToUpperLeftCorner() {
 		int displacementX = Integer.MAX_VALUE;
 		int displacementY = Integer.MAX_VALUE;
-		for (PointDoubleIndexed p : points) {
-			Rectangle r = RelationPointsUtils.toCircleRectangle(p);
+		for (RelationPoint p : points) {
+			Rectangle r = p.toRectangle();
 			displacementX = Math.min(displacementX, r.getX());
 			displacementY = Math.min(displacementY, r.getY());
 		}
-		for (ListIterator<PointDoubleIndexed> iter = points.listIterator(); iter.hasNext();) {
-			PointDoubleIndexed p = iter.next();
-			iter.set(new PointDoubleIndexed(p.getIndex(), p.getX() - displacementX, p.getY() - displacementY));
+		moveRelationPointsBy(-displacementX, -displacementY);
+	}
+
+	void moveRelationPointsBy(int displacementX, int displacementY) {
+		for (ListIterator<RelationPoint> iter = points.listIterator(); iter.hasNext();) {
+			RelationPoint p = iter.next();
+			iter.set(new RelationPoint(p.getPoint().getIndex(), p.getPoint().getX() + displacementX, p.getPoint().getY() + displacementY, p.getSize()));
 			// If points are off the grid they can be realigned here (use the following 2 lines instead of move())
 			// p.setX(SharedUtils.realignTo(true, p.getX()-displacementX, false, SharedConstants.DEFAULT_GRID_SIZE));
 			// p.setY(SharedUtils.realignTo(true, p.getY()-displacementY, false, SharedConstants.DEFAULT_GRID_SIZE));
@@ -98,18 +103,18 @@ public class PointDoubleHolderList {
 	public boolean removeRelationPointIfOnLineBetweenNeighbourPoints() {
 		boolean updateNecessary = false;
 		if (points.size() > 2) {
-			ListIterator<PointDoubleIndexed> iter = points.listIterator();
-			PointDoubleIndexed leftNeighbour = iter.next();
-			PointDoubleIndexed pointToCheck = iter.next();
+			ListIterator<RelationPoint> iter = points.listIterator();
+			PointDoubleIndexed leftNeighbour = iter.next().getPoint();
+			PointDoubleIndexed pointToCheck = iter.next().getPoint();
 			while (iter.hasNext()) {
-				PointDoubleIndexed rightNeighbour = iter.next();
+				PointDoubleIndexed rightNeighbour = iter.next().getPoint();
 				// if a point lies on the line between its 2 neighbourpoints, it will be removed
 				if (GeometricFunctions.getDistanceBetweenLineAndPoint(leftNeighbour, rightNeighbour, pointToCheck) < 5) {
 					updateNecessary = true;
 					iter.previous();
 					iter.previous();
 					iter.remove();
-					pointToCheck = iter.next();
+					pointToCheck = iter.next().getPoint();
 				}
 				else {
 					leftNeighbour = pointToCheck;
@@ -126,26 +131,26 @@ public class PointDoubleHolderList {
 	public List<Line> getRelationPointLines() {
 		List<Line> lines = new ArrayList<Line>();
 		for (int i = 1; i < points.size(); i++) {
-			lines.add(new Line(points.get(i - 1), points.get(i)));
+			lines.add(new Line(points.get(i - 1).getPoint(), points.get(i).getPoint()));
 		}
 		return lines;
 	}
 
 	public Line getFirstLine() {
-		return new Line(points.get(0), points.get(1));
+		return new Line(points.get(0).getPoint(), points.get(1).getPoint());
 	}
 
 	public Line getLastLine() {
-		return new Line(points.get(points.size() - 2), points.get(points.size() - 1));
+		return new Line(points.get(points.size() - 2).getPoint(), points.get(points.size() - 1).getPoint());
 	}
 
 	public Collection<PointDoubleIndexed> getStickablePoints() {
-		return Arrays.asList(points.get(0), points.get(points.size() - 1));
+		return Arrays.asList(points.get(0).getPoint(), points.get(points.size() - 1).getPoint());
 	}
 
 	public Rectangle getDragBox() {
-		PointDoubleIndexed begin = points.get(points.size() / 2);
-		PointDoubleIndexed end = points.get(points.size() / 2 - 1);
+		PointDoubleIndexed begin = points.get(points.size() / 2).getPoint();
+		PointDoubleIndexed end = points.get(points.size() / 2 - 1).getPoint();
 		PointDouble center = new Line(begin, end).getCenter();
 		Rectangle rectangle = RelationPointsUtils.toRectangle(center, RelationPoints.DRAG_BOX_SIZE / 2);
 		return rectangle;
@@ -153,8 +158,8 @@ public class PointDoubleHolderList {
 
 	public String toAdditionalAttributesString() {
 		String returnString = "";
-		for (PointDoubleIndexed p : points) {
-			returnString += p.getX() + ";" + p.getY() + ";";
+		for (RelationPoint p : points) {
+			returnString += p.getPoint().getX() + ";" + p.getPoint().getY() + ";";
 		}
 		if (!returnString.isEmpty()) {
 			returnString = returnString.substring(0, returnString.length() - 1);
@@ -168,6 +173,16 @@ public class PointDoubleHolderList {
 	}
 
 	public PointDoubleIndexed get(int index) {
-		return points.get(index);
+		return points.get(index).getPoint();
+	}
+
+	public void setSize(int index, Rectangle size) {
+		for (RelationPoint p : points) {
+			if (p.getPoint().getIndex() == index) {
+				p.setSize(size);
+				return;
+			}
+		}
+		throw new RuntimeException("Unknown Point Index " + index);
 	}
 }

@@ -20,8 +20,9 @@ public class SharedUtils {
 		return realignTo(true, d, false, SharedConstants.DEFAULT_GRID_SIZE);
 	}
 
-	public static void realignToGrid(boolean logRealign, Rectangle rectangle) {
-		rectangle.setLocation(realignToGrid(logRealign, rectangle.getX(), false), realignToGrid(logRealign, rectangle.getY(), false));
+	public static void realignToGrid(Rectangle rectangle) {
+		rectangle.setLocation(realignToGrid(false, rectangle.getX(), false), realignToGrid(false, rectangle.getY(), false));
+		rectangle.setSize(realignToGrid(false, rectangle.getWidth(), true), realignToGrid(false, rectangle.getHeight(), true));
 	}
 
 	/**
