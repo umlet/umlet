@@ -60,8 +60,9 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		Match<ArrowEnd> rightArrow = extractPart(RIGHT_ARROW_STRINGS, null);
 		log.debug("Split Relation " + value + " into following parts: " + getValueNotNull(leftArrow) + " | " + getValueNotNull(lineType) + " | " + getValueNotNull(rightArrow));
 
-		drawLine(drawer, relationPoints, lineType.type);
+		drawLineBetweenPoints(drawer, relationPoints, lineType.type);
 		drawArrowEnds(drawer, relationPoints, leftArrow, rightArrow);
+		state.setFacetResponse(RelationLineTypeFacet.class, true); // let Relation know that lt= is set
 	}
 
 	private void drawArrowEnds(DrawHandler drawer, RelationPoints relationPoints, Match<ArrowEnd> leftArrow, Match<ArrowEnd> rightArrow) {
@@ -76,7 +77,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		drawer.setBackgroundColor(oldBgColor); // reset background
 	}
 
-	private void drawLine(DrawHandler drawer, RelationPoints relationPoints, LineType lineType) {
+	public static void drawLineBetweenPoints(DrawHandler drawer, RelationPoints relationPoints, LineType lineType) {
 		LineType oldLt = drawer.getStyle().getLineType();
 		drawer.setLineType(lineType);
 		relationPoints.drawLinesBetweenPoints(drawer);
