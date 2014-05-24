@@ -4,7 +4,7 @@ import com.baselet.diagram.draw.geom.PointDouble;
 
 public class PointDoubleIndexed extends PointDouble {
 
-	private int index;
+	private final int index;
 
 	public PointDoubleIndexed(int index, double x, double y) {
 		super(x, y);

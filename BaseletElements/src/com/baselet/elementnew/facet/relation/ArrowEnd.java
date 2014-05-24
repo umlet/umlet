@@ -139,7 +139,7 @@ abstract class ArrowEnd implements RegexValueHolder {
 		@Override
 		public void print(DrawHandler drawer, RelationPoints points, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
 			String textWithoutBox = matchedText.substring(1, matchedText.length() - 1);
-			RelationDrawer.drawBoxArrowText(drawer, lineToDraw, drawOnLineStart, textWithoutBox, resizableObject);
+			RelationDrawer.drawBoxText(drawer, lineToDraw, drawOnLineStart, textWithoutBox, resizableObject);
 		}
 	};
 }

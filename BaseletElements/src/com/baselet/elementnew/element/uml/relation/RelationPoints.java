@@ -154,8 +154,8 @@ public class RelationPoints implements ResizableObject {
 	}
 
 	public void drawCirclesAndDragBox(DrawHandler drawer) {
-		for (PointDoubleIndexed p : points.getPointHolders()) {
-			drawer.drawCircle(p.getX(), p.getY(), POINT_SELECTION_RADIUS);
+		for (RelationPoint p : points.getPointHolders()) {
+			drawer.drawCircle(p.getPoint().getX(), p.getPoint().getY(), POINT_SELECTION_RADIUS);
 		}
 		drawer.drawRectangle(getDragBox());
 	}
@@ -183,5 +183,12 @@ public class RelationPoints implements ResizableObject {
 	@Override
 	public String toString() {
 		return points.toString();
+	}
+
+	@Override
+	public void setPointMinSize(int index, Rectangle size) {
+		SharedUtils.realignToGrid(size);
+		points.setSize(index, size);
+		resizeRectAndReposPoints();
 	}
 }
