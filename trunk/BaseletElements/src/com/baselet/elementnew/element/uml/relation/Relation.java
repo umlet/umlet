@@ -39,6 +39,7 @@ public class Relation extends NewGridElement implements Stickable {
 		if (!state.getFacetResponse(RelationLineTypeFacet.class, false)) {
 			RelationLineTypeFacet.drawLineBetweenPoints(drawer, relationPoints, LineType.SOLID);
 		}
+		relationPoints.resizeRectAndReposPoints(); // line description and relation-endings can change the relation size, therefore recalc it now
 	}
 
 	@Override
@@ -59,7 +60,7 @@ public class Relation extends NewGridElement implements Stickable {
 	@Override
 	public void setAdditionalAttributes(String additionalAttributes) {
 		super.setAdditionalAttributes(additionalAttributes);
-		PointDoubleHolderList pointList = new PointDoubleHolderList();
+		RelationPointList pointList = new RelationPointList();
 		String[] split = additionalAttributes.split(";");
 		for (int i = 0; i < split.length; i += 2) {
 			pointList.add(Double.valueOf(split[i]), Double.valueOf(split[i + 1]));

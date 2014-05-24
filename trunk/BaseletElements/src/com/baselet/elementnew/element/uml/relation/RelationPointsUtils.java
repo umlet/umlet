@@ -8,9 +8,9 @@ import com.baselet.diagram.draw.geom.Rectangle;
 
 public class RelationPointsUtils {
 
-	static Rectangle calculateRelationRectangleBasedOnPoints(PointDouble upperLeftCorner, int gridSize, PointDoubleHolderList relationPoints) {
+	static Rectangle calculateRelationRectangleBasedOnPoints(PointDouble upperLeftCorner, int gridSize, RelationPointList relationPoints) {
 		// Calculate new Relation position and size
-		Rectangle newSize = createRectangleContainingAllPoints(relationPoints);
+		Rectangle newSize = relationPoints.createRectangleContainingAllPointsAndTextSpace();
 		if (newSize == null) {
 			throw new RuntimeException("This relation has no points: " + relationPoints);
 		}
@@ -29,25 +29,11 @@ public class RelationPointsUtils {
 		return newSize;
 	}
 
-	private static Rectangle createRectangleContainingAllPoints(PointDoubleHolderList relationPoints) {
-		Rectangle rectangleContainingAllPoints = null;
-		for (RelationPoint p : relationPoints.getPointHolders()) {
-			Rectangle absoluteRectangle = p.toRectangle();
-			if (rectangleContainingAllPoints == null) {
-				rectangleContainingAllPoints = absoluteRectangle;
-			}
-			else {
-				rectangleContainingAllPoints.merge(absoluteRectangle);
-			}
-		}
-		return rectangleContainingAllPoints;
-	}
-
 	static Rectangle toRectangle(PointDouble p, double size) {
 		return new Rectangle(p.x - size, p.y - size, size * 2, size * 2);
 	}
 
-	static PointDoubleIndexed getRelationPointContaining(Point point, PointDoubleHolderList points) {
+	static PointDoubleIndexed getRelationPointContaining(Point point, RelationPointList points) {
 		for (RelationPoint relationPoint : points.getPointHolders()) {
 			if (relationPoint.toRectangle().contains(point)) {
 				return relationPoint.getPoint();

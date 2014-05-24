@@ -5,10 +5,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
@@ -23,10 +21,10 @@ public class RelationPoints implements ResizableObject {
 	/**
 	 * Points of this relation (point of origin is the upper left corner of the relation element (not the drawpanel!))
 	 */
-	private PointDoubleHolderList points = new PointDoubleHolderList();
+	private RelationPointList points = new RelationPointList();
 	private final Relation relation;
 
-	public RelationPoints(Relation relation, PointDoubleHolderList points) {
+	public RelationPoints(Relation relation, RelationPointList points) {
 		super();
 		this.relation = relation;
 		this.points = points;
@@ -164,20 +162,14 @@ public class RelationPoints implements ResizableObject {
 		return points.toAdditionalAttributesString();
 	}
 
-	private static final int BUFFER = 2; // a small buffer to make sure full description text is visible
+	public void setTextBox(int index, Rectangle rect) {
+		points.setTextBox(index, rect);
+	}
 
 	@Override
-	public void resizeToMatchMinSize(DimensionDouble minDimension) {
-		Rectangle rectangle = relation.getRectangle();
-		int zoomedMinWidth = (int) (relation.getGridSize() * (minDimension.getWidth() + BUFFER) / SharedConstants.DEFAULT_GRID_SIZE);
-		int zoomedMinHeight = (int) (relation.getGridSize() * (minDimension.getHeight() + BUFFER) / SharedConstants.DEFAULT_GRID_SIZE);
-		if (rectangle.getWidth() < zoomedMinWidth) {
-			rectangle.setWidth(zoomedMinWidth);
-		}
-		if (rectangle.getHeight() < zoomedMinHeight) {
-			rectangle.setHeight(zoomedMinHeight);
-		}
-		relation.setRectangle(rectangle);
+	public void setPointMinSize(int index, Rectangle size) {
+		SharedUtils.realignToGrid(size);
+		points.setSize(index, size);
 	}
 
 	@Override
@@ -185,10 +177,4 @@ public class RelationPoints implements ResizableObject {
 		return points.toString();
 	}
 
-	@Override
-	public void setPointMinSize(int index, Rectangle size) {
-		SharedUtils.realignToGrid(size);
-		points.setSize(index, size);
-		resizeRectAndReposPoints();
-	}
 }
