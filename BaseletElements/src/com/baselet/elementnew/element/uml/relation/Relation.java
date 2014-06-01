@@ -35,11 +35,9 @@ public class Relation extends NewGridElement implements Stickable {
 	@Override
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		state.setStickingPolygonGenerator(NoStickingPolygonGenerator.INSTANCE);
-		// relationPoints.drawLinesBetweenPoints(drawer);
 		if (!state.getFacetResponse(RelationLineTypeFacet.class, false)) {
 			RelationLineTypeFacet.drawDefaultLineAndArrows(drawer, relationPoints);
 		}
-		relationPoints.resizeRectAndReposPoints(); // line description and relation-endings can change the relation size, therefore recalc it now
 	}
 
 	@Override

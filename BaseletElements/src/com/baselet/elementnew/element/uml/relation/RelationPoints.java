@@ -112,7 +112,7 @@ public class RelationPoints implements ResizableObject {
 		return movePointAndResizeRectangle(Arrays.asList(new PointChange(point, diffX, diffY))).get(0);
 	}
 
-	void resizeRectAndReposPoints() {
+	public void resizeRectAndReposPoints() {
 		// now rebuild width and height of the relation, based on the new positions of the relation-points
 		Rectangle newRect = RelationPointsUtils.calculateRelationRectangleBasedOnPoints(relation.getRectangle().getUpperLeftCorner(), relation.getGridSize(), points);
 		relation.setRectangle(newRect);
