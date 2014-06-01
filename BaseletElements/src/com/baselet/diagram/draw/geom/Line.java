@@ -2,6 +2,8 @@ package com.baselet.diagram.draw.geom;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.enumerations.Direction;
+
 public class Line {
 
 	private static final Logger log = Logger.getLogger(Line.class);
@@ -64,6 +66,27 @@ public class Line {
 
 	public PointDouble[] toPoints() {
 		return new PointDouble[] { start, end };
+	}
+
+	public Direction getDirectionOfLineEnd(boolean directionOfStart) {
+		double angleOfSlope = getAngleOfSlope();
+		Direction direction;
+		if (angleOfSlope > 315 || angleOfSlope < 45) {
+			direction = Direction.RIGHT;
+		}
+		else if (angleOfSlope < 135) {
+			direction = Direction.DOWN;
+		}
+		else if (angleOfSlope < 225) {
+			direction = Direction.LEFT;
+		}
+		else {
+			direction = Direction.UP;
+		}
+		if (!directionOfStart) {
+			direction = direction.invert();
+		}
+		return direction;
 	}
 
 	@Override
