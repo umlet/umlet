@@ -75,6 +75,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 	private static void drawLineAndArrows(DrawHandler drawer, RelationPoints relationPoints, Match<LineType> lineType, Match<ArrowEnd> leftArrow, Match<ArrowEnd> rightArrow) {
 		drawLineBetweenPoints(drawer, relationPoints, lineType.type);
 		drawArrowEnds(drawer, relationPoints, leftArrow, rightArrow);
+		relationPoints.resizeRectAndReposPoints(); // line description and relation-endings can change the relation size, therefore recalc it now
 	}
 
 	private static void drawArrowEnds(DrawHandler drawer, RelationPoints relationPoints, Match<ArrowEnd> leftArrow, Match<ArrowEnd> rightArrow) {
