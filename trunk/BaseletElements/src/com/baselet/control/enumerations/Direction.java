@@ -1,5 +1,20 @@
 package com.baselet.control.enumerations;
 
 public enum Direction {
-	LEFT, RIGHT, UP, DOWN
+	LEFT, RIGHT, UP, DOWN;
+
+	public Direction invert() {
+		switch (this) {
+			case LEFT:
+				return RIGHT;
+			case RIGHT:
+				return LEFT;
+			case UP:
+				return DOWN;
+			case DOWN:
+				return UP;
+			default:
+				throw new RuntimeException("missing invert mapping");
+		}
+	}
 }

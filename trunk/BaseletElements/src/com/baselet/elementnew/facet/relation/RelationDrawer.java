@@ -88,8 +88,8 @@ public class RelationDrawer {
 			drawOnStart = !drawOnStart;
 		}
 		int arrowAngle = drawOnStart ? 150 : 30;
-		PointDouble p1 = calcPoint(point, angleOfSlopeOfLine - arrowAngle);
-		PointDouble p2 = calcPoint(point, angleOfSlopeOfLine + arrowAngle);
+		PointDouble p1 = calcPoint(point, line.getAngleOfSlope() - arrowAngle);
+		PointDouble p2 = calcPoint(point, line.getAngleOfSlope() + arrowAngle);
 		List<PointDouble> points = new ArrayList<PointDouble>(Arrays.asList(p1, point, p2));
 		if (arrowEndType == ArrowEndType.CLOSED) {
 			points.add(p1);
@@ -127,16 +127,25 @@ public class RelationDrawer {
 		if (openDirection == null) { // full circle
 			drawer.drawCircle(point.getX(), point.getY(), RelationPoints.POINT_SELECTION_RADIUS);
 		}
-		else { // interface half circle
+		else if (openDirection == Direction.LEFT || openDirection == Direction.RIGHT) { // interface half circle
 			ColorOwn bg = drawer.getStyle().getBackgroundColor();
 			drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
+
 			int circleRadius = RelationPoints.POINT_SELECTION_RADIUS * 3;
-			if (openDirection == Direction.LEFT) {
-				drawer.drawArc(point.getX() - circleRadius, point.getY() - circleRadius / 2, circleRadius, circleRadius, -90, 180, true);
-			}
-			else if (openDirection == Direction.RIGHT) {
+			Direction directionOfCircle = line.getDirectionOfLineEnd(drawOnStart);
+			if (directionOfCircle == Direction.RIGHT) {
 				drawer.drawArc(point.getX(), point.getY() - circleRadius / 2, circleRadius, circleRadius, 90, 180, true);
 			}
+			else if (directionOfCircle == Direction.DOWN) {
+				drawer.drawArc(point.getX() - circleRadius / 2, point.getY(), circleRadius, circleRadius, 0, 180, true);
+			}
+			else if (directionOfCircle == Direction.LEFT) {
+				drawer.drawArc(point.getX() - circleRadius, point.getY() - circleRadius / 2, circleRadius, circleRadius, -90, 180, true);
+			}
+			else {
+				drawer.drawArc(point.getX() - circleRadius / 2, point.getY() - circleRadius, circleRadius, circleRadius, -180, 180, true);
+			}
+
 			drawer.setBackgroundColor(bg);
 		}
 	}
