@@ -25,6 +25,10 @@ public class Line {
 		return end;
 	}
 
+	public PointDouble getPoint(boolean start) {
+		return start ? getStart() : getEnd();
+	}
+
 	public PointDouble getCenter() {
 		return new PointDouble((start.getX() + end.getX()) / 2, (start.getY() + end.getY()) / 2);
 	}

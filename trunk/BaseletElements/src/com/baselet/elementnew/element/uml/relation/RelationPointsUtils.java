@@ -35,7 +35,7 @@ public class RelationPointsUtils {
 
 	static PointDoubleIndexed getRelationPointContaining(Point point, RelationPointList points) {
 		for (RelationPoint relationPoint : points.getPointHolders()) {
-			if (relationPoint.toRectangle().contains(point)) {
+			if (relationPoint.getSizeAbsolute().contains(point)) {
 				return relationPoint.getPoint();
 			}
 		}

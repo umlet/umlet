@@ -20,9 +20,18 @@ public class SharedUtils {
 		return realignTo(true, d, false, SharedConstants.DEFAULT_GRID_SIZE);
 	}
 
-	public static void realignToGrid(Rectangle rectangle) {
-		rectangle.setLocation(realignToGrid(false, rectangle.getX(), false), realignToGrid(false, rectangle.getY(), false));
-		rectangle.setSize(realignToGrid(false, rectangle.getWidth(), true), realignToGrid(false, rectangle.getHeight(), true));
+	/**
+	 * realigns a rectangle to the grid enlarging any side if necessary (eg: x=9, width=10, x2=19 will be realigned to x=0, width=20, x2=20)
+	 * 
+	 * @param rectangle rectangle to realign
+	 * @return a realigned copy of the input rectangle
+	 */
+	public static Rectangle realignToGrid(Rectangle rectangle) {
+		int x = realignToGrid(false, rectangle.getX(), false);
+		int y = realignToGrid(false, rectangle.getY(), false);
+		int width = realignToGrid(false, rectangle.getX() - x + rectangle.getWidth(), true); // IMPORTANT: the difference from original x and realigned x must be added, otherwise the upper example would return x=0, width=10, x2=10. x2 would be too small
+		int height = realignToGrid(false, rectangle.getY() - y + rectangle.getHeight(), true);
+		return new Rectangle(x, y, width, height);
 	}
 
 	/**

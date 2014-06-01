@@ -3,11 +3,12 @@ package com.baselet.elementnew.element.uml.relation;
 import com.baselet.diagram.draw.geom.Rectangle;
 
 public class RelationPoint {
+	static final Rectangle DEFAULT_SIZE = new Rectangle(-RelationPoints.POINT_SELECTION_RADIUS, -RelationPoints.POINT_SELECTION_RADIUS, RelationPoints.POINT_SELECTION_RADIUS * 2, RelationPoints.POINT_SELECTION_RADIUS * 2);
 	private final PointDoubleIndexed point;
 	private Rectangle size;
 
 	public RelationPoint(int index, double x, double y) {
-		this(index, x, y, new Rectangle(-RelationPoints.POINT_SELECTION_RADIUS, -RelationPoints.POINT_SELECTION_RADIUS, RelationPoints.POINT_SELECTION_RADIUS * 2, RelationPoints.POINT_SELECTION_RADIUS * 2));
+		this(index, x, y, DEFAULT_SIZE);
 	}
 
 	public RelationPoint(int index, double x, double y, Rectangle size) {
@@ -28,7 +29,7 @@ public class RelationPoint {
 		this.size = size;
 	}
 
-	public Rectangle toRectangle() {
+	public Rectangle getSizeAbsolute() {
 		return new Rectangle(point.getX() + size.getX(), point.getY() + size.getY(), (double) size.getWidth(), (double) size.getHeight());
 	}
 }

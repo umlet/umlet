@@ -7,10 +7,10 @@ import java.util.Set;
 
 import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.Direction;
-import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.StickableMap;
@@ -37,7 +37,7 @@ public class Relation extends NewGridElement implements Stickable {
 		state.setStickingPolygonGenerator(NoStickingPolygonGenerator.INSTANCE);
 		// relationPoints.drawLinesBetweenPoints(drawer);
 		if (!state.getFacetResponse(RelationLineTypeFacet.class, false)) {
-			RelationLineTypeFacet.drawLineBetweenPoints(drawer, relationPoints, LineType.SOLID);
+			RelationLineTypeFacet.drawDefaultLineAndArrows(drawer, relationPoints);
 		}
 		relationPoints.resizeRectAndReposPoints(); // line description and relation-endings can change the relation size, therefore recalc it now
 	}
@@ -51,6 +51,8 @@ public class Relation extends NewGridElement implements Stickable {
 		if (SharedConstants.dev_mode) {
 			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 			drawer.drawRectangle(0, 0, getRealSize().getWidth(), getRealSize().getHeight());
+			drawer.setBackgroundColor(ColorOwn.GREEN.transparency(Transparency.BACKGROUND));
+			relationPoints.drawSelectionSpace(drawer);
 		}
 
 		drawer.setForegroundColor(ColorOwn.SELECTION_FG);
