@@ -9,10 +9,13 @@ import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.control.enumerations.RegexValueHolder;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.elementnew.PropertiesParserState;
+import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
 import com.baselet.elementnew.element.uml.relation.RelationPoints;
+import com.baselet.elementnew.element.uml.relation.ResizableObject;
 import com.baselet.elementnew.element.uml.relation.SettingsRelation;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
@@ -61,24 +64,35 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		Match<ArrowEnd> rightArrow = extractPart(RIGHT_ARROW_STRINGS, null);
 		log.debug("Split Relation " + value + " into following parts: " + getValueNotNull(leftArrow) + " | " + getValueNotNull(lineType) + " | " + getValueNotNull(rightArrow));
 
-		drawLineBetweenPoints(drawer, relationPoints, lineType.type);
-		drawArrowEnds(drawer, relationPoints, leftArrow, rightArrow);
+		drawLineAndArrows(drawer, relationPoints, lineType, leftArrow, rightArrow);
 		state.setFacetResponse(RelationLineTypeFacet.class, true); // let Relation know that lt= is set
 	}
 
-	private void drawArrowEnds(DrawHandler drawer, RelationPoints relationPoints, Match<ArrowEnd> leftArrow, Match<ArrowEnd> rightArrow) {
+	public static void drawDefaultLineAndArrows(DrawHandler drawer, RelationPoints relationPoints) {
+		drawLineAndArrows(drawer, relationPoints, new Match<LineType>("", LineType.SOLID), new Match<ArrowEnd>("", null), new Match<ArrowEnd>("", null));
+	}
+
+	private static void drawLineAndArrows(DrawHandler drawer, RelationPoints relationPoints, Match<LineType> lineType, Match<ArrowEnd> leftArrow, Match<ArrowEnd> rightArrow) {
+		drawLineBetweenPoints(drawer, relationPoints, lineType.type);
+		drawArrowEnds(drawer, relationPoints, leftArrow, rightArrow);
+	}
+
+	private static void drawArrowEnds(DrawHandler drawer, RelationPoints relationPoints, Match<ArrowEnd> leftArrow, Match<ArrowEnd> rightArrow) {
 		ColorOwn oldBgColor = drawer.getStyle().getBackgroundColor();
 		drawer.setBackgroundColor(oldBgColor.transparency(Transparency.FOREGROUND)); // arrow background is not transparent
-		if (leftArrow.type != null) {
-			leftArrow.type.print(drawer, relationPoints, relationPoints.getFirstLine(), true, leftArrow.text, relationPoints);
-		}
-		if (rightArrow.type != null) {
-			rightArrow.type.print(drawer, relationPoints, relationPoints.getLastLine(), false, rightArrow.text, relationPoints);
-		}
+		print(drawer, relationPoints, leftArrow, relationPoints.getFirstLine(), true);
+		print(drawer, relationPoints, rightArrow, relationPoints.getLastLine(), false);
 		drawer.setBackgroundColor(oldBgColor); // reset background
 	}
 
-	public static void drawLineBetweenPoints(DrawHandler drawer, RelationPoints relationPoints, LineType lineType) {
+	private static void print(DrawHandler drawer, ResizableObject relationPoints, Match<ArrowEnd> match, Line line, boolean drawOnLineStart) {
+		relationPoints.resetPointMinSize(((PointDoubleIndexed) line.getPoint(drawOnLineStart)).getIndex());
+		if (match.type != null) {
+			match.type.print(drawer, line, drawOnLineStart, match.text, relationPoints);
+		}
+	}
+
+	private static void drawLineBetweenPoints(DrawHandler drawer, RelationPoints relationPoints, LineType lineType) {
 		LineType oldLt = drawer.getStyle().getLineType();
 		drawer.setLineType(lineType);
 		relationPoints.drawLinesBetweenPoints(drawer);

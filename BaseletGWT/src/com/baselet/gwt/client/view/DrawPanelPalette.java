@@ -81,7 +81,7 @@ public class DrawPanelPalette extends DrawPanel {
 				int verticalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getVerticalScrollPosition() - scrollPanel.getVerticalScrollPosition();
 				int horizontalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getHorizontalScrollPosition() - scrollPanel.getHorizontalScrollPosition();
 				copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width + horizontalScrollbarDiff, paletteChooser.getOffsetHeight() + verticalScrollbarDiff);
-				SharedUtils.realignToGrid(copy.getRectangle());
+				copy.setRectangle(SharedUtils.realignToGrid(copy.getRectangle()));
 				elementsToMove.add(copy);
 			}
 			GroupFacet.replaceGroupsWithNewGroups(elementsToMove, otherDrawFocusPanel.getSelector());

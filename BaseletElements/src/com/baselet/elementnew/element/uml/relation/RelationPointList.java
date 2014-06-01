@@ -86,7 +86,7 @@ public class RelationPointList {
 		int displacementX = Integer.MAX_VALUE;
 		int displacementY = Integer.MAX_VALUE;
 		for (RelationPoint p : points) {
-			Rectangle r = p.toRectangle();
+			Rectangle r = p.getSizeAbsolute();
 			displacementX = Math.min(displacementX, r.getX());
 			displacementY = Math.min(displacementY, r.getY());
 		}
@@ -196,7 +196,7 @@ public class RelationPointList {
 	public Rectangle createRectangleContainingAllPointsAndTextSpace() {
 		Rectangle rectangleContainingAllPointsAndTextSpace = null;
 		for (RelationPoint p : points) {
-			rectangleContainingAllPointsAndTextSpace = addWithNullCheck(rectangleContainingAllPointsAndTextSpace, p.toRectangle());
+			rectangleContainingAllPointsAndTextSpace = addWithNullCheck(rectangleContainingAllPointsAndTextSpace, p.getSizeAbsolute());
 		}
 		for (Rectangle textSpace : textBoxSpace.values()) {
 			rectangleContainingAllPointsAndTextSpace = addWithNullCheck(rectangleContainingAllPointsAndTextSpace, textSpace);
