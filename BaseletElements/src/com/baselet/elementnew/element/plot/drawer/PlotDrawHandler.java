@@ -32,8 +32,8 @@ public class PlotDrawHandler {
 	private Double minVal = null;
 	private Double maxVal = null;
 	private List<String> colors;
-	private Canvas canvas;
-	private AxisConfig axisConfig;
+	private final Canvas canvas;
+	private final AxisConfig axisConfig;
 
 	public PlotDrawHandler(DrawHandler baseDrawHandler, Dimension size) {
 		base = baseDrawHandler;
@@ -483,7 +483,7 @@ public class PlotDrawHandler {
 			int height = canvas.getInnerVerticalDrawspace();
 			int width = canvas.getInnerHorizontalDrawspace();
 
-			base.drawArcPie(ulCorner.x + width / 2 - diameter / 2, ulCorner.y + height / 2 - diameter / 2, diameter, diameter, startAngle.floatValue(), arcAngle.floatValue());
+			base.drawArc(ulCorner.x + width / 2 - diameter / 2, ulCorner.y + height / 2 - diameter / 2, diameter, diameter, startAngle.floatValue(), arcAngle.floatValue(), false);
 			base.setForegroundColor(currentFg);
 
 			double radians = (360 - startAngle + (360 - arcAngle / 2)) * Math.PI / 180.0;

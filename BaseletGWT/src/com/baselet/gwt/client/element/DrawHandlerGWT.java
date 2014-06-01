@@ -50,19 +50,27 @@ public class DrawHandlerGWT extends DrawHandler {
 	}
 
 	@Override
-	public void drawArcPie(final double x, final double y, final double width, final double height, final double start, final double extent) {
+	public void drawArc(final double x, final double y, final double width, final double height, final double start, final double extent, final boolean open) {
 		final Style styleAtDrawingCall = style.cloneFromMe();
-		addDrawable(new DrawFunction() { // start = alles bisherige, extends = currentval
+		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
 				setStyle(ctx, styleAtDrawingCall);
 
 				double centerX = x + width / 2 + HALF_PX;
 				double centerY = y + height / 2 + HALF_PX;
-				ctx.beginPath();
-				ctx.moveTo(centerX, centerY);
+				if (open) { // if arc should be open, move before the path begins
+					ctx.moveTo(centerX, centerY);
+					ctx.beginPath();
+				}
+				else { // otherwise the move is part of the path
+					ctx.beginPath();
+					ctx.moveTo(centerX, centerY);
+				}
 				ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
-				ctx.closePath();
+				if (!open) { // close path only if arc is not open
+					ctx.closePath();
+				}
 				ctx.fill();
 				ctx.stroke();
 			}
