@@ -72,7 +72,7 @@ public class RelationDrawer {
 	}
 
 	private static PointDoubleIndexed drawBox(DrawHandler drawer, Line line, boolean drawOnStart, double width, double height) {
-		PointDoubleIndexed point = (PointDoubleIndexed) (drawOnStart ? line.getStart() : line.getEnd());
+		PointDoubleIndexed point = (PointDoubleIndexed) getPointToDraw(line, drawOnStart);
 		drawer.drawRectangle(point.getX() - width / 2, point.getY() - height / 2, width, height);
 		return point;
 	}
@@ -82,7 +82,7 @@ public class RelationDrawer {
 	}
 
 	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, ArrowEndType arrowEndType, boolean fillBody) {
-		PointDouble point = drawOnStart ? line.getStart() : line.getEnd();
+		PointDouble point = getPointToDraw(line, drawOnStart);
 		double angleOfSlopeOfLine = line.getAngleOfSlope();
 		if (arrowEndType == ArrowEndType.INVERSE) {
 			drawOnStart = !drawOnStart;
@@ -112,9 +112,32 @@ public class RelationDrawer {
 		}
 	}
 
+	private static PointDouble getPointToDraw(Line line, boolean drawOnStart) {
+		return drawOnStart ? line.getStart() : line.getEnd();
+	}
+
 	private static PointDouble calcPoint(PointDouble point, double angleTotal) {
 		double x = point.x + ARROW_LENGTH * Math.cos(Math.toRadians(angleTotal));
 		double y = point.y + ARROW_LENGTH * Math.sin(Math.toRadians(angleTotal));
 		return new PointDouble(x, y);
+	}
+
+	public static void drawCircle(DrawHandler drawer, Line line, boolean drawOnStart, Direction openDirection) {
+		PointDouble point = getPointToDraw(line, drawOnStart);
+		if (openDirection == null) { // full circle
+			drawer.drawCircle(point.getX(), point.getY(), RelationPoints.POINT_SELECTION_RADIUS);
+		}
+		else { // interface half circle
+			ColorOwn bg = drawer.getStyle().getBackgroundColor();
+			drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
+			int circleRadius = RelationPoints.POINT_SELECTION_RADIUS * 3;
+			if (openDirection == Direction.LEFT) {
+				drawer.drawArc(point.getX() - circleRadius, point.getY() - circleRadius / 2, circleRadius, circleRadius, -90, 180, true);
+			}
+			else if (openDirection == Direction.RIGHT) {
+				drawer.drawArc(point.getX(), point.getY() - circleRadius / 2, circleRadius, circleRadius, 90, 180, true);
+			}
+			drawer.setBackgroundColor(bg);
+		}
 	}
 }

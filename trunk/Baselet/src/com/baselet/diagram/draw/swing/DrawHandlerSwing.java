@@ -30,7 +30,7 @@ public class DrawHandlerSwing extends DrawHandler {
 
 	private boolean translate; // is used because pdf and svg export cut lines if they are drawn at (0,0)
 
-	private GridElement gridElement;
+	private final GridElement gridElement;
 
 	public DrawHandlerSwing(GridElement gridElement) {
 		super();
@@ -99,10 +99,11 @@ public class DrawHandlerSwing extends DrawHandler {
 
 	/* DRAW METHODS */
 	@Override
-	public void drawArcPie(double x, double y, double width, double height, double start, double extent) {
+	public void drawArc(double x, double y, double width, double height, double start, double extent, boolean open) {
 		double xZoomed = x * getZoom() + HALF_PX;
 		double yZoomed = y * getZoom() + HALF_PX;
-		addShape(new Arc2D.Double(xZoomed, yZoomed, inBorderHorizontal(width * getZoom(), xZoomed), inBorderVertical(height * getZoom(), yZoomed), start, extent, Arc2D.PIE));
+		int arcType = open ? Arc2D.OPEN : Arc2D.PIE;
+		addShape(new Arc2D.Double(xZoomed, yZoomed, inBorderHorizontal(width * getZoom(), xZoomed), inBorderVertical(height * getZoom(), yZoomed), start, extent, arcType));
 	}
 
 	@Override

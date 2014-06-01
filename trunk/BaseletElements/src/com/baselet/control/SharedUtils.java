@@ -118,9 +118,10 @@ public class SharedUtils {
 		return sb.toString();
 	}
 
-	public static <T> List<T> mergeLists(List<T> listA, List<T> listB) {
+	public static <T> List<T> mergeLists(List<T> listA, List<T> listB, List<T> listC) {
 		List<T> returnList = new ArrayList<T>(listA);
 		returnList.addAll(listB);
+		returnList.addAll(listC);
 		return Collections.unmodifiableList(returnList);
 	}
 

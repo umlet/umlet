@@ -26,9 +26,9 @@ public abstract class DrawHandler {
 
 	protected Style style = new Style();
 
-	private ArrayList<DrawFunction> drawables = new ArrayList<DrawFunction>();
-	private ArrayList<DrawFunction> drawablesDelayed = new ArrayList<DrawFunction>();
-	private Style overlay = new Style();
+	private final ArrayList<DrawFunction> drawables = new ArrayList<DrawFunction>();
+	private final ArrayList<DrawFunction> drawablesDelayed = new ArrayList<DrawFunction>();
+	private final Style overlay = new Style();
 
 	private boolean drawDelayed = false;
 
@@ -215,7 +215,15 @@ public abstract class DrawHandler {
 		print(text, new PointDouble(x, y), align);
 	}
 
-	public abstract void drawArcPie(double x, double y, double width, double height, double start, double extent);
+	/**
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param start 0 starts as a horizontal line
+	 * @param extent can be up to 360 (extend in degrees from param start)
+	 */
+	public abstract void drawArc(double x, double y, double width, double height, double start, double extent, boolean open);
 
 	public abstract void drawCircle(double x, double y, double radius);
 
