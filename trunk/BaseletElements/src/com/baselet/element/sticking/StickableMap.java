@@ -14,22 +14,26 @@ import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
 public class StickableMap {
 	public static final StickableMap EMPTY_MAP = new StickableMap();
 
-	Map<Stickable, List<PointDoubleIndexed>> map = new HashMap<Stickable, List<PointDoubleIndexed>>();
+	/**
+	 * only the index of sticking points is stored here, because the position of the sticking point can change inbetween
+	 * (eg: a relation with description text which moves around and needs space on any side of the relation, therefore resizing and repositioning the relation)
+	 */
+	Map<Stickable, List<Integer>> stickingIndexMap = new HashMap<Stickable, List<Integer>>();
 
 	public StickableMap() {}
 
 	public boolean equalsMap(StickableMap other) {
-		return checkMapsEqual(map, other.map);
+		return checkMapsEqual(stickingIndexMap, other.stickingIndexMap);
 	}
 
-	private static boolean checkMapsEqual(Map<Stickable, List<PointDoubleIndexed>> mapA, Map<Stickable, List<PointDoubleIndexed>> mapB) {
+	private static boolean checkMapsEqual(Map<Stickable, List<Integer>> mapA, Map<Stickable, List<Integer>> mapB) {
 		if (!containSameElements(mapA.keySet(), mapB.keySet())) {
 			return false; // keys are not equal
 		}
 
-		for (Entry<Stickable, List<PointDoubleIndexed>> entry : mapA.entrySet()) {
-			List<PointDoubleIndexed> setA = entry.getValue();
-			List<PointDoubleIndexed> setB = mapB.get(entry.getKey());
+		for (Entry<Stickable, List<Integer>> entry : mapA.entrySet()) {
+			List<Integer> setA = entry.getValue();
+			List<Integer> setB = mapB.get(entry.getKey());
 			if (!containSameElements(setA, setB)) {
 				return false; // values for this key are not equal
 			}
@@ -43,7 +47,7 @@ public class StickableMap {
 	}
 
 	public boolean isEmpty() {
-		for (List<PointDoubleIndexed> valueList : map.values()) {
+		for (List<Integer> valueList : stickingIndexMap.values()) {
 			if (!valueList.isEmpty()) {
 				return false;
 			}
@@ -52,29 +56,41 @@ public class StickableMap {
 	}
 
 	public void add(Stickable stickable, PointDoubleIndexed p) {
-		List<PointDoubleIndexed> points = map.get(stickable);
+		List<Integer> points = stickingIndexMap.get(stickable);
 		if (points == null) {
-			points = new ArrayList<PointDoubleIndexed>();
-			map.put(stickable, points);
+			points = new ArrayList<Integer>();
+			stickingIndexMap.put(stickable, points);
 		}
-		points.add(p);
+		points.add(p.getIndex());
 	}
 
 	public Set<Stickable> getStickables() {
-		return map.keySet();
+		return stickingIndexMap.keySet();
 	}
 
 	public List<PointDoubleIndexed> getStickablePoints(Stickable stickable) {
-		return map.get(stickable);
+		// get the points of all indexes which stick (must be done now and not cached, because every info of the points except the index can change!
+		List<Integer> stickingIndexes = stickingIndexMap.get(stickable);
+		List<PointDoubleIndexed> returnList = new ArrayList<PointDoubleIndexed>();
+		for (PointDoubleIndexed p : stickable.getStickablePoints()) {
+			if (stickingIndexes.contains(p.getIndex())) {
+				returnList.add(p);
+			}
+		}
+		return returnList;
 	}
 
 	public void setStickablePoints(Stickable stickable, List<PointDoubleIndexed> updatedChangedPoints) {
-		map.put(stickable, updatedChangedPoints);
+		List<Integer> indexList = new ArrayList<Integer>();
+		for (PointDoubleIndexed p : updatedChangedPoints) {
+			indexList.add(p.getIndex());
+		}
+		stickingIndexMap.put(stickable, indexList);
 	}
 
 	@Override
 	public String toString() {
-		return "StickableMap [map=" + SharedUtils.mapToString("\n", ",", map) + "]";
+		return "StickableMap [map=" + SharedUtils.mapToString("\n", ",", stickingIndexMap) + "]";
 	}
 
 }
