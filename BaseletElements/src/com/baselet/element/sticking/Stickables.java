@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.SharedConstants;
+import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.element.sticking.StickingPolygon.StickLine;
 import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
@@ -39,6 +40,7 @@ public class Stickables {
 		// go through all stickpoints and handle the stickline-change
 		for (final Stickable stickable : stickablePointsToCheck.getStickables()) {
 			List<PointChange> calculatedChanges = handleStickLineChange(stickable, stickablePointsToCheck.getStickablePoints(stickable), changedStickLines, maxDistance);
+			System.out.println("MOVES " + SharedUtils.listToString(",", calculatedChanges));
 			if (!calculatedChanges.isEmpty()) {
 				List<PointDoubleIndexed> updatedChangedPoints = stickable.movePoints(calculatedChanges);
 				stickablePointsToCheck.setStickablePoints(stickable, updatedChangedPoints);
