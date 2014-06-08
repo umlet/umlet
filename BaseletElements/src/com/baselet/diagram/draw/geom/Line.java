@@ -39,7 +39,6 @@ public class Line {
 
 	public PointDouble getPointOnLineWithDistanceFromStart(double distance) {
 		PointDouble pointOnLineWithDistanceFromStart = GeometricFunctions.getPointOnLineWithDistanceFromStart(start, end, distance);
-		System.out.println(start + "/" + end + "/" + distance + "/" + pointOnLineWithDistanceFromStart);
 		return pointOnLineWithDistanceFromStart;
 	}
 
