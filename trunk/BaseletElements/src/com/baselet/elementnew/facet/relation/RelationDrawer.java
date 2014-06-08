@@ -117,7 +117,7 @@ public class RelationDrawer {
 		return new PointDouble(x, y);
 	}
 
-	public static void drawCircle(DrawHandler drawer, Line line, boolean drawOnStart, ResizableObject resizableObject, Direction openDirection) {
+	public static void drawCircle(DrawHandler drawer, Line line, boolean drawOnStart, ResizableObject resizableObject, Direction openDirection, boolean drawCross) {
 		PointDoubleIndexed point = (PointDoubleIndexed) line.getPoint(drawOnStart);
 		if (openDirection == null) { // full circle
 			drawer.drawCircle(point.getX(), point.getY(), RelationPoints.POINT_SELECTION_RADIUS);
@@ -146,6 +146,11 @@ public class RelationDrawer {
 			}
 
 			drawer.setBackgroundColor(bg);
+		}
+		if (drawCross) {
+			double length = RelationPoints.POINT_SELECTION_RADIUS / 2;
+			drawer.drawLine(point.getX() - length, point.getY(), point.getX() + length, point.getY());
+			drawer.drawLine(point.getX(), point.getY() - length, point.getX(), point.getY() + length);
 		}
 	}
 }
