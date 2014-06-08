@@ -15,7 +15,7 @@ public class Rectangle {
 	 * TODO as with DimensionDouble and PointDouble, Rectangle should also contain only double values in future!
 	 */
 	public Rectangle(Double x, Double y, Double width, Double height) {
-		this(x.intValue(), y.intValue(), width.intValue(), height.intValue());
+		this((int) Math.round(x), (int) Math.round(y), (int) Math.round(width), (int) Math.round(height));
 	}
 
 	public Rectangle(int x, int y, int width, int height) {
