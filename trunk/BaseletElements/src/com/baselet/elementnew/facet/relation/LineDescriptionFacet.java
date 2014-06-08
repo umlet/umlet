@@ -110,7 +110,6 @@ public class LineDescriptionFacet extends GlobalFacet {
 
 	private PointDouble littleDistanceIfAngleZero(PointDouble pointText, Line line) {
 		double angleOfSlope = line.getAngleOfSlope();
-		System.out.println(angleOfSlope);
 		if (angleOfSlope == 0.0 || angleOfSlope == 180.0) {
 			return new PointDouble(pointText.getX(), pointText.getY() - DISTANCE_TO_LINE);
 		}
