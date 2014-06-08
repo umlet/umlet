@@ -83,13 +83,9 @@ public class RelationPointList {
 	}
 
 	void moveRelationPointsOriginToUpperLeftCorner() {
-		int displacementX = Integer.MAX_VALUE;
-		int displacementY = Integer.MAX_VALUE;
-		for (RelationPoint p : points) {
-			Rectangle r = p.getSizeAbsolute();
-			displacementX = Math.min(displacementX, r.getX());
-			displacementY = Math.min(displacementY, r.getY());
-		}
+		Rectangle rect = createRectangleContainingAllPointsAndTextSpace();
+		int displacementX = SharedUtils.realignToGrid(false, rect.getX(), false);
+		int displacementY = SharedUtils.realignToGrid(false, rect.getY(), false);
 		moveRelationPointsBy(-displacementX, -displacementY);
 	}
 

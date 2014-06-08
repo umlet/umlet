@@ -20,8 +20,8 @@ public class StringStyle {
 	}
 
 	public static StringStyle analyseStyle(String s) {
-		s = replaceNotEscaped(s, "<<", "\u00AB");
-		s = replaceNotEscaped(s, ">>", "\u00BB");
+		s = replaceNotEscaped(s, SharedConstants.LEFT_QUOTATION, "\u00AB");
+		s = replaceNotEscaped(s, SharedConstants.RIGHT_QUOTATION, "\u00BB");
 		StringStyle stringStyle = analyzeFormatLabels(s);
 		return stringStyle;
 	}

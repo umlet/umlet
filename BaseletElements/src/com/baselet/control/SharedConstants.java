@@ -5,6 +5,9 @@ package com.baselet.control;
  */
 public class SharedConstants {
 
+	public static final String LEFT_QUOTATION = "<<";
+	public static final String RIGHT_QUOTATION = ">>";
+
 	public enum RuntimeType {
 		STANDALONE, ECLIPSE_PLUGIN, BATCH
 	}
