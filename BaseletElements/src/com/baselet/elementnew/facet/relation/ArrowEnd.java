@@ -60,7 +60,7 @@ abstract class ArrowEnd implements RegexValueHolder {
 	static ArrowEnd LEFT_INTERFACE_OPEN = new ArrowEnd("\\)") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawCircle(drawer, lineToDraw, drawOnLineStart, resizableObject, Direction.LEFT);
+			RelationDrawer.drawCircle(drawer, lineToDraw, drawOnLineStart, resizableObject, Direction.LEFT, false);
 		}
 	};
 
@@ -102,14 +102,21 @@ abstract class ArrowEnd implements RegexValueHolder {
 	static ArrowEnd RIGHT_INTERFACE_OPEN = new ArrowEnd("\\(") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawCircle(drawer, lineToDraw, drawOnLineStart, resizableObject, Direction.RIGHT);
+			RelationDrawer.drawCircle(drawer, lineToDraw, drawOnLineStart, resizableObject, Direction.RIGHT, false);
+		}
+	};
+
+	static ArrowEnd CIRCLE_CROSS = new ArrowEnd("\\(\\+\\)") {
+		@Override
+		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
+			RelationDrawer.drawCircle(drawer, lineToDraw, drawOnLineStart, resizableObject, null, true);
 		}
 	};
 
 	static ArrowEnd CIRCLE = new ArrowEnd("\\(\\)") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawCircle(drawer, lineToDraw, drawOnLineStart, resizableObject, null);
+			RelationDrawer.drawCircle(drawer, lineToDraw, drawOnLineStart, resizableObject, null, false);
 		}
 	};
 
