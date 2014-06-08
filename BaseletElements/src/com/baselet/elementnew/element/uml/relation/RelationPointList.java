@@ -186,7 +186,12 @@ public class RelationPointList {
 	}
 
 	public void setTextBox(int index, Rectangle rect) {
-		textBoxSpace.put(index, rect);
+		if (rect == null) {
+			textBoxSpace.remove(index);
+		}
+		else {
+			textBoxSpace.put(index, rect);
+		}
 	}
 
 	public Rectangle createRectangleContainingAllPointsAndTextSpace() {

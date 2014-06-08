@@ -1,7 +1,12 @@
 package com.baselet.elementnew.facet.relation;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -27,6 +32,13 @@ public class LineDescriptionFacet extends GlobalFacet {
 	private static final String MESSAGE_START_KEY = "m1";
 	private static final String MESSAGE_END_KEY = "m2";
 	private static final String MESSAGE_MIDDLE_KEY = "mm";
+
+	private static final Map<String, Integer> indexMap = new HashMap<String, Integer>();
+	static {
+		indexMap.put(MESSAGE_START_KEY, 0);
+		indexMap.put(MESSAGE_END_KEY, 1);
+		indexMap.put(MESSAGE_MIDDLE_KEY, 2);
+	}
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
@@ -73,11 +85,19 @@ public class LineDescriptionFacet extends GlobalFacet {
 			drawer.print(text, pointText, AlignHorizontal.LEFT);
 
 			// to make sure text is printed (and therefore withing relation-element-borders, resize relation according to text
-			int index = key.equals(MESSAGE_START_KEY) ? 0 : key.equals(MESSAGE_MIDDLE_KEY) ? 1 : key.equals(MESSAGE_END_KEY) ? 2 : -1;
+			int index = indexMap.get(key);
 			if (index != -1) {
 				relationPoints.setTextBox(index, new Rectangle(pointText.getX(), pointText.getY() - drawer.textHeight(), drawer.textWidth(text), drawer.textHeight()));
+				// and remember that this index is set
+				Set<Integer> alreadysetIndexes = state.getFacetResponse(LineDescriptionFacet.class, new HashSet<Integer>());
+				state.setFacetResponse(LineDescriptionFacet.class, alreadysetIndexes);
+				alreadysetIndexes.add(index);
 			}
 		}
+	}
+
+	public static Collection<Integer> getAllIndexes() {
+		return indexMap.values();
 	}
 
 	private double calcYDisplacement(double y1, double y2, DrawHandler drawer) {
