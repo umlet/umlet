@@ -73,8 +73,14 @@ public class LineDescriptionFacet extends GlobalFacet {
 				if (text.replaceAll(SharedConstants.LEFT_QUOTATION, "").startsWith("<")) {
 					text = "\u25C4 " + text.substring(1);
 				}
-				if (text.replaceAll(SharedConstants.RIGHT_QUOTATION, "").endsWith(">")) {
+				else if (text.replaceAll(SharedConstants.RIGHT_QUOTATION, "").endsWith(">")) {
 					text = text.substring(0, text.length() - 1) + " \u25BA";
+				}
+				else if (text.endsWith("^")) {
+					text = text.substring(0, text.length() - 1) + " \u25B2";
+				}
+				else if (text.endsWith("v")) {
+					text = text.substring(0, text.length() - 1) + " \u25BC";
 				}
 				pointText = calcPosOfMiddleText(relationPoints.getDragBox().getCenter(), drawer.textWidth(text));
 			}
