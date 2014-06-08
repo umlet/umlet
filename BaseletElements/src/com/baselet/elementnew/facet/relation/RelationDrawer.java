@@ -95,7 +95,7 @@ public class RelationDrawer {
 		}
 		else if (arrowEndType == ArrowEndType.DIAMOND) {
 			double lengthDiamond = GeometricFunctions.getDistanceBetweenLineAndPoint(p1, p2, point) * 2;
-			PointDouble pDiamond = drawOnStart ? line.getPointOnLineWithDistanceFromStart(lengthDiamond) : line.getPointOnLineWithDistanceFromEnd(lengthDiamond);
+			PointDouble pDiamond = drawOnStart ? line.getPointOnLineWithDistanceFrom(true, lengthDiamond) : line.getPointOnLineWithDistanceFrom(false, lengthDiamond);
 			points.add(pDiamond);
 			points.add(p1);
 		}
@@ -127,7 +127,7 @@ public class RelationDrawer {
 			drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 
 			double circleRadius = RelationPoints.POINT_SELECTION_RADIUS * 3;
-			Direction directionOfCircle = line.getDirectionOfLineEnd(drawOnStart);
+			Direction directionOfCircle = line.getDirectionOfLine(drawOnStart);
 			if (directionOfCircle == Direction.RIGHT) {
 				drawer.drawArc(point.getX(), point.getY() - circleRadius / 2, circleRadius, circleRadius, 90, 180, true);
 				resizableObject.setPointMinSize(point.getIndex(), new Rectangle(-circleRadius / 4, -circleRadius / 2, circleRadius * 0.75, circleRadius));

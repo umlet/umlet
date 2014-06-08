@@ -10,6 +10,7 @@ import java.util.Set;
 
 import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.PointDouble;
@@ -23,7 +24,6 @@ import com.baselet.gui.AutocompletionText;
 public class LineDescriptionFacet extends GlobalFacet {
 
 	private static final int DISTANCE_TO_LINE = 4;
-	private static final int DISTANCE_TO_ARROW = 4;
 
 	public static LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
 
@@ -63,14 +63,10 @@ public class LineDescriptionFacet extends GlobalFacet {
 		PointDouble pointText = null;
 		if (!text.isEmpty()) {
 			if (key.equals(MESSAGE_START_KEY)) {
-				Line arrowLine = relationPoints.getFirstLine();
-				double yDisp = calcYDisplacement(arrowLine.getStart().getY(), arrowLine.getEnd().getY(), drawer);
-				pointText = calcPosOfArrowText(arrowLine.getStart(), drawer.textWidth(text), drawer.textHeight(), yDisp);
+				pointText = calcPos(drawer, text, pointText, relationPoints.getFirstLine(), true);
 			}
 			else if (key.equals(MESSAGE_END_KEY)) {
-				Line arrowLine = relationPoints.getLastLine();
-				double yDisp = calcYDisplacement(arrowLine.getEnd().getY(), arrowLine.getStart().getY(), drawer);
-				pointText = calcPosOfArrowText(relationPoints.getLastLine().getEnd(), drawer.textWidth(text), drawer.textHeight(), yDisp);
+				pointText = calcPos(drawer, text, pointText, relationPoints.getLastLine(), false);
 			}
 			else /* if (key.equals(MESSAGE_MIDDLE_KEY)) */{
 				// replace < and > with UTF-8 triangles but avoid replacing quotations which are already replaced later
@@ -96,49 +92,40 @@ public class LineDescriptionFacet extends GlobalFacet {
 		}
 	}
 
-	public static Collection<Integer> getAllIndexes() {
-		return indexMap.values();
+	private PointDouble calcPos(DrawHandler drawer, String text, PointDouble pointText, Line line, boolean isStart) {
+		pointText = line.getPointOnLineWithDistanceFrom(isStart, 20);
+		pointText = littleDistanceIfAngleZero(pointText, line);
+		Direction lineDirection = line.getDirectionOfLine(isStart);
+		if (lineDirection == Direction.RIGHT) {
+			pointText = new PointDouble(pointText.getX() - drawer.textWidth(text), pointText.getY());
+		}
+		else if (lineDirection == Direction.UP) {
+			pointText = new PointDouble(pointText.getX() + DISTANCE_TO_LINE, pointText.getY() + drawer.textHeight() * 0.7);
+		}
+		else if (lineDirection == Direction.DOWN) {
+			pointText = new PointDouble(pointText.getX() + DISTANCE_TO_LINE, pointText.getY());
+		}
+		return pointText;
 	}
 
-	private double calcYDisplacement(double y1, double y2, DrawHandler drawer) {
-		if (y1 == y2) {
-			return DISTANCE_TO_LINE;
-		}
-		else if (y1 > y2) {
-			return drawer.textHeight();
+	private PointDouble littleDistanceIfAngleZero(PointDouble pointText, Line line) {
+		double angleOfSlope = line.getAngleOfSlope();
+		System.out.println(angleOfSlope);
+		if (angleOfSlope == 0.0 || angleOfSlope == 180.0) {
+			return new PointDouble(pointText.getX(), pointText.getY() - DISTANCE_TO_LINE);
 		}
 		else {
-			return -drawer.textHeight() - 10;
+			return pointText;
 		}
 	}
 
-	private PointDouble calcPosOfArrowText(PointDouble pointArrow, double textWidth, double textHeight, double yDisplacement) {
-		double textX = pointArrow.getX() + RelationPoints.POINT_SELECTION_RADIUS + DISTANCE_TO_ARROW; // default x-pos is at the right end of selectionradius
-		double textY = pointArrow.getY() - yDisplacement;
-
-		// if text would be placed on the right outside of the relation and there is enough space to place it inside, do so
-		double selectionDiameter = RelationPoints.POINT_SELECTION_RADIUS * 2;
-		double textXWithinRelationSpace = textX - textWidth - selectionDiameter - DISTANCE_TO_ARROW * 2;
-		if (textXWithinRelationSpace > selectionDiameter) {
-			textX = textXWithinRelationSpace;
-		}
-
-		// if text wouldn't fit on top of the relation (normally for arrow points which are on the upper most position of the relation), place it on bottom of it
-		if (textY < textHeight) {
-			textY += textHeight; // make sure larger fontsizes will still fit
-		}
-		return new PointDouble(textX, textY);
+	public static Collection<Integer> getAllIndexes() {
+		return indexMap.values();
 	}
 
 	private PointDouble calcPosOfMiddleText(PointDouble center, double textWidth) {
 		double textX = center.getX() - textWidth / 2;
 		double textY = center.getY() - DISTANCE_TO_LINE;
-
-		// if text would not be visible at the left relation part, move it to visible area
-		if (textX < 0) {
-			textX += textWidth / 2 + RelationPoints.DRAG_BOX_SIZE;
-		}
-
 		return new PointDouble(textX, textY);
 	}
 
