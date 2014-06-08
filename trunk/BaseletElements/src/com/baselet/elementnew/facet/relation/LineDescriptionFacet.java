@@ -6,6 +6,7 @@ import java.util.List;
 import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.elementnew.PropertiesParserState;
@@ -15,6 +16,9 @@ import com.baselet.elementnew.facet.GlobalFacet;
 import com.baselet.gui.AutocompletionText;
 
 public class LineDescriptionFacet extends GlobalFacet {
+
+	private static final int DISTANCE_TO_LINE = 4;
+	private static final int DISTANCE_TO_ARROW = 4;
 
 	public static LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
 
@@ -47,10 +51,14 @@ public class LineDescriptionFacet extends GlobalFacet {
 		PointDouble pointText = null;
 		if (!text.isEmpty()) {
 			if (key.equals(MESSAGE_START_KEY)) {
-				pointText = calcPosOfArrowText(relationPoints.getFirstLine().getStart(), drawer.textWidth(text), drawer.textHeight());
+				Line arrowLine = relationPoints.getFirstLine();
+				double yDisp = calcYDisplacement(arrowLine.getStart().getY(), arrowLine.getEnd().getY(), drawer);
+				pointText = calcPosOfArrowText(arrowLine.getStart(), drawer.textWidth(text), drawer.textHeight(), yDisp);
 			}
 			else if (key.equals(MESSAGE_END_KEY)) {
-				pointText = calcPosOfArrowText(relationPoints.getLastLine().getEnd(), drawer.textWidth(text), drawer.textHeight());
+				Line arrowLine = relationPoints.getLastLine();
+				double yDisp = calcYDisplacement(arrowLine.getEnd().getY(), arrowLine.getStart().getY(), drawer);
+				pointText = calcPosOfArrowText(relationPoints.getLastLine().getEnd(), drawer.textWidth(text), drawer.textHeight(), yDisp);
 			}
 			else /* if (key.equals(MESSAGE_MIDDLE_KEY)) */{
 				// replace < and > with UTF-8 triangles but avoid replacing quotations which are already replaced later
@@ -69,17 +77,28 @@ public class LineDescriptionFacet extends GlobalFacet {
 			if (index != -1) {
 				relationPoints.setTextBox(index, new Rectangle(pointText.getX(), pointText.getY() - drawer.textHeight(), drawer.textWidth(text), drawer.textHeight()));
 			}
-			relationPoints.resizeRectAndReposPoints(); // recalc because of possibly new textbox sizes
 		}
 	}
 
-	private PointDouble calcPosOfArrowText(PointDouble pointArrow, double textWidth, double textHeight) {
-		double textX = pointArrow.getX() + RelationPoints.POINT_SELECTION_RADIUS; // default x-pos is at the right end of selectionradius
-		double textY = pointArrow.getY();
+	private double calcYDisplacement(double y1, double y2, DrawHandler drawer) {
+		if (y1 == y2) {
+			return DISTANCE_TO_LINE;
+		}
+		else if (y1 > y2) {
+			return drawer.textHeight();
+		}
+		else {
+			return -drawer.textHeight() - 10;
+		}
+	}
+
+	private PointDouble calcPosOfArrowText(PointDouble pointArrow, double textWidth, double textHeight, double yDisplacement) {
+		double textX = pointArrow.getX() + RelationPoints.POINT_SELECTION_RADIUS + DISTANCE_TO_ARROW; // default x-pos is at the right end of selectionradius
+		double textY = pointArrow.getY() - yDisplacement;
 
 		// if text would be placed on the right outside of the relation and there is enough space to place it inside, do so
 		double selectionDiameter = RelationPoints.POINT_SELECTION_RADIUS * 2;
-		double textXWithinRelationSpace = textX - textWidth - selectionDiameter;
+		double textXWithinRelationSpace = textX - textWidth - selectionDiameter - DISTANCE_TO_ARROW * 2;
 		if (textXWithinRelationSpace > selectionDiameter) {
 			textX = textXWithinRelationSpace;
 		}
@@ -93,7 +112,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 
 	private PointDouble calcPosOfMiddleText(PointDouble center, double textWidth) {
 		double textX = center.getX() - textWidth / 2;
-		double textY = center.getY();
+		double textY = center.getY() - DISTANCE_TO_LINE;
 
 		// if text would not be visible at the left relation part, move it to visible area
 		if (textX < 0) {
