@@ -37,13 +37,13 @@ public class Line {
 		return GeometricFunctions.distanceBetweenTwoPoints(start, end);
 	}
 
-	public PointDouble getPointOnLineWithDistanceFromStart(double distance) {
-		PointDouble pointOnLineWithDistanceFromStart = GeometricFunctions.getPointOnLineWithDistanceFromStart(start, end, distance);
-		return pointOnLineWithDistanceFromStart;
-	}
-
-	public PointDouble getPointOnLineWithDistanceFromEnd(double distance) {
-		return GeometricFunctions.getPointOnLineWithDistanceFromStart(end, start, distance);
+	public PointDouble getPointOnLineWithDistanceFrom(boolean fromStart, double distance) {
+		if (fromStart) {
+			return GeometricFunctions.getPointOnLineWithDistanceFromStart(start, end, distance);
+		}
+		else { // from end
+			return GeometricFunctions.getPointOnLineWithDistanceFromStart(end, start, distance);
+		}
 	}
 
 	public double getAngleOfSlope() {
@@ -71,7 +71,7 @@ public class Line {
 		return new PointDouble[] { start, end };
 	}
 
-	public Direction getDirectionOfLineEnd(boolean directionOfStart) {
+	public Direction getDirectionOfLine(boolean directionOfStart) {
 		double angleOfSlope = getAngleOfSlope();
 		Direction direction;
 		if (angleOfSlope > 315 || angleOfSlope < 45) {
