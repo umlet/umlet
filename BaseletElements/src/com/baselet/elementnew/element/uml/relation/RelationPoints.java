@@ -162,14 +162,15 @@ public class RelationPoints implements ResizableObject {
 		return points.toAdditionalAttributesString();
 	}
 
-	public void setTextBox(int index, Rectangle rect) {
-		points.setTextBox(index, rect);
-	}
-
 	void drawSelectionSpace(DrawHandler drawer) {
 		for (RelationPoint rp : points.getPointHolders()) {
 			drawer.drawRectangle(rp.getSizeAbsolute());
 		}
+	}
+
+	public void setTextBox(int index, Rectangle size) {
+		size = SharedUtils.realignToGrid(size);
+		points.setTextBox(index, size);
 	}
 
 	@Override
