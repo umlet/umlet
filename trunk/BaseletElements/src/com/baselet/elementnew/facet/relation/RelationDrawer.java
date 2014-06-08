@@ -23,13 +23,14 @@ public class RelationDrawer {
 
 	public static void drawBoxText(DrawHandler drawer, Line line, boolean drawOnStart, String matchedText, ResizableObject resizableObject) {
 		double oldFontsize = drawer.getStyle().getFontSize();
-		drawer.setFontSize(10);
+		drawer.setFontSize(12);
 
 		double height = BOX_SIZE;
-		double width = drawer.textWidth(matchedText) + drawer.getDistanceHorizontalBorderToText();
+		double distance = drawer.getDistanceHorizontalBorderToText();
+		double width = drawer.textWidth(matchedText) + distance * 2;
 		PointDoubleIndexed point = drawBox(drawer, line, drawOnStart, width, height);
 
-		drawer.print(matchedText, new PointDouble(point.getX(), point.getY() + drawer.textHeight() / 2), AlignHorizontal.CENTER);
+		drawer.print(matchedText, new PointDouble(point.getX() - width / 2 + distance, point.getY() + drawer.textHeight() / 2), AlignHorizontal.LEFT);
 		drawer.setFontSize(oldFontsize);
 
 		resizableObject.setPointMinSize(point.getIndex(), new Rectangle(-width / 2, -height / 2, width, height));
