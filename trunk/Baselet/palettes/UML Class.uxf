@@ -207,21 +207,7 @@ Operation2</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>8</x>
-      <y>272</y>
-      <w>152</w>
-      <h>32</h>
-    </coordinates>
-    <panel_attributes>lt=-
-m1=1
-m2=3
-mm=teaches to&gt;</panel_attributes>
-    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>8</x>
-      <y>296</y>
+      <y>320</y>
       <w>152</w>
       <h>32</h>
     </coordinates>
@@ -233,7 +219,7 @@ m1=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>8</x>
-      <y>328</y>
+      <y>352</y>
       <w>152</w>
       <h>24</h>
     </coordinates>
@@ -244,7 +230,7 @@ m1=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>8</x>
-      <y>344</y>
+      <y>368</y>
       <w>152</w>
       <h>24</h>
     </coordinates>
@@ -255,7 +241,7 @@ m1=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>16</x>
-      <y>360</y>
+      <y>384</y>
       <w>144</w>
       <h>32</h>
     </coordinates>
@@ -294,7 +280,7 @@ mm=a rose is a rose</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>16</x>
-      <y>408</y>
+      <y>424</y>
       <w>136</w>
       <h>40</h>
     </coordinates>
@@ -307,7 +293,7 @@ m1=require
     <id>Relation</id>
     <coordinates>
       <x>16</x>
-      <y>440</y>
+      <y>456</y>
       <w>128</w>
       <h>32</h>
     </coordinates>
@@ -315,5 +301,61 @@ m1=require
 m2=provide
 </panel_attributes>
     <additional_attributes>10.0;20.0;140.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>296</x>
+      <y>208</y>
+      <w>80</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=1
+mm=teaches tov</panel_attributes>
+    <additional_attributes>40.0;10.0;40.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>296</x>
+      <y>328</y>
+      <w>80</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=1
+mm=teaches to^</panel_attributes>
+    <additional_attributes>40.0;10.0;40.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>8</x>
+      <y>272</y>
+      <w>152</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=3
+mm=teaches to&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>8</x>
+      <y>296</y>
+      <w>152</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=3
+m2=1
+mm=&lt;teaches to</panel_attributes>
+    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
   </element>
 </diagram>
