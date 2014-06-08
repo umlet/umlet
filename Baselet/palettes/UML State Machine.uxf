@@ -2,29 +2,6 @@
 <diagram program="umlet" version="13.0">
   <zoom_level>8</zoom_level>
   <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>0</x>
-      <y>224</y>
-      <w>120</w>
-      <h>80</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-self</panel_attributes>
-    <additional_attributes>64;24;32;24;32;64;104;64;104;40</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>0</x>
-      <y>32</y>
-      <w>168</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>152;24;24;24</additional_attributes>
-  </element>
-  <element>
     <type>com.umlet.element.custom.HistoryState</type>
     <coordinates>
       <x>32</x>
@@ -83,7 +60,7 @@ self</panel_attributes>
     <id>UMLSpecialState</id>
     <coordinates>
       <x>120</x>
-      <y>72</y>
+      <y>80</y>
       <w>32</w>
       <h>32</h>
     </coordinates>
@@ -94,7 +71,7 @@ self</panel_attributes>
     <id>UMLState</id>
     <coordinates>
       <x>24</x>
-      <y>72</y>
+      <y>80</y>
       <w>72</w>
       <h>32</h>
     </coordinates>
@@ -142,5 +119,28 @@ valign=top
 substates
 symbol=substate</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>16</x>
+      <y>48</y>
+      <w>152</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>24</x>
+      <y>240</y>
+      <w>96</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&gt;
+mm=self</panel_attributes>
+    <additional_attributes>100.0;30.0;100.0;60.0;10.0;60.0;10.0;10.0;50.0;10.0</additional_attributes>
   </element>
 </diagram>

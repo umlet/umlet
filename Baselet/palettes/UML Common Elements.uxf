@@ -2,28 +2,6 @@
 <diagram program="umlet" version="13.0">
   <zoom_level>8</zoom_level>
   <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>200</x>
-      <y>280</y>
-      <w>160</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt==</panel_attributes>
-    <additional_attributes>24;24;144;24</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>200</x>
-      <y>296</y>
-      <w>160</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>lt=:</panel_attributes>
-    <additional_attributes>24;24;144;24</additional_attributes>
-  </element>
-  <element>
     <id>UMLClass</id>
     <coordinates>
       <x>16</x>
@@ -148,7 +126,7 @@ bg=yellow</panel_attributes>
     <id>UMLNote</id>
     <coordinates>
       <x>224</x>
-      <y>336</y>
+      <y>304</y>
       <w>112</w>
       <h>56</h>
     </coordinates>
@@ -160,7 +138,7 @@ bg=blue</panel_attributes>
     <id>UMLPackage</id>
     <coordinates>
       <x>224</x>
-      <y>400</y>
+      <y>376</y>
       <w>112</w>
       <h>56</h>
     </coordinates>
@@ -173,7 +151,7 @@ bg=orange</panel_attributes>
     <id>UMLPackage</id>
     <coordinates>
       <x>224</x>
-      <y>464</y>
+      <y>448</y>
       <w>112</w>
       <h>56</h>
     </coordinates>
@@ -274,8 +252,8 @@ Operation2</panel_attributes>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=-
-m1=0..n
-m2=0..1
+m1=1
+m2=3
 mm=teaches to&gt;</panel_attributes>
     <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
   </element>
@@ -295,13 +273,13 @@ mm=&lt;&lt;someStereotype&gt;&gt;</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>208</x>
-      <y>200</y>
+      <y>192</y>
       <w>152</w>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=0..n</panel_attributes>
-    <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
+    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -329,50 +307,50 @@ m1=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>216</x>
-      <y>264</y>
+      <y>256</y>
       <w>144</w>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=[Qualification]-&gt;
 m2=1..5,6
 </panel_attributes>
-    <additional_attributes>30.0;10.0;160.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>88</x>
-      <y>192</y>
-      <w>104</w>
-      <h>64</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;.
-mm=&lt;&lt;instanceOf&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+    <additional_attributes>30.0;20.0;160.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>56</x>
-      <y>328</y>
+      <y>192</y>
       <w>88</w>
       <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
-mm=&lt;&lt;include&gt;&gt;</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+mm=&lt;&lt;instanceOf&gt;&gt;</panel_attributes>
+    <additional_attributes>50.0;10.0;50.0;60.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>96</x>
+      <x>32</x>
+      <y>328</y>
+      <w>72</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+mm=&lt;&lt;include&gt;&gt;</panel_attributes>
+    <additional_attributes>40.0;10.0;40.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>88</x>
       <y>344</y>
-      <w>104</w>
+      <w>72</w>
       <h>56</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
 mm=&lt;&lt;extends&gt;&gt;</panel_attributes>
-    <additional_attributes>50.0;10.0;10.0;50.0</additional_attributes>
+    <additional_attributes>60.0;10.0;20.0;50.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
