@@ -54,6 +54,10 @@ public class OwnXMLParser {
 	}
 
 	public static Diagram xmlToDiagram(String xml) {
+		if (xml.startsWith(SharedConstants.UTF8_BOM)) {
+			xml = xml.substring(1); // remove BOM if it is given
+		}
+		System.out.println(xml);
 		Diagram diagram = null;
 		String helpText = null;
 		try {
