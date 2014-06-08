@@ -4,14 +4,14 @@ import com.baselet.diagram.draw.geom.PointDouble;
 
 public class PointDoubleIndexed extends PointDouble {
 
-	private final int index;
+	private final Integer index;
 
-	public PointDoubleIndexed(int index, double x, double y) {
+	public PointDoubleIndexed(Integer index, double x, double y) {
 		super(x, y);
 		this.index = index;
 	}
 
-	public int getIndex() {
+	public Integer getIndex() {
 		return index;
 	}
 
@@ -19,7 +19,7 @@ public class PointDoubleIndexed extends PointDouble {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + index;
+		result = prime * result + (index == null ? 0 : index.hashCode());
 		return result;
 	}
 
@@ -35,7 +35,12 @@ public class PointDoubleIndexed extends PointDouble {
 			return false;
 		}
 		PointDoubleIndexed other = (PointDoubleIndexed) obj;
-		if (index != other.index) {
+		if (index == null) {
+			if (other.index != null) {
+				return false;
+			}
+		}
+		else if (!index.equals(other.index)) {
 			return false;
 		}
 		return true;

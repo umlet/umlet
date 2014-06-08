@@ -1,22 +1,19 @@
 package com.baselet.element.sticking;
 
-import com.baselet.diagram.draw.geom.PointDouble;
-import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
-
 public class PointChange {
-	private PointDoubleIndexed point;
-	private int diffX;
-	private int diffY;
+	private final Integer index;
+	private final int diffX;
+	private final int diffY;
 
-	public PointChange(PointDoubleIndexed point, int diffX, int diffY) {
+	public PointChange(Integer index, int diffX, int diffY) {
 		super();
-		this.point = point;
+		this.index = index;
 		this.diffX = diffX;
 		this.diffY = diffY;
 	}
 
-	public PointDoubleIndexed getPointHolder() {
-		return point;
+	public Integer getIndex() {
+		return index;
 	}
 
 	public int getDiffX() {
@@ -27,13 +24,9 @@ public class PointChange {
 		return diffY;
 	}
 
-	public PointDouble getChangedPoint() {
-		return new PointDouble(point.getX() + diffX, point.getY() + diffY);
-	}
-
 	@Override
 	public String toString() {
-		return "PointChange [point=" + point + ", diffX=" + diffX + ", diffY=" + diffY + "]";
+		return "PointChange [index=" + index + ", diffX=" + diffX + ", diffY=" + diffY + "]";
 	}
 
 }

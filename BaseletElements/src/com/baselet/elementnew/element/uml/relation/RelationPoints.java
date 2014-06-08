@@ -98,18 +98,18 @@ public class RelationPoints implements ResizableObject {
 		return null;
 	}
 
-	List<PointDoubleIndexed> movePointAndResizeRectangle(List<PointChange> changedStickPoints) {
-		points.applyChangesToPoints(changedStickPoints);
+	List<PointDoubleIndexed> movePointAndResizeRectangle(List<PointChange> changedPoints) {
+		points.applyChangesToPoints(changedPoints);
 		resizeRectAndReposPoints();
 		List<PointDoubleIndexed> updatedChangedPoint = new ArrayList<PointDoubleIndexed>();
-		for (PointChange c : changedStickPoints) {
-			updatedChangedPoint.add(points.get(c.getPointHolder().getIndex()));
+		for (PointChange c : changedPoints) {
+			updatedChangedPoint.add(points.get(c.getIndex()));
 		}
 		return updatedChangedPoint;
 	}
 
 	private PointDoubleIndexed movePointAndResizeRectangle(PointDoubleIndexed point, Integer diffX, Integer diffY) {
-		return movePointAndResizeRectangle(Arrays.asList(new PointChange(point, diffX, diffY))).get(0);
+		return movePointAndResizeRectangle(Arrays.asList(new PointChange(point.getIndex(), diffX, diffY))).get(0);
 	}
 
 	public void resizeRectAndReposPoints() {

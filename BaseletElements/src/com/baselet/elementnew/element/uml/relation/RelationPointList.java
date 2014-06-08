@@ -64,7 +64,7 @@ public class RelationPointList {
 		if (points.size() == 2 && points.get(0).equals(points.get(1))) {
 			List<PointChange> inverse = new ArrayList<PointChange>();
 			for (PointChange change : changes) {
-				inverse.add(new PointChange(change.getPointHolder(), -change.getDiffX(), -change.getDiffY()));
+				inverse.add(new PointChange(change.getIndex(), -change.getDiffX(), -change.getDiffY()));
 			}
 			applyPointChange(inverse);
 		}
@@ -75,7 +75,7 @@ public class RelationPointList {
 			RelationPoint p = iter.next();
 			PointDoubleIndexed pt = p.getPoint();
 			for (PointChange change : changes) {
-				if (pt.equals(change.getPointHolder())) {
+				if (pt.getIndex().equals(change.getIndex())) {
 					iter.set(new RelationPoint(pt.getIndex(), pt.getX() + change.getDiffX(), pt.getY() + change.getDiffY(), p.getSize()));
 				}
 			}

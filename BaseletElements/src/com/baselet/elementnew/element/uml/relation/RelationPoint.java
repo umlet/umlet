@@ -32,4 +32,10 @@ public class RelationPoint {
 	public Rectangle getSizeAbsolute() {
 		return new Rectangle(point.getX() + size.getX(), point.getY() + size.getY(), (double) size.getWidth(), (double) size.getHeight());
 	}
+
+	@Override
+	public String toString() {
+		return "RelationPoint [point=" + point + ", size=" + size + "]";
+	}
+
 }
