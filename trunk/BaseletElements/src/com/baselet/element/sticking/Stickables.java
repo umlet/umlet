@@ -83,7 +83,7 @@ public class Stickables {
 				// the diff values are in current zoom, therefore normalize them (invert operation done in getAbsolutePosition())
 				int diffXdefaultZoom = diffX / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
 				int diffYdefaultZoom = diffY / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
-				changedPoints.add(new PointChange(pd, diffXdefaultZoom, diffYdefaultZoom));
+				changedPoints.add(new PointChange(pd.getIndex(), diffXdefaultZoom, diffYdefaultZoom));
 			}
 		}
 		return changedPoints;
