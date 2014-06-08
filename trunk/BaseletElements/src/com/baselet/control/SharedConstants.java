@@ -5,6 +5,8 @@ package com.baselet.control;
  */
 public class SharedConstants {
 
+	public static final String UTF8_BOM = "\uFEFF";
+
 	public static final String LEFT_QUOTATION = "<<";
 	public static final String RIGHT_QUOTATION = ">>";
 
