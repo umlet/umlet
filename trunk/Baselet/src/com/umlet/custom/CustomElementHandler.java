@@ -18,16 +18,16 @@ import com.umlet.gui.CustomElementPanel;
 
 public class CustomElementHandler {
 
-	private Timer timer;
-	private CustomCodeSyntaxPane codepane;
-	private CustomPreviewHandler preview;
+	private final Timer timer;
+	private final CustomCodeSyntaxPane codepane;
+	private final CustomPreviewHandler preview;
 	private GridElement editedEntity;
 	private GridElement originalElement;
 	private TimerTask compiletask;
 	private boolean changed;
-	private ErrorHandler errorhandler;
+	private final ErrorHandler errorhandler;
 	private boolean compilation_running;
-	private CustomElementPanel panel;
+	private final CustomElementPanel panel;
 	boolean keypressed;
 	private String old_text;
 
@@ -132,9 +132,6 @@ public class CustomElementHandler {
 				GridElement element = iter.next();
 				e.setRectangle(element.getRectangle());
 				e.setPanelAttributes(element.getPanelAttributes());
-				if (preview.getDrawPanel().getSelector().getSelectedElements().size() > 0) {
-					preview.getDrawPanel().getSelector().singleSelectWithoutUpdatePropertyPanel(e);
-				}
 				preview.getDrawPanel().removeElement(element);
 			}
 

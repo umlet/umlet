@@ -14,10 +14,10 @@ import com.umlet.custom.CustomElement;
 public class SelectorOld extends Selector {
 
 	private GridElement dominantEntity;
-	private Vector<GridElement> selectedElements = new Vector<GridElement>();
-	private DrawPanel panel;
+	private final Vector<GridElement> selectedElements = new Vector<GridElement>();
+	private final DrawPanel panel;
 	private boolean _selectorframeactive;
-	private SelectorFrame _selectorframe;
+	private final SelectorFrame _selectorframe;
 
 	public SelectorOld(DrawPanel panel) {
 		this.panel = panel;
@@ -49,16 +49,6 @@ public class SelectorOld extends Selector {
 
 	public boolean isSelectorFrameActive() {
 		return _selectorframeactive;
-	}
-
-	// needed for custom element exchange
-	public void singleSelectWithoutUpdatePropertyPanel(GridElement e) {
-		deselectAllWithoutUpdatePropertyPanel();
-		selectedElements.add(e);
-		if (Main.getInstance().getGUI() != null) {
-			updateGUIInformation();
-		}
-		Main.getInstance().setPropertyPanelToCustomElement(e);
 	}
 
 	public void deselectAllWithoutUpdatePropertyPanel() {
