@@ -94,6 +94,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 				Set<Integer> alreadysetIndexes = state.getFacetResponse(LineDescriptionFacet.class, new HashSet<Integer>());
 				state.setFacetResponse(LineDescriptionFacet.class, alreadysetIndexes);
 				alreadysetIndexes.add(index);
+				relationPoints.resizeRectAndReposPoints(); // apply the (possible) changes now to make sure the following facets use correct coordinates
 			}
 		}
 	}
