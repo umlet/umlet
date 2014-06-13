@@ -41,27 +41,23 @@ public class OptionPanel extends JPanel implements ActionListener {
 		return optionpanel;
 	}
 
-	private JFrame optionframe;
-	private JCheckBox show_stickingpolygon;
-	private JCheckBox show_grid;
-	private JCheckBox enable_custom_elements;
-	private JCheckBox checkForUpdates;
-	private JComboBox ui_manager;
-	private JComboBox default_fontsize;
-	private JComboBox propertiesPanelFontsize;
-	private JComboBox default_fontfamily;
+	private final JFrame optionframe;
+	private final JCheckBox show_stickingpolygon = new JCheckBox();
+	private final JCheckBox show_grid = new JCheckBox();
+	private final JCheckBox enable_custom_elements = new JCheckBox();
+	private final JCheckBox checkForUpdates = new JCheckBox();
+	private final JCheckBox developerMode = new JCheckBox();
+	private final JComboBox ui_manager;
+	private final JComboBox default_fontsize = new JComboBox(new Integer[] { 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 });
+	private final JComboBox propertiesPanelFontsize = new JComboBox(new Integer[] { 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 });
+	private final JComboBox default_fontfamily = new JComboBox(Constants.fontFamilyList.toArray(new String[Constants.fontFamilyList.size()]));
 
-	private Vector<String> uis_technicalNames;
+	private final Vector<String> uis_technicalNames = new Vector<String>();
 
 	private OptionPanel() {
 		setLayout(new GridLayout(0, 2, 4, 4));
 		setAlignmentX(Component.LEFT_ALIGNMENT);
 
-		show_stickingpolygon = new JCheckBox();
-		show_grid = new JCheckBox();
-		enable_custom_elements = new JCheckBox();
-		checkForUpdates = new JCheckBox();
-		uis_technicalNames = new Vector<String>();
 		Vector<String> uis_humanReadableNameVector = new Vector<String>();
 		LookAndFeelInfo[] lookAndFeelInfoArray = Constants.lookAndFeels.toArray(new LookAndFeelInfo[Constants.lookAndFeels.size()]);
 		for (LookAndFeelInfo info : lookAndFeelInfoArray) {
@@ -69,9 +65,6 @@ public class OptionPanel extends JPanel implements ActionListener {
 			uis_humanReadableNameVector.add(info.getName());
 		}
 		ui_manager = new JComboBox(uis_humanReadableNameVector);
-		default_fontsize = new JComboBox(new Integer[] { 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 });
-		propertiesPanelFontsize = new JComboBox(new Integer[] { 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 });
-		default_fontfamily = new JComboBox(Constants.fontFamilyList.toArray(new String[Constants.fontFamilyList.size()]));
 
 		this.add(new JLabel("Show sticking ploygon"));
 		this.add(show_stickingpolygon);
@@ -91,6 +84,8 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.add(propertiesPanelFontsize);
 		this.add(new JLabel("Default fontfamily"));
 		this.add(default_fontfamily);
+		this.add(new JLabel("Enable Developer Mode"));
+		this.add(developerMode);
 
 		JButton button_ok = new JButton("Ok");
 		button_ok.setActionCommand("Ok");
@@ -126,6 +121,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		show_grid.setSelected(Constants.show_grid);
 		enable_custom_elements.setSelected(Constants.enable_custom_elements);
 		checkForUpdates.setSelected(Constants.checkForUpdates);
+		developerMode.setSelected(SharedConstants.dev_mode);
 		ui_manager.setSelectedIndex(uis_technicalNames.indexOf(Config.getInstance().getUiManager()));
 		default_fontsize.setSelectedItem(Constants.defaultFontsize);
 		propertiesPanelFontsize.setSelectedItem(Constants.propertiesPanelFontsize);
@@ -154,6 +150,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 			Constants.show_grid = show_grid.isSelected();
 			Constants.enable_custom_elements = enable_custom_elements.isSelected();
 			Constants.checkForUpdates = checkForUpdates.isSelected();
+			SharedConstants.dev_mode = developerMode.isSelected();
 			Constants.defaultFontsize = (Integer) default_fontsize.getSelectedItem();
 
 			String newui = uis_technicalNames.get(ui_manager.getSelectedIndex());
