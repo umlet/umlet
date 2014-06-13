@@ -21,61 +21,49 @@ public class RelationDrawer {
 	private static final double ARROW_LENGTH = RelationPoints.POINT_SELECTION_RADIUS * 1.3;
 	private static final double BOX_SIZE = 20;
 
-	public static void drawBoxText(DrawHandler drawer, Line line, boolean drawOnStart, String matchedText, ResizableObject resizableObject) {
+	public static Rectangle drawBoxArrow(DrawHandler drawer, Line line, boolean drawOnStart, String matchedText, ResizableObject resizableObject) {
 		double oldFontsize = drawer.getStyle().getFontSize();
 		drawer.setFontSize(12);
 
 		double height = BOX_SIZE;
 		double distance = drawer.getDistanceHorizontalBorderToText();
-		double width = drawer.textWidth(matchedText) + distance * 2;
-		PointDoubleIndexed point = drawBox(drawer, line, drawOnStart, width, height);
-
-		drawer.print(matchedText, new PointDouble(point.getX() - width / 2 + distance, point.getY() + drawer.textHeight() / 2), AlignHorizontal.LEFT);
-		drawer.setFontSize(oldFontsize);
-
-		resizableObject.setPointMinSize(point.getIndex(), new Rectangle(-width / 2, -height / 2, width, height));
-
-	}
-
-	public static void drawBoxArrowEquals(DrawHandler drawer, Line line, boolean drawOnStart) {
-		PointDouble point = drawBox(drawer, line, drawOnStart, BOX_SIZE, BOX_SIZE);
-
-		int dist = 2;
-		int size = 6;
-		drawer.drawLines(new PointDouble(point.getX() - size, point.getY() - dist), new PointDouble(point.getX() + size, point.getY() - dist), new PointDouble(point.getX(), point.getY() - size));
-		drawer.drawLines(new PointDouble(point.getX() + size, point.getY() + dist), new PointDouble(point.getX() - size, point.getY() + dist), new PointDouble(point.getX(), point.getY() + size));
-	}
-
-	public static void drawBoxArrow(DrawHandler drawer, Line line, boolean drawOnStart, Direction arrowDirection) {
-		PointDouble point = drawBox(drawer, line, drawOnStart, BOX_SIZE, BOX_SIZE);
+		double width = Math.max(BOX_SIZE, drawer.textWidth(matchedText) + distance * 2);
+		PointDoubleIndexed point = (PointDoubleIndexed) line.getPoint(drawOnStart);
+		Rectangle r = new Rectangle(point.getX() - width / 2, point.getY() - height / 2, width, height);
+		drawer.drawRectangle(r);
 
 		int arrow = 4;
-		ColorOwn bgColorOld = drawer.getStyle().getBackgroundColor();
+		ColorOwn oldBgColor = drawer.getStyle().getBackgroundColor();
 		drawer.setBackgroundColor(drawer.getStyle().getForegroundColor());
-		if (arrowDirection == Direction.UP) {
+		if (matchedText.equals("^")) {
 			PointDouble start = new PointDouble(point.getX(), point.getY() - arrow);
 			drawer.drawLines(start, new PointDouble(point.getX() + arrow, point.getY() + arrow), new PointDouble(point.getX() - arrow, point.getY() + arrow), start);
 		}
-		else if (arrowDirection == Direction.LEFT) {
+		else if (matchedText.equals("<")) {
 			PointDouble start = new PointDouble(point.getX() - arrow, point.getY());
 			drawer.drawLines(start, new PointDouble(point.getX() + arrow, point.getY() - arrow), new PointDouble(point.getX() + arrow, point.getY() + arrow), start);
 		}
-		else if (arrowDirection == Direction.RIGHT) {
+		else if (matchedText.equals(">")) {
 			PointDouble start = new PointDouble(point.getX() + arrow, point.getY());
 			drawer.drawLines(start, new PointDouble(point.getX() - arrow, point.getY() - arrow), new PointDouble(point.getX() - arrow, point.getY() + arrow), start);
 		}
-		else if (arrowDirection == Direction.DOWN) {
+		else if (matchedText.equals("v")) {
 			PointDouble start = new PointDouble(point.getX() - arrow, point.getY() - arrow);
 			drawer.drawLines(start, new PointDouble(point.getX() + arrow, point.getY() - arrow), new PointDouble(point.getX(), point.getY() + arrow), start);
 		}
-		drawer.setBackgroundColor(bgColorOld);
-
-	}
-
-	private static PointDoubleIndexed drawBox(DrawHandler drawer, Line line, boolean drawOnStart, double width, double height) {
-		PointDoubleIndexed point = (PointDoubleIndexed) line.getPoint(drawOnStart);
-		drawer.drawRectangle(point.getX() - width / 2, point.getY() - height / 2, width, height);
-		return point;
+		else if (matchedText.equals("=")) {
+			int dist = 2;
+			int size = 6;
+			drawer.drawLines(new PointDouble(point.getX() - size, point.getY() - dist), new PointDouble(point.getX() + size, point.getY() - dist), new PointDouble(point.getX(), point.getY() - size));
+			drawer.drawLines(new PointDouble(point.getX() + size, point.getY() + dist), new PointDouble(point.getX() - size, point.getY() + dist), new PointDouble(point.getX(), point.getY() + size));
+		}
+		else {
+			drawer.print(matchedText, new PointDouble(point.getX() - width / 2 + distance, point.getY() + drawer.textHeight() / 2), AlignHorizontal.LEFT);
+			resizableObject.setPointMinSize(point.getIndex(), new Rectangle(-width / 2, -height / 2, width, height));
+		}
+		drawer.setFontSize(oldFontsize);
+		drawer.setBackgroundColor(oldBgColor);
+		return r;
 	}
 
 	public static enum ArrowEndType {
@@ -83,7 +71,10 @@ public class RelationDrawer {
 	}
 
 	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, ArrowEndType arrowEndType, boolean fillBody) {
-		PointDouble point = line.getPoint(drawOnStart);
+		drawArrowToLine(line.getPoint(drawOnStart), drawer, line, drawOnStart, arrowEndType, fillBody);
+	}
+
+	public static void drawArrowToLine(PointDouble point, DrawHandler drawer, Line line, boolean drawOnStart, ArrowEndType arrowEndType, boolean fillBody) {
 		if (arrowEndType == ArrowEndType.INVERSE) {
 			drawOnStart = !drawOnStart;
 		}
