@@ -41,7 +41,6 @@ abstract class ArrowEnd implements RegexValueHolder {
 			String textWithoutBox = matchedText.substring(1, matchedText.length() - 2);
 			Rectangle r = RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, textWithoutBox, resizableObject);
 			PointDouble intersection = lineToDraw.getIntersectionPoints(r).get(0);
-			System.out.println(intersection + "/" + lineToDraw.getPoint(drawOnLineStart));
 			RelationDrawer.drawArrowToLine(intersection, drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false);
 		}
 	};
