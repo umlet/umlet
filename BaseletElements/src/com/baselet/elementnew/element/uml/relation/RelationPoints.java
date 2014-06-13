@@ -118,7 +118,7 @@ public class RelationPoints implements ResizableObject {
 		relation.setRectangle(newRect);
 
 		// move relation points to their new position (their position is relative to the relation-position)
-		points.moveRelationPointsOriginToUpperLeftCorner();
+		points.moveRelationPointsAndTextSpacesByToUpperLeftCorner();
 	}
 
 	public boolean removeRelationPointIfOnLineBetweenNeighbourPoints() {

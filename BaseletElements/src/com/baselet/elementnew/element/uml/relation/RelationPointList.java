@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.GeometricFunctions;
@@ -18,7 +19,7 @@ import com.baselet.element.sticking.PointChange;
 
 public class RelationPointList {
 	List<RelationPoint> points = new ArrayList<RelationPoint>();
-	Map<Integer, Rectangle> textBoxSpace = new HashMap<Integer, Rectangle>();
+	Map<Integer, Rectangle> textBoxSpaces = new HashMap<Integer, Rectangle>();
 
 	public void add(double x, double y) {
 		points.add(new RelationPoint(points.size(), x, y));
@@ -82,20 +83,24 @@ public class RelationPointList {
 		}
 	}
 
-	void moveRelationPointsOriginToUpperLeftCorner() {
+	void moveRelationPointsAndTextSpacesByToUpperLeftCorner() {
 		Rectangle rect = createRectangleContainingAllPointsAndTextSpace();
 		int displacementX = SharedUtils.realignToGrid(false, rect.getX(), false);
 		int displacementY = SharedUtils.realignToGrid(false, rect.getY(), false);
-		moveRelationPointsBy(-displacementX, -displacementY);
+		moveRelationPointsAndTextSpacesBy(-displacementX, -displacementY);
 	}
 
-	void moveRelationPointsBy(int displacementX, int displacementY) {
+	void moveRelationPointsAndTextSpacesBy(int displacementX, int displacementY) {
 		for (ListIterator<RelationPoint> iter = points.listIterator(); iter.hasNext();) {
 			RelationPoint p = iter.next();
 			iter.set(new RelationPoint(p.getPoint().getIndex(), p.getPoint().getX() + displacementX, p.getPoint().getY() + displacementY, p.getSize()));
 			// If points are off the grid they can be realigned here (use the following 2 lines instead of move())
 			// p.setX(SharedUtils.realignTo(true, p.getX()-displacementX, false, SharedConstants.DEFAULT_GRID_SIZE));
 			// p.setY(SharedUtils.realignTo(true, p.getY()-displacementY, false, SharedConstants.DEFAULT_GRID_SIZE));
+		}
+		for (Entry<Integer, Rectangle> textSpace : textBoxSpaces.entrySet()) {
+			Rectangle old = textSpace.getValue();
+			textSpace.setValue(new Rectangle(old.getX() + displacementX, old.getY() + displacementY, old.getWidth(), old.getHeight()));
 		}
 	}
 
@@ -187,10 +192,10 @@ public class RelationPointList {
 
 	public void setTextBox(int index, Rectangle rect) {
 		if (rect == null) {
-			textBoxSpace.remove(index);
+			textBoxSpaces.remove(index);
 		}
 		else {
-			textBoxSpace.put(index, rect);
+			textBoxSpaces.put(index, rect);
 		}
 	}
 
@@ -199,7 +204,7 @@ public class RelationPointList {
 		for (RelationPoint p : points) {
 			rectangleContainingAllPointsAndTextSpace = addWithNullCheck(rectangleContainingAllPointsAndTextSpace, p.getSizeAbsolute());
 		}
-		for (Rectangle textSpace : textBoxSpace.values()) {
+		for (Rectangle textSpace : textBoxSpaces.values()) {
 			rectangleContainingAllPointsAndTextSpace = addWithNullCheck(rectangleContainingAllPointsAndTextSpace, textSpace);
 		}
 		return rectangleContainingAllPointsAndTextSpace;
