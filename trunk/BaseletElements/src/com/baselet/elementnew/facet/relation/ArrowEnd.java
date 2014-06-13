@@ -4,10 +4,15 @@ import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.RegexValueHolder;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Line;
+import com.baselet.diagram.draw.geom.PointDouble;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.elementnew.element.uml.relation.ResizableObject;
 import com.baselet.elementnew.facet.relation.RelationDrawer.ArrowEndType;
 
 abstract class ArrowEnd implements RegexValueHolder {
+
+	private static final String BOX_REGEX = "\\[[^\\]]*\\]";
+
 	private final String regexValue;
 
 	public ArrowEnd(String regexValue) {
@@ -21,6 +26,25 @@ abstract class ArrowEnd implements RegexValueHolder {
 	}
 
 	abstract void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject);
+
+	static ArrowEnd BOX = new ArrowEnd(BOX_REGEX) {
+		@Override
+		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
+			String textWithoutBox = matchedText.substring(1, matchedText.length() - 1);
+			RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, textWithoutBox, resizableObject);
+		}
+	};
+
+	static ArrowEnd LEFT_BOX = new ArrowEnd(BOX_REGEX + "<") {
+		@Override
+		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
+			String textWithoutBox = matchedText.substring(1, matchedText.length() - 2);
+			Rectangle r = RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, textWithoutBox, resizableObject);
+			PointDouble intersection = lineToDraw.getIntersectionPoints(r).get(0);
+			System.out.println(intersection + "/" + lineToDraw.getPoint(drawOnLineStart));
+			RelationDrawer.drawArrowToLine(intersection, drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false);
+		}
+	};
 
 	static ArrowEnd LEFT_NORMAL = new ArrowEnd("<") {
 		@Override
@@ -61,6 +85,16 @@ abstract class ArrowEnd implements RegexValueHolder {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
 			RelationDrawer.drawCircle(drawer, lineToDraw, drawOnLineStart, resizableObject, Direction.LEFT, false);
+		}
+	};
+
+	static ArrowEnd RIGHT_BOX = new ArrowEnd(">" + BOX_REGEX) {
+		@Override
+		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
+			String textWithoutBox = matchedText.substring(2, matchedText.length() - 1);
+			Rectangle r = RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, textWithoutBox, resizableObject);
+			PointDouble intersection = lineToDraw.getIntersectionPoints(r).get(0);
+			RelationDrawer.drawArrowToLine(intersection, drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false);
 		}
 	};
 
@@ -117,56 +151,6 @@ abstract class ArrowEnd implements RegexValueHolder {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
 			RelationDrawer.drawCircle(drawer, lineToDraw, drawOnLineStart, resizableObject, null, false);
-		}
-	};
-
-	static ArrowEnd BOX_EMPTY = new ArrowEnd("\\[\\]") {
-		@Override
-		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, null);
-		}
-	};
-
-	static ArrowEnd BOX_DOWN_ARROW = new ArrowEnd("\\[v\\]") {
-		@Override
-		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, Direction.DOWN);
-		}
-	};
-
-	static ArrowEnd BOX_LEFT_ARROW = new ArrowEnd("\\[<\\]") {
-		@Override
-		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, Direction.LEFT);
-		}
-	};
-
-	static ArrowEnd BOX_RIGHT_ARROW = new ArrowEnd("\\[>\\]") {
-		@Override
-		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, Direction.RIGHT);
-		}
-	};
-
-	static ArrowEnd BOX_UP_ARROW = new ArrowEnd("\\[\\^\\]") {
-		@Override
-		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, Direction.UP);
-		}
-	};
-
-	static ArrowEnd BOX_EQUALS = new ArrowEnd("\\[=\\]") {
-		@Override
-		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawBoxArrowEquals(drawer, lineToDraw, drawOnLineStart);
-		}
-	};
-
-	static ArrowEnd BOX_TEXT = new ArrowEnd("\\[[^\\]]+]") {
-		@Override
-		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			String textWithoutBox = matchedText.substring(1, matchedText.length() - 1);
-			RelationDrawer.drawBoxText(drawer, lineToDraw, drawOnLineStart, textWithoutBox, resizableObject);
 		}
 	};
 }

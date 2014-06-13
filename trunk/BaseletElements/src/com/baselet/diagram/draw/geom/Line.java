@@ -1,5 +1,7 @@
 package com.baselet.diagram.draw.geom;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 import com.baselet.control.enumerations.Direction;
@@ -90,6 +92,10 @@ public class Line {
 			direction = direction.invert();
 		}
 		return direction;
+	}
+
+	public List<PointDouble> getIntersectionPoints(Rectangle rectangle) {
+		return GeometricFunctions.getIntersectionPoints(this, rectangle);
 	}
 
 	@Override
