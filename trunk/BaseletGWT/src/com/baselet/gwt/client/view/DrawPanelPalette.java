@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.ListBox;
 
 public class DrawPanelPalette extends DrawPanel {
 
-	private static final List<TextResource> PALETTELIST = Arrays.asList(Resources.INSTANCE.umlCommonElements(), Resources.INSTANCE.genericColors());
+	private static final List<TextResource> PALETTELIST = Arrays.asList(Resources.INSTANCE.UML_Common_Elements(), Resources.INSTANCE.Generic_Colors());
 	private final Map<TextResource, Diagram> paletteCache = new HashMap<>();
 
 	private final ListBox paletteChooser;
@@ -35,7 +35,7 @@ public class DrawPanelPalette extends DrawPanel {
 		setDiagram(parsePalette(PALETTELIST.get(0)));
 		this.paletteChooser = paletteChooser;
 		for (TextResource r : PALETTELIST) {
-			paletteChooser.addItem(r.getName());
+			paletteChooser.addItem(r.getName().replaceAll("_", " "));
 		}
 		paletteChooser.addChangeHandler(new ChangeHandler() {
 			@Override
