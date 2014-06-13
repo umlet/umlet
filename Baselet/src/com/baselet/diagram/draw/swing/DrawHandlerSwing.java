@@ -19,7 +19,6 @@ import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
-import com.baselet.diagram.draw.helper.Text;
 import com.baselet.element.GridElement;
 
 public class DrawHandlerSwing extends DrawHandler {

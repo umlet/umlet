@@ -16,8 +16,10 @@ public class FormattedFont {
 	private static Float bold;
 	private static Float italic;
 
-	private final String string;
+	private String string;
 	private final AttributedString atrString;
+
+	private final FontRenderContext fontRenderContext;
 
 	private final TextLayout textLayout;
 
@@ -25,6 +27,7 @@ public class FormattedFont {
 		string = setFormatAndRemoveLabels(text);
 
 		atrString = new AttributedString(string);
+		this.fontRenderContext = fontRenderContext;
 
 		atrString.addAttribute(TextAttribute.FAMILY, font.getFamily());
 		atrString.addAttribute(TextAttribute.SIZE, fontSize);
@@ -39,12 +42,25 @@ public class FormattedFont {
 		return string;
 	}
 
+	public void replaceFirstAndLastSpaceWithDot() {
+		if (string.startsWith(" ")) {
+			string = "." + string.substring(1);
+		}
+		if (string.endsWith(" ")) {
+			string = string.substring(string.length() - 1) + ".";
+		}
+	}
+
+	public FontRenderContext getFontRenderContext() {
+		return fontRenderContext;
+	}
+
 	public AttributedCharacterIterator getAttributedCharacterIterator() {
 		return atrString.getIterator();
 	}
 
 	private static String setFormatAndRemoveLabels(String s) {
-		StringStyle style = StringStyle.analyseStyle(s);
+		StringStyle style = StringStyle.analyzeFormatLabels(s);
 
 		if (style.getFormat().contains(FormatLabels.UNDERLINE)) {
 			underline = TextAttribute.UNDERLINE_ON;

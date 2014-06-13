@@ -1,4 +1,4 @@
-package com.baselet.diagram.draw.helper;
+package com.baselet.diagram.draw.swing;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 

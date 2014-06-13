@@ -1,6 +1,8 @@
 package com.baselet.control;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.baselet.control.enumerations.FormatLabels;
@@ -19,11 +21,14 @@ public class StringStyle {
 		this.stringWithoutMarkup = stringWithoutMarkup;
 	}
 
-	public static StringStyle analyseStyle(String s) {
-		s = replaceNotEscaped(s, SharedConstants.LEFT_QUOTATION, "\u00AB");
-		s = replaceNotEscaped(s, SharedConstants.RIGHT_QUOTATION, "\u00BB");
-		StringStyle stringStyle = analyzeFormatLabels(s);
-		return stringStyle;
+	public static List<String> replaceNotEscaped(List<String> propertiesText) {
+		List<String> returnList = new ArrayList<String>();
+		for (String line : propertiesText) {
+			line = StringStyle.replaceNotEscaped(line, SharedConstants.LEFT_QUOTATION, "\u00AB");
+			line = StringStyle.replaceNotEscaped(line, SharedConstants.RIGHT_QUOTATION, "\u00BB");
+			returnList.add(line);
+		}
+		return returnList;
 	}
 
 	/**
@@ -36,7 +41,7 @@ public class StringStyle {
 		return s;
 	}
 
-	private static StringStyle analyzeFormatLabels(String s) {
+	public static StringStyle analyzeFormatLabels(String s) {
 		Set<FormatLabels> format = new HashSet<FormatLabels>();
 		if (s != null && !s.isEmpty()) {
 			// As long as any text format applies the loop continues

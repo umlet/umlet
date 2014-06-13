@@ -32,7 +32,7 @@ public class DrawHandlerGWT extends DrawHandler {
 
 	@Override
 	protected DimensionDouble textDimension(String string) {
-		ctxSetFont(style.getFontSize(), StringStyle.analyseStyle(string));
+		ctxSetFont(style.getFontSize(), StringStyle.analyzeFormatLabels(string));
 		DimensionDouble dim = new DimensionDouble(ctx.measureText(string).getWidth(), style.getFontSize());
 		return dim;
 	}
@@ -163,7 +163,7 @@ public class DrawHandlerGWT extends DrawHandler {
 	}
 
 	private void drawTextHelper(final String text, PointDouble p, AlignHorizontal align, double fontSize) {
-		StringStyle stringStyle = StringStyle.analyseStyle(text);
+		StringStyle stringStyle = StringStyle.analyzeFormatLabels(text);
 
 		ctxSetFont(fontSize, stringStyle);
 
