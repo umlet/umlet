@@ -9,9 +9,9 @@ public interface Resources extends ClientBundle {
 	Resources INSTANCE = GWT.create(Resources.class);
 
 	@Source("UML Common Elements.uxf")
-	TextResource umlCommonElements();
+	TextResource UML_Common_Elements();
 
 	@Source("Generic Colors.uxf")
-	TextResource genericColors();
+	TextResource Generic_Colors();
 
 }
