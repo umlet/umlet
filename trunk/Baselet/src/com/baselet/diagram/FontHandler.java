@@ -11,7 +11,7 @@ import com.baselet.diagram.draw.geom.DimensionDouble;
 
 public class FontHandler {
 
-	private DiagramHandler handler;
+	private final DiagramHandler handler;
 	private Double fontSize;
 	private Double diagramDefaultSize = null; // if "fontsize=..." is uncommented this variable is set
 
@@ -100,12 +100,15 @@ public class FontHandler {
 		return getFontSize(applyZoom) / 4;
 	}
 
-	public DimensionDouble getTextSize(String s) {
-		return getTextSize(s, true);
+	public DimensionDouble getTextSize(String stringWithFormatLabels) {
+		return getTextSize(stringWithFormatLabels, true);
 	}
 
-	public DimensionDouble getTextSize(String s, boolean applyZoom) {
-		return Utils.getTextSize(s, getFont(applyZoom), fontrenderContext);
+	public DimensionDouble getTextSize(String stringWithFormatLabels, boolean applyZoom) {
+		if (stringWithFormatLabels.isEmpty()) {
+			return new DimensionDouble(0, 0);
+		}
+		return Utils.getTextSize(new FormattedFont(stringWithFormatLabels, getFontSize(applyZoom), getFont(applyZoom), fontrenderContext));
 	}
 
 	public double getTextWidth(String s) {

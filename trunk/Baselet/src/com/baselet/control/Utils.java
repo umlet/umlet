@@ -1,10 +1,8 @@
 package com.baselet.control;
 
 import java.awt.BasicStroke;
-import java.awt.Font;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
-import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.io.File;
 import java.util.Collection;
@@ -18,6 +16,7 @@ import javax.swing.JComponent;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
+import com.baselet.diagram.FormattedFont;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
@@ -260,19 +259,10 @@ public abstract class Utils {
 		return false;
 	}
 
-	public static DimensionDouble getTextSize(String s, Font font, FontRenderContext frc) {
-		if (s == null) {
-			return null;
-		}
-		else if (s.isEmpty()) {
-			return new DimensionDouble(0, 0);
-		}
-
+	public static DimensionDouble getTextSize(FormattedFont formattedFont) {
 		// TextLayout trims the string, therefore replace spaces with dots in such cases (dots have exactly the same width as spaces, therefore we will get the expected width WITH spaces)
-		if (s.startsWith(" ") || s.endsWith(" ")) {
-			s = s.replace(' ', '.');
-		}
-		TextLayout tl = new TextLayout(s, font, frc);
+		formattedFont.replaceFirstAndLastSpaceWithDot();
+		TextLayout tl = new TextLayout(formattedFont.getAttributedCharacterIterator(), formattedFont.getFontRenderContext());
 		return new DimensionDouble(tl.getBounds().getWidth(), tl.getBounds().getHeight());
 	}
 

@@ -9,14 +9,15 @@ import java.awt.font.FontRenderContext;
 
 import javax.swing.JComponent;
 
+import com.baselet.diagram.FormattedFont;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 
 public class DiagramNotification extends JComponent {
 
 	private static final long serialVersionUID = 1L;
-	private String message;
-	private Rectangle drawPanelSize;
+	private final String message;
+	private final Rectangle drawPanelSize;
 
 	private static final Font notificationFont = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
 	private static final FontRenderContext frc = new FontRenderContext(null, true, true);
@@ -55,7 +56,7 @@ public class DiagramNotification extends JComponent {
 	}
 
 	private void adaptDimensions() {
-		DimensionDouble textSize = Utils.getTextSize(message, notificationFont, frc);
+		DimensionDouble textSize = Utils.getTextSize(new FormattedFont(message, notificationFont.getSize(), notificationFont, frc));
 		int x = (int) (drawPanelSize.getX2() - textSize.getWidth() - 20);
 		int y = drawPanelSize.getY() + 10;
 		this.setLocation(x, y);
