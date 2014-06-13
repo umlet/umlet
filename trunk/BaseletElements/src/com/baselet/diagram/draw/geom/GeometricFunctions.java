@@ -77,6 +77,7 @@ public class GeometricFunctions {
 
 			p = new PointDouble(xi, yi);
 
+			// remove intersections which are not on the line (use 1 instead of 0 distance for tolerance)
 			if (lineA.getDistanceToPoint(p) > 1 || lineB.getDistanceToPoint(p) > 1) {
 				p = null;
 			}
