@@ -207,13 +207,13 @@ Operation2</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>8</x>
-      <y>320</y>
+      <y>328</y>
       <w>152</w>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m1=0..n</panel_attributes>
-    <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
+    <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -241,7 +241,7 @@ m1=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>16</x>
-      <y>384</y>
+      <y>392</y>
       <w>144</w>
       <h>32</h>
     </coordinates>
@@ -249,7 +249,7 @@ m1=0..n</panel_attributes>
 m2=0..1
 m1=0..n
 </panel_attributes>
-    <additional_attributes>20.0;20.0;160.0;20.0</additional_attributes>
+    <additional_attributes>20.0;10.0;160.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -293,14 +293,14 @@ m1=require
     <id>Relation</id>
     <coordinates>
       <x>16</x>
-      <y>456</y>
+      <y>464</y>
       <w>128</w>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=-()
 m2=provide
 </panel_attributes>
-    <additional_attributes>10.0;20.0;140.0;20.0</additional_attributes>
+    <additional_attributes>10.0;10.0;140.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -336,11 +336,11 @@ mm=teaches to^</panel_attributes>
       <x>8</x>
       <y>272</y>
       <w>152</w>
-      <h>32</h>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=-
-m1=1
-m2=3
+m1=0..n
+m2=0..1
 mm=teaches to&gt;</panel_attributes>
     <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
   </element>
@@ -350,7 +350,7 @@ mm=teaches to&gt;</panel_attributes>
       <x>8</x>
       <y>296</y>
       <w>152</w>
-      <h>32</h>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=3
