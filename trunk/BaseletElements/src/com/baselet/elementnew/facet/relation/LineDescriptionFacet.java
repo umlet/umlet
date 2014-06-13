@@ -23,7 +23,7 @@ import com.baselet.gui.AutocompletionText;
 
 public class LineDescriptionFacet extends GlobalFacet {
 
-	private static final int DISTANCE_TO_LINE = 4;
+	private static final int DISTANCE_TO_LINE = 3;
 
 	public static LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
 
@@ -63,10 +63,10 @@ public class LineDescriptionFacet extends GlobalFacet {
 		PointDouble pointText = null;
 		if (!text.isEmpty()) {
 			if (key.equals(MESSAGE_START_KEY)) {
-				pointText = calcPos(drawer, text, pointText, relationPoints.getFirstLine(), true);
+				pointText = calcPosOfEndText(drawer, text, relationPoints.getFirstLine(), true);
 			}
 			else if (key.equals(MESSAGE_END_KEY)) {
-				pointText = calcPos(drawer, text, pointText, relationPoints.getLastLine(), false);
+				pointText = calcPosOfEndText(drawer, text, relationPoints.getLastLine(), false);
 			}
 			else /* if (key.equals(MESSAGE_MIDDLE_KEY)) */{
 				// replace < and > with UTF-8 triangles but avoid replacing quotations which are already replaced later
@@ -99,30 +99,19 @@ public class LineDescriptionFacet extends GlobalFacet {
 		}
 	}
 
-	private PointDouble calcPos(DrawHandler drawer, String text, PointDouble pointText, Line line, boolean isStart) {
-		pointText = line.getPointOnLineWithDistanceFrom(isStart, 20);
-		pointText = littleDistanceIfAngleZero(pointText, line);
+	private PointDouble calcPosOfEndText(DrawHandler drawer, String text, Line line, boolean isStart) {
+		PointDouble pointText = line.getPointOnLineWithDistanceFrom(isStart, 15); // distance from lineend (because of arrows,...)
 		Direction lineDirection = line.getDirectionOfLine(isStart);
 		if (lineDirection == Direction.RIGHT) {
-			pointText = new PointDouble(pointText.getX() - drawer.textWidth(text), pointText.getY());
+			pointText = new PointDouble(pointText.getX() - drawer.textWidth(text), pointText.getY() + drawer.textHeight());
+		}
+		else if (lineDirection == Direction.LEFT) {
+			pointText = new PointDouble(pointText.getX(), pointText.getY() + drawer.textHeight());
 		}
 		else if (lineDirection == Direction.UP) {
-			pointText = new PointDouble(pointText.getX() + DISTANCE_TO_LINE, pointText.getY() + drawer.textHeight() * 0.7);
-		}
-		else if (lineDirection == Direction.DOWN) {
-			pointText = new PointDouble(pointText.getX() + DISTANCE_TO_LINE, pointText.getY());
+			pointText = new PointDouble(pointText.getX(), pointText.getY() + drawer.textHeight() * 0.7);
 		}
 		return pointText;
-	}
-
-	private PointDouble littleDistanceIfAngleZero(PointDouble pointText, Line line) {
-		double angleOfSlope = line.getAngleOfSlope();
-		if (angleOfSlope == 0.0 || angleOfSlope == 180.0) {
-			return new PointDouble(pointText.getX(), pointText.getY() - DISTANCE_TO_LINE);
-		}
-		else {
-			return pointText;
-		}
 	}
 
 	public static Collection<Integer> getAllIndexes() {
@@ -133,10 +122,5 @@ public class LineDescriptionFacet extends GlobalFacet {
 		double textX = center.getX() - textWidth / 2;
 		double textY = center.getY() - DISTANCE_TO_LINE;
 		return new PointDouble(textX, textY);
-	}
-
-	@Override
-	public Priority getPriority() {
-		return Priority.HIGH; // should match before RelationLineTypeFacet to make sure resizings due to textbox-size happen before
 	}
 }
