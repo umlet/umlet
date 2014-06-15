@@ -3,6 +3,7 @@ package com.baselet.diagram.draw;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.baselet.control.StringStyle;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.geom.DimensionDouble;
@@ -182,9 +183,13 @@ public abstract class DrawHandler {
 		return 3;
 	}
 
+	protected DimensionDouble textDimension(String string) {
+		return textDimensionHelper(StringStyle.replaceNotEscaped(string));
+	}
+
 	/* HELPER METHODS */
 
-	protected abstract DimensionDouble textDimension(String string);
+	protected abstract DimensionDouble textDimensionHelper(String string);
 
 	protected abstract double getDefaultFontSize();
 
@@ -215,6 +220,14 @@ public abstract class DrawHandler {
 		print(text, new PointDouble(x, y), align);
 	}
 
+	protected String escape(String input) {
+		return StringStyle.replaceNotEscaped(input);
+	}
+
+	public void print(String text, PointDouble point, AlignHorizontal align) {
+		printHelper(StringStyle.replaceNotEscaped(text), point, align);
+	}
+
 	/**
 	 * @param x
 	 * @param y
@@ -235,5 +248,5 @@ public abstract class DrawHandler {
 
 	public abstract void drawRectangleRound(double x, double y, double width, double height, double radius);
 
-	public abstract void print(String text, PointDouble point, AlignHorizontal align);
+	public abstract void printHelper(String text, PointDouble point, AlignHorizontal align);
 }
