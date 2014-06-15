@@ -107,7 +107,10 @@ public class LineDescriptionFacet extends GlobalFacet {
 			pointText = new PointDouble(pointText.getX(), pointText.getY() + drawer.textHeight());
 		}
 		else if (lineDirection == Direction.UP) {
-			pointText = new PointDouble(pointText.getX(), pointText.getY() + drawer.textHeight() * 0.7);
+			pointText = new PointDouble(pointText.getX() + 5, pointText.getY() + drawer.textHeight() * 0.7);
+		}
+		else if (lineDirection == Direction.DOWN) {
+			pointText = new PointDouble(pointText.getX() + 5, pointText.getY());
 		}
 		return pointText;
 	}
