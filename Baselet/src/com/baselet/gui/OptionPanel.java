@@ -84,7 +84,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.add(propertiesPanelFontsize);
 		this.add(new JLabel("Default fontfamily"));
 		this.add(default_fontfamily);
-		this.add(new JLabel("Enable Developer Mode"));
+		this.add(new JLabel("Developer Mode (show extended Element Info)"));
 		this.add(developerMode);
 
 		JButton button_ok = new JButton("Ok");
