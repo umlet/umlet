@@ -68,7 +68,7 @@ public class DrawHandlerSwing extends DrawHandler {
 	}
 
 	@Override
-	public DimensionDouble textDimension(String text) {
+	public DimensionDouble textDimensionHelper(String text) {
 		boolean specialFontSize = style.getFontSize() != getDefaultFontSize();
 		if (specialFontSize) {
 			handler.getFontHandler().setFontSize(style.getFontSize());
@@ -156,7 +156,7 @@ public class DrawHandlerSwing extends DrawHandler {
 	}
 
 	@Override
-	public void print(String text, PointDouble point, AlignHorizontal align) {
+	public void printHelper(String text, PointDouble point, AlignHorizontal align) {
 		addText(new Text(text, point.x * getZoom(), point.y * getZoom(), align));
 	}
 

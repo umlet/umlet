@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.baselet.control.StringStyle;
 import com.baselet.control.TextSplitter;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.AlignVertical;
@@ -22,7 +21,6 @@ public class PropertiesParser {
 
 	public static void drawPropertiesText(NewGridElement element, PropertiesParserState state) {
 		List<String> propertiesText = element.getPanelAttributesAsList();
-		propertiesText = StringStyle.replaceNotEscaped(propertiesText);
 		autoresizeAnalysis(element, state.getSettings(), propertiesText); // at first handle autoresize (which possibly changes elementsize)
 		state.resetValues(element.getRealSize()); // now that the element size is known, reset the state with it
 		List<String> propTextWithoutGobalFacets = parseGlobalFacets(propertiesText, state.getSettings().getGlobalFacets(), element.getDrawer(), state); // must be before element.drawCommonContent (because bg=... and other settings are set here)

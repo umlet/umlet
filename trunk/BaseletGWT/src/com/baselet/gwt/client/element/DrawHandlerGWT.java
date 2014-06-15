@@ -31,7 +31,7 @@ public class DrawHandlerGWT extends DrawHandler {
 	}
 
 	@Override
-	protected DimensionDouble textDimension(String string) {
+	protected DimensionDouble textDimensionHelper(String string) {
 		ctxSetFont(style.getFontSize(), StringStyle.analyzeFormatLabels(string));
 		DimensionDouble dim = new DimensionDouble(ctx.measureText(string).getWidth(), style.getFontSize());
 		return dim;
@@ -146,7 +146,7 @@ public class DrawHandlerGWT extends DrawHandler {
 	}
 
 	@Override
-	public void print(final String text, final PointDouble point, final AlignHorizontal align) {
+	public void printHelper(final String text, final PointDouble point, final AlignHorizontal align) {
 		final Style styleAtDrawingCall = style.cloneFromMe();
 		addDrawable(new DrawFunction() {
 			@Override

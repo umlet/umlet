@@ -1,8 +1,6 @@
 package com.baselet.control;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.baselet.control.enumerations.FormatLabels;
@@ -21,14 +19,10 @@ public class StringStyle {
 		this.stringWithoutMarkup = stringWithoutMarkup;
 	}
 
-	public static List<String> replaceNotEscaped(List<String> propertiesText) {
-		List<String> returnList = new ArrayList<String>();
-		for (String line : propertiesText) {
-			line = StringStyle.replaceNotEscaped(line, SharedConstants.LEFT_QUOTATION, "\u00AB");
-			line = StringStyle.replaceNotEscaped(line, SharedConstants.RIGHT_QUOTATION, "\u00BB");
-			returnList.add(line);
-		}
-		return returnList;
+	public static String replaceNotEscaped(String line) {
+		line = StringStyle.replaceNotEscaped(line, SharedConstants.LEFT_QUOTATION, "\u00AB");
+		line = StringStyle.replaceNotEscaped(line, SharedConstants.RIGHT_QUOTATION, "\u00BB");
+		return line;
 	}
 
 	/**
