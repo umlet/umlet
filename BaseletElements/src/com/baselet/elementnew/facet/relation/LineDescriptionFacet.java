@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.DrawHandler;
@@ -69,18 +68,17 @@ public class LineDescriptionFacet extends GlobalFacet {
 				pointText = calcPosOfEndText(drawer, text, relationPoints.getLastLine(), false);
 			}
 			else /* if (key.equals(MESSAGE_MIDDLE_KEY)) */{
-				// replace < and > with UTF-8 triangles but avoid replacing quotations which are already replaced later
-				if (text.replaceAll(SharedConstants.LEFT_QUOTATION, "").startsWith("<")) {
-					text = "\u25C4 " + text.substring(1);
+				if (text.startsWith("< ")) {
+					text = "\u25C4" + text.substring(1);
 				}
-				else if (text.replaceAll(SharedConstants.RIGHT_QUOTATION, "").endsWith(">")) {
-					text = text.substring(0, text.length() - 1) + " \u25BA";
+				if (text.endsWith(" >")) {
+					text = text.substring(0, text.length() - 1) + "\u25BA";
 				}
-				else if (text.endsWith("^")) {
-					text = text.substring(0, text.length() - 1) + " \u25B2";
+				else if (text.endsWith(" ^")) {
+					text = text.substring(0, text.length() - 1) + "\u25B2";
 				}
-				else if (text.endsWith("v")) {
-					text = text.substring(0, text.length() - 1) + " \u25BC";
+				else if (text.endsWith(" v")) {
+					text = text.substring(0, text.length() - 1) + "\u25BC";
 				}
 				pointText = calcPosOfMiddleText(relationPoints.getDragBox().getCenter(), drawer.textWidth(text));
 			}

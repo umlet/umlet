@@ -305,30 +305,30 @@ m2=provide
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>296</x>
+      <x>288</x>
       <y>208</y>
-      <w>80</w>
+      <w>88</w>
       <h>120</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=0..n
 m2=1
-mm=teaches tov</panel_attributes>
-    <additional_attributes>40.0;10.0;40.0;130.0</additional_attributes>
+mm=teaches to v</panel_attributes>
+    <additional_attributes>50.0;10.0;50.0;130.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>296</x>
+      <x>288</x>
       <y>328</y>
-      <w>80</w>
+      <w>88</w>
       <h>120</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=0..n
 m2=1
-mm=teaches to^</panel_attributes>
-    <additional_attributes>40.0;10.0;40.0;130.0</additional_attributes>
+mm=teaches to ^</panel_attributes>
+    <additional_attributes>50.0;10.0;50.0;130.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -341,7 +341,7 @@ mm=teaches to^</panel_attributes>
     <panel_attributes>lt=-
 m1=0..n
 m2=0..1
-mm=teaches to&gt;</panel_attributes>
+mm=teaches to &gt;</panel_attributes>
     <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
   </element>
   <element>
@@ -355,7 +355,7 @@ mm=teaches to&gt;</panel_attributes>
     <panel_attributes>lt=-
 m1=3
 m2=1
-mm=&lt;teaches to</panel_attributes>
+mm=&lt; teaches to</panel_attributes>
     <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
   </element>
 </diagram>
