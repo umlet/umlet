@@ -147,6 +147,14 @@ public class Rectangle {
 		return new Rectangle(x, y, width, height);
 	}
 
+	public Rectangle subtract(Rectangle other) {
+		return new Rectangle(x - other.x, y - other.y, width - other.width, height - other.height);
+	}
+
+	public Rectangle add(Rectangle other) {
+		return new Rectangle(x + other.x, y + other.y, width + other.width, height + other.height);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
