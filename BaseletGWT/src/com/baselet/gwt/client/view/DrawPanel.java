@@ -172,7 +172,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		}
 		for (GridElement ge : elements) {
 			if (firstDrag) {
-				stickablesToMove.put(ge, getStickablesToMoveWhenElementsMove(ge, Collections.<GridElement> emptyList()));
+				stickablesToMove.put(ge, getStickablesToMoveWhenElementsMove(ge, elements));
 			}
 			ge.setLocationDifference(diffX, diffY, firstDrag, stickablesToMove.get(ge)); // uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
 		}
@@ -362,8 +362,8 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		return new Point(dragStart.getX() - draggedGridElement.getRectangle().getX(), dragStart.getY() - draggedGridElement.getRectangle().getY());
 	}
 
-	protected StickableMap getStickablesToMoveWhenElementsMove(GridElement draggedElement, List<GridElement> elements) {
-		return diagram.getStickables(draggedElement, elements);
+	protected StickableMap getStickablesToMoveWhenElementsMove(GridElement draggedElement, List<GridElement> excludeList) {
+		return diagram.getStickables(draggedElement, excludeList);
 	}
 
 	@Override
