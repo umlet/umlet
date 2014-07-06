@@ -359,17 +359,23 @@ public abstract class NewGridElement implements GridElement {
 				rect.setX(rect.getX() - diffX / 2);
 				rect.setWidth(Math.max(rect.getWidth() + diffX, MINIMAL_SIZE));
 			}
-			else if (resizeDirection.contains(Direction.LEFT) && rect.getWidth() - diffX >= MINIMAL_SIZE) {
-				rect.setX(rect.getX() + diffX);
-				rect.setWidth(rect.getWidth() - diffX);
+			else if (resizeDirection.contains(Direction.LEFT)) {
+				int newWidth = rect.getWidth() - diffX;
+				if (newWidth >= MINIMAL_SIZE) {
+					rect.setX(rect.getX() + diffX);
+					rect.setWidth(newWidth);
+				}
 			}
 			else if (resizeDirection.contains(Direction.RIGHT)) {
 				rect.setWidth(Math.max(rect.getWidth() + diffX, MINIMAL_SIZE));
 			}
 
-			if (resizeDirection.contains(Direction.UP) && rect.getHeight() - diffY >= MINIMAL_SIZE) {
-				rect.setY(rect.getY() + diffY);
-				rect.setHeight(rect.getHeight() - diffY);
+			if (resizeDirection.contains(Direction.UP)) {
+				int newHeight = rect.getHeight() - diffY;
+				if (newHeight >= MINIMAL_SIZE) {
+					rect.setY(rect.getY() + diffY);
+					rect.setHeight(newHeight);
+				}
 			}
 			if (resizeDirection.contains(Direction.DOWN)) {
 				rect.setHeight(Math.max(rect.getHeight() + diffY, MINIMAL_SIZE));
