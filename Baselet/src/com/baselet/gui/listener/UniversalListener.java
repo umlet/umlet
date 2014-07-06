@@ -28,7 +28,7 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 	protected Controller controller;
 
 	private int _xOffset, _yOffset;
-	private boolean disableElementMovement; // is true after mouseReleased until the next mousePressed AND if the lasso is active
+	private boolean disableElementMovement = true; // is true after mouseReleased until the next mousePressed AND if the lasso is active
 	private int old_x_eff, old_y_eff;
 	private int new_x_eff, new_y_eff;
 
