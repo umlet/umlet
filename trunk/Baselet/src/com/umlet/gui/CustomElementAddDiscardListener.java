@@ -1,27 +1,15 @@
-package com.baselet.gui.standalone;
+package com.umlet.gui;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.JLabel;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
 
-public class MenuListener implements MouseListener, MouseMotionListener {
-
-	private static MenuListener _menulistener;
-
-	public static MenuListener getInstance() {
-		if (_menulistener == null) {
-			_menulistener = new MenuListener();
-		}
-		return _menulistener;
-	}
-
-	protected MenuListener() {}
+public class CustomElementAddDiscardListener implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent me) {
@@ -55,16 +43,6 @@ public class MenuListener implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mouseReleased(MouseEvent me) {
-
-	}
-
-	@Override
-	public void mouseDragged(MouseEvent me) {
-
-	}
-
-	@Override
-	public void mouseMoved(MouseEvent me) {
 
 	}
 }

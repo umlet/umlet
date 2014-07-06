@@ -14,18 +14,19 @@ import com.baselet.control.Constants;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.gui.listener.DividerListener;
-import com.baselet.gui.standalone.MenuListener;
 import com.umlet.custom.CustomElementHandler;
 
 @SuppressWarnings("serial")
 public class CustomElementPanel extends JPanel {
 
-	private JSplitPane custompanelsplitleft;
-	private JSplitPane custompanelsplitright;
-	private JLabel savelabel;
-	private CustomElementHandler customhandler;
-	private CustomCodeSyntaxPane customcodepane;
-	private DrawPanel custompreviewpanel;
+	private final CustomElementAddDiscardListener saveListener = new CustomElementAddDiscardListener();
+
+	private final JSplitPane custompanelsplitleft;
+	private final JSplitPane custompanelsplitright;
+	private final JLabel savelabel;
+	private final CustomElementHandler customhandler;
+	private final CustomCodeSyntaxPane customcodepane;
+	private final DrawPanel custompreviewpanel;
 
 	public CustomElementPanel(CustomElementHandler customhandler) {
 		this.customhandler = customhandler;
@@ -61,13 +62,11 @@ public class CustomElementPanel extends JPanel {
 			public void setEnabled(boolean en) {
 				if (!enabled && en) {
 					enabled = en;
-					addMouseListener(MenuListener.getInstance());
-					addMouseMotionListener(MenuListener.getInstance());
+					addMouseListener(saveListener);
 				}
 				else if (enabled && !en) {
 					enabled = en;
-					removeMouseListener(MenuListener.getInstance());
-					removeMouseMotionListener(MenuListener.getInstance());
+					removeMouseListener(saveListener);
 				}
 			}
 		};
@@ -78,8 +77,7 @@ public class CustomElementPanel extends JPanel {
 		JLabel discardlabel = new JLabel("Discard and close editor");
 		discardlabel.setFont(Constants.getPanelHeaderFont());
 		discardlabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		discardlabel.addMouseListener(MenuListener.getInstance());
-		discardlabel.addMouseMotionListener(MenuListener.getInstance());
+		discardlabel.addMouseListener(saveListener);
 
 		custompanel3.add(previewlabel);
 		custompanel3.add(custompreviewpanel.getScrollPane());
