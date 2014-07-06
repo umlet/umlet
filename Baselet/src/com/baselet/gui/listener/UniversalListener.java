@@ -4,6 +4,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Vector;
 
 import com.baselet.control.Main;
 import com.baselet.diagram.Controller;
@@ -11,8 +12,13 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.SelectorFrame;
 import com.baselet.diagram.SelectorOld;
+import com.baselet.diagram.command.Command;
+import com.baselet.diagram.command.Macro;
+import com.baselet.diagram.command.Move;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.swing.Converter;
+import com.baselet.element.GridElement;
+import com.baselet.element.sticking.StickableMap;
 
 public abstract class UniversalListener extends ComponentAdapter implements MouseListener, MouseMotionListener {
 
@@ -127,4 +133,25 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 	}
 
 	protected abstract Point getOffset(MouseEvent me);
+
+	protected void dragDiagram() {
+		if (doReturn()) {
+			return;
+		}
+
+		Point newp = getNewCoordinate();
+		Point oldp = getOldCoordinate();
+
+		int diffx = newp.x - oldp.x;
+		int diffy = newp.y - oldp.y;
+
+		if (diffx != 0 || diffy != 0) {
+			Vector<Command> moveCommands = new Vector<Command>();
+			for (GridElement e : diagram.getGridElements()) {
+				moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, StickableMap.EMPTY_MAP));
+			}
+
+			controller.executeCommand(new Macro(moveCommands));
+		}
+	}
 }

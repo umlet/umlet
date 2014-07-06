@@ -3,7 +3,6 @@ package com.baselet.gui.listener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.util.Vector;
 
 import javax.swing.JComponent;
 
@@ -14,12 +13,7 @@ import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.SelectorFrame;
-import com.baselet.diagram.command.Command;
-import com.baselet.diagram.command.Macro;
-import com.baselet.diagram.command.Move;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.element.GridElement;
-import com.baselet.element.sticking.StickableMap;
 
 public class DiagramListener extends UniversalListener implements MouseWheelListener {
 
@@ -63,25 +57,7 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 	public void mouseDragged(MouseEvent me) {
 		super.mouseDragged(me);
 		log.debug("mouseDragged!!");
-
-		if (doReturn()) {
-			return;
-		}
-
-		Point newp = getNewCoordinate();
-		Point oldp = getOldCoordinate();
-
-		int diffx = newp.x - oldp.x;
-		int diffy = newp.y - oldp.y;
-
-		if (diffx != 0 || diffy != 0) {
-			Vector<Command> moveCommands = new Vector<Command>();
-			for (GridElement e : diagram.getGridElements()) {
-				moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, StickableMap.EMPTY_MAP));
-			}
-
-			controller.executeCommand(new Macro(moveCommands));
-		}
+		dragDiagram();
 	}
 
 	@Override
