@@ -27,18 +27,17 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 	public SelectorOld selector;
 	protected Controller controller;
 
+	private int _xOffset, _yOffset;
+	private boolean disableElementMovement; // is true after mouseReleased until the next mousePressed AND if the lasso is active
+	private int old_x_eff, old_y_eff;
+	private int new_x_eff, new_y_eff;
+
 	protected UniversalListener(DiagramHandler handler) {
-		_return = false;
 		this.handler = handler;
 		diagram = handler.getDrawPanel();
 		selector = diagram.getSelector();
 		controller = handler.getController();
 	}
-
-	private int _xOffset, _yOffset;
-	private boolean _return; // variable used to coordinate listener exits with inherited listeners
-	private int old_x_eff, old_y_eff;
-	private int new_x_eff, new_y_eff;
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {}
@@ -48,6 +47,7 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 
 	@Override
 	public void mousePressed(MouseEvent me) {
+		disableElementMovement = false;
 		Main.getInstance().getGUI().requestFocus(); // to avoid beeing stuck in the propertyPanel
 		Point off = getOffset(me);
 		_xOffset = off.x;
@@ -64,7 +64,7 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 
 	@Override
 	public void mouseReleased(MouseEvent me) {
-		_return = false;
+		disableElementMovement = true;
 		if (selector.isSelectorFrameActive()) {
 			SelectorFrame selframe = selector.getSelectorFrame();
 			diagram.remove(selframe);
@@ -91,12 +91,13 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 	public void mouseDragged(MouseEvent me) {
 		// Get new mouse coordinates
 		if (selector.isSelectorFrameActive()) {
-			// TODO
 			selector.getSelectorFrame().resizeTo(getOffset(me).getX(), getOffset(me).getY());
-			_return = true;
+			disableElementMovement = true;
 			return;
 		}
-		_return = false;
+		else if (disableElementMovement()) {
+			return;
+		}
 
 		Point off = getOffset(me);
 		int xNewOffset = off.x;
@@ -113,8 +114,8 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 	}
 
 	// only call after mouseDragged
-	protected final boolean doReturn() {
-		return _return;
+	protected final boolean disableElementMovement() {
+		return disableElementMovement;
 	}
 
 	// only call after mouseDragged
@@ -135,7 +136,7 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 	protected abstract Point getOffset(MouseEvent me);
 
 	protected void dragDiagram() {
-		if (doReturn()) {
+		if (disableElementMovement()) {
 			return;
 		}
 

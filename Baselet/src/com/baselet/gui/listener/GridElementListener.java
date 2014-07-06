@@ -81,7 +81,7 @@ public class GridElementListener extends UniversalListener {
 			return;
 		}
 
-		if (doReturn()) {
+		if (disableElementMovement()) {
 			return;
 		}
 
