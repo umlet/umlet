@@ -38,7 +38,7 @@ import com.baselet.gui.AutocompletionText;
 
 public abstract class NewGridElement implements GridElement {
 
-	private Logger log = Logger.getLogger(NewGridElement.class);
+	private final Logger log = Logger.getLogger(NewGridElement.class);
 
 	private DrawHandler drawer; // this is the drawer for element specific stuff
 	private DrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.
@@ -359,17 +359,17 @@ public abstract class NewGridElement implements GridElement {
 				rect.setX(rect.getX() - diffX / 2);
 				rect.setWidth(Math.max(rect.getWidth() + diffX, MINIMAL_SIZE));
 			}
-			else if (resizeDirection.contains(Direction.LEFT)) {
+			else if (resizeDirection.contains(Direction.LEFT) && rect.getWidth() - diffX >= MINIMAL_SIZE) {
 				rect.setX(rect.getX() + diffX);
-				rect.setWidth(Math.max(rect.getWidth() - diffX, MINIMAL_SIZE));
+				rect.setWidth(rect.getWidth() - diffX);
 			}
 			else if (resizeDirection.contains(Direction.RIGHT)) {
 				rect.setWidth(Math.max(rect.getWidth() + diffX, MINIMAL_SIZE));
 			}
 
-			if (resizeDirection.contains(Direction.UP)) {
+			if (resizeDirection.contains(Direction.UP) && rect.getHeight() - diffY >= MINIMAL_SIZE) {
 				rect.setY(rect.getY() + diffY);
-				rect.setHeight(Math.max(rect.getHeight() - diffY, MINIMAL_SIZE));
+				rect.setHeight(rect.getHeight() - diffY);
 			}
 			if (resizeDirection.contains(Direction.DOWN)) {
 				rect.setHeight(Math.max(rect.getHeight() + diffY, MINIMAL_SIZE));
