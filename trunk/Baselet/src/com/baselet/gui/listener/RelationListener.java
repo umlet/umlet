@@ -91,7 +91,7 @@ public class RelationListener extends GridElementListener {
 	@Override
 	public void mouseDragged(MouseEvent me) {
 		super.mouseDragged(me);
-		if (doReturn()) {
+		if (disableElementMovement()) {
 			return;
 		}
 		if (IS_DRAGGING) {
