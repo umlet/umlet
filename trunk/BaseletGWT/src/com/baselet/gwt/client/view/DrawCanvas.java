@@ -11,11 +11,21 @@ import com.baselet.gwt.client.element.ComponentGwt;
 import com.baselet.gwt.client.element.ElementFactory;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.user.client.ui.FocusWidget;
 
 public class DrawCanvas {
-	private Canvas canvas = Canvas.createIfSupported();
+	public interface HelptextResources extends ClientBundle {
+		HelptextResources INSTANCE = GWT.create(HelptextResources.class);
+
+		@Source("Helptext.txt")
+		TextResource helpText();
+	}
+
+	private final Canvas canvas = Canvas.createIfSupported();
 
 	public FocusWidget getWidget() {
 		return canvas;
@@ -68,7 +78,7 @@ public class DrawCanvas {
 		double elHeight = 150;
 		double elXPos = getWidth() / 2 - elWidth / 2;
 		double elYPos = getHeight() / 2 - elHeight;
-		GridElement emptyElement = ElementFactory.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), "halign=center\nDouble-click on an element to add it to the diagram (or use drag&drop)\n\n<Import> uxf Files using the Menu or simply drag them into the diagram\n<Export> diagrams to Standalone-UMLet-compatible uxf or png \n<Save> diagrams to persistent browser storage\n\nOnly Improved Elements work in standalone and web umlet\nWeb-Umlet Relations currently don't work in Standalone and vica versa\n\nPlease report bugs at http://code.google.com/p/umlet/", "", null);
+		GridElement emptyElement = ElementFactory.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), HelptextResources.INSTANCE.helpText().getText(), "", null);
 		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false);
 
 	}
