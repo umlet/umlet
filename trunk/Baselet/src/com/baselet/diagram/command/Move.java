@@ -16,18 +16,18 @@ public class Move extends Command {
 
 	private static final Logger log = Logger.getLogger(Move.class);
 
-	private GridElement entity;
+	private final GridElement entity;
 
-	private int x, y;
+	private final int x, y;
 
-	private double xBeforeDrag;
-	private double yBeforeDrag;
+	private final double xBeforeDrag;
+	private final double yBeforeDrag;
 
-	private boolean firstDrag;
+	private final boolean firstDrag;
 
-	private boolean useSetLocation;
+	private final boolean useSetLocation;
 
-	private StickableMap stickables;
+	private final StickableMap stickables;
 
 	private String additionalAttributesBefore;
 
@@ -111,15 +111,7 @@ public class Move extends Command {
 			entity.drag(Collections.<Direction> emptySet(), getX(), getY(), getMousePosBeforeDrag(), false, firstDrag, stickables);
 		}
 		Rectangle a = calcAtMinZoom(entity.getRectangle());
-		boundsBefore = subtract(b, a);
-	}
-
-	private Rectangle subtract(Rectangle b, Rectangle a) {
-		return new Rectangle(b.x - a.x, b.y - a.y, b.width - a.width, b.height - a.height);
-	}
-
-	private Rectangle add(Rectangle b, Rectangle a) {
-		return new Rectangle(b.x + a.x, b.y + a.y, b.width + a.width, b.height + a.height);
+		boundsBefore = b.subtract(a);
 	}
 
 	@Override
@@ -149,7 +141,7 @@ public class Move extends Command {
 		Point mousePosBeforeDrag = firstDrag ? getMousePosBeforeDrag() : m.getMousePosBeforeDrag();
 		// Important: absoluteMousePos=false, because the mousePos is already relative from the first constructor call!
 		Move ret = new Move(false, entity, getX() + m.getX(), getY() + m.getY(), mousePosBeforeDrag, firstDrag || m.firstDrag, useSetLocation, stickables);
-		ret.boundsBefore = add(boundsBefore, m.boundsBefore);
+		ret.boundsBefore = boundsBefore.add(m.boundsBefore);
 		ret.additionalAttributesBefore = m.additionalAttributesBefore;
 		return ret;
 	}
