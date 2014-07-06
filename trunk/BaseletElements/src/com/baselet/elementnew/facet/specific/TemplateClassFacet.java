@@ -42,23 +42,24 @@ public class TemplateClassFacet extends KeyValueFacet {
 		Rectangle tR = calcTemplateRect(templateClassText, drawer, width);
 		int classTopEnd = round(tR.getHeight() / 2);
 		int classWidth = width - round(tR.getWidth() / 2);
+		PointDouble start = new PointDouble(0, classTopEnd);
 		List<PointDouble> p = Arrays.asList(
-				new PointDouble(0, classTopEnd),
+				start,
 				new PointDouble(tR.getX(), classTopEnd),
 				new PointDouble(tR.getX(), 0),
 				new PointDouble(width, 0),
 				new PointDouble(width, tR.getHeight()),
 				new PointDouble(classWidth, tR.getHeight()),
 				new PointDouble(classWidth, height),
-				new PointDouble(0, height));
+				new PointDouble(0, height),
+				start);
 		// SET BUFFERS FOR REDUCED CLASS BORDER
 		state.setMinTopBuffer(tR.getHeight());
 		state.addToRightBuffer(width - classWidth);
 		// DRAW BACKGROUND RECT
 		Style style = drawer.getStyle();
 		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
-		int i = 0;
-		drawer.drawLines(p.get(i++), p.get(i++), p.get(i++), p.get(i++), p.get(i++), p.get(i++), p.get(i++), p.get(i++), p.get(0));
+		drawer.drawLines(p);
 		drawer.setStyle(style.cloneFromMe()); // reset style to state before manipulations
 		// DRAW RIGHT RECT
 		drawer.setLineType(LineType.DASHED);

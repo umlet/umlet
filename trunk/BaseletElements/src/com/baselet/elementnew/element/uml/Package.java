@@ -50,18 +50,18 @@ public class Package extends NewGridElement {
 		}
 		int height = getRealSize().getHeight();
 		int width = getRealSize().getWidth();
+		PointDouble start = new PointDouble(0, 0);
 		List<PointDouble> points = Arrays.asList(
-				new PointDouble(0, packageHeight),
+				start,
+				new PointDouble(packageWidth, 0),
+				new PointDouble(packageWidth, packageHeight),
 				new PointDouble(width, packageHeight),
 				new PointDouble(width, height),
 				new PointDouble(0, height),
-				new PointDouble(0, height),
-				new PointDouble(0, 0),
-				new PointDouble(packageWidth, 0),
-				new PointDouble(packageWidth, packageHeight),
-				new PointDouble(0, packageHeight)
+				start
 				);
 		drawer.drawLines(points);
+		drawer.drawLines(new PointDouble(0, packageHeight), new PointDouble(packageWidth, packageHeight));
 		state.setMinTopBuffer(packageHeight);
 		state.setStickingPolygonGenerator(new PointDoubleStickingPolygonGenerator(points));
 	}
