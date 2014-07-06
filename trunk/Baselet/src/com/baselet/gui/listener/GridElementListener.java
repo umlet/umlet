@@ -135,26 +135,6 @@ public class GridElementListener extends UniversalListener {
 		}
 	}
 
-	private void dragDiagram() {
-		if (doReturn()) {
-			return;
-		}
-		log.debug("dragDiagram()");
-
-		Point newp = getNewCoordinate();
-		Point oldp = getOldCoordinate();
-
-		int diffx = newp.x - oldp.x;
-		int diffy = newp.y - oldp.y;
-
-		Vector<Command> moveCommands = new Vector<Command>();
-		for (GridElement e : diagram.getGridElements()) {
-			moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, StickableMap.EMPTY_MAP));
-		}
-
-		controller.executeCommand(new Macro(moveCommands));
-	}
-
 	private void showContextMenu(GridElement ge, int x, int y) {
 
 		if (!selector.getSelectedElements().contains(ge)) {
