@@ -19,4 +19,10 @@ public class StickLineChange {
 	public StickLine getOld() {
 		return oldLine;
 	}
+
+	@Override
+	public String toString() {
+		return "StickLineChange [oldLine=" + oldLine + ", newLine=" + newLine + "]";
+	}
+
 }

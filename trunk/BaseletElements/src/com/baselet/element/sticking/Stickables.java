@@ -38,9 +38,9 @@ public class Stickables {
 		List<StickLineChange> changedStickLines = getChangedStickLines(oldStickingPolygon, newStickingPolygon);
 		// go through all stickpoints and handle the stickline-change
 		for (final Stickable stickable : stickablePointsToCheck.getStickables()) {
-			List<PointChange> calculatedChanges = handleStickLineChange(stickable, stickablePointsToCheck.getStickablePoints(stickable), changedStickLines, maxDistance);
-			if (!calculatedChanges.isEmpty()) {
-				List<PointDoubleIndexed> updatedChangedPoints = stickable.movePoints(calculatedChanges);
+			List<PointChange> calculatedStickingPointChanges = calculateStickingPointChanges(stickable, stickablePointsToCheck.getStickablePoints(stickable), changedStickLines, maxDistance);
+			if (!calculatedStickingPointChanges.isEmpty()) {
+				List<PointDoubleIndexed> updatedChangedPoints = stickable.movePoints(calculatedStickingPointChanges);
 				stickablePointsToCheck.setStickablePoints(stickable, updatedChangedPoints);
 			}
 		}
@@ -60,10 +60,10 @@ public class Stickables {
 		return changedStickLines;
 	}
 
-	private static List<PointChange> handleStickLineChange(Stickable stickable, List<PointDoubleIndexed> points, List<StickLineChange> changedStickLines, int maxDistance) {
+	private static List<PointChange> calculateStickingPointChanges(Stickable stickable, List<PointDoubleIndexed> stickablePoints, List<StickLineChange> changedStickLines, int maxDistance) {
 		List<PointChange> changedPoints = new ArrayList<PointChange>();
-		for (PointDoubleIndexed pd : points) {
-			PointDouble absolutePositionOfStickablePoint = getAbsolutePosition(stickable, pd);
+		for (PointDoubleIndexed stickablePoint : stickablePoints) {
+			PointDouble absolutePositionOfStickablePoint = getAbsolutePosition(stickable, stickablePoint);
 
 			StickLineChange change = getNearestStickLineChangeWhichWilLChangeTheStickPoint(changedStickLines, absolutePositionOfStickablePoint, maxDistance);
 
@@ -83,7 +83,7 @@ public class Stickables {
 				// the diff values are in current zoom, therefore normalize them (invert operation done in getAbsolutePosition())
 				int diffXdefaultZoom = diffX / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
 				int diffYdefaultZoom = diffY / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
-				changedPoints.add(new PointChange(pd.getIndex(), diffXdefaultZoom, diffYdefaultZoom));
+				changedPoints.add(new PointChange(stickablePoint.getIndex(), diffXdefaultZoom, diffYdefaultZoom));
 			}
 		}
 		return changedPoints;
