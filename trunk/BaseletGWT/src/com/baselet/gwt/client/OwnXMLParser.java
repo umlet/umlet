@@ -101,6 +101,7 @@ public class OwnXMLParser {
 						r.setY((int) (r.getY() / zoomScale));
 						r.setWidth((int) (r.getWidth() / zoomScale));
 						r.setHeight((int) (r.getHeight() / zoomScale));
+						gridElement.setRectangle(r);
 						gridElement.updateModelFromText();
 					}
 					diagram.getGridElements().add(gridElement);
