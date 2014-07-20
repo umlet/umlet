@@ -15,9 +15,10 @@ Question:
 Why is there more than one project?
 
 Answer:
-BaseletElement is the basic project which is needed by both other projects
+Umlet is available as Swing Standalone application, Eclipse Plugin and GWT Application.
 Baselet is the Swing Standalone and Eclipse Plugin project
-BaseletGWT is the Web-Version which is based on GWT
+BaseletGWT is the GWT based Web-Version
+BaseletElement is the project containing shared files
 
 -----------------------
 
@@ -36,17 +37,30 @@ Question:
 How do I start the program from Eclipse?
 
 Answer:
-You can use the "start" target from the ant-script "ant.xml" or you can use "Run as Application" -> "Main.java"
+Swing:			Run as Application -> Java Application. Then select Main.java (or use the "start" target from the ant-script "ant.xml")
+Eclipse Plugin:	Run As -> Eclipse Application
+GWT:			Run As -> Web Application
 
 -----------------------
 
 Question:
-The ant-script "ant.xml" isn't working.
+The ant-script "ant.xml" shows the following error: "ant.xml:69: Problem: failed to create task or type eclipse.refreshLocal"
 
 Answer:
-The ant file is only working in Eclipse and only if it running in the same JRE as the workspace.
+The ant file only works in Eclipse and only if it running in the same JRE as the workspace.
 Therefore right click on the target to run and select "Run As" -> "External Tools Configurations"
 Click on the "JRE" tab and select "Run in the same JRE as the workspace"
+
+-----------------------
+
+Question:
+BaseletGWT has BaseletElements as Project Reference, but Baselet links the sources instead. Why?
+
+Answer:
+As described above Baselet is a mixed project for standalone and plugin version of Umlet.
+The standalone part and the ant-exports work using a project reference, but when using "Run As -> Eclipse Application" (e.g. for debugging code) it will fail due to missing BaseletElement classes.
+The reason is plugin development uses its own dependency handling which ignores project dependencies, but uses linked sources.
+
 -----------------------
 
 Question:
