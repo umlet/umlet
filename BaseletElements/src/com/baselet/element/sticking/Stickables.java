@@ -63,19 +63,20 @@ public class Stickables {
 	private static List<PointChange> calculateStickingPointChanges(Stickable stickable, List<PointDoubleIndexed> stickablePoints, List<StickLineChange> changedStickLines, int maxDistance) {
 		List<PointChange> changedPoints = new ArrayList<PointChange>();
 		for (PointDoubleIndexed stickablePoint : stickablePoints) {
-			PointDouble absolutePositionOfStickablePoint = getAbsolutePosition(stickable, stickablePoint);
+			PointDouble absolutePosOfStickablePoint = getAbsolutePosition(stickable, stickablePoint);
 
-			StickLineChange change = getNearestStickLineChangeWhichWilLChangeTheStickPoint(changedStickLines, absolutePositionOfStickablePoint, maxDistance);
+			StickLineChange relevantStickline = getNearestStickLineChangeWhichWillChangeTheStickPoint(changedStickLines, absolutePosOfStickablePoint, maxDistance);
 
-			if (change != null) {
+			if (relevantStickline != null) {
 				PointDouble newPointToUse, oldPointToUse;
-				if (change.getNew().isConnected(absolutePositionOfStickablePoint, maxDistance)) {
-					newPointToUse = change.getNew().getStart();
-					oldPointToUse = change.getOld().getStart();
+				// if the end of the stickline doesn't change, use the start
+				if (relevantStickline.getOld().getEnd().equals(relevantStickline.getNew().getEnd())) {
+					newPointToUse = relevantStickline.getNew().getStart();
+					oldPointToUse = relevantStickline.getOld().getStart();
 				}
-				else {
-					newPointToUse = change.getNew().getEnd();
-					oldPointToUse = change.getOld().getEnd();
+				else { // otherwise use the end
+					newPointToUse = relevantStickline.getNew().getEnd();
+					oldPointToUse = relevantStickline.getOld().getEnd();
 				}
 
 				int diffX = newPointToUse.getX().intValue() - oldPointToUse.getX().intValue();
@@ -83,13 +84,17 @@ public class Stickables {
 				// the diff values are in current zoom, therefore normalize them (invert operation done in getAbsolutePosition())
 				int diffXdefaultZoom = diffX / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
 				int diffYdefaultZoom = diffY / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
-				changedPoints.add(new PointChange(stickablePoint.getIndex(), diffXdefaultZoom, diffYdefaultZoom));
+
+				// only change the point if it's still connected to the new position of the stickline (otherwise you could move a sticking relation out of a class border by resizing it too much)
+				if (relevantStickline.getNew().isConnected(new PointDouble(absolutePosOfStickablePoint.getX() + diffXdefaultZoom, absolutePosOfStickablePoint.getY() + diffYdefaultZoom), 5)) {
+					changedPoints.add(new PointChange(stickablePoint.getIndex(), diffXdefaultZoom, diffYdefaultZoom));
+				}
 			}
 		}
 		return changedPoints;
 	}
 
-	private static StickLineChange getNearestStickLineChangeWhichWilLChangeTheStickPoint(List<StickLineChange> changedStickLines, PointDouble absolutePositionOfStickablePoint, int maxDistance) {
+	private static StickLineChange getNearestStickLineChangeWhichWillChangeTheStickPoint(List<StickLineChange> changedStickLines, PointDouble absolutePositionOfStickablePoint, int maxDistance) {
 		Double lowestDistance = null;
 		StickLineChange changeMatchingLowestDistance = null;
 
