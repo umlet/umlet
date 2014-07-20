@@ -59,21 +59,21 @@ abstract class ArrowEnd implements RegexValueHolder {
 		}
 	};
 
-	static ArrowEnd LEFT_FILLED_CLOSED = new ArrowEnd("<<<<<") {
+	static ArrowEnd LEFT_FILLED_CLOSED = new ArrowEnd("<<<") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
 			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.CLOSED, true);
 		}
 	};
 
-	static ArrowEnd LEFT_DIAMOND = new ArrowEnd("<<<") {
+	static ArrowEnd LEFT_DIAMOND = new ArrowEnd("<<<<") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
 			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, false);
 		}
 	};
 
-	static ArrowEnd LEFT_FILLED_DIAMOND = new ArrowEnd("<<<<") {
+	static ArrowEnd LEFT_FILLED_DIAMOND = new ArrowEnd("<<<<<") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
 			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, true);
@@ -111,21 +111,21 @@ abstract class ArrowEnd implements RegexValueHolder {
 		}
 	};
 
-	static ArrowEnd RIGHT_FILLED_CLOSED = new ArrowEnd(">>>>>") {
+	static ArrowEnd RIGHT_FILLED_CLOSED = new ArrowEnd(">>>") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
 			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.CLOSED, true);
 		}
 	};
 
-	static ArrowEnd RIGHT_DIAMOND = new ArrowEnd(">>>") {
+	static ArrowEnd RIGHT_DIAMOND = new ArrowEnd(">>>>") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
 			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, false);
 		}
 	};
 
-	static ArrowEnd RIGHT_FILLED_DIAMOND = new ArrowEnd(">>>>") {
+	static ArrowEnd RIGHT_FILLED_DIAMOND = new ArrowEnd(">>>>>") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
 			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, true);
