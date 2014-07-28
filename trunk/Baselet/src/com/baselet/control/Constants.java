@@ -200,36 +200,29 @@ public abstract class Constants extends SharedConstants {
 
 	public static final List<LookAndFeelInfo> lookAndFeels = Arrays.asList(UIManager.getInstalledLookAndFeels());
 
-	protected static final String FIRST_PALETTE_STRING = "UML Common Elements";
 	protected static final String DEFAULT_STRING = "Default";
-	protected static final String PLOTS_STRING = "Plots";
 	public static final Comparator<String> DEFAULT_FIRST_COMPARATOR = new Comparator<String>() {
 		@Override
 		public int compare(String s1, String s2) {
-			// Anything which starts with "Default" is always first
-			if (s1.startsWith(Constants.FIRST_PALETTE_STRING) && !s2.startsWith(Constants.FIRST_PALETTE_STRING)) {
-				return -1;
+			// "UML Common Elements" before "Default" before anything else
+			for (String prefixFirst : Arrays.asList("UML Common Elements", Constants.DEFAULT_STRING)) {
+				if (s1.startsWith(prefixFirst) && !s2.startsWith(prefixFirst)) {
+					return -1;
+				}
+				if (s2.startsWith(prefixFirst) && !s1.startsWith(prefixFirst)) {
+					return 1;
+				}
 			}
-			if (s2.startsWith(Constants.FIRST_PALETTE_STRING) && !s1.startsWith(Constants.FIRST_PALETTE_STRING)) {
-				return 1;
+			// "Deprecated" after "Plot" after anything else
+			for (String prefixLast : Arrays.asList("Deprecated", "Plots")) {
+				if (s1.startsWith(prefixLast) && !s2.startsWith(prefixLast)) {
+					return 1;
+				}
+				if (s2.startsWith(prefixLast) && !s1.startsWith(prefixLast)) {
+					return -1;
+				}
 			}
-			// Anything which starts with "Default" is always first
-			if (s1.startsWith(Constants.DEFAULT_STRING) && !s2.startsWith(Constants.DEFAULT_STRING)) {
-				return -1;
-			}
-			if (s2.startsWith(Constants.DEFAULT_STRING) && !s1.startsWith(Constants.DEFAULT_STRING)) {
-				return 1;
-			}
-			// Anything which starts with "Plot" is always last
-			if (s1.startsWith(Constants.PLOTS_STRING) && !s2.startsWith(Constants.PLOTS_STRING)) {
-				return 1;
-			}
-			if (s2.startsWith(Constants.PLOTS_STRING) && !s1.startsWith(Constants.PLOTS_STRING)) {
-				return -1;
-			}
-			else {
-				return s1.compareTo(s2);
-			}
+			return s1.compareTo(s2);
 		}
 	};
 
