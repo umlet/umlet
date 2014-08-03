@@ -76,6 +76,7 @@ public class RelationDrawer {
 
 	public static void drawArrowToLine(PointDouble point, DrawHandler drawer, Line line, boolean drawOnStart, ArrowEndType arrowEndType, boolean fillBody, boolean invertArrow) {
 		if (invertArrow) {
+			point = line.getPointOnLineWithDistanceFrom(drawOnStart, ARROW_LENGTH);
 			drawOnStart = !drawOnStart;
 		}
 		int arrowAngle = drawOnStart ? 150 : 30;

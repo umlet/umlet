@@ -272,7 +272,7 @@ mm=syncMsg</panel_attributes>
       <w>120</w>
       <h>32</h>
     </coordinates>
-    <panel_attributes>lt=&gt;&gt;
+    <panel_attributes>lt=-&gt;&gt;
 mm=sync call</panel_attributes>
     <additional_attributes>10.0;20.0;130.0;20.0</additional_attributes>
   </element>
