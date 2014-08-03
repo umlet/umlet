@@ -19,6 +19,7 @@ import com.baselet.elementnew.element.uml.relation.ResizableObject;
 public class RelationDrawer {
 
 	private static final double ARROW_LENGTH = RelationPoints.POINT_SELECTION_RADIUS * 1.3;
+	private static final double DIAGONAL_CROSS_LENGTH = RelationPoints.POINT_SELECTION_RADIUS * 0.9;
 	private static final double BOX_SIZE = 20;
 
 	public static Rectangle drawBoxArrow(DrawHandler drawer, Line line, boolean drawOnStart, String matchedText, ResizableObject resizableObject) {
@@ -80,8 +81,8 @@ public class RelationDrawer {
 			drawOnStart = !drawOnStart;
 		}
 		int arrowAngle = drawOnStart ? 150 : 30;
-		PointDouble p1 = calcPoint(point, line.getAngleOfSlope() - arrowAngle);
-		PointDouble p2 = calcPoint(point, line.getAngleOfSlope() + arrowAngle);
+		PointDouble p1 = calcPointArrow(point, line.getAngleOfSlope() - arrowAngle);
+		PointDouble p2 = calcPointArrow(point, line.getAngleOfSlope() + arrowAngle);
 		List<PointDouble> points = new ArrayList<PointDouble>(Arrays.asList(p1, point, p2));
 		if (arrowEndType == ArrowEndType.CLOSED) {
 			points.add(p1);
@@ -104,9 +105,17 @@ public class RelationDrawer {
 		}
 	}
 
-	private static PointDouble calcPoint(PointDouble point, double angleTotal) {
-		double x = point.x + ARROW_LENGTH * Math.cos(Math.toRadians(angleTotal));
-		double y = point.y + ARROW_LENGTH * Math.sin(Math.toRadians(angleTotal));
+	private static PointDouble calcPointArrow(PointDouble point, double angleTotal) {
+		return calcPoint(point, angleTotal, ARROW_LENGTH);
+	}
+
+	private static PointDouble calcPointCross(PointDouble point, double angleTotal) {
+		return calcPoint(point, angleTotal, DIAGONAL_CROSS_LENGTH);
+	}
+
+	private static PointDouble calcPoint(PointDouble point, double angleTotal, double length) {
+		double x = point.x + length * Math.cos(Math.toRadians(angleTotal));
+		double y = point.y + length * Math.sin(Math.toRadians(angleTotal));
 		return new PointDouble(x, y);
 	}
 
@@ -149,7 +158,7 @@ public class RelationDrawer {
 
 	public static void drawDiagonalCross(DrawHandler drawer, Line line, boolean drawOnStart, ResizableObject resizableObject, Direction openDirection, boolean drawCross) {
 		PointDouble p = line.getPointOnLineWithDistanceFrom(drawOnStart, ARROW_LENGTH);
-		drawer.drawLine(p.x - 5, p.y - 5, p.x + 5, p.y + 5);
-		drawer.drawLine(p.x - 5, p.y + 5, p.x + 5, p.y - 5);
+		drawer.drawLines(calcPointCross(p, line.getAngleOfSlope() + 45), calcPointCross(p, line.getAngleOfSlope() - 135));
+		drawer.drawLines(calcPointCross(p, line.getAngleOfSlope() - 45), calcPointCross(p, line.getAngleOfSlope() + 135));
 	}
 }

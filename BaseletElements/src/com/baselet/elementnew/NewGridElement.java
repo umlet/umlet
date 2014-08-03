@@ -152,7 +152,9 @@ public abstract class NewGridElement implements GridElement {
 				newState += line + "\n";
 			}
 		}
-		newState = newState.substring(0, newState.length() - 1); // remove last linebreak
+		if (newState.endsWith("\n")) { // remove last linebreak
+			newState = newState.substring(0, newState.length() - 1);
+		}
 		if (newValue != null) {
 			newState += "\n" + key + Facet.SEP + newValue.toString(); // null will not be added as a value
 		}
