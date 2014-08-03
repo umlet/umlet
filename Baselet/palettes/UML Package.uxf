@@ -116,7 +116,7 @@ bg=green</panel_attributes>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-mm=&lt;&lt;access&gt;&gt;</panel_attributes>
+&lt;&lt;access&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;20.0;130.0;20.0</additional_attributes>
   </element>
   <element>
@@ -128,7 +128,7 @@ mm=&lt;&lt;access&gt;&gt;</panel_attributes>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-mm=&lt;&lt;import&gt;&gt;</panel_attributes>
+&lt;&lt;import&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;20.0;130.0;20.0</additional_attributes>
   </element>
   <element>
@@ -140,7 +140,7 @@ mm=&lt;&lt;import&gt;&gt;</panel_attributes>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-mm=&lt;&lt;merge&gt;&gt;</panel_attributes>
+&lt;&lt;merge&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;20.0;130.0;20.0</additional_attributes>
   </element>
   <element>

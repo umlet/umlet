@@ -172,7 +172,7 @@ valign=center</panel_attributes>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-mm=&lt;&lt;extends&gt;&gt;</panel_attributes>
+&lt;&lt;extends&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
   </element>
   <element>
@@ -184,7 +184,7 @@ mm=&lt;&lt;extends&gt;&gt;</panel_attributes>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-mm=&lt;&lt;includes&gt;&gt;</panel_attributes>
+&lt;&lt;includes&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
   </element>
 </diagram>

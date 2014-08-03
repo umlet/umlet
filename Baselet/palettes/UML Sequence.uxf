@@ -227,7 +227,7 @@ async. destroy</panel_attributes>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;
-mm=asyncMsg</panel_attributes>
+asyncMsg</panel_attributes>
     <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
   </element>
   <element>
@@ -239,7 +239,7 @@ mm=asyncMsg</panel_attributes>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;
-mm=syncMsg</panel_attributes>
+syncMsg</panel_attributes>
     <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
   </element>
   <element>
@@ -273,7 +273,7 @@ mm=syncMsg</panel_attributes>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;
-mm=sync call</panel_attributes>
+sync call</panel_attributes>
     <additional_attributes>10.0;20.0;130.0;20.0</additional_attributes>
   </element>
   <element>
@@ -285,7 +285,7 @@ mm=sync call</panel_attributes>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;
-mm=async return</panel_attributes>
+async return</panel_attributes>
     <additional_attributes>10.0;20.0;130.0;20.0</additional_attributes>
   </element>
   <element>

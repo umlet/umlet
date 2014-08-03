@@ -273,7 +273,7 @@ bg=red
       <h>48</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
-mm=a rose is a rose</panel_attributes>
+a rose is a rose</panel_attributes>
     <additional_attributes>30.0;40.0;70.0;40.0;70.0;10.0;10.0;10.0;10.0;30.0</additional_attributes>
   </element>
   <element>
@@ -313,7 +313,7 @@ m2=provide
     <panel_attributes>lt=-
 m1=0..n
 m2=1
-mm=teaches to v</panel_attributes>
+teaches to v</panel_attributes>
     <additional_attributes>50.0;10.0;50.0;130.0</additional_attributes>
   </element>
   <element>
@@ -327,7 +327,7 @@ mm=teaches to v</panel_attributes>
     <panel_attributes>lt=-
 m1=0..n
 m2=1
-mm=teaches to ^</panel_attributes>
+teaches to ^</panel_attributes>
     <additional_attributes>50.0;10.0;50.0;130.0</additional_attributes>
   </element>
   <element>
@@ -341,7 +341,7 @@ mm=teaches to ^</panel_attributes>
     <panel_attributes>lt=-
 m1=0..n
 m2=0..1
-mm=teaches to &gt;</panel_attributes>
+teaches to &gt;</panel_attributes>
     <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
   </element>
   <element>
@@ -355,7 +355,7 @@ mm=teaches to &gt;</panel_attributes>
     <panel_attributes>lt=-
 m1=3
 m2=1
-mm=&lt; teaches to</panel_attributes>
+&lt; teaches to</panel_attributes>
     <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
   </element>
 </diagram>
