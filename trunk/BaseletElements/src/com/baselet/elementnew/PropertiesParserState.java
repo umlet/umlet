@@ -16,7 +16,7 @@ import com.baselet.elementnew.settings.Settings;
 
 public class PropertiesParserState {
 
-	private Settings settings;
+	private final Settings settings;
 
 	private AlignHorizontal hAlign;
 	private boolean hAlignGloballySet;
@@ -29,7 +29,7 @@ public class PropertiesParserState {
 	private double rightBuffer;
 	private Dimension gridElementSize;
 	private ElementStyleEnum elementStyle;
-	private Map<Class<? extends Facet>, Object> facetResponse = new HashMap<Class<? extends Facet>, Object>();
+	private final Map<Class<? extends Facet>, Object> facetResponse = new HashMap<Class<? extends Facet>, Object>();
 
 	public PropertiesParserState(Settings settings) {
 		this.settings = settings;
@@ -175,6 +175,12 @@ public class PropertiesParserState {
 		if (mapValue == null) {
 			return defaultValue;
 		}
+		return mapValue;
+	}
+
+	public <T> T getOrInitFacetResponse(Class<? extends Facet> facetClass, T defaultValue) {
+		T mapValue = getFacetResponse(facetClass, defaultValue);
+		setFacetResponse(facetClass, mapValue);
 		return mapValue;
 	}
 
