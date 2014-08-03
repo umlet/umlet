@@ -3,7 +3,9 @@ package com.baselet.elementnew.element.uml.relation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.DrawHandler;
@@ -173,8 +175,15 @@ public class RelationPoints implements ResizableObject {
 		points.setTextBox(index, size);
 	}
 
-	public void resetTextBox(int index) {
-		points.setTextBox(index, null);
+	/**
+	 * resets all textbox indexes except those which are contained in the excludedList
+	 */
+	public void resetTextBoxIndexesExcept(Set<Integer> excludedList) {
+		Set<Integer> unusedTextBoxIndexes = new HashSet<Integer>(points.getTextBoxIndexes());
+		unusedTextBoxIndexes.removeAll(excludedList);
+		for (Integer index : unusedTextBoxIndexes) {
+			points.setTextBox(index, null);
+		}
 	}
 
 	@Override

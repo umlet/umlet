@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.GeometricFunctions;
@@ -197,6 +198,10 @@ public class RelationPointList {
 		else {
 			textBoxSpaces.put(index, rect);
 		}
+	}
+
+	public Set<Integer> getTextBoxIndexes() {
+		return textBoxSpaces.keySet();
 	}
 
 	public Rectangle createRectangleContainingAllPointsAndTextSpace() {

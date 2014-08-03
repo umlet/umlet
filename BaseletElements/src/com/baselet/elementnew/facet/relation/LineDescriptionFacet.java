@@ -1,11 +1,8 @@
 package com.baselet.elementnew.facet.relation;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -22,6 +19,19 @@ import com.baselet.gui.AutocompletionText;
 
 public class LineDescriptionFacet extends GlobalFacet {
 
+	public static class LineDescriptionFacetResponse {
+		private int middleLines = 0;
+		private final Set<Integer> alreadysetIndexes = new HashSet<Integer>();
+
+		public Set<Integer> getAlreadysetIndexes() {
+			return alreadysetIndexes;
+		}
+
+		public int getAndIncreaseMiddleLines() {
+			return middleLines++;
+		}
+	}
+
 	private static final int DISTANCE_TO_LINE = 3;
 
 	public static LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
@@ -30,14 +40,10 @@ public class LineDescriptionFacet extends GlobalFacet {
 
 	private static final String MESSAGE_START_KEY = "m1";
 	private static final String MESSAGE_END_KEY = "m2";
-	private static final String MESSAGE_MIDDLE_KEY = "mm";
 
-	private static final Map<String, Integer> indexMap = new HashMap<String, Integer>();
-	static {
-		indexMap.put(MESSAGE_START_KEY, 0);
-		indexMap.put(MESSAGE_END_KEY, 1);
-		indexMap.put(MESSAGE_MIDDLE_KEY, 2);
-	}
+	private static final int MESSAGE_START_INDEX = 0;
+	private static final int MESSAGE_END_INDEX = 1;
+	private static final int MESSAGE_MIDDLE_FIRST_INDEX = 2;
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
@@ -55,43 +61,41 @@ public class LineDescriptionFacet extends GlobalFacet {
 	@Override
 	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
 		RelationPoints relationPoints = ((SettingsRelation) state.getSettings()).getRelationPoints();
+		LineDescriptionFacetResponse response = state.getOrInitFacetResponse(LineDescriptionFacet.class, new LineDescriptionFacetResponse());
 
 		PointDouble pointText = null;
-		String key;
-		String text;
 		if (line.startsWith(MESSAGE_START_KEY + SEP) || line.startsWith(MESSAGE_END_KEY + SEP)) {
 			String[] split = line.split(SEP, -1);
-			key = split[0];
-			text = split[1];
+			String key = split[0];
+			String text = split[1];
 			if (!text.isEmpty()) {
 				if (key.equals(MESSAGE_START_KEY)) {
 					pointText = calcPosOfEndText(drawer, text, relationPoints.getFirstLine(), true);
+					printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_START_INDEX, text);
 				}
 				else if (key.equals(MESSAGE_END_KEY)) {
 					pointText = calcPosOfEndText(drawer, text, relationPoints.getLastLine(), false);
+					printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_END_INDEX, text);
 				}
 			}
 		}
 		else /* middle text has no prefix */{
-			key = MESSAGE_MIDDLE_KEY;
-			text = replaceArrowsWithUtf8Characters(line);
+			String text = replaceArrowsWithUtf8Characters(line);
 			pointText = calcPosOfMiddleText(relationPoints.getDragBox().getCenter(), drawer.textWidth(text));
+			int number = response.getAndIncreaseMiddleLines();
+			pointText = new PointDouble(pointText.getX(), pointText.getY() + number * drawer.textHeightWithSpace());
+			printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_MIDDLE_FIRST_INDEX + number, text);
 		}
+	}
 
-		if (!text.isEmpty() && pointText != null) {
-			drawer.print(text, pointText, AlignHorizontal.LEFT);
+	private void printAndUpdateIndex(DrawHandler drawer, LineDescriptionFacetResponse response, RelationPoints relationPoints, PointDouble pointText, int index, String text) {
+		drawer.print(text, pointText, AlignHorizontal.LEFT);
 
-			// to make sure text is printed (and therefore withing relation-element-borders, resize relation according to text
-			int index = indexMap.get(key);
-			if (index != -1) {
-				relationPoints.setTextBox(index, new Rectangle(pointText.getX(), pointText.getY() - drawer.textHeight(), drawer.textWidth(text), drawer.textHeight()));
-				// and remember that this index is set
-				Set<Integer> alreadysetIndexes = state.getFacetResponse(LineDescriptionFacet.class, new HashSet<Integer>());
-				state.setFacetResponse(LineDescriptionFacet.class, alreadysetIndexes);
-				alreadysetIndexes.add(index);
-				relationPoints.resizeRectAndReposPoints(); // apply the (possible) changes now to make sure the following facets use correct coordinates
-			}
-		}
+		// to make sure text is printed (and therefore withing relation-element-borders, resize relation according to text
+		relationPoints.setTextBox(index, new Rectangle(pointText.getX(), pointText.getY() - drawer.textHeight(), drawer.textWidth(text), drawer.textHeight()));
+		// and remember that this index is set
+		response.getAlreadysetIndexes().add(index);
+		relationPoints.resizeRectAndReposPoints(); // apply the (possible) changes now to make sure the following facets use correct coordinates
 	}
 
 	private static String replaceArrowsWithUtf8Characters(String text) {
@@ -126,10 +130,6 @@ public class LineDescriptionFacet extends GlobalFacet {
 			pointText = new PointDouble(pointText.getX() + 5, pointText.getY());
 		}
 		return pointText;
-	}
-
-	public static Collection<Integer> getAllIndexes() {
-		return indexMap.values();
 	}
 
 	private PointDouble calcPosOfMiddleText(PointDouble center, double textWidth) {
