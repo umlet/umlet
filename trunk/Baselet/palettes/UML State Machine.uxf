@@ -140,7 +140,7 @@ symbol=substate</panel_attributes>
       <h>64</h>
     </coordinates>
     <panel_attributes>lt=&gt;
-mm=self</panel_attributes>
+self</panel_attributes>
     <additional_attributes>100.0;30.0;100.0;60.0;10.0;60.0;10.0;10.0;50.0;10.0</additional_attributes>
   </element>
 </diagram>

@@ -254,7 +254,7 @@ Operation2</panel_attributes>
     <panel_attributes>lt=-
 m1=0..n
 m2=0..1
-mm=teaches to &gt;</panel_attributes>
+teaches to &gt;</panel_attributes>
     <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
   </element>
   <element>
@@ -266,7 +266,7 @@ mm=teaches to &gt;</panel_attributes>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;.&gt;
-mm=&lt;&lt;someStereotype&gt;&gt;</panel_attributes>
+&lt;&lt;someStereotype&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;20.0;170.0;20.0</additional_attributes>
   </element>
   <element>
@@ -325,7 +325,7 @@ m2=1..5,6
       <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
-mm=&lt;&lt;instanceOf&gt;&gt;</panel_attributes>
+&lt;&lt;instanceOf&gt;&gt;</panel_attributes>
     <additional_attributes>40.0;10.0;40.0;60.0</additional_attributes>
   </element>
   <element>
@@ -337,7 +337,7 @@ mm=&lt;&lt;instanceOf&gt;&gt;</panel_attributes>
       <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
-mm=&lt;&lt;include&gt;&gt;</panel_attributes>
+&lt;&lt;include&gt;&gt;</panel_attributes>
     <additional_attributes>30.0;10.0;30.0;60.0</additional_attributes>
   </element>
   <element>
@@ -349,7 +349,7 @@ mm=&lt;&lt;include&gt;&gt;</panel_attributes>
       <h>48</h>
     </coordinates>
     <panel_attributes>lt=.&gt;
-mm=&lt;&lt;extends&gt;&gt;</panel_attributes>
+&lt;&lt;extends&gt;&gt;</panel_attributes>
     <additional_attributes>50.0;10.0;20.0;40.0</additional_attributes>
   </element>
   <element>
@@ -383,7 +383,7 @@ mm=&lt;&lt;extends&gt;&gt;</panel_attributes>
       <h>48</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-
-mm=a rose is a rose</panel_attributes>
+a rose is a rose</panel_attributes>
     <additional_attributes>30.0;40.0;70.0;40.0;70.0;10.0;10.0;10.0;10.0;30.0</additional_attributes>
   </element>
 </diagram>
