@@ -67,15 +67,15 @@ public class RelationDrawer {
 	}
 
 	public static enum ArrowEndType {
-		NORMAL, INVERSE, CLOSED, DIAMOND
+		NORMAL, CLOSED, DIAMOND
 	}
 
-	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, ArrowEndType arrowEndType, boolean fillBody) {
-		drawArrowToLine(line.getPoint(drawOnStart), drawer, line, drawOnStart, arrowEndType, fillBody);
+	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, ArrowEndType arrowEndType, boolean fillBody, boolean invertArrow) {
+		drawArrowToLine(line.getPoint(drawOnStart), drawer, line, drawOnStart, arrowEndType, fillBody, invertArrow);
 	}
 
-	public static void drawArrowToLine(PointDouble point, DrawHandler drawer, Line line, boolean drawOnStart, ArrowEndType arrowEndType, boolean fillBody) {
-		if (arrowEndType == ArrowEndType.INVERSE) {
+	public static void drawArrowToLine(PointDouble point, DrawHandler drawer, Line line, boolean drawOnStart, ArrowEndType arrowEndType, boolean fillBody, boolean invertArrow) {
+		if (invertArrow) {
 			drawOnStart = !drawOnStart;
 		}
 		int arrowAngle = drawOnStart ? 150 : 30;
