@@ -41,47 +41,44 @@ public class LineDescriptionFacet extends GlobalFacet {
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
-		return line.startsWith(MESSAGE_START_KEY + SEP) || line.startsWith(MESSAGE_MIDDLE_KEY + SEP) || line.startsWith(MESSAGE_END_KEY + SEP);
+		return true; // apply alway because middle text has no prefix
 	}
 
 	@Override
 	public List<AutocompletionText> getAutocompletionStrings() {
 		return Arrays.asList(
 				new AutocompletionText(MESSAGE_START_KEY + SEP, "message at start"),
-				new AutocompletionText(MESSAGE_END_KEY + SEP, "message at end"),
-				new AutocompletionText(MESSAGE_MIDDLE_KEY + SEP, "message in the middle")
+				new AutocompletionText(MESSAGE_END_KEY + SEP, "message at end")
 				);
 	}
 
 	@Override
 	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
 		RelationPoints relationPoints = ((SettingsRelation) state.getSettings()).getRelationPoints();
-		String[] split = line.split(SEP, -1);
-		String key = split[0];
-		String text = split[1];
+
 		PointDouble pointText = null;
-		if (!text.isEmpty()) {
-			if (key.equals(MESSAGE_START_KEY)) {
-				pointText = calcPosOfEndText(drawer, text, relationPoints.getFirstLine(), true);
+		String key;
+		String text;
+		if (line.startsWith(MESSAGE_START_KEY + SEP) || line.startsWith(MESSAGE_END_KEY + SEP)) {
+			String[] split = line.split(SEP, -1);
+			key = split[0];
+			text = split[1];
+			if (!text.isEmpty()) {
+				if (key.equals(MESSAGE_START_KEY)) {
+					pointText = calcPosOfEndText(drawer, text, relationPoints.getFirstLine(), true);
+				}
+				else if (key.equals(MESSAGE_END_KEY)) {
+					pointText = calcPosOfEndText(drawer, text, relationPoints.getLastLine(), false);
+				}
 			}
-			else if (key.equals(MESSAGE_END_KEY)) {
-				pointText = calcPosOfEndText(drawer, text, relationPoints.getLastLine(), false);
-			}
-			else /* if (key.equals(MESSAGE_MIDDLE_KEY)) */{
-				if (text.startsWith("< ")) {
-					text = "\u25C4" + text.substring(1);
-				}
-				if (text.endsWith(" >")) {
-					text = text.substring(0, text.length() - 1) + "\u25BA";
-				}
-				else if (text.endsWith(" ^")) {
-					text = text.substring(0, text.length() - 1) + "\u25B2";
-				}
-				else if (text.endsWith(" v")) {
-					text = text.substring(0, text.length() - 1) + "\u25BC";
-				}
-				pointText = calcPosOfMiddleText(relationPoints.getDragBox().getCenter(), drawer.textWidth(text));
-			}
+		}
+		else /* middle text has no prefix */{
+			key = MESSAGE_MIDDLE_KEY;
+			text = replaceArrowsWithUtf8Characters(line);
+			pointText = calcPosOfMiddleText(relationPoints.getDragBox().getCenter(), drawer.textWidth(text));
+		}
+
+		if (!text.isEmpty() && pointText != null) {
 			drawer.print(text, pointText, AlignHorizontal.LEFT);
 
 			// to make sure text is printed (and therefore withing relation-element-borders, resize relation according to text
@@ -95,6 +92,22 @@ public class LineDescriptionFacet extends GlobalFacet {
 				relationPoints.resizeRectAndReposPoints(); // apply the (possible) changes now to make sure the following facets use correct coordinates
 			}
 		}
+	}
+
+	private static String replaceArrowsWithUtf8Characters(String text) {
+		if (text.startsWith("< ")) {
+			text = "\u25C4" + text.substring(1);
+		}
+		if (text.endsWith(" >")) {
+			text = text.substring(0, text.length() - 1) + "\u25BA";
+		}
+		else if (text.endsWith(" ^")) {
+			text = text.substring(0, text.length() - 1) + "\u25B2";
+		}
+		else if (text.endsWith(" v")) {
+			text = text.substring(0, text.length() - 1) + "\u25BC";
+		}
+		return text;
 	}
 
 	private PointDouble calcPosOfEndText(DrawHandler drawer, String text, Line line, boolean isStart) {
@@ -123,5 +136,10 @@ public class LineDescriptionFacet extends GlobalFacet {
 		double textX = center.getX() - textWidth / 2;
 		double textY = center.getY() - DISTANCE_TO_LINE;
 		return new PointDouble(textX, textY);
+	}
+
+	@Override
+	public Priority getPriority() {
+		return Priority.LOWEST; // because the middle text has no prefix, it should only apply after every other facet
 	}
 }
