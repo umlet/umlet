@@ -166,4 +166,11 @@ abstract class ArrowEnd implements RegexValueHolder {
 			RelationDrawer.drawCircle(drawer, lineToDraw, drawOnLineStart, resizableObject, null, false);
 		}
 	};
+
+	static ArrowEnd DIAGONAL_CROSS = new ArrowEnd("x") {
+		@Override
+		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
+			RelationDrawer.drawDiagonalCross(drawer, lineToDraw, drawOnLineStart, resizableObject, null, false);
+		}
+	};
 }
