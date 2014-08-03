@@ -146,4 +146,10 @@ public class RelationDrawer {
 			drawer.drawLine(point.getX(), point.getY() - length, point.getX(), point.getY() + length);
 		}
 	}
+
+	public static void drawDiagonalCross(DrawHandler drawer, Line line, boolean drawOnStart, ResizableObject resizableObject, Direction openDirection, boolean drawCross) {
+		PointDouble p = line.getPointOnLineWithDistanceFrom(drawOnStart, ARROW_LENGTH);
+		drawer.drawLine(p.x - 5, p.y - 5, p.x + 5, p.y + 5);
+		drawer.drawLine(p.x - 5, p.y + 5, p.x + 5, p.y - 5);
+	}
 }
