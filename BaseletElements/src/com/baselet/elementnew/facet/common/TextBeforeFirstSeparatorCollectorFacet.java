@@ -17,7 +17,7 @@ public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 
 	public static class PackageTitleFacetResponse {
 		private boolean firstSepFound = false;
-		private List<String> lines = new ArrayList<String>();
+		private final List<String> lines = new ArrayList<String>();
 
 		public List<String> getLines() {
 			return lines;
@@ -51,12 +51,7 @@ public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 	}
 
 	private PackageTitleFacetResponse getOrInit(PropertiesParserState state) {
-		PackageTitleFacetResponse packageTitleResponse = state.getFacetResponse(TextBeforeFirstSeparatorCollectorFacet.class, null);
-		if (packageTitleResponse == null) {
-			packageTitleResponse = new PackageTitleFacetResponse();
-			state.setFacetResponse(TextBeforeFirstSeparatorCollectorFacet.class, packageTitleResponse);
-		}
-		return packageTitleResponse;
+		return state.getOrInitFacetResponse(TextBeforeFirstSeparatorCollectorFacet.class, new PackageTitleFacetResponse());
 	}
 
 }
