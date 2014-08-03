@@ -41,42 +41,42 @@ abstract class ArrowEnd implements RegexValueHolder {
 			String textWithoutBox = matchedText.substring(1, matchedText.length() - 2);
 			Rectangle r = RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, textWithoutBox, resizableObject);
 			PointDouble intersection = lineToDraw.getIntersectionPoints(r).get(0);
-			RelationDrawer.drawArrowToLine(intersection, drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false);
+			RelationDrawer.drawArrowToLine(intersection, drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false, false);
 		}
 	};
 
 	static ArrowEnd LEFT_NORMAL = new ArrowEnd("<") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false, false);
 		}
 	};
 
 	static ArrowEnd LEFT_CLOSED = new ArrowEnd("<<") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.CLOSED, false);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.CLOSED, false, false);
 		}
 	};
 
 	static ArrowEnd LEFT_FILLED_CLOSED = new ArrowEnd("<<<") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.CLOSED, true);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.CLOSED, true, false);
 		}
 	};
 
 	static ArrowEnd LEFT_DIAMOND = new ArrowEnd("<<<<") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, false);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, false, false);
 		}
 	};
 
 	static ArrowEnd LEFT_FILLED_DIAMOND = new ArrowEnd("<<<<<") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, true);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, true, false);
 		}
 	};
 
@@ -93,42 +93,42 @@ abstract class ArrowEnd implements RegexValueHolder {
 			String textWithoutBox = matchedText.substring(2, matchedText.length() - 1);
 			Rectangle r = RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, textWithoutBox, resizableObject);
 			PointDouble intersection = lineToDraw.getIntersectionPoints(r).get(0);
-			RelationDrawer.drawArrowToLine(intersection, drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false);
+			RelationDrawer.drawArrowToLine(intersection, drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false, false);
 		}
 	};
 
 	static ArrowEnd RIGHT_NORMAL = new ArrowEnd(">") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false, false);
 		}
 	};
 
 	static ArrowEnd RIGHT_CLOSED = new ArrowEnd(">>") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.CLOSED, false);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.CLOSED, false, false);
 		}
 	};
 
 	static ArrowEnd RIGHT_FILLED_CLOSED = new ArrowEnd(">>>") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.CLOSED, true);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.CLOSED, true, false);
 		}
 	};
 
 	static ArrowEnd RIGHT_DIAMOND = new ArrowEnd(">>>>") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, false);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, false, false);
 		}
 	};
 
 	static ArrowEnd RIGHT_FILLED_DIAMOND = new ArrowEnd(">>>>>") {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
-			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, true);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DIAMOND, true, false);
 		}
 	};
 
