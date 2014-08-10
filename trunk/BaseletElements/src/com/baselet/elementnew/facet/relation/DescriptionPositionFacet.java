@@ -11,6 +11,8 @@ import com.baselet.elementnew.facet.KeyValueFacet;
 
 public class DescriptionPositionFacet extends KeyValueFacet {
 
+	private static final int MAX_DISP = 200;
+
 	public static final String POS = "pos";
 
 	public static DescriptionPositionFacet INSTANCE_START = new DescriptionPositionFacet(LineDescriptionFacet.MESSAGE_START_KEY);
@@ -32,13 +34,17 @@ public class DescriptionPositionFacet extends KeyValueFacet {
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
 		try {
 			Map<String, Point> displacements = state.getOrInitFacetResponse(DescriptionPositionFacet.class, new HashMap<String, Point>());
-			if (value.contains(",")) {
-				String[] split = value.split(",");
-				Integer x = Integer.valueOf(split[0]);
-				Integer y = Integer.valueOf(split[1]);
-				displacements.put(lineDesc, new Point(x, y));
+			String[] split = value.split(",");
+			int x = Integer.valueOf(split[0]);
+			int y = Integer.valueOf(split[1]);
+			if (x > MAX_DISP || y > MAX_DISP) {
+				throw new StyleException("max allowed displacement value is " + MAX_DISP);
 			}
-		} catch (NumberFormatException e) {
+			displacements.put(lineDesc, new Point(x, y));
+		} catch (Exception e) {
+			if (e instanceof StyleException) {
+				throw (StyleException) e;
+			}
 			throw new StyleException("value must be <integer>,<integer>");
 		}
 
