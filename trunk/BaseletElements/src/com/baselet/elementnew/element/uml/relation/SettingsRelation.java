@@ -9,6 +9,7 @@ import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.ElementStyleFacet.ElementStyleEnum;
 import com.baselet.elementnew.facet.relation.LineDescriptionFacet;
+import com.baselet.elementnew.facet.relation.DescriptionPositionFacet;
 import com.baselet.elementnew.facet.relation.RelationLineTypeFacet;
 import com.baselet.elementnew.settings.Settings;
 
@@ -36,7 +37,7 @@ public abstract class SettingsRelation extends Settings {
 
 	@Override
 	public List<? extends Facet> createFacets() {
-		return Arrays.asList(RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE);
+		return Arrays.asList(RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, DescriptionPositionFacet.INSTANCE_X1, DescriptionPositionFacet.INSTANCE_X2, DescriptionPositionFacet.INSTANCE_Y1, DescriptionPositionFacet.INSTANCE_Y2);
 	}
 
 	@Override

@@ -1,8 +1,10 @@
 package com.baselet.elementnew.facet.relation;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -19,6 +21,8 @@ import com.baselet.gui.AutocompletionText;
 
 public class LineDescriptionFacet extends GlobalFacet {
 
+	public static LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
+
 	public static class LineDescriptionFacetResponse {
 		private int middleLines = 0;
 		private final Set<Integer> alreadysetIndexes = new HashSet<Integer>();
@@ -34,16 +38,15 @@ public class LineDescriptionFacet extends GlobalFacet {
 
 	private static final int DISTANCE_TO_LINE = 3;
 
-	public static LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
-
 	private LineDescriptionFacet() {}
 
-	private static final String MESSAGE_START_KEY = "m1";
-	private static final String MESSAGE_END_KEY = "m2";
+	private static final int MESSAGE_START_INDEX = 1;
+	private static final int MESSAGE_END_INDEX = 2;
+	private static final int MESSAGE_MIDDLE_FIRST_INDEX = 3;
 
-	private static final int MESSAGE_START_INDEX = 0;
-	private static final int MESSAGE_END_INDEX = 1;
-	private static final int MESSAGE_MIDDLE_FIRST_INDEX = 2;
+	private static final String MESSAGE_CHAR = "m";
+	static final String MESSAGE_START_KEY = MESSAGE_CHAR + MESSAGE_START_INDEX;
+	static final String MESSAGE_END_KEY = MESSAGE_CHAR + MESSAGE_END_INDEX;
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
@@ -60,6 +63,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 
 	@Override
 	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
+		Map<String, Integer> displacements = state.getOrInitFacetResponse(DescriptionPositionFacet.class, new HashMap<String, Integer>());
 		RelationPoints relationPoints = ((SettingsRelation) state.getSettings()).getRelationPoints();
 		LineDescriptionFacetResponse response = state.getOrInitFacetResponse(LineDescriptionFacet.class, new LineDescriptionFacetResponse());
 
@@ -71,11 +75,11 @@ public class LineDescriptionFacet extends GlobalFacet {
 			if (!text.isEmpty()) {
 				if (key.equals(MESSAGE_START_KEY)) {
 					pointText = calcPosOfEndText(drawer, text, relationPoints.getFirstLine(), true);
-					printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_START_INDEX, text);
+					printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_START_INDEX, text, displacements);
 				}
 				else if (key.equals(MESSAGE_END_KEY)) {
 					pointText = calcPosOfEndText(drawer, text, relationPoints.getLastLine(), false);
-					printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_END_INDEX, text);
+					printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_END_INDEX, text, displacements);
 				}
 			}
 		}
@@ -86,6 +90,20 @@ public class LineDescriptionFacet extends GlobalFacet {
 			pointText = new PointDouble(pointText.getX(), pointText.getY() + number * drawer.textHeightWithSpace());
 			printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_MIDDLE_FIRST_INDEX + number, text);
 		}
+	}
+
+	private void printAndUpdateIndex(DrawHandler drawer, LineDescriptionFacetResponse response, RelationPoints relationPoints, PointDouble pointText, int index, String text, Map<String, Integer> displacements) {
+		double xDisp = pointText.getX() + getOrZero(index, displacements, DescriptionPositionFacet.X_KEY);
+		double yDisp = pointText.getY() + getOrZero(index, displacements, DescriptionPositionFacet.Y_KEY);
+		printAndUpdateIndex(drawer, response, relationPoints, new PointDouble(xDisp, yDisp), index, text);
+	}
+
+	private Integer getOrZero(int index, Map<String, Integer> displacements, String key) {
+		Integer disp = displacements.get(MESSAGE_CHAR + index + key);
+		if (disp == null) {
+			disp = 0;
+		}
+		return disp;
 	}
 
 	private void printAndUpdateIndex(DrawHandler drawer, LineDescriptionFacetResponse response, RelationPoints relationPoints, PointDouble pointText, int index, String text) {
@@ -140,6 +158,6 @@ public class LineDescriptionFacet extends GlobalFacet {
 
 	@Override
 	public Priority getPriority() {
-		return Priority.LOWEST; // because the middle text has no prefix, it should only apply after every other facet
+		return Priority.LOWEST; // because the middle text has no prefix, it should only apply after every other facet. also text DescriptionPositionFacet must be known before calculating the text position
 	}
 }
