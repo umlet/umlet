@@ -11,6 +11,7 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Line;
+import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.elementnew.PropertiesParserState;
@@ -63,7 +64,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 
 	@Override
 	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
-		Map<String, Integer> displacements = state.getOrInitFacetResponse(DescriptionPositionFacet.class, new HashMap<String, Integer>());
+		Map<String, Point> displacements = state.getOrInitFacetResponse(DescriptionPositionFacet.class, new HashMap<String, Point>());
 		RelationPoints relationPoints = ((SettingsRelation) state.getSettings()).getRelationPoints();
 		LineDescriptionFacetResponse response = state.getOrInitFacetResponse(LineDescriptionFacet.class, new LineDescriptionFacetResponse());
 
@@ -75,11 +76,11 @@ public class LineDescriptionFacet extends GlobalFacet {
 			if (!text.isEmpty()) {
 				if (key.equals(MESSAGE_START_KEY)) {
 					pointText = calcPosOfEndText(drawer, text, relationPoints.getFirstLine(), true);
-					printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_START_INDEX, text, displacements);
+					printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_START_INDEX, text, displacements.get(MESSAGE_START_KEY));
 				}
 				else if (key.equals(MESSAGE_END_KEY)) {
 					pointText = calcPosOfEndText(drawer, text, relationPoints.getLastLine(), false);
-					printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_END_INDEX, text, displacements);
+					printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_END_INDEX, text, displacements.get(MESSAGE_END_KEY));
 				}
 			}
 		}
@@ -92,18 +93,11 @@ public class LineDescriptionFacet extends GlobalFacet {
 		}
 	}
 
-	private void printAndUpdateIndex(DrawHandler drawer, LineDescriptionFacetResponse response, RelationPoints relationPoints, PointDouble pointText, int index, String text, Map<String, Integer> displacements) {
-		double xDisp = pointText.getX() + getOrZero(index, displacements, DescriptionPositionFacet.X_KEY);
-		double yDisp = pointText.getY() + getOrZero(index, displacements, DescriptionPositionFacet.Y_KEY);
-		printAndUpdateIndex(drawer, response, relationPoints, new PointDouble(xDisp, yDisp), index, text);
-	}
-
-	private Integer getOrZero(int index, Map<String, Integer> displacements, String key) {
-		Integer disp = displacements.get(MESSAGE_CHAR + index + key);
-		if (disp == null) {
-			disp = 0;
+	private void printAndUpdateIndex(DrawHandler drawer, LineDescriptionFacetResponse response, RelationPoints relationPoints, PointDouble pointText, int index, String text, Point displacement) {
+		if (displacement != null) {
+			pointText = new PointDouble(pointText.getX() + displacement.getX(), pointText.getY() + displacement.getY());
 		}
-		return disp;
+		printAndUpdateIndex(drawer, response, relationPoints, pointText, index, text);
 	}
 
 	private void printAndUpdateIndex(DrawHandler drawer, LineDescriptionFacetResponse response, RelationPoints relationPoints, PointDouble pointText, int index, String text) {
