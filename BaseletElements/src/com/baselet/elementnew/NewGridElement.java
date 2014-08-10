@@ -109,16 +109,20 @@ public abstract class NewGridElement implements GridElement {
 		} catch (Exception e) {
 			log.debug("Cannot parse Properties Text", e);
 			drawer.resetStyle();
-			drawer.setForegroundColor(ColorOwn.RED);
-			drawer.setBackgroundColor(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND));
-			drawer.setLineWidth(0.2);
-			drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height); // draw dotted rect (to enforce background color even if element has no border)
-			resetMetaDrawer(metaDrawer);
-			drawer.print(e.getLocalizedMessage(), 3, getRealSize().height / 2 - drawer.textHeight(), AlignHorizontal.LEFT);
+			drawError(drawer, e.getLocalizedMessage());
 		}
 		autoresizePossiblyInProgress = false;
 
 		component.afterModelUpdate();
+	}
+
+	protected void drawError(DrawHandler drawer, String errorText) {
+		drawer.setForegroundColor(ColorOwn.RED);
+		drawer.setBackgroundColor(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND));
+		drawer.setLineWidth(0.2);
+		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height); // draw dotted rect (to enforce background color even if element has no border)
+		resetMetaDrawer(metaDrawer);
+		drawer.print(errorText, 3, getRealSize().height / 2 - drawer.textHeight(), AlignHorizontal.LEFT);
 	}
 
 	void resetMetaDrawerAndDrawCommonContent() {
