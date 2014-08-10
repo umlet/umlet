@@ -128,7 +128,7 @@ symbol=substate</panel_attributes>
       <w>152</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>lt=&gt;</panel_attributes>
+    <panel_attributes>lt=-&gt;</panel_attributes>
     <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
   </element>
   <element>
@@ -139,7 +139,7 @@ symbol=substate</panel_attributes>
       <w>96</w>
       <h>64</h>
     </coordinates>
-    <panel_attributes>lt=&gt;
+    <panel_attributes>lt=-&gt;
 self</panel_attributes>
     <additional_attributes>100.0;30.0;100.0;60.0;10.0;60.0;10.0;10.0;50.0;10.0</additional_attributes>
   </element>

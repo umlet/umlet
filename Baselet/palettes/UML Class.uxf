@@ -241,15 +241,15 @@ m1=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>16</x>
-      <y>392</y>
+      <y>384</y>
       <w>144</w>
-      <h>32</h>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=[key]-&gt;
 m2=0..1
 m1=0..n
 </panel_attributes>
-    <additional_attributes>20.0;10.0;160.0;10.0</additional_attributes>
+    <additional_attributes>20.0;20.0;160.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
@@ -284,7 +284,7 @@ a rose is a rose</panel_attributes>
       <w>136</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>lt=)
+    <panel_attributes>lt=)-
 m1=require
 </panel_attributes>
     <additional_attributes>20.0;20.0;150.0;20.0</additional_attributes>
@@ -293,42 +293,42 @@ m1=require
     <id>Relation</id>
     <coordinates>
       <x>16</x>
-      <y>464</y>
+      <y>456</y>
       <w>128</w>
-      <h>32</h>
+      <h>40</h>
     </coordinates>
     <panel_attributes>lt=-()
 m2=provide
 </panel_attributes>
-    <additional_attributes>10.0;10.0;140.0;10.0</additional_attributes>
+    <additional_attributes>10.0;20.0;140.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>288</x>
+      <x>296</x>
       <y>208</y>
-      <w>88</w>
+      <w>80</w>
       <h>120</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=0..n
 m2=1
 teaches to v</panel_attributes>
-    <additional_attributes>50.0;10.0;50.0;130.0</additional_attributes>
+    <additional_attributes>40.0;10.0;40.0;130.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>288</x>
+      <x>296</x>
       <y>328</y>
-      <w>88</w>
+      <w>80</w>
       <h>120</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=0..n
 m2=1
 teaches to ^</panel_attributes>
-    <additional_attributes>50.0;10.0;50.0;130.0</additional_attributes>
+    <additional_attributes>40.0;10.0;40.0;130.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>

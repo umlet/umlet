@@ -153,7 +153,7 @@ public class Relation extends NewGridElement implements Stickable {
 
 	@Override
 	protected void drawError(DrawHandler drawer, String errorText) {
-		super.drawError(drawer, errorText);
+		super.drawError(drawer, errorText.replace(">>", "\\>>").replace("<<", "\\<<"));
 		RelationLineTypeFacet.drawDefaultLineAndArrows(drawer, relationPoints);
 	}
 }

@@ -12,6 +12,7 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
 import com.baselet.elementnew.element.uml.relation.RelationPoints;
@@ -59,13 +60,36 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		RelationPoints relationPoints = ((SettingsRelation) state.getSettings()).getRelationPoints();
 		remainingValue = value;
 
-		Match<ArrowEnd> leftArrow = extractPart(LEFT_ARROW_STRINGS, null);
-		Match<LineType> lineType = extractPart(LINE_TYPES, LineType.SOLID);
-		Match<ArrowEnd> rightArrow = extractPart(RIGHT_ARROW_STRINGS, null);
+		Match<ArrowEnd> leftArrow = extractPart(LEFT_ARROW_STRINGS);
+		Match<LineType> lineType = extractPart(LINE_TYPES);
+		if (leftArrow.type == null && lineType.type == null) {
+			throw new StyleException("left arrow must be one of the following or empty:\n" + listToString(LEFT_ARROW_STRINGS));
+		}
+		if (lineType.type == null) {
+			throw new StyleException("lineType must be specified. One of: " + listToString(LINE_TYPES));
+		}
+		Match<ArrowEnd> rightArrow = extractPart(RIGHT_ARROW_STRINGS);
+		if (rightArrow.type == null && !remainingValue.isEmpty()) {
+			throw new StyleException("right arrow must be one of the following or empty:\n" + listToString(RIGHT_ARROW_STRINGS));
+		}
+		if (!remainingValue.isEmpty()) {
+			throw new StyleException("Unknown part after rightArrow: " + remainingValue);
+
+		}
 		log.debug("Split Relation " + value + " into following parts: " + getValueNotNull(leftArrow) + " | " + getValueNotNull(lineType) + " | " + getValueNotNull(rightArrow));
 
 		drawLineAndArrows(drawer, relationPoints, lineType, leftArrow, rightArrow);
 		state.setFacetResponse(RelationLineTypeFacet.class, true); // let Relation know that lt= is set
+	}
+
+	private <T extends RegexValueHolder> String listToString(List<T> valueHolderList) {
+		StringBuilder sb = new StringBuilder();
+		for (RegexValueHolder r : valueHolderList) {
+			String simpleRegex = r.getRegexValue().replace(ArrowEnd.BOX_REGEX, "[text]").replaceAll("\\\\", "");
+			sb.append(simpleRegex).append(",");
+		}
+		sb.setLength(sb.length() - 1);
+		return sb.toString();
 	}
 
 	public static void drawDefaultLineAndArrows(DrawHandler drawer, RelationPoints relationPoints) {
@@ -100,7 +124,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		drawer.setLineType(oldLt);
 	}
 
-	private <T extends RegexValueHolder> Match<T> extractPart(List<T> valueHolderList, T defaultValue) {
+	private <T extends RegexValueHolder> Match<T> extractPart(List<T> valueHolderList) {
 		for (T valueHolder : valueHolderList) {
 			String regex = "^" + valueHolder.getRegexValue(); // only match from start of the line (left to right)
 			String newRemainingValue = remainingValue.replaceFirst(regex, "");
@@ -110,7 +134,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 				return new Match<T>(removedPart, valueHolder);
 			}
 		}
-		return new Match<T>("", defaultValue);
+		return new Match<T>("", null);
 	}
 
 	private String getValueNotNull(Match<? extends RegexValueHolder> valueHolder) {
