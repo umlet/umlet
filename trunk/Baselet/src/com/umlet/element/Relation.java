@@ -149,7 +149,7 @@ public class Relation extends OldGridElement {
 		// G.Mueller. End
 		setStrings(null);
 
-		panelAttributes = state;
+		super.setPanelAttributes(state);
 
 		Vector<String> tmp = Utils.decomposeStrings(state);
 

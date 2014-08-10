@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.SharedConstants;
+import com.baselet.control.SharedUtils;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
@@ -56,7 +57,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	private boolean enabled;
 	private boolean autoresizeandmanualresizeenabled;
-	protected String panelAttributes = "";
+	private List<String> panelAttributes;
 
 	// deselectedColor and fgColor must be stored separately because selection changes the actual fgColor but not the fgColorBase
 	/**
@@ -136,17 +137,17 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public String getPanelAttributes() {
-		return panelAttributes;
+		return SharedUtils.listToString("\n", panelAttributes);
 	}
 
 	@Override
 	public List<String> getPanelAttributesAsList() {
-		return Arrays.asList(panelAttributes.split("\n", -1));
+		return panelAttributes;
 	}
 
 	@Override
 	public void setPanelAttributes(String panelAttributes) {
-		this.panelAttributes = panelAttributes;
+		this.panelAttributes = Arrays.asList(panelAttributes.split("\n", -1)); // split with -1 to retain empty lines at the end
 	}
 
 	@Override
@@ -172,7 +173,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public void setProperty(String key, Object newValue) {
 		String newState = "";
-		for (String line : Utils.decomposeStringsWithComments(getPanelAttributes())) {
+		for (String line : panelAttributes) {
 			if (!line.startsWith(key.toString())) {
 				newState += line + "\n";
 			}
@@ -192,7 +193,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		fgColorString = "";
 		bgColor = getDefaultBackgroundColor();
 		fgColorBase = Converter.convert(ColorOwn.DEFAULT_FOREGROUND);
-		Vector<String> v = Utils.decomposeStringsWithComments(panelAttributes);
+		List<String> v = panelAttributes;
 		for (int i = 0; i < v.size(); i++) {
 			String line = v.get(i);
 			if (line.indexOf("bg=") >= 0) {
@@ -409,7 +410,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	private String getSettingHelper(String key, String defaultValue) {
 		key = key + Facet.SEP;
-		for (String s : Utils.decomposeStringsWithComments(panelAttributes)) {
+		for (String s : panelAttributes) {
 			if (s.startsWith(key)) {
 				String[] value = s.split(key);
 				if (value.length == 0) {
