@@ -14,4 +14,37 @@ public interface Resources extends ClientBundle {
 	@Source("Generic Colors.uxf")
 	TextResource Generic_Colors();
 
+	@Source("Generic Layers.uxf")
+	TextResource Generic_Layers();
+
+	@Source("Generic Text and Alignment.uxf")
+	TextResource Generic_Text_and_Alignment();
+
+	@Source("UML Activity.uxf")
+	TextResource UML_Activity();
+
+	@Source("UML Class.uxf")
+	TextResource UML_Class();
+
+	@Source("UML Composite Structure.uxf")
+	TextResource UML_Composite_Structure();
+
+	@Source("UML Package.uxf")
+	TextResource UML_Package();
+
+	@Source("UML Sequence.uxf")
+	TextResource UML_Sequence();
+
+	@Source("UML State Machine.uxf")
+	TextResource UML_State_Machine();
+
+	@Source("UML Structure and Deployment.uxf")
+	TextResource UML_Structure_and_Deployment();
+
+	@Source("UML Use Case.uxf")
+	TextResource UML_Use_Case();
+
+	@Source("Plots.uxf")
+	TextResource Plots();
+
 }

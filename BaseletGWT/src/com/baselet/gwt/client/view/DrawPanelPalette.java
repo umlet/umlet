@@ -25,7 +25,20 @@ import com.google.gwt.user.client.ui.ListBox;
 
 public class DrawPanelPalette extends DrawPanel {
 
-	private static final List<TextResource> PALETTELIST = Arrays.asList(Resources.INSTANCE.UML_Common_Elements(), Resources.INSTANCE.Generic_Colors());
+	private static final List<TextResource> PALETTELIST = Arrays.asList(
+			Resources.INSTANCE.UML_Common_Elements(),
+			Resources.INSTANCE.Generic_Colors(),
+			Resources.INSTANCE.Generic_Layers(),
+			Resources.INSTANCE.Generic_Text_and_Alignment(),
+			Resources.INSTANCE.UML_Activity(),
+			Resources.INSTANCE.UML_Class(),
+			Resources.INSTANCE.UML_Composite_Structure(),
+			Resources.INSTANCE.UML_Package(),
+			Resources.INSTANCE.UML_Sequence(),
+			Resources.INSTANCE.UML_State_Machine(),
+			Resources.INSTANCE.UML_Structure_and_Deployment(),
+			Resources.INSTANCE.UML_Use_Case(),
+			Resources.INSTANCE.Plots());
 	private final Map<TextResource, Diagram> paletteCache = new HashMap<>();
 
 	private final ListBox paletteChooser;
