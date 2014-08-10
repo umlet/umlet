@@ -103,7 +103,7 @@ symbol=usecase</panel_attributes>
       <w>112</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>lt=&gt;&gt;</panel_attributes>
+    <panel_attributes>lt=-&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
   </element>
   <element>
@@ -145,12 +145,12 @@ valign=center</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>16</x>
-      <y>112</y>
+      <y>104</y>
       <w>112</w>
-      <h>24</h>
+      <h>32</h>
     </coordinates>
     <panel_attributes/>
-    <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
+    <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>

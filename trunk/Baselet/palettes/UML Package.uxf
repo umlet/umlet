@@ -151,7 +151,7 @@ bg=green</panel_attributes>
       <w>24</w>
       <h>88</h>
     </coordinates>
-    <panel_attributes>lt=(+)</panel_attributes>
+    <panel_attributes>lt=(+)-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
   </element>
 </diagram>

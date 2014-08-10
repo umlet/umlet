@@ -12,7 +12,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.umlet.element.experimental.ElementFactory;
+import com.umlet.elementnew.ElementFactory;
 import com.umlet.gui.CustomCodeSyntaxPane;
 import com.umlet.gui.CustomElementPanel;
 

@@ -5,7 +5,7 @@ import java.util.Vector;
 import com.baselet.control.ClipBoard;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
-import com.umlet.element.experimental.ElementFactory;
+import com.umlet.elementnew.ElementFactory;
 
 public class Copy extends Command {
 

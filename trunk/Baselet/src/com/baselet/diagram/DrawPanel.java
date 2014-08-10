@@ -39,8 +39,8 @@ import com.baselet.gui.listener.ScrollbarListener;
 import com.baselet.gui.standalone.FileDrop;
 import com.baselet.gui.standalone.FileDropListener;
 import com.umlet.element.Relation;
-import com.umlet.element.experimental.ComponentSwing;
-import com.umlet.element.experimental.ElementFactory;
+import com.umlet.elementnew.ComponentSwing;
+import com.umlet.elementnew.ElementFactory;
 
 @SuppressWarnings("serial")
 public class DrawPanel extends JLayeredPane implements Printable {

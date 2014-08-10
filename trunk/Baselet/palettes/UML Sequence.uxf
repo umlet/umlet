@@ -181,7 +181,7 @@ bg=red</panel_attributes>
       <w>112</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>lt=&lt;</panel_attributes>
+    <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
   </element>
   <element>
@@ -192,7 +192,7 @@ bg=red</panel_attributes>
       <w>112</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;</panel_attributes>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
   </element>
   <element>
@@ -203,7 +203,7 @@ bg=red</panel_attributes>
       <w>112</w>
       <h>32</h>
     </coordinates>
-    <panel_attributes>lt=&lt;
+    <panel_attributes>lt=&lt;-
 asyncMsg</panel_attributes>
     <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
   </element>
@@ -215,7 +215,7 @@ asyncMsg</panel_attributes>
       <w>112</w>
       <h>32</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;
+    <panel_attributes>lt=&lt;&lt;-
 syncMsg</panel_attributes>
     <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
   </element>
@@ -261,7 +261,7 @@ sync call</panel_attributes>
       <w>120</w>
       <h>32</h>
     </coordinates>
-    <panel_attributes>lt=&lt;
+    <panel_attributes>lt=&lt;-
 async return</panel_attributes>
     <additional_attributes>10.0;20.0;130.0;20.0</additional_attributes>
   </element>

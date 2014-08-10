@@ -108,7 +108,7 @@ Component</panel_attributes>
     <coordinates>
       <x>56</x>
       <y>256</y>
-      <w>88</w>
+      <w>80</w>
       <h>96</h>
     </coordinates>
     <panel_attributes>lt=[].&gt;
@@ -123,7 +123,7 @@ m2=&lt;&lt;delegate&gt;&gt;</panel_attributes>
       <w>24</w>
       <h>64</h>
     </coordinates>
-    <panel_attributes>lt=()</panel_attributes>
+    <panel_attributes>lt=()-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
   </element>
   <element>
@@ -131,7 +131,7 @@ m2=&lt;&lt;delegate&gt;&gt;</panel_attributes>
     <coordinates>
       <x>104</x>
       <y>264</y>
-      <w>112</w>
+      <w>104</w>
       <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;.
@@ -146,7 +146,7 @@ m2=&lt;&lt;delegate&gt;&gt;</panel_attributes>
       <w>40</w>
       <h>64</h>
     </coordinates>
-    <panel_attributes>lt=)</panel_attributes>
+    <panel_attributes>lt=)-</panel_attributes>
     <additional_attributes>20.0;20.0;20.0;60.0</additional_attributes>
   </element>
 </diagram>

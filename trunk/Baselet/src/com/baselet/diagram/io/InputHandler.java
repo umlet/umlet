@@ -18,7 +18,7 @@ import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.umlet.custom.CustomElementCompiler;
-import com.umlet.element.experimental.ElementFactory;
+import com.umlet.elementnew.ElementFactory;
 
 /**
  * Describes what should happen with parsed elements from the input file

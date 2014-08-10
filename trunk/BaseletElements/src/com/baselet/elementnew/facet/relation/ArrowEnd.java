@@ -11,7 +11,7 @@ import com.baselet.elementnew.facet.relation.RelationDrawer.ArrowEndType;
 
 abstract class ArrowEnd implements RegexValueHolder {
 
-	private static final String BOX_REGEX = "\\[[^\\]]*\\]";
+	static final String BOX_REGEX = "\\[[^\\]]*\\]";
 
 	private final String regexValue;
 

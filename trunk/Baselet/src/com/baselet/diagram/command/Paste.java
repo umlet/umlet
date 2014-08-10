@@ -8,7 +8,7 @@ import com.baselet.control.Constants;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.facet.common.GroupFacet;
-import com.umlet.element.experimental.ElementFactory;
+import com.umlet.elementnew.ElementFactory;
 
 public class Paste extends Command {
 
