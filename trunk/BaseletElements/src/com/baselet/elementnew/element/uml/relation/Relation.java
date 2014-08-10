@@ -150,4 +150,10 @@ public class Relation extends NewGridElement implements Stickable {
 			}
 		};
 	}
+
+	@Override
+	protected void drawError(DrawHandler drawer, String errorText) {
+		super.drawError(drawer, errorText);
+		RelationLineTypeFacet.drawDefaultLineAndArrows(drawer, relationPoints);
+	}
 }
