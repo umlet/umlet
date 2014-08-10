@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>30</x>
+      <y>30</y>
+      <w>280</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>EmptyPackage
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>60</x>
+      <y>80</y>
+      <w>140</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>SimpleClass
+bg=blue
+layer=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>110</x>
+      <y>110</y>
+      <w>170</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Foreground
+via the "layer" command
+bg=green
+layer=3</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>30</x>
+      <y>310</y>
+      <w>280</w>
+      <h>260</h>
+    </coordinates>
+    <panel_attributes>EmptyPackage
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>60</x>
+      <y>360</y>
+      <w>140</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>SimpleClass
+bg=blue
+layer=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>110</x>
+      <y>390</y>
+      <w>170</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Background
+via the "layer" command
+bg=white
+layer=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
