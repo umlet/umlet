@@ -1,15 +1,9 @@
 package com.baselet.gwt.client.element;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.baselet.control.SharedConstants;
-import com.baselet.control.SharedUtils;
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.Direction;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
+import com.baselet.element.sticking.StickableMap;
 import com.baselet.elementnew.DrawHandlerInterface;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
@@ -34,28 +28,13 @@ public class ElementFactory {
 			}
 
 			@Override
-			public void resize(double diffw, double diffh, AlignHorizontal alignHorizontal) {
-				int diffwInt = SharedUtils.realignToGrid(false, diffw, true);
-				int diffhInt = SharedUtils.realignToGrid(false, diffh, true);
-
-				List<Direction> directions = null;
-				if (alignHorizontal == AlignHorizontal.LEFT) {
-					directions = Arrays.asList(Direction.RIGHT, Direction.DOWN);
-				}
-				else if (alignHorizontal == AlignHorizontal.RIGHT) {
-					diffwInt = -diffwInt;
-					directions = Arrays.asList(Direction.LEFT, Direction.DOWN);
-				}
-				else if (alignHorizontal == AlignHorizontal.CENTER) {
-					diffwInt = SharedUtils.realignToGrid(false, diffwInt / 2, true) * 2;
-					directions = Arrays.asList(Direction.RIGHT, Direction.LEFT, Direction.DOWN);
-				}
-				element.drag(directions, diffwInt, diffhInt, new Point(0, 0), false, true, diagram.getStickables(element));
+			public boolean isInitialized() {
+				return true; // GWT initializes elements at once, therefore it's always initialized
 			}
 
 			@Override
-			public boolean isInitialized() {
-				return true; // GWT initializes elements at once, therefore it's always initialized
+			public StickableMap getStickableMap() {
+				return diagram.getStickables(element);
 			}
 		};
 

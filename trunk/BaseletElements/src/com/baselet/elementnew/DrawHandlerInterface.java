@@ -1,6 +1,6 @@
 package com.baselet.elementnew;
 
-import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.element.sticking.StickableMap;
 
 public interface DrawHandlerInterface {
 
@@ -10,7 +10,7 @@ public interface DrawHandlerInterface {
 
 	boolean displaceDrawingByOnePixel();
 
-	void resize(double diffw, double diffh, AlignHorizontal alignHorizontal);
+	StickableMap getStickableMap();
 
 	boolean isInitialized();
 

@@ -14,7 +14,7 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.PointChange;
 
-public class RelationPoints implements ResizableObject {
+public class RelationPointHandler implements ResizableObject {
 
 	public static final int DRAG_BOX_SIZE = 10; // size of the box to drag the whole relation
 	public static final int POINT_SELECTION_RADIUS = 10; // radius of the selection circle of relation-points
@@ -26,7 +26,7 @@ public class RelationPoints implements ResizableObject {
 	private RelationPointList points = new RelationPointList();
 	private final Relation relation;
 
-	public RelationPoints(Relation relation, RelationPointList points) {
+	public RelationPointHandler(Relation relation, RelationPointList points) {
 		super();
 		this.relation = relation;
 		this.points = points;
@@ -43,7 +43,7 @@ public class RelationPoints implements ResizableObject {
 		if (isPointOverDragBox(point)) {
 			return Selection.DRAG_BOX;
 		}
-		else if (RelationPointsUtils.getRelationPointContaining(point, points) != null) {
+		else if (RelationPointHandlerUtils.getRelationPointContaining(point, points) != null) {
 			return Selection.RELATION_POINT;
 		}
 		else if (getLineContaining(point) != null) {
@@ -72,7 +72,7 @@ public class RelationPoints implements ResizableObject {
 		if (isPointOverDragBox(point)) {
 			return Selection.DRAG_BOX;
 		}
-		PointDoubleIndexed pointOverRelationPoint = RelationPointsUtils.getRelationPointContaining(point, points);
+		PointDoubleIndexed pointOverRelationPoint = RelationPointHandlerUtils.getRelationPointContaining(point, points);
 		if (pointOverRelationPoint != null) {
 			relationPointOfCurrentDrag = movePointAndResizeRectangle(pointOverRelationPoint, diffX, diffY);
 			return Selection.RELATION_POINT;
@@ -116,7 +116,7 @@ public class RelationPoints implements ResizableObject {
 
 	public void resizeRectAndReposPoints() {
 		// now rebuild width and height of the relation, based on the new positions of the relation-points
-		Rectangle newRect = RelationPointsUtils.calculateRelationRectangleBasedOnPoints(relation.getRectangle().getUpperLeftCorner(), relation.getGridSize(), points);
+		Rectangle newRect = RelationPointHandlerUtils.calculateRelationRectangleBasedOnPoints(relation.getRectangle().getUpperLeftCorner(), relation.getGridSize(), points);
 		relation.setRectangle(newRect);
 
 		// move relation points to their new position (their position is relative to the relation-position)

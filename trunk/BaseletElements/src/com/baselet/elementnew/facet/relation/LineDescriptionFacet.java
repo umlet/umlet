@@ -15,7 +15,7 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.elementnew.PropertiesParserState;
-import com.baselet.elementnew.element.uml.relation.RelationPoints;
+import com.baselet.elementnew.element.uml.relation.RelationPointHandler;
 import com.baselet.elementnew.element.uml.relation.SettingsRelation;
 import com.baselet.elementnew.facet.GlobalFacet;
 import com.baselet.gui.AutocompletionText;
@@ -65,7 +65,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 	@Override
 	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
 		Map<String, Point> displacements = state.getOrInitFacetResponse(DescriptionPositionFacet.class, new HashMap<String, Point>());
-		RelationPoints relationPoints = ((SettingsRelation) state.getSettings()).getRelationPoints();
+		RelationPointHandler relationPoints = ((SettingsRelation) state.getSettings()).getRelationPoints();
 		LineDescriptionFacetResponse response = state.getOrInitFacetResponse(LineDescriptionFacet.class, new LineDescriptionFacetResponse());
 
 		PointDouble pointText = null;
@@ -93,14 +93,14 @@ public class LineDescriptionFacet extends GlobalFacet {
 		}
 	}
 
-	private void printAndUpdateIndex(DrawHandler drawer, LineDescriptionFacetResponse response, RelationPoints relationPoints, PointDouble pointText, int index, String text, Point displacement) {
+	private void printAndUpdateIndex(DrawHandler drawer, LineDescriptionFacetResponse response, RelationPointHandler relationPoints, PointDouble pointText, int index, String text, Point displacement) {
 		if (displacement != null) {
 			pointText = new PointDouble(pointText.getX() + displacement.getX(), pointText.getY() + displacement.getY());
 		}
 		printAndUpdateIndex(drawer, response, relationPoints, pointText, index, text);
 	}
 
-	private void printAndUpdateIndex(DrawHandler drawer, LineDescriptionFacetResponse response, RelationPoints relationPoints, PointDouble pointText, int index, String text) {
+	private void printAndUpdateIndex(DrawHandler drawer, LineDescriptionFacetResponse response, RelationPointHandler relationPoints, PointDouble pointText, int index, String text) {
 		drawer.print(text, pointText, AlignHorizontal.LEFT);
 
 		// to make sure text is printed (and therefore withing relation-element-borders, resize relation according to text

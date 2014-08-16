@@ -1,17 +1,20 @@
 package com.umlet.elementnew;
 
+import java.util.Collections;
+import java.util.List;
+
 import com.baselet.control.Main;
-import com.baselet.control.SharedConstants;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
+import com.baselet.element.sticking.StickableMap;
+import com.baselet.element.sticking.Stickables;
 import com.baselet.elementnew.DrawHandlerInterface;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
+import com.baselet.elementnew.element.uml.relation.Relation;
 
 public class ElementFactory {
 
@@ -40,31 +43,15 @@ public class ElementFactory {
 			}
 
 			@Override
-			public void resize(double diffw, double diffh, AlignHorizontal alignHorizontal) {
-				double diffwInCurrentZoom = diffw * getGridSize() / SharedConstants.DEFAULT_GRID_SIZE;
-				double diffhInCurrentZoom = diffh * getGridSize() / SharedConstants.DEFAULT_GRID_SIZE;
-				DiagramHandler h = Main.getHandlerForElement(returnObj);
-				int diffhRealigned = h.realignToGrid(false, diffhInCurrentZoom, true);
-
-				// use resize command to move sticked relations correctly with the element
-				int xDiff = 0;
-				int wDiff = 0;
-				if (alignHorizontal == AlignHorizontal.LEFT) {
-					wDiff = h.realignToGrid(false, diffwInCurrentZoom, true);
-				}
-				else if (alignHorizontal == AlignHorizontal.RIGHT) {
-					xDiff = -h.realignToGrid(false, diffwInCurrentZoom, true);
-				}
-				else if (alignHorizontal == AlignHorizontal.CENTER) {
-					wDiff = h.realignToGrid(false, diffwInCurrentZoom / 2, true);
-					xDiff = -h.realignToGrid(false, diffwInCurrentZoom / 2, true);
-				}
-				new Resize(returnObj, xDiff, 0, wDiff, diffhRealigned).execute(h);
+			public boolean isInitialized() {
+				return Main.getHandlerForElement(returnObj) != null;
 			}
 
 			@Override
-			public boolean isInitialized() {
-				return Main.getHandlerForElement(returnObj) != null;
+			public StickableMap getStickableMap() {
+				DiagramHandler h = Main.getHandlerForElement(returnObj);
+				List<Relation> stickables = h.getDrawPanel().getStickables(Collections.<GridElement> emptyList());
+				return Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(returnObj.generateStickingBorder(returnObj.getRectangle()), stickables, h.getGridSize());
 			}
 		};
 

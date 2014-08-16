@@ -13,13 +13,13 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
-import com.baselet.elementnew.element.uml.relation.RelationPoints;
+import com.baselet.elementnew.element.uml.relation.RelationPointHandler;
 import com.baselet.elementnew.element.uml.relation.ResizableObject;
 
 public class RelationDrawer {
 
-	private static final double ARROW_LENGTH = RelationPoints.POINT_SELECTION_RADIUS * 1.3;
-	private static final double DIAGONAL_CROSS_LENGTH = RelationPoints.POINT_SELECTION_RADIUS * 0.9;
+	private static final double ARROW_LENGTH = RelationPointHandler.POINT_SELECTION_RADIUS * 1.3;
+	private static final double DIAGONAL_CROSS_LENGTH = RelationPointHandler.POINT_SELECTION_RADIUS * 0.9;
 	private static final double BOX_SIZE = 20;
 
 	public static Rectangle drawBoxArrow(DrawHandler drawer, Line line, boolean drawOnStart, String matchedText, ResizableObject resizableObject) {
@@ -122,13 +122,13 @@ public class RelationDrawer {
 	public static void drawCircle(DrawHandler drawer, Line line, boolean drawOnStart, ResizableObject resizableObject, Direction openDirection, boolean drawCross) {
 		PointDoubleIndexed point = (PointDoubleIndexed) line.getPoint(drawOnStart);
 		if (openDirection == null) { // full circle
-			drawer.drawCircle(point.getX(), point.getY(), RelationPoints.POINT_SELECTION_RADIUS);
+			drawer.drawCircle(point.getX(), point.getY(), RelationPointHandler.POINT_SELECTION_RADIUS);
 		}
 		else if (openDirection == Direction.LEFT || openDirection == Direction.RIGHT) { // interface half circle
 			ColorOwn bg = drawer.getStyle().getBackgroundColor();
 			drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 
-			double circleRadius = RelationPoints.POINT_SELECTION_RADIUS * 3;
+			double circleRadius = RelationPointHandler.POINT_SELECTION_RADIUS * 3;
 			Direction directionOfCircle = line.getDirectionOfLine(drawOnStart);
 			if (directionOfCircle == Direction.RIGHT) {
 				drawer.drawArc(point.getX(), point.getY() - circleRadius / 2, circleRadius, circleRadius, 90, 180, true);
@@ -150,7 +150,7 @@ public class RelationDrawer {
 			drawer.setBackgroundColor(bg);
 		}
 		if (drawCross) {
-			double length = RelationPoints.POINT_SELECTION_RADIUS / 2;
+			double length = RelationPointHandler.POINT_SELECTION_RADIUS / 2;
 			drawer.drawLine(point.getX() - length, point.getY(), point.getX() + length, point.getY());
 			drawer.drawLine(point.getX(), point.getY() - length, point.getX(), point.getY() + length);
 		}

@@ -63,7 +63,7 @@ public class RelationPointList {
 	}
 
 	private void revertChangesIfOnly2PointsOverlap(List<PointChange> changes) {
-		if (points.size() == 2 && points.get(0).equals(points.get(1))) {
+		if (points.size() == 2 && points.get(0).getPoint().getX().equals(points.get(1).getPoint().getX()) && points.get(0).getPoint().getY().equals(points.get(1).getPoint().getY())) {
 			List<PointChange> inverse = new ArrayList<PointChange>();
 			for (PointChange change : changes) {
 				inverse.add(new PointChange(change.getIndex(), -change.getDiffX(), -change.getDiffY()));
@@ -157,7 +157,7 @@ public class RelationPointList {
 		PointDoubleIndexed begin = points.get(points.size() / 2).getPoint();
 		PointDoubleIndexed end = points.get(points.size() / 2 - 1).getPoint();
 		PointDouble center = new Line(begin, end).getCenter();
-		Rectangle rectangle = RelationPointsUtils.toRectangle(center, RelationPoints.DRAG_BOX_SIZE / 2);
+		Rectangle rectangle = RelationPointHandlerUtils.toRectangle(center, RelationPointHandler.DRAG_BOX_SIZE / 2);
 		return rectangle;
 	}
 
