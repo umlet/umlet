@@ -333,7 +333,23 @@ public abstract class NewGridElement implements GridElement {
 		Dimension realSize = getRealSize();
 		double diffw = width - realSize.width;
 		double diffh = height - realSize.height;
-		handler.resize(diffw, diffh, alignHorizontal);
+
+		int diffwInt = SharedUtils.realignTo(false, diffw, true, getGridSize());
+		int diffhInt = SharedUtils.realignTo(false, diffh, true, getGridSize());
+
+		List<Direction> directions = null;
+		if (alignHorizontal == AlignHorizontal.LEFT) {
+			directions = Arrays.asList(Direction.RIGHT, Direction.DOWN);
+		}
+		else if (alignHorizontal == AlignHorizontal.RIGHT) {
+			diffwInt = -diffwInt;
+			directions = Arrays.asList(Direction.LEFT, Direction.DOWN);
+		}
+		else if (alignHorizontal == AlignHorizontal.CENTER) {
+			diffwInt = SharedUtils.realignToGrid(false, diffwInt / 2, true) * 2;
+			directions = Arrays.asList(Direction.RIGHT, Direction.LEFT, Direction.DOWN);
+		}
+		drag(directions, diffwInt, diffhInt, new Point(0, 0), false, true, handler.getStickableMap());
 	}
 
 	@Override

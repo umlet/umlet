@@ -50,6 +50,6 @@ public abstract class SettingsRelation extends Settings {
 		return false;
 	}
 
-	public abstract RelationPoints getRelationPoints();
+	public abstract RelationPointHandler getRelationPoints();
 
 }

@@ -18,7 +18,7 @@ import com.baselet.element.sticking.polygon.NoStickingPolygonGenerator;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesParserState;
-import com.baselet.elementnew.element.uml.relation.RelationPoints.Selection;
+import com.baselet.elementnew.element.uml.relation.RelationPointHandler.Selection;
 import com.baselet.elementnew.facet.common.LayerFacet;
 import com.baselet.elementnew.facet.relation.LineDescriptionFacet;
 import com.baselet.elementnew.facet.relation.LineDescriptionFacet.LineDescriptionFacetResponse;
@@ -27,7 +27,7 @@ import com.baselet.elementnew.settings.Settings;
 
 public class Relation extends NewGridElement implements Stickable {
 
-	private RelationPoints relationPoints;
+	private RelationPointHandler relationPoints;
 
 	@Override
 	public ElementId getId() {
@@ -71,7 +71,7 @@ public class Relation extends NewGridElement implements Stickable {
 		for (int i = 0; i < split.length; i += 2) {
 			pointList.add(Double.valueOf(split[i]), Double.valueOf(split[i + 1]));
 		}
-		relationPoints = new RelationPoints(this, pointList);
+		relationPoints = new RelationPointHandler(this, pointList);
 		if (getHandler().isInitialized()) {
 			relationPoints.resizeRectAndReposPoints();
 		}
@@ -145,7 +145,7 @@ public class Relation extends NewGridElement implements Stickable {
 	protected Settings createSettings() {
 		return new SettingsRelation() {
 			@Override
-			public RelationPoints getRelationPoints() {
+			public RelationPointHandler getRelationPoints() {
 				return relationPoints;
 			}
 		};

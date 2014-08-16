@@ -6,7 +6,7 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 
-public class RelationPointsUtils {
+public class RelationPointHandlerUtils {
 
 	static Rectangle calculateRelationRectangleBasedOnPoints(PointDouble upperLeftCorner, int gridSize, RelationPointList relationPoints) {
 		// Calculate new Relation position and size

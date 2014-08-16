@@ -15,7 +15,7 @@ import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
-import com.baselet.elementnew.element.uml.relation.RelationPoints;
+import com.baselet.elementnew.element.uml.relation.RelationPointHandler;
 import com.baselet.elementnew.element.uml.relation.ResizableObject;
 import com.baselet.elementnew.element.uml.relation.SettingsRelation;
 import com.baselet.elementnew.facet.KeyValueFacet;
@@ -49,7 +49,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 	private static final List<ArrowEnd> RIGHT_ARROW_STRINGS = SharedUtils.mergeLists(SHARED_ARROW_STRINGS_BEFORE, Arrays.asList(ArrowEnd.RIGHT_BOX, ArrowEnd.RIGHT_FILLED_DIAMOND, ArrowEnd.RIGHT_DIAMOND, ArrowEnd.RIGHT_FILLED_CLOSED, ArrowEnd.RIGHT_CLOSED, ArrowEnd.RIGHT_NORMAL, ArrowEnd.RIGHT_INVERTED, ArrowEnd.RIGHT_INTERFACE_OPEN), SHARED_ARROW_STRINGS_AFTER);
 	private static final List<LineType> LINE_TYPES = Arrays.asList(LineType.SOLID, LineType.DOTTED, LineType.DASHED);
 
-	public RelationPoints getRelationPoints(PropertiesParserState config) {
+	public RelationPointHandler getRelationPoints(PropertiesParserState config) {
 		return ((SettingsRelation) config.getSettings()).getRelationPoints();
 	}
 
@@ -57,7 +57,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
-		RelationPoints relationPoints = ((SettingsRelation) state.getSettings()).getRelationPoints();
+		RelationPointHandler relationPoints = ((SettingsRelation) state.getSettings()).getRelationPoints();
 		remainingValue = value;
 
 		Match<ArrowEnd> leftArrow = extractPart(LEFT_ARROW_STRINGS);
@@ -92,17 +92,17 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		return sb.toString();
 	}
 
-	public static void drawDefaultLineAndArrows(DrawHandler drawer, RelationPoints relationPoints) {
+	public static void drawDefaultLineAndArrows(DrawHandler drawer, RelationPointHandler relationPoints) {
 		drawLineAndArrows(drawer, relationPoints, new Match<LineType>("", LineType.SOLID), new Match<ArrowEnd>("", null), new Match<ArrowEnd>("", null));
 	}
 
-	private static void drawLineAndArrows(DrawHandler drawer, RelationPoints relationPoints, Match<LineType> lineType, Match<ArrowEnd> leftArrow, Match<ArrowEnd> rightArrow) {
+	private static void drawLineAndArrows(DrawHandler drawer, RelationPointHandler relationPoints, Match<LineType> lineType, Match<ArrowEnd> leftArrow, Match<ArrowEnd> rightArrow) {
 		drawLineBetweenPoints(drawer, relationPoints, lineType.type);
 		drawArrowEnds(drawer, relationPoints, leftArrow, rightArrow);
 		relationPoints.resizeRectAndReposPoints(); // line description and relation-endings can change the relation size, therefore recalc it now
 	}
 
-	private static void drawArrowEnds(DrawHandler drawer, RelationPoints relationPoints, Match<ArrowEnd> leftArrow, Match<ArrowEnd> rightArrow) {
+	private static void drawArrowEnds(DrawHandler drawer, RelationPointHandler relationPoints, Match<ArrowEnd> leftArrow, Match<ArrowEnd> rightArrow) {
 		ColorOwn oldBgColor = drawer.getStyle().getBackgroundColor();
 		drawer.setBackgroundColor(oldBgColor.transparency(Transparency.FOREGROUND)); // arrow background is not transparent
 		print(drawer, relationPoints, leftArrow, relationPoints.getFirstLine(), true);
@@ -117,7 +117,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		}
 	}
 
-	private static void drawLineBetweenPoints(DrawHandler drawer, RelationPoints relationPoints, LineType lineType) {
+	private static void drawLineBetweenPoints(DrawHandler drawer, RelationPointHandler relationPoints, LineType lineType) {
 		LineType oldLt = drawer.getStyle().getLineType();
 		drawer.setLineType(lineType);
 		relationPoints.drawLinesBetweenPoints(drawer);
