@@ -1,7 +1,6 @@
 package com.baselet.diagram.command;
 
 import java.util.Collection;
-import java.util.Collections;
 
 import org.apache.log4j.Logger;
 
@@ -86,10 +85,6 @@ public class Move extends Command {
 		this.useSetLocation = useSetLocation;
 		stickables = stickingStickables;
 		this.resizeDirection = resizeDirection;
-	}
-
-	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, boolean useSetLocation, StickableMap stickingStickables) {
-		this(Collections.<Direction> emptyList(), e, x, y, mousePosBeforeDrag, isShiftKeyDown, firstDrag, useSetLocation, stickingStickables);
 	}
 
 	public Move(Collection<Direction> resizeDirection, GridElement e, int x, int y, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, boolean useSetLocation, StickableMap stickingStickables) {

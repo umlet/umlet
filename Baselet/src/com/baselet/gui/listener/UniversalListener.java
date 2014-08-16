@@ -4,9 +4,11 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Collections;
 import java.util.Vector;
 
 import com.baselet.control.Main;
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.Controller;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -149,7 +151,7 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 		if (diffx != 0 || diffy != 0) {
 			Vector<Command> moveCommands = new Vector<Command>();
 			for (GridElement e : diagram.getGridElements()) {
-				moveCommands.add(new Move(e, diffx, diffy, oldp, false, false, true, StickableMap.EMPTY_MAP));
+				moveCommands.add(new Move(Collections.<Direction> emptySet(), e, diffx, diffy, oldp, false, false, true, StickableMap.EMPTY_MAP));
 			}
 
 			controller.executeCommand(new Macro(moveCommands));

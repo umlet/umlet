@@ -3,10 +3,12 @@ package com.baselet.gui.listener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Vector;
 
 import com.baselet.control.Main;
 import com.baselet.control.SharedConstants;
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
@@ -73,7 +75,7 @@ public class GUIListener implements KeyListener {
 					}
 
 					Point opos = getOriginalPos(diffx, diffy, entitiesToBeMoved.iterator().next());
-					Vector<Command> ALL_MOVE_COMMANDS = GridElementListener.calculateFirstMoveCommands(diffx, diffy, opos, entitiesToBeMoved, e.isShiftDown(), true, handler);
+					Vector<Command> ALL_MOVE_COMMANDS = GridElementListener.calculateFirstMoveCommands(diffx, diffy, opos, entitiesToBeMoved, e.isShiftDown(), true, handler, Collections.<Direction> emptySet());
 					handler.getController().executeCommand(new Macro(ALL_MOVE_COMMANDS));
 					Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 				}
