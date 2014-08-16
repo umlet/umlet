@@ -2,8 +2,9 @@ package com.baselet.gui.listener;
 
 import java.awt.Component;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -28,7 +29,6 @@ import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveEnd;
 import com.baselet.diagram.command.MoveLinePoint;
-import com.baselet.diagram.command.Resize;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.Converter;
@@ -51,8 +51,6 @@ public class GridElementListener extends UniversalListener {
 	protected boolean IS_RESIZING = false;
 	protected boolean IS_DRAGGED_FROM_PALETTE = false;
 	private boolean FIRST_DRAG = true;
-	private Set<Direction> RESIZE_DIRECTION = new HashSet<Direction>();
-	private Resize FIRST_RESIZE = null;
 	private Vector<Command> FIRST_MOVE_COMMANDS = null;
 	private Point POINT_BEFORE_MOVE = null;
 	protected boolean DESELECT_MULTISEL = false;
@@ -89,7 +87,7 @@ public class GridElementListener extends UniversalListener {
 			dragDiagram();
 		}
 		if (IS_DRAGGING) {
-			dragEntity();
+			dragEntity(me.isShiftDown());
 		}
 		if (IS_RESIZING) {
 			resizeEntity(e, me);
@@ -189,7 +187,6 @@ public class GridElementListener extends UniversalListener {
 		Set<Direction> resizeArea = e.getResizeArea(me.getX(), me.getY());
 		if (!resizeArea.isEmpty()) {
 			IS_RESIZING = true;
-			RESIZE_DIRECTION = resizeArea;
 		}
 		else {
 			IS_DRAGGING = true;
@@ -238,7 +235,7 @@ public class GridElementListener extends UniversalListener {
 				selector.deselect(e);
 			}
 		}
-		if (IS_DRAGGING && !FIRST_DRAG) { // if mouse is dragged and element really has been dragged around execute moveend
+		if ((IS_RESIZING || IS_DRAGGING) && !FIRST_DRAG) { // if mouse is dragged and element really has been dragged around execute moveend
 			controller.executeCommand(new MoveEnd(e));
 		}
 
@@ -247,7 +244,6 @@ public class GridElementListener extends UniversalListener {
 		IS_DRAGGING_DIAGRAM = false;
 		IS_RESIZING = false;
 		FIRST_DRAG = true;
-		FIRST_RESIZE = null;
 		FIRST_MOVE_COMMANDS = null;
 		POINT_BEFORE_MOVE = null;
 
@@ -279,8 +275,9 @@ public class GridElementListener extends UniversalListener {
 	/**
 	 * Dragging entities must be a Macro, because undo should undo the full move (and not only a small part which would
 	 * happen with many short Move actions) and it must consider sticking relations at the dragging-start and later
+	 * @param b 
 	 */
-	private void dragEntity() {
+	private void dragEntity(boolean isShiftKeyDown) {
 
 		DESELECT_MULTISEL = false;
 
@@ -290,7 +287,7 @@ public class GridElementListener extends UniversalListener {
 		int diffy = newp.y - oldp.y;
 		if (FIRST_MOVE_COMMANDS == null) {
 			POINT_BEFORE_MOVE = getOldCoordinateNotRounded(); // must use exact coordinates eg for Relation which calculates distances from lines (to possibly drag new points out of it)
-			FIRST_MOVE_COMMANDS = calculateFirstMoveCommands(diffx, diffy, oldp, selector.getSelectedElements(), false, handler);
+			FIRST_MOVE_COMMANDS = calculateFirstMoveCommands(diffx, diffy, oldp, selector.getSelectedElements(), isShiftKeyDown, false, handler);
 		}
 		else if (diffx != 0 || diffy != 0) {
 			Vector<Command> commands = continueDragging(diffx, diffy, POINT_BEFORE_MOVE);
@@ -300,14 +297,14 @@ public class GridElementListener extends UniversalListener {
 		}
 	}
 
-	static Vector<Command> calculateFirstMoveCommands(int diffx, int diffy, Point oldp, Collection<GridElement> entitiesToBeMoved, boolean useSetLocation, DiagramHandler handler) {
+	static Vector<Command> calculateFirstMoveCommands(int diffx, int diffy, Point oldp, Collection<GridElement> entitiesToBeMoved, boolean isShiftKeyDown, boolean useSetLocation, DiagramHandler handler) {
 		Vector<Move> moveCommands = new Vector<Move>();
 		Vector<MoveLinePoint> linepointCommands = new Vector<MoveLinePoint>();
 		List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getStickables(entitiesToBeMoved);
 		for (GridElement ge : entitiesToBeMoved) {
 			// reduce stickables to those which really stick at the element at move-start
 			StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(ge.getRectangle()), stickables, handler.getGridSize());
-			moveCommands.add(new Move(ge, diffx, diffy, oldp, true, useSetLocation, stickingStickables));
+			moveCommands.add(new Move(ge, diffx, diffy, oldp, isShiftKeyDown, true, useSetLocation, stickingStickables));
 			boolean stickingDisabled = !SharedConstants.stickingEnabled || handler instanceof PaletteHandler;
 			if (ge instanceof Relation || stickingDisabled) {
 				continue;
@@ -341,7 +338,7 @@ public class GridElementListener extends UniversalListener {
 		for (Command command : FIRST_MOVE_COMMANDS) { // use first move commands to identify the necessary commands and moved entities
 			if (command instanceof Move) {
 				Move m = (Move) command;
-				tmpVector.add(new Move(m.getEntity(), diffx, diffy, oldp, FIRST_DRAG, useSetLocation, m.getStickables()));
+				tmpVector.add(new Move(m.getEntity(), diffx, diffy, oldp, m.isShiftKeyDown(), FIRST_DRAG, useSetLocation, m.getStickables()));
 			}
 			else if (command instanceof MoveLinePoint) {
 				MoveLinePoint m = (MoveLinePoint) command;
@@ -352,7 +349,6 @@ public class GridElementListener extends UniversalListener {
 	}
 
 	private void resizeEntity(GridElement e, MouseEvent me) {
-		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
 		int delta_x = 0;
 		int delta_y = 0;
 		final Point newp = getNewCoordinate();
@@ -376,99 +372,27 @@ public class GridElementListener extends UniversalListener {
 			}
 		}
 
-		if (RESIZE_DIRECTION.contains(Direction.RIGHT)) {
+		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
+		if (resizeDirection.contains(Direction.RIGHT)) {
 			delta_x = (e.getRectangle().x + e.getRectangle().width) % gridSize;
 		}
-		if (RESIZE_DIRECTION.contains(Direction.DOWN)) {
+		if (resizeDirection.contains(Direction.DOWN)) {
 			delta_y = (e.getRectangle().y + e.getRectangle().height) % gridSize;
 		}
 
 		int diffx = newp.x - oldp.x - delta_x;
 		int diffy = newp.y - oldp.y - delta_y;
-		int diffw = 0;
-		int diffh = 0;
 		if (e instanceof OldGridElement) {
 			((OldGridElement) e).setManualResized();
 		}
 
-		// AB: get minsize; add 0.5 to round float at typecast; then add rest to stick on grid
-		// AB: Would be better if this is defined in the Entity class
-		int minSize = (int) (2 * handler.getFontHandler().getFontSize() + 0.5);
-		minSize = minSize - minSize % gridSize;
-
-		if (RESIZE_DIRECTION.contains(Direction.LEFT)) {
-			// AB: get diffx; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffx = newp.x - e.getRectangle().x + gridSize;
-
-			// AB: only shrink to minimum size
-			if (e.getRectangle().width - diffx < minSize) {
-				diffx = e.getRectangle().width - minSize;
-			}
-
-			if (RESIZE_DIRECTION.size() == 1) { // if direction is ONLY LEFT
-				diffy = 0;
-			}
+		if (diffx != 0 || diffy != 0) {
+			List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getStickables(Collections.<GridElement> emptyList());
+			StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(e.generateStickingBorder(e.getRectangle()), stickables, handler.getGridSize());
+			Command resizeCommand = new Move(resizeDirection, e, diffx, diffy, oldp, me.isShiftDown(), FIRST_DRAG, false, stickingStickables);
+			controller.executeCommand(new Macro(Arrays.asList(resizeCommand)));
+			FIRST_DRAG = false;
 		}
-
-		if (RESIZE_DIRECTION.contains(Direction.RIGHT)) {
-			// AB: get diffx; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffx = newp.x - (e.getRectangle().x + e.getRectangle().width) + gridSize;
-
-			// AB: only shrink to minimum size
-			if (e.getRectangle().width + diffx < minSize) {
-				diffx = minSize - e.getRectangle().width;
-			}
-
-			if (RESIZE_DIRECTION.size() == 1) { // if direction is ONLY RIGHT
-				diffy = 0;
-			}
-
-			diffw = diffx;
-			diffx = 0;
-		}
-
-		if (RESIZE_DIRECTION.contains(Direction.UP)) {
-			// AB: get diffy; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffy = newp.y - e.getRectangle().y + gridSize;
-
-			// AB: only shrink to minimum size
-			if (e.getRectangle().height - diffy < minSize) {
-				diffy = e.getRectangle().height - minSize;
-			}
-
-			if (RESIZE_DIRECTION.size() == 1) { // if direction is ONLY UP
-				diffx = 0;
-			}
-		}
-
-		if (RESIZE_DIRECTION.contains(Direction.DOWN)) {
-			// AB: get diffy; add MAIN_UNIT because of a natural offset (possible bug in mouse pos calculation?)
-			diffy = newp.y - (e.getRectangle().y + e.getRectangle().height) + gridSize;
-
-			// AB: only shrink to minimum size
-			if (e.getRectangle().height + diffy < minSize) {
-				diffy = minSize - e.getRectangle().height;
-			}
-
-			if (RESIZE_DIRECTION.size() == 1) { // if direction is ONLY DOWN
-				diffx = 0;
-			}
-
-			diffh = diffy;
-			diffy = 0;
-		}
-
-		Resize resize;
-		if (FIRST_RESIZE == null) {
-			resize = new Resize(e, diffx, diffy, diffw, diffh);
-			FIRST_RESIZE = resize;
-
-		}
-		else {
-			resize = new Resize(e, diffx, diffy, diffw, diffh, FIRST_RESIZE);
-		}
-
-		controller.executeCommand(resize);
 	}
 
 }

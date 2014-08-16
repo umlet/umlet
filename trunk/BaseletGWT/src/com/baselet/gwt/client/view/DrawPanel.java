@@ -174,7 +174,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 			if (firstDrag) {
 				stickablesToMove.put(ge, getStickablesToMoveWhenElementsMove(ge, elements));
 			}
-			ge.setLocationDifference(diffX, diffY, firstDrag, stickablesToMove.get(ge)); // uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
+			ge.setRectangleDifference(diffX, diffY, 0, 0, firstDrag, stickablesToMove.get(ge)); // uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
 		}
 	}
 

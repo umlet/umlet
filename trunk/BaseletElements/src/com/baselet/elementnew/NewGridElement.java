@@ -339,9 +339,9 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, StickableMap stickables) {
+	public void setRectangleDifference(int diffx, int diffy, int diffw, int diffh, boolean firstDrag, StickableMap stickables) {
 		StickingPolygon oldStickingPolygon = generateStickingBorder();
-		setLocation(getRectangle().x + diffx, getRectangle().y + diffy);
+		setRectangle(new Rectangle(getRectangle().x + diffx, getRectangle().y + diffy, getRectangle().getWidth() + diffw, getRectangle().getHeight() + diffh));
 		moveStickables(stickables, oldStickingPolygon);
 	}
 

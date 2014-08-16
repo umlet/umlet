@@ -57,7 +57,9 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	private boolean enabled;
 	private boolean autoresizeandmanualresizeenabled;
-	private List<String> panelAttributes;
+	private List<String> panelAttributes = new ArrayList<String>();
+
+	public static final int MINIMAL_SIZE = SharedConstants.DEFAULT_GRID_SIZE * 2;
 
 	// deselectedColor and fgColor must be stored separately because selection changes the actual fgColor but not the fgColorBase
 	/**
@@ -478,7 +480,49 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, StickableMap stickables) {
 		StickingPolygon stickingPolygonBeforeLocationChange = generateStickingBorder();
-		setLocationDifference(diffX, diffY);
+		if (resizeDirection.isEmpty()) { // Move GridElement
+			setLocationDifference(diffX, diffY);
+		}
+		else { // Resize GridElement
+			Rectangle rect = getRectangle();
+			if (isShiftKeyDown && diagonalResize(resizeDirection)) { // Proportional Resize
+				if (diffX > diffY) {
+					diffX = diffY;
+				}
+				if (diffY > diffX) {
+					diffY = diffX;
+				}
+			}
+			if (resizeDirection.contains(Direction.LEFT) && resizeDirection.contains(Direction.RIGHT)) {
+				rect.setX(rect.getX() - diffX / 2);
+				rect.setWidth(Math.max(rect.getWidth() + diffX, MINIMAL_SIZE));
+			}
+			else if (resizeDirection.contains(Direction.LEFT)) {
+				int newWidth = rect.getWidth() - diffX;
+				if (newWidth >= MINIMAL_SIZE) {
+					rect.setX(rect.getX() + diffX);
+					rect.setWidth(newWidth);
+				}
+			}
+			else if (resizeDirection.contains(Direction.RIGHT)) {
+				rect.setWidth(Math.max(rect.getWidth() + diffX, MINIMAL_SIZE));
+			}
+
+			if (resizeDirection.contains(Direction.UP)) {
+				int newHeight = rect.getHeight() - diffY;
+				if (newHeight >= MINIMAL_SIZE) {
+					rect.setY(rect.getY() + diffY);
+					rect.setHeight(newHeight);
+				}
+			}
+			if (resizeDirection.contains(Direction.DOWN)) {
+				rect.setHeight(Math.max(rect.getHeight() + diffY, MINIMAL_SIZE));
+			}
+
+			setRectangle(rect);
+			updateModelFromText();
+		}
+
 		moveStickables(stickables, stickingPolygonBeforeLocationChange);
 	}
 
@@ -508,6 +552,13 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		return getRectangle().contains(point);
 	}
 
+	private boolean diagonalResize(Collection<Direction> resizeDirection) {
+		return resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT) ||
+				resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT) ||
+				resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT) ||
+				resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT);
+	}
+
 	@Override
 	public void dragEnd() {
 		// TODO Auto-generated method stub
@@ -515,9 +566,9 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public void setLocationDifference(int diffx, int diffy, boolean firstDrag, StickableMap stickables) {
+	public void setRectangleDifference(int diffx, int diffy, int diffw, int diffh, boolean firstDrag, StickableMap stickables) {
 		StickingPolygon oldStickingPolygon = generateStickingBorder();
-		this.setLocation(getRectangle().x + diffx, getRectangle().y + diffy);
+		setRectangle(new Rectangle(getRectangle().x + diffx, getRectangle().y + diffy, getRectangle().getWidth() + diffw, getRectangle().getHeight() + diffh));
 		moveStickables(stickables, oldStickingPolygon);
 	}
 
