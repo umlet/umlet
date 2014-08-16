@@ -59,8 +59,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	private boolean autoresizeandmanualresizeenabled;
 	private List<String> panelAttributes = new ArrayList<String>();
 
-	public static final int MINIMAL_SIZE = SharedConstants.DEFAULT_GRID_SIZE * 2;
-
 	// deselectedColor and fgColor must be stored separately because selection changes the actual fgColor but not the fgColorBase
 	/**
 	 * contains the value of the fgColor of the element if not selected
@@ -495,28 +493,28 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			}
 			if (resizeDirection.contains(Direction.LEFT) && resizeDirection.contains(Direction.RIGHT)) {
 				rect.setX(rect.getX() - diffX / 2);
-				rect.setWidth(Math.max(rect.getWidth() + diffX, MINIMAL_SIZE));
+				rect.setWidth(Math.max(rect.getWidth() + diffX, minSize()));
 			}
 			else if (resizeDirection.contains(Direction.LEFT)) {
 				int newWidth = rect.getWidth() - diffX;
-				if (newWidth >= MINIMAL_SIZE) {
+				if (newWidth >= minSize()) {
 					rect.setX(rect.getX() + diffX);
 					rect.setWidth(newWidth);
 				}
 			}
 			else if (resizeDirection.contains(Direction.RIGHT)) {
-				rect.setWidth(Math.max(rect.getWidth() + diffX, MINIMAL_SIZE));
+				rect.setWidth(Math.max(rect.getWidth() + diffX, minSize()));
 			}
 
 			if (resizeDirection.contains(Direction.UP)) {
 				int newHeight = rect.getHeight() - diffY;
-				if (newHeight >= MINIMAL_SIZE) {
+				if (newHeight >= minSize()) {
 					rect.setY(rect.getY() + diffY);
 					rect.setHeight(newHeight);
 				}
 			}
 			if (resizeDirection.contains(Direction.DOWN)) {
-				rect.setHeight(Math.max(rect.getHeight() + diffY, MINIMAL_SIZE));
+				rect.setHeight(Math.max(rect.getHeight() + diffY, minSize()));
 			}
 
 			setRectangle(rect);
@@ -574,6 +572,10 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	private StickingPolygon generateStickingBorder() {
 		return generateStickingBorder(getRectangle());
+	}
+
+	private int minSize() {
+		return Main.getHandlerForElement(this).getGridSize() * 2;
 	}
 
 }

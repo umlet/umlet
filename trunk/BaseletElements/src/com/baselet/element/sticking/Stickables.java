@@ -86,9 +86,9 @@ public class Stickables {
 				int diffYdefaultZoom = diffY / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
 
 				// only change the point if it's still connected to the new position of the stickline (otherwise you could move a sticking relation out of a class border by resizing it too much)
-				if (relevantStickline.getNew().isConnected(new PointDouble(absolutePosOfStickablePoint.getX() + diffXdefaultZoom, absolutePosOfStickablePoint.getY() + diffYdefaultZoom), 5)) {
-					changedPoints.add(new PointChange(stickablePoint.getIndex(), diffXdefaultZoom, diffYdefaultZoom));
-				}
+				// if (relevantStickline.getNew().isConnected(new PointDouble(absolutePosOfStickablePoint.getX() + diffXdefaultZoom, absolutePosOfStickablePoint.getY() + diffYdefaultZoom), 5)) {
+				changedPoints.add(new PointChange(stickablePoint.getIndex(), diffXdefaultZoom, diffYdefaultZoom));
+				// }
 			}
 		}
 		return changedPoints;

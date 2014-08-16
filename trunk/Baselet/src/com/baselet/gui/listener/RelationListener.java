@@ -1,10 +1,12 @@
 package com.baselet.gui.listener;
 
 import java.awt.event.MouseEvent;
+import java.util.Collections;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
+import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.AddLinePoint;
 import com.baselet.diagram.command.Move;
@@ -30,7 +32,6 @@ public class RelationListener extends GridElementListener {
 		super.mousePressed(me);
 		if (me.getButton() == MouseEvent.BUTTON1) {
 			IS_DRAGGING = false;
-			IS_RESIZING = false;
 			Relation rel = (Relation) me.getComponent();
 
 			int where = rel.getLinePoint(new Point(me.getX(), me.getY()));
@@ -126,7 +127,7 @@ public class RelationListener extends GridElementListener {
 			return;
 		}
 		else if (IS_DRAGGING_LINE) {
-			controller.executeCommand(new Move(r, diffx, diffy, oldp, me.isShiftDown(), false, true, StickableMap.EMPTY_MAP));
+			controller.executeCommand(new Move(Collections.<Direction> emptySet(), r, diffx, diffy, oldp, me.isShiftDown(), false, true, StickableMap.EMPTY_MAP));
 			return;
 		}
 

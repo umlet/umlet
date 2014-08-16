@@ -2,9 +2,7 @@ package com.baselet.gui.listener;
 
 import java.awt.Component;
 import java.awt.event.MouseEvent;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -33,7 +31,6 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
-import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
@@ -48,7 +45,6 @@ public class GridElementListener extends UniversalListener {
 
 	protected boolean IS_DRAGGING = false;
 	protected boolean IS_DRAGGING_DIAGRAM = false;
-	protected boolean IS_RESIZING = false;
 	protected boolean IS_DRAGGED_FROM_PALETTE = false;
 	private boolean FIRST_DRAG = true;
 	private Vector<Command> FIRST_MOVE_COMMANDS = null;
@@ -88,9 +84,6 @@ public class GridElementListener extends UniversalListener {
 		}
 		if (IS_DRAGGING) {
 			dragEntity(me.isShiftDown());
-		}
-		if (IS_RESIZING) {
-			resizeEntity(e, me);
 		}
 	}
 
@@ -184,19 +177,13 @@ public class GridElementListener extends UniversalListener {
 			initializeLasso();
 		}
 
-		Set<Direction> resizeArea = e.getResizeArea(me.getX(), me.getY());
-		if (!resizeArea.isEmpty()) {
-			IS_RESIZING = true;
-		}
-		else {
-			IS_DRAGGING = true;
-			if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) {
-				if (selector.isSelected(e)) {
-					DESELECT_MULTISEL = true;
-				}
-				else {
-					selector.select(e);
-				}
+		IS_DRAGGING = true;
+		if ((me.getModifiers() & SystemInfo.META_KEY.getMask()) != 0) {
+			if (selector.isSelected(e)) {
+				DESELECT_MULTISEL = true;
+			}
+			else {
+				selector.select(e);
 			}
 		}
 
@@ -235,14 +222,13 @@ public class GridElementListener extends UniversalListener {
 				selector.deselect(e);
 			}
 		}
-		if ((IS_RESIZING || IS_DRAGGING) && !FIRST_DRAG) { // if mouse is dragged and element really has been dragged around execute moveend
+		if (IS_DRAGGING && !FIRST_DRAG) { // if mouse is dragged and element really has been dragged around execute moveend
 			controller.executeCommand(new MoveEnd(e));
 		}
 
 		DESELECT_MULTISEL = false;
 		IS_DRAGGING = false;
 		IS_DRAGGING_DIAGRAM = false;
-		IS_RESIZING = false;
 		FIRST_DRAG = true;
 		FIRST_MOVE_COMMANDS = null;
 		POINT_BEFORE_MOVE = null;
@@ -275,6 +261,7 @@ public class GridElementListener extends UniversalListener {
 	/**
 	 * Dragging entities must be a Macro, because undo should undo the full move (and not only a small part which would
 	 * happen with many short Move actions) and it must consider sticking relations at the dragging-start and later
+	 * @param directions 
 	 * @param b 
 	 */
 	private void dragEntity(boolean isShiftKeyDown) {
@@ -287,7 +274,7 @@ public class GridElementListener extends UniversalListener {
 		int diffy = newp.y - oldp.y;
 		if (FIRST_MOVE_COMMANDS == null) {
 			POINT_BEFORE_MOVE = getOldCoordinateNotRounded(); // must use exact coordinates eg for Relation which calculates distances from lines (to possibly drag new points out of it)
-			FIRST_MOVE_COMMANDS = calculateFirstMoveCommands(diffx, diffy, oldp, selector.getSelectedElements(), isShiftKeyDown, false, handler);
+			FIRST_MOVE_COMMANDS = calculateFirstMoveCommands(diffx, diffy, oldp, selector.getSelectedElements(), isShiftKeyDown, false, handler, resizeDirection);
 		}
 		else if (diffx != 0 || diffy != 0) {
 			Vector<Command> commands = continueDragging(diffx, diffy, POINT_BEFORE_MOVE);
@@ -297,14 +284,14 @@ public class GridElementListener extends UniversalListener {
 		}
 	}
 
-	static Vector<Command> calculateFirstMoveCommands(int diffx, int diffy, Point oldp, Collection<GridElement> entitiesToBeMoved, boolean isShiftKeyDown, boolean useSetLocation, DiagramHandler handler) {
+	static Vector<Command> calculateFirstMoveCommands(int diffx, int diffy, Point oldp, Collection<GridElement> entitiesToBeMoved, boolean isShiftKeyDown, boolean useSetLocation, DiagramHandler handler, Set<Direction> directions) {
 		Vector<Move> moveCommands = new Vector<Move>();
 		Vector<MoveLinePoint> linepointCommands = new Vector<MoveLinePoint>();
 		List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getStickables(entitiesToBeMoved);
 		for (GridElement ge : entitiesToBeMoved) {
 			// reduce stickables to those which really stick at the element at move-start
 			StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(ge.getRectangle()), stickables, handler.getGridSize());
-			moveCommands.add(new Move(ge, diffx, diffy, oldp, isShiftKeyDown, true, useSetLocation, stickingStickables));
+			moveCommands.add(new Move(directions, ge, diffx, diffy, oldp, isShiftKeyDown, true, useSetLocation, stickingStickables));
 			boolean stickingDisabled = !SharedConstants.stickingEnabled || handler instanceof PaletteHandler;
 			if (ge instanceof Relation || stickingDisabled) {
 				continue;
@@ -330,6 +317,7 @@ public class GridElementListener extends UniversalListener {
 	/**
 	 * After the firstDragging is over, the vector of entities which should be dragged doesn't change (nothing starts sticking during dragging)
 	 * @param oldp 
+	 * @param directions 
 	 * @return 
 	 */
 	private Vector<Command> continueDragging(int diffx, int diffy, Point oldp) {
@@ -338,7 +326,7 @@ public class GridElementListener extends UniversalListener {
 		for (Command command : FIRST_MOVE_COMMANDS) { // use first move commands to identify the necessary commands and moved entities
 			if (command instanceof Move) {
 				Move m = (Move) command;
-				tmpVector.add(new Move(m.getEntity(), diffx, diffy, oldp, m.isShiftKeyDown(), FIRST_DRAG, useSetLocation, m.getStickables()));
+				tmpVector.add(new Move(resizeDirection, m.getEntity(), diffx, diffy, oldp, m.isShiftKeyDown(), FIRST_DRAG, useSetLocation, m.getStickables()));
 			}
 			else if (command instanceof MoveLinePoint) {
 				MoveLinePoint m = (MoveLinePoint) command;
@@ -346,53 +334,6 @@ public class GridElementListener extends UniversalListener {
 			}
 		}
 		return tmpVector;
-	}
-
-	private void resizeEntity(GridElement e, MouseEvent me) {
-		int delta_x = 0;
-		int delta_y = 0;
-		final Point newp = getNewCoordinate();
-		final Point oldp = getOldCoordinate();
-
-		// If Shift is pressed and the resize direction is any diagonal direction, both axis are resized proportional
-		if (me.isShiftDown() && (
-			resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT) ||
-					resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT) ||
-					resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT) ||
-			resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT))) {
-			if (e.getRectangle().width > e.getRectangle().height) {
-				float proportion = (float) newp.x / mousePressedPoint.x;
-				newp.setX(newp.x);
-				newp.setY((int) (mousePressedPoint.y * proportion));
-			}
-			else {
-				float proportion = (float) newp.y / mousePressedPoint.y;
-				newp.setX((int) (mousePressedPoint.x * proportion));
-				newp.setY(newp.y);
-			}
-		}
-
-		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
-		if (resizeDirection.contains(Direction.RIGHT)) {
-			delta_x = (e.getRectangle().x + e.getRectangle().width) % gridSize;
-		}
-		if (resizeDirection.contains(Direction.DOWN)) {
-			delta_y = (e.getRectangle().y + e.getRectangle().height) % gridSize;
-		}
-
-		int diffx = newp.x - oldp.x - delta_x;
-		int diffy = newp.y - oldp.y - delta_y;
-		if (e instanceof OldGridElement) {
-			((OldGridElement) e).setManualResized();
-		}
-
-		if (diffx != 0 || diffy != 0) {
-			List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getStickables(Collections.<GridElement> emptyList());
-			StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(e.generateStickingBorder(e.getRectangle()), stickables, handler.getGridSize());
-			Command resizeCommand = new Move(resizeDirection, e, diffx, diffy, oldp, me.isShiftDown(), FIRST_DRAG, false, stickingStickables);
-			controller.executeCommand(new Macro(Arrays.asList(resizeCommand)));
-			FIRST_DRAG = false;
-		}
 	}
 
 }

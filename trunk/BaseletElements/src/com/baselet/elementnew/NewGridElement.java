@@ -51,8 +51,6 @@ public abstract class NewGridElement implements GridElement {
 
 	protected PropertiesParserState state;
 
-	private static final int MINIMAL_SIZE = SharedConstants.DEFAULT_GRID_SIZE * 2;
-
 	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, Component component, DrawHandlerInterface handler) {
 		this.component = component;
 		drawer = component.getDrawHandler();
@@ -363,28 +361,28 @@ public abstract class NewGridElement implements GridElement {
 			}
 			if (resizeDirection.contains(Direction.LEFT) && resizeDirection.contains(Direction.RIGHT)) {
 				rect.setX(rect.getX() - diffX / 2);
-				rect.setWidth(Math.max(rect.getWidth() + diffX, MINIMAL_SIZE));
+				rect.setWidth(Math.max(rect.getWidth() + diffX, minSize()));
 			}
 			else if (resizeDirection.contains(Direction.LEFT)) {
 				int newWidth = rect.getWidth() - diffX;
-				if (newWidth >= MINIMAL_SIZE) {
+				if (newWidth >= minSize()) {
 					rect.setX(rect.getX() + diffX);
 					rect.setWidth(newWidth);
 				}
 			}
 			else if (resizeDirection.contains(Direction.RIGHT)) {
-				rect.setWidth(Math.max(rect.getWidth() + diffX, MINIMAL_SIZE));
+				rect.setWidth(Math.max(rect.getWidth() + diffX, minSize()));
 			}
 
 			if (resizeDirection.contains(Direction.UP)) {
 				int newHeight = rect.getHeight() - diffY;
-				if (newHeight >= MINIMAL_SIZE) {
+				if (newHeight >= minSize()) {
 					rect.setY(rect.getY() + diffY);
 					rect.setHeight(newHeight);
 				}
 			}
 			if (resizeDirection.contains(Direction.DOWN)) {
-				rect.setHeight(Math.max(rect.getHeight() + diffY, MINIMAL_SIZE));
+				rect.setHeight(Math.max(rect.getHeight() + diffY, minSize()));
 			}
 
 			setRectangle(rect);
@@ -429,6 +427,10 @@ public abstract class NewGridElement implements GridElement {
 
 	public int getGridSize() {
 		return getHandler().getGridSize();
+	}
+
+	private int minSize() {
+		return handler.getGridSize() * 2;
 	}
 
 }
