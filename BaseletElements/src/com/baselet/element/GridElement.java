@@ -76,5 +76,5 @@ public interface GridElement extends HasPanelAttributes {
 
 	List<String> getPanelAttributesAsList();
 
-	void setLocationDifference(int diffx, int diffy, boolean firstDrag, StickableMap stickables);
+	void setRectangleDifference(int diffx, int diffy, int diffw, int diffh, boolean firstDrag, StickableMap stickables);
 }

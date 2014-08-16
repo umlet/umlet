@@ -1,5 +1,6 @@
 package com.baselet.diagram.command;
 
+import java.util.Collection;
 import java.util.Collections;
 
 import org.apache.log4j.Logger;
@@ -23,6 +24,8 @@ public class Move extends Command {
 	private final double xBeforeDrag;
 	private final double yBeforeDrag;
 
+	private final boolean isShiftKeyDown;
+
 	private final boolean firstDrag;
 
 	private final boolean useSetLocation;
@@ -32,6 +35,8 @@ public class Move extends Command {
 	private String additionalAttributesBefore;
 
 	private Rectangle boundsBefore;
+
+	private final Collection<Direction> resizeDirection;
 
 	public GridElement getEntity() {
 		return entity;
@@ -57,6 +62,10 @@ public class Move extends Command {
 		return stickables;
 	}
 
+	public boolean isShiftKeyDown() {
+		return isShiftKeyDown;
+	}
+
 	private Point getMousePosBeforeDrag() {
 		Double zoomedX = xBeforeDrag * gridSize();
 		Double zoomedY = yBeforeDrag * gridSize();
@@ -65,16 +74,26 @@ public class Move extends Command {
 		return p;
 	}
 
-	public Move(boolean absoluteMousePos, GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, StickableMap stickingStickables) {
+	public Move(Collection<Direction> resizeDirection, boolean absoluteMousePos, GridElement e, int x, int y, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, boolean useSetLocation, StickableMap stickingStickables) {
 		entity = e;
 		int gridSize = Main.getHandlerForElement(e).getGridSize();
 		this.x = x / gridSize;
 		this.y = y / gridSize;
 		xBeforeDrag = calcRelativePos(absoluteMousePos, mousePosBeforeDrag.getX(), entity.getRectangle().getX(), gridSize);
 		yBeforeDrag = calcRelativePos(absoluteMousePos, mousePosBeforeDrag.getY(), entity.getRectangle().getY(), gridSize);
+		this.isShiftKeyDown = isShiftKeyDown;
 		this.firstDrag = firstDrag;
 		this.useSetLocation = useSetLocation;
 		stickables = stickingStickables;
+		this.resizeDirection = resizeDirection;
+	}
+
+	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, boolean useSetLocation, StickableMap stickingStickables) {
+		this(Collections.<Direction> emptyList(), e, x, y, mousePosBeforeDrag, isShiftKeyDown, firstDrag, useSetLocation, stickingStickables);
+	}
+
+	public Move(Collection<Direction> resizeDirection, GridElement e, int x, int y, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, boolean useSetLocation, StickableMap stickingStickables) {
+		this(resizeDirection, true, e, x, y, mousePosBeforeDrag, isShiftKeyDown, firstDrag, useSetLocation, stickingStickables);
 	}
 
 	/**
@@ -93,10 +112,6 @@ public class Move extends Command {
 		return xCalcBase / gridSize;
 	}
 
-	public Move(GridElement e, int x, int y, Point mousePosBeforeDrag, boolean firstDrag, boolean useSetLocation, StickableMap stickingStickables) {
-		this(true, e, x, y, mousePosBeforeDrag, firstDrag, useSetLocation, stickingStickables);
-	}
-
 	@Override
 	public void execute(DiagramHandler handler) {
 		// System.out.println("DRAG " + mousePosBeforeDrag);
@@ -104,11 +119,11 @@ public class Move extends Command {
 		Rectangle b = calcAtMinZoom(entity.getRectangle());
 		additionalAttributesBefore = entity.getAdditionalAttributes();
 		if (useSetLocation) {
-			entity.setLocationDifference(getX(), getY(), firstDrag, stickables);
+			entity.setRectangleDifference(getX(), getY(), 0, 0, firstDrag, stickables);
 		}
 		else {
 			// resize directions is empty and shift-key is always false, because standalone UMLet has a separate Resize-Command
-			entity.drag(Collections.<Direction> emptySet(), getX(), getY(), getMousePosBeforeDrag(), false, firstDrag, stickables);
+			entity.drag(resizeDirection, getX(), getY(), getMousePosBeforeDrag(), false, firstDrag, stickables);
 		}
 		Rectangle a = calcAtMinZoom(entity.getRectangle());
 		boundsBefore = b.subtract(a);
@@ -118,7 +133,7 @@ public class Move extends Command {
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
 		Rectangle boundsBeforeZoomed = applyCurrentZoom(boundsBefore);
-		entity.setLocationDifference(boundsBeforeZoomed.getX(), boundsBeforeZoomed.getY(), true, stickables); // use to make sure stickables are moved - TODO refactor Stickable-Implementations to use move-commands, then they would undo on their own
+		entity.setRectangleDifference(boundsBeforeZoomed.getX(), boundsBeforeZoomed.getY(), boundsBeforeZoomed.getWidth(), boundsBeforeZoomed.getHeight(), true, stickables); // use to make sure stickables are moved - TODO refactor Stickable-Implementations to use move-commands, then they would undo on their own
 		entity.setAdditionalAttributes(additionalAttributesBefore);
 		entity.updateModelFromText();
 		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
@@ -130,9 +145,10 @@ public class Move extends Command {
 			return false;
 		}
 		Move m = (Move) c;
-		boolean stickablesEqual = stickables.equalsMap(m.stickables);
+		boolean stickablesEquals = stickables.equalsMap(m.stickables);
+		boolean shiftEquals = isShiftKeyDown == m.isShiftKeyDown;
 		boolean notBothFirstDrag = !(firstDrag && m.firstDrag);
-		return entity == m.entity && useSetLocation == m.useSetLocation && stickablesEqual && notBothFirstDrag;
+		return entity == m.entity && useSetLocation == m.useSetLocation && stickablesEquals && shiftEquals && notBothFirstDrag;
 	}
 
 	@Override
@@ -140,7 +156,7 @@ public class Move extends Command {
 		Move m = (Move) c;
 		Point mousePosBeforeDrag = firstDrag ? getMousePosBeforeDrag() : m.getMousePosBeforeDrag();
 		// Important: absoluteMousePos=false, because the mousePos is already relative from the first constructor call!
-		Move ret = new Move(false, entity, getX() + m.getX(), getY() + m.getY(), mousePosBeforeDrag, firstDrag || m.firstDrag, useSetLocation, stickables);
+		Move ret = new Move(m.resizeDirection, false, entity, getX() + m.getX(), getY() + m.getY(), mousePosBeforeDrag, isShiftKeyDown, firstDrag || m.firstDrag, useSetLocation, stickables);
 		ret.boundsBefore = boundsBefore.add(m.boundsBefore);
 		ret.additionalAttributesBefore = m.additionalAttributesBefore;
 		return ret;

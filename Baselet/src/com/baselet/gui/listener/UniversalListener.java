@@ -149,7 +149,7 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 		if (diffx != 0 || diffy != 0) {
 			Vector<Command> moveCommands = new Vector<Command>();
 			for (GridElement e : diagram.getGridElements()) {
-				moveCommands.add(new Move(e, diffx, diffy, oldp, false, true, StickableMap.EMPTY_MAP));
+				moveCommands.add(new Move(e, diffx, diffy, oldp, false, false, true, StickableMap.EMPTY_MAP));
 			}
 
 			controller.executeCommand(new Macro(moveCommands));
