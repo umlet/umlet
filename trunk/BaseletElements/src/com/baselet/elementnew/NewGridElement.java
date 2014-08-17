@@ -120,7 +120,7 @@ public abstract class NewGridElement implements GridElement {
 		drawer.setLineWidth(0.2);
 		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height); // draw dotted rect (to enforce background color even if element has no border)
 		resetMetaDrawer(metaDrawer);
-		drawer.print(errorText, 3, getRealSize().height / 2 - drawer.textHeight(), AlignHorizontal.LEFT);
+		drawer.print(errorText, 3, getRealSize().height / 2 - drawer.textHeightMax(), AlignHorizontal.LEFT);
 	}
 
 	void resetMetaDrawerAndDrawCommonContent() {
@@ -329,7 +329,7 @@ public abstract class NewGridElement implements GridElement {
 	public void handleAutoresize(DimensionDouble necessaryElementDimension, AlignHorizontal alignHorizontal) {
 		double hSpaceLeftAndRight = drawer.getDistanceBorderToText() * 2;
 		double width = necessaryElementDimension.getWidth() + hSpaceLeftAndRight;
-		double height = necessaryElementDimension.getHeight() + drawer.textHeight() / 2;
+		double height = necessaryElementDimension.getHeight() + drawer.textHeightMax() / 2;
 		Dimension realSize = getRealSize();
 		double diffw = width - realSize.width;
 		double diffh = height - realSize.height;

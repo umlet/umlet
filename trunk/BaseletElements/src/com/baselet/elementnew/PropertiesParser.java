@@ -36,7 +36,7 @@ public class PropertiesParser {
 		if (tmpstate.getElementStyle() == ElementStyleEnum.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
 			element.drawCommonContent(pseudoDrawer, tmpstate);
 			drawPropertiesWithoutGlobalFacets(tmpPropTextWithoutGlobalFacets, tmpstate, pseudoDrawer);
-			double textHeight = tmpstate.getyPos() - pseudoDrawer.textHeight(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
+			double textHeight = tmpstate.getyPos() - pseudoDrawer.textHeightMax(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
 			double width = tmpstate.getCalculatedElementWidth();
 			element.handleAutoresize(new DimensionDouble(width, textHeight), tmpstate.gethAlign());
 		}
@@ -71,7 +71,7 @@ public class PropertiesParser {
 		boolean wordwrap = state.getElementStyle() == ElementStyleEnum.WORDWRAP;
 		if (!wordwrap && !propertiesText.isEmpty()) { // in case of wordwrap or no text, there is no top displacement
 			int BUFFER = 2; // a small buffer between text and outer border
-			double textHeight = drawer.textHeight();
+			double textHeight = drawer.textHeightMax();
 			String firstLine = propertiesText.iterator().next();
 			double availableWidthSpace = state.getXLimitsForArea(displacement, textHeight, true).getSpace() - BUFFER;
 			double accumulator = displacement;
@@ -93,15 +93,15 @@ public class PropertiesParser {
 	}
 
 	private static double calcStartPointFromVAlign(List<String> propertiesText, PropertiesParserState p, DrawHandler drawer) {
-		double returnVal = drawer.textHeight(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
+		double returnVal = drawer.textHeightMax(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
 		if (p.getvAlign() == AlignVertical.TOP) {
-			returnVal += drawer.getDistanceBorderToText() * 1.5 + p.getTopBuffer();
+			returnVal += drawer.getDistanceBorderToText() + p.getTopBuffer();
 		}
 		else if (p.getvAlign() == AlignVertical.CENTER) {
 			returnVal += (p.getGridElementSize().height - getTextBlockHeight(propertiesText, p, drawer)) / 2 + p.getTopBuffer() / 2;
 		}
 		else /* if (state.getvAlign() == AlignVertical.BOTTOM) */{
-			returnVal += p.getGridElementSize().height - getTextBlockHeight(propertiesText, p, drawer) - drawer.textHeight() / 4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
+			returnVal += p.getGridElementSize().height - getTextBlockHeight(propertiesText, p, drawer) - drawer.textHeightMax() / 4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
 		}
 		return returnVal;
 	}
@@ -119,7 +119,7 @@ public class PropertiesParser {
 			if (wordwrap && !line.trim().isEmpty()) { // empty lines are skipped (otherwise they would get lost)
 				String wrappedLine;
 				while (state.getyPos() < state.getGridElementSize().height && !line.trim().isEmpty()) {
-					double spaceForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeight(), false).getSpace() - drawer.getDistanceBorderToText() * 2;
+					double spaceForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeightMax(), false).getSpace() - drawer.getDistanceBorderToText() * 2;
 					wrappedLine = TextSplitter.splitString(line, spaceForText, drawer);
 					handleLine(facets, wrappedLine, state, drawer);
 					line = line.substring(wrappedLine.length()).trim();
@@ -134,7 +134,7 @@ public class PropertiesParser {
 	private static void handleLine(List<Facet> facets, String line, PropertiesParserState state, DrawHandler drawer) {
 		boolean drawText = parseFacets(facets, line, drawer, state);
 		if (drawText) {
-			XValues xLimitsForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeight(), false);
+			XValues xLimitsForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeightMax(), false);
 			Double spaceNotUsedForText = state.getGridElementSize().width - xLimitsForText.getSpace();
 			if (!spaceNotUsedForText.equals(Double.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
 				state.updateCalculatedElementWidth(spaceNotUsedForText + drawer.textWidth(line));
@@ -142,7 +142,7 @@ public class PropertiesParser {
 			if (state.getSettings().printText()) {
 				drawer.print(line, calcHorizontalTextBoundaries(xLimitsForText, state, drawer), state.getyPos(), state.gethAlign());
 			}
-			state.addToYPos(drawer.textHeightWithSpace());
+			state.addToYPos(drawer.textHeightMaxWithSpace());
 		}
 	}
 

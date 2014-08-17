@@ -22,7 +22,8 @@ import com.baselet.gui.AutocompletionText;
 
 public class LineDescriptionFacet extends GlobalFacet {
 
-	private static final int DIST_TO_LINE = 4;
+	private static final int X_DIST_TO_LINE = 4;
+	private static final int Y_DIST_TO_LINE = 1;
 
 	public static LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
 
@@ -90,7 +91,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 			String text = replaceArrowsWithUtf8Characters(line);
 			pointText = calcPosOfMiddleText(relationPoints.getDragBox().getCenter(), drawer.textWidth(text));
 			int number = response.getAndIncreaseMiddleLines();
-			pointText = new PointDouble(pointText.getX(), pointText.getY() + number * drawer.textHeightWithSpace());
+			pointText = new PointDouble(pointText.getX(), pointText.getY() + number * drawer.textHeightMaxWithSpace());
 			printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_MIDDLE_FIRST_INDEX + number, text);
 		}
 	}
@@ -106,7 +107,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 		drawer.print(text, pointText, AlignHorizontal.LEFT);
 
 		// to make sure text is printed (and therefore withing relation-element-borders, resize relation according to text
-		relationPoints.setTextBox(index, new Rectangle(pointText.getX(), pointText.getY() - drawer.textHeight(), drawer.textWidth(text), drawer.textHeight()));
+		relationPoints.setTextBox(index, new Rectangle(pointText.getX(), pointText.getY() - drawer.textHeightMax(), drawer.textWidth(text), drawer.textHeightMax()));
 		// and remember that this index is set
 		response.getAlreadysetIndexes().add(index);
 		relationPoints.resizeRectAndReposPoints(); // apply the (possible) changes now to make sure the following facets use correct coordinates
@@ -132,16 +133,16 @@ public class LineDescriptionFacet extends GlobalFacet {
 		PointDouble pointText = line.getPointOnLineWithDistanceFrom(isStart, 15); // distance from lineend (because of arrows,...)
 		Direction lineDirection = line.getDirectionOfLine(isStart);
 		if (lineDirection == Direction.RIGHT) {
-			pointText = new PointDouble(pointText.getX() - drawer.textWidth(text) - drawer.getDistanceBorderToText(), pointText.getY() + (drawer.textHeight() + DIST_TO_LINE));
+			pointText = new PointDouble(pointText.getX() - drawer.textWidth(text) - drawer.getDistanceBorderToText(), pointText.getY() + drawer.textHeightMax() + Y_DIST_TO_LINE);
 		}
 		else if (lineDirection == Direction.LEFT) {
-			pointText = new PointDouble(pointText.getX() + DIST_TO_LINE, pointText.getY() + (drawer.textHeight() + DIST_TO_LINE));
+			pointText = new PointDouble(pointText.getX() + X_DIST_TO_LINE, pointText.getY() + drawer.textHeightMax() + Y_DIST_TO_LINE);
 		}
 		else if (lineDirection == Direction.UP) {
-			pointText = new PointDouble(pointText.getX() + DIST_TO_LINE, pointText.getY() + (drawer.textHeight() + DIST_TO_LINE));
+			pointText = new PointDouble(pointText.getX() + X_DIST_TO_LINE, pointText.getY() + drawer.textHeightMax() + Y_DIST_TO_LINE);
 		}
 		else if (lineDirection == Direction.DOWN) {
-			pointText = new PointDouble(pointText.getX() + DIST_TO_LINE, pointText.getY() - DIST_TO_LINE);
+			pointText = new PointDouble(pointText.getX() + X_DIST_TO_LINE, pointText.getY() - Y_DIST_TO_LINE);
 		}
 		return pointText;
 	}
