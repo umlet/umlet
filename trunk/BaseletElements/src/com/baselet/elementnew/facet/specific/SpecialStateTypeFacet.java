@@ -1,5 +1,6 @@
 package com.baselet.elementnew.facet.specific;
 
+import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.PointDouble;
@@ -16,7 +17,7 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 	private SpecialStateTypeFacet() {}
 
 	private enum StateTypeEnum {
-		INITIAL, FINAL, FLOW_FINAL, TERMINATION, DECISION
+		INITIAL, FINAL, FLOW_FINAL, TERMINATION, DECISION, HISTORY_SHALLOW, HISTORY_DEEP
 	}
 
 	@Override
@@ -25,6 +26,8 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 				new ValueInfo(StateTypeEnum.INITIAL, "an initial state"),
 				new ValueInfo(StateTypeEnum.FINAL, "a final state for the activity"),
 				new ValueInfo(StateTypeEnum.FLOW_FINAL, "a final state for a flow"),
+				new ValueInfo(StateTypeEnum.HISTORY_SHALLOW, "a shallow history state"),
+				new ValueInfo(StateTypeEnum.HISTORY_DEEP, "a deep history state"),
 				new ValueInfo(StateTypeEnum.TERMINATION, "a termination state"),
 				new ValueInfo(StateTypeEnum.DECISION, "a decision"));
 	}
@@ -53,6 +56,19 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 			XValues lowerXVal = XValues.createForEllipse(lowerY, h, w);
 			drawer.drawLine(upperXVal.getLeft(), yPos, lowerXVal.getRight() - 1, lowerY);
 			drawer.drawLine(lowerXVal.getLeft(), lowerY, upperXVal.getRight() - 1, yPos);
+		}
+		else if (type == StateTypeEnum.HISTORY_SHALLOW || type == StateTypeEnum.HISTORY_DEEP) {
+			String text;
+			if (type == StateTypeEnum.HISTORY_SHALLOW) {
+				text = "*H*";
+			}
+			else {
+				text = "*H**";
+			}
+			drawer.drawEllipse(0, 0, w, h);
+			double x = (w - drawer.textWidth(text)) / 2 - 1;
+			double y = (h + drawer.textHeight()) / 2;
+			drawer.print(text, new PointDouble(x, y), AlignHorizontal.LEFT);
 		}
 		else if (type == StateTypeEnum.TERMINATION) {
 			drawer.drawLine(0, 0, s.getWidth(), s.getHeight());
