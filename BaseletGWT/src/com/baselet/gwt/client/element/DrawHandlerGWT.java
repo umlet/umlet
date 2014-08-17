@@ -156,7 +156,7 @@ public class DrawHandlerGWT extends DrawHandler {
 				ctx.setFillStyle(Converter.convert(fgColor));
 				for (String line : text.split("\n")) {
 					drawTextHelper(line, pToDraw, align, styleAtDrawingCall.getFontSize());
-					pToDraw = new PointDouble(pToDraw.getX(), pToDraw.getY() + textHeight());
+					pToDraw = new PointDouble(pToDraw.getX(), pToDraw.getY() + textHeightMax());
 				}
 			}
 		});

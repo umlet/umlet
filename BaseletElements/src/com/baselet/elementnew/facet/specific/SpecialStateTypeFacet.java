@@ -67,7 +67,7 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 			}
 			drawer.drawEllipse(0, 0, w, h);
 			double x = (w - drawer.textWidth(text)) / 2 - 1;
-			double y = (h + drawer.textHeight()) / 2;
+			double y = (h + drawer.textHeight(text)) / 2;
 			drawer.print(text, new PointDouble(x, y), AlignHorizontal.LEFT);
 		}
 		else if (type == StateTypeEnum.TERMINATION) {

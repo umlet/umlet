@@ -74,7 +74,7 @@ public class TemplateClassFacet extends KeyValueFacet {
 	}
 
 	private static Rectangle calcTemplateRect(String templateClassText, DrawHandler drawer, int width) {
-		double templateHeight = drawer.textHeight() + UPPER_SPACE + LOWER_SPACE;
+		double templateHeight = drawer.textHeightMax() + UPPER_SPACE + LOWER_SPACE;
 		double templateWidth = drawer.textWidth(templateClassText) + LEFT_SPACE;
 		Rectangle tR = new Rectangle(width - templateWidth, 0.0, templateWidth, templateHeight);
 		return tR;

@@ -47,7 +47,7 @@ public class Frame extends NewGridElement {
 			double width = 0;
 			for (String line : packageTitleResponse.getLines()) {
 				width = Math.max(width, drawer.textWidth(line));
-				heightOfTitle += drawer.textHeight();
+				heightOfTitle += drawer.textHeightMax();
 			}
 			double corner = heightOfTitle * 0.4;
 			double rightSpace = corner * 1.5;
@@ -62,7 +62,7 @@ public class Frame extends NewGridElement {
 
 			double printHeightIter = textDistanceToTop;
 			for (String line : packageTitleResponse.getLines()) {
-				printHeightIter += drawer.textHeight();
+				printHeightIter += drawer.textHeightMax();
 				drawer.print(line, lowerLeftSpace + drawer.getDistanceBorderToText(), printHeightIter, AlignHorizontal.LEFT);
 			}
 		}

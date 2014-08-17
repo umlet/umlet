@@ -39,7 +39,7 @@ public class Package extends NewGridElement {
 		List<String> packageTitle = getTitleLines(state);
 		double packageHeight = 0;
 		double packageWidth = getRealSize().getWidth() / 2.5;
-		double txtHeight = drawer.textHeightWithSpace();
+		double txtHeight = drawer.textHeightMaxWithSpace();
 		for (String line : packageTitle) {
 			packageHeight += txtHeight;
 			packageWidth = Math.max(packageWidth, drawer.textWidth(line) + drawer.getDistanceBorderToText() * 2);
@@ -47,7 +47,7 @@ public class Package extends NewGridElement {
 			drawer.print(line, new PointDouble(drawer.getDistanceBorderToText(), packageHeight), AlignHorizontal.LEFT);
 			drawer.setDrawDelayed(false);
 		}
-		packageHeight += drawer.getDistanceBetweenTextLines();
+		packageHeight += drawer.getDistanceBorderToText();
 		int height = getRealSize().getHeight();
 		int width = getRealSize().getWidth();
 		PointDouble start = new PointDouble(0, 0);

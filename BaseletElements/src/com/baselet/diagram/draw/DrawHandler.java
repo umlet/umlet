@@ -78,12 +78,16 @@ public abstract class DrawHandler {
 		drawablesDelayed.clear();
 	}
 
-	public final double textHeightWithSpace() {
-		return textHeight() + getDistanceBetweenTextLines();
+	public final double textHeightMaxWithSpace() {
+		return textHeightMax() + getDistanceBetweenTextLines();
 	}
 
-	public final double textHeight() {
-		return textDimension("H").getHeight(); // "H" is a good dummy for the expected max height
+	public final double textHeightMax() {
+		return textDimension("Hy").getHeight(); // "Hy" is a good dummy for a generic max height and depth
+	}
+
+	public final double textHeight(String text) {
+		return textDimension(text).getHeight();
 	}
 
 	public final double textWidth(String text) {
@@ -180,7 +184,7 @@ public abstract class DrawHandler {
 	}
 
 	public double getDistanceBetweenTextLines() {
-		return 6;
+		return 3;
 	}
 
 	protected DimensionDouble textDimension(String string) {

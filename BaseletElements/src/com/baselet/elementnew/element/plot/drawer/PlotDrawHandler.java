@@ -340,7 +340,7 @@ public class PlotDrawHandler {
 		}
 		if (drawHorizontalMarkerTexts) {
 			for (int i = 0; i < ypoints.size(); i++) {
-				base.print(ytext.get(i), axisConfig.getyAxisPos() - 8, (int) (ypoints.get(i) + base.textHeight() / 2), AlignHorizontal.RIGHT);
+				base.print(ytext.get(i), axisConfig.getyAxisPos() - 8, (int) (ypoints.get(i) + base.textHeightMax() / 2), AlignHorizontal.RIGHT);
 			}
 		}
 	}

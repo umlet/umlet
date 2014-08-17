@@ -59,7 +59,7 @@ public class RelationDrawer {
 			drawer.drawLines(new PointDouble(point.getX() + size, point.getY() + dist), new PointDouble(point.getX() - size, point.getY() + dist), new PointDouble(point.getX(), point.getY() + size));
 		}
 		else {
-			drawer.print(matchedText, new PointDouble(point.getX() - width / 2 + distance, point.getY() + drawer.textHeight() / 2), AlignHorizontal.LEFT);
+			drawer.print(matchedText, new PointDouble(point.getX() - width / 2 + distance, point.getY() + drawer.textHeightMax() / 2), AlignHorizontal.LEFT);
 			resizableObject.setPointMinSize(point.getIndex(), new Rectangle(-width / 2, -height / 2, width, height));
 		}
 		drawer.setFontSize(oldFontsize);
