@@ -57,8 +57,8 @@ public class DrawHandlerGWT extends DrawHandler {
 			public void run() {
 				setStyle(ctx, styleAtDrawingCall);
 
-				double centerX = x + width / 2 + HALF_PX;
-				double centerY = y + height / 2 + HALF_PX;
+				double centerX = (int) (x + width / 2) + HALF_PX;
+				double centerY = (int) (y + height / 2) + HALF_PX;
 				if (open) { // if arc should be open, move before the path begins
 					ctx.moveTo(centerX, centerY);
 					ctx.beginPath();
@@ -85,7 +85,7 @@ public class DrawHandlerGWT extends DrawHandler {
 			public void run() {
 				setStyle(ctx, styleAtDrawingCall);
 				ctx.beginPath();
-				ctx.arc(x + HALF_PX, y + HALF_PX, radius, 0, 2 * Math.PI);
+				ctx.arc((int) x + HALF_PX, (int) y + HALF_PX, radius, 0, 2 * Math.PI);
 				ctx.fill();
 				ctx.stroke();
 			}
@@ -99,7 +99,7 @@ public class DrawHandlerGWT extends DrawHandler {
 			@Override
 			public void run() {
 				setStyle(ctx, styleAtDrawingCall);
-				drawEllipseHelper(ctx, x + HALF_PX, y + HALF_PX, width, height);
+				drawEllipseHelper(ctx, (int) x + HALF_PX, (int) y + HALF_PX, width, height);
 			}
 		});
 	}
@@ -125,9 +125,10 @@ public class DrawHandlerGWT extends DrawHandler {
 			@Override
 			public void run() {
 				setStyle(ctx, styleAtDrawingCall);
-				ctx.fillRect(x + HALF_PX, y + HALF_PX, width, height);
+				// int cast on x/y + HALF_PX and int cast on width/height is important to make sure it never draws between pixels
+				ctx.fillRect((int) x + HALF_PX, (int) y + HALF_PX, (int) width, (int) height);
 				ctx.beginPath();
-				ctx.rect(x + HALF_PX, y + HALF_PX, width, height);
+				ctx.rect((int) x + HALF_PX, (int) y + HALF_PX, (int) width, (int) height);
 				ctx.stroke();
 			}
 		});
@@ -140,7 +141,7 @@ public class DrawHandlerGWT extends DrawHandler {
 			@Override
 			public void run() {
 				setStyle(ctx, styleAtDrawingCall);
-				drawRoundRectHelper(ctx, x + HALF_PX, y + HALF_PX, width + HALF_PX, height + HALF_PX, radius);
+				drawRoundRectHelper(ctx, (int) x + HALF_PX, (int) y + HALF_PX, (int) width, (int) height, radius);
 			}
 		});
 	}
@@ -266,10 +267,10 @@ public class DrawHandlerGWT extends DrawHandler {
 		boolean first = true;
 		for (PointDouble point : points) {
 			if (first) {
-				ctx.moveTo(point.x + HALF_PX, point.y + HALF_PX); // +0.5 because a line of thickness 1.0 spans 50% left and 50% right (therefore it would not be on the 1 pixel - see https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors)
+				ctx.moveTo(point.x.intValue() + HALF_PX, point.y.intValue() + HALF_PX); // +0.5 because a line of thickness 1.0 spans 50% left and 50% right (therefore it would not be on the 1 pixel - see https://developer.mozilla.org/en-US/docs/HTML/Canvas/Tutorial/Applying_styles_and_colors)
 				first = false;
 			}
-			ctx.lineTo(point.x + HALF_PX, point.y + HALF_PX);
+			ctx.lineTo(point.x.intValue() + HALF_PX, point.y.intValue() + HALF_PX);
 		}
 		if (points[0].equals(points[points.length - 1])) {
 			ctx.fill(); // only fill if first point == lastpoint
