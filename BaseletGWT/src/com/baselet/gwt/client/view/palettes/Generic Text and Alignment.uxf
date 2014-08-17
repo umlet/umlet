@@ -152,7 +152,7 @@ bla bla</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>24</x>
-      <y>352</y>
+      <y>344</y>
       <w>296</w>
       <h>104</h>
     </coordinates>
@@ -169,9 +169,9 @@ style=wordwrap</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>24</x>
-      <y>472</y>
+      <y>464</y>
       <w>296</w>
-      <h>64</h>
+      <h>72</h>
     </coordinates>
     <panel_attributes>This class has the setting
 *style=autoresize*
@@ -185,7 +185,7 @@ style=autoresize
     <id>UMLClass</id>
     <coordinates>
       <x>24</x>
-      <y>544</y>
+      <y>552</y>
       <w>112</w>
       <h>88</h>
     </coordinates>
