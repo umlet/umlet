@@ -83,7 +83,7 @@ public abstract class DrawHandler {
 	}
 
 	public final double textHeight() {
-		return textDimension("dummy").getHeight();
+		return textDimension("H").getHeight(); // "H" is a good dummy for the expected max height
 	}
 
 	public final double textWidth(String text) {
