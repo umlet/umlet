@@ -17,14 +17,14 @@ public class SeparatorLineFacet extends Facet {
 
 	public static final String KEY = "--";
 
-	private static final int H_SPACE = 4;
+	private static final int Y_SPACE = 5;
 
 	@Override
 	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
-		double linePos = state.getDividerPos(drawer);
+		double linePos = state.getyPos() - drawer.textHeight();
 		XValues xPos = state.getXLimits(linePos);
 		drawer.drawLine(xPos.getLeft() + 0.5, linePos, xPos.getRight() - 1, linePos);
-		state.addToYPos(H_SPACE);
+		state.addToYPos(Y_SPACE);
 	}
 
 	@Override

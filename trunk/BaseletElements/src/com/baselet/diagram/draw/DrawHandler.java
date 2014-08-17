@@ -175,12 +175,12 @@ public abstract class DrawHandler {
 		}
 	}
 
-	public double getDistanceHorizontalBorderToText() {
+	public double getDistanceBorderToText() {
 		return 5;
 	}
 
 	public double getDistanceBetweenTextLines() {
-		return 3;
+		return 6;
 	}
 
 	protected DimensionDouble textDimension(String string) {

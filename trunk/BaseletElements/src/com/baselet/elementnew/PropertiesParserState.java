@@ -145,10 +145,6 @@ public class PropertiesParserState {
 		return xLimits;
 	}
 
-	public double getDividerPos(DrawHandler drawer) {
-		return getyPos() - drawer.textHeight() + 2;
-	}
-
 	public void updateCalculatedElementWidth(double width) {
 		calculatedElementWidth = Math.max(calculatedElementWidth, width);
 	}

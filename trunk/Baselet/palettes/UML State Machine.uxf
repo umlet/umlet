@@ -2,20 +2,9 @@
 <diagram program="umlet" version="13.0">
   <zoom_level>8</zoom_level>
   <element>
-    <type>com.umlet.element.custom.HistoryState</type>
-    <coordinates>
-      <x>32</x>
-      <y>16</y>
-      <w>16</w>
-      <h>16</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>80</x>
+      <x>56</x>
       <y>16</y>
       <w>16</w>
       <h>16</h>
@@ -26,7 +15,7 @@
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>128</x>
+      <x>104</x>
       <y>16</y>
       <w>16</w>
       <h>16</h>
@@ -37,7 +26,7 @@
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>56</x>
+      <x>32</x>
       <y>16</y>
       <w>16</w>
       <h>16</h>
@@ -48,7 +37,7 @@
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>104</x>
+      <x>80</x>
       <y>16</y>
       <w>16</w>
       <h>16</h>
@@ -142,5 +131,27 @@ symbol=substate</panel_attributes>
     <panel_attributes>lt=-&gt;
 self</panel_attributes>
     <additional_attributes>100.0;30.0;100.0;60.0;10.0;60.0;10.0;10.0;50.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>128</x>
+      <y>16</y>
+      <w>16</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>type=history_shallow</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSpecialState</id>
+    <coordinates>
+      <x>152</x>
+      <y>16</y>
+      <w>16</w>
+      <h>16</h>
+    </coordinates>
+    <panel_attributes>type=history_deep</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
