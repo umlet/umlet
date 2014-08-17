@@ -248,12 +248,12 @@ public class DrawHandlerGWT extends DrawHandler {
 	private static void drawRoundRectHelper(Context2d ctx, final double x, final double y, final double width, final double height, final double radius) {
 		ctx.beginPath();
 		ctx.moveTo(x + radius, y);
-		ctx.lineTo(width - radius, y);
-		ctx.quadraticCurveTo(width, y, width, y + radius);
-		ctx.lineTo(width, height - radius);
-		ctx.quadraticCurveTo(width, height, width - radius, height);
-		ctx.lineTo(x + radius, height);
-		ctx.quadraticCurveTo(x, height, x, height - radius);
+		ctx.lineTo(x + width - radius, y);
+		ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+		ctx.lineTo(x + width, y + height - radius);
+		ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+		ctx.lineTo(x + radius, y + height);
+		ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
 		ctx.lineTo(x, y + radius);
 		ctx.quadraticCurveTo(x, y, x + radius, y);
 		ctx.closePath();
