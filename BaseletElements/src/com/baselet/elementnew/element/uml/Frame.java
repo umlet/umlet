@@ -20,9 +20,6 @@ import com.baselet.elementnew.settings.SettingsManualResizeTop;
 
 public class Frame extends NewGridElement {
 
-	private static final int UPPER_SPACE = 3;
-	private static final int LOWER_SPACE = 6;
-
 	@Override
 	protected Settings createSettings() {
 		return new SettingsManualResizeTop() {
@@ -45,8 +42,8 @@ public class Frame extends NewGridElement {
 		PackageTitleFacetResponse packageTitleResponse = state.getFacetResponse(TextBeforeFirstSeparatorCollectorFacet.class, null);
 		if (packageTitleResponse != null) {
 			double top = state.getTopBuffer();
-			double textDistanceToTop = UPPER_SPACE + top;
-			double heightOfTitle = textDistanceToTop + LOWER_SPACE;
+			double textDistanceToTop = drawer.getDistanceBorderToText() + top;
+			double heightOfTitle = drawer.getDistanceBorderToText() + textDistanceToTop;
 			double width = 0;
 			for (String line : packageTitleResponse.getLines()) {
 				width = Math.max(width, drawer.textWidth(line));
@@ -66,7 +63,7 @@ public class Frame extends NewGridElement {
 			double printHeightIter = textDistanceToTop;
 			for (String line : packageTitleResponse.getLines()) {
 				printHeightIter += drawer.textHeight();
-				drawer.print(line, lowerLeftSpace + drawer.getDistanceHorizontalBorderToText(), printHeightIter, AlignHorizontal.LEFT);
+				drawer.print(line, lowerLeftSpace + drawer.getDistanceBorderToText(), printHeightIter, AlignHorizontal.LEFT);
 			}
 		}
 	}

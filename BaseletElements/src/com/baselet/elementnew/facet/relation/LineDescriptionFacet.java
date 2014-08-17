@@ -22,6 +22,8 @@ import com.baselet.gui.AutocompletionText;
 
 public class LineDescriptionFacet extends GlobalFacet {
 
+	private static final int DIST_TO_LINE = 4;
+
 	public static LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
 
 	public static class LineDescriptionFacetResponse {
@@ -130,16 +132,16 @@ public class LineDescriptionFacet extends GlobalFacet {
 		PointDouble pointText = line.getPointOnLineWithDistanceFrom(isStart, 15); // distance from lineend (because of arrows,...)
 		Direction lineDirection = line.getDirectionOfLine(isStart);
 		if (lineDirection == Direction.RIGHT) {
-			pointText = new PointDouble(pointText.getX() - drawer.textWidth(text), pointText.getY() + drawer.textHeight());
+			pointText = new PointDouble(pointText.getX() - drawer.textWidth(text) - drawer.getDistanceBorderToText(), pointText.getY() + (drawer.textHeight() + DIST_TO_LINE));
 		}
 		else if (lineDirection == Direction.LEFT) {
-			pointText = new PointDouble(pointText.getX(), pointText.getY() + drawer.textHeight());
+			pointText = new PointDouble(pointText.getX() + DIST_TO_LINE, pointText.getY() + (drawer.textHeight() + DIST_TO_LINE));
 		}
 		else if (lineDirection == Direction.UP) {
-			pointText = new PointDouble(pointText.getX() + 5, pointText.getY() + drawer.textHeight() * 0.7);
+			pointText = new PointDouble(pointText.getX() + DIST_TO_LINE, pointText.getY() + (drawer.textHeight() + DIST_TO_LINE));
 		}
 		else if (lineDirection == Direction.DOWN) {
-			pointText = new PointDouble(pointText.getX() + 5, pointText.getY());
+			pointText = new PointDouble(pointText.getX() + DIST_TO_LINE, pointText.getY() - DIST_TO_LINE);
 		}
 		return pointText;
 	}

@@ -95,10 +95,10 @@ public class PropertiesParser {
 	private static double calcStartPointFromVAlign(List<String> propertiesText, PropertiesParserState p, DrawHandler drawer) {
 		double returnVal = drawer.textHeight(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
 		if (p.getvAlign() == AlignVertical.TOP) {
-			returnVal += drawer.getDistanceHorizontalBorderToText() + p.getTopBuffer();
+			returnVal += drawer.getDistanceBorderToText() * 1.5 + p.getTopBuffer();
 		}
 		else if (p.getvAlign() == AlignVertical.CENTER) {
-			returnVal += (p.getGridElementSize().height - getTextBlockHeight(propertiesText, p, drawer)) / 2 + p.getTopBuffer() / 2 - drawer.textHeight() / 6; // 1/6 of textheight is a good value for large fontsizes and "deep" characters like "y"
+			returnVal += (p.getGridElementSize().height - getTextBlockHeight(propertiesText, p, drawer)) / 2 + p.getTopBuffer() / 2;
 		}
 		else /* if (state.getvAlign() == AlignVertical.BOTTOM) */{
 			returnVal += p.getGridElementSize().height - getTextBlockHeight(propertiesText, p, drawer) - drawer.textHeight() / 4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
@@ -119,7 +119,7 @@ public class PropertiesParser {
 			if (wordwrap && !line.trim().isEmpty()) { // empty lines are skipped (otherwise they would get lost)
 				String wrappedLine;
 				while (state.getyPos() < state.getGridElementSize().height && !line.trim().isEmpty()) {
-					double spaceForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeight(), false).getSpace() - drawer.getDistanceHorizontalBorderToText() * 2;
+					double spaceForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeight(), false).getSpace() - drawer.getDistanceBorderToText() * 2;
 					wrappedLine = TextSplitter.splitString(line, spaceForText, drawer);
 					handleLine(facets, wrappedLine, state, drawer);
 					line = line.substring(wrappedLine.length()).trim();
@@ -162,13 +162,13 @@ public class PropertiesParser {
 	private static double calcHorizontalTextBoundaries(XValues xLimitsForText, PropertiesParserState state, DrawHandler drawer) {
 		double x;
 		if (state.gethAlign() == AlignHorizontal.LEFT) {
-			x = xLimitsForText.getLeft() + drawer.getDistanceHorizontalBorderToText();
+			x = xLimitsForText.getLeft() + drawer.getDistanceBorderToText();
 		}
 		else if (state.gethAlign() == AlignHorizontal.CENTER) {
 			x = xLimitsForText.getSpace() / 2.0 + xLimitsForText.getLeft();
 		}
 		else /* if (state.gethAlign() == AlignHorizontal.RIGHT) */{
-			x = xLimitsForText.getRight() - drawer.getDistanceHorizontalBorderToText();
+			x = xLimitsForText.getRight() - drawer.getDistanceBorderToText();
 		}
 		return x;
 	}

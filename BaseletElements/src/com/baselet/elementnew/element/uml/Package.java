@@ -42,12 +42,12 @@ public class Package extends NewGridElement {
 		double txtHeight = drawer.textHeightWithSpace();
 		for (String line : packageTitle) {
 			packageHeight += txtHeight;
-			packageWidth = Math.max(packageWidth, drawer.textWidth(line) + drawer.getDistanceHorizontalBorderToText() * 2);
+			packageWidth = Math.max(packageWidth, drawer.textWidth(line) + drawer.getDistanceBorderToText() * 2);
 			drawer.setDrawDelayed(true); // text should be in front of the package-border
-			drawer.print(line, new PointDouble(drawer.getDistanceHorizontalBorderToText(), packageHeight), AlignHorizontal.LEFT);
+			drawer.print(line, new PointDouble(drawer.getDistanceBorderToText(), packageHeight), AlignHorizontal.LEFT);
 			drawer.setDrawDelayed(false);
-			packageHeight += drawer.getDistanceBetweenTextLines();
 		}
+		packageHeight += drawer.getDistanceBetweenTextLines();
 		int height = getRealSize().getHeight();
 		int width = getRealSize().getWidth();
 		PointDouble start = new PointDouble(0, 0);

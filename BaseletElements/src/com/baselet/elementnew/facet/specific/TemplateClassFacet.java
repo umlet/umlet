@@ -69,7 +69,7 @@ public class TemplateClassFacet extends KeyValueFacet {
 		// DRAW PARTIAL CLASS BORDER
 		drawer.drawLines(p.get(1), p.get(0), p.get(7), p.get(6), p.get(5));
 		// DRAW TEMPLATE TEXT
-		drawer.print(templateClassText, width - drawer.getDistanceHorizontalBorderToText(), tR.getHeight() - LOWER_SPACE, AlignHorizontal.RIGHT);
+		drawer.print(templateClassText, width - drawer.getDistanceBorderToText(), tR.getHeight() - LOWER_SPACE, AlignHorizontal.RIGHT);
 		return p;
 	}
 

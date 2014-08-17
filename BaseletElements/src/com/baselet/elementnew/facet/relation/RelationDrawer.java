@@ -27,7 +27,7 @@ public class RelationDrawer {
 		drawer.setFontSize(12);
 
 		double height = BOX_SIZE;
-		double distance = drawer.getDistanceHorizontalBorderToText();
+		double distance = drawer.getDistanceBorderToText();
 		double width = Math.max(BOX_SIZE, drawer.textWidth(matchedText) + distance * 2);
 		PointDoubleIndexed point = (PointDoubleIndexed) line.getPoint(drawOnStart);
 		Rectangle r = new Rectangle(point.getX() - width / 2, point.getY() - height / 2, width, height);

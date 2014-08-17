@@ -327,7 +327,7 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void handleAutoresize(DimensionDouble necessaryElementDimension, AlignHorizontal alignHorizontal) {
-		double hSpaceLeftAndRight = drawer.getDistanceHorizontalBorderToText() * 2;
+		double hSpaceLeftAndRight = drawer.getDistanceBorderToText() * 2;
 		double width = necessaryElementDimension.getWidth() + hSpaceLeftAndRight;
 		double height = necessaryElementDimension.getHeight() + drawer.textHeight() / 2;
 		Dimension realSize = getRealSize();
