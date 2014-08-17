@@ -368,11 +368,15 @@ public abstract class NewGridElement implements GridElement {
 		else { // Resize GridElement
 			Rectangle rect = getRectangle();
 			if (isShiftKeyDown && diagonalResize(resizeDirection)) { // Proportional Resize
-				if (diffX > diffY) {
-					diffX = diffY;
-				}
-				if (diffY > diffX) {
+				boolean mouseToRight = diffX > 0 && diffX > diffY;
+				boolean mouseDown = diffY > 0 && diffY > diffX;
+				boolean mouseLeft = diffX < 0 && diffX < diffY;
+				boolean mouseUp = diffY < 0 && diffY < diffX;
+				if (mouseToRight || mouseLeft) {
 					diffY = diffX;
+				}
+				if (mouseDown || mouseUp) {
+					diffX = diffY;
 				}
 			}
 			if (resizeDirection.contains(Direction.LEFT) && resizeDirection.contains(Direction.RIGHT)) {
