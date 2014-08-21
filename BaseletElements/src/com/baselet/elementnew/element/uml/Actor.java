@@ -15,13 +15,14 @@ public class Actor extends NewGridElement {
 
 	private final static double ACTOR_DIMENSION = 14;
 
-	private StickingPolygonGenerator actorStickingPolygonGenerator = new StickingPolygonGenerator() {
+	private final StickingPolygonGenerator actorStickingPolygonGenerator = new StickingPolygonGenerator() {
 		@Override
 		public StickingPolygon generateStickingBorder(Rectangle rect) {
+			double dimension = ACTOR_DIMENSION;
 			double hCenter = getRealSize().width / 2;
-			int left = SharedUtils.realignToGrid(false, hCenter - armLength(), false);
-			int right = SharedUtils.realignToGrid(false, hCenter + armLength(), true);
-			int head = (int) headToLegLength();
+			int left = SharedUtils.realignToGrid(false, hCenter - armLength(dimension), false);
+			int right = SharedUtils.realignToGrid(false, hCenter + armLength(dimension), true);
+			int head = (int) headToLegLength(dimension);
 
 			StickingPolygon p = new StickingPolygon(rect.x, rect.y);
 			p.addPoint(left, 0);
@@ -44,40 +45,44 @@ public class Actor extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
-		state.addToYPos(headToLegLength());
-		state.updateCalculatedElementWidth(armLength() * 2);
+		double dimension = ACTOR_DIMENSION;
+		state.addToYPos(headToLegLength(dimension));
+		state.updateCalculatedElementWidth(armLength(dimension) * 2);
 
-		int hCenter = getRealSize().width / 2;
-		drawer.drawCircle(hCenter, headRadius(), headRadius()); // Head
-		drawer.drawLine(hCenter - armLength(), armHeight(), hCenter + armLength(), armHeight()); // Arms
-		drawer.drawLine(hCenter, headRadius() * 2, hCenter, headToBodyLength()); // Body
-		drawer.drawLine(hCenter, headToBodyLength(), hCenter - legSpan(), headToLegLength()); // Legs
-		drawer.drawLine(hCenter, headToBodyLength(), hCenter + legSpan(), headToLegLength()); // Legs
+		drawActor(drawer, getRealSize().width / 2, 0, dimension);
 
 		state.setStickingPolygonGenerator(actorStickingPolygonGenerator);
 	}
 
-	private static double headToLegLength() {
-		return legSpan() * 2 + headToBodyLength();
+	public static void drawActor(DrawHandler drawer, int hCenter, int yTop, double dimension) {
+		drawer.drawCircle(hCenter, yTop + headRadius(dimension), headRadius(dimension)); // Head
+		drawer.drawLine(hCenter - armLength(dimension), yTop + armHeight(dimension), hCenter + armLength(dimension), yTop + armHeight(dimension)); // Arms
+		drawer.drawLine(hCenter, yTop + headRadius(dimension) * 2, hCenter, yTop + headToBodyLength(dimension)); // Body
+		drawer.drawLine(hCenter, yTop + headToBodyLength(dimension), hCenter - legSpan(dimension), yTop + headToLegLength(dimension)); // Legs
+		drawer.drawLine(hCenter, yTop + headToBodyLength(dimension), hCenter + legSpan(dimension), yTop + headToLegLength(dimension)); // Legs
 	}
 
-	private static double legSpan() {
-		return ACTOR_DIMENSION;
+	private static double headToLegLength(double dimension) {
+		return legSpan(dimension) * 2 + headToBodyLength(dimension);
 	}
 
-	private static double headToBodyLength() {
-		return ACTOR_DIMENSION * 2 + headRadius() * 2;
+	private static double legSpan(double dimension) {
+		return dimension;
 	}
 
-	private static double armHeight() {
-		return armLength();
+	private static double headToBodyLength(double dimension) {
+		return dimension * 2 + headRadius(dimension) * 2;
 	}
 
-	private static double armLength() {
-		return ACTOR_DIMENSION * 1.5;
+	private static double armHeight(double dimension) {
+		return armLength(dimension);
 	}
 
-	private static double headRadius() {
-		return ACTOR_DIMENSION / 2;
+	private static double armLength(double dimension) {
+		return dimension * 1.5;
+	}
+
+	private static double headRadius(double dimension) {
+		return dimension / 2;
 	}
 }

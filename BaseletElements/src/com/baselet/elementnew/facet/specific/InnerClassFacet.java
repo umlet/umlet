@@ -65,12 +65,7 @@ public class InnerClassFacet extends Facet {
 	}
 
 	private Stack<ClassSettings> getOrInit(PropertiesParserState state) {
-		Stack<ClassSettings> innerClassStartPoints = state.getFacetResponse(InnerClassFacet.class, null);
-		if (innerClassStartPoints == null) {
-			innerClassStartPoints = new Stack<ClassSettings>();
-			state.setFacetResponse(InnerClassFacet.class, innerClassStartPoints);
-		}
-		return innerClassStartPoints;
+		return state.getOrInitFacetResponse(InnerClassFacet.class, new Stack<ClassSettings>());
 	}
 
 	@Override
@@ -79,9 +74,9 @@ public class InnerClassFacet extends Facet {
 	}
 
 	private static class ClassSettings {
-		private AlignHorizontal hAlign;
-		private AlignVertical vAlign;
-		private double start;
+		private final AlignHorizontal hAlign;
+		private final AlignVertical vAlign;
+		private final double start;
 
 		public ClassSettings(AlignHorizontal hAlign, AlignVertical vAlign, double startpoint) {
 			super();
