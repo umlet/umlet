@@ -37,9 +37,9 @@ import com.baselet.elementnew.facet.common.LineWidthFacet;
 public abstract class CustomElement extends OldGridElement {
 
 	private class Text {
-		private String text;
-		private int x, y;
-		private AlignHorizontal align;
+		private final String text;
+		private final int x, y;
+		private final AlignHorizontal align;
 		private Integer fixedSize;
 
 		private Text(String text, int x, int y, AlignHorizontal align) {
@@ -69,8 +69,8 @@ public abstract class CustomElement extends OldGridElement {
 	protected Composite[] composites;
 	private String code;
 
-	private Vector<StyleShape> shapes;
-	private Vector<Text> texts;
+	private final Vector<StyleShape> shapes;
+	private final Vector<Text> texts;
 
 	// The temp-variables are needed to store styles with setLineType etc. methods temporarily so that draw-Methods know the actual set style
 	private LineType tmpLineType;
@@ -481,6 +481,18 @@ public abstract class CustomElement extends OldGridElement {
 		tmpFgColor = fgColor;
 		tmpBgColor = bgColor;
 		tmpAlpha = alphaFactor;
+	}
+
+	protected final int textHeight() {
+		return (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize(false) + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(false));
+	}
+
+	protected final int textWidth(String text, boolean applyZoom) {
+		return (int) (Main.getHandlerForElement(this).getFontHandler().getTextSize(text, applyZoom).getWidth() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(applyZoom));
+	}
+
+	protected final int textWidth(String text) {
+		return textWidth(text, false);
 	}
 
 	protected final void allowResize(boolean allow) {
