@@ -8,6 +8,7 @@ import com.baselet.elementnew.element.uml.Class;
 import com.baselet.elementnew.element.uml.Deployment;
 import com.baselet.elementnew.element.uml.Frame;
 import com.baselet.elementnew.element.uml.Generic;
+import com.baselet.elementnew.element.uml.Hierarchy;
 import com.baselet.elementnew.element.uml.Interface;
 import com.baselet.elementnew.element.uml.Note;
 import com.baselet.elementnew.element.uml.Package;
@@ -23,7 +24,7 @@ import com.baselet.elementnew.element.uml.relation.Relation;
  * these IDs should NEVER be changed, because they are stored in uxf files
  */
 public enum ElementId {
-	UMLClass, UMLUseCase, UMLInterface, UMLActor, UMLState, UMLObject, UMLTimer, UMLSpecialState, UMLNote, UMLSyncBarHorizontal, UMLSyncBarVertical, UMLPackage, UMLFrame, UMLDeployment, UMLGeneric, Relation, Text, PlotGrid;
+	UMLClass, UMLUseCase, UMLInterface, UMLActor, UMLState, UMLObject, UMLTimer, UMLSpecialState, UMLNote, UMLSyncBarHorizontal, UMLSyncBarVertical, UMLPackage, UMLFrame, UMLDeployment, UMLGeneric, UMLHierarchy, Relation, Text, PlotGrid;
 
 	public NewGridElement createAssociatedGridElement() {
 		switch (this) {
@@ -63,6 +64,8 @@ public enum ElementId {
 				return new Timer();
 			case UMLUseCase:
 				return new UseCase();
+			case UMLHierarchy:
+				return new Hierarchy();
 			default:
 				throw new RuntimeException("Unknown class id: " + this);
 		}

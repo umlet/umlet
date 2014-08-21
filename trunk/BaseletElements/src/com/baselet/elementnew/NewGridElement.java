@@ -105,9 +105,13 @@ public abstract class NewGridElement implements GridElement {
 		try {
 			PropertiesParser.drawPropertiesText(this, state);
 		} catch (Exception e) {
-			log.debug("Cannot parse Properties Text", e);
+			log.error("Cannot parse Properties Text", e);
 			drawer.resetStyle();
-			drawError(drawer, e.getLocalizedMessage());
+			String localizedMessage = e.getLocalizedMessage();
+			if (localizedMessage == null) {
+				localizedMessage = e.toString();
+			}
+			drawError(drawer, localizedMessage);
 		}
 		autoresizePossiblyInProgress = false;
 

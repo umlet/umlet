@@ -13,23 +13,6 @@
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.custom.PackageAggregationHierarchy</type>
-    <coordinates>
-      <x>152</x>
-      <y>200</y>
-      <w>136</w>
-      <h>184</h>
-    </coordinates>
-    <panel_attributes>root
-	name
-	name
-		name
-		name
-root
-	name</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLPackage</id>
     <coordinates>
       <x>16</x>
@@ -153,5 +136,23 @@ bg=green</panel_attributes>
     </coordinates>
     <panel_attributes>lt=(+)-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLHierarchy</id>
+    <coordinates>
+      <x>152</x>
+      <y>200</y>
+      <w>136</w>
+      <h>192</h>
+    </coordinates>
+    <panel_attributes>type=Package
+root
+	name
+	name
+		name
+		name
+root
+	name</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

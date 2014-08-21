@@ -2,38 +2,6 @@
 <diagram program="umlet" version="13.0">
   <zoom_level>8</zoom_level>
   <element>
-    <type>com.umlet.element.custom.Taxonomy_of_Workprocesses</type>
-    <coordinates>
-      <x>8</x>
-      <y>320</y>
-      <w>360</w>
-      <h>216</h>
-    </coordinates>
-    <panel_attributes>Workprocess1
-	Workprocess2
-		Workprocess3
-		Workprocess4
-	Workprocess5</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.custom.Taxonomy_of_Actors</type>
-    <coordinates>
-      <x>264</x>
-      <y>16</y>
-      <w>160</w>
-      <h>296</h>
-    </coordinates>
-    <panel_attributes>Actor1
-	Actor2
-	Actor3
-		Actor4
-
-Actor5
-	Actor6</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLUseCase</id>
     <coordinates>
       <x>8</x>
@@ -186,5 +154,39 @@ valign=center</panel_attributes>
     <panel_attributes>lt=.&gt;
 &lt;&lt;includes&gt;&gt;</panel_attributes>
     <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLHierarchy</id>
+    <coordinates>
+      <x>8</x>
+      <y>320</y>
+      <w>360</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>type=WorkProcess
+Workprocess1
+	Workprocess2
+		Workprocess3
+		Workprocess4
+	Workprocess5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLHierarchy</id>
+    <coordinates>
+      <x>264</x>
+      <y>16</y>
+      <w>160</w>
+      <h>296</h>
+    </coordinates>
+    <panel_attributes>type=Actor
+Actor1
+	Actor2
+	Actor3
+		Actor4
+
+Actor5
+	Actor6</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
