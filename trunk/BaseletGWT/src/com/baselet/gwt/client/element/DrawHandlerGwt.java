@@ -177,15 +177,16 @@ public class DrawHandlerGwt extends DrawHandler {
 			ctx.setLineWidth(1.0f);
 			setLineDash(ctx, LineType.SOLID, 1.0f);
 			double textWidth = textWidth(textToDraw);
+			int vDist = 1;
 			switch (align) {
 				case LEFT:
-					drawLineHelper(p, new PointDouble(p.x + textWidth, p.y));
+					drawLineHelper(new PointDouble(p.x, p.y + vDist), new PointDouble(p.x + textWidth, p.y + vDist));
 					break;
 				case CENTER:
-					drawLineHelper(new PointDouble(p.x - textWidth / 2, p.y), new PointDouble(p.x + textWidth / 2, p.y));
+					drawLineHelper(new PointDouble(p.x - textWidth / 2, p.y + vDist), new PointDouble(p.x + textWidth / 2, p.y + vDist));
 					break;
 				case RIGHT:
-					drawLineHelper(new PointDouble(p.x - textWidth, p.y), p);
+					drawLineHelper(new PointDouble(p.x - textWidth, p.y + vDist), new PointDouble(p.x, p.y + vDist));
 					break;
 			}
 		}
