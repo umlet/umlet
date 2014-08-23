@@ -18,14 +18,14 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 
-public class DrawHandlerGWT extends DrawHandler {
+public class DrawHandlerGwt extends DrawHandler {
 
-	private static final Logger log = Logger.getLogger(DrawHandlerGWT.class);
+	private static final Logger log = Logger.getLogger(DrawHandlerGwt.class);
 
 	private final Canvas canvas;
 	private final Context2d ctx;
 
-	public DrawHandlerGWT(Canvas canvas) {
+	public DrawHandlerGwt(Canvas canvas) {
 		this.canvas = canvas;
 		ctx = canvas.getContext2d();
 	}
@@ -43,8 +43,8 @@ public class DrawHandlerGWT extends DrawHandler {
 	}
 
 	@Override
-	public PseudoDrawHandlerGWT getPseudoDrawHandler() {
-		PseudoDrawHandlerGWT pseudo = new PseudoDrawHandlerGWT(canvas);
+	public PseudoDrawHandlerGwt getPseudoDrawHandler() {
+		PseudoDrawHandlerGwt pseudo = new PseudoDrawHandlerGwt(canvas);
 		pseudo.setStyle(style.cloneFromMe()); // set style to make sure fontsize (and therefore calls like this.textHeight()) work as intended
 		return pseudo;
 	}
