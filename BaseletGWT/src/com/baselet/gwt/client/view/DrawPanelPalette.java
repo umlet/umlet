@@ -11,7 +11,7 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.elementnew.facet.common.GroupFacet;
-import com.baselet.gwt.client.OwnXMLParser;
+import com.baselet.gwt.client.DiagramXmlParser;
 import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.element.ElementFactory;
 import com.baselet.gwt.client.view.palettes.Resources;
@@ -68,7 +68,7 @@ public class DrawPanelPalette extends DrawPanel {
 	private Diagram parsePalette(TextResource res) {
 		Diagram diagram = paletteCache.get(res);
 		if (diagram == null) {
-			diagram = OwnXMLParser.xmlToDiagram(res.getText());
+			diagram = DiagramXmlParser.xmlToDiagram(res.getText());
 			paletteCache.put(res, diagram);
 		}
 		return diagram;

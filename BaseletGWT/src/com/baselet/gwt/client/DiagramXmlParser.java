@@ -20,7 +20,7 @@ import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 
-public class OwnXMLParser {
+public class DiagramXmlParser {
 
 	private static final String NUMBER_SIGN = "#"; // # is not automatically encoded by URL.encode() and URL.decode()
 	private static final String NUMBER_SIGN_URL_ENCODED = "%23";
@@ -29,7 +29,7 @@ public class OwnXMLParser {
 	private static final String LT = "<";
 	private static final String LT_ENCODED = "&lt;";
 
-	private static final Logger log = Logger.getLogger(OwnXMLParser.class);
+	private static final Logger log = Logger.getLogger(DiagramXmlParser.class);
 
 	private static final String DIAGRAM = "diagram";
 	private static final String ELEMENT = "element";
@@ -94,16 +94,13 @@ public class OwnXMLParser {
 					if (additionalAttrNode != null && additionalAttrNode.getFirstChild() != null) {
 						additionalPanelAttributes = additionalAttrNode.getFirstChild().getNodeValue();
 					}
-					GridElement gridElement = ElementFactory.create(id, rect, panelAttributes, additionalPanelAttributes, diagram);
 					if (zoomScale != 1.0f) {
-						Rectangle r = gridElement.getRectangle();
-						r.setX((int) (r.getX() / zoomScale));
-						r.setY((int) (r.getY() / zoomScale));
-						r.setWidth((int) (r.getWidth() / zoomScale));
-						r.setHeight((int) (r.getHeight() / zoomScale));
-						gridElement.setRectangle(r);
-						gridElement.updateModelFromText();
+						rect.setX((int) (rect.getX() / zoomScale));
+						rect.setY((int) (rect.getY() / zoomScale));
+						rect.setWidth((int) (rect.getWidth() / zoomScale));
+						rect.setHeight((int) (rect.getHeight() / zoomScale));
 					}
+					GridElement gridElement = ElementFactory.create(id, rect, panelAttributes, additionalPanelAttributes, diagram);
 					diagram.getGridElements().add(gridElement);
 				} catch (Exception e) {
 					log.error("Element has invalid XML structure: " + element, e);

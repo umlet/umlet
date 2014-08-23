@@ -10,7 +10,7 @@ public class ColorOwn {
 		FOREGROUND(255),
 		FULL_TRANSPARENT(0),
 		BACKGROUND(125),
-		SELECTION_BACKGROUND(15);
+		SELECTION_BACKGROUND(20);
 
 		private int alpha;
 
