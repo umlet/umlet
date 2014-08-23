@@ -37,11 +37,11 @@ public class BrowserStorage {
 	}
 
 	public static void setClipboard(List<GridElement> gridelements) {
-		set(CLIPBOARD, OwnXMLParser.gridElementsToXml(gridelements));
+		set(CLIPBOARD, DiagramXmlParser.gridElementsToXml(gridelements));
 	}
 
 	public static List<GridElement> getClipboard() {
-		return OwnXMLParser.xmlToGridElements(get(CLIPBOARD));
+		return DiagramXmlParser.xmlToGridElements(get(CLIPBOARD));
 	}
 
 	private static String get(String id) {

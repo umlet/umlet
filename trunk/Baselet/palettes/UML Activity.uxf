@@ -335,26 +335,14 @@ style=wordwrap</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>208</x>
-      <y>160</y>
-      <w>88</w>
-      <h>72</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-
-[exam passed]</panel_attributes>
-    <additional_attributes>50.0;70.0;50.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
       <x>224</x>
-      <y>136</y>
+      <y>144</y>
       <w>136</w>
-      <h>336</h>
+      <h>328</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 m2=[exam missed]</panel_attributes>
-    <additional_attributes>10.0;400.0;150.0;400.0;150.0;20.0;50.0;20.0</additional_attributes>
+    <additional_attributes>10.0;390.0;150.0;390.0;150.0;10.0;50.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -432,5 +420,17 @@ m2=[exam missed]</panel_attributes>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;30.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>208</x>
+      <y>160</y>
+      <w>88</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+[exam passed]</panel_attributes>
+    <additional_attributes>50.0;70.0;50.0;10.0</additional_attributes>
   </element>
 </diagram>

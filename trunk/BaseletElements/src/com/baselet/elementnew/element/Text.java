@@ -1,6 +1,7 @@
 package com.baselet.elementnew.element;
 
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.element.sticking.polygon.NoStickingPolygonGenerator;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesParserState;
@@ -20,6 +21,8 @@ public class Text extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {}
+	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+		state.setStickingPolygonGenerator(NoStickingPolygonGenerator.INSTANCE);
+	}
 
 }

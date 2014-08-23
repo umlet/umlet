@@ -5,7 +5,7 @@ import org.vectomatic.file.FileUploadExt;
 
 import com.baselet.gwt.client.BrowserStorage;
 import com.baselet.gwt.client.Notification;
-import com.baselet.gwt.client.OwnXMLParser;
+import com.baselet.gwt.client.DiagramXmlParser;
 import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox.Callback;
@@ -112,7 +112,7 @@ public class MainView extends Composite {
 			@Override
 			public void callback(final String chosenName) {
 				boolean itemIsNewlyAdded = BrowserStorage.getSavedDiagram(chosenName) == null;
-				BrowserStorage.addSavedDiagram(chosenName, OwnXMLParser.diagramToXml(diagramPanel.getDiagram()));
+				BrowserStorage.addSavedDiagram(chosenName, DiagramXmlParser.diagramToXml(diagramPanel.getDiagram()));
 				if (itemIsNewlyAdded) {
 					addRestoreMenuItem(chosenName);
 				}
@@ -180,7 +180,7 @@ public class MainView extends Composite {
 		label.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				diagramPanel.setDiagram(OwnXMLParser.xmlToDiagram(BrowserStorage.getSavedDiagram(chosenName)));
+				diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(BrowserStorage.getSavedDiagram(chosenName)));
 				Notification.showInfo("Diagram opened: " + chosenName);
 			}
 		});
@@ -210,8 +210,8 @@ public class MainView extends Composite {
 
 	@UiHandler("exportMenuItem")
 	void onExportMenuItemClick(ClickEvent event) {
-		log.info("Exporting: " + OwnXMLParser.diagramToXml(true, diagramPanel.getDiagram()));
-		String uxfUrl = "data:text/xml;charset=utf-8," + OwnXMLParser.diagramToXml(true, diagramPanel.getDiagram());
+		log.info("Exporting: " + DiagramXmlParser.diagramToXml(true, diagramPanel.getDiagram()));
+		String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, diagramPanel.getDiagram());
 		String pngUrl = CanvasUtils.createPngCanvasDataUrl(diagramPanel.getDiagram());
 		new DownloadPopupPanel(uxfUrl, pngUrl);
 	}

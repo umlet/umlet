@@ -218,7 +218,7 @@ public abstract class NewGridElement implements GridElement {
 		return returnSet;
 	}
 
-	/* method is final because it's not flexible enough. instead overwrite StickingPolygonGenerator in PropertiesConfig eg: Class uses this to change the stickingpolygon based on which facets are active (see Class.java) */
+	/* method is final because it's not flexible enough. instead overwrite StickingPolygonGenerator in PropertiesParserState eg: Class uses this to change the stickingpolygon based on which facets are active (see Class.java) */
 	@Override
 	public final StickingPolygon generateStickingBorder(Rectangle rect) {
 		return state.getStickingPolygonGenerator().generateStickingBorder(rect);
