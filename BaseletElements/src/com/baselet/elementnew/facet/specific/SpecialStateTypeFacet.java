@@ -83,7 +83,7 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 	}
 
 	public static void drawDecision(final DrawHandler drawer, final double w, final double h) {
-		drawer.drawLines(new PointDouble(w / 2, 1), new PointDouble(w - 1, h / 2), new PointDouble(w / 2, h - 1), new PointDouble(1, h / 2), new PointDouble(w / 2, 1));
+		drawer.drawLines(new PointDouble(0.5 + w / 2, 1), new PointDouble(w, 0.5 + h / 2), new PointDouble(0.5 + w / 2, h), new PointDouble(1, 0.5 + h / 2), new PointDouble(0.5 + w / 2, 1));
 	}
 
 	private void drawBlackEllipse(final DrawHandler drawer, double width, double height, double xY) {
