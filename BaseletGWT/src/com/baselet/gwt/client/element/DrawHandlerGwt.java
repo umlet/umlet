@@ -32,8 +32,9 @@ public class DrawHandlerGwt extends DrawHandler {
 
 	@Override
 	protected DimensionDouble textDimensionHelper(String string) {
-		ctxSetFont(style.getFontSize(), StringStyle.analyzeFormatLabels(string));
-		DimensionDouble dim = new DimensionDouble(ctx.measureText(string).getWidth(), style.getFontSize());
+		StringStyle stringStyle = StringStyle.analyzeFormatLabels(string);
+		ctxSetFont(style.getFontSize(), stringStyle);
+		DimensionDouble dim = new DimensionDouble(ctx.measureText(stringStyle.getStringWithoutMarkup()).getWidth(), style.getFontSize()); // unfortunately a html canvas offers no method to get the exakt height, therefore just use the fontsize
 		return dim;
 	}
 
