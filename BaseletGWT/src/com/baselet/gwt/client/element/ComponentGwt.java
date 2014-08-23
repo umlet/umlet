@@ -13,8 +13,8 @@ public class ComponentGwt implements Component {
 	boolean redrawNecessary = true;
 
 	private Canvas canvas = Canvas.createIfSupported();
-	private DrawHandlerGWT drawer = new DrawHandlerGWT(canvas);
-	private DrawHandlerGWT metadrawer = new DrawHandlerGWT(canvas);
+	private DrawHandlerGwt drawer = new DrawHandlerGwt(canvas);
+	private DrawHandlerGwt metadrawer = new DrawHandlerGwt(canvas);
 
 	private GridElement element;
 

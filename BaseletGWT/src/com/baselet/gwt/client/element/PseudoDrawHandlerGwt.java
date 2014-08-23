@@ -6,9 +6,9 @@ import com.google.gwt.canvas.client.Canvas;
 /**
  * Simple DrawHandler which doesn't really draw but can be used where a DrawHandler is expected (eg: height calculation of element for autoresize)
  */
-public class PseudoDrawHandlerGWT extends DrawHandlerGWT {
+public class PseudoDrawHandlerGwt extends DrawHandlerGwt {
 
-	public PseudoDrawHandlerGWT(Canvas canvas) {
+	public PseudoDrawHandlerGwt(Canvas canvas) {
 		super(canvas);
 	}
 
