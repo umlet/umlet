@@ -36,26 +36,28 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 	public void handleValue(final String value, final DrawHandler drawer, final PropertiesParserState state) {
 		StateTypeEnum type = StateTypeEnum.valueOf(value.toUpperCase());
 		Dimension s = state.getGridElementSize();
-		final double w = s.getWidth();
-		final double h = s.getHeight();
+		// IMPORTANT NOTE: Make sure the element looks good in Swing and GWT because it's quite complex (check in UML State Machine palette)
+		double w = s.getWidth() - 1;
+		double h = s.getHeight() - 1;
 		if (type == StateTypeEnum.INITIAL) {
-			drawBlackEllipse(drawer, w, h, 0);
+			drawBlackEllipse(drawer, w - 1, h - 1, 1);
 		}
 		else if (type == StateTypeEnum.FINAL) {
 			drawer.drawEllipse(0, 0, w, h);
 			ColorOwn oldFg = drawer.getStyle().getForegroundColor();
 			drawer.setForegroundColor(ColorOwn.TRANSPARENT); // don't use foregroundcolor for the inner circle, because otherwise in Swing it would look very ugly
-			drawBlackEllipse(drawer, w - 1, h - 1, Math.max(w - 1, h - 1) / 5.5);
+			double ellipseDistance = Math.max(w - 1, h - 1) / 5.5;
+			drawBlackEllipse(drawer, w - ellipseDistance * 2, h - ellipseDistance * 2, ellipseDistance);
 			drawer.setForegroundColor(oldFg);
 		}
 		else if (type == StateTypeEnum.FLOW_FINAL) {
 			drawer.drawEllipse(0, 0, w, h);
-			double yPos = h / 6;
-			double lowerY = h - yPos;
-			XValues upperXVal = XValues.createForEllipse(yPos, h, w);
+			double upperY = h / 6;
+			double lowerY = h - upperY;
+			XValues upperXVal = XValues.createForEllipse(upperY, h, w);
 			XValues lowerXVal = XValues.createForEllipse(lowerY, h, w);
-			drawer.drawLine(upperXVal.getLeft(), yPos, lowerXVal.getRight() - 1, lowerY);
-			drawer.drawLine(lowerXVal.getLeft(), lowerY, upperXVal.getRight() - 1, yPos);
+			drawer.drawLine(upperXVal.getLeft(), upperY, lowerXVal.getRight(), lowerY);
+			drawer.drawLine(lowerXVal.getLeft(), lowerY, upperXVal.getRight(), upperY);
 		}
 		else if (type == StateTypeEnum.HISTORY_SHALLOW || type == StateTypeEnum.HISTORY_DEEP) {
 			String text;
@@ -66,7 +68,7 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 				text = "*H**";
 			}
 			drawer.drawEllipse(0, 0, w, h);
-			double x = (w - drawer.textWidth(text)) / 2 - 1;
+			double x = (w - drawer.textWidth(text)) / 2;
 			double y = (h + drawer.textHeight(text)) / 2;
 			drawer.print(text, new PointDouble(x, y), AlignHorizontal.LEFT);
 		}
@@ -84,7 +86,7 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 		drawer.drawLines(new PointDouble(w / 2, 1), new PointDouble(w - 1, h / 2), new PointDouble(w / 2, h - 1), new PointDouble(1, h / 2), new PointDouble(w / 2, 1));
 	}
 
-	private void drawBlackEllipse(final DrawHandler drawer, double width, double height, double radius) {
+	private void drawBlackEllipse(final DrawHandler drawer, double width, double height, double xY) {
 		ColorOwn oldBg = drawer.getStyle().getBackgroundColor();
 		if (drawer.getStyle().getBackgroundColor() == ColorOwn.DEFAULT_BACKGROUND) {
 			drawer.setBackgroundColor(ColorOwn.BLACK.transparency(Transparency.FOREGROUND));
@@ -92,7 +94,7 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 		else {
 			drawer.setBackgroundColor(drawer.getStyle().getBackgroundColor().transparency(Transparency.FOREGROUND));
 		}
-		drawer.drawEllipse(radius, radius, width - radius * 2, height - radius * 2);
+		drawer.drawEllipse(xY, xY, width, height);
 		drawer.setBackgroundColor(oldBg);
 	}
 
