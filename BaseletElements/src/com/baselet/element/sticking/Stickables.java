@@ -68,27 +68,32 @@ public class Stickables {
 			StickLineChange relevantStickline = getNearestStickLineChangeWhichWillChangeTheStickPoint(changedStickLines, absolutePosOfStickablePoint, maxDistance);
 
 			if (relevantStickline != null) {
-				PointDouble newPointToUse, oldPointToUse;
-				// if the end of the stickline doesn't change, use the start
-				if (relevantStickline.getOld().getEnd().equals(relevantStickline.getNew().getEnd())) {
-					newPointToUse = relevantStickline.getNew().getStart();
-					oldPointToUse = relevantStickline.getOld().getStart();
-				}
-				else { // otherwise use the end
-					newPointToUse = relevantStickline.getNew().getEnd();
-					oldPointToUse = relevantStickline.getOld().getEnd();
-				}
+				StickLine oldLine = relevantStickline.getOld();
+				StickLine newLine = relevantStickline.getNew();
+				boolean stickLineMoved = oldLine.getLength() == newLine.getLength(); // a stickline is only moved of the length stays the same
+				boolean newStickLineLosingPoint = newLine.getDistanceToPoint(absolutePosOfStickablePoint) > 1; // a stickline would lose a point if the distance of the new line to the point is larger than 0 (1 is used as a small buffer for rounding)
+				// Move the stickpoint if the stickline was moved (user moves the element) or if the stickline was resized (user resizes the element) and the point would be lost du to resizing
+				// Intended behavior for user: Move Command always moves sticking points, Resize Command only moves if the point would be lost otherwise
+				if (stickLineMoved || newStickLineLosingPoint) {
+					PointDouble newPointToUse, oldPointToUse;
+					// if the end of the stickline doesn't change, use the start
+					if (oldLine.getEnd().equals(newLine.getEnd())) {
+						newPointToUse = newLine.getStart();
+						oldPointToUse = oldLine.getStart();
+					}
+					else { // otherwise use the end
+						newPointToUse = newLine.getEnd();
+						oldPointToUse = oldLine.getEnd();
+					}
 
-				int diffX = newPointToUse.getX().intValue() - oldPointToUse.getX().intValue();
-				int diffY = newPointToUse.getY().intValue() - oldPointToUse.getY().intValue();
-				// the diff values are in current zoom, therefore normalize them (invert operation done in getAbsolutePosition())
-				int diffXdefaultZoom = diffX / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
-				int diffYdefaultZoom = diffY / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
+					int diffX = newPointToUse.getX().intValue() - oldPointToUse.getX().intValue();
+					int diffY = newPointToUse.getY().intValue() - oldPointToUse.getY().intValue();
+					// the diff values are in current zoom, therefore normalize them (invert operation done in getAbsolutePosition())
+					int diffXdefaultZoom = diffX / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
+					int diffYdefaultZoom = diffY / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
 
-				// only change the point if it's still connected to the new position of the stickline (otherwise you could move a sticking relation out of a class border by resizing it too much)
-				// if (relevantStickline.getNew().isConnected(new PointDouble(absolutePosOfStickablePoint.getX() + diffXdefaultZoom, absolutePosOfStickablePoint.getY() + diffYdefaultZoom), 5)) {
-				changedPoints.add(new PointChange(stickablePoint.getIndex(), diffXdefaultZoom, diffYdefaultZoom));
-				// }
+					changedPoints.add(new PointChange(stickablePoint.getIndex(), diffXdefaultZoom, diffYdefaultZoom));
+				}
 			}
 		}
 		return changedPoints;
