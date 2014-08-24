@@ -26,7 +26,7 @@ import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveEnd;
-import com.baselet.diagram.command.MoveLinePoint;
+import com.baselet.diagram.command.OldMoveLinePoint;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.Converter;
@@ -286,7 +286,7 @@ public class GridElementListener extends UniversalListener {
 
 	static Vector<Command> calculateFirstMoveCommands(int diffx, int diffy, Point oldp, Collection<GridElement> entitiesToBeMoved, boolean isShiftKeyDown, boolean useSetLocation, DiagramHandler handler, Set<Direction> directions) {
 		Vector<Move> moveCommands = new Vector<Move>();
-		Vector<MoveLinePoint> linepointCommands = new Vector<MoveLinePoint>();
+		Vector<OldMoveLinePoint> linepointCommands = new Vector<OldMoveLinePoint>();
 		List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getStickables(entitiesToBeMoved);
 		for (GridElement ge : entitiesToBeMoved) {
 			// reduce stickables to those which really stick at the element at move-start
@@ -304,7 +304,7 @@ public class GridElementListener extends UniversalListener {
 					if (entitiesToBeMoved.contains(tmpRlp.getRelation())) {
 						continue;
 					}
-					linepointCommands.add(new MoveLinePoint(tmpRlp.getRelation(), tmpRlp.getLinePointId(), diffx, diffy));
+					linepointCommands.add(new OldMoveLinePoint(tmpRlp.getRelation(), tmpRlp.getLinePointId(), diffx, diffy));
 				}
 			}
 		}
@@ -328,9 +328,9 @@ public class GridElementListener extends UniversalListener {
 				Move m = (Move) command;
 				tmpVector.add(new Move(resizeDirection, m.getEntity(), diffx, diffy, oldp, m.isShiftKeyDown(), FIRST_DRAG, useSetLocation, m.getStickables()));
 			}
-			else if (command instanceof MoveLinePoint) {
-				MoveLinePoint m = (MoveLinePoint) command;
-				tmpVector.add(new MoveLinePoint(m.getRelation(), m.getLinePointId(), diffx, diffy));
+			else if (command instanceof OldMoveLinePoint) {
+				OldMoveLinePoint m = (OldMoveLinePoint) command;
+				tmpVector.add(new OldMoveLinePoint(m.getRelation(), m.getLinePointId(), diffx, diffy));
 			}
 		}
 		return tmpVector;

@@ -14,14 +14,18 @@ import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
 
-public class Resize extends Command {
+/**
+ * resizing has been merged with Move command and only remains for old grid elements which will not be migrated but removed from the code after some time
+ */
+@Deprecated
+public class OldResize extends Command {
 	private static int current_id = 0;
 
 	private int id;
-	private int diffx, diffy, diffw, diffh;
+	private final int diffx, diffy, diffw, diffh;
 	private Vector<RelationLinePoint> linepoints;
-	private Vector<MoveLinePoint> move_commands;
-	private GridElement entity;
+	private final Vector<OldMoveLinePoint> move_commands;
+	private final GridElement entity;
 
 	private int getDiffx() {
 		return diffx * Main.getHandlerForElement(entity).getGridSize();
@@ -39,13 +43,13 @@ public class Resize extends Command {
 		return diffh * Main.getHandlerForElement(entity).getGridSize();
 	}
 
-	public Resize(GridElement entity, int diffx, int diffy, int diffw, int diffh) {
+	public OldResize(GridElement entity, int diffx, int diffy, int diffw, int diffh) {
 		this(entity, diffx, diffy, diffw, diffh, null);
 	}
 
 	// resize for merge
-	private Resize(GridElement entity, int id, int diffx, int diffy, int diffw, int diffh,
-			Vector<MoveLinePoint> move_commands, Vector<MoveLinePoint> move_commands2) {
+	private OldResize(GridElement entity, int id, int diffx, int diffy, int diffw, int diffh,
+			Vector<OldMoveLinePoint> move_commands, Vector<OldMoveLinePoint> move_commands2) {
 		this.entity = entity;
 		this.id = id;
 		this.move_commands = move_commands;
@@ -56,9 +60,9 @@ public class Resize extends Command {
 		this.diffh = diffh / Main.getHandlerForElement(entity).getGridSize();
 	}
 
-	public Resize(GridElement entity, int diffx, int diffy, int diffw, int diffh, Resize first) {
+	public OldResize(GridElement entity, int diffx, int diffy, int diffw, int diffh, OldResize first) {
 		this.entity = entity;
-		move_commands = new Vector<MoveLinePoint>();
+		move_commands = new Vector<OldMoveLinePoint>();
 		this.diffx = diffx / Main.getHandlerForElement(entity).getGridSize();
 		this.diffy = diffy / Main.getHandlerForElement(entity).getGridSize();
 		this.diffw = (diffw - diffx) / Main.getHandlerForElement(entity).getGridSize();
@@ -91,7 +95,7 @@ public class Resize extends Command {
 			diff = from.getLine(lp.getStickingLineId()).diffToLine(to.getLine(lp.getStickingLineId()), p.x + r.getRectangle().x, p.y + r.getRectangle().y);
 
 			DiagramHandler handler = Main.getHandlerForElement(entity);
-			move_commands.add(new MoveLinePoint(lp.getRelation(), lp.getLinePointId(), handler.realignToGrid(diff.x), handler.realignToGrid(diff.y)));
+			move_commands.add(new OldMoveLinePoint(lp.getRelation(), lp.getLinePointId(), handler.realignToGrid(diff.x), handler.realignToGrid(diff.y)));
 		}
 
 	}
@@ -103,7 +107,7 @@ public class Resize extends Command {
 		entity.setLocationDifference(getDiffx(), getDiffy());
 		entity.changeSize(getDiffw(), getDiffh());
 		if (SharedConstants.stickingEnabled) {
-			for (MoveLinePoint c : move_commands) {
+			for (OldMoveLinePoint c : move_commands) {
 				c.execute(handler);
 			}
 		}
@@ -114,7 +118,7 @@ public class Resize extends Command {
 		super.undo(handler);
 		entity.setLocationDifference(-getDiffx(), -getDiffy());
 		entity.changeSize(-getDiffw(), -getDiffh());
-		for (MoveLinePoint c : move_commands) {
+		for (OldMoveLinePoint c : move_commands) {
 			c.undo(handler);
 		}
 		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
@@ -122,10 +126,10 @@ public class Resize extends Command {
 
 	@Override
 	public boolean isMergeableTo(Command c) {
-		if (!(c instanceof Resize)) {
+		if (!(c instanceof OldResize)) {
 			return false;
 		}
-		Resize r = (Resize) c;
+		OldResize r = (OldResize) c;
 		if (id == r.id) {
 			return true;
 		}
@@ -134,8 +138,8 @@ public class Resize extends Command {
 
 	@Override
 	public Command mergeTo(Command c) {
-		Resize tmp = (Resize) c;
-		return new Resize(entity, Math.max(id, tmp.id), getDiffx() + tmp.getDiffx(), getDiffy() + tmp.getDiffy(),
+		OldResize tmp = (OldResize) c;
+		return new OldResize(entity, Math.max(id, tmp.id), getDiffx() + tmp.getDiffx(), getDiffy() + tmp.getDiffy(),
 				getDiffw() + tmp.getDiffw(), getDiffh() + tmp.getDiffh(), move_commands, tmp.move_commands);
 	}
 }

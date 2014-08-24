@@ -29,8 +29,6 @@ public class ErrorOccurred extends OldGridElement {
 	public void paintEntity(Graphics g) {
 
 		DiagramHandler handlerForElement = Main.getHandlerForElement(this);
-		float zoom = handlerForElement.getZoomFactor();
-
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawRect(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 		if (handlerForElement.getDrawPanel().getSelector().isSelected(this)) {

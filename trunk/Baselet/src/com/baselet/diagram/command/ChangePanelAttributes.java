@@ -5,7 +5,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.baselet.gui.OwnSyntaxPane;
 
-public class ChangeState extends Command {
+public class ChangePanelAttributes extends Command {
 	private GridElement _entity;
 
 	public GridElement getEntity() {
@@ -33,7 +33,7 @@ public class ChangeState extends Command {
 		return _newCaret;
 	}
 
-	public ChangeState(GridElement e, String oldState, String newState, int oldCaret, int newCaret) {
+	public ChangePanelAttributes(GridElement e, String oldState, String newState, int oldCaret, int newCaret) {
 		_entity = e;
 		_newState = newState;
 		_oldState = oldState;
@@ -84,8 +84,8 @@ public class ChangeState extends Command {
 
 	@Override
 	public Command mergeTo(Command c) {
-		ChangeState tmp = (ChangeState) c;
-		ChangeState ret = new ChangeState(getEntity(), tmp.getOldState(), getNewState(), tmp.getOldCaret(), getNewCaret());
+		ChangePanelAttributes tmp = (ChangePanelAttributes) c;
+		ChangePanelAttributes ret = new ChangePanelAttributes(getEntity(), tmp.getOldState(), getNewState(), tmp.getOldCaret(), getNewCaret());
 		return ret;
 	}
 
