@@ -11,7 +11,7 @@ import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
-import com.baselet.diagram.command.Resize;
+import com.baselet.diagram.command.OldResize;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
 
@@ -51,12 +51,12 @@ public class SynchBarVertical extends OldGridElement {
 		}
 
 		if (ADAPT_SIZE) {
-			new Resize(this, -Main.getHandlerForElement(this).getGridSize(), 0, 0, 0).execute(Main.getHandlerForElement(this));
-			new Resize(this, 0, 0, Main.getHandlerForElement(this).getGridSize(), 0).execute(Main.getHandlerForElement(this));
+			new OldResize(this, -Main.getHandlerForElement(this).getGridSize(), 0, 0, 0).execute(Main.getHandlerForElement(this));
+			new OldResize(this, 0, 0, Main.getHandlerForElement(this).getGridSize(), 0).execute(Main.getHandlerForElement(this));
 			return;
 		}
 		if (yPos > getRectangle().height) {
-			new Resize(this, 0, 0, 0, (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())).execute(Main.getHandlerForElement(this));
+			new OldResize(this, 0, 0, 0, (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())).execute(Main.getHandlerForElement(this));
 			return;
 		}
 

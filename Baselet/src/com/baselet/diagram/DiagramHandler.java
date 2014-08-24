@@ -29,7 +29,7 @@ import com.baselet.gui.BaseGUI;
 import com.baselet.gui.DiagramPopupMenu;
 import com.baselet.gui.listener.DiagramListener;
 import com.baselet.gui.listener.GridElementListener;
-import com.baselet.gui.listener.RelationListener;
+import com.baselet.gui.listener.OldRelationListener;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.element.Relation;
 import com.umlet.element.SequenceDiagram;
@@ -49,7 +49,7 @@ public class DiagramHandler {
 	private boolean enabled;
 	private int gridSize;
 
-	private RelationListener relationListener;
+	private OldRelationListener relationListener;
 	private GridElementListener gridElementListener;
 
 	public DiagramHandler(File diagram) {
@@ -228,7 +228,7 @@ public class DiagramHandler {
 	public GridElementListener getEntityListener(GridElement e) {
 		if (e instanceof Relation) {
 			if (relationListener == null) {
-				relationListener = new RelationListener(this);
+				relationListener = new OldRelationListener(this);
 			}
 			return relationListener;
 		}

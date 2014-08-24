@@ -8,22 +8,107 @@ import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.command.AddLinePoint;
+import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Move;
-import com.baselet.diagram.command.MoveLinePoint;
+import com.baselet.diagram.command.OldMoveLinePoint;
 import com.baselet.diagram.command.RemoveElement;
-import com.baselet.diagram.command.RemoveLinePoint;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.sticking.StickableMap;
 import com.umlet.element.Relation;
 
-public class RelationListener extends GridElementListener {
+/**
+ * new relation doesnt need its own listener
+ */
+@Deprecated
+public class OldRelationListener extends GridElementListener {
+
+	private static class OldAddLinePoint extends Command {
+
+		private final Relation _relation;
+		private final int _where;
+
+		private final int _x;
+		private final int _y;
+
+		private int getX() {
+			return _x * Main.getHandlerForElement(_relation).getGridSize();
+		}
+
+		private int getY() {
+			return _y * Main.getHandlerForElement(_relation).getGridSize();
+		}
+
+		public OldAddLinePoint(Relation r, int i, int x, int y) {
+			_relation = r;
+			_where = i;
+			_x = x / Main.getHandlerForElement(_relation).getGridSize();
+			_y = y / Main.getHandlerForElement(_relation).getGridSize();
+		}
+
+		@Override
+		public void execute(DiagramHandler handler) {
+			super.execute(handler);
+			Vector<Point> tmp = _relation.getLinePoints();
+			tmp.insertElementAt(new Point(getX(), getY()), _where);
+			_relation.repaint();
+		}
+
+		@Override
+		public void undo(DiagramHandler handler) {
+			super.undo(handler);
+			Vector<Point> tmp = _relation.getLinePoints();
+			tmp.removeElementAt(_where);
+			_relation.repaint();
+		}
+	}
+
+	private static class OldRemoveLinePoint extends Command {
+
+		private final Relation _relation;
+		private final int _where;
+
+		private final int _x;
+		private final int _y;
+
+		private int getX() {
+			return _x * Main.getHandlerForElement(_relation).getGridSize();
+		}
+
+		private int getY() {
+			return _y * Main.getHandlerForElement(_relation).getGridSize();
+		}
+
+		public OldRemoveLinePoint(Relation r, int i) {
+			_relation = r;
+			_where = i;
+			Point p = r.getLinePoints().elementAt(i);
+
+			_x = p.x / Main.getHandlerForElement(_relation).getGridSize();
+			_y = p.y / Main.getHandlerForElement(_relation).getGridSize();
+		}
+
+		@Override
+		public void execute(DiagramHandler handler) {
+			super.execute(handler);
+			Vector<Point> tmp = _relation.getLinePoints();
+			tmp.removeElementAt(_where);
+			_relation.repaint();
+		}
+
+		@Override
+		public void undo(DiagramHandler handler) {
+			super.undo(handler);
+			Vector<Point> tmp = _relation.getLinePoints();
+			tmp.insertElementAt(new Point(getX(), getY()), _where);
+			_relation.repaint();
+		}
+	}
 
 	private boolean IS_DRAGGING_LINEPOINT = false;
 	private boolean IS_DRAGGING_LINE = false;
 	private int LINEPOINT = -1;
 
-	public RelationListener(DiagramHandler handler) {
+	public OldRelationListener(DiagramHandler handler) {
 		super(handler);
 	}
 
@@ -65,7 +150,7 @@ public class RelationListener extends GridElementListener {
 			}
 			else if (rel.isOnLine(LINEPOINT)) {
 				controller.executeCommand(
-						new RemoveLinePoint(rel, LINEPOINT));
+						new OldRemoveLinePoint(rel, LINEPOINT));
 			}
 		}
 		IS_DRAGGING_LINEPOINT = false;
@@ -123,7 +208,7 @@ public class RelationListener extends GridElementListener {
 
 		if (IS_DRAGGING_LINEPOINT & LINEPOINT >= 0) {
 			controller.executeCommand(
-					new MoveLinePoint(r, LINEPOINT, diffx, diffy));
+					new OldMoveLinePoint(r, LINEPOINT, diffx, diffy));
 			return;
 		}
 		else if (IS_DRAGGING_LINE) {
@@ -136,7 +221,7 @@ public class RelationListener extends GridElementListener {
 			IS_DRAGGING_LINEPOINT = true;
 			LINEPOINT = where;
 			controller.executeCommand(
-					new MoveLinePoint(r, where, diffx, diffy));
+					new OldMoveLinePoint(r, where, diffx, diffy));
 			return;
 		}
 		else {
@@ -146,7 +231,7 @@ public class RelationListener extends GridElementListener {
 				IS_DRAGGING_LINEPOINT = true;
 				LINEPOINT = ins;
 				controller.executeCommand(
-						new AddLinePoint(r, ins, me.getX(), me.getY()));
+						new OldAddLinePoint(r, ins, me.getX(), me.getY()));
 				return;
 			}
 		}

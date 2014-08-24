@@ -4,9 +4,13 @@ import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.umlet.element.Relation;
 
-public class MoveLinePoint extends Command {
-	private Relation _relation;
-	private int _linePointId, _diffx, _diffy;
+/**
+ * only for old deprecated relation; new relation handles linepoint movement in the class-code
+ */
+@Deprecated
+public class OldMoveLinePoint extends Command {
+	private final Relation _relation;
+	private final int _linePointId, _diffx, _diffy;
 
 	public int getLinePointId() {
 		return _linePointId;
@@ -24,7 +28,7 @@ public class MoveLinePoint extends Command {
 		return _diffy * Main.getHandlerForElement(_relation).getGridSize();
 	}
 
-	public MoveLinePoint(Relation rel, int i, int diffx, int diffy) {
+	public OldMoveLinePoint(Relation rel, int i, int diffx, int diffy) {
 		_relation = rel;
 		_linePointId = i;
 		_diffx = diffx / Main.getHandlerForElement(rel).getGridSize();
@@ -45,10 +49,10 @@ public class MoveLinePoint extends Command {
 
 	@Override
 	public boolean isMergeableTo(Command c) {
-		if (!(c instanceof MoveLinePoint)) {
+		if (!(c instanceof OldMoveLinePoint)) {
 			return false;
 		}
-		MoveLinePoint mlp = (MoveLinePoint) c;
+		OldMoveLinePoint mlp = (OldMoveLinePoint) c;
 		if (getRelation() != mlp.getRelation()) {
 			return false;
 		}
@@ -60,8 +64,8 @@ public class MoveLinePoint extends Command {
 
 	@Override
 	public Command mergeTo(Command c) {
-		MoveLinePoint tmp = (MoveLinePoint) c;
-		MoveLinePoint ret = new MoveLinePoint(getRelation(), getLinePointId(), getDiffX() + tmp.getDiffX(), getDiffY() + tmp.getDiffY());
+		OldMoveLinePoint tmp = (OldMoveLinePoint) c;
+		OldMoveLinePoint ret = new OldMoveLinePoint(getRelation(), getLinePointId(), getDiffX() + tmp.getDiffX(), getDiffY() + tmp.getDiffY());
 		return ret;
 	}
 }
