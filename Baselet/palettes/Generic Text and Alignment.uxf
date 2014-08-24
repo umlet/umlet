@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>24</x>
-      <y>24</y>
+      <x>16</x>
+      <y>16</y>
       <w>88</w>
       <h>96</h>
     </coordinates>
@@ -21,8 +21,8 @@ bla bla
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>128</x>
-      <y>24</y>
+      <x>120</x>
+      <y>16</y>
       <w>88</w>
       <h>96</h>
     </coordinates>
@@ -38,8 +38,8 @@ bla bla
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>232</x>
-      <y>24</y>
+      <x>224</x>
+      <y>16</y>
       <w>88</w>
       <h>96</h>
     </coordinates>
@@ -55,8 +55,8 @@ bla bla
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>24</x>
-      <y>128</y>
+      <x>16</x>
+      <y>120</y>
       <w>88</w>
       <h>96</h>
     </coordinates>
@@ -71,8 +71,8 @@ bla bla</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>128</x>
-      <y>128</y>
+      <x>120</x>
+      <y>120</y>
       <w>88</w>
       <h>96</h>
     </coordinates>
@@ -87,8 +87,8 @@ bla bla</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>232</x>
-      <y>128</y>
+      <x>224</x>
+      <y>120</y>
       <w>88</w>
       <h>96</h>
     </coordinates>
@@ -103,8 +103,8 @@ bla bla</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>24</x>
-      <y>232</y>
+      <x>16</x>
+      <y>224</y>
       <w>88</w>
       <h>96</h>
     </coordinates>
@@ -119,8 +119,8 @@ bla bla</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>128</x>
-      <y>232</y>
+      <x>120</x>
+      <y>224</y>
       <w>88</w>
       <h>96</h>
     </coordinates>
@@ -135,8 +135,8 @@ bla bla</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>232</x>
-      <y>232</y>
+      <x>224</x>
+      <y>224</y>
       <w>88</w>
       <h>96</h>
     </coordinates>
@@ -151,8 +151,8 @@ bla bla</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>24</x>
-      <y>344</y>
+      <x>16</x>
+      <y>336</y>
       <w>296</w>
       <h>104</h>
     </coordinates>
@@ -168,10 +168,10 @@ style=wordwrap</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>24</x>
-      <y>464</y>
+      <x>16</x>
+      <y>456</y>
       <w>296</w>
-      <h>72</h>
+      <h>64</h>
     </coordinates>
     <panel_attributes>This class has the setting
 *style=autoresize*
@@ -184,8 +184,8 @@ style=autoresize
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>24</x>
-      <y>552</y>
+      <x>16</x>
+      <y>544</y>
       <w>112</w>
       <h>88</h>
     </coordinates>
@@ -202,8 +202,8 @@ lw=2.5</panel_attributes>
   <element>
     <id>UMLUseCase</id>
     <coordinates>
-      <x>160</x>
-      <y>552</y>
+      <x>152</x>
+      <y>544</y>
       <w>152</w>
       <h>72</h>
     </coordinates>
