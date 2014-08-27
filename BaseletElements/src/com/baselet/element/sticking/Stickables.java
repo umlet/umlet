@@ -76,14 +76,15 @@ public class Stickables {
 				// Intended behavior for user: Move Command always moves sticking points, Resize Command only moves if the point would be lost otherwise
 				if (stickLineMoved || newStickLineLosingPoint) {
 					PointDouble newPointToUse, oldPointToUse;
-					// if the start of the stickline doesn't change, use the end
-					if (oldLine.getStart().equals(newLine.getStart())) {
-						newPointToUse = newLine.getEnd();
-						oldPointToUse = oldLine.getEnd();
-					}
-					else { // otherwise use the start
+					// To calculate the diffs use the start or end of oldLine and newLine, whichever is nearer to the stickingpoint
+					// Necessary to make sticking work even in edge cases like a autoresize element of 500px width where a relation is attached to 20px and another one to 480px. now remove a large portion of the text to let it shrink by a large amount at once -> the relations should correctly move with the new size
+					if (oldLine.getStart().distance(absolutePosOfStickablePoint) < oldLine.getEnd().distance(absolutePosOfStickablePoint)) {
 						newPointToUse = newLine.getStart();
 						oldPointToUse = oldLine.getStart();
+					}
+					else {
+						newPointToUse = newLine.getEnd();
+						oldPointToUse = oldLine.getEnd();
 					}
 
 					int diffX = newPointToUse.getX().intValue() - oldPointToUse.getX().intValue();
