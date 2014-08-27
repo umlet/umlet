@@ -297,7 +297,7 @@ public class GridElementListener extends UniversalListener {
 				continue;
 			}
 			StickingPolygon stick = ge.generateStickingBorder(ge.getRectangle());
-			if (stick != null) {
+			if (stick != null && directions.isEmpty()) { // sticking on resizing is disabled for old relations
 				Vector<RelationLinePoint> affectedRelationPoints = Utils.getStickingRelationLinePoints(handler, stick);
 				for (int j = 0; j < affectedRelationPoints.size(); j++) {
 					RelationLinePoint tmpRlp = affectedRelationPoints.elementAt(j);
