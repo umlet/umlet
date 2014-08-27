@@ -76,18 +76,19 @@ public class Stickables {
 				// Intended behavior for user: Move Command always moves sticking points, Resize Command only moves if the point would be lost otherwise
 				if (stickLineMoved || newStickLineLosingPoint) {
 					PointDouble newPointToUse, oldPointToUse;
-					// if the end of the stickline doesn't change, use the start
-					if (oldLine.getEnd().equals(newLine.getEnd())) {
-						newPointToUse = newLine.getStart();
-						oldPointToUse = oldLine.getStart();
-					}
-					else { // otherwise use the end
+					// if the start of the stickline doesn't change, use the end
+					if (oldLine.getStart().equals(newLine.getStart())) {
 						newPointToUse = newLine.getEnd();
 						oldPointToUse = oldLine.getEnd();
+					}
+					else { // otherwise use the start
+						newPointToUse = newLine.getStart();
+						oldPointToUse = oldLine.getStart();
 					}
 
 					int diffX = newPointToUse.getX().intValue() - oldPointToUse.getX().intValue();
 					int diffY = newPointToUse.getY().intValue() - oldPointToUse.getY().intValue();
+
 					// the diff values are in current zoom, therefore normalize them (invert operation done in getAbsolutePosition())
 					int diffXdefaultZoom = diffX / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
 					int diffYdefaultZoom = diffY / stickable.getGridSize() * SharedConstants.DEFAULT_GRID_SIZE;
