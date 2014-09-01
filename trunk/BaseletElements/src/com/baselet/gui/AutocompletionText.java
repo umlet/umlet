@@ -2,7 +2,7 @@ package com.baselet.gui;
 
 public class AutocompletionText {
 	private String text;
-	private String info;
+	private final String info;
 	private String base64Img;
 	private boolean global;
 
@@ -40,12 +40,11 @@ public class AutocompletionText {
 	}
 
 	public String getHtmlInfo() {
-		if (base64Img == null) {
-			return getText() + " <span style='font-style:italic;color:gray'>" + getInfo() + "</span>";
+		String baseText = getText() + " <span style='font-style:italic;color:gray'>" + getInfo() + "</span>";
+		if (base64Img != null) {
+			baseText += " <img src='data:image/gif;base64," + base64Img + "'>";
 		}
-		else {
-			return getText() + " <img src='data:image/gif;base64," + base64Img + "'>";
-		}
+		return baseText;
 	}
 
 }
