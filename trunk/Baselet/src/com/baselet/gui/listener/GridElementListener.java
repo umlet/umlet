@@ -2,6 +2,7 @@ package com.baselet.gui.listener;
 
 import java.awt.Component;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -83,7 +84,7 @@ public class GridElementListener extends UniversalListener {
 			dragDiagram();
 		}
 		if (IS_DRAGGING) {
-			dragEntity(me.isShiftDown());
+			dragEntity(me.isShiftDown(), e);
 		}
 	}
 
@@ -261,10 +262,11 @@ public class GridElementListener extends UniversalListener {
 	/**
 	 * Dragging entities must be a Macro, because undo should undo the full move (and not only a small part which would
 	 * happen with many short Move actions) and it must consider sticking relations at the dragging-start and later
+	 * @param mainElement 
 	 * @param directions 
 	 * @param b 
 	 */
-	private void dragEntity(boolean isShiftKeyDown) {
+	private void dragEntity(boolean isShiftKeyDown, GridElement mainElement) {
 
 		DESELECT_MULTISEL = false;
 
@@ -272,12 +274,17 @@ public class GridElementListener extends UniversalListener {
 		Point oldp = getOldCoordinate();
 		int diffx = newp.x - oldp.x;
 		int diffy = newp.y - oldp.y;
+
+		List<GridElement> elementsToMove = selector.getSelectedElements();
+		if (!resizeDirection.isEmpty()) {
+			elementsToMove = Arrays.asList(mainElement);
+		}
 		if (FIRST_MOVE_COMMANDS == null) {
 			POINT_BEFORE_MOVE = getOldCoordinateNotRounded(); // must use exact coordinates eg for Relation which calculates distances from lines (to possibly drag new points out of it)
-			FIRST_MOVE_COMMANDS = calculateFirstMoveCommands(diffx, diffy, oldp, selector.getSelectedElements(), isShiftKeyDown, false, handler, resizeDirection);
+			FIRST_MOVE_COMMANDS = calculateFirstMoveCommands(diffx, diffy, oldp, elementsToMove, isShiftKeyDown, false, handler, resizeDirection);
 		}
 		else if (diffx != 0 || diffy != 0) {
-			Vector<Command> commands = continueDragging(diffx, diffy, POINT_BEFORE_MOVE);
+			Vector<Command> commands = continueDragging(diffx, diffy, POINT_BEFORE_MOVE, elementsToMove);
 			POINT_BEFORE_MOVE = new Point(POINT_BEFORE_MOVE.getX() + diffx, POINT_BEFORE_MOVE.getY() + diffy);
 			controller.executeCommand(new Macro(commands));
 			FIRST_DRAG = false;
@@ -317,11 +324,12 @@ public class GridElementListener extends UniversalListener {
 	/**
 	 * After the firstDragging is over, the vector of entities which should be dragged doesn't change (nothing starts sticking during dragging)
 	 * @param oldp 
+	 * @param elementsToMove 
 	 * @param directions 
 	 * @return 
 	 */
-	private Vector<Command> continueDragging(int diffx, int diffy, Point oldp) {
-		boolean useSetLocation = selector.getSelectedElements().size() != 1; // if >1 elements are selected they will be moved
+	private Vector<Command> continueDragging(int diffx, int diffy, Point oldp, List<GridElement> elementsToMove) {
+		boolean useSetLocation = elementsToMove.size() != 1; // if >1 elements are selected they will be moved
 		Vector<Command> tmpVector = new Vector<Command>();
 		for (Command command : FIRST_MOVE_COMMANDS) { // use first move commands to identify the necessary commands and moved entities
 			if (command instanceof Move) {
