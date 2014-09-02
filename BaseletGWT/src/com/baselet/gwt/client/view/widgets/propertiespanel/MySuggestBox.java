@@ -13,7 +13,6 @@ public class MySuggestBox extends SuggestBox {
 
 	private String lastRequestLine;
 	private final MySuggestionDisplay display;
-	private final MySuggestOracle oracle;
 
 	public MySuggestBox(final MySuggestOracle oracle, ValueBoxBase<String> textArea) {
 		this(oracle, textArea, new MySuggestionDisplay());
@@ -22,12 +21,11 @@ public class MySuggestBox extends SuggestBox {
 	public MySuggestBox(final MySuggestOracle oracle, ValueBoxBase<String> textArea, final MySuggestionDisplay display) {
 		super(oracle, textArea, display);
 		this.display = display;
-		this.oracle = oracle;
 
 		getValueBox().addMouseUpHandler(new MouseUpHandler() {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
-				showSuggestionListIfMoreThanOneResults(); // switching line of textarea by click should also trigger the suggestbox
+				showSuggestionList(); // switching line of textarea by click should also update the shown suggestions
 			}
 		});
 
@@ -43,7 +41,7 @@ public class MySuggestBox extends SuggestBox {
 						event.getNativeEvent().preventDefault(); // if the focus is on the suggestbox and it has >1 entries, avoid propagating keyevents to the textarea
 					}
 				}
-				else if (Shortcut.SHOW_AUTOCOMPLETION.matches(event)) {
+				if (Shortcut.SHOW_AUTOCOMPLETION.matches(event)) {
 					event.getNativeEvent().preventDefault();
 					oracle.setShowAllAsDefault(true);
 					showSuggestionList();
@@ -112,12 +110,5 @@ public class MySuggestBox extends SuggestBox {
 
 	public boolean getPaletteShouldIgnoreMouseClicks() {
 		return display.getPaletteShouldIgnoreMouseClicks();
-	}
-
-	public void showSuggestionListIfMoreThanOneResults() {
-		String text = getText();
-		if (oracle.getSuggestionsForText(text).size() > 1) {
-			super.showSuggestionList();
-		}
 	}
 }
