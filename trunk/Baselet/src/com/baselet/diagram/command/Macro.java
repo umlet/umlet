@@ -18,10 +18,17 @@ public class Macro extends Command {
 
 	@Override
 	public void execute(DiagramHandler handler) {
-		super.execute(handler);
 		for (int i = 0; i < _commands.size(); i++) {
 			Command c = _commands.get(i);
 			c.execute(handler);
+		}
+	}
+
+	@Override
+	public void redo(DiagramHandler handler) {
+		for (int i = 0; i < _commands.size(); i++) {
+			Command c = _commands.get(i);
+			c.redo(handler);
 		}
 	}
 

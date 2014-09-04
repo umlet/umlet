@@ -147,6 +147,10 @@ public class Rectangle {
 		return new Rectangle(x, y, width, height);
 	}
 
+	public Rectangle copyInverted() {
+		return new Rectangle(-x, -y, -width, -height);
+	}
+
 	public Rectangle subtract(Rectangle other) {
 		return new Rectangle(x - other.x, y - other.y, width - other.width, height - other.height);
 	}

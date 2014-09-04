@@ -13,43 +13,39 @@ import com.baselet.element.sticking.Stickable;
 
 public class UndoInformation {
 
-	private final Rectangle invertedDiffRect;
-	private final Map<Stickable, List<PointChange>> invertedStickableMoves;
+	private final Rectangle diffRect;
+	private final Map<Stickable, List<PointChange>> stickableMoves;
 	private final String additionalAttributes;
 
-	private UndoInformation(Rectangle invertedDiffRect, Map<Stickable, List<PointChange>> invertedStickableMoves, String additionalAttributes) {
-		this.invertedDiffRect = invertedDiffRect;
-		this.invertedStickableMoves = invertedStickableMoves;
+	private UndoInformation(Rectangle diffRect, Map<Stickable, List<PointChange>> stickableMoves, String additionalAttributes) {
+		this.diffRect = diffRect;
+		this.stickableMoves = stickableMoves;
 		this.additionalAttributes = additionalAttributes;
 	}
 
-	public UndoInformation(Rectangle invertedDiffRect, Map<Stickable, List<PointChange>> stickableMoves, int gridSize, String additionalAttributes) {
-		this(toMinZoom(invertedDiffRect, gridSize), updateStickableMoves(stickableMoves, true), additionalAttributes);
+	public UndoInformation(Rectangle newRect, Rectangle oldRect, Map<Stickable, List<PointChange>> stickableMoves, int gridSize, String additionalAttributes) {
+		this(toMinZoom(newRect.subtract(oldRect), gridSize), stickableMoves, additionalAttributes);
 	}
 
-	private static Map<Stickable, List<PointChange>> updateStickableMoves(Map<Stickable, List<PointChange>> stickableMoves, boolean invert) {
+	private static Map<Stickable, List<PointChange>> invertStickableMoves(Map<Stickable, List<PointChange>> stickableMoves) {
 		Map<Stickable, List<PointChange>> invertedMap = new HashMap<Stickable, List<PointChange>>();
 		for (Entry<Stickable, List<PointChange>> entry : stickableMoves.entrySet()) {
 			List<PointChange> invList = new ArrayList<PointChange>();
 			for (PointChange p : entry.getValue()) {
-				if (invert) {
-					invList.add(new PointChange(p.getIndex(), -p.getDiffX(), -p.getDiffY()));
-				}
-				else {
-					invList.add(new PointChange(p.getIndex(), p.getDiffX(), p.getDiffY()));
-				}
+				invList.add(new PointChange(p.getIndex(), -p.getDiffX(), -p.getDiffY()));
 			}
 			invertedMap.put(entry.getKey(), invList);
 		}
 		return invertedMap;
 	}
 
-	public Rectangle getInvertedDiffRectangle(int gridSize) {
-		return toCurrentZoom(invertedDiffRect, gridSize);
+	public Rectangle getDiffRectangle(int gridSize, boolean invert) {
+		Rectangle returnRect = invert ? diffRect.copyInverted() : diffRect;
+		return toCurrentZoom(returnRect, gridSize);
 	}
 
-	public Map<Stickable, List<PointChange>> getInvertedStickableMoves() {
-		return updateStickableMoves(invertedStickableMoves, false);
+	public Map<Stickable, List<PointChange>> getStickableMoves(boolean invert) {
+		return invert ? invertStickableMoves(stickableMoves) : stickableMoves;
 	}
 
 	public String getAdditionalAttributes() {
@@ -81,10 +77,10 @@ public class UndoInformation {
 	}
 
 	public UndoInformation merge(UndoInformation other) {
-		Rectangle mergedUndoDiffRect = invertedDiffRect.add(other.invertedDiffRect);
+		Rectangle mergedUndoDiffRect = diffRect.add(other.diffRect);
 		Map<Stickable, List<PointChange>> mergedMap = new HashMap<Stickable, List<PointChange>>();
-		mergeStickableMoves(mergedMap, invertedStickableMoves);
-		mergeStickableMoves(mergedMap, other.invertedStickableMoves);
+		mergeStickableMoves(mergedMap, stickableMoves);
+		mergeStickableMoves(mergedMap, other.stickableMoves);
 		return new UndoInformation(mergedUndoDiffRect, mergedMap, other.additionalAttributes);
 
 	}

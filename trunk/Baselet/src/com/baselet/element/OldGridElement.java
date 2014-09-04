@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 import java.util.Vector;
 
 import javax.swing.JComponent;
@@ -78,7 +77,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	private String bgColorString = "";
 	protected float alphaFactor;
 
-	private final Stack<UndoInformation> undoStack = new Stack<UndoInformation>();
+	protected final UndoHistory undoStack = new UndoHistory();
 
 	public OldGridElement() {
 		this.setSize(100, 100);
@@ -531,7 +530,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	private void moveStickables(StickableMap stickables, boolean undoable, Rectangle oldRect, StickingPolygon stickingPolygonBeforeLocationChange, String oldAddAttr) {
 		Map<Stickable, List<PointChange>> stickableChanges = Stickables.moveStickPointsBasedOnPolygonChanges(stickingPolygonBeforeLocationChange, generateStickingBorder(), stickables, getGridSize());
 		if (undoable) {
-			undoStack.push(new UndoInformation(oldRect.subtract(getRectangle()), stickableChanges, getGridSize(), oldAddAttr));
+			undoStack.add(new UndoInformation(getRectangle(), oldRect, stickableChanges, getGridSize(), oldAddAttr));
 		}
 	}
 
@@ -578,19 +577,28 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public void undoDrag() {
-		if (!undoStack.isEmpty()) {
-			UndoInformation undoInfo = undoStack.pop();
-			setRectangle(getRectangle().add(undoInfo.getInvertedDiffRectangle(getGridSize())));
-			Stickables.applyChanges(undoInfo.getInvertedStickableMoves(), null);
+		execUndoInformation(true);
+	}
+
+	private void execUndoInformation(boolean undo) {
+		UndoInformation undoInfo = undoStack.get(undo);
+		if (undoInfo != null) {
+			setRectangle(getRectangle().add(undoInfo.getDiffRectangle(getGridSize(), undo)));
+			Stickables.applyChanges(undoInfo.getStickableMoves(undo), null);
 			setAdditionalAttributes(undoInfo.getAdditionalAttributes());
 		}
 	}
 
 	@Override
+	public void redoDrag() {
+		execUndoInformation(false);
+	}
+
+	@Override
 	public void mergeUndoDrag() {
-		UndoInformation undoInfoA = undoStack.pop();
-		UndoInformation undoInfoB = undoStack.pop();
-		undoStack.push(undoInfoA.merge(undoInfoB));
+		UndoInformation undoInfoA = undoStack.remove();
+		UndoInformation undoInfoB = undoStack.remove();
+		undoStack.add(undoInfoA.merge(undoInfoB));
 	}
 
 }
