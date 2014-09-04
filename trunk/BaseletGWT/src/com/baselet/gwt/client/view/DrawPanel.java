@@ -174,7 +174,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 			if (firstDrag) {
 				stickablesToMove.put(ge, getStickablesToMoveWhenElementsMove(ge, elements));
 			}
-			ge.setRectangleDifference(diffX, diffY, 0, 0, firstDrag, stickablesToMove.get(ge)); // uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
+			ge.setRectangleDifference(diffX, diffY, 0, 0, firstDrag, stickablesToMove.get(ge), false); // uses setLocationDifference() instead of drag() to avoid special handling (eg: from Relations)
 		}
 	}
 
@@ -346,11 +346,11 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 			return; // TODO implement Lasso
 		}
 		else if (!resizeDirection.isEmpty()) {
-			draggedGridElement.drag(resizeDirection, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement));
+			draggedGridElement.drag(resizeDirection, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
 		}
 		// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
 		else if (selector.getSelectedElements().size() == 1) {
-			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement));
+			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
 		}
 		else { // if != 1 elements are selected, move them
 			moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());

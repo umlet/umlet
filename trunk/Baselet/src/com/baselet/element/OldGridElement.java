@@ -11,7 +11,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import java.util.Vector;
 
 import javax.swing.JComponent;
@@ -35,6 +37,8 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.Converter;
+import com.baselet.element.sticking.PointChange;
+import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
@@ -73,6 +77,8 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	protected Color bgColor = Converter.convert(ColorOwn.WHITE);
 	private String bgColorString = "";
 	protected float alphaFactor;
+
+	private final Stack<UndoInformation> undoStack = new Stack<UndoInformation>();
 
 	public OldGridElement() {
 		this.setSize(100, 100);
@@ -468,19 +474,25 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, StickableMap stickables) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, StickableMap stickables, boolean undoable) {
+		Rectangle oldRect = getRectangle();
 		StickingPolygon stickingPolygonBeforeLocationChange = generateStickingBorder();
+		String oldAddAttr = getAdditionalAttributes();
 		if (resizeDirection.isEmpty()) { // Move GridElement
 			setLocationDifference(diffX, diffY);
 		}
 		else { // Resize GridElement
 			Rectangle rect = getRectangle();
 			if (isShiftKeyDown && diagonalResize(resizeDirection)) { // Proportional Resize
-				if (diffX > diffY) {
-					diffX = diffY;
-				}
-				if (diffY > diffX) {
+				boolean mouseToRight = diffX > 0 && diffX > diffY;
+				boolean mouseDown = diffY > 0 && diffY > diffX;
+				boolean mouseLeft = diffX < 0 && diffX < diffY;
+				boolean mouseUp = diffY < 0 && diffY < diffX;
+				if (mouseToRight || mouseLeft) {
 					diffY = diffX;
+				}
+				if (mouseDown || mouseUp) {
+					diffX = diffY;
 				}
 			}
 			if (resizeDirection.contains(Direction.LEFT) && resizeDirection.contains(Direction.RIGHT)) {
@@ -513,17 +525,13 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			updateModelFromText();
 		}
 
-		moveStickables(stickables, stickingPolygonBeforeLocationChange);
+		moveStickables(stickables, undoable, oldRect, stickingPolygonBeforeLocationChange, oldAddAttr);
 	}
 
-	private void moveStickables(StickableMap stickables, StickingPolygon oldStickingPolygon) {
-		if (oldStickingPolygon == null)
-		{
-			return; // if element has no stickingPolygon nothing has to be checked
-		}
-		// the first drag determines which stickables and which points of them will stick (eg: moving through other relations should NOT "collect" their stickingpoints)
-		if (!stickables.isEmpty()) {
-			Stickables.moveStickPointsBasedOnPolygonChanges(oldStickingPolygon, generateStickingBorder(), stickables, getGridSize());
+	private void moveStickables(StickableMap stickables, boolean undoable, Rectangle oldRect, StickingPolygon stickingPolygonBeforeLocationChange, String oldAddAttr) {
+		Map<Stickable, List<PointChange>> stickableChanges = Stickables.moveStickPointsBasedOnPolygonChanges(stickingPolygonBeforeLocationChange, generateStickingBorder(), stickables, getGridSize());
+		if (undoable) {
+			undoStack.push(new UndoInformation(oldRect.subtract(getRectangle()), stickableChanges, getGridSize(), oldAddAttr));
 		}
 	}
 
@@ -532,10 +540,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public void afterModelUpdate() {
-		// TODO Auto-generated method stub
-
-	}
+	public void afterModelUpdate() {}
 
 	@Override
 	public boolean isSelectableOn(Point point) {
@@ -551,15 +556,16 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public void dragEnd() {
-		// TODO Auto-generated method stub
-
+		// only used by some specific elements like Relations
 	}
 
 	@Override
-	public void setRectangleDifference(int diffx, int diffy, int diffw, int diffh, boolean firstDrag, StickableMap stickables) {
-		StickingPolygon oldStickingPolygon = generateStickingBorder();
-		setRectangle(new Rectangle(getRectangle().x + diffx, getRectangle().y + diffy, getRectangle().getWidth() + diffw, getRectangle().getHeight() + diffh));
-		moveStickables(stickables, oldStickingPolygon);
+	public void setRectangleDifference(int diffx, int diffy, int diffw, int diffh, boolean firstDrag, StickableMap stickables, boolean undoable) {
+		Rectangle oldRect = getRectangle();
+		StickingPolygon stickingPolygonBeforeLocationChange = generateStickingBorder();
+		String oldAddAttr = getAdditionalAttributes();
+		setRectangle(new Rectangle(oldRect.x + diffx, oldRect.y + diffy, oldRect.getWidth() + diffw, oldRect.getHeight() + diffh));
+		moveStickables(stickables, undoable, oldRect, stickingPolygonBeforeLocationChange, oldAddAttr);
 	}
 
 	private StickingPolygon generateStickingBorder() {
@@ -568,6 +574,23 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	private int minSize() {
 		return Main.getHandlerForElement(this).getGridSize() * 2;
+	}
+
+	@Override
+	public void undoDrag() {
+		if (!undoStack.isEmpty()) {
+			UndoInformation undoInfo = undoStack.pop();
+			setRectangle(getRectangle().add(undoInfo.getInvertedDiffRectangle(getGridSize())));
+			Stickables.applyChanges(undoInfo.getInvertedStickableMoves(), null);
+			setAdditionalAttributes(undoInfo.getAdditionalAttributes());
+		}
+	}
+
+	@Override
+	public void mergeUndoDrag() {
+		UndoInformation undoInfoA = undoStack.pop();
+		UndoInformation undoInfoB = undoStack.pop();
+		undoStack.push(undoInfoA.merge(undoInfoB));
 	}
 
 }

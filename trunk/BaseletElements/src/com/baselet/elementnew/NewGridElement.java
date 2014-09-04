@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
@@ -25,6 +27,9 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.GridElement;
+import com.baselet.element.UndoInformation;
+import com.baselet.element.sticking.PointChange;
+import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
@@ -50,6 +55,8 @@ public abstract class NewGridElement implements GridElement {
 	private List<String> panelAttributes;
 
 	protected PropertiesParserState state;
+
+	protected final Stack<UndoInformation> undoStack = new Stack<UndoInformation>();
 
 	public void init(Rectangle bounds, String panelAttributes, String additionalAttributes, Component component, DrawHandlerInterface handler) {
 		this.component = component;
@@ -105,7 +112,7 @@ public abstract class NewGridElement implements GridElement {
 		try {
 			PropertiesParser.drawPropertiesText(this, state);
 		} catch (Exception e) {
-			log.error("Cannot parse Properties Text", e);
+			log.info("Cannot parse Properties Text", e);
 			drawer.resetStyle();
 			String localizedMessage = e.getLocalizedMessage();
 			if (localizedMessage == null) {
@@ -353,19 +360,23 @@ public abstract class NewGridElement implements GridElement {
 			diffwInt = SharedUtils.realignToGrid(false, diffwInt / 2, true) * 2;
 			directions = Arrays.asList(Direction.RIGHT, Direction.LEFT, Direction.DOWN);
 		}
-		drag(directions, diffwInt, diffhInt, new Point(0, 0), false, true, handler.getStickableMap());
+		drag(directions, diffwInt, diffhInt, new Point(0, 0), false, true, handler.getStickableMap(), false);
 	}
 
 	@Override
-	public void setRectangleDifference(int diffx, int diffy, int diffw, int diffh, boolean firstDrag, StickableMap stickables) {
-		StickingPolygon oldStickingPolygon = generateStickingBorder();
-		setRectangle(new Rectangle(getRectangle().x + diffx, getRectangle().y + diffy, getRectangle().getWidth() + diffw, getRectangle().getHeight() + diffh));
-		moveStickables(stickables, oldStickingPolygon);
-	}
-
-	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, StickableMap stickables) {
+	public void setRectangleDifference(int diffx, int diffy, int diffw, int diffh, boolean firstDrag, StickableMap stickables, boolean undoable) {
+		Rectangle oldRect = getRectangle();
 		StickingPolygon stickingPolygonBeforeLocationChange = generateStickingBorder();
+		String oldAddAttr = getAdditionalAttributes();
+		setRectangle(new Rectangle(oldRect.x + diffx, oldRect.y + diffy, oldRect.getWidth() + diffw, oldRect.getHeight() + diffh));
+		moveStickables(stickables, undoable, oldRect, stickingPolygonBeforeLocationChange, oldAddAttr);
+	}
+
+	@Override
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, StickableMap stickables, boolean undoable) {
+		Rectangle oldRect = getRectangle();
+		StickingPolygon stickingPolygonBeforeLocationChange = generateStickingBorder();
+		String oldAddAttr = getAdditionalAttributes();
 		if (resizeDirection.isEmpty()) { // Move GridElement
 			setLocationDifference(diffX, diffY);
 		}
@@ -415,22 +426,19 @@ public abstract class NewGridElement implements GridElement {
 			}
 		}
 
-		moveStickables(stickables, stickingPolygonBeforeLocationChange);
+		moveStickables(stickables, undoable, oldRect, stickingPolygonBeforeLocationChange, oldAddAttr);
 	}
 
-	private void moveStickables(StickableMap stickables, StickingPolygon oldStickingPolygon) {
-		if (oldStickingPolygon == null) {
-			return; // if element has no stickingPolygon nothing has to be checked
-		}
-		// the first drag determines which stickables and which points of them will stick (eg: moving through other relations should NOT "collect" their stickingpoints)
-		if (!stickables.isEmpty()) {
-			Stickables.moveStickPointsBasedOnPolygonChanges(oldStickingPolygon, generateStickingBorder(), stickables, getGridSize());
+	private void moveStickables(StickableMap stickables, boolean undoable, Rectangle oldRect, StickingPolygon stickingPolygonBeforeLocationChange, String oldAddAttr) {
+		Map<Stickable, List<PointChange>> stickableChanges = Stickables.moveStickPointsBasedOnPolygonChanges(stickingPolygonBeforeLocationChange, generateStickingBorder(), stickables, getGridSize());
+		if (undoable) {
+			undoStack.push(new UndoInformation(oldRect.subtract(getRectangle()), stickableChanges, getGridSize(), oldAddAttr));
 		}
 	}
 
 	@Override
 	public void dragEnd() {
-		// although this clearing is not really necessary, some subclasses like Relation need to know when dragging ends (eg to merge relation-endings)
+		// only used by some specific elements like Relations
 	}
 
 	@Override
@@ -457,4 +465,20 @@ public abstract class NewGridElement implements GridElement {
 		return handler.getGridSize() * 2;
 	}
 
+	@Override
+	public void undoDrag() {
+		if (!undoStack.isEmpty()) {
+			UndoInformation undoInfo = undoStack.pop();
+			setRectangle(getRectangle().add(undoInfo.getInvertedDiffRectangle(getGridSize())));
+			Stickables.applyChanges(undoInfo.getInvertedStickableMoves(), null);
+			setAdditionalAttributes(undoInfo.getAdditionalAttributes());
+		}
+	}
+
+	@Override
+	public void mergeUndoDrag() {
+		UndoInformation undoInfoA = undoStack.pop();
+		UndoInformation undoInfoB = undoStack.pop();
+		undoStack.push(undoInfoA.merge(undoInfoB));
+	}
 }

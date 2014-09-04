@@ -1,6 +1,7 @@
 package com.baselet.elementnew.element.uml.relation;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,8 +10,10 @@ import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.element.UndoInformation;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.StickableMap;
@@ -83,13 +86,18 @@ public class Relation extends NewGridElement implements Stickable {
 	}
 
 	@Override
-	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDragRelative, boolean isShiftKeyDown, boolean firstDrag, StickableMap stickables) {
+	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDragRelative, boolean isShiftKeyDown, boolean firstDrag, StickableMap stickables, boolean undoable) {
+		String oldAddAttr = getAdditionalAttributes();
+		Rectangle oldRect = getRectangle();
 		Selection returnSelection = relationPoints.getSelectionAndMovePointsIfNecessary(pointAtDefaultZoom(mousePosBeforeDragRelative), toDefaultZoom(diffX), toDefaultZoom(diffY), firstDrag);
 		if (returnSelection == Selection.DRAG_BOX) {
 			setLocationDifference(diffX, diffY);
 		}
 		if (returnSelection != Selection.NOTHING) {
 			updateModelFromText();
+		}
+		if (undoable) {
+			undoStack.push(new UndoInformation(oldRect.subtract(getRectangle()), new HashMap<Stickable, List<PointChange>>(), getGridSize(), oldAddAttr));
 		}
 	}
 
@@ -156,4 +164,5 @@ public class Relation extends NewGridElement implements Stickable {
 		super.drawError(drawer, errorText.replace(">>", "\\>>").replace("<<", "\\<<"));
 		RelationLineTypeFacet.drawDefaultLineAndArrows(drawer, relationPoints);
 	}
+
 }

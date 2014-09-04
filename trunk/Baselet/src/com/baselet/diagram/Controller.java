@@ -7,7 +7,7 @@ import com.baselet.diagram.command.Command;
 
 public class Controller {
 	private Vector<Command> commands;
-	private DiagramHandler handler;
+	private final DiagramHandler handler;
 	private int _cursor;
 
 	public Controller(DiagramHandler handler) {
@@ -57,7 +57,7 @@ public class Controller {
 	public void redo() {
 		if (isRedoable()) {
 			Command c = commands.elementAt(_cursor + 1);
-			c.execute(handler);
+			c.redo(handler);
 			_cursor++;
 		}
 	}

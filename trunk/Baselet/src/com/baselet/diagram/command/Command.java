@@ -26,6 +26,10 @@ public abstract class Command {
 		return null;
 	}
 
+	public void redo(DiagramHandler handler) {
+		execute(handler);
+	}
+
 	public boolean isChangingDiagram() {
 		return true;
 	}
