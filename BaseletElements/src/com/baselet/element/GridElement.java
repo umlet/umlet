@@ -80,5 +80,7 @@ public interface GridElement extends HasPanelAttributes {
 
 	void undoDrag();
 
+	void redoDrag();
+
 	void mergeUndoDrag();
 }

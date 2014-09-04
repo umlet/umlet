@@ -123,6 +123,13 @@ public class Move extends Command {
 	}
 
 	@Override
+	public void redo(DiagramHandler handler) {
+		entity.redoDrag();
+		entity.updateModelFromText();
+		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
+	}
+
+	@Override
 	public boolean isMergeableTo(Command c) {
 		if (!(c instanceof Move)) {
 			return false;
