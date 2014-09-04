@@ -10,9 +10,9 @@ import com.baselet.diagram.draw.geom.Rectangle;
 
 public class StickingPolygon {
 
-	public class StickLine extends Line {
+	public static class StickLine extends Line {
 
-		private StickLine(PointDouble p1, PointDouble p2) {
+		StickLine(PointDouble p1, PointDouble p2) {
 			super(p1, p2);
 		}
 

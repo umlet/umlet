@@ -3,6 +3,10 @@ package com.baselet.control.enumerations;
 public enum Direction {
 	LEFT, RIGHT, UP, DOWN;
 
+	public boolean isHorizontal() {
+		return this == LEFT || this == RIGHT;
+	}
+
 	public Direction invert() {
 		switch (this) {
 			case LEFT:

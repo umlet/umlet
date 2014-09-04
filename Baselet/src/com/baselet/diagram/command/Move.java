@@ -8,7 +8,6 @@ import com.baselet.control.Main;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickableMap;
 
@@ -20,8 +19,8 @@ public class Move extends Command {
 
 	private final int x, y;
 
-	private final double xBeforeDrag;
-	private final double yBeforeDrag;
+	private final double mouseX;
+	private final double mouseY;
 
 	private final boolean isShiftKeyDown;
 
@@ -30,10 +29,6 @@ public class Move extends Command {
 	private final boolean useSetLocation;
 
 	private final StickableMap stickables;
-
-	private String additionalAttributesBefore;
-
-	private Rectangle boundsBefore;
 
 	private final Collection<Direction> resizeDirection;
 
@@ -66,8 +61,8 @@ public class Move extends Command {
 	}
 
 	private Point getMousePosBeforeDrag() {
-		Double zoomedX = xBeforeDrag * gridSize();
-		Double zoomedY = yBeforeDrag * gridSize();
+		Double zoomedX = mouseX * gridSize();
+		Double zoomedY = mouseY * gridSize();
 		Point p = new Point((int) Math.round(zoomedX), (int) Math.round(zoomedY));
 		log.debug("Zoomed point: " + p);
 		return p;
@@ -78,8 +73,8 @@ public class Move extends Command {
 		int gridSize = Main.getHandlerForElement(e).getGridSize();
 		this.x = x / gridSize;
 		this.y = y / gridSize;
-		xBeforeDrag = calcRelativePos(absoluteMousePos, mousePosBeforeDrag.getX(), entity.getRectangle().getX(), gridSize);
-		yBeforeDrag = calcRelativePos(absoluteMousePos, mousePosBeforeDrag.getY(), entity.getRectangle().getY(), gridSize);
+		mouseX = calcRelativePos(absoluteMousePos, mousePosBeforeDrag.getX(), entity.getRectangle().getX(), gridSize);
+		mouseY = calcRelativePos(absoluteMousePos, mousePosBeforeDrag.getY(), entity.getRectangle().getY(), gridSize);
 		this.isShiftKeyDown = isShiftKeyDown;
 		this.firstDrag = firstDrag;
 		this.useSetLocation = useSetLocation;
@@ -109,27 +104,20 @@ public class Move extends Command {
 
 	@Override
 	public void execute(DiagramHandler handler) {
-		// System.out.println("DRAG " + mousePosBeforeDrag);
 		super.execute(handler);
-		Rectangle b = calcAtMinZoom(entity.getRectangle());
-		additionalAttributesBefore = entity.getAdditionalAttributes();
 		if (useSetLocation) {
-			entity.setRectangleDifference(getX(), getY(), 0, 0, firstDrag, stickables);
+			entity.setRectangleDifference(getX(), getY(), 0, 0, firstDrag, stickables, true);
 		}
 		else {
 			// resize directions is empty and shift-key is always false, because standalone UMLet has a separate Resize-Command
-			entity.drag(resizeDirection, getX(), getY(), getMousePosBeforeDrag(), isShiftKeyDown, firstDrag, stickables);
+			entity.drag(resizeDirection, getX(), getY(), getMousePosBeforeDrag(), isShiftKeyDown, firstDrag, stickables, true);
 		}
-		Rectangle a = calcAtMinZoom(entity.getRectangle());
-		boundsBefore = b.subtract(a);
 	}
 
 	@Override
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
-		Rectangle boundsBeforeZoomed = applyCurrentZoom(boundsBefore);
-		entity.setRectangleDifference(boundsBeforeZoomed.getX(), boundsBeforeZoomed.getY(), boundsBeforeZoomed.getWidth(), boundsBeforeZoomed.getHeight(), true, stickables); // use to make sure stickables are moved - TODO refactor Stickable-Implementations to use move-commands, then they would undo on their own
-		entity.setAdditionalAttributes(additionalAttributesBefore);
+		entity.undoDrag();
 		entity.updateModelFromText();
 		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 	}
@@ -152,24 +140,7 @@ public class Move extends Command {
 		Point mousePosBeforeDrag = firstDrag ? getMousePosBeforeDrag() : m.getMousePosBeforeDrag();
 		// Important: absoluteMousePos=false, because the mousePos is already relative from the first constructor call!
 		Move ret = new Move(m.resizeDirection, false, entity, getX() + m.getX(), getY() + m.getY(), mousePosBeforeDrag, isShiftKeyDown, firstDrag || m.firstDrag, useSetLocation, stickables);
-		ret.boundsBefore = boundsBefore.add(m.boundsBefore);
-		ret.additionalAttributesBefore = m.additionalAttributesBefore;
+		entity.mergeUndoDrag();
 		return ret;
-	}
-
-	private Rectangle calcAtMinZoom(Rectangle rectangle) {
-		int xBefore = rectangle.getX() / gridSize();
-		int yBefore = rectangle.getY() / gridSize();
-		int wBefore = rectangle.getWidth() / gridSize();
-		int hBefore = rectangle.getHeight() / gridSize();
-		return new Rectangle(xBefore, yBefore, wBefore, hBefore);
-	}
-
-	private Rectangle applyCurrentZoom(Rectangle rectangle) {
-		int xBefore = rectangle.getX() * gridSize();
-		int yBefore = rectangle.getY() * gridSize();
-		int wBefore = rectangle.getWidth() * gridSize();
-		int hBefore = rectangle.getHeight() * gridSize();
-		return new Rectangle(xBefore, yBefore, wBefore, hBefore);
 	}
 }
