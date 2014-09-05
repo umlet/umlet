@@ -7,6 +7,8 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.baselet.control.SharedConstants;
+import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.Stickable;
@@ -15,16 +17,18 @@ public class UndoInformation {
 
 	private final Rectangle diffRect;
 	private final Map<Stickable, List<PointChange>> stickableMoves;
-	private final String additionalAttributes;
+	private final String oldAdditionalAttributes;
+	private final String newAdditionalAttributes;
 
-	private UndoInformation(Rectangle diffRect, Map<Stickable, List<PointChange>> stickableMoves, String additionalAttributes) {
+	private UndoInformation(Rectangle diffRect, Map<Stickable, List<PointChange>> stickableMoves, String oldAdditionalAttributes, String newAdditionalAttributes) {
 		this.diffRect = diffRect;
 		this.stickableMoves = stickableMoves;
-		this.additionalAttributes = additionalAttributes;
+		this.oldAdditionalAttributes = oldAdditionalAttributes;
+		this.newAdditionalAttributes = newAdditionalAttributes;
 	}
 
-	public UndoInformation(Rectangle newRect, Rectangle oldRect, Map<Stickable, List<PointChange>> stickableMoves, int gridSize, String additionalAttributes) {
-		this(toMinZoom(newRect.subtract(oldRect), gridSize), stickableMoves, additionalAttributes);
+	public UndoInformation(Rectangle newRect, Rectangle oldRect, Map<Stickable, List<PointChange>> stickableMoves, int gridSize, String oldAdditionalAttributes, String newAdditionalAttributes) {
+		this(toMinZoom(newRect.subtract(oldRect), gridSize), stickableMoves, oldAdditionalAttributes, newAdditionalAttributes);
 	}
 
 	private static Map<Stickable, List<PointChange>> invertStickableMoves(Map<Stickable, List<PointChange>> stickableMoves) {
@@ -39,17 +43,22 @@ public class UndoInformation {
 		return invertedMap;
 	}
 
-	public Rectangle getDiffRectangle(int gridSize, boolean invert) {
-		Rectangle returnRect = invert ? diffRect.copyInverted() : diffRect;
+	public Rectangle getDiffRectangle(int gridSize, boolean undo) {
+		Rectangle returnRect = undo ? diffRect.copyInverted() : diffRect;
 		return toCurrentZoom(returnRect, gridSize);
 	}
 
-	public Map<Stickable, List<PointChange>> getStickableMoves(boolean invert) {
-		return invert ? invertStickableMoves(stickableMoves) : stickableMoves;
+	public Map<Stickable, List<PointChange>> getStickableMoves(boolean undo) {
+		return undo ? invertStickableMoves(stickableMoves) : stickableMoves;
 	}
 
-	public String getAdditionalAttributes() {
-		return additionalAttributes;
+	public String getAdditionalAttributes(boolean undo) {
+		if (undo) {
+			return oldAdditionalAttributes;
+		}
+		else {
+			return newAdditionalAttributes;
+		}
 	}
 
 	private static Rectangle toMinZoom(Rectangle rectangle, int gridSize) {
@@ -81,7 +90,7 @@ public class UndoInformation {
 		Map<Stickable, List<PointChange>> mergedMap = new HashMap<Stickable, List<PointChange>>();
 		mergeStickableMoves(mergedMap, stickableMoves);
 		mergeStickableMoves(mergedMap, other.stickableMoves);
-		return new UndoInformation(mergedUndoDiffRect, mergedMap, other.additionalAttributes);
+		return new UndoInformation(mergedUndoDiffRect, mergedMap, other.oldAdditionalAttributes, newAdditionalAttributes);
 
 	}
 
@@ -115,4 +124,9 @@ public class UndoInformation {
 		}
 		targetPointChanges.add(sourceChange); // index not in targetList, therefore added here
 	}
+
+	public String toString(boolean undo) {
+		return "UndoInformation [diffRect=" + getDiffRectangle(SharedConstants.DEFAULT_GRID_SIZE, undo) + ", stickableMoves=" + SharedUtils.mapToString(getStickableMoves(undo)) + ", additionalAttributes=" + getAdditionalAttributes(undo) + "]";
+	}
+
 }

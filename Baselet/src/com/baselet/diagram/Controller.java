@@ -50,7 +50,9 @@ public class Controller {
 			Command c = commands.elementAt(_cursor);
 			c.undo(handler);
 			_cursor--;
-			handler.setChanged(true);
+			if (c.isChangingDiagram()) {
+				handler.setChanged(true);
+			}
 		}
 	}
 
@@ -59,6 +61,9 @@ public class Controller {
 			Command c = commands.elementAt(_cursor + 1);
 			c.redo(handler);
 			_cursor++;
+			if (c.isChangingDiagram()) {
+				handler.setChanged(true);
+			}
 		}
 	}
 

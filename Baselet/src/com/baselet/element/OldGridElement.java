@@ -261,11 +261,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public void changeSize(int diffx, int diffy) {
-		this.setSize(getRectangle().width + diffx, getRectangle().height + diffy);
-	}
-
-	@Override
 	public void setLocationDifference(int diffx, int diffy) {
 		this.setLocation(getRectangle().x + diffx, getRectangle().y + diffy);
 	}
@@ -530,7 +525,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	private void moveStickables(StickableMap stickables, boolean undoable, Rectangle oldRect, StickingPolygon stickingPolygonBeforeLocationChange, String oldAddAttr) {
 		Map<Stickable, List<PointChange>> stickableChanges = Stickables.moveStickPointsBasedOnPolygonChanges(stickingPolygonBeforeLocationChange, generateStickingBorder(), stickables, getGridSize());
 		if (undoable) {
-			undoStack.add(new UndoInformation(getRectangle(), oldRect, stickableChanges, getGridSize(), oldAddAttr));
+			undoStack.add(new UndoInformation(getRectangle(), oldRect, stickableChanges, getGridSize(), oldAddAttr, getAdditionalAttributes()));
 		}
 	}
 
@@ -585,7 +580,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		if (undoInfo != null) {
 			setRectangle(getRectangle().add(undoInfo.getDiffRectangle(getGridSize(), undo)));
 			Stickables.applyChanges(undoInfo.getStickableMoves(undo), null);
-			setAdditionalAttributes(undoInfo.getAdditionalAttributes());
+			setAdditionalAttributes(undoInfo.getAdditionalAttributes(undo));
 		}
 	}
 
