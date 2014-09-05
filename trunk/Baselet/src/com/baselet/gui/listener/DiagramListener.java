@@ -33,6 +33,7 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 		}
 
 		// deselect elements of all drawpanels
+		selector.deselectAll(); // this call is only necessary in eclipse plugin - TODO refactor and clear issue why this is necessary there
 		for (DiagramHandler h : Main.getInstance().getDiagramsAndPalettes()) {
 			h.getDrawPanel().getSelector().deselectAllWithoutUpdatePropertyPanel();
 		}
