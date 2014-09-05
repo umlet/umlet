@@ -109,7 +109,7 @@
 	</target>
 
 	<!-- Export standalone Programm -->
-	<target name="export_standalone" depends="clean, javac" description="exports project as standalone program">
+	<target name="export_standalone" depends="javac" description="exports project as standalone program">
 
 		<!-- Delete old directory and create new one -->
 		<delete dir="${dir.export.standalone}" failonerror="false" />
@@ -160,7 +160,7 @@
 	</target>
 
 	<!-- Export the eclipse plugin -->
-	<target name="export_plugin" depends="clean, javac" description="exports the project as eclipse plugin">
+	<target name="export_plugin" depends="javac" description="exports the project as eclipse plugin">
 
 		<!-- Delete old directory and create new one -->
 		<delete dir="${dir.export.plugin}" failonerror="false" />
