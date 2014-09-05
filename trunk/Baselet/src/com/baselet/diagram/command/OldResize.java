@@ -105,7 +105,7 @@ public class OldResize extends Command {
 		super.execute(handler);
 
 		entity.setLocationDifference(getDiffx(), getDiffy());
-		entity.changeSize(getDiffw(), getDiffh());
+		entity.setSize(entity.getRectangle().width + getDiffw(), entity.getRectangle().height + getDiffh());
 		if (SharedConstants.stickingEnabled) {
 			for (OldMoveLinePoint c : move_commands) {
 				c.execute(handler);
@@ -117,7 +117,7 @@ public class OldResize extends Command {
 	public void undo(DiagramHandler handler) {
 		super.undo(handler);
 		entity.setLocationDifference(-getDiffx(), -getDiffy());
-		entity.changeSize(-getDiffw(), -getDiffh());
+		entity.setSize(entity.getRectangle().width + -getDiffw(), entity.getRectangle().height + -getDiffh());
 		for (OldMoveLinePoint c : move_commands) {
 			c.undo(handler);
 		}

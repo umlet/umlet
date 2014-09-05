@@ -45,8 +45,6 @@ public interface GridElement extends HasPanelAttributes {
 
 	void repaint();
 
-	void changeSize(int diffx, int diffy);
-
 	/**
 	 * @return size of the element as if the zoomlevel would be 100% (eg: if zoom is 80% and width is 80 it would be returned as 100)
 	 */

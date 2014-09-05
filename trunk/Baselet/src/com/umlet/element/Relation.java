@@ -1833,11 +1833,13 @@ public class Relation extends OldGridElement {
 		maxy += maxy % gridSize;
 
 		if (maxx != 0 || maxy != 0) {
-			changeSize(maxx - getRectangle().width, maxy - getRectangle().height);
+			int diffx = maxx - getRectangle().width;
+			int diffy = maxy - getRectangle().height;
+			this.setSize(getRectangle().width + diffx, getRectangle().height + diffy);
 		}
 		if (minx != 0 | miny != 0) {
 			this.setLocationDifference(minx, miny);
-			changeSize(-minx, -miny);
+			this.setSize(getRectangle().width + -minx, getRectangle().height + -miny);
 			for (int i = 0; i < getLinePoints().size(); i++) {
 				Point p = getLinePoints().elementAt(i);
 				p.x += -minx;

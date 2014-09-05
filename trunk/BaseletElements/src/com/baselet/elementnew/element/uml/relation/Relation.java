@@ -97,7 +97,7 @@ public class Relation extends NewGridElement implements Stickable {
 			updateModelFromText();
 		}
 		if (undoable) {
-			undoStack.add(new UndoInformation(getRectangle(), oldRect, new HashMap<Stickable, List<PointChange>>(), getGridSize(), oldAddAttr));
+			undoStack.add(new UndoInformation(getRectangle(), oldRect, new HashMap<Stickable, List<PointChange>>(), getGridSize(), oldAddAttr, getAdditionalAttributes()));
 		}
 	}
 

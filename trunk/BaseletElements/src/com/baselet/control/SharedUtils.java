@@ -109,6 +109,10 @@ public class SharedUtils {
 		return sb;
 	}
 
+	public static String mapToString(Map<?, ?> map) {
+		return mapToString("\n", ",", map);
+	}
+
 	public static String mapToString(String mapSep, String listSep, Map<?, ?> map) {
 		StringBuilder sb = new StringBuilder();
 		for (Entry<?, ?> e : map.entrySet()) {
