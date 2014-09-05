@@ -24,6 +24,7 @@ This is a list of all important shortcuts which are used in UMLet.
 || Click right mousebutton || Mouse over Element(s) || Open Element specific context menu (most content from Edit-Menu)|| 
 || Click right mousebutton || Mouse over Diagram || Open Diagram specific context menu (most content from File-Menu)|| 
 || Hold Shift + move mouse || Mouse over Element corner || Activate proportional resizing to maintain ratio between height and width of Element|| 
+|| Hold Shift + move mouse || Mouse over Element || Temporarily disabled relation sticking on elements during moving or resizing|| 
 || Hold Ctrl + move mouse || Mouse over diagram or palette || Activate lasso selection of multiple elements (every element which is surrounded by the lasso is selected)|| 
 || Hold Shift + click left mousebutton || Mouse over not selected Element || Add Element to selection|| 
 || Hold Shift + click left mousebutton || Mouse over selected Element || Remove Element from selection||
