@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.1
+Created-By: 14.0-b16 (Sun Microsystems Inc.)
+Bundle-ManifestVersion: 2
+Bundle-Name: Umlet
+Bundle-SymbolicName: com.umlet.plugin;singleton:=true
+Bundle-Version: 13.0
+Bundle-Activator: com.baselet.plugin.MainPlugin
+Bundle-Vendor: http://www.umlet.com
+Require-Bundle: org.eclipse.ui,org.eclipse.ui.ide,org.eclipse.core.res
+ ources,org.eclipse.core.runtime,org.eclipse.jdt.core
+Bundle-ClassPath: ., lib/autocomplete.jar, lib/batik-awt-util.jar, lib
+ /batik-dom.jar, lib/batik-ext.jar, lib/batik-svggen.jar, lib/batik-ut
+ il.jar, lib/batik-xml.jar, lib/bcel-5.2.jar, lib/commons-io-2.4.jar, 
+ lib/itextpdf-5.4.1.jar, lib/javaparser-1.0.8.jar, lib/jlibeps-0.1.jar
+ , lib/log4j-1.2.15.jar, lib/mailapi.jar, lib/org.eclipse.jdt.core.com
+ piler.ecj-4.3.1.jar, lib/rsyntaxtextarea-2.5.2.jar, lib/smtp.jar
+Main-Class: com.baselet.control.Main
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Eclipse-LazyStart: true
+Import-Package: org.eclipse.core.filesystem
+Class-Path: lib/autocomplete.jar lib/batik-awt-util.jar lib/batik-dom.
+ jar lib/batik-ext.jar lib/batik-svggen.jar lib/batik-util.jar lib/bat
+ ik-xml.jar lib/bcel-5.2.jar lib/commons-io-2.4.jar lib/itextpdf-5.4.1
+ .jar lib/javaparser-1.0.8.jar lib/jlibeps-0.1.jar lib/log4j-1.2.15.ja
+ r lib/mailapi.jar lib/org.eclipse.jdt.core.compiler.ecj-4.3.1.jar lib
+ /rsyntaxtextarea-2.5.2.jar lib/smtp.jar
+

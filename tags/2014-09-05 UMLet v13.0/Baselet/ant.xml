@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="${project.name.uc}" default="start" basedir=".">
+
+	<!-- Release version property - MUST BE SET MANUALLY (afterwards run enable_*let to update the manifest file) -->
+	<property name="release.version" value="13.0" />
+	<property name="project.name.lc" value="umlet" />
+	<property name="project.name.uc" value="Umlet" />
+
+	<!-- Imported and calculated properties -->
+	<property name="javac.version" value="6" />
+	<tstamp>
+		<format property="release.month" pattern="MMMM" locale="en,UK" />
+	</tstamp>
+	<tstamp>
+		<format property="release.year" pattern="yyyy" locale="en,UK" />
+	</tstamp>
+	<property name="dir.executables" location="exe" />
+	<property name="dir.lib" location="lib" />
+	<property name="dir.src" location="src" />
+	<property name="dir.bin" location="bin" />
+	<property name="dir.export" location="export" />
+	<property name="dir.export.standalone" location="${dir.export}/standalone" />
+	<property name="dir.export.plugin" location="${dir.export}/plugins" />
+	<property name="elements.src" location="../BaseletElements/src" />
+	<property name="elements.lib" location="../BaseletElements/lib" />
+
+	<!-- Classpaths -->
+	<path id="project.classpath.build">
+		<pathelement location="${dir.src}" />
+		<pathelement location="${elements.src}" />
+		<fileset dir="${eclipse.home}/plugins">
+			<include name="*.jar" />
+		</fileset>
+		<path refid="project.classpath.lib" />
+	</path>
+
+	<path id="project.classpath.run">
+		<pathelement location="bin" />
+		<path refid="project.classpath.lib" />
+	</path>
+
+	<path id="project.classpath.lib">
+		<fileset dir="${dir.lib}" includes="*.jar" />
+	</path>
+
+	<!-- Update MANIFEST.MF and includes new version and libs -->
+	<target name="update_manifest">
+		<pathconvert property="manifest.classpath.prop.comma" pathsep=", ">
+			<path refid="project.classpath.lib" />
+			<chainedmapper>
+				<flattenmapper />
+				<globmapper from="*" to="lib/*" />
+			</chainedmapper>
+		</pathconvert>
+		<pathconvert property="manifest.classpath.prop" pathsep=" ">
+			<path refid="project.classpath.lib" />
+			<chainedmapper>
+				<flattenmapper />
+				<globmapper from="*" to="lib/*" />
+			</chainedmapper>
+		</pathconvert>
+		<manifest file="META-INF/MANIFEST.MF" mode="update">
+			<attribute name="Bundle-Version" value="${release.version}" />
+			<attribute name="Bundle-ClassPath" value="., ${manifest.classpath.prop.comma}" />
+			<attribute name="Class-Path" value="${manifest.classpath.prop}" />
+		</manifest>
+
+		<!-- After a possibly changed MANIFEST.MF we must refresh the workspace -->
+		<eclipse.refreshLocal resource="${basedir}" depth="infinite" />
+	</target>
+
+	<!-- Update release version etc. in about.html and startuphelp.html -->
+	<target name="update_html">
+		<antcall target="parse_file">
+			<param name="file" value="html/about.html" />
+		</antcall>
+		<antcall target="parse_file">
+			<param name="file" value="html/startuphelp.html" />
+		</antcall>
+	</target>
+
+	<!-- Set variables in about.html: version, month and year -->
+	<target name="parse_file">
+		<delete file="${file}" failonerror="false" />
+		<copy tofile="${file}" file="${file}.generic" />
+		<replace file="${file}">
+			<replacefilter token="@release.version@" value="${release.version}" />
+			<replacefilter token="@release.month@" value="${release.month}" />
+			<replacefilter token="@release.year@" value="${release.year}" />
+		</replace>
+	</target>
+
+	<!-- Compile the project -->
+	<target name="javac" depends="update_manifest, update_html">
+		<mkdir dir="${dir.bin}" />
+		<!-- Compile elements project (into the same outputdir) -->
+		<javac source="${javac.version}" target="${javac.version}" srcdir="${elements.src}" destdir="${dir.bin}" nowarn="true" includeantruntime="false">
+			<classpath refid="project.classpath.lib" />
+		</javac>
+		<!-- Compile this project -->
+		<javac source="${javac.version}" target="${javac.version}" srcdir="${dir.src}" destdir="${dir.bin}" nowarn="true" includeantruntime="false">
+			<classpath refid="project.classpath.build" />
+		</javac>
+	</target>
+
+	<!-- Start program -->
+	<target name="start" depends="javac" description="starts the enabled project">
+		<java classname="com.baselet.control.Main" fork="true" classpathref="project.classpath.run" />
+	</target>
+
+	<!-- Export standalone Programm -->
+	<target name="export_standalone" depends="javac" description="exports project as standalone program">
+
+		<!-- Delete old directory and create new one -->
+		<delete dir="${dir.export.standalone}" failonerror="false" />
+		<mkdir dir="${dir.export.standalone}" />
+		<delete>
+			<fileset dir="${dir.export}" includes="${project.name.lc}_*" />
+		</delete>
+
+		<!-- Copy Custom Elements -->
+		<copy todir="${dir.export.standalone}/custom_elements">
+			<fileset dir="custom_elements" />
+		</copy>
+
+		<!-- Create jar-file -->
+		<jar destfile="${dir.export.standalone}/${project.name.lc}.jar" manifest="META-INF/MANIFEST.MF" basedir="${dir.bin}" includes="**/*.class" excludes="**/*Test.class, **/*TestSuite.class">
+		</jar>
+
+		<!-- Copy everything into the standalone export directory -->
+		<copy todir="${dir.export.standalone}" file="${dir.executables}/${project.name.uc}.exe" />
+		<copy todir="${dir.export.standalone}" file="${dir.executables}/${project.name.lc}.sh" />
+		<copy todir="${dir.export.standalone}" file="${dir.executables}/${project.name.lc}.desktop" />
+
+		<copy todir="${dir.export.standalone}/html">
+			<fileset dir="html" excludes="*.generic" />
+		</copy>
+
+		<copy todir="${dir.export.standalone}/img">
+			<fileset dir="img" includes="ok.gif, ${project.name.lc}_*" />
+		</copy>
+
+		<copy todir="${dir.export.standalone}/lib">
+			<fileset dir="lib" includes="*.jar" />
+		</copy>
+
+		<copy todir="${dir.export.standalone}/palettes">
+			<fileset dir="palettes" />
+		</copy>
+
+		<copy todir="${dir.export.standalone}/sourcefiles" file="LICENCE.txt" />
+		<copy todir="${dir.export.standalone}/sourcefiles" file="README.txt" />
+
+		<!-- Move the files into a subfolder ${project.name.uc}, zip them and delete the temp dir -->
+		<move todir="${dir.export.standalone}/${project.name.uc}">
+			<fileset dir="${dir.export.standalone}" />
+		</move>
+		<zip destfile="${dir.export}/${project.name.lc}_${release.version}.zip" basedir="${dir.export.standalone}" />
+		<delete dir="${dir.export.standalone}" />
+	</target>
+
+	<!-- Export the eclipse plugin -->
+	<target name="export_plugin" depends="javac" description="exports the project as eclipse plugin">
+
+		<!-- Delete old directory and create new one -->
+		<delete dir="${dir.export.plugin}" failonerror="false" />
+		<mkdir dir="${dir.export.plugin}" />
+
+		<!-- Build plugin from compiled classes (important to get all referenced projects with sources located elsewhere) -->
+		<pde.exportPlugins useWorkspaceCompiledClasses="true" destination="${dir.export}" exportSource="false" exportType="directory" plugins="com.umlet.plugin" useJARFormat="true" />
+		<echo message="Please wait until asynchronous plugin export is finished (watch the percentage at the bottom right corner of eclipse)" />
+	</target>
+
+	<!-- Export the standalone client and the eclipse plugin -->
+	<target name="export_standalone+plugin" description="exports the project as eclipse plugin and as standalone program">
+		<antcall target="export_standalone" />
+		<antcall target="export_plugin" />
+	</target>
+
+	<!-- Clean the project -->
+	<target name="clean" description="Cleans this project">
+		<delete dir="${dir.bin}" failonerror="false" />
+		<delete dir="export" failonerror="false" />
+	</target>
+
+</project>

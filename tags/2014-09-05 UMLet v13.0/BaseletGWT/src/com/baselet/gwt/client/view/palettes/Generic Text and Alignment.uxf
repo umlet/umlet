@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.0">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>16</x>
+      <y>16</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>halign=left
+Top left
+
+bla
+bla bla
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>120</x>
+      <y>16</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>halign=center
+Top center
+
+bla
+bla bla
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>224</x>
+      <y>16</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>halign=right
+Top right
+
+bla
+bla bla
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>16</x>
+      <y>120</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>valign=center
+halign=left
+Middle left
+
+bla
+bla bla</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>120</x>
+      <y>120</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>valign=center
+halign=center
+Middle center
+
+bla
+bla bla</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>224</x>
+      <y>120</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>valign=center
+halign=right
+Middle right
+
+bla
+bla bla</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>16</x>
+      <y>224</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>valign=bottom
+halign=left
+Bottom left
+
+bla
+bla bla</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>120</x>
+      <y>224</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>valign=bottom
+halign=center
+Bottom center
+
+bla
+bla bla</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>224</x>
+      <y>224</y>
+      <w>88</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>valign=bottom
+halign=right
+Bottom right
+
+bla
+bla bla</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>16</x>
+      <y>336</y>
+      <w>296</w>
+      <h>104</h>
+    </coordinates>
+    <panel_attributes>This class has the setting
+*style=wordwrap*
+--
+Write text and watch how the linebreak is added automatically at the expected position to fill the whole class.
+You can also resize the class and see that the text will always fit the border
+
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>16</x>
+      <y>456</y>
+      <w>296</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>This class has the setting
+*style=autoresize*
+--
+Write text &lt;here&gt;, and see how the class grows/shrinks....
+style=autoresize
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>16</x>
+      <y>544</y>
+      <w>112</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>This class has
+the settings
+*valign=center*
+*fontsize=18*
+*lw=2.5*
+valign=center
+fontsize=18
+lw=2.5</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>152</x>
+      <y>544</y>
+      <w>152</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>this usecase has
+*halign=left*
+--
+The text is always within
+the usecase circle
+halign=LEFT</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
