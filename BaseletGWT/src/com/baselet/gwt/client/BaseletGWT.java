@@ -46,7 +46,7 @@ public class BaseletGWT implements EntryPoint {
 			Window.addWindowClosingHandler(new Window.ClosingHandler() {
 				@Override
 				public void onWindowClosing(Window.ClosingEvent closingEvent) {
-					closingEvent.setMessage("Do you really want to leave the page?");
+					closingEvent.setMessage("Do you really want to leave the page? You will lose any unsaved changes.");
 				}
 			});
 		}
