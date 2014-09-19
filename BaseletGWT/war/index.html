@@ -1,10 +1,41 @@
 <!DOCTYPE html>
 <html>
   <head>
+  	<style type="text/css">
+		.mainView {
+			margin-top: 105px;
+			margin-bottom: 67px;
+    		border-top: 1px solid lightgray;
+    		border-bottom: 1px solid lightgray;
+		}
+		.footer {
+		  position: absolute;
+		  bottom: 0;
+		}
+		.footertext {
+		  position: absolute;
+		  bottom: 0;
+		  margin-left: 200px;
+		  margin-bottom: 7px;
+		  font-size:10px;
+		}
+	</style>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <link type="text/css" rel="stylesheet" href="index.css">
-    <title>UMLet</title>
+    <title>UMLetino - Free Online UML Tool for Fast UML Diagrams</title>
     <script type="text/javascript" src="baseletgwt/baseletgwt.nocache.js"></script>
+    <script type="text/javascript"><!--
+		google_ad_client = "pub-7477443223564915";
+		google_ad_width = 728;
+		google_ad_height = 90;
+		google_ad_format = "728x90_as";
+		google_ad_type = "text_image";
+		google_ad_channel = "";
+		//-->
+	</script>
+	<script type="text/javascript"
+	  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+	</script>
   </head>
   <body>
     <!-- the following line is necessary for history support -->
@@ -12,12 +43,34 @@
     
     <!-- the website will not work without JavaScript -->
     <noscript>
-      <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
-        Your web browser must have JavaScript enabled
-        in order for this application to display correctly.
-      </div>
+    	<div style="width: 25em; position: absolute; left: 50%; margin-left: -11em; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+	    	You must enable JavaScript to use this web application.
+		</div>
     </noscript>
-    <div align="left" id="featurewarning" style="color: red; font-family: sans-serif; font-weight:bold; font-size:1.2em"></div>
-    <div class="root"> </div>
+	<div align="left" id="featurewarning" style="color: red; font-family: sans-serif; font-weight:bold; font-size:1.2em"></div>
+    <div class="footer">
+		<!-- TWITTER -->
+		<a href="https://twitter.com/twumlet" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @twumlet</a>
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+		<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+		
+		<!-- FACEBOOK -->
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) { var js, fjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//connect.facebook.net/de_DE/sdk.js#xfbml=1&version=v2.0"; fjs.parentNode.insertBefore(js, fjs); }(document, 'script', 'facebook-jssdk'));</script>
+		<div style="margin-bottom: 3px;" class="fb-like" data-href="http://umletino.com" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+		
+		<!-- GOOGLE+ -->
+		<script src="https://apis.google.com/js/platform.js" async defer></script>
+		<br/>
+		<div class="g-plusone" data-size="small"></div>
+    </div>
+    <div class="footertext">
+	    <div>UMLetino is a free online UML tool for fast UML diagrams. It runs in your browser, and does not require any installs.</div>
+    	<div>It is based on <a href="http://www.umlet.com">UMLet</a> (which is available as stand-alone tool or Eclipse plugin), and shares its fast, text-based way of drawing UML sketches.</div>
+    	<div>Main features: install-free web app; support for many UML diagram types; simple, markup-based UML element modifications; png export.</div>
+    	<br/>
+    	<div>New in current version 13.0: catch-up with UMLet's code base.</div>
+	</div>
   </body>
 </html>

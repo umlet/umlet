@@ -36,6 +36,7 @@
 		<delete dir="${build.dir}/WEB-INF" />
 		<copy file="war/index.css" tofile="${build.dir}/index.css"/>
 		<copy file="war/index.html" tofile="${build.dir}/index.html"/>
+		<copy file="war/index_devprev.html" tofile="${build.dir}/index_devprev.html"/>
 	</target>
 	
 	<target name="gwt-compile-draft-with-detailed-names" description="compile in draft mode">
