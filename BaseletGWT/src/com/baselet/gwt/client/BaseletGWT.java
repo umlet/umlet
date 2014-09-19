@@ -8,6 +8,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.storage.client.Storage;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
@@ -40,6 +41,12 @@ public class BaseletGWT implements EntryPoint {
 				@Override
 				public void onFailure(Throwable reason) {
 					Notification.showFeatureNotSupported("Cannot load application from server", false);
+				}
+			});
+			Window.addWindowClosingHandler(new Window.ClosingHandler() {
+				@Override
+				public void onWindowClosing(Window.ClosingEvent closingEvent) {
+					closingEvent.setMessage("Do you really want to leave the page?");
 				}
 			});
 		}
