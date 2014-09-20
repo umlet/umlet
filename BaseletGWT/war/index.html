@@ -3,20 +3,16 @@
   <head>
   	<style type="text/css">
 		.mainView {
-			margin-top: 105px;
-			margin-bottom: 67px;
     		border-top: 1px solid lightgray;
     		border-bottom: 1px solid lightgray;
 		}
-		.footer {
-		  position: absolute;
-		  bottom: 0;
+		#footer {
+		float:left;
+		  margin-top: 3px;
 		}
-		.footertext {
-		  position: absolute;
-		  bottom: 0;
+		#footertext {
 		  margin-left: 200px;
-		  margin-bottom: 5px;
+		  margin-top: 5px;
 		  font-size:0.7em;
 		  font-family: sans-serif;
 		}
@@ -49,7 +45,8 @@
 		</div>
     </noscript>
 	<div align="left" id="featurewarning" style="color: red; font-family: sans-serif; font-weight:bold; font-size:1.2em"></div>
-    <div class="footer">
+	<div id="root"></div>
+    <div id="footer">
 		<!-- TWITTER -->
 		<a href="https://twitter.com/twumlet" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @twumlet</a>
 		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
@@ -66,7 +63,7 @@
 		<br/>
 		<div class="g-plusone" data-size="small"></div>
     </div>
-    <div class="footertext">
+    <div id="footertext">
 	    <div>UMLetino is a free online UML tool for fast UML diagrams. It runs in your browser, and does not require any installs.</div>
     	<div>It is based on <a href="http://www.umlet.com">UMLet</a> (which is available as stand-alone tool or Eclipse plugin), and shares its fast, text-based way of drawing UML sketches.</div>
     	<div>Main features: install-free web app; support for many UML diagram types; simple, markup-based UML element modifications; png export.</div>

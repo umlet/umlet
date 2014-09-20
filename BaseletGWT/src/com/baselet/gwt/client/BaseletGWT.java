@@ -3,7 +3,7 @@ package com.baselet.gwt.client;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.SharedConstants;
-import com.baselet.gwt.client.view.MainView;
+import com.baselet.gwt.client.view.WrapperView;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -35,7 +35,7 @@ public class BaseletGWT implements EntryPoint {
 				@Override
 				public void onSuccess() {
 					Notification.showInfo("");
-					RootLayoutPanel.get().add(new MainView());
+					RootLayoutPanel.get().add(new WrapperView());
 				}
 
 				@Override
