@@ -152,7 +152,7 @@ public class EventHandlingUtils {
 			public void onTouchEnd(TouchEndEvent event) {
 				// storage.menuShowTimer.cancel();
 				if (storage.activePanel != null) {
-					handleEnd(storage.activePanel, storage, getPoint(storage.activePanel, event));
+					handleEnd(storage.activePanel, storage, event);
 				}
 			}
 		});
@@ -180,7 +180,7 @@ public class EventHandlingUtils {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
 				if (storage.activePanel != null) {
-					handleEnd(storage.activePanel, storage, getPoint(storage.activePanel, event));
+					handleEnd(storage.activePanel, storage, event);
 				}
 			}
 		}));
@@ -188,7 +188,7 @@ public class EventHandlingUtils {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
 				if (storage.activePanel != null) {
-					handleEnd(storage.activePanel, storage, getPoint(storage.activePanel, event));
+					handleEnd(storage.activePanel, storage, event);
 					storage.doubleClickEnabled = false;
 				}
 			}
@@ -256,10 +256,10 @@ public class EventHandlingUtils {
 		});
 	}
 
-	private static void handleEnd(EventHandlingTarget panel, final DragCache storage, Point point) {
+	private static void handleEnd(EventHandlingTarget panel, final DragCache storage, HumanInputEvent<?> event) {
 		// Notification.showInfo("UP");
 		if (DRAG_COMMANDS.contains(storage.dragging)) {
-			panel.onMouseDragEnd(storage.elementToDrag, point);
+			panel.onMouseDragEnd(storage.elementToDrag, getPoint(storage.activePanel, event));
 		}
 		storage.dragging = DragStatus.NO;
 	}
