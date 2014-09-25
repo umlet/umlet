@@ -59,6 +59,10 @@ public class BaseletGWT implements EntryPoint {
 	}-*/;
 
 	private final boolean browserSupportsLocalStorage() {
-		return Storage.getLocalStorageIfSupported() != null;
+		try {
+			return Storage.getLocalStorageIfSupported() != null;
+		} catch (Exception e) {
+			return false; // Firefox with the Cookie setting "ask everytime" will throw an exception here!
+		}
 	}
 }
