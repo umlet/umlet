@@ -34,9 +34,16 @@
 			<arg value="${gwt.module.name}" />
 		</java>
 		<delete dir="${build.dir}/WEB-INF" />
-		<copy file="war/index.css" tofile="${build.dir}/index.css"/>
+		<copy file="war/umletino.css" tofile="${build.dir}/umletino.css"/>
 		<copy file="war/index.html" tofile="${build.dir}/index.html"/>
-		<copy file="war/index_devprev.html" tofile="${build.dir}/index_devprev.html"/>
+		<copy file="war/umletino.html" tofile="${build.dir}/umletino.html"/>
+		<!-- replace version with current date (to force browsers to update javascript) -->
+	    <tstamp>
+	      <format property="timestamp" pattern="yyyyMMdd_HHmmsssss"/>
+	    </tstamp>
+		<replace file="${build.dir}/umletino.html">
+			<replacefilter token=".nocache.js?umletino_version" value=".nocache.js?${timestamp}" />
+		</replace>
 	</target>
 	
 	<target name="gwt-compile-draft-with-detailed-names" description="compile in draft mode">
