@@ -39,7 +39,7 @@ public class Stickables {
 
 	public static Map<Stickable, List<PointChange>> moveStickPointsBasedOnPolygonChanges(StickingPolygon oldStickingPolygon, StickingPolygon newStickingPolygon, StickableMap stickablePointsToCheck, int maxDistance) {
 		// the first drag determines which stickables and which points of them will stick (eg: moving through other relations should NOT "collect" their stickingpoints)
-		if (oldStickingPolygon == null || stickablePointsToCheck.isEmpty()) {
+		if (oldStickingPolygon == null || stickablePointsToCheck == null || stickablePointsToCheck.isEmpty()) {
 			return Collections.emptyMap(); // if element has no stickingPolygon or no stickables located on it, nothing has to be checked
 		}
 
