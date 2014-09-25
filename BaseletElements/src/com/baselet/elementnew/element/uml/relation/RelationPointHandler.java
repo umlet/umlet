@@ -171,7 +171,7 @@ public class RelationPointHandler implements ResizableObject {
 	}
 
 	public void setTextBox(int index, Rectangle size) {
-		size = SharedUtils.realignToGrid(size);
+		size = SharedUtils.realignToGrid(size, true);
 		points.setTextBox(index, size);
 	}
 
@@ -188,7 +188,7 @@ public class RelationPointHandler implements ResizableObject {
 
 	@Override
 	public void setPointMinSize(int index, Rectangle size) {
-		size = SharedUtils.realignToGrid(size);
+		size = SharedUtils.realignToGrid(size, true);
 		points.setSize(index, size);
 	}
 
