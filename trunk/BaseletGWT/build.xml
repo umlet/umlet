@@ -21,6 +21,7 @@
 	</path>
 
 	<target name="gwt-compile-helper">
+		<delete dir="${build.dir}" />
 		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
 			<classpath>
 				<!-- src dir is added to ensure the module.xml file(s) are on the classpath -->

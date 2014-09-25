@@ -7,7 +7,6 @@ import com.baselet.gwt.client.view.MainView;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
@@ -21,13 +20,16 @@ public class BaseletGWT implements EntryPoint {
 		SharedConstants.dev_mode = Location.getParameter("dev") != null;
 		SharedConstants.program = "umlet_web";
 
-		if (!browserSupportsLocalStorage() || !browserSupportsFileReader()) {
+		if (!BrowserStorage.initLocalStorageAndCheckIfAvailable()) {
 			if (Browser.get() == Browser.INTERNET_EXPLORER && GWT.getHostPageBaseURL().startsWith("file:")) {
-				Notification.showFeatureNotSupported("You have opened this webpage from your filesystem, therefore<br/>Internet Explorer will not support some essential features (localstorage)<br/><br/>Please use another browser like Firefox or Chrome,<br/>or open this application from the web url", false);
+				Notification.showFeatureNotSupported("You have opened this webpage from your filesystem, therefore<br/>Internet Explorer will not support local storage<br/><br/>Please use another browser like Firefox or Chrome,<br/>or open this application using the web url", false);
 			}
 			else {
-				Notification.showFeatureNotSupported("Sorry, but your browser does not support all necessary features<br/>Suggested browsers are Firefox, Chrome, Opera, Internet Explorer 10+", false);
+				Notification.showFeatureNotSupported("Sorry, but your browser does not support the required HTML 5 feature 'local storage' (or has cookies disabled)<br/>Suggested browsers are Firefox, Chrome, Opera, Internet Explorer 10+", false);
 			}
+		}
+		else if (!browserSupportsFileReader()) {
+			Notification.showFeatureNotSupported("Sorry, but your browser does not support the required HTML 5 feature 'file reader'<br/>Suggested browsers are Firefox, Chrome, Opera, Internet Explorer 10+", false);
 		}
 		else {
 			Notification.showInfo("Loading application ... please wait ...");
@@ -57,12 +59,4 @@ public class BaseletGWT implements EntryPoint {
 	private final native boolean browserSupportsFileReader() /*-{
 		return typeof FileReader != "undefined";
 	}-*/;
-
-	private final boolean browserSupportsLocalStorage() {
-		try {
-			return Storage.getLocalStorageIfSupported() != null;
-		} catch (Exception e) {
-			return false; // Firefox with the Cookie setting "ask everytime" will throw an exception here!
-		}
-	}
 }
