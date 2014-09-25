@@ -22,16 +22,22 @@ public class SharedUtils {
 
 	/**
 	 * realigns a rectangle to the grid enlarging any side if necessary (eg: x=9, width=10, x2=19 will be realigned to x=0, width=20, x2=20)
-	 * 
+	 *
 	 * @param rectangle rectangle to realign
 	 * @return a realigned copy of the input rectangle
+	 * @param realignHeightAndWidth if true height and width are also realigned if necessary
 	 */
-	public static Rectangle realignToGrid(Rectangle rectangle) {
+	public static Rectangle realignToGrid(Rectangle rectangle, boolean realignHeightAndWidth) {
 		int x = realignToGrid(false, rectangle.getX(), false);
 		int y = realignToGrid(false, rectangle.getY(), false);
-		int width = realignToGrid(false, rectangle.getX() - x + rectangle.getWidth(), true); // IMPORTANT: the difference from original x and realigned x must be added, otherwise the upper example would return x=0, width=10, x2=10. x2 would be too small
-		int height = realignToGrid(false, rectangle.getY() - y + rectangle.getHeight(), true);
-		return new Rectangle(x, y, width, height);
+		if (realignHeightAndWidth) {
+			int width = realignToGrid(false, rectangle.getX() - x + rectangle.getWidth(), true); // IMPORTANT: the difference from original x and realigned x must be added, otherwise the upper example would return x=0, width=10, x2=10. x2 would be too small
+			int height = realignToGrid(false, rectangle.getY() - y + rectangle.getHeight(), true);
+			return new Rectangle(x, y, width, height);
+		}
+		else {
+			return new Rectangle(x, y, rectangle.getWidth(), rectangle.getHeight());
+		}
 	}
 
 	/**
@@ -54,7 +60,7 @@ public class SharedUtils {
 
 	/**
 	 * returns the integer which is nearest to val but on the grid (round down)
-	 * 
+	 *
 	 * @param logRealign
 	 *            if true a realign is logged as an error
 	 * @param val
