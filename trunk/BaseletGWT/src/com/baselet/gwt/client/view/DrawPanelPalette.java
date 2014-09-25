@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.elementnew.facet.common.GroupFacet;
@@ -104,7 +105,11 @@ public class DrawPanelPalette extends DrawPanel {
 				int verticalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getVerticalScrollPosition() - scrollPanel.getVerticalScrollPosition();
 				int horizontalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getHorizontalScrollPosition() - scrollPanel.getHorizontalScrollPosition();
 				copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width + horizontalScrollbarDiff, paletteChooser.getOffsetHeight() + verticalScrollbarDiff);
-				copy.setRectangle(SharedUtils.realignToGrid(copy.getRectangle()));
+
+				// realign location to grid (width and height stays the same)
+				Rectangle oldPos = copy.getRectangle();
+				oldPos.setLocation(SharedUtils.realignToGridRoundToNearest(false, oldPos.getX()), SharedUtils.realignToGridRoundToNearest(false, oldPos.getY()));
+				copy.setRectangle(oldPos);
 				elementsToMove.add(copy);
 			}
 			GroupFacet.replaceGroupsWithNewGroups(elementsToMove, otherDrawFocusPanel.getSelector());
