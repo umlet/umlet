@@ -3,7 +3,7 @@ package com.baselet.gwt.client;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.SharedConstants;
-import com.baselet.gwt.client.view.WrapperView;
+import com.baselet.gwt.client.view.MainView;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -35,7 +35,7 @@ public class BaseletGWT implements EntryPoint {
 				@Override
 				public void onSuccess() {
 					Notification.showInfo("");
-					RootLayoutPanel.get().add(new WrapperView());
+					RootLayoutPanel.get().add(new MainView());
 				}
 
 				@Override
@@ -43,12 +43,14 @@ public class BaseletGWT implements EntryPoint {
 					Notification.showFeatureNotSupported("Cannot load application from server", false);
 				}
 			});
-			Window.addWindowClosingHandler(new Window.ClosingHandler() {
-				@Override
-				public void onWindowClosing(Window.ClosingEvent closingEvent) {
-					closingEvent.setMessage("Do you really want to leave the page? You will lose any unsaved changes.");
-				}
-			});
+			if (!SharedConstants.dev_mode) {
+				Window.addWindowClosingHandler(new Window.ClosingHandler() {
+					@Override
+					public void onWindowClosing(Window.ClosingEvent closingEvent) {
+						closingEvent.setMessage("Do you really want to leave the page? You will lose any unsaved changes.");
+					}
+				});
+			}
 		}
 	}
 
