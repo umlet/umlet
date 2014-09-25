@@ -134,7 +134,7 @@ public class EventHandlingUtils {
 					final Point absolutePos = getPointAbsolute(event);
 					storage.activePanel = getPanelWhichContainsPoint(panels, absolutePos);
 					if (storage.activePanel != null) {
-						handleStart(handlerTarget, panels, storage, event, getPoint(storage.activePanel, event));
+						handleStart(panels, storage, handlerTarget, event, getPoint(storage.activePanel, event));
 					}
 					// storage.menuShowTimer = new Timer() {
 					// @Override
@@ -152,7 +152,7 @@ public class EventHandlingUtils {
 			public void onTouchEnd(TouchEndEvent event) {
 				// storage.menuShowTimer.cancel();
 				if (storage.activePanel != null) {
-					handleEnd(storage, storage.activePanel, getPoint(storage.activePanel, event));
+					handleEnd(storage.activePanel, storage, getPoint(storage.activePanel, event));
 				}
 			}
 		});
@@ -171,7 +171,7 @@ public class EventHandlingUtils {
 			public void onMouseDown(MouseDownEvent event) {
 				storage.activePanel = getPanelWhichContainsPoint(panels, getPointAbsolute(event));
 				if (storage.activePanel != null) {
-					handleStart(handlerTarget, panels, storage, event, getPoint(storage.activePanel, event));
+					handleStart(panels, storage, handlerTarget, event, getPoint(storage.activePanel, event));
 				}
 			}
 		}));
@@ -180,7 +180,7 @@ public class EventHandlingUtils {
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
 				if (storage.activePanel != null) {
-					handleEnd(storage, storage.activePanel, getPoint(storage.activePanel, event));
+					handleEnd(storage.activePanel, storage, getPoint(storage.activePanel, event));
 				}
 			}
 		}));
@@ -188,7 +188,7 @@ public class EventHandlingUtils {
 			@Override
 			public void onMouseOut(MouseOutEvent event) {
 				if (storage.activePanel != null) {
-					handleEnd(storage, storage.activePanel, getPoint(storage.activePanel, event));
+					handleEnd(storage.activePanel, storage, getPoint(storage.activePanel, event));
 					storage.doubleClickEnabled = false;
 				}
 			}
@@ -256,15 +256,15 @@ public class EventHandlingUtils {
 		});
 	}
 
-	private static void handleEnd(final DragCache storage, EventHandlingTarget drawPanelCanvas, Point point) {
+	private static void handleEnd(EventHandlingTarget panel, final DragCache storage, Point point) {
 		// Notification.showInfo("UP");
 		if (DRAG_COMMANDS.contains(storage.dragging)) {
-			drawPanelCanvas.onMouseDragEnd(storage.elementToDrag, point);
+			panel.onMouseDragEnd(storage.elementToDrag, point);
 		}
 		storage.dragging = DragStatus.NO;
 	}
 
-	private static void handleStart(FocusPanel handlerTarget, EventHandlingTarget[] panels, final DragCache storage, HumanInputEvent<?> event, Point p) {
+	private static void handleStart(EventHandlingTarget[] panels, final DragCache storage, FocusPanel handlerTarget, HumanInputEvent<?> event, Point p) {
 		// Notification.showInfo("DOWN " + p.x);
 		handlerTarget.setFocus(true);
 
@@ -273,6 +273,33 @@ public class EventHandlingUtils {
 		storage.dragging = DragStatus.FIRST;
 		storage.elementToDrag = storage.activePanel.getGridElementOnPosition(storage.moveStart);
 		storage.activePanel.onMouseDownScheduleDeferred(storage.elementToDrag, event.isControlKeyDown());
+	}
+
+	private static void handleMove(final EventHandlingTarget panel, final DragCache storage, HumanInputEvent<?> event) {
+		// Notification.showInfo("MOVE " + getPointAbsolute(event));
+		if (storage.activePanel != null && DRAG_COMMANDS.contains(storage.dragging)) {
+			Point p = getPoint(storage.activePanel, event);
+			int diffX = p.x - storage.moveStart.getX();
+			int diffY = p.y - storage.moveStart.getY();
+			diffX -= diffX % SharedConstants.DEFAULT_GRID_SIZE;
+			diffY -= diffY % SharedConstants.DEFAULT_GRID_SIZE;
+			if (diffX != 0 || diffY != 0) {
+				panel.onMouseMoveDraggingScheduleDeferred(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), event.isControlKeyDown(), storage.dragging == DragStatus.FIRST);
+				storage.dragging = DragStatus.CONTINUOUS; // after FIRST real drag switch to CONTINUOUS
+				storage.moveStart = storage.moveStart.copy().move(diffX, diffY); // make copy because otherwise deferred action will act on wrong position
+			}
+		}
+		else if (storage.mouseContainingPanel != null) {
+			storage.mouseContainingPanel.onMouseMove(getPoint(storage.mouseContainingPanel, event));
+		}
+	}
+
+	private static void handleDoubleClick(final EventHandlingTarget panel, Point p) {
+		panel.onDoubleClick(panel.getGridElementOnPosition(p));
+	}
+
+	private static void handleShowMenu(final EventHandlingTarget panel, Point p) {
+		panel.onShowMenu(p);
 	}
 
 	private static EventHandlingTarget getPanelWhichContainsPoint(EventHandlingTarget[] panels, Point p) {
@@ -289,33 +316,6 @@ public class EventHandlingUtils {
 			}
 		}
 		return returnPanel;
-	}
-
-	private static void handleMove(final EventHandlingTarget drawPanelCanvas, final DragCache storage, HumanInputEvent<?> event) {
-		// Notification.showInfo("MOVE " + getPointAbsolute(event));
-		if (storage.activePanel != null && DRAG_COMMANDS.contains(storage.dragging)) {
-			Point p = getPoint(storage.activePanel, event);
-			int diffX = p.x - storage.moveStart.getX();
-			int diffY = p.y - storage.moveStart.getY();
-			diffX -= diffX % SharedConstants.DEFAULT_GRID_SIZE;
-			diffY -= diffY % SharedConstants.DEFAULT_GRID_SIZE;
-			if (diffX != 0 || diffY != 0) {
-				drawPanelCanvas.onMouseMoveDraggingScheduleDeferred(storage.moveStart, diffX, diffY, storage.elementToDrag, event.isShiftKeyDown(), event.isControlKeyDown(), storage.dragging == DragStatus.FIRST);
-				storage.dragging = DragStatus.CONTINUOUS; // after FIRST real drag switch to CONTINUOUS
-				storage.moveStart = storage.moveStart.copy().move(diffX, diffY); // make copy because otherwise deferred action will act on wrong position
-			}
-		}
-		else if (storage.mouseContainingPanel != null) {
-			storage.mouseContainingPanel.onMouseMove(getPoint(storage.mouseContainingPanel, event));
-		}
-	}
-
-	private static void handleDoubleClick(final EventHandlingTarget drawPanelCanvas, Point p) {
-		drawPanelCanvas.onDoubleClick(drawPanelCanvas.getGridElementOnPosition(p));
-	}
-
-	private static void handleShowMenu(final EventHandlingTarget drawPanelCanvas, Point p) {
-		drawPanelCanvas.onShowMenu(p);
 	}
 
 	private static Point getPoint(EventHandlingTarget drawPanelCanvas, HumanInputEvent<?> event) {
