@@ -43,6 +43,8 @@ import com.google.gwt.user.client.ui.FocusPanel;
 
 public class EventHandlingUtils {
 
+	private static final List<DragStatus> DRAG_COMMANDS = Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS);
+
 	public static interface EventHandlingTarget {
 
 		HandlerRegistration addMouseOutHandler(MouseOutHandler mouseOutHandler);
@@ -256,7 +258,7 @@ public class EventHandlingUtils {
 
 	private static void handleEnd(final DragCache storage, EventHandlingTarget drawPanelCanvas, Point point) {
 		// Notification.showInfo("UP");
-		if (Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS).contains(storage.dragging)) {
+		if (DRAG_COMMANDS.contains(storage.dragging)) {
 			drawPanelCanvas.onMouseDragEnd(storage.elementToDrag, point);
 		}
 		storage.dragging = DragStatus.NO;
@@ -291,7 +293,7 @@ public class EventHandlingUtils {
 
 	private static void handleMove(final EventHandlingTarget drawPanelCanvas, final DragCache storage, HumanInputEvent<?> event) {
 		// Notification.showInfo("MOVE " + getPointAbsolute(event));
-		if (storage.activePanel != null && Arrays.asList(DragStatus.FIRST, DragStatus.CONTINUOUS).contains(storage.dragging)) {
+		if (storage.activePanel != null && DRAG_COMMANDS.contains(storage.dragging)) {
 			Point p = getPoint(storage.activePanel, event);
 			int diffX = p.x - storage.moveStart.getX();
 			int diffY = p.y - storage.moveStart.getY();
