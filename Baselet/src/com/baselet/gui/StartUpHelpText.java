@@ -257,7 +257,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 			versionText = versionText.replace("<", "&lt;").replace(">", "&gt;").replace("&", "&amp;").replace("\"", "&quot;"); // escape html characters for safety
 			String[] splitString = versionText.split("\n");
 			String actualVersion = splitString[0];
-			if (Program.VERSION.compareTo(actualVersion) > 0)
+			if (Program.VERSION.compareTo(actualVersion) >= 0)
 			{
 				return null; // no newer version found
 			}
