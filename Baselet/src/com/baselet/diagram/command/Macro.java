@@ -77,4 +77,14 @@ public class Macro extends Command {
 		}
 		return ret;
 	}
+
+	@Override
+	public boolean isChangingDiagram() {
+		for (Command c : _commands) {
+			if (c.isChangingDiagram()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
