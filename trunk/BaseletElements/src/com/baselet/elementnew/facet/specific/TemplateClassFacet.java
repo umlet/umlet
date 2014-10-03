@@ -22,7 +22,7 @@ public class TemplateClassFacet extends KeyValueFacet {
 
 	public static final int UPPER_SPACE = 3;
 	public static final int LOWER_SPACE = 3;
-	public static final int LEFT_SPACE = 6;
+	public static final int LEFT_SPACE = 12;
 
 	@Override
 	public KeyValue getKeyValue() {
