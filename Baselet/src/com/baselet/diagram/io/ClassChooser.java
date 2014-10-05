@@ -9,7 +9,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
-import com.baselet.control.Constants;
+import com.baselet.control.Config;
 import com.baselet.control.Main;
 
 public class ClassChooser {
@@ -20,7 +20,7 @@ public class ClassChooser {
 
 	private static JFileChooser getInstance() {
 		if (instance == null) {
-			instance = new JFileChooser(Constants.openFileHome);
+			instance = new JFileChooser(Config.getInstance().getOpenFileHome());
 			instance.setMultiSelectionEnabled(true);
 			instance.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 			instance.setFileFilter(new FileFilter() {
@@ -47,7 +47,7 @@ public class ClassChooser {
 			for (File file : selectedFiles) {
 				searchRecursively(file, fileNames);
 			}
-			Constants.openFileHome = selectedFiles[0].getParent();
+			Config.getInstance().setOpenFileHome(selectedFiles[0].getParent());
 			if (fileNames.size() > TOO_MANY_FILES) {
 				returnVal = JOptionPane.showConfirmDialog(Main.getInstance().getGUI().getMainFrame(), "Your selection contains " + fileNames.size() + " files which may " +
 																										"clutter up your diagram. Continue?", "Confirm selection", JOptionPane.OK_CANCEL_OPTION);

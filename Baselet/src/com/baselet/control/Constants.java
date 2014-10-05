@@ -132,7 +132,7 @@ public abstract class Constants extends SharedConstants {
 				"// Press " + SystemInfo.META_KEY + "+C to copy the whole diagram to the system clipboard (then just paste it to, eg, Word)" + NEWLINE +
 				"// Edit the files in the \"palettes\" directory to create your own element palettes" + NEWLINE +
 				"//" + NEWLINE + "// Select \"Custom Elements > New...\" to create new element types" + NEWLINE;
-		returnString += 
+		returnString +=
 				"//////////////////////////////////////////////////////////////////////////////////////////////" + NEWLINE +
 				"" + NEWLINE +
 				"" + NEWLINE +
@@ -242,6 +242,8 @@ public abstract class Constants extends SharedConstants {
 		return new Font(Font.MONOSPACED, Font.PLAIN, propertiesPanelFontsize);
 	}
 
+	public static final String DEFAULT_FILE_HOME = System.getProperty("user.dir");
+
 	/**** VALUES LOADED FROM CONFIG ****/
 	public static Integer defaultFontsize = 14;
 	public static String defaultFontFamily = Font.SANS_SERIF;
@@ -255,7 +257,6 @@ public abstract class Constants extends SharedConstants {
 	public static Point program_location = new Point(5, 5);
 	public static int printPadding = 20;
 	public static boolean checkForUpdates = true;
-	public static String openFileHome = System.getProperty("user.dir");
 	public static String pdfExportFont = ""; // eg in Windows: "pdf_export_font = c:/windows/fonts/msgothic.ttc,1"
 	public static boolean generateClassPackage = true;
 	public static FieldOptions generateClassFields = FieldOptions.ALL;

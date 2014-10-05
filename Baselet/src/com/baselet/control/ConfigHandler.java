@@ -31,6 +31,7 @@ public class ConfigHandler {
 	private static final String PDF_EXPORT_FONT = "pdf_export_font";
 	private static final String CHECK_FOR_UPDATES = "check_for_updates";
 	private static final String OPEN_FILE_HOME = "open_file_home";
+	private static final String SAVE_FILE_HOME = "save_file_home";
 	private static final String DEV_MODE = "dev_mode";
 	private static final String LAST_USED_PALETTE = "last_used_palette";
 	private static final String MAIN_SPLIT_POSITION = "main_split_position";
@@ -92,7 +93,8 @@ public class ConfigHandler {
 		Constants.printPadding = getIntProperty(PRINT_PADDING, Constants.printPadding);
 		Constants.pdfExportFont = getStringProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
 		Constants.checkForUpdates = getBoolProperty(CHECK_FOR_UPDATES, Constants.checkForUpdates);
-		Constants.openFileHome = getStringProperty(OPEN_FILE_HOME, Constants.openFileHome);
+		cfg.setOpenFileHome(getStringProperty(OPEN_FILE_HOME, cfg.getOpenFileHome()));
+		cfg.setSaveFileHome(getStringProperty(SAVE_FILE_HOME, cfg.getSaveFileHome()));
 		SharedConstants.dev_mode = getBoolProperty(DEV_MODE, SharedConstants.dev_mode);
 
 		// only set last used palette if its a valid palette and if the program version has not changed, otherwise leave the default value
@@ -162,7 +164,8 @@ public class ConfigHandler {
 			props.setProperty(PRINT_PADDING, Integer.toString(Constants.printPadding));
 			props.setProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
 			props.setProperty(CHECK_FOR_UPDATES, Boolean.toString(Constants.checkForUpdates));
-			props.setProperty(OPEN_FILE_HOME, Constants.openFileHome);
+			props.setProperty(OPEN_FILE_HOME, cfg.getOpenFileHome());
+			props.setProperty(SAVE_FILE_HOME, cfg.getSaveFileHome());
 			props.setProperty(DEV_MODE, Boolean.toString(SharedConstants.dev_mode));
 			props.setProperty(LAST_USED_PALETTE, Constants.lastUsedPalette);
 
