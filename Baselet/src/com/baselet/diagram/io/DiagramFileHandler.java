@@ -50,7 +50,7 @@ public class DiagramFileHandler {
 	private String fileName;
 	private final DiagramHandler handler;
 	private File file;
-	private File exportFile;
+	private File lastExportFile;
 	private final HashMap<String, FileFilter> filters = new HashMap<String, FileFilter>();
 	private final HashMap<FileFilter, String> fileextensions = new HashMap<FileFilter, String>();
 
@@ -76,7 +76,7 @@ public class DiagramFileHandler {
 			fileName = "new." + Program.EXTENSION;
 		}
 		this.file = file;
-		exportFile = file;
+		lastExportFile = file;
 
 		allFileFilters.addAll(Arrays.asList(saveFileFilter));
 		allFileFilters.addAll(Arrays.asList(exportFileFilter));
@@ -90,22 +90,24 @@ public class DiagramFileHandler {
 		return new DiagramFileHandler(diagramHandler, file);
 	}
 
-	private JFileChooser createSaveFileChooser(boolean ownXmlFormat) {
-		File initialDirectory;
-		if (file != null && ownXmlFormat) {
-			initialDirectory = file;
-		}
-		else if (exportFile != null) {
-			initialDirectory = exportFile;
-		}
-		else {
-			initialDirectory = new File(Config.getInstance().getSaveFileHome());
-		}
-		JFileChooser fileChooser = new JFileChooser(initialDirectory);
+	private JFileChooser createSaveFileChooser(boolean exportCall) {
+		JFileChooser fileChooser = new JFileChooser(calcInitialDir(exportCall));
 		fileChooser.setAcceptAllFileFilterUsed(false); // We don't want "all files" as a choice
 		// The input field should show the diagram name as preset
 		fileChooser.setSelectedFile(new File(Main.getInstance().getDiagramHandler().getName()));
 		return fileChooser;
+	}
+
+	private File calcInitialDir(boolean exportCall) {
+		if (exportCall && lastExportFile != null) { // if this is an export-diagram call the diagram was exported once before (for consecutive export calls - see Issue 82)
+			return lastExportFile;
+		}
+		else if (file != null) { // otherwise if diagram has a fixed uxf path, use this
+			return file;
+		}
+		else { // otherwise use the last used save path
+			return new File(Config.getInstance().getSaveFileHome());
+		}
 	}
 
 	public String getFileName() {
@@ -254,7 +256,7 @@ public class DiagramFileHandler {
 
 	public void doSaveAs(String fileextension) throws IOException {
 		boolean ownXmlFormat = fileextension.equals(Program.EXTENSION);
-		JFileChooser fileChooser = createSaveFileChooser(ownXmlFormat);
+		JFileChooser fileChooser = createSaveFileChooser(!ownXmlFormat);
 		String fileName = chooseFileName(ownXmlFormat, filters.get(fileextension), fileChooser);
 		String extension = fileextensions.get(fileChooser.getFileFilter());
 		if (fileName == null)
@@ -273,7 +275,7 @@ public class DiagramFileHandler {
 			save();
 		}
 		else {
-			exportFile = fileToSave;
+			lastExportFile = fileToSave;
 			doExportAs(extension, fileToSave);
 		}
 	}
