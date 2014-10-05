@@ -91,20 +91,17 @@ public class DiagramFileHandler {
 	}
 
 	private JFileChooser createSaveFileChooser(boolean ownXmlFormat) {
-		JFileChooser fileChooser;
-		// Set the initial target location for the fileChooser
-		if (file != null) {
-			if (ownXmlFormat) {
-				fileChooser = new JFileChooser(file);
-			}
-			else {
-				fileChooser = new JFileChooser(exportFile);
-			}
+		File initialDirectory;
+		if (file != null && ownXmlFormat) {
+			initialDirectory = file;
+		}
+		else if (exportFile != null) {
+			initialDirectory = exportFile;
 		}
 		else {
-			fileChooser = new JFileChooser(Config.getInstance().getSaveFileHome());
+			initialDirectory = new File(Config.getInstance().getSaveFileHome());
 		}
-
+		JFileChooser fileChooser = new JFileChooser(initialDirectory);
 		fileChooser.setAcceptAllFileFilterUsed(false); // We don't want "all files" as a choice
 		// The input field should show the diagram name as preset
 		fileChooser.setSelectedFile(new File(Main.getInstance().getDiagramHandler().getName()));
