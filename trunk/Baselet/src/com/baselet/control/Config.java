@@ -1,5 +1,7 @@
 package com.baselet.control;
 
+import java.io.File;
+
 import javax.swing.UIManager;
 
 import com.baselet.control.Constants.Os;
@@ -23,8 +25,16 @@ public class Config {
 	}
 
 	private String uiManager;
+	private String openFileHome;
+	private String saveFileHome;
 
 	public Config() {
+		initUiManager();
+		openFileHome = Constants.DEFAULT_FILE_HOME;
+		saveFileHome = Constants.DEFAULT_FILE_HOME;
+	}
+
+	private void initUiManager() {
 		// The default MacOS theme looks ugly, therefore we set metal
 		if (SystemInfo.OS == Os.MAC) {
 			uiManager = "javax.swing.plaf.metal.MetalLookAndFeel";
@@ -43,5 +53,31 @@ public class Config {
 
 	public void setUiManager(String uiManager) {
 		this.uiManager = uiManager;
+	}
+
+	public String getOpenFileHome() {
+		if (new File(openFileHome).exists()) {
+			return openFileHome;
+		}
+		else { // if stored location doesn't exist, return default value
+			return Constants.DEFAULT_FILE_HOME;
+		}
+	}
+
+	public void setOpenFileHome(String openFileHome) {
+		this.openFileHome = openFileHome;
+	}
+
+	public String getSaveFileHome() {
+		if (new File(saveFileHome).exists()) {
+			return saveFileHome;
+		}
+		else { // if stored location doesn't exist, return default value
+			return Constants.DEFAULT_FILE_HOME;
+		}
+	}
+
+	public void setSaveFileHome(String saveFileHome) {
+		this.saveFileHome = saveFileHome;
 	}
 }

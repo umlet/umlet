@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.baselet.control.Config;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.Notifier;
@@ -46,27 +47,25 @@ public class DiagramFileHandler {
 
 	private static final Logger log = Logger.getLogger(DiagramFileHandler.class);
 
-	private static JFileChooser saveFileChooser;
-
 	private String fileName;
-	private DiagramHandler handler;
+	private final DiagramHandler handler;
 	private File file;
 	private File exportFile;
-	private HashMap<String, FileFilter> filters = new HashMap<String, FileFilter>();
-	private HashMap<FileFilter, String> fileextensions = new HashMap<FileFilter, String>();
+	private final HashMap<String, FileFilter> filters = new HashMap<String, FileFilter>();
+	private final HashMap<FileFilter, String> fileextensions = new HashMap<FileFilter, String>();
 
-	private OwnFileFilter filterxml = new OwnFileFilter(Program.EXTENSION, Program.NAME + " diagram format");
-	private OwnFileFilter filterbmp = new OwnFileFilter("bmp", "BMP");
-	private OwnFileFilter filtereps = new OwnFileFilter("eps", "EPS");
-	private OwnFileFilter filtergif = new OwnFileFilter("gif", "GIF");
-	private OwnFileFilter filterjpg = new OwnFileFilter("jpg", "JPG");
-	private OwnFileFilter filterpdf = new OwnFileFilter("pdf", "PDF");
-	private OwnFileFilter filterpng = new OwnFileFilter("png", "PNG");
-	private OwnFileFilter filtersvg = new OwnFileFilter("svg", "SVG");
+	private final OwnFileFilter filterxml = new OwnFileFilter(Program.EXTENSION, Program.NAME + " diagram format");
+	private final OwnFileFilter filterbmp = new OwnFileFilter("bmp", "BMP");
+	private final OwnFileFilter filtereps = new OwnFileFilter("eps", "EPS");
+	private final OwnFileFilter filtergif = new OwnFileFilter("gif", "GIF");
+	private final OwnFileFilter filterjpg = new OwnFileFilter("jpg", "JPG");
+	private final OwnFileFilter filterpdf = new OwnFileFilter("pdf", "PDF");
+	private final OwnFileFilter filterpng = new OwnFileFilter("png", "PNG");
+	private final OwnFileFilter filtersvg = new OwnFileFilter("svg", "SVG");
 
-	private OwnFileFilter[] saveFileFilter = new OwnFileFilter[] { filterxml };
-	private OwnFileFilter[] exportFileFilter = new OwnFileFilter[] { filterbmp, filtereps, filtergif, filterjpg, filterpdf, filterpng, filtersvg };
-	private List<OwnFileFilter> allFileFilters = new ArrayList<OwnFileFilter>();
+	private final OwnFileFilter[] saveFileFilter = new OwnFileFilter[] { filterxml };
+	private final OwnFileFilter[] exportFileFilter = new OwnFileFilter[] { filterbmp, filtereps, filtergif, filterjpg, filterpdf, filterpng, filtersvg };
+	private final List<OwnFileFilter> allFileFilters = new ArrayList<OwnFileFilter>();
 
 	protected DiagramFileHandler(DiagramHandler diagramHandler, File file) {
 		handler = diagramHandler;
@@ -91,24 +90,25 @@ public class DiagramFileHandler {
 		return new DiagramFileHandler(diagramHandler, file);
 	}
 
-	private JFileChooser reloadSaveFileChooser(boolean ownXmlFormat) {
+	private JFileChooser createSaveFileChooser(boolean ownXmlFormat) {
+		JFileChooser fileChooser;
 		// Set the initial target location for the fileChooser
 		if (file != null) {
 			if (ownXmlFormat) {
-				saveFileChooser = new JFileChooser(file);
+				fileChooser = new JFileChooser(file);
 			}
 			else {
-				saveFileChooser = new JFileChooser(exportFile);
+				fileChooser = new JFileChooser(exportFile);
 			}
 		}
 		else {
-			saveFileChooser = new JFileChooser(System.getProperty("user.dir"));
+			fileChooser = new JFileChooser(Config.getInstance().getSaveFileHome());
 		}
 
-		saveFileChooser.setAcceptAllFileFilterUsed(false); // We don't want "all files" as a choice
+		fileChooser.setAcceptAllFileFilterUsed(false); // We don't want "all files" as a choice
 		// The input field should show the diagram name as preset
-		saveFileChooser.setSelectedFile(new File(Main.getInstance().getDiagramHandler().getName()));
-		return saveFileChooser;
+		fileChooser.setSelectedFile(new File(Main.getInstance().getDiagramHandler().getName()));
+		return fileChooser;
 	}
 
 	public String getFileName() {
@@ -256,8 +256,10 @@ public class DiagramFileHandler {
 	}
 
 	public void doSaveAs(String fileextension) throws IOException {
-		String fileName = chooseFileName(fileextension.equals(Program.EXTENSION), filters.get(fileextension));
-		String extension = fileextensions.get(saveFileChooser.getFileFilter());
+		boolean ownXmlFormat = fileextension.equals(Program.EXTENSION);
+		JFileChooser fileChooser = createSaveFileChooser(ownXmlFormat);
+		String fileName = chooseFileName(ownXmlFormat, filters.get(fileextension), fileChooser);
+		String extension = fileextensions.get(fileChooser.getFileFilter());
 		if (fileName == null)
 		{
 			return; // If the filechooser has been closed without saving
@@ -267,6 +269,7 @@ public class DiagramFileHandler {
 		}
 
 		File fileToSave = new File(fileName);
+		Config.getInstance().setSaveFileHome(fileToSave.getParent());
 		if (extension.equals(Program.EXTENSION)) {
 			file = fileToSave;
 			setFileName(file.getName());
@@ -327,22 +330,19 @@ public class DiagramFileHandler {
 		Notifier.getInstance().showNotification(saveToFile.getAbsolutePath() + " saved");
 	}
 
-	private String chooseFileName(boolean ownXmlFormat, FileFilter filefilter) {
+	private String chooseFileName(boolean ownXmlFormat, FileFilter filefilter, JFileChooser fileChooser) {
 		String fileName = null;
 
-		// filechooser must be recreated to avoid a bug where getSelectedFile() was null (if a file is saved more than one time by doubleclicking on an existing file)
-		reloadSaveFileChooser(ownXmlFormat);
+		setAvailableFileFilters(ownXmlFormat, fileChooser);
+		fileChooser.setFileFilter(filefilter);
 
-		setAvailableFileFilters(ownXmlFormat);
-		saveFileChooser.setFileFilter(filefilter);
-
-		int returnVal = saveFileChooser.showSaveDialog(Main.getInstance().getGUI().getMainFrame());
+		int returnVal = fileChooser.showSaveDialog(Main.getInstance().getGUI().getMainFrame());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			File selectedFileWithExt = getFileWithExtension();
+			File selectedFileWithExt = getFileWithExtension(fileChooser);
 			if (selectedFileWithExt.exists()) {
 				int overwriteQuestionResult = JOptionPane.showConfirmDialog(Main.getInstance().getGUI().getMainFrame(), "File already exists! Overwrite?", "Overwrite File", JOptionPane.YES_NO_OPTION);
 				if (overwriteQuestionResult == JOptionPane.NO_OPTION) {
-					return chooseFileName(ownXmlFormat, filefilter);
+					return chooseFileName(ownXmlFormat, filefilter, fileChooser);
 				}
 			}
 			fileName = selectedFileWithExt.getAbsolutePath();
@@ -352,10 +352,11 @@ public class DiagramFileHandler {
 
 	/**
 	 * If the filename of the filechooser has no extension, the extension from the filefilter is added to the name
+	 * @param saveFileChooser2
 	 */
-	private File getFileWithExtension() {
-		String extension = "." + fileextensions.get(saveFileChooser.getFileFilter());
-		String filename = saveFileChooser.getSelectedFile().getAbsolutePath();
+	private File getFileWithExtension(JFileChooser fileChooser) {
+		String extension = "." + fileextensions.get(fileChooser.getFileFilter());
+		String filename = fileChooser.getSelectedFile().getAbsolutePath();
 		if (!filename.endsWith(extension)) {
 			filename += extension;
 		}
@@ -365,30 +366,30 @@ public class DiagramFileHandler {
 
 	/**
 	 * Updates the available FileFilter to "only uxf/pxf" or "all but uxf/pxf"
-	 * 
+	 *
 	 * @param ownXmlFormat
 	 *            If this param is set, only uxf/pxf is visible, otherwise all but uxf/pxf is visible
 	 */
-	private void setAvailableFileFilters(boolean ownXmlFormat) {
+	private void setAvailableFileFilters(boolean ownXmlFormat, JFileChooser fileChooser) {
 		if (ownXmlFormat) {
-			saveFileChooser.resetChoosableFileFilters();
-			saveFileChooser.addChoosableFileFilter(filterxml);
+			fileChooser.resetChoosableFileFilters();
+			fileChooser.addChoosableFileFilter(filterxml);
 		}
 		else {
-			saveFileChooser.resetChoosableFileFilters();
-			saveFileChooser.addChoosableFileFilter(filterbmp);
-			saveFileChooser.addChoosableFileFilter(filtereps);
-			saveFileChooser.addChoosableFileFilter(filtergif);
-			saveFileChooser.addChoosableFileFilter(filterjpg);
-			saveFileChooser.addChoosableFileFilter(filterpdf);
-			saveFileChooser.addChoosableFileFilter(filterpng);
-			saveFileChooser.addChoosableFileFilter(filtersvg);
+			fileChooser.resetChoosableFileFilters();
+			fileChooser.addChoosableFileFilter(filterbmp);
+			fileChooser.addChoosableFileFilter(filtereps);
+			fileChooser.addChoosableFileFilter(filtergif);
+			fileChooser.addChoosableFileFilter(filterjpg);
+			fileChooser.addChoosableFileFilter(filterpdf);
+			fileChooser.addChoosableFileFilter(filterpng);
+			fileChooser.addChoosableFileFilter(filtersvg);
 		}
 	}
 
 	protected class OwnFileFilter extends FileFilter {
-		private String format;
-		private String description;
+		private final String format;
+		private final String description;
 
 		protected OwnFileFilter(String format, String description) {
 			this.format = format;

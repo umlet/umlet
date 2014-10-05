@@ -52,7 +52,7 @@ public class Main {
 	private BaseGUI gui;
 	private GridElement editedGridElement;
 	private TreeMap<String, PaletteHandler> palettes;
-	private ArrayList<DiagramHandler> diagrams = new ArrayList<DiagramHandler>();
+	private final ArrayList<DiagramHandler> diagrams = new ArrayList<DiagramHandler>();
 	private DiagramHandler currentDiagramHandler;
 	private ClassLoader classLoader;
 
@@ -369,7 +369,7 @@ public class Main {
 	}
 
 	public void doOpenFromFileChooser() {
-		List<String> files = OpenFileChooser.getFilesToOpen();
+		List<String> files = new OpenFileChooser().getFilesToOpen();
 		for (String file : files) {
 			doOpen(file);
 		}
@@ -390,6 +390,7 @@ public class Main {
 			Notifier.getInstance().showNotification(filename + " does not exist");
 			return;
 		}
+		Config.getInstance().setOpenFileHome(file.getParent());
 		DiagramHandler handler = getDiagramHandlerForFile(filename);
 		if (handler != null) { // File is already opened -> jump to the tab
 			gui.jumpTo(handler);
