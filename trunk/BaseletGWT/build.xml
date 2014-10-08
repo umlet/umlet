@@ -49,7 +49,7 @@
 	
 	<target name="gwt-compile-draft-with-detailed-names" description="compile in draft mode">
 	  <antcall target="gwt-compile-helper">
-	    <param name="args" value="-draftCompile -style PRETTY"/>
+	    <param name="args" value="-draftCompile -style PRETTY"/> <!-- set to DETAILED to see even more details like class names-->
 	  </antcall>
 	</target>
 	
