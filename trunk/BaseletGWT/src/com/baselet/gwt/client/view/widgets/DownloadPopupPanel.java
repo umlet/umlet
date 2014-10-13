@@ -9,12 +9,15 @@ public class DownloadPopupPanel extends MyPopupPanel {
 		super(true, Type.POPUP);
 		setHeader("Export Diagram");
 		String html = "<p>\"Right click -&gt; Save as\" on the following links</p>"
-						+ "<p><a href='" + uxfUrl + "'>Diagram File</a></p>"
-						+ "<p><a href='" + pngUrl + "'>Image File</a></p>";
+						+ "<p>" + link(uxfUrl) + "Diagram File</a></p>"
+						+ "<p>" + link(pngUrl) + "Image File</a></p>";
 		SimplePanel panel = new SimplePanel(new HTML(html));
 		panel.addStyleName("exportPopup");
 		setWidget(panel);
 		center();
 	}
 
+	private String link(String uxfUrl) {
+		return "<a href='" + uxfUrl.replace("'", "&apos;") + "'>"; // apostrophes in datauris must be escaped because it's the closing sign fore the href
+	}
 }
