@@ -14,13 +14,30 @@ public abstract class Facet {
 
 	protected Logger log = Logger.getLogger(Facet.class);
 
+	/**
+	 * @param line the current line which is parsed
+	 * @param state the current state of the parser
+	 * @return true if the handleLine() method of this facet should be applied
+	 */
 	public abstract boolean checkStart(String line, PropertiesParserState state);
 
+	/**
+	 * @param line the current line which is parsed
+	 * @param drawer can draw something on the elements space
+	 * @param state the current state of the parser
+	 */
 	public abstract void handleLine(String line, DrawHandler drawer, PropertiesParserState state);
 
+	/**
+	 * @return a list of objects where each one represents one line for autocompletion
+	 */
 	public abstract List<AutocompletionText> getAutocompletionStrings();
 
-	public boolean replacesText(@SuppressWarnings("unused") String line) {
+	/**
+	 * @param line the current line which is parsed
+	 * @return true if the text line should be removed after applying this facet
+	 */
+	public boolean removeTextAfterHandling(String line) {
 		return true;
 	}
 

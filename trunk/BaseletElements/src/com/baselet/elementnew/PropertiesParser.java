@@ -151,7 +151,7 @@ public class PropertiesParser {
 		for (Facet f : facets) {
 			if (f.checkStart(line, state)) {
 				f.handleLine(line, drawer, state);
-				if (f.replacesText(line)) {
+				if (f.removeTextAfterHandling(line)) {
 					drawText = false;
 				}
 			}
