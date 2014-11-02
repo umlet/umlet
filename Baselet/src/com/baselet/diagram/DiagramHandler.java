@@ -39,11 +39,11 @@ public class DiagramHandler {
 	private static final Logger log = Logger.getLogger(DiagramHandler.class);
 
 	private boolean isChanged;
-	private DiagramFileHandler fileHandler;
-	private FontHandler fontHandler;
+	private final DiagramFileHandler fileHandler;
+	private final FontHandler fontHandler;
 
 	protected DrawPanel drawpanel;
-	private Controller controller;
+	private final Controller controller;
 	protected DiagramListener listener;
 	private String helptext;
 	private boolean enabled;

@@ -29,13 +29,13 @@ import com.baselet.element.OldGridElement;
 // that is sent between two objects.
 class Interaction {
 
-	private int srcObj;
-	private boolean srcObjHasControl;
-	private int arrowKind; // 1=SYNC, 2= ASYNC, 3=EDGE, 4=FILLED
-	private int lineKind; // 1=SOLID, 2=DOTTED
-	private int destObj;
-	private boolean destObjHasControl;
-	private String methodName;
+	private final int srcObj;
+	private final boolean srcObjHasControl;
+	private final int arrowKind; // 1=SYNC, 2= ASYNC, 3=EDGE, 4=FILLED
+	private final int lineKind; // 1=SOLID, 2=DOTTED
+	private final int destObj;
+	private final boolean destObjHasControl;
+	private final String methodName;
 
 	public Interaction(int srcObj, boolean srcObjHasControl, int arrowKind, int lineKind,
 			int destObj, boolean destObjHasControl, String methodName) {
@@ -105,7 +105,7 @@ class Interaction {
 // offers various comfort-functions for finding and
 // working with interactions
 class InteractionManagement {
-	private Set<Interaction>[] level;
+	private final Set<Interaction>[] level;
 
 	// private Set[] level;
 
@@ -850,5 +850,10 @@ public class SequenceDiagram extends OldGridElement {
 
 		arrowX = (int) (5 * zoom);
 		arrowY = (int) (5 * zoom);
+	}
+
+	@Override
+	public boolean isDeprecated() {
+		return false;
 	}
 }

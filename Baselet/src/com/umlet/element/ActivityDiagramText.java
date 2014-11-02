@@ -493,4 +493,9 @@ public class ActivityDiagramText extends OldGridElement {
 	public StickingPolygon generateStickingBorder() {
 		return null;
 	}
+
+	@Override
+	public boolean isDeprecated() {
+		return false;
+	}
 }
