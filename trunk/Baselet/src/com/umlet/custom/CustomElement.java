@@ -537,4 +537,9 @@ public abstract class CustomElement extends OldGridElement {
 		return Arrays.asList(stringBuilder.toString().split("\\n"));
 	}
 
+	@Override
+	public boolean isDeprecated() {
+		return false;
+	}
+
 }

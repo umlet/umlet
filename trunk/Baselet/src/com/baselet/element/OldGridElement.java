@@ -349,6 +349,10 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		translateForExport = true;
 	}
 
+	public boolean isDeprecated() {
+		return true;
+	}
+
 	@Override
 	public final void paint(Graphics g) {
 		super.paint(g);
@@ -359,6 +363,12 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 		boolean selected = Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this);
 		if (selected) {
+			if (isDeprecated()) {
+				Color oldColor = g2.getColor();
+				g2.setColor(Converter.convert(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND)));
+				g2.fillRect(0, 0, getWidth(), getHeight());
+				g2.setColor(oldColor);
+			}
 			fgColor = Converter.convert(ColorOwn.SELECTION_FG);
 			if (SharedConstants.show_stickingpolygon) {
 				drawStickingPolygon(g2);
