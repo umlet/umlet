@@ -39,7 +39,6 @@ import com.baselet.gui.listener.ScrollbarListener;
 import com.baselet.gui.standalone.FileDrop;
 import com.baselet.gui.standalone.FileDropListener;
 import com.umlet.element.Relation;
-import com.umlet.elementnew.ComponentSwing;
 import com.umlet.elementnew.ElementFactory;
 
 @SuppressWarnings("serial")
@@ -47,12 +46,12 @@ public class DrawPanel extends JLayeredPane implements Printable {
 
 	private static final Logger log = Logger.getLogger(DrawPanel.class);
 
-	private Point origin;
+	private final Point origin;
 	private JScrollPane _scr;
-	private SelectorOld selector;
-	private DiagramHandler handler;
+	private final SelectorOld selector;
+	private final DiagramHandler handler;
 
-	private List<GridElement> gridElements = new ArrayList<GridElement>();
+	private final List<GridElement> gridElements = new ArrayList<GridElement>();
 
 	public DrawPanel(DiagramHandler handler) {
 		this.handler = handler;
@@ -138,7 +137,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 
 	/**
 	 * Returns the smalles possible rectangle which contains all entities and a border space around it
-	 * 
+	 *
 	 * @param borderSpace
 	 *            the borderspace around the rectangle
 	 * @param entities
@@ -170,10 +169,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 			GridElement clone = ElementFactory.createCopy(entity);
 			com.baselet.elementnew.Component component = clone.getComponent();
 			// Issue 138: when PDF and Swing Export draw on (0,0) a part of the drawn image is cut, therefore it's displaced by 0.5px in that case
-			if (component instanceof ComponentSwing) {
-				((ComponentSwing) component).translateForExport();
-			}
-			else if (component instanceof OldGridElement) {
+			if (component instanceof OldGridElement) {
 				((OldGridElement) component).translateForExport();
 			}
 			tempPanel.add((Component) component, clone.getLayer());
@@ -516,7 +512,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	 * Origin marks a point that tracks changes of the diagram panel size and can
 	 * be used to regenerate the original position of entities at the time they have been cut/copied,
 	 * etc...
-	 * 
+	 *
 	 * @return a point that marks the diagram origin at a zoom of 100%.
 	 */
 
@@ -533,7 +529,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	 * Origin marks a point that tracks changes of the diagram panel size and can
 	 * be used to regenerate the original position of entities at the time they have been cut/copied,
 	 * etc...
-	 * 
+	 *
 	 * @return a point that marks the diagram origin.
 	 */
 	public Point getOrigin() {
@@ -553,7 +549,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	/**
 	 * AB: Zoom the origin from the old grid size to the new grid size
 	 * this method is mainly used by the DiagramHandler classes setGridAndZoom method.
-	 * 
+	 *
 	 * @see DiagramHandler#setGridAndZoom(int)
 	 * @param oldGridSize
 	 *            the old grid size
