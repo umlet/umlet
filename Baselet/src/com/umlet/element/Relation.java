@@ -122,6 +122,7 @@ public class Relation extends OldGridElement {
 
 	@Override
 	public void setAdditionalAttributes(String s) {
+		getLinePoints().clear();
 		Vector<String> tmp = Utils.decomposeStringsIncludingEmptyStrings(s, Constants.DELIMITER_ADDITIONAL_ATTRIBUTES);
 		for (int i = 0; i < tmp.size(); i = i + 2) {
 			int x = Integer.parseInt(tmp.elementAt(i));
@@ -1838,7 +1839,7 @@ public class Relation extends OldGridElement {
 			this.setSize(getRectangle().width + diffx, getRectangle().height + diffy);
 		}
 		if (minx != 0 | miny != 0) {
-			this.setLocationDifference(minx, miny);
+			setLocationDifference(minx, miny);
 			this.setSize(getRectangle().width + -minx, getRectangle().height + -miny);
 			for (int i = 0; i < getLinePoints().size(); i++) {
 				Point p = getLinePoints().elementAt(i);
@@ -1951,4 +1952,5 @@ public class Relation extends OldGridElement {
 	public Integer getLayer() {
 		return getLayerHelper(LayerFacet.DEFAULT_VALUE_RELATION);
 	}
+
 }
