@@ -1,12 +1,11 @@
 package com.baselet.elementnew.facet.common;
 
+import com.baselet.control.FacetConstants;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
 
 public class LineWidthFacet extends KeyValueFacet {
-
-	public static final double DEFAULT_LINE_WIDTH = 1.0;
 
 	public static LineWidthFacet INSTANCE = new LineWidthFacet();
 
@@ -14,7 +13,7 @@ public class LineWidthFacet extends KeyValueFacet {
 
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue("lw", false, DEFAULT_LINE_WIDTH + "", "linewidth as decimal number (1.5, 2, ...)");
+		return new KeyValue("lw", false, FacetConstants.LINE_WIDTH_DEFAULT + "", "linewidth as decimal number (1.5, 2, ...)");
 	}
 
 	@Override

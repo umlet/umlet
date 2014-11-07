@@ -20,6 +20,7 @@ import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
+import com.baselet.control.FacetConstants;
 import com.baselet.control.Main;
 import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
@@ -43,8 +44,6 @@ import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.facet.Facet;
-import com.baselet.elementnew.facet.common.BackgroundColorFacet;
-import com.baselet.elementnew.facet.common.ForegroundColorFacet;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.elementnew.facet.common.LayerFacet;
 import com.baselet.gui.AutocompletionText;
@@ -157,10 +156,10 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public String getSetting(String key) {
-		if (key == ForegroundColorFacet.KEY) {
+		if (key == FacetConstants.FOREGROUND_COLOR_KEY) {
 			return fgColorString;
 		}
-		else if (key == BackgroundColorFacet.KEY) {
+		else if (key == FacetConstants.BACKGROUND_COLOR_KEY) {
 			return bgColorString;
 		}
 		for (String line : getPanelAttributesAsList()) {

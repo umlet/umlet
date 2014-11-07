@@ -19,7 +19,6 @@ import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
-import com.baselet.elementnew.facet.common.LineWidthFacet;
 import com.umlet.element.DoubleStroke;
 import com.umlet.element.Relation;
 
@@ -110,7 +109,7 @@ public abstract class Utils {
 	public static Stroke getStroke(LineType lineType, float lineThickness) {
 		// If the lineThickness is not supported, the default type is used
 		if (lineThickness < 0) {
-			lineThickness = (float) LineWidthFacet.DEFAULT_LINE_WIDTH;
+			lineThickness = (float) FacetConstants.LINE_WIDTH_DEFAULT;
 		}
 
 		Stroke stroke = null;

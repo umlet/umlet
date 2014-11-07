@@ -1,5 +1,6 @@
 package com.baselet.elementnew.facet.common;
 
+import com.baselet.control.FacetConstants;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.elementnew.PropertiesParserState;
@@ -11,11 +12,9 @@ public class BackgroundColorFacet extends KeyValueFacet {
 
 	private BackgroundColorFacet() {}
 
-	public static final String KEY = "bg";
-
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue(KEY, false, "red", "background " + ColorOwn.EXAMPLE_TEXT);
+		return new KeyValue(FacetConstants.BACKGROUND_COLOR_KEY, false, "red", "background " + ColorOwn.EXAMPLE_TEXT);
 	}
 
 	@Override

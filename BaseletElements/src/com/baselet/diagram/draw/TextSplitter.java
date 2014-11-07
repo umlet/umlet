@@ -1,11 +1,10 @@
-package com.baselet.control;
+package com.baselet.diagram.draw;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.ListIterator;
 
-import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.Style;
 
 public class TextSplitter {

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+import com.baselet.control.FacetConstants;
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
@@ -31,7 +32,6 @@ import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
-import com.baselet.elementnew.facet.common.LineWidthFacet;
 
 @SuppressWarnings("serial")
 public abstract class CustomElement extends OldGridElement {
@@ -120,7 +120,7 @@ public abstract class CustomElement extends OldGridElement {
 		g2.setColor(fgColor);
 
 		for (StyleShape s : shapes) {
-			specialLine = s.getLineType() != LineType.SOLID || s.getLineThickness() != LineWidthFacet.DEFAULT_LINE_WIDTH;
+			specialLine = s.getLineType() != LineType.SOLID || s.getLineThickness() != FacetConstants.LINE_WIDTH_DEFAULT;
 			specialFgColor = !s.getFgColor().equals(Converter.convert(ColorOwn.DEFAULT_FOREGROUND));
 
 			if (specialLine) {
@@ -136,7 +136,7 @@ public abstract class CustomElement extends OldGridElement {
 			}
 			g2.draw(s.getShape());
 			if (specialLine) {
-				g2.setStroke(Utils.getStroke(LineType.SOLID, (float) LineWidthFacet.DEFAULT_LINE_WIDTH));
+				g2.setStroke(Utils.getStroke(LineType.SOLID, (float) FacetConstants.LINE_WIDTH_DEFAULT));
 			}
 			if (specialFgColor) {
 				g2.setColor(fgColor);
@@ -476,7 +476,7 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "")
 	protected final void resetAll() {
-		tmpLineThickness = (int) LineWidthFacet.DEFAULT_LINE_WIDTH;
+		tmpLineThickness = (int) FacetConstants.LINE_WIDTH_DEFAULT;
 		tmpLineType = LineType.SOLID;
 		tmpFgColor = fgColor;
 		tmpBgColor = bgColor;

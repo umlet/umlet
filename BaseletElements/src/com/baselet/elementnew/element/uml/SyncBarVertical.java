@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import com.baselet.control.FacetConstants;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
@@ -14,7 +15,6 @@ import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
-import com.baselet.elementnew.facet.common.LineWidthFacet;
 import com.baselet.elementnew.settings.Settings;
 import com.baselet.elementnew.settings.SettingsNoText;
 
@@ -38,7 +38,7 @@ public class SyncBarVertical extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
-		if (drawer.getStyle().getLineWidth() == LineWidthFacet.DEFAULT_LINE_WIDTH) {
+		if (drawer.getStyle().getLineWidth() == FacetConstants.LINE_WIDTH_DEFAULT) {
 			drawer.setLineWidth(5);
 		}
 		Dimension s = getRealSize();

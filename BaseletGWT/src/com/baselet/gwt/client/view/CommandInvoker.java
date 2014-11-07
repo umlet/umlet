@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import com.baselet.control.SharedConstants;
-import com.baselet.control.SharedUtils;
 import com.baselet.diagram.Diagram;
 import com.baselet.diagram.commandnew.AddGridElementCommand;
 import com.baselet.diagram.commandnew.CommandTarget;
@@ -13,6 +12,7 @@ import com.baselet.diagram.commandnew.Controller;
 import com.baselet.diagram.commandnew.RemoveGridElementCommand;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
+import com.baselet.element.GridElementUtils;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.element.BrowserStorage;
 import com.baselet.gwt.client.element.ElementFactory;
@@ -73,7 +73,7 @@ public class CommandInvoker extends Controller {
 	}
 
 	void realignElementsToVisibleRect(CommandTarget target, List<GridElement> gridElements) {
-		Rectangle rect = SharedUtils.getGridElementsRectangle(gridElements);
+		Rectangle rect = GridElementUtils.getGridElementsRectangle(gridElements);
 		Rectangle visible = target.getVisibleBounds();
 		for (GridElement ge : gridElements) {
 			ge.getRectangle().move(visible.getX() - rect.getX() + SharedConstants.DEFAULT_GRID_SIZE, visible.getY() - rect.getY() + SharedConstants.DEFAULT_GRID_SIZE);

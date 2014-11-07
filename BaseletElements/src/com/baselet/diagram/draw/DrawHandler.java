@@ -3,6 +3,7 @@ package com.baselet.diagram.draw;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.baselet.control.FacetConstants;
 import com.baselet.control.StringStyle;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.LineType;
@@ -15,8 +16,6 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.diagram.draw.helper.StyleException;
-import com.baselet.elementnew.facet.common.BackgroundColorFacet;
-import com.baselet.elementnew.facet.common.ForegroundColorFacet;
 
 public abstract class DrawHandler {
 
@@ -95,7 +94,7 @@ public abstract class DrawHandler {
 	}
 
 	public final void setForegroundColor(String color) {
-		if (color.equals(ForegroundColorFacet.KEY)) {
+		if (color.equals(FacetConstants.FOREGROUND_COLOR_KEY)) {
 			setForegroundColor(fgDefaultColor);
 		}
 		else {
@@ -113,7 +112,7 @@ public abstract class DrawHandler {
 	}
 
 	public final void setBackgroundColor(String color) {
-		if (color.equals(BackgroundColorFacet.KEY)) {
+		if (color.equals(FacetConstants.BACKGROUND_COLOR_KEY)) {
 			setBackgroundColor(bgDefaultColor);
 		}
 		else {
@@ -131,8 +130,8 @@ public abstract class DrawHandler {
 	}
 
 	public void resetColorSettings() {
-		setForegroundColor(ForegroundColorFacet.KEY);
-		setBackgroundColor(BackgroundColorFacet.KEY);
+		setForegroundColor(FacetConstants.FOREGROUND_COLOR_KEY);
+		setBackgroundColor(FacetConstants.BACKGROUND_COLOR_KEY);
 	}
 
 	public final void setFontSize(double fontSize) {
