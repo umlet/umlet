@@ -12,7 +12,7 @@ import org.vectomatic.file.FileReader;
 import org.vectomatic.file.events.LoadEndEvent;
 import org.vectomatic.file.events.LoadEndHandler;
 
-import com.baselet.gwt.client.DiagramXmlParser;
+import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.view.interfaces.AcceptDiagram;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;

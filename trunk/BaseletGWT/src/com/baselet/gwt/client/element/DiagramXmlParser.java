@@ -1,4 +1,4 @@
-package com.baselet.gwt.client;
+package com.baselet.gwt.client.element;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,7 @@ import com.baselet.diagram.Diagram;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.ElementId;
-import com.baselet.gwt.client.element.ElementFactory;
-import com.baselet.gwt.client.element.DiagramGwt;
+import com.baselet.gwt.client.base.Notification;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.DOMException;

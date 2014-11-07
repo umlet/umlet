@@ -1,4 +1,4 @@
-package com.baselet.gwt.client;
+package com.baselet.gwt.client.base;
 
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.google.gwt.canvas.dom.client.CssColor;

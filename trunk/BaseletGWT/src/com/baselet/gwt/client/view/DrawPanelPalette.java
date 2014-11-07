@@ -12,7 +12,7 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.elementnew.facet.common.GroupFacet;
-import com.baselet.gwt.client.DiagramXmlParser;
+import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactory;
 import com.baselet.gwt.client.view.palettes.Resources;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;

@@ -1,4 +1,4 @@
-package com.baselet.gwt.client;
+package com.baselet.gwt.client.base;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.i18n.client.DateTimeFormat;

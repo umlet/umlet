@@ -3,6 +3,9 @@ package com.baselet.gwt.client;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.SharedConstants;
+import com.baselet.gwt.client.base.Browser;
+import com.baselet.gwt.client.base.Notification;
+import com.baselet.gwt.client.element.BrowserStorage;
 import com.baselet.gwt.client.view.MainView;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;

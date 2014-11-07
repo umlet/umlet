@@ -6,7 +6,7 @@ import com.baselet.diagram.Diagram;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.gwt.client.Converter;
+import com.baselet.gwt.client.base.Converter;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 
