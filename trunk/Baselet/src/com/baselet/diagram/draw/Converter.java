@@ -1,4 +1,4 @@
-package com.baselet.diagram.draw.swing;
+package com.baselet.diagram.draw;
 
 import java.awt.Color;
 

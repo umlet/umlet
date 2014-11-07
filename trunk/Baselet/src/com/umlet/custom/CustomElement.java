@@ -27,9 +27,9 @@ import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
 
