@@ -485,4 +485,9 @@ public abstract class NewGridElement implements GridElement {
 		UndoInformation undoInfoB = undoStack.remove();
 		undoStack.add(undoInfoA.merge(undoInfoB));
 	}
+
+	@Override
+	public boolean isOldAllInOneDiagram() {
+		return false;
+	}
 }

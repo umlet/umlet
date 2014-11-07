@@ -498,4 +498,9 @@ public class ActivityDiagramText extends OldGridElement {
 	public boolean isDeprecated() {
 		return false;
 	}
+
+	@Override
+	public boolean isOldAllInOneDiagram() {
+		return true;
+	}
 }

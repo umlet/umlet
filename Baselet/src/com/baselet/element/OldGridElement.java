@@ -606,4 +606,9 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		undoStack.add(undoInfoA.merge(undoInfoB));
 	}
 
+	@Override
+	public boolean isOldAllInOneDiagram() {
+		return false;
+	}
+
 }
