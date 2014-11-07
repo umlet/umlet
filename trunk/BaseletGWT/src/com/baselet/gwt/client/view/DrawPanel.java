@@ -13,6 +13,7 @@ import com.baselet.control.MenuConstants;
 import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
+import com.baselet.diagram.Diagram;
 import com.baselet.diagram.commandnew.CommandTarget;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
@@ -21,11 +22,11 @@ import com.baselet.element.Selector;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.Utils;
-import com.baselet.gwt.client.element.GwtDiagram;
+import com.baselet.gwt.client.element.DiagramGwt;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.EventHandlingUtils.EventHandlingTarget;
-import com.baselet.gwt.client.view.panel.wrapper.HasScrollPanel;
-import com.baselet.gwt.client.view.panel.wrapper.AutoresizeScrollDropTarget;
+import com.baselet.gwt.client.view.interfaces.AutoresizeScrollDropTarget;
+import com.baselet.gwt.client.view.interfaces.HasScrollPanel;
 import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
@@ -45,7 +46,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public abstract class DrawPanel extends SimplePanel implements CommandTarget, HasMouseOutHandlers, HasMouseOverHandlers, EventHandlingTarget, AutoresizeScrollDropTarget {
 
-	private GwtDiagram diagram = new GwtDiagram(new ArrayList<GridElement>());
+	private Diagram diagram = new DiagramGwt(new ArrayList<GridElement>());
 
 	protected DrawCanvas canvas = new DrawCanvas();
 
@@ -249,7 +250,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	}
 
 	@Override
-	public void setDiagram(GwtDiagram diagram) {
+	public void setDiagram(Diagram diagram) {
 		this.diagram = diagram;
 		selector.setGridElementProvider(diagram);
 		selector.deselectAll(); // necessary to trigger setting helptext to properties
@@ -269,7 +270,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	}
 
 	@Override
-	public GwtDiagram getDiagram() {
+	public Diagram getDiagram() {
 		return diagram;
 	}
 

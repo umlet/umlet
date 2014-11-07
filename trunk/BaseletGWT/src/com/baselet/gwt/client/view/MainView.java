@@ -4,8 +4,8 @@ import org.apache.log4j.Logger;
 import org.vectomatic.file.FileUploadExt;
 
 import com.baselet.gwt.client.BrowserStorage;
-import com.baselet.gwt.client.Notification;
 import com.baselet.gwt.client.DiagramXmlParser;
+import com.baselet.gwt.client.Notification;
 import com.baselet.gwt.client.view.panel.wrapper.AutoResizeScrollDropPanel;
 import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox;
