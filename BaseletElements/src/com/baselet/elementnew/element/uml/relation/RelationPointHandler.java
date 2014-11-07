@@ -14,13 +14,10 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.PointDoubleIndexed;
+import com.baselet.elementnew.facet.relation.RelationPointConstants;
 import com.baselet.elementnew.facet.relation.ResizableObject;
 
 public class RelationPointHandler implements ResizableObject {
-
-	public static final int DRAG_BOX_SIZE = 10; // size of the box to drag the whole relation
-	public static final int POINT_SELECTION_RADIUS = 10; // radius of the selection circle of relation-points
-	public static final int NEW_POINT_DISTANCE = 7; // distance from which new points can be dragged away from a relation-line
 
 	/**
 	 * Points of this relation (point of origin is the upper left corner of the relation element (not the drawpanel!))
@@ -95,7 +92,7 @@ public class RelationPointHandler implements ResizableObject {
 	private Line getLineContaining(Point point) {
 		for (Line line : points.getRelationPointLines()) {
 			double distanceToPoint = line.getDistanceToPoint(point.toPointDouble());
-			if (distanceToPoint < NEW_POINT_DISTANCE) {
+			if (distanceToPoint < RelationPointConstants.NEW_POINT_DISTANCE) {
 				return line;
 			}
 		}
@@ -157,7 +154,7 @@ public class RelationPointHandler implements ResizableObject {
 
 	public void drawCirclesAndDragBox(DrawHandler drawer) {
 		for (RelationPoint p : points.getPointHolders()) {
-			drawer.drawCircle(p.getPoint().getX(), p.getPoint().getY(), POINT_SELECTION_RADIUS);
+			drawer.drawCircle(p.getPoint().getX(), p.getPoint().getY(), RelationPointConstants.POINT_SELECTION_RADIUS);
 		}
 		drawer.drawRectangle(getDragBox());
 	}

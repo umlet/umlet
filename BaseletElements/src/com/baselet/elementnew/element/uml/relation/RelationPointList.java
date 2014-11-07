@@ -18,6 +18,7 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.PointDoubleIndexed;
+import com.baselet.elementnew.facet.relation.RelationPointConstants;
 
 public class RelationPointList {
 	List<RelationPoint> points = new ArrayList<RelationPoint>();
@@ -158,7 +159,7 @@ public class RelationPointList {
 		PointDoubleIndexed begin = points.get(points.size() / 2).getPoint();
 		PointDoubleIndexed end = points.get(points.size() / 2 - 1).getPoint();
 		PointDouble center = new Line(begin, end).getCenter();
-		Rectangle rectangle = RelationPointHandlerUtils.toRectangle(center, RelationPointHandler.DRAG_BOX_SIZE / 2);
+		Rectangle rectangle = RelationPointHandlerUtils.toRectangle(center, RelationPointConstants.DRAG_BOX_SIZE / 2);
 		return rectangle;
 	}
 
