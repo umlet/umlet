@@ -12,16 +12,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-import org.apache.log4j.Logger;
-import org.eclipse.core.runtime.FileLocator;
-
-import com.baselet.control.SharedConstants.Program;
-import com.baselet.control.SharedConstants.RuntimeType;
-import com.baselet.plugin.MainPlugin;
-
 public class Path {
-
-	private static final Logger log = Logger.getLogger(Path.class);
 
 	private static String tempDir;
 	private static String homeProgramDir;
@@ -75,30 +66,11 @@ public class Path {
 	 * ECLIPSE JAR: <eclipsepath>/<configuration>/<dirToStoreCustomStuff>
 	 */
 	public static String homeProgram() {
-		if (homeProgramDir == null) {
-			if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) {
-				String path = null;
-				try {
-					URL homeURL = MainPlugin.getURL();
-					path = FileLocator.toFileURL(homeURL).toString().substring("file:/".length());
-					if (File.separator.equals("/")) {
-						path = "/" + path;
-					}
-				} catch (IOException e) {
-					log.error("Cannot find location of Eclipse Plugin jar", e);
-				}
-				homeProgramDir = path;
-			}
-			else {
-				String tempPath, realPath;
-				tempPath = Path.executable();
-				tempPath = tempPath.substring(0, tempPath.length() - 1);
-				tempPath = tempPath.substring(0, tempPath.lastIndexOf('/') + 1);
-				realPath = new File(tempPath).getAbsolutePath() + "/";
-				homeProgramDir = realPath;
-			}
-		}
 		return homeProgramDir;
+	}
+
+	public static void setHomeProgram(String homeProgramDir) {
+		Path.homeProgramDir = homeProgramDir;
 	}
 
 	/**

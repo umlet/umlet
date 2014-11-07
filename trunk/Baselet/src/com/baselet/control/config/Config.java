@@ -1,12 +1,13 @@
-package com.baselet.control;
+package com.baselet.control.config;
 
 import java.io.File;
 
 import javax.swing.UIManager;
 
+import com.baselet.control.Constants;
 import com.baselet.control.Constants.Os;
 import com.baselet.control.Constants.SystemInfo;
-import com.baselet.control.SharedConstants.Program;
+import com.baselet.control.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
 
 /**

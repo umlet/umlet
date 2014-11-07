@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.control.Constants;
+import com.baselet.control.config.ConfigConst;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler;
@@ -13,6 +13,9 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.base.ElementId;
 import com.umlet.elementnew.ElementFactory;
+import com.umlet.language.enums.FieldOptions;
+import com.umlet.language.enums.MethodOptions;
+import com.umlet.language.enums.SignatureOptions;
 import com.umlet.language.java.Accessible.AccessFlag;
 import com.umlet.language.java.Field;
 import com.umlet.language.java.JavaClass;
@@ -55,7 +58,7 @@ public class ClassDiagramConverter {
 			}
 		}
 
-		switch (Constants.generateClassSortings) {
+		switch (ConfigConst.generateClassSortings) {
 			case PACKAGE:
 				new PackageLayout().layout(elements);
 				break;
@@ -147,10 +150,10 @@ public class ClassDiagramConverter {
 
 	private String createMethodSection(JavaClass parsedClass, String attributes) {
 		for (Method method : parsedClass.getMethods()) {
-			if (Constants.generateClassMethods == MethodOptions.PUBLIC && method.getAccess() == AccessFlag.PUBLIC) {
+			if (ConfigConst.generateClassMethods == MethodOptions.PUBLIC && method.getAccess() == AccessFlag.PUBLIC) {
 				attributes += getMethodString(method);
 			}
-			else if (Constants.generateClassMethods == MethodOptions.ALL) {
+			else if (ConfigConst.generateClassMethods == MethodOptions.ALL) {
 				attributes += getMethodString(method);
 			}
 		}
@@ -158,10 +161,10 @@ public class ClassDiagramConverter {
 	}
 
 	private String getMethodString(Method method) {
-		if (Constants.generateClassSignatures == SignatureOptions.PARAMS_ONLY) {
+		if (ConfigConst.generateClassSignatures == SignatureOptions.PARAMS_ONLY) {
 			return method.getAccess() + method.getName() + "(" + method.getSignature() + ")\n";
 		}
-		else if (Constants.generateClassSignatures == SignatureOptions.RETURN_ONLY) {
+		else if (ConfigConst.generateClassSignatures == SignatureOptions.RETURN_ONLY) {
 			return method.getAccess() + method.getName() + ": " + method.getReturnType() + "\n";
 		}
 		else {
@@ -171,10 +174,10 @@ public class ClassDiagramConverter {
 
 	private String createFieldSection(JavaClass parsedClass, String attributes) {
 		for (Field field : parsedClass.getFields()) {
-			if (Constants.generateClassFields == FieldOptions.PUBLIC && field.getAccess() == AccessFlag.PUBLIC) {
+			if (ConfigConst.generateClassFields == FieldOptions.PUBLIC && field.getAccess() == AccessFlag.PUBLIC) {
 				attributes += field.getAccess() + field.getName() + ": " + field.getType() + "\n";
 			}
-			else if (Constants.generateClassFields == FieldOptions.ALL) {
+			else if (ConfigConst.generateClassFields == FieldOptions.ALL) {
 				attributes += field.getAccess() + field.getName() + ": " + field.getType() + "\n";
 			}
 		}
@@ -198,7 +201,7 @@ public class ClassDiagramConverter {
 
 	public static String getClassName(JavaClass parsedClass) {
 		String result = "";
-		if (Constants.generateClassPackage) {
+		if (ConfigConst.generateClassPackage) {
 			result += parsedClass.getPackage() + "::";
 		}
 		result += parsedClass.getName();

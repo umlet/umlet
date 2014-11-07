@@ -21,12 +21,12 @@ import javax.swing.JEditorPane;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Constants;
+import com.baselet.control.Path;
 import com.baselet.control.Constants.Metakey;
 import com.baselet.control.Constants.SystemInfo;
-import com.baselet.control.Path;
-import com.baselet.control.SharedConstants.Program;
+import com.baselet.control.Program;
 import com.baselet.control.Utils;
+import com.baselet.control.config.ConfigConst;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.gui.listener.HyperLinkActiveListener;
 
@@ -67,7 +67,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 	}
 
 	private void startUpdatechecker() {
-		if (Constants.checkForUpdates && updateChecker == null) {
+		if (ConfigConst.checkForUpdates && updateChecker == null) {
 			updateChecker = new Thread(new Updater(), "Update Checker");
 			updateChecker.start();
 		}

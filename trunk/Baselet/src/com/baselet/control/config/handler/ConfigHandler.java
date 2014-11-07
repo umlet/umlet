@@ -1,4 +1,4 @@
-package com.baselet.control;
+package com.baselet.control.config.handler;
 
 import java.awt.Frame;
 import java.awt.Point;
@@ -8,14 +8,19 @@ import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.Properties;
 
-import com.baselet.control.SharedConstants.Program;
+import com.baselet.control.Constants;
+import com.baselet.control.Path;
+import com.baselet.control.Program;
+import com.baselet.control.SharedConstants;
+import com.baselet.control.config.Config;
+import com.baselet.control.config.ConfigConst;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.standalone.StandaloneGUI;
-import com.umlet.language.FieldOptions;
-import com.umlet.language.MethodOptions;
-import com.umlet.language.SignatureOptions;
-import com.umlet.language.sorting.SortOptions;
+import com.umlet.language.enums.FieldOptions;
+import com.umlet.language.enums.MethodOptions;
+import com.umlet.language.enums.SignatureOptions;
+import com.umlet.language.enums.SortOptions;
 
 public class ConfigHandler {
 
@@ -83,29 +88,29 @@ public class ConfigHandler {
 		}
 
 		cfg.setProgramVersion(getStringProperty(PROGRAM_VERSION, Program.VERSION));
-		Constants.defaultFontsize = getIntProperty(DEFAULT_FONTSIZE, Constants.defaultFontsize);
+		ConfigConst.defaultFontsize = getIntProperty(DEFAULT_FONTSIZE, ConfigConst.defaultFontsize);
 		Constants.propertiesPanelFontsize = getIntProperty(PROPERTIES_PANEL_FONTSIZE, Constants.propertiesPanelFontsize);
-		Constants.defaultFontFamily = getStringProperty(DEFAULT_FONTFAMILY, Constants.defaultFontFamily);
+		ConfigConst.defaultFontFamily = getStringProperty(DEFAULT_FONTFAMILY, ConfigConst.defaultFontFamily);
 		SharedConstants.show_stickingpolygon = getBoolProperty(SHOW_STICKINGPOLYGON, SharedConstants.show_stickingpolygon);
-		Constants.show_grid = getBoolProperty(SHOW_GRID, Constants.show_grid);
-		Constants.enable_custom_elements = getBoolProperty(ENABLE_CUSTOM_ELEMENTS, Constants.enable_custom_elements);
+		ConfigConst.show_grid = getBoolProperty(SHOW_GRID, ConfigConst.show_grid);
+		ConfigConst.enable_custom_elements = getBoolProperty(ENABLE_CUSTOM_ELEMENTS, ConfigConst.enable_custom_elements);
 		cfg.setUiManager(getStringProperty(UI_MANAGER, cfg.getUiManager()));
-		Constants.printPadding = getIntProperty(PRINT_PADDING, Constants.printPadding);
-		Constants.pdfExportFont = getStringProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
-		Constants.checkForUpdates = getBoolProperty(CHECK_FOR_UPDATES, Constants.checkForUpdates);
+		ConfigConst.printPadding = getIntProperty(PRINT_PADDING, ConfigConst.printPadding);
+		ConfigConst.pdfExportFont = getStringProperty(PDF_EXPORT_FONT, ConfigConst.pdfExportFont);
+		ConfigConst.checkForUpdates = getBoolProperty(CHECK_FOR_UPDATES, ConfigConst.checkForUpdates);
 		cfg.setOpenFileHome(getStringProperty(OPEN_FILE_HOME, cfg.getOpenFileHome()));
 		cfg.setSaveFileHome(getStringProperty(SAVE_FILE_HOME, cfg.getSaveFileHome()));
 		SharedConstants.dev_mode = getBoolProperty(DEV_MODE, SharedConstants.dev_mode);
-		Constants.lastUsedPalette = getStringProperty(LAST_USED_PALETTE, null);
-		Constants.main_split_position = getIntProperty(MAIN_SPLIT_POSITION, Constants.main_split_position);
-		Constants.right_split_position = getIntProperty(RIGHT_SPLIT_POSITION, Constants.right_split_position);
-		Constants.mail_split_position = getIntProperty(MAIL_SPLIT_POSITION, Constants.mail_split_position);
-		Constants.start_maximized = getBoolProperty(START_MAXIMIZED, Constants.start_maximized);
+		ConfigConst.lastUsedPalette = getStringProperty(LAST_USED_PALETTE, null);
+		ConfigConst.main_split_position = getIntProperty(MAIN_SPLIT_POSITION, ConfigConst.main_split_position);
+		ConfigConst.right_split_position = getIntProperty(RIGHT_SPLIT_POSITION, ConfigConst.right_split_position);
+		ConfigConst.mail_split_position = getIntProperty(MAIL_SPLIT_POSITION, ConfigConst.mail_split_position);
+		ConfigConst.start_maximized = getBoolProperty(START_MAXIMIZED, ConfigConst.start_maximized);
 
 		// In case of start_maximized=true we don't store any size or location information
-		if (!Constants.start_maximized) {
-			Constants.program_size = getDimensionProperty(PROGRAM_SIZE, Constants.program_size);
-			Constants.program_location = getPointProperty(PROGRAM_LOCATION, Constants.program_location);
+		if (!ConfigConst.start_maximized) {
+			ConfigConst.program_size = getDimensionProperty(PROGRAM_SIZE, ConfigConst.program_size);
+			ConfigConst.program_location = getPointProperty(PROGRAM_LOCATION, ConfigConst.program_location);
 		}
 
 		String recentFiles = props.getProperty(RECENT_FILES);
@@ -114,25 +119,25 @@ public class ConfigHandler {
 		}
 
 		/* Mail */
-		Constants.mail_smtp = getStringProperty(MAIL_SMTP, Constants.mail_smtp);
-		Constants.mail_smtp_auth = getBoolProperty(MAIL_SMTP_AUTH, Constants.mail_smtp_auth);
-		Constants.mail_smtp_user = getStringProperty(MAIL_SMTP_USER, Constants.mail_smtp_user);
-		Constants.mail_smtp_pw_store = getBoolProperty(MAIL_SMTP_PW_STORE, Constants.mail_smtp_pw_store);
-		Constants.mail_smtp_pw = getStringProperty(MAIL_SMTP_PW, Constants.mail_smtp_pw);
-		Constants.mail_from = getStringProperty(MAIL_FROM, Constants.mail_from);
-		Constants.mail_to = getStringProperty(MAIL_TO, Constants.mail_to);
-		Constants.mail_cc = getStringProperty(MAIL_CC, Constants.mail_cc);
-		Constants.mail_bcc = getStringProperty(MAIL_BCC, Constants.mail_bcc);
-		Constants.mail_xml = getBoolProperty(MAIL_XML, Constants.mail_xml);
-		Constants.mail_gif = getBoolProperty(MAIL_GIF, Constants.mail_gif);
-		Constants.mail_pdf = getBoolProperty(MAIL_PDF, Constants.mail_pdf);
+		ConfigConst.mail_smtp = getStringProperty(MAIL_SMTP, ConfigConst.mail_smtp);
+		ConfigConst.mail_smtp_auth = getBoolProperty(MAIL_SMTP_AUTH, ConfigConst.mail_smtp_auth);
+		ConfigConst.mail_smtp_user = getStringProperty(MAIL_SMTP_USER, ConfigConst.mail_smtp_user);
+		ConfigConst.mail_smtp_pw_store = getBoolProperty(MAIL_SMTP_PW_STORE, ConfigConst.mail_smtp_pw_store);
+		ConfigConst.mail_smtp_pw = getStringProperty(MAIL_SMTP_PW, ConfigConst.mail_smtp_pw);
+		ConfigConst.mail_from = getStringProperty(MAIL_FROM, ConfigConst.mail_from);
+		ConfigConst.mail_to = getStringProperty(MAIL_TO, ConfigConst.mail_to);
+		ConfigConst.mail_cc = getStringProperty(MAIL_CC, ConfigConst.mail_cc);
+		ConfigConst.mail_bcc = getStringProperty(MAIL_BCC, ConfigConst.mail_bcc);
+		ConfigConst.mail_xml = getBoolProperty(MAIL_XML, ConfigConst.mail_xml);
+		ConfigConst.mail_gif = getBoolProperty(MAIL_GIF, ConfigConst.mail_gif);
+		ConfigConst.mail_pdf = getBoolProperty(MAIL_PDF, ConfigConst.mail_pdf);
 
 		/* Generate Class Element Options */
-		Constants.generateClassPackage = getBoolProperty(GENERATE_CLASS_PACKAGE, Constants.generateClassPackage);
-		Constants.generateClassFields = FieldOptions.getEnum(getStringProperty(GENERATE_CLASS_FIELDS, Constants.generateClassFields.toString()));
-		Constants.generateClassMethods = MethodOptions.getEnum(getStringProperty(GENERATE_CLASS_METHODS, Constants.generateClassMethods.toString()));
-		Constants.generateClassSignatures = SignatureOptions.getEnum(getStringProperty(GENERATE_CLASS_SIGNATURES, Constants.generateClassSignatures.toString()));
-		Constants.generateClassSortings = SortOptions.getEnum(getStringProperty(GENERATE_CLASS_SORTINGS, Constants.generateClassSortings.toString()));
+		ConfigConst.generateClassPackage = getBoolProperty(GENERATE_CLASS_PACKAGE, ConfigConst.generateClassPackage);
+		ConfigConst.generateClassFields = FieldOptions.getEnum(getStringProperty(GENERATE_CLASS_FIELDS, ConfigConst.generateClassFields.toString()));
+		ConfigConst.generateClassMethods = MethodOptions.getEnum(getStringProperty(GENERATE_CLASS_METHODS, ConfigConst.generateClassMethods.toString()));
+		ConfigConst.generateClassSignatures = SignatureOptions.getEnum(getStringProperty(GENERATE_CLASS_SIGNATURES, ConfigConst.generateClassSignatures.toString()));
+		ConfigConst.generateClassSortings = SortOptions.getEnum(getStringProperty(GENERATE_CLASS_SORTINGS, ConfigConst.generateClassSortings.toString()));
 	}
 
 	public static void saveConfig(BaseGUI gui) {
@@ -148,20 +153,20 @@ public class ConfigHandler {
 			Properties props = new Properties();
 
 			props.setProperty(PROGRAM_VERSION, Program.VERSION);
-			props.setProperty(DEFAULT_FONTSIZE, Integer.toString(Constants.defaultFontsize));
+			props.setProperty(DEFAULT_FONTSIZE, Integer.toString(ConfigConst.defaultFontsize));
 			props.setProperty(PROPERTIES_PANEL_FONTSIZE, Integer.toString(Constants.propertiesPanelFontsize));
-			props.setProperty(DEFAULT_FONTFAMILY, Constants.defaultFontFamily);
+			props.setProperty(DEFAULT_FONTFAMILY, ConfigConst.defaultFontFamily);
 			props.setProperty(SHOW_STICKINGPOLYGON, Boolean.toString(SharedConstants.show_stickingpolygon));
-			props.setProperty(SHOW_GRID, Boolean.toString(Constants.show_grid));
-			props.setProperty(ENABLE_CUSTOM_ELEMENTS, Boolean.toString(Constants.enable_custom_elements));
+			props.setProperty(SHOW_GRID, Boolean.toString(ConfigConst.show_grid));
+			props.setProperty(ENABLE_CUSTOM_ELEMENTS, Boolean.toString(ConfigConst.enable_custom_elements));
 			props.setProperty(UI_MANAGER, cfg.getUiManager());
-			props.setProperty(PRINT_PADDING, Integer.toString(Constants.printPadding));
-			props.setProperty(PDF_EXPORT_FONT, Constants.pdfExportFont);
-			props.setProperty(CHECK_FOR_UPDATES, Boolean.toString(Constants.checkForUpdates));
+			props.setProperty(PRINT_PADDING, Integer.toString(ConfigConst.printPadding));
+			props.setProperty(PDF_EXPORT_FONT, ConfigConst.pdfExportFont);
+			props.setProperty(CHECK_FOR_UPDATES, Boolean.toString(ConfigConst.checkForUpdates));
 			props.setProperty(OPEN_FILE_HOME, cfg.getOpenFileHome());
 			props.setProperty(SAVE_FILE_HOME, cfg.getSaveFileHome());
 			props.setProperty(DEV_MODE, Boolean.toString(SharedConstants.dev_mode));
-			props.setProperty(LAST_USED_PALETTE, Constants.lastUsedPalette);
+			props.setProperty(LAST_USED_PALETTE, ConfigConst.lastUsedPalette);
 
 			props.setProperty(MAIN_SPLIT_POSITION, Integer.toString(gui.getMainSplitPosition()));
 			props.setProperty(RIGHT_SPLIT_POSITION, Integer.toString(gui.getRightSplitPosition()));
@@ -188,39 +193,39 @@ public class ConfigHandler {
 			}
 
 			/* MAIL */
-			if (!!Constants.mail_smtp.isEmpty()) {
-				props.setProperty(MAIL_SMTP, Constants.mail_smtp);
+			if (!!ConfigConst.mail_smtp.isEmpty()) {
+				props.setProperty(MAIL_SMTP, ConfigConst.mail_smtp);
 			}
-			props.setProperty(MAIL_SMTP_AUTH, Boolean.toString(Constants.mail_smtp_auth));
-			if (!Constants.mail_smtp_user.isEmpty()) {
-				props.setProperty(MAIL_SMTP_USER, Constants.mail_smtp_user);
+			props.setProperty(MAIL_SMTP_AUTH, Boolean.toString(ConfigConst.mail_smtp_auth));
+			if (!ConfigConst.mail_smtp_user.isEmpty()) {
+				props.setProperty(MAIL_SMTP_USER, ConfigConst.mail_smtp_user);
 			}
-			props.setProperty(MAIL_SMTP_PW_STORE, Boolean.toString(Constants.mail_smtp_pw_store));
-			if (!Constants.mail_smtp_pw.isEmpty()) {
-				props.setProperty(MAIL_SMTP_PW, Constants.mail_smtp_pw);
+			props.setProperty(MAIL_SMTP_PW_STORE, Boolean.toString(ConfigConst.mail_smtp_pw_store));
+			if (!ConfigConst.mail_smtp_pw.isEmpty()) {
+				props.setProperty(MAIL_SMTP_PW, ConfigConst.mail_smtp_pw);
 			}
-			if (!Constants.mail_from.isEmpty()) {
-				props.setProperty(MAIL_FROM, Constants.mail_from);
+			if (!ConfigConst.mail_from.isEmpty()) {
+				props.setProperty(MAIL_FROM, ConfigConst.mail_from);
 			}
-			if (!Constants.mail_to.isEmpty()) {
-				props.setProperty(MAIL_TO, Constants.mail_to);
+			if (!ConfigConst.mail_to.isEmpty()) {
+				props.setProperty(MAIL_TO, ConfigConst.mail_to);
 			}
-			if (!Constants.mail_cc.isEmpty()) {
-				props.setProperty(MAIL_CC, Constants.mail_cc);
+			if (!ConfigConst.mail_cc.isEmpty()) {
+				props.setProperty(MAIL_CC, ConfigConst.mail_cc);
 			}
-			if (!Constants.mail_bcc.isEmpty()) {
-				props.setProperty(MAIL_BCC, Constants.mail_bcc);
+			if (!ConfigConst.mail_bcc.isEmpty()) {
+				props.setProperty(MAIL_BCC, ConfigConst.mail_bcc);
 			}
-			props.setProperty(MAIL_XML, Boolean.toString(Constants.mail_xml));
-			props.setProperty(MAIL_GIF, Boolean.toString(Constants.mail_gif));
-			props.setProperty(MAIL_PDF, Boolean.toString(Constants.mail_pdf));
+			props.setProperty(MAIL_XML, Boolean.toString(ConfigConst.mail_xml));
+			props.setProperty(MAIL_GIF, Boolean.toString(ConfigConst.mail_gif));
+			props.setProperty(MAIL_PDF, Boolean.toString(ConfigConst.mail_pdf));
 
 			/* Generate Class Element Options */
-			props.setProperty(GENERATE_CLASS_PACKAGE, Boolean.toString(Constants.generateClassPackage));
-			props.setProperty(GENERATE_CLASS_FIELDS, Constants.generateClassFields.toString());
-			props.setProperty(GENERATE_CLASS_METHODS, Constants.generateClassMethods.toString());
-			props.setProperty(GENERATE_CLASS_SIGNATURES, Constants.generateClassSignatures.toString());
-			props.setProperty(GENERATE_CLASS_SORTINGS, Constants.generateClassSortings.toString());
+			props.setProperty(GENERATE_CLASS_PACKAGE, Boolean.toString(ConfigConst.generateClassPackage));
+			props.setProperty(GENERATE_CLASS_FIELDS, ConfigConst.generateClassFields.toString());
+			props.setProperty(GENERATE_CLASS_METHODS, ConfigConst.generateClassMethods.toString());
+			props.setProperty(GENERATE_CLASS_SIGNATURES, ConfigConst.generateClassSignatures.toString());
+			props.setProperty(GENERATE_CLASS_SORTINGS, ConfigConst.generateClassSortings.toString());
 
 			FileOutputStream outStream = new FileOutputStream(configfile);
 			try {

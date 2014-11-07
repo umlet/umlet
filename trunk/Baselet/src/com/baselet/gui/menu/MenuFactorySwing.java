@@ -51,9 +51,9 @@ import javax.swing.KeyStroke;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Constants.Os;
 import com.baselet.control.Constants.SystemInfo;
+import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.gui.PlainColorIcon;

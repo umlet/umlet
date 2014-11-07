@@ -1,4 +1,4 @@
-package com.umlet.language;
+package com.umlet.language.enums;
 
 public enum FieldOptions {
 	ALL("all"), NONE("none"), PUBLIC("public only");

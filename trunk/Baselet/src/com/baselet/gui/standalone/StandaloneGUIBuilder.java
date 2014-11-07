@@ -27,7 +27,8 @@ import javax.swing.WindowConstants;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Path;
-import com.baselet.control.SharedConstants.Program;
+import com.baselet.control.Program;
+import com.baselet.control.config.ConfigConst;
 import com.baselet.gui.BaseGUIBuilder;
 import com.baselet.gui.listener.GUIListener;
 
@@ -62,12 +63,12 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		mainFrame.addKeyListener(new SearchKeyListener());
 		mainFrame.addWindowListener(new WindowListener());
 		mainFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		mainFrame.setBounds(Constants.program_location.x, Constants.program_location.y, Constants.program_size.width, Constants.program_size.height);
+		mainFrame.setBounds(ConfigConst.program_location.x, ConfigConst.program_location.y, ConfigConst.program_size.width, ConfigConst.program_size.height);
 		mainFrame.setTitle(Program.NAME + " - Free UML Tool for Fast UML Diagrams");
 
 		setImage(mainFrame);
 
-		if (Constants.start_maximized) {
+		if (ConfigConst.start_maximized) {
 			// If Main starts maximized we set fixed bounds and must set the frame visible
 			// now to avoid a bug where the right sidebar doesn't have the correct size
 			mainFrame.setExtendedState(mainFrame.getExtendedState() | Frame.MAXIMIZED_BOTH);
@@ -77,7 +78,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		mainFrame.setJMenuBar(menuBuilder.createMenu(createSearchPanel(), createZoomPanel(), createMailButton()));
 
 		JPanel diagramTabPanel = createDiagramTabPanel();
-		int mainDividerLoc = Math.min(mainFrame.getSize().width - Constants.MIN_MAIN_SPLITPANEL_SIZE, Constants.main_split_position);
+		int mainDividerLoc = Math.min(mainFrame.getSize().width - Constants.MIN_MAIN_SPLITPANEL_SIZE, ConfigConst.main_split_position);
 		JSplitPane baseSplitPane = initBase(diagramTabPanel, mainDividerLoc);
 		mainFrame.add(baseSplitPane);
 

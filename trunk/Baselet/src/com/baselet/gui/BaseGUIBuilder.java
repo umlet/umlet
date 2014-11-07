@@ -11,10 +11,11 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
-import com.baselet.control.Config;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
-import com.baselet.control.SharedConstants.Program;
+import com.baselet.control.Program;
+import com.baselet.control.config.Config;
+import com.baselet.control.config.ConfigConst;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.gui.listener.DividerListener;
@@ -41,7 +42,7 @@ public abstract class BaseGUIBuilder {
 	protected JSplitPane initBase(Component mainComponent, final int mainDividerLoc) {
 		propertyTextPane = createPropertyTextPane(); // must be initialized before palettePanel because it could be accessed during palette initialization (eg in case of different default fontsize)
 		palettePanel = newPalettePanel();
-		rightSplit = newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, palettePanel, propertyTextPane.getPanel(), 2, Constants.right_split_position, true);
+		rightSplit = newGenericSplitPane(JSplitPane.VERTICAL_SPLIT, palettePanel, propertyTextPane.getPanel(), 2, ConfigConst.right_split_position, true);
 		rightPanel = newRightPanel();
 
 		mainSplit = newGenericSplitPane(JSplitPane.HORIZONTAL_SPLIT, mainComponent, rightPanel, 2, mainDividerLoc, true);
@@ -152,7 +153,7 @@ public abstract class BaseGUIBuilder {
 
 		// only set last used palette if the program version has not changed (if the version is not equal or the lastUsedPalette String is invalid it will simply stay at index 0)
 		if (Program.VERSION.equals(Config.getInstance().getProgramVersion())) {
-			paletteList.setSelectedItem(Constants.lastUsedPalette);
+			paletteList.setSelectedItem(ConfigConst.lastUsedPalette);
 		}
 	}
 
@@ -171,7 +172,7 @@ public abstract class BaseGUIBuilder {
 	public void setMailPanelEnabled(boolean enable) {
 		getMailPanel().setVisible(enable);
 		if (enable) {
-			int mailDividerLoc = Math.max(Constants.MIN_MAIL_SPLITPANEL_SIZE, Constants.mail_split_position);
+			int mailDividerLoc = Math.max(Constants.MIN_MAIL_SPLITPANEL_SIZE, ConfigConst.mail_split_position);
 			mailSplit.setDividerLocation(mailDividerLoc);
 			mailSplit.setDividerSize(2);
 		}

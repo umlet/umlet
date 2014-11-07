@@ -9,7 +9,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
-import com.baselet.control.Config;
+import com.baselet.control.config.Config;
 import com.baselet.gui.CurrentGui;
 
 public class ClassChooser {

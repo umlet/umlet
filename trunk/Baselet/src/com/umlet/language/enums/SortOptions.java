@@ -1,4 +1,4 @@
-package com.umlet.language.sorting;
+package com.umlet.language.enums;
 
 public enum SortOptions {
 	HEIGHT("by size"), PACKAGE("by package"), ALPHABET("alphabetically"), RELATIONS("with relations");

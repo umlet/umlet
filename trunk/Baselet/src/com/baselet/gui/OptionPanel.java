@@ -20,12 +20,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import com.baselet.control.Config;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
+import com.baselet.control.Program;
 import com.baselet.control.SharedConstants;
-import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
+import com.baselet.control.config.Config;
+import com.baselet.control.config.ConfigConst;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.standalone.StandaloneGUI;
 
@@ -118,14 +119,14 @@ public class OptionPanel extends JPanel implements ActionListener {
 
 	public void showOptionPanel() {
 		show_stickingpolygon.setSelected(SharedConstants.show_stickingpolygon);
-		show_grid.setSelected(Constants.show_grid);
-		enable_custom_elements.setSelected(Constants.enable_custom_elements);
-		checkForUpdates.setSelected(Constants.checkForUpdates);
+		show_grid.setSelected(ConfigConst.show_grid);
+		enable_custom_elements.setSelected(ConfigConst.enable_custom_elements);
+		checkForUpdates.setSelected(ConfigConst.checkForUpdates);
 		developerMode.setSelected(SharedConstants.dev_mode);
 		ui_manager.setSelectedIndex(uis_technicalNames.indexOf(Config.getInstance().getUiManager()));
-		default_fontsize.setSelectedItem(Constants.defaultFontsize);
+		default_fontsize.setSelectedItem(ConfigConst.defaultFontsize);
 		propertiesPanelFontsize.setSelectedItem(Constants.propertiesPanelFontsize);
-		default_fontfamily.setSelectedItem(Constants.defaultFontFamily);
+		default_fontfamily.setSelectedItem(ConfigConst.defaultFontFamily);
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -147,11 +148,11 @@ public class OptionPanel extends JPanel implements ActionListener {
 
 		if (ae.getActionCommand().equals("Ok")) {
 			SharedConstants.show_stickingpolygon = show_stickingpolygon.isSelected();
-			Constants.show_grid = show_grid.isSelected();
-			Constants.enable_custom_elements = enable_custom_elements.isSelected();
-			Constants.checkForUpdates = checkForUpdates.isSelected();
+			ConfigConst.show_grid = show_grid.isSelected();
+			ConfigConst.enable_custom_elements = enable_custom_elements.isSelected();
+			ConfigConst.checkForUpdates = checkForUpdates.isSelected();
 			SharedConstants.dev_mode = developerMode.isSelected();
-			Constants.defaultFontsize = (Integer) default_fontsize.getSelectedItem();
+			ConfigConst.defaultFontsize = (Integer) default_fontsize.getSelectedItem();
 
 			String newui = uis_technicalNames.get(ui_manager.getSelectedIndex());
 			// only set look and feel if it has changed, because it messes up frame-size
@@ -181,7 +182,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 			Constants.propertiesPanelFontsize = (Integer) propertiesPanelFontsize.getSelectedItem();
 
 			String newfamily = (String) default_fontfamily.getSelectedItem();
-			Constants.defaultFontFamily = newfamily;
+			ConfigConst.defaultFontFamily = newfamily;
 		}
 	}
 }

@@ -32,10 +32,10 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.baselet.control.Config;
 import com.baselet.control.Constants;
 import com.baselet.control.Path;
-import com.baselet.control.SharedConstants.Program;
+import com.baselet.control.Program;
+import com.baselet.control.config.Config;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.Notifier;
