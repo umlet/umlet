@@ -25,6 +25,7 @@ import com.umlet.gui.CustomElementPanel;
 public abstract class BaseGUIBuilder {
 
 	private JPanel palettePanel;
+	private CardLayout palettePanelLayout;
 	private JSplitPane rightSplit;
 	private JComboBox paletteList;
 
@@ -99,7 +100,8 @@ public abstract class BaseGUIBuilder {
 	}
 
 	public JPanel newPalettePanel() {
-		JPanel palettePanel = new JPanel(new CardLayout());
+		palettePanelLayout = new CardLayout();
+		JPanel palettePanel = new JPanel(palettePanelLayout);
 		palettePanel.addComponentListener(new DividerListener()); // Adding the DividerListener which refreshes Scrollbars here is enough for all dividers
 		for (PaletteHandler palette : Main.getInstance().getPalettes().values()) {
 			palettePanel.add(palette.getDrawPanel().getScrollPane(), palette.getName());
@@ -206,5 +208,9 @@ public abstract class BaseGUIBuilder {
 			}
 			getMainSplit().setDividerLocation(loc);
 		}
+	}
+
+	public void setPaletteActive(String paletteName) {
+		palettePanelLayout.show(palettePanel, paletteName);
 	}
 }
