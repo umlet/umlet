@@ -6,15 +6,15 @@ import java.util.List;
 
 import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
+import com.baselet.diagram.Diagram;
 import com.baselet.diagram.commandnew.AddGridElementCommand;
-import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
+import com.baselet.diagram.commandnew.CommandTarget;
 import com.baselet.diagram.commandnew.Controller;
 import com.baselet.diagram.commandnew.RemoveGridElementCommand;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.BrowserStorage;
-import com.baselet.gwt.client.element.Diagram;
 import com.baselet.gwt.client.element.ElementFactory;
 
 public class CommandInvoker extends Controller {
@@ -29,34 +29,34 @@ public class CommandInvoker extends Controller {
 		super();
 	}
 
-	void addElements(CanAddAndRemoveGridElement target, List<GridElement> elements) {
+	void addElements(CommandTarget target, List<GridElement> elements) {
 		executeCommand(new AddGridElementCommand(target, elements));
 	}
 
-	void addElements(CanAddAndRemoveGridElement target, Collection<GridElement> elements) {
+	void addElements(CommandTarget target, Collection<GridElement> elements) {
 		addElements(target, elements);
 	}
 
-	void removeElements(DrawPanel target, List<GridElement> elements) {
+	void removeElements(CommandTarget target, List<GridElement> elements) {
 		executeCommand(new RemoveGridElementCommand(target, elements));
 	}
 
-	void removeSelectedElements(DrawPanel target) {
+	void removeSelectedElements(CommandTarget target) {
 		removeElements(target, target.getSelector().getSelectedElements());
 	}
 
 	// TODO implement copy & paste as commands
 
-	void copySelectedElements(DrawPanel target) {
+	void copySelectedElements(CommandTarget target) {
 		BrowserStorage.setClipboard(copyElementsInList(target.getSelector().getSelectedElements(), target.getDiagram())); // must be copied here to ensure location etc. will not be changed
 	}
 
-	void cutSelectedElements(DrawPanel target) {
+	void cutSelectedElements(CommandTarget target) {
 		copySelectedElements(target);
 		removeSelectedElements(target);
 	}
 
-	void pasteElements(DrawPanel target) {
+	void pasteElements(CommandTarget target) {
 		List<GridElement> copyOfElements = copyElementsInList(BrowserStorage.getClipboard(), target.getDiagram());
 		GroupFacet.replaceGroupsWithNewGroups(copyOfElements, target.getSelector());
 		realignElementsToVisibleRect(target, copyOfElements);
@@ -72,7 +72,7 @@ public class CommandInvoker extends Controller {
 		return targetElements;
 	}
 
-	void realignElementsToVisibleRect(DrawPanel target, List<GridElement> gridElements) {
+	void realignElementsToVisibleRect(CommandTarget target, List<GridElement> gridElements) {
 		Rectangle rect = SharedUtils.getGridElementsRectangle(gridElements);
 		Rectangle visible = target.getVisibleBounds();
 		for (GridElement ge : gridElements) {
@@ -80,7 +80,7 @@ public class CommandInvoker extends Controller {
 		}
 	}
 
-	public void updateSelectedElementsProperty(DrawPanel target, String key, Object value) {
+	public void updateSelectedElementsProperty(CommandTarget target, String key, Object value) {
 		for (GridElement e : target.getSelector().getSelectedElements()) {
 			e.setProperty(key, value);
 		}

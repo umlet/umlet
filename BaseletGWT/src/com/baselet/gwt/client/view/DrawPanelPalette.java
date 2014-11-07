@@ -12,7 +12,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.DiagramXmlParser;
-import com.baselet.gwt.client.element.Diagram;
+import com.baselet.gwt.client.element.GwtDiagram;
 import com.baselet.gwt.client.element.ElementFactory;
 import com.baselet.gwt.client.view.palettes.Resources;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
@@ -39,7 +39,7 @@ public class DrawPanelPalette extends DrawPanel {
 			Resources.INSTANCE.UML_Structure_and_Deployment(),
 			Resources.INSTANCE.UML_Use_Case(),
 			Resources.INSTANCE.Plots());
-	private final Map<TextResource, Diagram> paletteCache = new HashMap<>();
+	private final Map<TextResource, GwtDiagram> paletteCache = new HashMap<>();
 
 	private final ListBox paletteChooser;
 
@@ -65,8 +65,8 @@ public class DrawPanelPalette extends DrawPanel {
 		});
 	}
 
-	private Diagram parsePalette(TextResource res) {
-		Diagram diagram = paletteCache.get(res);
+	private GwtDiagram parsePalette(TextResource res) {
+		GwtDiagram diagram = paletteCache.get(res);
 		if (diagram == null) {
 			diagram = DiagramXmlParser.xmlToDiagram(res.getText());
 			paletteCache.put(res, diagram);

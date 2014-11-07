@@ -6,10 +6,10 @@ import com.baselet.element.GridElement;
 
 public class AddGridElementCommand extends Command {
 
-	private CanAddAndRemoveGridElement target;
+	private CommandTarget target;
 	private List<GridElement> elements;
 
-	public AddGridElementCommand(CanAddAndRemoveGridElement target, List<GridElement> elements) {
+	public AddGridElementCommand(CommandTarget target, List<GridElement> elements) {
 		this.target = target;
 		this.elements = elements;
 	}

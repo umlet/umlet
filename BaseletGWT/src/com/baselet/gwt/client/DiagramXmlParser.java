@@ -9,7 +9,7 @@ import com.baselet.control.SharedConstants;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.ElementId;
-import com.baselet.gwt.client.element.Diagram;
+import com.baselet.gwt.client.element.GwtDiagram;
 import com.baselet.gwt.client.element.ElementFactory;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
@@ -46,18 +46,18 @@ public class DiagramXmlParser {
 	private static final String ATTR_PROGRAM = "program";
 	private static final String ATTR_VERSION = "version";
 
-	public static Diagram xmlToDiagram(boolean decodeUrl, String xml) {
+	public static GwtDiagram xmlToDiagram(boolean decodeUrl, String xml) {
 		if (decodeUrl) {
 			xml = URL.decode(xml).replace(NUMBER_SIGN_URL_ENCODED, NUMBER_SIGN);
 		}
 		return xmlToDiagram(xml);
 	}
 
-	public static Diagram xmlToDiagram(String xml) {
+	public static GwtDiagram xmlToDiagram(String xml) {
 		if (xml.startsWith(SharedConstants.UTF8_BOM)) {
 			xml = xml.substring(1); // remove BOM if it is given
 		}
-		Diagram diagram = null;
+		GwtDiagram diagram = null;
 		String helpText = null;
 		try {
 			// parse the XML document into a DOM
@@ -74,7 +74,7 @@ public class DiagramXmlParser {
 				zoomScale = Float.valueOf(zoomElement.getFirstChild().getNodeValue()) / SharedConstants.DEFAULT_GRID_SIZE;
 			}
 
-			diagram = new Diagram(helpText, new ArrayList<GridElement>());
+			diagram = new GwtDiagram(helpText, new ArrayList<GridElement>());
 			NodeList elements = messageDom.getElementsByTagName(ELEMENT);
 			for (int i = 0; i < elements.getLength(); i++) {
 				Element element = (Element) elements.item(i);
@@ -118,7 +118,7 @@ public class DiagramXmlParser {
 		return Integer.valueOf(coordinates.getElementsByTagName(tag).item(0).getFirstChild().getNodeValue());
 	}
 
-	public static String diagramToXml(Diagram diagram) {
+	public static String diagramToXml(GwtDiagram diagram) {
 		Document doc = XMLParser.createDocument();
 
 		Element diagramElement = doc.createElement(DIAGRAM);
@@ -147,7 +147,7 @@ public class DiagramXmlParser {
 		return doc.toString();
 	}
 
-	public static String diagramToXml(boolean encodeUrl, Diagram diagram) {
+	public static String diagramToXml(boolean encodeUrl, GwtDiagram diagram) {
 		String xml = diagramToXml(diagram);
 		if (encodeUrl) {
 			xml = URL.encode(xml).replace(NUMBER_SIGN, NUMBER_SIGN_URL_ENCODED);
@@ -164,7 +164,7 @@ public class DiagramXmlParser {
 	}
 
 	public static String gridElementsToXml(List<GridElement> gridElements) {
-		return diagramToXml(new Diagram(gridElements));
+		return diagramToXml(new GwtDiagram(gridElements));
 	}
 
 	public static List<GridElement> xmlToGridElements(String string) {

@@ -6,7 +6,7 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.gwt.client.Converter;
-import com.baselet.gwt.client.element.Diagram;
+import com.baselet.gwt.client.element.GwtDiagram;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 
@@ -14,7 +14,7 @@ public class CanvasUtils {
 
 	private static final int EXPORT_BORDER = 10;
 
-	public static String createPngCanvasDataUrl(Diagram diagram) {
+	public static String createPngCanvasDataUrl(GwtDiagram diagram) {
 		DrawCanvas pngCanvas = new DrawCanvas();
 		// Calculate and set canvas width
 		Rectangle geRect = SharedUtils.getGridElementsRectangle(diagram.getGridElements());
