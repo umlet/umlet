@@ -146,14 +146,14 @@ public class DiagramHandler {
 			return true;
 		} catch (IOException e) {
 			log.error(e);
-			Main.displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
+			Main.getInstance().displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
 			return false;
 		}
 	}
 
 	public void doSaveAs(String extension) {
 		if (drawpanel.getGridElements().isEmpty()) {
-			Main.displayError(ErrorMessages.ERROR_SAVING_EMPTY_DIAGRAM);
+			Main.getInstance().displayError(ErrorMessages.ERROR_SAVING_EMPTY_DIAGRAM);
 		}
 		else {
 			try {
@@ -162,7 +162,7 @@ public class DiagramHandler {
 				Main.getInstance().getGUI().afterSaving();
 			} catch (IOException e) {
 				log.error(e);
-				Main.displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
+				Main.getInstance().displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
 			}
 		}
 	}
@@ -174,7 +174,7 @@ public class DiagramHandler {
 			try {
 				printJob.print();
 			} catch (PrinterException pe) {
-				Main.displayError(ErrorMessages.ERROR_PRINTING);
+				Main.getInstance().displayError(ErrorMessages.ERROR_PRINTING);
 			}
 		}
 	}
