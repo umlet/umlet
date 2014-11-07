@@ -37,7 +37,7 @@ public abstract class SettingsRelation extends SettingsAbstract {
 
 	@Override
 	public List<? extends Facet> createFacets() {
-		return Arrays.asList(RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, DescriptionPositionFacet.INSTANCE_START, DescriptionPositionFacet.INSTANCE_END);
+		return Arrays.asList(RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, DescriptionPositionFacet.INSTANCE_MESSAGE_START, DescriptionPositionFacet.INSTANCE_MESSAGE_END, DescriptionPositionFacet.INSTANCE_ROLE_START, DescriptionPositionFacet.INSTANCE_ROLE_END);
 	}
 
 	@Override

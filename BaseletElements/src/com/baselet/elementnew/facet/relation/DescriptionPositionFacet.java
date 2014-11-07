@@ -15,12 +15,14 @@ public class DescriptionPositionFacet extends KeyValueFacet {
 
 	public static final String POS = "pos";
 
-	public static DescriptionPositionFacet INSTANCE_START = new DescriptionPositionFacet(LineDescriptionFacet.MESSAGE_START_KEY);
-	public static DescriptionPositionFacet INSTANCE_END = new DescriptionPositionFacet(LineDescriptionFacet.MESSAGE_END_KEY);
+	public static DescriptionPositionFacet INSTANCE_MESSAGE_START = new DescriptionPositionFacet(LineDescriptionEnum.MESSAGE_START);
+	public static DescriptionPositionFacet INSTANCE_MESSAGE_END = new DescriptionPositionFacet(LineDescriptionEnum.MESSAGE_END);
+	public static DescriptionPositionFacet INSTANCE_ROLE_START = new DescriptionPositionFacet(LineDescriptionEnum.ROLE_START);
+	public static DescriptionPositionFacet INSTANCE_ROLE_END = new DescriptionPositionFacet(LineDescriptionEnum.ROLE_END);
 
-	private final String lineDesc;
+	private final LineDescriptionEnum lineDesc;
 
-	public DescriptionPositionFacet(String lineDesc) {
+	public DescriptionPositionFacet(LineDescriptionEnum lineDesc) {
 		super();
 		this.lineDesc = lineDesc;
 	}
@@ -40,7 +42,7 @@ public class DescriptionPositionFacet extends KeyValueFacet {
 			if (x > MAX_DISP || y > MAX_DISP) {
 				throw new StyleException("max allowed displacement value is " + MAX_DISP);
 			}
-			displacements.put(lineDesc, new Point(x, y));
+			displacements.put(lineDesc.getKey(), new Point(x, y));
 		} catch (Exception e) {
 			if (e instanceof StyleException) {
 				throw (StyleException) e;
