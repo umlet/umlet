@@ -11,6 +11,7 @@ import java.util.HashMap;
 import javax.swing.text.JTextComponent;
 
 import org.apache.log4j.Logger;
+import org.eclipse.swt.widgets.Display;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
@@ -34,7 +35,7 @@ public class EclipseGUI extends BaseGUI {
 	private static final Logger log = Logger.getLogger(EclipseGUI.class);
 
 	private Editor editor;
-	private HashMap<DiagramHandler, Editor> diagrams;
+	private final HashMap<DiagramHandler, Editor> diagrams;
 	private Contributor contributor;
 
 	public EclipseGUI(Main main) {
@@ -283,9 +284,15 @@ public class EclipseGUI extends BaseGUI {
 		}
 	}
 
-	public void setPaneFocused(Pane pane) {
+	public void setPaneFocused(final Pane pane) {
 		if (contributor != null) {
-			contributor.setGlobalActionHandlers(pane);
+			// must be executed from within the SWT Display thread (see https://stackoverflow.com/questions/5980316/invalid-thread-access-error-with-java-swt)
+			Display.getDefault().syncExec(new Runnable() {
+				@Override
+				public void run() {
+					contributor.setGlobalActionHandlers(pane);
+				}
+			});
 		}
 	}
 
