@@ -2,6 +2,8 @@ package com.baselet.gwt.client.view.panel.wrapper;
 
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.gwt.client.Browser;
+import com.baselet.gwt.client.view.interfaces.AutoresizeScrollDropTarget;
+import com.baselet.gwt.client.view.interfaces.HasScrollPanel;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.ResizeEvent;

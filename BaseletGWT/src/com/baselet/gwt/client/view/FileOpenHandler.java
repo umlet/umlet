@@ -13,7 +13,7 @@ import org.vectomatic.file.events.LoadEndEvent;
 import org.vectomatic.file.events.LoadEndHandler;
 
 import com.baselet.gwt.client.DiagramXmlParser;
-import com.baselet.gwt.client.view.panel.wrapper.SetDiagramTarget;
+import com.baselet.gwt.client.view.interfaces.AcceptDiagram;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
@@ -24,7 +24,7 @@ public class FileOpenHandler {
 	protected FileReader reader;
 	protected List<File> readQueue = new ArrayList<File>();
 
-	public FileOpenHandler(final SetDiagramTarget diagram) {
+	public FileOpenHandler(final AcceptDiagram diagram) {
 		reader = new FileReader();
 		reader.addLoadEndHandler(new LoadEndHandler() {
 			@Override

@@ -1,4 +1,4 @@
-package com.baselet.gwt.client.view.panel.wrapper;
+package com.baselet.gwt.client.view.interfaces;
 
 import com.baselet.diagram.draw.geom.Rectangle;
 

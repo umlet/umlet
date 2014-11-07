@@ -5,6 +5,7 @@ import org.vectomatic.dnd.DropPanel;
 import org.vectomatic.file.FileList;
 
 import com.baselet.gwt.client.view.FileOpenHandler;
+import com.baselet.gwt.client.view.interfaces.AutoresizeScrollDropTarget;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.DragEnterEvent;
 import com.google.gwt.event.dom.client.DragEnterHandler;

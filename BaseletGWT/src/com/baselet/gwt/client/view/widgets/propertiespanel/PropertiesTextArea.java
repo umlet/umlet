@@ -1,7 +1,7 @@
 package com.baselet.gwt.client.view.widgets.propertiespanel;
 
 import com.baselet.element.HasPanelAttributes;
-import com.baselet.gwt.client.view.DrawPanel;
+import com.baselet.gwt.client.view.interfaces.Redrawable;
 import com.baselet.gwt.client.view.widgets.OwnTextArea;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
 import com.google.gwt.uibinder.client.UiConstructor;
@@ -10,13 +10,13 @@ public class PropertiesTextArea extends MySuggestBox {
 
 	private static final String DEFAULT_HELPTEXT = "Space for diagram notes";
 
-	private OwnTextArea textArea;
+	private final OwnTextArea textArea;
 
-	private MySuggestOracle oracle;
+	private final MySuggestOracle oracle;
 
 	private HasPanelAttributes gridElement;
 
-	private DrawPanel activePanel = null;
+	private Redrawable activePanel = null;
 
 	@UiConstructor
 	public PropertiesTextArea() {
@@ -39,7 +39,7 @@ public class PropertiesTextArea extends MySuggestBox {
 		this.textArea = textArea;
 	}
 
-	public void setGridElement(HasPanelAttributes panelAttributeProvider, DrawPanel panel) {
+	public void setGridElement(HasPanelAttributes panelAttributeProvider, Redrawable panel) {
 		activePanel = panel;
 		gridElement = panelAttributeProvider;
 		String panelAttributes = panelAttributeProvider.getPanelAttributes();

@@ -3,14 +3,11 @@ package com.baselet.gwt.client.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.baselet.diagram.HasGridElements;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
 
 public class SelectorNew extends Selector {
-
-	public static interface HasGridElements {
-		public List<GridElement> getGridElements();
-	}
 
 	private HasGridElements gridElementProvider;
 

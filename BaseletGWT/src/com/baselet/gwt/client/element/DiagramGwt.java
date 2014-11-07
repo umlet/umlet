@@ -9,15 +9,13 @@ import java.util.List;
 import com.baselet.control.SharedConstants;
 import com.baselet.diagram.Diagram;
 import com.baselet.element.GridElement;
-import com.baselet.element.HasPanelAttributes;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.elementnew.element.uml.relation.Relation;
 import com.baselet.gui.AutocompletionText;
-import com.baselet.gwt.client.view.SelectorNew.HasGridElements;
 
-public class GwtDiagram implements HasPanelAttributes, HasGridElements, Diagram {
+public class DiagramGwt implements Diagram {
 
 	private static final Comparator<GridElement> LAYER_COMPARATOR_ASCENDING = new Comparator<GridElement>() {
 		@Override
@@ -36,21 +34,26 @@ public class GwtDiagram implements HasPanelAttributes, HasGridElements, Diagram 
 	private String helpText;
 	private final List<GridElement> gridElements;
 
-	public GwtDiagram(List<GridElement> gridElements) {
+	public DiagramGwt(List<GridElement> gridElements) {
 		this(null, gridElements);
 	}
 
-	public GwtDiagram(String helpText, List<GridElement> gridElements) {
+	public DiagramGwt(String helpText, List<GridElement> gridElements) {
 		super();
 		this.helpText = helpText;
 		this.gridElements = gridElements;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.baselet.gwt.client.element.Diagramx#getGridElements() */
 	@Override
 	public List<GridElement> getGridElements() {
 		return gridElements;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.baselet.gwt.client.element.Diagramx#getRelations() */
+	@Override
 	public List<Relation> getRelations() {
 		List<Relation> returnList = new ArrayList<Relation>();
 		for (GridElement ge : gridElements) {
@@ -61,10 +64,16 @@ public class GwtDiagram implements HasPanelAttributes, HasGridElements, Diagram 
 		return returnList;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.baselet.gwt.client.element.Diagramx#getStickables(com.baselet.element.GridElement) */
+	@Override
 	public StickableMap getStickables(GridElement draggedElement) {
 		return getStickables(draggedElement, Collections.<GridElement> emptyList());
 	}
 
+	/* (non-Javadoc)
+	 * @see com.baselet.gwt.client.element.Diagramx#getStickables(com.baselet.element.GridElement, java.util.Collection) */
+	@Override
 	public StickableMap getStickables(GridElement draggedElement, Collection<GridElement> excludeList) {
 		if (!SharedConstants.stickingEnabled) {
 			return StickableMap.EMPTY_MAP;
@@ -77,10 +86,16 @@ public class GwtDiagram implements HasPanelAttributes, HasGridElements, Diagram 
 		return stickingStickables;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.baselet.gwt.client.element.Diagramx#getGridElementsByLayerLowestToHighest() */
+	@Override
 	public List<GridElement> getGridElementsByLayerLowestToHighest() {
 		return getGridElementsByLayer(true);
 	}
 
+	/* (non-Javadoc)
+	 * @see com.baselet.gwt.client.element.Diagramx#getGridElementsByLayer(boolean) */
+	@Override
 	public List<GridElement> getGridElementsByLayer(boolean ascending) {
 		ArrayList<GridElement> list = new ArrayList<>(gridElements);
 		if (ascending) {
@@ -92,16 +107,22 @@ public class GwtDiagram implements HasPanelAttributes, HasGridElements, Diagram 
 		return list;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.baselet.gwt.client.element.Diagramx#setPanelAttributes(java.lang.String) */
 	@Override
 	public void setPanelAttributes(String panelAttributes) {
 		helpText = panelAttributes;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.baselet.gwt.client.element.Diagramx#getPanelAttributes() */
 	@Override
 	public String getPanelAttributes() {
 		return helpText;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.baselet.gwt.client.element.Diagramx#getAutocompletionList() */
 	@Override
 	public List<AutocompletionText> getAutocompletionList() {
 		return Collections.<AutocompletionText> emptyList();
