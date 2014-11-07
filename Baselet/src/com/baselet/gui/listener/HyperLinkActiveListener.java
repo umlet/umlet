@@ -3,7 +3,7 @@ package com.baselet.gui.listener;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
-import com.baselet.control.BrowserLauncher;
+import com.baselet.gui.BrowserLauncher;
 
 public class HyperLinkActiveListener implements HyperlinkListener {
 	@Override

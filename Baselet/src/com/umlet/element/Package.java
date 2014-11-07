@@ -17,10 +17,6 @@ public class Package extends OldGridElement {
 
 	Area lastKnown = new Area();
 
-	public Package() {
-		super();
-	}
-
 	private Vector<String> getStringVector() {
 		Vector<String> ret = Utils.decomposeStrings(getPanelAttributes());
 		return ret;

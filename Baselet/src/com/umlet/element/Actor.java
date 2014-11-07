@@ -20,10 +20,6 @@ import com.baselet.element.sticking.StickingPolygon;
 @SuppressWarnings("serial")
 public class Actor extends OldGridElement {
 
-	public Actor() {
-		super();
-	}
-
 	private Vector<String> getStringVector() {
 		Vector<String> ret = Utils.decomposeStrings(getPanelAttributes());
 		return ret;

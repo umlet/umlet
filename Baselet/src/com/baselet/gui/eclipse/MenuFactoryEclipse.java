@@ -49,7 +49,7 @@ import org.eclipse.ui.ide.IDE;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.gui.MenuFactory;
+import com.baselet.gui.menu.MenuFactory;
 import com.baselet.plugin.editor.Contributor;
 
 public class MenuFactoryEclipse extends MenuFactory {
@@ -66,7 +66,7 @@ public class MenuFactoryEclipse extends MenuFactory {
 	}
 
 	@Override
-	protected void doAction(final String menuItem, final Object param) {
+	public void doAction(final String menuItem, final Object param) {
 		log.info("doAction " + menuItem);
 		DiagramHandler actualHandler = Main.getInstance().getDiagramHandler();
 		// Edit Palette cannot be put in a separate invokeLater thread, or otherwise getActivePage() will be null!
@@ -218,7 +218,7 @@ public class MenuFactoryEclipse extends MenuFactory {
 		return zoom;
 	}
 
-	private List<Action> aList = new ArrayList<Action>();
+	private final List<Action> aList = new ArrayList<Action>();
 
 	public IMenuManager createNewCustomElementFromTemplate(final Contributor con) {
 		IMenuManager menu = new MenuManager(NEW_FROM_TEMPLATE);

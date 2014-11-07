@@ -1,5 +1,6 @@
 package com.baselet.diagram.io;
 
+import java.awt.Frame;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +9,6 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
 import com.baselet.control.Config;
-import com.baselet.control.Main;
 import com.baselet.control.SharedConstants.Program;
 
 public class OpenFileChooser {
@@ -32,9 +32,9 @@ public class OpenFileChooser {
 		fileChooser.setAcceptAllFileFilterUsed(false);
 	}
 
-	public List<String> getFilesToOpen() {
+	public List<String> getFilesToOpen(Frame mainFrame) {
 		List<String> fileNames = new ArrayList<String>();
-		int returnVal = fileChooser.showOpenDialog(Main.getInstance().getGUI().getMainFrame());
+		int returnVal = fileChooser.showOpenDialog(mainFrame);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File[] selectedFiles = fileChooser.getSelectedFiles();
 			for (File file : selectedFiles) {

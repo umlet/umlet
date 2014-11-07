@@ -19,9 +19,6 @@ import com.baselet.element.sticking.StickingPolygon;
 
 @SuppressWarnings("serial")
 public class Interface extends OldGridElement {
-	public Interface() {
-		super();
-	}
 
 	private Vector<String> getStringVector() {
 		return Utils.decomposeStrings(getPanelAttributes());

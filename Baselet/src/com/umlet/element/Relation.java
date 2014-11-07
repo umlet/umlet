@@ -785,10 +785,6 @@ public class Relation extends OldGridElement {
 		return c;
 	}
 
-	public Relation() {
-		super();
-	}
-
 	// Polygon to draw the move whole line rectangle + check if it contains the mouse
 	public Polygon getWholeLinePolygon() {
 

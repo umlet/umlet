@@ -77,10 +77,6 @@ public class ActivityDiagramText extends OldGridElement {
 										"(\\-\\>(" + normalchars + "+))?" + // goto 23..24
 										"\\s*";
 
-	public ActivityDiagramText() {
-
-	}
-
 	private void init(Graphics2D graphics) {
 
 		zoom = Main.getHandlerForElement(this).getZoomFactor();

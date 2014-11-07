@@ -62,21 +62,6 @@ public class OutputHandler {
 		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
 	}
 
-	public static BufferedImage createImageForClipboard(DiagramHandler handler, Collection<GridElement> entities) {
-
-		int oldZoom = handler.getGridSize();
-		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
-
-		if (entities.isEmpty()) {
-			entities = handler.getDrawPanel().getGridElements();
-		}
-		BufferedImage returnImg = OutputHandler.getImageFromDiagram(handler, entities);
-
-		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
-
-		return returnImg;
-	}
-
 	private static void exportToOutputStream(String extension, OutputStream ostream, DiagramHandler handler, Collection<GridElement> entities) throws IOException {
 		// Issue 159: the old all in one grid elements calculate their real size AFTER painting. although it's bad design it works for most cases, but batch-export can fail if the element width in the uxf is wrong (eg if it was created using another umlet-default-fontsize), therefore a pseudo-paint call is made to get the real size
 		for (GridElement ge : entities) {
@@ -173,7 +158,7 @@ public class OutputHandler {
 		ostream.close();
 	}
 
-	private static BufferedImage getImageFromDiagram(DiagramHandler handler, Collection<GridElement> entities) {
+	public static BufferedImage getImageFromDiagram(DiagramHandler handler, Collection<GridElement> entities) {
 
 		Rectangle bounds = handler.getDrawPanel().getContentBounds(Constants.printPadding, entities);
 		BufferedImage im = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_RGB);

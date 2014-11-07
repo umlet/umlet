@@ -22,8 +22,8 @@ import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.element.GridElement;
 import com.baselet.gui.eclipse.EclipseGUI;
-import com.baselet.gui.eclipse.EclipseGUI.Pane;
 import com.baselet.gui.eclipse.MenuFactoryEclipse;
+import com.baselet.gui.eclipse.EclipseGUI.Pane;
 import com.baselet.gui.eclipse.UpdateActionBars;
 import com.baselet.plugin.MainPlugin;
 

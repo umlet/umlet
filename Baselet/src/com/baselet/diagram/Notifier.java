@@ -1,4 +1,4 @@
-package com.baselet.control;
+package com.baselet.diagram;
 
 import java.awt.Rectangle;
 import java.util.Timer;
@@ -6,7 +6,8 @@ import java.util.TimerTask;
 
 import javax.swing.SwingUtilities;
 
-import com.baselet.diagram.DrawPanel;
+import com.baselet.control.Constants;
+import com.baselet.control.Main;
 import com.baselet.diagram.draw.swing.Converter;
 
 public class Notifier {

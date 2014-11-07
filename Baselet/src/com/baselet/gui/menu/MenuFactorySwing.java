@@ -1,4 +1,4 @@
-package com.baselet.gui;
+package com.baselet.gui.menu;
 
 import static com.baselet.control.MenuConstants.ABOUT_PROGRAM;
 import static com.baselet.control.MenuConstants.ALIGN;
@@ -56,6 +56,7 @@ import com.baselet.control.Constants.Os;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Main;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.gui.PlainColorIcon;
 
 public class MenuFactorySwing extends MenuFactory {
 

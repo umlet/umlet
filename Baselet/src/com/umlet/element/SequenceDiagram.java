@@ -173,10 +173,6 @@ public class SequenceDiagram extends OldGridElement {
 	private int levelNum = 0;
 	private InteractionManagement im;
 
-	public SequenceDiagram() {
-
-	}
-
 	@Override
 	public void paintEntity(Graphics g) {
 

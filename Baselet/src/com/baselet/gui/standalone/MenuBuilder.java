@@ -14,7 +14,7 @@ import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.element.GridElement;
-import com.baselet.gui.MenuFactorySwing;
+import com.baselet.gui.menu.MenuFactorySwing;
 
 public class MenuBuilder {
 

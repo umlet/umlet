@@ -31,6 +31,7 @@ import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
+import com.baselet.diagram.Notifier;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.diagram.io.OpenFileChooser;
 import com.baselet.element.GridElement;
@@ -362,7 +363,7 @@ public class Main {
 	}
 
 	public void doOpenFromFileChooser() {
-		List<String> files = new OpenFileChooser().getFilesToOpen();
+		List<String> files = new OpenFileChooser().getFilesToOpen(gui.getMainFrame());
 		for (String file : files) {
 			doOpen(file);
 		}

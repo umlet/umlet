@@ -16,7 +16,6 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.ErrorMessages;
 import com.baselet.control.Main;
-import com.baselet.control.Notifier;
 import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Point;
