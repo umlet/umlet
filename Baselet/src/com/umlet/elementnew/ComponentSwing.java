@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 
 import com.baselet.control.Main;
+import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Point;
@@ -95,6 +96,11 @@ public class ComponentSwing extends JComponent implements Component {
 	@Override
 	public void afterModelUpdate() {
 		repaint(); // necessary e.g. for NewGridElement Relation to make sure it gets redrawn correctly when a sticking element is moved around
+	}
+
+	public void setHandler(DiagramHandler diagramHandler) {
+		drawer.setHandler(diagramHandler);
+		metaDrawer.setHandler(diagramHandler);
 	}
 
 }

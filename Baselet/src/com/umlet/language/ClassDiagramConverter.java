@@ -22,11 +22,13 @@ import com.umlet.language.java.JavaClass;
 import com.umlet.language.java.JavaClass.ClassRole;
 import com.umlet.language.java.Method;
 import com.umlet.language.java.bcel.BcelJavaClass;
+import com.umlet.language.java.jp.ClassParserException;
 import com.umlet.language.java.jp.JpJavaClass;
 import com.umlet.language.sorting.AlphabetLayout;
 import com.umlet.language.sorting.HeightLayout;
 import com.umlet.language.sorting.PackageLayout;
 import com.umlet.language.sorting.RelationLayout;
+import com.umlet.language.sorting.SortableElement;
 
 /**
  * Creates a class element from a filename pointing to a .class or .java file according to UML standards, 
@@ -188,24 +190,15 @@ public class ClassDiagramConverter {
 		ClassRole role = parsedClass.getRole();
 		if (role == ClassRole.INTERFACE) {
 			attributes += "<<" + role + ">>\n";
-			attributes += getClassName(parsedClass);
+			attributes += AlphabetLayout.getClassName(parsedClass);
 		}
 		else if (role == ClassRole.ABSTRACT) {
-			attributes += "/" + getClassName(parsedClass) + "/";
+			attributes += "/" + AlphabetLayout.getClassName(parsedClass) + "/";
 		}
 		else {
-			attributes += getClassName(parsedClass);
+			attributes += AlphabetLayout.getClassName(parsedClass);
 		}
 		return attributes += "\n";
-	}
-
-	public static String getClassName(JavaClass parsedClass) {
-		String result = "";
-		if (ConfigConst.generateClassPackage) {
-			result += parsedClass.getPackage() + "::";
-		}
-		result += parsedClass.getName();
-		return result;
 	}
 
 	private JavaClass parseFile(String filename) {

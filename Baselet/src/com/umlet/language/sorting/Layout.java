@@ -7,7 +7,6 @@ import java.util.List;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.Rectangle;
-import com.umlet.language.SortableElement;
 
 public abstract class Layout {
 

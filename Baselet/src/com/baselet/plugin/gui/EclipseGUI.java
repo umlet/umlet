@@ -25,7 +25,7 @@ import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
-import com.baselet.gui.OwnSyntaxPane;
+import com.baselet.gui.pane.OwnSyntaxPane;
 import com.baselet.plugin.gui.Contributor.ActionName;
 import com.umlet.custom.CustomElementHandler;
 

@@ -1,4 +1,4 @@
-package com.umlet.language;
+package com.umlet.language.java.jp;
 
 @SuppressWarnings("serial")
 public class ClassParserException extends Exception {
