@@ -1,10 +1,10 @@
 package com.baselet.diagram.command;
 
+import java.util.Collection;
 import java.util.Vector;
 
 import com.baselet.control.Main;
 import com.baselet.control.SharedConstants;
-import com.baselet.control.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
@@ -82,7 +82,7 @@ public class OldResize extends Command {
 		else {
 			id = current_id;
 			current_id++;
-			linepoints = Utils.getStickingRelationLinePoints(Main.getHandlerForElement(this.entity), from);
+			linepoints = getStickingRelationLinePoints(Main.getHandlerForElement(this.entity), from);
 		}
 
 		PointDouble diff;
@@ -141,5 +141,23 @@ public class OldResize extends Command {
 		OldResize tmp = (OldResize) c;
 		return new OldResize(entity, Math.max(id, tmp.id), getDiffx() + tmp.getDiffx(), getDiffy() + tmp.getDiffy(),
 				getDiffw() + tmp.getDiffw(), getDiffh() + tmp.getDiffh(), move_commands, tmp.move_commands);
+	}
+
+	public static Vector<RelationLinePoint> getStickingRelationLinePoints(DiagramHandler handler, StickingPolygon stickingPolygon) {
+		Vector<RelationLinePoint> lpts = new Vector<RelationLinePoint>();
+		Collection<Relation> rels = handler.getDrawPanel().getOldRelations();
+		for (Relation r : rels) {
+			PointDouble l1 = r.getAbsoluteCoorStart();
+			PointDouble l2 = r.getAbsoluteCoorEnd();
+			int c1 = stickingPolygon.isConnected(l1, handler.getGridSize());
+			int c2 = stickingPolygon.isConnected(l2, handler.getGridSize());
+			if (c1 >= 0) {
+				lpts.add(new RelationLinePoint(r, 0, c1));
+			}
+			if (c2 >= 0) {
+				lpts.add(new RelationLinePoint(r, r.getLinePoints().size() - 1, c2));
+			}
+		}
+		return lpts;
 	}
 }
