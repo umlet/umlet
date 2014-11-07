@@ -82,7 +82,7 @@ public class ConfigHandler {
 			ex.printStackTrace();
 		}
 
-		String cfgVersion = getStringProperty(PROGRAM_VERSION, Program.VERSION);
+		cfg.setProgramVersion(getStringProperty(PROGRAM_VERSION, Program.VERSION));
 		Constants.defaultFontsize = getIntProperty(DEFAULT_FONTSIZE, Constants.defaultFontsize);
 		Constants.propertiesPanelFontsize = getIntProperty(PROPERTIES_PANEL_FONTSIZE, Constants.propertiesPanelFontsize);
 		Constants.defaultFontFamily = getStringProperty(DEFAULT_FONTFAMILY, Constants.defaultFontFamily);
@@ -96,13 +96,7 @@ public class ConfigHandler {
 		cfg.setOpenFileHome(getStringProperty(OPEN_FILE_HOME, cfg.getOpenFileHome()));
 		cfg.setSaveFileHome(getStringProperty(SAVE_FILE_HOME, cfg.getSaveFileHome()));
 		SharedConstants.dev_mode = getBoolProperty(DEV_MODE, SharedConstants.dev_mode);
-
-		// only set last used palette if its a valid palette and if the program version has not changed, otherwise leave the default value
-		String tempVal = getStringProperty(LAST_USED_PALETTE, null);
-		if (Main.getInstance().getPaletteNames().contains(tempVal) && Program.VERSION.equals(cfgVersion)) {
-			Constants.lastUsedPalette = tempVal;
-		}
-
+		Constants.lastUsedPalette = getStringProperty(LAST_USED_PALETTE, null);
 		Constants.main_split_position = getIntProperty(MAIN_SPLIT_POSITION, Constants.main_split_position);
 		Constants.right_split_position = getIntProperty(RIGHT_SPLIT_POSITION, Constants.right_split_position);
 		Constants.mail_split_position = getIntProperty(MAIL_SPLIT_POSITION, Constants.mail_split_position);
@@ -141,7 +135,7 @@ public class ConfigHandler {
 		Constants.generateClassSortings = SortOptions.getEnum(getStringProperty(GENERATE_CLASS_SORTINGS, Constants.generateClassSortings.toString()));
 	}
 
-	public static void saveConfig() {
+	public static void saveConfig(BaseGUI gui) {
 		Config cfg = Config.getInstance();
 
 		if (configfile == null) {
@@ -169,7 +163,6 @@ public class ConfigHandler {
 			props.setProperty(DEV_MODE, Boolean.toString(SharedConstants.dev_mode));
 			props.setProperty(LAST_USED_PALETTE, Constants.lastUsedPalette);
 
-			BaseGUI gui = Main.getInstance().getGUI();
 			props.setProperty(MAIN_SPLIT_POSITION, Integer.toString(gui.getMainSplitPosition()));
 			props.setProperty(RIGHT_SPLIT_POSITION, Integer.toString(gui.getRightSplitPosition()));
 			props.setProperty(MAIL_SPLIT_POSITION, Integer.toString(gui.getMailSplitPosition()));

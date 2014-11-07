@@ -263,7 +263,7 @@ public abstract class Constants extends SharedConstants {
 	public static MethodOptions generateClassMethods = MethodOptions.ALL;
 	public static SignatureOptions generateClassSignatures = SignatureOptions.ALL;
 	public static SortOptions generateClassSortings = SortOptions.HEIGHT;
-	public static String lastUsedPalette = DEFAULT_STRING + " - original main elements"; // since v12 DefaultNewElements are shown at first startup (instead of Constants.DEFAULT_STRING)
+	public static String lastUsedPalette;
 
 	public static String mail_smtp = "";
 	public static boolean mail_smtp_auth = false;
