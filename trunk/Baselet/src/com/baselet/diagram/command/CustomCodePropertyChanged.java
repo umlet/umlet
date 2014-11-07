@@ -6,7 +6,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.SelectorOld;
 import com.baselet.element.GridElement;
 import com.baselet.gui.CurrentGui;
-import com.baselet.gui.OwnSyntaxPane;
+import com.baselet.gui.pane.OwnSyntaxPane;
 
 public class CustomCodePropertyChanged extends Command {
 	// private GridElement _entity;

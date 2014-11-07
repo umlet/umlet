@@ -1,4 +1,4 @@
-package com.baselet.gui;
+package com.baselet.diagram;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,7 +27,8 @@ import com.baselet.control.enums.Metakey;
 import com.baselet.control.enums.Program;
 import com.baselet.control.util.Path;
 import com.baselet.control.util.Utils;
-import com.baselet.diagram.DrawPanel;
+import com.baselet.gui.BrowserLauncher;
+import com.baselet.gui.CurrentGui;
 import com.baselet.gui.listener.HyperLinkActiveListener;
 
 public class StartUpHelpText extends JEditorPane implements ContainerListener, ComponentListener {

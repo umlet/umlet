@@ -1,4 +1,4 @@
-package com.baselet.gui;
+package com.baselet.gui.pane;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -27,6 +27,7 @@ import com.baselet.control.constants.MenuConstants;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
+import com.baselet.gui.AutocompletionText;
 import com.baselet.gui.menu.MenuFactorySwing;
 
 public class OwnSyntaxPane {

@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.umlet.language.ClassParserException;
 import com.umlet.language.java.Field;
 import com.umlet.language.java.JavaClass;
 import com.umlet.language.java.Method;

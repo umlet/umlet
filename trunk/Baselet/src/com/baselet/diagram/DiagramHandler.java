@@ -20,7 +20,6 @@ import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.swing.DrawHandlerSwing;
 import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.NewGridElement;
@@ -32,6 +31,7 @@ import com.baselet.gui.listener.GridElementListener;
 import com.baselet.gui.listener.OldRelationListener;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.element.Relation;
+import com.umlet.elementnew.ComponentSwing;
 
 public class DiagramHandler {
 
@@ -436,8 +436,7 @@ public class DiagramHandler {
 		((Component) element.getComponent()).addMouseListener(Main.getHandlerForElement(element).getEntityListener(element));
 		((Component) element.getComponent()).addMouseMotionListener(Main.getHandlerForElement(element).getEntityListener(element));
 		if (element instanceof NewGridElement) {
-			((DrawHandlerSwing) ((NewGridElement) element).getDrawer()).setHandler(this);
-			((DrawHandlerSwing) ((NewGridElement) element).getMetaDrawer()).setHandler(this);
+			((ComponentSwing) element.getComponent()).setHandler(this);
 		}
 		element.getDeprecatedAddons().zoomDeprecatedSequenceAllInOne();
 		element.updateModelFromText(); // must be updated here because the new handler could have a different zoom level

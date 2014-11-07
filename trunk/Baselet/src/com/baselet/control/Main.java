@@ -45,7 +45,7 @@ import com.baselet.diagram.io.OpenFileChooser;
 import com.baselet.element.GridElement;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
-import com.baselet.gui.OwnSyntaxPane;
+import com.baselet.gui.pane.OwnSyntaxPane;
 import com.baselet.gui.standalone.StandaloneGUI;
 
 public class Main implements CanCloseProgram, CanOpenDiagram {

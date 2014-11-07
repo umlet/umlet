@@ -33,7 +33,6 @@ import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.baselet.gui.StartUpHelpText;
 import com.baselet.gui.listener.ScrollbarListener;
 import com.baselet.gui.standalone.FileDrop;
 import com.baselet.gui.standalone.FileDropListener;

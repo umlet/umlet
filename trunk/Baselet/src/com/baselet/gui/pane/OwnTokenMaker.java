@@ -1,5 +1,5 @@
 /* Based on WindowsBatchTokenMaker.java - Scanner for Windows batch files. This library is distributed under a modified BSD license. See the included RSyntaxTextArea.License.txt file for details. */
-package com.baselet.gui;
+package com.baselet.gui.pane;
 
 import javax.swing.text.Segment;
 

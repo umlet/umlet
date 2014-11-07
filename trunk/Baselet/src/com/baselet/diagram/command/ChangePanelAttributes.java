@@ -4,7 +4,7 @@ import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.baselet.gui.CurrentGui;
-import com.baselet.gui.OwnSyntaxPane;
+import com.baselet.gui.pane.OwnSyntaxPane;
 
 public class ChangePanelAttributes extends Command {
 	private GridElement _entity;

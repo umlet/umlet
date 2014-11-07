@@ -21,6 +21,7 @@ import com.baselet.diagram.PaletteHandler;
 import com.baselet.gui.listener.DividerListener;
 import com.baselet.gui.listener.PaletteComboBoxListener;
 import com.baselet.gui.listener.PropertyPanelListener;
+import com.baselet.gui.pane.OwnSyntaxPane;
 import com.umlet.custom.CustomElementHandler;
 import com.umlet.gui.CustomElementPanel;
 

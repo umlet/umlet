@@ -12,7 +12,6 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.base.ElementId;
 import com.umlet.elementnew.ElementFactory;
-import com.umlet.language.SortableElement;
 
 public class PackageLayout extends Layout {
 

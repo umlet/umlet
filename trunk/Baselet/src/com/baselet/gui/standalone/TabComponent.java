@@ -1,4 +1,4 @@
-package com.baselet.gui;
+package com.baselet.gui.standalone;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -18,7 +18,6 @@ import javax.swing.JTabbedPane;
 
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.gui.standalone.TabListener;
 
 @SuppressWarnings("serial")
 public class TabComponent extends JPanel {

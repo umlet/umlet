@@ -1,4 +1,4 @@
-package com.umlet.language;
+package com.umlet.language.sorting;
 
 import com.baselet.element.GridElement;
 import com.umlet.language.java.JavaClass;
