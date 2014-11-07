@@ -857,4 +857,9 @@ public class SequenceDiagram extends OldGridElement {
 	public boolean isOldAllInOneDiagram() {
 		return true;
 	}
+
+	@Override
+	public void isDeprecatedSequenceAllInOne() {
+		zoomValues();
+	}
 }
