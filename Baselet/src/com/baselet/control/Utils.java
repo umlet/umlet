@@ -20,8 +20,8 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.facet.common.LineWidthFacet;
+import com.umlet.element.DoubleStroke;
 import com.umlet.element.Relation;
-import com.umlet.element.relation.DoubleStroke;
 
 public abstract class Utils {
 

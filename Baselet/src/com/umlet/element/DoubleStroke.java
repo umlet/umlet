@@ -1,4 +1,4 @@
-package com.umlet.element.relation;
+package com.umlet.element;
 
 import java.awt.BasicStroke;
 import java.awt.Shape;
