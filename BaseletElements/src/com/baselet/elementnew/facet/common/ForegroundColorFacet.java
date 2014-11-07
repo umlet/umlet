@@ -1,6 +1,6 @@
 package com.baselet.elementnew.facet.common;
 
-import com.baselet.control.FacetConstants;
+import com.baselet.control.constants.FacetConstants;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.elementnew.facet.KeyValueFacet;

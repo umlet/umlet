@@ -2,7 +2,7 @@ package com.baselet.gwt.client.view;
 
 import java.util.Arrays;
 
-import com.baselet.control.SharedConstants;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.element.ElementFactory;

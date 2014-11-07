@@ -33,6 +33,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.baselet.control.Path;
+import com.baselet.control.RecentlyUsedFilesList;
 import com.baselet.control.config.Config;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
@@ -325,7 +326,7 @@ public class DiagramFileHandler {
 		out.close();
 		if (!tempFile) {
 			handler.setChanged(false);
-			Constants.recentlyUsedFilesList.add(saveToFile.getAbsolutePath());
+			RecentlyUsedFilesList.getInstance().add(saveToFile.getAbsolutePath());
 		}
 		Notifier.getInstance().showNotification(saveToFile.getAbsolutePath() + " saved");
 	}

@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.baselet.control.MenuConstants;
-import com.baselet.control.SharedConstants;
+import com.baselet.control.constants.MenuConstants;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.Diagram;
 import com.baselet.diagram.commandnew.CommandTarget;

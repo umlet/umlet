@@ -13,7 +13,7 @@ import javax.swing.text.JTextComponent;
 import org.apache.log4j.Logger;
 import org.eclipse.swt.widgets.Display;
 
-import com.baselet.control.Main;
+import com.baselet.control.CanCloseProgram;
 import com.baselet.control.config.ConfigConst;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
@@ -40,7 +40,7 @@ public class EclipseGUI extends BaseGUI {
 	private final HashMap<DiagramHandler, Editor> diagrams;
 	private Contributor contributor;
 
-	public EclipseGUI(Main main) {
+	public EclipseGUI(CanCloseProgram main) {
 		super(main);
 		diagrams = new HashMap<DiagramHandler, Editor>();
 	}

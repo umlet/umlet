@@ -1,4 +1,4 @@
-package com.baselet.control;
+package com.baselet.control.constants;
 
 /**
  * temporary separation of constants which are used by NewGridElement class (for an easier migration to a non-awt based gui)

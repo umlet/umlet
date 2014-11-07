@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import com.baselet.control.CanCloseProgram;
 import com.baselet.control.Main;
 import com.baselet.control.config.ConfigConst;
 import com.baselet.diagram.CurrentDiagram;
@@ -28,7 +29,7 @@ public class StandaloneGUI extends BaseGUI {
 	private final MenuBuilder menuBuilder = new MenuBuilder();
 	private final StandaloneGUIBuilder guiBuilder = new StandaloneGUIBuilder();
 
-	public StandaloneGUI(Main main) {
+	public StandaloneGUI(CanCloseProgram main) {
 		super(main);
 	}
 

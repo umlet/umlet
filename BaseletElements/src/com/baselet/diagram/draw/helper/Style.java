@@ -1,6 +1,6 @@
 package com.baselet.diagram.draw.helper;
 
-import com.baselet.control.FacetConstants;
+import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.enums.LineType;
 
 public class Style {

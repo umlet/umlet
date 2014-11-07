@@ -16,9 +16,9 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Path;
-import com.baselet.control.SharedConstants;
 import com.baselet.control.config.ConfigConst;
 import com.baselet.control.constants.Constants;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.ErrorOccurred;
 import com.baselet.element.GridElement;
 

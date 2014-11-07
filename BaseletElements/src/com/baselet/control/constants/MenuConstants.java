@@ -1,4 +1,4 @@
-package com.baselet.control;
+package com.baselet.control.constants;
 
 import com.baselet.control.enums.Program;
 

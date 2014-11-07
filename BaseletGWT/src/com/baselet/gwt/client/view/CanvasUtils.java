@@ -1,6 +1,6 @@
 package com.baselet.gwt.client.view;
 
-import com.baselet.control.SharedConstants;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.diagram.Diagram;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;

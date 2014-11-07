@@ -3,8 +3,8 @@ package com.baselet.diagram.draw;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.baselet.control.FacetConstants;
 import com.baselet.control.StringStyle;
+import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.geom.DimensionDouble;

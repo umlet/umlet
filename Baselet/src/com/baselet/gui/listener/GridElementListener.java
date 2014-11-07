@@ -14,8 +14,8 @@ import javax.swing.JPopupMenu;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Main;
-import com.baselet.control.SharedConstants;
 import com.baselet.control.constants.Constants;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.CurrentDiagram;
