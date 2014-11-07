@@ -1,4 +1,4 @@
-package com.baselet.gui.eclipse;
+package com.baselet.plugin.gui;
 
 import java.awt.Cursor;
 import java.awt.Frame;
@@ -11,6 +11,10 @@ import java.util.HashMap;
 import javax.swing.text.JTextComponent;
 
 import org.apache.log4j.Logger;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.widgets.Display;
 
 import com.baselet.control.CanCloseProgram;
@@ -22,10 +26,7 @@ import com.baselet.element.GridElement;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.OwnSyntaxPane;
-import com.baselet.plugin.MainPlugin;
-import com.baselet.plugin.editor.Contributor;
-import com.baselet.plugin.editor.Contributor.ActionName;
-import com.baselet.plugin.editor.Editor;
+import com.baselet.plugin.gui.Contributor.ActionName;
 import com.umlet.custom.CustomElementHandler;
 
 public class EclipseGUI extends BaseGUI {
@@ -308,7 +309,7 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public void afterSaving() {
 		super.afterSaving();
-		MainPlugin.refreshWorkspace();
+		EclipseGUI.refreshWorkspace();
 	}
 
 	@Override
@@ -319,5 +320,14 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public Frame getMainFrame() {
 		return editor.getMainFrame();
+	}
+
+	public static void refreshWorkspace() {
+		IWorkspaceRoot myWorkspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		try {
+			myWorkspaceRoot.refreshLocal(IResource.DEPTH_INFINITE, null);
+		} catch (CoreException e) {
+			log.error("Error at refreshing the workspace", e);
+		}
 	}
 }
