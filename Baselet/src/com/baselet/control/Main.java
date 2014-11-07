@@ -42,7 +42,7 @@ public class Main {
 
 	private static final Logger log = Logger.getLogger(Main.class);
 
-	private static Main instance;
+	private static Main main = new Main();
 
 	private static String tmp_file;
 	private static String tmp_read_file;
@@ -57,17 +57,10 @@ public class Main {
 	private ClassLoader classLoader;
 
 	public static Main getInstance() {
-		if (instance == null) {
-			instance = new Main();
-		}
-		return instance;
+		return main;
 	}
 
 	public static void main(final String[] args) {
-
-		// System.setSecurityManager(new CustomElementSecurityManager());
-
-		Main main = Main.getInstance();
 		main.readManifestInfo();
 		main.initLogger();
 		tmp_file = Program.NAME.toLowerCase() + ".tmp";
@@ -181,8 +174,8 @@ public class Main {
 		}
 	}
 
-	public static void displayError(String error) {
-		JOptionPane.showMessageDialog(Main.getInstance().getGUI().getMainFrame(), error, "ERROR", JOptionPane.ERROR_MESSAGE);
+	public void displayError(String error) {
+		JOptionPane.showMessageDialog(getGUI().getMainFrame(), error, "ERROR", JOptionPane.ERROR_MESSAGE);
 	}
 
 	private static void printToConsole(String text) {
@@ -471,15 +464,6 @@ public class Main {
 			}
 		}
 		return palettes;
-	}
-
-	public List<String> getPaletteNames() {
-		List<String> nameList = new ArrayList<String>();
-		for (File f : scanForPalettes()) {
-			nameList.add(getFilenameWithoutExtension(f));
-		}
-		Collections.sort(nameList, Constants.DEFAULT_FIRST_COMPARATOR);
-		return nameList;
 	}
 
 	public List<String> getTemplateNames() {
