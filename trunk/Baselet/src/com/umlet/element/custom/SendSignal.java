@@ -9,8 +9,8 @@ import java.util.Vector;
 import com.baselet.control.Main;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.util.Utils;
-import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
+import com.umlet.element.OldGridElement;
 
 @SuppressWarnings("serial")
 public class SendSignal extends OldGridElement {

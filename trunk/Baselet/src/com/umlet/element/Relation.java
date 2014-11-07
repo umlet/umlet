@@ -23,7 +23,6 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.GridElement;
-import com.baselet.element.OldGridElement;
 import com.baselet.element.Selector;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.element.sticking.polygon.NoStickingPolygonGenerator;

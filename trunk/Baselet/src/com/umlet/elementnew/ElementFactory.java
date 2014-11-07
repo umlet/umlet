@@ -8,13 +8,13 @@ import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.elementnew.DrawHandlerInterface;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.base.ElementId;
 import com.baselet.elementnew.element.uml.relation.Relation;
+import com.umlet.element.OldGridElement;
 
 public class ElementFactory {
 

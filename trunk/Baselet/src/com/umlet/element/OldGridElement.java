@@ -1,4 +1,4 @@
-package com.baselet.element;
+package com.umlet.element;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -37,6 +37,10 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.element.GridElement;
+import com.baselet.element.GridElementDeprecatedAddons;
+import com.baselet.element.UndoHistory;
+import com.baselet.element.UndoInformation;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.StickableMap;

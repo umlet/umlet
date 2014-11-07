@@ -13,7 +13,6 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.Relation;
-import com.umlet.element.relation.RelationLinePoint;
 
 /**
  * resizing has been merged with Move command and only remains for old grid elements which will not be migrated but removed from the code after some time
@@ -24,7 +23,7 @@ public class OldResize extends Command {
 
 	private int id;
 	private final int diffx, diffy, diffw, diffh;
-	private Vector<RelationLinePoint> linepoints;
+	private Vector<OldRelationLinePoint> linepoints;
 	private final Vector<OldMoveLinePoint> move_commands;
 	private final GridElement entity;
 
@@ -89,7 +88,7 @@ public class OldResize extends Command {
 		PointDouble diff;
 		Point p;
 		Relation r;
-		for (RelationLinePoint lp : linepoints) {
+		for (OldRelationLinePoint lp : linepoints) {
 			r = lp.getRelation();
 			p = r.getLinePoints().get(lp.getLinePointId());
 
@@ -144,8 +143,8 @@ public class OldResize extends Command {
 				getDiffw() + tmp.getDiffw(), getDiffh() + tmp.getDiffh(), move_commands, tmp.move_commands);
 	}
 
-	public static Vector<RelationLinePoint> getStickingRelationLinePoints(DiagramHandler handler, StickingPolygon stickingPolygon) {
-		Vector<RelationLinePoint> lpts = new Vector<RelationLinePoint>();
+	public static Vector<OldRelationLinePoint> getStickingRelationLinePoints(DiagramHandler handler, StickingPolygon stickingPolygon) {
+		Vector<OldRelationLinePoint> lpts = new Vector<OldRelationLinePoint>();
 		Collection<Relation> rels = handler.getDrawPanel().getOldRelations();
 		for (Relation r : rels) {
 			PointDouble l1 = r.getAbsoluteCoorStart();
@@ -153,10 +152,10 @@ public class OldResize extends Command {
 			int c1 = stickingPolygon.isConnected(l1, handler.getGridSize());
 			int c2 = stickingPolygon.isConnected(l2, handler.getGridSize());
 			if (c1 >= 0) {
-				lpts.add(new RelationLinePoint(r, 0, c1));
+				lpts.add(new OldRelationLinePoint(r, 0, c1));
 			}
 			if (c2 >= 0) {
-				lpts.add(new RelationLinePoint(r, r.getLinePoints().size() - 1, c2));
+				lpts.add(new OldRelationLinePoint(r, r.getLinePoints().size() - 1, c2));
 			}
 		}
 		return lpts;

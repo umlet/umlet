@@ -19,8 +19,8 @@ import com.baselet.control.config.ConfigConst;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.util.Path;
-import com.baselet.element.ErrorOccurred;
 import com.baselet.element.GridElement;
+import com.umlet.element.ErrorOccurred;
 
 public class CustomElementCompiler {
 

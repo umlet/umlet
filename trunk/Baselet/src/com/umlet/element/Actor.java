@@ -14,7 +14,6 @@ import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.command.OldResize;
-import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
 
 @SuppressWarnings("serial")

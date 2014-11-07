@@ -29,6 +29,7 @@ import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveEnd;
 import com.baselet.diagram.command.OldMoveLinePoint;
 import com.baselet.diagram.command.OldResize;
+import com.baselet.diagram.command.OldRelationLinePoint;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
@@ -39,7 +40,6 @@ import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gui.CurrentGui;
 import com.umlet.element.Relation;
-import com.umlet.element.relation.RelationLinePoint;
 import com.umlet.elementnew.ElementFactory;
 
 public class GridElementListener extends UniversalListener {
@@ -307,9 +307,9 @@ public class GridElementListener extends UniversalListener {
 			}
 			StickingPolygon stick = ge.generateStickingBorder(ge.getRectangle());
 			if (stick != null && directions.isEmpty()) { // sticking on resizing is disabled for old relations
-				Vector<RelationLinePoint> affectedRelationPoints = OldResize.getStickingRelationLinePoints(handler, stick);
+				Vector<OldRelationLinePoint> affectedRelationPoints = OldResize.getStickingRelationLinePoints(handler, stick);
 				for (int j = 0; j < affectedRelationPoints.size(); j++) {
-					RelationLinePoint tmpRlp = affectedRelationPoints.elementAt(j);
+					OldRelationLinePoint tmpRlp = affectedRelationPoints.elementAt(j);
 					if (entitiesToBeMoved.contains(tmpRlp.getRelation())) {
 						continue;
 					}
