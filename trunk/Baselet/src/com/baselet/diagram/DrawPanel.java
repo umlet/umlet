@@ -167,7 +167,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		JLayeredPane tempPanel = new JLayeredPane();
 		for (GridElement entity : entities) {
 			GridElement clone = ElementFactory.createCopy(entity);
-			com.baselet.elementnew.Component component = clone.getComponent();
+			com.baselet.elementnew.base.Component component = clone.getComponent();
 			// Issue 138: when PDF and Swing Export draw on (0,0) a part of the drawn image is cut, therefore it's displaced by 0.5px in that case
 			if (component instanceof OldGridElement) {
 				((OldGridElement) component).translateForExport();

@@ -3,11 +3,11 @@ package com.baselet.element;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import com.baselet.elementnew.facet.common.GroupFacet;
 
 public abstract class Selector {
 
@@ -39,7 +39,7 @@ public abstract class Selector {
 	}
 
 	private List<GridElement> expand(Collection<GridElement> elements) {
-		Map<Integer, Collection<GridElement>> map = GroupFacet.createGroupElementMap(getAllElements());
+		Map<Integer, Collection<GridElement>> map = Selector.createGroupElementMap(getAllElements());
 		List<GridElement> elemenentsWithGroups = new ArrayList<GridElement>();
 		// add grouped elements BEFORE the really selected elements, to make sure the last element stays the same (because its content will be shown in the property panel)
 		for (GridElement e : elements) {
@@ -121,8 +121,34 @@ public abstract class Selector {
 	}
 
 	public Integer getUnusedGroup() {
-		return GroupFacet.getUnusedGroupId(GroupFacet.createGroupElementMap(getAllElements()).keySet());
+		return getUnusedGroupId(createGroupElementMap(getAllElements()).keySet());
 	}
 
 	public abstract List<GridElement> getAllElements();
+
+	public static Integer getUnusedGroupId(Collection<Integer> usedGroups) {
+		Integer newGroup;
+		if (usedGroups.isEmpty()) {
+			newGroup = 1;
+		}
+		else {
+			newGroup = Collections.max(usedGroups) + 1;
+		}
+		return newGroup;
+	}
+
+	public static Map<Integer, Collection<GridElement>> createGroupElementMap(Collection<GridElement> elements) {
+		Map<Integer, Collection<GridElement>> returnmap = new HashMap<Integer, Collection<GridElement>>();
+		for (GridElement e : elements) {
+			if (e.getGroup() != null) {
+				Collection<GridElement> elementsWithGroup = returnmap.get(e.getGroup());
+				if (elementsWithGroup == null) {
+					elementsWithGroup = new ArrayList<GridElement>();
+					returnmap.put(e.getGroup(), elementsWithGroup);
+				}
+				elementsWithGroup.add(e);
+			}
+		}
+		return returnmap;
+	}
 }

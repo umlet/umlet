@@ -17,6 +17,7 @@ import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.PointChange;
+import com.baselet.element.sticking.PointDoubleIndexed;
 
 public class RelationPointList {
 	List<RelationPoint> points = new ArrayList<RelationPoint>();

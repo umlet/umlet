@@ -12,8 +12,8 @@ import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.elementnew.DrawHandlerInterface;
-import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
+import com.baselet.elementnew.base.ElementId;
 import com.baselet.elementnew.element.uml.relation.Relation;
 
 public class ElementFactory {

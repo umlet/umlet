@@ -1,6 +1,7 @@
 package com.baselet.elementnew.element.uml.relation;
 
 import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.element.sticking.PointDoubleIndexed;
 
 public class RelationPoint {
 	static final Rectangle DEFAULT_SIZE = new Rectangle(-RelationPointHandler.POINT_SELECTION_RADIUS, -RelationPointHandler.POINT_SELECTION_RADIUS, RelationPointHandler.POINT_SELECTION_RADIUS * 2, RelationPointHandler.POINT_SELECTION_RADIUS * 2);

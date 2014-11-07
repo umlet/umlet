@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.gui.AutocompletionText;
 
 public abstract class Facet {

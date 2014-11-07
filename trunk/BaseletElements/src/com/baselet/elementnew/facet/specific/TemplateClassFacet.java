@@ -11,8 +11,8 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
-import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
+import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class TemplateClassFacet extends KeyValueFacet {
 

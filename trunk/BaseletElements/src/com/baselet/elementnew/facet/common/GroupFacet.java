@@ -1,9 +1,6 @@
 package com.baselet.elementnew.facet.common;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,8 +10,8 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
-import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
+import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class GroupFacet extends KeyValueFacet {
 
@@ -38,41 +35,15 @@ public class GroupFacet extends KeyValueFacet {
 		}
 	}
 
-	public static Map<Integer, Collection<GridElement>> createGroupElementMap(Collection<GridElement> elements) {
-		Map<Integer, Collection<GridElement>> returnmap = new HashMap<Integer, Collection<GridElement>>();
-		for (GridElement e : elements) {
-			if (e.getGroup() != null) {
-				Collection<GridElement> elementsWithGroup = returnmap.get(e.getGroup());
-				if (elementsWithGroup == null) {
-					elementsWithGroup = new ArrayList<GridElement>();
-					returnmap.put(e.getGroup(), elementsWithGroup);
-				}
-				elementsWithGroup.add(e);
-			}
-		}
-		return returnmap;
-	}
-
 	public static void replaceGroupsWithNewGroups(Collection<GridElement> elements, Selector selector) {
-		Set<Integer> usedIds = new HashSet<Integer>(createGroupElementMap(selector.getAllElements()).keySet());
-		Map<Integer, Collection<GridElement>> groupedElements = createGroupElementMap(elements);
+		Set<Integer> usedIds = new HashSet<Integer>(Selector.createGroupElementMap(selector.getAllElements()).keySet());
+		Map<Integer, Collection<GridElement>> groupedElements = Selector.createGroupElementMap(elements);
 		for (Entry<Integer, Collection<GridElement>> entry : groupedElements.entrySet()) {
-			Integer unusedId = getUnusedGroupId(usedIds);
+			Integer unusedId = Selector.getUnusedGroupId(usedIds);
 			usedIds.add(unusedId);
 			for (GridElement e : entry.getValue()) {
 				e.setProperty(KEY, unusedId);
 			}
 		}
-	}
-
-	public static Integer getUnusedGroupId(Collection<Integer> usedGroups) {
-		Integer newGroup;
-		if (usedGroups.isEmpty()) {
-			newGroup = 1;
-		}
-		else {
-			newGroup = Collections.max(usedGroups) + 1;
-		}
-		return newGroup;
 	}
 }

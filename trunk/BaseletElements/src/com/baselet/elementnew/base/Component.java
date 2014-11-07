@@ -1,4 +1,4 @@
-package com.baselet.elementnew;
+package com.baselet.elementnew.base;
 
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Rectangle;

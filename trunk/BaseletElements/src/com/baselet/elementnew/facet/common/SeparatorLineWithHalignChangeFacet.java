@@ -2,7 +2,7 @@ package com.baselet.elementnew.facet.common;
 
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.elementnew.PropertiesParserState;
+import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class SeparatorLineWithHalignChangeFacet extends SeparatorLineFacet {
 

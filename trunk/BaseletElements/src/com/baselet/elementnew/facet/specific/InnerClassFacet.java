@@ -9,8 +9,8 @@ import com.baselet.control.enumerations.AlignVertical;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
+import com.baselet.elementnew.facet.PropertiesParserState;
 import com.baselet.gui.AutocompletionText;
 
 public class InnerClassFacet extends Facet {

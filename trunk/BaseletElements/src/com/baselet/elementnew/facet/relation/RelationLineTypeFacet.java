@@ -13,12 +13,11 @@ import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.StyleException;
-import com.baselet.elementnew.PropertiesParserState;
-import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
+import com.baselet.element.sticking.PointDoubleIndexed;
 import com.baselet.elementnew.element.uml.relation.RelationPointHandler;
-import com.baselet.elementnew.element.uml.relation.ResizableObject;
 import com.baselet.elementnew.element.uml.relation.SettingsRelation;
 import com.baselet.elementnew.facet.KeyValueFacet;
+import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class RelationLineTypeFacet extends KeyValueFacet {
 

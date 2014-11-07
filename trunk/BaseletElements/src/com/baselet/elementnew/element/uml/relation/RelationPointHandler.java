@@ -13,6 +13,8 @@ import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.PointChange;
+import com.baselet.element.sticking.PointDoubleIndexed;
+import com.baselet.elementnew.facet.relation.ResizableObject;
 
 public class RelationPointHandler implements ResizableObject {
 

@@ -6,7 +6,6 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.elementnew.element.uml.relation.ResizableObject;
 import com.baselet.elementnew.facet.relation.RelationDrawer.ArrowEndType;
 
 abstract class ArrowEnd implements RegexValueHolder {

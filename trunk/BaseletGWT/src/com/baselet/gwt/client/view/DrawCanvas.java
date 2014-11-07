@@ -6,7 +6,7 @@ import com.baselet.control.SharedConstants;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
-import com.baselet.elementnew.ElementId;
+import com.baselet.elementnew.base.ElementId;
 import com.baselet.gwt.client.element.ComponentGwt;
 import com.baselet.gwt.client.element.ElementFactory;
 import com.google.gwt.canvas.client.Canvas;

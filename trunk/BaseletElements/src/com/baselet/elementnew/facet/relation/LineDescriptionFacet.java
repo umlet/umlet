@@ -14,10 +14,10 @@ import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.element.uml.relation.RelationPointHandler;
 import com.baselet.elementnew.element.uml.relation.SettingsRelation;
 import com.baselet.elementnew.facet.GlobalFacet;
+import com.baselet.elementnew.facet.PropertiesParserState;
 import com.baselet.gui.AutocompletionText;
 
 public class LineDescriptionFacet extends GlobalFacet {

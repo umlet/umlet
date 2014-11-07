@@ -12,9 +12,8 @@ import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
+import com.baselet.element.sticking.PointDoubleIndexed;
 import com.baselet.elementnew.element.uml.relation.RelationPointHandler;
-import com.baselet.elementnew.element.uml.relation.ResizableObject;
 
 public class RelationDrawer {
 

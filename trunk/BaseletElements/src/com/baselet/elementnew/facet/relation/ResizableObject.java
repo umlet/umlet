@@ -1,4 +1,4 @@
-package com.baselet.elementnew.element.uml.relation;
+package com.baselet.elementnew.facet.relation;
 
 import com.baselet.diagram.draw.geom.Rectangle;
 
