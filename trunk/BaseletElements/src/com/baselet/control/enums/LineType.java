@@ -1,4 +1,4 @@
-package com.baselet.control.enumerations;
+package com.baselet.control.enums;
 
 public enum LineType implements RegexValueHolder {
 	SOLID("-"), DASHED("."), DOTTED(".."), DOUBLE("="), DOUBLE_DASHED(":"), DOUBLE_DOTTED("::");

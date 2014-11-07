@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Main;
-import com.baselet.control.enumerations.Direction;
+import com.baselet.control.enums.Direction;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;

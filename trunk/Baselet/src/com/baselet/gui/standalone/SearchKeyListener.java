@@ -3,7 +3,7 @@ package com.baselet.gui.standalone;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import com.baselet.control.Constants.SystemInfo;
+import com.baselet.control.constants.SystemInfo;
 import com.baselet.gui.CurrentGui;
 
 public class SearchKeyListener implements KeyListener {

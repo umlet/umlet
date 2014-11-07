@@ -6,18 +6,15 @@ import java.awt.Stroke;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import javax.swing.JComponent;
-
-import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.draw.Converter;
+import com.baselet.control.constants.Constants;
+import com.baselet.control.constants.SystemInfo;
+import com.baselet.control.enums.JavaImplementation;
+import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DoubleStroke;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.element.GridElement;
-import com.umlet.element.Relation;
 
 public abstract class Utils {
 
@@ -27,7 +24,7 @@ public abstract class Utils {
 	 * This method checks if the drawing of graphics should start at pixel (1,1) instead of (0,0) or not
 	 */
 	public static boolean displaceDrawingByOnePixel() {
-		return Constants.SystemInfo.JAVA_IMPL == Constants.JavaImplementation.OPEN;
+		return SystemInfo.JAVA_IMPL == JavaImplementation.OPEN;
 	}
 
 	// Not used
@@ -194,60 +191,6 @@ public abstract class Utils {
 
 	public static Double[] createDoubleArrayFromTo(Double min, Double max) {
 		return createDoubleArrayFromTo(min, max, 1D);
-	}
-
-	/**
-	 * Must be overwritten because Swing uses this method to tell if 2 elements are overlapping
-	 * It's also used to determine which element gets selected if there are overlapping elements (the smallest one)
-	 * IMPORTANT: on overlapping elements, contains is called for all elements until the first one returns true, then the others contain methods are not called
-	 */
-	public static boolean contains(GridElement gridElement, Point p) {
-		JComponent component = (JComponent) gridElement.getComponent();
-		java.awt.Rectangle rectangle = component.getVisibleRect();
-		Point absolute = new Point(gridElement.getRectangle().getX() + p.getX(), gridElement.getRectangle().getY() + p.getY());
-		if (!rectangle.contains(p.x, p.y)) {
-			return false;
-		}
-
-		List<GridElement> elements = Main.getHandlerForElement(gridElement).getDrawPanel().getGridElements();
-		// Selector selector = drawPanel.getSelector();
-		for (GridElement other : elements) {
-			if (other == gridElement) {
-				continue;
-			}
-			if (other.getLayer() < gridElement.getLayer())
-			{
-				continue; // elements with lower layer are ignored
-			}
-
-			JComponent otherComponent = (JComponent) other.getComponent();
-			if (other.getLayer() > gridElement.getLayer()) { // elements with higher layer can "overwrite" contains-value of this
-				// move point to coordinate system of other entity
-				Point other_p = new Point(p.x + gridElement.getRectangle().x - other.getRectangle().x, p.y + gridElement.getRectangle().y - other.getRectangle().y);
-				if (otherComponent.contains(Converter.convert(other_p))) {
-					return false;
-				}
-			}
-
-			java.awt.Rectangle other_rectangle = otherComponent.getVisibleRect();
-			// move bounds to coordinate system of this component
-			other_rectangle.x += other.getRectangle().x - gridElement.getRectangle().x;
-			other_rectangle.y += other.getRectangle().y - gridElement.getRectangle().y;
-			// when elements intersect, select the smaller element except if it is an old relation (because they have a larger rectangle than they use). NOTE: Old Relations are not checked because they do not properly implement isSelectableOn
-			if (!(other instanceof Relation) && other.isSelectableOn(absolute) && rectangle.intersects(other_rectangle) && smaller(other_rectangle, rectangle)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	private static boolean smaller(java.awt.Rectangle a, java.awt.Rectangle b) {
-		int areaA = a.getSize().height * a.getSize().width;
-		int areaB = b.getSize().height * b.getSize().width;
-		if (areaA < areaB) {
-			return true;
-		}
-		return false;
 	}
 
 }

@@ -8,7 +8,7 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 
 import com.baselet.control.StringStyle;
-import com.baselet.control.enumerations.FormatLabels;
+import com.baselet.control.enums.FormatLabels;
 
 public class FormattedFont {
 

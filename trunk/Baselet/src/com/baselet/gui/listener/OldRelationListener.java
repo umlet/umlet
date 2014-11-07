@@ -4,9 +4,9 @@ import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.Vector;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
-import com.baselet.control.enumerations.Direction;
+import com.baselet.control.constants.Constants;
+import com.baselet.control.enums.Direction;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Command;

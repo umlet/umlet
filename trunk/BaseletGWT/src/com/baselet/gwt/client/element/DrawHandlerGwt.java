@@ -3,9 +3,9 @@ package com.baselet.gwt.client.element;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.StringStyle;
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.FormatLabels;
-import com.baselet.control.enumerations.LineType;
+import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.FormatLabels;
+import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawFunction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.DimensionDouble;

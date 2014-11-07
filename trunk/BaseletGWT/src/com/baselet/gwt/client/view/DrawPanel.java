@@ -11,7 +11,7 @@ import java.util.Set;
 
 import com.baselet.control.MenuConstants;
 import com.baselet.control.SharedConstants;
-import com.baselet.control.enumerations.Direction;
+import com.baselet.control.enums.Direction;
 import com.baselet.diagram.Diagram;
 import com.baselet.diagram.commandnew.CommandTarget;
 import com.baselet.diagram.draw.geom.Point;

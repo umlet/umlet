@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.baselet.control.Constants;
+import com.baselet.control.constants.Constants;
 
 public class CompileError {
 

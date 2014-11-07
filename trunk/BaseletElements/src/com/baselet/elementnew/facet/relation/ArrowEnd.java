@@ -1,7 +1,7 @@
 package com.baselet.elementnew.facet.relation;
 
-import com.baselet.control.enumerations.Direction;
-import com.baselet.control.enumerations.RegexValueHolder;
+import com.baselet.control.enums.Direction;
+import com.baselet.control.enums.RegexValueHolder;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.PointDouble;

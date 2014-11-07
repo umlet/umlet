@@ -1,6 +1,6 @@
 package com.baselet.elementnew.facet.common;
 
-import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.facet.KeyValueFacet;
 import com.baselet.elementnew.facet.PropertiesParserState;

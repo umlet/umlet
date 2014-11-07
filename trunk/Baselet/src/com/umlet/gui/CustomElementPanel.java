@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.text.JTextComponent;
 
-import com.baselet.control.Constants;
+import com.baselet.control.constants.Constants;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.gui.listener.DividerListener;

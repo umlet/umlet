@@ -7,7 +7,7 @@ import java.util.Vector;
 
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.element.OldGridElement;
 
 @SuppressWarnings("serial")

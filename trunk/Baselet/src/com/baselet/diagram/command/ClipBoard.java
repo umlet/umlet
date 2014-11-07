@@ -9,8 +9,8 @@ import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.Vector;
 
-import com.baselet.control.Constants;
-import com.baselet.control.Constants.SystemInfo;
+import com.baselet.control.constants.Constants;
+import com.baselet.control.constants.SystemInfo;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.io.OutputHandler;
 import com.baselet.element.GridElement;

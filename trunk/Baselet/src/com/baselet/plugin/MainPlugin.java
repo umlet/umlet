@@ -15,11 +15,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.Path;
-import com.baselet.control.Program;
-import com.baselet.control.SharedConstants.RuntimeType;
+import com.baselet.control.constants.Constants;
+import com.baselet.control.enums.Program;
+import com.baselet.control.enums.RuntimeType;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.eclipse.EclipseGUI;
 

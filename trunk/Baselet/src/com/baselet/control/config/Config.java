@@ -4,11 +4,10 @@ import java.io.File;
 
 import javax.swing.UIManager;
 
-import com.baselet.control.Constants;
-import com.baselet.control.Constants.Os;
-import com.baselet.control.Constants.SystemInfo;
-import com.baselet.control.Program;
-import com.baselet.control.SharedConstants.RuntimeType;
+import com.baselet.control.constants.SystemInfo;
+import com.baselet.control.enums.Os;
+import com.baselet.control.enums.Program;
+import com.baselet.control.enums.RuntimeType;
 
 /**
  * holds all configuration settings from umlet.config
@@ -26,9 +25,10 @@ public class Config {
 	}
 
 	private String uiManager;
-	private String openFileHome = Constants.DEFAULT_FILE_HOME;
-	private String saveFileHome = Constants.DEFAULT_FILE_HOME;
+	private String openFileHome = Config.DEFAULT_FILE_HOME;
+	private String saveFileHome = Config.DEFAULT_FILE_HOME;
 	private String programVersion;
+	public static final String DEFAULT_FILE_HOME = System.getProperty("user.dir");
 
 	public Config() {
 		initUiManager();
@@ -60,7 +60,7 @@ public class Config {
 			return openFileHome;
 		}
 		else { // if stored location doesn't exist, return default value
-			return Constants.DEFAULT_FILE_HOME;
+			return Config.DEFAULT_FILE_HOME;
 		}
 	}
 
@@ -73,7 +73,7 @@ public class Config {
 			return saveFileHome;
 		}
 		else { // if stored location doesn't exist, return default value
-			return Constants.DEFAULT_FILE_HOME;
+			return Config.DEFAULT_FILE_HOME;
 		}
 	}
 

@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.Direction;
+import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.Direction;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Point;

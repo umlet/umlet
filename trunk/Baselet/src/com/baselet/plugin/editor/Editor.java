@@ -25,7 +25,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 
 import com.baselet.control.Main;
-import com.baselet.control.Program;
+import com.baselet.control.enums.Program;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;

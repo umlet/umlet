@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
 
-import com.baselet.control.Constants;
+import com.baselet.control.constants.Constants;
 import com.baselet.gui.CurrentGui;
 
 public class CustomElementAddDiscardListener implements MouseListener {

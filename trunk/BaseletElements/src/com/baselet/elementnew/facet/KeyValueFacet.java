@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.control.enumerations.FormatLabels;
+import com.baselet.control.enums.FormatLabels;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.gui.AutocompletionText;

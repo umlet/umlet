@@ -3,7 +3,7 @@ package com.umlet.custom;
 import java.util.List;
 
 import com.baselet.control.Main;
-import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.swing.DrawHandlerSwing;
 import com.baselet.element.GridElement;

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
-import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.Point;

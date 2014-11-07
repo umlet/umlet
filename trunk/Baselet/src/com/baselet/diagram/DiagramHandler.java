@@ -13,11 +13,11 @@ import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Constants;
 import com.baselet.control.ErrorMessages;
 import com.baselet.control.Main;
-import com.baselet.control.Program;
 import com.baselet.control.SharedUtils;
+import com.baselet.control.constants.Constants;
+import com.baselet.control.enums.Program;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.swing.DrawHandlerSwing;

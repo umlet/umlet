@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import com.baselet.control.enumerations.Direction;
+import com.baselet.control.enums.Direction;
 import com.baselet.diagram.DiagramHandler;
 
 public class Container extends Element {

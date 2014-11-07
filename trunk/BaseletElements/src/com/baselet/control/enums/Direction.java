@@ -1,4 +1,4 @@
-package com.baselet.control.enumerations;
+package com.baselet.control.enums;
 
 public enum Direction {
 	LEFT, RIGHT, UP, DOWN;

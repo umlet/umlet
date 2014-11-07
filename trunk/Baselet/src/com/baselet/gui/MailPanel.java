@@ -37,9 +37,9 @@ import javax.swing.UIManager;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Constants;
-import com.baselet.control.Program;
 import com.baselet.control.config.ConfigConst;
+import com.baselet.control.constants.Constants;
+import com.baselet.control.enums.Program;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.io.DiagramFileHandler;
 

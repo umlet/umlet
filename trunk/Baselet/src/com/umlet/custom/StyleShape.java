@@ -3,7 +3,7 @@ package com.umlet.custom;
 import java.awt.Color;
 import java.awt.Shape;
 
-import com.baselet.control.enumerations.LineType;
+import com.baselet.control.enums.LineType;
 
 /**
  * Extended shape which supports the stroketype and the line thickness

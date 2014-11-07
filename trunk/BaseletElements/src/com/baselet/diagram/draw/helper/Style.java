@@ -1,7 +1,7 @@
 package com.baselet.diagram.draw.helper;
 
 import com.baselet.control.FacetConstants;
-import com.baselet.control.enumerations.LineType;
+import com.baselet.control.enums.LineType;
 
 public class Style {
 	private LineType lineType;

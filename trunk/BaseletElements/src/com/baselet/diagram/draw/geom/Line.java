@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.enumerations.Direction;
+import com.baselet.control.enums.Direction;
 
 public class Line {
 

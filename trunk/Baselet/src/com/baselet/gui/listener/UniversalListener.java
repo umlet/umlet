@@ -7,7 +7,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.Collections;
 import java.util.Vector;
 
-import com.baselet.control.enumerations.Direction;
+import com.baselet.control.enums.Direction;
 import com.baselet.diagram.Controller;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.Direction;
+import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.Direction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Point;

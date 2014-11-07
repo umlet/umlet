@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.Direction;
+import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.Direction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.GeometricFunctions;
 import com.baselet.diagram.draw.geom.Line;

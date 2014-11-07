@@ -5,8 +5,8 @@ import java.util.Collection;
 
 import com.baselet.control.FacetConstants;
 import com.baselet.control.StringStyle;
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.LineType;
+import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Line;
 import com.baselet.diagram.draw.geom.Lines;

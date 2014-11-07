@@ -20,10 +20,10 @@ import org.sourceforge.jlibeps.epsgraphics.EpsGraphics2D;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Element;
 
-import com.baselet.control.Program;
-import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.baselet.control.config.ConfigConst;
+import com.baselet.control.constants.Constants;
+import com.baselet.control.enums.Program;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.geom.Dimension;

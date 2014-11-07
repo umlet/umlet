@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Constants.Os;
-import com.baselet.control.Constants.SystemInfo;
+import com.baselet.control.constants.SystemInfo;
+import com.baselet.control.enums.Os;
 
 public class BrowserLauncher {
 

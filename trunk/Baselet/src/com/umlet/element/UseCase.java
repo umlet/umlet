@@ -7,8 +7,8 @@ import java.util.Vector;
 
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.LineType;
+import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.LineType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;

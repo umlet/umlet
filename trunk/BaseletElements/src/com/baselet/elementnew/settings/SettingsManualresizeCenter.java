@@ -2,8 +2,8 @@ package com.baselet.elementnew.settings;
 
 import java.util.List;
 
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.AlignVertical;
+import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.AlignVertical;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.elementnew.facet.ElementStyleEnum;
 import com.baselet.elementnew.facet.Facet;
