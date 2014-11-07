@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="13.0">
+<diagram program="umlet" version="13.1">
   <zoom_level>8</zoom_level>
   <element>
     <id>UMLClass</id>
@@ -305,30 +305,32 @@ m2=provide
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>296</x>
-      <y>208</y>
-      <w>80</w>
-      <h>120</h>
+      <x>304</x>
+      <y>200</y>
+      <w>88</w>
+      <h>128</h>
     </coordinates>
     <panel_attributes>lt=-
-m1=0..n
-m2=1
+m1=1
+r1=professor
+m2=1..n
+r2=student
 teaches to v</panel_attributes>
-    <additional_attributes>40.0;10.0;40.0;130.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;140.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>296</x>
+      <x>304</x>
       <y>328</y>
-      <w>80</w>
+      <w>88</w>
       <h>120</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=0..n
 m2=1
 teaches to ^</panel_attributes>
-    <additional_attributes>40.0;10.0;40.0;130.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
