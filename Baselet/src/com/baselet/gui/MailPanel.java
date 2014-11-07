@@ -38,7 +38,8 @@ import javax.swing.UIManager;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
-import com.baselet.control.SharedConstants.Program;
+import com.baselet.control.Program;
+import com.baselet.control.config.ConfigConst;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.io.DiagramFileHandler;
 
@@ -128,7 +129,7 @@ public class MailPanel extends JPanel {
 		initAndFillComponents();
 
 		setLayout(layout);
-		setSize(new Dimension(0, Constants.mail_split_position));
+		setSize(new Dimension(0, ConfigConst.mail_split_position));
 
 		int line = 0;
 		addComponent(this, layout, Box.createRigidArea(new Dimension(0, verticalDividerSpace)), 0, line, 10, 1, fillWidth, fullWeight, 0, noPadding);
@@ -439,38 +440,38 @@ public class MailPanel extends JPanel {
 	}
 
 	private void storeConstants() {
-		Constants.mail_smtp = tf_smtp.getText();
-		Constants.mail_smtp_auth = cb_smtp_auth.isSelected();
-		Constants.mail_smtp_user = tf_smtpUser.getText();
-		Constants.mail_smtp_pw_store = cb_pwSave.isSelected();
+		ConfigConst.mail_smtp = tf_smtp.getText();
+		ConfigConst.mail_smtp_auth = cb_smtp_auth.isSelected();
+		ConfigConst.mail_smtp_user = tf_smtpUser.getText();
+		ConfigConst.mail_smtp_pw_store = cb_pwSave.isSelected();
 		if (cb_pwSave.isSelected()) {
-			Constants.mail_smtp_pw = String.valueOf(pf_smtpPW.getPassword());
+			ConfigConst.mail_smtp_pw = String.valueOf(pf_smtpPW.getPassword());
 		}
 		else {
-			Constants.mail_smtp_pw = "";
+			ConfigConst.mail_smtp_pw = "";
 		}
-		Constants.mail_from = tf_from.getText();
-		Constants.mail_to = tf_to.getText();
-		Constants.mail_cc = tf_cc.getText();
-		Constants.mail_bcc = tf_bcc.getText();
-		Constants.mail_xml = cb_attachXml.isSelected();
-		Constants.mail_gif = cb_attachGif.isSelected();
-		Constants.mail_pdf = cb_attachPdf.isSelected();
+		ConfigConst.mail_from = tf_from.getText();
+		ConfigConst.mail_to = tf_to.getText();
+		ConfigConst.mail_cc = tf_cc.getText();
+		ConfigConst.mail_bcc = tf_bcc.getText();
+		ConfigConst.mail_xml = cb_attachXml.isSelected();
+		ConfigConst.mail_gif = cb_attachGif.isSelected();
+		ConfigConst.mail_pdf = cb_attachPdf.isSelected();
 	}
 
 	private void readConstants() {
-		tf_smtp.setText(Constants.mail_smtp);
-		cb_smtp_auth.setSelected(Constants.mail_smtp_auth);
-		tf_smtpUser.setText(Constants.mail_smtp_user);
-		cb_pwSave.setSelected(Constants.mail_smtp_pw_store);
-		pf_smtpPW.setText(Constants.mail_smtp_pw);
-		tf_from.setText(Constants.mail_from);
-		tf_to.setText(Constants.mail_to);
-		tf_cc.setText(Constants.mail_cc);
-		tf_bcc.setText(Constants.mail_bcc);
-		cb_attachXml.setSelected(Constants.mail_xml);
-		cb_attachGif.setSelected(Constants.mail_gif);
-		cb_attachPdf.setSelected(Constants.mail_pdf);
+		tf_smtp.setText(ConfigConst.mail_smtp);
+		cb_smtp_auth.setSelected(ConfigConst.mail_smtp_auth);
+		tf_smtpUser.setText(ConfigConst.mail_smtp_user);
+		cb_pwSave.setSelected(ConfigConst.mail_smtp_pw_store);
+		pf_smtpPW.setText(ConfigConst.mail_smtp_pw);
+		tf_from.setText(ConfigConst.mail_from);
+		tf_to.setText(ConfigConst.mail_to);
+		tf_cc.setText(ConfigConst.mail_cc);
+		tf_bcc.setText(ConfigConst.mail_bcc);
+		cb_attachXml.setSelected(ConfigConst.mail_xml);
+		cb_attachGif.setSelected(ConfigConst.mail_gif);
+		cb_attachPdf.setSelected(ConfigConst.mail_pdf);
 	}
 
 	private void setAllFonts() {
@@ -506,7 +507,7 @@ public class MailPanel extends JPanel {
 
 	public void closePanel() {
 		storeConstants();
-		Constants.mail_split_position = (int) this.getSize().getHeight();
+		ConfigConst.mail_split_position = (int) this.getSize().getHeight();
 		CurrentGui.getInstance().getGui().setMailPanelEnabled(false);
 	}
 

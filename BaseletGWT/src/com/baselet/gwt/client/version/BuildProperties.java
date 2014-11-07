@@ -8,4 +8,8 @@ public class BuildProperties {
 	public static String getVersionString() {
 		return "Version: " + PROPERTIES.version() + "\nBuildTime: " + PROPERTIES.buildtime();
 	}
+
+	public static String getVersion() {
+		return PROPERTIES.version();
+	}
 }

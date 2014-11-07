@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="src_elements"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
@@ -22,6 +23,5 @@
 	<classpathentry kind="lib" path="lib/rsyntaxtextarea-2.5.2.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.jdt.core.compiler.ecj-4.3.1.jar"/>
 	<classpathentry kind="lib" path="lib/bcel-5.2.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/BaseletElements"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

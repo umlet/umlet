@@ -1,5 +1,7 @@
 package com.baselet.plugin;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Dictionary;
 
@@ -15,7 +17,8 @@ import org.osgi.framework.BundleContext;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
-import com.baselet.control.SharedConstants.Program;
+import com.baselet.control.Path;
+import com.baselet.control.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.eclipse.EclipseGUI;
@@ -50,6 +53,7 @@ public class MainPlugin extends AbstractUIPlugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		initHomeProgramPath();
 
 		try {
 			Main.getInstance().initLogger();
@@ -58,6 +62,20 @@ public class MainPlugin extends AbstractUIPlugin {
 		} catch (Exception e) {
 			log.error("Initialization or uncaught outer Exception", e);
 		}
+	}
+
+	private void initHomeProgramPath() {
+		String path = null;
+		try {
+			URL homeURL = MainPlugin.getURL();
+			path = FileLocator.toFileURL(homeURL).toString().substring("file:/".length());
+			if (File.separator.equals("/")) {
+				path = "/" + path;
+			}
+		} catch (IOException e) {
+			log.error("Cannot find location of Eclipse Plugin jar", e);
+		}
+		Path.setHomeProgram(path);
 	}
 
 	// Issue 83: Use OSGI Bundle to read Manifest information
@@ -79,7 +97,7 @@ public class MainPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance
-	 * 
+	 *
 	 * @return the shared instance
 	 */
 	public static MainPlugin getDefault() {
@@ -89,7 +107,7 @@ public class MainPlugin extends AbstractUIPlugin {
 	/**
 	 * Returns an image descriptor for the image file at the given
 	 * plug-in relative path
-	 * 
+	 *
 	 * @param path
 	 *            the path
 	 * @return the image descriptor

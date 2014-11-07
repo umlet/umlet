@@ -21,7 +21,6 @@ public class BaseletGWT implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		SharedConstants.dev_mode = Location.getParameter("dev") != null;
-		SharedConstants.program = "umlet_web";
 
 		if (!BrowserStorage.initLocalStorageAndCheckIfAvailable()) {
 			if (Browser.get() == Browser.INTERNET_EXPLORER && GWT.getHostPageBaseURL().startsWith("file:")) {

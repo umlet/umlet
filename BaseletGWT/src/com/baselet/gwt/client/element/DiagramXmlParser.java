@@ -11,6 +11,7 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.base.ElementId;
 import com.baselet.gwt.client.base.Notification;
+import com.baselet.gwt.client.version.BuildProperties;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.DOMException;
@@ -122,8 +123,8 @@ public class DiagramXmlParser {
 		Document doc = XMLParser.createDocument();
 
 		Element diagramElement = doc.createElement(DIAGRAM);
-		diagramElement.setAttribute(ATTR_PROGRAM, SharedConstants.program);
-		diagramElement.setAttribute(ATTR_VERSION, SharedConstants.VERSION);
+		diagramElement.setAttribute(ATTR_PROGRAM, "umlet_web");
+		diagramElement.setAttribute(ATTR_VERSION, BuildProperties.getVersion());
 		diagramElement.appendChild(create(doc, ZOOM_LEVEL, doc.createTextNode("10")));
 		String helpText = diagram.getPanelAttributes();
 		if (helpText != null) {

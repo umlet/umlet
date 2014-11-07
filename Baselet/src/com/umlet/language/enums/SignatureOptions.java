@@ -1,4 +1,4 @@
-package com.umlet.language;
+package com.umlet.language.enums;
 
 public enum SignatureOptions {
 	ALL("all"), PARAMS_ONLY("parameters only"), RETURN_ONLY("return type only");

@@ -10,8 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
+import com.baselet.control.config.ConfigConst;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -219,7 +219,7 @@ public class StandaloneGUI extends BaseGUI {
 
 	@Override
 	public int getMailSplitPosition() {
-		return Constants.mail_split_position; // must return stored value in Constants, otherwise 0 will be returned in case of a closed panel
+		return ConfigConst.mail_split_position; // must return stored value in Constants, otherwise 0 will be returned in case of a closed panel
 	}
 
 	@Override

@@ -27,8 +27,9 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
+import com.baselet.control.config.Config;
+import com.baselet.control.config.handler.ConfigHandler;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -62,6 +63,7 @@ public class Main {
 	}
 
 	public static void main(final String[] args) {
+		initHomeProgramPath();
 		main.readManifestInfo();
 		main.initLogger();
 		tmp_file = Program.NAME.toLowerCase() + ".tmp";
@@ -127,6 +129,15 @@ public class Main {
 			main.init(new StandaloneGUI(main));
 			main.doNew();
 		}
+	}
+
+	private static void initHomeProgramPath() {
+		String tempPath, realPath;
+		tempPath = Path.executable();
+		tempPath = tempPath.substring(0, tempPath.length() - 1);
+		tempPath = tempPath.substring(0, tempPath.lastIndexOf('/') + 1);
+		realPath = new File(tempPath).getAbsolutePath() + "/";
+		Path.setHomeProgram(realPath);
 	}
 
 	public void init(BaseGUI gui) {

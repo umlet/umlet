@@ -49,7 +49,7 @@ import javax.swing.SwingUtilities;
 
 import com.baselet.control.FacetConstants;
 import com.baselet.control.Main;
-import com.baselet.control.SharedConstants.Program;
+import com.baselet.control.Program;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;

@@ -26,10 +26,11 @@ import javax.swing.ScrollPaneConstants;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
+import com.baselet.control.Program;
 import com.baselet.control.SharedConstants;
-import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.control.Utils;
+import com.baselet.control.config.ConfigConst;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.OldGridElement;
@@ -188,7 +189,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 			Graphics2D g2d = (Graphics2D) g;
 			RepaintManager currentManager = RepaintManager.currentManager(this);
 			currentManager.setDoubleBufferingEnabled(false);
-			Rectangle bounds = getContentBounds(Constants.printPadding, getGridElements());
+			Rectangle bounds = getContentBounds(ConfigConst.printPadding, getGridElements());
 			g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 			AffineTransform t = g2d.getTransform();
 			double scale = Math.min(pageFormat.getImageableWidth() / bounds.width,
@@ -500,7 +501,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHints(Utils.getUxRenderingQualityHigh(true));
-		if (Constants.show_grid) {
+		if (ConfigConst.show_grid) {
 			drawGrid(g2d);
 		}
 		super.paintComponents(g);

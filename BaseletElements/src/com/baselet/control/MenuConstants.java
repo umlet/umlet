@@ -1,6 +1,5 @@
 package com.baselet.control;
 
-import com.baselet.control.SharedConstants.Program;
 
 public class MenuConstants {
 

@@ -6,6 +6,7 @@ import java.awt.font.FontRenderContext;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Utils;
+import com.baselet.control.config.ConfigConst;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 
@@ -42,7 +43,7 @@ public class FontHandler {
 			returnFontFamily = diagramDefaultFontFamily;
 		}
 		else {
-			returnFontFamily = Constants.defaultFontFamily;
+			returnFontFamily = ConfigConst.defaultFontFamily;
 		}
 
 		return returnFontFamily;
@@ -73,7 +74,7 @@ public class FontHandler {
 			returnFontSize = diagramDefaultSize;
 		}
 		else {
-			returnFontSize = Double.valueOf(Constants.defaultFontsize);
+			returnFontSize = Double.valueOf(ConfigConst.defaultFontsize);
 		}
 
 		if (applyZoom) {
