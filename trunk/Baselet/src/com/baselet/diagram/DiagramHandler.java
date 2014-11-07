@@ -439,7 +439,7 @@ public class DiagramHandler {
 			((DrawHandlerSwing) ((NewGridElement) element).getDrawer()).setHandler(this);
 			((DrawHandlerSwing) ((NewGridElement) element).getMetaDrawer()).setHandler(this);
 		}
-		element.isDeprecatedSequenceAllInOne();
+		element.getDeprecatedAddons().zoomDeprecatedSequenceAllInOne();
 		element.updateModelFromText(); // must be updated here because the new handler could have a different zoom level
 	}
 }

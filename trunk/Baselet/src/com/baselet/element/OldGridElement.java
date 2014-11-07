@@ -47,7 +47,7 @@ import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.elementnew.facet.common.LayerFacet;
 import com.baselet.gui.AutocompletionText;
-import com.umlet.elementnew.ComponentSwing;
+import com.umlet.elementnew.ComponentSwingUtils;
 
 public abstract class OldGridElement extends JComponent implements GridElement, com.baselet.elementnew.base.Component {
 
@@ -280,7 +280,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	 */
 	@Override
 	public boolean contains(int x, int y) {
-		return ComponentSwing.checkForOverlap(this, new Point(x, y));
+		return ComponentSwingUtils.checkForOverlap(this, new Point(x, y));
 	}
 
 	@Override
@@ -607,11 +607,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	@Override
-	public boolean isOldAllInOneDiagram() {
-		return false;
+	public GridElementDeprecatedAddons getDeprecatedAddons() {
+		return GridElementDeprecatedAddons.NONE;
 	}
-
-	@Override
-	public void isDeprecatedSequenceAllInOne() {}
-
 }
