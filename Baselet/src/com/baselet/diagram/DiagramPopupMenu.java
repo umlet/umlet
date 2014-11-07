@@ -1,4 +1,4 @@
-package com.baselet.gui;
+package com.baselet.diagram;
 
 import javax.swing.JPopupMenu;
 import javax.swing.event.PopupMenuEvent;
