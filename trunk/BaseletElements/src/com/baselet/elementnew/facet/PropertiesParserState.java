@@ -9,8 +9,6 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.element.sticking.polygon.SimpleStickingPolygonGenerator;
 import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
-import com.baselet.elementnew.facet.common.ElementStyleFacet.ElementStyleEnum;
-import com.baselet.elementnew.settings.Settings;
 
 public class PropertiesParserState {
 

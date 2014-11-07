@@ -34,13 +34,13 @@ import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.elementnew.base.Component;
+import com.baselet.elementnew.facet.ElementStyleEnum;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.GlobalFacet;
 import com.baselet.elementnew.facet.PropertiesParserState;
-import com.baselet.elementnew.facet.common.ElementStyleFacet.ElementStyleEnum;
+import com.baselet.elementnew.facet.Settings;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.elementnew.facet.common.LayerFacet;
-import com.baselet.elementnew.settings.Settings;
 import com.baselet.gui.AutocompletionText;
 
 public abstract class NewGridElement implements GridElement {

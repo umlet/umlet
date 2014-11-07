@@ -23,11 +23,11 @@ import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.base.ElementId;
 import com.baselet.elementnew.element.uml.relation.RelationPointHandler.Selection;
 import com.baselet.elementnew.facet.PropertiesParserState;
+import com.baselet.elementnew.facet.Settings;
 import com.baselet.elementnew.facet.common.LayerFacet;
 import com.baselet.elementnew.facet.relation.LineDescriptionFacet;
 import com.baselet.elementnew.facet.relation.LineDescriptionFacet.LineDescriptionFacetResponse;
 import com.baselet.elementnew.facet.relation.RelationLineTypeFacet;
-import com.baselet.elementnew.settings.Settings;
 
 public class Relation extends NewGridElement implements Stickable {
 
