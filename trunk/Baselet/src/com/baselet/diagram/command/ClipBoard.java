@@ -10,11 +10,11 @@ import java.util.Collection;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Main;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.io.OutputHandler;
 import com.baselet.element.GridElement;
+import com.baselet.gui.CurrentGui;
 
 /** Copies and Pastes images to the system clipboard. Requires Java 2, v1.4. */
 public class ClipBoard implements Transferable {
@@ -53,7 +53,7 @@ public class ClipBoard implements Transferable {
 		// AB: clipboard zooms entities to 100%
 		// NOTE has to be done here because it doesn't fit with cut/copy and GenPic.getImageFromDiagram otherwise)
 		DiagramHandler.zoomEntities(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, this.entities);
-		Main.getInstance().getGUI().enablePasteMenuEntry();
+		CurrentGui.getInstance().getGui().enablePasteMenuEntry();
 	}
 
 	public Vector<GridElement> paste() {

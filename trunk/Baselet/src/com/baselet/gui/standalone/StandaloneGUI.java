@@ -12,6 +12,7 @@ import javax.swing.JTabbedPane;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
@@ -102,10 +103,10 @@ public class StandaloneGUI extends BaseGUI {
 		guiBuilder.getDiagramtabs().remove(diagram.getDrawPanel().getScrollPane());
 		DrawPanel p = getCurrentDiagram();
 		if (p != null) {
-			Main.getInstance().setCurrentDiagramHandler(p.getHandler());
+			CurrentDiagram.getInstance().setCurrentDiagramHandler(p.getHandler());
 		}
 		else {
-			Main.getInstance().setCurrentDiagramHandler(null);
+			CurrentDiagram.getInstance().setCurrentDiagramHandler(null);
 		}
 	}
 
@@ -123,10 +124,10 @@ public class StandaloneGUI extends BaseGUI {
 		diagram.getDrawPanel().getSelector().updateSelectorInformation();
 		DrawPanel p = getCurrentDiagram();
 		if (p != null) {
-			Main.getInstance().setCurrentDiagramHandler(p.getHandler());
+			CurrentDiagram.getInstance().setCurrentDiagramHandler(p.getHandler());
 		}
 		else {
-			Main.getInstance().setCurrentDiagramHandler(null);
+			CurrentDiagram.getInstance().setCurrentDiagramHandler(null);
 		}
 	}
 

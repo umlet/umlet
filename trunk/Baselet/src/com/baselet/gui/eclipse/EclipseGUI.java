@@ -15,10 +15,12 @@ import org.eclipse.swt.widgets.Display;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
 import com.baselet.gui.BaseGUI;
+import com.baselet.gui.CurrentGui;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.plugin.MainPlugin;
 import com.baselet.plugin.editor.Contributor;
@@ -57,7 +59,7 @@ public class EclipseGUI extends BaseGUI {
 	public void diagramSelected(DiagramHandler handler) {
 		// the menues are only visible if a diagram is selected. (contributor manages this)
 		// AB: just update the export menu
-		DrawPanel currentDiagram = Main.getInstance().getGUI().getCurrentDiagram();
+		DrawPanel currentDiagram = CurrentGui.getInstance().getGui().getCurrentDiagram();
 		if (currentDiagram == null)
 		{
 			return; // Possible if method is called at loading a palette
@@ -198,7 +200,7 @@ public class EclipseGUI extends BaseGUI {
 	}
 
 	public void setCurrentDiagramHandler(DiagramHandler handler) {
-		Main.getInstance().setCurrentDiagramHandler(handler);
+		CurrentDiagram.getInstance().setCurrentDiagramHandler(handler);
 	}
 
 	public void setCurrentEditor(Editor editor) {

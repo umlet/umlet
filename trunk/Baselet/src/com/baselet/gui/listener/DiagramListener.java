@@ -11,9 +11,11 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Main;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.SelectorFrame;
 import com.baselet.diagram.draw.geom.Point;
+import com.baselet.gui.CurrentGui;
 
 public class DiagramListener extends UniversalListener implements MouseWheelListener {
 
@@ -51,7 +53,7 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 	@Override
 	public void mouseMoved(MouseEvent me) {
 		super.mouseMoved(me);
-		Main.getInstance().getGUI().setCursor(Constants.DEFAULT_CURSOR);
+		CurrentGui.getInstance().getGui().setCursor(Constants.DEFAULT_CURSOR);
 	}
 
 	@Override
@@ -70,12 +72,12 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		// Only if Ctrl is pressed while scrolling, we zoom in and out
 		if ((e.getModifiersEx() & SystemInfo.META_KEY.getMaskDown()) == SystemInfo.META_KEY.getMaskDown()) {
-			int actualZoom = Main.getInstance().getDiagramHandler().getGridSize();
+			int actualZoom = CurrentDiagram.getInstance().getDiagramHandler().getGridSize();
 			// e.getWheelRotation is -1 if scrolling up and +1 if scrolling down therefore we subtract it
-			Main.getInstance().getDiagramHandler().setGridAndZoom(actualZoom - e.getWheelRotation());
+			CurrentDiagram.getInstance().getDiagramHandler().setGridAndZoom(actualZoom - e.getWheelRotation());
 		}
 		else { // otherwise scroll the diagram
-			Main.getInstance().getDiagramHandler().getDrawPanel().scroll(e.getWheelRotation());
+			CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().scroll(e.getWheelRotation());
 		}
 	}
 }

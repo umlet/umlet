@@ -8,7 +8,8 @@ import java.awt.event.MouseWheelListener;
 
 import javax.swing.JComboBox;
 
-import com.baselet.control.Main;
+import com.baselet.diagram.CurrentDiagram;
+import com.baselet.gui.CurrentGui;
 
 public class ZoomListener implements ActionListener, MouseWheelListener {
 
@@ -23,7 +24,7 @@ public class ZoomListener implements ActionListener, MouseWheelListener {
 	}
 
 	private void handleEvent(AWTEvent e) {
-		if (Main.getInstance().getGUI() instanceof StandaloneGUI && Main.getInstance().getDiagramHandler() != null) {
+		if (CurrentGui.getInstance().getGui() instanceof StandaloneGUI && CurrentDiagram.getInstance().getDiagramHandler() != null) {
 			// The offset is -1 (wheel up) or +1 (wheel down) or 0 (no wheel used)
 			int offset = 0;
 			if (e instanceof MouseWheelEvent) {
@@ -35,7 +36,7 @@ public class ZoomListener implements ActionListener, MouseWheelListener {
 			int newZoomFactor = Integer.parseInt(zoomFactor) + offset;
 
 			if (newZoomFactor > 0 && newZoomFactor < 21) {
-				Main.getInstance().getDiagramHandler().setGridAndZoom(newZoomFactor);
+				CurrentDiagram.getInstance().getDiagramHandler().setGridAndZoom(newZoomFactor);
 			}
 		}
 	}

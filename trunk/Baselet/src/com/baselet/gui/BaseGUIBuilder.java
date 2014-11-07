@@ -15,6 +15,7 @@ import com.baselet.control.Config;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.SharedConstants.Program;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.gui.listener.DividerListener;
 import com.baselet.gui.listener.PaletteComboBoxListener;
@@ -195,7 +196,7 @@ public abstract class BaseGUIBuilder {
 				getCustomSplit().setDividerLocation(rightloc);
 
 				customPanel.getRightSplit().setDividerLocation(loc);
-				customPanel.getLeftSplit().setDividerLocation(Main.getInstance().getDiagramHandler().getDrawPanel().getWidth() / 2);
+				customPanel.getLeftSplit().setDividerLocation(CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().getWidth() / 2);
 				customPanel.getLeftSplit().updateUI();
 			}
 			else {

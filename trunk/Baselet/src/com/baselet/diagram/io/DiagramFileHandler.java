@@ -34,13 +34,14 @@ import org.w3c.dom.Element;
 
 import com.baselet.control.Config;
 import com.baselet.control.Constants;
-import com.baselet.control.Main;
 import com.baselet.control.Path;
 import com.baselet.control.SharedConstants.Program;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.Notifier;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.NewGridElement;
+import com.baselet.gui.CurrentGui;
 import com.umlet.custom.CustomElement;
 
 public class DiagramFileHandler {
@@ -94,7 +95,7 @@ public class DiagramFileHandler {
 		JFileChooser fileChooser = new JFileChooser(calcInitialDir(exportCall));
 		fileChooser.setAcceptAllFileFilterUsed(false); // We don't want "all files" as a choice
 		// The input field should show the diagram name as preset
-		fileChooser.setSelectedFile(new File(Main.getInstance().getDiagramHandler().getName()));
+		fileChooser.setSelectedFile(new File(CurrentDiagram.getInstance().getDiagramHandler().getName()));
 		return fileChooser;
 	}
 
@@ -123,7 +124,7 @@ public class DiagramFileHandler {
 
 	private void setFileName(String fileName) {
 		this.fileName = fileName;
-		Main.getInstance().getGUI().updateDiagramName(handler, handler.getName());
+		CurrentGui.getInstance().getGui().updateDiagramName(handler, handler.getName());
 	}
 
 	private void createXMLOutputDoc(Document doc, Collection<GridElement> elements, Element current) {
@@ -335,11 +336,11 @@ public class DiagramFileHandler {
 		setAvailableFileFilters(ownXmlFormat, fileChooser);
 		fileChooser.setFileFilter(filefilter);
 
-		int returnVal = fileChooser.showSaveDialog(Main.getInstance().getGUI().getMainFrame());
+		int returnVal = fileChooser.showSaveDialog(CurrentGui.getInstance().getGui().getMainFrame());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File selectedFileWithExt = getFileWithExtension(fileChooser);
 			if (selectedFileWithExt.exists()) {
-				int overwriteQuestionResult = JOptionPane.showConfirmDialog(Main.getInstance().getGUI().getMainFrame(), "File already exists! Overwrite?", "Overwrite File", JOptionPane.YES_NO_OPTION);
+				int overwriteQuestionResult = JOptionPane.showConfirmDialog(CurrentGui.getInstance().getGui().getMainFrame(), "File already exists! Overwrite?", "Overwrite File", JOptionPane.YES_NO_OPTION);
 				if (overwriteQuestionResult == JOptionPane.NO_OPTION) {
 					return chooseFileName(ownXmlFormat, filefilter, fileChooser);
 				}

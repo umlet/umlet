@@ -16,14 +16,14 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.EditorActionBarContributor;
 
-import com.baselet.control.Main;
 import com.baselet.control.MenuConstants;
 import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.element.GridElement;
+import com.baselet.gui.CurrentGui;
 import com.baselet.gui.eclipse.EclipseGUI;
-import com.baselet.gui.eclipse.MenuFactoryEclipse;
 import com.baselet.gui.eclipse.EclipseGUI.Pane;
+import com.baselet.gui.eclipse.MenuFactoryEclipse;
 import com.baselet.gui.eclipse.UpdateActionBars;
 import com.baselet.plugin.MainPlugin;
 
@@ -71,7 +71,7 @@ public class Contributor extends EditorActionBarContributor {
 		Action copyActionPropPanel = new Action() {
 			@Override
 			public void run() {
-				((EclipseGUI) Main.getInstance().getGUI()).panelDoAction(pane, action);
+				((EclipseGUI) CurrentGui.getInstance().getGui()).panelDoAction(pane, action);
 			}
 		};
 		return copyActionPropPanel;

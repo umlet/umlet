@@ -8,9 +8,10 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JTextField;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Main;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Search;
+import com.baselet.gui.CurrentGui;
 
 public class SearchListener implements KeyListener, MouseMotionListener {
 
@@ -25,14 +26,14 @@ public class SearchListener implements KeyListener, MouseMotionListener {
 	public void keyReleased(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			JTextField search = (JTextField) e.getComponent();
-			DiagramHandler h = Main.getInstance().getDiagramHandler();
+			DiagramHandler h = CurrentDiagram.getInstance().getDiagramHandler();
 			if (h != null && search != null && !"".equals(search.getText())) {
 				h.getController().executeCommand(new Search(search.getText()));
 			}
-			Main.getInstance().getGUI().enableSearch(false);
+			CurrentGui.getInstance().getGui().enableSearch(false);
 		}
 		else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			Main.getInstance().getGUI().enableSearch(false);
+			CurrentGui.getInstance().getGui().enableSearch(false);
 		}
 	}
 
@@ -44,7 +45,7 @@ public class SearchListener implements KeyListener, MouseMotionListener {
 
 	@Override
 	public void mouseMoved(MouseEvent me) {
-		Main.getInstance().getGUI().setCursor(Constants.TEXT_CURSOR);
+		CurrentGui.getInstance().getGui().setCursor(Constants.TEXT_CURSOR);
 	}
 
 }

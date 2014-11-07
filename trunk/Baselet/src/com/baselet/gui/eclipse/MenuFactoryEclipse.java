@@ -48,7 +48,9 @@ import org.eclipse.ui.ide.IDE;
 
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.gui.CurrentGui;
 import com.baselet.gui.menu.MenuFactory;
 import com.baselet.plugin.editor.Contributor;
 
@@ -68,7 +70,7 @@ public class MenuFactoryEclipse extends MenuFactory {
 	@Override
 	public void doAction(final String menuItem, final Object param) {
 		log.info("doAction " + menuItem);
-		DiagramHandler actualHandler = Main.getInstance().getDiagramHandler();
+		DiagramHandler actualHandler = CurrentDiagram.getInstance().getDiagramHandler();
 		// Edit Palette cannot be put in a separate invokeLater thread, or otherwise getActivePage() will be null!
 		if (menuItem.equals(EDIT_CURRENT_PALETTE)) {
 			String paletteName = Main.getInstance().getPalette().getFileHandler().getFullPathName();
@@ -86,7 +88,7 @@ public class MenuFactoryEclipse extends MenuFactory {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					Main.getInstance().getGUI().enableSearch(true);
+					CurrentGui.getInstance().getGui().enableSearch(true);
 				}
 			});
 		}
@@ -94,7 +96,7 @@ public class MenuFactoryEclipse extends MenuFactory {
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					Main.getInstance().getDiagramHandler().setGridAndZoom((Integer) param);
+					CurrentDiagram.getInstance().getDiagramHandler().setGridAndZoom((Integer) param);
 				}
 			});
 		}

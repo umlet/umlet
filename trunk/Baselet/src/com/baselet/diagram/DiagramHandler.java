@@ -25,6 +25,7 @@ import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.gui.BaseGUI;
+import com.baselet.gui.CurrentGui;
 import com.baselet.gui.DiagramPopupMenu;
 import com.baselet.gui.listener.DiagramListener;
 import com.baselet.gui.listener.GridElementListener;
@@ -71,7 +72,7 @@ public class DiagramHandler {
 		}
 
 		boolean extendedPopupMenu = false;
-		BaseGUI gui = Main.getInstance().getGUI();
+		BaseGUI gui = CurrentGui.getInstance().getGui();
 		if (gui != null) {
 			gui.setValueOfZoomDisplay(getGridSize());
 			if (gui instanceof StandaloneGUI)
@@ -112,7 +113,7 @@ public class DiagramHandler {
 	public void setChanged(boolean changed) {
 		if (isChanged != changed) {
 			isChanged = changed;
-			BaseGUI gui = Main.getInstance().getGUI();
+			BaseGUI gui = CurrentGui.getInstance().getGui();
 			if (gui != null) {
 				gui.setDiagramChanged(this, changed);
 			}
@@ -141,7 +142,7 @@ public class DiagramHandler {
 		try {
 			fileHandler.doSave();
 			reloadPalettes();
-			Main.getInstance().getGUI().afterSaving();
+			CurrentGui.getInstance().getGui().afterSaving();
 			return true;
 		} catch (IOException e) {
 			log.error(e);
@@ -158,7 +159,7 @@ public class DiagramHandler {
 			try {
 				fileHandler.doSaveAs(extension);
 				reloadPalettes();
-				Main.getInstance().getGUI().afterSaving();
+				CurrentGui.getInstance().getGui().afterSaving();
 			} catch (IOException e) {
 				log.error(e);
 				Main.getInstance().displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
@@ -198,11 +199,11 @@ public class DiagramHandler {
 	public void doClose() {
 		if (askSaveIfDirty()) {
 			Main.getInstance().getDiagrams().remove(this);
-			Main.getInstance().getGUI().close(this);
+			CurrentGui.getInstance().getGui().close(this);
 			drawpanel.getSelector().deselectAll();
 
 			// update property panel to now selected diagram (or to empty if no diagram exists)
-			DiagramHandler newhandler = Main.getInstance().getDiagramHandler(); //
+			DiagramHandler newhandler = CurrentDiagram.getInstance().getDiagramHandler(); //
 			if (newhandler != null) {
 				newhandler.getDrawPanel().getSelector().updateSelectorInformation();
 			}
@@ -241,7 +242,7 @@ public class DiagramHandler {
 
 	public boolean askSaveIfDirty() {
 		if (isChanged) {
-			int ch = JOptionPane.showOptionDialog(Main.getInstance().getGUI().getMainFrame(), "Save changes?", Program.NAME + " - " + getName(), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+			int ch = JOptionPane.showOptionDialog(CurrentGui.getInstance().getGui().getMainFrame(), "Save changes?", Program.NAME + " - " + getName(), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
 			if (ch == JOptionPane.YES_OPTION) {
 				doSave();
 				return true;
@@ -256,7 +257,7 @@ public class DiagramHandler {
 
 	public void setHelpText(String helptext) {
 		this.helptext = helptext;
-		BaseGUI gui = Main.getInstance().getGUI();
+		BaseGUI gui = CurrentGui.getInstance().getGui();
 		if (gui != null && gui.getPropertyPane() != null) {
 			gui.getPropertyPane().switchToNonElement(this.helptext);
 		}
@@ -410,14 +411,14 @@ public class DiagramHandler {
 				setChanged(true);
 			}
 
-			BaseGUI gui = Main.getInstance().getGUI();
+			BaseGUI gui = CurrentGui.getInstance().getGui();
 			if (gui != null) {
 				gui.setValueOfZoomDisplay(factor);
 			}
 
-			float zoomFactor = Main.getInstance().getDiagramHandler().getZoomFactor() * 100;
+			float zoomFactor = CurrentDiagram.getInstance().getDiagramHandler().getZoomFactor() * 100;
 			String zoomtext;
-			if (Main.getInstance().getDiagramHandler() instanceof PaletteHandler) {
+			if (CurrentDiagram.getInstance().getDiagramHandler() instanceof PaletteHandler) {
 				zoomtext = "Palette zoomed to " + Integer.toString((int) zoomFactor) + "%";
 			}
 			else {

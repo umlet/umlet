@@ -5,9 +5,9 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JTabbedPane;
 
-import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.BaseGUI;
+import com.baselet.gui.CurrentGui;
 
 public class TabListener implements MouseListener {
 
@@ -39,7 +39,7 @@ public class TabListener implements MouseListener {
 		pane.setSelectedComponent(handler.getDrawPanel().getScrollPane());
 		handler.getDrawPanel().getSelector().updateSelectorInformation();
 
-		BaseGUI gui = Main.getInstance().getGUI();
+		BaseGUI gui = CurrentGui.getInstance().getGui();
 		if (gui != null) {
 			gui.setValueOfZoomDisplay(handler.getGridSize());
 		}

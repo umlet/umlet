@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Main;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler;
 import com.baselet.diagram.command.AddElement;
@@ -37,7 +37,7 @@ public class ClassDiagramConverter {
 	private final int GRIDSIZE;
 
 	public ClassDiagramConverter() {
-		GRIDSIZE = Main.getInstance().getDiagramHandler().getGridSize();
+		GRIDSIZE = CurrentDiagram.getInstance().getDiagramHandler().getGridSize();
 	}
 
 	public void createClassDiagram(String filename) {
@@ -82,12 +82,12 @@ public class ClassDiagramConverter {
 		propertiesText.split("\n");
 		List<String> propList = Arrays.asList(propertiesText.split("\n"));
 		Rectangle initialSize = adjustSize(propList);
-		GridElement clazz = ElementFactory.create(ElementId.UMLClass, initialSize, propertiesText, null, Main.getInstance().getDiagramHandler());
+		GridElement clazz = ElementFactory.create(ElementId.UMLClass, initialSize, propertiesText, null, CurrentDiagram.getInstance().getDiagramHandler());
 		return new SortableElement(clazz, parsedClass);
 	}
 
 	private void addElementsToDiagram(List<SortableElement> elements) {
-		DiagramHandler handler = Main.getInstance().getDiagramHandler();
+		DiagramHandler handler = CurrentDiagram.getInstance().getDiagramHandler();
 
 		for (SortableElement e : elements) {
 			new AddElement(e.getElement(),
@@ -105,7 +105,7 @@ public class ClassDiagramConverter {
 	 */
 	private Rectangle adjustSize(List<String> strings) {
 		// GridElement clazz not yet fully initialized, cannot call clazz.getHandler();
-		FontHandler fontHandler = Main.getInstance().getDiagramHandler().getFontHandler();
+		FontHandler fontHandler = CurrentDiagram.getInstance().getDiagramHandler().getFontHandler();
 
 		int width = 0;
 		int height = strings.size();

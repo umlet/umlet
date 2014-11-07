@@ -29,6 +29,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.Notifier;
@@ -36,6 +37,7 @@ import com.baselet.diagram.PaletteHandler;
 import com.baselet.diagram.io.OpenFileChooser;
 import com.baselet.element.GridElement;
 import com.baselet.gui.BaseGUI;
+import com.baselet.gui.CurrentGui;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.standalone.StandaloneGUI;
 
@@ -50,11 +52,9 @@ public class Main {
 	private static boolean file_created = false;
 	private static Timer timer;
 
-	private BaseGUI gui;
 	private GridElement editedGridElement;
 	private TreeMap<String, PaletteHandler> palettes;
 	private final ArrayList<DiagramHandler> diagrams = new ArrayList<DiagramHandler>();
-	private DiagramHandler currentDiagramHandler;
 	private ClassLoader classLoader;
 
 	public static Main getInstance() {
@@ -130,7 +130,7 @@ public class Main {
 	}
 
 	public void init(BaseGUI gui) {
-		this.gui = gui;
+		CurrentGui.getInstance().setGui(gui);
 		ConfigHandler.loadConfig(); // only load config after gui is set (because of homepath)
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE); // Tooltips should not hide after some time
 		gui.initGUI(); // show gui
@@ -176,7 +176,7 @@ public class Main {
 	}
 
 	public void displayError(String error) {
-		JOptionPane.showMessageDialog(getGUI().getMainFrame(), error, "ERROR", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(CurrentGui.getInstance().getGui().getMainFrame(), error, "ERROR", JOptionPane.ERROR_MESSAGE);
 	}
 
 	private static void printToConsole(String text) {
@@ -274,14 +274,6 @@ public class Main {
 		return true;
 	}
 
-	// sets the current diagram the user works with - that may be a palette too
-	public void setCurrentDiagramHandler(DiagramHandler handler) {
-		currentDiagramHandler = handler;
-		if (gui != null) {
-			gui.diagramSelected(handler);
-		}
-	}
-
 	public void setPropertyPanelToCustomElement(GridElement e) {
 		editedGridElement = e;
 	}
@@ -297,12 +289,12 @@ public class Main {
 
 	private void setPropertyPanelToGridElementHelper(GridElement e) {
 		editedGridElement = e;
-		OwnSyntaxPane propertyPane = gui.getPropertyPane();
+		OwnSyntaxPane propertyPane = CurrentGui.getInstance().getGui().getPropertyPane();
 		if (e != null) {
 			propertyPane.switchToElement(e);
 		}
 		else {
-			DiagramHandler handler = getDiagramHandler();
+			DiagramHandler handler = CurrentDiagram.getInstance().getDiagramHandler();
 			if (handler == null) {
 				propertyPane.switchToNonElement("");
 			}
@@ -356,14 +348,14 @@ public class Main {
 		}
 		DiagramHandler diagram = new DiagramHandler(null);
 		diagrams.add(diagram);
-		gui.open(diagram);
+		CurrentGui.getInstance().getGui().open(diagram);
 		if (diagrams.size() == 1) {
 			setPropertyPanelToGridElement(null);
 		}
 	}
 
 	public void doOpenFromFileChooser() {
-		List<String> files = new OpenFileChooser().getFilesToOpen(gui.getMainFrame());
+		List<String> files = new OpenFileChooser().getFilesToOpen(CurrentGui.getInstance().getGui().getMainFrame());
 		for (String file : files) {
 			doOpen(file);
 		}
@@ -387,7 +379,7 @@ public class Main {
 		Config.getInstance().setOpenFileHome(file.getParent());
 		DiagramHandler handler = getDiagramHandlerForFile(filename);
 		if (handler != null) { // File is already opened -> jump to the tab
-			gui.jumpTo(handler);
+			CurrentGui.getInstance().getGui().jumpTo(handler);
 			Notifier.getInstance().showNotification("switched to " + filename);
 		}
 		else {
@@ -398,7 +390,7 @@ public class Main {
 			editedGridElement = null; // must be set to null here, otherwise the change listener of the property panel will change element text to help_text of diagram (see google code Issue 174)
 			DiagramHandler diagram = new DiagramHandler(file);
 			diagrams.add(diagram);
-			gui.open(diagram);
+			CurrentGui.getInstance().getGui().open(diagram);
 			if (diagrams.size() == 1) {
 				setPropertyPanelToGridElement(null);
 			}
@@ -431,7 +423,7 @@ public class Main {
 
 	// called by UI when main is closed
 	public void closeProgram() {
-		ConfigHandler.saveConfig(getGUI());
+		ConfigHandler.saveConfig(CurrentGui.getInstance().getGui());
 		if (file_created) {
 			timer.cancel();
 			new File(Path.temp() + tmp_file).delete();
@@ -491,16 +483,12 @@ public class Main {
 		return returnList;
 	}
 
-	public BaseGUI getGUI() {
-		return gui;
-	}
-
 	public GridElement getEditedGridElement() {
 		return editedGridElement;
 	}
 
 	public PaletteHandler getPalette() {
-		String name = gui.getSelectedPalette();
+		String name = CurrentGui.getInstance().getGui().getSelectedPalette();
 		if (name != null) {
 			return getPalettes().get(name);
 		}
@@ -509,11 +497,6 @@ public class Main {
 
 	public DrawPanel getPalettePanel() {
 		return getPalette().getDrawPanel();
-	}
-
-	// returns the current diagramhandler the user works with - may be a diagramhandler of a palette too
-	public DiagramHandler getDiagramHandler() {
-		return currentDiagramHandler;
 	}
 
 	/**

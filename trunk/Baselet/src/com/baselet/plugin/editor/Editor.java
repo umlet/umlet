@@ -29,6 +29,7 @@ import com.baselet.control.SharedConstants.Program;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
+import com.baselet.gui.CurrentGui;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.eclipse.EclipseGUIBuilder;
 import com.baselet.plugin.MainPlugin;
@@ -145,7 +146,7 @@ public class Editor extends EditorPart {
 					}
 				}
 				showPalette(getSelectedPaletteName());
-				Main.getInstance().getGUI().setValueOfZoomDisplay(handler.getGridSize());
+				CurrentGui.getInstance().getGui().setValueOfZoomDisplay(handler.getGridSize());
 				guiComponents.getPropertyTextPane().invalidate();
 			}
 		});

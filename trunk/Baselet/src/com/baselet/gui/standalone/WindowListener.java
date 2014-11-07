@@ -2,7 +2,7 @@ package com.baselet.gui.standalone;
 
 import java.awt.event.WindowEvent;
 
-import com.baselet.control.Main;
+import com.baselet.gui.CurrentGui;
 
 public class WindowListener implements java.awt.event.WindowListener {
 
@@ -16,7 +16,7 @@ public class WindowListener implements java.awt.event.WindowListener {
 
 	@Override
 	public void windowClosing(WindowEvent arg0) {
-		Main.getInstance().getGUI().closeWindow();
+		CurrentGui.getInstance().getGui().closeWindow();
 	}
 
 	@Override

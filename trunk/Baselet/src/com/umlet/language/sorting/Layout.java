@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.baselet.control.Main;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.umlet.language.SortableElement;
@@ -15,7 +15,7 @@ public abstract class Layout {
 	protected Dimension bounds;
 
 	public Layout() {
-		GRIDSIZE = Main.getInstance().getDiagramHandler().getGridSize();
+		GRIDSIZE = CurrentDiagram.getInstance().getDiagramHandler().getGridSize();
 	}
 
 	public abstract void layout(List<SortableElement> elements);
