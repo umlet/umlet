@@ -21,7 +21,6 @@ import javax.swing.JEditorPane;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.BrowserLauncher;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Metakey;
 import com.baselet.control.Constants.SystemInfo;

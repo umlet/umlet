@@ -16,10 +16,6 @@ import com.baselet.element.sticking.StickingPolygon;
 @SuppressWarnings("serial")
 public class UseCase extends OldGridElement {
 
-	public UseCase() {
-		super();
-	}
-
 	private Vector<String> getStringVector() {
 		Vector<String> ret = Utils.decomposeStrings(getPanelAttributes());
 		return ret;

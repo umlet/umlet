@@ -4,6 +4,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+import com.baselet.gui.menu.MenuFactorySwing;
+
 @SuppressWarnings("serial")
 public class DiagramPopupMenu extends JPopupMenu {
 

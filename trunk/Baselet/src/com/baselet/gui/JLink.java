@@ -6,8 +6,6 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JLabel;
 
-import com.baselet.control.BrowserLauncher;
-
 public class JLink extends JLabel {
 
 	/**

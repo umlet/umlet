@@ -1,4 +1,4 @@
-package com.baselet.control;
+package com.baselet.gui;
 
 import java.awt.Desktop;
 import java.io.IOException;

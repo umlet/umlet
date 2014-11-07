@@ -69,8 +69,8 @@ public abstract class CustomElement extends OldGridElement {
 	protected Composite[] composites;
 	private String code;
 
-	private final Vector<StyleShape> shapes;
-	private final Vector<Text> texts;
+	private final Vector<StyleShape> shapes = new Vector<StyleShape>();
+	private final Vector<Text> texts = new Vector<Text>();
 
 	// The temp-variables are needed to store styles with setLineType etc. methods temporarily so that draw-Methods know the actual set style
 	private LineType tmpLineType;
@@ -82,11 +82,6 @@ public abstract class CustomElement extends OldGridElement {
 	private boolean specialLine, specialFgColor, specialBgColor;
 	private boolean wordWrap = false;
 	private boolean allowResize = true;
-
-	public CustomElement() {
-		shapes = new Vector<StyleShape>();
-		texts = new Vector<Text>();
-	}
 
 	public abstract void paint();
 

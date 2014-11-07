@@ -1,12 +1,16 @@
-package com.baselet.control;
+package com.baselet.diagram.command;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.image.BufferedImage;
+import java.util.Collection;
 import java.util.Vector;
 
+import com.baselet.control.Constants;
+import com.baselet.control.Main;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.io.OutputHandler;
@@ -71,7 +75,22 @@ public class ClipBoard implements Transferable {
 		if (!isDataFlavorSupported(flavor)) {
 			throw new UnsupportedFlavorException(flavor);
 		}
-		return OutputHandler.createImageForClipboard(copiedfrom, entities);
+		return ClipBoard.createImageForClipboard(copiedfrom, entities);
+	}
+
+	private static BufferedImage createImageForClipboard(DiagramHandler handler, Collection<GridElement> entities) {
+
+		int oldZoom = handler.getGridSize();
+		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
+
+		if (entities.isEmpty()) {
+			entities = handler.getDrawPanel().getGridElements();
+		}
+		BufferedImage returnImg = OutputHandler.getImageFromDiagram(handler, entities);
+
+		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
+
+		return returnImg;
 	}
 
 }

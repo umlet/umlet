@@ -1,4 +1,4 @@
-package com.baselet.gui;
+package com.baselet.gui.menu;
 
 import static com.baselet.control.MenuConstants.ABOUT_PROGRAM;
 import static com.baselet.control.MenuConstants.ALIGN;
@@ -47,7 +47,6 @@ import java.util.Map;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
-import com.baselet.control.BrowserLauncher;
 import com.baselet.control.FacetConstants;
 import com.baselet.control.Main;
 import com.baselet.control.SharedConstants.Program;
@@ -64,13 +63,18 @@ import com.baselet.diagram.io.ClassChooser;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.elementnew.facet.common.LayerFacet;
+import com.baselet.gui.AboutDialog;
+import com.baselet.gui.BaseGUI;
+import com.baselet.gui.BrowserLauncher;
+import com.baselet.gui.GenerateOptionPanel;
+import com.baselet.gui.OptionPanel;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.custom.CustomElement;
 import com.umlet.language.ClassDiagramConverter;
 
 public class MenuFactory {
 
-	protected void doAction(final String menuItem, final Object param) {
+	public void doAction(final String menuItem, final Object param) {
 		// AB: Hopefully this will resolve threading issues and work for eclipse AND standalone
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override

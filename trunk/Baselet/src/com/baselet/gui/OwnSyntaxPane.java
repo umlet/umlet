@@ -27,6 +27,7 @@ import com.baselet.control.MenuConstants;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
+import com.baselet.gui.menu.MenuFactorySwing;
 
 public class OwnSyntaxPane {
 

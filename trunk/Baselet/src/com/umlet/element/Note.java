@@ -14,10 +14,6 @@ import com.baselet.element.OldGridElement;
 @SuppressWarnings("serial")
 public class Note extends OldGridElement {
 
-	public Note() {
-		super();
-	}
-
 	private Vector<String> getStringVector() {
 		return Utils.decomposeStrings(getPanelAttributes());
 	}

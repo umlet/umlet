@@ -20,6 +20,7 @@ import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;
+import com.baselet.gui.menu.MenuFactorySwing;
 import com.umlet.custom.CustomElement;
 import com.umlet.custom.CustomElementHandler;
 

@@ -1,4 +1,4 @@
-package com.baselet.control;
+package com.baselet.diagram;
 
 import java.awt.AlphaComposite;
 import java.awt.Composite;
@@ -9,7 +9,7 @@ import java.awt.font.FontRenderContext;
 
 import javax.swing.JComponent;
 
-import com.baselet.diagram.FormattedFont;
+import com.baselet.control.Utils;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
 

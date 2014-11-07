@@ -18,7 +18,7 @@ import com.baselet.element.sticking.StickingPolygon;
 public class Class extends OldGridElement {
 
 	// A.Mueller start
-	private final Vector<Class> innerClasses;
+	private final Vector<Class> innerClasses = new Vector<Class>();
 	private boolean _isTemplate = false;
 	private boolean _isInnerClass = false;
 	private String _panelString = "";
@@ -26,11 +26,6 @@ public class Class extends OldGridElement {
 	private int _templateWidth = 0;
 
 	// A.Mueller end
-
-	public Class() {
-		super();
-		innerClasses = new Vector<Class>(); // A.Mueller
-	}
 
 	private Vector<String> getStringVector() {
 		if (isInnerClass())
