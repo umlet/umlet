@@ -25,13 +25,12 @@ public class Config {
 	}
 
 	private String uiManager;
-	private String openFileHome;
-	private String saveFileHome;
+	private String openFileHome = Constants.DEFAULT_FILE_HOME;
+	private String saveFileHome = Constants.DEFAULT_FILE_HOME;
+	private String programVersion;
 
 	public Config() {
 		initUiManager();
-		openFileHome = Constants.DEFAULT_FILE_HOME;
-		saveFileHome = Constants.DEFAULT_FILE_HOME;
 	}
 
 	private void initUiManager() {
@@ -79,5 +78,13 @@ public class Config {
 
 	public void setSaveFileHome(String saveFileHome) {
 		this.saveFileHome = saveFileHome;
+	}
+
+	public void setProgramVersion(String cfgVersion) {
+		programVersion = cfgVersion;
+	}
+
+	public String getProgramVersion() {
+		return programVersion;
 	}
 }

@@ -437,7 +437,7 @@ public class Main {
 
 	// called by UI when main is closed
 	public void closeProgram() {
-		ConfigHandler.saveConfig();
+		ConfigHandler.saveConfig(getGUI());
 		if (file_created) {
 			timer.cancel();
 			new File(Path.temp() + tmp_file).delete();

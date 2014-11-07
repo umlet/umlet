@@ -11,8 +11,10 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
+import com.baselet.control.Config;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
+import com.baselet.control.SharedConstants.Program;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.gui.listener.DividerListener;
 import com.baselet.gui.listener.PaletteComboBoxListener;
@@ -144,7 +146,11 @@ public abstract class BaseGUIBuilder {
 		PaletteComboBoxListener pl = new PaletteComboBoxListener();
 		paletteList.addActionListener(pl); // add listeners after adding every paletteList entry to avoid triggering the listener everytime
 		paletteList.addMouseWheelListener(pl);
-		paletteList.setSelectedItem(Constants.lastUsedPalette);
+
+		// only set last used palette if its a valid palette and if the program version has not changed, otherwise leave the default value
+		if (Main.getInstance().getPaletteNames().contains(Constants.lastUsedPalette) && Program.VERSION.equals(Config.getInstance().getProgramVersion())) {
+			paletteList.setSelectedItem(Constants.lastUsedPalette);
+		}
 	}
 
 	private OwnSyntaxPane createPropertyTextPane() {
