@@ -95,7 +95,7 @@ public class OwnSyntaxPane {
 
 	/**
 	 * create one per class
-	 * @param strings 
+	 * @param strings
 	 */
 	private void createAutocompletionCompletionProvider() {
 		provider.clear();
@@ -133,10 +133,8 @@ public class OwnSyntaxPane {
 		return panel;
 	}
 
-	public void revalidate() {
-		if (scrollPane != null) {
-			scrollPane.revalidate();
-		}
+	public void invalidate() {
+		panel.invalidate();
 	}
 
 	public JTextComponent getTextComponent() {

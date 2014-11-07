@@ -1,6 +1,5 @@
 package com.baselet.gui.standalone;
 
-import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Frame;
@@ -25,8 +24,8 @@ public class StandaloneGUI extends BaseGUI {
 
 	private JFrame mainFrame;
 
-	private MenuBuilder menuBuilder = new MenuBuilder();
-	private StandaloneGUIBuilder guiBuilder = new StandaloneGUIBuilder();
+	private final MenuBuilder menuBuilder = new MenuBuilder();
+	private final StandaloneGUIBuilder guiBuilder = new StandaloneGUIBuilder();
 
 	public StandaloneGUI(Main main) {
 		super(main);
@@ -90,8 +89,7 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public void showPalette(String palette) {
 		super.showPalette(palette);
-		CardLayout cl = (CardLayout) guiBuilder.getPalettePanel().getLayout();
-		cl.show(guiBuilder.getPalettePanel(), palette);
+		guiBuilder.setPaletteActive(palette);
 	}
 
 	@Override

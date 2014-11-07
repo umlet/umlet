@@ -1,6 +1,5 @@
 package com.baselet.plugin.editor;
 
-import java.awt.CardLayout;
 import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.Panel;
@@ -16,6 +15,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -41,9 +41,9 @@ public class Editor extends EditorPart {
 	private DiagramHandler handler;
 	private Panel embeddedPanel;
 
-	private EclipseGUIBuilder guiComponents = new EclipseGUIBuilder();
+	private final EclipseGUIBuilder guiComponents = new EclipseGUIBuilder();
 
-	private UUID uuid = UUID.randomUUID();
+	private final UUID uuid = UUID.randomUUID();
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
@@ -131,21 +131,22 @@ public class Editor extends EditorPart {
 			handler.getDrawPanel().getSelector().updateSelectorInformation();
 		}
 
-		SwingUtilities.invokeLater(new Runnable() {
+		Display.getDefault().syncExec(new Runnable() {
 			@Override
 			public void run() {
 				/**
-				 * usually the palettes get lost (for unknown reasons) after switching the editor, therefore recreate them.
-				 * also reselect the current palette and repaint every element with scrollbars (otherwise they have a visual error)
+				 * usually the palettes get lost  after switching the editor (for unknown reasons but perhaps because the Main class is build for exactly one palette (like in standalone umlet) but here every tab has its own palette)
+				 * Therefore recreate them and also reselect the current palette and repaint every element with scrollbars (otherwise they have a visual error)
 				 */
 				if (guiComponents.getPalettePanel().getComponentCount() == 0) {
 					for (PaletteHandler palette : Main.getInstance().getPalettes().values()) {
 						guiComponents.getPalettePanel().add(palette.getDrawPanel().getScrollPane(), palette.getName());
+						palette.getDrawPanel().getScrollPane().invalidate();
 					}
 				}
 				showPalette(getSelectedPaletteName());
 				Main.getInstance().getGUI().setValueOfZoomDisplay(handler.getGridSize());
-				guiComponents.getPropertyTextPane().revalidate();
+				guiComponents.getPropertyTextPane().invalidate();
 			}
 		});
 	}
@@ -240,14 +241,7 @@ public class Editor extends EditorPart {
 	}
 
 	public void showPalette(final String paletteName) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				CardLayout palettePanelLayout = (CardLayout) guiComponents.getPalettePanel().getLayout();
-				palettePanelLayout.show(guiComponents.getPalettePanel(), paletteName);
-				Main.getInstance().getPalettePanel().getScrollPane().revalidate();
-			}
-		});
+		guiComponents.setPaletteActive(paletteName);
 	}
 
 	public void setCustomPanelEnabled(boolean enable) {
