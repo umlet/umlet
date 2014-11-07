@@ -2,7 +2,7 @@ package com.baselet.gwt.client;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.SharedConstants;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.gwt.client.base.Browser;
 import com.baselet.gwt.client.base.Notification;
 import com.baselet.gwt.client.element.BrowserStorage;

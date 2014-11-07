@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import com.baselet.control.FacetConstants;
+import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;

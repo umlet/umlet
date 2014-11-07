@@ -9,10 +9,11 @@ import java.util.Arrays;
 import java.util.Properties;
 
 import com.baselet.control.Path;
-import com.baselet.control.SharedConstants;
+import com.baselet.control.RecentlyUsedFilesList;
 import com.baselet.control.config.Config;
 import com.baselet.control.config.ConfigConst;
 import com.baselet.control.constants.Constants;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Program;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.gui.BaseGUI;
@@ -115,7 +116,7 @@ public class ConfigHandler {
 
 		String recentFiles = props.getProperty(RECENT_FILES);
 		if (recentFiles != null) {
-			Constants.recentlyUsedFilesList.addAll(Arrays.asList(props.getProperty(RECENT_FILES).split("\\|")));
+			RecentlyUsedFilesList.getInstance().addAll(Arrays.asList(props.getProperty(RECENT_FILES).split("\\|")));
 		}
 
 		/* Mail */
@@ -184,9 +185,9 @@ public class ConfigHandler {
 					props.setProperty(PROGRAM_LOCATION, topContainer.getLocation().x + "," + topContainer.getLocation().y);
 				}
 			}
-			if (!Constants.recentlyUsedFilesList.isEmpty()) {
+			if (!RecentlyUsedFilesList.getInstance().isEmpty()) {
 				String recentFileString = "";
-				for (String recentFile : Constants.recentlyUsedFilesList) {
+				for (String recentFile : RecentlyUsedFilesList.getInstance()) {
 					recentFileString += recentFile + "|";
 				}
 				props.setProperty(RECENT_FILES, recentFileString.substring(0, recentFileString.length() - 1));

@@ -3,6 +3,7 @@ package com.baselet.control;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.FormatLabels;
 
 public class StringStyle {

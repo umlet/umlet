@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.diagram.draw.geom.Rectangle;
 
 public class SharedUtils {

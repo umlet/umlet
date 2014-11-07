@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.baselet.control.SharedConstants;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.diagram.Diagram;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickableMap;

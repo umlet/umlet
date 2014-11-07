@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.SharedConstants;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.diagram.Diagram;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;

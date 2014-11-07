@@ -1,43 +1,43 @@
 package com.baselet.gui.menu;
 
-import static com.baselet.control.MenuConstants.ABOUT_PROGRAM;
-import static com.baselet.control.MenuConstants.ALIGN;
-import static com.baselet.control.MenuConstants.COPY;
-import static com.baselet.control.MenuConstants.CUSTOM_ELEMENTS_TUTORIAL;
-import static com.baselet.control.MenuConstants.CUT;
-import static com.baselet.control.MenuConstants.DELETE;
-import static com.baselet.control.MenuConstants.EDIT_CURRENT_PALETTE;
-import static com.baselet.control.MenuConstants.EDIT_SELECTED;
-import static com.baselet.control.MenuConstants.EXIT;
-import static com.baselet.control.MenuConstants.EXPORT_AS;
-import static com.baselet.control.MenuConstants.GENERATE_CLASS;
-import static com.baselet.control.MenuConstants.GENERATE_CLASS_OPTIONS;
-import static com.baselet.control.MenuConstants.GROUP;
-import static com.baselet.control.MenuConstants.LAYER;
-import static com.baselet.control.MenuConstants.LAYER_DOWN;
-import static com.baselet.control.MenuConstants.LAYER_UP;
-import static com.baselet.control.MenuConstants.MAIL_TO;
-import static com.baselet.control.MenuConstants.NEW;
-import static com.baselet.control.MenuConstants.NEW_CE;
-import static com.baselet.control.MenuConstants.NEW_FROM_TEMPLATE;
-import static com.baselet.control.MenuConstants.ONLINE_HELP;
-import static com.baselet.control.MenuConstants.ONLINE_SAMPLE_DIAGRAMS;
-import static com.baselet.control.MenuConstants.OPEN;
-import static com.baselet.control.MenuConstants.OPTIONS;
-import static com.baselet.control.MenuConstants.PASTE;
-import static com.baselet.control.MenuConstants.PRINT;
-import static com.baselet.control.MenuConstants.PROGRAM_HOMEPAGE;
-import static com.baselet.control.MenuConstants.RATE_PROGRAM;
-import static com.baselet.control.MenuConstants.RECENT_FILES;
-import static com.baselet.control.MenuConstants.REDO;
-import static com.baselet.control.MenuConstants.SAVE;
-import static com.baselet.control.MenuConstants.SAVE_AS;
-import static com.baselet.control.MenuConstants.SELECT_ALL;
-import static com.baselet.control.MenuConstants.SET_BACKGROUND_COLOR;
-import static com.baselet.control.MenuConstants.SET_FOREGROUND_COLOR;
-import static com.baselet.control.MenuConstants.UNDO;
-import static com.baselet.control.MenuConstants.UNGROUP;
-import static com.baselet.control.MenuConstants.VIDEO_TUTORIAL;
+import static com.baselet.control.constants.MenuConstants.ABOUT_PROGRAM;
+import static com.baselet.control.constants.MenuConstants.ALIGN;
+import static com.baselet.control.constants.MenuConstants.COPY;
+import static com.baselet.control.constants.MenuConstants.CUSTOM_ELEMENTS_TUTORIAL;
+import static com.baselet.control.constants.MenuConstants.CUT;
+import static com.baselet.control.constants.MenuConstants.DELETE;
+import static com.baselet.control.constants.MenuConstants.EDIT_CURRENT_PALETTE;
+import static com.baselet.control.constants.MenuConstants.EDIT_SELECTED;
+import static com.baselet.control.constants.MenuConstants.EXIT;
+import static com.baselet.control.constants.MenuConstants.EXPORT_AS;
+import static com.baselet.control.constants.MenuConstants.GENERATE_CLASS;
+import static com.baselet.control.constants.MenuConstants.GENERATE_CLASS_OPTIONS;
+import static com.baselet.control.constants.MenuConstants.GROUP;
+import static com.baselet.control.constants.MenuConstants.LAYER;
+import static com.baselet.control.constants.MenuConstants.LAYER_DOWN;
+import static com.baselet.control.constants.MenuConstants.LAYER_UP;
+import static com.baselet.control.constants.MenuConstants.MAIL_TO;
+import static com.baselet.control.constants.MenuConstants.NEW;
+import static com.baselet.control.constants.MenuConstants.NEW_CE;
+import static com.baselet.control.constants.MenuConstants.NEW_FROM_TEMPLATE;
+import static com.baselet.control.constants.MenuConstants.ONLINE_HELP;
+import static com.baselet.control.constants.MenuConstants.ONLINE_SAMPLE_DIAGRAMS;
+import static com.baselet.control.constants.MenuConstants.OPEN;
+import static com.baselet.control.constants.MenuConstants.OPTIONS;
+import static com.baselet.control.constants.MenuConstants.PASTE;
+import static com.baselet.control.constants.MenuConstants.PRINT;
+import static com.baselet.control.constants.MenuConstants.PROGRAM_HOMEPAGE;
+import static com.baselet.control.constants.MenuConstants.RATE_PROGRAM;
+import static com.baselet.control.constants.MenuConstants.RECENT_FILES;
+import static com.baselet.control.constants.MenuConstants.REDO;
+import static com.baselet.control.constants.MenuConstants.SAVE;
+import static com.baselet.control.constants.MenuConstants.SAVE_AS;
+import static com.baselet.control.constants.MenuConstants.SELECT_ALL;
+import static com.baselet.control.constants.MenuConstants.SET_BACKGROUND_COLOR;
+import static com.baselet.control.constants.MenuConstants.SET_FOREGROUND_COLOR;
+import static com.baselet.control.constants.MenuConstants.UNDO;
+import static com.baselet.control.constants.MenuConstants.UNGROUP;
+import static com.baselet.control.constants.MenuConstants.VIDEO_TUTORIAL;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,10 +51,11 @@ import javax.swing.KeyStroke;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
+import com.baselet.control.Main;
+import com.baselet.control.RecentlyUsedFilesList;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Os;
-import com.baselet.control.Main;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.gui.helper.PlainColorIcon;
 
@@ -90,7 +91,7 @@ public class MenuFactorySwing extends MenuFactory {
 			@Override
 			public void menuSelected(MenuEvent e) {
 				recentFiles.removeAll();
-				for (String file : Constants.recentlyUsedFilesList) {
+				for (String file : RecentlyUsedFilesList.getInstance()) {
 					recentFiles.add(createJMenuItem(false, file, RECENT_FILES, file));
 				}
 			}

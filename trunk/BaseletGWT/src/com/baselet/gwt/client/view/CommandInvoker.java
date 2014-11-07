@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.baselet.control.SharedConstants;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.diagram.Diagram;
 import com.baselet.diagram.commandnew.AddGridElementCommand;
 import com.baselet.diagram.commandnew.CommandTarget;

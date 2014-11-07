@@ -13,6 +13,7 @@ import javax.swing.plaf.InsetsUIResource;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.CanCloseProgram;
 import com.baselet.control.Main;
 import com.baselet.control.config.Config;
 import com.baselet.control.config.ConfigConst;
@@ -28,11 +29,11 @@ public abstract class BaseGUI {
 
 	private static final Logger log = Logger.getLogger(BaseGUI.class);
 
-	protected Main main;
+	protected CanCloseProgram main;
 	protected Collection<GridElement> selected_elements;
 	protected boolean paletteEdited = false;
 
-	public BaseGUI(Main main) {
+	public BaseGUI(CanCloseProgram main) {
 		this.main = main;
 	}
 

@@ -11,8 +11,6 @@ import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import com.baselet.control.RecentlyUsedFilesList;
-import com.baselet.control.SharedConstants;
 import com.baselet.control.enums.Program;
 
 public abstract class Constants extends SharedConstants {
@@ -138,9 +136,6 @@ public abstract class Constants extends SharedConstants {
 			return s1.compareTo(s2);
 		}
 	};
-
-	public static final int RECENT_FILES_LIST_LENGTH = 10;
-	public static final RecentlyUsedFilesList recentlyUsedFilesList = new RecentlyUsedFilesList();
 
 	public static final int MIN_MAIN_SPLITPANEL_SIZE = 100;
 	public static final int MIN_MAIL_SPLITPANEL_SIZE = 250;

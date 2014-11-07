@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import com.baselet.control.Main;
-import com.baselet.control.SharedConstants;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;

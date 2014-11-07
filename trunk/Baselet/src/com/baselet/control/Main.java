@@ -44,7 +44,7 @@ import com.baselet.gui.CurrentGui;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.standalone.StandaloneGUI;
 
-public class Main {
+public class Main implements CanCloseProgram {
 
 	private static final Logger log = Logger.getLogger(Main.class);
 
@@ -407,7 +407,7 @@ public class Main {
 			if (diagrams.size() == 1) {
 				setPropertyPanelToGridElement(null);
 			}
-			Constants.recentlyUsedFilesList.add(filename);
+			RecentlyUsedFilesList.getInstance().add(filename);
 			Notifier.getInstance().showNotification(filename + " opened");
 		}
 	}
@@ -434,7 +434,10 @@ public class Main {
 		return false;
 	}
 
-	// called by UI when main is closed
+	/**
+	 * called by UI when main is closed
+	 */
+	@Override
 	public void closeProgram() {
 		ConfigHandler.saveConfig(CurrentGui.getInstance().getGui());
 		if (file_created) {
