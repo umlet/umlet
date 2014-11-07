@@ -6,10 +6,10 @@ import javax.swing.JComponent;
 
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
+import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.diagram.draw.swing.DrawHandlerSwing;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.base.Component;

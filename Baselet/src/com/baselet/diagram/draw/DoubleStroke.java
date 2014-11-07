@@ -1,4 +1,4 @@
-package com.umlet.element;
+package com.baselet.diagram.draw;
 
 import java.awt.BasicStroke;
 import java.awt.Shape;

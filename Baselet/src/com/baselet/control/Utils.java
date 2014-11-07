@@ -3,23 +3,20 @@ package com.baselet.control;
 import java.awt.BasicStroke;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
-import java.awt.font.TextLayout;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.JComponent;
 
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.DrawPanel;
-import com.baselet.diagram.FormattedFont;
-import com.baselet.diagram.draw.geom.DimensionDouble;
+import com.baselet.diagram.draw.Converter;
+import com.baselet.diagram.draw.DoubleStroke;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
-import com.umlet.element.DoubleStroke;
 import com.umlet.element.Relation;
 
 public abstract class Utils {
@@ -212,9 +209,9 @@ public abstract class Utils {
 			return false;
 		}
 
-		DrawPanel drawPanel = Main.getHandlerForElement(gridElement).getDrawPanel();
+		List<GridElement> elements = Main.getHandlerForElement(gridElement).getDrawPanel().getGridElements();
 		// Selector selector = drawPanel.getSelector();
-		for (GridElement other : drawPanel.getGridElements()) {
+		for (GridElement other : elements) {
 			if (other == gridElement) {
 				continue;
 			}
@@ -251,13 +248,6 @@ public abstract class Utils {
 			return true;
 		}
 		return false;
-	}
-
-	public static DimensionDouble getTextSize(FormattedFont formattedFont) {
-		// TextLayout trims the string, therefore replace spaces with dots in such cases (dots have exactly the same width as spaces, therefore we will get the expected width WITH spaces)
-		formattedFont.replaceFirstAndLastSpaceWithDot();
-		TextLayout tl = new TextLayout(formattedFont.getAttributedCharacterIterator(), formattedFont.getFontRenderContext());
-		return new DimensionDouble(tl.getBounds().getWidth(), tl.getBounds().getHeight());
 	}
 
 }

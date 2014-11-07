@@ -24,8 +24,8 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.baselet.control.Constants;
 import com.baselet.control.MenuConstants;
+import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.gui.menu.MenuFactorySwing;
 

@@ -13,6 +13,7 @@ import com.baselet.control.Constants;
 import com.baselet.control.Utils;
 import com.baselet.control.enumerations.AlignHorizontal;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.DrawFunction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.DimensionDouble;
