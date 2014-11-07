@@ -1,4 +1,4 @@
-package com.baselet.gwt.client;
+package com.baselet.gwt.client.element;
 
 import java.util.Collection;
 import java.util.HashMap;

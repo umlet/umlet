@@ -14,7 +14,7 @@ import com.baselet.diagram.commandnew.RemoveGridElementCommand;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.facet.common.GroupFacet;
-import com.baselet.gwt.client.BrowserStorage;
+import com.baselet.gwt.client.element.BrowserStorage;
 import com.baselet.gwt.client.element.ElementFactory;
 
 public class CommandInvoker extends Controller {

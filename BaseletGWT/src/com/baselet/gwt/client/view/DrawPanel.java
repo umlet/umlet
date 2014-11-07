@@ -21,7 +21,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.elementnew.facet.common.GroupFacet;
-import com.baselet.gwt.client.Utils;
+import com.baselet.gwt.client.base.Utils;
 import com.baselet.gwt.client.element.DiagramGwt;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.EventHandlingUtils.EventHandlingTarget;

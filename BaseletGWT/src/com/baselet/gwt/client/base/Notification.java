@@ -1,4 +1,4 @@
-package com.baselet.gwt.client;
+package com.baselet.gwt.client.base;
 
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;

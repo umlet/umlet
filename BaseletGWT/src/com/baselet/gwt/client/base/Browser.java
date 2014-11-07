@@ -1,4 +1,4 @@
-package com.baselet.gwt.client;
+package com.baselet.gwt.client.base;
 
 public enum Browser {
 	INTERNET_EXPLORER("MSIE"),
