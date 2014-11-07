@@ -3,7 +3,7 @@ package com.baselet.elementnew.facet.common;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.control.enumerations.LineType;
+import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.elementnew.facet.KeyValueFacet;
 import com.baselet.elementnew.facet.PropertiesParserState;

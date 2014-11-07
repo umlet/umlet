@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
-import com.baselet.control.Program;
+import com.baselet.control.constants.Constants;
+import com.baselet.control.enums.Program;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;

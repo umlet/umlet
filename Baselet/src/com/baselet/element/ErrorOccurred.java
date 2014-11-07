@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.lang.reflect.Constructor;
 
 import com.baselet.control.Main;
-import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.helper.ColorOwn;

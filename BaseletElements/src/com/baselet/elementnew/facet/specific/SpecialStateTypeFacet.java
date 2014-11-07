@@ -1,6 +1,6 @@
 package com.baselet.elementnew.facet.specific;
 
-import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.PointDouble;

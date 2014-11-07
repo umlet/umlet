@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.baselet.control.Main;
-import com.baselet.control.enumerations.Direction;
+import com.baselet.control.enums.Direction;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
 

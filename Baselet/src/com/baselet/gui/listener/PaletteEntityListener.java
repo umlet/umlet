@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import com.baselet.control.Constants;
+import com.baselet.control.constants.Constants;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;

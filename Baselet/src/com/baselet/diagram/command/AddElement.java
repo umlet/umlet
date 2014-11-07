@@ -4,8 +4,8 @@ import java.awt.Point;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
+import com.baselet.control.constants.Constants;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.GridElement;

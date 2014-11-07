@@ -5,9 +5,9 @@ import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 
-import com.baselet.control.Constants;
 import com.baselet.control.config.ConfigConst;
-import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.constants.Constants;
+import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 
 public class FontHandler {

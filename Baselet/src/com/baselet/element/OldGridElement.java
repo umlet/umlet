@@ -19,15 +19,15 @@ import javax.swing.JComponent;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Constants;
 import com.baselet.control.FacetConstants;
 import com.baselet.control.Main;
 import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.Direction;
-import com.baselet.control.enumerations.LineType;
+import com.baselet.control.constants.Constants;
+import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.Direction;
+import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
@@ -47,6 +47,7 @@ import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.elementnew.facet.common.LayerFacet;
 import com.baselet.gui.AutocompletionText;
+import com.umlet.elementnew.ComponentSwing;
 
 public abstract class OldGridElement extends JComponent implements GridElement, com.baselet.elementnew.base.Component {
 
@@ -279,7 +280,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	 */
 	@Override
 	public boolean contains(int x, int y) {
-		return Utils.contains(this, new Point(x, y));
+		return ComponentSwing.checkForOverlap(this, new Point(x, y));
 	}
 
 	@Override

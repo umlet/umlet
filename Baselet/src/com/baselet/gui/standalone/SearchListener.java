@@ -7,7 +7,7 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JTextField;
 
-import com.baselet.control.Constants;
+import com.baselet.control.constants.Constants;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Search;

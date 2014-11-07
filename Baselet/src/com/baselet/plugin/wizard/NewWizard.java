@@ -28,7 +28,7 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
-import com.baselet.control.Program;
+import com.baselet.control.enums.Program;
 import com.baselet.plugin.MainPlugin;
 
 /**

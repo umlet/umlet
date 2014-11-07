@@ -11,11 +11,11 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
-import com.baselet.control.Program;
 import com.baselet.control.config.Config;
 import com.baselet.control.config.ConfigConst;
+import com.baselet.control.constants.Constants;
+import com.baselet.control.enums.Program;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.gui.listener.DividerListener;

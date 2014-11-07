@@ -1,10 +1,8 @@
-package com.baselet.control;
+package com.baselet.control.constants;
 
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -13,91 +11,13 @@ import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import com.baselet.control.RecentlyUsedFilesList;
+import com.baselet.control.SharedConstants;
+import com.baselet.control.enums.Program;
+
 public abstract class Constants extends SharedConstants {
 
 	private Constants() {} // private constructor to avoid instantiation
-
-	public enum Os {
-		WINDOWS, LINUX, UNIX, MAC, UNKNOWN
-	}
-
-	public enum JavaImplementation {
-		OPEN, SUN
-	}
-
-	public enum Metakey {
-		CTRL, CMD;
-
-		@Override
-		public String toString() {
-			if (this == CTRL) {
-				return "Ctrl";
-			}
-			else {
-				return "Cmd";
-			}
-		}
-
-		// Use these masks as modifiers if you want to enforce ctrl or meta in addition to a keyevent
-		public int getMask() {
-			if (this == CTRL) {
-				return ActionEvent.CTRL_MASK;
-			}
-			else {
-				return ActionEvent.META_MASK;
-			}
-		}
-
-		public int getMaskDown() {
-			if (this == CTRL) {
-				return InputEvent.CTRL_DOWN_MASK;
-			}
-			else {
-				return InputEvent.META_DOWN_MASK;
-			}
-		}
-	}
-
-	public static class SystemInfo {
-
-		public static final Os OS;
-		public static final JavaImplementation JAVA_IMPL;
-		public static final String JAVA_VERSION = java.lang.System.getProperty("java.specification.version");
-		public static final Metakey META_KEY;
-
-		static {
-			String os = java.lang.System.getProperty("os.name").toUpperCase();
-			if (os.startsWith("WINDOWS")) {
-				OS = Os.WINDOWS;
-			}
-			else if (os.startsWith("MAC")) {
-				OS = Os.MAC;
-			}
-			else if (os.startsWith("LINUX")) {
-				OS = Os.LINUX;
-			}
-			else if (os.contains("UNIX") || os.contains("BSD")) {
-				OS = Os.UNIX;
-			}
-			else {
-				OS = Os.UNKNOWN;
-			}
-
-			if (java.lang.System.getProperty("java.runtime.name").toUpperCase().contains("OPEN")) {
-				JAVA_IMPL = JavaImplementation.OPEN;
-			}
-			else {
-				JAVA_IMPL = JavaImplementation.SUN;
-			}
-
-			if (SystemInfo.OS == Os.MAC) {
-				META_KEY = Metakey.CMD;
-			}
-			else {
-				META_KEY = Metakey.CTRL;
-			}
-		}
-	}
 
 	/**** NEWLINE CHARACTER AND DEFAULT HELP- AND MAILTEXT ****/
 	public static final String NEWLINE = "\n";
@@ -234,7 +154,5 @@ public abstract class Constants extends SharedConstants {
 	public static Font getPanelContentFont() {
 		return new Font(Font.MONOSPACED, Font.PLAIN, propertiesPanelFontsize);
 	}
-
-	public static final String DEFAULT_FILE_HOME = System.getProperty("user.dir");
 
 }

@@ -1,6 +1,6 @@
 package com.baselet.diagram.draw.swing;
 
-import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.enums.AlignHorizontal;
 
 public class Text {
 	private String text;

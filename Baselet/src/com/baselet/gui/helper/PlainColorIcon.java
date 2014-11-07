@@ -1,4 +1,4 @@
-package com.baselet.gui;
+package com.baselet.gui.helper;
 
 import java.awt.Color;
 import java.awt.Component;

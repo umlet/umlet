@@ -3,7 +3,7 @@ package com.baselet.diagram.command;
 import java.awt.Point;
 import java.util.Vector;
 
-import com.baselet.control.Constants;
+import com.baselet.control.constants.Constants;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.facet.common.GroupFacet;

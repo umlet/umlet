@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.baselet.control.SharedConstants;
-import com.baselet.control.enumerations.Direction;
+import com.baselet.control.enums.Direction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;

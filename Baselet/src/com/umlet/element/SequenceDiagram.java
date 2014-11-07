@@ -19,10 +19,10 @@ import java.util.regex.Pattern;
 
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.Direction;
-import com.baselet.control.enumerations.FormatLabels;
-import com.baselet.control.enumerations.LineType;
+import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.Direction;
+import com.baselet.control.enums.FormatLabels;
+import com.baselet.control.enums.LineType;
 import com.baselet.element.OldGridElement;
 
 // An interaction represents a synchronous/asynchronous message

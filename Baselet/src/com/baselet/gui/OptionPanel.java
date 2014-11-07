@@ -20,13 +20,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Main;
-import com.baselet.control.Program;
 import com.baselet.control.SharedConstants;
-import com.baselet.control.SharedConstants.RuntimeType;
 import com.baselet.control.config.Config;
 import com.baselet.control.config.ConfigConst;
+import com.baselet.control.constants.Constants;
+import com.baselet.control.enums.Program;
+import com.baselet.control.enums.RuntimeType;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.standalone.StandaloneGUI;
 

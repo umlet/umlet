@@ -10,10 +10,6 @@ public class SharedConstants {
 	public static final String LEFT_QUOTATION = "<<";
 	public static final String RIGHT_QUOTATION = ">>";
 
-	public enum RuntimeType {
-		STANDALONE, ECLIPSE_PLUGIN, BATCH
-	}
-
 	public static final int DEFAULT_GRID_SIZE = 10;
 
 	public static boolean show_stickingpolygon = true;

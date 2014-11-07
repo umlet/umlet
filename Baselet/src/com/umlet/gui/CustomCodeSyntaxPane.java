@@ -16,7 +16,7 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-import com.baselet.control.Constants;
+import com.baselet.control.constants.Constants;
 import com.umlet.custom.CustomElement;
 import com.umlet.custom.CustomFunction;
 

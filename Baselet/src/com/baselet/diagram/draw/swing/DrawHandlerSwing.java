@@ -9,9 +9,9 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.RoundRectangle2D;
 
-import com.baselet.control.Constants;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
+import com.baselet.control.constants.Constants;
+import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.DrawFunction;

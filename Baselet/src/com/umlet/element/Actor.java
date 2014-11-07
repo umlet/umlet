@@ -11,8 +11,8 @@ import java.util.Vector;
 
 import com.baselet.control.Main;
 import com.baselet.control.Utils;
-import com.baselet.control.enumerations.AlignHorizontal;
-import com.baselet.control.enumerations.Direction;
+import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.Direction;
 import com.baselet.diagram.command.OldResize;
 import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;

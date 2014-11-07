@@ -12,6 +12,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
+import com.baselet.control.enums.Program;
+
 public class Path {
 
 	private static String tempDir;

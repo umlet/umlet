@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.baselet.control.constants.Constants;
+
 public class RecentlyUsedFilesList implements Iterable<String> {
 
 	private List<String> recentFiles = new ArrayList<String>();

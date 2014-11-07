@@ -1,6 +1,6 @@
-package com.baselet.control;
+package com.baselet.control.enums;
 
-import com.baselet.control.SharedConstants.RuntimeType;
+import com.baselet.control.SharedConstants;
 
 /**
  * PROGRAM, PLATTFORM AND JAVA SPECIFIC SETTINGS
