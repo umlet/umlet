@@ -26,6 +26,7 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.GridElement;
+import com.baselet.element.GridElementDeprecatedAddons;
 import com.baselet.element.UndoHistory;
 import com.baselet.element.UndoInformation;
 import com.baselet.element.sticking.PointChange;
@@ -489,10 +490,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	@Override
-	public boolean isOldAllInOneDiagram() {
-		return false;
+	public GridElementDeprecatedAddons getDeprecatedAddons() {
+		return GridElementDeprecatedAddons.NONE;
 	}
-
-	@Override
-	public void isDeprecatedSequenceAllInOne() {}
 }

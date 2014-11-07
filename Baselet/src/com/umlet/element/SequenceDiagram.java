@@ -23,6 +23,7 @@ import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.FormatLabels;
 import com.baselet.control.enums.LineType;
+import com.baselet.element.GridElementDeprecatedAddons;
 import com.baselet.element.OldGridElement;
 
 // An interaction represents a synchronous/asynchronous message
@@ -854,12 +855,18 @@ public class SequenceDiagram extends OldGridElement {
 	}
 
 	@Override
-	public boolean isOldAllInOneDiagram() {
-		return true;
-	}
+	public GridElementDeprecatedAddons getDeprecatedAddons() {
+		return new GridElementDeprecatedAddons() {
 
-	@Override
-	public void isDeprecatedSequenceAllInOne() {
-		zoomValues();
+			@Override
+			public boolean isOldAllInOneDiagram() {
+				return true;
+			}
+
+			@Override
+			public void zoomDeprecatedSequenceAllInOne() {
+				zoomValues();
+			}
+		};
 	}
 }
