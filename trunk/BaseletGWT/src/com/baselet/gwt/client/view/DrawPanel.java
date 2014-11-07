@@ -13,7 +13,7 @@ import com.baselet.control.MenuConstants;
 import com.baselet.control.SharedConstants;
 import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
-import com.baselet.diagram.commandnew.CanAddAndRemoveGridElement;
+import com.baselet.diagram.commandnew.CommandTarget;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
@@ -21,9 +21,11 @@ import com.baselet.element.Selector;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.Utils;
-import com.baselet.gwt.client.element.Diagram;
+import com.baselet.gwt.client.element.GwtDiagram;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.EventHandlingUtils.EventHandlingTarget;
+import com.baselet.gwt.client.view.panel.wrapper.HasScrollPanel;
+import com.baselet.gwt.client.view.panel.wrapper.AutoresizeScrollDropTarget;
 import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
@@ -41,9 +43,9 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGridElement, HasMouseOutHandlers, HasMouseOverHandlers, EventHandlingTarget {
+public abstract class DrawPanel extends SimplePanel implements CommandTarget, HasMouseOutHandlers, HasMouseOverHandlers, EventHandlingTarget, AutoresizeScrollDropTarget {
 
-	private Diagram diagram = new Diagram(new ArrayList<GridElement>());
+	private GwtDiagram diagram = new GwtDiagram(new ArrayList<GridElement>());
 
 	protected DrawCanvas canvas = new DrawCanvas();
 
@@ -53,7 +55,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 
 	DrawPanel otherDrawFocusPanel;
 
-	AutoResizeScrollDropPanel scrollPanel;
+	HasScrollPanel scrollPanel;
 
 	private final MainView mainView;
 
@@ -149,6 +151,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		this.add(canvas.getWidget());
 	}
 
+	@Override
 	public void updatePropertiesPanelWithSelectedElement() {
 		List<GridElement> elements = selector.getSelectedElements();
 		if (!elements.isEmpty()) { // always set properties text of latest selected element (so you also have an element in the prop panel even if you have an active multiselect)
@@ -183,6 +186,7 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		return scrollPanel.getVisibleBounds();
 	}
 
+	@Override
 	public void redraw() {
 		redraw(true);
 	}
@@ -244,7 +248,8 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		return returnGe;
 	}
 
-	public void setDiagram(Diagram diagram) {
+	@Override
+	public void setDiagram(GwtDiagram diagram) {
 		this.diagram = diagram;
 		selector.setGridElementProvider(diagram);
 		selector.deselectAll(); // necessary to trigger setting helptext to properties
@@ -263,15 +268,18 @@ public abstract class DrawPanel extends SimplePanel implements CanAddAndRemoveGr
 		selector.deselect(elements);
 	}
 
-	public Diagram getDiagram() {
+	@Override
+	public GwtDiagram getDiagram() {
 		return diagram;
 	}
 
+	@Override
 	public Selector getSelector() {
 		return selector;
 	}
 
-	public void setScrollPanel(AutoResizeScrollDropPanel scrollPanel) {
+	@Override
+	public void setAutoresizeScrollDrop(HasScrollPanel scrollPanel) {
 		this.scrollPanel = scrollPanel;
 	}
 

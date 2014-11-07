@@ -1,9 +1,10 @@
-package com.baselet.gwt.client.view;
+package com.baselet.gwt.client.view.panel.wrapper;
 
 import org.vectomatic.dnd.DataTransferExt;
 import org.vectomatic.dnd.DropPanel;
 import org.vectomatic.file.FileList;
 
+import com.baselet.gwt.client.view.FileOpenHandler;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.DragEnterEvent;
 import com.google.gwt.event.dom.client.DragEnterHandler;
@@ -14,14 +15,14 @@ import com.google.gwt.event.dom.client.DragOverHandler;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
 
-public class OwnDropPanel extends DropPanel {
+public class FileDropPanel extends DropPanel {
 
-	private FileOpenHandler handler;
+	private final FileOpenHandler handler;
 
-	public OwnDropPanel(final DrawPanel diagramCanvas) {
+	public FileDropPanel(final AutoresizeScrollDropTarget diagram) {
 
-		this.add(diagramCanvas);
-		handler = new FileOpenHandler(diagramCanvas);
+		this.add(diagram);
+		handler = new FileOpenHandler(diagram);
 
 		addDragOverHandler(new DragOverHandler() {
 			@Override

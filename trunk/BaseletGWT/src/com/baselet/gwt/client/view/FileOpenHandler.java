@@ -13,17 +13,18 @@ import org.vectomatic.file.events.LoadEndEvent;
 import org.vectomatic.file.events.LoadEndHandler;
 
 import com.baselet.gwt.client.DiagramXmlParser;
+import com.baselet.gwt.client.view.panel.wrapper.SetDiagramTarget;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
 public class FileOpenHandler {
 
-	private Logger log = Logger.getLogger(FileOpenHandler.class);
+	private final Logger log = Logger.getLogger(FileOpenHandler.class);
 
 	protected FileReader reader;
 	protected List<File> readQueue = new ArrayList<File>();
 
-	public FileOpenHandler(final DrawPanel diagramHandler) {
+	public FileOpenHandler(final SetDiagramTarget diagram) {
 		reader = new FileReader();
 		reader.addLoadEndHandler(new LoadEndHandler() {
 			@Override
@@ -32,7 +33,7 @@ public class FileOpenHandler {
 					if (readQueue.size() > 0) {
 						try {
 							String result = reader.getStringResult();
-							diagramHandler.setDiagram(DiagramXmlParser.xmlToDiagram(result));
+							diagram.setDiagram(DiagramXmlParser.xmlToDiagram(result));
 						} catch (RuntimeException e) {
 							log.error("Error at loading diagram from file", e);
 						} finally {

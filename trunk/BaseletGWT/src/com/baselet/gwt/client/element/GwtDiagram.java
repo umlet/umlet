@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.baselet.control.SharedConstants;
+import com.baselet.diagram.Diagram;
 import com.baselet.element.GridElement;
 import com.baselet.element.HasPanelAttributes;
 import com.baselet.element.sticking.StickableMap;
@@ -16,7 +17,7 @@ import com.baselet.elementnew.element.uml.relation.Relation;
 import com.baselet.gui.AutocompletionText;
 import com.baselet.gwt.client.view.SelectorNew.HasGridElements;
 
-public class Diagram implements HasPanelAttributes, HasGridElements {
+public class GwtDiagram implements HasPanelAttributes, HasGridElements, Diagram {
 
 	private static final Comparator<GridElement> LAYER_COMPARATOR_ASCENDING = new Comparator<GridElement>() {
 		@Override
@@ -33,13 +34,13 @@ public class Diagram implements HasPanelAttributes, HasGridElements {
 	};
 
 	private String helpText;
-	private List<GridElement> gridElements;
+	private final List<GridElement> gridElements;
 
-	public Diagram(List<GridElement> gridElements) {
+	public GwtDiagram(List<GridElement> gridElements) {
 		this(null, gridElements);
 	}
 
-	public Diagram(String helpText, List<GridElement> gridElements) {
+	public GwtDiagram(String helpText, List<GridElement> gridElements) {
 		super();
 		this.helpText = helpText;
 		this.gridElements = gridElements;

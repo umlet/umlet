@@ -1,4 +1,4 @@
-package com.baselet.gwt.client.view;
+package com.baselet.gwt.client.view.panel.wrapper;
 
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.gwt.client.Browser;
@@ -9,14 +9,14 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-public class AutoResizeScrollDropPanel extends ScrollPanel {
+public class AutoResizeScrollDropPanel extends ScrollPanel implements HasScrollPanel {
 
-	private OwnDropPanel dropPanel;
+	private final FileDropPanel dropPanel;
 
-	public AutoResizeScrollDropPanel(final DrawPanel diagram) {
+	public AutoResizeScrollDropPanel(final AutoresizeScrollDropTarget diagram) {
 		setAlwaysShowScrollBars(true); // must be set otherwise elements can "jump around" (eg: empty diagram, class outside of top of diagram, click multiple times on diagram -> class jumps back to diagram)
-		diagram.setScrollPanel(this);
-		dropPanel = new OwnDropPanel(diagram);
+		diagram.setAutoresizeScrollDrop(this);
+		dropPanel = new FileDropPanel(diagram);
 		this.add(dropPanel);
 
 		// update size after initialization of gui has finished
@@ -46,6 +46,7 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 
 	}
 
+	@Override
 	public Rectangle getVisibleBounds() {
 		int width = getOffsetWidth() - getScrollbarSize()[0];
 		int height = getOffsetHeight() - getScrollbarSize()[1];
@@ -58,10 +59,12 @@ public class AutoResizeScrollDropPanel extends ScrollPanel {
 		return new Rectangle(getHorizontalScrollPosition(), getVerticalScrollPosition(), width, height);
 	}
 
+	@Override
 	public void moveHorizontalScrollbar(int diff) {
 		setHorizontalScrollPosition(getHorizontalScrollPosition() + diff);
 	}
 
+	@Override
 	public void moveVerticalScrollbar(int diff) {
 		setVerticalScrollPosition(getVerticalScrollPosition() + diff);
 	}
