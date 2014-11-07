@@ -1,4 +1,4 @@
-package com.baselet.elementnew;
+package com.baselet.elementnew.facet;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,6 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.element.sticking.polygon.SimpleStickingPolygonGenerator;
 import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
-import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.ElementStyleFacet.ElementStyleEnum;
 import com.baselet.elementnew.settings.Settings;
 
@@ -34,7 +33,7 @@ public class PropertiesParserState {
 		this.settings = settings;
 	}
 
-	void resetValues(Dimension gridElementSize) {
+	public void resetValues(Dimension gridElementSize) {
 		hAlign = settings.getHAlign();
 		hAlignGloballySet = false;
 		vAlign = settings.getVAlign();

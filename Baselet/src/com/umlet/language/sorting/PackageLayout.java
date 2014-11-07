@@ -9,8 +9,8 @@ import java.util.TreeMap;
 import com.baselet.control.Main;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
+import com.baselet.elementnew.base.ElementId;
 import com.umlet.elementnew.ElementFactory;
 import com.umlet.language.SortableElement;
 

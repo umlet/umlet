@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.baselet.control.enumerations.LineType;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
+import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class LineTypeFacet extends KeyValueFacet {
 

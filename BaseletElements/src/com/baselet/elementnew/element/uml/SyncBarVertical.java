@@ -11,10 +11,10 @@ import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
-import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.PropertiesParserState;
+import com.baselet.elementnew.base.ElementId;
 import com.baselet.elementnew.facet.Facet;
+import com.baselet.elementnew.facet.PropertiesParserState;
 import com.baselet.elementnew.settings.Settings;
 import com.baselet.elementnew.settings.SettingsNoText;
 

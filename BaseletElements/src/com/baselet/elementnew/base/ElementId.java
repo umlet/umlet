@@ -1,5 +1,6 @@
-package com.baselet.elementnew;
+package com.baselet.elementnew.base;
 
+import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.element.Text;
 import com.baselet.elementnew.element.plot.PlotGrid;
 import com.baselet.elementnew.element.uml.ActivityObject;

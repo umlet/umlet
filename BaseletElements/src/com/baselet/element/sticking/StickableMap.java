@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import com.baselet.control.SharedUtils;
-import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
 
 public class StickableMap {
 	public static final StickableMap EMPTY_MAP = new StickableMap();

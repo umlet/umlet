@@ -7,8 +7,8 @@ import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
+import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class SpecialStateTypeFacet extends KeyValueFacet {
 

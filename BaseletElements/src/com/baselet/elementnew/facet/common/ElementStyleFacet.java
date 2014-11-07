@@ -1,8 +1,8 @@
 package com.baselet.elementnew.facet.common;
 
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.KeyValueFacet;
+import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class ElementStyleFacet extends KeyValueFacet {
 

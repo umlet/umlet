@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 
 import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
 
 public interface Stickable {
 

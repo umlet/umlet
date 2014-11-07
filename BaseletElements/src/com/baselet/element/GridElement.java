@@ -12,8 +12,8 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.StickingPolygon;
-import com.baselet.elementnew.Component;
-import com.baselet.elementnew.ElementId;
+import com.baselet.elementnew.base.Component;
+import com.baselet.elementnew.base.ElementId;
 
 public interface GridElement extends HasPanelAttributes {
 

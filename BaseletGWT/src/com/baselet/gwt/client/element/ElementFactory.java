@@ -6,8 +6,8 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.elementnew.DrawHandlerInterface;
-import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
+import com.baselet.elementnew.base.ElementId;
 
 public class ElementFactory {
 

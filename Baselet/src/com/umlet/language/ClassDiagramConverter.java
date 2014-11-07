@@ -11,7 +11,7 @@ import com.baselet.diagram.FontHandler;
 import com.baselet.diagram.command.AddElement;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
-import com.baselet.elementnew.ElementId;
+import com.baselet.elementnew.base.ElementId;
 import com.umlet.elementnew.ElementFactory;
 import com.umlet.language.java.Accessible.AccessFlag;
 import com.umlet.language.java.Field;

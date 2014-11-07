@@ -5,6 +5,7 @@ import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.element.sticking.PointDoubleIndexed;
 
 public class RelationPointHandlerUtils {
 

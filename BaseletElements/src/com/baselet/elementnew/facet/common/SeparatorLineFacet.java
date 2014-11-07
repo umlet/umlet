@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.XValues;
-import com.baselet.elementnew.PropertiesParserState;
 import com.baselet.elementnew.facet.Facet;
+import com.baselet.elementnew.facet.PropertiesParserState;
 import com.baselet.gui.AutocompletionText;
 
 public class SeparatorLineFacet extends Facet {

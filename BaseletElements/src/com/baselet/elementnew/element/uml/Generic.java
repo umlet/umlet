@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.elementnew.ElementId;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.PropertiesParserState;
+import com.baselet.elementnew.base.ElementId;
 import com.baselet.elementnew.facet.Facet;
+import com.baselet.elementnew.facet.PropertiesParserState;
 import com.baselet.elementnew.facet.common.SeparatorLineWithHalignChangeFacet;
 import com.baselet.elementnew.facet.specific.UpperRightSymbolFacet;
 import com.baselet.elementnew.settings.Settings;

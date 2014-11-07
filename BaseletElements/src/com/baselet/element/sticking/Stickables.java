@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 import com.baselet.control.SharedConstants;
 import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.element.sticking.StickingPolygon.StickLine;
-import com.baselet.elementnew.element.uml.relation.PointDoubleIndexed;
 
 public class Stickables {
 
