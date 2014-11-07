@@ -23,7 +23,9 @@ import com.baselet.gui.AutocompletionText;
 public class LineDescriptionFacet extends GlobalFacet {
 
 	private static final int X_DIST_TO_LINE = 4;
-	private static final int Y_DIST_TO_LINE = 1;
+	private static final int LOWER_Y_DIST_TO_LINE = 1;
+	private static final int UPPER_Y_DIST_TO_LINE = 5;
+	private static final int MIDDLE_DISTANCE_TO_LINE = 4;
 
 	public static LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
 
@@ -39,8 +41,6 @@ public class LineDescriptionFacet extends GlobalFacet {
 			return middleLines++;
 		}
 	}
-
-	private static final int DISTANCE_TO_LINE = 3;
 
 	private LineDescriptionFacet() {}
 
@@ -69,7 +69,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 		LineDescriptionEnum enumVal = LineDescriptionEnum.forString(line);
 		if (enumVal == LineDescriptionEnum.MESSAGE_MIDDLE) {
 			String text = replaceArrowsWithUtf8Characters(line);
-			pointText = calcPosOfMiddleText(relationPoints.getDragBox().getCenter(), drawer.textWidth(text));
+			pointText = calcPosOfMiddleText(relationPoints.getDragBox().getCenter(), drawer, text, relationPoints.getFirstLine());
 			int number = response.getAndIncreaseMiddleLines();
 			pointText = new PointDouble(pointText.getX(), pointText.getY() + number * drawer.textHeightMaxWithSpace());
 			printAndUpdateIndex(drawer, response, relationPoints, pointText, enumVal.getIndex() + number, text);
@@ -78,7 +78,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 			String[] split = line.split(SEP, -1);
 			String text = split[1];
 			if (!text.isEmpty()) {
-				pointText = calcPosOfEndText(drawer, text, relationPoints.getFirstLine(), enumVal.isStart());
+				pointText = calcPosOfEndText(drawer, text, relationPoints.getFirstLine(), enumVal);
 				printAndUpdateIndex(drawer, response, relationPoints, pointText, enumVal.getIndex(), text, displacements.get(enumVal.getKey()));
 
 			}
@@ -118,27 +118,54 @@ public class LineDescriptionFacet extends GlobalFacet {
 		return text;
 	}
 
-	private PointDouble calcPosOfEndText(DrawHandler drawer, String text, Line line, boolean isStart) {
-		PointDouble pointText = line.getPointOnLineWithDistanceFrom(isStart, 15); // distance from lineend (because of arrows,...)
-		Direction lineDirection = line.getDirectionOfLine(isStart);
+	// PROBLEM: ich muss wissen ob es r1/r2 gibt damit ich die position von m1/m2 bestimmen kann -> separate facets mit anderen priorit#ten??
+	private PointDouble calcPosOfEndText(DrawHandler drawer, String text, Line line, LineDescriptionEnum enumVal) {
+		Boolean printOnStart = enumVal.isStart();
+		PointDouble pointText = line.getPointOnLineWithDistanceFrom(printOnStart, 15); // distance from lineend (because of arrows,...)
+		Direction lineDirection = line.getDirectionOfLine(printOnStart);
+
+		// Default Positioning
 		if (lineDirection == Direction.RIGHT) {
-			pointText = new PointDouble(pointText.getX() - drawer.textWidth(text) - drawer.getDistanceBorderToText(), pointText.getY() + drawer.textHeightMax() + Y_DIST_TO_LINE);
+			pointText = new PointDouble(pointText.getX() - drawer.textWidth(text) - drawer.getDistanceBorderToText(), pointText.getY() + drawer.textHeightMax() + LOWER_Y_DIST_TO_LINE);
 		}
 		else if (lineDirection == Direction.LEFT) {
-			pointText = new PointDouble(pointText.getX() + X_DIST_TO_LINE, pointText.getY() + drawer.textHeightMax() + Y_DIST_TO_LINE);
+			pointText = new PointDouble(pointText.getX() + X_DIST_TO_LINE, pointText.getY() + drawer.textHeightMax() + LOWER_Y_DIST_TO_LINE);
 		}
 		else if (lineDirection == Direction.UP) {
-			pointText = new PointDouble(pointText.getX() + X_DIST_TO_LINE, pointText.getY() + drawer.textHeightMax() + Y_DIST_TO_LINE);
+			pointText = new PointDouble(pointText.getX() + X_DIST_TO_LINE, pointText.getY() + drawer.textHeightMax() + LOWER_Y_DIST_TO_LINE);
 		}
 		else if (lineDirection == Direction.DOWN) {
-			pointText = new PointDouble(pointText.getX() + X_DIST_TO_LINE, pointText.getY() - Y_DIST_TO_LINE);
+			pointText = new PointDouble(pointText.getX() + X_DIST_TO_LINE, pointText.getY() - LOWER_Y_DIST_TO_LINE);
+		}
+
+		// r1 and r2 are place on top of the line if it is horizontal or on the inner side if the line is vertical
+		if (enumVal.isRoleStartOrEnd()) {
+			if (lineDirection == Direction.UP) {
+				pointText = new PointDouble(pointText.getX(), pointText.getY() + drawer.textHeightMaxWithSpace());
+			}
+			else if (lineDirection == Direction.DOWN) {
+				pointText = new PointDouble(pointText.getX(), pointText.getY() - drawer.textHeightMaxWithSpace());
+			}
+			else {
+				pointText = new PointDouble(pointText.getX(), pointText.getY() - drawer.textHeightMax() - UPPER_Y_DIST_TO_LINE);
+			}
 		}
 		return pointText;
 	}
 
-	private PointDouble calcPosOfMiddleText(PointDouble center, double textWidth) {
-		double textX = center.getX() - textWidth / 2;
-		double textY = center.getY() - DISTANCE_TO_LINE;
+	private PointDouble calcPosOfMiddleText(PointDouble center, DrawHandler drawer, String text, Line line) {
+		double textWidth = drawer.textWidth(text);
+		boolean horizontalLine = line.getDirectionOfLine(true).isHorizontal();
+
+		double textX, textY;
+		if (horizontalLine) {
+			textX = center.getX() - textWidth / 2;
+			textY = center.getY() - MIDDLE_DISTANCE_TO_LINE;
+		}
+		else {
+			textX = center.getX() + X_DIST_TO_LINE;
+			textY = center.getY() + drawer.textHeight(text) / 2;
+		}
 		return new PointDouble(textX, textY);
 	}
 

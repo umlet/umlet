@@ -29,7 +29,7 @@ public class DescriptionPositionFacet extends KeyValueFacet {
 
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue(lineDesc + POS, false, "-5,7", "comma separated integers as displacement of " + lineDesc + " text (first=horizontal, second=vertical)");
+		return new KeyValue(lineDesc.getKey() + POS, false, "-5,7", "comma separated integers as displacement of " + lineDesc + " text (first=horizontal, second=vertical)");
 	}
 
 	@Override

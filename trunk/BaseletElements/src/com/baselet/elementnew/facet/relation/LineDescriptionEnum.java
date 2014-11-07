@@ -41,4 +41,12 @@ enum LineDescriptionEnum {
 		return LineDescriptionEnum.MESSAGE_MIDDLE;
 	}
 
+	public boolean isMessageStartOrEnd() {
+		return this == LineDescriptionEnum.MESSAGE_START || this == LineDescriptionEnum.MESSAGE_END;
+	}
+
+	public boolean isRoleStartOrEnd() {
+		return this == LineDescriptionEnum.ROLE_START || this == LineDescriptionEnum.ROLE_END;
+	}
+
 }
