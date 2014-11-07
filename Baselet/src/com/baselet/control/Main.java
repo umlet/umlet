@@ -32,6 +32,10 @@ import com.baselet.control.config.handler.ConfigHandler;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
+import com.baselet.control.util.CanOpenDiagram;
+import com.baselet.control.util.Path;
+import com.baselet.control.util.RecentlyUsedFilesList;
+import com.baselet.control.util.RunningFileChecker;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -44,7 +48,7 @@ import com.baselet.gui.CurrentGui;
 import com.baselet.gui.OwnSyntaxPane;
 import com.baselet.gui.standalone.StandaloneGUI;
 
-public class Main implements CanCloseProgram {
+public class Main implements CanCloseProgram, CanOpenDiagram {
 
 	private static final Logger log = Logger.getLogger(Main.class);
 
@@ -253,7 +257,7 @@ public class Main implements CanCloseProgram {
 			f.createNewFile();
 			file_created = true;
 			timer = new Timer(true);
-			timer.schedule(new RunningFileChecker(Path.temp() + tmp_file, Path.temp() + tmp_read_file), 0, 1000);
+			timer.schedule(new RunningFileChecker(Path.temp() + tmp_file, Path.temp() + tmp_read_file, main), 0, 1000);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return true;
@@ -374,6 +378,7 @@ public class Main implements CanCloseProgram {
 		}
 	}
 
+	@Override
 	public void doOpen(final String filename) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override

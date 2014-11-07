@@ -4,8 +4,8 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.baselet.control.Utils;
 import com.baselet.control.constants.Constants;
+import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
 
 public class HelpPanelChanged extends Command {

@@ -52,10 +52,10 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import com.baselet.control.Main;
-import com.baselet.control.RecentlyUsedFilesList;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Os;
+import com.baselet.control.util.RecentlyUsedFilesList;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.gui.helper.PlainColorIcon;
 

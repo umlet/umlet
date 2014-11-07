@@ -1,4 +1,4 @@
-package com.baselet.control;
+package com.baselet.control.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -83,7 +83,7 @@ public class Path {
 	 */
 	public static String executable() {
 		String path = null;
-		URL codeSourceUrl = Main.class.getProtectionDomain().getCodeSource().getLocation();
+		URL codeSourceUrl = Path.class.getProtectionDomain().getCodeSource().getLocation();
 		try { // Convert URL to URI to avoid HTML problems with special characters like space,ä,ö,ü,...
 			path = codeSourceUrl.toURI().getPath();
 		} catch (URISyntaxException e) {/* path stays null */}

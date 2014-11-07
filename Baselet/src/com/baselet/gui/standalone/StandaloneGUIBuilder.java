@@ -25,10 +25,10 @@ import javax.swing.JToggleButton;
 import javax.swing.ToolTipManager;
 import javax.swing.WindowConstants;
 
-import com.baselet.control.Path;
 import com.baselet.control.config.ConfigConst;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
+import com.baselet.control.util.Path;
 import com.baselet.gui.BaseGUIBuilder;
 import com.baselet.gui.listener.GUIListener;
 

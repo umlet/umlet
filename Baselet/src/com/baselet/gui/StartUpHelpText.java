@@ -21,12 +21,12 @@ import javax.swing.JEditorPane;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Path;
-import com.baselet.control.Utils;
 import com.baselet.control.config.ConfigConst;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Metakey;
 import com.baselet.control.enums.Program;
+import com.baselet.control.util.Path;
+import com.baselet.control.util.Utils;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.gui.listener.HyperLinkActiveListener;
 
