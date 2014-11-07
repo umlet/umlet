@@ -8,6 +8,7 @@ import java.awt.event.MouseWheelListener;
 import javax.swing.JComboBox;
 
 import com.baselet.control.Main;
+import com.baselet.gui.CurrentGui;
 
 public class PaletteComboBoxListener implements ActionListener, MouseWheelListener {
 
@@ -15,7 +16,7 @@ public class PaletteComboBoxListener implements ActionListener, MouseWheelListen
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof JComboBox) {
 			String paletteName = ((JComboBox) e.getSource()).getSelectedItem().toString();
-			Main.getInstance().getGUI().showPalette(paletteName);
+			CurrentGui.getInstance().getGui().showPalette(paletteName);
 			setZoom();
 		}
 	}
@@ -27,7 +28,7 @@ public class PaletteComboBoxListener implements ActionListener, MouseWheelListen
 			int newIndex = comboBox.getSelectedIndex() + e.getWheelRotation(); // wheelrotation is -1 (up) or +1 (down)
 			if (comboBox.getItemAt(newIndex) != null) {
 				String newSelectedItem = comboBox.getItemAt(newIndex).toString();
-				Main.getInstance().getGUI().showPalette(newSelectedItem);
+				CurrentGui.getInstance().getGui().showPalette(newSelectedItem);
 				comboBox.setSelectedIndex(newIndex);
 				setZoom();
 			}
@@ -37,7 +38,7 @@ public class PaletteComboBoxListener implements ActionListener, MouseWheelListen
 	private void setZoom() {
 		if (Main.getInstance().getPalette() != null) {
 			int factor = Main.getInstance().getPalette().getGridSize();
-			Main.getInstance().getGUI().setValueOfZoomDisplay(factor);
+			CurrentGui.getInstance().getGui().setValueOfZoomDisplay(factor);
 		}
 	}
 

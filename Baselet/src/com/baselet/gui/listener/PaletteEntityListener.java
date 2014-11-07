@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Main;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.command.AddElement;
@@ -17,6 +17,7 @@ import com.baselet.diagram.command.Command;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.facet.common.GroupFacet;
+import com.baselet.gui.CurrentGui;
 import com.umlet.elementnew.ElementFactory;
 
 public class PaletteEntityListener extends GridElementListener {
@@ -75,8 +76,8 @@ public class PaletteEntityListener extends GridElementListener {
 		for (GridElement copiedEntity : copiedEntities) {
 			int x = getNewCoordinate().x - getOldCoordinate().x;
 			int y = getNewCoordinate().y - getOldCoordinate().y;
-			x = Main.getInstance().getDiagramHandler().realignToGrid(false, x);
-			y = Main.getInstance().getDiagramHandler().realignToGrid(false, y);
+			x = CurrentDiagram.getInstance().getDiagramHandler().realignToGrid(false, x);
+			y = CurrentDiagram.getInstance().getDiagramHandler().realignToGrid(false, y);
 			copiedEntity.setLocationDifference(x, y);
 		}
 	}
@@ -91,7 +92,7 @@ public class PaletteEntityListener extends GridElementListener {
 
 	private void insertDraggedEntities(MouseEvent me) {
 		GridElement entity = handler.getDrawPanel().getElementToComponent(me.getComponent());
-		DrawPanel currentDiagram = Main.getInstance().getGUI().getCurrentDiagram();
+		DrawPanel currentDiagram = CurrentGui.getInstance().getGui().getCurrentDiagram();
 		List<GridElement> selectedEntities = handler.getDrawPanel().getSelector().getSelectedElements();
 
 		if (!allowCopyEntity()) {
@@ -130,7 +131,7 @@ public class PaletteEntityListener extends GridElementListener {
 	}
 
 	private void updateEntityPositions(MouseEvent me) {
-		DiagramHandler currentHandler = Main.getInstance().getDiagramHandler();
+		DiagramHandler currentHandler = CurrentDiagram.getInstance().getDiagramHandler();
 		Point mousePosition = me.getLocationOnScreen();
 		int mouseX = mousePosition.x - currentHandler.getDrawPanel().getLocationOnScreen().x;
 		int mouseY = mousePosition.y - currentHandler.getDrawPanel().getLocationOnScreen().y;
@@ -139,8 +140,8 @@ public class PaletteEntityListener extends GridElementListener {
 			int y = copiedEntity.getRectangle().y;
 			x += mouseX;
 			y += mouseY;
-			x = Main.getInstance().getDiagramHandler().realignToGrid(false, x);
-			y = Main.getInstance().getDiagramHandler().realignToGrid(false, y);
+			x = CurrentDiagram.getInstance().getDiagramHandler().realignToGrid(false, x);
+			y = CurrentDiagram.getInstance().getDiagramHandler().realignToGrid(false, y);
 			copiedEntity.setLocation(x, y);
 		}
 	}
@@ -148,7 +149,7 @@ public class PaletteEntityListener extends GridElementListener {
 	@Override
 	public void mouseReleased(MouseEvent me) {
 		super.mouseReleased(me);
-		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
+		CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 	}
 
 	protected boolean allowCopyEntity() {
@@ -156,7 +157,7 @@ public class PaletteEntityListener extends GridElementListener {
 	}
 
 	protected GridElement copyEntity(GridElement me) {
-		DrawPanel currentDiagram = Main.getInstance().getGUI().getCurrentDiagram();
+		DrawPanel currentDiagram = CurrentGui.getInstance().getGui().getCurrentDiagram();
 
 		// We save the actual zoom level of the diagram and the palette
 		int oldZoomDiagram = currentDiagram.getHandler().getGridSize();

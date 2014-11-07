@@ -7,7 +7,6 @@ import java.util.TimerTask;
 import javax.swing.SwingUtilities;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Main;
 import com.baselet.diagram.draw.swing.Converter;
 
 public class Notifier {
@@ -28,7 +27,7 @@ public class Notifier {
 	}
 
 	private void showNotificationHelper(String message) {
-		final DrawPanel notifierPanel = Main.getInstance().getDiagramHandler().getDrawPanel();
+		final DrawPanel notifierPanel = CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel();
 
 		Rectangle viewRect = notifierPanel.getScrollPane().getViewport().getViewRect();
 		final DiagramNotification notification = new DiagramNotification(Converter.convert(viewRect), message);

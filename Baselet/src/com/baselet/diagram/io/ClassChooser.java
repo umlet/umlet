@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 import com.baselet.control.Config;
-import com.baselet.control.Main;
+import com.baselet.gui.CurrentGui;
 
 public class ClassChooser {
 
@@ -41,7 +41,7 @@ public class ClassChooser {
 
 	public static List<String> getFilesToOpen() {
 		List<String> fileNames = new ArrayList<String>();
-		int returnVal = getInstance().showOpenDialog(Main.getInstance().getGUI().getMainFrame());
+		int returnVal = getInstance().showOpenDialog(CurrentGui.getInstance().getGui().getMainFrame());
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File[] selectedFiles = getInstance().getSelectedFiles();
 			for (File file : selectedFiles) {
@@ -49,7 +49,7 @@ public class ClassChooser {
 			}
 			Config.getInstance().setOpenFileHome(selectedFiles[0].getParent());
 			if (fileNames.size() > TOO_MANY_FILES) {
-				returnVal = JOptionPane.showConfirmDialog(Main.getInstance().getGUI().getMainFrame(), "Your selection contains " + fileNames.size() + " files which may " +
+				returnVal = JOptionPane.showConfirmDialog(CurrentGui.getInstance().getGui().getMainFrame(), "Your selection contains " + fileNames.size() + " files which may " +
 																										"clutter up your diagram. Continue?", "Confirm selection", JOptionPane.OK_CANCEL_OPTION);
 				if (returnVal == JOptionPane.CANCEL_OPTION) {
 					fileNames.clear();

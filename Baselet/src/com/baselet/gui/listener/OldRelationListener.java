@@ -7,6 +7,7 @@ import java.util.Vector;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.enumerations.Direction;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Move;
@@ -14,6 +15,7 @@ import com.baselet.diagram.command.OldMoveLinePoint;
 import com.baselet.diagram.command.RemoveElement;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.sticking.StickableMap;
+import com.baselet.gui.CurrentGui;
 import com.umlet.element.Relation;
 
 /**
@@ -163,13 +165,13 @@ public class OldRelationListener extends GridElementListener {
 		Relation rel = (Relation) me.getComponent();
 		int where = rel.getLinePoint(new Point(me.getX(), me.getY()));
 		if (where >= 0) {
-			Main.getInstance().getGUI().setCursor(Constants.HAND_CURSOR);
+			CurrentGui.getInstance().getGui().setCursor(Constants.HAND_CURSOR);
 		}
 		else if (rel.isWholeLine(me.getX(), me.getY())) {
-			Main.getInstance().getGUI().setCursor(Constants.MOVE_CURSOR);
+			CurrentGui.getInstance().getGui().setCursor(Constants.MOVE_CURSOR);
 		}
 		else {
-			Main.getInstance().getGUI().setCursor(Constants.CROSS_CURSOR);
+			CurrentGui.getInstance().getGui().setCursor(Constants.CROSS_CURSOR);
 		}
 		return;
 	}
@@ -188,7 +190,7 @@ public class OldRelationListener extends GridElementListener {
 		}
 
 		Relation r = (Relation) me.getComponent();
-		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
+		int gridSize = CurrentDiagram.getInstance().getDiagramHandler().getGridSize();
 
 		// delta
 		int delta_x = 0;

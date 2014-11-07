@@ -9,6 +9,7 @@ import com.baselet.control.Main;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
+import com.baselet.gui.CurrentGui;
 import com.umlet.custom.CustomElement;
 
 public class SelectorOld extends Selector {
@@ -71,9 +72,9 @@ public class SelectorOld extends Selector {
 	}
 
 	private void updateGUIInformation() {
-		Main.getInstance().getGUI().elementsSelected(selectedElements);
+		CurrentGui.getInstance().getGui().elementsSelected(selectedElements);
 		boolean customElementSelected = selectedElements.size() == 1 && selectedElements.get(0) instanceof CustomElement;
-		Main.getInstance().getGUI().setCustomElementSelected(customElementSelected);
+		CurrentGui.getInstance().getGui().setCustomElementSelected(customElementSelected);
 	}
 
 	public void updateSelectorInformation() {
@@ -87,8 +88,8 @@ public class SelectorOld extends Selector {
 	// updates the GUI with the current selector information (that includes the propertypanel)
 	public void updateSelectorInformation(GridElement elementForPropPanel) {
 		// every time something is selected - update the current diagram to this element
-		Main.getInstance().setCurrentDiagramHandler(panel.getHandler());
-		if (Main.getInstance().getGUI() != null) {
+		CurrentDiagram.getInstance().setCurrentDiagramHandler(panel.getHandler());
+		if (CurrentGui.getInstance().getGui() != null) {
 			updateGUIInformation();
 			Main.getInstance().setPropertyPanelToGridElement(elementForPropPanel);
 		}
@@ -115,10 +116,10 @@ public class SelectorOld extends Selector {
 
 	@Override
 	public List<GridElement> getAllElements() {
-		if (Main.getInstance().getDiagramHandler() == null) {
+		if (CurrentDiagram.getInstance().getDiagramHandler() == null) {
 			return Collections.<GridElement> emptyList();
 		}
-		return Main.getInstance().getDiagramHandler().getDrawPanel().getGridElements();
+		return CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().getGridElements();
 	}
 
 	@Override

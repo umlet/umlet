@@ -2,8 +2,8 @@ package com.baselet.diagram;
 
 import java.util.Vector;
 
-import com.baselet.control.Main;
 import com.baselet.diagram.command.Command;
+import com.baselet.gui.CurrentGui;
 
 public class Controller {
 	private Vector<Command> commands;
@@ -42,7 +42,7 @@ public class Controller {
 			handler.setChanged(true);
 		}
 
-		Main.getInstance().getGUI().updateGrayedOutMenuItems(handler);
+		CurrentGui.getInstance().getGui().updateGrayedOutMenuItems(handler);
 	}
 
 	public void undo() {

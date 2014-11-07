@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Main;
 import com.baselet.control.enumerations.Direction;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
@@ -119,14 +120,14 @@ public class Move extends Command {
 		super.undo(handler);
 		entity.undoDrag();
 		entity.updateModelFromText();
-		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
+		CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 	}
 
 	@Override
 	public void redo(DiagramHandler handler) {
 		entity.redoDrag();
 		entity.updateModelFromText();
-		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
+		CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 	}
 
 	@Override

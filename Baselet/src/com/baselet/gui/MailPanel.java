@@ -38,8 +38,8 @@ import javax.swing.UIManager;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Constants;
-import com.baselet.control.Main;
 import com.baselet.control.SharedConstants.Program;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.io.DiagramFileHandler;
 
 public class MailPanel extends JPanel {
@@ -234,7 +234,7 @@ public class MailPanel extends JPanel {
 		// Create the temp diagrams to send
 		try {
 			final String diagramName = "diagram_" + new SimpleDateFormat("yyyyMMdd_hhmmss").format(new Date());
-			DiagramFileHandler fileHandler = Main.getInstance().getDiagramHandler().getFileHandler();
+			DiagramFileHandler fileHandler = CurrentDiagram.getInstance().getDiagramHandler().getFileHandler();
 			if (cb_attachXml.isSelected()) {
 				nrOfAttachments++;
 				diagramXml = fileHandler.doSaveTempDiagram(diagramName, Program.EXTENSION);
@@ -507,7 +507,7 @@ public class MailPanel extends JPanel {
 	public void closePanel() {
 		storeConstants();
 		Constants.mail_split_position = (int) this.getSize().getHeight();
-		Main.getInstance().getGUI().setMailPanelEnabled(false);
+		CurrentGui.getInstance().getGui().setMailPanelEnabled(false);
 	}
 
 	private class SendActionListener implements ActionListener {

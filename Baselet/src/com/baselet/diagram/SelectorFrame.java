@@ -99,6 +99,6 @@ public class SelectorFrame extends JComponent {
 		this.setLocation(locx, locy);
 		this.setSize(sizx, sizy);
 		// TODO Uncomment to see the real lasso border -> remove after implementing lasso on entity
-		// Main.getInstance().getGUI().getGraphics().drawRect(locx, locy, sizx, sizy);
+		// CurrentGui.getInstance().getGUI().getGraphics().drawRect(locx, locy, sizx, sizy);
 	}
 }

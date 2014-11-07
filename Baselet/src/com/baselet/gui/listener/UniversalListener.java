@@ -7,9 +7,9 @@ import java.awt.event.MouseMotionListener;
 import java.util.Collections;
 import java.util.Vector;
 
-import com.baselet.control.Main;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.Controller;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.SelectorFrame;
@@ -21,6 +21,7 @@ import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickableMap;
+import com.baselet.gui.CurrentGui;
 
 public abstract class UniversalListener extends ComponentAdapter implements MouseListener, MouseMotionListener {
 
@@ -50,17 +51,17 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 	@Override
 	public void mousePressed(MouseEvent me) {
 		disableElementMovement = false;
-		Main.getInstance().getGUI().requestFocus(); // to avoid beeing stuck in the propertyPanel
+		CurrentGui.getInstance().getGui().requestFocus(); // to avoid beeing stuck in the propertyPanel
 		Point off = getOffset(me);
 		_xOffset = off.x;
 		_yOffset = off.y;
 
 		// everytime a mouse is pressed within a listener the gui gets the current diagram!
-		Main.getInstance().setCurrentDiagramHandler(handler);
+		CurrentDiagram.getInstance().setCurrentDiagramHandler(handler);
 
-		if (Main.getInstance().getDiagramHandler() != null) {
-			int factor = Main.getInstance().getDiagramHandler().getGridSize();
-			Main.getInstance().getGUI().setValueOfZoomDisplay(factor);
+		if (CurrentDiagram.getInstance().getDiagramHandler() != null) {
+			int factor = CurrentDiagram.getInstance().getDiagramHandler().getGridSize();
+			CurrentGui.getInstance().getGui().setValueOfZoomDisplay(factor);
 		}
 	}
 
@@ -104,7 +105,7 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 		Point off = getOffset(me);
 		int xNewOffset = off.x;
 		int yNewOffset = off.y;
-		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
+		int gridSize = CurrentDiagram.getInstance().getDiagramHandler().getGridSize();
 
 		new_x_eff = gridSize * ((xNewOffset - gridSize / 2) / gridSize);
 		new_y_eff = gridSize * ((yNewOffset - gridSize / 2) / gridSize);

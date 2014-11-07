@@ -6,14 +6,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Vector;
 
-import com.baselet.control.Main;
 import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.Direction;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
+import com.baselet.gui.CurrentGui;
 
 public class GUIListener implements KeyListener {
 
@@ -23,7 +24,7 @@ public class GUIListener implements KeyListener {
 			SharedConstants.stickingEnabled = false;
 		}
 
-		DiagramHandler handler = Main.getInstance().getDiagramHandler();
+		DiagramHandler handler = CurrentDiagram.getInstance().getDiagramHandler();
 
 		if (handler != null && !e.isAltDown() && !e.isAltGraphDown() /* && !e.isControlDown() && !e.isMetaDown() */) {
 
@@ -31,7 +32,7 @@ public class GUIListener implements KeyListener {
 			 * Enter: jumps directly into the diagram
 			 */
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				Main.getInstance().getGUI().focusPropertyPane();
+				CurrentGui.getInstance().getGui().focusPropertyPane();
 			}
 
 			/**
@@ -77,7 +78,7 @@ public class GUIListener implements KeyListener {
 					Point opos = getOriginalPos(diffx, diffy, entitiesToBeMoved.iterator().next());
 					Vector<Command> ALL_MOVE_COMMANDS = GridElementListener.calculateFirstMoveCommands(diffx, diffy, opos, entitiesToBeMoved, e.isShiftDown(), true, handler, Collections.<Direction> emptySet());
 					handler.getController().executeCommand(new Macro(ALL_MOVE_COMMANDS));
-					Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
+					CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 				}
 			}
 		}

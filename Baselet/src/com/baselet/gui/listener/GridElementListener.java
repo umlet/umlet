@@ -18,6 +18,7 @@ import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Main;
 import com.baselet.control.SharedConstants;
 import com.baselet.control.enumerations.Direction;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.diagram.SelectorFrame;
@@ -36,6 +37,7 @@ import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.elementnew.facet.common.GroupFacet;
+import com.baselet.gui.CurrentGui;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.RelationLinePoint;
 import com.umlet.elementnew.ElementFactory;
@@ -108,22 +110,22 @@ public class GridElementListener extends UniversalListener {
 		resizeDirection = e.getResizeArea(me.getX(), me.getY());
 		Point point = new Point(me.getX() + e.getRectangle().getX(), me.getY() + e.getRectangle().getY());
 		if (!e.isSelectableOn(point)) {
-			Main.getInstance().getGUI().setCursor(Constants.DEFAULT_CURSOR);
+			CurrentGui.getInstance().getGui().setCursor(Constants.DEFAULT_CURSOR);
 		}
 		else if (resizeDirection.isEmpty()) {
-			Main.getInstance().getGUI().setCursor(Constants.HAND_CURSOR);
+			CurrentGui.getInstance().getGui().setCursor(Constants.HAND_CURSOR);
 		}
 		else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT) || resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) {
-			Main.getInstance().getGUI().setCursor(Constants.NE_CURSOR);
+			CurrentGui.getInstance().getGui().setCursor(Constants.NE_CURSOR);
 		}
 		else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT) || resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) {
-			Main.getInstance().getGUI().setCursor(Constants.NW_CURSOR);
+			CurrentGui.getInstance().getGui().setCursor(Constants.NW_CURSOR);
 		}
 		else if (resizeDirection.contains(Direction.UP) || resizeDirection.contains(Direction.DOWN)) {
-			Main.getInstance().getGUI().setCursor(Constants.TB_CURSOR);
+			CurrentGui.getInstance().getGui().setCursor(Constants.TB_CURSOR);
 		}
 		else if (resizeDirection.contains(Direction.LEFT) || resizeDirection.contains(Direction.RIGHT)) {
-			Main.getInstance().getGUI().setCursor(Constants.LR_CURSOR);
+			CurrentGui.getInstance().getGui().setCursor(Constants.LR_CURSOR);
 		}
 	}
 
@@ -135,7 +137,7 @@ public class GridElementListener extends UniversalListener {
 
 		selector.setDominantEntity(ge);
 
-		JPopupMenu contextMenu = Main.getInstance().getGUI().getContextMenu(ge);
+		JPopupMenu contextMenu = CurrentGui.getInstance().getGui().getContextMenu(ge);
 		if (contextMenu != null) {
 			contextMenu.show((Component) ge.getComponent(), x, y);
 		}
@@ -201,7 +203,7 @@ public class GridElementListener extends UniversalListener {
 		e.setProperty(GroupFacet.KEY, null);
 		GridElementListener eListener = handler.getEntityListener(e);
 		Command cmd;
-		int gridSize = Main.getInstance().getDiagramHandler().getGridSize();
+		int gridSize = CurrentDiagram.getInstance().getDiagramHandler().getGridSize();
 		cmd = new AddElement(e, me.getRectangle().x + gridSize * 2, me.getRectangle().y + gridSize * 2);
 		controller.executeCommand(cmd);
 		selector.selectOnly(e);
@@ -246,8 +248,8 @@ public class GridElementListener extends UniversalListener {
 		SelectorFrame selframe = selector.getSelectorFrame();
 		selframe.setLocation(Converter.convert(mousePressedPoint));
 		selframe.setSize(1, 1);
-		Main.getInstance().getDiagramHandler().getDrawPanel().add(selframe, 0);
-		Main.getInstance().getGUI().setCursor(Constants.DEFAULT_CURSOR);
+		CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().add(selframe, 0);
+		CurrentGui.getInstance().getGui().setCursor(Constants.DEFAULT_CURSOR);
 	}
 
 	private void dragLasso(MouseEvent me, GridElement e) {

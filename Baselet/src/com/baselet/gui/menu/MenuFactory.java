@@ -50,6 +50,7 @@ import javax.swing.SwingUtilities;
 import com.baselet.control.FacetConstants;
 import com.baselet.control.Main;
 import com.baselet.control.SharedConstants.Program;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.SelectorOld;
@@ -66,6 +67,7 @@ import com.baselet.elementnew.facet.common.LayerFacet;
 import com.baselet.gui.AboutDialog;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.BrowserLauncher;
+import com.baselet.gui.CurrentGui;
 import com.baselet.gui.GenerateOptionPanel;
 import com.baselet.gui.OptionPanel;
 import com.baselet.gui.standalone.StandaloneGUI;
@@ -80,9 +82,9 @@ public class MenuFactory {
 			@Override
 			public void run() {
 				Main main = Main.getInstance();
-				BaseGUI gui = main.getGUI();
+				BaseGUI gui = CurrentGui.getInstance().getGui();
 				DiagramHandler diagramHandler = gui.getCurrentDiagram().getHandler();
-				DiagramHandler actualHandler = main.getDiagramHandler();
+				DiagramHandler actualHandler = CurrentDiagram.getInstance().getDiagramHandler();
 				SelectorOld actualSelector = actualHandler == null ? null : actualHandler.getDrawPanel().getSelector();
 
 				if (menuItem.equals(NEW)) {
@@ -122,7 +124,7 @@ public class MenuFactory {
 					diagramHandler.doPrint();
 				}
 				else if (menuItem.equals(EXIT)) {
-					main.getGUI().closeWindow();
+					CurrentGui.getInstance().getGui().closeWindow();
 				}
 				else if (menuItem.equals(UNDO) && actualHandler != null && actualSelector != null) {
 					actualHandler.getController().undo();
@@ -237,7 +239,7 @@ public class MenuFactory {
 	protected List<JComponent> diagramDependendComponents = new ArrayList<JComponent>();
 
 	public void updateDiagramDependendComponents() {
-		DrawPanel currentDiagram = Main.getInstance().getGUI().getCurrentDiagram();
+		DrawPanel currentDiagram = CurrentGui.getInstance().getGui().getCurrentDiagram();
 		if (currentDiagram == null)
 		{
 			return; // Possible if method is called at loading a palette

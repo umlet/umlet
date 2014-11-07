@@ -8,12 +8,14 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import com.baselet.control.Main;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.ChangePanelAttributes;
 import com.baselet.diagram.command.CustomCodePropertyChanged;
 import com.baselet.diagram.command.HelpPanelChanged;
 import com.baselet.element.GridElement;
+import com.baselet.gui.CurrentGui;
 
 public class PropertyPanelListener implements KeyListener, DocumentListener {
 
@@ -22,7 +24,7 @@ public class PropertyPanelListener implements KeyListener, DocumentListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 		if (e.getKeyChar() == '\u001b') { // ESC Key: Leaves the Property Panel
-			Main.getInstance().getGUI().requestFocus();
+			CurrentGui.getInstance().getGui().requestFocus();
 		}
 	}
 
@@ -38,13 +40,13 @@ public class PropertyPanelListener implements KeyListener, DocumentListener {
 
 	protected void updateGridElement() {
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
-		String s = Main.getInstance().getGUI().getPropertyPane().getText();
-		DiagramHandler handler = Main.getInstance().getDiagramHandler();
+		String s = CurrentGui.getInstance().getGui().getPropertyPane().getText();
+		DiagramHandler handler = CurrentDiagram.getInstance().getDiagramHandler();
 
 		if (gridElement != null) {
 			// only create command if changes were made
 			if (!s.equals(gridElement.getPanelAttributes())) {
-				int newCaretPos = Main.getInstance().getGUI().getPropertyPane().getTextComponent().getCaretPosition();
+				int newCaretPos = CurrentGui.getInstance().getGui().getPropertyPane().getTextComponent().getCaretPosition();
 				int oldCaretPos = newCaretPos - (s.length() - gridElement.getPanelAttributes().length());
 
 				if (Main.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {

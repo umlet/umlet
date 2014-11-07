@@ -129,7 +129,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				optionframe.setLocationRelativeTo(Main.getInstance().getGUI().getMainFrame());
+				optionframe.setLocationRelativeTo(CurrentGui.getInstance().getGui().getMainFrame());
 				optionframe.setVisible(true);
 				optionframe.toFront();
 			}
@@ -158,7 +158,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 			if (newui != null && !newui.equals(Config.getInstance().getUiManager())) {
 				Config.getInstance().setUiManager(newui);
 				try {
-					BaseGUI gui = Main.getInstance().getGUI();
+					BaseGUI gui = CurrentGui.getInstance().getGui();
 					if (gui instanceof StandaloneGUI) {
 						Frame topFrame = ((StandaloneGUI) gui).getMainFrame();
 						UIManager.setLookAndFeel(newui);

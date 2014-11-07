@@ -5,6 +5,7 @@ import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.SelectorOld;
 import com.baselet.element.GridElement;
+import com.baselet.gui.CurrentGui;
 import com.baselet.gui.OwnSyntaxPane;
 
 public class CustomCodePropertyChanged extends Command {
@@ -46,7 +47,7 @@ public class CustomCodePropertyChanged extends Command {
 
 		// select grid element if nothing is selected
 		if (gridElement == null) {
-			SelectorOld selector = Main.getInstance().getGUI().getCurrentCustomHandler().getPreviewHandler().getDrawPanel().getSelector();
+			SelectorOld selector = CurrentGui.getInstance().getGui().getCurrentCustomHandler().getPreviewHandler().getDrawPanel().getSelector();
 			selector.selectAll();
 			if (selector.getSelectedElements().size() >= 1) {
 				gridElement = selector.getSelectedElements().get(0);
@@ -56,7 +57,7 @@ public class CustomCodePropertyChanged extends Command {
 		if (gridElement != null && Main.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {
 			gridElement.setPanelAttributes(_newState);
 
-			OwnSyntaxPane pane = Main.getInstance().getGUI().getPropertyPane();
+			OwnSyntaxPane pane = CurrentGui.getInstance().getGui().getPropertyPane();
 			pane.switchToElement(gridElement);
 
 			if (pane.getText().length() >= _newCaret) {
@@ -76,7 +77,7 @@ public class CustomCodePropertyChanged extends Command {
 
 		// select grid element
 		if (gridElement == null) {
-			SelectorOld selector = Main.getInstance().getGUI().getCurrentCustomHandler().getPreviewHandler().getDrawPanel().getSelector();
+			SelectorOld selector = CurrentGui.getInstance().getGui().getCurrentCustomHandler().getPreviewHandler().getDrawPanel().getSelector();
 			selector.selectAll();
 			if (selector.getSelectedElements().size() >= 1) {
 				gridElement = selector.getSelectedElements().get(0);
@@ -86,7 +87,7 @@ public class CustomCodePropertyChanged extends Command {
 		if (gridElement != null && Main.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {
 			gridElement.setPanelAttributes(_oldState);
 
-			OwnSyntaxPane pane = Main.getInstance().getGUI().getPropertyPane();
+			OwnSyntaxPane pane = CurrentGui.getInstance().getGui().getPropertyPane();
 			pane.switchToElement(gridElement);
 
 			if (pane.getText().length() >= _oldCaret) {

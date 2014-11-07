@@ -3,6 +3,7 @@ package com.baselet.diagram.command;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
+import com.baselet.gui.CurrentGui;
 import com.baselet.gui.OwnSyntaxPane;
 
 public class ChangePanelAttributes extends Command {
@@ -49,7 +50,7 @@ public class ChangePanelAttributes extends Command {
 
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
 		if (gridElement != null && gridElement.equals(_entity)) {
-			OwnSyntaxPane pane = Main.getInstance().getGUI().getPropertyPane();
+			OwnSyntaxPane pane = CurrentGui.getInstance().getGui().getPropertyPane();
 			pane.switchToElement(gridElement);
 
 			if (pane.getText().length() >= _newCaret) {
@@ -67,7 +68,7 @@ public class ChangePanelAttributes extends Command {
 
 		GridElement gridElement = Main.getInstance().getEditedGridElement();
 		if (gridElement != null && gridElement.equals(_entity)) {
-			OwnSyntaxPane pane = Main.getInstance().getGUI().getPropertyPane();
+			OwnSyntaxPane pane = CurrentGui.getInstance().getGui().getPropertyPane();
 			pane.switchToElement(gridElement);
 
 			if (pane.getText().length() >= _oldCaret) {

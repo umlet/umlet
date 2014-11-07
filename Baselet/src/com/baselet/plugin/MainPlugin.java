@@ -17,6 +17,7 @@ import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.SharedConstants.RuntimeType;
+import com.baselet.gui.CurrentGui;
 import com.baselet.gui.eclipse.EclipseGUI;
 
 /**
@@ -33,7 +34,7 @@ public class MainPlugin extends AbstractUIPlugin {
 	private static MainPlugin plugin;
 
 	public static EclipseGUI getGUI() {
-		return (EclipseGUI) Main.getInstance().getGUI();
+		return (EclipseGUI) CurrentGui.getInstance().getGui();
 	}
 
 	/**
@@ -71,7 +72,7 @@ public class MainPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext) */
 	@Override
 	public void stop(BundleContext context) throws Exception {
-		Main.getInstance().getGUI().closeWindow();
+		CurrentGui.getInstance().getGui().closeWindow();
 		plugin = null;
 		super.stop(context);
 	}

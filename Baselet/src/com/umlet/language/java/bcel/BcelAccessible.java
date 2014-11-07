@@ -1,6 +1,7 @@
 package com.umlet.language.java.bcel;
 
 import org.apache.bcel.classfile.FieldOrMethod;
+
 import com.umlet.language.java.Accessible;
 
 public abstract class BcelAccessible implements Accessible {

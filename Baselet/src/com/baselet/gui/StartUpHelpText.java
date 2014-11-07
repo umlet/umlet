@@ -24,7 +24,6 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Constants;
 import com.baselet.control.Constants.Metakey;
 import com.baselet.control.Constants.SystemInfo;
-import com.baselet.control.Main;
 import com.baselet.control.Path;
 import com.baselet.control.SharedConstants.Program;
 import com.baselet.control.Utils;
@@ -48,7 +47,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		this.panel = panel;
 
 		// If the GUI is null (e.g.: if main is used in batch mode) the startup help text is not required
-		if (Main.getInstance().getGUI() == null) {
+		if (CurrentGui.getInstance().getGui() == null) {
 			return;
 		}
 

@@ -7,11 +7,13 @@ import java.util.TimerTask;
 import com.baselet.control.Constants;
 import com.baselet.control.Main;
 import com.baselet.control.SharedConstants.Program;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
+import com.baselet.gui.CurrentGui;
 import com.umlet.elementnew.ElementFactory;
 import com.umlet.gui.CustomCodeSyntaxPane;
 import com.umlet.gui.CustomElementPanel;
@@ -105,9 +107,9 @@ public class CustomElementHandler {
 		preview.getDrawPanel().getSelector().deselectAll();
 
 		// clear controller before editing new custom element
-		Main.getInstance().getDiagramHandler().getController().clear();
+		CurrentDiagram.getInstance().getDiagramHandler().getController().clear();
 
-		DrawPanel dia = Main.getInstance().getGUI().getCurrentDiagram();
+		DrawPanel dia = CurrentGui.getInstance().getGui().getCurrentDiagram();
 		if (dia != null) {
 			dia.getSelector().updateSelectorInformation();
 		}
@@ -182,7 +184,7 @@ public class CustomElementHandler {
 
 	private void setChanged(boolean changed) {
 		this.changed = changed;
-		Main.getInstance().getGUI().setCustomElementChanged(this, changed);
+		CurrentGui.getInstance().getGui().setCustomElementChanged(this, changed);
 	}
 
 	// reloads the element on all open panels and adds it to the custom element panel if not already there.
@@ -191,10 +193,10 @@ public class CustomElementHandler {
 		// if a new element has been created add it to current diagram
 		if (originalElement == null) {
 			DiagramHandler current = null;
-			DrawPanel c = Main.getInstance().getGUI().getCurrentDiagram();
+			DrawPanel c = CurrentGui.getInstance().getGui().getCurrentDiagram();
 			if (c == null) {
 				Main.getInstance().doNew();
-				current = Main.getInstance().getGUI().getCurrentDiagram().getHandler();
+				current = CurrentGui.getInstance().getGui().getCurrentDiagram().getHandler();
 			}
 			else {
 				current = c.getHandler();

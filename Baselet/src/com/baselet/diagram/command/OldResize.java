@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import com.baselet.control.Main;
 import com.baselet.control.SharedConstants;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;
@@ -121,7 +122,7 @@ public class OldResize extends Command {
 		for (OldMoveLinePoint c : move_commands) {
 			c.undo(handler);
 		}
-		Main.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
+		CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 	}
 
 	@Override
