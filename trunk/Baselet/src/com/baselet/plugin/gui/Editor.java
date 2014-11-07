@@ -1,4 +1,4 @@
-package com.baselet.plugin.editor;
+package com.baselet.plugin.gui;
 
 import java.awt.Cursor;
 import java.awt.Frame;
@@ -31,8 +31,6 @@ import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.OwnSyntaxPane;
-import com.baselet.gui.eclipse.EclipseGUIBuilder;
-import com.baselet.plugin.MainPlugin;
 import com.umlet.custom.CustomElementHandler;
 
 public class Editor extends EditorPart {
@@ -111,23 +109,27 @@ public class Editor extends EditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		MainPlugin.getGUI().setCurrentEditor(Editor.this); // must be done before initalization of DiagramHandler (eg: to set propertypanel text)
+		getGui().setCurrentEditor(Editor.this); // must be done before initalization of DiagramHandler (eg: to set propertypanel text)
 		handler = new DiagramHandler(diagramFile);
-		MainPlugin.getGUI().registerEditorForDiagramHandler(Editor.this, handler);
-		MainPlugin.getGUI().setCurrentDiagramHandler(handler); // must be also set here because onFocus is not always called (eg: tab is opened during eclipse startup)
-		MainPlugin.getGUI().open(handler);
+		getGui().registerEditorForDiagramHandler(Editor.this, handler);
+		getGui().setCurrentDiagramHandler(handler); // must be also set here because onFocus is not always called (eg: tab is opened during eclipse startup)
+		getGui().open(handler);
 
 		log.info("Call editor.createPartControl() " + uuid.toString());
 		mainFrame = SWT_AWT.new_Frame(new Composite(parent, SWT.EMBEDDED));
 		mainFrame.add(embeddedPanel);
 	}
 
+	private EclipseGUI getGui() {
+		return (EclipseGUI) CurrentGui.getInstance().getGui();
+	}
+
 	@Override
 	public void setFocus() {
 		log.info("Call editor.setFocus() " + uuid.toString());
 
-		MainPlugin.getGUI().setCurrentEditor(this);
-		MainPlugin.getGUI().setCurrentDiagramHandler(handler);
+		getGui().setCurrentEditor(this);
+		getGui().setCurrentDiagramHandler(handler);
 		if (handler != null) {
 			handler.getDrawPanel().getSelector().updateSelectorInformation();
 		}
@@ -146,7 +148,7 @@ public class Editor extends EditorPart {
 					}
 				}
 				showPalette(getSelectedPaletteName());
-				CurrentGui.getInstance().getGui().setValueOfZoomDisplay(handler.getGridSize());
+				getGui().setValueOfZoomDisplay(handler.getGridSize());
 				guiComponents.getPropertyTextPane().invalidate();
 			}
 		});
@@ -170,7 +172,7 @@ public class Editor extends EditorPart {
 				if (guiComponents.getMailPanel().isVisible()) {
 					guiComponents.getMailPanel().closePanel();
 				}
-				MainPlugin.getGUI().editorRemoved(Editor.this);
+				getGui().editorRemoved(Editor.this);
 			}
 		});
 	}

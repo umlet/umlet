@@ -14,8 +14,8 @@
             name="Umlet Editor"
             id="com.umlet.plugin.Editor"
             icon="img/umlet_eclipse.gif"
-            class="com.baselet.plugin.editor.Editor"
-            contributorClass="com.baselet.plugin.editor.Contributor"
+            class="com.baselet.plugin.gui.Editor"
+            contributorClass="com.baselet.plugin.gui.Contributor"
             extensions="uxf"
             default="false"
       />

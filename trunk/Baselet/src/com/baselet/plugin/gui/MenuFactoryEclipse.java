@@ -1,4 +1,4 @@
-package com.baselet.gui.eclipse;
+package com.baselet.plugin.gui;
 
 import static com.baselet.control.constants.MenuConstants.ABOUT_PROGRAM;
 import static com.baselet.control.constants.MenuConstants.COPY;
@@ -52,7 +52,6 @@ import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.menu.MenuFactory;
-import com.baselet.plugin.editor.Contributor;
 
 public class MenuFactoryEclipse extends MenuFactory {
 

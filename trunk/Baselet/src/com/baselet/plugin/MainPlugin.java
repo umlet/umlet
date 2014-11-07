@@ -6,10 +6,6 @@ import java.net.URL;
 import java.util.Dictionary;
 
 import org.apache.log4j.Logger;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -21,7 +17,7 @@ import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.util.Path;
 import com.baselet.gui.CurrentGui;
-import com.baselet.gui.eclipse.EclipseGUI;
+import com.baselet.plugin.gui.EclipseGUI;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -35,10 +31,6 @@ public class MainPlugin extends AbstractUIPlugin {
 
 	// The shared instance
 	private static MainPlugin plugin;
-
-	public static EclipseGUI getGUI() {
-		return (EclipseGUI) CurrentGui.getInstance().getGui();
-	}
 
 	/**
 	 * The constructor
@@ -118,14 +110,5 @@ public class MainPlugin extends AbstractUIPlugin {
 
 	public static URL getURL() {
 		return FileLocator.find(MainPlugin.getDefault().getBundle(), new org.eclipse.core.runtime.Path("/"), null);
-	}
-
-	public static void refreshWorkspace() {
-		IWorkspaceRoot myWorkspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-		try {
-			myWorkspaceRoot.refreshLocal(IResource.DEPTH_INFINITE, null);
-		} catch (CoreException e) {
-			log.error("Error at refreshing the workspace", e);
-		}
 	}
 }

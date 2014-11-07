@@ -1,4 +1,4 @@
-package com.baselet.plugin.editor;
+package com.baselet.plugin.gui;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,14 +18,9 @@ import org.eclipse.ui.part.EditorActionBarContributor;
 
 import com.baselet.control.constants.MenuConstants;
 import com.baselet.control.enums.Program;
-import com.baselet.control.enums.RuntimeType;
 import com.baselet.element.GridElement;
 import com.baselet.gui.CurrentGui;
-import com.baselet.gui.eclipse.EclipseGUI;
-import com.baselet.gui.eclipse.EclipseGUI.Pane;
-import com.baselet.gui.eclipse.MenuFactoryEclipse;
-import com.baselet.gui.eclipse.UpdateActionBars;
-import com.baselet.plugin.MainPlugin;
+import com.baselet.plugin.gui.EclipseGUI.Pane;
 
 public class Contributor extends EditorActionBarContributor {
 
@@ -33,7 +28,7 @@ public class Contributor extends EditorActionBarContributor {
 		COPY, CUT, PASTE, SELECTALL
 	}
 
-	private MenuFactoryEclipse menuFactory = MenuFactoryEclipse.getInstance();
+	private final MenuFactoryEclipse menuFactory = MenuFactoryEclipse.getInstance();
 
 	private IAction customnew;
 	private IAction customedit;
@@ -113,9 +108,7 @@ public class Contributor extends EditorActionBarContributor {
 
 	@Override
 	public void contributeToMenu(IMenuManager manager) {
-		if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN) {
-			MainPlugin.getGUI().setContributor(this);
-		}
+		((EclipseGUI) CurrentGui.getInstance().getGui()).setContributor(this);
 
 		IMenuManager menu = new MenuManager(Program.NAME.toString());
 		IMenuManager custom = new MenuManager(MenuConstants.CUSTOM_ELEMENTS);
@@ -228,7 +221,12 @@ public class Contributor extends EditorActionBarContributor {
 			getActionBars().setGlobalActionHandler(ActionFactory.FIND.getId(), null);
 		}
 
-		Display.getDefault().asyncExec(new UpdateActionBars(getActionBars()));
+		Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				getActionBars().updateActionBars();
+			}
+		});
 	}
 
 	public void updateZoomMenuRadioButton(int newGridSize) {
