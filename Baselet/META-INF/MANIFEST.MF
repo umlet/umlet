@@ -4,7 +4,7 @@ Created-By: 14.0-b16 (Sun Microsystems Inc.)
 Bundle-ManifestVersion: 2
 Bundle-Name: Umlet
 Bundle-SymbolicName: com.umlet.plugin;singleton:=true
-Bundle-Version: 13.0
+Bundle-Version: 13.1
 Bundle-Activator: com.baselet.plugin.MainPlugin
 Bundle-Vendor: http://www.umlet.com
 Require-Bundle: org.eclipse.ui,org.eclipse.ui.ide,org.eclipse.core.res
