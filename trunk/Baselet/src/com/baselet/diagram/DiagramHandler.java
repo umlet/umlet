@@ -25,7 +25,6 @@ import com.baselet.element.GridElement;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
-import com.baselet.gui.DiagramPopupMenu;
 import com.baselet.gui.listener.DiagramListener;
 import com.baselet.gui.listener.GridElementListener;
 import com.baselet.gui.listener.OldRelationListener;

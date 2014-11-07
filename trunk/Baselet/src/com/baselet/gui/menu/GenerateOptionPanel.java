@@ -1,4 +1,4 @@
-package com.baselet.gui;
+package com.baselet.gui.menu;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
