@@ -48,6 +48,7 @@ import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
 import com.baselet.control.BrowserLauncher;
+import com.baselet.control.FacetConstants;
 import com.baselet.control.Main;
 import com.baselet.control.SharedConstants.Program;
 import com.baselet.diagram.DiagramHandler;
@@ -61,8 +62,6 @@ import com.baselet.diagram.command.Paste;
 import com.baselet.diagram.command.RemoveElement;
 import com.baselet.diagram.io.ClassChooser;
 import com.baselet.element.GridElement;
-import com.baselet.elementnew.facet.common.BackgroundColorFacet;
-import com.baselet.elementnew.facet.common.ForegroundColorFacet;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.elementnew.facet.common.LayerFacet;
 import com.baselet.gui.standalone.StandaloneGUI;
@@ -207,10 +206,10 @@ public class MenuFactory {
 					AboutDialog.show();
 				}
 				else if (menuItem.equals(SET_FOREGROUND_COLOR) && actualHandler != null && actualSelector != null) {
-					actualHandler.getController().executeCommand(new ChangeElementSetting(ForegroundColorFacet.KEY, (String) param, actualSelector.getSelectedElements()));
+					actualHandler.getController().executeCommand(new ChangeElementSetting(FacetConstants.FOREGROUND_COLOR_KEY, (String) param, actualSelector.getSelectedElements()));
 				}
 				else if (menuItem.equals(SET_BACKGROUND_COLOR) && actualHandler != null && actualSelector != null) {
-					actualHandler.getController().executeCommand(new ChangeElementSetting(BackgroundColorFacet.KEY, (String) param, actualSelector.getSelectedElements()));
+					actualHandler.getController().executeCommand(new ChangeElementSetting(FacetConstants.BACKGROUND_COLOR_KEY, (String) param, actualSelector.getSelectedElements()));
 				}
 				else if (menuItem.equals(ALIGN) && actualHandler != null && actualSelector != null) {
 					List<GridElement> v = actualSelector.getSelectedElements();

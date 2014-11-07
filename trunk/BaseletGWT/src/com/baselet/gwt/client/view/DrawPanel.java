@@ -11,13 +11,13 @@ import java.util.Set;
 
 import com.baselet.control.MenuConstants;
 import com.baselet.control.SharedConstants;
-import com.baselet.control.SharedUtils;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.Diagram;
 import com.baselet.diagram.commandnew.CommandTarget;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
+import com.baselet.element.GridElementUtils;
 import com.baselet.element.Selector;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.elementnew.facet.common.GroupFacet;
@@ -199,7 +199,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 				return;
 			}
 
-			Rectangle diagramRect = SharedUtils.getGridElementsRectangle(gridElements);
+			Rectangle diagramRect = GridElementUtils.getGridElementsRectangle(gridElements);
 			Rectangle visibleRect = getVisibleBounds();
 			// realign top left corner of the diagram back to the canvas and remove invisible whitespace outside of the diagram
 			final int xTranslate = Math.min(visibleRect.getX(), diagramRect.getX()); // can be positive (to cut upper left whitespace without diagram) or negative (to move diagram back to the visible canvas which starts at (0,0))

@@ -1,7 +1,7 @@
 package com.baselet.diagram.draw.helper;
 
+import com.baselet.control.FacetConstants;
 import com.baselet.control.enumerations.LineType;
-import com.baselet.elementnew.facet.common.LineWidthFacet;
 
 public class Style {
 	private LineType lineType;
@@ -13,7 +13,7 @@ public class Style {
 	private boolean applyZoom;
 
 	public Style() {
-		lineWidth = LineWidthFacet.DEFAULT_LINE_WIDTH;
+		lineWidth = FacetConstants.LINE_WIDTH_DEFAULT;
 		lineType = LineType.SOLID;
 		applyZoom = true;
 	}
