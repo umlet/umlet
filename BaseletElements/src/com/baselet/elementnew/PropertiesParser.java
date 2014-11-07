@@ -11,12 +11,12 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.XValues;
+import com.baselet.elementnew.facet.ElementStyleEnum;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.PropertiesParserState;
+import com.baselet.elementnew.facet.Settings;
 import com.baselet.elementnew.facet.Facet.Priority;
 import com.baselet.elementnew.facet.GlobalFacet;
-import com.baselet.elementnew.facet.common.ElementStyleFacet.ElementStyleEnum;
-import com.baselet.elementnew.settings.Settings;
 
 public class PropertiesParser {
 

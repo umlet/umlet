@@ -8,9 +8,9 @@ import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.base.ElementId;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.PropertiesParserState;
+import com.baselet.elementnew.facet.Settings;
 import com.baselet.elementnew.facet.common.SeparatorLineWithHalignChangeFacet;
 import com.baselet.elementnew.facet.specific.UpperRightSymbolFacet;
-import com.baselet.elementnew.settings.Settings;
 import com.baselet.elementnew.settings.SettingsManualResizeTop;
 
 public class Generic extends NewGridElement {

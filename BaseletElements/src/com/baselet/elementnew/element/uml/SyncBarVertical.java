@@ -15,7 +15,7 @@ import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.base.ElementId;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.PropertiesParserState;
-import com.baselet.elementnew.settings.Settings;
+import com.baselet.elementnew.facet.Settings;
 import com.baselet.elementnew.settings.SettingsNoText;
 
 public class SyncBarVertical extends NewGridElement {

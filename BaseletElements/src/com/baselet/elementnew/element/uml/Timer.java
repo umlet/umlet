@@ -10,7 +10,7 @@ import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.base.ElementId;
 import com.baselet.elementnew.facet.PropertiesParserState;
-import com.baselet.elementnew.settings.Settings;
+import com.baselet.elementnew.facet.Settings;
 import com.baselet.elementnew.settings.SettingsAutoresize;
 
 public class Timer extends NewGridElement {

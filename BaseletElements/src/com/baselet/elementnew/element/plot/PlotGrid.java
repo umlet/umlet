@@ -29,7 +29,7 @@ import com.baselet.elementnew.element.plot.parser.PlotState;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.GlobalFacet;
 import com.baselet.elementnew.facet.PropertiesParserState;
-import com.baselet.elementnew.settings.Settings;
+import com.baselet.elementnew.facet.Settings;
 import com.baselet.elementnew.settings.SettingsManualresizeCenter;
 import com.baselet.gui.AutocompletionText;
 
