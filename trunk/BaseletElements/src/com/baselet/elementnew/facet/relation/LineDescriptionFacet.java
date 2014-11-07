@@ -44,14 +44,6 @@ public class LineDescriptionFacet extends GlobalFacet {
 
 	private LineDescriptionFacet() {}
 
-	private static final int MESSAGE_START_INDEX = 1;
-	private static final int MESSAGE_END_INDEX = 2;
-	private static final int MESSAGE_MIDDLE_FIRST_INDEX = 3;
-
-	private static final String MESSAGE_CHAR = "m";
-	static final String MESSAGE_START_KEY = MESSAGE_CHAR + MESSAGE_START_INDEX;
-	static final String MESSAGE_END_KEY = MESSAGE_CHAR + MESSAGE_END_INDEX;
-
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
 		return true; // apply alway because middle text has no prefix
@@ -60,8 +52,10 @@ public class LineDescriptionFacet extends GlobalFacet {
 	@Override
 	public List<AutocompletionText> getAutocompletionStrings() {
 		return Arrays.asList(
-				new AutocompletionText(MESSAGE_START_KEY + SEP, "message at start"),
-				new AutocompletionText(MESSAGE_END_KEY + SEP, "message at end")
+				new AutocompletionText(LineDescriptionEnum.MESSAGE_START.getKey() + SEP, "message at start"),
+				new AutocompletionText(LineDescriptionEnum.MESSAGE_END.getKey() + SEP, "message at end"),
+				new AutocompletionText(LineDescriptionEnum.ROLE_START.getKey() + SEP, "role at start"),
+				new AutocompletionText(LineDescriptionEnum.ROLE_END.getKey() + SEP, "role at end")
 				);
 	}
 
@@ -72,27 +66,22 @@ public class LineDescriptionFacet extends GlobalFacet {
 		LineDescriptionFacetResponse response = state.getOrInitFacetResponse(LineDescriptionFacet.class, new LineDescriptionFacetResponse());
 
 		PointDouble pointText = null;
-		if (line.startsWith(MESSAGE_START_KEY + SEP) || line.startsWith(MESSAGE_END_KEY + SEP)) {
-			String[] split = line.split(SEP, -1);
-			String key = split[0];
-			String text = split[1];
-			if (!text.isEmpty()) {
-				if (key.equals(MESSAGE_START_KEY)) {
-					pointText = calcPosOfEndText(drawer, text, relationPoints.getFirstLine(), true);
-					printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_START_INDEX, text, displacements.get(MESSAGE_START_KEY));
-				}
-				else if (key.equals(MESSAGE_END_KEY)) {
-					pointText = calcPosOfEndText(drawer, text, relationPoints.getLastLine(), false);
-					printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_END_INDEX, text, displacements.get(MESSAGE_END_KEY));
-				}
-			}
-		}
-		else /* middle text has no prefix */{
+		LineDescriptionEnum enumVal = LineDescriptionEnum.forString(line);
+		if (enumVal == LineDescriptionEnum.MESSAGE_MIDDLE) {
 			String text = replaceArrowsWithUtf8Characters(line);
 			pointText = calcPosOfMiddleText(relationPoints.getDragBox().getCenter(), drawer.textWidth(text));
 			int number = response.getAndIncreaseMiddleLines();
 			pointText = new PointDouble(pointText.getX(), pointText.getY() + number * drawer.textHeightMaxWithSpace());
-			printAndUpdateIndex(drawer, response, relationPoints, pointText, MESSAGE_MIDDLE_FIRST_INDEX + number, text);
+			printAndUpdateIndex(drawer, response, relationPoints, pointText, enumVal.getIndex() + number, text);
+		}
+		else {
+			String[] split = line.split(SEP, -1);
+			String text = split[1];
+			if (!text.isEmpty()) {
+				pointText = calcPosOfEndText(drawer, text, relationPoints.getFirstLine(), enumVal.isStart());
+				printAndUpdateIndex(drawer, response, relationPoints, pointText, enumVal.getIndex(), text, displacements.get(enumVal.getKey()));
+
+			}
 		}
 	}
 
