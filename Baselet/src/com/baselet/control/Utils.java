@@ -5,7 +5,6 @@ import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.font.TextLayout;
 import java.io.File;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,19 +13,15 @@ import java.util.Vector;
 import javax.swing.JComponent;
 
 import com.baselet.control.enumerations.LineType;
-import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.FormattedFont;
 import com.baselet.diagram.draw.geom.DimensionDouble;
 import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.swing.Converter;
 import com.baselet.element.GridElement;
-import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.elementnew.facet.common.LineWidthFacet;
 import com.umlet.element.Relation;
 import com.umlet.element.relation.DoubleStroke;
-import com.umlet.element.relation.RelationLinePoint;
 
 public abstract class Utils {
 
@@ -184,7 +179,7 @@ public abstract class Utils {
 	/**
 	 * eg: createDoubleArrayFromTo(5, 6, 0.1) = [5, 5.1, 5.2, ..., 5.9, 6] <br/>
 	 * eg: createDoubleArrayFromTo(10, 20, 3) = [10, 13, 16, 19, 22] <br/>
-	 * 
+	 *
 	 * @param min	first value of the result array
 	 * @param max	if this value is reached (or passed if it's not dividable through "step") the array is finished
 	 * @param step	the stepsize of the array
@@ -264,24 +259,6 @@ public abstract class Utils {
 		formattedFont.replaceFirstAndLastSpaceWithDot();
 		TextLayout tl = new TextLayout(formattedFont.getAttributedCharacterIterator(), formattedFont.getFontRenderContext());
 		return new DimensionDouble(tl.getBounds().getWidth(), tl.getBounds().getHeight());
-	}
-
-	public static Vector<RelationLinePoint> getStickingRelationLinePoints(DiagramHandler handler, StickingPolygon stickingPolygon) {
-		Vector<RelationLinePoint> lpts = new Vector<RelationLinePoint>();
-		Collection<Relation> rels = handler.getDrawPanel().getOldRelations();
-		for (Relation r : rels) {
-			PointDouble l1 = r.getAbsoluteCoorStart();
-			PointDouble l2 = r.getAbsoluteCoorEnd();
-			int c1 = stickingPolygon.isConnected(l1, handler.getGridSize());
-			int c2 = stickingPolygon.isConnected(l2, handler.getGridSize());
-			if (c1 >= 0) {
-				lpts.add(new RelationLinePoint(r, 0, c1));
-			}
-			if (c2 >= 0) {
-				lpts.add(new RelationLinePoint(r, r.getLinePoints().size() - 1, c2));
-			}
-		}
-		return lpts;
 	}
 
 }

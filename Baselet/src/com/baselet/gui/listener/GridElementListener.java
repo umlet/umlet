@@ -17,7 +17,6 @@ import com.baselet.control.Constants;
 import com.baselet.control.Constants.SystemInfo;
 import com.baselet.control.Main;
 import com.baselet.control.SharedConstants;
-import com.baselet.control.Utils;
 import com.baselet.control.enumerations.Direction;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.PaletteHandler;
@@ -28,6 +27,7 @@ import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveEnd;
 import com.baselet.diagram.command.OldMoveLinePoint;
+import com.baselet.diagram.command.OldResize;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.Converter;
@@ -262,9 +262,9 @@ public class GridElementListener extends UniversalListener {
 	/**
 	 * Dragging entities must be a Macro, because undo should undo the full move (and not only a small part which would
 	 * happen with many short Move actions) and it must consider sticking relations at the dragging-start and later
-	 * @param mainElement 
-	 * @param directions 
-	 * @param b 
+	 * @param mainElement
+	 * @param directions
+	 * @param b
 	 */
 	private void dragEntity(boolean isShiftKeyDown, GridElement mainElement) {
 
@@ -305,7 +305,7 @@ public class GridElementListener extends UniversalListener {
 			}
 			StickingPolygon stick = ge.generateStickingBorder(ge.getRectangle());
 			if (stick != null && directions.isEmpty()) { // sticking on resizing is disabled for old relations
-				Vector<RelationLinePoint> affectedRelationPoints = Utils.getStickingRelationLinePoints(handler, stick);
+				Vector<RelationLinePoint> affectedRelationPoints = OldResize.getStickingRelationLinePoints(handler, stick);
 				for (int j = 0; j < affectedRelationPoints.size(); j++) {
 					RelationLinePoint tmpRlp = affectedRelationPoints.elementAt(j);
 					if (entitiesToBeMoved.contains(tmpRlp.getRelation())) {
@@ -323,10 +323,10 @@ public class GridElementListener extends UniversalListener {
 
 	/**
 	 * After the firstDragging is over, the vector of entities which should be dragged doesn't change (nothing starts sticking during dragging)
-	 * @param oldp 
-	 * @param elementsToMove 
-	 * @param directions 
-	 * @return 
+	 * @param oldp
+	 * @param elementsToMove
+	 * @param directions
+	 * @return
 	 */
 	private Vector<Command> continueDragging(int diffx, int diffy, Point oldp, List<GridElement> elementsToMove) {
 		boolean useSetLocation = elementsToMove.size() != 1; // if >1 elements are selected they will be moved
