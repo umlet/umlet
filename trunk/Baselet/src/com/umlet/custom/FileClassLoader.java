@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import com.baselet.control.Path;
+import com.baselet.control.util.Path;
 
 public class FileClassLoader extends ClassLoader {
 

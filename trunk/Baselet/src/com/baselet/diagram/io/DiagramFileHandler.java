@@ -32,11 +32,11 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.baselet.control.Path;
-import com.baselet.control.RecentlyUsedFilesList;
 import com.baselet.control.config.Config;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
+import com.baselet.control.util.Path;
+import com.baselet.control.util.RecentlyUsedFilesList;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.Notifier;

@@ -12,8 +12,8 @@ import javax.swing.border.LineBorder;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Path;
 import com.baselet.control.enums.Program;
+import com.baselet.control.util.Path;
 import com.baselet.gui.listener.HyperLinkActiveListener;
 
 public class AboutDialog {

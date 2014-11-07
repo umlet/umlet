@@ -1,4 +1,4 @@
-package com.baselet.control;
+package com.baselet.control.util;
 
 import java.awt.BasicStroke;
 import java.awt.RenderingHints;

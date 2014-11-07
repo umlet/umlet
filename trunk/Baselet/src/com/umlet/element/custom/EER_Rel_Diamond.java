@@ -8,8 +8,8 @@ import java.awt.Polygon;
 import java.util.Vector;
 
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.util.Utils;
 import com.baselet.element.OldGridElement;
 
 @SuppressWarnings("serial")

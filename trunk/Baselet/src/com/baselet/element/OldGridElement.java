@@ -21,13 +21,13 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Main;
 import com.baselet.control.SharedUtils;
-import com.baselet.control.Utils;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.LineType;
+import com.baselet.control.util.Utils;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;

@@ -1,4 +1,4 @@
-package com.baselet.control;
+package com.baselet.control.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,10 +7,12 @@ import java.util.TimerTask;
 
 public class RunningFileChecker extends TimerTask {
 
-	private File file;
-	private File ok_file;
+	private final File file;
+	private final File ok_file;
+	private final CanOpenDiagram canOpenDiagram;
 
-	public RunningFileChecker(String filename, String okfile) {
+	public RunningFileChecker(String filename, String okfile, CanOpenDiagram canOpenDiagram) {
+		this.canOpenDiagram = canOpenDiagram;
 		file = new File(filename);
 		ok_file = new File(okfile);
 	}
@@ -28,7 +30,7 @@ public class RunningFileChecker extends TimerTask {
 				ok_file.createNewFile();
 				file.delete();
 				file.createNewFile();
-				Main.getInstance().doOpen(filename);
+				canOpenDiagram.doOpen(filename);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();

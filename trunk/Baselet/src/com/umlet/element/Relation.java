@@ -12,11 +12,11 @@ import java.util.Set;
 import java.util.Vector;
 
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.LineType;
+import com.baselet.control.util.Utils;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.PointDouble;

@@ -18,11 +18,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.baselet.control.Main;
-import com.baselet.control.Utils;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.FormatLabels;
 import com.baselet.control.enums.LineType;
+import com.baselet.control.util.Utils;
 import com.baselet.element.GridElementDeprecatedAddons;
 import com.baselet.element.OldGridElement;
 
