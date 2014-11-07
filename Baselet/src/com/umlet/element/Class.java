@@ -11,7 +11,6 @@ import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.element.OldGridElement;
 import com.baselet.element.sticking.StickingPolygon;
 
 @SuppressWarnings("serial")

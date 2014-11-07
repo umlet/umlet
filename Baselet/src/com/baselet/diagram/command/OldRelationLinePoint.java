@@ -1,9 +1,9 @@
-package com.umlet.element.relation;
+package com.baselet.diagram.command;
 
 import com.umlet.element.Relation;
 
 
-public class RelationLinePoint {
+public class OldRelationLinePoint {
 	private Relation _relation;
 	private int _linePointId;
 	private int stickingLineId;
@@ -20,7 +20,7 @@ public class RelationLinePoint {
 		return stickingLineId;
 	}
 
-	public RelationLinePoint(Relation r, int lp, int stick) {
+	public OldRelationLinePoint(Relation r, int lp, int stick) {
 		_relation = r;
 		_linePointId = lp;
 		stickingLineId = stick;

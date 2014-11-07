@@ -7,7 +7,7 @@ import java.util.Set;
 
 import com.baselet.control.Main;
 import com.baselet.control.enums.Direction;
-import com.baselet.element.OldGridElement;
+import com.umlet.element.OldGridElement;
 
 @SuppressWarnings("serial")
 public class InitialState extends OldGridElement {

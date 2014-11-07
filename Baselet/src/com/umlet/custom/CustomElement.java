@@ -31,7 +31,7 @@ import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.GridElement;
-import com.baselet.element.OldGridElement;
+import com.umlet.element.OldGridElement;
 
 @SuppressWarnings("serial")
 public abstract class CustomElement extends OldGridElement {

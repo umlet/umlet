@@ -1,15 +1,15 @@
-package com.baselet.element;
+package com.umlet.element;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.lang.reflect.Constructor;
 
 import com.baselet.control.Main;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.element.GridElement;
 
 @SuppressWarnings("serial")
 public class ErrorOccurred extends OldGridElement {
@@ -45,8 +45,7 @@ public class ErrorOccurred extends OldGridElement {
 	@Override
 	public GridElement CloneFromMe() {
 		try {
-			Constructor<ErrorOccurred> c = ErrorOccurred.class.getConstructor(new Class[] { String.class });
-			GridElement ge = c.newInstance(new Object[] { errorMessage });
+			GridElement ge = new ErrorOccurred(errorMessage);
 			ge.setPanelAttributes(getPanelAttributes()); // copy states
 			ge.setRectangle(getRectangle());
 			Main.getHandlerForElement(this).setHandlerAndInitListeners(ge);
