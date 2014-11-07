@@ -39,7 +39,7 @@ import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gui.CurrentGui;
 import com.umlet.element.Relation;
-import com.umlet.element.relation.RelationLinePoint;
+import com.umlet.element.RelationLinePoint;
 import com.umlet.elementnew.ElementFactory;
 
 public class GridElementListener extends UniversalListener {

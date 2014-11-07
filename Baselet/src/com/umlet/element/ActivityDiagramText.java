@@ -477,7 +477,7 @@ public class ActivityDiagramText extends OldGridElement {
 
 		// draw goto elements
 		for (GoTo goTo : valid_gotos) {
-			goTo.paint(this);
+			goTo.paint(Main.getHandlerForElement(this).getZoomFactor(), getGotoPosition(goTo.getDirection()));
 		}
 	}
 

@@ -1,6 +1,5 @@
-package com.umlet.element.relation;
+package com.umlet.element;
 
-import com.umlet.element.Relation;
 
 public class RelationLinePoint {
 	private Relation _relation;

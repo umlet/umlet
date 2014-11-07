@@ -3,15 +3,13 @@ package com.umlet.element.activity;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
-import com.baselet.control.Main;
 import com.baselet.control.enums.Direction;
-import com.umlet.element.ActivityDiagramText;
 
 public class GoTo {
 
-	private Graphics2D graphics;
-	private String to_id;
-	private Element from_element;
+	private final Graphics2D graphics;
+	private final String to_id;
+	private final Element from_element;
 	private Element to_element;
 	private Direction dir;
 
@@ -23,6 +21,10 @@ public class GoTo {
 
 	public void setDirection(Direction dir) {
 		this.dir = dir;
+	}
+
+	public Direction getDirection() {
+		return dir;
 	}
 
 	public Element getFromElement() {
@@ -41,19 +43,19 @@ public class GoTo {
 		to_element = e;
 	}
 
-	public void paint(ActivityDiagramText dia) {
+	public void paint(float zoomFactor, int gotoPosition) {
 		if (from_element.connectOut_overrideable() && to_element.connectIn()
 			&& to_element.arrowIn()) {
 			Point from = from_element.getNonStdConnectOut(dir);
 			Point to = to_element.getNonStdConnectIn(dir);
 			Point to_origin = to_element.getConnect(dir);
 
-			int x = dia.getGotoPosition(dir);
+			int x = gotoPosition;
 			graphics.drawLine(from.x, from.y, x, from.y);
 			graphics.drawLine(x, from.y, x, to.y);
 
 			if (to.x == to_origin.x && to.y == to_origin.y) {
-				float zoom = Main.getHandlerForElement(dia).getZoomFactor();
+				float zoom = zoomFactor;
 				Connector.drawArrow(graphics, zoom, x, to.y, to.x, to.y);
 			}
 			else {

@@ -492,4 +492,7 @@ public abstract class NewGridElement implements GridElement {
 	public boolean isOldAllInOneDiagram() {
 		return false;
 	}
+
+	@Override
+	public void isDeprecatedSequenceAllInOne() {}
 }

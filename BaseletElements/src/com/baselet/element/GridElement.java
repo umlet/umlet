@@ -83,4 +83,6 @@ public interface GridElement extends HasPanelAttributes {
 	void mergeUndoDrag();
 
 	boolean isOldAllInOneDiagram();
+
+	void isDeprecatedSequenceAllInOne();
 }

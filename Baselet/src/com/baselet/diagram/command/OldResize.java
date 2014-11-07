@@ -13,7 +13,7 @@ import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.Relation;
-import com.umlet.element.relation.RelationLinePoint;
+import com.umlet.element.RelationLinePoint;
 
 /**
  * resizing has been merged with Move command and only remains for old grid elements which will not be migrated but removed from the code after some time

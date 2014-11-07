@@ -32,7 +32,6 @@ import com.baselet.gui.listener.GridElementListener;
 import com.baselet.gui.listener.OldRelationListener;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.element.Relation;
-import com.umlet.element.SequenceDiagram;
 
 public class DiagramHandler {
 
@@ -440,9 +439,7 @@ public class DiagramHandler {
 			((DrawHandlerSwing) ((NewGridElement) element).getDrawer()).setHandler(this);
 			((DrawHandlerSwing) ((NewGridElement) element).getMetaDrawer()).setHandler(this);
 		}
-		if (element instanceof SequenceDiagram) {
-			((SequenceDiagram) element).zoomValues();
-		}
+		element.isDeprecatedSequenceAllInOne();
 		element.updateModelFromText(); // must be updated here because the new handler could have a different zoom level
 	}
 }
