@@ -856,4 +856,9 @@ public class SequenceDiagram extends OldGridElement {
 	public boolean isDeprecated() {
 		return false;
 	}
+
+	@Override
+	public boolean isOldAllInOneDiagram() {
+		return true;
+	}
 }
