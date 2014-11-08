@@ -37,7 +37,7 @@ import javax.swing.UIManager;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.config.ConfigConst;
+import com.baselet.control.config.Config;
 import com.baselet.control.config.ConfigMail;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
@@ -130,7 +130,7 @@ public class MailPanel extends JPanel {
 		initAndFillComponents();
 
 		setLayout(layout);
-		setSize(new Dimension(0, ConfigConst.mail_split_position));
+		setSize(new Dimension(0, Config.getInstance().getMail_split_position()));
 
 		int line = 0;
 		addComponent(this, layout, Box.createRigidArea(new Dimension(0, verticalDividerSpace)), 0, line, 10, 1, fillWidth, fullWeight, 0, noPadding);
@@ -510,7 +510,7 @@ public class MailPanel extends JPanel {
 
 	public void closePanel() {
 		storeConstants();
-		ConfigConst.mail_split_position = (int) this.getSize().getHeight();
+		Config.getInstance().setMail_split_position((int) this.getSize().getHeight());
 		CurrentGui.getInstance().getGui().setMailPanelEnabled(false);
 	}
 

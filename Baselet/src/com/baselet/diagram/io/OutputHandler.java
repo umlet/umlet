@@ -20,7 +20,7 @@ import org.sourceforge.jlibeps.epsgraphics.EpsGraphics2D;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Element;
 
-import com.baselet.control.config.ConfigConst;
+import com.baselet.control.config.Config;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.util.Utils;
@@ -88,7 +88,7 @@ public class OutputHandler {
 	}
 
 	private static void exportEps(OutputStream ostream, DiagramHandler handler, Collection<GridElement> entities) throws IOException {
-		Rectangle bounds = handler.getDrawPanel().getContentBounds(ConfigConst.printPadding, entities);
+		Rectangle bounds = handler.getDrawPanel().getContentBounds(Config.getInstance().getPrintPadding(), entities);
 		EpsGraphics2D graphics2d = new EpsGraphics2D(Program.NAME + " Diagram", ostream, 0, 0, bounds.width, bounds.height);
 		setGraphicsBorders(bounds, graphics2d);
 		handler.getDrawPanel().paintEntitiesIntoGraphics2D(graphics2d, entities);
@@ -103,7 +103,7 @@ public class OutputHandler {
 				@Override
 				public BaseFont awtToPdf(Font font) {
 					try {
-						return BaseFont.createFont(ConfigConst.pdfExportFont, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+						return BaseFont.createFont(Config.getInstance().getPdfExportFont(), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 					} catch (Exception e) {
 						return null;
 					}
@@ -118,7 +118,7 @@ public class OutputHandler {
 				mapper = new DefaultFontMapper();
 			}
 
-			Rectangle bounds = handler.getDrawPanel().getContentBounds(ConfigConst.printPadding, entities);
+			Rectangle bounds = handler.getDrawPanel().getContentBounds(Config.getInstance().getPrintPadding(), entities);
 			com.itextpdf.text.Document document = new com.itextpdf.text.Document(new com.itextpdf.text.Rectangle(bounds.getWidth(), bounds.getHeight()));
 			PdfWriter writer = PdfWriter.getInstance(document, ostream);
 			document.open();
@@ -138,7 +138,7 @@ public class OutputHandler {
 	}
 
 	private static void exportSvg(OutputStream ostream, DiagramHandler handler, Collection<GridElement> entities) throws IOException {
-		Rectangle bounds = handler.getDrawPanel().getContentBounds(ConfigConst.printPadding, entities);
+		Rectangle bounds = handler.getDrawPanel().getContentBounds(Config.getInstance().getPrintPadding(), entities);
 		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
 		org.w3c.dom.Document document = domImpl.createDocument(null, "svg", null);
 
@@ -161,7 +161,7 @@ public class OutputHandler {
 
 	public static BufferedImage getImageFromDiagram(DiagramHandler handler, Collection<GridElement> entities) {
 
-		Rectangle bounds = handler.getDrawPanel().getContentBounds(ConfigConst.printPadding, entities);
+		Rectangle bounds = handler.getDrawPanel().getContentBounds(Config.getInstance().getPrintPadding(), entities);
 		BufferedImage im = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D graphics2d = im.createGraphics();
 		graphics2d.setRenderingHints(Utils.getUxRenderingQualityHigh(true));
