@@ -14,19 +14,21 @@ public class Program {
 	// Basically the RUNTIME_TYPE is STANDALONE until it gets overwritten after program startup
 	private RuntimeType runtimeType = RuntimeType.STANDALONE;
 	private String configName;
-	private final String programName = "UMLet";
-	private final String extension = "uxf";
+	private String programName;
+	private String extension;
 	private String website;
 	private String version;
 
 	public void init(String version) {
-		this.website = "http://www." + getProgramName().toLowerCase() + ".com";
+		programName = "UMLet";
+		extension = "uxf";
+		website = "http://www." + getProgramName().toLowerCase() + ".com";
 
 		if (Program.getInstance().getRuntimeType() == RuntimeType.STANDALONE) {
-			this.configName = getProgramName().toLowerCase() + ".cfg";
+			configName = getProgramName().toLowerCase() + ".cfg";
 		}
 		else {
-			this.configName = getProgramName().toLowerCase() + "plugin.cfg";
+			configName = getProgramName().toLowerCase() + "plugin.cfg";
 		}
 
 		this.version = version;

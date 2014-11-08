@@ -108,7 +108,11 @@ public class InputHandler extends DefaultHandler {
 					else {
 						e = CustomElementCompiler.getInstance().genEntity(code);
 					}
-				} catch (Exception ex) {
+				} catch (InstantiationException e1) {
+					e = new ErrorOccurred();
+				} catch (IllegalAccessException e1) {
+					e = new ErrorOccurred();
+				} catch (ClassNotFoundException e1) {
 					e = new ErrorOccurred();
 				}
 				e.setRectangle(new Rectangle(x, y, w, h));

@@ -60,10 +60,8 @@ public class OwnTokenMaker extends AbstractTokenMaker {
 		int currentTokenType = startTokenType;
 
 		for (int i = offset; i < end; i++) {
-			switch (currentTokenType) {
-				case TokenTypes.NULL:
-					currentTokenType = TokenTypes.IDENTIFIER;
-					break;
+			if (currentTokenType == TokenTypes.NULL) {
+				currentTokenType = TokenTypes.IDENTIFIER;
 			}
 
 		}
@@ -73,5 +71,4 @@ public class OwnTokenMaker extends AbstractTokenMaker {
 
 		return firstToken;
 	}
-
 }

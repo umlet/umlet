@@ -10,6 +10,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -41,6 +42,7 @@ import com.baselet.control.config.Config;
 import com.baselet.control.config.ConfigMail;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
+import com.baselet.control.util.Utils;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.io.DiagramFileHandler;
 
@@ -368,23 +370,21 @@ public class MailPanel extends JPanel {
 			closePanel();
 		}
 
-		catch (Exception e) {
-			log.error(null, e);
-			if (e instanceof MessagingException) { // SMTP Error
-				JOptionPane.showMessageDialog(this, "There has been an error with your smtp server." + Constants.NEWLINE + "Please recheck your smtp server and login data.", "SMTP Error", JOptionPane.ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
-			}
-			else { // Other Error
-				JOptionPane.showMessageDialog(this, "There has been an error sending your mail." + Constants.NEWLINE + "Please recheck your input data.", "Sending Error", JOptionPane.ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
-			}
+		catch (MessagingException e) {
+			log.error("SMTP Error", e);
+			JOptionPane.showMessageDialog(this, "There has been an error with your smtp server." + Constants.NEWLINE + "Please recheck your smtp server and login data.", "SMTP Error", JOptionPane.ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
+		} catch (IOException e) {
+			log.error("Mail Error", e);
+			JOptionPane.showMessageDialog(this, "There has been an error sending your mail." + Constants.NEWLINE + "Please recheck your input data.", "Sending Error", JOptionPane.ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
 		} finally {
 			if (diagramXml != null) {
-				diagramXml.delete();
+				Utils.safeDeleteFile(diagramXml, false);
 			}
 			if (diagramGif != null) {
-				diagramGif.delete();
+				Utils.safeDeleteFile(diagramGif, false);
 			}
 			if (diagramPdf != null) {
-				diagramPdf.delete();
+				Utils.safeDeleteFile(diagramPdf, false);
 			}
 		}
 	}

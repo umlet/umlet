@@ -36,6 +36,7 @@ import com.baselet.control.util.CanOpenDiagram;
 import com.baselet.control.util.Path;
 import com.baselet.control.util.RecentlyUsedFilesList;
 import com.baselet.control.util.RunningFileChecker;
+import com.baselet.control.util.Utils;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -256,7 +257,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			if (f.exists() && !force) {
 				return true;
 			}
-			f.createNewFile();
+			Utils.safeCreateFile(f, false);
 			file_created = true;
 			new Timer("alreadyRunningChecker", true).schedule(new RunningFileChecker(Path.temp() + tmp_file, Path.temp() + tmp_read_file, main), 0, 1000);
 		} catch (Exception ex) {
@@ -281,13 +282,12 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			Thread.sleep(2000);
 		} catch (InterruptedException ex) {/* no special handling */}
 		File f2 = new File(Path.temp() + tmp_read_file);
-		if (!f2.exists() || !write_successful) // if the ok file does not exist or the filename couldnt be written.
-		{
+		if (!f2.exists() || !write_successful) {// if the ok file does not exist or the filename couldnt be written.
 			alreadyRunningChecker(true);
 			return false;
 		}
 		else {
-			f2.delete();
+			Utils.safeDeleteFile(f2, false);
 		}
 		return true;
 	}
@@ -447,7 +447,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 	public void closeProgram() {
 		ConfigHandler.saveConfig(CurrentGui.getInstance().getGui());
 		if (file_created) {
-			new File(Path.temp() + tmp_file).delete();
+			Utils.safeDeleteFile(new File(Path.temp() + tmp_file), true);
 		}
 	}
 

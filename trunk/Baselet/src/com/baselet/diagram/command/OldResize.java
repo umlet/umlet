@@ -19,7 +19,7 @@ import com.umlet.element.Relation;
  */
 @Deprecated
 public class OldResize extends Command {
-	private static int current_id = 0;
+	private int current_id = 0;
 
 	private int id;
 	private final int diffx, diffy, diffw, diffh;

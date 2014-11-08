@@ -19,6 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import org.apache.log4j.Logger;
 
 import com.baselet.control.Main;
 import com.baselet.control.config.Config;
@@ -32,6 +35,7 @@ import com.baselet.gui.standalone.StandaloneGUI;
 @SuppressWarnings("serial")
 public class OptionPanel extends JPanel implements ActionListener {
 
+	private final Logger log = Logger.getLogger(OptionPanel.class);
 	private static OptionPanel optionpanel;
 
 	public static OptionPanel getInstance() {
@@ -168,7 +172,15 @@ public class OptionPanel extends JPanel implements ActionListener {
 						optionframe.pack();
 					}
 
-				} catch (Exception ex) {}
+				} catch (ClassNotFoundException e) {
+					log.error("Cannot set LookAndFeel", e);
+				} catch (InstantiationException e) {
+					log.error("Cannot set LookAndFeel", e);
+				} catch (IllegalAccessException e) {
+					log.error("Cannot set LookAndFeel", e);
+				} catch (UnsupportedLookAndFeelException e) {
+					log.error("Cannot set LookAndFeel", e);
+				}
 
 			}
 
