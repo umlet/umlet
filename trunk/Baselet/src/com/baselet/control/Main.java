@@ -28,7 +28,6 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.baselet.control.config.Config;
-import com.baselet.control.config.ConfigConst;
 import com.baselet.control.config.handler.ConfigHandler;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
@@ -133,7 +132,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 		}
 		else { // no arguments specified
 			alreadyRunningChecker(true); // start checker
-			if (ConfigConst.checkForUpdates) {
+			if (Config.getInstance().isCheckForUpdates()) {
 				new Timer("Update Checker", true).schedule(new UpdateCheckTimerTask(), 0);
 			}
 			main.init(new StandaloneGUI(main));

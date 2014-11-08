@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.widgets.Display;
 
 import com.baselet.control.CanCloseProgram;
-import com.baselet.control.config.ConfigConst;
+import com.baselet.control.config.Config;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -94,17 +94,17 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public int getMainSplitPosition() {
-		return ConfigConst.main_split_position; // in Eclipse the Editors overwrite this constant everytime they are closed (editor.getMainSplitLocation() wouldn't work because the editor is already null)
+		return Config.getInstance().getMain_split_position(); // in Eclipse the Editors overwrite this constant everytime they are closed (editor.getMainSplitLocation() wouldn't work because the editor is already null)
 	}
 
 	@Override
 	public int getRightSplitPosition() {
-		return ConfigConst.right_split_position;
+		return Config.getInstance().getRight_split_position();
 	}
 
 	@Override
 	public int getMailSplitPosition() {
-		return ConfigConst.mail_split_position;
+		return Config.getInstance().getMail_split_position();
 	}
 
 	@Override
@@ -210,9 +210,9 @@ public class EclipseGUI extends BaseGUI {
 
 	public void editorRemoved(Editor editor) {
 		// Before removing the editor, we have to store the actual splitpositions and lastUsedPalette to variables so that a new editor has the same values
-		ConfigConst.main_split_position = editor.getMainSplitLocation();
-		ConfigConst.right_split_position = editor.getRightSplitLocation();
-		ConfigConst.lastUsedPalette = getSelectedPalette();
+		Config.getInstance().setMain_split_position(editor.getMainSplitLocation());
+		Config.getInstance().setRight_split_position(editor.getRightSplitLocation());
+		Config.getInstance().setLastUsedPalette(getSelectedPalette());
 		diagrams.remove(editor.getDiagram().getHandler());
 		if (editor.equals(this.editor)) {
 			this.editor = null;

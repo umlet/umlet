@@ -16,7 +16,6 @@ import org.apache.log4j.Logger;
 import com.baselet.control.CanCloseProgram;
 import com.baselet.control.Main;
 import com.baselet.control.config.Config;
-import com.baselet.control.config.ConfigConst;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -139,7 +138,7 @@ public abstract class BaseGUI {
 	public abstract String getSelectedPalette();
 
 	public void showPalette(String palette) {
-		ConfigConst.lastUsedPalette = palette;
+		Config.getInstance().setLastUsedPalette(palette);
 	}
 
 	public abstract void open(DiagramHandler diagram);
