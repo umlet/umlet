@@ -23,7 +23,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import com.baselet.control.config.ConfigConst;
+import com.baselet.control.config.ConfigClassGen;
 import com.umlet.language.enums.FieldOptions;
 import com.umlet.language.enums.MethodOptions;
 import com.umlet.language.enums.SignatureOptions;
@@ -141,21 +141,23 @@ public class GenerateOptionPanel extends JDialog {
 		public void actionPerformed(ActionEvent e) {
 			optionpanel.setVisible(false);
 			if (e.getActionCommand().equals(okButton)) {
-				ConfigConst.generateClassPackage = packageInfo.isSelected();
-				ConfigConst.generateClassFields = FieldOptions.getEnum(fields.getSelection().getActionCommand().toString());
-				ConfigConst.generateClassMethods = MethodOptions.getEnum(methods.getSelection().getActionCommand().toString());
-				ConfigConst.generateClassSignatures = SignatureOptions.getEnum(signatures.getSelection().getActionCommand().toString());
-				ConfigConst.generateClassSortings = SortOptions.getEnum(sortings.getSelection().getActionCommand().toString());
+				ConfigClassGen genCfg = ConfigClassGen.getInstance();
+				genCfg.setGenerateClassPackage(packageInfo.isSelected());
+				genCfg.setGenerateClassFields(FieldOptions.getEnum(fields.getSelection().getActionCommand().toString()));
+				genCfg.setGenerateClassMethods(MethodOptions.getEnum(methods.getSelection().getActionCommand().toString()));
+				genCfg.setGenerateClassSignatures(SignatureOptions.getEnum(signatures.getSelection().getActionCommand().toString()));
+				genCfg.setGenerateClassSortings(SortOptions.getEnum(sortings.getSelection().getActionCommand().toString()));
 			}
 		}
 	}
 
 	public void showPanel() {
-		packageInfo.setSelected(ConfigConst.generateClassPackage);
-		setSelectedRadioButton(fields, ConfigConst.generateClassFields);
-		setSelectedRadioButton(methods, ConfigConst.generateClassMethods);
-		setSelectedRadioButton(signatures, ConfigConst.generateClassSignatures);
-		setSelectedRadioButton(sortings, ConfigConst.generateClassSortings);
+		ConfigClassGen genCfg = ConfigClassGen.getInstance();
+		packageInfo.setSelected(genCfg.isGenerateClassPackage());
+		setSelectedRadioButton(fields, genCfg.getGenerateClassFields());
+		setSelectedRadioButton(methods, genCfg.getGenerateClassMethods());
+		setSelectedRadioButton(signatures, genCfg.getGenerateClassSignatures());
+		setSelectedRadioButton(sortings, genCfg.getGenerateClassSortings());
 		setVisible(true);
 		toFront();
 	}

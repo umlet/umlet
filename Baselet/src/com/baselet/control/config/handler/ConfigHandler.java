@@ -9,7 +9,9 @@ import java.util.Arrays;
 import java.util.Properties;
 
 import com.baselet.control.config.Config;
+import com.baselet.control.config.ConfigClassGen;
 import com.baselet.control.config.ConfigConst;
+import com.baselet.control.config.ConfigMail;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Program;
@@ -47,6 +49,7 @@ public class ConfigHandler {
 	private static final String PROGRAM_SIZE = "program_size";
 	private static final String PROGRAM_LOCATION = "program_location";
 	private static final String RECENT_FILES = "recent_files";
+
 	private static final String MAIL_SMTP = "mail_smtp";
 	private static final String MAIL_SMTP_AUTH = "mail_smtp_auth";
 	private static final String MAIL_SMTP_USER = "mail_smtp_user";
@@ -59,6 +62,7 @@ public class ConfigHandler {
 	private static final String MAIL_XML = "mail_xml";
 	private static final String MAIL_GIF = "mail_gif";
 	private static final String MAIL_PDF = "mail_pdf";
+
 	private static final String GENERATE_CLASS_PACKAGE = "generate_class_package";
 	private static final String GENERATE_CLASS_FIELDS = "generate_class_fields";
 	private static final String GENERATE_CLASS_METHODS = "generate_class_methods";
@@ -120,25 +124,27 @@ public class ConfigHandler {
 		}
 
 		/* Mail */
-		ConfigConst.mail_smtp = getStringProperty(MAIL_SMTP, ConfigConst.mail_smtp);
-		ConfigConst.mail_smtp_auth = getBoolProperty(MAIL_SMTP_AUTH, ConfigConst.mail_smtp_auth);
-		ConfigConst.mail_smtp_user = getStringProperty(MAIL_SMTP_USER, ConfigConst.mail_smtp_user);
-		ConfigConst.mail_smtp_pw_store = getBoolProperty(MAIL_SMTP_PW_STORE, ConfigConst.mail_smtp_pw_store);
-		ConfigConst.mail_smtp_pw = getStringProperty(MAIL_SMTP_PW, ConfigConst.mail_smtp_pw);
-		ConfigConst.mail_from = getStringProperty(MAIL_FROM, ConfigConst.mail_from);
-		ConfigConst.mail_to = getStringProperty(MAIL_TO, ConfigConst.mail_to);
-		ConfigConst.mail_cc = getStringProperty(MAIL_CC, ConfigConst.mail_cc);
-		ConfigConst.mail_bcc = getStringProperty(MAIL_BCC, ConfigConst.mail_bcc);
-		ConfigConst.mail_xml = getBoolProperty(MAIL_XML, ConfigConst.mail_xml);
-		ConfigConst.mail_gif = getBoolProperty(MAIL_GIF, ConfigConst.mail_gif);
-		ConfigConst.mail_pdf = getBoolProperty(MAIL_PDF, ConfigConst.mail_pdf);
+		ConfigMail cfgMail = ConfigMail.getInstance();
+		cfgMail.setMail_smtp(getStringProperty(MAIL_SMTP, cfgMail.getMail_smtp()));
+		cfgMail.setMail_smtp_auth(getBoolProperty(MAIL_SMTP_AUTH, cfgMail.isMail_smtp_auth()));
+		cfgMail.setMail_smtp_user(getStringProperty(MAIL_SMTP_USER, cfgMail.getMail_smtp_user()));
+		cfgMail.setMail_smtp_pw_store(getBoolProperty(MAIL_SMTP_PW_STORE, cfgMail.isMail_smtp_pw_store()));
+		cfgMail.setMail_smtp_pw(getStringProperty(MAIL_SMTP_PW, cfgMail.getMail_smtp_pw()));
+		cfgMail.setMail_from(getStringProperty(MAIL_FROM, cfgMail.getMail_from()));
+		cfgMail.setMail_to(getStringProperty(MAIL_TO, cfgMail.getMail_to()));
+		cfgMail.setMail_cc(getStringProperty(MAIL_CC, cfgMail.getMail_cc()));
+		cfgMail.setMail_bcc(getStringProperty(MAIL_BCC, cfgMail.getMail_bcc()));
+		cfgMail.setMail_xml(getBoolProperty(MAIL_XML, cfgMail.isMail_xml()));
+		cfgMail.setMail_gif(getBoolProperty(MAIL_GIF, cfgMail.isMail_gif()));
+		cfgMail.setMail_pdf(getBoolProperty(MAIL_PDF, cfgMail.isMail_pdf()));
 
 		/* Generate Class Element Options */
-		ConfigConst.generateClassPackage = getBoolProperty(GENERATE_CLASS_PACKAGE, ConfigConst.generateClassPackage);
-		ConfigConst.generateClassFields = FieldOptions.getEnum(getStringProperty(GENERATE_CLASS_FIELDS, ConfigConst.generateClassFields.toString()));
-		ConfigConst.generateClassMethods = MethodOptions.getEnum(getStringProperty(GENERATE_CLASS_METHODS, ConfigConst.generateClassMethods.toString()));
-		ConfigConst.generateClassSignatures = SignatureOptions.getEnum(getStringProperty(GENERATE_CLASS_SIGNATURES, ConfigConst.generateClassSignatures.toString()));
-		ConfigConst.generateClassSortings = SortOptions.getEnum(getStringProperty(GENERATE_CLASS_SORTINGS, ConfigConst.generateClassSortings.toString()));
+		ConfigClassGen genCfg = ConfigClassGen.getInstance();
+		genCfg.setGenerateClassPackage(getBoolProperty(GENERATE_CLASS_PACKAGE, genCfg.isGenerateClassPackage()));
+		genCfg.setGenerateClassFields(FieldOptions.getEnum(getStringProperty(GENERATE_CLASS_FIELDS, genCfg.getGenerateClassFields().toString())));
+		genCfg.setGenerateClassMethods(MethodOptions.getEnum(getStringProperty(GENERATE_CLASS_METHODS, genCfg.getGenerateClassMethods().toString())));
+		genCfg.setGenerateClassSignatures(SignatureOptions.getEnum(getStringProperty(GENERATE_CLASS_SIGNATURES, genCfg.getGenerateClassSignatures().toString())));
+		genCfg.setGenerateClassSortings(SortOptions.getEnum(getStringProperty(GENERATE_CLASS_SORTINGS, genCfg.getGenerateClassSortings().toString())));
 	}
 
 	public static void saveConfig(BaseGUI gui) {
@@ -194,39 +200,41 @@ public class ConfigHandler {
 			}
 
 			/* MAIL */
-			if (!!ConfigConst.mail_smtp.isEmpty()) {
-				props.setProperty(MAIL_SMTP, ConfigConst.mail_smtp);
+			ConfigMail cfgMail = ConfigMail.getInstance();
+			if (!!cfgMail.getMail_smtp().isEmpty()) {
+				props.setProperty(MAIL_SMTP, cfgMail.getMail_smtp());
 			}
-			props.setProperty(MAIL_SMTP_AUTH, Boolean.toString(ConfigConst.mail_smtp_auth));
-			if (!ConfigConst.mail_smtp_user.isEmpty()) {
-				props.setProperty(MAIL_SMTP_USER, ConfigConst.mail_smtp_user);
+			props.setProperty(MAIL_SMTP_AUTH, Boolean.toString(cfgMail.isMail_smtp_auth()));
+			if (!cfgMail.getMail_smtp_user().isEmpty()) {
+				props.setProperty(MAIL_SMTP_USER, cfgMail.getMail_smtp_user());
 			}
-			props.setProperty(MAIL_SMTP_PW_STORE, Boolean.toString(ConfigConst.mail_smtp_pw_store));
-			if (!ConfigConst.mail_smtp_pw.isEmpty()) {
-				props.setProperty(MAIL_SMTP_PW, ConfigConst.mail_smtp_pw);
+			props.setProperty(MAIL_SMTP_PW_STORE, Boolean.toString(cfgMail.isMail_smtp_pw_store()));
+			if (!cfgMail.getMail_smtp_pw().isEmpty()) {
+				props.setProperty(MAIL_SMTP_PW, cfgMail.getMail_smtp_pw());
 			}
-			if (!ConfigConst.mail_from.isEmpty()) {
-				props.setProperty(MAIL_FROM, ConfigConst.mail_from);
+			if (!cfgMail.getMail_from().isEmpty()) {
+				props.setProperty(MAIL_FROM, cfgMail.getMail_from());
 			}
-			if (!ConfigConst.mail_to.isEmpty()) {
-				props.setProperty(MAIL_TO, ConfigConst.mail_to);
+			if (!cfgMail.getMail_to().isEmpty()) {
+				props.setProperty(MAIL_TO, cfgMail.getMail_to());
 			}
-			if (!ConfigConst.mail_cc.isEmpty()) {
-				props.setProperty(MAIL_CC, ConfigConst.mail_cc);
+			if (!cfgMail.getMail_cc().isEmpty()) {
+				props.setProperty(MAIL_CC, cfgMail.getMail_cc());
 			}
-			if (!ConfigConst.mail_bcc.isEmpty()) {
-				props.setProperty(MAIL_BCC, ConfigConst.mail_bcc);
+			if (!cfgMail.getMail_bcc().isEmpty()) {
+				props.setProperty(MAIL_BCC, cfgMail.getMail_bcc());
 			}
-			props.setProperty(MAIL_XML, Boolean.toString(ConfigConst.mail_xml));
-			props.setProperty(MAIL_GIF, Boolean.toString(ConfigConst.mail_gif));
-			props.setProperty(MAIL_PDF, Boolean.toString(ConfigConst.mail_pdf));
+			props.setProperty(MAIL_XML, Boolean.toString(cfgMail.isMail_xml()));
+			props.setProperty(MAIL_GIF, Boolean.toString(cfgMail.isMail_gif()));
+			props.setProperty(MAIL_PDF, Boolean.toString(cfgMail.isMail_pdf()));
 
 			/* Generate Class Element Options */
-			props.setProperty(GENERATE_CLASS_PACKAGE, Boolean.toString(ConfigConst.generateClassPackage));
-			props.setProperty(GENERATE_CLASS_FIELDS, ConfigConst.generateClassFields.toString());
-			props.setProperty(GENERATE_CLASS_METHODS, ConfigConst.generateClassMethods.toString());
-			props.setProperty(GENERATE_CLASS_SIGNATURES, ConfigConst.generateClassSignatures.toString());
-			props.setProperty(GENERATE_CLASS_SORTINGS, ConfigConst.generateClassSortings.toString());
+			ConfigClassGen genCfg = ConfigClassGen.getInstance();
+			props.setProperty(GENERATE_CLASS_PACKAGE, Boolean.toString(genCfg.isGenerateClassPackage()));
+			props.setProperty(GENERATE_CLASS_FIELDS, genCfg.getGenerateClassFields().toString());
+			props.setProperty(GENERATE_CLASS_METHODS, genCfg.getGenerateClassMethods().toString());
+			props.setProperty(GENERATE_CLASS_SIGNATURES, genCfg.getGenerateClassSignatures().toString());
+			props.setProperty(GENERATE_CLASS_SORTINGS, genCfg.getGenerateClassSortings().toString());
 
 			FileOutputStream outStream = new FileOutputStream(configfile);
 			try {

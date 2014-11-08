@@ -4,10 +4,6 @@ import java.awt.Font;
 import java.awt.Point;
 
 import com.baselet.diagram.draw.geom.Dimension;
-import com.umlet.language.enums.FieldOptions;
-import com.umlet.language.enums.MethodOptions;
-import com.umlet.language.enums.SignatureOptions;
-import com.umlet.language.enums.SortOptions;
 
 /**
  * VALUES LOADED FROM CONFIG
@@ -28,23 +24,6 @@ public class ConfigConst {
 	public static int printPadding = 20;
 	public static boolean checkForUpdates = true;
 	public static String pdfExportFont = ""; // eg in Windows: "pdf_export_font = c:/windows/fonts/msgothic.ttc,1"
-	public static boolean generateClassPackage = true;
-	public static FieldOptions generateClassFields = FieldOptions.ALL;
-	public static MethodOptions generateClassMethods = MethodOptions.ALL;
-	public static SignatureOptions generateClassSignatures = SignatureOptions.ALL;
-	public static SortOptions generateClassSortings = SortOptions.HEIGHT;
 	public static String lastUsedPalette;
-	public static String mail_smtp = "";
-	public static boolean mail_smtp_auth = false;
-	public static String mail_smtp_user = "";
-	public static boolean mail_smtp_pw_store = false;
-	public static String mail_smtp_pw = "";
-	public static String mail_from = "";
-	public static String mail_to = "";
-	public static String mail_cc = "";
-	public static String mail_bcc = "";
-	public static boolean mail_xml = true;
-	public static boolean mail_gif = true;
-	public static boolean mail_pdf = false;
 
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.control.config.ConfigConst;
+import com.baselet.control.config.ConfigClassGen;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler;
@@ -60,7 +60,7 @@ public class ClassDiagramConverter {
 			}
 		}
 
-		switch (ConfigConst.generateClassSortings) {
+		switch (ConfigClassGen.getInstance().getGenerateClassSortings()) {
 			case PACKAGE:
 				new PackageLayout().layout(elements);
 				break;
@@ -151,10 +151,10 @@ public class ClassDiagramConverter {
 
 	private String createMethodSection(JavaClass parsedClass, String attributes) {
 		for (Method method : parsedClass.getMethods()) {
-			if (ConfigConst.generateClassMethods == MethodOptions.PUBLIC && method.getAccess() == AccessFlag.PUBLIC) {
+			if (ConfigClassGen.getInstance().getGenerateClassMethods() == MethodOptions.PUBLIC && method.getAccess() == AccessFlag.PUBLIC) {
 				attributes += getMethodString(method);
 			}
-			else if (ConfigConst.generateClassMethods == MethodOptions.ALL) {
+			else if (ConfigClassGen.getInstance().getGenerateClassMethods() == MethodOptions.ALL) {
 				attributes += getMethodString(method);
 			}
 		}
@@ -162,10 +162,10 @@ public class ClassDiagramConverter {
 	}
 
 	private String getMethodString(Method method) {
-		if (ConfigConst.generateClassSignatures == SignatureOptions.PARAMS_ONLY) {
+		if (ConfigClassGen.getInstance().getGenerateClassSignatures() == SignatureOptions.PARAMS_ONLY) {
 			return method.getAccess() + method.getName() + "(" + method.getSignature() + ")\n";
 		}
-		else if (ConfigConst.generateClassSignatures == SignatureOptions.RETURN_ONLY) {
+		else if (ConfigClassGen.getInstance().getGenerateClassSignatures() == SignatureOptions.RETURN_ONLY) {
 			return method.getAccess() + method.getName() + ": " + method.getReturnType() + "\n";
 		}
 		else {
@@ -175,10 +175,10 @@ public class ClassDiagramConverter {
 
 	private String createFieldSection(JavaClass parsedClass, String attributes) {
 		for (Field field : parsedClass.getFields()) {
-			if (ConfigConst.generateClassFields == FieldOptions.PUBLIC && field.getAccess() == AccessFlag.PUBLIC) {
+			if (ConfigClassGen.getInstance().getGenerateClassFields() == FieldOptions.PUBLIC && field.getAccess() == AccessFlag.PUBLIC) {
 				attributes += field.getAccess() + field.getName() + ": " + field.getType() + "\n";
 			}
-			else if (ConfigConst.generateClassFields == FieldOptions.ALL) {
+			else if (ConfigClassGen.getInstance().getGenerateClassFields() == FieldOptions.ALL) {
 				attributes += field.getAccess() + field.getName() + ": " + field.getType() + "\n";
 			}
 		}
