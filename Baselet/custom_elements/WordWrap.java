@@ -1,8 +1,8 @@
 import java.awt.*;
 import java.util.*;
 
-import com.baselet.control.Constants;
-import com.baselet.control.Utils;
+import com.baselet.control.constants.Constants;
+import com.baselet.control.util.Utils;
 
 @SuppressWarnings("serial")
 public class <!CLASSNAME!> extends com.umlet.custom.CustomElement {
