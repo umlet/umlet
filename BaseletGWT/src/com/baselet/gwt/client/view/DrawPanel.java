@@ -466,7 +466,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			redraw();
 		}
 		else if (Shortcut.DISABLE_STICKING.matches(event)) {
-			SharedConstants.stickingEnabled = false;
+			SharedConstants.setStickingEnabled(false);
 		}
 		else {
 			avoidBrowserDefault = false;
@@ -481,7 +481,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	@Override
 	public void handleKeyUp(KeyUpEvent event) {
 		if (Shortcut.DISABLE_STICKING.matches(event)) {
-			SharedConstants.stickingEnabled = true;
+			SharedConstants.setStickingEnabled(true);
 		}
 	}
 

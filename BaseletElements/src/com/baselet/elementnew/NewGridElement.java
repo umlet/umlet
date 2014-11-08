@@ -149,7 +149,7 @@ public abstract class NewGridElement implements GridElement {
 		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
-		if (SharedConstants.dev_mode) {
+		if (SharedConstants.isDev_mode()) {
 			drawer.setForegroundColor(ColorOwn.BLACK);
 			drawer.setFontSize(10.5);
 			drawer.print(getId().toString(), new PointDouble(getRealSize().width - 3, getRealSize().height - 2), AlignHorizontal.RIGHT);

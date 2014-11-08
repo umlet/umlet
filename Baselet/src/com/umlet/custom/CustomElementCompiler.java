@@ -173,7 +173,7 @@ public class CustomElementCompiler {
 	public GridElement genEntity(String code, ErrorHandler errorhandler) {
 		if (!ConfigConst.enable_custom_elements) {
 			String errorMessage = "Custom Elements are disabled\nEnabled them in the Options\nOnly open them from trusted\nsources to avoid malicious code execution!";
-			if (SharedConstants.dev_mode) {
+			if (SharedConstants.isDev_mode()) {
 				errorMessage += "\n------------------------------------\n" + code;
 			}
 			return new ErrorOccurred(errorMessage);

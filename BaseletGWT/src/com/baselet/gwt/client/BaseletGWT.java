@@ -20,7 +20,7 @@ public class BaseletGWT implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		SharedConstants.dev_mode = Location.getParameter("dev") != null;
+		SharedConstants.setDev_mode(Location.getParameter("dev") != null);
 
 		if (!BrowserStorage.initLocalStorageAndCheckIfAvailable()) {
 			if (Browser.get() == Browser.INTERNET_EXPLORER && GWT.getHostPageBaseURL().startsWith("file:")) {
@@ -47,7 +47,7 @@ public class BaseletGWT implements EntryPoint {
 					Notification.showFeatureNotSupported("Cannot load application from server", false);
 				}
 			});
-			if (!SharedConstants.dev_mode) {
+			if (!SharedConstants.isDev_mode()) {
 				Window.addWindowClosingHandler(new Window.ClosingHandler() {
 					@Override
 					public void onWindowClosing(Window.ClosingEvent closingEvent) {

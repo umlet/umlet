@@ -106,7 +106,7 @@ public class OldResize extends Command {
 
 		entity.setLocationDifference(getDiffx(), getDiffy());
 		entity.setSize(entity.getRectangle().width + getDiffw(), entity.getRectangle().height + getDiffh());
-		if (SharedConstants.stickingEnabled) {
+		if (SharedConstants.isStickingEnabled()) {
 			for (OldMoveLinePoint c : move_commands) {
 				c.execute(handler);
 			}

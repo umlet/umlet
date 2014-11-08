@@ -75,7 +75,7 @@ public class DiagramGwt implements Diagram {
 	 * @see com.baselet.gwt.client.element.Diagramx#getStickables(com.baselet.element.GridElement, java.util.Collection) */
 	@Override
 	public StickableMap getStickables(GridElement draggedElement, Collection<GridElement> excludeList) {
-		if (!SharedConstants.stickingEnabled) {
+		if (!SharedConstants.isStickingEnabled()) {
 			return StickableMap.EMPTY_MAP;
 		}
 		List<Relation> stickables = getRelations();
