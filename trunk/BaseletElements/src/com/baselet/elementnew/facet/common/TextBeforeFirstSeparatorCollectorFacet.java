@@ -11,7 +11,7 @@ import com.baselet.gui.AutocompletionText;
 
 public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 
-	public static TextBeforeFirstSeparatorCollectorFacet INSTANCE = new TextBeforeFirstSeparatorCollectorFacet();
+	public static final TextBeforeFirstSeparatorCollectorFacet INSTANCE = new TextBeforeFirstSeparatorCollectorFacet();
 
 	protected TextBeforeFirstSeparatorCollectorFacet() {}
 
@@ -26,7 +26,7 @@ public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
-		return !(getOrInit(state).firstSepFound);
+		return !getOrInit(state).firstSepFound;
 	}
 
 	@Override

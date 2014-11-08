@@ -73,7 +73,7 @@ public class AutoResizeScrollDropPanel extends ScrollPanel implements HasScrollP
 		setVerticalScrollPosition(getVerticalScrollPosition() + diff);
 	}
 
-	private static int[] scrollbarSize;
+	private int[] scrollbarSize;
 
 	/**
 	 * returns vertical scrollbar width and horizontal scrollbar height

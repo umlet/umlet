@@ -27,7 +27,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 	private static final int UPPER_Y_DIST_TO_LINE = 5;
 	private static final int MIDDLE_DISTANCE_TO_LINE = 4;
 
-	public static LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
+	public static final LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
 
 	public static class LineDescriptionFacetResponse {
 		private int middleLines = 0;

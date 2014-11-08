@@ -6,7 +6,7 @@ import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class SeparatorLineWithHalignChangeFacet extends SeparatorLineFacet {
 
-	public static SeparatorLineWithHalignChangeFacet INSTANCE = new SeparatorLineWithHalignChangeFacet();
+	public static final SeparatorLineWithHalignChangeFacet INSTANCE = new SeparatorLineWithHalignChangeFacet();
 
 	private SeparatorLineWithHalignChangeFacet() {}
 

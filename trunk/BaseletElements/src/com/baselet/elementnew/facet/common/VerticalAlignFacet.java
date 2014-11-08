@@ -7,7 +7,7 @@ import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class VerticalAlignFacet extends KeyValueFacet {
 
-	public static VerticalAlignFacet INSTANCE = new VerticalAlignFacet();
+	public static final VerticalAlignFacet INSTANCE = new VerticalAlignFacet();
 
 	private VerticalAlignFacet() {}
 

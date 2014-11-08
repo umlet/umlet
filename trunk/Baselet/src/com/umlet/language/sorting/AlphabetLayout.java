@@ -22,7 +22,7 @@ public class AlphabetLayout extends Layout {
 		return result;
 	}
 
-	private class AlphabetSorter implements Comparator<SortableElement> {
+	private static class AlphabetSorter implements Comparator<SortableElement> {
 
 		@Override
 		public int compare(SortableElement e1, SortableElement e2) {

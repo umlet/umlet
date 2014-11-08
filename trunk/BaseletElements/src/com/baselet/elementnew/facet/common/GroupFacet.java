@@ -15,7 +15,7 @@ import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class GroupFacet extends KeyValueFacet {
 
-	public static GroupFacet INSTANCE = new GroupFacet();
+	public static final GroupFacet INSTANCE = new GroupFacet();
 
 	private GroupFacet() {}
 

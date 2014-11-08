@@ -7,7 +7,7 @@ import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class LineWidthFacet extends KeyValueFacet {
 
-	public static LineWidthFacet INSTANCE = new LineWidthFacet();
+	public static final LineWidthFacet INSTANCE = new LineWidthFacet();
 
 	private LineWidthFacet() {}
 

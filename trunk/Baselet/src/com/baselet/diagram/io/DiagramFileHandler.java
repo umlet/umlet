@@ -388,7 +388,7 @@ public class DiagramFileHandler {
 		}
 	}
 
-	protected class OwnFileFilter extends FileFilter {
+	protected static class OwnFileFilter extends FileFilter {
 		private final String format;
 		private final String description;
 

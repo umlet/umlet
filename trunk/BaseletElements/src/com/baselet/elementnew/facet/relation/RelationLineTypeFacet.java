@@ -33,7 +33,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 
 	}
 
-	public static RelationLineTypeFacet INSTANCE = new RelationLineTypeFacet();
+	public static final RelationLineTypeFacet INSTANCE = new RelationLineTypeFacet();
 
 	private RelationLineTypeFacet() {}
 

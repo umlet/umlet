@@ -167,15 +167,9 @@ public class CustomElementHandler {
 				setChanged(true);
 				errorhandler.clearErrors();
 				old_text = txt;
-				GridElement e = CustomElementCompiler.getInstance().genEntity(txt, errorhandler);
-				if (e != null) {
-					editedEntity = e;
-					panel.setCustomElementSaveable(true);
-					updatePreview(e);
-				}
-				else {
-					panel.setCustomElementSaveable(false);
-				}
+				editedEntity = CustomElementCompiler.getInstance().genEntity(txt, errorhandler);
+				panel.setCustomElementSaveable(true);
+				updatePreview(editedEntity);
 			}
 			compilation_running = false;
 		}

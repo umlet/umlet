@@ -84,7 +84,7 @@ public class PlotConstants {
 	public static enum AxisShow implements PlotSetting {
 		Axis, Line, Marker, Text, Nothing("");
 
-		private String value;
+		private final String value;
 
 		AxisShow() {
 			value = toString().toLowerCase();
@@ -115,7 +115,7 @@ public class PlotConstants {
 	public static enum AxisList implements PlotSetting {
 		Relevant, Nothing("");
 
-		private String value;
+		private final String value;
 
 		AxisList() {
 			value = toString().toLowerCase();
@@ -147,7 +147,7 @@ public class PlotConstants {
 		return returnList;
 	}
 
-	public static List<AutocompletionText> AUTOCOMPLETION_LIST = Arrays.asList(
+	public static final List<AutocompletionText> AUTOCOMPLETION_LIST = Arrays.asList(
 			new AutocompletionText(PLOT, "draws the configured plot"),
 			new AutocompletionText(DATA, "marks everything until the next empty line as dataset"),
 			new AutocompletionText(DATA + KEY_VALUE_SEP + "<name>", "as data but with explicit name"),

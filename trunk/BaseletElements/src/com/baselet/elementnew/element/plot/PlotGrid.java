@@ -46,7 +46,7 @@ public class PlotGrid extends NewGridElement {
 	/**
 	 * this facet is only here to show autocompletion and include PlotGrid in the new parser logic which uses facets
 	 */
-	public static GlobalFacet PSEUDO_PLOT_FACET = new GlobalFacet() {
+	public static final GlobalFacet PSEUDO_PLOT_FACET = new GlobalFacet() {
 		@Override
 		public void handleLine(String line, DrawHandler drawer, PropertiesParserState propConfig) {
 			// do nothing

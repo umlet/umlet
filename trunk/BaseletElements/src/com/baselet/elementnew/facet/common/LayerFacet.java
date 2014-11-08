@@ -7,7 +7,7 @@ import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class LayerFacet extends KeyValueFacet {
 
-	public static LayerFacet INSTANCE = new LayerFacet();
+	public static final LayerFacet INSTANCE = new LayerFacet();
 
 	private LayerFacet() {}
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
@@ -13,15 +14,15 @@ public class Parser {
 	private static final Logger log = Logger.getLogger(Parser.class);
 
 	// The parserResult contains every information which is relevant after input parsing is finished
-	private ParserResult parserResult;
+	private final ParserResult parserResult;
 
 	// The following fields are only used during parsing but never referenced after parsing is finished
 	// The values HashsMap contains the actual state of key->value assignments which is copied to every plot at its time of creation
-	private HashMap<String, KeyValue> tempPlotValuesCache;
+	private final HashMap<String, KeyValue> tempPlotValuesCache;
 	// The datasetNr is used for sequential naming of not explicitly named datasets
 	private int datasetNr = 1;
 	// The datasetlist is filled during parsing. After parsing every plot gets its dataset injected
-	private ArrayList<DataSet> datasetList;
+	private final ArrayList<DataSet> datasetList;
 
 	public Parser() {
 		parserResult = new ParserResult();
@@ -139,7 +140,7 @@ public class Parser {
 	 * Creates a dataset with the second argument as its id (if it has no such parameter it gets a generated id)
 	 * This method is called if the input string starts with "data" or if the input string contains a tab (then a dataset is assumed)
 	 * All lines until the next empty line are part of the dataset
-	 * 
+	 *
 	 * @param args any parameters to the data command including the command itself as first parameter
 	 */
 	private void createDatasetObject(String[] args, ListIterator<String> inputIterator) {
@@ -178,7 +179,7 @@ public class Parser {
 	/**
 	 * Creates a plotValues Object which contains the dataset as its second argument (if it has no such parameter it cycles through all datasets)
 	 * This method is called if the input string starts with "plot". All values which are stored in the parser are copied to the plot
-	 * 
+	 *
 	 * @param args any parameters to the data command including the command itself as first parameter
 	 */
 	private PlotState createPlotStateObject(String[] args, ListIterator<String> inputIterator) {
@@ -221,8 +222,8 @@ public class Parser {
 
 	private HashMap<String, KeyValue> copyHashMap(HashMap<String, KeyValue> inputHashMap) {
 		HashMap<String, KeyValue> returnHashMap = new HashMap<String, KeyValue>();
-		for (String key : inputHashMap.keySet()) {
-			returnHashMap.put(key, inputHashMap.get(key));
+		for (Entry<String, KeyValue> entry : inputHashMap.entrySet()) {
+			returnHashMap.put(entry.getKey(), entry.getValue());
 		}
 		return returnHashMap;
 	}
