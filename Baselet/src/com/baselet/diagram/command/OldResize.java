@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import com.baselet.control.Main;
-import com.baselet.control.constants.SharedConstants;
+import com.baselet.control.config.SharedConfig;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.geom.Point;
@@ -106,7 +106,7 @@ public class OldResize extends Command {
 
 		entity.setLocationDifference(getDiffx(), getDiffy());
 		entity.setSize(entity.getRectangle().width + getDiffw(), entity.getRectangle().height + getDiffh());
-		if (SharedConstants.isStickingEnabled()) {
+		if (SharedConfig.getInstance().isStickingEnabled()) {
 			for (OldMoveLinePoint c : move_commands) {
 				c.execute(handler);
 			}

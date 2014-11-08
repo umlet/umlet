@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.diagram.Diagram;
 import com.baselet.element.GridElement;
@@ -75,7 +76,7 @@ public class DiagramGwt implements Diagram {
 	 * @see com.baselet.gwt.client.element.Diagramx#getStickables(com.baselet.element.GridElement, java.util.Collection) */
 	@Override
 	public StickableMap getStickables(GridElement draggedElement, Collection<GridElement> excludeList) {
-		if (!SharedConstants.isStickingEnabled()) {
+		if (!SharedConfig.getInstance().isStickingEnabled()) {
 			return StickableMap.EMPTY_MAP;
 		}
 		List<Relation> stickables = getRelations();

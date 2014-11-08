@@ -14,8 +14,8 @@ import javax.swing.JPopupMenu;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Main;
+import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.Constants;
-import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.CurrentDiagram;
@@ -301,7 +301,7 @@ public class GridElementListener extends UniversalListener {
 			// reduce stickables to those which really stick at the element at move-start
 			StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(ge.getRectangle()), stickables, handler.getGridSize());
 			moveCommands.add(new Move(directions, ge, diffx, diffy, oldp, isShiftKeyDown, true, useSetLocation, stickingStickables));
-			boolean stickingDisabled = !SharedConstants.isStickingEnabled() || handler instanceof PaletteHandler;
+			boolean stickingDisabled = !SharedConfig.getInstance().isStickingEnabled() || handler instanceof PaletteHandler;
 			if (ge instanceof Relation || stickingDisabled) {
 				continue;
 			}

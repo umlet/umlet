@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Vector;
 
-import com.baselet.control.constants.SharedConstants;
+import com.baselet.control.config.SharedConfig;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
@@ -21,7 +21,7 @@ public class GUIListener implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-			SharedConstants.setStickingEnabled(false);
+			SharedConfig.getInstance().setStickingEnabled(false);
 		}
 
 		DiagramHandler handler = CurrentDiagram.getInstance().getDiagramHandler();
@@ -92,7 +92,7 @@ public class GUIListener implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-			SharedConstants.setStickingEnabled(true);
+			SharedConfig.getInstance().setStickingEnabled(true);
 		}
 	}
 

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.draw.DrawHandler;
@@ -56,7 +57,7 @@ public class Relation extends NewGridElement implements Stickable {
 		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 
 		// draw rectangle around whole element (basically a helper for developers to make sure the (invisible) size of the element is correct)
-		if (SharedConstants.isDev_mode()) {
+		if (SharedConfig.getInstance().isDev_mode()) {
 			drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 			drawer.drawRectangle(0, 0, getRealSize().getWidth(), getRealSize().getHeight());
 			drawer.setBackgroundColor(ColorOwn.GREEN.transparency(Transparency.BACKGROUND));

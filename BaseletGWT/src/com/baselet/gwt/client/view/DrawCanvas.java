@@ -2,7 +2,7 @@ package com.baselet.gwt.client.view;
 
 import java.util.List;
 
-import com.baselet.control.constants.SharedConstants;
+import com.baselet.control.config.SharedConfig;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
@@ -58,7 +58,7 @@ public class DrawCanvas {
 	}
 
 	void draw(boolean drawEmptyInfo, List<GridElement> gridElements, Selector selector) {
-		if (SharedConstants.isDev_mode()) {
+		if (SharedConfig.getInstance().isDev_mode()) {
 			CanvasUtils.drawGridOn(getContext2d());
 		}
 

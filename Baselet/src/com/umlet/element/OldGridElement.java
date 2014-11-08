@@ -21,8 +21,8 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Main;
 import com.baselet.control.SharedUtils;
+import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.Constants;
-import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.LineType;
@@ -366,7 +366,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 				g2.setColor(oldColor);
 			}
 			fgColor = Converter.convert(ColorOwn.SELECTION_FG);
-			if (SharedConstants.show_stickingpolygon) {
+			if (SharedConfig.getInstance().isShow_stickingpolygon()) {
 				drawStickingPolygon(g2);
 			}
 		}

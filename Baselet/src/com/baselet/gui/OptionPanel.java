@@ -22,8 +22,8 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import com.baselet.control.Main;
 import com.baselet.control.config.Config;
+import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.Constants;
-import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.diagram.DiagramHandler;
@@ -117,11 +117,11 @@ public class OptionPanel extends JPanel implements ActionListener {
 	}
 
 	public void showOptionPanel() {
-		show_stickingpolygon.setSelected(SharedConstants.show_stickingpolygon);
+		show_stickingpolygon.setSelected(SharedConfig.getInstance().isShow_stickingpolygon());
 		show_grid.setSelected(Config.getInstance().isShow_grid());
 		enable_custom_elements.setSelected(Config.getInstance().isEnable_custom_elements());
 		checkForUpdates.setSelected(Config.getInstance().isCheckForUpdates());
-		developerMode.setSelected(SharedConstants.isDev_mode());
+		developerMode.setSelected(SharedConfig.getInstance().isDev_mode());
 		ui_manager.setSelectedIndex(uis_technicalNames.indexOf(Config.getInstance().getUiManager()));
 		default_fontsize.setSelectedItem(Config.getInstance().getDefaultFontsize());
 		propertiesPanelFontsize.setSelectedItem(Constants.propertiesPanelFontsize);
@@ -146,11 +146,11 @@ public class OptionPanel extends JPanel implements ActionListener {
 		hideOptionPanel();
 
 		if (ae.getActionCommand().equals("Ok")) {
-			SharedConstants.show_stickingpolygon = show_stickingpolygon.isSelected();
+			SharedConfig.getInstance().setShow_stickingpolygon(show_stickingpolygon.isSelected());
 			Config.getInstance().setShow_grid(show_grid.isSelected());
 			Config.getInstance().setEnable_custom_elements(enable_custom_elements.isSelected());
 			Config.getInstance().setCheckForUpdates(checkForUpdates.isSelected());
-			SharedConstants.setDev_mode(developerMode.isSelected());
+			SharedConfig.getInstance().setDev_mode(developerMode.isSelected());
 			Config.getInstance().setDefaultFontsize((Integer) default_fontsize.getSelectedItem());
 
 			String newui = uis_technicalNames.get(ui_manager.getSelectedIndex());

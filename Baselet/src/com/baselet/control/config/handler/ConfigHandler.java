@@ -11,8 +11,8 @@ import java.util.Properties;
 import com.baselet.control.config.Config;
 import com.baselet.control.config.ConfigClassGen;
 import com.baselet.control.config.ConfigMail;
+import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.Constants;
-import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.util.Path;
 import com.baselet.control.util.RecentlyUsedFilesList;
@@ -95,7 +95,7 @@ public class ConfigHandler {
 		cfg.setDefaultFontsize(getIntProperty(DEFAULT_FONTSIZE, cfg.getDefaultFontsize()));
 		Constants.propertiesPanelFontsize = getIntProperty(PROPERTIES_PANEL_FONTSIZE, Constants.propertiesPanelFontsize);
 		cfg.setDefaultFontFamily(getStringProperty(DEFAULT_FONTFAMILY, cfg.getDefaultFontFamily()));
-		SharedConstants.show_stickingpolygon = getBoolProperty(SHOW_STICKINGPOLYGON, SharedConstants.show_stickingpolygon);
+		SharedConfig.getInstance().setShow_stickingpolygon(getBoolProperty(SHOW_STICKINGPOLYGON, SharedConfig.getInstance().isShow_stickingpolygon()));
 		cfg.setShow_grid(getBoolProperty(SHOW_GRID, cfg.isShow_grid()));
 		cfg.setEnable_custom_elements(getBoolProperty(ENABLE_CUSTOM_ELEMENTS, cfg.isEnable_custom_elements()));
 		cfg.setUiManager(getStringProperty(UI_MANAGER, cfg.getUiManager()));
@@ -104,7 +104,7 @@ public class ConfigHandler {
 		cfg.setCheckForUpdates(getBoolProperty(CHECK_FOR_UPDATES, cfg.isCheckForUpdates()));
 		cfg.setOpenFileHome(getStringProperty(OPEN_FILE_HOME, cfg.getOpenFileHome()));
 		cfg.setSaveFileHome(getStringProperty(SAVE_FILE_HOME, cfg.getSaveFileHome()));
-		SharedConstants.setDev_mode(getBoolProperty(DEV_MODE, SharedConstants.isDev_mode()));
+		SharedConfig.getInstance().setDev_mode(getBoolProperty(DEV_MODE, SharedConfig.getInstance().isDev_mode()));
 		cfg.setLastUsedPalette(getStringProperty(LAST_USED_PALETTE, null));
 		cfg.setMain_split_position(getIntProperty(MAIN_SPLIT_POSITION, cfg.getMain_split_position()));
 		cfg.setRight_split_position(getIntProperty(RIGHT_SPLIT_POSITION, cfg.getRight_split_position()));
@@ -162,7 +162,7 @@ public class ConfigHandler {
 			props.setProperty(DEFAULT_FONTSIZE, Integer.toString(cfg.getDefaultFontsize()));
 			props.setProperty(PROPERTIES_PANEL_FONTSIZE, Integer.toString(Constants.propertiesPanelFontsize));
 			props.setProperty(DEFAULT_FONTFAMILY, cfg.getDefaultFontFamily());
-			props.setProperty(SHOW_STICKINGPOLYGON, Boolean.toString(SharedConstants.show_stickingpolygon));
+			props.setProperty(SHOW_STICKINGPOLYGON, Boolean.toString(SharedConfig.getInstance().isShow_stickingpolygon()));
 			props.setProperty(SHOW_GRID, Boolean.toString(cfg.isShow_grid()));
 			props.setProperty(ENABLE_CUSTOM_ELEMENTS, Boolean.toString(cfg.isEnable_custom_elements()));
 			props.setProperty(UI_MANAGER, cfg.getUiManager());
@@ -171,7 +171,7 @@ public class ConfigHandler {
 			props.setProperty(CHECK_FOR_UPDATES, Boolean.toString(cfg.isCheckForUpdates()));
 			props.setProperty(OPEN_FILE_HOME, cfg.getOpenFileHome());
 			props.setProperty(SAVE_FILE_HOME, cfg.getSaveFileHome());
-			props.setProperty(DEV_MODE, Boolean.toString(SharedConstants.isDev_mode()));
+			props.setProperty(DEV_MODE, Boolean.toString(SharedConfig.getInstance().isDev_mode()));
 			props.setProperty(LAST_USED_PALETTE, cfg.getLastUsedPalette());
 
 			props.setProperty(MAIN_SPLIT_POSITION, Integer.toString(gui.getMainSplitPosition()));

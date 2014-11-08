@@ -16,8 +16,8 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.config.Config;
+import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.Constants;
-import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.util.Path;
 import com.baselet.element.GridElement;
 import com.umlet.element.ErrorOccurred;
@@ -173,7 +173,7 @@ public class CustomElementCompiler {
 	public GridElement genEntity(String code, ErrorHandler errorhandler) {
 		if (!Config.getInstance().isEnable_custom_elements()) {
 			String errorMessage = "Custom Elements are disabled\nEnabled them in the Options\nOnly open them from trusted\nsources to avoid malicious code execution!";
-			if (SharedConstants.isDev_mode()) {
+			if (SharedConfig.getInstance().isDev_mode()) {
 				errorMessage += "\n------------------------------------\n" + code;
 			}
 			return new ErrorOccurred(errorMessage);
