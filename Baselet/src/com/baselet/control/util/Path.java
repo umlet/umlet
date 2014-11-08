@@ -5,10 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
@@ -30,7 +26,7 @@ public class Path {
 		}
 		File homeDirFile = new File(homeDir + Program.getInstance().getProgramName());
 		if (!homeDirFile.exists()) {
-			homeDirFile.mkdir();
+			Utils.safeMkDir(homeDirFile, true);
 		}
 		return homeDirFile.getAbsolutePath();
 	}
@@ -94,62 +90,6 @@ public class Path {
 		}
 
 		return path;
-	}
-
-	public static List<Class<?>> getAllClassesInPackage(String filterString) throws IOException, ClassNotFoundException {
-		List<Class<?>> list = new ArrayList<Class<?>>();
-		String path = Path.executable();
-		if (!Path.executable().endsWith(".jar")) {
-			list = getNewGridElementList(path, filterString);
-		}
-		else {
-			JarFile jarFile = null;
-			try {
-				jarFile = new JarFile(Path.executable());
-				Enumeration<JarEntry> jarEntries = jarFile.entries();
-				while (jarEntries.hasMoreElements()) {
-					JarEntry jarEntry = jarEntries.nextElement();
-					add(list, jarEntry.getName(), filterString);
-				}
-			} finally {
-				if (jarFile != null) {
-					jarFile.close();
-				}
-			}
-		}
-		return list;
-	}
-
-	private static List<Class<?>> getNewGridElementList(String path, String filterString) throws ClassNotFoundException {
-		List<File> fileList = new ArrayList<File>();
-		getFiles(new File(path), fileList);
-		List<Class<?>> returnList = new ArrayList<Class<?>>();
-		for (File file : fileList) {
-			add(returnList, file.getAbsolutePath(), filterString);
-		}
-		return returnList;
-	}
-
-	private static void add(List<Class<?>> fileList, String className, String filterString) throws ClassNotFoundException {
-		if (className.endsWith(".class")) {
-			className = className.toString().replace("/", ".").replace("\\", ".");
-			if (className.contains(filterString)) {
-				className = className.substring(className.indexOf(filterString));
-				className = className.substring(0, className.length() - ".class".length());
-				fileList.add(Class.forName(className));
-			}
-		}
-	}
-
-	private static void getFiles(File folder, List<File> list) {
-		folder.setReadOnly();
-		File[] files = folder.listFiles();
-		for (File file : files) {
-			list.add(file);
-			if (file.isDirectory()) {
-				getFiles(file, list);
-			}
-		}
 	}
 
 	public static Manifest manifest() throws IOException {

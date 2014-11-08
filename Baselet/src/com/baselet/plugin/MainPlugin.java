@@ -28,7 +28,11 @@ public class MainPlugin extends AbstractUIPlugin {
 	private static final Logger log = Logger.getLogger(MainPlugin.class);
 
 	// The plug-in ID
-	public static String PLUGIN_ID;
+	private static String pluginId;
+
+	public static String getPluginId() {
+		return pluginId;
+	}
 
 	// The shared instance
 	private static MainPlugin plugin;
@@ -75,7 +79,7 @@ public class MainPlugin extends AbstractUIPlugin {
 	// Issue 83: Use OSGI Bundle to read Manifest information
 	private void readBundleManifestInfo() {
 		Dictionary<String, String> headers = MainPlugin.getDefault().getBundle().getHeaders();
-		PLUGIN_ID = MainPlugin.getDefault().getBundle().getSymbolicName();
+		pluginId = MainPlugin.getDefault().getBundle().getSymbolicName();
 		Program.getInstance().init(headers.get(Constants.MANIFEST_BUNDLE_VERSION));
 
 	}
@@ -107,7 +111,7 @@ public class MainPlugin extends AbstractUIPlugin {
 	 * @return the image descriptor
 	 */
 	public static ImageDescriptor getImageDescriptor(String path) {
-		return imageDescriptorFromPlugin(PLUGIN_ID, path);
+		return imageDescriptorFromPlugin(pluginId, path);
 	}
 
 	public static URL getURL() {

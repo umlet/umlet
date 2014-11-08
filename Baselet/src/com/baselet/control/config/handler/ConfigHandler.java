@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -15,6 +16,7 @@ import com.baselet.control.config.SharedConfig;
 import com.baselet.control.enums.Program;
 import com.baselet.control.util.Path;
 import com.baselet.control.util.RecentlyUsedFilesList;
+import com.baselet.control.util.Utils;
 import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.standalone.StandaloneGUI;
@@ -152,8 +154,8 @@ public class ConfigHandler {
 			return;
 		}
 		try {
-			configfile.delete();
-			configfile.createNewFile();
+			Utils.safeDeleteFile(configfile, false);
+			Utils.safeCreateFile(configfile, false);
 
 			Properties props = new Properties();
 
@@ -241,7 +243,7 @@ public class ConfigHandler {
 			} finally {
 				outStream.close();
 			}
-		} catch (Exception ex) {
+		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 	}
