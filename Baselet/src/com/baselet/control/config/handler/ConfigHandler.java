@@ -12,7 +12,6 @@ import com.baselet.control.config.Config;
 import com.baselet.control.config.ConfigClassGen;
 import com.baselet.control.config.ConfigMail;
 import com.baselet.control.config.SharedConfig;
-import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.util.Path;
 import com.baselet.control.util.RecentlyUsedFilesList;
@@ -93,7 +92,7 @@ public class ConfigHandler {
 
 		cfg.setProgramVersion(getStringProperty(PROGRAM_VERSION, Program.getInstance().getVersion()));
 		cfg.setDefaultFontsize(getIntProperty(DEFAULT_FONTSIZE, cfg.getDefaultFontsize()));
-		Constants.propertiesPanelFontsize = getIntProperty(PROPERTIES_PANEL_FONTSIZE, Constants.propertiesPanelFontsize);
+		cfg.setPropertiesPanelFontsize(getIntProperty(PROPERTIES_PANEL_FONTSIZE, cfg.getPropertiesPanelFontsize()));
 		cfg.setDefaultFontFamily(getStringProperty(DEFAULT_FONTFAMILY, cfg.getDefaultFontFamily()));
 		SharedConfig.getInstance().setShow_stickingpolygon(getBoolProperty(SHOW_STICKINGPOLYGON, SharedConfig.getInstance().isShow_stickingpolygon()));
 		cfg.setShow_grid(getBoolProperty(SHOW_GRID, cfg.isShow_grid()));
@@ -160,7 +159,7 @@ public class ConfigHandler {
 
 			props.setProperty(PROGRAM_VERSION, Program.getInstance().getVersion());
 			props.setProperty(DEFAULT_FONTSIZE, Integer.toString(cfg.getDefaultFontsize()));
-			props.setProperty(PROPERTIES_PANEL_FONTSIZE, Integer.toString(Constants.propertiesPanelFontsize));
+			props.setProperty(PROPERTIES_PANEL_FONTSIZE, Integer.toString(cfg.getPropertiesPanelFontsize()));
 			props.setProperty(DEFAULT_FONTFAMILY, cfg.getDefaultFontFamily());
 			props.setProperty(SHOW_STICKINGPOLYGON, Boolean.toString(SharedConfig.getInstance().isShow_stickingpolygon()));
 			props.setProperty(SHOW_GRID, Boolean.toString(cfg.isShow_grid()));

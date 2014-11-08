@@ -133,7 +133,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 		else { // no arguments specified
 			alreadyRunningChecker(true); // start checker
 			if (Config.getInstance().isCheckForUpdates()) {
-				new Timer("Update Checker", true).schedule(new UpdateCheckTimerTask(), 0);
+				new Timer("Update Checker", true).schedule(UpdateCheckTimerTask.getInstance(), 0);
 			}
 			main.init(new StandaloneGUI(main));
 			main.doNew();

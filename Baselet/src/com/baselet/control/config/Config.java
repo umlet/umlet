@@ -41,6 +41,7 @@ public class Config {
 	private boolean start_maximized = false;
 	private String defaultFontFamily = Font.SANS_SERIF;
 	private Integer defaultFontsize = 14;
+	private Integer propertiesPanelFontsize = 11;
 
 	public Config() {
 		initUiManager();
@@ -211,5 +212,13 @@ public class Config {
 
 	public void setDefaultFontsize(Integer defaultFontsize) {
 		this.defaultFontsize = defaultFontsize;
+	}
+
+	public Integer getPropertiesPanelFontsize() {
+		return propertiesPanelFontsize;
+	}
+
+	public void setPropertiesPanelFontsize(Integer propertiesPanelFontsize) {
+		this.propertiesPanelFontsize = propertiesPanelFontsize;
 	}
 }

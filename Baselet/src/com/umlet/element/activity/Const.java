@@ -18,5 +18,4 @@ public class Const {
 	public static final int MIN_HEIGHT = 50;
 
 	public static final boolean DEBUG = false;
-	public static boolean autoInsertIF;
 }

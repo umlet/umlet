@@ -2,6 +2,7 @@ package com.umlet.element.activity;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.baselet.diagram.DiagramHandler;
 
@@ -9,8 +10,8 @@ public class While extends Container {
 
 	private WhileElement while_element;
 
-	public While(DiagramHandler handler, Graphics2D g, Container parent, ArrayList<Row> rows, int row, String condition) {
-		super(handler, g, parent, rows, row);
+	public While(AtomicBoolean autoInsertIF, DiagramHandler handler, Graphics2D g, Container parent, ArrayList<Row> rows, int row, String condition) {
+		super(autoInsertIF, handler, g, parent, rows, row);
 		if (condition != null && !condition.equals("")) {
 			while_element = new Condition(handler, condition, g);
 		}

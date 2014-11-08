@@ -17,7 +17,7 @@ import com.umlet.element.OldGridElement;
 
 @SuppressWarnings("serial")
 public class SynchBarVertical extends OldGridElement {
-	private static int textHeight = 0;
+	private int textHeight = 0;
 
 	@Override
 	public void paintEntity(Graphics g) {
