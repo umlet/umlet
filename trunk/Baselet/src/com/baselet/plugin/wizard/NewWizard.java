@@ -132,7 +132,7 @@ public class NewWizard extends Wizard implements INewWizard {
 				file.create(stream, true, monitor);
 			}
 			stream.close();
-		} catch (IOException e) {}
+		} catch (IOException e) {/* ignore */}
 		monitor.worked(1);
 		monitor.setTaskName("Opening file for editing...");
 		getShell().getDisplay().asyncExec(new Runnable() {
@@ -142,7 +142,7 @@ public class NewWizard extends Wizard implements INewWizard {
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				try {
 					IDE.openEditor(page, file, true);
-				} catch (PartInitException e) {}
+				} catch (PartInitException e) {/* ignore */}
 			}
 		});
 		monitor.worked(1);
@@ -167,7 +167,7 @@ public class NewWizard extends Wizard implements INewWizard {
 	/**
 	 * We will accept the selection in the workbench to see if
 	 * we can initialize from it.
-	 * 
+	 *
 	 * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
 	 */
 	@Override
