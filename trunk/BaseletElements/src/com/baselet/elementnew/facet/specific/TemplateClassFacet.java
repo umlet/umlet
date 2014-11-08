@@ -40,8 +40,8 @@ public class TemplateClassFacet extends KeyValueFacet {
 
 	public static List<PointDouble> drawTemplateClass(String templateClassText, DrawHandler drawer, PropertiesParserState state, int height, int width) {
 		Rectangle tR = calcTemplateRect(templateClassText, drawer, width);
-		int classTopEnd = round(tR.getHeight() / 2);
-		int classWidth = width - round(tR.getWidth() / 2);
+		int classTopEnd = round(tR.getHeight() / 2.0);
+		int classWidth = width - round(tR.getWidth() / 2.0);
 		PointDouble start = new PointDouble(0, classTopEnd);
 		List<PointDouble> p = Arrays.asList(
 				start,

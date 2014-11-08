@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 public class ParserResult {
 
-	private ArrayList<PlotState> plotStateList;
+	private final ArrayList<PlotState> plotStateList;
 	// These are few variables which influence the plotgrid
-	private HashMap<String, KeyValue> plotGridValues;
+	private final HashMap<String, KeyValue> plotGridValues;
 
 	public ParserResult() {
 		plotStateList = new ArrayList<PlotState>();
@@ -45,20 +45,19 @@ public class ParserResult {
 
 	@Override
 	public String toString() {
-		String returnString = "\n-----------------------------\n";
-		returnString += "--------PARSER CONTENT-------\n";
-		returnString += "-----------------------------\n\n";
-		returnString += "##########PlotStates#########\n\n";
+		StringBuilder sb = new StringBuilder("\n-----------------------------\n");
+		sb.append("--------PARSER CONTENT-------\n");
+		sb.append("-----------------------------\n\n");
+		sb.append("##########PlotStates#########\n\n");
 		for (PlotState plotState : plotStateList) {
-			returnString += plotState.toString() + "\n";
+			sb.append(plotState.toString()).append("\n");
 		}
-		returnString += "#########PlotGridValues########\n\n";
+		sb.append("#########PlotGridValues########\n\n");
 		for (String key : plotGridValues.keySet()) {
-			returnString += "\t" + key + " -> " + plotGridValues.get(key) + "\n";
+			sb.append("\t").append(key).append(" -> ").append(plotGridValues.get(key)).append("\n");
 		}
-		returnString += "\n-----------------------------\n";
-		returnString += "-----------------------------\n";
-		return returnString;
+		sb.append("\n-----------------------------\n");
+		sb.append("-----------------------------\n");
+		return sb.toString();
 	}
-
 }

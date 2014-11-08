@@ -248,23 +248,23 @@ public class PlotGrid extends NewGridElement {
 
 	@Override
 	public String toString() {
-		String returnString = "------------------------------\n";
+		StringBuilder sb = new StringBuilder("------------------------------\n");
 		for (int i = 0; i < matrix.rows(); i++) {
 			List<List<AbstractPlot>> row = matrix.row(i);
 			for (List<AbstractPlot> oneCell : row)
 			{
 				for (AbstractPlot onePlot : oneCell) {
 					if (onePlot == null) {
-						returnString += "null" + "\t";
+						sb.append("null\t");
 					}
 					else {
-						returnString += onePlot.getPlotLineNr() + "\t";
+						sb.append(onePlot.getPlotLineNr()).append("\t");
 					}
 				}
 			}
-			returnString += "\n";
+			sb.append("\n");
 		}
-		return returnString + "------------------------------";
+		return sb.append("------------------------------").toString();
 	}
 
 	@Override
@@ -285,7 +285,7 @@ public class PlotGrid extends NewGridElement {
 			drawer.setBackgroundColor(ColorOwn.WHITE);
 			drawer.drawRectangle(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 			float x = getRectangle().getWidth() / 2.0f;
-			drawer.print(e.getMessage(), x, getRealSize().height / 2, AlignHorizontal.CENTER);
+			drawer.print(e.getMessage(), x, getRealSize().height / 2.0, AlignHorizontal.CENTER);
 		}
 	}
 

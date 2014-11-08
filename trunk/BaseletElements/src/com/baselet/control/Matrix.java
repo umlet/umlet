@@ -75,14 +75,14 @@ public class Matrix<T> {
 
 	@Override
 	public String toString() {
-		String returnString = "";
+		StringBuilder sb = new StringBuilder("");
 		for (List<T> row : matrix) {
 			for (T value : row) {
-				returnString += (value != null ? value : "null") + "\t";
+				sb.append(value != null ? value : "null").append("\t");
 			}
-			returnString += "\n";
+			sb.append("\n");
 		}
-		return returnString;
+		return sb.toString();
 	}
 
 }

@@ -162,19 +162,19 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void setProperty(String key, Object newValue) {
-		String newState = "";
+		StringBuilder sb = new StringBuilder("");
 		for (String line : getPanelAttributesAsList()) {
 			if (!line.startsWith(key)) {
-				newState += line + "\n";
+				sb.append(line).append("\n");
 			}
 		}
-		if (newState.endsWith("\n")) { // remove last linebreak
-			newState = newState.substring(0, newState.length() - 1);
+		if (sb.length() > 0) { // remove last linebreak
+			sb.setLength(sb.length() - 1);
 		}
 		if (newValue != null) {
-			newState += "\n" + key + Facet.SEP + newValue.toString(); // null will not be added as a value
+			sb.append("\n").append(key).append(Facet.SEP).append(newValue.toString()); // null will not be added as a value
 		}
-		setPanelAttributes(newState);
+		setPanelAttributes(sb.toString());
 	}
 
 	@Override
@@ -355,7 +355,7 @@ public abstract class NewGridElement implements GridElement {
 			directions = Arrays.asList(Direction.LEFT, Direction.DOWN);
 		}
 		else if (alignHorizontal == AlignHorizontal.CENTER) {
-			diffwInt = SharedUtils.realignToGrid(false, diffwInt / 2, true) * 2;
+			diffwInt = SharedUtils.realignToGrid(false, diffwInt / 2.0, true) * 2;
 			directions = Arrays.asList(Direction.RIGHT, Direction.LEFT, Direction.DOWN);
 		}
 		drag(directions, diffwInt, diffhInt, new Point(0, 0), false, true, handler.getStickableMap(), false);
