@@ -31,7 +31,7 @@ public class Notifier {
 
 		Rectangle viewRect = notifierPanel.getScrollPane().getViewport().getViewRect();
 		final DiagramNotification notification = new DiagramNotification(Converter.convert(viewRect), message);
-		new Timer().schedule(new TimerTask() {
+		new Timer("Notificationtimer", true).schedule(new TimerTask() {
 			@Override
 			public void run() {
 				notifierPanel.remove(notification);

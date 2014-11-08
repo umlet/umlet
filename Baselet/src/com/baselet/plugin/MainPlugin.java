@@ -12,6 +12,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import com.baselet.control.Main;
+import com.baselet.control.config.handler.ConfigHandler;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
@@ -45,11 +46,12 @@ public class MainPlugin extends AbstractUIPlugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		initHomeProgramPath();
 
 		try {
+			initHomeProgramPath();
 			Main.getInstance().initLogger();
 			readBundleManifestInfo();
+			ConfigHandler.loadConfig();
 			Main.getInstance().init(new EclipseGUI(Main.getInstance()));
 		} catch (Exception e) {
 			log.error("Initialization or uncaught outer Exception", e);
