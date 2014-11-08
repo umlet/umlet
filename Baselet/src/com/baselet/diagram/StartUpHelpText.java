@@ -16,6 +16,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JEditorPane;
 
@@ -69,8 +71,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 
 	private void startUpdatechecker() {
 		if (ConfigConst.checkForUpdates && updateChecker == null) {
-			updateChecker = new Thread(new Updater(), "Update Checker");
-			updateChecker.start();
+			new Timer("Update Checker", true).schedule(new Updater(), 2000);
 		}
 	}
 
@@ -212,7 +213,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 	}
 
 	// TODO: If the thread takes too much time, the update message is only shown if a new panel is opened
-	private class Updater implements Runnable {
+	private class Updater extends TimerTask {
 		@Override
 		public void run() {
 			try {

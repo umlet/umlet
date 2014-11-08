@@ -34,8 +34,6 @@ import com.baselet.control.util.Utils;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.gui.listener.ScrollbarListener;
-import com.baselet.gui.standalone.FileDrop;
-import com.baselet.gui.standalone.FileDropListener;
 import com.umlet.element.OldGridElement;
 import com.umlet.element.Relation;
 import com.umlet.elementnew.ElementFactory;
@@ -59,15 +57,6 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		setLayout(null);
 		setBackground(Color.WHITE);
 		setOpaque(true);
-		// If this is not a palette, create a StartupHelpText
-		if (!(handler instanceof PaletteHandler)) {
-			StartUpHelpText startupHelpText = new StartUpHelpText(this);
-			if (Program.RUNTIME_TYPE != RuntimeType.BATCH) { // Batchmode doesn't need drag&drop. Also fixes Issue 81
-				@SuppressWarnings("unused")
-				FileDrop fd = new FileDrop(startupHelpText, new FileDropListener());
-			}
-			this.add(startupHelpText);
-		}
 		selector = new SelectorOld(this);
 		JScrollPane p = new JScrollPane() {
 			@Override

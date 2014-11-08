@@ -17,9 +17,9 @@ public class CompileError {
 	// ^^^^^^^^^^^^
 	// Type mismatch: cannot convert from float to int
 
-	private int lineNr;
-	private String line;
-	private String error;
+	private final int lineNr;
+	private final String line;
+	private final String error;
 
 	public static List<CompileError> getListFromString(String errorString, int beforecodelines) {
 		List<CompileError> returnList = new ArrayList<CompileError>();
@@ -27,7 +27,7 @@ public class CompileError {
 		for (String error : splitErrors) {
 			Matcher m = error_pattern.matcher(error);
 			if (m.find()) {
-				Integer newLineNr = Integer.valueOf(m.group(1)) - beforecodelines;
+				Integer newLineNr = Integer.parseInt(m.group(1)) - beforecodelines;
 				String newLine = m.group(2);
 				String newError = m.group(3);
 				returnList.add(new CompileError(newLineNr, newLine, newError));

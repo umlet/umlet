@@ -62,7 +62,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		mainFrame.addKeyListener(new GUIListener());
 		mainFrame.addKeyListener(new SearchKeyListener());
 		mainFrame.addWindowListener(new WindowListener());
-		mainFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		mainFrame.setBounds(ConfigConst.program_location.x, ConfigConst.program_location.y, ConfigConst.program_size.width, ConfigConst.program_size.height);
 		mainFrame.setTitle(Program.NAME + " - Free UML Tool for Fast UML Diagrams");
 

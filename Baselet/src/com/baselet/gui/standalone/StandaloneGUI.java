@@ -64,7 +64,7 @@ public class StandaloneGUI extends BaseGUI {
 		if (askSaveForAllDirtyDiagrams()) {
 			main.closeProgram();
 			mainFrame.dispose();
-			System.exit(0);
+			// System.exit(0);
 		}
 	}
 

@@ -256,7 +256,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			}
 			f.createNewFile();
 			file_created = true;
-			timer = new Timer(true);
+			timer = new Timer("alreadyRunningChecker", true);
 			timer.schedule(new RunningFileChecker(Path.temp() + tmp_file, Path.temp() + tmp_read_file, main), 0, 1000);
 		} catch (Exception ex) {
 			ex.printStackTrace();

@@ -23,6 +23,11 @@ public class CustomPreviewHandler extends DiagramHandler {
 
 	@Override
 	protected void initDiagramPopupMenu(boolean extendedPopupMenu) {
-		/* no diagram popup menu for palette */
+		/* no diagram popup menu */
+	}
+
+	@Override
+	protected void initStartupTextAndFileDrop() {
+		/* no startup and filedrop */
 	}
 }

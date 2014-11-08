@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Reader;
 
-import com.baselet.gui.standalone.FileDrop.TransferableObject;
-
 /**
  * This class makes it easy to drag and drop files from the operating
  * system to a Java program. Any <tt>java.awt.Component</tt> can be
@@ -321,7 +319,6 @@ public class FileDrop {
 							// Get a useful list
 							java.util.List fileList = (java.util.List)
 									tr.getTransferData(java.awt.datatransfer.DataFlavor.javaFileListFlavor);
-							java.util.Iterator iterator = fileList.iterator();
 
 							// Convert list to array
 							java.io.File[] filesTemp = new java.io.File[fileList.size()];
@@ -439,13 +436,13 @@ public class FileDrop {
 		if (supportsDnD == null) {
 			boolean support = false;
 			try {
-				Class arbitraryDndClass = Class.forName("java.awt.dnd.DnDConstants");
+				Class.forName("java.awt.dnd.DnDConstants");
 				support = true;
 			} // end try
 			catch (Exception e) {
 				support = false;
 			} // end catch
-			supportsDnD = new Boolean(support);
+			supportsDnD = Boolean.valueOf(support);
 		} // end if: first time through
 		return supportsDnD.booleanValue();
 	} // end supportsDnD

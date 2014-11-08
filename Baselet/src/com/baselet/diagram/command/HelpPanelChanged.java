@@ -9,7 +9,7 @@ import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
 
 public class HelpPanelChanged extends Command {
-	private String changed_to;
+	private final String changed_to;
 	private String changed_from;
 
 	public HelpPanelChanged(String text) {
@@ -30,9 +30,6 @@ public class HelpPanelChanged extends Command {
 		for (String t : txt) {
 			Matcher m = p.matcher(t);
 			if (m.matches()) {
-				if (t.contains("//")) {
-					t = t.split("//")[0];
-				}
 				return Double.parseDouble(m.group(1));
 			}
 		}
@@ -48,9 +45,6 @@ public class HelpPanelChanged extends Command {
 		for (String t : txt) {
 			Matcher m = p.matcher(t);
 			if (m.matches()) {
-				if (t.contains("//")) {
-					t = t.split("//")[0];
-				}
 				return m.group(1);
 			}
 		}

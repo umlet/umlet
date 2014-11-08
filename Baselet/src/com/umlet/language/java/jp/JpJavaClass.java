@@ -23,10 +23,10 @@ import com.umlet.language.java.Method;
 public class JpJavaClass implements JavaClass {
 
 	private CompilationUnit cu;
-	private List<MethodDeclaration> methods = new ArrayList<MethodDeclaration>();
-	private List<ConstructorDeclaration> constructors = new ArrayList<ConstructorDeclaration>();
+	private final List<MethodDeclaration> methods = new ArrayList<MethodDeclaration>();
+	private final List<ConstructorDeclaration> constructors = new ArrayList<ConstructorDeclaration>();
 	private ClassOrInterfaceDeclaration clazz;
-	private List<FieldDeclaration> fields = new ArrayList<FieldDeclaration>();
+	private final List<FieldDeclaration> fields = new ArrayList<FieldDeclaration>();
 
 	public JpJavaClass(String filename) throws ClassParserException {
 		FileInputStream in = null;
@@ -41,7 +41,7 @@ public class JpJavaClass implements JavaClass {
 				if (in != null) {
 					in.close();
 				}
-			} catch (IOException ignored) {}
+			} catch (IOException ignored) {/* ignore */}
 		}
 		extractInformation(filename);
 	}

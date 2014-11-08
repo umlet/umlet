@@ -18,6 +18,7 @@ import com.baselet.control.Main;
 import com.baselet.control.SharedUtils;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
+import com.baselet.control.enums.RuntimeType;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.io.DiagramFileHandler;
@@ -28,6 +29,8 @@ import com.baselet.gui.CurrentGui;
 import com.baselet.gui.listener.DiagramListener;
 import com.baselet.gui.listener.GridElementListener;
 import com.baselet.gui.listener.OldRelationListener;
+import com.baselet.gui.standalone.FileDrop;
+import com.baselet.gui.standalone.FileDropListener;
 import com.baselet.gui.standalone.StandaloneGUI;
 import com.umlet.element.Relation;
 import com.umlet.elementnew.ComponentSwing;
@@ -59,6 +62,7 @@ public class DiagramHandler {
 		isChanged = false;
 		enabled = true;
 		drawpanel = new DrawPanel(this);
+		initStartupTextAndFileDrop();
 		controller = new Controller(this);
 		fontHandler = new FontHandler(this);
 		fileHandler = DiagramFileHandler.createInstance(this, diagram);
@@ -80,6 +84,18 @@ public class DiagramHandler {
 		}
 
 		initDiagramPopupMenu(extendedPopupMenu);
+	}
+
+	@SuppressWarnings("unused")
+	protected void initStartupTextAndFileDrop() {
+		// If this is not a palette, create a StartupHelpText
+		if (!(this instanceof PaletteHandler)) {
+			StartUpHelpText startupHelpText = new StartUpHelpText(drawpanel);
+			if (Program.RUNTIME_TYPE != RuntimeType.BATCH) { // Batchmode doesn't need drag&drop. Also fixes Issue 81
+				new FileDrop(startupHelpText, new FileDropListener());
+			}
+			drawpanel.add(startupHelpText);
+		}
 	}
 
 	protected void initDiagramPopupMenu(boolean extendedPopupMenu) {
