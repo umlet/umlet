@@ -3,22 +3,24 @@ package com.umlet.element.activity;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.DiagramHandler;
 
 public class Container extends Element {
 
-	private ArrayList<Column> columns;
+	private final ArrayList<Column> columns;
 	private StartElement start;
 	private StopElement stop;
-	private Container parent;
-	private ArrayList<Row> rows;
+	private final Container parent;
+	private final ArrayList<Row> rows;
 	private int max_row;
 	private int current_row;
 	private int init_row;
+	private final AtomicBoolean autoInsertIF;
 
-	public Container(DiagramHandler handler, Graphics2D g, Container parent, ArrayList<Row> rows, int row) {
+	public Container(AtomicBoolean autoInsertIF, DiagramHandler handler, Graphics2D g, Container parent, ArrayList<Row> rows, int row) {
 		super(handler, g, 0, null);
 		columns = new ArrayList<Column>();
 		columns.add(new Column(g));
@@ -28,7 +30,9 @@ public class Container extends Element {
 		current_row = row;
 		this.parent = parent;
 
-		if (Const.autoInsertIF && this.parent != null) {
+		this.autoInsertIF = autoInsertIF;
+
+		if (autoInsertIF.get() && this.parent != null) {
 			setStartElement(new If(handler, g, null));
 		}
 		else if (this.parent != null) {
@@ -37,13 +41,13 @@ public class Container extends Element {
 	}
 
 	public Container addNewContainer() {
-		Container c = new Container(getHandler(), getGraphics(), this, rows, current_row);
+		Container c = new Container(autoInsertIF, getHandler(), getGraphics(), this, rows, current_row);
 		columns.get(columns.size() - 1).addElement(c);
 		return c;
 	}
 
 	public Container addNewWhile(String condition) {
-		Container c = new While(getHandler(), getGraphics(), this, rows, current_row, condition);
+		Container c = new While(autoInsertIF, getHandler(), getGraphics(), this, rows, current_row, condition);
 		columns.get(columns.size() - 1).addElement(c);
 		return c;
 	}
@@ -64,7 +68,7 @@ public class Container extends Element {
 	}
 
 	public Container close() {
-		if (Const.autoInsertIF && parent != null) {
+		if (autoInsertIF.get() && parent != null) {
 			setStopElement(new EndIf(getHandler(), getGraphics(), null));
 		}
 		else if (parent != null) {

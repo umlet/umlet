@@ -124,7 +124,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		developerMode.setSelected(SharedConfig.getInstance().isDev_mode());
 		ui_manager.setSelectedIndex(uis_technicalNames.indexOf(Config.getInstance().getUiManager()));
 		default_fontsize.setSelectedItem(Config.getInstance().getDefaultFontsize());
-		propertiesPanelFontsize.setSelectedItem(Constants.propertiesPanelFontsize);
+		propertiesPanelFontsize.setSelectedItem(Config.getInstance().getPropertiesPanelFontsize());
 		default_fontfamily.setSelectedItem(Config.getInstance().getDefaultFontFamily());
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -178,7 +178,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 				d.getDrawPanel().updateElements();
 				d.getDrawPanel().repaint();
 			}
-			Constants.propertiesPanelFontsize = (Integer) propertiesPanelFontsize.getSelectedItem();
+			Config.getInstance().setPropertiesPanelFontsize((Integer) propertiesPanelFontsize.getSelectedItem());
 
 			String newfamily = (String) default_fontfamily.getSelectedItem();
 			Config.getInstance().setDefaultFontFamily(newfamily);

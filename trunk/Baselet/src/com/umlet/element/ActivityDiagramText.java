@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,6 +41,8 @@ import com.umlet.element.activity.Sync;
 
 @SuppressWarnings("serial")
 public class ActivityDiagramText extends OldGridElement {
+
+	private final AtomicBoolean autoInsertIF = new AtomicBoolean();
 
 	private ArrayList<Row> rows;
 	private ArrayList<Container> containers;
@@ -87,7 +90,7 @@ public class ActivityDiagramText extends OldGridElement {
 		containers = new ArrayList<Container>();
 		elements = new HashMap<String, Element>();
 		rows.add(new Row());
-		root_container = new Container(Main.getHandlerForElement(this), graphics, null, rows, 0);
+		root_container = new Container(autoInsertIF, Main.getHandlerForElement(this), graphics, null, rows, 0);
 		current_container = root_container;
 		title = null;
 		goto_seperation_left = (int) (5 * zoom);
@@ -199,10 +202,10 @@ public class ActivityDiagramText extends OldGridElement {
 			return;
 		}
 
-		Const.autoInsertIF = true;
+		autoInsertIF.set(true);
 		while (lines.size() > 0 && lines.elementAt(0).startsWith("var:")) {
 			if (lines.elementAt(0).equals("var:noautoif")) {
-				Const.autoInsertIF = false;
+				autoInsertIF.set(false);
 			}
 			lines.remove(0);
 		}

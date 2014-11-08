@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import com.baselet.control.config.Config;
 import com.baselet.control.enums.Program;
 
 public abstract class Constants extends SharedConstants {
@@ -140,14 +141,12 @@ public abstract class Constants extends SharedConstants {
 	public static final int MIN_MAIN_SPLITPANEL_SIZE = 100;
 	public static final int MIN_MAIL_SPLITPANEL_SIZE = 250;
 
-	public static Integer propertiesPanelFontsize = 11;
-
 	public static Font getPanelHeaderFont() {
-		return new Font(Font.SANS_SERIF, Font.BOLD, propertiesPanelFontsize);
+		return new Font(Font.SANS_SERIF, Font.BOLD, Config.getInstance().getPropertiesPanelFontsize());
 	}
 
 	public static Font getPanelContentFont() {
-		return new Font(Font.MONOSPACED, Font.PLAIN, propertiesPanelFontsize);
+		return new Font(Font.MONOSPACED, Font.PLAIN, Config.getInstance().getPropertiesPanelFontsize());
 	}
 
 }
