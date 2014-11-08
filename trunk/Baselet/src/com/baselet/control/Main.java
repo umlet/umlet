@@ -190,8 +190,8 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			Attributes attributes = Path.manifest().getMainAttributes();
 			Program.getInstance().init(attributes.getValue(Constants.MANIFEST_BUNDLE_VERSION));
 		} catch (Exception e) {
-			// log.error(null, e);
-			e.printStackTrace(); // Logger is not initialized here
+			log.error("Cannot read manifest", e);
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -222,7 +222,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 
 		try {
 			handler.getFileHandler().doExportAs(outputFormat, new File(outputFileName));
-			printToConsole("Conversion finished: " + inputFile.getAbsolutePath());
+			printToConsole("Conversion finished: \"" + inputFile.getAbsolutePath() + "\" to \"" + outputParam + "\"");
 		} catch (Exception e) {
 			printToConsole(e.getMessage());
 		}
