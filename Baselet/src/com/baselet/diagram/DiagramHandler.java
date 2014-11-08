@@ -79,9 +79,11 @@ public class DiagramHandler {
 			}
 		}
 
-		if (!(this instanceof PaletteHandler)) {
-			drawpanel.setComponentPopupMenu(new DiagramPopupMenu(extendedPopupMenu));
-		}
+		initDiagramPopupMenu(extendedPopupMenu);
+	}
+
+	protected void initDiagramPopupMenu(boolean extendedPopupMenu) {
+		drawpanel.setComponentPopupMenu(new DiagramPopupMenu(extendedPopupMenu));
 	}
 
 	public void setEnabled(boolean en) {
