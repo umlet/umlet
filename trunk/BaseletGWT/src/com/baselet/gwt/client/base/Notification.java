@@ -33,7 +33,7 @@ public class Notification {
 		private static Timer timer;
 		private static Timer timerFader;
 
-		public static void fade(final Element element, final float startOpacity, final float endOpacity, final int delay, final int totalTimeMillis) {
+		public synchronized static void fade(final Element element, final float startOpacity, final float endOpacity, final int delay, final int totalTimeMillis) {
 			if (timer != null) {
 				timer.cancel();
 			}

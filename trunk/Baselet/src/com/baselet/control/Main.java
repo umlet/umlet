@@ -278,7 +278,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 		}
 		try {
 			Thread.sleep(2000);
-		} catch (Exception ex) {}
+		} catch (InterruptedException ex) {/* no special handling */}
 		File f2 = new File(Path.temp() + tmp_read_file);
 		if (!f2.exists() || !write_successful) // if the ok file does not exist or the filename couldnt be written.
 		{

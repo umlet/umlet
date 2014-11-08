@@ -33,10 +33,6 @@ public class CommandInvoker extends Controller {
 		executeCommand(new AddGridElementCommand(target, elements));
 	}
 
-	void addElements(CommandTarget target, Collection<GridElement> elements) {
-		addElements(target, elements);
-	}
-
 	void removeElements(CommandTarget target, List<GridElement> elements) {
 		executeCommand(new RemoveGridElementCommand(target, elements));
 	}
