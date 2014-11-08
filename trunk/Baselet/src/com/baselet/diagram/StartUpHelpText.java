@@ -14,22 +14,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JEditorPane;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.config.ConfigConst;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Metakey;
 import com.baselet.control.enums.Program;
 import com.baselet.control.util.Path;
 import com.baselet.control.util.Utils;
-import com.baselet.gui.BrowserLauncher;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.listener.HyperLinkActiveListener;
 
@@ -37,13 +34,10 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger log = Logger.getLogger(StartUpHelpText.class);
+	static final Logger log = Logger.getLogger(StartUpHelpText.class);
 
 	private DrawPanel panel;
 	private boolean visible;
-
-	private static String filename;
-	private static Thread updateChecker;
 
 	public StartUpHelpText(DrawPanel panel) {
 		super();
@@ -57,21 +51,15 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		panel.addContainerListener(this);
 		panel.addComponentListener(this);
 		addMouseListener(new DelegatingMouseListener());
-
-		startUpdatechecker();
 		try {
-			if (filename == null) {
-				filename = createTempFileWithText(getDefaultTextWithReplacedSystemspecificMetakeys());
+			if (UpdateCheckTimerTask.filename == null) {
+				showHTML(createTempFileWithText(getDefaultTextWithReplacedSystemspecificMetakeys()));
 			}
-			showHTML();
+			else {
+				showHTML(UpdateCheckTimerTask.filename);
+			}
 		} catch (Exception e) {
-			log.error(null, e);
-		}
-	}
-
-	private void startUpdatechecker() {
-		if (ConfigConst.checkForUpdates && updateChecker == null) {
-			new Timer("Update Checker", true).schedule(new Updater(), 2000);
+			throw new RuntimeException("Cannot read startup info file");
 		}
 	}
 
@@ -93,11 +81,11 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		}
 	}
 
-	private static String getStartUpFileName() {
+	static String getStartUpFileName() {
 		return Path.homeProgram() + "html/startuphelp.html";
 	}
 
-	private void showHTML() throws Exception {
+	private void showHTML(String filename) throws MalformedURLException, IOException {
 		this.setPage(new URL("file:///" + filename));
 		addHyperlinkListener(new HyperLinkActiveListener());
 		setEditable(false);
@@ -106,7 +94,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		setSelectedTextColor(getForeground());
 	}
 
-	private static String createTempFileWithText(String textToWriteIntoFile) throws IOException {
+	static String createTempFileWithText(String textToWriteIntoFile) throws IOException {
 		File tempFile = File.createTempFile(Program.NAME + "_startupfile", ".html");
 		tempFile.deleteOnExit();
 		FileWriter w = new FileWriter(tempFile);
@@ -115,7 +103,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		return tempFile.getAbsolutePath();
 	}
 
-	private String getDefaultTextWithReplacedSystemspecificMetakeys() throws FileNotFoundException {
+	private static String getDefaultTextWithReplacedSystemspecificMetakeys() throws FileNotFoundException {
 		String text = "";
 		Scanner sc = null;
 		try {
@@ -209,65 +197,6 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			panel.getHandler().getListener().mouseReleased(e);
-		}
-	}
-
-	// TODO: If the thread takes too much time, the update message is only shown if a new panel is opened
-	private class Updater extends TimerTask {
-		@Override
-		public void run() {
-			try {
-				String newVersionText = getNewVersionTextWithStartupHtmlFormat(getStartUpFileName());
-				if (newVersionText != null) { // The text is != null if a new version exists
-					filename = createTempFileWithText(newVersionText);
-				}
-			} catch (Exception e) {
-				log.error("Error at checking for new " + Program.NAME + " version", e);
-			}
-		}
-
-		private String getNewVersionTextWithStartupHtmlFormat(String startupFileName) throws IOException {
-			String textFromURL = getNewVersionTextFromURL();
-			if (textFromURL == null) {
-				return null;
-			}
-
-			String returnText = "";
-			Scanner sc = null;
-			try {
-				sc = new Scanner(new File(startupFileName));
-				while (sc.hasNextLine()) {
-					String line = sc.nextLine();
-					if (line.contains("<body>")) {
-						break;
-					}
-					returnText += line + "\n";
-				}
-				returnText += textFromURL + "</body></html>";
-			} finally {
-				if (sc != null) {
-					sc.close();
-				}
-			}
-			return returnText;
-		}
-
-		private String getNewVersionTextFromURL() throws IOException {
-			String versionText = BrowserLauncher.readURL(Program.WEBSITE + "/current_umlet_version_changes.txt");
-			versionText = versionText.replace("<", "&lt;").replace(">", "&gt;").replace("&", "&amp;").replace("\"", "&quot;"); // escape html characters for safety
-			String[] splitString = versionText.split("\n");
-			String actualVersion = splitString[0];
-			if (Program.VERSION.compareTo(actualVersion) >= 0)
-			{
-				return null; // no newer version found
-			}
-
-			String returnText = "<p><b>A new version of " + Program.NAME + " (" + actualVersion + ") is available at <a href=\"" + Program.WEBSITE + "\">" + Program.WEBSITE.substring("http://".length()) + "</a></b></p>";
-			// Every line after the first one describes a feature of the new version and will be listed
-			for (int i = 1; i < splitString.length; i++) {
-				returnText += "<p>" + splitString[i] + "</p>";
-			}
-			return returnText;
 		}
 	}
 }

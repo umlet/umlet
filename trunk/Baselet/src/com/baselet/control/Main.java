@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.baselet.control.config.Config;
+import com.baselet.control.config.ConfigConst;
 import com.baselet.control.config.handler.ConfigHandler;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
@@ -41,6 +42,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.Notifier;
 import com.baselet.diagram.PaletteHandler;
+import com.baselet.diagram.UpdateCheckTimerTask;
 import com.baselet.diagram.io.OpenFileChooser;
 import com.baselet.element.GridElement;
 import com.baselet.gui.BaseGUI;
@@ -57,7 +59,6 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 	private static String tmp_file;
 	private static String tmp_read_file;
 	private static boolean file_created = false;
-	private static Timer timer;
 
 	private GridElement editedGridElement;
 	private TreeMap<String, PaletteHandler> palettes;
@@ -70,8 +71,9 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 
 	public static void main(final String[] args) {
 		initHomeProgramPath();
-		main.readManifestInfo();
 		main.initLogger();
+		main.readManifestInfo();
+		ConfigHandler.loadConfig();
 		tmp_file = Program.NAME.toLowerCase() + ".tmp";
 		tmp_read_file = Program.NAME.toLowerCase() + "_1.tmp";
 
@@ -107,7 +109,6 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			else if (action != null && format != null && filename != null) {
 				if (action.equals("convert")) {
 					Program.RUNTIME_TYPE = RuntimeType.BATCH;
-					ConfigHandler.loadConfig();
 					String[] splitFilename = filename.split("(/|\\\\)");
 					String localName = splitFilename[splitFilename.length - 1];
 					String dir = filename.substring(0, filename.length() - localName.length());
@@ -132,6 +133,9 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 		}
 		else { // no arguments specified
 			alreadyRunningChecker(true); // start checker
+			if (ConfigConst.checkForUpdates) {
+				new Timer("Update Checker", true).schedule(new UpdateCheckTimerTask(), 0);
+			}
 			main.init(new StandaloneGUI(main));
 			main.doNew();
 		}
@@ -148,7 +152,6 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 
 	public void init(BaseGUI gui) {
 		CurrentGui.getInstance().setGui(gui);
-		ConfigHandler.loadConfig(); // only load config after gui is set (because of homepath)
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE); // Tooltips should not hide after some time
 		gui.initGUI(); // show gui
 	}
@@ -256,8 +259,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			}
 			f.createNewFile();
 			file_created = true;
-			timer = new Timer("alreadyRunningChecker", true);
-			timer.schedule(new RunningFileChecker(Path.temp() + tmp_file, Path.temp() + tmp_read_file, main), 0, 1000);
+			new Timer("alreadyRunningChecker", true).schedule(new RunningFileChecker(Path.temp() + tmp_file, Path.temp() + tmp_read_file, main), 0, 1000);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return true;
@@ -446,7 +448,6 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 	public void closeProgram() {
 		ConfigHandler.saveConfig(CurrentGui.getInstance().getGui());
 		if (file_created) {
-			timer.cancel();
 			new File(Path.temp() + tmp_file).delete();
 		}
 	}

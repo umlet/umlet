@@ -38,7 +38,7 @@ public class CustomElementHandler {
 		errorhandler = new ErrorHandler(codepane);
 		codepane.getTextComponent().addMouseMotionListener(errorhandler);
 		preview = new CustomPreviewHandler();
-		timer = new Timer(true);
+		timer = new Timer("customElementTimer", true);
 		changed = false;
 		compilation_running = false;
 		old_text = null;

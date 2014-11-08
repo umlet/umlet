@@ -1,6 +1,5 @@
 package com.baselet.control.enums;
 
-import com.baselet.control.constants.SharedConstants;
 
 /**
  * PROGRAM, PLATTFORM AND JAVA SPECIFIC SETTINGS
