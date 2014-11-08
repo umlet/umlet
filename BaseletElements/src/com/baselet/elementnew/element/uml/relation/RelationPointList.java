@@ -164,14 +164,14 @@ public class RelationPointList {
 	}
 
 	public String toAdditionalAttributesString() {
-		String returnString = "";
+		StringBuilder sb = new StringBuilder("");
 		for (RelationPoint p : points) {
-			returnString += p.getPoint().getX() + ";" + p.getPoint().getY() + ";";
+			sb.append(p.getPoint().getX()).append(";").append(p.getPoint().getY()).append(";");
 		}
-		if (!returnString.isEmpty()) {
-			returnString = returnString.substring(0, returnString.length() - 1);
+		if (sb.length() > 0) {
+			sb.setLength(sb.length() - 1);
 		}
-		return returnString;
+		return sb.toString();
 	}
 
 	@Override

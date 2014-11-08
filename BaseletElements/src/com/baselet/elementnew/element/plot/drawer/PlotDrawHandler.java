@@ -484,12 +484,12 @@ public class PlotDrawHandler {
 			int height = canvas.getInnerVerticalDrawspace();
 			int width = canvas.getInnerHorizontalDrawspace();
 
-			base.drawArc(ulCorner.x + width / 2 - diameter / 2, ulCorner.y + height / 2 - diameter / 2, diameter, diameter, startAngle.floatValue(), arcAngle.floatValue(), false);
+			base.drawArc(ulCorner.x + width / 2.0 - diameter / 2.0, ulCorner.y + height / 2.0 - diameter / 2.0, diameter, diameter, startAngle.floatValue(), arcAngle.floatValue(), false);
 			base.setForegroundColor(currentFg);
 
 			double radians = (360 - startAngle + (360 - arcAngle / 2)) * Math.PI / 180.0;
-			int value_x = (int) (diameter / 2 * Math.cos(radians)) + ulCorner.x + diameter / 2 + width / 2 - diameter / 2;
-			int value_y = (int) (diameter / 2 * Math.sin(radians)) + ulCorner.y + diameter / 2 + height / 2 - diameter / 2;
+			int value_x = (int) (diameter / 2.0 * Math.cos(radians) + ulCorner.x + diameter / 2.0 + width / 2.0 - diameter / 2.0);
+			int value_y = (int) (diameter / 2.0 * Math.sin(radians) + ulCorner.y + diameter / 2.0 + height / 2.0 - diameter / 2.0);
 
 			base.setForegroundColor(ColorOwn.forStringOrNull(colors.get(cIndex), Transparency.FOREGROUND).darken(75));
 			base.print(desc[i], value_x, value_y, AlignHorizontal.CENTER);

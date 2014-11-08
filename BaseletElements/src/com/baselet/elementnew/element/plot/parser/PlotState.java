@@ -7,11 +7,11 @@ import java.util.List;
 
 public class PlotState {
 
-	private List<PlotState> subPlots;
+	private final List<PlotState> subPlots;
 
 	private DataSet dataset;
-	private HashMap<String, KeyValue> values;
-	private int plotLineNr;
+	private final HashMap<String, KeyValue> values;
+	private final int plotLineNr;
 
 	protected PlotState(int plotLineNr, HashMap<String, KeyValue> values) {
 		subPlots = new ArrayList<PlotState>();
@@ -156,12 +156,13 @@ public class PlotState {
 	 * Checks if all declared values are used. It throws an error for declarations which are not used by the plot (=they are invalid)
 	 */
 	public void checkIfAllValuesUsed() {
-		String unusedVariables = "";
+		StringBuilder sb = new StringBuilder("");
 		for (KeyValue keyValue : values.values()) {
 			if (!keyValue.isUsed()) {
-				unusedVariables += "\"" + keyValue.getKey() + "=" + keyValue.getValue() + "\" (line " + keyValue.getLine() + ") ";
+				sb.append("\"").append(keyValue.getKey()).append("=").append(keyValue.getValue()).append("\" (line ").append(keyValue.getLine()).append(") ");
 			}
 		}
+		String unusedVariables = sb.toString();
 		if (!unusedVariables.isEmpty()) {
 			throw new ParserException("Invalid variables: " + unusedVariables);
 		}
@@ -169,23 +170,23 @@ public class PlotState {
 
 	@Override
 	public String toString() {
-		String returnString = "";
-		returnString += "PlotState (" + plotLineNr + ")\n";
+		StringBuilder sb = new StringBuilder("");
+		sb.append("PlotState (").append(plotLineNr).append(")\n");
 		if (dataset != null) {
-			returnString += "\tdataset -> " + dataset.getLineNr() + "\n";
+			sb.append("\tdataset -> ").append(dataset.getLineNr()).append("\n");
 		}
 		for (KeyValue keyValue : values.values()) {
-			returnString += "\t" + keyValue + "\n";
+			sb.append("\t").append(keyValue).append("\n");
 		}
 
 		if (!subPlots.isEmpty()) {
-			returnString += "---Begin Subplots---\n";
+			sb.append("---Begin Subplots---\n");
 			for (PlotState subPlot : subPlots) {
-				returnString += subPlot.toString();
+				sb.append(subPlot.toString());
 			}
-			returnString += "---End Subplots---\n";
+			sb.append("---End Subplots---\n");
 		}
 
-		return returnString;
+		return sb.toString();
 	}
 }

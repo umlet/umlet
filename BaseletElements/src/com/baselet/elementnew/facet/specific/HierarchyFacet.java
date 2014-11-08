@@ -100,7 +100,7 @@ public class HierarchyFacet extends GlobalFacet {
 			upperLeftPoint = new PointDouble(xPos + fullWidth * 0.5, yPos + fullHeight + ARROW_LENGTH);
 			PointDouble lowerRightPoint = new PointDouble(xPos, yPos + fullHeight * 0.5);
 			drawLinesAndUpperLeftSymbol(lowerRightPoint, drawer, cache, lineWithoutTabs, tabCount, true);
-			drawer.print(lineWithoutTabs, new PointDouble(xPos + fullWidth / 2, yPos + fullHeight / 2 + drawer.textHeight(lineWithoutTabs) / 2), AlignHorizontal.CENTER);
+			drawer.print(lineWithoutTabs, new PointDouble(xPos + fullWidth / 2.0, yPos + fullHeight / 2.0 + drawer.textHeight(lineWithoutTabs) / 2.0), AlignHorizontal.CENTER);
 		}
 
 		// store last point as reference

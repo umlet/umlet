@@ -23,17 +23,17 @@ public class UseCase extends NewGridElement {
 		public StickingPolygon generateStickingBorder(Rectangle rect) {
 			StickingPolygon p = new StickingPolygon(rect.x, rect.y);
 
-			p.addPoint(rect.width / 4, 0);
-			p.addPoint(rect.width * 3 / 4, 0);
+			p.addPoint(rect.width / 4.0, 0);
+			p.addPoint(rect.width * 3.0 / 4, 0);
 
-			p.addPoint(rect.width, rect.height / 4);
-			p.addPoint(rect.width, rect.height * 3 / 4);
+			p.addPoint(rect.width, rect.height / 4.0);
+			p.addPoint(rect.width, rect.height * 3.0 / 4);
 
-			p.addPoint(rect.width * 3 / 4, rect.height);
-			p.addPoint(rect.width / 4, rect.height);
+			p.addPoint(rect.width * 3.0 / 4, rect.height);
+			p.addPoint(rect.width / 4.0, rect.height);
 
-			p.addPoint(0, rect.height * 3 / 4);
-			p.addPoint(0, rect.height / 4, true);
+			p.addPoint(0, rect.height * 3.0 / 4);
+			p.addPoint(0, (int) (rect.height / 4.0), true);
 
 			return p;
 		}
