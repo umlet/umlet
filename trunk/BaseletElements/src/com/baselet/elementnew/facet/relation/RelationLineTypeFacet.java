@@ -85,7 +85,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		StringBuilder sb = new StringBuilder();
 		for (RegexValueHolder r : valueHolderList) {
 			String simpleRegex = r.getRegexValue().replace(ArrowEnd.BOX_REGEX, "[text]").replaceAll("\\\\", "");
-			sb.append(simpleRegex).append(",");
+			sb.append(simpleRegex).append(',');
 		}
 		sb.setLength(sb.length() - 1);
 		return sb.toString();

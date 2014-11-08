@@ -26,7 +26,7 @@ public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
-		return getOrInit(state).firstSepFound == false;
+		return !(getOrInit(state).firstSepFound);
 	}
 
 	@Override

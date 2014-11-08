@@ -76,8 +76,8 @@ public class DrawCanvas {
 	private void drawEmptyInfoText() {
 		double elWidth = 440;
 		double elHeight = 150;
-		double elXPos = getWidth() / 2 - elWidth / 2;
-		double elYPos = getHeight() / 2 - elHeight;
+		double elXPos = getWidth() / 2.0 - elWidth / 2;
+		double elYPos = getHeight() / 2.0 - elHeight;
 		GridElement emptyElement = ElementFactory.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), HelptextResources.INSTANCE.helpText().getText(), "", null);
 		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false);
 

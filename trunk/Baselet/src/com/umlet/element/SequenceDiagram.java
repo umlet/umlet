@@ -63,7 +63,7 @@ class Interaction {
 		return srcObj == i.srcObj && srcObjHasControl == i.srcObjHasControl &&
 				arrowKind == i.arrowKind && destObj == i.destObj &&
 				destObjHasControl == i.destObjHasControl &&
-				methodName == null | methodName.equals(i.methodName);
+				methodName == null || methodName.equals(i.methodName);
 	}
 
 	@Override

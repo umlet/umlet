@@ -996,7 +996,7 @@ public class Relation extends OldGridElement {
 		boolean a = lineUp(startShapes, startPoints, 0, 0);
 		boolean b = lineUp(endShapes, endPoints, 0, 0);
 
-		if (a == false || b == false) {
+		if (!(a) || !(b)) {
 			return;
 		}
 
