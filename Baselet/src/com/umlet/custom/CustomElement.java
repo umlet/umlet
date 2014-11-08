@@ -36,7 +36,7 @@ import com.umlet.element.OldGridElement;
 @SuppressWarnings("serial")
 public abstract class CustomElement extends OldGridElement {
 
-	private class Text {
+	private static class Text {
 		private final String text;
 		private final int x, y;
 		private final AlignHorizontal align;

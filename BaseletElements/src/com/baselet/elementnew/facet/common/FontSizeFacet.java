@@ -7,7 +7,7 @@ import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class FontSizeFacet extends KeyValueFacet {
 
-	public static FontSizeFacet INSTANCE = new FontSizeFacet();
+	public static final FontSizeFacet INSTANCE = new FontSizeFacet();
 
 	private FontSizeFacet() {}
 

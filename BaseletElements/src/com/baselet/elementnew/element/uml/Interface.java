@@ -12,8 +12,8 @@ import com.baselet.elementnew.settings.SettingsAutoresize;
 
 public class Interface extends NewGridElement {
 
-	private final int TOP_DISTANCE = 10;
-	private final int CIRCLE_SIZE = 20;
+	private static final int TOP_DISTANCE = 10;
+	private static final int CIRCLE_SIZE = 20;
 
 	private final StickingPolygonGenerator interfacePolygonGenerator = new StickingPolygonGenerator() {
 		@Override

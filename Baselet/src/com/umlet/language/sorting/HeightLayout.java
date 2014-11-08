@@ -10,7 +10,7 @@ public class HeightLayout extends Layout {
 		super.simpleLayout(new HeightSorter(), elements);
 	}
 
-	private class HeightSorter implements Comparator<SortableElement> {
+	private static class HeightSorter implements Comparator<SortableElement> {
 
 		@Override
 		public int compare(SortableElement e1, SortableElement e2) {

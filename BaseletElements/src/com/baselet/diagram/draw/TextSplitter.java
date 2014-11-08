@@ -35,19 +35,20 @@ public class TextSplitter {
 		String splitChar = " ";
 		width -= drawer.textWidth("n"); // subtract a buffer to make sure no character is hidden at the end
 		ListIterator<String> inputIter = new ArrayList<String>(Arrays.asList(text.split(splitChar, -1))).listIterator(); // split limit is -1 to retain spaces at the end of the string
-		String line = "";
+		StringBuilder sb = new StringBuilder("");
 		while (inputIter.hasNext()) {
 			String nextEl = inputIter.next();
-			if (drawer.textWidth(line + nextEl) > width) {
+			if (drawer.textWidth(sb.toString() + nextEl) > width) {
 				inputIter.previous();
 				break;
 			}
-			line += nextEl + splitChar;
+			sb.append(nextEl).append(splitChar);
 			inputIter.remove();
 		}
-		if (!line.isEmpty()) { // cut the last splitChar
-			line = line.substring(0, line.length() - 1);
+		if (sb.length() > 0) { // cut the last splitChar
+			sb.setLength(sb.length() - 1);
 		}
+		String line = sb.toString();
 		if (inputIter.hasNext() && line.isEmpty()) { // if the line has no space and would be to wide for one line
 			String nextEl = inputIter.next();
 			String possibleLine = nextEl;
@@ -60,9 +61,9 @@ public class TextSplitter {
 	}
 
 	private static class SplitStringCacheKey {
-		private String input;
-		private double width;
-		private Style style; // must be part of key, because text width also depends on styling like fontsize
+		private final String input;
+		private final double width;
+		private final Style style; // must be part of key, because text width also depends on styling like fontsize
 
 		public SplitStringCacheKey(String input, double width, Style style) {
 			super();

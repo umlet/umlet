@@ -10,7 +10,7 @@ import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class LineTypeFacet extends KeyValueFacet {
 
-	public static LineTypeFacet INSTANCE = new LineTypeFacet();
+	public static final LineTypeFacet INSTANCE = new LineTypeFacet();
 
 	private LineTypeFacet() {}
 

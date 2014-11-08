@@ -22,10 +22,8 @@ public abstract class AbstractPlot {
 	protected PlotGridDrawConfig plotDrawConfig;
 	protected PlotState plotState;
 
-	private Integer xPosition;
-	private Integer yPosition;
-
-	protected Integer maxDatasetRows = Integer.MAX_VALUE;
+	private final Integer xPosition;
+	private final Integer yPosition;
 
 	public AbstractPlot(DrawHandler drawer, PlotGridDrawConfig plotDrawConfig, PlotState plotState, int xPosition, int yPosition) {
 		this.plotDrawConfig = plotDrawConfig;

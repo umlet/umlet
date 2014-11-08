@@ -61,7 +61,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		JFrame mainFrame = new JFrame();
 		mainFrame.addKeyListener(new GUIListener());
 		mainFrame.addKeyListener(new SearchKeyListener());
-		mainFrame.addWindowListener(new WindowListener());
+		mainFrame.addWindowListener(new SwingWindowListener());
 		mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		mainFrame.setBounds(ConfigConst.program_location.x, ConfigConst.program_location.y, ConfigConst.program_size.width, ConfigConst.program_size.height);
 		mainFrame.setTitle(Program.NAME + " - Free UML Tool for Fast UML Diagrams");

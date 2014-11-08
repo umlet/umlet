@@ -1,6 +1,5 @@
 package com.baselet.control.enums;
 
-
 /**
  * PROGRAM, PLATTFORM AND JAVA SPECIFIC SETTINGS
  **/
@@ -9,7 +8,7 @@ public class Program {
 	// Basically the RUNTIME_TYPE is STANDALONE until it gets overwritten after program startup
 	public static RuntimeType RUNTIME_TYPE = RuntimeType.STANDALONE;
 	public static String CONFIG_NAME;
-	public static String NAME = "UMLet";
+	public static final String NAME = "UMLet";
 	public static String EXTENSION = "uxf";
 	public static String WEBSITE;
 	public static String VERSION;

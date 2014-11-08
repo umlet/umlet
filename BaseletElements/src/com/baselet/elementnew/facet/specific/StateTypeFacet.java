@@ -38,7 +38,7 @@ public class StateTypeFacet extends KeyValueFacet {
 		}
 		else if (type == ActionTypeEnum.RECEIVER) {
 			state.addToLeftBuffer(depth(s));
-			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width, 0), p(s.width, s.height), p(0, s.height), p(depth(s), s.height / 2), p(0, 0)));
+			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width, 0), p(s.width, s.height), p(0, s.height), p(depth(s), s.height / 2.0), p(0, 0)));
 		}
 		state.setFacetResponse(StateTypeFacet.class, true);
 	}

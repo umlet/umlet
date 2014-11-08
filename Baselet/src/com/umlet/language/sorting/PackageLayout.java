@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import com.baselet.diagram.CurrentDiagram;
@@ -45,9 +46,9 @@ public class PackageLayout extends Layout {
 			x = pack.getElement().getRectangle();
 		}
 
-		for (SortableElement pack : packList.keySet()) {
-			adjustLocations(pack, packList.get(pack));
-			elements.add(pack);
+		for (Entry<SortableElement, List<SortableElement>> entry : packList.entrySet()) {
+			adjustLocations(entry.getKey(), entry.getValue());
+			elements.add(entry.getKey());
 		}
 	}
 

@@ -11,7 +11,7 @@ import com.baselet.gui.AutocompletionText;
 
 public class SeparatorLineFacet extends Facet {
 
-	public static SeparatorLineFacet INSTANCE = new SeparatorLineFacet();
+	public static final SeparatorLineFacet INSTANCE = new SeparatorLineFacet();
 
 	protected SeparatorLineFacet() {}
 

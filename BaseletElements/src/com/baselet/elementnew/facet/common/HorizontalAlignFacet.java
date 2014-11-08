@@ -7,7 +7,7 @@ import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class HorizontalAlignFacet extends KeyValueFacet {
 
-	public static HorizontalAlignFacet INSTANCE = new HorizontalAlignFacet();
+	public static final HorizontalAlignFacet INSTANCE = new HorizontalAlignFacet();
 
 	private HorizontalAlignFacet() {}
 

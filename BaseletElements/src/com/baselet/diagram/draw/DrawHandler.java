@@ -19,7 +19,7 @@ import com.baselet.diagram.draw.helper.StyleException;
 
 public abstract class DrawHandler {
 
-	protected double HALF_PX = 0.5f;
+	protected static final double HALF_PX = 0.5f;
 
 	private ColorOwn bgDefaultColor;
 	private ColorOwn fgDefaultColor;

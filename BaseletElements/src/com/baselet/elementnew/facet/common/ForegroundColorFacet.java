@@ -8,7 +8,7 @@ import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class ForegroundColorFacet extends KeyValueFacet {
 
-	public static ForegroundColorFacet INSTANCE = new ForegroundColorFacet();
+	public static final ForegroundColorFacet INSTANCE = new ForegroundColorFacet();
 
 	private ForegroundColorFacet() {}
 
