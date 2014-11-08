@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 
-import com.baselet.control.config.ConfigConst;
+import com.baselet.control.config.ConfigClassGen;
 import com.umlet.language.java.JavaClass;
 
 public class AlphabetLayout extends Layout {
@@ -16,7 +16,7 @@ public class AlphabetLayout extends Layout {
 
 	public static String getClassName(JavaClass parsedClass) {
 		String result = "";
-		if (ConfigConst.generateClassPackage) {
+		if (ConfigClassGen.getInstance().isGenerateClassPackage()) {
 			result += parsedClass.getPackage() + "::";
 		}
 		result += parsedClass.getName();

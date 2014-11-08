@@ -15,20 +15,18 @@ import com.baselet.control.enums.RuntimeType;
  */
 public class Config {
 
-	private static Config instance;
+	private static Config instance = new Config();
 
-	public synchronized static Config getInstance() {
-		if (instance == null) {
-			instance = new Config();
-		}
+	public static Config getInstance() {
 		return instance;
 	}
 
+	private final String DEFAULT_FILE_HOME = System.getProperty("user.dir");
+
 	private String uiManager;
-	private String openFileHome = Config.DEFAULT_FILE_HOME;
-	private String saveFileHome = Config.DEFAULT_FILE_HOME;
+	private String openFileHome = DEFAULT_FILE_HOME;
+	private String saveFileHome = DEFAULT_FILE_HOME;
 	private String programVersion;
-	public static final String DEFAULT_FILE_HOME = System.getProperty("user.dir");
 
 	public Config() {
 		initUiManager();
@@ -60,7 +58,7 @@ public class Config {
 			return openFileHome;
 		}
 		else { // if stored location doesn't exist, return default value
-			return Config.DEFAULT_FILE_HOME;
+			return DEFAULT_FILE_HOME;
 		}
 	}
 
@@ -73,7 +71,7 @@ public class Config {
 			return saveFileHome;
 		}
 		else { // if stored location doesn't exist, return default value
-			return Config.DEFAULT_FILE_HOME;
+			return DEFAULT_FILE_HOME;
 		}
 	}
 

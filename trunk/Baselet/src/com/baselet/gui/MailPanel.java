@@ -38,6 +38,7 @@ import javax.swing.UIManager;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.config.ConfigConst;
+import com.baselet.control.config.ConfigMail;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.diagram.CurrentDiagram;
@@ -64,65 +65,65 @@ public class MailPanel extends JPanel {
 	 * Components
 	 */
 
-	private GridBagLayout layout = new GridBagLayout();
+	private final GridBagLayout layout = new GridBagLayout();
 
-	private JLabel lb_from = new JLabel("From:");
-	private JTextField tf_from = new JTextField();
-	private JLink lnk_smtpInfo = new JLink(Program.WEBSITE + "/smtp.htm", "What is SMTP?");
+	private final JLabel lb_from = new JLabel("From:");
+	private final JTextField tf_from = new JTextField();
+	private final JLink lnk_smtpInfo = new JLink(Program.WEBSITE + "/smtp.htm", "What is SMTP?");
 
-	private JLabel lb_smtp = new JLabel("SMTP:");
-	private JTextField tf_smtp = new JTextField();
-	private JCheckBox cb_smtp_auth = new JCheckBox();
+	private final JLabel lb_smtp = new JLabel("SMTP:");
+	private final JTextField tf_smtp = new JTextField();
+	private final JCheckBox cb_smtp_auth = new JCheckBox();
 
-	private JLabel lb_smtpUser = new JLabel("User:");
-	private JTextField tf_smtpUser = new JTextField();
+	private final JLabel lb_smtpUser = new JLabel("User:");
+	private final JTextField tf_smtpUser = new JTextField();
 
-	private JLabel lb_smtpPW = new JLabel("PW:");
-	private JPasswordField pf_smtpPW = new JPasswordField();
-	private JCheckBox cb_pwSave = new JCheckBox();
+	private final JLabel lb_smtpPW = new JLabel("PW:");
+	private final JPasswordField pf_smtpPW = new JPasswordField();
+	private final JCheckBox cb_pwSave = new JCheckBox();
 
-	private JLabel lb_to = new JLabel("To:");
-	private JTextField tf_to = new JTextField();
+	private final JLabel lb_to = new JLabel("To:");
+	private final JTextField tf_to = new JTextField();
 
-	private JLabel lb_cc = new JLabel("CC:");
-	private JTextField tf_cc = new JTextField();
+	private final JLabel lb_cc = new JLabel("CC:");
+	private final JTextField tf_cc = new JTextField();
 
-	private JLabel lb_bcc = new JLabel("BCC:");
-	private JTextField tf_bcc = new JTextField();
+	private final JLabel lb_bcc = new JLabel("BCC:");
+	private final JTextField tf_bcc = new JTextField();
 
-	private JLabel lb_subject = new JLabel("Subject:");
-	private JTextField tf_subject = new JTextField();
+	private final JLabel lb_subject = new JLabel("Subject:");
+	private final JTextField tf_subject = new JTextField();
 
-	private JTextArea ta_text = new JTextArea(5, 5);
+	private final JTextArea ta_text = new JTextArea(5, 5);
 	JScrollPane sp_text = new JScrollPane(ta_text);
 
-	private JCheckBox cb_attachXml = new JCheckBox();
-	private JCheckBox cb_attachGif = new JCheckBox();
-	private JCheckBox cb_attachPdf = new JCheckBox();
+	private final JCheckBox cb_attachXml = new JCheckBox();
+	private final JCheckBox cb_attachGif = new JCheckBox();
+	private final JCheckBox cb_attachPdf = new JCheckBox();
 
-	private JButton bt_send = new JButton("Send");
-	private JButton bt_cancel = new JButton("Cancel");
+	private final JButton bt_send = new JButton("Send");
+	private final JButton bt_cancel = new JButton("Cancel");
 
-	private JPanel panel_attachments = new JPanel(new FlowLayout(FlowLayout.LEFT));
-	private JPanel panel_attachmentsWithButton = new JPanel(layout);
+	private final JPanel panel_attachments = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	private final JPanel panel_attachmentsWithButton = new JPanel(layout);
 
 	// the padding between lines is different for the labels and text components of the grid bag layout
-	private Insets paddingLeftLabel = new Insets(paddingTop, outerPaddingLeft, paddingBottom, halfHorizontalDividerSpace);
-	private Insets paddingMessagebox = new Insets(paddingTop, outerPaddingLeft, paddingBottom, outerPaddingRight);
-	private Insets paddingText = new Insets(paddingTop, halfHorizontalDividerSpace, paddingBottom, outerPaddingRight);
-	private Insets paddingCheckbox = new Insets(paddingTop - 2, halfHorizontalDividerSpace, paddingBottom - 2, outerPaddingRight);
-	private Insets paddingRightLabel = new Insets(paddingTop, halfHorizontalDividerSpace, paddingBottom, halfHorizontalDividerSpace);
-	private Insets noPadding = new Insets(0, 0, 0, 0);
+	private final Insets paddingLeftLabel = new Insets(paddingTop, outerPaddingLeft, paddingBottom, halfHorizontalDividerSpace);
+	private final Insets paddingMessagebox = new Insets(paddingTop, outerPaddingLeft, paddingBottom, outerPaddingRight);
+	private final Insets paddingText = new Insets(paddingTop, halfHorizontalDividerSpace, paddingBottom, outerPaddingRight);
+	private final Insets paddingCheckbox = new Insets(paddingTop - 2, halfHorizontalDividerSpace, paddingBottom - 2, outerPaddingRight);
+	private final Insets paddingRightLabel = new Insets(paddingTop, halfHorizontalDividerSpace, paddingBottom, halfHorizontalDividerSpace);
+	private final Insets noPadding = new Insets(0, 0, 0, 0);
 
 	// the label doesn't get any additional space. it's always as short as possible
-	private double noWeight = 0;
-	private double fullWeight = 1;
-	private double leftWeight = 0.75;
-	private double rightWeight = 0.25;
+	private final double noWeight = 0;
+	private final double fullWeight = 1;
+	private final double leftWeight = 0.75;
+	private final double rightWeight = 0.25;
 
 	// the constraint int to fill the width
-	private int fillWidth = GridBagConstraints.HORIZONTAL;
-	private int fillBoth = GridBagConstraints.BOTH;
+	private final int fillWidth = GridBagConstraints.HORIZONTAL;
+	private final int fillBoth = GridBagConstraints.BOTH;
 
 	public MailPanel() {
 
@@ -390,7 +391,7 @@ public class MailPanel extends JPanel {
 
 	/**
 	 * Adds a component to this panel
-	 * 
+	 *
 	 * @param gbl
 	 *            The GridBagLayout of this component
 	 * @param c
@@ -440,38 +441,40 @@ public class MailPanel extends JPanel {
 	}
 
 	private void storeConstants() {
-		ConfigConst.mail_smtp = tf_smtp.getText();
-		ConfigConst.mail_smtp_auth = cb_smtp_auth.isSelected();
-		ConfigConst.mail_smtp_user = tf_smtpUser.getText();
-		ConfigConst.mail_smtp_pw_store = cb_pwSave.isSelected();
+		ConfigMail cfgMail = ConfigMail.getInstance();
+		cfgMail.setMail_smtp(tf_smtp.getText());
+		cfgMail.setMail_smtp_auth(cb_smtp_auth.isSelected());
+		cfgMail.setMail_smtp_user(tf_smtpUser.getText());
+		cfgMail.setMail_smtp_pw_store(cb_pwSave.isSelected());
 		if (cb_pwSave.isSelected()) {
-			ConfigConst.mail_smtp_pw = String.valueOf(pf_smtpPW.getPassword());
+			cfgMail.setMail_smtp_pw(String.valueOf(pf_smtpPW.getPassword()));
 		}
 		else {
-			ConfigConst.mail_smtp_pw = "";
+			cfgMail.setMail_smtp_pw("");
 		}
-		ConfigConst.mail_from = tf_from.getText();
-		ConfigConst.mail_to = tf_to.getText();
-		ConfigConst.mail_cc = tf_cc.getText();
-		ConfigConst.mail_bcc = tf_bcc.getText();
-		ConfigConst.mail_xml = cb_attachXml.isSelected();
-		ConfigConst.mail_gif = cb_attachGif.isSelected();
-		ConfigConst.mail_pdf = cb_attachPdf.isSelected();
+		cfgMail.setMail_from(tf_from.getText());
+		cfgMail.setMail_to(tf_to.getText());
+		cfgMail.setMail_cc(tf_cc.getText());
+		cfgMail.setMail_bcc(tf_bcc.getText());
+		cfgMail.setMail_xml(cb_attachXml.isSelected());
+		cfgMail.setMail_gif(cb_attachGif.isSelected());
+		cfgMail.setMail_pdf(cb_attachPdf.isSelected());
 	}
 
 	private void readConstants() {
-		tf_smtp.setText(ConfigConst.mail_smtp);
-		cb_smtp_auth.setSelected(ConfigConst.mail_smtp_auth);
-		tf_smtpUser.setText(ConfigConst.mail_smtp_user);
-		cb_pwSave.setSelected(ConfigConst.mail_smtp_pw_store);
-		pf_smtpPW.setText(ConfigConst.mail_smtp_pw);
-		tf_from.setText(ConfigConst.mail_from);
-		tf_to.setText(ConfigConst.mail_to);
-		tf_cc.setText(ConfigConst.mail_cc);
-		tf_bcc.setText(ConfigConst.mail_bcc);
-		cb_attachXml.setSelected(ConfigConst.mail_xml);
-		cb_attachGif.setSelected(ConfigConst.mail_gif);
-		cb_attachPdf.setSelected(ConfigConst.mail_pdf);
+		ConfigMail cfgMail = ConfigMail.getInstance();
+		tf_smtp.setText(cfgMail.getMail_smtp());
+		cb_smtp_auth.setSelected(cfgMail.isMail_smtp_auth());
+		tf_smtpUser.setText(cfgMail.getMail_smtp_user());
+		cb_pwSave.setSelected(cfgMail.isMail_smtp_pw_store());
+		pf_smtpPW.setText(cfgMail.getMail_smtp_pw());
+		tf_from.setText(cfgMail.getMail_from());
+		tf_to.setText(cfgMail.getMail_to());
+		tf_cc.setText(cfgMail.getMail_cc());
+		tf_bcc.setText(cfgMail.getMail_bcc());
+		cb_attachXml.setSelected(cfgMail.isMail_xml());
+		cb_attachGif.setSelected(cfgMail.isMail_gif());
+		cb_attachPdf.setSelected(cfgMail.isMail_pdf());
 	}
 
 	private void setAllFonts() {
