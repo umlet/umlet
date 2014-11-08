@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.MenuConstants;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Direction;
@@ -466,7 +467,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			redraw();
 		}
 		else if (Shortcut.DISABLE_STICKING.matches(event)) {
-			SharedConstants.setStickingEnabled(false);
+			SharedConfig.getInstance().setStickingEnabled(false);
 		}
 		else {
 			avoidBrowserDefault = false;
@@ -481,7 +482,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	@Override
 	public void handleKeyUp(KeyUpEvent event) {
 		if (Shortcut.DISABLE_STICKING.matches(event)) {
-			SharedConstants.setStickingEnabled(true);
+			SharedConfig.getInstance().setStickingEnabled(true);
 		}
 	}
 

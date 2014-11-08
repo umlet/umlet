@@ -26,8 +26,8 @@ import javax.swing.ScrollPaneConstants;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.config.Config;
+import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.Constants;
-import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.util.Utils;
@@ -204,7 +204,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	}
 
 	public List<com.baselet.elementnew.element.uml.relation.Relation> getStickables(Collection<GridElement> excludeList) {
-		if (!SharedConstants.isStickingEnabled()) {
+		if (!SharedConfig.getInstance().isStickingEnabled()) {
 			return Collections.<com.baselet.elementnew.element.uml.relation.Relation> emptyList();
 		}
 		List<com.baselet.elementnew.element.uml.relation.Relation> returnList = getHelper(com.baselet.elementnew.element.uml.relation.Relation.class);

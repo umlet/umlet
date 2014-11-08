@@ -12,6 +12,7 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.SharedUtils;
+import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
@@ -149,13 +150,13 @@ public abstract class NewGridElement implements GridElement {
 		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
-		if (SharedConstants.isDev_mode()) {
+		if (SharedConfig.getInstance().isDev_mode()) {
 			drawer.setForegroundColor(ColorOwn.BLACK);
 			drawer.setFontSize(10.5);
 			drawer.print(getId().toString(), new PointDouble(getRealSize().width - 3, getRealSize().height - 2), AlignHorizontal.RIGHT);
 		}
 		drawer.resetColorSettings();
-		if (SharedConstants.show_stickingpolygon) {
+		if (SharedConfig.getInstance().isShow_stickingpolygon()) {
 			drawStickingPolygon(drawer);
 		}
 	}

@@ -2,7 +2,7 @@ package com.baselet.gwt.client;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.constants.SharedConstants;
+import com.baselet.control.config.SharedConfig;
 import com.baselet.gwt.client.base.Browser;
 import com.baselet.gwt.client.base.Notification;
 import com.baselet.gwt.client.element.BrowserStorage;
@@ -20,7 +20,7 @@ public class BaseletGWT implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		SharedConstants.setDev_mode(Location.getParameter("dev") != null);
+		SharedConfig.getInstance().setDev_mode(Location.getParameter("dev") != null);
 
 		if (!BrowserStorage.initLocalStorageAndCheckIfAvailable()) {
 			if (Browser.get() == Browser.INTERNET_EXPLORER && GWT.getHostPageBaseURL().startsWith("file:")) {
@@ -47,7 +47,7 @@ public class BaseletGWT implements EntryPoint {
 					Notification.showFeatureNotSupported("Cannot load application from server", false);
 				}
 			});
-			if (!SharedConstants.isDev_mode()) {
+			if (!SharedConfig.getInstance().isDev_mode()) {
 				Window.addWindowClosingHandler(new Window.ClosingHandler() {
 					@Override
 					public void onWindowClosing(Window.ClosingEvent closingEvent) {
