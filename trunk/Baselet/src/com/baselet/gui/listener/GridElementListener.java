@@ -28,8 +28,8 @@ import com.baselet.diagram.command.Macro;
 import com.baselet.diagram.command.Move;
 import com.baselet.diagram.command.MoveEnd;
 import com.baselet.diagram.command.OldMoveLinePoint;
-import com.baselet.diagram.command.OldResize;
 import com.baselet.diagram.command.OldRelationLinePoint;
+import com.baselet.diagram.command.OldResize;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.geom.Rectangle;
@@ -301,7 +301,7 @@ public class GridElementListener extends UniversalListener {
 			// reduce stickables to those which really stick at the element at move-start
 			StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(ge.getRectangle()), stickables, handler.getGridSize());
 			moveCommands.add(new Move(directions, ge, diffx, diffy, oldp, isShiftKeyDown, true, useSetLocation, stickingStickables));
-			boolean stickingDisabled = !SharedConstants.stickingEnabled || handler instanceof PaletteHandler;
+			boolean stickingDisabled = !SharedConstants.isStickingEnabled() || handler instanceof PaletteHandler;
 			if (ge instanceof Relation || stickingDisabled) {
 				continue;
 			}

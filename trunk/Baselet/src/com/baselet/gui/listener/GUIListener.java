@@ -21,7 +21,7 @@ public class GUIListener implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-			SharedConstants.stickingEnabled = false;
+			SharedConstants.setStickingEnabled(false);
 		}
 
 		DiagramHandler handler = CurrentDiagram.getInstance().getDiagramHandler();
@@ -92,7 +92,7 @@ public class GUIListener implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
-			SharedConstants.stickingEnabled = true;
+			SharedConstants.setStickingEnabled(true);
 		}
 	}
 

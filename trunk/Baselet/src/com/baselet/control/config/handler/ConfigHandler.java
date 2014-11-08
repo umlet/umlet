@@ -101,7 +101,7 @@ public class ConfigHandler {
 		ConfigConst.checkForUpdates = getBoolProperty(CHECK_FOR_UPDATES, ConfigConst.checkForUpdates);
 		cfg.setOpenFileHome(getStringProperty(OPEN_FILE_HOME, cfg.getOpenFileHome()));
 		cfg.setSaveFileHome(getStringProperty(SAVE_FILE_HOME, cfg.getSaveFileHome()));
-		SharedConstants.dev_mode = getBoolProperty(DEV_MODE, SharedConstants.dev_mode);
+		SharedConstants.setDev_mode(getBoolProperty(DEV_MODE, SharedConstants.isDev_mode()));
 		ConfigConst.lastUsedPalette = getStringProperty(LAST_USED_PALETTE, null);
 		ConfigConst.main_split_position = getIntProperty(MAIN_SPLIT_POSITION, ConfigConst.main_split_position);
 		ConfigConst.right_split_position = getIntProperty(RIGHT_SPLIT_POSITION, ConfigConst.right_split_position);
@@ -166,7 +166,7 @@ public class ConfigHandler {
 			props.setProperty(CHECK_FOR_UPDATES, Boolean.toString(ConfigConst.checkForUpdates));
 			props.setProperty(OPEN_FILE_HOME, cfg.getOpenFileHome());
 			props.setProperty(SAVE_FILE_HOME, cfg.getSaveFileHome());
-			props.setProperty(DEV_MODE, Boolean.toString(SharedConstants.dev_mode));
+			props.setProperty(DEV_MODE, Boolean.toString(SharedConstants.isDev_mode()));
 			props.setProperty(LAST_USED_PALETTE, ConfigConst.lastUsedPalette);
 
 			props.setProperty(MAIN_SPLIT_POSITION, Integer.toString(gui.getMainSplitPosition()));

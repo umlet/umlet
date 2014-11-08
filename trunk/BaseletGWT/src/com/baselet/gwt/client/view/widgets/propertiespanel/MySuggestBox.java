@@ -84,10 +84,10 @@ public class MySuggestBox extends SuggestBox {
 	}
 
 	private String replaceTextOfCurrentLine(String newText) {
-		String returnText = "";
+		StringBuilder sb = new StringBuilder("");
 		String wholeText = super.getText();
 		if (!wholeText.contains("\n")) {
-			returnText = newText;
+			sb.append(newText);
 		}
 		else {
 			boolean replaced = false;
@@ -96,16 +96,16 @@ public class MySuggestBox extends SuggestBox {
 			for (String line : wholeText.split("(\r)?\n", -1)) {
 				currentPos += line.length() + 1;
 				if (cursorPos < currentPos && !replaced) {
-					returnText += newText + "\n";
+					sb.append(newText).append("\n");
 					replaced = true;
 				}
 				else {
-					returnText += line + "\n";
+					sb.append(line).append("\n");
 				}
 			}
-			returnText = returnText.substring(0, returnText.length() - 1);
+			sb.setLength(sb.length() - 1);
 		}
-		return returnText;
+		return sb.toString();
 	}
 
 	public boolean getPaletteShouldIgnoreMouseClicks() {

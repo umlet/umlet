@@ -14,8 +14,24 @@ public class SharedConstants {
 
 	public static boolean show_stickingpolygon = true;
 
-	public static boolean dev_mode = false;
+	private static boolean dev_mode = false; // TODO should be moved to a shared config class
 
-	public static boolean stickingEnabled = true; // TODO temporarily implemented as "constant" to make it work for Swing and GWT
+	public static void setDev_mode(boolean dev_mode) {
+		SharedConstants.dev_mode = dev_mode;
+	}
+
+	public static boolean isDev_mode() {
+		return dev_mode;
+	}
+
+	private static boolean stickingEnabled = true;
+
+	public static void setStickingEnabled(boolean stickingEnabled) {
+		SharedConstants.stickingEnabled = stickingEnabled;
+	}
+
+	public static boolean isStickingEnabled() {
+		return stickingEnabled;
+	}
 
 }

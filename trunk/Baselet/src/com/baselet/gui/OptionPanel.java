@@ -122,7 +122,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		show_grid.setSelected(ConfigConst.show_grid);
 		enable_custom_elements.setSelected(ConfigConst.enable_custom_elements);
 		checkForUpdates.setSelected(ConfigConst.checkForUpdates);
-		developerMode.setSelected(SharedConstants.dev_mode);
+		developerMode.setSelected(SharedConstants.isDev_mode());
 		ui_manager.setSelectedIndex(uis_technicalNames.indexOf(Config.getInstance().getUiManager()));
 		default_fontsize.setSelectedItem(ConfigConst.defaultFontsize);
 		propertiesPanelFontsize.setSelectedItem(Constants.propertiesPanelFontsize);
@@ -151,7 +151,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 			ConfigConst.show_grid = show_grid.isSelected();
 			ConfigConst.enable_custom_elements = enable_custom_elements.isSelected();
 			ConfigConst.checkForUpdates = checkForUpdates.isSelected();
-			SharedConstants.dev_mode = developerMode.isSelected();
+			SharedConstants.setDev_mode(developerMode.isSelected());
 			ConfigConst.defaultFontsize = (Integer) default_fontsize.getSelectedItem();
 
 			String newui = uis_technicalNames.get(ui_manager.getSelectedIndex());

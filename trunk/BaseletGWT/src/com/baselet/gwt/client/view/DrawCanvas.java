@@ -58,7 +58,7 @@ public class DrawCanvas {
 	}
 
 	void draw(boolean drawEmptyInfo, List<GridElement> gridElements, Selector selector) {
-		if (SharedConstants.dev_mode) {
+		if (SharedConstants.isDev_mode()) {
 			CanvasUtils.drawGridOn(getContext2d());
 		}
 
