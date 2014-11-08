@@ -64,7 +64,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		mainFrame.addWindowListener(new SwingWindowListener());
 		mainFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		mainFrame.setBounds(Config.getInstance().getProgram_location().x, Config.getInstance().getProgram_location().y, Config.getInstance().getProgram_size().width, Config.getInstance().getProgram_size().height);
-		mainFrame.setTitle(Program.NAME + " - Free UML Tool for Fast UML Diagrams");
+		mainFrame.setTitle(Program.getInstance().getProgramName() + " - Free UML Tool for Fast UML Diagrams");
 
 		setImage(mainFrame);
 
@@ -92,7 +92,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		try {
 			ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
 			for (Integer i : new int[] { 16, 20, 24, 32, 40, 48, 64 }) {
-				File file = new File(Path.homeProgram() + "img/" + Program.NAME.toLowerCase() + "_logo" + i + ".png");
+				File file = new File(Path.homeProgram() + "img/" + Program.getInstance().getProgramName().toLowerCase() + "_logo" + i + ".png");
 				images.add(ImageIO.read(file));
 			}
 			mainFrame.setIconImages(images);

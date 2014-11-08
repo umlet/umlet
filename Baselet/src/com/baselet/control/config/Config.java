@@ -51,7 +51,7 @@ public class Config {
 		if (SystemInfo.OS == Os.MAC) {
 			uiManager = "javax.swing.plaf.metal.MetalLookAndFeel";
 		}
-		else if (Program.RUNTIME_TYPE == RuntimeType.ECLIPSE_PLUGIN && UIManager.getSystemLookAndFeelClassName().equals("com.sun.java.swing.plaf.gtk.GTKLookAndFeel")) {
+		else if (Program.getInstance().getRuntimeType() == RuntimeType.ECLIPSE_PLUGIN && UIManager.getSystemLookAndFeelClassName().equals("com.sun.java.swing.plaf.gtk.GTKLookAndFeel")) {
 			uiManager = "javax.swing.plaf.metal.MetalLookAndFeel";
 		}
 		else {

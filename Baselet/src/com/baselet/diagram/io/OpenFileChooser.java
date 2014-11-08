@@ -21,12 +21,12 @@ public class OpenFileChooser {
 		fileChooser.setFileFilter(new FileFilter() {
 			@Override
 			public boolean accept(File f) {
-				return f.getName().endsWith("." + Program.EXTENSION) || f.isDirectory();
+				return f.getName().endsWith("." + Program.getInstance().getExtension()) || f.isDirectory();
 			}
 
 			@Override
 			public String getDescription() {
-				return Program.NAME + " diagram format (*." + Program.EXTENSION + ")";
+				return Program.getInstance().getProgramName() + " diagram format (*." + Program.getInstance().getExtension() + ")";
 			}
 		});
 		fileChooser.setAcceptAllFileFilterUsed(false);

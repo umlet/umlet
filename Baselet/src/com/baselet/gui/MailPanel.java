@@ -69,7 +69,7 @@ public class MailPanel extends JPanel {
 
 	private final JLabel lb_from = new JLabel("From:");
 	private final JTextField tf_from = new JTextField();
-	private final JLink lnk_smtpInfo = new JLink(Program.WEBSITE + "/smtp.htm", "What is SMTP?");
+	private final JLink lnk_smtpInfo = new JLink(Program.getInstance().getWebsite() + "/smtp.htm", "What is SMTP?");
 
 	private final JLabel lb_smtp = new JLabel("SMTP:");
 	private final JTextField tf_smtp = new JTextField();
@@ -173,7 +173,7 @@ public class MailPanel extends JPanel {
 		ta_text.setText(Constants.getDefaultMailtext());
 
 		cb_pwSave.setText("save in config");
-		cb_attachXml.setText("attach " + Program.EXTENSION.toUpperCase());
+		cb_attachXml.setText("attach " + Program.getInstance().getExtension().toUpperCase());
 		cb_attachGif.setText("attach GIF");
 		cb_attachPdf.setText("attach PDF");
 		cb_smtp_auth.setText("authentication");
@@ -184,7 +184,7 @@ public class MailPanel extends JPanel {
 
 		// Set Tooltips
 		String adressToolTip = "Separate multiple adresses with ','";
-		cb_pwSave.setToolTipText("WARNING: The password is stored as plain text in " + Program.CONFIG_NAME);
+		cb_pwSave.setToolTipText("WARNING: The password is stored as plain text in " + Program.getInstance().getConfigName());
 		tf_from.setToolTipText(adressToolTip);
 		tf_to.setToolTipText(adressToolTip);
 		tf_cc.setToolTipText(adressToolTip);
@@ -239,7 +239,7 @@ public class MailPanel extends JPanel {
 			DiagramFileHandler fileHandler = CurrentDiagram.getInstance().getDiagramHandler().getFileHandler();
 			if (cb_attachXml.isSelected()) {
 				nrOfAttachments++;
-				diagramXml = fileHandler.doSaveTempDiagram(diagramName, Program.EXTENSION);
+				diagramXml = fileHandler.doSaveTempDiagram(diagramName, Program.getInstance().getExtension());
 			}
 			if (cb_attachGif.isSelected()) {
 				nrOfAttachments++;

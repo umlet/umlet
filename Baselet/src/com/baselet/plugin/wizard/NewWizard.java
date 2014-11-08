@@ -78,7 +78,7 @@ public class NewWizard extends Wizard implements INewWizard {
 		String fn = page.getFileName();
 		int dotLoc = fn.lastIndexOf('.');
 		if (dotLoc == -1) {
-			fn += "." + Program.EXTENSION;
+			fn += "." + Program.getInstance().getExtension();
 		}
 		final String fileName = fn;
 		IRunnableWithProgress op = new IRunnableWithProgress() {
@@ -154,7 +154,7 @@ public class NewWizard extends Wizard implements INewWizard {
 	 */
 
 	private InputStream openContentStream() {
-		String progName = Program.NAME.toLowerCase();
+		String progName = Program.getInstance().getProgramName().toLowerCase();
 		String contents = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><" + progName + "_diagram></" + progName + "_diagram>";
 		return new ByteArrayInputStream(contents.getBytes());
 	}

@@ -30,7 +30,7 @@ public abstract class Constants extends SharedConstants {
 				"" + NEWLINE +
 				"" + NEWLINE +
 				"//////////////////////////////////////////////////////////////////////////////////////////////" + NEWLINE +
-				"// Welcome to " + Program.NAME + "!" + NEWLINE +
+				"// Welcome to " + Program.getInstance().getProgramName() + "!" + NEWLINE +
 				"//" + NEWLINE +
 				"// Double-click on elements to add them to the diagram, or to copy them" + NEWLINE +
 				"// Edit elements by modifying the text in this panel" + NEWLINE +
@@ -55,7 +55,7 @@ public abstract class Constants extends SharedConstants {
 		return "Type your message here.." + NEWLINE +
 				"" + NEWLINE +
 				"__" + NEWLINE +
-				"To edit the diagram, open the attached " + Program.EXTENSION + "-file with the free editing tool " + Program.NAME + " (" + Program.WEBSITE + ")";
+				"To edit the diagram, open the attached " + Program.getInstance().getExtension() + "-file with the free editing tool " + Program.getInstance().getProgramName() + " (" + Program.getInstance().getWebsite() + ")";
 	}
 	//@formatter:on
 

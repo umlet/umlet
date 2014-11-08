@@ -25,7 +25,7 @@ public class UpdateCheckTimerTask extends TimerTask {
 				filename = StartUpHelpText.createTempFileWithText(newVersionText);
 			}
 		} catch (Exception e) {
-			StartUpHelpText.log.error("Error at checking for new " + Program.NAME + " version", e);
+			StartUpHelpText.log.error("Error at checking for new " + Program.getInstance().getProgramName() + " version", e);
 		}
 	}
 
@@ -61,16 +61,16 @@ public class UpdateCheckTimerTask extends TimerTask {
 	}
 
 	private static String getNewVersionTextFromURL() throws IOException {
-		String versionText = BrowserLauncher.readURL(Program.WEBSITE + "/current_umlet_version_changes.txt");
+		String versionText = BrowserLauncher.readURL(Program.getInstance().getWebsite() + "/current_umlet_version_changes.txt");
 		versionText = versionText.replace("<", "&lt;").replace(">", "&gt;").replace("&", "&amp;").replace("\"", "&quot;"); // escape html characters for safety
 		String[] splitString = versionText.split("\n");
 		String actualVersion = splitString[0];
-		if (Program.VERSION.compareTo(actualVersion) >= 0) {
+		if (Program.getInstance().getVersion().compareTo(actualVersion) >= 0) {
 			return null; // no newer version found
 		}
 
 		StringBuilder sb = new StringBuilder("");
-		sb.append("<p><b>A new version of ").append(Program.NAME).append(" (").append(actualVersion).append(") is available at <a href=\"").append(Program.WEBSITE).append("\">").append(Program.WEBSITE.substring("http://".length())).append("</a></b></p>");
+		sb.append("<p><b>A new version of ").append(Program.getInstance().getProgramName()).append(" (").append(actualVersion).append(") is available at <a href=\"").append(Program.getInstance().getWebsite()).append("\">").append(Program.getInstance().getWebsite().substring("http://".length())).append("</a></b></p>");
 		// Every line after the first one describes a feature of the new version and will be listed
 		for (int i = 1; i < splitString.length; i++) {
 			sb.append("<p>").append(splitString[i]).append("</p>");

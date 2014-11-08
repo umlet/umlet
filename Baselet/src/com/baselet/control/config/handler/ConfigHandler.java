@@ -91,7 +91,7 @@ public class ConfigHandler {
 			ex.printStackTrace();
 		}
 
-		cfg.setProgramVersion(getStringProperty(PROGRAM_VERSION, Program.VERSION));
+		cfg.setProgramVersion(getStringProperty(PROGRAM_VERSION, Program.getInstance().getVersion()));
 		cfg.setDefaultFontsize(getIntProperty(DEFAULT_FONTSIZE, cfg.getDefaultFontsize()));
 		Constants.propertiesPanelFontsize = getIntProperty(PROPERTIES_PANEL_FONTSIZE, Constants.propertiesPanelFontsize);
 		cfg.setDefaultFontFamily(getStringProperty(DEFAULT_FONTFAMILY, cfg.getDefaultFontFamily()));
@@ -158,7 +158,7 @@ public class ConfigHandler {
 
 			Properties props = new Properties();
 
-			props.setProperty(PROGRAM_VERSION, Program.VERSION);
+			props.setProperty(PROGRAM_VERSION, Program.getInstance().getVersion());
 			props.setProperty(DEFAULT_FONTSIZE, Integer.toString(cfg.getDefaultFontsize()));
 			props.setProperty(PROPERTIES_PANEL_FONTSIZE, Integer.toString(Constants.propertiesPanelFontsize));
 			props.setProperty(DEFAULT_FONTFAMILY, cfg.getDefaultFontFamily());

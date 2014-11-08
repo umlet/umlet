@@ -5,26 +5,59 @@ package com.baselet.control.enums;
  **/
 public class Program {
 
+	private static final Program instance = new Program();
+
+	public static Program getInstance() {
+		return instance;
+	}
+
 	// Basically the RUNTIME_TYPE is STANDALONE until it gets overwritten after program startup
-	public static RuntimeType RUNTIME_TYPE = RuntimeType.STANDALONE;
-	public static String CONFIG_NAME;
-	public static final String NAME = "UMLet";
-	public static final String EXTENSION = "uxf";
-	public static String WEBSITE;
-	public static String VERSION;
-	public static String[] GRID_ELEMENT_PACKAGES = new String[] { "com.umlet.element", "com.umlet.element.custom", "com.plotlet.element", "com.baselet.element" };
+	private RuntimeType runtimeType = RuntimeType.STANDALONE;
+	private String configName;
+	private final String programName = "UMLet";
+	private final String extension = "uxf";
+	private String website;
+	private String version;
 
-	public static void init(String version) {
-		WEBSITE = "http://www." + NAME.toLowerCase() + ".com";
+	public void init(String version) {
+		this.website = "http://www." + getProgramName().toLowerCase() + ".com";
 
-		if (Program.RUNTIME_TYPE == RuntimeType.STANDALONE) {
-			CONFIG_NAME = NAME.toLowerCase() + ".cfg";
+		if (Program.getInstance().getRuntimeType() == RuntimeType.STANDALONE) {
+			this.configName = getProgramName().toLowerCase() + ".cfg";
 		}
 		else {
-			CONFIG_NAME = NAME.toLowerCase() + "plugin.cfg";
+			this.configName = getProgramName().toLowerCase() + "plugin.cfg";
 		}
 
-		VERSION = version;
+		this.version = version;
+	}
+
+	public RuntimeType getRuntimeType() {
+		return runtimeType;
+	}
+
+	public void setRuntimeType(RuntimeType runtimeType) {
+		this.runtimeType = runtimeType;
+	}
+
+	public String getConfigName() {
+		return configName;
+	}
+
+	public String getProgramName() {
+		return programName;
+	}
+
+	public String getExtension() {
+		return extension;
+	}
+
+	public String getWebsite() {
+		return website;
+	}
+
+	public String getVersion() {
+		return version;
 	}
 
 }

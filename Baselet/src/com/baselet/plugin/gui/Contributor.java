@@ -110,7 +110,7 @@ public class Contributor extends EditorActionBarContributor {
 	public void contributeToMenu(IMenuManager manager) {
 		((EclipseGUI) CurrentGui.getInstance().getGui()).setContributor(this);
 
-		IMenuManager menu = new MenuManager(Program.NAME.toString());
+		IMenuManager menu = new MenuManager(Program.getInstance().getProgramName().toString());
 		IMenuManager custom = new MenuManager(MenuConstants.CUSTOM_ELEMENTS);
 		IMenuManager help = new MenuManager(MenuConstants.HELP);
 		manager.appendToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);

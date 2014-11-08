@@ -91,7 +91,7 @@ public class DiagramHandler {
 		// If this is not a palette, create a StartupHelpText
 		if (!(this instanceof PaletteHandler)) {
 			StartUpHelpText startupHelpText = new StartUpHelpText(drawpanel);
-			if (Program.RUNTIME_TYPE != RuntimeType.BATCH) { // Batchmode doesn't need drag&drop. Also fixes Issue 81
+			if (Program.getInstance().getRuntimeType() != RuntimeType.BATCH) { // Batchmode doesn't need drag&drop. Also fixes Issue 81
 				new FileDrop(startupHelpText, new FileDropListener());
 			}
 			drawpanel.add(startupHelpText);
@@ -258,7 +258,7 @@ public class DiagramHandler {
 
 	public boolean askSaveIfDirty() {
 		if (isChanged) {
-			int ch = JOptionPane.showOptionDialog(CurrentGui.getInstance().getGui().getMainFrame(), "Save changes?", Program.NAME + " - " + getName(), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
+			int ch = JOptionPane.showOptionDialog(CurrentGui.getInstance().getGui().getMainFrame(), "Save changes?", Program.getInstance().getProgramName() + " - " + getName(), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, null, null);
 			if (ch == JOptionPane.YES_OPTION) {
 				doSave();
 				return true;

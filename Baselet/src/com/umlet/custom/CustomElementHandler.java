@@ -69,7 +69,7 @@ public class CustomElementHandler {
 										Constants.NEWLINE + Constants.NEWLINE +
 										"Hello, World! " +
 										Constants.NEWLINE +
-										"Enjoy " + Program.NAME + "!");
+										"Enjoy " + Program.getInstance().getProgramName() + "!");
 		editedEntity.setRectangle(new Rectangle(20, 20, 200, 200));
 		updatePreview(editedEntity);
 		getPreviewHandler().getDrawPanel().getSelector().select(editedEntity);

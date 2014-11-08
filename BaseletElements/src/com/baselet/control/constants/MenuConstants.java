@@ -46,9 +46,9 @@ public class MenuConstants {
 	public static final String ONLINE_HELP = "Online Help...";
 	public static final String ONLINE_SAMPLE_DIAGRAMS = "Online Sample Diagrams...";
 	public static final String VIDEO_TUTORIAL = "Video Tutorial: Basic Use and Custom Elements...";
-	public static final String PROGRAM_HOMEPAGE = Program.NAME + " Homepage...";
-	public static final String RATE_PROGRAM = "Rate " + Program.NAME + " at Eclipse Marketplace...";
-	public static final String ABOUT_PROGRAM = "About " + Program.NAME;
+	public static final String PROGRAM_HOMEPAGE = Program.getInstance().getProgramName() + " Homepage...";
+	public static final String RATE_PROGRAM = "Rate " + Program.getInstance().getProgramName() + " at Eclipse Marketplace...";
+	public static final String ABOUT_PROGRAM = "About " + Program.getInstance().getProgramName();
 
 	// CONTEXT ON ELEMENT
 	public static final String SET_FOREGROUND_COLOR = "Set foreground color";

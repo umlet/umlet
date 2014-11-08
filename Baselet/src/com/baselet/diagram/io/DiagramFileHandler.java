@@ -56,7 +56,7 @@ public class DiagramFileHandler {
 	private final HashMap<String, FileFilter> filters = new HashMap<String, FileFilter>();
 	private final HashMap<FileFilter, String> fileextensions = new HashMap<FileFilter, String>();
 
-	private final OwnFileFilter filterxml = new OwnFileFilter(Program.EXTENSION, Program.NAME + " diagram format");
+	private final OwnFileFilter filterxml = new OwnFileFilter(Program.getInstance().getExtension(), Program.getInstance().getProgramName() + " diagram format");
 	private final OwnFileFilter filterbmp = new OwnFileFilter("bmp", "BMP");
 	private final OwnFileFilter filtereps = new OwnFileFilter("eps", "EPS");
 	private final OwnFileFilter filtergif = new OwnFileFilter("gif", "GIF");
@@ -75,7 +75,7 @@ public class DiagramFileHandler {
 			fileName = file.getName();
 		}
 		else {
-			fileName = "new." + Program.EXTENSION;
+			fileName = "new." + Program.getInstance().getExtension();
 		}
 		this.file = file;
 		lastExportFile = file;
@@ -203,8 +203,8 @@ public class DiagramFileHandler {
 			Document doc = db.newDocument();
 
 			Element root = doc.createElement("diagram");
-			root.setAttribute("program", Program.NAME.toLowerCase());
-			root.setAttribute("version", String.valueOf(Program.VERSION));
+			root.setAttribute("program", Program.getInstance().getProgramName().toLowerCase());
+			root.setAttribute("version", String.valueOf(Program.getInstance().getVersion()));
 			doc.appendChild(root);
 
 			// save helptext
@@ -257,7 +257,7 @@ public class DiagramFileHandler {
 	}
 
 	public void doSaveAs(String fileextension) throws IOException {
-		boolean ownXmlFormat = fileextension.equals(Program.EXTENSION);
+		boolean ownXmlFormat = fileextension.equals(Program.getInstance().getExtension());
 		JFileChooser fileChooser = createSaveFileChooser(!ownXmlFormat);
 		String fileName = chooseFileName(ownXmlFormat, filters.get(fileextension), fileChooser);
 		String extension = fileextensions.get(fileChooser.getFileFilter());
@@ -271,7 +271,7 @@ public class DiagramFileHandler {
 
 		File fileToSave = new File(fileName);
 		Config.getInstance().setSaveFileHome(fileToSave.getParent());
-		if (extension.equals(Program.EXTENSION)) {
+		if (extension.equals(Program.getInstance().getExtension())) {
 			file = fileToSave;
 			setFileName(file.getName());
 			save();
@@ -286,7 +286,7 @@ public class DiagramFileHandler {
 		File tempFile = new File(Path.temp() + filename + "." + fileextension);
 		tempFile.deleteOnExit();
 
-		if (fileextension.equals(Program.EXTENSION)) {
+		if (fileextension.equals(Program.getInstance().getExtension())) {
 			save(tempFile, true);
 		}
 		else {
@@ -298,7 +298,7 @@ public class DiagramFileHandler {
 
 	public void doSave() throws IOException {
 		if (file == null || !file.exists()) {
-			doSaveAs(Program.EXTENSION);
+			doSaveAs(Program.getInstance().getExtension());
 		}
 		else {
 			save();

@@ -104,7 +104,7 @@ public class MenuFactory {
 					diagramHandler.doSave();
 				}
 				else if (menuItem.equals(SAVE_AS) && diagramHandler != null) {
-					diagramHandler.doSaveAs(Program.EXTENSION);
+					diagramHandler.doSaveAs(Program.getInstance().getExtension());
 				}
 				else if (menuItem.equals(EXPORT_AS) && diagramHandler != null) {
 					diagramHandler.doSaveAs((String) param);
@@ -192,7 +192,7 @@ public class MenuFactory {
 					BrowserLauncher.openURL(CUSTOM_ELEMENTS_TUTORIAL_URL);
 				}
 				else if (menuItem.equals(ONLINE_HELP)) {
-					BrowserLauncher.openURL(Program.WEBSITE + "/faq.htm");
+					BrowserLauncher.openURL(Program.getInstance().getWebsite() + "/faq.htm");
 				}
 				else if (menuItem.equals(ONLINE_SAMPLE_DIAGRAMS)) {
 					BrowserLauncher.openURL("http://www.itmeyer.at/umlet/uml2/");
@@ -201,7 +201,7 @@ public class MenuFactory {
 					BrowserLauncher.openURL("http://www.youtube.com/watch?v=3UHZedDtr28");
 				}
 				else if (menuItem.equals(PROGRAM_HOMEPAGE)) {
-					BrowserLauncher.openURL(Program.WEBSITE);
+					BrowserLauncher.openURL(Program.getInstance().getWebsite());
 				}
 				else if (menuItem.equals(RATE_PROGRAM)) {
 					BrowserLauncher.openURL("http://marketplace.eclipse.org/content/umlet-uml-tool-fast-uml-diagrams");

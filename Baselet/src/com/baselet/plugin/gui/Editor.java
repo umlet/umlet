@@ -55,7 +55,7 @@ public class Editor extends EditorPart {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				handler.doSaveAs(Program.EXTENSION);
+				handler.doSaveAs(Program.getInstance().getExtension());
 			}
 		});
 	}

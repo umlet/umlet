@@ -42,9 +42,9 @@ public class NewWizardPage extends WizardPage {
 	 * Constructor for SampleNewWizardPage.
 	 */
 	public NewWizardPage(ISelection selection) {
-		super(Program.NAME + " wizard");
-		setTitle(Program.NAME + " diagram");
-		setDescription("This wizard creates a " + Program.NAME + " diagram.");
+		super(Program.getInstance().getProgramName() + " wizard");
+		setTitle(Program.getInstance().getProgramName() + " diagram");
+		setDescription("This wizard creates a " + Program.getInstance().getProgramName() + " diagram.");
 		this.selection = selection;
 	}
 
@@ -136,7 +136,7 @@ public class NewWizardPage extends WizardPage {
 				containerText.setText(container.getFullPath().toString());
 			}
 		}
-		fileText.setText("new_diagram." + Program.EXTENSION);
+		fileText.setText("new_diagram." + Program.getInstance().getExtension());
 	}
 
 	/**
@@ -189,8 +189,8 @@ public class NewWizardPage extends WizardPage {
 		int dotLoc = fileName.lastIndexOf('.');
 		if (dotLoc != -1) {
 			String ext = fileName.substring(dotLoc + 1);
-			if (!ext.equalsIgnoreCase(Program.EXTENSION)) {
-				updateStatus("File extension must be \"" + Program.EXTENSION + "\"");
+			if (!ext.equalsIgnoreCase(Program.getInstance().getExtension())) {
+				updateStatus("File extension must be \"" + Program.getInstance().getExtension() + "\"");
 				return;
 			}
 		}

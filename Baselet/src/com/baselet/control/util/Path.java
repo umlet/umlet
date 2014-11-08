@@ -20,7 +20,7 @@ public class Path {
 	private static String homeProgramDir;
 
 	public static String config() {
-		return userHome() + File.separator + Program.CONFIG_NAME;
+		return userHome() + File.separator + Program.getInstance().getConfigName();
 	}
 
 	private static String userHome() {
@@ -28,7 +28,7 @@ public class Path {
 		if (!homeDir.endsWith(File.separator)) {
 			homeDir += File.separator;
 		}
-		File homeDirFile = new File(homeDir + Program.NAME);
+		File homeDirFile = new File(homeDir + Program.getInstance().getProgramName());
 		if (!homeDirFile.exists()) {
 			homeDirFile.mkdir();
 		}
