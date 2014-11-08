@@ -20,11 +20,11 @@ public class StickingPolygon {
 		public PointDouble diffToLine(StickLine s, int inX, int inY) {
 			double x = 0;
 			double y = 0;
-			if (getEnd().x == getStart().x) {
+			if (getEnd().x.equals(getStart().x)) {
 				// AB: Fixed: use s.getStart().x instead of getStart().x
 				x = s.getStart().x - (s.getEnd().x - s.getStart().x) - inX; // mitte der neuen linie
 
-				if (s.getEnd().x == s.getStart().x) {
+				if (s.getEnd().x.equals(s.getStart().x)) {
 					// vertical lines - no y difference except the line is at an end
 					y = 0;
 					if (s.getStart().y > s.getEnd().y) {
@@ -50,11 +50,11 @@ public class StickingPolygon {
 				x = (inX - getStart().x) * (s.getEnd().x - s.getStart().x) / (getEnd().x - getStart().x) + s.getStart().x - inX;
 			}
 
-			if (getEnd().y == getStart().y) {
+			if (getEnd().y.equals(getStart().y)) {
 				// AB: Fixed: use s.getStart().x instead of getStart().x
 				y = s.getStart().y - (s.getEnd().y - s.getStart().y) - inY;
 
-				if (s.getEnd().y == s.getStart().y) {
+				if (s.getEnd().y.equals(s.getStart().y)) {
 					// horizontal lines - no x difference except the line is at an end
 					x = 0;
 					if (s.getStart().x > s.getEnd().x) {

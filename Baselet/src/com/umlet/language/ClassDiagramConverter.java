@@ -31,9 +31,9 @@ import com.umlet.language.sorting.RelationLayout;
 import com.umlet.language.sorting.SortableElement;
 
 /**
- * Creates a class element from a filename pointing to a .class or .java file according to UML standards, 
+ * Creates a class element from a filename pointing to a .class or .java file according to UML standards,
  * adds the class to the current diagram and resizes this class element to minimum size where all text is visible.
- * 
+ *
  * @author Lisi Bluemelhuber
  *
  */
@@ -84,7 +84,6 @@ public class ClassDiagramConverter {
 		}
 
 		String propertiesText = getElementProperties(parsedClass);
-		propertiesText.split("\n");
 		List<String> propList = Arrays.asList(propertiesText.split("\n"));
 		Rectangle initialSize = adjustSize(propList);
 		GridElement clazz = ElementFactory.create(ElementId.UMLClass, initialSize, propertiesText, null, CurrentDiagram.getInstance().getDiagramHandler());
@@ -104,9 +103,9 @@ public class ClassDiagramConverter {
 
 	/**
 	 * Adjusts a Class GridElement to the minimum size where all text is visible.
-	 * 
+	 *
 	 * @param clazz
-	 * @return 
+	 * @return
 	 */
 	private Rectangle adjustSize(List<String> strings) {
 		// GridElement clazz not yet fully initialized, cannot call clazz.getHandler();
