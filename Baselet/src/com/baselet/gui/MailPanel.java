@@ -431,13 +431,13 @@ public class MailPanel extends JPanel {
 		if (inputString.isEmpty()) {
 			return new String[] {};
 		}
-		String returnString = "";
+		StringBuilder sb = new StringBuilder("");
 		for (int i = 0; i < inputString.length(); i++) {
 			if (inputString.charAt(i) != ' ') {
-				returnString += inputString.charAt(i);
+				sb.append(inputString.charAt(i));
 			}
 		}
-		return returnString.split(",");
+		return sb.toString().split(",");
 	}
 
 	private void storeConstants() {

@@ -203,11 +203,11 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 	}
 
 	private static void printUsage() {
-		String formats = "pdf|svg|eps";
+		StringBuilder formatBuilder = new StringBuilder("pdf|svg|eps");
 		for (String format : ImageIO.getWriterFileSuffixes()) {
-			formats += "|" + format;
+			formatBuilder.append("|").append(format);
 		}
-		printToConsole("USAGE: -action=convert -format=(" + formats + ") -filename=inputfile." + Program.EXTENSION + " [-output=outputfile[.extension]]");
+		printToConsole("USAGE: -action=convert -format=(" + formatBuilder.toString() + ") -filename=inputfile." + Program.EXTENSION + " [-output=outputfile[.extension]]");
 	}
 
 	public static void doConvert(File inputFile, String outputFormat, String outputParam) {

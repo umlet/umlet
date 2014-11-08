@@ -189,7 +189,7 @@ public class Class extends OldGridElement {
 				}
 			}
 			else if (s.equals("{innerclass")) {
-				String state = "";
+				StringBuilder sb = new StringBuilder("");
 				// Counting the inner lines helps to determine the Height of the
 				// resulting innerClass (lines times the fontsize gives us the height of
 				// the contents) by adding also the INNER words we make sure to have enough
@@ -212,9 +212,10 @@ public class Class extends OldGridElement {
 					else {
 						innerLines++;
 					}
-					state = state + "\n" + tmp.elementAt(i);
+					sb.append("\n").append(tmp.elementAt(i));
 				}
 
+				String state = sb.toString();
 				Class temp;
 				try {
 					temp = innerClasses.get(innerSoFar);
