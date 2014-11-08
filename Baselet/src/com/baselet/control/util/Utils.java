@@ -88,7 +88,7 @@ public abstract class Utils {
 		if (v != null) {
 			for (int i = 0; i < v.size(); i++) {
 				if (ret == null) {
-					ret = new String(v.elementAt(i));
+					ret = v.elementAt(i);
 				}
 				else {
 					ret = ret + delimiter + v.elementAt(i);

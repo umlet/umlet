@@ -59,7 +59,7 @@ public class Component extends OldGridElement {
 					s = s.substring(1, s.length());
 				}
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, getRectangle().width / 2, startY + yPos, AlignHorizontal.CENTER);
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, getRectangle().width / 2.0, startY + yPos, AlignHorizontal.CENTER);
 				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 		}

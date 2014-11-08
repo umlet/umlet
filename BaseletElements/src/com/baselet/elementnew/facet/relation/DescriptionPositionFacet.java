@@ -15,10 +15,10 @@ public class DescriptionPositionFacet extends KeyValueFacet {
 
 	public static final String POS = "pos";
 
-	public static DescriptionPositionFacet INSTANCE_MESSAGE_START = new DescriptionPositionFacet(LineDescriptionEnum.MESSAGE_START);
-	public static DescriptionPositionFacet INSTANCE_MESSAGE_END = new DescriptionPositionFacet(LineDescriptionEnum.MESSAGE_END);
-	public static DescriptionPositionFacet INSTANCE_ROLE_START = new DescriptionPositionFacet(LineDescriptionEnum.ROLE_START);
-	public static DescriptionPositionFacet INSTANCE_ROLE_END = new DescriptionPositionFacet(LineDescriptionEnum.ROLE_END);
+	public static final DescriptionPositionFacet INSTANCE_MESSAGE_START = new DescriptionPositionFacet(LineDescriptionEnum.MESSAGE_START);
+	public static final DescriptionPositionFacet INSTANCE_MESSAGE_END = new DescriptionPositionFacet(LineDescriptionEnum.MESSAGE_END);
+	public static final DescriptionPositionFacet INSTANCE_ROLE_START = new DescriptionPositionFacet(LineDescriptionEnum.ROLE_START);
+	public static final DescriptionPositionFacet INSTANCE_ROLE_END = new DescriptionPositionFacet(LineDescriptionEnum.ROLE_END);
 
 	private final LineDescriptionEnum lineDesc;
 
@@ -37,8 +37,8 @@ public class DescriptionPositionFacet extends KeyValueFacet {
 		try {
 			Map<String, Point> displacements = state.getOrInitFacetResponse(DescriptionPositionFacet.class, new HashMap<String, Point>());
 			String[] split = value.split(",");
-			int x = Integer.valueOf(split[0]);
-			int y = Integer.valueOf(split[1]);
+			int x = Integer.parseInt(split[0]);
+			int y = Integer.parseInt(split[1]);
 			if (x > MAX_DISP || y > MAX_DISP) {
 				throw new StyleException("max allowed displacement value is " + MAX_DISP);
 			}

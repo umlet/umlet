@@ -257,14 +257,14 @@ public class Class extends OldGridElement {
 				if (CENTER) {
 					// A.Mueller
 					if (_isTemplate) {
-						Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getRectangle().width - getRectangle().width / 10) / 2, yPos, AlignHorizontal.CENTER);
+						Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getRectangle().width - getRectangle().width / 10.0) / 2.0, yPos, AlignHorizontal.CENTER);
 					}
 					else {
-						Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, getRectangle().width / 2, yPos, AlignHorizontal.CENTER);
+						Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, getRectangle().width / 2.0, yPos, AlignHorizontal.CENTER);
 					}
 				}
 				else {
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2.0, yPos, AlignHorizontal.LEFT);
 				}
 				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}

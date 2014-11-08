@@ -10,7 +10,7 @@ import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class StateTypeFacet extends KeyValueFacet {
 
-	public static StateTypeFacet INSTANCE = new StateTypeFacet();
+	public static final StateTypeFacet INSTANCE = new StateTypeFacet();
 
 	private StateTypeFacet() {}
 
@@ -49,7 +49,7 @@ public class StateTypeFacet extends KeyValueFacet {
 	}
 
 	private double depth(Dimension s) {
-		return s.width / 5;
+		return s.width / 5.0;
 	}
 
 	private PointDouble p(double x, double y) {

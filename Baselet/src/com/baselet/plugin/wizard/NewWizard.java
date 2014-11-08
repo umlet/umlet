@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -43,6 +44,8 @@ import com.baselet.plugin.MainPlugin;
  */
 
 public class NewWizard extends Wizard implements INewWizard {
+
+	private final Logger log = Logger.getLogger(NewWizard.class);
 	private NewWizardPage page;
 	private ISelection selection;
 
@@ -109,11 +112,7 @@ public class NewWizard extends Wizard implements INewWizard {
 	 * the editor on the newly created file.
 	 */
 
-	private void doFinish(
-			String containerName,
-			String fileName,
-			IProgressMonitor monitor)
-			throws CoreException {
+	private void doFinish(String containerName, String fileName, IProgressMonitor monitor) throws CoreException {
 		// create a sample file
 		monitor.beginTask("Creating " + fileName, 2);
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -142,7 +141,9 @@ public class NewWizard extends Wizard implements INewWizard {
 						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				try {
 					IDE.openEditor(page, file, true);
-				} catch (PartInitException e) {/* ignore */}
+				} catch (PartInitException e) {
+					log.error("Cannot open Editor", e);
+				}
 			}
 		});
 		monitor.worked(1);

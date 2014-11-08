@@ -52,11 +52,11 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		panel.addComponentListener(this);
 		addMouseListener(new DelegatingMouseListener());
 		try {
-			if (UpdateCheckTimerTask.filename == null) {
+			if (UpdateCheckTimerTask.getFilename() == null) {
 				showHTML(createTempFileWithText(getDefaultTextWithReplacedSystemspecificMetakeys()));
 			}
 			else {
-				showHTML(UpdateCheckTimerTask.filename);
+				showHTML(UpdateCheckTimerTask.getFilename());
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("Cannot read startup info file");

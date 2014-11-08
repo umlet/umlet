@@ -199,10 +199,10 @@ public class ActivityDiagramText extends OldGridElement {
 			return;
 		}
 
-		Const.AutoInsertIF = true;
+		Const.autoInsertIF = true;
 		while (lines.size() > 0 && lines.elementAt(0).startsWith("var:")) {
 			if (lines.elementAt(0).equals("var:noautoif")) {
-				Const.AutoInsertIF = false;
+				Const.autoInsertIF = false;
 			}
 			lines.remove(0);
 		}

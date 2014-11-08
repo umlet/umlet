@@ -11,7 +11,11 @@ import com.baselet.gui.BrowserLauncher;
 
 public class UpdateCheckTimerTask extends TimerTask {
 
-	public static String filename;
+	private static String filename;
+
+	public static String getFilename() {
+		return filename;
+	}
 
 	@Override
 	public void run() {

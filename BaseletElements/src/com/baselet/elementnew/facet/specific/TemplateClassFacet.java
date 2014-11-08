@@ -16,7 +16,7 @@ import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class TemplateClassFacet extends KeyValueFacet {
 
-	public static TemplateClassFacet INSTANCE = new TemplateClassFacet();
+	public static final TemplateClassFacet INSTANCE = new TemplateClassFacet();
 
 	private TemplateClassFacet() {}
 

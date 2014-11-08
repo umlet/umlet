@@ -638,10 +638,10 @@ public class SequenceDiagram extends OldGridElement {
 				}
 				if (main.indexOf("#iframe{") >= 0 || main.indexOf("#iframe}") >= 0) {
 					if (main.indexOf("#iframe{") >= 0) {
-						interactionframes.add(new Integer(level));
+						interactionframes.add(Integer.valueOf(level));
 					}
 					else {
-						interactionframes.add(new Integer(level * -1)); // distinguish betweeen start and end of the iframe
+						interactionframes.add(Integer.valueOf(level * -1)); // distinguish betweeen start and end of the iframe
 					}
 					if (main.indexOf("iframe{:") >= 0) {
 						interactionframesText.put("" + level, main.substring(main.indexOf("iframe{:") + 8)); // put text into hashmap

@@ -26,7 +26,7 @@ public class UseCase extends OldGridElement {
 		int b = (getRectangle().height - 1) / 2;
 		boolean found = false;
 		int x = (getRectangle().width - 1) / 9 * 4;
-		int y = (int) Math.round(Math.sqrt((a * a * b * b - b * b * x * x) / (a * a)));
+		int y = (int) Math.round(Math.sqrt((a * a * b * b - b * b * x * x * 1.0) / (a * a * 1.0)));
 		int yPos = 0;
 		int yPos1 = b;
 		Graphics2D g2 = (Graphics2D) g;

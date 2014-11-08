@@ -134,7 +134,7 @@ public abstract class NewGridElement implements GridElement {
 		drawer.setLineWidth(0.2);
 		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height); // draw dotted rect (to enforce background color even if element has no border)
 		resetMetaDrawer(metaDrawer);
-		drawer.print(errorText, 3, getRealSize().height / 2 - drawer.textHeightMax(), AlignHorizontal.LEFT);
+		drawer.print(errorText, 3, getRealSize().height * 0.5 - drawer.textHeightMax(), AlignHorizontal.LEFT);
 	}
 
 	void resetMetaDrawerAndDrawCommonContent() {
