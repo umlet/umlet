@@ -12,9 +12,9 @@ import com.baselet.gui.AutocompletionText;
 public abstract class KeyValueFacet extends GlobalFacet {
 
 	public static class KeyValue {
-		private String key;
-		private boolean allValuesListed;
-		private List<ValueInfo> valueInfos;
+		private final String key;
+		private final boolean allValuesListed;
+		private final List<ValueInfo> valueInfos;
 
 		public KeyValue(String key, boolean allValuesListed, String value, String info) {
 			super();
@@ -43,7 +43,7 @@ public abstract class KeyValueFacet extends GlobalFacet {
 			if (allValuesListed) {
 				sb.append("Valid are: ");
 				for (ValueInfo vi : valueInfos) {
-					sb.append(vi.value.toString().toLowerCase()).append(",");
+					sb.append(vi.value.toString().toLowerCase()).append(',');
 				}
 				sb.deleteCharAt(sb.length() - 1);
 			}
@@ -57,9 +57,9 @@ public abstract class KeyValueFacet extends GlobalFacet {
 	}
 
 	public static class ValueInfo {
-		private Object value;
-		private String info;
-		private String base64Img;
+		private final Object value;
+		private final String info;
+		private final String base64Img;
 
 		public ValueInfo(Object value, String info) {
 			this(value, info, null);

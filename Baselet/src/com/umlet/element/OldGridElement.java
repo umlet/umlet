@@ -22,7 +22,6 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Main;
 import com.baselet.control.SharedUtils;
 import com.baselet.control.constants.Constants;
-import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
@@ -161,12 +160,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public String getSetting(String key) {
-		if (key == FacetConstants.FOREGROUND_COLOR_KEY) {
-			return fgColorString;
-		}
-		else if (key == FacetConstants.BACKGROUND_COLOR_KEY) {
-			return bgColorString;
-		}
 		for (String line : getPanelAttributesAsList()) {
 			if (line.startsWith(key + Facet.SEP)) {
 				String[] split = line.split(Facet.SEP, 2);

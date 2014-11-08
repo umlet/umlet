@@ -36,7 +36,7 @@ public class NewWizardPage extends WizardPage {
 
 	private Text fileText;
 
-	private ISelection selection;
+	private final ISelection selection;
 
 	/**
 	 * Constructor for SampleNewWizardPage.
@@ -106,7 +106,7 @@ public class NewWizardPage extends WizardPage {
 	 */
 
 	private void initialize() {
-		if (selection != null && selection.isEmpty() == false
+		if (selection != null && !selection.isEmpty()
 			&& selection instanceof IStructuredSelection) {
 			IStructuredSelection ssel = (IStructuredSelection) selection;
 			if (ssel.size() > 1) {
@@ -189,7 +189,7 @@ public class NewWizardPage extends WizardPage {
 		int dotLoc = fileName.lastIndexOf('.');
 		if (dotLoc != -1) {
 			String ext = fileName.substring(dotLoc + 1);
-			if (ext.equalsIgnoreCase(Program.EXTENSION) == false) {
+			if (!ext.equalsIgnoreCase(Program.EXTENSION)) {
 				updateStatus("File extension must be \"" + Program.EXTENSION + "\"");
 				return;
 			}
