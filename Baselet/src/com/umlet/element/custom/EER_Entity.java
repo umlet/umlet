@@ -111,7 +111,7 @@ public class EER_Entity extends OldGridElement {
 						drawInnerRect = true;
 						s1 = s1.substring(2);
 					}
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s1, getRectangle().width / 2, yPos, AlignHorizontal.CENTER);
+					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s1, getRectangle().width / 2.0, yPos, AlignHorizontal.CENTER);
 				}
 				else {
 					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), yPos, AlignHorizontal.LEFT);

@@ -51,7 +51,7 @@ public class AlternativeUseCase extends OldGridElement {
 				center = true;
 			}
 			else if (center) {
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getRectangle().width - 1) / 2, yPos, AlignHorizontal.CENTER);
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getRectangle().width - 1) / 2.0, yPos, AlignHorizontal.CENTER);
 				center = false;
 			}
 			else {

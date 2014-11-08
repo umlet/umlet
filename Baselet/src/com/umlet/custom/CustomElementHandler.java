@@ -80,7 +80,7 @@ public class CustomElementHandler {
 	public void editEntity(CustomElement e) {
 		preview.closePreview();
 		originalElement = e;
-		editedEntity = e.CloneFromMe();
+		editedEntity = e.cloneFromMe();
 		editedEntity.setLocation(20, 20);
 		codepane.setCode(e.getCode());
 		updatePreview(editedEntity);

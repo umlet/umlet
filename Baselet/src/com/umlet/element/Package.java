@@ -115,7 +115,7 @@ public class Package extends OldGridElement {
 				lines++;
 				maxUpperBox = (int) Math.max(maxUpperBox, Main.getHandlerForElement(this).getFontHandler().getTextWidth(s) + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2.0, yPos, AlignHorizontal.LEFT);
 				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 
 			}

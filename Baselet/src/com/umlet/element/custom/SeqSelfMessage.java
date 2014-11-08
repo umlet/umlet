@@ -76,7 +76,7 @@ public class SeqSelfMessage extends OldGridElement {
 			yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
 			if (s.startsWith("center:")) {
 				s = s.substring(7);
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getRectangle().width - size_3d - 1) / 2, yPos, AlignHorizontal.CENTER);
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getRectangle().width - size_3d - 1) / 2.0, yPos, AlignHorizontal.CENTER);
 			}
 			else {
 				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);

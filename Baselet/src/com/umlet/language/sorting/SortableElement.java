@@ -5,9 +5,9 @@ import com.umlet.language.java.JavaClass;
 
 public class SortableElement implements Comparable<SortableElement> {
 
-	private GridElement element;
+	private final GridElement element;
 	private JavaClass parsedClass;
-	private String name;
+	private final String name;
 
 	public SortableElement(GridElement element, String name) {
 		this.element = element;

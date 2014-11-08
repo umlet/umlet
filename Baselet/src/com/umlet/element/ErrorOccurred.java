@@ -43,7 +43,7 @@ public class ErrorOccurred extends OldGridElement {
 	}
 
 	@Override
-	public GridElement CloneFromMe() {
+	public GridElement cloneFromMe() {
 		try {
 			GridElement ge = new ErrorOccurred(errorMessage);
 			ge.setPanelAttributes(getPanelAttributes()); // copy states

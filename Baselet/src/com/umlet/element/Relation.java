@@ -771,7 +771,7 @@ public class Relation extends OldGridElement {
 	}
 
 	@Override
-	public GridElement CloneFromMe() {
+	public GridElement cloneFromMe() {
 		Relation c = new Relation();
 
 		c.setPanelAttributes(getPanelAttributes());

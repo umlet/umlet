@@ -74,7 +74,7 @@ public class UseCase extends OldGridElement {
 			}
 			else {
 				yPos += (int) handlerForElement.getFontHandler().getFontSize();
-				handlerForElement.getFontHandler().writeText(g2, s, getRectangle().width / 2, yPos, AlignHorizontal.CENTER);
+				handlerForElement.getFontHandler().writeText(g2, s, getRectangle().width / 2.0, yPos, AlignHorizontal.CENTER);
 				yPos += handlerForElement.getFontHandler().getDistanceBetweenTexts();
 			}
 		}

@@ -23,7 +23,7 @@ public class RegionEndState extends OldGridElement {
 		g2.drawOval(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 		AffineTransform at = g2.getTransform();
 		AffineTransform at2 = (AffineTransform) at.clone();
-		at2.rotate(Math.toRadians(45), getRectangle().width / 2, getRectangle().height / 2);
+		at2.rotate(Math.toRadians(45), getRectangle().width / 2.0, getRectangle().height / 2.0);
 		g2.setTransform(at2);
 		g2.drawLine(0, getRectangle().height / 2, getRectangle().width, getRectangle().height / 2);
 		g2.drawLine(getRectangle().width / 2, 0, getRectangle().width / 2, getRectangle().height);

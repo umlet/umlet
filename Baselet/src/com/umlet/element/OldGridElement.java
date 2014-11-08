@@ -297,7 +297,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		}
 	}
 
-	public GridElement CloneFromMe() {
+	public GridElement cloneFromMe() {
 		try {
 			java.lang.Class<? extends GridElement> cx = this.getClass(); // get class of dynamic object
 			GridElement c = cx.newInstance();
