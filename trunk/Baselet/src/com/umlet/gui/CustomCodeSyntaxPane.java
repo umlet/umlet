@@ -22,10 +22,10 @@ import com.umlet.custom.CustomFunction;
 
 public class CustomCodeSyntaxPane {
 
-	private JPanel panel;
-	private RTextScrollPane scrollPane;
-	private RSyntaxTextArea textArea;
-	private DefaultCompletionProvider provider = new DefaultCompletionProvider();
+	private final JPanel panel;
+	private final RTextScrollPane scrollPane;
+	private final RSyntaxTextArea textArea;
+	private final DefaultCompletionProvider provider = new DefaultCompletionProvider();
 
 	public CustomCodeSyntaxPane() {
 
@@ -68,16 +68,17 @@ public class CustomCodeSyntaxPane {
 
 	private String getStringForCustomElementMethod(Method m) {
 		CustomFunction cm = m.getAnnotation(CustomFunction.class);
-		String description = m.getName() + "(";
+		StringBuilder sb = new StringBuilder("");
+		sb.append(m.getName()).append("(");
 		String[] params = cm.param_defaults().split(",");
 		Class<?>[] types = m.getParameterTypes();
 		for (int i = 0; i < params.length && i < types.length; i++) {
 			if (i != 0) {
-				description += ", ";
+				sb.append(", ");
 			}
-			description += types[i].getSimpleName() + " " + params[i].trim();
+			sb.append(types[i].getSimpleName()).append(" ").append(params[i].trim());
 		}
-		return description + ");";
+		return sb.append(");").toString();
 	}
 
 	private ArrayList<String> getAutocompletionStrings() {

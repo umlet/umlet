@@ -5,8 +5,8 @@ import org.apache.bcel.generic.Type;
 
 public class BcelMethod extends BcelAccessible implements com.umlet.language.java.Method {
 
-	private Method method;
-	private String className;
+	private final Method method;
+	private final String className;
 	private boolean isConstructor;
 
 	public BcelMethod(Method method, String className) {
@@ -39,18 +39,18 @@ public class BcelMethod extends BcelAccessible implements com.umlet.language.jav
 
 	@Override
 	public String getSignature() {
-		String result = "";
+		StringBuilder sb = new StringBuilder("");
 		Type[] arguments = method.getArgumentTypes();
 		boolean first = true;
 		for (Type argument : arguments) {
 			if (first) {
 				first = false;
-				result += argument;
+				sb.append(argument);
 			}
 			else {
-				result += ", " + argument;
+				sb.append(", ").append(argument);
 			}
 		}
-		return result;
+		return sb.toString();
 	}
 }

@@ -10,7 +10,7 @@ import com.umlet.language.java.Method;
 
 public class JpMethod implements Method {
 
-	private MethodDeclaration method;
+	private final MethodDeclaration method;
 
 	public JpMethod(MethodDeclaration method) {
 		this.method = method;
@@ -32,23 +32,23 @@ public class JpMethod implements Method {
 		if ((params = method.getParameters()) == null) {
 			return "";
 		}
-		String result = "";
+		StringBuilder sb = new StringBuilder("");
 		boolean first = true;
 		for (Parameter param : params) {
 			if (first) {
 				first = false;
-				result += param.toString();
+				sb.append(param.toString());
 			}
 			else {
-				result += ", " + param.toString();
+				sb.append(", ").append(param.toString());
 			}
 		}
-		return result;
+		return sb.toString();
 	}
 
 	@Override
 	/**
-	 * Code duplicated in JpConstructor&JpField because the extended class 
+	 * Code duplicated in JpConstructor&JpField because the extended class
 	 * BodyDeclaration does not provide a getModifiers() method.
 	 */
 	public AccessFlag getAccess() {
