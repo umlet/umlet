@@ -79,7 +79,7 @@ public class SeqSelfMessage extends OldGridElement {
 				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getRectangle().width - size_3d - 1) / 2.0, yPos, AlignHorizontal.CENTER);
 			}
 			else {
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2), yPos, AlignHorizontal.LEFT);
 			}
 
 			yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();

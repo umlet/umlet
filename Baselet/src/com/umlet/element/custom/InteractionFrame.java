@@ -68,7 +68,7 @@ public class InteractionFrame extends OldGridElement {
 					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, getRectangle().width / 2.0, (int) yPos, AlignHorizontal.CENTER);
 				}
 				else {
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, (int) yPos, AlignHorizontal.LEFT);
+					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2), (int) yPos, AlignHorizontal.LEFT);
 				}
 				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
