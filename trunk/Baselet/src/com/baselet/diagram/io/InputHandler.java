@@ -42,10 +42,10 @@ public class InputHandler extends DefaultHandler {
 	private String additional_attributes;
 
 	private Integer currentGroup;
-	private DiagramHandler handler;
+	private final DiagramHandler handler;
 
 	// to be backward compatible - add list of old elements that were removed so that they are ignored when loading old files
-	private List<String> ignoreElements;
+	private final List<String> ignoreElements;
 
 	private String id; // Experimental elements have an id instead of an entityname
 
@@ -129,19 +129,19 @@ public class InputHandler extends DefaultHandler {
 			id = elementtext;
 		}
 		else if (elementname.equals("x")) {
-			Integer i = new Integer(elementtext);
+			Integer i = Integer.valueOf(elementtext);
 			x = i.intValue();
 		}
 		else if (elementname.equals("y")) {
-			Integer i = new Integer(elementtext);
+			Integer i = Integer.valueOf(elementtext);
 			y = i.intValue();
 		}
 		else if (elementname.equals("w")) {
-			Integer i = new Integer(elementtext);
+			Integer i = Integer.valueOf(elementtext);
 			w = i.intValue();
 		}
 		else if (elementname.equals("h")) {
-			Integer i = new Integer(elementtext);
+			Integer i = Integer.valueOf(elementtext);
 			h = i.intValue();
 		}
 		else if (elementname.equals("panel_attributes")) {

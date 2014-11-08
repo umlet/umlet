@@ -53,7 +53,7 @@ public class Actor extends OldGridElement {
 					ADAPT_SIZE = true;
 					break;
 				}
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, getRectangle().width / 2, yPos, AlignHorizontal.CENTER);
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, getRectangle().width * 0.5, yPos, AlignHorizontal.CENTER);
 				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 		}

@@ -7,7 +7,7 @@ import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class SubStateSymbolFacet extends KeyValueFacet {
 
-	public static SubStateSymbolFacet INSTANCE = new SubStateSymbolFacet();
+	public static final SubStateSymbolFacet INSTANCE = new SubStateSymbolFacet();
 
 	private SubStateSymbolFacet() {}
 

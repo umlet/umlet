@@ -16,11 +16,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.umlet.language.java.Field;
 import com.umlet.language.java.JavaClass;
 import com.umlet.language.java.Method;
 
 public class JpJavaClass implements JavaClass {
+
+	private final Logger log = Logger.getLogger(JpJavaClass.class);
 
 	private CompilationUnit cu;
 	private final List<MethodDeclaration> methods = new ArrayList<MethodDeclaration>();
@@ -41,7 +45,9 @@ public class JpJavaClass implements JavaClass {
 				if (in != null) {
 					in.close();
 				}
-			} catch (IOException ignored) {/* ignore */}
+			} catch (IOException e) {
+				log.error("Exception at Java class parsing", e);
+			}
 		}
 		extractInformation(filename);
 	}

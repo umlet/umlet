@@ -7,7 +7,7 @@ import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class ActiveClassFacet extends KeyValueFacet {
 
-	public static ActiveClassFacet INSTANCE = new ActiveClassFacet();
+	public static final ActiveClassFacet INSTANCE = new ActiveClassFacet();
 
 	private ActiveClassFacet() {}
 

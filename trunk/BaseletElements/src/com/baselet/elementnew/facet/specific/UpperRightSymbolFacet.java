@@ -11,7 +11,7 @@ import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class UpperRightSymbolFacet extends KeyValueFacet {
 
-	public static UpperRightSymbolFacet INSTANCE = new UpperRightSymbolFacet();
+	public static final UpperRightSymbolFacet INSTANCE = new UpperRightSymbolFacet();
 
 	private UpperRightSymbolFacet() {}
 

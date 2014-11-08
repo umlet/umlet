@@ -284,7 +284,7 @@ public class PlotGrid extends NewGridElement {
 			drawer.setForegroundColor(ColorOwn.RED);
 			drawer.setBackgroundColor(ColorOwn.WHITE);
 			drawer.drawRectangle(0, 0, getRectangle().width - 1, getRectangle().height - 1);
-			float x = getRectangle().getWidth() / 2;
+			float x = getRectangle().getWidth() / 2.0f;
 			drawer.print(e.getMessage(), x, getRealSize().height / 2, AlignHorizontal.CENTER);
 		}
 	}

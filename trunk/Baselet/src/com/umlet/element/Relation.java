@@ -996,7 +996,7 @@ public class Relation extends OldGridElement {
 		boolean a = lineUp(startShapes, startPoints, 0, 0);
 		boolean b = lineUp(endShapes, endPoints, 0, 0);
 
-		if (!(a) || !(b)) {
+		if (!a || !b) {
 			return;
 		}
 
@@ -1029,7 +1029,7 @@ public class Relation extends OldGridElement {
 
 		for (int i = 0; i < getLinePoints().size() - 1; i++) {
 
-			if (i == Math.floor((getLinePoints().size() - 1) / 2)) {
+			if (i == Math.floor((getLinePoints().size() - 1) / 2.0)) {
 
 				Point p1 = getLinePoints().elementAt(i);
 				Point p2 = getLinePoints().elementAt(i + 1);

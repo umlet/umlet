@@ -33,9 +33,9 @@ public class TimeSignal extends OldGridElement {
 		boolean ADAPT_SIZE = false;
 
 		int x0, y0, b, h;
-		x0 = (int) (getRectangle().width / 2 - 20 * zoom);
+		x0 = (int) (getRectangle().width / 2.0 - 20 * zoom);
 		y0 = 0;
-		b = (int) (getRectangle().width / 2 + 20 * zoom);
+		b = (int) (getRectangle().width / 2.0 + 20 * zoom);
 		h = (int) (40 * zoom);
 
 		// g2.drawLine(x0,y0,b,y0);

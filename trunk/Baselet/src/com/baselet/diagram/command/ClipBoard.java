@@ -23,7 +23,7 @@ public class ClipBoard implements Transferable {
 	private DiagramHandler copiedfrom;
 	private Vector<GridElement> entities;
 
-	public static ClipBoard _instance;
+	private static ClipBoard _instance;
 
 	public static ClipBoard getInstance() {
 		if (_instance == null) {

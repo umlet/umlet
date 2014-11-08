@@ -28,7 +28,7 @@ public class Container extends Element {
 		current_row = row;
 		this.parent = parent;
 
-		if (Const.AutoInsertIF && this.parent != null) {
+		if (Const.autoInsertIF && this.parent != null) {
 			setStartElement(new If(handler, g, null));
 		}
 		else if (this.parent != null) {
@@ -64,7 +64,7 @@ public class Container extends Element {
 	}
 
 	public Container close() {
-		if (Const.AutoInsertIF && parent != null) {
+		if (Const.autoInsertIF && parent != null) {
 			setStopElement(new EndIf(getHandler(), getGraphics(), null));
 		}
 		else if (parent != null) {

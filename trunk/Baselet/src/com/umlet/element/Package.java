@@ -49,11 +49,11 @@ public class Package extends OldGridElement {
 		// LME: coloring (some code doubled)
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			if (tmp.elementAt(0).equals("--") && !(borders))
+			if (tmp.elementAt(0).equals("--") && !borders)
 			{
 				yPosBorder = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(); // if there is no Packagename
 			}
-			if (s.equals("--") && !(borders)) {
+			if (s.equals("--") && !borders) {
 				g2.setComposite(composites[1]);
 				g2.setColor(bgColor);
 				g2.fillRect(0, 0, maxUpperBox, yPosBorder);
@@ -89,12 +89,12 @@ public class Package extends OldGridElement {
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 
-			if (tmp.elementAt(0).equals("--") && !(borders))
+			if (tmp.elementAt(0).equals("--") && !borders)
 			{
 				yPos = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(); // if there is no Packagename
 			}
 
-			if (s.equals("--") && !(borders)) {
+			if (s.equals("--") && !borders) {
 				borders = true;
 				// g2.drawRect(0,0,maxUpperBox,yPos);
 				// g2.drawRect(0,yPos,this.getWidth()-1,this.getHeight()-yPos-1);
@@ -106,7 +106,7 @@ public class Package extends OldGridElement {
 				yPos = (lines + 1) * (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts()) / 2;
 				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s.substring(5), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s.substring(5), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2.0, yPos, AlignHorizontal.LEFT);
 				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 				normal = true;
 			}
@@ -153,12 +153,12 @@ public class Package extends OldGridElement {
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 			// G. Mueller start
-			if (tmp.elementAt(0).equals("--") && !(borders))
+			if (tmp.elementAt(0).equals("--") && !borders)
 			{
 				yPos = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(); // if there is no Packagename
 			}
 			// G.Mueller End
-			if (s.equals("--") && !(borders)) {
+			if (s.equals("--") && !borders) {
 				borders = true;
 			}
 			else if (!borders) {

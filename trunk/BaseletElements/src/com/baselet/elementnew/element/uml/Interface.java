@@ -12,8 +12,8 @@ import com.baselet.elementnew.settings.SettingsAutoresize;
 
 public class Interface extends NewGridElement {
 
-	private int TOP_DISTANCE = 10;
-	private int CIRCLE_SIZE = 20;
+	private final int TOP_DISTANCE = 10;
+	private final int CIRCLE_SIZE = 20;
 
 	private final StickingPolygonGenerator interfacePolygonGenerator = new StickingPolygonGenerator() {
 		@Override
@@ -33,13 +33,13 @@ public class Interface extends NewGridElement {
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		state.addToYPos(TOP_DISTANCE + CIRCLE_SIZE);// space reserved for the top circle
 		Rectangle circleRect = circleRect();
-		drawer.drawCircle(circleRect.x + CIRCLE_SIZE / 2, circleRect.y + CIRCLE_SIZE / 2, CIRCLE_SIZE / 2);
+		drawer.drawCircle(circleRect.x + CIRCLE_SIZE * 0.5, circleRect.y + CIRCLE_SIZE * 0.5, CIRCLE_SIZE * 0.5);
 
 		state.setStickingPolygonGenerator(interfacePolygonGenerator);
 	}
 
 	private Rectangle circleRect() {
-		int middlePos = getRealSize().getWidth() / 2 - CIRCLE_SIZE / 2;
+		int middlePos = (int) (getRealSize().getWidth() * 0.5 - CIRCLE_SIZE * 0.5);
 		return new Rectangle(middlePos, TOP_DISTANCE, CIRCLE_SIZE, CIRCLE_SIZE);
 	}
 

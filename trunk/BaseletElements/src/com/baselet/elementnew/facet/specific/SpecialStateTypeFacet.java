@@ -12,7 +12,7 @@ import com.baselet.elementnew.facet.PropertiesParserState;
 
 public class SpecialStateTypeFacet extends KeyValueFacet {
 
-	public static SpecialStateTypeFacet INSTANCE = new SpecialStateTypeFacet();
+	public static final SpecialStateTypeFacet INSTANCE = new SpecialStateTypeFacet();
 
 	private SpecialStateTypeFacet() {}
 

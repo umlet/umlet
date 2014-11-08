@@ -15,7 +15,7 @@ import com.baselet.gui.AutocompletionText;
 
 public class InnerClassFacet extends Facet {
 
-	public static InnerClassFacet INSTANCE = new InnerClassFacet();
+	public static final InnerClassFacet INSTANCE = new InnerClassFacet();
 
 	private InnerClassFacet() {}
 

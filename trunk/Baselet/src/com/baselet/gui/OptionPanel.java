@@ -33,7 +33,7 @@ import com.baselet.gui.standalone.StandaloneGUI;
 @SuppressWarnings("serial")
 public class OptionPanel extends JPanel implements ActionListener {
 
-	public static OptionPanel optionpanel;
+	private static OptionPanel optionpanel;
 
 	public static OptionPanel getInstance() {
 		if (optionpanel == null) {

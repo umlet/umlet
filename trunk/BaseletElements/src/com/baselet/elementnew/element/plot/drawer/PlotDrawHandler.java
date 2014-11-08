@@ -2,6 +2,7 @@ package com.baselet.elementnew.element.plot.drawer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -555,9 +556,9 @@ public class PlotDrawHandler {
 	}
 
 	public void setValues(String[] desc, String[] title, Double[][] values, List<String> colors) {
-		this.desc = desc;
-		this.title = title;
-		this.colors = colors;
+		this.desc = copy(desc);
+		this.title = copy(title);
+		this.colors = new ArrayList<String>(colors);
 		this.values = values;
 
 		valuesSorted = new TreeSet<Double>();
@@ -570,6 +571,10 @@ public class PlotDrawHandler {
 
 		minVal = minRealOrShownValue();
 		maxVal = maxRealOrShownValue();
+	}
+
+	private String[] copy(String[] array) {
+		return Arrays.copyOf(array, array.length);
 	}
 
 	public void setMinValue(Double minVal) throws IOException {

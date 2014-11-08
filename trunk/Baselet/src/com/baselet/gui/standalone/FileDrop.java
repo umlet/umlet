@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Reader;
 
+import com.baselet.gui.standalone.FileDrop.TransferableObject;
+
 /**
  * This class makes it easy to drag and drop files from the operating
  * system to a Java program. Any <tt>java.awt.Component</tt> can be
@@ -679,17 +681,6 @@ public class FileDrop {
 			super(source);
 			this.files = files;
 		} // end constructor
-
-		/**
-		 * Returns an array of files that were dropped on a
-		 * registered drop target.
-		 *
-		 * @return array of files that were dropped
-		 * @since 1.1
-		 */
-		public java.io.File[] getFiles() {
-			return files;
-		} // end getFiles
 
 	} // end inner class Event
 

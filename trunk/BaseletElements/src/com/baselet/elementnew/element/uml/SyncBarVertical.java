@@ -20,13 +20,13 @@ import com.baselet.elementnew.settings.SettingsNoText;
 
 public class SyncBarVertical extends NewGridElement {
 
-	private StickingPolygonGenerator syncBarStickingPolygonGenerator = new StickingPolygonGenerator() {
+	private final StickingPolygonGenerator syncBarStickingPolygonGenerator = new StickingPolygonGenerator() {
 		@Override
 		public StickingPolygon generateStickingBorder(Rectangle rect) {
 			StickingPolygon p = new StickingPolygon(rect.x, rect.y);
 			double lt = getDrawer().getStyle().getLineWidth();
-			double halfWidth = getRealSize().getWidth() / 2;
-			p.addRectangle(new Rectangle(halfWidth - lt / 2, 0.0, lt, (double) getRealSize().getHeight()));
+			double halfWidth = getRealSize().getWidth() * 0.5;
+			p.addRectangle(new Rectangle(halfWidth - lt * 0.5, 0.0, lt, (double) getRealSize().getHeight()));
 			return p;
 		}
 	};
@@ -42,7 +42,7 @@ public class SyncBarVertical extends NewGridElement {
 			drawer.setLineWidth(5);
 		}
 		Dimension s = getRealSize();
-		drawer.drawLine(s.getWidth() / 2, 0, s.getWidth() / 2, s.getHeight());
+		drawer.drawLine(s.getWidth() * 0.5, 0, s.getWidth() * 0.5, s.getHeight());
 		state.setStickingPolygonGenerator(syncBarStickingPolygonGenerator);
 	}
 
