@@ -79,7 +79,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		p.setBorder(null);
 		setScrollPanel(p);
 
-		if (Program.RUNTIME_TYPE != RuntimeType.BATCH) {
+		if (Program.getInstance().getRuntimeType() != RuntimeType.BATCH) {
 			// Wait until drawpanel is valid (eg: after loading a diagramm) and then update panel and scrollbars
 			// Otherwise palettes which are larger than the viewable area would sometimes not have visible scrollbars until the first click into the palette
 			new Timer("updatePanelAndScrollbars", true).schedule(new TimerTask() {

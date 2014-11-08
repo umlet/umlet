@@ -37,7 +37,7 @@ public class MainPlugin extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public MainPlugin() {
-		Program.RUNTIME_TYPE = RuntimeType.ECLIPSE_PLUGIN;
+		Program.getInstance().setRuntimeType(RuntimeType.ECLIPSE_PLUGIN);
 		plugin = this;
 	}
 
@@ -76,7 +76,7 @@ public class MainPlugin extends AbstractUIPlugin {
 	private void readBundleManifestInfo() {
 		Dictionary<String, String> headers = MainPlugin.getDefault().getBundle().getHeaders();
 		PLUGIN_ID = MainPlugin.getDefault().getBundle().getSymbolicName();
-		Program.init(headers.get(Constants.MANIFEST_BUNDLE_VERSION));
+		Program.getInstance().init(headers.get(Constants.MANIFEST_BUNDLE_VERSION));
 
 	}
 

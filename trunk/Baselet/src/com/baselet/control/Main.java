@@ -73,8 +73,8 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 		main.initLogger();
 		main.readManifestInfo();
 		ConfigHandler.loadConfig();
-		tmp_file = Program.NAME.toLowerCase() + ".tmp";
-		tmp_read_file = Program.NAME.toLowerCase() + "_1.tmp";
+		tmp_file = Program.getInstance().getProgramName().toLowerCase() + ".tmp";
+		tmp_read_file = Program.getInstance().getProgramName().toLowerCase() + "_1.tmp";
 
 		if (args.length != 0) {
 			String action = null;
@@ -107,7 +107,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			}
 			else if (action != null && format != null && filename != null) {
 				if (action.equals("convert")) {
-					Program.RUNTIME_TYPE = RuntimeType.BATCH;
+					Program.getInstance().setRuntimeType(RuntimeType.BATCH);
 					String[] splitFilename = filename.split("(/|\\\\)");
 					String localName = splitFilename[splitFilename.length - 1];
 					String dir = filename.substring(0, filename.length() - localName.length());
@@ -187,7 +187,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 	private void readManifestInfo() {
 		try {
 			Attributes attributes = Path.manifest().getMainAttributes();
-			Program.init(attributes.getValue(Constants.MANIFEST_BUNDLE_VERSION));
+			Program.getInstance().init(attributes.getValue(Constants.MANIFEST_BUNDLE_VERSION));
 		} catch (Exception e) {
 			// log.error(null, e);
 			e.printStackTrace(); // Logger is not initialized here
@@ -207,7 +207,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 		for (String format : ImageIO.getWriterFileSuffixes()) {
 			formatBuilder.append("|").append(format);
 		}
-		printToConsole("USAGE: -action=convert -format=(" + formatBuilder.toString() + ") -filename=inputfile." + Program.EXTENSION + " [-output=outputfile[.extension]]");
+		printToConsole("USAGE: -action=convert -format=(" + formatBuilder.toString() + ") -filename=inputfile." + Program.getInstance().getExtension() + " [-output=outputfile[.extension]]");
 	}
 
 	public static void doConvert(File inputFile, String outputFormat, String outputParam) {
@@ -473,7 +473,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 		File[] paletteFiles = fileSystemView.getFiles(new File(Path.homeProgram() + "palettes/"), false);
 		List<File> palettes = new ArrayList<File>();
 		for (File palette : paletteFiles) {
-			if (palette.getName().endsWith("." + Program.EXTENSION)) {
+			if (palette.getName().endsWith("." + Program.getInstance().getExtension())) {
 				palettes.add(palette);
 			}
 		}

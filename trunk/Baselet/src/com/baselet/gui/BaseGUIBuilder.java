@@ -152,7 +152,7 @@ public abstract class BaseGUIBuilder {
 		paletteList.addMouseWheelListener(pl);
 
 		// only set last used palette if the program version has not changed (if the version is not equal or the lastUsedPalette String is invalid it will simply stay at index 0)
-		if (Program.VERSION.equals(Config.getInstance().getProgramVersion())) {
+		if (Program.getInstance().getVersion().equals(Config.getInstance().getProgramVersion())) {
 			paletteList.setSelectedItem(Config.getInstance().getLastUsedPalette());
 		}
 	}
