@@ -9,7 +9,7 @@ public class Program {
 	public static RuntimeType RUNTIME_TYPE = RuntimeType.STANDALONE;
 	public static String CONFIG_NAME;
 	public static final String NAME = "UMLet";
-	public static String EXTENSION = "uxf";
+	public static final String EXTENSION = "uxf";
 	public static String WEBSITE;
 	public static String VERSION;
 	public static String[] GRID_ELEMENT_PACKAGES = new String[] { "com.umlet.element", "com.umlet.element.custom", "com.plotlet.element", "com.baselet.element" };

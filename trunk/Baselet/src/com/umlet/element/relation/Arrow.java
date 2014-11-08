@@ -78,6 +78,81 @@ public class Arrow extends Rectangle {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + _arcEnd;
+		result = prime * result + _arcStart;
+		result = prime * result + (_arrowEndA == null ? 0 : _arrowEndA.hashCode());
+		result = prime * result + (_arrowEndB == null ? 0 : _arrowEndB.hashCode());
+		result = prime * result + (_arrowType == null ? 0 : _arrowType.hashCode());
+		result = prime * result + (_crossEndA == null ? 0 : _crossEndA.hashCode());
+		result = prime * result + (_crossEndB == null ? 0 : _crossEndB.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Arrow other = (Arrow) obj;
+		if (_arcEnd != other._arcEnd) {
+			return false;
+		}
+		if (_arcStart != other._arcStart) {
+			return false;
+		}
+		if (_arrowEndA == null) {
+			if (other._arrowEndA != null) {
+				return false;
+			}
+		}
+		else if (!_arrowEndA.equals(other._arrowEndA)) {
+			return false;
+		}
+		if (_arrowEndB == null) {
+			if (other._arrowEndB != null) {
+				return false;
+			}
+		}
+		else if (!_arrowEndB.equals(other._arrowEndB)) {
+			return false;
+		}
+		if (_arrowType == null) {
+			if (other._arrowType != null) {
+				return false;
+			}
+		}
+		else if (!_arrowType.equals(other._arrowType)) {
+			return false;
+		}
+		if (_crossEndA == null) {
+			if (other._crossEndA != null) {
+				return false;
+			}
+		}
+		else if (!_crossEndA.equals(other._crossEndA)) {
+			return false;
+		}
+		if (_crossEndB == null) {
+			if (other._crossEndB != null) {
+				return false;
+			}
+		}
+		else if (!_crossEndB.equals(other._crossEndB)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		return "Type: " + _arrowType + " / Coordinates: " + x + "," + y;
 	}

@@ -62,7 +62,7 @@ public class ElementFactory {
 
 	public static GridElement createCopy(GridElement old) {
 		if (old instanceof OldGridElement) {
-			return ((OldGridElement) old).CloneFromMe();
+			return ((OldGridElement) old).cloneFromMe();
 		}
 		else {
 			return create(old.getId(), old.getRectangle().copy(), old.getPanelAttributes(), old.getAdditionalAttributes(), Main.getHandlerForElement(old));

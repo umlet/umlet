@@ -1,5 +1,6 @@
 package com.umlet.language.sorting;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 
@@ -22,7 +23,8 @@ public class AlphabetLayout extends Layout {
 		return result;
 	}
 
-	private static class AlphabetSorter implements Comparator<SortableElement> {
+	private static class AlphabetSorter implements Comparator<SortableElement>, Serializable {
+		private static final long serialVersionUID = 1L;
 
 		@Override
 		public int compare(SortableElement e1, SortableElement e2) {

@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Reader;
 
-import com.baselet.gui.standalone.FileDrop.TransferableObject;
-
 /**
  * This class makes it easy to drag and drop files from the operating
  * system to a Java program. Any <tt>java.awt.Component</tt> can be
@@ -645,46 +643,6 @@ public class FileDrop {
 		public abstract void filesDropped(java.io.File[] files);
 
 	} // end inner-interface Listener
-
-	/* ******** I N N E R C L A S S ******** */
-
-	/**
-	 * This is the event that is passed to the {@link FileDropListener#filesDropped filesDropped(...)} method in
-	 * your {@link FileDropListener} when files are dropped onto
-	 * a registered drop target.
-	 * <p>
-	 * I'm releasing this code into the Public Domain. Enjoy.
-	 * </p>
-	 *
-	 * @author Robert Harder
-	 * @author rob@iharder.net
-	 * @version 1.2
-	 */
-	public static class Event extends java.util.EventObject {
-
-		/**
-		 *
-		 */
-		private static final long serialVersionUID = 1L;
-		private final java.io.File[] files;
-
-		/**
-		 * Constructs an {@link Event} with the array
-		 * of files that were dropped and the {@link FileDrop} that initiated the event.
-		 *
-		 * @param files
-		 *            The array of files that were dropped
-		 * @source The event source
-		 * @since 1.1
-		 */
-		public Event(java.io.File[] files, Object source) {
-			super(source);
-			this.files = files;
-		} // end constructor
-
-	} // end inner class Event
-
-	/* ******** I N N E R C L A S S ******** */
 
 	/**
 	 * At last an easy way to encapsulate your custom objects for dragging and dropping

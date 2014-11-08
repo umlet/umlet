@@ -44,8 +44,8 @@ public class CustomElementWithErrors extends CustomElement {
 	}
 
 	@Override
-	public final GridElement CloneFromMe() {
-		CustomElementWithErrors e = (CustomElementWithErrors) super.CloneFromMe();
+	public final GridElement cloneFromMe() {
+		CustomElementWithErrors e = (CustomElementWithErrors) super.cloneFromMe();
 		e.setCode(getCode());
 		e.errors = errors;
 		return e;

@@ -64,7 +64,7 @@ public class Systemborder extends OldGridElement {
 			}
 			if (center) {
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getRectangle().width - 1) / 2, yPos, AlignHorizontal.CENTER);
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getRectangle().width - 1) / 2.0, yPos, AlignHorizontal.CENTER);
 				yPos += 2 * Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else if (downleft) {

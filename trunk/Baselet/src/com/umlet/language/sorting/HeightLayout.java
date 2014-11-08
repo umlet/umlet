@@ -1,5 +1,6 @@
 package com.umlet.language.sorting;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 
@@ -10,7 +11,8 @@ public class HeightLayout extends Layout {
 		super.simpleLayout(new HeightSorter(), elements);
 	}
 
-	private static class HeightSorter implements Comparator<SortableElement> {
+	private static class HeightSorter implements Comparator<SortableElement>, Serializable {
+		private static final long serialVersionUID = 1L;
 
 		@Override
 		public int compare(SortableElement e1, SortableElement e2) {
