@@ -20,4 +20,9 @@ public class CustomPreviewHandler extends DiagramHandler {
 		getDrawPanel().getGridElements().clear();
 		getDrawPanel().removeAll();
 	}
+
+	@Override
+	protected void initDiagramPopupMenu(boolean extendedPopupMenu) {
+		/* no diagram popup menu for palette */
+	}
 }

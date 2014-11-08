@@ -16,4 +16,9 @@ public class PaletteHandler extends DiagramHandler {
 	public GridElementListener getEntityListener(GridElement e) {
 		return PaletteEntityListener.getInstance(this);
 	}
+
+	@Override
+	protected void initDiagramPopupMenu(boolean extendedPopupMenu) {
+		/* no diagram popup menu for palette */
+	}
 }
