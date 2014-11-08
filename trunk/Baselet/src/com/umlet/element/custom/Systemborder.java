@@ -68,16 +68,16 @@ public class Systemborder extends OldGridElement {
 				yPos += 2 * Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else if (downleft) {
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2), yPos, AlignHorizontal.LEFT);
 			}
 			else if (upcenter) {
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getRectangle().width - 1) / 2, yPos, AlignHorizontal.CENTER);
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (getRectangle().width - 1) / 2.0, yPos, AlignHorizontal.CENTER);
 				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
 				yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2, yPos, AlignHorizontal.LEFT);
+				Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2), yPos, AlignHorizontal.LEFT);
 				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 		}

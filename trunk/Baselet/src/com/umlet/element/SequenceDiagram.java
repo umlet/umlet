@@ -162,12 +162,12 @@ public class SequenceDiagram extends OldGridElement {
 	public int arrowX = 5;
 	public int arrowY = 5;
 
-	public final int SYNC = 1;
-	public final int ASYNC = 2;
-	public final int EDGE = 3; // LME
-	public final int FILLED = 4; // LME
-	public final int SOLID = 1; // LME
-	public final int DOTTED = 2; // LME
+	public static final int SYNC = 1;
+	public static final int ASYNC = 2;
+	public static final int EDGE = 3; // LME
+	public static final int FILLED = 4; // LME
+	public static final int SOLID = 1; // LME
+	public static final int DOTTED = 2; // LME
 
 	private Map<String, Integer> labeltonumber;
 	private int levelNum = 0;

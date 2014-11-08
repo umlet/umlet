@@ -54,28 +54,28 @@ public class ActivityDiagramText extends OldGridElement {
 
 	private float zoom;
 
-	private final String normalchars = "[^\\~\\>]";// "[ \\w\\\\\\(\\)]";
-	private final String conditionChars = "[^\\]]";
-	private final String title_pattern = "title\\:(" + normalchars + "+)";
-	private final String line_pattern = "(\\t*)" + // tabs 1
-										"(\\[([ " + conditionChars + "]+)\\])?" + // conditions 2..3
-										"(" + // 4
-										"(" + // 5
-										"(Start)" + // start 6
-										"|(End|AEnd)" + // end7
-										"|(\\|)" + // linespacer 8
-										"|(If|Fork)|(EndIf|Sync)" + // if blocks 9/10
-										"|(While(\\[(" + normalchars + "*)\\])?)" + // while 11..13
-										"|(\\>(" + normalchars + "+))" + // recieve event 14..15
-										"|((" + normalchars + "+)\\>)" + // raise event 16..17
-										"|((" + normalchars + "+)\\.\\.)" + // partactivity 18..19
-										"|(" + normalchars + "+)" + // activity 20
-										")" +
-										"(\\~(" + normalchars + "+)?)?" + // ids 21..22
-										")?" +
-										"\\s*" +
-										"(\\-\\>(" + normalchars + "+))?" + // goto 23..24
-										"\\s*";
+	private static final String normalchars = "[^\\~\\>]";// "[ \\w\\\\\\(\\)]";
+	private static final String conditionChars = "[^\\]]";
+	private static final String title_pattern = "title\\:(" + normalchars + "+)";
+	private static final String line_pattern = "(\\t*)" + // tabs 1
+												"(\\[([ " + conditionChars + "]+)\\])?" + // conditions 2..3
+												"(" + // 4
+												"(" + // 5
+												"(Start)" + // start 6
+												"|(End|AEnd)" + // end7
+												"|(\\|)" + // linespacer 8
+												"|(If|Fork)|(EndIf|Sync)" + // if blocks 9/10
+												"|(While(\\[(" + normalchars + "*)\\])?)" + // while 11..13
+												"|(\\>(" + normalchars + "+))" + // recieve event 14..15
+												"|((" + normalchars + "+)\\>)" + // raise event 16..17
+												"|((" + normalchars + "+)\\.\\.)" + // partactivity 18..19
+												"|(" + normalchars + "+)" + // activity 20
+												")" +
+												"(\\~(" + normalchars + "+)?)?" + // ids 21..22
+												")?" +
+												"\\s*" +
+												"(\\-\\>(" + normalchars + "+))?" + // goto 23..24
+												"\\s*";
 
 	private void init(Graphics2D graphics) {
 
