@@ -40,7 +40,7 @@ public class UpdateCheckTimerTask extends TimerTask {
 	}
 
 	private static String wrapUpdateTextIntoStartupFileHtmlStyle(String textFromURL) throws FileNotFoundException {
-		String returnText = "";
+		StringBuilder sb = new StringBuilder("");
 		Scanner sc = null;
 		try {
 			sc = new Scanner(new File(StartUpHelpText.getStartUpFileName()));
@@ -49,15 +49,15 @@ public class UpdateCheckTimerTask extends TimerTask {
 				if (line.contains("<body>")) {
 					break;
 				}
-				returnText += line + "\n";
+				sb.append(line).append("\n");
 			}
-			returnText += textFromURL + "</body></html>";
+			sb.append(textFromURL).append("</body></html>");
 		} finally {
 			if (sc != null) {
 				sc.close();
 			}
 		}
-		return returnText;
+		return sb.toString();
 	}
 
 	private static String getNewVersionTextFromURL() throws IOException {
@@ -69,11 +69,12 @@ public class UpdateCheckTimerTask extends TimerTask {
 			return null; // no newer version found
 		}
 
-		String returnText = "<p><b>A new version of " + Program.NAME + " (" + actualVersion + ") is available at <a href=\"" + Program.WEBSITE + "\">" + Program.WEBSITE.substring("http://".length()) + "</a></b></p>";
+		StringBuilder sb = new StringBuilder("");
+		sb.append("<p><b>A new version of ").append(Program.NAME).append(" (").append(actualVersion).append(") is available at <a href=\"").append(Program.WEBSITE).append("\">").append(Program.WEBSITE.substring("http://".length())).append("</a></b></p>");
 		// Every line after the first one describes a feature of the new version and will be listed
 		for (int i = 1; i < splitString.length; i++) {
-			returnText += "<p>" + splitString[i] + "</p>";
+			sb.append("<p>").append(splitString[i]).append("</p>");
 		}
-		return returnText;
+		return sb.toString();
 	}
 }

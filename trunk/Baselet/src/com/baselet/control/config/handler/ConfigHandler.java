@@ -191,11 +191,12 @@ public class ConfigHandler {
 				}
 			}
 			if (!RecentlyUsedFilesList.getInstance().isEmpty()) {
-				String recentFileString = "";
+				StringBuilder sb = new StringBuilder("");
 				for (String recentFile : RecentlyUsedFilesList.getInstance()) {
-					recentFileString += recentFile + "|";
+					sb.append(recentFile).append("|");
 				}
-				props.setProperty(RECENT_FILES, recentFileString.substring(0, recentFileString.length() - 1));
+				sb.setLength(sb.length() - 1);
+				props.setProperty(RECENT_FILES, sb.toString());
 			}
 
 			/* MAIL */

@@ -57,18 +57,18 @@ public class BrowserLauncher {
 	}
 
 	public static String readURL(String url) throws IOException {
-		String content = "";
+		StringBuilder sb = new StringBuilder("");
 		Scanner sc = null;
 		try {
 			sc = new Scanner(new URL(url).openStream());
 			while (sc.hasNextLine()) {
-				content += sc.nextLine() + "\n";
+				sb.append(sc.nextLine()).append("\n");
 			}
 		} finally {
 			if (sc != null) {
 				sc.close();
 			}
 		}
-		return content;
+		return sb.toString();
 	}
 }

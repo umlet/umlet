@@ -174,20 +174,19 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public void setProperty(String key, Object newValue) {
-		String newState = "";
+		StringBuilder sb = new StringBuilder("");
 		for (String line : panelAttributes) {
 			if (!line.startsWith(key.toString())) {
-				newState += line + "\n";
+				sb.append(line).append("\n");
 			}
 		}
-		if (!newState.isEmpty()) {
-			newState = newState.substring(0, newState.length() - 1); // remove last linebreak
+		if (sb.length() > 0) {
+			sb.setLength(sb.length() - 1); // remove last linebreak
 		}
-		if (newValue != null && !newValue.toString().isEmpty())
-		{
-			newState += "\n" + key.toString() + "=" + newValue; // null will not be added as a value
+		if (newValue != null && !newValue.toString().isEmpty()) {
+			sb.append("\n").append(key.toString()).append("=").append(newValue); // null will not be added as a value
 		}
-		setPanelAttributes(newState);
+		setPanelAttributes(sb.toString());
 	}
 
 	public Composite[] colorize(Graphics2D g2) {

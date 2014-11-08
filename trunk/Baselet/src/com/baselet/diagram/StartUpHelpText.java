@@ -104,7 +104,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 	}
 
 	private static String getDefaultTextWithReplacedSystemspecificMetakeys() throws FileNotFoundException {
-		String text = "";
+		StringBuilder sb = new StringBuilder("");
 		Scanner sc = null;
 		try {
 			sc = new Scanner(new File(getStartUpFileName()));
@@ -116,14 +116,14 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 				else if (SystemInfo.META_KEY == Metakey.CMD) {
 					line = line.replace(Metakey.CTRL.toString(), Metakey.CMD.toString());
 				}
-				text += line + "\n";
+				sb.append(line).append("\n");
 			}
 		} finally {
 			if (sc != null) {
 				sc.close();
 			}
 		}
-		return text;
+		return sb.toString();
 	}
 
 	@Override
