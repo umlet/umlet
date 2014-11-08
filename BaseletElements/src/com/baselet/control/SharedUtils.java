@@ -130,4 +130,25 @@ public class SharedUtils {
 		return Collections.unmodifiableList(returnList);
 	}
 
+	public static Double[][] cloneArray(Double[][] src) {
+		int length = src.length;
+		Double[][] target = new Double[length][src[0].length];
+		for (int i = 0; i < length; i++) {
+			System.arraycopy(src[i], 0, target[i], 0, src[i].length);
+		}
+		return target;
+	}
+
+	public static String[] cloneArray(String[] src) {
+		String[] target = new String[src.length];
+		System.arraycopy(src, 0, target, 0, src.length);
+		return target;
+	}
+
+	public static int[] cloneArray(int[] src) {
+		int[] target = new int[src.length];
+		System.arraycopy(src, 0, target, 0, src.length);
+		return target;
+	}
+
 }

@@ -2,10 +2,10 @@ package com.baselet.elementnew.element.plot.drawer;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.TreeSet;
 
+import com.baselet.control.SharedUtils;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.geom.Dimension;
@@ -556,10 +556,10 @@ public class PlotDrawHandler {
 	}
 
 	public void setValues(String[] desc, String[] title, Double[][] values, List<String> colors) {
-		this.desc = copy(desc);
-		this.title = copy(title);
+		this.desc = SharedUtils.cloneArray(desc);
+		this.title = SharedUtils.cloneArray(title);
 		this.colors = new ArrayList<String>(colors);
-		this.values = values;
+		this.values = SharedUtils.cloneArray(values);
 
 		valuesSorted = new TreeSet<Double>();
 		for (Double[] vArray : values) {
@@ -571,10 +571,6 @@ public class PlotDrawHandler {
 
 		minVal = minRealOrShownValue();
 		maxVal = maxRealOrShownValue();
-	}
-
-	private String[] copy(String[] array) {
-		return Arrays.copyOf(array, array.length);
 	}
 
 	public void setMinValue(Double minVal) throws IOException {

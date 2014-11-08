@@ -1,7 +1,6 @@
 package com.baselet.gwt.client.view.panel.wrapper;
 
-import java.util.Arrays;
-
+import com.baselet.control.SharedUtils;
 import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.gwt.client.base.Browser;
 import com.baselet.gwt.client.view.interfaces.AutoresizeScrollDropTarget;
@@ -84,7 +83,7 @@ public class AutoResizeScrollDropPanel extends ScrollPanel implements HasScrollP
 			String[] split = getScrollbarSizeHelper().split(" ");
 			scrollbarSize = new int[] { Integer.parseInt(split[0]), Integer.parseInt(split[1]) };
 		}
-		return Arrays.copyOf(scrollbarSize, scrollbarSize.length);
+		return SharedUtils.cloneArray(scrollbarSize);
 	}
 
 	private final native static String getScrollbarSizeHelper() /*-{

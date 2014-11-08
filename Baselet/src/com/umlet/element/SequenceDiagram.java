@@ -239,7 +239,7 @@ public class SequenceDiagram extends OldGridElement {
 
 		// LABEL ADDING
 		// get the labels of the Sequencediagram
-		String newhead = ""; // delete the ids from the header
+		StringBuilder sb = new StringBuilder(""); // delete the ids from the header
 		labeltonumber = new HashMap<String, Integer>();
 
 		Pattern p_label = Pattern.compile("([^\\~]+)(\\~([a-zA-Z0-9]+))?(\\_)?");
@@ -247,16 +247,17 @@ public class SequenceDiagram extends OldGridElement {
 			Matcher m = p_label.matcher(obj.get(i - 1));
 			if (m.matches() && m.group(2) != null) {
 				labeltonumber.put(m.group(3), i);
-				newhead += "|" + m.group(1) + (m.group(4) == null ? "" : m.group(4));
+				sb.append("|").append(m.group(1)).append(m.group(4) == null ? "" : m.group(4));
 			}
 			else {
-				newhead += "|" + obj.get(i - 1);
+				sb.append("|").append(obj.get(i - 1));
 			}
 			if (!labeltonumber.containsKey(Integer.toString(i))) // only write number if no other label has this number
 			{
 				labeltonumber.put(Integer.toString(i), i); // columnnumber as label for backward compatibility
 			}
 		}
+		String newhead = sb.toString();
 		obj = Utils.decomposeStrings(newhead.length() > 0 ? newhead.substring(1) : "", "|");
 		// LABELADDING STOP (exchanged parseInteger Methods with labeltonumber.get methods
 

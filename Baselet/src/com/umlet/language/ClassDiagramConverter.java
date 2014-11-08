@@ -135,30 +135,29 @@ public class ClassDiagramConverter {
 	}
 
 	private String getElementProperties(JavaClass parsedClass) {
-		String attributes = "";
+		StringBuilder sb = new StringBuilder("");
 
-		attributes = createTopSection(parsedClass, attributes);
-		attributes += "--\n";
+		createTopSection(parsedClass, sb);
+		sb.append("--\n");
 
-		attributes = createFieldSection(parsedClass, attributes);
-		attributes += "--\n";
+		createFieldSection(parsedClass, sb);
+		sb.append("--\n");
 
-		attributes = createMethodSection(parsedClass, attributes);
-		attributes += "--\n";
+		createMethodSection(parsedClass, sb);
+		sb.append("--\n");
 
-		return attributes;
+		return sb.toString();
 	}
 
-	private String createMethodSection(JavaClass parsedClass, String attributes) {
+	private void createMethodSection(JavaClass parsedClass, StringBuilder sb) {
 		for (Method method : parsedClass.getMethods()) {
 			if (ConfigClassGen.getInstance().getGenerateClassMethods() == MethodOptions.PUBLIC && method.getAccess() == AccessFlag.PUBLIC) {
-				attributes += getMethodString(method);
+				sb.append(getMethodString(method));
 			}
 			else if (ConfigClassGen.getInstance().getGenerateClassMethods() == MethodOptions.ALL) {
-				attributes += getMethodString(method);
+				sb.append(getMethodString(method));
 			}
 		}
-		return attributes;
 	}
 
 	private String getMethodString(Method method) {
@@ -173,31 +172,29 @@ public class ClassDiagramConverter {
 		}
 	}
 
-	private String createFieldSection(JavaClass parsedClass, String attributes) {
+	private void createFieldSection(JavaClass parsedClass, StringBuilder sb) {
 		for (Field field : parsedClass.getFields()) {
 			if (ConfigClassGen.getInstance().getGenerateClassFields() == FieldOptions.PUBLIC && field.getAccess() == AccessFlag.PUBLIC) {
-				attributes += field.getAccess() + field.getName() + ": " + field.getType() + "\n";
+				sb.append(field.getAccess()).append(field.getName()).append(": ").append(field.getType()).append("\n");
 			}
 			else if (ConfigClassGen.getInstance().getGenerateClassFields() == FieldOptions.ALL) {
-				attributes += field.getAccess() + field.getName() + ": " + field.getType() + "\n";
+				sb.append(field.getAccess()).append(field.getName()).append(": ").append(field.getType()).append("\n");
 			}
 		}
-		return attributes;
 	}
 
-	private String createTopSection(JavaClass parsedClass, String attributes) {
+	private void createTopSection(JavaClass parsedClass, StringBuilder sb) {
 		ClassRole role = parsedClass.getRole();
 		if (role == ClassRole.INTERFACE) {
-			attributes += "<<" + role + ">>\n";
-			attributes += AlphabetLayout.getClassName(parsedClass);
+			sb.append("<<").append(role).append(">>\n").append(AlphabetLayout.getClassName(parsedClass));
 		}
 		else if (role == ClassRole.ABSTRACT) {
-			attributes += "/" + AlphabetLayout.getClassName(parsedClass) + "/";
+			sb.append("/").append(AlphabetLayout.getClassName(parsedClass)).append("/");
 		}
 		else {
-			attributes += AlphabetLayout.getClassName(parsedClass);
+			sb.append(AlphabetLayout.getClassName(parsedClass));
 		}
-		return attributes += "\n";
+		sb.append("\n");
 	}
 
 	private JavaClass parseFile(String filename) {
