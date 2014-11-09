@@ -10,6 +10,7 @@ import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.diagram.Diagram;
 import com.baselet.element.GridElement;
+import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
@@ -45,18 +46,14 @@ public class DiagramGwt implements Diagram {
 		this.gridElements = gridElements;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.baselet.gwt.client.element.Diagramx#getGridElements() */
 	@Override
 	public List<GridElement> getGridElements() {
 		return gridElements;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.baselet.gwt.client.element.Diagramx#getRelations() */
 	@Override
-	public List<Relation> getRelations() {
-		List<Relation> returnList = new ArrayList<Relation>();
+	public List<Stickable> getStickables() {
+		List<Stickable> returnList = new ArrayList<Stickable>();
 		for (GridElement ge : gridElements) {
 			if (ge instanceof Relation) {
 				returnList.add((Relation) ge);
@@ -65,21 +62,17 @@ public class DiagramGwt implements Diagram {
 		return returnList;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.baselet.gwt.client.element.Diagramx#getStickables(com.baselet.element.GridElement) */
 	@Override
 	public StickableMap getStickables(GridElement draggedElement) {
 		return getStickables(draggedElement, Collections.<GridElement> emptyList());
 	}
 
-	/* (non-Javadoc)
-	 * @see com.baselet.gwt.client.element.Diagramx#getStickables(com.baselet.element.GridElement, java.util.Collection) */
 	@Override
 	public StickableMap getStickables(GridElement draggedElement, Collection<GridElement> excludeList) {
 		if (!SharedConfig.getInstance().isStickingEnabled()) {
 			return StickableMap.EMPTY_MAP;
 		}
-		List<Relation> stickables = getRelations();
+		List<Stickable> stickables = getStickables();
 		stickables.removeAll(excludeList);
 
 		StickingPolygon stickingBorder = draggedElement.generateStickingBorder(draggedElement.getRectangle());
@@ -87,15 +80,11 @@ public class DiagramGwt implements Diagram {
 		return stickingStickables;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.baselet.gwt.client.element.Diagramx#getGridElementsByLayerLowestToHighest() */
 	@Override
 	public List<GridElement> getGridElementsByLayerLowestToHighest() {
 		return getGridElementsByLayer(true);
 	}
 
-	/* (non-Javadoc)
-	 * @see com.baselet.gwt.client.element.Diagramx#getGridElementsByLayer(boolean) */
 	@Override
 	public List<GridElement> getGridElementsByLayer(boolean ascending) {
 		ArrayList<GridElement> list = new ArrayList<>(gridElements);
@@ -108,22 +97,16 @@ public class DiagramGwt implements Diagram {
 		return list;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.baselet.gwt.client.element.Diagramx#setPanelAttributes(java.lang.String) */
 	@Override
 	public void setPanelAttributes(String panelAttributes) {
 		helpText = panelAttributes;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.baselet.gwt.client.element.Diagramx#getPanelAttributes() */
 	@Override
 	public String getPanelAttributes() {
 		return helpText;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.baselet.gwt.client.element.Diagramx#getAutocompletionList() */
 	@Override
 	public List<AutocompletionText> getAutocompletionList() {
 		return Collections.<AutocompletionText> emptyList();
