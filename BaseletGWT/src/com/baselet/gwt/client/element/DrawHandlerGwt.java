@@ -318,11 +318,7 @@ public class DrawHandlerGwt extends DrawHandler {
 		if (ctx.setLineDash !== undefined) {
 			ctx.setLineDash([ dash ]);
 		} else if (ctx.mozDash !== undefined) {
-			if (dash != 0) {
-				ctx.mozDash = [ dash ];
-			} else { // default is null
-				ctx.mozDash = null;
-			}
+			ctx.mozDash = [ dash ];
 		} else if (dash != 0) { // if another line than a solid one should be set and the browser doesn't support it throw an Exception
 			throw new Exception();
 		}
