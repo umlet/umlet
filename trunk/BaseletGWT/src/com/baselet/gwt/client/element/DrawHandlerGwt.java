@@ -311,14 +311,22 @@ public class DrawHandlerGwt extends DrawHandler {
 	}
 
 	/**
-	 * Chrome supports setLineDash()
-	 * Firefox supports mozDash()
+	 * Chrome and Firefox 33+ support setLineDash()
+	 * Older Firefox version support only mozDash()
 	 */
 	public final native void setLineDash(Context2d ctx, double dash) /*-{
 		if (ctx.setLineDash !== undefined) {
-			ctx.setLineDash([ dash ]);
+			if (dash != 0) {
+				ctx.setLineDash([ dash ]);
+			} else {
+				ctx.setLineDash([]); // Firefox 33+ on Linux dont show solid lines if ctx.setLineDash([0]) is used, therefore use empty array which works on every browser
+			}
 		} else if (ctx.mozDash !== undefined) {
-			ctx.mozDash = [ dash ];
+			if (dash != 0) {
+				ctx.mozDash = [ dash ];
+			} else { // default is null
+				ctx.mozDash = null;
+			}
 		} else if (dash != 0) { // if another line than a solid one should be set and the browser doesn't support it throw an Exception
 			throw new Exception();
 		}
