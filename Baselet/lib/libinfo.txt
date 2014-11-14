@@ -29,6 +29,10 @@ Apache Commons Bcel (bcel.jar)
 Licence:  Apache License 2.0
 Used for: Class diagram generation
 
+Javaparser
+Licence:  LGPL
+Used for: Parsing java classes for class diagrams generation
+
 Apache Commons IO
 Licence:  Apache Licence 2.0
 Used for: Reading wildcard input files in batch mode
@@ -37,7 +41,3 @@ Eclipse JDT Core Batch Compiler
 Licence:  Eclipse Public Licence
 Used for: Compiling custom elements in Umlet
 Maven:    http://mvnrepository.com/artifact/org.eclipse.jdt.core.compiler/ecj/4.3.1
-
-Javaparser
-Licence:  LGPL
-Used for: Parsing java classes for drag&drop as class diagrams
