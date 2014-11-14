@@ -44,7 +44,7 @@ import com.baselet.diagram.Notifier;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.diagram.UpdateCheckTimerTask;
 import com.baselet.diagram.io.OpenFileChooser;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.pane.OwnSyntaxPane;

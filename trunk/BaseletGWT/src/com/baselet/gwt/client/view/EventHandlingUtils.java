@@ -7,7 +7,7 @@ import java.util.List;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.geom.Point;
 import com.baselet.control.geom.Rectangle;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ContextMenuEvent;

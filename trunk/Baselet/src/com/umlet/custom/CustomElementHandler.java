@@ -12,7 +12,7 @@ import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
 import com.umlet.elementnew.ElementFactorySwing;
 import com.umlet.gui.CustomCodeSyntaxPane;

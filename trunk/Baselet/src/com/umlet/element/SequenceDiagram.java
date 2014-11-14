@@ -23,7 +23,7 @@ import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.FormatLabels;
 import com.baselet.control.enums.LineType;
 import com.baselet.control.util.Utils;
-import com.baselet.element.GridElementDeprecatedAddons;
+import com.baselet.element.interfaces.GridElementDeprecatedAddons;
 
 // An interaction represents a synchronous/asynchronous message
 // that is sent between two objects.

@@ -2,10 +2,10 @@ package com.baselet.gwt.client.view;
 
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.geom.Rectangle;
-import com.baselet.diagram.Diagram;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.GridElementUtils;
+import com.baselet.element.interfaces.Diagram;
 import com.baselet.gwt.client.base.Converter;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;

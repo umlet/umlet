@@ -7,7 +7,7 @@ import javax.swing.JComponent;
 import com.baselet.control.Main;
 import com.baselet.control.geom.Point;
 import com.baselet.diagram.draw.Converter;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.umlet.element.Relation;
 
 public class ComponentSwingUtils {

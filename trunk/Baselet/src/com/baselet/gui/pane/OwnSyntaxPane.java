@@ -26,7 +26,7 @@ import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.MenuConstants;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.AutocompletionText;
 import com.baselet.gui.menu.MenuFactorySwing;
 

@@ -6,7 +6,7 @@ import com.baselet.control.Main;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.swing.DrawHandlerSwing;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 
 public class CustomElementWithErrors extends CustomElement {
 

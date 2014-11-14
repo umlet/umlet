@@ -3,8 +3,8 @@ package com.baselet.gwt.client.view;
 import java.util.Arrays;
 
 import com.baselet.control.constants.SharedConstants;
-import com.baselet.element.GridElement;
-import com.baselet.elementnew.facet.common.GroupFacet;
+import com.baselet.element.facet.common.GroupFacet;
+import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 

@@ -1,7 +1,7 @@
 package com.baselet.diagram.command;
 
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 
 public class MoveEnd extends Command {
 

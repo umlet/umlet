@@ -37,22 +37,22 @@ import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.element.GridElement;
-import com.baselet.element.GridElementDeprecatedAddons;
 import com.baselet.element.UndoHistory;
 import com.baselet.element.UndoInformation;
+import com.baselet.element.facet.Facet;
+import com.baselet.element.facet.common.GroupFacet;
+import com.baselet.element.facet.common.LayerFacet;
+import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.interfaces.GridElementDeprecatedAddons;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
-import com.baselet.elementnew.facet.Facet;
-import com.baselet.elementnew.facet.common.GroupFacet;
-import com.baselet.elementnew.facet.common.LayerFacet;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.elementnew.ComponentSwingUtils;
 
-public abstract class OldGridElement extends JComponent implements GridElement, com.baselet.element.Component {
+public abstract class OldGridElement extends JComponent implements GridElement, com.baselet.element.interfaces.Component {
 
 	private static final long serialVersionUID = 1L;
 
@@ -380,7 +380,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public abstract void paintEntity(Graphics g);
 
 	@Override
-	public com.baselet.element.Component getComponent() {
+	public com.baselet.element.interfaces.Component getComponent() {
 		return this;
 	}
 

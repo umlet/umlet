@@ -3,7 +3,7 @@ package com.baselet.gui.listener;
 import java.util.HashMap;
 
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 
 public class CustomPreviewEntityListener extends GridElementListener {
 

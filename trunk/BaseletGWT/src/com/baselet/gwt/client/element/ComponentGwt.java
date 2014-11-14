@@ -2,8 +2,8 @@ package com.baselet.gwt.client.element;
 
 import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.Component;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.Component;
+import com.baselet.element.interfaces.GridElement;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;

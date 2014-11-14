@@ -1,6 +1,6 @@
 package com.umlet.language.sorting;
 
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.umlet.language.java.JavaClass;
 
 public class SortableElement implements Comparable<SortableElement> {

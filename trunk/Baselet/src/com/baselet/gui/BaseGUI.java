@@ -19,7 +19,7 @@ import com.baselet.control.config.Config;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.menu.MenuFactorySwing;
 import com.baselet.gui.pane.OwnSyntaxPane;
 import com.umlet.custom.CustomElement;

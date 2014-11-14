@@ -8,7 +8,7 @@ import com.baselet.control.Main;
 import com.baselet.control.constants.Constants;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 
 public class AddElement extends Command {
 

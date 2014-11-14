@@ -40,8 +40,8 @@ import com.baselet.control.util.RecentlyUsedFilesList;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.Notifier;
-import com.baselet.element.GridElement;
-import com.baselet.elementnew.NewGridElement;
+import com.baselet.element.NewGridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
 import com.umlet.custom.CustomElement;
 

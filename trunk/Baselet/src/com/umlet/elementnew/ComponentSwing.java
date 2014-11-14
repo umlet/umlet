@@ -11,8 +11,8 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.swing.DrawHandlerSwing;
-import com.baselet.element.Component;
-import com.baselet.elementnew.NewGridElement;
+import com.baselet.element.NewGridElement;
+import com.baselet.element.interfaces.Component;
 
 public class ComponentSwing extends JComponent implements Component {
 	private static final long serialVersionUID = 1L;

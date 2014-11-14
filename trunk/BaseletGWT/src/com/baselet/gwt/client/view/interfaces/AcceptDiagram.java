@@ -1,6 +1,6 @@
 package com.baselet.gwt.client.view.interfaces;
 
-import com.baselet.diagram.Diagram;
+import com.baselet.element.interfaces.Diagram;
 
 public interface AcceptDiagram {
 

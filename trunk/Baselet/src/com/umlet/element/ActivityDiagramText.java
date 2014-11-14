@@ -16,7 +16,7 @@ import com.baselet.control.Main;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.util.Utils;
-import com.baselet.element.GridElementDeprecatedAddons;
+import com.baselet.element.interfaces.GridElementDeprecatedAddons;
 import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.activity.AEnd;
 import com.umlet.element.activity.Activity;
