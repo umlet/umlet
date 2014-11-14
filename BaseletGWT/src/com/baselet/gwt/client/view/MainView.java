@@ -7,6 +7,7 @@ import com.baselet.gwt.client.base.Notification;
 import com.baselet.gwt.client.element.BrowserStorage;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.view.panel.wrapper.AutoResizeScrollDropPanel;
+import com.baselet.gwt.client.view.panel.wrapper.FileOpenHandler;
 import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox.Callback;
