@@ -1,4 +1,4 @@
-package com.baselet.diagram.draw.geom;
+package com.baselet.control.geom;
 
 import java.util.ArrayList;
 import java.util.List;

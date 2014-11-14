@@ -1,7 +1,7 @@
 package com.baselet.elementnew.base;
 
+import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.Rectangle;
 
 public interface Component {
 	void setBoundsRect(Rectangle rect);

@@ -1,8 +1,8 @@
 package com.baselet.elementnew.element.plot.drawer;
 
+import com.baselet.control.geom.Dimension;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 

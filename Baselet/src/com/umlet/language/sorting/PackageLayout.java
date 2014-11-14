@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import com.baselet.control.geom.Dimension;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.CurrentDiagram;
-import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.base.ElementId;
 import com.umlet.elementnew.ElementFactory;

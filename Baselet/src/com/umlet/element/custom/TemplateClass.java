@@ -6,8 +6,8 @@ import java.util.Vector;
 
 import com.baselet.control.Main;
 import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.control.util.Utils;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.umlet.element.OldGridElement;
 
 @SuppressWarnings("serial")

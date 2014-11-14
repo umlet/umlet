@@ -2,9 +2,9 @@ package com.baselet.diagram.draw;
 
 import java.awt.Color;
 
-import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.control.geom.Dimension;
+import com.baselet.control.geom.Point;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
 
 public class Converter {

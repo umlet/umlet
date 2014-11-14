@@ -2,8 +2,8 @@ package com.baselet.element.sticking.polygon;
 
 import java.util.List;
 
-import com.baselet.diagram.draw.geom.PointDouble;
-import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.control.geom.PointDouble;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.element.sticking.StickingPolygon;
 
 public class PointDoubleStickingPolygonGenerator implements StickingPolygonGenerator {

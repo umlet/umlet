@@ -2,9 +2,9 @@ package com.baselet.elementnew.element.uml.relation;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.constants.SharedConstants;
-import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.PointDouble;
-import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.control.geom.Point;
+import com.baselet.control.geom.PointDouble;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.element.sticking.PointDoubleIndexed;
 
 public class RelationPointHandlerUtils {

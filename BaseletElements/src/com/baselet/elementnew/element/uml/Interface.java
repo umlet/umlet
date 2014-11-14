@@ -1,7 +1,7 @@
 package com.baselet.elementnew.element.uml;
 
+import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
 import com.baselet.elementnew.NewGridElement;

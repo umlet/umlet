@@ -1,7 +1,7 @@
 package com.baselet.gwt.client.view.panel.wrapper;
 
 import com.baselet.control.SharedUtils;
-import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.gwt.client.base.Browser;
 import com.baselet.gwt.client.view.interfaces.AutoresizeScrollDropTarget;
 import com.baselet.gwt.client.view.interfaces.HasScrollPanel;

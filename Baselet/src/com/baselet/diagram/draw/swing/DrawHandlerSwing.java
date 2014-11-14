@@ -11,13 +11,13 @@ import java.awt.geom.RoundRectangle2D;
 
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.geom.DimensionDouble;
+import com.baselet.control.geom.PointDouble;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.DrawFunction;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.DimensionDouble;
-import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.element.GridElement;

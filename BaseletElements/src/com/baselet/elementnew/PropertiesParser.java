@@ -7,10 +7,10 @@ import java.util.Map;
 
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
+import com.baselet.control.geom.DimensionDouble;
+import com.baselet.control.geom.XValues;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.TextSplitter;
-import com.baselet.diagram.draw.geom.DimensionDouble;
-import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.elementnew.facet.ElementStyleEnum;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.Facet.Priority;

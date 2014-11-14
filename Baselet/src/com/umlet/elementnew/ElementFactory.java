@@ -4,9 +4,9 @@ import java.util.Collections;
 import java.util.List;
 
 import com.baselet.control.Main;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;

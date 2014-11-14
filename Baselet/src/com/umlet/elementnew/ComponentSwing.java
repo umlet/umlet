@@ -5,11 +5,11 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 
 import com.baselet.control.Main;
+import com.baselet.control.geom.Point;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.diagram.draw.swing.DrawHandlerSwing;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.base.Component;

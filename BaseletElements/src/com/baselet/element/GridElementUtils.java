@@ -2,7 +2,7 @@ package com.baselet.element;
 
 import java.util.Collection;
 
-import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.control.geom.Rectangle;
 
 public class GridElementUtils {
 

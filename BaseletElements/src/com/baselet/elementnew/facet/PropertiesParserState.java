@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
-import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.XValues;
+import com.baselet.control.geom.Dimension;
+import com.baselet.control.geom.XValues;
 import com.baselet.element.sticking.polygon.SimpleStickingPolygonGenerator;
 import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
 

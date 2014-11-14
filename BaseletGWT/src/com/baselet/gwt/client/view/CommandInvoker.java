@@ -5,12 +5,12 @@ import java.util.Collection;
 import java.util.List;
 
 import com.baselet.control.constants.SharedConstants;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.Diagram;
 import com.baselet.diagram.commandnew.AddGridElementCommand;
 import com.baselet.diagram.commandnew.CommandTarget;
 import com.baselet.diagram.commandnew.Controller;
 import com.baselet.diagram.commandnew.RemoveGridElementCommand;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.GridElementUtils;
 import com.baselet.elementnew.facet.common.GroupFacet;

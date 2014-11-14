@@ -5,11 +5,11 @@ import java.util.Vector;
 
 import com.baselet.control.Main;
 import com.baselet.control.config.SharedConfig;
+import com.baselet.control.geom.Point;
+import com.baselet.control.geom.PointDouble;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.PointDouble;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.Relation;

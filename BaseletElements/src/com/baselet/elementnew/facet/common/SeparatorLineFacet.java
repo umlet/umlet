@@ -3,8 +3,8 @@ package com.baselet.elementnew.facet.common;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baselet.control.geom.XValues;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.PropertiesParserState;
 import com.baselet.gui.AutocompletionText;

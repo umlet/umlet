@@ -3,9 +3,9 @@ package com.baselet.elementnew.element.uml;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baselet.control.geom.Rectangle;
+import com.baselet.control.geom.XValues;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.Rectangle;
-import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
 import com.baselet.elementnew.NewGridElement;

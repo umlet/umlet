@@ -1,6 +1,6 @@
 package com.baselet.elementnew.element.uml.relation;
 
-import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.element.sticking.PointDoubleIndexed;
 import com.baselet.elementnew.facet.relation.RelationPointConstants;
 

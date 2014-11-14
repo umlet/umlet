@@ -8,11 +8,11 @@ import java.util.Vector;
 
 import com.baselet.control.config.SharedConfig;
 import com.baselet.control.enums.Direction;
+import com.baselet.control.geom.Point;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.Command;
 import com.baselet.diagram.command.Macro;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
 import com.baselet.gui.CurrentGui;
 

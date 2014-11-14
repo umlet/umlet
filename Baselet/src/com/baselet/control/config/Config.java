@@ -10,7 +10,7 @@ import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Os;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
-import com.baselet.diagram.draw.geom.Dimension;
+import com.baselet.control.geom.Dimension;
 
 public class Config {
 

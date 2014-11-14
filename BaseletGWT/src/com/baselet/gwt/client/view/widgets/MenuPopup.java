@@ -2,7 +2,7 @@ package com.baselet.gwt.client.view.widgets;
 
 import java.util.List;
 
-import com.baselet.diagram.draw.geom.Point;
+import com.baselet.control.geom.Point;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
