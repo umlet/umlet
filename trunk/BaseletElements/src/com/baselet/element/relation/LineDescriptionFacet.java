@@ -1,4 +1,4 @@
-package com.baselet.element.facet.relation;
+package com.baselet.element.relation;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,8 +16,7 @@ import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.GlobalFacet;
 import com.baselet.element.facet.PropertiesParserState;
-import com.baselet.element.relation.RelationPointHandler;
-import com.baselet.element.relation.SettingsRelation;
+import com.baselet.element.relation.helper.LineDescriptionEnum;
 import com.baselet.gui.AutocompletionText;
 
 public class LineDescriptionFacet extends GlobalFacet {

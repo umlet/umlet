@@ -1,4 +1,4 @@
-package com.baselet.element.facet.relation;
+package com.baselet.element.relation;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,8 +15,7 @@ import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
-import com.baselet.element.relation.RelationPointHandler;
-import com.baselet.element.relation.SettingsRelation;
+import com.baselet.element.relation.helper.ResizableObject;
 import com.baselet.element.sticking.PointDoubleIndexed;
 
 public class RelationLineTypeFacet extends KeyValueFacet {

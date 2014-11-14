@@ -12,8 +12,9 @@ import com.baselet.control.geom.Line;
 import com.baselet.control.geom.Point;
 import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.facet.relation.RelationPointConstants;
-import com.baselet.element.facet.relation.ResizableObject;
+import com.baselet.element.relation.helper.RelationPoint;
+import com.baselet.element.relation.helper.RelationPointConstants;
+import com.baselet.element.relation.helper.ResizableObject;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.PointDoubleIndexed;
 

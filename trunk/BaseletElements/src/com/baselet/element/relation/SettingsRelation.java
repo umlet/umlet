@@ -8,9 +8,6 @@ import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.geom.XValues;
 import com.baselet.element.facet.ElementStyleEnum;
 import com.baselet.element.facet.Facet;
-import com.baselet.element.facet.relation.DescriptionPositionFacet;
-import com.baselet.element.facet.relation.LineDescriptionFacet;
-import com.baselet.element.facet.relation.RelationLineTypeFacet;
 import com.baselet.element.settings.SettingsAbstract;
 
 public abstract class SettingsRelation extends SettingsAbstract {

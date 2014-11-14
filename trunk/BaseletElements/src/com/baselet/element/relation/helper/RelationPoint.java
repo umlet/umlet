@@ -1,11 +1,10 @@
-package com.baselet.element.relation;
+package com.baselet.element.relation.helper;
 
 import com.baselet.control.geom.Rectangle;
-import com.baselet.element.facet.relation.RelationPointConstants;
 import com.baselet.element.sticking.PointDoubleIndexed;
 
 public class RelationPoint {
-	static final Rectangle DEFAULT_SIZE = new Rectangle(-RelationPointConstants.POINT_SELECTION_RADIUS, -RelationPointConstants.POINT_SELECTION_RADIUS, RelationPointConstants.POINT_SELECTION_RADIUS * 2, RelationPointConstants.POINT_SELECTION_RADIUS * 2);
+	public static final Rectangle DEFAULT_SIZE = new Rectangle(-RelationPointConstants.POINT_SELECTION_RADIUS, -RelationPointConstants.POINT_SELECTION_RADIUS, RelationPointConstants.POINT_SELECTION_RADIUS * 2, RelationPointConstants.POINT_SELECTION_RADIUS * 2);
 	private final PointDoubleIndexed point;
 	private Rectangle size;
 

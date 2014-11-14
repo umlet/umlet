@@ -1,4 +1,4 @@
-package com.baselet.element.facet.relation;
+package com.baselet.element.relation.helper;
 
 import com.baselet.control.geom.Rectangle;
 

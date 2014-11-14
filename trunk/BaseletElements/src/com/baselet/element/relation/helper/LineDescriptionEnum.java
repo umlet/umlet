@@ -1,8 +1,8 @@
-package com.baselet.element.facet.relation;
+package com.baselet.element.relation.helper;
 
 import com.baselet.element.facet.Facet;
 
-enum LineDescriptionEnum {
+public enum LineDescriptionEnum {
 	MESSAGE_START("m1", 1, true),
 	MESSAGE_END("m2", 2, false),
 	ROLE_START("r1", 3, true),

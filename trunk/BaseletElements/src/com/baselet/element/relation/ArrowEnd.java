@@ -1,4 +1,4 @@
-package com.baselet.element.facet.relation;
+package com.baselet.element.relation;
 
 import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.RegexValueHolder;
@@ -6,7 +6,9 @@ import com.baselet.control.geom.Line;
 import com.baselet.control.geom.PointDouble;
 import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.facet.relation.RelationDrawer.ArrowEndType;
+import com.baselet.element.relation.helper.RelationDrawer;
+import com.baselet.element.relation.helper.ResizableObject;
+import com.baselet.element.relation.helper.RelationDrawer.ArrowEndType;
 
 abstract class ArrowEnd implements RegexValueHolder {
 
