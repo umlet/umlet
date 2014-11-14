@@ -3,7 +3,7 @@ package com.baselet.element.draw;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.control.geom.PointDouble;
+import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
 
 public class DrawHelper {

@@ -5,10 +5,10 @@ import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 
+import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.config.Config;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.AlignHorizontal;
-import com.baselet.control.geom.DimensionDouble;
 
 public class FontHandler {
 

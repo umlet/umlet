@@ -3,8 +3,8 @@ package com.baselet.element.elementnew.uml;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.ElementId;
-import com.baselet.control.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;

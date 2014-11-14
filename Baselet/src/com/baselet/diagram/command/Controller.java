@@ -1,8 +1,8 @@
-package com.baselet.diagram;
+package com.baselet.diagram.command;
 
 import java.util.Vector;
 
-import com.baselet.diagram.command.Command;
+import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.CurrentGui;
 
 public class Controller {

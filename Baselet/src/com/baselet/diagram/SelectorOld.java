@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Vector;
 
 import com.baselet.control.Main;
-import com.baselet.control.geom.Rectangle;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.element.Selector;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;

@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
-import com.baselet.control.geom.Line;
-import com.baselet.control.geom.PointDouble;
-import com.baselet.control.geom.Rectangle;
+import com.baselet.control.basics.geom.Line;
+import com.baselet.control.basics.geom.PointDouble;
+import com.baselet.control.basics.geom.Rectangle;
 
 public class StickingPolygon {
 

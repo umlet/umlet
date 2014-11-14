@@ -3,7 +3,7 @@ package com.baselet.element.relation.facet;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.baselet.control.geom.Point;
+import com.baselet.control.basics.geom.Point;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.facet.KeyValueFacet;

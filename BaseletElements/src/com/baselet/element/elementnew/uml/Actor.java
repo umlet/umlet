@@ -1,8 +1,8 @@
 package com.baselet.element.elementnew.uml;
 
 import com.baselet.control.SharedUtils;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.ElementId;
-import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.draw.DrawHelper;

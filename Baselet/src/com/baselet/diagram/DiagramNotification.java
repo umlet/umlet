@@ -9,8 +9,8 @@ import java.awt.font.FontRenderContext;
 
 import javax.swing.JComponent;
 
-import com.baselet.control.geom.DimensionDouble;
-import com.baselet.control.geom.Rectangle;
+import com.baselet.control.basics.geom.DimensionDouble;
+import com.baselet.control.basics.geom.Rectangle;
 
 public class DiagramNotification extends JComponent {
 

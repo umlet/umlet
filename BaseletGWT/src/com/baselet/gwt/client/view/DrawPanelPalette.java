@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.baselet.control.SharedUtils;
-import com.baselet.control.geom.Point;
+import com.baselet.control.basics.geom.Point;
 import com.baselet.element.Selector;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.Diagram;

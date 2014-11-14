@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.baselet.control.basics.XValues;
+import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
-import com.baselet.control.geom.DimensionDouble;
-import com.baselet.control.geom.XValues;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.element.facet.ElementStyleEnum;

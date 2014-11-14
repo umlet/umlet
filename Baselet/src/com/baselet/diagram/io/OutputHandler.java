@@ -20,14 +20,14 @@ import org.sourceforge.jlibeps.epsgraphics.EpsGraphics2D;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Element;
 
+import com.baselet.control.basics.Converter;
+import com.baselet.control.basics.geom.Dimension;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.config.Config;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
-import com.baselet.control.geom.Dimension;
-import com.baselet.control.geom.Rectangle;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.Converter;
 import com.baselet.element.interfaces.GridElement;
 import com.itextpdf.awt.DefaultFontMapper;
 import com.itextpdf.awt.FontMapper;

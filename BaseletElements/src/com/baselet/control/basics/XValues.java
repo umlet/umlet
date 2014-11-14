@@ -1,4 +1,4 @@
-package com.baselet.control.geom;
+package com.baselet.control.basics;
 
 public class XValues {
 

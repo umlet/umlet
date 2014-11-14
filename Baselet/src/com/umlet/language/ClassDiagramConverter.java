@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.config.ConfigClassGen;
 import com.baselet.control.enums.ElementId;
-import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler;

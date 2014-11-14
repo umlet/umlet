@@ -9,12 +9,12 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
 
+import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.config.Config;
 import com.baselet.control.config.ConfigClassGen;
 import com.baselet.control.config.ConfigMail;
 import com.baselet.control.config.SharedConfig;
 import com.baselet.control.enums.Program;
-import com.baselet.control.geom.Dimension;
 import com.baselet.control.util.Path;
 import com.baselet.control.util.RecentlyUsedFilesList;
 import com.baselet.control.util.Utils;

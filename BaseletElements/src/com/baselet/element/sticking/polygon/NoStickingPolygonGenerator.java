@@ -1,6 +1,6 @@
 package com.baselet.element.sticking.polygon;
 
-import com.baselet.control.geom.Rectangle;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.element.sticking.StickingPolygon;
 
 public class NoStickingPolygonGenerator implements StickingPolygonGenerator {

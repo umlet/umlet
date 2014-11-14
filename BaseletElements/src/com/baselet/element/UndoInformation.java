@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.baselet.control.SharedUtils;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
-import com.baselet.control.geom.Rectangle;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.Stickable;
 

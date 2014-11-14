@@ -6,7 +6,7 @@ import java.awt.Graphics;
 
 import javax.swing.Icon;
 
-import com.baselet.diagram.draw.Converter;
+import com.baselet.control.basics.Converter;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 

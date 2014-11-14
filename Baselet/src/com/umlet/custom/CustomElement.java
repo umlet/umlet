@@ -21,13 +21,13 @@ import java.util.Set;
 import java.util.Vector;
 
 import com.baselet.control.Main;
+import com.baselet.control.basics.Converter;
 import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.LineType;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.interfaces.GridElement;

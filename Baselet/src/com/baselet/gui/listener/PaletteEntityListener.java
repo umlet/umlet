@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.Constants;
-import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;

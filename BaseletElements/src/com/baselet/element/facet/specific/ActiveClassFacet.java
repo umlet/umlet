@@ -1,6 +1,6 @@
 package com.baselet.element.facet.specific;
 
-import com.baselet.control.geom.XValues;
+import com.baselet.control.basics.XValues;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;

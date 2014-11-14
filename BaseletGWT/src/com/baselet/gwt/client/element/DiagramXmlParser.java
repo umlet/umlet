@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.ElementId;
-import com.baselet.control.geom.Rectangle;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.base.Notification;

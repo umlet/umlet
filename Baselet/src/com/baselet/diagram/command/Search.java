@@ -5,11 +5,11 @@ import java.awt.Point;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.baselet.control.geom.Rectangle;
+import com.baselet.control.basics.Converter;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.SelectorOld;
-import com.baselet.diagram.draw.Converter;
 import com.baselet.element.interfaces.GridElement;
 
 public class Search extends Command {

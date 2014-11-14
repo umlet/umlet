@@ -12,10 +12,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import com.baselet.control.SharedUtils;
-import com.baselet.control.geom.GeometricFunctions;
-import com.baselet.control.geom.Line;
-import com.baselet.control.geom.PointDouble;
-import com.baselet.control.geom.Rectangle;
+import com.baselet.control.basics.geom.GeometricFunctions;
+import com.baselet.control.basics.geom.Line;
+import com.baselet.control.basics.geom.PointDouble;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.PointDoubleIndexed;
 

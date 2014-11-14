@@ -1,6 +1,6 @@
 package com.baselet.gwt.client.element;
 
-import com.baselet.control.geom.Rectangle;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.interfaces.Component;
 import com.baselet.element.interfaces.GridElement;

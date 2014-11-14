@@ -6,8 +6,8 @@ import java.util.TimerTask;
 
 import javax.swing.SwingUtilities;
 
+import com.baselet.control.basics.Converter;
 import com.baselet.control.constants.Constants;
-import com.baselet.diagram.draw.Converter;
 
 public class Notifier {
 
