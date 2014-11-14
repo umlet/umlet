@@ -1,7 +1,7 @@
-package com.baselet.elementnew.base;
+package com.baselet.elementnew.element;
 
+import com.baselet.control.enums.ElementId;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.element.Text;
 import com.baselet.elementnew.element.plot.PlotGrid;
 import com.baselet.elementnew.element.uml.ActivityObject;
 import com.baselet.elementnew.element.uml.Actor;
@@ -21,14 +21,10 @@ import com.baselet.elementnew.element.uml.Timer;
 import com.baselet.elementnew.element.uml.UseCase;
 import com.baselet.elementnew.element.uml.relation.Relation;
 
-/**
- * these IDs should NEVER be changed, because they are stored in uxf files
- */
-public enum ElementId {
-	UMLClass, UMLUseCase, UMLInterface, UMLActor, UMLState, UMLObject, UMLTimer, UMLSpecialState, UMLNote, UMLSyncBarHorizontal, UMLSyncBarVertical, UMLPackage, UMLFrame, UMLDeployment, UMLGeneric, UMLHierarchy, Relation, Text, PlotGrid;
+public abstract class ElementFactory {
 
-	public NewGridElement createAssociatedGridElement() {
-		switch (this) {
+	protected static NewGridElement createAssociatedGridElement(ElementId id) {
+		switch (id) {
 			case PlotGrid:
 				return new PlotGrid();
 			case Relation:
@@ -68,7 +64,7 @@ public enum ElementId {
 			case UMLHierarchy:
 				return new Hierarchy();
 			default:
-				throw new RuntimeException("Unknown class id: " + this);
+				throw new RuntimeException("Unknown class id: " + id);
 		}
 	}
 }

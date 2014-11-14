@@ -36,7 +36,7 @@ import com.baselet.element.GridElement;
 import com.baselet.gui.listener.ScrollbarListener;
 import com.umlet.element.OldGridElement;
 import com.umlet.element.Relation;
-import com.umlet.elementnew.ElementFactory;
+import com.umlet.elementnew.ElementFactorySwing;
 
 @SuppressWarnings("serial")
 public class DrawPanel extends JLayeredPane implements Printable {
@@ -155,8 +155,8 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	public void paintEntitiesIntoGraphics2D(Graphics2D g2d, Collection<GridElement> entities) {
 		JLayeredPane tempPanel = new JLayeredPane();
 		for (GridElement entity : entities) {
-			GridElement clone = ElementFactory.createCopy(entity);
-			com.baselet.elementnew.base.Component component = clone.getComponent();
+			GridElement clone = ElementFactorySwing.createCopy(entity);
+			com.baselet.element.Component component = clone.getComponent();
 			// Issue 138: when PDF and Swing Export draw on (0,0) a part of the drawn image is cut, therefore it's displaced by 0.5px in that case
 			if (component instanceof OldGridElement) {
 				((OldGridElement) component).translateForExport();

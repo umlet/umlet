@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.baselet.control.Main;
+import com.baselet.control.enums.ElementId;
 import com.baselet.control.geom.Rectangle;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
@@ -12,17 +13,17 @@ import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.elementnew.DrawHandlerInterface;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.base.ElementId;
+import com.baselet.elementnew.element.ElementFactory;
 import com.baselet.elementnew.element.uml.relation.Relation;
 import com.umlet.element.OldGridElement;
 
-public class ElementFactory {
+public class ElementFactorySwing extends ElementFactory {
 
 	/**
 	 * uses no reflection, to avoid complications with GWT
 	 */
 	public static NewGridElement create(ElementId id, Rectangle bounds, String panelAttributes, String additionalAttributes, DiagramHandler handler) {
-		final NewGridElement returnObj = id.createAssociatedGridElement();
+		final NewGridElement returnObj = createAssociatedGridElement(id);
 
 		ComponentSwing component = new ComponentSwing(returnObj);
 

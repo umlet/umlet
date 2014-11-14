@@ -5,14 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.config.ConfigClassGen;
+import com.baselet.control.enums.ElementId;
 import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler;
 import com.baselet.diagram.command.AddElement;
 import com.baselet.element.GridElement;
-import com.baselet.elementnew.base.ElementId;
-import com.umlet.elementnew.ElementFactory;
+import com.umlet.elementnew.ElementFactorySwing;
 import com.umlet.language.enums.FieldOptions;
 import com.umlet.language.enums.MethodOptions;
 import com.umlet.language.enums.SignatureOptions;
@@ -86,7 +86,7 @@ public class ClassDiagramConverter {
 		String propertiesText = getElementProperties(parsedClass);
 		List<String> propList = Arrays.asList(propertiesText.split("\n"));
 		Rectangle initialSize = adjustSize(propList);
-		GridElement clazz = ElementFactory.create(ElementId.UMLClass, initialSize, propertiesText, null, CurrentDiagram.getInstance().getDiagramHandler());
+		GridElement clazz = ElementFactorySwing.create(ElementId.UMLClass, initialSize, propertiesText, null, CurrentDiagram.getInstance().getDiagramHandler());
 		return new SortableElement(clazz, parsedClass);
 	}
 

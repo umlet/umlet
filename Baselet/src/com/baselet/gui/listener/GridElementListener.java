@@ -40,7 +40,7 @@ import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gui.CurrentGui;
 import com.umlet.element.Relation;
-import com.umlet.elementnew.ElementFactory;
+import com.umlet.elementnew.ElementFactorySwing;
 
 public class GridElementListener extends UniversalListener {
 
@@ -199,7 +199,7 @@ public class GridElementListener extends UniversalListener {
 	}
 
 	public void mouseDoubleClicked(GridElement me) {
-		GridElement e = ElementFactory.createCopy(me);
+		GridElement e = ElementFactorySwing.createCopy(me);
 		e.setProperty(GroupFacet.KEY, null);
 		GridElementListener eListener = handler.getEntityListener(e);
 		Command cmd;

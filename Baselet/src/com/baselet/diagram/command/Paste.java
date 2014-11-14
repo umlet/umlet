@@ -7,7 +7,7 @@ import com.baselet.control.constants.Constants;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.facet.common.GroupFacet;
-import com.umlet.elementnew.ElementFactory;
+import com.umlet.elementnew.ElementFactorySwing;
 
 public class Paste extends Command {
 
@@ -24,7 +24,7 @@ public class Paste extends Command {
 		if (entities == null) {
 			entities = new Vector<GridElement>();
 			for (GridElement e : ClipBoard.getInstance().paste()) {
-				GridElement clone = ElementFactory.createCopy(e);
+				GridElement clone = ElementFactorySwing.createCopy(e);
 				handler.setHandlerAndInitListeners(clone);
 				entities.add(clone);
 			}

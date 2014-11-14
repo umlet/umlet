@@ -15,7 +15,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.GridElementUtils;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.element.BrowserStorage;
-import com.baselet.gwt.client.element.ElementFactory;
+import com.baselet.gwt.client.element.ElementFactoryGwt;
 
 public class CommandInvoker extends Controller {
 
@@ -62,7 +62,7 @@ public class CommandInvoker extends Controller {
 	private List<GridElement> copyElementsInList(Collection<GridElement> sourceElements, Diagram targetDiagram) {
 		List<GridElement> targetElements = new ArrayList<GridElement>();
 		for (GridElement ge : sourceElements) {
-			GridElement e = ElementFactory.create(ge, targetDiagram);
+			GridElement e = ElementFactoryGwt.create(ge, targetDiagram);
 			targetElements.add(e);
 		}
 		return targetElements;

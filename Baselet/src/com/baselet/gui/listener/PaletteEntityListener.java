@@ -18,7 +18,7 @@ import com.baselet.diagram.command.Command;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gui.CurrentGui;
-import com.umlet.elementnew.ElementFactory;
+import com.umlet.elementnew.ElementFactorySwing;
 
 public class PaletteEntityListener extends GridElementListener {
 
@@ -166,7 +166,7 @@ public class PaletteEntityListener extends GridElementListener {
 		currentDiagram.getHandler().setGridAndZoom(Constants.DEFAULTGRIDSIZE, false);
 		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false);
 
-		GridElement e = ElementFactory.createCopy(me);
+		GridElement e = ElementFactorySwing.createCopy(me);
 		e.setProperty(GroupFacet.KEY, null);
 
 		Command cmd;

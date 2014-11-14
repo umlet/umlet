@@ -6,10 +6,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.constants.SharedConstants;
+import com.baselet.control.enums.ElementId;
 import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.Diagram;
 import com.baselet.element.GridElement;
-import com.baselet.elementnew.base.ElementId;
 import com.baselet.gwt.client.base.Notification;
 import com.baselet.gwt.client.version.BuildProperties;
 import com.google.gwt.http.client.URL;
@@ -101,7 +101,7 @@ public class DiagramXmlParser {
 						rect.setWidth((int) (rect.getWidth() / zoomScale));
 						rect.setHeight((int) (rect.getHeight() / zoomScale));
 					}
-					GridElement gridElement = ElementFactory.create(id, rect, panelAttributes, additionalPanelAttributes, diagram);
+					GridElement gridElement = ElementFactoryGwt.create(id, rect, panelAttributes, additionalPanelAttributes, diagram);
 					diagram.getGridElements().add(gridElement);
 				} catch (Exception e) {
 					log.error("Element has invalid XML structure: " + element, e);
