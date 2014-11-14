@@ -1,4 +1,4 @@
-package com.baselet.gwt.client.view;
+package com.baselet.gwt.client.view.panel.wrapper;
 
 import java.util.ArrayList;
 import java.util.List;
