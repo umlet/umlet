@@ -10,12 +10,12 @@ import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.command.Command;
-import com.baselet.diagram.command.Move;
-import com.baselet.diagram.command.OldMoveLinePoint;
-import com.baselet.diagram.command.RemoveElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.gui.CurrentGui;
+import com.baselet.gui.command.Command;
+import com.baselet.gui.command.Move;
+import com.baselet.gui.command.OldMoveLinePoint;
+import com.baselet.gui.command.RemoveElement;
 import com.umlet.element.Relation;
 
 /**

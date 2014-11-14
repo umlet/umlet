@@ -5,6 +5,7 @@ import java.awt.Cursor;
 import java.awt.Frame;
 import java.util.Collection;
 
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -182,4 +183,9 @@ public abstract class BaseGUI {
 	}
 
 	public abstract Frame getMainFrame();
+
+	public void setLookAndFeel(String newui, JFrame optionframe) {
+		/* do nothing */
+	}
+
 }

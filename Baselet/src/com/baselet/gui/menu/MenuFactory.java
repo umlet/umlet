@@ -54,23 +54,22 @@ import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.SelectorOld;
-import com.baselet.diagram.command.Align;
-import com.baselet.diagram.command.ChangeElementSetting;
-import com.baselet.diagram.command.Copy;
-import com.baselet.diagram.command.Cut;
-import com.baselet.diagram.command.Paste;
-import com.baselet.diagram.command.RemoveElement;
 import com.baselet.diagram.io.ClassChooser;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.facet.common.LayerFacet;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.generator.ClassDiagramConverter;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.BrowserLauncher;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.OptionPanel;
-import com.baselet.gui.standalone.StandaloneGUI;
+import com.baselet.gui.command.Align;
+import com.baselet.gui.command.ChangeElementSetting;
+import com.baselet.gui.command.Copy;
+import com.baselet.gui.command.Cut;
+import com.baselet.gui.command.Paste;
+import com.baselet.gui.command.RemoveElement;
 import com.umlet.custom.CustomElement;
-import com.umlet.language.ClassDiagramConverter;
 
 public class MenuFactory {
 
@@ -126,15 +125,9 @@ public class MenuFactory {
 				}
 				else if (menuItem.equals(UNDO) && actualHandler != null && actualSelector != null) {
 					actualHandler.getController().undo();
-					if (gui instanceof StandaloneGUI) {
-						((StandaloneGUI) gui).updateGrayedOutMenuItems(actualHandler);
-					}
 				}
 				else if (menuItem.equals(REDO) && actualHandler != null) {
 					actualHandler.getController().redo();
-					if (gui instanceof StandaloneGUI) {
-						((StandaloneGUI) gui).updateGrayedOutMenuItems(actualHandler);
-					}
 				}
 				else if (menuItem.equals(DELETE) && actualHandler != null && actualSelector != null) {
 					List<GridElement> v = actualSelector.getSelectedElements();

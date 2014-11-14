@@ -11,10 +11,10 @@ import com.baselet.control.config.SharedConfig;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.command.Command;
-import com.baselet.diagram.command.Macro;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
+import com.baselet.gui.command.Command;
+import com.baselet.gui.command.Macro;
 
 public class GUIListener implements KeyListener {
 

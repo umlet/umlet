@@ -50,7 +50,6 @@ import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
-import com.umlet.elementnew.ElementUtils;
 
 public abstract class OldGridElement extends JComponent implements GridElement, com.baselet.element.interfaces.Component {
 

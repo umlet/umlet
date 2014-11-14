@@ -11,11 +11,11 @@ import com.baselet.control.Main;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.command.ChangePanelAttributes;
-import com.baselet.diagram.command.CustomCodePropertyChanged;
-import com.baselet.diagram.command.HelpPanelChanged;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
+import com.baselet.gui.command.ChangePanelAttributes;
+import com.baselet.gui.command.CustomCodePropertyChanged;
+import com.baselet.gui.command.HelpPanelChanged;
 
 public class PropertyPanelListener implements KeyListener, DocumentListener {
 

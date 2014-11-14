@@ -2,7 +2,6 @@ package com.baselet.gui;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,10 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.log4j.Logger;
 
@@ -30,7 +26,6 @@ import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.gui.standalone.StandaloneGUI;
 
 @SuppressWarnings("serial")
 public class OptionPanel extends JPanel implements ActionListener {
@@ -161,27 +156,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 			// only set look and feel if it has changed, because it messes up frame-size
 			if (newui != null && !newui.equals(Config.getInstance().getUiManager())) {
 				Config.getInstance().setUiManager(newui);
-				try {
-					BaseGUI gui = CurrentGui.getInstance().getGui();
-					if (gui instanceof StandaloneGUI) {
-						Frame topFrame = ((StandaloneGUI) gui).getMainFrame();
-						UIManager.setLookAndFeel(newui);
-						SwingUtilities.updateComponentTreeUI(topFrame);
-						SwingUtilities.updateComponentTreeUI(optionframe);
-						topFrame.pack();
-						optionframe.pack();
-					}
-
-				} catch (ClassNotFoundException e) {
-					log.error("Cannot set LookAndFeel", e);
-				} catch (InstantiationException e) {
-					log.error("Cannot set LookAndFeel", e);
-				} catch (IllegalAccessException e) {
-					log.error("Cannot set LookAndFeel", e);
-				} catch (UnsupportedLookAndFeelException e) {
-					log.error("Cannot set LookAndFeel", e);
-				}
-
+				CurrentGui.getInstance().getGui().setLookAndFeel(newui, optionframe);
 			}
 
 			// redraw every element to apply changes (like show stickingpolygon, fontsize, ...)
