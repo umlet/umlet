@@ -6,8 +6,8 @@ import java.util.Stack;
 
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
+import com.baselet.control.geom.XValues;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.PropertiesParserState;

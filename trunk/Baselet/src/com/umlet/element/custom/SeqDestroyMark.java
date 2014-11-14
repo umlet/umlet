@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.baselet.control.enums.Direction;
-import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.element.sticking.StickingPolygon;
 import com.umlet.element.OldGridElement;
 

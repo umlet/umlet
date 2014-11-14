@@ -1,10 +1,10 @@
 package com.baselet.elementnew.facet.specific;
 
 import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.geom.Dimension;
+import com.baselet.control.geom.PointDouble;
+import com.baselet.control.geom.XValues;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.PointDouble;
-import com.baselet.diagram.draw.geom.XValues;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.elementnew.facet.KeyValueFacet;

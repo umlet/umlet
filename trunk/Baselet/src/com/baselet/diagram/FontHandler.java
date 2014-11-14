@@ -8,7 +8,7 @@ import java.awt.font.TextLayout;
 import com.baselet.control.config.Config;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.AlignHorizontal;
-import com.baselet.diagram.draw.geom.DimensionDouble;
+import com.baselet.control.geom.DimensionDouble;
 
 public class FontHandler {
 

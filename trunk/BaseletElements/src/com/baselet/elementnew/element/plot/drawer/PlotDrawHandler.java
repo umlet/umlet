@@ -7,9 +7,9 @@ import java.util.TreeSet;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.geom.Dimension;
+import com.baselet.control.geom.Point;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 

@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Set;
 
 import com.baselet.control.SharedUtils;
+import com.baselet.control.geom.Line;
+import com.baselet.control.geom.Point;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.Line;
-import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.PointDoubleIndexed;
 import com.baselet.elementnew.facet.relation.RelationPointConstants;

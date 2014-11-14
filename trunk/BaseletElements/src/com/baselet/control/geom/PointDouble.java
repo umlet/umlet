@@ -1,4 +1,4 @@
-package com.baselet.diagram.draw.geom;
+package com.baselet.control.geom;
 
 /**
  * an immutable point with double coordinates

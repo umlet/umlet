@@ -2,9 +2,9 @@ package com.baselet.elementnew.element.uml;
 
 import java.util.Arrays;
 
+import com.baselet.control.geom.PointDouble;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.PointDouble;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
 import com.baselet.elementnew.NewGridElement;

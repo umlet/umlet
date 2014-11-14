@@ -4,9 +4,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.baselet.control.geom.Dimension;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.CurrentDiagram;
-import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.Rectangle;
 
 public abstract class Layout {
 

@@ -1,7 +1,7 @@
 package com.umlet.element.relation;
 
-import com.baselet.diagram.draw.geom.Point;
-import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.control.geom.Point;
+import com.baselet.control.geom.Rectangle;
 
 public class Arrow extends Rectangle {
 	private Point _arrowEndA;

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.baselet.control.SharedUtils;
+import com.baselet.control.geom.Point;
 import com.baselet.diagram.Diagram;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.elementnew.facet.common.GroupFacet;

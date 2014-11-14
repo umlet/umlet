@@ -3,7 +3,7 @@ package com.baselet.gwt.client.view;
 import java.util.List;
 
 import com.baselet.control.config.SharedConfig;
-import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
 import com.baselet.elementnew.base.ElementId;

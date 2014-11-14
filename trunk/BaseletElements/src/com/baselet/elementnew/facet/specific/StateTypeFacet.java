@@ -2,9 +2,9 @@ package com.baselet.elementnew.facet.specific;
 
 import java.util.Arrays;
 
+import com.baselet.control.geom.Dimension;
+import com.baselet.control.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.Dimension;
-import com.baselet.diagram.draw.geom.PointDouble;
 import com.baselet.elementnew.facet.KeyValueFacet;
 import com.baselet.elementnew.facet.PropertiesParserState;
 

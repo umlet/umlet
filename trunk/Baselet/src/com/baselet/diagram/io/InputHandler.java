@@ -8,10 +8,10 @@ import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.baselet.control.Main;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.command.HelpPanelChanged;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.base.ElementId;

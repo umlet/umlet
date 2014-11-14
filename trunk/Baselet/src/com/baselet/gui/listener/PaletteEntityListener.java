@@ -9,12 +9,12 @@ import java.util.Map;
 import java.util.Vector;
 
 import com.baselet.control.constants.Constants;
+import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.command.AddElement;
 import com.baselet.diagram.command.Command;
-import com.baselet.diagram.draw.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gui.CurrentGui;

@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Matrix;
 import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.geom.Dimension;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.geom.Dimension;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.elementnew.NewGridElement;
 import com.baselet.elementnew.base.ElementId;

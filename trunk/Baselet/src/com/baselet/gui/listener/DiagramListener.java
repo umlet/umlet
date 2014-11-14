@@ -11,10 +11,10 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Main;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.SystemInfo;
+import com.baselet.control.geom.Point;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.SelectorFrame;
-import com.baselet.diagram.draw.geom.Point;
 import com.baselet.gui.CurrentGui;
 
 public class DiagramListener extends UniversalListener implements MouseWheelListener {

@@ -1,6 +1,6 @@
 package com.baselet.gwt.client.view.interfaces;
 
-import com.baselet.diagram.draw.geom.Rectangle;
+import com.baselet.control.geom.Rectangle;
 
 public interface HasScrollPanel {
 

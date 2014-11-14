@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import com.baselet.control.constants.SharedConstants;
-import com.baselet.diagram.draw.geom.PointDouble;
+import com.baselet.control.geom.PointDouble;
 import com.baselet.element.sticking.StickingPolygon.StickLine;
 
 public class StickablesTest {
