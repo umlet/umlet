@@ -1,18 +1,19 @@
 package com.baselet.gwt.client.element;
 
 import com.baselet.control.constants.SharedConstants;
+import com.baselet.control.enums.ElementId;
 import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.Diagram;
 import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.elementnew.DrawHandlerInterface;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.base.ElementId;
+import com.baselet.elementnew.element.ElementFactory;
 
-public class ElementFactory {
+public class ElementFactoryGwt extends ElementFactory {
 
 	public static GridElement create(ElementId id, Rectangle rect, String panelAttributes, String additionalPanelAttributes, final Diagram diagram) {
-		final NewGridElement element = id.createAssociatedGridElement();
+		final NewGridElement element = createAssociatedGridElement(id);
 
 		DrawHandlerInterface handler = new DrawHandlerInterface() {
 			@Override

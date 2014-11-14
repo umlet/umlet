@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.GridElement;
-import com.umlet.elementnew.ElementFactory;
+import com.umlet.elementnew.ElementFactorySwing;
 
 public class Copy extends Command {
 
@@ -21,7 +21,7 @@ public class Copy extends Command {
 		if (entities == null) {
 			entities = new Vector<GridElement>();
 			for (GridElement e : handler.getDrawPanel().getSelector().getSelectedElements()) {
-				entities.add(ElementFactory.createCopy(e));
+				entities.add(ElementFactorySwing.createCopy(e));
 			}
 		}
 

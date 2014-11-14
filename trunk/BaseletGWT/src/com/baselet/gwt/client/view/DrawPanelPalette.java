@@ -13,7 +13,7 @@ import com.baselet.element.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.element.DiagramXmlParser;
-import com.baselet.gwt.client.element.ElementFactory;
+import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.view.palettes.Resources;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -78,7 +78,7 @@ public class DrawPanelPalette extends DrawPanel {
 	public void onDoubleClick(GridElement ge) {
 		if (ge != null && !propertiesPanel.getPaletteShouldIgnoreMouseClicks()) {
 			otherDrawFocusPanel.setFocus(true);
-			GridElement e = ElementFactory.create(ge, otherDrawFocusPanel.getDiagram());
+			GridElement e = ElementFactoryGwt.create(ge, otherDrawFocusPanel.getDiagram());
 			e.setProperty(GroupFacet.KEY, null);
 			commandInvoker.realignElementsToVisibleRect(otherDrawFocusPanel, Arrays.asList(e));
 			commandInvoker.addElements(otherDrawFocusPanel, Arrays.asList(e));
@@ -91,7 +91,7 @@ public class DrawPanelPalette extends DrawPanel {
 	void onMouseDown(GridElement element, boolean isControlKeyDown) {
 		super.onMouseDown(element, isControlKeyDown);
 		for (GridElement original : selector.getSelectedElements()) {
-			draggedElements.add(ElementFactory.create(original, getDiagram()));
+			draggedElements.add(ElementFactoryGwt.create(original, getDiagram()));
 		}
 	}
 
@@ -100,7 +100,7 @@ public class DrawPanelPalette extends DrawPanel {
 		if (lastPoint.getX() < 0) { // mouse moved from palette to diagram -> insert elements to diagram
 			List<GridElement> elementsToMove = new ArrayList<GridElement>();
 			for (GridElement original : selector.getSelectedElements()) {
-				GridElement copy = ElementFactory.create(original, otherDrawFocusPanel.getDiagram());
+				GridElement copy = ElementFactoryGwt.create(original, otherDrawFocusPanel.getDiagram());
 				int verticalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getVerticalScrollPosition() - scrollPanel.getVerticalScrollPosition();
 				int horizontalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getHorizontalScrollPosition() - scrollPanel.getHorizontalScrollPosition();
 				copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width + horizontalScrollbarDiff, paletteChooser.getOffsetHeight() + verticalScrollbarDiff);

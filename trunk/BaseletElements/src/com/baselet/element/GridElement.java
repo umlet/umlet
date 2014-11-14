@@ -6,14 +6,13 @@ import java.util.Set;
 
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
+import com.baselet.control.enums.ElementId;
 import com.baselet.control.geom.Dimension;
 import com.baselet.control.geom.DimensionDouble;
 import com.baselet.control.geom.Point;
 import com.baselet.control.geom.Rectangle;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.StickingPolygon;
-import com.baselet.elementnew.base.Component;
-import com.baselet.elementnew.base.ElementId;
 
 public interface GridElement extends HasPanelAttributes {
 

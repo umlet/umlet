@@ -9,11 +9,11 @@ import org.apache.log4j.Logger;
 
 import com.baselet.control.Matrix;
 import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.ElementId;
 import com.baselet.control.geom.Dimension;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.base.ElementId;
 import com.baselet.elementnew.element.plot.drawer.PlotGridDrawConfig;
 import com.baselet.elementnew.element.plot.elements.AbstractPlot;
 import com.baselet.elementnew.element.plot.elements.BarPlot;

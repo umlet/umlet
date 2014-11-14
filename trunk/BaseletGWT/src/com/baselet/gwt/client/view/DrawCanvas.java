@@ -3,12 +3,12 @@ package com.baselet.gwt.client.view;
 import java.util.List;
 
 import com.baselet.control.config.SharedConfig;
+import com.baselet.control.enums.ElementId;
 import com.baselet.control.geom.Rectangle;
 import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
-import com.baselet.elementnew.base.ElementId;
 import com.baselet.gwt.client.element.ComponentGwt;
-import com.baselet.gwt.client.element.ElementFactory;
+import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
@@ -78,7 +78,7 @@ public class DrawCanvas {
 		double elHeight = 150;
 		double elXPos = getWidth() / 2.0 - elWidth / 2;
 		double elYPos = getHeight() / 2.0 - elHeight;
-		GridElement emptyElement = ElementFactory.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), HelptextResources.INSTANCE.helpText().getText(), "", null);
+		GridElement emptyElement = ElementFactoryGwt.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), HelptextResources.INSTANCE.helpText().getText(), "", null);
 		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false);
 
 	}

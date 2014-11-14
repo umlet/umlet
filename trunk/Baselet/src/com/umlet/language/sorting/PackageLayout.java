@@ -7,12 +7,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import com.baselet.control.enums.ElementId;
 import com.baselet.control.geom.Dimension;
 import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.base.ElementId;
-import com.umlet.elementnew.ElementFactory;
+import com.umlet.elementnew.ElementFactorySwing;
 
 public class PackageLayout extends Layout {
 
@@ -73,7 +73,7 @@ public class PackageLayout extends Layout {
 	}
 
 	private SortableElement createPackageElement(String packageName) {
-		NewGridElement pack = ElementFactory.create(ElementId.UMLPackage, new Rectangle(10, 10, 10, 10), packageName + "\nbg=orange", "", CurrentDiagram.getInstance().getDiagramHandler());
+		NewGridElement pack = ElementFactorySwing.create(ElementId.UMLPackage, new Rectangle(10, 10, 10, 10), packageName + "\nbg=orange", "", CurrentDiagram.getInstance().getDiagramHandler());
 		return new SortableElement(pack, packageName);
 	}
 }

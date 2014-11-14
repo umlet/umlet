@@ -8,17 +8,17 @@ import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.baselet.control.Main;
+import com.baselet.control.enums.ElementId;
 import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.command.HelpPanelChanged;
 import com.baselet.element.GridElement;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.base.ElementId;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.umlet.custom.CustomElementCompiler;
 import com.umlet.element.ErrorOccurred;
-import com.umlet.elementnew.ElementFactory;
+import com.umlet.elementnew.ElementFactorySwing;
 
 /**
  * Describes what should happen with parsed elements from the input file
@@ -90,7 +90,7 @@ public class InputHandler extends DefaultHandler {
 		else if (elementname.equals("element")) {
 			if (id != null) {
 				try {
-					NewGridElement e = ElementFactory.create(ElementId.valueOf(id), new Rectangle(x, y, w, h), panel_attributes, additional_attributes, handler);
+					NewGridElement e = ElementFactorySwing.create(ElementId.valueOf(id), new Rectangle(x, y, w, h), panel_attributes, additional_attributes, handler);
 					if (currentGroup != null) {
 						e.setProperty(GroupFacet.KEY, currentGroup);
 					}

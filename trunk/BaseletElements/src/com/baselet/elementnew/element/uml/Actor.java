@@ -1,12 +1,12 @@
 package com.baselet.elementnew.element.uml;
 
 import com.baselet.control.SharedUtils;
+import com.baselet.control.enums.ElementId;
 import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.base.ElementId;
 import com.baselet.elementnew.facet.PropertiesParserState;
 import com.baselet.elementnew.facet.Settings;
 import com.baselet.elementnew.settings.SettingsAutoresize;

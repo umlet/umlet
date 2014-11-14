@@ -25,6 +25,7 @@ import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
+import com.baselet.control.enums.ElementId;
 import com.baselet.control.enums.LineType;
 import com.baselet.control.geom.Dimension;
 import com.baselet.control.geom.DimensionDouble;
@@ -45,14 +46,13 @@ import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
-import com.baselet.elementnew.base.ElementId;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.elementnew.facet.common.LayerFacet;
 import com.baselet.gui.AutocompletionText;
 import com.umlet.elementnew.ComponentSwingUtils;
 
-public abstract class OldGridElement extends JComponent implements GridElement, com.baselet.elementnew.base.Component {
+public abstract class OldGridElement extends JComponent implements GridElement, com.baselet.element.Component {
 
 	private static final long serialVersionUID = 1L;
 
@@ -380,7 +380,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public abstract void paintEntity(Graphics g);
 
 	@Override
-	public com.baselet.elementnew.base.Component getComponent() {
+	public com.baselet.element.Component getComponent() {
 		return this;
 	}
 

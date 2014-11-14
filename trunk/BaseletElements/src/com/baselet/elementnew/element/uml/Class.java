@@ -3,12 +3,12 @@ package com.baselet.elementnew.element.uml;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baselet.control.enums.ElementId;
 import com.baselet.control.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.sticking.polygon.PointDoubleStickingPolygonGenerator;
 import com.baselet.element.sticking.polygon.SimpleStickingPolygonGenerator;
 import com.baselet.elementnew.NewGridElement;
-import com.baselet.elementnew.base.ElementId;
 import com.baselet.elementnew.facet.Facet;
 import com.baselet.elementnew.facet.PropertiesParserState;
 import com.baselet.elementnew.facet.Settings;
