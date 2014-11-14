@@ -1,4 +1,4 @@
-package com.baselet.element.relation;
+package com.baselet.element.relation.facet;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +8,7 @@ import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.geom.XValues;
 import com.baselet.element.facet.ElementStyleEnum;
 import com.baselet.element.facet.Facet;
+import com.baselet.element.relation.helper.RelationPointHandler;
 import com.baselet.element.settings.SettingsAbstract;
 
 public abstract class SettingsRelation extends SettingsAbstract {

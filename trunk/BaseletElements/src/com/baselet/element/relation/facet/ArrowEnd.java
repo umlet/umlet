@@ -1,4 +1,4 @@
-package com.baselet.element.relation;
+package com.baselet.element.relation.facet;
 
 import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.RegexValueHolder;

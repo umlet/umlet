@@ -1,4 +1,4 @@
-package com.baselet.element.relation;
+package com.baselet.element.relation.helper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,9 +12,6 @@ import com.baselet.control.geom.Line;
 import com.baselet.control.geom.Point;
 import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.relation.helper.RelationPoint;
-import com.baselet.element.relation.helper.RelationPointConstants;
-import com.baselet.element.relation.helper.ResizableObject;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.PointDoubleIndexed;
 
@@ -24,33 +21,26 @@ public class RelationPointHandler implements ResizableObject {
 	 * Points of this relation (point of origin is the upper left corner of the relation element (not the drawpanel!))
 	 */
 	private RelationPointList points = new RelationPointList();
-	private final Relation relation;
+	private final RelationPointHolder relation;
 
-	public RelationPointHandler(Relation relation, RelationPointList points) {
+	public RelationPointHandler(RelationPointHolder relation, RelationPointList points) {
 		super();
 		this.relation = relation;
 		this.points = points;
 	}
 
-	static enum Selection {
-		RELATION_POINT,
-		DRAG_BOX,
-		LINE,
-		NOTHING;
-	}
-
-	public Selection getSelection(Point point) {
+	public RelationSelection getSelection(Point point) {
 		if (isPointOverDragBox(point)) {
-			return Selection.DRAG_BOX;
+			return RelationSelection.DRAG_BOX;
 		}
 		else if (RelationPointHandlerUtils.getRelationPointContaining(point, points) != null) {
-			return Selection.RELATION_POINT;
+			return RelationSelection.RELATION_POINT;
 		}
 		else if (getLineContaining(point) != null) {
-			return Selection.LINE;
+			return RelationSelection.LINE;
 		}
 		else {
-			return Selection.NOTHING;
+			return RelationSelection.NOTHING;
 		}
 	}
 
@@ -60,30 +50,30 @@ public class RelationPointHandler implements ResizableObject {
 	 * this method is basically the same as {@link #getSelection(Point)}, but also applies changes to the relationpoints
 	 * (the order of checks is the same, but they do different things, therefore they are separated)
 	 */
-	public Selection getSelectionAndMovePointsIfNecessary(Point point, Integer diffX, Integer diffY, boolean firstDrag) {
+	public RelationSelection getSelectionAndMovePointsIfNecessary(Point point, Integer diffX, Integer diffY, boolean firstDrag) {
 		// Special case: if this is not the first drag and a relation-point is currently dragged, it has preference
 		// Necessary to avoid changing the currently moved point if moving over another point and to avoid losing the current point if it's a new line point and the mouse is dragged very fast
 		if (!firstDrag && relationPointOfCurrentDrag != null) {
 			relationPointOfCurrentDrag = movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY);
-			return Selection.RELATION_POINT;
+			return RelationSelection.RELATION_POINT;
 		}
 		// If the special case doesn't apply, forget the relationPointOfFirstDrag, because its a new first drag
 		relationPointOfCurrentDrag = null;
 		if (isPointOverDragBox(point)) {
-			return Selection.DRAG_BOX;
+			return RelationSelection.DRAG_BOX;
 		}
 		PointDoubleIndexed pointOverRelationPoint = RelationPointHandlerUtils.getRelationPointContaining(point, points);
 		if (pointOverRelationPoint != null) {
 			relationPointOfCurrentDrag = movePointAndResizeRectangle(pointOverRelationPoint, diffX, diffY);
-			return Selection.RELATION_POINT;
+			return RelationSelection.RELATION_POINT;
 		}
 		Line lineOnPoint = getLineContaining(point);
 		if (lineOnPoint != null) {
 			relationPointOfCurrentDrag = points.addPointOnLine(lineOnPoint, SharedUtils.realignToGridRoundToNearest(false, point.x), SharedUtils.realignToGridRoundToNearest(false, point.y));
 			relationPointOfCurrentDrag = movePointAndResizeRectangle(relationPointOfCurrentDrag, diffX, diffY);
-			return Selection.LINE;
+			return RelationSelection.LINE;
 		}
-		return Selection.NOTHING;
+		return RelationSelection.NOTHING;
 	}
 
 	private boolean isPointOverDragBox(Point point) {
@@ -100,7 +90,7 @@ public class RelationPointHandler implements ResizableObject {
 		return null;
 	}
 
-	List<PointDoubleIndexed> movePointAndResizeRectangle(List<PointChange> changedPoints) {
+	public List<PointDoubleIndexed> movePointAndResizeRectangle(List<PointChange> changedPoints) {
 		points.applyChangesToPoints(changedPoints);
 		resizeRectAndReposPoints();
 		List<PointDoubleIndexed> updatedChangedPoint = new ArrayList<PointDoubleIndexed>();
@@ -164,7 +154,7 @@ public class RelationPointHandler implements ResizableObject {
 		return points.toAdditionalAttributesString();
 	}
 
-	void drawSelectionSpace(DrawHandler drawer) {
+	public void drawSelectionSpace(DrawHandler drawer) {
 		for (RelationPoint rp : points.getPointHolders()) {
 			drawer.drawRectangle(rp.getSizeAbsolute());
 		}

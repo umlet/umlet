@@ -1,4 +1,4 @@
-package com.baselet.element.relation;
+package com.baselet.element.relation.facet;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,6 +15,7 @@ import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
+import com.baselet.element.relation.helper.RelationPointHandler;
 import com.baselet.element.relation.helper.ResizableObject;
 import com.baselet.element.sticking.PointDoubleIndexed;
 
