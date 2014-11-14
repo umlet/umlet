@@ -22,7 +22,7 @@ import com.baselet.gui.listener.PaletteComboBoxListener;
 import com.baselet.gui.listener.PropertyPanelListener;
 import com.baselet.gui.pane.OwnSyntaxPane;
 import com.umlet.custom.CustomElementHandler;
-import com.umlet.gui.CustomElementPanel;
+import com.umlet.custom.CustomElementPanel;
 
 public abstract class BaseGUIBuilder {
 

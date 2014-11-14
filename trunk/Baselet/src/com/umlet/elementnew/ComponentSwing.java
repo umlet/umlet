@@ -71,7 +71,7 @@ public class ComponentSwing extends JComponent implements Component {
 		Rectangle r = gridElement.getRectangle();
 		// only check if element selectable on the position, because some elements are not everywhere selectable (eg: Relation)
 		if (gridElement.isSelectableOn(new Point(r.getX() + x, r.getY() + y))) {
-			return ComponentSwingUtils.checkForOverlap(gridElement, new Point(x, y));
+			return ElementUtils.checkForOverlap(gridElement, new Point(x, y));
 		}
 		else {
 			return false;

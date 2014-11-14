@@ -5,8 +5,6 @@ import java.awt.event.MouseMotionListener;
 import java.util.HashMap;
 import java.util.List;
 
-import com.umlet.gui.CustomCodeSyntaxPane;
-
 public class ErrorHandler implements MouseMotionListener {
 
 	private CustomCodeSyntaxPane codepane;
