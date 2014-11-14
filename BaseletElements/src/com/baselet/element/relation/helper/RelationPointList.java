@@ -1,4 +1,4 @@
-package com.baselet.element.relation;
+package com.baselet.element.relation.helper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,8 +16,6 @@ import com.baselet.control.geom.GeometricFunctions;
 import com.baselet.control.geom.Line;
 import com.baselet.control.geom.PointDouble;
 import com.baselet.control.geom.Rectangle;
-import com.baselet.element.relation.helper.RelationPoint;
-import com.baselet.element.relation.helper.RelationPointConstants;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.PointDoubleIndexed;
 

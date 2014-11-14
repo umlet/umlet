@@ -20,15 +20,21 @@ import com.baselet.element.UndoInformation;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 import com.baselet.element.facet.common.LayerFacet;
-import com.baselet.element.relation.LineDescriptionFacet.LineDescriptionFacetResponse;
-import com.baselet.element.relation.RelationPointHandler.Selection;
+import com.baselet.element.relation.facet.LineDescriptionFacet;
+import com.baselet.element.relation.facet.RelationLineTypeFacet;
+import com.baselet.element.relation.facet.SettingsRelation;
+import com.baselet.element.relation.facet.LineDescriptionFacet.LineDescriptionFacetResponse;
+import com.baselet.element.relation.helper.RelationPointHandler;
+import com.baselet.element.relation.helper.RelationPointHolder;
+import com.baselet.element.relation.helper.RelationPointList;
+import com.baselet.element.relation.helper.RelationSelection;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.PointDoubleIndexed;
 import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.polygon.NoStickingPolygonGenerator;
 
-public class Relation extends NewGridElement implements Stickable {
+public class Relation extends NewGridElement implements Stickable, RelationPointHolder {
 
 	private RelationPointHandler relationPoints;
 
@@ -89,11 +95,11 @@ public class Relation extends NewGridElement implements Stickable {
 	public void drag(Collection<Direction> resizeDirection, int diffX, int diffY, Point mousePosBeforeDragRelative, boolean isShiftKeyDown, boolean firstDrag, StickableMap stickables, boolean undoable) {
 		String oldAddAttr = getAdditionalAttributes();
 		Rectangle oldRect = getRectangle();
-		Selection returnSelection = relationPoints.getSelectionAndMovePointsIfNecessary(pointAtDefaultZoom(mousePosBeforeDragRelative), toDefaultZoom(diffX), toDefaultZoom(diffY), firstDrag);
-		if (returnSelection == Selection.DRAG_BOX) {
+		RelationSelection returnSelection = relationPoints.getSelectionAndMovePointsIfNecessary(pointAtDefaultZoom(mousePosBeforeDragRelative), toDefaultZoom(diffX), toDefaultZoom(diffY), firstDrag);
+		if (returnSelection == RelationSelection.DRAG_BOX) {
 			setLocationDifference(diffX, diffY);
 		}
-		if (returnSelection != Selection.NOTHING) {
+		if (returnSelection != RelationSelection.NOTHING) {
 			updateModelFromText();
 		}
 		if (undoable) {
@@ -128,7 +134,7 @@ public class Relation extends NewGridElement implements Stickable {
 	@Override
 	public boolean isSelectableOn(Point point) {
 		Point relativePoint = new Point(point.getX() - getRectangle().getX(), point.getY() - getRectangle().getY());
-		boolean isSelectableOn = relationPoints.getSelection(pointAtDefaultZoom(relativePoint)) != Selection.NOTHING;
+		boolean isSelectableOn = relationPoints.getSelection(pointAtDefaultZoom(relativePoint)) != RelationSelection.NOTHING;
 		return isSelectableOn;
 	}
 

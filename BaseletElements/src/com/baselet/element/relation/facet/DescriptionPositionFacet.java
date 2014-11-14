@@ -1,4 +1,4 @@
-package com.baselet.element.relation;
+package com.baselet.element.relation.facet;
 
 import java.util.HashMap;
 import java.util.Map;
