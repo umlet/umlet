@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.baselet.element.interfaces.GridElement;
+
 public abstract class Selector {
 
 	private void selectHelper(boolean applyAfterAction, Collection<GridElement> elements) {

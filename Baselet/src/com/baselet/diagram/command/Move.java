@@ -9,7 +9,7 @@ import com.baselet.control.enums.Direction;
 import com.baselet.control.geom.Point;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.sticking.StickableMap;
 
 public class Move extends Command {

@@ -30,7 +30,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.umlet.element.OldGridElement;
 
 @SuppressWarnings("serial")

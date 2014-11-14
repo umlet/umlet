@@ -14,7 +14,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.command.ChangePanelAttributes;
 import com.baselet.diagram.command.CustomCodePropertyChanged;
 import com.baselet.diagram.command.HelpPanelChanged;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
 
 public class PropertyPanelListener implements KeyListener, DocumentListener {

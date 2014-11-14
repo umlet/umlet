@@ -32,7 +32,7 @@ import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.geom.Rectangle;
 import com.baselet.control.util.Utils;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.listener.ScrollbarListener;
 import com.umlet.element.OldGridElement;
 import com.umlet.element.Relation;
@@ -156,7 +156,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		JLayeredPane tempPanel = new JLayeredPane();
 		for (GridElement entity : entities) {
 			GridElement clone = ElementFactorySwing.createCopy(entity);
-			com.baselet.element.Component component = clone.getComponent();
+			com.baselet.element.interfaces.Component component = clone.getComponent();
 			// Issue 138: when PDF and Swing Export draw on (0,0) a part of the drawn image is cut, therefore it's displaced by 0.5px in that case
 			if (component instanceof OldGridElement) {
 				((OldGridElement) component).translateForExport();
@@ -203,11 +203,11 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		return getHelper(Relation.class);
 	}
 
-	public List<com.baselet.elementnew.element.uml.relation.Relation> getStickables(Collection<GridElement> excludeList) {
+	public List<com.baselet.element.elementnew.uml.relation.Relation> getStickables(Collection<GridElement> excludeList) {
 		if (!SharedConfig.getInstance().isStickingEnabled()) {
-			return Collections.<com.baselet.elementnew.element.uml.relation.Relation> emptyList();
+			return Collections.<com.baselet.element.elementnew.uml.relation.Relation> emptyList();
 		}
-		List<com.baselet.elementnew.element.uml.relation.Relation> returnList = getHelper(com.baselet.elementnew.element.uml.relation.Relation.class);
+		List<com.baselet.element.elementnew.uml.relation.Relation> returnList = getHelper(com.baselet.element.elementnew.uml.relation.Relation.class);
 		returnList.removeAll(excludeList);
 		return returnList;
 	}

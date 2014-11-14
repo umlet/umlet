@@ -3,7 +3,7 @@ package com.baselet.diagram.command;
 import java.util.Vector;
 
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.umlet.elementnew.ElementFactorySwing;
 
 public class Copy extends Command {

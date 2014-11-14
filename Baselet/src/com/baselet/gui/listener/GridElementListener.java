@@ -33,11 +33,11 @@ import com.baselet.diagram.command.OldMoveLinePoint;
 import com.baselet.diagram.command.OldRelationLinePoint;
 import com.baselet.diagram.command.OldResize;
 import com.baselet.diagram.draw.Converter;
-import com.baselet.element.GridElement;
+import com.baselet.element.facet.common.GroupFacet;
+import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
-import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gui.CurrentGui;
 import com.umlet.element.Relation;
 import com.umlet.elementnew.ElementFactorySwing;
@@ -296,7 +296,7 @@ public class GridElementListener extends UniversalListener {
 	static Vector<Command> calculateFirstMoveCommands(int diffx, int diffy, Point oldp, Collection<GridElement> entitiesToBeMoved, boolean isShiftKeyDown, boolean useSetLocation, DiagramHandler handler, Set<Direction> directions) {
 		Vector<Move> moveCommands = new Vector<Move>();
 		Vector<OldMoveLinePoint> linepointCommands = new Vector<OldMoveLinePoint>();
-		List<com.baselet.elementnew.element.uml.relation.Relation> stickables = handler.getDrawPanel().getStickables(entitiesToBeMoved);
+		List<com.baselet.element.elementnew.uml.relation.Relation> stickables = handler.getDrawPanel().getStickables(entitiesToBeMoved);
 		for (GridElement ge : entitiesToBeMoved) {
 			// reduce stickables to those which really stick at the element at move-start
 			StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(ge.getRectangle()), stickables, handler.getGridSize());

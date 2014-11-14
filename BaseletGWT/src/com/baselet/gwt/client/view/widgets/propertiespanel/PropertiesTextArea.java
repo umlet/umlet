@@ -1,6 +1,6 @@
 package com.baselet.gwt.client.view.widgets.propertiespanel;
 
-import com.baselet.element.HasPanelAttributes;
+import com.baselet.element.interfaces.HasPanelAttributes;
 import com.baselet.gwt.client.view.interfaces.Redrawable;
 import com.baselet.gwt.client.view.widgets.OwnTextArea;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;

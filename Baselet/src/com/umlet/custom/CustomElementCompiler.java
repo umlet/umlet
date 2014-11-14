@@ -19,7 +19,7 @@ import com.baselet.control.config.Config;
 import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.util.Path;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.umlet.element.ErrorOccurred;
 
 public class CustomElementCompiler {

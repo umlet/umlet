@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.google.gwt.storage.client.Storage;
 
 /**

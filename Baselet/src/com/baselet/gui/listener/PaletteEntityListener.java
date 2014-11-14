@@ -15,8 +15,8 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.command.AddElement;
 import com.baselet.diagram.command.Command;
-import com.baselet.element.GridElement;
-import com.baselet.elementnew.facet.common.GroupFacet;
+import com.baselet.element.facet.common.GroupFacet;
+import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
 import com.umlet.elementnew.ElementFactorySwing;
 

@@ -3,9 +3,9 @@ package com.baselet.gwt.client.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baselet.diagram.HasGridElements;
-import com.baselet.element.GridElement;
 import com.baselet.element.Selector;
+import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.interfaces.HasGridElements;
 
 public class SelectorNew extends Selector {
 

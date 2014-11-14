@@ -10,7 +10,7 @@ import com.baselet.control.constants.Constants;
 import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 
 public class Align extends Command {
 

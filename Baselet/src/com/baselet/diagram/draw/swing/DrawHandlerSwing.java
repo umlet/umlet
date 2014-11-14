@@ -20,7 +20,7 @@ import com.baselet.diagram.draw.DrawFunction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 
 public class DrawHandlerSwing extends DrawHandler {
 

@@ -8,10 +8,10 @@ import java.util.Map;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.geom.Point;
-import com.baselet.diagram.Diagram;
-import com.baselet.element.GridElement;
+import com.baselet.element.facet.common.GroupFacet;
+import com.baselet.element.interfaces.Diagram;
+import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.sticking.StickableMap;
-import com.baselet.elementnew.facet.common.GroupFacet;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.view.palettes.Resources;

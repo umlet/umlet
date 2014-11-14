@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.baselet.command.AddGridElementCommand;
+import com.baselet.command.CommandTarget;
+import com.baselet.command.Controller;
+import com.baselet.command.RemoveGridElementCommand;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.geom.Rectangle;
-import com.baselet.diagram.Diagram;
-import com.baselet.diagram.commandnew.AddGridElementCommand;
-import com.baselet.diagram.commandnew.CommandTarget;
-import com.baselet.diagram.commandnew.Controller;
-import com.baselet.diagram.commandnew.RemoveGridElementCommand;
-import com.baselet.element.GridElement;
 import com.baselet.element.GridElementUtils;
-import com.baselet.elementnew.facet.common.GroupFacet;
+import com.baselet.element.facet.common.GroupFacet;
+import com.baselet.element.interfaces.Diagram;
+import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.BrowserStorage;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 

@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 
 public class ChangeElementSetting extends Command {
 

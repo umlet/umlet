@@ -18,7 +18,7 @@ import org.eclipse.ui.part.EditorActionBarContributor;
 
 import com.baselet.control.constants.MenuConstants;
 import com.baselet.control.enums.Program;
-import com.baselet.element.GridElement;
+import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
 import com.baselet.plugin.gui.EclipseGUI.Pane;
 
