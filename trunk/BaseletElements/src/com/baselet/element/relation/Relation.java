@@ -1,4 +1,4 @@
-package com.baselet.element.elementnew.uml.relation;
+package com.baselet.element.relation;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -17,13 +17,13 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.UndoInformation;
-import com.baselet.element.elementnew.uml.relation.RelationPointHandler.Selection;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 import com.baselet.element.facet.common.LayerFacet;
 import com.baselet.element.facet.relation.LineDescriptionFacet;
 import com.baselet.element.facet.relation.RelationLineTypeFacet;
 import com.baselet.element.facet.relation.LineDescriptionFacet.LineDescriptionFacetResponse;
+import com.baselet.element.relation.RelationPointHandler.Selection;
 import com.baselet.element.sticking.PointChange;
 import com.baselet.element.sticking.PointDoubleIndexed;
 import com.baselet.element.sticking.Stickable;

@@ -1,4 +1,4 @@
-package com.baselet.element.elementnew.uml.relation;
+package com.baselet.element.relation;
 
 import java.util.ArrayList;
 import java.util.Arrays;

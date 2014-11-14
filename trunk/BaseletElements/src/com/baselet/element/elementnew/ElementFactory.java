@@ -19,7 +19,7 @@ import com.baselet.element.elementnew.uml.SyncBarHorizontal;
 import com.baselet.element.elementnew.uml.SyncBarVertical;
 import com.baselet.element.elementnew.uml.Timer;
 import com.baselet.element.elementnew.uml.UseCase;
-import com.baselet.element.elementnew.uml.relation.Relation;
+import com.baselet.element.relation.Relation;
 
 public abstract class ElementFactory {
 

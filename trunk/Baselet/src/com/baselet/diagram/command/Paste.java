@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import com.baselet.control.constants.Constants;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.element.facet.common.GroupFacet;
+import com.baselet.element.Selector;
 import com.baselet.element.interfaces.GridElement;
 import com.umlet.elementnew.ElementFactorySwing;
 
@@ -28,7 +28,7 @@ public class Paste extends Command {
 				handler.setHandlerAndInitListeners(clone);
 				entities.add(clone);
 			}
-			GroupFacet.replaceGroupsWithNewGroups(entities, handler.getDrawPanel().getSelector());
+			Selector.replaceGroupsWithNewGroups(entities, handler.getDrawPanel().getSelector());
 		}
 
 		// AB: first execution of paste

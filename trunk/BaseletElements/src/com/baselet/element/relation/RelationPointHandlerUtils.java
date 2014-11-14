@@ -1,4 +1,4 @@
-package com.baselet.element.elementnew.uml.relation;
+package com.baselet.element.relation;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.constants.SharedConstants;

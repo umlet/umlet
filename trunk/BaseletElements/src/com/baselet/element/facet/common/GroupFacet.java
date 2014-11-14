@@ -1,17 +1,9 @@
 package com.baselet.element.facet.common;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
-import com.baselet.element.Selector;
 import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
-import com.baselet.element.interfaces.GridElement;
 
 public class GroupFacet extends KeyValueFacet {
 
@@ -32,18 +24,6 @@ public class GroupFacet extends KeyValueFacet {
 			state.setFacetResponse(GroupFacet.class, Integer.valueOf(value));
 		} catch (NumberFormatException e) {
 			throw new StyleException("value must be a positive or negative integer");
-		}
-	}
-
-	public static void replaceGroupsWithNewGroups(Collection<GridElement> elements, Selector selector) {
-		Set<Integer> usedIds = new HashSet<Integer>(Selector.createGroupElementMap(selector.getAllElements()).keySet());
-		Map<Integer, Collection<GridElement>> groupedElements = Selector.createGroupElementMap(elements);
-		for (Entry<Integer, Collection<GridElement>> entry : groupedElements.entrySet()) {
-			Integer unusedId = Selector.getUnusedGroupId(usedIds);
-			usedIds.add(unusedId);
-			for (GridElement e : entry.getValue()) {
-				e.setProperty(KEY, unusedId);
-			}
 		}
 	}
 }

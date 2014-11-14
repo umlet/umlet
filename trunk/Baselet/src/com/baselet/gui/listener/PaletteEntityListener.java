@@ -15,6 +15,7 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.command.AddElement;
 import com.baselet.diagram.command.Command;
+import com.baselet.element.Selector;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
@@ -120,7 +121,7 @@ public class PaletteEntityListener extends GridElementListener {
 			y -= entity.getRectangle().height / 2;
 			copiedEntity.setLocation(x, y);
 		}
-		GroupFacet.replaceGroupsWithNewGroups(copiedEntities, selector);
+		Selector.replaceGroupsWithNewGroups(copiedEntities, selector);
 
 		// After inserting the new entity we restore the old zoom level of both diagrams
 		currentDiagram.getHandler().setGridAndZoom(oldZoomDiagram, false);

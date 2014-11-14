@@ -13,10 +13,10 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.StyleException;
-import com.baselet.element.elementnew.uml.relation.RelationPointHandler;
-import com.baselet.element.elementnew.uml.relation.SettingsRelation;
 import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
+import com.baselet.element.relation.RelationPointHandler;
+import com.baselet.element.relation.SettingsRelation;
 import com.baselet.element.sticking.PointDoubleIndexed;
 
 public class RelationLineTypeFacet extends KeyValueFacet {

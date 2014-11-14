@@ -8,6 +8,7 @@ import com.baselet.control.enums.ElementId;
 import com.baselet.control.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.NewGridElement;
+import com.baselet.element.draw.DrawHelper;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
@@ -50,25 +51,9 @@ public class Package extends NewGridElement {
 		packageHeight += drawer.getDistanceBorderToText();
 		int height = getRealSize().getHeight();
 		int width = getRealSize().getWidth();
-		List<PointDouble> points = drawPackage(drawer, 0, 0, packageHeight, packageWidth, height, width);
+		List<PointDouble> points = DrawHelper.drawPackage(drawer, 0, 0, packageHeight, packageWidth, height, width);
 		state.setMinTopBuffer(packageHeight);
 		state.setStickingPolygonGenerator(new PointDoubleStickingPolygonGenerator(points));
-	}
-
-	public static List<PointDouble> drawPackage(DrawHandler drawer, double upperLeftX, double upperLeftY, double titleHeight, double titleWidth, double fullHeight, double fullWidth) {
-		PointDouble start = new PointDouble(upperLeftX, upperLeftY);
-		List<PointDouble> points = Arrays.asList(
-				start,
-				new PointDouble(upperLeftX + titleWidth, upperLeftY),
-				new PointDouble(upperLeftX + titleWidth, upperLeftY + titleHeight),
-				new PointDouble(upperLeftX + fullWidth, upperLeftY + titleHeight),
-				new PointDouble(upperLeftX + fullWidth, upperLeftY + fullHeight),
-				new PointDouble(upperLeftX, upperLeftY + fullHeight),
-				start
-				);
-		drawer.drawLines(points);
-		drawer.drawLines(new PointDouble(upperLeftX, upperLeftY + titleHeight), new PointDouble(upperLeftX + titleWidth, upperLeftY + titleHeight));
-		return points;
 	}
 
 	private static List<String> getTitleLines(PropertiesParserState state) {
