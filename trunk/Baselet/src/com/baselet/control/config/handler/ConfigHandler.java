@@ -15,15 +15,15 @@ import com.baselet.control.config.ConfigClassGen;
 import com.baselet.control.config.ConfigMail;
 import com.baselet.control.config.SharedConfig;
 import com.baselet.control.enums.Program;
+import com.baselet.control.enums.generator.FieldOptions;
+import com.baselet.control.enums.generator.MethodOptions;
+import com.baselet.control.enums.generator.SignatureOptions;
+import com.baselet.control.enums.generator.SortOptions;
 import com.baselet.control.util.Path;
 import com.baselet.control.util.RecentlyUsedFilesList;
 import com.baselet.control.util.Utils;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.standalone.StandaloneGUI;
-import com.umlet.language.enums.FieldOptions;
-import com.umlet.language.enums.MethodOptions;
-import com.umlet.language.enums.SignatureOptions;
-import com.umlet.language.enums.SortOptions;
 
 public class ConfigHandler {
 

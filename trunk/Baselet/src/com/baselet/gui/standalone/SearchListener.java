@@ -10,8 +10,8 @@ import javax.swing.JTextField;
 import com.baselet.control.constants.Constants;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.command.Search;
 import com.baselet.gui.CurrentGui;
+import com.baselet.gui.command.Search;
 
 public class SearchListener implements KeyListener, MouseMotionListener {
 

@@ -24,11 +24,10 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import com.baselet.control.basics.Converter;
 import com.baselet.control.config.DerivedConfig;
-import com.baselet.control.constants.MenuConstants;
+import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.AutocompletionText;
-import com.baselet.gui.menu.MenuFactorySwing;
 
 public class OwnSyntaxPane {
 
@@ -56,12 +55,12 @@ public class OwnSyntaxPane {
 
 			@Override
 			public void undoLastAction() {
-				MenuFactorySwing.getInstance().doAction(MenuConstants.UNDO, null);
+				CurrentDiagram.getInstance().getDiagramHandler().getController().undo();
 			}
 
 			@Override
 			public void redoLastAction() {
-				MenuFactorySwing.getInstance().doAction(MenuConstants.REDO, null);
+				CurrentDiagram.getInstance().getDiagramHandler().getController().redo();
 			}
 		};
 

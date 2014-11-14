@@ -24,10 +24,10 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import com.baselet.control.config.ConfigClassGen;
-import com.umlet.language.enums.FieldOptions;
-import com.umlet.language.enums.MethodOptions;
-import com.umlet.language.enums.SignatureOptions;
-import com.umlet.language.enums.SortOptions;
+import com.baselet.control.enums.generator.FieldOptions;
+import com.baselet.control.enums.generator.MethodOptions;
+import com.baselet.control.enums.generator.SignatureOptions;
+import com.baselet.control.enums.generator.SortOptions;
 
 @SuppressWarnings("serial")
 public class GenerateOptionPanel extends JDialog {

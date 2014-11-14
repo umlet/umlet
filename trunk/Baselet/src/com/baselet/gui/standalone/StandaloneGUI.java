@@ -9,6 +9,11 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import org.apache.log4j.Logger;
 
 import com.baselet.control.CanCloseProgram;
 import com.baselet.control.Main;
@@ -22,6 +27,8 @@ import com.baselet.gui.pane.OwnSyntaxPane;
 import com.umlet.custom.CustomElementHandler;
 
 public class StandaloneGUI extends BaseGUI {
+
+	private final Logger log = Logger.getLogger(StandaloneGUI.class);
 
 	private JFrame mainFrame;
 
@@ -263,5 +270,25 @@ public class StandaloneGUI extends BaseGUI {
 	@Override
 	public void requestFocus() {
 		mainFrame.requestFocus();
+	}
+
+	@Override
+	public void setLookAndFeel(String newui, JFrame optionframe) {
+		try {
+			Frame topFrame = getMainFrame();
+			UIManager.setLookAndFeel(newui);
+			SwingUtilities.updateComponentTreeUI(topFrame);
+			SwingUtilities.updateComponentTreeUI(optionframe);
+			topFrame.pack();
+			optionframe.pack();
+		} catch (ClassNotFoundException e) {
+			log.error("Cannot set LookAndFeel", e);
+		} catch (InstantiationException e) {
+			log.error("Cannot set LookAndFeel", e);
+		} catch (IllegalAccessException e) {
+			log.error("Cannot set LookAndFeel", e);
+		} catch (UnsupportedLookAndFeelException e) {
+			log.error("Cannot set LookAndFeel", e);
+		}
 	}
 }

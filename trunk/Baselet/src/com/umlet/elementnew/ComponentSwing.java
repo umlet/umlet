@@ -13,6 +13,7 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.swing.DrawHandlerSwing;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.interfaces.Component;
+import com.umlet.element.ElementUtils;
 
 public class ComponentSwing extends JComponent implements Component {
 	private static final long serialVersionUID = 1L;

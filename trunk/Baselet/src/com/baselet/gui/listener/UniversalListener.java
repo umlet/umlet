@@ -15,13 +15,13 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.SelectorFrame;
 import com.baselet.diagram.SelectorOld;
-import com.baselet.diagram.command.Command;
-import com.baselet.diagram.command.Controller;
-import com.baselet.diagram.command.Macro;
-import com.baselet.diagram.command.Move;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.gui.CurrentGui;
+import com.baselet.gui.command.Command;
+import com.baselet.gui.command.Controller;
+import com.baselet.gui.command.Macro;
+import com.baselet.gui.command.Move;
 
 public abstract class UniversalListener extends ComponentAdapter implements MouseListener, MouseMotionListener {
 

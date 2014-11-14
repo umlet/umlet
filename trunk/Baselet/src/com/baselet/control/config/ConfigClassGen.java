@@ -1,9 +1,9 @@
 package com.baselet.control.config;
 
-import com.umlet.language.enums.FieldOptions;
-import com.umlet.language.enums.MethodOptions;
-import com.umlet.language.enums.SignatureOptions;
-import com.umlet.language.enums.SortOptions;
+import com.baselet.control.enums.generator.FieldOptions;
+import com.baselet.control.enums.generator.MethodOptions;
+import com.baselet.control.enums.generator.SignatureOptions;
+import com.baselet.control.enums.generator.SortOptions;
 
 public class ConfigClassGen {
 	private static final ConfigClassGen instance = new ConfigClassGen();

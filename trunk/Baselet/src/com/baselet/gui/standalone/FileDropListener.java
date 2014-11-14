@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Main;
-import com.umlet.language.ClassDiagramConverter;
+import com.baselet.generator.ClassDiagramConverter;
 
 public class FileDropListener implements FileDrop.Listener {
 
