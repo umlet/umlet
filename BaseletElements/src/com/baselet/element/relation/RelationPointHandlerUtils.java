@@ -5,6 +5,7 @@ import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.geom.Point;
 import com.baselet.control.geom.PointDouble;
 import com.baselet.control.geom.Rectangle;
+import com.baselet.element.relation.helper.RelationPoint;
 import com.baselet.element.sticking.PointDoubleIndexed;
 
 public class RelationPointHandlerUtils {
@@ -28,10 +29,6 @@ public class RelationPointHandlerUtils {
 		newSize.move(upperLeftCorner.getX().intValue(), upperLeftCorner.getY().intValue());
 
 		return newSize;
-	}
-
-	static Rectangle toRectangle(PointDouble p, double size) {
-		return new Rectangle(p.x - size, p.y - size, size * 2, size * 2);
 	}
 
 	static PointDoubleIndexed getRelationPointContaining(Point point, RelationPointList points) {

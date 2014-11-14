@@ -1,4 +1,4 @@
-package com.baselet.element.facet.relation;
+package com.baselet.element.relation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +8,7 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
+import com.baselet.element.relation.helper.LineDescriptionEnum;
 
 public class DescriptionPositionFacet extends KeyValueFacet {
 

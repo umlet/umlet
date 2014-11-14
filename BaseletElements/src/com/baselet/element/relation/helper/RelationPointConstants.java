@@ -1,4 +1,4 @@
-package com.baselet.element.facet.relation;
+package com.baselet.element.relation.helper;
 
 public class RelationPointConstants {
 
