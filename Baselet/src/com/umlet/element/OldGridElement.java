@@ -50,7 +50,7 @@ import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
 import com.baselet.gui.AutocompletionText;
-import com.umlet.elementnew.ComponentSwingUtils;
+import com.umlet.elementnew.ElementUtils;
 
 public abstract class OldGridElement extends JComponent implements GridElement, com.baselet.element.interfaces.Component {
 
@@ -276,7 +276,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	 */
 	@Override
 	public boolean contains(int x, int y) {
-		return ComponentSwingUtils.checkForOverlap(this, new Point(x, y));
+		return ElementUtils.checkForOverlap(this, new Point(x, y));
 	}
 
 	@Override

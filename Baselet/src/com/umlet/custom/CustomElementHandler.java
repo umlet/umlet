@@ -15,8 +15,6 @@ import com.baselet.diagram.DrawPanel;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
 import com.umlet.elementnew.ElementFactorySwing;
-import com.umlet.gui.CustomCodeSyntaxPane;
-import com.umlet.gui.CustomElementPanel;
 
 public class CustomElementHandler {
 

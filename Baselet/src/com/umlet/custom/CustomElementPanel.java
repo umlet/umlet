@@ -1,4 +1,4 @@
-package com.umlet.gui;
+package com.umlet.custom;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -10,11 +10,10 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.text.JTextComponent;
 
-import com.baselet.control.constants.Constants;
+import com.baselet.control.config.DerivedConfig;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.gui.listener.DividerListener;
-import com.umlet.custom.CustomElementHandler;
 
 @SuppressWarnings("serial")
 public class CustomElementPanel extends JPanel {
@@ -36,7 +35,7 @@ public class CustomElementPanel extends JPanel {
 		custompanel2.setLayout(new BoxLayout(custompanel2, BoxLayout.Y_AXIS));
 
 		JLabel codelabel = new JLabel(" Code");
-		codelabel.setFont(Constants.getPanelHeaderFont());
+		codelabel.setFont(DerivedConfig.getPanelHeaderFont());
 		codelabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		custompanel2.add(codelabel);
 		customcodepane = customhandler.getCodePane();
@@ -50,7 +49,7 @@ public class CustomElementPanel extends JPanel {
 		custompreviewpanel = d.getDrawPanel();
 		custompreviewpanel.getScrollPane().setAlignmentX(Component.LEFT_ALIGNMENT);
 		JLabel previewlabel = new JLabel(" Preview");
-		previewlabel.setFont(Constants.getPanelHeaderFont());
+		previewlabel.setFont(DerivedConfig.getPanelHeaderFont());
 		previewlabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		JPanel labelpanel = new JPanel();
 		labelpanel.setLayout(new BoxLayout(labelpanel, BoxLayout.Y_AXIS));
@@ -70,12 +69,12 @@ public class CustomElementPanel extends JPanel {
 				}
 			}
 		};
-		savelabel.setFont(Constants.getPanelHeaderFont());
+		savelabel.setFont(DerivedConfig.getPanelHeaderFont());
 		savelabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		savelabel.setEnabled(true);
 
 		JLabel discardlabel = new JLabel("Discard and close editor");
-		discardlabel.setFont(Constants.getPanelHeaderFont());
+		discardlabel.setFont(DerivedConfig.getPanelHeaderFont());
 		discardlabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		discardlabel.addMouseListener(saveListener);
 

@@ -1,4 +1,4 @@
-package com.umlet.gui;
+package com.umlet.custom;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;

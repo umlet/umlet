@@ -10,7 +10,7 @@ import com.baselet.diagram.draw.Converter;
 import com.baselet.element.interfaces.GridElement;
 import com.umlet.element.Relation;
 
-public class ComponentSwingUtils {
+public class ElementUtils {
 
 	/**
 	 * Must be overwritten because Swing uses this method to tell if 2 elements are overlapping
@@ -50,7 +50,7 @@ public class ComponentSwingUtils {
 			other_rectangle.x += other.getRectangle().x - gridElement.getRectangle().x;
 			other_rectangle.y += other.getRectangle().y - gridElement.getRectangle().y;
 			// when elements intersect, select the smaller element except if it is an old relation (because they have a larger rectangle than they use). NOTE: Old Relations are not checked because they do not properly implement isSelectableOn
-			if (!(other instanceof Relation) && other.isSelectableOn(absolute) && rectangle.intersects(other_rectangle) && ComponentSwingUtils.smaller(other_rectangle, rectangle)) {
+			if (!(other instanceof Relation) && other.isSelectableOn(absolute) && rectangle.intersects(other_rectangle) && ElementUtils.smaller(other_rectangle, rectangle)) {
 				return false;
 			}
 		}
