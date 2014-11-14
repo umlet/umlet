@@ -7,8 +7,7 @@ import java.util.List;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.elementnew.uml.Actor;
-import com.baselet.element.elementnew.uml.Package;
+import com.baselet.element.draw.DrawHelper;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.GlobalFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -71,7 +70,7 @@ public class HierarchyFacet extends GlobalFacet {
 			int actorDimension = 10;
 			int actorHCenter = border + actorDimension + actorDimension * 5 * tabCount;
 			int actorVTop = border + cache.lineNr * actorDimension * 6;
-			Actor.drawActor(drawer, actorHCenter, actorVTop, actorDimension);
+			DrawHelper.drawActor(drawer, actorHCenter, actorVTop, actorDimension);
 
 			upperLeftPoint = new PointDouble(actorHCenter, actorVTop + actorDimension * 5.5 + ARROW_LENGTH);
 			PointDouble lowerRightPoint = new PointDouble(actorHCenter - actorDimension * 2, actorVTop + actorDimension * 2.5);
@@ -83,7 +82,7 @@ public class HierarchyFacet extends GlobalFacet {
 			int fullWidth = 30;
 			double xPos = border + tabCount * fullWidth * 1.4;
 			double yPos = border + cache.lineNr * fullHeight * 1.6;
-			Package.drawPackage(drawer, xPos, yPos, 5, 10, fullHeight, fullWidth);
+			DrawHelper.drawPackage(drawer, xPos, yPos, 5, 10, fullHeight, fullWidth);
 
 			upperLeftPoint = new PointDouble(xPos + fullWidth * 0.3, yPos + fullHeight + CIRCLE_DIAMETER);
 			PointDouble lowerRightPoint = new PointDouble(xPos, yPos + fullHeight * 0.5);

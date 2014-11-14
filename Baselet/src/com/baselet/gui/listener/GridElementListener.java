@@ -296,7 +296,7 @@ public class GridElementListener extends UniversalListener {
 	static Vector<Command> calculateFirstMoveCommands(int diffx, int diffy, Point oldp, Collection<GridElement> entitiesToBeMoved, boolean isShiftKeyDown, boolean useSetLocation, DiagramHandler handler, Set<Direction> directions) {
 		Vector<Move> moveCommands = new Vector<Move>();
 		Vector<OldMoveLinePoint> linepointCommands = new Vector<OldMoveLinePoint>();
-		List<com.baselet.element.elementnew.uml.relation.Relation> stickables = handler.getDrawPanel().getStickables(entitiesToBeMoved);
+		List<com.baselet.element.relation.Relation> stickables = handler.getDrawPanel().getStickables(entitiesToBeMoved);
 		for (GridElement ge : entitiesToBeMoved) {
 			// reduce stickables to those which really stick at the element at move-start
 			StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(ge.getRectangle()), stickables, handler.getGridSize());

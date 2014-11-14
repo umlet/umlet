@@ -203,11 +203,11 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		return getHelper(Relation.class);
 	}
 
-	public List<com.baselet.element.elementnew.uml.relation.Relation> getStickables(Collection<GridElement> excludeList) {
+	public List<com.baselet.element.relation.Relation> getStickables(Collection<GridElement> excludeList) {
 		if (!SharedConfig.getInstance().isStickingEnabled()) {
-			return Collections.<com.baselet.element.elementnew.uml.relation.Relation> emptyList();
+			return Collections.<com.baselet.element.relation.Relation> emptyList();
 		}
-		List<com.baselet.element.elementnew.uml.relation.Relation> returnList = getHelper(com.baselet.element.elementnew.uml.relation.Relation.class);
+		List<com.baselet.element.relation.Relation> returnList = getHelper(com.baselet.element.relation.Relation.class);
 		returnList.removeAll(excludeList);
 		return returnList;
 	}

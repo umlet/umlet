@@ -5,10 +5,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
 
 public abstract class Selector {
@@ -127,6 +131,18 @@ public abstract class Selector {
 	}
 
 	public abstract List<GridElement> getAllElements();
+
+	public static void replaceGroupsWithNewGroups(Collection<GridElement> elements, Selector selector) {
+		Set<Integer> usedIds = new HashSet<Integer>(createGroupElementMap(selector.getAllElements()).keySet());
+		Map<Integer, Collection<GridElement>> groupedElements = createGroupElementMap(elements);
+		for (Entry<Integer, Collection<GridElement>> entry : groupedElements.entrySet()) {
+			Integer unusedId = getUnusedGroupId(usedIds);
+			usedIds.add(unusedId);
+			for (GridElement e : entry.getValue()) {
+				e.setProperty(GroupFacet.KEY, unusedId);
+			}
+		}
+	}
 
 	public static Integer getUnusedGroupId(Collection<Integer> usedGroups) {
 		Integer newGroup;

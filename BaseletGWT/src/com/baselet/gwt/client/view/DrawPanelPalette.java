@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.geom.Point;
+import com.baselet.element.Selector;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
@@ -108,7 +109,7 @@ public class DrawPanelPalette extends DrawPanel {
 				copy.setRectangle(SharedUtils.realignToGrid(copy.getRectangle(), false)); // realign location to grid (width and height should not be changed)
 				elementsToMove.add(copy);
 			}
-			GroupFacet.replaceGroupsWithNewGroups(elementsToMove, otherDrawFocusPanel.getSelector());
+			Selector.replaceGroupsWithNewGroups(elementsToMove, otherDrawFocusPanel.getSelector());
 			commandInvoker.removeSelectedElements(this);
 			commandInvoker.addElements(this, draggedElements);
 			selector.deselectAll();

@@ -8,9 +8,9 @@ import java.util.List;
 
 import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.SharedConstants;
-import com.baselet.element.elementnew.uml.relation.Relation;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.relation.Relation;
 import com.baselet.element.sticking.Stickable;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;

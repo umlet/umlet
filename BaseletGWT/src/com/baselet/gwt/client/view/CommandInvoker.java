@@ -11,7 +11,7 @@ import com.baselet.command.RemoveGridElementCommand;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.geom.Rectangle;
 import com.baselet.element.GridElementUtils;
-import com.baselet.element.facet.common.GroupFacet;
+import com.baselet.element.Selector;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.BrowserStorage;
@@ -54,7 +54,7 @@ public class CommandInvoker extends Controller {
 
 	void pasteElements(CommandTarget target) {
 		List<GridElement> copyOfElements = copyElementsInList(BrowserStorage.getClipboard(), target.getDiagram());
-		GroupFacet.replaceGroupsWithNewGroups(copyOfElements, target.getSelector());
+		Selector.replaceGroupsWithNewGroups(copyOfElements, target.getSelector());
 		realignElementsToVisibleRect(target, copyOfElements);
 		addElements(target, copyOfElements); // copy here to make sure it can be pasted multiple times
 	}
