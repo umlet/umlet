@@ -1,6 +1,6 @@
 package com.baselet.element.relation.helper;
 
-import com.baselet.control.geom.Rectangle;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.element.sticking.PointDoubleIndexed;
 
 public class RelationPoint {

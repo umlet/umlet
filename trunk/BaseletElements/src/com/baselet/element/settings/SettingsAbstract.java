@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.baselet.control.basics.XValues;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
-import com.baselet.control.geom.XValues;
 import com.baselet.element.facet.ElementStyleEnum;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.GlobalFacet;

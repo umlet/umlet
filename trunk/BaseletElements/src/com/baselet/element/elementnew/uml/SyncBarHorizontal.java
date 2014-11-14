@@ -4,11 +4,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import com.baselet.control.basics.geom.Dimension;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.ElementId;
-import com.baselet.control.geom.Dimension;
-import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.facet.Facet;

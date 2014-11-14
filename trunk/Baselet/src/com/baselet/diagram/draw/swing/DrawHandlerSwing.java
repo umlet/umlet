@@ -9,13 +9,13 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.RoundRectangle2D;
 
+import com.baselet.control.basics.Converter;
+import com.baselet.control.basics.geom.DimensionDouble;
+import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.AlignHorizontal;
-import com.baselet.control.geom.DimensionDouble;
-import com.baselet.control.geom.PointDouble;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.Converter;
 import com.baselet.diagram.draw.DrawFunction;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;

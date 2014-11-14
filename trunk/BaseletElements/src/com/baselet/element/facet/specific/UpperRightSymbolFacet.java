@@ -3,7 +3,7 @@ package com.baselet.element.facet.specific;
 import java.util.Arrays;
 import java.util.List;
 
-import com.baselet.control.geom.PointDouble;
+import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.facet.KeyValueFacet;

@@ -6,9 +6,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.SharedUtils;
+import com.baselet.control.basics.geom.Line;
 import com.baselet.control.enums.LineType;
 import com.baselet.control.enums.RegexValueHolder;
-import com.baselet.control.geom.Line;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;

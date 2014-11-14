@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
+import com.baselet.control.basics.XValues;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
-import com.baselet.control.geom.XValues;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.facet.Facet;

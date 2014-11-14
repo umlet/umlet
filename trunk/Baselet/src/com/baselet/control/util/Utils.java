@@ -10,12 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
+import com.baselet.control.basics.geom.Point;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.JavaImplementation;
 import com.baselet.control.enums.LineType;
-import com.baselet.control.geom.Point;
 import com.baselet.diagram.draw.DoubleStroke;
 
 public abstract class Utils {

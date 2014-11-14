@@ -25,12 +25,12 @@ import javax.swing.ScrollPaneConstants;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.config.Config;
 import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
-import com.baselet.control.geom.Rectangle;
 import com.baselet.control.util.Utils;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.listener.ScrollbarListener;

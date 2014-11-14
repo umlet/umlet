@@ -1,7 +1,7 @@
 package com.baselet.element.elementnew.uml;
 
+import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.ElementId;
-import com.baselet.control.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.facet.PropertiesParserState;

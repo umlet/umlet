@@ -3,9 +3,9 @@ package com.baselet.element.facet;
 import java.util.List;
 import java.util.Map;
 
+import com.baselet.control.basics.XValues;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
-import com.baselet.control.geom.XValues;
 import com.baselet.element.facet.Facet.Priority;
 
 public interface Settings {

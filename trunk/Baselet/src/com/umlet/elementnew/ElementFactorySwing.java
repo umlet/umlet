@@ -4,8 +4,8 @@ import java.util.Collections;
 import java.util.List;
 
 import com.baselet.control.Main;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.ElementId;
-import com.baselet.control.geom.Rectangle;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.NewGridElement;

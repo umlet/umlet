@@ -2,9 +2,9 @@ package com.baselet.gwt.client.view;
 
 import java.util.List;
 
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.config.SharedConfig;
 import com.baselet.control.enums.ElementId;
-import com.baselet.control.geom.Rectangle;
 import com.baselet.element.Selector;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.ComponentGwt;

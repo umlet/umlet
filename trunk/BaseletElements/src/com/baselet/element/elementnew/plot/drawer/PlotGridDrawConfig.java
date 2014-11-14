@@ -1,6 +1,6 @@
 package com.baselet.element.elementnew.plot.drawer;
 
-import com.baselet.control.geom.Dimension;
+import com.baselet.control.basics.geom.Dimension;
 
 public class PlotGridDrawConfig {
 

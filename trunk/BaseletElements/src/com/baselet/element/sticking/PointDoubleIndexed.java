@@ -1,6 +1,6 @@
 package com.baselet.element.sticking;
 
-import com.baselet.control.geom.PointDouble;
+import com.baselet.control.basics.geom.PointDouble;
 
 public class PointDoubleIndexed extends PointDouble {
 

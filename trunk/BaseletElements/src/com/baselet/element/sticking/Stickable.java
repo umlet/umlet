@@ -3,7 +3,7 @@ package com.baselet.element.sticking;
 import java.util.Collection;
 import java.util.List;
 
-import com.baselet.control.geom.Rectangle;
+import com.baselet.control.basics.geom.Rectangle;
 
 public interface Stickable {
 

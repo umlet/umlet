@@ -6,11 +6,11 @@ import java.io.File;
 
 import javax.swing.UIManager;
 
+import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Os;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
-import com.baselet.control.geom.Dimension;
 
 public class Config {
 

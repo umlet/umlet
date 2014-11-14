@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baselet.control.basics.geom.GeometricFunctions;
+import com.baselet.control.basics.geom.Line;
+import com.baselet.control.basics.geom.PointDouble;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
-import com.baselet.control.geom.GeometricFunctions;
-import com.baselet.control.geom.Line;
-import com.baselet.control.geom.PointDouble;
-import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.sticking.PointDoubleIndexed;

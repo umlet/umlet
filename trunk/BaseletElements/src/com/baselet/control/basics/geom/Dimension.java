@@ -1,4 +1,4 @@
-package com.baselet.control.geom;
+package com.baselet.control.basics.geom;
 
 /**
  * should be removed after every Dimension has been replaced by DimensionFloat

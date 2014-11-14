@@ -4,10 +4,10 @@ import java.util.Collection;
 import java.util.Vector;
 
 import com.baselet.control.Main;
+import com.baselet.control.basics.geom.Point;
+import com.baselet.control.basics.geom.PointDouble;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.config.SharedConfig;
-import com.baselet.control.geom.Point;
-import com.baselet.control.geom.PointDouble;
-import com.baselet.control.geom.Rectangle;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.interfaces.GridElement;

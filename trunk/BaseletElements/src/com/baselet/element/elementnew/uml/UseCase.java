@@ -3,9 +3,9 @@ package com.baselet.element.elementnew.uml;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baselet.control.basics.XValues;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.ElementId;
-import com.baselet.control.geom.Rectangle;
-import com.baselet.control.geom.XValues;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.facet.Facet;

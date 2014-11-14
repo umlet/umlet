@@ -1,6 +1,6 @@
 package com.baselet.element.interfaces;
 
-import com.baselet.control.geom.Rectangle;
+import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
 
 public interface Component {
