@@ -5,7 +5,6 @@ import java.awt.Point;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.baselet.gui.command.Command;
 import com.baselet.control.basics.Converter;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.diagram.DiagramHandler;

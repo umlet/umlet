@@ -1,6 +1,5 @@
 package com.baselet.gui.command;
 
-import com.baselet.gui.command.Command;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.old.element.Relation;

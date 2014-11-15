@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.gui.command.Command;
 import com.baselet.control.Main;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.enums.Direction;

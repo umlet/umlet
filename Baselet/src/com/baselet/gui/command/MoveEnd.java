@@ -1,6 +1,5 @@
 package com.baselet.gui.command;
 
-import com.baselet.gui.command.Command;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.interfaces.GridElement;
 
