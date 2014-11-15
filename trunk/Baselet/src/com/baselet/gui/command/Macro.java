@@ -3,7 +3,6 @@ package com.baselet.gui.command;
 import java.util.List;
 import java.util.Vector;
 
-import com.baselet.gui.command.Command;
 import com.baselet.diagram.DiagramHandler;
 
 public class Macro extends Command {

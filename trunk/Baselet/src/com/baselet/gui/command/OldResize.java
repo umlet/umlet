@@ -3,7 +3,6 @@ package com.baselet.gui.command;
 import java.util.Collection;
 import java.util.Vector;
 
-import com.baselet.gui.command.Command;
 import com.baselet.control.Main;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.PointDouble;

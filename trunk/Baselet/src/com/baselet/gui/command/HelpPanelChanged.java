@@ -4,7 +4,6 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.baselet.gui.command.Command;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;

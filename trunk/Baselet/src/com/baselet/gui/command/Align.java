@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.baselet.gui.command.Command;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.Constants;
 import com.baselet.diagram.DiagramHandler;

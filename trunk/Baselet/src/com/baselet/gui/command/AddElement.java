@@ -4,7 +4,6 @@ import java.awt.Point;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.gui.command.Command;
 import com.baselet.control.Main;
 import com.baselet.control.constants.Constants;
 import com.baselet.diagram.DiagramHandler;

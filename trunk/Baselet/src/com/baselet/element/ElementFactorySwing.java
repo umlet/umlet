@@ -8,7 +8,6 @@ import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.ElementId;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.element.NewGridElement;
 import com.baselet.element.elementnew.ElementFactory;
 import com.baselet.element.interfaces.DrawHandlerInterface;
 import com.baselet.element.interfaces.GridElement;
