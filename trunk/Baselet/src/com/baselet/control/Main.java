@@ -63,7 +63,6 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 	private GridElement editedGridElement;
 	private TreeMap<String, PaletteHandler> palettes;
 	private final ArrayList<DiagramHandler> diagrams = new ArrayList<DiagramHandler>();
-	private ClassLoader classLoader;
 
 	public static Main getInstance() {
 		return main;
@@ -319,34 +318,6 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			else {
 				propertyPane.switchToNonElement(handler.getHelpText());
 			}
-		}
-	}
-
-	public GridElement getGridElementFromPath(String path) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-		if (classLoader == null)
-		{
-			classLoader = Thread.currentThread().getContextClassLoader(); // use classloader of current thread (not systemclassloader - important for eclipse)
-		}
-		Class<?> foundClass = null;
-		String[] possiblePackages = new String[] { "com.umlet.element", "com.umlet.element.custom", "com.plotlet.element", "com.baselet.element" };
-		try {
-			foundClass = classLoader.loadClass(path);
-		} catch (ClassNotFoundException e) {
-			String className = path.substring(path.lastIndexOf("."));
-			for (String possPackage : possiblePackages) {
-				try {
-					foundClass = classLoader.loadClass(possPackage + className);
-					break;
-				} catch (ClassNotFoundException e1) {/* do nothing; try next package */}
-			}
-		}
-		if (foundClass == null) {
-			ClassNotFoundException ex = new ClassNotFoundException("class " + path + " not found");
-			log.error(null, ex);
-			throw ex;
-		}
-		else {
-			return (GridElement) foundClass.newInstance();
 		}
 	}
 
