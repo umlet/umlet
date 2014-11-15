@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.baselet.control.Main;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.ElementId;
 import com.baselet.diagram.DiagramHandler;
@@ -103,7 +102,7 @@ public class InputHandler extends DefaultHandler {
 			else if (!ignoreElements.contains(entityname)) { // OldGridElement handling which can be removed as soon as all OldGridElements have been replaced
 				try {
 					if (code == null) {
-						e = Main.getInstance().getGridElementFromPath(entityname);
+						e = InputHandler.getOldGridElementFromPath(entityname);
 					}
 					else {
 						e = CustomElementCompiler.getInstance().genEntity(code);
@@ -162,6 +161,30 @@ public class InputHandler extends DefaultHandler {
 	@Override
 	public void characters(char[] ch, int start, int length) {
 		elementtext += new String(ch).substring(start, start + length);
+	}
+
+	private static GridElement getOldGridElementFromPath(String path) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		Class<?> foundClass = null;
+		String[] possiblePackages = new String[] { "com.umlet.element", "com.umlet.element.custom", "com.plotlet.element", "com.baselet.element" };
+		try {
+			foundClass = Thread.currentThread().getContextClassLoader().loadClass(path);
+		} catch (ClassNotFoundException e) {
+			String className = path.substring(path.lastIndexOf("."));
+			for (String possPackage : possiblePackages) {
+				try {
+					foundClass = Thread.currentThread().getContextClassLoader().loadClass(possPackage + className);
+					break;
+				} catch (ClassNotFoundException e1) {/* do nothing; try next package */}
+			}
+		}
+		if (foundClass == null) {
+			ClassNotFoundException ex = new ClassNotFoundException("class " + path + " not found");
+			log.error(null, ex);
+			throw ex;
+		}
+		else {
+			return (GridElement) foundClass.newInstance();
+		}
 	}
 
 }
