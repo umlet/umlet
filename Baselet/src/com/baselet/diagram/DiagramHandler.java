@@ -22,8 +22,10 @@ import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.diagram.io.DiagramFileHandler;
+import com.baselet.element.ComponentSwing;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.old.element.Relation;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.command.Controller;
@@ -33,8 +35,6 @@ import com.baselet.gui.listener.OldRelationListener;
 import com.baselet.gui.standalone.FileDrop;
 import com.baselet.gui.standalone.FileDropListener;
 import com.baselet.gui.standalone.StandaloneGUI;
-import com.umlet.element.Relation;
-import com.umlet.elementnew.ComponentSwing;
 
 public class DiagramHandler {
 

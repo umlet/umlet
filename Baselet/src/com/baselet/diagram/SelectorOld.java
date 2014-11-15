@@ -9,8 +9,8 @@ import com.baselet.control.Main;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.element.Selector;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.old.custom.CustomElement;
 import com.baselet.gui.CurrentGui;
-import com.umlet.custom.CustomElement;
 
 public class SelectorOld extends Selector {
 

@@ -23,11 +23,11 @@ import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.old.custom.CustomElementHandler;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.pane.OwnSyntaxPane;
 import com.baselet.plugin.gui.Contributor.ActionName;
-import com.umlet.custom.CustomElementHandler;
 
 public class EclipseGUI extends BaseGUI {
 

@@ -11,8 +11,8 @@ import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.ElementId;
 import com.baselet.diagram.CurrentDiagram;
+import com.baselet.element.ElementFactorySwing;
 import com.baselet.element.NewGridElement;
-import com.umlet.elementnew.ElementFactorySwing;
 
 public class PackageLayout extends Layout {
 

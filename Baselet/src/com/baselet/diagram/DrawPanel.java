@@ -32,11 +32,11 @@ import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.util.Utils;
+import com.baselet.element.ElementFactorySwing;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.old.OldGridElement;
+import com.baselet.element.old.element.Relation;
 import com.baselet.gui.listener.ScrollbarListener;
-import com.umlet.element.OldGridElement;
-import com.umlet.element.Relation;
-import com.umlet.elementnew.ElementFactorySwing;
 
 @SuppressWarnings("serial")
 public class DrawPanel extends JLayeredPane implements Printable {

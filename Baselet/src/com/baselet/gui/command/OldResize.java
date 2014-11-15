@@ -12,8 +12,8 @@ import com.baselet.control.config.SharedConfig;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.old.element.Relation;
 import com.baselet.element.sticking.StickingPolygon;
-import com.umlet.element.Relation;
 
 /**
  * resizing has been merged with Move command and only remains for old grid elements which will not be migrated but removed from the code after some time

@@ -15,14 +15,14 @@ import com.baselet.control.Main;
 import com.baselet.control.config.Config;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
+import com.baselet.custom.CustomElementPanel;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.PaletteHandler;
+import com.baselet.element.old.custom.CustomElementHandler;
 import com.baselet.gui.listener.DividerListener;
 import com.baselet.gui.listener.PaletteComboBoxListener;
 import com.baselet.gui.listener.PropertyPanelListener;
 import com.baselet.gui.pane.OwnSyntaxPane;
-import com.umlet.custom.CustomElementHandler;
-import com.umlet.custom.CustomElementPanel;
 
 public abstract class BaseGUIBuilder {
 

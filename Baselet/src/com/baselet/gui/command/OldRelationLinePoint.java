@@ -1,6 +1,6 @@
 package com.baselet.gui.command;
 
-import com.umlet.element.Relation;
+import com.baselet.element.old.element.Relation;
 
 
 public class OldRelationLinePoint {

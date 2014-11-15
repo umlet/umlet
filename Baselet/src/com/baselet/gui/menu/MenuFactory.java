@@ -58,6 +58,7 @@ import com.baselet.diagram.io.ClassChooser;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.facet.common.LayerFacet;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.old.custom.CustomElement;
 import com.baselet.generator.ClassDiagramConverter;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.BrowserLauncher;
@@ -69,7 +70,6 @@ import com.baselet.gui.command.Copy;
 import com.baselet.gui.command.Cut;
 import com.baselet.gui.command.Paste;
 import com.baselet.gui.command.RemoveElement;
-import com.umlet.custom.CustomElement;
 
 public class MenuFactory {
 
