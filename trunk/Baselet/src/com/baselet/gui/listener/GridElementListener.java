@@ -25,8 +25,10 @@ import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.diagram.SelectorFrame;
+import com.baselet.element.ElementFactorySwing;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.old.element.Relation;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.Stickables;
 import com.baselet.element.sticking.StickingPolygon;
@@ -39,8 +41,6 @@ import com.baselet.gui.command.MoveEnd;
 import com.baselet.gui.command.OldMoveLinePoint;
 import com.baselet.gui.command.OldRelationLinePoint;
 import com.baselet.gui.command.OldResize;
-import com.umlet.element.Relation;
-import com.umlet.elementnew.ElementFactorySwing;
 
 public class GridElementListener extends UniversalListener {
 

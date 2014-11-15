@@ -42,8 +42,8 @@ import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.Notifier;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.old.custom.CustomElement;
 import com.baselet.gui.CurrentGui;
-import com.umlet.custom.CustomElement;
 
 public class DiagramFileHandler {
 

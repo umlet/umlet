@@ -21,10 +21,10 @@ import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.old.custom.CustomElement;
+import com.baselet.element.old.custom.CustomElementHandler;
 import com.baselet.gui.menu.MenuFactorySwing;
 import com.baselet.gui.pane.OwnSyntaxPane;
-import com.umlet.custom.CustomElement;
-import com.umlet.custom.CustomElementHandler;
 
 public abstract class BaseGUI {
 

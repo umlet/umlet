@@ -6,9 +6,9 @@ import java.util.Vector;
 import com.baselet.gui.command.Command;
 import com.baselet.control.constants.Constants;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.element.ElementFactorySwing;
 import com.baselet.element.Selector;
 import com.baselet.element.interfaces.GridElement;
-import com.umlet.elementnew.ElementFactorySwing;
 
 public class Paste extends Command {
 

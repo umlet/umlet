@@ -13,13 +13,13 @@ import com.baselet.control.constants.Constants;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
+import com.baselet.element.ElementFactorySwing;
 import com.baselet.element.Selector;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.command.AddElement;
 import com.baselet.gui.command.Command;
-import com.umlet.elementnew.ElementFactorySwing;
 
 public class PaletteEntityListener extends GridElementListener {
 

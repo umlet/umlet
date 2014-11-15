@@ -3,7 +3,7 @@ package com.baselet.gui.command;
 import com.baselet.gui.command.Command;
 import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
-import com.umlet.element.Relation;
+import com.baselet.element.old.element.Relation;
 
 /**
  * only for old deprecated relation; new relation handles linepoint movement in the class-code

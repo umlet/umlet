@@ -29,12 +29,12 @@ import com.baselet.control.enums.Program;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.old.OldGridElement;
 import com.itextpdf.awt.DefaultFontMapper;
 import com.itextpdf.awt.FontMapper;
 import com.itextpdf.awt.PdfGraphics2D;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.umlet.element.OldGridElement;
 
 public class OutputHandler {
 

@@ -11,19 +11,21 @@ import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.ElementId;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
+import com.baselet.element.ElementFactorySwing;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.old.custom.CustomElementCompiler;
+import com.baselet.element.old.element.ErrorOccurred;
 import com.baselet.gui.command.HelpPanelChanged;
-import com.umlet.custom.CustomElementCompiler;
-import com.umlet.element.ErrorOccurred;
-import com.umlet.elementnew.ElementFactorySwing;
 
 /**
  * Describes what should happen with parsed elements from the input file
  * eg: set DiagramHandler variables, create GridElements etc.
  */
 public class InputHandler extends DefaultHandler {
+
+	private static final String[] oldGridElementPackages = new String[] { "com.baselet.element.old.element", "com.baselet.element.old.allinone", "com.baselet.element.old.custom" };
 
 	private static final Logger log = Logger.getLogger(InputHandler.class);
 
@@ -165,17 +167,12 @@ public class InputHandler extends DefaultHandler {
 
 	private static GridElement getOldGridElementFromPath(String path) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		Class<?> foundClass = null;
-		String[] possiblePackages = new String[] { "com.umlet.element", "com.umlet.element.custom", "com.plotlet.element", "com.baselet.element" };
-		try {
-			foundClass = Thread.currentThread().getContextClassLoader().loadClass(path);
-		} catch (ClassNotFoundException e) {
-			String className = path.substring(path.lastIndexOf("."));
-			for (String possPackage : possiblePackages) {
-				try {
-					foundClass = Thread.currentThread().getContextClassLoader().loadClass(possPackage + className);
-					break;
-				} catch (ClassNotFoundException e1) {/* do nothing; try next package */}
-			}
+		String className = path.substring(path.lastIndexOf("."));
+		for (String possPackage : oldGridElementPackages) {
+			try {
+				foundClass = Thread.currentThread().getContextClassLoader().loadClass(possPackage + className);
+				break;
+			} catch (ClassNotFoundException e1) {/* do nothing; try next package */}
 		}
 		if (foundClass == null) {
 			ClassNotFoundException ex = new ClassNotFoundException("class " + path + " not found");

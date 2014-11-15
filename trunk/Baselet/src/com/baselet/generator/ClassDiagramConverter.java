@@ -13,6 +13,7 @@ import com.baselet.control.enums.generator.SignatureOptions;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler;
+import com.baselet.element.ElementFactorySwing;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.generator.java.Field;
 import com.baselet.generator.java.JavaClass;
@@ -28,7 +29,6 @@ import com.baselet.generator.sorting.PackageLayout;
 import com.baselet.generator.sorting.RelationLayout;
 import com.baselet.generator.sorting.SortableElement;
 import com.baselet.gui.command.AddElement;
-import com.umlet.elementnew.ElementFactorySwing;
 
 /**
  * Creates a class element from a filename pointing to a .class or .java file according to UML standards,

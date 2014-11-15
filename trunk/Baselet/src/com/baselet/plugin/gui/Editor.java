@@ -29,9 +29,9 @@ import com.baselet.control.enums.Program;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
+import com.baselet.element.old.custom.CustomElementHandler;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.pane.OwnSyntaxPane;
-import com.umlet.custom.CustomElementHandler;
 
 public class Editor extends EditorPart {
 
