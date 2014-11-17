@@ -1,0 +1,63 @@
+package com.baselet.element.elementnew.plot.parser;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class ParserResult {
+
+	private final ArrayList<PlotState> plotStateList;
+	// These are few variables which influence the plotgrid
+	private final HashMap<String, KeyValue> plotGridValues;
+
+	public ParserResult() {
+		plotStateList = new ArrayList<PlotState>();
+		plotGridValues = new HashMap<String, KeyValue>();
+	}
+
+	public ArrayList<PlotState> getPlotStateList() {
+		return plotStateList;
+	}
+
+	public String getPlotGridValue(String key, String defaultValue) {
+		KeyValue keyValue = plotGridValues.get(key);
+		if (keyValue != null) {
+			keyValue.setUsed(true);
+		}
+		if (keyValue == null || keyValue.getValue().equals(PlotConstants.DEFAULT_VALUE)) {
+			return defaultValue;
+		}
+		else {
+			return keyValue.getValue();
+		}
+	}
+
+	protected void addPlotState(PlotState plotState) {
+		plotStateList.add(plotState);
+	}
+
+	protected void addPlotGridValue(String key, KeyValue value) {
+		plotGridValues.put(key, value);
+	}
+
+	protected void removePlotGridValue(String key) {
+		plotGridValues.remove(key);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder("\n-----------------------------\n");
+		sb.append("--------PARSER CONTENT-------\n");
+		sb.append("-----------------------------\n\n");
+		sb.append("##########PlotStates#########\n\n");
+		for (PlotState plotState : plotStateList) {
+			sb.append(plotState.toString()).append("\n");
+		}
+		sb.append("#########PlotGridValues########\n\n");
+		for (String key : plotGridValues.keySet()) {
+			sb.append("\t").append(key).append(" -> ").append(plotGridValues.get(key)).append("\n");
+		}
+		sb.append("\n-----------------------------\n");
+		sb.append("-----------------------------\n");
+		return sb.toString();
+	}
+}
