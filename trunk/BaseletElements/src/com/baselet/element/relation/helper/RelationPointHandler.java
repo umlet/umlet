@@ -123,6 +123,10 @@ public class RelationPointHandler implements ResizableObject {
 		return points.getFirstLine();
 	}
 
+	public Line getMiddleLine() {
+		return points.getMiddleLine();
+	}
+
 	public Line getLastLine() {
 		return points.getLastLine();
 	}

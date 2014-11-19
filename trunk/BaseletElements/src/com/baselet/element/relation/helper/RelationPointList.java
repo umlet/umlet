@@ -146,6 +146,12 @@ public class RelationPointList {
 		return new Line(points.get(0).getPoint(), points.get(1).getPoint());
 	}
 
+	public Line getMiddleLine() {
+		PointDoubleIndexed begin = points.get(points.size() / 2).getPoint();
+		PointDoubleIndexed end = points.get(points.size() / 2 - 1).getPoint();
+		return new Line(begin, end);
+	}
+
 	public Line getLastLine() {
 		return new Line(points.get(points.size() - 2).getPoint(), points.get(points.size() - 1).getPoint());
 	}
@@ -155,9 +161,7 @@ public class RelationPointList {
 	}
 
 	public Rectangle getDragBox() {
-		PointDoubleIndexed begin = points.get(points.size() / 2).getPoint();
-		PointDoubleIndexed end = points.get(points.size() / 2 - 1).getPoint();
-		PointDouble center = new Line(begin, end).getCenter();
+		PointDouble center = getMiddleLine().getCenter();
 		double size = RelationPointConstants.DRAG_BOX_SIZE / 2;
 		Rectangle rectangle = new Rectangle(center.x - size, center.y - size, size * 2, size * 2);
 		return rectangle;
