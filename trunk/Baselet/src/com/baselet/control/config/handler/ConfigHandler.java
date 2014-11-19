@@ -106,7 +106,7 @@ public class ConfigHandler {
 		cfg.setOpenFileHome(getStringProperty(OPEN_FILE_HOME, cfg.getOpenFileHome()));
 		cfg.setSaveFileHome(getStringProperty(SAVE_FILE_HOME, cfg.getSaveFileHome()));
 		SharedConfig.getInstance().setDev_mode(getBoolProperty(DEV_MODE, SharedConfig.getInstance().isDev_mode()));
-		cfg.setLastUsedPalette(getStringProperty(LAST_USED_PALETTE, null));
+		cfg.setLastUsedPalette(getStringProperty(LAST_USED_PALETTE, cfg.getLastUsedPalette()));
 		cfg.setMain_split_position(getIntProperty(MAIN_SPLIT_POSITION, cfg.getMain_split_position()));
 		cfg.setRight_split_position(getIntProperty(RIGHT_SPLIT_POSITION, cfg.getRight_split_position()));
 		cfg.setMail_split_position(getIntProperty(MAIL_SPLIT_POSITION, cfg.getMail_split_position()));
