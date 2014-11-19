@@ -69,7 +69,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 		LineDescriptionEnum enumVal = LineDescriptionEnum.forString(line);
 		if (enumVal == LineDescriptionEnum.MESSAGE_MIDDLE) {
 			String text = replaceArrowsWithUtf8Characters(line);
-			pointText = calcPosOfMiddleText(relationPoints.getDragBox().getCenter(), drawer, text, relationPoints.getFirstLine());
+			pointText = calcPosOfMiddleText(drawer, text, relationPoints.getMiddleLine());
 			int number = response.getAndIncreaseMiddleLines();
 			pointText = new PointDouble(pointText.getX(), pointText.getY() + number * drawer.textHeightMaxWithSpace());
 			printAndUpdateIndex(drawer, response, relationPoints, pointText, enumVal.getIndex() + number, text);
@@ -78,7 +78,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 			String[] split = line.split(SEP, -1);
 			String text = split[1];
 			if (!text.isEmpty()) {
-				pointText = calcPosOfEndText(drawer, text, relationPoints.getFirstLine(), enumVal);
+				pointText = calcPosOfEndText(drawer, text, relationPoints, enumVal);
 				printAndUpdateIndex(drawer, response, relationPoints, pointText, enumVal.getIndex(), text, displacements.get(enumVal.getKey()));
 
 			}
@@ -119,8 +119,9 @@ public class LineDescriptionFacet extends GlobalFacet {
 	}
 
 	// PROBLEM: ich muss wissen ob es r1/r2 gibt damit ich die position von m1/m2 bestimmen kann -> separate facets mit anderen priorit#ten??
-	private PointDouble calcPosOfEndText(DrawHandler drawer, String text, Line line, LineDescriptionEnum enumVal) {
+	private PointDouble calcPosOfEndText(DrawHandler drawer, String text, RelationPointHandler relationPoints, LineDescriptionEnum enumVal) {
 		Boolean printOnStart = enumVal.isStart();
+		Line line = printOnStart ? relationPoints.getFirstLine() : relationPoints.getLastLine();
 		PointDouble pointText = line.getPointOnLineWithDistanceFrom(printOnStart, 15); // distance from lineend (because of arrows,...)
 		Direction lineDirection = line.getDirectionOfLine(printOnStart);
 
@@ -153,9 +154,10 @@ public class LineDescriptionFacet extends GlobalFacet {
 		return pointText;
 	}
 
-	private PointDouble calcPosOfMiddleText(PointDouble center, DrawHandler drawer, String text, Line line) {
+	private PointDouble calcPosOfMiddleText(DrawHandler drawer, String text, Line line) {
 		double textWidth = drawer.textWidth(text);
 		boolean horizontalLine = line.getDirectionOfLine(true).isHorizontal();
+		PointDouble center = line.getCenter();
 
 		double textX, textY;
 		if (horizontalLine) {
