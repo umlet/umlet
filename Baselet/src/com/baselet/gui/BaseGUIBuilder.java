@@ -151,9 +151,10 @@ public abstract class BaseGUIBuilder {
 		paletteList.addActionListener(pl); // add listeners after adding every paletteList entry to avoid triggering the listener everytime
 		paletteList.addMouseWheelListener(pl);
 
-		// only set last used palette if the program version has not changed (if the version is not equal or the lastUsedPalette String is invalid it will simply stay at index 0)
-		if (Program.getInstance().getVersion().equals(Config.getInstance().getProgramVersion())) {
-			paletteList.setSelectedItem(Config.getInstance().getLastUsedPalette());
+		// only set last used palette if the program version has not changed and if lastUsedPalette is not null (if the version is not equal or the lastUsedPalette String is invalid it will simply stay at index 0; null must not be set because it invalidates the selectionstate instead of setting it to 0; see Issue 215)
+		String lastUsedPalette = Config.getInstance().getLastUsedPalette();
+		if (Program.getInstance().getVersion().equals(Config.getInstance().getProgramVersion()) && lastUsedPalette != null) {
+			paletteList.setSelectedItem(lastUsedPalette);
 		}
 	}
 

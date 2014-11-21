@@ -27,7 +27,7 @@ public class Config {
 	private String saveFileHome = DEFAULT_FILE_HOME;
 	private String programVersion;
 
-	private String lastUsedPalette;
+	private String lastUsedPalette = ""; // default is empty string not null because null cannot be stored as property
 	private String pdfExportFont = ""; // eg in Windows: "pdf_export_font = c:/windows/fonts/msgothic.ttc,1"
 	private boolean checkForUpdates = true;
 	private int printPadding = 20;
