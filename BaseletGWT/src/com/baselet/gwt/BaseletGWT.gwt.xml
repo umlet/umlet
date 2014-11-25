@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- When updating your version of GWT, you should also update this DTD reference, 
-	so that your app can take advantage of the latest GWT module capabilities. -->
-<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.5.0//EN"
-  "http://google-web-toolkit.googlecode.com/svn/tags/2.5.0/distro-source/core/src/gwt-module.dtd">
+<!-- When updating your version of GWT, you should also update this DTD reference, so that your app can take advantage of the latest GWT module capabilities. -->
+<!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit 2.7.0//EN" "http://gwtproject.org/doctype/2.7.0/gwt-module.dtd">
 <module rename-to='baseletgwt'>
 	<!-- Inherit the core Web Toolkit stuff. -->
 	<inherits name='com.google.gwt.user.User' />
@@ -19,7 +17,7 @@
 
 	<!-- BaseletElements (shared Baselet resources) -->
 	<inherits name="com.BaseletElements" />
-	
+
 	<!-- UiBinder module. -->
 	<inherits name="com.google.gwt.uibinder.UiBinder" />
 
@@ -40,8 +38,8 @@
 
 	<!-- Logger configuration -->
 	<set-property name="gwt.logging.logLevel" value="INFO" />
-	
-	<set-property name='gwt.logging.enabled' value='TRUE' /> 
+
+	<set-property name='gwt.logging.enabled' value='TRUE' />
 	<set-property name="gwt.logging.consoleHandler" value="ENABLED" />
 	<set-property name="gwt.logging.developmentModeHandler" value="ENABLED" />
 	<set-property name="gwt.logging.systemHandler" value="ENABLED" />
@@ -53,11 +51,10 @@
 	<!-- Specify the paths for translatable code -->
 	<source path='client' />
 	<source path='shared' />
-	
-	<!-- necessary to work in Chrome as a client only application
-	see http://stackoverflow.com/questions/6073457/gwt-separate-js-css-images-from-server
-	see https://developers.google.com/web-toolkit/doc/latest/FAQ_Server?hl=de#What_is_the_Same_Origin_Policy,_and_how_does_it_affect_GWT?
-	-->
+
+	<!-- necessary to work in Chrome as a client only application 
+	see http://stackoverflow.com/questions/6073457/gwt-separate-js-css-images-from-server 
+	see https://developers.google.com/web-toolkit/doc/latest/FAQ_Server?hl=de#What_is_the_Same_Origin_Policy,_and_how_does_it_affect_GWT? -->
 	<add-linker name="xsiframe" />
 
 </module>
