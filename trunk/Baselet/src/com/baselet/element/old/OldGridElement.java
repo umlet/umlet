@@ -586,7 +586,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		if (undoInfo != null) {
 			setRectangle(getRectangle().add(undoInfo.getDiffRectangle(getGridSize(), undo)));
 			Stickables.applyChanges(undoInfo.getStickableMoves(undo), null);
-			setAdditionalAttributes(undoInfo.getAdditionalAttributes(undo));
+			// setAdditionalAttributes(undoInfo.getAdditionalAttributes(undo)); //Issue 217: of all OldGridElements only the Relation uses additional attributes and in that case they must not be set because of zooming errors (see Issue 217)
 		}
 	}
 
