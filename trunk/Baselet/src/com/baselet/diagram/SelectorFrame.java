@@ -72,29 +72,29 @@ public class SelectorFrame extends JComponent {
 			locx += sizx;
 			sizx = sizx * -1 + offset_left;
 			offset_left = sizx;
-			log.info("LEFT (offset: " + offset_left + "px)");
+			log.trace("LEFT (offset: " + offset_left + "px)");
 		}
 		else {
 			sizx -= offset_left;
 			locx += offset_left;
 			offset_left = 0;
-			log.info("RIGHT");
+			log.trace("RIGHT");
 		}
 
 		if (sizy - offset_top < 0) {
 			locy += sizy;
 			sizy = sizy * -1 + offset_top;
 			offset_top = sizy;
-			log.info("UP (offset: " + offset_top + "px)");
+			log.trace("UP (offset: " + offset_top + "px)");
 		}
 		else {
 			sizy -= offset_top;
 			locy += offset_top;
 			offset_top = 0;
-			log.info("DOWN");
+			log.trace("DOWN");
 		}
 
-		log.info("Starting point: (" + locx + "," + locy + ") Width: " + sizx + ", Height: " + sizy);
+		log.trace("Starting point: (" + locx + "," + locy + ") Width: " + sizx + ", Height: " + sizy);
 
 		this.setLocation(locx, locy);
 		this.setSize(sizx, sizy);
