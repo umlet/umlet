@@ -1,9 +1,9 @@
 package com.baselet.element;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import com.baselet.control.basics.XValues;
 import com.baselet.control.basics.geom.DimensionDouble;
@@ -13,7 +13,6 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.element.facet.ElementStyleEnum;
 import com.baselet.element.facet.Facet;
-import com.baselet.element.facet.Facet.Priority;
 import com.baselet.element.facet.GlobalFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
@@ -43,16 +42,12 @@ public class PropertiesParser {
 		}
 	}
 
-	private static List<String> parseGlobalFacets(List<String> propertiesText, Map<Priority, List<GlobalFacet>> globalFacetMap, DrawHandler drawer, PropertiesParserState state) {
+	private static List<String> parseGlobalFacets(List<String> propertiesText, List<GlobalFacet> list, DrawHandler drawer, PropertiesParserState state) {
 		List<String> propertiesCopy = new ArrayList<String>(propertiesText);
-		for (Priority priority : Priority.values()) {
-			List<GlobalFacet> facets = globalFacetMap.get(priority);
-			if (facets == null) {
-				continue; // skip priorities without facets
-			}
+		for (GlobalFacet facet : list) {
 			for (Iterator<String> iter = propertiesCopy.iterator(); iter.hasNext();) {
 				String line = iter.next();
-				boolean drawText = parseFacets(facets, line, drawer, state);
+				boolean drawText = parseFacets(Arrays.asList(facet), line, drawer, state);
 				if (!drawText || line.startsWith("//")) {
 					iter.remove();
 				}
