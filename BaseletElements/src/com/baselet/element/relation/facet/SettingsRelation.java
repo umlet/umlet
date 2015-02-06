@@ -8,10 +8,10 @@ import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.element.facet.ElementStyleEnum;
 import com.baselet.element.facet.Facet;
+import com.baselet.element.facet.Settings;
 import com.baselet.element.relation.helper.RelationPointHandler;
-import com.baselet.element.settings.SettingsAbstract;
 
-public abstract class SettingsRelation extends SettingsAbstract {
+public abstract class SettingsRelation extends Settings {
 
 	@Override
 	public XValues getXValues(double y, int height, int width) {
@@ -40,7 +40,7 @@ public abstract class SettingsRelation extends SettingsAbstract {
 
 	@Override
 	protected List<? extends Facet> createDefaultFacets() {
-		return SettingsAbstract.RELATION;
+		return Settings.RELATION;
 	}
 
 	@Override
