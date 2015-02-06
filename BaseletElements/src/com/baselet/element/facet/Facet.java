@@ -59,7 +59,10 @@ public abstract class Facet {
 	}
 
 	/**
-	 * facets with higher priority will be applied before facets with lower priority
+	 * facets with higher priority will be applied before facets with lower priority:
+	 * The order is:
+	 * 1. Check all Global Facets from HIGHEST ... LOWEST for all lines
+	 * 2. Check all other Facets from HIGHEST ... LOWEST
 	 */
 	public Priority getPriority() {
 		return Priority.DEFAULT;
