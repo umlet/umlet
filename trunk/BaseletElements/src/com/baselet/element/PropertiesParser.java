@@ -13,10 +13,10 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.element.facet.ElementStyleEnum;
 import com.baselet.element.facet.Facet;
+import com.baselet.element.facet.Facet.Priority;
 import com.baselet.element.facet.GlobalFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
-import com.baselet.element.facet.Facet.Priority;
 
 public class PropertiesParser {
 
@@ -58,6 +58,7 @@ public class PropertiesParser {
 				}
 			}
 		}
+		state.informAndClearUsedFacets(drawer);
 		return propertiesCopy;
 	}
 
@@ -130,6 +131,7 @@ public class PropertiesParser {
 				handleLine(facets, line, state, drawer);
 			}
 		}
+		state.informAndClearUsedFacets(drawer);
 	}
 
 	private static void handleLine(List<Facet> facets, String line, PropertiesParserState state, DrawHandler drawer) {
@@ -155,6 +157,7 @@ public class PropertiesParser {
 				if (f.removeTextAfterHandling(line)) {
 					drawText = false;
 				}
+				state.addUsedFacet(f);
 			}
 		}
 		return drawText;

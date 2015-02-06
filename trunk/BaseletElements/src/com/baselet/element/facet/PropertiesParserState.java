@@ -1,12 +1,15 @@
 package com.baselet.element.facet;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.baselet.control.basics.XValues;
 import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
+import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.sticking.polygon.SimpleStickingPolygonGenerator;
 import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
 
@@ -26,6 +29,7 @@ public class PropertiesParserState {
 	private Dimension gridElementSize;
 	private ElementStyleEnum elementStyle;
 	private final Map<Class<? extends Facet>, Object> facetResponse = new HashMap<Class<? extends Facet>, Object>();
+	private final List<Facet> usedFacets = new ArrayList<Facet>();
 
 	public PropertiesParserState(Settings settings) {
 		this.settings = settings;
@@ -188,5 +192,18 @@ public class PropertiesParserState {
 
 	public void setStickingPolygonGenerator(StickingPolygonGenerator stickingPolygonGenerator) {
 		this.stickingPolygonGenerator = stickingPolygonGenerator;
+	}
+
+	public void addUsedFacet(Facet facet) {
+		if (!usedFacets.contains(facet)) {
+			usedFacets.add(facet);
+		}
+	}
+
+	public void informAndClearUsedFacets(DrawHandler drawer) {
+		for (Facet f : usedFacets) {
+			f.parsingFinished(drawer, this);
+		}
+		usedFacets.clear();
 	}
 }
