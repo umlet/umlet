@@ -70,7 +70,7 @@ public class InnerClassFacet extends Facet {
 
 	@Override
 	public boolean removeTextAfterHandling(String line) {
-		return line.equals(START) || line.equals(END); // only these 2 lines should not be printed
+		return line.equals(START) || line.equals(END); // only these 2 lines should be removed
 	}
 
 	private static class ClassSettings {
