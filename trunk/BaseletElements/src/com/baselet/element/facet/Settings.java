@@ -8,6 +8,11 @@ import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.element.facet.Facet.Priority;
 
+/**
+ * The basic settings of any NewGridElement.
+ * They represent the default values for many important Facets (valign, halign, style) and defines the facets which should be applied to this element
+ * It also specifies if the default text printing should be enabled for this element (e.g. Relation has its own text printing logic)
+ */
 public interface Settings {
 
 	/**

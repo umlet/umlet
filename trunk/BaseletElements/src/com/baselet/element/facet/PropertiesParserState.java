@@ -13,6 +13,11 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.sticking.polygon.SimpleStickingPolygonGenerator;
 import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
 
+/**
+ * The PropertiesParserState contains the mutable state of the parser which changes constantly while parsing
+ * the most important Facets have explicit fields, for any other Facet, the generic facetResponse map should be used
+ *
+ */
 public class PropertiesParserState {
 
 	private final Settings settings;
