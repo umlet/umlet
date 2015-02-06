@@ -1,5 +1,6 @@
 package com.baselet.element.relation.facet;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,20 +30,21 @@ public class LineDescriptionFacet extends GlobalFacet {
 
 	public static final LineDescriptionFacet INSTANCE = new LineDescriptionFacet();
 
+	private LineDescriptionFacet() {}
+
 	public static class LineDescriptionFacetResponse {
-		private int middleLines = 0;
+		private final List<String> middleLines = new ArrayList<String>();
 		private final Set<Integer> alreadysetIndexes = new HashSet<Integer>();
 
 		public Set<Integer> getAlreadysetIndexes() {
 			return alreadysetIndexes;
 		}
 
-		public int getAndIncreaseMiddleLines() {
-			return middleLines++;
+		public void addMiddleLine(String line) {
+			middleLines.add(line);
 		}
-	}
 
-	private LineDescriptionFacet() {}
+	}
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
@@ -62,27 +64,26 @@ public class LineDescriptionFacet extends GlobalFacet {
 	@Override
 	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
 		Map<String, Point> displacements = state.getOrInitFacetResponse(DescriptionPositionFacet.class, new HashMap<String, Point>());
-		RelationPointHandler relationPoints = ((SettingsRelation) state.getSettings()).getRelationPoints();
+		RelationPointHandler relationPoints = getRelationPoints(state);
 		LineDescriptionFacetResponse response = state.getOrInitFacetResponse(LineDescriptionFacet.class, new LineDescriptionFacetResponse());
 
-		PointDouble pointText = null;
 		LineDescriptionEnum enumVal = LineDescriptionEnum.forString(line);
 		if (enumVal == LineDescriptionEnum.MESSAGE_MIDDLE) {
-			String text = replaceArrowsWithUtf8Characters(line);
-			pointText = calcPosOfMiddleText(drawer, text, relationPoints.getMiddleLine());
-			int number = response.getAndIncreaseMiddleLines();
-			pointText = new PointDouble(pointText.getX(), pointText.getY() + number * drawer.textHeightMaxWithSpace());
-			printAndUpdateIndex(drawer, response, relationPoints, pointText, enumVal.getIndex() + number, text);
+			response.addMiddleLine(replaceArrowsWithUtf8Characters(line)); // middle line can only be printed after all lines are collected
 		}
 		else {
 			String[] split = line.split(SEP, -1);
 			String text = split[1];
 			if (!text.isEmpty()) {
-				pointText = calcPosOfEndText(drawer, text, relationPoints, enumVal);
+				PointDouble pointText = calcPosOfEndText(drawer, text, relationPoints, enumVal);
 				printAndUpdateIndex(drawer, response, relationPoints, pointText, enumVal.getIndex(), text, displacements.get(enumVal.getKey()));
 
 			}
 		}
+	}
+
+	private RelationPointHandler getRelationPoints(PropertiesParserState state) {
+		return ((SettingsRelation) state.getSettings()).getRelationPoints();
 	}
 
 	private void printAndUpdateIndex(DrawHandler drawer, LineDescriptionFacetResponse response, RelationPointHandler relationPoints, PointDouble pointText, int index, String text, Point displacement) {
@@ -154,7 +155,20 @@ public class LineDescriptionFacet extends GlobalFacet {
 		return pointText;
 	}
 
-	private PointDouble calcPosOfMiddleText(DrawHandler drawer, String text, Line line) {
+	@Override
+	public void parsingFinished(DrawHandler drawer, PropertiesParserState state) {
+		LineDescriptionFacetResponse response = state.getFacetResponse(this.getClass(), new LineDescriptionFacetResponse());
+		int i = 0;
+		for (String text : response.middleLines) {
+			RelationPointHandler relationPoints = getRelationPoints(state);
+			PointDouble pointText = calcPosOfMiddleText(drawer, text, relationPoints.getMiddleLine(), response.middleLines.size());
+			int number = i++;
+			pointText = new PointDouble(pointText.getX(), pointText.getY() + number * drawer.textHeightMaxWithSpace());
+			printAndUpdateIndex(drawer, response, relationPoints, pointText, LineDescriptionEnum.MESSAGE_MIDDLE.getIndex() + number, text);
+		}
+	}
+
+	private PointDouble calcPosOfMiddleText(DrawHandler drawer, String text, Line line, int lineCount) {
 		double textWidth = drawer.textWidth(text);
 		boolean horizontalLine = line.getDirectionOfLine(true).isHorizontal();
 		PointDouble center = line.getCenter();
@@ -166,7 +180,8 @@ public class LineDescriptionFacet extends GlobalFacet {
 		}
 		else {
 			textX = center.getX() + X_DIST_TO_LINE;
-			textY = center.getY() + drawer.textHeight(text) / 2;
+			double halfBlockHeight = lineCount * drawer.textHeightMaxWithSpace() / 2;
+			textY = center.getY() - halfBlockHeight + drawer.textHeightWithSpace(text);
 		}
 		return new PointDouble(textX, textY);
 	}
