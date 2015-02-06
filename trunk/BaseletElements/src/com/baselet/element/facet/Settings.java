@@ -48,7 +48,7 @@ public abstract class Settings {
 	 * a separator line will be drawn instead of printing the text.
 	 *
 	 * Global facets are parsed before any other ones, because they influence the whole diagram, even if they are located at the bottom
-	 * e.g. fg=red could be located at the bottom, but will still be applied to the whole text
+	 * e.g. style=wordwrap may be located at the bottom but has an influence on every printed line
 	 */
 	protected abstract List<? extends Facet> createFacets();
 

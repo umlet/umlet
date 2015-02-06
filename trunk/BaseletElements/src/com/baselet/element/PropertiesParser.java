@@ -17,9 +17,25 @@ import com.baselet.element.facet.GlobalFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 
+/**
+ * The PropertiesParser analyzes the Properties and the Settings (therefore also the Facets) of a GridElement.
+ * It changes several things of the GridElement:
+ * a. The state of the DrawHandler of the element including printing the main-text of the element and executing several facet commands (e.g. -- should be drawn as a horizontal line)
+ * b. The PropertiesParserState which is mainly used during the parsing, but also important for the GridElement to recognize the currently set ElementStyle, BackgroundColor and more.
+ * c. The size of the GridElement if the ElementStyle facet is set to AUTORESIZE
+ *
+ * A summary of the process is the following:
+ * 1. check if the ElementStyle property is set to AUTORESIZE.
+ * 1.1. If yes a complete dummy-parse is required to calculate the expected element size. The new size of the element gets applied and the PropertiesParserState gets updated
+ * 2. The Global Facets get parsed and applied in order of their PriorityEnum value (this largely reduces the size of the remaining properties for the other Facets) also Comments are removed here
+ * 3. The common content of the element is drawn (e.g. the border) (therefore this must happen AFTER parsing the Global Facets because they can change the bg-color and so on)
+ * 4. The remaining properties are parsed and the remaining Facets are applied. Also the main-text is printed if the element demands it (some elements like Relation don't have a main-text)
+ */
 public class PropertiesParser {
 
-	public static void drawPropertiesText(NewGridElement element, PropertiesParserState state) {
+	private static final String COMMENT_MARKER = "//";
+
+	public static void parseProperties_handleFacets_drawText(NewGridElement element, PropertiesParserState state) {
 		List<String> propertiesText = element.getPanelAttributesAsList();
 		autoresizeAnalysis(element, state.getSettings(), propertiesText); // at first handle autoresize (which possibly changes elementsize)
 		state.resetValues(element.getRealSize()); // now that the element size is known, reset the state with it
@@ -48,7 +64,7 @@ public class PropertiesParser {
 			for (Iterator<String> iter = propertiesCopy.iterator(); iter.hasNext();) {
 				String line = iter.next();
 				boolean drawText = parseFacets(Arrays.asList(facet), line, drawer, state);
-				if (!drawText || line.startsWith("//")) {
+				if (!drawText || line.startsWith(COMMENT_MARKER)) {
 					iter.remove();
 				}
 			}

@@ -113,7 +113,7 @@ public abstract class NewGridElement implements GridElement {
 		drawer.clearCache();
 		drawer.resetStyle(); // must be set before actions which depend on the fontsize (otherwise a changed fontsize would be recognized too late)
 		try {
-			PropertiesParser.drawPropertiesText(this, state);
+			PropertiesParser.parseProperties_handleFacets_drawText(this, state);
 		} catch (Exception e) {
 			log.info("Cannot parse Properties Text", e);
 			drawer.resetStyle();
