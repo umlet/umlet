@@ -1,12 +1,10 @@
 package com.baselet.element.facet;
 
 import java.util.List;
-import java.util.Map;
 
 import com.baselet.control.basics.XValues;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
-import com.baselet.element.facet.Facet.Priority;
 
 /**
  * The basic settings of any NewGridElement.
@@ -28,7 +26,7 @@ public interface Settings {
 
 	public abstract List<Facet> getLocalFacets();
 
-	public abstract Map<Priority, List<GlobalFacet>> getGlobalFacets();
+	public abstract List<GlobalFacet> getGlobalFacets();
 
 	public abstract boolean printText();
 

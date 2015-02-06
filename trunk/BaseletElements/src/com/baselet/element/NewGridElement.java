@@ -308,9 +308,7 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public List<AutocompletionText> getAutocompletionList() {
 		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
-		for (List<? extends Facet> f : state.getSettings().getGlobalFacets().values()) {
-			addAutocompletionTexts(returnList, f);
-		}
+		addAutocompletionTexts(returnList, state.getSettings().getGlobalFacets());
 		addAutocompletionTexts(returnList, state.getSettings().getLocalFacets());
 		return returnList;
 	}
