@@ -8,9 +8,10 @@ import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.element.facet.ElementStyleEnum;
 import com.baselet.element.facet.Facet;
+import com.baselet.element.facet.Settings;
 import com.baselet.element.facet.common.SeparatorLineFacet;
 
-public class SettingsAutoresize extends SettingsAbstract {
+public class SettingsAutoresize extends Settings {
 	@Override
 	public XValues getXValues(double y, int height, int width) {
 		return new XValues(0, width);
@@ -33,7 +34,7 @@ public class SettingsAutoresize extends SettingsAbstract {
 
 	@Override
 	protected List<? extends Facet> createDefaultFacets() {
-		return SettingsAbstract.AUTORESIZE;
+		return Settings.AUTORESIZE;
 	}
 
 	@Override
