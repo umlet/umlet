@@ -24,7 +24,7 @@ public class Frame extends NewGridElement {
 	protected Settings createSettings() {
 		return new SettingsManualResizeTop() {
 			@Override
-			public List<? extends Facet> createFacets() {
+			public List<Facet> createFacets() {
 				return Arrays.asList(TextBeforeFirstSeparatorCollectorFacet.INSTANCE, SeparatorLineFacet.INSTANCE);
 			}
 		};

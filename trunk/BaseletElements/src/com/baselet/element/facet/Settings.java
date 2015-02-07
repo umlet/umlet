@@ -26,10 +26,16 @@ import com.baselet.element.facet.common.VerticalAlignFacet;
  * It also specifies if the default text printing should be enabled for this element (e.g. Relation has its own text printing logic)
  */
 public abstract class Settings {
-	protected static final List<? extends Facet> NOTEXT = Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE);
-	protected static final List<? extends Facet> RELATION = Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE);
-	protected static final List<? extends Facet> AUTORESIZE = Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE);
-	protected static final List<? extends Facet> ALL = Arrays.asList(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, VerticalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
+	protected static final List<Facet> NOTEXT = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE);
+	protected static final List<Facet> RELATION = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE);
+	protected static final List<Facet> AUTORESIZE = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE);
+	protected static final List<Facet> ALL = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, VerticalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
+
+	protected static List<Facet> listOf(Facet... f) {
+		List<Facet> facetList = new ArrayList<Facet>();
+		facetList.addAll(Arrays.asList(f));
+		return facetList;
+	}
 
 	/**
 	 * calculates the left and right x value for a certain y value
@@ -50,9 +56,9 @@ public abstract class Settings {
 	 * Global facets are parsed before any other ones, because they influence the whole diagram, even if they are located at the bottom
 	 * e.g. style=wordwrap may be located at the bottom but has an influence on every printed line
 	 */
-	protected abstract List<? extends Facet> createFacets();
+	protected abstract List<Facet> createFacets();
 
-	protected abstract List<? extends Facet> createDefaultFacets();
+	protected abstract List<Facet> createDefaultFacets();
 
 	private List<Facet> localFacets;
 	private List<GlobalFacet> globalFacets;
@@ -68,7 +74,7 @@ public abstract class Settings {
 		}
 	}
 
-	private void addAll(List<? extends Facet> facets) {
+	private void addAll(List<Facet> facets) {
 		for (Facet f : facets) {
 			if (f instanceof GlobalFacet) {
 				globalFacets.add((GlobalFacet) f);

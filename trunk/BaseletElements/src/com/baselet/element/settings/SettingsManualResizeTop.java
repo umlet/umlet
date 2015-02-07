@@ -31,7 +31,7 @@ public abstract class SettingsManualResizeTop extends Settings {
 	}
 
 	@Override
-	protected List<? extends Facet> createDefaultFacets() {
+	protected List<Facet> createDefaultFacets() {
 		return Settings.ALL;
 	}
 }

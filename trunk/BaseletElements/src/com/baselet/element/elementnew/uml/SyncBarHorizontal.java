@@ -50,7 +50,7 @@ public class SyncBarHorizontal extends NewGridElement {
 	protected Settings createSettings() {
 		return new SettingsNoText() {
 			@Override
-			public List<? extends Facet> createFacets() {
+			public List<Facet> createFacets() {
 				return Collections.<Facet> emptyList();
 			}
 		};

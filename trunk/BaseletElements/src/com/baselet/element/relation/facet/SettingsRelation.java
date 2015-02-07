@@ -1,6 +1,5 @@
 package com.baselet.element.relation.facet;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.basics.XValues;
@@ -34,12 +33,12 @@ public abstract class SettingsRelation extends Settings {
 	}
 
 	@Override
-	public List<? extends Facet> createFacets() {
-		return Arrays.asList(RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, DescriptionPositionFacet.INSTANCE_MESSAGE_START, DescriptionPositionFacet.INSTANCE_MESSAGE_END, DescriptionPositionFacet.INSTANCE_ROLE_START, DescriptionPositionFacet.INSTANCE_ROLE_END);
+	public List<Facet> createFacets() {
+		return listOf(RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, DescriptionPositionFacet.INSTANCE_MESSAGE_START, DescriptionPositionFacet.INSTANCE_MESSAGE_END, DescriptionPositionFacet.INSTANCE_ROLE_START, DescriptionPositionFacet.INSTANCE_ROLE_END);
 	}
 
 	@Override
-	protected List<? extends Facet> createDefaultFacets() {
+	protected List<Facet> createDefaultFacets() {
 		return Settings.RELATION;
 	}
 
