@@ -23,6 +23,7 @@ import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.FormatLabels;
 import com.baselet.control.enums.LineType;
 import com.baselet.control.util.Utils;
+import com.baselet.diagram.FontHandler;
 import com.baselet.element.interfaces.GridElementDeprecatedAddons;
 import com.baselet.element.old.OldGridElement;
 
@@ -148,7 +149,7 @@ public class SequenceDiagram extends OldGridElement {
 	public int controlFlowBoxWidth = 20;
 
 	// the dimensions for the rectangle(s) (=objects) in the first line
-	public int rectDistance = 60; // distance between two columns
+	public int rectDistance; // computed distance between two columns
 	public int rectHeight; // computed
 	public int rectWidth; // computed
 	// int extraTextSpace = 0;
@@ -183,7 +184,8 @@ public class SequenceDiagram extends OldGridElement {
 		// Some unimportant initialization stuff; setting color, font
 		// quality, etc. You should not have to change this.
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		FontHandler fontHandler = Main.getHandlerForElement(this).getFontHandler();
+		g2.setFont(fontHandler.getFont());
 		g2.setColor(fgColor);
 
 		// draw the border
@@ -199,9 +201,9 @@ public class SequenceDiagram extends OldGridElement {
 		if (lines.elementAt(0).startsWith("title:")) {
 			String title = lines.elementAt(0).substring("title:".length());
 			if (title != null && title.length() > 0) {
-				Main.getHandlerForElement(this).getFontHandler().writeText(g2, title, (int) (5 * zoom), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), AlignHorizontal.LEFT);
-				int titlewidth = (int) Main.getHandlerForElement(this).getFontHandler().getTextWidth(title);
-				int ty = (int) (8 * zoom) + (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts());
+				fontHandler.writeText(g2, title, (int) (5 * zoom), (int) fontHandler.getFontSize() + (int) fontHandler.getDistanceBetweenTexts(), AlignHorizontal.LEFT);
+				int titlewidth = (int) fontHandler.getTextWidth(title);
+				int ty = (int) (8 * zoom) + (int) (fontHandler.getFontSize() + fontHandler.getDistanceBetweenTexts());
 				g2.drawLine(0, ty, titlewidth + (int) (10 * zoom), ty);
 				g2.drawLine(titlewidth + (int) (10 * zoom), ty, titlewidth + ty + (int) (10 * zoom), 0);
 				lines.remove(0);
@@ -261,6 +263,7 @@ public class SequenceDiagram extends OldGridElement {
 		String newhead = sb.toString();
 		obj = Utils.decomposeStrings(newhead.length() > 0 ? newhead.substring(1) : "", "|");
 		// LABELADDING STOP (exchanged parseInteger Methods with labeltonumber.get methods
+		rectDistance = 60; // min value is 60, but if a texts width is too large it gets increased
 
 		// parse the messages
 		int curLevel = 0;
@@ -285,9 +288,16 @@ public class SequenceDiagram extends OldGridElement {
 				if (!m.matches()) {
 					continue;
 				}
-
 				Integer srcObj = labeltonumber.get(m.group(1));
 				Integer destObj = labeltonumber.get(m.group(3));
+				String methodNameFromText = m.group(9);
+				if (srcObj != null && destObj != null && methodNameFromText != null) {
+					Integer span = Math.abs(srcObj - destObj);
+					if (span != 0) {
+						double newDist = fontHandler.getTextWidth(methodNameFromText) / span - calcRectWidth() * 2;
+						rectDistance = (int) Math.max(rectDistance, newDist);
+					}
+				}
 
 				int arrowKind = -1;
 				int lineKind = -1;
@@ -399,8 +409,8 @@ public class SequenceDiagram extends OldGridElement {
 				boolean srcObjHasControl = srcObj != null ? group.contains(String.valueOf(srcObj)) : false;
 				boolean destObjHasControl = destObj != null ? group.contains(String.valueOf(destObj)) : false;
 
-				if (methodName.isEmpty()) {
-					methodName = m.group(9);
+				if (methodName == null || methodName.isEmpty()) {
+					methodName = methodNameFromText;
 				}
 
 				// LME: removed (in V6) since not necessary
@@ -428,13 +438,13 @@ public class SequenceDiagram extends OldGridElement {
 			if (s.startsWith(FormatLabels.UNDERLINE.getValue()) && s.endsWith(FormatLabels.UNDERLINE.getValue()) && s.length() > 2) {
 				s = s.substring(1, s.length() - 1);
 			}
-			TextLayout layout = new TextLayout(s, Main.getHandlerForElement(this).getFontHandler().getFont(), g2.getFontRenderContext());
+			TextLayout layout = new TextLayout(s, fontHandler.getFont(), g2.getFontRenderContext());
 			maxWidth = Math.max(layout.getBounds().getWidth(), maxWidth);
 			maxHeight = Math.max(layout.getBounds().getHeight(), maxHeight);
 		}
 
-		rectWidth = (int) Math.floor(maxWidth + 1) + 2 * (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-		rectHeight = (int) Math.floor(maxHeight + 1) + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+		rectWidth = (int) Math.floor(maxWidth + 1) + 2 * (int) fontHandler.getDistanceBetweenTexts() + (int) fontHandler.getFontSize();
+		rectHeight = (int) Math.floor(maxHeight + 1) + (int) fontHandler.getDistanceBetweenTexts() + (int) fontHandler.getFontSize();
 
 		// draw the first line of the sequence diagram
 		int ypos = borderDistance + yOffsetforTitle;
@@ -446,7 +456,7 @@ public class SequenceDiagram extends OldGridElement {
 				underline = true;
 				s = s.substring(1, s.length() - 1);
 			}
-			TextLayout layout = new TextLayout(s, Main.getHandlerForElement(this).getFontHandler().getFont(),
+			TextLayout layout = new TextLayout(s, fontHandler.getFont(),
 					g2.getFontRenderContext());
 
 			g2.drawRect(xpos, ypos, rectWidth - 1, rectHeight - 1);
@@ -460,9 +470,9 @@ public class SequenceDiagram extends OldGridElement {
 
 			if (underline) {
 				g2.drawLine(tx,
-						ty + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() / 2,
+						ty + (int) fontHandler.getDistanceBetweenTexts() / 2,
 						tx + (int) layout.getBounds().getWidth(),
-						ty + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() / 2);
+						ty + (int) fontHandler.getDistanceBetweenTexts() / 2);
 			}
 
 			xpos += rectWidth + rectDistance;
@@ -470,7 +480,7 @@ public class SequenceDiagram extends OldGridElement {
 
 		// draw the messages
 		int maxTextXpos = drawMessages(g2);
-		maxTextXpos += 3 * Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(); // add extra space
+		maxTextXpos += 3 * fontHandler.getDistanceBetweenTexts(); // add extra space
 		if (boxStrings.length() > 1) {
 			try {
 				drawControlFlowBoxesWithLines(g2, boxStrings.substring(1), numObjects); // LME: 1,2;1,2;... cut first ;-character
@@ -839,15 +849,19 @@ public class SequenceDiagram extends OldGridElement {
 		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 
 		controlFlowBoxWidth = (int) (20 * zoom);
-		rectDistance = (int) (60 * zoom);
-		rectHeight = 2 * (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + 10;
-		rectWidth = 2 * (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + 10;
+		rectHeight = calcRectWidth();
+		rectWidth = calcRectWidth();
+		rectDistance = (int) (rectDistance * zoom);
 
 		borderDistance = (int) (10 * zoom);
 		levelHeight = (int) (30 * zoom);
 
 		arrowX = (int) (5 * zoom);
 		arrowY = (int) (5 * zoom);
+	}
+
+	private int calcRectWidth() {
+		return 2 * (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + 10;
 	}
 
 	@Override
