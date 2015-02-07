@@ -1,6 +1,5 @@
 package com.baselet.element.elementnew.uml;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.enums.ElementId;
@@ -28,8 +27,8 @@ public class Hierarchy extends NewGridElement {
 	protected Settings createSettings() {
 		return new SettingsManualResizeTop() {
 			@Override
-			public List<? extends Facet> createFacets() {
-				return Arrays.asList(HierarchyFacet.INSTANCE);
+			public List<Facet> createFacets() {
+				return listOf(HierarchyFacet.INSTANCE);
 			}
 		};
 	}

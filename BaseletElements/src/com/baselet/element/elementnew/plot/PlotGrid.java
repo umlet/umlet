@@ -1,7 +1,6 @@
 package com.baselet.element.elementnew.plot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,8 +23,8 @@ import com.baselet.element.elementnew.plot.parser.Parser;
 import com.baselet.element.elementnew.plot.parser.ParserException;
 import com.baselet.element.elementnew.plot.parser.ParserResult;
 import com.baselet.element.elementnew.plot.parser.PlotConstants;
-import com.baselet.element.elementnew.plot.parser.PlotState;
 import com.baselet.element.elementnew.plot.parser.PlotConstants.PlotType;
+import com.baselet.element.elementnew.plot.parser.PlotState;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.GlobalFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -293,13 +292,13 @@ public class PlotGrid extends NewGridElement {
 	protected Settings createSettings() {
 		return new SettingsManualresizeCenter() {
 			@Override
-			protected List<? extends Facet> createDefaultFacets() {
+			protected List<Facet> createDefaultFacets() {
 				return Collections.emptyList();
 			}
 
 			@Override
-			public List<? extends Facet> createFacets() {
-				return Arrays.asList(PSEUDO_PLOT_FACET);
+			public List<Facet> createFacets() {
+				return listOf(PSEUDO_PLOT_FACET);
 			}
 		};
 	}

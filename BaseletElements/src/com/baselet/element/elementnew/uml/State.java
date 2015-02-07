@@ -33,7 +33,7 @@ public class State extends NewGridElement {
 	protected Settings createSettings() {
 		return new SettingsManualresizeCenter() {
 			@Override
-			public List<? extends Facet> createFacets() {
+			public List<Facet> createFacets() {
 				return Arrays.asList(SeparatorLineWithHalignChangeFacet.INSTANCE, StateTypeFacet.INSTANCE, SubStateSymbolFacet.INSTANCE);
 			}
 		};
