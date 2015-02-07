@@ -177,6 +177,7 @@ public class SequenceDiagram extends OldGridElement {
 
 	@Override
 	public void paintEntity(Graphics g) {
+		rectDistance = 60;
 
 		zoomValues();
 		float zoom = Main.getHandlerForElement(this).getZoomFactor();
@@ -263,7 +264,6 @@ public class SequenceDiagram extends OldGridElement {
 		String newhead = sb.toString();
 		obj = Utils.decomposeStrings(newhead.length() > 0 ? newhead.substring(1) : "", "|");
 		// LABELADDING STOP (exchanged parseInteger Methods with labeltonumber.get methods
-		rectDistance = 60; // min value is 60, but if a texts width is too large it gets increased
 
 		// parse the messages
 		int curLevel = 0;
@@ -294,8 +294,8 @@ public class SequenceDiagram extends OldGridElement {
 				if (srcObj != null && destObj != null && methodNameFromText != null) {
 					Integer span = Math.abs(srcObj - destObj);
 					if (span != 0) {
-						double newDist = fontHandler.getTextWidth(methodNameFromText) / span - calcRectWidth() * 2;
-						rectDistance = (int) Math.max(rectDistance, newDist);
+						double newDist = fontHandler.getTextWidth(methodNameFromText) / span - rectWidth / 12.0 * span;
+						rectDistance = (int) (Math.max(rectDistance, newDist));
 					}
 				}
 
@@ -849,8 +849,6 @@ public class SequenceDiagram extends OldGridElement {
 		float zoom = Main.getHandlerForElement(this).getZoomFactor();
 
 		controlFlowBoxWidth = (int) (20 * zoom);
-		rectHeight = calcRectWidth();
-		rectWidth = calcRectWidth();
 		rectDistance = (int) (rectDistance * zoom);
 
 		borderDistance = (int) (10 * zoom);
@@ -858,10 +856,6 @@ public class SequenceDiagram extends OldGridElement {
 
 		arrowX = (int) (5 * zoom);
 		arrowY = (int) (5 * zoom);
-	}
-
-	private int calcRectWidth() {
-		return 2 * (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + 10;
 	}
 
 	@Override
