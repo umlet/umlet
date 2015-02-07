@@ -30,10 +30,11 @@ import com.baselet.element.relation.facet.RelationLineTypeFacet;
  * It also specifies if the default text printing should be enabled for this element (e.g. Relation has its own text printing logic)
  */
 public abstract class Settings {
+	// the following lists are default facet configurations. they are declared here as a simple overview and for easy reuse
 	protected static final List<Facet> NOTEXT = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE);
 	protected static final List<Facet> RELATION = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, DescriptionPositionFacet.INSTANCE_MESSAGE_START, DescriptionPositionFacet.INSTANCE_MESSAGE_END, DescriptionPositionFacet.INSTANCE_ROLE_START, DescriptionPositionFacet.INSTANCE_ROLE_END);
 	protected static final List<Facet> AUTORESIZE = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, SeparatorLineFacet.INSTANCE);
-	protected static final List<Facet> ALL = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, VerticalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
+	protected static final List<Facet> MANUALRESIZE = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, VerticalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
 
 	protected static List<Facet> listOf(Facet... f) {
 		List<Facet> facetList = new ArrayList<Facet>();
@@ -50,11 +51,17 @@ public abstract class Settings {
 	/**
 	 * calculates the left and right x value for a certain y value
 	 */
-	public abstract XValues getXValues(double y, int height, int width);
+	public XValues getXValues(double y, int height, int width) {
+		return new XValues(0, width); // default is rectangle form
+	}
 
-	public abstract AlignVertical getVAlign();
+	public AlignVertical getVAlign() {
+		return AlignVertical.TOP;
+	}
 
-	public abstract AlignHorizontal getHAlign();
+	public AlignHorizontal getHAlign() {
+		return AlignHorizontal.CENTER;
+	}
 
 	public abstract ElementStyleEnum getElementStyle();
 
