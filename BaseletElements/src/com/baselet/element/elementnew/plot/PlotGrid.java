@@ -1,7 +1,6 @@
 package com.baselet.element.elementnew.plot;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -291,14 +290,10 @@ public class PlotGrid extends NewGridElement {
 	@Override
 	protected Settings createSettings() {
 		return new SettingsManualresizeCenter() {
-			@Override
-			protected List<Facet> createDefaultFacets() {
-				return Collections.emptyList();
-			}
 
 			@Override
-			public List<Facet> createFacets() {
-				return listOf(PSEUDO_PLOT_FACET);
+			protected List<Facet> createFacets() {
+				return listOf(PSEUDO_PLOT_FACET); // no real facets should be used
 			}
 		};
 	}

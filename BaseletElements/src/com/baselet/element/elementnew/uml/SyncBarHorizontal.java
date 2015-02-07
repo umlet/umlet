@@ -1,7 +1,5 @@
 package com.baselet.element.elementnew.uml;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 import com.baselet.control.basics.geom.Dimension;
@@ -11,7 +9,6 @@ import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.ElementId;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.NewGridElement;
-import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 import com.baselet.element.settings.SettingsNoText;
@@ -48,12 +45,7 @@ public class SyncBarHorizontal extends NewGridElement {
 
 	@Override
 	protected Settings createSettings() {
-		return new SettingsNoText() {
-			@Override
-			public List<Facet> createFacets() {
-				return Collections.<Facet> emptyList();
-			}
-		};
+		return new SettingsNoText();
 	}
 
 	@Override

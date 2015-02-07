@@ -24,8 +24,8 @@ public class Package extends NewGridElement {
 	protected Settings createSettings() {
 		return new SettingsManualresizeCenter() {
 			@Override
-			public List<Facet> createFacets() {
-				return Arrays.asList(TextBeforeFirstSeparatorCollectorFacet.INSTANCE, SeparatorLineFacet.INSTANCE);
+			protected List<Facet> createFacets() {
+				return listOf(super.createFacets(), TextBeforeFirstSeparatorCollectorFacet.INSTANCE, SeparatorLineFacet.INSTANCE);
 			}
 		};
 	}

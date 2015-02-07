@@ -22,8 +22,8 @@ public class Deployment extends NewGridElement {
 	protected Settings createSettings() {
 		return new SettingsManualResizeTop() {
 			@Override
-			public List<Facet> createFacets() {
-				return listOf(SeparatorLineFacet.INSTANCE);
+			protected List<Facet> createFacets() {
+				return listOf(super.createFacets(), SeparatorLineFacet.INSTANCE);
 			}
 		};
 	}

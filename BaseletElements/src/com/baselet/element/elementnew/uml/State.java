@@ -1,6 +1,5 @@
 package com.baselet.element.elementnew.uml;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.enums.ElementId;
@@ -33,8 +32,8 @@ public class State extends NewGridElement {
 	protected Settings createSettings() {
 		return new SettingsManualresizeCenter() {
 			@Override
-			public List<Facet> createFacets() {
-				return Arrays.asList(SeparatorLineWithHalignChangeFacet.INSTANCE, StateTypeFacet.INSTANCE, SubStateSymbolFacet.INSTANCE);
+			protected List<Facet> createFacets() {
+				return listOf(super.createFacets(), SeparatorLineWithHalignChangeFacet.INSTANCE, StateTypeFacet.INSTANCE, SubStateSymbolFacet.INSTANCE);
 			}
 		};
 	}

@@ -27,8 +27,8 @@ public class ActivityObject extends NewGridElement {
 	protected Settings createSettings() {
 		return new SettingsManualresizeCenter() {
 			@Override
-			public List<Facet> createFacets() {
-				return listOf(SeparatorLineFacet.INSTANCE);
+			protected List<Facet> createFacets() {
+				return listOf(super.createFacets(), SeparatorLineFacet.INSTANCE);
 			}
 		};
 	}

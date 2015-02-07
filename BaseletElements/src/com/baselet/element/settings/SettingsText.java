@@ -32,12 +32,7 @@ public class SettingsText extends Settings {
 	}
 
 	@Override
-	public List<Facet> createFacets() {
-		return listOf(SeparatorLineFacet.INSTANCE);
-	}
-
-	@Override
-	protected List<Facet> createDefaultFacets() {
-		return Settings.ALL;
+	protected List<Facet> createFacets() {
+		return listOf(Settings.ALL, SeparatorLineFacet.INSTANCE);
 	}
 }
