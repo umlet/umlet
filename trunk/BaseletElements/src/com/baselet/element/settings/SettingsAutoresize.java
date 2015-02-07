@@ -8,7 +8,6 @@ import com.baselet.control.enums.AlignVertical;
 import com.baselet.element.facet.ElementStyleEnum;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.Settings;
-import com.baselet.element.facet.common.SeparatorLineFacet;
 
 public class SettingsAutoresize extends Settings {
 	@Override
@@ -32,12 +31,7 @@ public class SettingsAutoresize extends Settings {
 	}
 
 	@Override
-	protected List<Facet> createDefaultFacets() {
+	protected List<Facet> createFacets() {
 		return Settings.AUTORESIZE;
-	}
-
-	@Override
-	public List<Facet> createFacets() {
-		return listOf(SeparatorLineFacet.INSTANCE);
 	}
 }

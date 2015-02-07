@@ -1,6 +1,5 @@
 package com.baselet.element.elementnew.uml;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.basics.geom.PointDouble;
@@ -24,8 +23,8 @@ public class Frame extends NewGridElement {
 	protected Settings createSettings() {
 		return new SettingsManualResizeTop() {
 			@Override
-			public List<Facet> createFacets() {
-				return Arrays.asList(TextBeforeFirstSeparatorCollectorFacet.INSTANCE, SeparatorLineFacet.INSTANCE);
+			protected List<Facet> createFacets() {
+				return listOf(super.createFacets(), TextBeforeFirstSeparatorCollectorFacet.INSTANCE, SeparatorLineFacet.INSTANCE);
 			}
 		};
 	}

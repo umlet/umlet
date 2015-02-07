@@ -58,8 +58,8 @@ public class UseCase extends NewGridElement {
 			}
 
 			@Override
-			public List<Facet> createFacets() {
-				return listOf(SeparatorLineFacet.INSTANCE);
+			protected List<Facet> createFacets() {
+				return listOf(super.createFacets(), SeparatorLineFacet.INSTANCE);
 			}
 		};
 	}

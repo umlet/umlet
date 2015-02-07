@@ -30,8 +30,8 @@ public class SpecialState extends NewGridElement {
 	protected Settings createSettings() {
 		return new SettingsNoText() {
 			@Override
-			public List<Facet> createFacets() {
-				return listOf(SpecialStateTypeFacet.INSTANCE);
+			protected List<Facet> createFacets() {
+				return listOf(super.createFacets(), SpecialStateTypeFacet.INSTANCE);
 			}
 		};
 	}

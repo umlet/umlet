@@ -9,7 +9,7 @@ import com.baselet.element.facet.ElementStyleEnum;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.Settings;
 
-public abstract class SettingsNoText extends Settings {
+public class SettingsNoText extends Settings {
 	@Override
 	public XValues getXValues(double y, int height, int width) {
 		return new XValues(0, width);
@@ -31,7 +31,7 @@ public abstract class SettingsNoText extends Settings {
 	}
 
 	@Override
-	protected List<Facet> createDefaultFacets() {
+	protected List<Facet> createFacets() {
 		return Settings.NOTEXT;
 	}
 

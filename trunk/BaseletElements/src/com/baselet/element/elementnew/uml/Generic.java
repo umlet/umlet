@@ -1,6 +1,5 @@
 package com.baselet.element.elementnew.uml;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.enums.ElementId;
@@ -29,8 +28,8 @@ public class Generic extends NewGridElement {
 	protected Settings createSettings() {
 		return new SettingsManualResizeTop() {
 			@Override
-			public List<Facet> createFacets() {
-				return Arrays.asList(UpperRightSymbolFacet.INSTANCE, SeparatorLineWithHalignChangeFacet.INSTANCE);
+			protected List<Facet> createFacets() {
+				return listOf(super.createFacets(), UpperRightSymbolFacet.INSTANCE, SeparatorLineWithHalignChangeFacet.INSTANCE);
 			}
 		};
 	}

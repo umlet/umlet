@@ -18,7 +18,11 @@ import com.baselet.element.facet.common.HorizontalAlignFacet;
 import com.baselet.element.facet.common.LayerFacet;
 import com.baselet.element.facet.common.LineTypeFacet;
 import com.baselet.element.facet.common.LineWidthFacet;
+import com.baselet.element.facet.common.SeparatorLineFacet;
 import com.baselet.element.facet.common.VerticalAlignFacet;
+import com.baselet.element.relation.facet.DescriptionPositionFacet;
+import com.baselet.element.relation.facet.LineDescriptionFacet;
+import com.baselet.element.relation.facet.RelationLineTypeFacet;
 
 /**
  * The basic settings of any NewGridElement.
@@ -27,12 +31,18 @@ import com.baselet.element.facet.common.VerticalAlignFacet;
  */
 public abstract class Settings {
 	protected static final List<Facet> NOTEXT = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE);
-	protected static final List<Facet> RELATION = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE);
-	protected static final List<Facet> AUTORESIZE = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE);
+	protected static final List<Facet> RELATION = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, DescriptionPositionFacet.INSTANCE_MESSAGE_START, DescriptionPositionFacet.INSTANCE_MESSAGE_END, DescriptionPositionFacet.INSTANCE_ROLE_START, DescriptionPositionFacet.INSTANCE_ROLE_END);
+	protected static final List<Facet> AUTORESIZE = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, SeparatorLineFacet.INSTANCE);
 	protected static final List<Facet> ALL = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, VerticalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
 
 	protected static List<Facet> listOf(Facet... f) {
 		List<Facet> facetList = new ArrayList<Facet>();
+		facetList.addAll(Arrays.asList(f));
+		return facetList;
+	}
+
+	protected static List<Facet> listOf(List<Facet> list, Facet... f) {
+		List<Facet> facetList = new ArrayList<Facet>(list);
 		facetList.addAll(Arrays.asList(f));
 		return facetList;
 	}
@@ -58,8 +68,6 @@ public abstract class Settings {
 	 */
 	protected abstract List<Facet> createFacets();
 
-	protected abstract List<Facet> createDefaultFacets();
-
 	private List<Facet> localFacets;
 	private List<GlobalFacet> globalFacets;
 
@@ -68,7 +76,6 @@ public abstract class Settings {
 			localFacets = new ArrayList<Facet>();
 			globalFacets = new ArrayList<GlobalFacet>();
 			addAll(createFacets());
-			addAll(createDefaultFacets());
 			sortListByPriority(localFacets);
 			sortListByPriority(globalFacets);
 		}

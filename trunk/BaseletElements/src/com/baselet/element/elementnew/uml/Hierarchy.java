@@ -27,8 +27,8 @@ public class Hierarchy extends NewGridElement {
 	protected Settings createSettings() {
 		return new SettingsManualResizeTop() {
 			@Override
-			public List<Facet> createFacets() {
-				return listOf(HierarchyFacet.INSTANCE);
+			protected List<Facet> createFacets() {
+				return listOf(super.createFacets(), HierarchyFacet.INSTANCE);
 			}
 		};
 	}

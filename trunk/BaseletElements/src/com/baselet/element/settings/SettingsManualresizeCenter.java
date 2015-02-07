@@ -31,7 +31,7 @@ public abstract class SettingsManualresizeCenter extends Settings {
 	}
 
 	@Override
-	protected List<Facet> createDefaultFacets() {
+	protected List<Facet> createFacets() {
 		return Settings.ALL;
 	}
 }

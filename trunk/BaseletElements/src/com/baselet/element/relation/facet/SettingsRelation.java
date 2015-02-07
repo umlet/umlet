@@ -33,12 +33,7 @@ public abstract class SettingsRelation extends Settings {
 	}
 
 	@Override
-	public List<Facet> createFacets() {
-		return listOf(RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, DescriptionPositionFacet.INSTANCE_MESSAGE_START, DescriptionPositionFacet.INSTANCE_MESSAGE_END, DescriptionPositionFacet.INSTANCE_ROLE_START, DescriptionPositionFacet.INSTANCE_ROLE_END);
-	}
-
-	@Override
-	protected List<Facet> createDefaultFacets() {
+	protected List<Facet> createFacets() {
 		return Settings.RELATION;
 	}
 
