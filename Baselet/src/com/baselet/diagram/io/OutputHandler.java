@@ -29,7 +29,6 @@ import com.baselet.control.enums.Program;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.interfaces.GridElement;
-import com.baselet.element.old.OldGridElement;
 import com.itextpdf.awt.DefaultFontMapper;
 import com.itextpdf.awt.FontMapper;
 import com.itextpdf.awt.PdfGraphics2D;
@@ -64,11 +63,8 @@ public class OutputHandler {
 	}
 
 	private static void exportToOutputStream(String extension, OutputStream ostream, DiagramHandler handler, Collection<GridElement> entities) throws IOException {
-		// Issue 159: the old all in one grid elements calculate their real size AFTER painting. although it's bad design it works for most cases, but batch-export can fail if the element width in the uxf is wrong (eg if it was created using another umlet-default-fontsize), therefore a pseudo-paint call is made to get the real size
 		for (GridElement ge : entities) {
-			if (ge.getDeprecatedAddons().isOldAllInOneDiagram()) {
-				((OldGridElement) ge).paint(new EpsGraphics2D());
-			}
+			ge.getDeprecatedAddons().doBeforeExport();
 		}
 		if (extension.equals("eps")) {
 			exportEps(ostream, handler, entities);

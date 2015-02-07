@@ -12,6 +12,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.sourceforge.jlibeps.epsgraphics.EpsGraphics2D;
+
 import com.baselet.control.Main;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
@@ -504,12 +506,10 @@ public class ActivityDiagramText extends OldGridElement {
 		return new GridElementDeprecatedAddons() {
 
 			@Override
-			public boolean isOldAllInOneDiagram() {
-				return true;
+			public void doBeforeExport() {
+				// Issue 159: the old all in one grid elements calculate their real size AFTER painting. although it's bad design it works for most cases, but batch-export can fail if the element width in the uxf is wrong (eg if it was created using another umlet-default-fontsize), therefore a pseudo-paint call is made to get the real size
+				paintEntity(new EpsGraphics2D());
 			}
-
-			@Override
-			public void zoomDeprecatedSequenceAllInOne() {}
 		};
 	}
 }

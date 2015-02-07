@@ -17,6 +17,8 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.sourceforge.jlibeps.epsgraphics.EpsGraphics2D;
+
 import com.baselet.control.Main;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
@@ -265,6 +267,8 @@ public class SequenceDiagram extends OldGridElement {
 		obj = Utils.decomposeStrings(newhead.length() > 0 ? newhead.substring(1) : "", "|");
 		// LABELADDING STOP (exchanged parseInteger Methods with labeltonumber.get methods
 
+		calcWidthOfLineHeaderBoxes(g2, fontHandler, obj, numObjects);
+
 		// parse the messages
 		int curLevel = 0;
 		im = new InteractionManagement(levelNum);
@@ -431,22 +435,6 @@ public class SequenceDiagram extends OldGridElement {
 		}
 		// end message parsing
 
-		// find out the width of the column with the longest text
-		double maxWidth = 0;
-		double maxHeight = 0;
-		for (int i = 0; i < numObjects; i++) {
-			String s = obj.elementAt(i);
-			if (s.startsWith(FormatLabels.UNDERLINE.getValue()) && s.endsWith(FormatLabels.UNDERLINE.getValue()) && s.length() > 2) {
-				s = s.substring(1, s.length() - 1);
-			}
-			TextLayout layout = new TextLayout(s, fontHandler.getFont(), g2.getFontRenderContext());
-			maxWidth = Math.max(layout.getBounds().getWidth(), maxWidth);
-			maxHeight = Math.max(layout.getBounds().getHeight(), maxHeight);
-		}
-
-		rectWidth = (int) Math.floor(maxWidth + 1) + 2 * (int) fontHandler.getDistanceBetweenTexts() + (int) fontHandler.getFontSize();
-		rectHeight = (int) Math.floor(maxHeight + 1) + (int) fontHandler.getDistanceBetweenTexts() + (int) fontHandler.getFontSize();
-
 		// draw the first line of the sequence diagram
 		int ypos = borderDistance + yOffsetforTitle;
 		int xpos = borderDistance;
@@ -499,6 +487,24 @@ public class SequenceDiagram extends OldGridElement {
 		rWidth += Main.getHandlerForElement(this).getGridSize() - rWidth % Main.getHandlerForElement(this).getGridSize();
 		rHeight += Main.getHandlerForElement(this).getGridSize() - rHeight % Main.getHandlerForElement(this).getGridSize();
 		setSize(rWidth, rHeight);
+	}
+
+	private void calcWidthOfLineHeaderBoxes(Graphics2D g2, FontHandler fontHandler, Vector<String> obj, int numObjects) {
+		// find out the width of the column with the longest text
+		double maxWidth = 0;
+		double maxHeight = 0;
+		for (int i = 0; i < numObjects; i++) {
+			String s = obj.elementAt(i);
+			if (s.startsWith(FormatLabels.UNDERLINE.getValue()) && s.endsWith(FormatLabels.UNDERLINE.getValue()) && s.length() > 2) {
+				s = s.substring(1, s.length() - 1);
+			}
+			TextLayout layout = new TextLayout(s, fontHandler.getFont(), g2.getFontRenderContext());
+			maxWidth = Math.max(layout.getBounds().getWidth(), maxWidth);
+			maxHeight = Math.max(layout.getBounds().getHeight(), maxHeight);
+		}
+
+		rectWidth = (int) Math.floor(maxWidth + 1) + 2 * (int) fontHandler.getDistanceBetweenTexts() + (int) fontHandler.getFontSize();
+		rectHeight = (int) Math.floor(maxHeight + 1) + (int) fontHandler.getDistanceBetweenTexts() + (int) fontHandler.getFontSize();
 	}
 
 	private int drawMessages(Graphics2D g2) {
@@ -869,13 +875,9 @@ public class SequenceDiagram extends OldGridElement {
 		return new GridElementDeprecatedAddons() {
 
 			@Override
-			public boolean isOldAllInOneDiagram() {
-				return true;
-			}
-
-			@Override
-			public void zoomDeprecatedSequenceAllInOne() {
-				zoomValues();
+			public void doBeforeExport() {
+				// Issue 159: the old all in one grid elements calculate their real size AFTER painting. although it's bad design it works for most cases, but batch-export can fail if the element width in the uxf is wrong (eg if it was created using another umlet-default-fontsize), therefore a pseudo-paint call is made to get the real size
+				paintEntity(new EpsGraphics2D());
 			}
 		};
 	}
