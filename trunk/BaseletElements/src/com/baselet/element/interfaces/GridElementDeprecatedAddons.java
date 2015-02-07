@@ -2,19 +2,10 @@ package com.baselet.element.interfaces;
 
 public interface GridElementDeprecatedAddons {
 
-	boolean isOldAllInOneDiagram();
-
-	void zoomDeprecatedSequenceAllInOne();
+	void doBeforeExport();
 
 	public static final GridElementDeprecatedAddons NONE = new GridElementDeprecatedAddons() {
-
 		@Override
-		public boolean isOldAllInOneDiagram() {
-			return false;
-		}
-
-		@Override
-		public void zoomDeprecatedSequenceAllInOne() {}
-
+		public void doBeforeExport() {}
 	};
 }

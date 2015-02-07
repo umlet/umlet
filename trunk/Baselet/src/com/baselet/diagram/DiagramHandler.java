@@ -452,7 +452,6 @@ public class DiagramHandler {
 		if (element instanceof NewGridElement) {
 			((ComponentSwing) element.getComponent()).setHandler(this);
 		}
-		element.getDeprecatedAddons().zoomDeprecatedSequenceAllInOne();
 		element.updateModelFromText(); // must be updated here because the new handler could have a different zoom level
 	}
 }
