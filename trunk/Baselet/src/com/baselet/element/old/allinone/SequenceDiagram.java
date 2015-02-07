@@ -294,8 +294,9 @@ public class SequenceDiagram extends OldGridElement {
 				if (srcObj != null && destObj != null && methodNameFromText != null) {
 					Integer span = Math.abs(srcObj - destObj);
 					if (span != 0) {
-						double newDist = fontHandler.getTextWidth(methodNameFromText) / span - rectWidth / 12.0 * span;
-						rectDistance = (int) (Math.max(rectDistance, newDist));
+						double lineSpaceRequiredForMessage = fontHandler.getTextWidth(methodNameFromText) / span;
+						double totalDist = lineSpaceRequiredForMessage - rectWidth + controlFlowBoxWidth; // add the rectWidth (because the text can exceed the half rect to the left and right and add the controlFlowBoxWidth to avoid text overlapping with control flow boxes
+						rectDistance = (int) Math.max(rectDistance, totalDist);
 					}
 				}
 
