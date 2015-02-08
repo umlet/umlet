@@ -34,18 +34,10 @@ public class PropertiesParserState {
 	private double rightBuffer;
 	private Dimension gridElementSize;
 	private ElementStyle elementStyle;
+	private StickingPolygonGenerator stickingPolygonGenerator = SimpleStickingPolygonGenerator.INSTANCE;
+	private double textBlockHeight;
 	private final Map<Class<? extends Facet>, Object> facetResponse = new HashMap<Class<? extends Facet>, Object>();
 	private final List<Facet> usedFacets = new ArrayList<Facet>();
-
-	private double textBlockHeight;
-
-	public void setTextBlockHeight(double textBlockHeight) {
-		this.textBlockHeight = textBlockHeight;
-	}
-
-	public double getTextBlockHeight() {
-		return textBlockHeight;
-	}
 
 	public PropertiesParserState(Settings settings) {
 		this.settings = settings;
@@ -63,9 +55,10 @@ public class PropertiesParserState {
 		rightBuffer = 0;
 		this.gridElementSize = gridElementSize;
 		elementStyle = settings.getElementStyle();
+		stickingPolygonGenerator = SimpleStickingPolygonGenerator.INSTANCE;
+		textBlockHeight = 0;
 		facetResponse.clear();
 		usedFacets.clear();
-		textBlockHeight = 0;
 	}
 
 	public AlignHorizontal gethAlign() {
@@ -201,14 +194,20 @@ public class PropertiesParserState {
 		facetResponse.put(facetClass, value);
 	}
 
-	private StickingPolygonGenerator stickingPolygonGenerator = SimpleStickingPolygonGenerator.INSTANCE;
-
 	public StickingPolygonGenerator getStickingPolygonGenerator() {
 		return stickingPolygonGenerator;
 	}
 
 	public void setStickingPolygonGenerator(StickingPolygonGenerator stickingPolygonGenerator) {
 		this.stickingPolygonGenerator = stickingPolygonGenerator;
+	}
+
+	public void setTextBlockHeight(double textBlockHeight) {
+		this.textBlockHeight = textBlockHeight;
+	}
+
+	public double getTextBlockHeight() {
+		return textBlockHeight;
 	}
 
 	public void addUsedFacet(Facet facet) {
