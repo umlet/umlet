@@ -23,7 +23,8 @@ public class Note extends NewGridElement {
 	private static final int CORNER = 12;
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+	protected void drawCommonContent(PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		int w = getRealSize().width;
 		int h = getRealSize().height;
 		drawer.drawLines(p(0, 0), p(w - CORNER, 0), p(w, CORNER), p(w, h), p(0, h), p(0, 0));

@@ -44,7 +44,8 @@ public class UseCase extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+	protected void drawCommonContent(PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		drawer.drawEllipse(0, 0, getRealSize().width, getRealSize().height);
 		state.setStickingPolygonGenerator(stickingPolygonGenerator);
 	}

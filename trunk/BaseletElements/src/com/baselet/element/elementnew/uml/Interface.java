@@ -30,7 +30,8 @@ public class Interface extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+	protected void drawCommonContent(PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		state.getBuffer().setTopMin(TOP_DISTANCE + CIRCLE_SIZE);// space reserved for the top circle
 		Rectangle circleRect = circleRect();
 		drawer.drawCircle(circleRect.x + CIRCLE_SIZE * 0.5, circleRect.y + CIRCLE_SIZE * 0.5, CIRCLE_SIZE * 0.5);

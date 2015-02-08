@@ -20,7 +20,8 @@ public class Generic extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+	protected void drawCommonContent(PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		drawer.drawRectangle(0, 0, getRealSize().getWidth(), getRealSize().getHeight());
 	}
 

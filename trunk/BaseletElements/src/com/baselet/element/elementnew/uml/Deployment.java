@@ -36,7 +36,8 @@ public class Deployment extends NewGridElement {
 	private static final int BORDER = 10;
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+	protected void drawCommonContent(PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		double w = getRealSize().getWidth();
 		double h = getRealSize().getHeight();
 		List<PointDouble> p = Arrays.asList(
@@ -63,8 +64,8 @@ public class Deployment extends NewGridElement {
 		drawer.drawLines(pLine, p.get(2));
 		// Draw Content-Rectangle
 		drawer.drawRectangle(0, BORDER, w - BORDER, h - BORDER);
-		state.getBuffer().setTopMin((double) BORDER);
-		state.getBuffer().addToRight((double) BORDER);
+		state.getBuffer().setTopMin(BORDER);
+		state.getBuffer().addToRight(BORDER);
 	}
 
 }

@@ -17,30 +17,29 @@ import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
 
 public class SyncBarVertical extends NewGridElement {
 
-	private final StickingPolygonGenerator syncBarStickingPolygonGenerator = new StickingPolygonGenerator() {
-		@Override
-		public StickingPolygon generateStickingBorder(Rectangle rect) {
-			StickingPolygon p = new StickingPolygon(rect.x, rect.y);
-			double lt = getDrawer().getStyle().getLineWidth();
-			double halfWidth = getRealSize().getWidth() * 0.5;
-			p.addRectangle(new Rectangle(halfWidth - lt * 0.5, 0.0, lt, (double) getRealSize().getHeight()));
-			return p;
-		}
-	};
-
 	@Override
 	public ElementId getId() {
 		return ElementId.UMLSyncBarVertical;
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+	protected void drawCommonContent(final PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		if (drawer.getStyle().getLineWidth() == FacetConstants.LINE_WIDTH_DEFAULT) {
 			drawer.setLineWidth(5);
 		}
 		Dimension s = getRealSize();
 		drawer.drawLine(s.getWidth() * 0.5, 0, s.getWidth() * 0.5, s.getHeight());
-		state.setStickingPolygonGenerator(syncBarStickingPolygonGenerator);
+		state.setStickingPolygonGenerator(new StickingPolygonGenerator() {
+			@Override
+			public StickingPolygon generateStickingBorder(Rectangle rect) {
+				StickingPolygon p = new StickingPolygon(rect.x, rect.y);
+				double lt = state.getDrawer().getStyle().getLineWidth();
+				double halfWidth = getRealSize().getWidth() * 0.5;
+				p.addRectangle(new Rectangle(halfWidth - lt * 0.5, 0.0, lt, (double) getRealSize().getHeight()));
+				return p;
+			}
+		});
 	}
 
 	@Override

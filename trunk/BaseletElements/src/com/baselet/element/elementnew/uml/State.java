@@ -21,7 +21,8 @@ public class State extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+	protected void drawCommonContent(PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		// if not type is given, draw an action type as default
 		if (!state.getFacetResponse(StateTypeFacet.class, false)) {
 			StateTypeFacet.drawDefaultState(drawer, getRealSize());

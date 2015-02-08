@@ -3,8 +3,11 @@ package com.baselet.element.elementnew.plot.parser;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.baselet.diagram.draw.DrawHandler;
+
 public class ParserResult {
 
+	private DrawHandler drawer;
 	private final ArrayList<PlotState> plotStateList;
 	// These are few variables which influence the plotgrid
 	private final HashMap<String, KeyValue> plotGridValues;
@@ -12,6 +15,14 @@ public class ParserResult {
 	public ParserResult() {
 		plotStateList = new ArrayList<PlotState>();
 		plotGridValues = new HashMap<String, KeyValue>();
+	}
+
+	public void setDrawer(DrawHandler drawer) {
+		this.drawer = drawer;
+	}
+
+	public DrawHandler getDrawer() {
+		return drawer;
 	}
 
 	public ArrayList<PlotState> getPlotStateList() {

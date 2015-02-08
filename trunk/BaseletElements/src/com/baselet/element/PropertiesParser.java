@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.enums.ElementStyle;
-import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
 
@@ -28,7 +27,7 @@ public class PropertiesParser {
 		autoresizeAnalysis(element, state, propertiesText); // at first handle autoresize (which possibly changes elementsize)
 		state.resetValues(element.getRealSize()); // now that the element size is known, reset the state with it
 		List<String> propTextWithoutGobalFacets = parseFacets(state.getSettings().getGlobalFacets(), propertiesText, state); // must be before element.drawCommonContent (because bg=... and other settings are set here)
-		state.setTextBlockHeight(calcTextBlockHeight(propTextWithoutGobalFacets, element.getDrawer(), state)); // calc the total size of the textblock (necessary for text printing with valign!=top)
+		state.setTextBlockHeight(calcTextBlockHeight(propTextWithoutGobalFacets, state)); // calc the total size of the textblock (necessary for text printing with valign!=top)
 		element.resetMetaDrawerAndDrawCommonContent(); // draw common content like border around classes
 		parseFacets(state.getSettings().getLocalFacets(), propTextWithoutGobalFacets, state); // iterate over propertiestext and draw text and resolve localfacets
 	}
@@ -38,7 +37,7 @@ public class PropertiesParser {
 		List<String> tmpPropTextWithoutGlobalFacets = parseFacets(tmpstate.getSettings().getGlobalFacets(), propertiesText, tmpstate);
 
 		if (tmpstate.getElementStyle() == ElementStyle.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
-			element.drawCommonContent(tmpstate.getDrawer(), tmpstate);
+			element.drawCommonContent(tmpstate);
 			parseFacets(tmpstate.getSettings().getLocalFacets(), tmpPropTextWithoutGlobalFacets, tmpstate);
 			double textHeight = tmpstate.getTextPrintPosition() - tmpstate.getDrawer().textHeightMax(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
 			double width = tmpstate.getCalculatedElementWidth();
@@ -46,7 +45,7 @@ public class PropertiesParser {
 		}
 	}
 
-	private static double calcTextBlockHeight(List<String> propertiesText, DrawHandler drawer, PropertiesParserState state) {
+	private static double calcTextBlockHeight(List<String> propertiesText, PropertiesParserState state) {
 		PropertiesParserState tmpstate = state.dummyCopy(state.getGridElementSize()); // a dummy state copy is used for calculation to make sure the textBlockHeight calculation doesn't change the real state
 		parseFacets(tmpstate.getSettings().getLocalFacets(), propertiesText, tmpstate);
 		return tmpstate.getTextPrintPosition() - tmpstate.getBuffer().getTop();

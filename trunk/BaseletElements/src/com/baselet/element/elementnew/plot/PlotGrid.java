@@ -61,7 +61,9 @@ public class PlotGrid extends NewGridElement {
 		}
 	};
 
-	private void fillWithPlots(ArrayList<PlotState> plotStateList) {
+	private void fillWithPlots(ParserResult parserState) {
+		ArrayList<PlotState> plotStateList = parserState.getPlotStateList();
+		DrawHandler drawer = parserState.getDrawer();
 		setOverallMinMaxValue(plotStateList);
 		for (PlotState plotState : plotStateList) {
 			Integer xPos = plotState.getValueAsInt(PlotConstants.KEY_INT_X_POSITION, null);
@@ -79,21 +81,21 @@ public class PlotGrid extends NewGridElement {
 				setMatrixHeightMinimum(yPos);
 				List<List<AbstractPlot>> xCoordinateList = matrix.row(yPos);
 				setMinimumListSize(xPos, xCoordinateList);
-				xCoordinateList.set(xPos, createPlots(plotState, xPos, yPos, "x and y are specified"));
+				xCoordinateList.set(xPos, createPlots(drawer, plotState, xPos, yPos, "x and y are specified"));
 			}
 			// case2: only x is specified
 			else if (xPos != null) {
-				putPlotInFirstFreeVerticalSpaceOrAddPlot(xPos, plotState, "only x is specified -> space replaced");
+				putPlotInFirstFreeVerticalSpaceOrAddPlot(drawer, xPos, plotState, "only x is specified -> space replaced");
 			}
 			// case3: only y is specified
 			else if (yPos != null) {
 				setMatrixHeightMinimum(yPos);
 				List<List<AbstractPlot>> xCoordinateList = matrix.row(yPos);
-				putPlotInFirstFreeHorizontalSpaceOrAddPlot(xCoordinateList, yPos, plotState, "only y specified -> ");
+				putPlotInFirstFreeHorizontalSpaceOrAddPlot(drawer, xCoordinateList, yPos, plotState, "only y specified -> ");
 			}
 			// case4: no coordinate is specified
 			else {
-				putPlotInFirstFreeMatrixSpace(plotState);
+				putPlotInFirstFreeMatrixSpace(drawer, plotState);
 			}
 		}
 		gridWidth = matrix.cols(); // Recalculate grid width
@@ -131,7 +133,7 @@ public class PlotGrid extends NewGridElement {
 		}
 	}
 
-	private void putPlotInFirstFreeVerticalSpaceOrAddPlot(Integer xFix, PlotState plotState, String info) {
+	private void putPlotInFirstFreeVerticalSpaceOrAddPlot(DrawHandler drawer, Integer xFix, PlotState plotState, String info) {
 		boolean plotFilledInFreeSpace = false;
 		for (int ySeq = 0; ySeq < matrix.rows(); ySeq++) {
 			List<List<AbstractPlot>> xCoordinateList = matrix.row(ySeq);
@@ -139,7 +141,7 @@ public class PlotGrid extends NewGridElement {
 				setMinimumListSize(xFix, xCoordinateList);
 			}
 			if (xCoordinateList.get(xFix) == null) {
-				xCoordinateList.set(xFix, createPlots(plotState, xFix, ySeq, info));
+				xCoordinateList.set(xFix, createPlots(drawer, plotState, xFix, ySeq, info));
 				plotFilledInFreeSpace = true;
 				break;
 			}
@@ -148,25 +150,25 @@ public class PlotGrid extends NewGridElement {
 		if (!plotFilledInFreeSpace) {
 			ArrayList<List<AbstractPlot>> newColumn = new ArrayList<List<AbstractPlot>>();
 			setMinimumListSize(xFix, newColumn);
-			newColumn.set(xFix, createPlots(plotState, xFix, matrix.rows(), "only x is specified -> expanded y-list"));
+			newColumn.set(xFix, createPlots(drawer, plotState, xFix, matrix.rows(), "only x is specified -> expanded y-list"));
 			matrix.addLine(newColumn);
 		}
 	}
 
-	private void putPlotInFirstFreeHorizontalSpaceOrAddPlot(List<List<AbstractPlot>> xCoordinateList, Integer yFix, PlotState plotState, String info) {
+	private void putPlotInFirstFreeHorizontalSpaceOrAddPlot(DrawHandler drawer, List<List<AbstractPlot>> xCoordinateList, Integer yFix, PlotState plotState, String info) {
 		for (int xSeq = 0; true; xSeq++) {
 			if (xSeq == xCoordinateList.size()) {
-				xCoordinateList.add(createPlots(plotState, xSeq, yFix, info + "added new x-entry"));
+				xCoordinateList.add(createPlots(drawer, plotState, xSeq, yFix, info + "added new x-entry"));
 				return;
 			}
 			if (xCoordinateList.get(xSeq) == null) {
-				xCoordinateList.set(xSeq, createPlots(plotState, xSeq, yFix, info + "replaced x-entry"));
+				xCoordinateList.set(xSeq, createPlots(drawer, plotState, xSeq, yFix, info + "replaced x-entry"));
 				return;
 			}
 		}
 	}
 
-	private void putPlotInFirstFreeMatrixSpace(PlotState plotState) {
+	private void putPlotInFirstFreeMatrixSpace(DrawHandler drawer, PlotState plotState) {
 		// Go through all lines and all values in each line
 		for (int ySeq = 0; ySeq < matrix.rows(); ySeq++) {
 			List<List<AbstractPlot>> oneLine = matrix.row(ySeq);
@@ -175,52 +177,52 @@ public class PlotGrid extends NewGridElement {
 				List<AbstractPlot> oneValue = oneLine.get(xSeq);
 				// If a free space is found use it
 				if (oneValue == null) {
-					oneLine.set(xSeq, createPlots(plotState, xSeq, ySeq, "no coordinate specified -> free space found"));
+					oneLine.set(xSeq, createPlots(drawer, plotState, xSeq, ySeq, "no coordinate specified -> free space found"));
 					return;
 				}
 			}
 			// If the actual x-coordinates line is < than the default grid width add a new value
 			if (oneLine.size() < gridWidth) {
-				oneLine.add(createPlots(plotState, oneLine.size(), ySeq, "no coordinate specified -> expanded x-list"));
+				oneLine.add(createPlots(drawer, plotState, oneLine.size(), ySeq, "no coordinate specified -> expanded x-list"));
 				return;
 			}
 		}
 		// If every space in the matrix is occupied and the position is still not found add a new line and fill its first place
 		List<List<AbstractPlot>> newLine = new ArrayList<List<AbstractPlot>>();
-		newLine.add(createPlots(plotState, 0, matrix.rows(), "no coordinate specified -> every matrix space occupied, expanded y-list"));
+		newLine.add(createPlots(drawer, plotState, 0, matrix.rows(), "no coordinate specified -> every matrix space occupied, expanded y-list"));
 		matrix.addLine(newLine);
 	}
 
-	private List<AbstractPlot> createPlots(PlotState plotState, Integer xPos, Integer yPos, String info)
+	private List<AbstractPlot> createPlots(DrawHandler drawer, PlotState plotState, Integer xPos, Integer yPos, String info)
 	{
 		List<AbstractPlot> plotList = new ArrayList<AbstractPlot>();
 
 		// create and add base plot
-		plotList.add(createPlot(plotState, xPos, yPos, info));
+		plotList.add(createPlot(drawer, plotState, xPos, yPos, info));
 
 		// create and add sub plots
 		for (PlotState subPlotState : plotState.getSubplots()) {
-			plotList.add(createPlot(subPlotState, xPos, yPos, info));
+			plotList.add(createPlot(drawer, subPlotState, xPos, yPos, info));
 		}
 
 		return plotList;
 	}
 
-	private AbstractPlot createPlot(PlotState plotState, int xPos, int yPos, String info) {
+	private AbstractPlot createPlot(DrawHandler drawer, PlotState plotState, int xPos, int yPos, String info) {
 		String type = plotState.getValueValidated(PlotType.getKey(), PlotType.Bar.getValue(), PlotConstants.toStringList(PlotType.values()));
 		log.debug("PlotGrid insert : " + type + " (" + xPos + ";" + yPos + ") " + info);
 		PlotGridDrawConfig plotDrawConfig = new PlotGridDrawConfig(getRealSize(), new Dimension(getRectangle().width, getRectangle().height), minValue, maxValue);
 		if (PlotType.Pie.getValue().equals(type)) {
-			return new PiePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
+			return new PiePlot(drawer, plotDrawConfig, plotState, xPos, yPos);
 		}
 		else if (PlotType.Line.getValue().equals(type)) {
-			return new LinePlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
+			return new LinePlot(drawer, plotDrawConfig, plotState, xPos, yPos);
 		}
 		else if (PlotType.Scatter.getValue().equals(type)) {
-			return new ScatterPlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
+			return new ScatterPlot(drawer, plotDrawConfig, plotState, xPos, yPos);
 		}
 		else {
-			return new BarPlot(getDrawer(), plotDrawConfig, plotState, xPos, yPos);
+			return new BarPlot(drawer, plotDrawConfig, plotState, xPos, yPos);
 		}
 	}
 
@@ -266,15 +268,17 @@ public class PlotGrid extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+	protected void drawCommonContent(PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		try {
 			matrix = new Matrix<List<AbstractPlot>>();
 			ParserResult parserState = new Parser().parse(getPanelAttributes());
+			parserState.setDrawer(drawer);
 			log.debug(parserState.toString());
 
 			gridWidth = Integer.parseInt(parserState.getPlotGridValue(PlotConstants.KEY_INT_GRID_WIDTH, PlotConstants.GRID_WIDTH_DEFAULT));
 
-			fillWithPlots(parserState.getPlotStateList());
+			fillWithPlots(parserState);
 
 			drawPlots();
 

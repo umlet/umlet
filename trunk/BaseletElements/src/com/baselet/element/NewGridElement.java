@@ -72,14 +72,6 @@ public abstract class NewGridElement implements GridElement {
 		setAdditionalAttributes(additionalAttributes);
 	}
 
-	public DrawHandler getDrawer() {
-		return drawer;
-	}
-
-	public DrawHandler getMetaDrawer() {
-		return metaDrawer;
-	}
-
 	@Override
 	public String getPanelAttributes() {
 		return SharedUtils.listToString("\n", panelAttributes);
@@ -138,11 +130,11 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	void resetMetaDrawerAndDrawCommonContent() {
-		drawCommonContent(drawer, state); // must be before properties.drawPropertiesText (to make sure a possible background color is behind the text)
+		drawCommonContent(state); // must be before properties.drawPropertiesText (to make sure a possible background color is behind the text)
 		resetMetaDrawer(metaDrawer); // must be after properties.initSettingsFromText() because stickingpolygon size can be based on some settings (eg: Actor uses this)
 	}
 
-	protected abstract void drawCommonContent(DrawHandler drawer, PropertiesParserState state);
+	protected abstract void drawCommonContent(PropertiesParserState state);
 
 	protected void resetMetaDrawer(DrawHandler drawer) {
 		drawer.clearCache();
