@@ -41,7 +41,7 @@ public class UpperRightSymbolFacet extends GlobalKeyValueFacet {
 			double cW = fs * 2.5;
 			double cH = fs;
 			drawer.drawEllipse(eW - cW - DISTANCE, DISTANCE, cW, cH);
-			state.addToTopBuffer(DISTANCE);
+			state.setMinTopBuffer(DISTANCE);
 		}
 		else if (symbol == UpperRightSymbolEnum.ARTIFACT) {
 			double cW = fs * 1.5;
@@ -57,7 +57,7 @@ public class UpperRightSymbolFacet extends GlobalKeyValueFacet {
 			PointDouble px = new PointDouble(eW - DISTANCE - corner, DISTANCE + corner);
 			drawer.drawLines(p.get(0), p.get(1), p.get(2), p.get(3), p.get(4), p.get(0));
 			drawer.drawLines(p.get(1), px, p.get(2));
-			state.addToTopBuffer(DISTANCE + fs * 0.3);
+			state.setMinTopBuffer(DISTANCE + fs * 0.3);
 		}
 		else if (symbol == UpperRightSymbolEnum.COMPONENT) {
 			double partHeight = fs * 0.4;
@@ -76,7 +76,7 @@ public class UpperRightSymbolFacet extends GlobalKeyValueFacet {
 					new PointDouble(eW - cW - DISTANCE, DISTANCE + cH),
 					new PointDouble(eW - cW - DISTANCE, DISTANCE + cH - nonPartHeight)
 					));
-			state.addToTopBuffer(DISTANCE + fs * 0.3);
+			state.setMinTopBuffer(DISTANCE + fs * 0.3);
 		}
 		drawer.setDrawDelayed(false);
 		drawer.setBackgroundColor(prevBackgroundColor);

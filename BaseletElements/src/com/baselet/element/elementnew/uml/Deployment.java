@@ -63,7 +63,7 @@ public class Deployment extends NewGridElement {
 		drawer.drawLines(pLine, p.get(2));
 		// Draw Content-Rectangle
 		drawer.drawRectangle(0, BORDER, w - BORDER, h - BORDER);
-		state.addToTopBuffer(BORDER);
+		state.setMinTopBuffer(BORDER);
 		state.addToRightBuffer(BORDER);
 	}
 

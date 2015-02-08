@@ -61,7 +61,7 @@ public class InnerClassFacet extends Facet {
 	}
 
 	private double getDividerPos(DrawHandler drawer, PropertiesParserState state) {
-		return state.getyPos() - drawer.textHeightMax();
+		return state.getYPosWithTopBuffer() - drawer.textHeightMax();
 	}
 
 	private Stack<ClassSettings> getOrInit(PropertiesParserState state) {
