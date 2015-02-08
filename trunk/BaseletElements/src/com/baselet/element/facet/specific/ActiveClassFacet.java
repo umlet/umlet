@@ -28,7 +28,7 @@ public class ActiveClassFacet extends GlobalKeyValueFacet {
 		ClassTypeEnum.valueOf(value.toUpperCase()); // parse the value to make sure only valid types are accepted
 
 		state.getBuffer().addToLeftAndRight((double) SPACING);
-		XValues xLimits = state.getXLimits(state.getYPosWithTopBuffer());
+		XValues xLimits = state.getXLimits(state.getTextPrintPosition());
 		drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), state.getGridElementSize().getHeight());
 		drawer.drawLine(xLimits.getRight(), 0, xLimits.getRight(), state.getGridElementSize().getHeight());
 	}

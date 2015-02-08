@@ -7,8 +7,6 @@ import java.util.Map;
 
 import com.baselet.control.basics.XValues;
 import com.baselet.control.basics.geom.Dimension;
-import com.baselet.control.enums.AlignHorizontal;
-import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.ElementStyle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.sticking.polygon.SimpleStickingPolygonGenerator;
@@ -16,7 +14,7 @@ import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
 
 /**
  * The PropertiesParserState contains the mutable state of the parser which changes constantly while parsing
- * the most important Facets have explicit fields, for any other Facet, the generic facetResponse map should be used
+ * the properties printing related facets have explicit fields (for better usabilty), for any other Facet, the generic facetResponse map should be used for communication between facets and/or the gridelement
  *
  */
 public class PropertiesParserState {
@@ -24,13 +22,13 @@ public class PropertiesParserState {
 	private final Settings settings;
 
 	private Alignment alignment;
-	private double yPos; // the current y position for drawing text, separator-lines and other properties-text-related stuff
+	private double textPrintPosition; // the current y position for drawing text, separator-lines and other properties-text-related stuff
 	private double calculatedElementWidth;
 	private Buffer buffer;
 	private Dimension gridElementSize;
 	private ElementStyle elementStyle;
 	private StickingPolygonGenerator stickingPolygonGenerator = SimpleStickingPolygonGenerator.INSTANCE;
-	private double textBlockHeight;
+	private double totalTextBlockHeight;
 	private final Map<Class<? extends Facet>, Object> facetResponse = new HashMap<Class<? extends Facet>, Object>();
 	private final List<Facet> usedFacets = new ArrayList<Facet>();
 
@@ -40,13 +38,13 @@ public class PropertiesParserState {
 
 	public void resetValues(Dimension gridElementSize) {
 		alignment = new Alignment(settings);
-		yPos = 0;
+		textPrintPosition = 0;
 		calculatedElementWidth = 0;
 		buffer = new Buffer();
 		this.gridElementSize = gridElementSize;
 		elementStyle = settings.getElementStyle();
 		stickingPolygonGenerator = SimpleStickingPolygonGenerator.INSTANCE;
-		textBlockHeight = 0;
+		totalTextBlockHeight = 0;
 		facetResponse.clear();
 		usedFacets.clear();
 	}
@@ -55,16 +53,18 @@ public class PropertiesParserState {
 		return alignment;
 	}
 
-	public double getYPos() {
-		return yPos;
+	/**
+	 * returns the current text print position including the top buffer
+	 */
+	public double getTextPrintPosition() {
+		return textPrintPosition + buffer.getTop();
 	}
 
-	public double getYPosWithTopBuffer() {
-		return yPos + buffer.getTop();
-	}
-
-	public void addToYPos(double inc) {
-		yPos += inc;
+	/**
+	 * use whenever the text print position should be increased (e.g. if -- draws a horizontal line, some vertical space should be added, or everytime TextPrintFacet prints a line)
+	 */
+	public void increaseTextPrintPosition(double inc) {
+		textPrintPosition += inc;
 	}
 
 	public Buffer getBuffer() {
@@ -137,11 +137,11 @@ public class PropertiesParserState {
 	}
 
 	public void setTextBlockHeight(double textBlockHeight) {
-		this.textBlockHeight = textBlockHeight;
+		totalTextBlockHeight = textBlockHeight;
 	}
 
-	public double getTextBlockHeight() {
-		return textBlockHeight;
+	public double getTotalTextBlockHeight() {
+		return totalTextBlockHeight;
 	}
 
 	public void addUsedFacet(Facet facet) {
