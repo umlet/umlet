@@ -63,6 +63,10 @@ public abstract class Settings {
 		return AlignHorizontal.CENTER;
 	}
 
+	public boolean printText() {
+		return true;
+	}
+
 	public abstract ElementStyleEnum getElementStyle();
 
 	/**
@@ -119,10 +123,6 @@ public abstract class Settings {
 	public final List<GlobalFacet> getGlobalFacets() {
 		initFacets();
 		return globalFacets;
-	}
-
-	public boolean printText() {
-		return true;
 	}
 
 }
