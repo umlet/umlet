@@ -1,7 +1,6 @@
 package com.baselet.element;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -10,7 +9,6 @@ import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.ElementStyle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.Facet;
-import com.baselet.element.facet.GlobalFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 
@@ -34,7 +32,7 @@ public class PropertiesParser {
 		List<String> propertiesText = element.getPanelAttributesAsList();
 		autoresizeAnalysis(element, state.getSettings(), propertiesText); // at first handle autoresize (which possibly changes elementsize)
 		state.resetValues(element.getRealSize()); // now that the element size is known, reset the state with it
-		List<String> propTextWithoutGobalFacets = parseGlobalFacets(propertiesText, state.getSettings().getGlobalFacets(), state, element.getDrawer()); // must be before element.drawCommonContent (because bg=... and other settings are set here)
+		List<String> propTextWithoutGobalFacets = parseFacets(state.getSettings().getGlobalFacets(), propertiesText, element.getDrawer(), state); // must be before element.drawCommonContent (because bg=... and other settings are set here)
 		element.resetMetaDrawerAndDrawCommonContent(); // draw common content like border around classes
 		drawPropertiesWithoutGlobalFacets(propTextWithoutGobalFacets, element.getDrawer(), state); // iterate over propertiestext and draw text and resolve localfacets
 	}
@@ -42,7 +40,7 @@ public class PropertiesParser {
 	private static void autoresizeAnalysis(NewGridElement element, Settings settings, List<String> propertiesText) {
 		DrawHandler pseudoDrawer = element.getDrawer().getPseudoDrawHandler();
 		PropertiesParserState tmpstate = new PropertiesParserState(settings, element.getRealSize()); // we use a tmpstate to parse global facets to see if autoresize is enabled
-		List<String> tmpPropTextWithoutGlobalFacets = parseGlobalFacets(propertiesText, tmpstate.getSettings().getGlobalFacets(), tmpstate, pseudoDrawer);
+		List<String> tmpPropTextWithoutGlobalFacets = parseFacets(tmpstate.getSettings().getGlobalFacets(), propertiesText, pseudoDrawer, tmpstate);
 
 		if (tmpstate.getElementStyle() == ElementStyle.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
 			element.drawCommonContent(pseudoDrawer, tmpstate);
@@ -53,24 +51,9 @@ public class PropertiesParser {
 		}
 	}
 
-	private static List<String> parseGlobalFacets(List<String> propertiesText, List<GlobalFacet> list, PropertiesParserState state, DrawHandler drawer) {
-		List<String> propertiesCopy = new ArrayList<String>(propertiesText);
-		for (GlobalFacet facet : list) {
-			for (Iterator<String> iter = propertiesCopy.iterator(); iter.hasNext();) {
-				String line = iter.next();
-				boolean facetUsed = parseFacets(Arrays.asList(facet), line, drawer, state);
-				if (facetUsed) {
-					iter.remove();
-				}
-			}
-		}
-		state.informAndClearUsedFacets(drawer);
-		return propertiesCopy;
-	}
-
 	private static void drawPropertiesWithoutGlobalFacets(List<String> propertiesTextWithoutGobalFacets, DrawHandler drawer, PropertiesParserState state) {
 		state.addToYPos(calcStartPointFromVAlign(propertiesTextWithoutGobalFacets, drawer, state));
-		handleProperties(propertiesTextWithoutGobalFacets, state.getSettings().getLocalFacets(), drawer, state);
+		parseFacets(state.getSettings().getLocalFacets(), propertiesTextWithoutGobalFacets, drawer, state);
 	}
 
 	private static double calcStartPointFromVAlign(List<String> propertiesText, DrawHandler drawer, PropertiesParserState state) {
@@ -90,26 +73,25 @@ public class PropertiesParser {
 	private static double getTextBlockHeight(List<String> propertiesText, DrawHandler drawer, PropertiesParserState state) {
 		PropertiesParserState tmpstate = new PropertiesParserState(state.getSettings(), state.getGridElementSize()); // a dummy state copy is used for calculation to make sure the textBlockHeight calculation doesn't change the real state
 		tmpstate.setElementStyle(state.getElementStyle()); // elementstyle is important for calculation (because of wordwrap)
-		handleProperties(propertiesText, tmpstate.getSettings().getLocalFacets(), drawer.getPseudoDrawHandler(), tmpstate);
+		parseFacets(tmpstate.getSettings().getLocalFacets(), propertiesText, drawer.getPseudoDrawHandler(), tmpstate);
 		return tmpstate.getyPos();
 	}
 
-	private static void handleProperties(List<String> propertiesText, List<Facet> facets, DrawHandler drawer, PropertiesParserState state) {
-		for (String line : propertiesText) {
-			parseFacets(facets, line, drawer, state);
-		}
-		state.informAndClearUsedFacets(drawer);
-	}
-
-	private static boolean parseFacets(List<? extends Facet> facets, String line, DrawHandler drawer, PropertiesParserState state) {
-		for (Facet f : facets) {
-			if (f.checkStart(line, state)) {
-				f.handleLine(line, drawer, state);
-				state.addUsedFacet(f);
-				return true;
+	private static List<String> parseFacets(List<? extends Facet> facets, List<String> properties, DrawHandler drawer, PropertiesParserState state) {
+		List<String> unusedProperties = new ArrayList<String>(properties);
+		for (Iterator<String> iter = unusedProperties.iterator(); iter.hasNext();) {
+			String line = iter.next();
+			for (Facet f : facets) {
+				if (f.checkStart(line, state)) {
+					f.handleLine(line, drawer, state);
+					state.addUsedFacet(f);
+					iter.remove();
+					break; // once a facet has consumed a line, no other facet can
+				}
 			}
 		}
-		return false;
+		state.informAndClearUsedFacets(drawer);
+		return unusedProperties;
 	}
 
 }

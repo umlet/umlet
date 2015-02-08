@@ -33,8 +33,7 @@ public class LineTypeFacet extends GlobalKeyValueFacet {
 				lt = s;
 			}
 		}
-		if (lt == null)
-		{
+		if (lt == null) {
 			throw new RuntimeException(); // will be translated to usage message
 		}
 		drawer.setLineType(lt);
