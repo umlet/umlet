@@ -1,5 +1,6 @@
 package com.baselet.element.facet.common;
 
+import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.facet.KeyValueFacet;

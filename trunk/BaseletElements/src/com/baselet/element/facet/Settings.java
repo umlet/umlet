@@ -9,6 +9,7 @@ import java.util.List;
 import com.baselet.control.basics.XValues;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
+import com.baselet.control.enums.ElementStyle;
 import com.baselet.element.facet.common.BackgroundColorFacet;
 import com.baselet.element.facet.common.ElementStyleFacet;
 import com.baselet.element.facet.common.FontSizeFacet;
@@ -64,7 +65,7 @@ public abstract class Settings {
 		return AlignHorizontal.CENTER;
 	}
 
-	public abstract ElementStyleEnum getElementStyle();
+	public abstract ElementStyle getElementStyle();
 
 	/**
 	 * facets are checked and applied during text parsing.

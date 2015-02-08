@@ -22,11 +22,11 @@ import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
+import com.baselet.control.enums.ElementStyle;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.element.facet.ElementStyleEnum;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.GlobalFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -208,7 +208,7 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public Set<Direction> getResizeArea(int x, int y) {
 		Set<Direction> returnSet = new HashSet<Direction>();
-		if (state.getElementStyle() == ElementStyleEnum.NORESIZE || state.getElementStyle() == ElementStyleEnum.AUTORESIZE) {
+		if (state.getElementStyle() == ElementStyle.NORESIZE || state.getElementStyle() == ElementStyle.AUTORESIZE) {
 			return returnSet;
 		}
 

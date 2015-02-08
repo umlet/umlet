@@ -27,7 +27,7 @@ public class InnerClassFacet extends Facet {
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
-		return line.equals(START) || !getOrInit(state).isEmpty();
+		return line.equals(START) || line.equals(END);
 	}
 
 	@Override
@@ -66,11 +66,6 @@ public class InnerClassFacet extends Facet {
 
 	private Stack<ClassSettings> getOrInit(PropertiesParserState state) {
 		return state.getOrInitFacetResponse(InnerClassFacet.class, new Stack<ClassSettings>());
-	}
-
-	@Override
-	public boolean removeTextAfterHandling(String line) {
-		return line.equals(START) || line.equals(END); // only these 2 lines should be removed
 	}
 
 	private static class ClassSettings {
