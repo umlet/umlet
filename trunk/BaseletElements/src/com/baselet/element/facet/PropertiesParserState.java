@@ -37,6 +37,16 @@ public class PropertiesParserState {
 	private final Map<Class<? extends Facet>, Object> facetResponse = new HashMap<Class<? extends Facet>, Object>();
 	private final List<Facet> usedFacets = new ArrayList<Facet>();
 
+	private double textBlockHeight;
+
+	public void setTextBlockHeight(double textBlockHeight) {
+		this.textBlockHeight = textBlockHeight;
+	}
+
+	public double getTextBlockHeight() {
+		return textBlockHeight;
+	}
+
 	public PropertiesParserState(Settings settings) {
 		this.settings = settings;
 	}
