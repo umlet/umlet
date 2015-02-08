@@ -4,10 +4,10 @@ import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.element.facet.KeyValueFacet;
+import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class ForegroundColorFacet extends KeyValueFacet {
+public class ForegroundColorFacet extends GlobalKeyValueFacet {
 
 	public static final ForegroundColorFacet INSTANCE = new ForegroundColorFacet();
 

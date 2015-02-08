@@ -14,7 +14,7 @@ import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 import com.baselet.element.facet.common.SeparatorLineFacet;
 import com.baselet.element.facet.common.TextBeforeFirstSeparatorCollectorFacet;
-import com.baselet.element.facet.common.TextBeforeFirstSeparatorCollectorFacet.PackageTitleFacetResponse;
+import com.baselet.element.facet.common.TextBeforeFirstSeparatorCollectorFacet.TextBeforeFirstSeparatorCollectorFacetResponse;
 import com.baselet.element.settings.SettingsManualResizeTop;
 
 public class Frame extends NewGridElement {
@@ -38,7 +38,7 @@ public class Frame extends NewGridElement {
 	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
 		drawer.drawRectangle(0, 0, getRealSize().getWidth(), getRealSize().getHeight());
 
-		PackageTitleFacetResponse packageTitleResponse = state.getFacetResponse(TextBeforeFirstSeparatorCollectorFacet.class, null);
+		TextBeforeFirstSeparatorCollectorFacetResponse packageTitleResponse = state.getFacetResponse(TextBeforeFirstSeparatorCollectorFacet.class, null);
 		if (packageTitleResponse != null) {
 			double top = state.getTopBuffer();
 			double textDistanceToTop = drawer.getDistanceBorderToText() + top;

@@ -3,10 +3,10 @@ package com.baselet.element.facet.common;
 import com.baselet.control.enums.ElementStyle;
 import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.facet.KeyValueFacet;
+import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class ElementStyleFacet extends KeyValueFacet {
+public class ElementStyleFacet extends GlobalKeyValueFacet {
 
 	public static final ElementStyleFacet INSTANCE = new ElementStyleFacet();
 

@@ -3,10 +3,10 @@ package com.baselet.element.facet.common;
 import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.facet.KeyValueFacet;
+import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class LineWidthFacet extends KeyValueFacet {
+public class LineWidthFacet extends GlobalKeyValueFacet {
 
 	public static final LineWidthFacet INSTANCE = new LineWidthFacet();
 

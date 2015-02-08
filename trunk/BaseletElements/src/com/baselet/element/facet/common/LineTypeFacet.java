@@ -6,10 +6,10 @@ import java.util.List;
 import com.baselet.control.enums.LineType;
 import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.facet.KeyValueFacet;
+import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class LineTypeFacet extends KeyValueFacet {
+public class LineTypeFacet extends GlobalKeyValueFacet {
 
 	public static final LineTypeFacet INSTANCE = new LineTypeFacet();
 

@@ -6,10 +6,10 @@ import java.util.List;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.element.facet.KeyValueFacet;
+import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class UpperRightSymbolFacet extends KeyValueFacet {
+public class UpperRightSymbolFacet extends GlobalKeyValueFacet {
 
 	public static final UpperRightSymbolFacet INSTANCE = new UpperRightSymbolFacet();
 
