@@ -58,7 +58,7 @@ public class PropertiesParser {
 
 	private static double calcTextBlockHeight(List<String> propertiesText, DrawHandler drawer, PropertiesParserState state) {
 		PropertiesParserState tmpstate = new PropertiesParserState(state.getSettings(), state.getGridElementSize()); // a dummy state copy is used for calculation to make sure the textBlockHeight calculation doesn't change the real state
-		tmpstate.setFacetResponse(TextPrintFacet.class, false); // avoid initial ypos manipulation for text-block-height calculation
+		tmpstate.setFacetResponse(TextPrintFacet.class, false); // avoid initial ypos manipulation for text-block-height calculation, because for height calculations it's not important at which y-pos the textblock is located, only the height is important
 		tmpstate.setElementStyle(state.getElementStyle()); // elementstyle is important for calculation (because of wordwrap)
 		parseFacets(tmpstate.getSettings().getLocalFacets(), propertiesText, drawer.getPseudoDrawHandler(), tmpstate);
 		return tmpstate.getyPos();
