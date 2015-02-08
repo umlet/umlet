@@ -47,7 +47,7 @@ public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 
 	@Override
 	public Priority getPriority() {
-		return Priority.LOWER; // the collector should only collect lines which are not parsed by any other facet (only the default text printing has a lower prio)
+		return Priority.LOW; // the collector should only collect lines which are not parsed by any other facet (only the default text printing has a lower prio)
 	}
 
 	private PackageTitleFacetResponse getOrInit(PropertiesParserState state) {
