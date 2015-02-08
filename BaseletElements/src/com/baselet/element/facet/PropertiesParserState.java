@@ -23,13 +23,10 @@ public class PropertiesParserState {
 
 	private final Settings settings;
 
-	private AlignHorizontal hAlign;
-	private boolean hAlignGloballySet;
-	private AlignVertical vAlign;
-	private boolean vAlignGloballySet;
+	private Alignment alignment;
 	private double yPos; // the current y position for drawing text, separator-lines and other properties-text-related stuff
 	private double calculatedElementWidth;
-	private Buffer buffer = new Buffer();
+	private Buffer buffer;
 	private Dimension gridElementSize;
 	private ElementStyle elementStyle;
 	private StickingPolygonGenerator stickingPolygonGenerator = SimpleStickingPolygonGenerator.INSTANCE;
@@ -42,10 +39,7 @@ public class PropertiesParserState {
 	}
 
 	public void resetValues(Dimension gridElementSize) {
-		hAlign = settings.getHAlign();
-		hAlignGloballySet = false;
-		vAlign = settings.getVAlign();
-		vAlignGloballySet = false;
+		alignment = new Alignment(settings);
 		yPos = 0;
 		calculatedElementWidth = 0;
 		buffer = new Buffer();
@@ -57,43 +51,8 @@ public class PropertiesParserState {
 		usedFacets.clear();
 	}
 
-	public AlignHorizontal gethAlign() {
-		return hAlign;
-	}
-
-	public void sethAlign(AlignHorizontal hAlign) {
-		if (!hAlignGloballySet) {
-			this.hAlign = hAlign;
-		}
-	}
-
-	public void sethAlignGlobally(AlignHorizontal hAlign) {
-		hAlignGloballySet = true;
-		this.hAlign = hAlign;
-	}
-
-	public void setvAlignGlobally(AlignVertical vAlign) {
-		vAlignGloballySet = true;
-		this.vAlign = vAlign;
-	}
-
-	public void resetAlign() {
-		if (!hAlignGloballySet) {
-			hAlign = settings.getHAlign();
-		}
-		if (!vAlignGloballySet) {
-			vAlign = settings.getVAlign();
-		}
-	}
-
-	public AlignVertical getvAlign() {
-		return vAlign;
-	}
-
-	public void setvAlign(AlignVertical vAlign) {
-		if (!vAlignGloballySet) {
-			this.vAlign = vAlign;
-		}
+	public Alignment getAlignment() {
+		return alignment;
 	}
 
 	public double getYPos() {

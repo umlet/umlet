@@ -22,7 +22,7 @@ public class HorizontalAlignFacet extends GlobalKeyValueFacet {
 
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
-		state.sethAlignGlobally(AlignHorizontal.valueOf(value.toUpperCase()));
+		state.getAlignment().setHorizontal(true, AlignHorizontal.valueOf(value.toUpperCase()));
 	}
 
 	@Override

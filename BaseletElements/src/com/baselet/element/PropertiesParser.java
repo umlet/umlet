@@ -43,7 +43,7 @@ public class PropertiesParser {
 			parseFacets(tmpstate.getSettings().getLocalFacets(), tmpPropTextWithoutGlobalFacets, pseudoDrawer, tmpstate);
 			double textHeight = tmpstate.getYPosWithTopBuffer() - pseudoDrawer.textHeightMax(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
 			double width = tmpstate.getCalculatedElementWidth();
-			element.handleAutoresize(new DimensionDouble(width, textHeight), tmpstate.gethAlign());
+			element.handleAutoresize(new DimensionDouble(width, textHeight), tmpstate.getAlignment().getHorizontal());
 		}
 	}
 

@@ -53,7 +53,7 @@ public class TextPrintFacet extends Facet {
 		if (!spaceNotUsedForText.equals(Double.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
 			state.updateCalculatedElementWidth(spaceNotUsedForText + drawer.textWidth(line));
 		}
-		AlignHorizontal hAlign = state.gethAlign();
+		AlignHorizontal hAlign = state.getAlignment().getHorizontal();
 		drawer.print(line, calcHorizontalTextBoundaries(xLimitsForText, drawer.getDistanceBorderToText(), hAlign), state.getYPosWithTopBuffer(), hAlign);
 		state.addToYPos(drawer.textHeightMaxWithSpace());
 	}
@@ -72,10 +72,10 @@ public class TextPrintFacet extends Facet {
 
 	private static double calcStartPointFromVAlign(DrawHandler drawer, PropertiesParserState state) {
 		double returnVal = drawer.textHeightMax(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
-		if (state.getvAlign() == AlignVertical.TOP) {
+		if (state.getAlignment().getVertical() == AlignVertical.TOP) {
 			returnVal += drawer.getDistanceBorderToText() + state.getBuffer().getTop();
 		}
-		else if (state.getvAlign() == AlignVertical.CENTER) {
+		else if (state.getAlignment().getVertical() == AlignVertical.CENTER) {
 			returnVal += (state.getGridElementSize().height - state.getTextBlockHeight()) / 2 + state.getBuffer().getTop() / 2;
 		}
 		else /* if (state.getvAlign() == AlignVertical.BOTTOM) */{

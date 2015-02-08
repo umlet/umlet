@@ -12,7 +12,7 @@ public class SeparatorLineWithHalignChangeFacet extends SeparatorLineFacet {
 
 	@Override
 	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
-		state.sethAlign(AlignHorizontal.LEFT);
+		state.getAlignment().setHorizontal(false, AlignHorizontal.LEFT);
 		super.handleLine(line, drawer, state);
 	}
 
