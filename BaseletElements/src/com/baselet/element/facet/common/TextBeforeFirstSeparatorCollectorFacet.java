@@ -31,7 +31,7 @@ public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 	}
 
 	@Override
-	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
+	public void handleLine(String line, PropertiesParserState state) {
 		if (line.equals(SeparatorLineFacet.KEY)) {
 			getOrInit(state).firstSepFound = true;
 			return;

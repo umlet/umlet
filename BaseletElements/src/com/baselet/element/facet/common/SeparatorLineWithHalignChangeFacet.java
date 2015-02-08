@@ -1,7 +1,6 @@
 package com.baselet.element.facet.common;
 
 import com.baselet.control.enums.AlignHorizontal;
-import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.PropertiesParserState;
 
 public class SeparatorLineWithHalignChangeFacet extends SeparatorLineFacet {
@@ -11,9 +10,9 @@ public class SeparatorLineWithHalignChangeFacet extends SeparatorLineFacet {
 	private SeparatorLineWithHalignChangeFacet() {}
 
 	@Override
-	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
+	public void handleLine(String line, PropertiesParserState state) {
 		state.getAlignment().setHorizontal(false, AlignHorizontal.LEFT);
-		super.handleLine(line, drawer, state);
+		super.handleLine(line, state);
 	}
 
 }

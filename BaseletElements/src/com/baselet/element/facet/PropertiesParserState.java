@@ -20,6 +20,7 @@ import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
 public class PropertiesParserState {
 
 	private final Settings settings;
+	private final DrawHandler drawer;
 
 	private Alignment alignment;
 	private double textPrintPosition; // the current y position for drawing text, separator-lines and other properties-text-related stuff
@@ -32,8 +33,9 @@ public class PropertiesParserState {
 	private final Map<Class<? extends Facet>, Object> facetResponse = new HashMap<Class<? extends Facet>, Object>();
 	private final List<Facet> usedFacets = new ArrayList<Facet>();
 
-	public PropertiesParserState(Settings settings) {
+	public PropertiesParserState(Settings settings, DrawHandler drawer) {
 		this.settings = settings;
+		this.drawer = drawer;
 	}
 
 	public void resetValues(Dimension gridElementSize) {
@@ -109,6 +111,10 @@ public class PropertiesParserState {
 		return settings;
 	}
 
+	public DrawHandler getDrawer() {
+		return drawer;
+	}
+
 	@SuppressWarnings("unchecked")
 	public <T> T getFacetResponse(Class<? extends Facet> facetClass, T defaultValue) {
 		T mapValue = (T) facetResponse.get(facetClass);
@@ -150,15 +156,15 @@ public class PropertiesParserState {
 		}
 	}
 
-	public void informAndClearUsedFacets(DrawHandler drawer) {
+	public void informAndClearUsedFacets() {
 		for (Facet f : usedFacets) {
-			f.parsingFinished(drawer, this);
+			f.parsingFinished(this);
 		}
 		usedFacets.clear();
 	}
 
 	public PropertiesParserState dummyCopy(Dimension gridElementSize) {
-		PropertiesParserState copy = new PropertiesParserState(settings);
+		PropertiesParserState copy = new PropertiesParserState(settings, drawer.getPseudoDrawHandler());
 		copy.resetValues(gridElementSize);
 		copy.setElementStyle(getElementStyle()); // elementstyle is important for calculation (because of wordwrap)
 		return copy;

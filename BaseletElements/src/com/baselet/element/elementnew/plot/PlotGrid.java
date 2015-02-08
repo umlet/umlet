@@ -46,7 +46,7 @@ public class PlotGrid extends NewGridElement {
 	 */
 	public static final GlobalFacet PSEUDO_PLOT_FACET = new GlobalFacet() {
 		@Override
-		public void handleLine(String line, DrawHandler drawer, PropertiesParserState propConfig) {
+		public void handleLine(String line, PropertiesParserState propConfig) {
 			// do nothing
 		}
 

@@ -32,8 +32,9 @@ public class InnerClassFacet extends Facet {
 	}
 
 	@Override
-	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
+	public void handleLine(String line, PropertiesParserState state) {
 		Stack<ClassSettings> innerClassStartPoints = getOrInit(state);
+		DrawHandler drawer = state.getDrawer();
 
 		if (line.equals(START)) {
 			ClassSettings settings = new ClassSettings(state.getAlignment().getHorizontal(), state.getAlignment().getVertical(), getDividerPos(drawer, state));
