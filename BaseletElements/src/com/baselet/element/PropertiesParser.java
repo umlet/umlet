@@ -11,11 +11,8 @@ import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
 
 /**
- * The PropertiesParser analyzes the Properties and the Settings (therefore also the Facets) of a GridElement.
- * It changes several things of the GridElement:
- * a. The state of the DrawHandler of the element including printing the main-text of the element and executing several facet commands (e.g. -- should be drawn as a horizontal line)
- * b. The PropertiesParserState which is mainly used during the parsing, but also important for the GridElement to recognize the currently set ElementStyle, BackgroundColor and more.
- * c. The size of the GridElement if the ElementStyle facet is set to AUTORESIZE
+ * The PropertiesParser analyzes the Properties and the Facets of a GridElement and handles AUTORESIZE
+ * The Facets typically manipulates the DrawHandler state by executing the drawing methods (e.g. printing the main-text of the element, transforming -- to a horizontal line, ...)
  *
  * A summary of the process is the following:
  * 1. check if the ElementStyle property is set to AUTORESIZE.
@@ -31,8 +28,9 @@ public class PropertiesParser {
 		autoresizeAnalysis(element, state, propertiesText); // at first handle autoresize (which possibly changes elementsize)
 		state.resetValues(element.getRealSize()); // now that the element size is known, reset the state with it
 		List<String> propTextWithoutGobalFacets = parseFacets(state.getSettings().getGlobalFacets(), propertiesText, element.getDrawer(), state); // must be before element.drawCommonContent (because bg=... and other settings are set here)
+		state.setTextBlockHeight(calcTextBlockHeight(propTextWithoutGobalFacets, element.getDrawer(), state)); // calc the total size of the textblock (necessary for text printing with valign!=top)
 		element.resetMetaDrawerAndDrawCommonContent(); // draw common content like border around classes
-		drawPropertiesWithoutGlobalFacets(propTextWithoutGobalFacets, element.getDrawer(), state); // iterate over propertiestext and draw text and resolve localfacets
+		parseFacets(state.getSettings().getLocalFacets(), propTextWithoutGobalFacets, element.getDrawer(), state); // iterate over propertiestext and draw text and resolve localfacets
 	}
 
 	private static void autoresizeAnalysis(NewGridElement element, PropertiesParserState state, List<String> propertiesText) {
@@ -42,16 +40,11 @@ public class PropertiesParser {
 
 		if (tmpstate.getElementStyle() == ElementStyle.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
 			element.drawCommonContent(pseudoDrawer, tmpstate);
-			drawPropertiesWithoutGlobalFacets(tmpPropTextWithoutGlobalFacets, pseudoDrawer, tmpstate);
+			parseFacets(tmpstate.getSettings().getLocalFacets(), tmpPropTextWithoutGlobalFacets, pseudoDrawer, tmpstate);
 			double textHeight = tmpstate.getYPosWithTopBuffer() - pseudoDrawer.textHeightMax(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
 			double width = tmpstate.getCalculatedElementWidth();
 			element.handleAutoresize(new DimensionDouble(width, textHeight), tmpstate.gethAlign());
 		}
-	}
-
-	private static void drawPropertiesWithoutGlobalFacets(List<String> propertiesTextWithoutGobalFacets, DrawHandler drawer, PropertiesParserState state) {
-		state.setTextBlockHeight(calcTextBlockHeight(propertiesTextWithoutGobalFacets, drawer, state));
-		parseFacets(state.getSettings().getLocalFacets(), propertiesTextWithoutGobalFacets, drawer, state);
 	}
 
 	private static double calcTextBlockHeight(List<String> propertiesText, DrawHandler drawer, PropertiesParserState state) {
