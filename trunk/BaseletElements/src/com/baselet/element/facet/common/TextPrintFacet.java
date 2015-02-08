@@ -39,8 +39,8 @@ public class TextPrintFacet extends Facet {
 
 	private static void printLineWithWordWrap(String line, DrawHandler drawer, PropertiesParserState state) {
 		String wrappedLine;
-		while (state.getyPos() < state.getGridElementSize().height && !line.trim().isEmpty()) {
-			double spaceForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeightMax(), false).getSpace() - drawer.getDistanceBorderToText() * 2;
+		while (state.getYPosWithTopBuffer() < state.getGridElementSize().height && !line.trim().isEmpty()) {
+			double spaceForText = state.getXLimitsForArea(state.getYPosWithTopBuffer(), drawer.textHeightMax(), false).getSpace() - drawer.getDistanceBorderToText() * 2;
 			wrappedLine = TextSplitter.splitString(line, spaceForText, drawer);
 			printLine(wrappedLine, drawer, state);
 			line = line.substring(wrappedLine.length()).trim();
@@ -48,13 +48,13 @@ public class TextPrintFacet extends Facet {
 	}
 
 	private static void printLine(String line, DrawHandler drawer, PropertiesParserState state) {
-		XValues xLimitsForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeightMax(), false);
+		XValues xLimitsForText = state.getXLimitsForArea(state.getYPosWithTopBuffer(), drawer.textHeightMax(), false);
 		Double spaceNotUsedForText = state.getGridElementSize().width - xLimitsForText.getSpace();
 		if (!spaceNotUsedForText.equals(Double.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
 			state.updateCalculatedElementWidth(spaceNotUsedForText + drawer.textWidth(line));
 		}
 		AlignHorizontal hAlign = state.gethAlign();
-		drawer.print(line, calcHorizontalTextBoundaries(xLimitsForText, drawer.getDistanceBorderToText(), hAlign), state.getyPos(), hAlign);
+		drawer.print(line, calcHorizontalTextBoundaries(xLimitsForText, drawer.getDistanceBorderToText(), hAlign), state.getYPosWithTopBuffer(), hAlign);
 		state.addToYPos(drawer.textHeightMaxWithSpace());
 	}
 
@@ -64,9 +64,8 @@ public class TextPrintFacet extends Facet {
 	private static void setupAtFirstLine(String line, DrawHandler drawer, PropertiesParserState state) {
 		boolean isFirstPrintedLine = state.getFacetResponse(TextPrintFacet.class, true);
 		if (isFirstPrintedLine) {
-			System.out.println(state.getGridElementSize().height + "////" + state.getTextBlockHeight());
-			state.addToYPos(calcStartPointFromVAlign(drawer, state));
-			calcTopDisplacementToFitLine(line, state, drawer);
+			state.setMinTopBuffer(calcStartPointFromVAlign(drawer, state));
+			state.setMinTopBuffer(calcTopDisplacementToFitLine(line, state, drawer));
 			state.setFacetResponse(TextPrintFacet.class, false);
 		}
 	}
@@ -89,13 +88,14 @@ public class TextPrintFacet extends Facet {
 	 * Calculates the necessary y-pos space to make the first line fit the xLimits of the element
 	 * Currently only used by UseCase element to make sure the first line is moved down as long as it doesn't fit into the available space
 	 */
-	private static void calcTopDisplacementToFitLine(String firstLine, PropertiesParserState state, DrawHandler drawer) {
+	private static double calcTopDisplacementToFitLine(String firstLine, PropertiesParserState state, DrawHandler drawer) {
+		double displacement = 0;
 		boolean wordwrap = state.getElementStyle() == ElementStyle.WORDWRAP;
 		if (!wordwrap) { // in case of wordwrap or no text, there is no top displacement
 			int BUFFER = 2; // a small buffer between text and outer border
 			double textHeight = drawer.textHeightMax();
 			double addedSpacePerIteration = textHeight / 2;
-			double yPosToCheck = state.getyPos();
+			double yPosToCheck = state.getYPosWithTopBuffer();
 			double availableWidthSpace = state.getXLimitsForArea(yPosToCheck, textHeight, true).getSpace() - BUFFER;
 			int maxLoops = 1000;
 			while (yPosToCheck < state.getGridElementSize().height && !TextSplitter.checkifStringFits(firstLine, availableWidthSpace, drawer)) {
@@ -107,10 +107,11 @@ public class TextPrintFacet extends Facet {
 				availableWidthSpace = state.getXLimitsForArea(yPosToCheck, textHeight, true).getSpace() - BUFFER;
 				// only set displacement if the last iteration resulted in a space gain (eg: for UseCase until the middle, for Class: stays on top because on a rectangle there is never a width-space gain)
 				if (availableWidthSpace > previousWidthSpace) {
-					state.addToYPos(addedSpacePerIteration);
+					displacement += addedSpacePerIteration;
 				}
 			}
 		}
+		return displacement;
 	}
 
 	private static double calcHorizontalTextBoundaries(XValues xLimitsForText, double distanceBorderToText, AlignHorizontal hAlign) {

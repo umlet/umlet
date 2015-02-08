@@ -27,9 +27,9 @@ public class PropertiesParserState {
 	private boolean hAlignGloballySet;
 	private AlignVertical vAlign;
 	private boolean vAlignGloballySet;
-	private double yPos;
+	private double yPos; // the current y position for drawing text, separator-lines and other properties-text-related stuff
 	private double calculatedElementWidth;
-	private double topBuffer;
+	private double topBuffer; // the top space where no text should be placed (e.g. the upper left rectangle of the Package element)
 	private double leftBuffer;
 	private double rightBuffer;
 	private Dimension gridElementSize;
@@ -110,18 +110,22 @@ public class PropertiesParserState {
 		}
 	}
 
-	public double getyPos() {
+	public double getYPos() {
 		return yPos;
+	}
+
+	public double getYPosWithTopBuffer() {
+		return yPos + topBuffer;
 	}
 
 	public void addToYPos(double inc) {
 		yPos += inc;
 	}
 
-	public void addToTopBuffer(double inc) {
-		topBuffer += inc;
-	}
-
+	/**
+	 * sets the required top buffer. it is always the max from this or the previous buffer, because the facets are independent from each other
+	 * if one required 20px and the other 10px, in general 20px are required to satisfy the requirements of both facets
+	 */
 	public void setMinTopBuffer(double minimum) {
 		topBuffer = Math.max(topBuffer, minimum);
 	}

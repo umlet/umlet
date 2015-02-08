@@ -21,7 +21,7 @@ public class SeparatorLineFacet extends Facet {
 
 	@Override
 	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
-		double linePos = state.getyPos() - drawer.textHeightMax() + Y_SPACE / 2;
+		double linePos = state.getYPosWithTopBuffer() - drawer.textHeightMax() + Y_SPACE / 2;
 		XValues xPos = state.getXLimits(linePos);
 		drawer.drawLine(xPos.getLeft() + 0.5, linePos, xPos.getRight() - 1, linePos);
 		state.addToYPos(Y_SPACE);

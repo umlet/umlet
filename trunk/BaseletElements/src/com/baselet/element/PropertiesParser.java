@@ -10,7 +10,6 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
-import com.baselet.element.facet.common.TextPrintFacet;
 
 /**
  * The PropertiesParser analyzes the Properties and the Settings (therefore also the Facets) of a GridElement.
@@ -45,7 +44,7 @@ public class PropertiesParser {
 		if (tmpstate.getElementStyle() == ElementStyle.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
 			element.drawCommonContent(pseudoDrawer, tmpstate);
 			drawPropertiesWithoutGlobalFacets(tmpPropTextWithoutGlobalFacets, pseudoDrawer, tmpstate);
-			double textHeight = tmpstate.getyPos() - pseudoDrawer.textHeightMax(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
+			double textHeight = tmpstate.getYPosWithTopBuffer() - pseudoDrawer.textHeightMax(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
 			double width = tmpstate.getCalculatedElementWidth();
 			element.handleAutoresize(new DimensionDouble(width, textHeight), tmpstate.gethAlign());
 		}
@@ -58,10 +57,9 @@ public class PropertiesParser {
 
 	private static double calcTextBlockHeight(List<String> propertiesText, DrawHandler drawer, PropertiesParserState state) {
 		PropertiesParserState tmpstate = new PropertiesParserState(state.getSettings(), state.getGridElementSize()); // a dummy state copy is used for calculation to make sure the textBlockHeight calculation doesn't change the real state
-		tmpstate.setFacetResponse(TextPrintFacet.class, false); // avoid initial ypos manipulation for text-block-height calculation, because for height calculations it's not important at which y-pos the textblock is located, only the height is important
 		tmpstate.setElementStyle(state.getElementStyle()); // elementstyle is important for calculation (because of wordwrap)
 		parseFacets(tmpstate.getSettings().getLocalFacets(), propertiesText, drawer.getPseudoDrawHandler(), tmpstate);
-		return tmpstate.getyPos();
+		return tmpstate.getYPos();
 	}
 
 	private static List<String> parseFacets(List<? extends Facet> facets, List<String> properties, DrawHandler drawer, PropertiesParserState state) {
