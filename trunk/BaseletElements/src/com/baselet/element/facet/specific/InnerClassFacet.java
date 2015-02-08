@@ -9,6 +9,7 @@ import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.element.facet.Alignment;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.gui.AutocompletionText;
@@ -35,11 +36,11 @@ public class InnerClassFacet extends Facet {
 		Stack<ClassSettings> innerClassStartPoints = getOrInit(state);
 
 		if (line.equals(START)) {
-			ClassSettings settings = new ClassSettings(state.gethAlign(), state.getvAlign(), getDividerPos(drawer, state));
+			ClassSettings settings = new ClassSettings(state.getAlignment().getHorizontal(), state.getAlignment().getVertical(), getDividerPos(drawer, state));
 			innerClassStartPoints.add(settings);
-			state.getBuffer().addToLeftAndRight((double) BUFFER_PIXEL_PER_INNER);
+			state.getBuffer().addToLeftAndRight(BUFFER_PIXEL_PER_INNER);
 			state.addToYPos(H_SPACE);
-			state.resetAlign();
+			state.getAlignment().reset();
 		}
 		else if (line.equals(END)) {
 			ClassSettings previousClassSettings = innerClassStartPoints.pop();
@@ -53,9 +54,10 @@ public class InnerClassFacet extends Facet {
 			drawer.setBackgroundColor(oldColor);
 
 			state.addToYPos(H_SPACE);
-			state.getBuffer().addToLeftAndRight((double) -BUFFER_PIXEL_PER_INNER);
-			state.sethAlign(previousClassSettings.hAlign);
-			state.setvAlign(previousClassSettings.vAlign);
+			state.getBuffer().addToLeftAndRight(-BUFFER_PIXEL_PER_INNER);
+			Alignment alignment = state.getAlignment();
+			alignment.setHorizontal(false, previousClassSettings.hAlign);
+			alignment.setVertical(false, previousClassSettings.vAlign);
 		}
 
 	}

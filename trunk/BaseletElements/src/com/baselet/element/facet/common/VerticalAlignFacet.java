@@ -22,7 +22,7 @@ public class VerticalAlignFacet extends GlobalKeyValueFacet {
 
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
-		state.setvAlignGlobally(AlignVertical.valueOf(value.toUpperCase()));
+		state.getAlignment().setVertical(true, AlignVertical.valueOf(value.toUpperCase()));
 	}
 
 	@Override
