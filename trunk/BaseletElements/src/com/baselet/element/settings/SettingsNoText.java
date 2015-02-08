@@ -17,9 +17,4 @@ public class SettingsNoText extends Settings {
 	protected List<Facet> createFacets() {
 		return Settings.NOTEXT;
 	}
-
-	@Override
-	public boolean printText() {
-		return false;
-	}
 }

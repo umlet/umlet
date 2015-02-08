@@ -2,8 +2,6 @@ package com.baselet.element;
 
 import java.util.List;
 
-import com.baselet.control.basics.XValues;
-import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.element.facet.ElementStyleEnum;
@@ -35,19 +33,5 @@ public class PropertiesParserUtils {
 			}
 		}
 		return displacement;
-	}
-
-	static double calcHorizontalTextBoundaries(XValues xLimitsForText, double distanceBorderToText, AlignHorizontal hAlign) {
-		double x;
-		if (hAlign == AlignHorizontal.LEFT) {
-			x = xLimitsForText.getLeft() + distanceBorderToText;
-		}
-		else if (hAlign == AlignHorizontal.CENTER) {
-			x = xLimitsForText.getSpace() / 2.0 + xLimitsForText.getLeft();
-		}
-		else /* if (state.gethAlign() == AlignHorizontal.RIGHT) */{
-			x = xLimitsForText.getRight() - distanceBorderToText;
-		}
-		return x;
 	}
 }

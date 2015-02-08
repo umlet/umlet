@@ -5,9 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import com.baselet.control.basics.XValues;
 import com.baselet.control.basics.geom.DimensionDouble;
-import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.TextSplitter;
@@ -63,8 +61,8 @@ public class PropertiesParser {
 		for (GlobalFacet facet : list) {
 			for (Iterator<String> iter = propertiesCopy.iterator(); iter.hasNext();) {
 				String line = iter.next();
-				boolean drawText = parseFacets(Arrays.asList(facet), line, drawer, state);
-				if (!drawText || line.startsWith(COMMENT_MARKER)) {
+				boolean facetUsed = parseFacets(Arrays.asList(facet), line, drawer, state);
+				if (facetUsed || line.startsWith(COMMENT_MARKER)) {
 					iter.remove();
 				}
 			}
@@ -107,7 +105,7 @@ public class PropertiesParser {
 				handleLineWithWordWrap(facets, line, drawer, state);
 			}
 			else {
-				handleLine(facets, line, drawer, state);
+				parseFacets(facets, line, drawer, state);
 			}
 		}
 		state.informAndClearUsedFacets(drawer);
@@ -118,39 +116,22 @@ public class PropertiesParser {
 		while (state.getyPos() < state.getGridElementSize().height && !line.trim().isEmpty()) {
 			double spaceForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeightMax(), false).getSpace() - drawer.getDistanceBorderToText() * 2;
 			wrappedLine = TextSplitter.splitString(line, spaceForText, drawer);
-			handleLine(facets, wrappedLine, drawer, state);
+			parseFacets(facets, wrappedLine, drawer, state);
 			line = line.substring(wrappedLine.length()).trim();
 		}
 	}
 
-	private static void handleLine(List<Facet> facets, String line, DrawHandler drawer, PropertiesParserState state) {
-		boolean drawText = parseFacets(facets, line, drawer, state);
-		if (drawText) {
-			XValues xLimitsForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeightMax(), false);
-			Double spaceNotUsedForText = state.getGridElementSize().width - xLimitsForText.getSpace();
-			if (!spaceNotUsedForText.equals(Double.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
-				state.updateCalculatedElementWidth(spaceNotUsedForText + drawer.textWidth(line));
-			}
-			if (state.getSettings().printText()) {
-				AlignHorizontal hAlign = state.gethAlign();
-				drawer.print(line, PropertiesParserUtils.calcHorizontalTextBoundaries(xLimitsForText, drawer.getDistanceBorderToText(), hAlign), state.getyPos(), hAlign);
-			}
-			state.addToYPos(drawer.textHeightMaxWithSpace());
-		}
-	}
-
 	private static boolean parseFacets(List<? extends Facet> facets, String line, DrawHandler drawer, PropertiesParserState state) {
-		boolean drawText = true;
 		for (Facet f : facets) {
 			if (f.checkStart(line, state)) {
 				f.handleLine(line, drawer, state);
-				if (f.removeTextAfterHandling(line)) {
-					drawText = false;
-				}
 				state.addUsedFacet(f);
+				if (f.removeTextAfterHandling(line)) {
+					return true;
+				}
 			}
 		}
-		return drawText;
+		return false;
 	}
 
 }
