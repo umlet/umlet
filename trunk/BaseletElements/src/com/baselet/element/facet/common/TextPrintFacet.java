@@ -64,8 +64,8 @@ public class TextPrintFacet extends Facet {
 	private static void setupAtFirstLine(String line, DrawHandler drawer, PropertiesParserState state) {
 		boolean isFirstPrintedLine = state.getFacetResponse(TextPrintFacet.class, true);
 		if (isFirstPrintedLine) {
-			state.setMinTopBuffer(calcStartPointFromVAlign(drawer, state));
-			state.setMinTopBuffer(calcTopDisplacementToFitLine(line, state, drawer));
+			state.getBuffer().setTopMin(calcStartPointFromVAlign(drawer, state));
+			state.getBuffer().setTopMin(calcTopDisplacementToFitLine(line, state, drawer));
 			state.setFacetResponse(TextPrintFacet.class, false);
 		}
 	}
@@ -73,10 +73,10 @@ public class TextPrintFacet extends Facet {
 	private static double calcStartPointFromVAlign(DrawHandler drawer, PropertiesParserState state) {
 		double returnVal = drawer.textHeightMax(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
 		if (state.getvAlign() == AlignVertical.TOP) {
-			returnVal += drawer.getDistanceBorderToText() + state.getTopBuffer();
+			returnVal += drawer.getDistanceBorderToText() + state.getBuffer().getTop();
 		}
 		else if (state.getvAlign() == AlignVertical.CENTER) {
-			returnVal += (state.getGridElementSize().height - state.getTextBlockHeight()) / 2 + state.getTopBuffer() / 2;
+			returnVal += (state.getGridElementSize().height - state.getTextBlockHeight()) / 2 + state.getBuffer().getTop() / 2;
 		}
 		else /* if (state.getvAlign() == AlignVertical.BOTTOM) */{
 			returnVal += state.getGridElementSize().height - state.getTextBlockHeight() - drawer.textHeightMax() / 4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
