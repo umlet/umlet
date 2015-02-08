@@ -7,10 +7,10 @@ import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.element.facet.KeyValueFacet;
+import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class SpecialStateTypeFacet extends KeyValueFacet {
+public class SpecialStateTypeFacet extends GlobalKeyValueFacet {
 
 	public static final SpecialStateTypeFacet INSTANCE = new SpecialStateTypeFacet();
 

@@ -16,7 +16,7 @@ public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 
 	protected TextBeforeFirstSeparatorCollectorFacet() {}
 
-	public static class PackageTitleFacetResponse {
+	public static class TextBeforeFirstSeparatorCollectorFacetResponse {
 		private boolean firstSepFound = false;
 		private final List<String> lines = new ArrayList<String>();
 
@@ -51,8 +51,8 @@ public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 		return Priority.LOW; // the collector should only collect lines which are not parsed by any other facet (only the default text printing has a lower prio)
 	}
 
-	private PackageTitleFacetResponse getOrInit(PropertiesParserState state) {
-		return state.getOrInitFacetResponse(TextBeforeFirstSeparatorCollectorFacet.class, new PackageTitleFacetResponse());
+	private TextBeforeFirstSeparatorCollectorFacetResponse getOrInit(PropertiesParserState state) {
+		return state.getOrInitFacetResponse(TextBeforeFirstSeparatorCollectorFacet.class, new TextBeforeFirstSeparatorCollectorFacetResponse());
 	}
 
 }

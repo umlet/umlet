@@ -2,10 +2,10 @@ package com.baselet.element.facet.specific;
 
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.element.facet.KeyValueFacet;
+import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class SubStateSymbolFacet extends KeyValueFacet {
+public class SubStateSymbolFacet extends GlobalKeyValueFacet {
 
 	public static final SubStateSymbolFacet INSTANCE = new SubStateSymbolFacet();
 

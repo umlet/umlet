@@ -6,11 +6,11 @@ import java.util.Map;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
-import com.baselet.element.facet.KeyValueFacet;
+import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.relation.helper.LineDescriptionEnum;
 
-public class DescriptionPositionFacet extends KeyValueFacet {
+public class DescriptionPositionFacet extends GlobalKeyValueFacet {
 
 	private static final int MAX_DISP = 200;
 

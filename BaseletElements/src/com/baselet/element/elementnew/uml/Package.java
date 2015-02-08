@@ -14,7 +14,7 @@ import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 import com.baselet.element.facet.common.SeparatorLineFacet;
 import com.baselet.element.facet.common.TextBeforeFirstSeparatorCollectorFacet;
-import com.baselet.element.facet.common.TextBeforeFirstSeparatorCollectorFacet.PackageTitleFacetResponse;
+import com.baselet.element.facet.common.TextBeforeFirstSeparatorCollectorFacet.TextBeforeFirstSeparatorCollectorFacetResponse;
 import com.baselet.element.settings.SettingsManualresizeCenter;
 import com.baselet.element.sticking.polygon.PointDoubleStickingPolygonGenerator;
 
@@ -58,7 +58,7 @@ public class Package extends NewGridElement {
 
 	private static List<String> getTitleLines(PropertiesParserState state) {
 		List<String> packageTitle;
-		PackageTitleFacetResponse packageTitleResponse = state.getFacetResponse(TextBeforeFirstSeparatorCollectorFacet.class, null);
+		TextBeforeFirstSeparatorCollectorFacetResponse packageTitleResponse = state.getFacetResponse(TextBeforeFirstSeparatorCollectorFacet.class, null);
 		if (packageTitleResponse != null) {
 			packageTitle = packageTitleResponse.getLines();
 		}

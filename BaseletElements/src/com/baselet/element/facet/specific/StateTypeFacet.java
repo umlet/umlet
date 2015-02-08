@@ -5,10 +5,10 @@ import java.util.Arrays;
 import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.facet.KeyValueFacet;
+import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class StateTypeFacet extends KeyValueFacet {
+public class StateTypeFacet extends GlobalKeyValueFacet {
 
 	public static final StateTypeFacet INSTANCE = new StateTypeFacet();
 

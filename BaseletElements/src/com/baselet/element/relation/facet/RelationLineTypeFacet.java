@@ -13,13 +13,13 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.StyleException;
-import com.baselet.element.facet.KeyValueFacet;
+import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.relation.helper.RelationPointHandler;
 import com.baselet.element.relation.helper.ResizableObject;
 import com.baselet.element.sticking.PointDoubleIndexed;
 
-public class RelationLineTypeFacet extends KeyValueFacet {
+public class RelationLineTypeFacet extends GlobalKeyValueFacet {
 
 	private static class Match<T extends RegexValueHolder> {
 		private final String text;

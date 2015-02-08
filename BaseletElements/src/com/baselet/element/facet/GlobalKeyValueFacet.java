@@ -9,7 +9,7 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.gui.AutocompletionText;
 
-public abstract class KeyValueFacet extends GlobalFacet {
+public abstract class GlobalKeyValueFacet extends GlobalFacet {
 
 	public static class KeyValue {
 		private final String key;
