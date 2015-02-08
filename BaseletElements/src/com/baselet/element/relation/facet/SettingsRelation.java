@@ -19,11 +19,6 @@ public abstract class SettingsRelation extends Settings {
 		return Settings.RELATION;
 	}
 
-	@Override
-	public boolean printText() {
-		return false;
-	}
-
 	public abstract RelationPointHandler getRelationPoints();
 
 }

@@ -19,6 +19,7 @@ import com.baselet.element.facet.common.LayerFacet;
 import com.baselet.element.facet.common.LineTypeFacet;
 import com.baselet.element.facet.common.LineWidthFacet;
 import com.baselet.element.facet.common.SeparatorLineFacet;
+import com.baselet.element.facet.common.TextPrintFacet;
 import com.baselet.element.facet.common.VerticalAlignFacet;
 import com.baselet.element.relation.facet.DescriptionPositionFacet;
 import com.baselet.element.relation.facet.LineDescriptionFacet;
@@ -33,8 +34,8 @@ public abstract class Settings {
 	// the following lists are default facet configurations. they are declared here as a simple overview and for easy reuse
 	protected static final List<Facet> NOTEXT = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE);
 	protected static final List<Facet> RELATION = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, DescriptionPositionFacet.INSTANCE_MESSAGE_START, DescriptionPositionFacet.INSTANCE_MESSAGE_END, DescriptionPositionFacet.INSTANCE_ROLE_START, DescriptionPositionFacet.INSTANCE_ROLE_END);
-	protected static final List<Facet> AUTORESIZE = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, SeparatorLineFacet.INSTANCE);
-	protected static final List<Facet> MANUALRESIZE = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, VerticalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
+	protected static final List<Facet> AUTORESIZE = listOf(TextPrintFacet.INSTANCE, BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, SeparatorLineFacet.INSTANCE);
+	protected static final List<Facet> MANUALRESIZE = listOf(TextPrintFacet.INSTANCE, BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, VerticalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
 
 	protected static List<Facet> listOf(Facet... f) {
 		List<Facet> facetList = new ArrayList<Facet>();
@@ -61,10 +62,6 @@ public abstract class Settings {
 
 	public AlignHorizontal getHAlign() {
 		return AlignHorizontal.CENTER;
-	}
-
-	public boolean printText() {
-		return true;
 	}
 
 	public abstract ElementStyleEnum getElementStyle();
