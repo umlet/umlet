@@ -28,6 +28,25 @@ public class TextPrintFacet extends Facet {
 	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
 		setupAtFirstLine(line, drawer, state);
 
+		if (state.getElementStyle() == ElementStyle.WORDWRAP && !line.trim().isEmpty()) { // empty lines are skipped (otherwise they would get lost)
+			printLineWithWordWrap(line, drawer, state);
+		}
+		else {
+			printLine(line, drawer, state);
+		}
+	}
+
+	private static void printLineWithWordWrap(String line, DrawHandler drawer, PropertiesParserState state) {
+		String wrappedLine;
+		while (state.getyPos() < state.getGridElementSize().height && !line.trim().isEmpty()) {
+			double spaceForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeightMax(), false).getSpace() - drawer.getDistanceBorderToText() * 2;
+			wrappedLine = TextSplitter.splitString(line, spaceForText, drawer);
+			printLine(wrappedLine, drawer, state);
+			line = line.substring(wrappedLine.length()).trim();
+		}
+	}
+
+	private static void printLine(String line, DrawHandler drawer, PropertiesParserState state) {
 		XValues xLimitsForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeightMax(), false);
 		Double spaceNotUsedForText = state.getGridElementSize().width - xLimitsForText.getSpace();
 		if (!spaceNotUsedForText.equals(Double.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
