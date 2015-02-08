@@ -48,7 +48,7 @@ public class HierarchyFacet extends GlobalFacet {
 	}
 
 	@Override
-	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
+	public void handleLine(String line, PropertiesParserState state) {
 		if (line.isEmpty()) {
 			return;
 		}
@@ -61,6 +61,7 @@ public class HierarchyFacet extends GlobalFacet {
 			}
 		}
 
+		DrawHandler drawer = state.getDrawer();
 		drawer.setDrawDelayed(true);
 		String lineWithoutTabs = line.replace("\t", "");
 		int tabCount = line.length() - lineWithoutTabs.length();

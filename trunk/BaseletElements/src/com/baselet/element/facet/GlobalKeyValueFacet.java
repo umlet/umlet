@@ -96,10 +96,10 @@ public abstract class GlobalKeyValueFacet extends GlobalFacet {
 	}
 
 	@Override
-	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
+	public void handleLine(String line, PropertiesParserState state) {
 		String value = line.substring(getKeyWithSep().length());
 		try {
-			handleValue(value, drawer, state);
+			handleValue(value, state.getDrawer(), state);
 		} catch (Exception e) {
 			log.debug("KeyValue Error", e);
 			String errorMessage = getKeyValue().getValueString();

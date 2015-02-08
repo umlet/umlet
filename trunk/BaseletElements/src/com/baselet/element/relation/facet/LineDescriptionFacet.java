@@ -63,7 +63,8 @@ public class LineDescriptionFacet extends GlobalFacet {
 	}
 
 	@Override
-	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
+	public void handleLine(String line, PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		Map<String, Point> displacements = state.getOrInitFacetResponse(DescriptionPositionFacet.class, new HashMap<String, Point>());
 		RelationPointHandler relationPoints = getRelationPoints(state);
 		LineDescriptionFacetResponse response = state.getOrInitFacetResponse(LineDescriptionFacet.class, new LineDescriptionFacetResponse());
@@ -157,7 +158,8 @@ public class LineDescriptionFacet extends GlobalFacet {
 	}
 
 	@Override
-	public void parsingFinished(DrawHandler drawer, PropertiesParserState state) {
+	public void parsingFinished(PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		LineDescriptionFacetResponse response = state.getFacetResponse(this.getClass(), new LineDescriptionFacetResponse());
 		int i = 0;
 		for (String text : response.middleLines) {

@@ -68,7 +68,7 @@ public abstract class NewGridElement implements GridElement {
 		setPanelAttributesHelper(panelAttributes);
 		setRectangle(bounds);
 		this.handler = handler;
-		state = new PropertiesParserState(createSettings());
+		state = new PropertiesParserState(createSettings(), drawer);
 		setAdditionalAttributes(additionalAttributes);
 	}
 

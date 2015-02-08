@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.enums.Priority;
-import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.gui.AutocompletionText;
 
 /**
@@ -31,7 +30,7 @@ public abstract class Facet {
 	 * @param drawer can draw something on the elements space
 	 * @param state the current state of the parser
 	 */
-	public abstract void handleLine(String line, DrawHandler drawer, PropertiesParserState state);
+	public abstract void handleLine(String line, PropertiesParserState state);
 
 	/**
 	 * @return a list of objects where each one represents one line for autocompletion
@@ -45,7 +44,7 @@ public abstract class Facet {
 	 * @param drawer can draw something on the elements space
 	 * @param state the current state of the parser
 	 */
-	public void parsingFinished(DrawHandler drawer, PropertiesParserState state) {
+	public void parsingFinished(PropertiesParserState state) {
 		// default is no action
 	}
 

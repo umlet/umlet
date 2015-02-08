@@ -26,7 +26,8 @@ public class TextPrintFacet extends Facet {
 	}
 
 	@Override
-	public void handleLine(String line, DrawHandler drawer, PropertiesParserState state) {
+	public void handleLine(String line, PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		setupAtFirstLine(line, drawer, state);
 
 		if (state.getElementStyle() == ElementStyle.WORDWRAP && !line.trim().isEmpty()) { // empty lines are skipped (otherwise they would get lost)
