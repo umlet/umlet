@@ -39,7 +39,7 @@ public class InnerClassFacet extends Facet {
 			ClassSettings settings = new ClassSettings(state.getAlignment().getHorizontal(), state.getAlignment().getVertical(), getDividerPos(drawer, state));
 			innerClassStartPoints.add(settings);
 			state.getBuffer().addToLeftAndRight(BUFFER_PIXEL_PER_INNER);
-			state.addToYPos(H_SPACE);
+			state.increaseTextPrintPosition(H_SPACE);
 			state.getAlignment().reset();
 		}
 		else if (line.equals(END)) {
@@ -53,7 +53,7 @@ public class InnerClassFacet extends Facet {
 			drawer.drawRectangle(xLimit.getLeft(), start, xLimit.getSpace(), height);
 			drawer.setBackgroundColor(oldColor);
 
-			state.addToYPos(H_SPACE);
+			state.increaseTextPrintPosition(H_SPACE);
 			state.getBuffer().addToLeftAndRight(-BUFFER_PIXEL_PER_INNER);
 			Alignment alignment = state.getAlignment();
 			alignment.setHorizontal(false, previousClassSettings.hAlign);
@@ -63,7 +63,7 @@ public class InnerClassFacet extends Facet {
 	}
 
 	private double getDividerPos(DrawHandler drawer, PropertiesParserState state) {
-		return state.getYPosWithTopBuffer() - drawer.textHeightMax();
+		return state.getTextPrintPosition() - drawer.textHeightMax();
 	}
 
 	private Stack<ClassSettings> getOrInit(PropertiesParserState state) {

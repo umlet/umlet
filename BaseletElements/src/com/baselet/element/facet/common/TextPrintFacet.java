@@ -39,8 +39,8 @@ public class TextPrintFacet extends Facet {
 
 	private static void printLineWithWordWrap(String line, DrawHandler drawer, PropertiesParserState state) {
 		String wrappedLine;
-		while (state.getYPosWithTopBuffer() < state.getGridElementSize().height && !line.trim().isEmpty()) {
-			double spaceForText = state.getXLimitsForArea(state.getYPosWithTopBuffer(), drawer.textHeightMax(), false).getSpace() - drawer.getDistanceBorderToText() * 2;
+		while (state.getTextPrintPosition() < state.getGridElementSize().height && !line.trim().isEmpty()) {
+			double spaceForText = state.getXLimitsForArea(state.getTextPrintPosition(), drawer.textHeightMax(), false).getSpace() - drawer.getDistanceBorderToText() * 2;
 			wrappedLine = TextSplitter.splitString(line, spaceForText, drawer);
 			printLine(wrappedLine, drawer, state);
 			line = line.substring(wrappedLine.length()).trim();
@@ -48,14 +48,14 @@ public class TextPrintFacet extends Facet {
 	}
 
 	private static void printLine(String line, DrawHandler drawer, PropertiesParserState state) {
-		XValues xLimitsForText = state.getXLimitsForArea(state.getYPosWithTopBuffer(), drawer.textHeightMax(), false);
+		XValues xLimitsForText = state.getXLimitsForArea(state.getTextPrintPosition(), drawer.textHeightMax(), false);
 		Double spaceNotUsedForText = state.getGridElementSize().width - xLimitsForText.getSpace();
 		if (!spaceNotUsedForText.equals(Double.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
 			state.updateCalculatedElementWidth(spaceNotUsedForText + drawer.textWidth(line));
 		}
 		AlignHorizontal hAlign = state.getAlignment().getHorizontal();
-		drawer.print(line, calcHorizontalTextBoundaries(xLimitsForText, drawer.getDistanceBorderToText(), hAlign), state.getYPosWithTopBuffer(), hAlign);
-		state.addToYPos(drawer.textHeightMaxWithSpace());
+		drawer.print(line, calcHorizontalTextBoundaries(xLimitsForText, drawer.getDistanceBorderToText(), hAlign), state.getTextPrintPosition(), hAlign);
+		state.increaseTextPrintPosition(drawer.textHeightMaxWithSpace());
 	}
 
 	/**
@@ -76,10 +76,10 @@ public class TextPrintFacet extends Facet {
 			returnVal += drawer.getDistanceBorderToText() + state.getBuffer().getTop();
 		}
 		else if (state.getAlignment().getVertical() == AlignVertical.CENTER) {
-			returnVal += (state.getGridElementSize().height - state.getTextBlockHeight()) / 2 + state.getBuffer().getTop() / 2;
+			returnVal += (state.getGridElementSize().height - state.getTotalTextBlockHeight()) / 2 + state.getBuffer().getTop() / 2;
 		}
 		else /* if (state.getvAlign() == AlignVertical.BOTTOM) */{
-			returnVal += state.getGridElementSize().height - state.getTextBlockHeight() - drawer.textHeightMax() / 4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
+			returnVal += state.getGridElementSize().height - state.getTotalTextBlockHeight() - drawer.textHeightMax() / 4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
 		}
 		return returnVal;
 	}
@@ -89,7 +89,7 @@ public class TextPrintFacet extends Facet {
 	 * Currently only used by UseCase element to make sure the first line is moved down as long as it doesn't fit into the available space
 	 */
 	private static double calcTopDisplacementToFitLine(String firstLine, PropertiesParserState state, DrawHandler drawer) {
-		double displacement = state.getYPosWithTopBuffer();
+		double displacement = state.getTextPrintPosition();
 		boolean wordwrap = state.getElementStyle() == ElementStyle.WORDWRAP;
 		if (!wordwrap) { // in case of wordwrap or no text, there is no top displacement
 			int BUFFER = 2; // a small buffer between text and outer border

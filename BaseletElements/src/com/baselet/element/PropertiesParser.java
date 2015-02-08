@@ -41,7 +41,7 @@ public class PropertiesParser {
 		if (tmpstate.getElementStyle() == ElementStyle.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
 			element.drawCommonContent(pseudoDrawer, tmpstate);
 			parseFacets(tmpstate.getSettings().getLocalFacets(), tmpPropTextWithoutGlobalFacets, pseudoDrawer, tmpstate);
-			double textHeight = tmpstate.getYPosWithTopBuffer() - pseudoDrawer.textHeightMax(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
+			double textHeight = tmpstate.getTextPrintPosition() - pseudoDrawer.textHeightMax(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
 			double width = tmpstate.getCalculatedElementWidth();
 			element.handleAutoresize(new DimensionDouble(width, textHeight), tmpstate.getAlignment().getHorizontal());
 		}
@@ -50,7 +50,7 @@ public class PropertiesParser {
 	private static double calcTextBlockHeight(List<String> propertiesText, DrawHandler drawer, PropertiesParserState state) {
 		PropertiesParserState tmpstate = state.dummyCopy(state.getGridElementSize()); // a dummy state copy is used for calculation to make sure the textBlockHeight calculation doesn't change the real state
 		parseFacets(tmpstate.getSettings().getLocalFacets(), propertiesText, drawer.getPseudoDrawHandler(), tmpstate);
-		return tmpstate.getYPos();
+		return tmpstate.getTextPrintPosition() - tmpstate.getBuffer().getTop();
 	}
 
 	private static List<String> parseFacets(List<? extends Facet> facets, List<String> properties, DrawHandler drawer, PropertiesParserState state) {
