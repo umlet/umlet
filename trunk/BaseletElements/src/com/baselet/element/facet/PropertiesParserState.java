@@ -64,11 +64,8 @@ public class PropertiesParserState {
 		this.gridElementSize = gridElementSize;
 		elementStyle = settings.getElementStyle();
 		facetResponse.clear();
-	}
-
-	public PropertiesParserState(Settings settings, Dimension gridElementSize) {
-		this(settings);
-		resetValues(gridElementSize);
+		usedFacets.clear();
+		textBlockHeight = 0;
 	}
 
 	public AlignHorizontal gethAlign() {
@@ -225,5 +222,12 @@ public class PropertiesParserState {
 			f.parsingFinished(drawer, this);
 		}
 		usedFacets.clear();
+	}
+
+	public PropertiesParserState dummyCopy(Dimension gridElementSize) {
+		PropertiesParserState copy = new PropertiesParserState(settings);
+		copy.resetValues(gridElementSize);
+		copy.setElementStyle(getElementStyle()); // elementstyle is important for calculation (because of wordwrap)
+		return copy;
 	}
 }
