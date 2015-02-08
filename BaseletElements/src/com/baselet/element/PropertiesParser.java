@@ -9,7 +9,6 @@ import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.ElementStyle;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.GlobalFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -96,26 +95,10 @@ public class PropertiesParser {
 	}
 
 	private static void handleProperties(List<String> propertiesText, List<Facet> facets, DrawHandler drawer, PropertiesParserState state) {
-		boolean wordwrap = state.getElementStyle() == ElementStyle.WORDWRAP;
 		for (String line : propertiesText) {
-			if (wordwrap && !line.trim().isEmpty()) { // empty lines are skipped (otherwise they would get lost)
-				handleLineWithWordWrap(facets, line, drawer, state);
-			}
-			else {
-				parseFacets(facets, line, drawer, state);
-			}
+			parseFacets(facets, line, drawer, state);
 		}
 		state.informAndClearUsedFacets(drawer);
-	}
-
-	private static void handleLineWithWordWrap(List<Facet> facets, String line, DrawHandler drawer, PropertiesParserState state) {
-		String wrappedLine;
-		while (state.getyPos() < state.getGridElementSize().height && !line.trim().isEmpty()) {
-			double spaceForText = state.getXLimitsForArea(state.getyPos(), drawer.textHeightMax(), false).getSpace() - drawer.getDistanceBorderToText() * 2;
-			wrappedLine = TextSplitter.splitString(line, spaceForText, drawer);
-			parseFacets(facets, wrappedLine, drawer, state);
-			line = line.substring(wrappedLine.length()).trim();
-		}
 	}
 
 	private static boolean parseFacets(List<? extends Facet> facets, String line, DrawHandler drawer, PropertiesParserState state) {
