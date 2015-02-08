@@ -71,9 +71,6 @@ public class PropertiesParser {
 
 	private static void drawPropertiesWithoutGlobalFacets(List<String> propertiesTextWithoutGobalFacets, DrawHandler drawer, PropertiesParserState state) {
 		state.addToYPos(calcStartPointFromVAlign(propertiesTextWithoutGobalFacets, drawer, state));
-		if (!propertiesTextWithoutGobalFacets.isEmpty()) {
-			state.addToYPos(PropertiesParserUtils.calcTopDisplacementToFitLine(propertiesTextWithoutGobalFacets.get(0), state, drawer));
-		}
 		handleProperties(propertiesTextWithoutGobalFacets, state.getSettings().getLocalFacets(), drawer, state);
 	}
 
