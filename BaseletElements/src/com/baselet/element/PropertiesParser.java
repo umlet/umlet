@@ -31,8 +31,6 @@ import com.baselet.element.facet.Settings;
  */
 public class PropertiesParser {
 
-	private static final String COMMENT_MARKER = "//";
-
 	public static void parseProperties_handleFacets_drawText(NewGridElement element, PropertiesParserState state) {
 		List<String> propertiesText = element.getPanelAttributesAsList();
 		autoresizeAnalysis(element, state.getSettings(), propertiesText); // at first handle autoresize (which possibly changes elementsize)
@@ -62,7 +60,7 @@ public class PropertiesParser {
 			for (Iterator<String> iter = propertiesCopy.iterator(); iter.hasNext();) {
 				String line = iter.next();
 				boolean facetUsed = parseFacets(Arrays.asList(facet), line, drawer, state);
-				if (facetUsed || line.startsWith(COMMENT_MARKER)) {
+				if (facetUsed) {
 					iter.remove();
 				}
 			}

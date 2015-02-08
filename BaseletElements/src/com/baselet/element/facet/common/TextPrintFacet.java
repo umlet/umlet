@@ -18,7 +18,7 @@ public class TextPrintFacet extends Facet {
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
-		return true;
+		return !line.startsWith("//"); // comments start with // and are not printed
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class TextPrintFacet extends Facet {
 
 	@Override
 	public List<AutocompletionText> getAutocompletionStrings() {
-		return Collections.emptyList();
+		return Collections.emptyList(); // no autocompletion text for this facet
 	}
 
 	@Override
