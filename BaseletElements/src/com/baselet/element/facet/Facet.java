@@ -7,6 +7,11 @@ import org.apache.log4j.Logger;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.gui.AutocompletionText;
 
+/**
+ * A Facet is a simple handler method which acts on certain lines and does a specific job if it should act.
+ * It is important that Facets are ALWAYS STATELESS.
+ * If any State is required, it should be stored using the {@link PropertiesParserState#getOrInitFacetResponse(Class, Object)} method
+ */
 public abstract class Facet {
 
 	public static final String SEP = "=";
