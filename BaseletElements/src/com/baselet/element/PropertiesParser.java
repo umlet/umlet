@@ -5,12 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.baselet.control.basics.geom.DimensionDouble;
-import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.ElementStyle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
+import com.baselet.element.facet.common.TextPrintFacet;
 
 /**
  * The PropertiesParser analyzes the Properties and the Settings (therefore also the Facets) of a GridElement.
@@ -52,26 +52,13 @@ public class PropertiesParser {
 	}
 
 	private static void drawPropertiesWithoutGlobalFacets(List<String> propertiesTextWithoutGobalFacets, DrawHandler drawer, PropertiesParserState state) {
-		state.addToYPos(calcStartPointFromVAlign(propertiesTextWithoutGobalFacets, drawer, state));
+		state.setTextBlockHeight(calcTextBlockHeight(propertiesTextWithoutGobalFacets, drawer, state));
 		parseFacets(state.getSettings().getLocalFacets(), propertiesTextWithoutGobalFacets, drawer, state);
 	}
 
-	private static double calcStartPointFromVAlign(List<String> propertiesText, DrawHandler drawer, PropertiesParserState state) {
-		double returnVal = drawer.textHeightMax(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
-		if (state.getvAlign() == AlignVertical.TOP) {
-			returnVal += drawer.getDistanceBorderToText() + state.getTopBuffer();
-		}
-		else if (state.getvAlign() == AlignVertical.CENTER) {
-			returnVal += (state.getGridElementSize().height - getTextBlockHeight(propertiesText, drawer, state)) / 2 + state.getTopBuffer() / 2;
-		}
-		else /* if (state.getvAlign() == AlignVertical.BOTTOM) */{
-			returnVal += state.getGridElementSize().height - getTextBlockHeight(propertiesText, drawer, state) - drawer.textHeightMax() / 4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
-		}
-		return returnVal;
-	}
-
-	private static double getTextBlockHeight(List<String> propertiesText, DrawHandler drawer, PropertiesParserState state) {
+	private static double calcTextBlockHeight(List<String> propertiesText, DrawHandler drawer, PropertiesParserState state) {
 		PropertiesParserState tmpstate = new PropertiesParserState(state.getSettings(), state.getGridElementSize()); // a dummy state copy is used for calculation to make sure the textBlockHeight calculation doesn't change the real state
+		tmpstate.setFacetResponse(TextPrintFacet.class, false); // avoid initial ypos manipulation for text-block-height calculation
 		tmpstate.setElementStyle(state.getElementStyle()); // elementstyle is important for calculation (because of wordwrap)
 		parseFacets(tmpstate.getSettings().getLocalFacets(), propertiesText, drawer.getPseudoDrawHandler(), tmpstate);
 		return tmpstate.getyPos();
