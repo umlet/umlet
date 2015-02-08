@@ -21,9 +21,9 @@ import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 import com.baselet.element.facet.common.LayerFacet;
 import com.baselet.element.relation.facet.LineDescriptionFacet;
+import com.baselet.element.relation.facet.LineDescriptionFacet.LineDescriptionFacetResponse;
 import com.baselet.element.relation.facet.RelationLineTypeFacet;
 import com.baselet.element.relation.facet.SettingsRelation;
-import com.baselet.element.relation.facet.LineDescriptionFacet.LineDescriptionFacetResponse;
 import com.baselet.element.relation.helper.RelationPointHandler;
 import com.baselet.element.relation.helper.RelationPointHolder;
 import com.baselet.element.relation.helper.RelationPointList;
@@ -44,7 +44,8 @@ public class Relation extends NewGridElement implements Stickable, RelationPoint
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+	protected void drawCommonContent(PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		state.setStickingPolygonGenerator(NoStickingPolygonGenerator.INSTANCE);
 		if (!state.getFacetResponse(RelationLineTypeFacet.class, false)) {
 			RelationLineTypeFacet.drawDefaultLineAndArrows(drawer, relationPoints);

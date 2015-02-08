@@ -21,7 +21,7 @@ public class Text extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+	protected void drawCommonContent(PropertiesParserState state) {
 		state.setStickingPolygonGenerator(NoStickingPolygonGenerator.INSTANCE);
 	}
 

@@ -36,7 +36,8 @@ public class Package extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+	protected void drawCommonContent(PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		List<String> packageTitle = getTitleLines(state);
 		double packageHeight = 0;
 		double packageWidth = getRealSize().getWidth() / 2.5;

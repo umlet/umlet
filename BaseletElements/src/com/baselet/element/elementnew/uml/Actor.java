@@ -45,7 +45,8 @@ public class Actor extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+	protected void drawCommonContent(PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		double dimension = ACTOR_DIMENSION;
 		state.getBuffer().setTopMin(DrawHelper.headToLegLength(dimension));
 		state.updateCalculatedElementWidth(DrawHelper.armLength(dimension) * 2);

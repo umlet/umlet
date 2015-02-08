@@ -35,7 +35,8 @@ public class Class extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+	protected void drawCommonContent(PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		String templateClassValue = state.getFacetResponse(TemplateClassFacet.class, "");
 		int height = getRealSize().getHeight();
 		int width = getRealSize().getWidth();

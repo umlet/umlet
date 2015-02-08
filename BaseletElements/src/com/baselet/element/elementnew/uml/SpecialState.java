@@ -19,7 +19,8 @@ public class SpecialState extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(DrawHandler drawer, PropertiesParserState state) {
+	protected void drawCommonContent(PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		// if not type is given, throw an error
 		if (!state.getFacetResponse(SpecialStateTypeFacet.class, false)) { // default is decision
 			SpecialStateTypeFacet.drawDecision(drawer, getRealSize().getWidth(), getRealSize().getHeight());
