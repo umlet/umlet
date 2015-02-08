@@ -9,7 +9,6 @@ import com.baselet.control.enums.ElementStyle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
-import com.baselet.element.facet.Settings;
 
 /**
  * The PropertiesParser analyzes the Properties and the Settings (therefore also the Facets) of a GridElement.
@@ -27,18 +26,18 @@ import com.baselet.element.facet.Settings;
  */
 public class PropertiesParser {
 
-	public static void parseProperties_handleFacets_drawText(NewGridElement element, PropertiesParserState state) {
+	public static void parsePropertiesAndHandleFacets(NewGridElement element, PropertiesParserState state) {
 		List<String> propertiesText = element.getPanelAttributesAsList();
-		autoresizeAnalysis(element, state.getSettings(), propertiesText); // at first handle autoresize (which possibly changes elementsize)
+		autoresizeAnalysis(element, state, propertiesText); // at first handle autoresize (which possibly changes elementsize)
 		state.resetValues(element.getRealSize()); // now that the element size is known, reset the state with it
 		List<String> propTextWithoutGobalFacets = parseFacets(state.getSettings().getGlobalFacets(), propertiesText, element.getDrawer(), state); // must be before element.drawCommonContent (because bg=... and other settings are set here)
 		element.resetMetaDrawerAndDrawCommonContent(); // draw common content like border around classes
 		drawPropertiesWithoutGlobalFacets(propTextWithoutGobalFacets, element.getDrawer(), state); // iterate over propertiestext and draw text and resolve localfacets
 	}
 
-	private static void autoresizeAnalysis(NewGridElement element, Settings settings, List<String> propertiesText) {
+	private static void autoresizeAnalysis(NewGridElement element, PropertiesParserState state, List<String> propertiesText) {
 		DrawHandler pseudoDrawer = element.getDrawer().getPseudoDrawHandler();
-		PropertiesParserState tmpstate = new PropertiesParserState(settings, element.getRealSize()); // we use a tmpstate to parse global facets to see if autoresize is enabled
+		PropertiesParserState tmpstate = state.dummyCopy(element.getRealSize()); // we use a tmpstate to parse global facets to see if autoresize is enabled
 		List<String> tmpPropTextWithoutGlobalFacets = parseFacets(tmpstate.getSettings().getGlobalFacets(), propertiesText, pseudoDrawer, tmpstate);
 
 		if (tmpstate.getElementStyle() == ElementStyle.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
@@ -56,8 +55,7 @@ public class PropertiesParser {
 	}
 
 	private static double calcTextBlockHeight(List<String> propertiesText, DrawHandler drawer, PropertiesParserState state) {
-		PropertiesParserState tmpstate = new PropertiesParserState(state.getSettings(), state.getGridElementSize()); // a dummy state copy is used for calculation to make sure the textBlockHeight calculation doesn't change the real state
-		tmpstate.setElementStyle(state.getElementStyle()); // elementstyle is important for calculation (because of wordwrap)
+		PropertiesParserState tmpstate = state.dummyCopy(state.getGridElementSize()); // a dummy state copy is used for calculation to make sure the textBlockHeight calculation doesn't change the real state
 		parseFacets(tmpstate.getSettings().getLocalFacets(), propertiesText, drawer.getPseudoDrawHandler(), tmpstate);
 		return tmpstate.getYPos();
 	}
