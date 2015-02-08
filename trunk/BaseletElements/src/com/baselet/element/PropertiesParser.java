@@ -70,8 +70,10 @@ public class PropertiesParser {
 	}
 
 	private static void drawPropertiesWithoutGlobalFacets(List<String> propertiesTextWithoutGobalFacets, DrawHandler drawer, PropertiesParserState state) {
-		double startPointFromVAlign = calcStartPointFromVAlign(propertiesTextWithoutGobalFacets, drawer, state);
-		state.addToYPos(PropertiesParserUtils.calcTopDisplacementToFitLine(propertiesTextWithoutGobalFacets, startPointFromVAlign, state, drawer));
+		state.addToYPos(calcStartPointFromVAlign(propertiesTextWithoutGobalFacets, drawer, state));
+		if (!propertiesTextWithoutGobalFacets.isEmpty()) {
+			state.addToYPos(PropertiesParserUtils.calcTopDisplacementToFitLine(propertiesTextWithoutGobalFacets.get(0), state, drawer));
+		}
 		handleProperties(propertiesTextWithoutGobalFacets, state.getSettings().getLocalFacets(), drawer, state);
 	}
 
