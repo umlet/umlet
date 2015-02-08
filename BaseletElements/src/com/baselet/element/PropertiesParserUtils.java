@@ -2,16 +2,16 @@ package com.baselet.element;
 
 import java.util.List;
 
+import com.baselet.control.enums.ElementStyle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.TextSplitter;
-import com.baselet.element.facet.ElementStyleEnum;
 import com.baselet.element.facet.PropertiesParserState;
 
 public class PropertiesParserUtils {
 
 	static double calcTopDisplacementToFitLine(List<String> propertiesText, double startPoint, PropertiesParserState state, DrawHandler drawer) {
 		double displacement = startPoint;
-		boolean wordwrap = state.getElementStyle() == ElementStyleEnum.WORDWRAP;
+		boolean wordwrap = state.getElementStyle() == ElementStyle.WORDWRAP;
 		if (!wordwrap && !propertiesText.isEmpty()) { // in case of wordwrap or no text, there is no top displacement
 			int BUFFER = 2; // a small buffer between text and outer border
 			double textHeight = drawer.textHeightMax();

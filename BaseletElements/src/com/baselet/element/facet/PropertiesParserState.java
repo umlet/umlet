@@ -9,6 +9,7 @@ import com.baselet.control.basics.XValues;
 import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
+import com.baselet.control.enums.ElementStyle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.sticking.polygon.SimpleStickingPolygonGenerator;
 import com.baselet.element.sticking.polygon.StickingPolygonGenerator;
@@ -32,7 +33,7 @@ public class PropertiesParserState {
 	private double leftBuffer;
 	private double rightBuffer;
 	private Dimension gridElementSize;
-	private ElementStyleEnum elementStyle;
+	private ElementStyle elementStyle;
 	private final Map<Class<? extends Facet>, Object> facetResponse = new HashMap<Class<? extends Facet>, Object>();
 	private final List<Facet> usedFacets = new ArrayList<Facet>();
 
@@ -158,11 +159,11 @@ public class PropertiesParserState {
 		return calculatedElementWidth;
 	}
 
-	public ElementStyleEnum getElementStyle() {
+	public ElementStyle getElementStyle() {
 		return elementStyle;
 	}
 
-	public void setElementStyle(ElementStyleEnum elementStyle) {
+	public void setElementStyle(ElementStyle elementStyle) {
 		this.elementStyle = elementStyle;
 	}
 

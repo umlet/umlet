@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.gui.AutocompletionText;
 
@@ -38,14 +39,6 @@ public abstract class Facet {
 	public abstract List<AutocompletionText> getAutocompletionStrings();
 
 	/**
-	 * @param line the current line which is parsed
-	 * @return true if the text line should be removed after applying this facet
-	 */
-	public boolean removeTextAfterHandling(String line) {
-		return true;
-	}
-
-	/**
 	 * This method is called once for every Facet AFTER all lines of text has been parsed
 	 * E.g. useful for facets which collect information with every line but need complete knowledge before they can do something with it
 	 *
@@ -54,14 +47,6 @@ public abstract class Facet {
 	 */
 	public void parsingFinished(DrawHandler drawer, PropertiesParserState state) {
 		// default is no action
-	}
-
-	/**
-	 * priority enum, must be ordered from highest to lowest priority!
-	 * if a specific ordering is necessary but not possible with the current Priorities, just insert a new one in between
-	 */
-	public enum Priority {
-		HIGHEST, HIGH, DEFAULT, LOW, LOWEST
 	}
 
 	/**

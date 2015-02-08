@@ -7,9 +7,9 @@ import java.util.List;
 
 import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.enums.AlignVertical;
+import com.baselet.control.enums.ElementStyle;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.TextSplitter;
-import com.baselet.element.facet.ElementStyleEnum;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.GlobalFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -45,7 +45,7 @@ public class PropertiesParser {
 		PropertiesParserState tmpstate = new PropertiesParserState(settings, element.getRealSize()); // we use a tmpstate to parse global facets to see if autoresize is enabled
 		List<String> tmpPropTextWithoutGlobalFacets = parseGlobalFacets(propertiesText, tmpstate.getSettings().getGlobalFacets(), tmpstate, pseudoDrawer);
 
-		if (tmpstate.getElementStyle() == ElementStyleEnum.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
+		if (tmpstate.getElementStyle() == ElementStyle.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
 			element.drawCommonContent(pseudoDrawer, tmpstate);
 			drawPropertiesWithoutGlobalFacets(tmpPropTextWithoutGlobalFacets, pseudoDrawer, tmpstate);
 			double textHeight = tmpstate.getyPos() - pseudoDrawer.textHeightMax(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
@@ -97,7 +97,7 @@ public class PropertiesParser {
 	}
 
 	private static void handleProperties(List<String> propertiesText, List<Facet> facets, DrawHandler drawer, PropertiesParserState state) {
-		boolean wordwrap = state.getElementStyle() == ElementStyleEnum.WORDWRAP;
+		boolean wordwrap = state.getElementStyle() == ElementStyle.WORDWRAP;
 		for (String line : propertiesText) {
 			if (wordwrap && !line.trim().isEmpty()) { // empty lines are skipped (otherwise they would get lost)
 				handleLineWithWordWrap(facets, line, drawer, state);
@@ -124,9 +124,7 @@ public class PropertiesParser {
 			if (f.checkStart(line, state)) {
 				f.handleLine(line, drawer, state);
 				state.addUsedFacet(f);
-				if (f.removeTextAfterHandling(line)) {
-					return true;
-				}
+				return true;
 			}
 		}
 		return false;

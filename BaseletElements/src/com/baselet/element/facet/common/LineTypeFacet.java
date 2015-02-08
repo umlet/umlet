@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.enums.LineType;
+import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
