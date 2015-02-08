@@ -29,9 +29,7 @@ public class PropertiesParserState {
 	private boolean vAlignGloballySet;
 	private double yPos; // the current y position for drawing text, separator-lines and other properties-text-related stuff
 	private double calculatedElementWidth;
-	private double topBuffer; // the top space where no text should be placed (e.g. the upper left rectangle of the Package element)
-	private double leftBuffer;
-	private double rightBuffer;
+	private Buffer buffer = new Buffer();
 	private Dimension gridElementSize;
 	private ElementStyle elementStyle;
 	private StickingPolygonGenerator stickingPolygonGenerator = SimpleStickingPolygonGenerator.INSTANCE;
@@ -50,9 +48,7 @@ public class PropertiesParserState {
 		vAlignGloballySet = false;
 		yPos = 0;
 		calculatedElementWidth = 0;
-		topBuffer = 0;
-		leftBuffer = 0;
-		rightBuffer = 0;
+		buffer = new Buffer();
 		this.gridElementSize = gridElementSize;
 		elementStyle = settings.getElementStyle();
 		stickingPolygonGenerator = SimpleStickingPolygonGenerator.INSTANCE;
@@ -105,46 +101,25 @@ public class PropertiesParserState {
 	}
 
 	public double getYPosWithTopBuffer() {
-		return yPos + topBuffer;
+		return yPos + buffer.getTop();
 	}
 
 	public void addToYPos(double inc) {
 		yPos += inc;
 	}
 
-	/**
-	 * sets the required top buffer. it is always the max from this or the previous buffer, because the facets are independent from each other
-	 * if one required 20px and the other 10px, in general 20px are required to satisfy the requirements of both facets
-	 */
-	public void setMinTopBuffer(double minimum) {
-		topBuffer = Math.max(topBuffer, minimum);
-	}
-
-	public void addToLeftBuffer(double inc) {
-		leftBuffer += inc;
-	}
-
-	public void addToRightBuffer(double inc) {
-		rightBuffer += inc;
-	}
-
-	public void addToHorizontalBuffer(double inc) {
-		addToLeftBuffer(inc);
-		addToRightBuffer(inc);
+	public Buffer getBuffer() {
+		return buffer;
 	}
 
 	public Dimension getGridElementSize() {
 		return gridElementSize;
 	}
 
-	public double getTopBuffer() {
-		return topBuffer;
-	}
-
 	public XValues getXLimits(double linePos) {
 		XValues xLimits = settings.getXValues(linePos, getGridElementSize().height, getGridElementSize().width);
-		xLimits.addLeft(leftBuffer);
-		xLimits.subRight(rightBuffer);
+		xLimits.addLeft(buffer.getLeft());
+		xLimits.subRight(buffer.getRight());
 		return xLimits;
 	}
 

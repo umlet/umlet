@@ -52,7 +52,7 @@ public class Package extends NewGridElement {
 		int height = getRealSize().getHeight();
 		int width = getRealSize().getWidth();
 		List<PointDouble> points = DrawHelper.drawPackage(drawer, 0, 0, packageHeight, packageWidth, height, width);
-		state.setMinTopBuffer(packageHeight);
+		state.getBuffer().setTopMin(packageHeight);
 		state.setStickingPolygonGenerator(new PointDoubleStickingPolygonGenerator(points));
 	}
 

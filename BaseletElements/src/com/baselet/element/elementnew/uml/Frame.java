@@ -40,7 +40,7 @@ public class Frame extends NewGridElement {
 
 		TextBeforeFirstSeparatorCollectorFacetResponse packageTitleResponse = state.getFacetResponse(TextBeforeFirstSeparatorCollectorFacet.class, null);
 		if (packageTitleResponse != null) {
-			double top = state.getTopBuffer();
+			double top = state.getBuffer().getTop();
 			double textDistanceToTop = drawer.getDistanceBorderToText() + top;
 			double heightOfTitle = drawer.getDistanceBorderToText() + textDistanceToTop;
 			double width = 0;
@@ -57,7 +57,7 @@ public class Frame extends NewGridElement {
 			drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 			drawer.drawLines(new PointDouble(width, top), new PointDouble(width, heightOfTitle - corner), new PointDouble(width - corner, heightOfTitle), new PointDouble(lowerLeftSpace, heightOfTitle));
 			drawer.setStyle(style); // reset style to state before manipulations for drawing the template class
-			state.setMinTopBuffer(heightOfTitle);
+			state.getBuffer().setTopMin(heightOfTitle);
 
 			double printHeightIter = textDistanceToTop;
 			for (String line : packageTitleResponse.getLines()) {

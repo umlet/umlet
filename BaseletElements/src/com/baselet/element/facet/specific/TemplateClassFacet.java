@@ -55,8 +55,8 @@ public class TemplateClassFacet extends GlobalKeyValueFacet {
 				new PointDouble(0, height),
 				start);
 		// SET BUFFERS FOR REDUCED CLASS BORDER
-		state.setMinTopBuffer(tR.getHeight());
-		state.addToRightBuffer(width - classWidth);
+		state.getBuffer().setTopMin((double) tR.getHeight());
+		state.getBuffer().addToRight((double) (width - classWidth));
 		// DRAW BACKGROUND RECT
 		Style style = drawer.getStyle();
 		drawer.setForegroundColor(ColorOwn.TRANSPARENT);

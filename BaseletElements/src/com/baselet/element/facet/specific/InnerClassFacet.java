@@ -37,7 +37,7 @@ public class InnerClassFacet extends Facet {
 		if (line.equals(START)) {
 			ClassSettings settings = new ClassSettings(state.gethAlign(), state.getvAlign(), getDividerPos(drawer, state));
 			innerClassStartPoints.add(settings);
-			state.addToHorizontalBuffer(BUFFER_PIXEL_PER_INNER);
+			state.getBuffer().addToLeftAndRight((double) BUFFER_PIXEL_PER_INNER);
 			state.addToYPos(H_SPACE);
 			state.resetAlign();
 		}
@@ -53,7 +53,7 @@ public class InnerClassFacet extends Facet {
 			drawer.setBackgroundColor(oldColor);
 
 			state.addToYPos(H_SPACE);
-			state.addToHorizontalBuffer(-BUFFER_PIXEL_PER_INNER);
+			state.getBuffer().addToLeftAndRight((double) -BUFFER_PIXEL_PER_INNER);
 			state.sethAlign(previousClassSettings.hAlign);
 			state.setvAlign(previousClassSettings.vAlign);
 		}
