@@ -10,7 +10,6 @@ import java.util.Collection;
 import java.util.Vector;
 
 import com.baselet.control.constants.Constants;
-import com.baselet.control.constants.SystemInfo;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.io.OutputHandler;
 import com.baselet.element.interfaces.GridElement;
@@ -19,7 +18,7 @@ import com.baselet.gui.CurrentGui;
 /** Copies and Pastes images to the system clipboard. Requires Java 2, v1.4. */
 public class ClipBoard implements Transferable {
 
-	private Clipboard clipboard;
+	private final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 	private DiagramHandler copiedfrom;
 	private Vector<GridElement> entities;
 
@@ -34,26 +33,18 @@ public class ClipBoard implements Transferable {
 
 	private ClipBoard() {
 		entities = new Vector<GridElement>();
-		if (Float.parseFloat(SystemInfo.JAVA_VERSION) < 1.4) {
-			return;
-		}
-		clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-	}
-
-	public DiagramHandler copiedFrom() {
-		return copiedfrom;
 	}
 
 	public void copy(Vector<GridElement> entities, DiagramHandler handler) {
 		copiedfrom = handler;
 		this.entities = new Vector<GridElement>(entities);
-		if (clipboard != null) {
-			clipboard.setContents(this, null);
-		}
-		// AB: clipboard zooms entities to 100%
-		// NOTE has to be done here because it doesn't fit with cut/copy and GenPic.getImageFromDiagram otherwise)
+		// clipboard zooms entities to 100% (to make them zoom-independent)
 		DiagramHandler.zoomEntities(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, this.entities);
 		CurrentGui.getInstance().getGui().enablePasteMenuEntry();
+
+		if (clipboard != null) { // Issue 230: copy after zooming the entities
+			clipboard.setContents(this, null);
+		}
 	}
 
 	public Vector<GridElement> paste() {
