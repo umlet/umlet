@@ -49,7 +49,7 @@ public class InnerClassFacet extends Facet {
 			double height = getDividerPos(drawer, state) - start;
 			XValues xLimit = state.getXLimits(height);
 
-			ColorOwn oldColor = drawer.getStyle().getBackgroundColor();
+			ColorOwn oldColor = drawer.getBackgroundColor();
 			drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 			drawer.drawRectangle(xLimit.getLeft(), start, xLimit.getSpace(), height);
 			drawer.setBackgroundColor(oldColor);

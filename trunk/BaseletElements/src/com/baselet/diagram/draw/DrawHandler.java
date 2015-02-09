@@ -21,32 +21,16 @@ public abstract class DrawHandler {
 
 	protected static final double HALF_PX = 0.5f;
 
-	private ColorOwn bgDefaultColor;
-	private ColorOwn fgDefaultColor;
-
 	protected Style style = new Style();
+	private final Style overlay = new Style();
 
 	private final ArrayList<DrawFunction> drawables = new ArrayList<DrawFunction>();
 	private final ArrayList<DrawFunction> drawablesDelayed = new ArrayList<DrawFunction>();
-	private final Style overlay = new Style();
 
 	private boolean drawDelayed = false;
 
 	public void setDrawDelayed(boolean drawDelayed) {
 		this.drawDelayed = drawDelayed;
-	}
-
-	public DrawHandler() {
-		fgDefaultColor = ColorOwn.DEFAULT_FOREGROUND;
-		bgDefaultColor = ColorOwn.DEFAULT_BACKGROUND;
-	}
-
-	public void setFgDefaultColor(ColorOwn fgDefaultColor) {
-		this.fgDefaultColor = fgDefaultColor;
-	}
-
-	public void setBgDefaultColor(ColorOwn bgDefaultColor) {
-		this.bgDefaultColor = bgDefaultColor;
 	}
 
 	protected Style getOverlay() {
@@ -99,7 +83,7 @@ public abstract class DrawHandler {
 
 	public final void setForegroundColor(String color) {
 		if (color.equals(FacetConstants.FOREGROUND_COLOR_KEY)) {
-			setForegroundColor(fgDefaultColor);
+			setForegroundColor(ColorOwn.DEFAULT_FOREGROUND);
 		}
 		else {
 			setForegroundColor(ColorOwn.forString(color, Transparency.FOREGROUND)); // if fgColor is not a valid string null will be set
@@ -117,7 +101,7 @@ public abstract class DrawHandler {
 
 	public final void setBackgroundColor(String color) {
 		if (color.equals(FacetConstants.BACKGROUND_COLOR_KEY)) {
-			setBackgroundColor(bgDefaultColor);
+			setBackgroundColor(ColorOwn.DEFAULT_BACKGROUND);
 		}
 		else {
 			setBackgroundColor(ColorOwn.forString(color, Transparency.BACKGROUND));
@@ -133,6 +117,18 @@ public abstract class DrawHandler {
 		}
 	}
 
+	public ColorOwn getForegroundColor() {
+		return style.getForegroundColor();
+	}
+
+	public ColorOwn getBackgroundColor() {
+		return style.getBackgroundColor();
+	}
+
+	public double getLineWidth() {
+		return style.getLineWidth();
+	}
+
 	public void resetColorSettings() {
 		setForegroundColor(FacetConstants.FOREGROUND_COLOR_KEY);
 		setBackgroundColor(FacetConstants.BACKGROUND_COLOR_KEY);
@@ -143,8 +139,16 @@ public abstract class DrawHandler {
 		style.setFontSize(fontSize);
 	}
 
+	public double getFontSize() {
+		return style.getFontSize();
+	}
+
 	public final void setLineType(LineType type) {
 		style.setLineType(type);
+	}
+
+	public LineType getLineType() {
+		return style.getLineType();
 	}
 
 	public final void setLineWidth(double lineWidth) {
@@ -165,7 +169,7 @@ public abstract class DrawHandler {
 		style.setLineWidth(1);
 	}
 
-	public Style getStyle() {
+	public Style getStyleClone() {
 		return style.cloneFromMe();
 	}
 
