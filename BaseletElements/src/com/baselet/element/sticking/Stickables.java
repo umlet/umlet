@@ -19,14 +19,15 @@ public class Stickables {
 
 	private static Logger log = Logger.getLogger(Stickables.class);
 
-	public static StickableMap getStickingPointsWhichAreConnectedToStickingPolygon(StickingPolygon oldStickingPolygon, Collection<? extends Stickable> stickables, int maxDistance) {
+	public static StickableMap getStickingPointsWhichAreConnectedToStickingPolygon(StickingPolygon oldStickingPolygon, Collection<? extends Stickable> stickables, int gridSize) {
+		int maxDistance = Math.max(0, gridSize - 1); // Issue 229: maxDistance must be lower than gridSize
 		log.debug("Polygon to check: " + oldStickingPolygon);
 		StickableMap returnMap = new StickableMap();
 		for (final Stickable stickable : stickables) {
 			for (final PointDoubleIndexed p : stickable.getStickablePoints()) {
 				PointDouble absolutePointPosition = getAbsolutePosition(stickable, p);
-				log.debug("Check if sticks: " + absolutePointPosition);
 				for (StickLine sl : oldStickingPolygon.getStickLines()) {
+					log.trace("CHECK " + sl + "/" + absolutePointPosition + "/" + maxDistance);
 					if (sl.isConnected(absolutePointPosition, maxDistance)) {
 						returnMap.add(stickable, p);
 					}
