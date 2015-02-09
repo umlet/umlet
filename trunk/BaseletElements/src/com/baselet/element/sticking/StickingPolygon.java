@@ -125,6 +125,7 @@ public class StickingPolygon {
 	public void addPoint(int x, int y, boolean connectToFirst) {
 		this.addPoint(x, y);
 		if (connectToFirst) {
+			allPoints.add(firstpoint);
 			stick.add(new StickLine(lastpoint, firstpoint));
 		}
 	}
