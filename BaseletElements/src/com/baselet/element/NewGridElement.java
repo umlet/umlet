@@ -220,14 +220,24 @@ public abstract class NewGridElement implements GridElement {
 		return returnSet;
 	}
 
-	/* method is final because it's not flexible enough. instead overwrite StickingPolygonGenerator in PropertiesParserState eg: Class uses this to change the stickingpolygon based on which facets are active (see Class.java) */
+	/**
+	 * @deprecated use {@link #generateStickingBorder()} instead, because it generates it for its own Rectangle on 100% zoom and zooms it afterwards (important to make alternative StickingPolygonGenerators like PointDoubleStickingPolygonGenerator work)
+	 */
+	@Deprecated
 	@Override
 	public final StickingPolygon generateStickingBorder(Rectangle rect) {
 		return state.getStickingPolygonGenerator().generateStickingBorder(rect);
 	}
 
-	private StickingPolygon generateStickingBorder() {
-		return generateStickingBorder(getRectangle());
+	/**
+	 * generates the StickingPolygon of the element
+	 * Should never be overwritten; if a specific StickingPolygon should be created, overwrite the StickingPolygonGenerator in PropertiesParserState eg: Class uses different Generators based on which facets are active (see Class.java)
+	 */
+	@Override
+	public final StickingPolygon generateStickingBorder() {
+		// generate the stickingBorder as if zoom were 100% and zoom the points afterwards. This is necessary to make sure alternative StickingPolygonGenerators work which use fixed points (e.g. PointDoubleStickingPolygonGenerator)
+		// a simple generateStickingBorder(getRectangle()) would only work if ALL of the stickingpolygon points are calculated based on the Rectangle parameter (which is zoomed!)
+		return generateStickingBorder(getRealRectangle()).copyZoomed(getGridSize());
 	}
 
 	private final void drawStickingPolygon(DrawHandler drawer) {
@@ -287,7 +297,15 @@ public abstract class NewGridElement implements GridElement {
 	 */
 	@Override
 	public Dimension getRealSize() {
-		return new Dimension(getRectangle().width * SharedConstants.DEFAULT_GRID_SIZE / handler.getGridSize(), getRectangle().height * SharedConstants.DEFAULT_GRID_SIZE / handler.getGridSize());
+		return new Dimension(zoom(getRectangle().width), zoom(getRectangle().height));
+	}
+
+	private Rectangle getRealRectangle() {
+		return new Rectangle(zoom(getRectangle().x), zoom(getRectangle().y), zoom(getRectangle().width), zoom(getRectangle().height));
+	}
+
+	private int zoom(int val) {
+		return val * SharedConstants.DEFAULT_GRID_SIZE / handler.getGridSize();
 	}
 
 	@Override

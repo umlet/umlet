@@ -51,7 +51,7 @@ public class ElementFactorySwing extends ElementFactory {
 			public StickableMap getStickableMap() {
 				DiagramHandler h = Main.getHandlerForElement(returnObj);
 				List<Relation> stickables = h.getDrawPanel().getStickables(Collections.<GridElement> emptyList());
-				return Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(returnObj.generateStickingBorder(returnObj.getRectangle()), stickables, h.getGridSize());
+				return Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(returnObj.generateStickingBorder(), stickables, h.getGridSize());
 			}
 		};
 

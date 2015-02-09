@@ -75,7 +75,7 @@ public class DiagramGwt implements Diagram {
 		List<Stickable> stickables = getStickables();
 		stickables.removeAll(excludeList);
 
-		StickingPolygon stickingBorder = draggedElement.generateStickingBorder(draggedElement.getRectangle());
+		StickingPolygon stickingBorder = draggedElement.generateStickingBorder();
 		StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(stickingBorder, stickables, SharedConstants.DEFAULT_GRID_SIZE);
 		return stickingStickables;
 	}

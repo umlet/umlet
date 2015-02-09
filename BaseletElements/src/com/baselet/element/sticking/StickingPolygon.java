@@ -1,5 +1,6 @@
 package com.baselet.element.sticking;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
@@ -7,6 +8,7 @@ import java.util.Vector;
 import com.baselet.control.basics.geom.Line;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.basics.geom.Rectangle;
+import com.baselet.control.constants.SharedConstants;
 
 public class StickingPolygon {
 
@@ -94,6 +96,9 @@ public class StickingPolygon {
 	private final int elementX;
 	private final int elementY;
 
+	// store all points for the copyZoomed() method
+	private final List<PointDouble> allPoints = new ArrayList<PointDouble>();
+
 	public StickingPolygon(int elementX, int elementY) {
 		this.elementX = elementX;
 		this.elementY = elementY;
@@ -107,6 +112,7 @@ public class StickingPolygon {
 
 	public void addPoint(double x, double y) {
 		PointDouble p = new PointDouble(elementX + x, elementY + y);
+		allPoints.add(p);
 		if (firstpoint == null) {
 			firstpoint = p;
 		}
@@ -151,6 +157,18 @@ public class StickingPolygon {
 		}
 
 		return con;
+	}
+
+	public StickingPolygon copyZoomed(int gridSize) {
+		StickingPolygon sp = new StickingPolygon(0, 0);
+		for (PointDouble p : allPoints) {
+			sp.addPoint(zoom(p.getX(), gridSize), zoom(p.getY(), gridSize));
+		}
+		return sp;
+	}
+
+	private static double zoom(double val, int gridSize) {
+		return val * gridSize / SharedConstants.DEFAULT_GRID_SIZE;
 	}
 
 	@Override
