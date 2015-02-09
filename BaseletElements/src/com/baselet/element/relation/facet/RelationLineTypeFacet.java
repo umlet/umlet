@@ -102,7 +102,7 @@ public class RelationLineTypeFacet extends GlobalKeyValueFacet {
 	}
 
 	private static void drawArrowEnds(DrawHandler drawer, RelationPointHandler relationPoints, Match<ArrowEnd> leftArrow, Match<ArrowEnd> rightArrow) {
-		ColorOwn oldBgColor = drawer.getStyle().getBackgroundColor();
+		ColorOwn oldBgColor = drawer.getBackgroundColor();
 		drawer.setBackgroundColor(oldBgColor.transparency(Transparency.FOREGROUND)); // arrow background is not transparent
 		print(drawer, relationPoints, leftArrow, relationPoints.getFirstLine(), true);
 		print(drawer, relationPoints, rightArrow, relationPoints.getLastLine(), false);
@@ -117,7 +117,7 @@ public class RelationLineTypeFacet extends GlobalKeyValueFacet {
 	}
 
 	private static void drawLineBetweenPoints(DrawHandler drawer, RelationPointHandler relationPoints, LineType lineType) {
-		LineType oldLt = drawer.getStyle().getLineType();
+		LineType oldLt = drawer.getLineType();
 		drawer.setLineType(lineType);
 		relationPoints.drawLinesBetweenPoints(drawer);
 		drawer.setLineType(oldLt);

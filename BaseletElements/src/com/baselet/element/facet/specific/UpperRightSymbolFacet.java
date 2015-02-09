@@ -32,16 +32,16 @@ public class UpperRightSymbolFacet extends GlobalKeyValueFacet {
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
 		drawer.setDrawDelayed(true);
-		ColorOwn prevBackgroundColor = drawer.getStyle().getBackgroundColor();
+		ColorOwn prevBackgroundColor = drawer.getBackgroundColor();
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 		UpperRightSymbolEnum symbol = UpperRightSymbolEnum.valueOf(value.toUpperCase());
 		double eW = state.getGridElementSize().getWidth();
-		double fs = drawer.getStyle().getFontSize();
+		double fs = drawer.getFontSize();
 		if (symbol == UpperRightSymbolEnum.USECASE) {
 			double cW = fs * 2.5;
 			double cH = fs;
 			drawer.drawEllipse(eW - cW - DISTANCE, DISTANCE, cW, cH);
-			state.getBuffer().setTopMin((double) DISTANCE);
+			state.getBuffer().setTopMin(DISTANCE);
 		}
 		else if (symbol == UpperRightSymbolEnum.ARTIFACT) {
 			double cW = fs * 1.5;

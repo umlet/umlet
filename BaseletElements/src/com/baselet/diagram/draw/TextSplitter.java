@@ -19,7 +19,7 @@ public class TextSplitter {
 	}
 
 	public static String splitString(String text, double width, DrawHandler drawer) {
-		SplitStringCacheKey key = new SplitStringCacheKey(text, width, drawer.getStyle());
+		SplitStringCacheKey key = new SplitStringCacheKey(text, width, drawer.getStyleClone());
 		String result = splitStringCache.get(key);
 		if (result != null) {
 			return result;

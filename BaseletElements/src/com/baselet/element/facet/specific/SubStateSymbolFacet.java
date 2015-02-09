@@ -27,13 +27,13 @@ public class SubStateSymbolFacet extends GlobalKeyValueFacet {
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
 		drawer.setDrawDelayed(true);
-		ColorOwn prevBackgroundColor = drawer.getStyle().getBackgroundColor();
+		ColorOwn prevBackgroundColor = drawer.getBackgroundColor();
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 		SubStateSymbolEnum symbol = SubStateSymbolEnum.valueOf(value.toUpperCase());
 		final double w = state.getGridElementSize().getWidth();
 		final double h = state.getGridElementSize().getHeight();
 		if (symbol == SubStateSymbolEnum.SUBSTATE) {
-			double cW = drawer.getStyle().getFontSize() * 1.6;
+			double cW = drawer.getFontSize() * 1.6;
 			double cH = cW * 0.4;
 			double cR = cW * 0.15;
 			double connectorW = cH;

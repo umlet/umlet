@@ -21,7 +21,7 @@ public class RelationDrawer {
 	private static final double BOX_SIZE = 20;
 
 	public static Rectangle drawBoxArrow(DrawHandler drawer, Line line, boolean drawOnStart, String matchedText, ResizableObject resizableObject) {
-		double oldFontsize = drawer.getStyle().getFontSize();
+		double oldFontsize = drawer.getFontSize();
 		drawer.setFontSize(12);
 
 		double height = BOX_SIZE;
@@ -32,8 +32,8 @@ public class RelationDrawer {
 		drawer.drawRectangle(r);
 
 		int arrow = 4;
-		ColorOwn oldBgColor = drawer.getStyle().getBackgroundColor();
-		drawer.setBackgroundColor(drawer.getStyle().getForegroundColor());
+		ColorOwn oldBgColor = drawer.getBackgroundColor();
+		drawer.setBackgroundColor(drawer.getForegroundColor());
 		if (matchedText.equals("^")) {
 			PointDouble start = new PointDouble(point.getX(), point.getY() - arrow);
 			drawer.drawLines(start, new PointDouble(point.getX() + arrow, point.getY() + arrow), new PointDouble(point.getX() - arrow, point.getY() + arrow), start);
@@ -93,8 +93,8 @@ public class RelationDrawer {
 		}
 
 		if (fillBody) {
-			ColorOwn bgColor = drawer.getStyle().getBackgroundColor();
-			drawer.setBackgroundColor(drawer.getStyle().getForegroundColor());
+			ColorOwn bgColor = drawer.getBackgroundColor();
+			drawer.setBackgroundColor(drawer.getForegroundColor());
 			drawer.drawLines(points);
 			drawer.setBackgroundColor(bgColor);
 		}
@@ -123,7 +123,7 @@ public class RelationDrawer {
 			drawer.drawCircle(point.getX(), point.getY(), RelationPointConstants.POINT_SELECTION_RADIUS);
 		}
 		else if (openDirection == Direction.LEFT || openDirection == Direction.RIGHT) { // interface half circle
-			ColorOwn bg = drawer.getStyle().getBackgroundColor();
+			ColorOwn bg = drawer.getBackgroundColor();
 			drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 
 			double circleRadius = RelationPointConstants.POINT_SELECTION_RADIUS * 3;

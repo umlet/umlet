@@ -54,7 +54,7 @@ public class Frame extends NewGridElement {
 			double lowerLeftSpace = state.getXLimits(heightOfTitle).getLeft();
 			width += rightSpace + lowerLeftSpace;
 
-			Style style = drawer.getStyle();
+			Style style = drawer.getStyleClone();
 			drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 			drawer.drawLines(new PointDouble(width, top), new PointDouble(width, heightOfTitle - corner), new PointDouble(width - corner, heightOfTitle), new PointDouble(lowerLeftSpace, heightOfTitle));
 			drawer.setStyle(style); // reset style to state before manipulations for drawing the template class

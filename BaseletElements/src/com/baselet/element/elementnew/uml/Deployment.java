@@ -49,7 +49,7 @@ public class Deployment extends NewGridElement {
 				);
 		PointDouble pLine = new PointDouble(w - BORDER, BORDER);
 		// Fill 3d-rectangle
-		Style oldStyle = drawer.getStyle().cloneFromMe();
+		Style oldStyle = drawer.getStyleClone();
 		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 		if (oldStyle.getBackgroundColor() == ColorOwn.DEFAULT_BACKGROUND) {
 			drawer.setBackgroundColor(ColorOwn.WHITE.transparency(Transparency.BACKGROUND).darken(80));

@@ -44,7 +44,7 @@ public class SpecialStateTypeFacet extends GlobalKeyValueFacet {
 		}
 		else if (type == StateTypeEnum.FINAL) {
 			drawer.drawEllipse(0, 0, w, h);
-			ColorOwn oldFg = drawer.getStyle().getForegroundColor();
+			ColorOwn oldFg = drawer.getForegroundColor();
 			drawer.setForegroundColor(ColorOwn.TRANSPARENT); // don't use foregroundcolor for the inner circle, because otherwise in Swing it would look very ugly
 			double ellipseDistance = Math.max(w - 1, h - 1) / 5.5;
 			drawBlackEllipse(drawer, w - ellipseDistance * 2, h - ellipseDistance * 2, ellipseDistance);
@@ -87,12 +87,12 @@ public class SpecialStateTypeFacet extends GlobalKeyValueFacet {
 	}
 
 	private void drawBlackEllipse(final DrawHandler drawer, double width, double height, double xY) {
-		ColorOwn oldBg = drawer.getStyle().getBackgroundColor();
-		if (drawer.getStyle().getBackgroundColor() == ColorOwn.DEFAULT_BACKGROUND) {
+		ColorOwn oldBg = drawer.getBackgroundColor();
+		if (drawer.getBackgroundColor() == ColorOwn.DEFAULT_BACKGROUND) {
 			drawer.setBackgroundColor(ColorOwn.BLACK.transparency(Transparency.FOREGROUND));
 		}
 		else {
-			drawer.setBackgroundColor(drawer.getStyle().getBackgroundColor().transparency(Transparency.FOREGROUND));
+			drawer.setBackgroundColor(drawer.getBackgroundColor().transparency(Transparency.FOREGROUND));
 		}
 		drawer.drawEllipse(xY, xY, width, height);
 		drawer.setBackgroundColor(oldBg);
