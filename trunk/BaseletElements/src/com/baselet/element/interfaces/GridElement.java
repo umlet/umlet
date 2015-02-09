@@ -34,6 +34,8 @@ public interface GridElement extends HasPanelAttributes {
 
 	StickingPolygon generateStickingBorder(Rectangle rect);
 
+	StickingPolygon generateStickingBorder();
+
 	/**
 	 * position of the element on the drawpanel.
 	 * x and y: distance from the upper left corner of the drawpanel.

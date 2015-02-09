@@ -568,7 +568,8 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 		moveStickables(stickables, undoable, oldRect, stickingPolygonBeforeLocationChange, oldAddAttr);
 	}
 
-	private StickingPolygon generateStickingBorder() {
+	@Override
+	public StickingPolygon generateStickingBorder() {
 		return generateStickingBorder(getRectangle());
 	}
 
