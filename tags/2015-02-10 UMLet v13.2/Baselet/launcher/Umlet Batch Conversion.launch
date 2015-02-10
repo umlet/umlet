@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/Baselet/src/com/baselet/control/Main.java"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="1"/>
+</listAttribute>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.baselet.control.Main"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-action=convert -format=jpg &quot;-filename=D:/media/Programmieren/Eclipse/Baselet/palettes/UML Class.uxf&quot; -output=D:\output.jpg"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Baselet"/>
+</launchConfiguration>
