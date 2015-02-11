@@ -39,6 +39,7 @@
 		<copy file="war/umletino.css" tofile="${build.dir}/umletino.css"/>
 		<copy file="war/index.html" tofile="${build.dir}/index.html"/>
 		<copy file="war/umletino.html" tofile="${build.dir}/umletino.html"/>
+		<copy file="war/UMLetino_logo_small.png" tofile="${build.dir}/UMLetino_logo_small.png"/>
 		<!-- replace version with current date (to force browsers to update javascript) -->
 	    <tstamp>
 	      <format property="timestamp" pattern="yyyyMMdd_HHmmsssss"/>
