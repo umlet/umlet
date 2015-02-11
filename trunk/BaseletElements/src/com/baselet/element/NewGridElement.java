@@ -221,7 +221,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	/**
-	 * @deprecated use {@link #generateStickingBorder()} instead, because it generates it for its own Rectangle on 100% zoom and zooms it afterwards (important to make alternative StickingPolygonGenerators like PointDoubleStickingPolygonGenerator work)
+	 * @deprecated use {@link #generateStickingBorder()} instead, because typically the stickingpolygon is created for the own Rectangle, and the other method guarantees that the correct zoom level is applied (important to make alternative StickingPolygonGenerators like PointDoubleStickingPolygonGenerator work)
 	 */
 	@Deprecated
 	@Override
@@ -230,14 +230,12 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	/**
-	 * generates the StickingPolygon of the element
-	 * Should never be overwritten; if a specific StickingPolygon should be created, overwrite the StickingPolygonGenerator in PropertiesParserState eg: Class uses different Generators based on which facets are active (see Class.java)
+	 * generates the StickingPolygon of the element using the rectangle as if the zoomlevel would be 100% (this is IMPORTANT because the sticking-calculation doesn't calculate the zoomlevel (see Issue 229 and 231)
+	 * Should never be overwritten; if a specific StickingPolygon should be created, instead overwrite the StickingPolygonGenerator in PropertiesParserState eg: Class uses different Generators based on which facets are active (see Class.java)
 	 */
 	@Override
 	public final StickingPolygon generateStickingBorder() {
-		// generate the stickingBorder as if zoom were 100% and zoom the points afterwards. This is necessary to make sure alternative StickingPolygonGenerators work which use fixed points (e.g. PointDoubleStickingPolygonGenerator)
-		// a simple generateStickingBorder(getRectangle()) would only work if ALL of the stickingpolygon points are calculated based on the Rectangle parameter (which is zoomed!)
-		return generateStickingBorder(getRealRectangle()).copyZoomed(getGridSize());
+		return generateStickingBorder(getRealRectangle()); // ALWAYS generate the stickingBorder as if zoom were 100%
 	}
 
 	private final void drawStickingPolygon(DrawHandler drawer) {
@@ -300,7 +298,7 @@ public abstract class NewGridElement implements GridElement {
 		return new Dimension(zoom(getRectangle().width), zoom(getRectangle().height));
 	}
 
-	private Rectangle getRealRectangle() {
+	public Rectangle getRealRectangle() {
 		return new Rectangle(zoom(getRectangle().x), zoom(getRectangle().y), zoom(getRectangle().width), zoom(getRectangle().height));
 	}
 

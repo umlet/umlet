@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import com.baselet.control.basics.geom.PointDouble;
-import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.sticking.StickingPolygon.StickLine;
 
 public class StickablesTest {
@@ -102,11 +101,11 @@ public class StickablesTest {
 	private PointChange calcChange(PointDouble point, StickLine oldLine, int xChange, int yChange) {
 		PointDouble oStart = oldLine.getStart();
 		PointDouble oEnd = oldLine.getEnd();
-		return Stickables.calcPointDiffBasedOnStickLineChange(SharedConstants.DEFAULT_GRID_SIZE, 0, point, new StickLineChange(oldLine, line(oStart.getX() + xChange, oStart.getY() + yChange, oEnd.getX() + xChange, oEnd.getY() + yChange)));
+		return Stickables.calcPointDiffBasedOnStickLineChange(0, point, new StickLineChange(oldLine, line(oStart.getX() + xChange, oStart.getY() + yChange, oEnd.getX() + xChange, oEnd.getY() + yChange)));
 	}
 
 	private PointChange calcChange(PointDouble point, StickLine oldLine, StickLine newLine) {
-		return Stickables.calcPointDiffBasedOnStickLineChange(SharedConstants.DEFAULT_GRID_SIZE, 0, point, new StickLineChange(oldLine, newLine));
+		return Stickables.calcPointDiffBasedOnStickLineChange(0, point, new StickLineChange(oldLine, newLine));
 	}
 
 	private static PointDouble point(double x, double y) {

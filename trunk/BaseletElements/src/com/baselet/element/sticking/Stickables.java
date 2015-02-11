@@ -19,15 +19,15 @@ public class Stickables {
 
 	private static Logger log = Logger.getLogger(Stickables.class);
 
-	public static StickableMap getStickingPointsWhichAreConnectedToStickingPolygon(StickingPolygon oldStickingPolygon, Collection<? extends Stickable> stickables, int gridSize) {
-		int maxDistance = Math.max(0, gridSize - 1); // Issue 229: maxDistance must be lower than gridSize
+	public static StickableMap getStickingPointsWhichAreConnectedToStickingPolygon(StickingPolygon oldStickingPolygon, Collection<? extends Stickable> stickables) {
+		int maxDistance = SharedConstants.DEFAULT_GRID_SIZE - 1; // because stickables is always calculated at 10px gridsize, the maxdistance for sticking is 9px (this tolerance is important for diagonal stickinglines like the UseCase has, otherwise 0px tolerance should always work if the stickingLineEnd is always on the exact same Point as the stickingpolygon)
 		log.debug("Polygon to check: " + oldStickingPolygon);
 		StickableMap returnMap = new StickableMap();
 		for (final Stickable stickable : stickables) {
 			for (final PointDoubleIndexed p : stickable.getStickablePoints()) {
 				PointDouble absolutePointPosition = getAbsolutePosition(stickable, p);
 				for (StickLine sl : oldStickingPolygon.getStickLines()) {
-					log.trace("CHECK " + sl + "/" + absolutePointPosition + "/" + maxDistance);
+					System.out.println("CHECK " + sl + "/" + absolutePointPosition + "/" + maxDistance);
 					if (sl.isConnected(absolutePointPosition, maxDistance)) {
 						returnMap.add(stickable, p);
 					}
@@ -89,7 +89,7 @@ public class Stickables {
 			StickLineChange relevantStickline = getNearestStickLineChangeWhichWillChangeTheStickPoint(changedStickLines, absolutePosOfStickablePoint, maxDistance);
 
 			if (relevantStickline != null) {
-				PointChange changedPoint = calcPointDiffBasedOnStickLineChange(stickable.getGridSize(), stickablePoint.getIndex(), absolutePosOfStickablePoint, relevantStickline);
+				PointChange changedPoint = calcPointDiffBasedOnStickLineChange(stickablePoint.getIndex(), absolutePosOfStickablePoint, relevantStickline);
 				if (changedPoint.getDiffX() != 0 || changedPoint.getDiffY() != 0) {
 					changedPoints.add(changedPoint);
 				}
@@ -98,7 +98,7 @@ public class Stickables {
 		return changedPoints;
 	}
 
-	static PointChange calcPointDiffBasedOnStickLineChange(int gridSize, Integer index, PointDouble stickablePoint, StickLineChange stickline) {
+	static PointChange calcPointDiffBasedOnStickLineChange(Integer index, PointDouble stickablePoint, StickLineChange stickline) {
 		StickLine oldLine = stickline.getOld();
 		StickLine newLine = stickline.getNew();
 
@@ -114,10 +114,7 @@ public class Stickables {
 			diffY = calcOtherCoordinate(stickablePoint, oldLine, newLine, diffX, 0).getY().intValue();
 		}
 
-		// the diff values are in current zoom, therefore normalize them (invert operation done in getAbsolutePosition())
-		int diffXdefaultZoom = diffX / gridSize * SharedConstants.DEFAULT_GRID_SIZE;
-		int diffYdefaultZoom = diffY / gridSize * SharedConstants.DEFAULT_GRID_SIZE;
-		return new PointChange(index, diffXdefaultZoom, diffYdefaultZoom);
+		return new PointChange(index, diffX, diffY);
 	}
 
 	private static PointDouble calcOtherCoordinate(PointDouble stickablePoint, StickLine oldLine, StickLine newLine, int diffX, int diffY) {
@@ -162,8 +159,8 @@ public class Stickables {
 
 	private static PointDouble getAbsolutePosition(Stickable stickable, PointDouble pd) {
 		// the points are located relative to the upper left corner of the relation, therefore add this corner to have it located to the upper left corner of the diagram
-		int x = stickable.getRectangle().getX() + pd.getX().intValue() * stickable.getGridSize() / SharedConstants.DEFAULT_GRID_SIZE;
-		int y = stickable.getRectangle().getY() + pd.getY().intValue() * stickable.getGridSize() / SharedConstants.DEFAULT_GRID_SIZE;
+		int x = stickable.getRealRectangle().getX() + pd.getX().intValue();
+		int y = stickable.getRealRectangle().getY() + pd.getY().intValue();
 		return new PointDouble(x, y);
 	}
 

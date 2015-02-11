@@ -11,7 +11,5 @@ public interface Stickable {
 
 	List<PointDoubleIndexed> movePoints(List<PointChange> changedStickPoints);
 
-	Rectangle getRectangle();
-
-	int getGridSize();
+	Rectangle getRealRectangle();
 }
