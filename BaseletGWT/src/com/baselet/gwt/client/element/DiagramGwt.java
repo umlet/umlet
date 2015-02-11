@@ -7,7 +7,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.baselet.control.config.SharedConfig;
-import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.relation.Relation;
@@ -76,7 +75,7 @@ public class DiagramGwt implements Diagram {
 		stickables.removeAll(excludeList);
 
 		StickingPolygon stickingBorder = draggedElement.generateStickingBorder();
-		StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(stickingBorder, stickables, SharedConstants.DEFAULT_GRID_SIZE);
+		StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(stickingBorder, stickables);
 		return stickingStickables;
 	}
 

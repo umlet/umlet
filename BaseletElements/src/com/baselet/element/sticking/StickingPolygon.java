@@ -8,7 +8,6 @@ import java.util.Vector;
 import com.baselet.control.basics.geom.Line;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.basics.geom.Rectangle;
-import com.baselet.control.constants.SharedConstants;
 
 public class StickingPolygon {
 
@@ -158,18 +157,6 @@ public class StickingPolygon {
 		}
 
 		return con;
-	}
-
-	public StickingPolygon copyZoomed(int gridSize) {
-		StickingPolygon sp = new StickingPolygon(0, 0);
-		for (PointDouble p : allPoints) {
-			sp.addPoint(zoom(p.getX(), gridSize), zoom(p.getY(), gridSize));
-		}
-		return sp;
-	}
-
-	private static double zoom(double val, int gridSize) {
-		return val * gridSize / SharedConstants.DEFAULT_GRID_SIZE;
 	}
 
 	@Override

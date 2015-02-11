@@ -299,7 +299,7 @@ public class GridElementListener extends UniversalListener {
 		List<com.baselet.element.relation.Relation> stickables = handler.getDrawPanel().getStickables(entitiesToBeMoved);
 		for (GridElement ge : entitiesToBeMoved) {
 			// reduce stickables to those which really stick at the element at move-start
-			StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(), stickables, handler.getGridSize());
+			StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(), stickables);
 			moveCommands.add(new Move(directions, ge, diffx, diffy, oldp, isShiftKeyDown, true, useSetLocation, stickingStickables));
 			boolean stickingDisabled = !SharedConfig.getInstance().isStickingEnabled() || handler instanceof PaletteHandler;
 			if (ge instanceof Relation || stickingDisabled) {
