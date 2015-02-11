@@ -27,7 +27,7 @@ public class Stickables {
 			for (final PointDoubleIndexed p : stickable.getStickablePoints()) {
 				PointDouble absolutePointPosition = getAbsolutePosition(stickable, p);
 				for (StickLine sl : oldStickingPolygon.getStickLines()) {
-					System.out.println("CHECK " + sl + "/" + absolutePointPosition + "/" + maxDistance);
+					log.trace("CHECK " + sl + "/" + absolutePointPosition + "/" + maxDistance);
 					if (sl.isConnected(absolutePointPosition, maxDistance)) {
 						returnMap.add(stickable, p);
 					}
