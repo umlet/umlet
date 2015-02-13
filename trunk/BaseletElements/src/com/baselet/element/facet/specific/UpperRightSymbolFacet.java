@@ -6,10 +6,10 @@ import java.util.List;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.element.facet.GlobalKeyValueFacet;
+import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class UpperRightSymbolFacet extends GlobalKeyValueFacet {
+public class UpperRightSymbolFacet extends KeyValueFacet {
 
 	public static final UpperRightSymbolFacet INSTANCE = new UpperRightSymbolFacet();
 
@@ -31,7 +31,6 @@ public class UpperRightSymbolFacet extends GlobalKeyValueFacet {
 
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
-		drawer.setDrawDelayed(true);
 		ColorOwn prevBackgroundColor = drawer.getBackgroundColor();
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 		UpperRightSymbolEnum symbol = UpperRightSymbolEnum.valueOf(value.toUpperCase());
@@ -78,7 +77,6 @@ public class UpperRightSymbolFacet extends GlobalKeyValueFacet {
 					));
 			state.getBuffer().setTopMin(DISTANCE + fs * 0.3);
 		}
-		drawer.setDrawDelayed(false);
 		drawer.setBackgroundColor(prevBackgroundColor);
 	}
 
