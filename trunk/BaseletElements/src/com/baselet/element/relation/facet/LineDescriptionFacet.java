@@ -111,9 +111,6 @@ public class LineDescriptionFacet extends Facet {
 	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
 		LineDescriptionFacetResponse response = getOrInitOwnResponse(state);
 
-		// all unused textboxes must be reset to default size (to make sure the relation size is correct even if LineDescriptionFacet is never called)
-		getRelationPoints(state).resetTextBoxIndexesExcept(response.getAlreadysetIndexes());
-
 		if (!handledLines.isEmpty()) {
 			DrawHandler drawer = state.getDrawer();
 			int i = 0;
@@ -125,6 +122,10 @@ public class LineDescriptionFacet extends Facet {
 				printAndUpdateIndex(drawer, response, relationPoints, pointText, LineDescriptionEnum.MESSAGE_MIDDLE.getIndex() + number, text);
 			}
 		}
+
+		// all unused textboxes must be reset to default size (to make sure the relation size is correct even if LineDescriptionFacet is never called)
+		getRelationPoints(state).resetTextBoxIndexesExcept(response.getAlreadysetIndexes());
+
 	}
 
 	@Override
