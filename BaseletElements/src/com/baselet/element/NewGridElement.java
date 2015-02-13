@@ -28,7 +28,6 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.facet.Facet;
-import com.baselet.element.facet.GlobalFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 import com.baselet.element.facet.common.GroupFacet;
@@ -324,7 +323,7 @@ public abstract class NewGridElement implements GridElement {
 	private void addAutocompletionTexts(List<AutocompletionText> returnList, List<? extends Facet> facets) {
 		for (Facet f : facets) {
 			for (AutocompletionText t : f.getAutocompletionStrings()) {
-				t.setGlobal(f instanceof GlobalFacet);
+				t.setGlobal(f.isGlobal());
 				returnList.add(t);
 			}
 		}

@@ -14,13 +14,13 @@ import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.facet.GlobalFacet;
+import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.relation.helper.LineDescriptionEnum;
 import com.baselet.element.relation.helper.RelationPointHandler;
 import com.baselet.gui.AutocompletionText;
 
-public class LineDescriptionFacet extends GlobalFacet {
+public class LineDescriptionFacet extends Facet {
 
 	static final int X_DIST_TO_LINE = 4;
 	static final int LOWER_Y_DIST_TO_LINE = 1;
@@ -63,7 +63,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 	@Override
 	public void handleLine(String line, PropertiesParserState state) {
 		DrawHandler drawer = state.getDrawer();
-		Map<String, Point> displacements = state.getOrInitFacetResponse(DescriptionPositionFacet.class, new HashMap<String, Point>());
+		Map<String, Point> displacements = state.getOrInitFacetResponse(LineDescriptionPositionFacet.class, new HashMap<String, Point>());
 		RelationPointHandler relationPoints = getRelationPoints(state);
 		LineDescriptionFacetResponse response = getOrInitOwnResponse(state);
 

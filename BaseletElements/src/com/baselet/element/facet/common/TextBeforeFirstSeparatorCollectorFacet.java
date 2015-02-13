@@ -11,7 +11,7 @@ import com.baselet.gui.AutocompletionText;
 
 /**
  * the collector is the last global facet which should be applied (therefore LOW prio)
- * it must be global to be applied before the drawCommonContent of the class but after any other global facet
+ * it must be global to be applied before the drawCommonContent of the GridElement but after any other global facet
  */
 public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 
