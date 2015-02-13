@@ -1,12 +1,18 @@
 package com.baselet.element.facet.specific;
 
+import java.util.List;
+
 import com.baselet.control.basics.XValues;
 import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.facet.KeyValueFacet;
+import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class ActiveClassFacet extends KeyValueFacet {
+/**
+ * must be global because it manipulates the left buffer which is used by local facets
+ * must handle values in parsingFinished when drawer-setup
+ */
+public class ActiveClassFacet extends GlobalKeyValueFacet {
 
 	public static final ActiveClassFacet INSTANCE = new ActiveClassFacet();
 
@@ -25,13 +31,20 @@ public class ActiveClassFacet extends KeyValueFacet {
 
 	@Override
 	public void handleValue(String value, PropertiesParserState state) {
-		ClassTypeEnum.valueOf(value.toUpperCase()); // parse the value to make sure only valid types are accepted
+		// only act if parsing is finished to make sure DrawHandler-Setup is finished
+	}
 
-		state.getBuffer().addToLeftAndRight(SPACING);
-		XValues xLimits = state.getXLimits(state.getTextPrintPosition());
-		DrawHandler drawer = state.getDrawer();
-		drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), state.getGridElementSize().getHeight());
-		drawer.drawLine(xLimits.getRight(), 0, xLimits.getRight(), state.getGridElementSize().getHeight());
+	@Override
+	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
+		if (!handledLines.isEmpty()) {
+			ClassTypeEnum.valueOf(extractValue(handledLines.get(0)).toUpperCase()); // parse the value to make sure only valid types are accepted
+
+			state.getBuffer().addToLeftAndRight(SPACING);
+			XValues xLimits = state.getXLimits(state.getTextPrintPosition());
+			DrawHandler drawer = state.getDrawer();
+			drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), state.getGridElementSize().getHeight());
+			drawer.drawLine(xLimits.getRight(), 0, xLimits.getRight(), state.getGridElementSize().getHeight());
+		}
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import com.baselet.element.facet.PropertiesParserState;
 
 /**
  * must be global because it manipulates the left buffer which is used by local facets
+ * must handle values in parsingFinished when drawer-setup
  */
 public class StateTypeFacet extends GlobalKeyValueFacet {
 
@@ -31,7 +32,9 @@ public class StateTypeFacet extends GlobalKeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(final String value, final PropertiesParserState state) {}
+	public void handleValue(final String value, final PropertiesParserState state) {
+		// only act if parsing is finished to make sure DrawHandler-Setup is finished
+	}
 
 	private void drawActionState(final DrawHandler drawer, Dimension s) {
 		int radius = Math.min(20, Math.min(s.width, s.height) / 5);
