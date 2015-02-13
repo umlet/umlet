@@ -1,7 +1,6 @@
 package com.baselet.element.facet.common;
 
 import com.baselet.control.constants.FacetConstants;
-import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.facet.GlobalKeyValueFacet;
@@ -21,11 +20,6 @@ public class ForegroundColorFacet extends GlobalKeyValueFacet {
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
 		drawer.setForegroundColor(value);
-	}
-
-	@Override
-	public Priority getPriority() {
-		return Priority.HIGHEST;
 	}
 
 }

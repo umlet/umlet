@@ -8,13 +8,15 @@ import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
-import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
+/**
+ * must be global, because the execution of Class.drawCommonContent() depends on the result of this facet
+ */
 public class TemplateClassFacet extends GlobalKeyValueFacet {
 
 	public static final TemplateClassFacet INSTANCE = new TemplateClassFacet();
@@ -79,11 +81,6 @@ public class TemplateClassFacet extends GlobalKeyValueFacet {
 		double templateWidth = drawer.textWidth(templateClassText) + LEFT_SPACE;
 		Rectangle tR = new Rectangle(width - templateWidth, 0.0, templateWidth, templateHeight);
 		return tR;
-	}
-
-	@Override
-	public Priority getPriority() {
-		return Priority.HIGH;
 	}
 
 }

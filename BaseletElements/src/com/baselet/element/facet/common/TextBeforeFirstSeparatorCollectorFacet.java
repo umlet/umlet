@@ -51,7 +51,7 @@ public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 
 	@Override
 	public Priority getPriority() {
-		return Priority.LOW;
+		return Priority.LOW; // only collect which is not used by any other facet
 	}
 
 	private TextBeforeFirstSeparatorCollectorFacetResponse getOrInit(PropertiesParserState state) {

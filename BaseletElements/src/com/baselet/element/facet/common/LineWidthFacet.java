@@ -1,7 +1,6 @@
 package com.baselet.element.facet.common;
 
 import com.baselet.control.constants.FacetConstants;
-import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -20,11 +19,6 @@ public class LineWidthFacet extends GlobalKeyValueFacet {
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
 		drawer.setLineWidth(Float.valueOf(value));
-	}
-
-	@Override
-	public Priority getPriority() {
-		return Priority.HIGHEST;
 	}
 
 }
