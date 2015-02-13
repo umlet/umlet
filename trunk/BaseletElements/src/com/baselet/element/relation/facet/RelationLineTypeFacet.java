@@ -48,15 +48,15 @@ public class RelationLineTypeFacet extends GlobalKeyValueFacet {
 	private static final List<ArrowEnd> RIGHT_ARROW_STRINGS = SharedUtils.mergeLists(SHARED_ARROW_STRINGS_BEFORE, Arrays.asList(ArrowEnd.RIGHT_BOX, ArrowEnd.RIGHT_FILLED_DIAMOND, ArrowEnd.RIGHT_DIAMOND, ArrowEnd.RIGHT_FILLED_CLOSED, ArrowEnd.RIGHT_CLOSED, ArrowEnd.RIGHT_NORMAL, ArrowEnd.RIGHT_INVERTED, ArrowEnd.RIGHT_INTERFACE_OPEN), SHARED_ARROW_STRINGS_AFTER);
 	private static final List<LineType> LINE_TYPES = Arrays.asList(LineType.SOLID, LineType.DOTTED, LineType.DASHED);
 
-	public RelationPointHandler getRelationPoints(PropertiesParserState config) {
-		return ((SettingsRelation) config.getSettings()).getRelationPoints();
+	public RelationPointHandler getRelationPoints(PropertiesParserState state) {
+		return ((SettingsRelation) state.getSettings()).getRelationPoints();
 	}
 
 	private String remainingValue;
 
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
-		RelationPointHandler relationPoints = ((SettingsRelation) state.getSettings()).getRelationPoints();
+		RelationPointHandler relationPoints = getRelationPoints(state);
 		remainingValue = value;
 
 		Match<ArrowEnd> leftArrow = extractPart(LEFT_ARROW_STRINGS);
@@ -78,7 +78,6 @@ public class RelationLineTypeFacet extends GlobalKeyValueFacet {
 		log.debug("Split Relation " + value + " into following parts: " + getValueNotNull(leftArrow) + " | " + getValueNotNull(lineType) + " | " + getValueNotNull(rightArrow));
 
 		drawLineAndArrows(drawer, relationPoints, lineType, leftArrow, rightArrow);
-		state.setFacetResponse(RelationLineTypeFacet.class, true); // let Relation know that lt= is set
 	}
 
 	private <T extends RegexValueHolder> String listToString(List<T> valueHolderList) {
@@ -91,6 +90,9 @@ public class RelationLineTypeFacet extends GlobalKeyValueFacet {
 		return sb.toString();
 	}
 
+	/**
+	 * if no explicit linetype is set, draw a solid line without arrows
+	 */
 	public static void drawDefaultLineAndArrows(DrawHandler drawer, RelationPointHandler relationPoints) {
 		drawLineAndArrows(drawer, relationPoints, new Match<LineType>("", LineType.SOLID), new Match<ArrowEnd>("", null), new Match<ArrowEnd>("", null));
 	}
@@ -142,6 +144,13 @@ public class RelationLineTypeFacet extends GlobalKeyValueFacet {
 		}
 		else {
 			return valueHolder.type.getRegexValue();
+		}
+	}
+
+	@Override
+	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
+		if (handledLines.isEmpty()) {
+			drawDefaultLineAndArrows(state.getDrawer(), getRelationPoints(state));
 		}
 	}
 
