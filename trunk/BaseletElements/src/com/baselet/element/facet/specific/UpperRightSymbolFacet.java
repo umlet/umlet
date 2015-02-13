@@ -30,7 +30,8 @@ public class UpperRightSymbolFacet extends KeyValueFacet {
 	private static final int DISTANCE = 5;
 
 	@Override
-	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
+	public void handleValue(String value, PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		ColorOwn prevBackgroundColor = drawer.getBackgroundColor();
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 		UpperRightSymbolEnum symbol = UpperRightSymbolEnum.valueOf(value.toUpperCase());

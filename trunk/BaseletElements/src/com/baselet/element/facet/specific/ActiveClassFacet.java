@@ -4,7 +4,6 @@ import com.baselet.control.basics.XValues;
 import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.KeyValueFacet;
-import com.baselet.element.facet.KeyValueFacet.ValueInfo;
 import com.baselet.element.facet.PropertiesParserState;
 
 public class ActiveClassFacet extends KeyValueFacet {
@@ -25,11 +24,12 @@ public class ActiveClassFacet extends KeyValueFacet {
 	private static final int SPACING = 6;
 
 	@Override
-	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
+	public void handleValue(String value, PropertiesParserState state) {
 		ClassTypeEnum.valueOf(value.toUpperCase()); // parse the value to make sure only valid types are accepted
 
 		state.getBuffer().addToLeftAndRight(SPACING);
 		XValues xLimits = state.getXLimits(state.getTextPrintPosition());
+		DrawHandler drawer = state.getDrawer();
 		drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), state.getGridElementSize().getHeight());
 		drawer.drawLine(xLimits.getRight(), 0, xLimits.getRight(), state.getGridElementSize().getHeight());
 	}

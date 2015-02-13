@@ -35,7 +35,8 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(final String value, final DrawHandler drawer, final PropertiesParserState state) {
+	public void handleValue(final String value, final PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		StateTypeEnum type = StateTypeEnum.valueOf(value.toUpperCase());
 		Dimension s = state.getGridElementSize();
 		// IMPORTANT NOTE: Make sure the element looks good in Swing and GWT because it's quite complex because of 1px displacements (check in UML State Machine palette)

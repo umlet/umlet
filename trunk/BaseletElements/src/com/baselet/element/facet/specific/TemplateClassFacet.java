@@ -33,7 +33,7 @@ public class TemplateClassFacet extends GlobalKeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
+	public void handleValue(String value, PropertiesParserState state) {
 		state.setFacetResponse(TemplateClassFacet.class, value);
 	}
 

@@ -1,6 +1,5 @@
 package com.baselet.element.facet.common;
 
-import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -21,7 +20,7 @@ public class LayerFacet extends GlobalKeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
+	public void handleValue(String value, PropertiesParserState state) {
 		try {
 			state.setFacetResponse(LayerFacet.class, Integer.valueOf(value));
 		} catch (NumberFormatException e) {

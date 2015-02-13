@@ -57,7 +57,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 	private String remainingValue;
 
 	@Override
-	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
+	public void handleValue(String value, PropertiesParserState state) {
 		RelationPointHandler relationPoints = getRelationPoints(state);
 		remainingValue = value;
 
@@ -79,7 +79,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		}
 		log.debug("Split Relation " + value + " into following parts: " + getValueNotNull(leftArrow) + " | " + getValueNotNull(lineType) + " | " + getValueNotNull(rightArrow));
 
-		drawLineAndArrows(drawer, relationPoints, lineType, leftArrow, rightArrow);
+		drawLineAndArrows(state.getDrawer(), relationPoints, lineType, leftArrow, rightArrow);
 	}
 
 	private <T extends RegexValueHolder> String listToString(List<T> valueHolderList) {

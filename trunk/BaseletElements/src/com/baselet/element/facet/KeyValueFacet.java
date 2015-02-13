@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.enums.FormatLabels;
-import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.gui.AutocompletionText;
 
@@ -90,7 +89,7 @@ public abstract class KeyValueFacet extends Facet {
 
 	public abstract KeyValue getKeyValue();
 
-	public abstract void handleValue(String value, DrawHandler drawer, PropertiesParserState state);
+	public abstract void handleValue(String value, PropertiesParserState state);
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
@@ -99,9 +98,9 @@ public abstract class KeyValueFacet extends Facet {
 
 	@Override
 	public void handleLine(String line, PropertiesParserState state) {
-		String value = line.substring(getKeyWithSep().length());
+		String value = extractValue(line);
 		try {
-			handleValue(value, state.getDrawer(), state);
+			handleValue(value, state);
 		} catch (Exception e) {
 			log.debug("KeyValue Error", e);
 			String errorMessage = getKeyValue().getValueString();
@@ -110,6 +109,10 @@ public abstract class KeyValueFacet extends Facet {
 			}
 			throw new RuntimeException(FormatLabels.BOLD.getValue() + "Invalid value:" + FormatLabels.BOLD.getValue() + "\n" + getKeyWithSep() + value + "\n" + errorMessage);
 		}
+	}
+
+	protected String extractValue(String line) {
+		return line.substring(getKeyWithSep().length());
 	}
 
 	@Override
