@@ -25,7 +25,8 @@ public class SubStateSymbolFacet extends KeyValueFacet {
 	private static final int DIST_BOTTOM = 5;
 
 	@Override
-	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
+	public void handleValue(String value, PropertiesParserState state) {
+		DrawHandler drawer = state.getDrawer();
 		drawer.setDrawDelayed(true); // should be always on top of background
 		ColorOwn prevBackgroundColor = drawer.getBackgroundColor();
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);

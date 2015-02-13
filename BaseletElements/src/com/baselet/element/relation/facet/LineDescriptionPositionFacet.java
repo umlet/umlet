@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.baselet.control.basics.geom.Point;
-import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -34,7 +33,7 @@ public class LineDescriptionPositionFacet extends GlobalKeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
+	public void handleValue(String value, PropertiesParserState state) {
 		try {
 			Map<String, Point> displacements = state.getOrInitFacetResponse(LineDescriptionPositionFacet.class, new HashMap<String, Point>());
 			String[] split = value.split(",");

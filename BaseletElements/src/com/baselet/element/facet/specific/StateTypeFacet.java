@@ -6,10 +6,13 @@ import java.util.List;
 import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.facet.KeyValueFacet;
+import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class StateTypeFacet extends KeyValueFacet {
+/**
+ * must be global because it manipulates the left buffer which is used by local facets
+ */
+public class StateTypeFacet extends GlobalKeyValueFacet {
 
 	public static final StateTypeFacet INSTANCE = new StateTypeFacet();
 
@@ -28,20 +31,7 @@ public class StateTypeFacet extends KeyValueFacet {
 	}
 
 	@Override
-	public void handleValue(final String value, final DrawHandler drawer, final PropertiesParserState state) {
-		ActionTypeEnum type = ActionTypeEnum.valueOf(value.toUpperCase());
-		Dimension s = state.getGridElementSize();
-		if (type == ActionTypeEnum.STATE) {
-			drawActionState(drawer, s);
-		}
-		else if (type == ActionTypeEnum.SENDER) {
-			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width - depth(s), 0), p(s.width, s.height / 2.0), p(s.width - depth(s), s.height), p(0, s.height), p(0, 0)));
-		}
-		else if (type == ActionTypeEnum.RECEIVER) {
-			state.getBuffer().addToLeft(depth(s));
-			drawer.drawLines(Arrays.asList(p(0, 0), p(s.width, 0), p(s.width, s.height), p(0, s.height), p(depth(s), s.height / 2.0), p(0, 0)));
-		}
-	}
+	public void handleValue(final String value, final PropertiesParserState state) {}
 
 	private void drawActionState(final DrawHandler drawer, Dimension s) {
 		int radius = Math.min(20, Math.min(s.width, s.height) / 5);
@@ -60,6 +50,22 @@ public class StateTypeFacet extends KeyValueFacet {
 	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
 		if (handledLines.isEmpty()) {
 			drawActionState(state.getDrawer(), state.getGridElementSize());
+		}
+		else if (handledLines.size() == 1) {
+			final PropertiesParserState state1 = state;
+			DrawHandler drawer = state1.getDrawer();
+			ActionTypeEnum type = ActionTypeEnum.valueOf(extractValue(handledLines.get(0).toUpperCase()));
+			Dimension s = state1.getGridElementSize();
+			if (type == ActionTypeEnum.STATE) {
+				drawActionState(drawer, s);
+			}
+			else if (type == ActionTypeEnum.SENDER) {
+				drawer.drawLines(Arrays.asList(p(0, 0), p(s.width - depth(s), 0), p(s.width, s.height / 2.0), p(s.width - depth(s), s.height), p(0, s.height), p(0, 0)));
+			}
+			else if (type == ActionTypeEnum.RECEIVER) {
+				state1.getBuffer().addToLeft(depth(s));
+				drawer.drawLines(Arrays.asList(p(0, 0), p(s.width, 0), p(s.width, s.height), p(0, s.height), p(depth(s), s.height / 2.0), p(0, 0)));
+			}
 		}
 	}
 
