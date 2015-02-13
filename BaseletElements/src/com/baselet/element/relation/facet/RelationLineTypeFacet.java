@@ -13,13 +13,17 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.StyleException;
-import com.baselet.element.facet.KeyValueFacet;
+import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.relation.helper.RelationPointHandler;
 import com.baselet.element.relation.helper.ResizableObject;
 import com.baselet.element.sticking.PointDoubleIndexed;
 
-public class RelationLineTypeFacet extends KeyValueFacet {
+/**
+ * must be global because it manipulates the relation position and size (in case of [text]-[text] line which can possibly exceed the old relation size)
+ * must handle values in parsingFinished when drawer-setup is finished
+ */
+public class RelationLineTypeFacet extends GlobalKeyValueFacet {
 
 	static final String KEY = "lt";
 
@@ -54,33 +58,22 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		return ((SettingsRelation) state.getSettings()).getRelationPoints();
 	}
 
-	private String remainingValue;
+	private static class Remaining {
+		String value;
+
+		public Remaining(String value) {
+			this.value = value;
+		}
+
+		@Override
+		public String toString() { // is used in error message
+			return value;
+		}
+
+	}
 
 	@Override
-	public void handleValue(String value, PropertiesParserState state) {
-		RelationPointHandler relationPoints = getRelationPoints(state);
-		remainingValue = value;
-
-		Match<ArrowEnd> leftArrow = extractPart(LEFT_ARROW_STRINGS);
-		Match<LineType> lineType = extractPart(LINE_TYPES);
-		if (leftArrow.type == null && lineType.type == null) {
-			throw new StyleException("left arrow must be one of the following or empty:\n" + listToString(LEFT_ARROW_STRINGS));
-		}
-		if (lineType.type == null) {
-			throw new StyleException("lineType must be specified. One of: " + listToString(LINE_TYPES));
-		}
-		Match<ArrowEnd> rightArrow = extractPart(RIGHT_ARROW_STRINGS);
-		if (rightArrow.type == null && !remainingValue.isEmpty()) {
-			throw new StyleException("right arrow must be one of the following or empty:\n" + listToString(RIGHT_ARROW_STRINGS));
-		}
-		if (!remainingValue.isEmpty()) {
-			throw new StyleException("Unknown part after rightArrow: " + remainingValue);
-
-		}
-		log.debug("Split Relation " + value + " into following parts: " + getValueNotNull(leftArrow) + " | " + getValueNotNull(lineType) + " | " + getValueNotNull(rightArrow));
-
-		drawLineAndArrows(state.getDrawer(), relationPoints, lineType, leftArrow, rightArrow);
-	}
+	public void handleValue(String value, PropertiesParserState state) {}
 
 	private <T extends RegexValueHolder> String listToString(List<T> valueHolderList) {
 		StringBuilder sb = new StringBuilder();
@@ -127,13 +120,13 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 		drawer.setLineType(oldLt);
 	}
 
-	private <T extends RegexValueHolder> Match<T> extractPart(List<T> valueHolderList) {
+	private <T extends RegexValueHolder> Match<T> extractPart(List<T> valueHolderList, Remaining remaining) {
 		for (T valueHolder : valueHolderList) {
 			String regex = "^" + valueHolder.getRegexValue(); // only match from start of the line (left to right)
-			String newRemainingValue = remainingValue.replaceFirst(regex, "");
-			if (!remainingValue.equals(newRemainingValue)) {
-				String removedPart = remainingValue.substring(0, remainingValue.length() - newRemainingValue.length());
-				remainingValue = newRemainingValue;
+			String newRemainingValue = remaining.value.replaceFirst(regex, "");
+			if (!remaining.value.equals(newRemainingValue)) {
+				String removedPart = remaining.value.substring(0, remaining.value.length() - newRemainingValue.length());
+				remaining.value = newRemainingValue;
 				return new Match<T>(removedPart, valueHolder);
 			}
 		}
@@ -153,6 +146,35 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
 		if (handledLines.isEmpty()) {
 			drawDefaultLineAndArrows(state.getDrawer(), getRelationPoints(state));
+		}
+		else if (handledLines.size() == 1) {
+			RelationPointHandler relationPoints = getRelationPoints(state);
+			String value = extractValue(handledLines.get(0));
+			Remaining remaining = new Remaining(value);
+
+			Match<ArrowEnd> leftArrow = extractPart(LEFT_ARROW_STRINGS, remaining);
+			Match<LineType> lineType = extractPart(LINE_TYPES, remaining);
+			if (leftArrow.type == null && lineType.type == null) {
+				throw new StyleException("left arrow must be one of the following or empty:\n" + listToString(LEFT_ARROW_STRINGS));
+			}
+			if (lineType.type == null) {
+				throw new StyleException("lineType must be specified. One of: " + listToString(LINE_TYPES));
+			}
+			Match<ArrowEnd> rightArrow = extractPart(RIGHT_ARROW_STRINGS, remaining);
+			if (rightArrow.type == null && !remaining.value.isEmpty()) {
+				throw new StyleException("right arrow must be one of the following or empty:\n" + listToString(RIGHT_ARROW_STRINGS));
+			}
+			if (!remaining.value.isEmpty()) {
+				throw new StyleException("Unknown part after rightArrow: " + remaining);
+
+			}
+			log.debug("Split Relation " + value + " into following parts: " + getValueNotNull(leftArrow) + " | " + getValueNotNull(lineType) + " | " + getValueNotNull(rightArrow));
+
+			drawLineAndArrows(state.getDrawer(), relationPoints, lineType, leftArrow, rightArrow);
+			relationPoints.resizeRectAndReposPoints(); // apply the (possible) changes now to make sure the following facets use correct coordinates
+		}
+		else {
+			throw new StyleException("Only one lineType allowed");
 		}
 	}
 
