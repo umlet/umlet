@@ -1,5 +1,7 @@
 package com.baselet.element.facet.specific;
 
+import java.util.List;
+
 import com.baselet.control.basics.XValues;
 import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.basics.geom.PointDouble;
@@ -7,10 +9,10 @@ import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.element.facet.GlobalKeyValueFacet;
+import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class SpecialStateTypeFacet extends GlobalKeyValueFacet {
+public class SpecialStateTypeFacet extends KeyValueFacet {
 
 	public static final SpecialStateTypeFacet INSTANCE = new SpecialStateTypeFacet();
 
@@ -36,9 +38,9 @@ public class SpecialStateTypeFacet extends GlobalKeyValueFacet {
 	public void handleValue(final String value, final DrawHandler drawer, final PropertiesParserState state) {
 		StateTypeEnum type = StateTypeEnum.valueOf(value.toUpperCase());
 		Dimension s = state.getGridElementSize();
-		// IMPORTANT NOTE: Make sure the element looks good in Swing and GWT because it's quite complex (check in UML State Machine palette)
-		double w = s.getWidth() - 1;
-		double h = s.getHeight() - 1;
+		// IMPORTANT NOTE: Make sure the element looks good in Swing and GWT because it's quite complex because of 1px displacements (check in UML State Machine palette)
+		double w = getWidth(s);
+		double h = getHeight(s);
 		if (type == StateTypeEnum.INITIAL) {
 			drawBlackEllipse(drawer, w - 1, h - 1, 1);
 		}
@@ -73,16 +75,15 @@ public class SpecialStateTypeFacet extends GlobalKeyValueFacet {
 			drawer.print(text, new PointDouble(x, y), AlignHorizontal.LEFT);
 		}
 		else if (type == StateTypeEnum.TERMINATION) {
-			drawer.drawLine(0, 0, s.getWidth(), s.getHeight());
-			drawer.drawLine(s.getWidth(), 0, 0, s.getHeight());
+			drawer.drawLine(0, 0, w, h);
+			drawer.drawLine(w, 0, 0, h);
 		}
 		else if (type == StateTypeEnum.DECISION) {
 			drawDecision(drawer, w, h);
 		}
-		state.setFacetResponse(SpecialStateTypeFacet.class, true);
 	}
 
-	public static void drawDecision(final DrawHandler drawer, final double w, final double h) {
+	private void drawDecision(final DrawHandler drawer, final double w, final double h) {
 		drawer.drawLines(new PointDouble(0.5 + w / 2, 1), new PointDouble(w, 0.5 + h / 2), new PointDouble(0.5 + w / 2, h), new PointDouble(1, 0.5 + h / 2), new PointDouble(0.5 + w / 2, 1));
 	}
 
@@ -98,4 +99,19 @@ public class SpecialStateTypeFacet extends GlobalKeyValueFacet {
 		drawer.setBackgroundColor(oldBg);
 	}
 
+	@Override
+	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
+		if (handledLines.isEmpty()) { // default is decision
+			Dimension s = state.getGridElementSize();
+			drawDecision(state.getDrawer(), getWidth(s), getHeight(s));
+		}
+	}
+
+	private int getHeight(Dimension s) {
+		return s.getHeight() - 1;
+	}
+
+	private int getWidth(Dimension s) {
+		return s.getWidth() - 1;
+	}
 }

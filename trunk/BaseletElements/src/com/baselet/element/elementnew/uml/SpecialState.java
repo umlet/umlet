@@ -3,7 +3,6 @@ package com.baselet.element.elementnew.uml;
 import java.util.List;
 
 import com.baselet.control.enums.ElementId;
-import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -19,13 +18,7 @@ public class SpecialState extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(PropertiesParserState state) {
-		DrawHandler drawer = state.getDrawer();
-		// if not type is given, throw an error
-		if (!state.getFacetResponse(SpecialStateTypeFacet.class, false)) { // default is decision
-			SpecialStateTypeFacet.drawDecision(drawer, getRealSize().getWidth(), getRealSize().getHeight());
-		}
-	}
+	protected void drawCommonContent(PropertiesParserState state) {}
 
 	@Override
 	protected Settings createSettings() {

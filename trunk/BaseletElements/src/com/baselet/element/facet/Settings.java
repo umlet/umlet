@@ -22,7 +22,7 @@ import com.baselet.element.facet.common.LineWidthFacet;
 import com.baselet.element.facet.common.SeparatorLineFacet;
 import com.baselet.element.facet.common.TextPrintFacet;
 import com.baselet.element.facet.common.VerticalAlignFacet;
-import com.baselet.element.relation.facet.DescriptionPositionFacet;
+import com.baselet.element.relation.facet.LineDescriptionPositionFacet;
 import com.baselet.element.relation.facet.LineDescriptionFacet;
 import com.baselet.element.relation.facet.RelationLineTypeFacet;
 
@@ -34,7 +34,7 @@ import com.baselet.element.relation.facet.RelationLineTypeFacet;
 public abstract class Settings {
 	// the following lists are default facet configurations. they are declared here as a simple overview and for easy reuse
 	protected static final List<Facet> NOTEXT = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE);
-	protected static final List<Facet> RELATION = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, DescriptionPositionFacet.INSTANCE_MESSAGE_START, DescriptionPositionFacet.INSTANCE_MESSAGE_END, DescriptionPositionFacet.INSTANCE_ROLE_START, DescriptionPositionFacet.INSTANCE_ROLE_END);
+	protected static final List<Facet> RELATION = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, LineDescriptionPositionFacet.INSTANCE_MESSAGE_START, LineDescriptionPositionFacet.INSTANCE_MESSAGE_END, LineDescriptionPositionFacet.INSTANCE_ROLE_START, LineDescriptionPositionFacet.INSTANCE_ROLE_END);
 	protected static final List<Facet> AUTORESIZE = listOf(TextPrintFacet.INSTANCE, BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, SeparatorLineFacet.INSTANCE);
 	protected static final List<Facet> MANUALRESIZE = listOf(TextPrintFacet.INSTANCE, BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, VerticalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
 
@@ -78,12 +78,12 @@ public abstract class Settings {
 	protected abstract List<Facet> createFacets();
 
 	private List<Facet> localFacets;
-	private List<GlobalFacet> globalFacets;
+	private List<Facet> globalFacets;
 
 	private void initFacets() {
 		if (localFacets == null) {
 			localFacets = new ArrayList<Facet>();
-			globalFacets = new ArrayList<GlobalFacet>();
+			globalFacets = new ArrayList<Facet>();
 			addAll(createFacets());
 			sortListByPriority(localFacets);
 			sortListByPriority(globalFacets);
@@ -92,8 +92,8 @@ public abstract class Settings {
 
 	private void addAll(List<Facet> facets) {
 		for (Facet f : facets) {
-			if (f instanceof GlobalFacet) {
-				globalFacets.add((GlobalFacet) f);
+			if (f.isGlobal()) {
+				globalFacets.add(f);
 			}
 			else {
 				localFacets.add(f);
@@ -118,7 +118,7 @@ public abstract class Settings {
 		return localFacets;
 	}
 
-	public final List<GlobalFacet> getGlobalFacets() {
+	public final List<Facet> getGlobalFacets() {
 		initFacets();
 		return globalFacets;
 	}

@@ -3,10 +3,11 @@ package com.baselet.element.facet.specific;
 import com.baselet.control.basics.XValues;
 import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.facet.GlobalKeyValueFacet;
+import com.baselet.element.facet.KeyValueFacet;
+import com.baselet.element.facet.KeyValueFacet.ValueInfo;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class ActiveClassFacet extends GlobalKeyValueFacet {
+public class ActiveClassFacet extends KeyValueFacet {
 
 	public static final ActiveClassFacet INSTANCE = new ActiveClassFacet();
 
@@ -27,7 +28,7 @@ public class ActiveClassFacet extends GlobalKeyValueFacet {
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
 		ClassTypeEnum.valueOf(value.toUpperCase()); // parse the value to make sure only valid types are accepted
 
-		state.getBuffer().addToLeftAndRight((double) SPACING);
+		state.getBuffer().addToLeftAndRight(SPACING);
 		XValues xLimits = state.getXLimits(state.getTextPrintPosition());
 		drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), state.getGridElementSize().getHeight());
 		drawer.drawLine(xLimits.getRight(), 0, xLimits.getRight(), state.getGridElementSize().getHeight());
