@@ -9,6 +9,7 @@ import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.ElementStyle;
 import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.DrawHandler.Layer;
 import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -28,7 +29,7 @@ public class TextPrintFacet extends Facet {
 	@Override
 	public void handleLine(String line, PropertiesParserState state) {
 		DrawHandler drawer = state.getDrawer();
-		drawer.setDrawDelayed(true); // should be always on top of background
+		drawer.setLayer(Layer.Foreground); // should be always on top of background
 		setupAtFirstLine(line, drawer, state);
 
 		if (state.getElementStyle() == ElementStyle.WORDWRAP && !line.trim().isEmpty()) { // empty lines are skipped (otherwise they would get lost)
@@ -37,7 +38,7 @@ public class TextPrintFacet extends Facet {
 		else {
 			printLine(line, drawer, state);
 		}
-		drawer.setDrawDelayed(false);
+		drawer.setLayer(Layer.Background);
 	}
 
 	private static void printLineWithWordWrap(String line, DrawHandler drawer, PropertiesParserState state) {

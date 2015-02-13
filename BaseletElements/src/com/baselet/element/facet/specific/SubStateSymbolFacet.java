@@ -1,6 +1,7 @@
 package com.baselet.element.facet.specific;
 
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.DrawHandler.Layer;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -27,7 +28,7 @@ public class SubStateSymbolFacet extends KeyValueFacet {
 	@Override
 	public void handleValue(String value, PropertiesParserState state) {
 		DrawHandler drawer = state.getDrawer();
-		drawer.setDrawDelayed(true); // should be always on top of background
+		drawer.setLayer(Layer.Foreground); // should be always on top of background
 		ColorOwn prevBackgroundColor = drawer.getBackgroundColor();
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 		SubStateSymbolEnum symbol = SubStateSymbolEnum.valueOf(value.toUpperCase());
@@ -41,7 +42,7 @@ public class SubStateSymbolFacet extends KeyValueFacet {
 			drawer.drawRectangleRound(w - DIST_RIGHT - cW, h - DIST_BOTTOM - cH, cW, cH, cR);
 			drawer.drawRectangleRound(w - DIST_RIGHT - cW - cW - connectorW, h - DIST_BOTTOM - cH, cW, cH, cR);
 			drawer.drawLine(w - DIST_RIGHT - cW - connectorW, h - DIST_BOTTOM - cH / 2, w - DIST_RIGHT - cW, h - DIST_BOTTOM - cH / 2);
-			drawer.setDrawDelayed(false);
+			drawer.setLayer(Layer.Background);
 			drawer.setBackgroundColor(prevBackgroundColor);
 		}
 	}

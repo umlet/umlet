@@ -22,8 +22,8 @@ import com.baselet.element.facet.common.LineWidthFacet;
 import com.baselet.element.facet.common.SeparatorLineFacet;
 import com.baselet.element.facet.common.TextPrintFacet;
 import com.baselet.element.facet.common.VerticalAlignFacet;
-import com.baselet.element.relation.facet.LineDescriptionPositionFacet;
 import com.baselet.element.relation.facet.LineDescriptionFacet;
+import com.baselet.element.relation.facet.LineDescriptionPositionFacet;
 import com.baselet.element.relation.facet.RelationLineTypeFacet;
 
 /**

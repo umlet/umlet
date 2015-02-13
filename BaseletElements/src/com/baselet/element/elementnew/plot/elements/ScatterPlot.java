@@ -6,9 +6,9 @@ import java.util.List;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.elementnew.plot.drawer.PlotGridDrawConfig;
 import com.baselet.element.elementnew.plot.parser.PlotConstants;
-import com.baselet.element.elementnew.plot.parser.PlotState;
 import com.baselet.element.elementnew.plot.parser.PlotConstants.AxisList;
 import com.baselet.element.elementnew.plot.parser.PlotConstants.AxisShow;
+import com.baselet.element.elementnew.plot.parser.PlotState;
 
 public class ScatterPlot extends AbstractPlot {
 

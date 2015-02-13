@@ -7,8 +7,8 @@ import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.RegexValueHolder;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.relation.helper.RelationDrawer;
-import com.baselet.element.relation.helper.ResizableObject;
 import com.baselet.element.relation.helper.RelationDrawer.ArrowEndType;
+import com.baselet.element.relation.helper.ResizableObject;
 
 abstract class ArrowEnd implements RegexValueHolder {
 
