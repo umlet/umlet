@@ -9,11 +9,10 @@ import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.draw.DrawHelper;
 import com.baselet.element.facet.Facet;
-import com.baselet.element.facet.GlobalFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.gui.AutocompletionText;
 
-public class HierarchyFacet extends GlobalFacet {
+public class HierarchyFacet extends Facet {
 
 	private static final double ARROW_LENGTH = 12;
 	private static final double CIRCLE_DIAMETER = 10;
