@@ -3,7 +3,6 @@ package com.baselet.element.facet.specific;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.facet.KeyValueFacet;
-import com.baselet.element.facet.KeyValueFacet.ValueInfo;
 import com.baselet.element.facet.PropertiesParserState;
 
 public class SubStateSymbolFacet extends KeyValueFacet {
@@ -27,7 +26,7 @@ public class SubStateSymbolFacet extends KeyValueFacet {
 
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
-		drawer.setDrawDelayed(true);
+		drawer.setDrawDelayed(true); // should be always on top of background
 		ColorOwn prevBackgroundColor = drawer.getBackgroundColor();
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 		SubStateSymbolEnum symbol = SubStateSymbolEnum.valueOf(value.toUpperCase());

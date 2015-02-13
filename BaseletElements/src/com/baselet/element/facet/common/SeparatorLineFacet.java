@@ -22,10 +22,12 @@ public class SeparatorLineFacet extends Facet {
 	@Override
 	public void handleLine(String line, PropertiesParserState state) {
 		DrawHandler drawer = state.getDrawer();
+		drawer.setDrawDelayed(true); // should be always on top of background
 		double linePos = state.getTextPrintPosition() - drawer.textHeightMax() + Y_SPACE / 2;
 		XValues xPos = state.getXLimits(linePos);
 		drawer.drawLine(xPos.getLeft() + 0.5, linePos, xPos.getRight() - 1, linePos);
 		state.increaseTextPrintPosition(Y_SPACE);
+		drawer.setDrawDelayed(false);
 	}
 
 	@Override
