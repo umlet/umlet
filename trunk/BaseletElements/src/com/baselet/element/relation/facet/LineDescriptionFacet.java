@@ -115,7 +115,6 @@ public class LineDescriptionFacet extends GlobalFacet {
 
 		// all unused textboxes must be reset to default size (to make sure the relation size is correct even if LineDescriptionFacet is never called)
 		relationPoints.resetTextBoxIndexesExcept(usedIndexes);
-
 		relationPoints.resizeRectAndReposPoints(); // apply the (possible) changes now to make sure the following facets use correct coordinates
 	}
 

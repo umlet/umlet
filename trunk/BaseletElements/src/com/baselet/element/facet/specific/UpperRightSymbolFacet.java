@@ -11,7 +11,7 @@ import com.baselet.element.facet.PropertiesParserState;
 
 /**
  * must be global because it manipulates the left buffer which is used by local facets
- * must handle values in parsingFinished when drawer-setup
+ * must handle values in parsingFinished when drawer-setup is finished
  */
 public class UpperRightSymbolFacet extends GlobalKeyValueFacet {
 
