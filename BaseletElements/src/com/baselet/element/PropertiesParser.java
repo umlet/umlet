@@ -1,8 +1,10 @@
 package com.baselet.element;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.enums.ElementStyle;
@@ -52,20 +54,26 @@ public class PropertiesParser {
 	}
 
 	private static List<String> parseFacets(List<? extends Facet> facets, List<String> properties, PropertiesParserState state) {
+		Map<Facet, List<String>> facetUsageMap = new HashMap<Facet, List<String>>();
+		for (Facet f : facets) { // at parsing start every facet has an empty usage list
+			facetUsageMap.put(f, new ArrayList<String>());
+		}
+
 		List<String> unusedProperties = new ArrayList<String>(properties);
 		for (Iterator<String> iter = unusedProperties.iterator(); iter.hasNext();) {
 			String line = iter.next();
 			for (Facet f : facets) {
 				if (f.checkStart(line, state)) {
 					f.handleLine(line, state);
-					state.addUsedFacet(f);
+					facetUsageMap.get(f).add(line);
 					iter.remove();
 					break; // once a facet has consumed a line, no other facet can
 				}
 			}
 		}
-		state.informAndClearUsedFacets();
+		for (Facet f : facets) {
+			f.parsingFinished(state, facetUsageMap.get(f));
+		}
 		return unusedProperties;
 	}
-
 }

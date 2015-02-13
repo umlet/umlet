@@ -20,8 +20,6 @@ import com.baselet.element.UndoInformation;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 import com.baselet.element.facet.common.LayerFacet;
-import com.baselet.element.relation.facet.LineDescriptionFacet;
-import com.baselet.element.relation.facet.LineDescriptionFacet.LineDescriptionFacetResponse;
 import com.baselet.element.relation.facet.RelationLineTypeFacet;
 import com.baselet.element.relation.facet.SettingsRelation;
 import com.baselet.element.relation.helper.RelationPointHandler;
@@ -45,15 +43,7 @@ public class Relation extends NewGridElement implements Stickable, RelationPoint
 
 	@Override
 	protected void drawCommonContent(PropertiesParserState state) {
-		DrawHandler drawer = state.getDrawer();
 		state.setStickingPolygonGenerator(NoStickingPolygonGenerator.INSTANCE);
-		if (!state.getFacetResponse(RelationLineTypeFacet.class, false)) {
-			RelationLineTypeFacet.drawDefaultLineAndArrows(drawer, relationPoints);
-		}
-
-		// all unused textboxes must be reset to default size (to make sure the relation size is correct even if LineDescriptionFacet is never called)
-		LineDescriptionFacetResponse lineDescriptionFacetResponse = state.getFacetResponse(LineDescriptionFacet.class, new LineDescriptionFacetResponse());
-		relationPoints.resetTextBoxIndexesExcept(lineDescriptionFacetResponse.getAlreadysetIndexes());
 	}
 
 	@Override

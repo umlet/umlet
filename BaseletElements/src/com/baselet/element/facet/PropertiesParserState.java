@@ -1,8 +1,6 @@
 package com.baselet.element.facet;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.baselet.control.basics.XValues;
@@ -31,7 +29,6 @@ public class PropertiesParserState {
 	private StickingPolygonGenerator stickingPolygonGenerator = SimpleStickingPolygonGenerator.INSTANCE;
 	private double totalTextBlockHeight;
 	private final Map<Class<? extends Facet>, Object> facetResponse = new HashMap<Class<? extends Facet>, Object>();
-	private final List<Facet> usedFacets = new ArrayList<Facet>();
 
 	public PropertiesParserState(Settings settings, DrawHandler drawer) {
 		this.settings = settings;
@@ -48,7 +45,6 @@ public class PropertiesParserState {
 		stickingPolygonGenerator = SimpleStickingPolygonGenerator.INSTANCE;
 		totalTextBlockHeight = 0;
 		facetResponse.clear();
-		usedFacets.clear();
 	}
 
 	public Alignment getAlignment() {
@@ -148,19 +144,6 @@ public class PropertiesParserState {
 
 	public double getTotalTextBlockHeight() {
 		return totalTextBlockHeight;
-	}
-
-	public void addUsedFacet(Facet facet) {
-		if (!usedFacets.contains(facet)) {
-			usedFacets.add(facet);
-		}
-	}
-
-	public void informAndClearUsedFacets() {
-		for (Facet f : usedFacets) {
-			f.parsingFinished(this);
-		}
-		usedFacets.clear();
 	}
 
 	public PropertiesParserState dummyCopy(Dimension gridElementSize) {

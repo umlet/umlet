@@ -41,10 +41,10 @@ public abstract class Facet {
 	 * This method is called once for every Facet AFTER all lines of text has been parsed
 	 * E.g. useful for facets which collect information with every line but need complete knowledge before they can do something with it
 	 *
-	 * @param drawer can draw something on the elements space
 	 * @param state the current state of the parser
+	 * @param handledLines the list of lines this facet has been applied to (in the order of the handleLine calls)
 	 */
-	public void parsingFinished(PropertiesParserState state) {
+	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
 		// default is no action
 	}
 
