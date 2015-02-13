@@ -25,7 +25,6 @@ import com.baselet.element.elementnew.plot.parser.PlotConstants;
 import com.baselet.element.elementnew.plot.parser.PlotConstants.PlotType;
 import com.baselet.element.elementnew.plot.parser.PlotState;
 import com.baselet.element.facet.Facet;
-import com.baselet.element.facet.GlobalFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 import com.baselet.element.settings.SettingsManualresizeCenter;
@@ -44,7 +43,7 @@ public class PlotGrid extends NewGridElement {
 	/**
 	 * this facet is only here to show autocompletion and include PlotGrid in the new parser logic which uses facets
 	 */
-	public static final GlobalFacet PSEUDO_PLOT_FACET = new GlobalFacet() {
+	public static final Facet PSEUDO_PLOT_FACET = new Facet() {
 		@Override
 		public void handleLine(String line, PropertiesParserState propConfig) {
 			// do nothing

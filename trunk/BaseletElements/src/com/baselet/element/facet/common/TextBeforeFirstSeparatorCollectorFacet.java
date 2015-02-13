@@ -5,11 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.enums.Priority;
-import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.GlobalFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.gui.AutocompletionText;
 
+/**
+ * the collector is the last global facet which should be applied (therefore LOW prio)
+ * it must be global to be applied before the drawCommonContent of the class but after any other global facet
+ */
 public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 
 	public static final TextBeforeFirstSeparatorCollectorFacet INSTANCE = new TextBeforeFirstSeparatorCollectorFacet();
@@ -48,7 +51,7 @@ public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
 
 	@Override
 	public Priority getPriority() {
-		return Priority.LOW; // the collector should only collect lines which are not parsed by any other facet (only the default text printing has a lower prio)
+		return Priority.LOW;
 	}
 
 	private TextBeforeFirstSeparatorCollectorFacetResponse getOrInit(PropertiesParserState state) {
