@@ -174,7 +174,7 @@ public abstract class DrawHandler {
 	}
 
 	public void setStyle(Style style) {
-		this.style = style;
+		this.style = style.cloneFromMe();
 	}
 
 	public void drawAll() {
