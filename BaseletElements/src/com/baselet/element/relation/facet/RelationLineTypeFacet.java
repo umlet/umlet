@@ -14,13 +14,14 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.facet.KeyValueFacet;
-import com.baselet.element.facet.KeyValueFacet.ValueInfo;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.relation.helper.RelationPointHandler;
 import com.baselet.element.relation.helper.ResizableObject;
 import com.baselet.element.sticking.PointDoubleIndexed;
 
 public class RelationLineTypeFacet extends KeyValueFacet {
+
+	static final String KEY = "lt";
 
 	private static class Match<T extends RegexValueHolder> {
 		private final String text;
@@ -158,7 +159,7 @@ public class RelationLineTypeFacet extends KeyValueFacet {
 	@Override
 	public KeyValue getKeyValue() {
 		return new KeyValue(
-				"lt",
+				KEY,
 				new ValueInfo("<-", "left arrow", "iVBORw0KGgoAAAANSUhEUgAAAEkAAAAQCAAAAAB/mQ0/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAAB6JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAAAq0lEQVR42mL8z4AAX3gYyAdMCOabUsUf1DDpR4fqld0cFJjE8P////////+eL2Oy/z9FAGLSdgOV5b//U27SaQeR7u///1Ns0u0Inor3/ykHDLcZqAP+M/x/HuJw/T813PT////1Ks2/KTeJiYGBIeD8S8MTVPDf//////8/rpHzmQpuYmBgsLgsbLiFKm76////bZuQ55SncQiYrvCaApMYkUuVDwIUeA4wABeKjdP2NRIjAAAAAElFTkSuQmCC")
 				, new ValueInfo("<.", "left arrow with dashed line", "iVBORw0KGgoAAAANSUhEUgAAAEkAAAAQCAAAAAB/mQ0/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAAB6JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAAAsUlEQVR42mL8z4AAX3gYyAdMCOabUsUf1DDpR4fqld0cFJjE8P////////+eL2Oy/z9FAGLSdgOV5b//U27SaQeR7u///1Ns0u0Inor3/ykHDLdhAVb///////Xkcur/M/x/HuJw/T813PT////1Ks2/KTeJiYGBIeD8S8MTDBQDiIHHNXI+U8FNDAwMFpeFDbdQxU3///+/bRPynPI0DgHTFV5TYBIjcqnyQYACzwEGAD/RpzQKsM6sAAAAAElFTkSuQmCC")
 				, new ValueInfo("<..", "left arrow with dotted line", "iVBORw0KGgoAAAANSUhEUgAAAEkAAAAQCAAAAAB/mQ0/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAAB6JQAAgIMAAPn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAAArElEQVR42mL8z4AAX3gYyAdMCOabUsUf1DDpR4fqld0cFJjE8P////////+eL2Oy/z9FAGLSdgOV5b//U27SaQeR7u///1Ns0u0Inor3/ykHDLcZGB7X1/+nHDH8fx7icP0/Ndz0////9SrNvyk3iYmBgSHg/EvDEwwUA4iBxzVyPlPBTQwMDBaXhQ23UMVN////v20T8pzyNA4B0xVeU2ASI3Kp8kGAAs8BBgAP7rtyPzvx8QAAAABJRU5ErkJggg==")

@@ -10,6 +10,7 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.draw.DrawHelper;
 import com.baselet.element.facet.Facet;
+import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.gui.AutocompletionText;
 
@@ -55,7 +56,7 @@ public class HierarchyFacet extends Facet {
 
 		Cache cache = state.getOrInitFacetResponse(HierarchyFacet.class, new Cache());
 		for (HierarchyType type : HierarchyType.values()) {
-			if (line.equals(KEY + Facet.SEP + type)) {
+			if (line.equals(KEY + KeyValueFacet.SEP + type)) {
 				cache.type = type;
 				return;
 			}
@@ -151,9 +152,9 @@ public class HierarchyFacet extends Facet {
 
 	@Override
 	public List<AutocompletionText> getAutocompletionStrings() {
-		return Arrays.asList(new AutocompletionText(KEY + Facet.SEP + HierarchyType.Actor, "draws hierarchy of actors"),
-				new AutocompletionText(KEY + Facet.SEP + HierarchyType.Package, "draws hierarchy of packages"),
-				new AutocompletionText(KEY + Facet.SEP + HierarchyType.WorkProcess, "draws hierarchy of work processes"));
+		return Arrays.asList(new AutocompletionText(KEY + KeyValueFacet.SEP + HierarchyType.Actor, "draws hierarchy of actors"),
+				new AutocompletionText(KEY + KeyValueFacet.SEP + HierarchyType.Package, "draws hierarchy of packages"),
+				new AutocompletionText(KEY + KeyValueFacet.SEP + HierarchyType.WorkProcess, "draws hierarchy of work processes"));
 	}
 
 }

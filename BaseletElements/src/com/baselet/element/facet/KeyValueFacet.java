@@ -86,6 +86,8 @@ public abstract class KeyValueFacet extends Facet {
 
 	}
 
+	public static final String SEP = "=";
+
 	public abstract KeyValue getKeyValue();
 
 	public abstract void handleValue(String value, DrawHandler drawer, PropertiesParserState state);
@@ -120,7 +122,7 @@ public abstract class KeyValueFacet extends Facet {
 	}
 
 	public String getKeyWithSep() {
-		return getKeyValue().getKey() + SEP;
+		return getKeyValue().getKey() + KeyValueFacet.SEP;
 	}
 
 }

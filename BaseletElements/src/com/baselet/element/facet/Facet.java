@@ -14,8 +14,6 @@ import com.baselet.gui.AutocompletionText;
  */
 public abstract class Facet {
 
-	public static final String SEP = "=";
-
 	protected Logger log = Logger.getLogger(Facet.class);
 
 	/**
