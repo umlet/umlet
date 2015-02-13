@@ -11,8 +11,11 @@ import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
+import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
+import com.baselet.element.sticking.polygon.PointDoubleStickingPolygonGenerator;
+import com.baselet.element.sticking.polygon.SimpleStickingPolygonGenerator;
 
 /**
  * must be global, because the execution of Class.drawCommonContent() depends on the result of this facet
@@ -34,14 +37,32 @@ public class TemplateClassFacet extends GlobalKeyValueFacet {
 
 	@Override
 	public void handleValue(String value, PropertiesParserState state) {
-		state.setFacetResponse(TemplateClassFacet.class, value);
+		// only act after parsing
 	}
 
 	private static int round(double val) {
 		return SharedUtils.realignToGrid(false, val, true);
 	}
 
-	public static List<PointDouble> drawTemplateClass(String templateClassText, DrawHandler drawer, PropertiesParserState state, int height, int width) {
+	@Override
+	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
+		DrawHandler drawer = state.getDrawer();
+		int height = state.getGridElementSize().getHeight();
+		int width = state.getGridElementSize().getWidth();
+		if (handledLines.isEmpty()) {
+			drawer.drawRectangle(0, 0, width, height);
+			state.setStickingPolygonGenerator(SimpleStickingPolygonGenerator.INSTANCE);
+		}
+		else if (handledLines.size() == 1) {
+			List<PointDouble> points = TemplateClassFacet.drawTemplateClass(extractValue(handledLines.get(0)), drawer, state, height, width);
+			state.setStickingPolygonGenerator(new PointDoubleStickingPolygonGenerator(points));
+		}
+		else {
+			throw new StyleException("Only one class template is allowed");
+		}
+	}
+
+	private static List<PointDouble> drawTemplateClass(String templateClassText, DrawHandler drawer, PropertiesParserState state, int height, int width) {
 		Rectangle tR = calcTemplateRect(templateClassText, drawer, width);
 		int classTopEnd = round(tR.getHeight() / 2.0);
 		int classWidth = width - round(tR.getWidth() / 2.0);
