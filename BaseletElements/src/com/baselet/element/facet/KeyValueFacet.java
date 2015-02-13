@@ -127,5 +127,4 @@ public abstract class KeyValueFacet extends Facet {
 	public String getKeyWithSep() {
 		return getKeyValue().getKey() + KeyValueFacet.SEP;
 	}
-
 }
