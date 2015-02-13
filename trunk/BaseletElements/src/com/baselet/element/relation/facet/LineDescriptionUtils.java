@@ -60,20 +60,21 @@ public class LineDescriptionUtils {
 		return text;
 	}
 
-	static PointDouble calcPosOfMiddleText(DrawHandler drawer, String text, Line line, int lineCount) {
+	static PointDouble calcPosOfMiddleText(DrawHandler drawer, String text, Line line, int currentLineNr, int totalLines) {
 		double textWidth = drawer.textWidth(text);
 		boolean horizontalLine = line.getDirectionOfLine(true).isHorizontal();
 		PointDouble center = line.getCenter();
 
 		double textX, textY;
+		double previousLinesUsedSpace = currentLineNr * drawer.textHeightMaxWithSpace();
 		if (horizontalLine) {
 			textX = center.getX() - textWidth / 2;
-			textY = center.getY() - LineDescriptionFacet.MIDDLE_DISTANCE_TO_LINE;
+			textY = center.getY() + previousLinesUsedSpace - LineDescriptionFacet.MIDDLE_DISTANCE_TO_LINE;
 		}
 		else {
 			textX = center.getX() + LineDescriptionFacet.X_DIST_TO_LINE;
-			double halfBlockHeight = lineCount * drawer.textHeightMaxWithSpace() / 2;
-			textY = center.getY() - halfBlockHeight + drawer.textHeightWithSpace(text);
+			double halfBlockHeight = totalLines * drawer.textHeightMaxWithSpace() / 2; // because vertical text blocks should be centered, the half of the total text block must be subtracted
+			textY = center.getY() + previousLinesUsedSpace - halfBlockHeight + drawer.textHeightWithSpace(text);
 		}
 		return new PointDouble(textX, textY);
 	}
