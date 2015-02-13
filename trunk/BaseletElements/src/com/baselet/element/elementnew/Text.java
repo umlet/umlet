@@ -1,7 +1,6 @@
 package com.baselet.element.elementnew;
 
 import com.baselet.control.enums.ElementId;
-import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;

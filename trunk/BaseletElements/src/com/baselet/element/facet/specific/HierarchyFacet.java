@@ -7,6 +7,7 @@ import java.util.List;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.DrawHandler.Layer;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.draw.DrawHelper;
 import com.baselet.element.facet.Facet;
@@ -63,7 +64,7 @@ public class HierarchyFacet extends Facet {
 		}
 
 		DrawHandler drawer = state.getDrawer();
-		drawer.setDrawDelayed(true);
+		drawer.setLayer(Layer.Foreground);
 		ColorOwn bgBefore = drawer.getBackgroundColor();
 		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 		String lineWithoutTabs = line.replace("\t", "");
@@ -116,7 +117,7 @@ public class HierarchyFacet extends Facet {
 		cache.points.add(new ReferencePoint(upperLeftPoint));
 
 		cache.lineNr++;
-		drawer.setDrawDelayed(false);
+		drawer.setLayer(Layer.Background);
 		drawer.setBackgroundColor(bgBefore);
 	}
 

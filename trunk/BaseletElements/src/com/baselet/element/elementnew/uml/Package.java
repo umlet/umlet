@@ -7,6 +7,7 @@ import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.ElementId;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.DrawHandler.Layer;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.draw.DrawHelper;
 import com.baselet.element.facet.Facet;
@@ -45,9 +46,9 @@ public class Package extends NewGridElement {
 		for (String line : packageTitle) {
 			packageHeight += txtHeight;
 			packageWidth = Math.max(packageWidth, drawer.textWidth(line) + drawer.getDistanceBorderToText() * 2);
-			drawer.setDrawDelayed(true); // text should be in front of the package-border
+			drawer.setLayer(Layer.Foreground); // text should be in front of the package-border
 			drawer.print(line, new PointDouble(drawer.getDistanceBorderToText(), packageHeight), AlignHorizontal.LEFT);
-			drawer.setDrawDelayed(false);
+			drawer.setLayer(Layer.Background);
 		}
 		packageHeight += drawer.getDistanceBorderToText();
 		int height = getRealSize().getHeight();

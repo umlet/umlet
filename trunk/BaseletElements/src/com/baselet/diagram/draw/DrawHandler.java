@@ -24,13 +24,21 @@ public abstract class DrawHandler {
 	protected Style style = new Style();
 	private final Style overlay = new Style();
 
-	private final ArrayList<DrawFunction> drawables = new ArrayList<DrawFunction>();
-	private final ArrayList<DrawFunction> drawablesDelayed = new ArrayList<DrawFunction>();
+	private final ArrayList<DrawFunction> drawablesBackground = new ArrayList<DrawFunction>();
+	private final ArrayList<DrawFunction> drawablesForeground = new ArrayList<DrawFunction>();
 
-	private boolean drawDelayed = false;
+	public static enum Layer {
+		Foreground, Background
+	}
 
-	public void setDrawDelayed(boolean drawDelayed) {
-		this.drawDelayed = drawDelayed;
+	private Layer layer = Layer.Background;
+
+	/**
+	 * all background elements are drawn before drawing the foreground elements
+	 * can be useful e.g. if a printText call is made before a drawRectangle call although it should be placed behind the rectangle
+	 */
+	public void setLayer(Layer layer) {
+		this.layer = layer;
 	}
 
 	protected Style getOverlay() {
@@ -38,11 +46,11 @@ public abstract class DrawHandler {
 	}
 
 	protected void addDrawable(DrawFunction drawable) {
-		if (drawDelayed) {
-			drawablesDelayed.add(drawable);
+		if (layer == Layer.Foreground) {
+			drawablesForeground.add(drawable);
 		}
 		else {
-			drawables.add(drawable);
+			drawablesBackground.add(drawable);
 		}
 	}
 
@@ -57,8 +65,8 @@ public abstract class DrawHandler {
 	}
 
 	public void clearCache() {
-		drawables.clear();
-		drawablesDelayed.clear();
+		drawablesBackground.clear();
+		drawablesForeground.clear();
 	}
 
 	public final double textHeightMaxWithSpace() {
@@ -178,10 +186,10 @@ public abstract class DrawHandler {
 	}
 
 	public void drawAll() {
-		for (DrawFunction d : drawables) {
+		for (DrawFunction d : drawablesBackground) {
 			d.run();
 		}
-		for (DrawFunction d : drawablesDelayed) {
+		for (DrawFunction d : drawablesForeground) {
 			d.run();
 		}
 	}

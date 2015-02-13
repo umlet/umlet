@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.baselet.control.basics.XValues;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.DrawHandler.Layer;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.gui.AutocompletionText;
@@ -22,12 +23,12 @@ public class SeparatorLineFacet extends Facet {
 	@Override
 	public void handleLine(String line, PropertiesParserState state) {
 		DrawHandler drawer = state.getDrawer();
-		drawer.setDrawDelayed(true); // should be always on top of background
+		drawer.setLayer(Layer.Foreground); // should be always on top of background
 		double linePos = state.getTextPrintPosition() - drawer.textHeightMax() + Y_SPACE / 2;
 		XValues xPos = state.getXLimits(linePos);
 		drawer.drawLine(xPos.getLeft() + 0.5, linePos, xPos.getRight() - 1, linePos);
 		state.increaseTextPrintPosition(Y_SPACE);
-		drawer.setDrawDelayed(false);
+		drawer.setLayer(Layer.Background);
 	}
 
 	@Override
