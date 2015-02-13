@@ -42,14 +42,14 @@ public class ActiveClassFacet extends GlobalKeyValueFacet {
 			state.getBuffer().addToLeftAndRight(SPACING);
 			XValues xLimits = state.getXLimits(state.getTextPrintPosition());
 			DrawHandler drawer = state.getDrawer();
-			drawer.drawLine(xLimits.getLeft(), 0, xLimits.getLeft(), state.getGridElementSize().getHeight());
-			drawer.drawLine(xLimits.getRight(), 0, xLimits.getRight(), state.getGridElementSize().getHeight());
+			drawer.drawLine(xLimits.getLeft(), state.getBuffer().getTop(), xLimits.getLeft(), state.getGridElementSize().getHeight());
+			drawer.drawLine(xLimits.getRight(), state.getBuffer().getTop(), xLimits.getRight(), state.getGridElementSize().getHeight());
 		}
 	}
 
 	@Override
 	public Priority getPriority() {
-		return Priority.HIGH; // because it changes the xlimits
+		return Priority.LOW; // must be after template class to work
 	}
 
 }
