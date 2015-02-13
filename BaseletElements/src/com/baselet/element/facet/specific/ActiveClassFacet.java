@@ -5,14 +5,14 @@ import java.util.List;
 import com.baselet.control.basics.XValues;
 import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.facet.GlobalKeyValueFacet;
+import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
 /**
- * must be global because it manipulates the left buffer which is used by local facets
+ * must be in first-run because it manipulates the left buffer which is used by second-run facets
  * must handle values in parsingFinished when drawer-setup is finished
  */
-public class ActiveClassFacet extends GlobalKeyValueFacet {
+public class ActiveClassFacet extends FirstRunKeyValueFacet {
 
 	public static final ActiveClassFacet INSTANCE = new ActiveClassFacet();
 

@@ -1,10 +1,10 @@
 package com.baselet.element.facet.common;
 
 import com.baselet.control.enums.AlignHorizontal;
-import com.baselet.element.facet.GlobalKeyValueFacet;
+import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class HorizontalAlignFacet extends GlobalKeyValueFacet {
+public class HorizontalAlignFacet extends FirstRunKeyValueFacet {
 
 	public static final HorizontalAlignFacet INSTANCE = new HorizontalAlignFacet();
 

@@ -2,10 +2,10 @@ package com.baselet.element.facet.common;
 
 import com.baselet.control.constants.FacetConstants;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.element.facet.GlobalKeyValueFacet;
+import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class BackgroundColorFacet extends GlobalKeyValueFacet {
+public class BackgroundColorFacet extends FirstRunKeyValueFacet {
 
 	public static final BackgroundColorFacet INSTANCE = new BackgroundColorFacet();
 

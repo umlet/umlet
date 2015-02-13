@@ -1,10 +1,10 @@
 package com.baselet.element.facet.common;
 
 import com.baselet.control.enums.AlignVertical;
-import com.baselet.element.facet.GlobalKeyValueFacet;
+import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class VerticalAlignFacet extends GlobalKeyValueFacet {
+public class VerticalAlignFacet extends FirstRunKeyValueFacet {
 
 	public static final VerticalAlignFacet INSTANCE = new VerticalAlignFacet();
 

@@ -4,7 +4,6 @@ public class AutocompletionText {
 	private String text;
 	private final String info;
 	private String base64Img;
-	private boolean global;
 
 	public AutocompletionText(String text, String info) {
 		super();
@@ -29,14 +28,6 @@ public class AutocompletionText {
 
 	public String getInfo() {
 		return info;
-	}
-
-	public void setGlobal(boolean global) {
-		this.global = global;
-	}
-
-	public boolean isGlobal() {
-		return global;
 	}
 
 	public String getHtmlInfo() {

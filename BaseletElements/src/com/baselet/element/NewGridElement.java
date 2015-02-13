@@ -316,15 +316,14 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public List<AutocompletionText> getAutocompletionList() {
 		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
-		addAutocompletionTexts(returnList, state.getSettings().getGlobalFacets());
-		addAutocompletionTexts(returnList, state.getSettings().getLocalFacets());
+		addAutocompletionTexts(returnList, state.getSettings().getFacetsForFirstRun());
+		addAutocompletionTexts(returnList, state.getSettings().getFacetsForSecondRun());
 		return returnList;
 	}
 
 	private void addAutocompletionTexts(List<AutocompletionText> returnList, List<? extends Facet> facets) {
 		for (Facet f : facets) {
 			for (AutocompletionText t : f.getAutocompletionStrings()) {
-				t.setGlobal(f.isGlobal());
 				returnList.add(t);
 			}
 		}

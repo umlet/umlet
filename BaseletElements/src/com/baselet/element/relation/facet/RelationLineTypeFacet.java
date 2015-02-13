@@ -13,17 +13,17 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.StyleException;
-import com.baselet.element.facet.GlobalKeyValueFacet;
+import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.relation.helper.RelationPointHandler;
 import com.baselet.element.relation.helper.ResizableObject;
 import com.baselet.element.sticking.PointDoubleIndexed;
 
 /**
- * must be global because it manipulates the relation position and size (in case of [text]-[text] line which can possibly exceed the old relation size)
+ * must be in first-run because it manipulates the relation position and size (in case of [text]-[text] line which can possibly exceed the old relation size)
  * must handle values in parsingFinished when drawer-setup is finished
  */
-public class RelationLineTypeFacet extends GlobalKeyValueFacet {
+public class RelationLineTypeFacet extends FirstRunKeyValueFacet {
 
 	static final String KEY = "lt";
 

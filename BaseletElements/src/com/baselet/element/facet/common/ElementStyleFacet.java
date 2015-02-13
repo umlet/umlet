@@ -1,10 +1,10 @@
 package com.baselet.element.facet.common;
 
 import com.baselet.control.enums.ElementStyle;
-import com.baselet.element.facet.GlobalKeyValueFacet;
+import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class ElementStyleFacet extends GlobalKeyValueFacet {
+public class ElementStyleFacet extends FirstRunKeyValueFacet {
 
 	public static final ElementStyleFacet INSTANCE = new ElementStyleFacet();
 

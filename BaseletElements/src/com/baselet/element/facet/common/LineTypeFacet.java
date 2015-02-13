@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.enums.LineType;
-import com.baselet.element.facet.GlobalKeyValueFacet;
+import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class LineTypeFacet extends GlobalKeyValueFacet {
+public class LineTypeFacet extends FirstRunKeyValueFacet {
 
 	public static final LineTypeFacet INSTANCE = new LineTypeFacet();
 

@@ -5,15 +5,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.enums.Priority;
-import com.baselet.element.facet.GlobalFacet;
+import com.baselet.element.facet.FirstRunFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.gui.AutocompletionText;
 
 /**
- * the collector is the last global facet which should be applied (therefore LOW prio)
- * it must be global to be applied before the drawCommonContent of the GridElement but after any other global facet
+ * the collector is the last first-run-facet which should be applied (therefore LOW prio)
+ * it must be in first-run to be applied before the drawCommonContent of the GridElement but after any other first-run-facet
  */
-public class TextBeforeFirstSeparatorCollectorFacet extends GlobalFacet {
+public class TextBeforeFirstSeparatorCollectorFacet extends FirstRunFacet {
 
 	public static final TextBeforeFirstSeparatorCollectorFacet INSTANCE = new TextBeforeFirstSeparatorCollectorFacet();
 
