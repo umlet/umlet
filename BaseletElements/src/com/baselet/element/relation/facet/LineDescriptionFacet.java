@@ -36,20 +36,6 @@ public class LineDescriptionFacet extends GlobalFacet {
 
 	private LineDescriptionFacet() {}
 
-	public static class LineDescriptionFacetResponse {
-		private final List<String> middleLines = new ArrayList<String>();
-		private final Set<Integer> alreadysetIndexes = new HashSet<Integer>();
-
-		public Set<Integer> getAlreadysetIndexes() {
-			return alreadysetIndexes;
-		}
-
-		public void addMiddleLine(String line) {
-			middleLines.add(line);
-		}
-
-	}
-
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
 		return !line.startsWith(RelationLineTypeFacet.KEY + KeyValueFacet.SEP); // because middle text has no prefix, apply alway except for lt (the only non global facet of relation)
@@ -70,63 +56,67 @@ public class LineDescriptionFacet extends GlobalFacet {
 		// only act on parsingFinished() when all lines are known and other Globalfacets have been resolved (e.g. fg-color)
 	}
 
-	private LineDescriptionFacetResponse getOrInitOwnResponse(PropertiesParserState state) {
-		return state.getOrInitFacetResponse(LineDescriptionFacet.class, new LineDescriptionFacetResponse());
-	}
-
 	private RelationPointHandler getRelationPoints(PropertiesParserState state) {
 		return ((SettingsRelation) state.getSettings()).getRelationPoints();
 	}
 
-	private void printAndUpdateIndex(DrawHandler drawer, LineDescriptionFacetResponse response, RelationPointHandler relationPoints, PointDouble pointText, int index, String text, Point displacement) {
+	private void printAndUpdateIndex(DrawHandler drawer, RelationPointHandler relationPoints, PointDouble pointText, int index, String text, Point displacement, Set<Integer> usedIndexes) {
 		if (displacement != null) {
 			pointText = new PointDouble(pointText.getX() + displacement.getX(), pointText.getY() + displacement.getY());
 		}
-		printAndUpdateIndex(drawer, response, relationPoints, pointText, index, text);
+		printAndUpdateIndex(drawer, relationPoints, pointText, index, text, usedIndexes);
 	}
 
-	private void printAndUpdateIndex(DrawHandler drawer, LineDescriptionFacetResponse response, RelationPointHandler relationPoints, PointDouble pointText, int index, String text) {
+	private void printAndUpdateIndex(DrawHandler drawer, RelationPointHandler relationPoints, PointDouble pointText, int index, String text, Set<Integer> usedIndexes) {
 		drawer.print(text, pointText, AlignHorizontal.LEFT);
 
 		// to make sure text is printed (and therefore withing relation-element-borders, resize relation according to text
 		relationPoints.setTextBox(index, new Rectangle(pointText.getX(), pointText.getY() - drawer.textHeightMax(), drawer.textWidth(text), drawer.textHeightMax()));
-		// and remember that this index is set
-		response.getAlreadysetIndexes().add(index);
-		relationPoints.resizeRectAndReposPoints(); // apply the (possible) changes now to make sure the following facets use correct coordinates
+		usedIndexes.add(index);
 	}
 
 	@Override
 	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
-		LineDescriptionFacetResponse response = getOrInitOwnResponse(state);
+		Map<String, Point> displacements = state.getOrInitFacetResponse(LineDescriptionPositionFacet.class, new HashMap<String, Point>());
+		RelationPointHandler relationPoints = getRelationPoints(state);
+		DrawHandler drawer = state.getDrawer();
+		Set<Integer> usedIndexes = new HashSet<Integer>();
 
-		int number = 0;
-		for (String lineOrig : handledLines) {
-			String line = LineDescriptionUtils.replaceArrowsWithUtf8Characters(lineOrig);
-			DrawHandler drawer = state.getDrawer();
-			Map<String, Point> displacements = state.getOrInitFacetResponse(LineDescriptionPositionFacet.class, new HashMap<String, Point>());
-			RelationPointHandler relationPoints = getRelationPoints(state);
+		List<String> middleLines = new ArrayList<String>();
+		List<String> otherLines = new ArrayList<String>();
 
-			LineDescriptionEnum enumVal = LineDescriptionEnum.forString(line);
-			if (enumVal == LineDescriptionEnum.MESSAGE_MIDDLE) {
-				PointDouble pointText = LineDescriptionUtils.calcPosOfMiddleText(drawer, line, relationPoints.getMiddleLine(), response.middleLines.size());
-				pointText = new PointDouble(pointText.getX(), pointText.getY() + number * drawer.textHeightMaxWithSpace());
-				printAndUpdateIndex(drawer, response, relationPoints, pointText, LineDescriptionEnum.MESSAGE_MIDDLE.getIndex() + number, line);
-				number++;
+		for (String line : handledLines) {
+			if (LineDescriptionEnum.forString(line) == LineDescriptionEnum.MESSAGE_MIDDLE) {
+				middleLines.add(line);
 			}
 			else {
-				String[] split = line.split(KeyValueFacet.SEP, -1);
-				String text = split[1];
-				if (!text.isEmpty()) {
-					PointDouble pointText = LineDescriptionUtils.calcPosOfEndText(drawer, text, relationPoints, enumVal);
-					printAndUpdateIndex(drawer, response, relationPoints, pointText, enumVal.getIndex(), text, displacements.get(enumVal.getKey()));
-
-				}
+				otherLines.add(line);
 			}
 		}
 
-		// all unused textboxes must be reset to default size (to make sure the relation size is correct even if LineDescriptionFacet is never called)
-		getRelationPoints(state).resetTextBoxIndexesExcept(response.getAlreadysetIndexes());
+		for (int i = 0; i < middleLines.size(); i++) {
+			String line = LineDescriptionUtils.replaceArrowsWithUtf8Characters(middleLines.get(i));
+			PointDouble pointText = LineDescriptionUtils.calcPosOfMiddleText(drawer, line, relationPoints.getMiddleLine(), i, middleLines.size());
+			int index = LineDescriptionEnum.MESSAGE_MIDDLE.getIndex() + i; // middle index is increased by the amount of middle text lines
+			printAndUpdateIndex(drawer, relationPoints, pointText, index, line, usedIndexes);
 
+		}
+
+		for (String line : otherLines) {
+			LineDescriptionEnum enumVal = LineDescriptionEnum.forString(line);
+			String[] split = line.split(KeyValueFacet.SEP, -1);
+			String text = split[1];
+			if (!text.isEmpty()) {
+				PointDouble pointText = LineDescriptionUtils.calcPosOfEndText(drawer, text, relationPoints, enumVal);
+				printAndUpdateIndex(drawer, relationPoints, pointText, enumVal.getIndex(), text, displacements.get(enumVal.getKey()), usedIndexes);
+			}
+
+		}
+
+		// all unused textboxes must be reset to default size (to make sure the relation size is correct even if LineDescriptionFacet is never called)
+		relationPoints.resetTextBoxIndexesExcept(usedIndexes);
+
+		relationPoints.resizeRectAndReposPoints(); // apply the (possible) changes now to make sure the following facets use correct coordinates
 	}
 
 	@Override
