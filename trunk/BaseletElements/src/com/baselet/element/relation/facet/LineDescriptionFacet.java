@@ -14,7 +14,7 @@ import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.facet.GlobalFacet;
+import com.baselet.element.facet.FirstRunFacet;
 import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.relation.helper.LineDescriptionEnum;
@@ -22,10 +22,10 @@ import com.baselet.element.relation.helper.RelationPointHandler;
 import com.baselet.gui.AutocompletionText;
 
 /**
- * must be global after LineDescriptionPositionFacet (because the displacement must be applied)
+ * must be in first-run after LineDescriptionPositionFacet (because the displacement must be applied)
  * and before RelationLineTypeFacet and before drawCommonComponents (because the text changes the relationpoint placements and the size of the relation
  */
-public class LineDescriptionFacet extends GlobalFacet {
+public class LineDescriptionFacet extends FirstRunFacet {
 
 	static final int X_DIST_TO_LINE = 4;
 	static final int LOWER_Y_DIST_TO_LINE = 1;
@@ -38,7 +38,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
-		return !line.startsWith(RelationLineTypeFacet.KEY + KeyValueFacet.SEP); // because middle text has no prefix, apply alway except for lt (the only non global facet of relation)
+		return !line.startsWith(RelationLineTypeFacet.KEY + KeyValueFacet.SEP); // because middle text has no prefix, apply alway except for the lt= line
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class LineDescriptionFacet extends GlobalFacet {
 
 	@Override
 	public void handleLine(String line, PropertiesParserState state) {
-		// only act on parsingFinished() when all lines are known and other Globalfacets have been resolved (e.g. fg-color)
+		// only act on parsingFinished() when all lines are known and other first-run-facets have been resolved (e.g. fg-color)
 	}
 
 	private RelationPointHandler getRelationPoints(PropertiesParserState state) {

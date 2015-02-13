@@ -48,19 +48,23 @@ public abstract class Facet {
 
 	/**
 	 * facets with higher priority will be applied before facets with lower priority:
-	 * The order is:
-	 * 1. Check all Global Facets from HIGHEST ... LOWEST for all lines
-	 * 2. Check all other Facets from HIGHEST ... LOWEST
+	 * The order is: For all lines
+	 * 1. Check all First-Run Facets from HIGHEST ... LOWEST
+	 * 2. Check all Second-Run Facets from HIGHEST ... LOWEST
 	 */
 	public Priority getPriority() {
 		return Priority.DEFAULT;
 	}
 
 	/**
-	 * Global facets are parsed before any other ones, because they influence the whole diagram, even if they are located at the bottom
+	 * The parser runs twice. Facets where this method returns true, are part of the first run, other facets are part of the second run
+	 *
+	 * Typically facets of the first run will influence the whole diagram, even if they are located at the bottom.
 	 * e.g. bg=red must be known before drawing the common content of an element; style=autoresize must be known as soon as possible to make the size-calculations
+	 *
+	 * Facets of the second run have less side effects (e.g. printText just prints the current line, -- transforms to a horizontal line at the current print-position)
 	 */
-	public boolean isGlobal() {
+	public boolean handleOnFirstRun() {
 		return false;
 	}
 

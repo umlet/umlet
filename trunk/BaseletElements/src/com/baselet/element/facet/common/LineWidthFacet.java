@@ -1,10 +1,10 @@
 package com.baselet.element.facet.common;
 
 import com.baselet.control.constants.FacetConstants;
-import com.baselet.element.facet.GlobalKeyValueFacet;
+import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class LineWidthFacet extends GlobalKeyValueFacet {
+public class LineWidthFacet extends FirstRunKeyValueFacet {
 
 	public static final LineWidthFacet INSTANCE = new LineWidthFacet();
 

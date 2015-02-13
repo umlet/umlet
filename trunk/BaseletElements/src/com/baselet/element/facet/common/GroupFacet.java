@@ -1,10 +1,10 @@
 package com.baselet.element.facet.common;
 
 import com.baselet.diagram.draw.helper.StyleException;
-import com.baselet.element.facet.GlobalKeyValueFacet;
+import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
-public class GroupFacet extends GlobalKeyValueFacet {
+public class GroupFacet extends FirstRunKeyValueFacet {
 
 	public static final GroupFacet INSTANCE = new GroupFacet();
 

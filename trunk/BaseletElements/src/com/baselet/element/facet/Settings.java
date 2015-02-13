@@ -72,31 +72,31 @@ public abstract class Settings {
 	 * e.g. if a line matches "--" and the facet SeparatorLine is setup for the current element,
 	 * a separator line will be drawn instead of printing the text.
 	 *
-	 * Global facets are parsed before any other ones, because they influence the whole diagram, even if they are located at the bottom
+	 * First-run facets are parsed before any other ones, because they influence the whole diagram, even if they are located at the bottom
 	 * e.g. style=wordwrap may be located at the bottom but has an influence on every printed line
 	 */
 	protected abstract List<Facet> createFacets();
 
-	private List<Facet> localFacets;
-	private List<Facet> globalFacets;
+	private List<Facet> firstRunFacets;
+	private List<Facet> secondRunFacets;
 
 	private void initFacets() {
-		if (localFacets == null) {
-			localFacets = new ArrayList<Facet>();
-			globalFacets = new ArrayList<Facet>();
+		if (firstRunFacets == null) {
+			firstRunFacets = new ArrayList<Facet>();
+			secondRunFacets = new ArrayList<Facet>();
 			addAll(createFacets());
-			sortListByPriority(localFacets);
-			sortListByPriority(globalFacets);
+			sortListByPriority(firstRunFacets);
+			sortListByPriority(secondRunFacets);
 		}
 	}
 
 	private void addAll(List<Facet> facets) {
 		for (Facet f : facets) {
-			if (f.isGlobal()) {
-				globalFacets.add(f);
+			if (f.handleOnFirstRun()) {
+				secondRunFacets.add(f);
 			}
 			else {
-				localFacets.add(f);
+				firstRunFacets.add(f);
 			}
 		}
 	}
@@ -113,14 +113,14 @@ public abstract class Settings {
 		});
 	}
 
-	public final List<Facet> getLocalFacets() {
+	public final List<Facet> getFacetsForSecondRun() {
 		initFacets();
-		return localFacets;
+		return firstRunFacets;
 	}
 
-	public final List<Facet> getGlobalFacets() {
+	public final List<Facet> getFacetsForFirstRun() {
 		initFacets();
-		return globalFacets;
+		return secondRunFacets;
 	}
 
 }

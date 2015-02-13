@@ -12,15 +12,15 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.diagram.draw.helper.StyleException;
-import com.baselet.element.facet.GlobalKeyValueFacet;
+import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.sticking.polygon.PointDoubleStickingPolygonGenerator;
 import com.baselet.element.sticking.polygon.SimpleStickingPolygonGenerator;
 
 /**
- * must be global, because the execution of Class.drawCommonContent() depends on the result of this facet
+ * must be in first run, because the execution of Class.drawCommonContent() depends on the result of this facet
  */
-public class TemplateClassFacet extends GlobalKeyValueFacet {
+public class TemplateClassFacet extends FirstRunKeyValueFacet {
 
 	public static final TemplateClassFacet INSTANCE = new TemplateClassFacet();
 
