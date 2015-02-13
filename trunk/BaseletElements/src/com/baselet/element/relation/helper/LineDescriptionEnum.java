@@ -1,6 +1,6 @@
 package com.baselet.element.relation.helper;
 
-import com.baselet.element.facet.Facet;
+import com.baselet.element.facet.KeyValueFacet;
 
 public enum LineDescriptionEnum {
 	MESSAGE_START("m1", 1, true),
@@ -34,7 +34,7 @@ public enum LineDescriptionEnum {
 
 	public static LineDescriptionEnum forString(String line) {
 		for (LineDescriptionEnum ld : LineDescriptionEnum.values()) {
-			if (line.startsWith(ld.key + Facet.SEP)) {
+			if (line.startsWith(ld.key + KeyValueFacet.SEP)) {
 				return ld;
 			}
 		}

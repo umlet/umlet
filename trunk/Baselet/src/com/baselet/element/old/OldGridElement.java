@@ -40,7 +40,7 @@ import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.ElementUtils;
 import com.baselet.element.UndoHistory;
 import com.baselet.element.UndoInformation;
-import com.baselet.element.facet.Facet;
+import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.facet.common.LayerFacet;
 import com.baselet.element.interfaces.GridElement;
@@ -161,8 +161,8 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public String getSetting(String key) {
 		for (String line : getPanelAttributesAsList()) {
-			if (line.startsWith(key + Facet.SEP)) {
-				String[] split = line.split(Facet.SEP, 2);
+			if (line.startsWith(key + KeyValueFacet.SEP)) {
+				String[] split = line.split(KeyValueFacet.SEP, 2);
 				if (split.length > 1) {
 					return split[1];
 				}
@@ -407,7 +407,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	private String getSettingHelper(String key, String defaultValue) {
-		key = key + Facet.SEP;
+		key = key + KeyValueFacet.SEP;
 		for (String s : panelAttributes) {
 			if (s.startsWith(key)) {
 				String[] value = s.split(key);

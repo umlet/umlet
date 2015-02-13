@@ -14,13 +14,18 @@ import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.facet.Facet;
+import com.baselet.element.facet.GlobalFacet;
+import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.relation.helper.LineDescriptionEnum;
 import com.baselet.element.relation.helper.RelationPointHandler;
 import com.baselet.gui.AutocompletionText;
 
-public class LineDescriptionFacet extends Facet {
+/**
+ * must be global after LineDescriptionPositionFacet (because the displacement must be applied)
+ * and before RelationLineTypeFacet and before drawCommonComponents (because the text changes the relationpoint placements and the size of the relation
+ */
+public class LineDescriptionFacet extends GlobalFacet {
 
 	static final int X_DIST_TO_LINE = 4;
 	static final int LOWER_Y_DIST_TO_LINE = 1;
@@ -47,39 +52,22 @@ public class LineDescriptionFacet extends Facet {
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
-		return true; // apply alway because middle text has no prefix
+		return !line.startsWith(RelationLineTypeFacet.KEY + KeyValueFacet.SEP); // because middle text has no prefix, apply alway except for lt (the only non global facet of relation)
 	}
 
 	@Override
 	public List<AutocompletionText> getAutocompletionStrings() {
 		return Arrays.asList(
-				new AutocompletionText(LineDescriptionEnum.MESSAGE_START.getKey() + SEP, "message at start"),
-				new AutocompletionText(LineDescriptionEnum.MESSAGE_END.getKey() + SEP, "message at end"),
-				new AutocompletionText(LineDescriptionEnum.ROLE_START.getKey() + SEP, "role at start"),
-				new AutocompletionText(LineDescriptionEnum.ROLE_END.getKey() + SEP, "role at end")
+				new AutocompletionText(LineDescriptionEnum.MESSAGE_START.getKey() + KeyValueFacet.SEP, "message at start"),
+				new AutocompletionText(LineDescriptionEnum.MESSAGE_END.getKey() + KeyValueFacet.SEP, "message at end"),
+				new AutocompletionText(LineDescriptionEnum.ROLE_START.getKey() + KeyValueFacet.SEP, "role at start"),
+				new AutocompletionText(LineDescriptionEnum.ROLE_END.getKey() + KeyValueFacet.SEP, "role at end")
 				);
 	}
 
 	@Override
 	public void handleLine(String line, PropertiesParserState state) {
-		DrawHandler drawer = state.getDrawer();
-		Map<String, Point> displacements = state.getOrInitFacetResponse(LineDescriptionPositionFacet.class, new HashMap<String, Point>());
-		RelationPointHandler relationPoints = getRelationPoints(state);
-		LineDescriptionFacetResponse response = getOrInitOwnResponse(state);
-
-		LineDescriptionEnum enumVal = LineDescriptionEnum.forString(line);
-		if (enumVal == LineDescriptionEnum.MESSAGE_MIDDLE) {
-			response.addMiddleLine(LineDescriptionUtils.replaceArrowsWithUtf8Characters(line)); // middle line can only be printed after all lines are collected
-		}
-		else {
-			String[] split = line.split(SEP, -1);
-			String text = split[1];
-			if (!text.isEmpty()) {
-				PointDouble pointText = LineDescriptionUtils.calcPosOfEndText(drawer, text, relationPoints, enumVal);
-				printAndUpdateIndex(drawer, response, relationPoints, pointText, enumVal.getIndex(), text, displacements.get(enumVal.getKey()));
-
-			}
-		}
+		// only act on parsingFinished() when all lines are known and other Globalfacets have been resolved (e.g. fg-color)
 	}
 
 	private LineDescriptionFacetResponse getOrInitOwnResponse(PropertiesParserState state) {
@@ -111,15 +99,28 @@ public class LineDescriptionFacet extends Facet {
 	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
 		LineDescriptionFacetResponse response = getOrInitOwnResponse(state);
 
-		if (!handledLines.isEmpty()) {
+		int number = 0;
+		for (String lineOrig : handledLines) {
+			String line = LineDescriptionUtils.replaceArrowsWithUtf8Characters(lineOrig);
 			DrawHandler drawer = state.getDrawer();
-			int i = 0;
-			for (String text : response.middleLines) {
-				RelationPointHandler relationPoints = getRelationPoints(state);
-				PointDouble pointText = LineDescriptionUtils.calcPosOfMiddleText(drawer, text, relationPoints.getMiddleLine(), response.middleLines.size());
-				int number = i++;
+			Map<String, Point> displacements = state.getOrInitFacetResponse(LineDescriptionPositionFacet.class, new HashMap<String, Point>());
+			RelationPointHandler relationPoints = getRelationPoints(state);
+
+			LineDescriptionEnum enumVal = LineDescriptionEnum.forString(line);
+			if (enumVal == LineDescriptionEnum.MESSAGE_MIDDLE) {
+				PointDouble pointText = LineDescriptionUtils.calcPosOfMiddleText(drawer, line, relationPoints.getMiddleLine(), response.middleLines.size());
 				pointText = new PointDouble(pointText.getX(), pointText.getY() + number * drawer.textHeightMaxWithSpace());
-				printAndUpdateIndex(drawer, response, relationPoints, pointText, LineDescriptionEnum.MESSAGE_MIDDLE.getIndex() + number, text);
+				printAndUpdateIndex(drawer, response, relationPoints, pointText, LineDescriptionEnum.MESSAGE_MIDDLE.getIndex() + number, line);
+				number++;
+			}
+			else {
+				String[] split = line.split(KeyValueFacet.SEP, -1);
+				String text = split[1];
+				if (!text.isEmpty()) {
+					PointDouble pointText = LineDescriptionUtils.calcPosOfEndText(drawer, text, relationPoints, enumVal);
+					printAndUpdateIndex(drawer, response, relationPoints, pointText, enumVal.getIndex(), text, displacements.get(enumVal.getKey()));
+
+				}
 			}
 		}
 

@@ -28,6 +28,7 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.element.facet.Facet;
+import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 import com.baselet.element.facet.common.GroupFacet;
@@ -163,7 +164,7 @@ public abstract class NewGridElement implements GridElement {
 			sb.setLength(sb.length() - 1);
 		}
 		if (newValue != null) {
-			sb.append("\n").append(key).append(Facet.SEP).append(newValue.toString()); // null will not be added as a value
+			sb.append("\n").append(key).append(KeyValueFacet.SEP).append(newValue.toString()); // null will not be added as a value
 		}
 		setPanelAttributes(sb.toString());
 	}
@@ -171,8 +172,8 @@ public abstract class NewGridElement implements GridElement {
 	@Override
 	public String getSetting(String key) {
 		for (String line : getPanelAttributesAsList()) {
-			if (line.startsWith(key + Facet.SEP)) {
-				String[] split = line.split(Facet.SEP, 2);
+			if (line.startsWith(key + KeyValueFacet.SEP)) {
+				String[] split = line.split(KeyValueFacet.SEP, 2);
 				if (split.length > 1) {
 					return split[1];
 				}
