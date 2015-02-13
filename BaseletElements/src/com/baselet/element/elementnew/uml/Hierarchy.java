@@ -3,7 +3,6 @@ package com.baselet.element.elementnew.uml;
 import java.util.List;
 
 import com.baselet.control.enums.ElementId;
-import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -20,8 +19,7 @@ public class Hierarchy extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(PropertiesParserState state) {
-		DrawHandler drawer = state.getDrawer();
-		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
+		state.getDrawer().drawRectangle(0, 0, getRealSize().getWidth(), getRealSize().getHeight());
 	}
 
 	@Override
