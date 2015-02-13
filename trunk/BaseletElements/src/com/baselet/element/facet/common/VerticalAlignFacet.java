@@ -1,7 +1,6 @@
 package com.baselet.element.facet.common;
 
 import com.baselet.control.enums.AlignVertical;
-import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.GlobalKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -23,11 +22,6 @@ public class VerticalAlignFacet extends GlobalKeyValueFacet {
 	@Override
 	public void handleValue(String value, DrawHandler drawer, PropertiesParserState state) {
 		state.getAlignment().setVertical(true, AlignVertical.valueOf(value.toUpperCase()));
-	}
-
-	@Override
-	public Priority getPriority() {
-		return Priority.HIGHEST;
 	}
 
 }
