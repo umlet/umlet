@@ -35,7 +35,7 @@ public class PropertiesParserState {
 		this.drawer = drawer;
 	}
 
-	public void resetValues(Dimension gridElementSize) {
+	public void resetValues(Dimension gridElementSize, double totalTextBlockHeight) {
 		alignment = new Alignment(settings);
 		textPrintPosition = 0;
 		calculatedElementWidth = 0;
@@ -43,7 +43,7 @@ public class PropertiesParserState {
 		this.gridElementSize = gridElementSize;
 		elementStyle = settings.getElementStyle();
 		stickingPolygonGenerator = SimpleStickingPolygonGenerator.INSTANCE;
-		totalTextBlockHeight = 0;
+		this.totalTextBlockHeight = totalTextBlockHeight;
 		facetResponse.clear();
 	}
 
@@ -138,17 +138,13 @@ public class PropertiesParserState {
 		this.stickingPolygonGenerator = stickingPolygonGenerator;
 	}
 
-	public void setTextBlockHeight(double textBlockHeight) {
-		totalTextBlockHeight = textBlockHeight;
-	}
-
 	public double getTotalTextBlockHeight() {
 		return totalTextBlockHeight;
 	}
 
 	public PropertiesParserState dummyCopy(Dimension gridElementSize) {
 		PropertiesParserState copy = new PropertiesParserState(settings, drawer.getPseudoDrawHandler());
-		copy.resetValues(gridElementSize);
+		copy.resetValues(gridElementSize, totalTextBlockHeight);
 		copy.setElementStyle(getElementStyle()); // elementstyle is important for calculation (because of wordwrap)
 		return copy;
 	}
