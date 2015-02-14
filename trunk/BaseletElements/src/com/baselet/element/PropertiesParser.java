@@ -41,9 +41,9 @@ public class PropertiesParser {
 		if (tmpstate.getElementStyle() == ElementStyle.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
 			element.drawCommonContent(tmpstate);
 			parseFacets(tmpstate.getSettings().getFacetsForSecondRun(), tmpPropertiesAfterFirstRun, tmpstate);
-			double textHeight = tmpstate.getTextPrintPosition() - tmpstate.getDrawer().textHeightMax(); // subtract last ypos step to avoid making element too high (because the print-text pos is always on the bottom)
 			double width = tmpstate.getCalculatedElementWidth();
-			element.handleAutoresize(new DimensionDouble(width, textHeight), tmpstate.getAlignment().getHorizontal());
+			double height = tmpstate.getTextPrintPosition() - tmpstate.getDrawer().textHeightMax(); // subtract 1xtextheight to avoid making element too high (because the print-text pos is always on the bottom)
+			element.handleAutoresize(new DimensionDouble(width, height), tmpstate.getAlignment().getHorizontal());
 		}
 	}
 
