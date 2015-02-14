@@ -47,7 +47,7 @@ public class Relation extends NewGridElement implements Stickable, RelationPoint
 	}
 
 	@Override
-	protected void resetMetaDrawer(DrawHandler drawer) {
+	protected void resetAndDrawMetaDrawerContent(DrawHandler drawer) {
 		drawer.clearCache();
 		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
 
