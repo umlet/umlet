@@ -23,7 +23,6 @@ import com.baselet.control.Main;
 import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.Converter;
 import com.baselet.control.basics.geom.Dimension;
-import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.basics.geom.Line;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
@@ -461,11 +460,6 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public DrawHandler getMetaDrawHandler() {
 		return null;
-	}
-
-	@Override
-	public void handleAutoresize(DimensionDouble necessaryElementDimension, AlignHorizontal alignHorizontal) {
-		/* not possible on OldGridElement */
 	}
 
 	@Override
