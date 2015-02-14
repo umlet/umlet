@@ -26,31 +26,26 @@ public class PropertiesParser {
 
 	public static void parsePropertiesAndHandleFacets(NewGridElement element, PropertiesParserState state) {
 		List<String> propertiesText = element.getPanelAttributesAsList();
-		autoresizeAnalysis(element, state, propertiesText); // at first handle autoresize (which possibly changes elementsize)
-		state.resetValues(element.getRealSize()); // now that the element size is known, reset the state with it
+		doPreparsing(element, state, propertiesText); // at first handle autoresize (which possibly changes elementsize) and calc the textblock size
 		List<String> propertiesAfterFirstRun = parseFacets(state.getSettings().getFacetsForFirstRun(), propertiesText, state); // must be before element.drawCommonContent (because bg=... and other settings are set here)
-		state.setTextBlockHeight(calcTextBlockHeight(propertiesAfterFirstRun, state)); // calc the total size of the textblock (necessary for text printing with valign!=top)
 		element.resetMetaDrawerAndDrawCommonContent(); // draw common content like border around classes
 		parseFacets(state.getSettings().getFacetsForSecondRun(), propertiesAfterFirstRun, state); // iterate over propertiestext and draw text and resolve second-run facets
 	}
 
-	private static void autoresizeAnalysis(NewGridElement element, PropertiesParserState state, List<String> propertiesText) {
+	private static void doPreparsing(NewGridElement element, PropertiesParserState state, List<String> propertiesText) {
 		PropertiesParserState tmpstate = state.dummyCopy(element.getRealSize()); // we use a tmpstate to parse first-run facets to see if autoresize is enabled
 		List<String> tmpPropertiesAfterFirstRun = parseFacets(tmpstate.getSettings().getFacetsForFirstRun(), propertiesText, tmpstate);
+		element.drawCommonContent(tmpstate);
+		parseFacets(tmpstate.getSettings().getFacetsForSecondRun(), tmpPropertiesAfterFirstRun, tmpstate);
 
-		if (tmpstate.getElementStyle() == ElementStyle.AUTORESIZE) { // only in case of autoresize element, we must proceed to calculate elementsize and resize it
-			element.drawCommonContent(tmpstate);
-			parseFacets(tmpstate.getSettings().getFacetsForSecondRun(), tmpPropertiesAfterFirstRun, tmpstate);
+		if (tmpstate.getElementStyle() == ElementStyle.AUTORESIZE) { // only in case of autoresize element, calculate the elementsize
 			double width = tmpstate.getCalculatedElementWidth();
 			double height = tmpstate.getTextPrintPosition() - tmpstate.getDrawer().textHeightMax(); // subtract 1xtextheight to avoid making element too high (because the print-text pos is always on the bottom)
 			element.handleAutoresize(new DimensionDouble(width, height), tmpstate.getAlignment().getHorizontal());
 		}
-	}
 
-	private static double calcTextBlockHeight(List<String> propertiesText, PropertiesParserState state) {
-		PropertiesParserState tmpstate = state.dummyCopy(state.getGridElementSize()); // a dummy state copy is used for calculation to make sure the textBlockHeight calculation doesn't change the real state
-		parseFacets(tmpstate.getSettings().getFacetsForSecondRun(), propertiesText, tmpstate);
-		return tmpstate.getTextPrintPosition() - tmpstate.getBuffer().getTop();
+		double textblockHeight = tmpstate.getTextPrintPosition() - tmpstate.getBuffer().getTop();
+		state.resetValues(element.getRealSize(), textblockHeight); // now that the element size and textblock height is known, reset the state with it
 	}
 
 	private static List<String> parseFacets(List<? extends Facet> facets, List<String> properties, PropertiesParserState state) {
