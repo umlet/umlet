@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import com.baselet.control.basics.geom.Dimension;
-import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
-import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.ElementId;
 import com.baselet.element.sticking.StickableMap;
@@ -62,8 +60,6 @@ public interface GridElement extends HasPanelAttributes {
 	String getSetting(String key);
 
 	Integer getLayer();
-
-	void handleAutoresize(DimensionDouble necessaryElementDimension, AlignHorizontal alignHorizontal);
 
 	ElementId getId();
 

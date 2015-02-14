@@ -339,7 +339,6 @@ public abstract class NewGridElement implements GridElement {
 		return state.getFacetResponse(GroupFacet.class, null);
 	}
 
-	@Override
 	public void handleAutoresize(DimensionDouble necessaryElementDimension, AlignHorizontal alignHorizontal) {
 		double hSpaceLeftAndRight = drawer.getDistanceBorderToText() * 2;
 		double width = necessaryElementDimension.getWidth() + hSpaceLeftAndRight;
