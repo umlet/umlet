@@ -16,9 +16,8 @@ import com.baselet.element.facet.PropertiesParserState;
  * The Facets typically manipulates the DrawHandler state by executing the drawing methods (e.g. printing the main-text of the element, transforming -- to a horizontal line, ...)
  *
  * A summary of the process is the following:
- * 1. check if the ElementStyle property is set to AUTORESIZE.
- * 1.1. If yes a complete dummy-parse is required to calculate the expected element size. The new size of the element gets applied and the PropertiesParserState gets updated
- * 2. The First-Run Facets get parsed and applied in order of their PriorityEnum value (this largely reduces the size of the remaining properties for the Second Run)
+ * 1. Do a complete parser run using a dummy Parser-State and Dummy-Drawer (steps 2-4) to calculate the textblock height and possibly start the AUTORESIZE calculation.
+ * 2. The First-Run Facets get parsed and applied in order of their PriorityEnum value (this reduces the size of the remaining properties for the Second Run)
  * 3. The common content of the element is drawn (e.g. the border) (therefore this must happen AFTER parsing the First-Run Facets because they can change the bg-color and so on)
  * 4. The remaining properties are parsed and the Second-Run Facets are applied.
  */
@@ -27,16 +26,12 @@ public class PropertiesParser {
 	public static void parsePropertiesAndHandleFacets(NewGridElement element, PropertiesParserState state) {
 		List<String> propertiesText = element.getPanelAttributesAsList();
 		doPreparsing(element, state, propertiesText); // at first handle autoresize (which possibly changes elementsize) and calc the textblock size
-		List<String> propertiesAfterFirstRun = parseFacets(state.getSettings().getFacetsForFirstRun(), propertiesText, state); // must be before element.drawCommonContent (because bg=... and other settings are set here)
-		element.resetMetaDrawerAndDrawCommonContent(); // draw common content like border around classes
-		parseFacets(state.getSettings().getFacetsForSecondRun(), propertiesAfterFirstRun, state); // iterate over propertiestext and draw text and resolve second-run facets
+		parseFacets(element, state, propertiesText, true);
 	}
 
 	private static void doPreparsing(NewGridElement element, PropertiesParserState state, List<String> propertiesText) {
-		PropertiesParserState tmpstate = state.dummyCopy(element.getRealSize()); // we use a tmpstate to parse first-run facets to see if autoresize is enabled
-		List<String> tmpPropertiesAfterFirstRun = parseFacets(tmpstate.getSettings().getFacetsForFirstRun(), propertiesText, tmpstate);
-		element.drawCommonContent(tmpstate);
-		parseFacets(tmpstate.getSettings().getFacetsForSecondRun(), tmpPropertiesAfterFirstRun, tmpstate);
+		PropertiesParserState tmpstate = state.dummyCopy(element.getRealSize()); // we use a tmpstate to avoid influencing the real state
+		parseFacets(element, tmpstate, propertiesText, false);
 
 		if (tmpstate.getElementStyle() == ElementStyle.AUTORESIZE) { // only in case of autoresize element, calculate the elementsize
 			double width = tmpstate.getCalculatedElementWidth();
@@ -46,6 +41,12 @@ public class PropertiesParser {
 
 		double textblockHeight = tmpstate.getTextPrintPosition() - tmpstate.getBuffer().getTop();
 		state.resetValues(element.getRealSize(), textblockHeight); // now that the element size and textblock height is known, reset the state with it
+	}
+
+	private static void parseFacets(NewGridElement element, PropertiesParserState state, List<String> propertiesText, boolean drawMetaDrawer) {
+		List<String> propertiesAfterFirstRun = parseFacets(state.getSettings().getFacetsForFirstRun(), propertiesText, state); // must be before element.drawCommonContent (because bg=... and other settings are set here)
+		element.resetMetaDrawerAndDrawCommonContent(state, drawMetaDrawer); // draw common content like border around classes
+		parseFacets(state.getSettings().getFacetsForSecondRun(), propertiesAfterFirstRun, state); // iterate over propertiestext and draw text and resolve second-run facets
 	}
 
 	private static List<String> parseFacets(List<? extends Facet> facets, List<String> properties, PropertiesParserState state) {

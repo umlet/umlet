@@ -125,18 +125,20 @@ public abstract class NewGridElement implements GridElement {
 		drawer.setBackgroundColor(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND));
 		drawer.setLineWidth(0.2);
 		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height); // draw dotted rect (to enforce background color even if element has no border)
-		resetMetaDrawer(metaDrawer);
+		resetAndDrawMetaDrawerContent(metaDrawer);
 		drawer.print(errorText, 3, getRealSize().height * 0.5 - drawer.textHeightMax(), AlignHorizontal.LEFT);
 	}
 
-	void resetMetaDrawerAndDrawCommonContent() {
-		drawCommonContent(state); // must be before properties.drawPropertiesText (to make sure a possible background color is behind the text)
-		resetMetaDrawer(metaDrawer); // must be after properties.initSettingsFromText() because stickingpolygon size can be based on some settings (eg: Actor uses this)
+	void resetMetaDrawerAndDrawCommonContent(PropertiesParserState state, boolean resetMetaDrawer) {
+		drawCommonContent(state);
+		if (resetMetaDrawer) {
+			resetAndDrawMetaDrawerContent(metaDrawer);
+		}
 	}
 
 	protected abstract void drawCommonContent(PropertiesParserState state);
 
-	protected void resetMetaDrawer(DrawHandler drawer) {
+	protected void resetAndDrawMetaDrawerContent(DrawHandler drawer) {
 		drawer.clearCache();
 		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
 		drawer.setBackgroundColor(ColorOwn.SELECTION_BG);
