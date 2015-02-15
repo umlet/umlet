@@ -321,9 +321,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	public final void drawStickingPolygon(Graphics2D g2) {
-		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
-		int start = Utils.displaceDrawingByOnePixel() ? 1 : 0;
-		Rectangle rect = new Rectangle(start, start, getRectangle().width - 1, getRectangle().height - 1);
+		Rectangle rect = new Rectangle(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 		StickingPolygon poly = this.generateStickingBorder(rect);
 		if (poly != null) {
 			Color c = g2.getColor();

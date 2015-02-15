@@ -6,7 +6,6 @@ import java.util.List;
 import com.baselet.control.Main;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.ElementId;
-import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.elementnew.ElementFactory;
 import com.baselet.element.interfaces.DrawHandlerInterface;
@@ -35,11 +34,6 @@ public class ElementFactorySwing extends ElementFactory {
 			@Override
 			public int getGridSize() {
 				return Main.getHandlerForElement(returnObj).getGridSize();
-			}
-
-			@Override
-			public boolean displaceDrawingByOnePixel() {
-				return Utils.displaceDrawingByOnePixel();
 			}
 
 			@Override

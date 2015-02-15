@@ -241,9 +241,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	private final void drawStickingPolygon(DrawHandler drawer) {
-		// The Java Implementations in the displaceDrawingByOnePixel list start at (1,1) to draw while any others start at (0,0)
-		int start = handler.displaceDrawingByOnePixel() ? 1 : 0;
-		Rectangle rect = new Rectangle(start, start, getRealSize().width, getRealSize().height);
+		Rectangle rect = new Rectangle(0, 0, getRealSize().width, getRealSize().height);
 		StickingPolygon poly = this.generateStickingBorder(rect);
 		drawer.setLineType(LineType.DASHED);
 		drawer.setForegroundColor(ColorOwn.STICKING_POLYGON);
