@@ -94,9 +94,10 @@ public class LineDescriptionFacet extends FirstRunFacet {
 			}
 		}
 
+		double halfMiddleBlockHeight = middleLines.size() * drawer.textHeightMaxWithSpace() / 2; // because vertical text blocks should be centered, the half of the total text block must be subtracted
 		for (int i = 0; i < middleLines.size(); i++) {
 			String line = LineDescriptionUtils.replaceArrowsWithUtf8Characters(middleLines.get(i));
-			PointDouble pointText = LineDescriptionUtils.calcPosOfMiddleText(drawer, line, relationPoints.getMiddleLine(), i, middleLines.size());
+			PointDouble pointText = LineDescriptionUtils.calcPosOfMiddleText(drawer, line, relationPoints.getMiddleLine(), i, halfMiddleBlockHeight);
 			int index = LineDescriptionEnum.MESSAGE_MIDDLE.getIndex() + i; // middle index is increased by the amount of middle text lines
 			printAndUpdateIndex(drawer, relationPoints, pointText, index, line, usedIndexes);
 

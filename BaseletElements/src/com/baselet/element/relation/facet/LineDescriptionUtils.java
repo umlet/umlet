@@ -60,7 +60,7 @@ public class LineDescriptionUtils {
 		return text;
 	}
 
-	static PointDouble calcPosOfMiddleText(DrawHandler drawer, String text, Line line, int currentLineNr, int totalLines) {
+	static PointDouble calcPosOfMiddleText(DrawHandler drawer, String text, Line line, int currentLineNr, double halfMiddleBlockHeight) {
 		double textWidth = drawer.textWidth(text);
 		boolean horizontalLine = line.getDirectionOfLine(true).isHorizontal();
 		PointDouble center = line.getCenter();
@@ -73,8 +73,7 @@ public class LineDescriptionUtils {
 		}
 		else {
 			textX = center.getX() + LineDescriptionFacet.X_DIST_TO_LINE;
-			double halfBlockHeight = totalLines * drawer.textHeightMaxWithSpace() / 2; // because vertical text blocks should be centered, the half of the total text block must be subtracted
-			textY = center.getY() + previousLinesUsedSpace - halfBlockHeight + drawer.textHeightWithSpace(text);
+			textY = center.getY() + previousLinesUsedSpace - halfMiddleBlockHeight + drawer.textHeightMaxWithSpace(); // must use textHeightMaxWithSpace and not the height of the line to make sure the text looks good (see Issue 235)
 		}
 		return new PointDouble(textX, textY);
 	}

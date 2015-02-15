@@ -81,10 +81,6 @@ public abstract class DrawHandler {
 		return textDimension(text).getHeight();
 	}
 
-	public final double textHeightWithSpace(String text) {
-		return textHeight(text) + getDistanceBetweenTextLines();
-	}
-
 	public final double textWidth(String text) {
 		return textDimension(text).getWidth();
 	}
