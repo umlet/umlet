@@ -52,12 +52,7 @@ public class SelectorFrame extends JComponent {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.black);
 		g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
-		if (Utils.displaceDrawingByOnePixel()) {
-			g2.drawRect(1, 1, getWidth() - 1, getHeight() - 1);
-		}
-		else {
-			g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
-		}
+		g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 		g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
 	}
 

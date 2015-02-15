@@ -25,11 +25,6 @@ public class ElementFactoryGwt extends ElementFactory {
 			}
 
 			@Override
-			public boolean displaceDrawingByOnePixel() {
-				return false;
-			}
-
-			@Override
 			public boolean isInitialized() {
 				return true; // GWT initializes elements at once, therefore it's always initialized
 			}

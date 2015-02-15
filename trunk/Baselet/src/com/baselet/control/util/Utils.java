@@ -13,21 +13,12 @@ import java.util.Vector;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.FacetConstants;
-import com.baselet.control.constants.SystemInfo;
-import com.baselet.control.enums.JavaImplementation;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DoubleStroke;
 
 public abstract class Utils {
 
 	private Utils() {} // private constructor to avoid instantiation
-
-	/**
-	 * This method checks if the drawing of graphics should start at pixel (1,1) instead of (0,0) or not
-	 */
-	public static boolean displaceDrawingByOnePixel() {
-		return SystemInfo.JAVA_IMPL == JavaImplementation.OPEN;
-	}
 
 	// Not used
 	public static File createRandomFile(String extension) {

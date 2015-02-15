@@ -8,8 +8,6 @@ public interface DrawHandlerInterface {
 
 	int getGridSize();
 
-	boolean displaceDrawingByOnePixel();
-
 	StickableMap getStickableMap();
 
 	boolean isInitialized();
