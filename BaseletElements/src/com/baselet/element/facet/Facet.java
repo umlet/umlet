@@ -24,8 +24,8 @@ public abstract class Facet {
 	public abstract boolean checkStart(String line, PropertiesParserState state);
 
 	/**
+	 * This method is invoked at the time when a specific line is parsed
 	 * @param line the current line which is parsed
-	 * @param drawer can draw something on the elements space
 	 * @param state the current state of the parser
 	 */
 	public abstract void handleLine(String line, PropertiesParserState state);
