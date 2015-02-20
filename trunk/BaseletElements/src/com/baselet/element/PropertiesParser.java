@@ -30,6 +30,7 @@ public class PropertiesParser {
 	}
 
 	private static void doPreparsing(NewGridElement element, PropertiesParserState state, List<String> propertiesText) {
+		state.getDrawer().setDisableDrawing(true); // disable drawing while preparsing
 		PropertiesParserState tmpstate = state.dummyCopy(element.getRealSize()); // we use a tmpstate to avoid influencing the real state
 		parseFacets(element, tmpstate, propertiesText, false);
 
@@ -41,6 +42,7 @@ public class PropertiesParser {
 
 		double textblockHeight = tmpstate.getTextPrintPosition() - tmpstate.getBuffer().getTop();
 		state.resetValues(element.getRealSize(), textblockHeight); // now that the element size and textblock height is known, reset the state with it
+		state.getDrawer().setDisableDrawing(false);
 	}
 
 	private static void parseFacets(NewGridElement element, PropertiesParserState state, List<String> propertiesText, boolean drawMetaDrawer) {

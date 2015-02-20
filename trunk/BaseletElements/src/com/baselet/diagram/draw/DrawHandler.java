@@ -33,6 +33,8 @@ public abstract class DrawHandler {
 
 	private Layer layer = Layer.Background;
 
+	private boolean disableDrawing = false;
+
 	/**
 	 * all background elements are drawn before drawing the foreground elements
 	 * can be useful e.g. if a printText call is made before a drawRectangle call although it should be placed behind the rectangle
@@ -41,17 +43,24 @@ public abstract class DrawHandler {
 		this.layer = layer;
 	}
 
+	public void setDisableDrawing(boolean disableDrawing) {
+		this.disableDrawing = disableDrawing;
+	}
+
 	protected Style getOverlay() {
 		return overlay;
 	}
 
 	protected void addDrawable(DrawFunction drawable) {
-		if (layer == Layer.Foreground) {
-			drawablesForeground.add(drawable);
+		if (!disableDrawing) {
+			if (layer == Layer.Foreground) {
+				drawablesForeground.add(drawable);
+			}
+			else {
+				drawablesBackground.add(drawable);
+			}
 		}
-		else {
-			drawablesBackground.add(drawable);
-		}
+		// if drawing is disabled don't add the DrawFunction to any collection
 	}
 
 	public void drawAll(boolean isSelected) {
@@ -207,8 +216,6 @@ public abstract class DrawHandler {
 	protected abstract DimensionDouble textDimensionHelper(String string);
 
 	protected abstract double getDefaultFontSize();
-
-	public abstract DrawHandler getPseudoDrawHandler();
 
 	/* DRAW METHODS */
 	public void drawRectangle(Rectangle rect) {

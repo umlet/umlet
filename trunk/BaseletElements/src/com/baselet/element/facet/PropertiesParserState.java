@@ -143,7 +143,7 @@ public class PropertiesParserState {
 	}
 
 	public PropertiesParserState dummyCopy(Dimension gridElementSize) {
-		PropertiesParserState copy = new PropertiesParserState(settings, drawer.getPseudoDrawHandler());
+		PropertiesParserState copy = new PropertiesParserState(settings, drawer);
 		copy.resetValues(gridElementSize, totalTextBlockHeight);
 		copy.setElementStyle(getElementStyle()); // elementstyle is important for calculation (because of wordwrap)
 		return copy;
