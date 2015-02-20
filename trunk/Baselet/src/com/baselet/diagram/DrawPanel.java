@@ -204,7 +204,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	}
 
 	public List<com.baselet.element.relation.Relation> getStickables(Collection<GridElement> excludeList) {
-		if (!SharedConfig.getInstance().isStickingEnabled()) {
+		if (!SharedConfig.getInstance().isStickingEnabled() || handler instanceof PaletteHandler) {
 			return Collections.<com.baselet.element.relation.Relation> emptyList();
 		}
 		List<com.baselet.element.relation.Relation> returnList = getHelper(com.baselet.element.relation.Relation.class);
