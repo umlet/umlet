@@ -16,7 +16,7 @@ import com.baselet.element.facet.PropertiesParserState;
  * The Facets typically manipulates the DrawHandler state by executing the drawing methods (e.g. printing the main-text of the element, transforming -- to a horizontal line, ...)
  *
  * A summary of the process is the following:
- * 1. Do a complete parser run using a dummy Parser-State and Dummy-Drawer (steps 2-4) to calculate the textblock height and possibly start the AUTORESIZE calculation.
+ * 1. Do a complete parser run (without drawing anything) to calculate the textblock height and possibly start the AUTORESIZE calculation.
  * 2. The First-Run Facets get parsed and applied in order of their PriorityEnum value (this reduces the size of the remaining properties for the Second Run)
  * 3. The common content of the element is drawn (e.g. the border) (therefore this must happen AFTER parsing the First-Run Facets because they can change the bg-color and so on)
  * 4. The remaining properties are parsed and the Second-Run Facets are applied.
@@ -30,19 +30,17 @@ public class PropertiesParser {
 	}
 
 	private static void doPreparsing(NewGridElement element, PropertiesParserState state, List<String> propertiesText) {
-		state.getDrawer().setDisableDrawing(true); // disable drawing while preparsing
-		PropertiesParserState tmpstate = state.dummyCopy(element.getRealSize()); // we use a tmpstate to avoid influencing the real state
-		parseFacets(element, tmpstate, propertiesText, false);
+		state.resetValues(element.getRealSize(), state.getTotalTextBlockHeight(), false); // assume certain values and disable drawing for the preparsing step
+		parseFacets(element, state, propertiesText, false);
 
-		if (tmpstate.getElementStyle() == ElementStyle.AUTORESIZE) { // only in case of autoresize element, calculate the elementsize
-			double width = tmpstate.getCalculatedElementWidth();
-			double height = tmpstate.getTextPrintPosition() - tmpstate.getDrawer().textHeightMax(); // subtract 1xtextheight to avoid making element too high (because the print-text pos is always on the bottom)
-			element.handleAutoresize(new DimensionDouble(width, height), tmpstate.getAlignment().getHorizontal());
+		if (state.getElementStyle() == ElementStyle.AUTORESIZE) { // only in case of autoresize element, calculate the elementsize
+			double width = state.getCalculatedElementWidth();
+			double height = state.getTextPrintPosition() - state.getDrawer().textHeightMax(); // subtract 1xtextheight to avoid making element too high (because the print-text pos is always on the bottom)
+			element.handleAutoresize(new DimensionDouble(width, height), state.getAlignment().getHorizontal());
 		}
 
-		double textblockHeight = tmpstate.getTextPrintPosition() - tmpstate.getBuffer().getTop();
-		state.resetValues(element.getRealSize(), textblockHeight); // now that the element size and textblock height is known, reset the state with it
-		state.getDrawer().setDisableDrawing(false);
+		double textblockHeight = state.getTextPrintPosition() - state.getBuffer().getTop();
+		state.resetValues(element.getRealSize(), textblockHeight, true); // now that the element size and textblock height is known, the state is reset once again with enabled drawing
 	}
 
 	private static void parseFacets(NewGridElement element, PropertiesParserState state, List<String> propertiesText, boolean drawMetaDrawer) {

@@ -33,7 +33,7 @@ public abstract class DrawHandler {
 
 	private Layer layer = Layer.Background;
 
-	private boolean disableDrawing = false;
+	private boolean enableDrawing = true;
 
 	/**
 	 * all background elements are drawn before drawing the foreground elements
@@ -43,8 +43,8 @@ public abstract class DrawHandler {
 		this.layer = layer;
 	}
 
-	public void setDisableDrawing(boolean disableDrawing) {
-		this.disableDrawing = disableDrawing;
+	public void setEnableDrawing(boolean enableDrawing) {
+		this.enableDrawing = enableDrawing;
 	}
 
 	protected Style getOverlay() {
@@ -52,7 +52,7 @@ public abstract class DrawHandler {
 	}
 
 	protected void addDrawable(DrawFunction drawable) {
-		if (!disableDrawing) {
+		if (enableDrawing) {
 			if (layer == Layer.Foreground) {
 				drawablesForeground.add(drawable);
 			}
