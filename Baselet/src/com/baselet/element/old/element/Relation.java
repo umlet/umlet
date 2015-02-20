@@ -1910,6 +1910,7 @@ public class Relation extends OldGridElement {
 
 	// G.Mueller end
 
+	@Override
 	public StickingPolygon generateStickingBorder() { // LME
 		return NoStickingPolygonGenerator.INSTANCE.generateStickingBorder(getRectangle());
 	}

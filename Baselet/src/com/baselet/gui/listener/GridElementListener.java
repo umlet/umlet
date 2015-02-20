@@ -301,10 +301,20 @@ public class GridElementListener extends UniversalListener {
 			// reduce stickables to those which really stick at the element at move-start
 			StickableMap stickingStickables = Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(ge.generateStickingBorder(), stickables);
 			moveCommands.add(new Move(directions, ge, diffx, diffy, oldp, isShiftKeyDown, true, useSetLocation, stickingStickables));
-			boolean stickingDisabled = !SharedConfig.getInstance().isStickingEnabled() || handler instanceof PaletteHandler;
-			if (ge instanceof Relation || stickingDisabled) {
-				continue;
-			}
+
+			handleStickingOfOldRelation(diffx, diffy, entitiesToBeMoved, handler, directions, linepointCommands, ge);
+		}
+		Vector<Command> allCommands = new Vector<Command>();
+		allCommands.addAll(moveCommands);
+		allCommands.addAll(linepointCommands);
+		return allCommands;
+	}
+
+	// for elements which are not OldRelation themselves and if sticking is not disabled, handle the sticking-movement of old relations. SHOULD BE REMOVED AS SOON AS THE OLDRELATION CLASS IS REMOVED!
+	@Deprecated
+	private static void handleStickingOfOldRelation(int diffx, int diffy, Collection<GridElement> entitiesToBeMoved, DiagramHandler handler, Set<Direction> directions, Vector<OldMoveLinePoint> linepointCommands, GridElement ge) {
+		boolean stickingDisabled = !SharedConfig.getInstance().isStickingEnabled() || handler instanceof PaletteHandler;
+		if (!(ge instanceof Relation || stickingDisabled)) {
 			StickingPolygon stick = ge.generateStickingBorder();
 			if (stick != null && directions.isEmpty()) { // sticking on resizing is disabled for old relations
 				Vector<OldRelationLinePoint> affectedRelationPoints = OldResize.getStickingRelationLinePoints(handler, stick);
@@ -317,10 +327,6 @@ public class GridElementListener extends UniversalListener {
 				}
 			}
 		}
-		Vector<Command> allCommands = new Vector<Command>();
-		allCommands.addAll(moveCommands);
-		allCommands.addAll(linepointCommands);
-		return allCommands;
 	}
 
 	/**

@@ -110,7 +110,6 @@ public class Move extends Command {
 			entity.setRectangleDifference(getX(), getY(), 0, 0, firstDrag, stickables, true);
 		}
 		else {
-			// resize directions is empty and shift-key is always false, because standalone UMLet has a separate Resize-Command
 			entity.drag(resizeDirection, getX(), getY(), getMousePosBeforeDrag(), isShiftKeyDown, firstDrag, stickables, true);
 		}
 	}
