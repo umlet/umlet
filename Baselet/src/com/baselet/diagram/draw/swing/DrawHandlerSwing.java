@@ -86,17 +86,6 @@ public class DrawHandlerSwing extends DrawHandler {
 		return handler.getFontHandler().getFontSize(false);
 	}
 
-	/**
-	 * exists to apply all facet operations without real drawing (eg: necessary to calculate space which is needed for autoresize)
-	 */
-	@Override
-	public DrawHandlerSwing getPseudoDrawHandler() {
-		PseudoDrawHandlerSwing counter = new PseudoDrawHandlerSwing(gridElement);
-		counter.setHandler(handler);
-		counter.setStyle(style.cloneFromMe()); // set style to make sure fontsize (and therefore calls like this.textHeight()) work as intended
-		return counter;
-	}
-
 	/* DRAW METHODS */
 	@Override
 	public void drawArc(double x, double y, double width, double height, double start, double extent, boolean open) {
