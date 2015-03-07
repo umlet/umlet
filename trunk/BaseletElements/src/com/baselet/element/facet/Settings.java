@@ -36,10 +36,10 @@ public abstract class Settings {
 	// the following lists are default facet configurations. they are declared here as a simple overview and for easy reuse
 	private static final List<Facet> BASE = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE);
 	private static final List<Facet> BASE_WITH_LINETYPE = listOf(BASE, LineTypeFacet.INSTANCE);
-	private static final List<Facet> BASE_EXTENDED = listOf(BASE_WITH_LINETYPE, TextPrintFacet.INSTANCE, FontSizeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE);
+	private static final List<Facet> BASE_EXTENDED = listOf(BASE_WITH_LINETYPE, TextPrintFacet.INSTANCE, FontSizeFacet.INSTANCE);
 
 	protected static final List<Facet> RELATION = listOf(BASE, FontSizeFacet.INSTANCE, RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, LineDescriptionPositionFacet.INSTANCE_MESSAGE_START, LineDescriptionPositionFacet.INSTANCE_MESSAGE_END, LineDescriptionPositionFacet.INSTANCE_ROLE_START, LineDescriptionPositionFacet.INSTANCE_ROLE_END);
-	protected static final List<Facet> MANUALRESIZE = listOf(BASE_EXTENDED, VerticalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
+	protected static final List<Facet> MANUALRESIZE = listOf(BASE_EXTENDED, VerticalAlignFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
 	protected static final List<Facet> NOTEXT = BASE_WITH_LINETYPE;
 	protected static final List<Facet> AUTORESIZE = listOf(BASE_EXTENDED, SeparatorLineFacet.INSTANCE);
 	protected static final List<Facet> HIERARCHY = listOf(BASE_WITH_LINETYPE, FontSizeFacet.INSTANCE, ElementStyleFacet.INSTANCE_AUTORESIZEONLY, HierarchyFacet.INSTANCE);
