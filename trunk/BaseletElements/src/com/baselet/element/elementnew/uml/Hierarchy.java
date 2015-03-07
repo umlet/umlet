@@ -8,8 +8,6 @@ import com.baselet.element.NewGridElement;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
-import com.baselet.element.facet.common.ElementStyleFacet;
-import com.baselet.element.facet.specific.HierarchyFacet;
 
 public class Hierarchy extends NewGridElement {
 
@@ -34,7 +32,7 @@ public class Hierarchy extends NewGridElement {
 
 			@Override
 			protected List<Facet> createFacets() {
-				return listOf(Settings.MANUALRESIZE, ElementStyleFacet.INSTANCE_AUTORESIZEONLY, HierarchyFacet.INSTANCE);
+				return Settings.HIERARCHY;
 			}
 		};
 	}

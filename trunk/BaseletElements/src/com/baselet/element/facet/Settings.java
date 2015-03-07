@@ -22,6 +22,7 @@ import com.baselet.element.facet.common.LineWidthFacet;
 import com.baselet.element.facet.common.SeparatorLineFacet;
 import com.baselet.element.facet.common.TextPrintFacet;
 import com.baselet.element.facet.common.VerticalAlignFacet;
+import com.baselet.element.facet.specific.HierarchyFacet;
 import com.baselet.element.relation.facet.LineDescriptionFacet;
 import com.baselet.element.relation.facet.LineDescriptionPositionFacet;
 import com.baselet.element.relation.facet.RelationLineTypeFacet;
@@ -33,12 +34,15 @@ import com.baselet.element.relation.facet.RelationLineTypeFacet;
  */
 public abstract class Settings {
 	// the following lists are default facet configurations. they are declared here as a simple overview and for easy reuse
-	protected static final List<Facet> NOTEXT = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, LineTypeFacet.INSTANCE);
-	protected static final List<Facet> RELATION = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, LineDescriptionPositionFacet.INSTANCE_MESSAGE_START, LineDescriptionPositionFacet.INSTANCE_MESSAGE_END, LineDescriptionPositionFacet.INSTANCE_ROLE_START, LineDescriptionPositionFacet.INSTANCE_ROLE_END);
-	protected static final List<Facet> AUTORESIZE = listOf(TextPrintFacet.INSTANCE, BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, SeparatorLineFacet.INSTANCE);
+	private static final List<Facet> BASE = listOf(BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE);
+	private static final List<Facet> BASE_WITH_LINETYPE = listOf(BASE, LineTypeFacet.INSTANCE);
+	private static final List<Facet> BASE_EXTENDED = listOf(BASE_WITH_LINETYPE, TextPrintFacet.INSTANCE, FontSizeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE);
 
-	protected static final List<Facet> MANUALRESIZE = listOf(TextPrintFacet.INSTANCE, BackgroundColorFacet.INSTANCE, ForegroundColorFacet.INSTANCE, LayerFacet.INSTANCE, LineWidthFacet.INSTANCE, GroupFacet.INSTANCE, FontSizeFacet.INSTANCE, LineTypeFacet.INSTANCE, HorizontalAlignFacet.INSTANCE, VerticalAlignFacet.INSTANCE);
-	protected static final List<Facet> MANUALRESIZE_WITH_STYLE = listOf(MANUALRESIZE, ElementStyleFacet.INSTANCE);
+	protected static final List<Facet> RELATION = listOf(BASE, FontSizeFacet.INSTANCE, RelationLineTypeFacet.INSTANCE, LineDescriptionFacet.INSTANCE, LineDescriptionPositionFacet.INSTANCE_MESSAGE_START, LineDescriptionPositionFacet.INSTANCE_MESSAGE_END, LineDescriptionPositionFacet.INSTANCE_ROLE_START, LineDescriptionPositionFacet.INSTANCE_ROLE_END);
+	protected static final List<Facet> MANUALRESIZE = listOf(BASE_EXTENDED, VerticalAlignFacet.INSTANCE, ElementStyleFacet.INSTANCE);
+	protected static final List<Facet> NOTEXT = BASE_WITH_LINETYPE;
+	protected static final List<Facet> AUTORESIZE = listOf(BASE_EXTENDED, SeparatorLineFacet.INSTANCE);
+	protected static final List<Facet> HIERARCHY = listOf(BASE_WITH_LINETYPE, FontSizeFacet.INSTANCE, ElementStyleFacet.INSTANCE_AUTORESIZEONLY, HierarchyFacet.INSTANCE);
 
 	protected static List<Facet> listOf(Facet... f) {
 		List<Facet> facetList = new ArrayList<Facet>();
