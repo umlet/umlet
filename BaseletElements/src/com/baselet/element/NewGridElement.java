@@ -303,7 +303,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	private int zoom(int val) {
-		return val * SharedConstants.DEFAULT_GRID_SIZE / handler.getGridSize();
+		return val * SharedConstants.DEFAULT_GRID_SIZE / getGridSize();
 	}
 
 	@Override
@@ -347,9 +347,8 @@ public abstract class NewGridElement implements GridElement {
 		double diffw = width - realSize.width;
 		double diffh = height - realSize.height;
 
-		int diffwInt = SharedUtils.realignTo(false, diffw, true, getGridSize());
-		int diffhInt = SharedUtils.realignTo(false, diffh, true, getGridSize());
-
+		int diffwInt = SharedUtils.realignTo(false, unzoom(diffw), true, getGridSize());
+		int diffhInt = SharedUtils.realignTo(false, unzoom(diffh), true, getGridSize());
 		List<Direction> directions = null;
 		if (alignHorizontal == AlignHorizontal.LEFT) {
 			directions = Arrays.asList(Direction.RIGHT, Direction.DOWN);
@@ -359,10 +358,14 @@ public abstract class NewGridElement implements GridElement {
 			directions = Arrays.asList(Direction.LEFT, Direction.DOWN);
 		}
 		else if (alignHorizontal == AlignHorizontal.CENTER) {
-			diffwInt = SharedUtils.realignToGrid(false, diffwInt / 2.0, true) * 2;
+			diffwInt = SharedUtils.realignTo(false, diffwInt / 2.0, true, getGridSize()) * 2;
 			directions = Arrays.asList(Direction.RIGHT, Direction.LEFT, Direction.DOWN);
 		}
 		drag(directions, diffwInt, diffhInt, new Point(0, 0), false, true, handler.getStickableMap(), false);
+	}
+
+	private double unzoom(double diffw) {
+		return diffw / SharedConstants.DEFAULT_GRID_SIZE * getGridSize();
 	}
 
 	@Override
