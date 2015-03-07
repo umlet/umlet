@@ -17,7 +17,7 @@ public class SettingsText extends Settings {
 
 	@Override
 	protected List<Facet> createFacets() {
-		return listOf(Settings.MANUALRESIZE, SeparatorLineFacet.INSTANCE);
+		return listOf(Settings.MANUALRESIZE_WITH_STYLE, SeparatorLineFacet.INSTANCE);
 	}
 
 	@Override
