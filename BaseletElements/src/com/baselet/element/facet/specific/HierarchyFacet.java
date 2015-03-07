@@ -111,7 +111,8 @@ public class HierarchyFacet extends Facet {
 		if (tabCount == 0) {
 			cache.points.clear();
 		}
-		else if (cache.points.size() > tabCount) {
+		// for each tab which is missing in this line compared to the previous one, remove one stored point
+		while (cache.points.size() > tabCount) {
 			cache.points.remove(cache.points.size() - 1);
 		}
 		cache.points.add(new ReferencePoint(upperLeftPoint));
