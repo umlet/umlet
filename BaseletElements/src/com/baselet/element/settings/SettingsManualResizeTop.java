@@ -15,6 +15,6 @@ public abstract class SettingsManualResizeTop extends Settings {
 
 	@Override
 	protected List<Facet> createFacets() {
-		return Settings.MANUALRESIZE_WITH_STYLE;
+		return Settings.MANUALRESIZE;
 	}
 }
