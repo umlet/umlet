@@ -55,7 +55,7 @@ public class TextPrintFacet extends Facet {
 		XValues xLimitsForText = state.getXLimitsForArea(state.getTextPrintPosition(), drawer.textHeightMax(), false);
 		Double spaceNotUsedForText = state.getGridElementSize().width - xLimitsForText.getSpace();
 		if (!spaceNotUsedForText.equals(Double.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
-			state.updateCalculatedElementWidth(spaceNotUsedForText + drawer.textWidth(line));
+			state.updateMinimumWidth(spaceNotUsedForText + drawer.textWidth(line));
 		}
 		AlignHorizontal hAlign = state.getAlignment().getHorizontal();
 		drawer.print(line, calcHorizontalTextBoundaries(xLimitsForText, drawer.getDistanceBorderToText(), hAlign), state.getTextPrintPosition(), hAlign);

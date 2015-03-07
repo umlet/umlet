@@ -22,7 +22,7 @@ public class PropertiesParserState {
 
 	private Alignment alignment;
 	private double textPrintPosition; // the current y position for drawing text, separator-lines and other properties-text-related stuff
-	private double calculatedElementWidth;
+	private double minimumWidth;
 	private Buffer buffer;
 	private Dimension gridElementSize;
 	private ElementStyle elementStyle;
@@ -38,7 +38,7 @@ public class PropertiesParserState {
 	public void resetValues(Dimension gridElementSize, double totalTextBlockHeight, boolean enableDrawing) {
 		alignment = new Alignment(settings);
 		textPrintPosition = 0;
-		calculatedElementWidth = 0;
+		minimumWidth = 0;
 		buffer = new Buffer();
 		this.gridElementSize = gridElementSize;
 		elementStyle = settings.getElementStyle();
@@ -88,17 +88,17 @@ public class PropertiesParserState {
 		return xLimits;
 	}
 
-	public void updateCalculatedElementWidth(double width) {
-		calculatedElementWidth = Math.max(calculatedElementWidth, width);
+	public void updateMinimumWidth(double width) {
+		minimumWidth = Math.max(minimumWidth, width);
 	}
 
-	public void updateCalculatedElementSize(double width, double height) {
-		updateCalculatedElementWidth(width);
+	public void updateMinimumSize(double width, double height) {
+		updateMinimumWidth(width);
 		getBuffer().setTopMin(height);
 	}
 
 	public double getCalculatedElementWidth() {
-		return calculatedElementWidth;
+		return minimumWidth;
 	}
 
 	public ElementStyle getElementStyle() {

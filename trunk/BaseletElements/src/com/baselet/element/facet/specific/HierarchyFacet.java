@@ -131,7 +131,7 @@ public class HierarchyFacet extends Facet {
 	}
 
 	private void updateElementSize(PropertiesParserState state, String lineWithoutTabs, PointDouble lowerRightPoint, PointDouble textPos, double widthAddon, double heightAddon) {
-		state.updateCalculatedElementSize(textPos.x + widthAddon, lowerRightPoint.y + heightAddon);
+		state.updateMinimumSize(textPos.x + widthAddon, lowerRightPoint.y + heightAddon);
 	}
 
 	private static void drawLinesAndUpperLeftSymbol(PointDouble lowerRightPoint, DrawHandler drawer, Cache cache, String lineWithoutTabs, int tabCount, boolean arrow) {
