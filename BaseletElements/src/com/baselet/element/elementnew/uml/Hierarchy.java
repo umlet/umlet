@@ -3,12 +3,13 @@ package com.baselet.element.elementnew.uml;
 import java.util.List;
 
 import com.baselet.control.enums.ElementId;
+import com.baselet.control.enums.ElementStyle;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
+import com.baselet.element.facet.common.ElementStyleFacet;
 import com.baselet.element.facet.specific.HierarchyFacet;
-import com.baselet.element.settings.SettingsManualResizeTop;
 
 public class Hierarchy extends NewGridElement {
 
@@ -24,10 +25,16 @@ public class Hierarchy extends NewGridElement {
 
 	@Override
 	protected Settings createSettings() {
-		return new SettingsManualResizeTop() {
+		return new Settings() {
+
+			@Override
+			public ElementStyle getElementStyle() {
+				return ElementStyle.SIMPLE;
+			}
+
 			@Override
 			protected List<Facet> createFacets() {
-				return listOf(super.createFacets(), HierarchyFacet.INSTANCE);
+				return listOf(Settings.MANUALRESIZE, ElementStyleFacet.INSTANCE_AUTORESIZEONLY, HierarchyFacet.INSTANCE);
 			}
 		};
 	}
