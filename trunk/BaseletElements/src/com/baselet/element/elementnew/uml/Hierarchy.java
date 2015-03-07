@@ -2,6 +2,7 @@ package com.baselet.element.elementnew.uml;
 
 import java.util.List;
 
+import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.ElementId;
 import com.baselet.control.enums.ElementStyle;
 import com.baselet.element.NewGridElement;
@@ -28,6 +29,11 @@ public class Hierarchy extends NewGridElement {
 			@Override
 			public ElementStyle getElementStyle() {
 				return ElementStyle.SIMPLE;
+			}
+
+			@Override
+			public AlignHorizontal getHAlign() {
+				return AlignHorizontal.LEFT; // not really used because there is no default text, but important if autoresize is used because autoresize adds to left and right if halign is center
 			}
 
 			@Override
