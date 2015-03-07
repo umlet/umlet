@@ -37,8 +37,7 @@ public class Timer extends NewGridElement {
 	@Override
 	protected void drawCommonContent(PropertiesParserState state) {
 		DrawHandler drawer = state.getDrawer();
-		state.getBuffer().setTopMin(CLOCK_DIM);
-		state.updateCalculatedElementWidth(CLOCK_DIM);
+		state.updateCalculatedElementSize(CLOCK_DIM, CLOCK_DIM);
 		drawer.drawLines(Arrays.asList(new PointDouble(xClock(), 0), new PointDouble(x2Clock(), CLOCK_DIM), new PointDouble(xClock(), CLOCK_DIM), new PointDouble(x2Clock(), 0), new PointDouble(xClock(), 0)));
 
 		state.setStickingPolygonGenerator(timerStickingPolygonGenerator);
