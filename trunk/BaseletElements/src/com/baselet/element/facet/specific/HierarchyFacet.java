@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.basics.geom.PointDouble;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.DrawHandler.Layer;
@@ -16,7 +17,6 @@ import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.gui.AutocompletionText;
 
 public class HierarchyFacet extends Facet {
-
 	private static final double ARROW_LENGTH = 12;
 	private static final double CIRCLE_DIAMETER = 10;
 	private static final String KEY = "type";
@@ -71,6 +71,8 @@ public class HierarchyFacet extends Facet {
 		int tabCount = line.length() - lineWithoutTabs.length();
 		int border = 10;
 		PointDouble upperLeftPoint = null;
+		PointDouble lowerRightPoint = null;
+		PointDouble textPos = null;
 		if (cache.type == HierarchyType.Actor) {
 			int actorDimension = 10;
 			int actorHCenter = border + actorDimension + actorDimension * 5 * tabCount;
@@ -78,9 +80,11 @@ public class HierarchyFacet extends Facet {
 			DrawHelper.drawActor(drawer, actorHCenter, actorVTop, actorDimension);
 
 			upperLeftPoint = new PointDouble(actorHCenter, actorVTop + actorDimension * 5.5 + ARROW_LENGTH);
-			PointDouble lowerRightPoint = new PointDouble(actorHCenter - actorDimension * 2, actorVTop + actorDimension * 2.5);
+			lowerRightPoint = new PointDouble(actorHCenter - actorDimension * 2, actorVTop + actorDimension * 2.5);
 			drawLinesAndUpperLeftSymbol(lowerRightPoint, drawer, cache, lineWithoutTabs, tabCount, true);
-			drawer.print(lineWithoutTabs, new PointDouble(actorHCenter + actorDimension * 2, actorVTop + actorDimension * 3), AlignHorizontal.LEFT);
+			textPos = new PointDouble(actorHCenter + actorDimension * 2, actorVTop + actorDimension * 3);
+			drawer.print(lineWithoutTabs, textPos, AlignHorizontal.LEFT);
+			updateElementSize(state, lineWithoutTabs, lowerRightPoint, textPos, drawer.textWidth(lineWithoutTabs), DrawHelper.headToLegLength(actorDimension));
 		}
 		else if (cache.type == HierarchyType.Package) {
 			int fullHeight = 20;
@@ -90,9 +94,11 @@ public class HierarchyFacet extends Facet {
 			DrawHelper.drawPackage(drawer, xPos, yPos, 5, 10, fullHeight, fullWidth);
 
 			upperLeftPoint = new PointDouble(xPos + fullWidth * 0.3, yPos + fullHeight + CIRCLE_DIAMETER);
-			PointDouble lowerRightPoint = new PointDouble(xPos, yPos + fullHeight * 0.5);
+			lowerRightPoint = new PointDouble(xPos, yPos + fullHeight * 0.5);
 			drawLinesAndUpperLeftSymbol(lowerRightPoint, drawer, cache, lineWithoutTabs, tabCount, false);
-			drawer.print(lineWithoutTabs, new PointDouble(xPos + fullWidth * 1.15, yPos + fullHeight * 0.8), AlignHorizontal.LEFT);
+			textPos = new PointDouble(xPos + fullWidth * 1.15, yPos + fullHeight * 0.8);
+			drawer.print(lineWithoutTabs, textPos, AlignHorizontal.LEFT);
+			updateElementSize(state, lineWithoutTabs, lowerRightPoint, textPos, drawer.textWidth(lineWithoutTabs), fullHeight + SharedConstants.DEFAULT_GRID_SIZE);
 		}
 		else if (cache.type == HierarchyType.WorkProcess) {
 			int fullHeight = 40;
@@ -102,9 +108,11 @@ public class HierarchyFacet extends Facet {
 			drawer.drawEllipse(xPos, yPos, fullWidth, fullHeight);
 
 			upperLeftPoint = new PointDouble(xPos + fullWidth * 0.5, yPos + fullHeight + ARROW_LENGTH);
-			PointDouble lowerRightPoint = new PointDouble(xPos, yPos + fullHeight * 0.5);
+			lowerRightPoint = new PointDouble(xPos, yPos + fullHeight * 0.5);
 			drawLinesAndUpperLeftSymbol(lowerRightPoint, drawer, cache, lineWithoutTabs, tabCount, true);
-			drawer.print(lineWithoutTabs, new PointDouble(xPos + fullWidth / 2.0, yPos + fullHeight / 2.0 + drawer.textHeight(lineWithoutTabs) / 2.0), AlignHorizontal.CENTER);
+			textPos = new PointDouble(xPos + fullWidth / 2.0, yPos + fullHeight / 2.0 + drawer.textHeight(lineWithoutTabs) / 2.0);
+			drawer.print(lineWithoutTabs, textPos, AlignHorizontal.CENTER);
+			updateElementSize(state, lineWithoutTabs, lowerRightPoint, textPos, fullWidth / 2, fullHeight);
 		}
 
 		// store last point as reference
@@ -120,6 +128,10 @@ public class HierarchyFacet extends Facet {
 		cache.lineNr++;
 		drawer.setLayer(Layer.Background);
 		drawer.setBackgroundColor(bgBefore);
+	}
+
+	private void updateElementSize(PropertiesParserState state, String lineWithoutTabs, PointDouble lowerRightPoint, PointDouble textPos, double widthAddon, double heightAddon) {
+		state.updateCalculatedElementSize(textPos.x + widthAddon, lowerRightPoint.y + heightAddon);
 	}
 
 	private static void drawLinesAndUpperLeftSymbol(PointDouble lowerRightPoint, DrawHandler drawer, Cache cache, String lineWithoutTabs, int tabCount, boolean arrow) {

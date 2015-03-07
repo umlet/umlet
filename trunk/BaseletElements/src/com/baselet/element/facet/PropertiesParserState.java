@@ -92,6 +92,11 @@ public class PropertiesParserState {
 		calculatedElementWidth = Math.max(calculatedElementWidth, width);
 	}
 
+	public void updateCalculatedElementSize(double width, double height) {
+		updateCalculatedElementWidth(width);
+		getBuffer().setTopMin(height);
+	}
+
 	public double getCalculatedElementWidth() {
 		return calculatedElementWidth;
 	}
