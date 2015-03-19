@@ -17,6 +17,7 @@ import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.custom.CustomElementCompiler;
 import com.baselet.element.old.element.ErrorOccurred;
+import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.command.HelpPanelChanged;
 
@@ -80,7 +81,10 @@ public class InputHandler extends DefaultHandler {
 			handler.setHelpText(elementtext);
 			handler.getFontHandler().setDiagramDefaultFontSize(HelpPanelChanged.getFontsize(elementtext));
 			handler.getFontHandler().setDiagramDefaultFontFamily(HelpPanelChanged.getFontfamily(elementtext));
-			CurrentGui.getInstance().getGui().getPropertyPane().switchToNonElement(elementtext);
+			BaseGUI gui = CurrentGui.getInstance().getGui();
+			if (gui != null) {
+				gui.getPropertyPane().switchToNonElement(elementtext);
+			}
 		}
 		else if (elementname.equals("zoom_level")) {
 			if (handler != null) {
