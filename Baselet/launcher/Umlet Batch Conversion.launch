@@ -7,6 +7,7 @@
 <listEntry value="1"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.baselet.control.Main"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-action=convert -format=jpg &quot;-filename=D:/media/Programmieren/Eclipse/Baselet/palettes/UML Class.uxf&quot; -output=D:\output.jpg"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-action=convert -format=jpg &quot;-filename=D:/UML Class.uxf&quot; -output=D:\output.jpg"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Baselet"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Djava.awt.headless=true"/>
 </launchConfiguration>
