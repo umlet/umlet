@@ -121,6 +121,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	protected void drawError(DrawHandler drawer, String errorText) {
+		drawer.setEnableDrawing(true);
 		drawer.setForegroundColor(ColorOwn.RED);
 		drawer.setBackgroundColor(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND));
 		drawer.setLineWidth(0.2);
