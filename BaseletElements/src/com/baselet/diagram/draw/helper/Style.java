@@ -45,16 +45,16 @@ public class Style {
 		return lineWidth;
 	}
 
-	public void setForegroundColor(ColorOwn fgColor) {
-		this.foregroundColor = fgColor;
+	public void setForegroundColor(ColorOwn foregroundColor) {
+		this.foregroundColor = foregroundColor;
 	}
 
 	public ColorOwn getForegroundColor() {
 		return foregroundColor;
 	}
 
-	public void setBackgroundColor(ColorOwn bgColor) {
-		this.backgroundColor = bgColor;
+	public void setBackgroundColor(ColorOwn backgroundColor) {
+		this.backgroundColor = backgroundColor;
 	}
 
 	public ColorOwn getBackgroundColor() {

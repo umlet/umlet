@@ -1,6 +1,5 @@
 package com.baselet.gui;
 
-
 public class CurrentGui {
 
 	private final static CurrentGui instance = new CurrentGui();

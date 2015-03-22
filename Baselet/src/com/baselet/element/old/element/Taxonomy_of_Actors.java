@@ -98,6 +98,7 @@ public class Taxonomy_of_Actors extends OldGridElement {
 		}
 	}
 
+	@Override
 	public StickingPolygon generateStickingBorder() {
 		StickingPolygon p = new StickingPolygon(0, 0);
 		return p;

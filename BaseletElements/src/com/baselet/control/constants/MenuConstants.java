@@ -2,7 +2,6 @@ package com.baselet.control.constants;
 
 import com.baselet.control.enums.Program;
 
-
 public class MenuConstants {
 
 	// FILE

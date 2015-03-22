@@ -15,7 +15,7 @@ public class JpField implements Field {
 
 	@Override
 	/**
-	 * Code duplicated in JpMethod&JpConstructor because the extended class 
+	 * Code duplicated in JpMethod&JpConstructor because the extended class
 	 * BodyDeclaration does not provide a getModifiers() method.
 	 */
 	public AccessFlag getAccess() {

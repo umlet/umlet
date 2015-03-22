@@ -101,6 +101,7 @@ public class PackageAggregationHierarchy extends OldGridElement {
 		}
 	}
 
+	@Override
 	public StickingPolygon generateStickingBorder() {
 		StickingPolygon p = new StickingPolygon(0, 0);
 

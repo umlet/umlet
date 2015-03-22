@@ -113,7 +113,7 @@ public class ColorOwn {
 
 	/**
 	 * Converts colorString into a Color which is available in the colorMap or if not tries to decode the colorString
-	 * 
+	 *
 	 * @param colorString
 	 *            String which describes the color
 	 * @return Color which is related to the String or null if it is no valid colorString
@@ -128,7 +128,7 @@ public class ColorOwn {
 
 	/**
 	 * Converts colorString into a Color which is available in the colorMap or if not tries to decode the colorString
-	 * 
+	 *
 	 * @param colorString
 	 *            String which describes the color
 	 * @return Color which is related to the String or null if it is no valid colorString

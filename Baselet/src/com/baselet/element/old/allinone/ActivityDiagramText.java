@@ -492,6 +492,7 @@ public class ActivityDiagramText extends OldGridElement {
 		return new HashSet<Direction>(); // deny size changes
 	}
 
+	@Override
 	public StickingPolygon generateStickingBorder() {
 		return null;
 	}
