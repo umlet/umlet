@@ -36,6 +36,7 @@
 			<arg value="${gwt.module.name}" />
 		</java>
 		<delete dir="${build.dir}/WEB-INF" />
+		<copy file="war/favicon.ico" tofile="${build.dir}/favicon.ico"/>
 		<copy file="war/umletino.css" tofile="${build.dir}/umletino.css"/>
 		<copy file="war/index.html" tofile="${build.dir}/index.html"/>
 		<copy file="war/umletino.html" tofile="${build.dir}/umletino.html"/>
