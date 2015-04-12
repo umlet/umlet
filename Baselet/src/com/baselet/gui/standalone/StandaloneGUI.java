@@ -70,8 +70,7 @@ public class StandaloneGUI extends BaseGUI {
 		guiBuilder.getMailPanel().closePanel(); // We must close the mailpanel to save the input date
 		if (askSaveForAllDirtyDiagrams()) {
 			main.closeProgram();
-			mainFrame.dispose();
-			// System.exit(0);
+			System.exit(0);
 		}
 	}
 
