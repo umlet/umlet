@@ -70,7 +70,7 @@ public class StandaloneGUI extends BaseGUI {
 		guiBuilder.getMailPanel().closePanel(); // We must close the mailpanel to save the input date
 		if (askSaveForAllDirtyDiagrams()) {
 			main.closeProgram();
-			System.exit(0);
+			System.exit(0); // issue #250: handle closing using a listener (see also handle closing using a listener (see also https://stackoverflow.com/questions/246228/why-does-my-application-still-run-after-closing-main-window)
 		}
 	}
 

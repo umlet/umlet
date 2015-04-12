@@ -62,7 +62,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		mainFrame.addKeyListener(new GUIListener());
 		mainFrame.addKeyListener(new SearchKeyListener());
 		mainFrame.addWindowListener(new SwingWindowListener());
-		mainFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		mainFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE); // closing is handled in the StandaloneGUI.closeWindow() callback (fix for issue #250)
 		mainFrame.setBounds(Config.getInstance().getProgram_location().x, Config.getInstance().getProgram_location().y, Config.getInstance().getProgram_size().width, Config.getInstance().getProgram_size().height);
 		mainFrame.setTitle(Program.getInstance().getProgramName() + " - Free UML Tool for Fast UML Diagrams");
 
