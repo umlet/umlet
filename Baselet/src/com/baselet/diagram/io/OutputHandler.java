@@ -94,25 +94,7 @@ public class OutputHandler {
 
 	private static void exportPdf(OutputStream ostream, DiagramHandler handler, Collection<GridElement> entities) throws IOException {
 		try {
-			// use special font if defined in properties
-			FontMapper mapper = new FontMapper() {
-				@Override
-				public BaseFont awtToPdf(Font font) {
-					try {
-						return BaseFont.createFont(Config.getInstance().getPdfExportFont(), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-					} catch (Exception e) {
-						return null;
-					}
-				}
-
-				@Override
-				public Font pdfToAwt(BaseFont font, int size) {
-					return null;
-				}
-			};
-			if (mapper.awtToPdf(null) == null) {
-				mapper = new DefaultFontMapper();
-			}
+			FontMapper mapper = new PdfFontMapper();
 
 			Rectangle bounds = handler.getDrawPanel().getContentBounds(Config.getInstance().getPrintPadding(), entities);
 			com.itextpdf.text.Document document = new com.itextpdf.text.Document(new com.itextpdf.text.Rectangle(bounds.getWidth(), bounds.getHeight()));
@@ -178,6 +160,44 @@ public class OutputHandler {
 
 	private static boolean isImageExtension(String ext) {
 		return ImageIO.getImageWritersBySuffix(ext).hasNext();
+	}
+
+	private static class PdfFontMapper extends DefaultFontMapper {
+
+		@Override
+		public BaseFont awtToPdf(Font font) {
+			try {
+				Config config = Config.getInstance();
+				String fontName;
+
+				// Choose the appropriate PDF export font
+				if (font == null) {
+					fontName = config.getPdfExportFont();
+				}
+				else if (font.isBold() && !font.isItalic()) {
+					fontName = config.getPdfExportFontBold();
+				}
+				else if (font.isItalic() && !font.isBold()) {
+					fontName = config.getPdfExportFontItalic();
+				}
+				else if (font.isBold() && font.isItalic()) {
+					fontName = config.getPdfExportFontBoldItalic();
+				}
+				else {
+					fontName = config.getPdfExportFont();
+				}
+
+				return BaseFont.createFont(fontName, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+			} catch (Exception e) {
+				// Fall back to the default mapper
+				return super.awtToPdf(font);
+			}
+		}
+
+		@Override
+		public Font pdfToAwt(BaseFont font, int size) {
+			return null;
+		}
 	}
 
 }

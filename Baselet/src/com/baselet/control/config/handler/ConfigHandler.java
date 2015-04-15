@@ -37,6 +37,9 @@ public class ConfigHandler {
 	private static final String UI_MANAGER = "ui_manager";
 	private static final String PRINT_PADDING = "print_padding";
 	private static final String PDF_EXPORT_FONT = "pdf_export_font";
+	private static final String PDF_EXPORT_FONT_BOLD = "pdf_export_font_bold";
+	private static final String PDF_EXPORT_FONT_ITALIC = "pdf_export_font_italic";
+	private static final String PDF_EXPORT_FONT_BOLDITALIC = "pdf_export_font_bolditalic";
 	private static final String CHECK_FOR_UPDATES = "check_for_updates";
 	private static final String OPEN_FILE_HOME = "open_file_home";
 	private static final String SAVE_FILE_HOME = "save_file_home";
@@ -102,6 +105,9 @@ public class ConfigHandler {
 		cfg.setUiManager(getStringProperty(UI_MANAGER, cfg.getUiManager()));
 		cfg.setPrintPadding(getIntProperty(PRINT_PADDING, cfg.getPrintPadding()));
 		cfg.setPdfExportFont(getStringProperty(PDF_EXPORT_FONT, cfg.getPdfExportFont()));
+		cfg.setPdfExportFontBold(getStringProperty(PDF_EXPORT_FONT_BOLD, cfg.getPdfExportFontBold()));
+		cfg.setPdfExportFontItalic(getStringProperty(PDF_EXPORT_FONT_ITALIC, cfg.getPdfExportFontItalic()));
+		cfg.setPdfExportFontBoldItalic(getStringProperty(PDF_EXPORT_FONT_BOLDITALIC, cfg.getPdfExportFontBoldItalic()));
 		cfg.setCheckForUpdates(getBoolProperty(CHECK_FOR_UPDATES, cfg.isCheckForUpdates()));
 		cfg.setOpenFileHome(getStringProperty(OPEN_FILE_HOME, cfg.getOpenFileHome()));
 		cfg.setSaveFileHome(getStringProperty(SAVE_FILE_HOME, cfg.getSaveFileHome()));
@@ -169,6 +175,9 @@ public class ConfigHandler {
 			props.setProperty(UI_MANAGER, cfg.getUiManager());
 			props.setProperty(PRINT_PADDING, Integer.toString(cfg.getPrintPadding()));
 			props.setProperty(PDF_EXPORT_FONT, cfg.getPdfExportFont());
+			props.setProperty(PDF_EXPORT_FONT_BOLD, cfg.getPdfExportFontBold());
+			props.setProperty(PDF_EXPORT_FONT_ITALIC, cfg.getPdfExportFontItalic());
+			props.setProperty(PDF_EXPORT_FONT_BOLDITALIC, cfg.getPdfExportFontBoldItalic());
 			props.setProperty(CHECK_FOR_UPDATES, Boolean.toString(cfg.isCheckForUpdates()));
 			props.setProperty(OPEN_FILE_HOME, cfg.getOpenFileHome());
 			props.setProperty(SAVE_FILE_HOME, cfg.getSaveFileHome());

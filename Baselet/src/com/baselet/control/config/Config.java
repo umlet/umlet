@@ -29,6 +29,9 @@ public class Config {
 
 	private String lastUsedPalette = ""; // default is empty string not null because null cannot be stored as property
 	private String pdfExportFont = ""; // eg in Windows: "pdf_export_font = c:/windows/fonts/msgothic.ttc,1"
+	private String pdfExportFontBold = "";
+	private String pdfExportFontItalic = "";
+	private String pdfExportFontBoldItalic = "";
 	private boolean checkForUpdates = true;
 	private int printPadding = 20;
 	private Point program_location = new Point(5, 5);
@@ -116,6 +119,30 @@ public class Config {
 
 	public void setPdfExportFont(String pdfExportFont) {
 		this.pdfExportFont = pdfExportFont;
+	}
+
+	public String getPdfExportFontBold() {
+		return pdfExportFontBold;
+	}
+
+	public void setPdfExportFontBold(String pdfExportFontBold) {
+		this.pdfExportFontBold = pdfExportFontBold;
+	}
+
+	public String getPdfExportFontItalic() {
+		return pdfExportFontItalic;
+	}
+
+	public void setPdfExportFontItalic(String pdfExportFontItalic) {
+		this.pdfExportFontItalic = pdfExportFontItalic;
+	}
+
+	public String getPdfExportFontBoldItalic() {
+		return pdfExportFontBoldItalic;
+	}
+
+	public void setPdfExportFontBoldItalic(String pdfExportFontBoldItalic) {
+		this.pdfExportFontBoldItalic = pdfExportFontBoldItalic;
 	}
 
 	public boolean isCheckForUpdates() {
