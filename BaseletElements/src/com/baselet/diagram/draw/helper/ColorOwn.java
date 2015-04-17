@@ -104,7 +104,11 @@ public class ColorOwn {
 	}
 
 	public ColorOwn transparency(Transparency transparency) {
-		return new ColorOwn(getRed(), getGreen(), getBlue(), transparency.getAlpha());
+		return transparency(transparency.getAlpha());
+	}
+
+	public ColorOwn transparency(int alpha) {
+		return new ColorOwn(getRed(), getGreen(), getBlue(), alpha);
 	}
 
 	public ColorOwn darken(int factor) {

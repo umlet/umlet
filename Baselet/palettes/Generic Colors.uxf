@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="11.0">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="13.2">
   <zoom_level>8</zoom_level>
   <element>
     <id>UMLUseCase</id>
@@ -168,6 +168,20 @@ bg=cyan</panel_attributes>
     </coordinates>
     <panel_attributes>#3c7a00
 bg=#3c7a00</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>8</x>
+      <y>288</y>
+      <w>88</w>
+      <h>32</h>
+    </coordinates>
+    <panel_attributes>cyan opaque
+bg=cyan
+transparency=0
+layer=1</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
