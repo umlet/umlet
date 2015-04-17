@@ -5,8 +5,8 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import com.baselet.control.constants.Constants;
 import com.baselet.diagram.DiagramHandler;
@@ -20,24 +20,17 @@ public class ClipBoard implements Transferable {
 	private final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 	private List<GridElement> entities;
 
-	private static ClipBoard _instance;
+	private static ClipBoard _instance = new ClipBoard();
 
 	public static ClipBoard getInstance() {
-		if (_instance == null) {
-			_instance = new ClipBoard();
-		}
 		return _instance;
-	}
-
-	private ClipBoard() {
-		entities = new Vector<GridElement>();
 	}
 
 	public void copyAndZoomToDefaultLevel(List<GridElement> entities, DiagramHandler handler) {
 		if (entities.isEmpty()) {
 			return;
 		}
-		this.entities = new Vector<GridElement>(entities);
+		this.entities = new ArrayList<GridElement>(entities);
 		// clipboard zooms entities to 100% (to make them zoom-independent)
 		DiagramHandler.zoomEntities(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, this.entities);
 		CurrentGui.getInstance().getGui().enablePasteMenuEntry();
