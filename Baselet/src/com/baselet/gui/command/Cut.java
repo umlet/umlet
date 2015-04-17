@@ -30,7 +30,7 @@ public class Cut extends Command {
 		}
 
 		// AB: clipboard copy scales the entities to 100%, so we don't have to do it manually
-		ClipBoard.getInstance().copy(entities, handler);
+		ClipBoard.getInstance().copyAndZoomToDefaultLevel(entities, handler);
 		new RemoveElement(entities, false).execute(handler);
 
 		// AB: copy origin and zoom it to 100%

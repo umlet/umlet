@@ -5,8 +5,6 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.image.BufferedImage;
-import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
@@ -20,7 +18,6 @@ import com.baselet.gui.CurrentGui;
 public class ClipBoard implements Transferable {
 
 	private final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-	private DiagramHandler copiedfrom;
 	private List<GridElement> entities;
 
 	private static ClipBoard _instance;
@@ -36,8 +33,10 @@ public class ClipBoard implements Transferable {
 		entities = new Vector<GridElement>();
 	}
 
-	public void copy(Vector<GridElement> entities, DiagramHandler handler) {
-		copiedfrom = handler;
+	public void copyAndZoomToDefaultLevel(List<GridElement> entities, DiagramHandler handler) {
+		if (entities.isEmpty()) {
+			return;
+		}
 		this.entities = new Vector<GridElement>(entities);
 		// clipboard zooms entities to 100% (to make them zoom-independent)
 		DiagramHandler.zoomEntities(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, this.entities);
@@ -67,22 +66,7 @@ public class ClipBoard implements Transferable {
 		if (!isDataFlavorSupported(flavor)) {
 			throw new UnsupportedFlavorException(flavor);
 		}
-		return ClipBoard.createImageForClipboard(copiedfrom, entities);
-	}
-
-	private static BufferedImage createImageForClipboard(DiagramHandler handler, Collection<GridElement> entities) {
-
-		int oldZoom = handler.getGridSize();
-		handler.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false); // Zoom to the defaultGridsize before execution
-
-		if (entities.isEmpty()) {
-			entities = handler.getDrawPanel().getGridElements();
-		}
-		BufferedImage returnImg = OutputHandler.createImageForGridElements(entities);
-
-		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
-
-		return returnImg;
+		return OutputHandler.createImageForGridElements(entities);
 	}
 
 }

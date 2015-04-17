@@ -222,8 +222,7 @@ public class CustomElementHandler {
 		// int oldZoom = d.getGridSize();
 		// d.setGridAndZoom(Constants.DEFAULTGRIDSIZE, false);
 
-		GridElement e2 = ElementFactorySwing.createCopy(e);
-		d.setHandlerAndInitListeners(e2);
+		GridElement e2 = ElementFactorySwing.createCopy(e, d);
 		e2.setPanelAttributes(state);
 		e2.setRectangle(bounds);
 		d.getDrawPanel().addElement(e2);

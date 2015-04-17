@@ -26,7 +26,7 @@ public class Copy extends Command {
 		}
 
 		// if (entities.isEmpty()) return; UNCOMMENTED TO ALLOW COPY FULL DIAGRAM TO CLIPBOARD WITHOUT SELECTING ANYTHING
-		ClipBoard.getInstance().copy(entities, handler);
+		ClipBoard.getInstance().copyAndZoomToDefaultLevel(entities, handler);
 	}
 
 	@Override

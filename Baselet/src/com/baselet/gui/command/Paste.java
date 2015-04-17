@@ -24,8 +24,7 @@ public class Paste extends Command {
 		if (entities == null) {
 			entities = new Vector<GridElement>();
 			for (GridElement e : ClipBoard.getInstance().paste()) {
-				GridElement clone = ElementFactorySwing.createCopy(e);
-				handler.setHandlerAndInitListeners(clone);
+				GridElement clone = ElementFactorySwing.createCopy(e, handler);
 				entities.add(clone);
 			}
 			Selector.replaceGroupsWithNewGroups(entities, handler.getDrawPanel().getSelector());

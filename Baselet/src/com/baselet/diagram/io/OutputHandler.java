@@ -165,9 +165,10 @@ public class OutputHandler {
 	}
 
 	public static void paintEntitiesIntoGraphics2D(Graphics2D g2d, Collection<GridElement> entities) {
+		DiagramHandler handler = new DiagramHandler(null);
 		JLayeredPane tempPanel = new JLayeredPane();
 		for (GridElement entity : entities) {
-			GridElement clone = ElementFactorySwing.createCopy(entity);
+			GridElement clone = ElementFactorySwing.createCopy(entity, handler);
 			com.baselet.element.interfaces.Component component = clone.getComponent();
 			// Issue 138: when PDF and Swing Export draw on (0,0) a part of the drawn image is cut, therefore it's displaced by 0.5px in that case
 			if (component instanceof OldGridElement) {
@@ -180,5 +181,4 @@ public class OutputHandler {
 		tempPanel.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
 		tempPanel.update(g2d);
 	}
-
 }
