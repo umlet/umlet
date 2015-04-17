@@ -1,5 +1,7 @@
 package com.baselet.element;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -68,4 +70,13 @@ public class ElementFactorySwing extends ElementFactory {
 		handler.setHandlerAndInitListeners(returnElement);
 		return returnElement;
 	}
+
+	public static List<GridElement> createCopy(Collection<GridElement> src) {
+		List<GridElement> list = new ArrayList<GridElement>();
+		for (GridElement o : src) {
+			list.add(createCopy(o));
+		}
+		return list;
+	}
+
 }
