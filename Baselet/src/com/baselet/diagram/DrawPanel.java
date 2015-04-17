@@ -32,9 +32,7 @@ import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.util.Utils;
-import com.baselet.element.ElementFactorySwing;
 import com.baselet.element.interfaces.GridElement;
-import com.baselet.element.old.OldGridElement;
 import com.baselet.element.old.element.Relation;
 import com.baselet.gui.listener.ScrollbarListener;
 
@@ -133,7 +131,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 	 *            the entities which should be included
 	 * @return Rectangle which contains all entities with border space
 	 */
-	public Rectangle getContentBounds(int borderSpace, Collection<GridElement> entities) {
+	public static Rectangle getContentBounds(int borderSpace, Collection<GridElement> entities) {
 		if (entities.size() == 0) {
 			return new Rectangle(0, 0, 0, 0);
 		}
@@ -150,23 +148,6 @@ public class DrawPanel extends JLayeredPane implements Printable {
 			maxy = Math.max(maxy, e.getRectangle().y + e.getRectangle().height + borderSpace);
 		}
 		return new Rectangle(minx, miny, maxx - minx, maxy - miny);
-	}
-
-	public void paintEntitiesIntoGraphics2D(Graphics2D g2d, Collection<GridElement> entities) {
-		JLayeredPane tempPanel = new JLayeredPane();
-		for (GridElement entity : entities) {
-			GridElement clone = ElementFactorySwing.createCopy(entity);
-			com.baselet.element.interfaces.Component component = clone.getComponent();
-			// Issue 138: when PDF and Swing Export draw on (0,0) a part of the drawn image is cut, therefore it's displaced by 0.5px in that case
-			if (component instanceof OldGridElement) {
-				((OldGridElement) component).translateForExport();
-			}
-			tempPanel.add((Component) component, clone.getLayer());
-		}
-		tempPanel.validate();
-		tempPanel.setBackground(Color.WHITE);
-		tempPanel.setSize(Integer.MAX_VALUE, Integer.MAX_VALUE);
-		tempPanel.update(g2d);
 	}
 
 	@Override

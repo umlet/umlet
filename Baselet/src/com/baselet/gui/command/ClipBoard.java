@@ -78,7 +78,7 @@ public class ClipBoard implements Transferable {
 		if (entities.isEmpty()) {
 			entities = handler.getDrawPanel().getGridElements();
 		}
-		BufferedImage returnImg = OutputHandler.getImageFromDiagram(handler, entities);
+		BufferedImage returnImg = OutputHandler.createImageForGridElements(entities);
 
 		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
 
