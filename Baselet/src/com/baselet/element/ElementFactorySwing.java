@@ -1,5 +1,7 @@
 package com.baselet.element;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,12 +56,20 @@ public class ElementFactorySwing extends ElementFactory {
 		return returnObj;
 	}
 
-	public static GridElement createCopy(GridElement old) {
-		if (old instanceof OldGridElement) {
-			return ((OldGridElement) old).cloneFromMe();
+	public static GridElement createCopy(GridElement src) {
+		if (src instanceof OldGridElement) {
+			return ((OldGridElement) src).cloneFromMe();
 		}
 		else {
-			return create(old.getId(), old.getRectangle().copy(), old.getPanelAttributes(), old.getAdditionalAttributes(), Main.getHandlerForElement(old));
+			return create(src.getId(), src.getRectangle().copy(), src.getPanelAttributes(), src.getAdditionalAttributes(), Main.getHandlerForElement(src));
 		}
+	}
+
+	public static List<GridElement> createCopy(Collection<GridElement> src) {
+		List<GridElement> list = new ArrayList<GridElement>();
+		for (GridElement o : src) {
+			list.add(createCopy(o));
+		}
+		return list;
 	}
 }

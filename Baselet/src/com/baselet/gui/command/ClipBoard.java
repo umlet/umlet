@@ -7,6 +7,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.image.BufferedImage;
 import java.util.Collection;
+import java.util.List;
 import java.util.Vector;
 
 import com.baselet.control.constants.Constants;
@@ -20,7 +21,7 @@ public class ClipBoard implements Transferable {
 
 	private final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 	private DiagramHandler copiedfrom;
-	private Vector<GridElement> entities;
+	private List<GridElement> entities;
 
 	private static ClipBoard _instance;
 
@@ -47,7 +48,7 @@ public class ClipBoard implements Transferable {
 		}
 	}
 
-	public Vector<GridElement> paste() {
+	public List<GridElement> paste() {
 		return entities;
 	}
 
