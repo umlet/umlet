@@ -46,6 +46,7 @@ public class CustomDrawingFacet extends Facet {
 			state.setFacetResponse(CustomDrawingFacet.class, true);
 		}
 		else {
+			line = line.trim();
 			for (DrawMethod drawMethod : supportedDrawingMethods)
 			{
 				if (line.startsWith(drawMethod.name + '(') && line.endsWith(")"))
@@ -144,7 +145,6 @@ public class CustomDrawingFacet extends Facet {
 		final ParameterType[] parameterList;
 		final boolean supportsBackgroundColor;
 		final boolean supportsForegroundColor;
-		Double a;
 
 		public DrawMethod(String name, ParameterType[] parameterList, boolean supportsBackgroundColor, boolean supportsForegroundColor) {
 			super();
