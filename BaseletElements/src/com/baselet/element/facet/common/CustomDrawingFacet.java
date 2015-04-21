@@ -48,7 +48,7 @@ public class CustomDrawingFacet extends Facet {
 		else {
 			for (DrawMethod drawMethod : supportedDrawingMethods)
 			{
-				if (line.startsWith(drawMethod.name + '('))
+				if (line.startsWith(drawMethod.name + '(') && line.endsWith(")"))
 				{
 					drawMethod.parseLine(state.getDrawer(), line);
 					break;
@@ -167,14 +167,14 @@ public class CustomDrawingFacet extends Facet {
 					int i;
 					for (i = 0; i < parameterList.length; i++)
 					{
-						parsedParameters[i] = parse(parameterList[i], parameters[i]);
+						parsedParameters[i] = parse(parameterList[i], parameters[i].trim());
 					}
 					ColorOwn fg = null;
 					ColorOwn bg = null;
 					if (i < parameters.length && supportsForegroundColor)
 					{
 						// foregroundcolor
-						fg = ColorOwn.forString(parameters[i], Transparency.FOREGROUND);
+						fg = ColorOwn.forString(parameters[i].trim(), Transparency.FOREGROUND);
 						if (fg == null)
 						{
 							// TODO exc
@@ -184,7 +184,7 @@ public class CustomDrawingFacet extends Facet {
 					if (i < parameters.length)
 					{
 						// backgroundcolor
-						bg = ColorOwn.forString(parameters[i], Transparency.BACKGROUND);
+						bg = ColorOwn.forString(parameters[i].trim(), Transparency.BACKGROUND);
 						if (bg == null)
 						{
 							// TODO exc
