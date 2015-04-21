@@ -1,5 +1,6 @@
 package com.baselet.element.facet.common;
 
+import static com.baselet.element.facet.common.CustomDrawingFacet.DrawMethod.ParameterType.BOOL;
 import static com.baselet.element.facet.common.CustomDrawingFacet.DrawMethod.ParameterType.DOUBLE;
 
 import java.util.LinkedList;
@@ -75,6 +76,51 @@ public class CustomDrawingFacet extends Facet {
 				@Override
 				protected void draw(DrawHandler drawHandler, Object[] parameters) {
 					drawHandler.drawRectangle((Double) parameters[0], (Double) parameters[1], (Double) parameters[2], (Double) parameters[3]);
+				}
+
+			},
+			new DrawMethod("drawLine", new DrawMethod.ParameterType[] { DOUBLE, DOUBLE, DOUBLE, DOUBLE }, false, true)
+			{
+
+				@Override
+				protected void draw(DrawHandler drawHandler, Object[] parameters) {
+					drawHandler.drawLine((Double) parameters[0], (Double) parameters[1], (Double) parameters[2], (Double) parameters[3]);
+				}
+
+			},
+			new DrawMethod("drawArc", new DrawMethod.ParameterType[] { DOUBLE, DOUBLE, DOUBLE, DOUBLE, DOUBLE, DOUBLE, BOOL }, true, true)
+			{
+
+				@Override
+				protected void draw(DrawHandler drawHandler, Object[] parameters) {
+					drawHandler.drawArc((Double) parameters[0], (Double) parameters[1], (Double) parameters[2], (Double) parameters[3], (Double) parameters[4], (Double) parameters[5], (Boolean) parameters[6]);
+				}
+
+			},
+			new DrawMethod("drawCircle", new DrawMethod.ParameterType[] { DOUBLE, DOUBLE, DOUBLE }, true, true)
+			{
+
+				@Override
+				protected void draw(DrawHandler drawHandler, Object[] parameters) {
+					drawHandler.drawCircle((Double) parameters[0], (Double) parameters[1], (Double) parameters[2]);
+				}
+
+			},
+			new DrawMethod("drawEllipse", new DrawMethod.ParameterType[] { DOUBLE, DOUBLE, DOUBLE, DOUBLE }, true, true)
+			{
+
+				@Override
+				protected void draw(DrawHandler drawHandler, Object[] parameters) {
+					drawHandler.drawEllipse((Double) parameters[0], (Double) parameters[1], (Double) parameters[2], (Double) parameters[3]);
+				}
+
+			},
+			new DrawMethod("drawRectangleRound", new DrawMethod.ParameterType[] { DOUBLE, DOUBLE, DOUBLE, DOUBLE, DOUBLE }, true, true)
+			{
+
+				@Override
+				protected void draw(DrawHandler drawHandler, Object[] parameters) {
+					drawHandler.drawRectangleRound((Double) parameters[0], (Double) parameters[1], (Double) parameters[2], (Double) parameters[3], (Double) parameters[4]);
 				}
 
 			}
