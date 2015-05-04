@@ -53,18 +53,24 @@ public class DrawHandlerGwt extends DrawHandler {
 
 				double centerX = (int) (x + width / 2) + HALF_PX;
 				double centerY = (int) (y + height / 2) + HALF_PX;
+
+				ctx.save();
+				// translate the arc and don't use the center parameters because they are affected by scaling
+				ctx.translate(centerX, centerY);
+				ctx.scale(1, height / width);
 				if (open) { // if arc should be open, move before the path begins
-					ctx.moveTo(centerX, centerY);
 					ctx.beginPath();
 				}
 				else { // otherwise the move is part of the path
 					ctx.beginPath();
-					ctx.moveTo(centerX, centerY);
+					ctx.moveTo(0, 0);
 				}
-				ctx.arc(centerX, centerY, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
+				ctx.arc(0, 0, width / 2, -Math.toRadians(start), -Math.toRadians(start + extent), true);
 				if (!open) { // close path only if arc is not open
 					ctx.closePath();
 				}
+				// restore before drawing so the line has the same with and is not affected by the scaling
+				ctx.restore();
 				ctx.fill();
 				ctx.stroke();
 			}
