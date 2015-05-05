@@ -1,1 +1,13 @@
 /bin/
+# ignore the javaCC generated files, since they shouldn't be modified by hand
+/src/com/baselet/element/facet/common/CustomDrawingParser/CustomDrawingParser.java
+/src/com/baselet/element/facet/common/CustomDrawingParser/CustomDrawingParserConstants.java
+/src/com/baselet/element/facet/common/CustomDrawingParser/CustomDrawingParserTokenManager.java
+/src/com/baselet/element/facet/common/CustomDrawingParser/JavaCharStream.java
+/src/com/baselet/element/facet/common/CustomDrawingParser/ParseException.java
+/src/com/baselet/element/facet/common/CustomDrawingParser/Provider.java
+/src/com/baselet/element/facet/common/CustomDrawingParser/StreamProvider.java
+/src/com/baselet/element/facet/common/CustomDrawingParser/CustomDrawingGrammar.html
+/src/com/baselet/element/facet/common/CustomDrawingParser/StringProvider.java
+/src/com/baselet/element/facet/common/CustomDrawingParser/Token.java
+/src/com/baselet/element/facet/common/CustomDrawingParser/TokenMgrException.java
