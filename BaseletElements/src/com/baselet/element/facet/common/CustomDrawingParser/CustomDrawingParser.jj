@@ -23,6 +23,11 @@ public abstract class CustomDrawingParser {
 	public abstract double getHeight();
 	public abstract DrawHandler getDrawHandler();
 	
+	/***
+	 * Is used to implement nested tasks.
+	 * This is used to support the different setting commands after the drawing command.
+	 * These need to store the old value and afterwards reset it to this value.
+	 */
 	private abstract class RecRunnable {
 		private RecRunnable inner;
 		
@@ -40,28 +45,14 @@ public abstract class CustomDrawingParser {
 }
 PARSER_END(CustomDrawingParser)
 
-SKIP:    // defines input to be ignored
+// defines input to be ignored
+SKIP:
 { 
 	" " 
 	| "\r" 
 	| "\t"
 	| <"//"(~["\n","\r"])*("\n"|"\r"|"\r\n")?>
 }
-	/*| "//" : IN_LINE_COMMENT
-}
-
-<IN_LINE_COMMENT> SKIP:
-{
-   "\n" : DEFAULT
-   | <EOF> : DEFAULT
-}
-
-<EOF> DEFAULT
-
-<IN_LINE_COMMENT> MORE:
-{
-  < ~[] >
-}*/
 
 
 TOKEN [IGNORE_CASE] :
@@ -77,8 +68,7 @@ TOKEN [IGNORE_CASE] :
 
 TOKEN :    // defines token names
 { 
-	< EOL: "\n" >
-	| < FG: "fg=" >
+	< FG: "fg=" >
 	| < BG: "bg=" >
 	| < LT: "lt=" >
 	| < LW: "lw=" >
@@ -105,7 +95,10 @@ TOKEN [IGNORE_CASE] :
    "\"" >
 }
 
-
+/**
+ * The main function which parses a line.
+ * Whitespaces and comments are skipped (see Tokens)
+ */
 void parse() throws NumberFormatException:
 {}
 {
@@ -287,6 +280,9 @@ void drawText() throws NumberFormatException:
    { callStack.run(); }
 }
 
+/**
+ * sets the foreground color
+ */
 RecRunnable fg(RecRunnable inner) :
 { final ColorOwn newColor;}
 {
@@ -302,6 +298,9 @@ RecRunnable fg(RecRunnable inner) :
 	};}
 }
 
+/**
+ * sets the background color
+ */
 RecRunnable bg(RecRunnable inner) :
 { final ColorOwn newColor;}
 {
@@ -317,7 +316,13 @@ RecRunnable bg(RecRunnable inner) :
 	};}
 }
 
-
+/**
+ * represents a color name (e.g. "red")
+ * or a hexadecimal color string 
+ * starting with '#' and 
+ * containing exactly 6 hexadecimal digits
+ * (eg."#CAFFEE")
+ */
 ColorOwn colorOwn(Transparency transparency) :
 { ColorOwn value;}
 {
@@ -327,6 +332,9 @@ ColorOwn colorOwn(Transparency transparency) :
 	) {return value;}
 }
 
+/**
+ * sets the line type
+ */
 RecRunnable lt(RecRunnable inner) :
 { final LineType newLineType; }
 {
@@ -355,6 +363,9 @@ LineType lineType() :
 	) {return value;}
 }
 
+/**
+ * sets the line width
+ */
 RecRunnable lw(RecRunnable inner) :
 { final double newLineWidth;}
 {
@@ -389,7 +400,9 @@ AlignHorizontal horizontalAlignment() :
 	){ return alignment;}
 }
 
-// arithmetical interpreter
+// Start of the arithmetical interpreter
+
+
 double doubleTerm() throws NumberFormatException:
 { double v1, v2;}
 {
