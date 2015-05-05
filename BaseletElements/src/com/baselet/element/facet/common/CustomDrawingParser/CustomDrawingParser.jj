@@ -87,7 +87,7 @@ TOKEN :    // defines token names
 // more general Tokens
 TOKEN :
 {
-	< DOUBLE_CONSTANT: ( <DIGIT> ) + ( "." (<DIGIT>)+ )? >
+	< UNSIGNED_DOUBLE_CONSTANT: ( <DIGIT> ) + ( "." (<DIGIT>)+ )? >
 	| < #DIGIT: ["0" - "9"] >
 }
 
@@ -358,7 +358,7 @@ LineType lineType() :
 RecRunnable lw(RecRunnable inner) :
 { final double newLineWidth;}
 {
-	<LW> newLineWidth = doubleConstant() {return new RecRunnable(inner) {
+	<LW> newLineWidth = unsignedDoubleConstant() {return new RecRunnable(inner) {
 		public void run() {
 			//System.out.println("pre LW");
 			double oldLineWidth = getDrawHandler().getLineWidth();
@@ -368,23 +368,6 @@ RecRunnable lw(RecRunnable inner) :
 			//System.out.println("post LW");
 		}
 	};}
-}
-
-double doubleTerm() throws NumberFormatException:
-{ double value;}
-{ 
-	(
-		<WIDTH> { value = getWidth(); }
-		| <HEIGHT> { value = getHeight(); }
-		| value = doubleConstant()
-	)
-	{return value;}
-}
-
-double doubleConstant() throws NumberFormatException:
-{}
-{
-	<DOUBLE_CONSTANT>  { return Double.parseDouble(token.image); }
 }
 
 boolean booleanConstant() :
@@ -404,4 +387,46 @@ AlignHorizontal horizontalAlignment() :
 		| <CENTER> { alignment = AlignHorizontal.CENTER;}
 		| <RIGHT> { alignment = AlignHorizontal.RIGHT;}
 	){ return alignment;}
+}
+
+// arithmetical interpreter
+double doubleTerm() throws NumberFormatException:
+{ double v1, v2;}
+{
+	v1 = doubleProduct()
+	(
+		"+" v2 = doubleProduct() { v1 = v1 + v2; }
+		| "-" v2 = doubleProduct() { v1 = v1 - v2; }
+	)*
+	{ return v1; }
+}
+
+double doubleProduct() throws NumberFormatException:
+{ double v1, v2; }
+{
+	v1 = doubleValue()
+	(
+		"*" v2 = doubleValue() { v1 = v1 * v2; }
+		| "/" v2 = doubleValue() { v1 = v1 / v2; }
+	)*
+	{ return v1; }
+}
+
+double doubleValue() throws NumberFormatException:
+{ double value;}
+{ 
+	(
+		<WIDTH> { value = getWidth(); }
+		| <HEIGHT> { value = getHeight(); }
+		| "-" value = unsignedDoubleConstant()
+		| value = unsignedDoubleConstant()
+		| "(" value = doubleTerm() ")"
+	)
+	{return value;}
+}
+
+double unsignedDoubleConstant() throws NumberFormatException:
+{}
+{
+	<UNSIGNED_DOUBLE_CONSTANT>  { return Double.parseDouble(token.image); }
 }
