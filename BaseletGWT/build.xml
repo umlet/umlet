@@ -11,6 +11,12 @@
 	<property name="gwt.module.name" value="com.baselet.gwt.BaseletGWT" />
 	<property name="gwt.sdk.location" value="C:/Program Files/Eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.7.0/gwt-2.7.0" />
 	<property name="elements.src.dir" location="../BaseletElements/src" />
+	<property name="javacc.grammar.folder" location="${elements.src.dir}/com/baselet/element/facet/common/CustomDrawingParser/" />
+	<property name="javacc.grammar.file" value="CustomDrawingParser.jj" />
+	<property name="javacc.grammar.path" location="${javacc.grammar.folder}/${javacc.grammar.file}" />
+	<!-- This folder must contain the javacc.jar minimum  6.1 for GWT compatibility (http://consoliii.blogspot.co.at/2014/04/creating-gwt-compatible-parser-using.html)-->
+	<!-- JavaCC can be obtained here https://java.net/projects/javacc/downloads -->
+	<property name="javacc.home" location="" />
 
 	<path id="project.classpath">
 		<fileset dir="${lib.dir}">
@@ -21,7 +27,17 @@
 		<pathelement location="${elements.src.dir}" />
 	</path>
 
-	<target name="gwt-compile-helper">
+	<!-- JavaCC and JJDoc Targets -->
+	<target name="javacc_custdraw" description="Generates the java classes from the grammar file">
+		<javacc target="${javacc.grammar.path}" javacchome="${javacc.home}" />
+	</target>
+	
+	<target name="jjdoc_custdraw" description="Generates a simple BNF documentation for the grammar file">
+		<jjdoc target="${javacc.grammar.path}" javacchome="${javacc.home}" outputfile="${javacc.grammar.folder}/CustomDrawingGrammar.html" />
+	</target>
+	
+	<!-- GWT targets -->
+	<target name="gwt-compile-helper" depends="javacc_custdraw">
 		<delete dir="${build.dir}" />
 		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
 			<classpath>

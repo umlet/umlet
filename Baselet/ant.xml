@@ -97,7 +97,7 @@
 		</replace>
 	</target>
 
-	<!-- -->
+	<!-- JavaCC and JJDoc Targets -->
 	<target name="javacc_custdraw" description="Generates the java classes from the grammar file">
 		<javacc target="${javacc.grammar.path}" javacchome="${javacc.home}" />
 		<!-- after generation of the java classes refresh the folder so that eclipse recognizes the changes  -->
