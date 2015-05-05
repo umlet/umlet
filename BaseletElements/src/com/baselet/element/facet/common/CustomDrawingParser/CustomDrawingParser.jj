@@ -266,7 +266,7 @@ void drawText() throws NumberFormatException:
 }
 { 
 	"drawText("
-	<SIMPLE_STRING> { text = token.image;} ","
+	text = simpleString() ","
 	x = doubleTerm() ","
 	y = doubleTerm() ","
 	alignment = horizontalAlignment()
@@ -379,6 +379,12 @@ RecRunnable lw(RecRunnable inner) :
 			//System.out.println("post LW");
 		}
 	};}
+}
+
+String simpleString() :
+{}
+{
+	<SIMPLE_STRING> { return token.image.substring(1,token.image.length()-1).replace("\\\"", "\"");} //remove the leading and trailing quotes, replace all escaped quotes \" with a normal quote "
 }
 
 boolean booleanConstant() :
