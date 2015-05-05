@@ -1,13 +1,17 @@
 package com.baselet.element.facet.common;
 
+import static com.baselet.element.facet.common.CustomDrawingFacet.DrawMethod.ParameterType.ALIGNMENT;
 import static com.baselet.element.facet.common.CustomDrawingFacet.DrawMethod.ParameterType.BOOL;
 import static com.baselet.element.facet.common.CustomDrawingFacet.DrawMethod.ParameterType.DOUBLE;
+import static com.baselet.element.facet.common.CustomDrawingFacet.DrawMethod.ParameterType.STRING;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.FormatLabels;
 import com.baselet.control.enums.Priority;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
@@ -20,8 +24,8 @@ public class CustomDrawingFacet extends Facet {
 
 	public static final CustomDrawingFacet INSTANCE = new CustomDrawingFacet();
 	public static final Logger logger = Logger.getLogger(CustomDrawingFacet.class);
-	public static final String CODE_SEP_START = "code=";
-	public static final String CODE_SEP_END = "=code";
+	public static final String CODE_SEP_START = "customelement=";
+	public static final String CODE_START_INFO = "indicates the start of custom drawing commands, has no close command.";
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
@@ -39,30 +43,40 @@ public class CustomDrawingFacet extends Facet {
 
 	@Override
 	public void handleLine(String line, PropertiesParserState state) {
-		if (CODE_SEP_END.equals(line)) {
-			state.setFacetResponse(CustomDrawingFacet.class, false);
-		}
-		else if (CODE_SEP_START.equals(line)) {
+		if (CODE_SEP_START.equals(line)) {
+			Object objIsActive = state.getFacetResponse(CustomDrawingFacet.class, false);
+			if (objIsActive instanceof Boolean && (Boolean) objIsActive) {
+				// custom commands are already turned on -> error
+				throw new RuntimeException(FormatLabels.BOLD.getValue() + "Invalid value: " + FormatLabels.BOLD.getValue() + CODE_SEP_START + "\nDuplicate command. This command may only occur once.");
+			}
 			state.setFacetResponse(CustomDrawingFacet.class, true);
 		}
 		else {
 			line = line.trim();
+			boolean found = false;
 			for (DrawMethod drawMethod : supportedDrawingMethods)
 			{
 				if (line.startsWith(drawMethod.name + '(') && line.endsWith(")"))
 				{
+					found = true;
 					drawMethod.parseLine(state.getDrawer(), line);
 					break;
 				}
 			}
+			if (!found && !line.isEmpty() && !line.startsWith("//")) {
+				throw new RuntimeException(FormatLabels.BOLD.getValue() + "Invalid value:" + FormatLabels.BOLD.getValue() + " '" + line + "'\nNo custom drawing command with this name was found.");
+			}
 		}
-
 	}
 
 	@Override
 	public List<AutocompletionText> getAutocompletionStrings() {
-		// TODO Auto-generated method stub
-		return new LinkedList<AutocompletionText>();
+		List<AutocompletionText> autocompletionList = new LinkedList<AutocompletionText>();
+		autocompletionList.add(new AutocompletionText(CODE_SEP_START, CODE_START_INFO));
+		for (DrawMethod dm : supportedDrawingMethods) {
+			autocompletionList.add(new AutocompletionText(dm.name, ""));
+		}
+		return autocompletionList;
 	}
 
 	@Override
@@ -124,6 +138,14 @@ public class CustomDrawingFacet extends Facet {
 					drawHandler.drawRectangleRound((Double) parameters[0], (Double) parameters[1], (Double) parameters[2], (Double) parameters[3], (Double) parameters[4]);
 				}
 
+			},
+			new DrawMethod("drawText", new DrawMethod.ParameterType[] { STRING, DOUBLE, DOUBLE, ALIGNMENT }, false, true) {
+
+				@Override
+				protected void draw(DrawHandler drawHandler, Object[] parameters) {
+					drawHandler.print((String) parameters[0], (Double) parameters[1], (Double) parameters[2], (AlignHorizontal) parameters[3]);
+				}
+
 			}
 	};
 
@@ -135,7 +157,7 @@ public class CustomDrawingFacet extends Facet {
 	abstract static class DrawMethod {
 
 		enum ParameterType {
-			DOUBLE, BOOL
+			DOUBLE, BOOL, STRING, ALIGNMENT
 		}
 
 		final String name;
@@ -227,11 +249,17 @@ public class CustomDrawingFacet extends Facet {
 
 		private Object parse(ParameterType type, String str)
 		{
+			// TODO proper value/exception handling
 			switch (type) {
 				case DOUBLE:
 					return Double.parseDouble(str);
 				case BOOL:
 					return Boolean.parseBoolean(str);
+				case STRING:
+					return str;
+				case ALIGNMENT:
+					String upper = str.toUpperCase();
+					return AlignHorizontal.valueOf(upper);
 				default:
 					// TODO throw exception
 					return null;
