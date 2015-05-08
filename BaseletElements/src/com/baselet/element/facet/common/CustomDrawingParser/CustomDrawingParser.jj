@@ -90,7 +90,7 @@ TOKEN [IGNORE_CASE] :
 	| <  SIMPLE_STRING : "\""
    ( 
 	   ( ~["\"","\\","\n","\r"]) // everything except the specified chars
-	   | ("\\" ["\\","'","\""])
+	   | ("\\" ["\\","\""])
    )*
    "\"" >
 }
@@ -437,7 +437,7 @@ double doubleValue() throws NumberFormatException:
 	(
 		<WIDTH> { value = getWidth(); }
 		| <HEIGHT> { value = getHeight(); }
-		| "-" value = unsignedDoubleConstant()
+		| "-" value = unsignedDoubleConstant() {value = - value;}
 		| value = unsignedDoubleConstant()
 		| "(" value = doubleTerm() ")"
 	)

@@ -29,7 +29,7 @@
 	<property name="javacc.grammar.path" location="${javacc.grammar.folder}/${javacc.grammar.file}" />
 	<!-- This folder must contain the javacc.jar minimum  6.1 for GWT compatibility (http://consoliii.blogspot.co.at/2014/04/creating-gwt-compatible-parser-using.html)-->
 	<!-- JavaCC can be obtained here https://java.net/projects/javacc/downloads -->
-	<property name="javacc.home" location="" />
+	<property name="javacc.home" location="../javacc_distribution" />
 
 	<!-- Classpaths -->
 	<path id="project.classpath.build">
