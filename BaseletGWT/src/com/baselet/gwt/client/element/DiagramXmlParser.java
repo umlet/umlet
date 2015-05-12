@@ -29,6 +29,8 @@ public class DiagramXmlParser {
 	private static final String GT_ENCODED = "&gt;"; // in some cases the xml parser doesn't convert automatically (especially together with URL.encoded strings) therefore replace manually
 	private static final String LT = "<";
 	private static final String LT_ENCODED = "&lt;";
+	private static final String AMP = "&";
+	private static final String AMP_ENCODED = "&amp;";
 
 	private static final Logger log = Logger.getLogger(DiagramXmlParser.class);
 
@@ -87,7 +89,7 @@ public class DiagramXmlParser {
 					String panelAttributes = "";
 					Node panelAttrNode = element.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild();
 					if (panelAttrNode != null) {
-						panelAttributes = panelAttrNode.getNodeValue().replace(LT_ENCODED, LT).replace(GT_ENCODED, GT);
+						panelAttributes = panelAttrNode.getNodeValue().replace(LT_ENCODED, LT).replace(GT_ENCODED, GT).replace(AMP_ENCODED, AMP);
 					}
 
 					String additionalPanelAttributes = "";
@@ -141,7 +143,7 @@ public class DiagramXmlParser {
 									create(doc, Y, doc.createTextNode(ge.getRectangle().getY() + "")),
 									create(doc, W, doc.createTextNode(ge.getRectangle().getWidth() + "")),
 									create(doc, H, doc.createTextNode(ge.getRectangle().getHeight() + ""))),
-							create(doc, PANEL_ATTRIBUTES, doc.createTextNode(ge.getPanelAttributes().replace(LT, LT_ENCODED).replace(GT, GT_ENCODED))),
+							create(doc, PANEL_ATTRIBUTES, doc.createTextNode(ge.getPanelAttributes().replace(LT, LT_ENCODED).replace(GT, GT_ENCODED).replace(AMP, AMP_ENCODED))),
 							create(doc, ADDITIONAL_ATTRIBUTES, doc.createTextNode(ge.getAdditionalAttributes()))
 					));
 		}
