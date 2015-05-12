@@ -19,9 +19,9 @@ public class SaveDialogBox extends MyPopupPanel {
 		void callback(String chosenName);
 	}
 
-	private TextBox textBox = new TextBox();
-	private Button saveButton = new Button("Save");
-	private Button cancelButton = new Button("Cancel");
+	private final TextBox textBox = new TextBox();
+	private final Button saveButton = new Button("Save");
+	private final Button cancelButton = new Button("Cancel");
 
 	public SaveDialogBox(final Callback callback) {
 		super(true, Type.POPUP);
@@ -67,7 +67,6 @@ public class SaveDialogBox extends MyPopupPanel {
 	}
 
 	public void clearAndCenter() {
-		textBox.setText("");
 		center();
 		textBox.setFocus(true);
 	}
