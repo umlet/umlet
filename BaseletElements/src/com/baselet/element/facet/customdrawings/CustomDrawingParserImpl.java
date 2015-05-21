@@ -1,6 +1,11 @@
-package com.baselet.element.facet.common.CustomDrawingParser;
+package com.baselet.element.facet.customdrawings;
 
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.element.facet.customdrawings.gen.CustomDrawingParser;
+import com.baselet.element.facet.customdrawings.gen.CustomDrawingParserTokenManager;
+import com.baselet.element.facet.customdrawings.gen.ParseException;
+import com.baselet.element.facet.customdrawings.gen.Provider;
+import com.baselet.element.facet.customdrawings.gen.TokenMgrException;
 
 public class CustomDrawingParserImpl extends CustomDrawingParser {
 

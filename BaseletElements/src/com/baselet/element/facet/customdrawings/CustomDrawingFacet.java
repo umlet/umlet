@@ -1,4 +1,4 @@
-package com.baselet.element.facet.common;
+package com.baselet.element.facet.customdrawings;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,8 +9,7 @@ import com.baselet.control.enums.FormatLabels;
 import com.baselet.control.enums.Priority;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
-import com.baselet.element.facet.common.CustomDrawingParser.CustomDrawingParserImpl;
-import com.baselet.element.facet.common.CustomDrawingParser.ParseException;
+import com.baselet.element.facet.customdrawings.gen.ParseException;
 import com.baselet.gui.AutocompletionText;
 
 public class CustomDrawingFacet extends Facet {

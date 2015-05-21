@@ -9,7 +9,8 @@ options {
 
 
 PARSER_BEGIN(CustomDrawingParser)
-package com.baselet.element.facet.common.CustomDrawingParser;
+package com.baselet.element.facet.customdrawings.gen;
+
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawHandler;
