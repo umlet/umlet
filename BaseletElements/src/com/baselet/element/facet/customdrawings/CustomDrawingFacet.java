@@ -48,7 +48,8 @@ public class CustomDrawingFacet extends Facet {
 			try {
 				new CustomDrawingParserImpl(line, state.getGridElementSize().getWidth(), state.getGridElementSize().getHeight(), state.getDrawer()).parse();
 			} catch (ParseException e) {
-				throw new RuntimeException(e);
+				// remove the trailing \n from the error message
+				throw new RuntimeException(e.getMessage().substring(0, e.getMessage().length() - 1));
 			}
 		}
 	}
