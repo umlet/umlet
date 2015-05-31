@@ -8,6 +8,8 @@ import com.baselet.gwt.client.element.BrowserStorage;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.view.panel.wrapper.AutoResizeScrollDropPanel;
 import com.baselet.gwt.client.view.panel.wrapper.FileOpenHandler;
+import com.baselet.gwt.client.view.utils.DropboxIntegration;
+import com.baselet.gwt.client.view.utils.UUID;
 import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox.Callback;
@@ -16,6 +18,7 @@ import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.core.client.ScriptInjector;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -98,19 +101,21 @@ public class MainView extends Composite {
 	@UiField
 	SimpleLayoutPanel palettePanelWrapper;
 
-	private DrawPanel diagramPanel;
-	private AutoResizeScrollDropPanel diagramScrollPanel;
+	private final DrawPanel diagramPanel;
+	private final AutoResizeScrollDropPanel diagramScrollPanel;
 
-	private DrawPanel palettePanel;
-	private AutoResizeScrollDropPanel paletteScrollPanel;
+	private final DrawPanel palettePanel;
+	private final AutoResizeScrollDropPanel paletteScrollPanel;
 
-	private FileUploadExt hiddenUploadButton = new FileUploadExt();
-	private FileOpenHandler handler;
+	private final FileUploadExt hiddenUploadButton = new FileUploadExt();
+	private final FileOpenHandler handler;
 
-	private Logger log = Logger.getLogger(MainView.class);
+	private final Logger log = Logger.getLogger(MainView.class);
 
-	private ScheduledCommand saveCommand = new ScheduledCommand() {
-		private SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
+	private final DropboxIntegration dropboxInt;
+
+	private final ScheduledCommand saveCommand = new ScheduledCommand() {
+		private final SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
 			@Override
 			public void callback(final String chosenName) {
 				boolean itemIsNewlyAdded = BrowserStorage.getSavedDiagram(chosenName) == null;
@@ -171,6 +176,13 @@ public class MainView extends Composite {
 		});
 
 		EventHandlingUtils.addEventHandler(mainPanel, diagramPanel, palettePanel);
+
+		// Add Dropbox dropins.js
+		ScriptInjector.fromUrl("https://www.dropbox.com/static/api/2/dropins.js?data-app-key='3mmyizdvtldctng'")
+				.setWindow(ScriptInjector.TOP_WINDOW)
+				.inject();
+		dropboxInt = new DropboxIntegration(diagramPanel);
+		dropboxInt.exposeDropboxImportJSCallback(dropboxInt);
 	}
 
 	private void addRestoreMenuItem(final String chosenName) {
@@ -216,6 +228,18 @@ public class MainView extends Composite {
 		String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, diagramPanel.getDiagram());
 		String pngUrl = CanvasUtils.createPngCanvasDataUrl(diagramPanel.getDiagram());
 		new DownloadPopupPanel(uxfUrl, pngUrl);
+	}
+
+	@UiHandler("importDropboxMenuItem")
+	void onImportDropboxMenuItemClick(ClickEvent event) {
+		dropboxInt.openDropboxImport();
+	}
+
+	@UiHandler("exportDropboxMenuItem")
+	void onExportDropboxMenuItemClick(ClickEvent event) {
+		String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, diagramPanel.getDiagram());
+		dropboxInt.openDropboxExport(uxfUrl, UUID.uuid(8));
+
 	}
 
 	@UiHandler("saveMenuItem")
