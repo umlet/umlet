@@ -141,9 +141,17 @@ public class RelationPointHandler implements ResizableObject {
 
 	// DRAW METHODS
 
-	public void drawLinesBetweenPoints(DrawHandler drawer) {
-		for (Line line : points.getRelationPointLines()) {
-			drawer.drawLine(line);
+	public void drawLinesBetweenPoints(DrawHandler drawer, boolean shortFirstLine, boolean shortLastLine) {
+		List<Line> lines = points.getRelationPointLines();
+		for (int i = 0; i < lines.size(); i++) {
+			Line lineToDraw = lines.get(i);
+			if (i == 0 && shortFirstLine) {
+				lineToDraw = lineToDraw.getShorterVersion(true, RelationDrawer.SHORTEN_IF_ARROW);
+			}
+			else if (i == lines.size() - 1 && shortLastLine) {
+				lineToDraw = lineToDraw.getShorterVersion(false, RelationDrawer.SHORTEN_IF_ARROW);
+			}
+			drawer.drawLine(lineToDraw);
 		}
 	}
 

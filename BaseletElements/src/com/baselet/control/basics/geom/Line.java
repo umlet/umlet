@@ -98,6 +98,16 @@ public class Line {
 		return GeometricFunctions.getIntersectionPoints(this, rectangle);
 	}
 
+	public Line getShorterVersion(boolean fromStart, double shortenBy) {
+		PointDouble shortenedPoint = getPointOnLineWithDistanceFrom(fromStart, shortenBy);
+		if (fromStart) {
+			return new Line(shortenedPoint, end);
+		}
+		else {
+			return new Line(start, shortenedPoint);
+		}
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
