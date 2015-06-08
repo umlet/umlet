@@ -37,6 +37,11 @@ public class ComponentSwing extends JComponent implements Component {
 		}
 	}
 
+	public void translateForExport() {
+		drawer.setTranslate(true);
+		metaDrawer.setTranslate(true);
+	}
+
 	@Override
 	public DrawHandler getDrawHandler() {
 		return drawer;

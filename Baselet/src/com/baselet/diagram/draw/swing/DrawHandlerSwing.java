@@ -12,6 +12,7 @@ import java.awt.geom.RoundRectangle2D;
 import com.baselet.control.basics.Converter;
 import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.basics.geom.PointDouble;
+import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
@@ -26,6 +27,8 @@ public class DrawHandlerSwing extends DrawHandler {
 	private Graphics2D g2;
 
 	protected DiagramHandler handler;
+
+	private boolean translate; // is used because pdf and svg export cut lines if they are drawn at (0,0)
 
 	private final GridElement gridElement;
 
@@ -179,6 +182,11 @@ public class DrawHandlerSwing extends DrawHandler {
 		ColorOwn colOwn = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : style.getForegroundColor();
 		g2.setColor(Converter.convert(colOwn));
 		g2.setStroke(Utils.getStroke(style.getLineType(), (float) style.getLineWidth()));
+		if (translate) {
+			double xTranslation = s.getBounds().x == 0 ? Constants.EXPORT_DISPLACEMENT : 0;
+			double yTranslation = s.getBounds().y == 0 ? Constants.EXPORT_DISPLACEMENT : 0;
+			g2.translate(xTranslation, yTranslation);
+		}
 		g2.draw(s);
 	}
 
@@ -199,5 +207,9 @@ public class DrawHandlerSwing extends DrawHandler {
 		g2.setFont(handler.getFontHandler().getFont());
 		handler.getFontHandler().writeText(g2, t.getText(), t.getX(), t.getY(), t.getHorizontalAlignment());
 		handler.getFontHandler().resetFontSize();
+	}
+
+	public void setTranslate(boolean translate) {
+		this.translate = translate;
 	}
 }
