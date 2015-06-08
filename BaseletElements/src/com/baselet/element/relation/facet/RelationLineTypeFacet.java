@@ -93,7 +93,7 @@ public class RelationLineTypeFacet extends FirstRunKeyValueFacet {
 	}
 
 	private static void drawLineAndArrows(DrawHandler drawer, RelationPointHandler relationPoints, Match<LineType> lineType, Match<ArrowEnd> leftArrow, Match<ArrowEnd> rightArrow) {
-		drawLineBetweenPoints(drawer, relationPoints, lineType.type);
+		drawLineBetweenPoints(drawer, relationPoints, lineType.type, leftArrow.type != null, rightArrow.type != null);
 		drawArrowEnds(drawer, relationPoints, leftArrow, rightArrow);
 		relationPoints.resizeRectAndReposPoints(); // line description and relation-endings can change the relation size, therefore recalc it now
 	}
@@ -113,10 +113,10 @@ public class RelationLineTypeFacet extends FirstRunKeyValueFacet {
 		}
 	}
 
-	private static void drawLineBetweenPoints(DrawHandler drawer, RelationPointHandler relationPoints, LineType lineType) {
+	private static void drawLineBetweenPoints(DrawHandler drawer, RelationPointHandler relationPoints, LineType lineType, boolean shortLeftLine, boolean shortRightLine) {
 		LineType oldLt = drawer.getLineType();
 		drawer.setLineType(lineType);
-		relationPoints.drawLinesBetweenPoints(drawer);
+		relationPoints.drawLinesBetweenPoints(drawer, shortLeftLine, shortRightLine);
 		drawer.setLineType(oldLt);
 	}
 
