@@ -38,20 +38,22 @@ public class DrawHandlerSwing extends DrawHandler {
 	}
 
 	/**
-	 * Java Swing JComponents have a width of w, but only w-1 pixels are drawable
-	 * Therefore to draw a rectangle around the whole element, you must call g.drawRect(0,0,w-1,h-1)
+	 * Java Swing JComponents have a width of w, but only w-0.5 pixels are drawable
+	 * Therefore to draw a rectangle around the whole element, you must call g.drawRect(0,0,w-0.5,h-0.5)
 	 * To avoid this displacement pixel at every draw method, this method ensures you can never draw outside of the right component border
 	 * x is also important for width drawings which don't start at 0 (e.g. Deployment "3-dimensional" Rectangle)
+	 *
+	 * NOTE: the displacement was previously w-1 but this has problems in vector based export, therefore it's changed to 0.5 / see issue #270
 	 */
 	private double inBorderHorizontal(double width, double x) {
-		return Math.min(gridElement.getRectangle().getWidth() - x - 1, width);
+		return Math.min(gridElement.getRectangle().getWidth() - x - 0.5, width);
 	}
 
 	/**
 	 * same as above but for vertical points
 	 */
 	private double inBorderVertical(double height, double y) {
-		return Math.min(gridElement.getRectangle().getHeight() - y - 1, height);
+		return Math.min(gridElement.getRectangle().getHeight() - y - 0.5, height);
 	}
 
 	public void setHandler(DiagramHandler handler) {
