@@ -239,7 +239,6 @@ public class MainView extends Composite {
 	void onExportDropboxMenuItemClick(ClickEvent event) {
 		String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, diagramPanel.getDiagram());
 		dropboxInt.openDropboxExport(uxfUrl, UUID.uuid(8));
-
 	}
 
 	@UiHandler("saveMenuItem")

@@ -60,10 +60,10 @@
 						<script type="text/javascript" id="dropboxjs" data-app-key="3mmyizdvtldctng"></script>
 						<!-- src="https://www.dropbox.com/static/api/2/dropins.js"  -->
 					</g:HTML>
-					<g:HTML styleName="{style.menuItem}" ui:field="importDropboxMenuItem" ><!-- text="Import from Dropbox" title="" -->
+					<g:HTML styleName="{style.menuItem}" ui:field="importDropboxMenuItem" >
 						<span class="{style.dropin-btn-status}"></span>Import
 					</g:HTML>
-					<g:HTML styleName="{style.menuItem}" ui:field="exportDropboxMenuItem"  ><!-- text="Export to Dropbox" title="" -->
+					<g:HTML styleName="{style.menuItem}" ui:field="exportDropboxMenuItem"  >
 						<span class="{style.dropin-btn-status}"></span>Export
 					</g:HTML>
 					<g:FlowPanel ui:field="restoreMenuPanel" />

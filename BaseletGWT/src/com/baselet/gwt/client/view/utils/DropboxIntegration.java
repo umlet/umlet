@@ -10,6 +10,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.RequestTimeoutException;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.user.client.Window;
 
 public class DropboxIntegration {
 
@@ -26,8 +27,8 @@ public class DropboxIntegration {
 			files : [
 			// You can specify up to 100 files.
 			{
-				'url' : fileURL,
-				'filename' : filename + '.xml'
+			'url' : fileURL,
+			'filename' : filename + '.xml'
 			}
 			// ...
 			],
@@ -54,15 +55,15 @@ public class DropboxIntegration {
 			// hosting the files, such as not being able to find a file. This callback is
 			// also called if there is an error on Dropbox or if the user is over quota.
 			error : function(errorMessage) {
+				alert(errorMessage);
 			}
 		};
-		alert(fileURL + " \n" + filename);
+		//alert(fileURL + " \n" + filename);
 		$wnd.Dropbox.save(options);
 	}-*/;
 
 	public native void openDropboxImport() /*-{
 		var options = {
-
 			// Required. Called when a user selects an item in the Chooser.
 			success : function(files) {
 				//alert("Here's the file link: " + files[0].link)
@@ -113,12 +114,10 @@ public class DropboxIntegration {
 				@Override
 				public void onError(Request request, Throwable exception) {
 					if (exception instanceof RequestTimeoutException) {
-						// TODO Add error handling
-						// Window.alert("The request has timed out");
+						Window.alert("The request has timed out");
 					}
 					else {
-						// TODO Add error handling
-						// Window.alert(exception.getMessage());
+						Window.alert(exception.getMessage());
 					}
 				}
 
@@ -129,7 +128,7 @@ public class DropboxIntegration {
 						diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(response.getText()));
 					}
 					else {
-						// TODO Add error handling
+						Window.alert("Something went wrong: HTTP Status Code: "+response.getStatusCode());
 					}
 
 				}
