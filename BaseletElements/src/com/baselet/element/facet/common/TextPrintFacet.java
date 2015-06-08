@@ -23,7 +23,7 @@ public class TextPrintFacet extends Facet {
 
 	@Override
 	public boolean checkStart(String line, PropertiesParserState state) {
-		return !line.startsWith("//"); // comments start with // and are not printed
+		return true; // every line which has not been processed yet gets printed
 	}
 
 	@Override
