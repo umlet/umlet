@@ -87,28 +87,28 @@ public class StyleOptionsTest {
 
 	@Test
 	public void drawTextParameterFg() {
-		new CustomDrawingParserImpl("drawText(\"Das ist \\\" dfs \", 10, 20, LEFT ) fg=red", 0, 0, drawHandler).parse();
+		new CustomDrawingParserImpl("drawText(\"Das ist \\\" dfs \", 10, 20, left ) fg=red", 0, 0, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawTextToString("Das ist \" dfs ", 10, 20, AlignHorizontal.LEFT, ColorOwn.RED), drawHandler.getLastDrawCall());
 	}
 
 	@Test
 	public void drawTextParameterFgFg() {
-		new CustomDrawingParserImpl("drawText(\"Das ist \\\" dfs \", 10, 20, LEFT ) fg=pink fg=blue", 0, 0, drawHandler).parse();
+		new CustomDrawingParserImpl("drawText(\"Das ist \\\" dfs \", 10, 20, left ) fg=pink fg=blue", 0, 0, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawTextToString("Das ist \" dfs ", 10, 20, AlignHorizontal.LEFT, ColorOwn.PINK), drawHandler.getLastDrawCall());
 	}
 
 	@Test(expected = CustomDrawingParserRuntimeException.class)
 	public void invalidDrawTextParameterBg() {
-		new CustomDrawingParserImpl("drawText(\"Test\",2,3,CENTER) bg=red", 0, 0, drawHandler).parse();
+		new CustomDrawingParserImpl("drawText(\"Test\",2,3,center) bg=red", 0, 0, drawHandler).parse();
 	}
 
 	@Test(expected = CustomDrawingParserRuntimeException.class)
 	public void invalidDrawTextParameterLt() {
-		new CustomDrawingParserImpl("drawText(\"Test\",width / 2, height/2, RIGHT) lt=.", 100, 200, drawHandler).parse();
+		new CustomDrawingParserImpl("drawText(\"Test\",width / 2, height/2, right) lt=.", 100, 200, drawHandler).parse();
 	}
 
 	@Test(expected = CustomDrawingParserRuntimeException.class)
 	public void invalidDrawTextParameterLw() {
-		new CustomDrawingParserImpl("drawText(\" äöüß ÄÖÜ ,. #+? \",50,100,RIGHT) lw=12", 0, 0, drawHandler).parse();
+		new CustomDrawingParserImpl("drawText(\" äöüß ÄÖÜ ,. #+? \",50,100,right) lw=12", 0, 0, drawHandler).parse();
 	}
 }

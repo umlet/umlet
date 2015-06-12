@@ -50,6 +50,16 @@ public class InvalidInputTest {
 	}
 
 	@Test(expected = CustomDrawingParserRuntimeException.class)
+	public void drawArcOpenCaseSensitiveTokenFalse() {
+		new CustomDrawingParserImpl("drawArc(1,2,3,4,5,6,FALSE)", 0, 0, null).parse();
+	}
+
+	@Test(expected = CustomDrawingParserRuntimeException.class)
+	public void drawArcOpenCaseSensitiveTokenTrue() {
+		new CustomDrawingParserImpl("drawArc(1,2,3,4,5,6,TRUE)", 0, 0, null).parse();
+	}
+
+	@Test(expected = CustomDrawingParserRuntimeException.class)
 	public void drawCircleWrongParameters1() {
 		new CustomDrawingParserImpl("drawCircle()", 0, 0, null).parse();
 	}
@@ -181,7 +191,7 @@ public class InvalidInputTest {
 
 	@Test(expected = CustomDrawingParserRuntimeException.class)
 	public void drawTextWrongParameters2() {
-		new CustomDrawingParserImpl("drawText(\"Test\",2,3,CENTER,5)", 0, 0, null).parse();
+		new CustomDrawingParserImpl("drawText(\"Test\",2,3,center,5)", 0, 0, null).parse();
 	}
 
 	@Test(expected = CustomDrawingParserRuntimeException.class)
@@ -191,11 +201,36 @@ public class InvalidInputTest {
 
 	@Test(expected = CustomDrawingParserRuntimeException.class)
 	public void drawTextWrongParameters4() {
-		new CustomDrawingParserImpl("drawText(\"Test\",true,3,RIGHT)", 0, 0, null).parse();
+		new CustomDrawingParserImpl("drawText(\"Test\",true,3,right)", 0, 0, null).parse();
 	}
 
 	@Test(expected = CustomDrawingParserRuntimeException.class)
 	public void drawTextWrongParameters5() {
-		new CustomDrawingParserImpl("drawText(\"Test\",2,3,\"LEFT\")", 0, 0, null).parse();
+		new CustomDrawingParserImpl("drawText(\"Test\",2,3,\"left\")", 0, 0, null).parse();
+	}
+
+	@Test(expected = CustomDrawingParserRuntimeException.class)
+	public void drawTextAlignmentCaseSensitiveLeft() {
+		new CustomDrawingParserImpl("drawText(\"Test\",2,3, LEFT)", 0, 0, null).parse();
+	}
+
+	@Test(expected = CustomDrawingParserRuntimeException.class)
+	public void drawTextAlignmentCaseSensitiveRight() {
+		new CustomDrawingParserImpl("drawText(\"Test\",2,3, RIGHT)", 0, 0, null).parse();
+	}
+
+	@Test(expected = CustomDrawingParserRuntimeException.class)
+	public void drawTextAlignmentCaseSensitiveCenter() {
+		new CustomDrawingParserImpl("drawText(\"Test\",2,3, CENTER)", 0, 0, null).parse();
+	}
+
+	@Test(expected = CustomDrawingParserRuntimeException.class)
+	public void widthCaseSensitive() {
+		new CustomDrawingParserImpl("drawCircle(1,WIDTH,3)", 0, 0, null).parse();
+	}
+
+	@Test(expected = CustomDrawingParserRuntimeException.class)
+	public void heightCaseSensitive() {
+		new CustomDrawingParserImpl("drawCircle(1,HEIGHT,3)", 0, 0, null).parse();
 	}
 }

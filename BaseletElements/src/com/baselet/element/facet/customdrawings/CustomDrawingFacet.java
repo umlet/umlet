@@ -71,7 +71,7 @@ public class CustomDrawingFacet extends Facet {
 		autocompletionList.add(new AutocompletionText("drawArc(0,0,60,30,0,270,false) //fg= bg= lt= lw= //Parameters (x, y, width, height, start, extent, open)",
 				"Draws an elliptical arc where the top left corner of the surrounding rectangle is at (x, y). This arc starts at <start> degrees and ends at <start>+<extent> degrees. If open is false 2 lines are drawn from the center to the arc. Supports fg, bg, lt and lw option after the last bracket."));
 
-		autocompletionList.add(new AutocompletionText("drawText(\"This is text!\", width/2, height/2, CENTER) //fg= //Parameters (text, x, y, horizontal alignment)",
+		autocompletionList.add(new AutocompletionText("drawText(\"This is text!\", width/2, height/2, center) //fg= //Parameters (text, x, y, horizontal alignment)",
 				"Draws the text at (x, y) with the given horizontal alignment. Supports fg option after the last bracket."));
 
 		return autocompletionList;

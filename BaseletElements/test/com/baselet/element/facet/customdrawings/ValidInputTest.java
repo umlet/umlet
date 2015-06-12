@@ -113,31 +113,31 @@ public class ValidInputTest {
 
 	@Test
 	public void drawTextParameters1() {
-		new CustomDrawingParserImpl("drawText(\"Das ist \\\" dfs \", 10, 20, LEFT )", 0, 0, drawHandler).parse();
+		new CustomDrawingParserImpl("drawText(\"Das ist \\\" dfs \", 10, 20, left )", 0, 0, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawTextToString("Das ist \" dfs ", 10, 20, AlignHorizontal.LEFT, null), drawHandler.getLastDrawCall());
 	}
 
 	@Test
 	public void drawTextParameters2() {
-		new CustomDrawingParserImpl("drawText(\"Test\",2,3,CENTER)", 0, 0, drawHandler).parse();
+		new CustomDrawingParserImpl("drawText(\"Test\",2,3,center)", 0, 0, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawTextToString("Test", 2, 3, AlignHorizontal.CENTER, null), drawHandler.getLastDrawCall());
 	}
 
 	@Test
 	public void drawTextParameters3() {
-		new CustomDrawingParserImpl("drawText(\"Test\",width / 2, height/2, RIGHT)", 100, 200, drawHandler).parse();
+		new CustomDrawingParserImpl("drawText(\"Test\",width / 2, height/2, right)", 100, 200, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawTextToString("Test", 50, 100, AlignHorizontal.RIGHT, null), drawHandler.getLastDrawCall());
 	}
 
 	@Test
 	public void drawTextParameters4() {
-		new CustomDrawingParserImpl("drawText(\" äöüß ÄÖÜ ,. #+? \",50,100,RIGHT)", 0, 0, drawHandler).parse();
+		new CustomDrawingParserImpl("drawText(\" äöüß ÄÖÜ ,. #+? \",50,100,right)", 0, 0, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawTextToString(" äöüß ÄÖÜ ,. #+? ", 50, 100, AlignHorizontal.RIGHT, null), drawHandler.getLastDrawCall());
 	}
 
 	@Test
 	public void drawTextParameters5() {
-		new CustomDrawingParserImpl("drawText(\"Test\", 2.5, 3.5, LEFT)", 0, 0, drawHandler).parse();
+		new CustomDrawingParserImpl("drawText(\"Test\", 2.5, 3.5, left)", 0, 0, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawTextToString("Test", 2.5, 3.5, AlignHorizontal.LEFT, null), drawHandler.getLastDrawCall());
 	}
 }
