@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="13.0">
+<diagram program="umlet" version="13.3">
   <zoom_level>8</zoom_level>
   <element>
     <id>UMLSpecialState</id>
@@ -80,7 +80,7 @@ state
 --
 some more...
 
---
+-.
 valign=top
 </panel_attributes>
     <additional_attributes/>

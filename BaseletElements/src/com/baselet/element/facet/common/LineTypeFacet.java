@@ -1,10 +1,11 @@
 package com.baselet.element.facet.common;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.baselet.control.enums.LineType;
 import com.baselet.element.facet.FirstRunKeyValueFacet;
+import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 
 public class LineTypeFacet extends FirstRunKeyValueFacet {
@@ -15,18 +16,17 @@ public class LineTypeFacet extends FirstRunKeyValueFacet {
 
 	@Override
 	public KeyValue getKeyValue() {
-		return new KeyValue("lt",
-				new ValueInfo(LineType.SOLID.getValue(), "solid lines"),
-				new ValueInfo(LineType.DASHED.getValue(), "dashed lines"),
-				new ValueInfo(LineType.DOTTED.getValue(), "dotted lines"));
+		List<ValueInfo> lts = new ArrayList<KeyValueFacet.ValueInfo>();
+		for (LineType lt : LineType.LT_LIST) {
+			lts.add(new ValueInfo(lt.getValue(), lt.getReadableText() + " lines"));
+		}
+		return new KeyValue("lt", lts);
 	}
-
-	private static final List<LineType> supportedTypes = Arrays.asList(LineType.SOLID, LineType.DASHED, LineType.DOTTED);
 
 	@Override
 	public void handleValue(String value, PropertiesParserState state) {
 		LineType lt = null;
-		for (LineType s : supportedTypes) {
+		for (LineType s : LineType.LT_LIST) {
 			if (s.getValue().equals(value)) {
 				lt = s;
 			}

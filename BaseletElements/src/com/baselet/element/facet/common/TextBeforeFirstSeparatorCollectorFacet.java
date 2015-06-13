@@ -15,6 +15,8 @@ import com.baselet.gui.AutocompletionText;
  */
 public class TextBeforeFirstSeparatorCollectorFacet extends FirstRunFacet {
 
+	private static final String KEY = "--";
+
 	public static final TextBeforeFirstSeparatorCollectorFacet INSTANCE = new TextBeforeFirstSeparatorCollectorFacet();
 
 	protected TextBeforeFirstSeparatorCollectorFacet() {}
@@ -35,7 +37,7 @@ public class TextBeforeFirstSeparatorCollectorFacet extends FirstRunFacet {
 
 	@Override
 	public void handleLine(String line, PropertiesParserState state) {
-		if (line.equals(SeparatorLineFacet.KEY)) {
+		if (line.equals(KEY)) {
 			getOrInit(state).firstSepFound = true;
 			return;
 		}
@@ -46,7 +48,7 @@ public class TextBeforeFirstSeparatorCollectorFacet extends FirstRunFacet {
 
 	@Override
 	public List<AutocompletionText> getAutocompletionStrings() {
-		return Arrays.asList(new AutocompletionText(SeparatorLineFacet.KEY, "ends package title part"));
+		return Arrays.asList(new AutocompletionText(KEY, "end package title part (only first occurrence)"));
 	}
 
 	@Override
