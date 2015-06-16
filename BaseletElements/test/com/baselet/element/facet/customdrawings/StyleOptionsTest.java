@@ -25,6 +25,7 @@ public class StyleOptionsTest {
 				ColorOwn.forString("pink", Transparency.FOREGROUND),
 				ColorOwn.forString("black", Transparency.BACKGROUND),
 				LineType.SOLID, 25.0), drawHandler.getLastDrawCall());
+		checkDefaultSettingsRestored();
 	}
 
 	@Test
@@ -34,6 +35,7 @@ public class StyleOptionsTest {
 				ColorOwn.forString("pink", Transparency.FOREGROUND),
 				ColorOwn.forString("black", Transparency.BACKGROUND),
 				LineType.SOLID, 25.0), drawHandler.getLastDrawCall());
+		checkDefaultSettingsRestored();
 	}
 
 	@Test
@@ -43,6 +45,7 @@ public class StyleOptionsTest {
 				ColorOwn.forString("pink", Transparency.FOREGROUND),
 				ColorOwn.forString("black", Transparency.BACKGROUND),
 				LineType.DOUBLE_DASHED, 25.0), drawHandler.getLastDrawCall());
+		checkDefaultSettingsRestored();
 	}
 
 	@Test
@@ -51,6 +54,7 @@ public class StyleOptionsTest {
 		assertEquals(DummyDrawHandler.drawLineToString(1, 2, 3, 4,
 				ColorOwn.forString("pink", Transparency.FOREGROUND),
 				LineType.SOLID, 25.0), drawHandler.getLastDrawCall());
+		checkDefaultSettingsRestored();
 	}
 
 	@Test(expected = CustomDrawingParserRuntimeException.class)
@@ -65,6 +69,59 @@ public class StyleOptionsTest {
 				ColorOwn.forString("pink", Transparency.FOREGROUND),
 				ColorOwn.forString("black", Transparency.BACKGROUND),
 				LineType.SOLID, 25.0), drawHandler.getLastDrawCall());
+		checkDefaultSettingsRestored();
+	}
+
+	/**
+	 * draw Method doesn't override settings, but should use the previous set options
+	 */
+	@Test
+	public void drawRectangleParametersNoDefaultUsed() {
+		ColorOwn fg = ColorOwn.ORANGE;
+		ColorOwn bg = ColorOwn.DARK_GRAY.transparency(Transparency.BACKGROUND);
+		LineType lt = LineType.DOUBLE_DOTTED;
+		double lw = 10;
+		drawHandler.setForegroundColor(fg);
+		drawHandler.setBackgroundColor(bg);
+		drawHandler.setLineType(lt);
+		drawHandler.setLineWidth(lw);
+
+		new CustomDrawingParserImpl("drawRectangle(0,0,width,height)", 30, 40, drawHandler).parse();
+		assertEquals(DummyDrawHandler.drawRectangleToString(0, 0, 30, 40,
+				fg,
+				bg,
+				lt, lw), drawHandler.getLastDrawCall());
+
+		assertEquals(fg, drawHandler.getForegroundColor());
+		assertEquals(bg, drawHandler.getBackgroundColor());
+		assertEquals(lt, drawHandler.getLineType());
+		assertEquals(lw, drawHandler.getLineWidth(), 0.01);
+	}
+
+	/**
+	 * check if the values are reset to the previous set values
+	 */
+	@Test
+	public void drawRectangleParametersNoDefaultOverrideReset() {
+		ColorOwn fg = ColorOwn.ORANGE;
+		ColorOwn bg = ColorOwn.DARK_GRAY.transparency(Transparency.BACKGROUND);
+		LineType lt = LineType.DOUBLE_DOTTED;
+		double lw = 10;
+		drawHandler.setForegroundColor(fg);
+		drawHandler.setBackgroundColor(bg);
+		drawHandler.setLineType(lt);
+		drawHandler.setLineWidth(lw);
+
+		new CustomDrawingParserImpl("drawRectangle(0,0,width,height) lt=- lw=25 bg=black fg=pink", 30, 40, drawHandler).parse();
+		assertEquals(DummyDrawHandler.drawRectangleToString(0, 0, 30, 40,
+				ColorOwn.forString("pink", Transparency.FOREGROUND),
+				ColorOwn.forString("black", Transparency.BACKGROUND),
+				LineType.SOLID, 25.0), drawHandler.getLastDrawCall());
+
+		assertEquals(fg, drawHandler.getForegroundColor());
+		assertEquals(bg, drawHandler.getBackgroundColor());
+		assertEquals(lt, drawHandler.getLineType());
+		assertEquals(lw, drawHandler.getLineWidth(), 0.01);
 	}
 
 	@Test
@@ -74,6 +131,7 @@ public class StyleOptionsTest {
 				ColorOwn.forString("pink", Transparency.FOREGROUND),
 				ColorOwn.forString("black", Transparency.BACKGROUND),
 				LineType.SOLID, 25.0), drawHandler.getLastDrawCall());
+		checkDefaultSettingsRestored();
 	}
 
 	@Test
@@ -83,18 +141,21 @@ public class StyleOptionsTest {
 				ColorOwn.forString("#040506", Transparency.FOREGROUND),
 				ColorOwn.forString("#FF10A0", Transparency.BACKGROUND),
 				LineType.DASHED, 2.5), drawHandler.getLastDrawCall());
+		checkDefaultSettingsRestored();
 	}
 
 	@Test
 	public void drawTextParameterFg() {
 		new CustomDrawingParserImpl("drawText(\"Das ist \\\" dfs \", 10, 20, left ) fg=red", 0, 0, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawTextToString("Das ist \" dfs ", 10, 20, AlignHorizontal.LEFT, ColorOwn.RED), drawHandler.getLastDrawCall());
+		checkDefaultSettingsRestored();
 	}
 
 	@Test
 	public void drawTextParameterFgFg() {
 		new CustomDrawingParserImpl("drawText(\"Das ist \\\" dfs \", 10, 20, left ) fg=pink fg=blue", 0, 0, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawTextToString("Das ist \" dfs ", 10, 20, AlignHorizontal.LEFT, ColorOwn.PINK), drawHandler.getLastDrawCall());
+		checkDefaultSettingsRestored();
 	}
 
 	@Test(expected = CustomDrawingParserRuntimeException.class)
@@ -110,5 +171,13 @@ public class StyleOptionsTest {
 	@Test(expected = CustomDrawingParserRuntimeException.class)
 	public void invalidDrawTextParameterLw() {
 		new CustomDrawingParserImpl("drawText(\" äöüß ÄÖÜ ,. #+? \",50,100,right) lw=12", 0, 0, drawHandler).parse();
+	}
+
+	private void checkDefaultSettingsRestored() {
+		assertEquals(DummyDrawHandler.defaultFg, drawHandler.getForegroundColor());
+		assertEquals(DummyDrawHandler.defaultBg, drawHandler.getBackgroundColor());
+		assertEquals(DummyDrawHandler.defaultLineType, drawHandler.getLineType());
+		assertEquals(DummyDrawHandler.defaultLineWidth, drawHandler.getLineWidth(), 0.01);
+
 	}
 }
