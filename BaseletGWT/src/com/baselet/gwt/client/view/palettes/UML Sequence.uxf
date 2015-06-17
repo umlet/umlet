@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="13.0">
+<diagram program="umlet" version="13.3">
   <zoom_level>8</zoom_level>
   <element>
     <id>UMLFrame</id>
@@ -34,13 +34,13 @@
     <panel_attributes>interaction frame
 --
 with inner frames
---
+-.
 
- 
- 
- 
- 
---
+
+
+
+
+-.
 group=1</panel_attributes>
     <additional_attributes/>
   </element>
@@ -192,7 +192,7 @@ bg=red</panel_attributes>
       <w>112</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;120.0;10.0</additional_attributes>
   </element>
   <element>
