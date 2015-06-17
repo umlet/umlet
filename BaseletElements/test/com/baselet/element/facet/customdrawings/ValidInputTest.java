@@ -140,4 +140,22 @@ public class ValidInputTest {
 		new CustomDrawingParserImpl("drawText(\"Test\", 2.5, 3.5, left)", 0, 0, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawTextToString("Test", 2.5, 3.5, AlignHorizontal.LEFT, null), drawHandler.getLastDrawCall());
 	}
+
+	@Test
+	public void drawTextParametersEscaping1() {
+		new CustomDrawingParserImpl("drawText(\"Test \\\" \", 2.5, 3.5, left)", 0, 0, drawHandler).parse();
+		assertEquals(DummyDrawHandler.drawTextToString("Test \" ", 2.5, 3.5, AlignHorizontal.LEFT, null), drawHandler.getLastDrawCall());
+	}
+
+	@Test
+	public void drawTextParametersEscaping2() {
+		new CustomDrawingParserImpl("drawText(\"Test \\\\ \", 2.5, 3.5, left)", 0, 0, drawHandler).parse();
+		assertEquals(DummyDrawHandler.drawTextToString("Test \\ ", 2.5, 3.5, AlignHorizontal.LEFT, null), drawHandler.getLastDrawCall());
+	}
+
+	@Test
+	public void drawTextParametersEscaping3() {
+		new CustomDrawingParserImpl("drawText(\"Test \\\" \\\\\\\\ \", 2.5, 3.5, left)", 0, 0, drawHandler).parse();
+		assertEquals(DummyDrawHandler.drawTextToString("Test \" \\\\ ", 2.5, 3.5, AlignHorizontal.LEFT, null), drawHandler.getLastDrawCall());
+	}
 }

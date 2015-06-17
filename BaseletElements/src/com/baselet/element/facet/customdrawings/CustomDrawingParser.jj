@@ -385,7 +385,7 @@ RecRunnable lw(RecRunnable inner) :
 String simpleString() :
 {}
 {
-	<SIMPLE_STRING> { return token.image.substring(1,token.image.length()-1).replace("\\\"", "\"");} //remove the leading and trailing quotes, replace all escaped quotes \" with a normal quote "
+	<SIMPLE_STRING> { return token.image.substring(1,token.image.length()-1).replace("\\\"", "\"").replace("\\\\", "\\");} //remove the leading and trailing quotes, replace all escaped quotes \" with a normal quote " and replace all \\ with \
 }
 
 boolean booleanConstant() :

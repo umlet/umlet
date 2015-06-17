@@ -225,6 +225,16 @@ public class InvalidInputTest {
 	}
 
 	@Test(expected = CustomDrawingParserRuntimeException.class)
+	public void drawTextBackslashOnly() {
+		new CustomDrawingParserImpl("drawText(\"Test\\ \",2,3, right)", 0, 0, null).parse();
+	}
+
+	@Test(expected = CustomDrawingParserRuntimeException.class)
+	public void drawTextBackslashOdd() {
+		new CustomDrawingParserImpl("drawText(\"Test\\\\\\ \",2,3, right)", 0, 0, null).parse();
+	}
+
+	@Test(expected = CustomDrawingParserRuntimeException.class)
 	public void widthCaseSensitive() {
 		new CustomDrawingParserImpl("drawCircle(1,WIDTH,3)", 0, 0, null).parse();
 	}
