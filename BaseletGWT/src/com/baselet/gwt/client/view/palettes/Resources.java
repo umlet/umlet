@@ -47,4 +47,7 @@ public interface Resources extends ClientBundle {
 	@Source("Plots.uxf")
 	TextResource Plots();
 
+	@Source("Custom Drawings.uxf")
+	TextResource Custom_Drawings();
+
 }
