@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Dictionary;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -24,8 +23,6 @@ import com.baselet.plugin.gui.EclipseGUI;
  * The activator class controls the plug-in life cycle
  */
 public class MainPlugin extends AbstractUIPlugin {
-
-	private static final Logger log = Logger.getLogger(MainPlugin.class);
 
 	// The plug-in ID
 	private static String pluginId;
@@ -51,27 +48,19 @@ public class MainPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 
-		try {
-			initHomeProgramPath();
-			Main.getInstance().initLogger();
-			readBundleManifestInfo();
-			ConfigHandler.loadConfig();
-			Main.getInstance().init(new EclipseGUI(Main.getInstance()));
-		} catch (Exception e) {
-			log.error("Initialization or uncaught outer Exception", e);
-		}
+		initHomeProgramPath();
+		Main.getInstance().initLogger();
+		readBundleManifestInfo();
+		ConfigHandler.loadConfig();
+		Main.getInstance().init(new EclipseGUI(Main.getInstance()));
 	}
 
-	private void initHomeProgramPath() {
+	private void initHomeProgramPath() throws IOException {
 		String path = null;
-		try {
-			URL homeURL = MainPlugin.getURL();
-			path = FileLocator.toFileURL(homeURL).toString().substring("file:/".length());
-			if (File.separator.equals("/")) {
-				path = "/" + path;
-			}
-		} catch (IOException e) {
-			log.error("Cannot find location of Eclipse Plugin jar", e);
+		URL homeURL = MainPlugin.getURL();
+		path = FileLocator.toFileURL(homeURL).toString().substring("file:/".length());
+		if (File.separator.equals("/")) {
+			path = "/" + path;
 		}
 		Path.setHomeProgram(path);
 	}

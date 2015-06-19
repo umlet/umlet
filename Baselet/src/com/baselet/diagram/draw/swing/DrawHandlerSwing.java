@@ -113,19 +113,25 @@ public class DrawHandlerSwing extends DrawHandler {
 		if (points.length > 0) {
 			Path2D.Double path = new Path2D.Double();
 			boolean first = true;
-			for (PointDouble p : points) {
+			boolean fillShape = false;
+			int lastIdx = points.length - 1;
+			for (int i = 0; i < points.length; i++) {
+				PointDouble p = points[i];
 				Double x = inBorderHorizontal(Double.valueOf(p.getX() * getZoom() + HALF_PX), 0);
 				Double y = inBorderVertical(Double.valueOf(p.getY() * getZoom() + HALF_PX), 0);
 				if (first) {
 					path.moveTo(x, y);
 					first = false;
 				}
+				// if this is the last point AND the first and last points are equal, close the path and fill the shape
+				else if (i == lastIdx && points[0].equals(points[lastIdx])) {
+					path.closePath();
+					fillShape = true;
+				}
 				else {
 					path.lineTo(x, y);
 				}
 			}
-			// only fill if first point == lastpoint
-			boolean fillShape = points[0].equals(points[points.length - 1]);
 			addShape(path, fillShape);
 		}
 	}

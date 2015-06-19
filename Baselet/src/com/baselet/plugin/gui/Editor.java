@@ -4,7 +4,6 @@ import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
 import javax.swing.SwingUtilities;
@@ -83,10 +82,8 @@ public class Editor extends EditorPart {
 					embeddedPanel = guiComponents.initEclipseGui();
 				}
 			});
-		} catch (InterruptedException e) {
-			log.error("Create DiagramHandler interrupted");
-		} catch (InvocationTargetException e) {
-			log.error("Create DiagramHandler invocation exception");
+		} catch (Exception e) {
+			throw new PartInitException("Create DiagramHandler interrupted", e);
 		}
 	}
 

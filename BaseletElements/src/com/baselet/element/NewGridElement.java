@@ -507,4 +507,5 @@ public abstract class NewGridElement implements GridElement {
 	public GridElementDeprecatedAddons getDeprecatedAddons() {
 		return GridElementDeprecatedAddons.NONE;
 	}
+
 }

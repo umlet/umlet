@@ -12,11 +12,11 @@ public class ComponentGwt implements Component {
 
 	boolean redrawNecessary = true;
 
-	private Canvas canvas = Canvas.createIfSupported();
-	private DrawHandlerGwt drawer = new DrawHandlerGwt(canvas);
-	private DrawHandlerGwt metadrawer = new DrawHandlerGwt(canvas);
+	private final Canvas canvas = Canvas.createIfSupported();
+	private final DrawHandlerGwt drawer = new DrawHandlerGwt(canvas);
+	private final DrawHandlerGwt metadrawer = new DrawHandlerGwt(canvas);
 
-	private GridElement element;
+	private final GridElement element;
 
 	private Rectangle rect;
 
@@ -54,6 +54,11 @@ public class ComponentGwt implements Component {
 		return metadrawer;
 	}
 
+	@Override
+	public void translateForExport() {
+		// currently no export translation necessary
+	}
+
 	private boolean lastSelected = false;
 
 	public void drawOn(Context2d context, boolean isSelected) {
@@ -71,5 +76,4 @@ public class ComponentGwt implements Component {
 		lastSelected = isSelected;
 		context.drawImage(canvas.getCanvasElement(), element.getRectangle().getX(), element.getRectangle().getY());
 	}
-
 }

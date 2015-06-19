@@ -22,11 +22,15 @@ public abstract class KeyValueFacet extends Facet {
 			valueInfos = Arrays.asList(new ValueInfo(value, info));
 		}
 
-		public KeyValue(String key, ValueInfo... valueInfos) {
+		public KeyValue(String key, List<ValueInfo> valueInfos) {
 			super();
 			this.key = key;
 			allValuesListed = true;
-			this.valueInfos = Arrays.asList(valueInfos);
+			this.valueInfos = valueInfos;
+		}
+
+		public KeyValue(String key, ValueInfo... valueInfos) {
+			this(key, Arrays.asList(valueInfos));
 		}
 
 		public String getKey() {

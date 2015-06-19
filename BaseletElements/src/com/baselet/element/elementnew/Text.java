@@ -5,7 +5,6 @@ import com.baselet.element.NewGridElement;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 import com.baselet.element.settings.SettingsText;
-import com.baselet.element.sticking.polygon.NoStickingPolygonGenerator;
 
 public class Text extends NewGridElement {
 
@@ -21,7 +20,6 @@ public class Text extends NewGridElement {
 
 	@Override
 	protected void drawCommonContent(PropertiesParserState state) {
-		state.setStickingPolygonGenerator(NoStickingPolygonGenerator.INSTANCE);
 	}
 
 }

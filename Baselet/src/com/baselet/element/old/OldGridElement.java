@@ -338,6 +338,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	private boolean translateForExport = false;
 
+	@Override
 	public void translateForExport() {
 		translateForExport = true;
 	}
