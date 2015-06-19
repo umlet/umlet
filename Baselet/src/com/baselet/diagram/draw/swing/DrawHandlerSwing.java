@@ -176,16 +176,18 @@ public class DrawHandlerSwing extends DrawHandler {
 			g2.setColor(Converter.convert(style.getBackgroundColor()));
 			g2.fill(s);
 		}
-		// Shapes Foreground
-		ColorOwn colOwn = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : style.getForegroundColor();
-		g2.setColor(Converter.convert(colOwn));
-		g2.setStroke(Utils.getStroke(style.getLineType(), (float) style.getLineWidth()));
 		if (translate) {
 			double xTranslation = s.getBounds().x == 0 ? Constants.EXPORT_DISPLACEMENT : 0;
 			double yTranslation = s.getBounds().y == 0 ? Constants.EXPORT_DISPLACEMENT : 0;
 			g2.translate(xTranslation, yTranslation);
 		}
-		g2.draw(s);
+		if (style.getLineWidth() > 0) {
+			// Shapes Foreground
+			ColorOwn colOwn = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : style.getForegroundColor();
+			g2.setColor(Converter.convert(colOwn));
+			g2.setStroke(Utils.getStroke(style.getLineType(), (float) style.getLineWidth()));
+			g2.draw(s);
+		}
 	}
 
 	protected void addText(final Text t) {

@@ -72,7 +72,9 @@ public class DrawHandlerGwt extends DrawHandler {
 				// restore before drawing so the line has the same with and is not affected by the scaling
 				ctx.restore();
 				ctx.fill();
-				ctx.stroke();
+				if (styleAtDrawingCall.getLineWidth() > 0) {
+					ctx.stroke();
+				}
 			}
 		});
 	}
@@ -87,7 +89,9 @@ public class DrawHandlerGwt extends DrawHandler {
 				ctx.beginPath();
 				ctx.arc((int) x + HALF_PX, (int) y + HALF_PX, radius, 0, 2 * Math.PI);
 				ctx.fill();
-				ctx.stroke();
+				if (styleAtDrawingCall.getLineWidth() > 0) {
+					ctx.stroke();
+				}
 			}
 		});
 	}
@@ -99,7 +103,7 @@ public class DrawHandlerGwt extends DrawHandler {
 			@Override
 			public void run() {
 				setStyle(ctx, styleAtDrawingCall);
-				drawEllipseHelper(ctx, (int) x + HALF_PX, (int) y + HALF_PX, width, height);
+				drawEllipseHelper(ctx, styleAtDrawingCall.getLineWidth() > 0, (int) x + HALF_PX, (int) y + HALF_PX, width, height);
 			}
 		});
 	}
@@ -112,7 +116,7 @@ public class DrawHandlerGwt extends DrawHandler {
 				@Override
 				public void run() {
 					setStyle(ctx, styleAtDrawingCall);
-					drawLineHelper(points);
+					drawLineHelper(styleAtDrawingCall.getLineWidth() > 0, points);
 				}
 			});
 		}
@@ -129,7 +133,9 @@ public class DrawHandlerGwt extends DrawHandler {
 				ctx.fillRect((int) x + HALF_PX, (int) y + HALF_PX, (int) width, (int) height);
 				ctx.beginPath();
 				ctx.rect((int) x + HALF_PX, (int) y + HALF_PX, (int) width, (int) height);
-				ctx.stroke();
+				if (styleAtDrawingCall.getLineWidth() > 0) {
+					ctx.stroke();
+				}
 			}
 		});
 	}
@@ -141,7 +147,7 @@ public class DrawHandlerGwt extends DrawHandler {
 			@Override
 			public void run() {
 				setStyle(ctx, styleAtDrawingCall);
-				drawRoundRectHelper(ctx, (int) x + HALF_PX, (int) y + HALF_PX, (int) width, (int) height, radius);
+				drawRoundRectHelper(ctx, styleAtDrawingCall.getLineWidth() > 0, (int) x + HALF_PX, (int) y + HALF_PX, (int) width, (int) height, radius);
 			}
 		});
 	}
@@ -180,13 +186,13 @@ public class DrawHandlerGwt extends DrawHandler {
 			int vDist = 1;
 			switch (align) {
 				case LEFT:
-					drawLineHelper(new PointDouble(p.x, p.y + vDist), new PointDouble(p.x + textWidth, p.y + vDist));
+					drawLineHelper(true, new PointDouble(p.x, p.y + vDist), new PointDouble(p.x + textWidth, p.y + vDist));
 					break;
 				case CENTER:
-					drawLineHelper(new PointDouble(p.x - textWidth / 2, p.y + vDist), new PointDouble(p.x + textWidth / 2, p.y + vDist));
+					drawLineHelper(true, new PointDouble(p.x - textWidth / 2, p.y + vDist), new PointDouble(p.x + textWidth / 2, p.y + vDist));
 					break;
 				case RIGHT:
-					drawLineHelper(new PointDouble(p.x - textWidth, p.y + vDist), new PointDouble(p.x, p.y + vDist));
+					drawLineHelper(true, new PointDouble(p.x - textWidth, p.y + vDist), new PointDouble(p.x, p.y + vDist));
 					break;
 			}
 		}
@@ -225,7 +231,7 @@ public class DrawHandlerGwt extends DrawHandler {
 	/**
 	 * based on http://stackoverflow.com/questions/2172798/how-to-draw-an-oval-in-html5-canvas/2173084#2173084
 	 */
-	private static void drawEllipseHelper(Context2d ctx, double x, double y, double w, double h) {
+	private static void drawEllipseHelper(Context2d ctx, boolean drawOuterLine, double x, double y, double w, double h) {
 		double kappa = .5522848f;
 		double ox = w / 2 * kappa; // control point offset horizontal
 		double oy = h / 2 * kappa; // control point offset vertical
@@ -241,13 +247,15 @@ public class DrawHandlerGwt extends DrawHandler {
 		ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
 		ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
 		ctx.fill();
-		ctx.stroke();
+		if (drawOuterLine) {
+			ctx.stroke();
+		}
 	}
 
 	/**
 	 * based on http://js-bits.blogspot.co.at/2010/07/canvas-rounded-corner-rectangles.html
 	 */
-	private static void drawRoundRectHelper(Context2d ctx, final double x, final double y, final double width, final double height, final double radius) {
+	private static void drawRoundRectHelper(Context2d ctx, boolean drawOuterLine, final double x, final double y, final double width, final double height, final double radius) {
 		ctx.beginPath();
 		ctx.moveTo(x + radius, y);
 		ctx.lineTo(x + width - radius, y);
@@ -260,10 +268,12 @@ public class DrawHandlerGwt extends DrawHandler {
 		ctx.quadraticCurveTo(x, y, x + radius, y);
 		ctx.closePath();
 		ctx.fill();
-		ctx.stroke();
+		if (drawOuterLine) {
+			ctx.stroke();
+		}
 	}
 
-	private void drawLineHelper(PointDouble... points) {
+	private void drawLineHelper(boolean drawOuterLine, PointDouble... points) {
 		ctx.beginPath();
 		boolean first = true;
 		for (PointDouble point : points) {
@@ -276,7 +286,9 @@ public class DrawHandlerGwt extends DrawHandler {
 		if (points[0].equals(points[points.length - 1])) {
 			ctx.fill(); // only fill if first point == lastpoint
 		}
-		ctx.stroke();
+		if (drawOuterLine) {
+			ctx.stroke();
+		}
 	}
 
 	private void setStyle(Context2d ctx, Style style) {
