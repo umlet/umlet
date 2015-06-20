@@ -24,12 +24,12 @@
 	
 
 	<!-- Generates the parser from the grammar -->
-	<target name="gen_custom_drawing_parser" >
-		<ant dir="${elements.dir}" target="javacc_custdraw" />
+	<target name="gen_baseletelement_parsers" >
+		<ant dir="${elements.dir}" target="javacc_all" />
 	</target>
 
 	<!-- GWT targets -->
-	<target name="gwt-compile-helper" depends="gen_custom_drawing_parser">
+	<target name="gwt-compile-helper" depends="gen_baseletelement_parsers">
 		<delete dir="${build.dir}" />
 		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
 			<classpath>

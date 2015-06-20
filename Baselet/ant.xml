@@ -45,8 +45,8 @@
 	</path>
 	
 	<!-- Generates the parser from the grammar -->
-	<target name="gen_custom_drawing_parser" >
-		<ant dir="${elements.dir}" target="javacc_custdraw" />
+	<target name="gen_baseletelement_parsers" >
+		<ant dir="${elements.dir}" target="javacc_all" />
 	</target>
 
 	<!-- Update MANIFEST.MF and includes new version and libs -->
@@ -97,7 +97,7 @@
 	</target>
 	
 	<!-- Compile the project -->
-	<target name="javac" depends="update_manifest, update_html, gen_custom_drawing_parser">
+	<target name="javac" depends="update_manifest, update_html, gen_baseletelement_parsers">
 		<mkdir dir="${dir.bin}" />
 		<!-- Compile elements project (into the same outputdir) -->
 		<javac source="${javac.version}" target="${javac.version}" srcdir="${elements.src}" destdir="${dir.bin}" nowarn="true" includeantruntime="false">
