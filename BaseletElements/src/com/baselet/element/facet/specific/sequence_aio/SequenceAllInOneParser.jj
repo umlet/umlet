@@ -1,0 +1,119 @@
+options {
+  static              = false;
+  IGNORE_CASE         = false;
+  JAVA_UNICODE_ESCAPE = true;
+  JDK_VERSION        = "1.6";
+  // Not yet detected as a valid option by the Eclipse plugin, but works nonetheless. This is essential for GWT compatible generated code.
+  JAVA_TEMPLATE_TYPE = "modern";  
+}
+
+
+PARSER_BEGIN(SequenceAllInOneParser)
+package com.baselet.element.facet.specific.sequence_aio.gen;
+
+public class SequenceAllInOneParser {
+}
+PARSER_END(SequenceAllInOneParser)
+
+// defines input to be ignored
+SKIP:
+{ 
+	<"//"(~["\n","\r"])*("\n"|"\r"|"\r\n")>
+}
+
+TOKEN :
+{
+	< UNSIGNED_DOUBLE_CONSTANT: ( <DIGIT> ) + ( "." (<DIGIT>)+ )? >
+	| < #DIGIT: ["0" - "9"] >
+	| < TRUE: "true" >
+	| < FALSE: "false" >
+}
+
+//more general Tokens with no case distinction
+TOKEN [IGNORE_CASE] :
+{
+	< #HEX: ["0" - "9","a"-"f"] >
+	| <  SIMPLE_STRING : "\""
+   ( 
+	   ( ~["\"","\\","\n","\r"]) // everything except the specified chars
+	   | ("\\" ["\\","\""])
+   )*
+   "\"" >
+}
+
+/**
+ * The main function which parses the whole diagram.
+ * Line comments are skipped (see Tokens)
+ */
+void start() :
+{}
+{
+	<EOF>
+}
+
+String simpleString() :
+{}
+{
+	<SIMPLE_STRING> { return token.image.substring(1,token.image.length()-1).replace("\\\"", "\"").replace("\\\\", "\\");} //remove the leading and trailing quotes, replace all escaped quotes \" with a normal quote " and replace all \\ with \
+}
+
+boolean booleanConstant() :
+{ boolean value;}
+{
+	(
+		<FALSE>  { value = false;}
+		| <TRUE> { value = true;}
+	) {return value; }
+}
+
+
+// Start of the arithmetical interpreter
+
+double doubleTerm() :
+{ double v1, v2;}
+{
+	v1 = doubleProduct()
+	(
+		"+" v2 = doubleProduct() { v1 = v1 + v2; }
+		| "-" v2 = doubleProduct() { v1 = v1 - v2; }
+	)*
+	{ return v1; }
+}
+
+double doubleProduct() :
+{ double v1, v2; }
+{
+	v1 = doubleValue()
+	(
+		"*" v2 = doubleValue() { v1 = v1 * v2; }
+		| "/" v2 = doubleValue() { v1 = v1 / v2; }
+	)*
+	{ return v1; }
+}
+
+double doubleValue() :
+{ double value;}
+{ 
+	(
+		"-" value = unsignedDoubleConstant() {value = - value;}
+		| value = unsignedDoubleConstant()
+		| "(" value = doubleTerm() ")"
+	)
+	{return value;}
+}
+
+double unsignedDoubleConstant() :
+{}
+{
+	<UNSIGNED_DOUBLE_CONSTANT> {
+		double value;
+		try {
+			value = Double.parseDouble(token.image);
+		} catch(NumberFormatException e) {
+			// TODO log fatal error, only valid double values are accepted from the parser
+			// a double can't be to big, but may loose some precision
+			throw (ParseException) new ParseException("Fatal Error: The string '" + token.image + "' couldn't be parsed as double, but the grammar should ensure that the string is parsable.").initCause(e);
+		}
+		return value;
+	}
+}
