@@ -78,14 +78,14 @@ public class ConfigHandler {
 	public static void loadConfig() {
 		Config cfg = Config.getInstance();
 
-		configfile = new File(Path.config());
+		configfile = new File(Path.osCompatibleConfig());
 		if (!configfile.exists()) {
 			return;
 		}
 
 		props = new Properties();
 		try {
-			FileInputStream inputStream = new FileInputStream(Path.config());
+			FileInputStream inputStream = new FileInputStream(Path.osCompatibleConfig());
 			try {
 				props.load(inputStream);
 			} finally {

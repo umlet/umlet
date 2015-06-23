@@ -18,13 +18,24 @@ public class Path {
 	private static String homeProgramDir;
 
 	public static String osCompatibleConfig() {
-		return new File(osCompatibleConfigDirectory(), configFileSubPath()).getPath();
+		String programConfigDir = combine(osCompatibleConfigDirectory(), Program.getInstance().getProgramName());
+		ensureDirectoryIsExisting(programConfigDir);
+
+		return combine(programConfigDir, Program.getInstance().getConfigName());
 	}
 	
 	public static String config() {
-		return userHome() + File.separator + Program.getInstance().getConfigName();
+		String programConfigDirectory = combine(userHomeDirectory(), Program.getInstance().getProgramName());
+
+		return combine(programConfigDirectory, Program.getInstance().getConfigName());
 	}
 
+	private static void ensureDirectoryIsExisting(String path) {
+		File file = new File(path);
+		if (!file.exists()) {
+			Utils.safeMkDir(file, true);
+		}
+	}
 	private static String osCompatibleConfigDirectory() {
 		String configDir = userHomeDirectory();
         
@@ -46,22 +57,22 @@ public class Path {
 		return configPath;
 	}
 	private static String macOSXCompatibleConfigDirectory() {
-		return new File(userHomeDirectory(), "Library/Preferences").getPath();
+		return combine(userHomeDirectory(), "Library/Preferences");
 	}
 	private static String xgdCompatibleConfigDirectory() {
 		String configPath = System.getenv("XDG_CONFIG_HOME");
 		if (configPath == null)
-		    configPath = new File(userHomeDirectory(), ".config").getPath();
+		    configPath = combine(userHomeDirectory(), ".config");
 
 		return configPath;
 	}
 	private static String userHomeDirectory() {
 		return System.getProperty("user.home");
 	}
-	private static String configFileSubPath() {
-		return new File(Program.getInstance().getProgramName(), Program.getInstance().getConfigName()).getPath();
-	}
 		
+	private static String combine(String path, String childPath) {
+		return new File(path, childPath).getPath();
+	}
 	private static String userHome() {
 		String homeDir = userHomeBase();
 		if (!homeDir.endsWith(File.separator)) {
