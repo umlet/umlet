@@ -1,5 +1,7 @@
 package com.baselet.control.util;
 
+import com.baselet.control.constants.SystemInfo;
+import com.baselet.control.enums.Os;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,10 +17,51 @@ public class Path {
 	private static String tempDir;
 	private static String homeProgramDir;
 
+	public static String osCompatibleConfig() {
+		return new File(osCompatibleConfigDirectory(), configFileSubPath()).getPath();
+	}
+	
 	public static String config() {
 		return userHome() + File.separator + Program.getInstance().getConfigName();
 	}
 
+	private static String osCompatibleConfigDirectory() {
+		String configDir = userHomeDirectory();
+        
+		if (SystemInfo.OS == Os.WINDOWS) {
+		    configDir = windowsCompatibleConfigDirectory();
+		} else if (SystemInfo.OS == Os.MAC) {
+		    configDir = macOSXCompatibleConfigDirectory();	// this would not work for classic MacOS
+		} else if (SystemInfo.OS == Os.LINUX || SystemInfo.OS == Os.UNIX) {
+		    configDir = xgdCompatibleConfigDirectory();
+		}
+
+		return configDir;
+	}
+	private static String windowsCompatibleConfigDirectory() {
+		String configPath = System.getenv("LOCALAPPDATA");
+		if (configPath == null)
+		    configPath = userHomeDirectory();
+        
+		return configPath;
+	}
+	private static String macOSXCompatibleConfigDirectory() {
+		return new File(userHomeDirectory(), "Library/Preferences").getPath();
+	}
+	private static String xgdCompatibleConfigDirectory() {
+		String configPath = System.getenv("XDG_CONFIG_HOME");
+		if (configPath == null)
+		    configPath = new File(userHomeDirectory(), ".config").getPath();
+
+		return configPath;
+	}
+	private static String userHomeDirectory() {
+		return System.getProperty("user.home");
+	}
+	private static String configFileSubPath() {
+		return new File(Program.getInstance().getProgramName(), Program.getInstance().getConfigName()).getPath();
+	}
+		
 	private static String userHome() {
 		String homeDir = userHomeBase();
 		if (!homeDir.endsWith(File.separator)) {
