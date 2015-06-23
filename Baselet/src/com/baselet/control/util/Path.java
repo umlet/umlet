@@ -24,7 +24,7 @@ public class Path {
 		return combine(programConfigDir, Program.getInstance().getConfigName());
 	}
 	
-	public static String config() {
+	public static String userHomeConfig() {
 		String programConfigDirectory = combine(userHomeDirectory(), Program.getInstance().getProgramName());
 
 		return combine(programConfigDirectory, Program.getInstance().getConfigName());
@@ -42,7 +42,7 @@ public class Path {
 		if (SystemInfo.OS == Os.WINDOWS) {
 		    configDir = windowsCompatibleConfigDirectory();
 		} else if (SystemInfo.OS == Os.MAC) {
-		    configDir = macOSXCompatibleConfigDirectory();	// this would not work for classic MacOS
+		    configDir = macOSXCompatibleConfigDirectory();
 		} else if (SystemInfo.OS == Os.LINUX || SystemInfo.OS == Os.UNIX) {
 		    configDir = xgdCompatibleConfigDirectory();
 		}
@@ -72,28 +72,6 @@ public class Path {
 		
 	private static String combine(String path, String childPath) {
 		return new File(path, childPath).getPath();
-	}
-	private static String userHome() {
-		String homeDir = userHomeBase();
-		if (!homeDir.endsWith(File.separator)) {
-			homeDir += File.separator;
-		}
-		File homeDirFile = new File(homeDir + Program.getInstance().getProgramName());
-		if (!homeDirFile.exists()) {
-			Utils.safeMkDir(homeDirFile, true);
-		}
-		return homeDirFile.getAbsolutePath();
-	}
-
-	private static String userHomeBase() {
-		try {
-			String xdgConfigHome = System.getenv("XDG_CONFIG_HOME"); // use env variable $XDG_CONFIG_HOME if it's set
-			if (xdgConfigHome != null) {
-				return xdgConfigHome;
-			}
-		} catch (Exception e) { /* if env variable cannot be read, ignore it */}
-
-		return System.getProperty("user.home");
 	}
 
 	public static String customElements() {
