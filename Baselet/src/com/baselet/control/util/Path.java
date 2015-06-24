@@ -17,6 +17,16 @@ public class Path {
 	private static String tempDir;
 	private static String homeProgramDir;
 
+	public static boolean hasOsCompatibleConfig() {
+		File file = new File(osCompatibleConfig());
+		return file.exists();
+	}
+
+	public static boolean hasUserHomeConfig() {
+		File file = new File(userHomeConfig());
+		return file.exists();
+	}
+
 	public static String osCompatibleConfig() {
 		String programConfigDir = combine(osCompatibleConfigDirectory(), Program.getInstance().getProgramName());
 		ensureDirectoryIsExisting(programConfigDir);

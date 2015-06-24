@@ -76,24 +76,13 @@ public class ConfigHandler {
 	private static Properties props;
 
 	public static void loadConfig() {
-		Config cfg = Config.getInstance();
 
+		props = loadProperties();
 		configfile = new File(Path.osCompatibleConfig());
-		if (!configfile.exists()) {
+		if (props.isEmpty())
 			return;
-		}
 
-		props = new Properties();
-		try {
-			FileInputStream inputStream = new FileInputStream(Path.osCompatibleConfig());
-			try {
-				props.load(inputStream);
-			} finally {
-				inputStream.close();
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		Config cfg = Config.getInstance();
 
 		cfg.setProgramVersion(getStringProperty(PROGRAM_VERSION, Program.getInstance().getVersion()));
 		cfg.setDefaultFontsize(getIntProperty(DEFAULT_FONTSIZE, cfg.getDefaultFontsize()));
@@ -192,8 +181,7 @@ public class ConfigHandler {
 				Frame topContainer = ((StandaloneGUI) gui).getMainFrame();
 				if ((topContainer.getExtendedState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) {
 					props.setProperty(START_MAXIMIZED, "true");
-				}
-				// Otherwise the size and the location is written in the cfg
+				} // Otherwise the size and the location is written in the cfg
 				else {
 					props.setProperty(START_MAXIMIZED, "false");
 					props.setProperty(PROGRAM_SIZE, topContainer.getSize().width + "," + topContainer.getSize().height);
@@ -211,7 +199,7 @@ public class ConfigHandler {
 
 			/* MAIL */
 			ConfigMail cfgMail = ConfigMail.getInstance();
-			if (!!cfgMail.getMail_smtp().isEmpty()) {
+			if (! !cfgMail.getMail_smtp().isEmpty()) {
 				props.setProperty(MAIL_SMTP, cfgMail.getMail_smtp());
 			}
 			props.setProperty(MAIL_SMTP_AUTH, Boolean.toString(cfgMail.isMail_smtp_auth()));
@@ -255,6 +243,34 @@ public class ConfigHandler {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	private static Properties loadProperties() {
+		Properties result = new Properties();
+
+		if (Path.hasOsCompatibleConfig())
+			result = loadPropertiesFromFile(Path.osCompatibleConfig());
+		else if (Path.hasUserHomeConfig())
+			result = loadPropertiesFromFile(Path.userHomeConfig());
+		
+		return result;
+	}
+
+	private static Properties loadPropertiesFromFile(String filePath) {
+		Properties result = new Properties();
+
+		try {
+			FileInputStream inputStream = new FileInputStream(filePath);
+			try {
+				result.load(inputStream);
+			} finally {
+				inputStream.close();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return result;
 	}
 
 	private static int getIntProperty(String key, int defaultValue) {
