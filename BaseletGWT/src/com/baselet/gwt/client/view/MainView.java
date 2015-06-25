@@ -9,7 +9,6 @@ import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.view.panel.wrapper.AutoResizeScrollDropPanel;
 import com.baselet.gwt.client.view.panel.wrapper.FileOpenHandler;
 import com.baselet.gwt.client.view.utils.DropboxIntegration;
-import com.baselet.gwt.client.view.utils.UUID;
 import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox.Callback;
@@ -141,9 +140,8 @@ public class MainView extends Composite {
 				String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, diagramPanel.getDiagram());
 				dropboxInt.openDropboxExport(uxfUrl, chosenName);
 
-				Notification.showInfo("Diagram saved to dropbox as: " + chosenName);
 			}
-		});
+		}, "Export to Dropbox");
 
 		@Override
 		public void execute() {
@@ -201,6 +199,7 @@ public class MainView extends Composite {
 				.inject();
 		dropboxInt = new DropboxIntegration(diagramPanel);
 		dropboxInt.exposeDropboxImportJSCallback(dropboxInt);
+		dropboxInt.exposeDropboxShowNotification(dropboxInt);
 	}
 
 	private void addRestoreMenuItem(final String chosenName) {

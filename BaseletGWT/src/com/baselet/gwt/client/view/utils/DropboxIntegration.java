@@ -2,6 +2,7 @@ package com.baselet.gwt.client.view.utils;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.gwt.client.base.Notification;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.view.DrawPanel;
 import com.google.gwt.http.client.Request;
@@ -38,6 +39,7 @@ public class DropboxIntegration {
 			success : function() {
 				// Indicate to the user that the files have been saved.
 				// alert("Success! Files saved to your Dropbox.");
+				$wnd.dropboxShowNotification("Saved diagram to dropbox");
 			},
 
 			// Progress is called periodically to update the application on the progress
@@ -71,6 +73,7 @@ public class DropboxIntegration {
 			success : function(files) {
 				//alert("Here's the file link: " + files[0].link)
 				$wnd.dropboxImportCallback(files[0].link);
+				$wnd.dropboxShowNotification("Imported diagram from dropbox");
 			},
 
 			// Optional. Called when the user closes the dialog without selecting a file
@@ -92,7 +95,7 @@ public class DropboxIntegration {
 			// only be able to select files with these extensions. You may also specify
 			// file types, such as "video" or "images" in the list. For more information,
 			// see File types below. By default, all extensions are allowed.
-			extensions : [ '.xml' ],
+			extensions : [ '.xml', '.uxf' ],
 		};
 		$wnd.Dropbox.choose(options);
 	}-*/;
@@ -131,11 +134,21 @@ public class DropboxIntegration {
 						diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(response.getText()));
 					}
 					else {
-						Window.alert("Something went wrong: HTTP Status Code: "+response.getStatusCode());
+						Window.alert("Something went wrong: HTTP Status Code: " + response.getStatusCode());
 					}
 
 				}
 			});
 		} catch (RequestException e) {}
+	}
+
+	public native void exposeDropboxShowNotification(DropboxIntegration di) /*-{
+		$wnd.dropboxShowNotification = function(param) {
+			di.@com.baselet.gwt.client.view.utils.DropboxIntegration::showNOtification(*)(param);
+		}
+	}-*/;
+
+	public void showNOtification(String text) {
+		Notification.showInfo(text);
 	}
 }
