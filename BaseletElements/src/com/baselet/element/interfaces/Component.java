@@ -15,4 +15,6 @@ public interface Component {
 	DrawHandler getMetaDrawHandler();
 
 	void afterModelUpdate();
+
+	void translateForExport();
 }

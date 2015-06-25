@@ -127,7 +127,13 @@ public abstract class NewGridElement implements GridElement {
 		drawer.setLineWidth(0.2);
 		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height); // draw dotted rect (to enforce background color even if element has no border)
 		resetAndDrawMetaDrawerContent(metaDrawer);
-		drawer.print(errorText, 3, getRealSize().height * 0.5 - drawer.textHeightMax(), AlignHorizontal.LEFT);
+		// y coordinate specifies the bottom line of the first text line therefore
+		// count the new line chars and calculate offset to place the message in the center
+		String[] errorLines = errorText.split("\n");
+		double y = getRealSize().height * 0.5 - errorLines.length * drawer.textHeightMaxWithSpace() / 2.0 + drawer.textHeightMax();
+		for (int i = 0; i < errorLines.length; i++, y += drawer.textHeightMaxWithSpace()) {
+			drawer.print(errorLines[i], 3, y, AlignHorizontal.LEFT);
+		}
 	}
 
 	void resetMetaDrawerAndDrawCommonContent(PropertiesParserState state, boolean resetMetaDrawer) {
@@ -501,4 +507,5 @@ public abstract class NewGridElement implements GridElement {
 	public GridElementDeprecatedAddons getDeprecatedAddons() {
 		return GridElementDeprecatedAddons.NONE;
 	}
+
 }

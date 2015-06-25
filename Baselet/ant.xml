@@ -2,7 +2,7 @@
 <project name="${project.name.uc}" default="start" basedir=".">
 
 	<!-- Release version property - MUST BE SET MANUALLY (afterwards run enable_*let to update the manifest file) -->
-	<property name="release.version" value="13.2" />
+	<property name="release.version" value="13.3" />
 	<property name="project.name.lc" value="umlet" />
 	<property name="project.name.uc" value="Umlet" />
 
@@ -23,6 +23,7 @@
 	<property name="dir.export.plugin" location="${dir.export}/plugins" />
 	<property name="elements.src" location="../BaseletElements/src" />
 	<property name="elements.lib" location="../BaseletElements/lib" />
+	<property name="elements.dir" location="../BaseletElements/" />
 
 	<!-- Classpaths -->
 	<path id="project.classpath.build">
@@ -42,6 +43,11 @@
 	<path id="project.classpath.lib">
 		<fileset dir="${dir.lib}" includes="*.jar" />
 	</path>
+	
+	<!-- Generates the parser from the grammar -->
+	<target name="gen_custom_drawing_parser" >
+		<ant dir="${elements.dir}" target="javacc_custdraw" />
+	</target>
 
 	<!-- Update MANIFEST.MF and includes new version and libs -->
 	<target name="update_manifest">
@@ -89,9 +95,9 @@
 			<replacefilter token="@release.year@" value="${release.year}" />
 		</replace>
 	</target>
-
+	
 	<!-- Compile the project -->
-	<target name="javac" depends="update_manifest, update_html">
+	<target name="javac" depends="update_manifest, update_html, gen_custom_drawing_parser">
 		<mkdir dir="${dir.bin}" />
 		<!-- Compile elements project (into the same outputdir) -->
 		<javac source="${javac.version}" target="${javac.version}" srcdir="${elements.src}" destdir="${dir.bin}" nowarn="true" includeantruntime="false">

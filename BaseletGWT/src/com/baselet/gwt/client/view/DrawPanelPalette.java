@@ -28,6 +28,7 @@ public class DrawPanelPalette extends DrawPanel {
 
 	private static final List<TextResource> PALETTELIST = Arrays.asList(
 			Resources.INSTANCE.UML_Common_Elements(),
+			Resources.INSTANCE.Custom_Drawings(),
 			Resources.INSTANCE.Generic_Colors(),
 			Resources.INSTANCE.Generic_Layers(),
 			Resources.INSTANCE.Generic_Text_and_Alignment(),

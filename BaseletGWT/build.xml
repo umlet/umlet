@@ -11,6 +11,7 @@
 	<property name="gwt.module.name" value="com.baselet.gwt.BaseletGWT" />
 	<property name="gwt.sdk.location" value="C:/Program Files/Eclipse/plugins/com.google.gwt.eclipse.sdkbundle_2.7.0/gwt-2.7.0" />
 	<property name="elements.src.dir" location="../BaseletElements/src" />
+	<property name="elements.dir" location="../BaseletElements/" />
 
 	<path id="project.classpath">
 		<fileset dir="${lib.dir}">
@@ -20,8 +21,15 @@
 		<pathelement location="${gwt.sdk.location}/gwt-dev.jar" />
 		<pathelement location="${elements.src.dir}" />
 	</path>
+	
 
-	<target name="gwt-compile-helper">
+	<!-- Generates the parser from the grammar -->
+	<target name="gen_custom_drawing_parser" >
+		<ant dir="${elements.dir}" target="javacc_custdraw" />
+	</target>
+
+	<!-- GWT targets -->
+	<target name="gwt-compile-helper" depends="gen_custom_drawing_parser">
 		<delete dir="${build.dir}" />
 		<java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
 			<classpath>

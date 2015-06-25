@@ -60,6 +60,7 @@ public class ColorOwn {
 		COLOR_MAP.put("red", ColorOwn.RED);
 		COLOR_MAP.put("white", ColorOwn.WHITE);
 		COLOR_MAP.put("yellow", ColorOwn.YELLOW);
+		COLOR_MAP.put("none", ColorOwn.TRANSPARENT);
 	}
 
 	/* fields should be final to avoid changing parts of existing color object (otherwise unexpected visible changes can happen) */

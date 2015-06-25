@@ -16,6 +16,9 @@ import com.baselet.element.sticking.PointDoubleIndexed;
 
 public class RelationDrawer {
 
+	static final double SHORTEN_IF_ARROW = 1; // issue 270: if an arrow end is attached to a line, the line is shorter by this value to avoid the line going through the arrow-end
+	static final double ARROWEND_DISPLACEMENT = 0.5; // issue 270: the arrow end is placed slightly displaced to the inside to avoid going through elemens which they point at
+
 	private static final double ARROW_LENGTH = RelationPointConstants.POINT_SELECTION_RADIUS * 1.3;
 	private static final double DIAGONAL_CROSS_LENGTH = RelationPointConstants.POINT_SELECTION_RADIUS * 0.9;
 	private static final double BOX_SIZE = 20;
@@ -70,7 +73,7 @@ public class RelationDrawer {
 	}
 
 	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, ArrowEndType arrowEndType, boolean fillBody, boolean invertArrow) {
-		drawArrowToLine(line.getPoint(drawOnStart), drawer, line, drawOnStart, arrowEndType, fillBody, invertArrow);
+		drawArrowToLine(line.getPointOnLineWithDistanceFrom(drawOnStart, ARROWEND_DISPLACEMENT), drawer, line, drawOnStart, arrowEndType, fillBody, invertArrow);
 	}
 
 	public static void drawArrowToLine(PointDouble point, DrawHandler drawer, Line line, boolean drawOnStart, ArrowEndType arrowEndType, boolean fillBody, boolean invertArrow) {

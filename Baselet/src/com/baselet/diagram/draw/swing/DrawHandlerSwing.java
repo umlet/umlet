@@ -113,19 +113,25 @@ public class DrawHandlerSwing extends DrawHandler {
 		if (points.length > 0) {
 			Path2D.Double path = new Path2D.Double();
 			boolean first = true;
-			for (PointDouble p : points) {
+			boolean fillShape = false;
+			int lastIdx = points.length - 1;
+			for (int i = 0; i < points.length; i++) {
+				PointDouble p = points[i];
 				Double x = inBorderHorizontal(Double.valueOf(p.getX() * getZoom() + HALF_PX), 0);
 				Double y = inBorderVertical(Double.valueOf(p.getY() * getZoom() + HALF_PX), 0);
 				if (first) {
 					path.moveTo(x, y);
 					first = false;
 				}
+				// if this is the last point AND the first and last points are equal, close the path and fill the shape
+				else if (i == lastIdx && points[0].equals(points[lastIdx])) {
+					path.closePath();
+					fillShape = true;
+				}
 				else {
 					path.lineTo(x, y);
 				}
 			}
-			// only fill if first point == lastpoint
-			boolean fillShape = points[0].equals(points[points.length - 1]);
 			addShape(path, fillShape);
 		}
 	}
@@ -170,16 +176,18 @@ public class DrawHandlerSwing extends DrawHandler {
 			g2.setColor(Converter.convert(style.getBackgroundColor()));
 			g2.fill(s);
 		}
-		// Shapes Foreground
-		ColorOwn colOwn = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : style.getForegroundColor();
-		g2.setColor(Converter.convert(colOwn));
-		g2.setStroke(Utils.getStroke(style.getLineType(), (float) style.getLineWidth()));
 		if (translate) {
 			double xTranslation = s.getBounds().x == 0 ? Constants.EXPORT_DISPLACEMENT : 0;
 			double yTranslation = s.getBounds().y == 0 ? Constants.EXPORT_DISPLACEMENT : 0;
 			g2.translate(xTranslation, yTranslation);
 		}
-		g2.draw(s);
+		if (style.getLineWidth() > 0) {
+			// Shapes Foreground
+			ColorOwn colOwn = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : style.getForegroundColor();
+			g2.setColor(Converter.convert(colOwn));
+			g2.setStroke(Utils.getStroke(style.getLineType(), (float) style.getLineWidth()));
+			g2.draw(s);
+		}
 	}
 
 	protected void addText(final Text t) {

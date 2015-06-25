@@ -12,7 +12,7 @@ public class SettingsText extends Settings {
 
 	@Override
 	public ElementStyle getElementStyle() {
-		return ElementStyle.WORDWRAP;
+		return ElementStyle.SIMPLE;
 	}
 
 	@Override
