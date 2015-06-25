@@ -27,7 +27,7 @@ public class DropboxIntegration {
 			// You can specify up to 100 files.
 			{
 				'url' : fileURL,
-				'filename' : filename + '.xml'
+				'filename' : filename + '.uxf'
 			}
 			// ...
 			],
@@ -36,7 +36,7 @@ public class DropboxIntegration {
 			// Dropbox, although they may not have synced to the user's devices yet.
 			success : function() {
 				// Indicate to the user that the files have been saved.
-				alert("Success! Files saved to your Dropbox.");
+				// alert("Success! Files saved to your Dropbox.");
 			},
 
 			// Progress is called periodically to update the application on the progress
@@ -56,7 +56,9 @@ public class DropboxIntegration {
 			error : function(errorMessage) {
 			}
 		};
-		alert(fileURL + " \n" + filename);
+
+		//alert(fileURL + " \n" + filename);
+
 		$wnd.Dropbox.save(options);
 	}-*/;
 

@@ -9,7 +9,6 @@ import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.view.panel.wrapper.AutoResizeScrollDropPanel;
 import com.baselet.gwt.client.view.panel.wrapper.FileOpenHandler;
 import com.baselet.gwt.client.view.utils.DropboxIntegration;
-import com.baselet.gwt.client.view.utils.UUID;
 import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox.Callback;
@@ -133,6 +132,24 @@ public class MainView extends Composite {
 		}
 	};
 
+	private final ScheduledCommand exportToDropbox = new ScheduledCommand() {
+		private final SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
+			@Override
+			public void callback(final String chosenName) {
+
+				String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, diagramPanel.getDiagram());
+				dropboxInt.openDropboxExport(uxfUrl, chosenName);
+
+				Notification.showInfo("Diagram saved to dropbox as: " + chosenName);
+			}
+		});
+
+		@Override
+		public void execute() {
+			saveDialogBox.clearAndCenter();
+		}
+	};
+
 	public ScheduledCommand getSaveCommand() {
 		return saveCommand;
 	}
@@ -237,9 +254,7 @@ public class MainView extends Composite {
 
 	@UiHandler("exportDropboxMenuItem")
 	void onExportDropboxMenuItemClick(ClickEvent event) {
-		String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, diagramPanel.getDiagram());
-		dropboxInt.openDropboxExport(uxfUrl, UUID.uuid(8));
-
+		exportToDropbox.execute();
 	}
 
 	@UiHandler("saveMenuItem")

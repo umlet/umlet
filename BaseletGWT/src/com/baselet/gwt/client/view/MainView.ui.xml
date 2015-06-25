@@ -51,21 +51,21 @@
 					<g:HTML><hr/></g:HTML>
 					<g:HTML styleName="{style.menuItem}" ui:field="helpMenuItem" text="KeyInfo" title="show keyboard shortcuts" />
 					<g:HTML><hr/></g:HTML>
-					<g:HTML styleName="{style.menuItem}" ui:field="importMenuItem" text="Import" title="import diagram from uxf file" />
-					<g:HTML styleName="{style.menuItem}" ui:field="exportMenuItem" text="Export" title="export diagram to uxf or as image" />
-					<g:HTML><hr/></g:HTML>
-					<g:HTML styleName="{style.menuItem}" ui:field="saveMenuItem" text="Save" title="save diagram to browser storage" />
+					<g:HTML styleName="{style.menuItem}" ui:field="importMenuItem" text="File Import" title="import diagram from uxf file" />
+					<g:HTML styleName="{style.menuItem}" ui:field="exportMenuItem" text="File Export" title="export diagram to uxf or as image" />
 					<g:HTML><hr/></g:HTML>
 					<g:HTML>
 						<script type="text/javascript" id="dropboxjs" data-app-key="3mmyizdvtldctng"></script>
 						<!-- src="https://www.dropbox.com/static/api/2/dropins.js"  -->
 					</g:HTML>
-					<g:HTML styleName="{style.menuItem}" ui:field="importDropboxMenuItem" ><!-- text="Import from Dropbox" title="" -->
+					<g:HTML styleName="{style.menuItem}" ui:field="importDropboxMenuItem" title="import diagram from dropbox">
 						<span class="{style.dropin-btn-status}"></span>Import
 					</g:HTML>
-					<g:HTML styleName="{style.menuItem}" ui:field="exportDropboxMenuItem"  ><!-- text="Export to Dropbox" title="" -->
+					<g:HTML styleName="{style.menuItem}" ui:field="exportDropboxMenuItem"  title="export diagram to dropbox">
 						<span class="{style.dropin-btn-status}"></span>Export
 					</g:HTML>
+					<g:HTML><hr/></g:HTML>
+					<g:HTML styleName="{style.menuItem}" ui:field="saveMenuItem" text="Save" title="save diagram to browser storage" />
 					<g:FlowPanel ui:field="restoreMenuPanel" />
 				</g:FlowPanel>
 			</g:west>
