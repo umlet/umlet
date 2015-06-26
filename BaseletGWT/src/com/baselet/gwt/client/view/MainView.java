@@ -137,7 +137,7 @@ public class MainView extends Composite {
 			@Override
 			public void callback(final String chosenName) {
 
-				String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, diagramPanel.getDiagram());
+				String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, false, diagramPanel.getDiagram());
 				dropboxInt.openDropboxExport(uxfUrl, chosenName);
 
 			}
@@ -241,8 +241,8 @@ public class MainView extends Composite {
 
 	@UiHandler("exportMenuItem")
 	void onExportMenuItemClick(ClickEvent event) {
-		log.info("Exporting: " + DiagramXmlParser.diagramToXml(true, diagramPanel.getDiagram()));
-		String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, diagramPanel.getDiagram());
+		String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, true, diagramPanel.getDiagram());
+		log.info("Exporting: " + uxfUrl);
 		String pngUrl = CanvasUtils.createPngCanvasDataUrl(diagramPanel.getDiagram());
 		new DownloadPopupPanel(uxfUrl, pngUrl);
 	}
