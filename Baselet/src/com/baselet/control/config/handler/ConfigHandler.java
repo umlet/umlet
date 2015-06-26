@@ -72,13 +72,11 @@ public class ConfigHandler {
 	private static final String GENERATE_CLASS_SIGNATURES = "generate_class_signatures";
 	private static final String GENERATE_CLASS_SORTINGS = "generate_class_sortings";
 
-	private static File configfile;
 	private static Properties props;
 
 	public static void loadConfig() {
 
 		props = loadProperties();
-		configfile = new File(Path.osCompatibleConfig());
 		if (props.isEmpty())
 			return;
 
@@ -143,15 +141,12 @@ public class ConfigHandler {
 	}
 
 	public static void saveConfig(BaseGUI gui) {
-		Config cfg = Config.getInstance();
-
-		if (configfile == null) {
-			return;
-		}
 		try {
-			Utils.safeDeleteFile(configfile, false);
+                      	File configfile = new File(Path.osConformConfig());
+                        Utils.safeDeleteFile(configfile, false);
 			Utils.safeCreateFile(configfile, false);
 
+                        Config cfg = Config.getInstance();
 			Properties props = new Properties();
 
 			props.setProperty(PROGRAM_VERSION, Program.getInstance().getVersion());
@@ -248,10 +243,10 @@ public class ConfigHandler {
 	private static Properties loadProperties() {
 		Properties result = new Properties();
 
-		if (Path.hasOsCompatibleConfig())
-			result = loadPropertiesFromFile(Path.osCompatibleConfig());
-		else if (Path.hasUserHomeConfig())
-			result = loadPropertiesFromFile(Path.userHomeConfig());
+		if (Path.hasOsConformConfig())
+			result = loadPropertiesFromFile(Path.osConformConfig());
+		else if (Path.hasLegacyConfig())
+			result = loadPropertiesFromFile(Path.legacyConfig());
 		
 		return result;
 	}

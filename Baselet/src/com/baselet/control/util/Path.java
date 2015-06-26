@@ -17,24 +17,24 @@ public class Path {
 	private static String tempDir;
 	private static String homeProgramDir;
 
-	public static boolean hasOsCompatibleConfig() {
-		File file = new File(osCompatibleConfig());
+	public static boolean hasOsConformConfig() {
+		File file = new File(osConformConfig());
 		return file.exists();
 	}
 
-	public static boolean hasUserHomeConfig() {
-		File file = new File(userHomeConfig());
+	public static boolean hasLegacyConfig() {
+		File file = new File(legacyConfig());
 		return file.exists();
 	}
 
-	public static String osCompatibleConfig() {
-		String programConfigDir = combine(osCompatibleConfigDirectory(), Program.getInstance().getProgramName());
+	public static String osConformConfig() {
+		String programConfigDir = combine(osConformConfigDirectory(), Program.getInstance().getProgramName());
 		ensureDirectoryIsExisting(programConfigDir);
 
 		return combine(programConfigDir, Program.getInstance().getConfigName());
 	}
 	
-	public static String userHomeConfig() {
+	public static String legacyConfig() {
 		String programConfigDirectory = combine(userHomeDirectory(), Program.getInstance().getProgramName());
 
 		return combine(programConfigDirectory, Program.getInstance().getConfigName());
@@ -46,30 +46,30 @@ public class Path {
 			Utils.safeMkDir(file, true);
 		}
 	}
-	private static String osCompatibleConfigDirectory() {
+	private static String osConformConfigDirectory() {
 		String configDir = userHomeDirectory();
         
 		if (SystemInfo.OS == Os.WINDOWS) {
-		    configDir = windowsCompatibleConfigDirectory();
+		    configDir = windowsConfigDirectory();
 		} else if (SystemInfo.OS == Os.MAC) {
-		    configDir = macOSXCompatibleConfigDirectory();
-		} else if (SystemInfo.OS == Os.LINUX || SystemInfo.OS == Os.UNIX) {
-		    configDir = xgdCompatibleConfigDirectory();
+		    configDir = macOSXConfigDirectory();
+		} else if (SystemInfo.OS == Os.LINUX || SystemInfo.OS == Os.UNIX) { 
+		    configDir = xgdConfigDirectory();
 		}
 
 		return configDir;
 	}
-	private static String windowsCompatibleConfigDirectory() {
+	private static String windowsConfigDirectory() {
 		String configPath = System.getenv("LOCALAPPDATA");
 		if (configPath == null)
 		    configPath = userHomeDirectory();
         
 		return configPath;
 	}
-	private static String macOSXCompatibleConfigDirectory() {
+	private static String macOSXConfigDirectory() {
 		return combine(userHomeDirectory(), "Library/Preferences");
 	}
-	private static String xgdCompatibleConfigDirectory() {
+	private static String xgdConfigDirectory() {
 		String configPath = System.getenv("XDG_CONFIG_HOME");
 		if (configPath == null)
 		    configPath = combine(userHomeDirectory(), ".config");
