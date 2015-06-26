@@ -78,6 +78,7 @@ public class SaveDialogBox extends MyPopupPanel {
 	public void clearAndCenter() {
 		center();
 		textBox.setFocus(true);
+		textBox.selectAll();
 	}
 
 	/**
