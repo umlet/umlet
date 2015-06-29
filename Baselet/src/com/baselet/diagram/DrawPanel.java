@@ -426,8 +426,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		g2d.setColor(Constants.GRID_COLOR);
 
 		int gridSize = handler.getGridSize();
-		if (gridSize == 1)
-		{
+		if (gridSize == 1) {
 			return; // Gridsize 1 would only make the whole screen grey
 		}
 

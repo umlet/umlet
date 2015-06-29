@@ -106,8 +106,7 @@ public class NewWizardPage extends WizardPage {
 	 */
 
 	private void initialize() {
-		if (selection != null && !selection.isEmpty()
-			&& selection instanceof IStructuredSelection) {
+		if (selection != null && !selection.isEmpty() && selection instanceof IStructuredSelection) {
 			IStructuredSelection ssel = (IStructuredSelection) selection;
 			if (ssel.size() > 1) {
 				return;
@@ -169,8 +168,7 @@ public class NewWizardPage extends WizardPage {
 			updateStatus("File container must be specified");
 			return;
 		}
-		if (container == null
-			|| (container.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
+		if (container == null || (container.getType() & (IResource.PROJECT | IResource.FOLDER)) == 0) {
 			updateStatus("File container must exist");
 			return;
 		}

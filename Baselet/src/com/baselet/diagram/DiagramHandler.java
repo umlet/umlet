@@ -78,8 +78,7 @@ public class DiagramHandler {
 		BaseGUI gui = CurrentGui.getInstance().getGui();
 		if (gui != null) {
 			gui.setValueOfZoomDisplay(getGridSize());
-			if (gui instanceof StandaloneGUI)
-			{
+			if (gui instanceof StandaloneGUI) {
 				extendedPopupMenu = true; // AB: use extended popup menu on standalone gui only
 			}
 		}
@@ -362,12 +361,10 @@ public class DiagramHandler {
 
 		int oldGridSize = getGridSize();
 
-		if (factor < 1 || factor > 20)
-		{
+		if (factor < 1 || factor > 20) {
 			return; // Only zoom between 10% and 200% is allowed
 		}
-		if (factor == oldGridSize)
-		{
+		if (factor == oldGridSize) {
 			return; // Only zoom if gridsize has changed
 		}
 

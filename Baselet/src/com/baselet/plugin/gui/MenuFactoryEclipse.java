@@ -100,8 +100,7 @@ public class MenuFactoryEclipse extends MenuFactory {
 			});
 		}
 		// If the action is not overwritten, it is part of the default actions
-		else
-		{
+		else {
 			log.debug("super.doAction");
 			super.doAction(menuItem, param);
 			log.debug("super.doAction complete");

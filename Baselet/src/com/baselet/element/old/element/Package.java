@@ -50,8 +50,7 @@ public class Package extends OldGridElement {
 		// LME: coloring (some code doubled)
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			if (tmp.elementAt(0).equals("--") && !borders)
-			{
+			if (tmp.elementAt(0).equals("--") && !borders) {
 				yPosBorder = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(); // if there is no Packagename
 			}
 			if (s.equals("--") && !borders) {
@@ -90,8 +89,7 @@ public class Package extends OldGridElement {
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 
-			if (tmp.elementAt(0).equals("--") && !borders)
-			{
+			if (tmp.elementAt(0).equals("--") && !borders) {
 				yPos = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(); // if there is no Packagename
 			}
 
@@ -154,8 +152,7 @@ public class Package extends OldGridElement {
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 			// G. Mueller start
-			if (tmp.elementAt(0).equals("--") && !borders)
-			{
+			if (tmp.elementAt(0).equals("--") && !borders) {
 				yPos = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(); // if there is no Packagename
 			}
 			// G.Mueller End

@@ -331,8 +331,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 	}
 
 	private void doNewHelper() {
-		if (lastTabIsEmpty())
-		{
+		if (lastTabIsEmpty()) {
 			return; // If the last tab is empty do nothing (it's already new)
 		}
 		DiagramHandler diagram = new DiagramHandler(null);
@@ -373,8 +372,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			Notifier.getInstance().showNotification("switched to " + filename);
 		}
 		else {
-			if (lastTabIsEmpty())
-			{
+			if (lastTabIsEmpty()) {
 				diagrams.get(diagrams.size() - 1).doClose(); // If the last tab is empty close it (the opened diagram replaces the new one)
 			}
 			editedGridElement = null; // must be set to null here, otherwise the change listener of the property panel will change element text to help_text of diagram (see google code Issue 174)

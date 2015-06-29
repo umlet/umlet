@@ -261,8 +261,7 @@ public class DiagramFileHandler {
 		JFileChooser fileChooser = createSaveFileChooser(!ownXmlFormat);
 		String fileName = chooseFileName(ownXmlFormat, filters.get(fileextension), fileChooser);
 		String extension = fileextensions.get(fileChooser.getFileFilter());
-		if (fileName == null)
-		{
+		if (fileName == null) {
 			return; // If the filechooser has been closed without saving
 		}
 		if (!fileName.endsWith("." + extension)) {

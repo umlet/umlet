@@ -82,7 +82,7 @@ public class TextPrintFacet extends Facet {
 		else if (state.getAlignment().getVertical() == AlignVertical.CENTER) {
 			returnVal += (state.getGridElementSize().height - state.getTotalTextBlockHeight()) / 2 + state.getBuffer().getTop() / 2;
 		}
-		else /* if (state.getvAlign() == AlignVertical.BOTTOM) */{
+		else /* if (state.getvAlign() == AlignVertical.BOTTOM) */ {
 			returnVal += state.getGridElementSize().height - state.getTotalTextBlockHeight() - drawer.textHeightMax() / 4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
 		}
 		return returnVal;
@@ -126,7 +126,7 @@ public class TextPrintFacet extends Facet {
 		else if (hAlign == AlignHorizontal.CENTER) {
 			x = xLimitsForText.getSpace() / 2.0 + xLimitsForText.getLeft();
 		}
-		else /* if (state.gethAlign() == AlignHorizontal.RIGHT) */{
+		else /* if (state.gethAlign() == AlignHorizontal.RIGHT) */ {
 			x = xLimitsForText.getRight() - distanceBorderToText;
 		}
 		return x;

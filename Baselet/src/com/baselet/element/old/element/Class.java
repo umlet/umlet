@@ -28,8 +28,7 @@ public class Class extends OldGridElement {
 	// A.Mueller end
 
 	private Vector<String> getStringVector() {
-		if (isInnerClass())
-		{
+		if (isInnerClass()) {
 			return Utils.decomposeStrings(_panelString); // A.Mueller
 		}
 		Vector<String> ret = Utils.decomposeStrings(getPanelAttributes());
@@ -230,8 +229,7 @@ public class Class extends OldGridElement {
 					innerSoFar++;
 				}
 
-				int height = innerLines * (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts()
-								+ (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * --innerLines;
+				int height = innerLines * (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * --innerLines;
 
 				temp.setLocation(5, yPos);
 

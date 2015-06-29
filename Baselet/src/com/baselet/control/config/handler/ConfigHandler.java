@@ -77,8 +77,9 @@ public class ConfigHandler {
 	public static void loadConfig() {
 
 		props = loadProperties();
-		if (props.isEmpty())
+		if (props.isEmpty()) {
 			return;
+		}
 
 		Config cfg = Config.getInstance();
 
@@ -142,11 +143,11 @@ public class ConfigHandler {
 
 	public static void saveConfig(BaseGUI gui) {
 		try {
-                      	File configfile = new File(Path.osConformConfig());
-                        Utils.safeDeleteFile(configfile, false);
+			File configfile = new File(Path.osConformConfig());
+			Utils.safeDeleteFile(configfile, false);
 			Utils.safeCreateFile(configfile, false);
 
-                        Config cfg = Config.getInstance();
+			Config cfg = Config.getInstance();
 			Properties props = new Properties();
 
 			props.setProperty(PROGRAM_VERSION, Program.getInstance().getVersion());
@@ -194,7 +195,7 @@ public class ConfigHandler {
 
 			/* MAIL */
 			ConfigMail cfgMail = ConfigMail.getInstance();
-			if (! !cfgMail.getMail_smtp().isEmpty()) {
+			if (!!cfgMail.getMail_smtp().isEmpty()) {
 				props.setProperty(MAIL_SMTP, cfgMail.getMail_smtp());
 			}
 			props.setProperty(MAIL_SMTP_AUTH, Boolean.toString(cfgMail.isMail_smtp_auth()));
@@ -243,11 +244,13 @@ public class ConfigHandler {
 	private static Properties loadProperties() {
 		Properties result = new Properties();
 
-		if (Path.hasOsConformConfig())
+		if (Path.hasOsConformConfig()) {
 			result = loadPropertiesFromFile(Path.osConformConfig());
-		else if (Path.hasLegacyConfig())
+		}
+		else if (Path.hasLegacyConfig()) {
 			result = loadPropertiesFromFile(Path.legacyConfig());
-		
+		}
+
 		return result;
 	}
 

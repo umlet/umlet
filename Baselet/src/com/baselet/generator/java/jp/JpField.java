@@ -1,9 +1,9 @@
 package com.baselet.generator.java.jp;
 
+import com.baselet.generator.java.Field;
+
 import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.ModifierSet;
-
-import com.baselet.generator.java.Field;
 
 public class JpField implements Field {
 

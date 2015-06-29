@@ -46,6 +46,7 @@ public class ColorOwn {
 	public static final ColorOwn DEFAULT_BACKGROUND = TRANSPARENT;
 
 	public static final HashMap<String, ColorOwn> COLOR_MAP = new HashMap<String, ColorOwn>();
+
 	static {
 		COLOR_MAP.put("black", ColorOwn.BLACK);
 		COLOR_MAP.put("blue", ColorOwn.BLUE);

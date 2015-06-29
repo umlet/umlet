@@ -44,8 +44,7 @@ public class GoTo {
 	}
 
 	public void paint(float zoomFactor, int gotoPosition) {
-		if (from_element.connectOut_overrideable() && to_element.connectIn()
-			&& to_element.arrowIn()) {
+		if (from_element.connectOut_overrideable() && to_element.connectIn() && to_element.arrowIn()) {
 			Point from = from_element.getNonStdConnectOut(dir);
 			Point to = to_element.getNonStdConnectIn(dir);
 			Point to_origin = to_element.getConnect(dir);

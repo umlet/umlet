@@ -1,7 +1,5 @@
 package com.baselet.control.util;
 
-import com.baselet.control.constants.SystemInfo;
-import com.baselet.control.enums.Os;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,6 +8,8 @@ import java.net.URL;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
+import com.baselet.control.constants.SystemInfo;
+import com.baselet.control.enums.Os;
 import com.baselet.control.enums.Program;
 
 public class Path {
@@ -33,7 +33,7 @@ public class Path {
 
 		return combine(programConfigDir, Program.getInstance().getConfigName());
 	}
-	
+
 	public static String legacyConfig() {
 		String programConfigDirectory = combine(userHomeDirectory(), Program.getInstance().getProgramName());
 
@@ -46,40 +46,49 @@ public class Path {
 			Utils.safeMkDir(file, true);
 		}
 	}
+
 	private static String osConformConfigDirectory() {
 		String configDir = userHomeDirectory();
-        
+
 		if (SystemInfo.OS == Os.WINDOWS) {
-		    configDir = windowsConfigDirectory();
-		} else if (SystemInfo.OS == Os.MAC) {
-		    configDir = macOSXConfigDirectory();
-		} else if (SystemInfo.OS == Os.LINUX || SystemInfo.OS == Os.UNIX) { 
-		    configDir = xgdConfigDirectory();
+			configDir = windowsConfigDirectory();
+		}
+		else if (SystemInfo.OS == Os.MAC) {
+			configDir = macOSXConfigDirectory();
+		}
+		else if (SystemInfo.OS == Os.LINUX || SystemInfo.OS == Os.UNIX) {
+			configDir = xgdConfigDirectory();
 		}
 
 		return configDir;
 	}
+
 	private static String windowsConfigDirectory() {
 		String configPath = System.getenv("LOCALAPPDATA");
-		if (configPath == null)
-		    configPath = userHomeDirectory();
-        
-		return configPath;
-	}
-	private static String macOSXConfigDirectory() {
-		return combine(userHomeDirectory(), "Library/Preferences");
-	}
-	private static String xgdConfigDirectory() {
-		String configPath = System.getenv("XDG_CONFIG_HOME");
-		if (configPath == null)
-		    configPath = combine(userHomeDirectory(), ".config");
+		if (configPath == null) {
+			configPath = userHomeDirectory();
+		}
 
 		return configPath;
 	}
+
+	private static String macOSXConfigDirectory() {
+		return combine(userHomeDirectory(), "Library/Preferences");
+	}
+
+	private static String xgdConfigDirectory() {
+		String configPath = System.getenv("XDG_CONFIG_HOME");
+		if (configPath == null) {
+			configPath = combine(userHomeDirectory(), ".config");
+		}
+
+		return configPath;
+	}
+
 	private static String userHomeDirectory() {
 		return System.getProperty("user.home");
 	}
-		
+
 	private static String combine(String path, String childPath) {
 		return new File(path, childPath).getPath();
 	}

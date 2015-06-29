@@ -99,8 +99,7 @@ public class CustomCodePropertyChanged extends Command {
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "Changestate from " + getOldState() + " to " + getNewState();
 	}
 }

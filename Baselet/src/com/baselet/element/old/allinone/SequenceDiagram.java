@@ -64,7 +64,7 @@ class Interaction {
 		}
 		Interaction i = (Interaction) o;
 
-		return srcObj == i.srcObj && srcObjHasControl == i.srcObjHasControl &&
+		return srcObj == i.srcObj &&srcObjHasControl == i.srcObjHasControl &&
 				arrowKind == i.arrowKind && destObj == i.destObj &&
 				destObjHasControl == i.destObjHasControl &&
 				methodName == null || methodName.equals(i.methodName);
@@ -72,7 +72,7 @@ class Interaction {
 
 	@Override
 	public int hashCode() {
-		return (methodName != null ? methodName.hashCode() : 1) + srcObj +
+		return (methodName != null ? methodName.hashCode() : 1) +srcObj +
 				(srcObjHasControl ? 1 : 0) + arrowKind + destObj + (destObjHasControl ? 1 : 0);
 	}
 
@@ -234,8 +234,7 @@ public class SequenceDiagram extends OldGridElement {
 			levelNum++;
 		}
 
-		if (lines.size() == 0)
-		{
+		if (lines.size() == 0) {
 			return; // return if it only has the title line (Issue 146)
 		}
 
@@ -384,8 +383,7 @@ public class SequenceDiagram extends OldGridElement {
 				if (group == null) {
 					group = "#";
 					String element = interactions.elementAt(j);
-					if (element.indexOf("iframe") >= 0)
-					{
+					if (element.indexOf("iframe") >= 0) {
 						group += element.substring(element.indexOf("iframe")); // append info for interactionframe
 					}
 				}
@@ -622,8 +620,7 @@ public class SequenceDiagram extends OldGridElement {
 
 		// draw it horizontally centered
 		int dx = centerHorizontically ? (endX - begX - (int) layout.getBounds().getWidth()) / 2 : 0;
-		int dy = centerVertically ?
-				(endY - begY - (int) layout.getBounds().getHeight()) / 2 : 1;
+		int dy = centerVertically ? (endY - begY - (int) layout.getBounds().getHeight()) / 2 : 1;
 
 		layout.draw(g2, begX + dx, endY - dy);
 
@@ -651,8 +648,7 @@ public class SequenceDiagram extends OldGridElement {
 		while (mainTokens.hasMoreTokens()) {
 			String main = mainTokens.nextToken();
 			if (main.indexOf("#") >= 0) { // if no box, clear entire row
-				for (int i = 0; i < numObjects; i++)
-				{
+				for (int i = 0; i < numObjects; i++) {
 					tField[i][level - 1] = 0; // clear
 				}
 				if (main.indexOf("#iframe{") >= 0 || main.indexOf("#iframe}") >= 0) {
@@ -670,8 +666,7 @@ public class SequenceDiagram extends OldGridElement {
 			}
 			else {
 				StringTokenizer innerT = new StringTokenizer(main, ",");
-				for (int i = 0; i < numObjects; i++)
-				{
+				for (int i = 0; i < numObjects; i++) {
 					tField[i][level - 1] = 0; // clear
 				}
 				while (innerT.hasMoreTokens()) {
@@ -842,7 +837,7 @@ public class SequenceDiagram extends OldGridElement {
 	}
 
 	protected int vCenterForLevel(int level) {
-		return level * levelHeight + rectToFirstLevelDistance +
+		return level * levelHeight +rectToFirstLevelDistance +
 				rectHeight + borderDistance + yOffsetforTitle - levelHeight / 2;
 	}
 

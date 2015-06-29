@@ -17,8 +17,7 @@ public class DrawHelper {
 				new PointDouble(upperLeftX + fullWidth, upperLeftY + titleHeight),
 				new PointDouble(upperLeftX + fullWidth, upperLeftY + fullHeight),
 				new PointDouble(upperLeftX, upperLeftY + fullHeight),
-				start
-				);
+				start);
 		drawer.drawLines(points);
 		drawer.drawLines(new PointDouble(upperLeftX, upperLeftY + titleHeight), new PointDouble(upperLeftX + titleWidth, upperLeftY + titleHeight));
 		return points;

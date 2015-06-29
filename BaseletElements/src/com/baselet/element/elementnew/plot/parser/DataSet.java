@@ -139,7 +139,7 @@ public class DataSet {
 			titleRow = createEmptyList(firstRow.size() - 1);
 			titleCol = firstCol;
 		}
-		else /* if (!hasTitleRow && !hasTitleCol) */{
+		else /* if (!hasTitleRow && !hasTitleCol) */ {
 			titleRow = createEmptyList(firstRow.size());
 			titleCol = createEmptyList(firstCol.size());
 		}
