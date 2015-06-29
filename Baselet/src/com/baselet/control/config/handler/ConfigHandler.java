@@ -195,7 +195,7 @@ public class ConfigHandler {
 
 			/* MAIL */
 			ConfigMail cfgMail = ConfigMail.getInstance();
-			if (!!cfgMail.getMail_smtp().isEmpty()) {
+			if (!cfgMail.getMail_smtp().isEmpty()) {
 				props.setProperty(MAIL_SMTP, cfgMail.getMail_smtp());
 			}
 			props.setProperty(MAIL_SMTP_AUTH, Boolean.toString(cfgMail.isMail_smtp_auth()));
