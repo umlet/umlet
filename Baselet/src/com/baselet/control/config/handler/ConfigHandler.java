@@ -72,28 +72,15 @@ public class ConfigHandler {
 	private static final String GENERATE_CLASS_SIGNATURES = "generate_class_signatures";
 	private static final String GENERATE_CLASS_SORTINGS = "generate_class_sortings";
 
-	private static File configfile;
 	private static Properties props;
 
 	public static void loadConfig() {
-		Config cfg = Config.getInstance();
 
-		configfile = new File(Path.config());
-		if (!configfile.exists()) {
+		props = loadProperties();
+		if (props.isEmpty())
 			return;
-		}
 
-		props = new Properties();
-		try {
-			FileInputStream inputStream = new FileInputStream(Path.config());
-			try {
-				props.load(inputStream);
-			} finally {
-				inputStream.close();
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		Config cfg = Config.getInstance();
 
 		cfg.setProgramVersion(getStringProperty(PROGRAM_VERSION, Program.getInstance().getVersion()));
 		cfg.setDefaultFontsize(getIntProperty(DEFAULT_FONTSIZE, cfg.getDefaultFontsize()));
@@ -154,15 +141,12 @@ public class ConfigHandler {
 	}
 
 	public static void saveConfig(BaseGUI gui) {
-		Config cfg = Config.getInstance();
-
-		if (configfile == null) {
-			return;
-		}
 		try {
-			Utils.safeDeleteFile(configfile, false);
+                      	File configfile = new File(Path.osConformConfig());
+                        Utils.safeDeleteFile(configfile, false);
 			Utils.safeCreateFile(configfile, false);
 
+                        Config cfg = Config.getInstance();
 			Properties props = new Properties();
 
 			props.setProperty(PROGRAM_VERSION, Program.getInstance().getVersion());
@@ -192,8 +176,7 @@ public class ConfigHandler {
 				Frame topContainer = ((StandaloneGUI) gui).getMainFrame();
 				if ((topContainer.getExtendedState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) {
 					props.setProperty(START_MAXIMIZED, "true");
-				}
-				// Otherwise the size and the location is written in the cfg
+				} // Otherwise the size and the location is written in the cfg
 				else {
 					props.setProperty(START_MAXIMIZED, "false");
 					props.setProperty(PROGRAM_SIZE, topContainer.getSize().width + "," + topContainer.getSize().height);
@@ -211,7 +194,7 @@ public class ConfigHandler {
 
 			/* MAIL */
 			ConfigMail cfgMail = ConfigMail.getInstance();
-			if (!!cfgMail.getMail_smtp().isEmpty()) {
+			if (! !cfgMail.getMail_smtp().isEmpty()) {
 				props.setProperty(MAIL_SMTP, cfgMail.getMail_smtp());
 			}
 			props.setProperty(MAIL_SMTP_AUTH, Boolean.toString(cfgMail.isMail_smtp_auth()));
@@ -255,6 +238,34 @@ public class ConfigHandler {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	private static Properties loadProperties() {
+		Properties result = new Properties();
+
+		if (Path.hasOsConformConfig())
+			result = loadPropertiesFromFile(Path.osConformConfig());
+		else if (Path.hasLegacyConfig())
+			result = loadPropertiesFromFile(Path.legacyConfig());
+		
+		return result;
+	}
+
+	private static Properties loadPropertiesFromFile(String filePath) {
+		Properties result = new Properties();
+
+		try {
+			FileInputStream inputStream = new FileInputStream(filePath);
+			try {
+				result.load(inputStream);
+			} finally {
+				inputStream.close();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return result;
 	}
 
 	private static int getIntProperty(String key, int defaultValue) {
