@@ -69,7 +69,13 @@ public class DiagramXmlParser {
 
 			Node helpTextNode = messageDom.getElementsByTagName(HELP_TEXT).item(0);
 			if (helpTextNode != null) {
-				helpText = helpTextNode.getFirstChild().getNodeValue();
+				Node firstChild = helpTextNode.getFirstChild();
+				if (firstChild != null) {
+					helpText = helpTextNode.getFirstChild().getNodeValue();
+				}
+				else {
+					helpText = ""; // empty helptext should also work
+				}
 			}
 
 			float zoomScale = 1.0f;
@@ -145,8 +151,7 @@ public class DiagramXmlParser {
 									create(doc, W, doc.createTextNode(ge.getRectangle().getWidth() + "")),
 									create(doc, H, doc.createTextNode(ge.getRectangle().getHeight() + ""))),
 							create(doc, PANEL_ATTRIBUTES, doc.createTextNode(ge.getPanelAttributes())),
-							create(doc, ADDITIONAL_ATTRIBUTES, doc.createTextNode(ge.getAdditionalAttributes()))
-					));
+							create(doc, ADDITIONAL_ATTRIBUTES, doc.createTextNode(ge.getAdditionalAttributes()))));
 		}
 		String xml = doc.toString();
 		log.debug("Deserializing to " + xml);
