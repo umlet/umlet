@@ -6,6 +6,6 @@ Double-click on an element to add it to the diagram (or use drag&drop)
 
 Only new elements work in standalone and web umlet
 
-Please report bugs at http://code.google.com/p/umlet/
+Please report bugs at https://github.com/umlet/umlet/
 
 halign=center
