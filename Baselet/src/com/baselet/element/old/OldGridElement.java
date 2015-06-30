@@ -362,6 +362,9 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 				g2.setColor(Converter.convert(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND)));
 				g2.fillRect(0, 0, getWidth(), getHeight());
 				g2.setColor(oldColor);
+				g2.setColor(Converter.convert(ColorOwn.RED.transparency(Transparency.DEPRECATED_WARNING)));
+				g2.drawString("DEPRECATED ELEMENT", 10, 15);
+				g2.drawString("WILL SOON BE REMOVED", 10, 30);
 			}
 			fgColor = Converter.convert(ColorOwn.SELECTION_FG);
 			if (SharedConfig.getInstance().isShow_stickingpolygon()) {

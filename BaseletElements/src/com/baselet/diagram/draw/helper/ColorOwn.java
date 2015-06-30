@@ -9,6 +9,7 @@ public class ColorOwn {
 	public static enum Transparency {
 		FOREGROUND(255),
 		FULL_TRANSPARENT(0),
+		DEPRECATED_WARNING(175),
 		BACKGROUND(125),
 		SELECTION_BACKGROUND(20);
 
