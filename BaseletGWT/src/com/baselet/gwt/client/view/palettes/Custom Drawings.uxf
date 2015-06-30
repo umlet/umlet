@@ -5,7 +5,7 @@
     <id>UMLNote</id>
     <coordinates>
       <x>210</x>
-      <y>200</y>
+      <y>70</y>
       <w>120</w>
       <h>70</h>
     </coordinates>
@@ -22,7 +22,7 @@ drawCircle(10,40,3) fg=red bg=red //Parameters (x, y, radius)</panel_attributes>
     <id>UMLNote</id>
     <coordinates>
       <x>210</x>
-      <y>130</y>
+      <y>0</y>
       <w>120</w>
       <h>60</h>
     </coordinates>
@@ -36,7 +36,7 @@ drawCircle(width-20,40,3) fg=red bg=red //Parameters (x, y, radius)</panel_attri
     <id>UMLClass</id>
     <coordinates>
       <x>20</x>
-      <y>130</y>
+      <y>0</y>
       <w>170</w>
       <h>140</h>
     </coordinates>
@@ -67,7 +67,7 @@ drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, he
     <id>Text</id>
     <coordinates>
       <x>340</x>
-      <y>240</y>
+      <y>110</y>
       <w>210</w>
       <h>120</h>
     </coordinates>
@@ -85,8 +85,8 @@ drawLine(50,40,50,80) fg=red lw=2
 drawText("This",50,40,center)
 drawLine(20, 40, 38, 40) fg=red
 
-drawText("This",50,60,left)
-drawLine(75, 60, 90, 60) fg=red
+drawText("This gy",50,60,left)
+drawLine(75, 60, 100, 60) fg=red
 
 drawText("This",50,80,right)
 drawLine(10, 80, 25, 80) fg=red
@@ -95,26 +95,10 @@ drawText("Escaping: \" and \\ and \\\\", width/2, 110, center) fg=blue</panel_at
     <additional_attributes/>
   </element>
   <element>
-    <id>Text</id>
-    <coordinates>
-      <x>10</x>
-      <y>0</y>
-      <w>540</w>
-      <h>110</h>
-    </coordinates>
-    <panel_attributes>Custom drawing commands can be used in any Element other than Plot or Relation
-
-After customelement= only drawing commands or "//" comments are allowed.
-
-'width' and 'height' can be used as parameters in the drawing commands, the commands also support +, - , * and /
-style=wordwrap</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>UMLClass</id>
     <coordinates>
       <x>20</x>
-      <y>430</y>
+      <y>300</y>
       <w>290</w>
       <h>90</h>
     </coordinates>
@@ -130,7 +114,7 @@ drawRectangle(10,10,width-20,height-20) //fg= bg= lt= lw= //Parameters (x, y, wi
     <id>UMLClass</id>
     <coordinates>
       <x>20</x>
-      <y>300</y>
+      <y>170</y>
       <w>250</w>
       <h>120</h>
     </coordinates>
@@ -149,7 +133,7 @@ drawArc(150,60,30,45,130,280,false) bg=gray
     <id>UMLClass</id>
     <coordinates>
       <x>20</x>
-      <y>640</y>
+      <y>510</y>
       <w>290</w>
       <h>110</h>
     </coordinates>
@@ -169,7 +153,7 @@ drawRectangle(width / 10, height * 0.1, width / 1.25, height * 0.8 ) //fg= bg= l
     <id>UMLClass</id>
     <coordinates>
       <x>20</x>
-      <y>540</y>
+      <y>410</y>
       <w>290</w>
       <h>90</h>
     </coordinates>
@@ -185,7 +169,7 @@ drawRectangleRound(10,10,width-20,height-20,10) //fg= bg= lt= lw= //Parameters (
     <id>UMLClass</id>
     <coordinates>
       <x>340</x>
-      <y>480</y>
+      <y>350</y>
       <w>210</w>
       <h>270</h>
     </coordinates>
@@ -219,7 +203,7 @@ drawArc(80,200,120,40,0,30,false) fg=black bg=red lt=.
     <id>UMLClass</id>
     <coordinates>
       <x>340</x>
-      <y>370</y>
+      <y>240</y>
       <w>210</w>
       <h>100</h>
     </coordinates>
@@ -234,7 +218,7 @@ drawLine(width *0.1,5+height*0.1,width * 0.9,height * (1-0.1)+5)</panel_attribut
     <id>Text</id>
     <coordinates>
       <x>400</x>
-      <y>130</y>
+      <y>0</y>
       <w>100</w>
       <h>80</h>
     </coordinates>
@@ -249,6 +233,58 @@ drawLine(width,height/5,width,height*4/5)fg=black //Parameters (x1, y1, x2, y2)
 drawArc(0,height*1/5,width,height*2/5,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
 drawArc(0,height*2/5,width,height*2/5,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
 drawArc(0,height*3/5,width,height*2/5,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>640</y>
+      <w>530</w>
+      <h>670</h>
+    </coordinates>
+    <panel_attributes>halign=left
+style=wordwrap
+*Custom Drawing Commands:*
+- can be used in any element other than Plot or Relation
+- // starts a comment, which ends at the line end
+- 'width' and 'height' can be used as parameters
+- arithmetic operations (+, - , *, /) are supported
+- all commands can overwrite some settings locally
+/     e.g. drawLine(10,20,30,40) fg=red/
+
+*Command Details:*
+drawLine(x1,y1,x2,y2) // parameters are doubles
+- draws a line from (x1,y1) to (x2,y2)
+- can overwrite fg, lt, lw
+-
+drawRectangle(x,y,width,height) // parameters are doubles
+- draws a rectangle with the top left corner at (x,y)
+- can overwrite fg, bg, lt, lw
+-
+drawRectangleRound(x,y,width,height radius) // parameters are doubles
+- draws a round rectangle with the top left corner at (x,y)
+- the corners have the given radius
+- can overwrite fg, bg, lt, lw
+-
+drawCircle(x,y,radius) // parameters are doubles
+- draws a cricle with the center at (x,y) and the given radius
+- can overwrite fg, bg, lt, lw
+-
+drawEllipse(x,y,width,height) // parameters are doubles
+- draws an ellipse where the top left corner of the surrounding rectangle is at (x,y)
+- can overwrite fg, bg, lt, lw
+-
+drawArc(x,y,width,height,start,extent,open) // first 6 parameters are doubles, the last is a boolean (true or false)
+- draws an elliptical arc where the top left corner of the surrounding rectangle is at (x,y). This arc starts at &lt;start&gt; degrees and ends at &lt;start&gt;+&lt;extent&gt; degrees. If open is false two border lines are drawn from the center to the arc otherwise the arc is filled as there would exist a line between the two endpoints.
+- can overwrite fg, bg, lt, lw
+-
+drawText(Text,x,y,horizontal alignment) // Parameters: String, double, double, HAlignment
+- HAlignment can be one of the following: left, right or center
+- draws a text which is aligned as follows:
+   - according to the HAlignment the text starts (left), stops (right) or  is centered at x
+   - the text is drawn on the line, which is described by y
+- can overwrite fg</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
