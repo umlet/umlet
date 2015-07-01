@@ -53,25 +53,25 @@ public class CustomDrawingFacet extends Facet {
 		List<AutocompletionText> autocompletionList = new LinkedList<AutocompletionText>();
 		autocompletionList.add(new AutocompletionText(CODE_SEP_START, CODE_START_INFO));
 
-		autocompletionList.add(new AutocompletionText("drawLine(20, 10, 50, 20) //fg= lt= lw= //Parameters (x1, y1, x2, y2) ",
+		autocompletionList.add(new AutocompletionText("drawLine(20, 10, 50, 20)",
 				"Draws a line from (x1, y1) to (x2, y2). Supports fg, lt and lw option after the last bracket."));
 
-		autocompletionList.add(new AutocompletionText("drawRectangle(5,5,40,20) //fg= bg= lt= lw= //Parameters (x, y, width, height)",
+		autocompletionList.add(new AutocompletionText("drawRectangle(5,5,40,20)",
 				"Draws a rectangle with the top left corner at (x, y). Supports fg, bg, lt and lw option after the last bracket."));
 
-		autocompletionList.add(new AutocompletionText("drawRectangleRound(5,5,40,20,5) //fg= bg= lt= lw= //Parameters (x, y, width, height, radius)",
+		autocompletionList.add(new AutocompletionText("drawRectangleRound(5,5,40,20,5)",
 				"Draws a rectangle with round corners with the top left corner at (x, y). Supports fg, bg, lt and lw option after the last bracket."));
 
-		autocompletionList.add(new AutocompletionText("drawCircle(20,20,20) //fg= bg= lt= lw= //Parameters (x, y, radius)",
+		autocompletionList.add(new AutocompletionText("drawCircle(20,20,20)",
 				"Draws a circle with the center at (x, y) and the given radius. Supports fg, bg, lt and lw option after the last bracket."));
 
-		autocompletionList.add(new AutocompletionText("drawEllipse(0,0,40,20) //fg= bg= lt= lw= //Parameters (x, y, width, height)",
+		autocompletionList.add(new AutocompletionText("drawEllipse(0,0,40,20)",
 				"Draws an ellipse where the top left corner of the surrounding rectangle is at (x, y). Supports fg, bg, lt and lw option after the last bracket."));
 
-		autocompletionList.add(new AutocompletionText("drawArc(0,0,60,30,0,270,false) //fg= bg= lt= lw= //Parameters (x, y, width, height, start, extent, open)",
-				"Draws an elliptical arc where the top left corner of the surrounding rectangle is at (x, y). This arc starts at <start> degrees and ends at <start>+<extent> degrees. If open is false 2 lines are drawn from the center to the arc. Supports fg, bg, lt and lw option after the last bracket."));
+		autocompletionList.add(new AutocompletionText("drawArc(0,0,60,30,0,270,false)",
+				"Draws an elliptical arc where the top left corner of the surrounding rectangle is at (x, y). Supports fg, bg, lt and lw option after the last bracket."));
 
-		autocompletionList.add(new AutocompletionText("drawText(\"This is text!\", width/2, height/2, center) //fg= //Parameters (text, x, y, horizontal alignment)",
+		autocompletionList.add(new AutocompletionText("drawText(\"This is text!\", width/2, height/2, center)",
 				"Draws the text at (x, y) with the given horizontal alignment. Supports fg option after the last bracket."));
 
 		return autocompletionList;

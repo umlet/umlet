@@ -2,7 +2,7 @@
 <project name="${project.name.uc}" default="start" basedir=".">
 
 	<!-- Release version property - MUST BE SET MANUALLY (afterwards run enable_*let to update the manifest file) -->
-	<property name="release.version" value="13.3" />
+	<property name="release.version" value="14.0" />
 	<property name="project.name.lc" value="umlet" />
 	<property name="project.name.uc" value="Umlet" />
 
@@ -29,6 +29,7 @@
 	<path id="project.classpath.build">
 		<pathelement location="${dir.src}" />
 		<pathelement location="${elements.src}" />
+		<!-- Path to Eclipse Plugin libraries-->
 		<fileset dir="${eclipse.home}/plugins">
 			<include name="*.jar" />
 		</fileset>
