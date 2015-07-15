@@ -21,4 +21,17 @@ id2-&gt;id3:id1,id3:async Msg.
 iframe}</panel_attributes>
     <additional_attributes/>
   </element>
+  
+  <element>
+    <id>UMLSequenceAllInOne</id>
+    <coordinates>
+      <x>16</x>
+      <y>316</y>
+      <w>404</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>
+    </panel_attributes>
+    <additional_attributes/>
+  </element>
 </diagram>

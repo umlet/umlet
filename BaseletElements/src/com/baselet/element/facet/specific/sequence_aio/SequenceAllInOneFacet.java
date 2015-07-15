@@ -1,16 +1,14 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.element.facet.FirstRunFacet;
+import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.gui.AutocompletionText;
 
-/**
- * must be in first run, because the execution of Class.drawCommonContent() depends on the result of this facet
- */
-public class SequenceAllInOneFacet extends FirstRunFacet {
+public class SequenceAllInOneFacet extends Facet {
 
 	public static final SequenceAllInOneFacet INSTANCE = new SequenceAllInOneFacet();
 
@@ -24,8 +22,7 @@ public class SequenceAllInOneFacet extends FirstRunFacet {
 
 	@Override
 	public List<AutocompletionText> getAutocompletionStrings() {
-		// TODO Auto-generated method stub
-		return null;
+		return Collections.emptyList();
 	}
 
 	@Override
