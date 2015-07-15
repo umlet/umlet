@@ -251,12 +251,12 @@ public abstract class DrawHandler {
 	}
 
 	/**
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
-	 * @param start 0 starts as a horizontal line
-	 * @param extent can be up to 360 (extend in degrees from param start)
+	 * @param x topLeft corner of the surrounding rectangle of the ellipse
+	 * @param y topLeft corner of the surrounding rectangle of the ellipse
+	 * @param width of the full ellipse, i.e. width of the surrounding rectangle of the ellipse
+	 * @param height of the full ellipse, i.e. height of the surrounding rectangle of the ellipse
+	 * @param start of the arc in degrees. 0 corresponds to the right side of a horizontal line. 90 corresponds to the top of a vertical line.
+	 * @param extent can be up to 360 (extend in degrees from the start parameter)
 	 */
 	public abstract void drawArc(double x, double y, double width, double height, double start, double extent, boolean open);
 
