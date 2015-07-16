@@ -42,7 +42,7 @@ public class DiagramHandler {
 
 	private boolean isChanged;
 	private final DiagramFileHandler fileHandler;
-	private final FontHandler fontHandler;
+	private FontHandler fontHandler;
 
 	protected DrawPanel drawpanel;
 	private final Controller controller;
@@ -53,6 +53,14 @@ public class DiagramHandler {
 
 	private OldRelationListener relationListener;
 	private GridElementListener gridElementListener;
+
+	public static DiagramHandler forExport(FontHandler fontHandler) {
+		DiagramHandler returnHandler = new DiagramHandler(null, false);
+		if (fontHandler != null) {
+			returnHandler.fontHandler = fontHandler;
+		}
+		return returnHandler;
+	}
 
 	public DiagramHandler(File diagram) {
 		this(diagram, false);

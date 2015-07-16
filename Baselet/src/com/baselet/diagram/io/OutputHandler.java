@@ -30,6 +30,7 @@ import com.baselet.control.enums.Program;
 import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
+import com.baselet.diagram.FontHandler;
 import com.baselet.element.ElementFactorySwing;
 import com.baselet.element.interfaces.GridElement;
 import com.itextpdf.awt.FontMapper;
@@ -58,42 +59,42 @@ public class OutputHandler {
 			elementsToDraw = handler.getDrawPanel().getGridElements();
 		}
 
-		OutputHandler.exportToOutputStream(extension, ostream, elementsToDraw);
+		OutputHandler.exportToOutputStream(extension, ostream, elementsToDraw, handler.getFontHandler());
 
 		handler.setGridAndZoom(oldZoom, false); // Zoom back to the oldGridsize after execution
 	}
 
-	private static void exportToOutputStream(String extension, OutputStream ostream, Collection<GridElement> entities) throws IOException {
+	private static void exportToOutputStream(String extension, OutputStream ostream, Collection<GridElement> entities, FontHandler diagramFont) throws IOException {
 		for (GridElement ge : entities) {
 			ge.getDeprecatedAddons().doBeforeExport();
 		}
 		if (extension.equals("eps")) {
-			exportEps(ostream, entities);
+			exportEps(ostream, entities, diagramFont);
 		}
 		else if (extension.equals("pdf")) {
-			exportPdf(ostream, entities);
+			exportPdf(ostream, entities, diagramFont);
 		}
 		else if (extension.equals("svg")) {
-			exportSvg(ostream, entities);
+			exportSvg(ostream, entities, diagramFont);
 		}
 		else if (isImageExtension(extension)) {
-			exportImg(extension, ostream, entities);
+			exportImg(extension, ostream, entities, diagramFont);
 		}
 		else {
 			throw new IllegalArgumentException(extension + " is an invalid format");
 		}
 	}
 
-	private static void exportEps(OutputStream ostream, Collection<GridElement> entities) throws IOException {
+	private static void exportEps(OutputStream ostream, Collection<GridElement> entities, FontHandler diagramFont) throws IOException {
 		Rectangle bounds = DrawPanel.getContentBounds(Config.getInstance().getPrintPadding(), entities);
 		EpsGraphics2D graphics2d = new EpsGraphics2D(Program.getInstance().getProgramName() + " Diagram", ostream, 0, 0, bounds.width, bounds.height);
 		setGraphicsBorders(bounds, graphics2d);
-		paintEntitiesIntoGraphics2D(graphics2d, entities);
+		paintEntitiesIntoGraphics2D(graphics2d, entities, diagramFont);
 		graphics2d.flush();
 		graphics2d.close();
 	}
 
-	private static void exportPdf(OutputStream ostream, Collection<GridElement> entities) throws IOException {
+	private static void exportPdf(OutputStream ostream, Collection<GridElement> entities, FontHandler diagramFont) throws IOException {
 		try {
 			FontMapper mapper = new PdfFontMapper();
 
@@ -108,7 +109,7 @@ public class OutputHandler {
 			Dimension trans = new Dimension(bounds.getX(), bounds.getY());
 			graphics2d.translate(-trans.getWidth(), -trans.getHeight());
 
-			paintEntitiesIntoGraphics2D(graphics2d, entities);
+			paintEntitiesIntoGraphics2D(graphics2d, entities, diagramFont);
 			graphics2d.dispose();
 			document.close();
 		} catch (com.itextpdf.text.DocumentException e) {
@@ -116,14 +117,14 @@ public class OutputHandler {
 		}
 	}
 
-	private static void exportSvg(OutputStream ostream, Collection<GridElement> entities) throws IOException {
+	private static void exportSvg(OutputStream ostream, Collection<GridElement> entities, FontHandler diagramFont) throws IOException {
 		Rectangle bounds = DrawPanel.getContentBounds(Config.getInstance().getPrintPadding(), entities);
 		DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
 		org.w3c.dom.Document document = domImpl.createDocument(null, "svg", null);
 
 		SVGGraphics2D graphics2d = new SVGGraphics2D(document);
 		graphics2d.setSVGCanvasSize(Converter.convert(bounds.getSize()));
-		paintEntitiesIntoGraphics2D(graphics2d, entities);
+		paintEntitiesIntoGraphics2D(graphics2d, entities, diagramFont);
 
 		Element root = graphics2d.getRoot();
 		root.setAttributeNS(null, "viewBox", String.format("%d %d %d %d", bounds.x, bounds.y, bounds.width, bounds.height));
@@ -132,13 +133,13 @@ public class OutputHandler {
 		graphics2d.dispose();
 	}
 
-	private static void exportImg(String imgType, OutputStream ostream, Collection<GridElement> entities) throws IOException {
-		ImageIO.write(createImageForGridElements(entities), imgType, ostream);
+	private static void exportImg(String imgType, OutputStream ostream, Collection<GridElement> entities, FontHandler diagramFont) throws IOException {
+		ImageIO.write(createImageForGridElements(entities, diagramFont), imgType, ostream);
 		ostream.flush();
 		ostream.close();
 	}
 
-	public static BufferedImage createImageForGridElements(Collection<GridElement> entities) {
+	public static BufferedImage createImageForGridElements(Collection<GridElement> entities, FontHandler diagramFont) {
 
 		Rectangle bounds = DrawPanel.getContentBounds(Config.getInstance().getPrintPadding(), entities);
 		BufferedImage im = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_RGB);
@@ -146,7 +147,7 @@ public class OutputHandler {
 		graphics2d.setRenderingHints(Utils.getUxRenderingQualityHigh(true));
 
 		setGraphicsBorders(bounds, graphics2d);
-		paintEntitiesIntoGraphics2D(graphics2d, entities);
+		paintEntitiesIntoGraphics2D(graphics2d, entities, diagramFont);
 		graphics2d.dispose();
 
 		return im;
@@ -163,8 +164,8 @@ public class OutputHandler {
 		return ImageIO.getImageWritersBySuffix(ext).hasNext();
 	}
 
-	public static void paintEntitiesIntoGraphics2D(Graphics2D g2d, Collection<GridElement> entities) {
-		DiagramHandler handler = new DiagramHandler(null);
+	public static void paintEntitiesIntoGraphics2D(Graphics2D g2d, Collection<GridElement> entities, FontHandler diagramFont) {
+		DiagramHandler handler = DiagramHandler.forExport(diagramFont); // #290: pass fontHandler from original diagramHandler to let the export use diagram specific fontsize+family
 		JLayeredPane tempPanel = new JLayeredPane();
 		for (GridElement entity : entities) {
 			GridElement clone = ElementFactorySwing.createCopy(entity, handler);
