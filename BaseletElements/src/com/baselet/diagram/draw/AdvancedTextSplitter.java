@@ -5,6 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.AlignVertical;
 import com.baselet.diagram.draw.helper.Style;
 
 /**
@@ -33,6 +37,60 @@ public class AdvancedTextSplitter {
 	private static LinkedHashMap<String, WordRegion[]> wordCache = new LRUCache<String, WordRegion[]>(WORD_CACHE_SIZE);
 	private static LinkedHashMap<MinWidthCacheKey, Double> minWidthCache = new LRUCache<MinWidthCacheKey, Double>(MIN_WIDTH_CACHE_SIZE);
 	private static LinkedHashMap<WordwrapCacheKey, WordwrapCacheValue> wordwrapCache = new LRUCache<WordwrapCacheKey, WordwrapCacheValue>(WORDWRAP_CACHE_SIZE);
+
+	private static final Logger log = Logger.getLogger(AdvancedTextSplitter.class);
+
+	/**
+	 *
+	 * @param drawer
+	 * @param textLines each element is a line, must fit into width,height Rectangle
+	 * @param topLeftX
+	 * @param topLeftY
+	 * @param width
+	 * @param height
+	 * @param hAlignment
+	 * @param vAlignment
+	 */
+	public static void drawText(DrawHandler drawer, String[] textLines, double topLeftX, double topLeftY, double width, double height, AlignHorizontal hAlignment, AlignVertical vAlignment) {
+		double textHeight = getSplitStringHeight(textLines, width, drawer);
+		if (textHeight > height) {
+			throw new IllegalArgumentException("The text needs more height then specified in the parameter");
+		}
+		switch (vAlignment) {
+			case TOP:
+				break;
+			case CENTER:
+				topLeftY += (height - textHeight) / 2.0;
+				break;
+			case BOTTOM:
+				topLeftY += height - textHeight;
+				break;
+			default:
+				log.error("Encountered unhandled enumeration value '" + vAlignment + "'.");
+				break;
+		}
+		topLeftY += drawer.textHeightMax();
+		switch (hAlignment) {
+			case LEFT:
+				break;
+			case CENTER:
+				topLeftX += width / 2.0;
+				break;
+			case RIGHT:
+				topLeftX += width;
+				break;
+			default:
+				log.error("Encountered unhandled enumeration value '" + hAlignment + "'.");
+				break;
+		}
+		for (String l : textLines) {
+			for (String wl : splitStringAlgorithm(l, width, drawer)) {
+				drawer.print(wl, topLeftX, topLeftY, hAlignment);
+				topLeftY += drawer.textHeightMaxWithSpace();
+			}
+		}
+
+	}
 
 	/**
 	 * checks if the whole string would fit into the width
@@ -80,6 +138,24 @@ public class AdvancedTextSplitter {
 	 */
 	public static double getSplitStringHeight(String text, double width, DrawHandler drawer) {
 		return splitStringAndHeightAlgorithm(text, width, drawer, false).getHeight();
+	}
+
+	/**
+	 * Splits each line so it can be drawn with the given width and then the height is calculated.
+	 * It only call getSplitStringHeight(String, double, DrawHanlder) for each string and adds up the height
+	 * @param textLines each element is a single line (no \r \n)
+	 * @param width
+	 * @param drawer
+	 * @return the split text, each line as an element
+	 *
+	 * @see #splitStringAndHeightAlgorithm(String, double, DrawHandler, boolean)
+	 */
+	public static double getSplitStringHeight(String[] textLines, double width, DrawHandler drawer) {
+		double height = 0;
+		for (String l : textLines) {
+			height += getSplitStringHeight(l, width, drawer);
+		}
+		return height;
 	}
 
 	/**
@@ -181,9 +257,7 @@ public class AdvancedTextSplitter {
 			if (text.trim().length() > 0) {
 				for (WordRegion wr : key.getWords())
 				{
-					for (int i = 0; i < text.length(); i++) {
-						minWidth = Math.max(minWidth, getTextMinWidth(text.substring(wr.getBegin(), wr.getEnd()), drawer));
-					}
+					minWidth = Math.max(minWidth, drawer.textWidth(text.substring(wr.getBegin(), wr.getEnd())));
 				}
 			}
 			// add the Buffer and small number, so the text can be drawn with the returned width (see splitStringAlgorithm)
