@@ -1,5 +1,6 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
+import com.baselet.control.basics.Line1D;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
 
@@ -11,7 +12,7 @@ public interface LifelineOccurrence {
 	 * @param size of the rectangle in which the occurrence can draw.
 	 * @return if the lifeline is not interrupted then null, otherwise the Point contains the y start and y end of the interrupted area
 	 */
-	public PointDouble draw(DrawHandler drawHandler, PointDouble topLeft, PointDouble size);
+	public Line1D draw(DrawHandler drawHandler, PointDouble topLeft, PointDouble size);
 
 	/**
 	 * @param drawHandler

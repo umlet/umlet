@@ -6,7 +6,11 @@ public class ExecutionSpecification {
 	/** the last tick on which it is active */
 	private int endTick;
 
-	public ExecutionSpecification() {}
+	public ExecutionSpecification(int startTick, int endTick) {
+		super();
+		this.startTick = startTick;
+		this.endTick = endTick;
+	}
 
 	public int getStartTick() {
 		return startTick;

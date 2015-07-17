@@ -3,6 +3,7 @@ package com.baselet.element.facet.specific.sequence_aio;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.baselet.control.basics.Line1D;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
@@ -36,11 +37,11 @@ public class StateInvariant implements LifelineOccurrence {
 	}
 
 	@Override
-	public PointDouble draw(DrawHandler drawHandler, PointDouble topLeft, PointDouble size) {
+	public Line1D draw(DrawHandler drawHandler, PointDouble topLeft, PointDouble size) {
 		Collection<String> wrappedText = splitText(drawHandler, size.x);
 		double height = getHeight(drawHandler, size.x, wrappedText);
 		double textY = topLeft.y + (size.y - height) / 2;
-		PointDouble interruptedLifeline = new PointDouble(textY, textY + height);
+		Line1D interruptedLifeline = new Line1D(textY, textY + height);
 		if (style == StateInvariantStyle.STATE) {
 			// draw border and adjust textY and textLeftX
 			drawHandler.drawArc(topLeft.x, textY, ROUND_PART_WIDTH * 2, height, 90, 180, true);

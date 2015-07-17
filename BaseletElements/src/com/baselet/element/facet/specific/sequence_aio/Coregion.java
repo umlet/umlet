@@ -1,5 +1,6 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
+import com.baselet.control.basics.Line1D;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
 
@@ -47,7 +48,7 @@ public class Coregion implements LifelineOccurrence {
 	}
 
 	@Override
-	public PointDouble draw(DrawHandler drawHandler, PointDouble topLeft, PointDouble size) {
+	public Line1D draw(DrawHandler drawHandler, PointDouble topLeft, PointDouble size) {
 		PointDouble topLeftCoregion = new PointDouble(topLeft.x + size.x / 2.0 - getWidth() / 2.0, topLeft.y + size.y / 2.0 - COREGION_HEIGHT / 2.0);
 		if (isStart()) {
 			drawHandler.drawLine(topLeftCoregion.x, topLeftCoregion.y, topLeftCoregion.x + getWidth(), topLeftCoregion.y); // horizontal line

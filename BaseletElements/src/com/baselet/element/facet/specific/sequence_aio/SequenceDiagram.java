@@ -8,7 +8,7 @@ import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
 
 public class SequenceDiagram {
-	private static final double LIFELINE_X_PADDING = 20;
+	private static final double LIFELINE_X_PADDING = 40;
 	private static final double TICK_HEIGHT = 40;
 
 	private String title;
@@ -118,7 +118,7 @@ public class SequenceDiagram {
 			double lifelineHeadHeight = getLifelineHeadHeight(drawHandler, lifelineWidth);
 			double[] addiontalHeight = calculateAddiontalHeights(drawHandler, lifelineWidth);
 			double[] accumulativeAddiontalHeightOffsets = new double[addiontalHeight.length + 1];
-			int sum = 0;
+			double sum = 0;
 			for (int i = 0; i < addiontalHeight.length; i++) {
 				sum += addiontalHeight[i];
 				accumulativeAddiontalHeightOffsets[i + 1] = sum;
@@ -126,7 +126,7 @@ public class SequenceDiagram {
 			for (int i = 0; i < lifelines.length; i++) {
 				lifelines[i].draw(drawHandler,
 						new PointDouble(lifelineHeadLeftStart + (lifelineWidth + LIFELINE_X_PADDING) * i, lifelineHeadTop),
-						lifelineWidth, lifelineHeadHeight, TICK_HEIGHT, accumulativeAddiontalHeightOffsets);
+						lifelineWidth, lifelineHeadHeight, TICK_HEIGHT, accumulativeAddiontalHeightOffsets, lastTick);
 			}
 		}
 		// draw bottom border
@@ -153,7 +153,9 @@ public class SequenceDiagram {
 	private double getLifelineHeadHeight(DrawHandler drawHandler, double width) {
 		double maxHeight = 0;
 		for (Lifeline ll : lifelines) {
-			maxHeight = Math.max(maxHeight, ll.getHeadMinHeight(drawHandler, width));
+			if (ll.isCreatedOnStart()) {
+				maxHeight = Math.max(maxHeight, ll.getHeadMinHeight(drawHandler, width));
+			}
 		}
 		return maxHeight;
 	}
