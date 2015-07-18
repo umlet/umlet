@@ -76,7 +76,11 @@ public class TextPrintFacet extends Facet {
 
 	private static double calcStartPointFromVAlign(DrawHandler drawer, PropertiesParserState state) {
 		double returnVal = drawer.textHeightMax(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
-		if (state.getAlignment().getVertical() == AlignVertical.TOP) {
+
+		if (state.getElementStyle() == ElementStyle.AUTORESIZE) { // #291: if autoresize is enabled, valign is not used, because the element shouldn't have unused space
+			returnVal += 2 * drawer.getDistanceBorderToText() + state.getBuffer().getTop(); // the same as TOP but with 2x border distance because it looks better (example from #291)
+		}
+		else if (state.getAlignment().getVertical() == AlignVertical.TOP) {
 			returnVal += drawer.getDistanceBorderToText() + state.getBuffer().getTop();
 		}
 		else if (state.getAlignment().getVertical() == AlignVertical.CENTER) {
