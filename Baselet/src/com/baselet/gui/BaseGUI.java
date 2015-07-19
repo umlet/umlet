@@ -15,7 +15,7 @@ import javax.swing.plaf.InsetsUIResource;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.CanCloseProgram;
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.config.Config;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
@@ -62,7 +62,7 @@ public abstract class BaseGUI {
 			contextMenu.add(menuFactory.createEditSelected());
 		}
 
-		if (!(Main.getHandlerForElement(e) instanceof CustomPreviewHandler)) {
+		if (!(HandlerElementMap.getHandlerForElement(e) instanceof CustomPreviewHandler)) {
 			contextMenu.add(menuFactory.createDelete());
 			contextMenu.add(menuFactory.createCopy());
 			contextMenu.add(menuFactory.createCut());
@@ -169,6 +169,10 @@ public abstract class BaseGUI {
 	public abstract OwnSyntaxPane getPropertyPane();
 
 	public abstract void setValueOfZoomDisplay(int i);
+
+	public abstract boolean hasExtendedContextMenu();
+
+	public abstract boolean saveWindowSizeInConfig();
 
 	public void afterSaving() {
 		/* do nothing */

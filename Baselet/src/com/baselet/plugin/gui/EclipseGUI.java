@@ -329,4 +329,14 @@ public class EclipseGUI extends BaseGUI {
 			log.error("Error at refreshing the workspace", e);
 		}
 	}
+
+	@Override
+	public boolean hasExtendedContextMenu() {
+		return false;
+	}
+
+	@Override
+	public boolean saveWindowSizeInConfig() {
+		return false;
+	}
 }

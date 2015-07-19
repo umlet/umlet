@@ -1,4 +1,4 @@
-package com.baselet.gui.standalone;
+package com.baselet.gui.filedrop;
 
 import java.awt.Component;
 import java.awt.datatransfer.DataFlavor;

@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.util.Utils;
 import com.baselet.element.old.OldGridElement;
@@ -19,11 +19,11 @@ public class PackageAggregationHierarchy extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = HandlerElementMap.getHandlerForElement(this).getZoomFactor();
 
 		// init graph and colors
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(HandlerElementMap.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 
@@ -35,7 +35,7 @@ public class PackageAggregationHierarchy extends OldGridElement {
 		g2.setColor(bgColor);
 		g2.fillRect(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 		g2.setComposite(composites[0]);
-		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
+		if (HandlerElementMap.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
 			g2.setColor(fgColor);
 		}
 		else {
@@ -47,8 +47,8 @@ public class PackageAggregationHierarchy extends OldGridElement {
 		int level = 0;
 		double yPos = 10 * zoom;
 		double xPos = 10 * zoom;
-		double packageHeight = Main.getHandlerForElement(this).getFontHandler().getFontSize();
-		double packageWidth = 2 * Main.getHandlerForElement(this).getFontHandler().getFontSize();
+		double packageHeight = HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize();
+		double packageWidth = 2 * HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize();
 
 		Vector<Point> dock = new Vector<Point>();
 
@@ -97,7 +97,7 @@ public class PackageAggregationHierarchy extends OldGridElement {
 			nextDock = new Point((int) (xPos + packageWidth / 3 + 0.5), (int) (2 * packageHeight + yPos + 0.5));
 			dock.set(level, nextDock);
 
-			yPos += 2 * packageHeight + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+			yPos += 2 * packageHeight + HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		}
 	}
 
@@ -110,7 +110,7 @@ public class PackageAggregationHierarchy extends OldGridElement {
 
 	private void drawDockAnchor(Graphics2D g2, Point nextDock) {
 		// Logger.getAnonymousLogger().info("\ndrawDock: \ndock.x/y: " + nextDock.x + "/" + nextDock.y);
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = HandlerElementMap.getHandlerForElement(this).getZoomFactor();
 
 		g2.drawOval(nextDock.x - (int) (5 * zoom + 0.5), nextDock.y - (int) (10 * zoom + 0.5), (int) (10 * zoom + 0.5), (int) (10 * zoom + 0.5));
 		g2.drawLine(nextDock.x, nextDock.y - (int) (8 * zoom + 0.5), nextDock.x, nextDock.y - (int) (2 * zoom + 0.5));
@@ -130,7 +130,7 @@ public class PackageAggregationHierarchy extends OldGridElement {
 		g2.drawRect((int) (xPos + 0.5), (int) (yPos + 0.5), (int) (packageWidth / 3 + 0.5), (int) (packageHeight / 4 + 0.5));
 		g2.drawRect((int) (xPos + 0.5), (int) (packageHeight / 4 + 0.5) + (int) (yPos + 0.5), (int) (packageWidth + 0.5), (int) (packageHeight + 0.5));
 
-		Main.getHandlerForElement(this).getFontHandler().writeText(g2, name, (int) (xPos + packageWidth + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + 0.5), (int) (packageHeight + yPos + 0.5), AlignHorizontal.LEFT);
+		HandlerElementMap.getHandlerForElement(this).getFontHandler().writeText(g2, name, (int) (xPos + packageWidth + HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + 0.5), (int) (packageHeight + yPos + 0.5), AlignHorizontal.LEFT);
 	}
 
 	// calculates the hierarchy level according to tab count in the string

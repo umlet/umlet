@@ -4,7 +4,7 @@ package com.baselet.element.old.element;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 
 @SuppressWarnings("serial")
 public class StateSubDiagram extends State {
@@ -13,7 +13,7 @@ public class StateSubDiagram extends State {
 	public void paintEntity(Graphics g) {
 		super.paintEntity(g);
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = HandlerElementMap.getHandlerForElement(this).getZoomFactor();
 		Graphics2D g2 = (Graphics2D) g;
 		int w = getRectangle().width;
 		int h = getRectangle().height;

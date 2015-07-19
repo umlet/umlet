@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.CurrentDiagram;
@@ -44,7 +44,7 @@ public class Move extends Command {
 	}
 
 	private int gridSize() {
-		return Main.getHandlerForElement(entity).getGridSize();
+		return HandlerElementMap.getHandlerForElement(entity).getGridSize();
 	}
 
 	private int getY() {
@@ -71,7 +71,7 @@ public class Move extends Command {
 
 	public Move(Collection<Direction> resizeDirection, boolean absoluteMousePos, GridElement e, int x, int y, Point mousePosBeforeDrag, boolean isShiftKeyDown, boolean firstDrag, boolean useSetLocation, StickableMap stickingStickables) {
 		entity = e;
-		int gridSize = Main.getHandlerForElement(e).getGridSize();
+		int gridSize = HandlerElementMap.getHandlerForElement(e).getGridSize();
 		this.x = x / gridSize;
 		this.y = y / gridSize;
 		mouseX = calcRelativePos(absoluteMousePos, mousePosBeforeDrag.getX(), entity.getRectangle().getX(), gridSize);

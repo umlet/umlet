@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
 import com.baselet.control.util.Utils;
@@ -31,7 +31,7 @@ public class UseCase extends OldGridElement {
 		int yPos = 0;
 		int yPos1 = b;
 		Graphics2D g2 = (Graphics2D) g;
-		DiagramHandler handlerForElement = Main.getHandlerForElement(this);
+		DiagramHandler handlerForElement = HandlerElementMap.getHandlerForElement(this);
 		g2.setFont(handlerForElement.getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(bgColor);

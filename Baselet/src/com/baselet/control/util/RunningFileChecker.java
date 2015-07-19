@@ -11,10 +11,10 @@ public class RunningFileChecker extends TimerTask {
 	private final File ok_file;
 	private final CanOpenDiagram canOpenDiagram;
 
-	public RunningFileChecker(String filename, String okfile, CanOpenDiagram canOpenDiagram) {
+	public RunningFileChecker(File file, File ok_file, CanOpenDiagram canOpenDiagram) {
 		this.canOpenDiagram = canOpenDiagram;
-		file = new File(filename);
-		ok_file = new File(okfile);
+		this.file = file;
+		this.ok_file = ok_file;
 	}
 
 	@Override

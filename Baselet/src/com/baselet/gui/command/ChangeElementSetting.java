@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.interfaces.GridElement;
 
@@ -34,7 +34,7 @@ public class ChangeElementSetting extends Command {
 			oldValue.put(e, e.getSetting(key));
 			e.setProperty(key, entry.getValue());
 			if (handler.getDrawPanel().getSelector().isSelected(e)) {
-				Main.getHandlerForElement(e).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
+				HandlerElementMap.getHandlerForElement(e).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 			}
 		}
 		handler.getDrawPanel().repaint();

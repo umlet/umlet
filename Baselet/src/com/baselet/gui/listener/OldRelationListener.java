@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Direction;
@@ -33,18 +33,18 @@ public class OldRelationListener extends GridElementListener {
 		private final int _y;
 
 		private int getX() {
-			return _x * Main.getHandlerForElement(_relation).getGridSize();
+			return _x * HandlerElementMap.getHandlerForElement(_relation).getGridSize();
 		}
 
 		private int getY() {
-			return _y * Main.getHandlerForElement(_relation).getGridSize();
+			return _y * HandlerElementMap.getHandlerForElement(_relation).getGridSize();
 		}
 
 		public OldAddLinePoint(Relation r, int i, int x, int y) {
 			_relation = r;
 			_where = i;
-			_x = x / Main.getHandlerForElement(_relation).getGridSize();
-			_y = y / Main.getHandlerForElement(_relation).getGridSize();
+			_x = x / HandlerElementMap.getHandlerForElement(_relation).getGridSize();
+			_y = y / HandlerElementMap.getHandlerForElement(_relation).getGridSize();
 		}
 
 		@Override
@@ -73,11 +73,11 @@ public class OldRelationListener extends GridElementListener {
 		private final int _y;
 
 		private int getX() {
-			return _x * Main.getHandlerForElement(_relation).getGridSize();
+			return _x * HandlerElementMap.getHandlerForElement(_relation).getGridSize();
 		}
 
 		private int getY() {
-			return _y * Main.getHandlerForElement(_relation).getGridSize();
+			return _y * HandlerElementMap.getHandlerForElement(_relation).getGridSize();
 		}
 
 		public OldRemoveLinePoint(Relation r, int i) {
@@ -85,8 +85,8 @@ public class OldRelationListener extends GridElementListener {
 			_where = i;
 			Point p = r.getLinePoints().elementAt(i);
 
-			_x = p.x / Main.getHandlerForElement(_relation).getGridSize();
-			_y = p.y / Main.getHandlerForElement(_relation).getGridSize();
+			_x = p.x / HandlerElementMap.getHandlerForElement(_relation).getGridSize();
+			_y = p.y / HandlerElementMap.getHandlerForElement(_relation).getGridSize();
 		}
 
 		@Override

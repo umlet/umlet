@@ -8,7 +8,7 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.util.Utils;
 import com.baselet.element.old.OldGridElement;
@@ -20,10 +20,10 @@ public class Taxonomy_of_Actors extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = HandlerElementMap.getHandlerForElement(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(HandlerElementMap.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 
@@ -31,7 +31,7 @@ public class Taxonomy_of_Actors extends OldGridElement {
 		g2.setColor(bgColor);
 		g2.fillRect(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 		g2.setComposite(composites[0]);
-		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
+		if (HandlerElementMap.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
 			g2.setColor(fgColor);
 		}
 		else {
@@ -105,7 +105,7 @@ public class Taxonomy_of_Actors extends OldGridElement {
 	}
 
 	private void drawDock(Graphics2D g2, Point nextDock, float xPos, float yPos) {
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = HandlerElementMap.getHandlerForElement(this).getZoomFactor();
 		float dockHeight = 50 * zoom;
 
 		g2.drawLine(nextDock.x, nextDock.y, nextDock.x, (int) (dockHeight / 2 + yPos + 0.5));
@@ -113,7 +113,7 @@ public class Taxonomy_of_Actors extends OldGridElement {
 	}
 
 	private void drawActor(Graphics2D g2, float xPos, float yPos, String name) {
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = HandlerElementMap.getHandlerForElement(this).getZoomFactor();
 		float head = 14 * zoom;
 		float distance = 10 * zoom;
 
@@ -123,11 +123,11 @@ public class Taxonomy_of_Actors extends OldGridElement {
 		g2.drawLine((int) (head / 2 + xPos + 0.5), (int) (yPos + head * 3 - distance + 0.5), (int) (head + xPos + 0.5), (int) (yPos + head * 4 - distance + 0.5));
 		g2.drawLine((int) (head / 2 + xPos), (int) (yPos + head * 3 - distance + 0.5), (int) (xPos + 0.5), (int) (yPos + head * 4 - distance + 0.5));
 		// this.getHandler().getFontHandler().writeText(g2, name, xPos, yPos + (int) (4.5*head), false);
-		Main.getHandlerForElement(this).getFontHandler().writeText(g2, name, (int) (xPos + head * 1.5 + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + 0.5), (int) (2 * head + yPos + 0.5), AlignHorizontal.LEFT);
+		HandlerElementMap.getHandlerForElement(this).getFontHandler().writeText(g2, name, (int) (xPos + head * 1.5 + HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + 0.5), (int) (2 * head + yPos + 0.5), AlignHorizontal.LEFT);
 	}
 
 	private void drawDockAnchor(Graphics2D g2, Point nextDock) {
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = HandlerElementMap.getHandlerForElement(this).getZoomFactor();
 
 		int[] xkanten = { nextDock.x, nextDock.x + (int) (6 * zoom), nextDock.x - (int) (6 * zoom) };
 		int[] ykanten = { nextDock.y - (int) (9 * zoom), nextDock.y, nextDock.y };

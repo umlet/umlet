@@ -23,7 +23,6 @@ import com.baselet.control.util.Path;
 import com.baselet.control.util.RecentlyUsedFilesList;
 import com.baselet.control.util.Utils;
 import com.baselet.gui.BaseGUI;
-import com.baselet.gui.standalone.StandaloneGUI;
 
 public class ConfigHandler {
 
@@ -172,9 +171,9 @@ public class ConfigHandler {
 			props.setProperty(MAIN_SPLIT_POSITION, Integer.toString(gui.getMainSplitPosition()));
 			props.setProperty(RIGHT_SPLIT_POSITION, Integer.toString(gui.getRightSplitPosition()));
 			props.setProperty(MAIL_SPLIT_POSITION, Integer.toString(gui.getMailSplitPosition()));
-			if (gui instanceof StandaloneGUI) {
+			if (gui.saveWindowSizeInConfig()) {
 				// If the window is maximized in any direction this fact is written in the cfg
-				Frame topContainer = ((StandaloneGUI) gui).getMainFrame();
+				Frame topContainer = gui.getMainFrame();
 				if ((topContainer.getExtendedState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) {
 					props.setProperty(START_MAXIMIZED, "true");
 				} // Otherwise the size and the location is written in the cfg

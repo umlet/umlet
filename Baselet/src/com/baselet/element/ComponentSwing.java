@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.basics.Converter;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
@@ -30,7 +30,7 @@ public class ComponentSwing extends JComponent implements Component {
 	public void paint(Graphics g) {
 		drawer.setGraphics(g);
 		metaDrawer.setGraphics(g);
-		boolean selected = Main.getHandlerForElement(gridElement).getDrawPanel().getSelector().isSelected(gridElement);
+		boolean selected = HandlerElementMap.getHandlerForElement(gridElement).getDrawPanel().getSelector().isSelected(gridElement);
 		drawer.drawAll(selected);
 		if (selected) {
 			metaDrawer.drawAll();

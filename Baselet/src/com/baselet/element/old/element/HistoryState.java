@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.enums.Direction;
 import com.baselet.element.old.OldGridElement;
 
@@ -18,14 +18,14 @@ public class HistoryState extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(HandlerElementMap.getHandlerForElement(this).getFontHandler().getFont());
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
 
 		g2.fillOval(0, 0, getRectangle().width, getRectangle().height);
 		// Measure the font and the message
-		Rectangle2D bounds = Main.getHandlerForElement(this).getFontHandler().getFont().getStringBounds("H", g2.getFontRenderContext());
-		LineMetrics metrics = Main.getHandlerForElement(this).getFontHandler().getFont().getLineMetrics("H", g2.getFontRenderContext());
+		Rectangle2D bounds = HandlerElementMap.getHandlerForElement(this).getFontHandler().getFont().getStringBounds("H", g2.getFontRenderContext());
+		LineMetrics metrics = HandlerElementMap.getHandlerForElement(this).getFontHandler().getFont().getLineMetrics("H", g2.getFontRenderContext());
 		float width = (float) bounds.getWidth(); // The width of our text
 		float lineheight = metrics.getHeight(); // Total line height
 		float ascent = metrics.getAscent(); // Top of text to baseline

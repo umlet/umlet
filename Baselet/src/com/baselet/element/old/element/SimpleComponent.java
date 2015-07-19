@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.util.Utils;
 import com.baselet.element.old.OldGridElement;
@@ -21,7 +21,7 @@ public class SimpleComponent extends OldGridElement {
 		// Some unimportant initialization stuff; setting color, font
 		// quality, etc. You should not have to change this.
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(HandlerElementMap.getHandlerForElement(this).getFontHandler().getFont());
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
 
@@ -34,27 +34,27 @@ public class SimpleComponent extends OldGridElement {
 		// to special strings
 		// (like the "--" string in the UML class elements which draw a line).
 		Vector<String> tmp = Utils.decomposeStrings(getPanelAttributes());
-		int yPos = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+		int yPos = (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
 
-			yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-			Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 3, yPos, AlignHorizontal.LEFT);
+			yPos += (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize();
+			HandlerElementMap.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize() * 3, yPos, AlignHorizontal.LEFT);
 			// offset into box
-			yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+			yPos += HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		}
 
 		// Finally, change other graphical attributes using
 		// drawLine, getWidth, getHeight..
 
-		int fnt = (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+		int fnt = (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize();
 
-		g2.drawLine((int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0, getRectangle().width - 1, 0);
+		g2.drawLine((int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize(), 0, getRectangle().width - 1, 0);
 		// top
-		g2.drawLine((int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), getRectangle().height - 1, getRectangle().width - 1, getRectangle().height - 1); // bottom
+		g2.drawLine((int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize(), getRectangle().height - 1, getRectangle().width - 1, getRectangle().height - 1); // bottom
 
 		// left side
-		g2.drawLine((int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0, (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), fnt); // top
+		g2.drawLine((int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize(), 0, (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize(), fnt); // top
 		g2.drawLine(fnt, fnt * 2, fnt, fnt * 3); // middle
 		g2.drawLine(fnt, fnt * 4, fnt, getRectangle().height - 1);
 		// bottom

@@ -3,7 +3,7 @@ package com.baselet.gui.command;
 import java.util.Collection;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.basics.geom.Rectangle;
@@ -28,19 +28,19 @@ public class OldResize extends Command {
 	private final GridElement entity;
 
 	private int getDiffx() {
-		return diffx * Main.getHandlerForElement(entity).getGridSize();
+		return diffx * HandlerElementMap.getHandlerForElement(entity).getGridSize();
 	}
 
 	private int getDiffy() {
-		return diffy * Main.getHandlerForElement(entity).getGridSize();
+		return diffy * HandlerElementMap.getHandlerForElement(entity).getGridSize();
 	}
 
 	private int getDiffw() {
-		return diffw * Main.getHandlerForElement(entity).getGridSize();
+		return diffw * HandlerElementMap.getHandlerForElement(entity).getGridSize();
 	}
 
 	private int getDiffh() {
-		return diffh * Main.getHandlerForElement(entity).getGridSize();
+		return diffh * HandlerElementMap.getHandlerForElement(entity).getGridSize();
 	}
 
 	public OldResize(GridElement entity, int diffx, int diffy, int diffw, int diffh) {
@@ -54,19 +54,19 @@ public class OldResize extends Command {
 		this.id = id;
 		this.move_commands = move_commands;
 		this.move_commands.addAll(move_commands2);
-		this.diffx = diffx / Main.getHandlerForElement(entity).getGridSize();
-		this.diffy = diffy / Main.getHandlerForElement(entity).getGridSize();
-		this.diffw = diffw / Main.getHandlerForElement(entity).getGridSize();
-		this.diffh = diffh / Main.getHandlerForElement(entity).getGridSize();
+		this.diffx = diffx / HandlerElementMap.getHandlerForElement(entity).getGridSize();
+		this.diffy = diffy / HandlerElementMap.getHandlerForElement(entity).getGridSize();
+		this.diffw = diffw / HandlerElementMap.getHandlerForElement(entity).getGridSize();
+		this.diffh = diffh / HandlerElementMap.getHandlerForElement(entity).getGridSize();
 	}
 
 	public OldResize(GridElement entity, int diffx, int diffy, int diffw, int diffh, OldResize first) {
 		this.entity = entity;
 		move_commands = new Vector<OldMoveLinePoint>();
-		this.diffx = diffx / Main.getHandlerForElement(entity).getGridSize();
-		this.diffy = diffy / Main.getHandlerForElement(entity).getGridSize();
-		this.diffw = (diffw - diffx) / Main.getHandlerForElement(entity).getGridSize();
-		this.diffh = (diffh - diffy) / Main.getHandlerForElement(entity).getGridSize();
+		this.diffx = diffx / HandlerElementMap.getHandlerForElement(entity).getGridSize();
+		this.diffy = diffy / HandlerElementMap.getHandlerForElement(entity).getGridSize();
+		this.diffw = (diffw - diffx) / HandlerElementMap.getHandlerForElement(entity).getGridSize();
+		this.diffh = (diffh - diffy) / HandlerElementMap.getHandlerForElement(entity).getGridSize();
 
 		Rectangle entityRect = this.entity.getRectangle();
 		StickingPolygon from = this.entity.generateStickingBorder(entityRect);
@@ -82,7 +82,7 @@ public class OldResize extends Command {
 		else {
 			id = current_id;
 			current_id++;
-			linepoints = getStickingRelationLinePoints(Main.getHandlerForElement(this.entity), from);
+			linepoints = getStickingRelationLinePoints(HandlerElementMap.getHandlerForElement(this.entity), from);
 		}
 
 		PointDouble diff;
@@ -94,7 +94,7 @@ public class OldResize extends Command {
 
 			diff = from.getLine(lp.getStickingLineId()).diffToLine(to.getLine(lp.getStickingLineId()), p.x + r.getRectangle().x, p.y + r.getRectangle().y);
 
-			DiagramHandler handler = Main.getHandlerForElement(entity);
+			DiagramHandler handler = HandlerElementMap.getHandlerForElement(entity);
 			move_commands.add(new OldMoveLinePoint(lp.getRelation(), lp.getLinePointId(), handler.realignToGrid(diff.x), handler.realignToGrid(diff.y)));
 		}
 

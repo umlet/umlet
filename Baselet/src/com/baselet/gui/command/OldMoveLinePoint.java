@@ -1,6 +1,6 @@
 package com.baselet.gui.command;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.element.old.element.Relation;
 
@@ -21,18 +21,18 @@ public class OldMoveLinePoint extends Command {
 	}
 
 	public int getDiffX() {
-		return _diffx * Main.getHandlerForElement(_relation).getGridSize();
+		return _diffx * HandlerElementMap.getHandlerForElement(_relation).getGridSize();
 	}
 
 	public int getDiffY() {
-		return _diffy * Main.getHandlerForElement(_relation).getGridSize();
+		return _diffy * HandlerElementMap.getHandlerForElement(_relation).getGridSize();
 	}
 
 	public OldMoveLinePoint(Relation rel, int i, int diffx, int diffy) {
 		_relation = rel;
 		_linePointId = i;
-		_diffx = diffx / Main.getHandlerForElement(rel).getGridSize();
-		_diffy = diffy / Main.getHandlerForElement(rel).getGridSize();
+		_diffx = diffx / HandlerElementMap.getHandlerForElement(rel).getGridSize();
+		_diffy = diffy / HandlerElementMap.getHandlerForElement(rel).getGridSize();
 	}
 
 	@Override

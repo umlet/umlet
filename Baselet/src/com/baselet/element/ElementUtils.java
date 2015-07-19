@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.swing.JComponent;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.basics.Converter;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.diagram.DrawPanel;
@@ -29,7 +29,7 @@ public class ElementUtils {
 			return false;
 		}
 
-		DrawPanel drawPanel = Main.getHandlerForElement(gridElement).getDrawPanel();
+		DrawPanel drawPanel = HandlerElementMap.getHandlerForElement(gridElement).getDrawPanel();
 		List<GridElement> elements = drawPanel.getGridElements();
 		Selector selector = drawPanel.getSelector();
 		for (GridElement other : elements) {

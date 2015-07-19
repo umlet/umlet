@@ -1,4 +1,4 @@
-package com.baselet.gui.standalone;
+package com.baselet.standalone.gui;
 
 import java.awt.event.KeyEvent;
 import java.util.Collection;

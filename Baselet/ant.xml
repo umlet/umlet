@@ -2,7 +2,7 @@
 <project name="${project.name.uc}" default="start" basedir=".">
 
 	<!-- Release version property - MUST BE SET MANUALLY (afterwards run enable_*let to update the manifest file) -->
-	<property name="release.version" value="14.0" />
+	<property name="release.version" value="14.1" />
 	<property name="project.name.lc" value="umlet" />
 	<property name="project.name.uc" value="Umlet" />
 
@@ -112,7 +112,7 @@
 
 	<!-- Start program -->
 	<target name="start" depends="javac" description="starts the enabled project">
-		<java classname="com.baselet.control.Main" fork="true" classpathref="project.classpath.run" />
+		<java classname="com.baselet.standalone.MainStandalone" fork="true" classpathref="project.classpath.run" />
 	</target>
 
 	<!-- Export standalone Programm -->

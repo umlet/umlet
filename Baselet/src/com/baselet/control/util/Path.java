@@ -29,13 +29,13 @@ public class Path {
 		return combine(programConfigDir, Program.getInstance().getConfigName());
 	}
 
-	@Deprecated // #273: legacy cfg is read for some versions; should be removed in v15 or sooner
+	@Deprecated // #273: legacy cfg is read for some versions; should be removed in v15 or sooner (only use osConformConfig() instead)
 	public static boolean hasLegacyConfig() {
 		File file = new File(legacyConfig());
 		return file.exists();
 	}
 
-	@Deprecated // #273: legacy cfg is read for some versions; should be removed in v15 or sooner
+	@Deprecated // #273: legacy cfg is read for some versions; should be removed in v15 or sooner (only use osConformConfig() instead)
 	public static String legacyConfig() {
 		String programConfigDirectory = combine(userHomeDirectory(), Program.getInstance().getProgramName());
 

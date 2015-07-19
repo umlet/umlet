@@ -1,8 +1,9 @@
-package com.baselet.gui.standalone;
+package com.baselet.standalone.gui;
 
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Frame;
+import java.io.File;
 import java.util.Collection;
 
 import javax.swing.JComboBox;
@@ -18,6 +19,7 @@ import org.apache.log4j.Logger;
 import com.baselet.control.CanCloseProgram;
 import com.baselet.control.Main;
 import com.baselet.control.config.Config;
+import com.baselet.control.util.Utils;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -35,8 +37,11 @@ public class StandaloneGUI extends BaseGUI {
 	private final MenuBuilder menuBuilder = new MenuBuilder();
 	private final StandaloneGUIBuilder guiBuilder = new StandaloneGUIBuilder();
 
-	public StandaloneGUI(CanCloseProgram main) {
+	private final File runningFile;
+
+	public StandaloneGUI(CanCloseProgram main, File runningFile) {
 		super(main);
+		this.runningFile = runningFile;
 	}
 
 	@Override
@@ -69,6 +74,7 @@ public class StandaloneGUI extends BaseGUI {
 	public void closeWindow() {
 		guiBuilder.getMailPanel().closePanel(); // We must close the mailpanel to save the input date
 		if (askSaveForAllDirtyDiagrams()) {
+			Utils.safeDeleteFile(runningFile, true);
 			main.closeProgram();
 			System.exit(0); // issue #250: handle closing using a listener (see also handle closing using a listener (see also https://stackoverflow.com/questions/246228/why-does-my-application-still-run-after-closing-main-window)
 		}
@@ -289,5 +295,15 @@ public class StandaloneGUI extends BaseGUI {
 		} catch (UnsupportedLookAndFeelException e) {
 			log.error("Cannot set LookAndFeel", e);
 		}
+	}
+
+	@Override
+	public boolean hasExtendedContextMenu() {
+		return true;
+	}
+
+	@Override
+	public boolean saveWindowSizeInConfig() {
+		return true;
 	}
 }

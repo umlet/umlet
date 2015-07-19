@@ -1,5 +1,6 @@
 package com.baselet.gui.command;
 
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.Main;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
@@ -54,7 +55,7 @@ public class CustomCodePropertyChanged extends Command {
 			}
 		}
 
-		if (gridElement != null && Main.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {
+		if (gridElement != null && HandlerElementMap.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {
 			gridElement.setPanelAttributes(_newState);
 
 			OwnSyntaxPane pane = CurrentGui.getInstance().getGui().getPropertyPane();
@@ -84,7 +85,7 @@ public class CustomCodePropertyChanged extends Command {
 			}
 		}
 
-		if (gridElement != null && Main.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {
+		if (gridElement != null && HandlerElementMap.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {
 			gridElement.setPanelAttributes(_oldState);
 
 			OwnSyntaxPane pane = CurrentGui.getInstance().getGui().getPropertyPane();
