@@ -179,7 +179,7 @@ public class MainStandalone {
 				return true;
 			}
 			Utils.safeCreateFile(f, false);
-			new Timer("alreadyRunningChecker", true).schedule(new RunningFileChecker(tmpFile(), okFile(), Main.getInstance()), 0, 1000);
+			new Timer("alreadyRunningChecker", true).schedule(new RunningFileChecker(tmpFile(), Main.getInstance()), 0, 1000);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return true;
@@ -189,10 +189,6 @@ public class MainStandalone {
 
 	private static File tmpFile() {
 		return new File(Path.temp() + Program.getInstance().getProgramName().toLowerCase() + ".tmp");
-	}
-
-	private static File okFile() {
-		return new File(Path.temp() + Program.getInstance().getProgramName().toLowerCase() + "_1.tmp");
 	}
 
 	private static void readManifestInfo() {
