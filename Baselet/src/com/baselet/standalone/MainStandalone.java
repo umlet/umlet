@@ -59,8 +59,7 @@ public class MainStandalone {
 					filename = args[0];
 				}
 				if (!alreadyRunningChecker(false) || !sendFileNameToRunningApplication(filename)) {
-					Main.getInstance().init(new StandaloneGUI(Main.getInstance(), tmpFile()));
-					Main.getInstance().doOpen(filename);
+					startStandalone(filename);
 				}
 			}
 			else if (action != null && format != null && filename != null) {
@@ -90,11 +89,20 @@ public class MainStandalone {
 		}
 		else { // no arguments specified
 			alreadyRunningChecker(true); // start checker
-			if (Config.getInstance().isCheckForUpdates()) {
-				new Timer("Update Checker", true).schedule(UpdateCheckTimerTask.getInstance(), 0);
-			}
-			Main.getInstance().init(new StandaloneGUI(Main.getInstance(), tmpFile()));
+			startStandalone(null);
+		}
+	}
+
+	private static void startStandalone(String filenameToOpen) {
+		if (Config.getInstance().isCheckForUpdates()) {
+			new Timer("Update Checker", true).schedule(UpdateCheckTimerTask.getInstance(), 0);
+		}
+		Main.getInstance().init(new StandaloneGUI(Main.getInstance(), tmpFile()));
+		if (filenameToOpen == null) {
 			Main.getInstance().doNew();
+		}
+		else {
+			Main.getInstance().doOpen(filenameToOpen);
 		}
 	}
 
@@ -154,26 +162,14 @@ public class MainStandalone {
 	private static boolean sendFileNameToRunningApplication(String filename) {
 		// send the filename per file to the running application
 		File f1 = tmpFile();
-		boolean write_successful = true;
 		try {
 			PrintWriter writer = new PrintWriter(f1);
 			writer.println(filename);
 			writer.close();
+			return true;
 		} catch (Exception ex) {
-			write_successful = false;
-		}
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException ex) {/* no special handling */}
-		File f2 = okFile();
-		if (!f2.exists() || !write_successful) {// if the ok file does not exist or the filename couldnt be written.
-			alreadyRunningChecker(true);
 			return false;
 		}
-		else {
-			Utils.safeDeleteFile(f2, false);
-		}
-		return true;
 	}
 
 	private static boolean alreadyRunningChecker(boolean force) {
