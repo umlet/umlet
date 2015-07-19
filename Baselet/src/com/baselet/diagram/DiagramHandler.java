@@ -21,7 +21,6 @@ import com.baselet.control.basics.Converter;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
-import com.baselet.control.enums.RuntimeType;
 import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.ComponentSwing;
 import com.baselet.element.NewGridElement;
@@ -30,8 +29,6 @@ import com.baselet.element.old.element.Relation;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.command.Controller;
-import com.baselet.gui.filedrop.FileDrop;
-import com.baselet.gui.filedrop.FileDropListener;
 import com.baselet.gui.listener.DiagramListener;
 import com.baselet.gui.listener.GridElementListener;
 import com.baselet.gui.listener.OldRelationListener;
@@ -70,8 +67,7 @@ public class DiagramHandler {
 		gridSize = Constants.DEFAULTGRIDSIZE;
 		isChanged = false;
 		enabled = true;
-		drawpanel = new DrawPanel(this);
-		initStartupTextAndFileDrop();
+		drawpanel = createDrawPanel();
 		controller = new Controller(this);
 		fontHandler = new FontHandler(this);
 		fileHandler = DiagramFileHandler.createInstance(this, diagram);
@@ -92,16 +88,8 @@ public class DiagramHandler {
 		initDiagramPopupMenu(extendedPopupMenu);
 	}
 
-	@SuppressWarnings("unused")
-	protected void initStartupTextAndFileDrop() {
-		// If this is not a palette, create a StartupHelpText
-		if (!(this instanceof PaletteHandler)) {
-			StartUpHelpText startupHelpText = new StartUpHelpText(drawpanel);
-			if (Program.getInstance().getRuntimeType() != RuntimeType.BATCH) { // Batchmode doesn't need drag&drop. Also fixes Issue 81
-				new FileDrop(startupHelpText, new FileDropListener());
-			}
-			drawpanel.add(startupHelpText);
-		}
+	protected DrawPanel createDrawPanel() {
+		return new DrawPanel(this, true);
 	}
 
 	protected void initDiagramPopupMenu(boolean extendedPopupMenu) {
