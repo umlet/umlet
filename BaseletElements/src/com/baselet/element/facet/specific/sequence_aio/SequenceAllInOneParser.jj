@@ -27,6 +27,17 @@ TOKEN :
 	| < #DIGIT: ["0" - "9"] >
 	| < TRUE: "true" >
 	| < FALSE: "false" >
+	| < SEPARATOR: "%%" >
+	| < TITLE_END_DELIMITER: "--" >
+	| < NEW_LINE_UNIX: "\n" >
+	| < NEW_LINE_WIN: "\r\n" >
+	| < NEW_LINE_OSX: "\r" >
+}
+
+// general Tokens
+TOKEN :
+{
+	<LAST_LINE_COMMENT: "//"(~["\n","\r"])*>
 }
 
 //more general Tokens with no case distinction
@@ -46,10 +57,69 @@ TOKEN [IGNORE_CASE] :
  * Line comments are skipped (see Tokens)
  */
 void start() :
+{
+	String titleText;
+	SequenceDiagramNode diagram = new SequenceDiagramNode();
+}
+{
+	(
+		(titleText=Title() (Options(diagram) (<TZ> ObjectDefs() (<TZ> MLText() <TZ> Sequence())?)?)?)
+		| (titleText=MLText())
+	)	{		diagram.setTitle(titleText);
+	}
+	(< LAST_LINE_COMMENT >)?
+	<EOF>	{		return diagram;
+	}
+}
+
+String Title() :
+{String text;}
+{
+	text = MLText()
+	<TITLE_END_DELIMITER>
+	{return text;}
+}
+
+/**
+ * Options for the whole diagram
+ */
+void Options(SequenceDiagramNode diagram) :
+{}{}
+
+/**
+ * Defines all Lifelines
+ */
+void ObjectDefs(SequenceDiagramNode diagram) :
 {}
 {
-	<EOF>
+	ObjectDef(diagram)+
 }
+
+/**
+ * Defines all Lifelines
+ */
+void ObjectDef(SequenceDiagramNode diagram) :
+{
+	String name;
+	boolean createdOnStart = true;
+	
+}
+{
+	Text()
+	[ObjectDefActor() | ObjectDefActive()]
+	ObjectDefCreatedLater()? 
+	NewLine()	{
+			}
+}
+
+String MLText() :
+{}
+{
+}
+
+void NewLine() :{}{	< NEW_LINE_UNIX >
+	| < NEW_LINE_WIN >
+	| < NEW_LINE_OSX >}
 
 String simpleString() :
 {}
