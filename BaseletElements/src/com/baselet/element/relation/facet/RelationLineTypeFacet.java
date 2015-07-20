@@ -51,7 +51,7 @@ public class RelationLineTypeFacet extends FirstRunKeyValueFacet {
 	private static final List<ArrowEnd> SHARED_ARROW_STRINGS_BEFORE = Arrays.asList(ArrowEnd.CIRCLE_CROSS, ArrowEnd.CIRCLE, ArrowEnd.DIAGONAL_CROSS);
 	private static final List<ArrowEnd> SHARED_ARROW_STRINGS_AFTER = Arrays.asList(ArrowEnd.BOX);
 	private static final List<ArrowEnd> LEFT_ARROW_STRINGS = SharedUtils.mergeLists(SHARED_ARROW_STRINGS_BEFORE, Arrays.asList(ArrowEnd.LEFT_BOX, ArrowEnd.LEFT_FILLED_DIAMOND, ArrowEnd.LEFT_DIAMOND, ArrowEnd.LEFT_FILLED_CLOSED, ArrowEnd.LEFT_CLOSED, ArrowEnd.LEFT_NORMAL, ArrowEnd.LEFT_INVERTED, ArrowEnd.LEFT_INTERFACE_OPEN, ArrowEnd.LEFT_MEASURE_NORMAL), SHARED_ARROW_STRINGS_AFTER);
-	private static final List<ArrowEnd> RIGHT_ARROW_STRINGS = SharedUtils.mergeLists(SHARED_ARROW_STRINGS_BEFORE, Arrays.asList(ArrowEnd.RIGHT_BOX, ArrowEnd.RIGHT_FILLED_DIAMOND, ArrowEnd.RIGHT_DIAMOND, ArrowEnd.RIGHT_FILLED_CLOSED, ArrowEnd.RIGHT_CLOSED, ArrowEnd.RIGHT_NORMAL, ArrowEnd.RIGHT_INVERTED, ArrowEnd.RIGHT_INTERFACE_OPEN, ArrowEnd.RIGHT_MEASURE_NORMAL), SHARED_ARROW_STRINGS_AFTER);
+	private static final List<ArrowEnd> RIGHT_ARROW_STRINGS = SharedUtils.mergeLists(SHARED_ARROW_STRINGS_BEFORE, Arrays.asList(ArrowEnd.RIGHT_BOX, ArrowEnd.RIGHT_FILLED_DIAMOND, ArrowEnd.RIGHT_DIAMOND, ArrowEnd.RIGHT_FILLED_CLOSED, ArrowEnd.RIGHT_CLOSED, ArrowEnd.RIGHT_MEASURE_NORMAL, ArrowEnd.RIGHT_NORMAL, ArrowEnd.RIGHT_INVERTED, ArrowEnd.RIGHT_INTERFACE_OPEN), SHARED_ARROW_STRINGS_AFTER);
 	private static final List<LineType> LINE_TYPES = Arrays.asList(LineType.SOLID, LineType.DOTTED, LineType.DASHED);
 
 	public RelationPointHandler getRelationPoints(PropertiesParserState state) {
