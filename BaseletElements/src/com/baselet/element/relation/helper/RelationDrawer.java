@@ -69,7 +69,7 @@ public class RelationDrawer {
 	}
 
 	public static enum ArrowEndType {
-		NORMAL, CLOSED, DIAMOND
+		NORMAL, CLOSED, DIAMOND, MEASURE
 	}
 
 	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, ArrowEndType arrowEndType, boolean fillBody, boolean invertArrow) {
@@ -84,7 +84,17 @@ public class RelationDrawer {
 		int arrowAngle = drawOnStart ? 150 : 30;
 		PointDouble p1 = calcPointArrow(point, line.getAngleOfSlope() - arrowAngle);
 		PointDouble p2 = calcPointArrow(point, line.getAngleOfSlope() + arrowAngle);
-		List<PointDouble> points = new ArrayList<PointDouble>(Arrays.asList(p1, point, p2));
+		List<PointDouble> points = new ArrayList<PointDouble>(Arrays.asList(p1, point));
+
+		if (arrowEndType == ArrowEndType.MEASURE) {
+			PointDouble m1 = calcPointArrow(point, line.getAngleOfSlope() + 90);
+			PointDouble m2 = calcPointArrow(point, line.getAngleOfSlope() - 90);
+			points.add(m1);
+			points.add(m2);
+			points.add(point);
+		}
+		points.add(p2);
+
 		if (arrowEndType == ArrowEndType.CLOSED) {
 			points.add(p1);
 		}
