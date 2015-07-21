@@ -8,6 +8,7 @@ import com.baselet.control.basics.geom.GeometricFunctions;
 import com.baselet.control.basics.geom.Line;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.basics.geom.Rectangle;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.draw.DrawHandler;
@@ -87,8 +88,8 @@ public class RelationDrawer {
 		List<PointDouble> points = new ArrayList<PointDouble>(Arrays.asList(p1, point));
 
 		if (arrowEndType == ArrowEndType.MEASURE) {
-			PointDouble m1 = calcPointArrow(point, line.getAngleOfSlope() + 90);
-			PointDouble m2 = calcPointArrow(point, line.getAngleOfSlope() - 90);
+			PointDouble m1 = calcPoint(point, line.getAngleOfSlope() + 90, SharedConstants.DEFAULT_GRID_SIZE);
+			PointDouble m2 = calcPoint(point, line.getAngleOfSlope() - 90, SharedConstants.DEFAULT_GRID_SIZE);
 			points.add(m1);
 			points.add(m2);
 			points.add(point);
