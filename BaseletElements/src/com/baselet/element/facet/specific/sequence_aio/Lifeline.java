@@ -97,6 +97,10 @@ public class Lifeline {
 		this.created = created;
 	}
 
+	public Integer getCreated() {
+		return created;
+	}
+
 	public void setDestroyed(Integer destroyed) {
 		this.destroyed = destroyed;
 	}
@@ -219,6 +223,12 @@ public class Lifeline {
 	}
 
 	public double getHeadMinHeight(DrawHandler drawHandler, double width) {
+		if (headType == LifelineHeadType.STANDARD || headType == LifelineHeadType.ACTIVE_CLASS) {
+			width -= HEAD_HORIZONTAL_BORDER_PADDING * 2;
+			if (headType == LifelineHeadType.ACTIVE_CLASS) {
+				width -= ACTIVE_CLASS_DOUBLE_BORDER_GAP * 2;
+			}
+		}
 		double minHeight = AdvancedTextSplitter.getSplitStringHeight(text, width, drawHandler);
 		if (headType == LifelineHeadType.ACTOR) {
 			minHeight += ACTOR_SIZE.y;
