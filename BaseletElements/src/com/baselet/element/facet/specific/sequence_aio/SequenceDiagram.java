@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.baselet.control.basics.Line1D;
+import com.baselet.control.basics.SortedMergedLine1DList;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
 
@@ -16,10 +18,12 @@ public class SequenceDiagram {
 
 	// options
 	/** if true no default ids are generated and every lifeline needs an id */
-	private final boolean overrideDefaultIds;
+	private boolean overrideDefaultIds;
 
 	private final Map<String, Integer> ids;
 	private Lifeline[] lifelines;
+
+	private Iterable<LifelineSpanningTickSpanningOccurrence> spanningLifelineOccurrences;
 
 	// private final Lifeline lost;
 	// private Lifeline found;
@@ -39,6 +43,22 @@ public class SequenceDiagram {
 		lifelines = new Lifeline[0];
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
 	public int getLastTick() {
 		return lastTick;
 	}
@@ -51,11 +71,11 @@ public class SequenceDiagram {
 	 *
 	 * @param name
 	 * @param id can be NULL, if none of reorder and idoverride option is active
-	 * @param createOnStart if false the lifeline will be created by the first message sent to this lifeline
+	 * @param createdOnStart if false the lifeline will be created by the first message sent to this lifeline
 	 */
-	public void addLiveline(String headText, String id, Lifeline.LifelineHeadType headType, boolean createOnStart) {
+	public void addLiveline(String headText, String id, Lifeline.LifelineHeadType headType, boolean createdOnStart) {
 		lifelines = Arrays.copyOf(lifelines, lifelines.length + 1);
-		lifelines[lifelines.length - 1] = new Lifeline(headText, lifelines.length - 1, headType, createOnStart);
+		lifelines[lifelines.length - 1] = new Lifeline(headText, lifelines.length - 1, headType, createdOnStart);
 		if (id != null) {
 			ids.put(id, lifelines.length - 1);
 		}
@@ -98,6 +118,29 @@ public class SequenceDiagram {
 	}
 
 	/**
+	 *
+	 * @return how many lifelines the diagram has
+	 */
+	public int getLifelineCount() {
+		// TODO ma need adaption for lost found gate!
+		return lifelines.length;
+	}
+
+	public boolean isOverrideDefaultIds() {
+		return overrideDefaultIds;
+	}
+
+	public void setOverrideDefaultIds(boolean overrideDefaultIds) {
+		this.overrideDefaultIds = overrideDefaultIds;
+	}
+
+	// TODO perform action that couldn't be done while building
+	public void completeDiagram()
+	{
+		// TODO for each operand condition add a LL occurence to the lifeline with the first message (or to the lowest index)
+	}
+
+	/**
 	 * should be called after the last built step in the diagram to make a sanity check (i.e. message to all Lifelines which are created later, but could be problematic while writting the diagram!)
 	 * @return
 	 */
@@ -123,19 +166,43 @@ public class SequenceDiagram {
 				sum += addiontalHeight[i];
 				accumulativeAddiontalHeightOffsets[i + 1] = sum;
 			}
+
+			Line1D[] lifelineHorizontalSpannings = new Line1D[lifelines.length];
+
+			for (int i = 0; i < lifelineHorizontalSpannings.length; i++) {
+				lifelineHorizontalSpannings[i] = new Line1D(lifelineHeadLeftStart + (lifelineWidth + LIFELINE_X_PADDING) * i,
+						lifelineHeadLeftStart + (lifelineWidth + LIFELINE_X_PADDING) * i + lifelineWidth);
+			}
+			// first draw the occurrences which affect more than one lifeline, store the interrupted areas an pass them to the lifelines
+			SortedMergedLine1DList[] interruptedAreas = new SortedMergedLine1DList[lifelines.length];
+
+			for (LifelineSpanningTickSpanningOccurrence llstso : spanningLifelineOccurrences) {
+				Map<Lifeline, Line1D[]> tmpInterruptedAreas = llstso.draw(drawHandler, lifelineHeadTop + lifelineHeadHeight,
+						Arrays.copyOfRange(lifelineHorizontalSpannings,
+								llstso.getFirstLifeline().getIndex(),
+								llstso.getFirstLifeline().getIndex())
+						, TICK_HEIGHT, accumulativeAddiontalHeightOffsets);
+				for (Map.Entry<Lifeline, Line1D[]> e : tmpInterruptedAreas.entrySet()) {
+					interruptedAreas[e.getKey().getIndex()].addAll(e.getValue());
+				}
+			}
+
 			for (int i = 0; i < lifelines.length; i++) {
 				lifelines[i].draw(drawHandler,
-						new PointDouble(lifelineHeadLeftStart + (lifelineWidth + LIFELINE_X_PADDING) * i, lifelineHeadTop),
-						lifelineWidth, lifelineHeadHeight, TICK_HEIGHT, accumulativeAddiontalHeightOffsets, lastTick);
+						new PointDouble(lifelineHorizontalSpannings[i].getLow(), lifelineHeadTop),
+						lifelineWidth, lifelineHeadHeight, TICK_HEIGHT, accumulativeAddiontalHeightOffsets, lastTick, interruptedAreas[i]);
 			}
 		}
-		// draw bottom border
+		// draw left,right and bottom border
 	}
 
 	private double getLifelineWidth(DrawHandler drawHandler) {
 		double maxMinWidth = 0;
 		for (Lifeline ll : lifelines) {
 			maxMinWidth = Math.max(maxMinWidth, ll.getMinWidth(drawHandler));
+		}
+		for (LifelineSpanningTickSpanningOccurrence llstso : spanningLifelineOccurrences) {
+			maxMinWidth = Math.max(maxMinWidth, llstso.getOverallMinWidth(drawHandler) / (llstso.getLastLifeline().getIndex() - llstso.getFirstLifeline().getIndex() + 1));
 		}
 		return maxMinWidth;
 	}
@@ -144,6 +211,11 @@ public class SequenceDiagram {
 		double[] addiontalHeight = new double[lastTick + 1];
 		for (Lifeline ll : lifelines) {
 			for (Map.Entry<Integer, Double> e : ll.getAdditionalYHeights(drawHandler, width, TICK_HEIGHT).entrySet()) {
+				addiontalHeight[e.getKey()] = Math.max(addiontalHeight[e.getKey()], e.getValue());
+			}
+		}
+		for (LifelineSpanningTickSpanningOccurrence llstso : spanningLifelineOccurrences) {
+			for (Map.Entry<Integer, Double> e : llstso.getEveryAdditionalYHeight(drawHandler, new PointDouble(width, TICK_HEIGHT)).entrySet()) {
 				addiontalHeight[e.getKey()] = Math.max(addiontalHeight[e.getKey()], e.getValue());
 			}
 		}

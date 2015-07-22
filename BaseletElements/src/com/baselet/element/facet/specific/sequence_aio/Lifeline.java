@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.basics.Line1D;
+import com.baselet.control.basics.SortedMergedLine1DList;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
@@ -82,6 +83,10 @@ public class Lifeline {
 		activeAreas = new ArrayList<ExecutionSpecification>();
 		// interruptedAreas = new LinkedList<PointDouble>();
 		localIds = new HashMap<String, Integer>();
+	}
+
+	public int getIndex() {
+		return index;
 	}
 
 	public boolean isCreatedOnStart() {
@@ -235,9 +240,10 @@ public class Lifeline {
 	 * @param headHeight the height of the heads which exists from the start, the head which are created by a message can have a different height!
 	 * @param tickHeight
 	 * @param accumulativeAddiontalHeightOffsets array which stores the added up extra space needed for each tick, the difference between two ticks corresponds to the space extra space needed between these two ticks
+	 * @param lifelineLastTick
 	 */
 	public void draw(DrawHandler drawHandler, PointDouble topLeft, double width, double headHeight, double tickHeight,
-			double[] accumulativeAddiontalHeightOffsets, int lifelineLastTick) {
+			double[] accumulativeAddiontalHeightOffsets, int lifelineLastTick, SortedMergedLine1DList interruptedAreas) {
 		// draw Head with text
 		if (createdOnStart) {
 			drawHead(drawHandler, topLeft.x, topLeft.y, width, headHeight);
@@ -252,7 +258,6 @@ public class Lifeline {
 		// without an starting point we can not draw anything
 		if (createdOnStart || created != null)
 		{
-			LinkedList<Line1D> interruptedAreas = new LinkedList<Line1D>();
 			// draw lifeline occurrences
 			for (Map.Entry<Integer, LifelineOccurrence> e : lifeline.entrySet()) {
 				int tick = e.getKey();
@@ -281,7 +286,7 @@ public class Lifeline {
 	 * @param lifelineLastTick
 	 */
 	private void drawLifeline(DrawHandler drawHandler, double centerX, double topY, double tickHeight,
-			double[] accumulativeAddiontalHeightOffsets, LinkedList<Line1D> interruptedAreas, int lifelineLastTick) {
+			double[] accumulativeAddiontalHeightOffsets, SortedMergedLine1DList interruptedAreas, int lifelineLastTick) {
 
 		int currentStartTick = 0;
 		int endTick;
