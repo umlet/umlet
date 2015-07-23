@@ -3,7 +3,6 @@ package com.baselet.element.facet.specific.sequence_aio;
 import java.util.Map;
 
 import com.baselet.control.basics.Line1D;
-import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
 
 public interface LifelineSpanningTickSpanningOccurrence {
@@ -22,7 +21,7 @@ public interface LifelineSpanningTickSpanningOccurrence {
 	 *
 	 * @param drawHandler
 	 * @param topY the top position of the lifeline, exactly beneath the head (if it was created on start)
-	 * @param lifelinesHorizontalSpanning for each covered lifeline the start- (Line1D.low) and endpoint (Line1D.high) on the x-axis is stored
+	 * @param lifelinesHorizontalSpanning for each lifeline the start- (Line1D.low) and endpoint (Line1D.high) on the x-axis is stored. Therefore the array can be accessed by the index of the lifeline
 	 * @param tickHeight the default height of a tick
 	 * @param accumulativeAddiontalHeightOffsets
 	 * @return for each lifeline an array which contains the interrupted areas.
@@ -35,9 +34,10 @@ public interface LifelineSpanningTickSpanningOccurrence {
 	/**
 	 *
 	 * @param drawHandler
+	 * @param lifelineHorizontalPadding specifies how much space is between 2 adjacent lifelines
 	 * @return
 	 */
-	public double getOverallMinWidth(DrawHandler drawHandler);
+	public double getOverallMinWidth(DrawHandler drawHandler, double lifelineHorizontalPadding);
 
 	/**
 	 *
@@ -45,6 +45,6 @@ public interface LifelineSpanningTickSpanningOccurrence {
 	 * @param size
 	 * @return
 	 */
-	public Map<Integer, Double> getEveryAdditionalYHeight(DrawHandler drawHandler, PointDouble size);
+	public Map<Integer, Double> getEveryAdditionalYHeight(DrawHandler drawHandler, Line1D[] lifelinesHorizontalSpanning, double tickHeight);
 
 }

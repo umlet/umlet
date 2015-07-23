@@ -1,12 +1,15 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import com.baselet.control.basics.Line1D;
 import com.baselet.control.basics.SortedMergedLine1DList;
 import com.baselet.control.basics.geom.PointDouble;
+import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawHandler;
 
 public class SequenceDiagram {
@@ -23,7 +26,7 @@ public class SequenceDiagram {
 	private final Map<String, Integer> ids;
 	private Lifeline[] lifelines;
 
-	private Iterable<LifelineSpanningTickSpanningOccurrence> spanningLifelineOccurrences;
+	private final Collection<LifelineSpanningTickSpanningOccurrence> spanningLifelineOccurrences;
 
 	// private final Lifeline lost;
 	// private Lifeline found;
@@ -41,6 +44,7 @@ public class SequenceDiagram {
 		ids = new HashMap<String, Integer>();
 		// ids.put("lost", value)
 		lifelines = new Lifeline[0];
+		spanningLifelineOccurrences = new LinkedList<LifelineSpanningTickSpanningOccurrence>();
 	}
 
 	public String getTitle() {
@@ -103,7 +107,26 @@ public class SequenceDiagram {
 	 * @param event e.g. message, invariant, activity
 	 */
 	public void addEvent(String id, int tick, LifelineOccurrence occurrence) {
-		lifelines[ids.get(id)].addLifelineOccurrenceAtTick(occurrence, tick);
+		// TODO error handling
+		getLifelineException(id).addLifelineOccurrenceAtTick(occurrence, tick);
+	}
+
+	public void addMessage(String fromId, String toId, int sendTick, int duration, String text, LineType lineType, Message.ArrowType arrowType) {
+		// TODO error handling
+
+		Message msg = new Message(getLifelineException(fromId), getLifelineException(toId), duration, sendTick, text, arrowType, lineType);
+		spanningLifelineOccurrences.add(msg);
+
+	}
+
+	public void addLostMessage(String fromId, int sendTick, String text, LineType lineType, Message.ArrowType arrowType) {
+		// TODO error handling
+		// add as ll occurrence
+	}
+
+	public void addFoundMessage(String toId, int sendTick, String text, LineType lineType, Message.ArrowType arrowType) {
+		// TODO error handling
+		// add as ll occurrence
 	}
 
 	/**
@@ -114,6 +137,14 @@ public class SequenceDiagram {
 	}
 
 	public Lifeline getLifeline(String id) {
+		return lifelines[ids.get(id)];
+	}
+
+	private Lifeline getLifelineException(String id) {
+		// TODO better exception
+		if (!ids.containsKey(id)) {
+			throw new RuntimeException("");
+		}
 		return lifelines[ids.get(id)];
 	}
 
@@ -158,8 +189,13 @@ public class SequenceDiagram {
 		// drawing of the lifelines
 		if (lifelines.length > 0) {
 			double lifelineWidth = getLifelineWidth(drawHandler);
+			Line1D[] lifelineHorizontalSpannings = new Line1D[lifelines.length];
+			for (int i = 0; i < lifelineHorizontalSpannings.length; i++) {
+				lifelineHorizontalSpannings[i] = new Line1D(lifelineHeadLeftStart + (lifelineWidth + LIFELINE_X_PADDING) * i,
+						lifelineHeadLeftStart + (lifelineWidth + LIFELINE_X_PADDING) * i + lifelineWidth);
+			}
 			double lifelineHeadHeight = getLifelineHeadHeight(drawHandler, lifelineWidth);
-			double[] addiontalHeight = calculateAddiontalHeights(drawHandler, lifelineWidth);
+			double[] addiontalHeight = calculateAddiontalHeights(drawHandler, lifelineWidth, lifelineHorizontalSpannings);
 			double[] accumulativeAddiontalHeightOffsets = new double[addiontalHeight.length + 1];
 			double sum = 0;
 			for (int i = 0; i < addiontalHeight.length; i++) {
@@ -167,21 +203,15 @@ public class SequenceDiagram {
 				accumulativeAddiontalHeightOffsets[i + 1] = sum;
 			}
 
-			Line1D[] lifelineHorizontalSpannings = new Line1D[lifelines.length];
-
-			for (int i = 0; i < lifelineHorizontalSpannings.length; i++) {
-				lifelineHorizontalSpannings[i] = new Line1D(lifelineHeadLeftStart + (lifelineWidth + LIFELINE_X_PADDING) * i,
-						lifelineHeadLeftStart + (lifelineWidth + LIFELINE_X_PADDING) * i + lifelineWidth);
-			}
 			// first draw the occurrences which affect more than one lifeline, store the interrupted areas an pass them to the lifelines
 			SortedMergedLine1DList[] interruptedAreas = new SortedMergedLine1DList[lifelines.length];
+			for (int i = 0; i < interruptedAreas.length; i++) {
+				interruptedAreas[i] = new SortedMergedLine1DList();
+			}
 
 			for (LifelineSpanningTickSpanningOccurrence llstso : spanningLifelineOccurrences) {
 				Map<Lifeline, Line1D[]> tmpInterruptedAreas = llstso.draw(drawHandler, lifelineHeadTop + lifelineHeadHeight,
-						Arrays.copyOfRange(lifelineHorizontalSpannings,
-								llstso.getFirstLifeline().getIndex(),
-								llstso.getFirstLifeline().getIndex())
-						, TICK_HEIGHT, accumulativeAddiontalHeightOffsets);
+						lifelineHorizontalSpannings, TICK_HEIGHT, accumulativeAddiontalHeightOffsets);
 				for (Map.Entry<Lifeline, Line1D[]> e : tmpInterruptedAreas.entrySet()) {
 					interruptedAreas[e.getKey().getIndex()].addAll(e.getValue());
 				}
@@ -202,12 +232,12 @@ public class SequenceDiagram {
 			maxMinWidth = Math.max(maxMinWidth, ll.getMinWidth(drawHandler));
 		}
 		for (LifelineSpanningTickSpanningOccurrence llstso : spanningLifelineOccurrences) {
-			maxMinWidth = Math.max(maxMinWidth, llstso.getOverallMinWidth(drawHandler) / (llstso.getLastLifeline().getIndex() - llstso.getFirstLifeline().getIndex() + 1));
+			maxMinWidth = Math.max(maxMinWidth, llstso.getOverallMinWidth(drawHandler, LIFELINE_X_PADDING) / (llstso.getLastLifeline().getIndex() - llstso.getFirstLifeline().getIndex() + 1));
 		}
 		return maxMinWidth;
 	}
 
-	private double[] calculateAddiontalHeights(DrawHandler drawHandler, double width) {
+	private double[] calculateAddiontalHeights(DrawHandler drawHandler, double width, Line1D[] lifelineHorizontalSpannings) {
 		double[] addiontalHeight = new double[lastTick + 1];
 		for (Lifeline ll : lifelines) {
 			for (Map.Entry<Integer, Double> e : ll.getAdditionalYHeights(drawHandler, width, TICK_HEIGHT).entrySet()) {
@@ -215,7 +245,7 @@ public class SequenceDiagram {
 			}
 		}
 		for (LifelineSpanningTickSpanningOccurrence llstso : spanningLifelineOccurrences) {
-			for (Map.Entry<Integer, Double> e : llstso.getEveryAdditionalYHeight(drawHandler, new PointDouble(width, TICK_HEIGHT)).entrySet()) {
+			for (Map.Entry<Integer, Double> e : llstso.getEveryAdditionalYHeight(drawHandler, lifelineHorizontalSpannings, TICK_HEIGHT).entrySet()) {
 				addiontalHeight[e.getKey()] = Math.max(addiontalHeight[e.getKey()], e.getValue());
 			}
 		}
