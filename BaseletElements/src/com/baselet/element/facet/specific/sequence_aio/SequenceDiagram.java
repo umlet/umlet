@@ -14,6 +14,7 @@ import com.baselet.diagram.draw.DrawHandler;
 
 public class SequenceDiagram {
 	private static final double LIFELINE_X_PADDING = 40;
+	private static final double LIFELINE_MIN_WIDTH = 100;
 	private static final double TICK_HEIGHT = 40;
 
 	private String title;
@@ -188,7 +189,7 @@ public class SequenceDiagram {
 
 		// drawing of the lifelines
 		if (lifelines.length > 0) {
-			double lifelineWidth = getLifelineWidth(drawHandler);
+			double lifelineWidth = Math.max(getLifelineWidth(drawHandler), LIFELINE_MIN_WIDTH);
 			Line1D[] lifelineHorizontalSpannings = new Line1D[lifelines.length];
 			for (int i = 0; i < lifelineHorizontalSpannings.length; i++) {
 				lifelineHorizontalSpannings[i] = new Line1D(lifelineHeadLeftStart + (lifelineWidth + LIFELINE_X_PADDING) * i,
@@ -232,7 +233,9 @@ public class SequenceDiagram {
 			maxMinWidth = Math.max(maxMinWidth, ll.getMinWidth(drawHandler));
 		}
 		for (LifelineSpanningTickSpanningOccurrence llstso : spanningLifelineOccurrences) {
-			maxMinWidth = Math.max(maxMinWidth, llstso.getOverallMinWidth(drawHandler, LIFELINE_X_PADDING) / (llstso.getLastLifeline().getIndex() - llstso.getFirstLifeline().getIndex() + 1));
+			int llCount = llstso.getLastLifeline().getIndex() - llstso.getFirstLifeline().getIndex() + 1;
+			maxMinWidth = Math.max(maxMinWidth,
+					(llstso.getOverallMinWidth(drawHandler, LIFELINE_X_PADDING) - LIFELINE_X_PADDING * (llCount - 1)) / llCount);
 		}
 		return maxMinWidth;
 	}

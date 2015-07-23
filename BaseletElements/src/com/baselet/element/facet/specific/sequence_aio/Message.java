@@ -8,6 +8,8 @@ import org.apache.log4j.Logger;
 import com.baselet.control.basics.Line1D;
 import com.baselet.control.basics.geom.Line;
 import com.baselet.control.basics.geom.PointDouble;
+import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.AdvancedTextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
@@ -30,6 +32,16 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 	private final ArrowType arrowType;
 	private final LineType lineType;
 
+	/**
+	 *
+	 * @param from
+	 * @param to
+	 * @param duration &gt;= 0; if from==to (a self message) then duration must be &gt; 0
+	 * @param sendTick
+	 * @param text
+	 * @param arrowType
+	 * @param lineType
+	 */
 	public Message(Lifeline from, Lifeline to, int duration, int sendTick, String text, ArrowType arrowType, LineType lineType) {
 		super();
 		this.from = from;
@@ -75,20 +87,22 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		}
 	}
 
-	@Override
-	public Map<Lifeline, Line1D[]> draw(DrawHandler drawHandler, double topY,
-			Line1D[] lifelinesHorizontalSpanning, double tickHeight, double[] accumulativeAddiontalHeightOffsets) {
+	public PointDouble getSendPoint(double topY, Line1D[] lifelinesHorizontalSpanning, double tickHeight, double[] accumulativeAddiontalHeightOffsets) {
 		double sendY = topY + sendTick * tickHeight + tickHeight / 2
 						+ accumulativeAddiontalHeightOffsets[sendTick] / 2
 						+ accumulativeAddiontalHeightOffsets[sendTick + 1] / 2;
+		double sendX = lifelinesHorizontalSpanning[from.getIndex()].getLow() / 2
+						+ lifelinesHorizontalSpanning[from.getIndex()].getHigh() / 2;
+		sendX += getSendCenterXOffset();
+		return new PointDouble(sendX, sendY);
+	}
+
+	public PointDouble getReceivePoint(double topY, Line1D[] lifelinesHorizontalSpanning, double tickHeight, double[] accumulativeAddiontalHeightOffsets) {
 		double recieveY = topY + (sendTick + duration) * tickHeight + tickHeight / 2
 							+ accumulativeAddiontalHeightOffsets[sendTick + duration] / 2
 							+ accumulativeAddiontalHeightOffsets[sendTick + duration + 1] / 2;
-		double sendX = lifelinesHorizontalSpanning[from.getIndex()].getLow() / 2
-						+ lifelinesHorizontalSpanning[from.getIndex()].getHigh() / 2;
 		double receiveX = lifelinesHorizontalSpanning[to.getIndex()].getLow() / 2
 							+ lifelinesHorizontalSpanning[to.getIndex()].getHigh() / 2;
-		sendX += getSendCenterXOffset();
 		receiveX += getReceiveCenterXOffset();
 		if (!to.isCreatedOnStart() && to.getCreated() != null && sendTick + duration == to.getCreated()) {
 			// create message must end at the head
@@ -99,8 +113,14 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 				receiveX = lifelinesHorizontalSpanning[to.getIndex()].getLow();
 			}
 		}
-		PointDouble send = new PointDouble(sendX, sendY);
-		PointDouble receive = new PointDouble(receiveX, recieveY);
+		return new PointDouble(receiveX, recieveY);
+	}
+
+	@Override
+	public Map<Lifeline, Line1D[]> draw(DrawHandler drawHandler, double topY,
+			Line1D[] lifelinesHorizontalSpanning, double tickHeight, double[] accumulativeAddiontalHeightOffsets) {
+		PointDouble send = getSendPoint(topY, lifelinesHorizontalSpanning, tickHeight, accumulativeAddiontalHeightOffsets);
+		PointDouble receive = getReceivePoint(topY, lifelinesHorizontalSpanning, tickHeight, accumulativeAddiontalHeightOffsets);
 
 		RelationDrawer.ArrowEndType arrowEndType = ArrowEndType.NORMAL;
 		boolean fillArrow = false;
@@ -120,7 +140,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		LineType oldLt = drawHandler.getLineType();
 		drawHandler.setLineType(lineType);
 		if (from == to) {
-			drawSelfMessage(drawHandler, send, receive, arrowEndType, fillArrow);
+			drawSelfMessage(drawHandler, send, receive, lifelinesHorizontalSpanning[to.getIndex()].getHigh(), arrowEndType, fillArrow);
 		}
 		else {
 			drawNormalMessage(drawHandler, send, receive, arrowEndType, fillArrow);
@@ -143,7 +163,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 	/**
 	 * draws a message which is sent to the same lifeline
 	 */
-	private void drawSelfMessage(DrawHandler drawHandler, PointDouble send, PointDouble receive, RelationDrawer.ArrowEndType arrowEndType, boolean fillArrow) {
+	private void drawSelfMessage(DrawHandler drawHandler, PointDouble send, PointDouble receive, double lifelineXEnd, RelationDrawer.ArrowEndType arrowEndType, boolean fillArrow) {
 		double rightBorderX = Math.max(send.x, receive.x) + SELF_MESSAGE_LIFELINE_GAP;
 		PointDouble[] msgLine = new PointDouble[] {
 				send,
@@ -153,7 +173,10 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		drawHandler.drawLines(msgLine);
 		drawHandler.setLineType(LineType.SOLID);
 		RelationDrawer.drawArrowToLine(receive, drawHandler, new Line(msgLine[2], msgLine[3]), false, arrowEndType, fillArrow, false);
-		// TODO text
+
+		rightBorderX += SELF_MESSAGE_TEXT_PADDING;
+		AdvancedTextSplitter.drawText(drawHandler, new String[] { text }, rightBorderX, send.y,
+				lifelineXEnd - rightBorderX, receive.y - send.y, AlignHorizontal.LEFT, AlignVertical.CENTER);
 	}
 
 	@Override
@@ -177,10 +200,42 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 	@Override
 	public Map<Integer, Double> getEveryAdditionalYHeight(DrawHandler drawHandler, Line1D[] lifelinesHorizontalSpanning, double tickHeight) {
 		Map<Integer, Double> ret = new HashMap<Integer, Double>();
-		// if more y space is needed the send tick will be increased
-		double textWidth = 0;
-		if (AdvancedTextSplitter.getSplitStringHeight(text, textWidth, drawHandler) - tickHeight * duration > 0) {
-			ret.put(sendTick, AdvancedTextSplitter.getSplitStringHeight(text, textWidth, drawHandler) - tickHeight * duration);
+		double maxTextWidth = 0;
+		double additionalHeight = 0;
+		if (from == to) {
+			// if more y space is needed the all covered ticks will be increased
+			double executionSpecWidth = Math.max(from.getLifelineRightPartWidth(sendTick), to.getLifelineRightPartWidth(sendTick + duration));
+			maxTextWidth = (lifelinesHorizontalSpanning[to.getIndex()].getHigh() - lifelinesHorizontalSpanning[to.getIndex()].getLow()) / 2.0;
+			maxTextWidth = maxTextWidth - (executionSpecWidth + SELF_MESSAGE_LIFELINE_GAP + SELF_MESSAGE_TEXT_PADDING);
+			additionalHeight = AdvancedTextSplitter.getSplitStringHeight(text, maxTextWidth, drawHandler) - duration * tickHeight;
+			if (additionalHeight > 0) {
+				for (int i = sendTick + 1; i < sendTick + duration; i++) {
+					ret.put(i, additionalHeight / duration);
+				}
+				ret.put(sendTick, additionalHeight / duration);
+				ret.put(sendTick + duration, additionalHeight / duration);
+			}
+		}
+		else {
+			// if more y space is needed the send tick will be increased
+			// only interested in the x coordinate, so provide fake y values
+			maxTextWidth = Math.abs(
+					getSendPoint(0, lifelinesHorizontalSpanning, tickHeight, new double[sendTick + duration + 2]).x
+							- getReceivePoint(0, lifelinesHorizontalSpanning, tickHeight, new double[sendTick + duration + 2]).x);
+			maxTextWidth -= LIFELINE_TEXT_PADDING * 2;
+			additionalHeight = AdvancedTextSplitter.getSplitStringHeight(text, maxTextWidth, drawHandler);
+			if (duration == 0) {
+				// since the message is always drawn in the V center we only can use one half of the tick height
+				additionalHeight -= tickHeight / 2.0;
+				additionalHeight *= 2;
+			}
+			else {
+				additionalHeight -= tickHeight / 2.0;
+				additionalHeight *= 2;
+			}
+			if (additionalHeight > 0) {
+				ret.put(sendTick, additionalHeight);
+			}
 		}
 		return ret;
 	}

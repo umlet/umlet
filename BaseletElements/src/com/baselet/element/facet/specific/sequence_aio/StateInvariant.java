@@ -15,7 +15,7 @@ public class StateInvariant implements LifelineOccurrence {
 	/** the space between the text and the border line */
 	private static final double VERTICAL_BORDER_PADDING = 5;
 	/** the minimum width, to avoid splitting text with very short words e.g. print "I am I" in one line instead of 3*/
-	private static final double MIN_WIDTH = 100;
+	private static final double MIN_WIDTH = 50;
 
 	private final String[] lines;
 	private final StateInvariantStyle style;
