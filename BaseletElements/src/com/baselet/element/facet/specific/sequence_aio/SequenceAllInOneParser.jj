@@ -11,31 +11,127 @@ options {
 PARSER_BEGIN(SequenceAllInOneParser)
 package com.baselet.element.facet.specific.sequence_aio.gen;
 
+import org.apache.log4j.Logger;
+
+import com.baselet.control.enums.LineType;
+import com.baselet.element.facet.specific.sequence_aio.Lifeline;
+import com.baselet.element.facet.specific.sequence_aio.Message.ArrowType;
+import com.baselet.element.facet.specific.sequence_aio.SequenceDiagram;
+import com.baselet.element.facet.specific.sequence_aio.SequenceDiagramBuilder;
+import com.baselet.element.facet.specific.sequence_aio.SequenceDiagramException;
+
 public class SequenceAllInOneParser {
+	private static final Logger log = Logger.getLogger(SequenceAllInOneParser.class);
+
+	
+	/**
+	 * Small data container to pass all informations.
+	 */
+	private class MessageArrowInfo
+	{
+		int duration = 0;
+		boolean fromLeftToRight;
+		LineType lineType;
+		ArrowType arrowType;
+	}
 }
 PARSER_END(SequenceAllInOneParser)
 
 // defines input to be ignored
 SKIP:
-{ 
+{
+	" "
+	| "\t"
+}
+
+< * > SKIP :
+{
 	<"//"(~["\n","\r"])*("\n"|"\r"|"\r\n")>
 }
 
+< * > TOKEN :{
+	< NEW_LINE: < NEW_LINE_UNIX > | < NEW_LINE_WIN > | < NEW_LINE_OSX >> : DEFAULT
+	| < #NEW_LINE_UNIX: "\n" >
+	| < #NEW_LINE_WIN: "\r\n" >
+	| < #NEW_LINE_OSX: "\r" >}
+
+TOKEN :{
+	< DIAGRAM_TITLE: "title=" > : DIAGRAM_DEF
+	| < LIFELINE_DEFINITIONS: "obj=" > : LIFELINE_DEF
+	| < DIAGRAM_OPTION_OVERRIDE_ID :"overrideIds=" > : DEFAULT
+	| < DIAGRAM_SEQUENCE :"sequence=" > : DIAGRAM_SEQ
+}
+
+< DIAGRAM_DEF > TOKEN:{
+	< DIAGRAM_TITLE_TEXT: (~ ["\r","\n"])+>}
+
+/*< DIAGRAM_DEF > SKIP :
+{
+	<DIA_DEF_NL_DEF :< NEW_LINE >> : DEFAULT}*/
+
+/*< DIAGRAM_OPTION > TOKEN :
+{
+}*/
+
+< LIFELINE_DEF > TOKEN :
+{
+	< LIFELINE_DEF_DELIMITER: "|" >
+	//| < LIFELINE_TITLE_DELIMITER: "~" > integrated in the title
+	| < LIFELINE_ACTOR: "ACTOR" >
+	| < LIFELINE_ACTIVE: "ACTIVE" >
+	| < LIFELINE_CREATED_LATER :"CREATED_LATER" >
+	| < LIFELINE_TITLE: ( 
+			~["~","\\"] 
+			| ("\\" ["\\","~"])
+		)* "~" >
+}
+
+< DIAGRAM_SEQ > TOKEN :
+{	< TEXT_DELIMITER: ":" >
+	| < LIST_DELIMITER: "," >
+	| < MESSAGE_SOLID_LINE: "-" >
+	| < MESSAGE_DASHED_LINE: "." >
+	| < MESSAGE_ARROW_LEFT_OPEN: "<" >
+	| < MESSAGE_ARROW_LEFT_FILLED: "<<<" >
+	| < MESSAGE_ARROW_RIGHT_OPEN: ">" >
+	| < MESSAGE_ARROW_RIGHT_FILLED: ">>>" >
+	| < LOST: "lost" >
+	| < FOUND: "found" >
+	| < START_COREGION: "coregionStart=" >
+	| < END_COREGION: "coregionEnd=" >
+	| < INVARIANT: "invariant=" >
+	| < STATE_INVARIANT: "stateInvariant=" >
+	| < EXEC_SPEC_START: "on" >
+	| < EXEC_SPEC_END: "off" >
+}
+
+< LIFELINE_DEF, DIAGRAM_SEQ > TOKEN :
+{	< LIFELINE_ID: ["a"-"z","A"-"Z"] (["a"-"z","A"-"Z","0"-"9"])* >
+}
+< DIAGRAM_SEQ > TOKEN :
+{
+	< TEXT_UNTIL_NL : (~ ["\r","\n"])+>
+}
+
+< LIFELINE_DEF > SKIP :
+{
+	" "
+	| "\t"
+}
+
+	
+
 TOKEN :
 {
-	< UNSIGNED_DOUBLE_CONSTANT: ( <DIGIT> ) + ( "." (<DIGIT>)+ )? >
+	< UNSIGNED_INT_CONSTANT: ( <DIGIT> ) + >
+	| < UNSIGNED_DOUBLE_CONSTANT: ( <DIGIT> ) + ( "." (<DIGIT>)+ )? >
 	| < #DIGIT: ["0" - "9"] >
 	| < TRUE: "true" >
 	| < FALSE: "false" >
-	| < SEPARATOR: "%%" >
-	| < TITLE_END_DELIMITER: "--" >
-	| < NEW_LINE_UNIX: "\n" >
-	| < NEW_LINE_WIN: "\r\n" >
-	| < NEW_LINE_OSX: "\r" >
 }
 
 // general Tokens
-TOKEN :
+< * > TOKEN :
 {
 	<LAST_LINE_COMMENT: "//"(~["\n","\r"])*>
 }
@@ -56,76 +152,305 @@ TOKEN [IGNORE_CASE] :
  * The main function which parses the whole diagram.
  * Line comments are skipped (see Tokens)
  */
-void start() :
+SequenceDiagramBuilder start() :
 {
-	String titleText;
-	SequenceDiagramNode diagram = new SequenceDiagramNode();
+	String titleText = null;
+	SequenceDiagramBuilder diagram  = new SequenceDiagramBuilder();
 }
 {
 	(
-		(titleText=Title() (Options(diagram) (<TZ> ObjectDefs() (<TZ> MLText() <TZ> Sequence())?)?)?)
-		| (titleText=MLText())
-	)	{		diagram.setTitle(titleText);
-	}
+		(			titleText=Title() { diagram.setTitle(titleText); }
+			| Options(diagram)
+			| ObjectDefs(diagram)
+		)+
+		Sequence(diagram)
+	)	
 	(< LAST_LINE_COMMENT >)?
 	<EOF>	{		return diagram;
 	}
 }
 
 String Title() :
-{String text;}
 {
-	text = MLText()
-	<TITLE_END_DELIMITER>
+	String text = "";
+}
+{
+	< DIAGRAM_TITLE >
+	(
+		< DIAGRAM_TITLE_TEXT > { text = token.image;}
+	)?
 	{return text;}
 }
 
 /**
  * Options for the whole diagram
  */
-void Options(SequenceDiagramNode diagram) :
-{}{}
+void Options(SequenceDiagramBuilder diagram) :
+{
+	boolean overrideIds;}{
+	< DIAGRAM_OPTION_OVERRIDE_ID > overrideIds = booleanConstant()	{
+		diagram.setOverrideDefaultIds(overrideIds);	}}
 
 /**
  * Defines all Lifelines
  */
-void ObjectDefs(SequenceDiagramNode diagram) :
+void ObjectDefs(SequenceDiagramBuilder diagram) :
 {}
 {
-	ObjectDef(diagram)+
+	< LIFELINE_DEFINITIONS > ObjectDef(diagram) (< LIFELINE_DEF_DELIMITER > ObjectDef(diagram))* NewLine()
 }
 
 /**
- * Defines all Lifelines
+ * Defines one Lifeline
  */
-void ObjectDef(SequenceDiagramNode diagram) :
+void ObjectDef(SequenceDiagramBuilder diagram) :
 {
-	String name;
+	String name = "";
+	String id = null;
 	boolean createdOnStart = true;
-	
+	Lifeline.LifelineHeadType headType = Lifeline.LifelineHeadType.STANDARD;
 }
 {
-	Text()
-	[ObjectDefActor() | ObjectDefActive()]
-	ObjectDefCreatedLater()? 
-	NewLine()	{
-			}
+	name = ObjectDefTitleText() (id=LifelineId())?
+	(		< LIFELINE_ACTOR > { headType = Lifeline.LifelineHeadType.ACTOR; }
+		| < LIFELINE_ACTIVE > { headType = Lifeline.LifelineHeadType.ACTIVE_CLASS; }
+		| < LIFELINE_CREATED_LATER > { createdOnStart = false; }
+	) *	{
+		diagram.addLiveline(name, id, headType, createdOnStart);	}
 }
 
+/** can could be multiple lines */
+String ObjectDefTitleText() :
+{}
+{
+	< LIFELINE_TITLE >
+	{
+		// convert new lines to unix style and handle the escaping of \ and ~		return token.image.substring(0, token.image.length() - 1).replace("\r\n", "\n").replace("\r", "\n").replace("\\~", "~").replace("\\\\", "\\");
+	}
+}
+
+/**
+ * Can't be one of the following, because these are keywords in the lifeline definition!
+ * < LIFELINE_ACTOR: "ACTOR" >
+ * < LIFELINE_ACTIVE: "ACTIVE" >
+ * < LIFELINE_CREATED_LATER :"CREATED_LATER" >
+ */
+String LifelineId() :
+{}
+{
+	< LIFELINE_ID >
+	{		return token.image;
+	}
+}
+
+/*
 String MLText() :
 {}
 {
+	(
+		< NEW_LINE >
+	)*
+}*/
+
+void Sequence(SequenceDiagramBuilder diagram) :
+{}
+{
+	< DIAGRAM_SEQUENCE >
+	(
+		/*SequenceTick(diagram)
+		|*/ SequenceElement(diagram)
+		{
+			diagram.tick(1);
+		}
+		//| CombinedFragment(diagram)
+	)*
 }
 
-void NewLine() :{}{	< NEW_LINE_UNIX >
-	| < NEW_LINE_WIN >
-	| < NEW_LINE_OSX >}
+/*void SequenceTick(SequenceDiagram diagram) :
+{}
+{
+	(		(
+			SequenceElement(diagram) /*(< SEMI_COLON > SequenceElement(diagram))* *
+		)
+	)
+	/*| tick { tick(n)} *
+}*/
 
+void SequenceElement(SequenceDiagramBuilder diagram) :
+{}
+{
+	(		Message(diagram)
+		| Coregion(diagram)
+		| ExecutionSpecification(diagram)
+		| StateInvariant(diagram)
+		//| (diagram) //general ordering
+		//| Continuation(diagram)
+	)
+}
+
+void Message(SequenceDiagramBuilder diagram) :
+{
+	String leftLifelineId = null;
+	String rightLifelineId = null;
+	MessageArrowInfo messageArrowInfo;
+	String msgText = "";
+	int lostCount = 0;
+	int foundCount = 0;
+}
+{
+	(
+		(
+			leftLifelineId = LifelineId()
+			| < LOST > { leftLifelineId = "lost"; lostCount++; }
+			| < FOUND > { leftLifelineId = "found"; foundCount++; }
+		)
+		messageArrowInfo =  MessageArrow()
+		(
+			rightLifelineId = LifelineId()
+			| < LOST > { leftLifelineId = "lost"; lostCount++; }
+			| < FOUND > { leftLifelineId = "found"; foundCount++; }		)
+		(
+			< TEXT_DELIMITER >
+			msgText = textUntilNewLine() 		)?	)	{
+		if(lostCount + foundCount > 1) {
+			// TODO linenumber			throw new SequenceDiagramException("'lost' and 'found' can only occur once per message.");
+		}
+		String send;
+		String receive;
+		if(messageArrowInfo.fromLeftToRight) {
+			send = leftLifelineId;
+			receive = rightLifelineId;
+		}
+		else {			send = rightLifelineId;
+			receive = leftLifelineId;
+		}
+		if(send.equals("lost")) {
+			throw new SequenceDiagramException("");		}
+		else if(send.equals("found")) {
+			// addFoundMessage		}
+		else
+		{
+			if(receive.equals("lost")) {
+				//add lost message
+			}
+			else if(receive.equals("found")) {
+				throw new SequenceDiagramException("");
+			}
+			else {				diagram.addMessage(send, receive, messageArrowInfo.duration, msgText, messageArrowInfo.lineType, messageArrowInfo.arrowType);
+			}
+		}	}
+}
+
+MessageArrowInfo MessageArrow():{
+	MessageArrowInfo messageArrowInfo = new MessageArrowInfo();}
+{
+		(
+			(	
+				/* optional duration seperated with a '-' */
+				(
+	  				LOOKAHEAD(2)
+					< MESSAGE_SOLID_LINE > messageArrowInfo.duration = unsignedIntConstant()
+				)?
+				messageArrowInfo.lineType = MessageArrowLineType()
+				(
+					< MESSAGE_ARROW_RIGHT_OPEN > { messageArrowInfo.arrowType = ArrowType.OPEN; }
+					| < MESSAGE_ARROW_RIGHT_FILLED >  { messageArrowInfo.arrowType = ArrowType.FILLED; }
+				)
+			)			{
+				messageArrowInfo.fromLeftToRight = true;			}
+			| (
+				(
+					< MESSAGE_ARROW_LEFT_OPEN > { messageArrowInfo.arrowType = ArrowType.OPEN; }
+					| < MESSAGE_ARROW_LEFT_FILLED >  { messageArrowInfo.arrowType = ArrowType.FILLED; }
+				)
+				messageArrowInfo.lineType = MessageArrowLineType()
+				/* optional duration */
+				(
+					"-" messageArrowInfo.duration = unsignedIntConstant()
+				)?			)
+			{
+				messageArrowInfo.fromLeftToRight = false;
+			}
+		)		{ return messageArrowInfo; }
+}
+
+LineType MessageArrowLineType() :
+{
+	LineType lineType;
+}
+{
+	(		< MESSAGE_SOLID_LINE > { lineType = LineType.SOLID; }
+		| < MESSAGE_DASHED_LINE >  { lineType = LineType.DASHED; }
+	)
+	{		return lineType;
+	}
+}
+
+void Coregion(SequenceDiagramBuilder diagram) :
+{
+	String lifelineId;
+	boolean start;
+}
+{
+	(		< START_COREGION > { start = true; }
+		| < END_COREGION > { start = false; }
+	)
+	lifelineId = LifelineId()	{
+		diagram.addCoregion(lifelineId, start);	}
+}
+
+void ExecutionSpecification(SequenceDiagramBuilder diagram) :
+{
+	String lifelineId;
+	boolean on;
+}
+{
+	(		< EXEC_SPEC_START > { on = true; }
+		< EXEC_SPEC_END > { on = false; }
+	)
+	lifelineId = LifelineId()	{
+		diagram.changeExecutionSpecification(lifelineId, on);	}
+	( < LIST_DELIMITER > lifelineId = LifelineId()
+		{
+			diagram.changeExecutionSpecification(lifelineId, on);
+		}
+	)*
+}
+
+void StateInvariant(SequenceDiagramBuilder diagram) :
+{
+	String lifelineId;
+	String text = "";
+	boolean stateStyle;
+}
+{
+	(		< INVARIANT > { stateStyle = false; }
+		| < STATE_INVARIANT > { stateStyle = true; }
+	) 
+	lifelineId = LifelineId()
+	(		< TEXT_DELIMITER >
+		text = textUntilNewLine()
+	)?
+	{		diagram.addStateInvariant(lifelineId, text, stateStyle);
+	}
+}
+
+String textUntilNewLine() :{
+}
+{	(		< TEXT_UNTIL_NL >
+		| < LIFELINE_ID >
+	)
+	{		return token.image;
+	}
+}
+
+void NewLine() :{}{	< NEW_LINE >}
+/*
 String simpleString() :
 {}
 {
 	<SIMPLE_STRING> { return token.image.substring(1,token.image.length()-1).replace("\\\"", "\"").replace("\\\\", "\\");} //remove the leading and trailing quotes, replace all escaped quotes \" with a normal quote " and replace all \\ with \
-}
+}*/
 
 boolean booleanConstant() :
 { boolean value;}
@@ -175,14 +500,33 @@ double doubleValue() :
 double unsignedDoubleConstant() :
 {}
 {
-	<UNSIGNED_DOUBLE_CONSTANT> {
+	(		<UNSIGNED_INT_CONSTANT>
+		| <UNSIGNED_DOUBLE_CONSTANT>
+	)
+	{
 		double value;
 		try {
 			value = Double.parseDouble(token.image);
 		} catch(NumberFormatException e) {
-			// TODO log fatal error, only valid double values are accepted from the parser
+			// only valid double values are accepted from the parser, therefore a NumberFormatException should never occur
 			// a double can't be to big, but may loose some precision
+			log.fatal("Fatal Error: The string '" + token.image + "' couldn't be parsed as double, but the grammar should ensure that the string is parsable.",e);
 			throw (ParseException) new ParseException("Fatal Error: The string '" + token.image + "' couldn't be parsed as double, but the grammar should ensure that the string is parsable.").initCause(e);
+		}
+		return value;
+	}
+}
+
+int unsignedIntConstant() :
+{}
+{
+	<UNSIGNED_INT_CONSTANT> {
+		int value;
+		try {
+			value = Integer.parseInt(token.image);
+		} catch(NumberFormatException e) {
+			// only digits are accepted by the gramer, so the only reason for a NumberFormatException should be that the number is too big for int
+			throw (ParseException) new ParseException("Error: The string '" + token.image + "' couldn't be parsed as integer. The most probable reason is that the number is too big.").initCause(e);
 		}
 		return value;
 	}
