@@ -28,7 +28,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 	/** how many ticks it takes to transmit the message */
 	private final int duration;
 	private final int sendTick;
-	private final String text;
+	private final String[] textLines;
 	private final ArrowType arrowType;
 	private final LineType lineType;
 
@@ -38,7 +38,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 	 * @param to
 	 * @param duration &gt;= 0; if from==to (a self message) then duration must be &gt; 0
 	 * @param sendTick
-	 * @param text
+	 * @param text can be more than one line, but if so the lines must be separated by a \n
 	 * @param arrowType
 	 * @param lineType
 	 */
@@ -48,7 +48,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		this.to = to;
 		this.duration = duration;
 		this.sendTick = sendTick;
-		this.text = text;
+		this.textLines = text.split("\n");
 		this.arrowType = arrowType;
 		this.lineType = lineType;
 	}
@@ -174,7 +174,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 			hAlignment = AlignHorizontal.CENTER;
 		}
 		topLeftX += LIFELINE_TEXT_PADDING;
-		AdvancedTextSplitter.drawText(drawHandler, new String[] { text }, topLeftX, send.y - height,
+		AdvancedTextSplitter.drawText(drawHandler, textLines, topLeftX, send.y - height,
 				Math.abs(send.x - receive.x) - LIFELINE_TEXT_PADDING * 2, height, hAlignment, AlignVertical.BOTTOM);
 	}
 
@@ -193,7 +193,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		RelationDrawer.drawArrowToLine(receive, drawHandler, new Line(msgLine[2], msgLine[3]), false, arrowEndType, fillArrow, false);
 
 		rightBorderX += SELF_MESSAGE_TEXT_PADDING;
-		AdvancedTextSplitter.drawText(drawHandler, new String[] { text }, rightBorderX, send.y,
+		AdvancedTextSplitter.drawText(drawHandler, textLines, rightBorderX, send.y,
 				lifelineXEnd - rightBorderX, receive.y - send.y, AlignHorizontal.LEFT, AlignVertical.CENTER);
 	}
 
@@ -202,12 +202,12 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		if (from == to) {
 			double executionSpecWidth = Math.max(from.getLifelineRightPartWidth(sendTick), to.getLifelineRightPartWidth(sendTick + duration));
 			return (executionSpecWidth + SELF_MESSAGE_LIFELINE_GAP +
-					SELF_MESSAGE_TEXT_PADDING + AdvancedTextSplitter.getTextMinWidth(text, drawHandler))
+					SELF_MESSAGE_TEXT_PADDING + AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler))
 			* 2.0; // multiplied by 2, because this space is needed on the right half of the lifeline
 		}
 		else {
 			double executionSpecWidth = Math.abs(getSendCenterXOffset()) + Math.abs(getReceiveCenterXOffset());
-			double neededWidth = executionSpecWidth + AdvancedTextSplitter.getTextMinWidth(text, drawHandler) + LIFELINE_TEXT_PADDING * 2;
+			double neededWidth = executionSpecWidth + AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler) + LIFELINE_TEXT_PADDING * 2;
 			int affectedLifelineCount = getLastLifeline().getIndex() - getFirstLifeline().getIndex() + 1;
 			// increase the needed width because we only calculated the width between the 2 lifelines
 			// therefore we must compensate for the 2 half lifelines on each end
@@ -225,7 +225,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 			double executionSpecWidth = Math.max(from.getLifelineRightPartWidth(sendTick), to.getLifelineRightPartWidth(sendTick + duration));
 			maxTextWidth = (lifelinesHorizontalSpanning[to.getIndex()].getHigh() - lifelinesHorizontalSpanning[to.getIndex()].getLow()) / 2.0;
 			maxTextWidth = maxTextWidth - (executionSpecWidth + SELF_MESSAGE_LIFELINE_GAP + SELF_MESSAGE_TEXT_PADDING);
-			additionalHeight = AdvancedTextSplitter.getSplitStringHeight(text, maxTextWidth, drawHandler) - duration * tickHeight;
+			additionalHeight = AdvancedTextSplitter.getSplitStringHeight(textLines, maxTextWidth, drawHandler) - duration * tickHeight;
 			if (additionalHeight > 0) {
 				for (int i = sendTick + 1; i < sendTick + duration; i++) {
 					ret.put(i, additionalHeight / duration);
@@ -241,7 +241,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 					getSendPoint(0, lifelinesHorizontalSpanning, tickHeight, new double[sendTick + duration + 2]).x
 							- getReceivePoint(0, lifelinesHorizontalSpanning, tickHeight, new double[sendTick + duration + 2]).x);
 			maxTextWidth -= LIFELINE_TEXT_PADDING * 2;
-			additionalHeight = AdvancedTextSplitter.getSplitStringHeight(text, maxTextWidth, drawHandler);
+			additionalHeight = AdvancedTextSplitter.getSplitStringHeight(textLines, maxTextWidth, drawHandler);
 			if (duration == 0) {
 				// since the message is always drawn in the V center we only can use one half of the tick height
 				additionalHeight -= tickHeight / 2.0;
