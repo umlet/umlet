@@ -143,7 +143,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 			drawSelfMessage(drawHandler, send, receive, lifelinesHorizontalSpanning[to.getIndex()].getHigh(), arrowEndType, fillArrow);
 		}
 		else {
-			drawNormalMessage(drawHandler, send, receive, arrowEndType, fillArrow);
+			drawNormalMessage(drawHandler, send, receive, tickHeight, arrowEndType, fillArrow, accumulativeAddiontalHeightOffsets);
 		}
 		drawHandler.setLineType(oldLt);
 		return new HashMap<Lifeline, Line1D[]>();
@@ -152,12 +152,30 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 	/**
 	 * draws a message which is sent between two different lifelines
 	 */
-	private void drawNormalMessage(DrawHandler drawHandler, PointDouble send, PointDouble receive, RelationDrawer.ArrowEndType arrowEndType, boolean fillArrow) {
+	private void drawNormalMessage(DrawHandler drawHandler, PointDouble send, PointDouble receive, double tickHeight,
+			RelationDrawer.ArrowEndType arrowEndType, boolean fillArrow, double[] accumulativeAddiontalHeightOffsets) {
 		Line line = new Line(send, receive);
 		drawHandler.drawLine(line);
 		drawHandler.setLineType(LineType.SOLID);
 		RelationDrawer.drawArrowToLine(receive, drawHandler, line, false, arrowEndType, fillArrow, false);
-		// TODO text
+
+		double height = send.y - (sendTick * tickHeight + accumulativeAddiontalHeightOffsets[sendTick]);
+		double topLeftX;
+		AlignHorizontal hAlignment;
+		if (from == getFirstLifeline()) {
+			topLeftX = send.x;
+			hAlignment = AlignHorizontal.LEFT;
+		}
+		else {
+			topLeftX = receive.x;
+			hAlignment = AlignHorizontal.RIGHT;
+		}
+		if (duration == 0) {
+			hAlignment = AlignHorizontal.CENTER;
+		}
+		topLeftX += LIFELINE_TEXT_PADDING;
+		AdvancedTextSplitter.drawText(drawHandler, new String[] { text }, topLeftX, send.y - height,
+				Math.abs(send.x - receive.x) - LIFELINE_TEXT_PADDING * 2, height, hAlignment, AlignVertical.BOTTOM);
 	}
 
 	/**
