@@ -29,21 +29,13 @@ public class SequenceDiagram {
 
 	private final Collection<LifelineSpanningTickSpanningOccurrence> spanningLifelineOccurrences;
 
-	// private final Lifeline lost;
-	// private Lifeline found;
-	// private Lifeline gate;
-
 	private int lastTick;
 
 	public SequenceDiagram()
 	{
 		overrideDefaultIds = false;
 
-		// lost = ;
-		// found = ;
-		// gate = ;
 		ids = new HashMap<String, Integer>();
-		// ids.put("lost", value)
 		lifelines = new Lifeline[0];
 		spanningLifelineOccurrences = new LinkedList<LifelineSpanningTickSpanningOccurrence>();
 	}
@@ -75,76 +67,68 @@ public class SequenceDiagram {
 	/**
 	 *
 	 * @param name
-	 * @param id can be NULL, if none of reorder and idoverride option is active
+	 * @param id can be NULL, if overrideDefaultIds option is NOT active
 	 * @param createdOnStart if false the lifeline will be created by the first message sent to this lifeline
 	 */
-	public void addLiveline(String headText, String id, Lifeline.LifelineHeadType headType, boolean createdOnStart) {
+	public Lifeline addLiveline(String headText, String id, Lifeline.LifelineHeadType headType, boolean createdOnStart) {
 		lifelines = Arrays.copyOf(lifelines, lifelines.length + 1);
 		lifelines[lifelines.length - 1] = new Lifeline(headText, lifelines.length - 1, headType, createdOnStart);
 		if (id != null) {
 			ids.put(id, lifelines.length - 1);
 		}
-		if (!overrideDefaultIds) { // ! override default ids
+		if (!overrideDefaultIds) {
 			ids.put("id" + lifelines.length, lifelines.length - 1);
 		}
-		else if (id == null) {
-			throw new RuntimeException("If the override option is set to true then every lifeline needs an id!");
-		}
-
+		return lifelines[lifelines.length - 1];
 	}
 
 	/**
-	 *
+	 * Should only be used for testing!
 	 * @param id of the lifeline
 	 * @param event e.g. message, invariant, activity
 	 */
-	public void addEvent(String id, LifelineOccurrence occurrence) {
-
-	}
-
-	/**
-	 *
-	 * @param id of the lifeline
-	 * @param event e.g. message, invariant, activity
-	 */
-	public void addEvent(String id, int tick, LifelineOccurrence occurrence) {
-		// TODO error handling
+	void addEvent(String id, int tick, LifelineOccurrence occurrence) {
 		getLifelineException(id).addLifelineOccurrenceAtTick(occurrence, tick);
 	}
 
-	public void addMessage(String fromId, String toId, int sendTick, int duration, String text, LineType lineType, Message.ArrowType arrowType) {
-		// TODO error handling
-
+	/**
+	 * should only be used for testing and not for the parser
+	 * @param fromId
+	 * @param toId
+	 * @param sendTick
+	 * @param duration
+	 * @param text
+	 * @param lineType
+	 * @param arrowType
+	 */
+	void addMessage(String fromId, String toId, int sendTick, int duration, String text, LineType lineType, Message.ArrowType arrowType) {
 		Message msg = new Message(getLifelineException(fromId), getLifelineException(toId), duration, sendTick, text, arrowType, lineType);
-		spanningLifelineOccurrences.add(msg);
-
+		addLifelineSpanningTickSpanningOccurrence(msg);
 	}
 
-	public void addLostMessage(String fromId, int sendTick, String text, LineType lineType, Message.ArrowType arrowType) {
-		// TODO error handling
-		// add as ll occurrence
-	}
-
-	public void addFoundMessage(String toId, int sendTick, String text, LineType lineType, Message.ArrowType arrowType) {
-		// TODO error handling
-		// add as ll occurrence
+	public void addLifelineSpanningTickSpanningOccurrence(LifelineSpanningTickSpanningOccurrence occurrence) {
+		spanningLifelineOccurrences.add(occurrence);
 	}
 
 	/**
-	 * advances a step down
+	 * @param id of the lifeline which should be returned
+	 * @return the lifeline or null if no lifeline is associated with the given id
 	 */
-	public void tick() {
-
-	}
-
 	public Lifeline getLifeline(String id) {
+		if (!ids.containsKey(id)) {
+			return null;
+		}
 		return lifelines[ids.get(id)];
 	}
 
-	private Lifeline getLifelineException(String id) {
-		// TODO better exception
+	/**
+	 * @param id of the lifeline which should be returned
+	 * @return the lifeline
+	 * @throws SequenceDiagramException if no lifeline is associated with the given id
+	 */
+	Lifeline getLifelineException(String id) {
 		if (!ids.containsKey(id)) {
-			throw new RuntimeException("");
+			throw new SequenceDiagramException("No lifeline is associated with the id: '" + id + "'");
 		}
 		return lifelines[ids.get(id)];
 	}
@@ -154,7 +138,7 @@ public class SequenceDiagram {
 	 * @return how many lifelines the diagram has
 	 */
 	public int getLifelineCount() {
-		// TODO ma need adaption for lost found gate!
+		// TODO maybe need adaption for lost found gate!
 		return lifelines.length;
 	}
 
@@ -167,18 +151,18 @@ public class SequenceDiagram {
 	}
 
 	// TODO perform action that couldn't be done while building
-	public void completeDiagram()
-	{
-		// TODO for each operand condition add a LL occurence to the lifeline with the first message (or to the lowest index)
-	}
+	// public void completeDiagram()
+	// {
+	// TODO for each operand condition add a LL occurence to the lifeline with the first message (or to the lowest index)
+	// }
 
 	/**
 	 * should be called after the last built step in the diagram to make a sanity check (i.e. message to all Lifelines which are created later, but could be problematic while writting the diagram!)
 	 * @return
 	 */
-	public boolean checkIfDiagramIsComplete() {
-		return false;
-	}
+	// public boolean checkIfDiagramIsComplete() {
+	// return false;
+	// }
 
 	public void draw(DrawHandler drawHandler) {
 		// draw top border and Text
