@@ -1,11 +1,15 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
+import com.baselet.element.facet.specific.sequence_aio.gen.ParseException;
+import com.baselet.element.facet.specific.sequence_aio.gen.SequenceAllInOneParser;
+import com.baselet.element.facet.specific.sequence_aio.gen.TokenMgrException;
 import com.baselet.gui.AutocompletionText;
 
 public class SequenceAllInOneFacet extends Facet {
@@ -42,7 +46,14 @@ public class SequenceAllInOneFacet extends Facet {
 			strBuilder.append(str);
 			strBuilder.append('\n');
 		}
+		try {
+			System.out.println(new Date());
+			new SequenceAllInOneParser(strBuilder.toString()).start().generateDiagram().draw(drawer);
+		} catch (ParseException e) {
+			throw new SequenceDiagramException(e);
+		} catch (TokenMgrException e) {
+			throw new SequenceDiagramException(e);
+		}
 
 	}
-
 }

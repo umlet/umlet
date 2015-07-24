@@ -23,6 +23,7 @@ import com.baselet.element.facet.specific.sequence_aio.SequenceDiagramException;
 public class SequenceAllInOneParser {
 	private static final Logger log = Logger.getLogger(SequenceAllInOneParser.class);
 
+	private boolean autoTick;
 	
 	/**
 	 * Small data container to pass all informations.
@@ -37,11 +38,18 @@ public class SequenceAllInOneParser {
 }
 PARSER_END(SequenceAllInOneParser)
 
-// defines input to be ignored
-SKIP:
+/* defines input to be ignored */
+< * > SKIP:
 {
 	" "
 	| "\t"
+}
+
+< DEFAULT, DIAGRAM_DEF > SKIP:
+{
+	"\n" : DEFAULT
+	| "\r\n" : DEFAULT
+	| "\r" : DEFAULT
 }
 
 < * > SKIP :
@@ -49,25 +57,29 @@ SKIP:
 	<"//"(~["\n","\r"])*("\n"|"\r"|"\r\n")>
 }
 
-< * > TOKEN :{
-	< NEW_LINE: < NEW_LINE_UNIX > | < NEW_LINE_WIN > | < NEW_LINE_OSX >> : DEFAULT
-	| < #NEW_LINE_UNIX: "\n" >
-	| < #NEW_LINE_WIN: "\r\n" >
-	| < #NEW_LINE_OSX: "\r" >}
+< DEFAULT > TOKEN:
+{	< DIAGRAM_OPTION_OVERRIDE_ID :"overrideIds=" >
+	| < DIAGRAM_OPTION_AUTO_TICK: "autoTick=" >
+}
 
-TOKEN :{
+< DEFAULT > TOKEN :
+{
+
 	< DIAGRAM_TITLE: "title=" > : DIAGRAM_DEF
 	| < LIFELINE_DEFINITIONS: "obj=" > : LIFELINE_DEF
-	| < DIAGRAM_OPTION_OVERRIDE_ID :"overrideIds=" > : DEFAULT
 	| < DIAGRAM_SEQUENCE :"sequence=" > : DIAGRAM_SEQ
 }
 
-< DIAGRAM_DEF > TOKEN:{
-	< DIAGRAM_TITLE_TEXT: (~ ["\r","\n"])+>}
+< DIAGRAM_DEF > TOKEN:
+{
+	< DIAGRAM_TITLE_TEXT: (~ ["\r","\n"])+> : DEFAULT
+}
 
 /*< DIAGRAM_DEF > SKIP :
 {
-	<DIA_DEF_NL_DEF :< NEW_LINE >> : DEFAULT}*/
+	<DIA_DEF_NL_DEF :> : DEFAULT
+}*/
+
 
 /*< DIAGRAM_OPTION > TOKEN :
 {
@@ -75,20 +87,25 @@ TOKEN :{
 
 < LIFELINE_DEF > TOKEN :
 {
-	< LIFELINE_DEF_DELIMITER: "|" >
-	//| < LIFELINE_TITLE_DELIMITER: "~" > integrated in the title
+	< LL_DEF_NEW_LINE: "\n" | "\r\n" | "\r" > : DEFAULT
+	| < LIFELINE_DEF_DELIMITER: "|" >
+	/*| < LIFELINE_TITLE_DELIMITER: "~" > integrated in the title */
 	| < LIFELINE_ACTOR: "ACTOR" >
 	| < LIFELINE_ACTIVE: "ACTIVE" >
 	| < LIFELINE_CREATED_LATER :"CREATED_LATER" >
-	| < LIFELINE_TITLE: ( 
-			~["~","\\"] 
-			| ("\\" ["\\","~"])
-		)* "~" >
+	| < LIFELINE_TITLE: /* since | and ~ are special characters which delimit the title they need to be escaped */
+		( 
+			~["~","\\","\n","\r","|"] 
+			| ("\\" ["\\","~","|"])
+		)+
+		"~" >
 }
 
 < DIAGRAM_SEQ > TOKEN :
-{	< TEXT_DELIMITER: ":" >
+{
+	< TEXT_DELIMITER: ":" > : DIAGRAM_SEQ_TEXT
 	| < LIST_DELIMITER: "," >
+	| < COMMAND_DELIMITER: ";" >
 	| < MESSAGE_SOLID_LINE: "-" >
 	| < MESSAGE_DASHED_LINE: "." >
 	| < MESSAGE_ARROW_LEFT_OPEN: "<" >
@@ -101,43 +118,41 @@ TOKEN :{
 	| < END_COREGION: "coregionEnd=" >
 	| < INVARIANT: "invariant=" >
 	| < STATE_INVARIANT: "stateInvariant=" >
-	| < EXEC_SPEC_START: "on" >
-	| < EXEC_SPEC_END: "off" >
+	| < EXEC_SPEC_START: "on=" >
+	| < EXEC_SPEC_END: "off=" >
+	| < TICK: "tick=" >
+	| < UNSIGNED_INT_CONSTANT: ( ["0" - "9"] ) + >	| < SEQ_NEW_LINE: "\n" | "\r\n" | "\r" >
 }
 
 < LIFELINE_DEF, DIAGRAM_SEQ > TOKEN :
-{	< LIFELINE_ID: ["a"-"z","A"-"Z"] (["a"-"z","A"-"Z","0"-"9"])* >
-}
-< DIAGRAM_SEQ > TOKEN :
 {
-	< TEXT_UNTIL_NL : (~ ["\r","\n"])+>
+	< LIFELINE_ID: ["a"-"z","A"-"Z"] (["a"-"z","A"-"Z","0"-"9"])* >
 }
 
-< LIFELINE_DEF > SKIP :
+< DIAGRAM_SEQ_TEXT > TOKEN :
 {
-	" "
-	| "\t"
+	< TEXT_UNTIL_NEXT_COMMAND : ( 
+			~["\\","\n","\r",";"] 
+			| ("\\" ["\\",";"])
+		)+ > : DIAGRAM_SEQ
 }
-
-	
 
 TOKEN :
 {
-	< UNSIGNED_INT_CONSTANT: ( <DIGIT> ) + >
-	| < UNSIGNED_DOUBLE_CONSTANT: ( <DIGIT> ) + ( "." (<DIGIT>)+ )? >
+	< UNSIGNED_DOUBLE_CONSTANT: ( <DIGIT> ) + ( "." (<DIGIT>)+ )? >
 	| < #DIGIT: ["0" - "9"] >
 	| < TRUE: "true" >
 	| < FALSE: "false" >
 }
 
-// general Tokens
+/* general Tokens */
 < * > TOKEN :
 {
 	<LAST_LINE_COMMENT: "//"(~["\n","\r"])*>
 }
 
-//more general Tokens with no case distinction
-TOKEN [IGNORE_CASE] :
+/* more general Tokens with no case distinction */
+/*TOKEN [IGNORE_CASE] :
 {
 	< #HEX: ["0" - "9","a"-"f"] >
 	| <  SIMPLE_STRING : "\""
@@ -146,7 +161,7 @@ TOKEN [IGNORE_CASE] :
 	   | ("\\" ["\\","\""])
    )*
    "\"" >
-}
+}*/
 
 /**
  * The main function which parses the whole diagram.
@@ -156,21 +171,26 @@ SequenceDiagramBuilder start() :
 {
 	String titleText = null;
 	SequenceDiagramBuilder diagram  = new SequenceDiagramBuilder();
+	autoTick = true;
 }
 {
 	(
-		(			titleText=Title() { diagram.setTitle(titleText); }
+		(
+			titleText=DiagramTitle() { diagram.setTitle(titleText); }
 			| Options(diagram)
-			| ObjectDefs(diagram)
+			| LifelineDefinitions(diagram)
 		)+
-		Sequence(diagram)
-	)	
+		< DIAGRAM_SEQUENCE > Sequence(diagram)
+	)
+	
 	(< LAST_LINE_COMMENT >)?
-	<EOF>	{		return diagram;
+	<EOF>
+	{
+		return diagram;
 	}
 }
 
-String Title() :
+String DiagramTitle() :
 {
 	String text = "";
 }
@@ -187,23 +207,30 @@ String Title() :
  */
 void Options(SequenceDiagramBuilder diagram) :
 {
-	boolean overrideIds;}{
-	< DIAGRAM_OPTION_OVERRIDE_ID > overrideIds = booleanConstant()	{
-		diagram.setOverrideDefaultIds(overrideIds);	}}
+	boolean overrideIds;
+}
+{
+	< DIAGRAM_OPTION_OVERRIDE_ID > overrideIds = booleanConstant()
+	{
+		diagram.setOverrideDefaultIds(overrideIds);
+	}
+	| < DIAGRAM_OPTION_AUTO_TICK > autoTick = booleanConstant()
+}
 
 /**
  * Defines all Lifelines
  */
-void ObjectDefs(SequenceDiagramBuilder diagram) :
+void LifelineDefinitions(SequenceDiagramBuilder diagram) :
 {}
 {
-	< LIFELINE_DEFINITIONS > ObjectDef(diagram) (< LIFELINE_DEF_DELIMITER > ObjectDef(diagram))* NewLine()
+	< LIFELINE_DEFINITIONS > LifelineDef(diagram) (< LIFELINE_DEF_DELIMITER > LifelineDef(diagram))* < LL_DEF_NEW_LINE >
 }
 
 /**
- * Defines one Lifeline
+ * Defines one Lifeline, the id can't be LIFELINE_ACTOR, LIFELINE_ACTIVE
+ * or LIFELINE_CREATED_LATER because these are keywords.
  */
-void ObjectDef(SequenceDiagramBuilder diagram) :
+void LifelineDef(SequenceDiagramBuilder diagram) :
 {
 	String name = "";
 	String id = null;
@@ -211,21 +238,25 @@ void ObjectDef(SequenceDiagramBuilder diagram) :
 	Lifeline.LifelineHeadType headType = Lifeline.LifelineHeadType.STANDARD;
 }
 {
-	name = ObjectDefTitleText() (id=LifelineId())?
-	(		< LIFELINE_ACTOR > { headType = Lifeline.LifelineHeadType.ACTOR; }
+	name = LifelineDefTitleText() (id=LifelineId())?
+	(
+		< LIFELINE_ACTOR > { headType = Lifeline.LifelineHeadType.ACTOR; }
 		| < LIFELINE_ACTIVE > { headType = Lifeline.LifelineHeadType.ACTIVE_CLASS; }
 		| < LIFELINE_CREATED_LATER > { createdOnStart = false; }
-	) *	{
-		diagram.addLiveline(name, id, headType, createdOnStart);	}
+	) *
+	{
+		diagram.addLiveline(name, id, headType, createdOnStart);
+	}
 }
 
 /** can could be multiple lines */
-String ObjectDefTitleText() :
+String LifelineDefTitleText() :
 {}
 {
 	< LIFELINE_TITLE >
 	{
-		// convert new lines to unix style and handle the escaping of \ and ~		return token.image.substring(0, token.image.length() - 1).replace("\r\n", "\n").replace("\r", "\n").replace("\\~", "~").replace("\\\\", "\\");
+		/* remove trailing ~, convert new lines to unix style and handle the escaping of \, | and ~ */
+		return token.image.substring(0, token.image.length() - 1).replace("\r\n", "\n").replace("\r", "\n").replace("\\~", "~").replace("\\|", "|").replace("\\\\", "\\");
 	}
 }
 
@@ -239,47 +270,42 @@ String LifelineId() :
 {}
 {
 	< LIFELINE_ID >
-	{		return token.image;
+	{
+		return token.image;
 	}
 }
-
-/*
-String MLText() :
-{}
-{
-	(
-		< NEW_LINE >
-	)*
-}*/
 
 void Sequence(SequenceDiagramBuilder diagram) :
 {}
 {
-	< DIAGRAM_SEQUENCE >
 	(
-		/*SequenceTick(diagram)
-		|*/ SequenceElement(diagram)
-		{
-			diagram.tick(1);
-		}
+		SequenceTick(diagram) < SEQ_NEW_LINE >
+		| (
+			SequenceElement(diagram)
+			( LOOKAHEAD(2) < COMMAND_DELIMITER > SequenceElement(diagram))*
+			(< COMMAND_DELIMITER >)?
+			< SEQ_NEW_LINE >
+			{ if(autoTick) { diagram.tick(); } }
+		)
 		//| CombinedFragment(diagram)
+		| < SEQ_NEW_LINE >
 	)*
 }
 
-/*void SequenceTick(SequenceDiagram diagram) :
-{}
+void SequenceTick(SequenceDiagramBuilder diagram) :
 {
-	(		(
-			SequenceElement(diagram) /*(< SEMI_COLON > SequenceElement(diagram))* *
-		)
-	)
-	/*| tick { tick(n)} *
-}*/
+	int tickCount = 1;
+}
+{
+	< TICK > (tickCount = unsignedIntConstant())?
+	{ diagram.tick(tickCount); }
+}
 
 void SequenceElement(SequenceDiagramBuilder diagram) :
 {}
 {
-	(		Message(diagram)
+	(
+		Message(diagram)
 		| Coregion(diagram)
 		| ExecutionSpecification(diagram)
 		| StateInvariant(diagram)
@@ -307,13 +333,15 @@ void Message(SequenceDiagramBuilder diagram) :
 		messageArrowInfo =  MessageArrow()
 		(
 			rightLifelineId = LifelineId()
-			| < LOST > { leftLifelineId = "lost"; lostCount++; }
-			| < FOUND > { leftLifelineId = "found"; foundCount++; }		)
-		(
-			< TEXT_DELIMITER >
-			msgText = textUntilNewLine() 		)?	)	{
+			| < LOST > { rightLifelineId = "lost"; lostCount++; }
+			| < FOUND > { rightLifelineId = "found"; foundCount++; }
+		)
+		(msgText = textUntilNewLine())?
+	)
+	{
 		if(lostCount + foundCount > 1) {
-			// TODO linenumber			throw new SequenceDiagramException("'lost' and 'found' can only occur once per message.");
+			// TODO linenumber
+			throw new SequenceDiagramException("'lost' and 'found' can only occur once per message.");
 		}
 		String send;
 		String receive;
@@ -321,13 +349,16 @@ void Message(SequenceDiagramBuilder diagram) :
 			send = leftLifelineId;
 			receive = rightLifelineId;
 		}
-		else {			send = rightLifelineId;
+		else {
+			send = rightLifelineId;
 			receive = leftLifelineId;
 		}
 		if(send.equals("lost")) {
-			throw new SequenceDiagramException("");		}
+			throw new SequenceDiagramException("");
+		}
 		else if(send.equals("found")) {
-			// addFoundMessage		}
+			// addFoundMessage
+		}
 		else
 		{
 			if(receive.equals("lost")) {
@@ -336,13 +367,17 @@ void Message(SequenceDiagramBuilder diagram) :
 			else if(receive.equals("found")) {
 				throw new SequenceDiagramException("");
 			}
-			else {				diagram.addMessage(send, receive, messageArrowInfo.duration, msgText, messageArrowInfo.lineType, messageArrowInfo.arrowType);
+			else {
+				diagram.addMessage(send, receive, messageArrowInfo.duration, msgText, messageArrowInfo.lineType, messageArrowInfo.arrowType);
 			}
-		}	}
+		}
+	}
 }
 
-MessageArrowInfo MessageArrow():{
-	MessageArrowInfo messageArrowInfo = new MessageArrowInfo();}
+MessageArrowInfo MessageArrow():
+{
+	MessageArrowInfo messageArrowInfo = new MessageArrowInfo();
+}
 {
 		(
 			(	
@@ -356,8 +391,10 @@ MessageArrowInfo MessageArrow():{
 					< MESSAGE_ARROW_RIGHT_OPEN > { messageArrowInfo.arrowType = ArrowType.OPEN; }
 					| < MESSAGE_ARROW_RIGHT_FILLED >  { messageArrowInfo.arrowType = ArrowType.FILLED; }
 				)
-			)			{
-				messageArrowInfo.fromLeftToRight = true;			}
+			)
+			{
+				messageArrowInfo.fromLeftToRight = true;
+			}
 			| (
 				(
 					< MESSAGE_ARROW_LEFT_OPEN > { messageArrowInfo.arrowType = ArrowType.OPEN; }
@@ -367,11 +404,13 @@ MessageArrowInfo MessageArrow():{
 				/* optional duration */
 				(
 					"-" messageArrowInfo.duration = unsignedIntConstant()
-				)?			)
+				)?
+			)
 			{
 				messageArrowInfo.fromLeftToRight = false;
 			}
-		)		{ return messageArrowInfo; }
+		)
+		{ return messageArrowInfo; }
 }
 
 LineType MessageArrowLineType() :
@@ -379,10 +418,12 @@ LineType MessageArrowLineType() :
 	LineType lineType;
 }
 {
-	(		< MESSAGE_SOLID_LINE > { lineType = LineType.SOLID; }
+	(
+		< MESSAGE_SOLID_LINE > { lineType = LineType.SOLID; }
 		| < MESSAGE_DASHED_LINE >  { lineType = LineType.DASHED; }
 	)
-	{		return lineType;
+	{
+		return lineType;
 	}
 }
 
@@ -392,11 +433,14 @@ void Coregion(SequenceDiagramBuilder diagram) :
 	boolean start;
 }
 {
-	(		< START_COREGION > { start = true; }
+	(
+		< START_COREGION > { start = true; }
 		| < END_COREGION > { start = false; }
 	)
-	lifelineId = LifelineId()	{
-		diagram.addCoregion(lifelineId, start);	}
+	lifelineId = LifelineId()
+	{
+		diagram.addCoregion(lifelineId, start);
+	}
 }
 
 void ExecutionSpecification(SequenceDiagramBuilder diagram) :
@@ -405,12 +449,15 @@ void ExecutionSpecification(SequenceDiagramBuilder diagram) :
 	boolean on;
 }
 {
-	(		< EXEC_SPEC_START > { on = true; }
-		< EXEC_SPEC_END > { on = false; }
+	(
+		< EXEC_SPEC_START > { on = true; }
+		| < EXEC_SPEC_END > { on = false; }
 	)
-	lifelineId = LifelineId()	{
-		diagram.changeExecutionSpecification(lifelineId, on);	}
-	( < LIST_DELIMITER > lifelineId = LifelineId()
+	lifelineId = LifelineId()
+	{
+		diagram.changeExecutionSpecification(lifelineId, on);
+	}
+	( (< LIST_DELIMITER >)? lifelineId = LifelineId()
 		{
 			diagram.changeExecutionSpecification(lifelineId, on);
 		}
@@ -424,33 +471,27 @@ void StateInvariant(SequenceDiagramBuilder diagram) :
 	boolean stateStyle;
 }
 {
-	(		< INVARIANT > { stateStyle = false; }
+	(
+		< INVARIANT > { stateStyle = false; }
 		| < STATE_INVARIANT > { stateStyle = true; }
 	) 
 	lifelineId = LifelineId()
-	(		< TEXT_DELIMITER >
-		text = textUntilNewLine()
-	)?
-	{		diagram.addStateInvariant(lifelineId, text, stateStyle);
+	(text = textUntilNewLine())?
+	{
+		diagram.addStateInvariant(lifelineId, text, stateStyle);
 	}
 }
 
-String textUntilNewLine() :{
-}
-{	(		< TEXT_UNTIL_NL >
-		| < LIFELINE_ID >
-	)
-	{		return token.image;
-	}
-}
-
-void NewLine() :{}{	< NEW_LINE >}
-/*
-String simpleString() :
-{}
+String textUntilNewLine() :
 {
-	<SIMPLE_STRING> { return token.image.substring(1,token.image.length()-1).replace("\\\"", "\"").replace("\\\\", "\\");} //remove the leading and trailing quotes, replace all escaped quotes \" with a normal quote " and replace all \\ with \
-}*/
+}
+{
+	< TEXT_DELIMITER >
+	< TEXT_UNTIL_NEXT_COMMAND >
+	{
+		return token.image.replace("\\;", ";").replace("\\\\", "\\");
+	}
+}
 
 boolean booleanConstant() :
 { boolean value;}
@@ -500,7 +541,8 @@ double doubleValue() :
 double unsignedDoubleConstant() :
 {}
 {
-	(		<UNSIGNED_INT_CONSTANT>
+	(
+		<UNSIGNED_INT_CONSTANT>
 		| <UNSIGNED_DOUBLE_CONSTANT>
 	)
 	{

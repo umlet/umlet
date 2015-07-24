@@ -23,6 +23,7 @@ public class SequenceDiagramBuilder {
 	private final List<String> warnings;
 
 	private int currentTick;
+	private int lastMessageReceiveTick;
 	private boolean diagramRetrieved;
 
 	public SequenceDiagramBuilder()
@@ -31,6 +32,7 @@ public class SequenceDiagramBuilder {
 		currentLifelineState = new HashMap<Lifeline, SequenceDiagramBuilder.LifelineState>();
 		warnings = new LinkedList<String>();
 		currentTick = 0;
+		lastMessageReceiveTick = 0;
 		diagramRetrieved = false;
 	}
 
@@ -52,6 +54,7 @@ public class SequenceDiagramBuilder {
 	 */
 	public void addLiveline(String headText, String id, Lifeline.LifelineHeadType headType, boolean createdOnStart) {
 		checkState();
+		// check existing ids, this should handle default ids!
 		if (dia.isOverrideDefaultIds() && id == null) {
 			throw new SequenceDiagramException("If the override option is set to true then every lifeline needs an id!");
 		}
@@ -77,7 +80,7 @@ public class SequenceDiagramBuilder {
 
 	public void addCoregion(String id, boolean start) {
 		checkState();
-		// check that every coregion should be closed and coregion should not overlap
+		// check that every coregion should be closed and coregion should not overlap, but only add a warning and trust the user
 		Lifeline lifeline = dia.getLifelineException(id);
 		LifelineState lifelineState = currentLifelineState.get(lifeline);
 		if (lifelineState.coregionActive && start) {
@@ -86,14 +89,13 @@ public class SequenceDiagramBuilder {
 		else if (!lifelineState.coregionActive && !start) {
 			addWarning(id, "A coregion was closed, but no coregion was active.");
 		}
-		else {
-			lifeline.addLifelineOccurrenceAtTick(new Coregion(lifeline, currentTick, start), currentTick);
-		}
+		lifeline.addLifelineOccurrenceAtTick(new Coregion(lifeline, currentTick, start), currentTick);
 		lifelineState.coregionActive = start;
 	}
 
 	public void changeExecutionSpecification(String lifelineId, boolean on) {
 		checkState();
+		// TODO check that they don't collide i.e. 2 changes at the same tick!
 
 		Lifeline lifeline = dia.getLifelineException(lifelineId);
 		LifelineState lifelineState = currentLifelineState.get(lifeline);
@@ -110,6 +112,8 @@ public class SequenceDiagramBuilder {
 
 	public void addMessage(String fromId, String toId, int duration, String text, LineType lineType, Message.ArrowType arrowType) {
 		checkState();
+		// TODO check that self mesage has duration > 0!
+		lastMessageReceiveTick = Math.max(lastMessageReceiveTick, currentTick + duration);
 		Message msg = new Message(dia.getLifelineException(fromId), dia.getLifelineException(toId), duration, currentTick, text, arrowType, lineType);
 		dia.addLifelineSpanningTickSpanningOccurrence(msg);
 	}
@@ -169,11 +173,12 @@ public class SequenceDiagramBuilder {
 	// TODO perform action that couldn't be done while building
 	public SequenceDiagram generateDiagram()
 	{
+		// set created later on, throw exception or only warning if no message to the lifeline (warning + draw on 0) throw exception if send message before start!!!
 		// only throw an exception if it is not possible to draw the diagram, else add a warning
 		// close all execution specifications and add warnings for all lifelines which had active ones.
 		// TODO for each operand condition add a LL occurence to the lifeline with the first message (or to the lowest index)
 		diagramRetrieved = true;
-
+		dia.setLastTick(Math.max(currentTick, lastMessageReceiveTick));
 		return dia;
 	}
 
