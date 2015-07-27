@@ -6,22 +6,18 @@ public class SequenceDiagramException extends RuntimeException {
 
 	public SequenceDiagramException() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public SequenceDiagramException(String message, Throwable cause) {
 		super(message, cause);
-		// TODO Auto-generated constructor stub
 	}
 
 	public SequenceDiagramException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 	public SequenceDiagramException(Throwable cause) {
 		super(cause);
-		// TODO Auto-generated constructor stub
 	}
 
 }

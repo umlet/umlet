@@ -453,8 +453,9 @@ double unsignedDoubleConstant() :
 		try {
 			value = Double.parseDouble(token.image);
 		} catch(NumberFormatException e) {
-			// TODO log fatal error, only valid double values are accepted from the parser
+			// log fatal error, only valid double values are accepted from the parser
 			// a double can't be to big, but may loose some precision
+			log.fatal("Fatal Error: The string '" + token.image + "' couldn't be parsed as double, but the grammar should ensure that the string is parsable.",e);
 			throw (ParseException) new ParseException("Fatal Error: The string '" + token.image + "' couldn't be parsed as double, but the grammar should ensure that the string is parsable.").initCause(e);
 		}
 		return value;

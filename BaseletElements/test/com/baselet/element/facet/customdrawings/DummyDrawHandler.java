@@ -25,13 +25,11 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 
 	@Override
 	protected DimensionDouble textDimensionHelper(String string) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected double getDefaultFontSize() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -53,7 +51,6 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 
 	@Override
 	public void drawLines(PointDouble... points) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -68,9 +65,7 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 	}
 
 	@Override
-	public void printHelper(String text, PointDouble point, AlignHorizontal align) {
-		// TODO
-	}
+	public void printHelper(String text, PointDouble point, AlignHorizontal align) {}
 
 	@Override
 	public void print(String text, double x, double y, AlignHorizontal align) {
