@@ -22,7 +22,8 @@ import com.baselet.element.draw.DrawHelper;
 
 public class Lifeline {
 	private static final double ACTOR_DIMENSION = 10;
-	private static final PointDouble ACTOR_SIZE = new PointDouble(DrawHelper.armLength(ACTOR_DIMENSION) * 2, DrawHelper.headToLegLength(ACTOR_DIMENSION));
+	private static final PointDouble ACTOR_SIZE = new PointDouble(DrawHelper.armLength(ACTOR_DIMENSION) * 2,
+			DrawHelper.headToLegLength(ACTOR_DIMENSION));
 	private static final double ACTIVE_CLASS_DOUBLE_BORDER_GAP = 10;
 	private static final double HEAD_VERTICAL_BORDER_PADDING = 5;
 	private static final double HEAD_HORIZONTAL_BORDER_PADDING = 5;
@@ -38,7 +39,7 @@ public class Lifeline {
 	private final int index;
 	private final LifelineHeadType headType;
 	/** If false it will be created by the first message sent to this object */
-	private final boolean createdOnStart;
+	private boolean createdOnStart;
 	/** The tick time when the lifeline is created can be null even when createdOnStart is false, then nothing is drawn*/
 	private Integer created;
 	/** The tick time when the lifeline is destroyed (X symbol) or null if it exists till the end (no X symbol at the end) */
@@ -48,19 +49,6 @@ public class Lifeline {
 
 	/** order according to the start tick */
 	private final List<ExecutionSpecification> activeAreas;
-
-	/**
-	 * each PointDouble represents an area (y1=x,y2=y) in which the lifeline e is interrupted (e.g. InteractionConstraint)
-	 * this is only used for drawing purposes
-	 */
-	// private final LinkedList<PointDouble> interruptedAreas;
-
-	/** ids on this lifeline e.g. ids for receiving and sending messages, value is the tick */
-	private final Map<String, Integer> localIds;
-
-	// /** Starting point of the lifeline, the head sits directly above it*/
-	// private PointDouble lifelineTopCenter;
-	// private PointDouble headSize;
 
 	/**
 	 *
@@ -79,14 +67,15 @@ public class Lifeline {
 		destroyed = null;
 
 		lifeline = new LinkedHashMap<Integer, LifelineOccurrence>();
-		// TODO change to collection?
 		activeAreas = new ArrayList<ExecutionSpecification>();
-		// interruptedAreas = new LinkedList<PointDouble>();
-		localIds = new HashMap<String, Integer>();
 	}
 
 	public int getIndex() {
 		return index;
+	}
+
+	public void setCreatedOnStart(boolean createdOnStart) {
+		this.createdOnStart = createdOnStart;
 	}
 
 	public boolean isCreatedOnStart() {
@@ -107,7 +96,7 @@ public class Lifeline {
 
 	public void addLifelineOccurrenceAtTick(LifelineOccurrence occurrence, Integer tick) {
 		if (lifeline.containsKey(tick)) {
-			throw new RuntimeException("The lifeline already contains an Occurence at the tick " + tick);
+			throw new SequenceDiagramException("The lifeline already contains an Occurence at the tick " + tick);
 		}
 		lifeline.put(tick, occurrence);
 	}
@@ -120,7 +109,8 @@ public class Lifeline {
 
 	/**
 	 * @param tick the time at which the width should be calculated
-	 * @return 0 if it is only a line, otherwise return the width from the center to the left outermost border of the execution specification
+	 * @return 0 if it is only a line, otherwise return the width from
+	 * the center to the left outermost border of the execution specification
 	 * @see Coregion for a drawing
 	 */
 	public double getLifelineLeftPartWidth(int tick)
@@ -130,7 +120,8 @@ public class Lifeline {
 
 	/**
 	 * @param tick the time at which the width should be calculated
-	 * @return 0 if it is only a line, otherwise return the width from the center to the right outermost border of the execution specification
+	 * @return 0 if it is only a line, otherwise return the width from
+	 * the center to the right outermost border of the execution specification
 	 * @see Coregion for a drawing
 	 */
 	public double getLifelineRightPartWidth(int tick)
@@ -140,7 +131,8 @@ public class Lifeline {
 			return 0;
 		}
 		else {
-			return (currentlyActiveExecSpec - 1) * (EXECUTIONSPECIFICATION_WIDTH - EXECUTIONSPECIFICATION_OVERLAPP) + EXECUTIONSPECIFICATION_WIDTH / 2.0;
+			return (currentlyActiveExecSpec - 1) * (EXECUTIONSPECIFICATION_WIDTH - EXECUTIONSPECIFICATION_OVERLAPP)
+					+ EXECUTIONSPECIFICATION_WIDTH / 2.0;
 		}
 	}
 
@@ -160,9 +152,12 @@ public class Lifeline {
 			int maxSimultaneousExecSpec = 0;
 			// for each start of an area calculate the currently active ExecutionSpecifications and set the maximum
 			for (ExecutionSpecification activeArea : activeAreas) {
-				maxSimultaneousExecSpec = Math.max(maxSimultaneousExecSpec, getCurrentlyActiveExecutionSpecifications(activeArea.getStartTick()));
+				maxSimultaneousExecSpec = Math.max(maxSimultaneousExecSpec,
+						getCurrentlyActiveExecutionSpecifications(activeArea.getStartTick()));
 			}
-			minWidth = Math.max(minWidth, (maxSimultaneousExecSpec - 1) * (EXECUTIONSPECIFICATION_WIDTH - EXECUTIONSPECIFICATION_OVERLAPP) + EXECUTIONSPECIFICATION_WIDTH);
+			minWidth = Math.max(minWidth,
+					(maxSimultaneousExecSpec - 1) * (EXECUTIONSPECIFICATION_WIDTH - EXECUTIONSPECIFICATION_OVERLAPP) * 2
+							+ EXECUTIONSPECIFICATION_WIDTH);
 		}
 		minWidth = Math.max(minWidth, getHeadMinWidth(drawHandler));
 		return minWidth;
@@ -181,7 +176,8 @@ public class Lifeline {
 	/**
 	 * calculates the
 	 * @param drawHandler
-	 * @return a Map which stores the ticks as keys and the additional height as values (i.e. the height which exceeds the tickHeight). This values are all &gt;= 0
+	 * @return a Map which stores the ticks as keys and the additional height as values
+	 * (i.e. the height which exceeds the tickHeight). This values are all &gt;= 0
 	 */
 	public Map<Integer, Double> getAdditionalYHeights(DrawHandler drawHandler, double width, double tickHeight)
 	{

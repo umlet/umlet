@@ -2,14 +2,13 @@ package com.baselet.element.facet.specific.sequence_aio;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import com.baselet.control.basics.Line1D;
 import com.baselet.control.basics.SortedMergedLine1DList;
 import com.baselet.control.basics.geom.PointDouble;
-import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawHandler;
 
 public class SequenceDiagram {
@@ -24,10 +23,6 @@ public class SequenceDiagram {
 	private String[] descLines;
 
 	// options
-	/** if true no default ids are generated and every lifeline needs an id */
-	private boolean overrideDefaultIds;
-
-	private final Map<String, Integer> ids;
 	private Lifeline[] lifelines;
 
 	private final Collection<LifelineSpanningTickSpanningOccurrence> spanningLifelineOccurrences;
@@ -36,11 +31,8 @@ public class SequenceDiagram {
 
 	public SequenceDiagram()
 	{
-		overrideDefaultIds = false;
-
 		titleLines = new String[] { "" };
 		descLines = null;
-		ids = new HashMap<String, Integer>();
 		lifelines = new Lifeline[0];
 		spanningLifelineOccurrences = new LinkedList<LifelineSpanningTickSpanningOccurrence>();
 	}
@@ -83,71 +75,18 @@ public class SequenceDiagram {
 
 	/**
 	 *
-	 * @param name
-	 * @param id can be NULL, if overrideDefaultIds option is NOT active
+	 * @param headText
+	 * @param headType
 	 * @param createdOnStart if false the lifeline will be created by the first message sent to this lifeline
 	 */
-	public Lifeline addLiveline(String headText, String id, Lifeline.LifelineHeadType headType, boolean createdOnStart) {
+	public Lifeline addLiveline(String headText, Lifeline.LifelineHeadType headType, boolean createdOnStart) {
 		lifelines = Arrays.copyOf(lifelines, lifelines.length + 1);
 		lifelines[lifelines.length - 1] = new Lifeline(headText, lifelines.length - 1, headType, createdOnStart);
-		if (id != null) {
-			ids.put(id, lifelines.length - 1);
-		}
-		if (!overrideDefaultIds) {
-			ids.put("id" + lifelines.length, lifelines.length - 1);
-		}
 		return lifelines[lifelines.length - 1];
-	}
-
-	/**
-	 * Should only be used for testing!
-	 * @param id of the lifeline
-	 * @param event e.g. message, invariant, activity
-	 */
-	void addEvent(String id, int tick, LifelineOccurrence occurrence) {
-		getLifelineException(id).addLifelineOccurrenceAtTick(occurrence, tick);
-	}
-
-	/**
-	 * should only be used for testing and not for the parser
-	 * @param fromId
-	 * @param toId
-	 * @param sendTick
-	 * @param duration
-	 * @param text
-	 * @param lineType
-	 * @param arrowType
-	 */
-	void addMessage(String fromId, String toId, int sendTick, int duration, String text, LineType lineType, Message.ArrowType arrowType) {
-		Message msg = new Message(getLifelineException(fromId), getLifelineException(toId), duration, sendTick, text, arrowType, lineType);
-		addLifelineSpanningTickSpanningOccurrence(msg);
 	}
 
 	public void addLifelineSpanningTickSpanningOccurrence(LifelineSpanningTickSpanningOccurrence occurrence) {
 		spanningLifelineOccurrences.add(occurrence);
-	}
-
-	/**
-	 * @param id of the lifeline which should be returned
-	 * @return the lifeline or null if no lifeline is associated with the given id
-	 */
-	public Lifeline getLifeline(String id) {
-		if (!ids.containsKey(id)) {
-			return null;
-		}
-		return lifelines[ids.get(id)];
-	}
-
-	/**
-	 * @param id of the lifeline which should be returned
-	 * @return the lifeline
-	 * @throws SequenceDiagramException if no lifeline is associated with the given id
-	 */
-	Lifeline getLifelineException(String id) {
-		if (!ids.containsKey(id)) {
-			throw new SequenceDiagramException("No lifeline is associated with the id: '" + id + "'");
-		}
-		return lifelines[ids.get(id)];
 	}
 
 	/**
@@ -159,12 +98,8 @@ public class SequenceDiagram {
 		return lifelines.length;
 	}
 
-	public boolean isOverrideDefaultIds() {
-		return overrideDefaultIds;
-	}
-
-	public void setOverrideDefaultIds(boolean overrideDefaultIds) {
-		this.overrideDefaultIds = overrideDefaultIds;
+	public List<Lifeline> getLifelines() {
+		return Arrays.asList(lifelines);
 	}
 
 	public void draw(DrawHandler drawHandler) {
