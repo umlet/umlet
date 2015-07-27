@@ -11,6 +11,8 @@ options {
 PARSER_BEGIN(CustomDrawingParser)
 package com.baselet.element.facet.customdrawings.gen;
 
+import org.apache.log4j.Logger;
+
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawHandler;
@@ -18,6 +20,8 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 
 public abstract class CustomDrawingParser {
+	private static final Logger log = Logger.getLogger(CustomDrawingParser.class);
+	
 	// JavaCC doesn't support user enriched constructors (adding additional parameters)
 	// therefore we use abstract getters
 	public abstract double getWidth();

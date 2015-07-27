@@ -94,9 +94,15 @@ public class Lifeline {
 		this.destroyed = destroyed;
 	}
 
-	public void addLifelineOccurrenceAtTick(LifelineOccurrence occurrence, Integer tick) {
+	public void addLifelineOccurrenceAtTick(LifelineOccurrence occurrence, Integer tick)
+			throws SequenceDiagramCheckedException {
+		if (!isCreatedOnStart()) {
+			if (created == null || created >= tick) {
+				throw new SequenceDiagramCheckedException("The lifeline can not contain occurrences before it is created.");
+			}
+		}
 		if (lifeline.containsKey(tick)) {
-			throw new SequenceDiagramException("The lifeline already contains an Occurence at the tick " + tick);
+			throw new SequenceDiagramCheckedException("The lifeline already contains an occurence at the tick " + tick);
 		}
 		lifeline.put(tick, occurrence);
 	}

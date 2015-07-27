@@ -115,7 +115,11 @@ public class SequenceDiagramBuilder {
 	 */
 	private void addLifelineOccurrence(String id, LifelineOccurrence occurrence) {
 		checkState();
-		getLifelineException(id).addLifelineOccurrenceAtTick(occurrence, currentTick);
+		try {
+			getLifelineException(id).addLifelineOccurrenceAtTick(occurrence, currentTick);
+		} catch (SequenceDiagramCheckedException ex) {
+			throw new SequenceDiagramException("Error on lifeline '" + id + "': " + ex.getMessage(), ex);
+		}
 	}
 
 	public void addStateInvariant(String lifelineId, String text, boolean drawAsState) {
@@ -133,8 +137,12 @@ public class SequenceDiagramBuilder {
 		else if (!lifelineState.coregionActive && !start) {
 			addWarning(id, "A coregion was closed, but no coregion was active.");
 		}
-		lifeline.addLifelineOccurrenceAtTick(new Coregion(lifeline, currentTick, start), currentTick);
-		lifelineState.coregionActive = start;
+		try {
+			lifeline.addLifelineOccurrenceAtTick(new Coregion(lifeline, currentTick, start), currentTick);
+			lifelineState.coregionActive = start;
+		} catch (SequenceDiagramCheckedException ex) {
+			throw new SequenceDiagramException("Error on lifeline '" + id + "': " + ex.getMessage(), ex);
+		}
 	}
 
 	public void changeExecutionSpecification(String lifelineId, boolean on) {
@@ -148,6 +156,9 @@ public class SequenceDiagramBuilder {
 			}
 			if (lifelineState.lastEndOfExecSpec == currentTick) {
 				throw new SequenceDiagramException("On lifeline " + lifelineId + " two executionspecifications overlap, this is not possible.");
+			}
+			if (!lifeline.isCreatedOnStart() && (lifeline.getCreated() == null || lifeline.getCreated() >= currentTick)) {
+				throw new SequenceDiagramException("Error on lifeline '" + lifelineId + "': the lifeline can not contain executionspecifications before it is created.");
 			}
 			lifelineState.execSpecStartTickStack.addFirst(currentTick);
 		}
@@ -201,9 +212,8 @@ public class SequenceDiagramBuilder {
 		checkState();
 		Lifeline from = getLifelineException(fromId);
 		checkLifelineSendMessage(from, fromId);
-		// TODO error handling
-		// add as ll occurrence
-		// addLifelineOccurrence(fromId, new LostMessage());
+
+		addLifelineOccurrence(fromId, new LostOrFoundMessage(from, false, currentTick, text, arrowType, lineType));
 	}
 
 	public void addFoundMessage(String toId, String text, LineType lineType, Message.ArrowType arrowType) {
@@ -214,9 +224,8 @@ public class SequenceDiagramBuilder {
 				throw new SequenceDiagramException("The lifeline " + toId + " was not yet created, therefore it is not possible to send a found message to it.");
 			}
 		}
-		// TODO error handling
-		// add as ll occurrence
-		// addLifelineOccurrence(toId, new FoundMessage())
+
+		addLifelineOccurrence(toId, new LostOrFoundMessage(to, true, currentTick, text, arrowType, lineType));
 	}
 
 	private void checkLifelineSendMessage(Lifeline from, String id) {

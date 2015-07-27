@@ -341,7 +341,7 @@ void Message(SequenceDiagramBuilder diagram) :
 	{
 		if(lostCount + foundCount > 1) {
 			// TODO linenumber
-			throw new SequenceDiagramException("'lost' and 'found' can only occur once per message.");
+			throw new SequenceDiagramException("Error: 'lost' and 'found' can only occur once per message.");
 		}
 		String send;
 		String receive;
@@ -354,18 +354,23 @@ void Message(SequenceDiagramBuilder diagram) :
 			receive = leftLifelineId;
 		}
 		if(send.equals("lost")) {
-			throw new SequenceDiagramException("");
+			throw new SequenceDiagramException("Error: 'lost' can only be on the receiving end of a message.");
 		}
 		else if(send.equals("found")) {
-			// addFoundMessage
+			if(messageArrowInfo.duration != 0) {
+				throw new SequenceDiagramException("Error: 'lost' and 'found' messages can only have a duration of 0, but the duration was " + messageArrowInfo.duration + ".");			}
+			diagram.addFoundMessage(receive, msgText, messageArrowInfo.lineType, messageArrowInfo.arrowType);
 		}
 		else
 		{
 			if(receive.equals("lost")) {
-				//add lost message
+				if(messageArrowInfo.duration != 0) {
+					throw new SequenceDiagramException("Error: 'lost' and 'found' messages can only have a duration of 0, but the duration was " + messageArrowInfo.duration + ".");
+				}
+				diagram.addLostMessage(send, msgText, messageArrowInfo.lineType, messageArrowInfo.arrowType);
 			}
 			else if(receive.equals("found")) {
-				throw new SequenceDiagramException("");
+				throw new SequenceDiagramException("Error: 'found' can only be on the sending end of a message.");
 			}
 			else {
 				diagram.addMessage(send, receive, messageArrowInfo.duration, msgText, messageArrowInfo.lineType, messageArrowInfo.arrowType);
