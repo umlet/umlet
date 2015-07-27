@@ -48,7 +48,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		this.to = to;
 		this.duration = duration;
 		this.sendTick = sendTick;
-		this.textLines = text.split("\n");
+		textLines = text.split("\n");
 		this.arrowType = arrowType;
 		this.lineType = lineType;
 	}
@@ -209,9 +209,15 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 			double executionSpecWidth = Math.abs(getSendCenterXOffset()) + Math.abs(getReceiveCenterXOffset());
 			double neededWidth = executionSpecWidth + AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler) + LIFELINE_TEXT_PADDING * 2;
 			int affectedLifelineCount = getLastLifeline().getIndex() - getFirstLifeline().getIndex() + 1;
-			// increase the needed width because we only calculated the width between the 2 lifelines
-			// therefore we must compensate for the 2 half lifelines on each end
-			return neededWidth / (affectedLifelineCount - 1) * affectedLifelineCount - lifelineHorizontalPadding;
+			// increase the needed width because we only calculated the width for the arrow, but we need the overall width
+			if (!to.isCreatedOnStart() && to.getCreated() != null && to.getCreated() == sendTick + duration) {
+				// here we must compensate for the 1 1/2 lifelines (half one at the send and a full lifeline at the receive)
+				return (2 * affectedLifelineCount * neededWidth - 3 * (affectedLifelineCount - 1) * lifelineHorizontalPadding) / (2 * affectedLifelineCount - 3);
+			}
+			else {
+				// here we must compensate for the 2 half lifelines on each end
+				return neededWidth / (affectedLifelineCount - 1) * affectedLifelineCount - lifelineHorizontalPadding;
+			}
 		}
 	}
 
