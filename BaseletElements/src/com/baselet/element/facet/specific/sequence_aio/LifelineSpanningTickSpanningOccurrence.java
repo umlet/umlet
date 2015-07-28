@@ -21,15 +21,16 @@ public interface LifelineSpanningTickSpanningOccurrence {
 	 *
 	 * @param drawHandler
 	 * @param topY the top position of the lifeline, exactly beneath the head (if it was created on start)
-	 * @param lifelinesHorizontalSpanning for each lifeline the start- (Line1D.low) and endpoint (Line1D.high) on the x-axis is stored. Therefore the array can be accessed by the index of the lifeline
+	 * @param lifelinesHorizontalSpanning for each lifeline the start- (Line1D.low) and endpoint (Line1D.high) on the x-axis is stored.
+	 * The array can be accessed by the index of the lifeline
 	 * @param tickHeight the default height of a tick
 	 * @param accumulativeAddiontalHeightOffsets
 	 * @return for each lifeline an array which contains the interrupted areas.
 	 * If there are no interruptions for a lifeline then no entry is needed.
 	 * It is also possible to return an array of size 0, but if there is an entry
-	 * then the array must not be null.
+	 * then the array must not be null. The key is the lifeline index.
 	 */
-	public Map<Lifeline, Line1D[]> draw(DrawHandler drawHandler, double topY, Line1D[] lifelinesHorizontalSpanning, double tickHeight, double[] accumulativeAddiontalHeightOffsets);
+	public Map<Integer, Line1D[]> draw(DrawHandler drawHandler, double topY, Line1D[] lifelinesHorizontalSpanning, double tickHeight, double[] accumulativeAddiontalHeightOffsets);
 
 	/**
 	 *
@@ -42,8 +43,8 @@ public interface LifelineSpanningTickSpanningOccurrence {
 	/**
 	 *
 	 * @param drawHandler
-	 * @param size
-	 * @return
+	 * @param lifelinesHorizontalSpanning the horizontal start and end of each lifeline
+	 * @return a map with the additional heights, the keys are the ticks and the values is the additional height needed
 	 */
 	public Map<Integer, Double> getEveryAdditionalYHeight(DrawHandler drawHandler, Line1D[] lifelinesHorizontalSpanning, double tickHeight);
 

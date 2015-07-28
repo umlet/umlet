@@ -67,9 +67,9 @@ public class PentagonDrawingHelper {
 	 * @param textLines
 	 * @param width the minimum width of the whole element, i.e. the minimum width of the diagram or combined fragment
 	 * @param topLeft
-	 * @return the height which was needed to draw the header
+	 * @return the size (width,height) which was needed to draw the header
 	 */
-	public static double draw(DrawHandler drawHandler, String[] textLines, double width, PointDouble topLeft) {
+	public static PointDouble draw(DrawHandler drawHandler, String[] textLines, double width, PointDouble topLeft) {
 		boolean splitIsNecessary = false;
 		double textWidth = width - getStaticWidthPadding();
 		for (String l : textLines) {
@@ -87,15 +87,17 @@ public class PentagonDrawingHelper {
 			}
 			textWidth += drawHandler.textWidth("n");
 		}
-		AdvancedTextSplitter.drawText(drawHandler, textLines, topLeft.x + HEADER_TEXT_X_PADDING, topLeft.y, textWidth, height, AlignHorizontal.LEFT, AlignVertical.CENTER);
+		AdvancedTextSplitter.drawText(drawHandler, textLines, topLeft.x + HEADER_TEXT_X_PADDING, topLeft.y, textWidth,
+				height, AlignHorizontal.CENTER, AlignVertical.CENTER);
 		LineType oldLt = drawHandler.getLineType();
 		drawHandler.setLineType(LineType.SOLID);
 		drawHandler.drawLines(new PointDouble[] {
 				new PointDouble(topLeft.x, topLeft.y + height),
-				new PointDouble(topLeft.x + textWidth, topLeft.y + height),
-				new PointDouble(topLeft.x + textWidth + HEADER_PENTAGON_SLOPE_WIDTH, topLeft.y + height * (1 - HEADER_PENTAGON_SLOPE_HEIGHT_PERCENTAGE)),
-				new PointDouble(topLeft.x + textWidth + HEADER_PENTAGON_SLOPE_WIDTH, topLeft.y) });
+				new PointDouble(topLeft.x + textWidth + HEADER_TEXT_X_PADDING * 2, topLeft.y + height),
+				new PointDouble(topLeft.x + textWidth + HEADER_TEXT_X_PADDING * 2 + HEADER_PENTAGON_SLOPE_WIDTH,
+						topLeft.y + height * (1 - HEADER_PENTAGON_SLOPE_HEIGHT_PERCENTAGE)),
+				new PointDouble(topLeft.x + textWidth + HEADER_TEXT_X_PADDING * 2 + HEADER_PENTAGON_SLOPE_WIDTH, topLeft.y) });
 		drawHandler.setLineType(oldLt);
-		return height;
+		return new PointDouble(textWidth + HEADER_TEXT_X_PADDING * 2 + HEADER_PENTAGON_SLOPE_WIDTH, height);
 	}
 }

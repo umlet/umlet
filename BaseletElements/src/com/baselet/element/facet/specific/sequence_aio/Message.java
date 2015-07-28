@@ -117,7 +117,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 	}
 
 	@Override
-	public Map<Lifeline, Line1D[]> draw(DrawHandler drawHandler, double topY,
+	public Map<Integer, Line1D[]> draw(DrawHandler drawHandler, double topY,
 			Line1D[] lifelinesHorizontalSpanning, double tickHeight, double[] accumulativeAddiontalHeightOffsets) {
 		PointDouble send = getSendPoint(topY, lifelinesHorizontalSpanning, tickHeight, accumulativeAddiontalHeightOffsets);
 		PointDouble receive = getReceivePoint(topY, lifelinesHorizontalSpanning, tickHeight, accumulativeAddiontalHeightOffsets);
@@ -146,7 +146,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 			drawNormalMessage(drawHandler, send, receive, tickHeight, arrowEndType, fillArrow, accumulativeAddiontalHeightOffsets);
 		}
 		drawHandler.setLineType(oldLt);
-		return new HashMap<Lifeline, Line1D[]>();
+		return new HashMap<Integer, Line1D[]>();
 	}
 
 	/**

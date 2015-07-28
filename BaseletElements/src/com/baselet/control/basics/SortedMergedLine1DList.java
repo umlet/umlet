@@ -116,7 +116,7 @@ public class SortedMergedLine1DList implements List<Line1D> {
 	public boolean addAll(Collection<? extends Line1D> c) {
 		boolean changed = false;
 		for (Line1D l : c) {
-			changed = changed || add(l);
+			changed = add(l) || changed;
 		}
 		return changed;
 	}
@@ -128,7 +128,7 @@ public class SortedMergedLine1DList implements List<Line1D> {
 	public boolean addAll(Line1D[] c) {
 		boolean changed = false;
 		for (Line1D l : c) {
-			changed = changed || add(l);
+			changed = add(l) || changed;
 		}
 		return changed;
 	}

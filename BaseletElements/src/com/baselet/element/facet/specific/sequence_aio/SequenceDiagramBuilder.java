@@ -1,5 +1,6 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -365,5 +366,24 @@ public class SequenceDiagramBuilder {
 		int lastEndOfExecSpec = -1; // Starts at -1 since the first tick is 0 and therefore no overlap is possible
 		LinkedList<Integer> execSpecStartTickStack = new LinkedList<Integer>();
 		boolean coregionActive = false;
+	}
+
+	public Lifeline[] getLifelineInterval(String id1, String id2) {
+		try {
+			return getLifelineIntervalException(id1, id2);
+		} catch (SequenceDiagramException e) {
+			return new Lifeline[0];
+		}
+	}
+
+	public Lifeline[] getLifelineIntervalException(String id1, String id2) {
+		Lifeline ll1 = getLifelineException(id1);
+		Lifeline ll2 = getLifelineException(id2);
+		if (ll1.getIndex() > ll2.getIndex()) {
+			Lifeline tmp = ll1;
+			ll1 = ll2;
+			ll2 = tmp;
+		}
+		return Arrays.copyOfRange(dia.getLifelinesArray(), ll1.getIndex(), ll2.getIndex() + 1);
 	}
 }

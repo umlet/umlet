@@ -19,8 +19,18 @@ public class Line1D {
 		return high;
 	}
 
+	/**
+	 * @return <code>high - low</code>
+	 */
 	public double getSpace() {
 		return high - low;
+	}
+
+	/**
+	 * @return <code>(high + low) / 2</code>
+	 */
+	public double getCenter() {
+		return (high + low) / 2;
 	}
 
 	public boolean contains(double value) {

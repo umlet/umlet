@@ -102,6 +102,10 @@ public class SequenceDiagram {
 		return Arrays.asList(lifelines);
 	}
 
+	public Lifeline[] getLifelinesArray() {
+		return lifelines;
+	}
+
 	public void draw(DrawHandler drawHandler) {
 		// calculate the minimum width of the lifelines and the diagram, if the header increases the diagram width adjust the lifeline width
 		double lifelineWidth = Math.max(getLifelineWidth(drawHandler), LIFELINE_MIN_WIDTH);
@@ -116,7 +120,7 @@ public class SequenceDiagram {
 			}
 		}
 		// calculate and draw the header, then draw top border
-		double headerHeight = PentagonDrawingHelper.draw(drawHandler, titleLines, diagramWidth, new PointDouble(0, 0));
+		double headerHeight = PentagonDrawingHelper.draw(drawHandler, titleLines, diagramWidth, new PointDouble(0, 0)).y;
 		drawHandler.drawLine(0, 0, diagramWidth, 0);
 		// draw description
 		// TODO
@@ -147,10 +151,10 @@ public class SequenceDiagram {
 		// drawing of the lifelines
 		if (lifelines.length > 0) {
 			for (LifelineSpanningTickSpanningOccurrence llstso : spanningLifelineOccurrences) {
-				Map<Lifeline, Line1D[]> tmpInterruptedAreas = llstso.draw(drawHandler, lifelineHeadTop + lifelineHeadHeight,
+				Map<Integer, Line1D[]> tmpInterruptedAreas = llstso.draw(drawHandler, lifelineHeadTop + lifelineHeadHeight,
 						lifelineHorizontalSpannings, TICK_HEIGHT, accumulativeAddiontalHeightOffsets);
-				for (Map.Entry<Lifeline, Line1D[]> e : tmpInterruptedAreas.entrySet()) {
-					interruptedAreas[e.getKey().getIndex()].addAll(e.getValue());
+				for (Map.Entry<Integer, Line1D[]> e : tmpInterruptedAreas.entrySet()) {
+					interruptedAreas[e.getKey()].addAll(e.getValue());
 				}
 			}
 
