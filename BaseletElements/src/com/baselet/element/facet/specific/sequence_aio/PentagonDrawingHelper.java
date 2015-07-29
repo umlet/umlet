@@ -1,5 +1,9 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
+import java.util.Collection;
+import java.util.Collections;
+
+import com.baselet.control.basics.Line1D;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
@@ -70,6 +74,21 @@ public class PentagonDrawingHelper {
 	 * @return the size (width,height) which was needed to draw the header
 	 */
 	public static PointDouble draw(DrawHandler drawHandler, String[] textLines, double width, PointDouble topLeft) {
+		return draw(drawHandler, textLines, width, topLeft, Collections.<Line1D> emptyList());
+	}
+
+	/**
+	 * Draws the text, bottom and right border of the pentagon and returning the used height.
+	 * @param drawHandler
+	 * @param textLines
+	 * @param width the minimum width of the whole element, i.e. the minimum width of the diagram or combined fragment
+	 * @param topLeft
+	 * @param slopeNotPermittedAreas X-Intervals on which the slope can not be drawn in absolute values,
+	 * i.e. the slope starts at the end of an interval if it would reach into one
+	 * @return the size (width,height) which was needed to draw the header
+	 */
+	public static PointDouble draw(DrawHandler drawHandler, String[] textLines, double width, PointDouble topLeft,
+			Collection<Line1D> slopeNotPermittedAreas) {
 		boolean splitIsNecessary = false;
 		double textWidth = width - getStaticWidthPadding();
 		for (String l : textLines) {
@@ -88,15 +107,28 @@ public class PentagonDrawingHelper {
 			textWidth += drawHandler.textWidth("n");
 		}
 		AdvancedTextSplitter.drawText(drawHandler, textLines, topLeft.x + HEADER_TEXT_X_PADDING, topLeft.y, textWidth,
-				height, AlignHorizontal.CENTER, AlignVertical.CENTER);
+				height, AlignHorizontal.LEFT, AlignVertical.CENTER);
 		LineType oldLt = drawHandler.getLineType();
 		drawHandler.setLineType(LineType.SOLID);
+		double slopeStartX = topLeft.x + textWidth + HEADER_TEXT_X_PADDING * 2;
+		double slopeEndX = slopeStartX + HEADER_PENTAGON_SLOPE_WIDTH;
+		// based on the slope widht and the Lifeline gaps and the fact that the execution specification
+		// is very small on the left side it should be enough to jump once
+		for (Line1D line : slopeNotPermittedAreas) {
+			if (line.getLow() > slopeEndX) {
+				break;
+			}
+			else if (line.isIntersecting(new Line1D(slopeStartX, slopeEndX))) {
+				slopeStartX = line.getHigh();
+				slopeEndX = slopeStartX + HEADER_PENTAGON_SLOPE_WIDTH;
+				break;
+			}
+		}
 		drawHandler.drawLines(new PointDouble[] {
 				new PointDouble(topLeft.x, topLeft.y + height),
-				new PointDouble(topLeft.x + textWidth + HEADER_TEXT_X_PADDING * 2, topLeft.y + height),
-				new PointDouble(topLeft.x + textWidth + HEADER_TEXT_X_PADDING * 2 + HEADER_PENTAGON_SLOPE_WIDTH,
-						topLeft.y + height * (1 - HEADER_PENTAGON_SLOPE_HEIGHT_PERCENTAGE)),
-				new PointDouble(topLeft.x + textWidth + HEADER_TEXT_X_PADDING * 2 + HEADER_PENTAGON_SLOPE_WIDTH, topLeft.y) });
+				new PointDouble(slopeStartX, topLeft.y + height),
+				new PointDouble(slopeEndX, topLeft.y + height * (1 - HEADER_PENTAGON_SLOPE_HEIGHT_PERCENTAGE)),
+				new PointDouble(slopeEndX, topLeft.y) });
 		drawHandler.setLineType(oldLt);
 		return new PointDouble(textWidth + HEADER_TEXT_X_PADDING * 2 + HEADER_PENTAGON_SLOPE_WIDTH, height);
 	}
