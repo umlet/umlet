@@ -325,7 +325,7 @@ void SequenceElement(SequenceDiagramBuilder diagram) :
 		| Coregion(diagram)
 		| ExecutionSpecification(diagram)
 		| StateInvariant(diagram)
-		//| (diagram) //general ordering
+		//| (diagram) //general ordering, TimeConstraint TimeObservation and DurationConstraint Duration Observation missing
 		| InteractionUse(diagram)
 		| Continuation(diagram)
 	)
@@ -345,7 +345,12 @@ void CombinedFragment(SequenceDiagramBuilder diagram) :
 	)?
 	(< SEQ_NEW_LINE >)*
 	{ diagram.beginCombinedFragment(interval.startId, interval.endId, operator); }
-	(Operand(diagram)) +
+	Operand(diagram)
+	(Operand(diagram) | < SEQ_NEW_LINE >) *
+	/* despite the warning this is correct, take always this choice and consume all new lines and operands
+	 * (conflict with Sequence(diagram) new Line production). Because of this construct the combined fragment does not have
+	 * to end with a new line. With a Syntactical LOOKAHEAD it would be possible to enforce a new line after a combined Fragment. 
+	 */
 	{ diagram.endCombinedFragment(); }}
 
 void Operand(SequenceDiagramBuilder diagram) :
@@ -354,7 +359,10 @@ void Operand(SequenceDiagramBuilder diagram) :
 }
 {
 	(		< OPEN_CURLY_BRACKET >
-		(< SEQ_NEW_LINE >)* /* TODO check if correct or WARNING true, should always take this choice and consume all new lines */
+		(< SEQ_NEW_LINE >)*
+		/* despite the warning this is correct, take always this choice and consume all new lines
+		 * (conflict with Sequence(diagram) new line production).
+		 */
 		(constraint = InteractionConstraint())?
 	)
 	{
@@ -373,7 +381,7 @@ InteractionConstraint InteractionConstraint():
 	< INTERACTION_CONSTRAINT >
 	( data.lifelineId = LifelineId())?
 	data.text = textUntilNewLine()
-	(< COMMAND_DELIMITER > | < SEQ_NEW_LINE >)
+	(< COMMAND_DELIMITER > | < SEQ_NEW_LINE >) /* TODO could add SeqenceElement after the constraint  */
 	{
 		return data;	}}	
 
