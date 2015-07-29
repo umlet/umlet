@@ -74,6 +74,10 @@ public class Lifeline {
 		return index;
 	}
 
+	public String[] getText() {
+		return text;
+	}
+
 	public void setCreatedOnStart(boolean createdOnStart) {
 		this.createdOnStart = createdOnStart;
 	}
@@ -94,6 +98,13 @@ public class Lifeline {
 		this.destroyed = destroyed;
 	}
 
+	/**
+	 *
+	 * @param occurrence
+	 * @param tick
+	 * @throws SequenceDiagramCheckedException if the lifeline already contains an occurrence at the specified tick or
+	 * if the lifeline is not created on start and the specified tick is prior in time to the create tick
+	 */
 	public void addLifelineOccurrenceAtTick(LifelineOccurrence occurrence, Integer tick)
 			throws SequenceDiagramCheckedException {
 		if (!isCreatedOnStart()) {

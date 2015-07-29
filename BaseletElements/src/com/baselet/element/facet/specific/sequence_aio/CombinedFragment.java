@@ -17,16 +17,12 @@ import com.baselet.diagram.draw.DrawHandler;
 
 public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence {
 
-	/** how much space is between the header and the constraint if they horizontally overlap */
+	/** how much space is between the header and the first constraint */
 	private static final double HEADER_CONSTRAINT_PADDING = 5;
 
 	private final Lifeline[] coveredLifelines;
-	// private final Lifeline intervalStart;// interval
-	// private final Lifeline intervalEnd;
 	/** first tick which is in the combined fragment, contains the operator and the InteractionConstraint of the first operand */
 	private final int startTick;
-	/** the last tick which lies in the combined fragment */
-	private int endTick;
 	private final String[] operatorLines;
 	private final Deque<Operand> operands;
 
@@ -55,10 +51,38 @@ public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence 
 		return coveredLifelines[coveredLifelines.length - 1];
 	}
 
-	public void setEndTick(int endTick) {
-		this.endTick = endTick;
+	// public void setEndTick(int endTick) {
+	// this.endTick = endTick;
+	// }
+
+	/**
+	 * the last tick which lies in the combined fragment
+	 */
+	public int getEndTick() {
+		if (operands.isEmpty()) {
+			return startTick;
+		}
+		return operands.getLast().endTick;
 	}
 
+	/**
+	 * Adds an operand to the combined fragement.
+	 * @param startTick
+	 * @param endTick
+	 */
+	public void addOperand(int startTick, int endTick) {
+		operands.add(new Operand(startTick, endTick));
+	}
+
+	/**
+	 * Adds an operand with an interaction constraint to the combined fragment.
+	 * @param startTick
+	 * @param endTick
+	 * @param text
+	 * @param constraintLifeline
+	 * @throws SequenceDiagramCheckedException  if the lifeline already contains an occurrence at the startTick or
+	 * if the lifeline is not created on start and the startTick is prior in time to the create tick
+	 */
 	public void addOperand(int startTick, int endTick, String text, Lifeline constraintLifeline) throws SequenceDiagramCheckedException {
 		operands.add(new Operand(startTick, endTick, text, constraintLifeline));
 	}
@@ -75,9 +99,9 @@ public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence 
 				new PointDouble(lifelinesHorizontalSpanning[getLastLifeline().getIndex()].getHigh(),
 						topY + startTick * tickHeight + accumulativeAddiontalHeightOffsets[startTick]),
 				new PointDouble(lifelinesHorizontalSpanning[getLastLifeline().getIndex()].getHigh(),
-						topY + (endTick + 1) * tickHeight + accumulativeAddiontalHeightOffsets[endTick + 1]),
+						topY + (getEndTick() + 1) * tickHeight + accumulativeAddiontalHeightOffsets[getEndTick() + 1]),
 				new PointDouble(lifelinesHorizontalSpanning[getFirstLifeline().getIndex()].getLow(),
-						topY + (endTick + 1) * tickHeight + accumulativeAddiontalHeightOffsets[endTick + 1]),
+						topY + (getEndTick() + 1) * tickHeight + accumulativeAddiontalHeightOffsets[getEndTick() + 1]),
 				null
 		};
 		rectangle[4] = rectangle[0];
@@ -160,9 +184,12 @@ public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence 
 		double headerHeight = PentagonDrawingHelper.getHeight(drawHandler, operatorLines,
 				lifelinesHorizontalSpanning[getLastLifeline().getIndex()].getHigh()
 						- lifelinesHorizontalSpanning[getFirstLifeline().getIndex()].getLow());
-		headerHeight += HEADER_CONSTRAINT_PADDING;
-		headerHeight += AdvancedTextSplitter.getSplitStringHeight(operands.getFirst().constraint.textLines,
-				lifelinesHorizontalSpanning[operands.getFirst().constraint.affectedLifeline.getIndex()].getSpace(), drawHandler);
+		if (operands.size() > 0 && operands.getFirst().constraint != null) {
+			headerHeight += HEADER_CONSTRAINT_PADDING;
+			headerHeight += AdvancedTextSplitter.getSplitStringHeight(operands.getFirst().constraint.textLines,
+					lifelinesHorizontalSpanning[operands.getFirst().constraint.affectedLifeline.getIndex()].getSpace(),
+					drawHandler);
+		}
 		if (headerHeight > tickHeight) {
 			ret.put(startTick, headerHeight - tickHeight);
 		}
@@ -175,6 +202,22 @@ public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence 
 
 		private final InteractionConstraint constraint;
 
+		public Operand(int startTick, int endTick) {
+			super();
+			this.startTick = startTick;
+			this.endTick = endTick;
+			constraint = null;
+		}
+
+		/**
+		 *
+		 * @param startTick
+		 * @param endTick
+		 * @param text
+		 * @param constraintLifeline
+		 * @throws SequenceDiagramCheckedException if the lifeline already contains an occurrence at the startTick or
+		 * if the lifeline is not created on start and the startTick is prior in time to the create tick
+		 */
 		public Operand(int startTick, int endTick, String text, Lifeline constraintLifeline) throws SequenceDiagramCheckedException {
 			super();
 			this.startTick = startTick;
@@ -205,7 +248,8 @@ public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence 
 			/**
 			 * @param constraintText the constraint without the square brackets
 			 * @param affectedLifeline the lifeline on which the constraint should be placed
-			 * @throws SequenceDiagramCheckedException
+			 * @throws SequenceDiagramCheckedException if the lifeline already contains an occurrence at the {@link Operand#startTick} or
+			 * if the lifeline is not created on start and the {@link Operand#startTick} is prior in time to the create tick
 			 */
 			public InteractionConstraint(String constraintText, Lifeline affectedLifeline) throws SequenceDiagramCheckedException {
 				super();

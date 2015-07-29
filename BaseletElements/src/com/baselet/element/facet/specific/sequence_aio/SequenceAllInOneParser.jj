@@ -28,12 +28,20 @@ public class SequenceAllInOneParser {
 	/**
 	 * Small data container to pass all informations.
 	 */
-	private class MessageArrowInfo
-	{
+	private class MessageArrowInfo {
 		int duration = 0;
 		boolean fromLeftToRight;
 		LineType lineType;
 		ArrowType arrowType;
+	}
+
+	private class InteractionConstraint {
+		private String lifelineId = null;
+		private String text = "";	}
+
+	private class LifelineInterval {
+		private String startId;
+		private String endId;
 	}
 }
 PARSER_END(SequenceAllInOneParser)
@@ -105,6 +113,8 @@ PARSER_END(SequenceAllInOneParser)
 {
 	< TEXT_DELIMITER: ":" > : DIAGRAM_SEQ_TEXT
 	| < LIST_DELIMITER: "," >
+	| < OPEN_CURLY_BRACKET: "{" >
+	| < CLOSE_CURLY_BRACKET: "}" >
 	| < COMMAND_DELIMITER: ";" >
 	| < MESSAGE_SOLID_LINE: "-" >
 	| < MESSAGE_DASHED_LINE: "." >
@@ -120,7 +130,11 @@ PARSER_END(SequenceAllInOneParser)
 	| < STATE_INVARIANT: "stateInvariant=" >
 	| < EXEC_SPEC_START: "on=" >
 	| < EXEC_SPEC_END: "off=" >
+	| < REF: "ref=" >
+	| < CONTINUATION: "continuation=" >
 	| < TICK: "tick=" >
+	| < COMBINED_FRAGMENT: "combinedFragment=" >
+	| < INTERACTION_CONSTRAINT: "constraint=" >
 	| < UNSIGNED_INT_CONSTANT: ( ["0" - "9"] ) + >	| < SEQ_NEW_LINE: "\n" | "\r\n" | "\r" >
 }
 
@@ -245,6 +259,8 @@ void LifelineDef(SequenceDiagramBuilder diagram) :
 		| < LIFELINE_CREATED_LATER > { createdOnStart = false; }
 	) *
 	{
+		if("lost".equals(id) || "found".equals(id)) {
+			throw new SequenceDiagramException("'lost' and 'found' are keywords and can not be used as lifeline identifiers.");		}
 		diagram.addLiveline(name, id, headType, createdOnStart);
 	}
 }
@@ -287,7 +303,7 @@ void Sequence(SequenceDiagramBuilder diagram) :
 			< SEQ_NEW_LINE >
 			{ if(autoTick) { diagram.tick(); } }
 		)
-		//| CombinedFragment(diagram)
+		| CombinedFragment(diagram)
 		| < SEQ_NEW_LINE >
 	)*
 }
@@ -310,9 +326,56 @@ void SequenceElement(SequenceDiagramBuilder diagram) :
 		| ExecutionSpecification(diagram)
 		| StateInvariant(diagram)
 		//| (diagram) //general ordering
-		//| Continuation(diagram)
+		| InteractionUse(diagram)
+		| Continuation(diagram)
 	)
 }
+
+void CombinedFragment(SequenceDiagramBuilder diagram) :
+{
+	LifelineInterval interval;
+	String operator = "";
+}
+{
+	< COMBINED_FRAGMENT >
+	interval = LifelineInterval()
+	(
+		operator = textUntilNewLine()
+		(< COMMAND_DELIMITER >)?
+	)?
+	(< SEQ_NEW_LINE >)*
+	{ diagram.beginCombinedFragment(interval.startId, interval.endId, operator); }
+	(Operand(diagram)) +
+	{ diagram.endCombinedFragment(); }}
+
+void Operand(SequenceDiagramBuilder diagram) :
+{
+	InteractionConstraint constraint = null;
+}
+{
+	(		< OPEN_CURLY_BRACKET >
+		(< SEQ_NEW_LINE >)* /* TODO check if correct or WARNING true, should always take this choice and consume all new lines */
+		(constraint = InteractionConstraint())?
+	)
+	{
+		if(constraint == null) {			diagram.beginOperand();
+		} else {			diagram.beginOperand(constraint.text, constraint.lifelineId);
+		}
+	}
+	Sequence(diagram)
+	< CLOSE_CURLY_BRACKET >
+	{ diagram.endOperand(); }}
+
+InteractionConstraint InteractionConstraint():
+{
+	InteractionConstraint data = new InteractionConstraint();}
+{
+	< INTERACTION_CONSTRAINT >
+	( data.lifelineId = LifelineId())?
+	data.text = textUntilNewLine()
+	(< COMMAND_DELIMITER > | < SEQ_NEW_LINE >)
+	{
+		return data;	}}	
 
 void Message(SequenceDiagramBuilder diagram) :
 {
@@ -496,6 +559,45 @@ String textUntilNewLine() :
 	{
 		return token.image.replace("\\;", ";").replace("\\\\", "\\");
 	}
+}
+
+void InteractionUse(SequenceDiagramBuilder diagram):
+{
+	LifelineInterval interval;
+	String text = "";}
+{
+	(		< REF >
+		interval = LifelineInterval()
+		(text = textUntilNewLine())?
+	)	{		/* TODO add interaction use */
+	}}
+
+void Continuation(SequenceDiagramBuilder diagram):
+{
+	LifelineInterval interval;
+	String text = "";
+}
+{
+	(
+		< CONTINUATION >
+		interval = LifelineInterval()
+		(text = textUntilNewLine())?
+	)
+	{
+		/* TODO add continuation use */
+	}
+}
+
+/**
+ * @return the start and end of the interval.
+ */
+LifelineInterval LifelineInterval():
+{
+	LifelineInterval interval = new LifelineInterval();}
+{	interval.startId = LifelineId()
+	(< LIST_DELIMITER >)?
+	interval.endId = LifelineId()
+	{		return interval;	}
 }
 
 boolean booleanConstant() :

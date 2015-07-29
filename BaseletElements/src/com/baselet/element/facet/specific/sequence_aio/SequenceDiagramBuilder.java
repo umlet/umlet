@@ -25,10 +25,9 @@ public class SequenceDiagramBuilder {
 	private boolean overrideDefaultIds;
 
 	private final Map<String, Lifeline> ids;
-
+	private final LinkedList<ActiveCombinedFragment> activeCombinedFragmentStack;
 	/** ids on this lifeline e.g. ids for receiving and sending messages, value is the tick */
 	// TODO private final Map<Lifeline,Map<String, Integer>> llLocalIds;
-
 	/** stores all warnings which are found while the sequence diagram is built */
 	private final List<String> warnings;
 
@@ -40,6 +39,7 @@ public class SequenceDiagramBuilder {
 	{
 		overrideDefaultIds = false;
 		ids = new HashMap<String, Lifeline>();
+		activeCombinedFragmentStack = new LinkedList<SequenceDiagramBuilder.ActiveCombinedFragment>();
 		dia = new SequenceDiagram();
 		currentLifelineState = new HashMap<Lifeline, SequenceDiagramBuilder.LifelineState>();
 		warnings = new LinkedList<String>();
@@ -76,6 +76,25 @@ public class SequenceDiagramBuilder {
 			throw new SequenceDiagramException("No lifeline is associated with the id: '" + id + "'");
 		}
 		return ids.get(id);
+	}
+
+	public Lifeline[] getLifelineInterval(String id1, String id2) {
+		try {
+			return getLifelineIntervalException(id1, id2);
+		} catch (SequenceDiagramException e) {
+			return new Lifeline[0];
+		}
+	}
+
+	public Lifeline[] getLifelineIntervalException(String id1, String id2) {
+		Lifeline ll1 = getLifelineException(id1);
+		Lifeline ll2 = getLifelineException(id2);
+		if (ll1.getIndex() > ll2.getIndex()) {
+			Lifeline tmp = ll1;
+			ll1 = ll2;
+			ll2 = tmp;
+		}
+		return Arrays.copyOfRange(dia.getLifelinesArray(), ll1.getIndex(), ll2.getIndex() + 1);
 	}
 
 	/**
@@ -124,7 +143,8 @@ public class SequenceDiagramBuilder {
 	}
 
 	public void addStateInvariant(String lifelineId, String text, boolean drawAsState) {
-		addLifelineOccurrence(lifelineId, new StateInvariant(text, drawAsState ? StateInvariantStyle.STATE : StateInvariantStyle.CURLY_BRACKETS));
+		addLifelineOccurrence(lifelineId, new StateInvariant(text,
+				drawAsState ? StateInvariantStyle.STATE : StateInvariantStyle.CURLY_BRACKETS));
 	}
 
 	public void addCoregion(String id, boolean start) {
@@ -233,6 +253,77 @@ public class SequenceDiagramBuilder {
 		if (!from.isCreatedOnStart()) {
 			if (from.getCreated() == null || from.getCreated() >= currentTick) {
 				throw new SequenceDiagramException("The lifeline " + id + " was not yet created, therefore it is not possible to send a message from it.");
+			}
+		}
+	}
+
+	public void beginCombinedFragment(String startId, String endId, String operator) {
+		Lifeline[] lifelines = getLifelineIntervalException(startId, endId);
+		activeCombinedFragmentStack.push(new ActiveCombinedFragment(new CombinedFragment(lifelines, currentTick, operator)));
+	}
+
+	public void endCombinedFragment() {
+		if (activeCombinedFragmentStack.size() == 0) {
+			throw new SequenceDiagramException("Error a combined fragment was closed, but no open one exists.");
+		}
+		ActiveCombinedFragment currentCombFrag = activeCombinedFragmentStack.pop();
+		if (currentCombFrag.activeOperand != null) {
+			throw new SequenceDiagramException("Error a combined fragment was closed, but there is still an open operand present.");
+		}
+		dia.addLifelineSpanningTickSpanningOccurrence(currentCombFrag.combFrag);
+	}
+
+	public void beginOperand() {
+		beginOperand(null, "");
+	}
+
+	/**
+	 *
+	 * @param text if empty or null no constraint will be generated
+	 * @param lifelineId if empty or null the first occurrence in the operand will determine the lifeline on which the constraint is placed
+	 */
+	public void beginOperand(String text, String lifelineId) {
+		if (activeCombinedFragmentStack.size() == 0) {
+			throw new SequenceDiagramException("Error an operand must lie in a combined fragment, but no open one exists.");
+		}
+		ActiveCombinedFragment currentCombFrag = activeCombinedFragmentStack.peek();
+		if (currentCombFrag.activeOperand != null) {
+			throw new SequenceDiagramException("Error a new operand was started, but there is still an open operand present.");
+		}
+		ActiveOperand operand;
+		if (text == null || text.isEmpty()) {
+			operand = new ActiveOperand(currentTick);
+		}
+		else {
+			operand = new ActiveOperand(text, getLifeline(lifelineId), currentTick);
+		}
+		currentCombFrag.activeOperand = operand;
+	}
+
+	public void endOperand() {
+		if (activeCombinedFragmentStack.size() == 0) {
+			throw new SequenceDiagramException("Error an operand must lie in a combined fragment, but no open one exists.");
+		}
+		ActiveCombinedFragment currentCombFrag = activeCombinedFragmentStack.peek();
+		if (currentCombFrag.activeOperand == null) {
+			throw new SequenceDiagramException("Error a operand was closed, but there is no open operand.");
+		}
+		ActiveOperand operand = currentCombFrag.activeOperand;
+		currentCombFrag.activeOperand = null;
+		if (operand.constraint == null) {
+			currentCombFrag.combFrag.addOperand(operand.startTick, currentTick);
+		}
+		else {
+			Lifeline lifeline = operand.assoicatedLifeline;
+			if (lifeline == null) { // if it wasn't set place it on the first lifeline of the combined fragment
+				lifeline = currentCombFrag.combFrag.getFirstLifeline();
+			}
+			try {
+				currentCombFrag.combFrag.addOperand(operand.startTick, currentTick, operand.constraint, lifeline);
+			} catch (SequenceDiagramCheckedException e) {
+				throw new SequenceDiagramException("Error while placing the interaction '" + operand.constraint
+													+ "' constraint on the " + (lifeline.getIndex() + 1)
+													+ " lifeline from the left.\n" + e.getMessage(), e);
 			}
 		}
 	}
@@ -361,29 +452,38 @@ public class SequenceDiagramBuilder {
 		warnings.add("On lifeline '" + id + "': " + text);
 	}
 
-	private class LifelineState {
+	private static class LifelineState {
 		/** stores the last end of an execution specifications. */
 		int lastEndOfExecSpec = -1; // Starts at -1 since the first tick is 0 and therefore no overlap is possible
 		LinkedList<Integer> execSpecStartTickStack = new LinkedList<Integer>();
 		boolean coregionActive = false;
 	}
 
-	public Lifeline[] getLifelineInterval(String id1, String id2) {
-		try {
-			return getLifelineIntervalException(id1, id2);
-		} catch (SequenceDiagramException e) {
-			return new Lifeline[0];
+	private static class ActiveCombinedFragment {
+		public ActiveCombinedFragment(CombinedFragment combFrag) {
+			super();
+			this.combFrag = combFrag;
 		}
+
+		CombinedFragment combFrag;
+		ActiveOperand activeOperand = null;
 	}
 
-	public Lifeline[] getLifelineIntervalException(String id1, String id2) {
-		Lifeline ll1 = getLifelineException(id1);
-		Lifeline ll2 = getLifelineException(id2);
-		if (ll1.getIndex() > ll2.getIndex()) {
-			Lifeline tmp = ll1;
-			ll1 = ll2;
-			ll2 = tmp;
+	private static class ActiveOperand {
+		public ActiveOperand(int startTick) {
+			super();
+			this.startTick = startTick;
 		}
-		return Arrays.copyOfRange(dia.getLifelinesArray(), ll1.getIndex(), ll2.getIndex() + 1);
+
+		public ActiveOperand(String constraint, Lifeline assoicatedLifeline, int startTick) {
+			super();
+			this.constraint = constraint;
+			this.assoicatedLifeline = assoicatedLifeline;
+			this.startTick = startTick;
+		}
+
+		String constraint = null; // if empty no constraint needed
+		Lifeline assoicatedLifeline = null; // lifeline on which the constraint should be drawn
+		int startTick;
 	}
 }
