@@ -257,12 +257,26 @@ public class SequenceDiagramBuilder {
 		}
 	}
 
+	public void addInteractionUse(String startId, String endId, String text) {
+		checkState();
+		Lifeline[] lifelines = getLifelineIntervalException(startId, endId);
+		dia.addLifelineSpanningTickSpanningOccurrence(new InteractionUse(currentTick, text, lifelines));
+	}
+
+	public void addContinuation(String startId, String endId, String text) {
+		checkState();
+		Lifeline[] lifelines = getLifelineIntervalException(startId, endId);
+		dia.addLifelineSpanningTickSpanningOccurrence(new Continuation(currentTick, text, lifelines));
+	}
+
 	public void beginCombinedFragment(String startId, String endId, String operator) {
+		checkState();
 		Lifeline[] lifelines = getLifelineIntervalException(startId, endId);
 		activeCombinedFragmentStack.push(new ActiveCombinedFragment(new CombinedFragment(lifelines, currentTick, operator)));
 	}
 
 	public void endCombinedFragment() {
+		checkState();
 		if (activeCombinedFragmentStack.size() == 0) {
 			throw new SequenceDiagramException("Error a combined fragment was closed, but no open one exists.");
 		}
@@ -274,6 +288,7 @@ public class SequenceDiagramBuilder {
 	}
 
 	public void beginOperand() {
+		checkState();
 		beginOperand(null, "");
 	}
 
@@ -283,6 +298,7 @@ public class SequenceDiagramBuilder {
 	 * @param lifelineId if empty or null the first occurrence in the operand will determine the lifeline on which the constraint is placed
 	 */
 	public void beginOperand(String text, String lifelineId) {
+		checkState();
 		if (activeCombinedFragmentStack.size() == 0) {
 			throw new SequenceDiagramException("Error an operand must lie in a combined fragment, but no open one exists.");
 		}
@@ -301,6 +317,7 @@ public class SequenceDiagramBuilder {
 	}
 
 	public void endOperand() {
+		checkState();
 		if (activeCombinedFragmentStack.size() == 0) {
 			throw new SequenceDiagramException("Error an operand must lie in a combined fragment, but no open one exists.");
 		}

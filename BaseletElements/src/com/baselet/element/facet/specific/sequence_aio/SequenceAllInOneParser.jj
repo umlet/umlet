@@ -569,7 +569,8 @@ void InteractionUse(SequenceDiagramBuilder diagram):
 	(		< REF >
 		interval = LifelineInterval()
 		(text = textUntilNewLine())?
-	)	{		/* TODO add interaction use */
+	)	{
+		diagram.addInteractionUse(interval.startId, interval.endId, text);
 	}}
 
 void Continuation(SequenceDiagramBuilder diagram):
@@ -584,7 +585,7 @@ void Continuation(SequenceDiagramBuilder diagram):
 		(text = textUntilNewLine())?
 	)
 	{
-		/* TODO add continuation use */
+		diagram.addContinuation(interval.startId, interval.endId, text);
 	}
 }
 

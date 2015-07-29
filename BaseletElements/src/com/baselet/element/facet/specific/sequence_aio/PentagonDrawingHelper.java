@@ -55,6 +55,17 @@ public class PentagonDrawingHelper {
 	}
 
 	/**
+	 * Returns the minimum width of the whole pentagon (i.e. adding the padding and other spaces to the text width but not the border gap)
+	 * @param drawHandler
+	 * @param textLines
+	 * @return the minimum width of the whole element, i.e. the minimum width of the diagram or combined fragment
+	 */
+	public static double getPentagonMinimumWidth(DrawHandler drawHandler, String[] textLines) {
+		return AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler)
+				+ getStaticWidthPadding() - HEADER_MIN_RIGHT_BORDER_GAP;
+	}
+
+	/**
 	 * Returns the height of the pentagon (text height + padding).
 	 * @param drawHandler
 	 * @param textLines
@@ -130,6 +141,6 @@ public class PentagonDrawingHelper {
 				new PointDouble(slopeEndX, topLeft.y + height * (1 - HEADER_PENTAGON_SLOPE_HEIGHT_PERCENTAGE)),
 				new PointDouble(slopeEndX, topLeft.y) });
 		drawHandler.setLineType(oldLt);
-		return new PointDouble(textWidth + HEADER_TEXT_X_PADDING * 2 + HEADER_PENTAGON_SLOPE_WIDTH, height);
+		return new PointDouble(slopeEndX - topLeft.x, height);
 	}
 }
