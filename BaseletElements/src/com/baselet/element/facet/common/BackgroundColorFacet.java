@@ -18,7 +18,7 @@ public class BackgroundColorFacet extends FirstRunKeyValueFacet {
 
 	@Override
 	public void handleValue(String value, PropertiesParserState state) {
-		state.getDrawer().setBackgroundColor(value);
+		state.getDrawer().setBackgroundColorAndKeepTransparency(value);
 	}
 
 }

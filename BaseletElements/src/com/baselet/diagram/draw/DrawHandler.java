@@ -112,7 +112,7 @@ public abstract class DrawHandler {
 		}
 	}
 
-	public final void setBackgroundColor(String color) {
+	public final void setBackgroundColorAndKeepTransparency(String color) {
 		if (color.equals(FacetConstants.BACKGROUND_COLOR_KEY)) {
 			setBackgroundColor(ColorOwn.DEFAULT_BACKGROUND);
 		}
@@ -147,7 +147,7 @@ public abstract class DrawHandler {
 
 	public void resetColorSettings() {
 		setForegroundColor(FacetConstants.FOREGROUND_COLOR_KEY);
-		setBackgroundColor(FacetConstants.BACKGROUND_COLOR_KEY);
+		setBackgroundColorAndKeepTransparency(FacetConstants.BACKGROUND_COLOR_KEY);
 	}
 
 	public final void setFontSize(double fontSize) {
