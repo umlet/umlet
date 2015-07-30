@@ -117,7 +117,10 @@ public abstract class DrawHandler {
 			setBackgroundColor(ColorOwn.DEFAULT_BACKGROUND);
 		}
 		else {
-			setBackgroundColor(ColorOwn.forString(color, Transparency.BACKGROUND));
+			// #295: if bg is the default, use background transparency, but if bg has been set reuse its transparency (otherwise transparency= would only work if the line comes after bg=)
+			ColorOwn oldBg = getBackgroundColor();
+			int newAlpha = oldBg == ColorOwn.DEFAULT_BACKGROUND ? Transparency.BACKGROUND.getAlpha() : oldBg.getAlpha();
+			setBackgroundColor(ColorOwn.forString(color, newAlpha));
 		}
 	}
 
