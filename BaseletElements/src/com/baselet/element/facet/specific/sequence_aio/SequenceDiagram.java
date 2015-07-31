@@ -2,14 +2,17 @@ package com.baselet.element.facet.specific.sequence_aio;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
-import com.baselet.control.basics.Line1D;
-import com.baselet.control.basics.SortedMergedLine1DList;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.element.facet.specific.sequence_aio.LifelineSpanningTickSpanningOccurrence.PaddingInterval;
 
 public class SequenceDiagram {
 
@@ -18,6 +21,7 @@ public class SequenceDiagram {
 	private static final double LIFELINE_MIN_WIDTH = 100;
 
 	private static final double TICK_HEIGHT = 40;
+	private static final double TICK_Y_PADDING = 6;// should be odd and the nothing should draw at the center!
 
 	private String[] titleLines;
 	private String[] descLines;
@@ -94,7 +98,6 @@ public class SequenceDiagram {
 	 * @return how many lifelines the diagram has
 	 */
 	public int getLifelineCount() {
-		// TODO maybe need adaption for lost found gate!
 		return lifelines.length;
 	}
 
@@ -107,6 +110,10 @@ public class SequenceDiagram {
 	}
 
 	public void draw(DrawHandler drawHandler) {
+		LifelineHorizontalDrawingInfo[] llHorizontalDrawingInfos;
+		HorizontalDrawingInfo horizontalDrawingInfo;
+		VerticalDrawingInfo verticalInfo;
+		DrawingInfo drawingInfo;
 		// calculate the minimum width of the lifelines and the diagram, if the header increases the diagram width adjust the lifeline width
 		double lifelineWidth = Math.max(getLifelineWidth(drawHandler), LIFELINE_MIN_WIDTH);
 		double diagramWidth = lifelineWidth * getLifelineCount() + LIFELINE_X_PADDING * (getLifelineCount() + 1);
@@ -122,53 +129,80 @@ public class SequenceDiagram {
 		// calculate and draw the header, then draw top border
 		double headerHeight = PentagonDrawingHelper.draw(drawHandler, titleLines, diagramWidth, new PointDouble(0, 0)).y;
 		drawHandler.drawLine(0, 0, diagramWidth, 0);
+
 		// draw description
 		// TODO
-
 		double lifelineHeadTop = headerHeight + LIFELINE_Y_PADDING;
-		double lifelineHeadLeftStart = LIFELINE_X_PADDING;
 
-		Line1D[] lifelineHorizontalSpannings = new Line1D[lifelines.length];
-		for (int i = 0; i < lifelineHorizontalSpannings.length; i++) {
-			lifelineHorizontalSpannings[i] = new Line1D(lifelineHeadLeftStart + (lifelineWidth + LIFELINE_X_PADDING) * i,
+		double lifelineHeadLeftStart = LIFELINE_X_PADDING;
+		llHorizontalDrawingInfos = new LifelineHorizontalDrawingInfo[lifelines.length];
+		for (int i = 0; i < llHorizontalDrawingInfos.length; i++) {
+			llHorizontalDrawingInfos[i] = new LifelineHorizontalDrawingInfoImpl(
+					getPaddings(lifelines[i], true),
+					getPaddings(lifelines[i], false),
+					lifelineHeadLeftStart + (lifelineWidth + LIFELINE_X_PADDING) * i,
 					lifelineHeadLeftStart + (lifelineWidth + LIFELINE_X_PADDING) * i + lifelineWidth);
 		}
-		double lifelineHeadHeight = getLifelineHeadHeight(drawHandler, lifelineWidth);
-		double[] addiontalHeight = calculateAddiontalHeights(drawHandler, lifelineWidth, lifelineHorizontalSpannings);
-		double[] accumulativeAddiontalHeightOffsets = new double[addiontalHeight.length + 1];
-		double sum = 0;
-		for (int i = 0; i < addiontalHeight.length; i++) {
-			sum += addiontalHeight[i];
-			accumulativeAddiontalHeightOffsets[i + 1] = sum;
-		}
+		horizontalDrawingInfo = new HorizontalDrawingInfoImpl(llHorizontalDrawingInfos);
 
-		// first draw the occurrences which affect more than one lifeline, store the interrupted areas an pass them to the lifelines
-		SortedMergedLine1DList[] interruptedAreas = new SortedMergedLine1DList[lifelines.length];
-		for (int i = 0; i < interruptedAreas.length; i++) {
-			interruptedAreas[i] = new SortedMergedLine1DList();
-		}
-
-		// drawing of the lifelines
+		double lifelineHeadHeight = getLifelineHeadHeight(drawHandler, horizontalDrawingInfo);
+		verticalInfo = new VerticalDrawingInfoImpl(lifelineHeadTop, lifelineHeadHeight, TICK_HEIGHT, TICK_Y_PADDING,
+				calculateAddiontalHeights(drawHandler, horizontalDrawingInfo));
+		drawingInfo = new DrawingInfoImpl(horizontalDrawingInfo, verticalInfo, getLifelineCount());
+		// first draw the occurrences which affect more than one lifeline which stores the interrupted areas in the
+		// corresponding LifelineDrawingInfo. This info is then passed to the lifeline so it can be drawn
 		if (lifelines.length > 0) {
 			for (LifelineSpanningTickSpanningOccurrence llstso : spanningLifelineOccurrences) {
-				Map<Integer, Line1D[]> tmpInterruptedAreas = llstso.draw(drawHandler, lifelineHeadTop + lifelineHeadHeight,
-						lifelineHorizontalSpannings, TICK_HEIGHT, accumulativeAddiontalHeightOffsets);
-				for (Map.Entry<Integer, Line1D[]> e : tmpInterruptedAreas.entrySet()) {
-					interruptedAreas[e.getKey()].addAll(e.getValue());
-				}
+				llstso.draw(drawHandler, drawingInfo);
 			}
-
-			for (int i = 0; i < lifelines.length; i++) {
-				lifelines[i].draw(drawHandler,
-						new PointDouble(lifelineHorizontalSpannings[i].getLow(), lifelineHeadTop),
-						lifelineWidth, lifelineHeadHeight, TICK_HEIGHT, accumulativeAddiontalHeightOffsets, lastTick, interruptedAreas[i]);
+			for (Lifeline ll : lifelines) {
+				ll.draw(drawHandler, drawingInfo.getDrawingInfo(ll), lastTick);
 			}
 		}
 		// draw left,right and bottom border
-		double bottomY = lifelineHeadTop + lifelineHeadHeight + (lastTick + 1) * TICK_HEIGHT + accumulativeAddiontalHeightOffsets[lastTick + 1] + LIFELINE_Y_PADDING;
+		double bottomY = verticalInfo.getVerticalEnd(lastTick) + LIFELINE_Y_PADDING;// TODO check were lifeline really ends
 		drawHandler.drawLine(0, bottomY, diagramWidth, bottomY);
 		drawHandler.drawLine(0, 0, 0, bottomY);
 		drawHandler.drawLine(diagramWidth, 0, diagramWidth, bottomY);
+	}
+
+	private double[] getPaddings(Lifeline lifeline, boolean left) {
+		double[] paddings = new double[lastTick + 2];
+		// define 1 queue for starting of padding intervals, and the other for the ending of the intervals
+		Queue<PaddingInterval> paddingQueueStart = new PriorityQueue<PaddingInterval>(5,
+				PaddingInterval.getStartAscComparator());
+		List<PaddingInterval> paddingListEnd = new LinkedList<PaddingInterval>();
+
+		for (LifelineSpanningTickSpanningOccurrence lstso : spanningLifelineOccurrences) {
+			if (left && lstso.getFirstLifeline() == lifeline && lstso.getLeftPadding() != null) {
+				paddingQueueStart.add(lstso.getLeftPadding());
+			}
+			else if (!left && lstso.getLastLifeline() == lifeline && lstso.getRightPadding() != null) {
+				paddingQueueStart.add(lstso.getRightPadding());
+			}
+		}
+		for (int tick = 0; tick < paddings.length; tick++) {
+			// insert paddings that start at the current tick at the right place (endTick asc) and remove them.
+			while (paddingQueueStart.peek() != null && paddingQueueStart.peek().getStartTick() == tick) {
+				int index = Collections.binarySearch(paddingListEnd, paddingQueueStart.peek(),
+						PaddingInterval.getEndAscComparator());
+				if (index >= 0) {
+					paddingListEnd.add(index, paddingQueueStart.poll());
+				}
+				else {
+					paddingListEnd.add(-index - 1, paddingQueueStart.poll());
+				}
+			}
+			Iterator<PaddingInterval> endIter = paddingListEnd.iterator();
+			while (endIter.hasNext()) {
+				PaddingInterval paddingInterval = endIter.next();
+				paddings[tick] += paddingInterval.getPadding();
+				if (paddingInterval.getEndTick() == tick) {
+					endIter.remove();
+				}
+			}
+		}
+		return paddings;
 	}
 
 	private double getLifelineWidth(DrawHandler drawHandler) {
@@ -184,26 +218,28 @@ public class SequenceDiagram {
 		return maxMinWidth;
 	}
 
-	private double[] calculateAddiontalHeights(DrawHandler drawHandler, double width, Line1D[] lifelineHorizontalSpannings) {
+	private double[] calculateAddiontalHeights(DrawHandler drawHandler, HorizontalDrawingInfo hDrawingInfo) {
 		double[] addiontalHeight = new double[lastTick + 1];
 		for (Lifeline ll : lifelines) {
-			for (Map.Entry<Integer, Double> e : ll.getAdditionalYHeights(drawHandler, width, TICK_HEIGHT).entrySet()) {
+			for (Map.Entry<Integer, Double> e : ll.getAdditionalYHeights(drawHandler, hDrawingInfo.getHDrawingInfo(ll),
+					TICK_HEIGHT).entrySet()) {
 				addiontalHeight[e.getKey()] = Math.max(addiontalHeight[e.getKey()], e.getValue());
 			}
 		}
 		for (LifelineSpanningTickSpanningOccurrence llstso : spanningLifelineOccurrences) {
-			for (Map.Entry<Integer, Double> e : llstso.getEveryAdditionalYHeight(drawHandler, lifelineHorizontalSpannings, TICK_HEIGHT).entrySet()) {
+			for (Map.Entry<Integer, Double> e : llstso.getEveryAdditionalYHeight(drawHandler, hDrawingInfo,
+					TICK_HEIGHT).entrySet()) {
 				addiontalHeight[e.getKey()] = Math.max(addiontalHeight[e.getKey()], e.getValue());
 			}
 		}
 		return addiontalHeight;
 	}
 
-	private double getLifelineHeadHeight(DrawHandler drawHandler, double width) {
+	private double getLifelineHeadHeight(DrawHandler drawHandler, HorizontalDrawingInfo hDrawingInfo) {
 		double maxHeight = 0;
 		for (Lifeline ll : lifelines) {
 			if (ll.isCreatedOnStart()) {
-				maxHeight = Math.max(maxHeight, ll.getHeadMinHeight(drawHandler, width));
+				maxHeight = Math.max(maxHeight, ll.getHeadMinHeight(drawHandler, hDrawingInfo.getHDrawingInfo(ll).getWidth()));
 			}
 		}
 		return maxHeight;

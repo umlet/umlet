@@ -11,7 +11,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.basics.Line1D;
-import com.baselet.control.basics.SortedMergedLine1DList;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
@@ -196,12 +195,14 @@ public class Lifeline {
 	 * @return a Map which stores the ticks as keys and the additional height as values
 	 * (i.e. the height which exceeds the tickHeight). This values are all &gt;= 0
 	 */
-	public Map<Integer, Double> getAdditionalYHeights(DrawHandler drawHandler, double width, double tickHeight)
+	public Map<Integer, Double> getAdditionalYHeights(DrawHandler drawHandler,
+			LifelineHorizontalDrawingInfo drawingInfo, double defaultTickHeight)
 	{
-		PointDouble size = new PointDouble(width, tickHeight);
+		PointDouble size;
 		double additionalY;
 		Map<Integer, Double> ret = new HashMap<Integer, Double>();
 		for (Map.Entry<Integer, LifelineOccurrence> e : lifeline.entrySet()) {
+			size = new PointDouble(drawingInfo.getSymmetricWidth(e.getKey()), defaultTickHeight);
 			additionalY = e.getValue().getAdditionalYHeight(drawHandler, size);
 			if (additionalY > 0) {
 				ret.put(e.getKey(), additionalY);
@@ -209,7 +210,8 @@ public class Lifeline {
 		}
 		// add head size if it the obj is created with an message
 		if (!createdOnStart && created != null) {
-			double headAdditionalHeight = getHeadMinHeight(drawHandler, width) - tickHeight;
+			double headAdditionalHeight = getHeadMinHeight(drawHandler, drawingInfo.getSymmetricWidth(created))
+											- defaultTickHeight;
 			if (headAdditionalHeight > 0) {
 				if (ret.containsKey(created)) {
 					ret.put(created, Math.max(ret.get(created), headAdditionalHeight));
@@ -260,23 +262,27 @@ public class Lifeline {
 	 * @param drawHandler
 	 * @param topLeft the top left corner of the lifeline head
 	 * @param width the maximum width of the lifeline
-	 * @param headHeight the height of the heads which exists from the start, the head which are created by a message can have a different height!
+	 * @param headHeight the height of the heads which exists from the start, the head which are created by a
+	 * message can have a different height!
 	 * @param tickHeight
-	 * @param accumulativeAddiontalHeightOffsets array which stores the added up extra space needed for each tick, the difference between two ticks corresponds to the space extra space needed between these two ticks
+	 * @param accumulativeAddiontalHeightOffsets array which stores the added up extra space needed for each tick,
+	 * the difference between two ticks corresponds to the space extra space needed between these two ticks
 	 * @param lifelineLastTick
 	 */
-	public void draw(DrawHandler drawHandler, PointDouble topLeft, double width, double headHeight, double tickHeight,
-			double[] accumulativeAddiontalHeightOffsets, int lifelineLastTick, SortedMergedLine1DList interruptedAreas) {
+	public void draw(DrawHandler drawHandler, LifelineDrawingInfo drawingInfo, int lifelineLastTick
+			// PointDouble topLeft, double width, double headHeight, double tickHeight,
+			// double[] accumulativeAddiontalHeightOffsets, SortedMergedLine1DList interruptedAreas
+			) {
 		// draw Head with text
 		if (createdOnStart) {
-			drawHead(drawHandler, topLeft.x, topLeft.y, width, headHeight);
+			drawHead(drawHandler, drawingInfo.getHorizontalStart(), drawingInfo.getVerticalHeadStart(),
+					drawingInfo.getWidth(), drawingInfo.getHeadHeight());
 		}
-		// check if the creation tick was set, while writing a diagram it can be possible that the message that creates this head wasn't yet written
+		// check if the creation tick was set, while writing a diagram it can be possible that the message that
+		// creates this head wasn't yet written
 		else if (created != null) {
-			drawHead(drawHandler, topLeft.x,
-					topLeft.y + headHeight + accumulativeAddiontalHeightOffsets[created] + created * tickHeight,
-					width,
-					tickHeight + accumulativeAddiontalHeightOffsets[created + 1] - accumulativeAddiontalHeightOffsets[created]);
+			drawHead(drawHandler, drawingInfo.getSymmetricHorizontalStart(created), drawingInfo.getVerticalStart(created),
+					drawingInfo.getSymmetricWidth(created), drawingInfo.getTickHeight(created));
 		}
 		// without an starting point we can not draw anything
 		if (createdOnStart || created != null)
@@ -284,17 +290,17 @@ public class Lifeline {
 			// draw lifeline occurrences
 			for (Map.Entry<Integer, LifelineOccurrence> e : lifeline.entrySet()) {
 				int tick = e.getKey();
-				PointDouble topLeftOccurence = new PointDouble(topLeft.x,
-						topLeft.y + headHeight + accumulativeAddiontalHeightOffsets[tick] + tick * tickHeight);
-				PointDouble sizeOccurence = new PointDouble(width,
-						tickHeight + accumulativeAddiontalHeightOffsets[tick + 1] - accumulativeAddiontalHeightOffsets[tick]);
+				PointDouble topLeftOccurence = new PointDouble(drawingInfo.getSymmetricHorizontalStart(tick),
+						drawingInfo.getVerticalStart(tick));
+				PointDouble sizeOccurence = new PointDouble(drawingInfo.getSymmetricWidth(tick),
+						drawingInfo.getTickHeight(tick));
 				Line1D llInterruption = e.getValue().draw(drawHandler, topLeftOccurence, sizeOccurence);
 				if (llInterruption != null) {
-					interruptedAreas.add(llInterruption);
+					drawingInfo.addInterruptedArea(llInterruption);
 				}
 			}
 			// draw actual lifeline (horizontal line)
-			drawLifeline(drawHandler, topLeft.x + width / 2.0, topLeft.y + headHeight, tickHeight, accumulativeAddiontalHeightOffsets, interruptedAreas, lifelineLastTick);
+			drawLifeline(drawHandler, drawingInfo, lifelineLastTick);
 		}
 	}
 
@@ -308,9 +314,11 @@ public class Lifeline {
 	 * @param interruptedAreas
 	 * @param lifelineLastTick
 	 */
-	private void drawLifeline(DrawHandler drawHandler, double centerX, double topY, double tickHeight,
-			double[] accumulativeAddiontalHeightOffsets, SortedMergedLine1DList interruptedAreas, int lifelineLastTick) {
-
+	private void drawLifeline(DrawHandler drawHandler, LifelineDrawingInfo drawingInfo, int lifelineLastTick
+			// , double centerX, double topY, double tickHeight,
+			// double[] accumulativeAddiontalHeightOffsets, SortedMergedLine1DList interruptedAreas
+			) {
+		// TODO ajust because of the y padding!!!, also think about execspecstarting at created, or at start or 0
 		int currentStartTick = 0;
 		int endTick;
 		int currentActiveCount = 0;
@@ -322,7 +330,7 @@ public class Lifeline {
 			currentStartTick = created + 1;
 		}
 		ListIterator<ExecutionSpecification> execSpecIter = activeAreas.listIterator();
-		ListIterator<Line1D> interruptedAreasIter = interruptedAreas.listIterator();
+		ListIterator<Line1D> interruptedAreasIter = drawingInfo.getInterruptedAreas().listIterator();
 		LineType oldLt = drawHandler.getLineType();
 		if (execSpecIter.hasNext()) {
 			ExecutionSpecification execSpec = execSpecIter.next();
@@ -334,7 +342,7 @@ public class Lifeline {
 				execSpecIter.previous();
 			}
 		}
-		double llTopY = topY + currentStartTick * tickHeight + accumulativeAddiontalHeightOffsets[currentStartTick];
+		double llTopY = drawingInfo.getVerticalStart(currentStartTick);
 		while (active.size() > 0 || execSpecIter.hasNext()) {
 			// find change of drawing style; if a new executionSpecification starts or an old ends
 			currentActiveCount = active.size();
@@ -362,8 +370,9 @@ public class Lifeline {
 				active.addFirst(execSpec);
 			}
 
-			double llBottomY = topY + endTick * tickHeight + tickHeight / 2 + accumulativeAddiontalHeightOffsets[endTick] / 2 + accumulativeAddiontalHeightOffsets[endTick + 1] / 2;
-			drawLifelinePart(drawHandler, centerX,
+			double llBottomY = drawingInfo.getVerticalCenter(endTick);
+			// topY + endTick * tickHeight + tickHeight / 2 + accumulativeAddiontalHeightOffsets[endTick] / 2 + accumulativeAddiontalHeightOffsets[endTick + 1] / 2;
+			drawLifelinePart(drawHandler, drawingInfo.getHorizontalCenter(),
 					llTopY,
 					startInc,
 					llBottomY,
@@ -378,19 +387,19 @@ public class Lifeline {
 		// if (currentStartTick < lifelineLastTick) { should always be true
 		// draw final line
 		if (destroyed == null) {
-			drawLifelinePart(drawHandler, centerX,
+			drawLifelinePart(drawHandler, drawingInfo.getHorizontalCenter(),
 					llTopY,
 					false,
-					topY + (lifelineLastTick + 1) * tickHeight + accumulativeAddiontalHeightOffsets[lifelineLastTick + 1],
+					drawingInfo.getVerticalEnd(lifelineLastTick),
 					false,
 					0,
 					interruptedAreasIter);
 		}
 		else if (destroyed > currentStartTick) {
-			drawLifelinePart(drawHandler, centerX,
+			drawLifelinePart(drawHandler, drawingInfo.getHorizontalCenter(),
 					llTopY,
 					false,
-					topY + destroyed * tickHeight + tickHeight / 2 + accumulativeAddiontalHeightOffsets[destroyed] / 2 + accumulativeAddiontalHeightOffsets[destroyed + 1] / 2,
+					drawingInfo.getVerticalCenter(destroyed),
 					false,
 					0,
 					interruptedAreasIter);
