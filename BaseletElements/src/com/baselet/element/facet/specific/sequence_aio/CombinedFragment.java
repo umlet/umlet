@@ -36,8 +36,7 @@ public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence 
 
 	/**
 	 *
-	 * @param intervalStart
-	 * @param intervalEnd
+	 * @param coveredLifelines the lifelines which are covered by this combined fragment
 	 * @param startTick
 	 * @param operator can be multiple lines (but only \n is allowed)
 	 */

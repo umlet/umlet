@@ -20,15 +20,23 @@ public interface VerticalDrawingInfo {
 	 */
 	public double getHeadHeight();
 
+	/**
+	 * @param tick
+	 * @return the y coordinate of the start of the given tick
+	 */
 	public double getVerticalStart(int tick);
 
+	/**
+	 * @param tick
+	 * @return the y coordinate of the end of the given tick
+	 */
 	public double getVerticalEnd(int tick);
 
 	/**
 	 * Returns the y coordinate of the vertical center of the tick,
 	 * i.e. the point between getVerticalStart and getVerticalEnd
 	 * @param tick
-	 * @return
+	 * @return the vertical center of the tick at the given tick time
 	 * @see #getVerticalStart(int)
 	 * @see #getVerticalEnd(int)
 	 */
@@ -37,7 +45,7 @@ public interface VerticalDrawingInfo {
 	/**
 	 * <code>getVerticalEnd - getVerticalStart</code>
 	 * @param tick
-	 * @return
+	 * @return the height of the tick at the given tick time.
 	 * @see #getVerticalStart(int)
 	 * @see #getVerticalEnd(int)
 	 */

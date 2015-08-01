@@ -13,9 +13,10 @@ public interface HorizontalDrawingInfo {
 	 * I.e. with no loss of generality ll1.getIndex() <= ll2.getIndex() then
 	 * <code><nobr>getHDrawingInfo(ll1).getSymmetricHorizontalEnd(tick)</nobr>
 	 * - <nobr>getHDrawingInfo(ll2).getSymmetricHorizontalStart(tick)</nobr></code> is returned.
-	 * @param other
+	 * @param ll1
+	 * @param ll2
 	 * @param tick
-	 * @return
+	 * @return the symmetric width which is spanned by the two lifelines at the given tick
 	 */
 	public double getSymmetricWidthTo(Lifeline ll1, Lifeline ll2, int tick);
 

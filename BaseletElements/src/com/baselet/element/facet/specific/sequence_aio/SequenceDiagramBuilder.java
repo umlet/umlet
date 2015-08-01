@@ -99,8 +99,9 @@ public class SequenceDiagramBuilder {
 
 	/**
 	 *
-	 * @param name
+	 * @param headText the text which is drawn in the head
 	 * @param id can be NULL, if none of reorder and idoverride option is active
+	 * @param headType the lifeline style
 	 * @param createdOnStart if false the lifeline will be created by the first message sent to this lifeline
 	 */
 	public void addLiveline(String headText, String id, Lifeline.LifelineHeadType headType, boolean createdOnStart) {

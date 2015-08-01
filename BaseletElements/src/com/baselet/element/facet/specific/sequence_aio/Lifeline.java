@@ -32,8 +32,6 @@ public class Lifeline {
 	private static final Logger log = Logger.getLogger(Lifeline.class);
 
 	private final String[] text;
-	// private String id;
-	// private String defaultId;
 	/** position in the array = numbered from left to right starting at 0 */
 	private final int index;
 	private final LifelineHeadType headType;
@@ -127,7 +125,7 @@ public class Lifeline {
 	 * @param tick the time at which the width should be calculated
 	 * @return 0 if it is only a line, otherwise return the width from
 	 * the center to the left outermost border of the execution specification
-	 * @see Coregion for a drawing
+	 * @see Coregion Coregion for an example how this is used for drawing
 	 */
 	public double getLifelineLeftPartWidth(int tick)
 	{
@@ -138,7 +136,7 @@ public class Lifeline {
 	 * @param tick the time at which the width should be calculated
 	 * @return 0 if it is only a line, otherwise return the width from
 	 * the center to the right outermost border of the execution specification
-	 * @see Coregion for a drawing
+	 * @see Coregion Coregion for an example how this is used for drawing
 	 */
 	public double getLifelineRightPartWidth(int tick)
 	{
@@ -190,8 +188,10 @@ public class Lifeline {
 	}
 
 	/**
-	 * calculates the
+	 * Calculates the additonal height which are needed by the occurrences on this lifeline
 	 * @param drawHandler
+	 * @param drawingInfo
+	 * @param defaultTickHeight
 	 * @return a Map which stores the ticks as keys and the additional height as values
 	 * (i.e. the height which exceeds the tickHeight). This values are all &gt;= 0
 	 */
@@ -258,21 +258,11 @@ public class Lifeline {
 	}
 
 	/**
-	 *
 	 * @param drawHandler
-	 * @param topLeft the top left corner of the lifeline head
-	 * @param width the maximum width of the lifeline
-	 * @param headHeight the height of the heads which exists from the start, the head which are created by a
-	 * message can have a different height!
-	 * @param tickHeight
-	 * @param accumulativeAddiontalHeightOffsets array which stores the added up extra space needed for each tick,
-	 * the difference between two ticks corresponds to the space extra space needed between these two ticks
-	 * @param lifelineLastTick
+	 * @param drawingInfo information about the drawing positions
+	 * @param lifelineLastTick the last tick of the diagram
 	 */
-	public void draw(DrawHandler drawHandler, LifelineDrawingInfo drawingInfo, int lifelineLastTick
-			// PointDouble topLeft, double width, double headHeight, double tickHeight,
-			// double[] accumulativeAddiontalHeightOffsets, SortedMergedLine1DList interruptedAreas
-			) {
+	public void draw(DrawHandler drawHandler, LifelineDrawingInfo drawingInfo, int lifelineLastTick) {
 		// draw Head with text
 		if (createdOnStart) {
 			drawHead(drawHandler, drawingInfo.getHorizontalStart(), drawingInfo.getVerticalHeadStart(),
@@ -305,19 +295,12 @@ public class Lifeline {
 	}
 
 	/**
-	 *
+	 * Draws the actual line (dashed or the rectangles of the execution specification)
 	 * @param drawHandler
-	 * @param centerX
-	 * @param topY y coordinate of the top point of a lifeline which starts at tick 0, i.e. the point beneath the head
-	 * @param tickHeight
-	 * @param accumulativeAddiontalHeightOffsets
-	 * @param interruptedAreas
+	 * @param drawingInfo
 	 * @param lifelineLastTick
 	 */
-	private void drawLifeline(DrawHandler drawHandler, LifelineDrawingInfo drawingInfo, int lifelineLastTick
-			// , double centerX, double topY, double tickHeight,
-			// double[] accumulativeAddiontalHeightOffsets, SortedMergedLine1DList interruptedAreas
-			) {
+	private void drawLifeline(DrawHandler drawHandler, LifelineDrawingInfo drawingInfo, int lifelineLastTick) {
 		// TODO ajust because of the y padding!!!, also think about execspecstarting at created, or at start or 0
 		int currentStartTick = 0;
 		int endTick;

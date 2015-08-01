@@ -38,15 +38,13 @@ public interface LifelineHorizontalDrawingInfo {
 	/**
 	 * Center of the lifeline i.e. the dashed line, this must not lie at <code>getHorizontalStart + getWidth / 2</code>
 	 * but always is <code>getSymmetricHorizontalStart + getSymmetricWidth / 2</code>
-	 * @param tick
-	 * @return
+	 * @return the center of the lifeline
 	 */
 	public double getHorizontalCenter();
 
 	/**
 	 * <code>getHorizontalEnd - getHorizontalStart</code>
-	 * @param tick
-	 * @return
+	 * @return the width of the lifeline
 	 * @see #getHorizontalStart()
 	 * @see #getHorizontalEnd()
 	 */
@@ -55,7 +53,7 @@ public interface LifelineHorizontalDrawingInfo {
 	/**
 	 * <code>getHorizontalEnd - getHorizontalStart</code>
 	 * @param tick
-	 * @return
+	 * @return the width of the lifeline at the given tick
 	 * @see #getHorizontalStart(int)
 	 * @see #getHorizontalEnd(int)
 	 */
@@ -90,7 +88,7 @@ public interface LifelineHorizontalDrawingInfo {
 	/**
 	 * <code>getSymmetricHorizontalEnd - getSymmetricHorizontalStart</code>
 	 * @param tick
-	 * @return
+	 * @return the symmetric width of the lifeline at the given tick
 	 * @see #getSymmetricHorizontalStart(int)
 	 * @see #getSymmetricHorizontalEnd(int)
 	 */
