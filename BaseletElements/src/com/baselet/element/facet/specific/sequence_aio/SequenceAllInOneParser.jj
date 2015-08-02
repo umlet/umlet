@@ -16,7 +16,6 @@ import org.apache.log4j.Logger;
 import com.baselet.control.enums.LineType;
 import com.baselet.element.facet.specific.sequence_aio.Lifeline;
 import com.baselet.element.facet.specific.sequence_aio.Message.ArrowType;
-import com.baselet.element.facet.specific.sequence_aio.SequenceDiagram;
 import com.baselet.element.facet.specific.sequence_aio.SequenceDiagramBuilder;
 import com.baselet.element.facet.specific.sequence_aio.SequenceDiagramException;
 
@@ -29,7 +28,6 @@ public class SequenceAllInOneParser {
 	 * Small data container to pass all informations.
 	 */
 	private class MessageArrowInfo {
-		int duration = 0;
 		boolean fromLeftToRight;
 		LineType lineType;
 		ArrowType arrowType;
@@ -122,6 +120,7 @@ PARSER_END(SequenceAllInOneParser)
 	| < MESSAGE_ARROW_LEFT_FILLED: "<<<" >
 	| < MESSAGE_ARROW_RIGHT_OPEN: ">" >
 	| < MESSAGE_ARROW_RIGHT_FILLED: ">>>" >
+	| < MESSAGE_DURATION: "+" >
 	| < LOST: "lost" >
 	| < FOUND: "found" >
 	| < START_COREGION: "coregionStart=" >
@@ -393,6 +392,7 @@ void Message(SequenceDiagramBuilder diagram) :
 	String msgText = "";
 	int lostCount = 0;
 	int foundCount = 0;
+	int duration = 0;
 }
 {
 	(
@@ -407,6 +407,7 @@ void Message(SequenceDiagramBuilder diagram) :
 			| < LOST > { rightLifelineId = "lost"; lostCount++; }
 			| < FOUND > { rightLifelineId = "found"; foundCount++; }
 		)
+		(duration = MessageDuration())?
 		(msgText = textUntilNewLine())?
 	)
 	{
@@ -428,15 +429,15 @@ void Message(SequenceDiagramBuilder diagram) :
 			throw new SequenceDiagramException("Error: 'lost' can only be on the receiving end of a message.");
 		}
 		else if(send.equals("found")) {
-			if(messageArrowInfo.duration != 0) {
-				throw new SequenceDiagramException("Error: 'lost' and 'found' messages can only have a duration of 0, but the duration was " + messageArrowInfo.duration + ".");			}
+			if(duration != 0) {
+				throw new SequenceDiagramException("Error: 'lost' and 'found' messages can only have a duration of 0, but the duration was " + duration + ".");			}
 			diagram.addFoundMessage(receive, msgText, messageArrowInfo.lineType, messageArrowInfo.arrowType);
 		}
 		else
 		{
 			if(receive.equals("lost")) {
-				if(messageArrowInfo.duration != 0) {
-					throw new SequenceDiagramException("Error: 'lost' and 'found' messages can only have a duration of 0, but the duration was " + messageArrowInfo.duration + ".");
+				if(duration != 0) {
+					throw new SequenceDiagramException("Error: 'lost' and 'found' messages can only have a duration of 0, but the duration was " + duration + ".");
 				}
 				diagram.addLostMessage(send, msgText, messageArrowInfo.lineType, messageArrowInfo.arrowType);
 			}
@@ -444,7 +445,7 @@ void Message(SequenceDiagramBuilder diagram) :
 				throw new SequenceDiagramException("Error: 'found' can only be on the sending end of a message.");
 			}
 			else {
-				diagram.addMessage(send, receive, messageArrowInfo.duration, msgText, messageArrowInfo.lineType, messageArrowInfo.arrowType);
+				diagram.addMessage(send, receive, duration, msgText, messageArrowInfo.lineType, messageArrowInfo.arrowType);
 			}
 		}
 	}
@@ -456,12 +457,7 @@ MessageArrowInfo MessageArrow():
 }
 {
 		(
-			(	
-				/* optional duration seperated with a '-' */
-				(
-	  				LOOKAHEAD(2)
-					< MESSAGE_SOLID_LINE > messageArrowInfo.duration = unsignedIntConstant()
-				)?
+			(
 				messageArrowInfo.lineType = MessageArrowLineType()
 				(
 					< MESSAGE_ARROW_RIGHT_OPEN > { messageArrowInfo.arrowType = ArrowType.OPEN; }
@@ -477,10 +473,6 @@ MessageArrowInfo MessageArrow():
 					| < MESSAGE_ARROW_LEFT_FILLED >  { messageArrowInfo.arrowType = ArrowType.FILLED; }
 				)
 				messageArrowInfo.lineType = MessageArrowLineType()
-				/* optional duration */
-				(
-					"-" messageArrowInfo.duration = unsignedIntConstant()
-				)?
 			)
 			{
 				messageArrowInfo.fromLeftToRight = false;
@@ -500,6 +492,22 @@ LineType MessageArrowLineType() :
 	)
 	{
 		return lineType;
+	}
+}
+
+int MessageDuration() :
+{
+	int duration = 1;
+}
+{
+	(
+		< MESSAGE_DURATION >
+		(
+			duration = unsignedIntConstant() 			| (< MESSAGE_DURATION >  { duration++; })*
+		)
+	)
+	{
+		return duration;
 	}
 }
 
