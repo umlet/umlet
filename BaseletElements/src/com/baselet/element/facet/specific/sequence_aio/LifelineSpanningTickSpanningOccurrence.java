@@ -5,118 +5,121 @@ import java.util.Map;
 
 import com.baselet.diagram.draw.DrawHandler;
 
-// TODO change javadoc because refactoring
+/**
+ * Represents an element which may span over multiple lifelines and mutliple ticks.
+ */
 public interface LifelineSpanningTickSpanningOccurrence {
 
 	/**
-	 * @return the first lifeline (lowest index) which is covered by this occurence
+	 * @return the first lifeline (lowest index) which is covered by this occurrence
 	 */
 	public Lifeline getFirstLifeline();
 
 	/**
-	 * @return the last lifeline (highest index) which is covered by this occurence
+	 * @return the last lifeline (highest index) which is covered by this occurrence
 	 */
 	public Lifeline getLastLifeline();
 
 	/**
-	 * Draws the element and adds interrupted Areas to the LifelineDrawingInfo.
+	 * Draws the element and adds interrupted Areas to the LifelineDrawingInfo
+	 * (which can be access via {@link DrawingInfo#getDrawingInfo(Lifeline)})
 	 * @param drawHandler
-	 * @param topY the top position of the lifeline, exactly beneath the head (if it was created on start)
-	 * @param lifelinesHorizontalSpanning for each lifeline the start- (Line1D.low) and endpoint (Line1D.high) on the x-axis is stored.
-	 * The array can be accessed by the index of the lifeline
-	 * @param tickHeight the default height of a tick
-	 * @param accumulativeAddiontalHeightOffsets
-	 * @return for each lifeline an array which contains the interrupted areas.
-	 * If there are no interruptions for a lifeline then no entry is needed.
-	 * It is also possible to return an array of size 0, but if there is an entry
-	 * then the array must not be null. The key is the lifeline index.
+	 * @param drawingInfo
 	 */
 	public void draw(DrawHandler drawHandler, DrawingInfo drawingInfo);
 
 	/**
-	 *
+	 * Returns the minimum width between the start of the first lifeline and the end of the last lifeline.
 	 * @param drawHandler
 	 * @param lifelineHorizontalPadding specifies how much space is between 2 adjacent lifelines
-	 * @return
+	 * (can be useful for calculating the exact minimum width)
+	 * @return the minimum width of the occurrence
 	 */
 	public double getOverallMinWidth(DrawHandler drawHandler, double lifelineHorizontalPadding);
 
 	/**
-	 *
+	 * Returns the additional heights needed by this occurrence, the tick is the key
 	 * @param drawHandler
-	 * @param lifelinesHorizontalSpanning the horizontal start and end of each lifeline
+	 * @param hInfo the horizontal drawing information, from which the usable width can be calculated
+	 * @param defaultTickHeight
 	 * @return a map with the additional heights, the keys are the ticks and the values is the additional height needed
 	 */
 	public Map<Integer, Double> getEveryAdditionalYHeight(DrawHandler drawHandler, HorizontalDrawingInfo hInfo,
 			double defaultTickHeight);
 
-	/**
-	 * @return the left padding of the first lifeline or NULL if no padding is needed
-	 * @see #getFirstLifeline()
-	 */
-	public PaddingInterval getLeftPadding();
+	public ContainerPadding getPaddingInformation();
 
-	/**
-	 * @return the right padding of the last lifeline or NULL if no padding is needed
-	 * @see #getLastLifeline()
-	 */
-	public PaddingInterval getRightPadding();
+	public static class ContainerPadding {
+		private final Container container;
 
-	public static class PaddingInterval {
-		private int startTick;
-		private int endTick;
-		private double paddingValue;
+		private final double leftPadding;
+		private final double rightPadding;
+		private final double topPadding;
+		private final double bottomPadding;
 
-		public PaddingInterval(int startTick, int endTick, double paddingValue) {
+		public ContainerPadding(Container container, double leftPadding, double rightPadding, double topPadding, double bottomPadding) {
 			super();
-			this.startTick = startTick;
-			this.endTick = endTick;
-			this.paddingValue = paddingValue;
+			this.container = container;
+			this.leftPadding = leftPadding;
+			this.rightPadding = rightPadding;
+			this.topPadding = topPadding;
+			this.bottomPadding = bottomPadding;
 		}
 
-		public int getStartTick() {
-			return startTick;
+		public Container getContainer() {
+			return container;
 		}
 
-		public void setStartTick(int startTick) {
-			this.startTick = startTick;
+		public double getLeftPadding() {
+			return leftPadding;
 		}
 
-		public int getEndTick() {
-			return endTick;
+		public double getRightPadding() {
+			return rightPadding;
 		}
 
-		public void setEndTick(int endTick) {
-			this.endTick = endTick;
+		public double getTopPadding() {
+			return topPadding;
 		}
 
-		public double getPadding() {
-			return paddingValue;
+		public double getBottomPadding() {
+			return bottomPadding;
 		}
 
-		public void setPadding(double paddingValue) {
-			this.paddingValue = paddingValue;
-		}
-
-		public static Comparator<PaddingInterval> getStartAscComparator()
+		public static Comparator<ContainerPadding> getContainerStartTickAscComparator()
 		{
-			return new Comparator<PaddingInterval>() {
+			return new Comparator<ContainerPadding>() {
 				@Override
-				public int compare(PaddingInterval o1, PaddingInterval o2) {
-					return o1.getStartTick() - o2.getStartTick();
+				public int compare(ContainerPadding o1, ContainerPadding o2) {
+					return o1.getContainer().getStartTick() - o2.getContainer().getStartTick();
 				}
 			};
 		}
 
-		public static Comparator<PaddingInterval> getEndAscComparator()
+		public static Comparator<ContainerPadding> getContainerStartTickLifelineAscComparator()
 		{
-			return new Comparator<PaddingInterval>() {
+			return new Comparator<ContainerPadding>() {
 				@Override
-				public int compare(PaddingInterval o1, PaddingInterval o2) {
-					return o1.getEndTick() - o2.getEndTick();
+				public int compare(ContainerPadding o1, ContainerPadding o2) {
+					int ret = o1.getContainer().getStartTick() - o2.getContainer().getStartTick();
+					if (ret == 0) {
+						return o1.getContainer().getFirstLifeline().getIndex() - o2.getContainer().getFirstLifeline().getIndex();
+					}
+					else {
+						return ret;
+					}
 				}
 			};
 		}
 
+		public static Comparator<ContainerPadding> getContainerEndTickAscComparator()
+		{
+			return new Comparator<ContainerPadding>() {
+				@Override
+				public int compare(ContainerPadding o1, ContainerPadding o2) {
+					return o1.getContainer().getEndTick() - o2.getContainer().getEndTick();
+				}
+			};
+		}
 	}
 }

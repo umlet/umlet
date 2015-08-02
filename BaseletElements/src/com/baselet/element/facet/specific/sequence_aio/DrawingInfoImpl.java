@@ -22,18 +22,33 @@ public class DrawingInfoImpl implements DrawingInfo {
 	}
 
 	@Override
+	public LifelineDrawingInfo getDrawingInfo(Lifeline lifeline) {
+		return new LifelineDrawingInfoProxy(lifeline);
+	}
+
+	@Override
 	public LifelineHorizontalDrawingInfo getHDrawingInfo(Lifeline lifeline) {
 		return horizontalDrawingInfo.getHDrawingInfo(lifeline);
 	}
 
 	@Override
-	public double getSymmetricWidthTo(Lifeline ll1, Lifeline ll2, int tick) {
-		return horizontalDrawingInfo.getSymmetricWidthTo(ll1, ll2, tick);
+	public double getSymmetricWidth(Lifeline ll1, Lifeline ll2, int tick) {
+		return horizontalDrawingInfo.getSymmetricWidth(ll1, ll2, tick);
 	}
 
 	@Override
-	public LifelineDrawingInfo getDrawingInfo(Lifeline lifeline) {
-		return new LifelineDrawingInfoProxy(lifeline);
+	public double getHorizontalStart(Container container) {
+		return horizontalDrawingInfo.getHorizontalStart(container);
+	}
+
+	@Override
+	public double getHorizontalEnd(Container container) {
+		return horizontalDrawingInfo.getHorizontalEnd(container);
+	}
+
+	@Override
+	public double getWidth(Container container) {
+		return horizontalDrawingInfo.getWidth(container);
 	}
 
 	private SortedMergedLine1DList getInterruptedAreas(int lifelineIndex) {
@@ -78,6 +93,16 @@ public class DrawingInfoImpl implements DrawingInfo {
 	@Override
 	public double getTickVerticalPadding() {
 		return verticalDrawingInfo.getTickVerticalPadding();
+	}
+
+	@Override
+	public double getVerticalStart(Container container) {
+		return verticalDrawingInfo.getVerticalStart(container);
+	}
+
+	@Override
+	public double getVerticalEnd(Container container) {
+		return verticalDrawingInfo.getVerticalEnd(container);
 	}
 
 	private class LifelineDrawingInfoProxy implements LifelineDrawingInfo {
@@ -187,6 +212,16 @@ public class DrawingInfoImpl implements DrawingInfo {
 		@Override
 		public void addInterruptedArea(Line1D llInterruption) {
 			getInterruptedAreas().add(llInterruption);
+		}
+
+		@Override
+		public double getVerticalStart(Container container) {
+			return verticalDrawingInfo.getVerticalStart(container);
+		}
+
+		@Override
+		public double getVerticalEnd(Container container) {
+			return verticalDrawingInfo.getVerticalStart(container);
 		}
 
 	}

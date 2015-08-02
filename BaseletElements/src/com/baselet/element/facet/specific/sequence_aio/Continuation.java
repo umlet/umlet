@@ -42,7 +42,7 @@ public class Continuation implements LifelineSpanningTickSpanningOccurrence {
 
 	@Override
 	public void draw(DrawHandler drawHandler, DrawingInfo drawingInfo) {
-		double width = drawingInfo.getSymmetricWidthTo(getFirstLifeline(), getLastLifeline(), tick);
+		double width = drawingInfo.getSymmetricWidth(getFirstLifeline(), getLastLifeline(), tick);
 		double height = AdvancedTextSplitter.getSplitStringHeight(textLines, width - ROUND_PART_WIDTH * 2, drawHandler)
 						+ VERTICAL_BORDER_PADDING * 2;
 		double topY = drawingInfo.getVerticalStart(tick);
@@ -74,7 +74,7 @@ public class Continuation implements LifelineSpanningTickSpanningOccurrence {
 			) {
 		Map<Integer, Double> ret = new HashMap<Integer, Double>();
 		double neededHeight = AdvancedTextSplitter.getSplitStringHeight(textLines,
-				hInfo.getSymmetricWidthTo(getFirstLifeline(), getLastLifeline(), tick) - ROUND_PART_WIDTH * 2,
+				hInfo.getSymmetricWidth(getFirstLifeline(), getLastLifeline(), tick) - ROUND_PART_WIDTH * 2,
 				drawHandler) + VERTICAL_BORDER_PADDING * 2;
 		if (neededHeight > defaultTickHeight) {
 			ret.put(tick, neededHeight - defaultTickHeight);
@@ -83,12 +83,7 @@ public class Continuation implements LifelineSpanningTickSpanningOccurrence {
 	}
 
 	@Override
-	public PaddingInterval getLeftPadding() {
-		return null;
-	}
-
-	@Override
-	public PaddingInterval getRightPadding() {
+	public ContainerPadding getPaddingInformation() {
 		return null;
 	}
 

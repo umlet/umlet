@@ -18,6 +18,11 @@ public interface HorizontalDrawingInfo {
 	 * @param tick
 	 * @return the symmetric width which is spanned by the two lifelines at the given tick
 	 */
-	public double getSymmetricWidthTo(Lifeline ll1, Lifeline ll2, int tick);
+	public double getSymmetricWidth(Lifeline ll1, Lifeline ll2, int tick);
 
+	public double getHorizontalStart(Container container);
+
+	public double getHorizontalEnd(Container container);
+
+	public double getWidth(Container container);
 }

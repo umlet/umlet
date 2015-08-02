@@ -254,12 +254,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 	}
 
 	@Override
-	public PaddingInterval getLeftPadding() {
-		return null;
-	}
-
-	@Override
-	public PaddingInterval getRightPadding() {
+	public ContainerPadding getPaddingInformation() {
 		return null;
 	}
 

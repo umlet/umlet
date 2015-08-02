@@ -44,7 +44,7 @@ public class InteractionUse implements LifelineSpanningTickSpanningOccurrence {
 
 	@Override
 	public void draw(DrawHandler drawHandler, DrawingInfo drawingInfo) {
-		double width = drawingInfo.getSymmetricWidthTo(getFirstLifeline(), getLastLifeline(), tick);
+		double width = drawingInfo.getSymmetricWidth(getFirstLifeline(), getLastLifeline(), tick);
 		double height = getHeight(drawHandler, width);
 		double topY = drawingInfo.getVerticalStart(tick) + (drawingInfo.getTickHeight(tick) - height) / 2;
 		PointDouble topLeft = new PointDouble(
@@ -72,7 +72,7 @@ public class InteractionUse implements LifelineSpanningTickSpanningOccurrence {
 	public Map<Integer, Double> getEveryAdditionalYHeight(DrawHandler drawHandler,
 			HorizontalDrawingInfo hInfo, double defaultTickHeight) {
 		Map<Integer, Double> ret = new HashMap<Integer, Double>();
-		double width = hInfo.getSymmetricWidthTo(getFirstLifeline(), getLastLifeline(), tick);
+		double width = hInfo.getSymmetricWidth(getFirstLifeline(), getLastLifeline(), tick);
 		if (getHeight(drawHandler, width) > defaultTickHeight) {
 			ret.put(tick, getHeight(drawHandler, width) - defaultTickHeight);
 		}
@@ -80,12 +80,7 @@ public class InteractionUse implements LifelineSpanningTickSpanningOccurrence {
 	}
 
 	@Override
-	public PaddingInterval getLeftPadding() {
-		return null;
-	}
-
-	@Override
-	public PaddingInterval getRightPadding() {
+	public ContainerPadding getPaddingInformation() {
 		return null;
 	}
 

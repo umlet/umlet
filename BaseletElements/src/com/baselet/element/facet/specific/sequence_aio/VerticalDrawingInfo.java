@@ -56,4 +56,16 @@ public interface VerticalDrawingInfo {
 	 * @return the vertical padding between two ticks.
 	 */
 	public double getTickVerticalPadding();
+
+	/**
+	 * @param container
+	 * @return the y coordinate of the start of the given container
+	 */
+	public double getVerticalStart(Container container);
+
+	/**
+	 * @param container
+	 * @return the y coordinate of the end of the given container
+	 */
+	public double getVerticalEnd(Container container);
 }
