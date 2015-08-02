@@ -124,7 +124,10 @@ public class SequenceDiagram {
 			}
 		}
 		// calculate and draw the header, then draw top border
-		double headerHeight = PentagonDrawingHelper.draw(drawHandler, titleLines, diagramWidth, new PointDouble(0, 0)).y;
+		double headerHeight = 0;
+		if (titleLines.length > 1 || titleLines.length == 1 && !titleLines[0].isEmpty()) {
+			headerHeight = PentagonDrawingHelper.draw(drawHandler, titleLines, diagramWidth, new PointDouble(0, 0)).y;
+		}
 		drawHandler.drawLine(0, 0, diagramWidth, 0);
 
 		// draw description
