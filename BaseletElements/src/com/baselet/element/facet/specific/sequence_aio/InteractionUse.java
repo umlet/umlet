@@ -43,15 +43,12 @@ public class InteractionUse implements LifelineSpanningTickSpanningOccurrence {
 	}
 
 	@Override
-	public Map<Integer, Line1D[]> draw(DrawHandler drawHandler, double topY,
-			Line1D[] lifelinesHorizontalSpanning, double tickHeight, double[] accumulativeAddiontalHeightOffsets) {
-		double width = lifelinesHorizontalSpanning[getLastLifeline().getIndex()].getHigh()
-						- lifelinesHorizontalSpanning[getFirstLifeline().getIndex()].getLow();
+	public void draw(DrawHandler drawHandler, DrawingInfo drawingInfo) {
+		double width = drawingInfo.getSymmetricWidth(getFirstLifeline(), getLastLifeline(), tick);
 		double height = getHeight(drawHandler, width);
-		double relativeTopY = tick * tickHeight + accumulativeAddiontalHeightOffsets[tick];
-		double usableTickHeight = (tick + 1) * tickHeight + accumulativeAddiontalHeightOffsets[tick + 1] - relativeTopY;
-		relativeTopY += (usableTickHeight - height) / 2;
-		PointDouble topLeft = new PointDouble(lifelinesHorizontalSpanning[getFirstLifeline().getIndex()].getLow(), topY + relativeTopY);
+		double topY = drawingInfo.getVerticalStart(tick) + (drawingInfo.getTickHeight(tick) - height) / 2;
+		PointDouble topLeft = new PointDouble(
+				drawingInfo.getHDrawingInfo(getFirstLifeline()).getSymmetricHorizontalStart(tick), topY);
 
 		drawHandler.drawRectangle(topLeft.x, topLeft.y, width, height);
 		PointDouble pentagonSize = PentagonDrawingHelper.draw(drawHandler, HEADER_TEXT, width, topLeft);
@@ -59,11 +56,9 @@ public class InteractionUse implements LifelineSpanningTickSpanningOccurrence {
 				topLeft.y, width - (pentagonSize.x + TEXT_X_PADDING) * 2, height,
 				AlignHorizontal.CENTER, AlignVertical.CENTER);
 
-		Map<Integer, Line1D[]> ret = new HashMap<Integer, Line1D[]>();
-		for (int i = getFirstLifeline().getIndex(); i <= getLastLifeline().getIndex(); i++) {
-			ret.put(i, new Line1D[] { new Line1D(topLeft.y, topLeft.y + height) });
+		for (Lifeline ll : coveredLifelines) {
+			drawingInfo.getDrawingInfo(ll).addInterruptedArea(new Line1D(topLeft.y, topLeft.y + height));
 		}
-		return ret;
 	}
 
 	@Override
@@ -75,14 +70,18 @@ public class InteractionUse implements LifelineSpanningTickSpanningOccurrence {
 
 	@Override
 	public Map<Integer, Double> getEveryAdditionalYHeight(DrawHandler drawHandler,
-			Line1D[] lifelinesHorizontalSpanning, double tickHeight) {
+			HorizontalDrawingInfo hInfo, double defaultTickHeight) {
 		Map<Integer, Double> ret = new HashMap<Integer, Double>();
-		double width = lifelinesHorizontalSpanning[getLastLifeline().getIndex()].getHigh()
-						- lifelinesHorizontalSpanning[getFirstLifeline().getIndex()].getLow();
-		if (getHeight(drawHandler, width) > tickHeight) {
-			ret.put(tick, getHeight(drawHandler, width) - tickHeight);
+		double width = hInfo.getSymmetricWidth(getFirstLifeline(), getLastLifeline(), tick);
+		if (getHeight(drawHandler, width) > defaultTickHeight) {
+			ret.put(tick, getHeight(drawHandler, width) - defaultTickHeight);
 		}
 		return ret;
+	}
+
+	@Override
+	public ContainerPadding getPaddingInformation() {
+		return null;
 	}
 
 	private double getHeight(DrawHandler drawHandler, double width) {

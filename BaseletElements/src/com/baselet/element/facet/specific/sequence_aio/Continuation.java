@@ -41,16 +41,13 @@ public class Continuation implements LifelineSpanningTickSpanningOccurrence {
 	}
 
 	@Override
-	public Map<Integer, Line1D[]> draw(DrawHandler drawHandler, double topY,
-			Line1D[] lifelinesHorizontalSpanning, double tickHeight, double[] accumulativeAddiontalHeightOffsets) {
-		double width = lifelinesHorizontalSpanning[getLastLifeline().getIndex()].getHigh()
-						- lifelinesHorizontalSpanning[getFirstLifeline().getIndex()].getLow();
-		double height = AdvancedTextSplitter.getSplitStringHeight(textLines, width - ROUND_PART_WIDTH * 2, drawHandler) + VERTICAL_BORDER_PADDING * 2;
-		double relativeTopY = tick * tickHeight + accumulativeAddiontalHeightOffsets[tick];
-		double usableTickHeight = (tick + 1) * tickHeight + accumulativeAddiontalHeightOffsets[tick + 1] - relativeTopY;
-		relativeTopY += (usableTickHeight - height) / 2;
-		topY += relativeTopY;
-		double leftX = lifelinesHorizontalSpanning[getFirstLifeline().getIndex()].getLow();
+	public void draw(DrawHandler drawHandler, DrawingInfo drawingInfo) {
+		double width = drawingInfo.getSymmetricWidth(getFirstLifeline(), getLastLifeline(), tick);
+		double height = AdvancedTextSplitter.getSplitStringHeight(textLines, width - ROUND_PART_WIDTH * 2, drawHandler)
+						+ VERTICAL_BORDER_PADDING * 2;
+		double topY = drawingInfo.getVerticalStart(tick);
+		topY += (drawingInfo.getTickHeight(tick) - height) / 2;
+		double leftX = drawingInfo.getHDrawingInfo(getFirstLifeline()).getSymmetricHorizontalStart(tick);
 
 		drawHandler.drawArc(leftX, topY, ROUND_PART_WIDTH * 2, height, 90, 180, true);
 		width = width - ROUND_PART_WIDTH * 2;
@@ -60,11 +57,9 @@ public class Continuation implements LifelineSpanningTickSpanningOccurrence {
 		AdvancedTextSplitter.drawText(drawHandler, textLines, leftX + ROUND_PART_WIDTH, topY, width, height,
 				AlignHorizontal.CENTER, AlignVertical.CENTER);
 
-		Map<Integer, Line1D[]> ret = new HashMap<Integer, Line1D[]>();
-		for (int i = getFirstLifeline().getIndex(); i <= getLastLifeline().getIndex(); i++) {
-			ret.put(i, new Line1D[] { new Line1D(topY, topY + height) });
+		for (Lifeline ll : coveredLifelines) {
+			drawingInfo.getDrawingInfo(ll).addInterruptedArea(new Line1D(topY, topY + height));
 		}
-		return ret;
 	}
 
 	@Override
@@ -74,16 +69,22 @@ public class Continuation implements LifelineSpanningTickSpanningOccurrence {
 
 	@Override
 	public Map<Integer, Double> getEveryAdditionalYHeight(DrawHandler drawHandler,
-			Line1D[] lifelinesHorizontalSpanning, double tickHeight) {
+			HorizontalDrawingInfo hInfo, double defaultTickHeight
+			// Line1D[] lifelinesHorizontalSpanning, double tickHeight
+			) {
 		Map<Integer, Double> ret = new HashMap<Integer, Double>();
 		double neededHeight = AdvancedTextSplitter.getSplitStringHeight(textLines,
-				lifelinesHorizontalSpanning[getLastLifeline().getIndex()].getHigh()
-						- lifelinesHorizontalSpanning[getFirstLifeline().getIndex()].getLow() - ROUND_PART_WIDTH * 2,
+				hInfo.getSymmetricWidth(getFirstLifeline(), getLastLifeline(), tick) - ROUND_PART_WIDTH * 2,
 				drawHandler) + VERTICAL_BORDER_PADDING * 2;
-		if (neededHeight > tickHeight) {
-			ret.put(tick, neededHeight - tickHeight);
+		if (neededHeight > defaultTickHeight) {
+			ret.put(tick, neededHeight - defaultTickHeight);
 		}
 		return ret;
+	}
+
+	@Override
+	public ContainerPadding getPaddingInformation() {
+		return null;
 	}
 
 }
