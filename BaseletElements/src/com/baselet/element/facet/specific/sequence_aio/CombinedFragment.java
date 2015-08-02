@@ -222,17 +222,6 @@ public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence,
 		return ret;
 	}
 
-	// @Override
-	// public PaddingInterval getLeftPadding() {
-	// return new PaddingInterval(startTick, getEndTick(), COMBINED_FRAGMENT_HORIZONTAL_BORDER_PADDING);
-	// // return null;// TODO COMBINED_FRAGMENT_HORIZONTAL_BORDER_PADDING
-	// }
-	//
-	// @Override
-	// public PaddingInterval getRightPadding() {
-	// return new PaddingInterval(startTick, getEndTick(), COMBINED_FRAGMENT_HORIZONTAL_BORDER_PADDING);
-	// }
-
 	@Override
 	public ContainerPadding getPaddingInformation() {
 		return new ContainerPadding(this, COMBINED_FRAGMENT_HORIZONTAL_BORDER_PADDING,

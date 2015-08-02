@@ -177,7 +177,7 @@ public class AdvancedTextSplitter {
 	 * @param width in which the text should be fitted, need to be &gt; the width of the 'n' character
 	 * @param drawer
 	 * @param runtimeException if true then a runtime exception is thrown if a single word is to big for the given width
-	 * @return
+	 * @return the wrapped lines
 	 */
 	public static String[] splitStringAlgorithm(String text, double width, DrawHandler drawer, boolean runtimeException) {
 		return splitStringAndHeightAlgorithm(text, width, drawer, runtimeException).getWrappedLines();

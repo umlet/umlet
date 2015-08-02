@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.specific.sequence_aio.LifelineSpanningTickSpanningOccurrence.ContainerPadding;
@@ -105,7 +106,7 @@ public class SequenceDiagram {
 		return lifelines;
 	}
 
-	public void draw(DrawHandler drawHandler) {
+	public DimensionDouble draw(DrawHandler drawHandler) {
 		LifelineHorizontalDrawingInfo[] llHorizontalDrawingInfos;
 		HorizontalDrawingInfo horizontalDrawingInfo;
 		VerticalDrawingInfo verticalInfo;
@@ -131,15 +132,6 @@ public class SequenceDiagram {
 		double lifelineHeadTop = headerHeight + LIFELINE_Y_PADDING;
 
 		double lifelineHeadLeftStart = LIFELINE_X_PADDING;
-		// llHorizontalDrawingInfos = new LifelineHorizontalDrawingInfo[lifelines.length];
-		// for (int i = 0; i < llHorizontalDrawingInfos.length; i++) {
-		// llHorizontalDrawingInfos[i] = new LifelineHorizontalDrawingInfoImpl(
-		// getPaddings(lifelines[i], true),
-		// getPaddings(lifelines[i], false),
-		// lifelineHeadLeftStart + (lifelineWidth + LIFELINE_X_PADDING) * i,
-		// lifelineHeadLeftStart + (lifelineWidth + LIFELINE_X_PADDING) * i + lifelineWidth);
-		// }
-		// horizontalDrawingInfo = new HorizontalDrawingInfoImpl(llHorizontalDrawingInfos);
 		Collection<ContainerPadding> allPaddings = new LinkedList<ContainerPadding>();
 		for (LifelineSpanningTickSpanningOccurrence lstso : spanningLifelineOccurrences) {
 			if (lstso.getPaddingInformation() != null) {
@@ -164,50 +156,12 @@ public class SequenceDiagram {
 			}
 		}
 		// draw left,right and bottom border
-		double bottomY = verticalInfo.getVerticalEnd(lastTick) + LIFELINE_Y_PADDING;// TODO check were lifeline really ends
+		double bottomY = verticalInfo.getVerticalEnd(lastTick) + LIFELINE_Y_PADDING;
 		drawHandler.drawLine(0, bottomY, diagramWidth, bottomY);
 		drawHandler.drawLine(0, 0, 0, bottomY);
 		drawHandler.drawLine(diagramWidth, 0, diagramWidth, bottomY);
+		return new DimensionDouble(diagramWidth, bottomY);
 	}
-
-	// private double[] getPaddings(Lifeline lifeline, boolean left) {
-	// double[] paddings = new double[lastTick + 2];
-	// // define 1 queue for starting of padding intervals, and the other for the ending of the intervals
-	// Queue<PaddingInterval> paddingQueueStart = new PriorityQueue<PaddingInterval>(5,
-	// PaddingInterval.getStartAscComparator());
-	// List<PaddingInterval> paddingListEnd = new LinkedList<PaddingInterval>();
-	//
-	// for (LifelineSpanningTickSpanningOccurrence lstso : spanningLifelineOccurrences) {
-	// if (left && lstso.getFirstLifeline() == lifeline && lstso.getLeftPadding() != null) {
-	// paddingQueueStart.add(lstso.getLeftPadding());
-	// }
-	// else if (!left && lstso.getLastLifeline() == lifeline && lstso.getRightPadding() != null) {
-	// paddingQueueStart.add(lstso.getRightPadding());
-	// }
-	// }
-	// for (int tick = 0; tick < paddings.length; tick++) {
-	// // insert paddings that start at the current tick at the right place (endTick asc) and remove them.
-	// while (paddingQueueStart.peek() != null && paddingQueueStart.peek().getStartTick() == tick) {
-	// int index = Collections.binarySearch(paddingListEnd, paddingQueueStart.peek(),
-	// PaddingInterval.getEndAscComparator());
-	// if (index >= 0) {
-	// paddingListEnd.add(index, paddingQueueStart.poll());
-	// }
-	// else {
-	// paddingListEnd.add(-index - 1, paddingQueueStart.poll());
-	// }
-	// }
-	// Iterator<PaddingInterval> endIter = paddingListEnd.iterator();
-	// while (endIter.hasNext()) {
-	// PaddingInterval paddingInterval = endIter.next();
-	// paddings[tick] += paddingInterval.getPadding();
-	// if (paddingInterval.getEndTick() == tick) {
-	// endIter.remove();
-	// }
-	// }
-	// }
-	// return paddings;
-	// }
 
 	private double getLifelineWidth(DrawHandler drawHandler) {
 		double maxMinWidth = 0;

@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -37,9 +38,6 @@ public class SequenceAllInOneFacet extends Facet {
 	@Override
 	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
 		DrawHandler drawer = state.getDrawer();
-		int height = state.getGridElementSize().getHeight();
-		int width = state.getGridElementSize().getWidth();
-
 		// pass the whole text to the parser
 		StringBuilder strBuilder = new StringBuilder();
 		for (String str : handledLines) {
@@ -48,12 +46,12 @@ public class SequenceAllInOneFacet extends Facet {
 		}
 		try {
 			System.out.println(new Date());
-			new SequenceAllInOneParser(strBuilder.toString()).start().generateDiagram().draw(drawer);
+			DimensionDouble size = new SequenceAllInOneParser(strBuilder.toString()).start().generateDiagram().draw(drawer);
+			state.updateMinimumSize(size.getWidth() - drawer.getDistanceBorderToText() * 2, size.getHeight());
 		} catch (ParseException e) {
 			throw new SequenceDiagramException(e);
 		} catch (TokenMgrException e) {
 			throw new SequenceDiagramException(e);
 		}
-
 	}
 }

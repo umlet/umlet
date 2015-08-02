@@ -30,8 +30,7 @@ public class SequenceAllInOne extends NewGridElement {
 
 			@Override
 			public ElementStyle getElementStyle() {
-				// TODO check if AUTO_RESIZE would work (how it can be implemented), and if it would be a good option
-				return ElementStyle.SIMPLE;
+				return ElementStyle.AUTORESIZE;
 			}
 
 			@Override
