@@ -2,14 +2,17 @@ package com.baselet.gwt.client.view.widgets.propertiespanel;
 
 import java.util.Collection;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestBox.SuggestionCallback;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * The purpose of this class is to avoid mouse interaction with the palette as long as the suggestbox is visible
@@ -21,7 +24,7 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
  */
 public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 	private boolean paletteShouldIgnoreMouseClicks = false;
-	private Timer popupHideTimer = new Timer() {
+	private final Timer popupHideTimer = new Timer() {
 		@Override
 		public void run() {
 			paletteShouldIgnoreMouseClicks = false;
@@ -43,10 +46,18 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 	@Override
 	protected void showSuggestions(SuggestBox suggestBox, Collection<? extends Suggestion> suggestions, boolean isDisplayStringHTML, boolean isAutoSelectEnabled, SuggestionCallback callback) {
 		super.showSuggestions(suggestBox, suggestions, isDisplayStringHTML, isAutoSelectEnabled, callback);
+		getPopupPanel().getWidget().setWidth(suggestBox.getElement().getAbsoluteRight() - suggestBox.getAbsoluteLeft() - 40 + Unit.PX.getType());
 		if (isSuggestionListShowing()) {
 			popupHideTimer.cancel();
 			paletteShouldIgnoreMouseClicks = true;
 		}
+	}
+
+	@Override
+	protected Widget decorateSuggestionList(Widget suggestionList) {
+		suggestionList = new ScrollPanel(suggestionList);
+		// ((ScrollPanel) suggestionList).setWidth("100px");
+		return super.decorateSuggestionList(suggestionList);
 	}
 
 	public boolean getPaletteShouldIgnoreMouseClicks() {
