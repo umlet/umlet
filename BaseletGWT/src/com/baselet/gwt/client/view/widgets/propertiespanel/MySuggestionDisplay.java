@@ -28,6 +28,7 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 	 * padding from the browser frame to the top of the display box.
 	 */
 	private static final int DISPLAY_BOX_TOP_PADDING = 40;
+	private static final int DISPLAY_BOX_MIN_HEIGHT = 60;
 
 	private boolean paletteShouldIgnoreMouseClicks = false;
 	private final Timer popupHideTimer = new Timer() {
@@ -52,7 +53,8 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 	@Override
 	protected void showSuggestions(SuggestBox suggestBox, Collection<? extends Suggestion> suggestions, boolean isDisplayStringHTML, boolean isAutoSelectEnabled, SuggestionCallback callback) {
 		getPopupPanel().getWidget().setWidth(suggestBox.getElement().getScrollWidth() + Unit.PX.getType());
-		getPopupPanel().getWidget().setHeight(suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING + Unit.PX.getType());
+		getPopupPanel().getWidget().setHeight(Math.max(DISPLAY_BOX_MIN_HEIGHT,
+				suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING) + Unit.PX.getType());
 		super.showSuggestions(suggestBox, suggestions, isDisplayStringHTML, isAutoSelectEnabled, callback);
 		if (isSuggestionListShowing()) {
 			popupHideTimer.cancel();
