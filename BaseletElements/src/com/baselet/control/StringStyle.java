@@ -63,4 +63,10 @@ public class StringStyle {
 	public String getStringWithoutMarkup() {
 		return stringWithoutMarkup;
 	}
+
+	@Override
+	public String toString() {
+		return "StringStyle [format=" + format + ", stringWithoutMarkup=" + stringWithoutMarkup + "]";
+	}
+
 }

@@ -33,7 +33,10 @@ public class DrawHandlerGwt extends DrawHandler {
 	@Override
 	protected DimensionDouble textDimensionHelper(String string) {
 		StringStyle stringStyle = StringStyle.analyzeFormatLabels(string);
+		String oldFont = ctx.getFont();
+		ctxSetFont(style.getFontSize(), stringStyle);
 		DimensionDouble dim = new DimensionDouble(ctx.measureText(stringStyle.getStringWithoutMarkup()).getWidth(), style.getFontSize()); // unfortunately a html canvas offers no method to get the exakt height, therefore just use the fontsize
+		ctx.setFont(oldFont); // restore old font to make sure the textDimensions method doesnt change context state!
 		return dim;
 	}
 
@@ -184,7 +187,7 @@ public class DrawHandlerGwt extends DrawHandler {
 		if (stringStyle.getFormat().contains(FormatLabels.UNDERLINE)) {
 			ctx.setLineWidth(1.0f);
 			setLineDash(ctx, LineType.SOLID, 1.0f);
-			double textWidth = textWidth(textToDraw);
+			double textWidth = textWidth(text);
 			int vDist = 1;
 			switch (align) {
 				case LEFT:
