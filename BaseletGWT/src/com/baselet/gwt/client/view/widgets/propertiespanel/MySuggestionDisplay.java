@@ -56,7 +56,6 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 	@Override
 	protected Widget decorateSuggestionList(Widget suggestionList) {
 		suggestionList = new ScrollPanel(suggestionList);
-		// ((ScrollPanel) suggestionList).setWidth("100px");
 		return super.decorateSuggestionList(suggestionList);
 	}
 
