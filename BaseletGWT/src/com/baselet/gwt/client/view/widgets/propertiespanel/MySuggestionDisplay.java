@@ -46,7 +46,7 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 	@Override
 	protected void showSuggestions(SuggestBox suggestBox, Collection<? extends Suggestion> suggestions, boolean isDisplayStringHTML, boolean isAutoSelectEnabled, SuggestionCallback callback) {
 		super.showSuggestions(suggestBox, suggestions, isDisplayStringHTML, isAutoSelectEnabled, callback);
-		getPopupPanel().getWidget().setWidth(suggestBox.getElement().getAbsoluteRight() - suggestBox.getAbsoluteLeft() - 40 + Unit.PX.getType());
+		getPopupPanel().getWidget().setWidth(suggestBox.getElement().getScrollWidth() + Unit.PX.getType());
 		if (isSuggestionListShowing()) {
 			popupHideTimer.cancel();
 			paletteShouldIgnoreMouseClicks = true;

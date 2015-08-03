@@ -40,6 +40,12 @@
 		    position: relative;
 		    top: 2px;
 		}
+		.propPanel{
+		    -webkit-box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    box-sizing: border-box;
+		    resize: none;
+		}
 	</ui:style>
 	
 	<g:FocusPanel stylePrimaryName="mainView" ui:field="mainPanel">
@@ -87,7 +93,7 @@
 					<g:center>
 						<g:FlowPanel>
 							<g:HTML><div class='{style.propertiesTitle}'>Properties</div></g:HTML>
-							<o:PropertiesTextArea ui:field="propertiesPanel" height="100%" width="100%" />
+							<o:PropertiesTextArea ui:field="propertiesPanel" height="100%" width="100%" addStyleNames="{style.propPanel}" />
 						</g:FlowPanel>
 					</g:center>
 				</g:SplitLayoutPanel>
