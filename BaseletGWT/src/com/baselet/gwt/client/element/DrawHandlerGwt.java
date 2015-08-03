@@ -33,7 +33,6 @@ public class DrawHandlerGwt extends DrawHandler {
 	@Override
 	protected DimensionDouble textDimensionHelper(String string) {
 		StringStyle stringStyle = StringStyle.analyzeFormatLabels(string);
-		ctxSetFont(style.getFontSize(), stringStyle);
 		DimensionDouble dim = new DimensionDouble(ctx.measureText(stringStyle.getStringWithoutMarkup()).getWidth(), style.getFontSize()); // unfortunately a html canvas offers no method to get the exakt height, therefore just use the fontsize
 		return dim;
 	}
@@ -179,6 +178,9 @@ public class DrawHandlerGwt extends DrawHandler {
 			return; // if nothing should be drawn return (some browsers like Opera have problems with ctx.fillText calls on empty strings)
 		}
 
+		ctxSetTextAlign(align);
+		ctx.fillText(textToDraw, p.x, p.y);
+
 		if (stringStyle.getFormat().contains(FormatLabels.UNDERLINE)) {
 			ctx.setLineWidth(1.0f);
 			setLineDash(ctx, LineType.SOLID, 1.0f);
@@ -196,9 +198,6 @@ public class DrawHandlerGwt extends DrawHandler {
 					break;
 			}
 		}
-
-		ctxSetTextAlign(align);
-		ctx.fillText(textToDraw, p.x, p.y);
 	}
 
 	private void ctxSetFont(double fontSize, StringStyle stringStyle) {
