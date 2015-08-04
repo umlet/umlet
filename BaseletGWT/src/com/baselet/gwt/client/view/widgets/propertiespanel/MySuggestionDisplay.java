@@ -53,9 +53,16 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 	@Override
 	protected void showSuggestions(SuggestBox suggestBox, Collection<? extends Suggestion> suggestions, boolean isDisplayStringHTML, boolean isAutoSelectEnabled, SuggestionCallback callback) {
 		getPopupPanel().getWidget().setWidth(suggestBox.getElement().getScrollWidth() + Unit.PX.getType());
-		getPopupPanel().getWidget().setHeight(Math.max(DISPLAY_BOX_MIN_HEIGHT,
-				suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING) + Unit.PX.getType());
+		// getPopupPanel().getElement().getStyle().setProperty("maxHeight",
+		getPopupPanel().getWidget().getElement().getStyle().setProperty("maxHeight",
+				Math.max(DISPLAY_BOX_MIN_HEIGHT, suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING) + Unit.PX.getType());
+		// getPopupPanel().getWidget().getel.setHeight("100%");
 		super.showSuggestions(suggestBox, suggestions, isDisplayStringHTML, isAutoSelectEnabled, callback);
+		// getPopupPanel().getElement().getStyle().setProperty("maxHeight",
+		// Math.max(DISPLAY_BOX_MIN_HEIGHT, suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING) + Unit.PX.getType());
+		// ((ScrollPanel)getPopupPanel().getWidget()).set
+		// getPopupPanel().getWidget().setHeight(Math.min(getPopupPanel().getWidget().getElement().getScrollHeight(), Math.max(DISPLAY_BOX_MIN_HEIGHT,
+		// suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING)) + Unit.PX.getType());
 		if (isSuggestionListShowing()) {
 			popupHideTimer.cancel();
 			paletteShouldIgnoreMouseClicks = true;
