@@ -8,6 +8,9 @@ import java.util.Map;
 
 import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.basics.geom.PointDouble;
+import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.AlignVertical;
+import com.baselet.diagram.draw.AdvancedTextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.specific.sequence_aio.LifelineSpanningTickSpanningOccurrence.ContainerPadding;
 
@@ -16,6 +19,8 @@ public class SequenceDiagram {
 	private static final double LIFELINE_X_PADDING = 40;
 	private static final double LIFELINE_Y_PADDING = 20;
 	private static final double LIFELINE_MIN_WIDTH = 100;
+	private static final double DESCRIPTION_V_PADDING = 10;
+	private static final double DESCRIPTION_H_PADDING = 10;
 
 	private static final double TICK_HEIGHT = 20;
 	private static final double TICK_Y_PADDING = 6;// should be odd and the nothing should draw at the center!
@@ -33,7 +38,7 @@ public class SequenceDiagram {
 	public SequenceDiagram()
 	{
 		titleLines = new String[] { "" };
-		descLines = null;
+		descLines = new String[] { "" };
 		lifelines = new Lifeline[0];
 		spanningLifelineOccurrences = new LinkedList<LifelineSpanningTickSpanningOccurrence>();
 	}
@@ -117,7 +122,6 @@ public class SequenceDiagram {
 	}
 
 	public DimensionDouble draw(DrawHandler drawHandler, DoubleConverter widthConverter, DoubleConverter heightConverter) {
-		LifelineHorizontalDrawingInfo[] llHorizontalDrawingInfos;
 		HorizontalDrawingInfo horizontalDrawingInfo;
 		VerticalDrawingInfo verticalInfo;
 		DrawingInfo drawingInfo;
@@ -127,6 +131,8 @@ public class SequenceDiagram {
 		if (diagramWidth < LIFELINE_MIN_WIDTH) {
 			diagramWidth = LIFELINE_MIN_WIDTH;
 		}
+		diagramWidth = Math.max(diagramWidth,
+				AdvancedTextSplitter.getTextMinWidth(descLines, drawHandler) + DESCRIPTION_H_PADDING * 2);
 		if (diagramWidth < PentagonDrawingHelper.getMinimumWidth(drawHandler, titleLines)) {
 			diagramWidth = PentagonDrawingHelper.getMinimumWidth(drawHandler, titleLines);
 			if (getLifelineCount() > 0) {
@@ -143,9 +149,11 @@ public class SequenceDiagram {
 		drawHandler.drawLine(0, 0, diagramWidth, 0);
 
 		// draw description
-		// TODO
-		double lifelineHeadTop = headerHeight + LIFELINE_Y_PADDING;
+		double descHeight = AdvancedTextSplitter.getSplitStringHeight(descLines, diagramWidth - DESCRIPTION_H_PADDING * 2, drawHandler);
+		AdvancedTextSplitter.drawText(drawHandler, descLines, DESCRIPTION_H_PADDING, headerHeight + DESCRIPTION_V_PADDING,
+				diagramWidth - DESCRIPTION_H_PADDING * 2, descHeight, AlignHorizontal.LEFT, AlignVertical.CENTER);
 
+		double lifelineHeadTop = headerHeight + descHeight + DESCRIPTION_H_PADDING * 2 + LIFELINE_Y_PADDING;
 		double lifelineHeadLeftStart = (diagramWidth
 				- (lifelineWidth * getLifelineCount() + LIFELINE_X_PADDING * (getLifelineCount() - 1))
 				) / 2.0;

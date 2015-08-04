@@ -71,14 +71,15 @@ PARSER_END(SequenceAllInOneParser)
 < DEFAULT > TOKEN :
 {
 
-	< DIAGRAM_TITLE: "title=" > : DIAGRAM_DEF
+	< DIAGRAM_TITLE: "title=" > : DIAGRAM_DEF_TEXT
+	| < DIAGRAM_DESC: "desc=" > : DIAGRAM_DEF_TEXT
 	| < LIFELINE_DEFINITIONS: "obj=" > : LIFELINE_DEF
 	| < DIAGRAM_SEQUENCE :"sequence=" > : DIAGRAM_SEQ
 }
 
-< DIAGRAM_DEF > TOKEN:
+< DIAGRAM_DEF_TEXT > TOKEN:
 {
-	< DIAGRAM_TITLE_TEXT: (~ ["\r","\n"])+> : DEFAULT
+	< DIAGRAM_DEFINITION_TEXT: (~ ["\r","\n"])+> : DEFAULT
 }
 
 /*< DIAGRAM_DEF > SKIP :
@@ -182,14 +183,16 @@ TOKEN :
  */
 SequenceDiagramBuilder start() :
 {
-	String titleText = null;
+	String titleText = "";
+	String descText = "";
 	SequenceDiagramBuilder diagram  = new SequenceDiagramBuilder();
 	autoTick = true;
 }
 {
 	(
 		(
-			titleText=DiagramTitle() { diagram.setTitle(titleText); }
+			titleText=DiagramTitle()
+			| descText = DiagramDescription()
 			| Options(diagram)
 			| LifelineDefinitions(diagram)
 		)+
@@ -199,6 +202,8 @@ SequenceDiagramBuilder start() :
 	(< LAST_LINE_COMMENT >)?
 	<EOF>
 	{
+		diagram.setTitle(titleText);
+		diagram.setText(descText);
 		return diagram;
 	}
 }
@@ -210,9 +215,19 @@ String DiagramTitle() :
 {
 	< DIAGRAM_TITLE >
 	(
-		< DIAGRAM_TITLE_TEXT > { text = token.image;}
+		< DIAGRAM_DEFINITION_TEXT > { text = token.image;}
 	)?
 	{return text;}
+}
+
+String DiagramDescription() :
+{
+	String desc = "";
+}
+{
+	< DIAGRAM_DESC >
+	< DIAGRAM_DEFINITION_TEXT > { desc = token.image;}
+	{return desc;}
 }
 
 /**
