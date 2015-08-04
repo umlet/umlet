@@ -2,6 +2,10 @@ package com.baselet.gwt.client.view.widgets.propertiespanel;
 
 import java.util.Collection;
 
+import org.apache.log4j.Logger;
+
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -30,6 +34,10 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 	private static final int DISPLAY_BOX_TOP_PADDING = 40;
 	private static final int DISPLAY_BOX_MIN_HEIGHT = 60;
 
+	private int suggestionSize;
+	private int height;
+	private int counter;
+
 	private boolean paletteShouldIgnoreMouseClicks = false;
 	private final Timer popupHideTimer = new Timer() {
 		@Override
@@ -57,6 +65,9 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 		getPopupPanel().getWidget().getElement().getStyle().setProperty("maxHeight",
 				Math.max(DISPLAY_BOX_MIN_HEIGHT, suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING) + Unit.PX.getType());
 		// getPopupPanel().getWidget().getel.setHeight("100%");
+		suggestionSize = suggestions.size();
+		height = suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING;
+		counter = 0;
 		super.showSuggestions(suggestBox, suggestions, isDisplayStringHTML, isAutoSelectEnabled, callback);
 		// getPopupPanel().getElement().getStyle().setProperty("maxHeight",
 		// Math.max(DISPLAY_BOX_MIN_HEIGHT, suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING) + Unit.PX.getType());
@@ -66,6 +77,40 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 		if (isSuggestionListShowing()) {
 			popupHideTimer.cancel();
 			paletteShouldIgnoreMouseClicks = true;
+		}
+	}
+
+	@Override
+	protected void moveSelectionDown() {
+		// TODO Auto-generated method stub
+		super.moveSelectionDown();
+		// ScrollPanel scp = (ScrollPanel) getPopupPanel().getWidget();
+		// counter++;
+		// scp.setVerticalScrollPosition(counter * height / suggestionSize);
+		// SearchU
+		scrollToSelected();
+	}
+
+	@Override
+	protected void moveSelectionUp() {
+		// TODO Auto-generated method stub
+		super.moveSelectionUp();
+
+		// counter--;
+		// ((ScrollPanel) getPopupPanel().getWidget()).setVerticalScrollPosition(counter * height / suggestionSize);
+		scrollToSelected();
+	}
+
+	private void scrollToSelected() {
+		NodeList<Element> tdChilds = getPopupPanel().getWidget().getElement().getElementsByTagName("td");
+		for (int i = 0; i < tdChilds.getLength(); i++) {
+			Element e = tdChilds.getItem(i);
+			Logger.getLogger(MySuggestionDisplay.class).info(e.getId() + ": class='" + e.getClassName() + "'");
+			if (e.getClassName().contains("item-selected")) {
+				((ScrollPanel) getPopupPanel().getWidget()).setVerticalScrollPosition(e.getOffsetTop());
+				// e.getFirstChild()..scrollIntoView();
+				break;
+			}
 		}
 	}
 
