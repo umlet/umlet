@@ -2,6 +2,8 @@ package com.baselet.gwt.client.view.widgets.propertiespanel;
 
 import java.util.Collection;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -21,6 +23,9 @@ import com.google.gwt.user.client.ui.Widget;
  * This is not possible without copying many classes because of package-private visibility
  *
  * This alternative approach uses a timer to avoid palette interaction for some time after the popup closes to make sure mouseevents can be avoided
+ *
+ * The display also supports a maximum height and uses the width of the suggestionBox, if these
+ * limits are exceeded scrollbars will appear and it will auto scroll to the selected element.
  */
 public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 
@@ -53,8 +58,8 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 	@Override
 	protected void showSuggestions(SuggestBox suggestBox, Collection<? extends Suggestion> suggestions, boolean isDisplayStringHTML, boolean isAutoSelectEnabled, SuggestionCallback callback) {
 		getPopupPanel().getWidget().setWidth(suggestBox.getElement().getScrollWidth() + Unit.PX.getType());
-		getPopupPanel().getWidget().setHeight(Math.max(DISPLAY_BOX_MIN_HEIGHT,
-				suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING) + Unit.PX.getType());
+		getPopupPanel().getWidget().getElement().getStyle().setProperty("maxHeight",
+				Math.max(DISPLAY_BOX_MIN_HEIGHT, suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING) + Unit.PX.getType());
 		super.showSuggestions(suggestBox, suggestions, isDisplayStringHTML, isAutoSelectEnabled, callback);
 		if (isSuggestionListShowing()) {
 			popupHideTimer.cancel();
@@ -63,7 +68,33 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 	}
 
 	@Override
+	protected void moveSelectionDown() {
+		super.moveSelectionDown();
+		scrollToSelected();
+	}
+
+	@Override
+	protected void moveSelectionUp() {
+		super.moveSelectionUp();
+		scrollToSelected();
+	}
+
+	private void scrollToSelected() {
+		// since the DefaultSuggestionDisplay does not provide a way to access the selected Element
+		// we need to search for the "item-selected" class in the td tags
+		NodeList<Element> tdChilds = getPopupPanel().getWidget().getElement().getElementsByTagName("td");
+		for (int i = 0; i < tdChilds.getLength(); i++) {
+			Element e = tdChilds.getItem(i);
+			if (e.getClassName().contains("item-selected")) {
+				((ScrollPanel) getPopupPanel().getWidget()).setVerticalScrollPosition(e.getOffsetTop());
+				break;
+			}
+		}
+	}
+
+	@Override
 	protected Widget decorateSuggestionList(Widget suggestionList) {
+		// if the decoration is changed check the other methods, because some assume that there is only a scroll panel
 		suggestionList = new ScrollPanel(suggestionList);
 		return super.decorateSuggestionList(suggestionList);
 	}
