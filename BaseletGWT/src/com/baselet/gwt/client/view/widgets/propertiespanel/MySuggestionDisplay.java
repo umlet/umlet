@@ -2,8 +2,6 @@ package com.baselet.gwt.client.view.widgets.propertiespanel;
 
 import java.util.Collection;
 
-import org.apache.log4j.Logger;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
@@ -25,6 +23,9 @@ import com.google.gwt.user.client.ui.Widget;
  * This is not possible without copying many classes because of package-private visibility
  *
  * This alternative approach uses a timer to avoid palette interaction for some time after the popup closes to make sure mouseevents can be avoided
+ *
+ * The display also supports a maximum height and uses the width of the suggestionBox, if these
+ * limits are exceeded scrollbars will appear and it will auto scroll to the selected element.
  */
 public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 
@@ -33,10 +34,6 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 	 */
 	private static final int DISPLAY_BOX_TOP_PADDING = 40;
 	private static final int DISPLAY_BOX_MIN_HEIGHT = 60;
-
-	private int suggestionSize;
-	private int height;
-	private int counter;
 
 	private boolean paletteShouldIgnoreMouseClicks = false;
 	private final Timer popupHideTimer = new Timer() {
@@ -61,19 +58,9 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 	@Override
 	protected void showSuggestions(SuggestBox suggestBox, Collection<? extends Suggestion> suggestions, boolean isDisplayStringHTML, boolean isAutoSelectEnabled, SuggestionCallback callback) {
 		getPopupPanel().getWidget().setWidth(suggestBox.getElement().getScrollWidth() + Unit.PX.getType());
-		// getPopupPanel().getElement().getStyle().setProperty("maxHeight",
 		getPopupPanel().getWidget().getElement().getStyle().setProperty("maxHeight",
 				Math.max(DISPLAY_BOX_MIN_HEIGHT, suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING) + Unit.PX.getType());
-		// getPopupPanel().getWidget().getel.setHeight("100%");
-		suggestionSize = suggestions.size();
-		height = suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING;
-		counter = 0;
 		super.showSuggestions(suggestBox, suggestions, isDisplayStringHTML, isAutoSelectEnabled, callback);
-		// getPopupPanel().getElement().getStyle().setProperty("maxHeight",
-		// Math.max(DISPLAY_BOX_MIN_HEIGHT, suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING) + Unit.PX.getType());
-		// ((ScrollPanel)getPopupPanel().getWidget()).set
-		// getPopupPanel().getWidget().setHeight(Math.min(getPopupPanel().getWidget().getElement().getScrollHeight(), Math.max(DISPLAY_BOX_MIN_HEIGHT,
-		// suggestBox.getElement().getAbsoluteTop() - DISPLAY_BOX_TOP_PADDING)) + Unit.PX.getType());
 		if (isSuggestionListShowing()) {
 			popupHideTimer.cancel();
 			paletteShouldIgnoreMouseClicks = true;
@@ -82,33 +69,24 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 
 	@Override
 	protected void moveSelectionDown() {
-		// TODO Auto-generated method stub
 		super.moveSelectionDown();
-		// ScrollPanel scp = (ScrollPanel) getPopupPanel().getWidget();
-		// counter++;
-		// scp.setVerticalScrollPosition(counter * height / suggestionSize);
-		// SearchU
 		scrollToSelected();
 	}
 
 	@Override
 	protected void moveSelectionUp() {
-		// TODO Auto-generated method stub
 		super.moveSelectionUp();
-
-		// counter--;
-		// ((ScrollPanel) getPopupPanel().getWidget()).setVerticalScrollPosition(counter * height / suggestionSize);
 		scrollToSelected();
 	}
 
 	private void scrollToSelected() {
+		// since the DefaultSuggestionDisplay does not provide a way to access the selected Element
+		// we need to search for the "item-selected" class in the td tags
 		NodeList<Element> tdChilds = getPopupPanel().getWidget().getElement().getElementsByTagName("td");
 		for (int i = 0; i < tdChilds.getLength(); i++) {
 			Element e = tdChilds.getItem(i);
-			Logger.getLogger(MySuggestionDisplay.class).info(e.getId() + ": class='" + e.getClassName() + "'");
 			if (e.getClassName().contains("item-selected")) {
 				((ScrollPanel) getPopupPanel().getWidget()).setVerticalScrollPosition(e.getOffsetTop());
-				// e.getFirstChild()..scrollIntoView();
 				break;
 			}
 		}
@@ -116,6 +94,7 @@ public class MySuggestionDisplay extends DefaultSuggestionDisplay {
 
 	@Override
 	protected Widget decorateSuggestionList(Widget suggestionList) {
+		// if the decoration is changed check the other methods, because some assume that there is only a scroll panel
 		suggestionList = new ScrollPanel(suggestionList);
 		return super.decorateSuggestionList(suggestionList);
 	}
