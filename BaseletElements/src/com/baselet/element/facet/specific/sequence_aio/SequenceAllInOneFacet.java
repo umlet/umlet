@@ -1,7 +1,6 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import com.baselet.control.SharedUtils;
@@ -47,7 +46,6 @@ public class SequenceAllInOneFacet extends Facet {
 			strBuilder.append('\n');
 		}
 		try {
-			System.out.println(new Date());
 			DoubleConverter gridConverter = new DoubleConverter() {
 				@Override
 				public double convert(double value) {
@@ -56,7 +54,6 @@ public class SequenceAllInOneFacet extends Facet {
 			};
 			DimensionDouble size = new SequenceAllInOneParser(strBuilder.toString()).start().generateDiagram()
 					.draw(drawer, gridConverter, gridConverter);
-			System.out.println(size);
 			state.updateMinimumSize(size.getWidth() - drawer.getDistanceBorderToText() * 2, size.getHeight() - drawer.textHeightMax() / 2);
 		} catch (ParseException e) {
 			throw new SequenceDiagramException(e);
