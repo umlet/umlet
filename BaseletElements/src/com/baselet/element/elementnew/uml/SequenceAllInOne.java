@@ -2,6 +2,7 @@ package com.baselet.element.elementnew.uml;
 
 import java.util.List;
 
+import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.ElementId;
 import com.baselet.control.enums.ElementStyle;
 import com.baselet.element.NewGridElement;
@@ -27,6 +28,11 @@ public class SequenceAllInOne extends NewGridElement {
 	@Override
 	protected Settings createSettings() {
 		return new Settings() {
+			@Override
+			public AlignHorizontal getHAlign() {
+				// use left alignment because with center the autoresize would always jump 2 grid cells
+				return AlignHorizontal.LEFT;
+			}
 
 			@Override
 			public ElementStyle getElementStyle() {

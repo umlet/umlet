@@ -4,10 +4,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
+import com.baselet.element.facet.specific.sequence_aio.SequenceDiagram.DoubleConverter;
 import com.baselet.element.facet.specific.sequence_aio.gen.ParseException;
 import com.baselet.element.facet.specific.sequence_aio.gen.SequenceAllInOneParser;
 import com.baselet.element.facet.specific.sequence_aio.gen.TokenMgrException;
@@ -37,7 +39,7 @@ public class SequenceAllInOneFacet extends Facet {
 
 	@Override
 	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
-		DrawHandler drawer = state.getDrawer();
+		final DrawHandler drawer = state.getDrawer();
 		// pass the whole text to the parser
 		StringBuilder strBuilder = new StringBuilder();
 		for (String str : handledLines) {
@@ -46,8 +48,16 @@ public class SequenceAllInOneFacet extends Facet {
 		}
 		try {
 			System.out.println(new Date());
-			DimensionDouble size = new SequenceAllInOneParser(strBuilder.toString()).start().generateDiagram().draw(drawer);
-			state.updateMinimumSize(size.getWidth() - drawer.getDistanceBorderToText() * 2, size.getHeight());
+			DoubleConverter gridConverter = new DoubleConverter() {
+				@Override
+				public double convert(double value) {
+					return SharedUtils.realignToGrid(false, value, true);
+				}
+			};
+			DimensionDouble size = new SequenceAllInOneParser(strBuilder.toString()).start().generateDiagram()
+					.draw(drawer, gridConverter, gridConverter);
+			System.out.println(size);
+			state.updateMinimumSize(size.getWidth() - drawer.getDistanceBorderToText() * 2, size.getHeight() - drawer.textHeightMax() / 2);
 		} catch (ParseException e) {
 			throw new SequenceDiagramException(e);
 		} catch (TokenMgrException e) {

@@ -17,7 +17,7 @@ public class SequenceDiagram {
 	private static final double LIFELINE_Y_PADDING = 20;
 	private static final double LIFELINE_MIN_WIDTH = 100;
 
-	private static final double TICK_HEIGHT = 40;
+	private static final double TICK_HEIGHT = 20;
 	private static final double TICK_Y_PADDING = 6;// should be odd and the nothing should draw at the center!
 
 	private String[] titleLines;
@@ -107,6 +107,16 @@ public class SequenceDiagram {
 	}
 
 	public DimensionDouble draw(DrawHandler drawHandler) {
+		DoubleConverter identity = new DoubleConverter() {
+			@Override
+			public double convert(double value) {
+				return value;
+			}
+		};
+		return draw(drawHandler, identity, identity);
+	}
+
+	public DimensionDouble draw(DrawHandler drawHandler, DoubleConverter widthConverter, DoubleConverter heightConverter) {
 		LifelineHorizontalDrawingInfo[] llHorizontalDrawingInfos;
 		HorizontalDrawingInfo horizontalDrawingInfo;
 		VerticalDrawingInfo verticalInfo;
@@ -123,6 +133,8 @@ public class SequenceDiagram {
 				lifelineWidth = (diagramWidth - LIFELINE_X_PADDING * (getLifelineCount() + 1)) / getLifelineCount();
 			}
 		}
+		// adjust the width with the width converter
+		diagramWidth = widthConverter.convert(diagramWidth);
 		// calculate and draw the header, then draw top border
 		double headerHeight = 0;
 		if (titleLines.length > 1 || titleLines.length == 1 && !titleLines[0].isEmpty()) {
@@ -134,7 +146,9 @@ public class SequenceDiagram {
 		// TODO
 		double lifelineHeadTop = headerHeight + LIFELINE_Y_PADDING;
 
-		double lifelineHeadLeftStart = LIFELINE_X_PADDING;
+		double lifelineHeadLeftStart = (diagramWidth
+				- (lifelineWidth * getLifelineCount() + LIFELINE_X_PADDING * (getLifelineCount() - 1))
+				) / 2.0;
 		Collection<ContainerPadding> allPaddings = new LinkedList<ContainerPadding>();
 		for (LifelineSpanningTickSpanningOccurrence lstso : spanningLifelineOccurrences) {
 			if (lstso.getPaddingInformation() != null) {
@@ -159,7 +173,7 @@ public class SequenceDiagram {
 			}
 		}
 		// draw left,right and bottom border
-		double bottomY = verticalInfo.getVerticalEnd(lastTick) + LIFELINE_Y_PADDING;
+		double bottomY = heightConverter.convert(verticalInfo.getVerticalEnd(lastTick) + LIFELINE_Y_PADDING);
 		drawHandler.drawLine(0, bottomY, diagramWidth, bottomY);
 		drawHandler.drawLine(0, 0, 0, bottomY);
 		drawHandler.drawLine(diagramWidth, 0, diagramWidth, bottomY);
@@ -206,4 +220,7 @@ public class SequenceDiagram {
 		return maxHeight;
 	}
 
+	public static interface DoubleConverter {
+		public double convert(double value);
+	}
 }
