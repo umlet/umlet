@@ -318,8 +318,8 @@ public class SequenceDiagramBuilder {
 
 	private void addOccurrenceSpecification(Lifeline lifeline, String lifelineId, String localId, OccurrenceSpecification occurrence) {
 		if (lifelineLocalIds.get(lifeline).containsKey(localId)) {
-			throw new SequenceDiagramException(String.format(
-					"The lifeline '%s' has already a local id '%s', please choose another id.", lifelineId, localId));
+			throw new SequenceDiagramException("The lifeline '" + lifelineId + "' has already a local id '"
+												+ localId + "', please choose another id.");
 		}
 		lifelineLocalIds.get(lifeline).put(localId, occurrence);
 	}
@@ -328,8 +328,8 @@ public class SequenceDiagramBuilder {
 		Lifeline llifeline = getLifelineException(lifelineId);
 		OccurrenceSpecification occurrenceSpec = lifelineLocalIds.get(llifeline).get(localId);
 		if (occurrenceSpec == null) {
-			throw new SequenceDiagramException(String.format(
-					"No lifeline occurrence with the id '%s' could be found on lifeline '%s.'", localId, lifelineId));
+			throw new SequenceDiagramException("No lifeline occurrence with the id '" + localId
+												+ "' could be found on lifeline '" + lifelineId + "'.");
 		}
 		return occurrenceSpec;
 	}

@@ -3,8 +3,6 @@ package com.baselet.element.facet.specific.sequence_aio;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-
 import com.baselet.control.basics.geom.Line;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawHandler;
@@ -12,8 +10,6 @@ import com.baselet.element.relation.helper.RelationDrawer;
 import com.baselet.element.relation.helper.RelationDrawer.ArrowEndType;
 
 public class GeneralOrdering implements LifelineSpanningTickSpanningOccurrence {
-
-	private static final Logger log = Logger.getLogger(GeneralOrdering.class);
 
 	private final Lifeline[] coveredLifelines;
 	private final OccurrenceSpecification earlierOccurrence;

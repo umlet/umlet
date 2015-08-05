@@ -4,23 +4,25 @@
   <element>
     <id>UMLSequenceAllInOne</id>
     <coordinates>
-      <x>16</x>
-      <y>352</y>
-      <w>380</w>
-      <h>496</h>
+      <x>392</x>
+      <y>0</y>
+      <w>388</w>
+      <h>472</h>
     </coordinates>
     <panel_attributes>title=New all in one sequence diagram
 obj=Lifeline A~a ACTOR
 obj=Lifeline B~b ACTIVE
 obj=Lifeline C~c CREATED_LATER
-sequence=
+
 a-&gt;&gt;&gt;b : Text mit Wordwrapp; on=a
-id2-1-&gt;id3:Text at send
+id2-&gt;id3 + :Text at send
 invariant=a:x==0
 stateInvariant=c:locked; b-&gt;&gt;&gt;a;on=a
 a.&gt;b;off=a
-b-1.&gt;a
-off=a; coregionStart=c
+b.&gt;a +1; coregionStart=c
+off=a; 
+b.&gt;a +2; 
+b.&gt;a ++
 found-&gt;c
 c-&gt;lost
 coregionEnd=c</panel_attributes>
@@ -30,33 +32,71 @@ coregionEnd=c</panel_attributes>
     <id>UMLSequenceAllInOne</id>
     <coordinates>
       <x>16</x>
-      <y>16</y>
-      <w>376</w>
-      <h>336</h>
+      <y>0</y>
+      <w>368</w>
+      <h>464</h>
     </coordinates>
     <panel_attributes>title=New all in one sequence diagram
 autoTick=false
 overrideIds=true
 obj=Lifeline A~id1 | Lifeline B1 new Lifeline added later~b1 | Lifeline B2 old B~id2
 
-sequence=
 id1-&gt;&gt;&gt;id2
 tick=
 id2-&gt;b1
 tick=
 combinedFragment=id1 , id2 : alt
 {
-constraint=:old
-tick=
-id1-&gt;id2
-tick=
-}{
-constraint=id2:new
-tick=
-id1-&gt;b1
+	constraint=:old
+	tick=
+	combinedFragment=id1 b1 :loop
+	{
+		constraint=:1..10
+		tick=
+		ref=id1 b1 :calculate
+	}
+		tick=
+	id1-&gt;id2
+	tick=
+}
+{
+	constraint=id2:new
+	tick=
+	id1-&gt;b1
 }
 tick=
-
+id1.&gt;id2 + : Text with forced \n new line
+tick=2
+continuation=id1 id2 :goto X
+tick=</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSequenceAllInOne</id>
+    <coordinates>
+      <x>16</x>
+      <y>496</y>
+      <w>592</w>
+      <h>328</h>
+    </coordinates>
+    <panel_attributes>title=New all in one sequence diagram \nTitle with normal \\n and \nNew Line
+desc=x = 1 \ny = 0
+autoTick=false
+obj=Lifeline A~a 
+obj=Lifeline B\nnew\nLine~b 
+obj=Lifeline C~c
+gate-&gt;a.a1 :message from a gate
+c.c1-&gt;gate :message to a gate
+tick=
+found-&gt;b.b1
+b.b1&lt;a.a1
+tick=
+c-&gt;c + :self message
+tick=
+on=c;
+a.a2.&gt;b
+c.c1&gt;a.a2
+tick=
 </panel_attributes>
     <additional_attributes/>
   </element>
