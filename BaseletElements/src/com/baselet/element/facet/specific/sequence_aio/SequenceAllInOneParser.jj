@@ -172,7 +172,7 @@ PARSER_END(SequenceAllInOneParser)
 /* skip comments */
 < * > SKIP :
 {
-	<"//"(~["\n","\r"])*("\n"|"\r"|"\r\n")>
+	<"//"(~["\n","\r"])*>
 }
 
 < * > TOKEN :
