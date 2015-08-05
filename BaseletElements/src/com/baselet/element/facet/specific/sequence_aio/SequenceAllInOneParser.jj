@@ -51,46 +51,27 @@ PARSER_END(SequenceAllInOneParser)
 	| "\t"
 }
 
-< DEFAULT, DIAGRAM_DEF > SKIP:
+< DIAGRAM_DEF_TEXT > SKIP:
 {
 	"\n" : DEFAULT
 	| "\r\n" : DEFAULT
 	| "\r" : DEFAULT
 }
 
-< * > SKIP :
-{
-	<"//"(~["\n","\r"])*("\n"|"\r"|"\r\n")>
-}
-
 < DEFAULT > TOKEN:
 {	< DIAGRAM_OPTION_OVERRIDE_ID :"overrideIds=" >
 	| < DIAGRAM_OPTION_AUTO_TICK: "autoTick=" >
-}
-
-< DEFAULT > TOKEN :
-{
-
-	< DIAGRAM_TITLE: "title=" > : DIAGRAM_DEF_TEXT
+	| < TRUE: "true" >
+	| < FALSE: "false" >
+	| < DIAGRAM_TITLE: "title=" > : DIAGRAM_DEF_TEXT
 	| < DIAGRAM_DESC: "desc=" > : DIAGRAM_DEF_TEXT
 	| < LIFELINE_DEFINITIONS: "obj=" > : LIFELINE_DEF
-	| < DIAGRAM_SEQUENCE :"sequence=" > : DIAGRAM_SEQ
 }
 
 < DIAGRAM_DEF_TEXT > TOKEN:
 {
-	< DIAGRAM_DEFINITION_TEXT: (~ ["\r","\n"])+> : DEFAULT
+	< DIAGRAM_DEFINITION_TEXT: (~ ["\r","\n"])+> : DIAGRAM_DEF_TEXT
 }
-
-/*< DIAGRAM_DEF > SKIP :
-{
-	<DIA_DEF_NL_DEF :> : DEFAULT
-}*/
-
-
-/*< DIAGRAM_OPTION > TOKEN :
-{
-}*/
 
 < LIFELINE_DEF > TOKEN :
 {
@@ -108,7 +89,7 @@ PARSER_END(SequenceAllInOneParser)
 		"~" >
 }
 
-< DIAGRAM_SEQ > TOKEN :
+< DEFAULT > TOKEN :
 {
 	< TEXT_DELIMITER: ":" > : DIAGRAM_SEQ_TEXT
 	| < LIST_DELIMITER: "," >
@@ -135,10 +116,10 @@ PARSER_END(SequenceAllInOneParser)
 	| < TICK: "tick=" >
 	| < COMBINED_FRAGMENT: "combinedFragment=" >
 	| < INTERACTION_CONSTRAINT: "constraint=" >
-	| < UNSIGNED_INT_CONSTANT: ( ["0" - "9"] ) + >	| < SEQ_NEW_LINE: "\n" | "\r\n" | "\r" >
+	| < UNSIGNED_INT_CONSTANT: ( ["0" - "9"] ) + >	| < DEFAULT_NEW_LINE: "\n" | "\r\n" | "\r" >
 }
 
-< LIFELINE_DEF, DIAGRAM_SEQ > TOKEN :
+< LIFELINE_DEF, DEFAULT > TOKEN :
 {
 	< LIFELINE_ID: ["a"-"z","A"-"Z"] (["a"-"z","A"-"Z","0"-"9"])* >
 }
@@ -148,34 +129,22 @@ PARSER_END(SequenceAllInOneParser)
 	< TEXT_UNTIL_NEXT_COMMAND : ( 
 			~["\\","\n","\r",";"] 
 			| ("\\" ["\\",";"])
-		)+ > : DIAGRAM_SEQ
-}
-
-TOKEN :
-{
-	< UNSIGNED_DOUBLE_CONSTANT: ( <DIGIT> ) + ( "." (<DIGIT>)+ )? >
-	| < #DIGIT: ["0" - "9"] >
-	| < TRUE: "true" >
-	| < FALSE: "false" >
+		)+ > : DEFAULT
 }
 
 /* general Tokens */
+
+/* skip comments */
+< * > SKIP :
+{
+	<"//"(~["\n","\r"])*("\n"|"\r"|"\r\n")>
+}
+
 < * > TOKEN :
 {
 	<LAST_LINE_COMMENT: "//"(~["\n","\r"])*>
 }
 
-/* more general Tokens with no case distinction */
-/*TOKEN [IGNORE_CASE] :
-{
-	< #HEX: ["0" - "9","a"-"f"] >
-	| <  SIMPLE_STRING : "\""
-   ( 
-	   ( ~["\"","\\","\n","\r"]) // everything except the specified chars
-	   | ("\\" ["\\","\""])
-   )*
-   "\"" >
-}*/
 
 /**
  * The main function which parses the whole diagram.
@@ -191,12 +160,13 @@ SequenceDiagramBuilder start() :
 {
 	(
 		(
-			titleText=DiagramTitle()
-			| descText = DiagramDescription()
-			| Options(diagram)
-			| LifelineDefinitions(diagram)
-		)+
-		< DIAGRAM_SEQUENCE > Sequence(diagram)
+			titleText=DiagramTitle() /* NL skip and change state to DEFAULT */
+			| descText = DiagramDescription() /* NL skip and change state to DEFAULT */
+			| Option(diagram) < DEFAULT_NEW_LINE >
+			| LifelineDefinitions(diagram) /* NL part of the nonterminal */
+			
+		)+//diagram definition as new NT followed by NL alternating with sequence so that the sequence= can be removed
+		Sequence(diagram)
 	)
 	
 	(< LAST_LINE_COMMENT >)?
@@ -233,7 +203,7 @@ String DiagramDescription() :
 /**
  * Options for the whole diagram
  */
-void Options(SequenceDiagramBuilder diagram) :
+void Option(SequenceDiagramBuilder diagram) :
 {
 	boolean overrideIds;
 }
@@ -309,16 +279,16 @@ void Sequence(SequenceDiagramBuilder diagram) :
 {}
 {
 	(
-		SequenceTick(diagram) < SEQ_NEW_LINE >
+		SequenceTick(diagram) < DEFAULT_NEW_LINE >
 		| (
 			SequenceElement(diagram)
 			( LOOKAHEAD(2) < COMMAND_DELIMITER > SequenceElement(diagram))*
 			(< COMMAND_DELIMITER >)?
-			< SEQ_NEW_LINE >
+			< DEFAULT_NEW_LINE >
 			{ if(autoTick) { diagram.tick(); } }
 		)
 		| CombinedFragment(diagram)
-		| < SEQ_NEW_LINE >
+		| < DEFAULT_NEW_LINE >
 	)*
 }
 
@@ -357,10 +327,10 @@ void CombinedFragment(SequenceDiagramBuilder diagram) :
 		operator = textUntilNewLine()
 		(< COMMAND_DELIMITER >)?
 	)?
-	(< SEQ_NEW_LINE >)*
+	(< DEFAULT_NEW_LINE >)*
 	{ diagram.beginCombinedFragment(interval.startId, interval.endId, operator); }
 	Operand(diagram)
-	(Operand(diagram) | < SEQ_NEW_LINE >) *
+	(Operand(diagram) | < DEFAULT_NEW_LINE >) *
 	/* despite the warning this is correct, take always this choice and consume all new lines and operands
 	 * (conflict with Sequence(diagram) new Line production). Because of this construct the combined fragment does not have
 	 * to end with a new line. With a Syntactical LOOKAHEAD it would be possible to enforce a new line after a combined Fragment. 
@@ -373,8 +343,9 @@ void Operand(SequenceDiagramBuilder diagram) :
 }
 {
 	(		< OPEN_CURLY_BRACKET >
-		(< SEQ_NEW_LINE >)*
-		/* despite the warning this is correct, take always this choice and consume all new lines
+		( LOOKAHEAD(1) < DEFAULT_NEW_LINE >)*
+		/* LOOKAHEAD(1) is used to supress the warning
+		 * despite the warning this is correct, take always this choice and consume all new lines
 		 * (conflict with Sequence(diagram) new line production).
 		 */
 		(constraint = InteractionConstraint())?
@@ -395,7 +366,7 @@ InteractionConstraint InteractionConstraint():
 	< INTERACTION_CONSTRAINT >
 	( data.lifelineId = LifelineId())?
 	data.text = textUntilNewLine()
-	(< COMMAND_DELIMITER > | < SEQ_NEW_LINE >) /* TODO could add SeqenceElement after the constraint  */
+	(< COMMAND_DELIMITER > | < DEFAULT_NEW_LINE >) /* TODO could add SeqenceElement after the constraint  */
 	{
 		return data;	}}	
 
@@ -639,63 +610,6 @@ boolean booleanConstant() :
 		<FALSE>  { value = false;}
 		| <TRUE> { value = true;}
 	) {return value; }
-}
-
-
-// Start of the arithmetical interpreter
-
-double doubleTerm() :
-{ double v1, v2;}
-{
-	v1 = doubleProduct()
-	(
-		"+" v2 = doubleProduct() { v1 = v1 + v2; }
-		| "-" v2 = doubleProduct() { v1 = v1 - v2; }
-	)*
-	{ return v1; }
-}
-
-double doubleProduct() :
-{ double v1, v2; }
-{
-	v1 = doubleValue()
-	(
-		"*" v2 = doubleValue() { v1 = v1 * v2; }
-		| "/" v2 = doubleValue() { v1 = v1 / v2; }
-	)*
-	{ return v1; }
-}
-
-double doubleValue() :
-{ double value;}
-{ 
-	(
-		"-" value = unsignedDoubleConstant() {value = - value;}
-		| value = unsignedDoubleConstant()
-		| "(" value = doubleTerm() ")"
-	)
-	{return value;}
-}
-
-double unsignedDoubleConstant() :
-{}
-{
-	(
-		<UNSIGNED_INT_CONSTANT>
-		| <UNSIGNED_DOUBLE_CONSTANT>
-	)
-	{
-		double value;
-		try {
-			value = Double.parseDouble(token.image);
-		} catch(NumberFormatException e) {
-			// only valid double values are accepted from the parser, therefore a NumberFormatException should never occur
-			// a double can't be to big, but may loose some precision
-			log.fatal("Fatal Error: The string '" + token.image + "' couldn't be parsed as double, but the grammar should ensure that the string is parsable.",e);
-			throw (ParseException) new ParseException("Fatal Error: The string '" + token.image + "' couldn't be parsed as double, but the grammar should ensure that the string is parsable.").initCause(e);
-		}
-		return value;
-	}
 }
 
 int unsignedIntConstant() :
