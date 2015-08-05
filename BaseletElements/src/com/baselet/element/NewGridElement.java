@@ -347,12 +347,9 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	public void handleAutoresize(DimensionDouble necessaryElementDimension, AlignHorizontal alignHorizontal) {
-		double hSpaceLeftAndRight = drawer.getDistanceBorderToText() * 2;
-		double width = necessaryElementDimension.getWidth() + hSpaceLeftAndRight;
-		double height = necessaryElementDimension.getHeight() + drawer.textHeightMax() / 2;
 		Dimension realSize = getRealSize();
-		double diffw = width - realSize.width;
-		double diffh = height - realSize.height;
+		double diffw = necessaryElementDimension.getWidth() - realSize.width;
+		double diffh = necessaryElementDimension.getHeight() - realSize.height;
 
 		int diffwInt = SharedUtils.realignTo(false, unzoom(diffw), true, getGridSize());
 		int diffhInt = SharedUtils.realignTo(false, unzoom(diffh), true, getGridSize());
