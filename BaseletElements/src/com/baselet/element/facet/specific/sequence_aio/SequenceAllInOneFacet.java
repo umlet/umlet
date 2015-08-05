@@ -54,7 +54,7 @@ public class SequenceAllInOneFacet extends Facet {
 			};
 			DimensionDouble size = new SequenceAllInOneParser(strBuilder.toString()).start().generateDiagram()
 					.draw(drawer, gridConverter, gridConverter);
-			state.updateMinimumSize(size.getWidth() - drawer.getDistanceBorderToText() * 2, size.getHeight() - drawer.textHeightMax() / 2);
+			state.updateMinimumSize(size.getWidth(), size.getHeight());
 		} catch (ParseException e) {
 			throw new SequenceDiagramException(e);
 		} catch (TokenMgrException e) {
