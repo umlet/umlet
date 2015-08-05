@@ -158,22 +158,22 @@ public class LostOrFoundMessage implements LifelineOccurrence {
 		}
 
 		@Override
-		public double getHorizonatlPosition(LifelineHorizontalDrawingInfo llHDrawingInfo) {
-			return llHDrawingInfo.getHorizontalCenter() + getCenterXOffset();
+		public double getHorizonatlPosition(HorizontalDrawingInfo hDrawingInfo) {
+			return hDrawingInfo.getHDrawingInfo(getLifeline()).getHorizontalCenter() + getCenterXOffset();
 		}
 
 		@Override
-		public double getHorizontalPosition(LifelineHorizontalDrawingInfo llHDrawingInfo, boolean left) {
+		public double getHorizontalPosition(HorizontalDrawingInfo llHDrawingInfo, boolean left) {
 			return 0;
 		}
 
 		@Override
-		public PointDouble getPosition(LifelineDrawingInfo llDrawingInfo) {
-			return new PointDouble(getHorizonatlPosition(llDrawingInfo), llDrawingInfo.getVerticalCenter(sendTick));
+		public PointDouble getPosition(DrawingInfo drawingInfo) {
+			return new PointDouble(getHorizonatlPosition(drawingInfo), drawingInfo.getVerticalCenter(sendTick));
 		}
 
 		@Override
-		public PointDouble getPosition(LifelineDrawingInfo llDrawingInfo, boolean left) {
+		public PointDouble getPosition(DrawingInfo drawingInfo, boolean left) {
 			return new PointDouble(0, 0);
 		}
 

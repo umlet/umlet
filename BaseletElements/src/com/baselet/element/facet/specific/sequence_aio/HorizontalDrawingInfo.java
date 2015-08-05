@@ -25,4 +25,8 @@ public interface HorizontalDrawingInfo {
 	public double getHorizontalEnd(Container container);
 
 	public double getWidth(Container container);
+
+	public double getDiagramHorizontalStart();
+
+	public double getDiagramHorizontalEnd();
 }

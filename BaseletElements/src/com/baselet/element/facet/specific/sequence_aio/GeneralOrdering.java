@@ -43,8 +43,7 @@ public class GeneralOrdering implements LifelineSpanningTickSpanningOccurrence {
 	public void draw(DrawHandler drawHandler, DrawingInfo drawingInfo) {
 		LineType oldLt = drawHandler.getLineType();
 		drawHandler.setLineType(LineType.DASHED);
-		Line line = new Line(earlierOccurrence.getPosition(drawingInfo.getDrawingInfo(earlierOccurrence.getLifeline())),
-				laterOccurrence.getPosition(drawingInfo.getDrawingInfo(laterOccurrence.getLifeline())));
+		Line line = new Line(earlierOccurrence.getPosition(drawingInfo), laterOccurrence.getPosition(drawingInfo));
 		drawHandler.drawLine(line);
 		drawHandler.setLineType(oldLt);
 		RelationDrawer.drawArrowToLine(line.getCenter(), drawHandler, line, false, ArrowEndType.NORMAL, false, false);

@@ -18,18 +18,18 @@ import com.baselet.element.relation.helper.RelationDrawer.ArrowEndType;
 public class Message implements LifelineSpanningTickSpanningOccurrence {
 
 	private static final Logger log = Logger.getLogger(Message.class);
-	private static final double LIFELINE_TEXT_PADDING = RelationDrawer.ARROW_LENGTH + 3;
-	private static final double SELF_MESSAGE_LIFELINE_GAP = RelationDrawer.ARROW_LENGTH + 7;
-	private static final double SELF_MESSAGE_TEXT_PADDING = 5;
+	protected static final double LIFELINE_TEXT_PADDING = RelationDrawer.ARROW_LENGTH + 3;
+	protected static final double SELF_MESSAGE_LIFELINE_GAP = RelationDrawer.ARROW_LENGTH + 7;
+	protected static final double SELF_MESSAGE_TEXT_PADDING = 5;
 
-	private final Lifeline from;
-	private final Lifeline to;
+	protected final Lifeline from;
+	protected final Lifeline to;
 	/** how many ticks it takes to transmit the message */
-	private final int duration;
-	private final int sendTick;
-	private final String[] textLines;
-	private final ArrowType arrowType;
-	private final LineType lineType;
+	protected final int duration;
+	protected final int sendTick;
+	protected final String[] textLines;
+	protected final ArrowType arrowType;
+	protected final LineType lineType;
 
 	/**
 	 *
@@ -62,7 +62,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		return from.getIndex() > to.getIndex() ? from : to;
 	}
 
-	public double getSendCenterXOffset() {
+	protected double getSendCenterXOffset() {
 		if (from == to) {
 			return from.getLifelineRightPartWidth(sendTick);
 		}
@@ -74,7 +74,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		}
 	}
 
-	public double getReceiveCenterXOffset() {
+	protected double getReceiveCenterXOffset() {
 		if (from == to) {
 			return to.getLifelineRightPartWidth(sendTick + duration);
 		}
@@ -86,7 +86,12 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		}
 	}
 
-	public double getReceiveX(LifelineHorizontalDrawingInfo llHDrawingInfo) {
+	protected double getSendX(HorizontalDrawingInfo hDrawingInfo) {
+		return hDrawingInfo.getHDrawingInfo(from).getHorizontalCenter() + getSendCenterXOffset();
+	}
+
+	protected double getReceiveX(HorizontalDrawingInfo hDrawingInfo) {
+		LifelineHorizontalDrawingInfo llHDrawingInfo = hDrawingInfo.getHDrawingInfo(to);
 		double receiveX = llHDrawingInfo.getHorizontalCenter();
 		receiveX += getReceiveCenterXOffset();
 		if (!to.isCreatedOnStart() && to.getCreated() != null && sendTick + duration == to.getCreated()) {
@@ -104,9 +109,9 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 	@Override
 	public void draw(DrawHandler drawHandler, DrawingInfo drawingInfo) {
 		PointDouble send = new PointDouble(
-				drawingInfo.getHDrawingInfo(from).getHorizontalCenter() + getSendCenterXOffset(),
+				getSendX(drawingInfo),
 				drawingInfo.getVerticalCenter(sendTick));
-		PointDouble receive = new PointDouble(getReceiveX(drawingInfo.getHDrawingInfo(to)), drawingInfo.getVerticalCenter(sendTick + duration));
+		PointDouble receive = new PointDouble(getReceiveX(drawingInfo), drawingInfo.getVerticalCenter(sendTick + duration));
 
 		RelationDrawer.ArrowEndType arrowEndType = ArrowEndType.NORMAL;
 		boolean fillArrow = false;
@@ -137,7 +142,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 	/**
 	 * draws a message which is sent between two different lifelines
 	 */
-	private void drawNormalMessage(DrawHandler drawHandler, PointDouble send, PointDouble receive,
+	protected void drawNormalMessage(DrawHandler drawHandler, PointDouble send, PointDouble receive,
 			RelationDrawer.ArrowEndType arrowEndType, boolean fillArrow, DrawingInfo drawingInfo) {
 		Line line = new Line(send, receive);
 		drawHandler.drawLine(line);
@@ -166,8 +171,8 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 	/**
 	 * draws a message which is sent to the same lifeline
 	 */
-	private void drawSelfMessage(DrawHandler drawHandler, PointDouble send, PointDouble receive,
-			RelationDrawer.ArrowEndType arrowEndType, boolean fillArrow, HorizontalDrawingInfo hInfo) {
+	protected void drawSelfMessage(DrawHandler drawHandler, PointDouble send, PointDouble receive,
+			RelationDrawer.ArrowEndType arrowEndType, boolean fillArrow, DrawingInfo hInfo) {
 		double rightBorderX = Math.max(send.x, receive.x) + SELF_MESSAGE_LIFELINE_GAP;
 		PointDouble[] msgLine = new PointDouble[] {
 				send,
@@ -188,27 +193,35 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 	@Override
 	public double getOverallMinWidth(DrawHandler drawHandler, double lifelineHorizontalPadding) {
 		if (from == to) {
-			double executionSpecWidth = Math.max(from.getLifelineRightPartWidth(sendTick),
-					to.getLifelineRightPartWidth(sendTick + duration));
-			return (executionSpecWidth + SELF_MESSAGE_LIFELINE_GAP +
-					SELF_MESSAGE_TEXT_PADDING + AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler))
-			* 2.0; // multiplied by 2, because this space is needed on the right half of the lifeline
+			return getOverallMinWidthSelfMessage(drawHandler, lifelineHorizontalPadding);
 		}
 		else {
-			double executionSpecWidth = Math.abs(getSendCenterXOffset()) + Math.abs(getReceiveCenterXOffset());
-			double neededWidth = executionSpecWidth + AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler)
-									+ LIFELINE_TEXT_PADDING * 2;
-			int affectedLifelineCount = getLastLifeline().getIndex() - getFirstLifeline().getIndex() + 1;
-			// increase the needed width because we only calculated the width for the arrow, but we need the overall width
-			if (!to.isCreatedOnStart() && to.getCreated() != null && to.getCreated() == sendTick + duration) {
-				// here we must compensate for the 1 1/2 lifelines (half one at the send and a full lifeline at the receive)
-				return (2 * affectedLifelineCount * neededWidth - 3 * (affectedLifelineCount - 1) * lifelineHorizontalPadding)
-						/ (2 * affectedLifelineCount - 3);
-			}
-			else {
-				// here we must compensate for the 2 half lifelines on each end
-				return neededWidth / (affectedLifelineCount - 1) * affectedLifelineCount - lifelineHorizontalPadding;
-			}
+			return getOverallMinWidthNormalMessage(drawHandler, lifelineHorizontalPadding);
+		}
+	}
+
+	protected double getOverallMinWidthSelfMessage(DrawHandler drawHandler, double lifelineHorizontalPadding) {
+		double executionSpecWidth = Math.max(from.getLifelineRightPartWidth(sendTick),
+				to.getLifelineRightPartWidth(sendTick + duration));
+		return (executionSpecWidth + SELF_MESSAGE_LIFELINE_GAP +
+				SELF_MESSAGE_TEXT_PADDING + AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler))
+		* 2.0; // multiplied by 2, because this space is needed on the right half of the lifeline
+	}
+
+	protected double getOverallMinWidthNormalMessage(DrawHandler drawHandler, double lifelineHorizontalPadding) {
+		double executionSpecWidth = Math.abs(getSendCenterXOffset()) + Math.abs(getReceiveCenterXOffset());
+		double neededWidth = executionSpecWidth + AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler)
+								+ LIFELINE_TEXT_PADDING * 2;
+		int affectedLifelineCount = getLastLifeline().getIndex() - getFirstLifeline().getIndex() + 1;
+		// increase the needed width because we only calculated the width for the arrow, but we need the overall width
+		if (!to.isCreatedOnStart() && to.getCreated() != null && to.getCreated() == sendTick + duration) {
+			// here we must compensate for the 1 1/2 lifelines (half one at the send and a full lifeline at the receive)
+			return (2 * affectedLifelineCount * neededWidth - 3 * (affectedLifelineCount - 1) * lifelineHorizontalPadding)
+					/ (2 * affectedLifelineCount - 3);
+		}
+		else {
+			// here we must compensate for the 2 half lifelines on each end
+			return neededWidth / (affectedLifelineCount - 1) * affectedLifelineCount - lifelineHorizontalPadding;
 		}
 	}
 
@@ -216,41 +229,48 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 	public Map<Integer, Double> getEveryAdditionalYHeight(DrawHandler drawHandler, HorizontalDrawingInfo hInfo,
 			double defaultTickHeight) {
 		Map<Integer, Double> ret = new HashMap<Integer, Double>();
-		double maxTextWidth = 0;
-		double additionalHeight = 0;
 		if (from == to) {
-			// if more y space is needed the all covered ticks will be increased
-			double executionSpecWidth = Math.max(from.getLifelineRightPartWidth(sendTick),
-					to.getLifelineRightPartWidth(sendTick + duration));
-			maxTextWidth = Math.min(hInfo.getHDrawingInfo(to).getSymmetricWidth(sendTick),
-					hInfo.getHDrawingInfo(to).getSymmetricWidth(sendTick + duration)) / 2.0;
-			maxTextWidth = maxTextWidth - (executionSpecWidth + SELF_MESSAGE_LIFELINE_GAP + SELF_MESSAGE_TEXT_PADDING);
-			additionalHeight = AdvancedTextSplitter.getSplitStringHeight(textLines, maxTextWidth, drawHandler)
-								- duration * defaultTickHeight;
-			if (additionalHeight > 0) {
-				for (int i = sendTick + 1; i < sendTick + duration; i++) {
-					ret.put(i, additionalHeight / duration);
-				}
-				ret.put(sendTick, additionalHeight / duration);
-				ret.put(sendTick + duration, additionalHeight / duration);
-			}
+			getEveryAdditionalYHeightSelfMessage(drawHandler, hInfo, defaultTickHeight, ret);
 		}
 		else {
-			// if more y space is needed the send tick will be increased
-			// only interested in the x coordinate, so provide fake y values
-			maxTextWidth = Math.abs(hInfo.getHDrawingInfo(from).getHorizontalCenter() + getSendCenterXOffset()
-									- getReceiveX(hInfo.getHDrawingInfo(to)));
-			maxTextWidth -= LIFELINE_TEXT_PADDING * 2;
-			additionalHeight = AdvancedTextSplitter.getSplitStringHeight(textLines, maxTextWidth, drawHandler);
-			// message text is always drawn at the send position only increase send tick height
-			// since the message is always drawn in the V center we only can use one half of the tick height
-			additionalHeight -= defaultTickHeight / 2.0;
-			additionalHeight *= 2;
-			if (additionalHeight > 0) {
-				ret.put(sendTick, additionalHeight);
-			}
+			getEveryAdditionalYHeightNormalMessage(drawHandler, hInfo, defaultTickHeight, ret);
 		}
 		return ret;
+	}
+
+	protected void getEveryAdditionalYHeightNormalMessage(DrawHandler drawHandler, HorizontalDrawingInfo hInfo, double defaultTickHeight, Map<Integer, Double> ret) {
+		double maxTextWidth;
+		double additionalHeight;
+		maxTextWidth = Math.abs(getSendX(hInfo) - getReceiveX(hInfo));
+		maxTextWidth -= LIFELINE_TEXT_PADDING * 2;
+		additionalHeight = AdvancedTextSplitter.getSplitStringHeight(textLines, maxTextWidth, drawHandler);
+		// message text is always drawn at the send position only increase send tick height
+		// since the message is always drawn in the V center we only can use one half of the tick height
+		additionalHeight -= defaultTickHeight / 2.0;
+		additionalHeight *= 2;
+		if (additionalHeight > 0) {
+			ret.put(sendTick, additionalHeight);
+		}
+	}
+
+	protected void getEveryAdditionalYHeightSelfMessage(DrawHandler drawHandler, HorizontalDrawingInfo hInfo, double defaultTickHeight, Map<Integer, Double> ret) {
+		double maxTextWidth;
+		double additionalHeight;
+		// if more y space is needed the all covered ticks will be increased
+		double executionSpecWidth = Math.max(from.getLifelineRightPartWidth(sendTick),
+				to.getLifelineRightPartWidth(sendTick + duration));
+		maxTextWidth = Math.min(hInfo.getHDrawingInfo(to).getSymmetricWidth(sendTick),
+				hInfo.getHDrawingInfo(to).getSymmetricWidth(sendTick + duration)) / 2.0;
+		maxTextWidth = maxTextWidth - (executionSpecWidth + SELF_MESSAGE_LIFELINE_GAP + SELF_MESSAGE_TEXT_PADDING);
+		additionalHeight = AdvancedTextSplitter.getSplitStringHeight(textLines, maxTextWidth, drawHandler)
+							- duration * defaultTickHeight;
+		if (additionalHeight > 0) {
+			for (int i = sendTick + 1; i < sendTick + duration; i++) {
+				ret.put(i, additionalHeight / duration);
+			}
+			ret.put(sendTick, additionalHeight / duration);
+			ret.put(sendTick + duration, additionalHeight / duration);
+		}
 	}
 
 	@Override
@@ -278,13 +298,13 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		}
 
 		@Override
-		public PointDouble getPosition(LifelineDrawingInfo llDrawingInfo, boolean left) {
+		public PointDouble getPosition(DrawingInfo drawingInfo, boolean left) {
 			return new PointDouble(0, 0);
 		}
 
 		@Override
-		public PointDouble getPosition(LifelineDrawingInfo llDrawingInfo) {
-			return new PointDouble(getHorizonatlPosition(llDrawingInfo), llDrawingInfo.getVerticalCenter(sendTick));
+		public PointDouble getPosition(DrawingInfo drawingInfo) {
+			return new PointDouble(getHorizonatlPosition(drawingInfo), drawingInfo.getVerticalCenter(sendTick));
 		}
 
 		@Override
@@ -293,13 +313,13 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		}
 
 		@Override
-		public double getHorizontalPosition(LifelineHorizontalDrawingInfo llHDrawingInfo, boolean left) {
+		public double getHorizontalPosition(HorizontalDrawingInfo hDrawingInfo, boolean left) {
 			return 0;
 		}
 
 		@Override
-		public double getHorizonatlPosition(LifelineHorizontalDrawingInfo llHDrawingInfo) {
-			return llHDrawingInfo.getHorizontalCenter() + getSendCenterXOffset();
+		public double getHorizonatlPosition(HorizontalDrawingInfo hDrawingInfo) {
+			return getSendX(hDrawingInfo);
 		}
 
 		@Override
@@ -324,13 +344,13 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		}
 
 		@Override
-		public PointDouble getPosition(LifelineDrawingInfo llDrawingInfo, boolean left) {
+		public PointDouble getPosition(DrawingInfo drawingInfo, boolean left) {
 			return new PointDouble(0, 0);
 		}
 
 		@Override
-		public PointDouble getPosition(LifelineDrawingInfo llDrawingInfo) {
-			return new PointDouble(getHorizonatlPosition(llDrawingInfo), llDrawingInfo.getVerticalCenter(sendTick + duration));
+		public PointDouble getPosition(DrawingInfo drawingInfo) {
+			return new PointDouble(getHorizonatlPosition(drawingInfo), drawingInfo.getVerticalCenter(sendTick + duration));
 		}
 
 		@Override
@@ -339,13 +359,13 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		}
 
 		@Override
-		public double getHorizontalPosition(LifelineHorizontalDrawingInfo llHDrawingInfo, boolean left) {
+		public double getHorizontalPosition(HorizontalDrawingInfo hDrawingInfo, boolean left) {
 			return 0;
 		}
 
 		@Override
-		public double getHorizonatlPosition(LifelineHorizontalDrawingInfo llHDrawingInfo) {
-			return getReceiveX(llHDrawingInfo);
+		public double getHorizonatlPosition(HorizontalDrawingInfo hDrawingInfo) {
+			return getReceiveX(hDrawingInfo);
 		}
 
 		@Override

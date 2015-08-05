@@ -36,7 +36,7 @@ public interface OccurrenceSpecification {
 	 * @param llHDrawingInfo
 	 * @return the x value of the fixed position or the center position.
 	 */
-	double getHorizonatlPosition(LifelineHorizontalDrawingInfo llHDrawingInfo);
+	double getHorizonatlPosition(HorizontalDrawingInfo hDrawingInfo);
 
 	/**
 	 * <b>If hasFixedPosition() returns true this may not return valid values!</b>
@@ -44,13 +44,13 @@ public interface OccurrenceSpecification {
 	 * @param left if the position on the left or right side of the execution specification should be returned
 	 * @return the x value of the left or right position on the lifeline
 	 */
-	double getHorizontalPosition(LifelineHorizontalDrawingInfo llHDrawingInfo, boolean left);
+	double getHorizontalPosition(HorizontalDrawingInfo hDrawingInfo, boolean left);
 
 	/**
 	 * @param llDrawingInfo
 	 * @return the fixed position or the center position.
 	 */
-	PointDouble getPosition(LifelineDrawingInfo llDrawingInfo);
+	PointDouble getPosition(DrawingInfo drawingInfo);
 
 	/**
 	 * <b>If hasFixedPosition() returns true this may not return valid values!</b>
@@ -58,6 +58,6 @@ public interface OccurrenceSpecification {
 	 * @param left if the position on the left or right side of the execution specification should be returned
 	 * @return the left or right position on the lifeline
 	 */
-	PointDouble getPosition(LifelineDrawingInfo llDrawingInfo, boolean left);
+	PointDouble getPosition(DrawingInfo drawingInfo, boolean left);
 
 }

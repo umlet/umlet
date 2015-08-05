@@ -432,12 +432,14 @@ void Message(SequenceDiagramBuilder diagram) :
 			leftLifelineId = LifelineId() [LOOKAHEAD(2)< DEF_DOT > leftLifelineLocalId = LifelineId()]
 			| < LOST > { leftLifelineId = "lost"; lostCount++; }
 			| < FOUND > { leftLifelineId = "found"; foundCount++; }
+			| < GATE > { leftLifelineId = "gate"; gateCount++; }
 		)
 		messageArrowInfo =  MessageArrow()
 		(
 			rightLifelineId = LifelineId() [< DEF_DOT > rightLifelineLocalId = LifelineId()]
 			| < LOST > { rightLifelineId = "lost"; lostCount++; }
 			| < FOUND > { rightLifelineId = "found"; foundCount++; }
+			| < GATE > { rightLifelineId = "gate"; gateCount++; }
 		)
 		(duration = MessageDuration())?
 		(msgText = textUntilNewLine())?
@@ -462,7 +464,16 @@ void Message(SequenceDiagramBuilder diagram) :
 			sendLocalId = rightLifelineLocalId;
 			receiveLocalId = leftLifelineLocalId;
 		}
-		if(send.equals("lost")) {
+		if(gateCount > 0) {
+			if(duration != 0) {
+				throw new SequenceDiagramException("Error: a messages with a gate can only have a duration of 0, but the duration was " + duration + ".");
+			}
+			if(send.equals("gate")) {
+				diagram.addSendGateMessage(receive, msgText, messageArrowInfo.lineType, messageArrowInfo.arrowType, receiveLocalId);			}
+			else {
+				diagram.addReceiveGateMessage(send, msgText, messageArrowInfo.lineType, messageArrowInfo.arrowType, sendLocalId);
+			}		}
+		else if(send.equals("lost")) {
 			throw new SequenceDiagramException("Error: 'lost' can only be on the receiving end of a message.");
 		}
 		else if(send.equals("found")) {

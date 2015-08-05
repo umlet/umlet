@@ -163,8 +163,8 @@ public class SequenceDiagram {
 				allPaddings.add(lstso.getPaddingInformation());
 			}
 		}
-		horizontalDrawingInfo = new HorizontalDrawingInfoImpl(lifelineHeadLeftStart, lifelineWidth, LIFELINE_X_PADDING,
-				lifelines.length, lastTick, allPaddings);
+		horizontalDrawingInfo = new HorizontalDrawingInfoImpl(0, diagramWidth, lifelineHeadLeftStart, lifelineWidth,
+				LIFELINE_X_PADDING, lifelines.length, lastTick, allPaddings);
 
 		double lifelineHeadHeight = getLifelineHeadHeight(drawHandler, horizontalDrawingInfo);
 		verticalInfo = new VerticalDrawingInfoImpl(lifelineHeadTop, lifelineHeadHeight, TICK_HEIGHT, TICK_Y_PADDING,

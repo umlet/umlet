@@ -12,15 +12,19 @@ import com.baselet.element.facet.specific.sequence_aio.LifelineSpanningTickSpann
 
 public class HorizontalDrawingInfoImpl implements HorizontalDrawingInfo {
 
+	private final double diagramStart;
+	private final double diagramWidth;
 	private final LifelineHorizontalDrawingInfo[] horizontalDrawingInfos;
 	private final Map<Container, Double> containerLeftPadding;
 	private final Map<Container, Double> containerRightPadding;
 
-	public HorizontalDrawingInfoImpl(double lifelineHeadLeftStart, double lifelineWidth, double lifelineXPadding,
-			int lifelineCount, int lastTick, Collection<ContainerPadding> paddings) {
+	public HorizontalDrawingInfoImpl(double diagramStart, double diagramWidth, double lifelineHeadLeftStart,
+			double lifelineWidth, double lifelineXPadding, int lifelineCount, int lastTick, Collection<ContainerPadding> paddings) {
 		containerLeftPadding = new HashMap<Container, Double>((int) (paddings.size() / 0.7));
 		containerRightPadding = new HashMap<Container, Double>((int) (paddings.size() / 0.7));
 		horizontalDrawingInfos = new LifelineHorizontalDrawingInfo[lifelineCount];
+		this.diagramStart = diagramStart;
+		this.diagramWidth = diagramWidth;
 		for (int i = 0; i < horizontalDrawingInfos.length; i++) {
 			horizontalDrawingInfos[i] = new LifelineHorizontalDrawingInfoImpl(
 					getPaddings(i, true, lastTick, paddings),
@@ -103,5 +107,15 @@ public class HorizontalDrawingInfoImpl implements HorizontalDrawingInfo {
 	@Override
 	public double getWidth(Container container) {
 		return getHorizontalEnd(container) - getHorizontalStart(container);
+	}
+
+	@Override
+	public double getDiagramHorizontalStart() {
+		return diagramStart;
+	}
+
+	@Override
+	public double getDiagramHorizontalEnd() {
+		return diagramStart + diagramWidth;
 	}
 }

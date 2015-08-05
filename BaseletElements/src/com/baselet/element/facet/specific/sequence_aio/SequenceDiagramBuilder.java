@@ -269,7 +269,30 @@ public class SequenceDiagramBuilder {
 		addLifelineOccurrence(toId, msg);
 	}
 
-		addLifelineOccurrence(toId, new LostOrFoundMessage(to, true, currentTick, text, arrowType, lineType));
+	public void addReceiveGateMessage(String fromId, String text, LineType lineType, Message.ArrowType arrowType, String fromLocalId) {
+		checkState();
+		Lifeline from = getLifelineException(fromId);
+		checkLifelineSendMessage(from, fromId);
+		GateMessage msg = GateMessage.createReceiveGateMessage(from, currentTick, text, arrowType, lineType,
+				dia.getLifelinesArray()[0], dia.getLifelinesArray()[dia.getLifelinesArray().length - 1]);
+		if (fromLocalId != null) {
+			addOccurrenceSpecification(from, fromId, fromLocalId, msg.sendOccurrenceSpecification());
+		}
+		dia.addLifelineSpanningTickSpanningOccurrence(msg);
+	}
+
+	public void addSendGateMessage(String toId, String text, LineType lineType, Message.ArrowType arrowType, String toLocalId) {
+		checkState();
+		Lifeline to = getLifelineException(toId);
+		GateMessage msg = GateMessage.createSendGateMessage(to, currentTick, text, arrowType, lineType,
+				dia.getLifelinesArray()[0], dia.getLifelinesArray()[dia.getLifelinesArray().length - 1]);
+		if (toLocalId != null) {
+			addOccurrenceSpecification(to, toId, toLocalId, msg.receiveOccurrenceSpecification());
+		}
+		if (!to.isCreatedOnStart() && to.getCreated() == null) {
+			to.setCreated(currentTick);
+		}
+		dia.addLifelineSpanningTickSpanningOccurrence(msg);
 	}
 
 	private void checkLifelineSendMessage(Lifeline from, String id) {

@@ -51,6 +51,16 @@ public class DrawingInfoImpl implements DrawingInfo {
 		return horizontalDrawingInfo.getWidth(container);
 	}
 
+	@Override
+	public double getDiagramHorizontalStart() {
+		return horizontalDrawingInfo.getDiagramHorizontalStart();
+	}
+
+	@Override
+	public double getDiagramHorizontalEnd() {
+		return horizontalDrawingInfo.getDiagramHorizontalEnd();
+	}
+
 	private SortedMergedLine1DList getInterruptedAreas(int lifelineIndex) {
 		return interruptedAreas[lifelineIndex];
 	}
