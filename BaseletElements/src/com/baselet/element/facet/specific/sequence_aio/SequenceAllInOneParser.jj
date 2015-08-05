@@ -23,6 +23,36 @@ public class SequenceAllInOneParser {
 	private static final Logger log = Logger.getLogger(SequenceAllInOneParser.class);
 
 	private boolean autoTick;
+
+	/**
+	* Replaces "\\\\" with "\\" in the output so that any further specified match replace pair can't match the replaced "\\".
+	* @param matchReplacePairs
+	* @return the string with the replacements
+	*/
+	public static String backslashReplace(String input, String... matchReplacePairs) {
+		if (matchReplacePairs.length % 2 == 1) {
+			throw new IllegalArgumentException("matchReplacePairs must have an even number of elements.");
+		}
+		String split = "\\\\";
+		StringBuilder strBuilder = new StringBuilder(input.length());
+		int firstIndex = 0;
+		// use the indexOf function instead of a split, because split uses regex and regex is not 100% supported by GWT
+		int foundIndex = input.indexOf(split, firstIndex);
+		while (firstIndex < input.length()) {
+			int lastIndex = foundIndex == -1 ? input.length() : foundIndex;
+			String tmp = input.substring(firstIndex, lastIndex);
+			for (int j = 0; j < matchReplacePairs.length - 1; j += 2) {
+				tmp = tmp.replace(matchReplacePairs[j], matchReplacePairs[j + 1]);
+			}
+			strBuilder.append(tmp);
+			if (foundIndex != -1) {
+				strBuilder.append('\\');
+			}
+			firstIndex = lastIndex + split.length();
+			foundIndex = input.indexOf(split, firstIndex);
+		}
+		return strBuilder.toString();
+	}
 	
 	/**
 	 * Small data container to pass all informations.
@@ -70,7 +100,11 @@ PARSER_END(SequenceAllInOneParser)
 
 < DIAGRAM_DEF_TEXT > TOKEN:
 {
-	< DIAGRAM_DEFINITION_TEXT: (~ ["\r","\n"])+> : DIAGRAM_DEF_TEXT
+	< DIAGRAM_DEFINITION_TEXT:
+		(
+			~ ["\\","\r","\n"]
+			| ("\\" ["\\", "n"] )
+		)+> : DIAGRAM_DEF_TEXT
 }
 
 < LIFELINE_DEF > TOKEN :
@@ -84,7 +118,7 @@ PARSER_END(SequenceAllInOneParser)
 	| < LIFELINE_TITLE: /* since | and ~ are special characters which delimit the title they need to be escaped */
 		( 
 			~["~","\\","\n","\r","|"] 
-			| ("\\" ["\\","~","|"])
+			| ("\\" ["\\","~","|","n"])
 		)+
 		"~" >
 }
@@ -128,7 +162,7 @@ PARSER_END(SequenceAllInOneParser)
 {
 	< TEXT_UNTIL_NEXT_COMMAND : ( 
 			~["\\","\n","\r",";"] 
-			| ("\\" ["\\",";"])
+			| ("\\" ["\\",";","n"])
 		)+ > : DEFAULT
 }
 
@@ -185,7 +219,7 @@ String DiagramTitle() :
 {
 	< DIAGRAM_TITLE >
 	(
-		< DIAGRAM_DEFINITION_TEXT > { text = token.image;}
+		< DIAGRAM_DEFINITION_TEXT > { text = backslashReplace(token.image, "\\n","\n");}
 	)?
 	{return text;}
 }
@@ -196,7 +230,7 @@ String DiagramDescription() :
 }
 {
 	< DIAGRAM_DESC >
-	< DIAGRAM_DEFINITION_TEXT > { desc = token.image;}
+	< DIAGRAM_DEFINITION_TEXT > { desc = backslashReplace(token.image, "\\n","\n");}
 	{return desc;}
 }
 
@@ -255,8 +289,8 @@ String LifelineDefTitleText() :
 {
 	< LIFELINE_TITLE >
 	{
-		/* remove trailing ~, convert new lines to unix style and handle the escaping of \, | and ~ */
-		return token.image.substring(0, token.image.length() - 1).replace("\r\n", "\n").replace("\r", "\n").replace("\\~", "~").replace("\\|", "|").replace("\\\\", "\\");
+		/* remove trailing ~ and handle the escaping of \, |, n and ~ */
+		return backslashReplace(token.image.substring(0, token.image.length() - 1), "\\n", "\n", "\\~", "~", "\\|", "|");
 	}
 }
 
@@ -559,7 +593,7 @@ String textUntilNewLine() :
 	< TEXT_DELIMITER >
 	< TEXT_UNTIL_NEXT_COMMAND >
 	{
-		return token.image.replace("\\;", ";").replace("\\\\", "\\");
+		return backslashReplace(token.image, "\\n", "\n", "\\;", ";");
 	}
 }
 
