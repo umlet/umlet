@@ -146,4 +146,20 @@ public class TextPrintFacet extends Facet {
 		return Priority.LOWEST; // only text not used by other facets should be printed
 	}
 
+	@Override
+	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
+		// adjust height only if autoresize is active, becauce other elements use the
+		// height of the text to position the text in the center e.g. UseCase
+		if (state.getElementStyle() == ElementStyle.AUTORESIZE) {
+			double heightDiff = -state.getDrawer().textHeightMax(); // subtract 1xtextheight to avoid making element too high (because the print-text pos is always on the bottom)
+			heightDiff = heightDiff + state.getDrawer().textHeightMax() / 2; // add a vertical border padding
+			// since the height is textPrintPosition + buffer.getTop() we need to adjust the textPrintPosition and not the buffer (which is set with the updateMinimumSize method)
+			state.increaseTextPrintPosition(heightDiff);
+
+			// add a horizontal border padding
+			double hSpaceLeftAndRight = state.getDrawer().getDistanceBorderToText() * 2;
+			state.updateMinimumWidth(state.getCalculatedElementWidth() + hSpaceLeftAndRight);
+		}
+	}
+
 }
