@@ -120,4 +120,63 @@ public class LostOrFoundMessage implements LifelineOccurrence {
 				size.x / 2 - LIFELINE_TEXT_PADDING * 2 - Math.abs(getCenterXOffset()), drawHandler
 				) * 2 - size.y;
 	}
+
+	public OccurrenceSpecification sendOccurrenceSpecification() {
+		if (found) {
+			throw new IllegalStateException("A found message has no send occurrence specification.");
+		}
+		return new LostOrFoundOccurrenceSpecification();
+	}
+
+	public OccurrenceSpecification receiveOccurrenceSpecification() {
+		if (!found) {
+			throw new IllegalStateException("A lost message has no receive occurrence specification.");
+		}
+		return new LostOrFoundOccurrenceSpecification();
+	}
+
+	private class LostOrFoundOccurrenceSpecification implements OccurrenceSpecification {
+
+		@Override
+		public Lifeline getLifeline() {
+			return lifeline;
+		}
+
+		@Override
+		public boolean hasFixedPosition() {
+			return true;
+		}
+
+		@Override
+		public AlignHorizontal getFixedPositionAlignment() {
+			if (getCenterXOffset() >= 0) {
+				return AlignHorizontal.RIGHT;
+			}
+			else {
+				return AlignHorizontal.LEFT;
+			}
+		}
+
+		@Override
+		public double getHorizonatlPosition(LifelineHorizontalDrawingInfo llHDrawingInfo) {
+			return llHDrawingInfo.getHorizontalCenter() + getCenterXOffset();
+		}
+
+		@Override
+		public double getHorizontalPosition(LifelineHorizontalDrawingInfo llHDrawingInfo, boolean left) {
+			return 0;
+		}
+
+		@Override
+		public PointDouble getPosition(LifelineDrawingInfo llDrawingInfo) {
+			return new PointDouble(getHorizonatlPosition(llDrawingInfo), llDrawingInfo.getVerticalCenter(sendTick));
+		}
+
+		@Override
+		public PointDouble getPosition(LifelineDrawingInfo llDrawingInfo, boolean left) {
+			return new PointDouble(0, 0);
+		}
+
+	}
+
 }

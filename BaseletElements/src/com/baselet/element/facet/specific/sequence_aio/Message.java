@@ -86,16 +86,16 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		}
 	}
 
-	public double getReceiveX(HorizontalDrawingInfo hDrawingInfo) {
-		double receiveX = hDrawingInfo.getHDrawingInfo(to).getHorizontalCenter();
+	public double getReceiveX(LifelineHorizontalDrawingInfo llHDrawingInfo) {
+		double receiveX = llHDrawingInfo.getHorizontalCenter();
 		receiveX += getReceiveCenterXOffset();
 		if (!to.isCreatedOnStart() && to.getCreated() != null && sendTick + duration == to.getCreated()) {
 			// create message must end at the head
 			if (getFirstLifeline() == to) {
-				receiveX = hDrawingInfo.getHDrawingInfo(to).getSymmetricHorizontalEnd(sendTick + duration);
+				receiveX = llHDrawingInfo.getSymmetricHorizontalEnd(sendTick + duration);
 			}
 			else {
-				receiveX = hDrawingInfo.getHDrawingInfo(to).getSymmetricHorizontalStart(sendTick + duration);
+				receiveX = llHDrawingInfo.getSymmetricHorizontalStart(sendTick + duration);
 			}
 		}
 		return receiveX;
@@ -106,7 +106,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		PointDouble send = new PointDouble(
 				drawingInfo.getHDrawingInfo(from).getHorizontalCenter() + getSendCenterXOffset(),
 				drawingInfo.getVerticalCenter(sendTick));
-		PointDouble receive = new PointDouble(getReceiveX(drawingInfo), drawingInfo.getVerticalCenter(sendTick + duration));
+		PointDouble receive = new PointDouble(getReceiveX(drawingInfo.getHDrawingInfo(to)), drawingInfo.getVerticalCenter(sendTick + duration));
 
 		RelationDrawer.ArrowEndType arrowEndType = ArrowEndType.NORMAL;
 		boolean fillArrow = false;
@@ -239,7 +239,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 			// if more y space is needed the send tick will be increased
 			// only interested in the x coordinate, so provide fake y values
 			maxTextWidth = Math.abs(hInfo.getHDrawingInfo(from).getHorizontalCenter() + getSendCenterXOffset()
-									- getReceiveX(hInfo));
+									- getReceiveX(hInfo.getHDrawingInfo(to)));
 			maxTextWidth -= LIFELINE_TEXT_PADDING * 2;
 			additionalHeight = AdvancedTextSplitter.getSplitStringHeight(textLines, maxTextWidth, drawHandler);
 			// message text is always drawn at the send position only increase send tick height
@@ -260,5 +260,105 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 
 	public enum ArrowType {
 		OPEN, FILLED
+	}
+
+	public OccurrenceSpecification sendOccurrenceSpecification() {
+		return new MessageSendEndpoint();
+	}
+
+	public OccurrenceSpecification receiveOccurrenceSpecification() {
+		return new MessageReceiveEndpoint();
+	}
+
+	private class MessageSendEndpoint implements OccurrenceSpecification {
+
+		@Override
+		public boolean hasFixedPosition() {
+			return true;
+		}
+
+		@Override
+		public PointDouble getPosition(LifelineDrawingInfo llDrawingInfo, boolean left) {
+			return new PointDouble(0, 0);
+		}
+
+		@Override
+		public PointDouble getPosition(LifelineDrawingInfo llDrawingInfo) {
+			return new PointDouble(getHorizonatlPosition(llDrawingInfo), llDrawingInfo.getVerticalCenter(sendTick));
+		}
+
+		@Override
+		public Lifeline getLifeline() {
+			return from;
+		}
+
+		@Override
+		public double getHorizontalPosition(LifelineHorizontalDrawingInfo llHDrawingInfo, boolean left) {
+			return 0;
+		}
+
+		@Override
+		public double getHorizonatlPosition(LifelineHorizontalDrawingInfo llHDrawingInfo) {
+			return llHDrawingInfo.getHorizontalCenter() + getSendCenterXOffset();
+		}
+
+		@Override
+		public AlignHorizontal getFixedPositionAlignment() {
+			if (from == to) {
+				return AlignHorizontal.RIGHT;
+			}
+			else if (from.getIndex() < to.getIndex()) {
+				return AlignHorizontal.RIGHT;
+			}
+			else {
+				return AlignHorizontal.LEFT;
+			}
+		}
+	}
+
+	private class MessageReceiveEndpoint implements OccurrenceSpecification {
+
+		@Override
+		public boolean hasFixedPosition() {
+			return true;
+		}
+
+		@Override
+		public PointDouble getPosition(LifelineDrawingInfo llDrawingInfo, boolean left) {
+			return new PointDouble(0, 0);
+		}
+
+		@Override
+		public PointDouble getPosition(LifelineDrawingInfo llDrawingInfo) {
+			return new PointDouble(getHorizonatlPosition(llDrawingInfo), llDrawingInfo.getVerticalCenter(sendTick + duration));
+		}
+
+		@Override
+		public Lifeline getLifeline() {
+			return to;
+		}
+
+		@Override
+		public double getHorizontalPosition(LifelineHorizontalDrawingInfo llHDrawingInfo, boolean left) {
+			return 0;
+		}
+
+		@Override
+		public double getHorizonatlPosition(LifelineHorizontalDrawingInfo llHDrawingInfo) {
+			return getReceiveX(llHDrawingInfo);
+		}
+
+		@Override
+		public AlignHorizontal getFixedPositionAlignment() {
+			if (from == to) {
+				return AlignHorizontal.RIGHT;
+			}
+			else if (from.getIndex() < to.getIndex()) {
+				return AlignHorizontal.RIGHT;
+			}
+			else {
+				return AlignHorizontal.LEFT;
+			}
+		}
 	}
 }

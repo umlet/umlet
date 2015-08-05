@@ -26,8 +26,8 @@ public class SequenceDiagramBuilder {
 
 	private final Map<String, Lifeline> ids;
 	private final LinkedList<ActiveCombinedFragment> activeCombinedFragmentStack;
-	/** ids on this lifeline e.g. ids for receiving and sending messages, value is the tick */
-	// TODO private final Map<Lifeline,Map<String, Integer>> llLocalIds;
+	/** ids on a lifeline for occurrenceSpecifications (message endpoint or execution specification start/end) */
+	private final Map<Lifeline, Map<String, OccurrenceSpecification>> lifelineLocalIds;
 	/** stores all warnings which are found while the sequence diagram is built */
 	private final List<String> warnings;
 
@@ -40,6 +40,7 @@ public class SequenceDiagramBuilder {
 		overrideDefaultIds = false;
 		ids = new HashMap<String, Lifeline>();
 		activeCombinedFragmentStack = new LinkedList<SequenceDiagramBuilder.ActiveCombinedFragment>();
+		lifelineLocalIds = new HashMap<Lifeline, Map<String, OccurrenceSpecification>>();
 		dia = new SequenceDiagram();
 		currentLifelineState = new HashMap<Lifeline, SequenceDiagramBuilder.LifelineState>();
 		warnings = new LinkedList<String>();
@@ -126,6 +127,7 @@ public class SequenceDiagramBuilder {
 			}
 			ids.put(DEFAULT_ID_PREFIX + dia.getLifelineCount(), newLifeline);
 		}
+		lifelineLocalIds.put(newLifeline, new HashMap<String, OccurrenceSpecification>());
 		currentLifelineState.put(newLifeline, new LifelineState());
 	}
 
@@ -207,8 +209,11 @@ public class SequenceDiagramBuilder {
 	 * @param text
 	 * @param lineType
 	 * @param arrowType
+	 * @param fromLocalId can be null, if not null the send end point will be associated with the given id
+	 * @param toLocalId can be null, if not null the receive end point will be associated with the given id
 	 */
-	public void addMessage(String fromId, String toId, int duration, String text, LineType lineType, Message.ArrowType arrowType) {
+	public void addMessage(String fromId, String toId, int duration, String text, LineType lineType,
+			Message.ArrowType arrowType, String fromLocalId, String toLocalId) {
 		checkState();
 		// check that duration >= 0 and check that self message has a duration > 0
 		if (duration < 0) {
@@ -227,25 +232,42 @@ public class SequenceDiagramBuilder {
 			to.setCreated(currentTick + duration);
 		}
 		Message msg = new Message(from, to, duration, currentTick, text, arrowType, lineType);
+		if (fromLocalId != null) {
+			addOccurrenceSpecification(from, fromId, fromLocalId, msg.sendOccurrenceSpecification());
+		}
+		if (toLocalId != null) {
+			addOccurrenceSpecification(to, toId, toLocalId, msg.receiveOccurrenceSpecification());
+		}
 		dia.addLifelineSpanningTickSpanningOccurrence(msg);
 	}
 
-	public void addLostMessage(String fromId, String text, LineType lineType, Message.ArrowType arrowType) {
+	public void addLostMessage(String fromId, String text, LineType lineType, Message.ArrowType arrowType, String fromLocalId) {
 		checkState();
 		Lifeline from = getLifelineException(fromId);
 		checkLifelineSendMessage(from, fromId);
-
-		addLifelineOccurrence(fromId, new LostOrFoundMessage(from, false, currentTick, text, arrowType, lineType));
+		LostOrFoundMessage msg = new LostOrFoundMessage(from, false, currentTick, text, arrowType, lineType);
+		if (fromLocalId != null) {
+			addOccurrenceSpecification(from, fromId, fromLocalId, msg.sendOccurrenceSpecification());
+		}
+		addLifelineOccurrence(fromId, msg);
 	}
 
-	public void addFoundMessage(String toId, String text, LineType lineType, Message.ArrowType arrowType) {
+	public void addFoundMessage(String toId, String text, LineType lineType, Message.ArrowType arrowType, String toLocalId) {
 		checkState();
 		Lifeline to = getLifelineException(toId);
 		if (!to.isCreatedOnStart()) {
 			if (to.getCreated() == null || to.getCreated() >= currentTick) {
-				throw new SequenceDiagramException("The lifeline " + toId + " was not yet created, therefore it is not possible to send a found message to it.");
+				throw new SequenceDiagramException("The lifeline " + toId +
+													" was not yet created, therefore it is not possible to send a found message to it.");
 			}
 		}
+		LostOrFoundMessage msg = new LostOrFoundMessage(to, true, currentTick, text, arrowType, lineType);
+		if (toLocalId != null) {
+			addOccurrenceSpecification(to, toId, toLocalId, msg.receiveOccurrenceSpecification());
+		}
+
+		addLifelineOccurrence(toId, msg);
+	}
 
 		addLifelineOccurrence(toId, new LostOrFoundMessage(to, true, currentTick, text, arrowType, lineType));
 	}
@@ -256,6 +278,37 @@ public class SequenceDiagramBuilder {
 				throw new SequenceDiagramException("The lifeline " + id + " was not yet created, therefore it is not possible to send a message from it.");
 			}
 		}
+	}
+
+	public void addGeneralOrdering(String earlierLifelineId, String earlierLifelineLocalId,
+			String laterLifelineId, String laterLifelineLocalId) {
+		checkState();
+		dia.addLifelineSpanningTickSpanningOccurrence(new GeneralOrdering(
+				getLifelineOccurrenceSpecException(earlierLifelineId, earlierLifelineLocalId),
+				getLifelineOccurrenceSpecException(laterLifelineId, laterLifelineLocalId),
+				getLifelineIntervalException(earlierLifelineId, laterLifelineId)));
+	}
+
+	private void addOccurrenceSpecification(String lifelineId, String localId, OccurrenceSpecification occurrence) {
+		addOccurrenceSpecification(getLifelineException(lifelineId), lifelineId, localId, occurrence);
+	}
+
+	private void addOccurrenceSpecification(Lifeline lifeline, String lifelineId, String localId, OccurrenceSpecification occurrence) {
+		if (lifelineLocalIds.get(lifeline).containsKey(localId)) {
+			throw new SequenceDiagramException(String.format(
+					"The lifeline '%s' has already a local id '%s', please choose another id.", lifelineId, localId));
+		}
+		lifelineLocalIds.get(lifeline).put(localId, occurrence);
+	}
+
+	private OccurrenceSpecification getLifelineOccurrenceSpecException(String lifelineId, String localId) {
+		Lifeline llifeline = getLifelineException(lifelineId);
+		OccurrenceSpecification occurrenceSpec = lifelineLocalIds.get(llifeline).get(localId);
+		if (occurrenceSpec == null) {
+			throw new SequenceDiagramException(String.format(
+					"No lifeline occurrence with the id '%s' could be found on lifeline '%s.'", localId, lifelineId));
+		}
+		return occurrenceSpec;
 	}
 
 	public void addInteractionUse(String startId, String endId, String text) {
