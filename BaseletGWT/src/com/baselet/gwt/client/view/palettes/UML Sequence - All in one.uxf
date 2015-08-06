@@ -4,7 +4,7 @@
   <element>
     <id>UMLSequenceAllInOne</id>
     <coordinates>
-      <x>392</x>
+      <x>464</x>
       <y>0</y>
       <w>388</w>
       <h>472</h>
@@ -33,7 +33,7 @@ coregionEnd=c</panel_attributes>
     <coordinates>
       <x>16</x>
       <y>0</y>
-      <w>368</w>
+      <w>440</w>
       <h>464</h>
     </coordinates>
     <panel_attributes>title=New all in one sequence diagram

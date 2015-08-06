@@ -125,9 +125,8 @@ public class SequenceDiagram {
 		HorizontalDrawingInfo horizontalDrawingInfo;
 		VerticalDrawingInfo verticalInfo;
 		DrawingInfo drawingInfo;
-		// calculate the minimum width of the lifelines and the diagram, if the header increases the diagram width adjust the lifeline width
+		// calculate the minimum width of the lifelines and the diagram; get all paddings and create the horizontal drawing info
 		double lifelineWidth = Math.max(getLifelineWidth(drawHandler), LIFELINE_MIN_WIDTH);
-
 		double diagramMinWidth = Math.max(LIFELINE_MIN_WIDTH,
 				AdvancedTextSplitter.getTextMinWidth(descLines, drawHandler) + DESCRIPTION_H_PADDING * 2);
 		diagramMinWidth = Math.max(diagramMinWidth, PentagonDrawingHelper.getMinimumWidth(drawHandler, titleLines));
@@ -140,6 +139,7 @@ public class SequenceDiagram {
 		horizontalDrawingInfo = new HorizontalDrawingInfoImpl(0, diagramMinWidth, widthConverter, lifelineWidth,
 				LIFELINE_X_PADDING, lifelines.length, lastTick, allPaddings);
 		double diagramWidth = horizontalDrawingInfo.getDiagramWidth();
+
 		// calculate and draw the header, then draw top border
 		double headerHeight = 0;
 		if (titleLines.length > 1 || titleLines.length == 1 && !titleLines[0].isEmpty()) {
@@ -153,11 +153,11 @@ public class SequenceDiagram {
 				diagramWidth - DESCRIPTION_H_PADDING * 2, descHeight, AlignHorizontal.LEFT, AlignVertical.CENTER);
 
 		double lifelineHeadTop = headerHeight + descHeight + DESCRIPTION_H_PADDING * 2 + LIFELINE_Y_PADDING;
-
 		double lifelineHeadHeight = getLifelineHeadHeight(drawHandler, horizontalDrawingInfo);
 		verticalInfo = new VerticalDrawingInfoImpl(lifelineHeadTop, lifelineHeadHeight, TICK_HEIGHT, TICK_Y_PADDING,
 				calculateAddiontalHeights(drawHandler, horizontalDrawingInfo), allPaddings);
 		drawingInfo = new DrawingInfoImpl(horizontalDrawingInfo, verticalInfo, getLifelineCount());
+
 		// first draw the occurrences which affect more than one lifeline which stores the interrupted areas in the
 		// corresponding LifelineDrawingInfo. This info is then passed to the lifeline so it can be drawn
 		if (lifelines.length > 0) {

@@ -19,8 +19,36 @@ public class HorizontalDrawingInfoImpl implements HorizontalDrawingInfo {
 	private final Map<Container, Double> containerLeftPadding;
 	private final Map<Container, Double> containerRightPadding;
 
+	/**
+	 * Calculates the actual lifeline and diagram width.
+	 * @param diagramStart left most point were the diagram can draw
+	 * @param diagramMinWidth
+	 * @param widthConverter used to adjust the calculated width (should only increase the width!)
+	 * @param lifelineWidth width of a single lifeline without any paddings
+	 * @param lifelineXPadding padding between two lifelines or a lifeline and the diagram border
+	 * @param lifelineCount
+	 * @param lastTick
+	 * @param paddings
+	 */
 	public HorizontalDrawingInfoImpl(double diagramStart, double diagramMinWidth, DoubleConverter widthConverter,
 			double lifelineWidth, double lifelineXPadding, int lifelineCount, int lastTick, Collection<ContainerPadding> paddings) {
+		containerLeftPadding = new HashMap<Container, Double>((int) (paddings.size() / 0.7));
+		containerRightPadding = new HashMap<Container, Double>((int) (paddings.size() / 0.7));
+		horizontalDrawingInfos = new LifelineHorizontalDrawingInfo[lifelineCount];
+		this.diagramStart = diagramStart;
+		// calculate the padding information and the maximum padding
+		double maxPadding = 0;
+		double[][] leftPaddings = new double[lifelineCount][];
+		double[][] rightPaddings = new double[lifelineCount][];
+		for (int i = 0; i < lifelineCount; i++) {
+			PaddingInfo paddingInfo = getPaddings(i, true, lastTick, paddings);
+			leftPaddings[i] = paddingInfo.paddings;
+			maxPadding = Math.max(maxPadding, paddingInfo.maxPadding);
+			paddingInfo = getPaddings(i, false, lastTick, paddings);
+			rightPaddings[i] = paddingInfo.paddings;
+			maxPadding = Math.max(maxPadding, paddingInfo.maxPadding);
+		}
+		lifelineWidth += maxPadding * 2; // add the padding because it is not included in the lifeline width
 
 		double diagramWidth = lifelineWidth * lifelineCount + lifelineXPadding * (lifelineCount + 1);
 		if (diagramWidth < diagramMinWidth) {
@@ -35,27 +63,18 @@ public class HorizontalDrawingInfoImpl implements HorizontalDrawingInfo {
 		double lifelineHeadLeftStart = (diagramWidth
 				- (lifelineWidth * lifelineCount + lifelineXPadding * (lifelineCount - 1))
 				) / 2.0;
-		//
-		//
-		//
-		//
-		//
 
-		containerLeftPadding = new HashMap<Container, Double>((int) (paddings.size() / 0.7));
-		containerRightPadding = new HashMap<Container, Double>((int) (paddings.size() / 0.7));
-		horizontalDrawingInfos = new LifelineHorizontalDrawingInfo[lifelineCount];
-		this.diagramStart = diagramStart;
 		this.diagramWidth = diagramWidth;
 		for (int i = 0; i < horizontalDrawingInfos.length; i++) {
 			horizontalDrawingInfos[i] = new LifelineHorizontalDrawingInfoImpl(
-					getPaddings(i, true, lastTick, paddings),
-					getPaddings(i, false, lastTick, paddings),
+					leftPaddings[i],
+					rightPaddings[i],
 					lifelineHeadLeftStart + (lifelineWidth + lifelineXPadding) * i,
 					lifelineHeadLeftStart + (lifelineWidth + lifelineXPadding) * i + lifelineWidth);
 		}
 	}
 
-	private double[] getPaddings(int lifelineId, boolean left, int lastTick, Collection<ContainerPadding> allPaddings) {
+	private PaddingInfo getPaddings(int lifelineId, boolean left, int lastTick, Collection<ContainerPadding> allPaddings) {
 		double[] lifelinePaddings = new double[lastTick + 2];
 		// define 1 queue for starting of padding intervals, and the other for the ending of the intervals
 		Queue<ContainerPadding> paddingQueueStart = new PriorityQueue<ContainerPadding>(5,
@@ -70,6 +89,7 @@ public class HorizontalDrawingInfoImpl implements HorizontalDrawingInfo {
 				paddingQueueStart.add(cp);
 			}
 		}
+		double maxPadding = 0;
 		for (int tick = 0; tick < lifelinePaddings.length; tick++) {
 			// insert paddings that start at the current tick at the right place (endTick asc) and remove them.
 			while (paddingQueueStart.peek() != null && paddingQueueStart.peek().getContainer().getStartTick() == tick) {
@@ -94,8 +114,9 @@ public class HorizontalDrawingInfoImpl implements HorizontalDrawingInfo {
 					endIter.remove();
 				}
 			}
+			maxPadding = Math.max(maxPadding, lifelinePaddings[tick]);
 		}
-		return lifelinePaddings;
+		return new PaddingInfo(lifelinePaddings, maxPadding);
 	}
 
 	@Override
@@ -143,5 +164,16 @@ public class HorizontalDrawingInfoImpl implements HorizontalDrawingInfo {
 	@Override
 	public double getDiagramWidth() {
 		return diagramWidth;
+	}
+
+	private static class PaddingInfo {
+		private final double[] paddings;
+		private final double maxPadding;
+
+		public PaddingInfo(double[] paddings, double maxPadding) {
+			super();
+			this.paddings = paddings;
+			this.maxPadding = maxPadding;
+		}
 	}
 }
