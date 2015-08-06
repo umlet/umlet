@@ -29,4 +29,6 @@ public interface HorizontalDrawingInfo {
 	public double getDiagramHorizontalStart();
 
 	public double getDiagramHorizontalEnd();
+
+	public double getDiagramWidth();
 }

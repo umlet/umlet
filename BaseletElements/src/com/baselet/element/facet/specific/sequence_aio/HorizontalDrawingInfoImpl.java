@@ -9,6 +9,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 import com.baselet.element.facet.specific.sequence_aio.LifelineSpanningTickSpanningOccurrence.ContainerPadding;
+import com.baselet.element.facet.specific.sequence_aio.SequenceDiagram.DoubleConverter;
 
 public class HorizontalDrawingInfoImpl implements HorizontalDrawingInfo {
 
@@ -18,8 +19,28 @@ public class HorizontalDrawingInfoImpl implements HorizontalDrawingInfo {
 	private final Map<Container, Double> containerLeftPadding;
 	private final Map<Container, Double> containerRightPadding;
 
-	public HorizontalDrawingInfoImpl(double diagramStart, double diagramWidth, double lifelineHeadLeftStart,
+	public HorizontalDrawingInfoImpl(double diagramStart, double diagramMinWidth, DoubleConverter widthConverter,
 			double lifelineWidth, double lifelineXPadding, int lifelineCount, int lastTick, Collection<ContainerPadding> paddings) {
+
+		double diagramWidth = lifelineWidth * lifelineCount + lifelineXPadding * (lifelineCount + 1);
+		if (diagramWidth < diagramMinWidth) {
+			diagramWidth = diagramMinWidth;
+			if (lifelineCount > 0) {
+				lifelineWidth = (diagramWidth - lifelineXPadding * (lifelineCount + 1)) / lifelineCount;
+			}
+		}
+		// adjust the width with the width converter
+		diagramWidth = widthConverter.convert(diagramWidth);
+
+		double lifelineHeadLeftStart = (diagramWidth
+				- (lifelineWidth * lifelineCount + lifelineXPadding * (lifelineCount - 1))
+				) / 2.0;
+		//
+		//
+		//
+		//
+		//
+
 		containerLeftPadding = new HashMap<Container, Double>((int) (paddings.size() / 0.7));
 		containerRightPadding = new HashMap<Container, Double>((int) (paddings.size() / 0.7));
 		horizontalDrawingInfos = new LifelineHorizontalDrawingInfo[lifelineCount];
@@ -117,5 +138,10 @@ public class HorizontalDrawingInfoImpl implements HorizontalDrawingInfo {
 	@Override
 	public double getDiagramHorizontalEnd() {
 		return diagramStart + diagramWidth;
+	}
+
+	@Override
+	public double getDiagramWidth() {
+		return diagramWidth;
 	}
 }

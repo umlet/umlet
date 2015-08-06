@@ -127,20 +127,19 @@ public class SequenceDiagram {
 		DrawingInfo drawingInfo;
 		// calculate the minimum width of the lifelines and the diagram, if the header increases the diagram width adjust the lifeline width
 		double lifelineWidth = Math.max(getLifelineWidth(drawHandler), LIFELINE_MIN_WIDTH);
-		double diagramWidth = lifelineWidth * getLifelineCount() + LIFELINE_X_PADDING * (getLifelineCount() + 1);
-		if (diagramWidth < LIFELINE_MIN_WIDTH) {
-			diagramWidth = LIFELINE_MIN_WIDTH;
-		}
-		diagramWidth = Math.max(diagramWidth,
+
+		double diagramMinWidth = Math.max(LIFELINE_MIN_WIDTH,
 				AdvancedTextSplitter.getTextMinWidth(descLines, drawHandler) + DESCRIPTION_H_PADDING * 2);
-		if (diagramWidth < PentagonDrawingHelper.getMinimumWidth(drawHandler, titleLines)) {
-			diagramWidth = PentagonDrawingHelper.getMinimumWidth(drawHandler, titleLines);
-			if (getLifelineCount() > 0) {
-				lifelineWidth = (diagramWidth - LIFELINE_X_PADDING * (getLifelineCount() + 1)) / getLifelineCount();
+		diagramMinWidth = Math.max(diagramMinWidth, PentagonDrawingHelper.getMinimumWidth(drawHandler, titleLines));
+		Collection<ContainerPadding> allPaddings = new LinkedList<ContainerPadding>();
+		for (LifelineSpanningTickSpanningOccurrence lstso : spanningLifelineOccurrences) {
+			if (lstso.getPaddingInformation() != null) {
+				allPaddings.add(lstso.getPaddingInformation());
 			}
 		}
-		// adjust the width with the width converter
-		diagramWidth = widthConverter.convert(diagramWidth);
+		horizontalDrawingInfo = new HorizontalDrawingInfoImpl(0, diagramMinWidth, widthConverter, lifelineWidth,
+				LIFELINE_X_PADDING, lifelines.length, lastTick, allPaddings);
+		double diagramWidth = horizontalDrawingInfo.getDiagramWidth();
 		// calculate and draw the header, then draw top border
 		double headerHeight = 0;
 		if (titleLines.length > 1 || titleLines.length == 1 && !titleLines[0].isEmpty()) {
@@ -154,17 +153,6 @@ public class SequenceDiagram {
 				diagramWidth - DESCRIPTION_H_PADDING * 2, descHeight, AlignHorizontal.LEFT, AlignVertical.CENTER);
 
 		double lifelineHeadTop = headerHeight + descHeight + DESCRIPTION_H_PADDING * 2 + LIFELINE_Y_PADDING;
-		double lifelineHeadLeftStart = (diagramWidth
-				- (lifelineWidth * getLifelineCount() + LIFELINE_X_PADDING * (getLifelineCount() - 1))
-				) / 2.0;
-		Collection<ContainerPadding> allPaddings = new LinkedList<ContainerPadding>();
-		for (LifelineSpanningTickSpanningOccurrence lstso : spanningLifelineOccurrences) {
-			if (lstso.getPaddingInformation() != null) {
-				allPaddings.add(lstso.getPaddingInformation());
-			}
-		}
-		horizontalDrawingInfo = new HorizontalDrawingInfoImpl(0, diagramWidth, lifelineHeadLeftStart, lifelineWidth,
-				LIFELINE_X_PADDING, lifelines.length, lastTick, allPaddings);
 
 		double lifelineHeadHeight = getLifelineHeadHeight(drawHandler, horizontalDrawingInfo);
 		verticalInfo = new VerticalDrawingInfoImpl(lifelineHeadTop, lifelineHeadHeight, TICK_HEIGHT, TICK_Y_PADDING,
