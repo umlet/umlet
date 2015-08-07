@@ -345,14 +345,6 @@ public abstract class DrawHandler {
 	public abstract void drawRectangleRound(double x, double y, double width, double height, double radius);
 
 	/**
-	 * @param singleLine a single line (no \n), no further processing of the String takes place.
-	 * i.e. The text is printed unmodified with the given formating.
-	 * @param point
-	 * @param align the horizontal alignment
-	 */
-	// public abstract void printHelper(StringStyle slingeLine, PointDouble point, AlignHorizontal align);
-
-	/**
 	 * @param lines each element is a single line (no \n), no further processing of the String takes place.
 	 * i.e. The each element is printed unmodified with the given formating.
 	 * @param point
