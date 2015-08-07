@@ -31,11 +31,10 @@ public class DrawHandlerGwt extends DrawHandler {
 	}
 
 	@Override
-	protected DimensionDouble textDimensionHelper(String string) {
-		StringStyle stringStyle = StringStyle.analyzeFormatLabels(string);
+	protected DimensionDouble textDimensionHelper(StringStyle singleLine) {
 		String oldFont = ctx.getFont();
-		ctxSetFont(style.getFontSize(), stringStyle);
-		DimensionDouble dim = new DimensionDouble(ctx.measureText(stringStyle.getStringWithoutMarkup()).getWidth(), style.getFontSize()); // unfortunately a html canvas offers no method to get the exakt height, therefore just use the fontsize
+		ctxSetFont(style.getFontSize(), singleLine);
+		DimensionDouble dim = new DimensionDouble(ctx.measureText(singleLine.getStringWithoutMarkup()).getWidth(), style.getFontSize()); // unfortunately a html canvas offers no method to get the exakt height, therefore just use the fontsize
 		ctx.setFont(oldFont); // restore old font to make sure the textDimensions method doesnt change context state!
 		return dim;
 	}
@@ -155,7 +154,7 @@ public class DrawHandlerGwt extends DrawHandler {
 	}
 
 	@Override
-	public void printHelper(final String text, final PointDouble point, final AlignHorizontal align) {
+	public void printHelper(final StringStyle[] text, final PointDouble point, final AlignHorizontal align) {
 		final Style styleAtDrawingCall = style.cloneFromMe();
 		addDrawable(new DrawFunction() {
 			@Override
@@ -163,7 +162,7 @@ public class DrawHandlerGwt extends DrawHandler {
 				PointDouble pToDraw = point;
 				ColorOwn fgColor = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : styleAtDrawingCall.getForegroundColor();
 				ctx.setFillStyle(Converter.convert(fgColor));
-				for (String line : text.split("\n")) {
+				for (StringStyle line : text) {
 					drawTextHelper(line, pToDraw, align, styleAtDrawingCall.getFontSize());
 					pToDraw = new PointDouble(pToDraw.getX(), pToDraw.getY() + textHeightMax());
 				}
@@ -171,12 +170,11 @@ public class DrawHandlerGwt extends DrawHandler {
 		});
 	}
 
-	private void drawTextHelper(final String text, PointDouble p, AlignHorizontal align, double fontSize) {
-		StringStyle stringStyle = StringStyle.analyzeFormatLabels(text);
+	private void drawTextHelper(final StringStyle line, PointDouble p, AlignHorizontal align, double fontSize) {
 
-		ctxSetFont(fontSize, stringStyle);
+		ctxSetFont(fontSize, line);
 
-		String textToDraw = stringStyle.getStringWithoutMarkup();
+		String textToDraw = line.getStringWithoutMarkup();
 		if (textToDraw == null || textToDraw.isEmpty()) {
 			return; // if nothing should be drawn return (some browsers like Opera have problems with ctx.fillText calls on empty strings)
 		}
@@ -184,10 +182,10 @@ public class DrawHandlerGwt extends DrawHandler {
 		ctxSetTextAlign(align);
 		ctx.fillText(textToDraw, p.x, p.y);
 
-		if (stringStyle.getFormat().contains(FormatLabels.UNDERLINE)) {
+		if (line.getFormat().contains(FormatLabels.UNDERLINE)) {
 			ctx.setLineWidth(1.0f);
 			setLineDash(ctx, LineType.SOLID, 1.0f);
-			double textWidth = textWidth(text);
+			double textWidth = textWidth(line);
 			int vDist = 1;
 			switch (align) {
 				case LEFT:

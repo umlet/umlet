@@ -2,6 +2,8 @@ package com.baselet.diagram.draw;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
 
 import com.baselet.control.StringStyle;
 import com.baselet.control.basics.geom.DimensionDouble;
@@ -11,6 +13,7 @@ import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.FormatLabels;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
@@ -83,15 +86,48 @@ public abstract class DrawHandler {
 	}
 
 	public final double textHeightMax() {
-		return textDimension("Hy").getHeight(); // "Hy" is a good dummy for a generic max height and depth
+		return textDimension(new StringStyle(Collections.<FormatLabels> emptySet(), "Hy")).getHeight(); // "Hy" is a good dummy for a generic max height and depth
 	}
 
-	public final double textHeight(String text) {
-		return textDimension(text).getHeight();
+	/**
+	 * @param singleLineWithMarkup a single line (no \n) with interpreted markup
+	 * @return the height of the given text
+	 * @see StringStyle#replaceNotEscaped(String)
+	 * @see StringStyle#analyzeFormatLabels(String)
+	 * @see #textHeight(StringStyle)
+	 */
+	public final double textHeight(String singleLineWithMarkup) {
+		return textHeight(escapeAndAnalyzeSingleLine(singleLineWithMarkup));
 	}
 
-	public final double textWidth(String text) {
-		return textDimension(text).getWidth();
+	/**
+	 * @param singleLine a single line (no \n), no further processing of the String takes place.
+	 * i.e. The text is printed unmodified with the given formating.
+	 * @return the height of the given text
+	 */
+	public final double textHeight(StringStyle singleLine) {
+		return textDimension(singleLine).getHeight();
+	}
+
+	/**
+	 *
+	 * @param singleLineWithMarkup a single line (no \n) with interpreted markup
+	 * @return the width of the given text
+	 * @see StringStyle#replaceNotEscaped(String)
+	 * @see StringStyle#analyzeFormatLabels(String)
+	 * @see #textWidth(StringStyle)
+	 */
+	public final double textWidth(String singleLineWithMarkup) {
+		return textWidth(escapeAndAnalyzeSingleLine(singleLineWithMarkup));
+	}
+
+	/**
+	 * @param singleLine single line (no \n), no further processing of the String takes place.
+	 * i.e. The text is printed unmodified with the given formating.
+	 * @return the width of the given text
+	 */
+	public final double textWidth(StringStyle singleLine) {
+		return textDimension(singleLine).getWidth();
 	}
 
 	public final void setForegroundColor(String color) {
@@ -210,13 +246,23 @@ public abstract class DrawHandler {
 		return 3;
 	}
 
-	protected DimensionDouble textDimension(String string) {
-		return textDimensionHelper(StringStyle.replaceNotEscaped(string));
+	/**
+	 * @param singleLine single line (no \n), no further processing of the String takes place.
+	 * i.e. The text is printed unmodified with the given formating.
+	 * @return the dimension the text would need if printed with the current settings
+	 */
+	protected DimensionDouble textDimension(StringStyle sinlgeLine) {
+		return textDimensionHelper(sinlgeLine);
 	}
 
 	/* HELPER METHODS */
 
-	protected abstract DimensionDouble textDimensionHelper(String string);
+	/**
+	 * @param singleLine single line (no \n), no further processing of the String takes place.
+	 * i.e. The text is printed unmodified with the given formating.
+	 * @return the dimension the text would need if printed with the current settings
+	 */
+	protected abstract DimensionDouble textDimensionHelper(StringStyle sinlgeLine);
 
 	protected abstract double getDefaultFontSize();
 
@@ -241,16 +287,41 @@ public abstract class DrawHandler {
 		drawLines(Lines.toPoints(lines));
 	}
 
-	public void print(String text, double x, double y, AlignHorizontal align) {
-		print(text, new PointDouble(x, y), align);
+	protected StringStyle escapeAndAnalyzeSingleLine(String singleLineWithMarkup) {
+		return StringStyle.analyzeFormatLabels(StringStyle.replaceNotEscaped(singleLineWithMarkup));
 	}
 
-	protected String escape(String input) {
-		return StringStyle.replaceNotEscaped(input);
+	public void print(String multiLineWithMarkup, double x, double y, AlignHorizontal align) {
+		print(multiLineWithMarkup, new PointDouble(x, y), align);
 	}
 
-	public void print(String text, PointDouble point, AlignHorizontal align) {
-		printHelper(StringStyle.replaceNotEscaped(text), point, align);
+	/**
+	 * @param multiLineWithMarkup can contain multiple lines (separated by \n). Each line is then analyzed and printed.
+	 * @param point
+	 * @param align the horizontal alignment
+	 */
+	public void print(String multiLineWithMarkup, PointDouble point, AlignHorizontal align) {
+		String[] lines = multiLineWithMarkup.split("\n");
+		StringStyle[] formatedLines = new StringStyle[lines.length];
+		for (int i = 0; i < lines.length; i++) {
+			formatedLines[i] = escapeAndAnalyzeSingleLine(lines[i]);
+		}
+		printHelper(formatedLines, point, align);
+	}
+
+	/**
+	 * @param lines each element is a single line (no \n), no further processing of the String takes place.
+	 * i.e. The each element is printed unmodified with the given formating.
+	 * @param format the format which is used for each line
+	 * @param point
+	 * @param align the horizontal alignment
+	 */
+	public void print(String[] lines, Set<FormatLabels> format, PointDouble point, AlignHorizontal align) {
+		StringStyle[] formatedLines = new StringStyle[lines.length];
+		for (int i = 0; i < lines.length; i++) {
+			formatedLines[i] = new StringStyle(format, lines[i]);
+		}
+		printHelper(formatedLines, point, align);
 	}
 
 	/**
@@ -273,5 +344,19 @@ public abstract class DrawHandler {
 
 	public abstract void drawRectangleRound(double x, double y, double width, double height, double radius);
 
-	public abstract void printHelper(String text, PointDouble point, AlignHorizontal align);
+	/**
+	 * @param singleLine a single line (no \n), no further processing of the String takes place.
+	 * i.e. The text is printed unmodified with the given formating.
+	 * @param point
+	 * @param align the horizontal alignment
+	 */
+	// public abstract void printHelper(StringStyle slingeLine, PointDouble point, AlignHorizontal align);
+
+	/**
+	 * @param lines each element is a single line (no \n), no further processing of the String takes place.
+	 * i.e. The each element is printed unmodified with the given formating.
+	 * @param point
+	 * @param align the horizontal alignment
+	 */
+	public abstract void printHelper(StringStyle[] lines, PointDouble point, AlignHorizontal align);
 }

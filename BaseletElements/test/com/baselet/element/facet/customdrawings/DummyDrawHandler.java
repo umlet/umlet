@@ -1,5 +1,6 @@
 package com.baselet.element.facet.customdrawings;
 
+import com.baselet.control.StringStyle;
 import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.constants.FacetConstants;
@@ -24,9 +25,15 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 	}
 
 	@Override
-	protected DimensionDouble textDimensionHelper(String string) {
+	protected DimensionDouble textDimensionHelper(StringStyle sinlgeLine) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	protected DimensionDouble textDimension(StringStyle sinlgeLine) {
+		// TODO Auto-generated method stub
+		return super.textDimension(sinlgeLine);
 	}
 
 	@Override
@@ -68,8 +75,8 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 	}
 
 	@Override
-	public void printHelper(String text, PointDouble point, AlignHorizontal align) {
-		// TODO
+	public void printHelper(StringStyle[] lines, PointDouble point, AlignHorizontal align) {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
