@@ -4,7 +4,7 @@ import java.awt.Point;
 
 import org.apache.log4j.Logger;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.constants.Constants;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -50,9 +50,9 @@ public class AddElement extends Command {
 		_entity = e;
 		_zoom = zoom;
 		if (_zoom) {
-			_x = x / Main.getHandlerForElement(e).getGridSize();
-			_y = y / Main.getHandlerForElement(e).getGridSize();
-			DiagramHandler.zoomEntity(Main.getHandlerForElement(e).getGridSize(), Constants.DEFAULTGRIDSIZE, e);
+			_x = x / HandlerElementMap.getHandlerForElement(e).getGridSize();
+			_y = y / HandlerElementMap.getHandlerForElement(e).getGridSize();
+			DiagramHandler.zoomEntity(HandlerElementMap.getHandlerForElement(e).getGridSize(), Constants.DEFAULTGRIDSIZE, e);
 		}
 		else {
 			_x = x;

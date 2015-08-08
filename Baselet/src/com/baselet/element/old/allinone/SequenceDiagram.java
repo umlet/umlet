@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 
 import org.sourceforge.jlibeps.epsgraphics.EpsGraphics2D;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.FormatLabels;
@@ -64,7 +64,7 @@ class Interaction {
 		}
 		Interaction i = (Interaction) o;
 
-		return srcObj == i.srcObj && srcObjHasControl == i.srcObjHasControl &&
+		return srcObj == i.srcObj &&srcObjHasControl == i.srcObjHasControl &&
 				arrowKind == i.arrowKind && destObj == i.destObj &&
 				destObjHasControl == i.destObjHasControl &&
 				methodName == null || methodName.equals(i.methodName);
@@ -72,7 +72,7 @@ class Interaction {
 
 	@Override
 	public int hashCode() {
-		return (methodName != null ? methodName.hashCode() : 1) + srcObj +
+		return (methodName != null ? methodName.hashCode() : 1) +srcObj +
 				(srcObjHasControl ? 1 : 0) + arrowKind + destObj + (destObjHasControl ? 1 : 0);
 	}
 
@@ -182,12 +182,12 @@ public class SequenceDiagram extends OldGridElement {
 		rectDistance = 60;
 
 		zoomValues();
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = HandlerElementMap.getHandlerForElement(this).getZoomFactor();
 
 		// Some unimportant initialization stuff; setting color, font
 		// quality, etc. You should not have to change this.
 		Graphics2D g2 = (Graphics2D) g;
-		FontHandler fontHandler = Main.getHandlerForElement(this).getFontHandler();
+		FontHandler fontHandler = HandlerElementMap.getHandlerForElement(this).getFontHandler();
 		g2.setFont(fontHandler.getFont());
 		g2.setColor(fgColor);
 
@@ -234,8 +234,7 @@ public class SequenceDiagram extends OldGridElement {
 			levelNum++;
 		}
 
-		if (lines.size() == 0)
-		{
+		if (lines.size() == 0) {
 			return; // return if it only has the title line (Issue 146)
 		}
 
@@ -384,8 +383,7 @@ public class SequenceDiagram extends OldGridElement {
 				if (group == null) {
 					group = "#";
 					String element = interactions.elementAt(j);
-					if (element.indexOf("iframe") >= 0)
-					{
+					if (element.indexOf("iframe") >= 0) {
 						group += element.substring(element.indexOf("iframe")); // append info for interactionframe
 					}
 				}
@@ -484,8 +482,8 @@ public class SequenceDiagram extends OldGridElement {
 		int rHeight = 2 * borderDistance + yOffsetforTitle + rectHeight + rectToFirstLevelDistance + levelNum * levelHeight;
 		rWidth = rWidth > maxTextXpos ? rWidth : maxTextXpos;
 		// align the borders to the grid
-		rWidth += Main.getHandlerForElement(this).getGridSize() - rWidth % Main.getHandlerForElement(this).getGridSize();
-		rHeight += Main.getHandlerForElement(this).getGridSize() - rHeight % Main.getHandlerForElement(this).getGridSize();
+		rWidth += HandlerElementMap.getHandlerForElement(this).getGridSize() - rWidth % HandlerElementMap.getHandlerForElement(this).getGridSize();
+		rHeight += HandlerElementMap.getHandlerForElement(this).getGridSize() - rHeight % HandlerElementMap.getHandlerForElement(this).getGridSize();
 		setSize(rWidth, rHeight);
 	}
 
@@ -509,7 +507,7 @@ public class SequenceDiagram extends OldGridElement {
 
 	private int drawMessages(Graphics2D g2) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = HandlerElementMap.getHandlerForElement(this).getZoomFactor();
 
 		int maxTextXpos = 0;
 		for (int i = 0; i < im.getNumLevels(); i++) {
@@ -617,13 +615,12 @@ public class SequenceDiagram extends OldGridElement {
 			return 0;
 		}
 
-		Font font = Main.getHandlerForElement(this).getFontHandler().getFont();
+		Font font = HandlerElementMap.getHandlerForElement(this).getFontHandler().getFont();
 		TextLayout layout = new TextLayout(methodName, font, g2.getFontRenderContext());
 
 		// draw it horizontally centered
 		int dx = centerHorizontically ? (endX - begX - (int) layout.getBounds().getWidth()) / 2 : 0;
-		int dy = centerVertically ?
-				(endY - begY - (int) layout.getBounds().getHeight()) / 2 : 1;
+		int dy = centerVertically ? (endY - begY - (int) layout.getBounds().getHeight()) / 2 : 1;
 
 		layout.draw(g2, begX + dx, endY - dy);
 
@@ -651,8 +648,7 @@ public class SequenceDiagram extends OldGridElement {
 		while (mainTokens.hasMoreTokens()) {
 			String main = mainTokens.nextToken();
 			if (main.indexOf("#") >= 0) { // if no box, clear entire row
-				for (int i = 0; i < numObjects; i++)
-				{
+				for (int i = 0; i < numObjects; i++) {
 					tField[i][level - 1] = 0; // clear
 				}
 				if (main.indexOf("#iframe{") >= 0 || main.indexOf("#iframe}") >= 0) {
@@ -670,8 +666,7 @@ public class SequenceDiagram extends OldGridElement {
 			}
 			else {
 				StringTokenizer innerT = new StringTokenizer(main, ",");
-				for (int i = 0; i < numObjects; i++)
-				{
+				for (int i = 0; i < numObjects; i++) {
 					tField[i][level - 1] = 0; // clear
 				}
 				while (innerT.hasMoreTokens()) {
@@ -762,21 +757,21 @@ public class SequenceDiagram extends OldGridElement {
 
 	private void drawInteractionFrame(Graphics2D g2, int pos1, int pos2, int recursionLevel, String text) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = HandlerElementMap.getHandlerForElement(this).getZoomFactor();
 
 		int pos11 = (pos1 + 1) * levelHeight + yOffsetforTitle;
 		int h = (pos2 - pos1) * levelHeight;
-		int x = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 2 + recursionLevel * 4;
-		g2.drawRect(x, pos11, getRectangle().width - (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 4 - 1 - recursionLevel * 8, h);
-		int uLinePos = pos11 + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts());
-		int textPos = pos11 + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+		int x = (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 2 + recursionLevel * 4;
+		g2.drawRect(x, pos11, getRectangle().width - (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 4 - 1 - recursionLevel * 8, h);
+		int uLinePos = pos11 + (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) (HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize() + (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts());
+		int textPos = pos11 + (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize();
 
 		int textWidth = 0;
 		if (text == null || text.equals("")) {
 			text = " ";
 		}
 		g2.drawString(text, x + (int) (10 * zoom), textPos);
-		int pW = (int) Main.getHandlerForElement(this).getFontHandler().getTextWidth(text);
+		int pW = (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getTextWidth(text);
 		textWidth = pW > textWidth ? pW : textWidth;
 
 		g2.drawLine(x, uLinePos, x + textWidth + (int) (15 * zoom), uLinePos);
@@ -842,7 +837,7 @@ public class SequenceDiagram extends OldGridElement {
 	}
 
 	protected int vCenterForLevel(int level) {
-		return level * levelHeight + rectToFirstLevelDistance +
+		return level * levelHeight +rectToFirstLevelDistance +
 				rectHeight + borderDistance + yOffsetforTitle - levelHeight / 2;
 	}
 
@@ -853,7 +848,7 @@ public class SequenceDiagram extends OldGridElement {
 
 	public void zoomValues() {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = HandlerElementMap.getHandlerForElement(this).getZoomFactor();
 
 		controlFlowBoxWidth = (int) (20 * zoom);
 		rectDistance = (int) (rectDistance * zoom);

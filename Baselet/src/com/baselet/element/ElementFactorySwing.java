@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.ElementId;
 import com.baselet.diagram.DiagramHandler;
@@ -30,22 +30,22 @@ public class ElementFactorySwing extends ElementFactory {
 		DrawHandlerInterface panel = new DrawHandlerInterface() {
 			@Override
 			public void updatePropertyPanel() {
-				Main.getHandlerForElement(returnObj).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
+				HandlerElementMap.getHandlerForElement(returnObj).getDrawPanel().getSelector().updateSelectorInformation(); // update the property panel to display changed attributes
 			}
 
 			@Override
 			public int getGridSize() {
-				return Main.getHandlerForElement(returnObj).getGridSize();
+				return HandlerElementMap.getHandlerForElement(returnObj).getGridSize();
 			}
 
 			@Override
 			public boolean isInitialized() {
-				return Main.getHandlerForElement(returnObj) != null;
+				return HandlerElementMap.getHandlerForElement(returnObj) != null;
 			}
 
 			@Override
 			public StickableMap getStickableMap() {
-				DiagramHandler h = Main.getHandlerForElement(returnObj);
+				DiagramHandler h = HandlerElementMap.getHandlerForElement(returnObj);
 				List<Relation> stickables = h.getDrawPanel().getStickables(Collections.<GridElement> emptyList());
 				return Stickables.getStickingPointsWhichAreConnectedToStickingPolygon(returnObj.generateStickingBorder(), stickables);
 			}
@@ -61,7 +61,7 @@ public class ElementFactorySwing extends ElementFactory {
 			return ((OldGridElement) src).cloneFromMe();
 		}
 		else {
-			return create(src.getId(), src.getRectangle().copy(), src.getPanelAttributes(), src.getAdditionalAttributes(), Main.getHandlerForElement(src));
+			return create(src.getId(), src.getRectangle().copy(), src.getPanelAttributes(), src.getAdditionalAttributes(), HandlerElementMap.getHandlerForElement(src));
 		}
 	}
 

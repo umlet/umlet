@@ -8,6 +8,7 @@ import com.baselet.control.basics.geom.GeometricFunctions;
 import com.baselet.control.basics.geom.Line;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.basics.geom.Rectangle;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.draw.DrawHandler;
@@ -69,7 +70,7 @@ public class RelationDrawer {
 	}
 
 	public static enum ArrowEndType {
-		NORMAL, CLOSED, DIAMOND
+		NORMAL, CLOSED, DIAMOND, MEASURE
 	}
 
 	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, ArrowEndType arrowEndType, boolean fillBody, boolean invertArrow) {
@@ -84,7 +85,17 @@ public class RelationDrawer {
 		int arrowAngle = drawOnStart ? 150 : 30;
 		PointDouble p1 = calcPointArrow(point, line.getAngleOfSlope() - arrowAngle);
 		PointDouble p2 = calcPointArrow(point, line.getAngleOfSlope() + arrowAngle);
-		List<PointDouble> points = new ArrayList<PointDouble>(Arrays.asList(p1, point, p2));
+		List<PointDouble> points = new ArrayList<PointDouble>(Arrays.asList(p1, point));
+
+		if (arrowEndType == ArrowEndType.MEASURE) {
+			PointDouble m1 = calcPoint(point, line.getAngleOfSlope() + 90, SharedConstants.DEFAULT_GRID_SIZE);
+			PointDouble m2 = calcPoint(point, line.getAngleOfSlope() - 90, SharedConstants.DEFAULT_GRID_SIZE);
+			points.add(m1);
+			points.add(m2);
+			points.add(point);
+		}
+		points.add(p2);
+
 		if (arrowEndType == ArrowEndType.CLOSED) {
 			points.add(p1);
 		}

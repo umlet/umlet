@@ -1,4 +1,4 @@
-package com.baselet.gui.standalone;
+package com.baselet.standalone.gui;
 
 import java.awt.Dimension;
 import java.awt.Frame;
@@ -30,6 +30,8 @@ import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.util.Path;
 import com.baselet.gui.BaseGUIBuilder;
+import com.baselet.gui.filedrop.FileDrop;
+import com.baselet.gui.filedrop.FileDropListener;
 import com.baselet.gui.listener.GUIListener;
 
 public class StandaloneGUIBuilder extends BaseGUIBuilder {

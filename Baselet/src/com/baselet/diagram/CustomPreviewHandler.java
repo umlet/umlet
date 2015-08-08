@@ -27,7 +27,7 @@ public class CustomPreviewHandler extends DiagramHandler {
 	}
 
 	@Override
-	protected void initStartupTextAndFileDrop() {
-		/* no startup and filedrop */
+	protected DrawPanel createDrawPanel() {
+		return new DrawPanel(this, false); /* no startup and filedrop */
 	}
 }

@@ -45,8 +45,7 @@ public class Deployment extends NewGridElement {
 				new PointDouble(BORDER, 0),
 				new PointDouble(w, 0),
 				new PointDouble(w, h - BORDER),
-				new PointDouble(w - BORDER, h)
-				);
+				new PointDouble(w - BORDER, h));
 		PointDouble pLine = new PointDouble(w - BORDER, BORDER);
 		// Fill 3d-rectangle
 		Style oldStyle = drawer.getStyleClone();

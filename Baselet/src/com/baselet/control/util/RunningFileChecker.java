@@ -8,13 +8,11 @@ import java.util.TimerTask;
 public class RunningFileChecker extends TimerTask {
 
 	private final File file;
-	private final File ok_file;
 	private final CanOpenDiagram canOpenDiagram;
 
-	public RunningFileChecker(String filename, String okfile, CanOpenDiagram canOpenDiagram) {
+	public RunningFileChecker(File file, CanOpenDiagram canOpenDiagram) {
 		this.canOpenDiagram = canOpenDiagram;
-		file = new File(filename);
-		ok_file = new File(okfile);
+		this.file = file;
 	}
 
 	@Override
@@ -25,7 +23,6 @@ public class RunningFileChecker extends TimerTask {
 			String filename = reader.readLine();
 			reader.close();
 			if (filename != null) {
-				Utils.safeCreateFile(ok_file, true);
 				Utils.safeDeleteFile(file, false);
 				Utils.safeCreateFile(file, true);
 				canOpenDiagram.doOpen(filename);

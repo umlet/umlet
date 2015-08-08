@@ -23,8 +23,13 @@ public class FormattedFont {
 
 	private final TextLayout textLayout;
 
-	public FormattedFont(String text, double fontSize, Font font, FontRenderContext fontRenderContext) {
-		string = setFormatAndRemoveLabels(text);
+	public FormattedFont(String stringWithFormatLabels, double fontSize, Font font, FontRenderContext fontRenderContext) {
+		this(StringStyle.analyzeFormatLabels(stringWithFormatLabels), fontSize, font, fontRenderContext);
+	}
+
+	public FormattedFont(StringStyle text, double fontSize, Font font, FontRenderContext fontRenderContext) {
+		setFormat(text);
+		string = text.getStringWithoutMarkup();
 
 		atrString = new AttributedString(string);
 		this.fontRenderContext = fontRenderContext;
@@ -59,9 +64,7 @@ public class FormattedFont {
 		return atrString.getIterator();
 	}
 
-	private static String setFormatAndRemoveLabels(String s) {
-		StringStyle style = StringStyle.analyzeFormatLabels(s);
-
+	private static void setFormat(StringStyle style) {
 		if (style.getFormat().contains(FormatLabels.UNDERLINE)) {
 			underline = TextAttribute.UNDERLINE_ON;
 		}
@@ -82,8 +85,6 @@ public class FormattedFont {
 		else {
 			italic = TextAttribute.POSTURE_REGULAR;
 		}
-
-		return style.getStringWithoutMarkup();
 	}
 
 	public double getWidth() {

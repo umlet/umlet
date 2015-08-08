@@ -62,8 +62,7 @@ public class UpperRightSymbolFacet extends FirstRunKeyValueFacet {
 						new PointDouble(eW - DISTANCE - corner, DISTANCE),
 						new PointDouble(eW - DISTANCE, DISTANCE + corner),
 						new PointDouble(eW - DISTANCE, DISTANCE + cH),
-						new PointDouble(eW - cW - DISTANCE, DISTANCE + cH)
-						);
+						new PointDouble(eW - cW - DISTANCE, DISTANCE + cH));
 				PointDouble px = new PointDouble(eW - DISTANCE - corner, DISTANCE + corner);
 				drawer.drawLines(p.get(0), p.get(1), p.get(2), p.get(3), p.get(4), p.get(0));
 				drawer.drawLines(p.get(1), px, p.get(2));
@@ -84,8 +83,7 @@ public class UpperRightSymbolFacet extends FirstRunKeyValueFacet {
 						new PointDouble(eW - DISTANCE, DISTANCE),
 						new PointDouble(eW - DISTANCE, DISTANCE + cH),
 						new PointDouble(eW - cW - DISTANCE, DISTANCE + cH),
-						new PointDouble(eW - cW - DISTANCE, DISTANCE + cH - nonPartHeight)
-						));
+						new PointDouble(eW - cW - DISTANCE, DISTANCE + cH - nonPartHeight)));
 				state.getBuffer().setTopMin(DISTANCE + fs * 0.3);
 			}
 			drawer.setBackgroundColor(prevBackgroundColor);

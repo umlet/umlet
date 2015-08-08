@@ -34,6 +34,8 @@ import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.util.Utils;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.element.Relation;
+import com.baselet.gui.filedrop.FileDrop;
+import com.baselet.gui.filedrop.FileDropListener;
 import com.baselet.gui.listener.ScrollbarListener;
 
 @SuppressWarnings("serial")
@@ -48,7 +50,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 
 	private final List<GridElement> gridElements = new ArrayList<GridElement>();
 
-	public DrawPanel(DiagramHandler handler) {
+	public DrawPanel(DiagramHandler handler, boolean initStartupTextAndFiledrop) {
 		this.handler = handler;
 		// AB: Origin is used to track diagram movement in Cut Command
 		origin = new Point();
@@ -89,6 +91,13 @@ public class DrawPanel extends JLayeredPane implements Printable {
 					}
 				}
 			}, 25, 25);
+
+			if (initStartupTextAndFiledrop) {
+				StartUpHelpText startupHelpText = new StartUpHelpText(this);
+				add(startupHelpText);
+				@SuppressWarnings("unused")
+				FileDrop fd = new FileDrop(startupHelpText, new FileDropListener()); // only init if this is not a BATCH call. Also fixes Issue 81
+			}
 		}
 
 		this.repaint(); // repaint the drawpanel to be sure everything is visible (startuphelp etc)
@@ -426,8 +435,7 @@ public class DrawPanel extends JLayeredPane implements Printable {
 		g2d.setColor(Constants.GRID_COLOR);
 
 		int gridSize = handler.getGridSize();
-		if (gridSize == 1)
-		{
+		if (gridSize == 1) {
 			return; // Gridsize 1 would only make the whole screen grey
 		}
 
@@ -574,4 +582,5 @@ public class DrawPanel extends JLayeredPane implements Printable {
 
 		repaint();
 	}
+
 }

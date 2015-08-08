@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.basics.Converter;
 import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.enums.AlignHorizontal;
@@ -123,7 +123,7 @@ public abstract class CustomElement extends OldGridElement {
 				g2.setStroke(Utils.getStroke(s.getLineType(), s.getLineThickness()));
 			}
 			if (specialFgColor) {
-				if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
+				if (HandlerElementMap.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
 					g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
 				}
 				else {
@@ -142,12 +142,12 @@ public abstract class CustomElement extends OldGridElement {
 		for (Text t : texts) {
 			boolean applyZoom = true;
 			if (t.fixedSize != null) {
-				Main.getHandlerForElement(this).getFontHandler().setFontSize((double) t.fixedSize);
+				HandlerElementMap.getHandlerForElement(this).getFontHandler().setFontSize((double) t.fixedSize);
 				applyZoom = false;
 			}
-			Main.getHandlerForElement(this).getFontHandler().writeText(g2, t.text, t.x, t.y, t.align, applyZoom);
+			HandlerElementMap.getHandlerForElement(this).getFontHandler().writeText(g2, t.text, t.x, t.y, t.align, applyZoom);
 			if (t.fixedSize != null) {
-				Main.getHandlerForElement(this).getFontHandler().resetFontSize();
+				HandlerElementMap.getHandlerForElement(this).getFontHandler().resetFontSize();
 			}
 		}
 
@@ -161,10 +161,10 @@ public abstract class CustomElement extends OldGridElement {
 
 		g2 = (Graphics2D) g;
 		composites = colorize(g2);
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(HandlerElementMap.getHandlerForElement(this).getFontHandler().getFont());
 		g2.setColor(fgColor);
 
-		zoom = Main.getHandlerForElement(this).getZoomFactor();
+		zoom = HandlerElementMap.getHandlerForElement(this).getZoomFactor();
 		if (zoom < 0.25) {
 			bugfix = true;
 		}
@@ -202,8 +202,7 @@ public abstract class CustomElement extends OldGridElement {
 		// Resize elements if manual resize is not set
 		// if (!this.allowResize || (this.autoResizeandManualResizeEnabled() && !this.isManualResized())) {
 		// CHANGED: Resize every custom object by +1px to get consistent height and width
-		if (!bugfix)
-		{
+		if (!bugfix) {
 			this.setSize(width + 1, height + 1);
 			// }
 		}
@@ -219,7 +218,7 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "text,x,y")
 	protected final int print(String text, int x, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? splitString(text, width, Main.getHandlerForElement(this)) : Arrays.asList(new String[] { text });
+		List<String> list = wordWrap ? splitString(text, width, HandlerElementMap.getHandlerForElement(this)) : Arrays.asList(new String[] { text });
 		for (String s : list) {
 			texts.add(new Text(s, (int) (x * zoom), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
@@ -230,9 +229,9 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "text,y")
 	protected final int printLeft(String text, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? splitString(text, width, Main.getHandlerForElement(this)) : Arrays.asList(new String[] { text });
+		List<String> list = wordWrap ? splitString(text, width, HandlerElementMap.getHandlerForElement(this)) : Arrays.asList(new String[] { text });
 		for (String s : list) {
-			texts.add(new Text(s, (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), (int) (y * zoom), AlignHorizontal.LEFT));
+			texts.add(new Text(s, (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
 		}
 		return y - inY;
@@ -241,7 +240,7 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "text,y")
 	protected final int printRight(String text, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? splitString(text, width, Main.getHandlerForElement(this)) : Arrays.asList(new String[] { text });
+		List<String> list = wordWrap ? splitString(text, width, HandlerElementMap.getHandlerForElement(this)) : Arrays.asList(new String[] { text });
 		for (String s : list) {
 			texts.add(new Text(s, (int) (width * zoom - textWidth(s, true)), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
@@ -252,7 +251,7 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "text,y")
 	protected final int printCenter(String text, int inY) {
 		int y = inY;
-		List<String> list = wordWrap ? splitString(text, width, Main.getHandlerForElement(this)) : Arrays.asList(new String[] { text });
+		List<String> list = wordWrap ? splitString(text, width, HandlerElementMap.getHandlerForElement(this)) : Arrays.asList(new String[] { text });
 		for (String s : list) {
 			texts.add(new Text(s, (int) ((onGrid(width) * zoom - textWidth(s, true)) / 2), (int) (y * zoom), AlignHorizontal.LEFT));
 			y += textHeight();
@@ -263,7 +262,7 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "text,x,y,fixedFontSize")
 	protected final int printFixedSize(String text, int x, int inY, int fixedFontSize) {
 		int y = inY;
-		List<String> list = wordWrap ? splitString(text, width, Main.getHandlerForElement(this)) : Arrays.asList(new String[] { text });
+		List<String> list = wordWrap ? splitString(text, width, HandlerElementMap.getHandlerForElement(this)) : Arrays.asList(new String[] { text });
 		for (String s : list) {
 			texts.add(new Text(s, x, y, AlignHorizontal.LEFT, fixedFontSize));
 			y += textHeight();
@@ -378,12 +377,12 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "y")
 	protected final void drawLineHorizontal(int y) {
-		shapes.add(new StyleShape(new Line2D.Float((int) (0 * zoom), (int) (y * zoom), Main.getHandlerForElement(this).realignToGrid(false, (int) (width * zoom), true), (int) (y * zoom)), tmpLineType, tmpLineThickness, tmpFgColor, tmpBgColor, tmpAlpha));
+		shapes.add(new StyleShape(new Line2D.Float((int) (0 * zoom), (int) (y * zoom), HandlerElementMap.getHandlerForElement(this).realignToGrid(false, (int) (width * zoom), true), (int) (y * zoom)), tmpLineType, tmpLineThickness, tmpFgColor, tmpBgColor, tmpAlpha));
 	}
 
 	@CustomFunction(param_defaults = "x")
 	protected final void drawLineVertical(int x) {
-		shapes.add(new StyleShape(new Line2D.Float((int) (x * zoom), (int) (0 * zoom), (int) (x * zoom), Main.getHandlerForElement(this).realignToGrid(false, (int) (height * zoom), true)), tmpLineType, tmpLineThickness, tmpFgColor, tmpBgColor, tmpAlpha));
+		shapes.add(new StyleShape(new Line2D.Float((int) (x * zoom), (int) (0 * zoom), (int) (x * zoom), HandlerElementMap.getHandlerForElement(this).realignToGrid(false, (int) (height * zoom), true)), tmpLineType, tmpLineThickness, tmpFgColor, tmpBgColor, tmpAlpha));
 	}
 
 	@CustomFunction(param_defaults = "polygon")
@@ -480,11 +479,11 @@ public abstract class CustomElement extends OldGridElement {
 	}
 
 	protected final int textHeight() {
-		return (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize(false) + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(false));
+		return (int) (HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize(false) + HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(false));
 	}
 
 	protected final int textWidth(String text, boolean applyZoom) {
-		return (int) (Main.getHandlerForElement(this).getFontHandler().getTextSize(text, applyZoom).getWidth() + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(applyZoom));
+		return (int) (HandlerElementMap.getHandlerForElement(this).getFontHandler().getTextSize(text, applyZoom).getWidth() + (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(applyZoom));
 	}
 
 	protected final int textWidth(String text) {

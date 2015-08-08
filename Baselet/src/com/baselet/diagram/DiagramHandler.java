@@ -14,13 +14,13 @@ import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 
 import com.baselet.control.ErrorMessages;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.Main;
 import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.Converter;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
-import com.baselet.control.enums.RuntimeType;
 import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.ComponentSwing;
 import com.baselet.element.NewGridElement;
@@ -32,9 +32,6 @@ import com.baselet.gui.command.Controller;
 import com.baselet.gui.listener.DiagramListener;
 import com.baselet.gui.listener.GridElementListener;
 import com.baselet.gui.listener.OldRelationListener;
-import com.baselet.gui.standalone.FileDrop;
-import com.baselet.gui.standalone.FileDropListener;
-import com.baselet.gui.standalone.StandaloneGUI;
 
 public class DiagramHandler {
 
@@ -42,7 +39,7 @@ public class DiagramHandler {
 
 	private boolean isChanged;
 	private final DiagramFileHandler fileHandler;
-	private final FontHandler fontHandler;
+	private FontHandler fontHandler;
 
 	protected DrawPanel drawpanel;
 	private final Controller controller;
@@ -54,6 +51,14 @@ public class DiagramHandler {
 	private OldRelationListener relationListener;
 	private GridElementListener gridElementListener;
 
+	public static DiagramHandler forExport(FontHandler fontHandler) {
+		DiagramHandler returnHandler = new DiagramHandler(null, false);
+		if (fontHandler != null) {
+			returnHandler.fontHandler = fontHandler;
+		}
+		return returnHandler;
+	}
+
 	public DiagramHandler(File diagram) {
 		this(diagram, false);
 	}
@@ -62,8 +67,7 @@ public class DiagramHandler {
 		gridSize = Constants.DEFAULTGRIDSIZE;
 		isChanged = false;
 		enabled = true;
-		drawpanel = new DrawPanel(this);
-		initStartupTextAndFileDrop();
+		drawpanel = createDrawPanel();
 		controller = new Controller(this);
 		fontHandler = new FontHandler(this);
 		fileHandler = DiagramFileHandler.createInstance(this, diagram);
@@ -78,25 +82,14 @@ public class DiagramHandler {
 		BaseGUI gui = CurrentGui.getInstance().getGui();
 		if (gui != null) {
 			gui.setValueOfZoomDisplay(getGridSize());
-			if (gui instanceof StandaloneGUI)
-			{
-				extendedPopupMenu = true; // AB: use extended popup menu on standalone gui only
-			}
+			extendedPopupMenu = gui.hasExtendedContextMenu();
 		}
 
 		initDiagramPopupMenu(extendedPopupMenu);
 	}
 
-	@SuppressWarnings("unused")
-	protected void initStartupTextAndFileDrop() {
-		// If this is not a palette, create a StartupHelpText
-		if (!(this instanceof PaletteHandler)) {
-			StartUpHelpText startupHelpText = new StartUpHelpText(drawpanel);
-			if (Program.getInstance().getRuntimeType() != RuntimeType.BATCH) { // Batchmode doesn't need drag&drop. Also fixes Issue 81
-				new FileDrop(startupHelpText, new FileDropListener());
-			}
-			drawpanel.add(startupHelpText);
-		}
+	protected DrawPanel createDrawPanel() {
+		return new DrawPanel(this, true);
 	}
 
 	protected void initDiagramPopupMenu(boolean extendedPopupMenu) {
@@ -163,14 +156,14 @@ public class DiagramHandler {
 			return true;
 		} catch (IOException e) {
 			log.error(e);
-			Main.getInstance().displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
+			displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
 			return false;
 		}
 	}
 
 	public void doSaveAs(String extension) {
 		if (drawpanel.getGridElements().isEmpty()) {
-			Main.getInstance().displayError(ErrorMessages.ERROR_SAVING_EMPTY_DIAGRAM);
+			displayError(ErrorMessages.ERROR_SAVING_EMPTY_DIAGRAM);
 		}
 		else {
 			try {
@@ -179,7 +172,7 @@ public class DiagramHandler {
 				CurrentGui.getInstance().getGui().afterSaving();
 			} catch (IOException e) {
 				log.error(e);
-				Main.getInstance().displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
+				displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
 			}
 		}
 	}
@@ -191,7 +184,7 @@ public class DiagramHandler {
 			try {
 				printJob.print();
 			} catch (PrinterException pe) {
-				Main.getInstance().displayError(ErrorMessages.ERROR_PRINTING);
+				displayError(ErrorMessages.ERROR_PRINTING);
 			}
 		}
 	}
@@ -362,12 +355,10 @@ public class DiagramHandler {
 
 		int oldGridSize = getGridSize();
 
-		if (factor < 1 || factor > 20)
-		{
+		if (factor < 1 || factor > 20) {
 			return; // Only zoom between 10% and 200% is allowed
 		}
-		if (factor == oldGridSize)
-		{
+		if (factor == oldGridSize) {
 			return; // Only zoom if gridsize has changed
 		}
 
@@ -441,14 +432,18 @@ public class DiagramHandler {
 		}
 	}
 
+	private void displayError(String error) {
+		JOptionPane.showMessageDialog(CurrentGui.getInstance().getGui().getMainFrame(), error, "ERROR", JOptionPane.ERROR_MESSAGE);
+	}
+
 	public void setHandlerAndInitListeners(GridElement element) {
-		if (Main.getHandlerForElement(element) != null) {
-			((Component) element.getComponent()).removeMouseListener(Main.getHandlerForElement(element).getEntityListener(element));
-			((Component) element.getComponent()).removeMouseMotionListener(Main.getHandlerForElement(element).getEntityListener(element));
+		if (HandlerElementMap.getHandlerForElement(element) != null) {
+			((Component) element.getComponent()).removeMouseListener(HandlerElementMap.getHandlerForElement(element).getEntityListener(element));
+			((Component) element.getComponent()).removeMouseMotionListener(HandlerElementMap.getHandlerForElement(element).getEntityListener(element));
 		}
-		Main.setHandlerForElement(element, this);
-		((Component) element.getComponent()).addMouseListener(Main.getHandlerForElement(element).getEntityListener(element));
-		((Component) element.getComponent()).addMouseMotionListener(Main.getHandlerForElement(element).getEntityListener(element));
+		HandlerElementMap.setHandlerForElement(element, this);
+		((Component) element.getComponent()).addMouseListener(HandlerElementMap.getHandlerForElement(element).getEntityListener(element));
+		((Component) element.getComponent()).addMouseMotionListener(HandlerElementMap.getHandlerForElement(element).getEntityListener(element));
 		if (element instanceof NewGridElement) {
 			((ComponentSwing) element.getComponent()).setHandler(this);
 		}

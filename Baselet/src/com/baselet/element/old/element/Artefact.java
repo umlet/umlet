@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.util.Utils;
 import com.baselet.element.old.OldGridElement;
@@ -15,10 +15,10 @@ public class Artefact extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = HandlerElementMap.getHandlerForElement(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(HandlerElementMap.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 
@@ -27,7 +27,7 @@ public class Artefact extends OldGridElement {
 		g2.setColor(bgColor);
 		g2.fillRect(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 		g2.setComposite(composites[0]);
-		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
+		if (HandlerElementMap.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
 			g2.setColor(fgColor);
 		}
 		else {
@@ -37,13 +37,13 @@ public class Artefact extends OldGridElement {
 
 		Vector<String> tmp = Utils.decomposeStrings(getPanelAttributes());
 		int yPos = (int) (10 * zoom);
-		int startY = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+		int startY = (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-			Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), startY + yPos, AlignHorizontal.LEFT);
-			yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+			yPos += (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize();
+			HandlerElementMap.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), startY + yPos, AlignHorizontal.LEFT);
+			yPos += HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		}
 
 		// small component symbol

@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.util.Utils;
 import com.baselet.element.old.OldGridElement;
@@ -17,7 +17,7 @@ public class ReceiveSignal extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(HandlerElementMap.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 
@@ -26,13 +26,13 @@ public class ReceiveSignal extends OldGridElement {
 		poly.addPoint(getRectangle().width - 1, 0);
 		poly.addPoint(getRectangle().width - 1, getRectangle().height - 1);
 		poly.addPoint(0, getRectangle().height - 1);
-		poly.addPoint((int) Main.getHandlerForElement(this).getFontHandler().getFontSize() - 2, getRectangle().height / 2);
+		poly.addPoint((int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize() - 2, getRectangle().height / 2);
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
 		g2.fillPolygon(poly);
 		g2.setComposite(composites[0]);
-		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
+		if (HandlerElementMap.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
 			g2.setColor(fgColor);
 		}
 		else {
@@ -41,13 +41,13 @@ public class ReceiveSignal extends OldGridElement {
 		g2.drawPolygon(poly);
 
 		Vector<String> tmp = Utils.decomposeStrings(getPanelAttributes());
-		int yPos = getRectangle().height / 2 - tmp.size() * (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts()) / 2;
+		int yPos = getRectangle().height / 2 - tmp.size() * (int) (HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize() + HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts()) / 2;
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-			Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, getRectangle().width / 2.0, yPos, AlignHorizontal.CENTER);
-			yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+			yPos += (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize();
+			HandlerElementMap.getHandlerForElement(this).getFontHandler().writeText(g2, s, getRectangle().width / 2.0, yPos, AlignHorizontal.CENTER);
+			yPos += HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		}
 	}
 
@@ -58,7 +58,7 @@ public class ReceiveSignal extends OldGridElement {
 		p.addPoint(x + width, y);
 		p.addPoint(x + width, y + height);
 		p.addPoint(x, y + height);
-		p.addPoint(x + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() - 2, y + height / 2, true);
+		p.addPoint(x + (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize() - 2, y + height / 2, true);
 		return p;
 	}
 }

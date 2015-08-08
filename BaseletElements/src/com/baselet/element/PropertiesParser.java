@@ -35,7 +35,7 @@ public class PropertiesParser {
 
 		if (state.getElementStyle() == ElementStyle.AUTORESIZE) { // only in case of autoresize element, calculate the elementsize
 			double width = state.getCalculatedElementWidth();
-			double height = state.getTextPrintPosition() - state.getDrawer().textHeightMax(); // subtract 1xtextheight to avoid making element too high (because the print-text pos is always on the bottom)
+			double height = state.getTextPrintPosition();
 			element.handleAutoresize(new DimensionDouble(width, height), state.getAlignment().getHorizontal());
 		}
 

@@ -64,6 +64,7 @@ public abstract class Constants extends SharedConstants {
 
 	/**** ZOOM VALUES ****/
 	public static final ArrayList<String> zoomValueList = new ArrayList<String>();
+
 	static {
 		for (int i = 1; i <= 20; i++) {
 			zoomValueList.add(i + "0%");

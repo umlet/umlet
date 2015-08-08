@@ -47,8 +47,7 @@ public class LineDescriptionFacet extends FirstRunFacet {
 				new AutocompletionText(LineDescriptionEnum.MESSAGE_START.getKey() + KeyValueFacet.SEP, "message at start"),
 				new AutocompletionText(LineDescriptionEnum.MESSAGE_END.getKey() + KeyValueFacet.SEP, "message at end"),
 				new AutocompletionText(LineDescriptionEnum.ROLE_START.getKey() + KeyValueFacet.SEP, "role at start"),
-				new AutocompletionText(LineDescriptionEnum.ROLE_END.getKey() + KeyValueFacet.SEP, "role at end")
-				);
+				new AutocompletionText(LineDescriptionEnum.ROLE_END.getKey() + KeyValueFacet.SEP, "role at end"));
 	}
 
 	@Override

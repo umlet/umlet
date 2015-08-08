@@ -19,7 +19,6 @@ public class Text extends NewGridElement {
 	}
 
 	@Override
-	protected void drawCommonContent(PropertiesParserState state) {
-	}
+	protected void drawCommonContent(PropertiesParserState state) {}
 
 }

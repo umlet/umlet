@@ -7,6 +7,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.Main;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.CustomPreviewHandler;
@@ -49,11 +50,11 @@ public class PropertyPanelListener implements KeyListener, DocumentListener {
 				int newCaretPos = CurrentGui.getInstance().getGui().getPropertyPane().getTextComponent().getCaretPosition();
 				int oldCaretPos = newCaretPos - (s.length() - gridElement.getPanelAttributes().length());
 
-				if (Main.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {
-					Main.getHandlerForElement(gridElement).getController().executeCommand(new CustomCodePropertyChanged(gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
+				if (HandlerElementMap.getHandlerForElement(gridElement) instanceof CustomPreviewHandler) {
+					HandlerElementMap.getHandlerForElement(gridElement).getController().executeCommand(new CustomCodePropertyChanged(gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
 				}
 				else {
-					Main.getHandlerForElement(gridElement).getController().executeCommand(new ChangePanelAttributes(gridElement, gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
+					HandlerElementMap.getHandlerForElement(gridElement).getController().executeCommand(new ChangePanelAttributes(gridElement, gridElement.getPanelAttributes(), s, oldCaretPos, newCaretPos));
 				}
 			}
 		}

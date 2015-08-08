@@ -76,13 +76,17 @@ public class TextPrintFacet extends Facet {
 
 	private static double calcStartPointFromVAlign(DrawHandler drawer, PropertiesParserState state) {
 		double returnVal = drawer.textHeightMax(); // print method is located at the bottom of the text therefore add text height (important for UseCase etc where text must not reach out of the border)
-		if (state.getAlignment().getVertical() == AlignVertical.TOP) {
+
+		if (state.getElementStyle() == ElementStyle.AUTORESIZE) { // #291: if autoresize is enabled, valign is not used, because the element shouldn't have unused space
+			returnVal += 2 * drawer.getDistanceBorderToText() + state.getBuffer().getTop(); // the same as TOP but with 2x border distance because it looks better (example from #291)
+		}
+		else if (state.getAlignment().getVertical() == AlignVertical.TOP) {
 			returnVal += drawer.getDistanceBorderToText() + state.getBuffer().getTop();
 		}
 		else if (state.getAlignment().getVertical() == AlignVertical.CENTER) {
 			returnVal += (state.getGridElementSize().height - state.getTotalTextBlockHeight()) / 2 + state.getBuffer().getTop() / 2;
 		}
-		else /* if (state.getvAlign() == AlignVertical.BOTTOM) */{
+		else /* if (state.getvAlign() == AlignVertical.BOTTOM) */ {
 			returnVal += state.getGridElementSize().height - state.getTotalTextBlockHeight() - drawer.textHeightMax() / 4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
 		}
 		return returnVal;
@@ -126,7 +130,7 @@ public class TextPrintFacet extends Facet {
 		else if (hAlign == AlignHorizontal.CENTER) {
 			x = xLimitsForText.getSpace() / 2.0 + xLimitsForText.getLeft();
 		}
-		else /* if (state.gethAlign() == AlignHorizontal.RIGHT) */{
+		else /* if (state.gethAlign() == AlignHorizontal.RIGHT) */ {
 			x = xLimitsForText.getRight() - distanceBorderToText;
 		}
 		return x;
@@ -140,6 +144,22 @@ public class TextPrintFacet extends Facet {
 	@Override
 	public Priority getPriority() {
 		return Priority.LOWEST; // only text not used by other facets should be printed
+	}
+
+	@Override
+	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
+		// adjust height only if autoresize is active, becauce other elements use the
+		// height of the text to position the text in the center e.g. UseCase
+		if (state.getElementStyle() == ElementStyle.AUTORESIZE) {
+			double heightDiff = -state.getDrawer().textHeightMax(); // subtract 1xtextheight to avoid making element too high (because the print-text pos is always on the bottom)
+			heightDiff = heightDiff + state.getDrawer().textHeightMax() / 2; // add a vertical border padding
+			// since the height is textPrintPosition + buffer.getTop() we need to adjust the textPrintPosition and not the buffer (which is set with the updateMinimumSize method)
+			state.increaseTextPrintPosition(heightDiff);
+
+			// add a horizontal border padding
+			double hSpaceLeftAndRight = state.getDrawer().getDistanceBorderToText() * 2;
+			state.updateMinimumWidth(state.getCalculatedElementWidth() + hSpaceLeftAndRight);
+		}
 	}
 
 }

@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.basics.Converter;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.DiagramHandler;
@@ -29,7 +29,7 @@ public class ErrorOccurred extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		DiagramHandler handlerForElement = Main.getHandlerForElement(this);
+		DiagramHandler handlerForElement = HandlerElementMap.getHandlerForElement(this);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawRect(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 		if (handlerForElement.getDrawPanel().getSelector().isSelected(this)) {
@@ -49,7 +49,7 @@ public class ErrorOccurred extends OldGridElement {
 			GridElement ge = new ErrorOccurred(errorMessage);
 			ge.setPanelAttributes(getPanelAttributes()); // copy states
 			ge.setRectangle(getRectangle());
-			Main.getHandlerForElement(this).setHandlerAndInitListeners(ge);
+			HandlerElementMap.getHandlerForElement(this).setHandlerAndInitListeners(ge);
 			return ge;
 		} catch (Exception e) {
 			log.error("Error at calling CloneFromMe() on entity", e);

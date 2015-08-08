@@ -192,8 +192,7 @@ public class PlotGrid extends NewGridElement {
 		matrix.addLine(newLine);
 	}
 
-	private List<AbstractPlot> createPlots(DrawHandler drawer, PlotState plotState, Integer xPos, Integer yPos, String info)
-	{
+	private List<AbstractPlot> createPlots(DrawHandler drawer, PlotState plotState, Integer xPos, Integer yPos, String info) {
 		List<AbstractPlot> plotList = new ArrayList<AbstractPlot>();
 
 		// create and add base plot
@@ -229,8 +228,7 @@ public class PlotGrid extends NewGridElement {
 		for (int row = 0; row < matrix.rows(); row++) {
 			for (int col = 0; col < matrix.row(row).size(); col++) {
 				List<AbstractPlot> oneCell = matrix.cell(row, col);
-				for (AbstractPlot onePlot : oneCell)
-				{
+				for (AbstractPlot onePlot : oneCell) {
 					if (onePlot != null) {
 						if (col != onePlot.getXPosition()) {
 							log.error("Plot contains wrong coordinates: " + col + " != " + onePlot.getXPosition());
@@ -250,8 +248,7 @@ public class PlotGrid extends NewGridElement {
 		StringBuilder sb = new StringBuilder("------------------------------\n");
 		for (int i = 0; i < matrix.rows(); i++) {
 			List<List<AbstractPlot>> row = matrix.row(i);
-			for (List<AbstractPlot> oneCell : row)
-			{
+			for (List<AbstractPlot> oneCell : row) {
 				for (AbstractPlot onePlot : oneCell) {
 					if (onePlot == null) {
 						sb.append("null\t");

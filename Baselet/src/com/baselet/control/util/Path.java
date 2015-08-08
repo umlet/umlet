@@ -8,6 +8,8 @@ import java.net.URL;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
+import com.baselet.control.constants.SystemInfo;
+import com.baselet.control.enums.Os;
 import com.baselet.control.enums.Program;
 
 public class Path {
@@ -15,31 +17,82 @@ public class Path {
 	private static String tempDir;
 	private static String homeProgramDir;
 
-	public static String config() {
-		return userHome() + File.separator + Program.getInstance().getConfigName();
+	public static boolean hasOsConformConfig() {
+		File file = new File(osConformConfig());
+		return file.exists();
 	}
 
-	private static String userHome() {
-		String homeDir = userHomeBase();
-		if (!homeDir.endsWith(File.separator)) {
-			homeDir += File.separator;
-		}
-		File homeDirFile = new File(homeDir + Program.getInstance().getProgramName());
-		if (!homeDirFile.exists()) {
-			Utils.safeMkDir(homeDirFile, true);
-		}
-		return homeDirFile.getAbsolutePath();
+	public static String osConformConfig() {
+		String programConfigDir = combine(osConformConfigDirectory(), Program.getInstance().getProgramName());
+		ensureDirectoryIsExisting(programConfigDir);
+
+		return combine(programConfigDir, Program.getInstance().getConfigName());
 	}
 
-	private static String userHomeBase() {
-		try {
-			String xdgConfigHome = System.getenv("XDG_CONFIG_HOME"); // use env variable $XDG_CONFIG_HOME if it's set
-			if (xdgConfigHome != null) {
-				return xdgConfigHome;
-			}
-		} catch (Exception e) { /* if env variable cannot be read, ignore it */}
+	@Deprecated // #273: legacy cfg is read for some versions; should be removed in v15 or sooner (only use osConformConfig() instead)
+	public static boolean hasLegacyConfig() {
+		File file = new File(legacyConfig());
+		return file.exists();
+	}
 
+	@Deprecated // #273: legacy cfg is read for some versions; should be removed in v15 or sooner (only use osConformConfig() instead)
+	public static String legacyConfig() {
+		String programConfigDirectory = combine(userHomeDirectory(), Program.getInstance().getProgramName());
+
+		return combine(programConfigDirectory, Program.getInstance().getConfigName());
+	}
+
+	private static void ensureDirectoryIsExisting(String path) {
+		File file = new File(path);
+		if (!file.exists()) {
+			Utils.safeMkDir(file, true);
+		}
+	}
+
+	private static String osConformConfigDirectory() {
+		String configDir = userHomeDirectory();
+
+		if (SystemInfo.OS == Os.WINDOWS) {
+			configDir = windowsConfigDirectory();
+		}
+		else if (SystemInfo.OS == Os.MAC) {
+			configDir = macOSXConfigDirectory();
+		}
+		else if (SystemInfo.OS == Os.LINUX || SystemInfo.OS == Os.UNIX) {
+			configDir = xgdConfigDirectory();
+		}
+
+		return configDir;
+	}
+
+	private static String windowsConfigDirectory() {
+		String configPath = System.getenv("LOCALAPPDATA");
+		if (configPath == null) {
+			configPath = userHomeDirectory();
+		}
+
+		return configPath;
+	}
+
+	private static String macOSXConfigDirectory() {
+		return combine(userHomeDirectory(), "Library/Preferences");
+	}
+
+	private static String xgdConfigDirectory() {
+		String configPath = System.getenv("XDG_CONFIG_HOME");
+		if (configPath == null) {
+			configPath = combine(userHomeDirectory(), ".config");
+		}
+
+		return configPath;
+	}
+
+	private static String userHomeDirectory() {
 		return System.getProperty("user.home");
+	}
+
+	private static String combine(String path, String childPath) {
+		return new File(path, childPath).getPath();
 	}
 
 	public static String customElements() {

@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 
+import com.baselet.control.StringStyle;
 import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.config.Config;
 import com.baselet.control.constants.Constants;
@@ -112,6 +113,13 @@ public class FontHandler {
 		return FontHandler.getTextSizeStatic(new FormattedFont(stringWithFormatLabels, getFontSize(applyZoom), getFont(applyZoom), fontrenderContext));
 	}
 
+	public DimensionDouble getTextSize(StringStyle singleLine, boolean applyZoom) {
+		if (singleLine.getStringWithoutMarkup().isEmpty()) {
+			return new DimensionDouble(0, 0);
+		}
+		return FontHandler.getTextSizeStatic(new FormattedFont(singleLine, getFontSize(applyZoom), getFont(applyZoom), fontrenderContext));
+	}
+
 	public double getTextWidth(String s) {
 		return getTextWidth(s, true);
 	}
@@ -129,17 +137,28 @@ public class FontHandler {
 
 	public void writeText(Graphics2D g2, String s, double x, double y, AlignHorizontal align, boolean applyZoom) {
 		for (String line : s.split("\n", -1)) {
+			write(g2, StringStyle.analyzeFormatLabels(line), x, y, align, applyZoom);
+			y += g2.getFontMetrics().getHeight();
+		}
+	}
+
+	public void writeText(Graphics2D g2, StringStyle[] lines, double x, double y, AlignHorizontal align) {
+		writeText(g2, lines, x, y, align, true);
+	}
+
+	public void writeText(Graphics2D g2, StringStyle[] lines, double x, double y, AlignHorizontal align, boolean applyZoom) {
+		for (StringStyle line : lines) {
 			write(g2, line, x, y, align, applyZoom);
 			y += g2.getFontMetrics().getHeight();
 		}
 	}
 
-	private void write(Graphics2D g2, String stringWithFormatLabels, double x, double y, AlignHorizontal align, boolean applyZoom) {
-		if (stringWithFormatLabels == null || stringWithFormatLabels.isEmpty()) {
+	private void write(Graphics2D g2, StringStyle singleLine, double x, double y, AlignHorizontal align, boolean applyZoom) {
+		if (singleLine == null || singleLine.getStringWithoutMarkup().isEmpty()) {
 			return;
 		}
 		double fontSize = getFontSize(applyZoom);
-		FormattedFont formattedFont = new FormattedFont(stringWithFormatLabels, fontSize, getFont(applyZoom), g2.getFontRenderContext());
+		FormattedFont formattedFont = new FormattedFont(singleLine, fontSize, getFont(applyZoom), g2.getFontRenderContext());
 		fontrenderContext = g2.getFontRenderContext(); // TODO workaround to make sure getTextSize works without a graphics object
 
 		if (align == AlignHorizontal.CENTER) {

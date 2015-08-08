@@ -17,7 +17,7 @@ import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.element.facet.customdrawings.CustomDrawingParserRuntimeException;
 
 public abstract class CustomDrawingParser {
 	private static final Logger log = Logger.getLogger(CustomDrawingParser.class);
@@ -77,6 +77,7 @@ TOKEN :    // defines token names
 	| < BG: "bg=" >
 	| < LT: "lt=" >
 	| < LW: "lw=" >
+	| < TRANSPARENCY: "transparency=" >
 }
 
 // more general Tokens
@@ -161,6 +162,7 @@ void drawRectangle() :
 		| callStack = bg(callStack)
 		| callStack = lt(callStack)
 		| callStack = lw(callStack)
+		| callStack = transparency(callStack)
 	)*
    { callStack.run(); }
 }
@@ -186,6 +188,7 @@ void drawRectangleRound() :
 		| callStack = bg(callStack)
 		| callStack = lt(callStack)
 		| callStack = lw(callStack)
+		| callStack = transparency(callStack)
 	)*
    { callStack.run(); }
 }
@@ -208,6 +211,7 @@ void drawCircle() :
 		| callStack = bg(callStack)
 		| callStack = lt(callStack)
 		| callStack = lw(callStack)
+		| callStack = transparency(callStack)
 	)*
    { callStack.run(); }
 }
@@ -231,6 +235,7 @@ void drawEllipse() :
 		| callStack = bg(callStack)
 		| callStack = lt(callStack)
 		| callStack = lw(callStack)
+		| callStack = transparency(callStack)
 	)*
    { callStack.run(); }
 }
@@ -258,6 +263,7 @@ void drawArc() :
 		| callStack = bg(callStack)
 		| callStack = lt(callStack)
 		| callStack = lw(callStack)
+		| callStack = transparency(callStack)
 	)*
    { callStack.run(); }
 }
@@ -289,16 +295,14 @@ void drawText() :
  * sets the foreground color
  */
 RecRunnable fg(RecRunnable inner) :
-{ final ColorOwn newColor;}
+{ final String newColor;}
 {
-	<FG> newColor = colorOwn(Transparency.FOREGROUND) {return new RecRunnable(inner) {
+	<FG> newColor = colorOwn() {return new RecRunnable(inner) {
 		public void run(){
-			//System.out.println("pre FG");
 			ColorOwn oldColor = getDrawHandler().getForegroundColor();
 			getDrawHandler().setForegroundColor(newColor);
 			runInner();
 			getDrawHandler().setForegroundColor(oldColor);
-			//System.out.println("post FG");
 		}
 	};}
 }
@@ -307,16 +311,14 @@ RecRunnable fg(RecRunnable inner) :
  * sets the background color
  */
 RecRunnable bg(RecRunnable inner) :
-{ final ColorOwn newColor;}
+{ final String newColor;}
 {
-	<BG> newColor = colorOwn(Transparency.BACKGROUND) {return new RecRunnable(inner) {
+	<BG> newColor = colorOwn() {return new RecRunnable(inner) {
 		public void run(){
-			//System.out.println("pre BG");
 			ColorOwn oldColor = getDrawHandler().getBackgroundColor();
-			getDrawHandler().setBackgroundColor(newColor);
+			getDrawHandler().setBackgroundColorAndKeepTransparency(newColor);
 			runInner();
 			getDrawHandler().setBackgroundColor(oldColor);
-			//System.out.println("post BG");
 		}
 	};}
 }
@@ -328,13 +330,13 @@ RecRunnable bg(RecRunnable inner) :
  * containing exactly 6 hexadecimal digits
  * (eg."#CAFFEE")
  */
-ColorOwn colorOwn(Transparency transparency) :
-{ ColorOwn value;}
+String colorOwn() :
+{}
 {
 	(
-		<COLOR_OWN_NAME> { value = ColorOwn.forString(token.image, transparency); } /* could be split up into color name Tokens */
-		| <COLOR_OWN_HEX> { value = ColorOwn.forString(token.image, transparency); }
-	) {return value;}
+		<COLOR_OWN_NAME>
+		| <COLOR_OWN_HEX>
+	) {return token.image;}
 }
 
 /**
@@ -345,12 +347,10 @@ RecRunnable lt(RecRunnable inner) :
 {
 	<LT> newLineType = lineType() {return new RecRunnable(inner) {
 		public void run() {
-			//System.out.println("pre LT");
 			LineType oldLineType = getDrawHandler().getLineType();
 			getDrawHandler().setLineType(newLineType);
 			runInner();
 			getDrawHandler().setLineType(oldLineType);
-			//System.out.println("post LT");
 		}
 	};}
 }
@@ -376,12 +376,33 @@ RecRunnable lw(RecRunnable inner) :
 {
 	<LW> newLineWidth = unsignedDoubleConstant() {return new RecRunnable(inner) {
 		public void run() {
-			//System.out.println("pre LW");
 			double oldLineWidth = getDrawHandler().getLineWidth();
 			getDrawHandler().setLineWidth(newLineWidth);
 			runInner();
 			getDrawHandler().setLineWidth(oldLineWidth);
-			//System.out.println("post LW");
+		}
+	};}
+}
+
+/**
+ * sets the transparency (background only)
+ */
+RecRunnable transparency(RecRunnable inner) :
+{ final double transparencyVal;}
+{
+	< TRANSPARENCY > transparencyVal = unsignedDoubleConstant()
+	{
+		if(transparencyVal < 0 || transparencyVal > 100) {
+			throw new CustomDrawingParserRuntimeException("The transparency value must be between 0 and 100");
+		}
+		return new RecRunnable(inner) {
+		public void run(){
+			ColorOwn oldColor = getDrawHandler().getBackgroundColor();
+			double colorTransparencyValue = 255 - transparencyVal * 2.55; /* ColorOwn has 0 for full transparency and 255 for no transparency */
+			ColorOwn bgColor = getDrawHandler().getBackgroundColor();
+			getDrawHandler().setBackgroundColor(bgColor.transparency((int) colorTransparencyValue));
+			runInner();
+			getDrawHandler().setBackgroundColor(oldColor);
 		}
 	};}
 }

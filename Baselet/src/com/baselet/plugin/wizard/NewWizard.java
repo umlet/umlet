@@ -88,8 +88,7 @@ public class NewWizard extends Wizard implements INewWizard {
 					doFinish(containerName, fileName, monitor);
 				} catch (CoreException e) {
 					throw new InvocationTargetException(e);
-				}
-				finally {
+				} finally {
 					monitor.done();
 				}
 			}
@@ -137,8 +136,7 @@ public class NewWizard extends Wizard implements INewWizard {
 		getShell().getDisplay().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				IWorkbenchPage page =
-						PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				try {
 					IDE.openEditor(page, file, true);
 				} catch (PartInitException e) {
@@ -160,8 +158,7 @@ public class NewWizard extends Wizard implements INewWizard {
 	}
 
 	private void throwCoreException(String message) throws CoreException {
-		IStatus status =
-				new Status(IStatus.ERROR, MainPlugin.getPluginId(), IStatus.OK, message, null);
+		IStatus status = new Status(IStatus.ERROR, MainPlugin.getPluginId(), IStatus.OK, message, null);
 		throw new CoreException(status);
 	}
 

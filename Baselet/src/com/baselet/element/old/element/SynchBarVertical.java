@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Set;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.util.Utils;
@@ -22,10 +22,10 @@ public class SynchBarVertical extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = HandlerElementMap.getHandlerForElement(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(HandlerElementMap.getHandlerForElement(this).getFontHandler().getFont());
 		colorize(g2); // enable colors
 		g2.setColor(fgColor);
 
@@ -33,34 +33,34 @@ public class SynchBarVertical extends OldGridElement {
 		textHeight = 0; // reset
 
 		Vector<String> tmp = Utils.decomposeStrings(getPanelAttributes());
-		textHeight = tmp.size() * (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts());
+		textHeight = tmp.size() * (int) (HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize() + HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts());
 		boolean ADAPT_SIZE = false;
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			yPos += (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-			TextLayout l = new TextLayout(s, Main.getHandlerForElement(this).getFontHandler().getFont(), g2.getFontRenderContext());
+			yPos += (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize();
+			TextLayout l = new TextLayout(s, HandlerElementMap.getHandlerForElement(this).getFontHandler().getFont(), g2.getFontRenderContext());
 			Rectangle2D r2d = l.getBounds();
 			int width = (int) r2d.getWidth();
 			if (getRectangle().width / 2 - width / 2 < 0) {
 				ADAPT_SIZE = true;
 				break;
 			}
-			Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, getRectangle().width / 2.0, yPos, AlignHorizontal.CENTER);
-			yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+			HandlerElementMap.getHandlerForElement(this).getFontHandler().writeText(g2, s, getRectangle().width / 2.0, yPos, AlignHorizontal.CENTER);
+			yPos += HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 		}
 
 		if (ADAPT_SIZE) {
-			new OldResize(this, -Main.getHandlerForElement(this).getGridSize(), 0, 0, 0).execute(Main.getHandlerForElement(this));
-			new OldResize(this, 0, 0, Main.getHandlerForElement(this).getGridSize(), 0).execute(Main.getHandlerForElement(this));
+			new OldResize(this, -HandlerElementMap.getHandlerForElement(this).getGridSize(), 0, 0, 0).execute(HandlerElementMap.getHandlerForElement(this));
+			new OldResize(this, 0, 0, HandlerElementMap.getHandlerForElement(this).getGridSize(), 0).execute(HandlerElementMap.getHandlerForElement(this));
 			return;
 		}
 		if (yPos > getRectangle().height) {
-			new OldResize(this, 0, 0, 0, (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())).execute(Main.getHandlerForElement(this));
+			new OldResize(this, 0, 0, 0, (int) (HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize() + HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts())).execute(HandlerElementMap.getHandlerForElement(this));
 			return;
 		}
 
-		g2.fillRect(getRectangle().width / 2 - (int) (3 * zoom), textHeight + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), (int) (5 * zoom), getRectangle().height - textHeight - (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 2);
+		g2.fillRect(getRectangle().width / 2 - (int) (3 * zoom), textHeight + (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts(), (int) (5 * zoom), getRectangle().height - textHeight - (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() * 2);
 	}
 
 	/* public int doesCoordinateAppearToBeConnectedToMe(Point p) { int ret=0; int tmpX=p.x-this.getX(); int tmpY=p.y-this.getY(); if (tmpY>textHeight+4 && tmpY<this.getHeight()+4) { //if (tmpX>0 && tmpX<16) ret+=8; if (tmpX>this.getWidth()/2-4 && tmpX<this.getWidth()/2+4) ret+=2; } return ret; } */

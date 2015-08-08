@@ -231,8 +231,7 @@ public class MenuFactory {
 
 	public void updateDiagramDependendComponents() {
 		DrawPanel currentDiagram = CurrentGui.getInstance().getGui().getCurrentDiagram();
-		if (currentDiagram == null)
-		{
+		if (currentDiagram == null) {
 			return; // Possible if method is called at loading a palette
 		}
 		DiagramHandler handler = currentDiagram.getHandler();

@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.Main;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.Constants;
@@ -208,8 +209,8 @@ public class CustomElementHandler {
 			addElementToDiagram(element, current, true, bounds, element.getPanelAttributes());
 		}
 		else { // replace edited element (and ONLY edited element)
-			Main.getHandlerForElement(originalElement).getDrawPanel().removeElement(originalElement);
-			addElementToDiagram(element, Main.getHandlerForElement(originalElement), true,
+			HandlerElementMap.getHandlerForElement(originalElement).getDrawPanel().removeElement(originalElement);
+			addElementToDiagram(element, HandlerElementMap.getHandlerForElement(originalElement), true,
 					originalElement.getRectangle(), originalElement.getPanelAttributes());
 		}
 	}

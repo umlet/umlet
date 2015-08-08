@@ -57,6 +57,7 @@ public class DiagramXmlParser {
 	}
 
 	public static Diagram xmlToDiagram(String xml) {
+		log.debug("Serializing " + xml);
 		if (xml.startsWith(SharedConstants.UTF8_BOM)) {
 			xml = xml.substring(1); // remove BOM if it is given
 		}
@@ -68,7 +69,13 @@ public class DiagramXmlParser {
 
 			Node helpTextNode = messageDom.getElementsByTagName(HELP_TEXT).item(0);
 			if (helpTextNode != null) {
-				helpText = helpTextNode.getFirstChild().getNodeValue();
+				Node firstChild = helpTextNode.getFirstChild();
+				if (firstChild != null) {
+					helpText = helpTextNode.getFirstChild().getNodeValue();
+				}
+				else {
+					helpText = ""; // empty helptext should also work
+				}
 			}
 
 			float zoomScale = 1.0f;
@@ -89,7 +96,7 @@ public class DiagramXmlParser {
 					String panelAttributes = "";
 					Node panelAttrNode = element.getElementsByTagName(PANEL_ATTRIBUTES).item(0).getFirstChild();
 					if (panelAttrNode != null) {
-						panelAttributes = panelAttrNode.getNodeValue().replace(LT_ENCODED, LT).replace(GT_ENCODED, GT).replace(AMP_ENCODED, AMP);
+						panelAttributes = panelAttrNode.getNodeValue();
 					}
 
 					String additionalPanelAttributes = "";
@@ -125,7 +132,7 @@ public class DiagramXmlParser {
 		Document doc = XMLParser.createDocument();
 
 		Element diagramElement = doc.createElement(DIAGRAM);
-		diagramElement.setAttribute(ATTR_PROGRAM, "umlet_web");
+		diagramElement.setAttribute(ATTR_PROGRAM, "umletino");
 		diagramElement.setAttribute(ATTR_VERSION, BuildProperties.getVersion());
 		diagramElement.appendChild(create(doc, ZOOM_LEVEL, doc.createTextNode("10")));
 		String helpText = diagram.getPanelAttributes();
@@ -143,15 +150,19 @@ public class DiagramXmlParser {
 									create(doc, Y, doc.createTextNode(ge.getRectangle().getY() + "")),
 									create(doc, W, doc.createTextNode(ge.getRectangle().getWidth() + "")),
 									create(doc, H, doc.createTextNode(ge.getRectangle().getHeight() + ""))),
-							create(doc, PANEL_ATTRIBUTES, doc.createTextNode(ge.getPanelAttributes().replace(LT, LT_ENCODED).replace(GT, GT_ENCODED).replace(AMP, AMP_ENCODED))),
-							create(doc, ADDITIONAL_ATTRIBUTES, doc.createTextNode(ge.getAdditionalAttributes()))
-					));
+							create(doc, PANEL_ATTRIBUTES, doc.createTextNode(ge.getPanelAttributes())),
+							create(doc, ADDITIONAL_ATTRIBUTES, doc.createTextNode(ge.getAdditionalAttributes()))));
 		}
-		return doc.toString();
+		String xml = doc.toString();
+		log.debug("Deserializing to " + xml);
+		return xml;
 	}
 
-	public static String diagramToXml(boolean encodeUrl, Diagram diagram) {
+	public static String diagramToXml(boolean encodeUrl, boolean encodeXml, Diagram diagram) {
 		String xml = diagramToXml(diagram);
+		if (encodeXml) {
+			xml = xml.replace(AMP, AMP_ENCODED).replace(LT, LT_ENCODED).replace(GT, GT_ENCODED); // AMP must be before LT and GT (see #282)
+		}
 		if (encodeUrl) {
 			xml = URL.encode(xml).replace(NUMBER_SIGN, NUMBER_SIGN_URL_ENCODED);
 		}

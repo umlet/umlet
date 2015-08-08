@@ -364,8 +364,7 @@ public class PlotDrawHandler {
 				lineIterator += descSegment;
 			}
 
-			if (cIndex >= colors.size())
-			{
+			if (cIndex >= colors.size()) {
 				cIndex = 0; // Restart with first color if all colors in the array has been used
 			}
 			base.setForegroundColor(ColorOwn.forStringOrNull(colors.get(cIndex), Transparency.FOREGROUND));
@@ -401,12 +400,11 @@ public class PlotDrawHandler {
 			int cIndex = 0;
 			int subBarIterator = valueAxisPos;
 			for (Double v : values[vIndex]) {
-				if (cIndex >= colors.size())
-				{
+				if (cIndex >= colors.size()) {
 					cIndex = 0; // Restart with first color if all colors in the array has been used
 				}
 				base.setForegroundColor(ColorOwn.TRANSPARENT);
-				base.setBackgroundColor(colors.get(cIndex));
+				base.setBackgroundColorAndKeepTransparency(colors.get(cIndex));
 
 				barLength = (int) calculateValuePos(v, valueSegment);
 
@@ -469,13 +467,12 @@ public class PlotDrawHandler {
 		Double startAngle = 0D;
 
 		for (int i = 0; i < values.length; i++) {
-			if (cIndex >= colors.size())
-			{
+			if (cIndex >= colors.size()) {
 				cIndex = 0; // Restart with first color if all colors in the array has been used
 			}
 			ColorOwn currentFg = base.getForegroundColor();
 			base.setForegroundColor(ColorOwn.TRANSPARENT);
-			base.setBackgroundColor(colors.get(cIndex));
+			base.setBackgroundColorAndKeepTransparency(colors.get(cIndex));
 
 			arcAngle = i < values.length - 1 ? Math.round(360.0 / valueSum * Math.abs(values[i])) : 360 - startAngle;
 

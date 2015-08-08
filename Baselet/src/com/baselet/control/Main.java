@@ -2,28 +2,20 @@ package com.baselet.control;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
-import java.util.Timer;
 import java.util.TreeMap;
-import java.util.jar.Attributes;
 
-import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.filechooser.FileSystemView;
 
-import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -31,24 +23,18 @@ import com.baselet.control.config.Config;
 import com.baselet.control.config.handler.ConfigHandler;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
-import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.util.CanOpenDiagram;
 import com.baselet.control.util.Path;
 import com.baselet.control.util.RecentlyUsedFilesList;
-import com.baselet.control.util.RunningFileChecker;
-import com.baselet.control.util.Utils;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.Notifier;
 import com.baselet.diagram.PaletteHandler;
-import com.baselet.diagram.UpdateCheckTimerTask;
 import com.baselet.diagram.io.OpenFileChooser;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.pane.OwnSyntaxPane;
-import com.baselet.gui.standalone.StandaloneGUI;
 
 public class Main implements CanCloseProgram, CanOpenDiagram {
 
@@ -56,97 +42,12 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 
 	private static Main main = new Main();
 
-	private static String tmp_file;
-	private static String tmp_read_file;
-	private static boolean file_created = false;
-
 	private GridElement editedGridElement;
 	private TreeMap<String, PaletteHandler> palettes;
 	private final ArrayList<DiagramHandler> diagrams = new ArrayList<DiagramHandler>();
 
 	public static Main getInstance() {
 		return main;
-	}
-
-	public static void main(final String[] args) {
-		initHomeProgramPath();
-		main.initLogger();
-		main.readManifestInfo();
-		ConfigHandler.loadConfig();
-		tmp_file = Program.getInstance().getProgramName().toLowerCase() + ".tmp";
-		tmp_read_file = Program.getInstance().getProgramName().toLowerCase() + "_1.tmp";
-
-		if (args.length != 0) {
-			String action = null;
-			String format = null;
-			String filename = null;
-			String output = null;
-			for (String arg : args) {
-				if (arg.startsWith("-action=")) {
-					action = arg.substring(8);
-				}
-				else if (arg.startsWith("-format=")) {
-					format = arg.substring(8);
-				}
-				else if (arg.startsWith("-filename=")) {
-					filename = arg.substring(10);
-				}
-				else if (arg.startsWith("-output=")) {
-					output = arg.substring(8);
-				}
-			}
-			// Program started by double-click on diagram file (either diagram filename is passed without prefix or with -filename=... prefix)
-			if (action == null && format == null && (filename != null || args.length == 1)) {
-				if (filename == null) {
-					filename = args[0];
-				}
-				if (!alreadyRunningChecker(false) || !sendFileNameToRunningApplication(filename)) {
-					main.init(new StandaloneGUI(main));
-					main.doOpen(filename);
-				}
-			}
-			else if (action != null && format != null && filename != null) {
-				if (action.equals("convert")) {
-					Program.getInstance().setRuntimeType(RuntimeType.BATCH);
-					String[] splitFilename = filename.split("(/|\\\\)");
-					String localName = splitFilename[splitFilename.length - 1];
-					String dir = filename.substring(0, filename.length() - localName.length());
-					if (dir.isEmpty()) {
-						dir = ".";
-					}
-					FileFilter fileFilter = new WildcardFileFilter(localName);
-					File[] files = new File(dir).listFiles(fileFilter);
-					if (files != null) {
-						for (File file : files) {
-							doConvert(file, format, output);
-						}
-					}
-				}
-				else {
-					printUsage();
-				}
-			}
-			else {
-				printUsage();
-			}
-		}
-		else { // no arguments specified
-			alreadyRunningChecker(true); // start checker
-			if (Config.getInstance().isCheckForUpdates()) {
-				new Timer("Update Checker", true).schedule(UpdateCheckTimerTask.getInstance(), 0);
-			}
-			main.init(new StandaloneGUI(main));
-			main.doNew();
-		}
-	}
-
-	private static void initHomeProgramPath() {
-		String tempPath, realPath;
-		tempPath = Path.executable();
-		tempPath = tempPath.substring(0, tempPath.length() - 1);
-		tempPath = tempPath.substring(0, tempPath.lastIndexOf('/') + 1);
-		realPath = new File(tempPath).getAbsolutePath() + "/";
-		Path.setHomeProgram(realPath);
 	}
 
 	public void init(BaseGUI gui) {
@@ -182,117 +83,6 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			System.err.println("Initialization of " + Constants.LOG4J_PROPERTIES + " failed:");
 			e.printStackTrace();
 		}
-	}
-
-	private void readManifestInfo() {
-		try {
-			Attributes attributes = Path.manifest().getMainAttributes();
-			Program.getInstance().init(attributes.getValue(Constants.MANIFEST_BUNDLE_VERSION));
-		} catch (Exception e) {
-			log.error("Cannot read manifest", e);
-			throw new RuntimeException(e);
-		}
-	}
-
-	public void displayError(String error) {
-		JOptionPane.showMessageDialog(CurrentGui.getInstance().getGui().getMainFrame(), error, "ERROR", JOptionPane.ERROR_MESSAGE);
-	}
-
-	private static void printToConsole(String text) {
-		System.out.println(text);
-	}
-
-	private static void printUsage() {
-		StringBuilder formatBuilder = new StringBuilder("pdf|svg|eps");
-		for (String format : ImageIO.getWriterFileSuffixes()) {
-			formatBuilder.append("|").append(format);
-		}
-		printToConsole("USAGE: -action=convert -format=(" + formatBuilder.toString() + ") -filename=inputfile." + Program.getInstance().getExtension() + " [-output=outputfile[.extension]]");
-	}
-
-	public static void doConvert(File inputFile, String outputFormat, String outputParam) {
-		if (!inputFile.exists()) {
-			printToConsole("File '" + inputFile.getAbsolutePath() + "' not found.");
-			return;
-		}
-		DiagramHandler handler = new DiagramHandler(inputFile);
-
-		String outputFileName = determineOutputName(inputFile, outputFormat, outputParam);
-
-		try {
-			handler.getFileHandler().doExportAs(outputFormat, new File(outputFileName));
-			printToConsole("Conversion finished: \"" + inputFile.getAbsolutePath() + "\" to \"" + outputParam + "\"");
-		} catch (Exception e) {
-			printToConsole(e.getMessage());
-		}
-	}
-
-	private static String determineOutputName(File inputFile, String outputFormat, String outputParam) {
-		String outputFileName;
-		if (outputParam == null) {
-			outputFileName = inputFile.getAbsolutePath();
-		}
-		else if (new File(outputParam).isDirectory()) { // if outputdir already exists
-			outputFileName = outputParam + File.separator + inputFile.getName();
-		}
-		else {
-			outputFileName = outputParam;
-		}
-		return createBatchOutputName(outputFormat, outputFileName);
-	}
-
-	private static String createBatchOutputName(String extension, String fileName) {
-		if (fileName.endsWith(extension)) {
-			return fileName;
-		}
-		else {
-			return fileName + "." + extension;
-		}
-	}
-
-	private static boolean alreadyRunningChecker(boolean force) {
-		try {
-			File f = new File(Path.temp() + tmp_file);
-			if (f.exists() && !force) {
-				return true;
-			}
-			Utils.safeCreateFile(f, false);
-			file_created = true;
-			new Timer("alreadyRunningChecker", true).schedule(new RunningFileChecker(Path.temp() + tmp_file, Path.temp() + tmp_read_file, main), 0, 1000);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return true;
-		}
-		return false;
-	}
-
-	private static boolean sendFileNameToRunningApplication(String filename) {
-		// send the filename per file to the running application
-		File f1 = new File(Path.temp() + tmp_file);
-		boolean write_successful = true;
-		try {
-			PrintWriter writer = new PrintWriter(f1);
-			writer.println(filename);
-			writer.close();
-		} catch (Exception ex) {
-			write_successful = false;
-		}
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException ex) {/* no special handling */}
-		File f2 = new File(Path.temp() + tmp_read_file);
-		if (!f2.exists() || !write_successful) {// if the ok file does not exist or the filename couldnt be written.
-			alreadyRunningChecker(true);
-			return false;
-		}
-		else {
-			Utils.safeDeleteFile(f2, false);
-		}
-		return true;
-	}
-
-	public void setPropertyPanelToCustomElement(GridElement e) {
-		editedGridElement = e;
 	}
 
 	public void setPropertyPanelToGridElement(final GridElement e) {
@@ -331,8 +121,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 	}
 
 	private void doNewHelper() {
-		if (lastTabIsEmpty())
-		{
+		if (lastTabIsEmpty()) {
 			return; // If the last tab is empty do nothing (it's already new)
 		}
 		DiagramHandler diagram = new DiagramHandler(null);
@@ -373,8 +162,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			Notifier.getInstance().showNotification("switched to " + filename);
 		}
 		else {
-			if (lastTabIsEmpty())
-			{
+			if (lastTabIsEmpty()) {
 				diagrams.get(diagrams.size() - 1).doClose(); // If the last tab is empty close it (the opened diagram replaces the new one)
 			}
 			editedGridElement = null; // must be set to null here, otherwise the change listener of the property panel will change element text to help_text of diagram (see google code Issue 174)
@@ -417,9 +205,6 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 	@Override
 	public void closeProgram() {
 		ConfigHandler.saveConfig(CurrentGui.getInstance().getGui());
-		if (file_created) {
-			Utils.safeDeleteFile(new File(Path.temp() + tmp_file), true);
-		}
 	}
 
 	public TreeMap<String, PaletteHandler> getPalettes() {
@@ -485,24 +270,6 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			return getPalettes().get(name);
 		}
 		return null;
-	}
-
-	public DrawPanel getPalettePanel() {
-		return getPalette().getDrawPanel();
-	}
-
-	/**
-	 * Workaround to avoid storing the handler directly in the GridElement
-	 * (necessary as a first step in the direction of GridElements which do not know where they are painted)
-	 */
-	private static HashMap<GridElement, DiagramHandler> gridElementToHandlerMapping = new HashMap<GridElement, DiagramHandler>();
-
-	public static DiagramHandler getHandlerForElement(GridElement element) {
-		return gridElementToHandlerMapping.get(element);
-	}
-
-	public static DiagramHandler setHandlerForElement(GridElement element, DiagramHandler handler) {
-		return gridElementToHandlerMapping.put(element, handler);
 	}
 
 }

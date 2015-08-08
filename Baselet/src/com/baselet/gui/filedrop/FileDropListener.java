@@ -1,4 +1,4 @@
-package com.baselet.gui.standalone;
+package com.baselet.gui.filedrop;
 
 import java.io.File;
 import java.io.IOException;

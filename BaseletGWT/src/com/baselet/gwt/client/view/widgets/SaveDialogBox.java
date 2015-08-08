@@ -23,9 +23,18 @@ public class SaveDialogBox extends MyPopupPanel {
 	private final Button saveButton = new Button("Save");
 	private final Button cancelButton = new Button("Cancel");
 
+	public SaveDialogBox(final Callback callback, String headerText) {
+		super(true, Type.POPUP);
+		initSaveDialogBox(callback, headerText);
+	}
+
 	public SaveDialogBox(final Callback callback) {
 		super(true, Type.POPUP);
-		setHeader("Save Diagram");
+		initSaveDialogBox(callback, "Save Diagram");
+	}
+
+	private void initSaveDialogBox(final Callback callback, String headerText) {
+		setHeader(headerText);
 		textBox.addKeyPressHandler(new KeyPressHandler() {
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
@@ -69,6 +78,7 @@ public class SaveDialogBox extends MyPopupPanel {
 	public void clearAndCenter() {
 		center();
 		textBox.setFocus(true);
+		textBox.selectAll();
 	}
 
 	/**

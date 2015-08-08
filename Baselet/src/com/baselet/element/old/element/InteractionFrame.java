@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
-import com.baselet.control.Main;
+import com.baselet.control.HandlerElementMap;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
 import com.baselet.control.util.Utils;
@@ -16,21 +16,21 @@ public class InteractionFrame extends OldGridElement {
 	@Override
 	public void paintEntity(Graphics g) {
 
-		float zoom = Main.getHandlerForElement(this).getZoomFactor();
+		float zoom = HandlerElementMap.getHandlerForElement(this).getZoomFactor();
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setFont(Main.getHandlerForElement(this).getFontHandler().getFont());
+		g2.setFont(HandlerElementMap.getHandlerForElement(this).getFontHandler().getFont());
 		Composite[] composites = colorize(g2); // enable colors
 		g2.setColor(fgColor);
 
 		float yPos = 0;
-		yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+		yPos += HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 
 		g2.setComposite(composites[1]);
 		g2.setColor(bgColor);
 		g2.fillRect(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 		g2.setComposite(composites[0]);
-		if (Main.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
+		if (HandlerElementMap.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
 			g2.setColor(fgColor);
 		}
 		else {
@@ -48,29 +48,29 @@ public class InteractionFrame extends OldGridElement {
 
 		for (int i = 0; i < tmp.size(); i++) {
 			String s = tmp.elementAt(i);
-			maxWidthTemp = (int) Math.max(Main.getHandlerForElement(this).getFontHandler().getTextWidth(s), maxWidthTemp);
+			maxWidthTemp = (int) Math.max(HandlerElementMap.getHandlerForElement(this).getFontHandler().getTextWidth(s), maxWidthTemp);
 			if (s.equals("--")) {
-				textWidth = (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + maxWidthTemp + (int) Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+				textWidth = (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + maxWidthTemp + (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 				topHeight = i;
-				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts() + HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 				center = true;
 			}
 			else if (s.equals("-.")) {
-				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 				g2.setStroke(Utils.getStroke(LineType.DASHED, 1));
 				g2.drawLine(0, (int) yPos, getRectangle().width, (int) yPos);
 				g2.setStroke(Utils.getStroke(LineType.SOLID, 1));
-				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 			else {
-				yPos += Main.getHandlerForElement(this).getFontHandler().getFontSize();
+				yPos += HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize();
 				if (center) {
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, getRectangle().width / 2.0, (int) yPos, AlignHorizontal.CENTER);
+					HandlerElementMap.getHandlerForElement(this).getFontHandler().writeText(g2, s, getRectangle().width / 2.0, (int) yPos, AlignHorizontal.CENTER);
 				}
 				else {
-					Main.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) (Main.getHandlerForElement(this).getFontHandler().getFontSize() / 2), (int) yPos, AlignHorizontal.LEFT);
+					HandlerElementMap.getHandlerForElement(this).getFontHandler().writeText(g2, s, (int) (HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize() / 2), (int) yPos, AlignHorizontal.LEFT);
 				}
-				yPos += Main.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
+				yPos += HandlerElementMap.getHandlerForElement(this).getFontHandler().getDistanceBetweenTexts();
 			}
 		}
 		if (textWidth == 0) {
@@ -79,10 +79,10 @@ public class InteractionFrame extends OldGridElement {
 			// A.Mueller end
 		}
 
-		int w = (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 7 > textWidth ? (int) Main.getHandlerForElement(this).getFontHandler().getFontSize() * 7 : textWidth;
+		int w = (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize() * 7 > textWidth ? (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize() * 7 : textWidth;
 		// A.Mueller start
-		int h = topHeight * ((int) Main.getHandlerForElement(this).getFontHandler().getFontSize() + (int) (3 * zoom)) + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
-		int sw = w - (topHeight - 1) * (int) Main.getHandlerForElement(this).getFontHandler().getFontSize();
+		int h = topHeight * ((int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize() + (int) (3 * zoom)) + (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize();
+		int sw = w - (topHeight - 1) * (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize();
 		// <OLDCODE>
 		// int h=tmp.size()*(this.getHandler().getFontHandler().getFontsize()+3)+this.getHandler().getFontHandler().getFontsize();
 		// int sw=w-(tmp.size()-1)*this.getHandler().getFontHandler().getFontsize();
@@ -90,7 +90,7 @@ public class InteractionFrame extends OldGridElement {
 		// A.Mueller end
 
 		g2.drawLine(0, h, sw, h);
-		g2.drawLine(w + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), 0, w + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
-		g2.drawLine(sw, h, w + (int) Main.getHandlerForElement(this).getFontHandler().getFontSize(), (int) Main.getHandlerForElement(this).getFontHandler().getFontSize());
+		g2.drawLine(w + (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize(), 0, w + (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize(), (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize());
+		g2.drawLine(sw, h, w + (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize(), (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize());
 	}
 }

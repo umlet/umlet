@@ -103,8 +103,7 @@ public class GeometricFunctions {
 				// RIGHT
 				getIntersectionPoint(line,
 						new Line(new PointDouble(rectangle.getX() + rectangle.getWidth(), rectangle.getY()),
-								new PointDouble(rectangle.getX() + rectangle.getWidth(), rectangle.getY() + rectangle.getHeight())))
-				);
+								new PointDouble(rectangle.getX() + rectangle.getWidth(), rectangle.getY() + rectangle.getHeight()))));
 
 		// remove nulls
 		List<PointDouble> returnList = new ArrayList<PointDouble>();

@@ -9,6 +9,7 @@ public class ColorOwn {
 	public static enum Transparency {
 		FOREGROUND(255),
 		FULL_TRANSPARENT(0),
+		DEPRECATED_WARNING(175),
 		BACKGROUND(125),
 		SELECTION_BACKGROUND(20);
 
@@ -46,6 +47,7 @@ public class ColorOwn {
 	public static final ColorOwn DEFAULT_BACKGROUND = TRANSPARENT;
 
 	public static final HashMap<String, ColorOwn> COLOR_MAP = new HashMap<String, ColorOwn>();
+
 	static {
 		COLOR_MAP.put("black", ColorOwn.BLACK);
 		COLOR_MAP.put("blue", ColorOwn.BLUE);
@@ -131,6 +133,10 @@ public class ColorOwn {
 		}
 	}
 
+	public static ColorOwn forString(String colorString, Transparency transparency) {
+		return forString(colorString, transparency.alpha);
+	}
+
 	/**
 	 * Converts colorString into a Color which is available in the colorMap or if not tries to decode the colorString
 	 *
@@ -138,7 +144,7 @@ public class ColorOwn {
 	 *            String which describes the color
 	 * @return Color which is related to the String or null if it is no valid colorString
 	 */
-	public static ColorOwn forString(String colorString, Transparency transparency) {
+	public static ColorOwn forString(String colorString, int transparency) {
 		boolean error = false;
 		ColorOwn returnColor = null;
 		if (colorString == null) {
