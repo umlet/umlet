@@ -7,7 +7,7 @@ import com.baselet.control.basics.Line1D;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
-import com.baselet.diagram.draw.AdvancedTextSplitter;
+import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
 
 public class InteractionUse implements LifelineSpanningTickSpanningOccurrence {
@@ -52,7 +52,7 @@ public class InteractionUse implements LifelineSpanningTickSpanningOccurrence {
 
 		drawHandler.drawRectangle(topLeft.x, topLeft.y, width, height);
 		PointDouble pentagonSize = PentagonDrawingHelper.draw(drawHandler, HEADER_TEXT, width, topLeft);
-		AdvancedTextSplitter.drawText(drawHandler, textLines, topLeft.x + pentagonSize.x + TEXT_X_PADDING,
+		TextSplitter.drawText(drawHandler, textLines, topLeft.x + pentagonSize.x + TEXT_X_PADDING,
 				topLeft.y, width - (pentagonSize.x + TEXT_X_PADDING) * 2, height,
 				AlignHorizontal.CENTER, AlignVertical.CENTER);
 
@@ -65,7 +65,7 @@ public class InteractionUse implements LifelineSpanningTickSpanningOccurrence {
 	public double getOverallMinWidth(DrawHandler drawHandler, double lifelineHorizontalPadding) {
 		return PentagonDrawingHelper.getPentagonMinimumWidth(drawHandler, HEADER_TEXT) * 2
 				+ TEXT_X_PADDING * 2
-				+ AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler);
+				+ TextSplitter.getTextMinWidth(textLines, drawHandler);
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class InteractionUse implements LifelineSpanningTickSpanningOccurrence {
 		double textWidth = width - TEXT_X_PADDING * 2
 							- PentagonDrawingHelper.getPentagonMinimumWidth(drawHandler, HEADER_TEXT) * 2;
 		return Math.max(PentagonDrawingHelper.getHeight(drawHandler, HEADER_TEXT, width) + HEADER_BOTTOM_PADDING,
-				AdvancedTextSplitter.getSplitStringHeight(textLines, textWidth, drawHandler) + TEXT_Y_PADDING * 2);
+				TextSplitter.getSplitStringHeight(textLines, textWidth, drawHandler) + TEXT_Y_PADDING * 2);
 	}
 
 }

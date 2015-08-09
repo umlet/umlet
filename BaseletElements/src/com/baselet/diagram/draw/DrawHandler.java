@@ -295,6 +295,10 @@ public abstract class DrawHandler {
 		print(multiLineWithMarkup, new PointDouble(x, y), align);
 	}
 
+	public void print(StringStyle singleLine, double x, double y, AlignHorizontal align) {
+		printHelper(new StringStyle[] { singleLine }, new PointDouble(x, y), align);
+	}
+
 	/**
 	 * @param multiLineWithMarkup can contain multiple lines (separated by \n). Each line is then analyzed and printed.
 	 * @param point

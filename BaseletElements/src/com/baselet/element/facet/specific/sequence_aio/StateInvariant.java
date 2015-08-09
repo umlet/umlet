@@ -4,7 +4,7 @@ import com.baselet.control.basics.Line1D;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
-import com.baselet.diagram.draw.AdvancedTextSplitter;
+import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
 
 public class StateInvariant implements LifelineOccurrence {
@@ -48,11 +48,11 @@ public class StateInvariant implements LifelineOccurrence {
 			drawHandler.drawArc(topLeft.x + size.x - ROUND_PART_WIDTH * 2, topY, ROUND_PART_WIDTH * 2, height, 270, 180, true);
 			drawHandler.drawLine(topLeft.x + ROUND_PART_WIDTH, topY, topLeft.x + size.x - ROUND_PART_WIDTH, topY);
 			drawHandler.drawLine(topLeft.x + ROUND_PART_WIDTH, topY + height, topLeft.x + size.x - ROUND_PART_WIDTH, topY + height);
-			AdvancedTextSplitter.drawText(drawHandler, lines, topLeft.x + ROUND_PART_WIDTH * (1 - ROUND_PART_TEXT_PERCENTAGE), topY,
+			TextSplitter.drawText(drawHandler, lines, topLeft.x + ROUND_PART_WIDTH * (1 - ROUND_PART_TEXT_PERCENTAGE), topY,
 					size.x - ROUND_PART_WIDTH * (1 - ROUND_PART_TEXT_PERCENTAGE) * 2, height, AlignHorizontal.CENTER, AlignVertical.CENTER);
 		}
 		else if (style == StateInvariantStyle.CURLY_BRACKETS) {
-			AdvancedTextSplitter.drawText(drawHandler, lines, topLeft.x, topY, size.x, height,
+			TextSplitter.drawText(drawHandler, lines, topLeft.x, topY, size.x, height,
 					AlignHorizontal.CENTER, AlignVertical.CENTER);
 		}
 		return interruptedLifeline;
@@ -61,7 +61,7 @@ public class StateInvariant implements LifelineOccurrence {
 
 	@Override
 	public double getMinWidth(DrawHandler drawHandler) {
-		double minWidth = Math.max(MIN_WIDTH, AdvancedTextSplitter.getTextMinWidth(lines, drawHandler));
+		double minWidth = Math.max(MIN_WIDTH, TextSplitter.getTextMinWidth(lines, drawHandler));
 		if (style == StateInvariantStyle.CURLY_BRACKETS) {
 			return minWidth;
 		}
@@ -80,10 +80,10 @@ public class StateInvariant implements LifelineOccurrence {
 			totalWidth -= ROUND_PART_WIDTH * (1 - ROUND_PART_TEXT_PERCENTAGE) * 2;
 		}
 		if (style == StateInvariantStyle.CURLY_BRACKETS) {
-			return AdvancedTextSplitter.getSplitStringHeight(lines, totalWidth, drawHandler) + CURLY_BRACKETS_Y_PADDING * 2;
+			return TextSplitter.getSplitStringHeight(lines, totalWidth, drawHandler) + CURLY_BRACKETS_Y_PADDING * 2;
 		}
 		else {
-			return AdvancedTextSplitter.getSplitStringHeight(lines, totalWidth, drawHandler) + VERTICAL_BORDER_PADDING * 2;
+			return TextSplitter.getSplitStringHeight(lines, totalWidth, drawHandler) + VERTICAL_BORDER_PADDING * 2;
 		}
 	}
 

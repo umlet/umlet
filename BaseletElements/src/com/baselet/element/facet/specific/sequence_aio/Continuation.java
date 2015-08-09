@@ -6,7 +6,7 @@ import java.util.Map;
 import com.baselet.control.basics.Line1D;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
-import com.baselet.diagram.draw.AdvancedTextSplitter;
+import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
 
 public class Continuation implements LifelineSpanningTickSpanningOccurrence {
@@ -43,7 +43,7 @@ public class Continuation implements LifelineSpanningTickSpanningOccurrence {
 	@Override
 	public void draw(DrawHandler drawHandler, DrawingInfo drawingInfo) {
 		double width = drawingInfo.getSymmetricWidth(getFirstLifeline(), getLastLifeline(), tick);
-		double height = AdvancedTextSplitter.getSplitStringHeight(textLines, width - ROUND_PART_WIDTH * 2, drawHandler)
+		double height = TextSplitter.getSplitStringHeight(textLines, width - ROUND_PART_WIDTH * 2, drawHandler)
 						+ VERTICAL_BORDER_PADDING * 2;
 		double topY = drawingInfo.getVerticalStart(tick);
 		topY += (drawingInfo.getTickHeight(tick) - height) / 2;
@@ -54,7 +54,7 @@ public class Continuation implements LifelineSpanningTickSpanningOccurrence {
 		drawHandler.drawArc(leftX + width, topY, ROUND_PART_WIDTH * 2, height, 270, 180, true);
 		drawHandler.drawLine(leftX + ROUND_PART_WIDTH, topY, leftX + width + ROUND_PART_WIDTH, topY);
 		drawHandler.drawLine(leftX + ROUND_PART_WIDTH, topY + height, leftX + width + ROUND_PART_WIDTH, topY + height);
-		AdvancedTextSplitter.drawText(drawHandler, textLines, leftX + ROUND_PART_WIDTH, topY, width, height,
+		TextSplitter.drawText(drawHandler, textLines, leftX + ROUND_PART_WIDTH, topY, width, height,
 				AlignHorizontal.CENTER, AlignVertical.CENTER);
 
 		for (Lifeline ll : coveredLifelines) {
@@ -64,7 +64,7 @@ public class Continuation implements LifelineSpanningTickSpanningOccurrence {
 
 	@Override
 	public double getOverallMinWidth(DrawHandler drawHandler, double lifelineHorizontalPadding) {
-		return AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler) + ROUND_PART_WIDTH * 2;
+		return TextSplitter.getTextMinWidth(textLines, drawHandler) + ROUND_PART_WIDTH * 2;
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class Continuation implements LifelineSpanningTickSpanningOccurrence {
 			// Line1D[] lifelinesHorizontalSpanning, double tickHeight
 			) {
 		Map<Integer, Double> ret = new HashMap<Integer, Double>();
-		double neededHeight = AdvancedTextSplitter.getSplitStringHeight(textLines,
+		double neededHeight = TextSplitter.getSplitStringHeight(textLines,
 				hInfo.getSymmetricWidth(getFirstLifeline(), getLastLifeline(), tick) - ROUND_PART_WIDTH * 2,
 				drawHandler) + VERTICAL_BORDER_PADDING * 2;
 		if (neededHeight > defaultTickHeight) {

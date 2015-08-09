@@ -8,7 +8,7 @@ import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.LineType;
-import com.baselet.diagram.draw.AdvancedTextSplitter;
+import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
 
 /**
@@ -50,7 +50,7 @@ public class PentagonDrawingHelper {
 	 * @return the minimum width of the whole element, i.e. the minimum width of the diagram or combined fragment
 	 */
 	public static double getMinimumWidth(DrawHandler drawHandler, String[] textLines) {
-		return AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler)
+		return TextSplitter.getTextMinWidth(textLines, drawHandler)
 				+ getStaticWidthPadding();
 	}
 
@@ -61,7 +61,7 @@ public class PentagonDrawingHelper {
 	 * @return the minimum width of the whole element, i.e. the minimum width of the diagram or combined fragment
 	 */
 	public static double getPentagonMinimumWidth(DrawHandler drawHandler, String[] textLines) {
-		return AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler)
+		return TextSplitter.getTextMinWidth(textLines, drawHandler)
 				+ getStaticWidthPadding() - HEADER_MIN_RIGHT_BORDER_GAP;
 	}
 
@@ -73,7 +73,7 @@ public class PentagonDrawingHelper {
 	 * @return the minimum height of the whole header/pentagon
 	 */
 	public static double getHeight(DrawHandler drawHandler, String[] textLines, double width) {
-		return AdvancedTextSplitter.getSplitStringHeight(textLines, width - getStaticWidthPadding(), drawHandler) + getStaticHeightPadding();
+		return TextSplitter.getSplitStringHeight(textLines, width - getStaticWidthPadding(), drawHandler) + getStaticHeightPadding();
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class PentagonDrawingHelper {
 		boolean splitIsNecessary = false;
 		double textWidth = width - getStaticWidthPadding();
 		for (String l : textLines) {
-			if (AdvancedTextSplitter.splitStringAlgorithm(l, textWidth, drawHandler).length > 1) {
+			if (TextSplitter.splitStringAlgorithm(l, textWidth, drawHandler).length > 1) {
 				splitIsNecessary = true;
 				break;
 			}
@@ -117,7 +117,7 @@ public class PentagonDrawingHelper {
 			}
 			textWidth += drawHandler.textWidth("n");
 		}
-		AdvancedTextSplitter.drawText(drawHandler, textLines, topLeft.x + HEADER_TEXT_X_PADDING, topLeft.y, textWidth,
+		TextSplitter.drawText(drawHandler, textLines, topLeft.x + HEADER_TEXT_X_PADDING, topLeft.y, textWidth,
 				height, AlignHorizontal.LEFT, AlignVertical.CENTER);
 		LineType oldLt = drawHandler.getLineType();
 		drawHandler.setLineType(LineType.SOLID);

@@ -15,7 +15,7 @@ import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.LineType;
-import com.baselet.diagram.draw.AdvancedTextSplitter;
+import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.draw.DrawHelper;
 
@@ -227,7 +227,7 @@ public class Lifeline {
 
 	private double getHeadMinWidth(DrawHandler drawHandler) {
 		double minWidth = ACTOR_SIZE.x; // actor width is small, so use it as minimum width
-		minWidth = Math.max(minWidth, AdvancedTextSplitter.getTextMinWidth(text, drawHandler));
+		minWidth = Math.max(minWidth, TextSplitter.getTextMinWidth(text, drawHandler));
 		if (headType == LifelineHeadType.STANDARD) {
 			minWidth = minWidth + HEAD_HORIZONTAL_BORDER_PADDING * 2;
 		}
@@ -244,7 +244,7 @@ public class Lifeline {
 				width -= ACTIVE_CLASS_DOUBLE_BORDER_GAP * 2;
 			}
 		}
-		double minHeight = AdvancedTextSplitter.getSplitStringHeight(text, width, drawHandler);
+		double minHeight = TextSplitter.getSplitStringHeight(text, width, drawHandler);
 		if (headType == LifelineHeadType.ACTOR) {
 			minHeight += ACTOR_SIZE.y;
 		}
@@ -497,14 +497,14 @@ public class Lifeline {
 			y += HEAD_VERTICAL_BORDER_PADDING;
 			height -= HEAD_VERTICAL_BORDER_PADDING * 2;
 			// draw Text in x,y with width,height
-			AdvancedTextSplitter.drawText(drawHandler, text, x, y, width, height, AlignHorizontal.CENTER, AlignVertical.CENTER);
+			TextSplitter.drawText(drawHandler, text, x, y, width, height, AlignHorizontal.CENTER, AlignVertical.CENTER);
 		}
 		else if (headType == LifelineHeadType.ACTOR) {
 			DrawHelper.drawActor(drawHandler, (int) (x + width / 2.0), (int) y, ACTOR_DIMENSION);
 			y += ACTOR_SIZE.y;
 			height -= ACTOR_SIZE.y;
 			// draw Text in x,y with width,height
-			AdvancedTextSplitter.drawText(drawHandler, text, x, y, width, height, AlignHorizontal.CENTER, AlignVertical.BOTTOM);
+			TextSplitter.drawText(drawHandler, text, x, y, width, height, AlignHorizontal.CENTER, AlignVertical.BOTTOM);
 		}
 		else {
 			log.error("Encountered unhandled enumeration value '" + headType + "'.");

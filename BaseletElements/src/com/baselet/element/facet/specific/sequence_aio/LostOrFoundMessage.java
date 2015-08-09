@@ -8,7 +8,7 @@ import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.LineType;
-import com.baselet.diagram.draw.AdvancedTextSplitter;
+import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.facet.specific.sequence_aio.Message.ArrowType;
@@ -98,7 +98,7 @@ public class LostOrFoundMessage implements LifelineOccurrence {
 		}
 		drawHandler.setBackgroundColor(oldBg);
 
-		AdvancedTextSplitter.drawText(drawHandler, textLines, lineXStart, topLeft.y,
+		TextSplitter.drawText(drawHandler, textLines, lineXStart, topLeft.y,
 				lineXEnd - lineXStart, size.y / 2, AlignHorizontal.CENTER, AlignVertical.BOTTOM);
 		PointDouble arrowPoint = new PointDouble(lineXEnd, centerY);
 		Line line = new Line(new PointDouble(lineXStart, centerY), arrowPoint);
@@ -110,13 +110,13 @@ public class LostOrFoundMessage implements LifelineOccurrence {
 
 	@Override
 	public double getMinWidth(DrawHandler drawHandler) {
-		return (AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler)
+		return (TextSplitter.getTextMinWidth(textLines, drawHandler)
 				+ LIFELINE_TEXT_PADDING * 2 + Math.abs(getCenterXOffset())) * 2;
 	}
 
 	@Override
 	public double getAdditionalYHeight(DrawHandler drawHandler, PointDouble size) {
-		return AdvancedTextSplitter.getSplitStringHeight(textLines,
+		return TextSplitter.getSplitStringHeight(textLines,
 				size.x / 2 - LIFELINE_TEXT_PADDING * 2 - Math.abs(getCenterXOffset()), drawHandler
 				) * 2 - size.y;
 	}

@@ -1,15 +1,20 @@
 package com.baselet.diagram.draw;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import com.baselet.control.StringStyle;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
+import com.baselet.control.enums.FormatLabels;
 import com.baselet.diagram.draw.helper.Style;
+import com.baselet.util.LRUCache;
 
 /**
  * Based on the old TextSplitter, but offers additional features.
@@ -17,23 +22,27 @@ import com.baselet.diagram.draw.helper.Style;
  * calculate the height
  * calculate minimum width of an text so it can be fully drawn
  *
- * The old TextSplitter can be found in the git history e.g.
- * <pre>hash: 1320ae5858446795bccda8d2bb12d18664278886</pre>
+ * If not stated otherwise all Strings supplied to the TextSplitter are interpreted and
+ * the found markup is used to format the String (see {@link StringStyle}).
+ * </br></br>
+ * <i>Hint: The old TextSplitter can be found in the git history</i>
+ * <pre>e.g. hash: 1320ae5858446795bccda8d2bb12d18664278886</pre>
  */
 @SuppressWarnings("unused")
 public class TextSplitter {
 
 	// since the 2nd and 3rd cache use the value of the 1st as a partial key, the size shouldn't be too different
+	// especially for the 2nd, the 3rd is bigger because there will be many different width value because of resize operations
 	private static final int WORD_CACHE_SIZE = 180;
 	private static final int MIN_WIDTH_CACHE_SIZE = 190;
-	private static final int WORDWRAP_CACHE_SIZE = 200;
+	private static final int WORDWRAP_CACHE_SIZE = 400;
 
 	private static final String SPLIT_CHARS = " \t";
 
 	// 3 Caches are used
 	// String line -> WordRegion[] words
-	// WordRegion[] words + Style style -> Double minWidth
-	// WordRegion[] words + Style style + Double width -> String[] wrappedLines + double height
+	// WordRegion[] words + Style style + FormatLabels -> Double minWidth
+	// WordRegion[] words + Style style + FormatLabels + Double width -> String[] wrappedLines + double height
 
 	private static LinkedHashMap<String, WordRegion[]> wordCache = new LRUCache<String, WordRegion[]>(WORD_CACHE_SIZE);
 	private static LinkedHashMap<MinWidthCacheKey, Double> minWidthCache = new LRUCache<MinWidthCacheKey, Double>(MIN_WIDTH_CACHE_SIZE);
@@ -85,7 +94,7 @@ public class TextSplitter {
 				break;
 		}
 		for (String l : textLines) {
-			for (String wl : splitStringAlgorithm(l, width, drawer)) {
+			for (StringStyle wl : splitStringAlgorithm(l, width, drawer)) {
 				drawer.print(wl, topLeftX, topLeftY, hAlignment);
 				topLeftY += drawer.textHeightMaxWithSpace();
 			}
@@ -101,15 +110,16 @@ public class TextSplitter {
 	 * @return true if the whole string would fit into the width
 	 */
 	public static boolean checkifStringFitsNoWordwrap(String text, double width, DrawHandler drawer) {
-		WordRegion[] words = getCachedWords(text); // only check cache because we don't need the words
+		StringStyle analyzedText = StringStyle.analyzeFormatLabels(StringStyle.replaceNotEscaped(text));
+		WordRegion[] words = getCachedWords(analyzedText.getStringWithoutMarkup()); // only check cache because we don't need the words
 		if (words == null) {
-			return drawer.textWidth(text) + endBuffer(drawer) + 0.01 < width;
+			return drawer.textWidth(analyzedText.getStringWithoutMarkup()) + endBuffer(drawer) + 0.01 < width;
 		}
 		else
 		{
-			WordwrapCacheValue wwValue = getCachedWordwrap(words, width, drawer.getStyleClone());
+			WordwrapCacheValue wwValue = getCachedWordwrap(words, width, drawer.getStyleClone(), analyzedText.getFormat());
 			if (wwValue == null) {
-				return drawer.textWidth(text) + endBuffer(drawer) + 0.01 < width;
+				return drawer.textWidth(analyzedText.getStringWithoutMarkup()) + endBuffer(drawer) + 0.01 < width;
 			}
 			else {
 				return wwValue.getWrappedLines().length < 2; // if only 1 line was generated then it fits
@@ -168,7 +178,7 @@ public class TextSplitter {
 	 *
 	 * @see #splitStringAlgorithm(String, double, DrawHandler, boolean)
 	 */
-	public static String[] splitStringAlgorithm(String text, double width, DrawHandler drawer) {
+	public static StringStyle[] splitStringAlgorithm(String text, double width, DrawHandler drawer) {
 		return splitStringAlgorithm(text, width, drawer, false);
 	}
 
@@ -180,26 +190,28 @@ public class TextSplitter {
 	 * @param runtimeException if true then a runtime exception is thrown if a single word is to big for the given width
 	 * @return the wrapped lines
 	 */
-	public static String[] splitStringAlgorithm(String text, double width, DrawHandler drawer, boolean runtimeException) {
+	public static StringStyle[] splitStringAlgorithm(String text, double width, DrawHandler drawer, boolean runtimeException) {
 		return splitStringAndHeightAlgorithm(text, width, drawer, runtimeException).getWrappedLines();
 	}
 
 	/**
 	 *
-	 * @param text  a single line (no \r \n)
+	 * @param text1  a single line (no \r \n)
 	 * @param width in which the text should be fitted, need to be &gt; the width of the 'n' character
 	 * @param drawer
 	 * @param runtimeException if true then a runtime exception is thrown if a single word is to big for the given width
 	 * @return
 	 */
 	private static WordwrapCacheValue splitStringAndHeightAlgorithm(String text, double width, DrawHandler drawer, boolean runtimeException) {
-		WordRegion[] words = splitIntoWords(text);
-		WordwrapCacheKey key = new WordwrapCacheKey(words, width, drawer.getStyleClone());
+		StringStyle analyzedText = StringStyle.analyzeFormatLabels(StringStyle.replaceNotEscaped(text));
+		String finalText = analyzedText.getStringWithoutMarkup();
+		WordRegion[] words = splitIntoWords(finalText);
+		WordwrapCacheKey key = new WordwrapCacheKey(words, width, drawer.getStyleClone(), analyzedText.getFormat());
 		if (getCachedWordwrap(key) != null) {
 			return getCachedWordwrap(key);
 		}
 		else {
-			List<String> wrappedText = new LinkedList<String>();
+			List<StringStyle> wrappedText = new LinkedList<StringStyle>();
 			if (words.length > 0) {
 				width -= endBuffer(drawer); // subtract a buffer to make sure no character is hidden at the end (borrowed from TextSplitter)
 				if (width <= 0) {
@@ -208,7 +220,7 @@ public class TextSplitter {
 
 				int lineStart = 0;
 				for (int i = 0; i < words.length; i++) {
-					if (drawer.textWidth(text.substring(words[lineStart].getBegin(), words[i].getEnd())) > width) {
+					if (drawer.textWidth(finalText.substring(words[lineStart].getBegin(), words[i].getEnd())) > width) {
 						if (lineStart == i) {
 							// the single word doesn't fit into the width!
 							if (runtimeException) {
@@ -217,26 +229,29 @@ public class TextSplitter {
 							else
 							{
 								int endIndex = words[lineStart].getEnd() - 1;
-								while (drawer.textWidth(text.substring(words[lineStart].getBegin(), endIndex)) > width) {
+								while (drawer.textWidth(finalText.substring(words[lineStart].getBegin(), endIndex)) > width) {
 									endIndex--;
 								}
-								wrappedText.add(text.substring(words[lineStart].getBegin(), endIndex));
+								wrappedText.add(new StringStyle(analyzedText.getFormat(),
+										finalText.substring(words[lineStart].getBegin(), endIndex)));
 								lineStart = i;
 							}
 						}
 						else {
-							wrappedText.add(text.substring(words[lineStart].getBegin(), words[i - 1].getEnd()));
+							wrappedText.add(new StringStyle(analyzedText.getFormat(),
+									finalText.substring(words[lineStart].getBegin(), words[i - 1].getEnd())));
 							lineStart = i;
 						}
 					}
 				}
-				wrappedText.add(text.substring(words[lineStart].getBegin(), words[words.length - 1].getEnd()));
+				wrappedText.add(new StringStyle(analyzedText.getFormat(),
+						finalText.substring(words[lineStart].getBegin(), words[words.length - 1].getEnd())));
 			}
 			else {
-				wrappedText.add("");
+				wrappedText.add(new StringStyle(Collections.<FormatLabels> emptySet(), ""));
 			}
 			double height = wrappedText.size() * drawer.textHeightMaxWithSpace();
-			WordwrapCacheValue wordwrapValue = new WordwrapCacheValue(wrappedText.toArray(new String[0]), height);
+			WordwrapCacheValue wordwrapValue = new WordwrapCacheValue(wrappedText.toArray(new StringStyle[0]), height);
 			setCachedWordwrap(key, wordwrapValue);
 			return wordwrapValue;
 		}
@@ -249,16 +264,19 @@ public class TextSplitter {
 	 * @return the minimum width, which is needed to draw the text. This is based on the biggest word.
 	 */
 	public static double getTextMinWidth(String text, DrawHandler drawer) {
-		MinWidthCacheKey key = new MinWidthCacheKey(splitIntoWords(text), drawer.getStyleClone());
+		StringStyle analyzedText = StringStyle.analyzeFormatLabels(StringStyle.replaceNotEscaped(text));
+		MinWidthCacheKey key = new MinWidthCacheKey(splitIntoWords(analyzedText.getStringWithoutMarkup()),
+				drawer.getStyleClone(), analyzedText.getFormat());
 		if (getCachedMinWidth(key) != null) {
 			return getCachedMinWidth(key);
 		}
 		else {
 			double minWidth = 0;
-			if (text.trim().length() > 0) {
+			if (analyzedText.getStringWithoutMarkup().trim().length() > 0) {
 				for (WordRegion wr : key.getWords())
 				{
-					minWidth = Math.max(minWidth, drawer.textWidth(text.substring(wr.getBegin(), wr.getEnd())));
+					minWidth = Math.max(minWidth, drawer.textWidth(
+							analyzedText.getStringWithoutMarkup().substring(wr.getBegin(), wr.getEnd())));
 				}
 			}
 			// add the Buffer and small number, so the text can be drawn with the returned width (see splitStringAlgorithm)
@@ -356,8 +374,8 @@ public class TextSplitter {
 		return minWidthCache.get(key);
 	}
 
-	private static Double getCachedMinWidth(WordRegion[] words, Style style) {
-		return getCachedMinWidth(new MinWidthCacheKey(words, style));
+	private static Double getCachedMinWidth(WordRegion[] words, Style style, Set<FormatLabels> format) {
+		return getCachedMinWidth(new MinWidthCacheKey(words, style, format));
 	}
 
 	private static void setCachedMinWidth(MinWidthCacheKey key, Double value) {
@@ -368,20 +386,28 @@ public class TextSplitter {
 		return wordwrapCache.get(key);
 	}
 
-	private static WordwrapCacheValue getCachedWordwrap(WordRegion[] words, double width, Style style) {
-		return getCachedWordwrap(new WordwrapCacheKey(words, width, style));
+	private static WordwrapCacheValue getCachedWordwrap(WordRegion[] words, double width, Style style, Set<FormatLabels> format) {
+		return getCachedWordwrap(new WordwrapCacheKey(words, width, style, format));
 	}
 
 	private static void setCachedWordwrap(WordwrapCacheKey key, WordwrapCacheValue value) {
 		wordwrapCache.put(key, value);
 	}
 
-	private static void setCachedWordwrap(WordwrapCacheKey key, String[] wrappedLines, double height) {
+	private static void setCachedWordwrap(WordwrapCacheKey key, StringStyle[] wrappedLines, double height) {
 		wordwrapCache.put(key, new WordwrapCacheValue(wrappedLines, height));
 	}
 
-	private static void setCachedWordwrap(WordRegion[] words, double width, Style style, String[] wrappedLines, double height) {
-		wordwrapCache.put(new WordwrapCacheKey(words, width, style), new WordwrapCacheValue(wrappedLines, height));
+	private static void setCachedWordwrap(WordRegion[] words, double width, Style style, Set<FormatLabels> format, StringStyle[] wrappedLines, double height) {
+		wordwrapCache.put(new WordwrapCacheKey(words, width, style, format), new WordwrapCacheValue(wrappedLines, height));
+	}
+
+	private static void setCachedWordwrap(WordwrapCacheKey key, String[] wrappedLines, double height) {
+		wordwrapCache.put(key, new WordwrapCacheValue(wrappedLines, key.format, height));
+	}
+
+	private static void setCachedWordwrap(WordRegion[] words, double width, Style style, Set<FormatLabels> format, String[] wrappedLines, double height) {
+		wordwrapCache.put(new WordwrapCacheKey(words, width, style, format), new WordwrapCacheValue(wrappedLines, format, height));
 	}
 
 	/**
@@ -409,11 +435,13 @@ public class TextSplitter {
 	private static class MinWidthCacheKey {
 		private final WordRegion[] words;
 		private final Style style; // must be part of key, because text width also depends on styling like fontsize
+		private final Set<FormatLabels> format;
 
-		public MinWidthCacheKey(WordRegion[] words, Style style) {
+		public MinWidthCacheKey(WordRegion[] words, Style style, Set<FormatLabels> format) {
 			super();
 			this.words = words;
 			this.style = style;
+			this.format = format;
 		}
 
 		public WordRegion[] getWords() {
@@ -430,6 +458,9 @@ public class TextSplitter {
 			int result = 1;
 			result = prime * result + (words == null ? 0 : words.hashCode());
 			result = prime * result + (style == null ? 0 : style.hashCode());
+			for (FormatLabels fl : format) {
+				result = prime * result + fl.hashCode();
+			}
 			return result;
 		}
 
@@ -461,6 +492,17 @@ public class TextSplitter {
 			else if (!style.equals(other.style)) {
 				return false;
 			}
+			if (format == null) {
+				if (other.format != null) {
+					return false;
+				}
+			}
+			else if (format.size() != other.format.size()) {
+				return false;
+			}
+			else if (!format.containsAll(other.format)) {
+				return false;
+			}
 			return true;
 		}
 
@@ -470,12 +512,14 @@ public class TextSplitter {
 		private final WordRegion[] words;
 		private final double width;
 		private final Style style; // must be part of key, because text width also depends on styling like fontsize
+		private final Set<FormatLabels> format;
 
-		public WordwrapCacheKey(WordRegion[] words, double width, Style style) {
+		public WordwrapCacheKey(WordRegion[] words, double width, Style style, Set<FormatLabels> format) {
 			super();
 			this.words = words;
 			this.width = width;
 			this.style = style;
+			this.format = format;
 		}
 
 		public WordRegion[] getWords() {
@@ -490,6 +534,10 @@ public class TextSplitter {
 			return style;
 		}
 
+		public Set<FormatLabels> getFormat() {
+			return format;
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -499,6 +547,9 @@ public class TextSplitter {
 			long temp;
 			temp = Double.doubleToLongBits(width);
 			result = prime * result + (int) (temp ^ temp >>> 32);
+			for (FormatLabels fl : format) {
+				result = prime * result + fl.hashCode();
+			}
 			return result;
 		}
 
@@ -533,22 +584,43 @@ public class TextSplitter {
 			if (Double.doubleToLongBits(width) != Double.doubleToLongBits(other.width)) {
 				return false;
 			}
+			if (format == null) {
+				if (other.format != null) {
+					return false;
+				}
+			}
+			else if (format.size() != other.format.size()) {
+				return false;
+			}
+			else if (!format.containsAll(other.format)) {
+				return false;
+			}
 			return true;
 		}
 
 	}
 
 	private static class WordwrapCacheValue {
-		private final String[] wrappedLines;
+		// Style is included although the format is already included in the key, because nearly every time the line are retrieved the style is needed
+		private final StringStyle[] wrappedLines;
 		private final double height;
 
-		public WordwrapCacheValue(String[] wrappedLines, double height) {
+		public WordwrapCacheValue(StringStyle[] wrappedLines, double height) {
 			super();
 			this.wrappedLines = wrappedLines;
 			this.height = height;
 		}
 
-		public String[] getWrappedLines() {
+		public WordwrapCacheValue(String[] wrappedLines, Set<FormatLabels> format, double height) {
+			super();
+			this.wrappedLines = new StringStyle[wrappedLines.length];
+			for (int i = 0; i < wrappedLines.length; i++) {
+				this.wrappedLines[i] = new StringStyle(format, wrappedLines[i]);
+			}
+			this.height = height;
+		}
+
+		public StringStyle[] getWrappedLines() {
 			return wrappedLines;
 		}
 
@@ -587,30 +659,5 @@ public class TextSplitter {
 			}
 			return true;
 		}
-	}
-
-	private static class LRUCache<K, V> extends LinkedHashMap<K, V> {
-
-		private static final long serialVersionUID = 1L;
-		private static final float LOAD_FACTOR = 0.8f;
-
-		private final int cacheSize;
-
-		/**
-		 *
-		 * @param cacheSize how many elements should fit in the cache (the actual capacity of the map may be bigger)
-		 */
-		public LRUCache(int cacheSize) {
-			super((int) ((cacheSize + 1) / LOAD_FACTOR) + 1, LOAD_FACTOR, true);
-			this.cacheSize = cacheSize;
-		}
-
-		@Override
-		protected boolean removeEldestEntry(java.util.Map.Entry<K, V> eldest) {
-			// if size >= capacity * loadfactor then rehashing occurs (see implementation of LinkedHashMap.addEntry)
-			// this method is called before the size check, therefore remove the eldest entry if the threshold is reached
-			return size() >= this.cacheSize;
-		};
-
 	}
 }

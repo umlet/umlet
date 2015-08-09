@@ -10,7 +10,7 @@ import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
-import com.baselet.diagram.draw.AdvancedTextSplitter;
+import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.facet.specific.sequence_aio.LifelineSpanningTickSpanningOccurrence.ContainerPadding;
 
@@ -128,7 +128,7 @@ public class SequenceDiagram {
 		// calculate the minimum width of the lifelines and the diagram; get all paddings and create the horizontal drawing info
 		double lifelineWidth = Math.max(getLifelineWidth(drawHandler), LIFELINE_MIN_WIDTH);
 		double diagramMinWidth = Math.max(LIFELINE_MIN_WIDTH,
-				AdvancedTextSplitter.getTextMinWidth(descLines, drawHandler) + DESCRIPTION_H_PADDING * 2);
+				TextSplitter.getTextMinWidth(descLines, drawHandler) + DESCRIPTION_H_PADDING * 2);
 		diagramMinWidth = Math.max(diagramMinWidth, PentagonDrawingHelper.getMinimumWidth(drawHandler, titleLines));
 		Collection<ContainerPadding> allPaddings = new LinkedList<ContainerPadding>();
 		for (LifelineSpanningTickSpanningOccurrence lstso : spanningLifelineOccurrences) {
@@ -148,8 +148,8 @@ public class SequenceDiagram {
 		drawHandler.drawLine(0, 0, diagramWidth, 0);
 
 		// draw description
-		double descHeight = AdvancedTextSplitter.getSplitStringHeight(descLines, diagramWidth - DESCRIPTION_H_PADDING * 2, drawHandler);
-		AdvancedTextSplitter.drawText(drawHandler, descLines, DESCRIPTION_H_PADDING, headerHeight + DESCRIPTION_V_PADDING,
+		double descHeight = TextSplitter.getSplitStringHeight(descLines, diagramWidth - DESCRIPTION_H_PADDING * 2, drawHandler);
+		TextSplitter.drawText(drawHandler, descLines, DESCRIPTION_H_PADDING, headerHeight + DESCRIPTION_V_PADDING,
 				diagramWidth - DESCRIPTION_H_PADDING * 2, descHeight, AlignHorizontal.LEFT, AlignVertical.CENTER);
 
 		double lifelineHeadTop = headerHeight + descHeight + DESCRIPTION_H_PADDING * 2 + LIFELINE_Y_PADDING;

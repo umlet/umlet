@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.LineType;
-import com.baselet.diagram.draw.AdvancedTextSplitter;
+import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.relation.helper.RelationDrawer.ArrowEndType;
 
@@ -81,7 +81,7 @@ public class GateMessage extends Message {
 	@Override
 	public double getOverallMinWidth(DrawHandler drawHandler, double lifelineHorizontalPadding) {
 		double executionSpecWidth = !sendGate ? Math.abs(getSendCenterXOffset()) : Math.abs(getReceiveCenterXOffset());
-		double neededWidth = executionSpecWidth + AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler)
+		double neededWidth = executionSpecWidth + TextSplitter.getTextMinWidth(textLines, drawHandler)
 								+ LIFELINE_TEXT_PADDING * 2;
 		if (from == to) {
 			return neededWidth * 2;

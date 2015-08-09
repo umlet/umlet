@@ -13,7 +13,7 @@ import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.LineType;
-import com.baselet.diagram.draw.AdvancedTextSplitter;
+import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
 
 /**
@@ -153,11 +153,11 @@ public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence,
 			double constraintTopY = drawingInfo.getVerticalStart(this) + headerSize.y + HEADER_CONSTRAINT_PADDING;
 			double constraintBottomY = drawingInfo.getVerticalEnd(startTick);
 
-			double textHeight = AdvancedTextSplitter.getSplitStringHeight(firstIntConst.textLines,
+			double textHeight = TextSplitter.getSplitStringHeight(firstIntConst.textLines,
 					drawingInfo.getHDrawingInfo(firstIntConst.affectedLifeline).getSymmetricWidth(startTick), drawHandler);
 			textHeight += CONSTRAINT_Y_PADDING * 2;
 			constraintTopY += (constraintBottomY - constraintTopY - textHeight) / 2;
-			AdvancedTextSplitter.drawText(drawHandler, firstIntConst.textLines,
+			TextSplitter.drawText(drawHandler, firstIntConst.textLines,
 					drawingInfo.getHDrawingInfo(firstIntConst.affectedLifeline).getSymmetricHorizontalStart(startTick),
 					constraintTopY,
 					drawingInfo.getHDrawingInfo(firstIntConst.affectedLifeline).getSymmetricWidth(startTick),
@@ -211,7 +211,7 @@ public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence,
 		headerHeight -= COMBINED_FRAGMENT_VERTICAL_BORDER_PADDING; // head draws into the padding
 		if (operands.size() > 0 && operands.getFirst().constraint != null) {
 			headerHeight += HEADER_CONSTRAINT_PADDING;
-			headerHeight += AdvancedTextSplitter.getSplitStringHeight(operands.getFirst().constraint.textLines,
+			headerHeight += TextSplitter.getSplitStringHeight(operands.getFirst().constraint.textLines,
 					hInfo.getHDrawingInfo(operands.getFirst().constraint.affectedLifeline).getSymmetricWidth(startTick),
 					drawHandler);
 			headerHeight += CONSTRAINT_Y_PADDING * 2;
@@ -299,10 +299,10 @@ public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence,
 					return null;
 				}
 				else {
-					double textHeight = AdvancedTextSplitter.getSplitStringHeight(textLines, size.x, drawHandler);
+					double textHeight = TextSplitter.getSplitStringHeight(textLines, size.x, drawHandler);
 					Line1D interruptedArea = new Line1D(topLeft.y + (size.y - textHeight) / 2 - CONSTRAINT_Y_PADDING,
 							topLeft.y + (size.y - textHeight) / 2 + textHeight + CONSTRAINT_Y_PADDING);
-					AdvancedTextSplitter.drawText(drawHandler, textLines, topLeft.x, interruptedArea.getLow() + CONSTRAINT_Y_PADDING,
+					TextSplitter.drawText(drawHandler, textLines, topLeft.x, interruptedArea.getLow() + CONSTRAINT_Y_PADDING,
 							size.x, textHeight, AlignHorizontal.CENTER, AlignVertical.CENTER);
 					return interruptedArea;
 				}
@@ -310,7 +310,7 @@ public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence,
 
 			@Override
 			public double getMinWidth(DrawHandler drawHandler) {
-				return AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler);
+				return TextSplitter.getTextMinWidth(textLines, drawHandler);
 			}
 
 			@Override
@@ -320,7 +320,7 @@ public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence,
 					return -1;
 				}
 				else {
-					return AdvancedTextSplitter.getSplitStringHeight(textLines, size.x, drawHandler)
+					return TextSplitter.getSplitStringHeight(textLines, size.x, drawHandler)
 							+ CONSTRAINT_Y_PADDING * 2 - size.y;
 				}
 			}

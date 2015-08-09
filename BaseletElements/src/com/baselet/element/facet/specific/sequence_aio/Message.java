@@ -10,7 +10,7 @@ import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.LineType;
-import com.baselet.diagram.draw.AdvancedTextSplitter;
+import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.relation.helper.RelationDrawer;
 import com.baselet.element.relation.helper.RelationDrawer.ArrowEndType;
@@ -164,7 +164,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 			hAlignment = AlignHorizontal.CENTER;
 		}
 		topLeftX += LIFELINE_TEXT_PADDING;
-		AdvancedTextSplitter.drawText(drawHandler, textLines, topLeftX, send.y - height,
+		TextSplitter.drawText(drawHandler, textLines, topLeftX, send.y - height,
 				Math.abs(send.x - receive.x) - LIFELINE_TEXT_PADDING * 2, height, hAlignment, AlignVertical.BOTTOM);
 	}
 
@@ -186,7 +186,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		rightBorderX += SELF_MESSAGE_TEXT_PADDING;
 		double lifelineXEnd = Math.min(hInfo.getHDrawingInfo(to).getSymmetricHorizontalEnd(sendTick),
 				hInfo.getHDrawingInfo(to).getSymmetricHorizontalEnd(sendTick + duration));
-		AdvancedTextSplitter.drawText(drawHandler, textLines, rightBorderX, send.y,
+		TextSplitter.drawText(drawHandler, textLines, rightBorderX, send.y,
 				lifelineXEnd - rightBorderX, receive.y - send.y, AlignHorizontal.LEFT, AlignVertical.CENTER);
 	}
 
@@ -204,13 +204,13 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		double executionSpecWidth = Math.max(from.getLifelineRightPartWidth(sendTick),
 				to.getLifelineRightPartWidth(sendTick + duration));
 		return (executionSpecWidth + SELF_MESSAGE_LIFELINE_GAP +
-				SELF_MESSAGE_TEXT_PADDING + AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler))
+				SELF_MESSAGE_TEXT_PADDING + TextSplitter.getTextMinWidth(textLines, drawHandler))
 		* 2.0; // multiplied by 2, because this space is needed on the right half of the lifeline
 	}
 
 	protected double getOverallMinWidthNormalMessage(DrawHandler drawHandler, double lifelineHorizontalPadding) {
 		double executionSpecWidth = Math.abs(getSendCenterXOffset()) + Math.abs(getReceiveCenterXOffset());
-		double neededWidth = executionSpecWidth + AdvancedTextSplitter.getTextMinWidth(textLines, drawHandler)
+		double neededWidth = executionSpecWidth + TextSplitter.getTextMinWidth(textLines, drawHandler)
 								+ LIFELINE_TEXT_PADDING * 2;
 		int affectedLifelineCount = getLastLifeline().getIndex() - getFirstLifeline().getIndex() + 1;
 		// increase the needed width because we only calculated the width for the arrow, but we need the overall width
@@ -243,7 +243,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		double additionalHeight;
 		maxTextWidth = Math.abs(getSendX(hInfo) - getReceiveX(hInfo));
 		maxTextWidth -= LIFELINE_TEXT_PADDING * 2;
-		additionalHeight = AdvancedTextSplitter.getSplitStringHeight(textLines, maxTextWidth, drawHandler);
+		additionalHeight = TextSplitter.getSplitStringHeight(textLines, maxTextWidth, drawHandler);
 		// message text is always drawn at the send position only increase send tick height
 		// since the message is always drawn in the V center we only can use one half of the tick height
 		additionalHeight -= defaultTickHeight / 2.0;
@@ -262,7 +262,7 @@ public class Message implements LifelineSpanningTickSpanningOccurrence {
 		maxTextWidth = Math.min(hInfo.getHDrawingInfo(to).getSymmetricWidth(sendTick),
 				hInfo.getHDrawingInfo(to).getSymmetricWidth(sendTick + duration)) / 2.0;
 		maxTextWidth = maxTextWidth - (executionSpecWidth + SELF_MESSAGE_LIFELINE_GAP + SELF_MESSAGE_TEXT_PADDING);
-		additionalHeight = AdvancedTextSplitter.getSplitStringHeight(textLines, maxTextWidth, drawHandler)
+		additionalHeight = TextSplitter.getSplitStringHeight(textLines, maxTextWidth, drawHandler)
 							- duration * defaultTickHeight;
 		if (additionalHeight > 0) {
 			for (int i = sendTick + 1; i < sendTick + duration; i++) {
