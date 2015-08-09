@@ -12,15 +12,16 @@ import com.baselet.control.enums.AlignVertical;
 import com.baselet.diagram.draw.helper.Style;
 
 /**
- * Based on the TextSplitter, but offers additional features.
+ * Based on the old TextSplitter, but offers additional features.
  * e.g. splitting a whole line into the parts
  * calculate the height
  * calculate minimum width of an text so it can be fully drawn
  *
- * @see TextSplitter
+ * The old TextSplitter can be found in the git history e.g.
+ * <pre>hash: 1320ae5858446795bccda8d2bb12d18664278886</pre>
  */
 @SuppressWarnings("unused")
-public class AdvancedTextSplitter {
+public class TextSplitter {
 
 	// since the 2nd and 3rd cache use the value of the 1st as a partial key, the size shouldn't be too different
 	private static final int WORD_CACHE_SIZE = 180;
@@ -38,7 +39,7 @@ public class AdvancedTextSplitter {
 	private static LinkedHashMap<MinWidthCacheKey, Double> minWidthCache = new LRUCache<MinWidthCacheKey, Double>(MIN_WIDTH_CACHE_SIZE);
 	private static LinkedHashMap<WordwrapCacheKey, WordwrapCacheValue> wordwrapCache = new LRUCache<WordwrapCacheKey, WordwrapCacheValue>(WORDWRAP_CACHE_SIZE);
 
-	private static final Logger log = Logger.getLogger(AdvancedTextSplitter.class);
+	private static final Logger log = Logger.getLogger(TextSplitter.class);
 
 	/**
 	 *
