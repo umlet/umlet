@@ -172,7 +172,6 @@ public class VerticalDrawingInfoImpl implements VerticalDrawingInfo {
 	@Override
 	public double getVerticalEnd(Container container) {
 		// this is tricky because the end ticks can overlap
-		// TODO Auto-generated method stub
 		int tick = container.getEndTick();
 		return startingTickTopY + tick * (defaultTickHeight + tickVerticalPadding) + defaultTickHeight
 				+ accumulativeAddiontalHeightOffsets[tick + 1] - containerBottomPadding.get(container);

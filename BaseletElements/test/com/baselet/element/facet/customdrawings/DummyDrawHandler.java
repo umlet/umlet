@@ -31,7 +31,6 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 
 	@Override
 	protected DimensionDouble textDimension(StringStyle sinlgeLine) {
-		// TODO Auto-generated method stub
 		return super.textDimension(sinlgeLine);
 	}
 
@@ -72,9 +71,7 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 	}
 
 	@Override
-	public void printHelper(StringStyle[] lines, PointDouble point, AlignHorizontal align) {
-		// TODO Auto-generated method stub
-	}
+	public void printHelper(StringStyle[] lines, PointDouble point, AlignHorizontal align) {}
 
 	@Override
 	public void print(String text, double x, double y, AlignHorizontal align) {
