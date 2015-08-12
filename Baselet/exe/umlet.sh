@@ -9,6 +9,6 @@
 programDir=$(cd $(dirname $0);pwd)
 
 if [ $# -eq 1 ]
- then java -jar ${programDir}/umlet.jar -filename="$1"
- else java -jar ${programDir}/umlet.jar "$@"
+ then java -Dsun.java2d.xrender=f -jar ${programDir}/umlet.jar -filename="$1"
+ else java -Dsun.java2d.xrender=f -jar ${programDir}/umlet.jar "$@"
 fi
