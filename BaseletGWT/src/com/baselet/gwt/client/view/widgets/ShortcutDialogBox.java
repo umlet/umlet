@@ -37,6 +37,7 @@ public class ShortcutDialogBox extends MyPopupPanel {
 	private static ShortcutDialogBox instance = new ShortcutDialogBox();
 
 	public static ShortcutDialogBox getInstance() {
+		instance.setWidth("30em");
 		return instance;
 	}
 
