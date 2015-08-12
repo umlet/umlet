@@ -146,6 +146,7 @@ PARSER_END(SequenceAllInOneParser)
 	| < STATE_INVARIANT: "stateInvariant=" >
 	| < EXEC_SPEC_START: "on=" >
 	| < EXEC_SPEC_END: "off=" >
+	| < LL_DESTROY: "destroy=" >
 	| < REF: "ref=" >
 	| < CONTINUATION: "continuation=" >
 	| < TICK: "tick=" >
@@ -342,6 +343,7 @@ void SequenceElement(SequenceDiagramBuilder diagram) :
 	(
 		MessageOrGeneralOrdering(diagram) /* Message, GeneralOrdering have a common prefix for more clarity a new nonterminal was created*/
 		| Coregion(diagram)
+		| DestroyLL(diagram)
 		| ExecutionSpecification(diagram)
 		| StateInvariant(diagram)
 		//| (diagram) //general ordering, TimeConstraint TimeObservation and DurationConstraint Duration Observation missing
@@ -596,6 +598,18 @@ void Coregion(SequenceDiagramBuilder diagram) :
 	lifelineId = LifelineId()
 	{
 		diagram.addCoregion(lifelineId, start);
+	}
+}
+
+void DestroyLL(SequenceDiagramBuilder diagram) :
+{
+	String lifelineId;
+}
+{
+	< LL_DESTROY > 
+	lifelineId = LifelineId()
+	{
+		diagram.destroyLifeline(lifelineId);
 	}
 }
 

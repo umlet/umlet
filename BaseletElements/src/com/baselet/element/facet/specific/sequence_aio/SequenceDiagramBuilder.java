@@ -169,6 +169,18 @@ public class SequenceDiagramBuilder {
 		}
 	}
 
+	public void destroyLifeline(String id) {
+		checkState();
+		// check that every coregion should be closed and coregion should not overlap, but only add a warning and trust the user
+		Lifeline lifeline = getLifelineException(id);
+		if (lifeline.getDestroyed() != null) {
+			addWarning(id, "The lifeline was already destroyed.");
+		}
+		else {
+			lifeline.setDestroyed(currentTick);
+		}
+	}
+
 	public void changeExecutionSpecification(String lifelineId, boolean on) {
 		checkState();
 		// check that they don't collide i.e. 2 changes at the same tick

@@ -15,8 +15,8 @@ import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.LineType;
-import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.element.draw.DrawHelper;
 
 public class Lifeline {
@@ -28,6 +28,8 @@ public class Lifeline {
 	private static final double HEAD_HORIZONTAL_BORDER_PADDING = 5;
 	private static final double EXECUTIONSPECIFICATION_WIDTH = 20;
 	private static final double EXECUTIONSPECIFICATION_OVERLAPP = 8;
+
+	private static final double DESTROY_SIZE = 20; // width and height of the destroy symbol X
 
 	private static final Logger log = Logger.getLogger(Lifeline.class);
 
@@ -95,6 +97,10 @@ public class Lifeline {
 		this.destroyed = destroyed;
 	}
 
+	public Integer getDestroyed() {
+		return destroyed;
+	}
+
 	/**
 	 *
 	 * @param occurrence
@@ -155,7 +161,7 @@ public class Lifeline {
 	 * @return the minimum width which is needed by this lifeline
 	 */
 	public double getMinWidth(DrawHandler drawHandler) {
-		double minWidth = 0;
+		double minWidth = DESTROY_SIZE;
 		for (LifelineOccurrence llOccurrence : lifeline.values()) {
 			minWidth = Math.max(minWidth, llOccurrence.getMinWidth(drawHandler));
 		}
@@ -219,6 +225,14 @@ public class Lifeline {
 				else {
 					ret.put(created, headAdditionalHeight);
 				}
+			}
+		}
+		if (destroyed != null && DESTROY_SIZE > defaultTickHeight) {
+			if (ret.containsKey(destroyed)) {
+				ret.put(destroyed, Math.max(ret.get(destroyed), DESTROY_SIZE - defaultTickHeight));
+			}
+			else {
+				ret.put(destroyed, DESTROY_SIZE - defaultTickHeight);
 			}
 		}
 		return ret;
@@ -366,9 +380,7 @@ public class Lifeline {
 			llTopY = llBottomY;
 			startInc = endInc;
 		}
-		// TODO destroyed
-		// if (currentStartTick < lifelineLastTick) { should always be true
-		// draw final line
+		// draw final line segment
 		if (destroyed == null) {
 			drawLifelinePart(drawHandler, drawingInfo.getHorizontalCenter(),
 					llTopY,
@@ -378,14 +390,23 @@ public class Lifeline {
 					0,
 					interruptedAreasIter);
 		}
-		else if (destroyed > currentStartTick) {
-			drawLifelinePart(drawHandler, drawingInfo.getHorizontalCenter(),
-					llTopY,
-					false,
-					drawingInfo.getVerticalCenter(destroyed),
-					false,
-					0,
-					interruptedAreasIter);
+		else {
+			drawHandler.setLineType(LineType.SOLID);
+			double halfSize = DESTROY_SIZE / 2.0;
+			double centerX = drawingInfo.getHorizontalCenter();
+			double centerY = drawingInfo.getVerticalCenter(destroyed);
+			drawHandler.drawLine(centerX - halfSize, centerY - halfSize, centerX + halfSize, centerY + halfSize);
+			drawHandler.drawLine(centerX + halfSize, centerY - halfSize, centerX - halfSize, centerY + halfSize);
+			if (destroyed > currentStartTick) {
+
+				drawLifelinePart(drawHandler, drawingInfo.getHorizontalCenter(),
+						llTopY,
+						false,
+						drawingInfo.getVerticalCenter(destroyed),
+						false,
+						0,
+						interruptedAreasIter);
+			}
 		}
 		drawHandler.setLineType(oldLt);
 	}
