@@ -10,8 +10,8 @@ import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
-import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.element.facet.specific.sequence_aio.LifelineSpanningTickSpanningOccurrence.ContainerPadding;
 
 public class SequenceDiagram {
@@ -84,10 +84,11 @@ public class SequenceDiagram {
 	 * @param headText
 	 * @param headType
 	 * @param createdOnStart if false the lifeline will be created by the first message sent to this lifeline
+	 * @param execSpecFromStart
 	 */
-	public Lifeline addLiveline(String headText, Lifeline.LifelineHeadType headType, boolean createdOnStart) {
+	public Lifeline addLiveline(String headText, Lifeline.LifelineHeadType headType, boolean createdOnStart, boolean execSpecFromStart) {
 		lifelines = Arrays.copyOf(lifelines, lifelines.length + 1);
-		lifelines[lifelines.length - 1] = new Lifeline(headText, lifelines.length - 1, headType, createdOnStart);
+		lifelines[lifelines.length - 1] = new Lifeline(headText, lifelines.length - 1, headType, createdOnStart, execSpecFromStart);
 		return lifelines[lifelines.length - 1];
 	}
 

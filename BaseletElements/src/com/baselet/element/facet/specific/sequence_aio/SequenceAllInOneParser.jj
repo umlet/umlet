@@ -115,6 +115,7 @@ PARSER_END(SequenceAllInOneParser)
 	| < LIFELINE_ACTOR: "ACTOR" >
 	| < LIFELINE_ACTIVE: "ACTIVE" >
 	| < LIFELINE_CREATED_LATER :"CREATED_LATER" >
+	| < LIFELINE_EXEC_SPEC_FROM_START: "EXECUTION" >
 	| < LIFELINE_TITLE: /* since | and ~ are special characters which delimit the title they need to be escaped */
 		( 
 			~["~","\\","\n","\r","|"] 
@@ -270,6 +271,7 @@ void LifelineDef(SequenceDiagramBuilder diagram) :
 	String id = null;
 	boolean createdOnStart = true;
 	Lifeline.LifelineHeadType headType = Lifeline.LifelineHeadType.STANDARD;
+	boolean execSpecFromStart = false;
 }
 {
 	name = LifelineDefTitleText() (id=LifelineId())?
@@ -277,11 +279,12 @@ void LifelineDef(SequenceDiagramBuilder diagram) :
 		< LIFELINE_ACTOR > { headType = Lifeline.LifelineHeadType.ACTOR; }
 		| < LIFELINE_ACTIVE > { headType = Lifeline.LifelineHeadType.ACTIVE_CLASS; }
 		| < LIFELINE_CREATED_LATER > { createdOnStart = false; }
+		| < LIFELINE_EXEC_SPEC_FROM_START > { execSpecFromStart = true; }
 	) *
 	{
 		if("lost".equals(id) || "found".equals(id)) {
 			throw new SequenceDiagramException("'lost' and 'found' are keywords and can not be used as lifeline identifiers.");		}
-		diagram.addLiveline(name, id, headType, createdOnStart);
+		diagram.addLiveline(name, id, headType, createdOnStart, execSpecFromStart);
 	}
 }
 

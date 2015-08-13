@@ -105,13 +105,14 @@ public class SequenceDiagramBuilder {
 	 * @param headType the lifeline style
 	 * @param createdOnStart if false the lifeline will be created by the first message sent to this lifeline
 	 */
-	public void addLiveline(String headText, String id, Lifeline.LifelineHeadType headType, boolean createdOnStart) {
+	public void addLiveline(String headText, String id, Lifeline.LifelineHeadType headType, boolean createdOnStart,
+			boolean execSpecFromStart) {
 		checkState();
 
 		if (isOverrideDefaultIds() && id == null) {
 			throw new SequenceDiagramException("If the override option is set to true then every lifeline needs an id!");
 		}
-		Lifeline newLifeline = dia.addLiveline(headText, headType, createdOnStart);
+		Lifeline newLifeline = dia.addLiveline(headText, headType, createdOnStart, execSpecFromStart);
 		if (id != null) {
 			if (ids.containsKey(id)) {
 				throw new SequenceDiagramException("There is already a lifeline which is associated with the id '" + id +
@@ -128,7 +129,11 @@ public class SequenceDiagramBuilder {
 			ids.put(DEFAULT_ID_PREFIX + dia.getLifelineCount(), newLifeline);
 		}
 		lifelineLocalIds.put(newLifeline, new HashMap<String, OccurrenceSpecification>());
-		currentLifelineState.put(newLifeline, new LifelineState());
+		LifelineState newLifelineState = new LifelineState();
+		if (execSpecFromStart && createdOnStart) {
+			newLifelineState.execSpecStartTickStack.addFirst(-1);
+		}
+		currentLifelineState.put(newLifeline, newLifelineState);
 	}
 
 	/**
@@ -242,6 +247,9 @@ public class SequenceDiagramBuilder {
 		Lifeline to = getLifelineException(toId);
 		if (!to.isCreatedOnStart() && to.getCreated() == null) {
 			to.setCreated(currentTick + duration);
+			if (to.isExecSpecFromStart()) {
+				currentLifelineState.get(to).execSpecStartTickStack.push(currentTick + duration);
+			}
 		}
 		Message msg = new Message(from, to, duration, currentTick, text, arrowType, lineType);
 		if (fromLocalId != null) {

@@ -43,6 +43,7 @@ public class Lifeline {
 	private Integer created;
 	/** The tick time when the lifeline is destroyed (X symbol) or null if it exists till the end (no X symbol at the end) */
 	private Integer destroyed;
+	private boolean execSpecFromStart;
 
 	private final LinkedHashMap<Integer, LifelineOccurrence> lifeline;
 
@@ -55,8 +56,9 @@ public class Lifeline {
 	 * @param index
 	 * @param headType
 	 * @param createdOnStart
+	 * @param execSpecFromStart true if an execution specification should be active from the creation
 	 */
-	public Lifeline(String text, int index, LifelineHeadType headType, boolean createdOnStart) {
+	public Lifeline(String text, int index, LifelineHeadType headType, boolean createdOnStart, boolean execSpecFromStart) {
 		super();
 		this.text = text.split("\n");
 		this.index = index;
@@ -64,6 +66,7 @@ public class Lifeline {
 		this.createdOnStart = createdOnStart;
 		created = null;
 		destroyed = null;
+		this.execSpecFromStart = execSpecFromStart;
 
 		lifeline = new LinkedHashMap<Integer, LifelineOccurrence>();
 		activeAreas = new ArrayList<ExecutionSpecification>();
@@ -99,6 +102,14 @@ public class Lifeline {
 
 	public Integer getDestroyed() {
 		return destroyed;
+	}
+
+	public boolean isExecSpecFromStart() {
+		return execSpecFromStart;
+	}
+
+	public void setExecSpecFromStart(boolean execSpecFromStart) {
+		this.execSpecFromStart = execSpecFromStart;
 	}
 
 	/**
@@ -315,7 +326,6 @@ public class Lifeline {
 	 * @param lifelineLastTick
 	 */
 	private void drawLifeline(DrawHandler drawHandler, LifelineDrawingInfo drawingInfo, int lifelineLastTick) {
-		// TODO ajust because of the y padding!!!, also think about execspecstarting at created, or at start or 0
 		int currentStartTick = 0;
 		int endTick;
 		int currentActiveCount = 0;
@@ -329,9 +339,10 @@ public class Lifeline {
 		ListIterator<ExecutionSpecification> execSpecIter = activeAreas.listIterator();
 		ListIterator<Line1D> interruptedAreasIter = drawingInfo.getInterruptedAreas().listIterator();
 		LineType oldLt = drawHandler.getLineType();
-		if (execSpecIter.hasNext()) {
+		// add execution specification which start from the creation before the loop so that they are drawn directly beneath the head
+		if (execSpecFromStart && execSpecIter.hasNext()) {
 			ExecutionSpecification execSpec = execSpecIter.next();
-			if (execSpec.getStartTick() == currentStartTick) {
+			if (execSpec.getStartTick() == currentStartTick - 1) {
 				active.addFirst(execSpec);
 				startInc = true;
 			}
@@ -339,7 +350,7 @@ public class Lifeline {
 				execSpecIter.previous();
 			}
 		}
-		double llTopY = drawingInfo.getVerticalStart(currentStartTick);
+		double llTopY = drawingInfo.getVerticalStart(currentStartTick) - drawingInfo.getTickVerticalPadding();
 		while (active.size() > 0 || execSpecIter.hasNext()) {
 			// find change of drawing style; if a new executionSpecification starts or an old ends
 			currentActiveCount = active.size();
