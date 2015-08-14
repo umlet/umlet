@@ -1,6 +1,6 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.SharedUtils;
@@ -28,7 +28,37 @@ public class SequenceAllInOneFacet extends Facet {
 
 	@Override
 	public List<AutocompletionText> getAutocompletionStrings() {
-		return Collections.emptyList();
+		return Arrays.asList(new AutocompletionText[] {
+				new AutocompletionText("title=", "Title of the sequence diagram"),
+				new AutocompletionText("desc=", "Additional text, e.g. for local variables"),
+				new AutocompletionText("autoTick=true", "(Default) Each line with an command is placed at a new time tick."),
+				new AutocompletionText("autoTick=false", "Advancements down the time have to specified manually with the tick= command."),
+				new AutocompletionText("overrideIds=true", "Each lifeline needs a explicit id."),
+				new AutocompletionText("overrideIds=false", "(Default) each lifeline has a default id idX. X is a number starting at 1 and is increased from left to right."),
+				new AutocompletionText("obj=New lifeline~", "Declares a new Lifeline"),
+
+				new AutocompletionText("tick=", "Advances down the timeline"),
+				new AutocompletionText("on=", "Starts a new execution specification on the given lifelines."),
+				new AutocompletionText("off=", "Ends a existing execution specification on the given lifelines."),
+				new AutocompletionText("ref=", ""),
+				new AutocompletionText("continuation=", ""),
+				new AutocompletionText("invariant=", ""),
+				new AutocompletionText("stateInvariant=", ""),
+				new AutocompletionText("coregionStart=", ""),
+				new AutocompletionText("coregionEnd=", ""),
+				new AutocompletionText("combinedFragment=", ""),
+				new AutocompletionText("constraint=", "Specifies a constrain for an operand."),
+				new AutocompletionText("destroy=", "Destroys a lifeline"),
+
+				new AutocompletionText("lost", "Pseudo id for lost messages."),
+				new AutocompletionText("found", "Pseudo id for found messages."),
+				new AutocompletionText("gate", "Pseudo id for gate messages."),
+
+				new AutocompletionText("ACTIVE", "Creates an active class as head for the lifeline."),
+				new AutocompletionText("ACTOR", "The Lifeline head is an actor."),
+				new AutocompletionText("CREATED_LATER", "The lifeline is created later with the first received message."),
+				new AutocompletionText("EXECUTION", "The Lifeline has an active execution specification at the start.")
+		});
 	}
 
 	@Override
