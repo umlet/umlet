@@ -150,6 +150,7 @@ PARSER_END(SequenceAllInOneParser)
 	| < LL_DESTROY: "destroy=" >
 	| < REF: "ref=" >
 	| < CONTINUATION: "continuation=" >
+	| < TEXT_ON_LIFELINE: "text=" >
 	| < TICK: "tick=" >
 	| < COMBINED_FRAGMENT: "combinedFragment=" >
 	| < INTERACTION_CONSTRAINT: "constraint=" >
@@ -352,6 +353,7 @@ void SequenceElement(SequenceDiagramBuilder diagram) :
 		//| (diagram) //general ordering, TimeConstraint TimeObservation and DurationConstraint Duration Observation missing
 		| InteractionUse(diagram)
 		| Continuation(diagram)
+		| TextOnLifeline(diagram)
 	)
 }
 
@@ -372,7 +374,7 @@ void CombinedFragment(SequenceDiagramBuilder diagram) :
 	< COMBINED_FRAGMENT >
 	interval = LifelineInterval()
 	(
-		operator = textUntilNewLine()
+		operator = TextUntilNewLine()
 		(< COMMAND_DELIMITER >)?
 	)?
 	(< DEFAULT_NEW_LINE >)*
@@ -413,7 +415,7 @@ InteractionConstraint InteractionConstraint():
 {
 	< INTERACTION_CONSTRAINT >
 	( data.lifelineId = LifelineId())?
-	data.text = textUntilNewLine()
+	data.text = TextUntilNewLine()
 	(< COMMAND_DELIMITER > | < DEFAULT_NEW_LINE >) /* TODO could add SeqenceElement after the constraint  */
 	{
 		return data;	}}	
@@ -447,7 +449,7 @@ void Message(SequenceDiagramBuilder diagram) :
 			| < GATE > { rightLifelineId = "gate"; gateCount++; }
 		)
 		(duration = MessageDuration())?
-		(msgText = textUntilNewLine())?
+		(msgText = TextUntilNewLine())?
 	)
 	{
 		if(lostCount + foundCount + gateCount > 1) {
@@ -649,13 +651,27 @@ void StateInvariant(SequenceDiagramBuilder diagram) :
 		| < STATE_INVARIANT > { stateStyle = true; }
 	) 
 	lifelineId = LifelineId()
-	(text = textUntilNewLine())?
+	(text = TextUntilNewLine())?
 	{
 		diagram.addStateInvariant(lifelineId, text, stateStyle);
 	}
 }
 
-String textUntilNewLine() :
+void TextOnLifeline(SequenceDiagramBuilder diagram) :
+{
+	String lifelineId;
+	String text = "";
+}
+{
+	< TEXT_ON_LIFELINE >
+	lifelineId = LifelineId()
+	(text = TextUntilNewLine())?
+	{
+		diagram.addTextOnLifeline(lifelineId, text);
+	}
+}
+
+String TextUntilNewLine() :
 {
 }
 {
@@ -673,7 +689,7 @@ void InteractionUse(SequenceDiagramBuilder diagram):
 {
 	(		< REF >
 		interval = LifelineInterval()
-		(text = textUntilNewLine())?
+		(text = TextUntilNewLine())?
 	)	{
 		diagram.addInteractionUse(interval.startId, interval.endId, text);
 	}}
@@ -687,7 +703,7 @@ void Continuation(SequenceDiagramBuilder diagram):
 	(
 		< CONTINUATION >
 		interval = LifelineInterval()
-		(text = textUntilNewLine())?
+		(text = TextUntilNewLine())?
 	)
 	{
 		diagram.addContinuation(interval.startId, interval.endId, text);

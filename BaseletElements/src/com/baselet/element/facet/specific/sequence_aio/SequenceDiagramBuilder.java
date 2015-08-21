@@ -150,6 +150,10 @@ public class SequenceDiagramBuilder {
 		}
 	}
 
+	public void addTextOnLifeline(String lifelineId, String text) {
+		addLifelineOccurrence(lifelineId, new TextOnLifeline(text));
+	}
+
 	public void addStateInvariant(String lifelineId, String text, boolean drawAsState) {
 		addLifelineOccurrence(lifelineId, new StateInvariant(text,
 				drawAsState ? StateInvariantStyle.STATE : StateInvariantStyle.CURLY_BRACKETS));
