@@ -131,13 +131,15 @@ PARSER_END(SequenceAllInOneParser)
 	| < OPEN_CURLY_BRACKET: "{" >
 	| < CLOSE_CURLY_BRACKET: "}" >
 	| < COMMAND_DELIMITER: ";" >
-	| < MESSAGE_SOLID_LINE: "-" >
-	| < DEF_DOT: "." >
+	| < T_DASH: "-" >
+	| < T_DOT: "." >
+	| < T_DDOT: ".." >
+	| < T_EQ: "=" >
 	| < MESSAGE_ARROW_LEFT_OPEN: "<" >
 	| < MESSAGE_ARROW_LEFT_FILLED: "<<<" >
 	| < MESSAGE_ARROW_RIGHT_OPEN: ">" >
 	| < MESSAGE_ARROW_RIGHT_FILLED: ">>>" >
-	| < MESSAGE_DURATION: "+" >
+	| < MESSAGE_DURATION_INC: "+" >
 	| < LOST: "lost" >
 	| < FOUND: "found" >
 	| < GATE: "gate" >
@@ -152,7 +154,7 @@ PARSER_END(SequenceAllInOneParser)
 	| < CONTINUATION: "continuation=" >
 	| < TEXT_ON_LIFELINE: "text=" >
 	| < TICK: "tick=" >
-	| < COMBINED_FRAGMENT: "combinedFragment=" >
+	| < COMBINED_FRAGMENT: "combinedFragment=" > : CF_OPERATOR
 	| < INTERACTION_CONSTRAINT: "constraint=" >
 	| < UNSIGNED_INT_CONSTANT: ( ["0" - "9"] ) + >	| < DEFAULT_NEW_LINE: "\n" | "\r\n" | "\r" >
 }
@@ -164,10 +166,19 @@ PARSER_END(SequenceAllInOneParser)
 
 < DIAGRAM_SEQ_TEXT > TOKEN :
 {
-	< TEXT_UNTIL_NEXT_COMMAND : ( 
+	< TEXT_UNTIL_NEXT_COMMAND : ( /* since ; is special characters which delimit the text it must be escaped */ 
 			~["\\","\n","\r",";"] 
 			| ("\\" ["\\",";","n"])
 		)+ > : DEFAULT
+}
+
+< CF_OPERATOR > TOKEN :
+{	< COMBINED_FRAGMENT_OPERATOR: /* since ; and ~ are special characters which delimit the operator they need to be escaped */
+		( 
+			~["~","\\","\n","\r",";"] 
+			| ("\\" ["\\","~","|","n",";"])
+		)+
+		"~" > : DEFAULT
 }
 
 /* general Tokens */
@@ -327,7 +338,6 @@ void Sequence(SequenceDiagramBuilder diagram) :
 			< DEFAULT_NEW_LINE >
 			{ if(autoTick) { diagram.tick(); } }
 		)
-		| CombinedFragment(diagram)
 		| < DEFAULT_NEW_LINE >
 	)*
 }
@@ -345,7 +355,7 @@ void SequenceElement(SequenceDiagramBuilder diagram) :
 {}
 {
 	(
-		MessageOrGeneralOrdering(diagram) /* Message, GeneralOrdering have a common prefix for more clarity a new nonterminal was created*/
+		MessageOrGeneralOrderingOrText(diagram) /* Message, GeneralOrdering have a common prefix for more clarity a new nonterminal was created*/
 		| Coregion(diagram)
 		| DestroyLL(diagram)
 		| ExecutionSpecification(diagram)
@@ -353,72 +363,50 @@ void SequenceElement(SequenceDiagramBuilder diagram) :
 		//| (diagram) //general ordering, TimeConstraint TimeObservation and DurationConstraint Duration Observation missing
 		| InteractionUse(diagram)
 		| Continuation(diagram)
-		| TextOnLifeline(diagram)
+		| CombinedFragment(diagram)
 	)
 }
 
-void MessageOrGeneralOrdering(SequenceDiagramBuilder diagram) :
+void MessageOrGeneralOrderingOrText(SequenceDiagramBuilder diagram) :
 {}
 {
-	LOOKAHEAD(5) /* A common prefix is: <LIFELINE_ID> "." <LIFELINE_ID> "<" */
-	Message(diagram)
+	/*
+	 * (Message and GeneralOrdering) A common prefix is: <LIFELINE_ID> "." <LIFELINE_ID> "<"
+	 * All three have <LIFELINE_ID > as common prefix
+	 * therefore use LOOKAHEAD(2) if it is a text, if not use a LOOKAHEAD(5) to determine if it is a message or a general ordering
+	 */
+	LOOKAHEAD(2) TextOnLifeline(diagram)
+	| LOOKAHEAD(5) Message(diagram)
 	| GeneralOrdering(diagram)
 }
 
 void CombinedFragment(SequenceDiagramBuilder diagram) :
 {
-	LifelineInterval interval;
+	LifelineInterval interval = new LifelineInterval();
 	String operator = "";
+	String id = null;
 }
 {
-	< COMBINED_FRAGMENT >
-	interval = LifelineInterval()
 	(
-		operator = TextUntilNewLine()
-		(< COMMAND_DELIMITER >)?
-	)?
-	(< DEFAULT_NEW_LINE >)*
-	{ diagram.beginCombinedFragment(interval.startId, interval.endId, operator); }
-	Operand(diagram)
-	(Operand(diagram) | < DEFAULT_NEW_LINE >) *
-	/* despite the warning this is correct, take always this choice and consume all new lines and operands
-	 * (conflict with Sequence(diagram) new Line production). Because of this construct the combined fragment does not have
-	 * to end with a new line. With a Syntactical LOOKAHEAD it would be possible to enforce a new line after a combined Fragment. 
-	 */
-	{ diagram.endCombinedFragment(); }}
-
-void Operand(SequenceDiagramBuilder diagram) :
-{
-	InteractionConstraint constraint = null;
-}
-{
-	(		< OPEN_CURLY_BRACKET >
-		( LOOKAHEAD(1) < DEFAULT_NEW_LINE >)*
-		/* LOOKAHEAD(1) is used to supress the warning
-		 * despite the warning this is correct, take always this choice and consume all new lines
-		 * (conflict with Sequence(diagram) new line production).
-		 */
-		(constraint = InteractionConstraint())?
+		< COMBINED_FRAGMENT >
+		(
+			< COMBINED_FRAGMENT_OPERATOR >
+			{ operator = backslashReplace(token.image.substring(0, token.image.length() - 1), "\\n", "\n", "\\;", ";", "\\~", "~"); }
+		)
+		[
+			id = LifelineId() 
+			[interval = LifelineInterval()]
+		]
+		{ diagram.beginCombinedFragment(interval.startId, interval.endId, id, operator); }
 	)
-	{
-		if(constraint == null) {			diagram.beginOperand();
-		} else {			diagram.beginOperand(constraint.text, constraint.lifelineId);
-		}
-	}
-	Sequence(diagram)
-	< CLOSE_CURLY_BRACKET >
-	{ diagram.endOperand(); }}
-
-InteractionConstraint InteractionConstraint():
-{
-	InteractionConstraint data = new InteractionConstraint();}
-{
-	< INTERACTION_CONSTRAINT >
-	( data.lifelineId = LifelineId())?
-	data.text = TextUntilNewLine()
-	(< COMMAND_DELIMITER > | < DEFAULT_NEW_LINE >) /* TODO could add SeqenceElement after the constraint  */
-	{
-		return data;	}}	
+	| (
+		< T_DASH > < T_DASH > (< T_EQ > id=LifelineId())?
+		{ diagram.endCombinedFragment(id); }
+	)
+	| (
+		< T_DDOT > (< T_EQ > id=LifelineId())?
+		{ diagram.endAndBeginOperand(id); }
+	)}
 
 void Message(SequenceDiagramBuilder diagram) :
 {
@@ -436,14 +424,14 @@ void Message(SequenceDiagramBuilder diagram) :
 {
 	(
 		(
-			leftLifelineId = LifelineId() [LOOKAHEAD(2)< DEF_DOT > leftLifelineLocalId = LifelineId()]
+			leftLifelineId = LifelineId() [LOOKAHEAD(2)< T_DOT > leftLifelineLocalId = LifelineId()]
 			| < LOST > { leftLifelineId = "lost"; lostCount++; }
 			| < FOUND > { leftLifelineId = "found"; foundCount++; }
 			| < GATE > { leftLifelineId = "gate"; gateCount++; }
 		)
 		messageArrowInfo =  MessageArrow()
 		(
-			rightLifelineId = LifelineId() [< DEF_DOT > rightLifelineLocalId = LifelineId()]
+			rightLifelineId = LifelineId() [< T_DOT > rightLifelineLocalId = LifelineId()]
 			| < LOST > { rightLifelineId = "lost"; lostCount++; }
 			| < FOUND > { rightLifelineId = "found"; foundCount++; }
 			| < GATE > { rightLifelineId = "gate"; gateCount++; }
@@ -542,8 +530,8 @@ LineType MessageArrowLineType() :
 }
 {
 	(
-		< MESSAGE_SOLID_LINE > { lineType = LineType.SOLID; }
-		| < DEF_DOT >  { lineType = LineType.DASHED; }
+		< T_DASH > { lineType = LineType.SOLID; }
+		| < T_DOT >  { lineType = LineType.DASHED; }
 	)
 	{
 		return lineType;
@@ -552,13 +540,22 @@ LineType MessageArrowLineType() :
 
 int MessageDuration() :
 {
-	int duration = 1;
+	int duration;
 }
 {
 	(
-		< MESSAGE_DURATION >
 		(
-			duration = unsignedIntConstant() 			| (< MESSAGE_DURATION >  { duration++; })*
+			< MESSAGE_DURATION_INC > { duration = 1; }
+			(
+				duration = unsignedIntConstant() 				| (< MESSAGE_DURATION_INC >  { duration++; })*
+			)
+		)
+		| (
+			< T_DASH > { duration = -1; }
+			(
+				duration = unsignedIntConstant() { duration = -duration; }
+				| (< T_DASH >  { duration--; })*
+			)
 		)
 	)
 	{
@@ -575,13 +572,13 @@ void GeneralOrdering(SequenceDiagramBuilder diagram):
 	boolean leftEarlier;}
 {
 	leftLifelineId = LifelineId()
-	< DEF_DOT >
+	< T_DOT >
 	leftLifelineLocalId = LifelineId()
 	(		< MESSAGE_ARROW_RIGHT_OPEN > { leftEarlier = true; }
 		| < MESSAGE_ARROW_LEFT_OPEN > { leftEarlier = false; }
 	)
 	rightLifelineId = LifelineId()
-	< DEF_DOT >
+	< T_DOT >
 	rightLifelineLocalId = LifelineId()
 	{		if(leftEarlier) {
 			diagram.addGeneralOrdering(leftLifelineId, leftLifelineLocalId, rightLifelineId, rightLifelineLocalId);		}
@@ -663,9 +660,9 @@ void TextOnLifeline(SequenceDiagramBuilder diagram) :
 	String text = "";
 }
 {
-	< TEXT_ON_LIFELINE >
+	[< TEXT_ON_LIFELINE >]
 	lifelineId = LifelineId()
-	(text = TextUntilNewLine())?
+	text = TextUntilNewLine() /* text is mandatory, if not lookahead with message and general ordering would not work*/ 
 	{
 		diagram.addTextOnLifeline(lifelineId, text);
 	}

@@ -4,7 +4,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
 
 import com.baselet.control.enums.LineType;
 import com.baselet.element.facet.specific.sequence_aio.StateInvariant.StateInvariantStyle;
@@ -16,6 +19,8 @@ import com.baselet.element.facet.specific.sequence_aio.StateInvariant.StateInvar
  *
  */
 public class SequenceDiagramBuilder {
+
+	private static final Logger log = Logger.getLogger(SequenceDiagramBuilder.class);
 
 	private final String DEFAULT_ID_PREFIX = "id";
 	private final SequenceDiagram dia;
@@ -236,11 +241,8 @@ public class SequenceDiagramBuilder {
 	public void addMessage(String fromId, String toId, int duration, String text, LineType lineType,
 			Message.ArrowType arrowType, String fromLocalId, String toLocalId) {
 		checkState();
-		// check that duration >= 0 and check that self message has a duration > 0
-		if (duration < 0) {
-			throw new SequenceDiagramException("The duration must be positive, but was " + duration + ".");
-		}
-		else if (fromId.equals(toId)) {
+		// check that a self message has a duration > 0
+		if (fromId.equals(toId)) {
 			if (duration < 1) {
 				throw new SequenceDiagramException("The duration of a self message must be greater than 0, but was " + duration + ".");
 			}
@@ -249,6 +251,15 @@ public class SequenceDiagramBuilder {
 		Lifeline from = getLifelineException(fromId);
 		checkLifelineSendMessage(from, fromId);
 		Lifeline to = getLifelineException(toId);
+		// check if the message doesn't end before the lifeline was created
+		if (!to.isCreatedOnStart() && to.getCreated() != null && currentTick + duration <= to.getCreated()) {
+			throw new SequenceDiagramException("A message can't end on a lifeline before this lifeline was created.\n" +
+												"Please increase the messages duration by at least " + (to.getCreated() + 1 - (currentTick + duration)) + ".");
+		}
+		else if (currentTick + duration < 0) {
+			throw new SequenceDiagramException("A message can't end on a lifeline before this lifeline was created.\n" +
+												"Please increase the messages duration by at least " + -(currentTick + duration) + ".");
+		}
 		if (!to.isCreatedOnStart() && to.getCreated() == null) {
 			to.setCreated(currentTick + duration);
 			if (to.isExecSpecFromStart()) {
@@ -370,81 +381,148 @@ public class SequenceDiagramBuilder {
 		dia.addLifelineSpanningTickSpanningOccurrence(new Continuation(currentTick, text, lifelines));
 	}
 
-	public void beginCombinedFragment(String startId, String endId, String operator) {
+	/**
+	 * @param startId starting lifeline
+	 * @param endId ending lifeline
+	 * @param cfId the id of the combined Fragment, can be null
+	 * @param operator of the combined fragment
+	 */
+	public void beginCombinedFragment(String startId, String endId, String cfId, String operator) {
 		checkState();
-		Lifeline[] lifelines = getLifelineIntervalException(startId, endId);
-		activeCombinedFragmentStack.push(new ActiveCombinedFragment(new CombinedFragment(lifelines, currentTick, operator)));
+		Lifeline[] lifelines;
+		if (startId == null && endId == null) {
+			lifelines = Arrays.<Lifeline> copyOf(dia.getLifelinesArray(), dia.getLifelinesArray().length);
+		}
+		else {
+			lifelines = getLifelineIntervalException(startId, endId);
+		}
+		activeCombinedFragmentStack.push(new ActiveCombinedFragment(new CombinedFragment(lifelines, currentTick, operator), cfId));
+		activeCombinedFragmentStack.peek().activeOperand = new ActiveOperand(currentTick);
 	}
 
-	public void endCombinedFragment() {
+	/**
+	 * @param cfId can be null, then the latest created combined fragment which was not closed is closed.
+	 * Otherwise the combined fragment associated with the given id is closed.
+	 */
+	public void endCombinedFragment(String cfId) {
 		checkState();
 		if (activeCombinedFragmentStack.size() == 0) {
 			throw new SequenceDiagramException("Error a combined fragment was closed, but no open one exists.");
 		}
-		ActiveCombinedFragment currentCombFrag = activeCombinedFragmentStack.pop();
-		if (currentCombFrag.activeOperand != null) {
-			throw new SequenceDiagramException("Error a combined fragment was closed, but there is still an open operand present.");
+		ActiveCombinedFragment currentCombFrag = null;
+		if (cfId == null) {
+			currentCombFrag = activeCombinedFragmentStack.pop();
 		}
-		dia.addLifelineSpanningTickSpanningOccurrence(currentCombFrag.combFrag);
+		else {
+			ListIterator<ActiveCombinedFragment> activeCFIter = activeCombinedFragmentStack.listIterator();
+			while (activeCFIter.hasNext()) {
+				currentCombFrag = activeCFIter.next();
+				if (cfId.equals(currentCombFrag.id)) {
+					activeCFIter.remove();
+					break;
+				}
+				currentCombFrag = null;
+			}
+		}
+		if (currentCombFrag == null) {
+			throw new SequenceDiagramException("Error no combined fragment with id '" + cfId + "' was found.");
+		}
+		else {
+			// TODO operand rewrite
+			// if (currentCombFrag.activeOperand != null) {
+			// throw new SequenceDiagramException("Error a combined fragment was closed, but there is still an open operand present.");
+			// }
+			currentCombFrag.combFrag.addOperand(currentCombFrag.activeOperand.startTick, currentTick);
+			dia.addLifelineSpanningTickSpanningOccurrence(currentCombFrag.combFrag);
+		}
 	}
 
-	public void beginOperand() {
+	public void endAndBeginOperand(String cfId) {
 		checkState();
-		beginOperand(null, "");
+		if (activeCombinedFragmentStack.size() == 0) {
+			throw new SequenceDiagramException("Error a combined fragment was closed, but no open one exists.");
+		}
+		ActiveCombinedFragment currentCombFrag = null;
+		if (cfId == null) {
+			currentCombFrag = activeCombinedFragmentStack.peek();
+		}
+		else {
+			ListIterator<ActiveCombinedFragment> activeCFIter = activeCombinedFragmentStack.listIterator();
+			while (activeCFIter.hasNext()) {
+				currentCombFrag = activeCFIter.next();
+				if (cfId.equals(currentCombFrag.id)) {
+					break;
+				}
+				currentCombFrag = null;
+			}
+		}
+		if (currentCombFrag == null) {
+			throw new SequenceDiagramException("Error no combined fragment with id '" + cfId + "' was found.");
+		}
+		else {
+			// TODO operand rewrite
+			currentCombFrag.combFrag.addOperand(currentCombFrag.activeOperand.startTick, currentTick);
+			currentCombFrag.activeOperand = new ActiveOperand(currentTick);
+		}
 	}
+
+	// public void beginOperand() {
+	// checkState();
+	// beginOperand(null, "");
+	// }
 
 	/**
 	 *
 	 * @param text if empty or null no constraint will be generated
 	 * @param lifelineId if empty or null the first occurrence in the operand will determine the lifeline on which the constraint is placed
 	 */
-	public void beginOperand(String text, String lifelineId) {
-		checkState();
-		if (activeCombinedFragmentStack.size() == 0) {
-			throw new SequenceDiagramException("Error an operand must lie in a combined fragment, but no open one exists.");
-		}
-		ActiveCombinedFragment currentCombFrag = activeCombinedFragmentStack.peek();
-		if (currentCombFrag.activeOperand != null) {
-			throw new SequenceDiagramException("Error a new operand was started, but there is still an open operand present.");
-		}
-		ActiveOperand operand;
-		if (text == null || text.isEmpty()) {
-			operand = new ActiveOperand(currentTick);
-		}
-		else {
-			operand = new ActiveOperand(text, getLifeline(lifelineId), currentTick);
-		}
-		currentCombFrag.activeOperand = operand;
-	}
+	// public void beginOperand(String text, String lifelineId) {
+	// checkState();
+	// if (activeCombinedFragmentStack.size() == 0) {
+	// throw new SequenceDiagramException("Error an operand must lie in a combined fragment, but no open one exists.");
+	// }
+	// ActiveCombinedFragment currentCombFrag = activeCombinedFragmentStack.peek();
+	// if (currentCombFrag.activeOperand != null) {
+	// throw new SequenceDiagramException("Error a new operand was started, but there is still an open operand present.");
+	// }
+	// ActiveOperand operand;
+	// if (text == null || text.isEmpty()) {
+	// operand = new ActiveOperand(currentTick);
+	// }
+	// else {
+	// operand = new ActiveOperand(text, getLifeline(lifelineId), currentTick);
+	// }
+	// currentCombFrag.activeOperand = operand;
+	// }
 
-	public void endOperand() {
-		checkState();
-		if (activeCombinedFragmentStack.size() == 0) {
-			throw new SequenceDiagramException("Error an operand must lie in a combined fragment, but no open one exists.");
-		}
-		ActiveCombinedFragment currentCombFrag = activeCombinedFragmentStack.peek();
-		if (currentCombFrag.activeOperand == null) {
-			throw new SequenceDiagramException("Error a operand was closed, but there is no open operand.");
-		}
-		ActiveOperand operand = currentCombFrag.activeOperand;
-		currentCombFrag.activeOperand = null;
-		if (operand.constraint == null) {
-			currentCombFrag.combFrag.addOperand(operand.startTick, currentTick);
-		}
-		else {
-			Lifeline lifeline = operand.assoicatedLifeline;
-			if (lifeline == null) { // if it wasn't set place it on the first lifeline of the combined fragment
-				lifeline = currentCombFrag.combFrag.getFirstLifeline();
-			}
-			try {
-				currentCombFrag.combFrag.addOperand(operand.startTick, currentTick, operand.constraint, lifeline);
-			} catch (SequenceDiagramCheckedException e) {
-				throw new SequenceDiagramException("Error while placing the interaction '" + operand.constraint
-													+ "' constraint on the " + (lifeline.getIndex() + 1)
-													+ " lifeline from the left.\n" + e.getMessage(), e);
-			}
-		}
-	}
+	// public void endOperand() {
+	// checkState();
+	// if (activeCombinedFragmentStack.size() == 0) {
+	// throw new SequenceDiagramException("Error an operand must lie in a combined fragment, but no open one exists.");
+	// }
+	// ActiveCombinedFragment currentCombFrag = activeCombinedFragmentStack.peek();
+	// if (currentCombFrag.activeOperand == null) {
+	// throw new SequenceDiagramException("Error a operand was closed, but there is no open operand.");
+	// }
+	// ActiveOperand operand = currentCombFrag.activeOperand;
+	// currentCombFrag.activeOperand = null;
+	// if (operand.constraint == null) {
+	// currentCombFrag.combFrag.addOperand(operand.startTick, currentTick);
+	// }
+	// else {
+	// Lifeline lifeline = operand.assoicatedLifeline;
+	// if (lifeline == null) { // if it wasn't set place it on the first lifeline of the combined fragment
+	// lifeline = currentCombFrag.combFrag.getFirstLifeline();
+	// }
+	// try {
+	// currentCombFrag.combFrag.addOperand(operand.startTick, currentTick, operand.constraint, lifeline);
+	// } catch (SequenceDiagramCheckedException e) {
+	// throw new SequenceDiagramException("Error while placing the interaction '" + operand.constraint
+	// + "' constraint on the " + (lifeline.getIndex() + 1)
+	// + " lifeline from the left.\n" + e.getMessage(), e);
+	// }
+	// }
+	// }
 
 	/**
 	 * advances a step down
@@ -578,11 +656,13 @@ public class SequenceDiagramBuilder {
 	}
 
 	private static class ActiveCombinedFragment {
-		public ActiveCombinedFragment(CombinedFragment combFrag) {
+		public ActiveCombinedFragment(CombinedFragment combFrag, String cfId) {
 			super();
 			this.combFrag = combFrag;
+			id = cfId;
 		}
 
+		String id;
 		CombinedFragment combFrag;
 		ActiveOperand activeOperand = null;
 	}
@@ -604,4 +684,5 @@ public class SequenceDiagramBuilder {
 		Lifeline assoicatedLifeline = null; // lifeline on which the constraint should be drawn
 		int startTick;
 	}
+
 }
