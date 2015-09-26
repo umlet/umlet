@@ -1,21 +1,22 @@
 package com.baselet.diagram.draw.swing;
 
+import com.baselet.control.StringStyle;
 import com.baselet.control.enums.AlignHorizontal;
 
 public class Text {
-	private String text;
-	private double x;
-	private double y;
-	private AlignHorizontal horizontalAlignment;
+	private final StringStyle[] text;
+	private final double x;
+	private final double y;
+	private final AlignHorizontal horizontalAlignment;
 
-	public Text(String text, double x, double y, AlignHorizontal align) {
+	public Text(StringStyle[] text, double x, double y, AlignHorizontal align) {
 		this.text = text;
 		this.x = x;
 		this.y = y;
 		horizontalAlignment = align;
 	}
 
-	public String getText() {
+	public StringStyle[] getText() {
 		return text;
 	}
 

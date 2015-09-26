@@ -3,6 +3,7 @@ package com.baselet.element.facet.common;
 import java.util.Collections;
 import java.util.List;
 
+import com.baselet.control.StringStyle;
 import com.baselet.control.basics.XValues;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
@@ -36,22 +37,29 @@ public class TextPrintFacet extends Facet {
 			printLineWithWordWrap(line, drawer, state);
 		}
 		else {
-			printLine(line, drawer, state);
+			printLine(StringStyle.analyzeFormatLabels(StringStyle.replaceNotEscaped(line)), drawer, state);
 		}
 		drawer.setLayer(Layer.Background);
 	}
 
 	private static void printLineWithWordWrap(String line, DrawHandler drawer, PropertiesParserState state) {
-		String wrappedLine;
-		while (state.getTextPrintPosition() < state.getGridElementSize().height && !line.trim().isEmpty()) {
-			double spaceForText = state.getXLimitsForArea(state.getTextPrintPosition(), drawer.textHeightMax(), false).getSpace() - drawer.getDistanceBorderToText() * 2;
-			wrappedLine = TextSplitter.splitString(line, spaceForText, drawer);
-			printLine(wrappedLine, drawer, state);
-			line = line.substring(wrappedLine.length()).trim();
+		double spaceForText = state.getXLimitsForArea(state.getTextPrintPosition(), drawer.textHeightMax(), false).getSpace() - drawer.getDistanceBorderToText() * 2;
+		StringStyle[] wrappedLine = TextSplitter.splitStringAlgorithm(line, spaceForText, drawer, false);
+		int lineIndex = 0;
+		while (state.getTextPrintPosition() < state.getGridElementSize().height && lineIndex < wrappedLine.length) {
+			double currentSpaceForText = state.getXLimitsForArea(state.getTextPrintPosition(), drawer.textHeightMax(), false).getSpace() - drawer.getDistanceBorderToText() * 2;
+			// if the space for the text has changed recalculate the remaining word wrap
+			if (currentSpaceForText != spaceForText) {
+				// we can not use the length of the printed lines to calculate the substring start, because the number of whitespace chars is unknown
+				line = line.substring(line.indexOf(wrappedLine[lineIndex - 1].getStringWithoutMarkup()) + wrappedLine[lineIndex - 1].getStringWithoutMarkup().length()).trim();
+				wrappedLine = TextSplitter.splitStringAlgorithm(line, spaceForText, drawer, false);
+				lineIndex = 0;
+			}
+			printLine(wrappedLine[lineIndex++], drawer, state);
 		}
 	}
 
-	private static void printLine(String line, DrawHandler drawer, PropertiesParserState state) {
+	private static void printLine(StringStyle line, DrawHandler drawer, PropertiesParserState state) {
 		XValues xLimitsForText = state.getXLimitsForArea(state.getTextPrintPosition(), drawer.textHeightMax(), false);
 		Double spaceNotUsedForText = state.getGridElementSize().width - xLimitsForText.getSpace();
 		if (!spaceNotUsedForText.equals(Double.NaN)) { // NaN is possible if xlimits calculation contains e.g. a division by zero
@@ -86,7 +94,7 @@ public class TextPrintFacet extends Facet {
 		else if (state.getAlignment().getVertical() == AlignVertical.CENTER) {
 			returnVal += (state.getGridElementSize().height - state.getTotalTextBlockHeight()) / 2 + state.getBuffer().getTop() / 2;
 		}
-		else /* if (state.getvAlign() == AlignVertical.BOTTOM) */ {
+		else /* if (state.getvAlign() == AlignVertical.BOTTOM) */{
 			returnVal += state.getGridElementSize().height - state.getTotalTextBlockHeight() - drawer.textHeightMax() / 4; // 1/4 of textheight is a good value for large fontsizes and "deep" characters like "y"
 		}
 		return returnVal;
@@ -106,7 +114,7 @@ public class TextPrintFacet extends Facet {
 			double availableWidthSpace = state.getXLimitsForArea(displacement, textHeight, true).getSpace() - BUFFER;
 			double accumulator = displacement;
 			int maxLoops = 1000;
-			while (accumulator < state.getGridElementSize().height && !TextSplitter.checkifStringFits(firstLine, availableWidthSpace, drawer)) {
+			while (accumulator < state.getGridElementSize().height && !TextSplitter.checkifStringFitsNoWordwrap(firstLine, availableWidthSpace, drawer)) {
 				if (maxLoops-- < 0) {
 					throw new RuntimeException("Endless loop during calculation of top displacement");
 				}
@@ -130,7 +138,7 @@ public class TextPrintFacet extends Facet {
 		else if (hAlign == AlignHorizontal.CENTER) {
 			x = xLimitsForText.getSpace() / 2.0 + xLimitsForText.getLeft();
 		}
-		else /* if (state.gethAlign() == AlignHorizontal.RIGHT) */ {
+		else /* if (state.gethAlign() == AlignHorizontal.RIGHT) */{
 			x = xLimitsForText.getRight() - distanceBorderToText;
 		}
 		return x;

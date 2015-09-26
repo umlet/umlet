@@ -1,0 +1,3 @@
+# ignore the javaCC generated files, since they shouldn't be modified by hand
+*.java
+*.html

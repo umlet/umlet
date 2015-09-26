@@ -35,6 +35,9 @@ public interface Resources extends ClientBundle {
 	@Source("UML Sequence.uxf")
 	TextResource UML_Sequence();
 
+	@Source("UML Sequence - All in one.uxf")
+	TextResource UML_Sequence_All_in_one();
+
 	@Source("UML State Machine.uxf")
 	TextResource UML_State_Machine();
 

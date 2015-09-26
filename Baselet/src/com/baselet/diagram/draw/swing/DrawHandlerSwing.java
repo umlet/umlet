@@ -9,6 +9,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.RoundRectangle2D;
 
+import com.baselet.control.StringStyle;
 import com.baselet.control.basics.Converter;
 import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.basics.geom.PointDouble;
@@ -69,12 +70,12 @@ public class DrawHandlerSwing extends DrawHandler {
 	}
 
 	@Override
-	public DimensionDouble textDimensionHelper(String text) {
+	public DimensionDouble textDimensionHelper(StringStyle singleLine) {
 		boolean specialFontSize = style.getFontSize() != getDefaultFontSize();
 		if (specialFontSize) {
 			handler.getFontHandler().setFontSize(style.getFontSize());
 		}
-		DimensionDouble returnVal = handler.getFontHandler().getTextSize(text, false);
+		DimensionDouble returnVal = handler.getFontHandler().getTextSize(singleLine, false);
 		if (specialFontSize) {
 			handler.getFontHandler().resetFontSize();
 		}
@@ -152,7 +153,7 @@ public class DrawHandlerSwing extends DrawHandler {
 	}
 
 	@Override
-	public void printHelper(String text, PointDouble point, AlignHorizontal align) {
+	public void printHelper(StringStyle[] text, PointDouble point, AlignHorizontal align) {
 		addText(new Text(text, point.x * getZoom(), point.y * getZoom(), align));
 	}
 

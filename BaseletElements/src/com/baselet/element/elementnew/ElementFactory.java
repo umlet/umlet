@@ -13,6 +13,7 @@ import com.baselet.element.elementnew.uml.Hierarchy;
 import com.baselet.element.elementnew.uml.Interface;
 import com.baselet.element.elementnew.uml.Note;
 import com.baselet.element.elementnew.uml.Package;
+import com.baselet.element.elementnew.uml.SequenceAllInOne;
 import com.baselet.element.elementnew.uml.SpecialState;
 import com.baselet.element.elementnew.uml.State;
 import com.baselet.element.elementnew.uml.SyncBarHorizontal;
@@ -63,6 +64,8 @@ public abstract class ElementFactory {
 				return new UseCase();
 			case UMLHierarchy:
 				return new Hierarchy();
+			case UMLSequenceAllInOne:
+				return new SequenceAllInOne();
 			default:
 				throw new RuntimeException("Unknown class id: " + id);
 		}

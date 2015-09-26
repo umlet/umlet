@@ -37,6 +37,7 @@ public class DrawPanelPalette extends DrawPanel {
 			Resources.INSTANCE.UML_Composite_Structure(),
 			Resources.INSTANCE.UML_Package(),
 			Resources.INSTANCE.UML_Sequence(),
+			Resources.INSTANCE.UML_Sequence_All_in_one(),
 			Resources.INSTANCE.UML_State_Machine(),
 			Resources.INSTANCE.UML_Structure_and_Deployment(),
 			Resources.INSTANCE.UML_Use_Case(),

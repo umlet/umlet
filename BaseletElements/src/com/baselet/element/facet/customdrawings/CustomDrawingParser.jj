@@ -11,6 +11,8 @@ options {
 PARSER_BEGIN(CustomDrawingParser)
 package com.baselet.element.facet.customdrawings.gen;
 
+import org.apache.log4j.Logger;
+
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawHandler;
@@ -18,6 +20,8 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.facet.customdrawings.CustomDrawingParserRuntimeException;
 
 public abstract class CustomDrawingParser {
+	private static final Logger log = Logger.getLogger(CustomDrawingParser.class);
+	
 	// JavaCC doesn't support user enriched constructors (adding additional parameters)
 	// therefore we use abstract getters
 	public abstract double getWidth();
@@ -389,7 +393,8 @@ RecRunnable transparency(RecRunnable inner) :
 	< TRANSPARENCY > transparencyVal = unsignedDoubleConstant()
 	{
 		if(transparencyVal < 0 || transparencyVal > 100) {
-			throw new CustomDrawingParserRuntimeException("The transparency value must be between 0 and 100");		}
+			throw new CustomDrawingParserRuntimeException("The transparency value must be between 0 and 100");
+		}
 		return new RecRunnable(inner) {
 		public void run(){
 			ColorOwn oldColor = getDrawHandler().getBackgroundColor();
@@ -473,8 +478,9 @@ double unsignedDoubleConstant() :
 		try {
 			value = Double.parseDouble(token.image);
 		} catch(NumberFormatException e) {
-			// TODO log fatal error, only valid double values are accepted from the parser
+			// log fatal error, only valid double values are accepted from the parser
 			// a double can't be to big, but may loose some precision
+			log.fatal("Fatal Error: The string '" + token.image + "' couldn't be parsed as double, but the grammar should ensure that the string is parsable.",e);
 			throw (ParseException) new ParseException("Fatal Error: The string '" + token.image + "' couldn't be parsed as double, but the grammar should ensure that the string is parsable.").initCause(e);
 		}
 		return value;
