@@ -11,6 +11,7 @@ import java.util.List;
 import com.baselet.control.constants.Constants;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.io.OutputHandler;
+import com.baselet.element.ElementFactorySwing;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
 
@@ -30,8 +31,13 @@ public class ClipBoard implements Transferable {
 		if (entities.isEmpty()) {
 			return;
 		}
-		this.entities = new ArrayList<GridElement>(entities);
 		// clipboard zooms entities to 100% (to make them zoom-independent)
+		// therefore we need to set a DiagramHandler with 100% zoom and resize the elements
+		this.entities = new ArrayList<GridElement>(entities.size());
+		DiagramHandler dhNew = new DiagramHandler(null);
+		for (GridElement entitiy : entities) {
+			this.entities.add(ElementFactorySwing.createCopy(entitiy, dhNew));
+		}
 		DiagramHandler.zoomEntities(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, this.entities);
 		CurrentGui.getInstance().getGui().enablePasteMenuEntry();
 
