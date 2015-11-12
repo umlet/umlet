@@ -264,7 +264,7 @@ public abstract class CustomElement extends OldGridElement {
 		int y = inY;
 		List<String> list = wordWrap ? splitString(text, width, HandlerElementMap.getHandlerForElement(this)) : Arrays.asList(new String[] { text });
 		for (String s : list) {
-			texts.add(new Text(s, x, y, AlignHorizontal.LEFT, fixedFontSize));
+			texts.add(new Text(s,  (int) (x * zoom), (int) (y * zoom), AlignHorizontal.LEFT, fixedFontSize));
 			y += textHeight();
 		}
 		return y - inY;
