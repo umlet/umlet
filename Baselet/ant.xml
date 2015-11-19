@@ -155,7 +155,7 @@
 			<fileset dir="palettes" />
 		</copy>
 
-		<copy todir="${dir.export.standalone}/sourcefiles" file="LICENCE.txt" />
+		<get src="https://raw.githubusercontent.com/umlet/umlet/master/LICENCE.txt" dest="${dir.export.standalone}/LICENCE.txt" />
 
 		<!-- Move the files into a subfolder ${project.name.uc}, zip them and delete the temp dir -->
 		<move todir="${dir.export.standalone}/${project.name.uc}">
