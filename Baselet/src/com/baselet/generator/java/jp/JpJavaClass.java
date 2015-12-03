@@ -10,17 +10,16 @@ import org.apache.log4j.Logger;
 import com.baselet.generator.java.Field;
 import com.baselet.generator.java.JavaClass;
 import com.baselet.generator.java.Method;
-
-import japa.parser.JavaParser;
-import japa.parser.ast.CompilationUnit;
-import japa.parser.ast.PackageDeclaration;
-import japa.parser.ast.body.BodyDeclaration;
-import japa.parser.ast.body.ClassOrInterfaceDeclaration;
-import japa.parser.ast.body.ConstructorDeclaration;
-import japa.parser.ast.body.FieldDeclaration;
-import japa.parser.ast.body.MethodDeclaration;
-import japa.parser.ast.body.ModifierSet;
-import japa.parser.ast.body.TypeDeclaration;
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.PackageDeclaration;
+import com.github.javaparser.ast.body.BodyDeclaration;
+import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.ModifierSet;
+import com.github.javaparser.ast.body.TypeDeclaration;
 
 public class JpJavaClass implements JavaClass {
 
@@ -72,7 +71,7 @@ public class JpJavaClass implements JavaClass {
 			}
 		}
 		if (clazz == null) {
-			throw new ClassParserException("Could not successfully parse " + filename + ".");
+			throw new ClassParserException("No toplevel type declaration found in " + filename + ".");
 		}
 	}
 

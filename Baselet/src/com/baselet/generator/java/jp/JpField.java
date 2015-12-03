@@ -1,13 +1,12 @@
 package com.baselet.generator.java.jp;
 
 import com.baselet.generator.java.Field;
-
-import japa.parser.ast.body.FieldDeclaration;
-import japa.parser.ast.body.ModifierSet;
+import com.github.javaparser.ast.body.FieldDeclaration;
+import com.github.javaparser.ast.body.ModifierSet;
 
 public class JpField implements Field {
 
-	private FieldDeclaration field;
+	private final FieldDeclaration field;
 
 	public JpField(FieldDeclaration field) {
 		this.field = field;
