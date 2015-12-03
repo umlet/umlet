@@ -39,14 +39,14 @@ public class JpJavaClass implements JavaClass {
 			in = new FileInputStream(filename);
 			cu = JavaParser.parse(in);
 		} catch (Exception e) {
-			throw new ClassParserException("Javaparser library failed to parse " + filename, e);
+			throw new ClassParserException("Javaparser library failed to parse " + filename + ": " + e.getMessage(), e);
 		} finally {
 			try {
 				if (in != null) {
 					in.close();
 				}
 			} catch (IOException e) {
-				log.error("Exception at Java class parsing", e);
+				log.error("Error while closing file " + filename, e);
 			}
 		}
 		extractInformation(filename);
