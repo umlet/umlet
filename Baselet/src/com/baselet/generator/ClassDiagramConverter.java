@@ -45,18 +45,34 @@ public class ClassDiagramConverter {
 		GRIDSIZE = CurrentDiagram.getInstance().getDiagramHandler().getGridSize();
 	}
 
-	public void createClassDiagram(String filename) {
+	public List<Exception> createClassDiagram(String filename) {
 		List<String> fileNames = new ArrayList<String>();
 		fileNames.add(filename);
-		createClassDiagrams(fileNames);
+		return createClassDiagrams(fileNames);
 	}
 
-	public void createClassDiagrams(List<String> filesToOpen) {
+	public static String convertFailuresToString(List<Exception> failures) {
+		StringBuilder sb = new StringBuilder();
+		for (Exception failure : failures) {
+			if (sb.length() > 0) {
+				sb.append('\n');
+			}
+			sb.append(failure.getMessage());
+		}
+		return sb.toString();
+	}
+
+	public List<Exception> createClassDiagrams(List<String> filesToOpen) {
+		List<Exception> failures = new ArrayList<Exception>();
 		List<SortableElement> elements = new ArrayList<SortableElement>();
 		for (String filename : filesToOpen) {
-			SortableElement element = createElement(filename);
-			if (element != null) {
-				elements.add(element);
+			try {
+				SortableElement element = createElement(filename);
+				if (element != null) {
+					elements.add(element);
+				}
+			} catch (Exception e) {
+				failures.add(e);
 			}
 		}
 
@@ -75,9 +91,10 @@ public class ClassDiagramConverter {
 		}
 
 		addElementsToDiagram(elements);
+		return failures;
 	}
 
-	private SortableElement createElement(String filename) {
+	private SortableElement createElement(String filename) throws Exception {
 		JavaClass parsedClass = parseFile(filename);
 		if (parsedClass == null) {
 			return null;
@@ -197,28 +214,17 @@ public class ClassDiagramConverter {
 		sb.append("\n");
 	}
 
-	private JavaClass parseFile(String filename) {
-		try {
-			if (getExtension(filename).equals("java")) {
-				return parseJavaFile(filename);
-			}
-			else if (getExtension(filename).equals("class")) {
-				return parseClassFile(filename);
-			}
-		} catch (Exception ignored) {}
-		return null;
-	}
-
-	private JavaClass parseJavaFile(String filename) {
-		try {
+	private JavaClass parseFile(String filename) throws Exception {
+		String extension = getExtension(filename);
+		if (extension.equals("java")) {
 			return new JpJavaClass(filename);
-		} catch (ClassParserException e) {
-			return null;
 		}
-	}
-
-	private JavaClass parseClassFile(String filename) {
-		return new BcelJavaClass(filename);
+		else if (extension.equals("class")) {
+			return new BcelJavaClass(filename);
+		}
+		else {
+			throw new ClassParserException("Unknown extension " + extension + " of file " + filename);
+		}
 	}
 
 	private String getExtension(String filename) {

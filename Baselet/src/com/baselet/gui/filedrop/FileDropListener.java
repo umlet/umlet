@@ -2,11 +2,15 @@ package com.baselet.gui.filedrop;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Main;
 import com.baselet.generator.ClassDiagramConverter;
+import com.baselet.gui.CurrentGui;
 
 public class FileDropListener implements FileDrop.Listener {
 
@@ -18,7 +22,10 @@ public class FileDropListener implements FileDrop.Listener {
 			try {
 				String filename = file.getCanonicalPath();
 				if (isJavaFile(filename)) {
-					new ClassDiagramConverter().createClassDiagram(filename);
+					List<Exception> failures = new ClassDiagramConverter().createClassDiagram(filename);
+					if (!failures.isEmpty()) {
+						JOptionPane.showMessageDialog(CurrentGui.getInstance().getGui().getMainFrame(), ClassDiagramConverter.convertFailuresToString(failures), "Errors while generation Diagram", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 				else {
 					Main.getInstance().doOpen(filename);

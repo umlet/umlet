@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import com.baselet.control.Main;
@@ -94,7 +95,10 @@ public class MenuFactory {
 					main.doOpen((String) param);
 				}
 				else if (menuItem.equals(GENERATE_CLASS)) {
-					new ClassDiagramConverter().createClassDiagrams(ClassChooser.getFilesToOpen());
+					List<Exception> failures = new ClassDiagramConverter().createClassDiagrams(ClassChooser.getFilesToOpen());
+					if (!failures.isEmpty()) {
+						JOptionPane.showMessageDialog(gui.getMainFrame(), ClassDiagramConverter.convertFailuresToString(failures), "Errors while generation Diagram", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 				else if (menuItem.equals(GENERATE_CLASS_OPTIONS)) {
 					GenerateOptionPanel.getInstance().showPanel();
