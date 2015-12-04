@@ -37,7 +37,7 @@ public class JpJavaClass implements JavaClass {
 		try {
 			in = new FileInputStream(filename);
 			cu = JavaParser.parse(in);
-		} catch (Exception e) {
+		} catch (Throwable e) { // catch all exceptions and errors (otherwise stuff like a renamed jpg file would silently fail)
 			throw new ClassParserException("Cannot parse " + filename + ": " + e.getMessage(), e);
 		} finally {
 			try {
