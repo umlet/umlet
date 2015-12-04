@@ -3,14 +3,13 @@ package com.baselet.generator.java.jp;
 import java.util.List;
 
 import com.baselet.generator.java.Method;
-
-import japa.parser.ast.body.ConstructorDeclaration;
-import japa.parser.ast.body.ModifierSet;
-import japa.parser.ast.body.Parameter;
+import com.github.javaparser.ast.body.ConstructorDeclaration;
+import com.github.javaparser.ast.body.ModifierSet;
+import com.github.javaparser.ast.body.Parameter;
 
 public class JpConstructor implements Method {
 
-	private ConstructorDeclaration constructor;
+	private final ConstructorDeclaration constructor;
 
 	public JpConstructor(ConstructorDeclaration constructor) {
 		this.constructor = constructor;

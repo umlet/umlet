@@ -14,7 +14,6 @@
 	<classpathentry kind="lib" path="lib/batik-xml.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="lib/itextpdf-5.4.1.jar"/>
-	<classpathentry kind="lib" path="lib/javaparser-1.0.8.jar"/>
 	<classpathentry kind="lib" path="lib/jlibeps-0.1.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="lib/mailapi.jar"/>
@@ -23,5 +22,6 @@
 	<classpathentry kind="lib" path="lib/org.eclipse.jdt.core.compiler.ecj-4.3.1.jar"/>
 	<classpathentry kind="lib" path="lib/bcel-5.2.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BaseletElements"/>
+	<classpathentry kind="lib" path="lib/javaparser-core-2.3.0.jar" sourcepath="/home/ruedi/libSrc/javaparser-core-2.3.0-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

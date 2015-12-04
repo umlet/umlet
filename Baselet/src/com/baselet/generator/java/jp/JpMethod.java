@@ -3,10 +3,9 @@ package com.baselet.generator.java.jp;
 import java.util.List;
 
 import com.baselet.generator.java.Method;
-
-import japa.parser.ast.body.MethodDeclaration;
-import japa.parser.ast.body.ModifierSet;
-import japa.parser.ast.body.Parameter;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.body.ModifierSet;
+import com.github.javaparser.ast.body.Parameter;
 
 public class JpMethod implements Method {
 
