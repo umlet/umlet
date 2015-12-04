@@ -428,7 +428,7 @@ public class DiagramHandler {
 			else {
 				zoomtext = "Diagram zoomed to " + Integer.toString((int) zoomFactor) + "%";
 			}
-			Notifier.getInstance().showNotification(zoomtext);
+			Notifier.getInstance().showInfo(zoomtext);
 		}
 	}
 

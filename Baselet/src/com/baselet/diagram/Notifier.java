@@ -1,5 +1,6 @@
 package com.baselet.diagram;
 
+import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -7,7 +8,6 @@ import java.util.TimerTask;
 import javax.swing.SwingUtilities;
 
 import com.baselet.control.basics.Converter;
-import com.baselet.control.constants.Constants;
 
 public class Notifier {
 
@@ -17,27 +17,36 @@ public class Notifier {
 		return instance;
 	}
 
-	public void showNotification(final String message) {
+	public void showInfo(final String message) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				showNotificationHelper(message);
+				showNotificationHelper(message, 3000, Color.BLACK, Color.BLUE);
 			}
 		});
 	}
 
-	private void showNotificationHelper(String message) {
+	public void showError(final String message) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				showNotificationHelper("ERROR: " + message, 10000, Color.RED, Color.RED);
+			}
+		});
+	}
+
+	private void showNotificationHelper(String message, int duration, Color textColor, Color backgroundColor) {
 		final DrawPanel notifierPanel = CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel();
 
 		Rectangle viewRect = notifierPanel.getScrollPane().getViewport().getViewRect();
-		final DiagramNotification notification = new DiagramNotification(Converter.convert(viewRect), message);
+		final DiagramNotification notification = new DiagramNotification(Converter.convert(viewRect), message, textColor, backgroundColor);
 		new Timer("Notificationtimer", true).schedule(new TimerTask() {
 			@Override
 			public void run() {
 				notifierPanel.remove(notification);
 				notifierPanel.repaint();
 			}
-		}, Constants.NOTIFICATION_SHOW_TIME);
+		}, duration);
 
 		notifierPanel.setNotification(notification);
 	}

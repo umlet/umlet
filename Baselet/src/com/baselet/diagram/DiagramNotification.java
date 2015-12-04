@@ -1,6 +1,7 @@
 package com.baselet.diagram;
 
 import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -20,10 +21,14 @@ public class DiagramNotification extends JComponent {
 
 	private static final Font notificationFont = new Font(Font.SANS_SERIF, Font.PLAIN, 10);
 	private static final FontRenderContext frc = new FontRenderContext(null, true, true);
+	private final Color textColor;
+	private final Color backgroundColor;
 
-	public DiagramNotification(Rectangle drawPanelSize, String message) {
+	public DiagramNotification(Rectangle drawPanelSize, String message, Color textColor, Color backgroundColor) {
 		this.message = message;
 		this.drawPanelSize = drawPanelSize;
+		this.textColor = textColor;
+		this.backgroundColor = backgroundColor;
 		this.setSize(100, 20);
 		adaptDimensions();
 	}
@@ -35,6 +40,7 @@ public class DiagramNotification extends JComponent {
 		Graphics2D g2 = (Graphics2D) g;
 		Composite old = g2.getComposite(); // Store non-transparent composite
 
+		g2.setColor(textColor);
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f)); // 40% transparency
 		g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 
@@ -48,7 +54,7 @@ public class DiagramNotification extends JComponent {
 		g2.drawString(message, textX, textY);
 
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.05f)); // 5% transparency
-		g2.setColor(java.awt.Color.blue);
+		g2.setColor(backgroundColor);
 		g2.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
 		g2.setComposite(old);
 		g2.setFont(drawFont);

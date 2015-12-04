@@ -83,7 +83,6 @@ public abstract class Constants extends SharedConstants {
 	public static final String MANIFEST_BUNDLE_VERSION = "Bundle-Version";
 	public static final String LOG4J_PROPERTIES = "log4j.properties";
 
-	public static final int NOTIFICATION_SHOW_TIME = 3000;
 	public static final String CUSTOM_ELEMENT_CLASSNAME = "CustomElementImpl";
 	public static final int DEFAULTGRIDSIZE = 10;
 	public static final int INTERFACE_LINE_LENGTH = 40;

@@ -327,7 +327,7 @@ public class DiagramFileHandler {
 			handler.setChanged(false);
 			RecentlyUsedFilesList.getInstance().add(saveToFile.getAbsolutePath());
 		}
-		Notifier.getInstance().showNotification(saveToFile.getAbsolutePath() + " saved");
+		Notifier.getInstance().showInfo(saveToFile.getAbsolutePath() + " saved");
 	}
 
 	private String chooseFileName(boolean ownXmlFormat, FileFilter filefilter, JFileChooser fileChooser) {

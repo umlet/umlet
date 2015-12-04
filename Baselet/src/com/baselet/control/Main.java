@@ -152,14 +152,14 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 	private void doOpenHelper(String filename) {
 		File file = new File(filename);
 		if (!file.exists()) {
-			Notifier.getInstance().showNotification(filename + " does not exist");
+			Notifier.getInstance().showError(filename + " does not exist");
 			return;
 		}
 		Config.getInstance().setOpenFileHome(file.getParent());
 		DiagramHandler handler = getDiagramHandlerForFile(filename);
 		if (handler != null) { // File is already opened -> jump to the tab
 			CurrentGui.getInstance().getGui().jumpTo(handler);
-			Notifier.getInstance().showNotification("switched to " + filename);
+			Notifier.getInstance().showInfo("switched to " + filename);
 		}
 		else {
 			if (lastTabIsEmpty()) {
@@ -173,7 +173,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 				setPropertyPanelToGridElement(null);
 			}
 			RecentlyUsedFilesList.getInstance().add(filename);
-			Notifier.getInstance().showNotification(filename + " opened");
+			Notifier.getInstance().showInfo(filename + " opened");
 		}
 	}
 
