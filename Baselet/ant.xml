@@ -30,7 +30,7 @@
 		<pathelement location="${dir.src}" />
 		<pathelement location="${elements.src}" />
 		<!-- Path to Eclipse Plugin libraries-->
-		<fileset dir="${eclipse.home}/plugins">
+		<fileset dir="${eclipse.pdebuild.home}/..">
 			<include name="*.jar" />
 		</fileset>
 		<path refid="project.classpath.lib" />

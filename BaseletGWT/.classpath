@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" output="test-classes" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-compiler only/lib-gwt-file-0.3.3.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-compiler only/log4j-1.2.15.jar"/>
