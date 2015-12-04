@@ -15,6 +15,9 @@ import com.baselet.control.basics.geom.Rectangle;
 
 public class DiagramNotification extends JComponent {
 
+	private static final int BORDER_DISTANCE = 5;
+	private static final double VBUFFER = 1;
+
 	private static final long serialVersionUID = 1L;
 	private final String message;
 	private final Rectangle drawPanelSize;
@@ -49,9 +52,14 @@ public class DiagramNotification extends JComponent {
 		adaptDimensions();
 
 		int textX = 5;
-		int textY = getHeight() / 2 + 3;
+		double textY = BORDER_DISTANCE * 0.75;
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f)); // 70% transparency
-		g2.drawString(message, textX, textY);
+
+		String[] line = safeSplit(message);
+		for (String element : line) {
+			textY += textSize(element).getHeight() + VBUFFER;
+			g2.drawString(element, textX, (int) textY);
+		}
 
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.05f)); // 5% transparency
 		g2.setColor(backgroundColor);
@@ -61,10 +69,33 @@ public class DiagramNotification extends JComponent {
 	}
 
 	private void adaptDimensions() {
-		DimensionDouble textSize = FontHandler.getTextSizeStatic(new FormattedFont(message, notificationFont.getSize(), notificationFont, frc));
-		int x = (int) (drawPanelSize.getX2() - textSize.getWidth() - 20);
+		DimensionDouble fullTextSize = getTextblockDimensions(message);
+		int x = (int) (drawPanelSize.getX2() - fullTextSize.getWidth() - 20);
 		int y = drawPanelSize.getY() + 10;
 		this.setLocation(x, y);
-		this.setSize((int) textSize.getWidth() + 10, (int) textSize.getHeight() + 10);
+		this.setSize((int) fullTextSize.getWidth() + 10, (int) Math.round(fullTextSize.getHeight() + BORDER_DISTANCE * 2));
+	}
+
+	private DimensionDouble textSize(String line) {
+		return FontHandler.getTextSizeStatic(new FormattedFont(line, notificationFont.getSize(), notificationFont, frc));
+	}
+
+	private String[] safeSplit(String message) {
+		String[] line = message.split("\n");
+		if (line.length == 0) {
+			line = new String[] { message };
+		}
+		return line;
+	}
+
+	private DimensionDouble getTextblockDimensions(String message) {
+		double maxWidth = 0;
+		double heightAccumulator = 0;
+		for (String line : safeSplit(message)) {
+			DimensionDouble dim = textSize(line);
+			maxWidth = Math.max(maxWidth, dim.getWidth());
+			heightAccumulator += dim.getHeight() + VBUFFER;
+		}
+		return new DimensionDouble(maxWidth, heightAccumulator);
 	}
 }

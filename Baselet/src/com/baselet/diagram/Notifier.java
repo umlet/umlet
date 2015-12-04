@@ -21,7 +21,7 @@ public class Notifier {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				showNotificationHelper(message, 3000, Color.BLACK, Color.BLUE);
+				showNotificationHelper(message, 4000, Color.BLACK, Color.BLUE);
 			}
 		});
 	}

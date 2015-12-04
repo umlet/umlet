@@ -2,15 +2,14 @@ package com.baselet.gui.filedrop;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
 import com.baselet.control.Main;
+import com.baselet.diagram.Notifier;
 import com.baselet.generator.ClassDiagramConverter;
-import com.baselet.gui.CurrentGui;
 
 public class FileDropListener implements FileDrop.Listener {
 
@@ -18,20 +17,27 @@ public class FileDropListener implements FileDrop.Listener {
 
 	@Override
 	public void filesDropped(File[] files) {
+		boolean generateDiagram = false;
+		List<String> filenames = new ArrayList<String>();
 		for (File file : files) {
 			try {
 				String filename = file.getCanonicalPath();
+				filenames.add(filename);
 				if (isJavaFile(filename)) {
-					List<Exception> failures = new ClassDiagramConverter().createClassDiagram(filename);
-					if (!failures.isEmpty()) {
-						JOptionPane.showMessageDialog(CurrentGui.getInstance().getGui().getMainFrame(), ClassDiagramConverter.convertFailuresToString(failures), "Errors while generation Diagram", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-				else {
-					Main.getInstance().doOpen(filename);
+					generateDiagram = true;
 				}
 			} catch (IOException e) {
-				log.error("Cannot open file dropped");
+				log.error("Cannot open file dropped", e);
+				Notifier.getInstance().showError("Cannot open file dropped");
+			}
+		}
+
+		if (generateDiagram) {
+			new ClassDiagramConverter().createClassDiagrams(filenames);
+		}
+		else {
+			for (String filename : filenames) {
+				Main.getInstance().doOpen(filename);
 			}
 		}
 	}

@@ -13,6 +13,7 @@ import com.baselet.control.enums.generator.SignatureOptions;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.FontHandler;
+import com.baselet.diagram.Notifier;
 import com.baselet.element.ElementFactorySwing;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.generator.java.Accessible.AccessFlag;
@@ -45,12 +46,6 @@ public class ClassDiagramConverter {
 		GRIDSIZE = CurrentDiagram.getInstance().getDiagramHandler().getGridSize();
 	}
 
-	public List<Exception> createClassDiagram(String filename) {
-		List<String> fileNames = new ArrayList<String>();
-		fileNames.add(filename);
-		return createClassDiagrams(fileNames);
-	}
-
 	public static String convertFailuresToString(List<Exception> failures) {
 		StringBuilder sb = new StringBuilder();
 		for (Exception failure : failures) {
@@ -62,7 +57,7 @@ public class ClassDiagramConverter {
 		return sb.toString();
 	}
 
-	public List<Exception> createClassDiagrams(List<String> filesToOpen) {
+	public void createClassDiagrams(List<String> filesToOpen) {
 		List<Exception> failures = new ArrayList<Exception>();
 		List<SortableElement> elements = new ArrayList<SortableElement>();
 		for (String filename : filesToOpen) {
@@ -74,6 +69,11 @@ public class ClassDiagramConverter {
 			} catch (Exception e) {
 				failures.add(e);
 			}
+		}
+
+		if (!failures.isEmpty()) {
+			Notifier.getInstance().showError(ClassDiagramConverter.convertFailuresToString(failures));
+			return; // if errors are in any of the files don't add any of them
 		}
 
 		switch (ConfigClassGen.getInstance().getGenerateClassSortings()) {
@@ -91,7 +91,6 @@ public class ClassDiagramConverter {
 		}
 
 		addElementsToDiagram(elements);
-		return failures;
 	}
 
 	private SortableElement createElement(String filename) throws Exception {
