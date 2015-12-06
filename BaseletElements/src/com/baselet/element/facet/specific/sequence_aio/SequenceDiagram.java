@@ -35,8 +35,7 @@ public class SequenceDiagram {
 
 	private int lastTick;
 
-	public SequenceDiagram()
-	{
+	public SequenceDiagram() {
 		titleLines = new String[] { "" };
 		descLines = new String[] { "" };
 		lifelines = new Lifeline[0];
@@ -87,7 +86,10 @@ public class SequenceDiagram {
 	 * @param execSpecFromStart
 	 */
 	public Lifeline addLiveline(String headText, Lifeline.LifelineHeadType headType, boolean createdOnStart, boolean execSpecFromStart) {
-		lifelines = Arrays.copyOf(lifelines, lifelines.length + 1);
+		Lifeline[] tmp = new Lifeline[lifelines.length + 1];
+		System.arraycopy(lifelines, 0, tmp, 0, lifelines.length);
+		lifelines = tmp;
+
 		lifelines[lifelines.length - 1] = new Lifeline(headText, lifelines.length - 1, headType, createdOnStart, execSpecFromStart);
 		return lifelines[lifelines.length - 1];
 	}

@@ -115,8 +115,7 @@ public class TextSplitter {
 		if (words == null) {
 			return drawer.textWidth(analyzedText.getStringWithoutMarkup()) + endBuffer(drawer) + 0.01 < width;
 		}
-		else
-		{
+		else {
 			WordwrapCacheValue wwValue = getCachedWordwrap(words, width, drawer.getStyleClone(), analyzedText.getFormat());
 			if (wwValue == null) {
 				return drawer.textWidth(analyzedText.getStringWithoutMarkup()) + endBuffer(drawer) + 0.01 < width;
@@ -226,8 +225,7 @@ public class TextSplitter {
 							if (runtimeException) {
 								throw new RuntimeException("At least one word is to big for the specified width!");
 							}
-							else
-							{
+							else {
 								int endIndex = words[lineStart].getEnd() - 1;
 								while (drawer.textWidth(finalText.substring(words[lineStart].getBegin(), endIndex)) > width) {
 									endIndex--;
@@ -273,8 +271,7 @@ public class TextSplitter {
 		else {
 			double minWidth = 0;
 			if (analyzedText.getStringWithoutMarkup().trim().length() > 0) {
-				for (WordRegion wr : key.getWords())
-				{
+				for (WordRegion wr : key.getWords()) {
 					minWidth = Math.max(minWidth, drawer.textWidth(
 							analyzedText.getStringWithoutMarkup().substring(wr.getBegin(), wr.getEnd())));
 				}
@@ -321,7 +318,9 @@ public class TextSplitter {
 				for (; current < text.length(); current++) {
 					if (inWord) {
 						if (isWhitespace(text.charAt(current))) {
-							words = Arrays.copyOf(words, words.length + 1);
+							WordRegion[] tmp = new WordRegion[words.length + 1];
+							System.arraycopy(words, 0, tmp, 0, words.length);
+							words = tmp;
 							words[words.length - 1] = new WordRegion(wordStart, current);
 							inWord = false;
 						}
@@ -335,7 +334,9 @@ public class TextSplitter {
 				}
 				// if the last word isn't followed by a whitespace it won't get added in the loop
 				if (inWord) {
-					words = Arrays.copyOf(words, words.length + 1);
+					WordRegion[] tmp = new WordRegion[words.length + 1];
+					System.arraycopy(words, 0, tmp, 0, words.length);
+					words = tmp;
 					words[words.length - 1] = new WordRegion(wordStart, current);
 				}
 

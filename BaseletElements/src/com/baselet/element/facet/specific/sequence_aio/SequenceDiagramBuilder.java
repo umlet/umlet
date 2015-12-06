@@ -1,6 +1,5 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,8 +39,7 @@ public class SequenceDiagramBuilder {
 	private int lastMessageReceiveTick;
 	private boolean diagramRetrieved;
 
-	public SequenceDiagramBuilder()
-	{
+	public SequenceDiagramBuilder() {
 		overrideDefaultIds = false;
 		ids = new HashMap<String, Lifeline>();
 		activeCombinedFragmentStack = new LinkedList<SequenceDiagramBuilder.ActiveCombinedFragment>();
@@ -100,7 +98,10 @@ public class SequenceDiagramBuilder {
 			ll1 = ll2;
 			ll2 = tmp;
 		}
-		return Arrays.copyOfRange(dia.getLifelinesArray(), ll1.getIndex(), ll2.getIndex() + 1);
+
+		Lifeline[] result = new Lifeline[ll2.getIndex() + 1 - ll1.getIndex()];
+		System.arraycopy(dia.getLifelinesArray(), ll1.getIndex(), result, 0, result.length);
+		return result;
 	}
 
 	/**
@@ -120,7 +121,7 @@ public class SequenceDiagramBuilder {
 		Lifeline newLifeline = dia.addLiveline(headText, headType, createdOnStart, execSpecFromStart);
 		if (id != null) {
 			if (ids.containsKey(id)) {
-				throw new SequenceDiagramException("There is already a lifeline which is associated with the id '" + id +
+				throw new SequenceDiagramException("There is already a lifeline which is associated with the id '" +id +
 													"', please choose another identifier.");
 			}
 			ids.put(id, newLifeline);
@@ -263,7 +264,7 @@ public class SequenceDiagramBuilder {
 		if (!to.isCreatedOnStart() && to.getCreated() == null) {
 			to.setCreated(currentTick + duration);
 			if (to.isExecSpecFromStart()) {
-				currentLifelineState.get(to).execSpecStartTickStack.push(currentTick + duration);
+				currentLifelineState.get(to).execSpecStartTickStack.addFirst(currentTick + duration);
 			}
 		}
 		Message msg = new Message(from, to, duration, currentTick, text, arrowType, lineType);
@@ -292,7 +293,7 @@ public class SequenceDiagramBuilder {
 		Lifeline to = getLifelineException(toId);
 		if (!to.isCreatedOnStart()) {
 			if (to.getCreated() == null || to.getCreated() >= currentTick) {
-				throw new SequenceDiagramException("The lifeline " + toId +
+				throw new SequenceDiagramException("The lifeline " +toId +
 													" was not yet created, therefore it is not possible to send a found message to it.");
 			}
 		}
@@ -353,8 +354,7 @@ public class SequenceDiagramBuilder {
 
 	private void addOccurrenceSpecification(Lifeline lifeline, String lifelineId, String localId, OccurrenceSpecification occurrence) {
 		if (lifelineLocalIds.get(lifeline).containsKey(localId)) {
-			throw new SequenceDiagramException("The lifeline '" + lifelineId + "' has already a local id '"
-												+ localId + "', please choose another id.");
+			throw new SequenceDiagramException("The lifeline '" + lifelineId + "' has already a local id '" + localId + "', please choose another id.");
 		}
 		lifelineLocalIds.get(lifeline).put(localId, occurrence);
 	}
@@ -363,8 +363,7 @@ public class SequenceDiagramBuilder {
 		Lifeline llifeline = getLifelineException(lifelineId);
 		OccurrenceSpecification occurrenceSpec = lifelineLocalIds.get(llifeline).get(localId);
 		if (occurrenceSpec == null) {
-			throw new SequenceDiagramException("No lifeline occurrence with the id '" + localId
-												+ "' could be found on lifeline '" + lifelineId + "'.");
+			throw new SequenceDiagramException("No lifeline occurrence with the id '" + localId + "' could be found on lifeline '" + lifelineId + "'.");
 		}
 		return occurrenceSpec;
 	}
@@ -391,12 +390,13 @@ public class SequenceDiagramBuilder {
 		checkState();
 		Lifeline[] lifelines;
 		if (startId == null && endId == null) {
-			lifelines = Arrays.<Lifeline> copyOf(dia.getLifelinesArray(), dia.getLifelinesArray().length);
+			lifelines = new Lifeline[dia.getLifelinesArray().length];
+			System.arraycopy(dia.getLifelinesArray(), 0, lifelines, 0, lifelines.length);
 		}
 		else {
 			lifelines = getLifelineIntervalException(startId, endId);
 		}
-		activeCombinedFragmentStack.push(new ActiveCombinedFragment(new CombinedFragment(lifelines, currentTick, operator), cfId));
+		activeCombinedFragmentStack.addFirst(new ActiveCombinedFragment(new CombinedFragment(lifelines, currentTick, operator), cfId));
 		activeCombinedFragmentStack.peek().activeOperand = new ActiveOperand(currentTick);
 	}
 
@@ -411,7 +411,7 @@ public class SequenceDiagramBuilder {
 		}
 		ActiveCombinedFragment currentCombFrag = null;
 		if (cfId == null) {
-			currentCombFrag = activeCombinedFragmentStack.pop();
+			currentCombFrag = activeCombinedFragmentStack.removeFirst();
 		}
 		else {
 			ListIterator<ActiveCombinedFragment> activeCFIter = activeCombinedFragmentStack.listIterator();
@@ -586,8 +586,7 @@ public class SequenceDiagramBuilder {
 	 * @throws SequenceDiagramException if the diagram could not be generated.
 	 * @see #getWarnings()
 	 */
-	public SequenceDiagram generateDiagram()
-	{
+	public SequenceDiagram generateDiagram() {
 		if (diagramRetrieved) {
 			return dia;
 		}
@@ -616,7 +615,7 @@ public class SequenceDiagramBuilder {
 						if (e.getValue().lastEndOfExecSpec < currentTick) {
 							e.getValue().lastEndOfExecSpec = currentTick;
 							e.getKey().addExecutionSpecification(
-									new ExecutionSpecification(e.getValue().execSpecStartTickStack.pop(), currentTick));
+									new ExecutionSpecification(e.getValue().execSpecStartTickStack.removeFirst(), currentTick));
 							openExecSpecs = openExecSpecs || e.getValue().execSpecStartTickStack.size() > 0;
 							foundOpenExecSpecs = true;
 						}
