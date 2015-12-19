@@ -91,16 +91,16 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 	}
 
 	private void setImage(JFrame mainFrame) {
-		try {
-			ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
-			for (Integer i : new int[] { 16, 20, 24, 32, 40, 48, 64 }) {
-				File file = new File(Path.homeProgram() + "img/" + Program.getInstance().getProgramName().toLowerCase() + "_logo" + i + ".png");
+		ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
+		for (Integer i : new int[] { 16, 20, 24, 32, 40, 48, 64 }) {
+			File file = new File(Path.homeProgram() + "img/" + Program.getInstance().getProgramName().toLowerCase() + "_logo" + i + ".png");
+			try {
 				images.add(ImageIO.read(file));
+			} catch (IOException e) {
+				throw new RuntimeException("Cannot read image " + file, e);
 			}
-			mainFrame.setIconImages(images);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
 		}
+		mainFrame.setIconImages(images);
 	}
 
 	private void createZoomComboBox() {

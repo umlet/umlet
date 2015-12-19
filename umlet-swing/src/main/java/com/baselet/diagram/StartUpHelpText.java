@@ -59,7 +59,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 				showHTML(UpdateCheckTimerTask.getInstance().getFilename());
 			}
 		} catch (IOException e) {
-			throw new RuntimeException("Cannot read startup info file");
+			throw new RuntimeException("Cannot read startup info file", e);
 		}
 	}
 
