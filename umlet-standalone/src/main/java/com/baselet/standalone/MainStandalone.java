@@ -155,6 +155,8 @@ public class MainStandalone {
 		tempPath = Path.executable();
 		tempPath = tempPath.substring(0, tempPath.length() - 1);
 		tempPath = tempPath.substring(0, tempPath.lastIndexOf('/') + 1);
+		if (tempPath.endsWith("/lib/"))
+		    tempPath = tempPath.substring(0, tempPath.length() - "lib/".length());
 		realPath = new File(tempPath).getAbsolutePath() + "/";
 		Path.setHomeProgram(realPath);
 	}
