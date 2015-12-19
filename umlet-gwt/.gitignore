@@ -1,3 +1,4 @@
 /war/WEB-INF/classes/
+/war/WEB-INF/deploy/
 /war/baseletgwt/
 /gwt-unitCache/

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="BaseletElements" basedir="." default="javacc_all">
 
-	<property name="elements.src.dir" location="src" />
+	<property name="elements.src.dir" location="src/main/java" />
 	
 	<!-- Custrom drawing -->
 	<property name="custdraw.grammar.folder" location="${elements.src.dir}/com/baselet/element/facet/customdrawings/" />
