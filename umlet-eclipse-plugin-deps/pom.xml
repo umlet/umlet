@@ -10,7 +10,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.github.ruediste.umlet</groupId>
-			<artifactId>umlet-swing-deps</artifactId>
+			<artifactId>umlet-swing</artifactId>
 			<version>${project.version}</version>
 			<type>pom</type>
 		</dependency>
@@ -30,6 +30,7 @@
 							<outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
 							<stripVersion>true</stripVersion>
 							<includeScope>compile</includeScope>
+							<excludeGroupIds>com.github.ruediste.umlet</excludeGroupIds>
 						</configuration>
 					</execution>
 				</executions>

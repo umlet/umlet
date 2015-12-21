@@ -15,7 +15,7 @@
 	<url>http://www.umlet.com/</url>
 	<modules>
 		<module>umlet-swing</module>
-		<module>umlet-swing-deps</module>
+		
 		<module>umlet-eclipse-plugin</module>
 		<module>umlet-eclipse-plugin-deps</module>
 		<module>umlet-elements</module>
