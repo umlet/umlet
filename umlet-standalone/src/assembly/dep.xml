@@ -15,6 +15,7 @@
 			<outputDirectory>/</outputDirectory>
 			<excludes>
 				<exclude>launch4j_project.xml</exclude>
+				<exclude>Umlet.ico</exclude>
 			</excludes>
 		</fileSet>
 		<fileSet>
@@ -40,15 +41,15 @@
 			<outputDirectory>/lib/</outputDirectory>
 			<useProjectArtifact>false</useProjectArtifact>
 			<excludes>
-				<exclude>*:umlet-baselet-deps:*</exclude>
-				<exclude>*:umlet-baselet-res:*</exclude>
+				<exclude>*:umlet-swing-deps:*</exclude>
+				<exclude>*:umlet-res:*</exclude>
 			</excludes>
 		</dependencySet>
 		<dependencySet>
 			<outputDirectory>/</outputDirectory>
 			<outputFileNameMapping>umlet.jar</outputFileNameMapping>
 			<includes>
-				<include>*:umlet-baselet-standalone:*</include>
+				<include>*:umlet-standalone:*</include>
 			</includes>
 		</dependencySet>
 		<dependencySet>
@@ -59,11 +60,17 @@
 					<exclude>
 					META-INF/**
 					</exclude>
+					<exclude>
+					html/*.generic
+					</exclude>
+					<exclude>
+					img/plotlet_*
+					</exclude>
 				</excludes>
 			</unpackOptions>
 			<includes>
 				<include>
-			*:umlet-baselet-res:*
+			*:umlet-res:*
 			</include>
 			</includes>
 
