@@ -6,12 +6,7 @@
 		<artifactId>umlet-parent</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-
-
 	<artifactId>umlet-standalone</artifactId>
-	<properties>
-		<!-- <jar.finalName>umlet.jar</jar.finalName> -->
-	</properties>
 
 	<dependencies>
 		<dependency>

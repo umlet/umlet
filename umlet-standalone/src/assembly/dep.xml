@@ -41,7 +41,6 @@
 			<outputDirectory>/lib/</outputDirectory>
 			<useProjectArtifact>false</useProjectArtifact>
 			<excludes>
-				<exclude>*:umlet-swing-deps:*</exclude>
 				<exclude>*:umlet-res:*</exclude>
 			</excludes>
 		</dependencySet>
