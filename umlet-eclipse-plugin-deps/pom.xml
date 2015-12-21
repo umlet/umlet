@@ -29,6 +29,7 @@
 						<configuration>
 							<outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
 							<stripVersion>true</stripVersion>
+							<includeScope>compile</includeScope>
 						</configuration>
 					</execution>
 				</executions>
