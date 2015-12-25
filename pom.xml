@@ -15,7 +15,7 @@
 	<url>http://www.umlet.com/</url>
 	<modules>
 		<module>umlet-swing</module>
-		
+
 		<module>umlet-eclipse-plugin</module>
 		<module>umlet-eclipse-plugin-deps</module>
 		<module>umlet-elements</module>
@@ -99,4 +99,19 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<configuration>
+							<excludePackageNames>com.baselet.element.facet.customdrawings.gen:com.baselet.element.facet.specific.sequence_aio.gen</excludePackageNames>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

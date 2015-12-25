@@ -251,8 +251,8 @@ public abstract class DrawHandler {
 	 * i.e. The text is printed unmodified with the given formating.
 	 * @return the dimension the text would need if printed with the current settings
 	 */
-	protected DimensionDouble textDimension(StringStyle sinlgeLine) {
-		return textDimensionHelper(sinlgeLine);
+	protected DimensionDouble textDimension(StringStyle singleLine) {
+		return textDimensionHelper(singleLine);
 	}
 
 	/* HELPER METHODS */
@@ -262,7 +262,7 @@ public abstract class DrawHandler {
 	 * i.e. The text is printed unmodified with the given formating.
 	 * @return the dimension the text would need if printed with the current settings
 	 */
-	protected abstract DimensionDouble textDimensionHelper(StringStyle sinlgeLine);
+	protected abstract DimensionDouble textDimensionHelper(StringStyle singleLine);
 
 	protected abstract double getDefaultFontSize();
 

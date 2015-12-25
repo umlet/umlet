@@ -10,9 +10,14 @@ public interface HorizontalDrawingInfo {
 	/**
 	 * Returns the distance between the starting point of the lifeline which starts first and the end point of the
 	 * other.
-	 * I.e. with no loss of generality ll1.getIndex() <= ll2.getIndex() then
-	 * <code><nobr>getHDrawingInfo(ll1).getSymmetricHorizontalEnd(tick)</nobr>
-	 * - <nobr>getHDrawingInfo(ll2).getSymmetricHorizontalStart(tick)</nobr></code> is returned.
+	 * I.e. with no loss of generality {@code ll1.getIndex() <= ll2.getIndex()} then
+	 * <pre>
+	 * {@code
+	 * getHDrawingInfo(ll1).getSymmetricHorizontalEnd(tick)
+	 * -getHDrawingInfo(ll2).getSymmetricHorizontalStart(tick)
+	 * }
+	 * </pre>
+	 * is returned.
 	 * @param ll1
 	 * @param ll2
 	 * @param tick

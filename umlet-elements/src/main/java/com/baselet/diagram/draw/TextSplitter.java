@@ -24,7 +24,7 @@ import com.baselet.util.LRUCache;
  *
  * If not stated otherwise all Strings supplied to the TextSplitter are interpreted and
  * the found markup is used to format the String (see {@link StringStyle}).
- * </br></br>
+ * <br>
  * <i>Hint: The old TextSplitter can be found in the git history</i>
  * <pre>e.g. hash: 1320ae5858446795bccda8d2bb12d18664278886</pre>
  */

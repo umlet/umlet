@@ -7,6 +7,7 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 
 /**
+ * <pre>
  * GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
  * G                                G
  * G  OOOOOOOOOOOOOOO               G
@@ -24,14 +25,15 @@ import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
  * G                                G
  * G                                G
  * GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+ * </pre>
  */
 public class Canvas {
 
 	private int borderspace;
-	private Rectangle outerBorder; // Nothing is drawn between outerBorder and the GridElement-Border
-	private Rectangle innerBorder; // Only axis are drawn between outerBorder and innerBorder; inside the innerBorder the plot is drawn
+	private final Rectangle outerBorder; // Nothing is drawn between outerBorder and the GridElement-Border
+	private final Rectangle innerBorder; // Only axis are drawn between outerBorder and innerBorder; inside the innerBorder the plot is drawn
 
-	private Dimension gridElementSize;
+	private final Dimension gridElementSize;
 
 	public Canvas(Dimension gridElementSize) {
 		super();
@@ -72,8 +74,10 @@ public class Canvas {
 	}
 
 	/**
-	 * <----->
+	 * <pre>
+	 * &lt;-----&gt;
 	 * G  O  I       I  O               G
+	 * </pre>
 	 */
 	public int getInnerLeftPos() {
 		return innerBorder.x;
@@ -84,8 +88,10 @@ public class Canvas {
 	}
 
 	/**
-	 *               <------------------>
+	 * <pre>
+	 *               &lt;------------------&gt;
 	 * G  O  I       I  O               G
+	 * </pre>
 	 */
 	public int getInnerRightBorderWidth() {
 		return innerBorder.width;
@@ -96,8 +102,10 @@ public class Canvas {
 	}
 
 	/**
-	 * <------------->
+	 * <pre>
+	 * &lt;-------------&gt;
 	 * G  O  I       I  O               G
+	 * </pre>
 	 */
 	public int getInnerRightPos() {
 		return gridElementSize.width - getInnerRightBorderWidth();
@@ -108,8 +116,10 @@ public class Canvas {
 	}
 
 	/**
-	 * <----->       <------------------>
+	 * <pre>
+	 * &lt;-----&gt;       &lt;------------------&gt;
 	 * G  O  I       I  O               G
+	 * </pre>
 	 */
 	public int getInnerHorizontalSum() {
 		return getInnerLeftPos() + getInnerRightBorderWidth();
@@ -120,8 +130,10 @@ public class Canvas {
 	}
 
 	/**
-	 *       <------->
+	 * <pre>
+	 *       &lt;-------&gt;
 	 * G  O  I       I  O               G
+	 * </pre>
 	 */
 	public int getInnerHorizontalDrawspace() {
 		return getInnerRightPos() - getInnerLeftPos();

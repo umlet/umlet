@@ -8,15 +8,20 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Reader;
 
+import com.baselet.gui.filedrop.FileDrop.TransferableObject;
+
 /**
+ * <p>
  * This class makes it easy to drag and drop files from the operating
  * system to a Java program. Any <tt>java.awt.Component</tt> can be
  * dropped onto, but only <tt>javax.swing.JComponent</tt>s will indicate
  * the drop event with a changed border.
- * <p/>
+ * </p>
+ *
+ * <p>
  * To use this class, construct a new <tt>FileDrop</tt> by passing it the target component and a <tt>Listener</tt> to receive notification when file(s) have been dropped. Here is an example:
- * <p/>
- * <code><pre>
+ * </p>
+ * <pre>{@code
  *      JPanel myPanel = new JPanel();
  *      new FileDrop( myPanel, new FileDrop.Listener()
  *      {   public void filesDropped( java.io.File[] files )
@@ -25,12 +30,13 @@ import java.io.Reader;
  *              ...
  *          }   // end filesDropped
  *      }); // end FileDrop.Listener
- * </pre></code>
- * <p/>
+ * }</pre>
+ * <p>
  * You can specify the border that will appear when files are being dragged by calling the constructor with a <tt>javax.swing.border.Border</tt>. Only <tt>JComponent</tt>s will show any indication with a border.
- * <p/>
+ * </p>
+ * <p>
  * You can turn on some debugging features by passing a <tt>PrintStream</tt> object (such as <tt>System.out</tt>) into the full constructor. A <tt>null</tt> value will result in no extra debugging information being output.
- * <p/>
+ * </p>
  * <p>
  * I'm releasing this code into the Public Domain. Enjoy.
  * </p>
@@ -596,7 +602,9 @@ public class FileDrop {
 
 	/**
 	 * Implement this inner interface to listen for when files are dropped. For example
-	 * your class declaration may begin like this: <code><pre>
+	 * your class declaration may begin like this:
+	 *
+	 * <pre>{@code
 	 *      public class MyClass implements FileDrop.Listener
 	 *      ...
 	 *      public void filesDropped( java.io.File[] files )
@@ -604,7 +612,7 @@ public class FileDrop {
 	 *          ...
 	 *      }   // end filesDropped
 	 *      ...
-	 * </pre></code>
+	 * }</pre>
 	 *
 	 * @since 1.1
 	 */
@@ -749,7 +757,7 @@ public class FileDrop {
 		/**
 		 * Returns a two- or three-element array containing first
 		 * the custom data flavor, if one was created in the constructors,
-		 * second the default {@link #DATA_FLAVOR} associated with {@link TransferableObject}, and third the {@link java.awt.datatransfer.DataFlavor.stringFlavor}.
+		 * second the default {@link TransferableObject#DATA_FLAVOR} associated with {@link TransferableObject}, and third the {@link java.awt.datatransfer.DataFlavor#stringFlavor}.
 		 *
 		 * @return An array of supported data flavors
 		 * @since 1.1
@@ -826,12 +834,13 @@ public class FileDrop {
 		 * Instead of passing your data directly to the {@link TransferableObject} constructor, you may want to know exactly when your data was received
 		 * in case you need to remove it from its source (or do anyting else to it).
 		 * When the {@link #getTransferData getTransferData(...)} method is called
-		 * on the {@link TransferableObject}, the {@link Fetcher}'s {@link #getObject getObject()} method will be called.
-		 *
+		 * on the {@link TransferableObject}, the {@link Fetcher}'s {@link #getObject getObject()} method will be called. <br>
+		 * <br>
+		 * copyright: 2001
 		 * @author Robert Harder
-		 * @copyright 2001
 		 * @version 1.1
 		 * @since 1.1
+		 *
 		 */
 		public static interface Fetcher {
 			/**
