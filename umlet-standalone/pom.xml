@@ -8,6 +8,9 @@
 	</parent>
 	<artifactId>umlet-standalone</artifactId>
 
+	<properties>
+		<maven.deploy.skip>true</maven.deploy.skip>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.github.ruediste.umlet</groupId>
@@ -96,8 +99,8 @@
 							</execution>
 						</executions>
 						<configuration>
-									<source>${project.build.directory}/${project.build.finalName}-bin.tar.bz2</source>
-									<destination>${project.build.finalName}.tar.bz2</destination>
+							<source>${project.build.directory}/${project.build.finalName}-bin.tar.bz2</source>
+							<destination>${project.build.finalName}.tar.bz2</destination>
 							<endpoint>s3.eu-central-1.amazonaws.com</endpoint>
 							<bucketName>umlet.ruediste.github.com</bucketName>
 							<accessKey>${env.S3_access}</accessKey>
