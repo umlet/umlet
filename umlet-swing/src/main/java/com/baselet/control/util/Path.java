@@ -111,10 +111,12 @@ public class Path {
 	}
 
 	/**
-	 * STANDALONE NOJAR: <programpath>
-	 * STANDALONE JAR: <programpath>
-	 * ECLIPSE NOJAR: <programpath>
-	 * ECLIPSE JAR: <eclipsepath>/<configuration>/<dirToStoreCustomStuff>
+	 * <ul>
+	 * <li>	 * STANDALONE NOJAR: <programpath> </li>
+	 * <li>STANDALONE JAR: <programpath> </li>
+	 * <li>ECLIPSE NOJAR: <programpath> </li>
+	 * <li>ECLIPSE JAR: <eclipsepath>/<configuration>/<dirToStoreCustomStuff> </li>
+	 * </ul>
 	 */
 	public static String homeProgram() {
 		return homeProgramDir;
@@ -125,10 +127,12 @@ public class Path {
 	}
 
 	/**
-	 * STANDALONE NOJAR: <programpath>/bin/
-	 * STANDALONE JAR: <programpath>/<progname>.jar
-	 * ECLIPSE NOJAR: <programpath>
-	 * ECLIPSE JAR: <eclipsepath>/<pluginname>.jar
+	 * <ul>
+	 * <li>STANDALONE NOJAR: <programpath>/bin/</li>
+	 * <li>STANDALONE JAR: <programpath>/<progname>.jar</li>
+	 * <li>ECLIPSE NOJAR: <programpath></li>
+	 * <li>ECLIPSE JAR: <eclipsepath>/<pluginname>.jar</li>
+	 * </ul>
 	 */
 	public static String executable() {
 		String path = null;

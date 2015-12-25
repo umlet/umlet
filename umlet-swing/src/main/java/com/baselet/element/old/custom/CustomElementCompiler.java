@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -86,7 +88,7 @@ public class CustomElementCompiler {
 			String path = Path.executable();
 
 			String javaVersion = "-\"1.6\""; // custom elements use Java6 (previously SystemInfo.JAVA_VERSION, but this only works if the compiler.jar supports the system java version which is not guaranteed)
-			String classpath = "-classpath \"" + path + "\"" + File.pathSeparator + "\"" + path + "bin/\"";
+			String classpath = "-classpath " + calculateClassPath(getClass().getClassLoader());
 			String sourcefile = "\"" + this.sourcefile.getAbsolutePath() + "\"";
 
 			// Compiler Information at http://dev.eclipse.org/viewcvs/index.cgi/jdt-core-home/howto/batch%20compile/batchCompile.html?revision=1.7
@@ -113,6 +115,32 @@ public class CustomElementCompiler {
 			entity = new CustomElementWithErrors(compilation_errors);
 		}
 		return entity;
+	}
+
+	/**
+	 * Calculate the classpath based on the urls used by the {@link URLClassLoader}.
+	 * This is a heuristic used by many reflection libraries.
+	 */
+	private String calculateClassPath(ClassLoader cl) {
+		if (cl == null) {
+			return "";
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append(calculateClassPath(cl.getParent()));
+		if (cl instanceof URLClassLoader) {
+			URLClassLoader urlCl = (URLClassLoader) cl;
+			for (URL url : urlCl.getURLs()) {
+				if ("file".equals(url.getProtocol())) {
+					if (sb.length() > 0) {
+						sb.append(File.pathSeparatorChar);
+					}
+					sb.append('"');
+					sb.append(url.getFile());
+					sb.append('"');
+				}
+			}
+		}
+		return sb.toString();
 	}
 
 	// loads the source from a file
