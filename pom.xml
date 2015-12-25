@@ -14,13 +14,12 @@
 	<name>UMlet</name>
 	<url>http://www.umlet.com/</url>
 	<modules>
-		<module>umlet-swing</module>
-
-		<module>umlet-eclipse-plugin</module>
-		<module>umlet-eclipse-plugin-deps</module>
 		<module>umlet-elements</module>
 		<module>umlet-res</module>
+		<module>umlet-swing</module>
 		<module>umlet-standalone</module>
+		<module>umlet-eclipse-plugin-deps</module>
+		<module>umlet-eclipse-plugin</module>
 	</modules>
 
 	<properties>
