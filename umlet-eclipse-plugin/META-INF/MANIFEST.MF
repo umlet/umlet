@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: UMlet
 Bundle-SymbolicName: com.umlet.plugin;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 14.1.0.qualifier
 Bundle-ClassPath: .,lib/autocomplete.jar, lib/batik-awt-util.jar, 
  lib/batik-dom.jar, lib/batik-ext.jar, lib/batik-svggen.jar,
  lib/batik-util.jar, lib/batik-xml.jar, lib/bcel.jar, lib/commons-io.jar, 

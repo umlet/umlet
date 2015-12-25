@@ -6,17 +6,15 @@
 	<parent>
 		<groupId>com.github.ruediste.umlet</groupId>
 		<artifactId>umlet-parent</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>14.1.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>com.umlet.plugin</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
 
 	<packaging>eclipse-plugin</packaging>
 
 	<properties>
 		<tycho.version>0.24.0</tycho.version>
-		<umlet.version>1.0-SNAPSHOT</umlet.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -30,7 +28,7 @@
 		<dependency>
 			<groupId>com.github.ruediste.umlet</groupId>
 			<artifactId>umlet-eclipse-plugin-deps</artifactId>
-			<version>${umlet.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -101,12 +99,12 @@
 								<artifactItem>
 									<groupId>com.github.ruediste.umlet</groupId>
 									<artifactId>umlet-eclipse-plugin-deps</artifactId>
-									<version>${umlet.version}</version>
+									<version>${project.version}</version>
 								</artifactItem>
 								<artifactItem>
 									<groupId>com.github.ruediste.umlet</groupId>
 									<artifactId>umlet-res</artifactId>
-									<version>${umlet.version}</version>
+									<version>${project.version}</version>
 								</artifactItem>
 							</artifactItems>
 						</configuration>

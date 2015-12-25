@@ -10,7 +10,7 @@
 	<groupId>com.github.ruediste.umlet</groupId>
 	<artifactId>umlet-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>14.1.0-SNAPSHOT</version>
 	<name>UMlet</name>
 	<url>http://www.umlet.com/</url>
 	<modules>
