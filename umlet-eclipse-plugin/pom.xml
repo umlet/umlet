@@ -134,4 +134,34 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.bazaarvoice.maven.plugins</groupId>
+						<artifactId>s3-upload-maven-plugin</artifactId>
+						<version>1.3</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>s3-upload</goal>
+								</goals>
+								<phase>deploy</phase>
+								<configuration>
+									<source>${project.build.directory}/${project.build.finalName}.jar</source>
+									<destination>${project.build.finalName}.jar</destination>
+									<endpoint>s3.eu-central-1.amazonaws.com</endpoint>
+									<bucketName>umlet.ruediste.github.com</bucketName>
+									<accessKey>${env.S3_access}</accessKey>
+									<secretKey>${env.S3_secret}</secretKey>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
