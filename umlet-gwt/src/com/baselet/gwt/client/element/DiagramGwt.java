@@ -86,7 +86,7 @@ public class DiagramGwt implements Diagram {
 
 	@Override
 	public List<GridElement> getGridElementsByLayer(boolean ascending) {
-		ArrayList<GridElement> list = new ArrayList<>(gridElements);
+		ArrayList<GridElement> list = new ArrayList<GridElement>(gridElements);
 		if (ascending) {
 			Collections.sort(list, LAYER_COMPARATOR_ASCENDING);
 		}

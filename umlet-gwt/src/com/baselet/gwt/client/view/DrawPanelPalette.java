@@ -42,7 +42,7 @@ public class DrawPanelPalette extends DrawPanel {
 			Resources.INSTANCE.UML_Structure_and_Deployment(),
 			Resources.INSTANCE.UML_Use_Case(),
 			Resources.INSTANCE.Plots());
-	private final Map<TextResource, Diagram> paletteCache = new HashMap<>();
+	private final Map<TextResource, Diagram> paletteCache = new HashMap<TextResource, Diagram>();
 
 	private final ListBox paletteChooser;
 

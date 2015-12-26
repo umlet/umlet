@@ -42,8 +42,8 @@
 				<extensions>true</extensions>
 				<configuration>
 					<includes>
-						<include>../Baselet/src/main/java/**/*.java</include>
-						<include>../BaseletElements/src/main/java/**/*.java</include>
+						<include>../umlet-swing/src/main/java/**/*.java</include>
+						<include>../umlet-elements/src/main/java/**/*.java</include>
 					</includes>
 				</configuration>
 			</plugin>
