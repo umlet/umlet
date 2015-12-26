@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: UMlet
+Bundle-SymbolicName: com.umlet.plugin;singleton:=true
+Bundle-Version: 14.1.0.qualifier
+Bundle-ClassPath: .,lib/autocomplete.jar, lib/batik-awt-util.jar, 
+ lib/batik-dom.jar, lib/batik-ext.jar, lib/batik-svggen.jar,
+ lib/batik-util.jar, lib/batik-xml.jar, lib/bcel.jar, lib/commons-io.jar, 
+ lib/itextpdf.jar, lib/javaparser-core.jar, lib/jlibeps.jar, lib/log4j.jar, 
+ lib/mailapi.jar,
+ lib/rsyntaxtextarea.jar, lib/smtp.jar
+Bundle-Activator: com.baselet.plugin.MainPlugin
+Export-Package: com.baselet.plugin,
+ com.baselet.plugin.gui,
+ com.baselet.plugin.wizard
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.ui.ide,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime,
+ org.eclipse.jdt.core;resolution:=optional,
+ org.eclipse.core.expressions
+Bundle-ActivationPolicy: lazy
+Eclipse-LazyStart: true
+Import-Package: org.eclipse.core.filesystem
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
