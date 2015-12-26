@@ -4,7 +4,7 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.github.ruediste.umlet</groupId>
+		<groupId>com.umlet</groupId>
 		<artifactId>umlet-parent</artifactId>
 		<version>14.1.0-SNAPSHOT</version>
 	</parent>
@@ -27,7 +27,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.github.ruediste.umlet</groupId>
+			<groupId>com.umlet</groupId>
 			<artifactId>umlet-eclipse-plugin-deps</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -98,12 +98,12 @@
 							</excludes>
 							<artifactItems>
 								<artifactItem>
-									<groupId>com.github.ruediste.umlet</groupId>
+									<groupId>com.umlet</groupId>
 									<artifactId>umlet-eclipse-plugin-deps</artifactId>
 									<version>${project.version}</version>
 								</artifactItem>
 								<artifactItem>
-									<groupId>com.github.ruediste.umlet</groupId>
+									<groupId>com.umlet</groupId>
 									<artifactId>umlet-res</artifactId>
 									<version>${project.version}</version>
 								</artifactItem>
