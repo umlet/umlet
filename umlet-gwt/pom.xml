@@ -66,7 +66,7 @@
 			<artifactId>log4j-gwt</artifactId>
 			<version>1.0.0</version>
 			<scope>system</scope>
-			<systemPath>${project.build.directory}/../war/WEB-INF/lib/gwt-compiler only/log4j-gwt.jar</systemPath>
+			<systemPath>${project.basedir}/war/WEB-INF/lib/gwt-compiler-only/log4j-gwt.jar</systemPath>
 		</dependency>
 	</dependencies>
 
