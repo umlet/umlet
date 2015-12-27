@@ -5,11 +5,13 @@
 		<artifactId>umlet-parent</artifactId>
 		<version>14.1.0-SNAPSHOT</version>
 	</parent>
+
 	<artifactId>umlet-standalone</artifactId>
 
 	<properties>
 		<maven.deploy.skip>true</maven.deploy.skip>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.umlet</groupId>
@@ -22,11 +24,7 @@
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
-	<dependencyManagement>
-		<dependencies>
 
-		</dependencies>
-	</dependencyManagement>
 	<build>
 		<plugins>
 			<plugin>
@@ -45,7 +43,7 @@
 					</execution>
 				</executions>
 			</plugin>
-				<!-- add classpath, mainclass and build information to META-INF -->
+			<!-- add classpath, mainclass and build information to META-INF -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -65,50 +63,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<profiles>
-		<profile>
-			<id>release</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>com.bazaarvoice.maven.plugins</groupId>
-						<artifactId>s3-upload-maven-plugin</artifactId>
-						<version>1.3</version>
-						<executions>
-							<execution>
-								<id>zip</id>
-								<goals>
-									<goal>s3-upload</goal>
-								</goals>
-								<phase>deploy</phase>
-								<configuration>
-									<source>${project.build.directory}/${project.build.finalName}-bin.zip</source>
-									<destination>${project.build.finalName}.zip</destination>
-								</configuration>
-							</execution>
-							<execution>
-								<id>tar.bz2</id>
-								<goals>
-									<goal>s3-upload</goal>
-								</goals>
-								<phase>deploy</phase>
-								<configuration>
-									<source>${project.build.directory}/${project.build.finalName}-bin.tar.bz2</source>
-									<destination>${project.build.finalName}.tar.bz2</destination>
-								</configuration>
-							</execution>
-						</executions>
-						<configuration>
-							<source>${project.build.directory}/${project.build.finalName}-bin.tar.bz2</source>
-							<destination>${project.build.finalName}.tar.bz2</destination>
-							<endpoint>s3.eu-central-1.amazonaws.com</endpoint>
-							<bucketName>umlet.ruediste.github.com</bucketName>
-							<accessKey>${env.S3_access}</accessKey>
-							<secretKey>${env.S3_secret}</secretKey>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>
