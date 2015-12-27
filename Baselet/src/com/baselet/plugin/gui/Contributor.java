@@ -1,15 +1,23 @@
 package com.baselet.plugin.gui;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.EditorActionBarContributor;
 
+import com.baselet.control.constants.MenuConstants;
+import com.baselet.control.enums.Program;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
 import com.baselet.plugin.gui.EclipseGUI.Pane;
@@ -42,8 +50,12 @@ public class Contributor extends EditorActionBarContributor {
 	private IAction pasteActionCustomPanel;
 	private IAction selectAllActionCustomPanel;
 
+	private List<IAction> exportAsActionList;
+
 	private boolean customPanelEnabled;
 	private boolean custom_element_selected;
+
+	private IMenuManager zoomMenu;
 
 	public Contributor() {
 		customPanelEnabled = false;
@@ -97,6 +109,52 @@ public class Contributor extends EditorActionBarContributor {
 	@Override
 	public void contributeToMenu(IMenuManager manager) {
 		((EclipseGUI) CurrentGui.getInstance().getGui()).setContributor(this);
+
+		IMenuManager menu = new MenuManager(Program.getInstance().getProgramName().toString());
+		IMenuManager custom = new MenuManager(MenuConstants.CUSTOM_ELEMENTS);
+		IMenuManager help = new MenuManager(MenuConstants.HELP);
+		manager.appendToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
+
+		custom.add(customnew = menuFactory.createNewCustomElement());
+		custom.add(menuFactory.createNewCustomElementFromTemplate(this));
+		custom.add(new Separator());
+		custom.add(menuFactory.createCustomElementsTutorial());
+
+		help.add(menuFactory.createOnlineHelp());
+		help.add(menuFactory.createOnlineSampleDiagrams());
+		help.add(menuFactory.createVideoTutorial());
+		help.add(new Separator());
+		help.add(menuFactory.createProgramHomepage());
+		help.add(menuFactory.createRateProgram());
+		help.add(new Separator());
+		help.add(menuFactory.createAboutProgram());
+
+		menu.add(menuFactory.createGenerate());
+		menu.add(menuFactory.createGenerateOptions());
+
+		zoomMenu = menuFactory.createZoom();
+		menu.add(zoomMenu);
+
+		exportAsActionList = menuFactory.createExportAsActions();
+		IMenuManager export = new MenuManager("Export as");
+		for (IAction action : exportAsActionList) {
+			export.add(action);
+		}
+		menu.add(export);
+
+		menu.add(menuFactory.createEditCurrentPalette());
+		menu.add(custom);
+		menu.add(menuFactory.createMailTo());
+		menu.add(new Separator());
+		menu.add(help);
+		menu.add(menuFactory.createOptions());
+	}
+
+	public void setExportAsEnabled(boolean enabled) {
+		// AB: We cannot disable the MenuManager, so we have to disable every entry in the export menu :P
+		for (IAction action : exportAsActionList) {
+			action.setEnabled(enabled);
+		}
 	}
 
 	public void setPaste(boolean value) {
@@ -171,4 +229,16 @@ public class Contributor extends EditorActionBarContributor {
 		});
 	}
 
+	public void updateZoomMenuRadioButton(int newGridSize) {
+		for (IContributionItem item : zoomMenu.getItems()) {
+			IAction action = ((ActionContributionItem) item).getAction();
+			int actionGridSize = Integer.parseInt(action.getText().substring(0, action.getText().length() - 2));
+			if (actionGridSize == newGridSize) {
+				action.setChecked(true);
+			}
+			else {
+				action.setChecked(false);
+			}
+		}
+	}
 }

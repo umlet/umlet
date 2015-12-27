@@ -41,8 +41,6 @@ public class EclipseGUI extends BaseGUI {
 	private final HashMap<DiagramHandler, Editor> diagrams;
 	private Contributor contributor;
 
-	private MenuContributor menuContributor;
-
 	public EclipseGUI(CanCloseProgram main) {
 		super(main);
 		diagrams = new HashMap<DiagramHandler, Editor>();
@@ -67,9 +65,7 @@ public class EclipseGUI extends BaseGUI {
 			return; // Possible if method is called at loading a palette
 		}
 		boolean enable = handler != null && !currentDiagram.getGridElements().isEmpty();
-		if (menuContributor != null) {
-			menuContributor.setExportAsEnabled(enable);
-		}
+		contributor.setExportAsEnabled(enable);
 	}
 
 	@Override
@@ -304,8 +300,8 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public void setValueOfZoomDisplay(int i) {
-		if (menuContributor != null) {
-			menuContributor.updateZoomMenuRadioButton(i);
+		if (contributor != null) {
+			contributor.updateZoomMenuRadioButton(i);
 		}
 	}
 
@@ -342,9 +338,5 @@ public class EclipseGUI extends BaseGUI {
 	@Override
 	public boolean saveWindowSizeInConfig() {
 		return false;
-	}
-
-	public void setMenuContributor(MenuContributor menuContributor) {
-		this.menuContributor = menuContributor;
 	}
 }
