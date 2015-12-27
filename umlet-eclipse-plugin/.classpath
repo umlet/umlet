@@ -3,8 +3,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="src" path="/umlet-elements/src/main/java"/>
-	<classpathentry kind="src" path="/umlet-swing/src/main/java"/>
+	<classpathentry kind="src" path="umlet-elements"/>
+	<classpathentry kind="src" path="umlet-swing"/>
 	<classpathentry exported="true" kind="lib" path="lib/autocomplete.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/batik-awt-util.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/batik-dom.jar"/>
