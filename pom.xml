@@ -84,6 +84,7 @@
 			</resource>
 		</resources>
 		<plugins>
+			<!-- use buildnumber-maven-plugin to create several versions of timestamp variables -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
@@ -125,7 +126,6 @@
 				</executions>
 			</plugin>
 		</plugins>
-
 		<pluginManagement>
 			<plugins>
 				<plugin>
