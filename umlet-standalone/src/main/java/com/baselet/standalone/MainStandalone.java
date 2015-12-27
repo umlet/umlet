@@ -155,8 +155,9 @@ public class MainStandalone {
 		tempPath = Path.executable();
 		tempPath = tempPath.substring(0, tempPath.length() - 1);
 		tempPath = tempPath.substring(0, tempPath.lastIndexOf('/') + 1);
-		if (tempPath.endsWith("/lib/"))
-		    tempPath = tempPath.substring(0, tempPath.length() - "lib/".length());
+		if (tempPath.endsWith("/lib/")) {
+			tempPath = tempPath.substring(0, tempPath.length() - "lib/".length());
+		}
 		realPath = new File(tempPath).getAbsolutePath() + "/";
 		Path.setHomeProgram(realPath);
 	}
@@ -193,10 +194,20 @@ public class MainStandalone {
 		return new File(Path.temp() + Program.getInstance().getProgramName().toLowerCase() + ".tmp");
 	}
 
-	private static void readManifestInfo() {
+	private static void readManifestInfo() { // TODO version should be read from a properties file - this properties file should be used in GWT, EclipsePlugin and Standalone!
 		try {
 			Attributes attributes = Path.manifest().getMainAttributes();
-			Program.getInstance().init(attributes.getValue(Constants.MANIFEST_BUNDLE_VERSION));
+			String eclipseVersion = attributes.getValue(Constants.MANIFEST_BUNDLE_VERSION); // Eclipse Plugin uses Bundle-Version for the version
+			if (eclipseVersion != null) {
+				Program.getInstance().init(eclipseVersion);
+			}
+			else {
+				String version = attributes.getValue("Implementation-Version"); // Other jars use Implementation-Version for the version
+				if (version == null) {
+					throw new RuntimeException("Cannot determine program version from MANIFEST.MF");
+				}
+				Program.getInstance().init(version);
+			}
 		} catch (Exception e) {
 			log.error("Cannot read manifest", e);
 			throw new RuntimeException(e);
