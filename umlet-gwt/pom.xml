@@ -15,8 +15,6 @@
 		<!-- GWT 2.7 requires Java 7 -->
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
-		<timestamp>${maven.build.timestamp}</timestamp>
-		<maven.build.timestamp.format>yyyyMMdd_HHmmss</maven.build.timestamp.format> <!-- used as suffix in umletino.html to avoid caching problems -->
 	</properties>
 
 	<dependencies>
