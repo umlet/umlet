@@ -30,8 +30,8 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-compiler only/lib-gwt-file-0.3.3-sources.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-compiler only/log4j-gwt.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/lib-gwt-file-0.3.3-sources.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/log4j-gwt.jar"/>
 	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
