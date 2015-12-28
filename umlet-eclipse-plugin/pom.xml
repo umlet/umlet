@@ -82,11 +82,11 @@
 					</environments>
 				</configuration>
 			</plugin>
+			<!-- unpack all dependencies from umlet-eclipse-plugin-deps and umlet-res -->
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>copy-dependencies</id>
 						<phase>generate-resources</phase>
 						<goals>
 							<goal>unpack</goal>
