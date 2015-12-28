@@ -8,23 +8,23 @@ import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 
 /**
  * <pre>
- * GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
- * G                                G
- * G  OOOOOOOOOOOOOOO               G
- * G  O             O               G
- * G  O  IIIIIIIII  O               G
- * G  O  I       I  O               G
- * G  O  I       I  O               G
- * G  O  IIIIIIIII  O               G
- * G  O             O               G
- * G  OOOOOOOOOOOOOOO               G
- * G                                G
- * G                                G
- * G                                G
- * G                                G
- * G                                G
- * G                                G
- * GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+ * | GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+ * | G                                G
+ * | G  OOOOOOOOOOOOOOO               G
+ * | G  O             O               G
+ * | G  O  IIIIIIIII  O               G
+ * | G  O  I       I  O               G
+ * | G  O  I       I  O               G
+ * | G  O  IIIIIIIII  O               G
+ * | G  O             O               G
+ * | G  OOOOOOOOOOOOOOO               G
+ * | G                                G
+ * | G                                G
+ * | G                                G
+ * | G                                G
+ * | G                                G
+ * | G                                G
+ * | GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
  * </pre>
  */
 public class Canvas {
@@ -75,8 +75,10 @@ public class Canvas {
 
 	/**
 	 * <pre>
-	 * &lt;-----&gt;
-	 * G  O  I       I  O               G
+	 * {@literal
+	 * | <----->
+	 * | G  O  I       I  O               G
+	 * }
 	 * </pre>
 	 */
 	public int getInnerLeftPos() {
@@ -89,8 +91,10 @@ public class Canvas {
 
 	/**
 	 * <pre>
-	 *               &lt;------------------&gt;
-	 * G  O  I       I  O               G
+	 * {@literal
+	 * |               <------------------>
+	 * | G  O  I       I  O               G
+	 * }
 	 * </pre>
 	 */
 	public int getInnerRightBorderWidth() {
@@ -103,8 +107,10 @@ public class Canvas {
 
 	/**
 	 * <pre>
-	 * &lt;-------------&gt;
-	 * G  O  I       I  O               G
+	 * {@literal
+	 * | <------------->
+	 * | G  O  I       I  O               G
+	 * }
 	 * </pre>
 	 */
 	public int getInnerRightPos() {
@@ -117,8 +123,10 @@ public class Canvas {
 
 	/**
 	 * <pre>
-	 * &lt;-----&gt;       &lt;------------------&gt;
-	 * G  O  I       I  O               G
+	 * {@literal
+	 * | <----->       <------------------>
+	 * | G  O  I       I  O               G
+	 * }
 	 * </pre>
 	 */
 	public int getInnerHorizontalSum() {
@@ -131,8 +139,10 @@ public class Canvas {
 
 	/**
 	 * <pre>
-	 *       &lt;-------&gt;
-	 * G  O  I       I  O               G
+	 * {@literal
+	 * |       <------->
+	 * | G  O  I       I  O               G
+	 * }
 	 * </pre>
 	 */
 	public int getInnerHorizontalDrawspace() {

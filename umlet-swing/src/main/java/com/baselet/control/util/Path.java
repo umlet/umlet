@@ -112,10 +112,10 @@ public class Path {
 
 	/**
 	 * <ul>
-	 * <li>STANDALONE NOJAR: &lt;programpath&gt; </li>
-	 * <li>STANDALONE JAR: &lt;programpath&gt; </li>
-	 * <li>ECLIPSE NOJAR: &lt;programpath&gt; </li>
-	 * <li>ECLIPSE JAR: &lt;eclipsepath&gt;/&lt;configuration&gt;/&lt;dirToStoreCustomStuff&gt; </li>
+	 * <li>{@literal STANDALONE NOJAR: <programpath>}</li>
+	 * <li>{@literal STANDALONE JAR: <programpath>}</li>
+	 * <li>{@literal ECLIPSE NOJAR: <programpath>}</li>
+	 * <li>{@literal ECLIPSE JAR: <eclipsepath>/<configuration>/<dirToStoreCustomStuff>}</li>
 	 * </ul>
 	 */
 	public static String homeProgram() {
@@ -128,10 +128,10 @@ public class Path {
 
 	/**
 	 * <ul>
-	 * <li>STANDALONE NOJAR: &lt;programpath&gt;/bin/</li>
-	 * <li>STANDALONE JAR: &lt;programpath&gt;/&lt;progname&gt;.jar</li>
-	 * <li>ECLIPSE NOJAR: &lt;programpath&gt;</li>
-	 * <li>ECLIPSE JAR: &lt;eclipsepath&gt;/&lt;pluginname&gt;.jar</li>
+	 * <li>{@literal STANDALONE NOJAR: <programpath>/bin/}</li>
+	 * <li>{@literal STANDALONE JAR: <programpath>/<progname>.jar}</li>
+	 * <li>{@literal ECLIPSE NOJAR: <programpath>}</li>
+	 * <li>{@literal ECLIPSE JAR: <eclipsepath>/<pluginname>.jar}</li>
 	 * </ul>
 	 */
 	public static String executable() {

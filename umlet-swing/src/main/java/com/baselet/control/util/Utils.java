@@ -163,8 +163,8 @@ public abstract class Utils {
 	}
 
 	/**
-	 * eg: createDoubleArrayFromTo(5, 6, 0.1) = [5, 5.1, 5.2, ..., 5.9, 6] <br>
-	 * eg: createDoubleArrayFromTo(10, 20, 3) = [10, 13, 16, 19, 22] <br>
+	 * eg: createDoubleArrayFromTo(5, 6, 0.1) = [5, 5.1, 5.2, ..., 5.9, 6] <br/>
+	 * eg: createDoubleArrayFromTo(10, 20, 3) = [10, 13, 16, 19, 22] <br/>
 	 *
 	 * @param min	first value of the result array
 	 * @param max	if this value is reached (or passed if it's not dividable through "step") the array is finished
