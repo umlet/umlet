@@ -36,9 +36,6 @@
 				<artifactId>tycho-compiler-plugin</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
-					<!-- <excludeResources> -->
-					<!-- <excludeResource>**/plotlet*.png</excludeResource> -->
-					<!-- </excludeResources> -->
 					<extraClasspathElements>
 						<extraClasspathElement>
 							<groupId>com.umlet</groupId>
@@ -92,7 +89,7 @@
 							<goal>unpack</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.basedir}</outputDirectory>
+							<outputDirectory>${project.build.directory}/classes</outputDirectory>
 							<stripVersion>true</stripVersion>
 							<excludes>META-INF/**</excludes>
 							<artifactItems>
@@ -110,25 +107,6 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>${basedir}</directory>
-							<includes>
-								<include>lib/**/*</include>
-								<include>custom_elements/**/*</include>
-								<include>html/**/*</include>
-								<include>img/**/*</include>
-								<include>palettes/**/*</include>
-							</includes>
-							<followSymlinks>false</followSymlinks>
-						</fileset>
-					</filesets>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
