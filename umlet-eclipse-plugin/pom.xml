@@ -36,7 +36,7 @@
 							<goal>unpack</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.outputDirectory}</outputDirectory>
+							<outputDirectory>${project.basedir}</outputDirectory>
 							<stripVersion>true</stripVersion>
 							<excludes>META-INF/**</excludes>
 							<artifactItems>
@@ -67,11 +67,12 @@
 						</goals>
 						<configuration>
 							<target>
-								<loadfile property="bundle.classpath" srcFile="${project.build.outputDirectory}/classPath.txt" />
+								<loadfile property="bundle.classpath" srcFile="${project.basedir}/classPath.txt" />
 								<echo message="Updating MANIFEST Bundle-ClassPath to: ${bundle.classpath}" />
 								<manifest file="${project.build.directory}/../META-INF/MANIFEST.MF" mode="update">
 									<attribute name="Bundle-ClassPath" value=".,${bundle.classpath}" />
 								</manifest>
+								 <delete file="${project.basedir}/classPath.txt"/>
 							</target>
 						</configuration>
 					</execution>
