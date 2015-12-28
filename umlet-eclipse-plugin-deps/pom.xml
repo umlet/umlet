@@ -25,11 +25,29 @@
 
 	<build>
 		<plugins>
-			<!-- copy all dependencies of umlet-swing into the resulting jar to make them available for umlet-eclipse-plugin -->
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
+					<!-- export classpath to a file which will later replace the Bundle-ClassPath -->
 					<execution>
+						<id>build-classpath</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>build-classpath</goal>
+						</goals>
+						<configuration>
+							<includeScope>runtime</includeScope>
+							<pathSeparator>,</pathSeparator>
+							<stripVersion>true</stripVersion>
+							<fileSeparator>/</fileSeparator>
+							<prefix>lib</prefix>
+							<excludeArtifactIds>umlet-res</excludeArtifactIds> <!-- umlet-res has no java classes -->
+							<outputFile>${project.build.directory}/classes/classPath.txt</outputFile>
+						</configuration>
+					</execution>
+					<!-- copy all dependencies of umlet-swing into the resulting jar to make them available for umlet-eclipse-plugin -->
+					<execution>
+						<id>copy-dependencies</id>
 						<phase>generate-resources</phase>
 						<goals>
 							<goal>copy-dependencies</goal>

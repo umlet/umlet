@@ -26,6 +26,58 @@
 	<build>
 		<plugins>
 			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<!-- unpack all dependencies from umlet-eclipse-plugin-deps and umlet-res -->
+					<execution>
+						<id>unpack</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.outputDirectory}</outputDirectory>
+							<stripVersion>true</stripVersion>
+							<excludes>META-INF/**</excludes>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.umlet</groupId>
+									<artifactId>umlet-eclipse-plugin-deps</artifactId>
+									<version>${project.version}</version>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.umlet</groupId>
+									<artifactId>umlet-res</artifactId>
+									<version>${project.version}</version>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<!-- update Bundle-ClassPath of MANIFEST.MF with all libraries -->
+					<execution>
+						<id>generate</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<loadfile property="bundle.classpath" srcFile="${project.build.outputDirectory}/classPath.txt" />
+								<echo message="Updating MANIFEST Bundle-ClassPath to: ${bundle.classpath}" />
+								<manifest file="${project.build.directory}/../META-INF/MANIFEST.MF" mode="update">
+									<attribute name="Bundle-ClassPath" value=".,${bundle.classpath}" />
+								</manifest>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-maven-plugin</artifactId>
 				<version>${tycho.version}</version>
@@ -78,35 +130,6 @@
 						</environment>
 					</environments>
 				</configuration>
-			</plugin>
-			<!-- unpack all dependencies from umlet-eclipse-plugin-deps and umlet-res -->
-			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/classes</outputDirectory>
-							<stripVersion>true</stripVersion>
-							<excludes>META-INF/**</excludes>
-							<artifactItems>
-								<artifactItem>
-									<groupId>com.umlet</groupId>
-									<artifactId>umlet-eclipse-plugin-deps</artifactId>
-									<version>${project.version}</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>com.umlet</groupId>
-									<artifactId>umlet-res</artifactId>
-									<version>${project.version}</version>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
