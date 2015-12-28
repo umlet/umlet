@@ -7,7 +7,7 @@ Bundle-ClassPath: .,lib/autocomplete.jar, lib/batik-awt-util.jar,
  lib/batik-dom.jar, lib/batik-ext.jar, lib/batik-svggen.jar,
  lib/batik-util.jar, lib/batik-xml.jar, lib/bcel.jar, lib/commons-io.jar, 
  lib/itextpdf.jar, lib/javaparser-core.jar, lib/jlibeps.jar, lib/log4j.jar, 
- lib/mailapi.jar,
+ lib/mailapi.jar, lib/umlet-elements.jar, lib/umlet-swing.jar,
  lib/rsyntaxtextarea.jar, lib/smtp.jar
 Bundle-Activator: com.baselet.plugin.MainPlugin
 Export-Package: com.baselet.plugin,

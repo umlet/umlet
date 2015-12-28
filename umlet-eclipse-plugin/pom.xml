@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.umlet</groupId>
@@ -16,7 +14,7 @@
 		<maven.deploy.skip>true</maven.deploy.skip>
 		<tycho.version>0.24.0</tycho.version>
 	</properties>
-	
+
 	<repositories>
 		<repository>
 			<id>eclipse-mars</id>
@@ -25,14 +23,6 @@
 		</repository>
 	</repositories>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.umlet</groupId>
-			<artifactId>umlet-eclipse-plugin-deps</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -40,12 +30,23 @@
 				<artifactId>tycho-maven-plugin</artifactId>
 				<version>${tycho.version}</version>
 				<extensions>true</extensions>
-<!-- 				<configuration> -->
-<!-- 					<includes> -->
-<!-- 						<include>../umlet-swing/src/main/java/**/*.java</include> -->
-<!-- 						<include>../umlet-elements/src/main/java/**/*.java</include> -->
-<!-- 					</includes> -->
-<!-- 				</configuration> -->
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-compiler-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<!-- <excludeResources> -->
+					<!-- <excludeResource>**/plotlet*.png</excludeResource> -->
+					<!-- </excludeResources> -->
+					<extraClasspathElements>
+						<extraClasspathElement>
+							<groupId>com.umlet</groupId>
+							<artifactId>umlet-swing</artifactId>
+							<version>${project.version}</version>
+						</extraClasspathElement>
+					</extraClasspathElements>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
