@@ -12,4 +12,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.baselet.standalone.MainStandalone"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="umlet-standalone"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.m2e.launchconfig.sourcepathProvider"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dlog4j.configuration=file:${project_loc:umlet-standalone}/src/test/resources/log4j.properties"/>
 </launchConfiguration>

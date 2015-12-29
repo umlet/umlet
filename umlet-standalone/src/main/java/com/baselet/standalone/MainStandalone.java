@@ -11,7 +11,6 @@ import java.util.Timer;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
-import org.apache.log4j.Logger;
 
 import com.baselet.control.Main;
 import com.baselet.control.config.Config;
@@ -27,11 +26,8 @@ import com.baselet.standalone.gui.StandaloneGUI;
 
 public class MainStandalone {
 
-	private static final Logger log = Logger.getLogger(MainStandalone.class);
-
 	public static void main(final String[] args) {
 		initHomeProgramPath();
-		Main.getInstance().initLogger();
 		readBuildInfoAndInitVersion();
 		ConfigHandler.loadConfig();
 
@@ -206,7 +202,7 @@ public class MainStandalone {
 				prop.load(stream);
 				Program.getInstance().init(prop.getProperty("version"));
 			} catch (IOException e) {
-				log.error("Cannot load properties from file BuildInfo.properties", e);
+				throw new RuntimeException("Cannot load properties from file BuildInfo.properties", e);
 			}
 		}
 	}

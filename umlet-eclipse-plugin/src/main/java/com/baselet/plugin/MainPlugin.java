@@ -47,7 +47,6 @@ public class MainPlugin extends AbstractUIPlugin {
 		super.start(context);
 
 		initHomeProgramPath();
-		Main.getInstance().initLogger();
 		readBundleManifestInfo();
 		ConfigHandler.loadConfig();
 		Main.getInstance().init(new EclipseGUI(Main.getInstance()));

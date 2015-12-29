@@ -1,15 +1,10 @@
 package com.baselet.control;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 import java.util.TreeMap;
 
 import javax.swing.SwingUtilities;
@@ -17,7 +12,6 @@ import javax.swing.ToolTipManager;
 import javax.swing.filechooser.FileSystemView;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 import com.baselet.control.config.Config;
 import com.baselet.control.config.handler.ConfigHandler;
@@ -51,38 +45,11 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 	}
 
 	public void init(BaseGUI gui) {
+		log.info("Initializing GUI ...");
 		CurrentGui.getInstance().setGui(gui);
 		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE); // Tooltips should not hide after some time
 		gui.initGUI(); // show gui
-	}
-
-	public void initLogger() {
-		String log4jFilePath = Path.homeProgram() + Constants.LOG4J_PROPERTIES;
-		try {
-			// If no log4j.properties file exists, we create a simple one
-			if (!new File(log4jFilePath).exists()) {
-				File tempLog4jFile = File.createTempFile(Constants.LOG4J_PROPERTIES, null);
-				tempLog4jFile.deleteOnExit();
-				log4jFilePath = tempLog4jFile.getAbsolutePath();
-				Writer writer = new BufferedWriter(new FileWriter(tempLog4jFile));
-				writer.write(
-						"log4j.rootLogger=ERROR, SYSTEM_OUT\n" +
-								"log4j.appender.SYSTEM_OUT=org.apache.log4j.ConsoleAppender\n" +
-								"log4j.appender.SYSTEM_OUT.layout=org.apache.log4j.PatternLayout\n" +
-								"log4j.appender.SYSTEM_OUT.layout.ConversionPattern=%6r | %-5p | %-30c - \"%m\"%n\n");
-				writer.close();
-			}
-			Properties props = new Properties();
-			props.put("PROJECT_PATH", Path.homeProgram()); // Put homepath as relative variable in properties file
-			FileInputStream inStream = new FileInputStream(log4jFilePath);
-			props.load(inStream);
-			inStream.close();
-			PropertyConfigurator.configure(props);
-			log.info("Logger configuration initialized");
-		} catch (Exception e) {
-			System.err.println("Initialization of " + Constants.LOG4J_PROPERTIES + " failed:");
-			e.printStackTrace();
-		}
+		log.info("GUI initialized");
 	}
 
 	public void setPropertyPanelToGridElement(final GridElement e) {
