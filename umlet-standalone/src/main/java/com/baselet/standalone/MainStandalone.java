@@ -2,9 +2,11 @@ package com.baselet.standalone;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.Properties;
 import java.util.Timer;
-import java.util.jar.Attributes;
 
 import javax.imageio.ImageIO;
 
@@ -14,7 +16,6 @@ import org.apache.log4j.Logger;
 import com.baselet.control.Main;
 import com.baselet.control.config.Config;
 import com.baselet.control.config.handler.ConfigHandler;
-import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.util.Path;
@@ -31,7 +32,7 @@ public class MainStandalone {
 	public static void main(final String[] args) {
 		initHomeProgramPath();
 		Main.getInstance().initLogger();
-		readManifestInfo();
+		readBuildInfoAndInitVersion();
 		ConfigHandler.loadConfig();
 
 		if (args.length != 0) {
@@ -194,23 +195,19 @@ public class MainStandalone {
 		return new File(Path.temp() + Program.getInstance().getProgramName().toLowerCase() + ".tmp");
 	}
 
-	private static void readManifestInfo() { // TODO version should be read from a properties file - this properties file should be used in GWT, EclipsePlugin and Standalone!
-		try {
-			Attributes attributes = Path.manifest().getMainAttributes();
-			String eclipseVersion = attributes.getValue(Constants.MANIFEST_BUNDLE_VERSION); // Eclipse Plugin uses Bundle-Version for the version
-			if (eclipseVersion != null) {
-				Program.getInstance().init(eclipseVersion);
+	private static void readBuildInfoAndInitVersion() {
+		InputStream stream = MainStandalone.class.getResourceAsStream("/BuildInfo.properties");
+		if (stream == null) {
+			throw new RuntimeException("Cannot load BuildInfo.properties");
+		}
+		else {
+			Properties prop = new Properties();
+			try {
+				prop.load(stream);
+				Program.getInstance().init(prop.getProperty("version"));
+			} catch (IOException e) {
+				log.error("Cannot load properties from file BuildInfo.properties", e);
 			}
-			else {
-				String version = attributes.getValue("Implementation-Version"); // Other jars use Implementation-Version for the version
-				if (version == null) {
-					throw new RuntimeException("Cannot determine program version from MANIFEST.MF");
-				}
-				Program.getInstance().init(version);
-			}
-		} catch (Exception e) {
-			log.error("Cannot read manifest", e);
-			throw new RuntimeException(e);
 		}
 	}
 

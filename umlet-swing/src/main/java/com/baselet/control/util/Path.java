@@ -1,12 +1,8 @@
 package com.baselet.control.util;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
 
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Os;
@@ -148,26 +144,4 @@ public class Path {
 
 		return path;
 	}
-
-	public static Manifest manifest() throws IOException {
-		Manifest manifest;
-		if (Path.executable().endsWith(".jar")) {
-			JarFile jarFile = null;
-			try {
-				jarFile = new JarFile(Path.executable());
-				manifest = jarFile.getManifest();
-			} finally {
-				if (jarFile != null) {
-					jarFile.close();
-				}
-			}
-		}
-		else {
-			FileInputStream is = new FileInputStream(Path.homeProgram() + "META-INF" + File.separator + "MANIFEST.MF");
-			manifest = new Manifest(is);
-			is.close();
-		}
-		return manifest;
-	}
-
 }

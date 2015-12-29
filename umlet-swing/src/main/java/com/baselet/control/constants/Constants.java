@@ -79,8 +79,6 @@ public abstract class Constants extends SharedConstants {
 
 	public static final double EXPORT_DISPLACEMENT = 0.5;
 
-	public static final String MANIFEST_BUNDLE_NAME = "Bundle-Name";
-	public static final String MANIFEST_BUNDLE_VERSION = "Bundle-Version";
 	public static final String LOG4J_PROPERTIES = "log4j.properties";
 
 	public static final String CUSTOM_ELEMENT_CLASSNAME = "CustomElementImpl";
