@@ -20,9 +20,4 @@
             default="false"
       />
    </extension>
-   <extension point="org.eclipse.ui.menus">
-     <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions"
-            class="com.baselet.plugin.gui.MenuContributor" />
-   </extension>
 </plugin>

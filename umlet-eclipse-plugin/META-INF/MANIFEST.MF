@@ -16,7 +16,7 @@ Export-Package: com.baselet.plugin,com.baselet.plugin.gui,com.baselet.
  plugin.wizard
 Require-Bundle: org.eclipse.ui,org.eclipse.ui.ide,org.eclipse.core.res
  ources,org.eclipse.core.runtime,org.eclipse.jdt.core;resolution:=opti
- onal,org.eclipse.core.expressions
+ onal
 Bundle-ActivationPolicy: lazy
 Eclipse-LazyStart: true
 Import-Package: org.eclipse.core.filesystem

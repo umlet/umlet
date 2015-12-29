@@ -3,7 +3,6 @@ package com.baselet.plugin;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Dictionary;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -12,7 +11,6 @@ import org.osgi.framework.BundleContext;
 
 import com.baselet.control.Main;
 import com.baselet.control.config.handler.ConfigHandler;
-import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.util.Path;
@@ -67,9 +65,8 @@ public class MainPlugin extends AbstractUIPlugin {
 
 	// Issue 83: Use OSGI Bundle to read Manifest information
 	private void readBundleManifestInfo() {
-		Dictionary<String, String> headers = MainPlugin.getDefault().getBundle().getHeaders();
 		pluginId = MainPlugin.getDefault().getBundle().getSymbolicName();
-		Program.getInstance().init(headers.get(Constants.MANIFEST_BUNDLE_VERSION));
+		Program.getInstance().init(MainPlugin.getDefault().getBundle().getVersion().toString());
 
 	}
 
