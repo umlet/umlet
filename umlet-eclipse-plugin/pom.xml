@@ -60,7 +60,7 @@
 				<executions>
 					<!-- update Bundle-ClassPath of MANIFEST.MF with all libraries -->
 					<execution>
-						<id>generate</id>
+						<id>updateManifest</id>
 						<phase>process-resources</phase>
 						<goals>
 							<goal>run</goal>
@@ -72,7 +72,21 @@
 								<manifest file="${project.build.directory}/../META-INF/MANIFEST.MF" mode="update">
 									<attribute name="Bundle-ClassPath" value=".,${bundle.classpath}" />
 								</manifest>
-								 <delete file="${project.basedir}/classPath.txt"/>
+								<delete file="${project.basedir}/classPath.txt" />
+							</target>
+						</configuration>
+					</execution>
+					<!-- move umlet-elements and umlet-swing to target/classes (because in Eclipse they are source dirs, the jars are only necessary for the build) -->
+					<execution>
+						<id>move-umlet-jars</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<move file="${project.basedir}/lib/umlet-elements.jar" todir="${project.build.outputDirectory}/lib" />
+								<move file="${project.basedir}/lib/umlet-swing.jar" todir="${project.build.outputDirectory}/lib" />
 							</target>
 						</configuration>
 					</execution>
@@ -130,6 +144,25 @@
 							<arch>x86_64</arch>
 						</environment>
 					</environments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${basedir}</directory>
+							<includes>
+								<include>lib/**/*</include>
+								<include>custom_elements/**/*</include>
+								<include>html/**/*</include>
+								<include>img/**/*</include>
+								<include>palettes/**/*</include>
+							</includes>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -36,12 +36,12 @@
 							<goal>build-classpath</goal>
 						</goals>
 						<configuration>
+							<excludeArtifactIds>umlet-res</excludeArtifactIds> <!-- umlet-res has no java classes -->
 							<includeScope>runtime</includeScope>
 							<pathSeparator>,</pathSeparator>
 							<stripVersion>true</stripVersion>
 							<fileSeparator>/</fileSeparator>
 							<prefix>lib</prefix>
-							<excludeArtifactIds>umlet-res</excludeArtifactIds> <!-- umlet-res has no java classes -->
 							<outputFile>${project.build.directory}/classes/classPath.txt</outputFile>
 						</configuration>
 					</execution>
@@ -53,6 +53,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
+							<excludeArtifactIds>umlet-res</excludeArtifactIds> <!-- umlet-res has no java classes -->
 							<outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
 							<stripVersion>true</stripVersion>
 							<includeScope>compile</includeScope>
