@@ -8,8 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -20,6 +18,8 @@ import org.apache.log4j.Logger;
 import com.baselet.control.config.Config;
 import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.Constants;
+import com.baselet.control.enums.Program;
+import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.util.Path;
 import com.baselet.custom.CompileError;
 import com.baselet.element.interfaces.GridElement;
@@ -85,10 +85,8 @@ public class CustomElementCompiler {
 		try {
 			StringWriter compilerErrorMessageSW = new StringWriter(); // catch compiler messages
 			PrintWriter compilerErrorMessagePW = new PrintWriter(compilerErrorMessageSW);
-			String path = Path.executable();
-
 			String javaVersion = "-\"1.6\""; // custom elements use Java6 (previously SystemInfo.JAVA_VERSION, but this only works if the compiler.jar supports the system java version which is not guaranteed)
-			String classpath = "-classpath " + calculateClassPath(getClass().getClassLoader());
+			String classpath = "-classpath \"" + createClasspath() + "\"";
 			String sourcefile = "\"" + this.sourcefile.getAbsolutePath() + "\"";
 
 			// Compiler Information at http://dev.eclipse.org/viewcvs/index.cgi/jdt-core-home/howto/batch%20compile/batchCompile.html?revision=1.7
@@ -117,30 +115,14 @@ public class CustomElementCompiler {
 		return entity;
 	}
 
-	/**
-	 * Calculate the classpath based on the urls used by the {@link URLClassLoader}.
-	 * This is a heuristic used by many reflection libraries.
-	 */
-	private String calculateClassPath(ClassLoader cl) {
-		if (cl == null) {
-			return "";
+	private String createClasspath() {
+		// If the Eclipse Plugin is started from Eclipse (for debugging), the other projects are linked source dirs and therefore all classes are in the same target dir
+		if (!Path.executable().endsWith(".jar") && Program.getInstance().getRuntimeType() == RuntimeType.ECLIPSE_PLUGIN) {
+			return Path.executable() + "target/classes";
 		}
-		StringBuilder sb = new StringBuilder();
-		sb.append(calculateClassPath(cl.getParent()));
-		if (cl instanceof URLClassLoader) {
-			URLClassLoader urlCl = (URLClassLoader) cl;
-			for (URL url : urlCl.getURLs()) {
-				if ("file".equals(url.getProtocol())) {
-					if (sb.length() > 0) {
-						sb.append(File.pathSeparatorChar);
-					}
-					sb.append('"');
-					sb.append(url.getFile());
-					sb.append('"');
-				}
-			}
+		else {
+			return Path.executable() + "\"" + File.pathSeparator + "\"" + Path.executableShared();
 		}
-		return sb.toString();
 	}
 
 	// loads the source from a file

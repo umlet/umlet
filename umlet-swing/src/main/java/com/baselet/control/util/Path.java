@@ -7,6 +7,7 @@ import java.net.URL;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Os;
 import com.baselet.control.enums.Program;
+import com.baselet.element.interfaces.GridElement;
 
 public class Path {
 
@@ -111,7 +112,7 @@ public class Path {
 	 * <li>{@literal STANDALONE NOJAR: <programpath>}</li>
 	 * <li>{@literal STANDALONE JAR: <programpath>}</li>
 	 * <li>{@literal ECLIPSE NOJAR: <programpath>}</li>
-	 * <li>{@literal ECLIPSE JAR: <eclipsepath>/<configuration>/<dirToStoreCustomStuff>}</li>
+	 * <li>{@literal ECLIPSE JAR: <eclipse-path>/<configuration>/<dirToStoreCustomStuff>}</li>
 	 * </ul>
 	 */
 	public static String homeProgram() {
@@ -124,15 +125,23 @@ public class Path {
 
 	/**
 	 * <ul>
-	 * <li>{@literal STANDALONE NOJAR: <programpath>/bin/}</li>
-	 * <li>{@literal STANDALONE JAR: <programpath>/<progname>.jar}</li>
-	 * <li>{@literal ECLIPSE NOJAR: <programpath>}</li>
-	 * <li>{@literal ECLIPSE JAR: <eclipsepath>/<pluginname>.jar}</li>
+	 * <li>{@literal STANDALONE NOJAR: <umlet-swing-path>/target/classes/}</li>
+	 * <li>{@literal STANDALONE JAR: <program-path>/<progname>.jar}</li>
+	 * <li>{@literal ECLIPSE NOJAR: <umlet-eclipse-plugin-path>}</li>
+	 * <li>{@literal ECLIPSE JAR: <eclipse-path>/<pluginname>.jar}</li>
 	 * </ul>
 	 */
 	public static String executable() {
+		return executableHelper(Path.class);
+	}
+
+	public static String executableShared() {
+		return executableHelper(GridElement.class);
+	}
+
+	private static String executableHelper(Class<?> c) {
 		String path = null;
-		URL codeSourceUrl = Path.class.getProtectionDomain().getCodeSource().getLocation();
+		URL codeSourceUrl = c.getProtectionDomain().getCodeSource().getLocation();
 		try { // Convert URL to URI to avoid HTML problems with special characters like space,ä,ö,ü,...
 			path = codeSourceUrl.toURI().getPath();
 		} catch (URISyntaxException e) {/* path stays null */}
