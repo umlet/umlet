@@ -12,7 +12,6 @@
 	<description>This module collects all dependencies which are required by the umlet-eclipse-plugin. It must be a separate module because umlet-eclipse-plugin needs to collect umlet-swing and all transitive dependencies but not its own dependencies which is otherwise not possible with maven (copy doesnt support transitive dependencies and copy-dependencies copies Eclipse-Plugin dependencies too if placed in umlet-eclipse-plugin)</description>
 
 	<properties>
-		<maven.deploy.skip>true</maven.deploy.skip>
 	</properties>
 
 	<dependencies>

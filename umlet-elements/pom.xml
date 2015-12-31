@@ -18,6 +18,7 @@
 
 	<build>
 		<plugins>
+		<!-- build the JavaCC generated classes using the ant-script (TODO use the maven JavaCC plugin instead and move the files to the correct directories) -->
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>

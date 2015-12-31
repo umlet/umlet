@@ -7,6 +7,13 @@
 	<packaging>pom</packaging>
 	<url>http://www.umlet.com/</url>
 
+	<licenses>
+		<license>
+			<name>GNU General Public License (GPL)</name>
+			<url>http://www.gnu.org/licenses/gpl.txt</url>
+		</license>
+	</licenses>
+
 	<modules>
 		<module>umlet-elements</module>
 		<module>umlet-res</module>

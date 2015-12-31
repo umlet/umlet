@@ -8,7 +8,6 @@
 	</parent>
 
 	<artifactId>umlet-gwt</artifactId>
-	<!-- <packaging>gwt-app</packaging> -->
 
 	<properties>
 		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
@@ -70,22 +69,9 @@
 		</dependency>
 	</dependencies>
 
-	<!-- <build> -->
-	<!-- <plugins> -->
-	<!-- <plugin> -->
-	<!-- <groupId>net.ltgt.gwt.maven</groupId> -->
-	<!-- <artifactId>gwt-maven-plugin</artifactId> -->
-	<!-- <version>1.0-rc-5</version> -->
-	<!-- <extensions>true</extensions> -->
-	<!-- <configuration> -->
-	<!-- <moduleName>baseletgwt</moduleName> -->
-	<!-- </configuration> -->
-	<!-- </plugin> -->
-	<!-- </plugins> -->
-	<!-- </build> -->
-
 	<build>
 		<plugins>
+			<!-- assemble UMLetino output as zip file -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.5.3</version>
@@ -102,6 +88,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- start the GWT compiler and GWT tests during the build -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>

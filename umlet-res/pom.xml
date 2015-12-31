@@ -8,6 +8,7 @@
 	<artifactId>umlet-res</artifactId>
 
 	<build>
+			<!-- add classpath, mainclass and build information to META-INF -->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

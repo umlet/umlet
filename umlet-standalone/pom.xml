@@ -9,7 +9,6 @@
 	<artifactId>umlet-standalone</artifactId>
 
 	<properties>
-		<maven.deploy.skip>true</maven.deploy.skip>
 	</properties>
 
 	<dependencies>
@@ -27,6 +26,7 @@
 
 	<build>
 		<plugins>
+			<!-- assemble UMLet output as zip file -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.5.3</version>
