@@ -220,6 +220,20 @@
 										<ignore></ignore>
 									</action>
 								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>com.helger.maven</groupId>
+										<artifactId>ph-javacc-maven-plugin</artifactId>
+										<versionRange>[2.8.0,)</versionRange>
+										<goals>
+											<goal>javacc</goal>
+											<goal>jjdoc</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
