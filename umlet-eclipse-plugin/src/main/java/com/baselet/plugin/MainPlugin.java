@@ -50,7 +50,6 @@ public class MainPlugin extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		log.info("Initializing Plugin ...");
 		super.start(context);
-
 		initHomeProgramPath();
 		readBundleManifestInfo();
 		ConfigHandler.loadConfig();

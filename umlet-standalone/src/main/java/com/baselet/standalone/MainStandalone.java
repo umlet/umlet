@@ -11,6 +11,8 @@ import java.util.Timer;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.Main;
 import com.baselet.control.config.Config;
@@ -26,9 +28,10 @@ import com.baselet.standalone.gui.StandaloneGUI;
 
 public class MainStandalone {
 
-//dummychange2
+	private static final Logger log = LoggerFactory.getLogger(MainStandalone.class);
+
 	public static void main(final String[] args) {
-		initHomeProgramPathTest();
+		initHomeProgramPath();
 		readBuildInfoAndInitVersion();
 		ConfigHandler.loadConfig();
 
@@ -62,6 +65,7 @@ public class MainStandalone {
 			}
 			else if (action != null && format != null && filename != null) {
 				if (action.equals("convert")) {
+					log.info("Initializing Batchmode ...");
 					Program.getInstance().setRuntimeType(RuntimeType.BATCH);
 					String[] splitFilename = filename.split("(/|\\\\)");
 					String localName = splitFilename[splitFilename.length - 1];
@@ -73,6 +77,7 @@ public class MainStandalone {
 					File[] files = new File(dir).listFiles(fileFilter);
 					if (files != null) {
 						for (File file : files) {
+							log.info("Converting file " + file.getAbsolutePath());
 							doConvert(file, format, output);
 						}
 					}
@@ -148,7 +153,7 @@ public class MainStandalone {
 		}
 	}
 
-	private static void initHomeProgramPathTest() {
+	private static void initHomeProgramPath() {
 		String tempPath, realPath;
 		tempPath = Path.executable();
 		tempPath = tempPath.substring(0, tempPath.length() - 1);
