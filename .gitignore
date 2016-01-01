@@ -1,4 +1,4 @@
 /target/
 .classpath
 .factorypath
-.project
+# .project must be checked in because it is used for the linkedResources for umlet-eclipse-plugin
