@@ -37,7 +37,7 @@
 						<configuration>
 							<outputDirectory>${project.basedir}</outputDirectory>
 							<stripVersion>true</stripVersion>
-							<excludes>META-INF/**</excludes>
+							<excludes>META-INF/**,img/**</excludes> <!-- do not copy the img dir because the logo is not used in the eclipse plugin -->
 							<artifactItems>
 								<artifactItem>
 									<groupId>com.umlet</groupId>
@@ -155,7 +155,6 @@
 							<includes>
 								<include>lib/**/*</include>
 								<include>custom_elements/**/*</include>
-								<include>img/**/*</include>
 								<include>palettes/**/*</include>
 							</includes>
 							<followSymlinks>false</followSymlinks>
