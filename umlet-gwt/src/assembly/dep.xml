@@ -9,12 +9,8 @@
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<fileSets>
 		<fileSet>
-			<directory>${project.basedir}/war</directory>
+			<directory>${project.basedir}/src/main/resources/com/baselet/gwt/public</directory>
 			<outputDirectory>/</outputDirectory>
-			<excludes>
-				<exclude>baseletgwt/**</exclude>
-				<exclude>WEB-INF/**</exclude>
-			</excludes>
 			<filtered>true</filtered>
 		</fileSet>
 		<fileSet>
