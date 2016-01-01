@@ -1,4 +1,0 @@
-This file only contains the original name of the javacc jar, so that everone can see the used version (ant target needs javacc.jar)
-javacc-6.1.2.jar
-MD5: c74b2df75b4c46209d6da22bf4dad976
-

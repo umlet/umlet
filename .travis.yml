@@ -1,0 +1,5 @@
+language: java
+jdk:
+  - oraclejdk8
+script: "mvn deploy -Prelease -Dgpg.skip=true --settings src/travis/settings.xml"
+

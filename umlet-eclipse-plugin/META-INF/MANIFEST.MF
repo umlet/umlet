@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.9.4
+Created-By: 1.8.0_65-b17 (Oracle Corporation)
+Bundle-ManifestVersion: 2
+Bundle-Name: UMlet
+Bundle-SymbolicName: com.umlet.plugin;singleton:=true
+Bundle-Version: 14.1.0.qualifier
+Bundle-ClassPath: .,lib/smtp.jar,lib/bcel.jar,lib/batik-xml.jar,lib/lo
+ g4j.jar,lib/javaparser-core.jar,lib/commons-io.jar,lib/batik-awt-util
+ .jar,lib/batik-svggen.jar,lib/umlet-elements.jar,lib/umlet-swing.jar,
+ lib/itextpdf.jar,lib/batik-dom.jar,lib/batik-util.jar,lib/batik-ext.j
+ ar,lib/ecj.jar,lib/rsyntaxtextarea.jar,lib/mailapi.jar,lib/autocomple
+ te.jar,lib/jlibeps.jar
+Bundle-Activator: com.baselet.plugin.MainPlugin
+Export-Package: com.baselet.plugin,com.baselet.plugin.gui,com.baselet.
+ plugin.wizard
+Require-Bundle: org.eclipse.ui,org.eclipse.ui.ide,org.eclipse.core.res
+ ources,org.eclipse.core.runtime,org.eclipse.jdt.core;resolution:=opti
+ onal
+Bundle-ActivationPolicy: lazy
+Eclipse-LazyStart: true
+Import-Package: org.eclipse.core.filesystem
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+
