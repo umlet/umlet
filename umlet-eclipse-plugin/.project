@@ -38,6 +38,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/umlet-elements/src/main/java</locationURI>
 		</link>
 		<link>
+			<name>ELEMENTS_GEN</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/umlet-elements/target/generated-sources/annotations</locationURI>
+		</link>
+		<link>
 			<name>SWING</name>
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/umlet-swing/src/main/java</locationURI>
