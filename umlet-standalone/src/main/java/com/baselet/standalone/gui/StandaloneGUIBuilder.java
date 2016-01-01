@@ -6,8 +6,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -28,7 +28,6 @@ import javax.swing.WindowConstants;
 import com.baselet.control.config.Config;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
-import com.baselet.control.util.Path;
 import com.baselet.gui.BaseGUIBuilder;
 import com.baselet.gui.filedrop.FileDrop;
 import com.baselet.gui.filedrop.FileDropListener;
@@ -90,14 +89,24 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		return mainFrame;
 	}
 
+	/**
+	 * set several image sizes of umlet_logo*.png
+	 */
 	private void setImage(JFrame mainFrame) {
 		ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
 		for (Integer i : new int[] { 16, 20, 24, 32, 40, 48, 64 }) {
-			File file = new File(Path.homeProgram() + "img/" + Program.getInstance().getProgramName().toLowerCase() + "_logo" + i + ".png");
+			InputStream is = null;
 			try {
-				images.add(ImageIO.read(file));
+				is = this.getClass().getClassLoader().getResourceAsStream(Program.getInstance().getProgramName().toLowerCase() + "_logo" + i + ".png");
+				images.add(ImageIO.read(is));
 			} catch (IOException e) {
-				throw new RuntimeException("Cannot read image " + file, e);
+				throw new RuntimeException("Cannot read image", e);
+			} finally {
+				if (is != null) {
+					try {
+						is.close();
+					} catch (IOException e) {}
+				}
 			}
 		}
 		mainFrame.setIconImages(images);
