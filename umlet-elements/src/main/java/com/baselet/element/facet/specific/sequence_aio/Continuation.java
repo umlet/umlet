@@ -6,8 +6,8 @@ import java.util.Map;
 import com.baselet.control.basics.Line1D;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
-import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.TextSplitter;
 
 public class Continuation implements LifelineSpanningTickSpanningOccurrence {
 	/** the width of the ellipse which builds the left and right border (no text is drawn in this) */

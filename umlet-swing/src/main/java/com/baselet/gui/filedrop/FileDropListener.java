@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.Main;
 import com.baselet.diagram.Notifier;
@@ -13,7 +13,7 @@ import com.baselet.generator.ClassDiagramConverter;
 
 public class FileDropListener implements FileDrop.Listener {
 
-	private static final Logger log = Logger.getLogger(FileDropListener.class);
+	private static final Logger log = LoggerFactory.getLogger(FileDropListener.class);
 
 	@Override
 	public void filesDropped(File[] files) {

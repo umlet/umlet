@@ -2,7 +2,7 @@ package com.baselet.gui.command;
 
 import java.util.Collection;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.HandlerElementMap;
 import com.baselet.control.basics.geom.Point;
@@ -14,7 +14,7 @@ import com.baselet.element.sticking.StickableMap;
 
 public class Move extends Command {
 
-	private static final Logger log = Logger.getLogger(Move.class);
+	private static final Logger log = LoggerFactory.getLogger(Move.class);
 
 	private final GridElement entity;
 

@@ -1,6 +1,7 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.basics.Line1D;
 import com.baselet.control.basics.geom.Line;
@@ -8,8 +9,8 @@ import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.LineType;
-import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.facet.specific.sequence_aio.Message.ArrowType;
 import com.baselet.element.relation.helper.RelationDrawer;
@@ -23,7 +24,7 @@ import com.baselet.element.relation.helper.RelationDrawer.ArrowEndType;
  */
 public class LostOrFoundMessage implements LifelineOccurrence {
 
-	private static final Logger log = Logger.getLogger(LostOrFoundMessage.class);
+	private static final Logger log = LoggerFactory.getLogger(LostOrFoundMessage.class);
 	private static final double CIRCLE_RADIUS = 10;
 	private static final double LIFELINE_TEXT_PADDING = Math.max(RelationDrawer.ARROW_LENGTH, CIRCLE_RADIUS * 2) + 3;
 

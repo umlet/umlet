@@ -33,7 +33,6 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.jface.action.Action;
@@ -45,6 +44,8 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.Main;
 import com.baselet.control.constants.Constants;
@@ -55,7 +56,7 @@ import com.baselet.gui.menu.MenuFactory;
 
 public class MenuFactoryEclipse extends MenuFactory {
 
-	private static final Logger log = Logger.getLogger(MenuFactoryEclipse.class);
+	private static final Logger log = LoggerFactory.getLogger(MenuFactoryEclipse.class);
 
 	private static MenuFactoryEclipse instance = null;
 

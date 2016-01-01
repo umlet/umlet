@@ -2,7 +2,8 @@ package com.baselet.element.facet;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.enums.Priority;
 import com.baselet.gui.AutocompletionText;
@@ -14,7 +15,7 @@ import com.baselet.gui.AutocompletionText;
  */
 public abstract class Facet {
 
-	protected Logger log = Logger.getLogger(Facet.class);
+	protected Logger log = LoggerFactory.getLogger(Facet.class);
 
 	/**
 	 * @param line the current line which is parsed

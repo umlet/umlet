@@ -2,13 +2,14 @@ package com.baselet.control.basics.geom;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.enums.Direction;
 
 public class Line {
 
-	private static final Logger log = Logger.getLogger(Line.class);
+	private static final Logger log = LoggerFactory.getLogger(Line.class);
 
 	private final PointDouble start;
 	private final PointDouble end;

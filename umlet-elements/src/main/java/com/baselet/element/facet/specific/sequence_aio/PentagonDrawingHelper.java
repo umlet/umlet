@@ -8,8 +8,8 @@ import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.LineType;
-import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.TextSplitter;
 
 /**
  * Helper class to draw the pentagon with text for the sequence diagram header and the combined fragments.

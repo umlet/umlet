@@ -36,7 +36,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.config.Config;
 import com.baselet.control.config.ConfigMail;
@@ -48,7 +48,7 @@ import com.baselet.diagram.io.DiagramFileHandler;
 
 public class MailPanel extends JPanel {
 
-	private static final Logger log = Logger.getLogger(MailPanel.class);
+	private static final Logger log = LoggerFactory.getLogger(MailPanel.class);
 
 	private static final long serialVersionUID = 1L;
 

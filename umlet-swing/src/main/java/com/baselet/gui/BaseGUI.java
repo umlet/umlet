@@ -12,7 +12,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
 import javax.swing.plaf.InsetsUIResource;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.CanCloseProgram;
 import com.baselet.control.HandlerElementMap;
@@ -28,7 +28,7 @@ import com.baselet.gui.pane.OwnSyntaxPane;
 
 public abstract class BaseGUI {
 
-	private static final Logger log = Logger.getLogger(BaseGUI.class);
+	private static final Logger log = LoggerFactory.getLogger(BaseGUI.class);
 
 	protected CanCloseProgram main;
 	protected Collection<GridElement> selected_elements;

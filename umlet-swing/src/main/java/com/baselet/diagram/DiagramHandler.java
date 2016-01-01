@@ -11,7 +11,8 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.ErrorMessages;
 import com.baselet.control.HandlerElementMap;
@@ -35,7 +36,7 @@ import com.baselet.gui.listener.OldRelationListener;
 
 public class DiagramHandler {
 
-	private static final Logger log = Logger.getLogger(DiagramHandler.class);
+	private static final Logger log = LoggerFactory.getLogger(DiagramHandler.class);
 
 	private boolean isChanged;
 	private final DiagramFileHandler fileHandler;
@@ -155,7 +156,7 @@ public class DiagramHandler {
 			CurrentGui.getInstance().getGui().afterSaving();
 			return true;
 		} catch (IOException e) {
-			log.error(e);
+			log.error(ErrorMessages.ERROR_SAVING_FILE, e);
 			displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
 			return false;
 		}
@@ -171,7 +172,7 @@ public class DiagramHandler {
 				reloadPalettes();
 				CurrentGui.getInstance().getGui().afterSaving();
 			} catch (IOException e) {
-				log.error(e);
+				log.error(ErrorMessages.ERROR_SAVING_FILE, e);
 				displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
 			}
 		}

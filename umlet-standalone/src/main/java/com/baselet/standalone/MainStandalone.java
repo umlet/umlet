@@ -26,8 +26,9 @@ import com.baselet.standalone.gui.StandaloneGUI;
 
 public class MainStandalone {
 
+//dummychange2
 	public static void main(final String[] args) {
-		initHomeProgramPath();
+		initHomeProgramPathTest();
 		readBuildInfoAndInitVersion();
 		ConfigHandler.loadConfig();
 
@@ -147,7 +148,7 @@ public class MainStandalone {
 		}
 	}
 
-	private static void initHomeProgramPath() {
+	private static void initHomeProgramPathTest() {
 		String tempPath, realPath;
 		tempPath = Path.executable();
 		tempPath = tempPath.substring(0, tempPath.length() - 1);

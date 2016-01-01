@@ -20,7 +20,7 @@ import java.util.Scanner;
 
 import javax.swing.JEditorPane;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Metakey;
@@ -34,7 +34,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 
 	private static final long serialVersionUID = 1L;
 
-	static final Logger log = Logger.getLogger(StartUpHelpText.class);
+	static final Logger log = LoggerFactory.getLogger(StartUpHelpText.class);
 
 	private DrawPanel panel;
 	private boolean visible;

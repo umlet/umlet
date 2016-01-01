@@ -3,7 +3,8 @@ package com.baselet.element.facet.customdrawings;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.enums.FormatLabels;
 import com.baselet.control.enums.Priority;
@@ -14,7 +15,7 @@ import com.baselet.gui.AutocompletionText;
 public class CustomDrawingFacet extends Facet {
 
 	public static final CustomDrawingFacet INSTANCE = new CustomDrawingFacet();
-	public static final Logger logger = Logger.getLogger(CustomDrawingFacet.class);
+	public static final Logger logger = LoggerFactory.getLogger(CustomDrawingFacet.class);
 	public static final String CODE_SEP_START = "customelement=";
 	public static final String CODE_START_INFO = "indicates the start of custom drawing commands, has no close command.";
 

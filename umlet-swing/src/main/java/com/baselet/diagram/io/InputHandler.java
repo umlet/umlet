@@ -3,7 +3,7 @@ package com.baselet.diagram.io;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -29,7 +29,7 @@ public class InputHandler extends DefaultHandler {
 
 	private static final String[] oldGridElementPackages = new String[] { "com.baselet.element.old.element", "com.baselet.element.old.allinone", "com.baselet.element.old.custom" };
 
-	private static final Logger log = Logger.getLogger(InputHandler.class);
+	private static final Logger log = LoggerFactory.getLogger(InputHandler.class);
 
 	private DrawPanel _p = null;
 	private GridElement e = null;

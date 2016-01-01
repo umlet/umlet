@@ -14,7 +14,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.CanCloseProgram;
 import com.baselet.control.Main;
@@ -30,7 +31,7 @@ import com.baselet.gui.pane.OwnSyntaxPane;
 
 public class StandaloneGUI extends BaseGUI {
 
-	private final Logger log = Logger.getLogger(StandaloneGUI.class);
+	private final Logger log = LoggerFactory.getLogger(StandaloneGUI.class);
 
 	private JFrame mainFrame;
 

@@ -1,6 +1,7 @@
 package com.baselet.gwt.client;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.config.SharedConfig;
 import com.baselet.gwt.client.base.Browser;
@@ -16,10 +17,11 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 
 public class BaseletGWT implements EntryPoint {
 
-	Logger log = Logger.getLogger(BaseletGWT.class);
+	Logger log = LoggerFactory.getLogger(BaseletGWT.class);
 
 	@Override
 	public void onModuleLoad() {
+		log.info("Starting GUI ...");
 		SharedConfig.getInstance().setDev_mode(Location.getParameter("dev") != null);
 
 		if (!BrowserStorage.initLocalStorageAndCheckIfAvailable()) {
@@ -56,6 +58,7 @@ public class BaseletGWT implements EntryPoint {
 				});
 			}
 		}
+		log.info("GUI started");
 	}
 
 	private final native boolean browserSupportsFileReader() /*-{

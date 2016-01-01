@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.basics.Line1D;
 import com.baselet.control.basics.geom.PointDouble;
@@ -31,7 +32,7 @@ public class Lifeline {
 
 	private static final double DESTROY_SIZE = 20; // width and height of the destroy symbol X
 
-	private static final Logger log = Logger.getLogger(Lifeline.class);
+	private static final Logger log = LoggerFactory.getLogger(Lifeline.class);
 
 	private final String[] text;
 	/** position in the array = numbered from left to right starting at 0 */

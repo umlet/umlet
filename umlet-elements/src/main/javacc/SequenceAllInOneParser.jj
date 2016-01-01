@@ -11,7 +11,7 @@ options {
 PARSER_BEGIN(SequenceAllInOneParser)
 package com.baselet.element.facet.specific.sequence_aio.gen;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.enums.LineType;
 import com.baselet.element.facet.specific.sequence_aio.Lifeline;
@@ -20,7 +20,7 @@ import com.baselet.element.facet.specific.sequence_aio.SequenceDiagramBuilder;
 import com.baselet.element.facet.specific.sequence_aio.SequenceDiagramException;
 
 public class SequenceAllInOneParser {
-	private static final Logger log = Logger.getLogger(SequenceAllInOneParser.class);
+	private static final Logger log = LoggerFactory.getLogger(SequenceAllInOneParser.class);
 
 	private boolean autoTick;
 

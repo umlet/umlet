@@ -3,7 +3,8 @@ package com.baselet.element.relation.facet;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Line;
@@ -43,7 +44,7 @@ public class RelationLineTypeFacet extends FirstRunKeyValueFacet {
 
 	private RelationLineTypeFacet() {}
 
-	private final Logger log = Logger.getLogger(RelationLineTypeFacet.class);
+	private final Logger log = LoggerFactory.getLogger(RelationLineTypeFacet.class);
 
 	/**
 	 * all arrowtypes and linetypes to expect (order is important because eg << must be before < to be recognized correctly, therefore there are 2 shared lists. also linetype .. must be before .)

@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map.Entry;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Parser {
 
-	private static final Logger log = Logger.getLogger(Parser.class);
+	private static final Logger log = LoggerFactory.getLogger(Parser.class);
 
 	// The parserResult contains every information which is relevant after input parsing is finished
 	private final ParserResult parserResult;

@@ -11,7 +11,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.filechooser.FileSystemView;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.config.Config;
 import com.baselet.control.config.handler.ConfigHandler;
@@ -32,7 +32,7 @@ import com.baselet.gui.pane.OwnSyntaxPane;
 
 public class Main implements CanCloseProgram, CanOpenDiagram {
 
-	private static final Logger log = Logger.getLogger(Main.class);
+	private static final Logger log = LoggerFactory.getLogger(Main.class);
 
 	private static Main main = new Main();
 

@@ -9,7 +9,6 @@ import java.util.UUID;
 import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
@@ -22,6 +21,8 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.Main;
 import com.baselet.control.enums.Program;
@@ -34,7 +35,7 @@ import com.baselet.gui.pane.OwnSyntaxPane;
 
 public class Editor extends EditorPart {
 
-	private static final Logger log = Logger.getLogger(Editor.class);
+	private static final Logger log = LoggerFactory.getLogger(Editor.class);
 
 	private DiagramHandler handler;
 	private Panel embeddedPanel;

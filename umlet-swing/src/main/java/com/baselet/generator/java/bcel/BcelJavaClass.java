@@ -6,11 +6,11 @@ import org.apache.bcel.classfile.ClassParser;
 import org.apache.bcel.classfile.Field;
 import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Method;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 public class BcelJavaClass implements com.baselet.generator.java.JavaClass {
 
-	private static final Logger log = Logger.getLogger(BcelJavaClass.class);
+	private static final Logger log = LoggerFactory.getLogger(BcelJavaClass.class);
 
 	private final JavaClass clazz;
 	private String className;

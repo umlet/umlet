@@ -25,8 +25,8 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.fifesoft</groupId>
@@ -175,7 +175,8 @@
 					</archive>
 				</configuration>
 			</plugin>
-			<!-- Unpack the resources, required since the standalone application expects the resources to be placed in the build (target) directory -->
+			<!-- Unpack the resources, required since the standalone application expects 
+				the resources to be placed in the build (target) directory -->
 			<plugin>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>

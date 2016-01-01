@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.enums.Program;
 import com.baselet.control.util.Path;
@@ -18,7 +18,7 @@ import com.baselet.gui.listener.HyperLinkActiveListener;
 
 public class AboutDialog {
 
-	private static final Logger log = Logger.getLogger(AboutDialog.class);
+	private static final Logger log = LoggerFactory.getLogger(AboutDialog.class);
 
 	public static void show() {
 		SwingUtilities.invokeLater(new Runnable() {

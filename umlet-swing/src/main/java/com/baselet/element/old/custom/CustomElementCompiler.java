@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.config.Config;
 import com.baselet.control.config.SharedConfig;
@@ -27,7 +27,7 @@ import com.baselet.element.old.element.ErrorOccurred;
 
 public class CustomElementCompiler {
 
-	private static final Logger log = Logger.getLogger(CustomElementCompiler.class);
+	private static final Logger log = LoggerFactory.getLogger(CustomElementCompiler.class);
 
 	private static CustomElementCompiler compiler;
 	private static final String templatefile = "Default.java";

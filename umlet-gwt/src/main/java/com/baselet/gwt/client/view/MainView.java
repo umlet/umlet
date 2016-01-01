@@ -1,6 +1,7 @@
 package com.baselet.gwt.client.view;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vectomatic.file.FileUploadExt;
 
 import com.baselet.gwt.client.base.Notification;
@@ -109,7 +110,7 @@ public class MainView extends Composite {
 	private final FileUploadExt hiddenUploadButton = new FileUploadExt();
 	private final FileOpenHandler handler;
 
-	private final Logger log = Logger.getLogger(MainView.class);
+	private final Logger log = LoggerFactory.getLogger(MainView.class);
 
 	private final DropboxIntegration dropboxInt;
 

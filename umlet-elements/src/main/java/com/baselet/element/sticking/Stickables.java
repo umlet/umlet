@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.constants.SharedConstants;
@@ -17,7 +18,7 @@ import com.baselet.element.sticking.StickingPolygon.StickLine;
 
 public class Stickables {
 
-	private static Logger log = Logger.getLogger(Stickables.class);
+	private static Logger log = LoggerFactory.getLogger(Stickables.class);
 
 	public static StickableMap getStickingPointsWhichAreConnectedToStickingPolygon(StickingPolygon oldStickingPolygon, Collection<? extends Stickable> stickables) {
 		int maxDistance = SharedConstants.DEFAULT_GRID_SIZE - 1; // because stickables is always calculated at 10px gridsize, the maxdistance for sticking is 9px (this tolerance is important for diagonal stickinglines like the UseCase has, otherwise 0px tolerance should always work if the stickingLineEnd is always on the exact same Point as the stickingpolygon)

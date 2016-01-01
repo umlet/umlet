@@ -3,7 +3,8 @@ package com.baselet.gwt.client.element;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
@@ -32,7 +33,7 @@ public class DiagramXmlParser {
 	private static final String AMP = "&";
 	private static final String AMP_ENCODED = "&amp;";
 
-	private static final Logger log = Logger.getLogger(DiagramXmlParser.class);
+	private static final Logger log = LoggerFactory.getLogger(DiagramXmlParser.class);
 
 	private static final String DIAGRAM = "diagram";
 	private static final String ELEMENT = "element";

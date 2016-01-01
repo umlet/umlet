@@ -12,12 +12,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="target/generated-sources/annotations">
-		<attributes>
-			<attribute name="optional" value="true"/>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="src" output="target/classes" path="src/main/java">
 		<attributes>
 			<attribute name="optional" value="true"/>
@@ -31,11 +25,17 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/lib-gwt-file-0.3.3-sources.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/log4j-gwt.jar"/>
 	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="src" path="target/generated-sources/annotations">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/slf4j-gwt-1.7.7.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -6,7 +6,7 @@ import java.awt.event.MouseWheelListener;
 
 import javax.swing.JComponent;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.Main;
 import com.baselet.control.basics.geom.Point;
@@ -19,7 +19,7 @@ import com.baselet.gui.CurrentGui;
 
 public class DiagramListener extends UniversalListener implements MouseWheelListener {
 
-	private static final Logger log = Logger.getLogger(DiagramListener.class);
+	private static final Logger log = LoggerFactory.getLogger(DiagramListener.class);
 
 	public DiagramListener(DiagramHandler handler) {
 		super(handler);

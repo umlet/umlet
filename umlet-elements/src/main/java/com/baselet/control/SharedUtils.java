@@ -7,14 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
 
 public class SharedUtils {
 
-	private static final Logger log = Logger.getLogger(SharedUtils.class);
+	private static final Logger log = LoggerFactory.getLogger(SharedUtils.class);
 
 	public static int realignToGrid(double d) {
 		return realignTo(true, d, false, SharedConstants.DEFAULT_GRID_SIZE);

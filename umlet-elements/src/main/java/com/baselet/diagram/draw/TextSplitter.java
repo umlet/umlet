@@ -7,7 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.StringStyle;
 import com.baselet.control.enums.AlignHorizontal;
@@ -48,7 +49,7 @@ public class TextSplitter {
 	private static LinkedHashMap<MinWidthCacheKey, Double> minWidthCache = new LRUCache<MinWidthCacheKey, Double>(MIN_WIDTH_CACHE_SIZE);
 	private static LinkedHashMap<WordwrapCacheKey, WordwrapCacheValue> wordwrapCache = new LRUCache<WordwrapCacheKey, WordwrapCacheValue>(WORDWRAP_CACHE_SIZE);
 
-	private static final Logger log = Logger.getLogger(TextSplitter.class);
+	private static final Logger log = LoggerFactory.getLogger(TextSplitter.class);
 
 	/**
 	 *
@@ -115,8 +116,7 @@ public class TextSplitter {
 		if (words == null) {
 			return drawer.textWidth(analyzedText.getStringWithoutMarkup()) + endBuffer(drawer) + 0.01 < width;
 		}
-		else
-		{
+		else {
 			WordwrapCacheValue wwValue = getCachedWordwrap(words, width, drawer.getStyleClone(), analyzedText.getFormat());
 			if (wwValue == null) {
 				return drawer.textWidth(analyzedText.getStringWithoutMarkup()) + endBuffer(drawer) + 0.01 < width;
@@ -226,8 +226,7 @@ public class TextSplitter {
 							if (runtimeException) {
 								throw new RuntimeException("At least one word is to big for the specified width!");
 							}
-							else
-							{
+							else {
 								int endIndex = words[lineStart].getEnd() - 1;
 								while (drawer.textWidth(finalText.substring(words[lineStart].getBegin(), endIndex)) > width) {
 									endIndex--;
@@ -273,8 +272,7 @@ public class TextSplitter {
 		else {
 			double minWidth = 0;
 			if (analyzedText.getStringWithoutMarkup().trim().length() > 0) {
-				for (WordRegion wr : key.getWords())
-				{
+				for (WordRegion wr : key.getWords()) {
 					minWidth = Math.max(minWidth, drawer.textWidth(
 							analyzedText.getStringWithoutMarkup().substring(wr.getBegin(), wr.getEnd())));
 				}

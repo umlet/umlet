@@ -7,7 +7,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.enums.LineType;
 import com.baselet.element.facet.specific.sequence_aio.StateInvariant.StateInvariantStyle;
@@ -20,7 +21,7 @@ import com.baselet.element.facet.specific.sequence_aio.StateInvariant.StateInvar
  */
 public class SequenceDiagramBuilder {
 
-	private static final Logger log = Logger.getLogger(SequenceDiagramBuilder.class);
+	private static final Logger log = LoggerFactory.getLogger(SequenceDiagramBuilder.class);
 
 	private final String DEFAULT_ID_PREFIX = "id";
 	private final SequenceDiagram dia;

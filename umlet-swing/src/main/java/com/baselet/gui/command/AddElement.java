@@ -2,7 +2,7 @@ package com.baselet.gui.command;
 
 import java.awt.Point;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.HandlerElementMap;
 import com.baselet.control.constants.Constants;
@@ -12,7 +12,7 @@ import com.baselet.element.interfaces.GridElement;
 
 public class AddElement extends Command {
 
-	private static final Logger log = Logger.getLogger(AddElement.class);
+	private static final Logger log = LoggerFactory.getLogger(AddElement.class);
 
 	// AB: checked false after first execution
 	private boolean firstCall = true;

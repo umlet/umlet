@@ -11,7 +11,7 @@ import java.util.Vector;
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.Main;
 import com.baselet.control.basics.Converter;
@@ -44,7 +44,7 @@ import com.baselet.gui.command.OldResize;
 
 public class GridElementListener extends UniversalListener {
 
-	private static final Logger log = Logger.getLogger(GridElementListener.class);
+	private static final Logger log = LoggerFactory.getLogger(GridElementListener.class);
 
 	protected boolean IS_DRAGGING = false;
 	protected boolean IS_DRAGGING_DIAGRAM = false;

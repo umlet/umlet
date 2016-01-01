@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.Main;
 import com.baselet.control.config.Config;
@@ -30,7 +30,7 @@ import com.baselet.diagram.DiagramHandler;
 @SuppressWarnings("serial")
 public class OptionPanel extends JPanel implements ActionListener {
 
-	private final Logger log = Logger.getLogger(OptionPanel.class);
+	private final Logger log = LoggerFactory.getLogger(OptionPanel.class);
 	private static OptionPanel optionpanel;
 
 	public static OptionPanel getInstance() {

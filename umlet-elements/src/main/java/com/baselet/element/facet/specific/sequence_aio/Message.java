@@ -3,21 +3,22 @@ package com.baselet.element.facet.specific.sequence_aio;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.basics.geom.Line;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.control.enums.LineType;
-import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.TextSplitter;
 import com.baselet.element.relation.helper.RelationDrawer;
 import com.baselet.element.relation.helper.RelationDrawer.ArrowEndType;
 
 public class Message implements LifelineSpanningTickSpanningOccurrence {
 
-	private static final Logger log = Logger.getLogger(Message.class);
+	private static final Logger log = LoggerFactory.getLogger(Message.class);
 	protected static final double LIFELINE_TEXT_PADDING = RelationDrawer.ARROW_LENGTH + 3;
 	protected static final double SELF_MESSAGE_LIFELINE_GAP = RelationDrawer.ARROW_LENGTH + 7;
 	protected static final double SELF_MESSAGE_TEXT_PADDING = 5;

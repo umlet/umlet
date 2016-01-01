@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -28,6 +27,8 @@ import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.enums.Program;
 import com.baselet.plugin.MainPlugin;
@@ -45,7 +46,7 @@ import com.baselet.plugin.MainPlugin;
 
 public class NewWizard extends Wizard implements INewWizard {
 
-	private final Logger log = Logger.getLogger(NewWizard.class);
+	private final Logger log = LoggerFactory.getLogger(NewWizard.class);
 	private NewWizardPage page;
 	private ISelection selection;
 

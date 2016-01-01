@@ -17,7 +17,7 @@ import java.util.Vector;
 
 import javax.swing.JComponent;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.HandlerElementMap;
 import com.baselet.control.Main;
@@ -56,7 +56,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	private static final long serialVersionUID = 1L;
 
-	protected static final Logger log = Logger.getLogger(OldGridElement.class);
+	protected static final Logger log = LoggerFactory.getLogger(OldGridElement.class);
 
 	public static final float ALPHA_MIDDLE_TRANSPARENCY = 0.5f;
 	public static final float ALPHA_FULL_TRANSPARENCY = 0.0f;

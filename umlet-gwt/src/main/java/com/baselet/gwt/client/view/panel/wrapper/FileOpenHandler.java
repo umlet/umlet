@@ -3,7 +3,8 @@ package com.baselet.gwt.client.view.panel.wrapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.vectomatic.file.ErrorCode;
 import org.vectomatic.file.File;
 import org.vectomatic.file.FileError;
@@ -19,7 +20,7 @@ import com.google.gwt.user.client.Window;
 
 public class FileOpenHandler {
 
-	private final Logger log = Logger.getLogger(FileOpenHandler.class);
+	private final Logger log = LoggerFactory.getLogger(FileOpenHandler.class);
 
 	protected FileReader reader;
 	protected List<File> readQueue = new ArrayList<File>();

@@ -9,7 +9,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Dimension;
@@ -46,7 +47,7 @@ import com.baselet.gui.AutocompletionText;
 
 public abstract class NewGridElement implements GridElement {
 
-	private final Logger log = Logger.getLogger(NewGridElement.class);
+	private final Logger log = LoggerFactory.getLogger(NewGridElement.class);
 
 	private DrawHandler drawer; // this is the drawer for element specific stuff
 	private DrawHandler metaDrawer; // this is a separate drawer to draw stickingborder, selection-background etc.

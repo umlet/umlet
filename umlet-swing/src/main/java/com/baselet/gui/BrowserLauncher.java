@@ -7,14 +7,14 @@ import java.net.URI;
 import java.net.URL;
 import java.util.Scanner;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Os;
 
 public class BrowserLauncher {
 
-	private static final Logger log = Logger.getLogger(BrowserLauncher.class);
+	private static final Logger log = LoggerFactory.getLogger(BrowserLauncher.class);
 
 	public static void openURL(String url) {
 

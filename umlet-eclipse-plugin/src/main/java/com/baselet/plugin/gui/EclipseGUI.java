@@ -10,12 +10,13 @@ import java.util.HashMap;
 
 import javax.swing.text.JTextComponent;
 
-import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.widgets.Display;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.CanCloseProgram;
 import com.baselet.control.config.Config;
@@ -35,7 +36,7 @@ public class EclipseGUI extends BaseGUI {
 		PROPERTY, CUSTOMCODE, DIAGRAM
 	}
 
-	private static final Logger log = Logger.getLogger(EclipseGUI.class);
+	private static final Logger log = LoggerFactory.getLogger(EclipseGUI.class);
 
 	private Editor editor;
 	private final HashMap<DiagramHandler, Editor> diagrams;

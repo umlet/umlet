@@ -11,7 +11,7 @@ options {
 PARSER_BEGIN(CustomDrawingParser)
 package com.baselet.element.facet.customdrawings.gen;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
@@ -20,7 +20,7 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.facet.customdrawings.CustomDrawingParserRuntimeException;
 
 public abstract class CustomDrawingParser {
-	private static final Logger log = Logger.getLogger(CustomDrawingParser.class);
+	private static final Logger log = LoggerFactory.getLogger(CustomDrawingParser.class);
 	
 	// JavaCC doesn't support user enriched constructors (adding additional parameters)
 	// therefore we use abstract getters
@@ -480,7 +480,7 @@ double unsignedDoubleConstant() :
 		} catch(NumberFormatException e) {
 			// log fatal error, only valid double values are accepted from the parser
 			// a double can't be to big, but may loose some precision
-			log.fatal("Fatal Error: The string '" + token.image + "' couldn't be parsed as double, but the grammar should ensure that the string is parsable.",e);
+			log.error("Fatal Error: The string '" + token.image + "' couldn't be parsed as double, but the grammar should ensure that the string is parsable.",e);
 			throw (ParseException) new ParseException("Fatal Error: The string '" + token.image + "' couldn't be parsed as double, but the grammar should ensure that the string is parsable.").initCause(e);
 		}
 		return value;

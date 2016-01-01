@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.generator.java.Field;
 import com.baselet.generator.java.JavaClass;
@@ -23,7 +23,7 @@ import com.github.javaparser.ast.body.TypeDeclaration;
 
 public class JpJavaClass implements JavaClass {
 
-	private final Logger log = Logger.getLogger(JpJavaClass.class);
+	private final Logger log = LoggerFactory.getLogger(JpJavaClass.class);
 
 	private CompilationUnit cu;
 	private final List<MethodDeclaration> methods = new ArrayList<MethodDeclaration>();

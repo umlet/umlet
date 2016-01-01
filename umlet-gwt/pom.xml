@@ -57,15 +57,9 @@
 			<classifier>sources</classifier>
 		</dependency>
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.sourceforge.log4j-gwt</groupId>
-			<artifactId>log4j-gwt</artifactId>
-			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.build.directory}/../war/WEB-INF/lib/log4j-gwt.jar</systemPath>
+			<groupId>ru.finam</groupId>
+			<artifactId>slf4j-gwt</artifactId>
+			<version>1.7.7.1</version>
 		</dependency>
 	</dependencies>
 

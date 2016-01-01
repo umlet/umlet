@@ -33,8 +33,8 @@
 	<!-- GWT Logger -->
 	<inherits name="com.google.gwt.logging.Logging" />
 
-	<!-- Log4j for GWT Client side -->
-	<inherits name="org.apache.log4j.Log4j" />
+	<!-- Slf4J for GWT Client side -->
+	<inherits name="ru.finam.slf4jgwt.logging.gwt.Logging" />
 
 	<!-- Logger configuration -->
 	<set-property name="gwt.logging.logLevel" value="INFO" />
@@ -53,9 +53,7 @@
 	<source path='client' />
 	<source path='shared' />
 
-	<!-- necessary to work in Chrome as a client only application 
-	see http://stackoverflow.com/questions/6073457/gwt-separate-js-css-images-from-server 
-	see https://developers.google.com/web-toolkit/doc/latest/FAQ_Server?hl=de#What_is_the_Same_Origin_Policy,_and_how_does_it_affect_GWT? -->
+	<!-- necessary to work in Chrome as a client only application see http://stackoverflow.com/questions/6073457/gwt-separate-js-css-images-from-server see https://developers.google.com/web-toolkit/doc/latest/FAQ_Server?hl=de#What_is_the_Same_Origin_Policy,_and_how_does_it_affect_GWT? -->
 	<add-linker name="xsiframe" />
 
 </module>

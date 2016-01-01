@@ -23,7 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.RepaintManager;
 import javax.swing.ScrollPaneConstants;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.config.Config;
@@ -41,7 +41,7 @@ import com.baselet.gui.listener.ScrollbarListener;
 @SuppressWarnings("serial")
 public class DrawPanel extends JLayeredPane implements Printable {
 
-	private static final Logger log = Logger.getLogger(DrawPanel.class);
+	private static final Logger log = LoggerFactory.getLogger(DrawPanel.class);
 
 	private final Point origin;
 	private JScrollPane _scr;

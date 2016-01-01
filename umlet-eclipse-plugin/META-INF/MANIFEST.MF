@@ -5,12 +5,12 @@ Bundle-ManifestVersion: 2
 Bundle-Name: UMlet
 Bundle-SymbolicName: com.umlet.plugin;singleton:=true
 Bundle-Version: 14.1.0.qualifier
-Bundle-ClassPath: .,lib/smtp.jar,lib/bcel.jar,lib/batik-xml.jar,lib/lo
- g4j.jar,lib/javaparser-core.jar,lib/commons-io.jar,lib/batik-awt-util
- .jar,lib/batik-svggen.jar,lib/umlet-elements.jar,lib/umlet-swing.jar,
- lib/itextpdf.jar,lib/batik-dom.jar,lib/batik-util.jar,lib/batik-ext.j
- ar,lib/ecj.jar,lib/rsyntaxtextarea.jar,lib/mailapi.jar,lib/autocomple
- te.jar,lib/jlibeps.jar
+Bundle-ClassPath: .,lib/smtp.jar,lib/bcel.jar,lib/batik-xml.jar,lib/ja
+ vaparser-core.jar,lib/commons-io.jar,lib/batik-awt-util.jar,lib/batik
+ -svggen.jar,lib/umlet-elements.jar,lib/umlet-swing.jar,lib/itextpdf.j
+ ar,lib/batik-dom.jar,lib/batik-util.jar,lib/batik-ext.jar,lib/ecj.jar
+ ,lib/rsyntaxtextarea.jar,lib/mailapi.jar,lib/autocomplete.jar,lib/jli
+ beps.jar,lib/slf4j-api.jar
 Bundle-Activator: com.baselet.plugin.MainPlugin
 Export-Package: com.baselet.plugin,com.baselet.plugin.gui,com.baselet.
  plugin.wizard
