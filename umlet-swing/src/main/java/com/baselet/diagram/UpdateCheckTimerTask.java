@@ -1,6 +1,5 @@
 package com.baselet.diagram;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
@@ -51,7 +50,7 @@ public class UpdateCheckTimerTask extends TimerTask {
 		StringBuilder sb = new StringBuilder("");
 		Scanner sc = null;
 		try {
-			sc = new Scanner(new File(StartUpHelpText.getStartUpFileName()));
+			sc = new Scanner(StartUpHelpText.getStartUpFileName());
 			while (sc.hasNextLine()) {
 				String line = sc.nextLine();
 				if (line.contains("<body>")) {

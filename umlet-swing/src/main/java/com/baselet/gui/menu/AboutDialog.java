@@ -2,7 +2,6 @@ package com.baselet.gui.menu;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
@@ -10,10 +9,10 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
-import org.slf4j.Logger;import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.enums.Program;
-import com.baselet.control.util.Path;
 import com.baselet.gui.listener.HyperLinkActiveListener;
 
 public class AboutDialog {
@@ -27,7 +26,7 @@ public class AboutDialog {
 				try {
 					final JEditorPane edit = new JEditorPane();
 					edit.setBorder(new LineBorder(Color.GRAY, 1, true));
-					edit.setPage(new URL("file:///" + Path.homeProgram() + "html/about.html"));
+					edit.setPage(AboutDialog.class.getClassLoader().getResource("about.html"));
 					edit.addHyperlinkListener(new HyperLinkActiveListener());
 					edit.setEditable(false);
 					edit.setSelectionColor(Color.WHITE);

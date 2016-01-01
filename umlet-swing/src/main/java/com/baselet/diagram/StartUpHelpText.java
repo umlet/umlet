@@ -14,18 +14,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
 import javax.swing.JEditorPane;
 
-import org.slf4j.Logger;import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Metakey;
 import com.baselet.control.enums.Program;
-import com.baselet.control.util.Path;
 import com.baselet.control.util.Utils;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.listener.HyperLinkActiveListener;
@@ -81,8 +82,8 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		}
 	}
 
-	static String getStartUpFileName() {
-		return Path.homeProgram() + "html/startuphelp.html";
+	static InputStream getStartUpFileName() {
+		return StartUpHelpText.class.getClassLoader().getResourceAsStream("startuphelp.html");
 	}
 
 	private void showHTML(String filename) throws MalformedURLException, IOException {
@@ -107,7 +108,7 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 		StringBuilder sb = new StringBuilder("");
 		Scanner sc = null;
 		try {
-			sc = new Scanner(new File(getStartUpFileName()));
+			sc = new Scanner(getStartUpFileName());
 			while (sc.hasNextLine()) {
 				String line = sc.nextLine();
 				if (SystemInfo.META_KEY == Metakey.CTRL) {
