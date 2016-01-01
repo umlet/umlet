@@ -2,5 +2,5 @@ eclipse.preferences.version=1
 jarsExcludedFromWebInfLib=
 lastWarOutDir=C\:/Users/Dia/git/umlet/umlet-gwt/war
 launchConfigExternalUrlPrefix=
-warSrcDir=war
+warSrcDir=
 warSrcDirIsOutput=false
