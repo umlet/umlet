@@ -64,6 +64,33 @@
 
 	<build>
 		<plugins>
+		<!-- Synchronize palettes from umlet-res with the GWT palettes -->
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<!-- unpack all dependencies from umlet-eclipse-plugin-deps and umlet-res -->
+					<execution>
+						<id>unpack</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.basedir}/src/main/java/com/baselet/gwt/client/view</outputDirectory>
+							<!-- synchronize all palettes except the deprecated ones and Activity AIO because they are OldGridElements which do not work in GWT -->
+							<includes>palettes/*.*</includes>
+							<excludes>palettes/Deprecated*.*,palettes/UML Activity - All in one.*</excludes>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.umlet</groupId>
+									<artifactId>umlet-res</artifactId>
+									<version>${project.version}</version>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- assemble UMLetino output as zip file -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
