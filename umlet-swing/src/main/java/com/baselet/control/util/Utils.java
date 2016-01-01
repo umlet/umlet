@@ -5,7 +5,6 @@ import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -19,13 +18,6 @@ import com.baselet.diagram.draw.DoubleStroke;
 public abstract class Utils {
 
 	private Utils() {} // private constructor to avoid instantiation
-
-	// Not used
-	public static File createRandomFile(String extension) {
-		File randomFile = new File(Path.homeProgram() + "tmp.diagram." + new Date().getTime() + "." + extension);
-		randomFile.deleteOnExit();
-		return randomFile;
-	}
 
 	public static Point normalize(Point p, int pixels) {
 		Point ret = new Point();
