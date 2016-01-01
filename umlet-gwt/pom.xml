@@ -8,9 +8,9 @@
 	</parent>
 
 	<artifactId>umlet-gwt</artifactId>
+	<packaging>gwt-app</packaging>
 
 	<properties>
-		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
 		<!-- GWT 2.7 requires Java 7 -->
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
@@ -47,19 +47,18 @@
 			<groupId>org.vectomatic</groupId>
 			<artifactId>lib-gwt-file</artifactId>
 			<version>0.3.3</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.vectomatic</groupId>
 			<artifactId>lib-gwt-file</artifactId>
 			<version>0.3.3</version>
-			<scope>provided</scope>
 			<classifier>sources</classifier>
 		</dependency>
 		<dependency>
 			<groupId>ru.finam</groupId>
 			<artifactId>slf4j-gwt</artifactId>
 			<version>1.7.7.1</version>
+			<!-- no additional source entry necessary because the author packages the normal jar with the sources -->
 		</dependency>
 	</dependencies>
 
@@ -82,22 +81,17 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- start the GWT compiler and GWT tests during the build -->
+			<!-- start the GWT compiler during the build -->
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
+				<groupId>net.ltgt.gwt.maven</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<version>2.7.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
+				<version>1.0-rc-5</version>
+				<extensions>true</extensions>
 				<configuration>
-					<runTarget>index.html</runTarget>
-					<hostedWebapp>${webappDirectory}</hostedWebapp>
+					<moduleName>baseletgwt</moduleName>
+					<startupUrls>
+					<startupUrl>umletino.html</startupUrl>
+					</startupUrls>
 				</configuration>
 			</plugin>
 		</plugins>
