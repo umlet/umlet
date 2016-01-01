@@ -47,5 +47,10 @@
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/umlet-swing/src/main/java</locationURI>
 		</link>
+		<link>
+			<name>SWING_RES</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/umlet-swing/src/main/resources</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>

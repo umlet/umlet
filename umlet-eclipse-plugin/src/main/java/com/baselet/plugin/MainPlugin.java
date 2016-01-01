@@ -8,6 +8,8 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.Main;
 import com.baselet.control.config.handler.ConfigHandler;
@@ -21,6 +23,8 @@ import com.baselet.plugin.gui.EclipseGUI;
  * The activator class controls the plug-in life cycle
  */
 public class MainPlugin extends AbstractUIPlugin {
+
+	Logger log = LoggerFactory.getLogger(MainPlugin.class);
 
 	// The plug-in ID
 	private static String pluginId;
@@ -44,12 +48,14 @@ public class MainPlugin extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext) */
 	@Override
 	public void start(BundleContext context) throws Exception {
+		log.info("Initializing Plugin ...");
 		super.start(context);
 
 		initHomeProgramPath();
 		readBundleManifestInfo();
 		ConfigHandler.loadConfig();
 		Main.getInstance().init(new EclipseGUI(Main.getInstance()));
+		log.info("Plugin initialized");
 	}
 
 	private void initHomeProgramPath() throws IOException {
