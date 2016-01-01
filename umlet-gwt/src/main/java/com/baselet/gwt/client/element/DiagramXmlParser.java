@@ -12,7 +12,7 @@ import com.baselet.control.enums.ElementId;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.base.Notification;
-import com.baselet.gwt.client.version.BuildProperties;
+import com.baselet.gwt.client.version.BuildInfoProperties;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.DOMException;
@@ -134,7 +134,7 @@ public class DiagramXmlParser {
 
 		Element diagramElement = doc.createElement(DIAGRAM);
 		diagramElement.setAttribute(ATTR_PROGRAM, "umletino");
-		diagramElement.setAttribute(ATTR_VERSION, BuildProperties.getVersion());
+		diagramElement.setAttribute(ATTR_VERSION, BuildInfoProperties.getVersion());
 		diagramElement.appendChild(create(doc, ZOOM_LEVEL, doc.createTextNode("10")));
 		String helpText = diagram.getPanelAttributes();
 		if (helpText != null) {
