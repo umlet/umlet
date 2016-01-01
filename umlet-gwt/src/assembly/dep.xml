@@ -9,7 +9,7 @@
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<fileSets>
 		<fileSet>
-			<directory>${project.basedir}/src/main/resources/com/baselet/gwt/public</directory>
+			<directory>${project.basedir}/src/main/webapp</directory>
 			<outputDirectory>/</outputDirectory>
 			<filtered>true</filtered>
 		</fileSet>
