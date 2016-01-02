@@ -31,10 +31,6 @@ public class MainStandalone {
 	private static final Logger log = LoggerFactory.getLogger(MainStandalone.class);
 
 	public static void main(final String[] args) {
-		initHomeProgramPath();
-		readBuildInfoAndInitVersion();
-		ConfigHandler.loadConfig();
-
 		if (args.length != 0) {
 			String action = null;
 			String format = null;
@@ -60,13 +56,13 @@ public class MainStandalone {
 					filename = args[0];
 				}
 				if (!alreadyRunningChecker(false) || !sendFileNameToRunningApplication(filename)) {
+					initAll(RuntimeType.STANDALONE);
 					startStandalone(filename);
 				}
 			}
 			else if (action != null && format != null && filename != null) {
 				if (action.equals("convert")) {
-					log.info("Initializing Batchmode ...");
-					Program.getInstance().setRuntimeType(RuntimeType.BATCH);
+					initAll(RuntimeType.BATCH);
 					String[] splitFilename = filename.split("(/|\\\\)");
 					String localName = splitFilename[splitFilename.length - 1];
 					String dir = filename.substring(0, filename.length() - localName.length());
@@ -91,9 +87,16 @@ public class MainStandalone {
 			}
 		}
 		else { // no arguments specified
+			initAll(RuntimeType.STANDALONE);
 			alreadyRunningChecker(true); // start checker
 			startStandalone(null);
 		}
+	}
+
+	private static void initAll(RuntimeType runtime) {
+		readBuildInfoAndInitVersion(runtime);
+		initHomeProgramPath();
+		ConfigHandler.loadConfig();
 	}
 
 	private static void startStandalone(String filenameToOpen) {
@@ -120,7 +123,7 @@ public class MainStandalone {
 
 		try {
 			handler.getFileHandler().doExportAs(outputFormat, new File(outputFileName));
-			printToConsole("Conversion finished: \"" + inputFile.getAbsolutePath() + "\" to \"" + outputParam + "\"");
+			printToConsole("Conversion finished: \"" + inputFile.getAbsolutePath() + "\" to \"" + outputFileName + "\"");
 		} catch (Exception e) {
 			printToConsole(e.getMessage());
 		}
@@ -197,7 +200,7 @@ public class MainStandalone {
 		return new File(Path.temp() + Program.getInstance().getProgramName().toLowerCase() + ".tmp");
 	}
 
-	private static void readBuildInfoAndInitVersion() {
+	private static void readBuildInfoAndInitVersion(RuntimeType runtime) {
 		InputStream stream = MainStandalone.class.getResourceAsStream("/BuildInfo.properties");
 		if (stream == null) {
 			throw new RuntimeException("Cannot load BuildInfo.properties");
@@ -206,7 +209,7 @@ public class MainStandalone {
 			Properties prop = new Properties();
 			try {
 				prop.load(stream);
-				Program.getInstance().init(prop.getProperty("version"));
+				Program.init(prop.getProperty("version"), runtime);
 			} catch (IOException e) {
 				throw new RuntimeException("Cannot load properties from file BuildInfo.properties", e);
 			}

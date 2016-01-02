@@ -1,45 +1,54 @@
 package com.baselet.control.enums;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * PROGRAM, PLATTFORM AND JAVA SPECIFIC SETTINGS
  **/
 public class Program {
 
-	private static final Program instance = new Program();
+	private static final Logger log = LoggerFactory.getLogger(Program.class);
+
+	private static Program instance;
 
 	public static Program getInstance() {
+		if (instance == null) {
+			throw new RuntimeException("Proram must be initialized before using it");
+		}
 		return instance;
 	}
 
-	// Basically the RUNTIME_TYPE is STANDALONE until it gets overwritten after program startup
-	private RuntimeType runtimeType = RuntimeType.STANDALONE;
-	private String configName;
-	private String programName;
-	private String extension;
-	private String website;
-	private String version;
+	public static void init(String version, RuntimeType runtimeType) {
+		instance = new Program(version, runtimeType);
+	}
 
-	public void init(String version) {
+	private final RuntimeType runtimeType;
+	private final String configName;
+	private final String programName;
+	private final String extension;
+	private final String website;
+	private final String version;
+
+	private Program(String version, RuntimeType runtimeType) {
+		log.info("Initializing Program: Version=" + version + ", Runtime=" + runtimeType);
+		this.version = version;
+		this.runtimeType = runtimeType;
 		programName = "UMLet";
 		extension = "uxf";
 		website = "http://www." + getProgramName().toLowerCase() + ".com";
 
-		if (Program.getInstance().getRuntimeType() == RuntimeType.ECLIPSE_PLUGIN) {
+		if (runtimeType == RuntimeType.ECLIPSE_PLUGIN) {
 			configName = getProgramName().toLowerCase() + "plugin.cfg";
 		}
 		else /* STANDALONE and BATCH */ {
 			configName = getProgramName().toLowerCase() + ".cfg";
 		}
 
-		this.version = version;
 	}
 
 	public RuntimeType getRuntimeType() {
 		return runtimeType;
-	}
-
-	public void setRuntimeType(RuntimeType runtimeType) {
-		this.runtimeType = runtimeType;
 	}
 
 	public String getConfigName() {

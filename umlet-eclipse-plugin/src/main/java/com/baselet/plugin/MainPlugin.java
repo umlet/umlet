@@ -40,7 +40,6 @@ public class MainPlugin extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public MainPlugin() {
-		Program.getInstance().setRuntimeType(RuntimeType.ECLIPSE_PLUGIN);
 		plugin = this;
 	}
 
@@ -70,7 +69,7 @@ public class MainPlugin extends AbstractUIPlugin {
 	// Issue 83: Use OSGI Bundle to read Manifest information
 	private void readBundleManifestInfo() {
 		pluginId = MainPlugin.getDefault().getBundle().getSymbolicName();
-		Program.getInstance().init(MainPlugin.getDefault().getBundle().getVersion().toString());
+		Program.init(MainPlugin.getDefault().getBundle().getVersion().toString(), RuntimeType.ECLIPSE_PLUGIN);
 
 	}
 
