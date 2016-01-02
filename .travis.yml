@@ -2,5 +2,5 @@ language: java
 jdk:
   - oraclejdk7
   - oraclejdk8
-script: "mvn package --fail-at-end"
+script: "mvn package"
 
