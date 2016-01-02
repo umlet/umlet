@@ -14,6 +14,25 @@
 		</license>
 	</licenses>
 
+	<issueManagement>
+		<system>GitHub Issues</system>
+		<url>http://github.com/umlet/umlet/issues</url>
+	</issueManagement>
+
+	<scm>
+		<url>http://github.com/umlet/umlet</url>
+		<connection>scm:git:git://github.com/umlet/umlet.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/umlet/umlet.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
+	</properties>
+
 	<modules>
 		<module>umlet-elements</module>
 		<module>umlet-res</module>
@@ -23,13 +42,6 @@
 		<module>umlet-eclipse-plugin</module>
 		<module>umlet-gwt</module>
 	</modules>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.compiler.source>1.6</maven.compiler.source>
-		<maven.compiler.target>1.6</maven.compiler.target>
-	</properties>
 
 	<dependencies>
 		<dependency>
@@ -102,6 +114,13 @@
 			</resource>
 		</resources>
 		<plugins>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+				</configuration>
+			</plugin>
 			<!-- use buildnumber-maven-plugin to create several versions of timestamp variables -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
