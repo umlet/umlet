@@ -24,11 +24,11 @@ public class Program {
 		extension = "uxf";
 		website = "http://www." + getProgramName().toLowerCase() + ".com";
 
-		if (Program.getInstance().getRuntimeType() == RuntimeType.STANDALONE) {
-			configName = getProgramName().toLowerCase() + ".cfg";
-		}
-		else {
+		if (Program.getInstance().getRuntimeType() == RuntimeType.ECLIPSE_PLUGIN) {
 			configName = getProgramName().toLowerCase() + "plugin.cfg";
+		}
+		else /* STANDALONE and BATCH */ {
+			configName = getProgramName().toLowerCase() + ".cfg";
 		}
 
 		this.version = version;
