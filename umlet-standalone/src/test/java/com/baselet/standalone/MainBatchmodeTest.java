@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,6 +27,8 @@ public class MainBatchmodeTest {
 
 	@BeforeClass
 	public static void bla() throws URISyntaxException {
+		// Skip tests on Travis CI because they require a local Umlet installation (e.g. for umlet.cfg file)
+		Assume.assumeFalse("If built is run on TRAVIS CI Server, skip these tests", "TRUE".equalsIgnoreCase(System.getenv("TRAVIS")));
 		TEST_FILE_LOCATION = MainBatchmodeTest.class.getProtectionDomain().getCodeSource().getLocation().toURI().getSchemeSpecificPart() + MainBatchmodeTest.class.getCanonicalName().replace(".", "/").replace(MainBatchmodeTest.class.getSimpleName(), "");
 	}
 
