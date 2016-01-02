@@ -10,12 +10,12 @@
 	<fileSets>
 		<fileSet>
 			<directory>${project.basedir}/src/main/webapp</directory>
-			<outputDirectory>/</outputDirectory>
+			<outputDirectory></outputDirectory>
 			<filtered>true</filtered>
 		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}/${project.build.finalName}/baseletgwt</directory>
-			<outputDirectory>/baseletgwt</outputDirectory>
+			<outputDirectory>baseletgwt</outputDirectory>
 		</fileSet>
 	</fileSets>
 </assembly>

@@ -7,7 +7,7 @@
 	<fileSets>
 		<fileSet>
 			<directory>${project.basedir}/src/exe</directory>
-			<outputDirectory>/</outputDirectory>
+			<outputDirectory></outputDirectory>
 			<excludes>
 				<exclude>launch4j_project.xml</exclude>
 				<exclude>Umlet.ico</exclude>
@@ -15,13 +15,13 @@
 		</fileSet>
 		<fileSet>
 			<directory>${project.basedir}/../</directory>
-			<outputDirectory>/</outputDirectory>
+			<outputDirectory></outputDirectory>
 			<includes>
 				<include>LICENCE.txt</include>
 			</includes>
 		</fileSet>
 		<fileSet>
-			<outputDirectory>/</outputDirectory>
+			<outputDirectory></outputDirectory>
 			<includes>
 				<include>${project.build.finalName}</include>
 			</includes>
@@ -29,21 +29,21 @@
 	</fileSets>
 	<dependencySets>
 		<dependencySet>
-			<outputDirectory>/lib/</outputDirectory>
+			<outputDirectory>lib/</outputDirectory>
 			<useProjectArtifact>false</useProjectArtifact>
 			<excludes>
 				<exclude>*:umlet-res:*</exclude>
 			</excludes>
 		</dependencySet>
 		<dependencySet>
-			<outputDirectory>/</outputDirectory>
+			<outputDirectory></outputDirectory>
 			<outputFileNameMapping>umlet.jar</outputFileNameMapping>
 			<includes>
 				<include>*:umlet-standalone:*</include>
 			</includes>
 		</dependencySet>
 		<dependencySet>
-			<outputDirectory>/</outputDirectory>
+			<outputDirectory></outputDirectory>
 			<unpack>true</unpack>
 			<unpackOptions>
 				<excludes>
