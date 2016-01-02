@@ -27,8 +27,9 @@ public class MainBatchmodeTest {
 
 	@BeforeClass
 	public static void beforeClass() throws URISyntaxException {
-		// Skip tests on Travis CI because they require a local Umlet installation (e.g. for umlet.cfg file)
-		Assume.assumeFalse("If built is run on TRAVIS CI Server, skip these tests", "TRUE".equalsIgnoreCase(System.getenv("TRAVIS")));
+		// Skip tests on Travis CI because they require a local Umlet installation (e.g. for umlet.cfg file); check environmentvariable and -D parameter
+		boolean buildOnCiServer = "TRUE".equalsIgnoreCase(System.getProperty("CI")) || "TRUE".equalsIgnoreCase(System.getenv("CI"));
+		Assume.assumeFalse("If built is run on TRAVIS CI Server, skip these tests", buildOnCiServer);
 		TEST_FILE_LOCATION = MainBatchmodeTest.class.getProtectionDomain().getCodeSource().getLocation().toURI().getSchemeSpecificPart() + MainBatchmodeTest.class.getCanonicalName().replace(".", "/").replace(MainBatchmodeTest.class.getSimpleName(), "");
 	}
 
