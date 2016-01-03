@@ -57,9 +57,34 @@
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
+					<!-- update Bundle-Version of MANIFEST.MF with current pom.xml version (replace the - before the qualifier with . and SNAPSHOT with qualifier to be compatible with OSGI versioning) -->
+					<execution>
+						<id>updateManifestVersion</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<property name="versionMaven" value="${project.version}" />
+								<loadresource property="versionOsgi">
+									<propertyresource name="versionMaven" />
+									<filterchain>
+										<tokenfilter>
+											<replacestring from="-" to="." />
+											<replacestring from="SNAPSHOT" to="qualifier" />
+										</tokenfilter>
+									</filterchain>
+								</loadresource>
+								<manifest file="${project.build.directory}/../META-INF/MANIFEST.MF" mode="update">
+									<attribute name="Bundle-Version" value="${versionOsgi}" />
+								</manifest>
+							</target>
+						</configuration>
+					</execution>
 					<!-- update Bundle-ClassPath of MANIFEST.MF with all libraries -->
 					<execution>
-						<id>updateManifest</id>
+						<id>updateManifestClasspath</id>
 						<phase>process-resources</phase>
 						<goals>
 							<goal>run</goal>
