@@ -11,7 +11,7 @@
 	<packaging>eclipse-plugin</packaging>
 
 	<properties>
-		<tycho.version>0.24.0</tycho.version>
+		<tycho.version>0.22.0</tycho.version>
 	</properties>
 
 	<repositories>
@@ -57,7 +57,7 @@
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
-					<!-- update Bundle-Version of MANIFEST.MF with current pom.xml version (replace the - before the qualifier with . and SNAPSHOT with qualifier to be compatible with OSGI versioning) -->
+					<!-- update Bundle-Version of MANIFEST.MF with current pom.xml version (replace the -<qualifier> with ".qualifier" to be compatible with OSGI versioning; ".qualifier" will be replaced by tycho with a timestamp, other qualifier values are not supported) -->
 					<execution>
 						<id>updateManifestVersion</id>
 						<phase>process-resources</phase>
@@ -71,14 +71,14 @@
 									<propertyresource name="versionMaven" />
 									<filterchain>
 										<tokenfilter>
-											<replacestring from="-" to="." />
-											<replacestring from="SNAPSHOT" to="qualifier" />
+											<replaceregex pattern="-.*" replace=".qualifier" />
 										</tokenfilter>
 									</filterchain>
 								</loadresource>
 								<manifest file="${project.build.directory}/../META-INF/MANIFEST.MF" mode="update">
 									<attribute name="Bundle-Version" value="${versionOsgi}" />
 								</manifest>
+								<echo message="Updated MANIFEST.MF Bundle-Version to ${versionOsgi} (derived from pom.version: ${versionMaven})" />
 							</target>
 						</configuration>
 					</execution>
@@ -97,6 +97,7 @@
 									<attribute name="Bundle-ClassPath" value=".,${bundle.classpath}" />
 								</manifest>
 								<delete file="${project.basedir}/classPath.txt" />
+								<echo message="Updated MANIFEST.MF Bundle-ClassPath to content of lib directory and deleted classPath.txt file" />
 							</target>
 						</configuration>
 					</execution>
@@ -111,6 +112,7 @@
 							<target>
 								<move file="${project.basedir}/lib/umlet-elements.jar" todir="${project.build.outputDirectory}/lib" />
 								<move file="${project.basedir}/lib/umlet-swing.jar" todir="${project.build.outputDirectory}/lib" />
+								<echo message="Moved jar files of linked src folders to ${project.build.outputDirectory}/lib" />
 							</target>
 						</configuration>
 					</execution>
@@ -188,5 +190,18 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!-- disable version checking because the ant script with the id updateManifestVersion will replace the version correctly -->
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-packaging-plugin</artifactId>
+					<version>${tycho.version}</version>
+					<configuration>
+						<strictVersions>false</strictVersions>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>
