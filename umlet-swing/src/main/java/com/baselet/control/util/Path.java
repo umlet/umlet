@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Os;
 import com.baselet.control.enums.Program;
@@ -12,12 +15,19 @@ import com.baselet.element.interfaces.GridElement;
 
 public class Path {
 
+	private final static Logger log = LoggerFactory.getLogger(Path.class);
+
 	private static String tempDir;
 	private static String homeProgramDir;
 
 	public static boolean hasOsConformConfig() {
-		File file = new File(osConformConfig());
-		return file.exists();
+		try {
+			File file = new File(osConformConfig());
+			return file.exists();
+		} catch (Exception e) {
+			log.error("Cannot load os conform config or cannot create UMLet parent dir in os conform home dir", e);
+			return false;
+		}
 	}
 
 	public static String osConformConfig() {
