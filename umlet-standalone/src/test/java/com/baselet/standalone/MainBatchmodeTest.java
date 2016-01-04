@@ -17,6 +17,11 @@ import org.junit.rules.TemporaryFolder;
 
 import com.google.common.io.Files;
 
+/**
+ * Test several different Batch exports
+ * Currently pdf is not tested because it's hard to do a visual comparison of a pdf. svg and eps are cleaned up to make this comparison work
+ * To let those tests work on build servers such as Travis CI, only svg uses text in the uxf files (because only svg stores the information system-neutral, eps and png seem to look different on different systems which makes the validation of the output too complex)
+ */
 public class MainBatchmodeTest {
 
 	static String TEST_FILE_LOCATION; // the testfile is a CustomElement with custom fontsize and fontfamily to simulate a special edge case
@@ -30,31 +35,39 @@ public class MainBatchmodeTest {
 	}
 
 	@Test
-	public void batchConvertToPng_wildcardAndNoOutput() throws Exception {
-		File copy = copyInputToTmp();
-		String wildcard = copy.getParent().toString() + "/*";
-		MainStandalone.main(new String[] { "-action=convert", "-format=png", "-filename=" + wildcard });
-		assertFilesEqual(new File(TEST_FILE_LOCATION + "out.png"), new File(copy + "." + "png"));
-	}
-
-	private void assertFilesEqual(File expected, File actual) throws IOException {
-		assertTrue("The content of both files must match. Expected" + expected + ", Actual: " + actual, Files.equal(expected, actual));
-	}
-
-	@Test
-	public void batchConvertToSvg_specificInputAndOutputFile() throws Exception {
+	public void batchConvertToSvg_diagramSpecificFontSizeAndFamily() throws Exception {
 		// whitespaces must be trimmed for the test (SVG is an XML based format and whitespaces can be different)
-		File expected = changeLines(new File(TEST_FILE_LOCATION + "out.svg"), null, true);
-		File actual = changeLines(createOutputfile("svg"), null, true);
+		File expected = changeLines(new File(TEST_FILE_LOCATION + "out_diagramFontSizeAndFamily.svg"), null, true);
+		File actual = changeLines(createOutputfile("svg", "in_diagramFontSizeAndFamily.uxf"), null, true);
 		assertFilesEqual(expected, actual);
 	}
 
 	@Test
-	public void batchConvertToEps_specificInputAndOutputFile() throws Exception {
+	public void batchConvertToSvg_diagramSpecificFontSizeAndFamilyxxx() throws Exception {
+		// whitespaces must be trimmed for the test (SVG is an XML based format and whitespaces can be different)
+		File expected = changeLines(new File(TEST_FILE_LOCATION + "out_newAllInOne.svg"), null, true);
+		File actual = changeLines(createOutputfile("svg", "in_newAllInOne.uxf"), null, true);
+		assertFilesEqual(expected, actual);
+	}
+
+	@Test
+	public void batchConvertToPng_wildcardAndNoOutputParam_newCustomElement() throws Exception {
+		File copy = copyInputToTmp("in_newCustomElement.uxf");
+		String wildcard = copy.getParent().toString() + "/*";
+		MainStandalone.main(new String[] { "-action=convert", "-format=png", "-filename=" + wildcard });
+		assertFilesEqual(new File(TEST_FILE_LOCATION + "out_newCustomElement.png"), new File(copy + "." + "png"));
+	}
+
+	@Test
+	public void batchConvertToEps_newCustomElement() throws Exception {
 		// eps files contain the CreationDate which must be removed before the comparison
-		File output = changeLines(createOutputfile("eps"), "%%CreationDate", false);
-		File outWithoutCreated = changeLines(copyToTmp("out.eps"), "%%CreationDate", false);
+		File output = changeLines(createOutputfile("eps", "in_newCustomElement.uxf"), "%%CreationDate", false);
+		File outWithoutCreated = changeLines(copyToTmp("out_newCustomElement.eps"), "%%CreationDate", false);
 		assertFilesEqual(outWithoutCreated, output);
+	}
+
+	private void assertFilesEqual(File expected, File actual) throws IOException {
+		assertTrue("The content of both files must match. Expected" + expected + ", Actual: " + actual, Files.equal(expected, actual));
 	}
 
 	private File changeLines(File output, String excludedPrefix, boolean streamlineWhitespaces) throws FileNotFoundException, IOException {
@@ -83,15 +96,15 @@ public class MainBatchmodeTest {
 		}
 	}
 
-	private File createOutputfile(String format) throws IOException {
+	private File createOutputfile(String format, String inputFilename) throws IOException {
 		String outputFileLoc = tmpDirString() + "bla." + format;
-		MainStandalone.main(new String[] { "-action=convert", "-format=" + format, "-filename=" + copyInputToTmp(), "-output=" + outputFileLoc });
+		MainStandalone.main(new String[] { "-action=convert", "-format=" + format, "-filename=" + copyInputToTmp(inputFilename), "-output=" + outputFileLoc });
 		File outputFile = new File(outputFileLoc);
 		return outputFile;
 	}
 
-	private File copyInputToTmp() throws IOException {
-		return copyToTmp("in.uxf");
+	private File copyInputToTmp(String inputFilename) throws IOException {
+		return copyToTmp(inputFilename);
 	}
 
 	private File copyToTmp(String file) throws IOException {

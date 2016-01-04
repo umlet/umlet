@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.1.0-SNAPSHOT">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLSequenceAllInOne</id>
+    <coordinates>
+      <x>20</x>
+      <y>20</y>
+      <w>720</w>
+      <h>700</h>
+    </coordinates>
+    <panel_attributes>title=A complex combined fragments
+obj=Lifeline A~a
+obj=Lifeline B~b
+obj=Lifeline C~c
+obj=Lifeline D~d
+
+a-&gt;&gt;&gt;b : execute() d=duration; on=b
+combinedFragment=combined fragment~cf; id2-&gt;id3 + :Message
+a:{x==0}; on=c
+combinedFragment=alt~alt1 c d; d:[x&gt;0];  combinedFragment=loop~loop1 a b; b:[1..10]
+b-&gt;&gt;&gt;a; on=a; d-&gt;c
+..=alt1; c:[else]
+a.&gt;b; off=a; --=loop1;  c-&gt;d
+..=cf
+b.&gt;a +1; off=b
+--; --
+destroy=d;
+tick=2
+a-&gt;b -2
+a.&gt;&gt;&gt;b --</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
