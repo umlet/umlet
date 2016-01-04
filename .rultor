@@ -1,0 +1,8 @@
+release:
+  script: |
+    mvn versions:set "-DnewVersion=${tag}"
+    mvn -DCI=true clean install
+    git commit -am "${tag}"
+merge:
+  script: |
+    mvn -DCI=true clean install
