@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 import com.baselet.control.CanCloseProgram;
 import com.baselet.control.Main;
 import com.baselet.control.config.Config;
-import com.baselet.control.util.Utils;
+import com.baselet.control.util.Path;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -75,7 +75,7 @@ public class StandaloneGUI extends BaseGUI {
 	public void closeWindow() {
 		guiBuilder.getMailPanel().closePanel(); // We must close the mailpanel to save the input date
 		if (askSaveForAllDirtyDiagrams()) {
-			Utils.safeDeleteFile(runningFile, true);
+			Path.safeDeleteFile(runningFile, true);
 			main.closeProgram();
 			System.exit(0); // issue #250: handle closing using a listener (see also handle closing using a listener (see also https://stackoverflow.com/questions/246228/why-does-my-application-still-run-after-closing-main-window)
 		}

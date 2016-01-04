@@ -21,7 +21,6 @@ import com.baselet.control.enums.generator.SignatureOptions;
 import com.baselet.control.enums.generator.SortOptions;
 import com.baselet.control.util.Path;
 import com.baselet.control.util.RecentlyUsedFilesList;
-import com.baselet.control.util.Utils;
 import com.baselet.gui.BaseGUI;
 
 public class ConfigHandler {
@@ -141,10 +140,10 @@ public class ConfigHandler {
 
 	public static void saveConfig(BaseGUI gui) {
 		try {
-			Utils.safeDeleteFile(new File(Path.legacyConfig()), false); // delete legacy cfg file if it exists and replace it with osConform one
+			Path.safeDeleteFile(new File(Path.legacyConfig()), false); // delete legacy cfg file if it exists and replace it with osConform one
 			File configfile = new File(Path.osConformConfig());
-			Utils.safeDeleteFile(configfile, false);
-			Utils.safeCreateFile(configfile, false);
+			Path.safeDeleteFile(configfile, false);
+			Path.safeCreateFile(configfile, false);
 
 			Config cfg = Config.getInstance();
 			Properties props = new Properties();

@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import com.baselet.control.util.Path;
-import com.baselet.control.util.Utils;
 
 public class FileClassLoader extends ClassLoader {
 
@@ -40,7 +39,7 @@ public class FileClassLoader extends ClassLoader {
 		DataInputStream dis = new DataInputStream(fis);
 		dis.readFully(buff);
 		dis.close();
-		Utils.safeDeleteFile(f, false);
+		Path.safeDeleteFile(f, false);
 		return buff;
 	}
 }

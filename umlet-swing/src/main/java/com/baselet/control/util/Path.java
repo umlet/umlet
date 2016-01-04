@@ -1,6 +1,7 @@
 package com.baselet.control.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -42,7 +43,7 @@ public class Path {
 	private static void ensureDirectoryIsExisting(String path) {
 		File file = new File(path);
 		if (!file.exists()) {
-			Utils.safeMkDir(file, true);
+			Path.safeMkDir(file, true);
 		}
 	}
 
@@ -152,5 +153,30 @@ public class Path {
 		}
 
 		return path;
+	}
+
+	public static void safeCreateFile(File file, boolean errorIfFileExists) {
+		try {
+			boolean success = file.createNewFile();
+			if (!success && errorIfFileExists) {
+				throw new RuntimeException("Cannot create file " + file.getAbsolutePath() + " because it already exists");
+			}
+		} catch (IOException e) {
+			throw new RuntimeException("Cannot create file " + file.getAbsolutePath());
+		}
+	}
+
+	public static void safeDeleteFile(File file, boolean errorIfFailed) {
+		boolean success = file.delete();
+		if (!success && errorIfFailed) {
+			throw new RuntimeException("Cannot delete file " + file.getAbsolutePath());
+		}
+	}
+
+	public static void safeMkDir(File file, boolean errorIfFailed) {
+		boolean success = file.mkdir();
+		if (!success && errorIfFailed) {
+			throw new RuntimeException("Cannot make dir " + file.getAbsolutePath());
+		}
 	}
 }

@@ -42,7 +42,7 @@ import com.baselet.control.config.Config;
 import com.baselet.control.config.ConfigMail;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
-import com.baselet.control.util.Utils;
+import com.baselet.control.util.Path;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.io.DiagramFileHandler;
 
@@ -378,13 +378,13 @@ public class MailPanel extends JPanel {
 			JOptionPane.showMessageDialog(this, "There has been an error sending your mail." + Constants.NEWLINE + "Please recheck your input data.", "Sending Error", JOptionPane.ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
 		} finally {
 			if (diagramXml != null) {
-				Utils.safeDeleteFile(diagramXml, false);
+				Path.safeDeleteFile(diagramXml, false);
 			}
 			if (diagramGif != null) {
-				Utils.safeDeleteFile(diagramGif, false);
+				Path.safeDeleteFile(diagramGif, false);
 			}
 			if (diagramPdf != null) {
-				Utils.safeDeleteFile(diagramPdf, false);
+				Path.safeDeleteFile(diagramPdf, false);
 			}
 		}
 	}

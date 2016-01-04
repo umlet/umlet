@@ -3,8 +3,6 @@ package com.baselet.control.util;
 import java.awt.BasicStroke;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -176,30 +174,5 @@ public abstract class Utils {
 
 	public static Double[] createDoubleArrayFromTo(Double min, Double max) {
 		return createDoubleArrayFromTo(min, max, 1D);
-	}
-
-	public static void safeCreateFile(File file, boolean errorIfFileExists) {
-		try {
-			boolean success = file.createNewFile();
-			if (!success && errorIfFileExists) {
-				throw new RuntimeException("Cannot create file " + file.getAbsolutePath() + " because it already exists");
-			}
-		} catch (IOException e) {
-			throw new RuntimeException("Cannot create file " + file.getAbsolutePath());
-		}
-	}
-
-	public static void safeDeleteFile(File file, boolean errorIfFailed) {
-		boolean success = file.delete();
-		if (!success && errorIfFailed) {
-			throw new RuntimeException("Cannot delete file " + file.getAbsolutePath());
-		}
-	}
-
-	public static void safeMkDir(File file, boolean errorIfFailed) {
-		boolean success = file.mkdir();
-		if (!success && errorIfFailed) {
-			throw new RuntimeException("Cannot make dir " + file.getAbsolutePath());
-		}
 	}
 }

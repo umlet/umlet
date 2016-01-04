@@ -21,7 +21,6 @@ import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.util.Path;
 import com.baselet.control.util.RunningFileChecker;
-import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.UpdateCheckTimerTask;
 import com.baselet.standalone.gui.StandaloneGUI;
@@ -187,7 +186,7 @@ public class MainStandalone {
 			if (f.exists() && !force) {
 				return true;
 			}
-			Utils.safeCreateFile(f, false);
+			Path.safeCreateFile(f, false);
 			new Timer("alreadyRunningChecker", true).schedule(new RunningFileChecker(tmpFile(), Main.getInstance()), 0, 1000);
 		} catch (Exception ex) {
 			ex.printStackTrace();

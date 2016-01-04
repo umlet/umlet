@@ -18,13 +18,13 @@ public class RunningFileChecker extends TimerTask {
 	@Override
 	public void run() {
 		try {
-			Utils.safeCreateFile(file, false);
+			Path.safeCreateFile(file, false);
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String filename = reader.readLine();
 			reader.close();
 			if (filename != null) {
-				Utils.safeDeleteFile(file, false);
-				Utils.safeCreateFile(file, true);
+				Path.safeDeleteFile(file, false);
+				Path.safeCreateFile(file, true);
 				canOpenDiagram.doOpen(filename);
 			}
 		} catch (Exception ex) {
