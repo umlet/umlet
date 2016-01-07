@@ -2,5 +2,17 @@ language: java
 jdk:
   - oraclejdk7
   - oraclejdk8
-script: "mvn package"
+script: "mvn clean install"
 
+deploy:
+  provider: releases
+  api_key:
+    secure: PNxf+cWK+pBXD+nnIWOqUEd9A3Pf2How9cpaiVLcSdAysbFu8TwFwZxO1WjwxPt7lIM3e7/ZWyxfksX0+GEfx67igwsKV6WjtQlT6JA/iSMPUvRZjfBgIQ1ptQfpy1duZVj8x0kE9/NM/Dw+f71CEY/3zcKvG2AJDDCffdjWrSUZNJ9vCJRvAB9rTDw8Gc9WnrVmJvp0pBQrfCs65C1aXYe9dtFIm70/3bB7vzBYPmSy4QhhTLh0gYlzZvso9lOP6XSGb+CCq7SqggImpa5RhfwUCJCBWr0lyxo0eZMrM1lPjHAiC/h4WppsJA7I/51J6QUgsenOu3WGVO0F8jkKj6Q9WaSk3gHs4VvTM00LzAKheFMF2NKy2Z0a0T6ZyiMxjiV0PqoiaqL8K5OelnBiaCFWhildEq3vTeHEu3AFf19x41OM5yU6TSPh9Mqd72bgDbQ40UyqYQrTHUAfCjxJCrhF67AwEHqFjl1EAveYl5MlLzIZ3U8nH7SdmkymVY1b2TMVmAbth9+b/YryLgQ/dCLVT3ppZoSYi5aPV8uxMN2rTo9DQss93Bg+MuvvingrINv99O5en2MvPxi1F6kgPuzh8NxNe4tf1gPBV6R73DU13oeI1JawI3h67z8cSOxMUJ5vVrwdoGVp6wqjjCQRrEcYLBEx61TZP/3qWavkoow=
+  file:
+  - umlet-standalone/target/umlet-standalone-*.zip
+  - umlet-gwt/target/umlet-gwt-*.zip
+  - umlet-eclipse-plugin/target/com.umlet.plugin-*.jar
+  file_glob: true
+  skip_cleanup: true
+  on:
+    tags: true
