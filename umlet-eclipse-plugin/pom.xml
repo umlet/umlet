@@ -57,9 +57,9 @@
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
-					<!-- update Bundle-Version of MANIFEST.MF with current pom.xml version (replace the -<qualifier> with ".qualifier" to be compatible with OSGI versioning; ".qualifier" will be replaced by tycho with a timestamp, other qualifier values are not supported) -->
+					<!-- update MANIFEST.MF: Bundle-ClassPath = all used libraries, Bundle-Version =current pom.xml version (replace the -<qualifier> with ".qualifier" to be compatible with OSGI versioning; ".qualifier" will be replaced by tycho with a timestamp, other qualifier values are not supported) -->
 					<execution>
-						<id>updateManifestVersion</id>
+						<id>updateManifest</id>
 						<phase>process-resources</phase>
 						<goals>
 							<goal>run</goal>
@@ -75,29 +75,15 @@
 										</tokenfilter>
 									</filterchain>
 								</loadresource>
-								<manifest file="${project.build.directory}/../META-INF/MANIFEST.MF" mode="update">
+								<echo message="New Bundle-Version is ${versionOsgi} (derived from pom.version: ${versionMaven})" />
+								
+								<loadfile property="bundle.classpath" srcFile="${project.basedir}/classPath.txt" />
+								<manifest file="${project.basedir}/META-INF/MANIFEST.MF" mode="update">
+									<attribute name="Bundle-ClassPath" value=".,${bundle.classpath}" />
 									<attribute name="Bundle-Version" value="${versionOsgi}" />
 								</manifest>
-								<echo message="Updated MANIFEST.MF Bundle-Version to ${versionOsgi} (derived from pom.version: ${versionMaven})" />
-							</target>
-						</configuration>
-					</execution>
-					<!-- update Bundle-ClassPath of MANIFEST.MF with all libraries -->
-					<execution>
-						<id>updateManifestClasspath</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<target>
-								<loadfile property="bundle.classpath" srcFile="${project.basedir}/classPath.txt" />
-								<echo message="Updating MANIFEST Bundle-ClassPath to: ${bundle.classpath}" />
-								<manifest file="${project.build.directory}/../META-INF/MANIFEST.MF" mode="update">
-									<attribute name="Bundle-ClassPath" value=".,${bundle.classpath}" />
-								</manifest>
+								<echo message="New Bundle-ClassPath is ${bundle.classpath}"/>
 								<delete file="${project.basedir}/classPath.txt" />
-								<echo message="Updated MANIFEST.MF Bundle-ClassPath to content of lib directory and deleted classPath.txt file" />
 							</target>
 						</configuration>
 					</execution>
