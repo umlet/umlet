@@ -36,6 +36,7 @@
 				<version>2.5.3</version>
 				<configuration>
 					<descriptor>src/assembly/dep.xml</descriptor>
+					<appendAssemblyId>false</appendAssemblyId>
 				</configuration>
 				<executions>
 					<execution>
