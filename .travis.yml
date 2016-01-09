@@ -4,6 +4,11 @@ jdk:
   - oraclejdk8
 script: "mvn clean install"
 
+notifications:
+  email: # only send an email if build fails
+    on_success: never
+    on_failure: always
+
 deploy:
   provider: releases
   api_key:
@@ -11,7 +16,7 @@ deploy:
   file:
   - umlet-standalone/target/umlet-standalone-*.zip
   - umlet-gwt/target/umlet-gwt-*.zip
-  - umlet-eclipse-plugin/target/com.umlet.plugin-*.jar
+  - umlet-eclipse-plugin/target/com.umlet.plugin-*.zip
   file_glob: true
   skip_cleanup: true
   on:
