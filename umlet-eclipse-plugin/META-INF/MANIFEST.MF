@@ -4,12 +4,12 @@ Created-By: 1.8.0_65-b17 (Oracle Corporation)
 Bundle-ManifestVersion: 2
 Bundle-Name: UMlet
 Bundle-SymbolicName: com.umlet.plugin;singleton:=true
-Bundle-Version: 14.1.0.qualifier
+Bundle-Version: 14.1
 Bundle-ClassPath: .,lib/smtp.jar,lib/bcel.jar,lib/batik-xml.jar,lib/ja
- vaparser-core.jar,lib/log4j.jar,lib/commons-io.jar,lib/batik-awt-util
- .jar,lib/batik-svggen.jar,lib/umlet-elements.jar,lib/umlet-swing.jar,
- lib/itextpdf.jar,lib/batik-dom.jar,lib/batik-util.jar,lib/batik-ext.j
- ar,lib/ecj.jar,lib/rsyntaxtextarea.jar,lib/mailapi.jar,lib/slf4j-log4
+ vaparser-core.jar,lib/log4j.jar,lib/commons-io.jar,lib/umlet-swing.ja
+ r,lib/batik-awt-util.jar,lib/batik-svggen.jar,lib/itextpdf.jar,lib/ba
+ tik-dom.jar,lib/batik-util.jar,lib/batik-ext.jar,lib/ecj.jar,lib/rsyn
+ taxtextarea.jar,lib/umlet-elements.jar,lib/mailapi.jar,lib/slf4j-log4
  j12.jar,lib/autocomplete.jar,lib/jlibeps.jar,lib/slf4j-api.jar
 Bundle-Activator: com.baselet.plugin.MainPlugin
 Export-Package: com.baselet.plugin,com.baselet.plugin.gui,com.baselet.
