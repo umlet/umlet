@@ -54,8 +54,8 @@ public class MainStandalone {
 				if (filename == null) {
 					filename = args[0];
 				}
+				initAll(RuntimeType.STANDALONE);
 				if (!alreadyRunningChecker(false) || !sendFileNameToRunningApplication(filename)) {
-					initAll(RuntimeType.STANDALONE);
 					startStandalone(filename);
 				}
 			}
