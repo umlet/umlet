@@ -14,7 +14,7 @@ public class Program {
 
 	public static Program getInstance() {
 		if (instance == null) {
-			throw new RuntimeException("Proram must be initialized before using it");
+			throw new RuntimeException("Program must be initialized before using it");
 		}
 		return instance;
 	}
