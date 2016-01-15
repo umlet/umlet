@@ -261,7 +261,7 @@ public class DiagramHandler {
 			else if (ch == JOptionPane.NO_OPTION) {
 				return true;
 			}
-			return false;
+			return false; // JOptionPane.CANCEL_OPTION
 		}
 		return true;
 	}
