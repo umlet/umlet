@@ -8,17 +8,3 @@ notifications:
   email: # only send an email if build fails
     on_success: never
     on_failure: always
-
-# The following entry is required if future releases should be published automatically on Github
-# deploy:
-#  provider: releases
-#  api_key:
-#    secure: Rw69ybucgASHMBwKuJ/9ifZwBv0Eep7ch53Kb8M7YnxFA0HRe0M+AhY2zZXHAgmRnwPFxTj/UIphb025yiYCxZJMerK8A1g/BBHah+H2GJzQYqCKLMxDhLjdhW6tvQM3EQoI6nWbAIwFC89pjDKtOKG5Wg9pGd1a2caYwAEJlpe43cYkDnshz1JaiqyEjgaxMKZC/lAuslq5NAyU8BK/tmrkg5yTj2TnXsgu1jNUa46TO5vyBO6OGuwTNN8pa6vlaD90aH8Yyv6X9wbq0Mcj35xWfPfzzmTPQzGh+OJxih/bp1s9CP+E2t2GSMGWSpG/BvmWu006DowC4mBugOsFiAkdl7lnTQndiF3/FOA8t+KR7tRHuglXKdnVXJOkdJ3UOBPXOedWCXFIsdHbMGhHRJX55V/JZ1SvEABhD9HA8ip/CoUgEJ9g8WKnKjwjhnPs1fzTcjtcLePdTe/zYOPMnu7vrin3g8Gr8fmO7N2d8+dUHAT0tasAKSWcf1V6MPug/MbH3Kk7L7x9SP89YNs8Hx+hgAAlVRYV1kM1gMn5gvqXJOtPtKbwBVB525lONMY6knIUVcgvfZXwGK92WF5t0KdsaQ7IzJ1Knxl9f7xGqspysihrrQ6knK+owOO/sY9tUHjrJkiPtzObjy5mQAhChVYYEOoOz0x9zbUj1QtjM/8=
-#  file:
-#  - umlet-standalone/target/umlet-standalone-*.zip
-#  - umlet-gwt/target/umlet-gwt-*.zip
-#  - umlet-eclipse-plugin/target/com.umlet.plugin-*.zip
-#  file_glob: true
-#  skip_cleanup: true
-#  on:
-#    tags: true
