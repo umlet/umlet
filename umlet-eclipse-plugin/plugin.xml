@@ -1,23 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin >
-   <extension point="org.eclipse.ui.newWizards">
-      <wizard
-            name="Umlet diagram"
-            id="com.umlet.plugin.wizards.NewWizard"
-            icon="img/umlet_eclipse.gif"
-            category="com.baselet.plugin"
-            class="com.baselet.plugin.wizard.NewWizard"
-       />
-   </extension>
-   <extension point="org.eclipse.ui.editors">
-      <editor
-            name="Umlet Editor"
-            id="com.umlet.plugin.Editor"
-            icon="img/umlet_eclipse.gif"
-            class="com.baselet.plugin.gui.Editor"
-            contributorClass="com.baselet.plugin.gui.Contributor"
-            extensions="uxf"
-            default="false"
-      />
-   </extension>
+<plugin>
+	<extension point="org.eclipse.ui.newWizards">
+		<wizard name="Umlet diagram" id="com.umlet.plugin.wizards.NewWizard"
+			icon="img/umlet_eclipse.gif" category="com.baselet.plugin"
+			class="com.baselet.plugin.wizard.NewWizard" />
+	</extension>
+	<extension point="org.eclipse.ui.editors">
+		<editor name="Umlet Editor" id="com.umlet.plugin.Editor" icon="img/umlet_eclipse.gif"
+			class="com.baselet.plugin.gui.Editor" contributorClass="com.baselet.plugin.gui.Contributor"
+			extensions="uxf" default="false" />
+	</extension>
+	<extension id="umletBuilder" name="Umlet Builder"
+		point="org.eclipse.core.resources.builders">
+		<builder hasNature="true">
+			<run class="com.baselet.plugin.builder.UmletBuilder">
+			</run>
+		</builder>
+	</extension>
+
+	<extension point="org.eclipse.ui.commands">
+		<category id="com.umlet.plugin.umletNature.category" name="Umlet Project Nature commands">
+		</category>
+		<command categoryId="com.umlet.plugin.umletNature.category"
+			defaultHandler="com.baselet.plugin.builder.AddRemoveUmletNatureHandler"
+			id="com.umlet.plugin.addRemoveUmletNature" name="Add/RemoveUmlet Project Nature">
+		</command>
+	</extension>
+
+	<extension point="org.eclipse.ui.menus">
+		<menuContribution
+			locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
+			<command commandId="com.umlet.plugin.addRemoveUmletNature"
+				label="Disable Umlet builder" style="push">
+				<visibleWhen checkEnabled="false">
+					<with variable="selection">
+						<count value="1">
+						</count>
+						<iterate>
+							<adapt type="org.eclipse.core.resources.IProject">
+								<test property="org.eclipse.core.resources.projectNature"
+									value="com.umlet.plugin.umletNature">
+								</test>
+							</adapt>
+						</iterate>
+					</with>
+				</visibleWhen>
+			</command>
+			<command commandId="com.umlet.plugin.addRemoveUmletNature"
+				label="Enable Umlet builder" style="push">
+				<visibleWhen checkEnabled="false">
+					<with variable="selection">
+						<count value="1">
+						</count>
+						<iterate>
+							<adapt type="org.eclipse.core.resources.IProject">
+							<and>
+								<not>
+									<test property="org.eclipse.core.resources.projectNature"
+										value="com.umlet.plugin.umletNature">
+									</test>
+								</not>
+								<test property="org.eclipse.core.resources.projectNature"
+									value="org.eclipse.jdt.core.javanature">
+								</test>
+							</and>
+							</adapt>
+						</iterate>
+					</with>
+					
+				</visibleWhen>
+			</command>
+		</menuContribution>
+	</extension>
+
+	<extension id="builderProblem" point="org.eclipse.core.resources.markers">
+		<super type="org.eclipse.core.resources.problemmarker" />
+		<persistent value="true" />
+	</extension>
+	<extension id="imgMissing" point="org.eclipse.core.resources.markers">
+		<super type="org.eclipse.core.resources.problemmarker" />
+		<super type="org.eclipse.core.resources.textmarker" />
+		<persistent value="true" />
+	</extension>
+	<extension id="umletNature" name="Umlet Project Nature"
+		point="org.eclipse.core.resources.natures">
+		<runtime>
+			<run class="com.baselet.plugin.builder.UmletNature">
+			</run>
+		</runtime>
+		<builder id="com.umlet.plugin.umletBuilder">
+		</builder>
+		<requires-nature id="org.eclipse.jdt.core.javanature"/>
+	</extension>
 </plugin>
