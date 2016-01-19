@@ -97,6 +97,84 @@
 		</javaCompletionProposalComputer>
 	</extension>
 
+	<extension point="org.eclipse.ltk.core.refactoring.renameParticipants">
+		<renameParticipant id="com.umlet.plugin.renameFileParticipant"
+			name="UmletRenameFolderParticipant" class="com.baselet.plugin.refactoring.RenameFileParticipant">
+			<enablement>
+				<with variable="affectedNatures">
+					<iterate operator="or">
+						<equals value="com.umlet.plugin.umletNature" />
+					</iterate>
+				</with>
+				<with variable="element">
+					<instanceof value="org.eclipse.core.resources.IFile" />
+				</with>
+			</enablement>
+		</renameParticipant>
+	</extension>
+	<extension point="org.eclipse.ltk.core.refactoring.renameParticipants">
+		<renameParticipant id="com.umlet.plugin.renameFolderParticipant"
+			name="UmletRenameFolderParticipant" class="com.baselet.plugin.refactoring.RenameFolderParticipant">
+			<enablement>
+				<with variable="affectedNatures">
+					<iterate operator="or">
+						<equals value="com.umlet.plugin.umletNature" />
+					</iterate>
+				</with>
+				<with variable="element">
+					<instanceof value="org.eclipse.core.resources.IResource" />
+				</with>
+			</enablement>
+		</renameParticipant>
+	</extension>
+
+	<extension point="org.eclipse.ltk.core.refactoring.moveParticipants">
+		<moveParticipant id="com.umlet.plugin.moveResourceParticipant"
+			name="UmletMoveResourceParticipant" class="com.baselet.plugin.refactoring.MoveResourceParticipant">
+			<enablement>
+				<with variable="affectedNatures">
+					<iterate operator="or">
+						<equals value="com.umlet.plugin.umletNature" />
+					</iterate>
+				</with>
+				<with variable="element">
+					<instanceof value="org.eclipse.core.resources.IResource" />
+				</with>
+			</enablement>
+		</moveParticipant>
+	</extension>
+
+	<extension point="org.eclipse.ltk.core.refactoring.renameParticipants">
+		<renameParticipant id="com.umlet.plugin.renamePackageParticipant"
+			name="UmletPackageParticipant" class="com.baselet.plugin.refactoring.RenamePackageParticipant">
+			<enablement>
+				<with variable="affectedNatures">
+					<iterate operator="or">
+						<equals value="com.umlet.plugin.umletNature" />
+					</iterate>
+				</with>
+				<with variable="element">
+					<instanceof value="org.eclipse.jdt.core.IPackageFragment" />
+				</with>
+			</enablement>
+		</renameParticipant>
+	</extension>
+
+	<extension point="org.eclipse.ltk.core.refactoring.moveParticipants">
+		<moveParticipant id="com.umlet.plugin.moveClassParticipant"
+			name="UmletMoveClassParticipant" class="com.baselet.plugin.refactoring.MoveClassParticipant">
+			<enablement>
+				<with variable="affectedNatures">
+					<iterate operator="or">
+						<equals value="com.umlet.plugin.umletNature" />
+					</iterate>
+				</with>
+				<with variable="element">
+					<instanceof value="org.eclipse.jdt.core.ICompilationUnit" />
+				</with>
+			</enablement>
+		</moveParticipant>
+	</extension>
 
 	<extension point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
 		<hyperlinkDetector activate="true"
