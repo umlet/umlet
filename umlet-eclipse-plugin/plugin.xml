@@ -97,6 +97,14 @@
 		</javaCompletionProposalComputer>
 	</extension>
 
+
+	<extension point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+		<hyperlinkDetector activate="true"
+			class="com.baselet.plugin.hyperlink.ImageRefHyperlinkDetector" id="com.umlet.plugin.imageRefHyperlinkDetector"
+			name="ImageRefHyperlinkDetector" targetId="org.eclipse.jdt.ui.javaCode">
+		</hyperlinkDetector>
+	</extension>
+	
 	<extension id="umletNature" name="Umlet Project Nature"
 		point="org.eclipse.core.resources.natures">
 		<runtime>
