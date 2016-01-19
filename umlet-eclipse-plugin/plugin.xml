@@ -82,6 +82,21 @@
 		<super type="org.eclipse.core.resources.textmarker" />
 		<persistent value="true" />
 	</extension>
+
+	<extension point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
+		id="umlet_proposals" name="Umlet Proposals">
+		<proposalCategory />
+	</extension>
+
+	<extension point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
+		id="javadocCompletion" name="Umlet Javadoc Completion">
+		<javaCompletionProposalComputer
+			activate="true" class="com.baselet.plugin.contentAssist.ImgRefProposalComputer"
+			categoryId="com.umlet.plugin.umlet_proposals">
+			<partition type="__java_javadoc" />
+		</javaCompletionProposalComputer>
+	</extension>
+
 	<extension id="umletNature" name="Umlet Project Nature"
 		point="org.eclipse.core.resources.natures">
 		<runtime>
