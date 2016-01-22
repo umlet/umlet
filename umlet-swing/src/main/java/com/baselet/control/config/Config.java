@@ -6,6 +6,9 @@ import java.io.File;
 
 import javax.swing.UIManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Os;
@@ -13,6 +16,8 @@ import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 
 public class Config {
+
+	private static Logger log = LoggerFactory.getLogger(Config.class);
 
 	private static Config instance = new Config();
 
@@ -47,7 +52,9 @@ public class Config {
 	private Integer propertiesPanelFontsize = 11;
 
 	public Config() {
-		initUiManager();
+		if (Program.getInstance().getRuntimeType() != RuntimeType.BATCH) { // batchmode shouldn't access UIManager.class
+			initUiManager();
+		}
 	}
 
 	private void initUiManager() {
@@ -72,28 +79,31 @@ public class Config {
 	}
 
 	public String getOpenFileHome() {
-		if (new File(openFileHome).exists()) {
-			return openFileHome;
-		}
-		else { // if stored location doesn't exist, return default value
-			return DEFAULT_FILE_HOME;
-		}
+		return getFileHelper(openFileHome, DEFAULT_FILE_HOME);
 	}
 
 	public void setOpenFileHome(String openFileHome) {
+		log.trace("setting openFileHome path to: " + openFileHome);
 		this.openFileHome = openFileHome;
 	}
 
 	public String getSaveFileHome() {
-		if (new File(saveFileHome).exists()) {
-			return saveFileHome;
-		}
-		else { // if stored location doesn't exist, return default value
-			return DEFAULT_FILE_HOME;
-		}
+		return getFileHelper(saveFileHome, DEFAULT_FILE_HOME);
+	}
+
+	private String getFileHelper(String fileLocToCheck, String defaultValue) {
+		try {
+			if (new File(fileLocToCheck).exists()) {
+				return fileLocToCheck;
+			}
+		} catch (Exception e) {/* nothing to do */}
+
+		// if stored location doesn't exist or there is an exception while accessing the location, return default value
+		return defaultValue;
 	}
 
 	public void setSaveFileHome(String saveFileHome) {
+		log.trace("setting saveFileHome path to: " + saveFileHome);
 		this.saveFileHome = saveFileHome;
 	}
 

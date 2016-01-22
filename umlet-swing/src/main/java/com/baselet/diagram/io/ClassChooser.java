@@ -47,7 +47,7 @@ public class ClassChooser {
 			for (File file : selectedFiles) {
 				searchRecursively(file, fileNames);
 			}
-			Config.getInstance().setOpenFileHome(selectedFiles[0].getParent());
+			Config.getInstance().setOpenFileHome(selectedFiles[0].getAbsoluteFile().getParent());
 			if (fileNames.size() > TOO_MANY_FILES) {
 				returnVal = JOptionPane.showConfirmDialog(CurrentGui.getInstance().getGui().getMainFrame(),
 						"Your selection contains " + fileNames.size() + " files which may " +

@@ -11,7 +11,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.filechooser.FileSystemView;
 
-import org.slf4j.Logger;import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.config.Config;
 import com.baselet.control.config.handler.ConfigHandler;
@@ -122,7 +123,7 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			Notifier.getInstance().showError(filename + " does not exist");
 			return;
 		}
-		Config.getInstance().setOpenFileHome(file.getParent());
+		Config.getInstance().setOpenFileHome(file.getAbsoluteFile().getParent());
 		DiagramHandler handler = getDiagramHandlerForFile(filename);
 		if (handler != null) { // File is already opened -> jump to the tab
 			CurrentGui.getInstance().getGui().jumpTo(handler);
