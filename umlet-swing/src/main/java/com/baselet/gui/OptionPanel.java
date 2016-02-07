@@ -65,7 +65,7 @@ public class OptionPanel extends JPanel implements ActionListener {
 		}
 		ui_manager = new JComboBox(uis_humanReadableNameVector);
 
-		this.add(new JLabel("Show sticking ploygon"));
+		this.add(new JLabel("Show sticking polygon"));
 		this.add(show_stickingpolygon);
 		this.add(new JLabel("Show grid"));
 		this.add(show_grid);
