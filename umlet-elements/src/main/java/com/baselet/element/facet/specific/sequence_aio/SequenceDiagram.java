@@ -35,8 +35,7 @@ public class SequenceDiagram {
 
 	private int lastTick;
 
-	public SequenceDiagram()
-	{
+	public SequenceDiagram() {
 		titleLines = new String[] { "" };
 		descLines = new String[] { "" };
 		lifelines = new Lifeline[0];
@@ -50,12 +49,12 @@ public class SequenceDiagram {
 		titleLines = title.split("\n");
 	}
 
-	/**
-	 * @param titleLines an array of lines which build the title (each element must not contain a \n)
-	 */
-	public void setTitle(String[] titleLines) {
-		this.titleLines = titleLines;
-	}
+	// /**
+	// * @param titleLines an array of lines which build the title (each element must not contain a \n)
+	// */
+	// public void setTitle(String[] titleLines) {
+	// this.titleLines = titleLines;
+	// }
 
 	/**
 	 * @param text description lines which are separated by a \n
@@ -64,12 +63,12 @@ public class SequenceDiagram {
 		descLines = text.split("\n");
 	}
 
-	/**
-	 * @param textLines an array of lines which build the description (each element must not contain a \n)
-	 */
-	public void setText(String[] textLines) {
-		descLines = textLines;
-	}
+	// /**
+	// * @param textLines an array of lines which build the description (each element must not contain a \n)
+	// */
+	// public void setText(String[] textLines) {
+	// descLines = textLines;
+	// }
 
 	public int getLastTick() {
 		return lastTick;
@@ -109,7 +108,7 @@ public class SequenceDiagram {
 	}
 
 	public Lifeline[] getLifelinesArray() {
-		return lifelines;
+		return Arrays.copyOf(lifelines, lifelines.length);
 	}
 
 	public DimensionDouble draw(DrawHandler drawHandler) {

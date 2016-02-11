@@ -2,6 +2,7 @@ package com.baselet.element.elementnew.plot.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import com.baselet.diagram.draw.DrawHandler;
 
@@ -64,8 +65,8 @@ public class ParserResult {
 			sb.append(plotState.toString()).append("\n");
 		}
 		sb.append("#########PlotGridValues########\n\n");
-		for (String key : plotGridValues.keySet()) {
-			sb.append("\t").append(key).append(" -> ").append(plotGridValues.get(key)).append("\n");
+		for (Entry<String, KeyValue> e : plotGridValues.entrySet()) {
+			sb.append("\t").append(e.getKey()).append(" -> ").append(e.getValue()).append("\n");
 		}
 		sb.append("\n-----------------------------\n");
 		sb.append("-----------------------------\n");

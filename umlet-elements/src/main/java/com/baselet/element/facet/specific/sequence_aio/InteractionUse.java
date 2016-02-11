@@ -1,5 +1,6 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,14 +23,10 @@ public class InteractionUse implements LifelineSpanningTickSpanningOccurrence {
 	private final Lifeline[] coveredLifelines;
 
 	public InteractionUse(int tick, String text, Lifeline[] coveredLifelines) {
-		this(tick, text.split("\n"), coveredLifelines);
-	}
-
-	public InteractionUse(int tick, String[] textLines, Lifeline[] coveredLifelines) {
 		super();
 		this.tick = tick;
-		this.textLines = textLines;
-		this.coveredLifelines = coveredLifelines;
+		textLines = text.split("\n");
+		this.coveredLifelines = Arrays.copyOf(coveredLifelines, coveredLifelines.length);
 	}
 
 	@Override
@@ -63,9 +60,7 @@ public class InteractionUse implements LifelineSpanningTickSpanningOccurrence {
 
 	@Override
 	public double getOverallMinWidth(DrawHandler drawHandler, double lifelineHorizontalPadding) {
-		return PentagonDrawingHelper.getPentagonMinimumWidth(drawHandler, HEADER_TEXT) * 2
-				+ TEXT_X_PADDING * 2
-				+ TextSplitter.getTextMinWidth(textLines, drawHandler);
+		return PentagonDrawingHelper.getPentagonMinimumWidth(drawHandler, HEADER_TEXT) * 2 + TEXT_X_PADDING * 2 + TextSplitter.getTextMinWidth(textLines, drawHandler);
 	}
 
 	@Override
@@ -85,8 +80,7 @@ public class InteractionUse implements LifelineSpanningTickSpanningOccurrence {
 	}
 
 	private double getHeight(DrawHandler drawHandler, double width) {
-		double textWidth = width - TEXT_X_PADDING * 2
-							- PentagonDrawingHelper.getPentagonMinimumWidth(drawHandler, HEADER_TEXT) * 2;
+		double textWidth = width - TEXT_X_PADDING * 2 - PentagonDrawingHelper.getPentagonMinimumWidth(drawHandler, HEADER_TEXT) * 2;
 		return Math.max(PentagonDrawingHelper.getHeight(drawHandler, HEADER_TEXT, width) + HEADER_BOTTOM_PADDING,
 				TextSplitter.getSplitStringHeight(textLines, textWidth, drawHandler) + TEXT_Y_PADDING * 2);
 	}

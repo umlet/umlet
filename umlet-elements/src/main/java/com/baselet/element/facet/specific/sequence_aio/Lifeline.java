@@ -77,9 +77,9 @@ public class Lifeline {
 		return index;
 	}
 
-	public String[] getText() {
-		return text;
-	}
+	// public String[] getText() {
+	// return text;
+	// }
 
 	public void setCreatedOnStart(boolean createdOnStart) {
 		this.createdOnStart = createdOnStart;
@@ -145,8 +145,7 @@ public class Lifeline {
 	 * the center to the left outermost border of the execution specification
 	 * @see Coregion Coregion for an example how this is used for drawing
 	 */
-	public double getLifelineLeftPartWidth(int tick)
-	{
+	public double getLifelineLeftPartWidth(int tick) {
 		return getCurrentlyActiveExecutionSpecifications(tick) > 0 ? EXECUTIONSPECIFICATION_WIDTH / 2.0 : 0;
 	}
 
@@ -156,15 +155,13 @@ public class Lifeline {
 	 * the center to the right outermost border of the execution specification
 	 * @see Coregion Coregion for an example how this is used for drawing
 	 */
-	public double getLifelineRightPartWidth(int tick)
-	{
+	public double getLifelineRightPartWidth(int tick) {
 		int currentlyActiveExecSpec = getCurrentlyActiveExecutionSpecifications(tick);
 		if (currentlyActiveExecSpec == 0) {
 			return 0;
 		}
 		else {
-			return (currentlyActiveExecSpec - 1) * (EXECUTIONSPECIFICATION_WIDTH - EXECUTIONSPECIFICATION_OVERLAPP)
-					+ EXECUTIONSPECIFICATION_WIDTH / 2.0;
+			return (currentlyActiveExecSpec - 1) * (EXECUTIONSPECIFICATION_WIDTH - EXECUTIONSPECIFICATION_OVERLAPP) + EXECUTIONSPECIFICATION_WIDTH / 2.0;
 		}
 	}
 
@@ -188,8 +185,7 @@ public class Lifeline {
 						getCurrentlyActiveExecutionSpecifications(activeArea.getStartTick()));
 			}
 			minWidth = Math.max(minWidth,
-					(maxSimultaneousExecSpec - 1) * (EXECUTIONSPECIFICATION_WIDTH - EXECUTIONSPECIFICATION_OVERLAPP) * 2
-							+ EXECUTIONSPECIFICATION_WIDTH);
+					(maxSimultaneousExecSpec - 1) * (EXECUTIONSPECIFICATION_WIDTH - EXECUTIONSPECIFICATION_OVERLAPP) * 2 + EXECUTIONSPECIFICATION_WIDTH);
 		}
 		minWidth = Math.max(minWidth, getHeadMinWidth(drawHandler));
 		return minWidth;
@@ -214,8 +210,7 @@ public class Lifeline {
 	 * (i.e. the height which exceeds the tickHeight). This values are all &gt;= 0
 	 */
 	public Map<Integer, Double> getAdditionalYHeights(DrawHandler drawHandler,
-			LifelineHorizontalDrawingInfo drawingInfo, double defaultTickHeight)
-	{
+			LifelineHorizontalDrawingInfo drawingInfo, double defaultTickHeight) {
 		PointDouble size;
 		double additionalY;
 		Map<Integer, Double> ret = new HashMap<Integer, Double>();
@@ -228,8 +223,7 @@ public class Lifeline {
 		}
 		// add head size if it the obj is created with an message
 		if (!createdOnStart && created != null) {
-			double headAdditionalHeight = getHeadMinHeight(drawHandler, drawingInfo.getSymmetricWidth(created))
-											- defaultTickHeight;
+			double headAdditionalHeight = getHeadMinHeight(drawHandler, drawingInfo.getSymmetricWidth(created)) - defaultTickHeight;
 			if (headAdditionalHeight > 0) {
 				if (ret.containsKey(created)) {
 					ret.put(created, Math.max(ret.get(created), headAdditionalHeight));
@@ -301,8 +295,7 @@ public class Lifeline {
 					drawingInfo.getSymmetricWidth(created), drawingInfo.getTickHeight(created));
 		}
 		// without an starting point we can not draw anything
-		if (createdOnStart || created != null)
-		{
+		if (createdOnStart || created != null) {
 			// draw lifeline occurrences
 			for (Map.Entry<Integer, LifelineOccurrence> e : lifeline.entrySet()) {
 				int tick = e.getKey();
@@ -440,15 +433,13 @@ public class Lifeline {
 	private void drawLifelinePart(DrawHandler drawHandler, final double centerX,
 			final double startY, boolean activeCountIncStart,
 			final double endY, boolean activeCountIncEnd,
-			int activeCount, ListIterator<Line1D> interruptedAreas)
-	{
+			int activeCount, ListIterator<Line1D> interruptedAreas) {
 		double nextStartY = startY;
 		boolean drawHead = true;
 		// check if we must draw the head
 		if (interruptedAreas.hasNext()) {
 			Line1D area = interruptedAreas.next();
-			if (area.contains(nextStartY))
-			{
+			if (area.contains(nextStartY)) {
 				drawHead = false;
 				nextStartY = area.getHigh();
 			}

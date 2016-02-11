@@ -2,9 +2,13 @@ package com.baselet.standalone;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import java.util.Timer;
 
@@ -171,11 +175,13 @@ public class MainStandalone {
 		// send the filename per file to the running application
 		File f1 = tmpFile();
 		try {
-			PrintWriter writer = new PrintWriter(f1);
+			PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(f1), "UTF-8"));
 			writer.println(filename);
 			writer.close();
 			return true;
-		} catch (Exception ex) {
+		} catch (UnsupportedEncodingException e) {
+			return false;
+		} catch (FileNotFoundException e) {
 			return false;
 		}
 	}
@@ -211,6 +217,10 @@ public class MainStandalone {
 				Program.init(prop.getProperty("version"), runtime);
 			} catch (IOException e) {
 				throw new RuntimeException("Cannot load properties from file BuildInfo.properties", e);
+			} finally {
+				try {
+					stream.close();
+				} catch (IOException e) {/* nothing to do */}
 			}
 		}
 	}

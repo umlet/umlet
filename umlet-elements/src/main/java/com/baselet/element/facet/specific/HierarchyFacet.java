@@ -101,8 +101,8 @@ public class HierarchyFacet extends Facet {
 			updateElementSize(state, lineWithoutTabs, lowerRightPoint, textPos, drawer.textWidth(lineWithoutTabs), fullHeight + SharedConstants.DEFAULT_GRID_SIZE);
 		}
 		else if (cache.type == HierarchyType.WorkProcess) {
-			int fullHeight = 40;
-			int fullWidth = 140;
+			double fullHeight = 40;
+			double fullWidth = 140;
 			double xPos = border + tabCount * fullWidth;
 			double yPos = border + cache.lineNr * fullHeight * 1.2;
 			drawer.drawEllipse(xPos, yPos, fullWidth, fullHeight);

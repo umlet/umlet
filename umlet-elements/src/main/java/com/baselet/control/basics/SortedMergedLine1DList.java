@@ -74,8 +74,7 @@ public class SortedMergedLine1DList implements List<Line1D> {
 			else {
 				int insertIndex = listIter.nextIndex();
 				Line1D tmpLine = listIter.next();
-				if (tmpLine.getLow() <= e.getHigh())
-				{
+				if (tmpLine.getLow() <= e.getHigh()) {
 					double low = Math.min(tmpLine.getLow(), e.getLow());
 					double high = tmpLine.getHigh();
 					while (listIter.hasNext()) {
@@ -105,7 +104,7 @@ public class SortedMergedLine1DList implements List<Line1D> {
 
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		return containsAll(c);
+		return list.containsAll(c);
 	}
 
 	/**

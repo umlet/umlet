@@ -372,10 +372,6 @@ public class TextSplitter {
 		return minWidthCache.get(key);
 	}
 
-	private static Double getCachedMinWidth(WordRegion[] words, Style style, Set<FormatLabels> format) {
-		return getCachedMinWidth(new MinWidthCacheKey(words, style, format));
-	}
-
 	private static void setCachedMinWidth(MinWidthCacheKey key, Double value) {
 		minWidthCache.put(key, value);
 	}
@@ -390,22 +386,6 @@ public class TextSplitter {
 
 	private static void setCachedWordwrap(WordwrapCacheKey key, WordwrapCacheValue value) {
 		wordwrapCache.put(key, value);
-	}
-
-	private static void setCachedWordwrap(WordwrapCacheKey key, StringStyle[] wrappedLines, double height) {
-		wordwrapCache.put(key, new WordwrapCacheValue(wrappedLines, height));
-	}
-
-	private static void setCachedWordwrap(WordRegion[] words, double width, Style style, Set<FormatLabels> format, StringStyle[] wrappedLines, double height) {
-		wordwrapCache.put(new WordwrapCacheKey(words, width, style, format), new WordwrapCacheValue(wrappedLines, height));
-	}
-
-	private static void setCachedWordwrap(WordwrapCacheKey key, String[] wrappedLines, double height) {
-		wordwrapCache.put(key, new WordwrapCacheValue(wrappedLines, key.format, height));
-	}
-
-	private static void setCachedWordwrap(WordRegion[] words, double width, Style style, Set<FormatLabels> format, String[] wrappedLines, double height) {
-		wordwrapCache.put(new WordwrapCacheKey(words, width, style, format), new WordwrapCacheValue(wrappedLines, format, height));
 	}
 
 	/**
@@ -454,11 +434,9 @@ public class TextSplitter {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + (words == null ? 0 : words.hashCode());
+			result = prime * result + (format == null ? 0 : format.hashCode());
 			result = prime * result + (style == null ? 0 : style.hashCode());
-			for (FormatLabels fl : format) {
-				result = prime * result + fl.hashCode();
-			}
+			result = prime * result + Arrays.hashCode(words);
 			return result;
 		}
 
@@ -474,12 +452,12 @@ public class TextSplitter {
 				return false;
 			}
 			MinWidthCacheKey other = (MinWidthCacheKey) obj;
-			if (words == null) {
-				if (other.words != null) {
+			if (format == null) {
+				if (other.format != null) {
 					return false;
 				}
 			}
-			else if (!words.equals(other.words)) {
+			else if (!format.equals(other.format)) {
 				return false;
 			}
 			if (style == null) {
@@ -490,15 +468,7 @@ public class TextSplitter {
 			else if (!style.equals(other.style)) {
 				return false;
 			}
-			if (format == null) {
-				if (other.format != null) {
-					return false;
-				}
-			}
-			else if (format.size() != other.format.size()) {
-				return false;
-			}
-			else if (!format.containsAll(other.format)) {
+			if (!Arrays.equals(words, other.words)) {
 				return false;
 			}
 			return true;
@@ -540,14 +510,12 @@ public class TextSplitter {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + (words == null ? 0 : words.hashCode());
+			result = prime * result + (format == null ? 0 : format.hashCode());
 			result = prime * result + (style == null ? 0 : style.hashCode());
 			long temp;
 			temp = Double.doubleToLongBits(width);
 			result = prime * result + (int) (temp ^ temp >>> 32);
-			for (FormatLabels fl : format) {
-				result = prime * result + fl.hashCode();
-			}
+			result = prime * result + Arrays.hashCode(words);
 			return result;
 		}
 
@@ -563,12 +531,12 @@ public class TextSplitter {
 				return false;
 			}
 			WordwrapCacheKey other = (WordwrapCacheKey) obj;
-			if (words == null) {
-				if (other.words != null) {
+			if (format == null) {
+				if (other.format != null) {
 					return false;
 				}
 			}
-			else if (!words.equals(other.words)) {
+			else if (!format.equals(other.format)) {
 				return false;
 			}
 			if (style == null) {
@@ -582,15 +550,7 @@ public class TextSplitter {
 			if (Double.doubleToLongBits(width) != Double.doubleToLongBits(other.width)) {
 				return false;
 			}
-			if (format == null) {
-				if (other.format != null) {
-					return false;
-				}
-			}
-			else if (format.size() != other.format.size()) {
-				return false;
-			}
-			else if (!format.containsAll(other.format)) {
+			if (!Arrays.equals(words, other.words)) {
 				return false;
 			}
 			return true;

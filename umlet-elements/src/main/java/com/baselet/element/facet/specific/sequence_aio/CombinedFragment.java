@@ -1,6 +1,7 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
@@ -43,7 +44,7 @@ public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence,
 	 */
 	public CombinedFragment(Lifeline[] coveredLifelines, int startTick, String operator) {
 		super();
-		this.coveredLifelines = coveredLifelines;
+		this.coveredLifelines = Arrays.copyOf(coveredLifelines, coveredLifelines.length);
 		this.startTick = startTick;
 		operatorLines = operator.split("\n");
 		operands = new LinkedList<CombinedFragment.Operand>();
@@ -191,13 +192,10 @@ public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence,
 		// add the border padding so nested combined fragments look nice
 		double minWidth = PentagonDrawingHelper.getMinimumWidth(drawHandler, operatorLines);
 		if (operands.size() > 0 && operands.getFirst().constraint != null) {
-			double constraintMinWidth = operands.getFirst().constraint.getMinWidth(drawHandler) * coveredLifelines.length
-										+ (coveredLifelines.length - 1) * lifelineHorizontalPadding;
+			double constraintMinWidth = operands.getFirst().constraint.getMinWidth(drawHandler) * coveredLifelines.length + (coveredLifelines.length - 1) * lifelineHorizontalPadding;
 			minWidth = Math.max(minWidth, constraintMinWidth);
 		}
-		return minWidth
-				+ getLastLifeline().getLifelineLeftPartWidth(startTick)
-				+ getLastLifeline().getLifelineRightPartWidth(startTick);
+		return minWidth + getLastLifeline().getLifelineLeftPartWidth(startTick) + getLastLifeline().getLifelineRightPartWidth(startTick);
 	}
 
 	@Override
@@ -320,8 +318,7 @@ public class CombinedFragment implements LifelineSpanningTickSpanningOccurrence,
 					return -1;
 				}
 				else {
-					return TextSplitter.getSplitStringHeight(textLines, size.x, drawHandler)
-							+ CONSTRAINT_Y_PADDING * 2 - size.y;
+					return TextSplitter.getSplitStringHeight(textLines, size.x, drawHandler) + CONSTRAINT_Y_PADDING * 2 - size.y;
 				}
 			}
 

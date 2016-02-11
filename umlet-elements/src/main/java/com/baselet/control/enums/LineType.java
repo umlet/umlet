@@ -1,6 +1,7 @@
 package com.baselet.control.enums;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public enum LineType implements RegexValueHolder {
@@ -8,7 +9,7 @@ public enum LineType implements RegexValueHolder {
 
 	private String value;
 
-	public static final List<LineType> LT_LIST = Arrays.asList(LineType.SOLID, LineType.DASHED, LineType.DOTTED);
+	public static final List<LineType> LT_LIST = Collections.unmodifiableList(Arrays.asList(LineType.SOLID, LineType.DASHED, LineType.DOTTED));
 
 	private LineType(String value) {
 		this.value = value;

@@ -1,5 +1,7 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
+import java.util.Arrays;
+
 public class LifelineHorizontalDrawingInfoImpl implements LifelineHorizontalDrawingInfo {
 
 	private final double[] leftPaddings;
@@ -9,8 +11,8 @@ public class LifelineHorizontalDrawingInfoImpl implements LifelineHorizontalDraw
 
 	public LifelineHorizontalDrawingInfoImpl(double[] leftPaddings, double[] rightPaddings, double startX, double endX) {
 		super();
-		this.leftPaddings = leftPaddings;
-		this.rightPaddings = rightPaddings;
+		this.leftPaddings = Arrays.copyOf(leftPaddings, leftPaddings.length);
+		this.rightPaddings = Arrays.copyOf(rightPaddings, rightPaddings.length);
 		this.startX = startX;
 		this.endX = endX;
 	}

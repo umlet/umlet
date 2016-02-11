@@ -3,6 +3,7 @@ package com.baselet.plugin.wizard;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.resources.IContainer;
@@ -152,10 +153,14 @@ public class NewWizard extends Wizard implements INewWizard {
 	 * We will initialize file contents with a sample text.
 	 */
 
-	private InputStream openContentStream() {
+	public static InputStream openContentStream() {
 		String progName = Program.getInstance().getProgramName().toLowerCase();
 		String contents = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><" + progName + "_diagram></" + progName + "_diagram>";
-		return new ByteArrayInputStream(contents.getBytes());
+		try {
+			return new ByteArrayInputStream(contents.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException("UTF-8 encoding not supported", e);
+		}
 	}
 
 	private void throwCoreException(String message) throws CoreException {

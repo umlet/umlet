@@ -1,5 +1,6 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,12 +16,11 @@ public class GeneralOrdering implements LifelineSpanningTickSpanningOccurrence {
 	private final OccurrenceSpecification earlierOccurrence;
 	private final OccurrenceSpecification laterOccurrence;
 
-	public GeneralOrdering(OccurrenceSpecification earlierOccurrence, OccurrenceSpecification laterOccurrence,
-			Lifeline[] coveredLifelines) {
+	public GeneralOrdering(OccurrenceSpecification earlierOccurrence, OccurrenceSpecification laterOccurrence, Lifeline[] coveredLifelines) {
 		if (coveredLifelines.length < 2) {
 			throw new IllegalArgumentException("A GeneralOrdering must affect two different lifelines.");
 		}
-		this.coveredLifelines = coveredLifelines;
+		this.coveredLifelines = Arrays.copyOf(coveredLifelines, coveredLifelines.length);
 		this.earlierOccurrence = earlierOccurrence;
 		this.laterOccurrence = laterOccurrence;
 	}

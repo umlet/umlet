@@ -1,5 +1,6 @@
 package com.baselet.element.facet.specific.sequence_aio;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,14 +21,10 @@ public class Continuation implements LifelineSpanningTickSpanningOccurrence {
 	private final Lifeline[] coveredLifelines;
 
 	public Continuation(int tick, String text, Lifeline[] coveredLifelines) {
-		this(tick, text.split("\n"), coveredLifelines);
-	}
-
-	public Continuation(int tick, String[] textLines, Lifeline[] coveredLifelines) {
 		super();
 		this.tick = tick;
-		this.textLines = textLines;
-		this.coveredLifelines = coveredLifelines;
+		textLines = text.split("\n");
+		this.coveredLifelines = Arrays.copyOf(coveredLifelines, coveredLifelines.length);
 	}
 
 	@Override
@@ -43,8 +40,7 @@ public class Continuation implements LifelineSpanningTickSpanningOccurrence {
 	@Override
 	public void draw(DrawHandler drawHandler, DrawingInfo drawingInfo) {
 		double width = drawingInfo.getSymmetricWidth(getFirstLifeline(), getLastLifeline(), tick);
-		double height = TextSplitter.getSplitStringHeight(textLines, width - ROUND_PART_WIDTH * 2, drawHandler)
-						+ VERTICAL_BORDER_PADDING * 2;
+		double height = TextSplitter.getSplitStringHeight(textLines, width - ROUND_PART_WIDTH * 2, drawHandler) + VERTICAL_BORDER_PADDING * 2;
 		double topY = drawingInfo.getVerticalStart(tick);
 		topY += (drawingInfo.getTickHeight(tick) - height) / 2;
 		double leftX = drawingInfo.getHDrawingInfo(getFirstLifeline()).getSymmetricHorizontalStart(tick);
@@ -70,8 +66,8 @@ public class Continuation implements LifelineSpanningTickSpanningOccurrence {
 	@Override
 	public Map<Integer, Double> getEveryAdditionalYHeight(DrawHandler drawHandler,
 			HorizontalDrawingInfo hInfo, double defaultTickHeight
-			// Line1D[] lifelinesHorizontalSpanning, double tickHeight
-			) {
+	// Line1D[] lifelinesHorizontalSpanning, double tickHeight
+	) {
 		Map<Integer, Double> ret = new HashMap<Integer, Double>();
 		double neededHeight = TextSplitter.getSplitStringHeight(textLines,
 				hInfo.getSymmetricWidth(getFirstLifeline(), getLastLifeline(), tick) - ROUND_PART_WIDTH * 2,

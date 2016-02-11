@@ -1,17 +1,16 @@
 package com.baselet.diagram.draw.helper;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class ColorOwn {
 
 	public static final String EXAMPLE_TEXT = "color string (green,...) or code (#3c7a00,...)";
 
 	public static enum Transparency {
-		FOREGROUND(255),
-		FULL_TRANSPARENT(0),
-		DEPRECATED_WARNING(175),
-		BACKGROUND(125),
-		SELECTION_BACKGROUND(20);
+		FOREGROUND(255), FULL_TRANSPARENT(0), DEPRECATED_WARNING(175), BACKGROUND(125), SELECTION_BACKGROUND(20);
 
 		private int alpha;
 
@@ -46,23 +45,25 @@ public class ColorOwn {
 	public static final ColorOwn DEFAULT_FOREGROUND = BLACK;
 	public static final ColorOwn DEFAULT_BACKGROUND = TRANSPARENT;
 
-	public static final HashMap<String, ColorOwn> COLOR_MAP = new HashMap<String, ColorOwn>();
+	public static final Map<String, ColorOwn> COLOR_MAP;
 
 	static {
-		COLOR_MAP.put("black", ColorOwn.BLACK);
-		COLOR_MAP.put("blue", ColorOwn.BLUE);
-		COLOR_MAP.put("cyan", ColorOwn.CYAN);
-		COLOR_MAP.put("dark_gray", ColorOwn.DARK_GRAY);
-		COLOR_MAP.put("gray", ColorOwn.GRAY);
-		COLOR_MAP.put("green", ColorOwn.GREEN);
-		COLOR_MAP.put("light_gray", ColorOwn.LIGHT_GRAY);
-		COLOR_MAP.put("magenta", ColorOwn.MAGENTA);
-		COLOR_MAP.put("orange", ColorOwn.ORANGE);
-		COLOR_MAP.put("pink", ColorOwn.PINK);
-		COLOR_MAP.put("red", ColorOwn.RED);
-		COLOR_MAP.put("white", ColorOwn.WHITE);
-		COLOR_MAP.put("yellow", ColorOwn.YELLOW);
-		COLOR_MAP.put("none", ColorOwn.TRANSPARENT);
+		HashMap<String, ColorOwn> colorMap = new HashMap<String, ColorOwn>();
+		colorMap.put("black", ColorOwn.BLACK);
+		colorMap.put("blue", ColorOwn.BLUE);
+		colorMap.put("cyan", ColorOwn.CYAN);
+		colorMap.put("dark_gray", ColorOwn.DARK_GRAY);
+		colorMap.put("gray", ColorOwn.GRAY);
+		colorMap.put("green", ColorOwn.GREEN);
+		colorMap.put("light_gray", ColorOwn.LIGHT_GRAY);
+		colorMap.put("magenta", ColorOwn.MAGENTA);
+		colorMap.put("orange", ColorOwn.ORANGE);
+		colorMap.put("pink", ColorOwn.PINK);
+		colorMap.put("red", ColorOwn.RED);
+		colorMap.put("white", ColorOwn.WHITE);
+		colorMap.put("yellow", ColorOwn.YELLOW);
+		colorMap.put("none", ColorOwn.TRANSPARENT);
+		COLOR_MAP = Collections.unmodifiableMap(colorMap);
 	}
 
 	/* fields should be final to avoid changing parts of existing color object (otherwise unexpected visible changes can happen) */
@@ -151,9 +152,9 @@ public class ColorOwn {
 			error = true;
 		}
 		else {
-			for (String color : COLOR_MAP.keySet()) {
-				if (colorString.equalsIgnoreCase(color)) {
-					returnColor = COLOR_MAP.get(color);
+			for (Entry<String, ColorOwn> c : COLOR_MAP.entrySet()) {
+				if (colorString.equalsIgnoreCase(c.getKey())) {
+					returnColor = c.getValue();
 					break;
 				}
 			}

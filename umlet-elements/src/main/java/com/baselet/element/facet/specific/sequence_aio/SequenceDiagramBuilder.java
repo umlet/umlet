@@ -41,8 +41,7 @@ public class SequenceDiagramBuilder {
 	private int lastMessageReceiveTick;
 	private boolean diagramRetrieved;
 
-	public SequenceDiagramBuilder()
-	{
+	public SequenceDiagramBuilder() {
 		overrideDefaultIds = false;
 		ids = new HashMap<String, Lifeline>();
 		activeCombinedFragmentStack = new LinkedList<SequenceDiagramBuilder.ActiveCombinedFragment>();
@@ -121,7 +120,7 @@ public class SequenceDiagramBuilder {
 		Lifeline newLifeline = dia.addLiveline(headText, headType, createdOnStart, execSpecFromStart);
 		if (id != null) {
 			if (ids.containsKey(id)) {
-				throw new SequenceDiagramException("There is already a lifeline which is associated with the id '" + id +
+				throw new SequenceDiagramException("There is already a lifeline which is associated with the id '" +id +
 													"', please choose another identifier.");
 			}
 			ids.put(id, newLifeline);
@@ -293,7 +292,7 @@ public class SequenceDiagramBuilder {
 		Lifeline to = getLifelineException(toId);
 		if (!to.isCreatedOnStart()) {
 			if (to.getCreated() == null || to.getCreated() >= currentTick) {
-				throw new SequenceDiagramException("The lifeline " + toId +
+				throw new SequenceDiagramException("The lifeline " +toId +
 													" was not yet created, therefore it is not possible to send a found message to it.");
 			}
 		}
@@ -348,14 +347,13 @@ public class SequenceDiagramBuilder {
 				getLifelineIntervalException(earlierLifelineId, laterLifelineId)));
 	}
 
-	private void addOccurrenceSpecification(String lifelineId, String localId, OccurrenceSpecification occurrence) {
-		addOccurrenceSpecification(getLifelineException(lifelineId), lifelineId, localId, occurrence);
-	}
+	// private void addOccurrenceSpecification(String lifelineId, String localId, OccurrenceSpecification occurrence) {
+	// addOccurrenceSpecification(getLifelineException(lifelineId), lifelineId, localId, occurrence);
+	// }
 
 	private void addOccurrenceSpecification(Lifeline lifeline, String lifelineId, String localId, OccurrenceSpecification occurrence) {
 		if (lifelineLocalIds.get(lifeline).containsKey(localId)) {
-			throw new SequenceDiagramException("The lifeline '" + lifelineId + "' has already a local id '"
-												+ localId + "', please choose another id.");
+			throw new SequenceDiagramException("The lifeline '" + lifelineId + "' has already a local id '" + localId + "', please choose another id.");
 		}
 		lifelineLocalIds.get(lifeline).put(localId, occurrence);
 	}
@@ -364,8 +362,7 @@ public class SequenceDiagramBuilder {
 		Lifeline llifeline = getLifelineException(lifelineId);
 		OccurrenceSpecification occurrenceSpec = lifelineLocalIds.get(llifeline).get(localId);
 		if (occurrenceSpec == null) {
-			throw new SequenceDiagramException("No lifeline occurrence with the id '" + localId
-												+ "' could be found on lifeline '" + lifelineId + "'.");
+			throw new SequenceDiagramException("No lifeline occurrence with the id '" + localId + "' could be found on lifeline '" + lifelineId + "'.");
 		}
 		return occurrenceSpec;
 	}
@@ -587,8 +584,7 @@ public class SequenceDiagramBuilder {
 	 * @throws SequenceDiagramException if the diagram could not be generated.
 	 * @see #getWarnings()
 	 */
-	public SequenceDiagram generateDiagram()
-	{
+	public SequenceDiagram generateDiagram() {
 		if (diagramRetrieved) {
 			return dia;
 		}
@@ -674,15 +670,15 @@ public class SequenceDiagramBuilder {
 			this.startTick = startTick;
 		}
 
-		public ActiveOperand(String constraint, Lifeline assoicatedLifeline, int startTick) {
-			super();
-			this.constraint = constraint;
-			this.assoicatedLifeline = assoicatedLifeline;
-			this.startTick = startTick;
-		}
-
-		String constraint = null; // if empty no constraint needed
-		Lifeline assoicatedLifeline = null; // lifeline on which the constraint should be drawn
+		// public ActiveOperand(String constraint, Lifeline assoicatedLifeline, int startTick) {
+		// super();
+		// this.constraint = constraint;
+		// this.assoicatedLifeline = assoicatedLifeline;
+		// this.startTick = startTick;
+		// }
+		//
+		// String constraint = null; // if empty no constraint needed
+		// Lifeline assoicatedLifeline = null; // lifeline on which the constraint should be drawn
 		int startTick;
 	}
 

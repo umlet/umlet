@@ -140,7 +140,9 @@ public class DropboxIntegration {
 
 				}
 			});
-		} catch (RequestException e) {}
+		} catch (RequestException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public native void exposeDropboxShowNotification(DropboxIntegration di) /*-{

@@ -50,12 +50,18 @@ public class AxisConfig {
 		valueAxisMarkers = showList.contains(AxisShow.Marker.getValue());
 		valueAxisText = showList.contains(AxisShow.Text.getValue());
 
+		// other than the special value "relevant", only double values are allowed
 		showRelevantValues = valueList.contains(AxisList.Relevant.getValue());
 		valueAxisList = new TreeSet<Double>();
 		for (String v : valueList) {
+			if ("".equals(v) || AxisList.Relevant.getValue().equals(v)) {
+				continue;
+			}
 			try {
 				valueAxisList.add(Double.parseDouble(v));
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				throw new RuntimeException("Value must be a double: " + v, e);
+			}
 		}
 	}
 

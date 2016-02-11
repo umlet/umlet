@@ -2,6 +2,7 @@ package com.baselet.element.elementnew.plot.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.baselet.gui.AutocompletionText;
@@ -62,7 +63,7 @@ public class PlotConstants {
 	public static final String MAX_VALUE_ALL = "all";
 
 	public static final String KEY_LIST_COLORS = "colors"; // DEFAULT: cycling through colors-list
-	public static final List<String> COLORS_DEFAULT = Arrays.asList("red", "blue", "green", "orange", "cyan", "magenta", "pink");
+	public static final List<String> COLORS_DEFAULT = Collections.unmodifiableList(Arrays.asList("red", "blue", "green", "orange", "cyan", "magenta", "pink"));
 
 	public static interface PlotSetting {
 		public String getValue();
@@ -147,7 +148,7 @@ public class PlotConstants {
 		return returnList;
 	}
 
-	public static final List<AutocompletionText> AUTOCOMPLETION_LIST = Arrays.asList(
+	public static final List<AutocompletionText> AUTOCOMPLETION_LIST = Collections.unmodifiableList(Arrays.asList(
 			new AutocompletionText(PLOT, "draws the configured plot"),
 			new AutocompletionText(DATA, "marks everything until the next empty line as dataset"),
 			new AutocompletionText(DATA + KEY_VALUE_SEP + "<name>", "as data but with explicit name"),
@@ -168,7 +169,6 @@ public class PlotConstants {
 			new AutocompletionText(AxisShow.getKeyValueAxis() + AxisShow.getValueList(), "a list of elements to show at the value axis"),
 			new AutocompletionText(AxisShow.getKeyDescAxis() + AxisShow.getValueList(), "a list of elements to show at the description axis"),
 
-			new AutocompletionText(AxisList.getKey() + KEY_VALUE_SEP + AxisList.Relevant.getValue(), "restricts shown values to occurring ones")
-			);
+			new AutocompletionText(AxisList.getKey() + KEY_VALUE_SEP + AxisList.Relevant.getValue(), "restricts shown values to occurring ones")));
 
 }
