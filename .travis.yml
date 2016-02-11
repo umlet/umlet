@@ -1,6 +1,6 @@
 language: java
 jdk:
-  - oraclejdk7
+#  - oraclejdk7 # JDK7 doesnt work with Google Error-Prone
   - oraclejdk8
 script: "mvn clean install -P checks"
 

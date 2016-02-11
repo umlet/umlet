@@ -115,29 +115,6 @@
 			</resource>
 		</resources>
 		<plugins>
-			<!-- use animal sniffer plugin to verify that only Java APIs up to a specific version are used -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>animal-sniffer-maven-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<id>check-java-api</id>
-						<phase>test</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<signature>
-								<groupId>org.codehaus.mojo.signature
-								</groupId>
-								<artifactId>${animal.sniffer.java.api}</artifactId>
-								<version>1.1</version>
-							</signature>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<!-- use buildnumber-maven-plugin to create several versions of timestamp variables -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -347,6 +324,28 @@
 						<configuration>
 							<excludeFilterFile>${basedir}/src/main/findbugs/findbugs-exclude.xml</excludeFilterFile>
 						</configuration>
+					</plugin>
+					<!-- use animal sniffer plugin to verify that only Java APIs up to a specific version are used -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>animal-sniffer-maven-plugin</artifactId>
+						<version>1.7</version>
+						<executions>
+							<execution>
+								<id>check-java-api</id>
+								<phase>test</phase>
+								<goals>
+									<goal>check</goal>
+								</goals>
+								<configuration>
+									<signature>
+										<groupId>org.codehaus.mojo.signature</groupId>
+										<artifactId>${animal.sniffer.java.api}</artifactId>
+										<version>1.1</version>
+									</signature>
+								</configuration>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>
