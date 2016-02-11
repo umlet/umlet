@@ -2,7 +2,7 @@ language: java
 jdk:
   - oraclejdk7
   - oraclejdk8
-script: "mvn clean install"
+script: "mvn clean install -P checks"
 
 notifications:
   email: # only send an email if build fails
