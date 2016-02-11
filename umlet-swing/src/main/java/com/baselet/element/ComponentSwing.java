@@ -38,9 +38,9 @@ public class ComponentSwing extends JComponent implements Component {
 	}
 
 	@Override
-	public void translateForExport() {
-		drawer.setTranslate(true);
-		metaDrawer.setTranslate(true);
+	public void translateForExport() { // translation breaks export of some elements, therefore its disabled - see issue 353
+		// drawer.setTranslate(true);
+		// metaDrawer.setTranslate(true);
 	}
 
 	@Override
