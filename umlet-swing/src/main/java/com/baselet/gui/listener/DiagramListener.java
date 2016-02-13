@@ -6,15 +6,17 @@ import java.awt.event.MouseWheelListener;
 
 import javax.swing.JComponent;
 
-import org.slf4j.Logger;import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.Main;
+import com.baselet.control.basics.Converter;
 import com.baselet.control.basics.geom.Point;
-import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.SelectorFrame;
+import com.baselet.element.CursorOwn;
 import com.baselet.gui.CurrentGui;
 
 public class DiagramListener extends UniversalListener implements MouseWheelListener {
@@ -53,7 +55,7 @@ public class DiagramListener extends UniversalListener implements MouseWheelList
 	@Override
 	public void mouseMoved(MouseEvent me) {
 		super.mouseMoved(me);
-		CurrentGui.getInstance().getGui().setCursor(Constants.DEFAULT_CURSOR);
+		CurrentGui.getInstance().getGui().setCursor(Converter.convert(CursorOwn.DEFAULT));
 	}
 
 	@Override

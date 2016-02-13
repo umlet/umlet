@@ -5,11 +5,12 @@ import java.util.Collections;
 import java.util.Vector;
 
 import com.baselet.control.HandlerElementMap;
+import com.baselet.control.basics.Converter;
 import com.baselet.control.basics.geom.Point;
-import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.element.CursorOwn;
 import com.baselet.element.old.element.Relation;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.gui.CurrentGui;
@@ -164,15 +165,18 @@ public class OldRelationListener extends GridElementListener {
 		super.mouseMoved(me);
 		Relation rel = (Relation) me.getComponent();
 		int where = rel.getLinePoint(new Point(me.getX(), me.getY()));
+
+		CursorOwn cursor;
 		if (where >= 0) {
-			CurrentGui.getInstance().getGui().setCursor(Constants.HAND_CURSOR);
+			cursor = CursorOwn.HAND;
 		}
 		else if (rel.isWholeLine(me.getX(), me.getY())) {
-			CurrentGui.getInstance().getGui().setCursor(Constants.MOVE_CURSOR);
+			cursor = CursorOwn.MOVE;
 		}
 		else {
-			CurrentGui.getInstance().getGui().setCursor(Constants.CROSS_CURSOR);
+			cursor = CursorOwn.CROSS;
 		}
+		CurrentGui.getInstance().getGui().setCursor(Converter.convert(cursor));
 		return;
 	}
 

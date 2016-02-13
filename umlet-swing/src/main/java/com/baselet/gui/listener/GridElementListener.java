@@ -11,20 +11,21 @@ import java.util.Vector;
 import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 
-import org.slf4j.Logger;import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.Main;
 import com.baselet.control.basics.Converter;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.config.SharedConfig;
-import com.baselet.control.constants.Constants;
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.diagram.SelectorFrame;
+import com.baselet.element.CursorOwn;
 import com.baselet.element.ElementFactorySwing;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
@@ -109,23 +110,29 @@ public class GridElementListener extends UniversalListener {
 		}
 		resizeDirection = e.getResizeArea(me.getX(), me.getY());
 		Point point = new Point(me.getX() + e.getRectangle().getX(), me.getY() + e.getRectangle().getY());
+
+		CursorOwn cursor = null;
 		if (!e.isSelectableOn(point)) {
-			CurrentGui.getInstance().getGui().setCursor(Constants.DEFAULT_CURSOR);
+			cursor = CursorOwn.DEFAULT;
 		}
 		else if (resizeDirection.isEmpty()) {
-			CurrentGui.getInstance().getGui().setCursor(Constants.HAND_CURSOR);
+			cursor = CursorOwn.HAND;
 		}
 		else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT) || resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) {
-			CurrentGui.getInstance().getGui().setCursor(Constants.NE_CURSOR);
+			cursor = CursorOwn.NE;
 		}
 		else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT) || resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) {
-			CurrentGui.getInstance().getGui().setCursor(Constants.NW_CURSOR);
+			cursor = CursorOwn.NW;
 		}
 		else if (resizeDirection.contains(Direction.UP) || resizeDirection.contains(Direction.DOWN)) {
-			CurrentGui.getInstance().getGui().setCursor(Constants.TB_CURSOR);
+			cursor = CursorOwn.TB;
 		}
 		else if (resizeDirection.contains(Direction.LEFT) || resizeDirection.contains(Direction.RIGHT)) {
-			CurrentGui.getInstance().getGui().setCursor(Constants.LR_CURSOR);
+			cursor = CursorOwn.LR;
+		}
+
+		if (cursor != null) {
+			CurrentGui.getInstance().getGui().setCursor(Converter.convert(cursor));
 		}
 	}
 
@@ -249,7 +256,7 @@ public class GridElementListener extends UniversalListener {
 		selframe.setLocation(Converter.convert(mousePressedPoint));
 		selframe.setSize(1, 1);
 		CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().add(selframe, 0);
-		CurrentGui.getInstance().getGui().setCursor(Constants.DEFAULT_CURSOR);
+		CurrentGui.getInstance().getGui().setCursor(Converter.convert(CursorOwn.DEFAULT));
 	}
 
 	private void dragLasso(MouseEvent me, GridElement e) {

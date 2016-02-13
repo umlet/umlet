@@ -1,7 +1,6 @@
 package com.baselet.control.constants;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,16 +85,6 @@ public abstract class Constants extends SharedConstants {
 	public static final int INTERFACE_LINE_LENGTH = 40;
 
 	public static final int CUSTOM_ELEMENT_COMPILE_INTERVAL = 500;
-
-	public static final Cursor LR_CURSOR = new Cursor(Cursor.E_RESIZE_CURSOR);
-	public static final Cursor TB_CURSOR = new Cursor(Cursor.N_RESIZE_CURSOR);
-	public static final Cursor NW_CURSOR = new Cursor(Cursor.NW_RESIZE_CURSOR);
-	public static final Cursor NE_CURSOR = new Cursor(Cursor.NE_RESIZE_CURSOR);
-	public static final Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR);
-	public static final Cursor MOVE_CURSOR = new Cursor(Cursor.MOVE_CURSOR);
-	public static final Cursor DEFAULT_CURSOR = new Cursor(Cursor.DEFAULT_CURSOR);
-	public static final Cursor CROSS_CURSOR = new Cursor(Cursor.CROSSHAIR_CURSOR);
-	public static final Cursor TEXT_CURSOR = new Cursor(Cursor.TEXT_CURSOR);
 
 	public static final String DELIMITER_ENTITIES = "~~~~~|||||~~~~~|||||";
 	public static final String DELIMITER_STATE_AND_HIDDEN_STATE = "/////<<<<</////<<<<<";

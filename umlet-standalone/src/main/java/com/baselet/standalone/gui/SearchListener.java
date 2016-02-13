@@ -7,9 +7,10 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.JTextField;
 
-import com.baselet.control.constants.Constants;
+import com.baselet.control.basics.Converter;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.element.CursorOwn;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.command.Search;
 
@@ -45,7 +46,7 @@ public class SearchListener implements KeyListener, MouseMotionListener {
 
 	@Override
 	public void mouseMoved(MouseEvent me) {
-		CurrentGui.getInstance().getGui().setCursor(Constants.TEXT_CURSOR);
+		CurrentGui.getInstance().getGui().setCursor(Converter.convert(CursorOwn.TEXT));
 	}
 
 }

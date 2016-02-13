@@ -1,11 +1,13 @@
 package com.baselet.control.basics;
 
 import java.awt.Color;
+import java.awt.Cursor;
 
 import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.element.CursorOwn;
 
 public class Converter {
 
@@ -63,5 +65,30 @@ public class Converter {
 			return null;
 		}
 		return new Color(in.getRed(), in.getGreen(), in.getBlue(), in.getAlpha());
+	}
+
+	public static Cursor convert(CursorOwn in) {
+		switch (in) {
+			case LR:
+				return new Cursor(Cursor.E_RESIZE_CURSOR);
+			case TB:
+				return new Cursor(Cursor.N_RESIZE_CURSOR);
+			case NW:
+				return new Cursor(Cursor.NW_RESIZE_CURSOR);
+			case NE:
+				return new Cursor(Cursor.NE_RESIZE_CURSOR);
+			case HAND:
+				return new Cursor(Cursor.HAND_CURSOR);
+			case MOVE:
+				return new Cursor(Cursor.MOVE_CURSOR);
+			case DEFAULT:
+				return new Cursor(Cursor.DEFAULT_CURSOR);
+			case CROSS:
+				return new Cursor(Cursor.CROSSHAIR_CURSOR);
+			case TEXT:
+				return new Cursor(Cursor.TEXT_CURSOR);
+			default:
+				throw new RuntimeException("Unknown Cursor: " + in);
+		}
 	}
 }

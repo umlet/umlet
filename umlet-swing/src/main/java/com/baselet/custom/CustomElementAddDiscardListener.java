@@ -6,7 +6,8 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
 
-import com.baselet.control.constants.Constants;
+import com.baselet.control.basics.Converter;
+import com.baselet.element.CursorOwn;
 import com.baselet.gui.CurrentGui;
 
 public class CustomElementAddDiscardListener implements MouseListener {
@@ -18,14 +19,14 @@ public class CustomElementAddDiscardListener implements MouseListener {
 
 	@Override
 	public void mouseEntered(MouseEvent me) {
-		CurrentGui.getInstance().getGui().setCursor(Constants.HAND_CURSOR);
+		CurrentGui.getInstance().getGui().setCursor(Converter.convert(CursorOwn.HAND));
 		JLabel label = (JLabel) me.getComponent();
 		label.setForeground(Color.blue);
 	}
 
 	@Override
 	public void mouseExited(MouseEvent me) {
-		CurrentGui.getInstance().getGui().setCursor(Constants.DEFAULT_CURSOR);
+		CurrentGui.getInstance().getGui().setCursor(Converter.convert(CursorOwn.DEFAULT));
 		JLabel label = (JLabel) me.getComponent();
 		label.setForeground(Color.black);
 	}
