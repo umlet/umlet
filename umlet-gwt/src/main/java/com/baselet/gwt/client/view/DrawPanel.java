@@ -10,18 +10,21 @@ import java.util.Map;
 import java.util.Set;
 
 import com.baselet.command.CommandTarget;
+import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.MenuConstants;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Direction;
+import com.baselet.element.CursorOwn;
 import com.baselet.element.GridElementUtils;
 import com.baselet.element.Selector;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.sticking.StickableMap;
+import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.base.Utils;
 import com.baselet.gwt.client.element.DiagramGwt;
 import com.baselet.gwt.client.keyboard.Shortcut;
@@ -304,11 +307,11 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	@Override
 	public void onMouseDownScheduleDeferred(final GridElement element, final boolean isControlKeyDown) {
 		Scheduler.get().scheduleFinally(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
-					@Override
-					public void execute() {
-						onMouseDown(element, isControlKeyDown);
-					}
-				});
+			@Override
+			public void execute() {
+				onMouseDown(element, isControlKeyDown);
+			}
+		});
 	}
 
 	void onMouseDown(final GridElement element, final boolean isControlKeyDown) {
@@ -341,11 +344,11 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	@Override
 	public void onMouseMoveDraggingScheduleDeferred(final Point dragStart, final int diffX, final int diffY, final GridElement draggedGridElement, final boolean isShiftKeyDown, final boolean isCtrlKeyDown, final boolean firstDrag) {
 		Scheduler.get().scheduleFinally(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
-					@Override
-					public void execute() {
-						onMouseMoveDragging(dragStart, diffX, diffY, draggedGridElement, isShiftKeyDown, isCtrlKeyDown, firstDrag);
-					}
-				});
+			@Override
+			public void execute() {
+				onMouseMoveDragging(dragStart, diffX, diffY, draggedGridElement, isShiftKeyDown, isCtrlKeyDown, firstDrag);
+			}
+		});
 	}
 
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
@@ -381,32 +384,9 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		GridElement geOnPosition = getGridElementOnPosition(absolute);
 		if (geOnPosition != null) { // exactly one gridelement selected which is at the mouseposition
 			resizeDirection = geOnPosition.getResizeArea(absolute.getX() - geOnPosition.getRectangle().getX(), absolute.getY() - geOnPosition.getRectangle().getY());
-			if (resizeDirection.isEmpty()) {
-				Utils.showCursor(Style.Cursor.POINTER); // HAND Cursor
-			}
-			else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) {
-				Utils.showCursor(Style.Cursor.NE_RESIZE);
-			}
-			else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) {
-				Utils.showCursor(Style.Cursor.NW_RESIZE);
-			}
-			else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) {
-				Utils.showCursor(Style.Cursor.SW_RESIZE);
-			}
-			else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)) {
-				Utils.showCursor(Style.Cursor.SE_RESIZE);
-			}
-			else if (resizeDirection.contains(Direction.UP)) {
-				Utils.showCursor(Style.Cursor.N_RESIZE);
-			}
-			else if (resizeDirection.contains(Direction.RIGHT)) {
-				Utils.showCursor(Style.Cursor.E_RESIZE);
-			}
-			else if (resizeDirection.contains(Direction.DOWN)) {
-				Utils.showCursor(Style.Cursor.S_RESIZE);
-			}
-			else if (resizeDirection.contains(Direction.LEFT)) {
-				Utils.showCursor(Style.Cursor.W_RESIZE);
+			CursorOwn cursor = SharedUtils.getCursorForResizeDirection(resizeDirection);
+			if (cursor != null) {
+				Utils.showCursor(Converter.convert(cursor));
 			}
 		}
 		else {

@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.baselet.control.Main;
+import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.Converter;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
@@ -115,20 +116,8 @@ public class GridElementListener extends UniversalListener {
 		if (!e.isSelectableOn(point)) {
 			cursor = CursorOwn.DEFAULT;
 		}
-		else if (resizeDirection.isEmpty()) {
-			cursor = CursorOwn.HAND;
-		}
-		else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT) || resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) {
-			cursor = CursorOwn.NE;
-		}
-		else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT) || resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) {
-			cursor = CursorOwn.NW;
-		}
-		else if (resizeDirection.contains(Direction.UP) || resizeDirection.contains(Direction.DOWN)) {
-			cursor = CursorOwn.TB;
-		}
-		else if (resizeDirection.contains(Direction.LEFT) || resizeDirection.contains(Direction.RIGHT)) {
-			cursor = CursorOwn.LR;
+		else {
+			cursor = SharedUtils.getCursorForResizeDirection(resizeDirection);
 		}
 
 		if (cursor != null) {

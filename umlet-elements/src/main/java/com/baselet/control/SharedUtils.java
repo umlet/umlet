@@ -6,12 +6,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
+import com.baselet.control.enums.Direction;
+import com.baselet.element.CursorOwn;
 
 public class SharedUtils {
 
@@ -150,6 +153,38 @@ public class SharedUtils {
 		int[] target = new int[src.length];
 		System.arraycopy(src, 0, target, 0, src.length);
 		return target;
+	}
+
+	public static CursorOwn getCursorForResizeDirection(Set<Direction> resizeDirection) {
+		CursorOwn cursor = null;
+		if (resizeDirection.isEmpty()) {
+			cursor = CursorOwn.HAND;
+		}
+		else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.RIGHT)) {
+			cursor = CursorOwn.NE;
+		}
+		else if (resizeDirection.contains(Direction.UP) && resizeDirection.contains(Direction.LEFT)) {
+			cursor = CursorOwn.NW;
+		}
+		else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.LEFT)) {
+			cursor = CursorOwn.SW;
+		}
+		else if (resizeDirection.contains(Direction.DOWN) && resizeDirection.contains(Direction.RIGHT)) {
+			cursor = CursorOwn.SE;
+		}
+		else if (resizeDirection.contains(Direction.UP)) {
+			cursor = CursorOwn.N;
+		}
+		else if (resizeDirection.contains(Direction.RIGHT)) {
+			cursor = CursorOwn.E;
+		}
+		else if (resizeDirection.contains(Direction.DOWN)) {
+			cursor = CursorOwn.S;
+		}
+		else if (resizeDirection.contains(Direction.LEFT)) {
+			cursor = CursorOwn.W;
+		}
+		return cursor;
 	}
 
 }

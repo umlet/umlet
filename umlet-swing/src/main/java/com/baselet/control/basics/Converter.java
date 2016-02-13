@@ -69,14 +69,22 @@ public class Converter {
 
 	public static Cursor convert(CursorOwn in) {
 		switch (in) {
-			case LR:
-				return new Cursor(Cursor.E_RESIZE_CURSOR);
-			case TB:
+			case N:
 				return new Cursor(Cursor.N_RESIZE_CURSOR);
-			case NW:
-				return new Cursor(Cursor.NW_RESIZE_CURSOR);
 			case NE:
 				return new Cursor(Cursor.NE_RESIZE_CURSOR);
+			case E:
+				return new Cursor(Cursor.E_RESIZE_CURSOR);
+			case SE:
+				return new Cursor(Cursor.SE_RESIZE_CURSOR);
+			case S:
+				return new Cursor(Cursor.S_RESIZE_CURSOR);
+			case SW:
+				return new Cursor(Cursor.SW_RESIZE_CURSOR);
+			case W:
+				return new Cursor(Cursor.W_RESIZE_CURSOR);
+			case NW:
+				return new Cursor(Cursor.NW_RESIZE_CURSOR);
 			case HAND:
 				return new Cursor(Cursor.HAND_CURSOR);
 			case MOVE:
