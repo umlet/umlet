@@ -15,9 +15,11 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import org.slf4j.Logger;import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.Main;
 import com.baselet.control.config.Config;
@@ -46,6 +48,10 @@ public class OptionPanel extends JPanel implements ActionListener {
 	private final JCheckBox enable_custom_elements = new JCheckBox();
 	private final JCheckBox checkForUpdates = new JCheckBox();
 	private final JCheckBox developerMode = new JCheckBox();
+	private final JTextField pdfFont = new HintTextField("Path to font e.g.; c:/windows/fonts/msgothic.ttc,1");
+	private final JTextField pdfFontBold = new HintTextField("same as above but used for bold text");
+	private final JTextField pdfFontItalic = new HintTextField("same as above but used for italic text");
+	private final JTextField pdfFontBoldItalic = new HintTextField("same as above but used for bold+italic text");
 	private final JComboBox ui_manager;
 	private final JComboBox default_fontsize = new JComboBox(new Integer[] { 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 });
 	private final JComboBox propertiesPanelFontsize = new JComboBox(new Integer[] { 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 });
@@ -85,6 +91,14 @@ public class OptionPanel extends JPanel implements ActionListener {
 		this.add(default_fontfamily);
 		this.add(new JLabel("Developer Mode (show extended Element Info)"));
 		this.add(developerMode);
+		this.add(new JLabel("Optional font to embedd in PDF - normal text"));
+		this.add(pdfFont);
+		this.add(new JLabel("Optional font to embedd in PDF - bold text"));
+		this.add(pdfFontBold);
+		this.add(new JLabel("Optional font to embedd in PDF - italic text"));
+		this.add(pdfFontItalic);
+		this.add(new JLabel("Optional font to embedd in PDF - bold+italic"));
+		this.add(pdfFontBoldItalic);
 
 		JButton button_ok = new JButton("Ok");
 		button_ok.setActionCommand("Ok");
@@ -125,6 +139,10 @@ public class OptionPanel extends JPanel implements ActionListener {
 		default_fontsize.setSelectedItem(Config.getInstance().getDefaultFontsize());
 		propertiesPanelFontsize.setSelectedItem(Config.getInstance().getPropertiesPanelFontsize());
 		default_fontfamily.setSelectedItem(Config.getInstance().getDefaultFontFamily());
+		pdfFont.setText(Config.getInstance().getPdfExportFont());
+		pdfFontBold.setText(Config.getInstance().getPdfExportFontBold());
+		pdfFontItalic.setText(Config.getInstance().getPdfExportFontItalic());
+		pdfFontBoldItalic.setText(Config.getInstance().getPdfExportFontBoldItalic());
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -151,6 +169,10 @@ public class OptionPanel extends JPanel implements ActionListener {
 			Config.getInstance().setCheckForUpdates(checkForUpdates.isSelected());
 			SharedConfig.getInstance().setDev_mode(developerMode.isSelected());
 			Config.getInstance().setDefaultFontsize((Integer) default_fontsize.getSelectedItem());
+			Config.getInstance().setPdfExportFont(pdfFont.getText());
+			Config.getInstance().setPdfExportFontBold(pdfFontBold.getText());
+			Config.getInstance().setPdfExportFontItalic(pdfFontItalic.getText());
+			Config.getInstance().setPdfExportFontBoldItalic(pdfFontBoldItalic.getText());
 
 			String newui = uis_technicalNames.get(ui_manager.getSelectedIndex());
 			// only set look and feel if it has changed, because it messes up frame-size
