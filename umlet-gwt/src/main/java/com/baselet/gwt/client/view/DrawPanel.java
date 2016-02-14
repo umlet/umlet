@@ -24,7 +24,6 @@ import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.sticking.StickableMap;
-import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.base.Utils;
 import com.baselet.gwt.client.element.DiagramGwt;
 import com.baselet.gwt.client.keyboard.Shortcut;
@@ -36,7 +35,6 @@ import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
 import com.google.gwt.event.dom.client.HasMouseOverHandlers;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -386,12 +384,12 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			resizeDirection = geOnPosition.getResizeArea(absolute.getX() - geOnPosition.getRectangle().getX(), absolute.getY() - geOnPosition.getRectangle().getY());
 			CursorOwn cursor = SharedUtils.getCursorForResizeDirection(resizeDirection);
 			if (cursor != null) {
-				Utils.showCursor(Converter.convert(cursor));
+				Utils.showCursor(cursor);
 			}
 		}
 		else {
 			resizeDirection.clear();
-			Utils.showCursor(Style.Cursor.MOVE);
+			Utils.showCursor(CursorOwn.MOVE);
 		}
 	}
 
