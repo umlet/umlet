@@ -127,11 +127,6 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 	}
 
 	// only call after mouseDragged
-	protected final Point getOldCoordinateNotRounded() {
-		return new Point(_xOffset, _yOffset);
-	}
-
-	// only call after mouseDragged
 	protected final Point getNewCoordinate() {
 		return new Point(new_x_eff, new_y_eff);
 	}

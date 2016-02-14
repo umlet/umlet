@@ -270,8 +270,8 @@ public class GridElementListener extends UniversalListener {
 			elementsToMove = Arrays.asList(mainElement);
 		}
 		if (FIRST_MOVE_COMMANDS == null) {
-			POINT_BEFORE_MOVE = getOldCoordinateNotRounded(); // must use exact coordinates eg for Relation which calculates distances from lines (to possibly drag new points out of it)
-			FIRST_MOVE_COMMANDS = calculateFirstMoveCommands(diffx, diffy, oldp, elementsToMove, isShiftKeyDown, false, handler, resizeDirections);
+			POINT_BEFORE_MOVE = mousePressedPoint; // issue #358: use position of mouse click BEFORE starting to drag; must be exact coordinates eg for Relation which calculates distances from lines (to possibly drag new points out of it)
+			FIRST_MOVE_COMMANDS = calculateFirstMoveCommands(diffx, diffy, POINT_BEFORE_MOVE, elementsToMove, isShiftKeyDown, false, handler, resizeDirections);
 		}
 		else if (diffx != 0 || diffy != 0) {
 			Vector<Command> commands = continueDragging(diffx, diffy, POINT_BEFORE_MOVE, elementsToMove);
