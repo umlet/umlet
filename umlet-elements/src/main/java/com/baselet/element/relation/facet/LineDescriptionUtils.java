@@ -9,7 +9,7 @@ import com.baselet.element.relation.helper.RelationPointHandler;
 
 public class LineDescriptionUtils {
 
-	static PointDouble calcPosOfEndText(DrawHandler drawer, String text, RelationPointHandler relationPoints, LineDescriptionEnum enumVal) {
+	static PointDouble calcPosOfLineDescriptionText(DrawHandler drawer, String text, RelationPointHandler relationPoints, LineDescriptionEnum enumVal) {
 		Boolean printOnStart = enumVal.isStart();
 		Line line = printOnStart ? relationPoints.getFirstLine() : relationPoints.getLastLine();
 		PointDouble pointText = line.getPointOnLineWithDistanceFrom(printOnStart, 15); // distance from lineend (because of arrows,...)

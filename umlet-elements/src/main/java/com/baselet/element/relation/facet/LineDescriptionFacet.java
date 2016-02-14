@@ -107,7 +107,7 @@ public class LineDescriptionFacet extends FirstRunFacet {
 			String[] split = line.split(KeyValueFacet.SEP, -1);
 			String text = split[1];
 			if (!text.isEmpty()) {
-				PointDouble pointText = LineDescriptionUtils.calcPosOfEndText(drawer, text, relationPoints, enumVal);
+				PointDouble pointText = LineDescriptionUtils.calcPosOfLineDescriptionText(drawer, text, relationPoints, enumVal);
 				printAndUpdateIndex(drawer, relationPoints, pointText, enumVal.getIndex(), text, displacements.get(enumVal.getKey()), usedIndexes);
 			}
 
