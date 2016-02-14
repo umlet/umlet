@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="13.3">
+<diagram program="umlet" version="14.2.0">
   <zoom_level>8</zoom_level>
   <element>
     <id>UMLClass</id>
@@ -117,7 +117,7 @@ bg=yellow</panel_attributes>
       <x>136</x>
       <y>408</y>
       <w>48</w>
-      <h>80</h>
+      <h>88</h>
     </coordinates>
     <panel_attributes>Actor</panel_attributes>
     <additional_attributes/>
@@ -241,7 +241,7 @@ style=wordwrap</panel_attributes>
       <w>152</w>
       <h>24</h>
     </coordinates>
-    <panel_attributes>lt=&lt;.</panel_attributes>
+    <panel_attributes>lt=&lt;..</panel_attributes>
     <additional_attributes>10.0;10.0;170.0;10.0</additional_attributes>
   </element>
   <element>
@@ -386,5 +386,25 @@ m2=1..5,6
     <panel_attributes>lt=&lt;&lt;-
 a rose is a rose</panel_attributes>
     <additional_attributes>30.0;40.0;70.0;40.0;70.0;10.0;10.0;10.0;10.0;30.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>8</x>
+      <y>512</y>
+      <w>336</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=-
+r1=role A\nrole B
+m1=msg A\nmsg B
+r2=role C\nrole D
+m2=msg C\nmsg D
+m1pos=10,0
+r2pos=-13,-4
+multiple lines are possible
+and label positions can
+be customized</panel_attributes>
+    <additional_attributes>10.0;40.0;400.0;40.0</additional_attributes>
   </element>
 </diagram>
