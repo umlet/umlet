@@ -198,12 +198,12 @@ public class RelationPointList {
 	}
 
 	public void setTextBox(int index, Rectangle rect) {
-		if (rect == null) {
-			textBoxSpaces.remove(index);
-		}
-		else {
-			textBoxSpaces.put(index, rect);
-		}
+		Rectangle realignedRect = SharedUtils.realignToGrid(rect, true);
+		textBoxSpaces.put(index, realignedRect);
+	}
+
+	public void removeTextBox(int index) {
+		textBoxSpaces.remove(index);
 	}
 
 	public Set<Integer> getTextBoxIndexes() {
@@ -213,20 +213,10 @@ public class RelationPointList {
 	public Rectangle createRectangleContainingAllPointsAndTextSpace() {
 		Rectangle rectangleContainingAllPointsAndTextSpace = null;
 		for (RelationPoint p : points) {
-			rectangleContainingAllPointsAndTextSpace = addWithNullCheck(rectangleContainingAllPointsAndTextSpace, p.getSizeAbsolute());
+			rectangleContainingAllPointsAndTextSpace = Rectangle.mergeToLeft(rectangleContainingAllPointsAndTextSpace, p.getSizeAbsolute());
 		}
 		for (Rectangle textSpace : textBoxSpaces.values()) {
-			rectangleContainingAllPointsAndTextSpace = addWithNullCheck(rectangleContainingAllPointsAndTextSpace, textSpace);
-		}
-		return rectangleContainingAllPointsAndTextSpace;
-	}
-
-	private Rectangle addWithNullCheck(Rectangle rectangleContainingAllPointsAndTextSpace, Rectangle rectangle) {
-		if (rectangleContainingAllPointsAndTextSpace == null) {
-			rectangleContainingAllPointsAndTextSpace = rectangle;
-		}
-		else {
-			rectangleContainingAllPointsAndTextSpace.merge(rectangle);
+			rectangleContainingAllPointsAndTextSpace = Rectangle.mergeToLeft(rectangleContainingAllPointsAndTextSpace, textSpace);
 		}
 		return rectangleContainingAllPointsAndTextSpace;
 	}

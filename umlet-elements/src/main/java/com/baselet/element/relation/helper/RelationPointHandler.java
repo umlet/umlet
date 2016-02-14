@@ -173,7 +173,6 @@ public class RelationPointHandler implements ResizableObject {
 	}
 
 	public void setTextBox(int index, Rectangle size) {
-		size = SharedUtils.realignToGrid(size, true);
 		points.setTextBox(index, size);
 	}
 
@@ -184,7 +183,7 @@ public class RelationPointHandler implements ResizableObject {
 		Set<Integer> unusedTextBoxIndexes = new HashSet<Integer>(points.getTextBoxIndexes());
 		unusedTextBoxIndexes.removeAll(excludedList);
 		for (Integer index : unusedTextBoxIndexes) {
-			points.setTextBox(index, null);
+			points.removeTextBox(index);
 		}
 	}
 

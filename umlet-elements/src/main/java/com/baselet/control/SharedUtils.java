@@ -152,4 +152,16 @@ public class SharedUtils {
 		return target;
 	}
 
+	/**
+	 * if the user types "\n" it should be translated to a linebreak. He can avoid this by typing \\n (escaping the linebreak)
+	 */
+	public static String[] splitAtLineEndChar(String text) {
+		String rep = StringStyle.replaceNotEscaped(text, "\\n", "\n");
+		if (rep.contains("\n")) {
+			String[] split = rep.split("\n"); // split uses a RegEx therefore escape the linebreak char
+			return split;
+		}
+		return new String[] { text };
+	}
+
 }

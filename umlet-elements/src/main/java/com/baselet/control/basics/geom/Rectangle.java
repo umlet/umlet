@@ -143,6 +143,16 @@ public class Rectangle {
 		setHeight(Math.max(oldY2, other.getY2()) - getY());
 	}
 
+	public static Rectangle mergeToLeft(Rectangle left, Rectangle right) {
+		if (left == null) {
+			left = right;
+		}
+		else {
+			left.merge(right);
+		}
+		return left;
+	}
+
 	public Rectangle copy() {
 		return new Rectangle(x, y, width, height);
 	}
