@@ -388,7 +388,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		}
 		else {
 			resizeDirections.clear();
-			Utils.showCursor(CursorOwn.MOVE);
+			Utils.showCursor(CursorOwn.DEFAULT);
 		}
 	}
 
