@@ -17,7 +17,8 @@ import java.util.Vector;
 
 import javax.swing.JComponent;
 
-import org.slf4j.Logger;import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.HandlerElementMap;
 import com.baselet.control.Main;
@@ -37,7 +38,9 @@ import com.baselet.control.util.Utils;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.element.CursorOwn;
 import com.baselet.element.ElementUtils;
+import com.baselet.element.NewGridElement;
 import com.baselet.element.UndoHistory;
 import com.baselet.element.UndoInformation;
 import com.baselet.element.facet.KeyValueFacet;
@@ -603,5 +606,10 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	@Override
 	public GridElementDeprecatedAddons getDeprecatedAddons() {
 		return GridElementDeprecatedAddons.NONE;
+	}
+
+	@Override
+	public CursorOwn getCursor(Point point, Set<Direction> resizeDirections) {
+		return NewGridElement.getCursorStatic(this, point, resizeDirections);
 	}
 }

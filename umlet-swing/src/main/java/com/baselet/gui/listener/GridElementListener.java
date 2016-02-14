@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.baselet.control.Main;
-import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.Converter;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
@@ -61,7 +60,7 @@ public class GridElementListener extends UniversalListener {
 	private final int lassoTolerance = 2;
 
 	private Point mousePressedPoint;
-	private Set<Direction> resizeDirection;
+	private Set<Direction> resizeDirections;
 
 	public GridElementListener(DiagramHandler handler) {
 		super(handler);
@@ -109,17 +108,10 @@ public class GridElementListener extends UniversalListener {
 			log.debug("mouseMoved with dragged");
 			e.setLocation(me.getX() - 100, me.getY() - 20);
 		}
-		resizeDirection = e.getResizeArea(me.getX(), me.getY());
+		resizeDirections = e.getResizeArea(me.getX(), me.getY());
 		Point point = new Point(me.getX() + e.getRectangle().getX(), me.getY() + e.getRectangle().getY());
 
-		CursorOwn cursor = null;
-		if (!e.isSelectableOn(point)) {
-			cursor = CursorOwn.DEFAULT;
-		}
-		else {
-			cursor = SharedUtils.getCursorForResizeDirection(resizeDirection);
-		}
-
+		CursorOwn cursor = e.getCursor(point, resizeDirections);
 		if (cursor != null) {
 			CurrentGui.getInstance().getGui().setCursor(Converter.convert(cursor));
 		}
@@ -274,12 +266,12 @@ public class GridElementListener extends UniversalListener {
 		int diffy = newp.y - oldp.y;
 
 		List<GridElement> elementsToMove = selector.getSelectedElements();
-		if (!resizeDirection.isEmpty()) {
+		if (!resizeDirections.isEmpty()) {
 			elementsToMove = Arrays.asList(mainElement);
 		}
 		if (FIRST_MOVE_COMMANDS == null) {
 			POINT_BEFORE_MOVE = getOldCoordinateNotRounded(); // must use exact coordinates eg for Relation which calculates distances from lines (to possibly drag new points out of it)
-			FIRST_MOVE_COMMANDS = calculateFirstMoveCommands(diffx, diffy, oldp, elementsToMove, isShiftKeyDown, false, handler, resizeDirection);
+			FIRST_MOVE_COMMANDS = calculateFirstMoveCommands(diffx, diffy, oldp, elementsToMove, isShiftKeyDown, false, handler, resizeDirections);
 		}
 		else if (diffx != 0 || diffy != 0) {
 			Vector<Command> commands = continueDragging(diffx, diffy, POINT_BEFORE_MOVE, elementsToMove);
@@ -338,7 +330,7 @@ public class GridElementListener extends UniversalListener {
 		for (Command command : FIRST_MOVE_COMMANDS) { // use first move commands to identify the necessary commands and moved entities
 			if (command instanceof Move) {
 				Move m = (Move) command;
-				tmpVector.add(new Move(resizeDirection, m.getEntity(), diffx, diffy, oldp, m.isShiftKeyDown(), FIRST_DRAG, useSetLocation, m.getStickables()));
+				tmpVector.add(new Move(resizeDirections, m.getEntity(), diffx, diffy, oldp, m.isShiftKeyDown(), FIRST_DRAG, useSetLocation, m.getStickables()));
 			}
 			else if (command instanceof OldMoveLinePoint) {
 				OldMoveLinePoint m = (OldMoveLinePoint) command;

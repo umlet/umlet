@@ -15,6 +15,7 @@ import com.baselet.control.enums.ElementId;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.element.CursorOwn;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.UndoInformation;
 import com.baselet.element.facet.PropertiesParserState;
@@ -124,7 +125,7 @@ public class Relation extends NewGridElement implements Stickable, RelationPoint
 
 	@Override
 	public boolean isSelectableOn(Point point) {
-		Point relativePoint = new Point(point.getX() - getRectangle().getX(), point.getY() - getRectangle().getY());
+		Point relativePoint = toRelative(point);
 		boolean isSelectableOn = relationPoints.getSelection(pointAtDefaultZoom(relativePoint)) != RelationSelection.NOTHING;
 		return isSelectableOn;
 	}
@@ -160,6 +161,25 @@ public class Relation extends NewGridElement implements Stickable, RelationPoint
 	protected void drawError(DrawHandler drawer, String errorText) {
 		super.drawError(drawer, errorText.replace(">>", "\\>>").replace("<<", "\\<<"));
 		RelationLineTypeFacet.drawDefaultLineAndArrows(drawer, relationPoints);
+	}
+
+	protected Point toRelative(Point point) {
+		return new Point(point.getX() - getRectangle().getX(), point.getY() - getRectangle().getY());
+	}
+
+	@Override
+	public CursorOwn getCursor(Point point, Set<Direction> resizeDirections) {
+		RelationSelection selection = relationPoints.getSelection(pointAtDefaultZoom(toRelative(point)));
+		switch (selection) {
+			case DRAG_BOX:
+				return CursorOwn.MOVE;
+			case LINE:
+				return CursorOwn.CROSS;
+			case RELATION_POINT:
+				return CursorOwn.HAND;
+			default:
+				return super.getCursor(point, resizeDirections);
+		}
 	}
 
 }

@@ -506,4 +506,45 @@ public abstract class NewGridElement implements GridElement {
 		return GridElementDeprecatedAddons.NONE;
 	}
 
+	@Override
+	public CursorOwn getCursor(Point point, Set<Direction> resizeDirections) {
+		return getCursorStatic(this, point, resizeDirections);
+	}
+
+	public static CursorOwn getCursorStatic(GridElement e, Point point, Set<Direction> resizeDirections) {
+		if (!e.isSelectableOn(point)) {
+			return CursorOwn.DEFAULT;
+		}
+		else {
+			if (resizeDirections.isEmpty()) {
+				return CursorOwn.HAND;
+			}
+			else if (resizeDirections.contains(Direction.UP) && resizeDirections.contains(Direction.RIGHT)) {
+				return CursorOwn.NE;
+			}
+			else if (resizeDirections.contains(Direction.UP) && resizeDirections.contains(Direction.LEFT)) {
+				return CursorOwn.NW;
+			}
+			else if (resizeDirections.contains(Direction.DOWN) && resizeDirections.contains(Direction.LEFT)) {
+				return CursorOwn.SW;
+			}
+			else if (resizeDirections.contains(Direction.DOWN) && resizeDirections.contains(Direction.RIGHT)) {
+				return CursorOwn.SE;
+			}
+			else if (resizeDirections.contains(Direction.UP)) {
+				return CursorOwn.N;
+			}
+			else if (resizeDirections.contains(Direction.RIGHT)) {
+				return CursorOwn.E;
+			}
+			else if (resizeDirections.contains(Direction.DOWN)) {
+				return CursorOwn.S;
+			}
+			else if (resizeDirections.contains(Direction.LEFT)) {
+				return CursorOwn.W;
+			}
+			return CursorOwn.DEFAULT;
+		}
+	}
+
 }

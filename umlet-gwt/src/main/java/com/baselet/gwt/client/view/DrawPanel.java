@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.baselet.command.CommandTarget;
-import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.config.SharedConfig;
@@ -67,7 +66,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	private final MenuPopup elementContextMenu;
 	private final MenuPopup diagramContextMenu;
 
-	private Set<Direction> resizeDirection = new HashSet<Direction>();
+	private Set<Direction> resizeDirections = new HashSet<Direction>();
 
 	private final Map<GridElement, StickableMap> stickablesToMove = new HashMap<GridElement, StickableMap>();
 
@@ -356,8 +355,8 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		if (isCtrlKeyDown) {
 			return; // TODO implement Lasso
 		}
-		else if (!resizeDirection.isEmpty()) {
-			draggedGridElement.drag(resizeDirection, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
+		else if (!resizeDirections.isEmpty()) {
+			draggedGridElement.drag(resizeDirections, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
 		}
 		// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
 		else if (selector.getSelectedElements().size() == 1) {
@@ -381,14 +380,14 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	public void onMouseMove(Point absolute) {
 		GridElement geOnPosition = getGridElementOnPosition(absolute);
 		if (geOnPosition != null) { // exactly one gridelement selected which is at the mouseposition
-			resizeDirection = geOnPosition.getResizeArea(absolute.getX() - geOnPosition.getRectangle().getX(), absolute.getY() - geOnPosition.getRectangle().getY());
-			CursorOwn cursor = SharedUtils.getCursorForResizeDirection(resizeDirection);
+			resizeDirections = geOnPosition.getResizeArea(absolute.getX() - geOnPosition.getRectangle().getX(), absolute.getY() - geOnPosition.getRectangle().getY());
+			CursorOwn cursor = geOnPosition.getCursor(absolute, resizeDirections);
 			if (cursor != null) {
 				Utils.showCursor(cursor);
 			}
 		}
 		else {
-			resizeDirection.clear();
+			resizeDirections.clear();
 			Utils.showCursor(CursorOwn.MOVE);
 		}
 	}
