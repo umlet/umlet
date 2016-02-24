@@ -60,7 +60,10 @@ public class StartUpHelpText extends JEditorPane implements ContainerListener, C
 				showHTML(UpdateCheckTimerTask.getInstance().getFilename());
 			}
 		} catch (IOException e) {
-			throw new RuntimeException("Cannot read startup info file", e);
+			// #361: such an error should not crash UMLet, instead a simple information should be shown that something has gone wrong
+			log.error("Cannot load startupinfo", e);
+			setText("Cannot load startupinfo");
+			setSize(130, 10);
 		}
 	}
 
