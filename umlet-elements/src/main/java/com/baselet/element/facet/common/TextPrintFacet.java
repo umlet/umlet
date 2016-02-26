@@ -44,7 +44,7 @@ public class TextPrintFacet extends Facet {
 
 	private static void printLineWithWordWrap(String line, DrawHandler drawer, PropertiesParserState state) {
 		double spaceForText = state.getXLimitsForArea(state.getTextPrintPosition(), drawer.textHeightMax(), false).getSpace() - drawer.getDistanceBorderToText() * 2;
-		StringStyle[] wrappedLine = TextSplitter.splitStringAlgorithm(line, spaceForText, drawer, false);
+		StringStyle[] wrappedLine = TextSplitter.splitStringAlgorithm(line, spaceForText, drawer);
 		int lineIndex = 0;
 		while (state.getTextPrintPosition() < state.getGridElementSize().height && lineIndex < wrappedLine.length) {
 			double currentSpaceForText = state.getXLimitsForArea(state.getTextPrintPosition(), drawer.textHeightMax(), false).getSpace() - drawer.getDistanceBorderToText() * 2;
@@ -52,7 +52,7 @@ public class TextPrintFacet extends Facet {
 			if (Math.abs(currentSpaceForText - spaceForText) >= .0000001) { // compare with small range (findbugs FE_FLOATING_POINT_EQUALITY)
 				// we can not use the length of the printed lines to calculate the substring start, because the number of whitespace chars is unknown
 				line = line.substring(line.indexOf(wrappedLine[lineIndex - 1].getStringWithoutMarkup()) + wrappedLine[lineIndex - 1].getStringWithoutMarkup().length()).trim();
-				wrappedLine = TextSplitter.splitStringAlgorithm(line, spaceForText, drawer, false);
+				wrappedLine = TextSplitter.splitStringAlgorithm(line, spaceForText, drawer);
 				lineIndex = 0;
 			}
 			printLine(wrappedLine[lineIndex++], drawer, state);

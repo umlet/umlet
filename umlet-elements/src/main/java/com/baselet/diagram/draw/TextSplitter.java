@@ -1,10 +1,11 @@
 package com.baselet.diagram.draw;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -32,6 +33,8 @@ import com.baselet.util.LRUCache;
 @SuppressWarnings("unused")
 public class TextSplitter {
 
+	private static final Logger log = LoggerFactory.getLogger(TextSplitter.class);
+
 	// since the 2nd and 3rd cache use the value of the 1st as a partial key, the size shouldn't be too different
 	// especially for the 2nd, the 3rd is bigger because there will be many different width value because of resize operations
 	private static final int WORD_CACHE_SIZE = 180;
@@ -48,8 +51,6 @@ public class TextSplitter {
 	private static LinkedHashMap<String, WordRegion[]> wordCache = new LRUCache<String, WordRegion[]>(WORD_CACHE_SIZE);
 	private static LinkedHashMap<MinWidthCacheKey, Double> minWidthCache = new LRUCache<MinWidthCacheKey, Double>(MIN_WIDTH_CACHE_SIZE);
 	private static LinkedHashMap<WordwrapCacheKey, WordwrapCacheValue> wordwrapCache = new LRUCache<WordwrapCacheKey, WordwrapCacheValue>(WORDWRAP_CACHE_SIZE);
-
-	private static final Logger log = LoggerFactory.getLogger(TextSplitter.class);
 
 	/**
 	 *
@@ -145,10 +146,10 @@ public class TextSplitter {
 	 * @param drawer
 	 * @return the split text, each line as an element
 	 *
-	 * @see #splitStringAndHeightAlgorithm(String, double, DrawHandler, boolean)
+	 * @see #splitStringAndHeightAlgorithm(String, double, DrawHandler)
 	 */
 	public static double getSplitStringHeight(String text, double width, DrawHandler drawer) {
-		return splitStringAndHeightAlgorithm(text, width, drawer, false).getHeight();
+		return splitStringAndHeightAlgorithm(text, width, drawer).getHeight();
 	}
 
 	/**
@@ -159,7 +160,7 @@ public class TextSplitter {
 	 * @param drawer
 	 * @return the split text, each line as an element
 	 *
-	 * @see #splitStringAndHeightAlgorithm(String, double, DrawHandler, boolean)
+	 * @see #splitStringAndHeightAlgorithm(String, double, DrawHandler)
 	 */
 	public static double getSplitStringHeight(String[] textLines, double width, DrawHandler drawer) {
 		double height = 0;
@@ -170,90 +171,91 @@ public class TextSplitter {
 	}
 
 	/**
-	 * Splits the text so it can be drawn with the given width, if a single word would exceed the width it is truncated.
-	 * @param text a single line (no \r \n)
-	 * @param width
-	 * @param drawer
-	 * @return the split text, each line as an element
-	 *
-	 * @see #splitStringAlgorithm(String, double, DrawHandler, boolean)
-	 */
-	public static StringStyle[] splitStringAlgorithm(String text, double width, DrawHandler drawer) {
-		return splitStringAlgorithm(text, width, drawer, false);
-	}
-
-	/**
 	 *
 	 * @param text  a single line (no \r \n)
 	 * @param width in which the text should be fitted, need to be &gt; the width of the 'n' character
 	 * @param drawer
-	 * @param runtimeException if true then a runtime exception is thrown if a single word is to big for the given width
 	 * @return the wrapped lines
 	 */
-	public static StringStyle[] splitStringAlgorithm(String text, double width, DrawHandler drawer, boolean runtimeException) {
-		return splitStringAndHeightAlgorithm(text, width, drawer, runtimeException).getWrappedLines();
+	public static StringStyle[] splitStringAlgorithm(String text, double width, DrawHandler drawer) {
+		return splitStringAndHeightAlgorithm(text, width, drawer).getWrappedLines();
 	}
 
 	/**
 	 *
 	 * @param text1  a single line (no \r \n)
-	 * @param width in which the text should be fitted, need to be &gt; the width of the 'n' character
+	 * @param maxWidth in which the text should be fitted, need to be &gt; the width of the 'n' character
 	 * @param drawer
 	 * @param runtimeException if true then a runtime exception is thrown if a single word is to big for the given width
 	 * @return
 	 */
-	private static WordwrapCacheValue splitStringAndHeightAlgorithm(String text, double width, DrawHandler drawer, boolean runtimeException) {
+	private static WordwrapCacheValue splitStringAndHeightAlgorithm(String text, double maxWidth, DrawHandler drawer) {
 		StringStyle analyzedText = StringStyle.analyzeFormatLabels(StringStyle.replaceNotEscaped(text));
 		String finalText = analyzedText.getStringWithoutMarkup();
 		WordRegion[] words = splitIntoWords(finalText);
-		WordwrapCacheKey key = new WordwrapCacheKey(words, width, drawer.getStyleClone(), analyzedText.getFormat());
-		if (getCachedWordwrap(key) != null) {
-			return getCachedWordwrap(key);
+		WordwrapCacheKey key = new WordwrapCacheKey(words, maxWidth, drawer.getStyleClone(), analyzedText.getFormat());
+		WordwrapCacheValue cachedWordwrap = getCachedWordwrap(key);
+		if (cachedWordwrap != null) {
+			log.trace("got value from cache " + cachedWordwrap);
+			return cachedWordwrap;
 		}
 		else {
+			maxWidth -= endBuffer(drawer); // subtract a buffer to make sure no character is hidden at the end
 			List<StringStyle> wrappedText = new LinkedList<StringStyle>();
-			if (words.length > 0) {
-				width -= endBuffer(drawer); // subtract a buffer to make sure no character is hidden at the end (borrowed from TextSplitter)
-				if (width <= 0) {
-					throw new IllegalArgumentException("The width needs to be bigger then the size of a 'n' character.");
-				}
-
-				int lineStart = 0;
-				for (int i = 0; i < words.length; i++) {
-					if (drawer.textWidth(finalText.substring(words[lineStart].getBegin(), words[i].getEnd())) > width) {
-						if (lineStart == i) {
-							// the single word doesn't fit into the width!
-							if (runtimeException) {
-								throw new RuntimeException("At least one word is to big for the specified width!");
-							}
-							else {
-								int endIndex = words[lineStart].getEnd() - 1;
-								while (drawer.textWidth(finalText.substring(words[lineStart].getBegin(), endIndex)) > width) {
-									endIndex--;
-								}
-								wrappedText.add(new StringStyle(analyzedText.getFormat(),
-										finalText.substring(words[lineStart].getBegin(), endIndex)));
-								lineStart = i;
-							}
-						}
-						else {
-							wrappedText.add(new StringStyle(analyzedText.getFormat(),
-									finalText.substring(words[lineStart].getBegin(), words[i - 1].getEnd())));
-							lineStart = i;
-						}
+			List<WordRegion> wordsList = new ArrayList<TextSplitter.WordRegion>(Arrays.asList(words));
+			for (ListIterator<WordRegion> iter = wordsList.listIterator(); iter.hasNext();) {
+				WordRegion currentRegion = iter.next();
+				String currentWord = finalText.substring(currentRegion.getBegin(), currentRegion.getEnd());
+				log.trace("current word: " + currentWord);
+				// Case1: current word is too long for available width space
+				if (!wordFits(maxWidth, drawer, currentWord)) {
+					// remove character by character from the word until it fits the line
+					int endIndex = currentRegion.getEnd();
+					String partialWord = finalText.substring(currentRegion.getBegin(), endIndex);
+					while (endIndex > 0 && !wordFits(maxWidth, drawer, partialWord)) {
+						partialWord = finalText.substring(currentRegion.getBegin(), --endIndex);
+					}
+					// if there is space for at least one character (ie: beginIdx != endIdx), add the portion of the current word which fits to the wrappedText and handle the rest of the word in the next iteration
+					if (currentRegion.getBegin() != endIndex) {
+						wrappedText.add(new StringStyle(analyzedText.getFormat(), partialWord));
+						iter.set(new WordRegion(endIndex, currentRegion.getEnd())); // overwrite this Wordregion with the new partial wordregion and handle it again
+						iter.previous();
 					}
 				}
-				wrappedText.add(new StringStyle(analyzedText.getFormat(),
-						finalText.substring(words[lineStart].getBegin(), words[words.length - 1].getEnd())));
-			}
-			else {
-				wrappedText.add(new StringStyle(Collections.<FormatLabels> emptySet(), ""));
+				// Case2: word fits the line but possibly more words would fit the line, therefore merge current WordRegion with next region until it's too long or there is no next region
+				else {
+					String mergedWord = currentWord;
+					while (iter.hasNext() && wordFits(maxWidth, drawer, mergedWord)) {
+						mergedWord = finalText.substring(currentRegion.getBegin(), iter.next().getEnd());
+					}
+					// Case2.1: all remaining words are merged and it still fits the width, therefore add the mergedWord
+					if (wordFits(maxWidth, drawer, mergedWord)) {
+						wrappedText.add(new StringStyle(analyzedText.getFormat(), mergedWord));
+					}
+					// Case2.2: the merged word grew too long, therefore add the merged word without the last merge and handle the remaining words in the next iteration of the main loop
+					else {
+						iter.previous(); // afterwards iter is between the fitting WordRegion and the one which makes the mergedWord too long
+						WordRegion lastFittingRegion = iter.previous(); // gives the fitting WordRegion but also moves the iter before the region
+						String substring = finalText.substring(currentRegion.getBegin(), lastFittingRegion.getEnd());
+						wrappedText.add(new StringStyle(analyzedText.getFormat(), substring));
+						iter.next(); // call next() to move the iter back between the fitting WordRegion and the one which makes the mergedWord too long
+					}
+				}
 			}
 			double height = wrappedText.size() * drawer.textHeightMaxWithSpace();
 			WordwrapCacheValue wordwrapValue = new WordwrapCacheValue(wrappedText.toArray(new StringStyle[0]), height);
 			setCachedWordwrap(key, wordwrapValue);
+			if (log.isTraceEnabled()) {
+				log.trace("split result: " + Arrays.toString(wordwrapValue.getWrappedLines()));
+			}
 			return wordwrapValue;
 		}
+	}
+
+	private static boolean wordFits(double maxWidth, DrawHandler drawer, String word) {
+		double width = drawer.textWidth(word);
+		log.trace("checking if \"" + word + "\" with width " + width + " fits available space of " + maxWidth);
+		return width <= maxWidth;
 	}
 
 	/**
@@ -408,6 +410,12 @@ public class TextSplitter {
 		public int getEnd() {
 			return end;
 		}
+
+		@Override
+		public String toString() {
+			return "WordRegion [begin=" + begin + ", end=" + end + "]";
+		}
+
 	}
 
 	private static class MinWidthCacheKey {
