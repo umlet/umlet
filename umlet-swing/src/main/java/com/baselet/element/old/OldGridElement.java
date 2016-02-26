@@ -35,6 +35,7 @@ import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.ElementId;
 import com.baselet.control.enums.LineType;
 import com.baselet.control.util.Utils;
+import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
@@ -96,13 +97,13 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public void setEnabled(boolean en) {
 		super.setEnabled(en);
 		if (!en && enabled) {
-			removeMouseListener(HandlerElementMap.getHandlerForElement(this).getEntityListener(this));
-			removeMouseMotionListener(HandlerElementMap.getHandlerForElement(this).getEntityListener(this));
+			removeMouseListener(getDiagramHandler().getEntityListener(this));
+			removeMouseMotionListener(getDiagramHandler().getEntityListener(this));
 			enabled = false;
 		}
 		else if (en && !enabled) {
-			addMouseListener(HandlerElementMap.getHandlerForElement(this).getEntityListener(this));
-			addMouseMotionListener(HandlerElementMap.getHandlerForElement(this).getEntityListener(this));
+			addMouseListener(getDiagramHandler().getEntityListener(this));
+			addMouseMotionListener(getDiagramHandler().getEntityListener(this));
 			enabled = true;
 		}
 	}
@@ -214,7 +215,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 				if (fgColorBase == null) {
 					fgColorBase = Converter.convert(ColorOwn.DEFAULT_FOREGROUND);
 				}
-				if (!HandlerElementMap.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
+				if (!getDiagramHandler().getDrawPanel().getSelector().isSelected(this)) {
 					fgColor = fgColorBase;
 				}
 			}
@@ -237,7 +238,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 	@Override
 	public Dimension getRealSize() {
-		return new Dimension(getRectangle().width / HandlerElementMap.getHandlerForElement(this).getGridSize() * Constants.DEFAULTGRIDSIZE, getRectangle().height / HandlerElementMap.getHandlerForElement(this).getGridSize() * Constants.DEFAULTGRIDSIZE);
+		return new Dimension(getRectangle().width / getDiagramHandler().getGridSize() * Constants.DEFAULTGRIDSIZE, getRectangle().height / getDiagramHandler().getGridSize() * Constants.DEFAULTGRIDSIZE);
 	}
 
 	@Override
@@ -290,9 +291,9 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	public void setInProgress(Graphics g, boolean flag) {
 		if (flag) {
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setFont(HandlerElementMap.getHandlerForElement(this).getFontHandler().getFont());
+			g2.setFont(getDiagramHandler().getFontHandler().getFont());
 			g2.setColor(Color.red);
-			HandlerElementMap.getHandlerForElement(this).getFontHandler().writeText(g2, "in progress...", getRectangle().width / 2 - 40, getRectangle().height / 2 + (int) HandlerElementMap.getHandlerForElement(this).getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
+			getDiagramHandler().getFontHandler().writeText(g2, "in progress...", getRectangle().width / 2 - 40, getRectangle().height / 2 + (int) getDiagramHandler().getFontHandler().getFontSize() / 2, AlignHorizontal.LEFT);
 		}
 		else {
 			repaint();
@@ -305,12 +306,16 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			GridElement c = cx.newInstance();
 			c.setPanelAttributes(getPanelAttributes()); // copy states
 			c.setRectangle(getRectangle());
-			HandlerElementMap.getHandlerForElement(this).setHandlerAndInitListeners(c);
+			getDiagramHandler().setHandlerAndInitListeners(c);
 			return c;
 		} catch (Exception e) {
 			log.error("Error at calling CloneFromMe() on entity", e);
 		}
 		return null;
+	}
+
+	private DiagramHandler getDiagramHandler() {
+		return HandlerElementMap.getHandlerForElement(this);
 	}
 
 	@Override
@@ -359,7 +364,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 			g2.translate(Constants.EXPORT_DISPLACEMENT, Constants.EXPORT_DISPLACEMENT);
 		}
 
-		boolean selected = HandlerElementMap.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this);
+		boolean selected = getDiagramHandler().getDrawPanel().getSelector().isSelected(this);
 		if (selected) {
 			if (isDeprecated()) {
 				Color oldColor = g2.getColor();
@@ -536,7 +541,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	public int getGridSize() {
-		return HandlerElementMap.getHandlerForElement(this).getGridSize();
+		return getDiagramHandler().getGridSize();
 	}
 
 	@Override
@@ -574,7 +579,7 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 	}
 
 	private int minSize() {
-		return HandlerElementMap.getHandlerForElement(this).getGridSize() * 2;
+		return getDiagramHandler().getGridSize() * 2;
 	}
 
 	@Override
