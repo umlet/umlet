@@ -366,6 +366,13 @@ public abstract class OldGridElement extends JComponent implements GridElement, 
 
 		boolean selected = getDiagramHandler().getDrawPanel().getSelector().isSelected(this);
 		if (selected) {
+			if (SharedConfig.getInstance().isDev_mode()) {
+				Color oldColor = g2.getColor();
+				g2.setColor(Converter.convert(ColorOwn.BLACK));
+				String text = "Type: " + getClass().getName();
+				g2.drawString(text, getWidth() - (int) getDiagramHandler().getFontHandler().getTextWidth(text), getHeight() - 5);
+				g2.setColor(oldColor);
+			}
 			if (isDeprecated()) {
 				Color oldColor = g2.getColor();
 				g2.setColor(Converter.convert(ColorOwn.RED.transparency(Transparency.SELECTION_BACKGROUND)));
