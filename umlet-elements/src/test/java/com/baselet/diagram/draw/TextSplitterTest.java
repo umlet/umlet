@@ -2,9 +2,6 @@ package com.baselet.diagram.draw;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
-import java.text.AttributedString;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -20,8 +17,8 @@ public class TextSplitterTest {
 	private static final DrawHandler dimensionCalculatorDrawHandler = new DummyDrawHandler() {
 		@Override
 		protected DimensionDouble textDimensionHelper(StringStyle sinlgeLine) {
-			TextLayout tl = new TextLayout(new AttributedString(sinlgeLine.getStringWithoutMarkup()).getIterator(), new FontRenderContext(null, true, true));
-			return new DimensionDouble(tl.getBounds().getWidth(), tl.getBounds().getHeight());
+			// return dimensions which do not depend on local swing or font settings to make sure tests work on every JRE
+			return new DimensionDouble(sinlgeLine.getStringWithoutMarkup().length() * 7, 10);
 		}
 
 	};
@@ -29,19 +26,19 @@ public class TextSplitterTest {
 	@Test
 	public void ifASingleWordDoesntFitTheSpaceSplitItIntoMultipleLines() throws Exception {
 		StringStyle[] style = TextSplitter.splitStringAlgorithm("MessagePresenter", 30.0, dimensionCalculatorDrawHandler);
-		assertContentEquals(style, Arrays.asList("Mes", "sag", "ePre", "sent", "er"));
+		assertContentEquals(style, Arrays.asList("Mes", "sag", "ePr", "ese", "nte", "r"));
 	}
 
 	@Test
 	public void firstWordIsSplitPartiallyIntoSecondLineWithSecondWordThirdWordFitsLine() throws Exception {
 		StringStyle[] style = TextSplitter.splitStringAlgorithm("MessagePresenter (text) text3blaxxxx", 100.0, dimensionCalculatorDrawHandler);
-		assertContentEquals(style, Arrays.asList("MessagePresent", "er (text)", "text3blaxxxx"));
+		assertContentEquals(style, Arrays.asList("MessagePresen", "ter (text)", "text3blaxxxx"));
 	}
 
 	@Test
 	public void shortWordThenLongWord() throws Exception {
-		StringStyle[] style = TextSplitter.splitStringAlgorithm("tter looooooooooooongword", 20.0, dimensionCalculatorDrawHandler);
-		assertContentEquals(style, Arrays.asList("tte", "r", "loo", "oo", "oo", "oo", "oo", "oo", "on", "gw", "or", "d"));
+		StringStyle[] style = TextSplitter.splitStringAlgorithm("tter looooooooooooongword", 30.0, dimensionCalculatorDrawHandler);
+		assertContentEquals(style, Arrays.asList("tte", "r", "loo", "ooo", "ooo", "ooo", "oon", "gwo", "rd"));
 	}
 
 	@Test
