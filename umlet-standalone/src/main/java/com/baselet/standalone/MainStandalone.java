@@ -34,6 +34,9 @@ public class MainStandalone {
 	private static final Logger log = LoggerFactory.getLogger(MainStandalone.class);
 
 	public static void main(final String[] args) {
+		// #369 Before anything else make sure that OSX handles cmd+Q as expected (see #369 and https://stackoverflow.com/questions/2061194/swing-on-osx-how-to-trap-command-q/2061318#2061318)
+		System.setProperty("apple.eawt.quitStrategy", "CLOSE_ALL_WINDOWS");
+
 		if (args.length != 0) {
 			String action = null;
 			String format = null;
