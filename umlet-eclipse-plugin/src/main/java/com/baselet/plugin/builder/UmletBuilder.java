@@ -1,10 +1,13 @@
 package com.baselet.plugin.builder;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,6 +34,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaCore;
 
 import com.baselet.diagram.DiagramHandler;
+import com.baselet.diagram.io.OutputHandler;
 import com.baselet.plugin.UmletPluginUtils;
 import com.baselet.plugin.refactoring.ImageReference;
 import com.baselet.plugin.refactoring.JavaDocParser.SourceString;
@@ -229,8 +233,7 @@ public class UmletBuilder extends IncrementalProjectBuilder {
 		private IFile outFile;
 		private IFile inFile;
 		private final File inputFile;
-		private final File outputFile;
-		private final Future<?> future;
+		private final Future<byte[]> future;
 
 		public ExportTask(IResource res, ExecutorService exec, final IProgressMonitor monitor, final Object monitorLock, final LinkedHashSet<String> diagramsInProgress) {
 			inFile = res.getAdapter(IFile.class);
@@ -253,11 +256,10 @@ public class UmletBuilder extends IncrementalProjectBuilder {
 				throw new RuntimeException("unable to determine target location for " + inFile);
 			}
 			inputFile = new File(inFile.getLocationURI());
-			outputFile = new File(outFile.getLocationURI());
-			future = exec.submit(new Runnable() {
+			future = exec.submit(new Callable<byte[]>() {
 
 				@Override
-				public void run() {
+				public byte[] call() throws Exception {
 
 					if (monitor != null) {
 						synchronized (monitorLock) {
@@ -270,18 +272,23 @@ public class UmletBuilder extends IncrementalProjectBuilder {
 					}
 					try {
 						// only export if inFile is newer than outFile
-						if (!outFile.exists() || inFile.getModificationStamp() > outFile.getModificationStamp()) {
-							new DiagramHandler(inputFile).getFileHandler().doExportAs("png", outputFile);
-						}
+						// if (!outFile.exists() || inFile.getModificationStamp() > outFile.getModificationStamp()) {
+						ByteArrayOutputStream os = new ByteArrayOutputStream();
+						DiagramHandler handler = new DiagramHandler(inputFile);
+						OutputHandler.createToStream("png", os, handler);
+						os.close();
+						return os.toByteArray();
+						// }
+						// return null;
 					} catch (Exception e) {
 						throw new RuntimeException(e);
-					}
-
-					if (monitor != null) {
-						synchronized (monitorLock) {
-							monitor.worked(1);
-							diagramsInProgress.remove(inFile.getName());
-							updateSubTask();
+					} finally {
+						if (monitor != null) {
+							synchronized (monitorLock) {
+								monitor.worked(1);
+								diagramsInProgress.remove(inFile.getName());
+								updateSubTask();
+							}
 						}
 					}
 				}
@@ -299,6 +306,7 @@ public class UmletBuilder extends IncrementalProjectBuilder {
 					}
 					monitor.subTask("Processing Diagrams " + sb.toString());
 				}
+
 			});
 		}
 
@@ -317,7 +325,21 @@ public class UmletBuilder extends IncrementalProjectBuilder {
 				}
 
 				// wait for task to complete
-				future.get();
+				byte[] bb = future.get();
+
+				// write result
+				if (bb != null) {
+					try {
+						if (outFile.exists()) {
+							outFile.setContents(new ByteArrayInputStream(bb), false, true, null);
+						}
+						else {
+							outFile.create(new ByteArrayInputStream(bb), true, null);
+						}
+					} catch (CoreException e) {
+						throw new ExecutionException(e);
+					}
+				}
 
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
