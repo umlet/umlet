@@ -246,6 +246,11 @@ public class UmletPluginUtils {
 		return img.getProject().getFile(img.getProjectRelativePath().removeFileExtension().addFileExtension("uxf"));
 	}
 
+	public static IFile getImageForUxfPath(IFile uxf) {
+		return uxf.getProject().getFile(uxf.getProjectRelativePath().removeFileExtension().addFileExtension("png"));
+
+	}
+
 	public static List<ImageReference> collectImgRefs(ICompilationUnit cu) throws JavaModelException {
 		ArrayList<ImageReference> result = new ArrayList<ImageReference>();
 		// collect javadocs
@@ -282,4 +287,5 @@ public class UmletPluginUtils {
 		}
 		return false;
 	}
+
 }

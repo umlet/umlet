@@ -272,30 +272,30 @@ public class ImgRefProposalComputer implements IJavaCompletionProposalComputer {
 			return result;
 		}
 
-		// search all source folders of the current project for images
-		for (IPackageFragmentRoot root : UmletPluginUtils.getSourcePackageFragmentRoots(context.getProject())) {
-			final IResource rootResource = root.getCorrespondingResource();
-			if (rootResource == null) {
-				continue;
+		IPackageFragmentRoot root = UmletPluginUtils.getPackageFragmentRoot(context.getCompilationUnit());
+
+		final IResource rootResource = root.getCorrespondingResource();
+		if (rootResource == null) {
+			return result;
+		}
+
+		rootResource.accept(new IResourceVisitor() {
+			@Override
+			public boolean visit(IResource uxfResource) throws CoreException {
+				if (!uxfResource.isAccessible()) {
+					return false;
+				}
+				if (uxfResource instanceof IFile) {
+					if (uxfResource.getName().endsWith(".uxf") && uxfResource.getName().toLowerCase().contains(prefix.toLowerCase())) {
+						IFile imgFile = UmletPluginUtils.getImageForUxfPath((IFile) uxfResource);
+						IPath uxfPath = imgFile.getProjectRelativePath().makeRelativeTo(rootResource.getProjectRelativePath());
+						result.add(UmletPluginUtils.calculateImageRef(javaResourceParentPath, uxfPath));
+					}
+				}
+				return true;
 			}
 
-			rootResource.accept(new IResourceVisitor() {
-				@Override
-				public boolean visit(IResource imageResource) throws CoreException {
-					if (!imageResource.isAccessible()) {
-						return false;
-					}
-					if (imageResource instanceof IFile) {
-						if (imageResource.getName().endsWith(".png") && imageResource.getName().contains(prefix)) {
-							IPath imagePath = imageResource.getProjectRelativePath().makeRelativeTo(rootResource.getProjectRelativePath());
-							result.add(UmletPluginUtils.calculateImageRef(javaResourceParentPath, imagePath));
-						}
-					}
-					return true;
-				}
-
-			});
-		}
+		});
 		return result;
 	}
 
