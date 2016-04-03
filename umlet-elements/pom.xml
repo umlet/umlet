@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.umlet</groupId>
 		<artifactId>umlet-parent</artifactId>
-		<version>14.2.0-SNAPSHOT</version>
+		<version>14.2</version>
 	</parent>
 
 	<artifactId>umlet-elements</artifactId>
@@ -39,7 +39,7 @@
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>javacc</goal>
-							<goal>jjdoc</goal>
+<!-- 							<goal>jjdoc</goal> -->
 						</goals>
 						<configuration>
 							<javadocFriendlyComments>true</javadocFriendlyComments>
