@@ -55,7 +55,7 @@ public class MoveClassParticipant extends MoveParticipant {
 		change.setEdit(new MultiTextEdit());
 
 		// parse javadocs and update references
-		for (ImageReference reference : UmletPluginUtils.collectImgRefs(cu)) {
+		for (ImageReference reference : UmletPluginUtils.collectUxfImgRefs(cu)) {
 			SourceString srcValue = reference.srcAttr.value;
 			if (UmletPluginUtils.isAbsoluteImageRef(srcValue.getValue())) {
 				continue;

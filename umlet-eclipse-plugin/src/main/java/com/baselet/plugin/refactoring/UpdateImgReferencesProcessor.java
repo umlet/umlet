@@ -55,12 +55,8 @@ public abstract class UpdateImgReferencesProcessor implements UmletRefactoringPr
 			}
 			CompilationUnitChange change = null;
 
-			for (ImageReference reference : UmletPluginUtils.collectImgRefs(cu)) {
-				IPath originalImgPath = UmletPluginUtils.getRootRelativePath(cu, reference.srcAttr.value.getValue());
-				IFile originalImg = UmletPluginUtils.findExistingFile(project, originalImgPath);
-				if (originalImg == null) {
-					continue;
-				}
+			for (ImageReference reference : UmletPluginUtils.collectUxfImgRefs(cu)) {
+				IFile originalImg = UmletPluginUtils.getReferencedImgFile(cu, reference.srcAttr.value.getValue());
 
 				Destination dest = new Destination();
 

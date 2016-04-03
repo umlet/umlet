@@ -94,27 +94,21 @@ public class UmletPluginUtils {
 		}
 	}
 
-	public static IFile findExistingFile(IJavaProject project, IPath rootRelativeImgPath) throws JavaModelException {
-		List<IFile> files = findExistingFiles(project, rootRelativeImgPath);
-		if (files.size() == 1) {
-			return files.get(0);
-		}
-		return null;
+	/**
+	 * Return the image file referenced by a src attribute value in a compilation unit. The returned file
+	 * might not exist.
+	 * @throws JavaModelException
+	 */
+	public static IFile getReferencedImgFile(ICompilationUnit cu, String src) throws JavaModelException {
+		return getFile(getPackageFragmentRoot(cu), getRootRelativePath(cu, src));
 	}
 
-	public static List<IFile> findExistingFiles(IJavaProject project, IPath rootRelativeImgPath) throws JavaModelException {
-		ArrayList<IFile> result = new ArrayList<IFile>();
-		for (IPackageFragmentRoot root : getSourcePackageFragmentRoots(project)) {
-			IResource res = root.getCorrespondingResource();
-			if (!(res instanceof IFolder)) {
-				continue;
-			}
-			IFile file = ((IFolder) res).getFile(rootRelativeImgPath);
-			if (file.exists()) {
-				result.add(file);
-			}
+	public static IFile getFile(IPackageFragmentRoot root, IPath rootRelativePath) throws JavaModelException {
+		IResource res = root.getCorrespondingResource();
+		if (!(res instanceof IFolder)) {
+			return null;
 		}
-		return result;
+		return ((IFolder) res).getFile(rootRelativePath);
 	}
 
 	/**
@@ -124,25 +118,10 @@ public class UmletPluginUtils {
 	 */
 	public static IFile findUmletDiagram(ICompilationUnit unit, String src) throws JavaModelException {
 		IPath imgRef = getRootRelativePath(unit, src);
-		return findUmletDiagram(unit.getJavaProject(), imgRef);
-	}
-
-	/**
-	 * Return the umlet diagram referenced by the path in the given project.
-	 *
-	 * @param imgRef package root relative path of the img file
-	 * @return the corresponding umlet diagram corresponding or null, if no diagram could be found
-	 */
-	public static IFile findUmletDiagram(IJavaProject project, IPath imgRef) throws JavaModelException {
-		IPath uxfRef = imgRef.removeFileExtension().addFileExtension("uxf");
-		for (IPackageFragmentRoot root : project.getAllPackageFragmentRoots()) {
-			IResource rootResource = root.getResource();
-			if (rootResource instanceof IContainer) {
-				IFile uxfFile = ((IContainer) rootResource).getFile(uxfRef);
-				if (uxfFile.exists()) {
-					return uxfFile;
-				}
-			}
+		IFile pngFile = getFile(getPackageFragmentRoot(unit), imgRef);
+		IFile uxfFile = getUxfDiagramForImgFile(pngFile);
+		if (uxfFile.exists()) {
+			return uxfFile;
 		}
 		return null;
 	}
@@ -251,17 +230,40 @@ public class UmletPluginUtils {
 
 	}
 
-	public static List<ImageReference> collectImgRefs(ICompilationUnit cu) throws JavaModelException {
+	/**
+	 * Search for image references with a corresponding .uxf diagram
+	 */
+	public static List<ImageReference> collectUxfImgRefs(ICompilationUnit cu) throws JavaModelException {
+		ArrayList<ImageReference> refs = collectAllImageRefs(cu);
+
+		// search for corresponding .uxf diagrams
 		ArrayList<ImageReference> result = new ArrayList<ImageReference>();
+		for (ImageReference ref : refs) {
+			IPath rootRelativePath = getRootRelativePath(cu, ref.srcAttr.value.getValue());
+			IFile imgFile = getFile(getPackageFragmentRoot(cu), rootRelativePath);
+			IFile uxf = getUxfDiagramForImgFile(imgFile);
+			if (uxf.exists()) {
+				result.add(ref);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Collect all image references, even those without .uxf diagrams
+	 */
+	public static ArrayList<ImageReference> collectAllImageRefs(ICompilationUnit cu) throws JavaModelException {
+		ArrayList<ImageReference> refs = new ArrayList<ImageReference>();
 		// collect javadocs
 		List<ISourceRange> javadocRanges = UmletPluginUtils.collectJavadocRanges(cu);
 
 		String source = cu.getBuffer().getContents();
+
 		// parse javadocs and collect image references
 		for (ISourceRange javadocRange : javadocRanges) {
-			collectImgRefsImpl(result, source, javadocRange);
+			collectImgRefsImpl(refs, source, javadocRange);
 		}
-		return result;
+		return refs;
 	}
 
 	private static void collectImgRefsImpl(ArrayList<ImageReference> result, String source, ISourceRange javadocRange) {
@@ -274,6 +276,7 @@ public class UmletPluginUtils {
 			if (srcAttr == null) {
 				continue;
 			}
+
 			result.add(new ImageReference(tag, srcAttr));
 		}
 	}

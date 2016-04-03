@@ -200,11 +200,11 @@ public class UmletBuilder extends IncrementalProjectBuilder {
 					continue;
 				}
 				correspondingResource.deleteMarkers(IMG_MISSING_MARKER_TYPE, false, IResource.DEPTH_INFINITE);
-				for (ImageReference reference : UmletPluginUtils.collectImgRefs(cu)) {
+				for (ImageReference reference : UmletPluginUtils.collectAllImageRefs(cu)) {
 					SourceString srcAttrValue = reference.srcAttr.value;
 					IPath path = UmletPluginUtils.getRootRelativePath(cu, srcAttrValue.getValue());
-					List<IFile> files = UmletPluginUtils.findExistingFiles(cu.getJavaProject(), path);
-					if (files.isEmpty()) {
+					IFile imageFile = UmletPluginUtils.getFile(UmletPluginUtils.getPackageFragmentRoot(cu), path);
+					if (!imageFile.exists()) {
 						IMarker marker = correspondingResource.createMarker(IMG_MISSING_MARKER_TYPE);
 						marker.setAttribute(IMarker.MESSAGE, "Unable to find referenced image " + path);
 						marker.setAttribute(IMarker.LOCATION, "JavaDoc");

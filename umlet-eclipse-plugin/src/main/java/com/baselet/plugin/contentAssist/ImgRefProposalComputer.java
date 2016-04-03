@@ -181,12 +181,16 @@ public class ImgRefProposalComputer implements IJavaCompletionProposalComputer {
 		if (parent == null) {
 			return;
 		}
+		// no empty files
+		if (prefix.length() == 0) {
+			return;
+		}
 		final IFile uxfFile = parent.getFile(new Path("doc-files/" + prefix + ".uxf"));
 		if (uxfFile.exists()) {
 			return;
 		}
 
-		proposals.add(new ReplacementProposal("Link to new Image doc-files/" + prefix + ".uxf", "<img src=\"doc-files/" + prefix + ".png\" alt=\"\">", offset, length) {
+		proposals.add(new ReplacementProposal("Create and link new Umlet diagram doc-files/" + prefix + ".uxf", "<img src=\"doc-files/" + prefix + ".png\" alt=\"\">", offset, length) {
 			@Override
 			public void apply(IDocument document) {
 				super.apply(document);
@@ -239,6 +243,10 @@ public class ImgRefProposalComputer implements IJavaCompletionProposalComputer {
 			if (prefixEnd >= 0 && prefixStart < prefixEnd && prefixEnd <= src.length()) {
 				String prefix = src.substring(prefixStart, prefixEnd);
 				for (String path : collectResourcePaths(javaContext, prefix)) {
+					// skip if no change would result
+					if (src.equals(path)) {
+						continue;
+					}
 					proposals.add(new ReplacementProposal("Change link to " + path, path, srcAttr.value.start, srcAttr.value.length()));
 				}
 			}
@@ -288,8 +296,8 @@ public class ImgRefProposalComputer implements IJavaCompletionProposalComputer {
 				if (uxfResource instanceof IFile) {
 					if (uxfResource.getName().endsWith(".uxf") && uxfResource.getName().toLowerCase().contains(prefix.toLowerCase())) {
 						IFile imgFile = UmletPluginUtils.getImageForUxfPath((IFile) uxfResource);
-						IPath uxfPath = imgFile.getProjectRelativePath().makeRelativeTo(rootResource.getProjectRelativePath());
-						result.add(UmletPluginUtils.calculateImageRef(javaResourceParentPath, uxfPath));
+						IPath imgPath = imgFile.getProjectRelativePath().makeRelativeTo(rootResource.getProjectRelativePath());
+						result.add(UmletPluginUtils.calculateImageRef(javaResourceParentPath, imgPath));
 					}
 				}
 				return true;
@@ -300,7 +308,9 @@ public class ImgRefProposalComputer implements IJavaCompletionProposalComputer {
 	}
 
 	private void addLinkToExistingResourceProposals(final JavaContentAssistInvocationContext context, final ArrayList<ICompletionProposal> proposals, final String prefix, final int inputOffset, final int inputLength) throws CoreException {
-		for (String path : collectResourcePaths(context, prefix)) {
+		List<String> collectResourcePaths = collectResourcePaths(context, prefix);
+		for (int i = 0; i < collectResourcePaths.size() && i < 50; i++) {
+			String path = collectResourcePaths.get(i);
 			proposals.add(new ReplacementProposal("Link to " + path, "<img src=\"" + path + "\" alt=\"\">", inputOffset, inputLength));
 		}
 	}
