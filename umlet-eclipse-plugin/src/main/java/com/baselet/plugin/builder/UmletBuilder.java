@@ -166,7 +166,7 @@ public class UmletBuilder extends IncrementalProjectBuilder {
 		}
 
 		// create thread pool to process the diagrams in parallel
-		ExecutorService executor = Executors.newFixedThreadPool(4);
+		ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 		try {
 			List<ExportTask> tasks = new ArrayList<ExportTask>();
 			final Object monitorLock = new Object();
@@ -336,6 +336,7 @@ public class UmletBuilder extends IncrementalProjectBuilder {
 						else {
 							outFile.create(new ByteArrayInputStream(bb), true, null);
 						}
+						outFile.setDerived(true, null);
 					} catch (CoreException e) {
 						throw new ExecutionException(e);
 					}
@@ -355,13 +356,6 @@ public class UmletBuilder extends IncrementalProjectBuilder {
 					}
 				} catch (CoreException e1) {
 					throw new RuntimeException(e1);
-				}
-			} finally {
-				try {
-					outFile.refreshLocal(IResource.DEPTH_ZERO, null);
-					outFile.setDerived(true, null);
-				} catch (CoreException e) {
-					// swallow
 				}
 			}
 		}
