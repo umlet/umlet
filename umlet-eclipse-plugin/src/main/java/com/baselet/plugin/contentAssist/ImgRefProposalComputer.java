@@ -47,8 +47,6 @@ import com.baselet.plugin.wizard.NewWizard;
  */
 public class ImgRefProposalComputer implements IJavaCompletionProposalComputer {
 
-	private String errorMessage;
-
 	/**
 	 * Proposal replacing a piece of text
 	 */
@@ -322,17 +320,15 @@ public class ImgRefProposalComputer implements IJavaCompletionProposalComputer {
 
 	@Override
 	public String getErrorMessage() {
-		return errorMessage;
+		return null;
 	}
 
 	@Override
 	public void sessionStarted() {
-		errorMessage = null;
 	}
 
 	@Override
 	public void sessionEnded() {
-		errorMessage = null;
 	}
 
 }

@@ -229,7 +229,7 @@ public class UmletBuilder extends IncrementalProjectBuilder {
 	/**
 	 * Encapsulates the state necessary to export a single file. Handles the {@link ProgressMonitor}
 	*/
-	private class ExportTask {
+	private static class ExportTask {
 		private IFile outFile;
 		private IFile inFile;
 		private final File inputFile;
