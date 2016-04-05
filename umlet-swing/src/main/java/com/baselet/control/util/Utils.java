@@ -3,8 +3,11 @@ package com.baselet.control.util;
 import java.awt.BasicStroke;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Vector;
 
 import com.baselet.control.basics.geom.Point;
@@ -174,5 +177,36 @@ public abstract class Utils {
 
 	public static Double[] createDoubleArrayFromTo(Double min, Double max) {
 		return createDoubleArrayFromTo(min, max, 1D);
+	}
+
+	public static class BuildInfo {
+		public String version;
+		public String buildtime;
+	}
+
+	/**
+	 * Read build info from the BuildInfo.propreties file at the root of the classpath
+	 */
+	public static BuildInfo readBuildInfo() {
+		InputStream stream = Utils.class.getResourceAsStream("/BuildInfo.properties");
+		if (stream == null) {
+			throw new RuntimeException("Cannot load BuildInfo.properties");
+		}
+		else {
+			Properties prop = new Properties();
+			try {
+				prop.load(stream);
+				BuildInfo result = new BuildInfo();
+				result.version = prop.getProperty("version");
+				result.buildtime = prop.getProperty("buildtime");
+				return result;
+			} catch (IOException e) {
+				throw new RuntimeException("Cannot load properties from file BuildInfo.properties", e);
+			} finally {
+				try {
+					stream.close();
+				} catch (IOException e) {/* nothing to do */}
+			}
+		}
 	}
 }
