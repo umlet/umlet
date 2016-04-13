@@ -48,6 +48,12 @@ public class DiagramHandler {
 	private String helptext;
 	private boolean enabled;
 	private int gridSize;
+	/**
+	 * Viewport reference point, used to keep track of viewport changes.
+	 * During serialization this can be used to restore the grid elements'
+	 * original coordinates (w/o moved viewport offsets).
+	 */
+	private Point reference;
 
 	private OldRelationListener relationListener;
 	private GridElementListener gridElementListener;
@@ -66,6 +72,7 @@ public class DiagramHandler {
 
 	protected DiagramHandler(File diagram, boolean nolistener) {
 		gridSize = Constants.DEFAULTGRIDSIZE;
+		reference = new Point(0, 0);
 		isChanged = false;
 		enabled = true;
 		drawpanel = createDrawPanel();
@@ -293,6 +300,33 @@ public class DiagramHandler {
 
 	public void setGridSize(int gridSize) {
 		this.gridSize = gridSize;
+	}
+
+	/**
+	 * @return the viewport's reference point.
+	 */
+	public Point getViewportReference() {
+		return reference;
+	}
+
+	/**
+	 * Sets the viewport's reference point to the given coordinates.
+	 * @param x the x-coordinate of the reference point
+	 * @param y the y-coordinate of the reference point
+	 */
+	public void setViewportReference(int x, int y) {
+		reference.setX(x);
+		reference.setY(y);
+	}
+
+	/**
+	 * Updates the viewport's reference point, in fact moves the point
+	 * according to the given differences in x- and y-direction.
+	 * @param diffX the difference in x-direction
+	 * @param diffY the difference in y-direction
+	 */
+	public void updateViewportReference(int diffX, int diffY) {
+		reference.move(diffX, diffY);
 	}
 
 	public int realignToGrid(double val) {

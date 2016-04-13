@@ -71,6 +71,11 @@ public class InputHandler extends DefaultHandler {
 		if (qName.equals("group")) { // TODO remove group-handling in InputHandler. Until UMLet v13, groups used own element-tags in XML. This has changed to the property group=x, so this handling is only for backwards compatibility
 			currentGroup = handler.getDrawPanel().getSelector().getUnusedGroup();
 		}
+		if (qName.equals("vp_reference")) {
+			int x = Integer.parseInt(attributes.getValue("x"));
+			int y = Integer.parseInt(attributes.getValue("y"));
+			handler.setViewportReference(x, y);
+		}
 	}
 
 	@Override
@@ -141,11 +146,11 @@ public class InputHandler extends DefaultHandler {
 		}
 		else if (elementname.equals("x")) {
 			Integer i = Integer.valueOf(elementtext);
-			x = i.intValue();
+			x = i.intValue() + handler.getViewportReference().getX();
 		}
 		else if (elementname.equals("y")) {
 			Integer i = Integer.valueOf(elementtext);
-			y = i.intValue();
+			y = i.intValue() + handler.getViewportReference().getY();
 		}
 		else if (elementname.equals("w")) {
 			Integer i = Integer.valueOf(elementtext);

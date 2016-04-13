@@ -32,6 +32,7 @@ import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.baselet.control.basics.geom.Point;
 import com.baselet.control.config.Config;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
@@ -161,12 +162,14 @@ public class DiagramFileHandler {
 		Element elCoor = doc.createElement("coordinates");
 		el.appendChild(elCoor);
 
+		Point reference = handler.getViewportReference();
+
 		Element elX = doc.createElement("x");
-		elX.appendChild(doc.createTextNode("" + e.getRectangle().x));
+		elX.appendChild(doc.createTextNode("" + (e.getRectangle().x - reference.getX())));
 		elCoor.appendChild(elX);
 
 		Element elY = doc.createElement("y");
-		elY.appendChild(doc.createTextNode("" + e.getRectangle().y));
+		elY.appendChild(doc.createTextNode("" + (e.getRectangle().y - reference.getY())));
 		elCoor.appendChild(elY);
 
 		Element elW = doc.createElement("w");
@@ -219,6 +222,13 @@ public class DiagramFileHandler {
 			Element zoom = doc.createElement("zoom_level");
 			zoom.appendChild(doc.createTextNode(String.valueOf(handler.getGridSize())));
 			root.appendChild(zoom);
+
+			// save viewport reference point
+			Point reference = handler.getViewportReference();
+			Element vpRefEl = doc.createElement("vp_reference");
+			vpRefEl.setAttribute("x", String.valueOf(reference.getX()));
+			vpRefEl.setAttribute("y", String.valueOf(reference.getY()));
+			root.appendChild(vpRefEl);
 
 			createXMLOutputDoc(doc, handler.getDrawPanel().getGridElements(), root);
 
