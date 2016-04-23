@@ -20,6 +20,7 @@
 			<filtered>false</filtered>
 			<excludes>
 				<exclude>*.html</exclude>
+				<exclude>WEB-INF/*</exclude> <!-- web.xml is not part of the zip -->
 			</excludes>
 		</fileSet>
 		<fileSet>
