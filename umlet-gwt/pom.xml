@@ -116,6 +116,7 @@
 				<version>1.0-rc-5</version>
 				<extensions>true</extensions>
 				<configuration>
+					<!-- <skipCompilation>true</skipCompilation> -->
 					<moduleName>baseletgwt</moduleName>
 				</configuration>
 			</plugin>
