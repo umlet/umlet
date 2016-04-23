@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="ELEMENTS"/>
+	<classpathentry kind="src" path="ELEMENTS_GEN"/>
+	<classpathentry kind="src" path="SWING"/>
+	<classpathentry kind="src" path="SWING_RES"/>
+	<classpathentry exported="true" kind="lib" path="lib/smtp.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/bcel.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-xml.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javaparser-core.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/log4j.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-io.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-awt-util.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-svggen.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/itextpdf.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-dom.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-util.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/batik-ext.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/ecj.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/rsyntaxtextarea.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/mailapi.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/slf4j-log4j12.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/autocomplete.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jlibeps.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/slf4j-api.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

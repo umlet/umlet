@@ -1,5 +1,5 @@
 bin/
 target/
-.classpath
 .factorypath
+# .classpath are checked in because otherwise Eclipse doesn't detect the src directories (for currently unknown reasons)
 # .project must be checked in because it is used for the linkedResources for umlet-eclipse-plugin
