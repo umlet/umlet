@@ -12,6 +12,7 @@ import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.RenameParticipant;
+import org.eclipse.ltk.core.refactoring.resource.RenameResourceChange;
 
 import com.baselet.plugin.UmletPluginUtils;
 
@@ -31,34 +32,64 @@ public class RenameFileParticipant extends RenameParticipant {
 
 		origFile = (IFile) element;
 
-		if (!origFile.exists() || !"uxf".equals(origFile.getFileExtension())) {
+		if (!origFile.exists()) {
 			return false;
 		}
+
 		IJavaProject javaProject = UmletPluginUtils.getJavaProject(origFile.getProject());
 		if (javaProject == null) {
 			return false;
 		}
 
-		mgr.add(new UpdateImgReferencesProcessor(javaProject) {
+		if ("uxf".equals(origFile.getFileExtension())) {
+			mgr.add(new UpdateImgReferencesProcessor(javaProject) {
 
-			@Override
-			protected IFile calculateImgDestination(IFile img, ICompilationUnit referencingCompilationUnit) {
-				IFile uxfFile = UmletPluginUtils.getUxfDiagramForImgFile(img);
-				if (origFile.equals(uxfFile)) {
-					return origFile.getParent().getFile(new Path(getArguments().getNewName()).removeFileExtension().addFileExtension(img.getFileExtension()));
+				@Override
+				protected IFile calculateImgDestination(IFile img, ICompilationUnit referencingCompilationUnit) {
+					IFile uxfFile = UmletPluginUtils.getUxfDiagramForImgFile(img);
+					if (origFile.equals(uxfFile)) {
+						return origFile.getParent().getFile(new Path(getArguments().getNewName()).removeFileExtension().addFileExtension(img.getFileExtension()));
+					}
+					return null;
 				}
-				return null;
-			}
-		});
-		mgr.add(new RenamePngProcessor(origFile) {
+			});
+			mgr.add(new RenamePngProcessor(origFile) {
 
-			@Override
-			protected String getTargetname(IFile pngFile, IFile affectedDiagram) {
-				return new Path(getArguments().getNewName()).removeFileExtension().addFileExtension(pngFile.getFileExtension()).lastSegment();
-			}
-		});
+				@Override
+				protected String getTargetname(IFile pngFile, IFile affectedDiagram) {
+					return new Path(getArguments().getNewName()).removeFileExtension().addFileExtension(pngFile.getFileExtension()).lastSegment();
+				}
+			});
 
-		return true;
+			return true;
+		}
+
+		if ("png".equals(origFile.getFileExtension())) {
+			IFile correspondingUxf = UmletPluginUtils.getUxfDiagramForImgFile(origFile);
+			if (!correspondingUxf.exists()) {
+				// only refactor if uxf file exists
+				return false;
+			}
+
+			// update references to the renamed png
+			mgr.add(new UpdateImgReferencesProcessor(javaProject) {
+
+				@Override
+				protected IFile calculateImgDestination(IFile img, ICompilationUnit referencingCompilationUnit) {
+					if (origFile.equals(img)) {
+						return origFile.getParent().getFile(new Path(getArguments().getNewName()));
+					}
+					return null;
+				}
+			});
+
+			// update the corresponding .uxf file
+			mgr.add(new RenameResourceChange(correspondingUxf.getFullPath(),
+					new Path(getArguments().getNewName()).removeFileExtension().addFileExtension(correspondingUxf.getFileExtension()).lastSegment()));
+
+			return true;
+		}
+		return false;
 	}
 
 	@Override

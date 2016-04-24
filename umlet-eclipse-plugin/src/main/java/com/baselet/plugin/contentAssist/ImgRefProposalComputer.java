@@ -113,7 +113,7 @@ public class ImgRefProposalComputer implements IJavaCompletionProposalComputer {
 	@Override
 	public List<ICompletionProposal> computeCompletionProposals(ContentAssistInvocationContext context, IProgressMonitor monitor) {
 		ArrayList<ICompletionProposal> proposals = new ArrayList<ICompletionProposal>();
-
+		System.out.println(context);
 		if (context instanceof JavaContentAssistInvocationContext) {
 			JavaContentAssistInvocationContext javaContext = (JavaContentAssistInvocationContext) context;
 			try {
@@ -166,9 +166,14 @@ public class ImgRefProposalComputer implements IJavaCompletionProposalComputer {
 
 				if (!inStartTag) {
 					int lastSpaceIndex = content.lastIndexOf(' ', offset - 1) + 1;
-					String prefix = content.substring(lastSpaceIndex, offset);
-					addLinkToExistingResourceProposals(javaContext, proposals, prefix, lastSpaceIndex, offset - lastSpaceIndex);
-					addCreateNewImageProposal(javaContext, proposals, prefix, lastSpaceIndex, offset - lastSpaceIndex);
+					// skip the leading /**
+					int javadocContentStartOffset = range.getOffset() + 3;
+					lastSpaceIndex = Math.max(lastSpaceIndex, javadocContentStartOffset);
+					if (lastSpaceIndex < offset) {
+						String prefix = content.substring(lastSpaceIndex, offset);
+						addLinkToExistingResourceProposals(javaContext, proposals, prefix, lastSpaceIndex, offset - lastSpaceIndex);
+						addCreateNewImageProposal(javaContext, proposals, prefix, lastSpaceIndex, offset - lastSpaceIndex);
+					}
 				}
 			}
 		}
@@ -324,11 +329,9 @@ public class ImgRefProposalComputer implements IJavaCompletionProposalComputer {
 	}
 
 	@Override
-	public void sessionStarted() {
-	}
+	public void sessionStarted() {}
 
 	@Override
-	public void sessionEnded() {
-	}
+	public void sessionEnded() {}
 
 }

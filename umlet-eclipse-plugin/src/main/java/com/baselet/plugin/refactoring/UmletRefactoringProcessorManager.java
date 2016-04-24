@@ -14,9 +14,14 @@ import org.eclipse.ltk.core.refactoring.CompositeChange;
 public class UmletRefactoringProcessorManager {
 
 	private final List<UmletRefactoringProcessor> processors = new ArrayList<UmletRefactoringProcessor>();
+	private final List<Change> additionalChanges = new ArrayList<Change>();
 
 	public void add(UmletRefactoringProcessor processor) {
 		processors.add(processor);
+	}
+
+	public void add(Change change) {
+		additionalChanges.add(change);
 	}
 
 	public Change createChange(IProgressMonitor pm) throws CoreException {
@@ -27,6 +32,8 @@ public class UmletRefactoringProcessorManager {
 				change.addAll(changes.toArray(new Change[] {}));
 			}
 		}
+		change.addAll(additionalChanges.toArray(new Change[] {}));
+
 		if (change.getChildren().length == 0) {
 			return null;
 		}
