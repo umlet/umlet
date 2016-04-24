@@ -23,6 +23,7 @@ import org.eclipse.ltk.core.refactoring.participants.ISharableParticipant;
 import org.eclipse.ltk.core.refactoring.participants.MoveArguments;
 import org.eclipse.ltk.core.refactoring.participants.MoveParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringArguments;
+import org.eclipse.ltk.core.refactoring.resource.MoveResourceChange;
 
 import com.baselet.plugin.UmletPluginUtils;
 
@@ -96,7 +97,6 @@ public class MoveResourceParticipant extends MoveParticipant implements ISharabl
 			}
 
 			if (element instanceof IFile) {
-				System.out.println("Moving " + element);
 				final IFile origFile = (IFile) element;
 				if (!origFile.exists()) {
 					continue;
@@ -128,10 +128,14 @@ public class MoveResourceParticipant extends MoveParticipant implements ISharabl
 							return destinationFolder;
 						}
 					});
-					continue;
 				}
 				else if ("png".equals(origFile.getFileExtension())) {
-					// we are moving a png
+					IFile uxfFile = UmletPluginUtils.getUxfDiagramForImgFile(origFile);
+					if (!uxfFile.exists()) {
+						continue;
+					}
+
+					// update references to png
 					mgr.add(new UpdateImgReferencesProcessor(javaProject) {
 
 						@Override
@@ -142,6 +146,9 @@ public class MoveResourceParticipant extends MoveParticipant implements ISharabl
 							return null;
 						}
 					});
+
+					// move uxfFile
+					mgr.add(new MoveResourceChange(uxfFile, destinationFolder));
 				}
 				continue;
 			}
