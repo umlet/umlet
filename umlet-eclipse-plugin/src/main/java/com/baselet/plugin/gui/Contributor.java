@@ -19,9 +19,11 @@ import org.eclipse.ui.part.EditorActionBarContributor;
 import com.baselet.control.constants.MenuConstants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.events.CustomElementSelectedEvent;
+import com.baselet.control.events.CustomPanelEnabledEvent;
 import com.baselet.control.events.EventBus;
 import com.baselet.control.events.ExportMenuEnabledEvent;
 import com.baselet.control.events.PasteMenuEnabledEvent;
+import com.baselet.control.events.ZoomDisplayValueChangedEvent;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
 import com.baselet.plugin.gui.EclipseGUI.Pane;
@@ -192,7 +194,9 @@ public class Contributor extends EditorActionBarContributor {
 		return customPanelEnabled;
 	}
 
-	public void setCustomPanelEnabled(boolean enable) {
+	@Handler
+	public void setCustomPanelEnabled(CustomPanelEnabledEvent event) {
+		boolean enable = event.enabled;
 		customPanelEnabled = enable;
 		customedit.setEnabled(!enable && custom_element_selected);
 		customnew.setEnabled(!enable);
@@ -240,11 +244,12 @@ public class Contributor extends EditorActionBarContributor {
 		});
 	}
 
-	public void updateZoomMenuRadioButton(int newGridSize) {
+	@Handler
+	public void updateZoomMenuRadioButton(ZoomDisplayValueChangedEvent event) {
 		for (IContributionItem item : zoomMenu.getItems()) {
 			IAction action = ((ActionContributionItem) item).getAction();
 			int actionGridSize = Integer.parseInt(action.getText().substring(0, action.getText().length() - 2));
-			if (actionGridSize == newGridSize) {
+			if (actionGridSize == event.value) {
 				action.setChecked(true);
 			}
 			else {
