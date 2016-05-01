@@ -1,0 +1,19 @@
+<lifecycleMappingMetadata>
+   <pluginExecutions>
+     <pluginExecution>
+       <pluginExecutionFilter>
+         <groupId>com.umlet</groupId>
+         <artifactId>umlet-maven-plugin</artifactId>
+         <versionRange>[14.1.0,)</versionRange>
+          <goals>
+            <goal>export</goal>
+          </goals>
+       </pluginExecutionFilter>
+       <action>
+         <configurator>
+           <id>com.umlet.plugin.projectConfigurator</id>
+         </configurator>
+       </action>
+     </pluginExecution>
+   </pluginExecutions>
+</lifecycleMappingMetadata>

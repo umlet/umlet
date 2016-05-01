@@ -193,4 +193,25 @@
 		</builder>
 		<requires-nature id="org.eclipse.jdt.core.javanature"/>
 	</extension>
+	
+    <extension
+        point="org.eclipse.m2e.core.projectConfigurators">
+        <!-- runsAfter required since the java nature already has to be present when adding the umlet nature (during project import)-->
+        <configurator
+            class="com.baselet.plugin.ProjectConfigurator"
+            id="com.umlet.plugin.projectConfigurator"
+            name="Umlet Project Configurator"
+            runsAfter="org.eclipse.m2e.jdt.javaConfigurator">
+        </configurator>
+    </extension>
+    
+   	<extension
+       point="org.eclipse.m2e.core.lifecycleMappingMetadataSource">
+    </extension>
+    <extension
+          point="org.eclipse.m2e.core.mavenProjectChangedListeners">
+       <listener
+             class="com.baselet.plugin.MavenProjectChangedListener">
+       </listener>
+    </extension>
 </plugin>

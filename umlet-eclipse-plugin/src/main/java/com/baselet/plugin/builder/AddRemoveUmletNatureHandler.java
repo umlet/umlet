@@ -55,6 +55,26 @@ public class AddRemoveUmletNatureHandler extends AbstractHandler {
 	 *            to have sample nature added or removed
 	 */
 	private void toggleNature(IProject project) throws CoreException {
+		if (project.hasNature(UmletNature.NATURE_ID)) {
+			removeUmletNature(project);
+		}
+		else {
+			addUmletNature(project);
+		}
+	}
+
+	public static void addUmletNature(IProject project) throws CoreException {
+		IProjectDescription description = project.getDescription();
+		String[] natures = description.getNatureIds();
+		// Add the nature
+		String[] newNatures = new String[natures.length + 1];
+		System.arraycopy(natures, 0, newNatures, 0, natures.length);
+		newNatures[natures.length] = UmletNature.NATURE_ID;
+		description.setNatureIds(newNatures);
+		project.setDescription(description, null);
+	}
+
+	public static boolean removeUmletNature(IProject project) throws CoreException {
 		IProjectDescription description = project.getDescription();
 		String[] natures = description.getNatureIds();
 
@@ -66,16 +86,10 @@ public class AddRemoveUmletNatureHandler extends AbstractHandler {
 				System.arraycopy(natures, i + 1, newNatures, i, natures.length - i - 1);
 				description.setNatureIds(newNatures);
 				project.setDescription(description, null);
-				return;
+				return true;
 			}
 		}
-
-		// Add the nature
-		String[] newNatures = new String[natures.length + 1];
-		System.arraycopy(natures, 0, newNatures, 0, natures.length);
-		newNatures[natures.length] = UmletNature.NATURE_ID;
-		description.setNatureIds(newNatures);
-		project.setDescription(description, null);
+		return false;
 	}
 
 }
