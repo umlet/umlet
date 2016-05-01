@@ -4,7 +4,6 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.dialogs.IDialogPage;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -118,8 +117,14 @@ public class NewWizardPage extends WizardPage {
 			if (obj instanceof IResource) {
 				resource = (IResource) obj;
 			}
-			else if (obj instanceof IJavaElement) {
-				resource = ((IJavaElement) obj).getResource();
+			else if (obj != null && obj.getClass().getName().equals("org.eclipse.jdt.core.IJavaElement")) {
+				// use reflection here to avoid dependency on JDT, such that the wizard can be used for
+				// C/C++ Eclipse installations as well
+				try {
+					resource = (IResource) obj.getClass().getMethod("getResource").invoke(obj);
+				} catch (Exception e) {
+					throw new RuntimeException("Error in reflection code", e);
+				}
 			}
 
 			if (resource != null) {

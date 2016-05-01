@@ -15,8 +15,12 @@ Bundle-Activator: com.baselet.plugin.MainPlugin
 Export-Package: com.baselet.plugin,com.baselet.plugin.gui,com.baselet.
  plugin.wizard
 Require-Bundle: org.eclipse.ui,org.eclipse.ui.ide,org.eclipse.core.res
- ources,org.eclipse.core.runtime,org.eclipse.jdt.core;resolution:=opti
- onal
+ ources,org.eclipse.core.runtime,org.eclipse.core.commands,org.eclipse
+ .core.expressions,org.eclipse.jface,org.eclipse.jface.text;resolution
+ :=optional,org.eclipse.jdt.core;resolution:=optional,org.eclipse.jdt.
+ ui;resolution:=optional,org.eclipse.ui.workbench.texteditor,org.eclip
+ se.ltk.core.refactoring;resolution:=optional,org.eclipse.jdt.core.man
+ ipulation;resolution:=optional
 Bundle-ActivationPolicy: lazy
 Eclipse-LazyStart: true
 Import-Package: org.eclipse.core.filesystem

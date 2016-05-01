@@ -142,7 +142,7 @@ public class OutputHandler {
 	public static BufferedImage createImageForGridElements(Collection<GridElement> entities, FontHandler diagramFont) {
 
 		Rectangle bounds = DrawPanel.getContentBounds(Config.getInstance().getPrintPadding(), entities);
-		BufferedImage im = new BufferedImage(bounds.width, bounds.height, BufferedImage.TYPE_INT_RGB);
+		BufferedImage im = new BufferedImage(bounds.width == 0 ? 1 : bounds.width, bounds.height == 0 ? 1 : bounds.height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D graphics2d = im.createGraphics();
 		graphics2d.setRenderingHints(Utils.getUxRenderingQualityHigh(true));
 
