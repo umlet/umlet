@@ -29,6 +29,9 @@
 
 	<extension point="org.eclipse.ui.menus">
 		<menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions"
+            class="com.baselet.plugin.gui.MenuContributor" />
+		<menuContribution
 			locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
 			<command commandId="com.umlet.plugin.addRemoveUmletNature"
 				label="Disable Umlet builder" style="push">
