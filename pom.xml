@@ -84,6 +84,11 @@
 				<artifactId>slf4j-log4j12</artifactId>
 				<version>1.7.13</version>
 			</dependency>
+			<dependency>
+				<groupId>net.engio</groupId>
+				<artifactId>mbassador</artifactId>
+				<version>1.2.4.2</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

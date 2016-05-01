@@ -26,5 +26,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/autocomplete.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jlibeps.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/slf4j-api.jar"/>
+	<classpathentry kind="lib" path="lib/mbassador.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

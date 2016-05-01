@@ -10,7 +10,8 @@ Bundle-ClassPath: .,lib/umlet-elements.jar,lib/smtp.jar,lib/bcel.jar,l
  .jar,lib/batik-awt-util.jar,lib/batik-svggen.jar,lib/itextpdf.jar,lib
  /batik-dom.jar,lib/batik-util.jar,lib/batik-ext.jar,lib/ecj.jar,lib/r
  syntaxtextarea.jar,lib/mailapi.jar,lib/slf4j-log4j12.jar,lib/autocomp
- lete.jar,lib/jlibeps.jar,lib/slf4j-api.jar,lib/umlet-swing.jar
+ lete.jar,lib/jlibeps.jar,lib/slf4j-api.jar,lib/mbassador.jar,lib/umle
+ t-swing.jar
 Bundle-Activator: com.baselet.plugin.MainPlugin
 Export-Package: com.baselet.plugin,com.baselet.plugin.gui,com.baselet.
  plugin.wizard
