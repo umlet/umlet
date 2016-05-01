@@ -13,7 +13,7 @@ public class Program {
 	private static Program instance;
 
 	public static Program getInstance() {
-		if (instance == null) {
+		if (!isInitialized()) {
 			throw new RuntimeException("Program must be initialized before using it");
 		}
 		return instance;
@@ -21,6 +21,10 @@ public class Program {
 
 	public static void init(String version, RuntimeType runtimeType) {
 		instance = new Program(version, runtimeType);
+	}
+
+	public static boolean isInitialized() {
+		return instance != null;
 	}
 
 	private final RuntimeType runtimeType;

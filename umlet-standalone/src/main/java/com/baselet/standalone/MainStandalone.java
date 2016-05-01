@@ -4,12 +4,9 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.Properties;
 import java.util.Timer;
 
 import javax.imageio.ImageIO;
@@ -25,6 +22,8 @@ import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.control.util.Path;
 import com.baselet.control.util.RunningFileChecker;
+import com.baselet.control.util.Utils;
+import com.baselet.control.util.Utils.BuildInfo;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.UpdateCheckTimerTask;
 import com.baselet.standalone.gui.StandaloneGUI;
@@ -208,24 +207,9 @@ public class MainStandalone {
 		return new File(Path.temp() + Program.getInstance().getProgramName().toLowerCase() + ".tmp");
 	}
 
-	private static void readBuildInfoAndInitVersion(RuntimeType runtime) {
-		InputStream stream = MainStandalone.class.getResourceAsStream("/BuildInfo.properties");
-		if (stream == null) {
-			throw new RuntimeException("Cannot load BuildInfo.properties");
-		}
-		else {
-			Properties prop = new Properties();
-			try {
-				prop.load(stream);
-				Program.init(prop.getProperty("version"), runtime);
-			} catch (IOException e) {
-				throw new RuntimeException("Cannot load properties from file BuildInfo.properties", e);
-			} finally {
-				try {
-					stream.close();
-				} catch (IOException e) {/* nothing to do */}
-			}
-		}
+	public static void readBuildInfoAndInitVersion(RuntimeType runtime) {
+		BuildInfo buildInfo = Utils.readBuildInfo();
+		Program.init(buildInfo.version, runtime);
 	}
 
 	private static void printUsage() {

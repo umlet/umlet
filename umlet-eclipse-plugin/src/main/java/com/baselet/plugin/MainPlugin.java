@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -105,5 +107,9 @@ public class MainPlugin extends AbstractUIPlugin {
 
 	public static URL getURL() {
 		return FileLocator.find(MainPlugin.getDefault().getBundle(), new org.eclipse.core.runtime.Path("/"), null);
+	}
+
+	public static void logError(String message, Throwable t) {
+		getDefault().getLog().log(new Status(IStatus.ERROR, pluginId, message, t));
 	}
 }
