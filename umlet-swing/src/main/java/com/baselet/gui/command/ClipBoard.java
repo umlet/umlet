@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.baselet.control.constants.Constants;
+import com.baselet.control.events.EventBus;
+import com.baselet.control.events.PasteMenuEnabledEvent;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.io.OutputHandler;
 import com.baselet.element.ElementFactorySwing;
 import com.baselet.element.interfaces.GridElement;
-import com.baselet.gui.CurrentGui;
 
 /** Copies and Pastes images to the system clipboard. Requires Java 2, v1.4. */
 public class ClipBoard implements Transferable {
@@ -39,7 +40,7 @@ public class ClipBoard implements Transferable {
 			this.entities.add(ElementFactorySwing.createCopy(entitiy, dhNew));
 		}
 		DiagramHandler.zoomEntities(handler.getGridSize(), Constants.DEFAULTGRIDSIZE, this.entities);
-		CurrentGui.getInstance().getGui().enablePasteMenuEntry();
+		EventBus.publish(new PasteMenuEnabledEvent(true));
 
 		if (clipboard != null) { // Issue 230: copy after zooming the entities
 			clipboard.setContents(this, null);
