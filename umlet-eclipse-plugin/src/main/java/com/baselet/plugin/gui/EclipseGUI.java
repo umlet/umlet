@@ -21,10 +21,8 @@ import org.slf4j.LoggerFactory;
 import com.baselet.control.CanCloseProgram;
 import com.baselet.control.config.Config;
 import com.baselet.control.events.CustomElementSelectedEvent;
-import com.baselet.control.events.CustomPanelEnabledEvent;
 import com.baselet.control.events.EventBus;
 import com.baselet.control.events.ExportMenuEnabledEvent;
-import com.baselet.control.events.ZoomDisplayValueChangedEvent;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -153,7 +151,9 @@ public class EclipseGUI extends BaseGUI {
 	public void setCustomPanelEnabled(boolean enable) {
 		if (editor != null) {
 			editor.setCustomPanelEnabled(enable);
-			EventBus.publish(new CustomPanelEnabledEvent(enable));
+			if (contributor != null) {
+				contributor.setCustomPanelEnabled(enable);
+			}
 		}
 	}
 
@@ -297,7 +297,9 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public void setValueOfZoomDisplay(int i) {
-		EventBus.publish(new ZoomDisplayValueChangedEvent(i));
+		if (contributor != null) {
+			contributor.updateZoomMenuRadioButton(i);
+		}
 	}
 
 	@Override
