@@ -162,6 +162,11 @@ public class StandaloneGUI extends BaseGUI {
 	}
 
 	@Override
+	public void enablePasteMenuEntry() {
+		menuBuilder.enablePasteMenuEntry();
+	}
+
+	@Override
 	public void setCustomPanelEnabled(boolean enable) {
 		guiBuilder.setCustomPanelEnabled(enable);
 		menuBuilder.setNewCustomElementMenuItemsEnabled(!enable); // disable "New" menu items if panel is visible

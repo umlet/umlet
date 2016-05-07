@@ -18,15 +18,9 @@ import org.eclipse.ui.part.EditorActionBarContributor;
 
 import com.baselet.control.constants.MenuConstants;
 import com.baselet.control.enums.Program;
-import com.baselet.control.events.CustomElementSelectedEvent;
-import com.baselet.control.events.EventBus;
-import com.baselet.control.events.ExportMenuEnabledEvent;
-import com.baselet.control.events.PasteMenuEnabledEvent;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.CurrentGui;
 import com.baselet.plugin.gui.EclipseGUI.Pane;
-
-import net.engio.mbassy.listener.Handler;
 
 public class Contributor extends EditorActionBarContributor {
 
@@ -66,8 +60,6 @@ public class Contributor extends EditorActionBarContributor {
 	public Contributor() {
 		customPanelEnabled = false;
 		custom_element_selected = false;
-
-		EventBus.subscribe(this);
 	}
 
 	private Action createPanelAction(final Pane pane, final ActionName action) {
@@ -158,23 +150,20 @@ public class Contributor extends EditorActionBarContributor {
 		menu.add(menuFactory.createOptions());
 	}
 
-	@Handler
-	public void setExportAsEnabled(ExportMenuEnabledEvent event) {
+	public void setExportAsEnabled(boolean enabled) {
 		// AB: We cannot disable the MenuManager, so we have to disable every entry in the export menu :P
 		for (IAction action : exportAsActionList) {
-			action.setEnabled(event.enabled);
+			action.setEnabled(enabled);
 		}
 	}
 
-	@Handler
-	public void setPaste(PasteMenuEnabledEvent event) {
-		pasteActionDiagram.setEnabled(event.enabled);
+	public void setPaste(boolean value) {
+		pasteActionDiagram.setEnabled(value);
 	}
 
-	@Handler
-	public void setCustomElementSelected(CustomElementSelectedEvent event) {
-		custom_element_selected = event.selected;
-		customedit.setEnabled(event.selected && !customPanelEnabled);
+	public void setCustomElementSelected(boolean selected) {
+		custom_element_selected = selected;
+		customedit.setEnabled(selected && !customPanelEnabled);
 	}
 
 	public void setElementsSelected(Collection<GridElement> selectedElements) {

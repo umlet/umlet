@@ -10,15 +10,11 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
 import com.baselet.control.constants.MenuConstants;
-import com.baselet.control.events.EventBus;
-import com.baselet.control.events.PasteMenuEnabledEvent;
 import com.baselet.diagram.CustomPreviewHandler;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.menu.MenuFactorySwing;
-
-import net.engio.mbassy.listener.Handler;
 
 public class MenuBuilder {
 
@@ -37,10 +33,6 @@ public class MenuBuilder {
 	private JMenu customNewFromTemplate;
 	private JMenuItem customEdit;
 	private JToggleButton mailButton;
-
-	public MenuBuilder() {
-		EventBus.subscribe(this);
-	}
 
 	public JMenuBar createMenu(JPanel searchPanel, JPanel zoomPanel, JToggleButton mailButton) {
 		/*********** CREATE MENU *****************/
@@ -144,9 +136,8 @@ public class MenuBuilder {
 		}
 	}
 
-	@Handler
-	public void changePasteMenuEnabledState(PasteMenuEnabledEvent event) {
-		editPaste.setEnabled(event.enabled);
+	public void enablePasteMenuEntry() {
+		editPaste.setEnabled(true);
 	}
 
 	public void setNewCustomElementMenuItemsEnabled(boolean enable) {
@@ -165,7 +156,7 @@ public class MenuBuilder {
 		editUngroup.setEnabled(enabled);
 		editDelete.setEnabled(enabled);
 		editCut.setEnabled(enabled);
-		// editPaste.setEnabled(enabled); // paste is only enabled if something is in the ClipBoard.java
+		editPaste.setEnabled(enabled);
 		editCopy.setEnabled(enabled);
 		editSelectAll.setEnabled(enabled);
 	}

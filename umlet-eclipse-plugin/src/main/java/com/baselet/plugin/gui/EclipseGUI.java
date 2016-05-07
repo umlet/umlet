@@ -20,9 +20,6 @@ import org.slf4j.LoggerFactory;
 
 import com.baselet.control.CanCloseProgram;
 import com.baselet.control.config.Config;
-import com.baselet.control.events.CustomElementSelectedEvent;
-import com.baselet.control.events.EventBus;
-import com.baselet.control.events.ExportMenuEnabledEvent;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.DrawPanel;
@@ -69,7 +66,14 @@ public class EclipseGUI extends BaseGUI {
 			return; // Possible if method is called at loading a palette
 		}
 		boolean enable = handler != null && !currentDiagram.getGridElements().isEmpty();
-		EventBus.publish(new ExportMenuEnabledEvent(enable));
+		contributor.setExportAsEnabled(enable);
+	}
+
+	@Override
+	public void enablePasteMenuEntry() {
+		if (contributor != null) {
+			contributor.setPaste(true);
+		}
 	}
 
 	@Override
@@ -142,8 +146,8 @@ public class EclipseGUI extends BaseGUI {
 
 	@Override
 	public void setCustomElementSelected(boolean selected) {
-		if (editor != null) {
-			EventBus.publish(new CustomElementSelectedEvent(selected));
+		if (editor != null && contributor != null) {
+			contributor.setCustomElementSelected(selected);
 		}
 	}
 
