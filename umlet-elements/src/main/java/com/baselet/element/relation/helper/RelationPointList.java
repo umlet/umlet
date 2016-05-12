@@ -60,18 +60,18 @@ public class RelationPointList {
 	public void applyChangesToPoints(List<PointChange> changes) {
 		applyPointChange(changes);
 		// if there are only 2 points and they would overlap now (therefore the relation would have a size of 0x0px), revert the move
-		revertChangesIfOnly2PointsOverlap(changes);
+		// revertChangesIfOnly2PointsOverlap(changes); // disabled because of issue #382 (see details there)
 	}
 
-	private void revertChangesIfOnly2PointsOverlap(List<PointChange> changes) {
-		if (points.size() == 2 && points.get(0).getPoint().getX().equals(points.get(1).getPoint().getX()) && points.get(0).getPoint().getY().equals(points.get(1).getPoint().getY())) {
-			List<PointChange> inverse = new ArrayList<PointChange>();
-			for (PointChange change : changes) {
-				inverse.add(new PointChange(change.getIndex(), -change.getDiffX(), -change.getDiffY()));
-			}
-			applyPointChange(inverse);
-		}
-	}
+	// private void revertChangesIfOnly2PointsOverlap(List<PointChange> changes) {
+	// if (points.size() == 2 && points.get(0).getPoint().getX().equals(points.get(1).getPoint().getX()) && points.get(0).getPoint().getY().equals(points.get(1).getPoint().getY())) {
+	// List<PointChange> inverse = new ArrayList<PointChange>();
+	// for (PointChange change : changes) {
+	// inverse.add(new PointChange(change.getIndex(), -change.getDiffX(), -change.getDiffY()));
+	// }
+	// applyPointChange(inverse);
+	// }
+	// }
 
 	private void applyPointChange(List<PointChange> changes) {
 		for (ListIterator<RelationPoint> iter = points.listIterator(); iter.hasNext();) {
