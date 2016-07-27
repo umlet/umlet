@@ -130,6 +130,10 @@ public class OwnSyntaxPane {
 		return textArea.getText();
 	}
 
+    public void clearText(){
+        textArea.setText(null);
+    }
+
 	public JPanel getPanel() {
 		return panel;
 	}
