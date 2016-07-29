@@ -112,6 +112,10 @@ public class DiagramFileHandler {
 		}
 	}
 
+    public boolean isFileSaved(){
+        return file != null;
+    }
+
 	public String getFileName() {
 		return fileName;
 	}

@@ -2,9 +2,13 @@ package com.baselet.standalone.gui;
 
 import java.awt.event.WindowEvent;
 
+import com.baselet.diagram.DiagramHandler;
+import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
 
 public class SwingWindowListener implements java.awt.event.WindowListener {
+
+
 
 	public SwingWindowListener() {}
 
@@ -20,7 +24,12 @@ public class SwingWindowListener implements java.awt.event.WindowListener {
 	}
 
 	@Override
-	public void windowDeactivated(WindowEvent arg0) {}
+	public void windowDeactivated(WindowEvent arg0) {
+        BaseGUI gui = CurrentGui.getInstance().getGui();
+		DiagramHandler diagramHandler = gui.getCurrentDiagram().getHandler();
+		if(diagramHandler.isFileSaved())
+            diagramHandler.doSave();
+    }
 
 	@Override
 	public void windowDeiconified(WindowEvent arg0) {}
