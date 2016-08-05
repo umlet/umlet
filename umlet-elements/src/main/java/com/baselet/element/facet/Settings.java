@@ -101,6 +101,9 @@ public abstract class Settings {
 
 	private void addAll(List<Facet> facets) {
 		for (Facet f : facets) {
+			if (f == null) {
+				continue;
+			}
 			if (f.handleOnFirstRun()) {
 				secondRunFacets.add(f);
 			}

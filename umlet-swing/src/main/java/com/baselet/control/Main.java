@@ -181,6 +181,9 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			// scan palettes
 			List<File> palettes = scanForPalettes();
 			for (File palette : palettes) {
+				if (palette == null) {
+					continue;
+				}
 				this.palettes.put(getFilenameWithoutExtension(palette), new PaletteHandler(palette));
 			}
 		}
