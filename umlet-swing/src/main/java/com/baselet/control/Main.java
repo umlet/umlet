@@ -71,10 +71,10 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 		else {
 			DiagramHandler handler = CurrentDiagram.getInstance().getDiagramHandler();
 			if (handler == null) {
-				propertyPane.switchToNonElement("");
+				propertyPane.switchToNonElement("", "");
 			}
 			else {
-				propertyPane.switchToNonElement(handler.getHelpText());
+				propertyPane.switchToNonElement(handler.getHelpText(), "Help");
 			}
 		}
 	}
