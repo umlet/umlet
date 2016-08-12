@@ -73,12 +73,14 @@ public class MainBatchmodeTest {
 		BufferedImage expectedPicture = ImageIO.read(expected);
 		BufferedImage actualPicture = ImageIO.read(actual);
 
-		String expSize = Integer.toString(expectedPicture.getWidth()) + "x" + Integer.toString(expectedPicture.getHeight());
+		int expectedHeight = expectedPicture.getHeight();
+		int expectedWidth = expectedPicture.getWidth();
+		String expSize = Integer.toString(expectedWidth) + "x" + Integer.toString(expectedHeight);
 		String actSize = Integer.toString(actualPicture.getWidth()) + "x" + Integer.toString(actualPicture.getHeight());
 		assertTrue("The size of the images " + expected + " and " + actual + " must match. Expected: " + expSize + ", Actual: " + actSize, expSize.equals(actSize));
 
-		for (int y = 0; expectedPicture.getHeight() < y; y++) {
-			for (int x = 0; expectedPicture.getWidth() < x; x++) {
+		for (int y = 0; y < expectedHeight; y++) {
+			for (int x = 0; x < expectedWidth; x++) {
 				assertTrue("The images " + expected + " and " + actual + " don't match in the pixel (" + x + "/" + y + ")", expectedPicture.getRGB(x, y) == actualPicture.getRGB(x, y));
 			}
 		}
