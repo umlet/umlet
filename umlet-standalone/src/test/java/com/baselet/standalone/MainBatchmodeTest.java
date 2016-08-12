@@ -2,6 +2,7 @@ package com.baselet.standalone;
 
 import static org.junit.Assert.assertTrue;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,6 +10,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
+
+import javax.imageio.ImageIO;
 
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -55,7 +58,7 @@ public class MainBatchmodeTest {
 		File copy = copyInputToTmp("in_newCustomElement.uxf");
 		String wildcard = copy.getParent().toString() + "/*";
 		MainStandalone.main(new String[] { "-action=convert", "-format=png", "-filename=" + wildcard });
-		assertFilesEqual(new File(TEST_FILE_LOCATION + "out_newCustomElement.png"), new File(copy + "." + "png"));
+		assertImageEqual(new File(TEST_FILE_LOCATION + "out_newCustomElement.png"), new File(copy + "." + "png"));
 	}
 
 	@Test
@@ -66,8 +69,23 @@ public class MainBatchmodeTest {
 		assertFilesEqual(outWithoutCreated, output);
 	}
 
+	private void assertImageEqual(File expected, File actual) throws IOException {
+		BufferedImage expectedPicture = ImageIO.read(expected);
+		BufferedImage actualPicture = ImageIO.read(actual);
+
+		String expSize = Integer.toString(expectedPicture.getWidth()) + "x" + Integer.toString(expectedPicture.getHeight());
+		String actSize = Integer.toString(actualPicture.getWidth()) + "x" + Integer.toString(actualPicture.getHeight());
+		assertTrue("The size of the images " + expected + " and " + actual + " must match. Expected: " + expSize + ", Actual: " + actSize, expSize.equals(actSize));
+
+		for (int y = 0; expectedPicture.getHeight() < y; y++) {
+			for (int x = 0; expectedPicture.getWidth() < x; x++) {
+				assertTrue("The images " + expected + " and " + actual + " don't match in the pixel (" + x + "/" + y + ")", expectedPicture.getRGB(x, y) == actualPicture.getRGB(x, y));
+			}
+		}
+	}
+
 	private void assertFilesEqual(File expected, File actual) throws IOException {
-		assertTrue("The content of both files must match. Expected" + expected + ", Actual: " + actual, Files.equal(expected, actual));
+		assertTrue("The content of both files must match. Expected: " + expected + ", Actual: " + actual, Files.equal(expected, actual));
 	}
 
 	private File changeLines(File output, String excludedPrefix, boolean streamlineWhitespaces) throws FileNotFoundException, IOException {
