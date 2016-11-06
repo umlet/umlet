@@ -97,7 +97,7 @@ public class PropertiesParserState {
 		getBuffer().setTopMin(height);
 	}
 
-	public double getCalculatedElementWidth() {
+	public double getMinimumWidth() {
 		return minimumWidth;
 	}
 

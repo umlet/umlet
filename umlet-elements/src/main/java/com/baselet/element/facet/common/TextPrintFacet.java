@@ -166,7 +166,7 @@ public class TextPrintFacet extends Facet {
 
 			// add a horizontal border padding
 			double hSpaceLeftAndRight = state.getDrawer().getDistanceBorderToText() * 2;
-			state.updateMinimumWidth(state.getCalculatedElementWidth() + hSpaceLeftAndRight);
+			state.updateMinimumWidth(state.getMinimumWidth() + hSpaceLeftAndRight);
 		}
 	}
 
