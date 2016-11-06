@@ -8,6 +8,7 @@ import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 
 import com.baselet.control.StringStyle;
+import com.baselet.control.basics.geom.DimensionDouble;
 import com.baselet.control.enums.FormatLabels;
 
 public class FormattedFont {
@@ -16,7 +17,7 @@ public class FormattedFont {
 	private static Float bold;
 	private static Float italic;
 
-	private String string;
+	private final String string;
 	private final AttributedString atrString;
 
 	private final FontRenderContext fontRenderContext;
@@ -45,15 +46,6 @@ public class FormattedFont {
 
 	public String getString() {
 		return string;
-	}
-
-	public void replaceFirstAndLastSpaceWithDot() {
-		if (string.startsWith(" ")) {
-			string = "." + string.substring(1);
-		}
-		if (string.endsWith(" ")) {
-			string = string.substring(string.length() - 1) + ".";
-		}
 	}
 
 	public FontRenderContext getFontRenderContext() {
@@ -93,5 +85,9 @@ public class FormattedFont {
 
 	public double getHeight() {
 		return textLayout.getBounds().getHeight();
+	}
+
+	public DimensionDouble getDimensions() {
+		return new DimensionDouble(getWidth(), getHeight());
 	}
 }

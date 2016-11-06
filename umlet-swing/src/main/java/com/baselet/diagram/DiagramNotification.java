@@ -77,7 +77,7 @@ public class DiagramNotification extends JComponent {
 	}
 
 	private DimensionDouble textSize(String line) {
-		return FontHandler.getTextSizeStatic(new FormattedFont(line, notificationFont.getSize(), notificationFont, frc));
+		return new FormattedFont(line, notificationFont.getSize(), notificationFont, frc).getDimensions();
 	}
 
 	private String[] safeSplit(String message) {
