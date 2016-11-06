@@ -8,7 +8,7 @@ import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 import com.baselet.element.facet.specific.SpecialStateTypeFacet;
-import com.baselet.element.settings.SettingsNoText;
+import com.baselet.element.settings.SettingsManualresizeCenter;
 
 public class SpecialState extends NewGridElement {
 
@@ -22,7 +22,7 @@ public class SpecialState extends NewGridElement {
 
 	@Override
 	protected Settings createSettings() {
-		return new SettingsNoText() {
+		return new SettingsManualresizeCenter() {
 			@Override
 			protected List<Facet> createFacets() {
 				return listOf(super.createFacets(), SpecialStateTypeFacet.INSTANCE);
