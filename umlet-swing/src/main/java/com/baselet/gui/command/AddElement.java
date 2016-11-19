@@ -2,7 +2,8 @@ package com.baselet.gui.command;
 
 import java.awt.Point;
 
-import org.slf4j.Logger;import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.HandlerElementMap;
 import com.baselet.control.constants.Constants;

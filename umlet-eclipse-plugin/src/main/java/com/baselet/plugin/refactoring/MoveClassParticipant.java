@@ -17,7 +17,6 @@ import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 
 import com.baselet.plugin.UmletPluginUtils;
-import com.baselet.plugin.refactoring.JavaDocParser.HtmlTagAttr;
 import com.baselet.plugin.refactoring.JavaDocParser.SourceString;
 
 public class MoveClassParticipant extends MoveParticipant {

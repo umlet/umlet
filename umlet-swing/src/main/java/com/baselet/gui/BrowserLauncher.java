@@ -7,7 +7,8 @@ import java.net.URI;
 import java.net.URL;
 import java.util.Scanner;
 
-import org.slf4j.Logger;import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.constants.SystemInfo;
 import com.baselet.control.enums.Os;

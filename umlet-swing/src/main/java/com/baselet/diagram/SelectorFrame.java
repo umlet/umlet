@@ -6,7 +6,8 @@ import java.awt.Graphics2D;
 
 import javax.swing.JComponent;
 
-import org.slf4j.Logger;import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.enums.LineType;
 import com.baselet.control.util.Utils;

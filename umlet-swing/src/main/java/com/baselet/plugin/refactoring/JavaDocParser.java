@@ -1,7 +1,7 @@
 package com.baselet.plugin.refactoring;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Parser for javadoc comments.

@@ -23,7 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.RepaintManager;
 import javax.swing.ScrollPaneConstants;
 
-import org.slf4j.Logger;import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.config.Config;
