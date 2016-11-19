@@ -9,7 +9,6 @@ import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.ElementId;
-import com.baselet.element.CursorOwn;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.element.sticking.StickingPolygon;
 

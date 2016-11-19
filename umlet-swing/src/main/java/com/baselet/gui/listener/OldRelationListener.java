@@ -10,7 +10,7 @@ import com.baselet.control.basics.geom.Point;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.element.CursorOwn;
+import com.baselet.element.interfaces.CursorOwn;
 import com.baselet.element.old.element.Relation;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.gui.CurrentGui;

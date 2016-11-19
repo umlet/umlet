@@ -10,7 +10,7 @@ import javax.swing.JTextField;
 import com.baselet.control.basics.Converter;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.element.CursorOwn;
+import com.baselet.element.interfaces.CursorOwn;
 import com.baselet.gui.CurrentGui;
 import com.baselet.gui.command.Search;
 

@@ -16,7 +16,7 @@ import com.baselet.control.constants.SystemInfo;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.SelectorFrame;
-import com.baselet.element.CursorOwn;
+import com.baselet.element.interfaces.CursorOwn;
 import com.baselet.gui.CurrentGui;
 
 public class DiagramListener extends UniversalListener implements MouseWheelListener {

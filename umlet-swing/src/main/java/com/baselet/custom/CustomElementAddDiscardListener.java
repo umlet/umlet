@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 
 import com.baselet.control.basics.Converter;
-import com.baselet.element.CursorOwn;
+import com.baselet.element.interfaces.CursorOwn;
 import com.baselet.gui.CurrentGui;
 
 public class CustomElementAddDiscardListener implements MouseListener {

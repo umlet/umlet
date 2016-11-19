@@ -35,6 +35,7 @@ import com.baselet.element.facet.Settings;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.facet.common.LayerFacet;
 import com.baselet.element.interfaces.Component;
+import com.baselet.element.interfaces.CursorOwn;
 import com.baselet.element.interfaces.DrawHandlerInterface;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.interfaces.GridElementDeprecatedAddons;

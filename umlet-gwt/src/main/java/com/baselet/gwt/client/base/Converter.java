@@ -1,7 +1,7 @@
 package com.baselet.gwt.client.base;
 
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.element.CursorOwn;
+import com.baselet.element.interfaces.CursorOwn;
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.dom.client.Style;
 
