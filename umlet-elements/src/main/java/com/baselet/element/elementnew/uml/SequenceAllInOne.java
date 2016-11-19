@@ -11,7 +11,7 @@ import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.facet.Settings;
 import com.baselet.element.facet.common.FontSizeFacet;
 import com.baselet.element.facet.customdrawings.CustomDrawingFacet;
-import com.baselet.element.facet.specific.sequence_aio.SequenceAllInOneFacet;
+import com.baselet.element.sequence_aio.facet.SequenceAllInOneFacet;
 
 public class SequenceAllInOne extends NewGridElement {
 

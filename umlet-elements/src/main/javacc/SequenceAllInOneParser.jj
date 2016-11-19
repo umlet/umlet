@@ -9,15 +9,16 @@ options {
 
 
 PARSER_BEGIN(SequenceAllInOneParser)
-package com.baselet.element.facet.specific.sequence_aio.gen;
-
-import org.slf4j.Logger;import org.slf4j.LoggerFactory;
+package com.baselet.element.sequence_aio.facet.specific.gen;
 
 import com.baselet.control.enums.LineType;
-import com.baselet.element.facet.specific.sequence_aio.Lifeline;
-import com.baselet.element.facet.specific.sequence_aio.Message.ArrowType;
-import com.baselet.element.facet.specific.sequence_aio.SequenceDiagramBuilder;
-import com.baselet.element.facet.specific.sequence_aio.SequenceDiagramException;
+import com.baselet.element.sequence_aio.facet.Lifeline;
+import com.baselet.element.sequence_aio.facet.Message.ArrowType;
+import com.baselet.element.sequence_aio.facet.SequenceDiagramBuilder;
+import com.baselet.element.sequence_aio.facet.SequenceDiagramException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SequenceAllInOneParser {
 	private static final Logger log = LoggerFactory.getLogger(SequenceAllInOneParser.class);
