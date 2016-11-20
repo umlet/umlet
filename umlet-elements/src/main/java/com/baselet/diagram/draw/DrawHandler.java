@@ -209,8 +209,8 @@ public abstract class DrawHandler {
 	}
 
 	private void assertDoubleRange(double doubleValue) {
-		if (doubleValue < 0 || doubleValue > 100) {
-			throw new StyleException("value must be >=0 and <=100");
+		if (doubleValue < 0 || doubleValue > 1000) {
+			throw new StyleException("value must be >=0 and <=1000");
 		}
 	}
 
