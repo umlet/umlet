@@ -41,6 +41,7 @@
 		<module>umlet-standalone</module>
 		<module>umlet-eclipse-plugin-deps</module>
 		<module>umlet-eclipse-plugin</module>
+		<module>umlet-eclipse-p2</module>
 		<module>umlet-gwt</module>
 	</modules>
 
@@ -252,6 +253,19 @@
 										<goals>
 											<goal>testCompile</goal>
 											<goal>compile</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.reficio</groupId>
+										<artifactId>p2-maven-plugin</artifactId>
+										<versionRange>[1.1.1,)</versionRange>
+										<goals>
+											<goal>site</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>

@@ -6,11 +6,8 @@
 	<includeBaseDirectory>false</includeBaseDirectory>
 	<fileSets>
 		<fileSet>
-			<directory>${project.build.directory}</directory>
-			<outputDirectory>.</outputDirectory>
-			<includes>
-				<include>*.jar</include>
-			</includes>
+			<directory>${project.build.directory}/repository</directory>
+			<outputDirectory>repository</outputDirectory>
 		</fileSet>
 	</fileSets>
 </assembly>

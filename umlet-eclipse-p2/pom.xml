@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.umlet</groupId>
+		<artifactId>umlet-parent</artifactId>
+		<version>14.3.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>umlet-eclipse-p2</artifactId>
+	<packaging>pom</packaging>
+
+	<description>
+	This module publishes the eclipse plugin to a p2 repository (for an eclipse update site).
+	It is a separate module to make sure it runs after the umlet eclipse plugin is installed in the local mvn repository.
+	If umlet is published to maven central in the future, this module could be removed and the p2 generation can be done during the deploy phase (then the artifact is already pushed to maven central).
+	</description>
+
+	<build>
+		<plugins>
+			<!-- generate p2 repo for Eclipse update site (published on GitHub) -->
+			<plugin>
+				<groupId>org.reficio</groupId>
+				<artifactId>p2-maven-plugin</artifactId>
+				<version>1.1.1</version>
+				<executions>
+					<execution>
+						<id>default-cli</id>
+						<phase>install</phase>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<id>com.umlet:com.umlet.plugin:jar:${project.version}</id>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- assemble P2 Repo as zip file -->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<descriptor>assembly.xml</descriptor>
+					<appendAssemblyId>false</appendAssemblyId>
+				</configuration>
+				<executions>
+					<execution>
+						<id>create-archive</id>
+						<phase>install</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
