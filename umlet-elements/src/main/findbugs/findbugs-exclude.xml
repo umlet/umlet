@@ -1,6 +1,6 @@
 <FindBugsFilter>
   <Match>
-    <Package name="~com.baselet.element.sequence_aio.gen.facet.*" />
+    <Package name="~com.baselet.element.sequence_aio.facet.*" />
   </Match>
   <Match>
     <Package name="~com.baselet.element.facet.customdrawings.gen.*" />
