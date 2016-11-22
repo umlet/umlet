@@ -107,8 +107,7 @@ public class LineDescriptionFacet extends FirstRunFacet {
 	private void printEndDescriptions(Map<String, Point> displacements, RelationPointHandler relationPoints, DrawHandler drawer, Set<Integer> usedIndexes, List<String> otherLines) {
 		for (String line : otherLines) {
 			LineDescriptionEnum enumVal = LineDescriptionEnum.forString(line);
-			String[] split = line.split(KeyValueFacet.SEP, -1);
-			String text = split[1];
+			String text = line.substring(line.indexOf(KeyValueFacet.SEP) + 1);
 			if (!text.isEmpty()) {
 				Rectangle textSpace = null;
 				String[] splitAtLineEndChar = SharedUtils.splitAtLineEndChar(text);
