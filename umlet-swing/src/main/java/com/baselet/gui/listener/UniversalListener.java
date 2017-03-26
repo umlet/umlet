@@ -57,12 +57,7 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 		_yOffset = off.y;
 
 		// everytime a mouse is pressed within a listener the gui gets the current diagram!
-		CurrentDiagram.getInstance().setCurrentDiagramHandler(handler);
-
-		if (CurrentDiagram.getInstance().getDiagramHandler() != null) {
-			int factor = CurrentDiagram.getInstance().getDiagramHandler().getGridSize();
-			CurrentGui.getInstance().getGui().setValueOfZoomDisplay(factor);
-		}
+		CurrentDiagram.getInstance().setCurrentDiagramHandlerAndZoom(handler);
 	}
 
 	@Override

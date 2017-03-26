@@ -116,7 +116,7 @@ public class StandaloneGUI extends BaseGUI {
 		guiBuilder.getDiagramtabs().remove(diagram.getDrawPanel().getScrollPane());
 		DrawPanel p = getCurrentDiagram();
 		if (p != null) {
-			CurrentDiagram.getInstance().setCurrentDiagramHandler(p.getHandler());
+			CurrentDiagram.getInstance().setCurrentDiagramHandlerAndZoom(p.getHandler());
 		}
 		else {
 			CurrentDiagram.getInstance().setCurrentDiagramHandler(null);
@@ -137,7 +137,7 @@ public class StandaloneGUI extends BaseGUI {
 		diagram.getDrawPanel().getSelector().updateSelectorInformation();
 		DrawPanel p = getCurrentDiagram();
 		if (p != null) {
-			CurrentDiagram.getInstance().setCurrentDiagramHandler(p.getHandler());
+			CurrentDiagram.getInstance().setCurrentDiagramHandlerAndZoom(p.getHandler());
 		}
 		else {
 			CurrentDiagram.getInstance().setCurrentDiagramHandler(null);

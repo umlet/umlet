@@ -22,6 +22,14 @@ public class CurrentDiagram {
 		}
 	}
 
+	public void setCurrentDiagramHandlerAndZoom(DiagramHandler handler) {
+		setCurrentDiagramHandler(handler);
+		BaseGUI gui = CurrentGui.getInstance().getGui();
+		if (handler != null && gui != null) {
+			gui.setValueOfZoomDisplay(handler.getGridSize());
+		}
+	}
+
 	// returns the current diagramhandler the user works with - may be a diagramhandler of a palette too
 	public DiagramHandler getDiagramHandler() {
 		return currentDiagramHandler;
