@@ -43,6 +43,7 @@ public class MenuBuilder {
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 		fileMenu.add(menuFactory.createNew());
 		fileMenu.add(menuFactory.createOpen());
+		fileMenu.add(menuFactory.createClose());
 		fileMenu.add(menuFactory.createRecentFiles());
 		fileMenu.addSeparator();
 		fileMenu.add(menuFactory.createGenerate());

@@ -2,6 +2,7 @@ package com.baselet.gui.menu;
 
 import static com.baselet.control.constants.MenuConstants.ABOUT_PROGRAM;
 import static com.baselet.control.constants.MenuConstants.ALIGN;
+import static com.baselet.control.constants.MenuConstants.CLOSE;
 import static com.baselet.control.constants.MenuConstants.COPY;
 import static com.baselet.control.constants.MenuConstants.CUSTOM_ELEMENTS_TUTORIAL;
 import static com.baselet.control.constants.MenuConstants.CUT;
@@ -76,6 +77,10 @@ public class MenuFactorySwing extends MenuFactory {
 
 	public JMenuItem createOpen() {
 		return createJMenuItem(false, OPEN, KeyEvent.VK_O, true, null);
+	}
+
+	public JMenuItem createClose() {
+		return createJMenuItem(false, CLOSE, KeyEvent.VK_W, true, null);
 	}
 
 	public JMenu createRecentFiles() {

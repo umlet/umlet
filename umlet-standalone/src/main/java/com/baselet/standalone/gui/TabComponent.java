@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import com.baselet.control.Main;
 import com.baselet.diagram.DiagramHandler;
 
 @SuppressWarnings("serial")
@@ -122,10 +121,7 @@ public class TabComponent extends JPanel {
 
 		@Override
 		public void mousePressed(MouseEvent arg0) {
-			handler.doClose();
-			if (Main.getInstance().getDiagrams().size() == 0) {
-				Main.getInstance().doNew();
-			}
+			handler.doCloseAndAddNewIfNoLeft();
 		}
 
 		@Override

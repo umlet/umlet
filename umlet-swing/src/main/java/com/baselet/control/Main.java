@@ -130,8 +130,8 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			Notifier.getInstance().showInfo("switched to " + filename);
 		}
 		else {
-			if (lastTabIsEmpty()) {
-				diagrams.get(diagrams.size() - 1).doClose(); // If the last tab is empty close it (the opened diagram replaces the new one)
+			if (lastTabIsEmpty()) { // if only the new tab is visible, close it (because the newly opened diagram replaces the empty new one)
+				diagrams.get(diagrams.size() - 1).doClose();
 			}
 			editedGridElement = null; // must be set to null here, otherwise the change listener of the property panel will change element text to help_text of diagram (see google code Issue 174)
 			DiagramHandler diagram = new DiagramHandler(file);

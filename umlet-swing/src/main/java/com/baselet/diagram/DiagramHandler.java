@@ -224,6 +224,16 @@ public class DiagramHandler {
 		}
 	}
 
+	/**
+	 * closes this diagram handler and adds a new empty diagram if this was the last diagram of UMLet
+	 */
+	public void doCloseAndAddNewIfNoLeft() {
+		doClose();
+		if (Main.getInstance().getDiagrams().size() == 0) {
+			Main.getInstance().doNew();
+		}
+	}
+
 	public String getName() {
 		String name = fileHandler.getFileName();
 		if (name.contains(".")) {

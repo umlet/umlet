@@ -16,6 +16,7 @@ public class DiagramPopupMenu extends JPopupMenu {
 		if (extendedForStandaloneGUI) { // Extended is true for StandaloneGUI
 			add(menuFactory.createNew());
 			add(menuFactory.createOpen());
+			add(menuFactory.createClose());
 			add(menuFactory.createRecentFiles());
 			add(menuFactory.createSave());
 			add(menuFactory.createSaveAs());

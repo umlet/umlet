@@ -2,6 +2,7 @@ package com.baselet.gui.menu;
 
 import static com.baselet.control.constants.MenuConstants.ABOUT_PROGRAM;
 import static com.baselet.control.constants.MenuConstants.ALIGN;
+import static com.baselet.control.constants.MenuConstants.CLOSE;
 import static com.baselet.control.constants.MenuConstants.COPY;
 import static com.baselet.control.constants.MenuConstants.CUSTOM_ELEMENTS_TUTORIAL;
 import static com.baselet.control.constants.MenuConstants.CUSTOM_ELEMENTS_TUTORIAL_URL;
@@ -89,6 +90,9 @@ public class MenuFactory {
 				}
 				else if (menuItem.equals(OPEN)) {
 					main.doOpenFromFileChooser();
+				}
+				else if (menuItem.equals(CLOSE)) {
+					diagramHandler.doCloseAndAddNewIfNoLeft();
 				}
 				else if (menuItem.equals(RECENT_FILES)) {
 					main.doOpen((String) param);

@@ -8,6 +8,7 @@ public class MenuConstants {
 	public static final String FILE = "File";
 	public static final String NEW = "New";
 	public static final String OPEN = "Open...";
+	public static final String CLOSE = "Close";
 	public static final String RECENT_FILES = "Recent files";
 	public static final String GENERATE_CLASS = "Generate Class Elements from Files or Directory...";
 	public static final String GENERATE_CLASS_OPTIONS = "Generate Class Element Options...";
