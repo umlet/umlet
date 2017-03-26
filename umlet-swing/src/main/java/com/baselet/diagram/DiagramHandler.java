@@ -209,12 +209,12 @@ public class DiagramHandler {
 
 	public void doClose() {
 		if (askSaveIfDirty()) {
-			Main.getInstance().getDiagrams().remove(this);
-			CurrentGui.getInstance().getGui().close(this);
-			drawpanel.getSelector().deselectAll();
+			Main.getInstance().getDiagrams().remove(this); // remove this DiagramHandler from the list of managed diagrams
+			drawpanel.getSelector().deselectAll(); // deselect all elements of the drawpanel (must be done BEFORE closing the tab, because otherwise it resets this DrawHandler again as the current DrawHandler
+			CurrentGui.getInstance().getGui().close(this); // close the GUI (tab, ...) and set the next active tab as the CurrentDiagram
 
 			// update property panel to now selected diagram (or to empty if no diagram exists)
-			DiagramHandler newhandler = CurrentDiagram.getInstance().getDiagramHandler(); //
+			DiagramHandler newhandler = CurrentDiagram.getInstance().getDiagramHandler();
 			if (newhandler != null) {
 				newhandler.getDrawPanel().getSelector().updateSelectorInformation();
 			}
