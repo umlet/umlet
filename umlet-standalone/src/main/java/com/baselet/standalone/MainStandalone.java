@@ -153,6 +153,10 @@ public class MainStandalone {
 	}
 
 	private static String createBatchOutputName(String extension, String fileName) {
+		String uxf = "." + Program.getInstance().getExtension();
+		if (fileName.endsWith(uxf)) { // #451: remove uxf suffix before adding the new extension
+			fileName = fileName.substring(0, fileName.length() - uxf.length());
+		}
 		if (fileName.endsWith(extension)) {
 			return fileName;
 		}
