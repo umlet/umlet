@@ -32,6 +32,7 @@ import com.baselet.gui.BaseGUIBuilder;
 import com.baselet.gui.filedrop.FileDrop;
 import com.baselet.gui.filedrop.FileDropListener;
 import com.baselet.gui.listener.GUIListener;
+import com.baselet.gui.listener.UmletWindowFocusListener;
 
 public class StandaloneGUIBuilder extends BaseGUIBuilder {
 
@@ -60,6 +61,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 
 	public JFrame initSwingGui(MenuBuilder menuBuilder) {
 		JFrame mainFrame = new JFrame();
+		mainFrame.addWindowFocusListener(new UmletWindowFocusListener());
 		mainFrame.addKeyListener(new GUIListener());
 		mainFrame.addKeyListener(new SearchKeyListener());
 		mainFrame.addWindowListener(new SwingWindowListener());

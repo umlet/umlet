@@ -31,6 +31,7 @@ import com.baselet.diagram.DrawPanel;
 import com.baselet.diagram.PaletteHandler;
 import com.baselet.element.old.custom.CustomElementHandler;
 import com.baselet.gui.CurrentGui;
+import com.baselet.gui.listener.UmletWindowFocusListener;
 import com.baselet.gui.pane.OwnSyntaxPane;
 
 public class Editor extends EditorPart {
@@ -116,6 +117,7 @@ public class Editor extends EditorPart {
 		log.info("Call editor.createPartControl() " + uuid.toString());
 		mainFrame = SWT_AWT.new_Frame(new Composite(parent, SWT.EMBEDDED));
 		mainFrame.add(embeddedPanel);
+		mainFrame.addWindowFocusListener(new UmletWindowFocusListener());
 	}
 
 	private EclipseGUI getGui() {
