@@ -12,6 +12,7 @@ import com.baselet.gwt.client.view.panel.wrapper.AutoResizeScrollDropPanel;
 import com.baselet.gwt.client.view.panel.wrapper.FileOpenHandler;
 import com.baselet.gwt.client.view.utils.DropboxIntegration;
 import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
+import com.baselet.gwt.client.view.widgets.FilenameHolder;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox.Callback;
 import com.baselet.gwt.client.view.widgets.ShortcutDialogBox;
@@ -86,7 +87,7 @@ public class MainView extends Composite {
 		public void onResize() {
 			diagramPanel.redraw();
 			palettePanel.redraw();
-		};
+		}
 	};
 
 	@UiField
@@ -116,6 +117,8 @@ public class MainView extends Composite {
 	private final Logger log = LoggerFactory.getLogger(MainView.class);
 
 	private final DropboxIntegration dropboxInt;
+
+	private final FilenameHolder lastExportFilename = new FilenameHolder("");
 
 	private final ScheduledCommand saveCommand = new ScheduledCommand() {
 		private final SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
@@ -254,7 +257,7 @@ public class MainView extends Composite {
 		String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, true, diagramPanel.getDiagram());
 		log.info("Exporting: " + uxfUrl);
 		String pngUrl = CanvasUtils.createPngCanvasDataUrl(diagramPanel.getDiagram());
-		new DownloadPopupPanel(uxfUrl, pngUrl);
+		new DownloadPopupPanel(uxfUrl, pngUrl, lastExportFilename).center();
 	}
 
 	@UiHandler("importDropboxMenuItem")

@@ -6,12 +6,10 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 
 public class Utils {
 
-	private static DateTimeFormat df = DateTimeFormat.getFormat("yyyy.MM.dd_HH:mm:ss");
-
 	public static void showCursor(CursorOwn cursor) {
 		RootLayoutPanel.get().getElement().getStyle().setCursor(Converter.convert(cursor));
 	}
-	
+
 	public static native String b64encode(String a) /*-{
 		return window.btoa(a);
 	}-*/;

@@ -12,10 +12,11 @@
 	padding: 2px !important;
 }
 
-.exportPopup {
+.exportLink {
 	font-size: 130%;
 	font-weight: bold;
-	text-align: center;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
 }
 
 .menuPopup {
