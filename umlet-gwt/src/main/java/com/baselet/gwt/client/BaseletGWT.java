@@ -4,9 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.baselet.control.config.SharedConfig;
+import com.baselet.control.enums.Program;
+import com.baselet.control.enums.RuntimeType;
 import com.baselet.gwt.client.base.Browser;
 import com.baselet.gwt.client.base.Notification;
 import com.baselet.gwt.client.element.BrowserStorage;
+import com.baselet.gwt.client.version.BuildInfoProperties;
 import com.baselet.gwt.client.view.MainView;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -22,6 +25,7 @@ public class BaseletGWT implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		log.info("Starting GUI ...");
+		Program.init(BuildInfoProperties.getVersion(), RuntimeType.GWT);
 		SharedConfig.getInstance().setDev_mode(Location.getParameter("dev") != null);
 
 		if (!BrowserStorage.initLocalStorageAndCheckIfAvailable()) {
@@ -62,6 +66,6 @@ public class BaseletGWT implements EntryPoint {
 	}
 
 	private final native boolean browserSupportsFileReader() /*-{
-		return typeof FileReader != "undefined";
-	}-*/;
+																return typeof FileReader != "undefined";
+																}-*/;
 }
