@@ -45,6 +45,7 @@ import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.control.util.Path;
 import com.baselet.diagram.CurrentDiagram;
+import com.baselet.diagram.Notifier;
 import com.baselet.diagram.io.DiagramFileHandler;
 
 public class MailPanel extends JPanel {
@@ -368,6 +369,7 @@ public class MailPanel extends JPanel {
 				Transport.send(message);
 			}
 
+			Notifier.getInstance().showInfo("Email sent");
 			closePanel();
 		}
 
@@ -375,6 +377,9 @@ public class MailPanel extends JPanel {
 			log.error("SMTP Error", e);
 			JOptionPane.showMessageDialog(this, "There has been an error with your smtp server." + Constants.NEWLINE + "Please recheck your smtp server and login data.", "SMTP Error", JOptionPane.ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
 		} catch (IOException e) {
+			log.error("Mail Error", e);
+			JOptionPane.showMessageDialog(this, "There has been an error sending your mail." + Constants.NEWLINE + "Please recheck your input data.", "Sending Error", JOptionPane.ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
+		} catch (Throwable e) {
 			log.error("Mail Error", e);
 			JOptionPane.showMessageDialog(this, "There has been an error sending your mail." + Constants.NEWLINE + "Please recheck your input data.", "Sending Error", JOptionPane.ERROR_MESSAGE, UIManager.getIcon("OptionPane.errorIcon"));
 		} finally {

@@ -114,20 +114,9 @@
 			<version>0.1</version>
 		</dependency>
 		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mailapi</artifactId>
-			<version>1.4.3</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>activation</artifactId>
-					<groupId>javax.activation</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
 			<groupId>com.sun.mail</groupId>
-			<artifactId>smtp</artifactId>
-			<version>1.5.4</version>
+			<artifactId>javax.mail</artifactId>
+			<version>1.5.6</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>activation</artifactId>
