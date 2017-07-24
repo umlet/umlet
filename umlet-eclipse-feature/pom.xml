@@ -26,6 +26,34 @@
 				<version>${tycho.version}</version>
 				<extensions>true</extensions>
 			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<!-- update versions in feature.xml with current pom.xml version (replace the -<qualifier> with ".qualifier" to be compatible with OSGI versioning; ".qualifier" will be replaced by tycho with a timestamp, other qualifier values are not supported) -->
+					<execution>
+						<id>updateManifestVersion</id>
+						<!-- this goal must be called explicitly at the same time the mvn version is updated (otherwise tycho would still use the old version) -->
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<property name="newVersionTemp" value="${newVersion}" />
+								<loadresource property="newVersionOsgi">
+									<propertyresource name="newVersionTemp" />
+									<filterchain>
+										<tokenfilter>
+											<replaceregex pattern="-.*" replace=".qualifier" />
+										</tokenfilter>
+									</filterchain>
+								</loadresource>
+								<replaceregexp file="feature.xml" match='(version=").*(")' replace="\1${newVersionOsgi}\2" byline="true" />
+								<echo message="Updated feature.xml versions to ${newVersionOsgi} (derived from VM Argument: ${newVersion})" />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>
