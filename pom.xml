@@ -27,6 +27,8 @@
 	</scm>
 
 	<properties>
+		<tycho.version>0.26.0</tycho.version>
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>
@@ -41,6 +43,7 @@
 		<module>umlet-standalone</module>
 		<module>umlet-eclipse-plugin-deps</module>
 		<module>umlet-eclipse-plugin</module>
+		<module>umlet-eclipse-feature</module>
 		<module>umlet-eclipse-p2</module>
 		<module>umlet-gwt</module>
 	</modules>

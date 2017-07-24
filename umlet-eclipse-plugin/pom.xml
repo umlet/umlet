@@ -10,10 +10,6 @@
 	<artifactId>com.umlet.plugin</artifactId>
 	<packaging>eclipse-plugin</packaging>
 
-	<properties>
-		<tycho.version>0.22.0</tycho.version>
-	</properties>
-
 	<repositories>
 		<repository>
 			<id>eclipse-mars</id>
