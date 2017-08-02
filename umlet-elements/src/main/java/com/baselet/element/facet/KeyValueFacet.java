@@ -3,6 +3,7 @@ package com.baselet.element.facet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import com.baselet.control.enums.FormatLabels;
 import com.baselet.diagram.draw.helper.StyleException;
@@ -17,7 +18,7 @@ public abstract class KeyValueFacet extends Facet {
 
 		public KeyValue(String key, boolean allValuesListed, String value, String info) {
 			super();
-			this.key = key.toLowerCase();
+			this.key = key.toLowerCase(Locale.ENGLISH);
 			this.allValuesListed = allValuesListed;
 			valueInfos = Arrays.asList(new ValueInfo(value, info));
 		}
@@ -46,7 +47,7 @@ public abstract class KeyValueFacet extends Facet {
 			if (allValuesListed) {
 				sb.append("Valid are: ");
 				for (ValueInfo vi : valueInfos) {
-					sb.append(vi.value.toString().toLowerCase()).append(',');
+					sb.append(vi.value.toString().toLowerCase(Locale.ENGLISH)).append(',');
 				}
 				sb.deleteCharAt(sb.length() - 1);
 			}
@@ -123,7 +124,7 @@ public abstract class KeyValueFacet extends Facet {
 	public List<AutocompletionText> getAutocompletionStrings() {
 		List<AutocompletionText> returnList = new ArrayList<AutocompletionText>();
 		for (ValueInfo valueInfo : getKeyValue().getValueInfos()) {
-			returnList.add(new AutocompletionText(getKeyWithSep() + valueInfo.getValue().toString().toLowerCase(), valueInfo.getInfo(), valueInfo.getBase64Img()));
+			returnList.add(new AutocompletionText(getKeyWithSep() + valueInfo.getValue().toString().toLowerCase(Locale.ENGLISH), valueInfo.getInfo(), valueInfo.getBase64Img()));
 		}
 		return returnList;
 	}

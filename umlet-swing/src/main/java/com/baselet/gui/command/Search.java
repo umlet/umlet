@@ -2,6 +2,7 @@ package com.baselet.gui.command;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,7 +21,7 @@ public class Search extends Command {
 	private Pattern pattern;
 
 	public Search(String regex) {
-		this.regex = ".*(" + regex.toLowerCase() + ").*";
+		this.regex = ".*(" + regex.toLowerCase(Locale.ENGLISH) + ").*";
 	}
 
 	@Override
@@ -32,7 +33,7 @@ public class Search extends Command {
 		pattern = Pattern.compile(regex);
 		Matcher m;
 		for (GridElement e : d.getGridElements()) {
-			m = pattern.matcher(e.getPanelAttributes().toLowerCase());
+			m = pattern.matcher(e.getPanelAttributes().toLowerCase(Locale.ENGLISH));
 			if (m.find()) {
 				s.select(e);
 			}

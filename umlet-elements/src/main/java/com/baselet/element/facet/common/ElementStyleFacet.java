@@ -1,5 +1,7 @@
 package com.baselet.element.facet.common;
 
+import java.util.Locale;
+
 import com.baselet.control.enums.ElementStyle;
 import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -26,7 +28,7 @@ public class ElementStyleFacet extends FirstRunKeyValueFacet {
 
 	@Override
 	public void handleValue(String value, PropertiesParserState state) {
-		state.setElementStyle(ElementStyle.valueOf(value.toUpperCase()));
+		state.setElementStyle(ElementStyle.valueOf(value.toUpperCase(Locale.ENGLISH)));
 	}
 
 }

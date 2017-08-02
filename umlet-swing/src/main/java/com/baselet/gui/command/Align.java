@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import com.baselet.control.basics.geom.Rectangle;
@@ -27,7 +28,7 @@ public class Align extends Command {
 	public Align(List<GridElement> entities, GridElement dominantEntity, String edge) {
 		this.dominantEntity = dominantEntity;
 		this.entities = new ArrayList<GridElement>(entities);
-		this.edge = Edge.valueOf(edge.toUpperCase());
+		this.edge = Edge.valueOf(edge.toUpperCase(Locale.ENGLISH));
 	}
 
 	@Override

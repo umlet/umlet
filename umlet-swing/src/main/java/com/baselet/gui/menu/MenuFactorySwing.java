@@ -43,6 +43,7 @@ import static com.baselet.control.constants.MenuConstants.VIDEO_TUTORIAL;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.Locale;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
@@ -125,7 +126,7 @@ public class MenuFactorySwing extends MenuFactory {
 		export.setText(EXPORT_AS);
 		diagramDependendComponents.add(export);
 		for (final String format : Constants.exportFormatList) {
-			export.add(createJMenuItem(true, format.toUpperCase() + "...", EXPORT_AS, format));
+			export.add(createJMenuItem(true, format.toUpperCase(Locale.ENGLISH) + "...", EXPORT_AS, format));
 		}
 		return export;
 	}

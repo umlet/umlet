@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -297,7 +298,7 @@ public class ImgRefProposalComputer implements IJavaCompletionProposalComputer {
 					return false;
 				}
 				if (uxfResource instanceof IFile) {
-					if (uxfResource.getName().endsWith(".uxf") && uxfResource.getName().toLowerCase().contains(prefix.toLowerCase())) {
+					if (uxfResource.getName().endsWith(".uxf") && uxfResource.getName().toLowerCase(Locale.ENGLISH).contains(prefix.toLowerCase(Locale.ENGLISH))) {
 						IFile imgFile = UmletPluginUtils.getImageForUxfPath((IFile) uxfResource);
 						IPath imgPath = imgFile.getProjectRelativePath().makeRelativeTo(rootResource.getProjectRelativePath());
 						result.add(UmletPluginUtils.calculateImageRef(javaResourceParentPath, imgPath));

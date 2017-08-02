@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import com.baselet.gui.AutocompletionText;
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -25,10 +26,10 @@ public class MySuggestOracle extends SuggestOracle {
 	}
 
 	public Collection<Suggestion> getSuggestionsForText(String userInput) {
-		String userInputLc = userInput.toLowerCase();
+		String userInputLc = userInput.toLowerCase(Locale.ENGLISH);
 		Collection<Suggestion> result = new LinkedList<Suggestion>();
 		for (Suggestion suggestion : suggestions) {
-			if (suggestion.getReplacementString().toLowerCase().startsWith(userInputLc)) {
+			if (suggestion.getReplacementString().toLowerCase(Locale.ENGLISH).startsWith(userInputLc)) {
 				result.add(highlightUserInput(suggestion, userInputLc));
 			}
 		}

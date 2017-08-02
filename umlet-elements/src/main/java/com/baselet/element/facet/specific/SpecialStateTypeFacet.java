@@ -1,6 +1,7 @@
 package com.baselet.element.facet.specific;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.baselet.control.basics.XValues;
 import com.baselet.control.basics.geom.Dimension;
@@ -37,7 +38,7 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 	@Override
 	public void handleValue(final String value, final PropertiesParserState state) {
 		DrawHandler drawer = state.getDrawer();
-		StateTypeEnum type = StateTypeEnum.valueOf(value.toUpperCase());
+		StateTypeEnum type = StateTypeEnum.valueOf(value.toUpperCase(Locale.ENGLISH));
 		Dimension s = state.getGridElementSize();
 		// IMPORTANT NOTE: Make sure the element looks good in Swing and GWT because it's quite complex because of 1px displacements (check in UML State Machine palette)
 		double w = getWidth(s);

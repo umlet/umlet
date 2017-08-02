@@ -1,5 +1,7 @@
 package com.baselet.element.facet.common;
 
+import java.util.Locale;
+
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -20,7 +22,7 @@ public class VerticalAlignFacet extends FirstRunKeyValueFacet {
 
 	@Override
 	public void handleValue(String value, PropertiesParserState state) {
-		state.getAlignment().setVertical(true, AlignVertical.valueOf(value.toUpperCase()));
+		state.getAlignment().setVertical(true, AlignVertical.valueOf(value.toUpperCase(Locale.ENGLISH)));
 	}
 
 }

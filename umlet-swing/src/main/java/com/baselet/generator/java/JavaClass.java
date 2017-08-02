@@ -1,5 +1,7 @@
 package com.baselet.generator.java;
 
+import java.util.Locale;
+
 public interface JavaClass {
 
 	public String getName();
@@ -15,7 +17,7 @@ public interface JavaClass {
 
 		@Override
 		public String toString() {
-			return super.toString().toLowerCase();
+			return super.toString().toLowerCase(Locale.ENGLISH);
 		}
 	}
 

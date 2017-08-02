@@ -1,5 +1,7 @@
 package com.baselet.control.constants;
 
+import java.util.Locale;
+
 import com.baselet.control.enums.Metakey;
 import com.baselet.control.enums.Os;
 
@@ -10,7 +12,7 @@ public class SystemInfo {
 	public static final Metakey META_KEY;
 
 	static {
-		String os = java.lang.System.getProperty("os.name").toUpperCase();
+		String os = java.lang.System.getProperty("os.name").toUpperCase(Locale.ENGLISH);
 		if (os.startsWith("WINDOWS")) {
 			OS = Os.WINDOWS;
 		}

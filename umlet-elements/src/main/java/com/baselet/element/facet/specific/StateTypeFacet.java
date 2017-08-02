@@ -2,6 +2,7 @@ package com.baselet.element.facet.specific;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.basics.geom.PointDouble;
@@ -57,7 +58,7 @@ public class StateTypeFacet extends FirstRunKeyValueFacet {
 		else if (handledLines.size() == 1) {
 			final PropertiesParserState state1 = state;
 			DrawHandler drawer = state1.getDrawer();
-			ActionTypeEnum type = ActionTypeEnum.valueOf(extractValue(handledLines.get(0).toUpperCase()));
+			ActionTypeEnum type = ActionTypeEnum.valueOf(extractValue(handledLines.get(0).toUpperCase(Locale.ENGLISH)));
 			Dimension s = state1.getGridElementSize();
 			if (type == ActionTypeEnum.STATE) {
 				drawActionState(drawer, s);

@@ -1,6 +1,7 @@
 package com.baselet.element.facet.specific;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.baselet.control.basics.XValues;
 import com.baselet.control.enums.Priority;
@@ -37,7 +38,7 @@ public class ActiveClassFacet extends FirstRunKeyValueFacet {
 	@Override
 	public void parsingFinished(PropertiesParserState state, List<String> handledLines) {
 		if (!handledLines.isEmpty()) {
-			ClassTypeEnum.valueOf(extractValue(handledLines.get(0)).toUpperCase()); // parse the value to make sure only valid types are accepted
+			ClassTypeEnum.valueOf(extractValue(handledLines.get(0)).toUpperCase(Locale.ENGLISH)); // parse the value to make sure only valid types are accepted
 
 			state.getBuffer().addToLeftAndRight(SPACING);
 			XValues xLimits = state.getXLimits(state.getTextPrintPosition());
