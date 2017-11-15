@@ -4,7 +4,7 @@ Type=Application
 Name=UMLet
 GenericName=UMLet
 Comment=Free UML Tool for Fast UML Diagrams
-Exec=java -jar umlet.jar
+Exec=java -Dsun.java2d.xrender=f -jar umlet.jar
 Icon=img/umlet_logo.png
 Terminal=false
 Categories=Development;
