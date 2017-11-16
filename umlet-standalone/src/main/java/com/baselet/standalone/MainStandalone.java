@@ -84,10 +84,12 @@ public class MainStandalone {
 					}
 				}
 				else {
+					readBuildInfoAndInitVersion(RuntimeType.BATCH);
 					printUsage();
 				}
 			}
 			else {
+				readBuildInfoAndInitVersion(RuntimeType.BATCH);
 				printUsage();
 			}
 		}
