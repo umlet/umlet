@@ -26,6 +26,7 @@ import com.baselet.diagram.io.DiagramFileHandler;
 import com.baselet.element.ComponentSwing;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.element.old.custom.CustomElement;
 import com.baselet.element.old.element.Relation;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
@@ -340,7 +341,12 @@ public class DiagramHandler {
 			int newH = entity.getRectangle().height * toFactor / fromFactor;
 			entity.setLocation(realignTo(newX, toFactor), realignTo(newY, toFactor));
 			// Normally there should be no realign here but relations and custom elements sometimes must be realigned therefore we don't log it as an error
-			entity.setSize(realignTo(newW, toFactor), realignTo(newH, toFactor));
+			if (entity instanceof CustomElement) {
+				entity.setSize(newW, newH); // #478: do not realign width and height for custom elements, because this would mess up the CustomElement.changeSizeIfNoBugfix() call
+			}
+			else {
+				entity.setSize(realignTo(newW, toFactor), realignTo(newH, toFactor));
+			}
 
 			// Resize the coordinates of the points of the relations
 			if (entity instanceof Relation) {

@@ -199,6 +199,10 @@ public abstract class CustomElement extends OldGridElement {
 
 		drawShapes();
 
+		changeSizeIfNoBugfix();
+	}
+
+	private void changeSizeIfNoBugfix() {
 		// Resize elements if manual resize is not set
 		// if (!this.allowResize || (this.autoResizeandManualResizeEnabled() && !this.isManualResized())) {
 		// CHANGED: Resize every custom object by +1px to get consistent height and width
