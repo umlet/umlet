@@ -40,7 +40,6 @@ import com.baselet.element.old.activity.Start;
 import com.baselet.element.old.activity.StartElement;
 import com.baselet.element.old.activity.StopElement;
 import com.baselet.element.old.activity.Sync;
-import com.baselet.element.sticking.StickingPolygon;
 
 @SuppressWarnings("serial")
 public class ActivityDiagramText extends OldGridElement {
@@ -490,11 +489,6 @@ public class ActivityDiagramText extends OldGridElement {
 	@Override
 	public Set<Direction> getResizeArea(int x, int y) {
 		return new HashSet<Direction>(); // deny size changes
-	}
-
-	@Override
-	public StickingPolygon generateStickingBorder() {
-		return null;
 	}
 
 	@Override
