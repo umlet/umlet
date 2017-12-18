@@ -1,0 +1,178 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.umlet</groupId>
+		<artifactId>umlet-parent</artifactId>
+		<version>14.3.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>umlet-gwt</artifactId>
+	<packaging>gwt-app</packaging>
+
+	<properties>
+		<!-- GWT 2.7 requires Java 7 -->
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.umlet</groupId>
+			<artifactId>umlet-elements</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.umlet</groupId>
+			<artifactId>umlet-elements</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.vectomatic</groupId>
+			<artifactId>lib-gwt-file</artifactId>
+			<version>0.3.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.vectomatic</groupId>
+			<artifactId>lib-gwt-file</artifactId>
+			<version>0.3.3</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>ru.finam</groupId>
+			<artifactId>slf4j-gwt</artifactId>
+			<version>1.7.7.1</version>
+			<!-- no additional source entry necessary because the author packages the normal jar with the sources -->
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- Synchronize palettes from umlet-res with the GWT palettes -->
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<!-- unpack all dependencies from umlet-eclipse-plugin-deps and umlet-res -->
+					<execution>
+						<id>unpack</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.basedir}/src/main/java/com/baselet/gwt/client/view</outputDirectory>
+							<!-- synchronize all palettes except the deprecated ones and Activity AIO because they are OldGridElements which do not work in GWT -->
+							<includes>palettes/*.*</includes>
+							<excludes>palettes/Deprecated*.*,palettes/UML Activity - All in one.*</excludes>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.umlet</groupId>
+									<artifactId>umlet-res</artifactId>
+									<version>${project.version}</version>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- assemble UMLetino output as zip file -->
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<descriptor>src/assembly/dep.xml</descriptor>
+					<appendAssemblyId>false</appendAssemblyId>
+				</configuration>
+				<executions>
+					<execution>
+						<id>create-archive</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- start the GWT compiler during the build -->
+			<plugin>
+				<groupId>net.ltgt.gwt.maven</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<version>1.0-rc-5</version>
+				<extensions>true</extensions>
+				<configuration>
+					<!-- <skipCompilation>true</skipCompilation> -->
+					<moduleName>baseletgwt</moduleName>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<!-- this profile can be used to start the devmode for debugging the GWT application -->
+	<profiles>
+		<profile>
+			<id>gwtdevmode</id>
+			<build>
+				<plugins>
+					<!-- copy static web resources (perhaps there is a better way, but I haven't found one with the gwt-maven-plugin) -->
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>initialize</phase>
+								<configuration>
+									<tasks>
+										<mkdir dir="${project.basedir}/src/main/webapp" />
+										<copy todir="${project.build.directory}/gwt/devmode/war">
+											<fileset dir="${project.basedir}/src/main/webapp" />
+										</copy>
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- configure devmode -->
+					<plugin>
+						<groupId>net.ltgt.gwt.maven</groupId>
+						<artifactId>gwt-maven-plugin</artifactId>
+						<version>1.0-rc-5</version>
+						<extensions>true</extensions>
+						<executions>
+							<execution>
+								<phase>initialize</phase>
+								<goals>
+									<goal>devmode</goal>
+								</goals>
+								<configuration>
+									<moduleName>baseletgwt</moduleName>
+									<startupUrls>
+										<startupUrl>umletino.html</startupUrl>
+									</startupUrls>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>

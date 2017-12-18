@@ -1,0 +1,10 @@
+language: java
+jdk:
+#  - oraclejdk7 # JDK7 doesnt work with Google Error-Prone
+  - oraclejdk8
+script: "mvn clean install -P checks"
+
+notifications:
+  email: # only send an email if build fails
+    on_success: never
+    on_failure: always

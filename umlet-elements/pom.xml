@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.umlet</groupId>
+		<artifactId>umlet-parent</artifactId>
+		<version>14.3.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>umlet-elements</artifactId>
+
+	<properties>
+		<javacc.gen.dir>${project.build.directory}/generated-sources/annotations</javacc.gen.dir> <!-- reuse the annotation-processing gendir to avoid too many separate src folders for eclipse plugin; perhaps it would be more correct to create a separate javacc subdir -->
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<!-- during tests log with log4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- generate javacc classes (it would be preferable to generate them into a separate target/generated-sources subdir, but this currently doesn't work with the way how source folders are linked in the umlet-eclipse-plugin project, therefore they are generated into src/main/java) -->
+			<plugin>
+				<groupId>com.helger.maven</groupId>
+				<artifactId>ph-javacc-maven-plugin</artifactId>
+				<version>2.8.0</version>
+				<executions>
+					<execution>
+						<id>javacc</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>javacc</goal>
+<!-- 							<goal>jjdoc</goal> -->
+						</goals>
+						<configuration>
+							<javadocFriendlyComments>true</javadocFriendlyComments>
+							<sourceDirectory>src/main/javacc</sourceDirectory>
+							<outputDirectory>${javacc.gen.dir}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

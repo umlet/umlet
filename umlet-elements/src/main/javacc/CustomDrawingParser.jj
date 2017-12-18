@@ -1,0 +1,488 @@
+options {
+  static              = false;
+  IGNORE_CASE         = false;
+  JAVA_UNICODE_ESCAPE = true;
+  JDK_VERSION        = "1.6";
+  // Not yet detected as a valid option by the Eclipse plugin, but works nonetheless. This is essential for GWT compatible generated code.
+  JAVA_TEMPLATE_TYPE = "modern";  
+}
+
+
+PARSER_BEGIN(CustomDrawingParser)
+package com.baselet.element.facet.customdrawings.gen;
+
+import org.slf4j.Logger;import org.slf4j.LoggerFactory;
+
+import com.baselet.control.enums.AlignHorizontal;
+import com.baselet.control.enums.LineType;
+import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.element.facet.customdrawings.CustomDrawingParserRuntimeException;
+
+public abstract class CustomDrawingParser {
+	private static final Logger log = LoggerFactory.getLogger(CustomDrawingParser.class);
+	
+	// JavaCC doesn't support user enriched constructors (adding additional parameters)
+	// therefore we use abstract getters
+	public abstract double getWidth();
+	public abstract double getHeight();
+	public abstract DrawHandler getDrawHandler();
+	
+	/***
+	 * Is used to implement nested tasks.
+	 * This is used to support the different setting commands after the drawing command.
+	 * These need to store the old value and afterwards reset it to this value.
+	 */
+	private abstract class RecRunnable {
+		private RecRunnable inner;
+		
+		public RecRunnable(RecRunnable inner){
+			this.inner = inner;
+		}
+		
+		public abstract void run();
+		
+		protected void runInner() {
+			if(inner != null)
+				inner.run();
+		}
+	}
+}
+PARSER_END(CustomDrawingParser)
+
+// defines input to be ignored
+SKIP:
+{ 
+	" " 
+	| "\r" 
+	| "\t"
+	| <"//"(~["\n","\r"])*("\n"|"\r"|"\r\n")?>
+}
+
+
+TOKEN :
+{
+	< WIDTH: "width" >
+	| < HEIGHT: "height" >
+	| < TRUE: "true" >
+	| < FALSE: "false" >
+	| < LEFT: "left" >
+	| < RIGHT: "right" >
+	| < CENTER: "center" >
+}
+
+TOKEN :    // defines token names
+{ 
+	< FG: "fg=" >
+	| < BG: "bg=" >
+	| < LT: "lt=" >
+	| < LW: "lw=" >
+	| < TRANSPARENCY: "transparency=" >
+}
+
+// more general Tokens
+TOKEN :
+{
+	< UNSIGNED_DOUBLE_CONSTANT: ( <DIGIT> ) + ( "." (<DIGIT>)+ )? >
+	| < #DIGIT: ["0" - "9"] >
+}
+
+//more general Tokens with no case distinction
+TOKEN [IGNORE_CASE] :
+{
+	< COLOR_OWN_NAME: (["a"-"z"])+ >
+	| < COLOR_OWN_HEX: "#" <HEX> <HEX> <HEX> <HEX> <HEX> <HEX> >
+	| < #HEX: ["0" - "9","a"-"f"] >
+	| <  SIMPLE_STRING : "\""
+   ( 
+	   ( ~["\"","\\","\n","\r"]) // everything except the specified chars
+	   | ("\\" ["\\","\""])
+   )*
+   "\"" >
+}
+
+/**
+ * The main function which parses a line.
+ * Whitespaces and comments are skipped (see Tokens)
+ */
+void start() :
+{}
+{
+	( drawLine()
+	| drawRectangle()
+	| drawRectangleRound()
+	| drawCircle()
+	| drawEllipse()
+	| drawArc()
+	| drawText()
+	)?<EOF>
+}
+
+
+void drawLine() :
+{
+	final double x1, y1, x2, y2;
+	RecRunnable callStack = null;
+}
+{ 
+	"drawLine("
+	x1 = doubleTerm() ","
+	y1 = doubleTerm() ","
+	x2 = doubleTerm() ","
+	y2 = doubleTerm()
+	")" {callStack = new RecRunnable(null) { public void run(){
+			//System.out.println(String.format("drawLine(%f, %f, %f, %f);", x1,y1,x2,y2));
+			getDrawHandler().drawLine(x1, y1, x2, y2);
+		}};}
+	(
+		callStack = fg(callStack)
+		| callStack = lt(callStack)
+		| callStack = lw(callStack)
+	)*
+   { callStack.run(); }
+}
+
+void drawRectangle() :
+{
+	final double x, y, width, height;
+	RecRunnable callStack = null;
+}
+{ 
+	"drawRectangle("
+	x = doubleTerm() ","
+	y = doubleTerm() ","
+	width = doubleTerm() ","
+	height = doubleTerm()
+	")" {callStack = new RecRunnable(null) { public void run() { 
+			//System.out.println(String.format("drawRectangle(%f, %f, %f, %f);", x,y,width,height));
+			getDrawHandler().drawRectangle(x, y, width, height);
+		}};}
+	(
+		callStack = fg(callStack)
+		| callStack = bg(callStack)
+		| callStack = lt(callStack)
+		| callStack = lw(callStack)
+		| callStack = transparency(callStack)
+	)*
+   { callStack.run(); }
+}
+
+void drawRectangleRound() :
+{
+	final double x, y, width, height, radius;
+	RecRunnable callStack = null;
+}
+{ 
+	"drawRectangleRound("
+	x = doubleTerm() ","
+	y = doubleTerm() ","
+	width = doubleTerm() ","
+	height = doubleTerm() ","
+	radius = doubleTerm()
+	")" {callStack = new RecRunnable(null) { public void run() { 
+			//System.out.println(String.format("drawRectangleRound(%f, %f, %f, %f, %f);", x,y,width,height,radius));
+			getDrawHandler().drawRectangleRound(x, y, width, height, radius);
+		}};}
+	(
+		callStack = fg(callStack)
+		| callStack = bg(callStack)
+		| callStack = lt(callStack)
+		| callStack = lw(callStack)
+		| callStack = transparency(callStack)
+	)*
+   { callStack.run(); }
+}
+
+void drawCircle() :
+{
+	final double x, y, radius;
+	RecRunnable callStack = null;
+}
+{ 
+	"drawCircle("
+	x = doubleTerm() ","
+	y = doubleTerm() ","
+	radius = doubleTerm()
+	")" {callStack = new RecRunnable(null) { public void run() {
+			getDrawHandler().drawCircle(x, y, radius);
+		}};}
+	(
+		callStack = fg(callStack)
+		| callStack = bg(callStack)
+		| callStack = lt(callStack)
+		| callStack = lw(callStack)
+		| callStack = transparency(callStack)
+	)*
+   { callStack.run(); }
+}
+
+void drawEllipse() :
+{
+	final double x, y, width, height;
+	RecRunnable callStack = null;
+}
+{ 
+	"drawEllipse("
+	x = doubleTerm() ","
+	y = doubleTerm() ","
+	width = doubleTerm() ","
+	height = doubleTerm()
+	")" {callStack = new RecRunnable(null) { public void run() {
+			getDrawHandler().drawEllipse(x, y, width, height);
+		}};}
+	(
+		callStack = fg(callStack)
+		| callStack = bg(callStack)
+		| callStack = lt(callStack)
+		| callStack = lw(callStack)
+		| callStack = transparency(callStack)
+	)*
+   { callStack.run(); }
+}
+
+void drawArc() :
+{
+	final double x, y, width, height, start, extent;
+	final boolean open;
+	RecRunnable callStack = null;
+}
+{ 
+	"drawArc("
+	x = doubleTerm() ","
+	y = doubleTerm() ","
+	width = doubleTerm() ","
+	height = doubleTerm() ","
+	start = doubleTerm() ","
+	extent = doubleTerm() ","
+	open = booleanConstant()
+	")" {callStack = new RecRunnable(null) { public void run() {
+			getDrawHandler().drawArc(x, y, width, height, start, extent, open);
+		}};}
+	(
+		callStack = fg(callStack)
+		| callStack = bg(callStack)
+		| callStack = lt(callStack)
+		| callStack = lw(callStack)
+		| callStack = transparency(callStack)
+	)*
+   { callStack.run(); }
+}
+
+void drawText() :
+{
+	final String text;
+	final double x, y;
+	final AlignHorizontal alignment;
+	RecRunnable callStack = null;
+}
+{ 
+	"drawText("
+	text = simpleString() ","
+	x = doubleTerm() ","
+	y = doubleTerm() ","
+	alignment = horizontalAlignment()
+	")" {callStack = new RecRunnable(null) { public void run() { 
+			//System.out.println(String.format("drawRectangle(%f, %f, %f, %f);", x,y,width,height));
+			getDrawHandler().print(text, x, y, alignment);
+		}};}
+	(
+		callStack = fg(callStack)
+	)*
+   { callStack.run(); }
+}
+
+/**
+ * sets the foreground color
+ */
+RecRunnable fg(RecRunnable inner) :
+{ final String newColor;}
+{
+	<FG> newColor = colorOwn() {return new RecRunnable(inner) {
+		public void run(){
+			ColorOwn oldColor = getDrawHandler().getForegroundColor();
+			getDrawHandler().setForegroundColor(newColor);
+			runInner();
+			getDrawHandler().setForegroundColor(oldColor);
+		}
+	};}
+}
+
+/**
+ * sets the background color
+ */
+RecRunnable bg(RecRunnable inner) :
+{ final String newColor;}
+{
+	<BG> newColor = colorOwn() {return new RecRunnable(inner) {
+		public void run(){
+			ColorOwn oldColor = getDrawHandler().getBackgroundColor();
+			getDrawHandler().setBackgroundColorAndKeepTransparency(newColor);
+			runInner();
+			getDrawHandler().setBackgroundColor(oldColor);
+		}
+	};}
+}
+
+/**
+ * represents a color name (e.g. "red")
+ * or a hexadecimal color string 
+ * starting with '#' and 
+ * containing exactly 6 hexadecimal digits
+ * (eg."#CAFFEE")
+ */
+String colorOwn() :
+{}
+{
+	(
+		<COLOR_OWN_NAME>
+		| <COLOR_OWN_HEX>
+	) {return token.image;}
+}
+
+/**
+ * sets the line type
+ */
+RecRunnable lt(RecRunnable inner) :
+{ final LineType newLineType; }
+{
+	<LT> newLineType = lineType() {return new RecRunnable(inner) {
+		public void run() {
+			LineType oldLineType = getDrawHandler().getLineType();
+			getDrawHandler().setLineType(newLineType);
+			runInner();
+			getDrawHandler().setLineType(oldLineType);
+		}
+	};}
+}
+
+LineType lineType() :
+{ LineType value;}
+{
+	(
+	"-" {value = LineType.SOLID;}
+	| "." {value = LineType.DASHED;}
+	| ".." {value = LineType.DOTTED;}
+	| "=" {value = LineType.DOUBLE;}
+	| ":" {value = LineType.DOUBLE_DASHED;}
+	| "::" {value = LineType.DOUBLE_DOTTED;}
+	) {return value;}
+}
+
+/**
+ * sets the line width
+ */
+RecRunnable lw(RecRunnable inner) :
+{ final double newLineWidth;}
+{
+	<LW> newLineWidth = unsignedDoubleConstant() {return new RecRunnable(inner) {
+		public void run() {
+			double oldLineWidth = getDrawHandler().getLineWidth();
+			getDrawHandler().setLineWidth(newLineWidth);
+			runInner();
+			getDrawHandler().setLineWidth(oldLineWidth);
+		}
+	};}
+}
+
+/**
+ * sets the transparency (background only)
+ */
+RecRunnable transparency(RecRunnable inner) :
+{ final double transparencyVal;}
+{
+	< TRANSPARENCY > transparencyVal = unsignedDoubleConstant()
+	{
+		if(transparencyVal < 0 || transparencyVal > 100) {
+			throw new CustomDrawingParserRuntimeException("The transparency value must be between 0 and 100");
+		}
+		return new RecRunnable(inner) {
+		public void run(){
+			ColorOwn oldColor = getDrawHandler().getBackgroundColor();
+			double colorTransparencyValue = 255 - transparencyVal * 2.55; /* ColorOwn has 0 for full transparency and 255 for no transparency */
+			ColorOwn bgColor = getDrawHandler().getBackgroundColor();
+			getDrawHandler().setBackgroundColor(bgColor.transparency((int) colorTransparencyValue));
+			runInner();
+			getDrawHandler().setBackgroundColor(oldColor);
+		}
+	};}
+}
+
+String simpleString() :
+{}
+{
+	<SIMPLE_STRING> { return token.image.substring(1,token.image.length()-1).replace("\\\"", "\"").replace("\\\\", "\\");} //remove the leading and trailing quotes, replace all escaped quotes \" with a normal quote " and replace all \\ with \
+}
+
+boolean booleanConstant() :
+{ boolean value;}
+{
+	(
+		<FALSE>  { value = false;}
+		| <TRUE> { value = true;}
+	) {return value; }
+}
+
+AlignHorizontal horizontalAlignment() :
+{ AlignHorizontal alignment;}
+{
+	(
+		<LEFT> { alignment = AlignHorizontal.LEFT;}
+		| <CENTER> { alignment = AlignHorizontal.CENTER;}
+		| <RIGHT> { alignment = AlignHorizontal.RIGHT;}
+	){ return alignment;}
+}
+
+// Start of the arithmetical interpreter
+
+
+double doubleTerm() :
+{ double v1, v2;}
+{
+	v1 = doubleProduct()
+	(
+		"+" v2 = doubleProduct() { v1 = v1 + v2; }
+		| "-" v2 = doubleProduct() { v1 = v1 - v2; }
+	)*
+	{ return v1; }
+}
+
+double doubleProduct() :
+{ double v1, v2; }
+{
+	v1 = doubleValue()
+	(
+		"*" v2 = doubleValue() { v1 = v1 * v2; }
+		| "/" v2 = doubleValue() { v1 = v1 / v2; }
+	)*
+	{ return v1; }
+}
+
+double doubleValue() :
+{ double value;}
+{ 
+	(
+		<WIDTH> { value = getWidth(); }
+		| <HEIGHT> { value = getHeight(); }
+		| "-" value = unsignedDoubleConstant() {value = - value;}
+		| value = unsignedDoubleConstant()
+		| "(" value = doubleTerm() ")"
+	)
+	{return value;}
+}
+
+double unsignedDoubleConstant() :
+{}
+{
+	<UNSIGNED_DOUBLE_CONSTANT> {
+		double value;
+		try {
+			value = Double.parseDouble(token.image);
+		} catch(NumberFormatException e) {
+			// log fatal error, only valid double values are accepted from the parser
+			// a double can't be to big, but may loose some precision
+			log.error("Fatal Error: The string '" + token.image + "' couldn't be parsed as double, but the grammar should ensure that the string is parsable.",e);
+			throw (ParseException) new ParseException("Fatal Error: The string '" + token.image + "' couldn't be parsed as double, but the grammar should ensure that the string is parsable.").initCause(e);
+		}
+		return value;
+	}
+}

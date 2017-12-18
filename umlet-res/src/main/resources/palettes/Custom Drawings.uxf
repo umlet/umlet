@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.1.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>210</x>
+      <y>70</y>
+      <w>120</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>     Note..
+     Placeholder
+     laurem
+ipsum
+customelement=
+drawArc(5,5,10,50,50,80,false) fg=red bg=red //Parameters (x, y, width, height, start, extent, open)
+drawCircle(10,40,3) fg=red bg=red //Parameters (x, y, radius)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>210</x>
+      <y>0</y>
+      <w>120</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>Note..
+customelement=
+drawArc(width-25,5,10,50,50,80,false) fg=red bg=red //Parameters (x, y, width, height, start, extent, open)
+drawCircle(width-20,40,3) fg=red bg=red //Parameters (x, y, radius)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>0</y>
+      <w>170</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>// Class Element
+
+EntityDAO
+--
+-id: Long
+_-ClassAttribute: Long_
+--
+#Operation(i: int): int
+/+AbstractOperation()/
+
+customelement=
+// DB Symbol
+drawArc(5,5,26,8,0,180,true) fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,5,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawRectangle(5,9,26,15) lw=0.1 bg=#222222 //Parameters (x, y, width, height)
+drawLine(5,9,5,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawLine(31,9,31,24)fg=black //Parameters (x1, y1, x2, y2) 
+drawArc(5,10,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,15,26,8,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(5,20,26,8,180,180,true)fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>340</x>
+      <y>110</y>
+      <w>210</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>//Text Element
+customelement=
+// Parameters drawText(text, x, y, horizontal alignment)
+// Parameters drawLine(x1, y1, x2, y2) 
+// Helping lines are drawn for better understanding of the Text Positioning
+
+// " can be escaped by \ and \\ is converted to \
+drawText("Example how to draw \"Strings\"", width/2, 18, center) //fg= //Parameters (text, x, y, horizontal alignment)
+
+drawLine(50,40,50,80) fg=red lw=2 
+
+drawText("This",50,40,center)
+drawLine(20, 40, 38, 40) fg=red
+
+drawText("This gy",50,60,left)
+drawLine(75, 60, 100, 60) fg=red
+
+drawText("This",50,80,right)
+drawLine(10, 80, 25, 80) fg=red
+
+drawText("Escaping: \" and \\ and \\\\", width/2, 110, center) fg=blue</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>300</y>
+      <w>290</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>
+Draw inner rectangle similar
+to the double border with fixed margin
+with the help of 'width' and 'height'
+customelement=
+drawRectangle(10,10,width-20,height-20) //fg= bg= lt= lw= //Parameters (x, y, width, height)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>170</y>
+      <w>250</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>On the left side a Union symbol
+Middle and right,shows the 
+difference between open and closed
+transparency=80
+bg=red
+customelement=
+drawArc(10,40,30,50,180,180,true) transparency=100
+
+drawArc(100,60,30,45,130,280,true) bg=gray
+drawArc(150,60,30,45,130,280,false) bg=gray
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>510</y>
+      <w>290</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>
+Draw inner rectangle similar
+to the double border, but the margin 
+depends on the size of the element
+with the help of 'width' and 'height'
+customelement=
+//width / 1.25 = width * 0.8
+//width / 10 = widht * 0.1
+drawRectangle(width / 10, height * 0.1, width / 1.25, height * 0.8 ) //fg= bg= lt= lw= //Parameters (x, y, width, height)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>410</y>
+      <w>290</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>
+Draw inner rounded rectangle similar
+to the double border with fixed margin
+with the help of 'width' and 'height'
+customelement=
+drawRectangleRound(10,10,width-20,height-20,10) //fg= bg= lt= lw= //Parameters (x, y, width, height)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>340</x>
+      <y>340</y>
+      <w>210</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>Some arbitrary figures to show
+coloring and line type and width
+customelement=
+//left top rectangle
+drawRectangle(50,40,50,50)fg=orange bg=blue lt=.
+
+//right rectangle with double dashed border
+drawRectangleRound(120,45,50,50,5) fg=orange bg=blue lt=:
+
+//gren point line
+drawLine(50,100,170,130)fg=green lt=..
+
+//very transparent circle with dashed border
+drawCircle(75,150,25) fg=black bg=yellow lw=2 lt=. transparency=80
+
+//Ellipse with backgroundcolor from HEX string
+drawEllipse(120,150,70,40) fg=cyan bg=#FFC000
+
+//drawing a solid Circle without border using drawArc
+drawArc(50,180,50,50,0,360,true) lw=0 bg=red transparency=0
+
+//a pie
+drawArc(80,200,120,40,0,30,false) fg=black bg=red lt=.
+
+//paint over other elements, to from complex figures
+drawRectangle(10,240,60,40) bg=blue transparency=0 lw=0
+drawCircle(40,260,15) bg=white transparency=0 lw=0
+
+drawRectangle(100,240,60,40) bg=red transparency=0
+drawCircle(100,240,15) bg=white transparency=0 lw=1 fg=white
+drawRectangle(130,260,31,21) bg=white transparency=0 lw=1 fg=white
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>340</x>
+      <y>240</y>
+      <w>210</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>        Drawing 2 parallel lines
+customelement=
+//arithmetical skills
+drawLine(width * (1*0.1),height/100*(100-90),width * 0.9,height * (1-0.1))
+drawLine(width *0.1,5+height*0.1,width * 0.9,height * (1-0.1)+5)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>400</x>
+      <y>0</y>
+      <w>100</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>customelement=
+// Text Elemnt
+// DB Symbol
+drawArc(0,0,width,height*2/5,0,180,true) fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)
+drawArc(0,0,width,height*2/5,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawRectangle(0,(height+0.5)/5,width,(height)*3/5-1) fg=#929292 bg=#222222 //Parameters (x, y, width, height)
+drawLine(0,height/5,0,height*4/5)fg=black //Parameters (x1, y1, x2, y2) 
+drawLine(width,height/5,width,height*4/5)fg=black //Parameters (x1, y1, x2, y2) 
+drawArc(0,height*1/5,width,height*2/5,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(0,height*2/5,width,height*2/5,180,180,true) fg=black //Parameters (x, y, width, height, start, extent, open)
+drawArc(0,height*3/5,width,height*2/5,180,180,true) fg=black bg=#222222 //Parameters (x, y, width, height, start, extent, open)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>640</y>
+      <w>530</w>
+      <h>670</h>
+    </coordinates>
+    <panel_attributes>halign=left
+style=wordwrap
+*Custom Drawing Commands:*
+- can be used in any element other than Plot or Relation
+- // starts a comment, which ends at the line end
+- 'width' and 'height' can be used as parameters
+- arithmetic operations (+, - , *, /) are supported
+- all commands can overwrite some settings locally
+/     e.g. drawLine(10,20,30,40) fg=red/
+
+*Command Details:*
+drawLine(x1,y1,x2,y2) // parameters are doubles
+- draws a line from (x1,y1) to (x2,y2)
+- can overwrite fg, lt, lw
+-
+drawRectangle(x,y,width,height) // parameters are doubles
+- draws a rectangle with the top left corner at (x,y)
+- can overwrite fg, bg, lt, lw, transparency
+-
+drawRectangleRound(x,y,width,height radius) // parameters are doubles
+- draws a round rectangle with the top left corner at (x,y)
+- the corners have the given radius
+- can overwrite fg, bg, lt, lw, transparency
+-
+drawCircle(x,y,radius) // parameters are doubles
+- draws a cricle with the center at (x,y) and the given radius
+- can overwrite fg, bg, lt, lw, transparency
+-
+drawEllipse(x,y,width,height) // parameters are doubles
+- draws an ellipse where the top left corner of the surrounding rectangle is at (x,y)
+- can overwrite fg, bg, lt, lw, transparency
+-
+drawArc(x,y,width,height,start,extent,open) // first 6 parameters are doubles, the last is a boolean (true or false)
+- draws an elliptical arc where the top left corner of the surrounding rectangle is at (x,y). This arc starts at &lt;start&gt; degrees and ends at &lt;start&gt;+&lt;extent&gt; degrees. If open is false two border lines are drawn from the center to the arc otherwise the arc is filled as there would exist a line between the two endpoints.
+- can overwrite fg, bg, lt, lw, transparency
+-
+drawText(Text,x,y,horizontal alignment) // Parameters: String, double, double, HAlignment
+- HAlignment can be one of the following: left, right or center
+- draws a text which is aligned as follows:
+   - according to the HAlignment the text starts (left), stops (right) or  is centered at x
+   - the text is drawn on the line, which is described by y
+- can overwrite fg</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

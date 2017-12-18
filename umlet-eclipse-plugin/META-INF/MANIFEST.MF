@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.9.4
+Created-By: 1.8.0_65-b17 (Oracle Corporation)
+Bundle-ManifestVersion: 2
+Bundle-Name: UMLet
+Bundle-SymbolicName: com.umlet.plugin;singleton:=true
+Bundle-Version: 14.3.0.qualifier
+Bundle-ClassPath: .,lib/umlet-elements.jar,lib/bcel.jar,lib/batik-xml.
+ jar,lib/javaparser-core.jar,lib/log4j.jar,lib/commons-io.jar,lib/bati
+ k-awt-util.jar,lib/javax.mail.jar,lib/batik-svggen.jar,lib/itextpdf.j
+ ar,lib/batik-dom.jar,lib/batik-util.jar,lib/batik-ext.jar,lib/ecj.jar
+ ,lib/rsyntaxtextarea.jar,lib/slf4j-log4j12.jar,lib/autocomplete.jar,l
+ ib/jlibeps.jar,lib/slf4j-api.jar,lib/umlet-swing.jar
+Bundle-Activator: com.baselet.plugin.MainPlugin
+Export-Package: com.baselet.plugin,com.baselet.plugin.gui,com.baselet.
+ plugin.wizard
+Require-Bundle: org.eclipse.ui,org.eclipse.ui.ide,org.eclipse.core.res
+ ources,org.eclipse.core.runtime,org.eclipse.core.commands,org.eclipse
+ .core.expressions,org.eclipse.jface,org.eclipse.jface.text;resolution
+ :=optional,org.eclipse.jdt.core;resolution:=optional,org.eclipse.jdt.
+ ui;resolution:=optional,org.eclipse.ui.workbench.texteditor,org.eclip
+ se.ltk.core.refactoring;resolution:=optional,org.eclipse.jdt.core.man
+ ipulation;resolution:=optional,org.eclipse.m2e.core;resolution:=optio
+ nal,org.eclipse.m2e.maven.runtime;resolution:=optional
+Bundle-ActivationPolicy: lazy
+Eclipse-LazyStart: true
+Import-Package: org.eclipse.core.filesystem
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+

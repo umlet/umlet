@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.1">
+  <help_text>// Uncomment the following line to change the fontsize and font:
+fontsize=10
+// fontfamily=SansSerif //possible: SansSerif,Serif,Monospaced
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Welcome to UMLet!
+//
+// Double-click on elements to add them to the diagram, or to copy them
+// Edit elements by modifying the text in this panel
+// Hold Ctrl to select multiple elements
+// Use Ctrl+mouse to select via lasso
+//
+// Use +/- or Ctrl+mouse wheel to zoom
+// Drag a whole relation at its central square icon
+//
+// Press Ctrl+C to copy the whole diagram to the system clipboard (then just paste it to, eg, Word)
+// Edit the files in the "palettes" directory to create your own element palettes
+//
+// Select "Custom Elements &gt; New..." to create new element types
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// This text will be stored with each diagram;  use it for notes.</help_text>
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>PlotGrid</id>
+    <coordinates>
+      <x>30</x>
+      <y>230</y>
+      <w>500</w>
+      <h>350</h>
+    </coordinates>
+    <panel_attributes>// datasets can have optional names set (in this case "first_name")
+data first_name
+a	b	c	d
+1	3	1	6
+
+data
+a	b	c
+2	-4	4
+
+// some settings are global, like the width of the grid
+grid.width=4
+
+// variables which are on the same line as "plot" are only set for this plot
+plot type=pie colors=red,blue,yellow,#3c7a00
+
+// A variable which is on it's own line is valid for every following plot
+type=line
+colors=blue
+plot
+plot
+
+plot type=scatter
+plot type=scatter
+
+// auto resets the variable to it's default value (in this case "bar")
+type=auto
+colors=auto
+plot
+
+// to use the highest/lowest value of all datasets, set value.min/max to all
+value.min=all
+value.max=all
+plot
+
+// you can set the data to plot by number
+plot data=#1
+
+// ... or by name
+plot data=first_name
+
+// a custom min/max value sets a custom range of values for the axis
+value.min=-6
+value.max=10
+plot</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>PlotGrid</id>
+    <coordinates>
+      <x>550</x>
+      <y>240</y>
+      <w>500</w>
+      <h>390</h>
+    </coordinates>
+    <panel_attributes>// there are numerous axis configurations which are shown here
+
+data
+a	b	c
+-5	7	13
+
+type=line
+axis.desc.show=
+axis.value.show=
+axis.value.list=relevant
+plot
+axis.desc.show=axis
+plot
+axis.value.show=axis
+plot
+axis.desc.show=axis,line
+plot
+axis.value.show=axis,line
+plot
+axis.desc.show=axis,line,marker
+plot
+axis.value.show=axis,line,marker
+plot
+axis.desc.show=axis,line,marker,text
+plot
+axis.value.show=axis,line,marker,text
+plot
+
+axis.value.list=
+plot
+axis.value.list=-8,-1,3.5,17
+plot
+axis.value.list=-8,-1,3.5,17,relevant
+plot</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>PlotGrid</id>
+    <coordinates>
+      <x>670</x>
+      <y>20</y>
+      <w>190</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>data
+	a	b	c
+x	-16	5.5	18.3
+y	3	5	1
+z	5	9	-3
+
+type=scatter
+axis.value.show=axis
+axis.desc.show=axis,marker,text
+plot</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>PlotGrid</id>
+    <coordinates>
+      <x>220</x>
+      <y>20</y>
+      <w>170</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>// single plots are easily created without using capabilities of a (plot)grid
+
+data
+a	b	c
+3	7	13
+
+plot type=bar</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>PlotGrid</id>
+    <coordinates>
+      <x>20</x>
+      <y>20</y>
+      <w>170</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>// single plots are easily created without using capabilities of a (plot)grid
+
+data
+a	b	c
+3	7	13
+
+plot type=pie</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>PlotGrid</id>
+    <coordinates>
+      <x>450</x>
+      <y>20</y>
+      <w>190</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>data
+	a	b	c
+x	-16	5.5	18.3
+y	3	5	1
+z	5	9	-3
+
+type=line
+axis.value.show=axis
+axis.desc.show=axis,marker,text
+plot data=#1 data.invert=true
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
