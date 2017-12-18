@@ -25,9 +25,8 @@ public class PaletteEntityListener extends GridElementListener {
 
 	Map<GridElement, Rectangle> previousDraggingLocation;
 
-	private static HashMap<DiagramHandler, PaletteEntityListener> entitylistener = new HashMap<DiagramHandler, PaletteEntityListener>();<<<<<<<HEAD
-	private final Vector<GridElement> copiedEntities;=======
-	private Vector<GridElement> copiedEntities;>>>>>>>789f 3f c5260d3dbb67e5d4fce75cf49c0a4550f6
+	private static HashMap<DiagramHandler, PaletteEntityListener> entitylistener = new HashMap<DiagramHandler, PaletteEntityListener>();
+	private final Vector<GridElement> copiedEntities;
 
 	public static PaletteEntityListener getInstance(DiagramHandler handler) {
 		if (!entitylistener.containsKey(handler)) {
@@ -63,11 +62,7 @@ public class PaletteEntityListener extends GridElementListener {
 	public void mouseDragged(MouseEvent me) {
 		super.mouseDragged(me);
 		GridElement entity = handler.getDrawPanel().getElementToComponent(me.getComponent());
-<<<<<<< HEAD
-=======
-
->>>>>>> 789f3fc5260d3dbb67e5d4fce75cf49c0a4550f6
-		if IS_DRAGGED_FROM_PALETTE {
+		if (IS_DRAGGED_FROM_PALETTE) {
 			moveDraggedEntities();
 		}
 		else if (entity.getRectangle().x + entity.getRectangle().width <= 0) {
@@ -156,7 +151,6 @@ public class PaletteEntityListener extends GridElementListener {
 		super.mouseReleased(me);
 		CurrentDiagram.getInstance().getDiagramHandler().getDrawPanel().updatePanelAndScrollbars();
 		resetEntities();
-
 	}
 
 	protected boolean allowCopyEntity() {
