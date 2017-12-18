@@ -26,7 +26,7 @@ public class PaletteEntityListener extends GridElementListener {
 	Map<GridElement, Rectangle> previousDraggingLocation;
 
 	private static HashMap<DiagramHandler, PaletteEntityListener> entitylistener = new HashMap<DiagramHandler, PaletteEntityListener>();
-	private final Vector<GridElement> copiedEntities;
+	private Vector<GridElement> copiedEntities;
 
 	public static PaletteEntityListener getInstance(DiagramHandler handler) {
 		if (!entitylistener.containsKey(handler)) {
