@@ -42,7 +42,11 @@ public class MainStandalone {
 			String filename = null;
 			String output = null;
 			for (String arg : args) {
-				if (arg.startsWith("-action=")) {
+				if (arg.equals("-help") || arg.equals("-usage")) {
+					initAndPrintUsage();
+					return;
+				}
+				else if (arg.startsWith("-action=")) {
 					action = arg.substring(8);
 				}
 				else if (arg.startsWith("-format=")) {
@@ -84,13 +88,11 @@ public class MainStandalone {
 					}
 				}
 				else {
-					readBuildInfoAndInitVersion(RuntimeType.BATCH);
-					printUsage();
+					initAndPrintUsage();
 				}
 			}
 			else {
-				readBuildInfoAndInitVersion(RuntimeType.BATCH);
-				printUsage();
+				initAndPrintUsage();
 			}
 		}
 		else { // no arguments specified
@@ -98,6 +100,11 @@ public class MainStandalone {
 			alreadyRunningChecker(true); // start checker
 			startStandalone(null);
 		}
+	}
+
+	private static void initAndPrintUsage() {
+		readBuildInfoAndInitVersion(RuntimeType.BATCH);
+		printUsage();
 	}
 
 	private static void initAll(RuntimeType runtime) {
