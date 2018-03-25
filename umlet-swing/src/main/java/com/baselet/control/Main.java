@@ -71,10 +71,10 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 		else {
 			DiagramHandler handler = CurrentDiagram.getInstance().getDiagramHandler();
 			if (handler == null) {
-				propertyPane.switchToNonElement("");
+				propertyPane.switchToNonElement("", "");
 			}
 			else {
-				propertyPane.switchToNonElement(handler.getHelpText());
+				propertyPane.switchToNonElement(handler.getHelpText(), "Help");
 			}
 		}
 	}
@@ -181,6 +181,9 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 			// scan palettes
 			List<File> palettes = scanForPalettes();
 			for (File palette : palettes) {
+				if (palette == null) {
+					continue;
+				}
 				this.palettes.put(getFilenameWithoutExtension(palette), new PaletteHandler(palette));
 			}
 		}

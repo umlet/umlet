@@ -84,7 +84,7 @@ public class InputHandler extends DefaultHandler {
 			handler.getFontHandler().setDiagramDefaultFontFamily(HelpPanelChanged.getFontfamily(elementtext));
 			BaseGUI gui = CurrentGui.getInstance().getGui();
 			if (gui != null && gui.getPropertyPane() != null) { // issue 244: in batchmode, a file can have a help_text but gui will be null
-				gui.getPropertyPane().switchToNonElement(elementtext);
+				gui.getPropertyPane().switchToNonElement(elementtext, "Help");
 			}
 		}
 		else if (elementname.equals("zoom_level")) {
