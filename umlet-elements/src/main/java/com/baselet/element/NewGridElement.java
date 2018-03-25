@@ -165,9 +165,10 @@ public abstract class NewGridElement implements GridElement {
 
 	@Override
 	public void setProperty(String key, Object newValue) {
+		String keyWithSep = key + KeyValueFacet.SEP;
 		StringBuilder sb = new StringBuilder("");
 		for (String line : getPanelAttributesAsList()) {
-			if (!line.startsWith(key)) {
+			if (!line.startsWith(keyWithSep)) {
 				sb.append(line).append("\n");
 			}
 		}
@@ -175,7 +176,7 @@ public abstract class NewGridElement implements GridElement {
 			sb.setLength(sb.length() - 1);
 		}
 		if (newValue != null) {
-			sb.append("\n").append(key).append(KeyValueFacet.SEP).append(newValue.toString()); // null will not be added as a value
+			sb.append("\n").append(keyWithSep).append(newValue.toString()); // null will not be added as a value
 		}
 		setPanelAttributes(sb.toString());
 	}
