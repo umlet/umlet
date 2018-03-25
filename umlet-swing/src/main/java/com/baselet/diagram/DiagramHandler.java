@@ -182,6 +182,7 @@ public class DiagramHandler {
 	public void doPrint() {
 		PrinterJob printJob = PrinterJob.getPrinterJob();
 		printJob.setPrintable(getDrawPanel());
+		printJob.setJobName(getName());
 		if (printJob.printDialog()) {
 			try {
 				printJob.print();
