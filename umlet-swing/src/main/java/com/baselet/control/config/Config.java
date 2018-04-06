@@ -47,6 +47,7 @@ public class Config {
 	private boolean enable_custom_elements = true;
 	private boolean show_grid = false;
 	private boolean start_maximized = false;
+	private boolean secureXmlProcessing = true;
 	private String defaultFontFamily = Font.SANS_SERIF;
 	private Integer defaultFontsize = 14;
 	private Integer propertiesPanelFontsize = 11;
@@ -161,6 +162,14 @@ public class Config {
 
 	public void setCheckForUpdates(boolean checkForUpdates) {
 		this.checkForUpdates = checkForUpdates;
+	}
+
+	public boolean isSecureXmlProcessing() {
+		return secureXmlProcessing;
+	}
+
+	public void setSecureXmlProcessing(boolean secureXmlProcessing) {
+		this.secureXmlProcessing = secureXmlProcessing;
 	}
 
 	public int getPrintPadding() {

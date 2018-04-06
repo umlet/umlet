@@ -18,6 +18,7 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParser;
@@ -246,14 +247,21 @@ public class DiagramFileHandler {
 
 	public void doOpen() {
 		try {
-			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+			SAXParserFactory spf = SAXParserFactory.newInstance();
+			if (Config.getInstance().isSecureXmlProcessing()) {
+				// use secure xml processing (see https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Prevention_Cheat_Sheet#JAXP_DocumentBuilderFactory.2C_SAXParserFactory_and_DOM4J)
+				spf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+				spf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+				spf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+				spf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+			}
+			SAXParser parser = spf.newSAXParser();
 			FileInputStream input = new FileInputStream(file);
 			InputHandler xmlhandler = new InputHandler(handler);
 			parser.parse(input, xmlhandler);
 			input.close();
 		} catch (Exception e) {
 			log.error("Cannot open the file: " + file.getAbsolutePath(), e);
-
 		}
 	}
 
