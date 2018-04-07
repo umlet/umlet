@@ -3,6 +3,7 @@ package com.baselet.standalone.gui;
 import java.awt.event.KeyEvent;
 import java.util.Collection;
 
+import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -33,8 +34,9 @@ public class MenuBuilder {
 	private JMenu customNewFromTemplate;
 	private JMenuItem customEdit;
 	private JToggleButton mailButton;
+	private JButton exportAsButton;
 
-	public JMenuBar createMenu(JPanel searchPanel, JPanel zoomPanel, JToggleButton mailButton) {
+	public JMenuBar createMenu(JPanel searchPanel, JPanel zoomPanel, JPanel mailButtonPanel, JPanel exportAsPanel) {
 		/*********** CREATE MENU *****************/
 		JMenuBar menu = new JMenuBar();
 		menuFactory = MenuFactorySwing.getInstance();
@@ -109,8 +111,10 @@ public class MenuBuilder {
 
 		menu.add(searchPanel);
 		menu.add(zoomPanel);
-		this.mailButton = mailButton;
-		menu.add(mailButton);
+		menu.add(mailButtonPanel);
+		mailButton = (JToggleButton) mailButtonPanel.getComponent(0);
+		menu.add(exportAsPanel);
+		exportAsButton = (JButton) exportAsPanel.getComponent(2);
 
 		return menu;
 	}
@@ -169,9 +173,11 @@ public class MenuBuilder {
 
 			if (handler == null || handler.getDrawPanel().getGridElements().isEmpty()) {
 				mailButton.setEnabled(false);
+				exportAsButton.setEnabled(false);
 			}
 			else {
 				mailButton.setEnabled(true);
+				exportAsButton.setEnabled(true);
 			}
 		}
 

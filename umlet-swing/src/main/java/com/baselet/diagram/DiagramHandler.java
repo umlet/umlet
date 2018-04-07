@@ -30,6 +30,7 @@ import com.baselet.element.old.custom.CustomElement;
 import com.baselet.element.old.element.Relation;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
+import com.baselet.gui.ExportAsHandler;
 import com.baselet.gui.command.Controller;
 import com.baselet.gui.listener.DiagramListener;
 import com.baselet.gui.listener.GridElementListener;
@@ -163,18 +164,21 @@ public class DiagramHandler {
 		}
 	}
 
-	public void doSaveAs(String extension) {
+	public boolean doSaveAs(String extension) {
 		if (drawpanel.getGridElements().isEmpty()) {
 			displayError(ErrorMessages.ERROR_SAVING_EMPTY_DIAGRAM);
+			return false;
 		}
 		else {
 			try {
-				fileHandler.doSaveAs(extension);
+				boolean diagramSaved = fileHandler.doSaveAs(extension);
 				reloadPalettes();
 				CurrentGui.getInstance().getGui().afterSaving();
+				return diagramSaved;
 			} catch (IOException e) {
 				log.error(ErrorMessages.ERROR_SAVING_FILE, e);
 				displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
+				return false;
 			}
 		}
 	}
@@ -211,6 +215,7 @@ public class DiagramHandler {
 
 	public void doClose() {
 		if (askSaveIfDirty()) {
+			ExportAsHandler.getInstance().diagramTabIsClosed();
 			Main.getInstance().getDiagrams().remove(this); // remove this DiagramHandler from the list of managed diagrams
 			drawpanel.getSelector().deselectAll(); // deselect all elements of the drawpanel (must be done BEFORE closing the tab, because otherwise it resets this DrawHandler again as the current DrawHandler
 			CurrentGui.getInstance().getGui().close(this); // close the GUI (tab, ...) and set the next active tab as the CurrentDiagram

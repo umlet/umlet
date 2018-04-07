@@ -9,11 +9,13 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,6 +31,7 @@ import com.baselet.control.config.Config;
 import com.baselet.control.constants.Constants;
 import com.baselet.control.enums.Program;
 import com.baselet.gui.BaseGUIBuilder;
+import com.baselet.gui.ExportAsHandler;
 import com.baselet.gui.filedrop.FileDrop;
 import com.baselet.gui.filedrop.FileDropListener;
 import com.baselet.gui.listener.GUIListener;
@@ -36,9 +39,11 @@ import com.baselet.gui.listener.UmletWindowFocusListener;
 
 public class StandaloneGUIBuilder extends BaseGUIBuilder {
 
+	private JComboBox exportAsComboBox;
 	private JComboBox zoomComboBox;
 	private ZoomListener zoomListener;
 
+	private JButton exportAsButton;
 	private JTextField searchField;
 	private JTabbedPane diagramtabs;
 	private JToggleButton mailButton;
@@ -60,8 +65,13 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 	}
 
 	public JFrame initSwingGui(MenuBuilder menuBuilder) {
+		JPanel exportAsPanel = createExportAsPanel();
+		ExportAsHandler.init(exportAsComboBox, exportAsButton);
+		setExportAsHandlerAsActionListener();
+
 		JFrame mainFrame = new JFrame();
 		mainFrame.addWindowFocusListener(new UmletWindowFocusListener());
+		mainFrame.addKeyListener(ExportAsHandler.getInstance());
 		mainFrame.addKeyListener(new GUIListener());
 		mainFrame.addKeyListener(new SearchKeyListener());
 		mainFrame.addWindowListener(new SwingWindowListener());
@@ -78,7 +88,7 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 			mainFrame.setVisible(true);
 		}
 
-		mainFrame.setJMenuBar(menuBuilder.createMenu(createSearchPanel(), createZoomPanel(), createMailButton()));
+		mainFrame.setJMenuBar(menuBuilder.createMenu(createSearchPanel(), createZoomPanel(), createMailButtonPanel(), exportAsPanel));
 
 		JPanel diagramTabPanel = createDiagramTabPanel();
 		int mainDividerLoc = Math.min(mainFrame.getSize().width - Constants.MIN_MAIN_SPLITPANEL_SIZE, Config.getInstance().getMain_split_position());
@@ -89,6 +99,55 @@ public class StandaloneGUIBuilder extends BaseGUIBuilder {
 		mainFrame.setVisible(true);
 
 		return mainFrame;
+	}
+
+	public JPanel createMailButtonPanel() {
+		createMailButton();
+
+		JPanel mailButtonPanel = new JPanel();
+		mailButtonPanel.setOpaque(false);
+		mailButtonPanel.setLayout(new BoxLayout(mailButtonPanel, BoxLayout.X_AXIS));
+		mailButtonPanel.add(mailButton);
+		mailButtonPanel.add(Box.createRigidArea(new Dimension(20, 0)));
+		return mailButtonPanel;
+	}
+
+	private void createExportAsComboBox() {
+		exportAsComboBox = new JComboBox();
+		exportAsComboBox.setPreferredSize(new Dimension(80, 24));
+		exportAsComboBox.setMinimumSize(exportAsComboBox.getPreferredSize());
+		exportAsComboBox.setMaximumSize(exportAsComboBox.getPreferredSize());
+		
+		String[] exportAsValues = new String[Constants.exportFormatList.size()];
+		for (int n = 0; n < exportAsValues.length; n++) {
+			String format = Constants.exportFormatList.get(n);
+			exportAsValues[n] = format.toUpperCase(Locale.ENGLISH);
+		}
+		
+		exportAsComboBox.setModel(new DefaultComboBoxModel(exportAsValues));
+		exportAsComboBox.setSelectedIndex(Constants.getIndexOfPdfExportFormat());
+	}
+
+	private void createExportAsButton(JComboBox exportAsComboBox) {
+		exportAsButton = new JButton("Export");
+		exportAsButton.setRequestFocusEnabled(false);
+	}
+
+	private void setExportAsHandlerAsActionListener() {
+		exportAsButton.addActionListener(ExportAsHandler.getInstance());
+	}
+
+	public JPanel createExportAsPanel() {
+		createExportAsComboBox();
+		createExportAsButton(exportAsComboBox);
+		
+		JPanel exportAsPanel = new JPanel();
+		exportAsPanel.setOpaque(false);
+		exportAsPanel.setLayout(new BoxLayout(exportAsPanel, BoxLayout.X_AXIS));
+		exportAsPanel.add(new JLabel("Export as:   "));
+		exportAsPanel.add(exportAsComboBox);
+		exportAsPanel.add(exportAsButton);
+		return exportAsPanel;
 	}
 
 	/**

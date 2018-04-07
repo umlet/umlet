@@ -64,6 +64,7 @@ import com.baselet.generator.ClassDiagramConverter;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.BrowserLauncher;
 import com.baselet.gui.CurrentGui;
+import com.baselet.gui.ExportAsHandler;
 import com.baselet.gui.OptionPanel;
 import com.baselet.gui.command.Align;
 import com.baselet.gui.command.ChangeElementSetting;
@@ -110,7 +111,11 @@ public class MenuFactory {
 					diagramHandler.doSaveAs(Program.getInstance().getExtension());
 				}
 				else if (menuItem.equals(EXPORT_AS) && diagramHandler != null) {
-					diagramHandler.doSaveAs((String) param);
+					boolean diagramExported = diagramHandler.doSaveAs((String) param);
+					if (diagramExported) {
+						String lastExportFilePath = CurrentDiagram.getInstance().getDiagramHandler().getFileHandler().getLastExportFilePath();
+						ExportAsHandler.getInstance().fileExportViaMenu(lastExportFilePath);
+					}
 				}
 				else if (menuItem.equals(MAIL_TO)) {
 					gui.setMailPanelEnabled(!gui.isMailPanelVisible());

@@ -8,6 +8,7 @@ import javax.swing.JTabbedPane;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
+import com.baselet.gui.ExportAsHandler;
 
 public class TabListener implements MouseListener {
 
@@ -43,6 +44,8 @@ public class TabListener implements MouseListener {
 		if (gui != null) {
 			gui.setValueOfZoomDisplay(handler.getGridSize());
 		}
+
+		ExportAsHandler.getInstance().diagramTabIsActivated();
 	}
 
 	@Override
