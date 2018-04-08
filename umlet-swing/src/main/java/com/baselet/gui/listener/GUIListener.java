@@ -28,10 +28,18 @@ public class GUIListener implements KeyListener {
 
 		if (handler != null && !e.isAltDown() && !e.isAltGraphDown() /* && !e.isControlDown() && !e.isMetaDown() */) {
 
+            /**
+             * Shift + Enter: clears property panel and focus it
+             */
+            if(e.getKeyCode() == KeyEvent.VK_ENTER && e.isShiftDown()){
+                CurrentGui.getInstance().getGui().getPropertyPane().clearText();
+				CurrentGui.getInstance().getGui().focusPropertyPane();
+            }
+
 			/**
 			 * Enter: jumps directly into the diagram
 			 */
-			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 				CurrentGui.getInstance().getGui().focusPropertyPane();
 			}
 
