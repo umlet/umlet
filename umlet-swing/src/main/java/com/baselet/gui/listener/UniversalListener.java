@@ -139,6 +139,8 @@ public abstract class UniversalListener extends ComponentAdapter implements Mous
 		int diffx = newp.x - oldp.x;
 		int diffy = newp.y - oldp.y;
 
+		handler.updateViewportReference(diffx, diffy);
+
 		if (diffx != 0 || diffy != 0) {
 			Vector<Command> moveCommands = new Vector<Command>();
 			for (GridElement e : diagram.getGridElements()) {
