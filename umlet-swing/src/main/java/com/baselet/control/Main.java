@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.filechooser.FileSystemView;
 
+import com.baselet.gui.ExportAsHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,12 +99,18 @@ public class Main implements CanCloseProgram, CanOpenDiagram {
 		if (diagrams.size() == 1) {
 			setPropertyPanelToGridElement(null);
 		}
+
+		ExportAsHandler.getInstance().newDiagramTab();
 	}
 
 	public void doOpenFromFileChooser() {
 		List<String> files = new OpenFileChooser().getFilesToOpen(CurrentGui.getInstance().getGui().getMainFrame());
 		for (String file : files) {
 			doOpen(file);
+		}
+
+		if (!files.isEmpty()) {
+			ExportAsHandler.getInstance().newDiagramTab();
 		}
 	}
 

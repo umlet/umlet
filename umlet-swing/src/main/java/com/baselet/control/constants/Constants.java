@@ -61,6 +61,14 @@ public abstract class Constants extends SharedConstants {
 	/**** EXPORT FORMATS ****/
 	public static final List<String> exportFormatList = Arrays.asList(new String[] { "bmp", "eps", "gif", "jpg", "pdf", "png", "svg" });
 
+	public static final int getIndexOfExportFormat(String formatExtension) {
+		return exportFormatList.indexOf(formatExtension);
+	}
+
+	public static final int getIndexOfPdfExportFormat() {
+		return getIndexOfExportFormat("pdf");
+	}
+
 	/**** ZOOM VALUES ****/
 	public static final ArrayList<String> zoomValueList = new ArrayList<String>();
 

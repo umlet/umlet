@@ -130,6 +130,10 @@ public class DiagramFileHandler {
 		CurrentGui.getInstance().getGui().updateDiagramName(handler, handler.getName());
 	}
 
+	public String getLastExportFilePath() {
+		return lastExportFile != null ? lastExportFile.getAbsolutePath() : "";
+	}
+
 	private void createXMLOutputDoc(Document doc, Collection<GridElement> elements, Element current) {
 		for (GridElement e : elements) {
 			appendRecursively(doc, current, e);
@@ -265,13 +269,13 @@ public class DiagramFileHandler {
 		}
 	}
 
-	public void doSaveAs(String fileextension) throws IOException {
+	public boolean doSaveAs(String fileextension) throws IOException {
 		boolean ownXmlFormat = fileextension.equals(Program.getInstance().getExtension());
 		JFileChooser fileChooser = createSaveFileChooser(!ownXmlFormat);
 		String fileName = chooseFileName(ownXmlFormat, filters.get(fileextension), fileChooser);
 		String extension = fileextensions.get(fileChooser.getFileFilter());
 		if (fileName == null) {
-			return; // If the filechooser has been closed without saving
+			return false; // If the filechooser has been closed without saving
 		}
 		if (!fileName.endsWith("." + extension)) {
 			fileName += "." + extension;
@@ -288,6 +292,8 @@ public class DiagramFileHandler {
 			lastExportFile = fileToSave;
 			doExportAs(extension, fileToSave);
 		}
+
+		return true;
 	}
 
 	public File doSaveTempDiagram(String filename, String fileextension) throws IOException {
