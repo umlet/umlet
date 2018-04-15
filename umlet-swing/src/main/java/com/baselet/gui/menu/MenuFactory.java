@@ -11,6 +11,7 @@ import static com.baselet.control.constants.MenuConstants.DELETE;
 import static com.baselet.control.constants.MenuConstants.EDIT_CURRENT_PALETTE;
 import static com.baselet.control.constants.MenuConstants.EDIT_SELECTED;
 import static com.baselet.control.constants.MenuConstants.EXIT;
+import static com.baselet.control.constants.MenuConstants.EXPORT;
 import static com.baselet.control.constants.MenuConstants.EXPORT_AS;
 import static com.baselet.control.constants.MenuConstants.GENERATE_CLASS;
 import static com.baselet.control.constants.MenuConstants.GENERATE_CLASS_OPTIONS;
@@ -64,6 +65,7 @@ import com.baselet.generator.ClassDiagramConverter;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.BrowserLauncher;
 import com.baselet.gui.CurrentGui;
+import com.baselet.gui.ExportHandler;
 import com.baselet.gui.OptionPanel;
 import com.baselet.gui.command.Align;
 import com.baselet.gui.command.ChangeElementSetting;
@@ -109,8 +111,14 @@ public class MenuFactory {
 				else if (menuItem.equals(SAVE_AS) && diagramHandler != null) {
 					diagramHandler.doSaveAs(Program.getInstance().getExtension());
 				}
+				else if (menuItem.equals(EXPORT) && diagramHandler != null) {
+					ExportHandler.getInstance().export();
+				}
 				else if (menuItem.equals(EXPORT_AS) && diagramHandler != null) {
-					diagramHandler.doSaveAs((String) param);
+					String exportedDiagramFilePath = diagramHandler.doSaveAs((String) param);
+					if (exportedDiagramFilePath != null && !exportedDiagramFilePath.isEmpty()) {
+						ExportHandler.getInstance().setExportedFilePath(exportedDiagramFilePath);
+					}
 				}
 				else if (menuItem.equals(MAIL_TO)) {
 					gui.setMailPanelEnabled(!gui.isMailPanelVisible());

@@ -23,6 +23,8 @@ import com.baselet.control.util.Path;
 import com.baselet.control.util.RecentlyUsedFilesList;
 import com.baselet.gui.BaseGUI;
 
+import static com.baselet.control.constants.Constants.exportFormatList;
+
 public class ConfigHandler {
 
 	private static final String PROGRAM_VERSION = "program_version";
@@ -38,6 +40,7 @@ public class ConfigHandler {
 	private static final String PDF_EXPORT_FONT_BOLD = "pdf_export_font_bold";
 	private static final String PDF_EXPORT_FONT_ITALIC = "pdf_export_font_italic";
 	private static final String PDF_EXPORT_FONT_BOLDITALIC = "pdf_export_font_bolditalic";
+	private static final String LAST_EXPORT_FORMAT = "last_export_format";
 	private static final String CHECK_FOR_UPDATES = "check_for_updates";
 	private static final String SECURE_XML_PROCESSING = "secure_xml_processing";
 	private static final String OPEN_FILE_HOME = "open_file_home";
@@ -104,6 +107,11 @@ public class ConfigHandler {
 		cfg.setMail_split_position(getIntProperty(props, MAIL_SPLIT_POSITION, cfg.getMail_split_position()));
 		cfg.setStart_maximized(getBoolProperty(props, START_MAXIMIZED, cfg.isStart_maximized()));
 
+		String lastExportFormatProp = getStringProperty(props, LAST_EXPORT_FORMAT, cfg.getLastExportFormat());
+		if (lastExportFormatProp != null && !lastExportFormatProp.isEmpty() && exportFormatList.contains(lastExportFormatProp.toLowerCase())) {
+			cfg.setLastExportFormat(getStringProperty(props, LAST_EXPORT_FORMAT, cfg.getLastExportFormat()));
+		}
+
 		// In case of start_maximized=true we don't store any size or location information
 		if (!cfg.isStart_maximized()) {
 			cfg.setProgram_size(getDimensionProperty(props, PROGRAM_SIZE, cfg.getProgram_size()));
@@ -163,6 +171,7 @@ public class ConfigHandler {
 			props.setProperty(PDF_EXPORT_FONT_BOLD, cfg.getPdfExportFontBold());
 			props.setProperty(PDF_EXPORT_FONT_ITALIC, cfg.getPdfExportFontItalic());
 			props.setProperty(PDF_EXPORT_FONT_BOLDITALIC, cfg.getPdfExportFontBoldItalic());
+			props.setProperty(LAST_EXPORT_FORMAT, cfg.getLastExportFormat());
 			props.setProperty(CHECK_FOR_UPDATES, Boolean.toString(cfg.isCheckForUpdates()));
 			props.setProperty(SECURE_XML_PROCESSING, Boolean.toString(cfg.isSecureXmlProcessing()));
 			props.setProperty(OPEN_FILE_HOME, cfg.getOpenFileHome());

@@ -10,6 +10,7 @@ import static com.baselet.control.constants.MenuConstants.DELETE;
 import static com.baselet.control.constants.MenuConstants.EDIT_CURRENT_PALETTE;
 import static com.baselet.control.constants.MenuConstants.EDIT_SELECTED;
 import static com.baselet.control.constants.MenuConstants.EXIT;
+import static com.baselet.control.constants.MenuConstants.EXPORT;
 import static com.baselet.control.constants.MenuConstants.EXPORT_AS;
 import static com.baselet.control.constants.MenuConstants.GENERATE_CLASS;
 import static com.baselet.control.constants.MenuConstants.GENERATE_CLASS_OPTIONS;
@@ -125,13 +126,17 @@ public class MenuFactorySwing extends MenuFactory {
 	}
 
 	public JMenuItem createSaveAs() {
-		return createJMenuItemNoShortcut(true, SAVE_AS, KeyEvent.VK_A);
+		return createJMenuItemNoShortcut(true, SAVE_AS, KeyEvent.VK_V);
+	}
+
+	public JMenuItem createExport() {
+		return createJMenuItem(true, EXPORT, KeyEvent.VK_E, true, null);
 	}
 
 	public JMenu createExportAs() {
 		final JMenu export = new JMenu();
 		export.setText(EXPORT_AS);
-		export.setMnemonic(KeyEvent.VK_E);
+		export.setMnemonic(KeyEvent.VK_A);
 		diagramDependendComponents.add(export);
 		for (final String format : Constants.exportFormatList) {
 			export.add(createJMenuItem(true, format.toUpperCase(Locale.ENGLISH) + "...", EXPORT_AS, exportMnemonic(format), null, format));
