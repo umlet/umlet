@@ -51,6 +51,7 @@ public class MenuBuilder {
 		fileMenu.addSeparator();
 		fileMenu.add(menuFactory.createSave());
 		fileMenu.add(menuFactory.createSaveAs());
+		fileMenu.add(menuFactory.createExport());
 		fileMenu.add(menuFactory.createExportAs());
 		fileMenu.add(menuFactory.createMailTo());
 		fileMenu.addSeparator();

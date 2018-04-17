@@ -11,6 +11,7 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
+import com.baselet.gui.ExportHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -163,20 +164,27 @@ public class DiagramHandler {
 		}
 	}
 
-	public void doSaveAs(String extension) {
+	public String doSaveAs(String filePath, String extension) {
 		if (drawpanel.getGridElements().isEmpty()) {
 			displayError(ErrorMessages.ERROR_SAVING_EMPTY_DIAGRAM);
+			return null;
 		}
 		else {
 			try {
-				fileHandler.doSaveAs(extension);
+				String savedFilePath = fileHandler.doSaveAs(filePath, extension);
 				reloadPalettes();
 				CurrentGui.getInstance().getGui().afterSaving();
+				return savedFilePath;
 			} catch (IOException e) {
 				log.error(ErrorMessages.ERROR_SAVING_FILE, e);
 				displayError(ErrorMessages.ERROR_SAVING_FILE + e.getMessage());
+				return null;
 			}
 		}
+	}
+
+	public String doSaveAs(String extension) {
+		return doSaveAs(null, extension);
 	}
 
 	public void doPrint() {
@@ -211,6 +219,7 @@ public class DiagramHandler {
 
 	public void doClose() {
 		if (askSaveIfDirty()) {
+			ExportHandler.getInstance().diagramTabIsClosed();
 			Main.getInstance().getDiagrams().remove(this); // remove this DiagramHandler from the list of managed diagrams
 			drawpanel.getSelector().deselectAll(); // deselect all elements of the drawpanel (must be done BEFORE closing the tab, because otherwise it resets this DrawHandler again as the current DrawHandler
 			CurrentGui.getInstance().getGui().close(this); // close the GUI (tab, ...) and set the next active tab as the CurrentDiagram
