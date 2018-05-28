@@ -37,6 +37,7 @@ public class Config {
 	private String pdfExportFontBold = "";
 	private String pdfExportFontItalic = "";
 	private String pdfExportFontBoldItalic = "";
+	private String lastExportFormat = "";
 	private boolean checkForUpdates = true;
 	private int printPadding = 20;
 	private Point program_location = new Point(5, 5);
@@ -154,6 +155,14 @@ public class Config {
 
 	public void setPdfExportFontBoldItalic(String pdfExportFontBoldItalic) {
 		this.pdfExportFontBoldItalic = pdfExportFontBoldItalic;
+	}
+
+	public String getLastExportFormat() {
+		return lastExportFormat;
+	}
+
+	public void setLastExportFormat(String lastExportFormat) {
+		this.lastExportFormat = lastExportFormat;
 	}
 
 	public boolean isCheckForUpdates() {

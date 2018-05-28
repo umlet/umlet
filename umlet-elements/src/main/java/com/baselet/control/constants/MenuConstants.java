@@ -14,6 +14,7 @@ public class MenuConstants {
 	public static final String GENERATE_CLASS_OPTIONS = "Generate Class Element Options...";
 	public static final String SAVE = "Save";
 	public static final String SAVE_AS = "Save as...";
+	public static final String EXPORT = "Export...";
 	public static final String EXPORT_AS = "Export as...";
 	public static final String MAIL_TO = "Mail to...";
 	public static final String EDIT_CURRENT_PALETTE = "Edit Current Palette";
