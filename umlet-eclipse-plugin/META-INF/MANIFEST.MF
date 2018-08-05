@@ -4,13 +4,13 @@ Created-By: 1.8.0_65-b17 (Oracle Corporation)
 Bundle-ManifestVersion: 2
 Bundle-Name: UMLet
 Bundle-SymbolicName: com.umlet.plugin;singleton:=true
-Bundle-Version: 14.3.0.qualifier
-Bundle-ClassPath: .,lib/umlet-elements.jar,lib/bcel.jar,lib/batik-xml.
- jar,lib/javaparser-core.jar,lib/log4j.jar,lib/commons-io.jar,lib/bati
- k-awt-util.jar,lib/javax.mail.jar,lib/batik-svggen.jar,lib/itextpdf.j
+Bundle-Version: 14.3.0
+Bundle-ClassPath: .,lib/bcel.jar,lib/batik-xml.jar,lib/javaparser-core
+ .jar,lib/log4j.jar,lib/commons-io.jar,lib/batik-awt-util.jar,lib/java
+ x.mail.jar,lib/umlet-elements.jar,lib/batik-svggen.jar,lib/itextpdf.j
  ar,lib/batik-dom.jar,lib/batik-util.jar,lib/batik-ext.jar,lib/ecj.jar
- ,lib/rsyntaxtextarea.jar,lib/slf4j-log4j12.jar,lib/autocomplete.jar,l
- ib/jlibeps.jar,lib/slf4j-api.jar,lib/umlet-swing.jar
+ ,lib/umlet-swing.jar,lib/rsyntaxtextarea.jar,lib/slf4j-log4j12.jar,li
+ b/autocomplete.jar,lib/jlibeps.jar,lib/slf4j-api.jar
 Bundle-Activator: com.baselet.plugin.MainPlugin
 Export-Package: com.baselet.plugin,com.baselet.plugin.gui,com.baselet.
  plugin.wizard
