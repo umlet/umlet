@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.umlet</groupId>
 		<artifactId>umlet-parent</artifactId>
-		<version>14.3.0-SNAPSHOT</version>
+		<version>14.4.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>umlet-eclipse-p2</artifactId>
