@@ -28,7 +28,7 @@ if [ ! -z "${programDir}" ] ; then
 fi
 
 # UMLET_HOME wins against deprecated programDir
-if [ ! -x "${UMLET_HOME}" ] ; then
+if [ ! -z "${UMLET_HOME}" ] ; then
   _UMLET_HOME="${UMLET_HOME}"
 fi
 
