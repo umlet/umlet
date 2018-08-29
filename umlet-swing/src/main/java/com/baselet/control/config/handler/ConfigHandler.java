@@ -29,6 +29,8 @@ public class ConfigHandler {
 
 	private static final String PROGRAM_VERSION = "program_version";
 	private static final String PROPERTIES_PANEL_FONTSIZE = "properties_panel_fontsize";
+	private static final String EXPORT_SCALE = "export_scale"; // #510: scales exported images by this factor (default=1, e.g. 2 doubles the amount of pixels)
+	private static final String EXPORT_DPI = "export_dpi"; // #510: if set, and the image format supports it (e.g. png), this dpi value is stored in the img metadata (default=null which means no dpi value is stored)
 	private static final String DEFAULT_FONTSIZE = "default_fontsize";
 	private static final String DEFAULT_FONTFAMILY = "default_fontfamily";
 	private static final String SHOW_STICKINGPOLYGON = "show_stickingpolygon";
@@ -86,6 +88,8 @@ public class ConfigHandler {
 		cfg.setProgramVersion(getStringProperty(props, PROGRAM_VERSION, Program.getInstance().getVersion()));
 		cfg.setDefaultFontsize(getIntProperty(props, DEFAULT_FONTSIZE, cfg.getDefaultFontsize()));
 		cfg.setPropertiesPanelFontsize(getIntProperty(props, PROPERTIES_PANEL_FONTSIZE, cfg.getPropertiesPanelFontsize()));
+		cfg.setExportScale(getIntProperty(props, EXPORT_SCALE, cfg.getExportScale()));
+		cfg.setExportDpi(getIntProperty(props, EXPORT_DPI, cfg.getExportDpi()));
 		cfg.setDefaultFontFamily(getStringProperty(props, DEFAULT_FONTFAMILY, cfg.getDefaultFontFamily()));
 		SharedConfig.getInstance().setShow_stickingpolygon(getBoolProperty(props, SHOW_STICKINGPOLYGON, SharedConfig.getInstance().isShow_stickingpolygon()));
 		cfg.setShow_grid(getBoolProperty(props, SHOW_GRID, cfg.isShow_grid()));
@@ -161,6 +165,10 @@ public class ConfigHandler {
 			props.setProperty(PROGRAM_VERSION, Program.getInstance().getVersion());
 			props.setProperty(DEFAULT_FONTSIZE, Integer.toString(cfg.getDefaultFontsize()));
 			props.setProperty(PROPERTIES_PANEL_FONTSIZE, Integer.toString(cfg.getPropertiesPanelFontsize()));
+			props.setProperty(EXPORT_SCALE, Integer.toString(cfg.getExportScale()));
+			if (cfg.getExportDpi() != null) {
+				props.setProperty(EXPORT_DPI, Integer.toString(cfg.getExportDpi()));
+			}
 			props.setProperty(DEFAULT_FONTFAMILY, cfg.getDefaultFontFamily());
 			props.setProperty(SHOW_STICKINGPOLYGON, Boolean.toString(SharedConfig.getInstance().isShow_stickingpolygon()));
 			props.setProperty(SHOW_GRID, Boolean.toString(cfg.isShow_grid()));
@@ -281,7 +289,7 @@ public class ConfigHandler {
 		return result;
 	}
 
-	private static int getIntProperty(Properties props, String key, int defaultValue) {
+	private static Integer getIntProperty(Properties props, String key, Integer defaultValue) {
 		String result = props.getProperty(key);
 		if (result != null) {
 			try {
