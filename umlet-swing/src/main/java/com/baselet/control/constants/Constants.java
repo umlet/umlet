@@ -59,7 +59,7 @@ public abstract class Constants extends SharedConstants {
 	//@formatter:on
 
 	/**** EXPORT FORMATS ****/
-	public static final List<String> exportFormatList = Arrays.asList(new String[] { "bmp", "eps", "gif", "jpg", "pdf", "png", "svg" });
+	public static final List<String> exportFormatList = Arrays.asList(new String[] { "bmp", "eps", "gif", "jpg", "pdf", "png", "png (retina)", "svg" });
 
 	/**** ZOOM VALUES ****/
 	public static final ArrayList<String> zoomValueList = new ArrayList<String>();

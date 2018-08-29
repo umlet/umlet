@@ -163,6 +163,9 @@ public class MenuFactorySwing extends MenuFactory {
 		if ("png".equals(format)) {
 			return KeyEvent.VK_N;
 		}
+		if ("png (retina)".equals(format)) {
+			return KeyEvent.VK_R;
+		}
 		if ("svg".equals(format)) {
 			return KeyEvent.VK_S;
 		}

@@ -1,18 +1,17 @@
 package com.baselet.gui;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.baselet.control.config.Config;
 import com.baselet.diagram.CurrentDiagram;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.Notifier;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 public class ExportHandler {
 	private static final String DEFAULT_EXPORT_EXTENSION = "pdf";
 
-	private Map<DiagramHandler, String> lastExportedFilePathsPerTab = new HashMap<DiagramHandler, String>();
+	private final Map<DiagramHandler, String> lastExportedFilePathsPerTab = new HashMap<DiagramHandler, String>();
 
 	private static ExportHandler instance;
 

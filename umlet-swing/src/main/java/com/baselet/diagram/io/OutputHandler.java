@@ -11,8 +11,17 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Collection;
+import java.util.Iterator;
 
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageTypeSpecifier;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.metadata.IIOInvalidTreeException;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.metadata.IIOMetadataNode;
+import javax.imageio.stream.ImageOutputStream;
 import javax.swing.JLayeredPane;
 
 import org.apache.batik.dom.GenericDOMImplementation;
@@ -77,6 +86,9 @@ public class OutputHandler {
 		else if (extension.equals("svg")) {
 			exportSvg(ostream, entities, diagramFont);
 		}
+		else if (extension.equals("png (retina)")) {
+			exportPngRetina(ostream, entities, diagramFont);
+		}
 		else if (isImageExtension(extension)) {
 			exportImg(extension, ostream, entities, diagramFont);
 		}
@@ -88,7 +100,7 @@ public class OutputHandler {
 	private static void exportEps(OutputStream ostream, Collection<GridElement> entities, FontHandler diagramFont) throws IOException {
 		Rectangle bounds = DrawPanel.getContentBounds(Config.getInstance().getPrintPadding(), entities);
 		EpsGraphics2D graphics2d = new EpsGraphics2D(Program.getInstance().getProgramName() + " Diagram", ostream, 0, 0, bounds.width, bounds.height);
-		setGraphicsBorders(bounds, graphics2d);
+		setGraphicsBorders(bounds, graphics2d, 1);
 		paintEntitiesIntoGraphics2D(graphics2d, entities, diagramFont);
 		graphics2d.flush();
 		graphics2d.close();
@@ -133,31 +145,82 @@ public class OutputHandler {
 		graphics2d.dispose();
 	}
 
-	private static void exportImg(String imgType, OutputStream ostream, Collection<GridElement> entities, FontHandler diagramFont) throws IOException {
-		ImageIO.write(createImageForGridElements(entities, diagramFont), imgType, ostream);
+	private static void exportPngRetina(OutputStream ostream, Collection<GridElement> entities, FontHandler diagramFont) throws IOException {
+		for (Iterator<ImageWriter> iw = ImageIO.getImageWritersByFormatName("png"); iw.hasNext();) {
+			ImageWriter writer = iw.next();
+			ImageWriteParam writeParam = writer.getDefaultWriteParam();
+			ImageTypeSpecifier typeSpecifier = ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_INT_RGB);
+			IIOMetadata metadata = writer.getDefaultImageMetadata(typeSpecifier, writeParam);
+			if (metadata.isReadOnly() || !metadata.isStandardMetadataFormatSupported()) {
+				continue;
+			}
+
+			setPngDPI(metadata);
+
+			final ImageOutputStream stream = ImageIO.createImageOutputStream(ostream);
+			try {
+				writer.setOutput(stream);
+				writer.write(metadata, new IIOImage(createImageForGridElements(entities, diagramFont, 2), null, metadata), writeParam);
+			} finally {
+				stream.close();
+			}
+			break;
+		}
+
 		ostream.flush();
 		ostream.close();
 	}
 
-	public static BufferedImage createImageForGridElements(Collection<GridElement> entities, FontHandler diagramFont) {
+	private static void exportImg(String imgType, OutputStream ostream, Collection<GridElement> entities, FontHandler diagramFont) throws IOException {
+		ImageIO.write(createImageForGridElements(entities, diagramFont, 1), imgType, ostream);
+
+		ostream.flush();
+		ostream.close();
+	}
+
+	// from https://stackoverflow.com/questions/321736/how-to-set-dpi-information-in-an-image/4833697
+	private static void setPngDPI(IIOMetadata metadata) throws IIOInvalidTreeException {
+		final int DPI = 72 * 2;
+		final double INCH_2_CM = 2.54;
+
+		double dotsPerMilli = 1.0 * DPI / 10 / INCH_2_CM;
+
+		IIOMetadataNode horiz = new IIOMetadataNode("HorizontalPixelSize");
+		horiz.setAttribute("value", Double.toString(dotsPerMilli));
+
+		IIOMetadataNode vert = new IIOMetadataNode("VerticalPixelSize");
+		vert.setAttribute("value", Double.toString(dotsPerMilli));
+
+		IIOMetadataNode dim = new IIOMetadataNode("Dimension");
+		dim.appendChild(horiz);
+		dim.appendChild(vert);
+
+		IIOMetadataNode root = new IIOMetadataNode("javax_imageio_1.0");
+		root.appendChild(dim);
+
+		metadata.mergeTree("javax_imageio_1.0", root);
+	}
+
+	public static BufferedImage createImageForGridElements(Collection<GridElement> entities, FontHandler diagramFont, int scale) {
 
 		Rectangle bounds = DrawPanel.getContentBounds(Config.getInstance().getPrintPadding(), entities);
-		BufferedImage im = new BufferedImage(bounds.width == 0 ? 1 : bounds.width, bounds.height == 0 ? 1 : bounds.height, BufferedImage.TYPE_INT_RGB);
+		BufferedImage im = new BufferedImage(bounds.width == 0 ? 1 : bounds.width * scale, bounds.height == 0 ? 1 : bounds.height * scale, BufferedImage.TYPE_INT_RGB);
 		Graphics2D graphics2d = im.createGraphics();
 		graphics2d.setRenderingHints(Utils.getUxRenderingQualityHigh(true));
 
-		setGraphicsBorders(bounds, graphics2d);
+		setGraphicsBorders(bounds, graphics2d, scale);
+		graphics2d.scale(scale, scale);
 		paintEntitiesIntoGraphics2D(graphics2d, entities, diagramFont);
 		graphics2d.dispose();
 
 		return im;
 	}
 
-	private static void setGraphicsBorders(Rectangle bounds, Graphics2D graphics2d) {
-		graphics2d.translate(-bounds.x, -bounds.y);
-		graphics2d.clipRect(bounds.x, bounds.y, bounds.width, bounds.height);
+	private static void setGraphicsBorders(Rectangle bounds, Graphics2D graphics2d, int scale) {
+		graphics2d.translate(-bounds.x * scale, -bounds.y * scale);
+		graphics2d.clipRect(bounds.x * scale, bounds.y * scale, bounds.width * scale, bounds.height * scale);
 		graphics2d.setColor(Color.white);
-		graphics2d.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
+		graphics2d.fillRect(bounds.x * scale, bounds.y * scale, bounds.width * scale, bounds.height * scale);
 	}
 
 	private static boolean isImageExtension(String ext) {

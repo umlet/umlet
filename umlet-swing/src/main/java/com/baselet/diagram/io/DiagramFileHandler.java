@@ -65,10 +65,11 @@ public class DiagramFileHandler {
 	private final OwnFileFilter filterjpg = new OwnFileFilter("jpg", "JPG");
 	private final OwnFileFilter filterpdf = new OwnFileFilter("pdf", "PDF");
 	private final OwnFileFilter filterpng = new OwnFileFilter("png", "PNG");
+	private final OwnFileFilter filterpngr = new OwnFileFilter("png", "PNG (RETINA)");
 	private final OwnFileFilter filtersvg = new OwnFileFilter("svg", "SVG");
 
 	private final OwnFileFilter[] saveFileFilter = new OwnFileFilter[] { filterxml };
-	private final OwnFileFilter[] exportFileFilter = new OwnFileFilter[] { filterbmp, filtereps, filtergif, filterjpg, filterpdf, filterpng, filtersvg };
+	private final OwnFileFilter[] exportFileFilter = new OwnFileFilter[] { filterbmp, filtereps, filtergif, filterjpg, filterpdf, filterpng, filterpngr, filtersvg };
 	private final List<OwnFileFilter> allFileFilters = new ArrayList<OwnFileFilter>();
 
 	protected DiagramFileHandler(DiagramHandler diagramHandler, File file) {
@@ -85,7 +86,7 @@ public class DiagramFileHandler {
 		allFileFilters.addAll(Arrays.asList(saveFileFilter));
 		allFileFilters.addAll(Arrays.asList(exportFileFilter));
 		for (OwnFileFilter filter : allFileFilters) {
-			filters.put(filter.getFormat(), filter);
+			filters.put(filter.getOrigDesc().toLowerCase(), filter);
 			fileextensions.put(filter, filter.getFormat());
 		}
 	}
@@ -431,6 +432,7 @@ public class DiagramFileHandler {
 			fileChooser.addChoosableFileFilter(filterjpg);
 			fileChooser.addChoosableFileFilter(filterpdf);
 			fileChooser.addChoosableFileFilter(filterpng);
+			fileChooser.addChoosableFileFilter(filterpngr);
 			fileChooser.addChoosableFileFilter(filtersvg);
 		}
 	}
@@ -456,6 +458,10 @@ public class DiagramFileHandler {
 
 		public String getFormat() {
 			return format;
+		}
+
+		public String getOrigDesc() {
+			return description;
 		}
 	}
 
