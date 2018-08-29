@@ -11,8 +11,17 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Collection;
+import java.util.Iterator;
 
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageTypeSpecifier;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.metadata.IIOInvalidTreeException;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.metadata.IIOMetadataNode;
+import javax.imageio.stream.ImageOutputStream;
 import javax.swing.JLayeredPane;
 
 import org.apache.batik.dom.GenericDOMImplementation;
@@ -88,7 +97,7 @@ public class OutputHandler {
 	private static void exportEps(OutputStream ostream, Collection<GridElement> entities, FontHandler diagramFont) throws IOException {
 		Rectangle bounds = DrawPanel.getContentBounds(Config.getInstance().getPrintPadding(), entities);
 		EpsGraphics2D graphics2d = new EpsGraphics2D(Program.getInstance().getProgramName() + " Diagram", ostream, 0, 0, bounds.width, bounds.height);
-		setGraphicsBorders(bounds, graphics2d);
+		setGraphicsBorders(bounds, graphics2d, 1);
 		paintEntitiesIntoGraphics2D(graphics2d, entities, diagramFont);
 		graphics2d.flush();
 		graphics2d.close();
@@ -134,30 +143,83 @@ public class OutputHandler {
 	}
 
 	private static void exportImg(String imgType, OutputStream ostream, Collection<GridElement> entities, FontHandler diagramFont) throws IOException {
-		ImageIO.write(createImageForGridElements(entities, diagramFont), imgType, ostream);
+		Integer scale = Config.getInstance().getExportScale();
+		// #510 If DPI setting is used, try to export using correct DPI settings (for high dpi/retina displays) see https://stackoverflow.com/questions/321736/how-to-set-dpi-information-in-an-image/4833697
+		boolean exportedWithDpi = exportImgAndSetDpi(imgType, ostream, entities, diagramFont, scale);
+		if (!exportedWithDpi) { // no dpi setting is used or the format doesnt support the setting, use the simple one (at the moment only png seems to support it)
+			ImageIO.write(createImageForGridElements(entities, diagramFont, scale), imgType, ostream);
+		}
 		ostream.flush();
 		ostream.close();
 	}
 
-	public static BufferedImage createImageForGridElements(Collection<GridElement> entities, FontHandler diagramFont) {
+	private static boolean exportImgAndSetDpi(String imgType, OutputStream ostream, Collection<GridElement> entities, FontHandler diagramFont, Integer scale) throws IIOInvalidTreeException, IOException {
+		Integer dpi = Config.getInstance().getExportDpi();
+		if (dpi != null) {
+			for (Iterator<ImageWriter> iw = ImageIO.getImageWritersByFormatName(imgType); iw.hasNext();) {
+				ImageWriter writer = iw.next();
+				ImageWriteParam writeParam = writer.getDefaultWriteParam();
+				ImageTypeSpecifier typeSpecifier = ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_INT_RGB);
+				IIOMetadata metadata = writer.getDefaultImageMetadata(typeSpecifier, writeParam);
+				if (metadata.isReadOnly() || !metadata.isStandardMetadataFormatSupported()) {
+					continue;
+				}
+				setImgDPI(dpi, metadata);
+
+				final ImageOutputStream stream = ImageIO.createImageOutputStream(ostream);
+				try {
+					writer.setOutput(stream);
+					writer.write(metadata, new IIOImage(createImageForGridElements(entities, diagramFont, scale), null, metadata), writeParam);
+					return true;
+				} finally {
+					stream.close();
+				}
+			}
+		}
+		return false;
+	}
+
+	private static void setImgDPI(Integer dpi, IIOMetadata metadata) throws IIOInvalidTreeException {
+		final double INCH_2_CM = 2.54;
+
+		double dotsPerMilli = 1.0 * dpi / 10 / INCH_2_CM;
+
+		IIOMetadataNode horiz = new IIOMetadataNode("HorizontalPixelSize");
+		horiz.setAttribute("value", Double.toString(dotsPerMilli));
+
+		IIOMetadataNode vert = new IIOMetadataNode("VerticalPixelSize");
+		vert.setAttribute("value", Double.toString(dotsPerMilli));
+
+		IIOMetadataNode dim = new IIOMetadataNode("Dimension");
+		dim.appendChild(horiz);
+		dim.appendChild(vert);
+
+		IIOMetadataNode root = new IIOMetadataNode("javax_imageio_1.0");
+		root.appendChild(dim);
+
+		metadata.mergeTree("javax_imageio_1.0", root);
+	}
+
+	public static BufferedImage createImageForGridElements(Collection<GridElement> entities, FontHandler diagramFont, int scale) {
 
 		Rectangle bounds = DrawPanel.getContentBounds(Config.getInstance().getPrintPadding(), entities);
-		BufferedImage im = new BufferedImage(bounds.width == 0 ? 1 : bounds.width, bounds.height == 0 ? 1 : bounds.height, BufferedImage.TYPE_INT_RGB);
+		BufferedImage im = new BufferedImage(bounds.width == 0 ? 1 : bounds.width * scale, bounds.height == 0 ? 1 : bounds.height * scale, BufferedImage.TYPE_INT_RGB);
 		Graphics2D graphics2d = im.createGraphics();
 		graphics2d.setRenderingHints(Utils.getUxRenderingQualityHigh(true));
 
-		setGraphicsBorders(bounds, graphics2d);
+		setGraphicsBorders(bounds, graphics2d, scale);
+		graphics2d.scale(scale, scale);
 		paintEntitiesIntoGraphics2D(graphics2d, entities, diagramFont);
 		graphics2d.dispose();
 
 		return im;
 	}
 
-	private static void setGraphicsBorders(Rectangle bounds, Graphics2D graphics2d) {
-		graphics2d.translate(-bounds.x, -bounds.y);
-		graphics2d.clipRect(bounds.x, bounds.y, bounds.width, bounds.height);
+	private static void setGraphicsBorders(Rectangle bounds, Graphics2D graphics2d, int scale) {
+		graphics2d.translate(-bounds.x * scale, -bounds.y * scale);
+		graphics2d.clipRect(bounds.x * scale, bounds.y * scale, bounds.width * scale, bounds.height * scale);
 		graphics2d.setColor(Color.white);
-		graphics2d.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
+		graphics2d.fillRect(bounds.x * scale, bounds.y * scale, bounds.width * scale, bounds.height * scale);
 	}
 
 	private static boolean isImageExtension(String ext) {

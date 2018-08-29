@@ -52,6 +52,8 @@ public class Config {
 	private String defaultFontFamily = Font.SANS_SERIF;
 	private Integer defaultFontsize = 14;
 	private Integer propertiesPanelFontsize = 11;
+	private Integer exportScale = 1;
+	private Integer exportDpi = null;
 
 	public Config() {
 		if (Program.getInstance().getRuntimeType() != RuntimeType.BATCH) { // batchmode shouldn't access UIManager.class
@@ -275,5 +277,21 @@ public class Config {
 
 	public void setPropertiesPanelFontsize(Integer propertiesPanelFontsize) {
 		this.propertiesPanelFontsize = propertiesPanelFontsize;
+	}
+
+	public Integer getExportScale() {
+		return exportScale;
+	}
+
+	public void setExportScale(Integer exportScale) {
+		this.exportScale = exportScale;
+	}
+
+	public Integer getExportDpi() {
+		return exportDpi;
+	}
+
+	public void setExportDpi(Integer exportDpi) {
+		this.exportDpi = exportDpi;
 	}
 }
