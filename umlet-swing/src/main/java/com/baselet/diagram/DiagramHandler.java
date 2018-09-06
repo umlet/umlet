@@ -137,6 +137,10 @@ public class DiagramHandler {
 		return drawpanel;
 	}
 
+    public boolean isFileSaved(){
+        return fileHandler.isFileSaved();
+    }
+
 	public DiagramFileHandler getFileHandler() {
 		return fileHandler;
 	}
