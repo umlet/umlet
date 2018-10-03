@@ -39,7 +39,7 @@ public class FileClassLoader extends ClassLoader {
 		DataInputStream dis = new DataInputStream(fis);
 		dis.readFully(buff);
 		dis.close();
-		Path.safeDeleteFile(f, false);
+		f.deleteOnExit();
 		return buff;
 	}
 }
