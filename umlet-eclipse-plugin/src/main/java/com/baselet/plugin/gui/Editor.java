@@ -1,11 +1,15 @@
 package com.baselet.plugin.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.Panel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.UUID;
 
+import javax.swing.JApplet;
 import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
@@ -70,6 +74,8 @@ public class Editor extends EditorPart {
 
 	private Frame mainFrame;
 
+	private Composite mainComposite;
+
 	@Override
 	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
 		log.info("Call editor.init() " + uuid.toString());
@@ -115,9 +121,41 @@ public class Editor extends EditorPart {
 		getGui().open(handler);
 
 		log.info("Call editor.createPartControl() " + uuid.toString());
-		mainFrame = SWT_AWT.new_Frame(new Composite(parent, SWT.EMBEDDED));
-		mainFrame.add(embeddedPanel);
+		mainComposite = new Composite(parent, SWT.EMBEDDED);
+		mainFrame = SWT_AWT.new_Frame(mainComposite);
+
+		// Bug 228221 - SWT no longer receives key events in KeyAdapter when using SWT_AWT.new_Frame AWT frame
+		// Use a RootPaneContainer e.g. JApplet to embed the swing panel in the SWT part
+		// https://bugs.eclipse.org/bugs/show_bug.cgi?id=228221
+		// http://www.eclipse.org/articles/article.php?file=Article-Swing-SWT-Integration/index.html
+		// The proposal to use JApplet instead of JPanel no longer works (eclipse photon java 8 and 11),
+		// key events are only partially propagated to the underlying SWT event queue.
+		JApplet applet = new JApplet();
+		applet.setLayout(new BorderLayout());
+		applet.setFocusCycleRoot(false);
+		applet.add(embeddedPanel, BorderLayout.CENTER);
+		mainFrame.add(applet);
 		mainFrame.addWindowFocusListener(new UmletWindowFocusListener());
+
+		// Leaving the swing context is not sufficient to return the processing of the key events to the
+		// SWT event queue. Therefore install a WindowFocusistener, that will force the SWT shell to
+		// receive the focus again.
+		// This is a workaround, that should be integrated in the SWT_AWT class. Even better would be
+		// to fix the bug in the event processing.
+		// Only tested on linux gtk, avoid to add an untestet change to windows or macos
+		if ("gtk".equals(SWT.getPlatform())) {
+			mainFrame.addWindowFocusListener(new WindowAdapter() {
+				@Override
+				public void windowLostFocus(WindowEvent e) {
+					mainComposite.getDisplay().asyncExec(new Runnable() {
+						@Override
+						public void run() {
+							mainComposite.getShell().forceActive();
+						}
+					});
+				}
+			});
+		}
 	}
 
 	private EclipseGUI getGui() {
