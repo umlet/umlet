@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -11,9 +13,11 @@
 	<packaging>gwt-app</packaging>
 
 	<properties>
-		<!-- GWT 2.7 requires Java 7 -->
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
+		<!-- GWT 2.8 requires Java 8 -->
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<gwt.version>2.8.2</gwt.version>
+		<gwt.plugin.version>1.0-rc-10</gwt.plugin.version>
 	</properties>
 
 	<dependencies>
@@ -31,17 +35,17 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
-			<version>2.7.0</version>
+			<version>${gwt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
-			<version>2.7.0</version>
+			<version>${gwt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
-			<version>2.7.0</version>
+			<version>${gwt.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.vectomatic</groupId>
@@ -58,7 +62,8 @@
 			<groupId>ru.finam</groupId>
 			<artifactId>slf4j-gwt</artifactId>
 			<version>1.7.7.1</version>
-			<!-- no additional source entry necessary because the author packages the normal jar with the sources -->
+			<!-- no additional source entry necessary because the author packages 
+				the normal jar with the sources -->
 		</dependency>
 	</dependencies>
 
@@ -77,9 +82,11 @@
 						</goals>
 						<configuration>
 							<outputDirectory>${project.basedir}/src/main/java/com/baselet/gwt/client/view</outputDirectory>
-							<!-- synchronize all palettes except the deprecated ones and Activity AIO because they are OldGridElements which do not work in GWT -->
+							<!-- synchronize all palettes except the deprecated ones and Activity 
+								AIO because they are OldGridElements which do not work in GWT -->
 							<includes>palettes/*.*</includes>
-							<excludes>palettes/Deprecated*.*,palettes/UML Activity - All in one.*</excludes>
+							<excludes>palettes/Deprecated*.*,palettes/UML Activity - All in
+								one.*</excludes>
 							<artifactItems>
 								<artifactItem>
 									<groupId>com.umlet</groupId>
@@ -113,7 +120,7 @@
 			<plugin>
 				<groupId>net.ltgt.gwt.maven</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<version>1.0-rc-5</version>
+				<version>${gwt.plugin.version}</version>
 				<extensions>true</extensions>
 				<configuration>
 					<!-- <skipCompilation>true</skipCompilation> -->
@@ -123,13 +130,15 @@
 		</plugins>
 	</build>
 
-	<!-- this profile can be used to start the devmode for debugging the GWT application -->
+	<!-- this profile can be used to start the devmode for debugging the GWT 
+		application -->
 	<profiles>
 		<profile>
 			<id>gwtdevmode</id>
 			<build>
 				<plugins>
-					<!-- copy static web resources (perhaps there is a better way, but I haven't found one with the gwt-maven-plugin) -->
+					<!-- copy static web resources (perhaps there is a better way, but I 
+						haven't found one with the gwt-maven-plugin) -->
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
 						<executions>
@@ -153,7 +162,7 @@
 					<plugin>
 						<groupId>net.ltgt.gwt.maven</groupId>
 						<artifactId>gwt-maven-plugin</artifactId>
-						<version>1.0-rc-5</version>
+						<version>${gwt.plugin.version}</version>
 						<extensions>true</extensions>
 						<executions>
 							<execution>

@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>autocomplete</artifactId>
-			<version>2.5.8</version>
+			<version>2.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
@@ -101,7 +101,7 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
-			<version>5.4.1</version>
+			<version>5.5.13</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.javaparser</groupId>
@@ -127,7 +127,7 @@
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>rsyntaxtextarea</artifactId>
-			<version>2.5.8</version>
+			<version>2.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.jdt.core.compiler</groupId>
