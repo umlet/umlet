@@ -114,7 +114,7 @@ public class Editor extends EditorPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		getGui().setCurrentEditor(Editor.this); // must be done before initalization of DiagramHandler (eg: to set propertypanel text)
+		getGui().setCurrentEditor(Editor.this); // must be done before initialization of DiagramHandler (eg: to set propertypanel text)
 		handler = new DiagramHandler(diagramFile);
 		getGui().registerEditorForDiagramHandler(Editor.this, handler);
 		getGui().setCurrentDiagramHandler(handler); // must be also set here because onFocus is not always called (eg: tab is opened during eclipse startup)
@@ -138,24 +138,21 @@ public class Editor extends EditorPart {
 		mainFrame.addWindowFocusListener(new UmletWindowFocusListener());
 
 		// Leaving the swing context is not sufficient to return the processing of the key events to the
-		// SWT event queue. Therefore install a WindowFocusistener, that will force the SWT shell to
+		// SWT event queue. Therefore install a WindowFocusListener, that will force the SWT shell to
 		// receive the focus again.
 		// This is a workaround, that should be integrated in the SWT_AWT class. Even better would be
 		// to fix the bug in the event processing.
-		// Only tested on linux gtk, avoid to add an untestet change to windows or macos
-		if ("gtk".equals(SWT.getPlatform())) {
-			mainFrame.addWindowFocusListener(new WindowAdapter() {
-				@Override
-				public void windowLostFocus(WindowEvent e) {
-					mainComposite.getDisplay().asyncExec(new Runnable() {
-						@Override
-						public void run() {
-							mainComposite.getShell().forceActive();
-						}
-					});
-				}
-			});
-		}
+		mainFrame.addWindowFocusListener(new WindowAdapter() {
+			@Override
+			public void windowLostFocus(WindowEvent e) {
+				mainComposite.getDisplay().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						mainComposite.getShell().forceActive();
+					}
+				});
+			}
+		});
 	}
 
 	private EclipseGUI getGui() {
