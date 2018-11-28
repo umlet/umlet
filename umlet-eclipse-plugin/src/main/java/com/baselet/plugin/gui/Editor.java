@@ -1,9 +1,11 @@
 package com.baselet.plugin.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.Panel;
+import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -140,17 +142,46 @@ public class Editor extends EditorPart {
 		// Leaving the swing context is not sufficient to return the processing of the key events to the
 		// SWT event queue. Therefore install a WindowFocusListener, that will force the SWT shell to
 		// receive the focus again.
-		// This is a workaround, that should be integrated in the SWT_AWT class. Even better would be
-		// to fix the bug in the event processing.
+		// This is a workaround. Even better would be to fix the bug in the event processing.
 		mainFrame.addWindowFocusListener(new WindowAdapter() {
 			@Override
 			public void windowLostFocus(WindowEvent e) {
-				mainComposite.getDisplay().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						mainComposite.getShell().forceActive();
-					}
-				});
+				if (!mainComposite.isDisposed()) {
+					mainComposite.getDisplay().asyncExec(new Runnable() {
+						@Override
+						public void run() {
+
+							boolean awtHasFocus = false;
+							for (Window w : Window.getWindows()) {
+								boolean isDiagramEditor = false;
+								Component[] cs = w.getComponents();
+								for (Component c : cs) {
+									// Check if the window contains an applet. In this case we have
+									// an diagram editor and activating the shell does not harm,
+									// because the focus remains in the editor.
+									if (c instanceof JApplet) {
+										isDiagramEditor = true;
+										break;
+									}
+								}
+
+								// If another AWT window (dialog) is active, do not steal the focus.
+								// The swing editor components are always visible, therefore we must
+								// check visibility only for windows that contain no editor.
+								if (w.isVisible() && !isDiagramEditor) {
+									awtHasFocus = true;
+									break;
+								}
+							}
+
+							// force the focus to the SWT shell, but only if no
+							// other swing compoment is active
+							if (!awtHasFocus) {
+								mainComposite.getShell().forceActive();
+							}
+						}
+					});
+				}
 			}
 		});
 	}
