@@ -6,9 +6,11 @@ import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.awt.Window;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import javax.swing.JApplet;
@@ -16,16 +18,21 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher;
+import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.part.EditorPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -184,6 +191,93 @@ public class Editor extends EditorPart {
 				}
 			}
 		});
+
+		embeddedPanel.addKeyListener(new java.awt.event.KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+
+				log.info("key typed: " + e.toString());
+				Event swtEvent = convertKeyEvent(e);
+
+				if (acceptKeyEvents(swtEvent)) {
+					KeyBindingDispatcher kbd = Workbench.getInstance().getContext().get(KeyBindingDispatcher.class);
+					List<KeyStroke> kss = KeyBindingDispatcher.generatePossibleKeyStrokes(swtEvent);
+					kbd.press(kss, swtEvent);
+				}
+			}
+		});
+
+		mainComposite.addKeyListener(new org.eclipse.swt.events.KeyAdapter() {
+			@Override
+			public void keyPressed(org.eclipse.swt.events.KeyEvent e) {
+				log.info("key typed: " + e.toString());
+			}
+		});
+
+		mainComposite.getShell().getDisplay().addFilter(SWT.KeyDown, new Listener() {
+			@Override
+			public void handleEvent(Event event) {
+				char c = event.character;
+				log.info("key down: " + event.toString());
+			}
+		});
+
+	}
+
+	private boolean acceptKeyEvents(Event e) {
+
+		// <CTRL>-A
+		if (e.character == 'a' && (e.stateMask & SWT.CTRL) != 0) {
+			return true;
+		}
+		// <CTRL>-C
+		if (e.character == 'c' && (e.stateMask & SWT.CTRL) != 0) {
+			return true;
+		}
+		// <CTRL>-V
+		if (e.character == 'v' && (e.stateMask & SWT.CTRL) != 0) {
+			return true;
+		}
+		// <CTRL>-X
+		if (e.character == 'x' && (e.stateMask & SWT.CTRL) != 0) {
+			return true;
+		}
+		// <CTRL>-Z
+		if (e.character == 'z' && (e.stateMask & SWT.CTRL) != 0) {
+			return true;
+		}
+		// <DEL>
+		if (e.keyCode == SWT.DEL) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private int convertAWTModifiers(int mods) {
+		int modifiers = 0;
+		if ((mods & java.awt.Event.SHIFT_MASK) != 0) {
+			modifiers |= SWT.SHIFT;
+		}
+		if ((mods & java.awt.Event.CTRL_MASK) != 0) {
+			modifiers |= SWT.CTRL;
+		}
+		if ((mods & java.awt.Event.ALT_MASK) != 0) {
+			modifiers |= SWT.ALT;
+		}
+		return modifiers;
+	}
+
+	private org.eclipse.swt.widgets.Event convertKeyEvent(java.awt.event.KeyEvent e) {
+
+		Event swtEvent = new Event();
+		if (e.isControlDown()) {
+			swtEvent.character = (char) ('a' - 1 + e.getKeyChar());
+		}
+		swtEvent.stateMask = convertAWTModifiers(e.getModifiers());
+		swtEvent.keyCode = e.getKeyChar() | swtEvent.stateMask;
+		swtEvent.widget = mainComposite;
+		return swtEvent;
 	}
 
 	private EclipseGUI getGui() {
