@@ -27,7 +27,7 @@
 	</scm>
 
 	<properties>
-		<tycho.version>0.26.0</tycho.version>
+		<tycho.version>1.2.0</tycho.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
