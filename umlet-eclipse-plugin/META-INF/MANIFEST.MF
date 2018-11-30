@@ -29,8 +29,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.core.manipulation;resolution:=optional,
  org.eclipse.m2e.core;resolution:=optional,
  org.eclipse.m2e.maven.runtime;resolution:=optional,
- org.eclipse.e4.core.contexts;bundle-version="1.7.0",
- org.eclipse.e4.ui.bindings;bundle-version="0.12.100"
+ org.eclipse.e4.core.contexts,
+ org.eclipse.e4.ui.bindings
 Bundle-ActivationPolicy: lazy
 Eclipse-LazyStart: true
 Import-Package: org.eclipse.core.filesystem
