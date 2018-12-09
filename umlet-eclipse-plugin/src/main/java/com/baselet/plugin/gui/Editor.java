@@ -6,9 +6,12 @@ import java.awt.Cursor;
 import java.awt.Frame;
 import java.awt.Panel;
 import java.awt.Window;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import javax.swing.JApplet;
@@ -16,16 +19,21 @@ import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.e4.ui.bindings.keys.KeyBindingDispatcher;
+import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.awt.SWT_AWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.part.EditorPart;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -184,6 +192,99 @@ public class Editor extends EditorPart {
 				}
 			}
 		});
+
+		// The event processing is platform depending. Therefore this listener may cause a duplicate
+		// execution of actions on macos or windows.
+		if ("gtk".equals(SWT.getPlatform())) {
+
+			// If an AWT component has focus, KeyEvents are no longer passed to the
+			// SWT event thread. As a workaround transform the AWT KeyEvent to an
+			// SWT KeyEvent and pass it to the eclipse KeyBindingDispatcher. The
+			// dispatcher will resolve a KeyStroke to an action and execute it.
+			embeddedPanel.addKeyListener(new java.awt.event.KeyAdapter() {
+				@Override
+				public void keyTyped(KeyEvent e) {
+
+					log.info("key typed (AWT component): " + e.toString());
+					final Event swtEvent = convertKeyEvent(e);
+
+					final KeyBindingDispatcher kbd = Workbench.getInstance().getContext().get(KeyBindingDispatcher.class);
+					final List<KeyStroke> kss = KeyBindingDispatcher.generatePossibleKeyStrokes(swtEvent);
+
+					if (kss.size() > 0) {
+						StringBuilder msg = new StringBuilder("Found key binding: ");
+
+						// For me that would be a reason to upgrade to jdk8 ;-)
+						// msg.append(kss.stream().map((ks) -> ks.format()).collect(Collectors.joining(" | ")));
+						for (int i = 0; i < kss.size(); i++) {
+							if (i > 0) {
+								msg.append(" | ");
+							}
+							msg.append(kss.get(i).toString());
+						}
+						log.info(msg.toString());
+
+						// Actions that modify AWT components should run
+						// in the AWT thread, that is the thread that called
+						// this listener. But sometimes we end up with an
+						// InvalidThreadAccess even if only AWT components are
+						// effected.
+						// Because AWT is much more forgiving, we use the SWT thread
+						// for all actions including modifications of AWT components.
+						Display.getDefault().syncExec(new Runnable() {
+							@Override
+							public void run() {
+								kbd.press(kss, swtEvent);
+							}
+						});
+					}
+				}
+			});
+
+			mainComposite.addKeyListener(new org.eclipse.swt.events.KeyAdapter() {
+				@Override
+				public void keyPressed(org.eclipse.swt.events.KeyEvent e) {
+					log.trace("key typed (SWT widget): " + e.toString());
+				}
+			});
+
+			mainComposite.getShell().getDisplay().addFilter(SWT.KeyDown, new Listener() {
+				@Override
+				public void handleEvent(Event event) {
+					log.trace("key down (SWT global): " + event.toString());
+				}
+			});
+		}
+	}
+
+	private int convertAWTModifiers(int mods) {
+		int modifiers = 0;
+		if ((mods & InputEvent.SHIFT_DOWN_MASK) != 0) {
+			modifiers |= SWT.SHIFT;
+		}
+		if ((mods & InputEvent.CTRL_DOWN_MASK) != 0) {
+			modifiers |= SWT.CTRL;
+		}
+		if ((mods & InputEvent.ALT_DOWN_MASK) != 0) {
+			modifiers |= SWT.ALT;
+		}
+		return modifiers;
+	}
+
+	private org.eclipse.swt.widgets.Event convertKeyEvent(java.awt.event.KeyEvent e) {
+
+		Event swtEvent = new Event();
+		swtEvent.type = SWT.KeyDown;
+		if (e.isControlDown()) {
+			swtEvent.character = (char) ('a' - 1 + e.getKeyChar());
+		}
+		else {
+			swtEvent.character = e.getKeyChar();
+		}
+		swtEvent.stateMask = convertAWTModifiers(e.getModifiersEx());
+		swtEvent.keyCode = e.getKeyChar() | swtEvent.stateMask;
+		swtEvent.widget = mainComposite;
+		return swtEvent;
 	}
 
 	private EclipseGUI getGui() {
