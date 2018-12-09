@@ -60,7 +60,7 @@ public class MainBatchmodeTest {
 		File copy = copyInputToTmp("in_newCustomElement.uxf");
 		String wildcard = copy.getParent().toString() + "/*";
 		MainStandalone.main(new String[] { "-action=convert", "-format=png", "-filename=" + wildcard });
-		assertImageEqual(new File(copy + "." + "png"), new File(TEST_FILE_LOCATION + "out_newCustomElement.png"), new File(TEST_FILE_LOCATION + "out_newCustomElement2.png"));
+		assertImageEqual(new File(copy + "." + "png"), new File(TEST_FILE_LOCATION + "out_newCustomElement.png"), new File(TEST_FILE_LOCATION + "out_newCustomElement2.png"), new File(TEST_FILE_LOCATION + "out_newCustomElement3.png"));
 	}
 
 	@Test
