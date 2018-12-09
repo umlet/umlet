@@ -5,11 +5,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: UMLet
 Bundle-SymbolicName: com.umlet.plugin;singleton:=true
 Bundle-Version: 14.4.0.qualifier
-Bundle-ClassPath: .,lib/bcel.jar,lib/batik-xml.jar,lib/javaparser-core
- .jar,lib/log4j.jar,lib/umlet-swing.jar,lib/commons-io.jar,lib/batik-a
- wt-util.jar,lib/javax.mail.jar,lib/batik-svggen.jar,lib/itextpdf.jar,
+Bundle-ClassPath: .,lib/bcel.jar,lib/itextpdf.jar,lib/batik-xml.jar,li
+ b/javaparser-core.jar,lib/log4j.jar,lib/umlet-swing.jar,lib/commons-i
+ o.jar,lib/batik-awt-util.jar,lib/javax.mail.jar,lib/batik-svggen.jar,
  lib/umlet-elements.jar,lib/batik-dom.jar,lib/batik-util.jar,lib/batik
- -ext.jar,lib/ecj.jar,lib/rsyntaxtextarea.jar,lib/slf4j-log4j12.jar,li
+ -ext.jar,lib/rsyntaxtextarea.jar,lib/ecj.jar,lib/slf4j-log4j12.jar,li
  b/autocomplete.jar,lib/jlibeps.jar,lib/slf4j-api.jar
 Bundle-Activator: com.baselet.plugin.MainPlugin
 Export-Package: com.baselet.plugin,com.baselet.plugin.gui,com.baselet.
@@ -30,7 +30,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.m2e.core;resolution:=optional,
  org.eclipse.m2e.maven.runtime;resolution:=optional,
  org.eclipse.e4.core.contexts,
- org.eclipse.e4.ui.bindings
+ org.eclipse.e4.ui.bindings,
+ org.eclipse.e4.ui.workbench
 Bundle-ActivationPolicy: lazy
 Eclipse-LazyStart: true
 Import-Package: org.eclipse.core.filesystem
