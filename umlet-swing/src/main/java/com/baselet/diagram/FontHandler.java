@@ -90,7 +90,12 @@ public class FontHandler {
 	}
 
 	public Font getFont(boolean applyZoom) {
-		return new Font(getDiagramDefaultFontFamily(), Font.PLAIN, (int) getFontSize(applyZoom));
+		// Use the logical font to locate and return an instance of
+		// the matching physical font.
+
+		String fontFamily = Config.getInstance().getPhysicalFontFamily(
+			getDiagramDefaultFontFamily());
+		return new Font(fontFamily, Font.PLAIN, (int) getFontSize(applyZoom));
 	}
 
 	public double getDistanceBetweenTexts() {
