@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import com.baselet.control.enums.Program;
+import com.baselet.control.enums.Os;
 
 public abstract class Constants extends SharedConstants {
 
@@ -95,6 +98,25 @@ public abstract class Constants extends SharedConstants {
 	public static final Color GRID_COLOR = new Color(235, 235, 235);
 
 	public static final List<String> fontFamilyList = Arrays.asList(new String[] { Font.SANS_SERIF, Font.SERIF, Font.MONOSPACED });
+
+	public static final Map<String, String> fontFamilyMap = new TreeMap<String, String>();
+
+	static {
+            // Provide fontFamilyMap to map logical font names to OS specific
+            // font names. This is required for OSX to pin logical fonts
+            // to specific fonts that provide a complete set of glyphs.
+
+            if (SystemInfo.OS == Os.MAC) {
+                // https://github.com/umlet/umlet/issues/530
+                //
+                // According to https://tinyurl.com/yc6xrnvc, the fonts
+                // listed here have been available since 10.7 Lion.
+
+                fontFamilyMap.put(Font.SANS_SERIF, "Arial");
+                fontFamilyMap.put(Font.SERIF, "Times New Roman");
+                fontFamilyMap.put(Font.MONOSPACED, "Menlo");
+            }
+	}
 
 	public static final List<LookAndFeelInfo> lookAndFeels = Arrays.asList(UIManager.getInstalledLookAndFeels());
 
