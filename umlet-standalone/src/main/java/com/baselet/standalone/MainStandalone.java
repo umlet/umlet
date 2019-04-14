@@ -184,7 +184,7 @@ public class MainStandalone {
 			handler.getFileHandler().doExportAs(outputFormat, new File(outputFileName));
 			printToConsole("Conversion finished: \"" + inputFile.getAbsolutePath() + "\" to \"" + outputFileName + "\"");
 		} catch (Exception e) {
-			printToConsole(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
@@ -210,7 +210,7 @@ public class MainStandalone {
 				fos.write(content.getBytes());
 				fos.close();
 			} catch (IOException e) {
-				printToConsole(e.getMessage());
+				e.printStackTrace();
 				if (fos != null) {
 					fos.close();
 				}
@@ -224,7 +224,7 @@ public class MainStandalone {
 
 			printToConsole("Generation finished: \"" + validInputFileNames + "\" to \"" + outputFile.getAbsolutePath() + "\"");
 		} catch (Exception e) {
-			printToConsole(e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

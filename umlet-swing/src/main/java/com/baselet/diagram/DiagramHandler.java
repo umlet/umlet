@@ -11,7 +11,6 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
-import com.baselet.gui.ExportHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +30,7 @@ import com.baselet.element.old.custom.CustomElement;
 import com.baselet.element.old.element.Relation;
 import com.baselet.gui.BaseGUI;
 import com.baselet.gui.CurrentGui;
+import com.baselet.gui.ExportHandler;
 import com.baselet.gui.command.Controller;
 import com.baselet.gui.listener.DiagramListener;
 import com.baselet.gui.listener.GridElementListener;
@@ -155,7 +155,9 @@ public class DiagramHandler {
 		try {
 			fileHandler.doSave();
 			reloadPalettes();
-			CurrentGui.getInstance().getGui().afterSaving();
+			if (CurrentGui.getInstance().getGui() != null) { // in batchmode, there is no GUI instance
+				CurrentGui.getInstance().getGui().afterSaving();
+			}
 			return true;
 		} catch (IOException e) {
 			log.error(ErrorMessages.ERROR_SAVING_FILE, e);
