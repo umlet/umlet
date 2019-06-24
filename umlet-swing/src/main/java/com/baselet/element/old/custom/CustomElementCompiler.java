@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.jdt.core.compiler.batch.BatchCompiler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,11 +92,10 @@ public class CustomElementCompiler {
 			String sourcefile = "\"" + this.sourcefile.getAbsolutePath() + "\"";
 
 			// Compiler Information at http://dev.eclipse.org/viewcvs/index.cgi/jdt-core-home/howto/batch%20compile/batchCompile.html?revision=1.7
-			@SuppressWarnings("deprecation")
-			boolean compilationSuccessful = org.eclipse.jdt.internal.compiler.batch.Main.compile(
+			boolean compilationSuccessful = BatchCompiler.compile(
 					javaVersion + " " + classpath + " " + sourcefile,
 					new PrintWriter(System.out),
-					compilerErrorMessagePW);
+					compilerErrorMessagePW, null);
 
 			if (compilationSuccessful) {
 				FileClassLoader fcl = new FileClassLoader(Thread.currentThread().getContextClassLoader());
