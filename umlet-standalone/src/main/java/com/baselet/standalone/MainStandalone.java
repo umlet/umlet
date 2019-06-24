@@ -107,7 +107,9 @@ public class MainStandalone {
 					File outputPath = new File(outputDirName + '\\' + outputFileName);
 					File outputDir = new File(outputDirName);
 					if (!outputDir.exists()) {
-						outputDir.mkdirs();
+						if (outputDir.mkdirs()) {
+							log.debug("created output dir");
+						}
 					}
 
 					List<File> inputPaths = new ArrayList<File>();
@@ -207,7 +209,7 @@ public class MainStandalone {
 				String content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><diagram program=\"" + program + "\" version=\"" + version + "\"></diagram>";
 
 				fos = new FileOutputStream(outputFile);
-				fos.write(content.getBytes());
+				fos.write(content.getBytes("UTF-8"));
 				fos.close();
 			} catch (IOException e) {
 				e.printStackTrace();
