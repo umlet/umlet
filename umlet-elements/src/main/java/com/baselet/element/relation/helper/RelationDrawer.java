@@ -1,7 +1,6 @@
 package com.baselet.element.relation.helper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.baselet.control.basics.geom.GeometricFunctions;
@@ -23,6 +22,10 @@ public class RelationDrawer {
 	public static final double ARROW_LENGTH = RelationPointConstants.POINT_SELECTION_RADIUS * 1.3;
 	private static final double DIAGONAL_CROSS_LENGTH = RelationPointConstants.POINT_SELECTION_RADIUS * 0.9;
 	private static final double BOX_SIZE = 20;
+
+	public static final double SMALL_CIRCLE_RADIUS = RelationPointConstants.POINT_SELECTION_RADIUS / 2;
+	public static final double MIDDLE_CIRCLE_RADIUS = RelationPointConstants.POINT_SELECTION_RADIUS;
+	public static final double LARGE_CIRCLE_RADIUS = MIDDLE_CIRCLE_RADIUS * 3;
 
 	public static Rectangle drawBoxArrow(DrawHandler drawer, Line line, boolean drawOnStart, String matchedText, ResizableObject resizableObject) {
 		double oldFontsize = drawer.getFontSize();
@@ -70,7 +73,7 @@ public class RelationDrawer {
 	}
 
 	public static enum ArrowEndType {
-		NORMAL, CLOSED, DIAMOND, MEASURE
+		NORMAL, CLOSED, DIAMOND, MEASURE, SINGLE_PIPE, DOUBLE_PIPE
 	}
 
 	public static void drawArrowToLine(DrawHandler drawer, Line line, boolean drawOnStart, ArrowEndType arrowEndType, boolean fillBody, boolean invertArrow) {
@@ -85,25 +88,40 @@ public class RelationDrawer {
 		int arrowAngle = drawOnStart ? 150 : 30;
 		PointDouble p1 = calcPointArrow(point, line.getAngleOfSlope() - arrowAngle);
 		PointDouble p2 = calcPointArrow(point, line.getAngleOfSlope() + arrowAngle);
-		List<PointDouble> points = new ArrayList<PointDouble>(Arrays.asList(p1, point));
+		List<PointDouble> points = new ArrayList<PointDouble>();
 
-		if (arrowEndType == ArrowEndType.MEASURE) {
+		if (arrowEndType == ArrowEndType.MEASURE || arrowEndType == ArrowEndType.SINGLE_PIPE || arrowEndType == ArrowEndType.DOUBLE_PIPE) {
 			PointDouble m1 = calcPoint(point, line.getAngleOfSlope() + 90, SharedConstants.DEFAULT_GRID_SIZE);
 			PointDouble m2 = calcPoint(point, line.getAngleOfSlope() - 90, SharedConstants.DEFAULT_GRID_SIZE);
 			points.add(m1);
 			points.add(m2);
 			points.add(point);
 		}
-		points.add(p2);
-
-		if (arrowEndType == ArrowEndType.CLOSED) {
-			points.add(p1);
+		if (arrowEndType == ArrowEndType.DOUBLE_PIPE) {
+			PointDouble p = line.getPointOnLineWithDistanceFrom(!drawOnStart, ARROW_LENGTH * 1.5);
+			PointDouble m1 = calcPoint(p, line.getAngleOfSlope() + 90, SharedConstants.DEFAULT_GRID_SIZE);
+			PointDouble m2 = calcPoint(p, line.getAngleOfSlope() - 90, SharedConstants.DEFAULT_GRID_SIZE);
+			points.add(p);
+			points.add(m1);
+			points.add(m2);
+			points.add(p);
+			points.add(point);
 		}
-		else if (arrowEndType == ArrowEndType.DIAMOND) {
-			double lengthDiamond = GeometricFunctions.getDistanceBetweenLineAndPoint(p1, p2, point) * 2;
-			PointDouble pDiamond = drawOnStart ? line.getPointOnLineWithDistanceFrom(true, lengthDiamond) : line.getPointOnLineWithDistanceFrom(false, lengthDiamond);
-			points.add(pDiamond);
+
+		if (arrowEndType != ArrowEndType.SINGLE_PIPE && arrowEndType != ArrowEndType.DOUBLE_PIPE) {
 			points.add(p1);
+			points.add(point);
+			points.add(p2);
+
+			if (arrowEndType == ArrowEndType.CLOSED) {
+				points.add(p1);
+			}
+			else if (arrowEndType == ArrowEndType.DIAMOND) {
+				double lengthDiamond = GeometricFunctions.getDistanceBetweenLineAndPoint(p1, p2, point) * 2;
+				PointDouble pDiamond = drawOnStart ? line.getPointOnLineWithDistanceFrom(true, lengthDiamond) : line.getPointOnLineWithDistanceFrom(false, lengthDiamond);
+				points.add(pDiamond);
+				points.add(p1);
+			}
 		}
 
 		if (fillBody) {
@@ -132,31 +150,36 @@ public class RelationDrawer {
 	}
 
 	public static void drawCircle(DrawHandler drawer, Line line, boolean drawOnStart, ResizableObject resizableObject, Direction openDirection, boolean drawCross) {
-		PointDoubleIndexed point = (PointDoubleIndexed) line.getPoint(drawOnStart);
+		double circleRadius = openDirection == null ? MIDDLE_CIRCLE_RADIUS : LARGE_CIRCLE_RADIUS;
+		drawCircle(line.getPoint(drawOnStart), circleRadius, drawer, line, drawOnStart, resizableObject, openDirection, drawCross);
+	}
+
+	public static void drawCircle(PointDouble point, double circleRadius, DrawHandler drawer, Line line, boolean drawOnStart, ResizableObject resizableObject, Direction openDirection, boolean drawCross) {
 		if (openDirection == null) { // full circle
-			drawer.drawCircle(point.getX(), point.getY(), RelationPointConstants.POINT_SELECTION_RADIUS);
+			drawer.drawCircle(point.getX(), point.getY(), circleRadius);
 		}
 		else if (openDirection == Direction.LEFT || openDirection == Direction.RIGHT) { // interface half circle
+			PointDoubleIndexed pointIndex = (PointDoubleIndexed) point;
+
 			ColorOwn bg = drawer.getBackgroundColor();
 			drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
 
-			double circleRadius = RelationPointConstants.POINT_SELECTION_RADIUS * 3;
 			Direction directionOfCircle = line.getDirectionOfLine(drawOnStart);
 			if (directionOfCircle == Direction.RIGHT) {
 				drawer.drawArc(point.getX(), point.getY() - circleRadius / 2, circleRadius, circleRadius, 90, 180, true);
-				resizableObject.setPointMinSize(point.getIndex(), new Rectangle(-circleRadius / 4, -circleRadius / 2, circleRadius * 0.75, circleRadius));
+				resizableObject.setPointMinSize(pointIndex.getIndex(), new Rectangle(-circleRadius / 4, -circleRadius / 2, circleRadius * 0.75, circleRadius));
 			}
 			else if (directionOfCircle == Direction.DOWN) {
 				drawer.drawArc(point.getX() - circleRadius / 2, point.getY(), circleRadius, circleRadius, 0, 180, true);
-				resizableObject.setPointMinSize(point.getIndex(), new Rectangle(-circleRadius / 2, -circleRadius / 4, circleRadius, circleRadius * 0.75));
+				resizableObject.setPointMinSize(pointIndex.getIndex(), new Rectangle(-circleRadius / 2, -circleRadius / 4, circleRadius, circleRadius * 0.75));
 			}
 			else if (directionOfCircle == Direction.LEFT) {
 				drawer.drawArc(point.getX() - circleRadius, point.getY() - circleRadius / 2, circleRadius, circleRadius, -90, 180, true);
-				resizableObject.setPointMinSize(point.getIndex(), new Rectangle(-circleRadius / 2, -circleRadius / 2, circleRadius * 0.75, circleRadius));
+				resizableObject.setPointMinSize(pointIndex.getIndex(), new Rectangle(-circleRadius / 2, -circleRadius / 2, circleRadius * 0.75, circleRadius));
 			}
 			else {
 				drawer.drawArc(point.getX() - circleRadius / 2, point.getY() - circleRadius, circleRadius, circleRadius, -180, 180, true);
-				resizableObject.setPointMinSize(point.getIndex(), new Rectangle(-circleRadius / 2, -circleRadius / 2, circleRadius, circleRadius * 0.75));
+				resizableObject.setPointMinSize(pointIndex.getIndex(), new Rectangle(-circleRadius / 2, -circleRadius / 2, circleRadius, circleRadius * 0.75));
 			}
 
 			drawer.setBackgroundColor(bg);

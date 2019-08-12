@@ -8,6 +8,7 @@ import com.baselet.control.enums.RegexValueHolder;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.element.relation.helper.RelationDrawer;
 import com.baselet.element.relation.helper.RelationDrawer.ArrowEndType;
+import com.baselet.element.relation.helper.RelationPointConstants;
 import com.baselet.element.relation.helper.ResizableObject;
 
 abstract class ArrowEnd implements RegexValueHolder {
@@ -33,6 +34,28 @@ abstract class ArrowEnd implements RegexValueHolder {
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
 			String textWithoutBox = matchedText.substring(1, matchedText.length() - 1);
 			RelationDrawer.drawBoxArrow(drawer, lineToDraw, drawOnLineStart, textWithoutBox, resizableObject);
+		}
+	};
+
+	static ArrowEnd SINGLE_PIPE = new ArrowEnd("\\|") {
+		@Override
+		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.SINGLE_PIPE, false, true);
+		}
+	};
+
+	static ArrowEnd DOUBLE_PIPE = new ArrowEnd("\\|\\|") {
+		@Override
+		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.DOUBLE_PIPE, false, true);
+		}
+	};
+
+	static ArrowEnd SMALL_CIRCLE = new ArrowEnd("o") {
+		@Override
+		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
+			PointDouble point = lineToDraw.getPointOnLineWithDistanceFrom(drawOnLineStart, RelationPointConstants.POINT_SELECTION_RADIUS * 2);
+			RelationDrawer.drawCircle(point, RelationDrawer.SMALL_CIRCLE_RADIUS, drawer, lineToDraw, drawOnLineStart, resizableObject, null, false);
 		}
 	};
 
@@ -64,6 +87,22 @@ abstract class ArrowEnd implements RegexValueHolder {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
 			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false, true);
+		}
+	};
+
+	static ArrowEnd LEFT_ZERO_TO_MANY = new ArrowEnd(">o") {
+		@Override
+		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
+			PointDouble point = lineToDraw.getPointOnLineWithDistanceFrom(drawOnLineStart, RelationPointConstants.POINT_SELECTION_RADIUS * 2);
+			RelationDrawer.drawCircle(point, RelationDrawer.SMALL_CIRCLE_RADIUS, drawer, lineToDraw, drawOnLineStart, resizableObject, null, false);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false, true);
+		}
+	};
+
+	static ArrowEnd LEFT_ONE_TO_MANY = new ArrowEnd(">\\|") {
+		@Override
+		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.MEASURE, false, true);
 		}
 	};
 
@@ -130,6 +169,22 @@ abstract class ArrowEnd implements RegexValueHolder {
 		@Override
 		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
 			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false, true);
+		}
+	};
+
+	static ArrowEnd RIGHT_ZERO_TO_MANY = new ArrowEnd("o<") {
+		@Override
+		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
+			PointDouble point = lineToDraw.getPointOnLineWithDistanceFrom(drawOnLineStart, RelationPointConstants.POINT_SELECTION_RADIUS * 2);
+			RelationDrawer.drawCircle(point, RelationDrawer.SMALL_CIRCLE_RADIUS, drawer, lineToDraw, drawOnLineStart, resizableObject, null, false);
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.NORMAL, false, true);
+		}
+	};
+
+	static ArrowEnd RIGHT_ONE_TO_MANY = new ArrowEnd("\\|<") {
+		@Override
+		public void print(DrawHandler drawer, Line lineToDraw, boolean drawOnLineStart, String matchedText, ResizableObject resizableObject) {
+			RelationDrawer.drawArrowToLine(drawer, lineToDraw, drawOnLineStart, ArrowEndType.MEASURE, false, true);
 		}
 	};
 
