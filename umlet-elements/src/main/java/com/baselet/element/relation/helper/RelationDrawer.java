@@ -158,7 +158,7 @@ public class RelationDrawer {
 		if (openDirection == null) { // full circle
 			drawer.drawCircle(point.getX(), point.getY(), circleRadius);
 		}
-		else if (openDirection == Direction.LEFT || openDirection == Direction.RIGHT) { // interface half circle
+		else if (point instanceof PointDoubleIndexed && (openDirection == Direction.LEFT || openDirection == Direction.RIGHT)) { // interface half circle
 			PointDoubleIndexed pointIndex = (PointDoubleIndexed) point;
 
 			ColorOwn bg = drawer.getBackgroundColor();
