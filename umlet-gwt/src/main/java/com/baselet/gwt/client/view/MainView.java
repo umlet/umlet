@@ -1,5 +1,8 @@
 package com.baselet.gwt.client.view;
 
+import com.baselet.gwt.client.view.utils.OnLoad;
+import com.google.gwt.event.shared.GwtEvent;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vectomatic.file.FileUploadExt;
@@ -49,6 +52,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class MainView extends Composite {
 
@@ -213,6 +219,11 @@ public class MainView extends Composite {
 		dropboxInt = new DropboxIntegration(diagramPanel);
 		dropboxInt.exposeDropboxImportJSCallback(dropboxInt);
 		dropboxInt.exposeDropboxShowNotification(dropboxInt);
+
+		String uxfStartup = Window.Location.getParameter("uxfOnLoad");
+		if (uxfStartup != null) {
+			OnLoad.OnLoad(uxfStartup, diagramPanel);
+		}
 	}
 
 	private void addRestoreMenuItem(final String chosenName) {
