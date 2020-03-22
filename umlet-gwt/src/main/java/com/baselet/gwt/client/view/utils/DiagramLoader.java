@@ -1,7 +1,7 @@
 package com.baselet.gwt.client.view.utils;
 
 import com.baselet.gwt.client.element.DiagramXmlParser;
-import com.baselet.gwt.client.view.DrawPanel;
+import com.baselet.gwt.client.view.MainView;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -12,7 +12,7 @@ import com.google.gwt.user.client.Window;
 
 public class DiagramLoader {
 
-	public static void getFromUrl(String url, DrawPanel diagramPanel) {
+	public static void getFromUrl(String url, MainView mainView) {
 
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
 		try {
@@ -32,7 +32,12 @@ public class DiagramLoader {
 				public void onResponseReceived(Request request, Response response) {
 					int STATUS_CODE_OK = 200;
 					if (STATUS_CODE_OK == response.getStatusCode()) {
-						diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(response.getText()));
+						mainView.setDiagram(DiagramXmlParser.xmlToDiagram(response.getText()));
+						// Any value will do the trick and iif diagram get successfully loaded
+						String presentation = Window.Location.getParameter("presentation");
+						if (presentation != null) {
+							mainView.hideSideBars();
+						}
 					}
 					else {
 						Window.alert("Something went wrong: HTTP Status Code: " + response.getStatusCode());
