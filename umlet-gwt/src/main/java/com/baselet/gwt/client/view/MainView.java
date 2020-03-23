@@ -1,11 +1,11 @@
 package com.baselet.gwt.client.view;
 
-import com.baselet.element.interfaces.Diagram;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vectomatic.file.FileUploadExt;
 
 import com.baselet.control.config.SharedConfig;
+import com.baselet.element.interfaces.Diagram;
 import com.baselet.gwt.client.base.Notification;
 import com.baselet.gwt.client.element.BrowserStorage;
 import com.baselet.gwt.client.element.DiagramXmlParser;
@@ -166,15 +166,10 @@ public class MainView extends Composite {
 		diagramPanel.setDiagram(diagram);
 	}
 
-	public native void hideSideBars() /*-{
-		$doc.querySelectorAll('.gwt-SplitLayoutPanel-HDragger').forEach(function(el){
-			el.dispatchEvent(new MouseEvent('mousedown',{'view':window,'bubbles':true,'cancelable':true}));
-			el.dispatchEvent(new MouseEvent('mouseup',{'view':window,'bubbles':true,'cancelable':true}));
-			el.dispatchEvent(new MouseEvent('mousedown',{'view':window,'bubbles':true,'cancelable':true}));
-			el.dispatchEvent(new MouseEvent('mouseup',{'view':window,'bubbles':true,'cancelable':true}));
-		});
-	}-*/;
-
+	public void hideSideBars() {
+		diagramPaletteSplitter.setWidgetSize(menuPanel, 0.0);
+		diagramPaletteSplitter.setWidgetSize(palettePropertiesSplitter, 0.0);
+	}
 
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));

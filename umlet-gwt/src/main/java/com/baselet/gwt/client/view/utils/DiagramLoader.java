@@ -14,7 +14,7 @@ public class DiagramLoader {
 
 	public static void getFromUrl(String urlOrUxf, MainView mainView) {
 		if (urlOrUxf.startsWith("<")) {
-			mainView.setDiagram(DiagramXmlParser.xmlToDiagram(urlOrUxf));
+			loadDiagram(mainView, urlOrUxf);
 		}
 		else {
 			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, urlOrUxf);
@@ -34,12 +34,7 @@ public class DiagramLoader {
 					public void onResponseReceived(Request request, Response response) {
 						int STATUS_CODE_OK = 200;
 						if (STATUS_CODE_OK == response.getStatusCode()) {
-							mainView.setDiagram(DiagramXmlParser.xmlToDiagram(response.getText()));
-							// Any value of ?presentation will hide the sidebars (only if diagram get successfully loaded)
-							String presentation = Window.Location.getParameter("presentation");
-							if (presentation != null) {
-								mainView.hideSideBars();
-							}
+							loadDiagram(mainView, response.getText());
 						}
 						else {
 							Window.alert("Something went wrong: HTTP Status Code: " + response.getStatusCode());
@@ -49,6 +44,15 @@ public class DiagramLoader {
 			} catch (RequestException e) {
 				throw new RuntimeException(e);
 			}
+		}
+	}
+
+	private static void loadDiagram(MainView mainView, String uxf) {
+		mainView.setDiagram(DiagramXmlParser.xmlToDiagram(uxf));
+		// Any value of ?presentation will hide the sidebars (only if diagram get successfully loaded)
+		String presentation = Window.Location.getParameter("presentation");
+		if (presentation != null) {
+			mainView.hideSideBars();
 		}
 	}
 }
