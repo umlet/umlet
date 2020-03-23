@@ -12,36 +12,40 @@ import com.google.gwt.user.client.Window;
 
 public class DiagramLoader {
 
-	public static void getFromUrl(String url, DrawPanel diagramPanel) {
+	public static void getFromUrl(String urlOrUxf, DrawPanel diagramPanel) {
+		if (urlOrUxf.startsWith("<")) {
+			diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(urlOrUxf));
+		}
+		else {
+			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, urlOrUxf);
+			try {
+				builder.sendRequest(null, new RequestCallback() {
 
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
-		try {
-			builder.sendRequest(null, new RequestCallback() {
-
-				@Override
-				public void onError(Request request, Throwable exception) {
-					if (exception instanceof RequestTimeoutException) {
-						Window.alert("The request has timed out");
-					}
-					else {
-						Window.alert(exception.getMessage());
-					}
-				}
-
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					int STATUS_CODE_OK = 200;
-					if (STATUS_CODE_OK == response.getStatusCode()) {
-						diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(response.getText()));
-					}
-					else {
-						Window.alert("Something went wrong: HTTP Status Code: " + response.getStatusCode());
+					@Override
+					public void onError(Request request, Throwable exception) {
+						if (exception instanceof RequestTimeoutException) {
+							Window.alert("The request has timed out");
+						}
+						else {
+							Window.alert(exception.getMessage());
+						}
 					}
 
-				}
-			});
-		} catch (RequestException e) {
-			throw new RuntimeException(e);
+					@Override
+					public void onResponseReceived(Request request, Response response) {
+						int STATUS_CODE_OK = 200;
+						if (STATUS_CODE_OK == response.getStatusCode()) {
+							diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(response.getText()));
+						}
+						else {
+							Window.alert("Something went wrong: HTTP Status Code: " + response.getStatusCode());
+						}
+
+					}
+				});
+			} catch (RequestException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 }
