@@ -1,5 +1,6 @@
 package com.baselet.gwt.client.view;
 
+import com.baselet.element.interfaces.Diagram;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vectomatic.file.FileUploadExt;
@@ -161,6 +162,20 @@ public class MainView extends Composite {
 		return saveCommand;
 	}
 
+	public void setDiagram(Diagram diagram) {
+		diagramPanel.setDiagram(diagram);
+	}
+
+	public native void hideSideBars() /*-{
+		$doc.querySelectorAll('.gwt-SplitLayoutPanel-HDragger').forEach(function(el){
+			el.dispatchEvent(new MouseEvent('mousedown',{'view':window,'bubbles':true,'cancelable':true}));
+			el.dispatchEvent(new MouseEvent('mouseup',{'view':window,'bubbles':true,'cancelable':true}));
+			el.dispatchEvent(new MouseEvent('mousedown',{'view':window,'bubbles':true,'cancelable':true}));
+			el.dispatchEvent(new MouseEvent('mouseup',{'view':window,'bubbles':true,'cancelable':true}));
+		});
+	}-*/;
+
+
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
 		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(palettePropertiesSplitter, true);
@@ -218,7 +233,7 @@ public class MainView extends Composite {
 		// if uxf parameter is set, a GET request is made to get and load the diagram from the specified URL
 		String uxfStartup = Window.Location.getParameter("uxf");
 		if (uxfStartup != null) {
-			DiagramLoader.getFromUrl(uxfStartup, diagramPanel);
+			DiagramLoader.getFromUrl(uxfStartup, this);
 		}
 	}
 
