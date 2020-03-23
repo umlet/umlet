@@ -12,41 +12,43 @@ import com.google.gwt.user.client.Window;
 
 public class DiagramLoader {
 
-	public static void getFromUrl(String url, MainView mainView) {
-
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, url);
-		try {
-			builder.sendRequest(null, new RequestCallback() {
-
-				@Override
-				public void onError(Request request, Throwable exception) {
-					if (exception instanceof RequestTimeoutException) {
-						Window.alert("The request has timed out");
-					}
-					else {
-						Window.alert(exception.getMessage());
-					}
-				}
-
-				@Override
-				public void onResponseReceived(Request request, Response response) {
-					int STATUS_CODE_OK = 200;
-					if (STATUS_CODE_OK == response.getStatusCode()) {
-						mainView.setDiagram(DiagramXmlParser.xmlToDiagram(response.getText()));
-						// Any value will do the trick and iif diagram get successfully loaded
-						String presentation = Window.Location.getParameter("presentation");
-						if (presentation != null) {
-							mainView.hideSideBars();
+	public static void getFromUrl(String urlOrUxf, MainView mainView) {
+		if (urlOrUxf.startsWith("<")) {
+			mainView.setDiagram(DiagramXmlParser.xmlToDiagram(urlOrUxf));
+		}
+		else {
+			RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, urlOrUxf);
+			try {
+				builder.sendRequest(null, new RequestCallback() {
+					@Override
+					public void onError(Request request, Throwable exception) {
+						if (exception instanceof RequestTimeoutException) {
+							Window.alert("The request has timed out");
+						}
+						else {
+							Window.alert(exception.getMessage());
 						}
 					}
-					else {
-						Window.alert("Something went wrong: HTTP Status Code: " + response.getStatusCode());
-					}
 
-				}
-			});
-		} catch (RequestException e) {
-			throw new RuntimeException(e);
+					@Override
+					public void onResponseReceived(Request request, Response response) {
+						int STATUS_CODE_OK = 200;
+						if (STATUS_CODE_OK == response.getStatusCode()) {
+							mainView.setDiagram(DiagramXmlParser.xmlToDiagram(response.getText()));
+							// Any value of ?presentation will hide the sidebars (only if diagram get successfully loaded)
+							String presentation = Window.Location.getParameter("presentation");
+							if (presentation != null) {
+								mainView.hideSideBars();
+							}
+						}
+						else {
+							Window.alert("Something went wrong: HTTP Status Code: " + response.getStatusCode());
+						}
+					}
+				});
+			} catch (RequestException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 }
