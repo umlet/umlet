@@ -1,0 +1,10 @@
+language: java
+jdk:
+  - openjdk8
+  - openjdk11
+script: "mvn clean install -P checks"
+
+notifications:
+  email: # only send an email if build fails
+    on_success: never
+    on_failure: always

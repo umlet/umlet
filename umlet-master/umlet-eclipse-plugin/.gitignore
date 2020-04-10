@@ -1,0 +1,4 @@
+# the following files are copied by maven during the build and should NEVER be changed. unfortunately these directories cannot be moved to target/ or the eclipse project will not find them after Alt+F5 (refresh eclipse project from pom.xml)
+/custom_elements/
+/lib/
+/palettes/

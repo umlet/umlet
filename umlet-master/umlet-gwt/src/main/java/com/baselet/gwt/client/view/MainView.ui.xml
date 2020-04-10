@@ -1,0 +1,103 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:o='urn:import:com.baselet.gwt.client.view.widgets.propertiespanel'>
+	<ui:with type="com.baselet.gwt.client.version.BuildInfoProperties" field="prop" />
+	<ui:style type='com.baselet.gwt.client.view.MainView.MyStyle'>
+		.image {
+			cursor: help;
+		}
+		.version {
+			font-weight: bold;
+			font-size: 0.85em;
+			text-align: center;
+		}
+		.menuItem {
+			padding-left: 0.3em;
+			font-size: 0.9em;
+		}
+		.menuItem:hover {
+			background: #E3E8F3;
+			cursor: pointer;
+		}
+		.propertiesTitle {
+			padding-left: 0.5em;
+			font-size: 0.85em;
+			font-weight: bold;
+			background-color: #E7E7E7;
+			-moz-user-select: -moz-none;
+			-khtml-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		.dropin-btn-status {
+		    display: inline-block;
+		    width: 15px;
+		    height: 14px;
+		    vertical-align: bottom;
+		    margin: 2px 5px 0px 2px;
+		    background: transparent url("https://www.dropbox.com/static/images/widgets/dbx-saver-status.png") no-repeat scroll 0% 0%;
+		    position: relative;
+		    top: 2px;
+		}
+		.propPanel{
+		    -webkit-box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    box-sizing: border-box;
+		    resize: none;
+		}
+	</ui:style>
+	
+	<g:FocusPanel stylePrimaryName="mainView" ui:field="mainPanel">
+		<g:SplitLayoutPanel width="100%" height="100%" ui:field="diagramPaletteSplitter">
+			<g:west size='85'>
+				<g:FlowPanel ui:field="menuPanel" >
+					<g:Image styleName="{style.image}" title="{prop.getVersionString}" url="data:image/png;base64,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" />
+					<g:HTML styleName="{style.version}" text="Version {prop.getVersion}" />
+					<g:HTML><hr/></g:HTML>
+					<g:HTML styleName="{style.menuItem}" ui:field="helpMenuItem" text="KeyInfo" title="show keyboard shortcuts" />
+					<g:HTML><hr/></g:HTML>
+					<g:HTML styleName="{style.menuItem}" ui:field="importMenuItem" text="File Import" title="import diagram from uxf file" />
+					<g:HTML styleName="{style.menuItem}" ui:field="exportMenuItem" text="File Export" title="export diagram to uxf or as image" />
+					<g:HTML><hr/></g:HTML>
+					<g:HTML>
+						<script type="text/javascript" id="dropboxjs" data-app-key="3mmyizdvtldctng"></script>
+						<!-- src="https://www.dropbox.com/static/api/2/dropins.js"  -->
+					</g:HTML>
+					<g:HTML styleName="{style.menuItem}" ui:field="importDropboxMenuItem" title="import diagram from dropbox">
+						<span class="{style.dropin-btn-status}"></span>Import
+					</g:HTML>
+					<g:HTML styleName="{style.menuItem}" ui:field="exportDropboxMenuItem"  title="export diagram to dropbox">
+						<span class="{style.dropin-btn-status}"></span>Export
+					</g:HTML>
+					<g:HTML><hr/></g:HTML>
+					<g:HTML styleName="{style.menuItem}" ui:field="saveMenuItem" text="Save" title="save diagram to browser storage" />
+					<g:FlowPanel ui:field="restoreMenuPanel" />
+				</g:FlowPanel>
+			</g:west>
+			<g:center>
+				<g:SimpleLayoutPanel ui:field="diagramPanelWrapper" />
+			</g:center>
+			<g:east size='400'>
+				<g:SplitLayoutPanel ui:field="palettePropertiesSplitter">
+					<g:north size='550'>
+						<g:DockLayoutPanel unit="EM" ui:field="paletteChooserCanvasSplitter">
+							<g:north size="2.0">
+								<g:ListBox ui:field="paletteChooser" visibleItemCount="1" width="100%" />
+							</g:north>
+							<g:center>
+								<g:SimpleLayoutPanel ui:field="palettePanelWrapper" />
+							</g:center>
+						</g:DockLayoutPanel>
+					</g:north>
+					<g:center>
+						<g:FlowPanel>
+							<g:HTML><div class='{style.propertiesTitle}'>Properties</div></g:HTML>
+							<o:PropertiesTextArea ui:field="propertiesPanel" height="100%" width="100%" addStyleNames="{style.propPanel}" />
+						</g:FlowPanel>
+					</g:center>
+				</g:SplitLayoutPanel>
+			</g:east>
+		</g:SplitLayoutPanel>
+	</g:FocusPanel>
+</ui:UiBinder> 

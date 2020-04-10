@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.1">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLSequenceAllInOne</id>
+    <coordinates>
+      <x>624</x>
+      <y>0</y>
+      <w>388</w>
+      <h>544</h>
+    </coordinates>
+    <panel_attributes>title=New all in one sequence diagram
+obj=Lifeline A~a ACTOR EXECUTION
+obj=Lifeline B~b ACTIVE
+obj=Lifeline C~c CREATED_LATER
+
+a-&gt;&gt;&gt;b : Text mit Wordwrapp;
+id2-&gt;id3 + :Text at send
+a:{x==0}
+stateInvariant=c:locked; b-&gt;&gt;&gt;a; on=a
+a.&gt;b; off=a
+b.&gt;a +1; coregionStart=c
+off=a; 
+b.&gt;a +2; 
+b.&gt;a ++
+found-&gt;c
+c-&gt;lost
+coregionEnd=c</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSequenceAllInOne</id>
+    <coordinates>
+      <x>608</x>
+      <y>560</y>
+      <w>440</w>
+      <h>480</h>
+    </coordinates>
+    <panel_attributes>title=New all in one sequence diagram
+autoTick=false
+overrideIds=true
+obj=Lifeline A~id1 | Lifeline B1 new Lifeline added later~b1 | Lifeline B2 old B~id2
+
+id1-&gt;&gt;&gt;id2
+tick=
+id2-&gt;b1
+tick=
+combinedFragment=alt~
+	id1:[old]
+	tick=
+	combinedFragment=loop~loopid id1 b1
+		id1:[1..10]
+		tick=
+		ref=id1 b1 :calculate
+	--=loopid
+		tick=
+	id1-&gt;id2
+	tick=
+..
+	id1:[new]
+	tick=
+	id1-&gt;b1
+--
+tick=
+id1.&gt;id2 + : Text with forced \n new line
+tick=2
+continuation=id1 id2 :goto X
+tick=</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSequenceAllInOne</id>
+    <coordinates>
+      <x>16</x>
+      <y>0</y>
+      <w>592</w>
+      <h>336</h>
+    </coordinates>
+    <panel_attributes>title=New all in one sequence diagram \nTitle with normal \\n and \nNew Line
+desc=x = 1 \ny = 0
+autoTick=false
+obj=Lifeline A~a 
+obj=Lifeline B\nnew\nLine~b 
+obj=Lifeline C~c
+gate-&gt;a.a1 :message from a gate
+c.c1-&gt;gate :message to a gate
+tick=
+found-&gt;b.b1
+b.b1&lt;a.a1
+tick=
+c-&gt;c + :self message
+tick=
+on=c;
+a.a2.&gt;b
+c.c1&gt;a.a2
+tick=
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLSequenceAllInOne</id>
+    <coordinates>
+      <x>16</x>
+      <y>352</y>
+      <w>576</w>
+      <h>560</h>
+    </coordinates>
+    <panel_attributes>title=A complex combined fragments
+obj=Lifeline A~a
+obj=Lifeline B~b
+obj=Lifeline C~c
+obj=Lifeline D~d
+
+a-&gt;&gt;&gt;b : execute() d=duration; on=b
+combinedFragment=combined fragment~cf; id2-&gt;id3 + :Message
+a:{x==0}; on=c
+combinedFragment=alt~alt1 c d; d:[x&gt;0];  combinedFragment=loop~loop1 a b; b:[1..10]
+b-&gt;&gt;&gt;a; on=a; d-&gt;c
+..=alt1; c:[else]
+a.&gt;b; off=a; --=loop1;  c-&gt;d
+..=cf
+b.&gt;a +1; off=b
+--; --
+destroy=d;
+tick=2
+a-&gt;b -2
+a.&gt;&gt;&gt;b --</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

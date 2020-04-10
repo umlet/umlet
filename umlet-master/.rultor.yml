@@ -1,0 +1,8 @@
+release:
+  script: |
+    echo "setting the new version"
+    mvn versions:set "-DnewVersion=${tag}"
+    echo "building the project (also updating MANIFEST.MF file from plugin) the property CI=true is used to disable some tests"
+    mvn -DCI=true clean install
+    echo "committing the changes (version update in pom.xml and update of MANIFEST.MF)"
+    git commit -am "${tag}"
