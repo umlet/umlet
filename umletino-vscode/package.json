@@ -4,7 +4,9 @@
 	"description": "toll",
 	"version": "0.0.1",
 	"publisher": "myPublishername",
-	"extensionKind": ["ui"],
+	"extensionKind": [
+		"ui"
+	],
 	"engines": {
 		"vscode": "^1.43.0"
 	},
