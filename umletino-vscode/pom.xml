@@ -33,12 +33,12 @@
                         <id>install</id>
                         <phase>install</phase>
                         <configuration>
-                            <tasks>
+                            <target>
                                 <copy todir="src/umlet-gwt/baseletgwt/">
                                     <fileset dir="../umlet-gwt/target/umlet-gwt-${project.version}/baseletgwt">
                                     </fileset>
                                 </copy>
-                            </tasks>
+                            </target>
                         </configuration>
                         <goals>
                             <goal>run</goal>
@@ -48,11 +48,11 @@
                         <id>clean</id>
                         <phase>clean</phase>
                         <configuration>
-                            <tasks>
+                            <target>
                                 <delete includeemptydirs="true">
                                     <fileset dir="src/umlet-gwt/baseletgwt/" includes="**/*"/>
                                 </delete>
-                            </tasks>
+                            </target>
                         </configuration>
                         <goals>
                             <goal>run</goal>
