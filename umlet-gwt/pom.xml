@@ -131,25 +131,6 @@
 					<moduleName>baseletgwt</moduleName>
 				</configuration>
 			</plugin>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>install</phase>
-						<configuration>
-							<tasks>
-								<copy todir="../umletino-vscode/src/umlet-gwt/baseletgwt/">
-									<fileset dir="target/umlet-gwt-${project.version}/baseletgwt">
-									</fileset>
-								</copy>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 

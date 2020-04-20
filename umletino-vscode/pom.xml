@@ -11,13 +11,58 @@
 
     <artifactId>umletino-vscode</artifactId>
 
+    <properties>
+        <npm.version>v12.16.2</npm.version>
+    </properties>
+
+    <!-- TODO(Thomas): Check why this does not work (don't want to allow build of vscode without building gwt) -->
+    <!--<dependencies>
+        <dependency>
+            <groupId>com.umlet</groupId>
+            <artifactId>umlet-gwt</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>-->
+
     <build>
         <plugins>
             <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <tasks>
+                                <copy todir="src/umlet-gwt/baseletgwt/">
+                                    <fileset dir="../umlet-gwt/target/umlet-gwt-${project.version}/baseletgwt">
+                                    </fileset>
+                                </copy>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>clean</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <tasks>
+                                <delete includeemptydirs="true">
+                                    <fileset dir="src/umlet-gwt/baseletgwt/" includes="**/*"/>
+                                </delete>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
-                <!-- Use the latest released version:
-                https://repo1.maven.org/maven2/com/github/eirslett/frontend-maven-plugin/ -->
                 <version>1.9.1</version>
                 <executions>
                     <execution>
@@ -34,7 +79,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <nodeVersion>v12.16.2</nodeVersion>
+                    <nodeVersion>${npm.version}</nodeVersion>
                 </configuration>
             </plugin>
         </plugins>
