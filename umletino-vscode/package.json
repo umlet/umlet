@@ -26,7 +26,9 @@
 		]
 	},
 	"scripts": {
-		"vscode:prepublish": "npm run compile",
+		"vscode:prepublish": "webpack --mode production",
+		"webpack": "webpack --mode development",
+		"webpack-dev": "webpack --mode development --watch",
 		"compile": "tsc -p ./",
 		"lint": "eslint src --ext ts",
 		"watch": "tsc -watch -p ./",
@@ -45,13 +47,17 @@
 		"eslint": "^6.8.0",
 		"glob": "^7.1.6",
 		"mocha": "^7.1.1",
+		"ts-loader": "^7.0.1",
 		"typescript": "^3.7.5",
-		"vscode-test": "^1.3.0"
+		"vscode-test": "^1.3.0",
+		"webpack": "^4.42.1",
+		"webpack-cli": "^3.3.11"
 	},
 	"dependencies": {
 		"atob": "^2.1.2",
 		"btoa": "^1.2.1",
 		"btob": "^0.1.1",
-		"file-saver": "^2.0.2"
+		"file-saver": "^2.0.2",
+		"vsce": "^1.75.0"
 	}
 }

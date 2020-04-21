@@ -77,6 +77,16 @@
                             <goal>npm</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>vsce package</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <arguments>run env -- vsce package</arguments>
+                        </configuration>
+                    </execution>
                 </executions>
                 <configuration>
                     <nodeVersion>${npm.version}</nodeVersion>
