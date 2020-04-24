@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.BaseletGWT;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.storage.client.Storage;
 
 /**
@@ -79,29 +78,6 @@ public class BrowserStorage {
 
 	private static void set(String id, String value) {
 
-	}
-
-	private static class KeyValuePairHolder extends JavaScriptObject {
-		// Constructor needs to be protected and zero-arguments
-		protected KeyValuePairHolder() {
-		}
-
-		// JSNI is used for setting/getting properties
-		public final native String getId() /*-{
-			return this.Id;
-		}-*/;
-
-		public final native String getValue() /*-{
-			return this.Value;
-		}-*/;
-
-		public final native void setId(String id) /*-{
-			this.Id = id;
-		}-*/;
-
-		public final native void setValue(String value) /*-{
-			this.Value = value;
-		}-*/;
 	}
 
 }
