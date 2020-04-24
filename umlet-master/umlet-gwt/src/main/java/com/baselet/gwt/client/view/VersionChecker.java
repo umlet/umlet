@@ -14,8 +14,6 @@ public class VersionChecker {
 	}
 
 	public static native boolean isVsCodeVersion() /*-{
-		console.log(window.parent.vscode);
-		console.log(typeof window.parent.vscode);
 		if (typeof window.parent.vscode !== 'undefined') {
 			return true;
 		}

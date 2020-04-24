@@ -181,7 +181,9 @@ public class MainView extends Composite {
 		paletteScrollPanel = new AutoResizeScrollDropPanel(palettePanel);
 		updateNotificationPosition();
 
-		/* for (String diagramName : BrowserStorage.getSavedDiagramKeys()) { addRestoreMenuItem(diagramName); } */
+		for (String diagramName : BrowserStorage.getSavedDiagramKeys()) {
+			addRestoreMenuItem(diagramName);
+		}
 
 		log.trace("Main View initialized");
 

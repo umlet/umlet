@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.BaseletGWT;
+import com.baselet.gwt.client.view.VersionChecker;
 import com.google.gwt.storage.client.Storage;
 
 /**
@@ -32,6 +33,15 @@ public class BrowserStorage {
 			return false; // Firefox with the Cookie setting "ask everytime" will throw an exception here!
 		}
 
+	}
+
+	public static boolean initLocalStorage() {
+		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE) {
+			return initStubLocalStorage();
+		}
+		else {
+			return initLocalStorageAndCheckIfAvailable();
+		}
 	}
 
 	public static boolean initStubLocalStorage() {
@@ -64,20 +74,51 @@ public class BrowserStorage {
 	}
 
 	private static String get(String id) {
-		return null;
+		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE) {
+			return null;
+		}
+		else {
+			return localStorage.getItem(id);
+		}
+
 	}
 
 	private static void remove(String id) {
+		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE) {
+		}
+		else {
+			localStorage.removeItem(id);
+		}
 	}
 
 	private static Map<String, String> getWithPrefix(String prefix, boolean removePrefixFromKey) {
-		Map<String, String> returnList = new HashMap<String, String>();
-		/* for (int i = 0; i < localStorage.getLength(); i++) { String key = localStorage.key(i); if (key.startsWith(prefix)) { if (removePrefixFromKey) { key = key.substring(prefix.length()); } returnList.put(key, localStorage.getItem(key)); } } */
-		return returnList;
+		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE) {
+			Map<String, String> returnList = new HashMap<String, String>();
+			/* for (int i = 0; i < localStorage.getLength(); i++) { String key = localStorage.key(i); if (key.startsWith(prefix)) { if (removePrefixFromKey) { key = key.substring(prefix.length()); } returnList.put(key, localStorage.getItem(key)); } } */
+			return returnList;
+		}
+		else {
+			Map<String, String> returnList = new HashMap<String, String>();
+			for (int i = 0; i < localStorage.getLength(); i++) {
+				String key = localStorage.key(i);
+				if (key.startsWith(prefix)) {
+					if (removePrefixFromKey) {
+						key = key.substring(prefix.length());
+					}
+					returnList.put(key, localStorage.getItem(key));
+				}
+			}
+			return returnList;
+		}
+
 	}
 
 	private static void set(String id, String value) {
-
+		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE) {
+		}
+		else {
+			localStorage.setItem(id, value);
+		}
 	}
 
 }
