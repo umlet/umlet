@@ -15,15 +15,6 @@
         <npm.version>v12.16.2</npm.version>
     </properties>
 
-    <!-- TODO(Thomas): Check why this does not work (don't want to allow build of vscode without building gwt) -->
-    <!--<dependencies>
-        <dependency>
-            <groupId>com.umlet</groupId>
-            <artifactId>umlet-gwt</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>-->
-
     <build>
         <plugins>
             <plugin>
