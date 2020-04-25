@@ -75,7 +75,7 @@
                         </goals>
                         <phase>package</phase>
                         <configuration>
-                            <arguments>run env -- vsce package</arguments>
+                            <arguments>run vsce</arguments>
                         </configuration>
                     </execution>
                 </executions>
