@@ -22,7 +22,7 @@
                 <executions>
                     <execution>
                         <id>install</id>
-                        <phase>install</phase>
+                        <phase>compile</phase>
                         <configuration>
                             <target>
                                 <copy todir="src/umlet-gwt/baseletgwt/">
