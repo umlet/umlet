@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/umlet-eclipse-plugin/com.umlet.plugin.iml" filepath="$PROJECT_DIR$/umlet-eclipse-plugin/com.umlet.plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/umlet-eclipse-feature/umlet-eclipse-feature.iml" filepath="$PROJECT_DIR$/umlet-eclipse-feature/umlet-eclipse-feature.iml" />
+      <module fileurl="file://$PROJECT_DIR$/umlet-eclipse-p2/umlet-eclipse-p2.iml" filepath="$PROJECT_DIR$/umlet-eclipse-p2/umlet-eclipse-p2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/umlet-eclipse-plugin-deps/umlet-eclipse-plugin-deps.iml" filepath="$PROJECT_DIR$/umlet-eclipse-plugin-deps/umlet-eclipse-plugin-deps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/umlet-elements/umlet-elements.iml" filepath="$PROJECT_DIR$/umlet-elements/umlet-elements.iml" />
+      <module fileurl="file://$PROJECT_DIR$/umlet-gwt/umlet-gwt.iml" filepath="$PROJECT_DIR$/umlet-gwt/umlet-gwt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/umlet-parent.iml" filepath="$PROJECT_DIR$/umlet-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/umlet-res/umlet-res.iml" filepath="$PROJECT_DIR$/umlet-res/umlet-res.iml" />
+      <module fileurl="file://$PROJECT_DIR$/umlet-standalone/umlet-standalone.iml" filepath="$PROJECT_DIR$/umlet-standalone/umlet-standalone.iml" />
+      <module fileurl="file://$PROJECT_DIR$/umlet-swing/umlet-swing.iml" filepath="$PROJECT_DIR$/umlet-swing/umlet-swing.iml" />
+    </modules>
+  </component>
+</project>

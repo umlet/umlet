@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="umlet-swing" />
+        <module name="com.umlet.plugin" />
+        <module name="umlet-gwt" />
+        <module name="umlet-res" />
+        <module name="umlet-elements" />
+        <module name="umlet-eclipse-feature" />
+        <module name="umlet-standalone" />
+        <module name="umlet-eclipse-plugin-deps" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="com.umlet.plugin" target="1.6" />
+      <module name="umlet-eclipse-feature" target="1.6" />
+      <module name="umlet-eclipse-p2" target="1.6" />
+      <module name="umlet-eclipse-plugin-deps" target="1.6" />
+      <module name="umlet-elements" target="1.6" />
+      <module name="umlet-gwt" target="1.8" />
+      <module name="umlet-parent" target="1.6" />
+      <module name="umlet-res" target="1.6" />
+      <module name="umlet-standalone" target="1.6" />
+      <module name="umlet-swing" target="1.6" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
