@@ -1,5 +1,6 @@
 package com.baselet.gwt.client.view;
 
+import com.baselet.gwt.client.view.VersionChecker.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vectomatic.file.FileUploadExt;
@@ -140,6 +141,25 @@ public class MainView extends Composite {
 		}
 	};
 
+	private final ScheduledCommand saveCommandVSCode = new ScheduledCommand() {
+		private final SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
+			@Override
+			public void callback(final String chosenName) {
+				boolean itemIsNewlyAdded = BrowserStorage.getSavedDiagram(chosenName) == null;
+				BrowserStorage.addSavedDiagram(chosenName, DiagramXmlParser.diagramToXml(diagramPanel.getDiagram()));
+				if (itemIsNewlyAdded) {
+					addRestoreMenuItem(chosenName);
+				}
+				Notification.showInfo("Diagram saved as: " + chosenName);
+			}
+		});
+
+		@Override
+		public void execute() {
+			saveDialogBox.clearAndCenter();
+		}
+	};
+
 	private final ScheduledCommand exportToDropbox = new ScheduledCommand() {
 		private final SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
 			@Override
@@ -163,7 +183,7 @@ public class MainView extends Composite {
 
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
-		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE) {
+		if (VersionChecker.GetVersion() == Version.VSCODE) {
 			diagramPaletteSplitter.setWidgetHidden(diagramPaletteSplitter.getWidget(0), true);
 		}
 		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(palettePropertiesSplitter, true);
@@ -258,6 +278,11 @@ public class MainView extends Composite {
 
 	@UiHandler("exportMenuItem")
 	void onExportMenuItemClick(ClickEvent event) {
+		initialiseExportDialog();
+	}
+
+	public void initialiseExportDialog()
+	{
 		String uxfUrl = DiagramXmlParser.diagramToXml(diagramPanel.getDiagram());
 		log.info("Exporting: " + uxfUrl);
 		String pngUrl = CanvasUtils.createPngCanvasDataUrl(diagramPanel.getDiagram());
