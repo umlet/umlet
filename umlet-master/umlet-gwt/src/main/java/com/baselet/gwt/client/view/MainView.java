@@ -3,6 +3,7 @@ package com.baselet.gwt.client.view;
 import com.baselet.gwt.client.view.VersionChecker.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.vectomatic.file.Blob;
 import org.vectomatic.file.FileUploadExt;
 
 import com.baselet.control.config.SharedConfig;
@@ -50,6 +51,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
+
+import java.util.List;
 
 public class MainView extends Composite {
 
@@ -194,6 +197,8 @@ public class MainView extends Composite {
 		diagramPaletteSplitter.setWidgetMinSize(menuPanel, 50);
 		palettePropertiesSplitter.setWidgetToggleDisplayAllowed(paletteChooserCanvasSplitter, true);
 		diagramPanel = new DrawPanelDiagram(this, propertiesPanel);
+
+
 		palettePanel = new DrawPanelPalette(this, propertiesPanel, paletteChooser);
 		diagramPanel.setOtherDrawFocusPanel(palettePanel);
 		palettePanel.setOtherDrawFocusPanel(diagramPanel);
@@ -208,6 +213,17 @@ public class MainView extends Composite {
 		log.trace("Main View initialized");
 
 		handler = new FileOpenHandler(diagramPanel);
+
+		//Load diagram if one was passed from vscode
+		if(VersionChecker.GetVersion() == Version.VSCODE && VersionChecker.vsCodePredefinedFile() != null)
+		{
+			try {
+				diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(VersionChecker.vsCodePredefinedFile()));
+			} catch (Exception e)
+			{
+				GWT.log("failed to load diagram passed from vscode, loading defaults...");
+			}
+		}
 
 		diagramPanelWrapper.add(diagramScrollPanel);
 

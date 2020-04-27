@@ -3,7 +3,7 @@ var __gwtModuleFunction = $wnd.baseletgwt;
 var $sendStats = __gwtModuleFunction.__sendStats;
 $sendStats('moduleStartup', 'moduleEvalStart');
 var $gwt_version = "2.8.2";
-var $strongName = '00701FDAED201E261685497DC3C6C903';
+var $strongName = '0C3AF17A46C6A6150EC85AC9FC58E467';
 var $gwt = {};
 var $doc = $wnd.document;
 var $moduleName, $moduleBase;
@@ -22,7 +22,7 @@ var $stats = $wnd.__gwtStatsEvent ? function(a) {
 return $wnd.__gwtStatsEvent && $wnd.__gwtStatsEvent(a);
 } : null;
 var $sessionId = $wnd.__gwtStatsSessionId ? $wnd.__gwtStatsSessionId : null;
-var $intern_0 = 2147483647, $intern_1 = {3:1, 9:1, 8:1}, $intern_2 = {3:1, 6:1, 7:1, 4:1}, $intern_3 = {3:1, 6:1, 4:1}, $intern_4 = {3:1, 17:1}, $intern_5 = {3:1, 15:1, 10:1, 17:1}, $intern_6 = {3:1, 6:1, 7:1, 4:1, 33:1}, $intern_7 = {26:1, 23:1}, $intern_8 = {31:1, 22:1, 29:1, 26:1, 32:1, 23:1, 24:1}, $intern_9 = {31:1, 22:1, 29:1, 26:1, 50:1, 32:1, 23:1, 24:1, 21:1}, $intern_10 = 1000, $intern_11 = {81:1}, $intern_12 = {3:1, 81:1}, $intern_13 = {48:1, 3:1}, $intern_14 = {3:1, 4:1}, $intern_15 = {3:1}, $intern_16 = {22:1}, $intern_17 = {131:1, 3:1, 15:1, 10:1, 17:1}, $intern_18 = 4194303, $intern_19 = 1048575, $intern_20 = 4194304, $intern_21 = 17592186044416, $intern_22 = 524288, $intern_23 = -17592186044416, $intern_24 = {169:1}, $intern_25 = -2147483648, $intern_26 = 1024, $intern_27 = 4096, $intern_28 = 2048, $intern_29 = 32768, $intern_30 = 16384, $intern_31 = 65536, $intern_32 = 131072, $intern_33 = 262144, $intern_34 = 1048576, $intern_35 = 2097152, $intern_36 = 8388608, $intern_37 = 16777216, $intern_38 = 33554432, $intern_39 = 67108864, $intern_40 = {31:1, 22:1, 29:1, 26:1, 50:1, 32:1, 192:1, 23:1, 24:1, 21:1}, $intern_41 = {983:1, 27:1}, $intern_42 = {21:1}, $intern_43 = {298:1}, $intern_44 = {3:1, 15:1, 64:1, 10:1, 17:1}, $intern_45 = {3:1, 9:1, 45:1, 218:1}, $intern_46 = 65535, $intern_47 = {21:1, 49:1}, $intern_48 = 1020, $intern_49 = {21:1, 49:1, 104:1}, $intern_50 = 1017, $intern_51 = {21:1, 49:1, 40:1}, $intern_52 = {3:1, 21:1, 49:1, 40:1, 214:1}, $intern_53 = {3:1, 21:1, 49:1, 104:1}, $intern_54 = {3:1, 9:1, 136:1}, $intern_55 = 1018, $intern_56 = {3:1, 4:1, 375:1};
+var $intern_0 = 2147483647, $intern_1 = {3:1, 9:1, 8:1}, $intern_2 = {3:1, 6:1, 7:1, 4:1}, $intern_3 = {3:1, 6:1, 4:1}, $intern_4 = {3:1, 17:1}, $intern_5 = {3:1, 14:1, 10:1, 17:1}, $intern_6 = {3:1, 6:1, 7:1, 4:1, 33:1}, $intern_7 = {26:1, 23:1}, $intern_8 = {31:1, 22:1, 29:1, 26:1, 32:1, 23:1, 24:1}, $intern_9 = {31:1, 22:1, 29:1, 26:1, 50:1, 32:1, 23:1, 24:1, 21:1}, $intern_10 = 1000, $intern_11 = {81:1}, $intern_12 = {3:1, 81:1}, $intern_13 = {48:1, 3:1}, $intern_14 = {3:1, 4:1}, $intern_15 = {3:1}, $intern_16 = {22:1}, $intern_17 = {131:1, 3:1, 14:1, 10:1, 17:1}, $intern_18 = 4194303, $intern_19 = 1048575, $intern_20 = 4194304, $intern_21 = 17592186044416, $intern_22 = 524288, $intern_23 = -17592186044416, $intern_24 = {169:1}, $intern_25 = -2147483648, $intern_26 = 1024, $intern_27 = 4096, $intern_28 = 2048, $intern_29 = 32768, $intern_30 = 16384, $intern_31 = 65536, $intern_32 = 131072, $intern_33 = 262144, $intern_34 = 1048576, $intern_35 = 2097152, $intern_36 = 8388608, $intern_37 = 16777216, $intern_38 = 33554432, $intern_39 = 67108864, $intern_40 = {31:1, 22:1, 29:1, 26:1, 50:1, 32:1, 192:1, 23:1, 24:1, 21:1}, $intern_41 = {983:1, 27:1}, $intern_42 = {21:1}, $intern_43 = {298:1}, $intern_44 = {3:1, 14:1, 64:1, 10:1, 17:1}, $intern_45 = {3:1, 9:1, 45:1, 218:1}, $intern_46 = 65535, $intern_47 = {21:1, 49:1}, $intern_48 = 1020, $intern_49 = {21:1, 49:1, 104:1}, $intern_50 = 1017, $intern_51 = {21:1, 49:1, 40:1}, $intern_52 = {3:1, 21:1, 49:1, 40:1, 214:1}, $intern_53 = {3:1, 21:1, 49:1, 104:1}, $intern_54 = {3:1, 9:1, 138:1}, $intern_55 = 1018, $intern_56 = {3:1, 4:1, 375:1};
 var _, prototypesByTypeId_0, initFnList_0, permutationId = -1;
 function setGwtProperty(propertyName, propertyValue){
   typeof window === 'object' && typeof window['$gwt'] === 'object' && (window['$gwt'][propertyName] = propertyValue);
@@ -600,8 +600,8 @@ function Exception_1(message){
   this.initializeBackingError();
 }
 
-defineClass(15, 17, {3:1, 15:1, 17:1});
-var Ljava_lang_Exception_2_classLit = createForClass('java.lang', 'Exception', 15);
+defineClass(14, 17, {3:1, 14:1, 17:1});
+var Ljava_lang_Exception_2_classLit = createForClass('java.lang', 'Exception', 14);
 function RuntimeException(){
   Exception_0.call(this);
 }
@@ -614,7 +614,7 @@ function RuntimeException_1(message, cause){
   Throwable.call(this, message, cause);
 }
 
-defineClass(10, 15, $intern_5, RuntimeException, RuntimeException_0, RuntimeException_1);
+defineClass(10, 14, $intern_5, RuntimeException, RuntimeException_0, RuntimeException_1);
 var Ljava_lang_RuntimeException_2_classLit = createForClass('java.lang', 'RuntimeException', 10);
 function $onModuleLoad(this$static){
   var s, i;
@@ -861,7 +861,7 @@ function initLocalStorageAndCheckIfAvailable(){
   }
    catch ($e0) {
     $e0 = toJava($e0);
-    if (instanceOf($e0, 15)) {
+    if (instanceOf($e0, 14)) {
       return false;
     }
      else 
@@ -1323,7 +1323,7 @@ function getExceptionName0(e){
   return e == null?null:e.name;
 }
 
-defineClass(99, 414, {99:1, 3:1, 15:1, 10:1, 17:1}, JavaScriptException);
+defineClass(99, 414, {99:1, 3:1, 14:1, 10:1, 17:1}, JavaScriptException);
 _.getMessage = function getMessage_2(){
   return $ensureInit(this) , this.message_0;
 }
@@ -2139,7 +2139,7 @@ function ScriptTagLoadingStrategy$ScriptTagDownloadStrategy$1(val$request){
 defineClass(309, 1, {}, ScriptTagLoadingStrategy$ScriptTagDownloadStrategy$1);
 _.onFailure = function onFailure(reason){
   var lastArg;
-  cleanup((lastArg = this , castTo(reason, 15) , lastArg).val$request2);
+  cleanup((lastArg = this , castTo(reason, 14) , lastArg).val$request2);
 }
 ;
 _.onSuccess_0 = function onSuccess_0(result){
@@ -2353,8 +2353,8 @@ var Lcom_google_gwt_dom_client_DOMImplStandardBase_2_classLit = createForClass('
 function DOMImplWebkit(){
 }
 
-defineClass(650, 1038, {}, DOMImplWebkit);
-var Lcom_google_gwt_dom_client_DOMImplWebkit_2_classLit = createForClass('com.google.gwt.dom.client', 'DOMImplWebkit', 650);
+defineClass(656, 1038, {}, DOMImplWebkit);
+var Lcom_google_gwt_dom_client_DOMImplWebkit_2_classLit = createForClass('com.google.gwt.dom.client', 'DOMImplWebkit', 656);
 function $getElementById(this$static, elementId){
   return this$static.getElementById(elementId);
 }
@@ -5110,8 +5110,8 @@ function ConcurrentModificationException(){
   RuntimeException.call(this);
 }
 
-defineClass(744, 10, $intern_5, ConcurrentModificationException);
-var Ljava_util_ConcurrentModificationException_2_classLit = createForClass('java.util', 'ConcurrentModificationException', 744);
+defineClass(757, 10, $intern_5, ConcurrentModificationException);
+var Ljava_util_ConcurrentModificationException_2_classLit = createForClass('java.util', 'ConcurrentModificationException', 757);
 function $toString_6(this$static){
   var hourOffset, minuteOffset, offset;
   offset = -this$static.jsdate.getTimezoneOffset();
@@ -5128,9 +5128,9 @@ function padTwo(number){
   return number < 10?'0' + number:'' + number;
 }
 
-defineClass(136, 1, $intern_54, Date_1);
+defineClass(138, 1, $intern_54, Date_1);
 _.equals_0 = function equals_37(obj){
-  return instanceOf(obj, 136) && eq(fromDouble_0(this.jsdate.getTime()), fromDouble_0(castTo(obj, 136).jsdate.getTime()));
+  return instanceOf(obj, 138) && eq(fromDouble_0(this.jsdate.getTime()), fromDouble_0(castTo(obj, 138).jsdate.getTime()));
 }
 ;
 _.hashCode_0 = function hashCode_35(){
@@ -5143,7 +5143,7 @@ _.toString_0 = function toString_58(){
   return $toString_6(this);
 }
 ;
-var Ljava_util_Date_2_classLit = createForClass('java.util', 'Date', 136);
+var Ljava_util_Date_2_classLit = createForClass('java.util', 'Date', 138);
 function $clinit_Date$StringData(){
   $clinit_Date$StringData = emptyMethod;
   DAYS = stampJavaTypeInfo(getClassLiteralForArray(Ljava_lang_String_2_classLit, 1), $intern_6, 2, 6, ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']);
@@ -5565,7 +5565,7 @@ function NoSuchElementException(){
   RuntimeException.call(this);
 }
 
-defineClass(108, 10, {3:1, 15:1, 10:1, 17:1, 108:1}, NoSuchElementException);
+defineClass(108, 10, {3:1, 14:1, 10:1, 17:1, 108:1}, NoSuchElementException);
 var Ljava_util_NoSuchElementException_2_classLit = createForClass('java.util', 'NoSuchElementException', 108);
 function equals_38(a, b){
   return maskUndefined(a) === maskUndefined(b) || a != null && equals_Ljava_lang_Object__Z__devirtual$(a, b);
@@ -5812,11 +5812,11 @@ function LogRecord(level, msg){
   this.millis_0 = ($clinit_System() , fromDouble_0(Date.now()));
 }
 
-defineClass(649, 1, $intern_15, LogRecord);
+defineClass(655, 1, $intern_15, LogRecord);
 _.loggerName = '';
 _.millis_0 = 0;
 _.thrown = null;
-var Ljava_util_logging_LogRecord_2_classLit = createForClass('java.util.logging', 'LogRecord', 649);
+var Ljava_util_logging_LogRecord_2_classLit = createForClass('java.util.logging', 'LogRecord', 655);
 function $clinit_Logger(){
   $clinit_Logger = emptyMethod;
   LOGGING_OFF = false;
@@ -5965,8 +5965,8 @@ function stampJavaTypeInfo_1(array, referenceType){
   return stampJavaTypeInfo_0(array, referenceType);
 }
 
-defineClass(1043, 1, {});
-var Ljavaemul_internal_ConsoleLogger_2_classLit = createForClass('javaemul.internal', 'ConsoleLogger', 1043);
+defineClass(1047, 1, {});
+var Ljavaemul_internal_ConsoleLogger_2_classLit = createForClass('javaemul.internal', 'ConsoleLogger', 1047);
 function checkCriticalArgument(expression, errorMessage){
   if (!expression) {
     throw toJs(new IllegalArgumentException_0(errorMessage));
@@ -6111,8 +6111,8 @@ function GWTLoggerAdapter(name_0){
   this.logger = getLogger(name_0);
 }
 
-defineClass(634, 1030, {376:1}, GWTLoggerAdapter);
-var Lru_finam_slf4jgwt_logging_gwt_GWTLoggerAdapter_2_classLit = createForClass('ru.finam.slf4jgwt.logging.gwt', 'GWTLoggerAdapter', 634);
+defineClass(637, 1030, {376:1}, GWTLoggerAdapter);
+var Lru_finam_slf4jgwt_logging_gwt_GWTLoggerAdapter_2_classLit = createForClass('ru.finam.slf4jgwt.logging.gwt', 'GWTLoggerAdapter', 637);
 function $getLogger(this$static, name_0){
   var logger;
   if (name_0 == null) {

@@ -20,4 +20,13 @@ public class VersionChecker {
 		return false;
 	}-*/;
 
+
+
+	public static native String vsCodePredefinedFile() /*-{
+		if (typeof window.parent.vsCodeInitialDiagramData !== 'undefined') {
+			return window.parent.vsCodeInitialDiagramData.toString();
+		}
+		return null;
+	}-*/;
+
 }

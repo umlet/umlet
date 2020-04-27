@@ -14,6 +14,7 @@
 		"Other"
 	],
 	"activationEvents": [
+		"onLanguage:plaintext",
 		"onCommand:extension.helloWorld"
 	],
 	"main": "./out/extension.js",

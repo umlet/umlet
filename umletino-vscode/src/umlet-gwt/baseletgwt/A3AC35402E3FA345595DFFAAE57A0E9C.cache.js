@@ -3,7 +3,7 @@ var __gwtModuleFunction = $wnd.baseletgwt;
 var $sendStats = __gwtModuleFunction.__sendStats;
 $sendStats('moduleStartup', 'moduleEvalStart');
 var $gwt_version = "2.8.2";
-var $strongName = 'ACC5AD9ADF8B254526159C106CF2CADD';
+var $strongName = 'A3AC35402E3FA345595DFFAAE57A0E9C';
 var $gwt = {};
 var $doc = $wnd.document;
 var $moduleName, $moduleBase;
@@ -22,7 +22,7 @@ var $stats = $wnd.__gwtStatsEvent ? function(a) {
 return $wnd.__gwtStatsEvent && $wnd.__gwtStatsEvent(a);
 } : null;
 var $sessionId = $wnd.__gwtStatsSessionId ? $wnd.__gwtStatsSessionId : null;
-var $intern_0 = 2147483647, $intern_1 = {3:1, 9:1, 8:1}, $intern_2 = {3:1, 6:1, 7:1, 4:1}, $intern_3 = {3:1, 6:1, 4:1}, $intern_4 = {3:1, 17:1}, $intern_5 = {3:1, 15:1, 10:1, 17:1}, $intern_6 = {3:1, 6:1, 7:1, 4:1, 31:1}, $intern_7 = {27:1, 23:1}, $intern_8 = {32:1, 22:1, 30:1, 27:1, 33:1, 23:1, 25:1}, $intern_9 = {32:1, 22:1, 30:1, 27:1, 50:1, 33:1, 23:1, 25:1, 21:1}, $intern_10 = {81:1}, $intern_11 = {3:1, 81:1}, $intern_12 = {45:1, 3:1}, $intern_13 = {3:1, 4:1}, $intern_14 = {3:1}, $intern_15 = {22:1}, $intern_16 = {132:1, 3:1, 15:1, 10:1, 17:1}, $intern_17 = 4194303, $intern_18 = 1048575, $intern_19 = 4194304, $intern_20 = 17592186044416, $intern_21 = 524288, $intern_22 = -17592186044416, $intern_23 = {168:1}, $intern_24 = -2147483648, $intern_25 = 4096, $intern_26 = 1024, $intern_27 = 2048, $intern_28 = 32768, $intern_29 = 16384, $intern_30 = 65536, $intern_31 = 131072, $intern_32 = 262144, $intern_33 = 2097152, $intern_34 = 8388608, $intern_35 = 33554432, $intern_36 = 67108864, $intern_37 = {32:1, 22:1, 30:1, 27:1, 50:1, 33:1, 191:1, 23:1, 25:1, 21:1}, $intern_38 = {981:1, 26:1}, $intern_39 = {21:1}, $intern_40 = {299:1}, $intern_41 = {3:1, 15:1, 64:1, 10:1, 17:1}, $intern_42 = {3:1, 9:1, 46:1, 218:1}, $intern_43 = 65535, $intern_44 = {21:1, 49:1}, $intern_45 = 1018, $intern_46 = {21:1, 49:1, 104:1}, $intern_47 = 1015, $intern_48 = {21:1, 49:1, 40:1}, $intern_49 = {3:1, 21:1, 49:1, 40:1, 214:1}, $intern_50 = {3:1, 21:1, 49:1, 104:1}, $intern_51 = {3:1, 9:1, 137:1}, $intern_52 = 1016, $intern_53 = {3:1, 4:1, 374:1};
+var $intern_0 = 2147483647, $intern_1 = {3:1, 9:1, 8:1}, $intern_2 = {3:1, 6:1, 7:1, 4:1}, $intern_3 = {3:1, 6:1, 4:1}, $intern_4 = {3:1, 17:1}, $intern_5 = {3:1, 14:1, 10:1, 17:1}, $intern_6 = {3:1, 6:1, 7:1, 4:1, 31:1}, $intern_7 = {27:1, 23:1}, $intern_8 = {32:1, 22:1, 30:1, 27:1, 33:1, 23:1, 25:1}, $intern_9 = {32:1, 22:1, 30:1, 27:1, 50:1, 33:1, 23:1, 25:1, 21:1}, $intern_10 = {81:1}, $intern_11 = {3:1, 81:1}, $intern_12 = {45:1, 3:1}, $intern_13 = {3:1, 4:1}, $intern_14 = {3:1}, $intern_15 = {22:1}, $intern_16 = {132:1, 3:1, 14:1, 10:1, 17:1}, $intern_17 = 4194303, $intern_18 = 1048575, $intern_19 = 4194304, $intern_20 = 17592186044416, $intern_21 = 524288, $intern_22 = -17592186044416, $intern_23 = {168:1}, $intern_24 = -2147483648, $intern_25 = 4096, $intern_26 = 1024, $intern_27 = 2048, $intern_28 = 32768, $intern_29 = 16384, $intern_30 = 65536, $intern_31 = 131072, $intern_32 = 262144, $intern_33 = 2097152, $intern_34 = 8388608, $intern_35 = 33554432, $intern_36 = 67108864, $intern_37 = {32:1, 22:1, 30:1, 27:1, 50:1, 33:1, 191:1, 23:1, 25:1, 21:1}, $intern_38 = {981:1, 26:1}, $intern_39 = {21:1}, $intern_40 = {299:1}, $intern_41 = {3:1, 14:1, 64:1, 10:1, 17:1}, $intern_42 = {3:1, 9:1, 46:1, 218:1}, $intern_43 = 65535, $intern_44 = {21:1, 49:1}, $intern_45 = 1018, $intern_46 = {21:1, 49:1, 104:1}, $intern_47 = 1015, $intern_48 = {21:1, 49:1, 40:1}, $intern_49 = {3:1, 21:1, 49:1, 40:1, 214:1}, $intern_50 = {3:1, 21:1, 49:1, 104:1}, $intern_51 = {3:1, 9:1, 139:1}, $intern_52 = 1016, $intern_53 = {3:1, 4:1, 374:1};
 var _, prototypesByTypeId_0, initFnList_0, permutationId = -1;
 function setGwtProperty(propertyName, propertyValue){
   typeof window === 'object' && typeof window['$gwt'] === 'object' && (window['$gwt'][propertyName] = propertyValue);
@@ -600,8 +600,8 @@ function Exception_1(message){
   this.initializeBackingError();
 }
 
-defineClass(15, 17, {3:1, 15:1, 17:1});
-var Ljava_lang_Exception_2_classLit = createForClass('java.lang', 'Exception', 15);
+defineClass(14, 17, {3:1, 14:1, 17:1});
+var Ljava_lang_Exception_2_classLit = createForClass('java.lang', 'Exception', 14);
 function RuntimeException(){
   Exception_0.call(this);
 }
@@ -614,7 +614,7 @@ function RuntimeException_1(message, cause){
   Throwable.call(this, message, cause);
 }
 
-defineClass(10, 15, $intern_5, RuntimeException, RuntimeException_0, RuntimeException_1);
+defineClass(10, 14, $intern_5, RuntimeException, RuntimeException_0, RuntimeException_1);
 var Ljava_lang_RuntimeException_2_classLit = createForClass('java.lang', 'RuntimeException', 10);
 function $onModuleLoad(this$static){
   var s, i;
@@ -860,7 +860,7 @@ function initLocalStorageAndCheckIfAvailable(){
   }
    catch ($e0) {
     $e0 = toJava($e0);
-    if (instanceOf($e0, 15)) {
+    if (instanceOf($e0, 14)) {
       return false;
     }
      else 
@@ -1320,7 +1320,7 @@ function getExceptionName0(e){
   return e == null?null:e.name;
 }
 
-defineClass(99, 415, {99:1, 3:1, 15:1, 10:1, 17:1}, JavaScriptException);
+defineClass(99, 415, {99:1, 3:1, 14:1, 10:1, 17:1}, JavaScriptException);
 _.getMessage = function getMessage_2(){
   return $ensureInit(this) , this.message_0;
 }
@@ -2136,7 +2136,7 @@ function ScriptTagLoadingStrategy$ScriptTagDownloadStrategy$1(val$request){
 defineClass(310, 1, {}, ScriptTagLoadingStrategy$ScriptTagDownloadStrategy$1);
 _.onFailure = function onFailure(reason){
   var lastArg;
-  cleanup((lastArg = this , castTo(reason, 15) , lastArg).val$request2);
+  cleanup((lastArg = this , castTo(reason, 14) , lastArg).val$request2);
 }
 ;
 _.onSuccess_0 = function onSuccess_0(result){
@@ -5096,8 +5096,8 @@ function ConcurrentModificationException(){
   RuntimeException.call(this);
 }
 
-defineClass(743, 10, $intern_5, ConcurrentModificationException);
-var Ljava_util_ConcurrentModificationException_2_classLit = createForClass('java.util', 'ConcurrentModificationException', 743);
+defineClass(756, 10, $intern_5, ConcurrentModificationException);
+var Ljava_util_ConcurrentModificationException_2_classLit = createForClass('java.util', 'ConcurrentModificationException', 756);
 function $toString_6(this$static){
   var hourOffset, minuteOffset, offset;
   offset = -this$static.jsdate.getTimezoneOffset();
@@ -5114,9 +5114,9 @@ function padTwo(number){
   return number < 10?'0' + number:'' + number;
 }
 
-defineClass(137, 1, $intern_51, Date_1);
+defineClass(139, 1, $intern_51, Date_1);
 _.equals_0 = function equals_37(obj){
-  return instanceOf(obj, 137) && eq(fromDouble_0(this.jsdate.getTime()), fromDouble_0(castTo(obj, 137).jsdate.getTime()));
+  return instanceOf(obj, 139) && eq(fromDouble_0(this.jsdate.getTime()), fromDouble_0(castTo(obj, 139).jsdate.getTime()));
 }
 ;
 _.hashCode_0 = function hashCode_35(){
@@ -5129,7 +5129,7 @@ _.toString_0 = function toString_58(){
   return $toString_6(this);
 }
 ;
-var Ljava_util_Date_2_classLit = createForClass('java.util', 'Date', 137);
+var Ljava_util_Date_2_classLit = createForClass('java.util', 'Date', 139);
 function $clinit_Date$StringData(){
   $clinit_Date$StringData = emptyMethod;
   DAYS = stampJavaTypeInfo(getClassLiteralForArray(Ljava_lang_String_2_classLit, 1), $intern_6, 2, 6, ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']);
@@ -5551,7 +5551,7 @@ function NoSuchElementException(){
   RuntimeException.call(this);
 }
 
-defineClass(108, 10, {3:1, 15:1, 10:1, 17:1, 108:1}, NoSuchElementException);
+defineClass(108, 10, {3:1, 14:1, 10:1, 17:1, 108:1}, NoSuchElementException);
 var Ljava_util_NoSuchElementException_2_classLit = createForClass('java.util', 'NoSuchElementException', 108);
 function equals_38(a, b){
   return maskUndefined(a) === maskUndefined(b) || a != null && equals_Ljava_lang_Object__Z__devirtual$(a, b);
@@ -5798,11 +5798,11 @@ function LogRecord(level, msg){
   this.millis_0 = ($clinit_System() , fromDouble_0(Date.now()));
 }
 
-defineClass(651, 1, $intern_14, LogRecord);
+defineClass(657, 1, $intern_14, LogRecord);
 _.loggerName = '';
 _.millis_0 = 0;
 _.thrown = null;
-var Ljava_util_logging_LogRecord_2_classLit = createForClass('java.util.logging', 'LogRecord', 651);
+var Ljava_util_logging_LogRecord_2_classLit = createForClass('java.util.logging', 'LogRecord', 657);
 function $clinit_Logger(){
   $clinit_Logger = emptyMethod;
   LOGGING_OFF = false;
@@ -5951,8 +5951,8 @@ function stampJavaTypeInfo_1(array, referenceType){
   return stampJavaTypeInfo_0(array, referenceType);
 }
 
-defineClass(1040, 1, {});
-var Ljavaemul_internal_ConsoleLogger_2_classLit = createForClass('javaemul.internal', 'ConsoleLogger', 1040);
+defineClass(1044, 1, {});
+var Ljavaemul_internal_ConsoleLogger_2_classLit = createForClass('javaemul.internal', 'ConsoleLogger', 1044);
 function checkCriticalArgument(expression, errorMessage){
   if (!expression) {
     throw toJs(new IllegalArgumentException_0(errorMessage));
@@ -6097,8 +6097,8 @@ function GWTLoggerAdapter(name_0){
   this.logger = getLogger(name_0);
 }
 
-defineClass(635, 1028, {375:1}, GWTLoggerAdapter);
-var Lru_finam_slf4jgwt_logging_gwt_GWTLoggerAdapter_2_classLit = createForClass('ru.finam.slf4jgwt.logging.gwt', 'GWTLoggerAdapter', 635);
+defineClass(638, 1028, {375:1}, GWTLoggerAdapter);
+var Lru_finam_slf4jgwt_logging_gwt_GWTLoggerAdapter_2_classLit = createForClass('ru.finam.slf4jgwt.logging.gwt', 'GWTLoggerAdapter', 638);
 function $getLogger(this$static, name_0){
   var logger;
   if (name_0 == null) {
