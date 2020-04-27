@@ -40,7 +40,7 @@
                         <phase>clean</phase>
                         <configuration>
                             <target>
-                                <delete includeemptydirs="true">
+                                <delete includeemptydirs="true" failonerror="false">
                                     <fileset dir="src/umlet-gwt/baseletgwt/" includes="**/*"/>
                                 </delete>
                             </target>
