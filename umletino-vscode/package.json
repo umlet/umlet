@@ -27,6 +27,7 @@
 		]
 	},
 	"scripts": {
+		"vsce": "./node_modules/.bin/vsce package",
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
 		"lint": "eslint src --ext ts",
@@ -53,6 +54,7 @@
 		"atob": "^2.1.2",
 		"btoa": "^1.2.1",
 		"btob": "^0.1.1",
-		"file-saver": "^2.0.2"
+		"file-saver": "^2.0.2",
+		"vsce": "^1.75.0"
 	}
 }
