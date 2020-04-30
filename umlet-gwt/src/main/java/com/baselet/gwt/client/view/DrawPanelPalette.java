@@ -1,13 +1,10 @@
 package com.baselet.gwt.client.view;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Point;
+import com.baselet.control.enums.Direction;
 import com.baselet.element.Selector;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.Diagram;
@@ -25,6 +22,7 @@ import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class DrawPanelPalette extends DrawPanel {
+
 
 	private static final List<TextResource> PALETTELIST = Arrays.asList(
 			Resources.INSTANCE.UML_Common_Elements(),
@@ -98,17 +96,14 @@ public class DrawPanelPalette extends DrawPanel {
 		}
 	}
 
+
+
 	@Override
 	public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
 		if (lastPoint.getX() < 0) { // mouse moved from palette to diagram -> insert elements to diagram
 			List<GridElement> elementsToMove = new ArrayList<GridElement>();
 			for (GridElement original : selector.getSelectedElements()) {
-				GridElement copy = ElementFactoryGwt.create(original, otherDrawFocusPanel.getDiagram());
-				int verticalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getVerticalScrollPosition() - scrollPanel.getVerticalScrollPosition();
-				int horizontalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getHorizontalScrollPosition() - scrollPanel.getHorizontalScrollPosition();
-				copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width + horizontalScrollbarDiff, paletteChooser.getOffsetHeight() + verticalScrollbarDiff);
-
-				copy.setRectangle(SharedUtils.realignToGrid(copy.getRectangle(), false)); // realign location to grid (width and height should not be changed)
+				GridElement copy = gridElementCopyInOtherDiagram(original);
 				elementsToMove.add(copy);
 			}
 			Selector.replaceGroupsWithNewGroups(elementsToMove, otherDrawFocusPanel.getSelector());
@@ -116,10 +111,77 @@ public class DrawPanelPalette extends DrawPanel {
 			commandInvoker.addElements(this, draggedElements);
 			selector.deselectAll();
 			commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
+			if (otherDrawFocusPanel instanceof DrawPanelDiagram)
+			{
+				DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
+				otherDrawDiagramFocusPanel.RemoveOldPreview();
+			}
 		}
 		draggedElements.clear();
 		super.onMouseDragEnd(gridElement, lastPoint);
+
 	}
+
+	private GridElement gridElementCopyInOtherDiagram(GridElement original) {
+		GridElement copy = ElementFactoryGwt.create(original, otherDrawFocusPanel.getDiagram());
+		int verticalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getVerticalScrollPosition() - scrollPanel.getVerticalScrollPosition();
+		int horizontalScrollbarDiff = otherDrawFocusPanel.scrollPanel.getHorizontalScrollPosition() - scrollPanel.getHorizontalScrollPosition();
+		copy.setLocationDifference(otherDrawFocusPanel.getVisibleBounds().width + horizontalScrollbarDiff, paletteChooser.getOffsetHeight() + verticalScrollbarDiff);
+
+		copy.setRectangle(SharedUtils.realignToGrid(copy.getRectangle(), false)); // realign location to grid (width and height should not be changed)
+		return copy;
+	}
+
+
+	@Override
+	public void onMouseMoveDraggingScheduleDeferred(final Point dragStart, final int diffX, final int diffY, final GridElement draggedGridElement, final boolean isShiftKeyDown, final boolean isCtrlKeyDown, final boolean firstDrag) {
+		//TODO add scheduleDeferred
+		if (true)
+		{
+
+			if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
+				stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
+			}
+			if (isCtrlKeyDown) {
+				return; // TODO implement Lasso
+			}
+			else if (!resizeDirections.isEmpty()) {
+				draggedGridElement.drag(resizeDirections, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
+			}
+			// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
+			else if (selector.getSelectedElements().size() == 1) {
+				draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
+				//Stop the drag and start drag in actual canvas, if element is dragged over
+				if (dragStart.getX()+diffX <= 0)
+				{
+					//dragged out
+					//onMouseDragEnd(draggedGridElement, new Point(dragStart.getX()+diffX, dragStart.getY()+diffY));
+					if (otherDrawFocusPanel instanceof DrawPanelDiagram)
+					{
+						DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
+						List<GridElement> elementsToMove = new ArrayList<GridElement>();
+						elementsToMove.add(gridElementCopyInOtherDiagram(draggedGridElement));
+						otherDrawDiagramFocusPanel.UpdateDisplayingPreviewElements(elementsToMove);
+					}
+				} else {
+					//if cursor is dragged back, preview must be removed
+					if (otherDrawFocusPanel instanceof DrawPanelDiagram)
+					{
+						DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
+						otherDrawDiagramFocusPanel.RemoveOldPreview();
+					}
+				}
+			}
+			else { // if != 1 elements are selected, move them
+				moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
+			}
+			redraw(false);
+		}
+	}
+
+
+
+
 
 	@Override
 	protected StickableMap getStickablesToMoveWhenElementsMove(GridElement draggedElement, List<GridElement> elements) {

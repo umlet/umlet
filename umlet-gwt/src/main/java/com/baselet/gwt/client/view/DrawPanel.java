@@ -25,15 +25,14 @@ import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.gwt.client.base.Utils;
 import com.baselet.gwt.client.element.DiagramGwt;
-import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.EventHandlingUtils.EventHandlingTarget;
 import com.baselet.gwt.client.view.interfaces.AutoresizeScrollDropTarget;
 import com.baselet.gwt.client.view.interfaces.HasScrollPanel;
-import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
 import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
@@ -68,9 +67,9 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	private final MenuPopup elementContextMenu;
 	private final MenuPopup diagramContextMenu;
 
-	private Set<Direction> resizeDirections = new HashSet<Direction>();
+	protected Set<Direction> resizeDirections = new HashSet<Direction>();
 
-	private final Map<GridElement, StickableMap> stickablesToMove = new HashMap<GridElement, StickableMap>();
+	protected final Map<GridElement, StickableMap> stickablesToMove = new HashMap<GridElement, StickableMap>();
 
 	public void setOtherDrawFocusPanel(DrawPanel otherDrawFocusPanel) {
 		this.otherDrawFocusPanel = otherDrawFocusPanel;
@@ -351,6 +350,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	}
 
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
+		GWT.log("draggin...");
 		if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
 			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
 		}
@@ -362,6 +362,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		}
 		// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
 		else if (selector.getSelectedElements().size() == 1) {
+			GWT.log("Coordinates are: start:" + dragStart + " x " + diffX + " y " + diffX + "dragged element: " + draggedGridElement.getRectangle().toString() );
 			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
 		}
 		else { // if != 1 elements are selected, move them
@@ -370,7 +371,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		redraw(false);
 	}
 
-	private Point getRelativePoint(Point dragStart, GridElement draggedGridElement) {
+	protected Point getRelativePoint(Point dragStart, GridElement draggedGridElement) {
 		return new Point(dragStart.getX() - draggedGridElement.getRectangle().getX(), dragStart.getY() - draggedGridElement.getRectangle().getY());
 	}
 
@@ -427,13 +428,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			commandInvoker.pasteElements(DrawPanel.this);
 		}
 		else if (Shortcut.SAVE.matches(event)) {
-			if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
-			{
-				mainView.initialiseExportDialog();
-			} else {
-				mainView.getSaveCommand().execute();
-			}
-
+			mainView.getSaveCommand().execute();
 		}
 		else if (Shortcut.MOVE_UP.matches(event)) {
 			keyboardMoveSelectedElements(0, -SharedConstants.DEFAULT_GRID_SIZE);
