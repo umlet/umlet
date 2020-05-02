@@ -1,18 +1,22 @@
 package com.baselet.gwt.client.view;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import com.baselet.control.SharedUtils;
+import com.baselet.control.basics.geom.Point;
 import com.baselet.control.constants.SharedConstants;
+import com.baselet.control.enums.Direction;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
-
+import com.google.gwt.core.client.GWT;
 
 
 public class DrawPanelDiagram extends DrawPanel {
-	private List<GridElement> lastPreviewElements; //previewed elements that will be displayed while dragging from pallete into actual canvas
+	private List<GridElement> currentPreviewElements; //previewed elements that will be displayed while dragging from pallete into actual canvas
 	public DrawPanelDiagram(MainView mainView, PropertiesTextArea propertiesPanel) {
 		super(mainView, propertiesPanel);
 	}
@@ -27,19 +31,38 @@ public class DrawPanelDiagram extends DrawPanel {
 		}
 	}
 
-	public void UpdateDisplayingPreviewElements(List<GridElement> previewElements)
+	public void InitializeDisplayingPreviewElements(List<GridElement> previewElements)
 	{
-		//remove old preview objects
-		RemoveOldPreview();
-		//view new ones
-		if (previewElements != null)
-			commandInvoker.addElements(this, previewElements);
-		this.lastPreviewElements = previewElements;
+		if (currentPreviewElements == null)
+		{
+			if (previewElements != null)
+				this.addGridElements(previewElements);
+			this.currentPreviewElements = previewElements;
+		}
+		this.redraw(false);
+	}
+
+	public void UpdateDisplayingPreviewElements(int diffX, int diffY, boolean firstDrag)
+	{
+		if (currentPreviewElements != null)
+		{
+			moveElements(diffX, diffY, firstDrag, currentPreviewElements);
+		}
+		this.redraw(false);
 	}
 
 	public void RemoveOldPreview() {
-		if (lastPreviewElements != null)
-			commandInvoker.removeElements(this, this.lastPreviewElements);
+		if (currentPreviewElements != null)
+			commandInvoker.removeElements(this, this.currentPreviewElements);
+		currentPreviewElements = null;
+	}
+
+	public boolean currentlyDisplayingPreview()
+	{
+		if (currentPreviewElements == null)
+			return false;
+		else
+			return true;
 	}
 
 }

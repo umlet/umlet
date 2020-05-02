@@ -350,7 +350,6 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	}
 
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
-		GWT.log("draggin...");
 		if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
 			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
 		}
@@ -362,7 +361,6 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		}
 		// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
 		else if (selector.getSelectedElements().size() == 1) {
-			GWT.log("Coordinates are: start:" + dragStart + " x " + diffX + " y " + diffX + "dragged element: " + draggedGridElement.getRectangle().toString() );
 			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
 		}
 		else { // if != 1 elements are selected, move them
