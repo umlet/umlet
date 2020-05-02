@@ -146,21 +146,9 @@ public class MainView extends Composite {
 	};
 
 	private final ScheduledCommand saveCommandVSCode = new ScheduledCommand() {
-		private final SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
-			@Override
-			public void callback(final String chosenName) {
-				boolean itemIsNewlyAdded = BrowserStorage.getSavedDiagram(chosenName) == null;
-				BrowserStorage.addSavedDiagram(chosenName, DiagramXmlParser.diagramToXml(diagramPanel.getDiagram()));
-				if (itemIsNewlyAdded) {
-					addRestoreMenuItem(chosenName);
-				}
-				Notification.showInfo("Diagram saved as: " + chosenName);
-			}
-		});
-
 		@Override
 		public void execute() {
-			saveDialogBox.clearAndCenter();
+			initialiseExportDialog();
 		}
 	};
 
@@ -182,7 +170,10 @@ public class MainView extends Composite {
 	};
 
 	public ScheduledCommand getSaveCommand() {
-		return saveCommand;
+		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
+			return saveCommandVSCode;
+		else
+			return saveCommand;
 	}
 
 	public void setDiagram(Diagram diagram) {
