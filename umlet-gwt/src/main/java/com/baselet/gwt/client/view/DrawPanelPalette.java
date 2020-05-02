@@ -14,6 +14,8 @@ import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.view.palettes.Resources;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -135,52 +137,61 @@ public class DrawPanelPalette extends DrawPanel {
 
 	@Override
 	public void onMouseMoveDraggingScheduleDeferred(final Point dragStart, final int diffX, final int diffY, final GridElement draggedGridElement, final boolean isShiftKeyDown, final boolean isCtrlKeyDown, final boolean firstDrag) {
-		//TODO add scheduleDeferred
-		if (true)
-		{
-
-			if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
-				stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
+		Scheduler.get().scheduleFinally(new Scheduler.ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
+			@Override
+			public void execute() {
+				onMouseMoveDragging(dragStart, diffX, diffY, draggedGridElement, isShiftKeyDown, isCtrlKeyDown, firstDrag);
 			}
-			if (isCtrlKeyDown) {
-				return; // TODO implement Lasso
-			}
-			else if (!resizeDirections.isEmpty()) {
-				draggedGridElement.drag(resizeDirections, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
-			}
-			// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
-			else if (selector.getSelectedElements().size() == 1) {
-				draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
-				//Stop the drag and start drag in actual canvas, if element is dragged over
-				if (dragStart.getX()+diffX <= 0)
-				{
-					//dragged out
-					//onMouseDragEnd(draggedGridElement, new Point(dragStart.getX()+diffX, dragStart.getY()+diffY));
-					if (otherDrawFocusPanel instanceof DrawPanelDiagram)
-					{
-						DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
-						List<GridElement> elementsToMove = new ArrayList<GridElement>();
-						elementsToMove.add(gridElementCopyInOtherDiagram(draggedGridElement));
-						otherDrawDiagramFocusPanel.UpdateDisplayingPreviewElements(elementsToMove);
-					}
-				} else {
-					//if cursor is dragged back, preview must be removed
-					if (otherDrawFocusPanel instanceof DrawPanelDiagram)
-					{
-						DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
-						otherDrawDiagramFocusPanel.RemoveOldPreview();
-					}
-				}
-			}
-			else { // if != 1 elements are selected, move them
-				moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
-			}
-			redraw(false);
-		}
+		});
 	}
 
+	@Override
+	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
+		if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
+			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
+		}
+		if (isCtrlKeyDown) {
+			return; // TODO implement Lasso
+		}
+		else if (!resizeDirections.isEmpty()) {
+			draggedGridElement.drag(resizeDirections, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
+		}
+		// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
+		else if (selector.getSelectedElements().size() == 1) {
+			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
+			handlePreviewDisplay(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
+		}
+		else { // if != 1 elements are selected, move them
+			moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
+			handlePreviewDisplay(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
+		}
+		redraw(false);
+	}
+
+	private void handlePreviewDisplay(Point dragStart, int diffX, int diffY, boolean isShiftKeyDown, boolean firstDrag) {
+		if (otherDrawFocusPanel instanceof DrawPanelDiagram) {
+			DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
+			if (dragStart.getX()+diffX <= 0)
+			{
+				if (!otherDrawDiagramFocusPanel.currentlyDisplayingPreview())
+				{
+					List<GridElement> elementsToMove = new ArrayList<GridElement>();
+					for (GridElement e:selector.getSelectedElements() ) {
+						elementsToMove.add(gridElementCopyInOtherDiagram(e));
+					}
+					otherDrawDiagramFocusPanel.InitializeDisplayingPreviewElements (elementsToMove);
+				} else {
+					otherDrawDiagramFocusPanel.UpdateDisplayingPreviewElements(diffX, diffY, firstDrag);
+				}
+
+			} else {
+				//if cursor is dragged back, preview must be removed
+				otherDrawDiagramFocusPanel.RemoveOldPreview();
+			}
+		}
 
 
+	}
 
 
 	@Override
