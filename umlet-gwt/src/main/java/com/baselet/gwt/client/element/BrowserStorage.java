@@ -1,17 +1,17 @@
 package com.baselet.gwt.client.element;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import com.baselet.gwt.client.clipboard.ClipboardStorage;
+import com.baselet.gwt.client.clipboard.LocalStorageClipboard;
+import com.baselet.gwt.client.clipboard.VsCodeClipboard;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.BaseletGWT;
 import com.baselet.gwt.client.view.VersionChecker;
-import com.google.gwt.storage.client.Storage;
 
 /**
  * uses local storage of browser
@@ -19,106 +19,40 @@ import com.google.gwt.storage.client.Storage;
  */
 public class BrowserStorage {
 
-	private static final String CLIPBOARD = "Clipboard";
-	private static final String SAVE_PREFIX = "s_";
+    private static ClipboardStorage clipboardStorage;
+    static Logger log = LoggerFactory.getLogger(BaseletGWT.class);
 
-	private static Storage localStorage;
-	static Logger log = LoggerFactory.getLogger(BaseletGWT.class);
+    public static boolean initLocalStorage() {
+        if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE) {
+            clipboardStorage = new VsCodeClipboard();
+        } else {
+            clipboardStorage = new LocalStorageClipboard();
+        }
+        return clipboardStorage.init();
+    }
 
-	public static boolean initLocalStorageAndCheckIfAvailable() {
-		try {
-			localStorage = Storage.getLocalStorageIfSupported();
-			return localStorage != null;
-		} catch (Exception e) {
-			return false; // Firefox with the Cookie setting "ask everytime" will throw an exception here!
-		}
+    public static void addSavedDiagram(String name, String diagramXml) {
+        clipboardStorage.setSaved(name, diagramXml);
+    }
 
-	}
+    public static void removeSavedDiagram(String chosenName) {
+        clipboardStorage.remove(chosenName);
+    }
 
-	public static boolean initLocalStorage() {
-		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE) {
-			return initStubLocalStorage();
-		}
-		else {
-			return initLocalStorageAndCheckIfAvailable();
-		}
-	}
+    public static String getSavedDiagram(String name) {
+        return clipboardStorage.getSaved(name);
+    }
 
-	public static boolean initStubLocalStorage() {
-		localStorage = null;
-		return true;
-	}
+    public static Collection<String> getSavedDiagramKeys() {
+        return clipboardStorage.getAllSaved(true).keySet();
+    }
 
-	public static void addSavedDiagram(String name, String diagramXml) {
-		set(SAVE_PREFIX + name, diagramXml);
-	}
+    public static void setClipboard(List<GridElement> gridelements) {
+        clipboardStorage.set(DiagramXmlParser.gridElementsToXml(gridelements));
+    }
 
-	public static void removeSavedDiagram(String chosenName) {
-		remove(SAVE_PREFIX + chosenName);
-	}
-
-	public static String getSavedDiagram(String name) {
-		return get(SAVE_PREFIX + name);
-	}
-
-	public static Collection<String> getSavedDiagramKeys() {
-		return getWithPrefix(SAVE_PREFIX, true).keySet();
-	}
-
-	public static void setClipboard(List<GridElement> gridelements) {
-		set(CLIPBOARD, DiagramXmlParser.gridElementsToXml(gridelements));
-	}
-
-	public static List<GridElement> getClipboard() {
-		return DiagramXmlParser.xmlToGridElements(get(CLIPBOARD));
-	}
-
-	private static String get(String id) {
-		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE) {
-			return null;
-		}
-		else {
-			return localStorage.getItem(id);
-		}
-
-	}
-
-	private static void remove(String id) {
-		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE) {
-		}
-		else {
-			localStorage.removeItem(id);
-		}
-	}
-
-	private static Map<String, String> getWithPrefix(String prefix, boolean removePrefixFromKey) {
-		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE) {
-			Map<String, String> returnList = new HashMap<String, String>();
-			/* for (int i = 0; i < localStorage.getLength(); i++) { String key = localStorage.key(i); if (key.startsWith(prefix)) { if (removePrefixFromKey) { key = key.substring(prefix.length()); } returnList.put(key, localStorage.getItem(key)); } } */
-			return returnList;
-		}
-		else {
-			Map<String, String> returnList = new HashMap<String, String>();
-			for (int i = 0; i < localStorage.getLength(); i++) {
-				String key = localStorage.key(i);
-				if (key.startsWith(prefix)) {
-					if (removePrefixFromKey) {
-						key = key.substring(prefix.length());
-					}
-					returnList.put(key, localStorage.getItem(key));
-				}
-			}
-			return returnList;
-		}
-
-	}
-
-	private static void set(String id, String value) {
-		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE) {
-		}
-		else {
-			localStorage.setItem(id, value);
-		}
-	}
+    public static List<GridElement> getClipboard() {
+        return DiagramXmlParser.xmlToGridElements(clipboardStorage.get());
+    }
 
 }
