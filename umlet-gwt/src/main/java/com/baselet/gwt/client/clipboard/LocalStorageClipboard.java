@@ -5,6 +5,10 @@ import com.google.gwt.storage.client.Storage;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * uses local storage of browser
+ * local storage calculator: http://glynrob.com/webapp/lscalc/
+ */
 public class LocalStorageClipboard implements ClipboardStorage {
     private static Storage localStorage;
 

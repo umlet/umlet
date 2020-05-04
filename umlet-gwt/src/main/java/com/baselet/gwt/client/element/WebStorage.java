@@ -13,12 +13,7 @@ import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.BaseletGWT;
 import com.baselet.gwt.client.view.VersionChecker;
 
-/**
- * uses local storage of browser
- * local storage calculator: http://glynrob.com/webapp/lscalc/
- */
-public class BrowserStorage {
-
+public class WebStorage {
     private static ClipboardStorage clipboardStorage;
     static Logger log = LoggerFactory.getLogger(BaseletGWT.class);
 
