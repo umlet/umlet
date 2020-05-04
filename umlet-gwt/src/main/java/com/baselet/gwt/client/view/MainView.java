@@ -3,13 +3,12 @@ package com.baselet.gwt.client.view;
 import com.baselet.gwt.client.view.VersionChecker.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.vectomatic.file.Blob;
 import org.vectomatic.file.FileUploadExt;
 
 import com.baselet.control.config.SharedConfig;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.gwt.client.base.Notification;
-import com.baselet.gwt.client.element.BrowserStorage;
+import com.baselet.gwt.client.element.WebStorage;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.view.panel.wrapper.AutoResizeScrollDropPanel;
 import com.baselet.gwt.client.view.panel.wrapper.FileOpenHandler;
@@ -53,8 +52,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
-
-import java.util.List;
 
 public class MainView extends Composite {
 
@@ -130,8 +127,8 @@ public class MainView extends Composite {
 		private final SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
 			@Override
 			public void callback(final String chosenName) {
-				boolean itemIsNewlyAdded = BrowserStorage.getSavedDiagram(chosenName) == null;
-				BrowserStorage.addSavedDiagram(chosenName, DiagramXmlParser.diagramToXml(diagramPanel.getDiagram()));
+				boolean itemIsNewlyAdded = WebStorage.getSavedDiagram(chosenName) == null;
+				WebStorage.addSavedDiagram(chosenName, DiagramXmlParser.diagramToXml(diagramPanel.getDiagram()));
 				if (itemIsNewlyAdded) {
 					addRestoreMenuItem(chosenName);
 				}
@@ -207,7 +204,7 @@ public class MainView extends Composite {
 		paletteScrollPanel = new AutoResizeScrollDropPanel(palettePanel);
 		updateNotificationPosition();
 
-		for (String diagramName : BrowserStorage.getSavedDiagramKeys()) {
+		for (String diagramName : WebStorage.getSavedDiagramKeys()) {
 			addRestoreMenuItem(diagramName);
 		}
 
@@ -271,7 +268,7 @@ public class MainView extends Composite {
 		label.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(BrowserStorage.getSavedDiagram(chosenName)));
+				diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(WebStorage.getSavedDiagram(chosenName)));
 				Notification.showInfo("Diagram opened: " + chosenName);
 			}
 		});
@@ -282,7 +279,7 @@ public class MainView extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (Window.confirm("Delete saved diagram " + chosenName)) {
-					BrowserStorage.removeSavedDiagram(chosenName);
+					WebStorage.removeSavedDiagram(chosenName);
 					restoreMenuPanel.remove(hp);
 					Notification.showInfo("Deleted diagram: " + chosenName);
 				}

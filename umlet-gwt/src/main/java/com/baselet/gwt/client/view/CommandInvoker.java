@@ -14,7 +14,7 @@ import com.baselet.element.GridElementUtils;
 import com.baselet.element.Selector;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
-import com.baselet.gwt.client.element.BrowserStorage;
+import com.baselet.gwt.client.element.WebStorage;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 
 public class CommandInvoker extends Controller {
@@ -44,7 +44,7 @@ public class CommandInvoker extends Controller {
 	// TODO implement copy & paste as commands
 
 	void copySelectedElements(CommandTarget target) {
-		BrowserStorage.setClipboard(copyElementsInList(target.getSelector().getSelectedElements(), target.getDiagram())); // must be copied here to ensure location etc. will not be changed
+		WebStorage.setClipboard(copyElementsInList(target.getSelector().getSelectedElements(), target.getDiagram())); // must be copied here to ensure location etc. will not be changed
 	}
 
 	void cutSelectedElements(CommandTarget target) {
@@ -53,7 +53,7 @@ public class CommandInvoker extends Controller {
 	}
 
 	void pasteElements(CommandTarget target) {
-		List<GridElement> copyOfElements = copyElementsInList(BrowserStorage.getClipboard(), target.getDiagram());
+		List<GridElement> copyOfElements = copyElementsInList(WebStorage.getClipboard(), target.getDiagram());
 		Selector.replaceGroupsWithNewGroups(copyOfElements, target.getSelector());
 		realignElementsToVisibleRect(target, copyOfElements);
 		addElements(target, copyOfElements); // copy here to make sure it can be pasted multiple times

@@ -8,7 +8,7 @@ import com.baselet.control.enums.Program;
 import com.baselet.control.enums.RuntimeType;
 import com.baselet.gwt.client.base.Browser;
 import com.baselet.gwt.client.base.Notification;
-import com.baselet.gwt.client.element.BrowserStorage;
+import com.baselet.gwt.client.element.WebStorage;
 import com.baselet.gwt.client.version.BuildInfoProperties;
 import com.baselet.gwt.client.view.MainView;
 import com.google.gwt.core.client.EntryPoint;
@@ -28,7 +28,7 @@ public class BaseletGWT implements EntryPoint {
 		Program.init(BuildInfoProperties.getVersion(), RuntimeType.GWT);
 		SharedConfig.getInstance().setDev_mode(Location.getParameter("dev") != null);
 
-		if (!BrowserStorage.initLocalStorageAndCheckIfAvailable()) {
+		if (!WebStorage.initLocalStorage()) {
 			if (Browser.get() == Browser.INTERNET_EXPLORER && GWT.getHostPageBaseURL().startsWith("file:")) {
 				Notification.showFeatureNotSupported("You have opened this webpage from your filesystem, therefore<br/>Internet Explorer will not support local storage<br/><br/>Please use another browser like Firefox or Chrome,<br/>or open this application using the web url", false);
 			}
