@@ -3,8 +3,8 @@ package com.baselet.element.elementnew.plot.elements;
 import java.util.List;
 
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.diagram.draw.helper.ColorOwnBase.Transparency;
+import com.baselet.diagram.draw.helper.Theme;
 import com.baselet.element.elementnew.plot.drawer.AxisConfig;
 import com.baselet.element.elementnew.plot.drawer.PlotDrawHandler;
 import com.baselet.element.elementnew.plot.drawer.PlotGridDrawConfig;
@@ -65,7 +65,7 @@ public abstract class AbstractPlot {
 		Double[][] values = ds.data();
 		List<String> colors = plotState.getValueList(PlotConstants.KEY_LIST_COLORS, PlotConstants.COLORS_DEFAULT);
 		for (String color : colors) {
-			if (ColorOwn.forStringOrNull(color, Transparency.FOREGROUND) == null) {
+			if (Theme.getCurrentThemeColor().forStringOrNull(color, Transparency.FOREGROUND) == null) {
 				throw new ParserException("Unknown color: " + color + "(line: " + plotState.getLine(PlotConstants.KEY_LIST_COLORS) + ")");
 			}
 		}

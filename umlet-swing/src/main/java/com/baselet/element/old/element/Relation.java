@@ -21,7 +21,9 @@ import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.LineType;
 import com.baselet.control.util.Utils;
-import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwnBase;
+import com.baselet.diagram.draw.helper.ColorOwnLight;
+import com.baselet.diagram.draw.helper.Theme;
 import com.baselet.element.Selector;
 import com.baselet.element.facet.common.LayerFacet;
 import com.baselet.element.interfaces.GridElement;
@@ -1910,7 +1912,7 @@ public class Relation extends OldGridElement {
 
 	@Override
 	protected Color getDefaultBackgroundColor() {
-		return Converter.convert(ColorOwn.WHITE);
+		return Converter.convert(Theme.getCurrentThemeColor().getColorMap().get(ColorOwnBase.PredefinedColors.WHITE));
 	}
 
 	@Override

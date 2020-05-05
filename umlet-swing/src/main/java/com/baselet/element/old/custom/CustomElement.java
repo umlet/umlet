@@ -29,8 +29,10 @@ import com.baselet.control.enums.LineType;
 import com.baselet.control.util.Utils;
 import com.baselet.custom.CustomFunction;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.diagram.draw.helper.ColorOwnBase;
+import com.baselet.diagram.draw.helper.ColorOwnLight;
+import com.baselet.diagram.draw.helper.ColorOwnBase.Transparency;
+import com.baselet.diagram.draw.helper.Theme;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.OldGridElement;
 
@@ -115,16 +117,18 @@ public abstract class CustomElement extends OldGridElement {
 		g2.setComposite(composites[0]);
 		g2.setColor(fgColor);
 
+		ColorOwnBase currentColor = Theme.getCurrentThemeColor();
+
 		for (StyleShape s : shapes) {
 			specialLine = s.getLineType() != LineType.SOLID || s.getLineThickness() != FacetConstants.LINE_WIDTH_DEFAULT;
-			specialFgColor = !s.getFgColor().equals(Converter.convert(ColorOwn.DEFAULT_FOREGROUND));
+			specialFgColor = !s.getFgColor().equals(Converter.convert(currentColor.getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_FOREGROUND)));
 
 			if (specialLine) {
 				g2.setStroke(Utils.getStroke(s.getLineType(), s.getLineThickness()));
 			}
 			if (specialFgColor) {
 				if (HandlerElementMap.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
-					g2.setColor(Converter.convert(ColorOwn.SELECTION_FG));
+					g2.setColor(Converter.convert(currentColor.getStyleColorMap().get(ColorOwnBase.ColorStyle.SELECTION_FG)));
 				}
 				else {
 					g2.setColor(s.getFgColor());
@@ -451,7 +455,7 @@ public abstract class CustomElement extends OldGridElement {
 
 	@CustomFunction(param_defaults = "foregroundColor")
 	protected final void setForegroundColor(String fgColorString) {
-		tmpFgColor = Converter.convert(ColorOwn.forStringOrNull(fgColorString, Transparency.FOREGROUND));
+		tmpFgColor = Converter.convert(Theme.getCurrentThemeColor().forStringOrNull(fgColorString, Transparency.FOREGROUND));
 		if (tmpFgColor == null) {
 			tmpFgColor = fgColor; // unknown colors resolve to default color
 		}
@@ -460,7 +464,7 @@ public abstract class CustomElement extends OldGridElement {
 	@CustomFunction(param_defaults = "backgroundColor")
 	protected final void setBackgroundColor(String bgColorString) {
 		// OldGridElements apply transparency for background explicitly, therefore don't apply it here
-		tmpBgColor = Converter.convert(ColorOwn.forStringOrNull(bgColorString, Transparency.FOREGROUND));
+		tmpBgColor = Converter.convert(Theme.getCurrentThemeColor().forStringOrNull(bgColorString, Transparency.FOREGROUND));
 		if (tmpBgColor == null) {
 			tmpBgColor = bgColor; // unknown colors resolve to default color
 		}

@@ -1,5 +1,6 @@
 package com.baselet.gwt.client;
 
+import com.baselet.diagram.draw.helper.Theme;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,6 +28,11 @@ public class BaseletGWT implements EntryPoint {
 		log.info("Starting GUI ...");
 		Program.init(BuildInfoProperties.getVersion(), RuntimeType.GWT);
 		SharedConfig.getInstance().setDev_mode(Location.getParameter("dev") != null);
+
+		String theme = getTheme();
+		log.info(theme);
+
+		Theme theme1 = new Theme(Theme.THEMES.valueOf(theme));
 
 		if (!WebStorage.initLocalStorage()) {
 			if (Browser.get() == Browser.INTERNET_EXPLORER && GWT.getHostPageBaseURL().startsWith("file:")) {
@@ -66,6 +72,10 @@ public class BaseletGWT implements EntryPoint {
 	}
 
 	private final native boolean browserSupportsFileReader() /*-{
-																return typeof FileReader != "undefined";
-																}-*/;
+    	return typeof FileReader != "undefined";
+    }-*/;
+
+	private final native String getTheme() /*-{
+		return $wnd.theme;
+	}-*/;
 }

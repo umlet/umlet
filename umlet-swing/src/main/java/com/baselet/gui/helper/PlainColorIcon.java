@@ -7,15 +7,16 @@ import java.awt.Graphics;
 import javax.swing.Icon;
 
 import com.baselet.control.basics.Converter;
-import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.diagram.draw.helper.ColorOwnLight;
+import com.baselet.diagram.draw.helper.ColorOwnBase.Transparency;
+import com.baselet.diagram.draw.helper.Theme;
 
 public class PlainColorIcon implements Icon {
 
 	private Color color;
 
 	public PlainColorIcon(String color) {
-		this.color = Converter.convert(ColorOwn.forStringOrNull(color, Transparency.FOREGROUND));
+		this.color = Converter.convert(Theme.getCurrentThemeColor().forStringOrNull(color, Transparency.FOREGROUND));
 	}
 
 	@Override
