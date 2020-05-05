@@ -3,6 +3,7 @@ package com.baselet.element.relation.facet;
 import java.util.Arrays;
 import java.util.List;
 
+import com.baselet.diagram.draw.helper.ColorOwnBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,8 +12,7 @@ import com.baselet.control.basics.geom.Line;
 import com.baselet.control.enums.LineType;
 import com.baselet.control.enums.RegexValueHolder;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+import com.baselet.diagram.draw.helper.ColorOwnBase.Transparency;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -100,7 +100,7 @@ public class RelationLineTypeFacet extends FirstRunKeyValueFacet {
 	}
 
 	private static void drawArrowEnds(DrawHandler drawer, RelationPointHandler relationPoints, Match<ArrowEnd> leftArrow, Match<ArrowEnd> rightArrow) {
-		ColorOwn oldBgColor = drawer.getBackgroundColor();
+		ColorOwnBase oldBgColor = drawer.getBackgroundColor();
 		drawer.setBackgroundColor(oldBgColor.transparency(Transparency.FOREGROUND)); // arrow background is not transparent
 		print(drawer, relationPoints, leftArrow, relationPoints.getFirstLine(), true);
 		print(drawer, relationPoints, rightArrow, relationPoints.getLastLine(), false);

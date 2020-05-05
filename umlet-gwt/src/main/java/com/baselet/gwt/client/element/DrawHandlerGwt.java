@@ -1,5 +1,6 @@
 package com.baselet.gwt.client.element;
 
+import com.baselet.diagram.draw.helper.ColorOwnLight;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,7 +12,6 @@ import com.baselet.control.enums.FormatLabels;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawFunction;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.base.Notification;
@@ -161,7 +161,7 @@ public class DrawHandlerGwt extends DrawHandler {
 			@Override
 			public void run() {
 				PointDouble pToDraw = point;
-				ColorOwn fgColor = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : styleAtDrawingCall.getForegroundColor();
+				ColorOwnLight fgColor = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : styleAtDrawingCall.getForegroundColor();
 				ctx.setFillStyle(Converter.convert(fgColor));
 				for (StringStyle line : text) {
 					drawTextHelper(line, pToDraw, align, styleAtDrawingCall.getFontSize());
@@ -296,7 +296,7 @@ public class DrawHandlerGwt extends DrawHandler {
 		if (style.getBackgroundColor() != null) {
 			ctx.setFillStyle(Converter.convert(style.getBackgroundColor()));
 		}
-		ColorOwn fgColor = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : style.getForegroundColor();
+		ColorOwnLight fgColor = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : style.getForegroundColor();
 		if (fgColor != null) {
 			ctx.setStrokeStyle(Converter.convert(fgColor));
 		}
