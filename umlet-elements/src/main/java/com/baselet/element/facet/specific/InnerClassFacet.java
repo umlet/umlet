@@ -8,7 +8,8 @@ import com.baselet.control.basics.XValues;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.AlignVertical;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwnBase;
+import com.baselet.diagram.draw.helper.Theme;
 import com.baselet.element.facet.Alignment;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -49,8 +50,8 @@ public class InnerClassFacet extends Facet {
 			double height = getDividerPos(drawer, state) - start;
 			XValues xLimit = state.getXLimits(height);
 
-			ColorOwn oldColor = drawer.getBackgroundColor();
-			drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
+			ColorOwnBase oldColor = drawer.getBackgroundColor();
+			drawer.setBackgroundColor(Theme.getCurrentThemeColor().getColorMap().get(ColorOwnBase.PredefinedColors.TRANSPARENT));
 			drawer.drawRectangle(xLimit.getLeft(), start, xLimit.getSpace(), height);
 			drawer.setBackgroundColor(oldColor);
 

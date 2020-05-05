@@ -9,9 +9,7 @@ import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.Style;
-import com.baselet.diagram.draw.helper.StyleException;
+import com.baselet.diagram.draw.helper.*;
 import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 import com.baselet.element.sticking.polygon.PointDoubleStickingPolygonGenerator;
@@ -63,6 +61,7 @@ public class TemplateClassFacet extends FirstRunKeyValueFacet {
 	}
 
 	private static List<PointDouble> drawTemplateClass(String templateClassText, DrawHandler drawer, PropertiesParserState state, int height, int width) {
+		ColorOwnBase transparentColor = Theme.getCurrentThemeColor().getColorMap().get(ColorOwnBase.PredefinedColors.TRANSPARENT);
 		Rectangle tR = calcTemplateRect(templateClassText, drawer, width);
 		int classTopEnd = round(tR.getHeight() / 2.0);
 		int classWidth = width - round(tR.getWidth() / 2.0);
@@ -82,12 +81,12 @@ public class TemplateClassFacet extends FirstRunKeyValueFacet {
 		state.getBuffer().addToRight(width - classWidth);
 		// DRAW BACKGROUND RECT
 		Style style = drawer.getStyleClone();
-		drawer.setForegroundColor(ColorOwn.TRANSPARENT);
+		drawer.setForegroundColor(transparentColor);
 		drawer.drawLines(p);
 		drawer.setStyle(style); // reset style to state before manipulations
 		// DRAW RIGHT RECT
 		drawer.setLineType(LineType.DASHED);
-		drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
+		drawer.setBackgroundColor(transparentColor);
 		drawer.drawRectangle(tR);
 		drawer.setStyle(style); // reset style to state before manipulations
 		// DRAW PARTIAL CLASS BORDER

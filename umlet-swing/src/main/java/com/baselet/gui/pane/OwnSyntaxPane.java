@@ -12,6 +12,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
+import com.baselet.diagram.draw.helper.ColorOwnBase;
+import com.baselet.diagram.draw.helper.Theme;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.BasicCompletion;
 import org.fife.ui.autocomplete.DefaultCompletionProvider;
@@ -25,7 +27,6 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 import com.baselet.control.basics.Converter;
 import com.baselet.control.config.DerivedConfig;
 import com.baselet.diagram.CurrentDiagram;
-import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gui.AutocompletionText;
 
@@ -70,7 +71,7 @@ public class OwnSyntaxPane {
 		atmf.putMapping(OwnTokenMaker.ID, OwnTokenMaker.class.getName());
 		textArea.setSyntaxEditingStyle(OwnTokenMaker.ID);
 
-		textArea.getSyntaxScheme().getStyle(TokenTypes.RESERVED_WORD).foreground = Converter.convert(ColorOwn.SYNTAX_HIGHLIGHTING);
+		textArea.getSyntaxScheme().getStyle(TokenTypes.RESERVED_WORD).foreground = Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.SYNTAX_HIGHLIGHTING));
 
 		// Setup autocompletion
 		createAutocompletionCompletionProvider();

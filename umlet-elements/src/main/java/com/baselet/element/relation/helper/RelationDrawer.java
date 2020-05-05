@@ -11,7 +11,8 @@ import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.Direction;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwnBase;
+import com.baselet.diagram.draw.helper.Theme;
 import com.baselet.element.sticking.PointDoubleIndexed;
 
 public class RelationDrawer {
@@ -39,7 +40,7 @@ public class RelationDrawer {
 		drawer.drawRectangle(r);
 
 		int arrow = 4;
-		ColorOwn oldBgColor = drawer.getBackgroundColor();
+		ColorOwnBase oldBgColor = drawer.getBackgroundColor();
 		drawer.setBackgroundColor(drawer.getForegroundColor());
 		if (matchedText.equals("^")) {
 			PointDouble start = new PointDouble(point.getX(), point.getY() - arrow);
@@ -125,7 +126,7 @@ public class RelationDrawer {
 		}
 
 		if (fillBody) {
-			ColorOwn bgColor = drawer.getBackgroundColor();
+			ColorOwnBase bgColor = drawer.getBackgroundColor();
 			drawer.setBackgroundColor(drawer.getForegroundColor());
 			drawer.drawLines(points);
 			drawer.setBackgroundColor(bgColor);
@@ -161,8 +162,8 @@ public class RelationDrawer {
 		else if (point instanceof PointDoubleIndexed && (openDirection == Direction.LEFT || openDirection == Direction.RIGHT)) { // interface half circle
 			PointDoubleIndexed pointIndex = (PointDoubleIndexed) point;
 
-			ColorOwn bg = drawer.getBackgroundColor();
-			drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
+			ColorOwnBase bg = drawer.getBackgroundColor();
+			drawer.setBackgroundColor(Theme.getCurrentThemeColor().getColorMap().get(ColorOwnBase.PredefinedColors.TRANSPARENT));
 
 			Direction directionOfCircle = line.getDirectionOfLine(drawOnStart);
 			if (directionOfCircle == Direction.RIGHT) {

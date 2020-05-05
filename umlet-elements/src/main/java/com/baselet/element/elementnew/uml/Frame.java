@@ -6,8 +6,10 @@ import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.ElementId;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwnBase;
+import com.baselet.diagram.draw.helper.ColorOwnLight;
 import com.baselet.diagram.draw.helper.Style;
+import com.baselet.diagram.draw.helper.Theme;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -55,7 +57,7 @@ public class Frame extends NewGridElement {
 			width += rightSpace + lowerLeftSpace;
 
 			Style style = drawer.getStyleClone();
-			drawer.setBackgroundColor(ColorOwn.TRANSPARENT);
+			drawer.setBackgroundColor(Theme.getCurrentThemeColor().getColorMap().get(ColorOwnBase.PredefinedColors.TRANSPARENT));
 			drawer.drawLines(new PointDouble(width, top), new PointDouble(width, heightOfTitle - corner), new PointDouble(width - corner, heightOfTitle), new PointDouble(lowerLeftSpace, heightOfTitle));
 			drawer.setStyle(style); // reset style to state before manipulations for drawing the template class
 			state.getBuffer().setTopMin(heightOfTitle);
