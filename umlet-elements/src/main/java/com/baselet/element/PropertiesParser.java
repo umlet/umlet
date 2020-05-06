@@ -24,13 +24,9 @@ import com.baselet.element.facet.PropertiesParserState;
 public class PropertiesParser {
 
 	public static void parsePropertiesAndHandleFacets(NewGridElement element, PropertiesParserState state) {
-		System.out.println("Parsing Properties");
 		List<String> propertiesText = element.getPanelAttributesAsList();
-		System.out.println("Panel Attributes");
 		doPreparsing(element, state, propertiesText); // at first handle autoresize (which possibly changes elementsize) and calc the textblock size
-		System.out.println("After DoParsing");
 		parseFacets(element, state, propertiesText, true);
-		System.out.println("After ParseFacets");
 	}
 
 	private static void doPreparsing(NewGridElement element, PropertiesParserState state, List<String> propertiesText) {
