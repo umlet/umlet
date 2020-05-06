@@ -1,8 +1,13 @@
 package com.baselet.diagram.draw.helper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Map;
 
-public abstract class ColorOwnBase {
+public class ColorOwnBase {
+    private static final Logger log = LoggerFactory.getLogger(ColorOwnBase.class);
+    public static final String EXAMPLE_TEXT = "color string (green,...) or code (#3c7a00,...)";
 
     public static enum Transparency {
         FOREGROUND(255), FULL_TRANSPARENT(0), DEPRECATED_WARNING(175), BACKGROUND(125), SELECTION_BACKGROUND(20);
@@ -32,11 +37,20 @@ public abstract class ColorOwnBase {
     protected final int blue;
     protected final int alpha;
 
+    protected Map<PredefinedColors, ColorOwnBase> colorMap;
+    protected Map<ColorStyle, ColorOwnBase> styleColorMap;
+
+    public ColorOwnBase(int red, int green, int blue, Transparency transparency) {
+        this(red, green, blue, transparency.getAlpha());
+    }
+
     public ColorOwnBase(int red, int green, int blue, int alpha) {
+        log.info("before assigning");
         this.red = red;
         this.green = green;
         this.blue = blue;
         this.alpha = alpha;
+        log.info("after assigning");
     }
 
     public ColorOwnBase(String hex) {
@@ -49,6 +63,7 @@ public abstract class ColorOwnBase {
 
     public ColorOwnBase() {
         this(0, 0, 0, 0);
+        log.info("after base const");
     }
 
     public int getRed() {
@@ -67,25 +82,76 @@ public abstract class ColorOwnBase {
         return alpha;
     }
 
-    public ColorOwnLight transparency(ColorOwnLight.Transparency transparency) {
+    public ColorOwnBase transparency(ColorOwnLight.Transparency transparency) {
         return transparency(transparency.getAlpha());
     }
 
-    public ColorOwnLight transparency(int alpha) {
-        return new ColorOwnLight(getRed(), getGreen(), getBlue(), alpha);
+    public ColorOwnBase transparency(int alpha) {
+        return new ColorOwnBase(getRed(), getGreen(), getBlue(), alpha);
     }
 
-    public ColorOwnLight darken(int factor) {
-        return new ColorOwnLight(Math.max(0, getRed() - factor), Math.max(0, getGreen() - factor), Math.max(0, getBlue() - factor), getAlpha());
+    public ColorOwnBase darken(int factor) {
+        return new ColorOwnBase(Math.max(0, getRed() - factor), Math.max(0, getGreen() - factor), Math.max(0, getBlue() - factor), getAlpha());
     }
 
-    public abstract Map<PredefinedColors, ColorOwnLight> getColorMap();
+    /**
+     * Converts colorString into a Color which is available in the colorMap or if not tries to decode the colorString
+     *
+     * @param colorString String which describes the color
+     * @return Color which is related to the String or null if it is no valid colorString
+     */
+    public ColorOwnBase forStringOrNull(String colorString, Transparency transparency) {
+        try {
+            return forString(colorString, transparency);
+        } catch (StyleException e) {
+            return null;
+        }
+    }
 
-    public abstract Map<ColorStyle, ColorOwnLight> getStyleColorMap();
+    public ColorOwnBase forString(String colorString, Transparency transparency) {
+        return forString(colorString, transparency.getAlpha());
+    }
 
-    public abstract ColorOwnLight forString(String colorString, Transparency transparency);
+    /**
+     * Converts colorString into a Color which is available in the colorMap or if not tries to decode the colorString
+     *
+     * @param colorString String which describes the color
+     * @return Color which is related to the String or null if it is no valid colorString
+     */
+    public ColorOwnBase forString(String colorString, int transparency) {
+        boolean error = false;
+        ColorOwnBase returnColor = null;
+        if (colorString == null) {
+            error = true;
+        } else {
+            for (Map.Entry<PredefinedColors, ColorOwnBase> c : colorMap.entrySet()) {
+                if (colorString.equalsIgnoreCase(c.getKey().toString())) {
+                    returnColor = c.getValue();
+                    break;
+                }
+            }
+            if (returnColor == null) {
+                try {
+                    returnColor = new ColorOwnBase(colorString);
+                } catch (NumberFormatException e) {
+                    error = true;
+                }
+            }
+            if (returnColor != null) {
+                returnColor = returnColor.transparency(transparency);
+            }
+        }
+        if (error) {
+            throw new StyleException("value must be a " + EXAMPLE_TEXT);
+        }
+        return returnColor;
+    }
 
-    public abstract ColorOwnLight forString(String colorString, int transparency);
+    public Map<PredefinedColors, ColorOwnBase> getColorMap() {
+        return colorMap;
+    }
 
-    public abstract ColorOwnLight forStringOrNull(String colorString, Transparency transparency);
+    public Map<ColorStyle, ColorOwnBase> getStyleColorMap() {
+        return styleColorMap;
+    }
 }

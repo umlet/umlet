@@ -58,8 +58,7 @@ public class Converter {
 		if (in == null) {
 			return null;
 		}
-		// TODO: Think about how to handle this case
-		return new ColorOwnLight(in.getRed(), in.getGreen(), in.getBlue(), in.getAlpha());
+		return new ColorOwnBase(in.getRed(), in.getGreen(), in.getBlue(), in.getAlpha());
 	}
 
 	public static Color convert(ColorOwnBase in) {

@@ -1,69 +1,43 @@
 package com.baselet.diagram.draw.helper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class ColorOwnLight extends ColorOwnBase {
 
-    public static final String EXAMPLE_TEXT = "color string (green,...) or code (#3c7a00,...)";
+    private static final Logger log = LoggerFactory.getLogger(ColorOwnLight.class);
 
-    private final ColorOwnLight RED = new ColorOwnLight(255, 0, 0, Transparency.FOREGROUND);
-    private final ColorOwnLight GREEN = new ColorOwnLight(0, 255, 0, Transparency.FOREGROUND);
-    private final ColorOwnLight BLUE = new ColorOwnLight(0, 0, 255, Transparency.FOREGROUND);
-    private final ColorOwnLight YELLOW = new ColorOwnLight(255, 255, 0, Transparency.FOREGROUND);
-    private final ColorOwnLight MAGENTA = new ColorOwnLight(255, 0, 255, Transparency.FOREGROUND);
-    private final ColorOwnLight WHITE = new ColorOwnLight(255, 255, 255, Transparency.FOREGROUND);
-    private final ColorOwnLight BLACK = new ColorOwnLight(0, 0, 0, Transparency.FOREGROUND);
-    private final ColorOwnLight ORANGE = new ColorOwnLight(255, 165, 0, Transparency.FOREGROUND);
-    private final ColorOwnLight CYAN = new ColorOwnLight(0, 255, 255, Transparency.FOREGROUND);
-    private final ColorOwnLight DARK_GRAY = new ColorOwnLight(70, 70, 70, Transparency.FOREGROUND);
-    private final ColorOwnLight GRAY = new ColorOwnLight(120, 120, 120, Transparency.FOREGROUND);
-    private final ColorOwnLight LIGHT_GRAY = new ColorOwnLight(200, 200, 200, Transparency.FOREGROUND);
-    private final ColorOwnLight PINK = new ColorOwnLight(255, 175, 175, Transparency.FOREGROUND);
+    private final ColorOwnBase RED = new ColorOwnBase(255, 0, 0, Transparency.FOREGROUND);
+    private final ColorOwnBase GREEN = new ColorOwnBase(0, 255, 0, Transparency.FOREGROUND);
+    private final ColorOwnBase BLUE = new ColorOwnBase(0, 0, 255, Transparency.FOREGROUND);
+    private final ColorOwnBase YELLOW = new ColorOwnBase(255, 255, 0, Transparency.FOREGROUND);
+    private final ColorOwnBase MAGENTA = new ColorOwnBase(255, 0, 255, Transparency.FOREGROUND);
+    private final ColorOwnBase WHITE = new ColorOwnBase(255, 255, 255, Transparency.FOREGROUND);
+    private final ColorOwnBase BLACK = new ColorOwnBase(0, 0, 0, Transparency.FOREGROUND);
+    private final ColorOwnBase ORANGE = new ColorOwnBase(255, 165, 0, Transparency.FOREGROUND);
+    private final ColorOwnBase CYAN = new ColorOwnBase(0, 255, 255, Transparency.FOREGROUND);
+    private final ColorOwnBase DARK_GRAY = new ColorOwnBase(70, 70, 70, Transparency.FOREGROUND);
+    private final ColorOwnBase GRAY = new ColorOwnBase(120, 120, 120, Transparency.FOREGROUND);
+    private final ColorOwnBase LIGHT_GRAY = new ColorOwnBase(200, 200, 200, Transparency.FOREGROUND);
+    private final ColorOwnBase PINK = new ColorOwnBase(255, 175, 175, Transparency.FOREGROUND);
 
-    private final ColorOwnLight TRANSPARENT = WHITE.transparency(Transparency.FULL_TRANSPARENT); // color white is important because EPS export doesn't support transparency, therefore background will be white
-    private final ColorOwnLight SELECTION_FG = BLUE;
-    private final ColorOwnLight SELECTION_BG = new ColorOwnLight(0, 0, 255, Transparency.SELECTION_BACKGROUND);
-    private final ColorOwnLight STICKING_POLYGON = new ColorOwnLight(100, 180, 255, Transparency.FOREGROUND);
-    private final ColorOwnLight SYNTAX_HIGHLIGHTING = new ColorOwnLight(0, 100, 255, Transparency.FOREGROUND);
-    private final ColorOwnLight DEFAULT_FOREGROUND = BLACK;
-    private final ColorOwnLight DEFAULT_BACKGROUND = TRANSPARENT;
-
-    private Map<PredefinedColors, ColorOwnLight> colorMap;
-    private Map<ColorStyle, ColorOwnLight> styleColorMap;
-
-    @Override
-    public Map<PredefinedColors, ColorOwnLight> getColorMap() {
-        return colorMap;
-    }
-
-    @Override
-    public Map<ColorStyle, ColorOwnLight> getStyleColorMap() {
-        return styleColorMap;
-    }
-
-    public ColorOwnLight(int red, int green, int blue, Transparency transparency) {
-        this(red, green, blue, transparency.getAlpha());
-    }
-
-    public ColorOwnLight(int red, int green, int blue, int alpha) {
-        super(red, green, blue, alpha);
-        generateColorMaps();
-    }
-
-    public ColorOwnLight(String hex) {
-        super(hex);
-        generateColorMaps();
-    }
+    private final ColorOwnBase TRANSPARENT = WHITE.transparency(Transparency.FULL_TRANSPARENT); // color white is important because EPS export doesn't support transparency, therefore background will be white
+    private final ColorOwnBase SELECTION_FG = BLUE;
+    private final ColorOwnBase SELECTION_BG = new ColorOwnBase(0, 0, 255, Transparency.SELECTION_BACKGROUND);
+    private final ColorOwnBase STICKING_POLYGON = new ColorOwnBase(100, 180, 255, Transparency.FOREGROUND);
+    private final ColorOwnBase SYNTAX_HIGHLIGHTING = new ColorOwnBase(0, 100, 255, Transparency.FOREGROUND);
+    private final ColorOwnBase DEFAULT_FOREGROUND = BLACK;
+    private final ColorOwnBase DEFAULT_BACKGROUND = TRANSPARENT;
 
     public ColorOwnLight() {
-        super();
+        generateColorMaps();
     }
 
     private void generateColorMaps() {
-        HashMap<PredefinedColors, ColorOwnLight> colorMap = new HashMap<PredefinedColors, ColorOwnLight>();
+        HashMap<PredefinedColors, ColorOwnBase> colorMap = new HashMap<PredefinedColors, ColorOwnBase>();
         colorMap.put(PredefinedColors.BLACK, BLACK);
         colorMap.put(PredefinedColors.BLUE, BLUE);
         colorMap.put(PredefinedColors.CYAN, CYAN);
@@ -80,7 +54,7 @@ public class ColorOwnLight extends ColorOwnBase {
         colorMap.put(PredefinedColors.TRANSPARENT, TRANSPARENT);
         this.colorMap = Collections.unmodifiableMap(colorMap);
 
-        HashMap<ColorStyle, ColorOwnLight> styleColorMap = new HashMap<ColorStyle, ColorOwnLight>();
+        HashMap<ColorStyle, ColorOwnBase> styleColorMap = new HashMap<ColorStyle, ColorOwnBase>();
         styleColorMap.put(ColorStyle.SELECTION_FG, SELECTION_FG);
         styleColorMap.put(ColorStyle.SELECTION_BG, SELECTION_BG);
         styleColorMap.put(ColorStyle.STICKING_POLYGON, STICKING_POLYGON);
@@ -90,73 +64,17 @@ public class ColorOwnLight extends ColorOwnBase {
         this.styleColorMap = Collections.unmodifiableMap(styleColorMap);
     }
 
-    public ColorOwnLight transparency(Transparency transparency) {
+    /*public ColorOwnLight transparency(Transparency transparency) {
         return transparency(transparency.getAlpha());
-    }
+    }*/
 
-    public ColorOwnLight transparency(int alpha) {
+    /*public ColorOwnLight transparency(int alpha) {
         return new ColorOwnLight(getRed(), getGreen(), getBlue(), alpha);
-    }
+    }*/
 
-    public ColorOwnLight darken(int factor) {
+    /*public ColorOwnLight darken(int factor) {
         return new ColorOwnLight(Math.max(0, getRed() - factor), Math.max(0, getGreen() - factor), Math.max(0, getBlue() - factor), getAlpha());
-    }
-
-    /**
-     * Converts colorString into a Color which is available in the colorMap or if not tries to decode the colorString
-     *
-     * @param colorString String which describes the color
-     * @return Color which is related to the String or null if it is no valid colorString
-     */
-    @Override
-    public ColorOwnLight forStringOrNull(String colorString, Transparency transparency) {
-        try {
-            return forString(colorString, transparency);
-        } catch (StyleException e) {
-            return null;
-        }
-    }
-
-    @Override
-    public ColorOwnLight forString(String colorString, Transparency transparency) {
-        return forString(colorString, transparency.getAlpha());
-    }
-
-    /**
-     * Converts colorString into a Color which is available in the colorMap or if not tries to decode the colorString
-     *
-     * @param colorString String which describes the color
-     * @return Color which is related to the String or null if it is no valid colorString
-     */
-    @Override
-    public ColorOwnLight forString(String colorString, int transparency) {
-        boolean error = false;
-        ColorOwnLight returnColor = null;
-        if (colorString == null) {
-            error = true;
-        } else {
-            for (Entry<PredefinedColors, ColorOwnLight> c : colorMap.entrySet()) {
-                if (colorString.equalsIgnoreCase(c.getKey().toString())) {
-                    returnColor = c.getValue();
-                    break;
-                }
-            }
-            if (returnColor == null) {
-                try {
-                    returnColor = new ColorOwnLight(colorString);
-                } catch (NumberFormatException e) {
-                    error = true;
-                }
-            }
-            if (returnColor != null) {
-                returnColor = returnColor.transparency(transparency);
-            }
-        }
-        if (error) {
-            throw new StyleException("value must be a " + EXAMPLE_TEXT);
-        }
-        return returnColor;
-    }
+    }*/
 
     @Override
     public int hashCode() {
