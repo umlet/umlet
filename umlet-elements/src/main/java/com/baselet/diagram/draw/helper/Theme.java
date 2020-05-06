@@ -1,6 +1,11 @@
 package com.baselet.diagram.draw.helper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Theme {
+    private static final Logger log = LoggerFactory.getLogger(Theme.class);
+
     public enum THEMES {
         LIGHT_THEME, DARK_THEME
     }
@@ -9,7 +14,7 @@ public class Theme {
 
     private static THEMES currentTheme = THEMES.LIGHT_THEME;
 
-    public Theme(THEMES theme) {
+    public static void init(THEMES theme) {
         switch (theme) {
             case DARK_THEME:
                 currentTheme = theme;
