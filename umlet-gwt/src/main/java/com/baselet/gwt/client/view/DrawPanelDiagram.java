@@ -51,6 +51,13 @@ public class DrawPanelDiagram extends DrawPanel {
 		this.redraw(false);
 	}
 
+	@Override
+	void onMouseDown(GridElement element, boolean isControlKeyDown) {
+		super.onMouseDown(element, isControlKeyDown);
+		if (!isControlKeyDown || selector.getSelectedElements().size() > 0)
+			propertiesPanel.setEnabled(true);
+	}
+
 	public void RemoveOldPreview() {
 		if (currentPreviewElements != null)
 			commandInvoker.removeElements(this, this.currentPreviewElements);
