@@ -80,8 +80,8 @@ public class StyleOptionsTest {
 	 */
 	@Test
 	public void drawRectangleParametersNoDefaultUsed() {
-		ColorOwnLight fg = color.getColorMap().get(ColorOwnBase.PredefinedColors.ORANGE);
-		ColorOwnLight bg = color.getColorMap().get(ColorOwnBase.PredefinedColors.DARK_GRAY).transparency(Transparency.BACKGROUND);
+		ColorOwnBase fg = color.getColorMap().get(ColorOwnBase.PredefinedColors.ORANGE);
+		ColorOwnBase bg = color.getColorMap().get(ColorOwnBase.PredefinedColors.DARK_GRAY).transparency(Transparency.BACKGROUND);
 		LineType lt = LineType.DOUBLE_DOTTED;
 		double lw = 10;
 		drawHandler.setForegroundColor(fg);
@@ -106,8 +106,8 @@ public class StyleOptionsTest {
 	 */
 	@Test
 	public void drawRectangleParametersNoDefaultOverrideReset() {
-		ColorOwnLight fg = color.getColorMap().get(ColorOwnBase.PredefinedColors.ORANGE);
-		ColorOwnLight bg = color.getColorMap().get(ColorOwnBase.PredefinedColors.DARK_GRAY).transparency(Transparency.BACKGROUND);
+		ColorOwnBase fg = color.getColorMap().get(ColorOwnBase.PredefinedColors.ORANGE);
+		ColorOwnBase bg = color.getColorMap().get(ColorOwnBase.PredefinedColors.DARK_GRAY).transparency(Transparency.BACKGROUND);
 		LineType lt = LineType.DOUBLE_DOTTED;
 		double lw = 10;
 		drawHandler.setForegroundColor(fg);
