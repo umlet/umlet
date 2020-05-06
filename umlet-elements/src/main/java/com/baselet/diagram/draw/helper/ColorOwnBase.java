@@ -24,7 +24,7 @@ public class ColorOwnBase {
     }
 
     public enum PredefinedColors {
-        RED, GREEN, BLUE, YELLOW, MAGENTA, WHITE, BLACK, ORANGE, CYAN, DARK_GRAY, GRAY, LIGHT_GRAY, PINK, TRANSPARENT
+        RED, GREEN, BLUE, YELLOW, MAGENTA, WHITE, BLACK, ORANGE, CYAN, DARK_GRAY, GRAY, LIGHT_GRAY, PINK, TRANSPARENT, NONE
     }
 
     public enum ColorStyle {
@@ -45,12 +45,10 @@ public class ColorOwnBase {
     }
 
     public ColorOwnBase(int red, int green, int blue, int alpha) {
-        log.info("before assigning");
         this.red = red;
         this.green = green;
         this.blue = blue;
         this.alpha = alpha;
-        log.info("after assigning");
     }
 
     public ColorOwnBase(String hex) {
@@ -63,7 +61,6 @@ public class ColorOwnBase {
 
     public ColorOwnBase() {
         this(0, 0, 0, 0);
-        log.info("after base const");
     }
 
     public int getRed() {

@@ -52,6 +52,7 @@ public class ColorOwnLight extends ColorOwnBase {
         colorMap.put(PredefinedColors.WHITE, WHITE);
         colorMap.put(PredefinedColors.YELLOW, YELLOW);
         colorMap.put(PredefinedColors.TRANSPARENT, TRANSPARENT);
+        colorMap.put(PredefinedColors.NONE, TRANSPARENT);
         this.colorMap = Collections.unmodifiableMap(colorMap);
 
         HashMap<ColorStyle, ColorOwnBase> styleColorMap = new HashMap<ColorStyle, ColorOwnBase>();
