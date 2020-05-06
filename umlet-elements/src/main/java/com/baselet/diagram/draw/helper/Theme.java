@@ -18,7 +18,7 @@ public class Theme {
         switch (theme) {
             case DARK_THEME:
                 currentTheme = theme;
-                colorOwn = new ColorOwnLight();
+                colorOwn = new ColorOwnDark();
                 break;
             case LIGHT_THEME:
                 currentTheme = theme;

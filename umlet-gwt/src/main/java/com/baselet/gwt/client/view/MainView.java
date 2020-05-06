@@ -1,5 +1,8 @@
 package com.baselet.gwt.client.view;
 
+import com.baselet.diagram.draw.helper.ColorOwnBase;
+import com.baselet.diagram.draw.helper.Theme;
+import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.view.VersionChecker.Version;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -207,6 +210,8 @@ public class MainView extends Composite {
 		for (String diagramName : WebStorage.getSavedDiagramKeys()) {
 			addRestoreMenuItem(diagramName);
 		}
+
+		this.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());
 
 		log.trace("Main View initialized");
 
