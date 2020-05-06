@@ -26,8 +26,6 @@ public class TransparencyFacet extends FirstRunKeyValueFacet {
 			}
 
 			double colorTransparencyValue = 255 - valInt * 2.55; // ColorOwn has 0 for full transparency and 255 for no transparency
-			System.out.println("BG-COLOR");
-			System.out.println(state.getDrawer().getBackgroundColor());
 			ColorOwnBase bgColor = state.getDrawer().getBackgroundColor();
 			state.getDrawer().setBackgroundColor(bgColor.transparency((int) colorTransparencyValue));
 		} catch (NumberFormatException e) {

@@ -148,7 +148,7 @@ public abstract class DrawHandler {
 
 	public final void setBackgroundColorAndKeepTransparency(String color) {
 		if (color.equals(FacetConstants.BACKGROUND_COLOR_KEY)) {
-			Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND);
+			setBackgroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND));
 		}
 		else {
 			// #295: if bg is the default, use background transparency, but if bg has been set reuse its transparency (otherwise transparency= would only work if the line comes after bg=)

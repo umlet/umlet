@@ -21,11 +21,16 @@ public class Theme {
                 colorOwn = new ColorOwnLight();
                 break;
             case LIGHT_THEME:
+                currentTheme = theme;
+                colorOwn = new ColorOwnLight();
                 break;
         }
     }
 
     public static ColorOwnBase getCurrentThemeColor() {
+        if(colorOwn == null) {
+            init(THEMES.LIGHT_THEME);
+        }
         return colorOwn;
     }
 }
