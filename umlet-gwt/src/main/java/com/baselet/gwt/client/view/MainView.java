@@ -264,6 +264,8 @@ public class MainView extends Composite {
 		}
 	}
 
+
+
 	private void addRestoreMenuItem(final String chosenName) {
 		final HorizontalPanel hp = new HorizontalPanel();
 

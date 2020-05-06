@@ -89,6 +89,7 @@ public class DrawPanelPalette extends DrawPanel {
 	}
 
 	private final List<GridElement> draggedElements = new ArrayList<GridElement>();
+	private boolean cursorWasMovedDuringDrag; //check if cursor was actually moved
 
 	@Override
 	void onMouseDown(GridElement element, boolean isControlKeyDown) {
@@ -96,13 +97,23 @@ public class DrawPanelPalette extends DrawPanel {
 		for (GridElement original : selector.getSelectedElements()) {
 			draggedElements.add(ElementFactoryGwt.create(original, getDiagram()));
 		}
+		cursorWasMovedDuringDrag = false;
+		propertiesPanel.setEnabled(false);
 	}
 
 
 
 	@Override
 	public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
-		if (lastPoint.getX() < 0) { // mouse moved from palette to diagram -> insert elements to diagram
+		//reset view if it was dragged out of bounds
+		if (selector.getAllElements().size() == 0)
+		{
+			// todo: reset palette view to not be out-of-bounds
+		}
+
+		//reset dragged elements to origin position, if they were actually moved
+		if (cursorWasMovedDuringDrag)
+		{
 			List<GridElement> elementsToMove = new ArrayList<GridElement>();
 			for (GridElement original : selector.getSelectedElements()) {
 				GridElement copy = gridElementCopyInOtherDiagram(original);
@@ -112,13 +123,18 @@ public class DrawPanelPalette extends DrawPanel {
 			commandInvoker.removeSelectedElements(this);
 			commandInvoker.addElements(this, draggedElements);
 			selector.deselectAll();
-			commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
-			if (otherDrawFocusPanel instanceof DrawPanelDiagram)
-			{
-				DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
-				otherDrawDiagramFocusPanel.RemoveOldPreview();
+			if (lastPoint.getX() < 0 && resizeDirections.isEmpty()) { // mouse moved from palette to diagram -> insert elements to diagram
+
+				commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
+				if (otherDrawFocusPanel instanceof DrawPanelDiagram)
+				{
+					DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
+					otherDrawDiagramFocusPanel.RemoveOldPreview();
+				}
+				propertiesPanel.setEnabled(true);
 			}
 		}
+
 		draggedElements.clear();
 		super.onMouseDragEnd(gridElement, lastPoint);
 
@@ -147,22 +163,23 @@ public class DrawPanelPalette extends DrawPanel {
 
 	@Override
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
+		if (diffX != 0 || diffY != 0)
+		{
+			cursorWasMovedDuringDrag = true;
+		}
 		if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
 			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
 		}
 		if (isCtrlKeyDown) {
 			return; // TODO implement Lasso
-		}
-		else if (!resizeDirections.isEmpty()) {
-			draggedGridElement.drag(resizeDirections, diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
-		}
-		// if a single element is selected, drag it (and pass the dragStart, because it's important for Relations)
-		else if (selector.getSelectedElements().size() == 1) {
-			draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
-			handlePreviewDisplay(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
-		}
-		else { // if != 1 elements are selected, move them
-			moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
+		} else if (resizeDirections.isEmpty()) // dont do anything if resizing is active, elements should not be resizeable in the palette itself
+		{
+			if (selector.getSelectedElements().size() == 1) {
+				draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
+			}
+			else { // if != 1 elements are selected, move them
+				moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
+			}
 			handlePreviewDisplay(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
 		}
 		redraw(false);
