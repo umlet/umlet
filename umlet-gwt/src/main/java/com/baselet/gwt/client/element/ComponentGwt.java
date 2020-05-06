@@ -2,8 +2,11 @@ package com.baselet.gwt.client.element;
 
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.diagram.draw.DrawHandler;
+import com.baselet.diagram.draw.helper.ColorOwnBase;
+import com.baselet.diagram.draw.helper.Theme;
 import com.baselet.element.interfaces.Component;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.gwt.client.base.Converter;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
@@ -62,6 +65,7 @@ public class ComponentGwt implements Component {
 	private boolean lastSelected = false;
 
 	public void drawOn(Context2d context, boolean isSelected) {
+		context.getCanvas().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getColorMap().get(ColorOwnBase.PredefinedColors.BLACK)).value());
 		if (redrawNecessary || lastSelected != isSelected) {
 			redrawNecessary = false;
 			CanvasElement el = canvas.getCanvasElement();
