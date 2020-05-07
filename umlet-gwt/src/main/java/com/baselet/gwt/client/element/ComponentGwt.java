@@ -65,7 +65,6 @@ public class ComponentGwt implements Component {
 	private boolean lastSelected = false;
 
 	public void drawOn(Context2d context, boolean isSelected) {
-		context.getCanvas().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getColorMap().get(ColorOwnBase.PredefinedColors.BLACK)).value());
 		if (redrawNecessary || lastSelected != isSelected) {
 			redrawNecessary = false;
 			CanvasElement el = canvas.getCanvasElement();

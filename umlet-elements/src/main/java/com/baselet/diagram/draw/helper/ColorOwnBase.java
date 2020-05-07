@@ -28,7 +28,7 @@ public class ColorOwnBase {
     }
 
     public enum ColorStyle {
-        SELECTION_FG, SELECTION_BG, STICKING_POLYGON, SYNTAX_HIGHLIGHTING, DEFAULT_FOREGROUND, DEFAULT_BACKGROUND
+        SELECTION_FG, SELECTION_BG, STICKING_POLYGON, SYNTAX_HIGHLIGHTING, DEFAULT_FOREGROUND, DEFAULT_BACKGROUND, DEFAULT_SPLITTER_COLOR
     }
 
     /* fields should be final to avoid changing parts of existing color object (otherwise unexpected visible changes can happen) */

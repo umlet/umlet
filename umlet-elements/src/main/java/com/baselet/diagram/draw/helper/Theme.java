@@ -7,20 +7,20 @@ public class Theme {
     private static final Logger log = LoggerFactory.getLogger(Theme.class);
 
     public enum THEMES {
-        LIGHT_THEME, DARK_THEME
+        LIGHT, DARK
     }
 
     private static ColorOwnBase colorOwn;
 
-    private static THEMES currentTheme = THEMES.LIGHT_THEME;
+    private static THEMES currentTheme = THEMES.LIGHT;
 
     public static void init(THEMES theme) {
         switch (theme) {
-            case DARK_THEME:
+            case DARK:
                 currentTheme = theme;
                 colorOwn = new ColorOwnDark();
                 break;
-            case LIGHT_THEME:
+            case LIGHT:
                 currentTheme = theme;
                 colorOwn = new ColorOwnLight();
                 break;
@@ -29,7 +29,7 @@ public class Theme {
 
     public static ColorOwnBase getCurrentThemeColor() {
         if(colorOwn == null) {
-            init(THEMES.LIGHT_THEME);
+            init(THEMES.DARK);
         }
         return colorOwn;
     }
