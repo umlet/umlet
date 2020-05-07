@@ -10,8 +10,8 @@ public class ColorOwnDark extends ColorOwnBase{
     private static final Logger log = LoggerFactory.getLogger(ColorOwnDark.class);
 
     private final ColorOwnBase RED = new ColorOwnBase(220, 0, 0, Transparency.FOREGROUND);
-    private final ColorOwnBase GREEN = new ColorOwnBase(0, 200, 0, Transparency.FOREGROUND);
-    private final ColorOwnBase BLUE = new ColorOwnBase(0, 0, 100, Transparency.FOREGROUND);
+    private final ColorOwnBase GREEN = new ColorOwnBase(0, 220, 0, Transparency.FOREGROUND);
+    private final ColorOwnBase BLUE = new ColorOwnBase(0, 0, 220, Transparency.FOREGROUND);
     private final ColorOwnBase YELLOW = new ColorOwnBase(100, 100, 0, Transparency.FOREGROUND);
     private final ColorOwnBase MAGENTA = new ColorOwnBase(100, 0, 100, Transparency.FOREGROUND);
     private final ColorOwnBase WHITE = new ColorOwnBase(255, 255, 255, Transparency.FOREGROUND);
@@ -25,11 +25,12 @@ public class ColorOwnDark extends ColorOwnBase{
 
     private final ColorOwnBase TRANSPARENT = WHITE.transparency(Transparency.FULL_TRANSPARENT); // color white is important because EPS export doesn't support transparency, therefore background will be white
     private final ColorOwnBase SELECTION_FG = BLUE;
-    private final ColorOwnBase SELECTION_BG = new ColorOwnBase(0, 0, 255, Transparency.BACKGROUND);
+    private final ColorOwnBase SELECTION_BG = new ColorOwnBase(0, 0, 255, Transparency.SELECTION_BACKGROUND);
     private final ColorOwnBase STICKING_POLYGON = new ColorOwnBase(100, 180, 255, Transparency.FOREGROUND);
     private final ColorOwnBase SYNTAX_HIGHLIGHTING = new ColorOwnBase(0, 100, 255, Transparency.FOREGROUND);
     private final ColorOwnBase DEFAULT_FOREGROUND = WHITE;
     private final ColorOwnBase DEFAULT_BACKGROUND = BLACK;
+    private final ColorOwnBase DEFAULT_SPLITTER_COLOR = GRAY;
 
     public ColorOwnDark() {
         generateColorMaps();
@@ -61,6 +62,7 @@ public class ColorOwnDark extends ColorOwnBase{
         styleColorMap.put(ColorStyle.SYNTAX_HIGHLIGHTING, SYNTAX_HIGHLIGHTING);
         styleColorMap.put(ColorStyle.DEFAULT_FOREGROUND, DEFAULT_FOREGROUND);
         styleColorMap.put(ColorStyle.DEFAULT_BACKGROUND, DEFAULT_BACKGROUND);
+        styleColorMap.put(ColorStyle.DEFAULT_SPLITTER_COLOR, DEFAULT_SPLITTER_COLOR);
         this.styleColorMap = Collections.unmodifiableMap(styleColorMap);
     }
 }

@@ -4,6 +4,8 @@ import com.baselet.diagram.draw.helper.ColorOwnBase;
 import com.baselet.diagram.draw.helper.Theme;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.view.VersionChecker.Version;
+import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.user.client.ui.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.vectomatic.file.FileUploadExt;
@@ -42,19 +44,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimpleLayoutPanel;
-import com.google.gwt.user.client.ui.SplitLayoutPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class MainView extends Composite {
 
@@ -83,6 +72,9 @@ public class MainView extends Composite {
 
 	@UiField
 	FlowPanel menuPanel;
+
+	@UiField
+	DivElement propertiesDiv;
 
 	@UiField
 	FlowPanel restoreMenuPanel;
@@ -262,6 +254,7 @@ public class MainView extends Composite {
 		if (uxfStartup != null) {
 			DiagramLoader.getFromUrl(uxfStartup, this);
 		}
+		updateColors();
 	}
 
 
@@ -360,5 +353,23 @@ public class MainView extends Composite {
 				RootPanel.get("featurewarning").getElement().getStyle().setMarginLeft(menuPanel.getOffsetWidth(), Unit.PX);
 			}
 		});
+	}
+
+	private void updateColors() {
+		diagramScrollPanel.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());
+		paletteScrollPanel.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());
+		paletteChooser.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());
+		paletteChooser.getElement().getStyle().setColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_FOREGROUND)).value());
+
+		// Splitter between main-canvas and east side
+		diagramPaletteSplitter.getWidget(3).getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_SPLITTER_COLOR)).value());
+
+		// Splitter between palette chooser and textarea
+		palettePropertiesSplitter.getWidget(1).getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_SPLITTER_COLOR)).value());
+
+		propertiesDiv.getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_SPLITTER_COLOR)).value());
+		propertiesDiv.getStyle().setColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_FOREGROUND)).value());
+		propertiesPanel.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());
+		propertiesPanel.getElement().getStyle().setColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_FOREGROUND)).value());
 	}
 }

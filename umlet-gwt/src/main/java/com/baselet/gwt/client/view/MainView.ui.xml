@@ -23,7 +23,6 @@
 			padding-left: 0.5em;
 			font-size: 0.85em;
 			font-weight: bold;
-			background-color: #E7E7E7;
 			-moz-user-select: -moz-none;
 			-khtml-user-select: none;
 			-webkit-user-select: none;
@@ -80,7 +79,7 @@
 			</g:center>
 			<g:east size='400'>
 				<g:SplitLayoutPanel ui:field="palettePropertiesSplitter">
-					<g:north size='550'>
+					<g:north size='550' title="'test'">
 						<g:DockLayoutPanel unit="EM" ui:field="paletteChooserCanvasSplitter">
 							<g:north size="2.0">
 								<g:ListBox ui:field="paletteChooser" visibleItemCount="1" width="100%" />
@@ -92,7 +91,7 @@
 					</g:north>
 					<g:center>
 						<g:FlowPanel>
-							<g:HTML><div class='{style.propertiesTitle}'>Properties</div></g:HTML>
+							<g:HTML><div ui:field="propertiesDiv" class='{style.propertiesTitle}'>Properties</div></g:HTML>
 							<o:PropertiesTextArea ui:field="propertiesPanel" height="100%" width="100%" addStyleNames="{style.propPanel}" />
 						</g:FlowPanel>
 					</g:center>
