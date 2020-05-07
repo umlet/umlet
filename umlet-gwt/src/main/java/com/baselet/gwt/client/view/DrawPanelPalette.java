@@ -12,14 +12,12 @@ import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.sticking.StickableMap;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
+import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.palettes.Resources;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -88,16 +86,26 @@ public class DrawPanelPalette extends DrawPanel {
 		}
 	}
 
+	@Override
+	public void handleKeyDown(KeyDownEvent event) {
+		if (!Shortcut.DELETE_ELEMENT.matches(event)) {
+			super.handleKeyDown(event);
+		}
+	}
+
 	private final List<GridElement> draggedElements = new ArrayList<GridElement>();
 	private boolean cursorWasMovedDuringDrag; //check if cursor was actually moved
+	private boolean draggingDisabled; //to disable dragging when element was dragged to properties panel
 
 	@Override
 	void onMouseDown(GridElement element, boolean isControlKeyDown) {
 		super.onMouseDown(element, isControlKeyDown);
+		otherDrawFocusPanel.selector.deselectAll();
 		for (GridElement original : selector.getSelectedElements()) {
 			draggedElements.add(ElementFactoryGwt.create(original, getDiagram()));
 		}
 		cursorWasMovedDuringDrag = false;
+		draggingDisabled = false;
 		propertiesPanel.setEnabled(false);
 	}
 
@@ -163,26 +171,43 @@ public class DrawPanelPalette extends DrawPanel {
 
 	@Override
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
-		if (diffX != 0 || diffY != 0)
+		if (!draggingDisabled)
 		{
-			cursorWasMovedDuringDrag = true;
-		}
-		if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
-			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
-		}
-		if (isCtrlKeyDown) {
-			return; // TODO implement Lasso
-		} else if (resizeDirections.isEmpty()) // dont do anything if resizing is active, elements should not be resizeable in the palette itself
-		{
-			if (selector.getSelectedElements().size() == 1) {
-				draggedGridElement.drag(Collections.<Direction> emptySet(), diffX, diffY, getRelativePoint(dragStart, draggedGridElement), isShiftKeyDown, firstDrag, stickablesToMove.get(draggedGridElement), false);
+			if (diffX != 0 || diffY != 0)
+			{
+				cursorWasMovedDuringDrag = true;
 			}
-			else { // if != 1 elements are selected, move them
+			if (draggedGridElement == null) //Cancel drag if entire diagram is moved to diagram view, to avoid weird behaviour where both views are dragged at the same time
+			{
+				if(dragStart.getX()+diffX <= 0)
+				{
+					CancelDrag(dragStart, diffX, diffY, draggedGridElement);
+				}
+			}
+			if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
+				stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
+			}
+			if (isCtrlKeyDown) {
+				return; // TODO implement Lasso
+			} else if (resizeDirections.isEmpty()) // dont do anything if resizing is active, elements should not be resizeable in the palette itself
+			{
 				moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
+				handlePreviewDisplay(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
 			}
-			handlePreviewDisplay(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
+			//stop drag if element is dragged to properties panel
+			GWT.log("hori" + scrollPanel.getHorizontalScrollPosition() + "vert" + scrollPanel.getVerticalScrollPosition());
+			GWT.log("dragStart.getY() " + dragStart.getY() + "diffY " + diffY + "getVisibleBounds().height " + getVisibleBounds().height);
+			if(dragStart.getY()+diffY > getVisibleBounds().height && !(dragStart.getX()+diffX <= 0))
+			{
+				CancelDrag(dragStart, diffX, diffY, draggedGridElement);
+			}
+			redraw(false);
 		}
-		redraw(false);
+	}
+
+	private void CancelDrag(Point dragStart, int diffX, int diffY, GridElement draggedGridElement) {
+		onMouseDragEnd(draggedGridElement, new Point(dragStart.getX() + diffX, dragStart.getY() + diffY));
+		draggingDisabled = true;
 	}
 
 	private void handlePreviewDisplay(Point dragStart, int diffX, int diffY, boolean isShiftKeyDown, boolean firstDrag) {
