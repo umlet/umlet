@@ -6,13 +6,16 @@ import java.util.List;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Point;
+import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Direction;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
+import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 
 
 public class DrawPanelDiagram extends DrawPanel {
@@ -50,6 +53,8 @@ public class DrawPanelDiagram extends DrawPanel {
 		}
 		this.redraw(false);
 	}
+
+
 
 	@Override
 	void onMouseDown(GridElement element, boolean isControlKeyDown) {
