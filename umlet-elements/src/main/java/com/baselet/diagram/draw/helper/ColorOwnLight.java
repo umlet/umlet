@@ -31,6 +31,7 @@ public class ColorOwnLight extends ColorOwnBase {
     private final ColorOwnBase SYNTAX_HIGHLIGHTING = new ColorOwnBase(0, 100, 255, Transparency.FOREGROUND);
     private final ColorOwnBase DEFAULT_FOREGROUND = BLACK;
     private final ColorOwnBase DEFAULT_BACKGROUND = TRANSPARENT;
+    private final ColorOwnBase DEFAULT_SPLITTER_COLOR = GRAY;
 
     public ColorOwnLight() {
         generateColorMaps();
@@ -62,6 +63,7 @@ public class ColorOwnLight extends ColorOwnBase {
         styleColorMap.put(ColorStyle.SYNTAX_HIGHLIGHTING, SYNTAX_HIGHLIGHTING);
         styleColorMap.put(ColorStyle.DEFAULT_FOREGROUND, DEFAULT_FOREGROUND);
         styleColorMap.put(ColorStyle.DEFAULT_BACKGROUND, DEFAULT_BACKGROUND);
+        styleColorMap.put(ColorStyle.DEFAULT_SPLITTER_COLOR, DEFAULT_SPLITTER_COLOR);
         this.styleColorMap = Collections.unmodifiableMap(styleColorMap);
     }
 
