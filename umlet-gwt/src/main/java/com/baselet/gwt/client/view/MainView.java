@@ -2,6 +2,7 @@ package com.baselet.gwt.client.view;
 
 import com.baselet.diagram.draw.helper.ColorOwnBase;
 import com.baselet.diagram.draw.helper.Theme;
+import com.baselet.diagram.draw.helper.ThemeChangeListener;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.view.VersionChecker.Version;
 import com.google.gwt.dom.client.DivElement;
@@ -45,7 +46,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 
-public class MainView extends Composite {
+public class MainView extends Composite implements ThemeChangeListener {
 
 	private static MainViewUiBinder uiBinder = GWT.create(MainViewUiBinder.class);
 
@@ -179,6 +180,8 @@ public class MainView extends Composite {
 
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
+		Theme.addListener(this);
+
 		if (VersionChecker.GetVersion() == Version.VSCODE) {
 			diagramPaletteSplitter.setWidgetHidden(diagramPaletteSplitter.getWidget(0), true);
 		}
@@ -254,7 +257,7 @@ public class MainView extends Composite {
 		if (uxfStartup != null) {
 			DiagramLoader.getFromUrl(uxfStartup, this);
 		}
-		updateColors();
+		onThemeChange();
 	}
 
 
@@ -355,7 +358,8 @@ public class MainView extends Composite {
 		});
 	}
 
-	private void updateColors() {
+	@Override
+	public void onThemeChange() {
 		diagramScrollPanel.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());
 		paletteScrollPanel.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());
 		paletteChooser.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());

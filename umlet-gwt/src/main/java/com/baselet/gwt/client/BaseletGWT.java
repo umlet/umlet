@@ -31,7 +31,7 @@ public class BaseletGWT implements EntryPoint {
 
 		String theme = getTheme();
 		log.info(theme);
-		Theme.init(Theme.THEMES.valueOf(theme));
+		Theme.changeTheme(Theme.THEMES.valueOf(theme));
 
 		if (!WebStorage.initLocalStorage()) {
 			if (Browser.get() == Browser.INTERNET_EXPLORER && GWT.getHostPageBaseURL().startsWith("file:")) {
