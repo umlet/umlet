@@ -19,7 +19,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 
 
 public class DrawPanelDiagram extends DrawPanel {
-	private List<GridElement> currentPreviewElements; //previewed elements that will be displayed while dragging from pallete into actual canvas
+	private List<GridElement> currentPreviewElements; //previewed elements that will be displayed while dragging from palette into actual canvas
 	public DrawPanelDiagram(MainView mainView, PropertiesTextArea propertiesPanel) {
 		super(mainView, propertiesPanel);
 	}
