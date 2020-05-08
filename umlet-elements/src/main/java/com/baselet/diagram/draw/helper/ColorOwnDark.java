@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import java.util.HashMap;
 
-public class ColorOwnDark extends ColorOwnBase{
+public class ColorOwnDark extends ColorOwnBase {
     private static final Logger log = LoggerFactory.getLogger(ColorOwnDark.class);
 
     private final ColorOwnBase RED = new ColorOwnBase(220, 0, 0, Transparency.FOREGROUND);
@@ -23,8 +23,8 @@ public class ColorOwnDark extends ColorOwnBase{
     private final ColorOwnBase LIGHT_GRAY = new ColorOwnBase(200, 200, 200, Transparency.FOREGROUND);
     private final ColorOwnBase PINK = new ColorOwnBase(205, 120, 120, Transparency.FOREGROUND);
 
-    private final ColorOwnBase TRANSPARENT = WHITE.transparency(Transparency.FULL_TRANSPARENT); // color white is important because EPS export doesn't support transparency, therefore background will be white
-    private final ColorOwnBase SELECTION_FG = BLUE;
+    private final ColorOwnBase TRANSPARENT = BLACK.transparency(Transparency.FULL_TRANSPARENT); // color white is important because EPS export doesn't support transparency, therefore background will be white
+    private final ColorOwnBase SELECTION_FG = new ColorOwnBase(150, 150, 255, Transparency.FOREGROUND);
     private final ColorOwnBase SELECTION_BG = new ColorOwnBase(0, 0, 255, Transparency.SELECTION_BACKGROUND);
     private final ColorOwnBase STICKING_POLYGON = new ColorOwnBase(100, 180, 255, Transparency.FOREGROUND);
     private final ColorOwnBase SYNTAX_HIGHLIGHTING = new ColorOwnBase(0, 100, 255, Transparency.FOREGROUND);

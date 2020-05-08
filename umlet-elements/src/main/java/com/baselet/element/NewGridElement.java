@@ -155,7 +155,7 @@ public abstract class NewGridElement implements GridElement {
 		ColorOwnBase currentColor = Theme.getCurrentThemeColor();
 
 		drawer.clearCache();
-		drawer.setForegroundColor(currentColor.getColorMap().get(ColorOwnBase.PredefinedColors.TRANSPARENT));
+		drawer.setForegroundColor(currentColor.getStyleColorMap().get(ColorOwnBase.ColorStyle.SELECTION_FG));
 		drawer.setBackgroundColor(currentColor.getStyleColorMap().get(ColorOwnBase.ColorStyle.SELECTION_BG));
 		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
 		if (SharedConfig.getInstance().isDev_mode()) {
@@ -261,6 +261,7 @@ public abstract class NewGridElement implements GridElement {
 		StickingPolygon poly = this.generateStickingBorder(rect);
 		drawer.setLineType(LineType.DASHED);
 		drawer.setForegroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.STICKING_POLYGON));
+		drawer.setBackgroundColor(Theme.getCurrentThemeColor().getColorMap().get(ColorOwnBase.PredefinedColors.TRANSPARENT));
 		Vector<? extends Line> lines = poly.getStickLines();
 		drawer.drawLines(lines.toArray(new Line[lines.size()]));
 		drawer.setLineType(LineType.SOLID);
