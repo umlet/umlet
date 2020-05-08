@@ -215,7 +215,7 @@ function GetUmletWebviewPage(localUmletFolder: string, diagramData:string)
         }
       }
 
-      var theme = 'light';
+      var theme = 'LIGHT';
       theme = getTheme();
       var vscode = acquireVsCodeApi();
       var vsCodeInitialDiagramData = \`${diagramData}\`;
