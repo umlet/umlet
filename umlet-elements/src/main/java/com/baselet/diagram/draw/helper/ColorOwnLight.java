@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.HashMap;
 
 public class ColorOwnLight extends ColorOwnBase {
-
     private static final Logger log = LoggerFactory.getLogger(ColorOwnLight.class);
 
     private final ColorOwnBase RED = new ColorOwnBase(255, 0, 0, Transparency.FOREGROUND);
