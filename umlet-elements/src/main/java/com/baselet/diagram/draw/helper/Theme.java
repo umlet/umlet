@@ -3,6 +3,9 @@ package com.baselet.diagram.draw.helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Theme {
     private static final Logger log = LoggerFactory.getLogger(Theme.class);
 
@@ -14,7 +17,9 @@ public class Theme {
 
     private static THEMES currentTheme = THEMES.LIGHT;
 
-    public static void init(THEMES theme) {
+    private static List<ThemeChangeListener> listeners = new ArrayList<ThemeChangeListener>();
+
+    public static void changeTheme(THEMES theme) {
         switch (theme) {
             case DARK:
                 currentTheme = theme;
@@ -25,12 +30,19 @@ public class Theme {
                 colorOwn = new ColorOwnLight();
                 break;
         }
+        for(ThemeChangeListener listener : listeners) {
+            listener.onThemeChange();
+        }
     }
 
     public static ColorOwnBase getCurrentThemeColor() {
         if(colorOwn == null) {
-            init(THEMES.DARK);
+            changeTheme(THEMES.DARK);
         }
         return colorOwn;
+    }
+
+    public static void addListener(ThemeChangeListener listener) {
+        listeners.add(listener);
     }
 }
