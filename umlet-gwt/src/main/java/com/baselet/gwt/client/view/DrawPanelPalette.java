@@ -171,6 +171,7 @@ public class DrawPanelPalette extends DrawPanel {
 
 	@Override
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
+		GWT.log("scroll v" + getOffsetHeight()  + " scroll h" + scrollPanel.getVisibleBounds().height );
 		if (!draggingDisabled)
 		{
 			if (diffX != 0 || diffY != 0)
@@ -195,10 +196,9 @@ public class DrawPanelPalette extends DrawPanel {
 				handlePreviewDisplay(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
 			}
 			//stop drag if element is dragged to properties panel
-			GWT.log("hori" + scrollPanel.getHorizontalScrollPosition() + "vert" + scrollPanel.getVerticalScrollPosition());
-			GWT.log("dragStart.getY() " + dragStart.getY() + "diffY " + diffY + "getVisibleBounds().height " + getVisibleBounds().height);
-			if(dragStart.getY()+diffY > getVisibleBounds().height && !(dragStart.getX()+diffX <= 0))
+			if(dragStart.getY()+diffY-scrollPanel.getVerticalScrollPosition() > getVisibleBounds().height && !(dragStart.getX()+diffX+-scrollPanel.getHorizontalScrollPosition() <= 0))
 			{
+				GWT.log("drag cancel: " + dragStart.getY() +"   "+diffY + "   " + scrollPanel.getVerticalScrollPosition() + "   " + getVisibleBounds().height);
 				CancelDrag(dragStart, diffX, diffY, draggedGridElement);
 			}
 			redraw(false);
@@ -213,7 +213,7 @@ public class DrawPanelPalette extends DrawPanel {
 	private void handlePreviewDisplay(Point dragStart, int diffX, int diffY, boolean isShiftKeyDown, boolean firstDrag) {
 		if (otherDrawFocusPanel instanceof DrawPanelDiagram) {
 			DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
-			if (dragStart.getX()+diffX <= 0)
+			if (dragStart.getX()+diffX+-scrollPanel.getHorizontalScrollPosition() <= 0)
 			{
 				if (!otherDrawDiagramFocusPanel.currentlyDisplayingPreview())
 				{

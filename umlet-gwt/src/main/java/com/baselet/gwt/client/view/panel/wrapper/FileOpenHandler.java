@@ -48,7 +48,6 @@ public class FileOpenHandler {
 	}
 
 	public void processFiles(FileList files) {
-		GWT.log("length=" + files.getLength());
 		for (File file : files) {
 			readQueue.add(file);
 		}
