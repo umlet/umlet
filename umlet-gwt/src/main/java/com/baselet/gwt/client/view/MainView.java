@@ -180,7 +180,6 @@ public class MainView extends Composite implements ThemeChangeListener {
 
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
-		Theme.addListener(this);
 
 		if (VersionChecker.GetVersion() == Version.VSCODE) {
 			diagramPaletteSplitter.setWidgetHidden(diagramPaletteSplitter.getWidget(0), true);
@@ -201,6 +200,7 @@ public class MainView extends Composite implements ThemeChangeListener {
 		diagramScrollPanel = new AutoResizeScrollDropPanel(diagramPanel);
 		paletteScrollPanel = new AutoResizeScrollDropPanel(palettePanel);
 		updateNotificationPosition();
+		Theme.addListener(this);
 
 		for (String diagramName : WebStorage.getSavedDiagramKeys()) {
 			addRestoreMenuItem(diagramName);

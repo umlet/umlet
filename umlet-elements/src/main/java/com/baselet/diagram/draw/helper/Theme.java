@@ -15,11 +15,24 @@ public class Theme {
 
     private static ColorOwnBase colorOwn;
 
-    private static THEMES currentTheme = THEMES.LIGHT;
+    private static THEMES currentTheme;
 
-    private static List<ThemeChangeListener> listeners = new ArrayList<ThemeChangeListener>();
+    private static final List<ThemeChangeListener> listeners;
+
+    static {
+        exportChangeTheme();
+        listeners = new ArrayList<ThemeChangeListener>();
+        changeTheme(getTheme());
+    }
+
+    private static void changeTheme(String themeString) {
+        changeTheme(THEMES.valueOf(themeString));
+    }
 
     public static void changeTheme(THEMES theme) {
+        if (theme.equals(currentTheme)) {
+            return;
+        }
         switch (theme) {
             case DARK:
                 currentTheme = theme;
@@ -29,15 +42,18 @@ public class Theme {
                 currentTheme = theme;
                 colorOwn = new ColorOwnLight();
                 break;
+            default:
+                currentTheme = THEMES.LIGHT;
+                colorOwn = new ColorOwnLight();
         }
-        for(ThemeChangeListener listener : listeners) {
+        for (ThemeChangeListener listener : listeners) {
             listener.onThemeChange();
         }
     }
 
     public static ColorOwnBase getCurrentThemeColor() {
-        if(colorOwn == null) {
-            changeTheme(THEMES.DARK);
+        if (colorOwn == null) {
+            changeTheme(THEMES.LIGHT);
         }
         return colorOwn;
     }
@@ -45,4 +61,13 @@ public class Theme {
     public static void addListener(ThemeChangeListener listener) {
         listeners.add(listener);
     }
+
+    private static native String getTheme() /*-{
+        return $wnd.theme;
+    }-*/;
+
+    public static native void exportChangeTheme() /*-{
+        $wnd.changeTheme =
+            $entry(@com.baselet.diagram.draw.helper.Theme::changeTheme(Ljava/lang/String;));
+    }-*/;
 }
