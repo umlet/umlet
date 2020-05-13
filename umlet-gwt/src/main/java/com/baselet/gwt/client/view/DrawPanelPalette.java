@@ -4,6 +4,9 @@ import java.util.*;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Point;
+import com.baselet.control.config.SharedConfig;
+import com.baselet.control.constants.MenuConstants;
+import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Direction;
 import com.baselet.element.Selector;
 import com.baselet.element.facet.common.GroupFacet;
@@ -15,6 +18,7 @@ import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.palettes.Resources;
+import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -67,6 +71,21 @@ public class DrawPanelPalette extends DrawPanel {
 		});
 	}
 
+	@Override
+	protected List<MenuPopup.MenuPopupItem> getStandardMenuPopupItems() {
+		return Arrays.asList(new MenuPopup.MenuPopupItem(MenuConstants.SELECT_ALL) {
+					@Override
+					public void execute() {
+						selector.select(diagram.getGridElements());
+					}
+				});
+	}
+
+	@Override
+	protected List<MenuPopup.MenuPopupItem> getStandardAdditionalElementMenuItems() {
+		return Arrays.asList();
+	}
+
 	private Diagram parsePalette(TextResource res) {
 		Diagram diagram = paletteCache.get(res);
 		if (diagram == null) {
@@ -89,8 +108,24 @@ public class DrawPanelPalette extends DrawPanel {
 
 	@Override
 	public void handleKeyDown(KeyDownEvent event) {
-		if (!Shortcut.DELETE_ELEMENT.matches(event)) {
-			super.handleKeyDown(event);
+
+		boolean avoidBrowserDefault = true;
+		if (Shortcut.DESELECT_ALL.matches(event)) {
+			selector.deselectAll();
+		}
+		else if (Shortcut.SELECT_ALL.matches(event)) {
+			selector.select(diagram.getGridElements());
+		}
+		else if (Shortcut.SAVE.matches(event)) {
+			mainView.getSaveCommand().execute();
+		}
+		else {
+			avoidBrowserDefault = false;
+		}
+
+		// avoid browser default key handling for all overwritten keys, but not for others (like F5 for refresh or the zoom controls)
+		if (avoidBrowserDefault) {
+			event.preventDefault();
 		}
 	}
 
@@ -100,14 +135,14 @@ public class DrawPanelPalette extends DrawPanel {
 
 	@Override
 	void onMouseDown(GridElement element, boolean isControlKeyDown) {
-			super.onMouseDown(element, isControlKeyDown);
-			otherDrawFocusPanel.selector.deselectAll();
-			for (GridElement original : selector.getSelectedElements()) {
+		super.onMouseDown(element, isControlKeyDown);
+		otherDrawFocusPanel.selector.deselectAll();
+		for (GridElement original : selector.getSelectedElements()) {
 				draggedElements.add(ElementFactoryGwt.create(original, getDiagram()));
-			}
-			cursorWasMovedDuringDrag = false;
-			draggingDisabled = false;
-			propertiesPanel.setEnabled(false);
+		}
+		cursorWasMovedDuringDrag = false;
+		draggingDisabled = false;
+		propertiesPanel.setEnabled(false);
 
 	}
 
@@ -136,6 +171,11 @@ public class DrawPanelPalette extends DrawPanel {
 		draggedElements.clear();
 		//super.onMouseDragEnd(gridElement, lastPoint);
 
+	}
+
+	@Override
+	public void onShowMenu(Point point) {
+		super.onShowMenu(point);
 	}
 
 	/*

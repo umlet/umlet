@@ -60,7 +60,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 
 	HasScrollPanel scrollPanel;
 
-	private final MainView mainView;
+	protected final MainView mainView;
 
 	PropertiesTextArea propertiesPanel;
 
@@ -94,6 +94,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		return focus;
 	}
 
+
 	public DrawPanel(final MainView mainView, final PropertiesTextArea propertiesPanel) {
 		this.setStylePrimaryName("canvasFocusPanel");
 
@@ -107,35 +108,18 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			}
 		};
 
-		List<MenuPopupItem> diagramItems = Arrays.asList(
-				new MenuPopupItem(MenuConstants.DELETE) {
-					@Override
-					public void execute() {
-						commandInvoker.removeSelectedElements(DrawPanel.this);
-					}
-				}, new MenuPopupItem(MenuConstants.COPY) {
-					@Override
-					public void execute() {
-						commandInvoker.copySelectedElements(DrawPanel.this);
-					}
-				}, new MenuPopupItem(MenuConstants.CUT) {
-					@Override
-					public void execute() {
-						commandInvoker.cutSelectedElements(DrawPanel.this);
-					}
-				}, new MenuPopupItem(MenuConstants.PASTE) {
-					@Override
-					public void execute() {
-						commandInvoker.pasteElements(DrawPanel.this);
-					}
-				}, new MenuPopupItem(MenuConstants.SELECT_ALL) {
-					@Override
-					public void execute() {
-						selector.select(diagram.getGridElements());
-					}
-				});
+		List<MenuPopupItem> diagramItems = getStandardMenuPopupItems();
 		List<MenuPopupItem> elementItems = new ArrayList<MenuPopupItem>(diagramItems);
-		elementItems.addAll(Arrays.asList(
+		elementItems.addAll(getStandardAdditionalElementMenuItems());
+		diagramContextMenu = new MenuPopup(diagramItems);
+		elementContextMenu = new MenuPopup(elementItems);
+
+		this.add(canvas.getWidget());
+	}
+
+
+	protected List<MenuPopupItem> getStandardAdditionalElementMenuItems() {
+		return Arrays.asList(
 				new MenuPopupItem(MenuConstants.GROUP) {
 					@Override
 					public void execute() {
@@ -147,11 +131,37 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 					public void execute() {
 						commandInvoker.updateSelectedElementsProperty(DrawPanel.this, GroupFacet.KEY, null);
 					}
-				}));
-		diagramContextMenu = new MenuPopup(diagramItems);
-		elementContextMenu = new MenuPopup(elementItems);
+				});
+	}
 
-		this.add(canvas.getWidget());
+	protected List<MenuPopupItem> getStandardMenuPopupItems() {
+		return Arrays.asList(
+					new MenuPopupItem(MenuConstants.DELETE) {
+						@Override
+						public void execute() {
+							commandInvoker.removeSelectedElements(DrawPanel.this);
+						}
+					}, new MenuPopupItem(MenuConstants.COPY) {
+						@Override
+						public void execute() {
+							commandInvoker.copySelectedElements(DrawPanel.this);
+						}
+					}, new MenuPopupItem(MenuConstants.CUT) {
+						@Override
+						public void execute() {
+							commandInvoker.cutSelectedElements(DrawPanel.this);
+						}
+					}, new MenuPopupItem(MenuConstants.PASTE) {
+						@Override
+						public void execute() {
+							commandInvoker.pasteElements(DrawPanel.this);
+						}
+					}, new MenuPopupItem(MenuConstants.SELECT_ALL) {
+						@Override
+						public void execute() {
+							selector.select(diagram.getGridElements());
+						}
+					});
 	}
 
 	@Override
