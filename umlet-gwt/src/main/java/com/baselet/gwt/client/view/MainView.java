@@ -360,21 +360,26 @@ public class MainView extends Composite implements ThemeChangeListener {
 
 	@Override
 	public void onThemeChange() {
-		diagramScrollPanel.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());
-		paletteScrollPanel.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());
-		paletteChooser.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());
-		paletteChooser.getElement().getStyle().setColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_FOREGROUND)).value());
+		String backgroundColor = Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value();
+		String foregroundColor = Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_FOREGROUND)).value();
+		String splitterColor = Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_SPLITTER_COLOR)).value();
+		diagramScrollPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
+		paletteScrollPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
+		paletteChooser.getElement().getStyle().setBackgroundColor(backgroundColor);
+		paletteChooser.getElement().getStyle().setColor(foregroundColor);
 
 		// Splitter between main-canvas and east side
-		diagramPaletteSplitter.getWidget(3).getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_SPLITTER_COLOR)).value());
+		diagramPaletteSplitter.getWidget(3).getElement().getStyle().setBackgroundColor(splitterColor);
 
 		// Splitter between palette chooser and textarea
-		palettePropertiesSplitter.getWidget(1).getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_SPLITTER_COLOR)).value());
+		palettePropertiesSplitter.getWidget(1).getElement().getStyle().setBackgroundColor(splitterColor);
 
-		propertiesDiv.getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_SPLITTER_COLOR)).value());
-		propertiesDiv.getStyle().setColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_FOREGROUND)).value());
-		propertiesPanel.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());
-		propertiesPanel.getElement().getStyle().setColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_FOREGROUND)).value());
-		this.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());
+		propertiesDiv.getStyle().setBackgroundColor(splitterColor);
+		propertiesDiv.getStyle().setColor(foregroundColor);
+		propertiesPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
+		propertiesPanel.getElement().getStyle().setColor(foregroundColor);
+		propertiesPanel.getElement().getStyle().setBorderColor(backgroundColor);
+
+		this.getElement().getStyle().setBackgroundColor(backgroundColor);
 	}
 }
