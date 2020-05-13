@@ -16,6 +16,8 @@ import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.MenuConstants;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Direction;
+import com.baselet.diagram.draw.helper.Theme;
+import com.baselet.diagram.draw.helper.ThemeChangeListener;
 import com.baselet.element.GridElementUtils;
 import com.baselet.element.Selector;
 import com.baselet.element.facet.common.GroupFacet;
@@ -46,7 +48,7 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public abstract class DrawPanel extends SimplePanel implements CommandTarget, HasMouseOutHandlers, HasMouseOverHandlers, EventHandlingTarget, AutoresizeScrollDropTarget {
+public abstract class DrawPanel extends SimplePanel implements CommandTarget, HasMouseOutHandlers, HasMouseOverHandlers, EventHandlingTarget, AutoresizeScrollDropTarget, ThemeChangeListener {
 
 	protected Diagram diagram = new DiagramGwt(new ArrayList<GridElement>());
 
@@ -115,6 +117,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		elementContextMenu = new MenuPopup(elementItems);
 
 		this.add(canvas.getWidget());
+		Theme.addListener(this);
 	}
 
 
@@ -484,5 +487,15 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	@Override
 	public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
 		return addDomHandler(handler, MouseOutEvent.getType());
+	}
+
+	@Override
+	public void onThemeChange() {
+		List<GridElement> gridElements = diagram.getGridElementsByLayerLowestToHighest();
+		for(GridElement gridElement:gridElements) {
+			gridElement.updateModelFromText();
+		}
+		getSelector().deselectAllWithoutAfterAction();
+		redraw();
 	}
 }
