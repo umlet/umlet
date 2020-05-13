@@ -10,6 +10,7 @@ import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.sticking.StickableMap;
+import com.baselet.gwt.client.element.DiagramGwt;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.keyboard.Shortcut;
@@ -99,14 +100,15 @@ public class DrawPanelPalette extends DrawPanel {
 
 	@Override
 	void onMouseDown(GridElement element, boolean isControlKeyDown) {
-		super.onMouseDown(element, isControlKeyDown);
-		otherDrawFocusPanel.selector.deselectAll();
-		for (GridElement original : selector.getSelectedElements()) {
-			draggedElements.add(ElementFactoryGwt.create(original, getDiagram()));
-		}
-		cursorWasMovedDuringDrag = false;
-		draggingDisabled = false;
-		propertiesPanel.setEnabled(false);
+			super.onMouseDown(element, isControlKeyDown);
+			otherDrawFocusPanel.selector.deselectAll();
+			for (GridElement original : selector.getSelectedElements()) {
+				draggedElements.add(ElementFactoryGwt.create(original, getDiagram()));
+			}
+			cursorWasMovedDuringDrag = false;
+			draggingDisabled = false;
+			propertiesPanel.setEnabled(false);
+
 	}
 
 
@@ -122,30 +124,42 @@ public class DrawPanelPalette extends DrawPanel {
 		//reset dragged elements to origin position, if they were actually moved
 		if (cursorWasMovedDuringDrag)
 		{
-			List<GridElement> elementsToMove = new ArrayList<GridElement>();
-			for (GridElement original : selector.getSelectedElements()) {
-				GridElement copy = gridElementCopyInOtherDiagram(original);
-				elementsToMove.add(copy);
-			}
-			Selector.replaceGroupsWithNewGroups(elementsToMove, otherDrawFocusPanel.getSelector());
-			commandInvoker.removeSelectedElements(this);
-			commandInvoker.addElements(this, draggedElements);
-			selector.deselectAll();
+			List<GridElement> elementsToMove = ResetDraggedPaletteElements();
+			RemoveDiagramPreview();
 			if (lastPoint.getX() < 0 && resizeDirections.isEmpty()) { // mouse moved from palette to diagram -> insert elements to diagram
 
 				commandInvoker.addElements(otherDrawFocusPanel, elementsToMove);
-				if (otherDrawFocusPanel instanceof DrawPanelDiagram)
-				{
-					DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
-					otherDrawDiagramFocusPanel.RemoveOldPreview();
-				}
 				propertiesPanel.setEnabled(true);
 			}
 		}
 
 		draggedElements.clear();
-		super.onMouseDragEnd(gridElement, lastPoint);
+		//super.onMouseDragEnd(gridElement, lastPoint);
 
+	}
+
+	/*
+	Resets the dragged elements from the palette to their original places and returns a copy of them
+	 */
+	public List<GridElement> ResetDraggedPaletteElements() {
+		List<GridElement> elementsToMove = new ArrayList<GridElement>();
+		for (GridElement original : selector.getSelectedElements()) {
+			GridElement copy = gridElementCopyInOtherDiagram(original);
+			elementsToMove.add(copy);
+		}
+		Selector.replaceGroupsWithNewGroups(elementsToMove, otherDrawFocusPanel.getSelector());
+		commandInvoker.removeSelectedElements(this);
+		commandInvoker.addElements(this, draggedElements);
+		selector.deselectAll();
+		return elementsToMove;
+	}
+
+	private void RemoveDiagramPreview() {
+		if (otherDrawFocusPanel instanceof DrawPanelDiagram)
+		{
+			DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
+			otherDrawDiagramFocusPanel.RemoveOldPreview();
+		}
 	}
 
 	private GridElement gridElementCopyInOtherDiagram(GridElement original) {
@@ -169,21 +183,19 @@ public class DrawPanelPalette extends DrawPanel {
 		});
 	}
 
+	private GridElement lastDraggedGridElement;
 	@Override
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
-		GWT.log("scroll v" + getOffsetHeight()  + " scroll h" + scrollPanel.getVisibleBounds().height );
+		lastDraggedGridElement = draggedGridElement;
 		if (!draggingDisabled)
 		{
 			if (diffX != 0 || diffY != 0)
 			{
 				cursorWasMovedDuringDrag = true;
 			}
-			if (draggedGridElement == null) //Cancel drag if entire diagram is moved to diagram view, to avoid weird behaviour where both views are dragged at the same time
+			if (draggedGridElement == null)
 			{
-				if(dragStart.getX()+diffX <= 0)
-				{
-					CancelDrag(dragStart, diffX, diffY, draggedGridElement);
-				}
+				return; //do not allow left click dragging of entire diagram, can be done with middle mouse
 			}
 			if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
 				stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
@@ -198,10 +210,21 @@ public class DrawPanelPalette extends DrawPanel {
 			//stop drag if element is dragged to properties panel
 			if(dragStart.getY()+diffY-scrollPanel.getVerticalScrollPosition() > getVisibleBounds().height && !(dragStart.getX()+diffX+-scrollPanel.getHorizontalScrollPosition() <= 0))
 			{
-				GWT.log("drag cancel: " + dragStart.getY() +"   "+diffY + "   " + scrollPanel.getVerticalScrollPosition() + "   " + getVisibleBounds().height);
 				CancelDrag(dragStart, diffX, diffY, draggedGridElement);
 			}
 			redraw(false);
+		}
+	}
+
+	public void CancelDragNoDuplicate() //Needed to safely restore the palette after a drag was canceled by a right or middlemouse click in the diagram window
+	{
+		if (!draggingDisabled)
+		{
+			List<GridElement> lastDraggedGridElementAsList;
+			lastDraggedGridElementAsList = new ArrayList();
+			lastDraggedGridElementAsList.add(lastDraggedGridElement);
+			removeGridElements(lastDraggedGridElementAsList);
+			CancelDrag(new Point(0,0), 0, 0, lastDraggedGridElement);
 		}
 	}
 
@@ -234,6 +257,8 @@ public class DrawPanelPalette extends DrawPanel {
 
 
 	}
+
+
 
 
 	@Override

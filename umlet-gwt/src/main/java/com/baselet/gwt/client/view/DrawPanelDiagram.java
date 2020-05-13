@@ -58,10 +58,17 @@ public class DrawPanelDiagram extends DrawPanel {
 
 	@Override
 	void onMouseDown(GridElement element, boolean isControlKeyDown) {
-		super.onMouseDown(element, isControlKeyDown);
-		if (!isControlKeyDown || selector.getSelectedElements().size() > 0)
-			propertiesPanel.setEnabled(true);
+		((DrawPanelPalette) otherDrawFocusPanel).CancelDragNoDuplicate();
+			super.onMouseDown(element, isControlKeyDown);
+			if (!isControlKeyDown || selector.getSelectedElements().size() > 0)
+				propertiesPanel.setEnabled(true);
+			RemoveOldPreview();
+
 	}
+
+
+
+
 
 	public void RemoveOldPreview() {
 		if (currentPreviewElements != null)
