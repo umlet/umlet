@@ -58,11 +58,24 @@ public class DrawPanelDiagram extends DrawPanel {
 
 	@Override
 	void onMouseDown(GridElement element, boolean isControlKeyDown) {
-		((DrawPanelPalette) otherDrawFocusPanel).CancelDragNoDuplicate();
+		CancelDragOfPalette();
 			super.onMouseDown(element, isControlKeyDown);
 			if (!isControlKeyDown || selector.getSelectedElements().size() > 0)
 				propertiesPanel.setEnabled(true);
 			RemoveOldPreview();
+
+	}
+
+	public void CancelDragOfPalette()
+	{
+		if (otherDrawFocusPanel instanceof DrawPanelPalette)
+		((DrawPanelPalette) otherDrawFocusPanel).CancelDragNoDuplicate();
+	}
+
+	@Override
+	public void onShowMenu(Point point) {
+		CancelDragOfPalette();
+		super.onShowMenu(point);
 
 	}
 

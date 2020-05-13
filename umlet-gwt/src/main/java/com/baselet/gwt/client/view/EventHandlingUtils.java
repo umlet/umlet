@@ -272,8 +272,8 @@ public class EventHandlingUtils {
 	}
 
 	private static void handleStart(EventHandlingTarget[] panels, final DragCache storage, FocusPanel handlerTarget, HumanInputEvent<?> event, Point p) {
-		if(event.getNativeEvent().getButton() != 1)
-			return;
+		if(event.getNativeEvent().getButton() == 1)
+		{
 		// Notification.showInfo("DOWN " + p.x);
 		handlerTarget.setFocus(true);
 
@@ -281,7 +281,18 @@ public class EventHandlingUtils {
 		storage.moveStart = new Point(p.x, p.y);
 		storage.dragging = DragStatus.FIRST;
 		storage.elementToDrag = storage.activePanel.getGridElementOnPosition(storage.moveStart);
-		storage.activePanel.onMouseDownScheduleDeferred(storage.elementToDrag, event.isControlKeyDown());
+
+			storage.activePanel.onMouseDownScheduleDeferred(storage.elementToDrag, event.isControlKeyDown());
+		} else {
+			if ( storage.activePanel instanceof DrawPanelPalette)
+			{
+				((DrawPanelPalette) storage.activePanel).CancelDragNoDuplicate();
+			}
+			if ( storage.activePanel instanceof DrawPanelDiagram)
+			{
+				((DrawPanelDiagram) storage.activePanel).CancelDragOfPalette();
+			}
+		}
 	}
 
 	private static void handleMove(final EventHandlingTarget panel, final DragCache storage, HumanInputEvent<?> event) {
