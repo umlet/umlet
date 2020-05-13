@@ -8,6 +8,7 @@ import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.interfaces.GridElement;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
@@ -257,14 +258,22 @@ public class EventHandlingUtils {
 	}
 
 	private static void handleEnd(EventHandlingTarget panel, final DragCache storage, HumanInputEvent<?> event) {
-		// Notification.showInfo("UP");
-		if (DRAG_COMMANDS.contains(storage.dragging)) {
-			panel.onMouseDragEnd(storage.elementToDrag, getPoint(storage.activePanel, event));
+		if(event.getNativeEvent().getButton() != 1)
+			return;
+		if (event.getNativeEvent().getButton() == 1)
+		{
+			// Notification.showInfo("UP");
+			if (DRAG_COMMANDS.contains(storage.dragging)) {
+				panel.onMouseDragEnd(storage.elementToDrag, getPoint(storage.activePanel, event));
+			}
+			storage.dragging = DragStatus.NO;
 		}
-		storage.dragging = DragStatus.NO;
+
 	}
 
 	private static void handleStart(EventHandlingTarget[] panels, final DragCache storage, FocusPanel handlerTarget, HumanInputEvent<?> event, Point p) {
+		if(event.getNativeEvent().getButton() != 1)
+			return;
 		// Notification.showInfo("DOWN " + p.x);
 		handlerTarget.setFocus(true);
 

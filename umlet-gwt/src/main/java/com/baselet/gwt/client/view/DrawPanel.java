@@ -48,7 +48,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public abstract class DrawPanel extends SimplePanel implements CommandTarget, HasMouseOutHandlers, HasMouseOverHandlers, EventHandlingTarget, AutoresizeScrollDropTarget {
 
-	private Diagram diagram = new DiagramGwt(new ArrayList<GridElement>());
+	protected Diagram diagram = new DiagramGwt(new ArrayList<GridElement>());
 
 	protected DrawCanvas canvas = new DrawCanvas();
 
@@ -304,12 +304,13 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 
 	@Override
 	public void onMouseDownScheduleDeferred(final GridElement element, final boolean isControlKeyDown) {
-		Scheduler.get().scheduleFinally(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
-			@Override
-			public void execute() {
-				onMouseDown(element, isControlKeyDown);
-			}
-		});
+			Scheduler.get().scheduleFinally(new ScheduledCommand() { // scheduleDeferred is necessary for mobile (or low performance) browsers
+				@Override
+				public void execute() {
+					onMouseDown(element, isControlKeyDown);
+				}
+			});
+
 	}
 
 	void onMouseDown(final GridElement element, final boolean isControlKeyDown) {
@@ -350,6 +351,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	}
 
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
+
 		if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
 			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
 		}
