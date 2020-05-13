@@ -58,6 +58,10 @@ public class Theme {
         return colorOwn;
     }
 
+    public static THEMES getCurrentTheme() {
+        return currentTheme;
+    }
+
     public static void addListener(ThemeChangeListener listener) {
         listeners.add(listener);
     }

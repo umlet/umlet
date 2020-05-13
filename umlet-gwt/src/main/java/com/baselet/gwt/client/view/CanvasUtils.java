@@ -17,6 +17,7 @@ public class CanvasUtils {
     private static final int EXPORT_BORDER = 10;
 
     public static String createPngCanvasDataUrl(Diagram diagram) {
+        Theme.changeTheme(Theme.THEMES.LIGHT);
         DrawCanvas pngCanvas = new DrawCanvas();
         // Calculate and set canvas width
         Rectangle geRect = GridElementUtils.getGridElementsRectangle(diagram.getGridElements());
@@ -28,6 +29,7 @@ public class CanvasUtils {
         // Draw Elements on Canvas and translate their position
         pngCanvas.getContext2d().translate(-geRect.getX(), -geRect.getY());
         pngCanvas.draw(false, diagram.getGridElementsByLayerLowestToHighest(), new SelectorNew(diagram)); // use a new selector which has nothing selected
+        Theme.changeTheme(Theme.THEMES.DARK);
         return pngCanvas.toDataUrl("image/png");
     }
 

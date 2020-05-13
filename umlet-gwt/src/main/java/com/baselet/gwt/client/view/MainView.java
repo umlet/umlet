@@ -206,7 +206,7 @@ public class MainView extends Composite implements ThemeChangeListener {
 			addRestoreMenuItem(diagramName);
 		}
 
-		this.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());
+		onThemeChange();
 
 		log.trace("Main View initialized");
 
@@ -375,5 +375,6 @@ public class MainView extends Composite implements ThemeChangeListener {
 		propertiesDiv.getStyle().setColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_FOREGROUND)).value());
 		propertiesPanel.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());
 		propertiesPanel.getElement().getStyle().setColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_FOREGROUND)).value());
+		this.getElement().getStyle().setBackgroundColor(Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value());
 	}
 }
