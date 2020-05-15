@@ -1,6 +1,6 @@
 package com.baselet.gwt.client.view;
 
-import com.baselet.diagram.draw.helper.ColorOwnBase;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Theme;
 import com.baselet.diagram.draw.helper.ThemeChangeListener;
 import com.baselet.gwt.client.base.Converter;
@@ -360,9 +360,9 @@ public class MainView extends Composite implements ThemeChangeListener {
 
 	@Override
 	public void onThemeChange() {
-		String backgroundColor = Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)).value();
-		String foregroundColor = Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_FOREGROUND)).value();
-		String splitterColor = Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_SPLITTER_COLOR)).value();
+		String backgroundColor = Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_BACKGROUND)).value();
+		String foregroundColor = Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_FOREGROUND)).value();
+		String splitterColor = Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_SPLITTER_COLOR)).value();
 		diagramScrollPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
 		paletteScrollPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
 		paletteChooser.getElement().getStyle().setBackgroundColor(backgroundColor);

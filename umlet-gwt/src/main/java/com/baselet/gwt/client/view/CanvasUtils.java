@@ -2,9 +2,8 @@ package com.baselet.gwt.client.view;
 
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
-import com.baselet.diagram.draw.helper.ColorOwnBase;
-import com.baselet.diagram.draw.helper.ColorOwnLight;
-import com.baselet.diagram.draw.helper.ColorOwnBase.Transparency;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Theme;
 import com.baselet.element.GridElementUtils;
 import com.baselet.element.interfaces.Diagram;
@@ -24,7 +23,7 @@ public class CanvasUtils {
         geRect.addBorder(EXPORT_BORDER);
         pngCanvas.clearAndSetSize(geRect.getWidth(), geRect.getHeight());
         // Fill Canvas white
-        pngCanvas.getContext2d().setFillStyle(Converter.convert(Theme.getCurrentThemeColor().getColorMap().get(ColorOwnBase.PredefinedColors.WHITE)));
+        pngCanvas.getContext2d().setFillStyle(Converter.convert(Theme.getCurrentThemeColor().getColorMap().get(ColorOwn.PredefinedColors.WHITE)));
         pngCanvas.getContext2d().fillRect(0, 0, pngCanvas.getWidth(), pngCanvas.getHeight());
         // Draw Elements on Canvas and translate their position
         pngCanvas.getContext2d().translate(-geRect.getX(), -geRect.getY());
@@ -43,7 +42,7 @@ public class CanvasUtils {
             int width = gridCanvas.getCoordinateSpaceWidth();
             int height = gridCanvas.getCoordinateSpaceHeight();
             Context2d backgroundContext = gridCanvas.getContext2d();
-            backgroundContext.setStrokeStyle(Converter.convert(Theme.getCurrentThemeColor().getColorMap().get(ColorOwnBase.PredefinedColors.BLACK).transparency(Transparency.SELECTION_BACKGROUND)));
+            backgroundContext.setStrokeStyle(Converter.convert(Theme.getCurrentThemeColor().getColorMap().get(ColorOwn.PredefinedColors.BLACK).transparency(Transparency.SELECTION_BACKGROUND)));
             for (int i = 0; i < width; i += SharedConstants.DEFAULT_GRID_SIZE) {
                 drawLine(backgroundContext, i, 0, i, height);
             }

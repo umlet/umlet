@@ -6,8 +6,8 @@ import com.baselet.control.enums.LineType;
 public class Style {
 	private LineType lineType;
 	private double lineWidth;
-	private ColorOwnBase foregroundColor;
-	private ColorOwnBase backgroundColor;
+	private ColorOwn foregroundColor;
+	private ColorOwn backgroundColor;
 
 	private double fontSize;
 	private boolean applyZoom;
@@ -45,19 +45,19 @@ public class Style {
 		return lineWidth;
 	}
 
-	public void setForegroundColor(ColorOwnBase foregroundColor) {
+	public void setForegroundColor(ColorOwn foregroundColor) {
 		this.foregroundColor = foregroundColor;
 	}
 
-	public ColorOwnBase getForegroundColor() {
+	public ColorOwn getForegroundColor() {
 		return foregroundColor;
 	}
 
-	public void setBackgroundColor(ColorOwnBase backgroundColor) {
+	public void setBackgroundColor(ColorOwn backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}
 
-	public ColorOwnBase getBackgroundColor() {
+	public ColorOwn getBackgroundColor() {
 		return backgroundColor;
 	}
 

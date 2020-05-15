@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
-public class ColorOwnBase {
-    private static final Logger log = LoggerFactory.getLogger(ColorOwnBase.class);
+public class ColorOwn {
+    private static final Logger log = LoggerFactory.getLogger(ColorOwn.class);
     public static final String EXAMPLE_TEXT = "color string (green,...) or code (#3c7a00,...)";
 
     public static enum Transparency {
@@ -37,21 +37,21 @@ public class ColorOwnBase {
     protected final int blue;
     protected final int alpha;
 
-    protected Map<PredefinedColors, ColorOwnBase> colorMap;
-    protected Map<ColorStyle, ColorOwnBase> styleColorMap;
+    protected Map<PredefinedColors, ColorOwn> colorMap;
+    protected Map<ColorStyle, ColorOwn> styleColorMap;
 
-    public ColorOwnBase(int red, int green, int blue, Transparency transparency) {
+    public ColorOwn(int red, int green, int blue, Transparency transparency) {
         this(red, green, blue, transparency.getAlpha());
     }
 
-    public ColorOwnBase(int red, int green, int blue, int alpha) {
+    public ColorOwn(int red, int green, int blue, int alpha) {
         this.red = red;
         this.green = green;
         this.blue = blue;
         this.alpha = alpha;
     }
 
-    public ColorOwnBase(String hex) {
+    public ColorOwn(String hex) {
         int i = Integer.decode(hex);
         red = i >> 16 & 0xFF;
         green = i >> 8 & 0xFF;
@@ -59,7 +59,7 @@ public class ColorOwnBase {
         alpha = ColorOwnLight.Transparency.FOREGROUND.getAlpha();
     }
 
-    public ColorOwnBase() {
+    public ColorOwn() {
         this(0, 0, 0, 0);
     }
 
@@ -79,16 +79,16 @@ public class ColorOwnBase {
         return alpha;
     }
 
-    public ColorOwnBase transparency(ColorOwnLight.Transparency transparency) {
+    public ColorOwn transparency(ColorOwnLight.Transparency transparency) {
         return transparency(transparency.getAlpha());
     }
 
-    public ColorOwnBase transparency(int alpha) {
-        return new ColorOwnBase(getRed(), getGreen(), getBlue(), alpha);
+    public ColorOwn transparency(int alpha) {
+        return new ColorOwn(getRed(), getGreen(), getBlue(), alpha);
     }
 
-    public ColorOwnBase darken(int factor) {
-        return new ColorOwnBase(Math.max(0, getRed() - factor), Math.max(0, getGreen() - factor), Math.max(0, getBlue() - factor), getAlpha());
+    public ColorOwn darken(int factor) {
+        return new ColorOwn(Math.max(0, getRed() - factor), Math.max(0, getGreen() - factor), Math.max(0, getBlue() - factor), getAlpha());
     }
 
     /**
@@ -97,7 +97,7 @@ public class ColorOwnBase {
      * @param colorString String which describes the color
      * @return Color which is related to the String or null if it is no valid colorString
      */
-    public ColorOwnBase forStringOrNull(String colorString, Transparency transparency) {
+    public ColorOwn forStringOrNull(String colorString, Transparency transparency) {
         try {
             return forString(colorString, transparency);
         } catch (StyleException e) {
@@ -105,7 +105,7 @@ public class ColorOwnBase {
         }
     }
 
-    public ColorOwnBase forString(String colorString, Transparency transparency) {
+    public ColorOwn forString(String colorString, Transparency transparency) {
         return forString(colorString, transparency.getAlpha());
     }
 
@@ -115,13 +115,13 @@ public class ColorOwnBase {
      * @param colorString String which describes the color
      * @return Color which is related to the String or null if it is no valid colorString
      */
-    public ColorOwnBase forString(String colorString, int transparency) {
+    public ColorOwn forString(String colorString, int transparency) {
         boolean error = false;
-        ColorOwnBase returnColor = null;
+        ColorOwn returnColor = null;
         if (colorString == null) {
             error = true;
         } else {
-            for (Map.Entry<PredefinedColors, ColorOwnBase> c : colorMap.entrySet()) {
+            for (Map.Entry<PredefinedColors, ColorOwn> c : colorMap.entrySet()) {
                 if (colorString.equalsIgnoreCase(c.getKey().toString())) {
                     returnColor = c.getValue();
                     break;
@@ -129,7 +129,7 @@ public class ColorOwnBase {
             }
             if (returnColor == null) {
                 try {
-                    returnColor = new ColorOwnBase(colorString);
+                    returnColor = new ColorOwn(colorString);
                 } catch (NumberFormatException e) {
                     error = true;
                 }
@@ -144,11 +144,11 @@ public class ColorOwnBase {
         return returnColor;
     }
 
-    public Map<PredefinedColors, ColorOwnBase> getColorMap() {
+    public Map<PredefinedColors, ColorOwn> getColorMap() {
         return colorMap;
     }
 
-    public Map<ColorStyle, ColorOwnBase> getStyleColorMap() {
+    public Map<ColorStyle, ColorOwn> getStyleColorMap() {
         return styleColorMap;
     }
 }

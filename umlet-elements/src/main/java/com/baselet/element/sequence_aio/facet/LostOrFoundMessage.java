@@ -1,7 +1,6 @@
 package com.baselet.element.sequence_aio.facet;
 
-import com.baselet.diagram.draw.helper.ColorOwnBase;
-import com.baselet.diagram.draw.helper.ColorOwnLight;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,7 +85,7 @@ public class LostOrFoundMessage implements LifelineOccurrence {
 		drawHandler.setLineType(lineType);
 		double centerY = topLeft.y + size.y / 2;
 		double lineXStart, lineXEnd;
-		ColorOwnBase oldBg = drawHandler.getBackgroundColor();
+		ColorOwn oldBg = drawHandler.getBackgroundColor();
 		drawHandler.setBackgroundColor(drawHandler.getForegroundColor());
 		if (found) {
 			drawHandler.drawCircle(topLeft.x + CIRCLE_RADIUS, centerY, CIRCLE_RADIUS);
