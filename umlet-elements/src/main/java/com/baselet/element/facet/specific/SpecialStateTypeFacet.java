@@ -8,8 +8,8 @@ import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwnBase;
-import com.baselet.diagram.draw.helper.ColorOwnBase.Transparency;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Theme;
 import com.baselet.element.facet.KeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -49,8 +49,8 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 		}
 		else if (type == StateTypeEnum.FINAL) {
 			drawer.drawEllipse(0, 0, w, h);
-			ColorOwnBase oldFg = drawer.getForegroundColor();
-			drawer.setForegroundColor(Theme.getCurrentThemeColor().getColorMap().get(ColorOwnBase.PredefinedColors.TRANSPARENT)); // don't use foregroundcolor for the inner circle, because otherwise in Swing it would look very ugly
+			ColorOwn oldFg = drawer.getForegroundColor();
+			drawer.setForegroundColor(Theme.getCurrentThemeColor().getColorMap().get(ColorOwn.PredefinedColors.TRANSPARENT)); // don't use foregroundcolor for the inner circle, because otherwise in Swing it would look very ugly
 			double ellipseDistance = Math.max(w - 1, h - 1) / 5.5;
 			drawBlackEllipse(drawer, w - ellipseDistance * 2, h - ellipseDistance * 2, ellipseDistance);
 			drawer.setForegroundColor(oldFg);
@@ -91,10 +91,10 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 	}
 
 	private void drawBlackEllipse(final DrawHandler drawer, double width, double height, double xY) {
-		ColorOwnBase oldBg = drawer.getBackgroundColor();
-		ColorOwnBase currentColor = Theme.getCurrentThemeColor();
-		if (drawer.getBackgroundColor() == currentColor.getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)) {
-			drawer.setBackgroundColor(currentColor.getColorMap().get(ColorOwnBase.PredefinedColors.BLACK).transparency(Transparency.FOREGROUND));
+		ColorOwn oldBg = drawer.getBackgroundColor();
+		ColorOwn currentColor = Theme.getCurrentThemeColor();
+		if (drawer.getBackgroundColor() == currentColor.getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_BACKGROUND)) {
+			drawer.setBackgroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.BLACK).transparency(Transparency.FOREGROUND));
 		}
 		else {
 			drawer.setBackgroundColor(drawer.getBackgroundColor().transparency(Transparency.FOREGROUND));

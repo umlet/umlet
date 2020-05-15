@@ -1,7 +1,6 @@
 package com.baselet.element.facet.common;
 
-import com.baselet.diagram.draw.helper.ColorOwnBase;
-import com.baselet.diagram.draw.helper.ColorOwnLight;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.StyleException;
 import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -26,7 +25,7 @@ public class TransparencyFacet extends FirstRunKeyValueFacet {
 			}
 
 			double colorTransparencyValue = 255 - valInt * 2.55; // ColorOwn has 0 for full transparency and 255 for no transparency
-			ColorOwnBase bgColor = state.getDrawer().getBackgroundColor();
+			ColorOwn bgColor = state.getDrawer().getBackgroundColor();
 			state.getDrawer().setBackgroundColor(bgColor.transparency((int) colorTransparencyValue));
 		} catch (NumberFormatException e) {
 			throw new StyleException("The value must be between 0 and 100");

@@ -3,7 +3,7 @@ package com.baselet.element.elementnew.plot;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baselet.diagram.draw.helper.ColorOwnBase;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Theme;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -281,9 +281,9 @@ public class PlotGrid extends NewGridElement {
 			drawPlots();
 
 		} catch (ParserException e) {
-			ColorOwnBase currentColor = Theme.getCurrentThemeColor();
-			drawer.setForegroundColor(currentColor.getColorMap().get(ColorOwnBase.PredefinedColors.RED));
-			drawer.setBackgroundColor(currentColor.getColorMap().get(ColorOwnBase.PredefinedColors.WHITE));
+			ColorOwn currentColor = Theme.getCurrentThemeColor();
+			drawer.setForegroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.RED));
+			drawer.setBackgroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.WHITE));
 			drawer.drawRectangle(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 			float x = getRectangle().getWidth() / 2.0f;
 			drawer.print(e.getMessage(), x, getRealSize().height / 2.0, AlignHorizontal.CENTER);

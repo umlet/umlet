@@ -19,8 +19,7 @@ import com.baselet.control.util.Utils;
 import com.baselet.diagram.DiagramHandler;
 import com.baselet.diagram.draw.DrawFunction;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwnBase;
-import com.baselet.diagram.draw.helper.ColorOwnLight;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.element.interfaces.GridElement;
 
@@ -185,7 +184,7 @@ public class DrawHandlerSwing extends DrawHandler {
 		}
 		if (style.getLineWidth() > 0) {
 			// Shapes Foreground
-			ColorOwnBase colOwn = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : style.getForegroundColor();
+			ColorOwn colOwn = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : style.getForegroundColor();
 			g2.setColor(Converter.convert(colOwn));
 			g2.setStroke(Utils.getStroke(style.getLineType(), (float) style.getLineWidth()));
 			g2.draw(s);
@@ -203,7 +202,7 @@ public class DrawHandlerSwing extends DrawHandler {
 	}
 
 	private void drawText(Style style, Text t) {
-		ColorOwnBase col = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : style.getForegroundColor();
+		ColorOwn col = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : style.getForegroundColor();
 		g2.setColor(Converter.convert(col));
 		handler.getFontHandler().setFontSize(style.getFontSize());
 		g2.setFont(handler.getFontHandler().getFont());

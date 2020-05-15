@@ -2,19 +2,18 @@ package com.baselet.element.facet.customdrawings;
 
 import static org.junit.Assert.assertEquals;
 
-import com.baselet.diagram.draw.helper.ColorOwnBase;
-import com.baselet.diagram.draw.helper.ColorOwnLight;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Theme;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
-import com.baselet.diagram.draw.helper.ColorOwnBase.Transparency;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 
 public class StyleOptionsTest {
 	private DummyDrawHandler drawHandler;
-	private final ColorOwnBase color = Theme.getCurrentThemeColor();
+	private final ColorOwn color = Theme.getCurrentThemeColor();
 
 	@Before
 	public void before() {
@@ -80,8 +79,8 @@ public class StyleOptionsTest {
 	 */
 	@Test
 	public void drawRectangleParametersNoDefaultUsed() {
-		ColorOwnBase fg = color.getColorMap().get(ColorOwnBase.PredefinedColors.ORANGE);
-		ColorOwnBase bg = color.getColorMap().get(ColorOwnBase.PredefinedColors.DARK_GRAY).transparency(Transparency.BACKGROUND);
+		ColorOwn fg = color.getColorMap().get(ColorOwn.PredefinedColors.ORANGE);
+		ColorOwn bg = color.getColorMap().get(ColorOwn.PredefinedColors.DARK_GRAY).transparency(Transparency.BACKGROUND);
 		LineType lt = LineType.DOUBLE_DOTTED;
 		double lw = 10;
 		drawHandler.setForegroundColor(fg);
@@ -106,8 +105,8 @@ public class StyleOptionsTest {
 	 */
 	@Test
 	public void drawRectangleParametersNoDefaultOverrideReset() {
-		ColorOwnBase fg = color.getColorMap().get(ColorOwnBase.PredefinedColors.ORANGE);
-		ColorOwnBase bg = color.getColorMap().get(ColorOwnBase.PredefinedColors.DARK_GRAY).transparency(Transparency.BACKGROUND);
+		ColorOwn fg = color.getColorMap().get(ColorOwn.PredefinedColors.ORANGE);
+		ColorOwn bg = color.getColorMap().get(ColorOwn.PredefinedColors.DARK_GRAY).transparency(Transparency.BACKGROUND);
 		LineType lt = LineType.DOUBLE_DOTTED;
 		double lw = 10;
 		drawHandler.setForegroundColor(fg);
@@ -150,14 +149,14 @@ public class StyleOptionsTest {
 	@Test
 	public void drawTextParameterFg() {
 		new CustomDrawingParserImpl("drawText(\"Das ist \\\" dfs \", 10, 20, left ) fg=red", 0, 0, drawHandler).parse();
-		ColorOwnBase red = color.getColorMap().get(ColorOwnBase.PredefinedColors.RED);
+		ColorOwn red = color.getColorMap().get(ColorOwn.PredefinedColors.RED);
 		assertEquals(DummyDrawHandler.drawTextToString("Das ist \" dfs ", 10, 20, AlignHorizontal.LEFT, red), drawHandler.getLastDrawCall());
 		checkDefaultSettingsRestored();
 	}
 
 	@Test
 	public void drawTextParameterFgFg() {
-		ColorOwnBase pink = color.getColorMap().get(ColorOwnBase.PredefinedColors.PINK);
+		ColorOwn pink = color.getColorMap().get(ColorOwn.PredefinedColors.PINK);
 		new CustomDrawingParserImpl("drawText(\"Das ist \\\" dfs \", 10, 20, left ) fg=pink fg=blue", 0, 0, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawTextToString("Das ist \" dfs ", 10, 20, AlignHorizontal.LEFT, pink), drawHandler.getLastDrawCall());
 		checkDefaultSettingsRestored();

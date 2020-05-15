@@ -16,7 +16,7 @@ import org.slf4j.Logger;import org.slf4j.LoggerFactory;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwnBase;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.facet.customdrawings.CustomDrawingParserRuntimeException;
 
 public abstract class CustomDrawingParser {
@@ -297,9 +297,9 @@ void drawText() :
 RecRunnable fg(RecRunnable inner) :
 { final String newColor;}
 {
-	<FG> newColor = ColorOwnBase() {return new RecRunnable(inner) {
+	<FG> newColor = ColorOwn() {return new RecRunnable(inner) {
 		public void run(){
-			ColorOwnBase oldColor = getDrawHandler().getForegroundColor();
+			ColorOwn oldColor = getDrawHandler().getForegroundColor();
 			getDrawHandler().setForegroundColor(newColor);
 			runInner();
 			getDrawHandler().setForegroundColor(oldColor);
@@ -313,9 +313,9 @@ RecRunnable fg(RecRunnable inner) :
 RecRunnable bg(RecRunnable inner) :
 { final String newColor;}
 {
-	<BG> newColor = ColorOwnBase() {return new RecRunnable(inner) {
+	<BG> newColor = ColorOwn() {return new RecRunnable(inner) {
 		public void run(){
-			ColorOwnBase oldColor = getDrawHandler().getBackgroundColor();
+			ColorOwn oldColor = getDrawHandler().getBackgroundColor();
 			getDrawHandler().setBackgroundColorAndKeepTransparency(newColor);
 			runInner();
 			getDrawHandler().setBackgroundColor(oldColor);
@@ -330,7 +330,7 @@ RecRunnable bg(RecRunnable inner) :
  * containing exactly 6 hexadecimal digits
  * (eg."#CAFFEE")
  */
-String ColorOwnBase() :
+String ColorOwn() :
 {}
 {
 	(
@@ -397,9 +397,9 @@ RecRunnable transparency(RecRunnable inner) :
 		}
 		return new RecRunnable(inner) {
 		public void run(){
-			ColorOwnBase oldColor = getDrawHandler().getBackgroundColor();
-			double colorTransparencyValue = 255 - transparencyVal * 2.55; /* ColorOwnBase has 0 for full transparency and 255 for no transparency */
-			ColorOwnBase bgColor = getDrawHandler().getBackgroundColor();
+			ColorOwn oldColor = getDrawHandler().getBackgroundColor();
+			double colorTransparencyValue = 255 - transparencyVal * 2.55; /* ColorOwn has 0 for full transparency and 255 for no transparency */
+			ColorOwn bgColor = getDrawHandler().getBackgroundColor();
 			getDrawHandler().setBackgroundColor(bgColor.transparency((int) colorTransparencyValue));
 			runInner();
 			getDrawHandler().setBackgroundColor(oldColor);

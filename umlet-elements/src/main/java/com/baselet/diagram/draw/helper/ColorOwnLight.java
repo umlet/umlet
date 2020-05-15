@@ -6,38 +6,38 @@ import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import java.util.HashMap;
 
-public class ColorOwnLight extends ColorOwnBase {
+public class ColorOwnLight extends ColorOwn {
     private static final Logger log = LoggerFactory.getLogger(ColorOwnLight.class);
 
-    private final ColorOwnBase RED = new ColorOwnBase(255, 0, 0, Transparency.FOREGROUND);
-    private final ColorOwnBase GREEN = new ColorOwnBase(0, 255, 0, Transparency.FOREGROUND);
-    private final ColorOwnBase BLUE = new ColorOwnBase(0, 0, 255, Transparency.FOREGROUND);
-    private final ColorOwnBase YELLOW = new ColorOwnBase(255, 255, 0, Transparency.FOREGROUND);
-    private final ColorOwnBase MAGENTA = new ColorOwnBase(255, 0, 255, Transparency.FOREGROUND);
-    private final ColorOwnBase WHITE = new ColorOwnBase(255, 255, 255, Transparency.FOREGROUND);
-    private final ColorOwnBase BLACK = new ColorOwnBase(0, 0, 0, Transparency.FOREGROUND);
-    private final ColorOwnBase ORANGE = new ColorOwnBase(255, 165, 0, Transparency.FOREGROUND);
-    private final ColorOwnBase CYAN = new ColorOwnBase(0, 255, 255, Transparency.FOREGROUND);
-    private final ColorOwnBase DARK_GRAY = new ColorOwnBase(70, 70, 70, Transparency.FOREGROUND);
-    private final ColorOwnBase GRAY = new ColorOwnBase(120, 120, 120, Transparency.FOREGROUND);
-    private final ColorOwnBase LIGHT_GRAY = new ColorOwnBase(200, 200, 200, Transparency.FOREGROUND);
-    private final ColorOwnBase PINK = new ColorOwnBase(255, 175, 175, Transparency.FOREGROUND);
+    private final ColorOwn RED = new ColorOwn(255, 0, 0, Transparency.FOREGROUND);
+    private final ColorOwn GREEN = new ColorOwn(0, 255, 0, Transparency.FOREGROUND);
+    private final ColorOwn BLUE = new ColorOwn(0, 0, 255, Transparency.FOREGROUND);
+    private final ColorOwn YELLOW = new ColorOwn(255, 255, 0, Transparency.FOREGROUND);
+    private final ColorOwn MAGENTA = new ColorOwn(255, 0, 255, Transparency.FOREGROUND);
+    private final ColorOwn WHITE = new ColorOwn(255, 255, 255, Transparency.FOREGROUND);
+    private final ColorOwn BLACK = new ColorOwn(0, 0, 0, Transparency.FOREGROUND);
+    private final ColorOwn ORANGE = new ColorOwn(255, 165, 0, Transparency.FOREGROUND);
+    private final ColorOwn CYAN = new ColorOwn(0, 255, 255, Transparency.FOREGROUND);
+    private final ColorOwn DARK_GRAY = new ColorOwn(70, 70, 70, Transparency.FOREGROUND);
+    private final ColorOwn GRAY = new ColorOwn(120, 120, 120, Transparency.FOREGROUND);
+    private final ColorOwn LIGHT_GRAY = new ColorOwn(200, 200, 200, Transparency.FOREGROUND);
+    private final ColorOwn PINK = new ColorOwn(255, 175, 175, Transparency.FOREGROUND);
 
-    private final ColorOwnBase TRANSPARENT = WHITE.transparency(Transparency.FULL_TRANSPARENT); // color white is important because EPS export doesn't support transparency, therefore background will be white
-    private final ColorOwnBase SELECTION_FG = BLUE;
-    private final ColorOwnBase SELECTION_BG = new ColorOwnBase(0, 0, 255, Transparency.SELECTION_BACKGROUND);
-    private final ColorOwnBase STICKING_POLYGON = new ColorOwnBase(100, 180, 255, Transparency.FOREGROUND);
-    private final ColorOwnBase SYNTAX_HIGHLIGHTING = new ColorOwnBase(0, 100, 255, Transparency.FOREGROUND);
-    private final ColorOwnBase DEFAULT_FOREGROUND = BLACK;
-    private final ColorOwnBase DEFAULT_BACKGROUND = TRANSPARENT;
-    private final ColorOwnBase DEFAULT_SPLITTER_COLOR = GRAY;
+    private final ColorOwn TRANSPARENT = WHITE.transparency(Transparency.FULL_TRANSPARENT); // color white is important because EPS export doesn't support transparency, therefore background will be white
+    private final ColorOwn SELECTION_FG = BLUE;
+    private final ColorOwn SELECTION_BG = new ColorOwn(0, 0, 255, Transparency.SELECTION_BACKGROUND);
+    private final ColorOwn STICKING_POLYGON = new ColorOwn(100, 180, 255, Transparency.FOREGROUND);
+    private final ColorOwn SYNTAX_HIGHLIGHTING = new ColorOwn(0, 100, 255, Transparency.FOREGROUND);
+    private final ColorOwn DEFAULT_FOREGROUND = BLACK;
+    private final ColorOwn DEFAULT_BACKGROUND = TRANSPARENT;
+    private final ColorOwn DEFAULT_SPLITTER_COLOR = GRAY;
 
     public ColorOwnLight() {
         generateColorMaps();
     }
 
     private void generateColorMaps() {
-        HashMap<PredefinedColors, ColorOwnBase> colorMap = new HashMap<PredefinedColors, ColorOwnBase>();
+        HashMap<PredefinedColors, ColorOwn> colorMap = new HashMap<PredefinedColors, ColorOwn>();
         colorMap.put(PredefinedColors.BLACK, BLACK);
         colorMap.put(PredefinedColors.BLUE, BLUE);
         colorMap.put(PredefinedColors.CYAN, CYAN);
@@ -55,7 +55,7 @@ public class ColorOwnLight extends ColorOwnBase {
         colorMap.put(PredefinedColors.NONE, TRANSPARENT);
         this.colorMap = Collections.unmodifiableMap(colorMap);
 
-        HashMap<ColorStyle, ColorOwnBase> styleColorMap = new HashMap<ColorStyle, ColorOwnBase>();
+        HashMap<ColorStyle, ColorOwn> styleColorMap = new HashMap<ColorStyle, ColorOwn>();
         styleColorMap.put(ColorStyle.SELECTION_FG, SELECTION_FG);
         styleColorMap.put(ColorStyle.SELECTION_BG, SELECTION_BG);
         styleColorMap.put(ColorStyle.STICKING_POLYGON, STICKING_POLYGON);

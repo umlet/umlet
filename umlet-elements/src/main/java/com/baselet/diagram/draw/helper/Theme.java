@@ -13,7 +13,7 @@ public class Theme {
         LIGHT, DARK
     }
 
-    private static ColorOwnBase colorOwn;
+    private static ColorOwn colorOwn;
 
     private static THEMES currentTheme;
 
@@ -51,7 +51,7 @@ public class Theme {
         }
     }
 
-    public static ColorOwnBase getCurrentThemeColor() {
+    public static ColorOwn getCurrentThemeColor() {
         if (colorOwn == null) {
             changeTheme(THEMES.LIGHT);
         }

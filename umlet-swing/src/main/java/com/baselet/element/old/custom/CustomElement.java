@@ -29,9 +29,8 @@ import com.baselet.control.enums.LineType;
 import com.baselet.control.util.Utils;
 import com.baselet.custom.CustomFunction;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.helper.ColorOwnBase;
-import com.baselet.diagram.draw.helper.ColorOwnLight;
-import com.baselet.diagram.draw.helper.ColorOwnBase.Transparency;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Theme;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.OldGridElement;
@@ -117,18 +116,18 @@ public abstract class CustomElement extends OldGridElement {
 		g2.setComposite(composites[0]);
 		g2.setColor(fgColor);
 
-		ColorOwnBase currentColor = Theme.getCurrentThemeColor();
+		ColorOwn currentColor = Theme.getCurrentThemeColor();
 
 		for (StyleShape s : shapes) {
 			specialLine = s.getLineType() != LineType.SOLID || s.getLineThickness() != FacetConstants.LINE_WIDTH_DEFAULT;
-			specialFgColor = !s.getFgColor().equals(Converter.convert(currentColor.getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_FOREGROUND)));
+			specialFgColor = !s.getFgColor().equals(Converter.convert(currentColor.getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_FOREGROUND)));
 
 			if (specialLine) {
 				g2.setStroke(Utils.getStroke(s.getLineType(), s.getLineThickness()));
 			}
 			if (specialFgColor) {
 				if (HandlerElementMap.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
-					g2.setColor(Converter.convert(currentColor.getStyleColorMap().get(ColorOwnBase.ColorStyle.SELECTION_FG)));
+					g2.setColor(Converter.convert(currentColor.getStyleColorMap().get(ColorOwn.ColorStyle.SELECTION_FG)));
 				}
 				else {
 					g2.setColor(s.getFgColor());
