@@ -6,8 +6,8 @@ import java.util.List;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.enums.ElementId;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwnBase;
-import com.baselet.diagram.draw.helper.ColorOwnBase.Transparency;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.diagram.draw.helper.Theme;
 import com.baselet.element.NewGridElement;
@@ -50,10 +50,10 @@ public class Deployment extends NewGridElement {
 		PointDouble pLine = new PointDouble(w - BORDER, BORDER);
 		// Fill 3d-rectangle
 		Style oldStyle = drawer.getStyleClone();
-		ColorOwnBase currentColor = Theme.getCurrentThemeColor();
-		drawer.setForegroundColor(currentColor.getColorMap().get(ColorOwnBase.PredefinedColors.TRANSPARENT));
-		if (oldStyle.getBackgroundColor() == currentColor.getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND)) {
-			drawer.setBackgroundColor(currentColor.getColorMap().get(ColorOwnBase.PredefinedColors.WHITE).transparency(Transparency.BACKGROUND).darken(80));
+		ColorOwn currentColor = Theme.getCurrentThemeColor();
+		drawer.setForegroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.TRANSPARENT));
+		if (oldStyle.getBackgroundColor() == currentColor.getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_BACKGROUND)) {
+			drawer.setBackgroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.WHITE).transparency(Transparency.BACKGROUND).darken(80));
 		}
 		else {
 			drawer.setBackgroundColor(oldStyle.getBackgroundColor().darken(80));

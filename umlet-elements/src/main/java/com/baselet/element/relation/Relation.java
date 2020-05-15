@@ -13,8 +13,8 @@ import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Direction;
 import com.baselet.control.enums.ElementId;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwnBase;
-import com.baselet.diagram.draw.helper.ColorOwnBase.Transparency;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Theme;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.UndoInformation;
@@ -50,19 +50,19 @@ public class Relation extends NewGridElement implements Stickable, RelationPoint
 
 	@Override
 	protected void resetAndDrawMetaDrawerContent(DrawHandler drawer) {
-		ColorOwnBase currentColor = Theme.getCurrentThemeColor();
+		ColorOwn currentColor = Theme.getCurrentThemeColor();
 		drawer.clearCache();
-		drawer.setBackgroundColor(currentColor.getStyleColorMap().get(ColorOwnBase.ColorStyle.SELECTION_BG));
+		drawer.setBackgroundColor(currentColor.getStyleColorMap().get(ColorOwn.ColorStyle.SELECTION_BG));
 
 		// draw rectangle around whole element (basically a helper for developers to make sure the (invisible) size of the element is correct)
 		if (SharedConfig.getInstance().isDev_mode()) {
-			drawer.setForegroundColor(currentColor.getColorMap().get(ColorOwnBase.PredefinedColors.TRANSPARENT));
+			drawer.setForegroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.TRANSPARENT));
 			drawer.drawRectangle(0, 0, getRealSize().getWidth(), getRealSize().getHeight());
-			drawer.setBackgroundColor(currentColor.getColorMap().get(ColorOwnBase.PredefinedColors.GREEN).transparency(Transparency.BACKGROUND));
+			drawer.setBackgroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.GREEN).transparency(Transparency.BACKGROUND));
 			relationPoints.drawSelectionSpace(drawer);
 		}
 
-		drawer.setForegroundColor(currentColor.getStyleColorMap().get(ColorOwnBase.ColorStyle.SELECTION_FG));
+		drawer.setForegroundColor(currentColor.getStyleColorMap().get(ColorOwn.ColorStyle.SELECTION_FG));
 		relationPoints.drawCirclesAndDragBox(drawer);
 	}
 

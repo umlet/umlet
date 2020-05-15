@@ -16,7 +16,7 @@ import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.FormatLabels;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.helper.*;
-import com.baselet.diagram.draw.helper.ColorOwnBase.Transparency;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 
 public abstract class DrawHandler {
 
@@ -66,7 +66,7 @@ public abstract class DrawHandler {
 
 	public void drawAll(boolean isSelected) {
 		if (isSelected) {
-			overlay.setForegroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.SELECTION_FG));
+			overlay.setForegroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.SELECTION_FG));
 		}
 		else {
 			overlay.setForegroundColor(null);
@@ -130,16 +130,16 @@ public abstract class DrawHandler {
 
 	public final void setForegroundColor(String color) {
 		if (color.equals(FacetConstants.FOREGROUND_COLOR_KEY)) {
-			setForegroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_FOREGROUND));
+			setForegroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_FOREGROUND));
 		}
 		else {
 			setForegroundColor(Theme.getCurrentThemeColor().forString(color, Transparency.FOREGROUND)); // if fgColor is not a valid string null will be set
 		}
 	}
 
-	public final void setForegroundColor(ColorOwnBase color) {
+	public final void setForegroundColor(ColorOwn color) {
 		if (color == null) {
-			style.setForegroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_FOREGROUND));
+			style.setForegroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_FOREGROUND));
 		}
 		else {
 			style.setForegroundColor(color);
@@ -148,32 +148,32 @@ public abstract class DrawHandler {
 
 	public final void setBackgroundColorAndKeepTransparency(String color) {
 		if (color.equals(FacetConstants.BACKGROUND_COLOR_KEY)) {
-			setBackgroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND));
+			setBackgroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_BACKGROUND));
 		}
 		else {
 			// #295: if bg is the default, use background transparency, but if bg has been set reuse its transparency (otherwise transparency= would only work if the line comes after bg=)
-			ColorOwnBase currentColor = Theme.getCurrentThemeColor();
-			ColorOwnBase oldBg = getBackgroundColor();
-			ColorOwnBase defaultBg = currentColor.getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND);
+			ColorOwn currentColor = Theme.getCurrentThemeColor();
+			ColorOwn oldBg = getBackgroundColor();
+			ColorOwn defaultBg = currentColor.getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_BACKGROUND);
 			int newAlpha = oldBg == defaultBg ? Transparency.BACKGROUND.getAlpha() : oldBg.getAlpha();
 			setBackgroundColor(currentColor.forString(color, newAlpha));
 		}
 	}
 
-	public final void setBackgroundColor(ColorOwnBase color) {
+	public final void setBackgroundColor(ColorOwn color) {
 		if (color == null) {
-			style.setBackgroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND));
+			style.setBackgroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_BACKGROUND));
 		}
 		else {
 			style.setBackgroundColor(color);
 		}
 	}
 
-	public ColorOwnBase getForegroundColor() {
+	public ColorOwn getForegroundColor() {
 		return style.getForegroundColor();
 	}
 
-	public ColorOwnBase getBackgroundColor() {
+	public ColorOwn getBackgroundColor() {
 		return style.getBackgroundColor();
 	}
 

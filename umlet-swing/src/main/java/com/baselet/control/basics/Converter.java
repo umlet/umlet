@@ -6,8 +6,7 @@ import java.awt.Cursor;
 import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
-import com.baselet.diagram.draw.helper.ColorOwnBase;
-import com.baselet.diagram.draw.helper.ColorOwnLight;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.interfaces.CursorOwn;
 
 public class Converter {
@@ -54,14 +53,14 @@ public class Converter {
 		return new Point(in.x, in.y);
 	}
 
-	public static ColorOwnBase convert(Color in) {
+	public static ColorOwn convert(Color in) {
 		if (in == null) {
 			return null;
 		}
-		return new ColorOwnBase(in.getRed(), in.getGreen(), in.getBlue(), in.getAlpha());
+		return new ColorOwn(in.getRed(), in.getGreen(), in.getBlue(), in.getAlpha());
 	}
 
-	public static Color convert(ColorOwnBase in) {
+	public static Color convert(ColorOwn in) {
 		if (in == null) {
 			return null;
 		}

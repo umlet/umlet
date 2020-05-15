@@ -6,14 +6,13 @@ import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.control.constants.FacetConstants;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
-import com.baselet.diagram.draw.helper.ColorOwnBase;
-import com.baselet.diagram.draw.helper.ColorOwnLight;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Theme;
 
 public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 
-	public static final ColorOwnBase defaultBg = Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_BACKGROUND);
-	public static final ColorOwnBase defaultFg = Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwnBase.ColorStyle.DEFAULT_FOREGROUND);
+	public static final ColorOwn defaultBg = Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_BACKGROUND);
+	public static final ColorOwn defaultFg = Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_FOREGROUND);
 	public static final LineType defaultLineType = LineType.SOLID;
 	public static final double defaultLineWidth = FacetConstants.LINE_WIDTH_DEFAULT;
 
@@ -104,7 +103,7 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 	 * @param lw if null, default value is taken
 	 * @return the string representation of this DrawHandler call.
 	 */
-	public static String drawArcToString(double x, double y, double width, double height, double start, double extent, boolean open, ColorOwnBase fg, ColorOwnBase bg, LineType lt, Double lw) {
+	public static String drawArcToString(double x, double y, double width, double height, double start, double extent, boolean open, ColorOwn fg, ColorOwn bg, LineType lt, Double lw) {
 		if (fg == null) {
 			fg = defaultFg;
 		}
@@ -132,7 +131,7 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 	 * @param lw if null, default value is taken
 	 * @return the string representation of this DrawHandler call.
 	 */
-	public static String drawCircleToString(double x, double y, double radius, ColorOwnBase fg, ColorOwnBase bg, LineType lt, Double lw) {
+	public static String drawCircleToString(double x, double y, double radius, ColorOwn fg, ColorOwn bg, LineType lt, Double lw) {
 		if (fg == null) {
 			fg = defaultFg;
 		}
@@ -161,7 +160,7 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 	 * @param lw if null, default value is taken
 	 * @return the string representation of this DrawHandler call.
 	 */
-	public static String drawEllipseToString(double x, double y, double width, double height, ColorOwnBase fg, ColorOwnBase bg, LineType lt, Double lw) {
+	public static String drawEllipseToString(double x, double y, double width, double height, ColorOwn fg, ColorOwn bg, LineType lt, Double lw) {
 		if (fg == null) {
 			fg = defaultFg;
 		}
@@ -189,7 +188,7 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 	 * @param lw if null, default value is taken
 	 * @return the string representation of this DrawHandler call.
 	 */
-	public static String drawLineToString(double x1, double y1, double x2, double y2, ColorOwnBase fg, LineType lt, Double lw) {
+	public static String drawLineToString(double x1, double y1, double x2, double y2, ColorOwn fg, LineType lt, Double lw) {
 		if (fg == null) {
 			fg = defaultFg;
 		}
@@ -215,7 +214,7 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 	 * @param lw if null, default value is taken
 	 * @return the string representation of this DrawHandler call.
 	 */
-	public static String drawRectangleToString(double x, double y, double width, double height, ColorOwnBase fg, ColorOwnBase bg, LineType lt, Double lw) {
+	public static String drawRectangleToString(double x, double y, double width, double height, ColorOwn fg, ColorOwn bg, LineType lt, Double lw) {
 		if (fg == null) {
 			fg = defaultFg;
 		}
@@ -245,7 +244,7 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 	 * @param lw if null, default value is taken
 	 * @return the string representation of this DrawHandler call.
 	 */
-	public static String drawRectangleRoundToString(double x, double y, double width, double height, double radius, ColorOwnBase fg, ColorOwnBase bg, LineType lt, Double lw) {
+	public static String drawRectangleRoundToString(double x, double y, double width, double height, double radius, ColorOwn fg, ColorOwn bg, LineType lt, Double lw) {
 		if (fg == null) {
 			fg = defaultFg;
 		}
@@ -270,7 +269,7 @@ public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 	 * @param fg if null, default value is taken
 	 * @return the string representation of this DrawHandler call.
 	 */
-	public static String drawTextToString(String text, double x, double y, AlignHorizontal align, ColorOwnBase fg) {
+	public static String drawTextToString(String text, double x, double y, AlignHorizontal align, ColorOwn fg) {
 		if (fg == null) {
 			fg = defaultFg;
 		}

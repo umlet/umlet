@@ -10,9 +10,8 @@ import com.baselet.control.basics.geom.Dimension;
 import com.baselet.control.basics.geom.Point;
 import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwnBase;
-import com.baselet.diagram.draw.helper.ColorOwnLight;
-import com.baselet.diagram.draw.helper.ColorOwnBase.Transparency;
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Theme;
 
 public class PlotDrawHandler {
@@ -276,7 +275,7 @@ public class PlotDrawHandler {
 		}
 
 		drawGraylines(xpoints, ypoints);
-		base.setForegroundColor(Theme.getCurrentThemeColor().getColorMap().get(ColorOwnBase.PredefinedColors.BLACK).transparency(Transparency.FOREGROUND));
+		base.setForegroundColor(Theme.getCurrentThemeColor().getColorMap().get(ColorOwn.PredefinedColors.BLACK).transparency(Transparency.FOREGROUND));
 		drawAxisLine();
 		drawMarkers(xpoints, ypoints);
 		drawMarkerTexts(xpoints, xtext, ypoints, ytext);
@@ -303,7 +302,7 @@ public class PlotDrawHandler {
 	}
 
 	private void drawGraylines(List<Integer> xpoints, List<Integer> ypoints) {
-		base.setForegroundColor(Theme.getCurrentThemeColor().getColorMap().get(ColorOwnBase.PredefinedColors.BLACK).transparency(Transparency.SELECTION_BACKGROUND));
+		base.setForegroundColor(Theme.getCurrentThemeColor().getColorMap().get(ColorOwn.PredefinedColors.BLACK).transparency(Transparency.SELECTION_BACKGROUND));
 		boolean drawVerticalGraylines = axisConfig.isxDescription() && axisConfig.drawDescriptionAxisMarkerGrayline() || !axisConfig.isxDescription() && axisConfig.drawValueAxisMarkerGrayline();
 		boolean drawHorizontalGraylines = !axisConfig.isxDescription() && axisConfig.drawDescriptionAxisMarkerGrayline() || axisConfig.isxDescription() && axisConfig.drawValueAxisMarkerGrayline();
 		if (drawVerticalGraylines) {
@@ -349,7 +348,7 @@ public class PlotDrawHandler {
 	}
 
 	private final void drawLineOrPoints(boolean xIsDescription, Double[][] values, int sourceAxisPos, int valueAxisPos, Double valueSegment, int descSegment, List<String> colors, boolean line) {
-		ColorOwnBase currentColor = Theme.getCurrentThemeColor();
+		ColorOwn currentColor = Theme.getCurrentThemeColor();
 		int cIndex = 0;
 		for (int valueIndex = 0; valueIndex < values.length; valueIndex++) {
 			Double[] vArray = values[valueIndex];
@@ -406,7 +405,7 @@ public class PlotDrawHandler {
 				if (cIndex >= colors.size()) {
 					cIndex = 0; // Restart with first color if all colors in the array has been used
 				}
-				base.setForegroundColor(Theme.getCurrentThemeColor().getColorMap().get(ColorOwnBase.PredefinedColors.TRANSPARENT));
+				base.setForegroundColor(Theme.getCurrentThemeColor().getColorMap().get(ColorOwn.PredefinedColors.TRANSPARENT));
 				base.setBackgroundColorAndKeepTransparency(colors.get(cIndex));
 
 				barLength = (int) calculateValuePos(v, valueSegment);
@@ -464,7 +463,7 @@ public class PlotDrawHandler {
 	}
 
 	private final void drawPieArcs(Double[] values, String[] desc, Point ulCorner, int diameter, Double valueSum, List<String> colors) {
-		ColorOwnBase currentColor = Theme.getCurrentThemeColor();
+		ColorOwn currentColor = Theme.getCurrentThemeColor();
 		int cIndex = 0;
 
 		Double arcAngle = 0D;
@@ -474,8 +473,8 @@ public class PlotDrawHandler {
 			if (cIndex >= colors.size()) {
 				cIndex = 0; // Restart with first color if all colors in the array has been used
 			}
-			ColorOwnBase currentFg = base.getForegroundColor();
-			base.setForegroundColor(currentColor.getColorMap().get(ColorOwnBase.PredefinedColors.TRANSPARENT));
+			ColorOwn currentFg = base.getForegroundColor();
+			base.setForegroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.TRANSPARENT));
 			base.setBackgroundColorAndKeepTransparency(colors.get(cIndex));
 
 			arcAngle = i < values.length - 1 ? Math.round(360.0 / valueSum * Math.abs(values[i])) : 360 - startAngle;

@@ -1,13 +1,13 @@
 package com.baselet.gwt.client.base;
 
-import com.baselet.diagram.draw.helper.ColorOwnBase;
+import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.element.interfaces.CursorOwn;
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.dom.client.Style;
 
 public class Converter {
 
-	public static CssColor convert(ColorOwnBase in) {
+	public static CssColor convert(ColorOwn in) {
 		if (in == null) {
 			return null;
 		}

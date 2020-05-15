@@ -3,7 +3,7 @@ package com.baselet.element.elementnew.plot.elements;
 import java.util.List;
 
 import com.baselet.diagram.draw.DrawHandler;
-import com.baselet.diagram.draw.helper.ColorOwnBase.Transparency;
+import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Theme;
 import com.baselet.element.elementnew.plot.drawer.AxisConfig;
 import com.baselet.element.elementnew.plot.drawer.PlotDrawHandler;
