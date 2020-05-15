@@ -11,6 +11,7 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.DrawHandler.Layer;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Theme;
+import com.baselet.diagram.draw.helper.ThemeFactory;
 import com.baselet.element.draw.DrawHelper;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.KeyValueFacet;
@@ -67,7 +68,7 @@ public class HierarchyFacet extends Facet {
 		DrawHandler drawer = state.getDrawer();
 		drawer.setLayer(Layer.Foreground);
 		ColorOwn bgBefore = drawer.getBackgroundColor();
-		drawer.setBackgroundColor(Theme.getCurrentThemeColor().getColorMap().get(ColorOwn.PredefinedColors.TRANSPARENT));
+		drawer.setBackgroundColor(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.TRANSPARENT));
 		String lineWithoutTabs = line.replace("\t", "");
 		int tabCount = line.length() - lineWithoutTabs.length();
 		int border = 10;

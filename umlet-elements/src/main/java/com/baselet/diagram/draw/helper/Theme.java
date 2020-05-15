@@ -1,77 +1,79 @@
 package com.baselet.diagram.draw.helper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Map;
 
-import java.util.ArrayList;
-import java.util.List;
+public abstract class Theme {
+    public static final String EXAMPLE_TEXT = "color string (green,...) or code (#3c7a00,...)";
 
-public class Theme {
-    private static final Logger log = LoggerFactory.getLogger(Theme.class);
-
-    public enum THEMES {
-        LIGHT, DARK
+    public enum PredefinedColors {
+        RED, GREEN, BLUE, YELLOW, MAGENTA, WHITE, BLACK, ORANGE, CYAN, DARK_GRAY, GRAY, LIGHT_GRAY, PINK, TRANSPARENT, NONE
     }
 
-    private static ColorOwn colorOwn;
-
-    private static THEMES currentTheme;
-
-    private static final List<ThemeChangeListener> listeners;
-
-    static {
-        exportChangeTheme();
-        listeners = new ArrayList<ThemeChangeListener>();
-        changeTheme(getTheme());
+    public enum ColorStyle {
+        SELECTION_FG, SELECTION_BG, STICKING_POLYGON, SYNTAX_HIGHLIGHTING, DEFAULT_FOREGROUND, DEFAULT_BACKGROUND, DEFAULT_SPLITTER_COLOR
     }
 
-    private static void changeTheme(String themeString) {
-        changeTheme(THEMES.valueOf(themeString));
-    }
+    protected Map<PredefinedColors, ColorOwn> colorMap;
+    protected Map<ColorStyle, ColorOwn> styleColorMap;
 
-    public static void changeTheme(THEMES theme) {
-        if (theme.equals(currentTheme)) {
-            return;
-        }
-        switch (theme) {
-            case DARK:
-                currentTheme = theme;
-                colorOwn = new ColorOwnDark();
-                break;
-            case LIGHT:
-                currentTheme = theme;
-                colorOwn = new ColorOwnLight();
-                break;
-            default:
-                currentTheme = THEMES.LIGHT;
-                colorOwn = new ColorOwnLight();
-        }
-        for (ThemeChangeListener listener : listeners) {
-            listener.onThemeChange();
+    /**
+     * Converts colorString into a Color which is available in the colorMap or if not tries to decode the colorString
+     *
+     * @param colorString String which describes the color
+     * @return Color which is related to the String or null if it is no valid colorString
+     */
+    public ColorOwn forStringOrNull(String colorString, ColorOwn.Transparency transparency) {
+        try {
+            return forString(colorString, transparency);
+        } catch (StyleException e) {
+            return null;
         }
     }
 
-    public static ColorOwn getCurrentThemeColor() {
-        if (colorOwn == null) {
-            changeTheme(THEMES.LIGHT);
+    public ColorOwn forString(String colorString, ColorOwn.Transparency transparency) {
+        return forString(colorString, transparency.getAlpha());
+    }
+
+    /**
+     * Converts colorString into a Color which is available in the colorMap or if not tries to decode the colorString
+     *
+     * @param colorString String which describes the color
+     * @return Color which is related to the String or null if it is no valid colorString
+     */
+    public ColorOwn forString(String colorString, int transparency) {
+        boolean error = false;
+        ColorOwn returnColor = null;
+        if (colorString == null) {
+            error = true;
+        } else {
+            for (Map.Entry<PredefinedColors, ColorOwn> c : colorMap.entrySet()) {
+                if (colorString.equalsIgnoreCase(c.getKey().toString())) {
+                    returnColor = c.getValue();
+                    break;
+                }
+            }
+            if (returnColor == null) {
+                try {
+                    returnColor = new ColorOwn(colorString);
+                } catch (NumberFormatException e) {
+                    error = true;
+                }
+            }
+            if (returnColor != null) {
+                returnColor = returnColor.transparency(transparency);
+            }
         }
-        return colorOwn;
+        if (error) {
+            throw new StyleException("value must be a " + EXAMPLE_TEXT);
+        }
+        return returnColor;
     }
 
-    public static THEMES getCurrentTheme() {
-        return currentTheme;
+    public Map<PredefinedColors, ColorOwn> getColorMap() {
+        return colorMap;
     }
 
-    public static void addListener(ThemeChangeListener listener) {
-        listeners.add(listener);
+    public Map<ColorStyle, ColorOwn> getStyleColorMap() {
+        return styleColorMap;
     }
-
-    private static native String getTheme() /*-{
-        return $wnd.theme;
-    }-*/;
-
-    public static native void exportChangeTheme() /*-{
-        $wnd.changeTheme =
-            $entry(@com.baselet.diagram.draw.helper.Theme::changeTheme(Ljava/lang/String;));
-    }-*/;
 }

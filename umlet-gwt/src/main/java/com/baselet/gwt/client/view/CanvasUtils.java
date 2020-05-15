@@ -2,9 +2,9 @@ package com.baselet.gwt.client.view;
 
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
-import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Theme;
+import com.baselet.diagram.draw.helper.ThemeFactory;
 import com.baselet.element.GridElementUtils;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.gwt.client.base.Converter;
@@ -16,19 +16,19 @@ public class CanvasUtils {
     private static final int EXPORT_BORDER = 10;
 
     public static String createPngCanvasDataUrl(Diagram diagram) {
-        Theme.changeTheme(Theme.THEMES.LIGHT);
+        ThemeFactory.changeTheme(ThemeFactory.THEMES.LIGHT);
         DrawCanvas pngCanvas = new DrawCanvas();
         // Calculate and set canvas width
         Rectangle geRect = GridElementUtils.getGridElementsRectangle(diagram.getGridElements());
         geRect.addBorder(EXPORT_BORDER);
         pngCanvas.clearAndSetSize(geRect.getWidth(), geRect.getHeight());
         // Fill Canvas white
-        pngCanvas.getContext2d().setFillStyle(Converter.convert(Theme.getCurrentThemeColor().getColorMap().get(ColorOwn.PredefinedColors.WHITE)));
+        pngCanvas.getContext2d().setFillStyle(Converter.convert(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.WHITE)));
         pngCanvas.getContext2d().fillRect(0, 0, pngCanvas.getWidth(), pngCanvas.getHeight());
         // Draw Elements on Canvas and translate their position
         pngCanvas.getContext2d().translate(-geRect.getX(), -geRect.getY());
         pngCanvas.draw(false, diagram.getGridElementsByLayerLowestToHighest(), new SelectorNew(diagram)); // use a new selector which has nothing selected
-        Theme.changeTheme(Theme.THEMES.DARK);
+        ThemeFactory.changeTheme(ThemeFactory.THEMES.DARK);
         return pngCanvas.toDataUrl("image/png");
     }
 
@@ -42,7 +42,7 @@ public class CanvasUtils {
             int width = gridCanvas.getCoordinateSpaceWidth();
             int height = gridCanvas.getCoordinateSpaceHeight();
             Context2d backgroundContext = gridCanvas.getContext2d();
-            backgroundContext.setStrokeStyle(Converter.convert(Theme.getCurrentThemeColor().getColorMap().get(ColorOwn.PredefinedColors.BLACK).transparency(Transparency.SELECTION_BACKGROUND)));
+            backgroundContext.setStrokeStyle(Converter.convert(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.BLACK).transparency(Transparency.SELECTION_BACKGROUND)));
             for (int i = 0; i < width; i += SharedConstants.DEFAULT_GRID_SIZE) {
                 drawLine(backgroundContext, i, 0, i, height);
             }

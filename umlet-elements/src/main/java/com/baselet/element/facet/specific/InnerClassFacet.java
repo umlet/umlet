@@ -10,6 +10,7 @@ import com.baselet.control.enums.AlignVertical;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Theme;
+import com.baselet.diagram.draw.helper.ThemeFactory;
 import com.baselet.element.facet.Alignment;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -51,7 +52,7 @@ public class InnerClassFacet extends Facet {
 			XValues xLimit = state.getXLimits(height);
 
 			ColorOwn oldColor = drawer.getBackgroundColor();
-			drawer.setBackgroundColor(Theme.getCurrentThemeColor().getColorMap().get(ColorOwn.PredefinedColors.TRANSPARENT));
+			drawer.setBackgroundColor(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.TRANSPARENT));
 			drawer.drawRectangle(xLimit.getLeft(), start, xLimit.getSpace(), height);
 			drawer.setBackgroundColor(oldColor);
 

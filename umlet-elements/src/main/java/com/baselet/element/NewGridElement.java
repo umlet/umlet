@@ -11,6 +11,7 @@ import java.util.Vector;
 
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Theme;
+import com.baselet.diagram.draw.helper.ThemeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -124,7 +125,7 @@ public abstract class NewGridElement implements GridElement {
 	}
 
 	protected void drawError(DrawHandler drawer, String errorText) {
-		ColorOwn red = Theme.getCurrentThemeColor().getColorMap().get(ColorOwn.PredefinedColors.RED);
+		ColorOwn red = ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.RED);
 
 		drawer.setEnableDrawing(true);
 		drawer.setForegroundColor(red);
@@ -151,14 +152,14 @@ public abstract class NewGridElement implements GridElement {
 	protected abstract void drawCommonContent(PropertiesParserState state);
 
 	protected void resetAndDrawMetaDrawerContent(DrawHandler drawer) {
-		ColorOwn currentColor = Theme.getCurrentThemeColor();
+		Theme currentTheme = ThemeFactory.getCurrentTheme();
 
 		drawer.clearCache();
-		drawer.setForegroundColor(currentColor.getStyleColorMap().get(ColorOwn.ColorStyle.SELECTION_FG));
-		drawer.setBackgroundColor(currentColor.getStyleColorMap().get(ColorOwn.ColorStyle.SELECTION_BG));
+		drawer.setForegroundColor(currentTheme.getStyleColorMap().get(Theme.ColorStyle.SELECTION_FG));
+		drawer.setBackgroundColor(currentTheme.getStyleColorMap().get(Theme.ColorStyle.SELECTION_BG));
 		drawer.drawRectangle(0, 0, getRealSize().width, getRealSize().height);
 		if (SharedConfig.getInstance().isDev_mode()) {
-			drawer.setForegroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.BLACK));
+			drawer.setForegroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.BLACK));
 			drawer.setFontSize(10.5);
 			drawer.print(getId().toString(), new PointDouble(getRealSize().width - 3, getRealSize().height - 2), AlignHorizontal.RIGHT);
 		}
@@ -259,8 +260,8 @@ public abstract class NewGridElement implements GridElement {
 		Rectangle rect = new Rectangle(0, 0, getRealSize().width, getRealSize().height);
 		StickingPolygon poly = this.generateStickingBorder(rect);
 		drawer.setLineType(LineType.DASHED);
-		drawer.setForegroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.STICKING_POLYGON));
-		drawer.setBackgroundColor(Theme.getCurrentThemeColor().getColorMap().get(ColorOwn.PredefinedColors.TRANSPARENT));
+		drawer.setForegroundColor(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.STICKING_POLYGON));
+		drawer.setBackgroundColor(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.TRANSPARENT));
 		Vector<? extends Line> lines = poly.getStickLines();
 		drawer.drawLines(lines.toArray(new Line[lines.size()]));
 		drawer.setLineType(LineType.SOLID);

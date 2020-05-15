@@ -6,15 +6,17 @@ import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import java.util.HashMap;
 
-public class ColorOwnDark extends ColorOwn {
+import static com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+
+public class ColorOwnDark extends Theme {
     private static final Logger log = LoggerFactory.getLogger(ColorOwnDark.class);
 
     private final ColorOwn RED = new ColorOwn(220, 0, 0, Transparency.FOREGROUND);
     private final ColorOwn GREEN = new ColorOwn(0, 220, 0, Transparency.FOREGROUND);
     private final ColorOwn BLUE = new ColorOwn(0, 0, 220, Transparency.FOREGROUND);
     private final ColorOwn YELLOW = new ColorOwn(100, 100, 0, Transparency.FOREGROUND);
-    private final ColorOwn MAGENTA = new ColorOwn(100, 0, 100, Transparency.FOREGROUND);
-    private final ColorOwn WHITE = new ColorOwn(255, 255, 255, Transparency.FOREGROUND);
+    private final ColorOwn MAGENTA = new ColorOwn(100, 0, 100, ColorOwn.Transparency.FOREGROUND);
+    private final ColorOwn WHITE = new ColorOwn(255, 255, 255, ColorOwn.Transparency.FOREGROUND);
     private final ColorOwn BLACK = new ColorOwn(40, 40, 40, Transparency.FOREGROUND);
     private final ColorOwn ORANGE = new ColorOwn(175, 117, 0, Transparency.FOREGROUND);
     private final ColorOwn CYAN = new ColorOwn(0, 100, 100, Transparency.FOREGROUND);
@@ -37,7 +39,7 @@ public class ColorOwnDark extends ColorOwn {
     }
 
     private void generateColorMaps() {
-        HashMap<PredefinedColors, ColorOwn> colorMap = new HashMap<PredefinedColors, ColorOwn>();
+        HashMap<Theme.PredefinedColors, ColorOwn> colorMap = new HashMap<PredefinedColors, ColorOwn>();
         colorMap.put(PredefinedColors.BLACK, BLACK);
         colorMap.put(PredefinedColors.BLUE, BLUE);
         colorMap.put(PredefinedColors.CYAN, CYAN);
