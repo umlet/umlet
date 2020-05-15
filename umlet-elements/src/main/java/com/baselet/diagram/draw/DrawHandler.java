@@ -66,7 +66,7 @@ public abstract class DrawHandler {
 
 	public void drawAll(boolean isSelected) {
 		if (isSelected) {
-			overlay.setForegroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.SELECTION_FG));
+			overlay.setForegroundColor(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.SELECTION_FG));
 		}
 		else {
 			overlay.setForegroundColor(null);
@@ -130,16 +130,16 @@ public abstract class DrawHandler {
 
 	public final void setForegroundColor(String color) {
 		if (color.equals(FacetConstants.FOREGROUND_COLOR_KEY)) {
-			setForegroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_FOREGROUND));
+			setForegroundColor(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_FOREGROUND));
 		}
 		else {
-			setForegroundColor(Theme.getCurrentThemeColor().forString(color, Transparency.FOREGROUND)); // if fgColor is not a valid string null will be set
+			setForegroundColor(ThemeFactory.getCurrentTheme().forString(color, Transparency.FOREGROUND)); // if fgColor is not a valid string null will be set
 		}
 	}
 
 	public final void setForegroundColor(ColorOwn color) {
 		if (color == null) {
-			style.setForegroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_FOREGROUND));
+			style.setForegroundColor(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_FOREGROUND));
 		}
 		else {
 			style.setForegroundColor(color);
@@ -148,21 +148,21 @@ public abstract class DrawHandler {
 
 	public final void setBackgroundColorAndKeepTransparency(String color) {
 		if (color.equals(FacetConstants.BACKGROUND_COLOR_KEY)) {
-			setBackgroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_BACKGROUND));
+			setBackgroundColor(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_BACKGROUND));
 		}
 		else {
 			// #295: if bg is the default, use background transparency, but if bg has been set reuse its transparency (otherwise transparency= would only work if the line comes after bg=)
-			ColorOwn currentColor = Theme.getCurrentThemeColor();
+			Theme currentTheme = ThemeFactory.getCurrentTheme();
 			ColorOwn oldBg = getBackgroundColor();
-			ColorOwn defaultBg = currentColor.getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_BACKGROUND);
+			ColorOwn defaultBg = currentTheme.getStyleColorMap().get(Theme.ColorStyle.DEFAULT_BACKGROUND);
 			int newAlpha = oldBg == defaultBg ? Transparency.BACKGROUND.getAlpha() : oldBg.getAlpha();
-			setBackgroundColor(currentColor.forString(color, newAlpha));
+			setBackgroundColor(currentTheme.forString(color, newAlpha));
 		}
 	}
 
 	public final void setBackgroundColor(ColorOwn color) {
 		if (color == null) {
-			style.setBackgroundColor(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_BACKGROUND));
+			style.setBackgroundColor(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_BACKGROUND));
 		}
 		else {
 			style.setBackgroundColor(color);

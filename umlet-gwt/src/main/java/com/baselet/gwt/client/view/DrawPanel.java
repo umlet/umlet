@@ -16,7 +16,7 @@ import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.MenuConstants;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Direction;
-import com.baselet.diagram.draw.helper.Theme;
+import com.baselet.diagram.draw.helper.ThemeFactory;
 import com.baselet.diagram.draw.helper.ThemeChangeListener;
 import com.baselet.element.GridElementUtils;
 import com.baselet.element.Selector;
@@ -34,7 +34,6 @@ import com.baselet.gwt.client.view.interfaces.HasScrollPanel;
 import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.MenuPopup.MenuPopupItem;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.HasMouseOutHandlers;
@@ -117,7 +116,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		elementContextMenu = new MenuPopup(elementItems);
 
 		this.add(canvas.getWidget());
-		Theme.addListener(this);
+		ThemeFactory.addListener(this);
 	}
 
 

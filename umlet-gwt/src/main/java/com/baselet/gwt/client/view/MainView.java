@@ -1,7 +1,7 @@
 package com.baselet.gwt.client.view;
 
-import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Theme;
+import com.baselet.diagram.draw.helper.ThemeFactory;
 import com.baselet.diagram.draw.helper.ThemeChangeListener;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.view.VersionChecker.Version;
@@ -200,7 +200,7 @@ public class MainView extends Composite implements ThemeChangeListener {
 		diagramScrollPanel = new AutoResizeScrollDropPanel(diagramPanel);
 		paletteScrollPanel = new AutoResizeScrollDropPanel(palettePanel);
 		updateNotificationPosition();
-		Theme.addListener(this);
+		ThemeFactory.addListener(this);
 
 		for (String diagramName : WebStorage.getSavedDiagramKeys()) {
 			addRestoreMenuItem(diagramName);
@@ -360,9 +360,9 @@ public class MainView extends Composite implements ThemeChangeListener {
 
 	@Override
 	public void onThemeChange() {
-		String backgroundColor = Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_BACKGROUND)).value();
-		String foregroundColor = Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_FOREGROUND)).value();
-		String splitterColor = Converter.convert(Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_SPLITTER_COLOR)).value();
+		String backgroundColor = Converter.convert(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_BACKGROUND)).value();
+		String foregroundColor = Converter.convert(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_FOREGROUND)).value();
+		String splitterColor = Converter.convert(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_SPLITTER_COLOR)).value();
 		diagramScrollPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
 		paletteScrollPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
 		paletteChooser.getElement().getStyle().setBackgroundColor(backgroundColor);

@@ -8,14 +8,14 @@ import javax.swing.Icon;
 
 import com.baselet.control.basics.Converter;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.diagram.draw.helper.Theme;
+import com.baselet.diagram.draw.helper.ThemeFactory;
 
 public class PlainColorIcon implements Icon {
 
 	private Color color;
 
 	public PlainColorIcon(String color) {
-		this.color = Converter.convert(Theme.getCurrentThemeColor().forStringOrNull(color, Transparency.FOREGROUND));
+		this.color = Converter.convert(ThemeFactory.getCurrentTheme().forStringOrNull(color, Transparency.FOREGROUND));
 	}
 
 	@Override
