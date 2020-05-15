@@ -6,6 +6,7 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Theme;
+import com.baselet.diagram.draw.helper.ThemeFactory;
 
 /**
  * <pre>
@@ -195,11 +196,11 @@ public class Canvas {
 	}
 
 	public void draw(DrawHandler baseDrawHandler) {
-		ColorOwn currentColor = Theme.getCurrentThemeColor();
-		baseDrawHandler.setBackgroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.TRANSPARENT));
-		baseDrawHandler.setForegroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.RED).transparency(Transparency.BACKGROUND));
+		Theme currentTheme = ThemeFactory.getCurrentTheme();
+		baseDrawHandler.setBackgroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.TRANSPARENT));
+		baseDrawHandler.setForegroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.RED).transparency(Transparency.BACKGROUND));
 		baseDrawHandler.drawRectangle(getOuterLeftPos(), getOuterUpPos(), getOuterRightPos() - getOuterLeftPos() - 1, getOuterDownPos() - getOuterUpPos());
-		baseDrawHandler.setForegroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.BLUE));
+		baseDrawHandler.setForegroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.BLUE));
 		baseDrawHandler.drawRectangle(getInnerLeftPos(), getInnerUpPos(), getInnerRightPos() - getInnerLeftPos(), getInnerDownPos() - getInnerUpPos());
 	}
 

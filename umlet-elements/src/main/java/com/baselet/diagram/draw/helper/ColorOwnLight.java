@@ -6,7 +6,10 @@ import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import java.util.HashMap;
 
-public class ColorOwnLight extends ColorOwn {
+import static com.baselet.diagram.draw.helper.ColorOwn.Transparency;
+
+
+public class ColorOwnLight extends Theme {
     private static final Logger log = LoggerFactory.getLogger(ColorOwnLight.class);
 
     private final ColorOwn RED = new ColorOwn(255, 0, 0, Transparency.FOREGROUND);
@@ -77,48 +80,5 @@ public class ColorOwnLight extends ColorOwn {
     /*public ColorOwnLight darken(int factor) {
         return new ColorOwnLight(Math.max(0, getRed() - factor), Math.max(0, getGreen() - factor), Math.max(0, getBlue() - factor), getAlpha());
     }*/
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + alpha;
-        result = prime * result + blue;
-        result = prime * result + green;
-        result = prime * result + red;
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        ColorOwnLight other = (ColorOwnLight) obj;
-        if (alpha != other.alpha) {
-            return false;
-        }
-        if (blue != other.blue) {
-            return false;
-        }
-        if (green != other.green) {
-            return false;
-        }
-        if (red != other.red) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "ColorOwn [red=" + red + ", green=" + green + ", blue=" + blue + ", alpha=" + alpha + "]";
-    }
 
 }

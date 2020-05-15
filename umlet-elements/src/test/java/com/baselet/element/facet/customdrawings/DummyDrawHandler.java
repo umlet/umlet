@@ -8,11 +8,12 @@ import com.baselet.control.enums.AlignHorizontal;
 import com.baselet.control.enums.LineType;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.Theme;
+import com.baselet.diagram.draw.helper.ThemeFactory;
 
 public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 
-	public static final ColorOwn defaultBg = Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_BACKGROUND);
-	public static final ColorOwn defaultFg = Theme.getCurrentThemeColor().getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_FOREGROUND);
+	public static final ColorOwn defaultBg = ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_BACKGROUND);
+	public static final ColorOwn defaultFg = ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_FOREGROUND);
 	public static final LineType defaultLineType = LineType.SOLID;
 	public static final double defaultLineWidth = FacetConstants.LINE_WIDTH_DEFAULT;
 

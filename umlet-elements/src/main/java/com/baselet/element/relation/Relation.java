@@ -16,6 +16,7 @@ import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Theme;
+import com.baselet.diagram.draw.helper.ThemeFactory;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.UndoInformation;
 import com.baselet.element.facet.PropertiesParserState;
@@ -50,19 +51,19 @@ public class Relation extends NewGridElement implements Stickable, RelationPoint
 
 	@Override
 	protected void resetAndDrawMetaDrawerContent(DrawHandler drawer) {
-		ColorOwn currentColor = Theme.getCurrentThemeColor();
+		Theme currentTheme = ThemeFactory.getCurrentTheme();
 		drawer.clearCache();
-		drawer.setBackgroundColor(currentColor.getStyleColorMap().get(ColorOwn.ColorStyle.SELECTION_BG));
+		drawer.setBackgroundColor(currentTheme.getStyleColorMap().get(Theme.ColorStyle.SELECTION_BG));
 
 		// draw rectangle around whole element (basically a helper for developers to make sure the (invisible) size of the element is correct)
 		if (SharedConfig.getInstance().isDev_mode()) {
-			drawer.setForegroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.TRANSPARENT));
+			drawer.setForegroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.TRANSPARENT));
 			drawer.drawRectangle(0, 0, getRealSize().getWidth(), getRealSize().getHeight());
-			drawer.setBackgroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.GREEN).transparency(Transparency.BACKGROUND));
+			drawer.setBackgroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.GREEN).transparency(Transparency.BACKGROUND));
 			relationPoints.drawSelectionSpace(drawer);
 		}
 
-		drawer.setForegroundColor(currentColor.getStyleColorMap().get(ColorOwn.ColorStyle.SELECTION_FG));
+		drawer.setForegroundColor(currentTheme.getStyleColorMap().get(Theme.ColorStyle.SELECTION_FG));
 		relationPoints.drawCirclesAndDragBox(drawer);
 	}
 

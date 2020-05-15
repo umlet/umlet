@@ -3,11 +3,8 @@ package com.baselet.diagram.draw.helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
-
 public class ColorOwn {
     private static final Logger log = LoggerFactory.getLogger(ColorOwn.class);
-    public static final String EXAMPLE_TEXT = "color string (green,...) or code (#3c7a00,...)";
 
     public static enum Transparency {
         FOREGROUND(255), FULL_TRANSPARENT(0), DEPRECATED_WARNING(175), BACKGROUND(125), SELECTION_BACKGROUND(20);
@@ -23,22 +20,11 @@ public class ColorOwn {
         }
     }
 
-    public enum PredefinedColors {
-        RED, GREEN, BLUE, YELLOW, MAGENTA, WHITE, BLACK, ORANGE, CYAN, DARK_GRAY, GRAY, LIGHT_GRAY, PINK, TRANSPARENT, NONE
-    }
-
-    public enum ColorStyle {
-        SELECTION_FG, SELECTION_BG, STICKING_POLYGON, SYNTAX_HIGHLIGHTING, DEFAULT_FOREGROUND, DEFAULT_BACKGROUND, DEFAULT_SPLITTER_COLOR
-    }
-
     /* fields should be final to avoid changing parts of existing color object (otherwise unexpected visible changes can happen) */
     protected final int red;
     protected final int green;
     protected final int blue;
     protected final int alpha;
-
-    protected Map<PredefinedColors, ColorOwn> colorMap;
-    protected Map<ColorStyle, ColorOwn> styleColorMap;
 
     public ColorOwn(int red, int green, int blue, Transparency transparency) {
         this(red, green, blue, transparency.getAlpha());
@@ -56,7 +42,7 @@ public class ColorOwn {
         red = i >> 16 & 0xFF;
         green = i >> 8 & 0xFF;
         blue = i & 0xFF;
-        alpha = ColorOwnLight.Transparency.FOREGROUND.getAlpha();
+        alpha = Transparency.FOREGROUND.getAlpha();
     }
 
     public ColorOwn() {
@@ -79,7 +65,7 @@ public class ColorOwn {
         return alpha;
     }
 
-    public ColorOwn transparency(ColorOwnLight.Transparency transparency) {
+    public ColorOwn transparency(Transparency transparency) {
         return transparency(transparency.getAlpha());
     }
 
@@ -91,64 +77,46 @@ public class ColorOwn {
         return new ColorOwn(Math.max(0, getRed() - factor), Math.max(0, getGreen() - factor), Math.max(0, getBlue() - factor), getAlpha());
     }
 
-    /**
-     * Converts colorString into a Color which is available in the colorMap or if not tries to decode the colorString
-     *
-     * @param colorString String which describes the color
-     * @return Color which is related to the String or null if it is no valid colorString
-     */
-    public ColorOwn forStringOrNull(String colorString, Transparency transparency) {
-        try {
-            return forString(colorString, transparency);
-        } catch (StyleException e) {
-            return null;
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + alpha;
+        result = prime * result + blue;
+        result = prime * result + green;
+        result = prime * result + red;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
         }
-    }
-
-    public ColorOwn forString(String colorString, Transparency transparency) {
-        return forString(colorString, transparency.getAlpha());
-    }
-
-    /**
-     * Converts colorString into a Color which is available in the colorMap or if not tries to decode the colorString
-     *
-     * @param colorString String which describes the color
-     * @return Color which is related to the String or null if it is no valid colorString
-     */
-    public ColorOwn forString(String colorString, int transparency) {
-        boolean error = false;
-        ColorOwn returnColor = null;
-        if (colorString == null) {
-            error = true;
-        } else {
-            for (Map.Entry<PredefinedColors, ColorOwn> c : colorMap.entrySet()) {
-                if (colorString.equalsIgnoreCase(c.getKey().toString())) {
-                    returnColor = c.getValue();
-                    break;
-                }
-            }
-            if (returnColor == null) {
-                try {
-                    returnColor = new ColorOwn(colorString);
-                } catch (NumberFormatException e) {
-                    error = true;
-                }
-            }
-            if (returnColor != null) {
-                returnColor = returnColor.transparency(transparency);
-            }
+        if (obj == null) {
+            return false;
         }
-        if (error) {
-            throw new StyleException("value must be a " + EXAMPLE_TEXT);
+        if (getClass() != obj.getClass()) {
+            return false;
         }
-        return returnColor;
+        ColorOwn other = (ColorOwn) obj;
+        if (alpha != other.alpha) {
+            return false;
+        }
+        if (blue != other.blue) {
+            return false;
+        }
+        if (green != other.green) {
+            return false;
+        }
+        if (red != other.red) {
+            return false;
+        }
+        return true;
     }
 
-    public Map<PredefinedColors, ColorOwn> getColorMap() {
-        return colorMap;
-    }
-
-    public Map<ColorStyle, ColorOwn> getStyleColorMap() {
-        return styleColorMap;
+    @Override
+    public String toString() {
+        return "ColorOwn [red=" + red + ", green=" + green + ", blue=" + blue + ", alpha=" + alpha + "]";
     }
 }

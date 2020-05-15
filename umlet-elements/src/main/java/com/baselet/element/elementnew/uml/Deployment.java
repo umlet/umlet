@@ -10,6 +10,7 @@ import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 import com.baselet.diagram.draw.helper.Style;
 import com.baselet.diagram.draw.helper.Theme;
+import com.baselet.diagram.draw.helper.ThemeFactory;
 import com.baselet.element.NewGridElement;
 import com.baselet.element.facet.Facet;
 import com.baselet.element.facet.PropertiesParserState;
@@ -50,10 +51,10 @@ public class Deployment extends NewGridElement {
 		PointDouble pLine = new PointDouble(w - BORDER, BORDER);
 		// Fill 3d-rectangle
 		Style oldStyle = drawer.getStyleClone();
-		ColorOwn currentColor = Theme.getCurrentThemeColor();
-		drawer.setForegroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.TRANSPARENT));
-		if (oldStyle.getBackgroundColor() == currentColor.getStyleColorMap().get(ColorOwn.ColorStyle.DEFAULT_BACKGROUND)) {
-			drawer.setBackgroundColor(currentColor.getColorMap().get(ColorOwn.PredefinedColors.WHITE).transparency(Transparency.BACKGROUND).darken(80));
+		Theme currentTheme = ThemeFactory.getCurrentTheme();
+		drawer.setForegroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.TRANSPARENT));
+		if (oldStyle.getBackgroundColor() == currentTheme.getStyleColorMap().get(Theme.ColorStyle.DEFAULT_BACKGROUND)) {
+			drawer.setBackgroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.WHITE).transparency(Transparency.BACKGROUND).darken(80));
 		}
 		else {
 			drawer.setBackgroundColor(oldStyle.getBackgroundColor().darken(80));

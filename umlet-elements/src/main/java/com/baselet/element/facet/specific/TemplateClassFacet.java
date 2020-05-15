@@ -61,7 +61,7 @@ public class TemplateClassFacet extends FirstRunKeyValueFacet {
 	}
 
 	private static List<PointDouble> drawTemplateClass(String templateClassText, DrawHandler drawer, PropertiesParserState state, int height, int width) {
-		ColorOwn transparentColor = Theme.getCurrentThemeColor().getColorMap().get(ColorOwn.PredefinedColors.TRANSPARENT);
+		ColorOwn transparentColor = ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.TRANSPARENT);
 		Rectangle tR = calcTemplateRect(templateClassText, drawer, width);
 		int classTopEnd = round(tR.getHeight() / 2.0);
 		int classWidth = width - round(tR.getWidth() / 2.0);
