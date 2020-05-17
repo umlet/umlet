@@ -57,29 +57,59 @@ public class DrawCanvas {
 		return canvas.toDataUrl(type);
 	}
 
-	void draw(boolean drawEmptyInfo, List<GridElement> gridElements, Selector selector) {
+	/*
+		setScaling can be used to set the size the canvas for the next time draw() is used
+
+		DISCLAIMER: if scaling is set to anything other than 1, this WILL break the way selected elements are viewed,
+		furthermore the dragging will still remain the same and will not update to the new scale.
+		This function is solely meant to be used for high-res exporting of the diagram
+	 */
+	private double scaling = 1.0d;
+	private boolean scaleHasChangedSinceLastDraw = false;
+	public void setScaling(double scaling)
+	{
+	this.scaling = scaling;
+		scaleHasChangedSinceLastDraw = true;
+	}
+
+	void draw(boolean drawEmptyInfo, List<GridElement> gridElements, Selector selector, boolean forceRedraw) {
+
+		GWT.log("DRAWING scaling is: " + scaling);
 		if (SharedConfig.getInstance().isDev_mode()) {
 			CanvasUtils.drawGridOn(getContext2d());
 		}
 
 		if (drawEmptyInfo && gridElements.isEmpty()) {
-			drawEmptyInfoText();
+			drawEmptyInfoText(scaling);
 		}
 		else {
 			// if (tryOptimizedDrawing()) return;
 			for (GridElement ge : gridElements) {
-				((ComponentGwt) ge.getComponent()).drawOn(canvas.getContext2d(), selector.isSelected(ge));
+				if (forceRedraw)
+					((ComponentGwt) ge.getComponent()).afterModelUpdate();
+				((ComponentGwt) ge.getComponent()).drawOn(canvas.getContext2d(), selector.isSelected(ge), scaling);
 			}
 		}
 	}
 
-	private void drawEmptyInfoText() {
+	void draw(boolean drawEmptyInfo, List<GridElement> gridElements, Selector selector) {
+		GWT.log("DRAWING, :" + scaleHasChangedSinceLastDraw);
+		if (scaleHasChangedSinceLastDraw)
+		{
+			draw(drawEmptyInfo, gridElements,  selector, true);
+			scaleHasChangedSinceLastDraw = false;
+		} else {
+			draw(drawEmptyInfo, gridElements,  selector, false);
+		}
+	}
+
+	private void drawEmptyInfoText(double scaling) {
 		double elWidth = 440;
 		double elHeight = 150;
 		double elXPos = getWidth() / 2.0 - elWidth / 2;
 		double elYPos = getHeight() / 2.0 - elHeight;
 		GridElement emptyElement = ElementFactoryGwt.create(ElementId.Text, new Rectangle(elXPos, elYPos, elWidth, elHeight), HelptextResources.INSTANCE.helpText().getText(), "", null);
-		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false);
+		((ComponentGwt) emptyElement.getComponent()).drawOn(canvas.getContext2d(), false, scaling);
 
 	}
 

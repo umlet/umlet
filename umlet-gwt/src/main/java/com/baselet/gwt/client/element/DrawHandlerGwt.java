@@ -1,6 +1,7 @@
 package com.baselet.gwt.client.element;
 
 import com.baselet.diagram.draw.helper.ColorOwn;
+import com.google.gwt.core.client.GWT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,8 +28,36 @@ public class DrawHandlerGwt extends DrawHandler {
 	private final Context2d ctx;
 
 	public DrawHandlerGwt(Canvas canvas) {
+		this (canvas,1.0d);
+	}
+
+	private double scalingFactor;
+	private boolean scalingIsSet;
+	public DrawHandlerGwt(Canvas canvas, double scaling) {
 		this.canvas = canvas;
 		ctx = canvas.getContext2d();
+		this.scalingFactor = scaling;
+		this.scalingIsSet = false;
+	}
+
+	public void setNewScaling(double scalingFactor)
+	{
+
+		this.scalingFactor = scalingFactor;
+		scalingIsSet = false;
+	}
+
+	private void setScalingOnce()
+	{
+		GWT.log("SCALING DACTOR IS SETTING......");
+		if (!scalingIsSet)
+		{
+			GWT.log("SCALING DACTOR IS SET TO: " + scalingFactor);
+
+			ctx.setTransform(1, 0, 0, 1, 0, 0);
+			ctx.scale(scalingFactor, scalingFactor);
+			scalingIsSet = true;
+		}
 	}
 
 	@Override
@@ -51,6 +80,7 @@ public class DrawHandlerGwt extends DrawHandler {
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
+				setScalingOnce();
 				setStyle(ctx, styleAtDrawingCall);
 
 				double centerX = (int) (x + width / 2) + HALF_PX;
@@ -87,6 +117,7 @@ public class DrawHandlerGwt extends DrawHandler {
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
+				setScalingOnce();
 				setStyle(ctx, styleAtDrawingCall);
 				ctx.beginPath();
 				ctx.arc((int) x + HALF_PX, (int) y + HALF_PX, radius, 0, 2 * Math.PI);
@@ -104,6 +135,7 @@ public class DrawHandlerGwt extends DrawHandler {
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
+				setScalingOnce();
 				setStyle(ctx, styleAtDrawingCall);
 				drawEllipseHelper(ctx, styleAtDrawingCall.getLineWidth() > 0, (int) x + HALF_PX, (int) y + HALF_PX, width, height);
 			}
@@ -117,6 +149,7 @@ public class DrawHandlerGwt extends DrawHandler {
 			addDrawable(new DrawFunction() {
 				@Override
 				public void run() {
+					setScalingOnce();
 					setStyle(ctx, styleAtDrawingCall);
 					drawLineHelper(styleAtDrawingCall.getLineWidth() > 0, points);
 				}
@@ -130,6 +163,7 @@ public class DrawHandlerGwt extends DrawHandler {
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
+				setScalingOnce();
 				setStyle(ctx, styleAtDrawingCall);
 				// int cast on x/y + HALF_PX and int cast on width/height is important to make sure it never draws between pixels
 				ctx.fillRect((int) x + HALF_PX, (int) y + HALF_PX, (int) width, (int) height);
@@ -148,6 +182,7 @@ public class DrawHandlerGwt extends DrawHandler {
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
+				setScalingOnce();
 				setStyle(ctx, styleAtDrawingCall);
 				drawRoundRectHelper(ctx, styleAtDrawingCall.getLineWidth() > 0, (int) x + HALF_PX, (int) y + HALF_PX, (int) width, (int) height, radius);
 			}
@@ -160,6 +195,7 @@ public class DrawHandlerGwt extends DrawHandler {
 		addDrawable(new DrawFunction() {
 			@Override
 			public void run() {
+				setScalingOnce();
 				PointDouble pToDraw = point;
 				ColorOwn fgColor = getOverlay().getForegroundColor() != null ? getOverlay().getForegroundColor() : styleAtDrawingCall.getForegroundColor();
 				ctx.setFillStyle(Converter.convert(fgColor));
@@ -167,6 +203,7 @@ public class DrawHandlerGwt extends DrawHandler {
 					drawTextHelper(line, pToDraw, align, styleAtDrawingCall.getFontSize());
 					pToDraw = new PointDouble(pToDraw.getX(), pToDraw.getY() + textHeightMax());
 				}
+
 			}
 		});
 	}
