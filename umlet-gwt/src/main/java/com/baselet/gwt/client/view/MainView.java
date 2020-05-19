@@ -21,7 +21,7 @@ import com.baselet.gwt.client.view.panel.wrapper.FileOpenHandler;
 import com.baselet.gwt.client.view.utils.DiagramLoader;
 import com.baselet.gwt.client.view.utils.DropboxIntegration;
 import com.baselet.gwt.client.view.widgets.DownloadPopupPanel;
-import com.baselet.gwt.client.view.widgets.FilenameHolder;
+import com.baselet.gwt.client.view.widgets.FilenameAndScaleHolder;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox;
 import com.baselet.gwt.client.view.widgets.SaveDialogBox.Callback;
 import com.baselet.gwt.client.view.widgets.ShortcutDialogBox;
@@ -117,7 +117,7 @@ public class MainView extends Composite implements ThemeChangeListener {
 
 	private final DropboxIntegration dropboxInt;
 
-	private final FilenameHolder lastExportFilename = new FilenameHolder("");
+	private final FilenameAndScaleHolder lastExportFilename = new FilenameAndScaleHolder("");
 
 	private final ScheduledCommand saveCommand = new ScheduledCommand() {
 		private final SaveDialogBox saveDialogBox = new SaveDialogBox(new Callback() {
@@ -308,7 +308,7 @@ public class MainView extends Composite implements ThemeChangeListener {
 		String uxfUrl = "data:text/xml;charset=utf-8," + DiagramXmlParser.diagramToXml(true, true, diagramPanel.getDiagram());
 		log.info("Exporting: " + uxfUrl);
 		String pngUrl = CanvasUtils.createPngCanvasDataUrl(diagramPanel.getDiagram());
-		new DownloadPopupPanel(uxfUrl, pngUrl, lastExportFilename).center();
+		new DownloadPopupPanel(uxfUrl, pngUrl, diagramPanel.getDiagram(), lastExportFilename).center();
 	}
 
 	@UiHandler("importDropboxMenuItem")
