@@ -17,7 +17,7 @@ public class CanvasUtils {
 
     public static String createPngCanvasDataUrl(Diagram diagram) {
         ThemeFactory.changeTheme(ThemeFactory.THEMES.LIGHT);
-        return createPngCanvasDataUrl(diagram, 5.0d);
+        return createPngCanvasDataUrl(diagram, 1d);
     }
 
     public static String createPngCanvasDataUrl(Diagram diagram, double scaling) {
@@ -34,7 +34,9 @@ public class CanvasUtils {
         pngCanvas.getContext2d().translate(-geRect.getX(), -geRect.getY());
         pngCanvas.draw(false, diagram.getGridElementsByLayerLowestToHighest(), new SelectorNew(diagram)); // use a new selector which has nothing selected
         ThemeFactory.changeTheme(ThemeFactory.THEMES.DARK);
-        return pngCanvas.toDataUrl("image/png");
+        String dataUrl = pngCanvas.toDataUrl("image/png");
+        pngCanvas.setScaling(1.0d); //to prevent that the scaling is displayed in the actual view since the same diagram items are referenced
+        return dataUrl;
     }
 
     private static Canvas gridCanvas;
