@@ -33,7 +33,7 @@ public class ColorOwnLight extends Theme {
     private final ColorOwn SYNTAX_HIGHLIGHTING = new ColorOwn(0, 100, 255, Transparency.FOREGROUND);
     private final ColorOwn DEFAULT_FOREGROUND = BLACK;
     private final ColorOwn DEFAULT_BACKGROUND = TRANSPARENT;
-    private final ColorOwn DEFAULT_SPLITTER_COLOR = GRAY;
+    private final ColorOwn DEFAULT_SPLITTER_COLOR = new ColorOwn(231, 231, 231, Transparency.FOREGROUND);
 
     public ColorOwnLight() {
         generateColorMaps();
