@@ -71,7 +71,7 @@ public class OwnSyntaxPane {
 		atmf.putMapping(OwnTokenMaker.ID, OwnTokenMaker.class.getName());
 		textArea.setSyntaxEditingStyle(OwnTokenMaker.ID);
 
-		textArea.getSyntaxScheme().getStyle(TokenTypes.RESERVED_WORD).foreground = Converter.convert(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.SYNTAX_HIGHLIGHTING));
+		textArea.getSyntaxScheme().getStyle(TokenTypes.RESERVED_WORD).foreground = Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.SYNTAX_HIGHLIGHTING));
 
 		// Setup autocompletion
 		createAutocompletionCompletionProvider();

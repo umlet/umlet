@@ -164,7 +164,7 @@ public class RelationDrawer {
 			PointDoubleIndexed pointIndex = (PointDoubleIndexed) point;
 
 			ColorOwn bg = drawer.getBackgroundColor();
-			drawer.setBackgroundColor(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.TRANSPARENT));
+			drawer.setBackgroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.TRANSPARENT));
 
 			Direction directionOfCircle = line.getDirectionOfLine(drawOnStart);
 			if (directionOfCircle == Direction.RIGHT) {

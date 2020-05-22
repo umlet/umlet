@@ -121,14 +121,14 @@ public abstract class CustomElement extends OldGridElement {
 
 		for (StyleShape s : shapes) {
 			specialLine = s.getLineType() != LineType.SOLID || s.getLineThickness() != FacetConstants.LINE_WIDTH_DEFAULT;
-			specialFgColor = !s.getFgColor().equals(Converter.convert(currentTheme.getStyleColorMap().get(Theme.ColorStyle.DEFAULT_FOREGROUND)));
+			specialFgColor = !s.getFgColor().equals(Converter.convert(currentTheme.getColor(Theme.ColorStyle.DEFAULT_FOREGROUND)));
 
 			if (specialLine) {
 				g2.setStroke(Utils.getStroke(s.getLineType(), s.getLineThickness()));
 			}
 			if (specialFgColor) {
 				if (HandlerElementMap.getHandlerForElement(this).getDrawPanel().getSelector().isSelected(this)) {
-					g2.setColor(Converter.convert(currentTheme.getStyleColorMap().get(Theme.ColorStyle.SELECTION_FG)));
+					g2.setColor(Converter.convert(currentTheme.getColor(Theme.ColorStyle.SELECTION_FG)));
 				}
 				else {
 					g2.setColor(s.getFgColor());

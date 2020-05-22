@@ -43,7 +43,7 @@ public class BaseletGWT implements EntryPoint {
 			Notification.showFeatureNotSupported("Sorry, but your browser does not support the required HTML 5 feature 'file reader'<br/>Suggested browsers are Firefox, Chrome, Opera, Internet Explorer 10+", false);
 		}
 		else {
-			RootLayoutPanel.get().getElement().getStyle().setBackgroundColor(Converter.convert(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_BACKGROUND)).value());
+			RootLayoutPanel.get().getElement().getStyle().setBackgroundColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_BACKGROUND)).value());
 			Notification.showInfo("Loading application ... please wait ...");
 			GWT.runAsync(new RunAsyncCallback() {
 				@Override

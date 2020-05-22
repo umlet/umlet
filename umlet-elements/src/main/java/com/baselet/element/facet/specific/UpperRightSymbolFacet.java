@@ -46,7 +46,7 @@ public class UpperRightSymbolFacet extends FirstRunKeyValueFacet {
 	public static void drawAndSetBuffer(PropertiesParserState state, UpperRightSymbolEnum symbol) {
 		DrawHandler drawer = state.getDrawer();
 		ColorOwn prevBackgroundColor = drawer.getBackgroundColor();
-		drawer.setBackgroundColor(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.TRANSPARENT));
+		drawer.setBackgroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.TRANSPARENT));
 		double eW = state.getGridElementSize().getWidth();
 		double fs = drawer.getFontSize();
 		if (symbol == UpperRightSymbolEnum.USECASE) {

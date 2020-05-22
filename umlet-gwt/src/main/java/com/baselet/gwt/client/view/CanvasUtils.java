@@ -28,7 +28,7 @@ public class CanvasUtils {
         geRect.addBorder(EXPORT_BORDER);
         pngCanvas.clearAndSetSize(geRect.getWidth(), geRect.getHeight());
         // Fill Canvas white
-        pngCanvas.getContext2d().setFillStyle(Converter.convert(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.WHITE)));
+        pngCanvas.getContext2d().setFillStyle(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.WHITE)));
         pngCanvas.getContext2d().fillRect(0, 0, pngCanvas.getWidth(), pngCanvas.getHeight());
         // Draw Elements on Canvas and translate their position
         pngCanvas.getContext2d().translate(-geRect.getX(), -geRect.getY());
@@ -49,7 +49,7 @@ public class CanvasUtils {
             int width = gridCanvas.getCoordinateSpaceWidth();
             int height = gridCanvas.getCoordinateSpaceHeight();
             Context2d backgroundContext = gridCanvas.getContext2d();
-            backgroundContext.setStrokeStyle(Converter.convert(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.BLACK).transparency(Transparency.SELECTION_BACKGROUND)));
+            backgroundContext.setStrokeStyle(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.BLACK).transparency(Transparency.SELECTION_BACKGROUND)));
             for (int i = 0; i < width; i += SharedConstants.DEFAULT_GRID_SIZE) {
                 drawLine(backgroundContext, i, 0, i, height);
             }
