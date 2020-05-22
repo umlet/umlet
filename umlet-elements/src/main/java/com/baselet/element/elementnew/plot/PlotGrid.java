@@ -3,9 +3,8 @@ package com.baselet.element.elementnew.plot;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.Theme;
-import com.baselet.diagram.draw.helper.ThemeFactory;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

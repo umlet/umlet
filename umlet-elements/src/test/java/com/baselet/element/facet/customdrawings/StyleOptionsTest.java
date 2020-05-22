@@ -3,8 +3,8 @@ package com.baselet.element.facet.customdrawings;
 import static org.junit.Assert.assertEquals;
 
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.Theme;
-import com.baselet.diagram.draw.helper.ThemeFactory;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import org.junit.Before;
 import org.junit.Test;
 

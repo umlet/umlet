@@ -1,5 +1,6 @@
-package com.baselet.diagram.draw.helper;
+package com.baselet.diagram.draw.helper.theme;
 
+import com.baselet.diagram.draw.helper.ColorOwn;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,8 +9,8 @@ import java.util.HashMap;
 
 import static com.baselet.diagram.draw.helper.ColorOwn.Transparency;
 
-public class ColorOwnDark extends Theme {
-    private static final Logger log = LoggerFactory.getLogger(ColorOwnDark.class);
+public class ThemeDark extends Theme {
+    private static final Logger log = LoggerFactory.getLogger(ThemeDark.class);
 
     private final ColorOwn RED = new ColorOwn(220, 0, 0, Transparency.FOREGROUND);
     private final ColorOwn GREEN = new ColorOwn(0, 220, 0, Transparency.FOREGROUND);
@@ -34,7 +35,7 @@ public class ColorOwnDark extends Theme {
     private final ColorOwn DEFAULT_BACKGROUND = BLACK;
     private final ColorOwn DEFAULT_SPLITTER_COLOR = GRAY;
 
-    public ColorOwnDark() {
+    public ThemeDark() {
         generateColorMaps();
     }
 

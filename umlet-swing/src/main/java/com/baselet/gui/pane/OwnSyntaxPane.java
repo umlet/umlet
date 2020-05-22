@@ -12,8 +12,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.PlainDocument;
 
-import com.baselet.diagram.draw.helper.Theme;
-import com.baselet.diagram.draw.helper.ThemeFactory;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import org.fife.ui.autocomplete.AutoCompletion;
 import org.fife.ui.autocomplete.BasicCompletion;
 import org.fife.ui.autocomplete.DefaultCompletionProvider;

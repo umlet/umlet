@@ -7,8 +7,8 @@ import java.util.Locale;
 import com.baselet.control.basics.geom.PointDouble;
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.baselet.diagram.draw.helper.Theme;
-import com.baselet.diagram.draw.helper.ThemeFactory;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.facet.FirstRunKeyValueFacet;
 import com.baselet.element.facet.PropertiesParserState;
 

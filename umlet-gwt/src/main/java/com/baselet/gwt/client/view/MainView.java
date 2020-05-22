@@ -1,8 +1,8 @@
 package com.baselet.gwt.client.view;
 
-import com.baselet.diagram.draw.helper.Theme;
-import com.baselet.diagram.draw.helper.ThemeFactory;
-import com.baselet.diagram.draw.helper.ThemeChangeListener;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
+import com.baselet.diagram.draw.helper.theme.ThemeChangeListener;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.view.VersionChecker.Version;
 import com.google.gwt.dom.client.DivElement;
