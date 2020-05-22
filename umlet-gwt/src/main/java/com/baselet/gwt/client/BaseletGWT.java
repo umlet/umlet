@@ -48,9 +48,9 @@ public class BaseletGWT implements EntryPoint {
 			GWT.runAsync(new RunAsyncCallback() {
 				@Override
 				public void onSuccess() {
-					RootLayoutPanel.get().getElement().getStyle().setBackgroundColor("");
 					Notification.showInfo("");
 					RootLayoutPanel.get().add(new MainView());
+					RootLayoutPanel.get().getElement().getStyle().setBackgroundColor("");
 				}
 
 				@Override

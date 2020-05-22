@@ -217,19 +217,35 @@ function GetUmletWebviewPage(localUmletFolder: string, diagramData:string)
         }
       }
 
+      function switchBodyColor(theme) {
+        switch(theme) {
+          case 'DARK':
+            document.body.style.backgroundColor = 'black';
+            break;
+          case 'LIGHT':
+            document.body.style.backgroundColor = '';
+            break;
+          default:
+            document.body.style.backgroundColor = '';
+        }
+      }
+
       // Observing theme changes
       var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutationRecord) {
             var themeFromClass = getTheme(document.body.className);
             window.changeTheme(themeFromClass);
+            switchBodyColor(themeFromClass);
         });    
       });
+      
       var target = document.body;
       observer.observe(target, { attributes : true, attributeFilter : ['class'] });
 
       // Retrieving current theme
       var theme = 'LIGHT';
       theme = getTheme(document.body.className);
+      switchBodyColor(theme);
 
       var vscode = acquireVsCodeApi();
       var vsCodeInitialDiagramData = \`${diagramData}\`;
