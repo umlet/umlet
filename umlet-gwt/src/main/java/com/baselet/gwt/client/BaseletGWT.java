@@ -1,5 +1,8 @@
 package com.baselet.gwt.client;
 
+import com.baselet.diagram.draw.helper.Theme;
+import com.baselet.diagram.draw.helper.ThemeFactory;
+import com.baselet.gwt.client.base.Converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,10 +43,12 @@ public class BaseletGWT implements EntryPoint {
 			Notification.showFeatureNotSupported("Sorry, but your browser does not support the required HTML 5 feature 'file reader'<br/>Suggested browsers are Firefox, Chrome, Opera, Internet Explorer 10+", false);
 		}
 		else {
+			RootLayoutPanel.get().getElement().getStyle().setBackgroundColor(Converter.convert(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_BACKGROUND)).value());
 			Notification.showInfo("Loading application ... please wait ...");
 			GWT.runAsync(new RunAsyncCallback() {
 				@Override
 				public void onSuccess() {
+					RootLayoutPanel.get().getElement().getStyle().setBackgroundColor("");
 					Notification.showInfo("");
 					RootLayoutPanel.get().add(new MainView());
 				}
