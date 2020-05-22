@@ -34,7 +34,7 @@ public class ErrorOccurred extends OldGridElement {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawRect(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 		if (handlerForElement.getDrawPanel().getSelector().isSelected(this)) {
-			g2.setColor(Converter.convert(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.SELECTION_FG)));
+			g2.setColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.SELECTION_FG)));
 		}
 		else {
 			g2.setColor(Color.red);

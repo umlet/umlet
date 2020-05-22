@@ -80,8 +80,8 @@ public class StyleOptionsTest {
 	 */
 	@Test
 	public void drawRectangleParametersNoDefaultUsed() {
-		ColorOwn fg = theme.getColorMap().get(Theme.PredefinedColors.ORANGE);
-		ColorOwn bg = theme.getColorMap().get(Theme.PredefinedColors.DARK_GRAY).transparency(Transparency.BACKGROUND);
+		ColorOwn fg = theme.getColor(Theme.PredefinedColors.ORANGE);
+		ColorOwn bg = theme.getColor(Theme.PredefinedColors.DARK_GRAY).transparency(Transparency.BACKGROUND);
 		LineType lt = LineType.DOUBLE_DOTTED;
 		double lw = 10;
 		drawHandler.setForegroundColor(fg);
@@ -106,8 +106,8 @@ public class StyleOptionsTest {
 	 */
 	@Test
 	public void drawRectangleParametersNoDefaultOverrideReset() {
-		ColorOwn fg = theme.getColorMap().get(Theme.PredefinedColors.ORANGE);
-		ColorOwn bg = theme.getColorMap().get(Theme.PredefinedColors.DARK_GRAY).transparency(Transparency.BACKGROUND);
+		ColorOwn fg = theme.getColor(Theme.PredefinedColors.ORANGE);
+		ColorOwn bg = theme.getColor(Theme.PredefinedColors.DARK_GRAY).transparency(Transparency.BACKGROUND);
 		LineType lt = LineType.DOUBLE_DOTTED;
 		double lw = 10;
 		drawHandler.setForegroundColor(fg);
@@ -150,14 +150,14 @@ public class StyleOptionsTest {
 	@Test
 	public void drawTextParameterFg() {
 		new CustomDrawingParserImpl("drawText(\"Das ist \\\" dfs \", 10, 20, left ) fg=red", 0, 0, drawHandler).parse();
-		ColorOwn red = theme.getColorMap().get(Theme.PredefinedColors.RED);
+		ColorOwn red = theme.getColor(Theme.PredefinedColors.RED);
 		assertEquals(DummyDrawHandler.drawTextToString("Das ist \" dfs ", 10, 20, AlignHorizontal.LEFT, red), drawHandler.getLastDrawCall());
 		checkDefaultSettingsRestored();
 	}
 
 	@Test
 	public void drawTextParameterFgFg() {
-		ColorOwn pink = theme.getColorMap().get(Theme.PredefinedColors.PINK);
+		ColorOwn pink = theme.getColor(Theme.PredefinedColors.PINK);
 		new CustomDrawingParserImpl("drawText(\"Das ist \\\" dfs \", 10, 20, left ) fg=pink fg=blue", 0, 0, drawHandler).parse();
 		assertEquals(DummyDrawHandler.drawTextToString("Das ist \" dfs ", 10, 20, AlignHorizontal.LEFT, pink), drawHandler.getLastDrawCall());
 		checkDefaultSettingsRestored();

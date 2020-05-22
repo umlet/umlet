@@ -68,7 +68,7 @@ public class HierarchyFacet extends Facet {
 		DrawHandler drawer = state.getDrawer();
 		drawer.setLayer(Layer.Foreground);
 		ColorOwn bgBefore = drawer.getBackgroundColor();
-		drawer.setBackgroundColor(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.TRANSPARENT));
+		drawer.setBackgroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.TRANSPARENT));
 		String lineWithoutTabs = line.replace("\t", "");
 		int tabCount = line.length() - lineWithoutTabs.length();
 		int border = 10;

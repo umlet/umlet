@@ -197,10 +197,10 @@ public class Canvas {
 
 	public void draw(DrawHandler baseDrawHandler) {
 		Theme currentTheme = ThemeFactory.getCurrentTheme();
-		baseDrawHandler.setBackgroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.TRANSPARENT));
-		baseDrawHandler.setForegroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.RED).transparency(Transparency.BACKGROUND));
+		baseDrawHandler.setBackgroundColor(currentTheme.getColor(Theme.PredefinedColors.TRANSPARENT));
+		baseDrawHandler.setForegroundColor(currentTheme.getColor(Theme.PredefinedColors.RED).transparency(Transparency.BACKGROUND));
 		baseDrawHandler.drawRectangle(getOuterLeftPos(), getOuterUpPos(), getOuterRightPos() - getOuterLeftPos() - 1, getOuterDownPos() - getOuterUpPos());
-		baseDrawHandler.setForegroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.BLUE));
+		baseDrawHandler.setForegroundColor(currentTheme.getColor(Theme.PredefinedColors.BLUE));
 		baseDrawHandler.drawRectangle(getInnerLeftPos(), getInnerUpPos(), getInnerRightPos() - getInnerLeftPos(), getInnerDownPos() - getInnerUpPos());
 	}
 

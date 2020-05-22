@@ -51,7 +51,7 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 		else if (type == StateTypeEnum.FINAL) {
 			drawer.drawEllipse(0, 0, w, h);
 			ColorOwn oldFg = drawer.getForegroundColor();
-			drawer.setForegroundColor(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.TRANSPARENT)); // don't use foregroundcolor for the inner circle, because otherwise in Swing it would look very ugly
+			drawer.setForegroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.TRANSPARENT)); // don't use foregroundcolor for the inner circle, because otherwise in Swing it would look very ugly
 			double ellipseDistance = Math.max(w - 1, h - 1) / 5.5;
 			drawBlackEllipse(drawer, w - ellipseDistance * 2, h - ellipseDistance * 2, ellipseDistance);
 			drawer.setForegroundColor(oldFg);
@@ -94,8 +94,8 @@ public class SpecialStateTypeFacet extends KeyValueFacet {
 	private void drawBlackEllipse(final DrawHandler drawer, double width, double height, double xY) {
 		ColorOwn oldBg = drawer.getBackgroundColor();
 		Theme currentTheme = ThemeFactory.getCurrentTheme();
-		if (drawer.getBackgroundColor() == currentTheme.getStyleColorMap().get(Theme.ColorStyle.DEFAULT_BACKGROUND)) {
-			drawer.setBackgroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.BLACK).transparency(Transparency.FOREGROUND));
+		if (drawer.getBackgroundColor() == currentTheme.getColor(Theme.ColorStyle.DEFAULT_BACKGROUND)) {
+			drawer.setBackgroundColor(currentTheme.getColor(Theme.PredefinedColors.BLACK).transparency(Transparency.FOREGROUND));
 		}
 		else {
 			drawer.setBackgroundColor(drawer.getBackgroundColor().transparency(Transparency.FOREGROUND));

@@ -52,9 +52,9 @@ public class Deployment extends NewGridElement {
 		// Fill 3d-rectangle
 		Style oldStyle = drawer.getStyleClone();
 		Theme currentTheme = ThemeFactory.getCurrentTheme();
-		drawer.setForegroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.TRANSPARENT));
-		if (oldStyle.getBackgroundColor() == currentTheme.getStyleColorMap().get(Theme.ColorStyle.DEFAULT_BACKGROUND)) {
-			drawer.setBackgroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.WHITE).transparency(Transparency.BACKGROUND).darken(80));
+		drawer.setForegroundColor(currentTheme.getColor(Theme.PredefinedColors.TRANSPARENT));
+		if (oldStyle.getBackgroundColor() == currentTheme.getColor(Theme.ColorStyle.DEFAULT_BACKGROUND)) {
+			drawer.setBackgroundColor(currentTheme.getColor(Theme.PredefinedColors.WHITE).transparency(Transparency.BACKGROUND).darken(80));
 		}
 		else {
 			drawer.setBackgroundColor(oldStyle.getBackgroundColor().darken(80));

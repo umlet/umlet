@@ -276,7 +276,7 @@ public class PlotDrawHandler {
 		}
 
 		drawGraylines(xpoints, ypoints);
-		base.setForegroundColor(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.BLACK).transparency(Transparency.FOREGROUND));
+		base.setForegroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.BLACK).transparency(Transparency.FOREGROUND));
 		drawAxisLine();
 		drawMarkers(xpoints, ypoints);
 		drawMarkerTexts(xpoints, xtext, ypoints, ytext);
@@ -303,7 +303,7 @@ public class PlotDrawHandler {
 	}
 
 	private void drawGraylines(List<Integer> xpoints, List<Integer> ypoints) {
-		base.setForegroundColor(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.BLACK).transparency(Transparency.SELECTION_BACKGROUND));
+		base.setForegroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.BLACK).transparency(Transparency.SELECTION_BACKGROUND));
 		boolean drawVerticalGraylines = axisConfig.isxDescription() && axisConfig.drawDescriptionAxisMarkerGrayline() || !axisConfig.isxDescription() && axisConfig.drawValueAxisMarkerGrayline();
 		boolean drawHorizontalGraylines = !axisConfig.isxDescription() && axisConfig.drawDescriptionAxisMarkerGrayline() || axisConfig.isxDescription() && axisConfig.drawValueAxisMarkerGrayline();
 		if (drawVerticalGraylines) {
@@ -406,7 +406,7 @@ public class PlotDrawHandler {
 				if (cIndex >= colors.size()) {
 					cIndex = 0; // Restart with first color if all colors in the array has been used
 				}
-				base.setForegroundColor(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.TRANSPARENT));
+				base.setForegroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.TRANSPARENT));
 				base.setBackgroundColorAndKeepTransparency(colors.get(cIndex));
 
 				barLength = (int) calculateValuePos(v, valueSegment);
@@ -475,7 +475,7 @@ public class PlotDrawHandler {
 				cIndex = 0; // Restart with first color if all colors in the array has been used
 			}
 			ColorOwn currentFg = base.getForegroundColor();
-			base.setForegroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.TRANSPARENT));
+			base.setForegroundColor(currentTheme.getColor(Theme.PredefinedColors.TRANSPARENT));
 			base.setBackgroundColorAndKeepTransparency(colors.get(cIndex));
 
 			arcAngle = i < values.length - 1 ? Math.round(360.0 / valueSum * Math.abs(values[i])) : 360 - startAngle;
