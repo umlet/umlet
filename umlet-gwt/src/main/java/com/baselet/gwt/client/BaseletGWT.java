@@ -1,7 +1,7 @@
 package com.baselet.gwt.client;
 
-import com.baselet.diagram.draw.helper.Theme;
-import com.baselet.diagram.draw.helper.ThemeFactory;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.gwt.client.base.Converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

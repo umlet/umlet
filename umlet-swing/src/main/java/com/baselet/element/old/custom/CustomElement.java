@@ -29,10 +29,9 @@ import com.baselet.control.enums.LineType;
 import com.baselet.control.util.Utils;
 import com.baselet.custom.CustomFunction;
 import com.baselet.diagram.DiagramHandler;
-import com.baselet.diagram.draw.helper.ColorOwn;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.diagram.draw.helper.Theme;
-import com.baselet.diagram.draw.helper.ThemeFactory;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.old.OldGridElement;
 

@@ -1,4 +1,7 @@
-package com.baselet.diagram.draw.helper;
+package com.baselet.diagram.draw.helper.theme;
+
+import com.baselet.diagram.draw.helper.ColorOwn;
+import com.baselet.diagram.draw.helper.StyleException;
 
 import java.util.Map;
 
