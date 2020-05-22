@@ -8,7 +8,7 @@ import javax.swing.Icon;
 
 import com.baselet.control.basics.Converter;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.diagram.draw.helper.ThemeFactory;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 
 public class PlainColorIcon implements Icon {
 

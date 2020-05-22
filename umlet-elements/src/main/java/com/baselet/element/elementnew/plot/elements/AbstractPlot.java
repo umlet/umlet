@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.baselet.diagram.draw.DrawHandler;
 import com.baselet.diagram.draw.helper.ColorOwn.Transparency;
-import com.baselet.diagram.draw.helper.ThemeFactory;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.elementnew.plot.drawer.AxisConfig;
 import com.baselet.element.elementnew.plot.drawer.PlotDrawHandler;
 import com.baselet.element.elementnew.plot.drawer.PlotGridDrawConfig;

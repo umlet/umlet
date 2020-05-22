@@ -1,4 +1,4 @@
-package com.baselet.diagram.draw.helper;
+package com.baselet.diagram.draw.helper.theme;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,15 +39,15 @@ public class ThemeFactory {
         switch (chosenTheme) {
             case DARK:
                 activeThemeEnum = chosenTheme;
-                theme = new ColorOwnDark();
+                theme = new ThemeDark();
                 break;
             case LIGHT:
                 activeThemeEnum = chosenTheme;
-                theme = new ColorOwnLight();
+                theme = new ThemeLight();
                 break;
             default:
                 activeThemeEnum = THEMES.LIGHT;
-                theme = new ColorOwnLight();
+                theme = new ThemeLight();
         }
         for (ThemeChangeListener listener : listeners) {
             listener.onThemeChange();
@@ -75,6 +75,6 @@ public class ThemeFactory {
 
     public static native void exportChangeTheme() /*-{
         $wnd.changeTheme =
-            $entry(@com.baselet.diagram.draw.helper.ThemeFactory::changeTheme(Ljava/lang/String;));
+            $entry(@com.baselet.diagram.draw.helper.theme.ThemeFactory::changeTheme(Ljava/lang/String;));
     }-*/;
 }
