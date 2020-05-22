@@ -360,9 +360,9 @@ public class MainView extends Composite implements ThemeChangeListener {
 
 	@Override
 	public void onThemeChange() {
-		String backgroundColor = Converter.convert(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_BACKGROUND)).value();
-		String foregroundColor = Converter.convert(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_FOREGROUND)).value();
-		String splitterColor = Converter.convert(ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_SPLITTER_COLOR)).value();
+		String backgroundColor = Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_BACKGROUND)).value();
+		String foregroundColor = Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_FOREGROUND)).value();
+		String splitterColor = Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_SPLITTER_COLOR)).value();
 		diagramScrollPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
 		paletteScrollPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
 		paletteChooser.getElement().getStyle().setBackgroundColor(backgroundColor);

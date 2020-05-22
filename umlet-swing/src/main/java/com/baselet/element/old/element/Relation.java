@@ -1911,7 +1911,7 @@ public class Relation extends OldGridElement {
 
 	@Override
 	protected Color getDefaultBackgroundColor() {
-		return Converter.convert(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.WHITE));
+		return Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.WHITE));
 	}
 
 	@Override

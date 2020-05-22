@@ -34,7 +34,7 @@ public class SubStateSymbolFacet extends KeyValueFacet {
 		DrawHandler drawer = state.getDrawer();
 		drawer.setLayer(Layer.Foreground); // should be always on top of background
 		ColorOwn prevBackgroundColor = drawer.getBackgroundColor();
-		drawer.setBackgroundColor(ThemeFactory.getCurrentTheme().getColorMap().get(Theme.PredefinedColors.TRANSPARENT));
+		drawer.setBackgroundColor(ThemeFactory.getCurrentTheme().getColor(Theme.PredefinedColors.TRANSPARENT));
 		SubStateSymbolEnum symbol = SubStateSymbolEnum.valueOf(value.toUpperCase(Locale.ENGLISH));
 		final double w = state.getGridElementSize().getWidth();
 		final double h = state.getGridElementSize().getHeight();

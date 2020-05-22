@@ -69,11 +69,15 @@ public abstract class Theme {
         return returnColor;
     }
 
-    public Map<PredefinedColors, ColorOwn> getColorMap() {
-        return colorMap;
+    public ColorOwn getColor(PredefinedColors color) {
+        return colorMap.get(color);
     }
 
-    public Map<ColorStyle, ColorOwn> getStyleColorMap() {
-        return styleColorMap;
+    public ColorOwn getColor(ColorStyle colorStyle) {
+        return styleColorMap.get(colorStyle);
+    }
+
+    public Map<PredefinedColors, ColorOwn> getColorMap() {
+        return colorMap;
     }
 }

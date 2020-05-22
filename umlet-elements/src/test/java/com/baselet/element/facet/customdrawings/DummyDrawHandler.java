@@ -12,8 +12,8 @@ import com.baselet.diagram.draw.helper.ThemeFactory;
 
 public class DummyDrawHandler extends com.baselet.diagram.draw.DrawHandler {
 
-	public static final ColorOwn defaultBg = ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_BACKGROUND);
-	public static final ColorOwn defaultFg = ThemeFactory.getCurrentTheme().getStyleColorMap().get(Theme.ColorStyle.DEFAULT_FOREGROUND);
+	public static final ColorOwn defaultBg = ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_BACKGROUND);
+	public static final ColorOwn defaultFg = ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_FOREGROUND);
 	public static final LineType defaultLineType = LineType.SOLID;
 	public static final double defaultLineWidth = FacetConstants.LINE_WIDTH_DEFAULT;
 

@@ -53,17 +53,17 @@ public class Relation extends NewGridElement implements Stickable, RelationPoint
 	protected void resetAndDrawMetaDrawerContent(DrawHandler drawer) {
 		Theme currentTheme = ThemeFactory.getCurrentTheme();
 		drawer.clearCache();
-		drawer.setBackgroundColor(currentTheme.getStyleColorMap().get(Theme.ColorStyle.SELECTION_BG));
+		drawer.setBackgroundColor(currentTheme.getColor(Theme.ColorStyle.SELECTION_BG));
 
 		// draw rectangle around whole element (basically a helper for developers to make sure the (invisible) size of the element is correct)
 		if (SharedConfig.getInstance().isDev_mode()) {
-			drawer.setForegroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.TRANSPARENT));
+			drawer.setForegroundColor(currentTheme.getColor(Theme.PredefinedColors.TRANSPARENT));
 			drawer.drawRectangle(0, 0, getRealSize().getWidth(), getRealSize().getHeight());
-			drawer.setBackgroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.GREEN).transparency(Transparency.BACKGROUND));
+			drawer.setBackgroundColor(currentTheme.getColor(Theme.PredefinedColors.GREEN).transparency(Transparency.BACKGROUND));
 			relationPoints.drawSelectionSpace(drawer);
 		}
 
-		drawer.setForegroundColor(currentTheme.getStyleColorMap().get(Theme.ColorStyle.SELECTION_FG));
+		drawer.setForegroundColor(currentTheme.getColor(Theme.ColorStyle.SELECTION_FG));
 		relationPoints.drawCirclesAndDragBox(drawer);
 	}
 

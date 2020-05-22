@@ -283,8 +283,8 @@ public class PlotGrid extends NewGridElement {
 
 		} catch (ParserException e) {
 			Theme currentTheme = ThemeFactory.getCurrentTheme();
-			drawer.setForegroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.RED));
-			drawer.setBackgroundColor(currentTheme.getColorMap().get(Theme.PredefinedColors.WHITE));
+			drawer.setForegroundColor(currentTheme.getColor(Theme.PredefinedColors.RED));
+			drawer.setBackgroundColor(currentTheme.getColor(Theme.PredefinedColors.WHITE));
 			drawer.drawRectangle(0, 0, getRectangle().width - 1, getRectangle().height - 1);
 			float x = getRectangle().getWidth() / 2.0f;
 			drawer.print(e.getMessage(), x, getRealSize().height / 2.0, AlignHorizontal.CENTER);
