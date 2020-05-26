@@ -15,13 +15,13 @@
 	],
 	"activationEvents": [
 		"onLanguage:plaintext",
-		"onCommand:extension.helloWorld"
+		"onCommand:extension.launchUmlet"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.helloWorld",
+				"command": "extension.launchUmlet",
 				"title": "Umletino"
 			}
 		]

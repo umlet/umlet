@@ -49,10 +49,8 @@ public class DrawHandlerGwt extends DrawHandler {
 
 	private void setScalingOnce()
 	{
-		GWT.log("SCALING DACTOR IS SETTING......");
 		if (!scalingIsSet)
 		{
-			GWT.log("SCALING DACTOR IS SET TO: " + scalingFactor);
 
 			ctx.setTransform(1, 0, 0, 1, 0, 0);
 			ctx.scale(scalingFactor, scalingFactor);
