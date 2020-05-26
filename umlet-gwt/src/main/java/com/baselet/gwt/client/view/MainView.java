@@ -216,7 +216,7 @@ public class MainView extends Composite implements ThemeChangeListener {
 		if(VersionChecker.GetVersion() == Version.VSCODE && VersionChecker.vsCodePredefinedFile() != null)
 		{
 			try {
-				diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(VersionChecker.vsCodePredefinedFile()));
+				diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(VersionChecker.vsCodePredefinedFile() ));
 			} catch (Exception e)
 			{
 				GWT.log("failed to load diagram passed from vscode, loading defaults...");

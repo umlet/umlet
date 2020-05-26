@@ -74,7 +74,6 @@ public class DrawCanvas {
 
 	void draw(boolean drawEmptyInfo, List<GridElement> gridElements, Selector selector, boolean forceRedraw) {
 
-		GWT.log("DRAWING scaling is: " + scaling);
 		if (SharedConfig.getInstance().isDev_mode()) {
 			CanvasUtils.drawGridOn(getContext2d());
 		}
@@ -93,7 +92,6 @@ public class DrawCanvas {
 	}
 
 	void draw(boolean drawEmptyInfo, List<GridElement> gridElements, Selector selector) {
-		GWT.log("DRAWING, :" + scaleHasChangedSinceLastDraw);
 		if (scaleHasChangedSinceLastDraw)
 		{
 			draw(drawEmptyInfo, gridElements,  selector, true);

@@ -58,10 +58,10 @@ public class DrawPanelDiagram extends DrawPanel {
 
 	@Override
 	void onMouseDown(GridElement element, boolean isControlKeyDown) {
-		CancelDragOfPalette();
 			super.onMouseDown(element, isControlKeyDown);
+			//CancelDragOfPalette(); //Should not be needed anymore since selecting elements only works with left click now
 			if (!isControlKeyDown || selector.getSelectedElements().size() > 0)
-				propertiesPanel.setEnabled(true);
+			propertiesPanel.setEnabled(true);
 			RemoveOldPreview();
 
 	}

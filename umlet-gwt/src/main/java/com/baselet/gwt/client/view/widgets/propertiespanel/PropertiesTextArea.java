@@ -4,6 +4,7 @@ import com.baselet.element.interfaces.HasPanelAttributes;
 import com.baselet.gwt.client.view.interfaces.Redrawable;
 import com.baselet.gwt.client.view.widgets.OwnTextArea;
 import com.baselet.gwt.client.view.widgets.OwnTextArea.InstantValueChangeHandler;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiConstructor;
 
 public class PropertiesTextArea extends MySuggestBox {
