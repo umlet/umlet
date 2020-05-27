@@ -48,13 +48,14 @@ import com.google.gwt.user.client.Window;
 
 public class MainView extends Composite implements ThemeChangeListener {
 
-	private static MainViewUiBinder uiBinder = GWT.create(MainViewUiBinder.class);
+    private static MainViewUiBinder uiBinder = GWT.create(MainViewUiBinder.class);
 
-	interface MainViewUiBinder extends UiBinder<Widget, MainView> {}
+    interface MainViewUiBinder extends UiBinder<Widget, MainView> {
+    }
 
-	interface MyStyle extends CssResource {
-		String menuItem();
-	}
+    interface MyStyle extends CssResource {
+        String menuItem();
+    }
 
 	@UiField
 	MyStyle style;
@@ -213,13 +214,21 @@ public class MainView extends Composite implements ThemeChangeListener {
 		handler = new FileOpenHandler(diagramPanel);
 
 		//Load diagram if one was passed from vscode
-		if(VersionChecker.GetVersion() == Version.VSCODE && VersionChecker.vsCodePredefinedFile() != null)
-		{
-			try {
-				diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(VersionChecker.vsCodePredefinedFile() ));
-			} catch (Exception e)
+		if (VersionChecker.GetVersion() == Version.VSCODE) {
+			//Retrieve the Diagram
+			String VsCodeDiagramRawData = VersionChecker.vsCodePredefinedFile();
+			//In case a plain, newly created empty file was loaded, UMLet will create the default empty workspace
+			//if its not empty, it will load it
+			if (!VersionChecker.vsCodePredefinedFile().equals(""))
 			{
-				GWT.log("failed to load diagram passed from vscode, loading defaults...");
+				//Load the diagram
+				if (VsCodeDiagramRawData != null) {
+					try {
+						diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(VersionChecker.vsCodePredefinedFile()));
+					} catch (Exception e) {
+						GWT.log("failed to load diagram passed from vscode, loading defaults...");
+					}
+				}
 			}
 		}
 
