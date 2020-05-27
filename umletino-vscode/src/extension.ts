@@ -22,7 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
     //if uxf file is opened, close the editor and open a new one with the file loaded
     if (document.fileName.split('.').pop() === "uxf") {
       await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
-      await vscode.commands.executeCommand("extension.launchUmlet", document.getText().toString());
+      await vscode.commands.executeCommand("extension.umlet", document.getText().toString());
     }
   };
 
@@ -33,18 +33,18 @@ export function activate(context: vscode.ExtensionContext) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
   // The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.launchUmlet', (fileContents: string) => {
+	let disposable = vscode.commands.registerCommand('extension.umlet', (fileContents: string) => {
 		// The code you place here will be executed every time your command is executed
-		startUmletino(context, fileContents);
+		startUmlet(context, fileContents);
 
 	});
 
 	context.subscriptions.push(disposable);
 }
 
-function startUmletino(context: vscode.ExtensionContext, fileContents: string) {
+function startUmlet(context: vscode.ExtensionContext, fileContents: string) {
 
-  const panel = vscode.window.createWebviewPanel('umletino', 'Umletino', vscode.ViewColumn.One, {
+  const panel = vscode.window.createWebviewPanel('umlet', 'UMLet', vscode.ViewColumn.One, {
     enableScripts: true,
     retainContextWhenHidden: true,
     localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'src', 'umlet-gwt'))]

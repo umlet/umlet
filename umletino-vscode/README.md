@@ -1,1 +1,1 @@
-my cool umlet
+BETA VERSION of UMLet -- Free UML Tool for Fast UML Diagrams
