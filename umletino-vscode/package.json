@@ -1,9 +1,10 @@
 {
-	"name": "umletvscode",
-	"displayName": "MyFirstTypescriptHTMLExtension",
-	"description": "toll",
+	"name": "umlet",
+	"displayName": "UMLet",
+	"description": "Free UML Tool for Fast UML Diagrams",
 	"version": "0.0.1",
-	"publisher": "myPublishername",
+	"publisher": "UMLet-Team",
+	"icon": "icons/UMLet_logo_128x128.png",
 	"extensionKind": [
 		"ui"
 	],
@@ -15,14 +16,14 @@
 	],
 	"activationEvents": [
 		"onLanguage:plaintext",
-		"onCommand:extension.launchUmlet"
+		"onCommand:extension.umlet"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.launchUmlet",
-				"title": "Umletino"
+				"command": "extension.umlet",
+				"title": "Umlet"
 			}
 		]
 	},
