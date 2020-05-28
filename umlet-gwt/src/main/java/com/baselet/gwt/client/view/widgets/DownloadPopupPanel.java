@@ -169,6 +169,8 @@ public class DownloadPopupPanel extends MyPopupPanel {
 		});
 	}-*/;
 
+
+
 	public static native void exportPngVSCode(String msg) /*-{
 		window.parent.vscode.postMessage({
 			command : 'exportPng',

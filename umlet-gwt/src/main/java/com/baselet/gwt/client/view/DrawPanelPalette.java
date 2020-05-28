@@ -131,7 +131,6 @@ public class DrawPanelPalette extends DrawPanel {
 	}
 
 	private final List<GridElement> draggedElements = new ArrayList<GridElement>();
-	private boolean cursorWasMovedDuringDrag; //check if cursor was actually moved
 	private boolean draggingDisabled; //to disable dragging when element was dragged to properties panel
 
 	@Override
@@ -142,7 +141,6 @@ public class DrawPanelPalette extends DrawPanel {
 		for (GridElement original : selector.getSelectedElements()) {
 				draggedElements.add(ElementFactoryGwt.create(original, getDiagram()));
 		}
-		cursorWasMovedDuringDrag = false;
 		draggingDisabled = false;
 		propertiesPanel.setEnabled(false); //Disable editing of elements in palette
 
