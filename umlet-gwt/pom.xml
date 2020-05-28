@@ -62,7 +62,7 @@
 			<groupId>ru.finam</groupId>
 			<artifactId>slf4j-gwt</artifactId>
 			<version>1.7.7.1</version>
-			<!-- no additional source entry necessary because the author packages 
+			<!-- no additional source entry necessary because the author packages
 				the normal jar with the sources -->
 		</dependency>
 	</dependencies>
@@ -82,7 +82,7 @@
 						</goals>
 						<configuration>
 							<outputDirectory>${project.basedir}/src/main/java/com/baselet/gwt/client/view</outputDirectory>
-							<!-- synchronize all palettes except the deprecated ones and Activity 
+							<!-- synchronize all palettes except the deprecated ones and Activity
 								AIO because they are OldGridElements which do not work in GWT -->
 							<includes>palettes/*.*</includes>
 							<excludes>palettes/Deprecated*.*,palettes/UML Activity - All in
@@ -130,14 +130,14 @@
 		</plugins>
 	</build>
 
-	<!-- this profile can be used to start the devmode for debugging the GWT 
+	<!-- this profile can be used to start the devmode for debugging the GWT
 		application -->
 	<profiles>
 		<profile>
 			<id>gwtdevmode</id>
 			<build>
 				<plugins>
-					<!-- copy static web resources (perhaps there is a better way, but I 
+					<!-- copy static web resources (perhaps there is a better way, but I
 						haven't found one with the gwt-maven-plugin) -->
 					<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
