@@ -14,37 +14,75 @@ import fs = require('fs');
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
+  // Use the console to output diagnostic information (console.log) and errors (console.error)
   // This line of code will only be executed once when your extension is activated
   console.log("Umlet extension started");
+
+  //array to keep track of opened panels to avoid re-opening
+  const openedPanels: UmletPanel[] = [];
 
   const previewAndCloseSrcDoc = async (document: TextDocument): Promise<void> => {
     //if uxf file is opened, close the editor and open a new one with the file loaded
     if (document.fileName.split('.').pop() === "uxf") {
       await vscode.commands.executeCommand("workbench.action.closeActiveEditor");
-      await vscode.commands.executeCommand("extension.umlet", document.getText().toString());
+      //Check if panel already opened, just focus it if it already is, otherwise open new one
+      let openedPanel = getOpenedPanel(document.fileName.toString());
+      if (!openedPanel)
+      {
+        await vscode.commands.executeCommand("extension.umlet", document);
+      } else {
+        openedPanel.panel.reveal(openedPanel.panel.viewColumn);
+      }
+
+      
     }
   };
+
+  /*
+    checks if a certain file is already opened in an umlet tab
+  */
+  function getOpenedPanel(filePath : string) : UmletPanel | undefined
+  {
+    let openedPanel = openedPanels.find(panel => panel.filePath === filePath);
+    if (!openedPanel)
+    {
+      return undefined;
+    }
+   return openedPanel;
+  }
 
   const openedEvent = vscode.workspace.onDidOpenTextDocument((document: TextDocument) => {
     previewAndCloseSrcDoc(document);
   });
-  
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-  // The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.umlet', (fileContents: string) => {
-		// The code you place here will be executed every time your command is executed
-		startUmlet(context, fileContents);
 
-	});
+  let disposable = vscode.commands.registerCommand('extension.umlet', (document: TextDocument) => {
+    //document.fileName.toString() provides the full path, we only want the filename itself
+    let filename = document.fileName.toString().replace(/^.*[\\\/]/, '');
 
-	context.subscriptions.push(disposable);
+    //start umlet and save the new panel with its uri
+    let openedUmletWebview = startUmlet(context, document.getText().toString(), filename);
+    //make sure to remove an opened panel when its closed
+    let openedUmletPanelWithPath = {panel: openedUmletWebview, filePath: document.fileName.toString()};
+    openedUmletWebview.onDidDispose(() => {
+      openedPanels.splice(openedPanels.indexOf(openedUmletPanelWithPath), 1);
+    });
+    openedPanels.push(openedUmletPanelWithPath);
+  });
+
+  context.subscriptions.push(disposable);
 }
 
-function startUmlet(context: vscode.ExtensionContext, fileContents: string) {
+/*
+  used to store panels and the file they have currently opened so re-opening can be prevented
+*/
+interface UmletPanel {
+  panel: WebviewPanel,
+  filePath: String,
+}
 
-  const panel = vscode.window.createWebviewPanel('umlet', 'UMLet', vscode.ViewColumn.One, {
+function startUmlet(context: vscode.ExtensionContext, fileContents: string, fileName: string): WebviewPanel {
+
+  const panel = vscode.window.createWebviewPanel('umlet', fileName, vscode.ViewColumn.One, {
     enableScripts: true,
     retainContextWhenHidden: true,
     localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'src', 'umlet-gwt'))]
@@ -61,60 +99,56 @@ function startUmlet(context: vscode.ExtensionContext, fileContents: string) {
         return;
     }
   }, undefined, context.subscriptions);
-  
+
   // Get path to resource on disk
   const onDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'umlet-gwt'));
   // And get the special URI to use with the webview
   const localUmletFolder = panel.webview.asWebviewUri(onDiskPath);
-  
-  if (fileContents === undefined)
-  {
+
+  if (fileContents === undefined) {
     panel.webview.html = GetUmletWebviewPage(localUmletFolder.toString(), 'undefined'); //TODO not working, loads uninteractable umletino without borders
   } else {
     panel.webview.html = GetUmletWebviewPage(localUmletFolder.toString(), fileContents.toString());
   }
-  }
+  return panel;
+}
 
-  
+
 
 
 
 
 
 //shows popup savefile dialog for uxf files
-function SaveFile(fileContent: string)
-{
+function SaveFile(fileContent: string) {
   vscode.window.showSaveDialog({
-    filters:{
+    filters: {
       'UML Diagram': ['uxf']
-    } 
-  })
-  .then(fileInfos => {
-    if(fileInfos !== undefined)
-    {
-      fs.writeFile(fileInfos.fsPath, fileContent, function (err) {
-      if (err) {return console.log(err);}
-  });
     }
-  });
+  })
+    .then(fileInfos => {
+      if (fileInfos !== undefined) {
+        fs.writeFile(fileInfos.fsPath, fileContent, function (err) {
+          if (err) { return console.log(err); }
+        });
+      }
+    });
 }
 
 //shows popup savefile dialog for png files
-function SaveFileDecode(fileContent: string)
-{
+function SaveFileDecode(fileContent: string) {
   vscode.window.showSaveDialog({
-    filters:{
+    filters: {
       'Image': ['png']
-    } 
-  })
-  .then(fileInfos => {
-    if(fileInfos !== undefined)
-    {
-      fs.writeFile(fileInfos.fsPath, fileContent, {encoding: 'base64'}, function (err) {
-      if (err) {return console.log(err);}
-  });
     }
-  });
+  })
+    .then(fileInfos => {
+      if (fileInfos !== undefined) {
+        fs.writeFile(fileInfos.fsPath, fileContent, { encoding: 'base64' }, function (err) {
+          if (err) { return console.log(err); }
+        });
+      }
+    });
 }
 
 
@@ -124,8 +158,7 @@ function SaveFileDecode(fileContent: string)
   * @param localUmletFolder folder which holds the local umletino gwt version.
   * @param diagramData XML data of a diagram which should be loaded on start
   */
-function GetUmletWebviewPage(localUmletFolder: string, diagramData:string)
-{
+function GetUmletWebviewPage(localUmletFolder: string, diagramData: string) {
   return `<!DOCTYPE html>
   <html>
     <head>
@@ -201,6 +234,6 @@ function GetUmletWebviewPage(localUmletFolder: string, diagramData:string)
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
 
 
