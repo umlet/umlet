@@ -20,11 +20,18 @@ public class ThemeFactory {
     private static final List<ThemeChangeListener> listeners;
 
     static {
-        exportChangeTheme();
         listeners = new ArrayList<ThemeChangeListener>();
-        String theme = getTheme();
+        String theme = null;
+        try {
+            exportChangeTheme();
+            theme = getTheme();
+        } catch (Error e) {
+            // Running UMLet in Java will cause this error due to no JSNI availability.
+            if (!e.getClass().getCanonicalName().equals("java.lang.UnsatisfiedLinkError"))
+                throw e;
+        }
         if (theme != null) {
-            changeTheme(getTheme());
+            changeTheme(theme);
         }
     }
 
