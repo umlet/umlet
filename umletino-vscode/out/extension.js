@@ -20,28 +20,52 @@ function activate(context) {
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
     console.log("Umlet extension started");
+    //array to keep track of opened panels to avoid re-opening
+    const openedPanels = [];
     const previewAndCloseSrcDoc = (document) => __awaiter(this, void 0, void 0, function* () {
         //if uxf file is opened, close the editor and open a new one with the file loaded
         if (document.fileName.split('.').pop() === "uxf") {
             yield vscode.commands.executeCommand("workbench.action.closeActiveEditor");
-            yield vscode.commands.executeCommand("extension.umlet", document.getText().toString());
+            //Check if panel already opened, just focus it if it already is, otherwise open new one
+            let openedPanel = getOpenedPanel(document.fileName.toString());
+            if (!openedPanel) {
+                yield vscode.commands.executeCommand("extension.umlet", document);
+            }
+            else {
+                openedPanel.panel.reveal(openedPanel.panel.viewColumn);
+            }
         }
     });
+    /*
+      checks if a certain file is already opened in an umlet tab
+    */
+    function getOpenedPanel(filePath) {
+        let openedPanel = openedPanels.find(panel => panel.filePath === filePath);
+        if (!openedPanel) {
+            return undefined;
+        }
+        return openedPanel;
+    }
     const openedEvent = vscode.workspace.onDidOpenTextDocument((document) => {
         previewAndCloseSrcDoc(document);
     });
-    // The command has been defined in the package.json file
-    // Now provide the implementation of the command with registerCommand
-    // The commandId parameter must match the command field in package.json
-    let disposable = vscode.commands.registerCommand('extension.umlet', (fileContents) => {
-        // The code you place here will be executed every time your command is executed
-        startUmlet(context, fileContents);
+    let disposable = vscode.commands.registerCommand('extension.umlet', (document) => {
+        //document.fileName.toString() provides the full path, we only want the filename itself
+        let filename = document.fileName.toString().replace(/^.*[\\\/]/, '');
+        //start umlet and save the new panel with its uri
+        let openedUmletWebview = startUmlet(context, document.getText().toString(), filename);
+        //make sure to remove an opened panel when its closed
+        let openedUmletPanelWithPath = { panel: openedUmletWebview, filePath: document.fileName.toString() };
+        openedUmletWebview.onDidDispose(() => {
+            openedPanels.splice(openedPanels.indexOf(openedUmletPanelWithPath), 1);
+        });
+        openedPanels.push(openedUmletPanelWithPath);
     });
     context.subscriptions.push(disposable);
 }
 exports.activate = activate;
-function startUmlet(context, fileContents) {
-    const panel = vscode.window.createWebviewPanel('umlet', 'UMLet', vscode.ViewColumn.One, {
+function startUmlet(context, fileContents, fileName) {
+    const panel = vscode.window.createWebviewPanel('umlet', fileName, vscode.ViewColumn.One, {
         enableScripts: true,
         retainContextWhenHidden: true,
         localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'src', 'umlet-gwt'))]
@@ -68,6 +92,7 @@ function startUmlet(context, fileContents) {
     else {
         panel.webview.html = GetUmletWebviewPage(localUmletFolder.toString(), fileContents.toString());
     }
+    return panel;
 }
 //shows popup savefile dialog for uxf files
 function SaveFile(fileContent) {
