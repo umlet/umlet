@@ -52,6 +52,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	protected Diagram diagram = new DiagramGwt(new ArrayList<GridElement>());
 
 	protected DrawCanvas canvas = new DrawCanvas();
+	protected boolean cursorWasMovedDuringDrag; //check if cursor was actually moved
 
 	SelectorNew selector;
 
@@ -326,6 +327,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	}
 
 	void onMouseDown(final GridElement element, final boolean isControlKeyDown) {
+		cursorWasMovedDuringDrag = false;
 		if (isControlKeyDown) {
 			if (element != null) {
 				if (selector.isSelected(element)) {
@@ -363,6 +365,10 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 	}
 
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
+		if (diffX != 0 || diffY != 0)
+		{
+			cursorWasMovedDuringDrag = true;
+		}
 		if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
 			stickablesToMove.put(draggedGridElement, getStickablesToMoveWhenElementsMove(draggedGridElement, Collections.<GridElement> emptyList()));
 		}

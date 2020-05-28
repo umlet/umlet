@@ -9,7 +9,7 @@
 		"ui"
 	],
 	"engines": {
-		"vscode": "^1.43.0"
+		"vscode": "^1.44.0"
 	},
 	"categories": [
 		"Other"
@@ -20,10 +20,16 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"commands": [
+		"customEditors": [
 			{
-				"command": "extension.umlet",
-				"title": "Umlet"
+				"viewType": "uxfCustoms.umletEditor",
+				"displayName": "UMLet",
+				"selector": [
+					{
+						"filenamePattern": "*.uxf"
+					}
+				],
+				"priority": "default"
 			}
 		]
 	},
@@ -41,7 +47,7 @@
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^7.0.1",
 		"@types/node": "^12.12.32",
-		"@types/vscode": "^1.43.0",
+		"@types/vscode": "^1.44.0",
 		"@typescript-eslint/eslint-plugin": "^2.25.0",
 		"@typescript-eslint/parser": "^2.25.0",
 		"electron": "^8.2.0",
