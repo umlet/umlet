@@ -495,11 +495,10 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 
 	@Override
 	public void onThemeChange() {
-		List<GridElement> gridElements = diagram.getGridElementsByLayerLowestToHighest();
+		List<GridElement> gridElements = diagram.getGridElements();
 		for(GridElement gridElement:gridElements) {
 			gridElement.updateModelFromText();
 		}
-		getSelector().deselectAllWithoutAfterAction();
-		redraw();
+		redraw(false);
 	}
 }
