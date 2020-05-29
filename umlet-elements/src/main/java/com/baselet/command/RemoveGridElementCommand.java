@@ -6,8 +6,8 @@ import com.baselet.element.interfaces.GridElement;
 
 public class RemoveGridElementCommand extends Command {
 
-	private CommandTarget target;
-	private List<GridElement> elements;
+	protected CommandTarget target;
+	protected List<GridElement> elements;
 
 	public RemoveGridElementCommand(CommandTarget target, List<GridElement> elements) {
 		this.target = target;
