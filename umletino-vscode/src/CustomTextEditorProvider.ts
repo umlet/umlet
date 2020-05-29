@@ -195,21 +195,51 @@ GetUmletWebviewPage(localUmletFolder: string, diagramData: string) {
       function getTheme() {
         switch(document.body.className) {
           case 'vscode-light':
-            return 'LIGHT';
+            return 'LIGHT'; 
           case 'vscode-dark':
           case 'vscode-hight-contrast':
-            return theme = 'DARK';
+            return 'DARK';
+          default:
+            return 'LIGHT';
         }
       }
 
+      function switchBodyColor(theme) {
+        switch(theme) {
+          case 'DARK':
+            document.body.style.backgroundColor = 'black';
+            break;
+          case 'LIGHT':
+            document.body.style.backgroundColor = '';
+            break;
+          default:
+            document.body.style.backgroundColor = '';
+        }
+      }
+
+      // Observing theme changes
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutationRecord) {
+            var themeFromClass = getTheme(document.body.className);
+            window.changeTheme(themeFromClass);
+            switchBodyColor(themeFromClass);
+        });    
+      });
+      
+      var target = document.body;
+      observer.observe(target, { attributes : true, attributeFilter : ['class'] });
+
+      // Retrieving current theme
       var theme = 'LIGHT';
-      theme = getTheme();
+      theme = getTheme(document.body.className);
+      switchBodyColor(theme);
+
       var vscode = acquireVsCodeApi();
       var vsCodeInitialDiagramData = \`${diagramData}\`;
     </script>
 
   </html>`;
-}
+  }
 
 }
 
