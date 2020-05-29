@@ -214,7 +214,6 @@ public class MainView extends Composite implements ThemeChangeListener {
 		handler = new FileOpenHandler(diagramPanel);
 
 		//Load diagram if one was passed from vscode
-		diagramPanel.setDiagram(DiagramXmlParser.xmlToDiagram(VersionChecker.mockPredifinedFile()));
 		if (VersionChecker.GetVersion() == Version.VSCODE) {
 			//Retrieve the Diagram
 			String VsCodeDiagramRawData = VersionChecker.vsCodePredefinedFile();
