@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.baselet.command.AddGridElementCommand;
-import com.baselet.command.CommandTarget;
-import com.baselet.command.Controller;
-import com.baselet.command.RemoveGridElementCommand;
+import com.baselet.command.*;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.GridElementUtils;
@@ -16,6 +13,8 @@ import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.WebStorage;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
+import com.baselet.gwt.client.view.commands.AddGridElementCommandNoUpdate;
+import com.baselet.gwt.client.view.commands.RemoveGridElementCommandNoUpdate;
 
 public class CommandInvoker extends Controller {
 
@@ -35,6 +34,22 @@ public class CommandInvoker extends Controller {
 
 	void removeElements(CommandTarget target, List<GridElement> elements) {
 		executeCommand(new RemoveGridElementCommand(target, elements));
+	}
+
+	/*
+	 used to add an element without triggering VSCode being notified about the diagram change
+	 used to add preview Elements
+	 */
+	void addElementsNoUpdate(CommandTarget target, List<GridElement> elements) {
+		executeCommand(new AddGridElementCommandNoUpdate(target, elements));
+	}
+
+	/*
+	 used to remove an element without triggering VSCode being notified about the diagram change
+	 used to remove preview Elements
+	 */
+	void removeElementsNoUpdate(CommandTarget target, List<GridElement> elements) {
+		executeCommand(new RemoveGridElementCommandNoUpdate(target, elements));
 	}
 
 	void removeSelectedElements(CommandTarget target) {

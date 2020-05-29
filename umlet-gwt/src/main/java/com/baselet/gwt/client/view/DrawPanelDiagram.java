@@ -33,7 +33,7 @@ public class DrawPanelDiagram extends DrawPanel {
     public void InitializeDisplayingPreviewElements(List<GridElement> previewElements) {
         if (currentPreviewElements == null) {
             if (previewElements != null)
-                this.addGridElements(previewElements);
+                this.addGridElementsDontNotifyUpdate(previewElements);
             this.currentPreviewElements = previewElements;
         }
         this.redraw(false);
@@ -72,7 +72,7 @@ public class DrawPanelDiagram extends DrawPanel {
 
     public void RemoveOldPreview() {
         if (currentPreviewElements != null)
-            commandInvoker.removeElements(this, this.currentPreviewElements);
+            commandInvoker.removeElementsNoUpdate(this, this.currentPreviewElements);
         currentPreviewElements = null;
     }
 
@@ -90,10 +90,20 @@ public class DrawPanelDiagram extends DrawPanel {
         handleVSCodeFileUpdate();
     }
 
+    public void addGridElementsDontNotifyUpdate(List<GridElement> elements) {
+        super.addGridElements(elements);
+    }
+
+
+
     @Override
     public void removeGridElements(List<GridElement> elements) {
         super.removeGridElements(elements);
         handleVSCodeFileUpdate();
+    }
+
+    public void removeGridElementsDontNotifyUpdate(List<GridElement> elements) {
+        super.removeGridElements(elements);
     }
 
     @Override
