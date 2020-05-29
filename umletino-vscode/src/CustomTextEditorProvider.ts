@@ -220,7 +220,7 @@ GetUmletWebviewPage(localUmletFolder: string, diagramData: string) {
       // Observing theme changes
       var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutationRecord) {
-            var themeFromClass = getTheme(document.body.className);
+            var themeFromClass = getTheme();
             window.changeTheme(themeFromClass);
             switchBodyColor(themeFromClass);
         });    
@@ -231,7 +231,7 @@ GetUmletWebviewPage(localUmletFolder: string, diagramData: string) {
 
       // Retrieving current theme
       var theme = 'LIGHT';
-      theme = getTheme(document.body.className);
+      theme = getTheme();
       switchBodyColor(theme);
 
       var vscode = acquireVsCodeApi();
