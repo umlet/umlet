@@ -7,6 +7,7 @@ const CustomTextEditorProvider_1 = require("./CustomTextEditorProvider");
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 function activate(context) {
+    console.log("activitaing umlet extension...");
     context.subscriptions.push(vscode.window.registerCustomEditorProvider("uxfCustoms.umletEditor", new CustomTextEditorProvider_1.UmletEditorProvider(context), {
         webviewOptions: { retainContextWhenHidden: true }
     }));
