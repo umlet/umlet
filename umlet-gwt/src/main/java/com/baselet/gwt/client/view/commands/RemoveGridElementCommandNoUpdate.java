@@ -31,7 +31,7 @@ public class RemoveGridElementCommandNoUpdate extends RemoveGridElementCommand {
         if (target instanceof DrawPanelDiagram)
         {
             DrawPanelDiagram targetAsDPD = (DrawPanelDiagram) target;
-            targetAsDPD.removeGridElementsDontNotifyUpdate(elements);
+            targetAsDPD.addGridElementsDontNotifyUpdate(elements);
         } else {
             super.undo();
         }

@@ -15,6 +15,7 @@ import com.baselet.gwt.client.element.WebStorage;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.view.commands.AddGridElementCommandNoUpdate;
 import com.baselet.gwt.client.view.commands.RemoveGridElementCommandNoUpdate;
+import com.google.gwt.core.client.GWT;
 
 public class CommandInvoker extends Controller {
 
@@ -56,7 +57,6 @@ public class CommandInvoker extends Controller {
 		removeElements(target, target.getSelector().getSelectedElements());
 	}
 
-	// TODO implement copy & paste as commands
 
 	void copySelectedElements(CommandTarget target) {
 		WebStorage.setClipboard(copyElementsInList(target.getSelector().getSelectedElements(), target.getDiagram())); // must be copied here to ensure location etc. will not be changed
@@ -71,6 +71,10 @@ public class CommandInvoker extends Controller {
 		List<GridElement> copyOfElements = copyElementsInList(WebStorage.getClipboard(), target.getDiagram());
 		Selector.replaceGroupsWithNewGroups(copyOfElements, target.getSelector());
 		realignElementsToVisibleRect(target, copyOfElements);
+		//give a slight offset to the copied elements so they dont overlay with the original
+		for (GridElement ge : copyOfElements) {
+			ge.setLocation(ge.getRectangle().x + SharedConstants.DEFAULT_GRID_SIZE,ge.getRectangle().y + SharedConstants.DEFAULT_GRID_SIZE) ;
+		}
 		addElements(target, copyOfElements); // copy here to make sure it can be pasted multiple times
 	}
 
