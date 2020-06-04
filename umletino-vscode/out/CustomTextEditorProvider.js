@@ -5,19 +5,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const vscode = require("vscode");
 const path = require("path");
 const fs = require("fs");
+var globalContext;
 class UmletEditorProvider {
     constructor(context) {
         this.context = context;
     }
     static register(context) {
         const provider = new UmletEditorProvider(context);
+        //Override VSCodes built-in save functionality
+        globalContext = context;
+        provider.consoleLog('asdasd');
+        context.subscriptions.push(clipboardCopyDisposable);
+        context.subscriptions.push(clipboardPasteDisposable);
+        provider.consoleLog('asdasd');
         const providerRegistration = vscode.window.registerCustomEditorProvider(UmletEditorProvider.viewType, provider);
         return providerRegistration;
+    }
+    consoleLog(params) {
+        var channel = vscode.window.createOutputChannel('myoutputchannel');
+        channel.appendLine('new clip pushg');
+        channel.show();
     }
     /**
        * Called when our custom editor is opened.
        *
-       * The extension path MUST be set via SetExtensionPath() beforehand
        */
     resolveCustomTextEditor(document, webviewPanel, token) {
         webviewPanel.webview.options = {
@@ -207,4 +218,48 @@ class UmletEditorProvider {
 }
 exports.UmletEditorProvider = UmletEditorProvider;
 UmletEditorProvider.viewType = 'uxfCustoms.umletEditor';
+//Has to be set to true, so copy paste commands via keyboard are registered by vs code
+vscode.commands.executeCommand('setContext', 'textInputFocus', true);
+//override the editor.action.clipboardCopyAction with our own
+var clipboardCopyDisposable = vscode.commands.registerTextEditorCommand('editor.action.clipboardCopyAction', overriddenClipboardCopyAction);
+/*
+ * Function that overrides the default copy behavior. We get the selection and use it, dispose of this registered
+ * command (returning to the default editor.action.clipboardCopyAction), invoke the default one, and then re-register it after the default completes
+ */
+function overriddenClipboardCopyAction(textEditor, edit, params) {
+    //debug
+    //Write to output.
+    console.log("Copy registered");
+    //dispose of the overridden editor.action.clipboardCopyAction- back to default copy behavior
+    clipboardCopyDisposable.dispose();
+    //execute the default editor.action.clipboardCopyAction to copy
+    vscode.commands.executeCommand("editor.action.clipboardCopyAction").then(function () {
+        console.log("After Copy");
+        //add the overridden editor.action.clipboardCopyAction back
+        clipboardCopyDisposable = vscode.commands.registerTextEditorCommand('editor.action.clipboardCopyAction', overriddenClipboardCopyAction);
+        //complains about globalConext beeing undefined, not needed? seems to work fine without
+        //globalContext.subscriptions.push(clipboardCopyDisposable);
+    });
+}
+//override the editor.action.clipboardPasteAction with our own
+var clipboardPasteDisposable = vscode.commands.registerTextEditorCommand('editor.action.clipboardPasteAction', overriddenClipboardPasteAction);
+/*
+ * Function that overrides the default paste behavior. We get the selection and use it, dispose of this registered
+ * command (returning to the default editor.action.clipboardPasteAction), invoke the default one, and then re-register it after the default completes
+ */
+function overriddenClipboardPasteAction(textEditor, edit, params) {
+    //debug
+    //Write to output.
+    console.log("Paste registered");
+    //dispose of the overridden editor.action.clipboardPasteAction- back to default paste behavior
+    clipboardPasteDisposable.dispose();
+    //execute the default editor.action.clipboardPasteAction to paste
+    vscode.commands.executeCommand("editor.action.clipboardPasteAction").then(function () {
+        console.log("After Paste");
+        //add the overridden editor.action.clipboardPasteAction back
+        clipboardPasteDisposable = vscode.commands.registerTextEditorCommand('editor.action.clipboardPasteAction', overriddenClipboardPasteAction);
+        //complains about globalConext beeing undefined, not needed? seems to work fine without
+        //globalContext.subscriptions.push(clipboardPasteDisposable);
+    });
+}
 //# sourceMappingURL=CustomTextEditorProvider.js.map
