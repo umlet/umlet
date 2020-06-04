@@ -444,7 +444,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 		else if (Shortcut.PASTE.matches(event)) {
 			commandInvoker.pasteElements(DrawPanel.this);
 		}
-		else if (Shortcut.SAVE.matches(event)) {
+		else if (Shortcut.SAVE.matches(event) && !VersionChecker.isVsCodeVersion()) {
 			mainView.getSaveCommand().execute();
 		}
 		else if (Shortcut.MOVE_UP.matches(event)) {
