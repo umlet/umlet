@@ -3,7 +3,10 @@
 	"displayName": "UMLet",
 	"description": "Free UML Tool for Fast UML Diagrams",
 	"version": "0.0.1",
-	"publisher": "UMLet-Team",
+	"publisher": "theumletteam",
+	"author": {
+		"name": "The UMLet Team"
+	},
 	"icon": "icons/UMLet_logo_128x128.png",
 	"extensionKind": [
 		"ui"
