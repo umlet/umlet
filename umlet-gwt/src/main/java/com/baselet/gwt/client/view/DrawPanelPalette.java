@@ -117,7 +117,7 @@ public class DrawPanelPalette extends DrawPanel {
 		else if (Shortcut.SELECT_ALL.matches(event)) {
 			selector.select(diagram.getGridElements());
 		}
-		else if (Shortcut.SAVE.matches(event)) {
+		else if (Shortcut.SAVE.matches(event) && !VersionChecker.isVsCodeVersion()) {
 			mainView.getSaveCommand().execute();
 		}
 		else {
