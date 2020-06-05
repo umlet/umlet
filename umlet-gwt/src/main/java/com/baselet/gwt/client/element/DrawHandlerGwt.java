@@ -1,9 +1,10 @@
 package com.baselet.gwt.client.element;
 
 import com.baselet.diagram.draw.helper.ColorOwn;
-import com.google.gwt.core.client.GWT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 
 import com.baselet.control.StringStyle;
 import com.baselet.control.basics.geom.DimensionDouble;
@@ -22,7 +23,7 @@ import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 
 public class DrawHandlerGwt extends DrawHandler {
 
-	private static final Logger log = LoggerFactory.getLogger(DrawHandlerGwt.class);
+    private static final CustomLogger log = CustomLoggerFactory.getLogger(DrawHandlerGwt.class);
 
 	private final Canvas canvas;
 	private final Context2d ctx;

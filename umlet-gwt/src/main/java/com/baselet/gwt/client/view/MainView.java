@@ -4,11 +4,11 @@ import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.diagram.draw.helper.theme.ThemeChangeListener;
 import com.baselet.gwt.client.base.Converter;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.view.VersionChecker.Version;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.user.client.ui.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.vectomatic.file.FileUploadExt;
 
 import com.baselet.control.config.SharedConfig;
@@ -114,7 +114,7 @@ public class MainView extends Composite implements ThemeChangeListener {
 	private final FileUploadExt hiddenUploadButton = new FileUploadExt();
 	private final FileOpenHandler handler;
 
-	private final Logger log = LoggerFactory.getLogger(MainView.class);
+	private final CustomLogger log = CustomLoggerFactory.getLogger(MainView.class);
 
 	private final DropboxIntegration dropboxInt;
 
