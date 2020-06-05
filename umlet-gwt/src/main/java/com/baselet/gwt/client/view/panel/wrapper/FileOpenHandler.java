@@ -3,8 +3,8 @@ package com.baselet.gwt.client.view.panel.wrapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import org.vectomatic.file.ErrorCode;
 import org.vectomatic.file.File;
 import org.vectomatic.file.FileError;
@@ -15,12 +15,11 @@ import org.vectomatic.file.events.LoadEndHandler;
 
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.view.interfaces.AcceptDiagram;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 
 public class FileOpenHandler {
 
-	private final Logger log = LoggerFactory.getLogger(FileOpenHandler.class);
+	private final CustomLogger log = CustomLoggerFactory.getLogger(FileOpenHandler.class);
 
 	protected FileReader reader;
 	protected List<File> readQueue = new ArrayList<File>();

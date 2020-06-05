@@ -18,8 +18,7 @@ var globalContext: vscode.ExtensionContext;
 
 export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
-
-
+  private outputChannel: vscode.OutputChannel;
 
   public static register(context: vscode.ExtensionContext): vscode.Disposable {
 
@@ -41,7 +40,9 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
   constructor(
     private readonly context: vscode.ExtensionContext
-  ) { }
+  ) {
+      this.outputChannel = vscode.window.createOutputChannel('UMLet');
+   }
 
   private static readonly viewType = 'uxfCustoms.umletEditor';
 
@@ -83,6 +84,9 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
         case 'exportPng':
           var actual_data = message.text.replace("data:image/png;base64,", "");
           this.SaveFileDecode(actual_data);
+          return;
+        case 'postLog':
+          this.postLog(message.text);
           return;
       }
     }, undefined, this.context.subscriptions);
@@ -185,7 +189,9 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       });
   }
 
-
+  postLog(message: string) {
+    this.outputChannel.appendLine(message);
+  }
 
   /**
     * 

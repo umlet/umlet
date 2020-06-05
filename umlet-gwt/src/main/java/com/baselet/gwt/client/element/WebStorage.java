@@ -28,6 +28,7 @@ public class WebStorage {
 
     public static void addSavedDiagram(String name, String diagramXml) {
         clipboardStorage.setSaved(name, diagramXml);
+        log.debug("test");
     }
 
     public static void removeSavedDiagram(String chosenName) {

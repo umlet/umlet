@@ -17,6 +17,16 @@ public class GWTLogger implements CustomLogger {
     }
 
     @Override
+    public void debug(String message) {
+        logger.debug(message);
+    }
+
+    @Override
+    public void debug(String message, Throwable throwable) {
+        logger.debug(message, throwable);
+    }
+
+    @Override
     public void info(String message) {
         logger.info(message);
     }
@@ -24,5 +34,10 @@ public class GWTLogger implements CustomLogger {
     @Override
     public void error(String message) {
         logger.error(message);
+    }
+
+    @Override
+    public void error(String message, Throwable throwable) {
+        logger.error(message, throwable);
     }
 }
