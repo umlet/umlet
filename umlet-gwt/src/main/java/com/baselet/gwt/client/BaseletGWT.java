@@ -76,7 +76,7 @@ public class BaseletGWT implements EntryPoint {
     private void setUncaughtExceptionHandler() {
         GWT.setUncaughtExceptionHandler(throwable -> {
             Throwable unwrapped = unwrap(throwable);
-            Notification.showFeatureNotSupported("Program crashed, please check logs and report a bug.", false);
+            Notification.showFeatureNotSupported("Sorry, the program just crashed. Please check logs and report a bug.", false);
             log.error(unwrapped.getMessage());
         });
     }
