@@ -17,6 +17,7 @@ import com.baselet.gwt.client.view.MainView;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.event.shared.UmbrellaException;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
@@ -27,6 +28,8 @@ public class BaseletGWT implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
+        setUncaughtExceptionHandler();
+
 		log.info("Starting GUI ...");
 		Program.init(BuildInfoProperties.getVersion(), RuntimeType.GWT);
 		SharedConfig.getInstance().setDev_mode(Location.getParameter("dev") != null);
@@ -69,6 +72,24 @@ public class BaseletGWT implements EntryPoint {
 		}
 		log.info("GUI started");
 	}
+
+    private void setUncaughtExceptionHandler() {
+        GWT.setUncaughtExceptionHandler(throwable -> {
+            Throwable unwrapped = unwrap(throwable);
+            Notification.showFeatureNotSupported("Program crashed, please check logs and report a bug.", false);
+            log.error(unwrapped.getMessage());
+        });
+    }
+
+    public Throwable unwrap(Throwable e) {
+        if (e instanceof UmbrellaException) {
+            UmbrellaException ue = (UmbrellaException) e;
+            if (ue.getCauses().size() == 1) {
+                return unwrap(ue.getCauses().iterator().next());
+            }
+        }
+        return e;
+    }
 
 	private final native boolean browserSupportsFileReader() /*-{
     	return typeof FileReader != "undefined";
