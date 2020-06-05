@@ -3,8 +3,8 @@ package com.baselet.gwt.client;
 import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.gwt.client.base.Converter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.baselet.gwt.client.logging.CustomLogger;
+import com.baselet.gwt.client.logging.CustomLoggerFactory;
 
 import com.baselet.control.config.SharedConfig;
 import com.baselet.control.enums.Program;
@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 
 public class BaseletGWT implements EntryPoint {
 
-	Logger log = LoggerFactory.getLogger(BaseletGWT.class);
+	CustomLogger log = CustomLoggerFactory.getLogger(BaseletGWT.class);
 
 	@Override
 	public void onModuleLoad() {
