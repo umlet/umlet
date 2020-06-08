@@ -9,8 +9,10 @@ import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
+import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 
 
 public class DrawPanelDiagram extends DrawPanel {
@@ -37,6 +39,14 @@ public class DrawPanelDiagram extends DrawPanel {
             this.currentPreviewElements = previewElements;
         }
         this.redraw(false);
+    }
+
+    @Override
+    public void handleKeyDown(KeyDownEvent event) {
+        super.handleKeyDown(event);
+        if (Shortcut.MOVE_UP.matches(event) || Shortcut.MOVE_DOWN.matches(event) || Shortcut.MOVE_LEFT.matches(event) || Shortcut.MOVE_RIGHT.matches(event)) {
+            handleVSCodeFileUpdate();
+        }
     }
 
     public void UpdateDisplayingPreviewElements(int diffX, int diffY, boolean firstDrag) {
@@ -66,7 +76,6 @@ public class DrawPanelDiagram extends DrawPanel {
     public void onShowMenu(Point point) {
         CancelDragOfPalette();
         super.onShowMenu(point);
-
     }
 
 
