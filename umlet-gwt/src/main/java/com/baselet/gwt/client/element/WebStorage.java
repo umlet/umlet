@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.baselet.gwt.client.clipboard.ClipboardStorage;
 import com.baselet.gwt.client.clipboard.LocalStorageClipboard;
-import com.baselet.gwt.client.clipboard.VsCodeClipboard;
+import com.baselet.gwt.client.clipboard.VsCodeClipboardDEPRECATED;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +19,7 @@ public class WebStorage {
 
     public static boolean initLocalStorage() {
         if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE) {
-            clipboardStorage = new VsCodeClipboard();
+            clipboardStorage = new VsCodeClipboardDEPRECATED();
         } else {
             clipboardStorage = new LocalStorageClipboard();
         }

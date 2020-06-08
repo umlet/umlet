@@ -3,7 +3,7 @@ package com.baselet.gwt.client.clipboard;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VsCodeClipboard implements ClipboardStorage {
+public class VsCodeClipboardDEPRECATED implements ClipboardStorage {
     private Map<String, String> clipboard;
 
     @Override

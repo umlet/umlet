@@ -6,6 +6,7 @@ import com.baselet.diagram.draw.helper.theme.ThemeChangeListener;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
+import com.baselet.gwt.client.clipboard.VsCodeClipboardManager;
 import com.baselet.gwt.client.view.VersionChecker.Version;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.user.client.ui.*;
@@ -179,11 +180,16 @@ public class MainView extends Composite implements ThemeChangeListener {
 		diagramPaletteSplitter.setWidgetSize(palettePropertiesSplitter, 0.0);
 	}
 
+    private  void vsCodeLoadCopyPasteMessageHandlers() {
+        VsCodeClipboardManager.hookUpClipboardManagerToVsCode();
+    }
+
 	public MainView() {
 		initWidget(uiBinder.createAndBindUi(this));
 
 		if (VersionChecker.GetVersion() == Version.VSCODE) {
 			diagramPaletteSplitter.setWidgetHidden(diagramPaletteSplitter.getWidget(0), true);
+			this.vsCodeLoadCopyPasteMessageHandlers();
 		}
 		diagramPaletteSplitter.setWidgetToggleDisplayAllowed(palettePropertiesSplitter, true);
 		diagramPaletteSplitter.setWidgetSnapClosedSize(palettePropertiesSplitter, 100);
