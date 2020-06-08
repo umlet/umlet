@@ -8,6 +8,7 @@ import com.baselet.control.basics.geom.Point;
 import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.gwt.client.clipboard.VsCodeClipboardManager;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -86,13 +87,19 @@ public class EventHandlingUtils {
 		FIRST, CONTINUOUS, NO
 	}
 
-	private static class DragCache {
+	public static class DragCache {
 		private DragStatus dragging = DragStatus.NO;
 		private Point moveStart;
 		private GridElement elementToDrag;
 		private EventHandlingTarget activePanel;
 		private EventHandlingTarget mouseContainingPanel;
 		private List<HandlerRegistration> nonTouchHandlers = new ArrayList<HandlerRegistration>();
+
+		public EventHandlingTarget getActivePanel()
+		{
+			return activePanel;
+		}
+
 		/**
 		 * doubleclicks are only handled if the mouse has moved into the canvas before
 		 * this is necessary to void unwanted propagation of suggestbox-selections via doubleclick
@@ -105,6 +112,11 @@ public class EventHandlingUtils {
 
 	public static void addEventHandler(final FocusPanel handlerTarget, final EventHandlingTarget... panels) {
 		final DragCache storage = new DragCache();
+		if(VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
+		{
+			VsCodeClipboardManager.SetStorage(storage);
+		}
+
 
 		for (final EventHandlingTarget panel : panels) {
 			storage.nonTouchHandlers.add(panel.addMouseOutHandler(new MouseOutHandler() {

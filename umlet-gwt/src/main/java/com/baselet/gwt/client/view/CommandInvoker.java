@@ -11,6 +11,7 @@ import com.baselet.element.GridElementUtils;
 import com.baselet.element.Selector;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
+import com.baselet.gwt.client.clipboard.VsCodeClipboardManager;
 import com.baselet.gwt.client.element.WebStorage;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.view.commands.AddGridElementCommandNoUpdate;
@@ -58,8 +59,17 @@ public class CommandInvoker extends Controller {
 	}
 
 
-	void copySelectedElements(CommandTarget target) {
-		WebStorage.setClipboard(copyElementsInList(target.getSelector().getSelectedElements(), target.getDiagram())); // must be copied here to ensure location etc. will not be changed
+	public void copySelectedElements(CommandTarget target) {
+		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
+		{
+			if (target instanceof DrawPanel)
+			{
+				VsCodeClipboardManager.CopyDiagramToClipboard((DrawPanel)target);
+			}
+		} else {
+			WebStorage.setClipboard(copyElementsInList(target.getSelector().getSelectedElements(), target.getDiagram())); // must be copied here to ensure location etc. will not be changed
+		}
+
 	}
 
 	void cutSelectedElements(CommandTarget target) {
