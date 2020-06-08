@@ -79,7 +79,13 @@ public class DrawPanelPalette extends DrawPanel {
 						selector.select(diagram.getGridElements());
 						propertiesPanel.setEnabled(false); //needs to be disabled, otherwise palette elements could be edited
 					}
-				});
+				}, new MenuPopup.MenuPopupItem(MenuConstants.COPY) {
+					@Override
+					public void execute() {
+						commandInvoker.copySelectedElements(DrawPanelPalette.this);
+					}
+				}
+		);
 	}
 
 	@Override
@@ -113,14 +119,11 @@ public class DrawPanelPalette extends DrawPanel {
 		boolean avoidBrowserDefault = true;
 		if (Shortcut.DESELECT_ALL.matches(event)) {
 			selector.deselectAll();
-		}
-		else if (Shortcut.SELECT_ALL.matches(event)) {
+		} else if (Shortcut.SELECT_ALL.matches(event)) {
 			selector.select(diagram.getGridElements());
-		}
-		else if (Shortcut.SAVE.matches(event) && !VersionChecker.isVsCodeVersion()) {
+		} else if (Shortcut.SAVE.matches(event) && !VersionChecker.isVsCodeVersion()) {
 			mainView.getSaveCommand().execute();
-		}
-		else {
+		} else {
 			avoidBrowserDefault = false;
 		}
 
@@ -151,14 +154,12 @@ public class DrawPanelPalette extends DrawPanel {
 	@Override
 	public void onMouseDragEnd(GridElement gridElement, Point lastPoint) {
 		//reset view if it was dragged out of bounds
-		if (selector.getAllElements().size() == 0)
-		{
+		if (selector.getAllElements().size() == 0) {
 			// todo: reset palette view to not be out-of-bounds
 		}
 
 		//reset dragged elements to origin position, if they were actually moved
-		if (cursorWasMovedDuringDrag)
-		{
+		if (cursorWasMovedDuringDrag) {
 			List<GridElement> elementsToMove = ResetDraggedPaletteElements();
 			RemoveDiagramPreview();
 			if (lastPoint.getX() < 0 && resizeDirections.isEmpty()) { // mouse moved from palette to diagram -> insert elements to diagram
@@ -195,8 +196,7 @@ public class DrawPanelPalette extends DrawPanel {
 	}
 
 	private void RemoveDiagramPreview() {
-		if (otherDrawFocusPanel instanceof DrawPanelDiagram)
-		{
+		if (otherDrawFocusPanel instanceof DrawPanelDiagram) {
 			DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
 			otherDrawDiagramFocusPanel.RemoveOldPreview();
 		}
@@ -227,14 +227,11 @@ public class DrawPanelPalette extends DrawPanel {
 	@Override
 	void onMouseMoveDragging(Point dragStart, int diffX, int diffY, GridElement draggedGridElement, boolean isShiftKeyDown, boolean isCtrlKeyDown, boolean firstDrag) {
 		lastDraggedGridElement = draggedGridElement;
-		if (!draggingDisabled)
-		{
-			if (diffX != 0 || diffY != 0)
-			{
+		if (!draggingDisabled) {
+			if (diffX != 0 || diffY != 0) {
 				cursorWasMovedDuringDrag = true;
 			}
-			if (draggedGridElement == null)
-			{
+			if (draggedGridElement == null) {
 				return; //do not allow left click dragging of entire diagram, can be done with middle mouse
 			}
 			if (firstDrag && draggedGridElement != null) { // if draggedGridElement == null the whole diagram is dragged and nothing has to be checked for sticking
@@ -242,24 +239,20 @@ public class DrawPanelPalette extends DrawPanel {
 			}
 			if (isCtrlKeyDown) {
 				return; // TODO implement Lasso
-			} else if (resizeDirections.isEmpty()) // dont do anything if resizing is active, elements should not be resizeable in the palette itself
-			{
+			} else if (resizeDirections.isEmpty()) { // dont do anything if resizing is active, elements should not be resizeable in the palette itself
 				moveElements(diffX, diffY, firstDrag, selector.getSelectedElements());
 				handlePreviewDisplay(dragStart, diffX, diffY, isShiftKeyDown, firstDrag);
 			}
 			//stop drag if element is dragged to properties panel
-			if(dragStart.getY()+diffY-scrollPanel.getVerticalScrollPosition() > getVisibleBounds().height && !(dragStart.getX()+diffX+-scrollPanel.getHorizontalScrollPosition() <= 0))
-			{
+			if(dragStart.getY()+diffY-scrollPanel.getVerticalScrollPosition() > getVisibleBounds().height && !(dragStart.getX()+diffX+-scrollPanel.getHorizontalScrollPosition() <= 0)) {
 				CancelDrag(dragStart, diffX, diffY, draggedGridElement);
 			}
 			redraw(false);
 		}
 	}
 
-	public void CancelDragNoDuplicate() //Needed to safely restore the palette after a drag was canceled by a right or middlemouse click in the diagram window
-	{
-		if (!draggingDisabled && lastDraggedGridElement != null)
-		{
+	public void CancelDragNoDuplicate() { //Needed to safely restore the palette after a drag was canceled by a right or middlemouse click in the diagram window
+		if (!draggingDisabled && lastDraggedGridElement != null) {
 			List<GridElement> lastDraggedGridElementAsList;
 			lastDraggedGridElementAsList = new ArrayList();
 			lastDraggedGridElementAsList.add(lastDraggedGridElement);
@@ -276,10 +269,8 @@ public class DrawPanelPalette extends DrawPanel {
 	private void handlePreviewDisplay(Point dragStart, int diffX, int diffY, boolean isShiftKeyDown, boolean firstDrag) {
 		if (otherDrawFocusPanel instanceof DrawPanelDiagram) {
 			DrawPanelDiagram otherDrawDiagramFocusPanel = (DrawPanelDiagram) otherDrawFocusPanel;
-			if (dragStart.getX()+diffX+-scrollPanel.getHorizontalScrollPosition() <= 0)
-			{
-				if (!otherDrawDiagramFocusPanel.currentlyDisplayingPreview())
-				{
+			if (dragStart.getX()+diffX+-scrollPanel.getHorizontalScrollPosition() <= 0)	{
+				if (!otherDrawDiagramFocusPanel.currentlyDisplayingPreview()) {
 					List<GridElement> elementsToMove = new ArrayList<GridElement>();
 					for (GridElement e:selector.getSelectedElements() ) {
 						elementsToMove.add(gridElementCopyInOtherDiagram(e));
