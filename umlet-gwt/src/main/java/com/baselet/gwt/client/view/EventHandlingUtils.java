@@ -258,9 +258,9 @@ public class EventHandlingUtils {
 	}
 
 	private static void handleEnd(EventHandlingTarget panel, final DragCache storage, HumanInputEvent<?> event) {
-		if(event.getNativeEvent().getButton() != 1)
+		if(event.getNativeEvent().getButton() != 1 && event.getNativeEvent().getButton() != 2)
 			return;
-		if (event.getNativeEvent().getButton() == 1)
+		if (event.getNativeEvent().getButton() == 1 || event.getNativeEvent().getButton() == 2)
 		{
 			// Notification.showInfo("UP");
 			if (DRAG_COMMANDS.contains(storage.dragging)) {
@@ -272,7 +272,7 @@ public class EventHandlingUtils {
 	}
 
 	private static void handleStart(EventHandlingTarget[] panels, final DragCache storage, FocusPanel handlerTarget, HumanInputEvent<?> event, Point p) {
-		if(event.getNativeEvent().getButton() == 1)
+		if(event.getNativeEvent().getButton() == 1 || event.getNativeEvent().getButton() == 2)
 		{
 		// Notification.showInfo("DOWN " + p.x);
 		handlerTarget.setFocus(true);
