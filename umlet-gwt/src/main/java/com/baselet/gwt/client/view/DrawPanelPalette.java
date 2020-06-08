@@ -258,7 +258,7 @@ public class DrawPanelPalette extends DrawPanel {
 
 	public void CancelDragNoDuplicate() //Needed to safely restore the palette after a drag was canceled by a right or middlemouse click in the diagram window
 	{
-		if (!draggingDisabled)
+		if (!draggingDisabled && lastDraggedGridElement != null)
 		{
 			List<GridElement> lastDraggedGridElementAsList;
 			lastDraggedGridElementAsList = new ArrayList();
