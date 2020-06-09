@@ -8,6 +8,7 @@ import com.baselet.gwt.client.logging.CustomLogger;
 import com.baselet.gwt.client.logging.CustomLoggerFactory;
 import com.baselet.gwt.client.clipboard.VsCodeClipboardManager;
 import com.baselet.gwt.client.view.VersionChecker.Version;
+import com.google.gwt.dev.GwtVersion;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.user.client.ui.*;
 import org.vectomatic.file.FileUploadExt;
@@ -199,7 +200,10 @@ public class MainView extends Composite implements ThemeChangeListener {
 		diagramPaletteSplitter.setWidgetMinSize(menuPanel, 50);
 		palettePropertiesSplitter.setWidgetToggleDisplayAllowed(paletteChooserCanvasSplitter, true);
 		diagramPanel = new DrawPanelDiagram(this, propertiesPanel);
-
+		if (VersionChecker.GetVersion() == Version.VSCODE)
+        {
+            VsCodeClipboardManager.SetDiagramPanel((DrawPanelDiagram) diagramPanel);
+        }
 
 		palettePanel = new DrawPanelPalette(this, propertiesPanel, paletteChooser);
 		diagramPanel.setOtherDrawFocusPanel(palettePanel);

@@ -440,7 +440,8 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 				commandInvoker.copySelectedElements(DrawPanel.this);
 		}
 		else if (Shortcut.CUT.matches(event)) {
-			commandInvoker.cutSelectedElements(DrawPanel.this);
+			if (VersionChecker.GetVersion() != VersionChecker.Version.VSCODE) //Shortcut is handled by VSCODE itself
+				commandInvoker.cutSelectedElements(DrawPanel.this);
 		}
 		else if (Shortcut.PASTE.matches(event)) {
 			if (VersionChecker.GetVersion() != VersionChecker.Version.VSCODE) //Shortcut is handled by VSCODE itself, would lead to to doublepaste
