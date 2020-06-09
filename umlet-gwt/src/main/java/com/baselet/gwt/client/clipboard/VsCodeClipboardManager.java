@@ -17,12 +17,15 @@ import java.util.List;
 public class VsCodeClipboardManager {
     private static EventHandlingUtils.DragCache storage; //needed to get active diagram
     private static CommandInvoker commandInvoker = CommandInvoker.getInstance();
+    private static DrawPanelDiagram drawPanelDiagram;
 
     public static native void hookUpClipboardManagerToVsCode() /*-{
         $wnd.CopyDiagramToClipboard =
             $entry(@com.baselet.gwt.client.clipboard.VsCodeClipboardManager::CopyDiagramToClipboard());
         $wnd.PasteClipboardToDiagram =
             $entry(@com.baselet.gwt.client.clipboard.VsCodeClipboardManager::PasteClipboardToDiagram(Ljava/lang/String;));
+        $wnd.CutDiagramToClipboard =
+            $entry(@com.baselet.gwt.client.clipboard.VsCodeClipboardManager::CutDiagramToClipboard());
         var newClipboardManager = {
             copy: function () {
                 console.log("hit copy in gwt");
@@ -31,6 +34,10 @@ public class VsCodeClipboardManager {
             paste: function (content) {
                 console.log("hit paste in gwt, content is: " + content);
                 $wnd.PasteClipboardToDiagram(content);
+            },
+            cut: function () {
+                console.log("hit cut in gwt");
+                $wnd.CutDiagramToClipboard();
             }
         };
         console.log("Sending clipboarmanager to gwt");
@@ -43,6 +50,18 @@ public class VsCodeClipboardManager {
 
     public static void SetStorage(EventHandlingUtils.DragCache storage) {
         VsCodeClipboardManager.storage = storage;
+    }
+
+    public static void SetDiagramPanel(DrawPanelDiagram drawPanelDiagram) {
+        VsCodeClipboardManager.drawPanelDiagram = drawPanelDiagram;
+    }
+
+    //Without arguments default to whatever panel is active in storage
+    public static void CutDiagramToClipboard() {
+        if (VsCodeClipboardManager.storage.getActivePanel() instanceof DrawPanelDiagram) {
+            DrawPanelDiagram activeDrawPanel = ((DrawPanelDiagram) VsCodeClipboardManager.storage.getActivePanel());
+            commandInvoker.cutSelectedElements (activeDrawPanel);
+        }
     }
 
     //Without arguments default to whatever panel is active in storage
@@ -87,9 +106,16 @@ public class VsCodeClipboardManager {
         return targetElements;
     }
 
+    //assumes drawPanelDiagram was properly set before calling
     public static void PasteClipboardToDiagram(String content) {
-        if (VsCodeClipboardManager.storage.getActivePanel() instanceof DrawPanelDiagram) {
-            DrawPanelDiagram activeDrawPanel = ((DrawPanelDiagram) VsCodeClipboardManager.storage.getActivePanel());
+        EventHandlingUtils.EventHandlingTarget lastEventHandlingTarget = VsCodeClipboardManager.storage.getActivePanel();
+        //if there is no active DrawPanel (eg on a freshly opened tab) VsCode will just paste to diagram
+        if (lastEventHandlingTarget == null)
+        {
+            lastEventHandlingTarget = drawPanelDiagram;
+        }
+        if (lastEventHandlingTarget instanceof DrawPanelDiagram) {
+            DrawPanelDiagram activeDrawPanel = ((DrawPanelDiagram) lastEventHandlingTarget);
             PasteClipboardToDiagram(activeDrawPanel, content);
         }
     }

@@ -218,6 +218,11 @@ class UmletEditorProvider {
               if (vsCodeClipboardManager)
                 vsCodeClipboardManager.paste(message.text);
               break;
+          case 'cut':
+              console.log("CUT");
+              if (vsCodeClipboardManager)
+                vsCodeClipboardManager.cut();
+              break;
       }
     });
 
@@ -324,6 +329,31 @@ function overriddenClipboardPasteAction(textEditor, edit, params) {
         }
         //add the overridden editor.action.clipboardPasteAction back
         clipboardPasteDisposable = vscode.commands.registerCommand('editor.action.clipboardPasteAction', overriddenClipboardPasteAction);
+        //complains about globalConext beeing undefined, not needed? seems to work fine without
+        //globalContext.subscriptions.push(clipboardPasteDisposable);
+    });
+}
+//override the editor.action.clipboardCutDisposable with our own
+var clipboardCutDisposable = vscode.commands.registerCommand('editor.action.clipboardCutAction', overriddenClipboardCutAction);
+/*
+ * Function that overrides the default paste behavior. We get the selection and use it, dispose of this registered
+ * command (returning to the default editor.action.clipboardPasteAction), invoke the default one, and then re-register it after the default completes
+ */
+function overriddenClipboardCutAction(textEditor, edit, params) {
+    //debug
+    //Write to output.
+    console.log("Cut registered");
+    //dispose of the overridden editor.action.clipboardCutAction- back to default cut behavior
+    clipboardCutDisposable.dispose();
+    //execute the default editor.action.clipboardCutAction to cut
+    vscode.commands.executeCommand("editor.action.clipboardCutAction").then(function () {
+        console.log("After Cut");
+        if (currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
+            console.log("MESSAGE Cut");
+            currentlyActivePanel === null || currentlyActivePanel === void 0 ? void 0 : currentlyActivePanel.webview.postMessage({ command: 'cut' });
+        }
+        //add the overridden editor.action.clipboardCutAction back
+        clipboardCutDisposable = vscode.commands.registerCommand('editor.action.clipboardCutAction', overriddenClipboardCutAction);
         //complains about globalConext beeing undefined, not needed? seems to work fine without
         //globalContext.subscriptions.push(clipboardPasteDisposable);
     });
