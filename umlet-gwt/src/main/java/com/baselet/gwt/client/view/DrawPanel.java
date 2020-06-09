@@ -436,13 +436,15 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			selector.select(diagram.getGridElements());
 		}
 		else if (Shortcut.COPY.matches(event)) {
-			commandInvoker.copySelectedElements(DrawPanel.this);
+			if (VersionChecker.GetVersion() != VersionChecker.Version.VSCODE) //Shortcut is handled by VSCODE itself, would lead to one unecessary copy
+				commandInvoker.copySelectedElements(DrawPanel.this);
 		}
 		else if (Shortcut.CUT.matches(event)) {
 			commandInvoker.cutSelectedElements(DrawPanel.this);
 		}
 		else if (Shortcut.PASTE.matches(event)) {
-			commandInvoker.pasteElements(DrawPanel.this);
+			if (VersionChecker.GetVersion() != VersionChecker.Version.VSCODE) //Shortcut is handled by VSCODE itself, would lead to to doublepaste
+				commandInvoker.pasteElements(DrawPanel.this);
 		}
 		else if (Shortcut.SAVE.matches(event) && !VersionChecker.isVsCodeVersion()) {
 			mainView.getSaveCommand().execute();

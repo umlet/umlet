@@ -12,6 +12,7 @@ import com.baselet.element.Selector;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.clipboard.VsCodeClipboardManager;
+import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.WebStorage;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.view.commands.AddGridElementCommandNoUpdate;
@@ -78,7 +79,26 @@ public class CommandInvoker extends Controller {
 	}
 
 	void pasteElements(CommandTarget target) {
-		List<GridElement> copyOfElements = copyElementsInList(WebStorage.getClipboard(), target.getDiagram());
+		if (VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
+		{
+			VsCodeClipboardManager.requestVsCodePaste();
+		} else
+		{
+			List<GridElement> copyOfElements = copyElementsInList(WebStorage.getClipboard(), target.getDiagram());
+			Selector.replaceGroupsWithNewGroups(copyOfElements, target.getSelector());
+			realignElementsToVisibleRect(target, copyOfElements);
+			//give a slight offset to the copied elements so they dont overlay with the original
+			for (GridElement ge : copyOfElements) {
+				ge.setLocation(ge.getRectangle().x + SharedConstants.DEFAULT_GRID_SIZE,ge.getRectangle().y + SharedConstants.DEFAULT_GRID_SIZE) ;
+			}
+			addElements(target, copyOfElements); // copy here to make sure it can be pasted multiple times
+		}
+
+	}
+
+	//used when paste is called via vs code command
+	public void pasteElementsVsCode(CommandTarget target, String content) {
+		List<GridElement> copyOfElements = copyElementsInList(DiagramXmlParser.xmlToGridElements(content), target.getDiagram());
 		Selector.replaceGroupsWithNewGroups(copyOfElements, target.getSelector());
 		realignElementsToVisibleRect(target, copyOfElements);
 		//give a slight offset to the copied elements so they dont overlay with the original
