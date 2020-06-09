@@ -6,6 +6,7 @@ import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.view.CommandInvoker;
 import com.baselet.gwt.client.view.DrawPanel;
+import com.baselet.gwt.client.view.DrawPanelDiagram;
 import com.baselet.gwt.client.view.EventHandlingUtils;
 import com.google.gwt.core.client.GWT;
 
@@ -20,17 +21,24 @@ public class VsCodeClipboardManager {
     public static native void hookUpClipboardManagerToVsCode() /*-{
         $wnd.CopyDiagramToClipboard =
             $entry(@com.baselet.gwt.client.clipboard.VsCodeClipboardManager::CopyDiagramToClipboard());
+        $wnd.PasteClipboardToDiagram =
+            $entry(@com.baselet.gwt.client.clipboard.VsCodeClipboardManager::PasteClipboardToDiagram(Ljava/lang/String;));
         var newClipboardManager = {
             copy: function () {
                 console.log("hit copy in gwt");
                 $wnd.CopyDiagramToClipboard();
             },
-            paste: function () {
-                console.log("hit paste in gwt");
+            paste: function (content) {
+                console.log("hit paste in gwt, content is: " + content);
+                $wnd.PasteClipboardToDiagram(content);
             }
         };
         console.log("Sending clipboarmanager to gwt");
         window.parent.vsCodeClipboardManager = newClipboardManager;
+    }-*/;
+
+    public static native void debugLogInVsCodeWebview(String content) /*-{
+        console.log("GWT DEBUG LOG: " + content);
     }-*/;
 
     public static void SetStorage(EventHandlingUtils.DragCache storage) {
@@ -39,10 +47,8 @@ public class VsCodeClipboardManager {
 
     //Without arguments default to whatever panel is active in storage
     public static void CopyDiagramToClipboard() {
-        GWT.log("COPIED0");
         if (VsCodeClipboardManager.storage.getActivePanel() instanceof DrawPanel) {
             DrawPanel activeDrawPanel = ((DrawPanel) VsCodeClipboardManager.storage.getActivePanel());
-            GWT.log("COPIED1 FROM: " + activeDrawPanel.getDiagram().getPanelAttributes());
             CopyDiagramToClipboard(activeDrawPanel);
         }
     }
@@ -51,7 +57,6 @@ public class VsCodeClipboardManager {
     public static void CopyDiagramToClipboard(DrawPanel target) {
         List<GridElement> tempList = copyElementsInList(target.getSelector().getSelectedElements(), target.getDiagram());
         String dataForClipboard = (DiagramXmlParser.gridElementsToXml(tempList));
-        GWT.log("COPIED2 FROM: " + dataForClipboard);
         setVsCodeClipboard(dataForClipboard);
     }
 
@@ -64,10 +69,14 @@ public class VsCodeClipboardManager {
             console.log("COPIED3, wrote text to clip " + content);
         }-*/;
 
-    private native static String getVsCodeClipboard()
+    public native static void requestVsCodePaste()
         /*-{
-            return await (window.parent.vscode.env.clipboard.readText(content));
+            window.parent.vscode.postMessage({
+                command: 'requestPasteClipboard'
+            })
         }-*/;
+
+
 
     private static List<GridElement> copyElementsInList(Collection<GridElement> sourceElements, Diagram targetDiagram) {
         List<GridElement> targetElements = new ArrayList<GridElement>();
@@ -78,10 +87,14 @@ public class VsCodeClipboardManager {
         return targetElements;
     }
 
-    public static void PasteClipboardToDiagram() {
-        if (VsCodeClipboardManager.storage.getActivePanel() instanceof DrawPanel) {
-            DrawPanel activeDrawPanel = ((DrawPanel) VsCodeClipboardManager.storage.getActivePanel());
-            commandInvoker.copySelectedElements(activeDrawPanel);
+    public static void PasteClipboardToDiagram(String content) {
+        if (VsCodeClipboardManager.storage.getActivePanel() instanceof DrawPanelDiagram) {
+            DrawPanelDiagram activeDrawPanel = ((DrawPanelDiagram) VsCodeClipboardManager.storage.getActivePanel());
+            PasteClipboardToDiagram(activeDrawPanel, content);
         }
+    }
+
+    public static void PasteClipboardToDiagram(DrawPanelDiagram target, String content) {
+        commandInvoker.pasteElementsVsCode(target, content);
     }
 }

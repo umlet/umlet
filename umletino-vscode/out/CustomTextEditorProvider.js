@@ -79,8 +79,13 @@ class UmletEditorProvider {
                 case 'setClipboard':
                     vscode.env.clipboard.writeText(message.text);
                     return;
-                case 'requestClipboard':
-                    //TODO
+                case 'requestPasteClipboard':
+                    vscode.env.clipboard.readText().then((text) => {
+                        let clipboard_content = text;
+                        console.log("MESSAGE Paste, content is:" + clipboard_content);
+                        currentlyActivePanel === null || currentlyActivePanel === void 0 ? void 0 : currentlyActivePanel.webview.postMessage({ command: 'paste',
+                            text: clipboard_content });
+                    });
                     return;
             }
         }, undefined, this.context.subscriptions);
@@ -211,7 +216,7 @@ class UmletEditorProvider {
           case 'paste':
               console.log("PASTE" + vsCodeClipboardManager);
               if (vsCodeClipboardManager)
-                vsCodeClipboardManager.paste();
+                vsCodeClipboardManager.paste(message.text);
               break;
       }
     });
@@ -310,8 +315,12 @@ function overriddenClipboardPasteAction(textEditor, edit, params) {
     vscode.commands.executeCommand("editor.action.clipboardPasteAction").then(function () {
         console.log("After Paste");
         if (currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
-            console.log("MESSAGE Paste");
-            currentlyActivePanel === null || currentlyActivePanel === void 0 ? void 0 : currentlyActivePanel.webview.postMessage({ command: 'paste' });
+            vscode.env.clipboard.readText().then((text) => {
+                let clipboard_content = text;
+                console.log("MESSAGE Paste, content is:" + clipboard_content);
+                currentlyActivePanel === null || currentlyActivePanel === void 0 ? void 0 : currentlyActivePanel.webview.postMessage({ command: 'paste',
+                    text: clipboard_content });
+            });
         }
         //add the overridden editor.action.clipboardPasteAction back
         clipboardPasteDisposable = vscode.commands.registerCommand('editor.action.clipboardPasteAction', overriddenClipboardPasteAction);
