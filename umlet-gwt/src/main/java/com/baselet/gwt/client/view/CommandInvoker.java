@@ -73,7 +73,7 @@ public class CommandInvoker extends Controller {
 
 	}
 
-	void cutSelectedElements(CommandTarget target) {
+	public void cutSelectedElements(CommandTarget target) {
 		copySelectedElements(target);
 		removeSelectedElements(target);
 	}
