@@ -1,6 +1,7 @@
 package com.baselet.gwt.client;
 
 import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeChangeListener;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.logging.CustomLogger;
@@ -22,13 +23,16 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
-public class BaseletGWT implements EntryPoint {
+public class BaseletGWT implements EntryPoint, ThemeChangeListener {
 
 	CustomLogger log = CustomLoggerFactory.getLogger(BaseletGWT.class);
 
 	@Override
 	public void onModuleLoad() {
         setUncaughtExceptionHandler();
+
+        ThemeFactory.addListener(this);
+        onThemeChange();
 
 		log.info("Starting GUI ...");
 		Program.init(BuildInfoProperties.getVersion(), RuntimeType.GWT);
@@ -46,14 +50,12 @@ public class BaseletGWT implements EntryPoint {
 			Notification.showFeatureNotSupported("Sorry, but your browser does not support the required HTML 5 feature 'file reader'<br/>Suggested browsers are Firefox, Chrome, Opera, Internet Explorer 10+", false);
 		}
 		else {
-			RootLayoutPanel.get().getElement().getStyle().setBackgroundColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_BACKGROUND)).value());
 			Notification.showInfo("Loading application ... please wait ...");
 			GWT.runAsync(new RunAsyncCallback() {
 				@Override
 				public void onSuccess() {
 					Notification.showInfo("");
 					RootLayoutPanel.get().add(new MainView());
-					RootLayoutPanel.get().getElement().getStyle().setBackgroundColor("");
 				}
 
 				@Override
@@ -90,6 +92,11 @@ public class BaseletGWT implements EntryPoint {
         }
         return e;
     }
+
+	@Override
+	public void onThemeChange() {
+		RootLayoutPanel.get().getElement().getStyle().setBackgroundColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_CANVAS)).value());
+	}
 
 	private final native boolean browserSupportsFileReader() /*-{
     	return typeof FileReader != "undefined";
