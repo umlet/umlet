@@ -18,7 +18,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onLanguage:plaintext",
+		"onCustomEditor:uxfCustoms.umletEditor",
 		"onCommand:extension.umlet"
 	],
 	"main": "./out/extension.js",
