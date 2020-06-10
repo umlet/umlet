@@ -34,6 +34,7 @@ public class ThemeLight extends Theme {
     private final ColorOwn SYNTAX_HIGHLIGHTING = new ColorOwn(0, 100, 255, Transparency.FOREGROUND);
     private final ColorOwn DEFAULT_FOREGROUND = BLACK;
     private final ColorOwn DEFAULT_BACKGROUND = TRANSPARENT;
+    private final ColorOwn DEFAULT_CANVAS = WHITE;
     private final ColorOwn DEFAULT_SPLITTER_COLOR = new ColorOwn(231, 231, 231, Transparency.FOREGROUND);
 
     public ThemeLight() {
@@ -66,6 +67,7 @@ public class ThemeLight extends Theme {
         styleColorMap.put(ColorStyle.SYNTAX_HIGHLIGHTING, SYNTAX_HIGHLIGHTING);
         styleColorMap.put(ColorStyle.DEFAULT_FOREGROUND, DEFAULT_FOREGROUND);
         styleColorMap.put(ColorStyle.DEFAULT_BACKGROUND, DEFAULT_BACKGROUND);
+        styleColorMap.put(ColorStyle.DEFAULT_CANVAS, DEFAULT_CANVAS);
         styleColorMap.put(ColorStyle.DEFAULT_SPLITTER_COLOR, DEFAULT_SPLITTER_COLOR);
         this.styleColorMap = Collections.unmodifiableMap(styleColorMap);
     }

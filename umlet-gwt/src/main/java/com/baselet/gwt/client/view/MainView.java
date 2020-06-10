@@ -382,8 +382,6 @@ public class MainView extends Composite implements ThemeChangeListener {
 		String backgroundColor = Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_BACKGROUND)).value();
 		String foregroundColor = Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_FOREGROUND)).value();
 		String splitterColor = Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_SPLITTER_COLOR)).value();
-		diagramScrollPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
-		paletteScrollPanel.getElement().getStyle().setBackgroundColor(backgroundColor);
 		paletteChooser.getElement().getStyle().setBackgroundColor(backgroundColor);
 		paletteChooser.getElement().getStyle().setColor(foregroundColor);
 
@@ -399,6 +397,5 @@ public class MainView extends Composite implements ThemeChangeListener {
 		propertiesPanel.getElement().getStyle().setColor(foregroundColor);
 		propertiesPanel.getElement().getStyle().setBorderColor(backgroundColor);
 
-		this.getElement().getStyle().setBackgroundColor(backgroundColor);
 	}
 }
