@@ -317,7 +317,9 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutationRecord) {
             var themeFromClass = getTheme();
-            window.changeTheme(themeFromClass);
+            if(window.changeTheme) {
+              window.changeTheme(themeFromClass);
+            }
             switchBodyColor(themeFromClass);
         });    
       });
