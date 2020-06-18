@@ -9,7 +9,6 @@ import com.baselet.control.basics.geom.Rectangle;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.gwt.client.clipboard.VsCodeClipboardManager;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ContextMenuEvent;
@@ -114,7 +113,7 @@ public class EventHandlingUtils {
 		final DragCache storage = new DragCache();
 		if(VersionChecker.GetVersion() == VersionChecker.Version.VSCODE)
 		{
-			VsCodeClipboardManager.SetStorage(storage);
+			VsCodeClipboardManager.setStorage(storage);
 		}
 
 

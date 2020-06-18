@@ -8,10 +8,11 @@ const fs = require("fs");
 var globalContext;
 var nextUmletEditorId = 0; //used to assign ids to each text editor
 var initialSwapWasAlreadySkipped = false; //used to prevent instant disabling of a newly created tab by another tab which would overwrite the currentlyActivePanel to null because it deactivates after the new panel is created
-var currentlyActivePanel = null;
+exports.currentlyActivePanel = null;
 class UmletEditorProvider {
     constructor(context) {
         this.context = context;
+        this.outputChannel = vscode.window.createOutputChannel('UMLet');
     }
     static register(context) {
         const provider = new UmletEditorProvider(context);
@@ -30,30 +31,37 @@ class UmletEditorProvider {
         channel.show();
     }
     /**
-       * Called when our custom editor is opened.
-       *
-       */
+     * Called when our custom editor is opened.
+     *
+     */
     resolveCustomTextEditor(document, webviewPanel, token) {
+        //vscode.commands.executeCommand('setContext', 'textInputFocus', true); //permanently sets textfocus, never to be changed again?
+        //vscode.commands.executeCommand('getContext', 'textInputFocus');
         console.log("Opened Custom Editor opened, id " + nextUmletEditorId);
         let myId = nextUmletEditorId;
         initialSwapWasAlreadySkipped = false;
         nextUmletEditorId++;
-        currentlyActivePanel = webviewPanel;
+        exports.currentlyActivePanel = webviewPanel;
+        //Set myWebviewFocused as in context, so the extension can decide wheter or not to show the umlet specific export commands in vscode
+        vscode.commands.executeCommand('setContext', 'myWebviewFocused', exports.currentlyActivePanel);
         console.log("editor swapped to active");
         webviewPanel.onDidChangeViewState(e => {
+            console.log("A panel did change state");
             if (e.webviewPanel.active) {
                 console.log("editor swapped to active");
-                currentlyActivePanel = webviewPanel;
+                exports.currentlyActivePanel = webviewPanel;
             }
             else {
                 //Do not set to null if this was triggere was a newly opened panel
                 //otherwise this would always overwrite newly opened panels
                 if (myId === (nextUmletEditorId - 1) || initialSwapWasAlreadySkipped === true) {
                     console.log("editor swapped to DEACT, myId: " + myId + ", next-1: " + (nextUmletEditorId - 1));
-                    currentlyActivePanel = null;
+                    exports.currentlyActivePanel = null;
                 }
             }
             initialSwapWasAlreadySkipped = true;
+            //Set myWebviewFocused as in context, so the extension can decide wheter or not to show the umlet specific export commands in vscode
+            vscode.commands.executeCommand('setContext', 'myWebviewFocused', exports.currentlyActivePanel);
         });
         webviewPanel.webview.options = {
             enableScripts: true,
@@ -76,6 +84,9 @@ class UmletEditorProvider {
                     var actual_data = message.text.replace("data:image/png;base64,", "");
                     this.SaveFileDecode(actual_data);
                     return;
+                case 'postLog':
+                    this.postLog(message.text);
+                    return;
                 case 'setClipboard':
                     vscode.env.clipboard.writeText(message.text);
                     return;
@@ -83,8 +94,10 @@ class UmletEditorProvider {
                     vscode.env.clipboard.readText().then((text) => {
                         let clipboard_content = text;
                         console.log("MESSAGE Paste, content is:" + clipboard_content);
-                        currentlyActivePanel === null || currentlyActivePanel === void 0 ? void 0 : currentlyActivePanel.webview.postMessage({ command: 'paste',
-                            text: clipboard_content });
+                        exports.currentlyActivePanel === null || exports.currentlyActivePanel === void 0 ? void 0 : exports.currentlyActivePanel.webview.postMessage({
+                            command: 'paste',
+                            text: clipboard_content
+                        });
                     });
                     return;
             }
@@ -170,6 +183,9 @@ class UmletEditorProvider {
             }
         });
     }
+    postLog(message) {
+        this.outputChannel.appendLine(message);
+    }
     /**
       *
       * Gets a modified version of the initial starting page of the GWT umletino version
@@ -223,6 +239,11 @@ class UmletEditorProvider {
               if (vsCodeClipboardManager)
                 vsCodeClipboardManager.cut();
               break;
+          case 'requestExport': //message.text is expected to be the size
+              console.log("requestin export with size " + message.text);
+              if (vsCodeClipboardManager)
+                vsCodeClipboardManager.requestExport(message.text);
+              break;
       }
     });
 
@@ -254,8 +275,10 @@ class UmletEditorProvider {
       // Observing theme changes
       var observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutationRecord) {
-            var themeFromClass = getTheme(document.body.className);
-            window.changeTheme(themeFromClass);
+            var themeFromClass = getTheme();
+            if(window.changeTheme) {
+              window.changeTheme(themeFromClass);
+            }
             switchBodyColor(themeFromClass);
         });    
       });
@@ -265,7 +288,7 @@ class UmletEditorProvider {
 
       // Retrieving current theme
       var theme = 'LIGHT';
-      theme = getTheme(document.body.className);
+      theme = getTheme();
       switchBodyColor(theme);
 
       var vscode = acquireVsCodeApi();
@@ -278,7 +301,7 @@ class UmletEditorProvider {
 exports.UmletEditorProvider = UmletEditorProvider;
 UmletEditorProvider.viewType = 'uxfCustoms.umletEditor';
 //Has to be set to true, so copy paste commands via keyboard are registered by vs code
-vscode.commands.executeCommand('setContext', 'textInputFocus', true);
+//vscode.commands.executeCommand('setContext', 'textInputFocus', true);
 //override the editor.action.clipboardCopyAction with our own
 var clipboardCopyDisposable = vscode.commands.registerCommand('editor.action.clipboardCopyAction', overriddenClipboardCopyAction);
 /*
@@ -294,9 +317,9 @@ function overriddenClipboardCopyAction(textEditor, edit, params) {
     //execute the default editor.action.clipboardCopyAction to copy
     vscode.commands.executeCommand("editor.action.clipboardCopyAction").then(function () {
         console.log("After Copy");
-        if (currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
+        if (exports.currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
             console.log("MESSAGE Copy");
-            currentlyActivePanel === null || currentlyActivePanel === void 0 ? void 0 : currentlyActivePanel.webview.postMessage({ command: 'copy' });
+            exports.currentlyActivePanel === null || exports.currentlyActivePanel === void 0 ? void 0 : exports.currentlyActivePanel.webview.postMessage({ command: 'copy' });
         }
         //add the overridden editor.action.clipboardCopyAction back
         clipboardCopyDisposable = vscode.commands.registerCommand('editor.action.clipboardCopyAction', overriddenClipboardCopyAction);
@@ -319,12 +342,14 @@ function overriddenClipboardPasteAction(textEditor, edit, params) {
     //execute the default editor.action.clipboardPasteAction to paste
     vscode.commands.executeCommand("editor.action.clipboardPasteAction").then(function () {
         console.log("After Paste");
-        if (currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
+        if (exports.currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
             vscode.env.clipboard.readText().then((text) => {
                 let clipboard_content = text;
                 console.log("MESSAGE Paste, content is:" + clipboard_content);
-                currentlyActivePanel === null || currentlyActivePanel === void 0 ? void 0 : currentlyActivePanel.webview.postMessage({ command: 'paste',
-                    text: clipboard_content });
+                exports.currentlyActivePanel === null || exports.currentlyActivePanel === void 0 ? void 0 : exports.currentlyActivePanel.webview.postMessage({
+                    command: 'paste',
+                    text: clipboard_content
+                });
             });
         }
         //add the overridden editor.action.clipboardPasteAction back
@@ -348,9 +373,9 @@ function overriddenClipboardCutAction(textEditor, edit, params) {
     //execute the default editor.action.clipboardCutAction to cut
     vscode.commands.executeCommand("editor.action.clipboardCutAction").then(function () {
         console.log("After Cut");
-        if (currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
+        if (exports.currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
             console.log("MESSAGE Cut");
-            currentlyActivePanel === null || currentlyActivePanel === void 0 ? void 0 : currentlyActivePanel.webview.postMessage({ command: 'cut' });
+            exports.currentlyActivePanel === null || exports.currentlyActivePanel === void 0 ? void 0 : exports.currentlyActivePanel.webview.postMessage({ command: 'cut' });
         }
         //add the overridden editor.action.clipboardCutAction back
         clipboardCutDisposable = vscode.commands.registerCommand('editor.action.clipboardCutAction', overriddenClipboardCutAction);

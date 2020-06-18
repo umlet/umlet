@@ -17,7 +17,6 @@ import com.baselet.gwt.client.element.WebStorage;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.view.commands.AddGridElementCommandNoUpdate;
 import com.baselet.gwt.client.view.commands.RemoveGridElementCommandNoUpdate;
-import com.google.gwt.core.client.GWT;
 
 public class CommandInvoker extends Controller {
 
@@ -65,7 +64,7 @@ public class CommandInvoker extends Controller {
 		{
 			if (target instanceof DrawPanel)
 			{
-				VsCodeClipboardManager.CopyDiagramToClipboard((DrawPanel)target);
+				VsCodeClipboardManager.copyDiagramToClipboard((DrawPanel)target);
 			}
 		} else {
 			WebStorage.setClipboard(copyElementsInList(target.getSelector().getSelectedElements(), target.getDiagram())); // must be copied here to ensure location etc. will not be changed
@@ -85,27 +84,22 @@ public class CommandInvoker extends Controller {
 		} else
 		{
 			List<GridElement> copyOfElements = copyElementsInList(WebStorage.getClipboard(), target.getDiagram());
-			Selector.replaceGroupsWithNewGroups(copyOfElements, target.getSelector());
-			realignElementsToVisibleRect(target, copyOfElements);
-			//give a slight offset to the copied elements so they dont overlay with the original
-			for (GridElement ge : copyOfElements) {
-				ge.setLocation(ge.getRectangle().x + SharedConstants.DEFAULT_GRID_SIZE,ge.getRectangle().y + SharedConstants.DEFAULT_GRID_SIZE) ;
-			}
-			addElements(target, copyOfElements); // copy here to make sure it can be pasted multiple times
+			executePaste(target, copyOfElements);
 		}
 
+	}
+
+	private void executePaste(CommandTarget target, List<GridElement> copyOfElements) {
+		Selector.replaceGroupsWithNewGroups(copyOfElements, target.getSelector());
+		realignElementsToVisibleRect(target, copyOfElements);
+		DrawPanel.snapElementsToVisibleTopLeft(copyOfElements, (DrawPanel) target);
+		addElements(target, copyOfElements); // copy here to make sure it can be pasted multiple times
 	}
 
 	//used when paste is called via vs code command
 	public void pasteElementsVsCode(CommandTarget target, String content) {
 		List<GridElement> copyOfElements = copyElementsInList(DiagramXmlParser.xmlToGridElements(content), target.getDiagram());
-		Selector.replaceGroupsWithNewGroups(copyOfElements, target.getSelector());
-		realignElementsToVisibleRect(target, copyOfElements);
-		//give a slight offset to the copied elements so they dont overlay with the original
-		for (GridElement ge : copyOfElements) {
-			ge.setLocation(ge.getRectangle().x + SharedConstants.DEFAULT_GRID_SIZE,ge.getRectangle().y + SharedConstants.DEFAULT_GRID_SIZE) ;
-		}
-		addElements(target, copyOfElements); // copy here to make sure it can be pasted multiple times
+		executePaste(target, copyOfElements);
 	}
 
 	private List<GridElement> copyElementsInList(Collection<GridElement> sourceElements, Diagram targetDiagram) {
