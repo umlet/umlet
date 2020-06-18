@@ -23,6 +23,60 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"commands": [
+			{
+				"command": "umlet.exportPngOne",
+				"title": "UMLet: Export As PNG.."
+			},
+			{
+				"command": "umlet.exportPngFour",
+				"title": "UMLet: Export As PNG (Scale x4).."
+			},
+			{
+				"command": "umlet.executeCopy",
+				"title": "UMLet: Copy"
+			},
+			{
+				"command": "umlet.executePaste",
+				"title": "UMLet: Paste"
+			},
+			{
+				"command": "umlet.executeCut",
+				"title": "UMLet: Cut"
+			}
+		],
+		"menus": {
+			"commandPalette": [
+				{
+					"command": "umlet.exportPngOne",
+					"when": "myWebviewFocused"
+				},
+				{
+					"command": "umlet.exportPngFour",
+					"when": "myWebviewFocused"
+				}
+			]
+		},
+		"keybindings": [
+			{
+				"command": "umlet.executeCopy",
+				"key": "ctrl+c",
+				"mac": "cmd+c",
+				"when": "myWebviewFocused"
+			},
+			{
+				"command": "umlet.executePaste",
+				"key": "ctrl+v",
+				"mac": "cmd+v",
+				"when": "myWebviewFocused"
+			},
+			{
+				"command": "umlet.executeCut",
+				"key": "ctrl+x",
+				"mac": "cmd+x",
+				"when": "myWebviewFocused"
+			}
+		],
 		"customEditors": [
 			{
 				"viewType": "uxfCustoms.umletEditor",

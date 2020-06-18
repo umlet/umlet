@@ -202,7 +202,7 @@ public class MainView extends Composite implements ThemeChangeListener {
 		diagramPanel = new DrawPanelDiagram(this, propertiesPanel);
 		if (VersionChecker.GetVersion() == Version.VSCODE)
         {
-            VsCodeClipboardManager.SetDiagramPanel((DrawPanelDiagram) diagramPanel);
+            VsCodeClipboardManager.setDiagramPanel((DrawPanelDiagram) diagramPanel);
         }
 
 		palettePanel = new DrawPanelPalette(this, propertiesPanel, paletteChooser);
