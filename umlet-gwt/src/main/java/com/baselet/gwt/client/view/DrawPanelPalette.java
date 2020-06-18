@@ -4,6 +4,8 @@ import java.util.*;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Point;
+import com.baselet.control.basics.geom.Rectangle;
+import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.MenuConstants;
 import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
@@ -111,6 +113,8 @@ public class DrawPanelPalette extends DrawPanel {
 			GridElement e = ElementFactoryGwt.create(ge, otherDrawFocusPanel.getDiagram());
 			e.setProperty(GroupFacet.KEY, null);
 			commandInvoker.realignElementsToVisibleRect(otherDrawFocusPanel, Arrays.asList(e));
+			//Set Location as top left of currently visible area
+			DrawPanel.snapElementToVisibleTopLeft(e, otherDrawFocusPanel);
 			commandInvoker.addElements(otherDrawFocusPanel, Arrays.asList(e));
 		}
 	}
@@ -120,11 +124,13 @@ public class DrawPanelPalette extends DrawPanel {
 
 		boolean avoidBrowserDefault = true;
 		if (Shortcut.DESELECT_ALL.matches(event)) {
-			selector.deselectAll();
+			super.handleKeyDown(event);
 		} else if (Shortcut.SELECT_ALL.matches(event)) {
-			selector.select(diagram.getGridElements());
+			super.handleKeyDown(event);
+		} else if (Shortcut.COPY.matches(event)) {
+			super.handleKeyDown(event);
 		} else if (Shortcut.SAVE.matches(event) && !VersionChecker.isVsCodeVersion()) {
-			mainView.getSaveCommand().execute();
+			super.handleKeyDown(event);
 		} else {
 			avoidBrowserDefault = false;
 		}

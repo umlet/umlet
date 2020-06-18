@@ -45,6 +45,7 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public abstract class DrawPanel extends SimplePanel implements CommandTarget, HasMouseOutHandlers, HasMouseOverHandlers, EventHandlingTarget, AutoresizeScrollDropTarget, ThemeChangeListener {
@@ -94,6 +95,52 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 
 	public Boolean getFocus() {
 		return focus;
+	}
+
+	/*
+     Changes the coordinates of GridElement e so that it is in the top left of targetPanel
+     */
+	public static void snapElementToVisibleTopLeft(GridElement e, DrawPanel targetPanel) {
+		snapElementToVisibleTopLeft( e,  targetPanel, SharedConstants.DEFAULT_GRID_SIZE,SharedConstants.DEFAULT_GRID_SIZE);
+	}
+
+	/*
+     Changes the coordinates of GridElement e so that it is in the top left of targetPanel, with offset
+     */
+	public static void snapElementToVisibleTopLeft(GridElement e, DrawPanel targetPanel, int xOffset, int yOffset) {
+		Rectangle visible = targetPanel.getVisibleBounds();
+		e.setLocation(visible.getX() + xOffset,visible.getY() + yOffset);
+	}
+
+
+	/*
+     Changes the coordinates of GridElement in the elementList so that they are in the top left of targetPanel
+     */
+	public static void snapElementsToVisibleTopLeft(List <GridElement> elementList, DrawPanel targetPanel) {
+		//ensure that at least one element is there since later code relies on that
+		if (elementList.size() <= 0)
+			return;
+
+		//Get the the maximum X and Y values. it will act as the "top left pivot point" of the elements
+		int pivotX = elementList.get(0).getRectangle().x;
+		int pivotY = elementList.get(0).getRectangle().y;
+
+		//find lowest x and y values, start at 1 since first values are already assigned
+		for (int i = 1; i < elementList.size(); i++) {
+			int xPosition = elementList.get(i).getRectangle().x;
+			int yPosition = elementList.get(i).getRectangle().y;
+			if (xPosition < pivotX)
+				pivotX = xPosition;
+			if (yPosition < pivotY)
+				pivotY = yPosition;
+		}
+
+		//snap all elements to top left, but relative to the pivot
+		for (GridElement e:elementList) {
+			int xOffset = (e.getRectangle().x - pivotX) + SharedConstants.DEFAULT_GRID_SIZE;
+			int yOffset = (e.getRectangle().y - pivotY) + SharedConstants.DEFAULT_GRID_SIZE;
+			snapElementToVisibleTopLeft(e, targetPanel, xOffset, yOffset);
+		}
 	}
 
 
