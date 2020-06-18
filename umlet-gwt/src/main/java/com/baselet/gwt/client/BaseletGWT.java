@@ -95,7 +95,7 @@ public class BaseletGWT implements EntryPoint, ThemeChangeListener {
 
 	@Override
 	public void onThemeChange() {
-		RootLayoutPanel.get().getElement().getStyle().setBackgroundColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_CANVAS)).value());
+		RootLayoutPanel.get().getElement().getStyle().setBackgroundColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_DOCUMENT_BACKGROUND)).value());
 	}
 
 	private final native boolean browserSupportsFileReader() /*-{
