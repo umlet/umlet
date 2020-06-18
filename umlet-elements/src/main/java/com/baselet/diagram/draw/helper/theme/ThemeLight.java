@@ -67,7 +67,7 @@ public class ThemeLight extends Theme {
         styleColorMap.put(ColorStyle.SYNTAX_HIGHLIGHTING, SYNTAX_HIGHLIGHTING);
         styleColorMap.put(ColorStyle.DEFAULT_FOREGROUND, DEFAULT_FOREGROUND);
         styleColorMap.put(ColorStyle.DEFAULT_BACKGROUND, DEFAULT_BACKGROUND);
-        styleColorMap.put(ColorStyle.DEFAULT_CANVAS, DEFAULT_CANVAS);
+        styleColorMap.put(ColorStyle.DEFAULT_DOCUMENT_BACKGROUND, DEFAULT_CANVAS);
         styleColorMap.put(ColorStyle.DEFAULT_SPLITTER_COLOR, DEFAULT_SPLITTER_COLOR);
         this.styleColorMap = Collections.unmodifiableMap(styleColorMap);
     }

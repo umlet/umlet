@@ -4,30 +4,30 @@ import java.util.*;
 
 import com.baselet.control.SharedUtils;
 import com.baselet.control.basics.geom.Point;
-import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.MenuConstants;
-import com.baselet.control.constants.SharedConstants;
-import com.baselet.control.enums.Direction;
+import com.baselet.diagram.draw.helper.theme.Theme;
+import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.element.Selector;
 import com.baselet.element.facet.common.GroupFacet;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.sticking.StickableMap;
-import com.baselet.gwt.client.element.DiagramGwt;
+import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.element.DiagramXmlParser;
 import com.baselet.gwt.client.element.ElementFactoryGwt;
 import com.baselet.gwt.client.keyboard.Shortcut;
 import com.baselet.gwt.client.view.palettes.Resources;
 import com.baselet.gwt.client.view.widgets.MenuPopup;
 import com.baselet.gwt.client.view.widgets.propertiespanel.PropertiesTextArea;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Node;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class DrawPanelPalette extends DrawPanel {
-
 
 	private static final List<TextResource> PALETTELIST = Arrays.asList(
 			Resources.INSTANCE.UML_Common_Elements(),
@@ -69,6 +69,8 @@ public class DrawPanelPalette extends DrawPanel {
 				event.stopPropagation(); // avoid propagation of mouseclick to palette which can be under the opened listbox
 			}
 		});
+		onThemeChange();
+		ThemeFactory.addListener(this);
 	}
 
 	@Override
@@ -298,4 +300,14 @@ public class DrawPanelPalette extends DrawPanel {
 		return StickableMap.EMPTY_MAP;
 	}
 
+    @Override
+    public void onThemeChange() {
+        super.onThemeChange();
+        Element option = this.paletteChooser.getElement().getFirstChildElement();
+        // We need to restyle all options in palette selector
+        while (option != null && option.getTagName().equals("OPTION")) {
+            option.getStyle().setBackgroundColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_DOCUMENT_BACKGROUND)).value());
+            option = option.getNextSiblingElement();
+        }
+    }
 }

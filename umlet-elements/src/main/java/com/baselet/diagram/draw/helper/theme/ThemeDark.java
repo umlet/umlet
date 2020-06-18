@@ -33,7 +33,7 @@ public class ThemeDark extends Theme {
     private final ColorOwn SYNTAX_HIGHLIGHTING = new ColorOwn(0, 100, 255, Transparency.FOREGROUND);
     private final ColorOwn DEFAULT_FOREGROUND = WHITE;
     private final ColorOwn DEFAULT_BACKGROUND = TRANSPARENT;
-    private final ColorOwn DEFAULT_CANVAS = BLACK;
+    private final ColorOwn DEFAULT_DOCUMENT_BACKGROUND = BLACK;
     private final ColorOwn DEFAULT_SPLITTER_COLOR = GRAY;
 
     public ThemeDark() {
@@ -67,7 +67,7 @@ public class ThemeDark extends Theme {
         styleColorMap.put(ColorStyle.DEFAULT_FOREGROUND, DEFAULT_FOREGROUND);
         styleColorMap.put(ColorStyle.DEFAULT_BACKGROUND, DEFAULT_BACKGROUND);
         styleColorMap.put(ColorStyle.DEFAULT_SPLITTER_COLOR, DEFAULT_SPLITTER_COLOR);
-        styleColorMap.put(ColorStyle.DEFAULT_CANVAS, DEFAULT_CANVAS);
+        styleColorMap.put(ColorStyle.DEFAULT_DOCUMENT_BACKGROUND, DEFAULT_DOCUMENT_BACKGROUND);
         this.styleColorMap = Collections.unmodifiableMap(styleColorMap);
     }
 }
