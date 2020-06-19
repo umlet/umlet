@@ -107,7 +107,7 @@ class UmletEditorProvider {
         // And get the special URI to use with the webview
         const localUmletFolder = webviewPanel.webview.asWebviewUri(onDiskPath);
         let fileContents = document.getText().toString();
-        webviewPanel.webview.html = this.GetUmletWebviewPage(localUmletFolder.toString(), fileContents.toString());
+        webviewPanel.webview.html = this.getUmletWebviewPage(localUmletFolder.toString(), fileContents.toString());
     }
     /*
     function startUmlet(context: vscode.ExtensionContext, fileContents: string, fileName: string): WebviewPanel {
@@ -192,7 +192,8 @@ class UmletEditorProvider {
       * @param localUmletFolder folder which holds the local umletino gwt version.
       * @param diagramData XML data of a diagram which should be loaded on start
       */
-    GetUmletWebviewPage(localUmletFolder, diagramData) {
+    getUmletWebviewPage(localUmletFolder, diagramData) {
+        let encodedDiagramData = encodeURIComponent(diagramData); //encode diagramData to prevent special characters to escape the string quotes which could lead to arbitrary javascript or html
         return `<!DOCTYPE html>
   <html>
     <head>
@@ -220,7 +221,7 @@ class UmletEditorProvider {
     <script>
     
       var vsCodeClipboardManager = null;
-    window.addEventListener('message', event => {
+      window.addEventListener('message', event => {
       const message = event.data; // The JSON data our extension sent
   
       switch (message.command) {
@@ -292,7 +293,8 @@ class UmletEditorProvider {
       switchBodyColor(theme);
 
       var vscode = acquireVsCodeApi();
-      var vsCodeInitialDiagramData = \`${diagramData}\`;
+      var vsCodeInitialDiagramData = \`${encodedDiagramData}\`;
+      console.log("vsCodeInitialDiagramData: " + vsCodeInitialDiagramData);
     </script>
 
   </html>`;
