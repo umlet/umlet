@@ -161,7 +161,7 @@ const localUmletFolder = webviewPanel.webview.asWebviewUri(onDiskPath);
 
 let fileContents = document.getText().toString();
 
-webviewPanel.webview.html = this.GetUmletWebviewPage(localUmletFolder.toString(), fileContents.toString());
+webviewPanel.webview.html = this.getUmletWebviewPage(localUmletFolder.toString(), fileContents.toString());
 
   }
 
@@ -262,7 +262,7 @@ postLog(message: string) {
   * @param localUmletFolder folder which holds the local umletino gwt version.
   * @param diagramData XML data of a diagram which should be loaded on start
   */
-GetUmletWebviewPage(localUmletFolder: string, diagramData: string) {
+getUmletWebviewPage(localUmletFolder: string, diagramData: string) {
   return `<!DOCTYPE html>
   <html>
     <head>
