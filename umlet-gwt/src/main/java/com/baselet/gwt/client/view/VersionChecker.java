@@ -23,7 +23,7 @@ public class VersionChecker {
 		return false;
 	}-*/;
 
-	//used for debugging
+	//used for debugging only
 	public static String mockPredifinedFile()
 	{
 		return "<diagram program=\"umletino\" version=\"14.4.0-SNAPSHOT\"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>230</x><y>280</y><w>210</w><h>70</h></coordinates><panel_attributes>_object: Class_\n" +
@@ -40,7 +40,7 @@ public class VersionChecker {
 
 	public static native String vsCodePredefinedFile() /*-{
 		if (typeof window.parent.vsCodeInitialDiagramData !== 'undefined') {
-			return window.parent.vsCodeInitialDiagramData.toString();
+			return decodeURIComponent (window.parent.vsCodeInitialDiagramData.toString());
 		}
 		return null;
 	}-*/;

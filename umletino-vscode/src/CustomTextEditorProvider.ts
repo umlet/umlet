@@ -24,246 +24,247 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
   private outputChannel: vscode.OutputChannel;
 
-  
 
-  
+
+
 
 
   public static register(context: vscode.ExtensionContext): vscode.Disposable {
 
-  const provider = new UmletEditorProvider(context);
-  //Override VSCodes built-in save functionality
-  globalContext = context;
+    const provider = new UmletEditorProvider(context);
+    //Override VSCodes built-in save functionality
+    globalContext = context;
 
 
-  
-
-  
 
 
-  provider.consoleLog('asdasd')
-  context.subscriptions.push(clipboardCopyDisposable);
-  context.subscriptions.push(clipboardPasteDisposable);
-  provider.consoleLog('asdasd')
 
-  const providerRegistration = vscode.window.registerCustomEditorProvider(UmletEditorProvider.viewType, provider);
-  return providerRegistration;
-}
 
-constructor(
-  private readonly context: vscode.ExtensionContext
-) {
-  this.outputChannel = vscode.window.createOutputChannel('UMLet');
-}
+
+    provider.consoleLog('asdasd')
+    context.subscriptions.push(clipboardCopyDisposable);
+    context.subscriptions.push(clipboardPasteDisposable);
+    provider.consoleLog('asdasd')
+
+    const providerRegistration = vscode.window.registerCustomEditorProvider(UmletEditorProvider.viewType, provider);
+    return providerRegistration;
+  }
+
+  constructor(
+    private readonly context: vscode.ExtensionContext
+  ) {
+    this.outputChannel = vscode.window.createOutputChannel('UMLet');
+  }
 
   private static readonly viewType = 'uxfCustoms.umletEditor';
 
-consoleLog(params: string) {
-  var channel = vscode.window.createOutputChannel('myoutputchannel');
-  channel.appendLine('new clip pushg');
-  channel.show();
-}
+  consoleLog(params: string) {
+    var channel = vscode.window.createOutputChannel('myoutputchannel');
+    channel.appendLine('new clip pushg');
+    channel.show();
+  }
 
 
 
-/**
- * Called when our custom editor is opened.
- *
- */
-resolveCustomTextEditor(document: vscode.TextDocument, webviewPanel: vscode.WebviewPanel, token: vscode.CancellationToken): void | Thenable < void> {
-  //vscode.commands.executeCommand('setContext', 'textInputFocus', true); //permanently sets textfocus, never to be changed again?
-  //vscode.commands.executeCommand('getContext', 'textInputFocus');
+  /**
+   * Called when our custom editor is opened.
+   *
+   */
+  resolveCustomTextEditor(document: vscode.TextDocument, webviewPanel: vscode.WebviewPanel, token: vscode.CancellationToken): void | Thenable<void> {
+    //vscode.commands.executeCommand('setContext', 'textInputFocus', true); //permanently sets textfocus, never to be changed again?
+    //vscode.commands.executeCommand('getContext', 'textInputFocus');
 
-  console.log("Opened Custom Editor opened, id " + nextUmletEditorId);
-  let myId = nextUmletEditorId;
-  initialSwapWasAlreadySkipped = false;
-  nextUmletEditorId++;
-currentlyActivePanel = webviewPanel;
-//Set myWebviewFocused as in context, so the extension can decide wheter or not to show the umlet specific export commands in vscode
-vscode.commands.executeCommand('setContext',
-  'myWebviewFocused',
-  currentlyActivePanel);
-console.log("editor swapped to active")
-
-
-
-
-webviewPanel.onDidChangeViewState(
-  e => {
-    console.log("A panel did change state");
-    if (e.webviewPanel.active) {
-      console.log("editor swapped to active")
-      currentlyActivePanel = webviewPanel;
-    } else {
-      //Do not set to null if this was triggere was a newly opened panel
-      //otherwise this would always overwrite newly opened panels
-      if (myId === (nextUmletEditorId - 1) || initialSwapWasAlreadySkipped === true) {
-        console.log("editor swapped to DEACT, myId: " + myId + ", next-1: " + (nextUmletEditorId - 1));
-        currentlyActivePanel = null;
-      }
-    }
-    initialSwapWasAlreadySkipped = true;
-
+    console.log("Opened Custom Editor opened, id " + nextUmletEditorId);
+    let myId = nextUmletEditorId;
+    initialSwapWasAlreadySkipped = false;
+    nextUmletEditorId++;
+    currentlyActivePanel = webviewPanel;
     //Set myWebviewFocused as in context, so the extension can decide wheter or not to show the umlet specific export commands in vscode
     vscode.commands.executeCommand('setContext',
       'myWebviewFocused',
       currentlyActivePanel);
-  }
-)
-
-webviewPanel.webview.options = {
-  enableScripts: true,
-  localResourceRoots: [vscode.Uri.file(path.join(this.context.extensionPath, 'src', 'umlet-gwt'))]
-};
-
-let WebviewPanelOptions = webviewPanel.options;
-WebviewPanelOptions = {
-  retainContextWhenHidden: true
-};
-
-
-// Handle messages from the webview
-webviewPanel.webview.onDidReceiveMessage(message => {
-  switch (message.command) {
-    case 'exportUxf':
-      this.SaveFile(message.text);
-      return;
-    case 'updateFiledataUxf':
-      this.UpdateCurrentFile(message.text, document);
-      return;
-    case 'exportPng':
-      var actual_data = message.text.replace("data:image/png;base64,", "");
-      this.SaveFileDecode(actual_data);
-      return;
-    case 'postLog':
-      this.postLog(message.text);
-      return;
-    case 'setClipboard':
-      vscode.env.clipboard.writeText(message.text);
-      return;
-    case 'requestPasteClipboard':
-      vscode.env.clipboard.readText().then((text) => {
-        let clipboard_content = text;
-        console.log("MESSAGE Paste, content is:" + clipboard_content);
-        currentlyActivePanel?.webview.postMessage({
-          command: 'paste',
-          text: clipboard_content
-        });
-      });
-      return;
-  }
-}, undefined, this.context.subscriptions);
-
-// Get path to resource on disk
-const onDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'src', 'umlet-gwt'));
-// And get the special URI to use with the webview
-const localUmletFolder = webviewPanel.webview.asWebviewUri(onDiskPath);
-
-let fileContents = document.getText().toString();
-
-webviewPanel.webview.html = this.getUmletWebviewPage(localUmletFolder.toString(), fileContents.toString());
-
-  }
+    console.log("editor swapped to active")
 
 
 
 
+    webviewPanel.onDidChangeViewState(
+      e => {
+        console.log("A panel did change state");
+        if (e.webviewPanel.active) {
+          console.log("editor swapped to active")
+          currentlyActivePanel = webviewPanel;
+        } else {
+          //Do not set to null if this was triggere was a newly opened panel
+          //otherwise this would always overwrite newly opened panels
+          if (myId === (nextUmletEditorId - 1) || initialSwapWasAlreadySkipped === true) {
+            console.log("editor swapped to DEACT, myId: " + myId + ", next-1: " + (nextUmletEditorId - 1));
+            currentlyActivePanel = null;
+          }
+        }
+        initialSwapWasAlreadySkipped = true;
 
-/*
-function startUmlet(context: vscode.ExtensionContext, fileContents: string, fileName: string): WebviewPanel {
-
-  const panel = vscode.window.createWebviewPanel('umlet', fileName, vscode.ViewColumn.One, {
-    enableScripts: true,
-    retainContextWhenHidden: true,
-    localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'src', 'umlet-gwt'))]
-  });
-  // Handle messages from the webview
-  panel.webview.onDidReceiveMessage(message => {
-    switch (message.command) {
-      case 'exportUxf':
-        SaveFile(message.text);
-        return;
-      case 'exportPng':
-        var actual_data = message.text.replace("data:image/png;base64,", "");
-        SaveFileDecode(actual_data);
-        return;
-    }
-  }, undefined, context.subscriptions);
-
-  // Get path to resource on disk
-  const onDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'umlet-gwt'));
-  // And get the special URI to use with the webview
-  const localUmletFolder = panel.webview.asWebviewUri(onDiskPath);
-
-  if (fileContents === undefined) {
-    panel.webview.html = GetUmletWebviewPage(localUmletFolder.toString(), 'undefined'); //TODO not working, loads uninteractable umletino without borders
-  } else {
-    panel.webview.html = GetUmletWebviewPage(localUmletFolder.toString(), fileContents.toString());
-  }
-  return panel;
-}
-*/
-
-
-//gets the updated filedata from the webview if anything has changed
-UpdateCurrentFile(fileContent: string, document: vscode.TextDocument) {
-  const edit = new vscode.WorkspaceEdit();
-
-  edit.replace(
-    document.uri,
-    new vscode.Range(0, 0, document.lineCount, 0),
-    fileContent);
-
-  return vscode.workspace.applyEdit(edit);
-}
-
-
-
-
-//shows popup savefile dialog for uxf files
-SaveFile(fileContent: string) {
-  vscode.window.showSaveDialog({
-    filters: {
-      'UML Diagram': ['uxf']
-    }
-  })
-    .then(fileInfos => {
-      if (fileInfos !== undefined) {
-        fs.writeFile(fileInfos.fsPath, fileContent, function (err) {
-          if (err) { return console.log(err); }
-        });
+        //Set myWebviewFocused as in context, so the extension can decide wheter or not to show the umlet specific export commands in vscode
+        vscode.commands.executeCommand('setContext',
+          'myWebviewFocused',
+          currentlyActivePanel);
       }
-    });
-}
+    )
 
-//shows popup savefile dialog for png files
-SaveFileDecode(fileContent: string) {
-  vscode.window.showSaveDialog({
-    filters: {
-      'Image': ['png']
-    }
-  })
-    .then(fileInfos => {
-      if (fileInfos !== undefined) {
-        fs.writeFile(fileInfos.fsPath, fileContent, { encoding: 'base64' }, function (err) {
-          if (err) { return console.log(err); }
-        });
+    webviewPanel.webview.options = {
+      enableScripts: true,
+      localResourceRoots: [vscode.Uri.file(path.join(this.context.extensionPath, 'src', 'umlet-gwt'))]
+    };
+
+    let WebviewPanelOptions = webviewPanel.options;
+    WebviewPanelOptions = {
+      retainContextWhenHidden: true
+    };
+
+
+    // Handle messages from the webview
+    webviewPanel.webview.onDidReceiveMessage(message => {
+      switch (message.command) {
+        case 'exportUxf':
+          this.SaveFile(message.text);
+          return;
+        case 'updateFiledataUxf':
+          this.UpdateCurrentFile(message.text, document);
+          return;
+        case 'exportPng':
+          var actual_data = message.text.replace("data:image/png;base64,", "");
+          this.SaveFileDecode(actual_data);
+          return;
+        case 'postLog':
+          this.postLog(message.text);
+          return;
+        case 'setClipboard':
+          vscode.env.clipboard.writeText(message.text);
+          return;
+        case 'requestPasteClipboard':
+          vscode.env.clipboard.readText().then((text) => {
+            let clipboard_content = text;
+            console.log("MESSAGE Paste, content is:" + clipboard_content);
+            currentlyActivePanel?.webview.postMessage({
+              command: 'paste',
+              text: clipboard_content
+            });
+          });
+          return;
       }
+    }, undefined, this.context.subscriptions);
+
+    // Get path to resource on disk
+    const onDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'src', 'umlet-gwt'));
+    // And get the special URI to use with the webview
+    const localUmletFolder = webviewPanel.webview.asWebviewUri(onDiskPath);
+
+    let fileContents = document.getText().toString();
+
+    webviewPanel.webview.html = this.getUmletWebviewPage(localUmletFolder.toString(), fileContents.toString());
+
+  }
+
+
+
+
+
+  /*
+  function startUmlet(context: vscode.ExtensionContext, fileContents: string, fileName: string): WebviewPanel {
+  
+    const panel = vscode.window.createWebviewPanel('umlet', fileName, vscode.ViewColumn.One, {
+      enableScripts: true,
+      retainContextWhenHidden: true,
+      localResourceRoots: [vscode.Uri.file(path.join(context.extensionPath, 'src', 'umlet-gwt'))]
     });
-}
-
-postLog(message: string) {
-  this.outputChannel.appendLine(message);
-}
-
-/**
-  *
-  * Gets a modified version of the initial starting page of the GWT umletino version
-  * @param localUmletFolder folder which holds the local umletino gwt version.
-  * @param diagramData XML data of a diagram which should be loaded on start
+    // Handle messages from the webview
+    panel.webview.onDidReceiveMessage(message => {
+      switch (message.command) {
+        case 'exportUxf':
+          SaveFile(message.text);
+          return;
+        case 'exportPng':
+          var actual_data = message.text.replace("data:image/png;base64,", "");
+          SaveFileDecode(actual_data);
+          return;
+      }
+    }, undefined, context.subscriptions);
+  
+    // Get path to resource on disk
+    const onDiskPath = vscode.Uri.file(path.join(context.extensionPath, 'src', 'umlet-gwt'));
+    // And get the special URI to use with the webview
+    const localUmletFolder = panel.webview.asWebviewUri(onDiskPath);
+  
+    if (fileContents === undefined) {
+      panel.webview.html = GetUmletWebviewPage(localUmletFolder.toString(), 'undefined'); //TODO not working, loads uninteractable umletino without borders
+    } else {
+      panel.webview.html = GetUmletWebviewPage(localUmletFolder.toString(), fileContents.toString());
+    }
+    return panel;
+  }
   */
-getUmletWebviewPage(localUmletFolder: string, diagramData: string) {
-  return `<!DOCTYPE html>
+
+
+  //gets the updated filedata from the webview if anything has changed
+  UpdateCurrentFile(fileContent: string, document: vscode.TextDocument) {
+    const edit = new vscode.WorkspaceEdit();
+
+    edit.replace(
+      document.uri,
+      new vscode.Range(0, 0, document.lineCount, 0),
+      fileContent);
+
+    return vscode.workspace.applyEdit(edit);
+  }
+
+
+
+
+  //shows popup savefile dialog for uxf files
+  SaveFile(fileContent: string) {
+    vscode.window.showSaveDialog({
+      filters: {
+        'UML Diagram': ['uxf']
+      }
+    })
+      .then(fileInfos => {
+        if (fileInfos !== undefined) {
+          fs.writeFile(fileInfos.fsPath, fileContent, function (err) {
+            if (err) { return console.log(err); }
+          });
+        }
+      });
+  }
+
+  //shows popup savefile dialog for png files
+  SaveFileDecode(fileContent: string) {
+    vscode.window.showSaveDialog({
+      filters: {
+        'Image': ['png']
+      }
+    })
+      .then(fileInfos => {
+        if (fileInfos !== undefined) {
+          fs.writeFile(fileInfos.fsPath, fileContent, { encoding: 'base64' }, function (err) {
+            if (err) { return console.log(err); }
+          });
+        }
+      });
+  }
+
+  postLog(message: string) {
+    this.outputChannel.appendLine(message);
+  }
+
+  /**
+    *
+    * Gets a modified version of the initial starting page of the GWT umletino version
+    * @param localUmletFolder folder which holds the local umletino gwt version.
+    * @param diagramData XML data of a diagram which should be loaded on start
+    */
+  getUmletWebviewPage(localUmletFolder: string, diagramData: string) {
+    let encodedDiagramData = encodeURIComponent(diagramData); //encode diagramData to prevent special characters to escape the string quotes which could lead to arbitrary javascript or html
+    return `<!DOCTYPE html>
   <html>
     <head>
       <base href="${localUmletFolder}/" />
@@ -290,7 +291,7 @@ getUmletWebviewPage(localUmletFolder: string, diagramData: string) {
     <script>
     
       var vsCodeClipboardManager = null;
-    window.addEventListener('message', event => {
+      window.addEventListener('message', event => {
       const message = event.data; // The JSON data our extension sent
   
       switch (message.command) {
@@ -362,11 +363,12 @@ getUmletWebviewPage(localUmletFolder: string, diagramData: string) {
       switchBodyColor(theme);
 
       var vscode = acquireVsCodeApi();
-      var vsCodeInitialDiagramData = \`${diagramData}\`;
+      var vsCodeInitialDiagramData = \`${encodedDiagramData}\`;
+      console.log("vsCodeInitialDiagramData: " + vsCodeInitialDiagramData);
     </script>
 
   </html>`;
-}
+  }
 
 }
 
