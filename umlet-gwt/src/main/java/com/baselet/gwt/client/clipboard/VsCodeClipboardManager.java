@@ -116,15 +116,16 @@ public class VsCodeClipboardManager {
 
     //assumes drawPanelDiagram was properly set before calling
     public static void pasteClipboardToDiagram(String content) {
-        EventHandlingUtils.EventHandlingTarget lastEventHandlingTarget = VsCodeClipboardManager.storage.getActivePanel();
-        //if there is no active DrawPanel (eg on a freshly opened tab) VsCode will just paste to diagram
-        if (lastEventHandlingTarget == null)
-        {
-            lastEventHandlingTarget = drawPanelDiagram;
-        }
-        if (lastEventHandlingTarget instanceof DrawPanelDiagram) {
-            DrawPanelDiagram activeDrawPanel = ((DrawPanelDiagram) lastEventHandlingTarget);
-            pasteClipboardToDiagram(activeDrawPanel, content);
+        if (VsCodeClipboardManager.storage.getActivePanel() instanceof DrawPanelDiagram) {
+            EventHandlingUtils.EventHandlingTarget lastEventHandlingTarget = VsCodeClipboardManager.storage.getActivePanel();
+            //if there is no active DrawPanel (eg on a freshly opened tab) VsCode will just paste to diagram
+            if (lastEventHandlingTarget == null) {
+                lastEventHandlingTarget = drawPanelDiagram;
+            }
+            if (lastEventHandlingTarget instanceof DrawPanelDiagram) {
+                DrawPanelDiagram activeDrawPanel = ((DrawPanelDiagram) lastEventHandlingTarget);
+                pasteClipboardToDiagram(activeDrawPanel, content);
+            }
         }
     }
 
