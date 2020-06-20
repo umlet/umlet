@@ -37,7 +37,8 @@ function createUmletCommands(context) {
     const commandHandlerKeyboardCopy = () => {
         if (CustomTextEditorProvider_1.currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
             console.log("MESSAGE Copy but keyboard");
-            vscode.commands.executeCommand("editor.action.clipboardCopyAction");
+            //vscode.commands.executeCommand("editor.action.clipboardCopyAction");
+            CustomTextEditorProvider_1.currentlyActivePanel === null || CustomTextEditorProvider_1.currentlyActivePanel === void 0 ? void 0 : CustomTextEditorProvider_1.currentlyActivePanel.webview.postMessage({ command: 'copy' });
         }
     };
     context.subscriptions.push(vscode.commands.registerCommand('umlet.executeCopy', commandHandlerKeyboardCopy));
@@ -45,15 +46,23 @@ function createUmletCommands(context) {
     const commandHandlerKeyboardPaste = () => {
         if (CustomTextEditorProvider_1.currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
             console.log("MESSAGE paste but keyboard");
-            vscode.commands.executeCommand("editor.action.clipboardPasteAction");
+            //vscode.commands.executeCommand("editor.action.clipboardPasteAction");
+            vscode.env.clipboard.readText().then((text) => {
+                let clipboard_content = text;
+                console.log("MESSAGE Paste, content is:" + clipboard_content);
+                CustomTextEditorProvider_1.currentlyActivePanel === null || CustomTextEditorProvider_1.currentlyActivePanel === void 0 ? void 0 : CustomTextEditorProvider_1.currentlyActivePanel.webview.postMessage({
+                    command: 'paste',
+                    text: clipboard_content
+                });
+            });
         }
     };
     context.subscriptions.push(vscode.commands.registerCommand('umlet.executePaste', commandHandlerKeyboardPaste));
     //cut
     const commandHandlerKeyboardCut = () => {
         if (CustomTextEditorProvider_1.currentlyActivePanel !== null && vscode.window.activeTextEditor === undefined) {
-            console.log("MESSAGE cut but keyboard");
-            vscode.commands.executeCommand("editor.action.clipboardCutAction");
+            console.log("MESSAGE Cut but keyboard");
+            CustomTextEditorProvider_1.currentlyActivePanel === null || CustomTextEditorProvider_1.currentlyActivePanel === void 0 ? void 0 : CustomTextEditorProvider_1.currentlyActivePanel.webview.postMessage({ command: 'cut' });
         }
     };
     context.subscriptions.push(vscode.commands.registerCommand('umlet.executeCut', commandHandlerKeyboardCut));

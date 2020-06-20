@@ -1,1 +1,31 @@
-<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level></diagram>
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>580</x><y>0</y><w>210</w><h>190</h></coordinates><panel_attributes>&lt;&lt;Stereotype&gt;&gt;
+Package::FatClass
+{Some Properties}
+--
+-id: Long
+_-ClassAttribute: Long_
+--
+#Operation(i: int): int
+/+AbstractOperation()/
+--
+Responsibilities
+-- Resp1
+*-- Resp2*</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLSequenceAllInOne</id><coordinates><x>210</x><y>230</y><w>710</w><h>390</h></coordinates><panel_attributes>title=New all in one sequence diagram \nTitle with normal \\n and \nNew Line
+desc=x = 1 \ny = 0
+autoTick=false
+obj=Lifeline A~a 
+obj=Lifeline B\nnew\nLine~b 
+obj=Lifeline C~c
+gate-&gt;a.a1 :message from a gate
+c.c1-&gt;gate :message to a gate
+tick=
+found-&gt;b.b1
+b.b1&lt;a.a1
+tick=
+c-&gt;c + :self message
+tick=
+on=c;
+a.a2.&gt;b
+c.c1&gt;a.a2
+tick=
+</panel_attributes><additional_attributes></additional_attributes></element></diagram>
