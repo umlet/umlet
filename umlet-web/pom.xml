@@ -1,0 +1,124 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.umlet</groupId>
+        <artifactId>umlet-parent</artifactId>
+        <version>14.4.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>umlet-web</artifactId>
+    <packaging>gwt-app</packaging>
+
+    <properties>
+        <!-- GWT 2.8 requires Java 8 -->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <gwt.version>2.8.2</gwt.version>
+        <gwt.plugin.version>1.0-rc-10</gwt.plugin.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.umlet</groupId>
+            <artifactId>umlet-gwt</artifactId>
+            <version>${project.version}</version>
+            <type>gwt-lib</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- assemble UMLetino output as zip file -->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <style>PRETTY</style>
+                    <descriptor>src/assembly/dep.xml</descriptor>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-archive</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- start the GWT compiler during the build -->
+            <plugin>
+                <groupId>net.ltgt.gwt.maven</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>${gwt.plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <style>PRETTY</style>
+                    <!-- <skipCompilation>true</skipCompilation> -->
+                    <moduleName>baseletgwt</moduleName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- this profile can be used to start the devmode for debugging the GWT
+        application -->
+    <profiles>
+        <profile>
+            <id>gwtdevmode</id>
+            <build>
+                <plugins>
+                    <!-- copy static web resources (perhaps there is a better way, but I
+                        haven't found one with the gwt-maven-plugin) -->
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>initialize</phase>
+                                <configuration>
+                                    <style>PRETTY</style>
+                                    <tasks>
+                                        <mkdir dir="${project.basedir}/src/main/webapp" />
+                                        <copy todir="${project.build.directory}/gwt/devmode/war">
+                                            <fileset dir="${project.basedir}/src/main/webapp" />
+                                        </copy>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- configure devmode -->
+                    <plugin>
+                        <groupId>net.ltgt.gwt.maven</groupId>
+                        <artifactId>gwt-maven-plugin</artifactId>
+                        <version>${gwt.plugin.version}</version>
+                        <extensions>true</extensions>
+                        <executions>
+                            <execution>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>devmode</goal>
+                                </goals>
+                                <configuration>
+                                    <style>PRETTY</style>
+                                    <moduleName>baseletgwt</moduleName>
+                                    <startupUrls>
+                                        <startupUrl>umletino.html</startupUrl>
+                                    </startupUrls>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
