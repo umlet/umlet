@@ -10,7 +10,7 @@
 	</parent>
 
 	<artifactId>umlet-gwt</artifactId>
-	<packaging>gwt-app</packaging>
+	<packaging>gwt-lib</packaging>
 
 	<properties>
 		<!-- GWT 2.8 requires Java 8 -->
@@ -98,24 +98,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- assemble UMLetino output as zip file -->
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.5.3</version>
-				<configuration>
-					<descriptor>src/assembly/dep.xml</descriptor>
-					<appendAssemblyId>false</appendAssemblyId>
-				</configuration>
-				<executions>
-					<execution>
-						<id>create-archive</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<!-- start the GWT compiler during the build -->
 			<plugin>
 				<groupId>net.ltgt.gwt.maven</groupId>
@@ -132,14 +114,14 @@
 
 	<!-- this profile can be used to start the devmode for debugging the GWT
 		application -->
-	<profiles>
+	<!--<profiles>
 		<profile>
 			<id>gwtdevmode</id>
 			<build>
 				<plugins>
-					<!-- copy static web resources (perhaps there is a better way, but I
+					<!- copy static web resources (perhaps there is a better way, but I
 						haven't found one with the gwt-maven-plugin) -->
-					<plugin>
+					<!--<plugin>
 						<artifactId>maven-antrun-plugin</artifactId>
 						<executions>
 							<execution>
@@ -158,8 +140,8 @@
 							</execution>
 						</executions>
 					</plugin>
-					<!-- configure devmode -->
-					<plugin>
+					<!- configure devmode -->
+					<!--<plugin>
 						<groupId>net.ltgt.gwt.maven</groupId>
 						<artifactId>gwt-maven-plugin</artifactId>
 						<version>${gwt.plugin.version}</version>
@@ -182,6 +164,6 @@
 				</plugins>
 			</build>
 		</profile>
-	</profiles>
+	</profiles>-->
 
 </project>
