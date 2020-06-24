@@ -68,8 +68,8 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 
 	PropertiesTextArea propertiesPanel;
 
-	private final MenuPopup elementContextMenu;
-	private final MenuPopup diagramContextMenu;
+	private MenuPopup elementContextMenu;
+	private MenuPopup diagramContextMenu;
 
 	protected Set<Direction> resizeDirections = new HashSet<Direction>();
 
@@ -158,11 +158,7 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			}
 		};
 
-		List<MenuPopupItem> diagramItems = getStandardMenuPopupItems();
-		List<MenuPopupItem> elementItems = new ArrayList<MenuPopupItem>(diagramItems);
-		elementItems.addAll(getStandardAdditionalElementMenuItems());
-		diagramContextMenu = new MenuPopup(diagramItems);
-		elementContextMenu = new MenuPopup(elementItems);
+		createMenuPopups();
 
 		this.add(canvas.getWidget());
 		ThemeFactory.addListener(this);
@@ -554,5 +550,14 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 
 		elementContextMenu.getElement().getStyle().setColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_FOREGROUND)).value());
 		diagramContextMenu.getElement().getStyle().setColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_FOREGROUND)).value());
+		createMenuPopups();
+	}
+
+	private void createMenuPopups() {
+		List<MenuPopupItem> diagramItems = getStandardMenuPopupItems();
+		List<MenuPopupItem> elementItems = new ArrayList<MenuPopupItem>(diagramItems);
+		elementItems.addAll(getStandardAdditionalElementMenuItems());
+		diagramContextMenu = new MenuPopup(diagramItems);
+		elementContextMenu = new MenuPopup(elementItems);
 	}
 }
