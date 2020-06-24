@@ -16,6 +16,7 @@ import com.baselet.control.config.SharedConfig;
 import com.baselet.control.constants.MenuConstants;
 import com.baselet.control.constants.SharedConstants;
 import com.baselet.control.enums.Direction;
+import com.baselet.diagram.draw.helper.theme.Theme;
 import com.baselet.diagram.draw.helper.theme.ThemeFactory;
 import com.baselet.diagram.draw.helper.theme.ThemeChangeListener;
 import com.baselet.element.GridElementUtils;
@@ -25,6 +26,7 @@ import com.baselet.element.interfaces.CursorOwn;
 import com.baselet.element.interfaces.Diagram;
 import com.baselet.element.interfaces.GridElement;
 import com.baselet.element.sticking.StickableMap;
+import com.baselet.gwt.client.base.Converter;
 import com.baselet.gwt.client.base.Utils;
 import com.baselet.gwt.client.element.DiagramGwt;
 import com.baselet.gwt.client.keyboard.Shortcut;
@@ -45,7 +47,6 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public abstract class DrawPanel extends SimplePanel implements CommandTarget, HasMouseOutHandlers, HasMouseOverHandlers, EventHandlingTarget, AutoresizeScrollDropTarget, ThemeChangeListener {
@@ -550,5 +551,8 @@ public abstract class DrawPanel extends SimplePanel implements CommandTarget, Ha
 			gridElement.updateModelFromText();
 		}
 		redraw(false);
+
+		elementContextMenu.getElement().getStyle().setColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_FOREGROUND)).value());
+		diagramContextMenu.getElement().getStyle().setColor(Converter.convert(ThemeFactory.getCurrentTheme().getColor(Theme.ColorStyle.DEFAULT_FOREGROUND)).value());
 	}
 }
