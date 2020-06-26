@@ -45,6 +45,8 @@
 	<set-property name="gwt.logging.systemHandler" value="ENABLED" />
 	<set-property name="gwt.logging.simpleRemoteHandler" value="DISABLED" />
 
+	<entry-point class='com.baselet.gwt.client.BaseletGWT' />
+
 	<!-- Specify the paths for translatable code -->
 	<source path='client' />
 	<source path='shared' />

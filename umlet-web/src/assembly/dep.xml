@@ -24,8 +24,8 @@
 			</excludes>
 		</fileSet>
 		<fileSet>
-			<directory>${project.build.directory}/${project.build.finalName}/baseletgwt</directory>
-			<outputDirectory>baseletgwt</outputDirectory>
+			<directory>${project.build.directory}/${project.build.finalName}/umletweb</directory>
+			<outputDirectory>umletweb</outputDirectory>
 		</fileSet>
 	</fileSets>
 </assembly>

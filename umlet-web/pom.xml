@@ -59,7 +59,7 @@
                 <configuration>
                     <style>PRETTY</style>
                     <!-- <skipCompilation>true</skipCompilation> -->
-                    <moduleName>baseletgwt</moduleName>
+                    <moduleName>umletweb</moduleName>
                 </configuration>
             </plugin>
         </plugins>
@@ -108,7 +108,7 @@
                                 </goals>
                                 <configuration>
                                     <style>PRETTY</style>
-                                    <moduleName>baseletgwt</moduleName>
+                                    <moduleName>umletweb</moduleName>
                                     <startupUrls>
                                         <startupUrl>umletino.html</startupUrl>
                                     </startupUrls>
