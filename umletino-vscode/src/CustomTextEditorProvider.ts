@@ -41,10 +41,10 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
 
 
-    provider.consoleLog('asdasd')
+    provider.consoleLog('asdasd');
     context.subscriptions.push(clipboardCopyDisposable);
     context.subscriptions.push(clipboardPasteDisposable);
-    provider.consoleLog('asdasd')
+    provider.consoleLog('asdasd');
 
     const providerRegistration = vscode.window.registerCustomEditorProvider(UmletEditorProvider.viewType, provider);
     return providerRegistration;
@@ -83,7 +83,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     vscode.commands.executeCommand('setContext',
       'myWebviewFocused',
       currentlyActivePanel);
-    console.log("editor swapped to active")
+    console.log("editor swapped to active");
 
 
 
@@ -92,7 +92,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       e => {
         console.log("A panel did change state");
         if (e.webviewPanel.active) {
-          console.log("editor swapped to active")
+          console.log("editor swapped to active");
           currentlyActivePanel = webviewPanel;
         } else {
           //Do not set to null if this was triggere was a newly opened panel
@@ -109,7 +109,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
           'myWebviewFocused',
           currentlyActivePanel);
       }
-    )
+    );
 
     webviewPanel.webview.options = {
       enableScripts: true,
