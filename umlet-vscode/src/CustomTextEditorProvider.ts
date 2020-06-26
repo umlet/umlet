@@ -113,7 +113,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
 
     webviewPanel.webview.options = {
       enableScripts: true,
-      localResourceRoots: [vscode.Uri.file(path.join(this.context.extensionPath, 'src', 'umlet-gwt'))]
+      localResourceRoots: [vscode.Uri.file(path.join(this.context.extensionPath, 'target', 'umlet-vscode-14.4.0-SNAPSHOT'))]
     };
 
     let WebviewPanelOptions = webviewPanel.options;
@@ -155,7 +155,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
     }, undefined, this.context.subscriptions);
 
     // Get path to resource on disk
-    const onDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'src', 'umlet-gwt'));
+    const onDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'target', 'umlet-vscode-14.4.0-SNAPSHOT'));
     // And get the special URI to use with the webview
     const localUmletFolder = webviewPanel.webview.asWebviewUri(onDiskPath);
 
@@ -273,7 +273,7 @@ export class UmletEditorProvider implements vscode.CustomTextEditorProvider {
       <link type="text/css" rel="stylesheet" href="umletino.css">
       <link rel="icon" type="image/x-icon" href="favicon.ico">
       <title>UMLetino - Free Online UML Tool for Fast UML Diagrams</title>
-      <script type="text/javascript" src="baseletgwt/baseletgwt.nocache.js?2020-03-15_09-48-08"></script>
+      <script type="text/javascript" src="umletvscode/umletvscode.nocache.js?2020-03-15_09-48-08"></script>
     </head>
     <body>
       <!-- the following line is necessary for history support -->
