@@ -47,7 +47,7 @@
 		<module>umlet-eclipse-p2</module>
 		<module>umlet-gwt</module>
 		<module>umlet-web</module>
-		<module>umletino-vscode</module>
+		<module>umlet-vscode</module>
 	</modules>
 
 	<dependencies>
